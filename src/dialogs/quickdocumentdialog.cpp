@@ -508,8 +508,8 @@ void QuickDocument::writeDocumentClassConfig()
 	// write document classes and encoding
 	QStringList userclasses;
 	for (int i = 0; i < m_cbDocumentClass->count(); ++i) {
-		if (!m_cbDocumentClass->text(i).isEmpty() && !isStandardClass(m_cbDocumentClass->text(i))) {
-			userclasses.append(m_cbDocumentClass->text(i));
+		if (!m_cbDocumentClass->itemText(i).isEmpty() && !isStandardClass(m_cbDocumentClass->itemText(i))) {
+			userclasses.append(m_cbDocumentClass->itemText(i));
 		}
 	}
 	KileConfig::setUserClasses(userclasses);
@@ -545,7 +545,7 @@ void QuickDocument::writeDocumentClassConfig()
 		// write user defined options
 		QString options;
 		for (int j = qd_OptionsStart; j < list.count(); ++j) {
-			int pos = reg.search(list[j]);
+			int pos = reg.indexIn(list[j]);
 			if (pos != -1) {
 				configGroup.writeEntry(reg.cap(1), reg.cap(2));
 				if (!options.isEmpty()) {
@@ -850,7 +850,7 @@ void QuickDocument::setClassOptions(const QStringList &list, uint start)
 
 	m_lvClassOptions->clear();
 	for (int i = start; i < list.count(); ++i) {
-		int pos = reg.search(list[i]);
+		int pos = reg.indexIn(list[i]);
 		if (pos != -1) {
 			QTreeWidgetItem *twi = new QTreeWidgetItem(m_lvClassOptions, QStringList(reg.cap(1)));
 			twi->setFlags(twi->flags() | Qt::ItemIsUserCheckable);
@@ -952,7 +952,7 @@ void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QStr
 	combo->clear();
 	for (int i = 0; i < list.count(); ++i) {
 		if (!documentclasscombo && isDefaultClassOption(list[i])) {
-			combo->insertItem(QString(list[i]) + " [default]");
+			combo->addItem(QString(list[i]) + " [default]");
 		}
 		else
 			if (list[i] != "-") {
@@ -976,7 +976,7 @@ bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, cons
 	// read current comboxbox entries
 	QStringList combolist;
 	for (int i = 0; i < combo->count(); ++i) {
-		combolist += combo->text(i);
+		combolist += combo->itemText(i);
 	}
 
 	// add new entries (one or a comma separated list)
@@ -984,7 +984,7 @@ bool QuickDocument::addComboboxEntries(KileWidget::CategoryComboBox *combo, cons
 	for (int i = 0; i < list.count(); ++i) {
 		QString s = list[i].trimmed();
 		// entries must match a regular expression
-		if (combolist.findIndex(s) != -1) {
+		if (combolist.indexOf(s) != -1) {
 			KMessageBox::error(this, i18n("%1 '%2' already exists.", title, s));
 		}
 		else {
@@ -1007,7 +1007,7 @@ QString QuickDocument::getComboxboxList(KComboBox *combo)
 {
 	QStringList list;
 	for (int i = 0; i < combo->count(); ++i) {
-		list += combo->text(i);
+		list += combo->itemText(i);
 	}
 
 	return (list.count() > 0) ? list.join(",") : QString();
@@ -1452,7 +1452,7 @@ bool QuickDocument::isHyperrefDriver(const QString &name)
 bool QuickDocument::isDocumentClass(const QString &name)
 {
 	for (int i = 0; i < m_cbDocumentClass->count(); ++i) {
-		if (m_cbDocumentClass->text(i) == name)
+		if (m_cbDocumentClass->itemText(i) == name)
 			return true;
 	}
 	return false;
@@ -1629,10 +1629,11 @@ void QuickDocument::printBeamerTheme()
 	QString theme = m_cbPaperSize->currentText();
 	QRegExp reg("(\\w+)\\s+\\((.*)\\)$");
 
-	if (reg.search(theme) >= 0) {
+	if (reg.indexIn(theme) >= 0) {
 		QStringList optionlist = reg.cap(2).split(",");
 		m_td.tagBegin += "\\usepackage[" + optionlist.join(",") + "]{beamertheme" + reg.cap(1) + "}\n\n";
-	} else {
+	} 
+	else {
 		m_td.tagBegin += "\\usepackage{beamertheme" + theme + "}\n\n";
 	}
 }
@@ -1710,8 +1711,9 @@ void QuickDocument::slotDocumentClassAdd()
 		fillDocumentClassCombobox();
 
 		// activate the new document class
-		m_cbDocumentClass->setCurrentText(classname);
-		slotDocumentClassChanged(m_cbDocumentClass->currentItem());
+		m_cbDocumentClass->addItem(classname);
+		m_cbDocumentClass->setCurrentIndex(m_cbDocumentClass->count() - 1);
+		slotDocumentClassChanged(m_cbDocumentClass->count() - 1);
 	}
 }
 
@@ -1721,22 +1723,23 @@ void QuickDocument::slotDocumentClassDelete()
 	QString documentclass = m_cbDocumentClass->currentText();
 
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassDelete()============";
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?", documentclass), i18n("Remove Document Class")) == KMessageBox::Continue)
-	{
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the document class list?", documentclass),
+	                                             i18n("Remove Document Class")) == KMessageBox::Continue) {
 		KILE_DEBUG() << "\tlazy delete class: " << documentclass;
 
 		// remove this document class from the documentClass-dictionary
 		m_dictDocumentClasses.remove(documentclass);
 
 		// mark this document class for deleting from config file (only with OK-Button)
-		if (m_deleteDocumentClasses.findIndex(documentclass) == -1)
+		if (m_deleteDocumentClasses.indexOf(documentclass) == -1) {
 			m_deleteDocumentClasses.append(documentclass);
+		}
 
 		// remove it from the list of userclasses
-		m_userClasslist.remove(documentclass);
+		m_userClasslist.removeAll(documentclass);
 
 		// and finally remove it from the combobox
-		int i = m_cbDocumentClass->currentItem();
+		int i = m_cbDocumentClass->currentIndex();
 		m_cbDocumentClass->removeItem(i);
 		m_cbDocumentClass->setCurrentItem(0);
 
@@ -1750,14 +1753,14 @@ void QuickDocument::slotDocumentClassDelete()
 void QuickDocument::slotDocumentClassChanged(int index)
 {
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassChanged()============";
-	if (m_cbDocumentClass->text(index).isNull()) {
-		KILE_DEBUG() << "\tnull";
+	if (m_cbDocumentClass->itemText(index).isEmpty()) {
+		KILE_DEBUG() << "\tempty";
 		return;
 	}
 
 	// get old and new document class
 	QString oldclass = m_currentClass;
-	m_currentClass = m_cbDocumentClass->text(index);
+	m_currentClass = m_cbDocumentClass->itemText(index);
 	KILE_DEBUG() << "\tchange class: " << oldclass << " --> " << m_currentClass;
 
 	// save the checked options
@@ -1791,7 +1794,7 @@ void QuickDocument::slotTypefaceSizeDelete()
 {
 	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?", m_cbPaperSize->currentText()), i18n("Remove Fontsize")) == KMessageBox::Continue)
 	{
-		int i = m_cbPaperSize->currentItem();
+		int i = m_cbPaperSize->currentIndex();
 		m_cbPaperSize->removeItem(i);
 
 		// save the new list of fontsizes
@@ -1822,7 +1825,7 @@ void QuickDocument::slotPaperSizeDelete()
 {
 	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the papersize list?", m_cbPaperSize->currentText()), i18n("Remove Papersize")) == KMessageBox::Continue)
 	{
-		int i = m_cbPaperSize->currentItem();
+		int i = m_cbPaperSize->currentIndex();
 		m_cbPaperSize->removeItem(i);
 
 		// save the new list of papersizes
@@ -2209,7 +2212,7 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int 
 					KComboBox *combobox = new KComboBox(page);
 					combobox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 					combobox->setDuplicatesEnabled(false);
-					combobox->insertStringList(list[i+2].split(",", QString::KeepEmptyParts));
+					combobox->addItems(list[i+2].split(",", QString::KeepEmptyParts));
 					if (i > 0 && m_description[i-1] == "label") {
 						((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
 					}
@@ -2250,7 +2253,7 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 		}
 		else
 			if (m_description[i] == "checkbox") {
-				list[i+2] = (((QCheckBox *)m_objectlist[i])->isOn()) ? "true" : "false";
+				list[i+2] = (((QCheckBox *)m_objectlist[i])->isChecked()) ? "true" : "false";
 			}
 			else
 				if (m_description[i] == "combobox") {
@@ -2266,7 +2269,7 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 QString QuickDocumentInputDialog::getPackageName(const QString &text)
 {
 	QRegExp reg(i18n("package:") + " ([^\\)]+)");
-	return (reg.search(text) >= 0) ? reg.cap(1) : QString();
+	return (reg.indexIn(text) >= 0) ? reg.cap(1) : QString();
 }
 
 bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QString &textlist,

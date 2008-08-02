@@ -20,7 +20,6 @@
 #include <QGridLayout>
 #include <QLayout>
 #include <QLabel>
-#include <QToolTip>
 #include <QTreeWidget>
 
 #include <KApplication>
@@ -74,7 +73,8 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	m_templateType = KileDocument::Extensions().determineDocumentType(sourceURL);
 
-	QWidget *page = new QWidget(this , "managetemplates_mainwidget");
+	QWidget *page = new QWidget(this);
+	page->setObjectName("managetemplates_mainwidget");
 	setMainWidget(page);
 	QGridLayout *topLayout = new QGridLayout();
 	topLayout->setMargin(0);
@@ -85,7 +85,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	QString fileName = m_sourceURL.fileName();
 	//remove the extension
-	int dotPos = fileName.findRev('.');
+	int dotPos = fileName.lastIndexOf('.');
 	if (dotPos >= 0) {
 		fileName = fileName.mid(0, dotPos);
 	}
@@ -122,7 +122,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	clearSelectionButton->setIcon(KIcon("edit-clear-locationbar"));
 	int buttonSize = clearSelectionButton->sizeHint().height();
 	clearSelectionButton->setFixedSize(buttonSize, buttonSize);
-	QToolTip::add(clearSelectionButton, i18n("Clear Selection"));
+	clearSelectionButton->setToolTip(i18n("Clear Selection"));
 	connect(clearSelectionButton, SIGNAL(clicked()), this, SLOT(clearSelection()));
 	topLayout->addWidget(clearSelectionButton, 3, 2, Qt::AlignRight);
 
@@ -145,7 +145,8 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
 
-	QWidget *page = new QWidget(this, "managetemplates_mainwidget");
+	QWidget *page = new QWidget(this);
+	page->setObjectName("managetemplates_mainwidget");
 	setMainWidget(page);
 	QVBoxLayout *topLayout = new QVBoxLayout();
 	topLayout->setMargin(0);
@@ -155,8 +156,8 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	m_templateList = new QTreeWidget(page);
 	m_templateList->setSortingEnabled(false);
 	m_templateList->setHeaderLabels(QStringList() << i18nc("marked", "M")
-																	<< i18n("Existing Templates")
-																	<< i18n("Document Type"));
+	                                              << i18n("Existing Templates")
+	                                              << i18n("Document Type"));
 	m_templateList->setAllColumnsShowFocus(true);
 	m_templateList->setRootIsDecorated(false);
 
@@ -244,12 +245,12 @@ void ManageTemplatesDialog::addTemplate() {
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(iconURL, true, kapp->mainWidget())) {
+	if (!KIO::NetAccess::exists(iconURL, true, this)) {
 		KMessageBox::error(this, i18n("Sorry, but the icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(m_sourceURL, true, kapp->mainWidget())) {
+	if (!KIO::NetAccess::exists(m_sourceURL, true, this)) {
 		KMessageBox::error(this, i18n("Sorry, but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.prettyUrl()));
 		return;
 	}
@@ -296,7 +297,7 @@ bool ManageTemplatesDialog::removeTemplate()
 
 	KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-	if (!(KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.path), false, kapp->mainWidget()) && (KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.icon), false, kapp->mainWidget()) || !QFileInfo(templateInfo.icon).exists()))) {
+	if (!(KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.path), false, this) && (KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.icon), false, this)|| !QFileInfo(templateInfo.icon).exists()))) {
 		KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
 		return false;
 	}

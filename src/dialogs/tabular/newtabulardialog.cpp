@@ -709,10 +709,10 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 			if(optionlist.count() > 2) {
 				// ok, let's enable it
 				m_cmbParameter->setEnabled(true);
-				m_cmbParameter->insertItem(QString());
+				m_cmbParameter->addItem(QString());
 				// insert some options
 				for(int i = 1; i < optionlist.count() - 1; ++i) {
-					m_cmbParameter->insertItem(optionlist[i]);
+					m_cmbParameter->addItem(optionlist[i]);
 				}
 			}
 		}

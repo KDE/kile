@@ -81,10 +81,11 @@ namespace KileDocument
 {
 
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
-	QObject(parent, name),
+	QObject(parent),
 	m_ki(info),
 	m_progressDialog(NULL)
 {
+	setObjectName(name);
 	m_editor = KTextEditor::EditorChooser::editor();
 //FIXME: check whether this is still needed
 // 	KTextEditor::Document::setFileChangedDialogsActivated (true);
@@ -422,9 +423,9 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 
 	if(itms.count() == 0 || ( closingproject && oneItem )) {
 		KILE_DEBUG() << "\tremoving " << docinfo <<  " count = " << m_textInfoList.count();
-		m_textInfoList.remove(docinfo);
+		m_textInfoList.removeAll(docinfo);
 
-		emit ( closingDocument ( docinfo ) );
+		emit(closingDocument(docinfo));
 
 		cleanupDocumentInfoForProjectItems(docinfo);
 		delete docinfo;
@@ -781,7 +782,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 						}
 					}
 					else {
-						autosaveWarnings.remove(url.path());
+						autosaveWarnings.removeAll(url.path());
 					}
 				}
 				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
@@ -792,7 +793,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
     					// get the right permissions, start with safe default
 					mode_t  perms = 0600;
 					KIO::UDSEntry fentry;
-					if (KIO::NetAccess::stat (url, fentry, kapp->mainWidget())) {
+					if (KIO::NetAccess::stat (url, fentry, m_ki->mainWindow())) {
 						KILE_DEBUG () << "stating successful: " << url.prettyUrl();
 						KFileItem item (fentry, url);
 						perms = item.permissions();
@@ -800,9 +801,9 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 
 					// first del existing file if any, than copy over the file we have
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
-					if((!KIO::NetAccess::exists( backupUrl, false, kapp->mainWidget())
-					   || KIO::NetAccess::del( backupUrl, kapp->mainWidget()))
-					   && KIO::NetAccess::file_copy(url, backupUrl, kapp->mainWidget())) {
+					if((!KIO::NetAccess::exists( backupUrl, false, m_ki->mainWindow())
+					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
+					   && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
 						KILE_DEBUG() << "backing up successful (" << url.prettyUrl() << " -> "<<backupUrl.prettyUrl() << ")";
 					}
 					else {
@@ -920,7 +921,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 		if(info->getType() == KileDocument::LaTeX) {
 			saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
-		if(KIO::NetAccess::exists(saveURL, true, kapp->mainWidget())) { // check for writing possibility
+		if(KIO::NetAccess::exists(saveURL, true, m_ki->mainWindow())) { // check for writing possibility
 			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?", saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));
 			if(r != KMessageBox::Continue) {
 				continue;
@@ -1103,7 +1104,7 @@ void Manager::projectNew()
 	if (dlg->exec())
 	{
 		KILE_DEBUG()<< "\tdialog executed";
-		KILE_DEBUG() << "\t" << dlg->name() << " " << dlg->location();
+		KILE_DEBUG() << "\t" << dlg->objectName() << " " << dlg->location();
 
 		KileProject *project = dlg->project();
 
@@ -1605,7 +1606,7 @@ bool Manager::projectClose(const KUrl & url)
 		}
 
 		if (close) {
-			m_projects.remove(project);
+			m_projects.removeAll(project);
 			emit removeFromProjectView(project);
 			delete project;
 			emit(updateModeStatus());
@@ -1655,7 +1656,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	const QStringList templist = KileConfig::cleanUpFileExtensions().split(" ");
 	const QString fileName = fi.fileName();
 	const QString dirPath = fi.absolutePath();
-	const QString baseName = fi.baseName(true);
+	const QString baseName = fi.completeBaseName();
 	
 	for (int i=0; i < templist.count(); ++i) {
 		fi.setFile( dirPath + '/' + baseName + templist[i] );
@@ -1686,8 +1687,8 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	}
 	else {
 		for(int i = 0; i < extlist.count(); ++i) {
-			QFile file( dirPath + '/' + baseName + extlist[i] );
-			KILE_DEBUG() << "About to remove file = " << file.name();
+			QFile file(dirPath + '/' + baseName + extlist[i]);
+			KILE_DEBUG() << "About to remove file = " << file.fileName();
 			file.remove();
 		}
 		m_ki->logWidget()->printMessage(KileTool::Info,

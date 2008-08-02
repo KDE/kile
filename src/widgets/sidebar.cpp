@@ -49,13 +49,13 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
 	if(orientation == Qt::Horizontal) {
-		layout->add(m_tabBar);
-		layout->add(m_tabStack);
+		layout->addWidget(m_tabBar);
+		layout->addWidget(m_tabStack);
 		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 	}
 	else if(orientation == Qt::Vertical) {
-		layout->add(m_tabStack);
-		layout->add(m_tabBar);
+		layout->addWidget(m_tabStack);
+		layout->addWidget(m_tabBar);
 		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
 	}
 
@@ -188,7 +188,7 @@ int SideBar::findNextShownTab(int i)
 	for(int j = 1; j < nTabs; ++j) {
 		int index = (i + j) % nTabs;
 
-		if(m_tabBar->tab(index)->isShown()) {
+		if(m_tabBar->tab(index)->isVisible()) {
 			return index;
 		}
 	}
@@ -202,10 +202,10 @@ void SideBar::setPageVisible(QWidget *w, bool b)
 	int currentIndex = currentTab();
 
 	KMultiTabBarTab *tab = m_tabBar->tab(index);
-	if(tab->isShown() == b) {
+	if(tab->isVisible() == b) {
 		return;
 	}
-	tab->setShown(b);
+	tab->setVisible(b);
 	if(!b && index == currentIndex && nTabs >= 2) {
 		switchToTab(findNextShownTab(index));
 	}
@@ -250,7 +250,7 @@ void SideBar::switchToTab(int id)
 	int nTabs = m_tabStack->count();
 	int currentIndex = currentTab();
 
-	if(id >= nTabs || id < 0 || !m_tabBar->tab(id)->isShown()) {
+	if(id >= nTabs || id < 0 || m_tabBar->tab(id)->isHidden()) {
 		shrink();
 		return;
 	}

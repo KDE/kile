@@ -153,13 +153,15 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const KUrl &url)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions) : QObject(0,name.ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions) : QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
+	setObjectName(name);
 	init(name, url, extensions);
 }
 
-KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions) : QObject(0,url.fileName().ascii()), m_invalid(false), m_masterDocument(QString::null), m_useMakeIndexOptions(false)
+KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions) : QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
+	setObjectName(url.fileName());
 	init(url.fileName(), url, extensions);
 }	
 
@@ -281,25 +283,23 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 
 void KileProject::setType(KileProjectItem *item)
 {
-	if ( item->path().right(7) == ".kilepr" )
-	{
+	if(item->path().right(7) == ".kilepr") {
 		item->setType(KileProjectItem::ProjectFile);
 		return;
 	}
 
 	bool unknown = true;
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i)
-	{
-		if ( m_reExtensions[i-1].search(item->url().fileName()) != -1)
-		{
+	for(int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
+		if(m_reExtensions[i-1].indexIn(item->url().fileName()) != -1) {
 			item->setType(i);
 			unknown = false;
 			break;
 		}
 	}
 
-	if (unknown)
+	if(unknown) {
 		item->setType(KileProjectItem::Other);
+	}
 }
 
 void KileProject::readMakeIndexOptions()
@@ -597,7 +597,7 @@ void KileProject::remove(KileProjectItem* item)
 	}
 
 	KILE_DEBUG() << "KileProject::remove";
-	m_projectItems.remove(item);
+	m_projectItems.removeAll(item);
 
 	// dump();
 }

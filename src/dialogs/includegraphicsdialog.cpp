@@ -344,16 +344,14 @@ void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus
 		m_resolution = m_defaultresolution;
 
 		// analyze the result
-		if (m_output.left(14) == "%%BoundingBox:")
-		{
+		if (m_output.left(14) == "%%BoundingBox:") {
 			m_widget.edit_bb->setText(m_output.trimmed().mid(15, m_output.length() - 15));
 
 			// show information
 			setInfo();
 		}
-		else
-			if (m_output.left(2) == "w=")
-			{
+		else {
+			if (m_output.left(2) == "w=") {
 				// dani  31.7.2004
 				// older version of imagemagick (pre 6.0):
 				//  - doesn't care of PixelsPerCentimeter, but always works with PixelsPerInch
@@ -362,8 +360,9 @@ void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus
 
 				// this regexp will accept floating point numbers as resolution
 				QRegExp reg("w=(\\d+)\\s+h=(\\d+)\\s+dpi=([0-9.]+) (.*)");
-				if (reg.search(m_output) == -1)
+				if(reg.indexIn(m_output) == -1) {
 					return;
+				}
 
 				// get bounding box and resolution
 				bool ok;
@@ -399,6 +398,7 @@ void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus
 				setInfo();
 
 			}
+		}
 	}
 }
 

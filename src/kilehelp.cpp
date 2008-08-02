@@ -338,7 +338,7 @@ namespace KileHelp
 			while(!t.atEnd()) { // until end of file...
 				QString s = t.readLine().trimmed();       // line of text excluding '\n'
 				if(!(s.isEmpty() || s.at(0)=='#')) {
-					int pos = reg.search(s);
+					int pos = reg.indexIn(s);
 					if ( pos != -1 ) {
 						map[reg.cap(1)] = reg.cap(2);
 					}

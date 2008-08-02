@@ -331,9 +331,9 @@ KStatusBar* Kile::statusBar()
 	return m_mainWindow->statusBar();
 }
 
-QAction* Kile::action(const char* name) const
+QAction* Kile::action(const QString& name) const
 {
-	return m_mainWindow->action(name);
+	return m_mainWindow->actionCollection()->action(name);
 }
 
 void Kile::plugActionList(const QString& name, const QList<QAction*>& actionList)
@@ -960,39 +960,42 @@ void Kile::setupTools()
 		KILE_DEBUG() << tools[i] << " is using group: " << grp << endl;
 		toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
-		if ( toolMenu == "none" ) continue;
-  
- 		if ( toolMenu == "Compile" ){
-  			pl = &m_listCompilerActions;
- 			pSelectAction = m_compilerActions;
- 		}
- 		else if ( toolMenu == "View" ){
-  			pl = &m_listViewerActions;
- 			pSelectAction = m_viewActions;
- 		}
- 		else if ( toolMenu == "Convert" ){
-  			pl = &m_listConverterActions;
- 			pSelectAction = m_convertActions;
- 		}
- 		else if ( toolMenu == "Quick" ){
-  			pl = &m_listQuickActions;
- 			pSelectAction = m_quickActions;
- 		}
- 		else{
-  			pl = &m_listOtherActions;
- 			pSelectAction = NULL;
- 		}
+		if(toolMenu == "none") {
+			continue;
+		}
+
+		if ( toolMenu == "Compile" ){
+			pl = &m_listCompilerActions;
+			pSelectAction = m_compilerActions;
+		}
+		else if ( toolMenu == "View" ){
+			pl = &m_listViewerActions;
+			pSelectAction = m_viewActions;
+		}
+		else if ( toolMenu == "Convert" ){
+			pl = &m_listConverterActions;
+			pSelectAction = m_convertActions;
+		}
+		else if ( toolMenu == "Quick" ){
+			pl = &m_listQuickActions;
+			pSelectAction = m_quickActions;
+		}
+		else{
+			pl = &m_listOtherActions;
+			pSelectAction = NULL;
+		}
 
 		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-		if (action(QString("tool_" + tools[i]).ascii()) == NULL) {
-			KAction *act = createAction(tools[i], QString("tool_"+tools[i]).ascii(), KileTool::iconFor(tools[i], m_config.data()), m_signalMapper, SLOT(map()));
+		if (!action("tool_" + tools[i])) {
+			KAction *act = createAction(tools[i], "tool_" + tools[i],
+			                            KileTool::iconFor(tools[i], m_config.data()), m_signalMapper, SLOT(map()));
 			m_signalMapper->removeMappings(act);
- 			m_signalMapper->setMapping(act, tools[i]);
+			m_signalMapper->setMapping(act, tools[i]);
 			pl->append(act);
 		}
-		if( pSelectAction != NULL ){
-			pSelectAction->addAction(action(QString("tool_"+tools[i]).ascii()));
+		if(pSelectAction){
+			pSelectAction->addAction(action("tool_" + tools[i]));
 		}
 	}
 
@@ -1136,8 +1139,8 @@ void Kile::restoreLastSelectedAction(){
 void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 {
 	for (QList<QAction*>::iterator act = list.begin(); act != list.end(); ++act) {
-		if (action((*act)->name()) != NULL && !tools.contains(QString((*act)->name()).mid(5))) {
-			list.remove(act);
+		if (action((*act)->objectName()) != NULL && !tools.contains(QString((*act)->objectName()).mid(5))) {
+			list.erase(act);
 			if ((*act)->associatedWidgets().contains(toolBar("toolsToolBar"))) {
 				toolBar("toolsToolBar")->removeAction(*act);
 			}
@@ -1173,7 +1176,9 @@ void Kile::setupUserTagActions()
 			sc = tagaccels[i];
 		}
 		QString name = QString::number(i+1) + ": " + m_listUserTags[i].text;
-		KileAction::Tag *menuItem = new KileAction::Tag(name, sc, this, SLOT(insertTag(const KileAction::TagData &)), actionCollection(), QString("tag_user_" + m_listUserTags[i].text).ascii(), m_listUserTags[i]);
+		KileAction::Tag *menuItem = new KileAction::Tag(name, sc, this, SLOT(insertTag(const KileAction::TagData &)),
+		                                                actionCollection(), "tag_user_" + m_listUserTags[i].text,
+		                                                m_listUserTags[i]);
 		m_listUserTagsActions.append(menuItem);
 		m_menuUserTags->addAction(menuItem);
 	}
@@ -1336,7 +1341,7 @@ void Kile::updateModeStatus()
 	KILE_DEBUG() << "==Kile::updateModeStatus()==========";
 	KileProject *project = docManager()->activeProject();
 	QString shortName = m_masterName;
-	int pos = shortName.findRev('/');
+	int pos = shortName.lastIndexOf('/');
 	shortName.remove(0, pos + 1);
 
 	if(project) {
@@ -1544,7 +1549,7 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 
 	if(sender()) {
 		ConvertIO io(doc);
-		QString name = QString(sender()->name()).section('_', -1);
+		QString name = QString(sender()->objectName()).section('_', -1);
 		ConvertASCIIToEnc conv = ConvertASCIIToEnc(name, &io);
 		conv.convert();
 		doc->setEncoding(ConvertMap::encodingNameFor(name));
@@ -1600,7 +1605,7 @@ void Kile::findInFiles()
 	}
 	else {
 		KILE_DEBUG() << "grep guard: show findInFiles dlg" << endl;
-		dlg->setActiveWindow();
+		dlg->activateWindow();
 		dlg->raise();
 	}
 }
@@ -1618,7 +1623,7 @@ void Kile::findInProjects()
 	}
 	else {
 		KILE_DEBUG() << "grep guard: show findInProjects dlg" << endl;
-		project_dlg->setActiveWindow();
+		project_dlg->activateWindow();
 		project_dlg->raise();
 	}
 }
@@ -1724,19 +1729,19 @@ void Kile::showToolBars(const QString & wantState)
 	static bool mathToolBar = true;
 
 	if(m_currentState == "Editor") {
-		mainToolBar  = toolBar("mainToolBar")->isShown();
-		toolsToolBar = toolBar("toolsToolBar")->isShown();
-		editToolBar  = toolBar("editToolBar")->isShown();
-		mathToolBar  = toolBar("mathToolBar")->isShown();
+		mainToolBar  = toolBar("mainToolBar")->isVisible();
+		toolsToolBar = toolBar("toolsToolBar")->isVisible();
+		editToolBar  = toolBar("editToolBar")->isVisible();
+		mathToolBar  = toolBar("mathToolBar")->isVisible();
 	}
 
 	if(wantState == "HTMLpreview") {
-		m_mainWindow->slotStateChanged( "HTMLpreview");
+		m_mainWindow->slotStateChanged("HTMLpreview");
 		setViewerToolBars();
 		enableKileGUI(false);
 	}
 	else if(wantState == "Viewer") {
-		m_mainWindow->slotStateChanged( "Viewer" );
+		m_mainWindow->slotStateChanged("Viewer");
 		setViewerToolBars();
 		enableKileGUI(false);
 	}
@@ -1918,9 +1923,10 @@ void Kile::updateMenu()
 	bool project_open = ( docManager()->isProjectOpen() ) ;
 
 	for ( it=m_dictMenuProject.begin(); it!=m_dictMenuProject.end(); ++it ) {
-		a = actionCollection()->action(it.key().ascii());
-		if ( a )
+		a = actionCollection()->action(it.key());
+		if(a) {
 			a->setEnabled(project_open);
+		}
 	}
 
 	// project_show is only enabled, when more than 1 project is opened
@@ -1962,7 +1968,7 @@ void Kile::updateMenu()
 	// update action lists
 	QList<QAction *> actions = actionCollection()->actions();
 	for(QList<QAction *>::iterator itact = actions.begin(); itact != actions.end(); ++itact) {
-		if (m_dictMenuAction.contains((*itact)->name())) {
+		if (m_dictMenuAction.contains((*itact)->objectName())) {
 			(*itact)->setEnabled(file_open);
 		}
 	}
@@ -2579,40 +2585,37 @@ void Kile::cleanBib()
 
 	QString s;
 	int i = 0;
-	while(i < view->document()->lines())
-	{
+	while(i < view->document()->lines()) {
 		s = view->document()->line(i);
 
 		// do we have a line that starts with ALT or OPT?
-		if ( reOptional.search( s ) >= 0 )
-		{
+		if(reOptional.indexIn(s) >= 0) {
 				// yes! capture type and entry
 				QString type = reOptional.cap( 2 );
 				QString entry = reOptional.cap( 3 );
 				view->document()->removeLine( i );
 				view->document()->setModified(true);
-				if ( reNonEmptyEntry.search( entry ) >= 0 )
-				{
-					type.append( " = " );
-					type.append( entry );
-					view->document()->insertLine( i, type );
+				if(reNonEmptyEntry.indexIn(entry) >= 0) {
+					type.append(" = ");
+					type.append(entry);
+					view->document()->insertLine(i, type);
 					++i;
 				}
 		}
-		else
+		else {
 			++i;
+		}
 	}
 	int j = 0;
 	for (i = 0; i < view->document()->lines(); ++i) {
 		j = i+1;
-		if ( j < view->document()->lines()  && view->document()->line(j).contains( QRegExp("^\\s*\\}\\s*$") ) )
-			{
-				s =  view->document()->line( i );
-				view->document()->removeLine( i );
-				s.remove( QRegExp(",\\s*$") );
-				view->document()->setModified( true );
-				view->document()->insertLine( i, s);
-			}
+		if(j < view->document()->lines() && view->document()->line(j).contains(QRegExp("^\\s*\\}\\s*$"))) {
+			s =  view->document()->line(i);
+			view->document()->removeLine(i);
+			s.remove(QRegExp(",\\s*$"));
+			view->document()->setModified(true);
+			view->document()->insertLine(i, s);
+		}
 	}
 }
 

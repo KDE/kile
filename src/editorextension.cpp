@@ -184,7 +184,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 
 	//do some replacements
 	QFileInfo fi( doc->url().path());
-	ins.replace("%S", fi.baseName(true));
+	ins.replace("%S", fi.completeBaseName());
 	ins.replace("%B", s_bullet);
 	
 	//insert first part of tag at cursor position
@@ -593,7 +593,7 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 	QString textline = getTextLineReal(doc,row);
 
 	QRegExp reg("\\\\begin\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\[|\\\\\\(");
-	if((int)col != reg.search(textline, col)) {
+	if((int)col != reg.indexIn(textline, col)) {
 		return false;
 	}
 
@@ -604,7 +604,7 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 	mathdata.col = col;
 	mathdata.len = reg.cap(0).length();
 
-	switch(id.ascii()) {
+	switch(id.toAscii()) {
 		case 'b':
 			if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
 				return false;
@@ -628,7 +628,7 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 	QString textline = doc->line(row);
 
 	QRegExp reg("\\\\end\\s*\\{([A-Za-z]+\\*?)\\}|\\\\\\]|\\\\\\)");
-	int pos = reg.searchRev(textline,col);
+	int pos = reg.lastIndexIn(textline, col);
 	if(pos < 0 || (int)col > pos + reg.matchedLength()) {
 		return false;
 	}
@@ -640,7 +640,7 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 	mathdata.col = pos;
 	mathdata.len = reg.cap(0).length();
 
-	switch(id.ascii()) {
+	switch(id.toAscii()) {
 		case 'e':
 			if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
 				return false;
@@ -682,7 +682,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 
 	bool continueSearch = true;
 	while(continueSearch) {
-		while((column = reg.searchRev(textline,col)) != -1) {
+		while((column = reg.lastIndexIn(textline, col)) != -1) {
 			col = column;
 
 			mathdata.row = row;
@@ -1402,7 +1402,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 	// check if there is a match in this line from the current position to the left
 	int startcol = (textline[col] == '\\') ? col - 1 : col;
 	if(startcol >= 1) {
-		int pos = textline.findRev(m_reg, startcol);
+		int pos = textline.lastIndexOf(m_reg, startcol);
 		env.len = m_reg.matchedLength();
 		if(pos != -1 && pos < col && col <= pos + env.len) {
 			env.row = row;
@@ -2070,7 +2070,7 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
 	// search to the left side
 	if(col > 0) {
 		reg.setPattern(pattern1);
-		pos = textline.findRev(reg,col-1);
+		pos = textline.lastIndexOf(reg, col - 1);
 		if(pos != -1) {        // found an illegal character
 			x1 = pos + 1;
 			if(mode == smTex) {
@@ -2596,7 +2596,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 	int col = view->cursorPositionVirtual().column();
 	QString line = view->document()->line(row).left(col);
 
-	int pos = m_regexpEnter.search(line);
+	int pos = m_regexpEnter.indexIn(line);
 	if (pos != -1) {
 		line = m_regexpEnter.cap(1);
 		for(int i = 0; i < line.length(); ++i) {
@@ -2772,7 +2772,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	// check, if the document was changed in the meantime 
 	QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
 	QString textline = getTextLineReal(doc,row1);
-	if(reg.search(textline, col1) != col1) {
+	if(reg.indexIn(textline, col1) != col1) {
 		m_ki->logWidget()->clear();
 		m_ki->logWidget()->printMessage(KileTool::Error,
 		       i18n("The document was modified and the structure view should be updated, before starting such an operation."),

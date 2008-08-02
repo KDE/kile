@@ -69,16 +69,16 @@ public:
 	virtual ~ConvertIO() {}
 
 	virtual void nextLine(); //read next line
-	virtual QString & currentLine();
-	virtual QString & text() { return m_text; }
+	virtual QString& currentLine();
+	virtual QString& text() { return m_text; }
 	virtual void writeText();
-	virtual uint current(); //current line number
+	virtual int current(); //current line number
 	virtual bool done();
 
 protected:
 	KTextEditor::Document	*m_doc;
 	QString			m_text, m_line;
-	uint				m_nLine;
+	int				m_nLine;
 };
 
 class ConvertIOFile : public ConvertIO
@@ -104,7 +104,7 @@ public:
 protected:
 	virtual bool setMap();
 
-	virtual QString mapNext(uint &);
+	virtual QString mapNext(int&);
 
 	ConvertIO		*m_io;
 	QString			m_encoding;
@@ -117,7 +117,7 @@ public:
 	ConvertEncToASCII(const QString & encoding, ConvertIO * io) : ConvertBase(encoding, io) {}
 
 protected:
-	QString mapNext(uint &);
+	QString mapNext(int&);
 };
 
 class ConvertASCIIToEnc : public ConvertBase
@@ -126,10 +126,10 @@ public:
 	ConvertASCIIToEnc(const QString & encoding, ConvertIO * io) : ConvertBase(encoding, io) {}
 
 protected:
-	QString getSequence(uint &);
-	QString nextSequence(uint &);
-	bool isModifier(const QString &);
-	QString mapNext(uint &);
+	QString getSequence(int&);
+	QString nextSequence(int&);
+	bool isModifier(const QString&);
+	QString mapNext(int&);
 };
 
 #endif

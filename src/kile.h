@@ -108,7 +108,7 @@ public:
 	KToolBar* toolBar(const QString &name=QString());
 	KStatusBar* statusBar();
 
-	QAction* action(const char* name) const;
+	QAction* action(const QString& name) const;
 	void plugActionList(const QString& name, const QList<QAction*>& actionList);
 	void unplugActionList(const QString& name);
 

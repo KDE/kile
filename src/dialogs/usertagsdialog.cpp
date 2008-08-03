@@ -49,18 +49,17 @@ UserTags::UserTags(const QList<KileAction::TagData> &list, QWidget* parent,  con
 	vBoxLayout->setSpacing(KDialog::spacingHint());
 	setMainWidget(page);
 
-	m_combo = new QComboBox(page, "combo");
+	m_combo = new QComboBox(page);
 	connect(m_combo, SIGNAL(activated(int)), this, SLOT(change(int)));
 
-	m_labelName = new QLabel(page, "label1");
+	m_labelName = new QLabel(page);
 	m_labelName->setText(i18n("Menu item:"));
-	m_editName = new QLineEdit(page, "name");
+	m_editName = new QLineEdit(page);
 
-	m_labelTag = new QLabel(page, "label2");
+	m_labelTag = new QLabel(page);
 	m_labelTag->setText(i18n("Value:"));
 	m_editTag = new KTextEdit(page);
-	m_editTag->setObjectName("tag");
-	m_editTag->setTextFormat(Qt::PlainText);
+	m_editTag->setAcceptRichText(false);
 
 	m_buttonAdd = new KPushButton(i18n("Add"), page);
 	m_buttonInsert = new KPushButton(i18n("Insert"), page);
@@ -122,9 +121,9 @@ void UserTags::redraw()
 
 	if(m_list.size() > 0) {
 		for(int i = 0; i < m_list.size(); ++i) {
-			m_combo->insertItem(QString::number(i + 1) + ": " + m_list[i].text);
+			m_combo->addItem(QString::number(i + 1) + ": " + m_list[i].text);
 		}
-		m_combo->setCurrentItem(m_prevIndex);
+		m_combo->setCurrentIndex(m_prevIndex);
 
 		m_editTag->setText(completeTag(m_list[m_prevIndex]));
 		m_editName->setText(m_list[m_prevIndex].text);
@@ -138,9 +137,10 @@ void UserTags::redraw()
 void UserTags::change(int index)
 {
 	KILE_DEBUG() << QString("usermenudialog: change(%1) prev %2").arg(index).arg(m_prevIndex);
-	m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
+	m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->toPlainText());
 
-	m_combo->changeItem(QString::number(m_prevIndex + 1) + ": " + m_list[m_prevIndex].text, m_prevIndex);
+	m_combo->setItemText(m_prevIndex,
+	                     QString::number(m_prevIndex + 1) + ": " + m_list[m_prevIndex].text);
 
 	m_editTag->setText(completeTag(m_list[index]));
 	m_editName->setText(m_list[index].text);
@@ -152,7 +152,7 @@ void UserTags::slotApply()
 {
 	//store current values before exiting
 	if(m_list.count() > 0) {
-		m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->text());
+		m_list[m_prevIndex] = splitTag(m_editName->text(), m_editTag->toPlainText());
 	}
 
 	KILE_DEBUG() << "usermenudialog: slotApply";
@@ -162,7 +162,7 @@ void UserTags::slotApply()
 void UserTags::slotAdd()
 {
 	QString name = m_editName->text();
-	QString tag = m_editTag->text();
+	QString tag = m_editTag->toPlainText();
 	if(name.isEmpty() || tag.isEmpty()) {
 		return;
 	}
@@ -176,7 +176,7 @@ void UserTags::slotAdd()
 void UserTags::slotInsert()
 {
 	QString name = m_editName->text();
-	QString tag = m_editTag->text();
+	QString tag = m_editTag->toPlainText();
 	if(name.isEmpty() || tag.isEmpty()) {
 		return;
 	}

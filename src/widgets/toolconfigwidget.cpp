@@ -52,9 +52,10 @@
 namespace KileWidget
 {
 	ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *name) :
-		QWidget(parent, name),
+		QWidget(parent),
 		m_manager(mngr)
 	{
+		setObjectName(name);
 		m_config = m_manager->config();
 		QVBoxLayout *layout = new QVBoxLayout();
 		layout->setMargin(0);
@@ -63,9 +64,9 @@ namespace KileWidget
 		m_configWidget = new ToolConfigWidget(this);
 		layout->addWidget(m_configWidget);
 
-		m_tabGeneral = m_configWidget->m_tab->page(0);
-		m_tabAdvanced = m_configWidget->m_tab->page(1);
-		m_tabMenu = m_configWidget->m_tab->page(2);
+		m_tabGeneral = m_configWidget->m_tab->widget(0);
+		m_tabAdvanced = m_configWidget->m_tab->widget(1);
+		m_tabMenu = m_configWidget->m_tab->widget(2);
 
 		updateToollist();
 		if (m_configWidget->m_lstbTools->item(indexQuickBuild()))
@@ -73,7 +74,7 @@ namespace KileWidget
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
 		QStringList lst; lst << i18n( "Quick" ) << i18n( "Compile" ) << i18n( "Convert" ) << i18n( "View" ) << i18n( "Other" );
-		m_configWidget->m_cbMenu->insertStringList(lst);
+		m_configWidget->m_cbMenu->addItems(lst);
 		connect(m_configWidget->m_cbMenu, SIGNAL(activated(const QString &)), this, SLOT(setMenu(const QString &)));
 		connect(m_configWidget->m_pshbIcon, SIGNAL(clicked()), this, SLOT(selectIcon()));
 
@@ -90,7 +91,7 @@ namespace KileWidget
 		}
 		m_manager->retrieveEntryMap(m_current, m_map, false, false);
 		QString cfg = KileTool::configName(m_current, m_config);
-		m_configWidget->m_cbConfig->insertItem(cfg);
+		m_configWidget->m_cbConfig->addItem(cfg);
 
 		setupGeneral();
 		setupAdvanced();
@@ -105,16 +106,16 @@ namespace KileWidget
 
 	void ToolConfig::setupAdvanced()
 	{
-		m_configWidget->m_cbType->insertItem(i18n("Run Outside of Kile"));
-		m_configWidget->m_cbType->insertItem(i18n("Run in Konsole"));
-		m_configWidget->m_cbType->insertItem(i18n("Run Embedded in Kile"));
-		m_configWidget->m_cbType->insertItem(i18n("Use HTML Viewer"));
-		m_configWidget->m_cbType->insertItem(i18n("Run Sequence of Tools"));
+		m_configWidget->m_cbType->addItem(i18n("Run Outside of Kile"));
+		m_configWidget->m_cbType->addItem(i18n("Run in Konsole"));
+		m_configWidget->m_cbType->addItem(i18n("Run Embedded in Kile"));
+		m_configWidget->m_cbType->addItem(i18n("Use HTML Viewer"));
+		m_configWidget->m_cbType->addItem(i18n("Run Sequence of Tools"));
 		connect(m_configWidget->m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
 		connect(m_configWidget->m_ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
 
 		m_classes << "Compile" << "Convert" << "Archive" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
-		m_configWidget->m_cbClass->insertStringList(m_classes);
+		m_configWidget->m_cbClass->addItems(m_classes);
 		connect(m_configWidget->m_cbClass, SIGNAL(activated(const QString &)), this, SLOT(switchClass(const QString &)));
 
 		connect(m_configWidget->m_leSource, SIGNAL(textChanged(const QString &)), this, SLOT(setFrom(const QString &)));
@@ -122,9 +123,9 @@ namespace KileWidget
 		connect(m_configWidget->m_leFile, SIGNAL(textChanged(const QString &)), this, SLOT(setTarget(const QString &)));
 		connect(m_configWidget->m_leRelDir, SIGNAL(textChanged(const QString &)), this, SLOT(setRelDir(const QString &)));
 
-		m_configWidget->m_cbState->insertItem("Editor");
-		m_configWidget->m_cbState->insertItem("Viewer");
-		m_configWidget->m_cbState->insertItem("HTMLpreview");
+		m_configWidget->m_cbState->addItem("Editor");
+		m_configWidget->m_cbState->addItem("Viewer");
+		m_configWidget->m_cbState->addItem("HTMLpreview");
 		connect(m_configWidget->m_cbState, SIGNAL(activated(const QString &)), this, SLOT(setState(const QString &)));
 	}
 
@@ -132,23 +133,41 @@ namespace KileWidget
 	{
 		bool enablekonsoleclose = false;
 		QString type = m_map["type"];
-		if ( type == "Process" ) m_configWidget->m_cbType->setCurrentItem(0);
-		else if ( type == "Konsole" )
-		{
+		if(type == "Process") {
+			m_configWidget->m_cbType->setCurrentItem(0);
+		}
+		else if(type == "Konsole") {
 			m_configWidget->m_cbType->setCurrentIndex(1);
 			enablekonsoleclose = true;
 		}
-		else if ( type == "Part" ) m_configWidget->m_cbType->setCurrentIndex(2);
-		else if ( type == "DocPart" ) m_configWidget->m_cbType->setCurrentIndex(3);
-		else if ( type == "Sequence" ) m_configWidget->m_cbType->setCurrentIndex(4);
+		else if(type == "Part") {
+			m_configWidget->m_cbType->setCurrentIndex(2);
+		}
+		else if(type == "DocPart") {
+			m_configWidget->m_cbType->setCurrentIndex(3);
+		}
+		else if(type == "Sequence") {
+			m_configWidget->m_cbType->setCurrentIndex(4);
+		}
 		m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
 
 		QString state = m_map["state"];
-		if ( state.isEmpty() ) state = "Editor";
-		m_configWidget->m_cbState->setCurrentText(state);
+		if(state.isEmpty()) {
+			state = "Editor";
+		}
+		int i = m_configWidget->m_cbState->findText(state);
+		if(i >= 0) {
+			m_configWidget->m_cbState->setCurrentIndex(i);
+		}
+		else {
+			m_configWidget->m_cbState->setItemText(m_configWidget->m_cbState->currentIndex(),
+			                                       state);
+		}
 
-		int index = m_classes.findIndex(m_map["class"]);
-		if ( index == -1 ) index = m_classes.count()-1;
+		int index = m_classes.indexOf(m_map["class"]);
+		if(index == -1) {
+			index = m_classes.count() - 1;
+		}
 		m_configWidget->m_cbClass->setCurrentIndex(index);
 		m_configWidget->m_ckClose->setChecked(m_map["close"] == "yes");
 		m_configWidget->m_leSource->setText(m_map["from"]);
@@ -314,7 +333,7 @@ namespace KileWidget
 	{
 		//KILE_DEBUG() << "==ToolConfig::switchConfig(const QString & cfg)==========";
 		for(int i = 0; i < m_configWidget->m_cbConfig->count(); ++i) {
-			if (m_configWidget->m_cbConfig->text(i) == cfg) {
+			if (m_configWidget->m_cbConfig->itemText(i) == cfg) {
 				m_configWidget->m_cbConfig->setCurrentIndex(i);
 			}
 		}
@@ -344,8 +363,15 @@ namespace KileWidget
 		updateAdvanced();
 
 		//show GUI info
-		m_configWidget->m_cbMenu->setCurrentText(KileTool::menuFor(m_current, m_config));
-		m_icon=KileTool::iconFor(m_current, m_config);
+		QString menu = KileTool::menuFor(m_current, m_config);
+		int i = m_configWidget->m_cbMenu->findText(menu);
+		if(i >= 0) {
+			m_configWidget->m_cbMenu->setCurrentIndex(i);
+		}
+		else {
+			m_configWidget->m_cbMenu->setItemText(m_configWidget->m_cbMenu->currentIndex(), menu);
+		}
+		m_icon = KileTool::iconFor(m_current, m_config);
 		if(!m_icon.isEmpty()) {
 			m_configWidget->m_pshbIcon->setIcon(KIcon(QString()));
 		}
@@ -358,7 +384,7 @@ namespace KileWidget
 	{
 		//KILE_DEBUG() << "==ToolConfig::updateConfiglist()=====================";
 		m_configWidget->m_cbConfig->clear();
-		m_configWidget->m_cbConfig->insertStringList(KileTool::configNames(m_current, m_config));
+		m_configWidget->m_cbConfig->addItems(KileTool::configNames(m_current, m_config));
 		QString cfg = KileTool::configName(m_current, m_config);
 		switchConfig(cfg);
 		m_configWidget->m_cbConfig->setEnabled(m_configWidget->m_cbConfig->count() > 1);
@@ -432,7 +458,7 @@ namespace KileWidget
 			//copy config
 			KConfigGroup toolGroup = m_config->group(KileTool::groupFor(m_current, cfg));
 			for (QMap<QString,QString>::Iterator it  = m_map.begin(); it != m_map.end(); ++it) {
-				toolGroup.writeEntry(it.key(), it.data());
+				toolGroup.writeEntry(it.key(), it.value());
 			}
 			KileTool::setConfigName(m_current, cfg, m_config);
 			switchTo(m_current, false);
@@ -483,7 +509,7 @@ namespace KileWidget
 			if(KMessageBox::warningContinueCancel(this, i18n("Are you sure that you want to remove this configuration?") ) == KMessageBox::Continue) {
 				m_config->deleteGroup(KileTool::groupFor(m_current, m_configWidget->m_cbConfig->currentText()));
 				updateConfiglist();
-				KileTool::setConfigName(m_current, m_configWidget->m_cbConfig->text(0), m_config);
+				KileTool::setConfigName(m_current, m_configWidget->m_cbConfig->itemText(0), m_config);
 				switchTo(m_current, false);
 			}
 		}

@@ -919,7 +919,8 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 		}
 		saveURL = result.URLs.first();
 		if(info->getType() == KileDocument::LaTeX) {
-			saveURL = Info::makeValidTeXURL(saveURL, m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
+			saveURL = Info::makeValidTeXURL(saveURL, m_ki->mainWindow(),
+			                                m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
 		if(KIO::NetAccess::exists(saveURL, true, m_ki->mainWindow())) { // check for writing possibility
 			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?", saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));

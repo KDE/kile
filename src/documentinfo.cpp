@@ -94,7 +94,7 @@ bool Info::containsInvalidCharacters(const KUrl& url)
 	return filename.contains(" ") || filename.contains("~") || filename.contains("$") || filename.contains("#");
 }
 
-KUrl Info::repairInvalidCharacters(const KUrl& url, bool checkForFileExistence /* = true */)
+KUrl Info::repairInvalidCharacters(const KUrl& url, QWidget* mainWidget, bool checkForFileExistence /* = true */)
 {
 	KUrl ret(url);
 	do {
@@ -110,13 +110,13 @@ KUrl Info::repairInvalidCharacters(const KUrl& url, bool checkForFileExistence /
 		ret.setFileName(newURL);
 	} while(containsInvalidCharacters(ret));
 
-	return (checkForFileExistence ? renameIfExist(ret) : ret);
+	return (checkForFileExistence ? renameIfExist(ret, mainWidget) : ret);
 }
 
-KUrl Info::renameIfExist(const KUrl& url)
+KUrl Info::renameIfExist(const KUrl& url, QWidget* mainWidget)
 {
 	KUrl ret(url);
-	while(KIO::NetAccess::exists(url, true, kapp->mainWidget())) { // check for writing possibility
+	while(KIO::NetAccess::exists(url, true, mainWidget)) { // check for writing possibility
 		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("File Already Exists"),
@@ -132,7 +132,7 @@ KUrl Info::renameIfExist(const KUrl& url)
 	return ret;
 }
 
-KUrl Info::repairExtension(const KUrl& url, bool checkForFileExistence /* = true */)
+KUrl Info::repairExtension(const KUrl& url, QWidget *mainWidget, bool checkForFileExistence /* = true */)
 {
 	KUrl ret(url);
 
@@ -149,21 +149,21 @@ KUrl Info::repairExtension(const KUrl& url, bool checkForFileExistence /* = true
 	{
 		ret.setFileName(filename + ".tex");
 	}
-	return (checkForFileExistence ? renameIfExist(ret) : ret);
+	return (checkForFileExistence ? renameIfExist(ret, mainWidget) : ret);
 }
 
-KUrl Info::makeValidTeXURL(const KUrl & url, bool istexfile, bool checkForFileExistence)
+KUrl Info::makeValidTeXURL(const KUrl& url, QWidget *mainWidget, bool istexfile, bool checkForFileExistence)
 {
 	KUrl newURL(url);
 
 	//add a .tex extension
 	if(!istexfile) {
-		newURL = repairExtension(newURL, checkForFileExistence);
+		newURL = repairExtension(newURL, mainWidget, checkForFileExistence);
 	}
 
 	//remove characters TeX does not accept, make sure the newURL does not exists yet
 	if(containsInvalidCharacters(newURL)) {
-		newURL = repairInvalidCharacters(newURL, checkForFileExistence);
+		newURL = repairInvalidCharacters(newURL, mainWidget, checkForFileExistence);
 	}
 
 	return newURL;
@@ -973,7 +973,7 @@ void LaTeXInfo::updateStruct()
 				m_bIsRoot = true;
 			}
 
-			tagStart = reCommand.search(s,tagEnd);
+			tagStart = reCommand.indexIn(s, tagEnd);
 			m.clear();
 			shorthand.clear();
 

@@ -57,8 +57,9 @@ bool Info::operator==(const Info ti) const
 
 ////////////////////// Manager //////////////////////
 
-Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObject(parent, name), m_kileInfo(kileInfo)
+Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObject(parent), m_kileInfo(kileInfo)
 {
+	setObjectName(name);
 }
 
 Manager::~Manager() {
@@ -74,7 +75,7 @@ bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString&
 
 	//if a directory is found
 	if (!dir.isNull()) {
-		return KIO::NetAccess::copy(src, targetURL, kapp->mainWidget());
+		return KIO::NetAccess::copy(src, targetURL, m_kileInfo->mainWindow());
 	}
 	else {
 		KMessageBox::error(NULL, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
@@ -85,7 +86,7 @@ bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString&
 bool Manager::removeAppData(const QString &file) {
 	QFileInfo fileInfo(file);
 	if(fileInfo.exists()) {
-		return KIO::NetAccess::del(KUrl::fromPathOrUrl(file), kapp->mainWidget());
+		return KIO::NetAccess::del(KUrl::fromPathOrUrl(file), m_kileInfo->mainWindow());
 	}
 	return true;
 }
@@ -124,10 +125,10 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTem
 	//start by copying the files that belong to the new template to a safe place
 	QString templateTempFile, iconTempFile;
 
-	if(!KIO::NetAccess::download(newTemplateSourceURL, templateTempFile, kapp->mainWidget())) {
+	if(!KIO::NetAccess::download(newTemplateSourceURL, templateTempFile, m_kileInfo->mainWindow())) {
 		return false;
 	}
-	if(!KIO::NetAccess::download(newIcon, iconTempFile, kapp->mainWidget())) {
+	if(!KIO::NetAccess::download(newIcon, iconTempFile, m_kileInfo->mainWindow())) {
 		KIO::NetAccess::removeTempFile(templateTempFile);
 		return false;
 	}
@@ -164,7 +165,7 @@ void Manager::scanForTemplates() {
 		for (uint j = 0; j < templates.count(); ++j) {
 			ti.path = templates.path() + '/' + templates[j];
 			QFileInfo fileInfo(ti.path);
-			ti.name = fileInfo.baseName(true).mid(9); //remove "template_", do it this way to avoid problems with user input!
+			ti.name = fileInfo.completeBaseName().mid(9); //remove "template_", do it this way to avoid problems with user input!
 			ti.type = extensions->determineDocumentType(KUrl::fromPathOrUrl(ti.path));
 			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
 			if (m_TemplateList.contains(ti)) {

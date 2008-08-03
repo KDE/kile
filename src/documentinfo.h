@@ -111,10 +111,10 @@ class Info : public QObject
 
 public:
 	static bool containsInvalidCharacters(const KUrl&);
-	static KUrl repairInvalidCharacters(const KUrl&, bool checkForFileExistence = true);
-	static KUrl repairExtension(const KUrl&, bool checkForFileExistence = true);
-	static KUrl makeValidTeXURL(const KUrl & url, bool istexfile, bool checkForFileExistence = true);
-	static KUrl renameIfExist(const KUrl& url);
+	static KUrl repairInvalidCharacters(const KUrl&, QWidget *mainWidget, bool checkForFileExistence = true);
+	static KUrl repairExtension(const KUrl& url, QWidget *mainWidget, bool checkForFileExistence = true);
+	static KUrl makeValidTeXURL(const KUrl& url, QWidget *mainWidget, bool istexfile, bool checkForFileExistence = true);
+	static KUrl renameIfExist(const KUrl& url, QWidget *mainWidget);
 
 public:
 	Info();

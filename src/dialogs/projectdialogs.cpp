@@ -425,7 +425,7 @@ void KileNewProjectDlg::slotOk()
 		//check for validity of name first, then check for existence (fixed by tbraun)
 		KUrl fileURL;
 		fileURL.setFileName(file());
-		KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, m_extmanager->isTexFile(fileURL), true);
+		KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, this, m_extmanager->isTexFile(fileURL), true);
 		if(validURL != fileURL) {
 			m_file->setText(validURL.fileName());
 		}

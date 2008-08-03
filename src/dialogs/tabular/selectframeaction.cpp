@@ -20,6 +20,7 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QToolBar>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 #include <KAction>
@@ -34,7 +35,7 @@
 namespace KileDialog {
 
 //BEGIN Icons for standard frames
-static const char * const all_border_xpm[] = {
+static const char* const all_border_xpm[] = {
 "14 14 2 1",
 "# c #000000",
 ". c #ffffff",
@@ -54,7 +55,7 @@ static const char * const all_border_xpm[] = {
 "##############"
 };
 
-static const char * const lr_border_xpm[] = {
+static const char* const lr_border_xpm[] = {
 "14 14 2 1",
 "# c #000000",
 ". c #ffffff",
@@ -74,7 +75,7 @@ static const char * const lr_border_xpm[] = {
 "#............#"
 };
 
-static const char * const tb_border_xpm[] = {
+static const char* const tb_border_xpm[] = {
 "14 14 2 1",
 "# c #000000",
 ". c #ffffff",
@@ -94,7 +95,7 @@ static const char * const tb_border_xpm[] = {
 "##############"
 };
 
-static const char * const no_border_xpm[] = {
+static const char* const no_border_xpm[] = {
 "14 14 2 1",
 "# c #000000",
 ". c #ffffff",
@@ -119,7 +120,7 @@ static const char * const no_border_xpm[] = {
 class TabularFrameWidget : public QFrame
 {
 	public:
-		TabularFrameWidget(QWidget* parent = 0);
+		TabularFrameWidget(QWidget* parent = NULL);
 		void setBorder(int value);
 		int border() const { return m_border; }
 
@@ -137,7 +138,9 @@ TabularFrameWidget::TabularFrameWidget(QWidget* parent)
 {
 	m_border = TabularCell::None;
 
-	setBackgroundColor(Qt::white);
+	QPalette p = palette();
+	p.setColor(backgroundRole(), QColor(Qt::white));
+	setPalette(p);
 	setFixedWidth(120);
 	setFixedHeight(120);
 	setLineWidth(2);
@@ -260,21 +263,15 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	buttonBoxLayout->setSpacing(KDialog::spacingHint());
 	buttonBox->setLayout(buttonBoxLayout);
 
-	m_pbNone = new KPushButton(buttonBox);
-	m_pbLeftRight = new KPushButton(buttonBox);
-	m_pbTopBottom = new KPushButton(buttonBox);
-	m_pbAll = new KPushButton(buttonBox);
+	m_pbNone = new QToolButton(buttonBox);
+	m_pbLeftRight = new QToolButton(buttonBox);
+	m_pbTopBottom = new QToolButton(buttonBox);
+	m_pbAll = new QToolButton(buttonBox);
 
-	int height = m_pbNone->sizeHint().height();
-	m_pbNone->setFixedSize(height, height);
-	m_pbLeftRight->setFixedSize(height, height);
-	m_pbTopBottom->setFixedSize(height, height);
-	m_pbAll->setFixedSize(height, height);
-
-	m_pbNone->setPixmap(QPixmap(const_cast<const char**>(no_border_xpm)));
-	m_pbLeftRight->setPixmap(QPixmap(const_cast<const char**>(lr_border_xpm)));
-	m_pbTopBottom->setPixmap(QPixmap(const_cast<const char**>(tb_border_xpm)));
-	m_pbAll->setPixmap(QPixmap(const_cast<const char**>(all_border_xpm)));
+	m_pbNone->setIcon(QIcon(QPixmap(const_cast<const char**>(no_border_xpm))));
+	m_pbLeftRight->setIcon(QIcon(QPixmap(const_cast<const char**>(lr_border_xpm))));
+	m_pbTopBottom->setIcon(QIcon(QPixmap(const_cast<const char**>(tb_border_xpm))));
+	m_pbAll->setIcon(QIcon(QPixmap(const_cast<const char**>(all_border_xpm))));
 
 	buttonBoxLayout->addStretch();
 	buttonBoxLayout->addWidget(m_pbNone);

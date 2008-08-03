@@ -670,7 +670,7 @@ void ProjectView::remove(const KileProject *project)
 		ProjectViewItem *item = static_cast<ProjectViewItem*>(topLevelItem(i));
 
 		if(item->url() == project->url()) {
-			removeChild(item);
+			item->setParent(NULL);
 			delete item;
 			--m_nProjects;
 			break;
@@ -687,7 +687,7 @@ void ProjectView::remove(const KUrl &url)
 		ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(topLevelItem(i));
 
 		if(item && (item->type() == KileType::File) && (item->url() == url)) {
-			removeChild(item);
+			item->setParent(NULL);
 			delete item;
 			break;
 		}
@@ -781,7 +781,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 	if(projectViewItem->type() == KileType::File) {
 		if(m_nProjects > 0) {
 			if(insertsep) {
-				popup.insertSeparator();
+				popup.addSeparator();
 			}
 			action = popup.addAction(KIcon("project_add"), i18n("&Add to Project"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, KPV_ID_ADD);
@@ -793,7 +793,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 		KileProjectItem *pi = projectViewItem->projectItem();
 		if(pi) {
 			if(insertsep) {
-				popup.insertSeparator();
+				popup.addSeparator();
 			}
 			action = popup.addAction(i18n("&Include in Archive"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, KPV_ID_INCLUDE);
@@ -803,7 +803,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 		}
 		if(!isKilePrFile) {
 			if(insertsep) {
-				popup.insertSeparator();
+				popup.addSeparator();
 			}
 			popup.addAction(KIcon("project_remove"),i18n("&Remove From Project"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, KPV_ID_REMOVE);
@@ -813,14 +813,14 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 	}
 	else if(projectViewItem->type() == KileType::Project) {
 		if(insertsep) {
-			popup.insertSeparator();
+			popup.addSeparator();
 		}
 		popup.addAction(i18n("A&dd Files..."), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_ADDFILES);
-		popup.insertSeparator();
+		popup.addSeparator();
 		popup.addAction(i18n("Open All &Project Files"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_OPENALLFILES);
-		popup.insertSeparator();
+		popup.addSeparator();
 		popup.addAction(KIcon("view-refresh"),i18n("Refresh Project &Tree"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_BUILDTREE);
 		popup.addAction(KIcon("configure"), i18n("Project &Options"), &signalMapper, SLOT(map()));
@@ -834,7 +834,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 	if((projectViewItem->type() == KileType::File) || (projectViewItem->type() == KileType::ProjectItem)
 	                                               || (projectViewItem->type()== KileType::Project)) {
 		if(insertsep) {
-			popup.insertSeparator();
+			popup.addSeparator();
 		}
 		action = popup.addAction(KIcon("view-close"), i18n("&Close"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_CLOSE);

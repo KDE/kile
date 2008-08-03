@@ -297,24 +297,24 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 
 	bool found = false, flush = false;
 
-	static QRegExp::QRegExp reLaTeXError("^! LaTeX Error: (.*)$", false);
-	static QRegExp::QRegExp rePDFLaTeXError("^Error: pdflatex (.*)$", false);
+	static QRegExp::QRegExp reLaTeXError("^! LaTeX Error: (.*)$", Qt::CaseInsensitive);
+	static QRegExp::QRegExp rePDFLaTeXError("^Error: pdflatex (.*)$", Qt::CaseInsensitive);
 	static QRegExp::QRegExp reTeXError("^! (.*)");
 	static QRegExp::QRegExp reLineNumber("^l\\.([0-9]+)(.*)");
 
 	switch (dwCookie) {
 		case Start :
-			if(reLaTeXError.search(strLine) != -1) {
+			if(reLaTeXError.indexIn(strLine) != -1) {
 				//KILE_DEBUG() << "\tError : " <<  reLaTeXError.cap(1) << endl;
 				m_currentItem.setMessage(reLaTeXError.cap(1));
 				found = true;
 			}
-			else if(rePDFLaTeXError.search(strLine) != -1) {
+			else if(rePDFLaTeXError.indexIn(strLine) != -1) {
 				//KILE_DEBUG() << "\tError : " <<  rePDFLaTeXError.cap(1) << endl;
 				m_currentItem.setMessage(rePDFLaTeXError.cap(1));
 				found = true;
 			}
-			else if(reTeXError.search(strLine) != -1) {
+			else if(reTeXError.indexIn(strLine) != -1) {
 				//KILE_DEBUG() << "\tError : " <<  reTeXError.cap(1) << endl;
 				m_currentItem.setMessage(reTeXError.cap(1));
 				found = true;
@@ -340,7 +340,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 
 		case LineNumber :
 			//KILE_DEBUG() << "\tLineNumber " << endl;
-			if(reLineNumber.search(strLine) != -1) {
+			if(reLineNumber.indexIn(strLine) != -1) {
 				dwCookie = Start;
 				flush = true;
 				//KILE_DEBUG() << "\tline number: " << reLineNumber.cap(1) << endl;
@@ -377,14 +377,14 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 	bool found = false, flush = false;
 	QString warning;
 
-	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package) .*Warning.*:(.*)", false);
+	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package) .*Warning.*:(.*)", Qt::CaseInsensitive);
 	static QRegExp::QRegExp reNoFile("No file (.*)");
 	static QRegExp::QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when http://sourceforge.net/tracker/index.php?func=detail&aid=1772022&group_id=120000&atid=685683 has promoted to the users
 
 	switch(dwCookie) {
 		//detect the beginning of a warning
 		case Start :
-			if(reLaTeXWarning.search(strLine) != -1) {
+			if(reLaTeXWarning.indexIn(strLine) != -1) {
 				warning = reLaTeXWarning.cap(5);
  				//KILE_DEBUG() << "\tWarning found: " << warning << endl;
 
@@ -397,14 +397,14 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 				//do we expect a line number?
 				flush = detectLaTeXLineNumber(warning, dwCookie, strLine.length());
 			}
-			else if(reNoFile.search(strLine) != -1) {
+			else if(reNoFile.indexIn(strLine) != -1) {
 				found = true;
 				flush = true;
 				m_currentItem.setSourceLine(0);
 				m_currentItem.setMessage(reNoFile.cap(0));
 				m_currentItem.setOutputLine(GetCurrentOutputLine());
 			}
-			else if(reNoAsyFile.search(strLine) != -1) {
+			else if(reNoAsyFile.indexIn(strLine) != -1) {
 				found = true;
 				flush = true;
 				m_currentItem.setSourceLine(0);
@@ -442,9 +442,9 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
 
-	static QRegExp::QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", false);
-	static QRegExp::QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", false);
-	if((reLaTeXLineNumber.search(warning) != -1) || (reInternationalLaTeXLineNumber.search(warning) != -1)) {
+	static QRegExp::QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", Qt::CaseInsensitive);
+	static QRegExp::QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", Qt::CaseInsensitive);
+	if((reLaTeXLineNumber.indexIn(warning) != -1) || (reInternationalLaTeXLineNumber.indexIn(warning) != -1)) {
 		//KILE_DEBUG() << "een" << endl;
 		m_currentItem.setSourceLine(reLaTeXLineNumber.cap(2).toInt());
 		warning += reLaTeXLineNumber.cap(1);
@@ -479,11 +479,11 @@ bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
 	bool found = false, flush = false;
 	QString badbox;
 
-	static QRegExp::QRegExp reBadBox("^(Over|Under)(full \\\\[hv]box .*)", false);
+	static QRegExp::QRegExp reBadBox("^(Over|Under)(full \\\\[hv]box .*)", Qt::CaseInsensitive);
 
 	switch(dwCookie) {
 		case Start :
-			if(reBadBox.search(strLine) != -1) {
+			if(reBadBox.indexIn(strLine) != -1) {
 				found = true;
 				dwCookie = Start;
 				badbox = strLine;
@@ -518,13 +518,13 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
 
-	static QRegExp::QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", false);
-	static QRegExp::QRegExp reBadBoxLine("(.*) at line ([0-9]+)", false);
+	static QRegExp::QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", Qt::CaseInsensitive);
+	static QRegExp::QRegExp reBadBoxLine("(.*) at line ([0-9]+)", Qt::CaseInsensitive);
 	//Use the following only, if you know how to get the source line for it.
 	// This is not simple, as TeX is not reporting it.
-	static QRegExp::QRegExp reBadBoxOutput("(.*)has occurred while \\output is active^", false);
+	static QRegExp::QRegExp reBadBoxOutput("(.*)has occurred while \\output is active^", Qt::CaseInsensitive);
 
-	if(reBadBoxLines.search(strLine) != -1) {
+	if(reBadBoxLines.indexIn(strLine) != -1) {
 		dwCookie = Start;
 		strLine = reBadBoxLines.cap(1);
 		int n1 = reBadBoxLines.cap(2).toInt();
@@ -532,14 +532,14 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 		m_currentItem.setSourceLine(n1 < n2 ? n1 : n2);
 		return true;
 	}
-	else if(reBadBoxLine.search(strLine) != -1) {
+	else if(reBadBoxLine.indexIn(strLine) != -1) {
 		dwCookie = Start;
 		strLine = reBadBoxLine.cap(1);
 		m_currentItem.setSourceLine(reBadBoxLine.cap(2).toInt());
 		//KILE_DEBUG() << "\tBadBox@" << reBadBoxLine.cap(2) << "." << endl;
 		return true;
 	}
-	else if(reBadBoxOutput.search(strLine) != -1) {
+	else if(reBadBoxOutput.indexIn(strLine) != -1) {
 		dwCookie = Start;
 		strLine = reBadBoxLines.cap(1);
 		m_currentItem.setSourceLine(0);

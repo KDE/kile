@@ -619,7 +619,7 @@ void StructureViewItem::setLabel(const QString &label)
 	{
 		StructureView *view = new StructureView(this, docinfo);
 		addWidget(view);
-		m_map.insert(docinfo, view, true);
+		m_map.insert(docinfo, view);
 	}
 
 	void StructureWidget::slotClicked(QTreeWidgetItem * itm)
@@ -694,11 +694,11 @@ void StructureViewItem::setLabel(const QString &label)
 			else{
 				QString otherFilename;
 
-				if( item->type() == KileStruct::Bibliography ){
-					otherFilename = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::bibinputs);
+				if(item->type() == KileStruct::Bibliography) {
+					otherFilename = m_ki->checkOtherPaths(fi.path(), fi.fileName(), KileInfo::bibinputs);
 				}
-				else if( item->type() == KileStruct::Input ){
-					otherFilename = m_ki->checkOtherPaths(fi.dirPath(),fi.fileName(),KileInfo::texinputs);
+				else if(item->type() == KileStruct::Input) {
+					otherFilename = m_ki->checkOtherPaths(fi.path(), fi.fileName(), KileInfo::texinputs);
 				}
 
 				fi.setFile(otherFilename);
@@ -868,7 +868,7 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		if(!viewExistsFor(info)) {
-			m_map.insert(info, new StructureView(this, info), true);
+			m_map.insert(info, new StructureView(this, info));
 		}
 
 		return m_map[info];
@@ -903,8 +903,8 @@ void StructureViewItem::setLabel(const QString &label)
 		QMap<KileDocument::Info *, StructureView *>::iterator it;
 		QMap<KileDocument::Info *, StructureView *>::iterator itend(m_map.end());
 		for (it = m_map.begin(); it != itend; ++it) {
-			if(it.data()) {
-				delete it.data();
+			if(it.value()) {
+				delete it.value();
 			}
 		}
 

@@ -2433,9 +2433,9 @@ void Kile::saveSettings()
 	KileConfig::setVerticalSplitterTop(m_verSplitTop);
 	KileConfig::setVerticalSplitterBottom(m_verSplitBottom);
 
-	KileConfig::setSideBar(m_sideBar->isVisible());
+	KileConfig::setSideBar(!m_sideBar->isHidden()); // do not use 'isVisible()'!
 	KileConfig::setSideBarSize(m_sideBar->directionalSize());
-	KileConfig::setBottomBar(m_bottomBar->isVisible());
+	KileConfig::setBottomBar(!m_bottomBar->isHidden()); // do not use 'isVisible()'!
 	KileConfig::setBottomBarSize(sizeBottomBar);
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());

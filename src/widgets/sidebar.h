@@ -29,10 +29,10 @@ class SideBar : public QWidget
 	Q_OBJECT
 
 public:
-	SideBar(QWidget *parent = 0, Qt::Orientation orientation = Qt::Vertical);
+	SideBar(QWidget *parent = NULL, Qt::Orientation orientation = Qt::Vertical);
 	virtual ~SideBar();
 
-	int addPage(QWidget *tab, const QPixmap &pic, const QString &text = QString::null);
+	int addPage(QWidget *tab, const QPixmap &pic, const QString &text = QString());
 	void removePage(QWidget *w);
 
 	QWidget* currentPage();
@@ -99,7 +99,7 @@ class BottomBar : public SideBar
 	Q_OBJECT
 
 public:
-	BottomBar(QWidget *parent = 0);
+	BottomBar(QWidget *parent = NULL);
 
 };
 

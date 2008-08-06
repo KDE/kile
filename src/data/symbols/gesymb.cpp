@@ -54,7 +54,7 @@ int main( int argc, char ** argv )
 	type = texfile.left(texfile.length() - 4);
 	
 	texcommand="latex " + texfile;
-	dvipngcommand="dvipng  --picky -bg Transparent -x 518 -O -1.2in,-1.2in -T bbox -D 300 -o img%03d" + type + ".png " + type;
+	dvipngcommand="dvipng  --strict --picky --freetype -bg Transparent -x 518 -O -1.2in,-1.2in -T bbox -D 300 -o img%03d" + type + ".png " + type;
 	
 	cout << qPrintable(texcommand) << endl;
 	cout << qPrintable(dvipngcommand) << endl;

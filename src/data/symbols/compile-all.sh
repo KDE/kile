@@ -5,8 +5,12 @@
 #
 names="relation arrows delimiters greek misc-math misc-text operators special cyrillic"
 
-for i in $names
-do
-	rm -f ./$i/*.png
-	./gesymb $i $i.tex && mv -f img*$i*png $i # && make install
-done
+if [ -e gesymb ]; then
+	for i in $names
+	do
+		rm -f ./$i/*.png
+		./gesymb $i.tex && mv -f img*$i*png $i # && make install
+	done
+else
+	echo "file gesymb could not be found"
+fi

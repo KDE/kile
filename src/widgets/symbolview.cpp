@@ -97,8 +97,8 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 	QString text = key.section('%', 2, 2);
 
 	if (text.indexOf(rePkgs) != -1) {
-		args = rePkgs.cap(1).split(",");
-		pkgs = rePkgs.cap(2).split(",");
+		args = rePkgs.cap(1).split(",",QString::SkipEmptyParts);
+		pkgs = rePkgs.cap(2).split(",",QString::SkipEmptyParts);
 	}
 }
 

@@ -1,9 +1,8 @@
-/***************************************************************************
+/************************************************************************************************
     date                 : Mar 30 2007
     version              : 0.24
-    copyright            : (C) 2004-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ ************************************************************************************************/
 
 
 /***************************************************************************
@@ -43,8 +42,9 @@
 #include "kiletool_enums.h"
 
 CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent, const char *name)
-		: QWidget(parent, name), m_config(config), m_logwidget(logwidget)
+		: QWidget(parent), m_config(config), m_logwidget(logwidget)
 {
+	setObjectName(name);
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
@@ -70,7 +70,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	add = new KPushButton(i18n("Add..."), gb_tab);
 	remove = new KPushButton(i18n("Remove"), gb_tab);
 
-	grid_tab->addMultiCellWidget(tab, 1, 1, 0, 1);
+	grid_tab->addWidget(tab, 1, 0, 1, 2);
 	grid_tab->addWidget(add, 2, 0, Qt::AlignRight);
 	grid_tab->addWidget(remove, 2, 1, Qt::AlignLeft);
 
@@ -88,11 +88,17 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	cb_usecomplete = new QCheckBox(i18n("Use complete"), bg_options);
 	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"), bg_options);
 	lb_latexthreshold = new QLabel(i18n("Threshold:"), bg_options);
-	sp_latexthreshold = new QSpinBox(1, 9, 1, bg_options);
+	sp_latexthreshold = new QSpinBox(bg_options);
+	sp_latexthreshold->setMinimum(1);
+	sp_latexthreshold->setMaximum(9);
+	sp_latexthreshold->setSingleStep(1);
 	QLabel *lb_latexletters = new QLabel(i18n("letters"), bg_options);
 	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"), bg_options);
 	lb_textthreshold = new QLabel(i18n("Threshold:"), bg_options);
-	sp_textthreshold = new QSpinBox(1, 9, 1, bg_options);
+	sp_textthreshold = new QSpinBox(bg_options);
+	sp_textthreshold->setMinimum(1);
+	sp_textthreshold->setMaximum(9);
+	sp_textthreshold->setSingleStep(1);
 	QLabel *lb_textletters = new QLabel(i18n("letters"), bg_options);
 	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"), bg_options);
 	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbrev.)"), bg_options);
@@ -112,13 +118,13 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	bg_optionsLayout->addWidget(sp_textthreshold, 2, 6);
 	bg_optionsLayout->addWidget(lb_textletters, 2, 7);
 	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 3, 2);
-	bg_optionsLayout->addMultiCellWidget(cb_citeoutofbraces, 4, 4, 0, 7);
+	bg_optionsLayout->addWidget(cb_citeoutofbraces, 4, 0, 1, 7);
 
 	// tune layout
-	bg_optionsLayout->setColSpacing(1, 20);
-	bg_optionsLayout->setColSpacing(3, 12);
-	bg_optionsLayout->setColSpacing(5, 8);
-	bg_optionsLayout->setColStretch(7, 1);
+	bg_optionsLayout->setColumnMinimumWidth(1, 20);
+	bg_optionsLayout->setColumnMinimumWidth(3, 12);
+	bg_optionsLayout->setColumnMinimumWidth(5, 8);
+	bg_optionsLayout->setColumnStretch(7, 1);
 
 	cb_setcursor->setWhatsThis(i18n("Try to place the cursor."));
 	cb_setbullets->setWhatsThis(i18n("Insert bullets, where the user must input data."));
@@ -452,7 +458,7 @@ void CodeCompletionConfigWidget::getCwlFiles(QMap<QString, QString> &map, QStrin
 void CodeCompletionConfigWidget::addClicked()
 {
 	// determine current subdirectory for current tab page
-	QString listname = getListname(tab->currentPage());
+	QString listname = getListname(tab->currentWidget());
 
 
 	// get a sorted list of all cwl files from both directories
@@ -464,24 +470,19 @@ void CodeCompletionConfigWidget::addClicked()
 
 	// dialog to add cwl files
 	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Complete Files"), i18n("Select Files"), this);
-	if (dlg->exec())
-	{
-		if (dlg->currentItem() >= 0)
-		{
-			QTreeWidget *listview = getListview(tab->currentPage());     // get current page
+	if (dlg->exec()) {
+		if (dlg->currentItem() >= 0) {
+			QTreeWidget *listview = getListview(tab->currentWidget());     // get current page
 			QStringList filenames = dlg->selected();                   // get selected files
-			for (QStringList::ConstIterator it = filenames.begin(); it != filenames.end(); ++it)
-			{
+			for (QStringList::ConstIterator it = filenames.begin(); it != filenames.end(); ++it) {
 				QString filename = *it;
 				// could we accept the wordlist?
 				QFileInfo fi(filemap[filename]);
-				if (!filename.isEmpty() && fi.exists() && fi.isReadable())
-				{
+				if (!filename.isEmpty() && fi.exists() && fi.isReadable()) {
 					QString basename = filename.left(filename.length() - 4);
 
 					// check if this entry already exists
-					if (isListviewEntry(listview, basename))
-					{
+					if (isListviewEntry(listview, basename)) {
 						m_logwidget->printMessage(KileTool::Info, i18n("Wordlist '%1' is already used.", basename), i18n("Complete"));
 						continue;
 					}
@@ -491,8 +492,9 @@ void CodeCompletionConfigWidget::addClicked()
 					item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
 					item->setCheckState(0, Qt::Checked);
 					item->setSelected(true);
-					if (filemap[filename].left(m_localCwlDir.length()) == m_localCwlDir)
+					if (filemap[filename].left(m_localCwlDir.length()) == m_localCwlDir) {
 						item->setText(1, "+");
+					}
 				}
 			}
 			updateColumnWidth(listview);
@@ -506,7 +508,7 @@ void CodeCompletionConfigWidget::addClicked()
 
 void CodeCompletionConfigWidget::removeClicked()
 {
-	QWidget *page = tab->currentPage();
+	QWidget *page = tab->currentWidget();
 	QTreeWidget *list = getListview(page);                              // determine page
 
 	foreach(QTreeWidgetItem *item, list->selectedItems()) {
@@ -518,7 +520,7 @@ void CodeCompletionConfigWidget::removeClicked()
 
 void CodeCompletionConfigWidget::slotSelectionChanged()
 {
-	QTreeWidget *listview = getListview(tab->currentPage());     // get current page
+	QTreeWidget *listview = getListview(tab->currentWidget());     // get current page
 	remove->setEnabled(listview->selectedItems().count() > 0);
 }
 

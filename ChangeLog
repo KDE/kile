@@ -9,6 +9,7 @@ Fixes:
  - Don't create 'save' and 'save-as' actions specifically for Kile. They will
    interfere with the corresponding actions from KatePart. Thanks to Mathias
    Soeken.
+ - Parse also class warnings and show them in the Logview, patch by Jeroen Leeuwestein (#169040)
  - remove not sh-compliant code by requiring a bash shell for system check(debian #489618)
  - Add a workaround for a bug contained in KatePart 3.x in the 'setEncoding' method, which enforces
    a reload on every change of the encoding (as a consequence the user sees a confusing

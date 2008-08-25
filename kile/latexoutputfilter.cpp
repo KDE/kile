@@ -370,7 +370,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 	bool found = false, flush = false;
 	QString warning;
 
-	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package) .*Warning.*:(.*)", false);
+	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)", false);
 	static QRegExp::QRegExp reNoFile("No file (.*)");
 	static QRegExp::QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when http://sourceforge.net/tracker/index.php?func=detail&aid=1772022&group_id=120000&atid=685683 has promoted to the users
 

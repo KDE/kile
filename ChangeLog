@@ -5,7 +5,10 @@ Fixes:
  reported and fixed by Job Noorman
  - fix regression in 2.0.1 inside structure view with opening files (debian #484146)
  - fix regression in latexoutputfilter resulting in the wrong file being
- reported (#162899)
+   reported (#162899)
+ - Don't create 'save' and 'save-as' actions specifically for Kile. They will
+   interfere with the corresponding actions from KatePart. Thanks to Mathias
+   Soeken.
  - remove not sh-compliant code by requiring a bash shell for system check(debian #489618)
  - Add a workaround for a bug contained in KatePart 3.x in the 'setEncoding' method, which enforces
    a reload on every change of the encoding (as a consequence the user sees a confusing

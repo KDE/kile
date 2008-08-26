@@ -252,6 +252,9 @@ void SymbolView::fillWidget(const QString& prefix)
 			QString key = refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i];
 			item->setData(Qt::UserRole, key);
 			item->setToolTip(getToolTip(key));
+			#ifdef __GNUC__
+			#warning KImageEffect has to be ported
+			#endif
 //    image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
 		}
 		else {

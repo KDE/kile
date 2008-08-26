@@ -6,6 +6,8 @@ Fixes:
  - fix regression in 2.0.1 inside structure view with opening files (debian #484146)
  - fix regression in latexoutputfilter resulting in the wrong file being
    reported (#162899)
+ - fix regression in kile 2.0.x, blend symbols so that they are usable with
+   dark themes also (#161153)
  - Don't create 'save' and 'save-as' actions specifically for Kile. They will
    interfere with the corresponding actions from KatePart. Thanks to Mathias
    Soeken.

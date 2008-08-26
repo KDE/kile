@@ -287,9 +287,9 @@ void SymbolView::fillWidget(const QString& prefix)
 		{
 //   			KILE_DEBUG() << "path is " << paths[i] << endl;
 			item = new KIconViewItem(this);
-			item->setPixmap(image);
 			item->setKey( refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i] );
 			image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
+			item->setPixmap(image);
 		}
 		else
 			KILE_DEBUG() << "Loading file " << paths[i] << " failed" << endl;

@@ -20,7 +20,7 @@ Fixes:
  - minor cwl fixes
 
 Features:
- - cwl file for the siunitx package, thanks to Dirk Sarpe
+ - cwl file for siunitx (thanks to Dirk Sarpe) and allrunes packages
 
 version 2.0 -> 2.0.1
 

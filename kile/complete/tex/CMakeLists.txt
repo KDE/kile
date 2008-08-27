@@ -3,6 +3,7 @@
 # get this cwl list with "for i in `ls *.cwl -1`; do echo "$i";  done"
 SET(kile_texCompleteFiles
 	acronym.cwl
+	allrunes.cwl
 	amsopn.cwl
 	afterpage.cwl
 	amsbsy.cwl

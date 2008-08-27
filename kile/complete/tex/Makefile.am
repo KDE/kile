@@ -2,6 +2,7 @@ texcompletedir = $(kde_datadir)/kile/complete/tex
 texcomplete_DATA = \
 	acronym.cwl \
 	afterpage.cwl \
+	allrunes.cwl \
 	amsbsy.cwl \
 	amsfonts.cwl \
 	amsmath.cwl \

@@ -1,23 +1,23 @@
 version 2.0.1 -> 2.0.2
 
 Fixes:
- - insert \item[] in description environments for smart newline (#161658),
+ - Insert \item[] in description environments for smart newline (#161658),
  reported and fixed by Job Noorman
- - fix regression in 2.0.1 inside structure view with opening files (debian #484146)
- - fix regression in latexoutputfilter resulting in the wrong file being
+ - Fix regression in 2.0.1 inside structure view related to opening files (debian #484146)
+ - Fix regression in latexoutputfilter resulting in the wrong file being
    reported (#162899)
- - fix regression in kile 2.0.x, blend symbols so that they are usable with
+ - Fix regression in Kile 2.0.x, blend symbols so that they are usable with
    dark themes also (#161153)
- - Don't create 'save' and 'save-as' actions specifically for Kile. They will
+ - Don't create 'save' and 'save-as' actions specifically for Kile as they will
    interfere with the corresponding actions from KatePart. Thanks to Mathias
-   Soeken.
- - Parse also class warnings and show them in the Logview, patch by Jeroen Leeuwestein (#169040)
- - remove not sh-compliant code by requiring a bash shell for system check(debian #489618)
+   Soeken for reporting.
+ - Also parse class warnings and show them in the Logview, patch by Jeroen Leeuwestein (#169040)
+ - Remove not sh-compliant code by requiring a Bash shell for system check (debian #489618)
  - Add a workaround for a bug contained in KatePart 3.x in the 'setEncoding' method, which enforces
    a reload on every change of the encoding (as a consequence the user sees a confusing
    document-modified dialog) (#160258)
- - Make find in files work again with anyting else than the "all files" filter (#165636)
- - minor cwl fixes
+ - Make find-in-files work again with anyting else than the "all files" filter (#165636)
+ - Minor cwl fixes
 
 Features:
  - cwl file for siunitx (thanks to Dirk Sarpe) and allrunes packages

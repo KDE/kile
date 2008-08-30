@@ -20,7 +20,7 @@
 #include <qstring.h>
 
 const QString kileVersion="2.0";
-const QString kileFullVersion="2.0.2";
+const QString kileFullVersion="2.0.3svn";
 const QString kilePrVersion="2";
 
 /**

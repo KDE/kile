@@ -213,6 +213,8 @@ int ProjectViewItem::folder() const
  * ProjectView
  */
 ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m_ki(ki), m_nProjects(0)
+
+// FIXME Missing drop-support
 {
 	setColumnCount(2);
 	QStringList labelList;

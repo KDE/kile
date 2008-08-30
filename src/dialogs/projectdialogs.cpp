@@ -429,6 +429,7 @@ void KileNewProjectDlg::slotOk()
 		if(validURL != fileURL) {
 			m_file->setText(validURL.fileName());
 		}
+// 		FIXME the repairextension feature is no implemented here
 
 		if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()) {
 			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {

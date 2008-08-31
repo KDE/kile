@@ -125,7 +125,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	projectgrouplayout->addWidget(projectname_label, 0, 1, Qt::AlignLeft | Qt::AlignVCenter);
 	projectgrouplayout->addWidget(projectdir_label, 1, 0, Qt::AlignLeft | Qt::AlignVCenter);
 	projectgrouplayout->addWidget(projectdirname_label, 1, 1, Qt::AlignLeft | Qt::AlignVCenter);
-	projectgrouplayout->setColStretch(1, 1);
+	projectgrouplayout->setColumnStretch(1, 1);
 
 	// search groupbox
 	QGroupBox *searchgroup = new QGroupBox(i18n("Search"), page);
@@ -159,14 +159,13 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	<< i18n("Image")
 	<< i18n("Label")
 	<< i18n("Reference")
-	<< i18n("File")
-	;
+	<< i18n("File");
 
 	QHBoxLayout *template_layout = new QHBoxLayout();
 	template_layout->setMargin(0);
 	template_layout->setSpacing(KDialog::spacingHint());
 	template_combo = new KComboBox(false, searchgroup);
-	template_combo->insertStringList(templatemode_list);
+	template_combo->addItems(templatemode_list);
 	template_combo->adjustSize();
 	template_combo->setFixedSize(template_combo->size());
 	template_layout->addWidget(template_combo);
@@ -219,7 +218,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	filtergrouplayout->addWidget(dir_label, 1, 0);
 	filtergrouplayout->addWidget(dir_combo, 1, 1);
 	filtergrouplayout->addWidget(recursive_box, 2, 1);
-	filtergrouplayout->setColStretch(1, 1);
+	filtergrouplayout->setColumnStretch(1, 1);
 
 	// result box
 	resultbox = new QListWidget(page);
@@ -350,7 +349,7 @@ FindFilesDialog::~FindFilesDialog()
 
 void FindFilesDialog::readConfig()
 {
-	pattern_combo->insertStringList(readList(KileGrep::SearchItems));
+	pattern_combo->addItems(readList(KileGrep::SearchItems));
 
 	QString labels = getCommandList(KileDocument::CmdAttrLabel);
 	QString references = getCommandList(KileDocument::CmdAttrReference);
@@ -367,7 +366,7 @@ void FindFilesDialog::readConfig()
 	;
 
 	if (m_mode == KileGrep::Directory) {
-		dir_combo->comboBox()->insertStringList(readList(KileGrep::SearchPaths));
+		dir_combo->comboBox()->addItems(readList(KileGrep::SearchPaths));
 		recursive_box->setChecked(KileConfig::grepRecursive());
 	}
 }
@@ -448,7 +447,7 @@ QStringList FindFilesDialog::readList(KileGrep::List listtype)
 		if(!strings[0].isEmpty()) {
 			result.append(strings[0]);
 		}
-		strings.remove(strings[0]);
+		strings.removeAll(strings[0]);
 	}
 	return result;
 }
@@ -471,7 +470,7 @@ void FindFilesDialog::slotItemSelected(const QString& item)
 				emit itemSelected(m_projectdir + '/' + filename, linenumber.toInt());
 			}
 			else {
-				emit itemSelected(dir_combo->comboBox()->text(0) + '/' + filename, linenumber.toInt());
+				emit itemSelected(dir_combo->comboBox()->itemText(0) + '/' + filename, linenumber.toInt());
 			}
 		}
 	}
@@ -589,7 +588,7 @@ void FindFilesDialog::updateLists()
 QString FindFilesDialog::getPattern()
 {
 	QString pattern;
-	int template_mode = template_combo->currentItem();
+	int template_mode = template_combo->currentIndex();
 	if (template_mode < KileGrep::tmEnv) {
 		pattern = template_edit->text();
 		if (pattern.isEmpty()) {
@@ -621,8 +620,8 @@ QString FindFilesDialog::buildFilesCommand()
 {
 	QString files, files_temp;
 
-	if(filter_combo->currentItem() >= 0) {
-		files_temp = m_filterList[filter_combo->currentItem()];
+	if(filter_combo->currentIndex() >= 0) {
+		files_temp = m_filterList[filter_combo->currentIndex()];
 	}
 	else {
 		files_temp = filter_combo->currentText();
@@ -665,7 +664,7 @@ void FindFilesDialog::slotSearch()
 	KILE_DEBUG() << "\tgrep: start slot search";
 	slotClear();
 
-	if (template_combo->currentItem() < KileGrep::tmEnv && pattern_combo->currentText().isEmpty()) {
+	if (template_combo->currentIndex() < KileGrep::tmEnv && pattern_combo->currentText().isEmpty()) {
 		return;
 	}
 
@@ -683,7 +682,7 @@ void FindFilesDialog::slotSearch()
 
 	resultbox->setCursor(QCursor(Qt::WaitCursor));
 	search_button->setText(i18n("&Cancel"));
-	if (template_combo->currentItem() < KileGrep::tmEnv) {
+	if (template_combo->currentIndex() < KileGrep::tmEnv) {
 		m_TemplateList[m_lastTemplateIndex] = template_edit->text();
 	}
 
@@ -747,7 +746,7 @@ void FindFilesDialog::updateWidgets()
 {
 	bool search_state = (m_mode == KileGrep::Directory) || (m_mode == KileGrep::Project && m_projectOpened);
 
-	if (template_combo->currentItem()  < KileGrep::tmEnv) {
+	if (template_combo->currentIndex() < KileGrep::tmEnv) {
 		template_edit->setEnabled(true);
 		search_button->setEnabled(search_state && !pattern_combo->currentText().isEmpty());
 	}
@@ -764,9 +763,9 @@ void FindFilesDialog::setDirName(const QString &dir)
 	KComboBox *combo = dir_combo->comboBox();
 
 	if (findListItem(combo, dir) < 0) {
-		combo->insertItem(dir);
+		combo->addItem(dir);
 	}
-	if (combo->text(0) != dir) {
+	if (combo->itemText(0) != dir) {
 		slotClear();
 	}
 }
@@ -782,14 +781,14 @@ void FindFilesDialog::setFilter(const QString &filter)
 		for (QStringList::Iterator it = filter_lst.begin(); it != filter_lst.end(); ++it) {
 			QStringList filter_split = (*it).split("|");
 			m_filterList.append(filter_split[0]);
-			filter_combo->insertItem(filter_split[1]);
+			filter_combo->addItem(filter_split[1]);
 		}
 	}
 }
 
 void FindFilesDialog::appendFilter(const QString &name, const QString &filter)
 {
-	filter_combo->insertItem(name);
+	filter_combo->addItem(name);
 	m_filterList.append(filter);
 }
 
@@ -797,7 +796,7 @@ void FindFilesDialog::appendFilter(const QString &name, const QString &filter)
 
 void FindFilesDialog::appendTemplate(const QString &name, const QString &regexp)
 {
-	template_combo->insertItem(name);
+	template_combo->addItem(name);
 	m_TemplateList.append(regexp);
 }
 
@@ -813,7 +812,7 @@ QStringList FindFilesDialog::getListItems(KComboBox *combo)
 {
 	QStringList list;
 	for (int i = 0; i < combo->count() && i < KILEGREP_MAX; ++i) {
-		list.append(combo->text(i));
+		list.append(combo->itemText(i));
 	}
 	return list;
 }
@@ -821,7 +820,7 @@ QStringList FindFilesDialog::getListItems(KComboBox *combo)
 int FindFilesDialog::findListItem(KComboBox *combo, const QString &s)
 {
 	for (int i = 0; i < combo->count(); ++i) {
-		if (combo->text(i) == s) {
+		if (combo->itemText(i) == s) {
 			return i;
 		}
 	}
@@ -848,8 +847,8 @@ void FindFilesDialog::updateListItems(KComboBox *combo)
 	}
 
 	if(index != 0) {
-		combo->insertItem(s, 0);                    // insert this item as first item
-		combo->setCurrentItem(0);                   // and select it
+		combo->insertItem(0, s);                    // insert this item as first item
+		combo->setCurrentIndex(0);                   // and select it
 	}
 }
 

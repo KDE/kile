@@ -1220,12 +1220,10 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
 void Kile::setActive()
 {
-	#ifdef __GNUC__
-	#warning crashes here if called via D-BUS, therefore commenting out
-	#endif
-// 	KILE_DEBUG() << "ACTIVATING" << endl;
-// 	kapp->mainWidget()->raise();
-// 	kapp->mainWidget()->setActiveWindow();
+	KILE_DEBUG() << "Activating" << endl;
+ 	m_mainWindow->raise();
+ 	m_mainWindow->activateWindow();
+	m_mainWindow->show();
 }
 
 void Kile::showTip()
@@ -1631,15 +1629,18 @@ void Kile::findInProjects()
 /////////////////// PART & EDITOR WIDGET //////////
 void Kile::showEditorWidget()
 {
-	if(!resetPart())
+	if(!resetPart()){
 		return;
+	}
 	m_mainWindow->setCentralWidget(m_topWidgetStack);
 	m_topWidgetStack->show();
 	m_horizontalSplitter->show();
 	m_verticalSplitter->show();
 
 	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view) view->setFocus();
+	if (view){
+		view->setFocus();
+	}
 
 	setupStatusBar();
 	updateModeStatus();

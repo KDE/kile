@@ -1,10 +1,8 @@
-/***************************************************************************
+/*******************************************************************************************
     begin                : Sun Aug 3 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-                         : (C) 2007  by Holger Danielsson
-    email                : Jeroen.Wijnhout@kdemail.net
-                           holger.danielsson@versanet.de
-***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                         : (C) 2007  by Holger Danielsson (holger.danielsson@versanet.de)                           
+********************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -74,7 +72,7 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 
 	// properties groupbox
 	m_pgroup = new QGroupBox(i18n("Project"), page);
-	m_pgrid = new QGridLayout(m_pgroup->layout());
+	m_pgrid = new QGridLayout(m_pgroup);
 	m_pgrid->setMargin(KDialog::marginHint());
 	m_pgrid->setSpacing(KDialog::spacingHint());
 	m_pgrid->setAlignment(Qt::AlignTop);
@@ -103,11 +101,11 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 
 	m_sel_extensions = new KComboBox(false, m_egroup);
 	m_sel_extensions->setObjectName("le_sel_ext");
-	m_sel_extensions->insertItem(i18n("Source Files"));
-	m_sel_extensions->insertItem(i18n("Package Files"));
-	m_sel_extensions->insertItem(i18n("Image Files"));
+	m_sel_extensions->addItem(i18n("Source Files"));
+	m_sel_extensions->addItem(i18n("Package Files"));
+	m_sel_extensions->addItem(i18n("Image Files"));
 	m_lbPredefinedExtensions = new QLabel(i18n("Predefined:"), m_egroup);
-	m_lbStandardExtensions = new QLabel(QString::null, m_egroup);
+	m_lbStandardExtensions = new QLabel(QString(), m_egroup);
 
 	m_sel_extensions->setWhatsThis(whatsthisExt);
 	m_extensions->setWhatsThis(whatsthisExt);
@@ -138,7 +136,7 @@ void KileProjectDlgBase::slotExtensionsHighlighted(int index)
 
 void KileProjectDlgBase::slotExtensionsTextChanged(const QString &text)
 {
-	m_val_extensions[m_sel_extensions->currentItem()] = text;
+	m_val_extensions[m_sel_extensions->currentIndex()] = text;
 }
 
 bool KileProjectDlgBase::acceptUserExtensions()
@@ -169,7 +167,7 @@ bool KileProjectDlgBase::acceptUserExtensions()
 
 void KileProjectDlgBase::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
-	if (m_sel_extensions->currentItem() == type - 1)
+	if (m_sel_extensions->currentIndex() == type - 1)
 		m_extensions->setText(ext);
 	else
 		m_val_extensions[type-1] = ext;
@@ -218,7 +216,7 @@ void KileProjectDlgBase::fillProjectDefaults()
  */
 KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent, const char* name)
 		: KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name), m_templateManager(templateManager),
-		m_filename(QString::null)
+		m_filename(QString())
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -262,18 +260,18 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	m_templateIconView->fillWithTemplates(KileDocument::LaTeX);
 	m_cb->setWhatsThis(i18n("If you want Kile to create a new file and add it to the project, then check this option and select a template from the list that will appear below."));
 
-	grid2->addMultiCellWidget(m_cb, 0, 0, 0, 1);
+	grid2->addWidget(m_cb, 0, 0, 1, 2);
 	grid2->addWidget(m_lb, 1, 0);
 	grid2->addWidget(m_file, 1, 1);
-	grid2->addMultiCellWidget(m_templateIconView, 2, 2, 0, 1);
-	grid2->setColStretch(1, 1);
+	grid2->addWidget(m_templateIconView, 2, 0, 1, 2);
+	grid2->setColumnStretch(1, 1);
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
 
 	// third groupbox
 	m_egrid->addWidget(m_sel_extensions, 6, 0);
-	m_egrid->addMultiCellWidget(m_extensions, 6, 6, 1, 3);
+	m_egrid->addWidget(m_extensions, 6, 1, 1, 3);
 	m_egrid->addWidget(m_lbPredefinedExtensions, 7, 0);
-	m_egrid->addMultiCellWidget(m_lbStandardExtensions, 7, 7, 1, 3);
+	m_egrid->addWidget(m_lbStandardExtensions, 7, 1, 1, 3);
 
 	// add to layout
 	vbox->addWidget(m_pgroup);
@@ -484,9 +482,9 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 
 	// second groupbox
 	m_egrid->addWidget(m_sel_extensions, 6, 0);
-	m_egrid->addMultiCellWidget(m_extensions, 6, 6, 1, 3);
+	m_egrid->addWidget(m_extensions, 6, 1, 1, 3);
 	m_egrid->addWidget(m_lbPredefinedExtensions, 7, 0);
-	m_egrid->addMultiCellWidget(m_lbStandardExtensions, 7, 7, 1, 3);
+	m_egrid->addWidget(m_lbStandardExtensions, 7, 1, 1, 3);
 
 	// third groupbox
 	QGroupBox *group3 = new QGroupBox(i18n("Properties"), page);
@@ -505,12 +503,12 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_master->setWhatsThis(whatsthisMaster);
 	lb1->setWhatsThis(whatsthisMaster);
 
-	m_master->insertItem(i18n("(auto-detect)"));
+	m_master->addItem(i18n("(auto-detect)"));
 	QList<KileProjectItem*> rootItemList = project->rootItems();
 	int index = 0;
 	for (QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
 		if ((*it)->type() == KileProjectItem::Source) {
-			m_master->insertItem((*it)->url().fileName());
+			m_master->addItem((*it)->url().fileName());
 			++index;
 			if ((*it)->url().path() == project->masterDocument()) {
 				m_master->setCurrentIndex(index);
@@ -518,15 +516,24 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 		}
 	}
 
-	if (project->masterDocument().isNull())
+	if (project->masterDocument().isEmpty()) {
 		m_master->setCurrentItem(0);
+	}
 
 	QLabel *lb2 = new QLabel(i18n("&QuickBuild configuration:"), group3);
 	m_cbQuick = new KComboBox(group3);
 	lb2->setBuddy(m_cbQuick);
-	m_cbQuick->insertItem(tool_default);
-	m_cbQuick->insertStringList(KileTool::configNames("QuickBuild", KGlobal::config().data()));
-	m_cbQuick->setCurrentText(project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default);
+	m_cbQuick->addItem(tool_default);
+	m_cbQuick->addItems(KileTool::configNames("QuickBuild", KGlobal::config().data()));
+	QString itemToSelect = project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default;
+	int selectIndex = m_cbQuick->findText(itemToSelect);
+	if(selectIndex >= 0) {
+		m_cbQuick->setCurrentIndex(selectIndex);
+	}
+	else {
+		m_cbQuick->addItem(itemToSelect);
+	}
+
 
 	//don't put this after the call to toggleMakeIndex
 	setProject(project, true);
@@ -542,8 +549,8 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	grid3->addWidget(lb2, 1, 0);
 	grid3->addWidget(m_cbQuick, 1, 1);
 	grid3->addWidget(m_ckMakeIndex, 2, 0);
-	grid3->addMultiCellWidget(m_leMakeIndex, 2, 2, 1, 2);
-	grid3->setColStretch(2, 1);
+	grid3->addWidget(m_leMakeIndex, 2, 1, 1, 2);
+	grid3->setColumnStretch(2, 1);
 
 	// add to layout
 	vbox->addWidget(m_pgroup);
@@ -568,9 +575,10 @@ void KileProjectOptionsDlg::toggleMakeIndex(bool on)
 
 void KileProjectOptionsDlg::slotOk()
 {
-	if (! acceptUserExtensions())
+	if(!acceptUserExtensions()) {
 		return;
-
+	}
+	
 	this->m_project->setName(m_title->text());
 
 	QList<KileProjectItem*> rootItemList = m_project->rootItems();
@@ -579,23 +587,27 @@ void KileProjectOptionsDlg::slotOk()
 			m_project->setMasterDocument((*it)->url().path());
 		}
 	}
-	if (m_master->currentItem() == 0)
-		m_project->setMasterDocument(QString::null);
+	if (m_master->currentIndex() == 0) {
+		m_project->setMasterDocument(QString());
+	}
 
-	m_val_extensions[m_sel_extensions->currentItem()] = m_extensions->text();
+	m_val_extensions[m_sel_extensions->currentIndex()] = m_extensions->text();
 
 	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 		m_project->setExtensions((KileProjectItem::Type) i, m_val_extensions[i-1]);
 	}
 
-	if (m_cbQuick->currentText() == tool_default)
+	if (m_cbQuick->currentText() == tool_default) {
 		m_project->setQuickBuildConfig("");
-	else
+	}
+	else {
 		m_project->setQuickBuildConfig(m_cbQuick->currentText());
-
+	}
+	
 	m_project->setUseMakeIndexOptions(m_ckMakeIndex->isChecked());
-	if (m_project->useMakeIndexOptions())
+	if (m_project->useMakeIndexOptions()) {
 		m_project->setMakeIndexOptions(m_leMakeIndex->text());
+	}
 
 	m_project->save();
 

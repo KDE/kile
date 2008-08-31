@@ -11,7 +11,7 @@ goAhead=ok
 # see man dbus-send for an explanation, also the qdbusviewer from the QT package serves very well
 kileDBUS="dbus-send --type=method_call --print-reply --dest=net.sourceforge.kile /main net.sourceforge.kile.main"
 openDoc="$kileDBUS.openDocument string:"
-closeDoc="$kileDBUS.closeDocument string:"
+closeDoc="$kileDBUS.closeDocument"
 
 declare -i totalnotests=17
 declare -i current=0

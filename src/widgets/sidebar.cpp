@@ -213,7 +213,9 @@ void SideBar::setPageVisible(QWidget *w, bool b)
 
 void SideBar::showPage(QWidget *widget)
 {
+	KILE_DEBUG() << "===SideBar::showPage(QWidget *widget)===";
 	int i = m_tabStack->indexOf(widget);
+	KILE_DEBUG() << "i is " << i;
 	if(i >= 0) {
 		switchToTab(i);
 	}
@@ -247,6 +249,7 @@ void SideBar::setDirectionalSize(int i)
 
 void SideBar::switchToTab(int id)
 {
+	KILE_DEBUG() << "===SideBar::switchToTab(int id)===";
 	int nTabs = m_tabStack->count();
 	int currentIndex = currentTab();
 

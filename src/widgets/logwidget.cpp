@@ -213,6 +213,9 @@ namespace KileWidget
 	{
 		if(type == KileTool::Error) {
 			emit showingErrorMessage(this);
+			#ifdef __GNUC__
+			#warning does not work
+			#endif
 		}
 
 		QString ot = "", ct = "</font>";

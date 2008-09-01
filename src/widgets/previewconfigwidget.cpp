@@ -1,9 +1,8 @@
-/***************************************************************************
+/************************************************************************************************
     date                 : Sep 05 2006
     version              : 0.32
-    copyright            : (C) 2005-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
- ***************************************************************************/
+    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+ ************************************************************************************************/
 
 
 /***************************************************************************
@@ -36,10 +35,11 @@
 #include "kiledebug.h"
 
 KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent, const char *name)
-		: QWidget(parent, name),
+		: QWidget(parent),
 		m_config(config),
 		m_preview(preview)
 {
+	setObjectName(name);
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
@@ -53,14 +53,15 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	groupboxLayout->setAlignment(Qt::AlignTop);
 	groupbox->setLayout(groupboxLayout);
 
-	QLabel *label = new QLabel(i18n("Select a configuration:"), groupbox, "label");
+	QLabel *label = new QLabel(i18n("Select a configuration:"), groupbox);
+	label->setObjectName("label");
 	m_combobox = new KComboBox(false, groupbox);
 	m_combobox->setObjectName("combobox");
 
 	groupboxLayout->addWidget(label, 0, 0);
 	groupboxLayout->addWidget(m_combobox, 0, 2);
-	groupboxLayout->setColSpacing(1, 8);
-	groupboxLayout->setColStretch(3, 1);
+	groupboxLayout->setColumnMinimumWidth(1, 8);
+	groupboxLayout->setColumnStretch(3, 1);
 
 	QGroupBox *gbResolution = new QGroupBox(i18n("Quick Preview in bottom bar"), this);
 	QGridLayout *resLayout = new QGridLayout();
@@ -96,16 +97,17 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->addWidget(m_leDvipngResolution, 0, 2);
 	resLayout->addWidget(resDpi, 0, 3);
 	resLayout->addWidget(resAllowed, 0, 5, Qt::AlignLeft);
-	resLayout->addMultiCellWidget(labelDescription, 1, 1, 0, 5);
+	resLayout->addWidget(labelDescription, 1, 0, 1, 6);
 	resLayout->addWidget(labelDvipng, 2, 0);
 	resLayout->addWidget(m_lbDvipng, 2, 2);
 	resLayout->addWidget(labelConvert, 3, 0);
 	resLayout->addWidget(m_lbConvert, 3, 2);
-	resLayout->setColSpacing(1, 8);
-	resLayout->setColSpacing(4, 24);
-	resLayout->setColStretch(5, 1);
+	resLayout->setColumnMinimumWidth(1, 8);
+	resLayout->setColumnMinimumWidth(4, 24);
+	resLayout->setColumnStretch(5, 1);
 
-	m_gbPreview = new QGroupBox(i18n("Properties"), this, "gbpreview");
+	m_gbPreview = new QGroupBox(i18n("Properties"), this);
+	m_gbPreview->setObjectName("gbpreview");
 	QGridLayout *previewLayout = new QGridLayout();
 	previewLayout->setMargin(KDialog::marginHint());
 	previewLayout->setSpacing(KDialog::spacingHint());
@@ -126,7 +128,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	m_coEnvironment = new KComboBox(false, m_gbPreview);
 	m_lbMathgroup = new QLabel(i18n("Preview uses always 'dvipng'."), m_gbPreview);
 
-	previewLayout->addMultiCellWidget(labelPreviewWidget, 0, 0, 0, 2);
+	previewLayout->addWidget(labelPreviewWidget, 0, 0, 1, 3);
 	previewLayout->addWidget(labelPreviewType, 0, 4);
 	previewLayout->addWidget(labelSelection, 1, 0);
 	previewLayout->addWidget(m_cbSelection, 1, 2);
@@ -136,14 +138,14 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	previewLayout->addWidget(m_coEnvironment, 2, 4);
 	previewLayout->addWidget(labelMathgroup, 3, 0);
 	previewLayout->addWidget(m_cbMathgroup, 3, 2);
-	previewLayout->addMultiCellWidget(m_lbMathgroup, 3, 3, 4, 5, Qt::AlignLeft);
+	previewLayout->addWidget(m_lbMathgroup, 3, 4, 1, 2, Qt::AlignLeft);
 	previewLayout->addWidget(labelSubdocument1, 4, 0);
-	previewLayout->addMultiCellWidget(labelSubdocument2, 4, 4, 2, 5, Qt::AlignLeft);
-	previewLayout->setRowSpacing(0, 3*labelPreviewWidget->sizeHint().height() / 2);
-	previewLayout->setRowSpacing(3, m_coEnvironment->sizeHint().height());
-	previewLayout->setColSpacing(1, 12);
-	previewLayout->setColSpacing(3, 40);
-	previewLayout->setColStretch(5, 1);
+	previewLayout->addWidget(labelSubdocument2, 4, 2, 1, 4, Qt::AlignLeft);
+	previewLayout->setRowMinimumHeight(0, 3 * labelPreviewWidget->sizeHint().height() / 2);
+	previewLayout->setRowMinimumHeight(3, m_coEnvironment->sizeHint().height());
+	previewLayout->setColumnMinimumWidth(1, 12);
+	previewLayout->setColumnMinimumWidth(3, 40);
+	previewLayout->setColumnStretch(5, 1);
 
 	vbox->addWidget(groupbox);
 	vbox->addWidget(gbResolution);
@@ -173,27 +175,27 @@ void KileWidgetPreviewConfig::writeConfig(void)
 	bool ok;
 	QString resolution = m_leDvipngResolution->text();
 	int dpi = resolution.toInt(&ok);
-	if (ok)
-	{
-		if (dpi < 30)
+	if(ok) {
+		if(dpi < 30) {
 			resolution = "30";
-		else
-			if (dpi > 1000)
+		}
+		else {
+			if(dpi > 1000) {
 				resolution = "1000";
+			}
+		}
 		KileConfig::setDvipngResolution(resolution);
 	}
 
-	if (m_gbPreview->isEnabled())
-	{
+	if(m_gbPreview->isEnabled()) {
 		KileConfig::setSelPreviewInWidget(m_cbSelection->isChecked());
 		KileConfig::setEnvPreviewInWidget(m_cbEnvironment->isChecked());
 		KileConfig::setMathgroupPreviewInWidget((m_dvipngInstalled) ? m_cbMathgroup->isChecked() : false);
 
-		KileConfig::setSelPreviewTool(index2tool(m_coSelection->currentItem()));
-		KileConfig::setEnvPreviewTool(index2tool(m_coEnvironment->currentItem()));
+		KileConfig::setSelPreviewTool(index2tool(m_coSelection->currentIndex()));
+		KileConfig::setEnvPreviewTool(index2tool(m_coEnvironment->currentIndex()));
 	}
-	else
-	{
+	else {
 		KileConfig::setEnvPreviewInWidget(false);
 		KileConfig::setSelPreviewInWidget(false);
 	}
@@ -210,12 +212,12 @@ void KileWidgetPreviewConfig::setupSeparateWindow()
 	for(int i = 0; i < tasklist.count(); ++i) {
 		QStringList list = tasklist[i].split("=");
 		if (m_config->hasGroup(list[0])) {
-			m_combobox->insertItem(list[1]);
+			m_combobox->addItem(list[1]);
 		}
 	}
 
 	// set current task
-	m_combobox->setCurrentText(KileConfig::previewTask());
+	m_combobox->setCurrentIndex(m_combobox->findText(KileConfig::previewTask()));
 }
 
 void KileWidgetPreviewConfig::setupBottomBar()
@@ -240,31 +242,26 @@ void KileWidgetPreviewConfig::setupProperties()
 
 	// setup conversion tools
 	QStringList toollist;
-	if (m_dvipngInstalled)
-	{
+	if(m_dvipngInstalled) {
 		toollist << i18n("dvi --> png");
 	}
-	else
-	{
+	else {
 		m_cbMathgroup->setChecked(false);
 		m_cbMathgroup->setEnabled(false);
 		m_lbMathgroup->setText(i18n("Opens always in a separate window."));
 	}
-	if (m_convertInstalled)
-	{
+	if(m_convertInstalled) {
 		toollist << i18n("dvi --> ps --> png");
 		toollist << i18n("pdf --> png");
 	}
 
 	// setup comboboxes
-	if (installedTools() == 0)
-	{
+	if(installedTools() == 0) {
 		m_gbPreview->setEnabled(false);
 	}
-	else
-	{
-		m_coSelection->insertStringList(toollist);
-		m_coEnvironment->insertStringList(toollist);
+	else {
+		m_coSelection->addItems(toollist);
+		m_coEnvironment->addItems(toollist);
 
 		m_coSelection->setCurrentIndex(tool2index(KileConfig::selPreviewTool()));
 		m_coEnvironment->setCurrentIndex(tool2index(KileConfig::envPreviewTool()));
@@ -286,12 +283,15 @@ int KileWidgetPreviewConfig::tool2index(int tool)
 	int result = 0;
 
 	int available = installedTools();
-	if (available == 3)
+	if(available == 3) {
 		result = tool;
-	else
-		if (available == 2 && tool > 0)
+	}
+	else {
+		if(available == 2 && tool > 0) {
 			result = tool - 1;
-
+		}
+	}
+	
 	return result;
 }
 
@@ -300,11 +300,14 @@ int KileWidgetPreviewConfig::index2tool(int index)
 	int result = 0;
 
 	int available = installedTools();
-	if (available == 3)
+	if(available == 3) {
 		result = index;
-	else
-		if (available == 2)
+	}
+	else {
+		if(available == 2) {
 			result = index + 1;
+		}
+	}
 
 	return result;
 }
@@ -318,10 +321,12 @@ int KileWidgetPreviewConfig::index2tool(int index)
 int KileWidgetPreviewConfig::installedTools()
 {
 	int tools = 0;
-	if (m_dvipngInstalled)
+	if(m_dvipngInstalled) {
 		tools += 1;
-	if (m_convertInstalled)
+	}
+	if(m_convertInstalled) {
 		tools += 2;
+	}
 
 	return tools;
 }
@@ -330,8 +335,9 @@ void KileWidgetPreviewConfig::updateConversionTools()
 {
 	m_coSelection->setEnabled(m_cbSelection->isChecked());
 	m_coEnvironment->setEnabled(m_cbEnvironment->isChecked());
-	if (m_dvipngInstalled)
+	if(m_dvipngInstalled) {
 		m_lbMathgroup->setEnabled(m_cbMathgroup->isChecked());
+	}
 }
 
 #include "previewconfigwidget.moc"

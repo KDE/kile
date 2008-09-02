@@ -49,7 +49,7 @@ public:
 	~PreviewWidget();
 
 	/**
-	 * Trys to paint the current mathgroup of 
+	 * Tries to paint the current mathgroup of 
 	 * the current document.
 	 *
 	 * If a document is open and the cursor is

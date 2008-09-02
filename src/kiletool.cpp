@@ -50,8 +50,8 @@ namespace KileTool
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
 		setMsg(NeedTargetDirWrite, ki18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
-		setMsg(NeedTargetExists,  ki18n("The file %1/%2 does not exist. If you're surprised, check the file permissions."));
-		setMsg(NeedTargetRead, ki18n("The file %1/%2 is not readable. If you're surprised, check the file permissions."));
+		setMsg(NeedTargetExists,  ki18n("The file %1/%2 does not exist. If you are surprised, check the file permissions."));
+		setMsg(NeedTargetRead, ki18n("The file %1/%2 is not readable. If you are surprised, check the file permissions."));
 		setMsg(NeedActiveDoc, ki18n("Could not determine on which file to run %1, because there is no active document."));
 		setMsg(NeedMasterDoc, ki18n("Could not determine the master file for this document."));
 		setMsg(NoUntitledDoc, ki18n("Please save the untitled document first."));
@@ -481,28 +481,24 @@ namespace KileTool
 		QFileInfo sourceinfo(source);
 		QDateTime currDateTime = QDateTime::currentDateTime();
 
-		if ( !(sourceinfo.exists() && sourceinfo.isReadable()) )
-		{
-			KILE_DEBUG() << "\treturning false: source doesn't exist";
+		if(!(sourceinfo.exists() && sourceinfo.isReadable())) {
+			KILE_DEBUG() << "\treturning false: source does not exist";
 			return false;
 		}
 
-		if ( ! targetinfo.exists() )
-		{
-			KILE_DEBUG() << "\treturning true: target doesn't exist";
+		if(!targetinfo.exists()) {
+			KILE_DEBUG() << "\treturning true: target does not exist";
 			return true;
 		}
 
 		KILE_DEBUG() << "\ttarget: " << targetinfo.lastModified().toString();
 		KILE_DEBUG() << "\tsource: " << sourceinfo.lastModified().toString();
 		
-		if( targetinfo.lastModified() > currDateTime ){
-		
+		if(targetinfo.lastModified() > currDateTime) {
 			KILE_DEBUG() << "targetinfo.lastModifiedTime() is in the future";
 			return false;
 		}
-		else if( sourceinfo.lastModified() > currDateTime ){
-		
+		else if(sourceinfo.lastModified() > currDateTime) {
 			KILE_DEBUG() << "sourceinfo.lastModifiedTime() is in the future";
 			return false;
 		}
@@ -539,7 +535,7 @@ namespace KileTool
 	View::View(const QString &name, Manager * manager, bool prepare /*= true*/)
 		: Base(name, manager, prepare)
 	{
-		setFlags( NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
+		setFlags(NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
 		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists);
 		setMsg(NeedTargetExists, ki18n("The file %2/%3 does not exist; did you compile the source file?"));

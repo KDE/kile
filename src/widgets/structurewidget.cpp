@@ -491,7 +491,7 @@ void StructureViewItem::setLabel(const QString &label)
 		//find the parent for the new element
 		StructureViewItem *parentItem = (type == KileStruct::BeamerBeginBlock && m_lastFrameEnv) ? m_lastFrameEnv : parentFor(lev, fldr);
 		if(!parentItem) {
-			KMessageBox::error(m_stack->info()->mainWindow(), i18n("Can't create ListviewItem: no parent found."));
+			KMessageBox::error(m_stack->info()->mainWindow(), i18n("Cannot create a list view item: no parent found."));
 			return;
 		}
 
@@ -703,13 +703,13 @@ void StructureViewItem::setLabel(const QString &label)
 
 				fi.setFile(otherFilename);
 
-				if(fi.isReadable()){
+				if(fi.isReadable()) {
 					url.setPath(otherFilename);
 					emit(fileOpen(url, QString::null));
 				}
-				else{
-					if ( KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?").arg(fname), i18n("Cannot Find File"))
-				== KMessageBox::Yes) {
+				else {
+					if(KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?", fname), i18n("Cannot Find File"))
+					   == KMessageBox::Yes) {
 						url.setPath(fname);
 						emit(fileNew(url));
 					}

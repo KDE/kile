@@ -233,7 +233,7 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
 	
 		filename = KGlobal::dirs()->findResource("appdata", "bibtexentries.rc");
 	}
-	else if(KileConfig::bibliographyType() == QString("biblatex") ){
+	else if(KileConfig::bibliographyType() == QString("biblatex")){
 
 		menu->addAction(new KileAction::Tag(i18n("Load Biblatex Package - \\usepackage{biblatex}"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyPackage", "\\usepackage{biblatex}\n",QString(),21,0,i18n("This includes the package biblatex")));
 		menu->addAction(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
@@ -251,8 +251,9 @@ Print List of Shorthands - \printshorthands
 */
 		filename = KGlobal::dirs()->findResource("appdata", "biblatexentries.rc");
 	}
-	else
-		filename == QString();
+	else {
+		filename.clear();
+	}
 
 	if(filename.isEmpty()){
 		KILE_DEBUG() << "found no filename" << endl;

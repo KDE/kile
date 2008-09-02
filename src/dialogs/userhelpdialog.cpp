@@ -478,7 +478,7 @@ void UserHelpAddDialog::slotButtonClicked(int button)
 
 	QFileInfo fi(url.path());
 	if(url.isLocalFile() && !QFileInfo(url.path()).exists()) {
-		KMessageBox::error(this, i18n("The file '%1' doesn't exist.", url.prettyUrl()));
+		KMessageBox::error(this, i18n("The file '%1' does not exist.", url.prettyUrl()));
 		return;
 	}
 

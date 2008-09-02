@@ -31,7 +31,7 @@
 #include <KLocale>
 #include <KShell>
 #include <KStandardDirs>
-#include <KLibLoader>
+#include <KParts/ComponentFactory>
 #include <KParts/Part>
 #include <KParts/Factory>
 #include <KParts/PartManager>
@@ -312,8 +312,8 @@ namespace KileTool {
 	{
 		m_libName = tool()->readEntry("libName");
 		m_className = tool()->readEntry("className");
-		m_options=tool()->readEntry("libOptions");
-		m_state=tool()->readEntry("state");
+		m_options = tool()->readEntry("libOptions");
+		m_state = tool()->readEntry("state");
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 		
@@ -326,7 +326,8 @@ namespace KileTool {
 			name = dir + '/' + shrt;
 		}
 
-		KLibFactory *factory = KLibLoader::self()->factory(m_libName);
+		KPluginLoader pluginLoader(m_libName);
+		KPluginFactory *factory = pluginLoader.factory();
 		if (!factory) {
 			emit(message(Error, i18n("Could not find the %1 library.", m_libName)));
 			return false;
@@ -336,12 +337,12 @@ namespace KileTool {
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
 #ifdef __GNUC__
-#warning Port KPluginFactory::create correctly!
+#warning We still need to use QStringLists for arguments instead of QStrings!
 #endif
-//FIXME: port for KDE4
-// 		m_part = (KParts::ReadOnlyPart *)factory->create(stack, m_libName, m_className, m_options);
-m_part = NULL;
-		if (!m_part) {
+// 		m_part = factory->create<KParts::ReadOnlyPart>(stack, m_options);
+		m_part = factory->create<KParts::ReadOnlyPart>(stack, QStringList());
+
+		if(!m_part) {
 			emit(message(Error, i18n("Could not create component %1 from the library %2.", m_className, m_libName)));
 			emit(done(Failed));
 			return false;
@@ -373,6 +374,9 @@ m_part = NULL;
 
 	void PartLauncher::kill()
 	{
+#ifdef __GNUC__
+#warning We still need to check whether the created part is deleted somewhere!
+#endif
 	}
 
 	KParts::ReadOnlyPart* PartLauncher::part()

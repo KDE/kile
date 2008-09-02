@@ -80,7 +80,7 @@ namespace KileTool
 		void wantGUIState(const QString &);
 		
 		KParts::PartManager * partManager() { return m_pm; }
-		QStackedWidget* widgetStack() { return NULL; }
+		QStackedWidget* widgetStack() { return m_stack; }
 		
 		KileInfo * info() { return m_ki; }
 		KConfig * config() { return m_config; }

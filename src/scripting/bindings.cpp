@@ -53,30 +53,50 @@ void KileTextDocumentScriptObject::previousBullet()
 
 void KileTextDocumentScriptObject::moveCursorLeft()
 {
-#ifdef __GNUC__
-#warning Method still needs to be implemented!
-#endif
+	KTextEditor::Cursor cursor = m_view->cursorPosition();
+	if(cursor.column() > 0) {
+		cursor.setColumn(cursor.column() - 1);
+		m_view->setCursorPosition(cursor);
+	}
+	else if(cursor.line() > 0) {
+		int line = cursor.line() - 1;
+		cursor.setLine(line);
+		cursor.setColumn(m_view->document()->lineLength(line));
+		m_view->setCursorPosition(cursor);
+	}
 }
 
 void KileTextDocumentScriptObject::moveCursorRight()
 {
-#ifdef __GNUC__
-#warning Method still needs to be implemented!
-#endif
+	KTextEditor::Cursor cursor = m_view->cursorPosition();
+	int line = cursor.line();
+	if(cursor.column() < m_view->document()->lineLength(line)) {
+		cursor.setColumn(cursor.column() + 1);
+		m_view->setCursorPosition(cursor);
+	}
+	else if(line < m_view->document()->lines()) {
+		cursor.setLine(line + 1);
+		cursor.setColumn(0);
+		m_view->setCursorPosition(cursor);
+	}
 }
 
 void KileTextDocumentScriptObject::moveCursorUp()
 {
-#ifdef __GNUC__
-#warning Method still needs to be implemented!
-#endif
+	KTextEditor::Cursor cursor = m_view->cursorPosition();
+	if(cursor.line() > 0) {
+		cursor.setLine(cursor.line() - 1);
+		m_view->setCursorPosition(cursor);
+	}
 }
 
 void KileTextDocumentScriptObject::moveCursorDown()
 {
-#ifdef __GNUC__
-#warning Method still needs to be implemented!
-#endif
+	KTextEditor::Cursor cursor = m_view->cursorPosition();
+	if(cursor.line() < m_view->document()->lines() - 1) {
+		cursor.setLine(cursor.line() + 1);
+		m_view->setCursorPosition(cursor);
+	}
 }
 
 int KileTextDocumentScriptObject::cursorLine()

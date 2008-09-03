@@ -688,7 +688,7 @@ void StructureViewItem::setLabel(const QString &label)
 					KRun::runUrl(url, pMime->name(), this);
 				}
 				else {
-					emit(fileOpen(url, QString::null));
+					emit(fileOpen(url, QString()));
 				}
 			}
 			else{
@@ -705,7 +705,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 				if(fi.isReadable()) {
 					url.setPath(otherFilename);
-					emit(fileOpen(url, QString::null));
+					emit(fileOpen(url, QString()));
 				}
 				else {
 					if(KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?", fname), i18n("Cannot Find File"))

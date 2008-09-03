@@ -28,7 +28,7 @@
 using namespace std;
 
 OutputFilter::OutputFilter() :
-	m_log(QString::null)
+	m_log(QString())
 {
 }
 
@@ -59,14 +59,12 @@ bool OutputFilter::Run(const QString & logfile)
 	QString s;
 	QFile f(logfile);
 
-	m_log = QString::null;
+	m_log.clear();
 	m_nOutputLines = 0;
 
-	if ( f.open(QIODevice::ReadOnly) )
-	{
+	if(f.open(QIODevice::ReadOnly)) {
 		QTextStream t(&f);
-		while ( !t.atEnd() )
-		{
+		while(!t.atEnd()) {
 // 			KILE_DEBUG() << "line " << m_nOutputLines << endl;
 			s = t.readLine() + '\n';
 			sCookie = parseLine(s.trimmed(), sCookie);
@@ -76,8 +74,7 @@ bool OutputFilter::Run(const QString & logfile)
 		}
 		f.close();
 	}
-	else
-	{
+	else {
 		emit(problem(KileTool::Warning, i18n("Cannot open log file; did you run LaTeX?")));
 		return false;
 	}

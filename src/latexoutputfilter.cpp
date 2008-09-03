@@ -141,7 +141,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 				//push the filename on the stack and mark it as 'reliable'
 				m_stackFile.push(LOFStackItem(strPartialFileName, true));
 // 				KILE_DEBUG() << "\tpushed : " << strPartialFileName << endl;
-				strPartialFileName = QString::null;
+				strPartialFileName.clear();
 				dwCookie = Start;
 			}
 			//The partial filename was followed by an TeX error, meaning the file doesn't exist.
@@ -149,13 +149,13 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 			else if(strLine.startsWith("!")) {
 // 				KILE_DEBUG() << "oops!" << endl;
 				dwCookie = Start;
-				strPartialFileName = QString::null;
+				strPartialFileName.clear();
 				detectError(strLine, dwCookie);
 			}
 			else if(strLine.startsWith("No file")) {
 // 				KILE_DEBUG() << "No file: " << strLine << endl;
 				dwCookie = Start;
-				strPartialFileName = QString::null;
+				strPartialFileName.clear();
 				detectWarning(strLine, dwCookie);
 			}
 			//Partial filename still isn't complete.
@@ -225,7 +225,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 			//bail out
 			else {
 				dwCookie = Start;
-				strPartialFileName = QString();
+				strPartialFileName.clear();
 				expectFileName = false;
 			}
 		}
@@ -233,7 +233,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 		else if(strLine[i] == '(') {
 			//we need to extract the filename
 			expectFileName = true;
-			strPartialFileName = QString();
+			strPartialFileName.clear();
 			dwCookie = Start;
 
 			//this is were the filename is supposed to start

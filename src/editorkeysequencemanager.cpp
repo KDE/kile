@@ -183,7 +183,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 		curLine = cursor.line();
 		curCol = cursor.column();
 		if(curLine != m_oldLine || m_oldCol+1 != curCol) {
-			m_typedSequence = QString();
+			m_typedSequence.clear();
 			m_oldLine = curLine;
 			m_oldCol = curCol;
 		}
@@ -205,7 +205,7 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 			QString toCheck = s.right(s.length() - i);
 			if(m_watchedKeySequencesList.contains(toCheck) > 0) {
  				m_view->document()->removeText(KTextEditor::Range(m_oldLine, m_oldCol - (s.length() - i - 1), m_oldLine, m_oldCol));
-				m_typedSequence = QString::null; // clean m_typedSequence to avoid wrong action triggering if one presses keys without printable character
+				m_typedSequence.clear(); // clean m_typedSequence to avoid wrong action triggering if one presses keys without printable character
 				emit detectedTypedKeySequence(toCheck);
 				return true;
 			}

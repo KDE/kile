@@ -288,7 +288,7 @@ namespace KileWidget
 			QListWidgetItem* item = *i;
 			int row = indexFromItem(item).row();
 			itemHash[row] = item;
-			maxIndex = QMAX(maxIndex, row);
+			maxIndex = qMax(maxIndex, row);
 		}
 		for(int i = 0; i <= maxIndex; ++i) {
 			QHash<int, QListWidgetItem*>::iterator it = itemHash.find(i);

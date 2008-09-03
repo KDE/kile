@@ -215,16 +215,18 @@ bool ConvertBase::convert()
 		return false;
 	}
 
-	m_io->text() = QString();
+	m_io->text().clear();
 	do {
 		m_io->nextLine();
 		int i = 0;
 		while(i < m_io->currentLine().length()) {
 			m_io->text() += mapNext(i);
 		}
-		if ( ! m_io->done() ) m_io->text() += '\n';
+		if(!m_io->done()) {
+			m_io->text() += '\n';
+		}
 	}
-	while ( ! m_io->done() );
+	while(!m_io->done());
 
 	m_io->writeText();
 	return true;

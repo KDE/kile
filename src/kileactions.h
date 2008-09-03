@@ -37,10 +37,10 @@ enum { KeepHistory=1, ShowAlternative=2, ShowBrowseButton=4, FromLabelList=8, Fr
 class TagData
 {
 public:
-	TagData(const QString &t, const QString &tB = QString::null, const QString &tE = QString::null, int x = 0, int y = 0, const QString &desc = QString::null)
+	TagData(const QString &t, const QString &tB = QString(), const QString &tE = QString(), int x = 0, int y = 0, const QString &desc = QString())
 		: text(t), tagBegin(tB), tagEnd(tE), dx(x), dy(y), description(desc) {}
 
-	TagData() : text(QString::null), tagBegin(QString::null), tagEnd(QString::null), dx(0), dy(0), description(QString::null) {}
+	TagData() : text(QString()), tagBegin(QString()), tagEnd(QString()), dx(0), dy(0), description(QString()) {}
 
 	QString		text;
 	QString		tagBegin, tagEnd;

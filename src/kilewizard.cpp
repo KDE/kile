@@ -19,7 +19,7 @@ namespace KileDialog
 {
 	Wizard::Wizard(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
 		KDialog(parent),
-		m_td(QString::null, QString::null, QString::null, 0, 0, QString::null),
+		m_td(QString(), QString(), QString(), 0, 0, QString()),
 		m_config(config)
 	{
 		setObjectName(name);

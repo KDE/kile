@@ -76,12 +76,12 @@ KTextEditor::Document * KileInfo::activeTextDocument() const
 QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 {
 	KILE_DEBUG() << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << endl;
-	QString title=QString::null;
+	QString title;
 	
-	if (!doc)
+	if (!doc) {
 		doc = activeTextDocument();
-	if (doc)
-	{
+	}
+	if (doc) {
 		KILE_DEBUG() << "url " << doc->url().path() << endl;
 		title = shrt ? doc->url().fileName() : doc->url().path();
 	}
@@ -93,82 +93,78 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 {
 	KileProject *project = docManager()->activeProject();
 
-	if (m_singlemode)
-	{
-		if (project)
-		{
-			if (project->masterDocument().length() > 0)
-			{
+	if (m_singlemode) {
+		if (project) {
+			if (project->masterDocument().length() > 0) {
 				KUrl master = KUrl::fromPathOrUrl(project->masterDocument());
 				if (shrt) return master.fileName();
 				else return master.path();
 			}
-			else
-			{
+			else {
 				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
-				if (item)
-				{
+				if (item) {
 					KUrl url = item->url();
 					if (shrt) return url.fileName();
 					else return url.path();
 				}
 				else
-					return QString::null;
+					return QString();
 			}
 		}
-		else
+		else {
 			return getName(activeTextDocument(), shrt);
+		}
 	}
-	else
-	{
+	else {
 		QFileInfo fi(m_masterName);
-		if (shrt)
+		if(shrt) {
 			return fi.fileName();
-		else
+		}
+		else {
 			return m_masterName;
+		}
 	}
 }
 
-QString KileInfo::getFullFromPrettyName(const QString & name)
+QString KileInfo::getFullFromPrettyName(const QString& name)
 {
-	if(name.isNull())
+	if(name.isEmpty()) {
 		return name;
-
+	}
+	
 	QString file = name;
 
-	if (file.left(2) == "./" )
-	{
+	if(file.left(2) == "./") {
 		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file.mid(2);
 	}
 
-	if (file[0] != '/' )
-	{
+	if(file[0] != '/') {
 		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file;
 	}
 
 	QFileInfo fi(file);
-	if ( file.isNull() || fi.isDir() || (! fi.exists()) || (! fi.isReadable()))
-	{
+	if(file.isEmpty() || fi.isDir() || (! fi.exists()) || (! fi.isReadable())) {
 		// - call from logwidget or error handling, which 
 		//   tries to determine the LaTeX source file
 		bool found = false;
 		QStringList extlist = (m_extensions->latexDocuments()).split(" ");
-		for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
-		{
+		for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
 			QString name = file + (*it);
-			if ( QFileInfo(name).exists() )
-			{
+			if(QFileInfo(name).exists()) {
 				file = name;
 				fi.setFile(name);
 				found = true;
 				break;
 			}
 		}
-		if ( ! found )
-			file = QString::null;
+		if(!found) {
+			file.clear();
+		}
 	}
 
-	if ( ! fi.isReadable() ) return QString::null;
+	if(!fi.isReadable()) {
+		return QString();
+	}
 
 	return file;
 }
@@ -389,7 +385,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 			break;
 		default:
 			KILE_DEBUG() << "Unknown type in checkOtherPaths" << endl;
-			return QString::null;
+			return QString();
 			break;
 	}
 
@@ -397,15 +393,13 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 	inputpaths.prepend(path);
 
 		// the first match is supposed to be the correct one
-	for ( QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it )
-	{
+	for(QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it) {
 		KILE_DEBUG() << "path is " << *it << "and file is " << file << endl;
 		info.setFile((*it) + '/' + file);
-		if(info.exists())
-		{
+		if(info.exists()) {
 			KILE_DEBUG() << "filepath after correction is: " << info.path() << endl;
 			return info.absoluteFilePath();
 		}
 	}
-	return QString::null;
+	return QString();
 }

@@ -77,7 +77,7 @@ QString Extensions::fileFilter(uint type)
 			text = i18n("Kile Project Files");
 			break;
 		default:
-			return QString::null;
+			return QString();
 	}
 
 	ext.replace(".","*.");

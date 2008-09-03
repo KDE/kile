@@ -331,8 +331,8 @@ void MathEnvironmentDialog::slotButtonClicked(int button)
 		}
 
 		// get displaymath mode
-		QString displaymathbegin = QString::null;
-		QString displaymathend = QString::null;
+		QString displaymathbegin;
+		QString displaymathend;
 		if(m_coDisplaymath->isEnabled()) {
 			QString mathmode = m_coDisplaymath->currentText();
 			if(!mathmode.isEmpty()) {

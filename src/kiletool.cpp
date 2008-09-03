@@ -69,13 +69,15 @@ namespace KileTool
 
 	QString Base::source(bool absolute /* = true */) const
 	{
-		if (m_source.isNull())
-			return QString::null;
+		if (m_source.isEmpty()) {
+			return QString();
+		}
 
 		QString src = m_source;
-		if (absolute)
+		if (absolute) {
 			src = m_basedir + '/' + src;
-			
+		}
+
 		return src;
 	}
 	

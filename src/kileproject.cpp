@@ -61,7 +61,8 @@ KileProjectItem::KileProjectItem(KileProject *project, const KUrl & url, int typ
 	m_nLine(0),
 	m_order(-1)
 {
-	m_highlight=m_encoding=QString::null;
+	m_highlight.clear();
+	m_encoding.clear();
 	m_bOpen = m_archive = true;
 
 	if (project)
@@ -372,7 +373,7 @@ bool KileProject::load()
 		if(KMessageBox::warningYesNo(NULL, i18n("The project file of %1 was created by a newer version of kile.\
 				Opening it can lead to unexpected results.\n\
 				Do you really want to continue (not recommended)?", m_name),
-				 QString::null, KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No)
+				 QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No)
 		{
 			m_invalid=true;
 			return false;
@@ -716,15 +717,16 @@ void KileProject::setMasterDocument(const QString & master){
 		QFileInfo fi(master);
 		if(fi.exists())
 			m_masterDocument = master;
-		else{
-			m_masterDocument = QString::null;
+		else {
+			m_masterDocument.clear();
 			KILE_DEBUG() << "setMasterDocument: masterDoc=NULL";	
 		}
 	
 	}
-	else
-		m_masterDocument = QString::null;
-	
+	else {
+		m_masterDocument.clear();
+	}
+
 	emit (masterDocumentChanged(m_masterDocument));
 }
 

@@ -399,12 +399,12 @@ QTreeWidget *CodeCompletionConfigWidget::getListview(QWidget *page)
 
 QString CodeCompletionConfigWidget::getListname(QWidget *page)
 {
-	for (uint i = TexPage; i < NumPages; ++i)
-	{
-		if (page == m_page[i])
+	for (uint i = TexPage; i < NumPages; ++i) {
+		if(page == m_page[i]) {
 			return m_dirname[i];
+		}
 	}
-	return QString::null;
+	return QString();
 }
 
 //////////////////// shwo tabpages ////////////////////
@@ -412,8 +412,9 @@ QString CodeCompletionConfigWidget::getListname(QWidget *page)
 void CodeCompletionConfigWidget::showPage(QWidget *page)
 {
 	QTreeWidget *listview = getListview(page);
-	if (listview)
+	if(listview) {
 		remove->setEnabled(listview->selectedItems().count() > 0);
+	}
 }
 
 //////////////////// add/remove new wordlists ////////////////////
@@ -423,13 +424,11 @@ void CodeCompletionConfigWidget::showPage(QWidget *page)
 void CodeCompletionConfigWidget::getCwlDirs()
 {
 	m_localCwlDir = KStandardDirs::locateLocal("appdata", "complete/");
-	m_globalCwlDir = QString::null;
+	m_globalCwlDir.clear();
 
 	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "complete/");
-	for (QStringList::ConstIterator it = dirs.begin(); it != dirs.end(); ++it)
-	{
-		if ((*it) != m_localCwlDir)
-		{
+	for(QStringList::ConstIterator it = dirs.begin(); it != dirs.end(); ++it) {
+		if((*it) != m_localCwlDir) {
 			m_globalCwlDir = (*it);
 			break;
 		}

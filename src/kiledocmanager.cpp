@@ -591,16 +591,16 @@ KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocu
 
 KTextEditor::View* Manager::createNewJScript()
 {
-	KTextEditor::View *view = createDocumentWithText(QString::null, Script, "js", m_ki->scriptManager()->getLocalScriptDirectory());
-	emit(updateStructure(false, 0L));
+	KTextEditor::View *view = createDocumentWithText(QString(), Script, "js", m_ki->scriptManager()->getLocalScriptDirectory());
+	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
 	return view;
 }
 
 KTextEditor::View* Manager::createNewLaTeXDocument()
 {
-	KTextEditor::View *view = createDocumentWithText(QString::null, LaTeX);
-	emit(updateStructure(false, 0L));
+	KTextEditor::View *view = createDocumentWithText(QString(), LaTeX);
+	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
 	return view;
 }
@@ -677,7 +677,7 @@ void Manager::fileNew(const KUrl & url)
 	file.open(QIODevice::ReadWrite);
 	file.close();
 
-	fileOpen(url, QString::null);
+	fileOpen(url, QString());
 }
 
 void Manager::fileOpen()
@@ -1255,7 +1255,7 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 	if (m_ki->isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
 		emit removeFromProjectView(item->url());
 
-	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString::null, openProjectItemViews);
+	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
 
 	if ( (!item->isOpen()) && (view == 0L) && (item->getInfo()) ) //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());

@@ -2065,7 +2065,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 
 void Kile::insertTag(const QString& tagB, const QString& tagE, int dx, int dy)
 {
-	insertTag(KileAction::TagData(QString::null,tagB,tagE,dx,dy));
+	insertTag(KileAction::TagData(QString(), tagB, tagE, dx, dy));
 }
 
 void Kile::insertAmsTag(const KileAction::TagData& data)
@@ -2101,12 +2101,12 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
 void Kile::insertText(const QString &text)
 {
-	insertTag( KileAction::TagData(QString::null,text,"%C",0,0) );
+	insertTag(KileAction::TagData(QString(), text, "%C", 0, 0));
 }
 
 void Kile::insertText(const QString &text, const QStringList &pkgs)
 {
-	insertTag( KileAction::TagData(QString::null,text,"%C",0,0),pkgs );
+	insertTag(KileAction::TagData(QString(), text, "%C", 0, 0), pkgs);
 }
 
 void Kile::quickDocument()
@@ -2196,7 +2196,7 @@ void Kile::quickMathenv()
 void Kile::quickPostscript()
 {
 	QString startdir = QDir::homePath();
-	QString texfilename = QString::null;
+	QString texfilename;
 
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
@@ -2451,9 +2451,9 @@ void Kile::toggleMode()
 	if (!m_singlemode) {
 		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
 		ModeAction->setChecked(false);
-		m_logPresent=false;
-		m_singlemode=true;
-		m_masterName=QString::null;
+		m_logPresent = false;
+		m_singlemode = true;
+		m_masterName.clear();
 	}
 	else if (m_singlemode && viewManager()->currentTextView()) {
 		m_masterName=getName();

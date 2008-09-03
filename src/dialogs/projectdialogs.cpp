@@ -197,9 +197,9 @@ KileProject* KileProjectDlgBase::project()
 
 void KileProjectDlgBase::fillProjectDefaults()
 {
-	m_val_extensions[0] = QString::null;
-	m_val_extensions[1] = QString::null;
-	m_val_extensions[2] = QString::null;
+	m_val_extensions[0].clear();
+	m_val_extensions[1].clear();
+	m_val_extensions[2].clear();
 	//m_val_extensions[3] = OTHER_EXTENSIONS;
 
 	m_val_standardExtensions[0] = m_extmanager->latexDocuments();

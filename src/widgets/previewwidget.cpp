@@ -103,7 +103,7 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 		m_conversionTool = "dvipng";
 		tasklist = "PreviewLaTeX,,,,,png";
 		tool = "DVItoPNG";
-		toolcfg = QString::null;
+		toolcfg.clear();
 		extension = "dvi";
 	}
 

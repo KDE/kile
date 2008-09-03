@@ -73,11 +73,14 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	m_useMathOrTab = false;
 	m_useOption = m_useParameter = true;
-	if (cmdtype == KileDocument::CmdAttrAmsmath || cmdtype == KileDocument::CmdAttrMath  || cmdtype == KileDocument::CmdAttrTabular)
+	if (cmdtype == KileDocument::CmdAttrAmsmath || cmdtype == KileDocument::CmdAttrMath  || cmdtype == KileDocument::CmdAttrTabular) {
 		m_useMathOrTab = true;
-	else
-		if (cmdtype == KileDocument::CmdAttrVerbatim)
+	}
+	else {
+		if(cmdtype == KileDocument::CmdAttrVerbatim) {
 			m_useParameter = false;
+		}
+	}
 
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -113,15 +116,16 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	label3->setBuddy(m_edName);
 	label4->setBuddy(m_chStarred);
 	grouplabel->setWhatsThis(i18n("Name of the group, to which this environment or command belongs."));
-	if (m_addmode)
+	if (m_addmode) {
 		m_edName->setWhatsThis(i18n("Name of the new environment or command."));
-	else
+	}
+	else {
 		m_edName->setWhatsThis(i18n("Name of the environment or command to edit."));
+	}
 	m_chStarred->setWhatsThis(i18n("Does this environment or command also exist in a starred version?"));
 
 	int currentRow = 3;
-	if (m_useMathOrTab)
-	{
+	if (m_useMathOrTab) {
 		QLabel *label5 = new QLabel(i18n("\\\\ is end of &line:"), group);
 		QLabel *label6 = new QLabel(i18n("Needs &math mode:"), group);
 		QLabel *label7 = new QLabel(i18n("&Tabulator:"), group);
@@ -151,8 +155,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		currentRow += 3;
 	}
 
-	if (m_useOption)
-	{
+	if (m_useOption) {
 		QLabel *label8 = new QLabel(i18n("Opt&ion:"), group);
 		m_coOption = new QComboBox(group);
 		grid->addWidget(label8, currentRow, 0);
@@ -161,14 +164,12 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		label8->setBuddy(m_coOption);
 
 		m_coOption->addItem(QString());
-		if (m_envmode)
-		{
+		if (m_envmode) {
 			m_coOption->addItem("[tcb]");
 			m_coOption->addItem("[lcr]");
 			m_coOption->setWhatsThis(i18n("Define an optional alignment parameter."));
 		}
-		else
-		{
+		else {
 			m_coOption->setWhatsThis(i18n("Does this command need an optional parameter."));
 		}
 		m_coOption->addItem("[ ]");
@@ -176,8 +177,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		currentRow++;
 	}
 
-	if (m_useParameter)
-	{
+	if(m_useParameter) {
 		QLabel *label9 = new QLabel(i18n("&Parameter:"), group);
 		m_coParameter = new QComboBox(group);
 		grid->addWidget(label9, currentRow, 0);
@@ -185,9 +185,8 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 		label9->setBuddy(m_coParameter);
 
-		if (m_envmode)
-		{
-			m_coParameter->addItem(QString::null);
+		if(m_envmode) {
+			m_coParameter->addItem(QString());
 			m_coParameter->addItem("{n}");
 			m_coParameter->addItem("{w}");
 			m_coParameter->addItem("{ }");
@@ -207,16 +206,13 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	//grid->setRowStretch(maxrows-1,1);
 
 	// add or edit mode
-	if (m_addmode)                     // add mode
-	{
+	if(m_addmode) {                    // add mode
 		QString pattern;
-		if (m_envmode)
-		{
+		if(m_envmode) {
 			label1->setText(i18n("Define a new LaTeX environment:"));
 			pattern = "[A-Za-z]+";
 		}
-		else
-		{
+		else {
 			label1->setText(i18n("Define a new LaTeX command:"));
 			pattern = "\\\\?[A-Za-z]+";
 		}
@@ -224,25 +220,22 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		m_edName->setValidator(new QRegExpValidator(reg, m_edName));
 		m_edName->setFocus();
 	}
-	else                          // edit mode
-	{
+	else {                         // edit mode
 		// always insert name and starred attribute
 		m_edName->setText(lvitem->text(0));
 		m_edName->setReadOnly(true);
 		m_chStarred->setChecked(lvitem->text(1) == "*");
 
 		int index;
-		if (m_envmode)             // insert existing arguments for environments
-		{
+		if (m_envmode) {            // insert existing arguments for environments
 			label1->setText(i18n("Edit a LaTeX Environment"));
-			if (m_useMathOrTab)
-			{
+			if(m_useMathOrTab) {
 				m_chEndofline->setChecked(lvitem->text(2) == "\\\\");
 				m_chMath->setChecked(lvitem->text(3) == "$");
 				if ((index = m_coTab->findText(lvitem->text(4))) > -1)
 					m_coTab->setCurrentIndex(index);
 			}
-			if (m_useOption) {
+			if(m_useOption) {
 				if ((index = m_coOption->findText(lvitem->text(5))) > -1)
 					m_coOption->setCurrentIndex(index);
 			}
@@ -251,16 +244,17 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 					m_coParameter->setCurrentIndex(index);
 			}
 		}
-		else                      // insert existing arguments for commands
-		{
+		else {                     // insert existing arguments for commands
 			label1->setText(i18n("Edit a LaTeX Command"));
 			if (m_useOption) {
-				if ((index = m_coOption->findText(lvitem->text(2))) > -1)
+				if ((index = m_coOption->findText(lvitem->text(2))) > -1) {
 					m_coOption->setCurrentIndex(index);
+				}
 			}
 			if (m_useParameter) {
-				if ((index = m_coParameter->findText(lvitem->text(3))) > -1)
+				if ((index = m_coParameter->findText(lvitem->text(3))) > -1) {
 					m_coParameter->setCurrentIndex(index);
+				}
 			}
 		}
 	}
@@ -276,8 +270,9 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttributes &attr)
 {
 	name = m_edName->text();
-	if (m_envmode == false && name.at(0) != '\\')
+	if(m_envmode == false && name.at(0) != '\\') {
 		name.prepend('\\');
+	}
 
 	// set main attributes
 	attr.standard = false;
@@ -285,37 +280,35 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
 	attr.starred = m_chStarred->isChecked();
 
 	// read all atributes attributes
-	if (m_useMathOrTab)
-	{
+	if(m_useMathOrTab) {
 		attr.cr = m_chEndofline->isChecked();
 		attr.mathmode = m_chMath->isChecked();
 		attr.displaymathmode = false;
 		attr.tabulator = m_coTab->currentText();
 	}
-	else
-	{
+	else {
 		attr.cr = false;
 		attr.mathmode = false;
 		attr.displaymathmode = false;
-		attr.tabulator = QString::null;
+		attr.tabulator.clear();
 	}
 
-	attr.option = (m_useOption) ? m_coOption->currentText() : QString::null;
-	attr.parameter = (m_useParameter) ? m_coParameter->currentText() : QString::null;
+	attr.option = (m_useOption) ? m_coOption->currentText() : QString();
+	attr.parameter = (m_useParameter) ? m_coParameter->currentText() : QString();
 }
 
 void NewLatexCommand::slotOk()
 {
 	// check for an empty string
-	if (m_edName->text().isEmpty())
-	{
+	if(m_edName->text().isEmpty()) {
 		KMessageBox::error(this, i18n("An empty string is not allowed."));
 		return;
 	}
 
 	QString name = m_edName->text();
-	if (m_envmode == false && name.at(0) != '\\')
+	if (m_envmode == false && name.at(0) != '\\') {
 		name.prepend('\\');
+	}
 
 	if (m_addmode && m_dict->contains(name)) {
 		QString msg = (m_envmode) ? i18n("This environment already exists.")
@@ -624,7 +617,7 @@ void LatexCommandsDialog::getEntry(QTreeWidgetItem *item, KileDocument::LatexCmd
 		attr.cr = false;
 		attr.mathmode = false;
 		attr.displaymathmode = false;
-		attr.tabulator = QString::null;
+		attr.tabulator.clear();
 		attr.option = item->text(2);
 		attr.parameter = item->text(3);
 	}

@@ -68,7 +68,7 @@ class TexDocDialog : public KDialog
 		void showFile(const QString &filename);
 
 		QString searchFile(const QString &docfilename, const QString &listofpathes,
-		                   const QString &subdir = QString::null);
+		                   const QString &subdir = QString());
 		void decompressFile(const QString &docfile, const QString &command);
 		void showStyleFile(const QString &filename, const QString &stylecode);
 

@@ -92,11 +92,11 @@ namespace KileDialog
 
 		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
 		                    const QString &itemName, const QString &pixmapName,
-		                    const QString &header=QString::null, bool addSpacer = true);
+		                    const QString &header = QString(), bool addSpacer = true);
 
 		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
 		                    const QString &itemName, const KIcon& icon,
-		                    const QString &header=QString::null, bool addSpacer = true);
+		                    const QString &header = QString(), bool addSpacer = true);
 
 		void setupGeneralOptions(KPageWidgetItem* parent);
 		void setupTools(KPageWidgetItem* parent);

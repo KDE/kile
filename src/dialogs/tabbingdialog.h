@@ -33,8 +33,8 @@ class QuickTabbing : public Wizard
 		Q_OBJECT
 
 	public:
-		QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent = 0,
-		             const char *name = 0, const QString &caption = QString::null);
+		QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent = NULL,
+		             const char *name = NULL, const QString &caption = QString());
 		~QuickTabbing();
 
 	public Q_SLOTS:

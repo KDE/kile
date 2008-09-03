@@ -1543,8 +1543,8 @@ void QuickDocument::printPackages()
 	KILE_DEBUG() << "\tpackages";
 
 	m_currentHyperref = false;
-	m_hyperrefdriver = QString();
-	m_hyperrefsetup = QString();
+	m_hyperrefdriver.clear();
+	m_hyperrefsetup.clear();
 
 	for (int i = 0; i < m_lvPackages->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *cur = m_lvPackages->topLevelItem(i);
@@ -2004,7 +2004,7 @@ void QuickDocument::slotPackageEdit()
 //  checkmode = qd_CheckPackage;
 		caption = i18n("Edit Package");
 		labelText = i18n("&Package:");
-		optionname = QString();
+		optionname.clear();
 		editableOption = false;
 	}
 

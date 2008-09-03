@@ -77,7 +77,7 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
 	connect(m_leExpansion,SIGNAL(textChanged(const QString &)),
 	        this,SLOT(slotTextChanged(const QString &)));
 
-	slotTextChanged(QString::null);
+	slotTextChanged(QString());
 	m_leAbbrev->setFocus();
 	page->setMinimumWidth(350);
 }

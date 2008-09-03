@@ -329,7 +329,7 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 #endif
 	if(!m_tempfile->open()) {
 		KMessageBox::error(this, i18n("Could not create a temporary file."));
-		m_filename = QString();
+		m_filename.clear();
 		return;
 	}
 	m_filename = m_tempfile->fileName();
@@ -561,7 +561,7 @@ void TexDocDialog::executeScript(const QString &command)
 	m_proc->setShellCommand(command);
 	m_proc->setOutputChannelMode(KProcess::MergedChannels);
 	m_proc->setReadChannel(QProcess::StandardOutput);
-	m_output = QString();
+	m_output.clear();
 
 	connect(m_proc, SIGNAL(readyReadStandardOutput()),
 	        this,   SLOT(slotProcessOutput()));

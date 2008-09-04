@@ -1,9 +1,8 @@
-//
-// C++ Implementation: previewwidget
-//
-// Author: Mathias Soeken <msoeken@informatik.uni-bremen.de>, (C) 2006
-//         (orginal version of this preview)
-//
+/*****************************************************************************
+*   Copyright (C) 2006 by Mathias Soeken (msoeken@informatik.uni-bremen.de)  *
+*                        (orginal version of this preview)                   *
+******************************************************************************/
+
 // dani/2006:
 //  - signal/slot communication
 //  - user defined resolution of the png image
@@ -11,10 +10,15 @@
 //  - install three possible conversion methods: dvipng, dvips/convert for documents
 //    with postscript source and convert for source, which needs the pdftex driver
 //  - preview configuration dialog
-//
-// Copyright: See COPYING file that comes with this distribution
-//
-//
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
 
 #include "widgets/previewwidget.h"
 

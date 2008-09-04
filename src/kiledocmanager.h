@@ -1,14 +1,7 @@
-//
-// C++ Interface: kiledocmanager
-//
-// Description: 
-//
-//
-// Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006-2008
-//
-// Copyright: See COPYING file that comes with this distribution
-//
+/**************************************************************************
+*   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
+*             (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *

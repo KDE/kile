@@ -1,14 +1,6 @@
-//
-//
-// C++ Implementation: kilestdactions
-//
-// Description:
-//
-//
-// Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2003
-//
-// Copyright: See COPYING file that comes with receiver distribution
-//
+/**************************************************************************
+*   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *

@@ -1,12 +1,7 @@
-//
-// C++ Interface: kileviewmanager
-//
-// Description: 
-//
-//
-// Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2004
-//         Michel Ludwig <michel.ludwig@kdemail.net>, (C) 2006-2008
-//
+/**************************************************************************
+*   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
+*             (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *

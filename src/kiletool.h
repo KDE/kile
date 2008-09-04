@@ -195,16 +195,16 @@ namespace KileTool
 
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }
-		const QString readEntry(const QString & key) { return m_entryMap[key]; }
+		const QString readEntry(const QString& key) { return m_entryMap[key]; }
 
-		virtual void prepareToRun(const QString &cfg = QString::null);
+		virtual void prepareToRun(const QString &cfg = QString());
 		bool isPrepared() { return m_bPrepared; }
 		bool needsToBePrepared() { return m_bPrepareToRun; }
 
 		/**
 		 * Configures the tool object.
 		 **/
-		 virtual bool configure(const QString & cfg = QString::null);
+		 virtual bool configure(const QString& cfg = QString());
 
 	protected:
 		Launcher	*m_launcher;

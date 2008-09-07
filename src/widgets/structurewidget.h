@@ -23,6 +23,7 @@
 #include <QTreeWidget>
 
 #include <KMenu>
+#include <KMimeTypeTrader>
 #include <KService>
 
 #include "documentinfo.h"
@@ -43,9 +44,9 @@ namespace KileWidget
 class StructureViewItem : public QTreeWidgetItem
 {
 public:
-	StructureViewItem(QTreeWidgetItem* parent, QTreeWidgetItem * after, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
-	StructureViewItem(QTreeWidget* parent, const QString & label);
-	StructureViewItem(QTreeWidgetItem* parent, const QString & label);
+	StructureViewItem(QTreeWidgetItem *parent, QTreeWidgetItem *after, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
+	StructureViewItem(QTreeWidget *parent, const QString &label);
+	StructureViewItem(QTreeWidgetItem *parent, const QString &label);
 
 	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() const { return m_title; }
@@ -84,7 +85,7 @@ class KileReferenceData
 {
 public:
 	KileReferenceData() {}
-	KileReferenceData(const QString &name,uint line,uint column) : m_name(name), m_line(line), m_column(column) {}
+	KileReferenceData(const QString &name, uint line, uint column) : m_name(name), m_line(line), m_column(column) {}
 	~KileReferenceData() {}
 	
 	const QString &name() const { return m_name; }
@@ -116,18 +117,21 @@ private:
 
 	public Q_SLOTS:
 		void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
-		             const QString & pix, const QString &folder = "root" );
+		             const QString &pix, const QString &folder = "root");
 		void slotConfigChanged();
 
+	protected:
+		virtual void contextMenuEvent(QContextMenuEvent *event);
+
 	private:
-		StructureViewItem *parentFor(int lev, const QString & fldr);
+		StructureViewItem* parentFor(int lev, const QString &fldr);
 
 		void init();
 		StructureViewItem* createFolder(const QString &folder);
 		StructureViewItem* folder(const QString &folder);
 
 		void saveState();
-		bool shouldBeOpen(StructureViewItem *item, const QString & folder, int level);
+		bool shouldBeOpen(StructureViewItem *item, const QString &folder, int level);
 
 	private:
 		StructureWidget				*m_stack;
@@ -156,35 +160,37 @@ private:
 
 	class StructureWidget : public QStackedWidget
 	{
+		friend class StructureView;
+
 		Q_OBJECT
 
 		public:
-			StructureWidget(KileInfo *, QWidget * parent, const char * name = 0);
+			StructureWidget(KileInfo*, QWidget *parent, const char *name = NULL);
 			~StructureWidget();
 
 			int level();
 			KileInfo *info() { return m_ki; }
 
-			bool findSectioning(StructureViewItem *item, KTextEditor::Document *doc, int row, int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
+			bool findSectioning(StructureViewItem *item, KTextEditor::Document *doc, int row,
+			                    int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
 			void updateUrl(KileDocument::Info *docinfo);
 
-		enum { SectioningCut=10, SectioningCopy=11, SectioningPaste=12, 
-		       SectioningSelect=13, SectioningDelete=14, 
-		       SectioningComment=15,
-		       SectioningPreview=16,
-		       SectioningGraphicsOther=100, SectioningGraphicsOfferlist=101
+		enum { SectioningCut = 10, SectioningCopy = 11, SectioningPaste = 12, 
+		       SectioningSelect = 13, SectioningDelete = 14, 
+		       SectioningComment = 15,
+		       SectioningPreview = 16,
+		       SectioningGraphicsOther = 100, SectioningGraphicsOfferlist = 101
 		     };
 
 		public Q_SLOTS:
 			void slotClicked(QTreeWidgetItem *);
 			void slotDoubleClicked(QTreeWidgetItem *);
-// 			void slotPopup(QTreeWidget*, QTreeWidgetItem *itm, const QPoint &point);
 			void slotPopupActivated(int id);
 
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
-			void update(KileDocument::Info*);
-			void update(KileDocument::Info *, bool, bool activate =true);
+			void update(KileDocument::Info *);
+			void update(KileDocument::Info *, bool, bool activate = true);
 			void clean(KileDocument::Info *);
 			void updateReferences(KileDocument::Info *);
 
@@ -194,12 +200,15 @@ private:
 			void clear();
 
 		Q_SIGNALS:
-			void sendText(const QString &);
-			void setCursor(const KUrl &, int, int);
-			void fileOpen(const KUrl &, const QString &);
-			void fileNew(const KUrl &);
+			void sendText(const QString&);
+			void setCursor(const KUrl&, int, int);
+			void fileOpen(const KUrl&, const QString&);
+			void fileNew(const KUrl&);
 			void configChanged();
-			void sectioningPopup(StructureViewItem *item, int id);
+			void sectioningPopup(KileWidget::StructureViewItem *item, int id);
+
+		protected:
+			void viewContextMenuEvent(StructureView *view, QContextMenuEvent *event);
 
 		private:
 			StructureView* viewFor(KileDocument::Info *info);
@@ -214,8 +223,7 @@ private:
 			KileDocument::Info						*m_docinfo;
 			QMap<KileDocument::Info *, StructureView*>			m_map;
 			StructureView							*m_default;
-			
-			KMenu *m_popup;
+
 			StructureViewItem *m_popupItem;
 			QString m_popupInfo;
 			

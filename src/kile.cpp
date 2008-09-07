@@ -435,7 +435,7 @@ void Kile::setupStructureView()
 	connect(m_kwStructure, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
 	connect(m_kwStructure, SIGNAL(fileNew(const KUrl&)), docManager(), SLOT(fileNew(const KUrl&)));
 	connect(m_kwStructure, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
-	connect(m_kwStructure, SIGNAL(sectioningPopup(KileListViewItem *,int)), m_edit, SLOT(sectioningCommand(KileListViewItem *,int)));
+	connect(m_kwStructure, SIGNAL(sectioningPopup(KileWidget::StructureViewItem*,int)), m_edit, SLOT(sectioningCommand(KileWidget::StructureViewItem*,int)));
 }
 
 void Kile::setupScriptsManagementView()

@@ -63,6 +63,7 @@
 #include <QHeaderView>
 #include <QRegExp>
 #include <QScrollBar>
+#include <QSignalMapper>
 
 #include <KIcon>
 #include <KLocale>
@@ -139,7 +140,6 @@ void StructureViewItem::setLabel(const QString &label)
 
 		//connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotDoubleClicked(QTreeWidgetItem*)));
-		connect(this, SIGNAL(contextMenu(K3ListView *, QTreeWidgetItem *, const QPoint & )), m_stack, SLOT(slotPopup(K3ListView *, QTreeWidgetItem * , const QPoint & )));
 		
 		connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotClicked(QTreeWidgetItem*)));
 		connect(m_stack, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
@@ -215,6 +215,11 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 		cleanUp(false);
  		m_stack->update(m_docinfo, true, false);
+	}
+
+	void StructureView::contextMenuEvent(QContextMenuEvent *event)
+	{
+		m_stack->viewContextMenuEvent(this, event);
 	}
 
 	void StructureView::saveState()
@@ -598,12 +603,6 @@ void StructureViewItem::setLabel(const QString &label)
 
 		m_default = new StructureView(this, NULL);
 		m_default->activate();
-
-#ifdef __GNUC__
-#warning The popup menu still needs to be ported!
-#endif
-//FIXME: port for KDE4
-// 		m_popup = new KMenu(this, "structureview_popup");
 	}
 
 	StructureWidget::~StructureWidget()
@@ -718,92 +717,100 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 	}
 
-	// all popup items get different id's, so that we can see, what item is activated
+// all popup items get different id's, so that we can see, what item is activated
 	//  - label:       1 -  6
 	//  - sectioning: 10 - 16
 	//  - graphics:   100ff
+	void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEvent *event)
+	{
+		KILE_DEBUG() << "\tcalled";
 
-// 	void StructureWidget::slotPopup(K3ListView *, QTreeWidgetItem *itm, const QPoint &point)
-// 	{
-#ifdef __GNUC__
-#warning The popup menu still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-		KILE_DEBUG() << "\tStructureWidget::slotPopup";
-		
-		m_popupItem = (StructureViewItem *)(itm);
-		if ( ! m_popupItem )
+		QSignalMapper signalMapper;
+		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
+		KMenu popup;
+		QAction *action = NULL;
+
+		m_popupItem = dynamic_cast<StructureViewItem*>(view->itemAt(event->pos()));
+		if(!m_popupItem) {
+			KILE_DEBUG() << "not a pointer to a StructureViewItem object.";
 			return;
-			
-		m_popup->clear();
-		m_popup->disconnect();
-		
-		bool hasLabel = ! m_popupItem->label().isEmpty();
-		if ( m_popupItem->type() == KileStruct::Sect )
-		{
-			if ( hasLabel )
-				m_popup->insertTitle(i18n("Sectioning"));
-			m_popup->insertItem(i18n("Cu&t"),SectioningCut);
-			m_popup->insertItem(i18n("&Copy"),SectioningCopy);
-			m_popup->insertItem(i18n("&Paste below"),SectioningPaste);
-			m_popup->insertSeparator();
-			m_popup->insertItem(i18n("&Select"),SectioningSelect);
-			m_popup->insertItem(i18n("&Delete"),SectioningDelete);
-			m_popup->insertSeparator();
-			m_popup->insertItem(i18n("C&omment"),SectioningComment);
-			m_popup->insertSeparator();
-			m_popup->insertItem(i18n("Run QuickPreview"), SectioningPreview);
 		}
-		else if ( m_popupItem->type() == KileStruct::Graphics )
-		{
+
+		bool hasLabel = !(m_popupItem->label().isEmpty());
+
+		if(m_popupItem->type() == KileStruct::Sect) {
+			if(hasLabel) {
+				popup.addTitle(i18n("Sectioning"));
+			}
+			action = popup.addAction(i18n("Cu&t"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningCut);
+			action = popup.addAction(i18n("&Copy"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningCopy);
+			action = popup.addAction(i18n("&Paste below"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningPaste);
+			popup.addSeparator();
+			action = popup.addAction(i18n("&Select"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningSelect);
+			action = popup.addAction(i18n("&Delete"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningDelete);
+			popup.addSeparator();
+			action = popup.addAction(i18n("C&omment"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningComment);
+			popup.addSeparator();
+			action = popup.addAction(i18n("Run QuickPreview"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, SectioningPreview);
+		}
+		else if(m_popupItem->type() == KileStruct::Graphics) {
 			m_popupInfo = m_popupItem->title();
-						
-			if(m_popupInfo.left(1) != "/") // no absolute path
-			{
+
+			if(m_popupInfo.left(1) != "/") { // no absolute path
 				QString fn = m_ki->getCompileName();
 				m_popupInfo = QFileInfo(fn).path() + '/' + m_popupInfo;
 			}
 			
 			QFileInfo fi(m_popupInfo);
-			if ( fi.isReadable() )
-			{
+			if(fi.isReadable()) {
 				KUrl url;
 				url.setPath(m_popupInfo);
 				
 				m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(url)->name(), "Application");
-				for (uint i=0; i < m_offerList.count(); ++i)
-				{
-					m_popup->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+SectioningGraphicsOfferlist);
+				for(int i = 0; i < m_offerList.count(); ++i) {
+					action = popup.addAction(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(),
+					                         &signalMapper, SLOT(map()));
+					signalMapper.setMapping(action, i + SectioningGraphicsOfferlist);
 				}
-				m_popup->insertSeparator();
-				m_popup->insertItem(i18n("Other..."), SectioningGraphicsOther);
+				popup.addSeparator();
+				action = popup.addAction(i18n("Other..."), &signalMapper, SLOT(map()));
+				signalMapper.setMapping(action, SectioningGraphicsOther);
 			}
 		}
-		
-		if ( hasLabel)
-		{
-			m_popup->insertTitle(i18n("Insert Label"));
-			m_popup->insertItem(i18n("As &reference"),1);
-			m_popup->insertItem(i18n("As &page reference"),2);
-			m_popup->insertItem(i18n("Only the &label"),3);
-			m_popup->insertSeparator();
-			m_popup->insertTitle(i18n("Copy Label to Clipboard"));
-			m_popup->insertItem(i18n("As reference"),4);
-			m_popup->insertItem(i18n("As page reference"),5);
-			m_popup->insertItem(i18n("Only the label"),6);
+
+		if(hasLabel) {
+			popup.addTitle(i18n("Insert Label"));
+			action = popup.addAction(i18n("As &reference"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, 1);
+			action = popup.addAction(i18n("As &page reference"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, 2);
+			action = popup.addAction(i18n("Only the &label"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, 3);
+			popup.addSeparator();
+			popup.addTitle(i18n("Copy Label to Clipboard"));
+			action = popup.addAction(i18n("As reference"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, 4);
+			action = popup.addAction(i18n("As page reference"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, 5);
+			action = popup.addAction(i18n("Only the label"), &signalMapper, SLOT(map()));
+			signalMapper.setMapping(action, 6);
 		}
 
-		if ( m_popup->count() > 0 )
-		{
-			connect(m_popup,SIGNAL(activated(int)),this,SLOT(slotPopupActivated(int)));
-			m_popup->exec(point);
+		if(!popup.isEmpty()) {
+			popup.exec(event->globalPos());
 		}
-*/
-// 	}
+	}
 
 	void StructureWidget::slotPopupActivated(int id)
 	{
+		KILE_DEBUG() << "id: " << id;
 		if(id >= 1 && id <= 6) {
 			slotPopupLabel(id);
 		}
@@ -841,7 +848,7 @@ void StructureViewItem::setLabel(const QString &label)
 	{
 		KILE_DEBUG() << "\tStructureWidget::slotPopupSectioning (" << id << ")"<< endl;
 		if(m_popupItem->level() >= 1 && m_popupItem->level() <= 7) {
-			emit( sectioningPopup(m_popupItem,id) );
+			emit(sectioningPopup(m_popupItem, id));
 		}
 	}
 

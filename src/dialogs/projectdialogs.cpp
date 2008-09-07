@@ -143,18 +143,14 @@ bool KileProjectDlgBase::acceptUserExtensions()
 {
 	QRegExp reg("\\.\\w+");
 
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i)
-	{
+	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
 		m_val_extensions[i-1] = m_val_extensions[i-1].trimmed();
-		if (! m_val_extensions[i-1].isEmpty())
-		{
+		if (! m_val_extensions[i-1].isEmpty()) {
 			// some tiny extension checks
 			QStringList::ConstIterator it;
-			QStringList list = m_val_extensions[i-1].split(" ");
-			for (it = list.begin(); it != list.end(); ++it)
-			{
-				if (! reg.exactMatch(*it))
-				{
+			QStringList list = m_val_extensions[i-1].split(' ');
+			for (it = list.begin(); it != list.end(); ++it) {
+				if (! reg.exactMatch(*it)) {
 					KMessageBox::error(this, i18n("Error in extension") + " '" + (*it) + "':\n" + i18n("All user defined extensions should look like '.xyz'"), i18n("Invalid extension"));
 					return false;
 				}
@@ -167,10 +163,12 @@ bool KileProjectDlgBase::acceptUserExtensions()
 
 void KileProjectDlgBase::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
-	if (m_sel_extensions->currentIndex() == type - 1)
+	if (m_sel_extensions->currentIndex() == type - 1) {
 		m_extensions->setText(ext);
-	else
+	}
+	else {
 		m_val_extensions[type-1] = ext;
+	}
 }
 
 void KileProjectDlgBase::setProject(KileProject *project, bool override)
@@ -304,14 +302,12 @@ KileProject* KileNewProjectDlg::project()
 
 void KileNewProjectDlg::clickedCreateNewFileCb()
 {
-	if (m_cb->isChecked())
-	{
+	if (m_cb->isChecked()) {
 		m_file->show();
 		m_lb->show();
 		m_templateIconView->show();
 	}
-	else
-	{
+	else {
 		m_file->hide();
 		m_lb->hide();
 		m_templateIconView->hide();
@@ -320,7 +316,7 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 
 QString KileNewProjectDlg::bare()
 {
-	return projectTitle().toLower().trimmed().replace(QRegExp("\\s*"), "") + ".kilepr";
+	return projectTitle().toLower().trimmed().remove(QRegExp("\\s*")) + ".kilepr";
 }
 
 void KileNewProjectDlg::makeProjectPath()
@@ -381,33 +377,29 @@ void KileNewProjectDlg::slotOk()
 
 		KILE_DEBUG() << "==KileNewProjectDlg::slotOk()==============" << endl;
 		KILE_DEBUG() << "\t" << location() << " " << fi.path() << endl;
-		if (! dr.exists())
-		{
+		if (! dr.exists()) {
 			bool suc = true;
-			QStringList dirs = fi.path().split("/");
+			QStringList dirs = fi.path().split('/');
 			QString path;
 
 			for (int i = 0; i < dirs.count(); ++i) {
 				path += '/' + dirs[i];
 				dir.setPath(path);
 				KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
-				if (! dir.exists())
-				{
+				if (! dir.exists()) {
 					dir.mkdir(dir.absolutePath());
 					suc = dir.exists();
 					KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
 				}
 
-				if (!suc)
-				{
+				if (!suc) {
 					KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
 					return;
 				}
 			}
 		}
 
-		if (! dr.isWritable())
-		{
+		if (! dr.isWritable()) {
 			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
 			return;
 		}
@@ -448,8 +440,9 @@ void KileNewProjectDlg::slotOk()
 void KileNewProjectDlg::fillProjectDefaults()
 {
 	m_dir = KileConfig::defaultProjectLocation();
-	if (!m_dir.endsWith("/"))
+	if (!m_dir.endsWith('/')) {
 		m_dir += '/';
+	}
 	KILE_DEBUG() << "M_DIR " << m_dir << endl;
 	m_location->lineEdit()->setText(m_dir);
 	m_cb->setChecked(true);

@@ -606,7 +606,9 @@ void Manager::replaceTemplateVariables(QString &line)
 	line=line.replace("$$AUTHOR$$", KileConfig::author());
 	line=line.replace("$$DOCUMENTCLASSOPTIONS$$", KileConfig::documentClassOptions());
 	if (!KileConfig::templateEncoding().isEmpty()) { line=line.replace("$$INPUTENCODING$$", "\\usepackage["+ KileConfig::templateEncoding() +"]{inputenc}");}
-	else { line = line.replace("$$INPUTENCODING$$","");}
+	else {
+		line = line.remove("$$INPUTENCODING$$");
+	}
 }
 
 void Manager::createTemplate()
@@ -1650,7 +1652,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	
 	QStringList extlist;
 	QFileInfo fi(url.path());
-	const QStringList templist = KileConfig::cleanUpFileExtensions().split(" ");
+	const QStringList templist = KileConfig::cleanUpFileExtensions().split(' ');
 	const QString fileName = fi.fileName();
 	const QString dirPath = fi.absolutePath();
 	const QString baseName = fi.completeBaseName();
@@ -1739,38 +1741,39 @@ void Manager::projectShow()
 
 			// called from KAction 'Show projects...': find the first opened 
 			// LaTeX document or, if that fails, any other opened file
-			QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(" ");
-			for ( QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it )
-			{
-				if ( itempath.indexOf( (*it), -(*it).length() ) >= 0 ) 
-				{
-					if  ( m_ki->isOpen(item->url()) ) 
-					{
+			QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
+			for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
+				if(itempath.indexOf( (*it), -(*it).length() ) >= 0)  {
+					if (m_ki->isOpen(item->url()))  {
 						docitem = item;
 						break;
 					}
-					else if ( ! first_texitem )
+					else if(!first_texitem) {
 						first_texitem = item;
+					}
 				}
 			}
-			if ( docitem )
+			if(docitem) {
 				break;
+			}
 		}
 	}
 
 	// did we find one opened file or must we take the first entry
-	if ( ! docitem ) 
-	{
-		if ( ! first_texitem )
+	if(!docitem) {
+		if(!first_texitem) {
 			return;
+		}
 		docitem = first_texitem;
 	}
 
 	// ok, we can switch to another project now
-	if  ( m_ki->isOpen(docitem->url()) )
+	if (m_ki->isOpen(docitem->url())) {
 		m_ki->viewManager()->switchToTextView(docitem->url());
-	else
-		fileOpen( docitem->url(),docitem->encoding() );
+	}
+	else {
+		fileOpen(docitem->url(),docitem->encoding());
+	}
 }
 
 void Manager::projectRemoveFiles()

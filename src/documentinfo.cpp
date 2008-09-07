@@ -952,7 +952,7 @@ void LaTeXInfo::updateStruct()
 		}
 
 		//ignore renewcommands
-		s.replace(reReNewCommand, "");
+		s.remove(reReNewCommand);
 
 		//find all commands in this line
 		while(tagStart != -1) {
@@ -1104,7 +1104,7 @@ void LaTeXInfo::updateStruct()
 					else  if((*it).type == KileStruct::Bibliography) {
 						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
 
-						QStringList bibs = m.split(",");
+						QStringList bibs = m.split(',');
 						QString biblio;
 
 						// assure that all files have an extension
@@ -1140,7 +1140,7 @@ void LaTeXInfo::updateStruct()
 
 					// update the package list
 					else if((*it).type == KileStruct::Package) {
-						QStringList pckgs = m.split(",");
+						QStringList pckgs = m.split(',');
 						uint cumlen = 0;
 						for(int p = 0; p < pckgs.count(); ++p) {
 							QString package = pckgs[p].trimmed();

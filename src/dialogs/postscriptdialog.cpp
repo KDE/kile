@@ -65,7 +65,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	QString psfilename;
 	if(!texfilename.isEmpty()) {
 		// working with a postscript document, so we try to determine the LaTeX source file
-		QStringList extlist = latexextensions.split(" ");
+		QStringList extlist = latexextensions.split(' ');
 		for (QStringList::Iterator it = extlist.begin(); it != extlist.end(); ++it) {
 			if (texfilename.indexOf((*it), -(*it).length()) >= 0) {
 				psfilename = texfilename.left(texfilename.length() - (*it).length()) + ".ps";

@@ -282,13 +282,13 @@ namespace KileDocument
 	{
 		// build list of references
 		QString references = getCommandList(KileDocument::CmdAttrReference);
-		references.replace("*","\\*");
+		references.replace('*', "\\*");
 		reRef.setPattern("^\\\\(" + references + ")\\{");
 		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
 
 		// build list of citations
 		QString citations = getCommandList(KileDocument::CmdAttrCitations);
-		citations.replace("*","\\*");
+		citations.replace('*',"\\*");
 		reCite.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
 		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
 	}

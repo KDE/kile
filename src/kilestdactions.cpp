@@ -11,17 +11,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kmainwindow.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <KConfig>
-
-#include "kileactions.h"
 #include "kilestdactions.h"
-#include "editorextension.h"
-#include "kileinfo.h"
 
 #include <KActionMenu>
+#include <KConfig>
+#include <KLocale>
+#include <KMainWindow>
+#include <KStandardDirs>
+
+#include "kileactions.h"
+#include "editorextension.h"
 
 namespace KileStdActions
 {
@@ -278,9 +277,9 @@ Print List of Shorthands - \printshorthands
 		tag = grp.name();
 		name = grp.readEntry(QString("name"));
 		internalName = grp.readEntry(QString("internalName"));
-		keyList = grp.readEntry(QString("key")).split(",",QString::SkipEmptyParts);
-		altKeyList = grp.readEntry(QString("altkey")).split(",",QString::SkipEmptyParts);
-		optKeyList = grp.readEntry(QString("optkey")).split(",",QString::SkipEmptyParts);
+		keyList = grp.readEntry(QString("key")).split(',', QString::SkipEmptyParts);
+		altKeyList = grp.readEntry(QString("altkey")).split(',', QString::SkipEmptyParts);
+		optKeyList = grp.readEntry(QString("optkey")).split(',', QString::SkipEmptyParts);
 	
 // 		KILE_DEBUG() << "length(keys)=" << keyList.count() << ", length(altkeys)=" << altKeyList.count() << ", length(optkeys)=" << optKeyList.count();
 // 		KILE_DEBUG() << "tag=" << tag << ", name=" << name << ", internalName=" << internalName;

@@ -611,7 +611,7 @@ QString FindFilesDialog::getPattern()
 QString FindFilesDialog::getShellPattern()
 {
 	QString pattern = getPattern();
-	pattern.replace("'", "'\\''");
+	pattern.replace('\'', "'\\''");
 	return KShell::quoteArg(pattern);
 }
 
@@ -627,7 +627,7 @@ QString FindFilesDialog::buildFilesCommand()
 		files_temp = filter_combo->currentText();
 	}
 
-	QStringList tokens = files_temp.split(" ", QString::SkipEmptyParts);
+	QStringList tokens = files_temp.split(' ', QString::SkipEmptyParts);
 	QStringList::Iterator it = tokens.begin();
 	if (it != tokens.end()) {
 		files = " '" + (*it) + '\'';
@@ -777,9 +777,9 @@ void FindFilesDialog::setFilter(const QString &filter)
 	m_filterList.clear();
 	filter_combo->clear();
 	if (!filter.isEmpty()) {
-		QStringList filter_lst = filter.split("\n");
+		QStringList filter_lst = filter.split('\n');
 		for (QStringList::Iterator it = filter_lst.begin(); it != filter_lst.end(); ++it) {
-			QStringList filter_split = (*it).split("|");
+			QStringList filter_split = (*it).split('|');
 			m_filterList.append(filter_split[0]);
 			filter_combo->addItem(filter_split[1]);
 		}

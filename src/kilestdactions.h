@@ -19,9 +19,12 @@
 #ifndef KILESTDACTIONS_H
 #define KILESTDACTIONS_H
 
-#include "kactioncollection.h"
 #include <QWidget>
+
+#include <KActionCollection>
 #include <KActionMenu>
+
+#include "kileinfo.h"
 
 namespace KileStdActions
 {

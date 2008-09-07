@@ -218,54 +218,53 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 
 	// first we take all standard extensions
 	QStringList standardExtList;
-	if ( type == KileProjectItem::Source )
-		standardExtList = (m_extmanager->latexDocuments()).split(" ");
-	else if ( type == KileProjectItem::Package )
-		standardExtList = (m_extmanager->latexPackages()).split(" ");
-	else // if ( type == KileProjectItem::Image )
-		standardExtList = (m_extmanager->images()).split(" ");
-
+	if(type == KileProjectItem::Source) {
+		standardExtList = (m_extmanager->latexDocuments()).split(' ');
+	}
+	else if(type == KileProjectItem::Package) {
+		standardExtList = (m_extmanager->latexPackages()).split(' ');
+	}
+	else { // if ( type == KileProjectItem::Image )
+		standardExtList = (m_extmanager->images()).split(' ');
+	}
+	
 	// now we scan user defined list and accept all extension, 
 	// except standard extensions of course
 	QString userExt;
-	if ( ! ext.isEmpty() )
-	{
+	if(!ext.isEmpty()) {
 		QStringList userExtList;
 
 		QStringList::ConstIterator it;
-		QStringList list = ext.split(" ");
-		for ( it=list.begin(); it != list.end(); ++it ) 
-		{
+		QStringList list = ext.split(' ');
+		for(it = list.begin(); it != list.end(); ++it) {
 			// some tiny extension checks
-			if ( (*it).length()<2 || (*it)[0]!='.' )
+			if((*it).length() < 2 || (*it)[0] != '.') {
 				continue;
+			}
 
 			// some of the old definitions are wrong, so we test them all
-			if ( type==KileProjectItem::Source || type==KileProjectItem::Package)
-			{
-				if ( ! (m_extmanager->isLatexDocument(*it) || m_extmanager->isLatexPackage(*it)) )
-				{
+			if(type == KileProjectItem::Source || type == KileProjectItem::Package) {
+				if(!(m_extmanager->isLatexDocument(*it) || m_extmanager->isLatexPackage(*it))) {
 					standardExtList << (*it);
 					userExtList << (*it);
 				}
 			}
-			else // if ( type == KileProjectItem::Image )
-			{
-				if ( ! m_extmanager->isImage(*it) )
-				{
+			else { // if ( type == KileProjectItem::Image )
+				if(!m_extmanager->isImage(*it)) {
 					standardExtList << (*it);
 					userExtList << (*it);
 				}
 			}
 		}
-		if ( userExtList.count() > 0 )
-			userExt = userExtList.join(" ");	
+		if(userExtList.count() > 0) {
+			userExt = userExtList.join(" ");
+		}
 	}
 
 	// now we build a regular expression for all extensions
 	// (used to search for a filename with a valid extension)
 	QString pattern = standardExtList.join("|");
-	pattern.replace(".","\\.");
+	pattern.replace('.', "\\.");
 	pattern = '('+ pattern +")$";
 
 	// and save it
@@ -332,28 +331,28 @@ void KileProject::writeUseMakeIndexOptions()
 QString KileProject::addBaseURL(const QString &path)
 {
 	KILE_DEBUG() << "===addBaseURL(const QString & " << path << " )";
-	if ( path.isEmpty())
+	if(path.isEmpty()) {
 		return path;
-  	else if ( path.startsWith("/") )
-  		return KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(path)).path();
-  	else
-    		return  KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(m_baseurl.path() + '/' +path)).path();
- }
+	}
+	else if(path.startsWith('/')) {
+		return KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(path)).path();
+	}
+	else {
+		return  KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(m_baseurl.path() + '/' +path)).path();
+	}
+}
 
 QString KileProject::removeBaseURL(const QString &path)
 {
-
-  if ( path.startsWith("/") )
-  {
-    QFileInfo info(path);
-    QString relPath = findRelativePath(path);
-    KILE_DEBUG() << "removeBaseURL path is" << path << " , relPath is " << relPath;
-    return relPath;
-  }
-  else
-  {
-    return path;
-  }
+	if(path.startsWith('/')) {
+		QFileInfo info(path);
+		QString relPath = findRelativePath(path);
+		KILE_DEBUG() << "removeBaseURL path is" << path << " , relPath is " << relPath;
+		return relPath;
+	}
+	else {
+		return path;
+	}
 }
 
 bool KileProject::load()

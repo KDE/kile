@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CONFIGCODECOMPLETION_H
-#define CONFIGCODECOMPLETION_H
+#ifndef CODECOMPLETIONCONFIGWIDGET_H
+#define CODECOMPLETIONCONFIGWIDGET_H
 
 #include <QWidget>
 

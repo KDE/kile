@@ -331,7 +331,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		map["HA-prosper"] = false;
 		
 		// split search results and look, which class files are present
-		QStringList list = m_output.split("\n");
+		QStringList list = m_output.split('\n');
 		for(QStringList::Iterator it=list.begin(); it!=list.end(); ++it) {
 			QString filename = QFileInfo(*it).fileName();
 			if(filename=="scrartcl.cls") {

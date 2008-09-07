@@ -17,8 +17,8 @@
  ***************************************************************************/
 
 
-#ifndef LATEXCMDDIALOG_H
-#define LATEXCMDDIALOG_H
+#ifndef LATEXCOMMANDDIALOG_H
+#define LATEXCOMMANDDIALOG_H
 
 #include <KDialog>
 

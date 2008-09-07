@@ -77,7 +77,7 @@ bool LatexOutputFilter::fileExists(const QString & name)
 	}
 
 	// try to determine the LaTeX source file
-	QStringList extlist = m_extensions->latexDocuments().split(" ");
+	QStringList extlist = m_extensions->latexDocuments().split(' ');
 	for(QStringList::Iterator it = extlist.begin(); it!=extlist.end(); ++it) {
 		fi.setFile(path() + '/' + name + (*it));
 		if(fi.exists() && !fi.isDir()) {
@@ -137,7 +137,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 			//The partial filename was followed by '(', this means that TeX is signalling it is
 			//opening the file. We are sure the filename is complete now. Don't call updateFileStackHeuristic
 			//since we don't want the filename on the stack twice.
-			if(strLine.startsWith("(") || strLine.startsWith("\\openout")) {
+			if(strLine.startsWith('(') || strLine.startsWith("\\openout")) {
 				//push the filename on the stack and mark it as 'reliable'
 				m_stackFile.push(LOFStackItem(strPartialFileName, true));
 // 				KILE_DEBUG() << "\tpushed : " << strPartialFileName << endl;
@@ -146,7 +146,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 			}
 			//The partial filename was followed by an TeX error, meaning the file doesn't exist.
 			//Don't push it on the stack, instead try to detect the error.
-			else if(strLine.startsWith("!")) {
+			else if(strLine.startsWith('!')) {
 // 				KILE_DEBUG() << "oops!" << endl;
 				dwCookie = Start;
 				strPartialFileName.clear();
@@ -320,14 +320,14 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 				found = true;
 			}
 			if(found) {
-				dwCookie = strLine.endsWith(".") ? LineNumber : Error;
+				dwCookie = strLine.endsWith('.') ? LineNumber : Error;
 				m_currentItem.setOutputLine(GetCurrentOutputLine());
 			}
 		break;
 
 		case Error :
 			//KILE_DEBUG() << "\tError (cont'd): " << strLine << endl;
-			if(strLine.endsWith(".")) {
+			if(strLine.endsWith('.')) {
 				dwCookie = LineNumber;
 				m_currentItem.setMessage(m_currentItem.message() + strLine);
 			}
@@ -451,7 +451,7 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 		dwCookie = Start;
 		return true;
 	}
-	else if(warning.endsWith(".")) {
+	else if(warning.endsWith('.')) {
 		//KILE_DEBUG() << "twee" << endl;
 		m_currentItem.setSourceLine(0);
 		dwCookie = Start;

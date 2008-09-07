@@ -12,10 +12,15 @@
 *   (at your option) any later version.                                   *
 *                                                                         *
 ***************************************************************************/
+#ifndef KILEDEBUG_H
+#define KILEDEBUG_H
+
 #include <kdebug.h>
 
 #ifdef NDEBUG
 	#define KILE_DEBUG(A) if (true); else kDebug()
 #else
 	#define KILE_DEBUG(A) kDebug(A)
+#endif
+
 #endif

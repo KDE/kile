@@ -210,7 +210,7 @@ void KileWidgetPreviewConfig::setupSeparateWindow()
 	// split them into group and combobox entry
 	m_combobox->clear();
 	for(int i = 0; i < tasklist.count(); ++i) {
-		QStringList list = tasklist[i].split("=");
+		QStringList list = tasklist[i].split('=');
 		if (m_config->hasGroup(list[0])) {
 			m_combobox->addItem(list[1]);
 		}

@@ -212,7 +212,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	setObjectName(name);
 
 	QString newcaption = caption;
-	setCaption(newcaption.remove("&"));
+	setCaption(newcaption.remove('&'));
 
 	m_labelprefix = ( newcaption == "chapter" ) ? "chap:" : "sec:";
 	

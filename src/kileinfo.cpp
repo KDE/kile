@@ -147,7 +147,7 @@ QString KileInfo::getFullFromPrettyName(const QString& name)
 		// - call from logwidget or error handling, which 
 		//   tries to determine the LaTeX source file
 		bool found = false;
-		QStringList extlist = (m_extensions->latexDocuments()).split(" ");
+		QStringList extlist = (m_extensions->latexDocuments()).split(' ');
 		for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
 			QString name = file + (*it);
 			if(QFileInfo(name).exists()) {
@@ -305,7 +305,7 @@ bool KileInfo::similarOrEqualURL(const KUrl &validurl, const KUrl &testurl)
 {
 	if ( testurl.isEmpty() || testurl.path().isEmpty() ) return false;
 
-	bool absolute = testurl.path().startsWith("/");
+	bool absolute = testurl.path().startsWith('/');
 	return (
 		     (validurl == testurl) ||
 		     (!absolute && validurl.path().endsWith(testurl.path()))
@@ -389,7 +389,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 			break;
 	}
 
-	inputpaths = expandEnvironmentVars(configpaths).split( ":");
+	inputpaths = expandEnvironmentVars(configpaths).split(':');
 	inputpaths.prepend(path);
 
 		// the first match is supposed to be the correct one

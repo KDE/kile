@@ -15,8 +15,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KILEDBUSIFACE_H
-#define KILEDBUSIFACE_H
+#ifndef KILEAPPIFACE_H
+#define KILEAPPIFACE_H
 
 #include <QObject>
 #include <QtDBus/QtDBus>

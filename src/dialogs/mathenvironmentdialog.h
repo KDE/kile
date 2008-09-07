@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef MATHENVDIALOG_H
-#define MATHENVDIALOG_H
+#ifndef MATHENVIRONMENTDIALOG_H
+#define MATHENVIRONMENTDIALOG_H
 
 #include "kileinfo.h"
 #include "kilewizard.h"

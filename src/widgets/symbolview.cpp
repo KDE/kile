@@ -97,8 +97,8 @@ void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringL
 	QString text = key.section('%', 2, 2);
 
 	if (text.indexOf(rePkgs) != -1) {
-		args = rePkgs.cap(1).split(",",QString::SkipEmptyParts);
-		pkgs = rePkgs.cap(2).split(",",QString::SkipEmptyParts);
+		args = rePkgs.cap(1).split(',',QString::SkipEmptyParts);
+		pkgs = rePkgs.cap(2).split(',',QString::SkipEmptyParts);
 	}
 }
 
@@ -163,7 +163,7 @@ QString SymbolView::getToolTip(const QString &key)
 
 	extract(key, refCnt, cmd, args, pkgs);
 
-	label = i18n("Command: ") + cmd + "\n";
+	label = i18n("Command: ") + cmd + '\n';
 
 	if(pkgs.count() > 0) {
 		if(pkgs.count() == 1) {
@@ -175,10 +175,10 @@ QString SymbolView::getToolTip(const QString &key)
 
 		for (int i = 0; i < pkgs.count() ; i++) {
 			if(i < args.count()) {
-				label = label + "[" + args[i] + "]" + pkgs[i] + "\n";
+				label = label + "[" + args[i] + "]" + pkgs[i] + '\n';
 			}
 			else {
-				label = label + pkgs[i] + "\n";
+				label = label + pkgs[i] + '\n';
 			}
 		}
 	}

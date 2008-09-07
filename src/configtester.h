@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef CONFIGCHECKER_H
-#define CONFIGCHECKER_H
+#ifndef CONFIGTESTER_H
+#define CONFIGTESTER_H
 
 #include <QObject>
 #include <QList>

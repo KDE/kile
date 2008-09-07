@@ -68,7 +68,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	                    + ' ' + extensions->latexPackages() 
 	                    + ' ' + extensions->bibtex() 
 	                    + ' ' +  extensions->metapost();
-	filter.replace(".", "*.");
+	filter.replace('.', "*.");
 	m_dirOperator->setNameFilter(filter);
 
 	KActionCollection *coll = m_dirOperator->actionCollection();

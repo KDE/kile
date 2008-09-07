@@ -16,8 +16,8 @@
 #include <QStringList>
 
 int compareVersionStrings(const QString& s1, const QString& s2) {
-	QStringList l1 = s1.split(".");
-	QStringList l2 = s2.split(".");
+	QStringList l1 = s1.split('.');
+	QStringList l2 = s2.split('.');
 	while(l1.size() < 3) {
 		l1.push_back("0");
 	}

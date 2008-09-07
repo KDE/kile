@@ -11,8 +11,8 @@
 *                                                                         *
 ***************************************************************************/
 
-#ifndef STRUCTURECONFIGWIDGET_H
-#define STRUCTURECONFIGWIDGET_H
+#ifndef STRUCTUREVIEWCONFIGWIDGET_H
+#define STRUCTUREVIEWCONFIGWIDGET_H
 
 #include <QWidget>
 

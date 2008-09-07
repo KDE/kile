@@ -244,7 +244,7 @@ void Tester::processTool(KConfig *config, const QString &tool)
 {
 	KConfigGroup group = config->group(tool);
 
-	QStringList criticaltests = (group.readEntry("mustpass", "")).split(",");
+	QStringList criticaltests = (group.readEntry("mustpass", "")).split(',');
 
 	//Did we find the executable?
 	QList<ConfigTest> tests;

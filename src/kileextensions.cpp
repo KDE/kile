@@ -113,11 +113,11 @@ bool Extensions::isProjectFile(const QString &fileName) const
 
 bool Extensions::validExtension(const QString &ext, const QString &extensions) const
 {
-	QStringList extlist = extensions.split(" ");
-	for ( QStringList::ConstIterator it=extlist.begin(); it!=extlist.end(); ++it )
-	{
-		if ( (*it) == ext ) 
+	QStringList extlist = extensions.split(' ');
+	for(QStringList::ConstIterator it = extlist.begin(); it != extlist.end(); ++it) {
+		if((*it) == ext) { 
 			return true;
+		}
 	}
 
 	return false;

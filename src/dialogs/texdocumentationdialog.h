@@ -16,8 +16,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef TEXDOCDIALOG_H
-#define TEXDOCDIALOG_H
+#ifndef TEXDOCUMENTATIONDIALOG_H
+#define TEXDOCUMENTATIONDIALOG_H
 
 #include <KDialog>
 

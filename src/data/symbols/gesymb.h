@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef GESYMB_H
+#define GESYMB_H
 
 #include <QImage>
 #include <QString>
@@ -27,3 +29,4 @@ void usage();
 void writeComment(QString cmd, QString pkgs, QString pkgsarg, QString type, int number);
 void readComment(QString fname);
 
+#endif

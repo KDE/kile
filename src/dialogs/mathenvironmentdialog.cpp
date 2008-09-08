@@ -18,7 +18,6 @@
 #include "mathenvironmentdialog.h"
 
 #include <QCheckBox>
-#include <QComboBox>
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -28,6 +27,7 @@
 #include <QStringList>
 #include <QVBoxLayout>
 
+#include <KComboBox>
 #include <KLocale>
 
 #include "codecompletion.h"
@@ -66,7 +66,7 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	frame->setFrameShadow(QFrame::Sunken);
 	frame->setLineWidth(1);
 
-	m_coEnvironment = new QComboBox(envgroup);
+	m_coEnvironment = new KComboBox(envgroup);
 	m_cbStarred = new QCheckBox(envgroup);
 	m_spRows = new QSpinBox(envgroup);
 	m_spRows->setMinimum(1);
@@ -79,8 +79,8 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_spCols->setSingleStep(1);
 	m_spCols->setValue(3);
 	m_edSpace = new KLineEdit("", envgroup);
-	m_coTabulator = new QComboBox(envgroup);
-	m_coDisplaymath = new QComboBox(envgroup);
+	m_coTabulator = new KComboBox(envgroup);
+	m_coDisplaymath = new KComboBox(envgroup);
 	m_cbBullets = new QCheckBox(envgroup);
 
 	QGridLayout *envlayout = new QGridLayout();

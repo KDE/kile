@@ -175,7 +175,7 @@ QString SymbolView::getToolTip(const QString &key)
 
 		for (int i = 0; i < pkgs.count() ; i++) {
 			if(i < args.count()) {
-				label = label + "[" + args[i] + "]" + pkgs[i] + '\n';
+				label = label + '[' + args[i] + ']' + pkgs[i] + '\n';
 			}
 			else {
 				label = label + pkgs[i] + '\n';

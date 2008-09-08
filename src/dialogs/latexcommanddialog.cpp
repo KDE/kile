@@ -21,7 +21,6 @@
 #include "dialogs/latexcommanddialog.h"
 
 #include <QCheckBox>
-#include <QComboBox>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -32,6 +31,7 @@
 #include <QValidator>
 #include <QVBoxLayout>
 
+#include <KComboBox>
 #include <KConfig>
 #include <KIcon>
 #include <KLineEdit>
@@ -131,7 +131,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 		QLabel *label7 = new QLabel(i18n("&Tabulator:"), group);
 		m_chEndofline =  new QCheckBox(group);
 		m_chMath =  new QCheckBox(group);
-		m_coTab = new QComboBox(group);
+		m_coTab = new KComboBox(group);
 
 		grid->addWidget(label5, 3, 0);
 		grid->addWidget(m_chEndofline, 3, 2);
@@ -157,7 +157,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	if (m_useOption) {
 		QLabel *label8 = new QLabel(i18n("Opt&ion:"), group);
-		m_coOption = new QComboBox(group);
+		m_coOption = new KComboBox(group);
 		grid->addWidget(label8, currentRow, 0);
 		grid->addWidget(m_coOption, currentRow, 2);
 
@@ -179,7 +179,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
 	if(m_useParameter) {
 		QLabel *label9 = new QLabel(i18n("&Parameter:"), group);
-		m_coParameter = new QComboBox(group);
+		m_coParameter = new KComboBox(group);
 		grid->addWidget(label9, currentRow, 0);
 		grid->addWidget(m_coParameter, currentRow, 2);
 

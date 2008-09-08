@@ -27,12 +27,12 @@
 #include "latexcmd.h"
 
 class QCheckBox;
-class QComboBox;
 class QLabel;
 class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
 
+class KComboBox;
 class KConfig;
 class KLineEdit;
 class KPushButton;
@@ -55,7 +55,7 @@ class NewLatexCommand : public KDialog
 	private:
 		KLineEdit *m_edName;
 		QCheckBox *m_chStarred, *m_chEndofline, *m_chMath;
-		QComboBox *m_coTab, *m_coOption, *m_coParameter;
+		KComboBox *m_coTab, *m_coOption, *m_coParameter;
 
 		bool m_addmode, m_envmode;
 		bool m_useMathOrTab, m_useOption, m_useParameter;

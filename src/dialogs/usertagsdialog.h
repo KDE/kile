@@ -20,16 +20,17 @@
 #include <QString>
 #include <QStringList>
 
-#include <kdialog.h>
+#include <KDialog>
 
 #include "kileactions.h"
 
 class QRadioButton;
-class KTextEdit;
-class QLineEdit;
-class QComboBox;
 class QLabel;
+
+class KComboBox;
+class KLineEdit;
 class KPushButton;
+class KTextEdit;
 
 namespace KileDialog
 {
@@ -61,8 +62,8 @@ private Q_SLOTS:
 private:
 	int 			m_prevIndex;
 	KTextEdit 		*m_editTag;
-	QLineEdit 		*m_editName;
-	QComboBox 		*m_combo;
+	KLineEdit 		*m_editName;
+	KComboBox 		*m_combo;
 	QLabel			*m_labelName;
 	QLabel			*m_labelTag;
 	KPushButton		*m_buttonRemove, *m_buttonAdd, *m_buttonInsert;

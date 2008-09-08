@@ -28,7 +28,6 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 #include <QRegExp>
 #include <QStringList>
 #include <QStyle>
-#include <QTabWidget>
 #include <QTreeWidget>
 #include <QVBoxLayout>
 #include <QWidget>
@@ -40,6 +39,7 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 #include <KLocale>
 #include <KMessageBox>
 #include <KPushButton>
+#include <KTabWidget>
 
 #include "widgets/categorycombobox.h"
 #include "kiledebug.h"
@@ -97,7 +97,7 @@ class EditableItemDelegate : public QItemDelegate {
 QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name, const QString &caption) : Wizard(config, parent, name, caption)
 {
 	KILE_DEBUG() << "==QuickDocument::setupGUI()============";
-	QTabWidget *tabWidget = new QTabWidget(this);
+	KTabWidget *tabWidget = new KTabWidget(this);
 	setMainWidget(tabWidget);
 
 	tabWidget->addTab(setupClassOptions(tabWidget), i18n("Cla&ss Options"));

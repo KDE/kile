@@ -15,14 +15,14 @@
  ***************************************************************************/
 #include "dialogs/usertagsdialog.h"
 
-#include <QComboBox>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QLineEdit>
 #include <QRegExp>
 #include <QVBoxLayout>
 
+#include <KComboBox>
 #include <KLocale>
+#include <KLineEdit>
 #include <KPushButton>
 #include <KTextEdit>
 
@@ -49,12 +49,12 @@ UserTags::UserTags(const QList<KileAction::TagData> &list, QWidget* parent,  con
 	vBoxLayout->setSpacing(KDialog::spacingHint());
 	setMainWidget(page);
 
-	m_combo = new QComboBox(page);
+	m_combo = new KComboBox(page);
 	connect(m_combo, SIGNAL(activated(int)), this, SLOT(change(int)));
 
 	m_labelName = new QLabel(page);
 	m_labelName->setText(i18n("Menu item:"));
-	m_editName = new QLineEdit(page);
+	m_editName = new KLineEdit(page);
 
 	m_labelTag = new QLabel(page);
 	m_labelTag->setText(i18n("Value:"));

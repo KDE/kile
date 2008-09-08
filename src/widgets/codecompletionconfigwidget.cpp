@@ -35,6 +35,7 @@
 #include <KMessageBox>
 #include <KPushButton>
 #include <KStandardDirs>
+#include <KTabWidget>
 
 #include "kilelistselector.h"
 #include "kileconfig.h"
@@ -59,7 +60,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	gb_tab->setLayout(grid_tab);
 
 	// create TabWidget
-	tab = new QTabWidget(gb_tab);
+	tab = new KTabWidget(gb_tab);
 
 	// add three pages: Tex/Latex, Dictionary, Abbreviation
 	addPage(tab, TexPage, i18n("TeX/LaTeX"), "tex");

@@ -80,7 +80,7 @@ QString Extensions::fileFilter(uint type)
 			return QString();
 	}
 
-	ext.replace(".","*.");
+	ext.replace('.', "*.");
 	return ext + '|' + text;
 }
 

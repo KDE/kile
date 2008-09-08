@@ -24,9 +24,9 @@
 
 class QLabel;
 class QCheckBox;
-class QComboBox;
 class QSpinBox;
 
+class KComboBox;
 class KLineEdit;
 
 namespace KileDialog
@@ -52,7 +52,7 @@ class MathEnvironmentDialog : public Wizard
 		KileInfo *m_ki;
 		KileDocument::LatexCommands *m_latexCommands;
 
-		QComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
+		KComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
 		QCheckBox *m_cbStarred, *m_cbBullets;
 		QSpinBox *m_spRows, *m_spCols;
 		QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;

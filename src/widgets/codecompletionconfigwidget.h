@@ -19,15 +19,16 @@
 
 #include <QWidget>
 
-class QTabWidget;
 class QCheckBox;
 class QLabel;
 class QSpinBox;
+class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
 
 class KConfig;
 class KPushButton;
+class KTabWidget;
 
 /**
   *@author Holger Danielsson
@@ -54,7 +55,7 @@ class CodeCompletionConfigWidget : public QWidget
 		KileWidget::LogWidget *m_logwidget;
 
 		// tabs, views, pages, wordlists
-		QTabWidget *tab;
+		KTabWidget *tab;
 		QTreeWidget *m_listview[NumPages];
 		QWidget *m_page[NumPages];
 		QStringList m_wordlist[NumPages];

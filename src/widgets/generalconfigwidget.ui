@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>482</height>
+    <height>537</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -55,7 +55,7 @@
        </widget>
       </item>
       <item row="0" column="1" >
-       <widget class="QLineEdit" name="kcfg_DefaultProjectLocation" />
+       <widget class="KLineEdit" name="kcfg_DefaultProjectLocation" />
       </item>
      </layout>
     </widget>
@@ -197,7 +197,7 @@
    <item>
     <widget class="QCheckBox" name="kcfg_UnfoldConfigTree" >
      <property name="whatsThis" >
-      <string>It's impossible to open special tree items in Kile's configuration dialog. You have the choice to open all items, which may lead to a bad size of the dialog, or none of them.</string>
+      <string>It is impossible to open special tree items in Kile's configuration dialog. You have the choice to open all items, which may lead to a bad size of the dialog, or none of them.</string>
      </property>
      <property name="text" >
       <string>Open all tree items of config pages, when calling this dialog</string>
@@ -216,7 +216,7 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>40</height>

@@ -10,16 +10,7 @@
    </rect>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>0</number>
    </property>
    <item>
@@ -97,16 +88,7 @@
    <item>
     <widget class="QWidget" native="1" name="widget" >
      <layout class="QGridLayout" >
-      <property name="leftMargin" >
-       <number>0</number>
-      </property>
-      <property name="topMargin" >
-       <number>0</number>
-      </property>
-      <property name="rightMargin" >
-       <number>0</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin" >
        <number>0</number>
       </property>
       <item row="0" column="1" >
@@ -130,7 +112,7 @@
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="QLineEdit" name="m_edCaption" />
+       <widget class="KLineEdit" name="m_edCaption" />
       </item>
       <item row="2" column="0" >
        <widget class="QLabel" name="label_3" >
@@ -143,14 +125,14 @@
        </widget>
       </item>
       <item row="2" column="1" >
-       <widget class="QLineEdit" name="m_edLabel" />
+       <widget class="KLineEdit" name="m_edLabel" />
       </item>
       <item row="3" column="1" >
        <spacer>
         <property name="orientation" >
          <enum>Qt::Vertical</enum>
         </property>
-        <property name="sizeHint" >
+        <property name="sizeHint" stdset="0" >
          <size>
           <width>20</width>
           <height>40</height>
@@ -164,6 +146,13 @@
   </layout>
  </widget>
  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+ <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

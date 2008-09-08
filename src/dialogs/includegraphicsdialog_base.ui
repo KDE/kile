@@ -95,7 +95,7 @@
        </widget>
       </item>
       <item row="0" column="1" >
-       <widget class="QLineEdit" name="edit_width" />
+       <widget class="KLineEdit" name="edit_width" />
       </item>
       <item row="0" column="2" >
        <widget class="QLabel" name="label_8" >
@@ -105,7 +105,7 @@
        </widget>
       </item>
       <item row="0" column="3" >
-       <widget class="QLineEdit" name="edit_angle" />
+       <widget class="KLineEdit" name="edit_angle" />
       </item>
       <item row="1" column="0" >
        <widget class="QLabel" name="label_7" >
@@ -115,7 +115,7 @@
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="QLineEdit" name="edit_height" />
+       <widget class="KLineEdit" name="edit_height" />
       </item>
       <item row="1" column="2" >
        <widget class="QLabel" name="label_9" >
@@ -125,7 +125,7 @@
        </widget>
       </item>
       <item row="1" column="3" >
-       <widget class="QLineEdit" name="edit_bb" />
+       <widget class="KLineEdit" name="edit_bb" />
       </item>
      </layout>
     </widget>
@@ -161,7 +161,7 @@
        </widget>
       </item>
       <item row="1" column="1" >
-       <widget class="QLineEdit" name="edit_label" >
+       <widget class="KLineEdit" name="edit_label" >
         <property name="enabled" >
          <bool>false</bool>
         </property>
@@ -181,7 +181,7 @@
        </widget>
       </item>
       <item row="2" column="1" >
-       <widget class="QLineEdit" name="edit_caption" >
+       <widget class="KLineEdit" name="edit_caption" >
         <property name="enabled" >
          <bool>false</bool>
         </property>
@@ -195,7 +195,7 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>40</height>
@@ -207,6 +207,11 @@
  </widget>
  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
  <customwidgets>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>

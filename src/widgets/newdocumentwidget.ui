@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>441</width>
-    <height>193</height>
+    <height>217</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" >
@@ -29,7 +29,7 @@
       <item>
        <layout class="QHBoxLayout" >
         <item>
-         <widget class="QComboBox" name="documentTypeComboBox" />
+         <widget class="KComboBox" name="documentTypeComboBox" />
         </item>
         <item>
          <spacer>
@@ -39,7 +39,7 @@
           <property name="sizeType" >
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>20</width>
             <height>20</height>
@@ -86,6 +86,11 @@
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
   <customwidget>
    <class>TemplateIconView</class>
    <extends>QWidget</extends>

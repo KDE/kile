@@ -196,9 +196,6 @@ void InputTag::emitData()
 	delete dlg;
 }
 
-#ifdef __GNUC__
-#warning Not all addWidget commands have correct values
-#endif
 /*
 	InputDialog
 */
@@ -223,7 +220,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	QGridLayout *gbox = new QGridLayout(page);
 
 	QLabel *lb = new QLabel(hint, page);
-	gbox->addWidget(lb, 0, 0, 1, 2);
+	gbox->addWidget(lb, 0, 0, 1, 3);
 
 	m_tag.clear();
 	QWidget *focus;
@@ -240,7 +237,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 			gbox->addWidget(input, 1, 0);
 		}
 		else {
-			gbox->addWidget(input, 1, 0, 1, 2);
+			gbox->addWidget(input, 1, 0, 1, 3);
 		}
 
 		const QStringList *list;
@@ -274,10 +271,10 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
 		connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setText(const QString&)));
 		if(options & KileAction::ShowBrowseButton) {
-			gbox->addWidget(input,1,0);
+			gbox->addWidget(input, 1, 0);
 		}
 		else {
-			gbox->addWidget(input, 1, 0, 1, 2);
+			gbox->addWidget(input, 1, 0, 1, 3);
 		}
 
 		input->setText(ki->getSelection());
@@ -291,13 +288,9 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	if(options & KileAction::ShowBrowseButton) {
 		KPushButton *pbutton = new KPushButton("", page);
 		pbutton->setIcon(KIcon("document-open"));
-		gbox->addWidget(pbutton,1,2);
-#ifdef __GNUC__
-#warning Still some stuff related to QGridLayout left to be ported!
-#endif
-//FIXME: port for KDE4
-// 		gbox->setColSpacing(1,8);	
-// 		gbox->setColSpacing(2, pbutton->sizeHint().width()+5 ); 
+		gbox->addWidget(pbutton, 1, 2);
+		gbox->setColumnMinimumWidth(1, 8);
+		gbox->setColumnMinimumWidth(2, pbutton->sizeHint().width() + 5); 
 		connect(pbutton, SIGNAL(clicked()), this, SLOT(slotBrowse()));
 	}
 
@@ -306,7 +299,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		m_checkbox->setObjectName("input_dialog_checkbox");
 		connect(m_checkbox, SIGNAL(clicked()), this, SLOT(slotAltClicked()));
 		m_useAlternative=false;
-		gbox->addWidget(m_checkbox, 2, 2, 0, 2);
+		gbox->addWidget(m_checkbox, 2, 0, 1, 3);
 	}
 
 	m_edLabel = NULL;
@@ -314,19 +307,18 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	if(m_useLabel) {
 		// Label
 		QLabel *label = new QLabel(i18n("&Label:"),page);
-		m_edLabel = new KLineEdit("",page);
+		m_edLabel = new KLineEdit("", page);
 		m_edLabel->setMinimumWidth(300);
 		m_edLabel->setText(m_labelprefix);
 		label->setBuddy(m_edLabel);
-		gbox->addWidget(label, 3, 3, 0, 2);
-		gbox->addWidget(m_edLabel, 4, 4, 0, 2);
+		gbox->addWidget(label, 3, 0, 1, 3);
+		gbox->addWidget(m_edLabel, 4, 0, 1, 3);
 	}
 
 	m_useAddProjectFile = (options & KileAction::AddProjectFile);
 	
-	gbox->setRowStretch(5,1);
-//FIXME: port for KDE4
-// 	gbox->setColStretch(0,1);
+	gbox->setRowStretch(5, 1);
+	gbox->setColumnStretch(0, 1);
 	
 	focus->setFocus();
 }

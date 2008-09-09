@@ -28,7 +28,6 @@
 
 class QCheckBox;
 class QLabel;
-class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
 
@@ -89,7 +88,7 @@ class LatexCommandsDialog : public KDialog
 		QTreeWidgetItem *m_lviList, *m_lviTabular, *m_lviMath, *m_lviAmsmath, *m_lviVerbatim;
 		QTreeWidgetItem *m_lviLabels, *m_lviReferences, *m_lviCitations;
 		QTreeWidgetItem *m_lviInputs;
-		QTabWidget *m_tab;
+		KTabWidget *m_tab;
 		KPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
 		QCheckBox *m_cbUserDefined;
 

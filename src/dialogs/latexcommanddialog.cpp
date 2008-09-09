@@ -26,7 +26,6 @@
 #include <QLabel>
 #include <QLayout>
 #include <QRegExp>
-#include <QTabWidget>
 #include <QTreeWidget>
 #include <QValidator>
 #include <QVBoxLayout>
@@ -38,6 +37,7 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KPushButton>
+#include <KTabWidget>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -345,7 +345,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	QLabel *label = new QLabel(i18n("Define LaTeX Environments and Commands for Kile"), page);
 
 	// create TabWidget
-	m_tab = new QTabWidget(page);
+	m_tab = new KTabWidget(page);
 	m_cbUserDefined = new QCheckBox(i18n("&Show only user defined environments and commands"), page);
 
 	// tab 1: environment listview

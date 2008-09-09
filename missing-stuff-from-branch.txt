@@ -33,3 +33,5 @@ And I also hope that our users do also not :)
 These two bugs are in principle fixed with this commit, but I wait until it it confirmed
 CCBUG: 155044
 CCBUG: 160555
+
+- sync symbols and regenerate them completely

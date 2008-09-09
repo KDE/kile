@@ -1,7 +1,7 @@
 version 2.0.2 -> 2.0.3
 
 Fixes:
- -
+ - add {} to special characters in symbolview for easier handling (#170144)
 
 Features:
  -

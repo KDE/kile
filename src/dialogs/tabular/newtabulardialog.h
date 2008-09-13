@@ -42,6 +42,7 @@ class SelectColorAction;
 class SelectFrameAction;
 class TabularProperties;
 class TabularCell;
+class NewTabularTable;
 
 class NewTabularDialog : public Wizard {
 	Q_OBJECT
@@ -100,7 +101,7 @@ class NewTabularDialog : public Wizard {
 		SelectFrameAction *m_acFrame;
 		SelectColorAction *m_acBackground, *m_acForeground;
 		QToolBar *m_tbFormat;
-		QTableWidget *m_Table;
+		NewTabularTable *m_Table;
 		KComboBox *m_cmbName, *m_cmbParameter;
 		QSpinBox *m_sbRows, *m_sbCols;
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;

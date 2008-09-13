@@ -52,6 +52,7 @@
 #include "tabularcelldelegate.h"
 #include "tabularheaderitem.h"
 #include "tabularproperties.h"
+#include "tabulartable.h"
 
 namespace KileDialog {
 
@@ -60,7 +61,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	  m_latexCommands(commands),
 	  m_clCurrentBackground(Qt::white),
 	  m_clCurrentForeground(Qt::black),
-		m_defaultEnvironment(environment)
+	  m_defaultEnvironment(environment)
 {
 	setCaption(i18n("Tabular Environments"));
 
@@ -115,11 +116,12 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acItalic->setCheckable(true);
 	m_acUnderline->setCheckable(true);
 
-	m_Table = new QTableWidget(page);
+	m_Table = new NewTabularTable(page);
 	m_Table->setItemDelegate(new TabularCellDelegate(m_Table));
 	m_Table->setShowGrid(false);
-	m_Table->installEventFilter(this);
+	m_Table->setAttribute(Qt::WA_Hover, true);
 	m_Table->horizontalHeader()->setContextMenuPolicy(Qt::CustomContextMenu);
+	m_Table->installEventFilter(this);
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
@@ -327,26 +329,53 @@ bool NewTabularDialog::canJoin() const
 
 bool NewTabularDialog::eventFilter(QObject *obj, QEvent *event)
 {
-	if(obj == m_Table && event->type() == QEvent::KeyPress && m_Table->selectedItems().count() == 1) {
-		QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+	if(obj == m_Table) {
+		if(event->type() == QEvent::KeyPress && m_Table->selectedItems().count() == 1) {
+			QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-		if(keyEvent->key() == Qt::Key_Return) {
-			QTableWidgetItem *item = m_Table->selectedItems()[0];
-			int row = item->row();
-			int column = item->column();
-			if(column < (m_Table->columnCount() - 1)) {
-				item->setSelected(false);
-				m_Table->item(row, column + 1)->setSelected(true);
-				m_Table->setCurrentItem(m_Table->item(row, column + 1));
-			} else {
-				if(row == (m_Table->rowCount() - 1)) {
-					m_sbRows->setValue(m_sbRows->value() + 1);
-					/* This is called twice, but now we can be sure that the new row has been created */
-					updateColsAndRows();
+			if(keyEvent->key() == Qt::Key_Return) {
+				QTableWidgetItem *item = m_Table->selectedItems()[0];
+				int row = item->row();
+				int column = item->column();
+				if(column < (m_Table->columnCount() - 1)) {
+					item->setSelected(false);
+					m_Table->item(row, column + 1)->setSelected(true);
+					m_Table->setCurrentItem(m_Table->item(row, column + 1));
+				} else {
+					if(row == (m_Table->rowCount() - 1)) {
+						m_sbRows->setValue(m_sbRows->value() + 1);
+						/* This is called twice, but now we can be sure that the new row has been created */
+						updateColsAndRows();
+					}
+					item->setSelected(false);
+					m_Table->item(row + 1, 0)->setSelected(true);
+					m_Table->setCurrentItem(m_Table->item(row + 1, 0));
 				}
-				item->setSelected(false);
-				m_Table->item(row + 1, 0)->setSelected(true);
-				m_Table->setCurrentItem(m_Table->item(row + 1, 0));
+
+				return true;
+			}
+		} else if(event->type() == QEvent::HoverMove) {
+			QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
+			QPoint pos = m_Table->viewport()->mapFromGlobal(m_Table->mapToGlobal(hoverEvent->pos()));
+			QTableWidgetItem *item = m_Table->itemAt(pos);
+
+			if(item) {
+				if(item->row() == 0 && item->column() == m_Table->columnCount() - 1 &&
+				   (m_Table->visualItemRect(item).topRight() - pos).manhattanLength() <= 3) {
+					m_Table->setCursor(Qt::CrossCursor);
+				} else if(item->row() == 0 &&
+				          (m_Table->visualItemRect(item).topLeft() - pos).manhattanLength() <= 3) {
+					m_Table->setCursor(Qt::CrossCursor);
+				} else if(item->column() == m_Table->columnCount() - 1 &&
+				          (m_Table->visualItemRect(item).bottomRight() - pos).manhattanLength() <= 3) {
+					m_Table->setCursor(Qt::CrossCursor);
+				} else if((m_Table->visualItemRect(item).bottomLeft() - pos).manhattanLength() <= 3) {
+					m_Table->setCursor(Qt::CrossCursor);
+				} else {
+					m_Table->unsetCursor();
+				}
+			} else {
+				m_Table->unsetCursor();
 			}
 
 			return true;

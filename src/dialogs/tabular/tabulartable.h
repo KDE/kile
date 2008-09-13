@@ -20,6 +20,7 @@
 #include <QTableWidget>
 
 class QEvent;
+class QMouseEvent;
 
 namespace KileDialog {
 
@@ -31,9 +32,16 @@ class NewTabularTable : public QTableWidget {
 
 	protected:
 		bool eventFilter(QObject *obj, QEvent *event);
+		void mousePressEvent(QMouseEvent *event);
+		void mouseReleaseEvent(QMouseEvent *event);
 
 	Q_SIGNALS:
 		void rowAppended();
+
+	private:
+		SelectionMode m_DefaultMode;
+		QPoint m_ManualBorderPosition;
+		QPoint m_ManualBorderStart;
 };
 
 }

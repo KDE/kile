@@ -61,9 +61,6 @@ class NewTabularDialog : public Wizard {
 		QIcon generateColorIcon(bool background) const;
 		bool canJoin() const;
 
-	protected:
-		bool eventFilter(QObject *obj, QEvent *event);
-
 	public Q_SLOTS:
 		int exec();
 		void slotButtonClicked(int button);
@@ -90,6 +87,7 @@ class NewTabularDialog : public Wizard {
 		void slotClearText();
 		void slotClearAttributes();
 		void slotClearAll();
+		void slotRowAppended();
 
 	private:
 		KileDocument::LatexCommands *m_latexCommands;

@@ -19,6 +19,8 @@
 
 #include <QTableWidget>
 
+class QEvent;
+
 namespace KileDialog {
 
 class NewTabularTable : public QTableWidget {
@@ -26,6 +28,12 @@ class NewTabularTable : public QTableWidget {
 
 	public:
 		NewTabularTable(QWidget *parent = 0);
+
+	protected:
+		bool eventFilter(QObject *obj, QEvent *event);
+
+	Q_SIGNALS:
+		void rowAppended();
 };
 
 }

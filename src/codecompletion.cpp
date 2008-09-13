@@ -42,7 +42,6 @@
 #ifdef __GNUC__
 #warning Remove the hack at line 43!
 #endif
-//FIXME: port for KDE4
 namespace KTextEditor {
 	class CompletionEntry {
 	};
@@ -190,7 +189,7 @@ namespace KileDocument
 			KTextEditor::Cursor cursor = view->cursorPosition();
 			uint column = cursor.column();
 			QString currentline = view->document()->line(cursor.line()).left(column);
-			int pos = currentline.findRev('\\');
+			int pos = currentline.lastIndexOf('\\');
 			if(pos >= 0) {
 				QString command = currentline.mid(pos,column-pos);
  				if(command.indexOf(reRef) != -1) {
@@ -436,7 +435,7 @@ namespace KileDocument
 		// switch to cmLatex mode, if cmLabel is chosen without any entries
 		if(mode == cmLabel && m_labellist.count() == 0) {
 			QString s = doc->line(m_ycursor);
-			int pos = s.findRev("\\",m_xcursor);
+			int pos = s.lastIndexOf("\\",m_xcursor);
 			if (pos < 0) {
 				//KILE_DEBUG() << "\tfound no backslash! s=" << s;
 				return;
@@ -650,7 +649,7 @@ namespace KileDocument
 		//KILE_DEBUG() << "   complete filter: " << text << " type " << type;
 		m_type = getType(text);    // remember current type
 
-		if(text != "\\begin{}" && reEnv.search(text) != -1) {
+		if(text != "\\begin{}" && reEnv.indexIn(text) != -1) {
 			m_mode = cmEnvironment;
 		}
 
@@ -747,7 +746,7 @@ namespace KileDocument
 	{
 		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
 
-		if(reEnv.search(text) == -1) {
+		if(reEnv.indexIn(text) == -1) {
 			return text;
 		}
 
@@ -864,7 +863,7 @@ namespace KileDocument
 		xpos = ypos = 0;
 		for(int i = 0; i < text.length(); ++i) {
 			QChar c = text[i];
-			switch(c.ascii()) {
+			switch(c.toAscii()) {
 				case '<':
 				case '{':
 				case '(':
@@ -930,7 +929,7 @@ namespace KileDocument
 			int pos = 0;
 
 			// search for braces, brackets and parens
-			switch(s[1].ascii()) {
+			switch(s[1].toAscii()) {
 				case 'l':
 					if(s.left(6) == "\\left ") {
 						pos = 5;
@@ -980,7 +979,7 @@ namespace KileDocument
 
 		for(int i = 0; i < text.length(); ++i) {
 			QChar c = text[i];
-			switch(c.ascii()) {
+			switch(c.toAscii()) {
 				case '[':
 				case '{':
 				case '(':
@@ -1264,7 +1263,7 @@ namespace KileDocument
 		QString textline = view->document()->line(row);
 
 		// search the current reference string
-		int pos = textline.findRev(reNotRefChars, col - 1);
+		int pos = textline.lastIndexOf(reNotRefChars, col - 1);
 		if(pos < 0) {
 			pos = 0;
 		}
@@ -1291,7 +1290,7 @@ namespace KileDocument
 			s = doc->line(i);
 			int pos = 0;
 			while (pos >= 0) {
-				pos = reg.search(s, pos);
+				pos = reg.indexIn(s, pos);
 				if (pos >= 0) {
 					if (reg.cap(1).at(0) != '\\' && text != reg.cap(1) && !seen.contains(reg.cap(1))) {
 						QString word = reg.cap(1);

@@ -2141,8 +2141,8 @@ void Kile::quickTabulardialog(bool tabularenv)
 
 	QString env;
 	if(tabularenv) {
-		// TODO read from config
-		env = "tabular";
+		KConfigGroup group = m_config->group("Wizard");
+		env = group.readEntry("TabularEnvironment", "tabular");
 	} else {
 		env = "array";
 	}
@@ -2150,6 +2150,11 @@ void Kile::quickTabulardialog(bool tabularenv)
 	KileDialog::NewTabularDialog dlg(env, m_latexCommands, m_config.data(), m_mainWindow);
 	if(dlg.exec()) {
 		insertTag(dlg.tagData(), dlg.requiredPackages());
+		if(tabularenv) {
+			KConfigGroup group = m_config->group("Wizard");
+			group.writeEntry("TabularEnvironment", dlg.environment());
+			m_config->sync();
+		}
 	}
 }
 

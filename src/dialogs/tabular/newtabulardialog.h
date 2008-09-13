@@ -52,6 +52,7 @@ class NewTabularDialog : public Wizard {
 		~NewTabularDialog();
 
 		const QStringList& requiredPackages() const;
+		QString environment() const;
 
 	private:
 		void initEnvironments();

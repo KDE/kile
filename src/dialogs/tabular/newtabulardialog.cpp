@@ -218,6 +218,11 @@ const QStringList& NewTabularDialog::requiredPackages() const
 	return m_requiredPackages;
 }
 
+QString NewTabularDialog::environment() const
+{
+	return m_cmbName->currentText();
+}
+
 void NewTabularDialog::initEnvironments()
 {
 	/* read all tabular environments and insert them into the combobox */

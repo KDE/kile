@@ -230,6 +230,11 @@ void NewTabularDialog::initEnvironments()
 	int index = m_cmbName->findText(m_defaultEnvironment);
 	if(index != -1) {
 		m_cmbName->setCurrentIndex(index);
+	} else {
+		if(m_defaultEnvironment == "array") {
+			m_cmbName->insertItem(0, "array");
+			m_cmbName->setCurrentIndex(0);
+		}
 	}
 
 	// refresh other gui elements regarding environment combo box

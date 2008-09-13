@@ -2139,19 +2139,17 @@ void Kile::quickTabulardialog(bool tabularenv)
 		return;
 	}
 
-	// NOTE This is to have access on the old and the new dialog to make
-	//      sure that no feature is missing.
-	if (!tabularenv) {
-		KileDialog::TabularDialog *dlg = new KileDialog::TabularDialog(m_mainWindow, m_config.data(), m_latexCommands, tabularenv);
-		if(dlg->exec()) {
-			insertTag(dlg->tagData());
-		}
-		delete dlg;
+	QString env;
+	if(tabularenv) {
+		// TODO read from config
+		env = "tabular";
 	} else {
-		KileDialog::NewTabularDialog dlg("tabular", m_latexCommands, m_config.data(), m_mainWindow);
-		if(dlg.exec()) {
-			insertTag(dlg.tagData(), dlg.requiredPackages());
-		}
+		env = "array";
+	}
+
+	KileDialog::NewTabularDialog dlg(env, m_latexCommands, m_config.data(), m_mainWindow);
+	if(dlg.exec()) {
+		insertTag(dlg.tagData(), dlg.requiredPackages());
 	}
 }
 

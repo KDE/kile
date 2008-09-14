@@ -13,9 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-// TODO rename to TabularTable and delete old TabularTable
-#ifndef NEWTABULARTABLE_H
-#define NEWTABULARTABLE_H
+#ifndef TABULARTABLE_H
+#define TABULARTABLE_H
 
 #include <QTableWidget>
 
@@ -24,11 +23,11 @@ class QMouseEvent;
 
 namespace KileDialog {
 
-class NewTabularTable : public QTableWidget {
+class TabularTable : public QTableWidget {
 	Q_OBJECT
 
 	public:
-		NewTabularTable(QWidget *parent = 0);
+		TabularTable(QWidget *parent = 0);
 
 	protected:
 		bool eventFilter(QObject *obj, QEvent *event);

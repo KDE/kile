@@ -26,7 +26,7 @@
 
 namespace KileDialog {
 
-NewTabularTable::NewTabularTable(QWidget *parent)
+TabularTable::TabularTable(QWidget *parent)
 	: QTableWidget(parent), m_ManualBorderPosition(QPoint(-1, -1)),
 	  m_ManualBorderStart(QPoint(-1, -1)) {
 	setItemDelegate(new TabularCellDelegate(this));
@@ -37,7 +37,7 @@ NewTabularTable::NewTabularTable(QWidget *parent)
 	m_DefaultMode = selectionMode();
 }
 
-bool NewTabularTable::eventFilter(QObject *obj, QEvent *event)
+bool TabularTable::eventFilter(QObject *obj, QEvent *event)
 {
 	if(obj == this) {
 		if(event->type() == QEvent::KeyPress && selectedItems().count() == 1) {
@@ -105,7 +105,7 @@ bool NewTabularTable::eventFilter(QObject *obj, QEvent *event)
 	return QTableWidget::eventFilter(obj, event);
 }
 
-void NewTabularTable::mousePressEvent(QMouseEvent *event)
+void TabularTable::mousePressEvent(QMouseEvent *event)
 {
 	m_ManualBorderStart = m_ManualBorderPosition;
 	if(m_ManualBorderStart.x() > -1) {
@@ -115,7 +115,7 @@ void NewTabularTable::mousePressEvent(QMouseEvent *event)
 	QTableWidget::mousePressEvent(event);
 }
 
-void NewTabularTable::mouseReleaseEvent(QMouseEvent *event)
+void TabularTable::mouseReleaseEvent(QMouseEvent *event)
 {
 	if(m_ManualBorderStart.x() > -1) {
 		if(m_ManualBorderPosition.x() > -1) {

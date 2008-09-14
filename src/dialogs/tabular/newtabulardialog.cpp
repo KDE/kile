@@ -116,7 +116,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acItalic->setCheckable(true);
 	m_acUnderline->setCheckable(true);
 
-	m_Table = new NewTabularTable(page);
+	m_Table = new TabularTable(page);
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();

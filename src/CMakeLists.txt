@@ -5,7 +5,6 @@ INCLUDE( FindPerl )
 
 INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
-ADD_DEFINITIONS(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
 ########### next target ###############
@@ -18,7 +17,6 @@ SET(kile_SRCS
 	dialogs/userhelpdialog.cpp
 	dialogs/floatdialog.cpp
 	dialogs/mathenvironmentdialog.cpp
-	tabulardialog.cpp
 	dialogs/postscriptdialog.cpp
 	widgets/previewconfigwidget.cpp
 	quickpreview.cpp
@@ -158,9 +156,8 @@ KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
-#need qt3support library for now
 TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS} 
-${KDE4_KDE3SUPPORT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KTEXTEDITOR_LIBS} )
+${KDE4_KFILE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KTEXTEDITOR_LIBS} )
 
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 
@@ -173,5 +170,4 @@ INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
 kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
 
-# FIXME: disabling this for now
-kde4_install_icons( ${ICON_INSTALL_DIR}  )
+KDE4_INSTALL_ICONS( ${ICON_INSTALL_DIR}  )

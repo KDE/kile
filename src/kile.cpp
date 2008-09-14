@@ -24,9 +24,6 @@
 #include <QShowEvent>
 #include <QSplashScreen>
 
-#include <Q3CString>
-#include <Q3PopupMenu>
-
 #include <KAction>
 #include <KActionMenu>
 #include <KConfigGroup>
@@ -80,7 +77,6 @@
 #include "widgets/sidebar.h"
 #include "dialogs/floatdialog.h"
 #include "dialogs/mathenvironmentdialog.h"
-#include "tabulardialog.h"
 #include "dialogs/tabular/newtabulardialog.h"
 #include "dialogs/postscriptdialog.h"
 #include "latexcmd.h"

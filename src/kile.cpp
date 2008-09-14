@@ -593,6 +593,7 @@ void Kile::setupBottomBar()
 
 	m_bottomBar->setVisible(true);
 	m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
+	m_bottomBar->switchToTab(KileConfig::bottomBarIndex());
 }
 
 void Kile::setupGraphicTools()
@@ -2437,6 +2438,7 @@ void Kile::saveSettings()
 	KileConfig::setSideBarSize(m_sideBar->directionalSize());
 	KileConfig::setBottomBar(!m_bottomBar->isHidden()); // do not use 'isVisible()'!
 	KileConfig::setBottomBarSize(sizeBottomBar);
+	KileConfig::setBottomBarIndex(m_bottomBar->currentTab());
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
 

@@ -142,6 +142,10 @@
             <label>Height of the bottombar.</label>
             <default>200</default>
         </entry>
+		<entry name="BottomBarIndex" type="Int">
+			<label>Which tab of the bottom bar to show.</label>
+			<default>0</default>
+		</entry>
         <entry name="SideBarSize" type="Int">
             <label>Width of the sidebar.</label>
             <default>300</default>

@@ -897,16 +897,17 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 	QString startDir = info->url().url();
 	KUrl oldURL = info->url();
 	if(startDir.isEmpty()) {
-		if((info->getBaseDirectory()).isEmpty()) {
+		KUrl baseDirectory = info->getBaseDirectory();
+		if(baseDirectory.isEmpty()) {
 			startDir = ":KILE_LATEX_SAVE_DIR";
 		}
 		else {
-			startDir = doc->url().url();
+			startDir = baseDirectory.url();
 		}
 	}
 	
 	KILE_DEBUG() << "startDir is " << startDir;
-	
+
 	KEncodingFileDialog::Result result;
 	KUrl saveURL;
 	while(true) {

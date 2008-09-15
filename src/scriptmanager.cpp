@@ -486,7 +486,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		const KileScript::Script *script = m_manager->getScript(m_id);
 		Q_ASSERT(script);
 		setText(i18n("Execution of %1", script->getName()));
-		connect(this, SIGNAL(activated()), this, SLOT(executeScript()));
+		connect(this, SIGNAL(triggered()), this, SLOT(executeScript()));
 	}
 
 	ScriptExecutionAction::~ScriptExecutionAction()	{

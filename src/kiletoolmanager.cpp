@@ -110,7 +110,7 @@ namespace KileTool
 	{
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
-		connect(stop, SIGNAL(activated()), this, SLOT(stop()));
+		connect(stop, SIGNAL(triggered()), this, SLOT(stop()));
 	}
 	
 	Manager::~Manager() {}

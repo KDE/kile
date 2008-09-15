@@ -334,6 +334,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 				foreach(QWidget *w, action->associatedWidgets()) {
 					w->removeAction(action);
 				}
+				m_actionCollection->takeAction(action);
 				delete action;
 			}
 			delete *it;
@@ -369,6 +370,7 @@ m_kileInfo->viewManager()->currentView()->down();*/
 		}
 		// now set up a regular action object
 		ScriptExecutionAction *action = new ScriptExecutionAction(id, this, m_actionCollection);
+		m_actionCollection->addAction("script" + QString::number(id) + "_execution", action);
 		script->setActionObject(action);
 	}
 

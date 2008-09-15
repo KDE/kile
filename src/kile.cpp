@@ -1694,12 +1694,8 @@ void Kile::activePartGUI(KParts::Part * part)
 	//kghostview (which has the print action defined in
 	//a KParts::BrowserExtension)
 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-#ifdef __GNUC__
-#warning metaObject()->slotNames() still needs to be ported!
-#endif
-//FIXME: port for KDE4
-/*
-	if (ext && ext->metaObject()->slotNames().contains( "print()" ) ) //part is a BrowserExtension, connect printAction()
+
+	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) //part is a BrowserExtension, connect printAction()
 	{
 		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
 		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
@@ -1712,7 +1708,7 @@ void Kile::activePartGUI(KParts::Part * part)
 		}
 		m_paPrint->setEnabled(false);
 	}
-*/
+
 	//set the current state
 	m_currentState = m_wantState;
 	m_wantState = "Editor";

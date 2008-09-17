@@ -1033,7 +1033,7 @@ void LaTeXInfo::updateStruct()
 						else if(m=="block" || m=="exampleblock" || m=="alertblock") {
 							const QString untitledBlockDisplayName = i18n("Untitled Block");
 							it = m_dictStructLevel.find("\\begin{block}");
-							if(s.at(tagEnd+1) == '{') {
+							if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
 								tagEnd++;
 								result = matchBracket(i, tagEnd);
 								m = result.value.trimmed();

@@ -807,7 +807,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 			if(insertsep) {
 				popup.addSeparator();
 			}
-			popup.addAction(KIcon("project_remove"),i18n("&Remove From Project"), &signalMapper, SLOT(map()));
+			action = popup.addAction(KIcon("project_remove"),i18n("&Remove From Project"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, KPV_ID_REMOVE);
 			insertsep = true;
 		}
@@ -817,17 +817,17 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 		if(insertsep) {
 			popup.addSeparator();
 		}
-		popup.addAction(i18n("A&dd Files..."), &signalMapper, SLOT(map()));
+		action = popup.addAction(i18n("A&dd Files..."), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_ADDFILES);
 		popup.addSeparator();
-		popup.addAction(i18n("Open All &Project Files"), &signalMapper, SLOT(map()));
+		action = popup.addAction(i18n("Open All &Project Files"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_OPENALLFILES);
 		popup.addSeparator();
-		popup.addAction(KIcon("view-refresh"),i18n("Refresh Project &Tree"), &signalMapper, SLOT(map()));
+		action = popup.addAction(KIcon("view-refresh"),i18n("Refresh Project &Tree"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_BUILDTREE);
-		popup.addAction(KIcon("configure"), i18n("Project &Options"), &signalMapper, SLOT(map()));
+		action = popup.addAction(KIcon("configure"), i18n("Project &Options"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_OPTIONS);
-		popup.addAction(i18n("&Archive"), &signalMapper, SLOT(map()));
+		action = popup.addAction(i18n("&Archive"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, KPV_ID_ARCHIVE);
 		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotProject(int)));
 		insertsep = true;

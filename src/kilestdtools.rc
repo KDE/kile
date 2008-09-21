@@ -327,9 +327,9 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
-[Tool/XeTeX/Default]
+[Tool/XeLaTeX/PDF]
 class=LaTeX
-command=xetex
+command=xelatex
 options=-interaction=nonstopmode '%source'
 from=
 to=pdf
@@ -338,9 +338,20 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
-[Tool/XeTeX/Draft]
+[Tool/XeLaTeX/XDVI]
 class=LaTeX
-command=xetex
+command=xelatex
+options=-no-pdf -interaction=nonstopmode '%source'
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/PDF Draft]
+class=LaTeX
+command=xelatex
 options=-draftmode -interaction=nonstopmode '%source'
 from=
 to=pdf
@@ -349,12 +360,34 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
-[Tool/XeTeX/Modern]
+[Tool/XeLaTeX/XDVI Draft]
 class=LaTeX
-command=xetex
+command=xelatex
+options=-no-pdf -draftmode -interaction=nonstopmode '%source'
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/PDF Modern]
+class=LaTeX
+command=xelatex
 options=-src-specials -interaction=nonstopmode '%source'
 from=
 to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/XDVI Modern]
+class=LaTeX
+command=xelatex
+options=-no-pdf -src-specials -interaction=nonstopmode '%source'
+from=
+to=xdvi
 type=Process
 checkForRoot=yes
 jumpToFirstError=yes
@@ -376,6 +409,17 @@ autoRun=no
 checkForRoot=no
 class=LaTeXpreview
 command=pdflatex
+from=
+jumpToFirstError=yes
+options=-interaction=nonstopmode '%source'
+to=pdf
+type=Process
+
+[Tool/PreviewXeLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=xelatex
 from=
 jumpToFirstError=yes
 options=-interaction=nonstopmode '%source'
@@ -700,6 +744,7 @@ MetaPost=Default
 PDFLaTeX=Default
 PreviewLaTeX=Default
 PreviewPDFLaTeX=Default
+PreviewXeLaTeX=Default
 PStoPDF=Default
 QuickBuild=PDFLaTeX+ViewPDF
 TeX=Default
@@ -711,7 +756,7 @@ ViewDVI=Okular
 ViewHTML=Konqueror
 ForwardDVI=Okular
 Lilypond=PDF
-XeTeX=Default
+XeLaTeX=PDF
 
 [ToolsGUI]
 Lilypond=Compile,lilypond
@@ -728,6 +773,7 @@ MakeIndex=Compile,makeidx
 MetaPost=Compile,mpost
 PreviewLaTeX=none,none
 PreviewPDFLaTeX=none,none
+PreviewXeLaTeX=none,none
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 LaTeX=Compile,latex
@@ -735,7 +781,7 @@ TeX=Compile,texcompiler
 PDFTeX=Compile,pdftex
 PDFLaTeX=Compile,pdflatex
 ConTeXt=Compile,latex
-XeTeX=Compile,latex
+XeLaTeX=Compile,latex
 ViewBib=View,viewbib
 ViewDVI=View,okular
 ViewPDF=View,okular

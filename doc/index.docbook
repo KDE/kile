@@ -1458,7 +1458,7 @@
 		<para>You will see that all commands are written with a short description of 
 		their parameters. These descriptions are of course stripped when you select a command. 
 		Optionally you can let &kile; insert bullets at these places, so that you can easily 
-		jump to the these positions with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Bullets</guisubmenu><guimenuitem>Next Bullet</guimenuitem></menuchoice> 
+		jump to these positions with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Bullets</guisubmenu><guimenuitem>Next Bullet</guimenuitem></menuchoice> 
 		and insert the parameter you want.</para>
 
 		<screenshot>

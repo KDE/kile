@@ -487,6 +487,7 @@ bool KileProject::save()
 		m_config->writeEntry("options", makeIndexOptions() );
 	}
 
+	KILE_DEBUG() << "Check if the config file is writeable: " << m_config->checkConfigFilesWritable(false) << endl;
 	m_config->sync();
 
 	// dump();

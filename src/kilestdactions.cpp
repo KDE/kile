@@ -265,7 +265,7 @@ Print List of Shorthands - \printshorthands
 	QStringList keyList, optKeyList, altKeyList;
 	QString altText, optText, compText;
 
-	for(QList<QString>::iterator it = groupList.begin(); it != groupList.end(); it++ ) {
+	for(QList<QString>::iterator it = groupList.begin(); it != groupList.end(); ++it) {
 		altKeyList.clear();
 		keyList.clear();
 		optKeyList.clear();
@@ -292,21 +292,21 @@ Print List of Shorthands - \printshorthands
 		internalName = "tag_bib_" + internalName.trimmed();
 		tag = tag.trimmed();
 
-		for(QList<QString>::iterator it = keyList.begin(); it != keyList.end(); it++ ) {
+		for(QList<QString>::iterator it = keyList.begin(); it != keyList.end(); ++it) {
 			key = (*it).trimmed();
 			key = QString(" %1 = {},\n").arg(key);
 			keys.append(key);
 // 			KILE_DEBUG() << "key" << key ;
 		}
 
-		for(QList<QString>::iterator it = altKeyList.begin(); it != altKeyList.end(); it++ ) {
+		for(QList<QString>::iterator it = altKeyList.begin(); it != altKeyList.end(); ++it) {
 			key = (*it).trimmed();
 			key = QString(" ALT%1 = {},\n").arg(key);
 			keys.append(key);
 // 			KILE_DEBUG() << "altkey" << key ;
 		}
 	
-		for(QList<QString>::iterator it = optKeyList.begin(); it != optKeyList.end(); it++ ) {
+		for(QList<QString>::iterator it = optKeyList.begin(); it != optKeyList.end(); ++it) {
 			key = (*it).trimmed();
 			key = QString(" OPT%1 = {},\n").arg(key);
 			keys.append(key);

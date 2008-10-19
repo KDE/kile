@@ -1046,7 +1046,7 @@ void Kile::saveLastSelectedAction(){
 	
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 
-	for(QStringList::Iterator it = list.begin(); it != list.end() ; it++ ){
+	for(QStringList::Iterator it = list.begin(); it != list.end() ; ++it) {
 		
 		actName.clear();
 		
@@ -1084,7 +1084,7 @@ void Kile::restoreLastSelectedAction(){
 	
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 	
-	for(QStringList::Iterator it = list.begin(); it != list.end() ; it++ ) {
+	for(QStringList::Iterator it = list.begin(); it != list.end(); ++it) {
 		
 		actName.clear();
 		act = NULL;
@@ -2079,9 +2079,11 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 		QStringList::const_iterator it;
 		QStringList warnPkgs;
 		
-		for ( it = pkgs.begin() ; it != pkgs.end() ; it++ )
-			if( !(*packagelist).contains(*it) )
+		for ( it = pkgs.begin(); it != pkgs.end(); ++it) {
+			if(!(*packagelist).contains(*it)) {
 				warnPkgs.append(*it);
+			}
+		}
 
 		if(warnPkgs.count() > 0) {
 			if(warnPkgs.count() == 1) {

@@ -209,7 +209,8 @@ namespace KileWidget
 	}
 
 	void LogWidget::printMessage(int type, const QString& message, const QString &tool,
-	                             const OutputInfo& outputInfo, bool allowSection)
+	                             const OutputInfo& outputInfo, bool allowSelection,
+	                             bool scroll)
 	{
 		if(type == KileTool::Error) {
 			emit showingErrorMessage(this);
@@ -257,19 +258,28 @@ namespace KileWidget
 		if(outputInfo.isValid()) {
 			item->setData(Qt::UserRole, QVariant::fromValue(outputInfo));
 		}
-		else if(!allowSection) {
+		if(!allowSelection) {
 			// Don't allow the user to manually select this item
 			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 		}
 
-		addItem(item);
-		scrollToItem(item);
+		if(scroll) {
+			scrollToItem(item);
+		}
 	}
 
 	void LogWidget::printProblem(int type, const QString& problem, const OutputInfo& outputInfo)
 	{
 		KILE_DEBUG() << "\t" << problem;
 		printMessage(type, problem, QString(), outputInfo);
+	}
+
+	void LogWidget::printProblems(const QList<KileWidget::LogWidget::ProblemInformation>& list)
+	{
+		for(QList<ProblemInformation>::const_iterator i = list.begin(); i != list.end(); ++i) {
+			printMessage((*i).type, (*i).message, QString(), (*i).outputInfo, false, false);
+		}
+		scrollToBottom();
 	}
 
 	void LogWidget::addEmptyLine()

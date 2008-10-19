@@ -54,9 +54,6 @@ void KileErrorHandler::reset()
 
 void KileErrorHandler::ViewLog()
 {
-#ifdef __GNUC__
-#warning FIXME: this is still very slow!
-#endif
 	KileWidget::LogWidget *logWidget = m_ki->logWidget();
 	m_ki->outputView()->showPage(logWidget);
 	m_ki->setLogPresent(false);
@@ -82,8 +79,6 @@ void KileErrorHandler::ViewLog()
 
 		QTextStream textStream(&log, QIODevice::ReadOnly);
 
-// 		logWidget->setUpdatesEnabled(false);
-// 		logWidget->blockSignals(true);
 		for(int lineNumber = 0; !textStream.atEnd(); ++lineNumber) {
 			int type = -1;
 			QString line = textStream.readLine();
@@ -100,10 +95,9 @@ void KileErrorHandler::ViewLog()
 						break;
 				}
 			}
-			logWidget->printMessage(type, line, QString(), hash[lineNumber], true);
+			// don't scroll to the item as this will lead to severely degraded performance
+			logWidget->printMessage(type, line, QString(), hash[lineNumber], true, false);
 		}
-// 		logWidget->setUpdatesEnabled(true);
-// 		logWidget->blockSignals(false);
 
 		logWidget->scrollToBottom();
 		m_ki->setLogPresent(true);

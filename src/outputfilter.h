@@ -19,6 +19,7 @@
 #include <QString>
 #include <QWidget>
 
+#include "widgets/logwidget.h"
 #include "outputinfo.h"
 
 /**An object of this class is used to parse the output messages
@@ -51,8 +52,9 @@ public:
     const QString& path() const { return m_srcPath; }
 
 Q_SIGNALS:
-    void problem(int, const QString&, const OutputInfo& outputInfo = OutputInfo());
-    void output(const QString&);
+	void problem(int, const QString&, const OutputInfo& outputInfo = OutputInfo());
+	void problems(const QList<KileWidget::LogWidget::ProblemInformation>& list);
+	void output(const QString&);
 
 protected:
     virtual short parseLine(const QString& strLine, short dwCookie);

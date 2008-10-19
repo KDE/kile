@@ -634,13 +634,14 @@ void LatexOutputFilter::sendProblems()
 {
 	QString message;
 	int type;
+	QList<KileWidget::LogWidget::ProblemInformation> problemList;
 
 	//print detailed error info
 	for(QList<LatexOutputInfo>::iterator i = m_infoList->begin();
 	                                     i != m_infoList->end(); ++i) {
 		LatexOutputInfo info = *i;
 		message = info.source() + ':' + QString::number(info.sourceLine()) + ':' + info.message();
-		switch((*i).type()) {
+		switch(info.type()) {
 			case LatexOutputInfo::itmBadBox:
 				type = KileTool::ProblemBadBox;
 				break;
@@ -654,8 +655,13 @@ void LatexOutputFilter::sendProblems()
 				type = KileTool::Info;
 				break;
 		}
-		emit(problem(type, message, info));
+		KileWidget::LogWidget::ProblemInformation problem;
+		problem.type = type;
+		problem.message = message;
+		problem.outputInfo = info;
+		problemList.push_back(problem);
 	}
+	emit(problems(problemList));
 }
 
 /** Return number of errors etc. found in log-file. */

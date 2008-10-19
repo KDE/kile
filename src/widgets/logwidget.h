@@ -53,6 +53,12 @@ namespace KileWidget {
 		Q_OBJECT
 
 	public:
+		struct ProblemInformation {
+			int type;
+			QString message;
+			OutputInfo outputInfo; 
+		};
+		
 		LogWidget(KileInfo *info, QWidget *parent, const char *name = NULL);
 		~LogWidget();
 
@@ -63,8 +69,10 @@ namespace KileWidget {
 
 		void printMessage(const QString& message);
 		void printMessage(int type, const QString& message, const QString &tool = "Kile",
-		                  const OutputInfo& outputInfo = OutputInfo(), bool allowSection = false);
+		                  const OutputInfo& outputInfo = OutputInfo(), bool allowSelection = false,
+		                  bool scroll = true);
 		void printProblem(int type, const QString& problem, const OutputInfo& outputInfo = OutputInfo());
+		void printProblems(const QList<KileWidget::LogWidget::ProblemInformation>& list);
 
 		void addEmptyLine();
 

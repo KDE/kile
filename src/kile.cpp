@@ -580,6 +580,8 @@ void Kile::setupBottomBar()
 	m_outputInfo=new LatexOutputInfoArray();
 	m_outputFilter=new LatexOutputFilter(m_outputInfo,m_extensions);
 	connect(m_outputFilter, SIGNAL(problem(int, const QString&, const OutputInfo&)), m_logWidget, SLOT(printProblem(int, const QString&, const OutputInfo&)));
+	connect(m_outputFilter, SIGNAL(problems(const QList<KileWidget::LogWidget::ProblemInformation>&)),
+	        m_logWidget, SLOT(printProblems(const QList<KileWidget::LogWidget::ProblemInformation>&)));
 
 	m_texKonsole = new KileWidget::Konsole(this, m_mainWindow);
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));

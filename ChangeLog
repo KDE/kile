@@ -4,7 +4,7 @@ Fixes:
  - add {} to special characters in symbolview for easier handling (#170144)
 
 Features:
- -
+ - babel and todonotes cwl files
 
 version 2.0.1 -> 2.0.2
 

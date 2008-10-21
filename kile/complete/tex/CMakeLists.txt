@@ -13,6 +13,7 @@ SET(kile_texCompleteFiles
 	amsthm.cwl
 	array.cwl
 	attachfile.cwl
+	babel.cwl
 	beamerfoils.cwl
 	beamerprosper.cwl
 	beamerseminar.cwl
@@ -90,6 +91,7 @@ SET(kile_texCompleteFiles
 	tabularx.cwl
 	tex.cwl
 	textcomp.cwl
+	todonotes.cwl
 	url.cwl
 	varioref.cwl
 	verse.cwl

@@ -11,6 +11,7 @@ texcomplete_DATA = \
 	amsthm.cwl \
 	array.cwl \
 	attachfile.cwl \
+	babel.cwl \
 	beamerfoils.cwl \
 	beamerprosper.cwl \
 	beamerseminar.cwl \
@@ -88,6 +89,7 @@ texcomplete_DATA = \
 	tabularx.cwl \
 	tex.cwl \
 	textcomp.cwl \
+	todonotes.cwl \
 	url.cwl \
 	varioref.cwl \
 	verse.cwl \

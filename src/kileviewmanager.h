@@ -158,12 +158,14 @@ class DropWidget : public QWidget {
 		virtual ~DropWidget();
 
 		virtual void dragEnterEvent(QDragEnterEvent *e);
-
 		virtual void dropEvent(QDropEvent *e);
+		
+		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
 	Q_SIGNALS:
 		void testCanDecode(const QDragEnterEvent *, bool &);
 		void receivedDropEvent(QDropEvent *);
+		void mouseDoubleClick();
 };
 
 }

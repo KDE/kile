@@ -97,6 +97,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_widgetStack->addWidget(m_emptyDropWidget);
 	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragEnterEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragEnterEvent*, bool&)));
 	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
+	connect(m_emptyDropWidget, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
 	m_tabs = new KTabWidget(parent);
 	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(Qt::ClickFocus);
@@ -109,6 +110,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
 	connect(m_tabs, SIGNAL(contextMenu(QWidget*,const QPoint &)), this, SLOT(tabContext(QWidget*,const QPoint &)));
+	connect(m_tabs, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
 
 	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
 
@@ -644,6 +646,11 @@ void DropWidget::dragEnterEvent(QDragEnterEvent *e)
 void DropWidget::dropEvent(QDropEvent *e)
 {
 	emit receivedDropEvent(e);
+}
+
+void DropWidget::mouseDoubleClickEvent(QMouseEvent *e)
+{
+	emit mouseDoubleClick();
 }
 
 // remove entries from KatePart menu: 

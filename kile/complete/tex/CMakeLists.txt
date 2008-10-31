@@ -44,6 +44,7 @@ SET(kile_texCompleteFiles
 	fancyvrb.cwl
 	fontspec.cwl
 	graphicx.cwl
+	glosstex.cwl
 	hyperref.cwl
 	ifthen.cwl
 	import.cwl

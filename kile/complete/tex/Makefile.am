@@ -41,6 +41,7 @@ texcomplete_DATA = \
 	fancyunits_small-fractions.cwl \
 	fancyvrb.cwl \
 	fontspec.cwl \
+	glosstex.cwl \
 	graphicx.cwl \
 	hyperref.cwl \
 	ifthen.cwl \

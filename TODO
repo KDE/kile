@@ -18,7 +18,7 @@ TODO
 
 - strange ref error see http://sourceforge.net/forum/forum.php?thread_id=1746112&forum_id=292014 and BTS
 
-- project depended makeindex options don't work, and have never worked if I got the code right
+- the existence of the file .ind should not be checked for makeindex,. becasue it is for example for glosstex not necessary
 
 docu:
 - explain tool stuff and the magic %... abbreviations

@@ -453,8 +453,9 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 	
 	// if no folder was found, we must create a new one
 	if(!found) {
-		folder = new ProjectViewItem(parent,foldername);
-		KILE_DEBUG() << "new folder: " << parent->url().url();
+		folder = new ProjectViewItem(parent, foldername);
+		KILE_DEBUG() << "new folder: parent=" << parent->url().url()
+		             << ", foldername=" << foldername;
 
 		folder->setFolder(pi->type());
 		folder->setType(KileType::Folder);
@@ -487,8 +488,6 @@ ProjectViewItem* ProjectView::projectViewItemFor(const KUrl& url)
 
 	//find project view item
 	QTreeWidgetItemIterator it(this);
-	++it; // skip 'this'
-
 	while(*it) {
 		item = dynamic_cast<ProjectViewItem*>(*it);
 		if(item && (item->type() == KileType::Project) && (item->url() == url)) {
@@ -557,10 +556,10 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
 	return (!parpvi) ? projvi : parpvi;
 }
 
-ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * projvi /* = NULL */)
+ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *projvi /* = NULL */)
 {
-	KILE_DEBUG() << "\tProjectView::adding projectitem " << projitem->path();
-
+	KILE_DEBUG() << "\tprojectitem=" << projitem->path()
+	             << " projvi=" << projvi;
 	const KileProject *project = projitem->project();
 
 	if (!projvi) {
@@ -569,7 +568,7 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * p
 
 	KILE_DEBUG() << "\tparent projectviewitem " << projvi->url().fileName();
 
-	ProjectViewItem *item, *parent;
+	ProjectViewItem *item = NULL, *parent = NULL;
 
 	switch (projitem->type()) {
 	case (KileProjectItem::Source):
@@ -591,18 +590,24 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem * p
 		item->setIcon(0, KIcon((projitem->type()==KileProjectItem::ProjectFile) ? "kile" : "file"));
 	break;
 	}
-
+	
 	item->setArchiveState(projitem->archive());
 	item->setURL(projitem->url());
 	makeTheConnection(item);
 
 	projvi->sortChildren(0, Qt::AscendingOrder);
-
+	// seems to be necessary to get a correct refreh (Qt 4.4.3)
+	bool expanded = projvi->isExpanded();
+	projvi->setExpanded(!expanded);
+	projvi->setExpanded(expanded);
+	
 	return item;
 }
 
 void ProjectView::addTree(KileProjectItem *projitem, ProjectViewItem *projvi)
 {
+	KILE_DEBUG() << "projitem=" << projitem
+	             << "projvi=" << projvi;
 	ProjectViewItem * item = add(projitem, projvi);
 
 	if(projitem->firstChild()) {
@@ -623,11 +628,10 @@ void ProjectView::refreshProjectTree(const KileProject *project)
 	if(parent) {
 		KILE_DEBUG() << "\tusing parent projectviewitem " << parent->url().fileName();
 		parent->setFolder(-1);
-		QTreeWidgetItemIterator it(parent);
-		++it; // skip 'parent'
-		while(*it) {
-			delete *it;
-			++it;
+		QList<QTreeWidgetItem*> children = parent->takeChildren();
+		for(QList<QTreeWidgetItem*>::iterator it = children.begin();
+		    it != children.end(); ++it) {
+			delete(*it);
 		}
 	}
 	else {
@@ -644,6 +648,10 @@ void ProjectView::refreshProjectTree(const KileProject *project)
 	}
 
 	parent->sortChildren(0, Qt::AscendingOrder);
+	// seems to be necessary to get a correct refreh (Qt 4.4.3)
+	bool expanded = parent->isExpanded();
+	parent->setExpanded(!expanded);
+	parent->setExpanded(expanded);
 }
 
 void ProjectView::add(const KUrl& url)

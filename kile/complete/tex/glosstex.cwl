@@ -1,35 +1,35 @@
 # glosstex, ctan
-# tbraun 31.10.2008
+# tbraun 2.11.2008
 
 \glosstex{label}
 \glosstex[pageref-mode]{label}
-\glosstex( list ){label}
-\glosstex( list )[pageref-mode]{label}
+\glosstex(list){label}
+\glosstex(list)[pageref-mode]{label}
 
 \glosstex*{label}
 \glosstex*[pageref-mode]{label}
-\glosstex*( list ){label}
-\glosstex*( list )[pageref-mode]{label}
+\glosstex*(list){label}
+\glosstex*(list)[pageref-mode]{label}
 
 \acronym{label}
 \acronym[pageref-mode]{label}
-\acronym( list ){label}
-\acronym( list )[pageref-mode]{label}
+\acronym(list){label}
+\acronym(list)[pageref-mode]{label}
 
 \acronym*{label}
 \acronym*[pageref-mode]{label}
-\acronym*( list ){label}
-\acronym*( list )[pageref-mode]{label}
+\acronym*(list){label}
+\acronym*(list)[pageref-mode]{label}
 
 \gls{label}
 \gls[pageref-mode]{label}
-\gls( list ){label}
-\gls( list )[pageref-mode]{label}
+\gls(list){label}
+\gls(list)[pageref-mode]{label}
 
 \gls*{label}
 \gls*[pageref-mode]{label}
-\gls*( list ){label}
-\gls*( list )[pageref-mode]{label}
+\gls*(list){label}
+\gls*(list)[pageref-mode]{label}
 
 \ac{label}
 \ac[pageref-mode]{label}

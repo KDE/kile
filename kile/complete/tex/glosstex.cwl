@@ -1,5 +1,5 @@
 # glosstex, ctan
-# tbraun 2.11.2008
+# tbraun 4.11.2008
 
 \glosstex{label}
 \glosstex[pageref-mode]{label}
@@ -79,7 +79,7 @@
 \acf*<form>(list)[pageref-mode]{label}
 \acf*[, lparen , rparen ,]<form>(list)[pageref-mode]{label}
 
-\printglosstex[pageref-mode]
+\printglosstex(list)
 \printglosstex(list)[pageref-mode]
 
 \glxitemorderdefault{list}{item-order i/l/""}
@@ -90,3 +90,6 @@
 
 \glxref{item}
 \glxref*{item}
+
+\glxheading{glo, acr or own list}{definition}
+

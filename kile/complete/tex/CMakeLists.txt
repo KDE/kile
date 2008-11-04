@@ -42,6 +42,7 @@ SET(kile_texCompleteFiles
 	fancyunits-per.cwl
 	fancyunits_small-fractions.cwl
 	fancyvrb.cwl
+	float.cwl
 	fontspec.cwl
 	graphicx.cwl
 	glosstex.cwl

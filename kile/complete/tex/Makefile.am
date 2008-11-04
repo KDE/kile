@@ -40,6 +40,7 @@ texcomplete_DATA = \
 	fancyunits-per.cwl \
 	fancyunits_small-fractions.cwl \
 	fancyvrb.cwl \
+	float.cwl \
 	fontspec.cwl \
 	glosstex.cwl \
 	graphicx.cwl \

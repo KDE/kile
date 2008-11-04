@@ -1,6 +1,6 @@
 # babel.sty,
 # available from ctan
-# tbraun 21.10.2008
+# tbraun 4.11.2008
 
 \selectlanguage{language}
 \begin{otherlanguage}{language}
@@ -19,3 +19,25 @@
 \shorthandoff{characters}
 \languageattribute{language}{list of attributes}
 
+# extracted from gernmanb.ldf
+\prefacename
+\refname
+\abstractname
+\bibname
+\chaptername
+\appendixname
+\contentsname
+\listfigurename
+\listtablename
+\indexname
+\figurename
+\tablename
+\partname
+\enclname
+\ccname
+\headtoname
+\pagename
+\seename
+\alsoname
+\proofname
+\glossaryname

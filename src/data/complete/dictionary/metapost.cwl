@@ -88,7 +88,7 @@ draw
 draw_mark()
 draw_marked()
 drawarrow
-drawblarrow
+drawdblarrow
 drawboxed()
 drawboxes()
 drawoptions()

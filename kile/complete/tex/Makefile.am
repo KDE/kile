@@ -17,6 +17,7 @@ texcomplete_DATA = \
 	beamerseminar.cwl \
 	beamertexpower.cwl \
 	booktabs.cwl \
+	bm.cwl \
 	braket.cwl \
 	calc.cwl \
 	class-beamer.cwl \

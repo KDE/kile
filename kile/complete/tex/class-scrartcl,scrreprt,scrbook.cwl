@@ -122,3 +122,5 @@
 \pdfoutput
 \pdfpageheight
 \pdfpagewidth
+# logo
+\KOMAScript{}

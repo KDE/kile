@@ -63,6 +63,7 @@ texcomplete_DATA = \
 	mdwlist.cwl \
 	multicol.cwl \
 	multido.cwl \
+	nicefrac.cwl \
 	pdfpages.cwl \
 	psfrag.cwl \
 	pst-3d.cwl \

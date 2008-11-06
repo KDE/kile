@@ -65,6 +65,7 @@ SET(kile_texCompleteFiles
 	mdwlist.cwl
 	multicol.cwl
 	multido.cwl
+	nicefrac.sty
 	pdfpages.cwl
 	psfrag.cwl
 	pst-3d.cwl

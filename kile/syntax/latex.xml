@@ -7,7 +7,7 @@
       <context name="Normal Text" attribute="Normal Text" lineEndContext="#stay">
         <RegExpr String="\\begin(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" beginRegion="block" />
         <RegExpr String="\\end(?=[^a-zA-Z])" attribute="Structure" context="FindEnvironment" endRegion="block" />
-        <RegExpr String="\\(label|pageref|ref|vpageref|vref|cite)(?=[^a-zA-Z])" attribute="Structure" context="Label"/>
+        <RegExpr String="\\(label|pageref|autoref|ref|vpageref|vref|cite)(?=[^a-zA-Z])" attribute="Structure" context="Label"/>
         <RegExpr String="\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\*?\s*(?=[\{\[])" attribute="Structure" context="Sectioning"/>
         <RegExpr String="\\(footnote)\*?\s*(?=[\{\[])" attribute="Footnote" context="Footnoting"/>
         <RegExpr String="\\(re)?newcommand(?=[^a-zA-Z])" attribute="Keyword" context="NewCommand"/>
@@ -105,7 +105,7 @@
 
       <!-- LaTeX commands \newcommand and \renewcommand -->
       <context name="NewCommand" attribute="Normal Text" lineEndContext="#stay" fallthrough="true" fallthroughContext="#pop">
-        <RegExpr String="\s*\{\s*\\[a-zA-Z]+\s*\}(\[\d\](\[[^\]]+\])?)?\{" attribute="Normal Text" context="CommandParameterStart"/>
+        <RegExpr String="\s*\{\s*\\[a-zA-Z]+\s*\}(\[\d\](\[[^\]]*\])?)?\{" attribute="Normal Text" context="CommandParameterStart"/>
         <DetectChar char="}" attribute="Error" context="#pop"/>
       </context>
 

@@ -1175,7 +1175,7 @@ void Kile::setupUserTagActions()
 			sc = tagaccels[i];
 		}
 		QString name = QString::number(i+1) + ": " + m_listUserTags[i].text;
-		KileAction::Tag *menuItem = new KileAction::Tag(name, sc, this, SLOT(insertTag(const KileAction::TagData &)),
+		KileAction::Tag *menuItem = new KileAction::Tag(name, QString(), sc, this, SLOT(insertTag(const KileAction::TagData &)),
 		                                                actionCollection(), "tag_user_" + m_listUserTags[i].text,
 		                                                m_listUserTags[i]);
 		m_listUserTagsActions.append(menuItem);

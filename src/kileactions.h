@@ -54,16 +54,16 @@ class Tag : public KAction
 
 public:
 	//constructors
-	Tag(const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString());
 
-	Tag(const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString());
 
-	Tag(const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const TagData& data);
 
-	Tag(const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const TagData& data);
 
 	~Tag();
@@ -92,16 +92,16 @@ class InputTag : public Tag
 
 public:
 	//constructors
-	InputTag(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString(), const QString &hint = QString(), const QString &alter = QString());
 
-	InputTag(KileInfo* ki, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString(), const QString &hint = QString(), const QString &alter = QString());
 
-	InputTag(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const TagData& data, const QString &hint = QString(), const QString &alter = QString());
 
-	InputTag(KileInfo* ki, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const TagData& data, const QString &hint = QString(), const QString &alter = QString());
 
 	~InputTag();

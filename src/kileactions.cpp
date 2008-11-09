@@ -49,45 +49,49 @@ namespace KileAction
 ////////////////
 //    Tag     //
 ////////////////
-Tag::Tag(const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const QString &tagBegin, const QString &tagEnd,
          int dx, int dy, const QString &description)
 	: KAction(text, parent),
 	  m_data(text,tagBegin, tagEnd, dx, dy, description)
 {
 	parent->addAction(name, this);
+	setIconText(iconText);
 	setShortcut(cut);
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const QString &tagBegin, const QString &tagEnd,
          int dx, int dy, const QString &description)
 	: KAction(KIcon(pix), text, parent),
 	  m_data(text,tagBegin, tagEnd, dx, dy, description)
 {
 	parent->addAction(name, this);
+	setIconText(iconText);
 	setShortcut(cut);
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const TagData& data)
 	: KAction(text, parent),
 	  m_data(data)
 {
 	parent->addAction(name, this);
+	setIconText(iconText);
 	setShortcut(cut);
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
 	 const QString& name, const TagData& data)
 	: KAction(KIcon(pix), text, parent),
 	  m_data(data)
 {
 	parent->addAction(name, this);
 	setShortcut(cut);
+	setIconText(iconText);
 	init(receiver,slot);
 }
 
@@ -109,35 +113,35 @@ void Tag::emitData()
 ////////////////
 //    InputTag     //
 ////////////////
-InputTag::InputTag(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const QString &tagBegin, const QString &tagEnd,
                    int dx, int dy, const QString &description, const QString &hint, const QString &alter)
-	: Tag(text, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_ki(ki),
+	: Tag(text, iconText, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_ki(ki),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag(KileInfo* ki, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const QString &tagBegin, const QString &tagEnd,
                    int dx, int dy, const QString &description, const QString &hint, const QString &alter)
-	: Tag(text, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_ki(ki),
+	: Tag(text, iconText, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_ki(ki),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag(KileInfo* ki, const QString &text, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const TagData& data, const QString &hint, const QString &alter)
-	: Tag(text,cut,receiver, slot, parent, name,data),  m_ki(ki),
+	: Tag(text, iconText, cut, receiver, slot, parent, name,data),  m_ki(ki),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();
 }
 
-InputTag::InputTag(KileInfo* ki, const QString &text, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const TagData& data, const QString &hint, const QString &alter)
-	: Tag(text, pix, cut,receiver, slot, parent, name,data), m_ki(ki),
+	: Tag(text, iconText, pix, cut,receiver, slot, parent, name,data), m_ki(ki),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
 {
 	init();

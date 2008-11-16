@@ -187,12 +187,9 @@ class ScriptEnvironment {
 			action->setInterpreter(Kross::Manager::self().interpreternameForFile(script->getFileName()));
 			action->setFile(script->getFileName());
 			action->trigger();
-			delete action;
-#ifdef __GNUC__
-#warning Things left to be ported here!
-#endif
-//FIXME: port for KDE4
-/*			bool useGuard = KileConfig::timeLimitEnabled();
+//FIXME: add time execution limit once it becomes available
+/*
+			bool useGuard = KileConfig::timeLimitEnabled();
 			uint timeLimit = (uint)KileConfig::timeLimit();
 			KJSCPUGuard guard;
 			if(useGuard) {
@@ -203,22 +200,18 @@ class ScriptEnvironment {
 				guard.stop();
 			}
 */
-/*
-			if(completion.complType() == Throw) {
-				KJS::JSValue value = completion.value();
-				if(value.type() == ObjectType) {
-					KJS::JSObject o = KJS::JSObject::dynamicCast(value);
-					if(o.isValid()) {
-						JSValue lineValue = o.get(m_interpreter->globalExec(), "line");
-						if(lineValue.type() == NumberType) {
-							KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The following exception has occurred at line %1 during execution of the script:\n%2", lineValue.toInt32(m_interpreter->globalExec()), value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
-							return;
-						}
-					}
+			if(action->hadError()) {
+				const int errorLine = action->errorLineNo();
+				QString visibleErrorMessage;
+				if(errorLine >= 0) {
+					visibleErrorMessage = i18n("An error has occurred at line %1 during the execution of the script \"%2\":\n%3", errorLine, script->getName(), action->errorMessage());
 				}
-				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The following exception has occurred during execution of the script:\n%1", value.toString(m_interpreter->globalExec()).qstring()), i18n("Exception"));
+				else {
+					visibleErrorMessage = i18n("An error has occurred during the execution of the script \"%1\":\n%2", script->getName(), action->errorMessage());
+				}
+				KMessageBox::sorry(m_kileInfo->mainWindow(), visibleErrorMessage, i18n("Error"));
 			}
-*/
+			delete action;
 		}
 
 	protected:

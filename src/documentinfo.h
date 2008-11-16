@@ -368,8 +368,6 @@ public:
 	          KileSpellCheck::Manager *spellCheckManager);
 	virtual ~LaTeXInfo();
 
-	const long* getStatistics(KTextEditor::View *view = NULL);
-
 	virtual Type getType();
 
 	virtual QString getFileFilter() const;

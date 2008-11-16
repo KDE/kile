@@ -465,11 +465,26 @@ void TextInfo::detach()
 	m_doc = NULL;
 }
 
-const long* TextInfo::getStatistics(KTextEditor::View */* view */)
+const long* TextInfo::getStatistics(KTextEditor::View *view)
 {
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
 	m_arStatistics[0] = m_arStatistics[1] = m_arStatistics[2] = m_arStatistics[3] = m_arStatistics[4] = m_arStatistics[5] = 0;
+
+	QString line;
+
+	if(view && view->selection()) {
+		line = view->selectionText();
+		KILE_DEBUG() << "line: " << line;
+		count(line, m_arStatistics);
+	}
+	else if(m_doc) {
+		for(int l = 0; l < m_doc->lines(); ++l) {
+			line = m_doc->line(l);
+			KILE_DEBUG() << "line : " << line;
+			count(line, m_arStatistics);
+		}
+	}
 
 	return m_arStatistics;
 }
@@ -729,29 +744,6 @@ LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
 
 LaTeXInfo::~LaTeXInfo()
 {
-}
-
-const long* LaTeXInfo::getStatistics(KTextEditor::View *view)
-{
-	/* [0] = #c in words, [1] = #c in latex commands and environments,
-	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
-	m_arStatistics[0] = m_arStatistics[1] = m_arStatistics[2] = m_arStatistics[3] = m_arStatistics[4] = m_arStatistics[5] = 0;
-	QString line;
-
-	if(view && view->selection()) {
-		line = view->selectionText();
-		KILE_DEBUG() << "line: " << line;
-		count(line, m_arStatistics);
-	}
-	else if(m_doc) {
-		for(int l = 0; l < m_doc->lines(); ++l) {
-			line = m_doc->line(l);
-			KILE_DEBUG() << "line : " << line;
-			count(line, m_arStatistics);
-		}
-	}
-
-	return m_arStatistics;
 }
 
 Type LaTeXInfo::getType()

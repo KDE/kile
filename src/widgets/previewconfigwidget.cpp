@@ -46,7 +46,8 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	vbox->setSpacing(KDialog::spacingHint());
 	setLayout(vbox);
 
-	QGroupBox *groupbox = new QGroupBox(i18n("Quick Preview in a separate window"), this);
+	QGroupBox *groupbox = new QGroupBox(i18n("Quick Preview in a Separate Window"), this);
+	groupbox->setFlat(true);
 	QGridLayout *groupboxLayout = new QGridLayout();
 	groupboxLayout->setMargin(KDialog::marginHint());
 	groupboxLayout->setSpacing(KDialog::spacingHint());
@@ -63,7 +64,8 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	groupboxLayout->setColumnMinimumWidth(1, 8);
 	groupboxLayout->setColumnStretch(3, 1);
 
-	QGroupBox *gbResolution = new QGroupBox(i18n("Quick Preview in bottom bar"), this);
+	QGroupBox *gbResolution = new QGroupBox(i18n("Quick Preview in Bottom Bar"), this);
+	gbResolution->setFlat(true);
 	QGridLayout *resLayout = new QGridLayout();
 	resLayout->setMargin(KDialog::marginHint());
 	resLayout->setSpacing(KDialog::spacingHint());
@@ -107,6 +109,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->setColumnStretch(5, 1);
 
 	m_gbPreview = new QGroupBox(i18n("Properties"), this);
+	m_gbPreview->setFlat(true);
 	m_gbPreview->setObjectName("gbpreview");
 	QGridLayout *previewLayout = new QGridLayout();
 	previewLayout->setMargin(KDialog::marginHint());

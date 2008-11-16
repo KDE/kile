@@ -53,6 +53,9 @@
      <property name="title" >
       <string>Context Sensitive Help</string>
      </property>
+     <property name="flat" >
+      <bool>true</bool>
+     </property>
      <layout class="QVBoxLayout" >
       <item>
        <widget class="QRadioButton" name="m_rbKileRef" >
@@ -88,6 +91,9 @@
      <property name="title" >
       <string>User Help</string>
      </property>
+     <property name="flat" >
+      <bool>true</bool>
+     </property>
      <layout class="QVBoxLayout" >
       <item>
        <layout class="QHBoxLayout" >
@@ -103,7 +109,7 @@
           <property name="orientation" >
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0" >
            <size>
             <width>40</width>
             <height>20</height>
@@ -138,7 +144,7 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>40</height>

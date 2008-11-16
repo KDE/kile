@@ -18,6 +18,9 @@
      <property name="title" >
       <string>Include Graphics</string>
      </property>
+     <property name="flat" >
+      <bool>true</bool>
+     </property>
      <layout class="QGridLayout" >
       <item row="0" column="0" >
        <widget class="QLabel" name="m_tlResolution" >
@@ -121,7 +124,7 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>534</width>
        <height>51</height>

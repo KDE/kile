@@ -54,6 +54,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 
 	// Groupbox with TabDialog and two button
 	QGroupBox *gb_tab = new QGroupBox(i18n("Complete Modes"), this);
+	gb_tab->setFlat(true);
 	QGridLayout *grid_tab = new QGridLayout();
 	grid_tab->setMargin(KDialog::marginHint());
 	grid_tab->setSpacing(KDialog::spacingHint());
@@ -77,6 +78,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 
 	// below: OptionBox
 	QGroupBox *bg_options = new QGroupBox(this);
+	bg_options->setFlat(true);
 	QGridLayout *bg_optionsLayout = new QGridLayout();
 	bg_optionsLayout->setAlignment(Qt::AlignTop);
 	bg_optionsLayout->setMargin(KDialog::marginHint());

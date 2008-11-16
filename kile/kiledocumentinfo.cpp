@@ -480,7 +480,23 @@ const long* TextInfo::getStatistics()
 	/* [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
 	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
+	QString line;
 
+	if ( m_doc && m_doc->hasSelection() )
+	{
+		line = m_doc->selection();
+		KILE_DEBUG() << "getStat : line : " << line << endl;
+		count(line, m_arStatistics);
+	}
+	else if (m_doc)
+	{
+		for (uint l=0; l < m_doc->numLines(); ++l)
+		{
+			line = m_doc->textLine(l);
+			KILE_DEBUG() << "getStat : line : " << line << endl;
+			count(line, m_arStatistics);
+		}
+	}
 	return m_arStatistics;
 }
 
@@ -690,29 +706,6 @@ LaTeXInfo::LaTeXInfo (Kate::Document *doc, Extensions *extensions, LatexCommands
 
 LaTeXInfo::~LaTeXInfo()
 {
-}
-
-const long* LaTeXInfo::getStatistics()
-{
-	/* [0] = #c in words, [1] = #c in latex commands and environments,
-	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments */
-	m_arStatistics[0]=m_arStatistics[1]=m_arStatistics[2]=m_arStatistics[3]=m_arStatistics[4]=m_arStatistics[5]=0;
-	QString line;
-
-	if ( m_doc && m_doc->hasSelection() )
-	{
-		line = m_doc->selection();
-		KILE_DEBUG() << "getStat : line : " << line << endl;
-		count(line, m_arStatistics);
-	}
-	else if (m_doc)
-	for (uint l=0; l < m_doc->numLines(); ++l)
-	{
-		line = m_doc->textLine(l);
-		KILE_DEBUG() << "getStat : line : " << line << endl;
-		count(line, m_arStatistics);
-	}
-	return m_arStatistics;
 }
 
 Type LaTeXInfo::getType()

@@ -320,8 +320,6 @@ public:
 	LaTeXInfo(Kate::Document *doc, Extensions *extensions, LatexCommands *commands, const QObject* eventFilter);
 	virtual ~LaTeXInfo();
 
-	const long* getStatistics();
-
 	virtual Type getType();
 
 	virtual QString getFileFilter() const;

@@ -151,7 +151,7 @@
          </property>
          <widget class="QWidget" name="tab" >
           <attribute name="title" >
-           <string>&amp;&amp;General</string>
+           <string>&amp;General</string>
           </attribute>
           <layout class="QVBoxLayout" >
            <item>
@@ -186,7 +186,7 @@
          </widget>
          <widget class="QWidget" name="tab" >
           <attribute name="title" >
-           <string>&amp;&amp;Advanced</string>
+           <string>&amp;Advanced</string>
           </attribute>
           <layout class="QGridLayout" >
            <item row="0" column="1" >
@@ -376,7 +376,7 @@
          </widget>
          <widget class="QWidget" name="TabPage" >
           <attribute name="title" >
-           <string>Me&amp;&amp;nu</string>
+           <string>Me&amp;nu</string>
           </attribute>
           <layout class="QGridLayout" >
            <item row="0" column="0" >

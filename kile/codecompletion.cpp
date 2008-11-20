@@ -1153,7 +1153,7 @@ namespace KileDocument
 
 	void CodeCompletion::slotCharactersInserted(int, int, const QString& string )
 	{
-		KILE_DEBUG() << "==slotCharactersInserted (" << m_kilecompletion << "," << m_inprogress << ", " << m_ref << ", " << string << ")=============" << endl;
+		KILE_DEBUG() << "==slotCharactersInserted (m_kilecompletion=" << m_kilecompletion << "m_inprogress," << m_inprogress << ",m_ref=" << m_ref << ",string=" << string << ")=============" << endl;
 
 		if ( !inProgress() && m_autoDollar && string=="$" )
 		{
@@ -1182,6 +1182,16 @@ namespace KileDocument
 			{
 				m_ref = true;
 				editCompleteList(reftype,startpattern);
+				return;
+			}
+		} // also unusual but may also happen, 20.11.2008 tbraun
+		else if( m_ref && !inProgress())
+		{
+			QString startpattern;
+			CodeCompletion::Type reftype = insideReference(startpattern);
+			if ( reftype == CodeCompletion::ctNone )
+			{
+				m_ref = false;
 				return;
 			}
 		}

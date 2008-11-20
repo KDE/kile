@@ -2340,14 +2340,15 @@ bool EditorExtension::insertDoubleQuotes()
 	Kate::View *view = determineView(0L);
 	if ( !view ) return true;
 	
-	uint row,col;
-	view->cursorPositionReal(&row,&col);
 	Kate::Document *doc = view->getDoc();
 
 	if( doc && m_ki->extensions()->isTexFile(doc->url()) )
 		doc->removeSelectedText();
 	else
 		return false;
+	
+	uint row,col;
+	view->cursorPositionReal(&row,&col);
 
 	// simply insert, if we are inside a verb command
 	if ( insideVerb(view) || insideVerbatim(view) )

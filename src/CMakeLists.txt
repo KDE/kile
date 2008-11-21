@@ -94,7 +94,7 @@ SET(kile_SRCS
 	dialogs/tabular/tabularcelldelegate.cpp
 	dialogs/tabular/tabularheaderitem.cpp
 	dialogs/tabular/tabularproperties.cpp
-  dialogs/tabular/tabulartable.cpp
+	dialogs/tabular/tabulartable.cpp
 	configurationmanager.cpp
 	spellcheck.cpp
 	utilities.cpp
@@ -122,6 +122,7 @@ SET( kile_UI
 	dialogs/floatdialog_base.ui
 	dialogs/postscriptdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
+	dialogs/latexcommanddialog_base.ui
 )
 
 SET( kile_UI_SRCS

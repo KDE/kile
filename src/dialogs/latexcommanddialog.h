@@ -25,6 +25,7 @@
 #include <QMap>
 
 #include "latexcmd.h"
+#include "ui_latexcommanddialog_base.h"
 
 class QCheckBox;
 class QLabel;
@@ -84,13 +85,14 @@ class LatexCommandsDialog : public KDialog
 		QMap<QString, bool> m_dictCommands;
 		bool m_commandChanged;
 
-		QTreeWidget *m_lvEnvironments, *m_lvCommands;
+		//QTreeWidget *m_lvEnvironments, *m_lvCommands;
 		QTreeWidgetItem *m_lviList, *m_lviTabular, *m_lviMath, *m_lviAmsmath, *m_lviVerbatim;
 		QTreeWidgetItem *m_lviLabels, *m_lviReferences, *m_lviCitations;
 		QTreeWidgetItem *m_lviInputs;
-		KTabWidget *m_tab;
+		/*KTabWidget *m_tab;
 		KPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
-		QCheckBox *m_cbUserDefined;
+		QCheckBox *m_cbUserDefined;*/
+    Ui::LatexCommandWidget m_widget;
 
 		void resetListviews();
 		LVmode getListviewMode();

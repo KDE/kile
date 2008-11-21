@@ -335,96 +335,18 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	showButtonSeparator(true);
 
 	QWidget *page = new QWidget(this);
+	m_widget.setupUi(page);
 	setMainWidget(page);
-
-	QVBoxLayout *pageLayout = new QVBoxLayout();
-	pageLayout->setMargin(0);
-	pageLayout->setSpacing(KDialog::spacingHint());
-	page->setLayout(pageLayout);
-
-	QLabel *label = new QLabel(i18n("Define LaTeX Environments and Commands for Kile"), page);
-
-	// create TabWidget
-	m_tab = new KTabWidget(page);
-	m_cbUserDefined = new QCheckBox(i18n("&Show only user defined environments and commands"), page);
-
-	// tab 1: environment listview
-	m_lvEnvironments = new QTreeWidget(m_tab);
-	m_lvEnvironments->setRootIsDecorated(true);
-	m_lvEnvironments->setHeaderLabels(QStringList() << i18n("Environment")
-	                                                << i18n("Starred")
-	                                                << i18n("EOL")
-	                                                << i18n("Math")
-	                                                << i18n("Tab")
-	                                                << i18n("Option")
-	                                                << i18n("Parameter"));
-	m_lvEnvironments->setAllColumnsShowFocus(true);
-	m_lvEnvironments->setSelectionMode(QAbstractItemView::SingleSelection);
-
-	// FIXME port me to QTreeWidget
-	//for (int col = 1; col <= 6; col++)
-	//	m_lvEnvironments->setColumnAlignment(col, Qt::AlignHCenter);
-
-	// tab 2: command listview
-	m_lvCommands = new QTreeWidget(m_tab);
-	m_lvCommands->setRootIsDecorated(true);
-	m_lvCommands->setHeaderLabels(QStringList() << i18n("Command")
-	                                            << i18n("Starred")
-	                                            << i18n("Option")
-	                                            << i18n("Parameter"));
-	m_lvCommands->setAllColumnsShowFocus(true);
-	m_lvCommands->setSelectionMode(QAbstractItemView::SingleSelection);
-
-	// FIXME port me to QTreeWidget
-	//for (int col = 1; col <= 3; col++)
-	//	m_lvCommands->setColumnAlignment(col, Qt::AlignHCenter);
-
-	// add all pages to TabWidget
-	m_tab->addTab(m_lvEnvironments, i18n("&Environments"));
-	m_tab->addTab(m_lvCommands, i18n("&Commands"));
-	// page2->setEnabled(false);                        // disable command page
-
-	// button
-	QWidget *buttonBox = new QWidget(page);
-	QHBoxLayout *buttonBoxLayout = new QHBoxLayout();
-	buttonBoxLayout->setMargin(0);
-	buttonBoxLayout->setSpacing(KDialog::spacingHint());
-	buttonBox->setLayout(buttonBoxLayout);
-
-	m_btnAdd = new KPushButton(i18n("&Add..."), buttonBox);
-	m_btnAdd->setIcon(KIcon("list-add"));
-	m_btnDelete = new KPushButton(i18n("&Delete"), buttonBox);
-	m_btnDelete->setIcon(KIcon("list-remove"));
-	m_btnEdit = new KPushButton(i18n("&Edit..."), buttonBox);
-	m_btnEdit->setIcon(KIcon("document-properties"));
-
-	buttonBoxLayout->addStretch();
-	buttonBoxLayout->addWidget(m_btnAdd);
-	buttonBoxLayout->addWidget(m_btnDelete);
-	buttonBoxLayout->addWidget(m_btnEdit);
-	buttonBoxLayout->addStretch();
-
-	// add to grid
-	pageLayout->addWidget(label);
-	pageLayout->addWidget(m_tab);
-	pageLayout->addWidget(buttonBox);
-	pageLayout->addWidget(m_cbUserDefined);
-	pageLayout->addStretch();
 
 	slotEnableButtons();
 
-	m_lvEnvironments->setWhatsThis(i18n("List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments."));
-	m_btnAdd->setWhatsThis(i18n("Add a new environment."));
-	m_btnDelete->setWhatsThis(i18n("Delete an user defined environment."));
-	m_btnEdit->setWhatsThis(i18n("Edit an user defined environment."));
-
-	connect(m_tab, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotPageChanged(QWidget*)));
-	connect(m_lvEnvironments, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
-	connect(m_lvCommands, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
-	connect(m_btnAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
-	connect(m_btnDelete, SIGNAL(clicked()), this, SLOT(slotDeleteClicked()));
-	connect(m_btnEdit, SIGNAL(clicked()), this, SLOT(slotEditClicked()));
-	connect(m_cbUserDefined, SIGNAL(clicked()), this, SLOT(slotUserDefinedClicked()));
+	connect(m_widget.tab, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotPageChanged(QWidget*)));
+	connect(m_widget.environments, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
+	connect(m_widget.commands, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
+	connect(m_widget.addButton, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
+	connect(m_widget.deleteButton, SIGNAL(clicked()), this, SLOT(slotDeleteClicked()));
+	connect(m_widget.editButton, SIGNAL(clicked()), this, SLOT(slotEditClicked()));
+	connect(m_widget.showOnlyUserDefined, SIGNAL(clicked()), this, SLOT(slotUserDefinedClicked()));
 
 	// read config and initialize changes (add, edit or delete an entry)
 	readConfig();
@@ -435,11 +357,9 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	slotEnableButtons();
 
 	for (int col = 0; col <= 6; col++)
-		m_lvEnvironments->resizeColumnToContents(col);
+		m_widget.environments->resizeColumnToContents(col);
 	for (int col = 0; col <= 3; col++)
-		m_lvCommands->resizeColumnToContents(col);
-
-	//resize(sizeHint().width()+20,sizeHint().height()+50);
+		m_widget.commands->resizeColumnToContents(col);
 }
 
 ////////////////////////////// listview //////////////////////////////
@@ -447,25 +367,25 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 void LatexCommandsDialog::resetListviews()
 {
 	m_dictCommands.clear();
-	m_lvEnvironments->clear();
-	m_lvCommands->clear();
+	m_widget.environments->clear();
+	m_widget.commands->clear();
 
-	m_lviAmsmath    = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("AMS-Math")));
-	m_lviMath       = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Math")));
-	m_lviList       = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Lists")));
-	m_lviTabular    = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Tabular")));
-	m_lviVerbatim   = new QTreeWidgetItem(m_lvEnvironments, QStringList(i18n("Verbatim")));
+	m_lviAmsmath    = new QTreeWidgetItem(m_widget.environments, QStringList(i18n("AMS-Math")));
+	m_lviMath       = new QTreeWidgetItem(m_widget.environments, QStringList(i18n("Math")));
+	m_lviList       = new QTreeWidgetItem(m_widget.environments, QStringList(i18n("Lists")));
+	m_lviTabular    = new QTreeWidgetItem(m_widget.environments, QStringList(i18n("Tabular")));
+	m_lviVerbatim   = new QTreeWidgetItem(m_widget.environments, QStringList(i18n("Verbatim")));
 
-	m_lviLabels     = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("Labels")));
-	m_lviReferences = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("References")));
-	m_lviCitations  = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("Citations")));
-	m_lviInputs     = new QTreeWidgetItem(m_lvCommands, QStringList(i18n("Includes")));
+	m_lviLabels     = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Labels")));
+	m_lviReferences = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("References")));
+	m_lviCitations  = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Citations")));
+	m_lviInputs     = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Includes")));
 
 	QStringList list;
 	QStringList::ConstIterator it;
 	KileDocument::LatexCmdAttributes attr;
 
-	m_commands->commandList(list, KileDocument::CmdAttrNone, m_cbUserDefined->isChecked());
+	m_commands->commandList(list, KileDocument::CmdAttrNone, m_widget.showOnlyUserDefined->isChecked());
 	for (it = list.begin(); it != list.end(); ++it)
 	{
 		if (m_commands->commandAttributes(*it, attr))
@@ -509,7 +429,7 @@ void LatexCommandsDialog::resetListviews()
 
 LatexCommandsDialog::LVmode LatexCommandsDialog::getListviewMode()
 {
-	return (m_tab->currentIndex() == 0) ? lvEnvMode : lvCmdMode;
+	return (m_widget.tab->currentIndex() == 0) ? lvEnvMode : lvCmdMode;
 }
 
 KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(QTreeWidgetItem *item)
@@ -595,6 +515,10 @@ void LatexCommandsDialog::setEntry(QTreeWidgetItem *parent, const QString &name,
 		item->setText(2, attr.option);
 		item->setText(3, attr.parameter);
 	}
+
+	for(int i = 1; i < parent->treeWidget()->columnCount(); ++i) {
+		item->setTextAlignment(i, Qt::AlignHCenter);
+	}
 }
 
 void LatexCommandsDialog::getEntry(QTreeWidgetItem *item, KileDocument::LatexCmdAttributes &attr)
@@ -660,7 +584,7 @@ void LatexCommandsDialog::slotEnableButtons()
 	bool editState = false;
 	bool resetState = false;
 
-	QTreeWidget *listview = (getListviewMode() == lvEnvMode) ? m_lvEnvironments : m_lvCommands;
+	QTreeWidget *listview = (getListviewMode() == lvEnvMode) ? m_widget.environments : m_widget.commands;
 	resetState = (hasUserDefined(listview));
 
 	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
@@ -675,9 +599,9 @@ void LatexCommandsDialog::slotEnableButtons()
 		}
 	}
 
-	m_btnAdd->setEnabled(addState);
-	m_btnDelete->setEnabled(deleteState);
-	m_btnEdit->setEnabled(editState);
+	m_widget.addButton->setEnabled(addState);
+	m_widget.deleteButton->setEnabled(deleteState);
+	m_widget.editButton->setEnabled(editState);
 	enableButton(Default, resetState);
 }
 
@@ -689,13 +613,13 @@ void LatexCommandsDialog::slotAddClicked()
 
 	if (getListviewMode() == lvEnvMode)
 	{
-		listview = m_lvEnvironments;
+		listview = m_widget.environments;
 		caption  = i18n("LaTeX Environments");
 		envmode  = true;
 	}
 	else
 	{
-		listview = m_lvCommands;
+		listview = m_widget.commands;
 		caption  = i18n("LaTeX Commands");
 		envmode  = false;
 	}
@@ -740,12 +664,12 @@ void LatexCommandsDialog::slotDeleteClicked()
 
 	if (getListviewMode() == lvEnvMode)
 	{
-		listview = m_lvEnvironments;
+		listview = m_widget.environments;
 		message  = i18n("Do you want to delete this environment?");
 	}
 	else
 	{
-		listview = m_lvCommands;
+		listview = m_widget.commands;
 		message  = i18n("Do you want to delete this command?");
 	}
 
@@ -771,12 +695,12 @@ void LatexCommandsDialog::slotEditClicked()
 
 	if (getListviewMode() == lvEnvMode)
 	{
-		listview = m_lvEnvironments;
+		listview = m_widget.environments;
 		caption  = i18n("LaTeX Environment");
 	}
 	else
 	{
-		listview = m_lvCommands;
+		listview = m_widget.commands;
 		caption  = i18n("LaTeX Commands");
 	}
 
@@ -840,11 +764,11 @@ void LatexCommandsDialog::slotButtonClicked(int button)
 			// OK-Button clicked, we have to look for user defined environments/commands
 
 			// save checkbox for user defined commands
-			KileConfig::setShowUserCommands(m_cbUserDefined->isChecked());
+			KileConfig::setShowUserCommands(m_widget.showOnlyUserDefined->isChecked());
 
 			// write config entries for environments and commands
-			writeConfig(m_lvEnvironments, m_commands->envGroupName(), true);
-			writeConfig(m_lvCommands, m_commands->cmdGroupName(), false);
+			writeConfig(m_widget.environments, m_commands->envGroupName(), true);
+			writeConfig(m_widget.commands, m_commands->cmdGroupName(), false);
 			m_config->sync();
 
 			// reset known LaTeX environments and commands
@@ -863,7 +787,7 @@ void LatexCommandsDialog::slotButtonClicked(int button)
 void LatexCommandsDialog::readConfig()
 {
 	// read checkbox for user defined commands
-	m_cbUserDefined->setChecked(KileConfig::showUserCommands());
+	m_widget.showOnlyUserDefined->setChecked(KileConfig::showUserCommands());
 }
 
 void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &groupname, bool env)

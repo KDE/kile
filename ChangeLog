@@ -1,10 +1,18 @@
 version 2.0.2 -> 2.0.3
 
 Fixes:
- - add {} to special characters in symbolview for easier handling (#170144)
+ - Add {} to special characters in symbolview for easier handling (#170144)
+ - Don't blend user defined symbols because we don't know how they look like
+ - Misplaced cursor with intelligent double quotes and selections (#174937)
+ - Fixed a case where the autocompletion dies (#164231,#174003)
+ - Make the statistics pane work also for non latex files (#173745)
+ - smaller cwl fixes
 
-Features:
- - babel and todonotes cwl files
+CWL:
+ - Added babel, todonotes (thanks to Salim), glosstex, nicefrac, float
+
+Syntax:
+ - latex: fixed corner case where \newcommand got highlighted wrong
 
 version 2.0.1 -> 2.0.2
 

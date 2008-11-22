@@ -518,6 +518,10 @@ void NewTabularDialog::slotButtonClicked(int button)
 			m_requiredPackages << properties.requiredPackages();
 		}
 
+		if(m_cbCenter->isChecked()) {
+			m_td.tagBegin += "\\centering\n";
+		}
+
 		QColor rowColor;
 		for(int row = 0; row < rows; ++row) {
 			rowColor = properties.rowColor(row);
@@ -576,11 +580,8 @@ void NewTabularDialog::slotButtonClicked(int button)
 					+ m_td.tagBegin;
 		}
 
-		/* center tabular? or use {} if mc was defined */
-		if(m_cbCenter->isChecked()) {
-			m_td.tagBegin = "\\begin{center}\n" + m_td.tagBegin;
-			m_td.tagEnd += "\\end{center}\n";
-		} else if(properties.useMultiColumn()) {
+		/* use {} if mc was defined */
+		if(properties.useMultiColumn()) {
 			m_td.tagBegin = "{%\n" + m_td.tagBegin;
 			m_td.tagEnd += "}%\n";
 		}

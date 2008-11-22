@@ -18,6 +18,8 @@
 #include <QEvent>
 #include <QHeaderView>
 #include <QKeyEvent>
+#include <QPainter>
+#include <QPaintEvent>
 
 #include <KDebug>
 
@@ -69,21 +71,21 @@ bool TabularTable::eventFilter(QObject *obj, QEvent *event)
 
 			if(itemAtPos) {
 				if(itemAtPos->row() == 0 && itemAtPos->column() == columnCount() - 1 &&
-				   (visualItemRect(itemAtPos).topRight() - pos).manhattanLength() <= 3) {
+				   (visualItemRect(itemAtPos).topRight() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(columnCount());
 					m_ManualBorderPosition.setY(0);
 				} else if(itemAtPos->row() == 0 &&
-				          (visualItemRect(itemAtPos).topLeft() - pos).manhattanLength() <= 3) {
+				          (visualItemRect(itemAtPos).topLeft() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(itemAtPos->column());
 					m_ManualBorderPosition.setY(0);
 				} else if(itemAtPos->column() == columnCount() - 1 &&
-				          (visualItemRect(itemAtPos).bottomRight() - pos).manhattanLength() <= 3) {
+				          (visualItemRect(itemAtPos).bottomRight() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(columnCount());
 					m_ManualBorderPosition.setY(itemAtPos->row() + 1);
-				} else if((visualItemRect(itemAtPos).bottomLeft() - pos).manhattanLength() <= 3) {
+				} else if((visualItemRect(itemAtPos).bottomLeft() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(itemAtPos->column());
 					m_ManualBorderPosition.setY(itemAtPos->row() + 1);
@@ -98,6 +100,9 @@ bool TabularTable::eventFilter(QObject *obj, QEvent *event)
 				m_ManualBorderPosition.setY(-1);
 			}
 
+			m_HoverPosition = pos;
+			viewport()->update();
+
 			return true;
 		}
 	}
@@ -110,6 +115,10 @@ void TabularTable::mousePressEvent(QMouseEvent *event)
 	m_ManualBorderStart = m_ManualBorderPosition;
 	if(m_ManualBorderStart.x() > -1) {
 		setSelectionMode(QAbstractItemView::NoSelection);
+		if(currentItem()) {
+			m_LastItem = currentItem();
+			currentItem()->setSelected(false);
+		}
 	}
 
 	QTableWidget::mousePressEvent(event);
@@ -137,7 +146,7 @@ void TabularTable::mouseReleaseEvent(QMouseEvent *event)
 						cell->setBorder(border);
 					}
 				}
-				QWidget::repaint();
+				viewport()->update();
 			}
 
 			m_ManualBorderPosition.setX(-1);
@@ -149,7 +158,34 @@ void TabularTable::mouseReleaseEvent(QMouseEvent *event)
 	}
 
 	setSelectionMode(m_DefaultMode);
+	if(m_LastItem) {
+		setCurrentItem(m_LastItem);
+		currentItem()->setSelected(true);
+		m_LastItem = 0;
+	}
 	QTableWidget::mouseReleaseEvent(event);
+}
+
+void TabularTable::paintEvent(QPaintEvent *event)
+{
+	QPainter painter(viewport());
+	if(m_ManualBorderStart.x() > -1) {
+		QTableWidgetItem *startItem = item(
+			(m_ManualBorderStart.y() == rowCount() ? m_ManualBorderStart.y() - 1 : m_ManualBorderStart.y()),
+			(m_ManualBorderStart.x() == columnCount() ? m_ManualBorderStart.x() - 1 : m_ManualBorderStart.x())); 
+
+		int xStart = (m_ManualBorderStart.x() == columnCount() ? visualItemRect(startItem).right() : visualItemRect(startItem).left());
+		int yStart = (m_ManualBorderStart.y() == rowCount() ? visualItemRect(startItem).bottom() : visualItemRect(startItem).top());
+
+		QColor color =
+			((m_ManualBorderStart != m_ManualBorderPosition) &&
+			 ((m_ManualBorderStart.x() == m_ManualBorderPosition.x()) ||
+			 (m_ManualBorderStart.y() == m_ManualBorderPosition.y())) ? Qt::darkGreen : Qt::darkRed);
+		painter.setPen(QPen(color, 2));
+		painter.drawLine(xStart, yStart, m_HoverPosition.x(), m_HoverPosition.y());
+	}
+
+	QTableWidget::paintEvent(event);
 }
 
 }

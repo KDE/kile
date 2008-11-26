@@ -426,6 +426,7 @@
 \renewenvironment{nam}[args][default]{begdef}{enddef}
 \renewenvironment{nam}[args]{begdef}{enddef}
 \renewenvironment{nam}{begdef}{enddef}
+\left
 \left(
 \left[
 \left\lbrace
@@ -443,8 +444,9 @@
 \left\Downarrow
 \left\Updownarrow
 \left.
-\right(
-\right[
+\right
+\right)
+\right]
 \right\rbrace
 \right|
 \right\|

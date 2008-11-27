@@ -6,7 +6,9 @@ Fixes:
  - Misplaced cursor with intelligent double quotes and selections (#174937)
  - Fixed a case where the autocompletion dies (#164231,#174003)
  - Make the statistics pane work also for non latex files (#173745)
- - smaller cwl fixes
+ - Don't report certain log messages as tex errors (#174665)
+ - Properly escape the log messages so that also <...> shows up (#175148)
+ - some cwl typos
 
 CWL:
  - Added babel, todonotes (thanks to Salim), glosstex, nicefrac, float,

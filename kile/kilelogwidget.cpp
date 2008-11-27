@@ -18,6 +18,7 @@
 #include <qregexp.h>
 #include <qfileinfo.h>
 #include <qpopupmenu.h>
+#include <qstylesheet.h>
 
 #include "kiledebug.h"
 #include <kurl.h>
@@ -136,7 +137,7 @@ namespace KileWidget
 		if ( type == KileTool::Error ) emit showingErrorMessage(this);
 
 		QString ot = "", ct = "</font>";
-
+		QString myMsg = QStyleSheet::escape(message);
 		switch (type)
 		{
 			case KileTool::Warning :
@@ -157,9 +158,9 @@ namespace KileWidget
 		}
 
 		if (tool.isNull())
-			append(ot + message + ct);
+			append(ot + myMsg + ct);
 		else
-			append(ot + "<b>[" + tool + "]</b> " + message + ct );
+			append(ot + "<b>[" + tool + "]</b> " + myMsg + ct );
 
 		scrollToBottom();
 	}

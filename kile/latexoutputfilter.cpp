@@ -284,7 +284,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 
 	static QRegExp::QRegExp reLaTeXError("^! LaTeX Error: (.*)$", false);
 	static QRegExp::QRegExp rePDFLaTeXError("^Error: pdflatex (.*)$", false);
-	static QRegExp::QRegExp reTeXError("^! (.*)");
+	static QRegExp::QRegExp reTeXError("^! (.*)\\.$");
 	static QRegExp::QRegExp reLineNumber("^l\\.([0-9]+)(.*)");
 
 	switch (dwCookie)

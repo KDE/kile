@@ -125,7 +125,11 @@ bool KileLyxServer::openPipes()
 		if(!pipeInfo.exists()) {
 			//create the dir first
 			if(!QFileInfo(pipeInfo.absolutePath()).exists()) {
+#ifndef Q_OS_WIN
 				if(mkdir(QFile::encodeName( pipeInfo.path() ), m_perms | S_IXUSR) == -1) {
+#else
+				if(mkdir(QFile::encodeName( pipeInfo.path() )) == -1) {
+#endif
 					kError() << "Could not create directory for pipe";
 					continue;
 				}
@@ -133,6 +137,7 @@ bool KileLyxServer::openPipes()
 					KILE_DEBUG() << "Created directory " << pipeInfo.path();
 				}
 			}
+#ifndef Q_OS_WIN
 				if (mkfifo(QFile::encodeName( pipeInfo.absoluteFilePath() ), m_perms) != 0) {
 					kError() << "Could not create pipe: " << pipeInfo.absoluteFilePath();
 					continue;
@@ -140,6 +145,7 @@ bool KileLyxServer::openPipes()
 				else {
 					KILE_DEBUG() << "Created pipe: " << pipeInfo.absoluteFilePath();
 				}
+#endif
 		}
 		
 		if(symlink(QFile::encodeName(pipeInfo.absoluteFilePath()),QFile::encodeName(linkInfo.absoluteFilePath())) != 0) {

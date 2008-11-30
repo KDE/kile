@@ -105,17 +105,17 @@ namespace KileDocument
 		m_completionList = list;
 	}
 
-	//static QRegExp::QRegExp reRef("^\\\\(pageref|ref)\\{");
-	//static QRegExp::QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
-	//static QRegExp::QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
-	//static QRegExp::QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
+	//static QRegExp reRef("^\\\\(pageref|ref)\\{");
+	//static QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
+	//static QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
+	//static QRegExp reCiteExt("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{[^\\{\\}\\\\]+,$");
 
-	static QRegExp::QRegExp reRef;
-	static QRegExp::QRegExp reRefExt;
-	static QRegExp::QRegExp reCite;
-	static QRegExp::QRegExp reCiteExt;
-	static QRegExp::QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
-	static QRegExp::QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
+	static QRegExp reRef;
+	static QRegExp reRefExt;
+	static QRegExp reCite;
+	static QRegExp reCiteExt;
+	static QRegExp reNotRefChars("[^a-zA-Z0-9_@\\.\\+\\-\\*\\:]");
+	static QRegExp reNotCiteChars("[^a-zA-Z0-9_@]");
 
 	CodeCompletion::CodeCompletion(KileInfo *info) : m_ki(info)
 	{
@@ -645,7 +645,7 @@ namespace KileDocument
 
 	QString CodeCompletion::filterCompletionText(KTextEditor::View *view, const QString &text, const QString &type)
 	{
-		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
+		static QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 		//KILE_DEBUG() << "   complete filter: " << text << " type " << type;
 		m_type = getType(text);    // remember current type
 
@@ -744,7 +744,7 @@ namespace KileDocument
 	QString CodeCompletion::buildEnvironmentText(const QString &text, const QString &type,
 	                                             const QString &prefix, int &ypos, int &xpos)
 	{
-		static QRegExp::QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
+		static QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
 
 		if(reEnv.indexIn(text) == -1) {
 			return text;

@@ -643,7 +643,7 @@ void StructureViewItem::setLabel(const QString &label)
 	{
 		KILE_DEBUG() << "\tStructureWidget::slotDoubleClicked";
 		StructureViewItem *item = dynamic_cast<StructureViewItem*>(itm);
-		static QRegExp::QRegExp suffix("\\.[\\d\\w]*$");
+		static QRegExp suffix("\\.[\\d\\w]*$");
 		
 		if (!item) {
 			return;

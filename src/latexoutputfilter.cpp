@@ -54,7 +54,7 @@ bool LatexOutputFilter::OnPreCreate()
 
 bool LatexOutputFilter::fileExists(const QString & name)
 {
-	static QFileInfo::QFileInfo fi;
+	static QFileInfo fi;
 
 	if (name[0] == '/' ) {
 		fi.setFile(name);
@@ -107,7 +107,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStack()================" << endl;
 
-	static QString::QString strPartialFileName;
+	static QString strPartialFileName;
 
 	switch (dwCookie) {
 		//we're looking for a filename
@@ -173,7 +173,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStackHeuristic()================";
-	static QString::QString strPartialFileName;
+	static QString strPartialFileName;
 	bool expectFileName = (dwCookie == FileNameHeuristic);
 	int index = 0;
 
@@ -297,10 +297,10 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 
 	bool found = false, flush = false;
 
-	static QRegExp::QRegExp reLaTeXError("^! LaTeX Error: (.*)$", Qt::CaseInsensitive);
-	static QRegExp::QRegExp rePDFLaTeXError("^Error: pdflatex (.*)$", Qt::CaseInsensitive);
-	static QRegExp::QRegExp reTeXError("^! (.*)");
-	static QRegExp::QRegExp reLineNumber("^l\\.([0-9]+)(.*)");
+	static QRegExp reLaTeXError("^! LaTeX Error: (.*)$", Qt::CaseInsensitive);
+	static QRegExp rePDFLaTeXError("^Error: pdflatex (.*)$", Qt::CaseInsensitive);
+	static QRegExp reTeXError("^! (.*)");
+	static QRegExp reLineNumber("^l\\.([0-9]+)(.*)");
 
 	switch (dwCookie) {
 		case Start :
@@ -377,9 +377,9 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 	bool found = false, flush = false;
 	QString warning;
 
-	static QRegExp::QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)", Qt::CaseInsensitive);
-	static QRegExp::QRegExp reNoFile("No file (.*)");
-	static QRegExp::QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when http://sourceforge.net/tracker/index.php?func=detail&aid=1772022&group_id=120000&atid=685683 has promoted to the users
+	static QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)", Qt::CaseInsensitive);
+	static QRegExp reNoFile("No file (.*)");
+	static QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when http://sourceforge.net/tracker/index.php?func=detail&aid=1772022&group_id=120000&atid=685683 has promoted to the users
 
 	switch(dwCookie) {
 		//detect the beginning of a warning
@@ -442,8 +442,8 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
 
-	static QRegExp::QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", Qt::CaseInsensitive);
-	static QRegExp::QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", Qt::CaseInsensitive);
+	static QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", Qt::CaseInsensitive);
+	static QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", Qt::CaseInsensitive);
 	if((reLaTeXLineNumber.indexIn(warning) != -1) || (reInternationalLaTeXLineNumber.indexIn(warning) != -1)) {
 		//KILE_DEBUG() << "een" << endl;
 		m_currentItem.setSourceLine(reLaTeXLineNumber.cap(2).toInt());
@@ -479,7 +479,7 @@ bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
 	bool found = false, flush = false;
 	QString badbox;
 
-	static QRegExp::QRegExp reBadBox("^(Over|Under)(full \\\\[hv]box .*)", Qt::CaseInsensitive);
+	static QRegExp reBadBox("^(Over|Under)(full \\\\[hv]box .*)", Qt::CaseInsensitive);
 
 	switch(dwCookie) {
 		case Start :
@@ -518,11 +518,11 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
 
-	static QRegExp::QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", Qt::CaseInsensitive);
-	static QRegExp::QRegExp reBadBoxLine("(.*) at line ([0-9]+)", Qt::CaseInsensitive);
+	static QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", Qt::CaseInsensitive);
+	static QRegExp reBadBoxLine("(.*) at line ([0-9]+)", Qt::CaseInsensitive);
 	//Use the following only, if you know how to get the source line for it.
 	// This is not simple, as TeX is not reporting it.
-	static QRegExp::QRegExp reBadBoxOutput("(.*)has occurred while \\output is active^", Qt::CaseInsensitive);
+	static QRegExp reBadBoxOutput("(.*)has occurred while \\output is active^", Qt::CaseInsensitive);
 
 	if(reBadBoxLines.indexIn(strLine) != -1) {
 		dwCookie = Start;

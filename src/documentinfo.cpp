@@ -572,7 +572,7 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 
 QString TextInfo::getTextline(uint line, TodoResult &todo)
 {
-	static QRegExp::QRegExp reComments("[^\\\\](%.*$)");
+	static QRegExp reComments("[^\\\\](%.*$)");
 
 	todo.type = -1;
 	QString s = m_doc->line(line);
@@ -599,7 +599,7 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 
 void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &todo)
 {
-	static QRegExp::QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+	static QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
 
 	if(s.indexOf(reTodoComment, startpos) != -1) {
 		todo.type = (reTodoComment.cap(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
@@ -904,12 +904,12 @@ void LaTeXInfo::updateStruct()
 	Info::updateStruct();
 
 	QMap<QString,KileStructData>::const_iterator it;
-	static QRegExp::QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
-	static QRegExp::QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
-	static QRegExp::QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
-	static QRegExp::QRegExp reReNewCommand("\\\\renewcommand.*$");
-	static QRegExp::QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
-	static QRegExp::QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
+	static QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
+	static QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
+	static QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
+	static QRegExp reReNewCommand("\\\\renewcommand.*$");
+	static QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
+	static QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
 
 	int teller=0, tagStart, bd = 0;
 	int tagEnd, tagLine = 0, tagCol = 0;
@@ -1240,8 +1240,8 @@ void BibInfo::updateStruct()
 
 	KILE_DEBUG() << "==void BibInfo::updateStruct()========";
 
-	static QRegExp::QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
-	static QRegExp::QRegExp reSpecial("string|preamble|comment");
+	static QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
+	static QRegExp reSpecial("string|preamble|comment");
 
 	QString s, key;
 	int col = 0, startcol, startline = 0;

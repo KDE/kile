@@ -322,7 +322,7 @@ namespace KileTool {
 		QString dir  = "%dir_target"; tool()->translate(dir);
 
 		QString name = shrt;
-		if(dir[0] == '/') {
+		if(!QDir::isRelativePath(dir)) {
 			name = dir + '/' + shrt;
 		}
 

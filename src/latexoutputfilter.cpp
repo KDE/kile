@@ -17,6 +17,7 @@
 
 #include "latexoutputfilter.h"
 
+ #include <qdir.h>
 #include <qfile.h>
 #include <qregexp.h>
 #include <qfileinfo.h>

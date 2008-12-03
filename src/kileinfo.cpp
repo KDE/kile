@@ -138,7 +138,7 @@ QString KileInfo::getFullFromPrettyName(const QString& name)
 		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file.mid(2);
 	}
 
-	if(file[0] != '/') {
+	if(QDir::isRelativePath(file)) {
 		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file;
 	}
 

@@ -18,7 +18,7 @@
 #include <kdebug.h>
 
 #ifdef NDEBUG
-	#define KILE_DEBUG(A) if (true); else kDebug()
+	#define KILE_DEBUG(A) if (true); else kDebug(A)
 #else
 	#define KILE_DEBUG(A) kDebug(A)
 #endif

@@ -133,6 +133,7 @@
 \hfilneg
 \hfuzz
 \hoffset
+\hphantom
 \hrule
 \hrulefill
 \hsize

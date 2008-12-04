@@ -32,6 +32,7 @@
 #include "kiledebug.h"
 
 #include <KLocale>
+#include <kdebug.h>
 
 KileLyxServer::KileLyxServer(bool startMe) :
 	m_perms(S_IRUSR | S_IWUSR), m_running(false)

@@ -15,7 +15,8 @@ CWL:
    fastex (thanks to Fabian Rost)
 
 Syntax:
- - latex: fixed corner case where \newcommand got highlighted wrong
+ - latex: -- fixed corner case where \newcommand got highlighted wrong
+ 	  -- highlight alignat and friends correctly
 
 version 2.0.1 -> 2.0.2
 

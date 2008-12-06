@@ -437,7 +437,7 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
 
-	static QRegExp::QRegExp reLaTeXLineNumber("(.*)\\s*on input line\\s*([0-9]+)\\.$", false);
+	static QRegExp::QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", false);
 	static QRegExp::QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", false);
 	if ( (reLaTeXLineNumber.search(warning) != -1) || (reInternationalLaTeXLineNumber.search(warning) != -1) )
 	{

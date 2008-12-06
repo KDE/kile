@@ -260,7 +260,7 @@
 		</entry>
 		<entry name="CleanUpFileExtensions" type="String">
 			<label>The file extensions to clean on exit.</label>
-			<default>.log .aux .lof .lot .bit .idx .glo .blg .ilg .toc .ind</default>
+			<default>.aux .bit .blg .bbl .lof .log .lot .glo .glx .gxg .gxs .idx .ilg .ind .out .url .svn .toc</default>
 		</entry>
 		<entry name="LastDocument" type="Path">
 			<label></label>

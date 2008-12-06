@@ -550,6 +550,7 @@ KileProjectViewItem* KileProjectView::add(KileProjectItem *projitem, KileProject
 	makeTheConnection(item);
 
 	projvi->sortChildItems(0,true);
+	projvi->setOpen(true);
 
 	return item;
 }

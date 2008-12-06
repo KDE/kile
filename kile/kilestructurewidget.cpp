@@ -930,6 +930,10 @@ namespace KileWidget
 			//KILE_DEBUG() << "\tStructure::update parsing doc" << endl;
 			view->cleanUp();
 			m_docinfo->updateStruct();
+			
+			if(docinfo == NULL || m_ki->docManager()->docFor(docinfo->url()) == NULL)
+				return;
+			
 			view->showReferences(m_ki);
 			view->setContentsPos(xtop,ytop);
 		}

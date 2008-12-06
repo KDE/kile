@@ -277,7 +277,9 @@
 		QString name = shrt;
 		if ( dir[0] == '/' )
 			name = dir + '/' + shrt;
-
+		
+		if ( tool()->readEntry("libName") == "libkdesvnpart" )
+			name = dir;
 
 		KLibFactory *factory = KLibLoader::self()->factory(m_libName);
 		if (factory == 0)

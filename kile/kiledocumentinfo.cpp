@@ -604,7 +604,13 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 	static QRegExp::QRegExp reComments("[^\\\\](%.*$)");
 
 	todo.type = -1;
-	QString s = m_doc->textLine(line);
+	QString s;
+	
+	if(m_doc == NULL)
+		return s;
+	else
+		s = m_doc->textLine(line);
+	
 	if ( ! s.isEmpty() )
 	{
 		// remove comment lines
@@ -892,6 +898,10 @@ void LaTeXInfo::updateStruct()
 
 		tagStart=tagEnd=0;
 		fire = true;
+		
+		if( m_doc == NULL )
+			return;
+		
 		s = getTextline(i,todo);
 		if ( todo.type!=-1 && m_showStructureTodo )
 		{

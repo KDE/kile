@@ -16,6 +16,8 @@ TODO
 
 - #142987 project load crash
 
+- add biblatex support, see https://sourceforge.net/tracker/?func=detail&atid=1126005&aid=2395904&group_id=244752 and 2.4.4 in the biblatex manual
+
 - strange ref error see http://sourceforge.net/forum/forum.php?thread_id=1746112&forum_id=292014 and BTS
 
 - the existence of the file .ind should not be checked for makeindex,. becasue it is for example for glosstex not necessary

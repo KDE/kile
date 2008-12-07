@@ -82,8 +82,8 @@ namespace KileWidget
 {
 ////////////////////// StructureViewItem with all info //////////////////////
 
-StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, QTreeWidgetItem* after, const QString &title, const KUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
-	QTreeWidgetItem(parent, after),
+StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &title, const KUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
+	QTreeWidgetItem(parent),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level),
 	m_startline(startline), m_startcol(startcol)
 {
@@ -97,7 +97,7 @@ StructureViewItem::StructureViewItem(QTreeWidget* parent, const QString& label) 
 	setToolTip(0, i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button)."));
 }
 
-StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString& label) :
+StructureViewItem::StructureViewItem(const QString& label, QTreeWidgetItem* parent) :
 	QTreeWidgetItem(parent, QStringList(label)),
 	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
 {}
@@ -316,7 +316,9 @@ void StructureViewItem::setLabel(const QString &label)
 
 	StructureViewItem* StructureView::createFolder(const QString &folder)
 	{
-		StructureViewItem *fldr=  new StructureViewItem(m_root, folder);
+		StructureViewItem *fldr = new StructureViewItem(folder);
+		// add it as a top-level child
+		m_root->insertChild(0, fldr);
 		fldr->setExpanded(false);
 		if(folder == "labels") {
 			fldr->setText(0, i18n("Labels"));
@@ -429,7 +431,7 @@ void StructureViewItem::setLabel(const QString &label)
 		
 	void StructureView::addItem(const QString &title, uint line, uint column, int type, int lev,
 	                            uint startline, uint startcol, 
-	                            const QString & pix, const QString &fldr /* = "root" */)
+	                            const QString &pix, const QString &fldr /* = "root" */)
 	{
 //  		KILE_DEBUG() << "\t\taddItem: " << title << ", with type " <<  type;
 		if(m_stop) {
@@ -500,19 +502,8 @@ void StructureViewItem::setLabel(const QString &label)
 			return;
 		}
 
-		//find the last element at this level
-		StructureViewItem *lastChild = NULL;
-		QTreeWidgetItem *firstChild = parentItem->child(0);
-		if(firstChild) {
-			QTreeWidgetItemIterator it(firstChild);
-			while(*it) {
-				lastChild = dynamic_cast<StructureViewItem*>(*it);
-				++it;
-			}
-		}
-
 		// create a new item
-		StructureViewItem *newChild = new StructureViewItem(parentItem, lastChild, title, m_docinfo->url(), line, column, type, lev, startline, startcol);
+		StructureViewItem *newChild = new StructureViewItem(parentItem, title, m_docinfo->url(), line, column, type, lev, startline, startcol);
 		if(!pix.isEmpty()) {
 			newChild->setIcon(0, KIcon(pix));
 		}
@@ -582,7 +573,7 @@ void StructureViewItem::setLabel(const QString &label)
 			if(!labelmap.contains((*it).name())) {
 				StructureViewItem *refitem = folder("refs");
 				refitem->setExpanded(shouldBeOpen(refitem, "refs", 0));
-				new StructureViewItem(refitem, NULL, (*it).name(), m_docinfo->url(), (*it).line(), (*it).column(), KileStruct::Reference, KileStruct::NotSpecified, 0, 0);
+				new StructureViewItem(refitem, (*it).name(), m_docinfo->url(), (*it).line(), (*it).column(), KileStruct::Reference, KileStruct::NotSpecified, 0, 0);
 			}
 		}
 	}

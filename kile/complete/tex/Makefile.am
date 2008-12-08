@@ -32,6 +32,7 @@ texcomplete_DATA = \
 	diagxy.cwl \
 	doi.cwl \
 	enumerate.cwl \
+	esint.cwl \
 	fancybox.cwl \
 	fancyhdr.cwl \
 	fancyunits-base.cwl \

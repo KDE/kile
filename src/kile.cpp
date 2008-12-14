@@ -1572,7 +1572,7 @@ void Kile::newCaption()
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
 		m_mainWindow->setCaption(getShortName( view->document()));
-		if (m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) {
+		if (m_bottomBar->currentPage() && m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) {
 			m_texKonsole->sync();
 		}
 	}

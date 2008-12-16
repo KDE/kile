@@ -2374,16 +2374,25 @@ void EditorExtension::insertBullet(KTextEditor::View* view)
 void EditorExtension::completeWord()
 {
 //	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmLatex);
+            m_ki->logWidget()->printMessage(KileTool::Error,
+                       i18n("The code completion does currently not work."),
+                        i18n("Codecompletion") );
 }
 
 void EditorExtension::completeEnvironment()
 {
 //	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmEnvironment);
+            m_ki->logWidget()->printMessage(KileTool::Error,
+                       i18n("The code completion does currently not work."),
+                        i18n("Codecompletion") );
 }
 
 void EditorExtension::completeAbbreviation()
 {
 //	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmAbbreviation);
+            m_ki->logWidget()->printMessage(KileTool::Error,
+                       i18n("The code completion does currently not work."),
+                        i18n("Codecompletion") );
 }
 
 ///////////////////// Special Functions ///////////////

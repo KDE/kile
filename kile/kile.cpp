@@ -232,7 +232,9 @@ Kile::~Kile()
 
 void Kile::showEvent(QShowEvent *)
 {
-	m_focusWidget->setFocus();
+	if(m_focusWidget){
+		m_focusWidget->setFocus();
+	}
 }
 
 void Kile::hideEvent(QHideEvent *)

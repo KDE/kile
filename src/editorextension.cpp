@@ -66,6 +66,7 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 		<< "Icelandic quotes (v1):   \\ilqq   \\irqq"
 		<< "Icelandic quotes (v2):   \\iflqq   \\ifrqq"
 		<< "Czech quotes:   \\uv{   }"
+		<< "csquotes package:   \\enquote{   }"
 		;
 
 	readConfig();

@@ -2468,12 +2468,11 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 
 	KTextEditor::Document *doc = view->document();
 
-	if(doc && m_ki->extensions()->isTexFile(doc->url())) {
-		view->removeSelectionText();
-	}
-	else {
+	if(!doc || !m_ki->extensions()->isTexFile(doc->url())) {
 		return false;
 	}
+
+	view->removeSelectionText();
 
 	// simply insert, if we are inside a verb command
 	if(insideVerb(view) || insideVerbatim(view)) {
@@ -2502,15 +2501,16 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	}
 
 	bool openFound = false;
-	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
-	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, '(' + pattern1 + ")|(" + pattern2 + ')', KTextEditor::Search::Regex);
-	if(foundRanges.size() >= 1) {
-		KTextEditor::Range range = foundRanges.first();
-		if(range.isValid()) {
-			int lineFound = range.start().line();
-			int columnFound = range.start().column();
-			openFound = (doc->line(lineFound).indexOf(m_leftDblQuote, columnFound) == columnFound);
-		}
+	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
+	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, '(' + pattern1 + ")|(" + pattern2 + ')',
+		KTextEditor::Search::Regex | KTextEditor::Search::Backwards);
+	// KTextEditor::SearchInterface#searchText always returns at least one range, even
+	// if no occurrences have been found. Thus, we have to check if the range is valid.
+	KTextEditor::Range range = foundRanges.first();
+	if(range.isValid()) {
+		int lineFound = range.start().line();
+		int columnFound = range.start().column();
+		openFound = (doc->line(lineFound).indexOf(m_leftDblQuote, columnFound) == columnFound);
 	}
 	
 	QString textline = doc->line(row);

@@ -44,6 +44,7 @@
 namespace KileDocument { class EditorExtension; }
 namespace KileConfiguration { class Manager; }
 namespace KileSpellCheck { class Manager; }
+namespace KileCodeCompletion { class LaTeXCompletionModel; class Manager; }
 
 namespace KileStruct
 {
@@ -264,7 +265,7 @@ public:
 	/**
 	 * "Overridden" method that installs custom event filters by using the "installEventFilters"
 	 * method. It also installs signal connections by using the "installSignalConnections"
-	 * method.
+	 * method. 
 	 * @warning Only this method should be used to create new views for text documents !
 	 * @return NULL if no document is set (m_doc == NULL)
 	 **/
@@ -348,6 +349,30 @@ protected:
 	 * managed document object.
 	 **/
 	void removeSignalConnections();
+
+	/**
+	 * Register code completion models on a view.
+	 */
+	virtual void registerCodeCompletionModels(KTextEditor::View *view);
+
+	/**
+	 * Unregisters the code completion models that were previously registered by the 
+	 * "registerCodeCompletionModels" method.
+	 */
+	virtual void unregisterCodeCompletionModels(KTextEditor::View *view);
+
+	/**
+	 * Register code completion models on all the views that are currently open for the
+	 * managed document object. The function "registerCodeCompletionModels(KTextEditor::View *view)
+	 * function is used for a specific view.
+	 **/
+	void registerCodeCompletionModels();
+
+	/**
+	 * Unregister the code completion models from all the views that are currently open for the
+	 * managed document object.
+	 **/
+	void unregisterCodeCompletionModels();
 };
 
 
@@ -365,7 +390,8 @@ public:
 	          LatexCommands *commands,
 	          KileDocument::EditorExtension *editorExtension,
 	          KileConfiguration::Manager *manager,
-	          KileSpellCheck::Manager *spellCheckManager);
+	          KileSpellCheck::Manager *spellCheckManager,
+	          KileCodeCompletion::Manager *codeCompletionManager);
 	virtual ~LaTeXInfo();
 
 	virtual Type getType();
@@ -380,6 +406,7 @@ protected:
 	EditorExtension *m_editorExtension;
 	KileConfiguration::Manager *m_configurationManager;
 	QObject *m_eventFilter;
+	KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
 
 	virtual void updateStructLevelInfo();
 	virtual void checkChangedDeps();
@@ -390,8 +417,10 @@ protected:
 	virtual QList<QObject*> createEventFilters(KTextEditor::View *view);
 
 	virtual void installSignalConnections(KTextEditor::View *view);
-
 	virtual void removeSignalConnections(KTextEditor::View *view);
+
+	virtual void registerCodeCompletionModels(KTextEditor::View *view);
+	virtual void unregisterCodeCompletionModels(KTextEditor::View *view);
 
 private:
 	BracketResult matchBracket(int &, int &);

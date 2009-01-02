@@ -84,6 +84,7 @@
 #include "kileuntitled.h"
 #include "kileviewmanager.h"
 #include "spellcheck.h"
+#include "codecompletion.h"
 
 namespace KileDocument
 {
@@ -449,6 +450,7 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		setHighlightMode(m_defaultHighlightMode);
 		installEventFilters();
+		registerCodeCompletionModels();
 		m_spellCheckManager->addOnTheFlySpellChecking(doc);
 	}
 }
@@ -459,6 +461,7 @@ void TextInfo::detach()
 		m_doc->disconnect(this);
 		removeInstalledEventFilters();
 		removeSignalConnections();
+		unregisterCodeCompletionModels();
 		m_spellCheckManager->removeOnTheFlySpellChecking(m_doc);
 		emit(documentDetached(m_doc));
 	}
@@ -617,6 +620,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 	KTextEditor::View *view = m_doc->createView(parent);
 	installEventFilters(view);
 	installSignalConnections(view);
+	registerCodeCompletionModels(view);
 	connect(view, SIGNAL(destroyed(QObject*)), this, SLOT(slotViewDestroyed(QObject*)));
 	return view;
 }
@@ -715,10 +719,45 @@ void TextInfo::removeSignalConnections()
 	}
 }
 
+void TextInfo::registerCodeCompletionModels(KTextEditor::View */* view */)
+{
+	/* does nothing */
+}
+
+void TextInfo::unregisterCodeCompletionModels(KTextEditor::View */* view */)
+{
+	/* does nothing */
+}
+
+void TextInfo::registerCodeCompletionModels()
+{
+	if(!m_doc) {
+		return;
+	}
+	QList<KTextEditor::View*> views = m_doc->views();
+	for(QList<KTextEditor::View*>::iterator i = views.begin(); i != views.end(); ++i) {
+		registerCodeCompletionModels(*i);
+	}
+}
+
+void TextInfo::unregisterCodeCompletionModels()
+{
+	if(!m_doc) {
+		return;
+	}
+	QList<KTextEditor::View*> views = m_doc->views();
+	for(QList<KTextEditor::View*>::iterator i = views.begin(); i != views.end(); ++i) {
+		unregisterCodeCompletionModels(*i);
+	}
+}
+
 void TextInfo::slotViewDestroyed(QObject *object)
 {
 	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(object);
 	if(view) {
+		removeInstalledEventFilters(view);
+		removeSignalConnections(view);
+		unregisterCodeCompletionModels(view);
 		QHash<KTextEditor::View*, QList<QObject*> >::iterator i = m_eventFilterHash.find(view);
 		if(i != m_eventFilterHash.end()) {
 			m_eventFilterHash.erase(i);
@@ -731,7 +770,8 @@ LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
                      LatexCommands *commands,
                      KileDocument::EditorExtension *editorExtension,
                      KileConfiguration::Manager* manager,
-                     KileSpellCheck::Manager *spellCheckManager)
+                     KileSpellCheck::Manager *spellCheckManager,
+                     KileCodeCompletion::Manager *codeCompletionManager)
 : TextInfo(doc, extensions, spellCheckManager, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
@@ -740,6 +780,9 @@ LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
+	m_latexCompletionModel = new KileCodeCompletion::LaTeXCompletionModel(this,
+	                                                                      codeCompletionManager,
+	                                                                      editorExtension);
 }
 
 LaTeXInfo::~LaTeXInfo()
@@ -861,6 +904,25 @@ void LaTeXInfo::installSignalConnections(KTextEditor::View * /* view */)
 void LaTeXInfo::removeSignalConnections(KTextEditor::View * /* view */)
 {
 
+}
+
+void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)
+{
+	KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(!completionInterface) {
+		return;
+	}
+	completionInterface->registerCompletionModel(m_latexCompletionModel);
+	completionInterface->setAutomaticInvocationEnabled(true);
+}
+
+void LaTeXInfo::unregisterCodeCompletionModels(KTextEditor::View *view)
+{
+	KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(!completionInterface) {
+		return;
+	}
+	completionInterface->unregisterCompletionModel(m_latexCompletionModel);
 }
 
 BracketResult LaTeXInfo::matchBracket(int &l, int &pos)

@@ -187,7 +187,6 @@ KUrl::List KileInfo::getParentsFor(KileDocument::Info *info)
 const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0L */)
 {
 	m_listTemp.clear();
-
 	if (docinfo == 0L) docinfo = docManager()->getInfo();
 	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
 

@@ -2,7 +2,7 @@
     date                 : Mar 21 2007
     version              : 0.40
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 #include <QObject>
 #include <QList>
 
+#include <ktexteditor/codecompletionmodelcontrollerinterface.h>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/CodeCompletionModel>
 #include <KTextEditor/Document>
@@ -29,8 +30,6 @@
 #include "latexcmd.h"
 #include "widgets/abbreviationview.h"
 
-namespace KTextEditor {class CompletionEntry;}
-
 //default bullet char (a cross)
 static const QChar s_bullet_char = QChar(0xd7);
 static const QString s_bullet = QString(&s_bullet_char, 1);
@@ -39,23 +38,91 @@ class QTimer;
 
 class KileInfo;
 
-namespace KileDocument
-{
-	class CodeCompletionModel : public KTextEditor::CodeCompletionModel {
-		public:
-			CodeCompletionModel(QObject *parent);
-			virtual ~CodeCompletionModel();
+namespace KileDocument { class EditorExtension; }
 
+namespace KileCodeCompletion
+{
+	class Manager;
+
+	class LaTeXCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::CodeCompletionModelControllerInterface {
+		Q_OBJECT
+		Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
+		
+		public:
+			LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
+			                                      KileDocument::EditorExtension *editorExtension);
+			virtual ~LaTeXCompletionModel();
+
+			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
 			virtual QVariant data(const QModelIndex& index, int role) const;
-			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range, InvocationType invocationType);
-			virtual QModelIndex index(int row, int column, const QModelIndex& parent) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
-			void setCompletionList(const QStringList& list);
+
+			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+			                                                            const QString &currentCompletion);
+			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
+			                                                        InvocationType invocationType);
+			virtual void updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range);
+			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
+			                                           const KTextEditor::Cursor &position);
+			virtual QString filterString(KTextEditor::View *view,
+			                             const KTextEditor::SmartRange &range,
+			                             const KTextEditor::Cursor &position);
+
+			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
+			                                                                    int row) const;
 
 		protected:
+			KileCodeCompletion::Manager *m_codeCompletionManager;
+			KileDocument::EditorExtension *m_editorExtension;
 			QStringList m_completionList;
-	};
+			KTextEditor::View *m_currentView;
 
+			void buildModel(KTextEditor::View *view, const KTextEditor::Range &r);
+			void filterModel(const QString& text);
+			
+			QString stripParameters(const QString &text) const;
+			QString buildRegularCompletedText(const QString &text, int &cursorYPos, int &cursorXPos,
+			                                                                        bool checkGroup) const;
+			QString buildEnvironmentCompletedText(const QString &text, const QString &prefix,
+                                                              int &ypos, int &xpos) const;
+			QString buildWhiteSpaceString(const QString &s) const;
+			KTextEditor::Cursor determineLaTeXCommandStart(KTextEditor::Document *doc,
+			                                               const KTextEditor::Cursor& position) const;
+			bool isWithinLaTeXCommand(KTextEditor::Document *doc, const KTextEditor::Cursor& commandStart,
+			                                                      const KTextEditor::Cursor& cursorPosition) const;
+};
+
+	class Manager : public QObject {
+		friend class LaTeXCompletionModel;
+
+		public:
+			Manager(KileInfo *info, QObject *parent);
+			virtual ~Manager();
+
+			QStringList getLaTeXCommands() const;
+
+			void readConfig(KConfig *config);
+
+		protected:
+			KileInfo* m_ki;
+			QStringList m_texWordList, m_dictWordList, m_abbrevWordList;
+			bool m_firstConfig;
+			QRegExp m_referencesRegExp;
+			QRegExp m_referencesExtRegExp;
+			QRegExp m_citeRegExp;
+			QRegExp m_citeExtRegExp;
+	
+			void addUserDefinedLaTeXCommands(QStringList &wordlist);
+			void readCWLFile(QStringList &wordlist, const QString &filename);
+			QStringList readCWLFiles(const QStringList &files, const QString &dir);
+			void buildReferenceCitationRegularExpressions();
+			QString getCommandsString(KileDocument::CmdAttribute attrtype);
+}	;
+
+}
+
+namespace KileDocument
+{
 //FIXME refactor the complete class, it's pretty ugly, there are too many methods with similar names suggesting that the code could be more efficient
 class CodeCompletion : public QObject
 {
@@ -108,11 +175,11 @@ public Q_SLOTS:
 	void textInsertedInView(KTextEditor::View *view, const KTextEditor::Cursor &position, const QString &text);
 	void editComplete(KTextEditor::View *view, KileDocument::CodeCompletion::Mode mode);
 
-	void slotCompletionDone(KTextEditor::CompletionEntry);
+// 	void slotCompletionDone(KTextEditor::CompletionEntry);
 	void slotCompleteValueList();
 	void slotCompletionAborted();
 
-	void slotFilterCompletion(KTextEditor::CompletionEntry* c, QString *s);
+// 	void slotFilterCompletion(KTextEditor::CompletionEntry* c, QString *s);
 
 	// a abbreviation was modified ind the abbreviation view (add, edit or delete)
 	// so the abbreviation list was must also be updated
@@ -122,7 +189,7 @@ private:
 	void completeWord(KTextEditor::View* view, const KTextEditor::Range& range, CodeCompletion::Mode mode);
 	QString filterCompletionText(KTextEditor::View *view, const QString &text, const QString &type);
 
-	void CompletionDone(KTextEditor::CompletionEntry);
+// 	void CompletionDone(KTextEditor::CompletionEntry);
 	void CompletionAborted();
 
 	void completeFromList(KTextEditor::View* view, const QStringList *list, const KTextEditor::Cursor &position, const QString &pattern = QString());
@@ -140,8 +207,6 @@ private:
 	CodeCompletion::Type insideReference(KTextEditor::View *view, QString &startpattern);
 
 private:
-	KileDocument::CodeCompletionModel *m_codeCompletionModel;
-
 	// wordlists
 	QStringList m_texlist;
 	QStringList m_dictlist;
@@ -200,10 +265,6 @@ private:
 	QString parseText(const QString &text, int &ypos, int &xpos, bool checkgroup);
 	QString stripParameter(const QString &text);
 
-	QStringList buildWordList(const QStringList &files,const QString &dir);
-	void readWordlist(QStringList &wordlist, const QString &filename, bool global);
-	void addCommandsToTexlist(QStringList &wordlist);
-	
 	void setReferences();
 	QString getCommandList(KileDocument::CmdAttribute attrtype);
 

@@ -62,7 +62,7 @@ int main( int argc, char ** argv )
 	KAboutData aboutData( "kile", QByteArray(), ki18n("Kile"), kileFullVersion.toAscii(),
 				ki18n("KDE Integrated LaTeX Environment"),
 				KAboutData::License_GPL,
-				ki18n("by the Kile Team (2003 - 2008)"),
+				ki18n("by the Kile Team (2003 - 2009)"),
 				KLocalizedString(),
 				"http://kile.sourceforge.net");
 	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");

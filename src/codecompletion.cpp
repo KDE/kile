@@ -2,7 +2,7 @@
     date                 : Mar 21 2007
     version              : 0.40
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
 ***********************************************************************************************/
 
 /***************************************************************************
@@ -30,81 +30,716 @@
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Cursor>
 
+#include "editorextension.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
-#include "editorextension.h"
 
 #ifdef __GNUC__
 #warning !!This whole file should be reworked completely!!
 #endif
 
-#ifdef __GNUC__
-#warning Remove the hack at line 43!
-#endif
-namespace KTextEditor {
-	class CompletionEntry {
-	};
+namespace KileCodeCompletion {
+
+LaTeXCompletionModel::LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
+                                                            KileDocument::EditorExtension *editorExtension)
+: KTextEditor::CodeCompletionModel(parent), m_codeCompletionManager(manager), m_editorExtension(editorExtension), m_currentView(NULL)
+{
+	setHasGroups(false);
+}
+
+LaTeXCompletionModel::~LaTeXCompletionModel()
+{
+}
+
+void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
+                                                                      InvocationType invocationType)
+{
+	m_currentView = view;
+	KILE_DEBUG() << "building model...";
+	buildModel(view, range);
+}
+
+void LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
+{
+	KILE_DEBUG() << "updating model...";
+	range = completionRange(view, view->cursorPosition());
+	buildModel(view, range);
+}
+
+void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
+{
+	if(!KileConfig::completeAuto()) {
+		m_completionList.clear();
+		reset();
+		return;
+	}
+	KTextEditor::Cursor startCursor = range.start();
+	QString completionString = view->document()->text(range);
+	KILE_DEBUG() << "Text in completion range: " << completionString;
+	m_completionList.clear();
+
+	if(completionString.startsWith('\\')) {
+		m_completionList = m_codeCompletionManager->getLaTeXCommands();
+		filterModel(completionString);
+		reset();
+	}
+	else {
+		KTextEditor::Cursor latexCommandStart = determineLaTeXCommandStart(view->document(),
+		                                                                   view->cursorPosition());
+		if(!latexCommandStart.isValid()) {
+			return;
+		}
+		QString leftSubstring = view->document()->text(KTextEditor::Range(latexCommandStart,
+		                                                                  view->cursorPosition()));
+		// check whether we are supposed to build a model for reference or citation completion
+		int citationIndex = leftSubstring.indexOf(m_codeCompletionManager->m_citeRegExp);
+		int referenceIndex = leftSubstring.indexOf(m_codeCompletionManager->m_referencesRegExp);
+		if(referenceIndex != -1) {
+			//FIXME: the retrieval of labels and BibTeX entries has to be revised!
+			m_completionList = *m_codeCompletionManager->m_ki->allLabels();
+		}
+		else if(citationIndex != -1) {
+			m_completionList = *m_codeCompletionManager->m_ki->allBibItems();
+		}
+		filterModel(completionString);
+		reset();
+	}
+}
+
+KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor::Document *doc,
+                                                                     const KTextEditor::Cursor& position) const
+{
+	QString line = doc->line(position.line());
+// 	QRegExp completionStartRegExp("((\\s|^)?)((\\\\\\w*)|(\\w+))$");
+// 	QRegExp completionStartRegExp("((\\\\\\w*)|([^\\\\]\\b\\w+))$");
+// 	QRegExp completionStartRegExp("(\\\\\\w*)[^\\\\]*$");
+ 
+	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,=\"'~]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
+	completionStartRegExp.setMinimal(true);
+	QString leftSubstring = line.left(position.column());
+	KILE_DEBUG() << "leftSubstring: " << leftSubstring;
+	int startPos = completionStartRegExp.lastIndexIn(leftSubstring);
+	if(startPos >= 0) {
+		return KTextEditor::Cursor(position.line(), startPos);
+	}
+	else {
+		return KTextEditor::Cursor::invalid();
+	}
+}
+
+bool LaTeXCompletionModel::isWithinLaTeXCommand(KTextEditor::Document *doc, const KTextEditor::Cursor& commandStart,
+                                                                            const KTextEditor::Cursor& cursorPosition) const
+{
+	QString commandText = doc->text(KTextEditor::Range(commandStart, cursorPosition));
+	int numOpenSquareBrackets = commandText.count(QRegExp("[^\\]\\["));
+	int numClosedSquareBrackets = commandText.count(QRegExp("[^\\]\\]"));
+	int numOpenCurlyBrackets = commandText.count(QRegExp("[^\\]\\{"));
+	int numClosedCurlyBrackets = commandText.count(QRegExp("[^\\]\\}"));
+
+	if(numOpenSquareBrackets != numClosedSquareBrackets || numOpenCurlyBrackets != numClosedCurlyBrackets) {
+		return true;
+	}
+	if(numOpenSquareBrackets == 0 && numOpenCurlyBrackets == 0 && commandText.count(' ') == 0) {
+		return true;
+	}
+	return false;
+}
+
+KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view, const KTextEditor::Cursor &position)
+{
+	if(!KileConfig::completeAuto()) {
+		return KTextEditor::Range::invalid();
+	}
+	QString line = view->document()->line(position.line());
+	KTextEditor::Cursor startCursor = position;
+	KTextEditor::Cursor endCursor = position;
+
+	QRegExp completionEndRegExp("\\b|\\\\");
+
+	int cursorPos = position.column();
+
+	KTextEditor::Cursor latexCommandStart = determineLaTeXCommandStart(view->document(), position);
+	KILE_DEBUG() << "LaTeX command start " << latexCommandStart;
+	if(!latexCommandStart.isValid() || !isWithinLaTeXCommand(view->document(), latexCommandStart, position)) {
+		return KTextEditor::Range::invalid();
+	}
+	QString completionString = view->document()->text(KTextEditor::Range(latexCommandStart,
+	                                                                     position));
+	KILE_DEBUG() << "completionString " << completionString;
+	//check whether we are completing a citation of reference
+	if(completionString.indexOf(m_codeCompletionManager->m_citeRegExp) != -1
+		|| completionString.indexOf(m_codeCompletionManager->m_referencesRegExp) != -1) {
+		KILE_DEBUG() << "found citation or reference!";
+		int openBracketIndex = completionString.indexOf('{');
+		if(openBracketIndex != -1) {
+			QRegExp labelListRegExp("\\s*(([\\w]+)|([\\w]+(\\s*,\\s*[\\w]*)+))");
+			labelListRegExp.setMinimal(false);
+			int column = openBracketIndex + 1;
+			KILE_DEBUG() << "open bracket column + 1: " << column;
+			KILE_DEBUG() << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
+			if(labelListRegExp.indexIn(completionString, openBracketIndex + 1) == openBracketIndex + 1
+			      && labelListRegExp.matchedLength() + openBracketIndex + 1 == completionString.length()) {
+				int lastCommaIndex = completionString.lastIndexOf(',');
+				if(lastCommaIndex >= 0) {
+					KILE_DEBUG() << "last comma found at: " << lastCommaIndex;
+					column =  lastCommaIndex + 1;
+				}
+			}
+			KILE_DEBUG() << labelListRegExp.errorString();
+			startCursor.setColumn(latexCommandStart.column() + column);
+		}
+		else {
+			startCursor = latexCommandStart;
+		}
+	}
+	else {
+		startCursor = latexCommandStart;
+	}
+
+	int endPos = line.indexOf(completionEndRegExp, cursorPos);
+	if(endPos >= 0) {
+		endCursor.setColumn(endPos);
+	}
+	KILE_DEBUG() << "returning completion range: " << KTextEditor::Range(startCursor, endCursor);
+	return KTextEditor::Range(startCursor, endCursor);
+}
+
+bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+                                                                          const QString &currentCompletion)
+{
+	if(view->cursorPosition() < range.start() || view->cursorPosition() > range.end()
+	                                          || m_completionList.size() == 0) {
+		return true;
+	}
+	return false;
+}
+
+QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+                                                                    const KTextEditor::Cursor &position)
+{
+	KILE_DEBUG() << "range: " << range;
+	KILE_DEBUG() << "text: " << view->document()->text(range);
+
+	return "";
+}
+
+QVariant LaTeXCompletionModel::data(const QModelIndex& index, int role) const
+{
+	if(index.column() != KTextEditor::CodeCompletionModel::Name) {
+		return QVariant();
+	}
+	switch(role) {
+		case Qt::DisplayRole:
+			return m_completionList.at(index.row());
+		case CompletionRole:
+			return static_cast<int>(FirstProperty | LastProperty | Public);
+		case MatchQuality:
+			return 10;
+		case ScopeIndex:
+			return 0;
+		case InheritanceDepth:
+			return 0;
+		case HighlightingMethod:
+			return QVariant::Invalid;
+	}
+
+	return QVariant();
+}
+
+QModelIndex LaTeXCompletionModel::index(int row, int column, const QModelIndex &parent) const
+{
+	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+		return QModelIndex();
+	}
+
+	return createIndex(row, column, 0);
+}
+
+int LaTeXCompletionModel::rowCount(const QModelIndex &parent) const
+{
+	if(parent.isValid()) {
+		return 0;
+	}
+	return m_completionList.size();
+}
+
+void LaTeXCompletionModel::filterModel(const QString& text)
+{
+	QMutableStringListIterator it(m_completionList);
+	while(it.hasNext()) {
+		QString string = it.next();
+		if(!string.startsWith(text)) {
+			it.remove();
+		}
+	}
+}
+
+void LaTeXCompletionModel::executeCompletionItem(KTextEditor::Document *document,
+                                                 const KTextEditor::Range& word, int row) const
+{
+	KTextEditor::Cursor startCursor = word.start();
+	const static QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
+
+	int cursorXPos = -1, cursorYPos = -1;
+	QString completionText = data(index(row, KTextEditor::CodeCompletionModel::Name, QModelIndex()), Qt::DisplayRole).toString();
+	QString textToInsert;
+	int envIndex = reEnv.indexIn(completionText);
+	if(completionText != "\\begin{}" && envIndex != -1) { // we are completing an environment
+		QString prefix;
+		prefix = document->text(KTextEditor::Range(startCursor.line(), 0,
+		                                           startCursor.line(), word.start().column()));
+		textToInsert = buildEnvironmentCompletedText(completionText, prefix, cursorYPos, cursorXPos);
+		KILE_DEBUG() << cursorYPos << ", " << cursorXPos;
+	}
+	else {
+		textToInsert = buildRegularCompletedText(stripParameters(completionText), cursorYPos, cursorXPos, true);
+	}
+	document->replaceText(word, textToInsert);
+	//HACK, but it's impossible to do this otherwise
+	if(KileConfig::completeCursor() && (cursorXPos > 0 || cursorYPos > 0)
+	    && m_currentView && document->views().contains(m_currentView)) {
+		m_currentView->setCursorPosition(KTextEditor::Cursor(startCursor.line() + (cursorYPos >= 0 ? cursorYPos : 0),
+		                                                     startCursor.column() + (cursorXPos >= 0 ? cursorXPos : 0)));
+	}
+}
+
+// strip all names enclosed in braces
+// consider also beamer like stuff [<...>] and <...>
+QString LaTeXCompletionModel::stripParameters(const QString &text) const
+{
+	QString s;
+	bool ignore = false;
+
+	for(int i = 0; i < text.length(); ++i) {
+		QChar c = text[i];
+		switch(c.toAscii()) {
+			case '[':
+			case '{':
+			case '(':
+			case '<':
+				s += c;
+				ignore = true;
+			break;
+			case ']':
+			case '}':
+			case ')':
+			case '>':
+				s += c;
+				ignore = false;
+			break;
+			case ',':
+				s += c;
+			break;
+			default:
+				if(!ignore) {
+					s += c;
+				}
+			break;
+		}
+	}
+	return s;
+}
+
+QString LaTeXCompletionModel::buildRegularCompletedText(const QString &text, int &cursorYPos, int &cursorXPos, bool checkGroup) const
+{
+	bool setCursor = true, setBullets = true;
+	bool foundgroup = false;
+	QString s;
+
+	cursorXPos = -1;
+	cursorYPos = -1;
+	for(int i = 0; i < text.length(); ++i) {
+		QChar c = text[i];
+		switch(c.toAscii()) {
+			case '<':
+			case '{':
+			case '(':
+			case '[': // insert character
+				s += c;
+				if(cursorXPos < 0) {
+					// remember position after first brace
+					if(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<') {
+						cursorXPos = i + 2;
+						s += text[i + 1];
+						i++;
+					}// special handling for '[<'
+					else {
+						cursorXPos = i + 1;
+					}
+					// insert bullet, if this is no cursorposition
+					if((!setCursor) && setBullets && !(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<')) {
+						s += s_bullet;
+					}
+				}
+				// insert bullets after following braces
+				else if(setBullets && !(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<')) {
+					s += s_bullet;
+				}
+			break;
+			case '>':
+			case '}':
+			case ')':
+			case ']':                    // insert character
+				s += c;
+			break;
+			case ',':                    // insert character
+				s += c;
+				// insert bullet?
+				if(setBullets) {
+					s += s_bullet;
+				}
+			break;
+			case '.': // if the last character is a point of a range operator,
+					// it will be replaced by a space or a bullet surrounded by spaces
+				if(checkGroup && (s.right(1) == ".")) {
+					foundgroup = true;
+					s.truncate(s.length() - 1);
+					if(setBullets) {
+						s += ' ' + s_bullet + ' ';
+					}
+					else {
+						s += ' ';
+					}
+				}
+				else {
+					s += c;
+				}
+			break;
+			default:                      // insert all other characters
+				s += c;
+			break;
+		}
+	}
+
+	// some more work with groups and bullets
+	if(s.length() >= 2 && checkGroup && foundgroup && (setBullets | setCursor)) {
+		int pos = 0;
+
+		// search for braces, brackets and parens
+		switch(s[1].toAscii()) {
+			case 'l':
+				if(s.left(6) == "\\left ") {
+					pos = 5;
+				}
+			break;
+			case 'b':
+				if(s.left(6) == "\\bigl ") {
+					pos = 5;
+				}
+				else if(s.left(7) == "\\biggl ") {
+					pos = 6;
+				}
+			break;
+			case 'B' :
+				if(s.left(6) == "\\Bigl ") {
+					pos = 5;
+				}
+				else if(s.left(7) == "\\Biggl ") {
+					pos = 6;
+				}
+			break;
+		}
+
+		// update cursorposition and set bullet
+		if(pos > 0) {
+			if(setCursor) {
+				cursorXPos = pos;
+			}
+			if(setBullets) {
+				if(!setCursor) {
+					s.insert(pos, s_bullet);
+				}
+				s.append(s_bullet);
+			}
+		}
+	}
+
+	return s;
+}
+
+QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text, const QString &prefix,
+                                                            int &ypos, int &xpos) const
+{
+	static QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
+
+	if(reEnv.indexIn(text) == -1) {
+		return text;
+	}
+
+	QString parameter = stripParameters(reEnv.cap(3));
+	QString start = reEnv.cap(1);
+	QString envname = reEnv.cap(2);
+	QString whitespace = buildWhiteSpaceString(prefix);
+	QString envIndent = m_editorExtension->autoIndentEnvironment();
+
+	QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
+
+	s += whitespace;
+	if(start != "end") {
+		s += envIndent;
+	}
+
+QString type;
+	bool item = (type == "list");
+	if(item) {
+		s += "\\item ";
+	}
+
+	if(KileConfig::completeBullets() && !parameter.isEmpty()) {
+		s += s_bullet;
+	}
+
+	if(KileConfig::completeCloseEnv() && start != "end") {
+		s += '\n' + whitespace + "\\end{" + envname + "}\n";
+	}
+
+	if(parameter.isEmpty()) {
+		ypos = 1;
+		xpos = envIndent.length() + ((item) ? 6 : 0);
+	}
+	else {
+		ypos = 0;
+		if(parameter.left(2) == "[<") {
+			xpos = 10 + envname.length();
+		}
+		else {
+			xpos = 9 + envname.length();
+		}
+	}
+
+	return s;
+}
+
+QString LaTeXCompletionModel::buildWhiteSpaceString(const QString &s) const
+{
+	QString whitespace = s;
+	for(int i = 0; i < whitespace.length(); ++i) {
+		if(!whitespace[i].isSpace()) {
+			whitespace[i] = ' ';
+		}
+	}
+	return whitespace;
+}
+
+Manager::Manager(KileInfo *info, QObject *parent)
+: QObject(parent), m_ki(info)
+{
+	m_firstConfig = true;
+}
+
+Manager::~Manager()
+{
+}
+
+QStringList Manager::getLaTeXCommands() const
+{
+	return m_texWordList;
+}
+
+void Manager::readConfig(KConfig *config)
+{
+	KILE_DEBUG() << "======================";
+
+	// save normal parameter
+	//KILE_DEBUG() << "   read bool entries";
+/*
+	m_isenabled = KileConfig::completeEnabled();
+	m_setcursor = KileConfig::completeCursor();
+	m_setbullets = KileConfig::completeBullets();
+	m_closeenv = KileConfig::completeCloseEnv();
+	m_autocomplete = KileConfig::completeAuto();
+	m_autocompletetext = KileConfig::completeAutoText();
+	m_autocompleteabbrev = KileConfig::completeAutoAbbrev();
+	m_latexthreshold = KileConfig::completeAutoThreshold();
+	m_textthreshold = KileConfig::completeAutoTextThreshold();
+	m_citationMove = KileConfig::completeCitationMove();
+	m_autoDollar = KileConfig::autoInsertDollar();
+*/
+	// we need to read some of Kate's config flags
+// 	readKateConfigFlags(config);
+
+	// reading the wordlists is only necessary at the first start
+	// and when the list of files changes
+	if(m_firstConfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
+		KILE_DEBUG() << "   setting regexp for references...";
+		buildReferenceCitationRegularExpressions();
+
+		KILE_DEBUG() << "   read wordlists...";
+		// wordlists for Tex/Latex mode
+		QStringList files = KileConfig::completeTex();
+		m_texWordList = readCWLFiles(files, "tex");
+
+		// wordlist for dictionary mode
+		files = KileConfig::completeDict();
+		m_dictWordList = readCWLFiles(files, "dictionary");
+
+		// wordlist for abbreviation mode
+		files = KileConfig::completeAbbrev();
+		m_abbrevWordList = readCWLFiles(files, "abbreviation");
+
+		// remember changed lists
+		// FIXME: remove these hacks
+		m_firstConfig = false;
+		KileConfig::setCompleteChangedLists(false);
+		KileConfig::setCompleteChangedCommands(false);
+	}
+}
+
+void Manager::buildReferenceCitationRegularExpressions()
+{
+	// build list of references
+	QString references = getCommandsString(KileDocument::CmdAttrReference);
+	references.replace('*', "\\*");
+	m_referencesRegExp.setPattern("^\\\\(" + references + ")\\{");
+	m_referencesExtRegExp.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
+
+	// build list of citations
+	QString citations = getCommandsString(KileDocument::CmdAttrCitations);
+	citations.replace('*',"\\*");
+	m_citeRegExp.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
+	m_citeExtRegExp.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
+}
+
+QString Manager::getCommandsString(KileDocument::CmdAttribute attrtype)
+{
+	QStringList cmdlist;
+	QStringList::ConstIterator it;
+
+	// get info about user defined references
+	KileDocument::LatexCommands *cmd = m_ki->latexCommands();
+	cmd->commandList(cmdlist, attrtype, false);
+
+	// build list of references
+	QString commands;
+	for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+		if(cmd->isStarredEnv(*it) ) {
+			commands += '|' + (*it).mid(1) + '*';
+		}
+		commands += '|' + (*it).mid(1);
+	}
+	return commands;
+}
+
+void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
+{
+	QStringList cmdlist;
+	QStringList::ConstIterator it;
+	KileDocument::LatexCmdAttributes attr;
+
+	// get info about user defined commands and environments
+	KileDocument::LatexCommands *cmd = m_ki->latexCommands();
+	cmd->commandList(cmdlist, KileDocument::CmdAttrNone, true);
+
+	// add entries to wordlist
+	for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+		if(cmd->commandAttributes(*it, attr)) {
+			QString command,eos;
+			QStringList entrylist;
+			if(attr.type < KileDocument::CmdAttrLabel) {         // environment
+				command = "\\begin{" + (*it);
+				eos = "}";
+			}
+			else {                                                   // command
+				command = (*it);
+				// eos.clear();
+			}
+
+			// get all possibilities into a stringlist
+			entrylist.append(command + eos);
+			if(!attr.option.isEmpty()) {
+				entrylist.append(command + eos + "[option]");
+			}
+			if(attr.starred) {
+				entrylist.append(command + '*' + eos);
+				if (!attr.option.isEmpty()) {
+					entrylist.append(command + '*' + eos + "[option]");
+				}
+			}
+
+			// finally append entries to wordlist
+			QStringList::ConstIterator itentry;
+			for(itentry = entrylist.begin(); itentry != entrylist.end(); ++itentry) {
+				QString entry = (*itentry);
+				if(!attr.parameter.isEmpty()) {
+					entry += "{param}";
+				}
+				if(attr.type == KileDocument::CmdAttrList) {
+					entry += "\\item";
+				}
+				wordlist.append(entry);
+			}
+		}
+	}
+}
+
+void Manager::readCWLFile(QStringList &wordlist, const QString &filename)
+{
+	QString file = KGlobal::dirs()->findResource("appdata", "complete/" + filename);
+	if(file.isEmpty()) {
+		return;
+	}
+
+	QFile f(file);
+	if(f.open(QIODevice::ReadOnly)) {     // file opened successfully
+		QTextStream t(&f);         // use a text stream
+		while(!t.atEnd()) {        // until end of file...
+			QString s = t.readLine().trimmed();       // line of text excluding '\n'
+			if(!(s.isEmpty() || s.at(0) == '#')) {
+				wordlist.append(s);
+			}
+		}
+		f.close();
+	}
+}
+
+QStringList Manager::readCWLFiles(const QStringList &files, const QString &dir)
+{
+
+	// read wordlists from files
+	QStringList wordlist;
+	for(int i = 0; i < files.count(); ++i) {
+		// if checked, the wordlist has to be read
+		if(files[i].at(0) == '1') {
+			readCWLFile(wordlist, dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl");
+		}
+	}
+
+//FIXME: better move the following out of this method
+	// add user defined commands and environments
+	if(dir == "tex") {
+		addUserDefinedLaTeXCommands(wordlist);
+	}
+	else if(dir == "dictionary") {
+		wordlist.sort();
+	}
+	else if(dir == "abbreviation") {
+// FIXME
+/*
+		// read local wordlist
+		QStringList localWordlist;
+		readWordlist(localWordlist, QString(), false);
+
+		// add local/global wordlists to the abbreviation view
+		m_abbrevListview->init(&wordlist,&localWordlist);
+
+		// finally add local wordlists to the abbreviation list
+		QStringList::ConstIterator it;
+		for(it = localWordlist.begin(); it != localWordlist.end(); ++it) {
+			wordlist.append(*it);
+		}
+
+		wordlist.sort();
+*/
+	}
+
+	return wordlist;
+}
+
 }
 
 namespace KileDocument
 {
-	CodeCompletionModel::CodeCompletionModel(QObject *parent) : KTextEditor::CodeCompletionModel(parent)
-	{
-	}
-
-	CodeCompletionModel::~CodeCompletionModel()
-	{
-	}
-
-	QVariant CodeCompletionModel::data(const QModelIndex& index, int role) const
-	{
-		if(index.column() != KTextEditor::CodeCompletionModel::Name) {
-			return QVariant();
-		}
-		switch(role) {
-			case Qt::DisplayRole:
-				return m_completionList.at(index.row());
-			case CompletionRole:
-				return static_cast<int>(FirstProperty | LastProperty | Public);
-			case MatchQuality:
-				return 10;
-			case ScopeIndex:
-				return 0;
-			case InheritanceDepth:
-				return 0;
-			case HighlightingMethod:
-				return QVariant::Invalid;
-		}
-	
-		return QVariant();
-	}
-
-	void CodeCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range, InvocationType invocationType)
-	{
-	}
-
-	QModelIndex CodeCompletionModel::index(int row, int column, const QModelIndex& parent) const {
-		if(row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
-			return QModelIndex();
-		}
-	
-		return createIndex(row, column, 0);
-	}
-
-	int CodeCompletionModel::rowCount(const QModelIndex& parent) const
-	{
-		if(parent.isValid()) {
-			return 0; //Do not make the model look hierarchical
-		}
-		return m_completionList.size();
-	}
-
-	void CodeCompletionModel::setCompletionList(const QStringList& list)
-	{
-		m_completionList = list;
-	}
-
 	//static QRegExp reRef("^\\\\(pageref|ref)\\{");
 	//static QRegExp reCite("^\\\\(c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext)\\{");
 	//static QRegExp reRefExt("^\\\\(pageref|ref)\\{[^\\{\\}\\\\]+,$");
@@ -132,8 +767,6 @@ namespace KileDocument
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
 		connect(m_completeTimer, SIGNAL( timeout() ), this, SLOT( slotCompleteValueList() ) );
-
-		m_codeCompletionModel = new KileDocument::CodeCompletionModel(this);
 	}
 
 	CodeCompletion::~CodeCompletion()
@@ -233,30 +866,6 @@ namespace KileDocument
 		// we need to read some of Kate's config flags
 		readKateConfigFlags(config);
 
-		// reading the wordlists is only necessary at the first start
-		// and when the list of files changes
-		if(m_firstconfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
-			KILE_DEBUG() << "   set regexp for references...";
-			setReferences();
-
-			KILE_DEBUG() << "   read wordlists...";
-			// wordlists for Tex/Latex mode
-			QStringList files = KileConfig::completeTex();
-			m_texlist = buildWordList(files, "tex");
-
-			// wordlist for dictionary mode
-			files = KileConfig::completeDict();
-			m_dictlist = buildWordList(files, "dictionary");
-
-			// wordlist for abbreviation mode
-			files = KileConfig::completeAbbrev();
-			m_abbrevlist = buildWordList(files, "abbreviation");
-
-			// remember changed lists
-			m_firstconfig = false;
-			KileConfig::setCompleteChangedLists(false);
-			KileConfig::setCompleteChangedCommands(false);
-		}
 	}
 
 	void CodeCompletion::readKateConfigFlags(KConfig *config)
@@ -279,131 +888,20 @@ namespace KileDocument
 
 	void CodeCompletion::setReferences()
 	{
-		// build list of references
-		QString references = getCommandList(KileDocument::CmdAttrReference);
-		references.replace('*', "\\*");
-		reRef.setPattern("^\\\\(" + references + ")\\{");
-		reRefExt.setPattern("^\\\\(" + references + ")\\{[^\\{\\}\\\\]+,$");
-
-		// build list of citations
-		QString citations = getCommandList(KileDocument::CmdAttrCitations);
-		citations.replace('*',"\\*");
-		reCite.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations +  ")\\{");
-		reCiteExt.setPattern("^\\\\(((c|C|noc)(ite|itep|itet|itealt|itealp|iteauthor|iteyear|iteyearpar|itetext))" + citations + ")\\{[^\\{\\}\\\\]+,$");
+		// has been moved already
 	}
 
 	QString CodeCompletion::getCommandList(KileDocument::CmdAttribute attrtype)
 	{
-		QStringList cmdlist;
-		QStringList::ConstIterator it;
-
-		// get info about user defined references
-		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
-		cmd->commandList(cmdlist,attrtype,false);
-
-		// build list of references
-		QString commands;
-		for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
-			if(cmd->isStarredEnv(*it) ) {
-				commands += '|' + (*it).mid(1) + '*';
-			}
-			commands += '|' + (*it).mid(1);
-		}
-		return commands;
+		// has been moved already
+		return "";
 	}
 
 	//////////////////// wordlists ////////////////////
 
-	QStringList CodeCompletion::buildWordList(const QStringList &files, const QString &dir)
-	{
 
-		// read wordlists from files
-		QStringList wordlist;
-		for(int i = 0; i < files.count(); ++i) {
-			// if checked, the wordlist has to be read
-			if(files[i].at(0) == '1') {
-				readWordlist(wordlist, dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl", true);
-			}
-		}
 
-		// add user defined commands and environments
-		if(dir == "tex") {
-			addCommandsToTexlist(wordlist);
-		}
-		else if(dir == "dictionary") {
-			wordlist.sort();
-		}
-		else if(dir == "abbreviation") {
-			// read local wordlist
-			QStringList localWordlist;
-			readWordlist(localWordlist, QString(), false);
 
-			// add local/global wordlists to the abbreviation view
-			m_abbrevListview->init(&wordlist,&localWordlist);
-
-			// finally add local wordlists to the abbreviation list
-			QStringList::ConstIterator it;
-			for(it = localWordlist.begin(); it != localWordlist.end(); ++it) {
-				wordlist.append(*it);
-			}
-
-			wordlist.sort();
-		}
-
-		return wordlist;
-	}
-
-	void CodeCompletion::addCommandsToTexlist(QStringList &wordlist)
-	{
-		QStringList cmdlist;
-		QStringList::ConstIterator it;
-		KileDocument::LatexCmdAttributes attr;
-
-		// get info about user defined commands and environments
-		KileDocument::LatexCommands *cmd = m_ki->latexCommands();
-		cmd->commandList(cmdlist,KileDocument::CmdAttrNone,true);
-
-		// add entries to wordlist
-		for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
-			if(cmd->commandAttributes(*it, attr)) {
-				QString command,eos;
-				QStringList entrylist;
-				if(attr.type < KileDocument::CmdAttrLabel) {         // environment
-					command = "\\begin{" + (*it);
-					eos = "}";
-				}
-				else {                                                   // command
-					command = (*it);
-					// eos.clear();
-				}
-
-				// get all possibilities into a stringlist
-				entrylist.append(command + eos);
-				if(!attr.option.isEmpty()) {
-					entrylist.append(command + eos + "[option]");
-				}
-				if(attr.starred) {
-					entrylist.append(command + '*' + eos);
-					if (!attr.option.isEmpty()) {
-						entrylist.append(command + '*' + eos + "[option]");
-					}
-				}
-
-				// finally append entries to wordlist
-				QStringList::ConstIterator itentry;
-				for(itentry = entrylist.begin(); itentry != entrylist.end(); ++itentry) {
-					QString entry = (*itentry);
-					if(!attr.parameter.isEmpty()) {
-						entry += "{param}";
-					}
-					if(attr.type == KileDocument::CmdAttrList) {
-						entry += "\\item";
-					}
-					wordlist.append(entry);
-				}
-			}
-		}
-	}
 
 	//////////////////// completion box ////////////////////
 
@@ -501,9 +999,6 @@ namespace KileDocument
 		if(m_mode == cmAbbreviation) {
 			m_undo = true;
 		}
-
-		m_codeCompletionModel->setCompletionList(list);
-		completionInterface->startCompletion(range, m_codeCompletionModel);
 	}
 
 	void CodeCompletion::appendNewCommands(QStringList& list)
@@ -530,8 +1025,8 @@ namespace KileDocument
 
 	//////////////////// completion was done ////////////////////
 
-	void CodeCompletion::CompletionDone(KTextEditor::CompletionEntry)
-	{
+// 	void CodeCompletion::CompletionDone(KTextEditor::CompletionEntry)
+// 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 507!
 #endif
@@ -550,7 +1045,7 @@ namespace KileDocument
 		m_undo = false;
 		m_ref = false;
 */
-	}
+// 	}
 
 	void CodeCompletion::CompletionAborted()
 	{
@@ -580,6 +1075,7 @@ namespace KileDocument
 
 	void CodeCompletion::textInsertedInView(KTextEditor::View *view, const KTextEditor::Cursor &position, const QString &text)
 	{
+#if 0
 		bool completionInProgress = inProgress(view);
 		KILE_DEBUG() << "(" << m_kilecompletion << "," << completionInProgress << ", " << m_ref << ", " << text << ")=============";
 
@@ -616,6 +1112,7 @@ namespace KileDocument
 			QString word = view->document()->text(range);
 			int wordlen = word.length();
 			KILE_DEBUG() << "   auto completion: range=" << range << " mode=" << m_mode << " inprogress=" << completionInProgress;
+			KILE_DEBUG() << "                    wordlen=" << wordlen;
 			if(completionInProgress) {               // continue a running mode?
 				KILE_DEBUG() << "   auto completion: continue current mode";
 				completeWord(view, range, m_mode);
@@ -634,6 +1131,7 @@ namespace KileDocument
 				completeWord(view, range, cmDocumentWord);
 			}
 		}
+#endif
 	}
 
 	//////////////////// build the text for completion ////////////////////
@@ -744,67 +1242,8 @@ namespace KileDocument
 	QString CodeCompletion::buildEnvironmentText(const QString &text, const QString &type,
 	                                             const QString &prefix, int &ypos, int &xpos)
 	{
-		static QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
-
-		if(reEnv.indexIn(text) == -1) {
-			return text;
-		}
-
-		QString parameter = stripParameter(reEnv.cap(3));
-		QString start = reEnv.cap(1);
-		QString envname = reEnv.cap(2);
-		QString whitespace = getWhiteSpace(prefix);
-		QString envIndent = m_ki->editorExtension()->autoIndentEnvironment();
-
-		QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
-
-		s += whitespace;
-		if(start != "end") {
-			s += envIndent;
-		}
-
-		bool item = (type == "list");
-		if(item) {
-			s += "\\item ";
-		}
-
-		if(m_setbullets && !parameter.isEmpty()) {
-			s += s_bullet;
-		}
-
-		if(m_closeenv && start != "end") {
-			s += '\n' + whitespace + "\\end{" + envname + "}\n";
-		}
-
-		// place cursor
-		if(m_setcursor) {
-			if(parameter.isEmpty()) {
-				ypos = 1;
-				xpos = whitespace.length() + envIndent.length() + ((item) ? 6 : 0);
-			}
-			else {
-				ypos = 0;
-				if(parameter.left(2) == "[<") {
-					xpos = 10 + envname.length();
-				}
-				else {
-					xpos = 9 + envname.length();
-				}
-			}
-		}
-
-		return s;
-	}
-
-	QString CodeCompletion::getWhiteSpace(const QString &s)
-	{
-		QString whitespace = s;
-		for(int i = 0; i < whitespace.length(); ++i) {
-			if(!whitespace[i].isSpace()) {
-				whitespace[i] = ' ';
-			}
-		}
-		return whitespace;
+		// Has been moved already
+		return text;
 	}
 
 	//////////////////// text in  cmAbbreviation mode ////////////////////
@@ -857,176 +1296,14 @@ namespace KileDocument
 
 	QString CodeCompletion::parseText(const QString &text, int &ypos, int &xpos, bool checkgroup)
 	{
-		bool foundgroup = false;
-		QString s;
-
-		xpos = ypos = 0;
-		for(int i = 0; i < text.length(); ++i) {
-			QChar c = text[i];
-			switch(c.toAscii()) {
-				case '<':
-				case '{':
-				case '(':
-				case '[': // insert character
-					s += c;
-					if(xpos == 0) {
-						// remember position after first brace
-						if(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<') {
-							xpos = i + 2;
-							s += text[i + 1];
-							i++;
-						}// special handling for '[<'
-						else {
-							xpos = i + 1;
-						}
-						// insert bullet, if this is no cursorposition
-						if((!m_setcursor) && m_setbullets && !(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<')) {
-							s += s_bullet;
-						}
-					}
-					// insert bullets after following braces
-					else if(m_setbullets && !(c == '[' && (i + 1) < text.length() &&  text[i + 1] == '<')) {
-						s += s_bullet;
-					}
-				break;
-				case '>':
-				case '}':
-				case ')':
-				case ']':                    // insert character
-					s += c;
-				break;
-				case ',':                    // insert character
-					s += c;
-					// insert bullet?
-					if(m_setbullets) {
-						s += s_bullet;
-					}
-				break;
-				case '.': // if the last character is a point of a range operator,
-					 // it will be replaced by a space or a bullet surrounded by spaces
-					if(checkgroup && (s.right(1) == ".")) {
-						foundgroup = true;
-						s.truncate(s.length() - 1);
-						if(m_setbullets) {
-							s += ' ' + s_bullet + ' ';
-						}
-						else {
-							s += ' ';
-						}
-					}
-					else {
-						s += c;
-					}
-				break;
-				default:                      // insert all other characters
-					s += c;
-				break;
-			}
-		}
-
-		// some more work with groups and bullets
-		if(s.length() >= 2 && checkgroup && foundgroup && (m_setbullets | m_setcursor)) {
-			int pos = 0;
-
-			// search for braces, brackets and parens
-			switch(s[1].toAscii()) {
-				case 'l':
-					if(s.left(6) == "\\left ") {
-						pos = 5;
-					}
-				break;
-				case 'b':
-					if(s.left(6) == "\\bigl ") {
-						pos = 5;
-					}
-					else if(s.left(7) == "\\biggl ") {
-						pos = 6;
-					}
-				break;
-				case 'B' :
-					if(s.left(6) == "\\Bigl ") {
-						pos = 5;
-					}
-					else if(s.left(7) == "\\Biggl ") {
-						pos = 6;
-					}
-				break;
-			}
-
-			// update cursorposition and set bullet
-			if(pos > 0) {
-				if(m_setcursor) {
-					xpos = pos;
-				}
-				if(m_setbullets) {
-					if(!m_setcursor) {
-						s.insert(pos, s_bullet);
-					}
-					s.append(s_bullet);
-				}
-			}
-		}
-
-		return s;
+		// has been moved already
+		return text;
 	}
 
-	// strip all names enclosed in braces
-	// consider also beamer like stuff [<...>] and <...>
 	QString CodeCompletion::stripParameter(const QString &text)
 	{
-		QString s;
-		bool ignore = false;
-
-		for(int i = 0; i < text.length(); ++i) {
-			QChar c = text[i];
-			switch(c.toAscii()) {
-				case '[':
-				case '{':
-				case '(':
-				case '<':
-					s += c;
-					ignore = true;
-				break;
-				case ']':
-				case '}':
-				case ')':
-				case '>':
-					s += c;
-					ignore = false;
-				break;
-				case ',':
-					s += c;
-				break;
-				default:
-					if(!ignore) {
-						s += c;
-					}
-				break;
-			}
-		}
-		return s;
-	}
-
-	//////////////////// read wordlists  ////////////////////
-
-	void CodeCompletion::readWordlist(QStringList &wordlist, const QString &filename, bool global)
-	{
-		QString file = (global) ? KGlobal::dirs()->findResource("appdata", "complete/" + filename) : m_localAbbrevFile;
-		if(file.isEmpty()) {
-			return;
-		}
-
-		QFile f(file);
-		if(f.open(QIODevice::ReadOnly)) {     // file opened successfully
-			QTextStream t(&f);         // use a text stream
-			while(!t.atEnd()) {        // until end of file...
-				QString s = t.readLine().trimmed();       // line of text excluding '\n'
-				if(!(s.isEmpty() || s.at(0) == '#')) {
-					wordlist.append(s);
-				}
-			}
-			f.close();
-		}
+		// has been moved already
+		return text;
 	}
 
 	//////////////////// determine number of entries ////////////////////
@@ -1052,15 +1329,15 @@ namespace KileDocument
 
 	QString CodeCompletion::findExpansion(const QString &abbrev)
 	{
-		QList<KTextEditor::CompletionEntry>::Iterator it;
+// 		QList<KTextEditor::CompletionEntry>::Iterator it;
 
-		for(QStringList::iterator it = m_abbrevlist.begin(); it != m_abbrevlist.end(); ++it) {
-			QString s = *it;
-			int index = s.indexOf("=");
-			if(index>=0 && s.left(index)==abbrev) {
-				 return s.right(s.length() - index - 1);
-			}
-		}
+// 		for(QStringList::iterator it = m_abbrevlist.begin(); it != m_abbrevlist.end(); ++it) {
+// 			QString s = *it;
+// 			int index = s.indexOf("=");
+// 			if(index>=0 && s.left(index)==abbrev) {
+// 				 return s.right(s.length() - index - 1);
+// 			}
+// 		}
 
 		return QString();
 	}
@@ -1129,8 +1406,8 @@ namespace KileDocument
 
 	//////////////////// slots for code completion ////////////////////
 
-	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
-	{
+// 	void CodeCompletion::slotCompletionDone(KTextEditor::CompletionEntry entry)
+// 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 1203!
 #endif
@@ -1157,7 +1434,7 @@ namespace KileDocument
 			}
 		}
 */
-	}
+// 	}
 
 	void CodeCompletion::slotCompleteValueList()
 	{
@@ -1176,8 +1453,8 @@ namespace KileDocument
 		CompletionAborted();
 	}
 
-	void CodeCompletion::slotFilterCompletion(KTextEditor::CompletionEntry* c, QString *s)
-	{
+// 	void CodeCompletion::slotFilterCompletion(KTextEditor::CompletionEntry* c, QString *s)
+// 	{
 #ifdef __GNUC__
 #warning Things left to be ported at line 1246!
 #endif
@@ -1193,7 +1470,7 @@ namespace KileDocument
 			m_kilecompletion = true;
 		}
 */
-	}
+// 	}
 
 	//////////////////// testing characters (dani) ////////////////////
 

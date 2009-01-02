@@ -165,7 +165,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 #ifdef __GNUC__
 #warning codecompletion crashes
 #endif
-/* FIXME
+
 	connect(view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
 	connect(view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
 	connect(view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
@@ -174,9 +174,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
 	if(completionInterface) {
 		connect(view, SIGNAL(textInserted(KTextEditor::View*, const KTextEditor::Cursor&, const QString&)), m_ki->editorExtension()->complete(), SLOT(textInsertedInView(KTextEditor::View*, const KTextEditor::Cursor&, const QString&)));
-		completionInterface->setAutomaticInvocationEnabled(false);
+		completionInterface->setAutomaticInvocationEnabled(true);
 	}
-*/
+
 	// install a working text editor part popup dialog thingy
 // 	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
 

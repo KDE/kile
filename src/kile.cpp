@@ -153,6 +153,8 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
 	m_spellCheckManager = new KileSpellCheck::Manager(this, viewManager());
 
+	m_codeCompletionManager = new KileCodeCompletion::Manager(this, parent);
+
 	m_mainWindow->setStandardToolBarMenuEnabled(true);
 
 	m_masterName = KileConfig::master();
@@ -2340,6 +2342,7 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_edit->complete()->readConfig(m_config.data());
+	m_codeCompletionManager->readConfig(m_config.data());
 	//m_edit->initDoubleQuotes();
 	m_edit->readConfig();
 	docManager()->updateInfos();

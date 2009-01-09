@@ -1,0 +1,28 @@
+% syntax highlightning bug, nested enviroments are not recognized
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancybox}
+\begin{document}
+	\newlength{\parboxlength}
+	\begin{align*}
+		\setlength{\fboxsep}{15pt}
+		\setlength{\parboxlength}{\linewidth}
+		\addtolength{\parboxlength}{-2\fboxsep}
+		\fbox{
+		\parbox{\parboxlength}{
+			\setlength{\abovedisplayskip}{0pt}
+			\setlength{\belowdisplayskip}{0pt}
+			\begin{align}
+				asdf
+			\end{align}
+		}}
+	\end{align*}
+	
+	asdfasdfasdfasdfadfasdf
+
+\end{document}
+
+% \KileResetHL
+
+

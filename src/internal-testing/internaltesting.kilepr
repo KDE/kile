@@ -1,15 +1,15 @@
 [General]
 img_extIsRegExp=false
-img_extensions=.eps .pdf .dvi .ps .fig .gif .jpg .jpeg .png
-kileprversion=1
-kileversion=1.9
+img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi
+kileprversion=2
+kileversion=2.0
 lastDocument=syntax-math2.tex
 masterDocument=
 name=Internal Testing
 pkg_extIsRegExp=false
-pkg_extensions=.cls .sty .dtx
+pkg_extensions=.cls .sty
 src_extIsRegExp=false
-src_extensions=.tex .ltx .bib .mp
+src_extensions=.tex .ltx .latex .dtx .ins .bib .mp
 
 [Tools]
 MakeIndex=
@@ -21,7 +21,8 @@ column=18
 encoding=ISO 8859-15
 highlight=LaTeX
 line=14
-open=true
+open=false
+order=-1
 
 [item:find-verbatim.tex]
 archive=true
@@ -29,7 +30,8 @@ column=18
 encoding=UTF-8
 highlight=LaTeX
 line=14
-open=true
+open=false
+order=-1
 
 [item:hello.tex]
 archive=true
@@ -37,7 +39,8 @@ column=1
 encoding=ISO 8859-15
 highlight=LaTeX
 line=15
-open=true
+open=false
+order=-1
 
 [item:helloo.tex]
 archive=true
@@ -45,7 +48,8 @@ column=0
 encoding=ISO 8859-15
 highlight=LaTeX
 line=0
-open=true
+open=false
+order=-1
 
 [item:internaltesting.kilepr]
 archive=true
@@ -54,6 +58,34 @@ encoding=
 highlight=
 line=0
 open=false
+order=-1
+
+[item:math-mode-selector.tex]
+archive=true
+column=0
+encoding=
+highlight=
+line=0
+open=false
+order=-1
+
+[item:preview.tex]
+archive=true
+column=154830480
+encoding=
+highlight=
+line=0
+open=false
+order=-1
+
+[item:syntax-bugs.tex]
+archive=true
+column=0
+encoding=
+highlight=
+line=0
+open=false
+order=-1
 
 [item:syntax-cite.tex]
 archive=true
@@ -61,7 +93,8 @@ column=0
 encoding=ISO 8859-15
 highlight=LaTeX
 line=16
-open=true
+open=false
+order=-1
 
 [item:syntax-cmds.tex]
 archive=true
@@ -69,7 +102,8 @@ column=0
 encoding=ISO 8859-15
 highlight=LaTeX
 line=16
-open=true
+open=false
+order=-1
 
 [item:syntax-comment-updateStruct.tex]
 archive=true
@@ -77,7 +111,8 @@ column=15
 encoding=ISO 8859-15
 highlight=LaTeX
 line=14
-open=true
+open=false
+order=-1
 
 [item:syntax-generic.tex]
 archive=true
@@ -85,23 +120,53 @@ column=48
 encoding=ISO 8859-15
 highlight=LaTeX
 line=14
-open=true
+open=false
+order=-1
 
 [item:syntax-math1.tex]
 archive=true
-column=0
-encoding=ISO 8859-15
+column=3
+encoding=UTF-8
 highlight=LaTeX
-line=17
+line=71
 open=true
+order=0
 
 [item:syntax-math2.tex]
 archive=true
-column=0
-encoding=ISO 8859-15
+column=24
+encoding=UTF-8
 highlight=LaTeX
-line=17
+line=114
 open=true
+order=1
+
+[item:syntax-noweb.tex]
+archive=true
+column=7471205
+encoding=
+highlight=
+line=0
+open=false
+order=-1
+
+[item:syntax-tabular.tex]
+archive=true
+column=25
+encoding=
+highlight=
+line=0
+open=false
+order=-1
+
+[item:syntax-todo.tex]
+archive=true
+column=40
+encoding=UTF-8
+highlight=LaTeX
+line=0
+open=false
+order=-1
 
 [item:teppich.eps]
 archive=true
@@ -110,3 +175,4 @@ encoding=
 highlight=
 line=0
 open=false
+order=-1

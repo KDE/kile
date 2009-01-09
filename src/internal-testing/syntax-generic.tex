@@ -168,8 +168,8 @@ $$ &\le  \\              % error: $$
 
 \begin{align}{2}                  % environment
 x^2 &= 1  &\hskip2cm  1 &= 2 \\   % mathmode
-× &= ×  &         × &= × \\
-× &= ×  &         × &= ×
+ï¿½ &= ï¿½  &         ï¿½ &= ï¿½ \\
+ï¿½ &= ï¿½  &         ï¿½ &= ï¿½
 \end{align}
  
 \begin{XYZalign}         % environment
@@ -236,3 +236,30 @@ x^2 \intertext{normal} y^2
 x^2 \intertext{normal} y^2
 \end{ve rbatim}
 
+% iffalse
+
+\iffalse Ã—  test 
+test
+test
+\begin{abstract}
+	
+\end{abstract}
+\fi
+
+\iffalse Ã— test \else test Ã— \fi
+
+\iffalse Ã— test
+test
+test $ set $
+\else
+ test
+ test Ã— \fi
+
+\iffalse $asdasd$ \fi
+test
+
+% comment sign as percentage sign
+test \% asdfsf
+
+% @ in commands (altough this needs \mathatletter and \makeatanother)
+\my@asdasd

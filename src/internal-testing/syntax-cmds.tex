@@ -12,7 +12,7 @@
 %  *                                                                         *
 %  ***************************************************************************/
 %  description: test document for syntax file latex.xml
-% 		(syntax highlighting for \newcommand and \def)
+% 		(syntax highlighting for \newcommand and \def and others)
 %  compiles:	no		
 
 \newcommand{\abc}{ $ start {                    % comment
@@ -24,9 +24,61 @@
 \newcommand{\abc}[1][default]{ $ start {        % comment
            test { abc --> #1 } } end  } behind  % comment
 
+\newcommand*{\abc}{ $ start {                    % comment
+           test { abc -->  } } end  }   behind  % comment
+
+\newcommand*{\abc}[1]{ $ start {                 % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+\newcommand*{\abc}[1][default]{ $ start {        % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+
+\renewcommand{\abc}{ $ start {                    % comment
+           test { abc -->  } } end  }   behind  % comment
+
+\renewcommand{\abc}[1]{ $ start {                 % comment
+           test { abc --> #1 } } end  } behind  % comment
+\renewcommand{\abc}[1][default]{ $ start {        % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+
+\renewcommand*{\abc}{ $ start {                    % comment
+           test { abc -->  } } end  }   behind  % comment
+
+\renewcommand*{\abc}[1]{ $ start {                 % comment
+           test { abc --> #1 } } end  } behind  % comment
+\renewcommand*{\abc}[1][default]{ $ start {        % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+
+\providenewcommand{\abc}{ $ start {                    % comment
+           test { abc -->  } } end  }   behind  % comment
+
+\providenewcommand{\abc}[1]{ $ start {                 % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+\providenewcommand{\abc}[1][default]{ $ start {        % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+
+\providenewcommand*{\abc}{ $ start {                    % comment
+           test { abc -->  } } end  }   behind  % comment
+
+\providenewcommand*{\abc}[1]{ $ start {                 % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+\providenewcommand*{\abc}[1][default]{ $ start {        % comment
+           test { abc --> #1 } } end  } behind  % comment
+
+
 \def\xyz{ $ start  {                            % comment
            test{ abc -->  } } end  }    behind  % comment
 
 \def\xyz#1{ $ start  {                          % comment
            test{ abc --> #1 } } end  }  behind  % comment
 
+\ref{test}
+
+\subref{test}
+\subref*{test}

@@ -23,7 +23,21 @@
 
 \begin{tabular}{lcr@{3cm}}
 	a & b & c & d
-\end{mpsupertabular}
+\end{tabular}
+
+\begin{tabular}{lcr@{$\mathrel{=}$}}
+	a & b & c & d
+\end{tabular}
+
+% https://bugs.kde.org/show_bug.cgi?id=179367
+\begin{tabularx}{r @{$\mathrel{=}$}}} 
+	a & b
+\end{tabularx}
+
+
+\begin{tabularx}{\textwidth}{r @{asdsd}} 
+	a & adf & \\
+\end{tabularx}
 
 
 \end{document}

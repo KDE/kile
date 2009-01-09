@@ -46,3 +46,71 @@ $y = \sqrt{1-x^2}$
  \end{thebibliography} 
  \end{document} 
  
+% biblatex strings
+%  note: all strings named "key" must be highlighted blue.
+
+\cite[ prenote ][ postnote ]{ key } punctuation
+\cite*[ prenote ][ postnote ]{ key } punctuation
+
+\Cite[ prenote ][ postnote ]{ key } punctuation
+
+\parencite[ prenote ][ postnote ]{ key } punctuation
+\parencite*[ prenote ][ postnote ]{ key } punctuation
+
+\Parencite[ prenote ][ postnote ]{ key } punctuation
+
+\footcite[ prenote ][ postnote ]{ key } punctuation
+\Footcite[ prenote ][ postnote ]{ key } punctuation
+
+\textcite[ prenote ][ postnote ]{ key } punctuation
+\Textcite[ prenote ][ postnote ]{ key } punctuation
+
+\autocite[ prenote ][ postnote ]{ key } punctuation
+\Autocite[ prenote ][ postnote ]{ key } punctuation
+
+\autocite*[ prenote ][ postnote ]{ key } punctuation
+\Autocite*[ prenote ][ postnote ]{ key } punctuation
+
+\supercite{ key } punctuation
+
+\citeauthor[ prenote ][ postnote ]{ key } punctuation
+\Citeauthor[ prenote ][ postnote ]{ key } punctuation
+
+\citetitle[ prenote ][ postnote ]{ key } punctuation
+\citetitle*[ prenote ][ postnote ]{ key } punctuation
+
+\citeyear[ prenote ][ postnote ]{ key } punctuation
+
+\citeurl[ prenote ][ postnote ]{ key } punctuation
+
+\nocite{ key }
+
+\fullcite[ prenote ][ postnote ]{ key } punctuation
+
+\footfullcite[ prenote ][ postnote ]{ key } punctuation
+
+\parencites(and chapter $\exp 0 = 1$ 3)[35]{key1}[78]{key2}[23]{key3}
+\parencites(and chapter \(\exp 0 =
+ 1\) 3)[35]{key1}[78]{key2}[23]{key3}
+\parencites(and chapter \(\exp 0 =  1\) 3)[35]{key1}[78]{key2}[23]{key3}
+
+\parencites(Compare)()[35]{key1}[78]{key2}[23]{key3} test \label{test}
+\parencites(See)(and the introduction)[35]{key1}[78]{key2}[23]{key3}
+
+\cites[ pre ][ post ]{ key } [ pre ][ post ]{ key } punctuation 
+\Cites[ pre ][ post ]{ key } [ pre ][ post ]{ key } punctuation
+
+
+\cites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+\Cites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+
+\parencites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+\Parencites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+
+\footcites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+\Footcites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+
+\supercites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+
+\autocites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation
+\Autocites( pre )( post )[ pre ][ post ]{ key }[ pre ][ post ]{ key } punctuation

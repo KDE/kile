@@ -1,0 +1,70 @@
+% /***************************************************************************
+%	begin:		Aug 09 2006
+%	edit:		--
+%	version:	0.01
+%	copyright:	(C) 2006 by Holger Danielsson and Thomas Braun
+%  ***************************************************************************/
+% 
+% /***************************************************************************
+%  *                                                                         *
+%  *   This program is free software; you can redistribute it and/or modify  *
+%  *   it under the terms of the GNU General Public License as published by  *
+%  *   the Free Software Foundation; either version 2 of the License, or     *
+%  *   (at your option) any later version.                                   *
+%  *                                                                         *
+%  ***************************************************************************/
+
+\documentclass{article}
+
+\begin{document}
+234$ \sqrt{2}$  $a^2$
+
+abc
+
+$  \$      % \( % \[ $$$$
+\begin{array}{ccc}
+x^2 & y^2 & z^2
+\end{array}
+$
+
+\begin{equation}
+% \begin{equation} $
+  a^2 \\\\\$
+ \begin{array}{ccc}
+  \alpha & \beta & \gamma
+ \end{array}
+\end{equation}
+
+$\begin{array}{ccc}
+a^2 & b^2 & c^2
+\end{array}$
+test
+\[
+ a^2
+\] \$ $ x^2$
+test
+\( 
+ b^2 % $ test $
+\)
+
+\begin{displaymath} % works
+	\alpha + \beta + \gamma = 180� %  comment
+\begin{split}
+	
+\end{split}
+
+\end{displaymath}
+
+\begin{math} % does not work yet
+	\alpha + \beta + \gamma = 180� %  comment
+\end{math}
+
+\begin{eqnarray} % should not work
+	\alpha + \beta + \gamma = 180� %  comment
+\end{eqnarray}
+
+\begin{mathtest} % has to be defined in configure-kile-commands to work
+	asdasdasd
+\end{mathtest}
+
+\end{document}

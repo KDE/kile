@@ -656,6 +656,8 @@ type=Process
 [Tool/ViewPS/Embedded Viewer]
 class=View
 className=Okular::Part
+from=ps
+to=ps
 libName=okularpart
 state=Viewer
 type=Part
@@ -664,8 +666,8 @@ type=Part
 class=View
 command=okular
 options='%target'
-from=pdf
-to=pdf
+from=ps
+to=ps
 state=Viewer
 type=Process
 

@@ -613,6 +613,8 @@ className=Okular::Part
 libName=okularpart
 state=Viewer
 type=Part
+from=dvi
+to=dvi
 
 [Tool/ViewDVI/Okular]
 class=View

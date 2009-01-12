@@ -148,6 +148,7 @@ bool LaTeXCompletionModel::isWithinLaTeXCommand(KTextEditor::Document *doc, cons
 
 KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view, const KTextEditor::Cursor &position)
 {
+	bool latexCompletion = true;
 	if(!KileConfig::completeAuto()) {
 		return KTextEditor::Range::invalid();
 	}
@@ -188,6 +189,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 			}
 			KILE_DEBUG() << labelListRegExp.errorString();
 			startCursor.setColumn(latexCommandStart.column() + column);
+			latexCompletion = false;
 		}
 		else {
 			startCursor = latexCommandStart;
@@ -201,8 +203,15 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	if(endPos >= 0) {
 		endCursor.setColumn(endPos);
 	}
-	KILE_DEBUG() << "returning completion range: " << KTextEditor::Range(startCursor, endCursor);
-	return KTextEditor::Range(startCursor, endCursor);
+	KTextEditor::Range completionRange(startCursor, endCursor);
+	int rangeLength = endCursor.column() - startCursor.column();
+
+	if(latexCompletion && rangeLength < KileConfig::completeAutoThreshold() + 1) { // + 1 for the command backslash
+		KILE_DEBUG() << "not reached the completion threshold yet";
+		return KTextEditor::Range::invalid();
+	}
+	KILE_DEBUG() << "returning completion range: " << completionRange;
+	return completionRange;
 }
 
 bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,

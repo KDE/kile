@@ -20,9 +20,9 @@
 #include <QObject>
 #include <QList>
 
-#include <ktexteditor/codecompletionmodelcontrollerinterface.h>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/CodeCompletionModel>
+#include <KTextEditor/CodeCompletionModelControllerInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <kconfig.h>

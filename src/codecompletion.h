@@ -222,12 +222,10 @@ private:
 	bool m_setbullets;
 	bool m_closeenv;
 	bool m_autocomplete;
-	bool m_autocompletetext;
 	bool m_autocompleteabbrev;
 	bool m_citationMove;
 	bool m_autoDollar;
 	int  m_latexthreshold;
-	int  m_textthreshold;
 
 	// flags from Kate configuration
 	bool m_autobrackets;

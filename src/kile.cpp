@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
  ****************************************************************************************/
 
@@ -2316,14 +2316,6 @@ void Kile::readUserSettings()
 			}
 		}
 	}
-
-	// check autocompletion modes: if KTextEditor-plugin for document word 
-	// completion is active, both autocompletion modes of Kile must be disabled
-	if ( kateCompletionPlugin() )
-	{
-		KileConfig::setCompleteAuto(false);
-		KileConfig::setCompleteAutoText(false);
-	}
 }
 
 void Kile::readRecentFileSettings()
@@ -2526,12 +2518,6 @@ void Kile::generalOptions()
 	}
 
 	delete dlg;
-}
-
-// read kate plugin configuration
-bool Kile::kateCompletionPlugin()
-{
-	return m_config->group("Kate Document Defaults").readEntry("KTextEditor Plugin ktexteditor_docwordcompletion",false);
 }
 
 void Kile::checkKateSettings()

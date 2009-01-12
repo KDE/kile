@@ -70,14 +70,9 @@ class CodeCompletionConfigWidget : public QWidget
 		QCheckBox *cb_closeenv;
 		QSpinBox *sp_latexthreshold;
 		QLabel *lb_latexthreshold;
-		QCheckBox *cb_autocompletetext;
-		QSpinBox *sp_textthreshold;
-		QLabel *lb_textthreshold;
 		QCheckBox *cb_autocompleteabbrev;
 		QCheckBox *cb_showabbrevview;
 		QCheckBox *cb_citeoutofbraces;
-
-		bool kateCompletionPlugin();
 
 		QTreeWidget *getListview(QWidget *page);
 		QString getListname(QWidget *page);

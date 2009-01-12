@@ -799,7 +799,7 @@ namespace KileDocument
 
 	bool CodeCompletion::autoComplete()
 	{
-		return m_autocomplete || m_autocompletetext;
+		return m_autocomplete;
 	}
 
 	CodeCompletion::Type CodeCompletion::getType()
@@ -865,10 +865,8 @@ namespace KileDocument
 		m_setbullets = KileConfig::completeBullets();
 		m_closeenv = KileConfig::completeCloseEnv();
 		m_autocomplete = KileConfig::completeAuto();
-		m_autocompletetext = KileConfig::completeAutoText();
 		m_autocompleteabbrev = KileConfig::completeAutoAbbrev();
 		m_latexthreshold = KileConfig::completeAutoThreshold();
-		m_textthreshold = KileConfig::completeAutoTextThreshold();
 		m_citationMove = KileConfig::completeCitationMove();
 		m_autoDollar = KileConfig::autoInsertDollar();
 

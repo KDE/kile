@@ -217,7 +217,6 @@ private:
 	void restoreLastSelectedAction();
 	void saveLastSelectedAction();
 
-	bool kateCompletionPlugin();
 	void checkKateSettings();
 	
 	void initMenu();

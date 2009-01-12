@@ -2,6 +2,7 @@
     date                 : Mar 30 2007
     version              : 0.24
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                               2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************************/
 
 
@@ -96,13 +97,6 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	sp_latexthreshold->setMaximum(9);
 	sp_latexthreshold->setSingleStep(1);
 	QLabel *lb_latexletters = new QLabel(i18n("letters"), bg_options);
-	cb_autocompletetext = new QCheckBox(i18n("Auto completion (text)"), bg_options);
-	lb_textthreshold = new QLabel(i18n("Threshold:"), bg_options);
-	sp_textthreshold = new QSpinBox(bg_options);
-	sp_textthreshold->setMinimum(1);
-	sp_textthreshold->setMaximum(9);
-	sp_textthreshold->setSingleStep(1);
-	QLabel *lb_textletters = new QLabel(i18n("letters"), bg_options);
 	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"), bg_options);
 	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbrev.)"), bg_options);
 	cb_citeoutofbraces = new QCheckBox(i18n("Move out of braces (citation keylists)"), bg_options);
@@ -116,11 +110,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	bg_optionsLayout->addWidget(lb_latexthreshold, 1, 4);
 	bg_optionsLayout->addWidget(sp_latexthreshold, 1, 6);
 	bg_optionsLayout->addWidget(lb_latexletters, 1, 7);
-	bg_optionsLayout->addWidget(cb_autocompletetext, 2, 2);
-	bg_optionsLayout->addWidget(lb_textthreshold, 2, 4);
-	bg_optionsLayout->addWidget(sp_textthreshold, 2, 6);
-	bg_optionsLayout->addWidget(lb_textletters, 2, 7);
-	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 3, 2);
+	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 2, 2);
 	bg_optionsLayout->addWidget(cb_citeoutofbraces, 4, 0, 1, 7);
 
 	// tune layout
@@ -130,22 +120,16 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	bg_optionsLayout->setColumnStretch(7, 1);
 
 	cb_setcursor->setWhatsThis(i18n("Try to place the cursor."));
-	cb_setbullets->setWhatsThis(i18n("Insert bullets, where the user must input data."));
-	cb_closeenv->setWhatsThis(i18n("Also close an environment, when an opening command is inserted."));
+	cb_setbullets->setWhatsThis(i18n("Insert bullets where the user must input data."));
+	cb_closeenv->setWhatsThis(i18n("Also close an environment when an opening command is inserted."));
 	cb_usecomplete->setWhatsThis(i18n("Enable components of word completion."));
-	cb_autocomplete->setWhatsThis(i18n("Directional or popup-based completion with TeX/LaTeX commands, which are given in all selected word completion lists. This mode can only be selected, if no other plugin for autocompletion is active."));
-	cb_autocompletetext->setWhatsThis(i18n("Directional or popup-based completion from words in the current document. This mode can only be selected, if no other plugin for autocompletion is active."));
-	sp_latexthreshold->setWhatsThis(i18n("Automatically show a completion list of TeX/LaTeX commands, when the word has this length."));
-	sp_textthreshold->setWhatsThis(i18n("Automatically show a completion list, when the word has this length."));
+	cb_autocomplete->setWhatsThis(i18n("Directional or popup-based completion of the TeX/LaTeX commands that are contained in the selected completion files."));
+	sp_latexthreshold->setWhatsThis(i18n("Automatically show a completion list of TeX/LaTeX commands when the word has this length."));
 	cb_citeoutofbraces->setWhatsThis(i18n("Move cursor out of braces after selecting from a citation keylist."));
-
-	// bottom: warning
-	QLabel *lb_automodes = new QLabel(i18n("Warning: all autocompletion modes will be disabled, if you enable KTextEditor plugin word completion."), this);
 
 	// add OptionBox and TabDialog into the layout
 	vbox->addWidget(gb_tab);
 	vbox->addWidget(bg_options);
-	vbox->addWidget(lb_automodes);
 	vbox->addStretch();
 
 	connect(tab, SIGNAL(currentChanged(QWidget*)), this, SLOT(showPage(QWidget*)));
@@ -156,8 +140,9 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	QTreeWidgetItem *item = new QTreeWidgetItem(m_listview[AbbreviationPage], QStringList(I18N_NOOP("Test")));
 	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
 	int h = 6 * (m_listview[AbbreviationPage]->sizeHintForRow(0) + 1) + 1;
-	for (uint i = TexPage; i < NumPages; ++i)
+	for (uint i = TexPage; i < NumPages; ++i) {
 		m_listview[i]->setFixedHeight(h);
+	}
 	delete item;
 
 	// find resource directories for cwl files
@@ -173,8 +158,8 @@ void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, c
 	m_page[page] = new QWidget(tab);
 
 	m_listview[page] = new QTreeWidget(m_page[page]);
-	m_listview[page]->setHeaderLabels(QStringList() << i18n("Complete Files")
-																		<< i18n("Local File"));
+	m_listview[page]->setHeaderLabels(QStringList() << i18n("Completion Files")
+	                                                << i18n("Local File"));
 	m_listview[page]->setAllColumnsShowFocus(true);
 	m_listview[page]->setRootIsDecorated(false);
 	m_listview[page]->setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -212,25 +197,16 @@ void CodeCompletionConfigWidget::readConfig(void)
 	cb_showabbrevview->setChecked(KileConfig::completeShowAbbrev());
 	cb_citeoutofbraces->setChecked(KileConfig::completeCitationMove());
 
-	// set checkboxes and thresholds for autocompletion modes
-	if (kateCompletionPlugin())
-	{
-		cb_autocomplete->setChecked(false);
-		cb_autocompletetext->setChecked(false);
-		cb_autocompleteabbrev->setChecked(false);
-	}
-	else
-	{
-		cb_autocomplete->setChecked(KileConfig::completeAuto());
-		cb_autocompletetext->setChecked(KileConfig::completeAutoText());
-		cb_autocompleteabbrev->setChecked(KileConfig::completeAutoAbbrev());
-	}
+
+	cb_autocomplete->setChecked(KileConfig::completeAuto());
+	cb_autocompleteabbrev->setChecked(KileConfig::completeAutoAbbrev());
+
 	sp_latexthreshold->setValue(KileConfig::completeAutoThreshold());
-	sp_textthreshold->setValue(KileConfig::completeAutoTextThreshold());
 
 	// insert filenames into listview
-	for (uint i = TexPage; i < NumPages; ++i)
+	for (uint i = TexPage; i < NumPages; ++i) {
 		setListviewEntries(CompletionPage(i));
+	}
 }
 
 void CodeCompletionConfigWidget::writeConfig(void)
@@ -239,8 +215,9 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	bool changed = false;
 
 	// get listview entries
-	for (uint i = TexPage; i < NumPages; ++i)
+	for (uint i = TexPage; i < NumPages; ++i) {
 		changed |= getListviewEntries(CompletionPage(i));
+	}
 
 	// Konfigurationslisten abspeichern
 	KileConfig::setCompleteTex(m_wordlist[TexPage]);
@@ -257,40 +234,15 @@ void CodeCompletionConfigWidget::writeConfig(void)
 
 	// read autocompletion settings
 	bool autoModeLatex = cb_autocomplete->isChecked();
-	bool autoModeText = cb_autocompletetext->isChecked();
 	bool autoModeAbbrev = cb_autocompleteabbrev->isChecked();
-	if (kateCompletionPlugin())
-	{
-		if (autoModeLatex || autoModeText  || autoModeAbbrev)
-		{
-			QString msg = i18n("You enabled the KTextEditor-Plugin for word completion, "
-												 "but this conflicts with the auto completion modes of Kile. "
-												 "As only one of these completion modes can be used, the "
-												 "autocompletion modes of Kile will be disabled.");
-			KMessageBox::information(0L, "<center>" + msg + "</center>", i18n("Autocomplete warning"));
-
-			// disable Kile autocomplete modes
-			autoModeLatex = false;
-			autoModeText = false;
-			autoModeAbbrev = false;
-		}
-	}
 
 	// save settings for Kile autocompletion modes
 	KileConfig::setCompleteAuto(autoModeLatex);
-	KileConfig::setCompleteAutoText(autoModeText);
 	KileConfig::setCompleteAutoAbbrev(autoModeAbbrev);
 	KileConfig::setCompleteAutoThreshold(sp_latexthreshold->value());
-	KileConfig::setCompleteAutoTextThreshold(sp_textthreshold->value());
 
 	// save changed wordlists?
 	KileConfig::setCompleteChangedLists(changed);
-}
-
-// read kate plugin configuration
-bool CodeCompletionConfigWidget::kateCompletionPlugin()
-{
-	return m_config->group("Kate Document Defaults").readEntry("KTextEditor Plugin ktexteditor_docwordcompletion", false);
 }
 
 //////////////////// listview ////////////////////

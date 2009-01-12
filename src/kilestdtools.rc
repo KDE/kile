@@ -552,7 +552,7 @@ to=bib
 [Tool/ViewBib/KBibTex (embedded)]
 type=Part
 class=ViewBib
-libName=libkbibtexpart
+libName=kbibtexpart
 className=KBibTeXPart
 liboptions='%source'
 state=Viewer
@@ -605,7 +605,7 @@ to=html
 type=Part
 class=ForwardDVI
 className=Okular::Part
-libName=libokularpart
+libName=okularpart
 from=dvi
 to=dvi
 state=Viewer
@@ -622,7 +622,7 @@ to=dvi
 [Tool/ViewDVI/Embedded Viewer]
 class=View
 className=Okular::Part
-libName=libokularpart
+libName=okularpart
 state=Viewer
 type=Part
 
@@ -656,7 +656,7 @@ type=Process
 [Tool/ViewPS/Embedded Viewer]
 class=View
 className=Okular::Part
-libName=libokularpart
+libName=okularpart
 state=Viewer
 type=Part
 
@@ -672,7 +672,7 @@ type=Process
 [Tool/ViewPDF/Embedded Viewer]
 class=View
 className=Okular::Part
-libName=libokularpart
+libName=okularpart
 from=pdf
 to=pdf
 state=Viewer

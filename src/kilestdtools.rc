@@ -273,48 +273,36 @@ jumpToFirstError=yes
 autoRun=yes
 
 [Tool/ConTeXt/PDF]
-class=LaTeX
+class=Compile
 command=texexec
 options=--pdf --nonstopmode '%source'
 from=
 to=pdf
 type=Process
-checkForRoot=no
-jumpToFirstError=no
-autoRun=no
 
 [Tool/ConTeXt/PDF Draft]
-class=LaTeX
-command=pdflatex
+class=Compile
+command=texexec
 options=--pdf --draft --nonstopmode '%source'
 from=
 to=pdf
 type=Process
-checkForRoot=yes
-jumpToFirstError=yes
-autoRun=yes
 
 [Tool/ConTeXt/DVI and PS]
-class=LaTeX
+class=Compile
 command=texexec
 options=--dvi --nonstopmode '%source'
 from=
-to=pdf
+to=dvi
 type=Process
-checkForRoot=no
-jumpToFirstError=no
-autoRun=no
 
 [Tool/ConTeXt/DVI and PS Draft]
-class=LaTeX
+class=Compile
 command=texexec
 options=--dvi --draft --nonstopmode '%source'
 from=
-to=pdf
+to=dvi
 type=Process
-checkForRoot=yes
-jumpToFirstError=yes
-autoRun=yes
 
 [Tool/PDFLaTeX/Modern]
 class=LaTeX
@@ -635,6 +623,15 @@ to=dvi
 state=Viewer
 type=Process
 
+[Tool/ViewDVI/Okular Unique]
+class=View
+command=okular
+options=--unique '%target'
+from=dvi
+to=dvi
+state=Viewer
+type=Process
+
 [Tool/ViewPS/GV]
 class=View
 command=gv
@@ -653,6 +650,15 @@ to=ps
 state=Viewer
 type=Process
 
+[Tool/ViewPS/Okular Unique]
+class=View
+command=okular
+options=--unique '%target'
+from=ps
+to=ps
+state=Viewer
+type=Process
+
 [Tool/ViewPS/Embedded Viewer]
 class=View
 className=Okular::Part
@@ -663,6 +669,15 @@ state=Viewer
 type=Part
 
 [Tool/ViewPDF/Okular]
+class=View
+command=okular
+options='%target'
+from=ps
+to=ps
+state=Viewer
+type=Process
+
+[Tool/ViewPDF/Okular Unique]
 class=View
 command=okular
 options='%target'

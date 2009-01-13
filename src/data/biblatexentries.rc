@@ -70,7 +70,7 @@ optkey =  subtitle, titleaddon, language, version, note, organization, date, add
 
 [patent]
 internalName = patent
-name = Patent or Paten request
+name = Patent or Patent request
 key = author, title, number, year
 optkey = holder, subtitle, titleaddon, type, version, location, note, date, addendum, url, urldate, gender
 

@@ -53,6 +53,7 @@ namespace KileWidget
 
 	void Konsole::spawn()
 	{
+		// FIXME we got a complaint about unused lib prefix but without it does not work
 		KPluginFactory *factory = KLibLoader::self()->factory("libkonsolepart");
 
 		if(!factory) {

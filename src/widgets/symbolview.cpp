@@ -33,6 +33,7 @@ tbraun 2007-06-13
 #include <QApplication>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QPainter>
 #include <QRegExp>
 #include <QStringList>
 
@@ -51,7 +52,8 @@ namespace KileWidget {
 
 SymbolView::SymbolView(QWidget *parent, int type, const char *name)
 		: QListWidget(parent)
-{
+{	
+	m_brush = KStatefulBrush(KColorScheme::View,KColorScheme::NormalText);
 	setObjectName(name);
 	setViewMode(IconMode);
 	setGridSize(QSize(36, 36));
@@ -228,8 +230,8 @@ void SymbolView::fillWidget(const QString& prefix)
 		KConfigGroup config = KGlobal::config()->group(MFUS_GROUP);
 		QString configPaths = config.readEntry("paths");
 		QString configrefCnts = config.readEntry("counts");
-		paths = configPaths.split(',');
-		refCnts = configrefCnts.split(',');
+		paths = configPaths.split(',', QString::SkipEmptyParts);
+		refCnts = configrefCnts.split(',', QString::SkipEmptyParts);
 		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
 		if(paths.count() != refCnts.count()) {
 			KILE_DEBUG() << "error in saved LRU list";
@@ -246,16 +248,26 @@ void SymbolView::fillWidget(const QString& prefix)
 	}
 	for(int i = 0; i < paths.count(); i++) {
 		if(image.load(paths[i])) {
-//      KILE_DEBUG() << "path is " << paths[i];
+//      		KILE_DEBUG() << "path is " << paths[i];
 			item = new QListWidgetItem(this);
-			item->setIcon(QPixmap::fromImage(image));
 			QString key = refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i];
 			item->setData(Qt::UserRole, key);
 			item->setToolTip(getToolTip(key));
-			#ifdef __GNUC__
-			#warning KImageEffect has to be ported
-			#endif
-//    image = KImageEffect::blend(colorGroup().text(), image, 1); // destroys our png comments, so we do it after reading the comments
+
+			if(prefix != "user"){
+				if(image.format() != QImage::Format_ARGB32_Premultiplied && image.format() != QImage::Format_ARGB32){
+					image = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+				}
+	
+				QPainter p;
+				p.begin(&image);
+				p.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+				p.fillRect(image.rect(), m_brush.brush(QPalette::Active));
+				p.end();
+			}
+
+			item->setIcon(QPixmap::fromImage(image));
+
 		}
 		else {
 			KILE_DEBUG() << "Loading file " << paths[i] << " failed";

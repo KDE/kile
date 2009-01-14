@@ -53,7 +53,6 @@ namespace KileWidget {
 SymbolView::SymbolView(QWidget *parent, int type, const char *name)
 		: QListWidget(parent)
 {	
-	m_brush = KStatefulBrush(KColorScheme::View,KColorScheme::NormalText);
 	setObjectName(name);
 	setViewMode(IconMode);
 	setGridSize(QSize(36, 36));
@@ -66,6 +65,7 @@ SymbolView::SymbolView(QWidget *parent, int type, const char *name)
 	setSortingEnabled(false);
 	setFlow(LeftToRight);
 	setDragDropMode(NoDragDrop);
+	m_brush = KStatefulBrush(KColorScheme::View, KColorScheme::NormalText);
 	initPage(type);
 }
 

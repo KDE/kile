@@ -19,6 +19,8 @@
 
 #include <QListWidget>
 
+#include <kcolorscheme.h>
+
 class QMouseEvent;
 
 namespace KileWidget {
@@ -42,6 +44,8 @@ class SymbolView : public QListWidget
 		QString getToolTip(const QString &key);
 
 	protected:
+		KStatefulBrush m_brush;
+
 		virtual void mousePressEvent(QMouseEvent *event);
 
 	Q_SIGNALS:

@@ -298,10 +298,6 @@
 		</entry>
 	</group>
 	<group name="Complete">
-		<entry name="CompleteEnabled" type="Bool">
-			<label></label>
-			<default>true</default>
-		</entry>
 		<entry name="CompleteCursor" type="Bool">
 			<label></label>
 			<default>true</default>

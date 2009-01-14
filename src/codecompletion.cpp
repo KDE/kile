@@ -553,7 +553,6 @@ void Manager::readConfig(KConfig *config)
 	// save normal parameter
 	//KILE_DEBUG() << "   read bool entries";
 /*
-	m_isenabled = KileConfig::completeEnabled();
 	m_setcursor = KileConfig::completeCursor();
 	m_setbullets = KileConfig::completeBullets();
 	m_closeenv = KileConfig::completeCloseEnv();
@@ -782,11 +781,6 @@ namespace KileDocument
 	{
 	}
 
-	bool CodeCompletion::isActive()
-	{
-		return m_isenabled;
-	}
-
 	bool CodeCompletion::inProgress(KTextEditor::View *view)
 	{
 		KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
@@ -860,7 +854,6 @@ namespace KileDocument
 
 		// save normal parameter
 		//KILE_DEBUG() << "   read bool entries";
-		m_isenabled = KileConfig::completeEnabled();
 		m_setcursor = KileConfig::completeCursor();
 		m_setbullets = KileConfig::completeBullets();
 		m_closeenv = KileConfig::completeCloseEnv();
@@ -1351,7 +1344,7 @@ namespace KileDocument
 
 	void CodeCompletion::editComplete(KTextEditor::View *view, Mode mode)
 	{
-		if(!view || !isActive() || inProgress(view)) {
+		if(!view || inProgress(view)) {
 			return;
 		}
 

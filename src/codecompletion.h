@@ -155,7 +155,6 @@ public:
 		cfAutoBrackets = 0x40
 	};
 
-	bool isActive();
 	bool inProgress(KTextEditor::View *view);
 	bool autoComplete();
 	CodeCompletion::Mode getMode();
@@ -217,7 +216,6 @@ private:
 	QTimer *m_completeTimer;
 
 	// some flags
-	bool m_isenabled;
 	bool m_setcursor;
 	bool m_setbullets;
 	bool m_closeenv;

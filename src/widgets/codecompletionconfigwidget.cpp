@@ -89,7 +89,6 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	cb_setcursor = new QCheckBox(i18n("Place cursor"), bg_options);
 	cb_setbullets = new QCheckBox(i18n("Insert bullets"), bg_options);
 	cb_closeenv = new QCheckBox(i18n("Close environments"), bg_options);
-	cb_usecomplete = new QCheckBox(i18n("Use complete"), bg_options);
 	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"), bg_options);
 	lb_latexthreshold = new QLabel(i18n("Threshold:"), bg_options);
 	sp_latexthreshold = new QSpinBox(bg_options);
@@ -105,12 +104,11 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	bg_optionsLayout->addWidget(cb_setbullets, 1, 0);
 	bg_optionsLayout->addWidget(cb_closeenv, 2, 0);
 	bg_optionsLayout->addWidget(cb_showabbrevview, 3, 0);
-	bg_optionsLayout->addWidget(cb_usecomplete, 0, 2);
-	bg_optionsLayout->addWidget(cb_autocomplete, 1, 2);
-	bg_optionsLayout->addWidget(lb_latexthreshold, 1, 4);
-	bg_optionsLayout->addWidget(sp_latexthreshold, 1, 6);
-	bg_optionsLayout->addWidget(lb_latexletters, 1, 7);
-	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 2, 2);
+	bg_optionsLayout->addWidget(cb_autocomplete, 0, 2);
+	bg_optionsLayout->addWidget(lb_latexthreshold, 0, 4);
+	bg_optionsLayout->addWidget(sp_latexthreshold, 0, 6);
+	bg_optionsLayout->addWidget(lb_latexletters, 0, 7);
+	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 1, 2);
 	bg_optionsLayout->addWidget(cb_citeoutofbraces, 4, 0, 1, 7);
 
 	// tune layout
@@ -122,7 +120,6 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	cb_setcursor->setWhatsThis(i18n("Try to place the cursor."));
 	cb_setbullets->setWhatsThis(i18n("Insert bullets where the user must input data."));
 	cb_closeenv->setWhatsThis(i18n("Also close an environment when an opening command is inserted."));
-	cb_usecomplete->setWhatsThis(i18n("Enable components of word completion."));
 	cb_autocomplete->setWhatsThis(i18n("Directional or popup-based completion of the TeX/LaTeX commands that are contained in the selected completion files."));
 	sp_latexthreshold->setWhatsThis(i18n("Automatically show a completion list of TeX/LaTeX commands when the word has this length."));
 	cb_citeoutofbraces->setWhatsThis(i18n("Move cursor out of braces after selecting from a citation keylist."));
@@ -190,7 +187,6 @@ void CodeCompletionConfigWidget::readConfig(void)
 	m_wordlist[AbbreviationPage]  = KileConfig::completeAbbrev();
 
 	// set checkbox status
-	cb_usecomplete->setChecked(KileConfig::completeEnabled());
 	cb_setcursor->setChecked(KileConfig::completeCursor());
 	cb_setbullets->setChecked(KileConfig::completeBullets());
 	cb_closeenv->setChecked(KileConfig::completeCloseEnv());
@@ -225,7 +221,6 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	KileConfig::setCompleteAbbrev(m_wordlist[AbbreviationPage]);
 
 	// save checkbox status
-	KileConfig::setCompleteEnabled(cb_usecomplete->isChecked());
 	KileConfig::setCompleteCursor(cb_setcursor->isChecked());
 	KileConfig::setCompleteBullets(cb_setbullets->isChecked());
 	KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());

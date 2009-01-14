@@ -65,7 +65,7 @@ class CodeCompletionConfigWidget : public QWidget
 		KPushButton *add, *remove;
 
 		// Checkboxes/Spinboxes
-		QCheckBox *cb_usecomplete, *cb_autocomplete;
+		QCheckBox *cb_autocomplete;
 		QCheckBox *cb_setcursor, *cb_setbullets;
 		QCheckBox *cb_closeenv;
 		QSpinBox *sp_latexthreshold;

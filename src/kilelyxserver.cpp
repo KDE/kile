@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Sat Sept 9 2003
-    edit		 : Tue Mar 20 2007
-    copyright            : (C) 2003 by Jeroen Wijnhout, 2007 by Thomas Braun
+    edit		 : Wed Jan 14 2009
+    copyright            : (C) 2003 by Jeroen Wijnhout, 2007-2009 by Thomas Braun
     email                : Jeroen.Wijnhout@kdemail.net
  ***************************************************************************/
 
@@ -22,6 +22,7 @@
 #include <fcntl.h>
 
 #include "kileactions.h"
+#include "kiledebug.h"
 
 #include <QDir>
 #include <QFile>
@@ -29,10 +30,7 @@
 #include <QSocketNotifier>
 #include <QRegExp>
 
-#include "kiledebug.h"
-
 #include <KLocale>
-#include <kdebug.h>
 
 KileLyxServer::KileLyxServer(bool startMe) :
 	m_perms(S_IRUSR | S_IWUSR), m_running(false)
@@ -118,6 +116,17 @@ bool KileLyxServer::openPipes()
 		struct stat buf;
 		struct stat *stats = &buf;
 		
+		QDir lyxDir(QDir::homePath() + QDir::separator() + ".lyx");
+		if(!lyxDir.exists()){
+			KILE_DEBUG() << "Directory " << lyxDir.absolutePath() << " does not exist";
+			if(mkdir(QFile::encodeName( lyxDir.path() ), m_perms | S_IXUSR) == -1){
+				kError() << "Could not create directory";
+			}
+			else{
+				KILE_DEBUG() << "Directory created sucessfully";	
+			}
+		}
+		
 		for(int i = 0; i < m_pipes.count(); ++i) {
 			pipeInfo.setFile(m_pipes[i]);
 			linkInfo.setFile(m_links[i]);
@@ -152,7 +161,8 @@ bool KileLyxServer::openPipes()
 				kError() << "Could not create symlink: " << linkInfo.absoluteFilePath() << " --> " << pipeInfo.absoluteFilePath();
 				continue;
 			}
-
+			
+			// the file object will be deleted at the shutdown of the server in KileLyxServer::stop()
 			file  = new QFile(pipeInfo.absoluteFilePath());
 			pipeInfo.refresh();
 
@@ -174,7 +184,6 @@ bool KileLyxServer::openPipes()
 			}
 			else {
 				kError() << "Could not open " << pipeInfo.absoluteFilePath();
-				//delete file; // FIXME shouldn't this be commented in
 			}
 		}
 		return opened;
@@ -222,7 +231,7 @@ void KileLyxServer::processLine(const QString &line)
 		emit(insert(KileAction::TagData(i18n("Cite"), "\\cite{"+reCite.cap(1)+'}')));
 	}
 	else if(line.indexOf(reBibtexdbadd) != -1) {
-		emit(insert(KileAction::TagData(i18n("BibTeX db add"), "\\bibliography{"+ reBibtexdbadd.cap(1) + '}')));
+		emit(insert(KileAction::TagData(i18n("Add BibTeX database"), "\\bibliography{"+ reBibtexdbadd.cap(1) + '}')));
 	}
 	else if(line.indexOf(rePaste) != -1) {
 		emit(insert(KileAction::TagData(i18n("Paste"), rePaste.cap(1))));

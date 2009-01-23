@@ -3,7 +3,7 @@
 \captionsetup{kv-list}
 \captionsetup[variable]{kv-list}
 \ContinuedFloat
-\DeclareCaptionListOfFormat{keyowrd}{code}
+\DeclareCaptionListOfFormat{keyword}{code}
 \listsubcaptions
 \newsubfloat{floatname}
 \newsubfloat[kv-list]{floatname}

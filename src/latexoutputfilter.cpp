@@ -197,21 +197,21 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 			3) The TeX was closed already, signalled by the ')'.
 		*/
 
-        	if(expectFileName && (i+1 >= strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
+        	if(expectFileName && (i+1 == strLine.length() || strLine[i+1].isSpace() || strLine[i+1] == ')')) {
 			KILE_DEBUG() << "Update the partial filename " << strPartialFileName << endl;
 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
 
 			//FIXME: improve these heuristics
-			if (i+1 < strLine.length() && (strLine[i+1].isSpace() || ( (i < 78) && (i+1  == strLine.length())) ||
+			if (strLine[i+1].isSpace() || ( (i < 78) && (i+1  == strLine.length())) ||
 				                       strLine[i+1] == ')' ||
-				                       fileExists(strPartialFileName))) {
+				                       fileExists(strPartialFileName)) {
 				m_stackFile.push(LOFStackItem(strPartialFileName));
 				// KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
 				expectFileName = false;
 				dwCookie = Start;
 			}
 			//Guess the filename is continued on the next line, only if the current strPartialFileName does not exist, see bug # 162899
-			else if(i+1 >= strLine.length()) {
+			else if(i+1 == strLine.length()) {
 				if(fileExists(strPartialFileName)) {
 					m_stackFile.push(LOFStackItem(strPartialFileName));
 					KILE_DEBUG() << "pushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;

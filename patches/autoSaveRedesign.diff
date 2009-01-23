@@ -11,37 +11,29 @@ Index: ../src/kiledocmanager.cpp
  
  #include "kileuntitled.h"
  #include "templates.h"
-@@ -744,14 +744,99 @@
+@@ -744,14 +744,92 @@
  		emit(updateStructure(true, textInfoFor(doc)));
  }
  
 -void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 +void Manager::autoSaveAll()
  {
- 	KTextEditor::View *view= 0L;
--	QFileInfo fi;
-+	KTextEditor::Document *doc = 0L;
-+	QTextCodec *codec = 0L;
++	KTextEditor::Document *doc = NULL;
++	QTextCodec *codec = NULL;
 +	KUrl origUrl, backupUrl;
 +	QString encoding;
 +
 +	KILE_DEBUG() << "===Manager::autoSaveAll()";
 +
-+	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i){
-+		
-+		view = m_ki->viewManager()->textView(i);
-+		
-+		if(!view){
-+			continue;
-+		}
-+		
-+		doc = view->document();
++	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
++	
++		doc = (*it)->getDoc();
 +		
 +		if(!doc){
 +			continue;
 +		}
 +		
-+		origUrl = view->document()->url();
++		origUrl = doc->url();
 +		
 +		if ( !origUrl.isEmpty() ){ // this means the document is not untiteld
 +			
@@ -105,7 +97,8 @@ Index: ../src/kiledocmanager.cpp
 +// disUntiteld states if fileSaveALL should save untitled documents or not. Saving untiteld documents leads to the "save as" dialog and therefore annoys in most cases
 +void Manager::fileSaveAll(bool disUntitled )
 +{
-+	KTextEditor::View *view= 0L;
+ 	KTextEditor::View *view= 0L;
+-	QFileInfo fi;
  	bool saveResult;
 -	KUrl url, backupUrl;
 +	KUrl url;
@@ -115,7 +108,7 @@ Index: ../src/kiledocmanager.cpp
  
  	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i) {
  		view = m_ki->viewManager()->textView(i);
-@@ -759,67 +844,20 @@
+@@ -759,67 +837,20 @@
  		if ( view && view->document()->isModified() )
  		{
  			url = view->document()->url();
@@ -190,19 +183,6 @@ Index: ../src/kiledocmanager.cpp
  					                                i18n("Saving"));
  				}
  			}
-Index: ../src/kiletool.cpp
-===================================================================
---- ../src/kiletool.cpp	(Revision 915082)
-+++ ../src/kiletool.cpp	(Arbeitskopie)
-@@ -168,7 +168,7 @@
- 			return NoValidPrereqs;
- 		
- 		//everything ok so far
--		emit(requestSaveAll(false, true));
-+		emit(requestSaveAll(true));
- 		emit(start(this));
- 		
- 		if (!m_launcher || !m_launcher->launch()) {
 Index: ../src/kiletoolmanager.h
 ===================================================================
 --- ../src/kiletoolmanager.h	(Revision 915082)
@@ -216,6 +196,19 @@ Index: ../src/kiletoolmanager.h
  		void jumpToFirstError();
  		void toolStarted();
  		void previewDone();
+Index: ../src/kiletool.cpp
+===================================================================
+--- ../src/kiletool.cpp	(Revision 915082)
++++ ../src/kiletool.cpp	(Arbeitskopie)
+@@ -168,7 +168,7 @@
+ 			return NoValidPrereqs;
+ 		
+ 		//everything ok so far
+-		emit(requestSaveAll(false, true));
++		emit(requestSaveAll(true));
+ 		emit(start(this));
+ 		
+ 		if (!m_launcher || !m_launcher->launch()) {
 Index: ../src/kiledocmanager.h
 ===================================================================
 --- ../src/kiledocmanager.h	(Revision 915082)

@@ -22,6 +22,7 @@
 #include <QPainter>
 #include <QTextDocument>
 #include <QTextStream>
+#include <QTextDocument> 
 
 #include <KAction>
 #include <KLocale>
@@ -220,6 +221,8 @@ namespace KileWidget
 		}
 
 		QString ot = "", ct = "</font>";
+		
+		QString myMsg = Qt::escape(message);
 
 		switch(type) {
 			case KileTool::Warning :
@@ -249,10 +252,10 @@ namespace KileWidget
 		QListWidgetItem *item = new QListWidgetItem(this);
 
 		if(tool.isEmpty()) {
-			item->setText(ot + message + ct);
+			item->setText(ot + myMsg + ct);
 		}
 		else {
-			item->setText(ot + "<b>[" + tool + "]</b> " + message + ct);
+			item->setText(ot + "<b>[" + tool + "]</b> " + myMsg + ct);
 		}
 
 		if(outputInfo.isValid()) {

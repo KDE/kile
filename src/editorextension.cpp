@@ -2462,11 +2462,6 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 		return true;
 	}
 	
-	int row, col;
-	KTextEditor::Cursor cursor = view->cursorPosition();
-	row = cursor.line();
-	col = cursor.column();
-
 	KTextEditor::Document *doc = view->document();
 
 	if(!doc || !m_ki->extensions()->isTexFile(doc->url())) {
@@ -2474,6 +2469,11 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	}
 
 	view->removeSelectionText();
+	
+	int row, col;
+	KTextEditor::Cursor cursor = view->cursorPosition();
+	row = cursor.line();
+	col = cursor.column();
 
 	// simply insert, if we are inside a verb command
 	if(insideVerb(view) || insideVerbatim(view)) {

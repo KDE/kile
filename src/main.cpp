@@ -42,18 +42,18 @@ QString completePath(const QString &path)
 	QString fullpath(path);
 
 	KILE_DEBUG() << "==complete path is " << path;
-	if(path.left(1) != "/") {
+	if( QDir::isRelativePath(path) ) {
 		if(path.startsWith("file:")) {
 			KUrl url = KUrl::fromPathOrUrl(path);
 			url.setFileName(completePath(url.path()));
 			fullpath = url.url();
 		}
 		else if(path.indexOf(QRegExp("^[a-z]+:")) == -1) {
-			fullpath = QDir::currentPath() + '/' + path;
+			fullpath = QDir::currentPath() + QDir::separator() + path;
 		}
 	}
 
-	KILE_DEBUG() << "\t" << fullpath;
+	KILE_DEBUG() << "==fullpath=" << fullpath;
 	return fullpath;
 }
 

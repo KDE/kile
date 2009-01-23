@@ -1,0 +1,302 @@
+Index: ../src/kiledocmanager.cpp
+===================================================================
+--- ../src/kiledocmanager.cpp	(Revision 915082)
++++ ../src/kiledocmanager.cpp	(Arbeitskopie)
+@@ -44,7 +44,7 @@
+ #include <kio/netaccess.h>
+ #include <kpushbutton.h>
+ #include <kurl.h>
+-#include <kfileitem.h>
++#include <KSaveFile>
+ 
+ #include "kileuntitled.h"
+ #include "templates.h"
+@@ -744,14 +744,99 @@
+ 		emit(updateStructure(true, textInfoFor(doc)));
+ }
+ 
+-void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
++void Manager::autoSaveAll()
+ {
+ 	KTextEditor::View *view= 0L;
+-	QFileInfo fi;
++	KTextEditor::Document *doc = 0L;
++	QTextCodec *codec = 0L;
++	KUrl origUrl, backupUrl;
++	QString encoding;
++
++	KILE_DEBUG() << "===Manager::autoSaveAll()";
++
++	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i){
++		
++		view = m_ki->viewManager()->textView(i);
++		
++		if(!view){
++			continue;
++		}
++		
++		doc = view->document();
++		
++		if(!doc){
++			continue;
++		}
++		
++		origUrl = view->document()->url();
++		
++		if ( !origUrl.isEmpty() ){ // this means the document is not untiteld
++			
++			KILE_DEBUG() << "The files _" << m_autosaveWarnings.join(", ") <<  "_ have autosaveWarnings" <<endl;
++			
++			backupUrl = KUrl::fromPathOrUrl(origUrl.path()+ ".backup");
++			KSaveFile backupFile(backupUrl.path());
++			
++			if ( !backupFile.open(QIODevice::WriteOnly | QIODevice::Truncate) ) {
++				
++				if ( m_autosaveWarnings.contains(origUrl.path()) )
++				{
++					KILE_DEBUG() << "File " << backupUrl.prettyUrl() << " is not writeable (again), trying next file" << endl;
++					continue;
++				}
++				else
++				{
++					m_autosaveWarnings.append(origUrl.path());
++					KILE_DEBUG() << "File " << backupUrl.prettyUrl() << " is not writeable (first time), complaining once in kile" << endl;
++					m_ki->logWidget()->printMessage(KileTool::Error,i18n("Could not open %1 for writing.",backupUrl.prettyUrl()), i18n("Autosave"));
++					continue;
++				}
++			}
++			else{
++				m_autosaveWarnings.removeAll(origUrl.path());
++			}
++			
++			// I understand #103331 so that the permission stuff is only applicable for local files
++			if(backupUrl.isLocalFile()){
++				KILE_DEBUG() << "Setting permissions of the backupFile"; 
++				bool ret = backupFile.setPermissions(QFile::permissions(origUrl.path()));
++				if(!ret){
++					kError() << "Could not set correct permissions";
++				}
++			}
++			
++			QTextStream outputStream(&backupFile);
++			codec = QTextCodec::codecForName(doc->encoding().toAscii());
++			if(codec) {
++				outputStream.setCodec(codec);
++			}
++			else{ // fall back to kde default
++
++				codec = KGlobal::locale()->codecForEncoding();
++				outputStream.setCodec(codec);
++			}
++			
++			outputStream << doc->text();
++			outputStream.flush();
++			if ( !backupFile.finalize() ) { // finalize writes the data, in this way we ensure data integrity
++				m_ki->logWidget()->printMessage(KileTool::Error,
++						i18n("The file %1 could not be saved, check the permissions and the free disk space!",
++						backupUrl.prettyUrl()),
++						i18n("Autosave"));
++				continue;
++			}
++		}
++	}
++}
++
++// disUntiteld states if fileSaveALL should save untitled documents or not. Saving untiteld documents leads to the "save as" dialog and therefore annoys in most cases
++void Manager::fileSaveAll(bool disUntitled )
++{
++	KTextEditor::View *view= 0L;
+ 	bool saveResult;
+-	KUrl url, backupUrl;
++	KUrl url;
+ 	
+-	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")";
++	KILE_DEBUG() << "===Manager::fileSaveAll(disUntitled = " << disUntitled <<")";
+ 
+ 	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i) {
+ 		view = m_ki->viewManager()->textView(i);
+@@ -759,67 +844,20 @@
+ 		if ( view && view->document()->isModified() )
+ 		{
+ 			url = view->document()->url();
+-			fi.setFile(url.path());
+ 			
+-			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
+-					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
+-					|| ( !amAutoSaving && !disUntitled )	// both false, so we want to save everything
+-				)
++			if( !(disUntitled && url.isEmpty()) || !disUntitled )
++				/*
++				1: disUntitled is true and we have an untitled doc (with an empty url)
++				2: diUntitled is false
++				*/	
+ 			{
+-	
+-				KILE_DEBUG() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings";
+-
+-				if(amAutoSaving) {
+-					if(!fi.isWritable()) {
+-						if(autosaveWarnings.contains(url.path())) {
+-							KILE_DEBUG() << "File " << url.prettyUrl() << " is not writeable (again), trying next file";
+-							continue;
+-						}
+-						else {
+-							autosaveWarnings.append(url.path());
+-							KILE_DEBUG() << "File " << url.prettyUrl() << " is not writeable (first time)";
+-						}
+-					}
+-					else {
+-						autosaveWarnings.removeAll(url.path());
+-					}
+-				}
+-				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
+-					KUrl backupUrl = KUrl::fromPathOrUrl(url.path()+ ".backup");
+-					
+-				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
+-					
+-    					// get the right permissions, start with safe default
+-					mode_t  perms = 0600;
+-					KIO::UDSEntry fentry;
+-					if (KIO::NetAccess::stat (url, fentry, m_ki->mainWindow())) {
+-						KILE_DEBUG () << "stating successful: " << url.prettyUrl();
+-						KFileItem item (fentry, url);
+-						perms = item.permissions();
+-					}
+-
+-					// first del existing file if any, than copy over the file we have
+-					// failure if a: the existing file could not be deleted, b: the file could not be copied
+-					if((!KIO::NetAccess::exists( backupUrl, false, m_ki->mainWindow())
+-					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
+-					   && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
+-						KILE_DEBUG() << "backing up successful (" << url.prettyUrl() << " -> "<<backupUrl.prettyUrl() << ")";
+-					}
+-					else {
+-						KILE_DEBUG() << "backing up failed (" << url.prettyUrl() << " -> " << backupUrl.prettyUrl() << ")";
+-						m_ki->logWidget()->printMessage(KileTool::Error,
+-						                                i18n("The file %1 could not be saved, check the permissions and the free disk space!", backupUrl.prettyUrl()),
+-						                                i18n("Autosave"));
+-					}
+-				}
+-				
+ 				KILE_DEBUG() << "trying to save: " << url.path();
+ 				saveResult = view->document()->documentSave();
+-				fi.refresh();
+ 			
+ 				if(!saveResult) {
+ 					m_ki->logWidget()->printMessage(KileTool::Error,
+-					                                i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()),
++					                                i18n("Kile encountered problems while saving the file %1.\
++									Do you have enough free disk space left?", url.prettyUrl()),
+ 					                                i18n("Saving"));
+ 				}
+ 			}
+Index: ../src/kiletool.cpp
+===================================================================
+--- ../src/kiletool.cpp	(Revision 915082)
++++ ../src/kiletool.cpp	(Arbeitskopie)
+@@ -168,7 +168,7 @@
+ 			return NoValidPrereqs;
+ 		
+ 		//everything ok so far
+-		emit(requestSaveAll(false, true));
++		emit(requestSaveAll(true));
+ 		emit(start(this));
+ 		
+ 		if (!m_launcher || !m_launcher->launch()) {
+Index: ../src/kiletoolmanager.h
+===================================================================
+--- ../src/kiletoolmanager.h	(Revision 915082)
++++ ../src/kiletoolmanager.h	(Arbeitskopie)
+@@ -114,7 +114,7 @@
+ 
+ 	Q_SIGNALS:
+ 		void requestGUIState(const QString &);
+-		void requestSaveAll(bool, bool);
++		void requestSaveAll(bool);
+ 		void jumpToFirstError();
+ 		void toolStarted();
+ 		void previewDone();
+Index: ../src/kiledocmanager.h
+===================================================================
+--- ../src/kiledocmanager.h	(Revision 915082)
++++ ../src/kiledocmanager.h	(Arbeitskopie)
+@@ -73,7 +73,8 @@
+ 	void fileSaveCopyAs();
+ 
+ 	void saveURL(const KUrl&);
+-	void fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
++	void fileSaveAll(bool disUntitled = false);
++	void autoSaveAll();
+ 
+ 	bool fileCloseAllOthers();
+ 	bool fileCloseAll();
+@@ -235,7 +236,7 @@
+ 	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);
+ 	void createProgressDialog();
+ 
+-	QStringList autosaveWarnings;
++	QStringList m_autosaveWarnings;
+ 
+ };
+ 
+Index: ../src/kiletoolmanager.cpp
+===================================================================
+--- ../src/kiletoolmanager.cpp	(Revision 915082)
++++ ../src/kiletoolmanager.cpp	(Arbeitskopie)
+@@ -251,7 +251,7 @@
+ 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
+ 		connect(tool, SIGNAL(done(Base*,int)), this, SLOT(done(Base*, int)));
+ 		connect(tool, SIGNAL(start(Base* )), this, SLOT(started(Base*)));
+-		connect(tool, SIGNAL(requestSaveAll(bool, bool)), this, SIGNAL(requestSaveAll(bool, bool)));
++		connect(tool, SIGNAL(requestSaveAll(bool)), this, SIGNAL(requestSaveAll(bool)));
+ 	}
+ 
+ 	void Manager::started(Base *tool)
+Index: ../src/kile.cpp
+===================================================================
+--- ../src/kile.cpp	(Revision 915082)
++++ ../src/kile.cpp	(Arbeitskopie)
+@@ -257,7 +257,7 @@
+ 
+ 	m_manager = new KileTool::Manager(this, m_config.data(), m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
+ 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
+-	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
++	connect(m_manager, SIGNAL(requestSaveAll(bool)), docManager(), SLOT(fileSaveAll(bool)));
+ 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
+ 	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
+ 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
+@@ -1394,15 +1394,17 @@
+ 
+ void Kile::autoSaveAll()
+ {
+-	docManager()->fileSaveAll(true);
++	docManager()->autoSaveAll();
+ }
+ 
+-void Kile::enableAutosave(bool as)
++void Kile::enableAutosave(bool enableAutoSave)
+ {
+-	if(as) {
++	if(enableAutoSave) {
+ 		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
+ 		int interval = KileConfig::autosaveInterval();
+-		if ( interval < 1 || interval > 99 ) interval = 10;
++		if ( interval < 1 || interval > 99 ){
++			interval = 10;
++		}
+ 		m_AutosaveTimer->start(interval * 60000);
+ 	}
+ 	else m_AutosaveTimer->stop();
+Index: ../src/kiletool.h
+===================================================================
+--- ../src/kiletool.h	(Revision 915082)
++++ ../src/kiletool.h	(Arbeitskopie)
+@@ -191,7 +191,7 @@
+ 		void start(Base*);
+ 		void done(Base*, int);
+ 
+-		void requestSaveAll(bool amAutoSaving = false, bool disUntitled= false);
++		void requestSaveAll(bool disUntitled= false);
+ 
+ 	public:
+ 		void setEntryMap(Config map) { m_entryMap = map; }

@@ -753,9 +753,12 @@ void Kile::setupActions()
 	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_E), this, SLOT(focusEditor()));
 
  // CodeCompletion (dani)
-	createAction(i18n("(La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::CTRL + Qt::Key_Space), m_edit, SLOT(completeWord()));
-	createAction(i18n("Environment"), "edit_complete_env", "complete2", KShortcut(Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeEnvironment()));
-	createAction(i18n("Abbreviation"), "edit_complete_abbrev", "complete3", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeAbbreviation()));
+	createAction(i18n("Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
+#ifdef __GNUC__
+#warning Fix the remaining code completion actions.
+#endif
+// 	createAction(i18n("Complete Environment"), "edit_complete_env", "complete2", KShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeEnvironment()));
+// 	createAction(i18n("Complete Abbreviation"), "edit_complete_abbrev", "complete3", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeAbbreviation()));
 
 	createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Right), m_edit, SLOT(nextBullet()));
 	createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Left), m_edit, SLOT(prevBullet()));

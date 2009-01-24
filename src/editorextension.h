@@ -2,7 +2,7 @@
     date                 : Feb 20 2007
     version              : 0.45
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -128,11 +128,6 @@ public Q_SLOTS:
 	void initDoubleQuotes();
 
 	void insertIntelligentTabulator();
-
-	//code completion
-	void completeWord();
-	void completeEnvironment();
-	void completeAbbreviation();
 
 	void keyReturn(KTextEditor::View *view = NULL);
 	void commentLaTeX(KTextEditor::Document* document, const KTextEditor::Range &range);

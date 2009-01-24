@@ -93,6 +93,7 @@ namespace KileCodeCompletion
 };
 
 	class Manager : public QObject {
+		Q_OBJECT
 		friend class LaTeXCompletionModel;
 
 		public:
@@ -102,6 +103,9 @@ namespace KileCodeCompletion
 			QStringList getLaTeXCommands() const;
 
 			void readConfig(KConfig *config);
+
+		public Q_SLOTS:
+			void startLaTeXCompletion(KTextEditor::View *view = NULL);
 
 		protected:
 			KileInfo* m_ki;

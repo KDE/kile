@@ -398,6 +398,8 @@ public:
 
 	virtual QString getFileFilter() const;
 
+	void startLaTeXCompletion(KTextEditor::View *view);
+
 public Q_SLOTS:
 	virtual void updateStruct();
 

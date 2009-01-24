@@ -30,7 +30,9 @@
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Cursor>
 
+#include "documentinfo.h"
 #include "editorextension.h"
+#include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
@@ -69,7 +71,7 @@ void LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextE
 
 void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
-	if(!KileConfig::completeAuto()) {
+	if(!KileConfig::completeAuto() || !range.isValid()) {
 		m_completionList.clear();
 		reset();
 		return;
@@ -228,7 +230,8 @@ QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextE
                                                                     const KTextEditor::Cursor &position)
 {
 	KILE_DEBUG() << "range: " << range;
-	KILE_DEBUG() << "text: " << view->document()->text(range);
+	KILE_DEBUG() << "text: " << (range.isValid() ? view->document()->text(range)
+	                                             : "(invalid range)");
 
 	return "";
 }
@@ -592,6 +595,23 @@ void Manager::readConfig(KConfig *config)
 		KileConfig::setCompleteChangedLists(false);
 		KileConfig::setCompleteChangedCommands(false);
 	}
+}
+
+void Manager::startLaTeXCompletion(KTextEditor::View *view)
+{
+	if(!view) {
+		view = m_ki->viewManager()->currentTextView();
+		if(!view) {
+			return;
+		}
+	}
+
+	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(view->document());
+	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(textInfo);
+	if(!latexInfo) {
+		return;
+	}
+	latexInfo->startLaTeXCompletion(view);
 }
 
 void Manager::buildReferenceCitationRegularExpressions()

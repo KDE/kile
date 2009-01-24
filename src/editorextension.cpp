@@ -2,7 +2,7 @@
     date                 : Mar 12 2007
     version              : 0.46
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -2366,34 +2366,6 @@ void EditorExtension::insertBullet(KTextEditor::View* view)
 	}
 
 	view->document()->insertText(view->cursorPosition(), s_bullet);
-}
-
-#ifdef __GNUC__
-#warning codecompletion is broken
-#endif
-
-void EditorExtension::completeWord()
-{
-//	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmLatex);
-            m_ki->logWidget()->printMessage(KileTool::Error,
-                       i18n("The code completion does currently not work."),
-                        i18n("Codecompletion") );
-}
-
-void EditorExtension::completeEnvironment()
-{
-//	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmEnvironment);
-            m_ki->logWidget()->printMessage(KileTool::Error,
-                       i18n("The code completion does currently not work."),
-                        i18n("Codecompletion") );
-}
-
-void EditorExtension::completeAbbreviation()
-{
-//	complete()->editComplete(m_ki->viewManager()->currentTextView(), KileDocument::CodeCompletion::cmAbbreviation);
-            m_ki->logWidget()->printMessage(KileTool::Error,
-                       i18n("The code completion does currently not work."),
-                        i18n("Codecompletion") );
 }
 
 ///////////////////// Special Functions ///////////////

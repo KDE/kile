@@ -2,7 +2,7 @@
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -797,6 +797,19 @@ Type LaTeXInfo::getType()
 QString LaTeXInfo::getFileFilter() const
 {
 	return m_extensions->latexDocumentFileFilter() + '\n' + m_extensions->latexPackageFileFilter();
+}
+
+void LaTeXInfo::startLaTeXCompletion(KTextEditor::View *view)
+{
+	KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(!completionInterface) {
+		return;
+	}
+	KTextEditor::Range range = m_latexCompletionModel->completionRange(view, view->cursorPosition());
+	if(!range.isValid()) {
+		range = KTextEditor::Range(view->cursorPosition(), view->cursorPosition());
+	}
+	completionInterface->startCompletion(range, m_latexCompletionModel);
 }
 
 void LaTeXInfo::updateStructLevelInfo() {

@@ -682,7 +682,7 @@ type=Process
 [Tool/ViewPDF/Okular Unique]
 class=View
 command=okular
-options='%target'
+options=--unique '%target'
 from=ps
 to=ps
 state=Viewer

@@ -756,7 +756,7 @@ void Kile::setupActions()
 	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_E), this, SLOT(focusEditor()));
 
  // CodeCompletion (dani)
-	createAction(i18n("Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
+	createAction(i18nc("@action: Starts the completion of the current latex command", "Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
 #ifdef __GNUC__
 #warning Fix the remaining code completion actions.
 #endif

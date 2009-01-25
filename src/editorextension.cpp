@@ -27,6 +27,7 @@
 #include <KStandardDirs>
 
 #include "widgets/konsolewidget.h"
+#include "codecompletion.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
@@ -47,7 +48,6 @@ namespace KileDocument
 
 EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 {
-	m_complete = new KileDocument::CodeCompletion(m_ki);
 	m_latexCommands = m_ki->latexCommands();
 
 	// init regexp
@@ -74,7 +74,6 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 
 EditorExtension::~EditorExtension()
 {
-	delete m_complete;
 }
 
 //////////////////// read configuration ////////////////////
@@ -2568,11 +2567,14 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 		return false;
 	}
 
+#ifdef __GNUC__
+#warning Check this.
+#endif
 	// don't complete environment, if we are
 	// still working inside the completion box
-	if(m_complete->inProgress(view)) {
-		return false;
-	}
+// 	if(m_complete->inProgress(view)) {
+// 		return false;
+// 	}
 
 	int row = view->cursorPosition().line();
 	int col = view->cursorPositionVirtual().column();

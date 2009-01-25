@@ -543,7 +543,10 @@ void Kile::setupSymbolViews()
 void Kile::setupAbbreviationView()
 {
 	m_kileAbbrevView = new KileWidget::AbbreviationView(m_sideBar);
-	m_edit->complete()->setAbbreviationListview(m_kileAbbrevView);
+#ifdef __GNUC__
+#warning Check this.
+#endif
+// 	m_edit->complete()->setAbbreviationListview(m_kileAbbrevView);
 	m_sideBar->addPage(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
 
 	connect(m_kileAbbrevView, SIGNAL(sendText(const QString& )), this, SLOT(insertText(const QString& )));
@@ -2326,18 +2329,19 @@ void Kile::readRecentFileSettings()
 {
 	KConfigGroup group = m_config->group("FilesOpenOnStart");
 	int n = group.readEntry("NoDOOS", 0);
-	for (int i=0; i < n; ++i)
+	for (int i = 0; i < n; ++i) {
 		m_listDocsOpenOnStart.append(group.readPathEntry("DocsOpenOnStart" + QString::number(i), ""));
+	}
 
 	n = group.readEntry("NoPOOS", 0);
-	for (int i=0; i < n; ++i)
+	for(int i = 0; i < n; ++i) {
 		m_listProjectsOpenOnStart.append(group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), ""));
+	}
 }
 
 void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
-	m_edit->complete()->readConfig(m_config.data());
 	m_codeCompletionManager->readConfig(m_config.data());
 	//m_edit->initDoubleQuotes();
 	m_edit->readConfig();
@@ -2346,10 +2350,12 @@ void Kile::readConfig()
 	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
 	m_sideBar->setPageVisible(m_kileAbbrevView, KileConfig::completeShowAbbrev());
 	
-	if( KileConfig::displayMFUS() )
+	if(KileConfig::displayMFUS()) {
 		enableSymbolViewMFUS();
-	else
+	}
+	else {
 		disableSymbolViewMFUS();
+	}
 }
 
 void Kile::saveSettings()
@@ -2396,7 +2402,6 @@ void Kile::saveSettings()
 	m_mainWindow->saveMainWindowSettings(m_config->group("KileMainWindow"));
 
 	scriptManager()->writeConfig();
-	m_edit->complete()->saveLocalChanges();
 
 	KileConfig::setRCVersion(KILERC_VERSION);
 	KileConfig::setMainwindowWidth(m_mainWindow->width());
@@ -2485,19 +2490,18 @@ void Kile::toggleWatchFile()
 {
 	m_bWatchFile=!m_bWatchFile;
 
-	if (m_bWatchFile)
+	if (m_bWatchFile) {
 		WatchFileAction->setChecked(true);
-	else
+	}
+	else {
 		WatchFileAction->setChecked(false);
+	}
 }
 
 // execute configuration dialog
 
 void Kile::generalOptions()
 {
-	//FIXME: this should be moved into the configuration manager
-	m_edit->complete()->saveLocalChanges();
-	
 	KileDialog::Config *dlg = new KileDialog::Config(m_config.data(), this, m_mainWindow);
 
 	if (dlg->exec())

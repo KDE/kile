@@ -162,24 +162,14 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
-#ifdef __GNUC__
-#warning codecompletion crashes
-#endif
-
-	connect(view, SIGNAL(completionDone(KTextEditor::CompletionEntry)), m_ki->editorExtension()->complete(),  SLOT( slotCompletionDone(KTextEditor::CompletionEntry)) );
-	connect(view, SIGNAL(completionAborted()), m_ki->editorExtension()->complete(),  SLOT( slotCompletionAborted()) );
-	connect(view, SIGNAL(filterInsertString(KTextEditor::CompletionEntry*,QString *)), m_ki->editorExtension()->complete(),  SLOT(slotFilterCompletion(KTextEditor::CompletionEntry*,QString *)) );
 
 	// code completion
 	KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
 	if(completionInterface) {
-		connect(view, SIGNAL(textInserted(KTextEditor::View*, const KTextEditor::Cursor&, const QString&)), m_ki->editorExtension()->complete(), SLOT(textInsertedInView(KTextEditor::View*, const KTextEditor::Cursor&, const QString&)));
 		completionInterface->setAutomaticInvocationEnabled(true);
 	}
 
 	// install a working text editor part popup dialog thingy
-// 	QMenu *viewPopupMenu = qobject_cast<QMenu*>(m_client->factory()->container("ktexteditor_popup", m_client));
-
 	QMenu *popupMenu = view->defaultContextMenu();
 
 	if(popupMenu) {

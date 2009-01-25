@@ -25,7 +25,6 @@
 #include <KTextEditor/Document>
 
 #include "widgets/structurewidget.h"
-#include "codecompletion.h"
 #include "latexcmd.h"
 
 class KileInfo;
@@ -78,8 +77,6 @@ public:
 	// mathgroup
 	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = NULL);
 	bool hasMathgroup(KTextEditor::View *view = NULL);
-
-	CodeCompletion* complete() const { return m_complete; }
 
 public Q_SLOTS:
 	void insertIntelligentNewline(KTextEditor::View *view = NULL);
@@ -170,8 +167,6 @@ private:
 	QRegExp m_reg;
 	bool m_overwritemode;
 	QString m_envAutoIndent;
-
-	CodeCompletion	*m_complete;
 
 	KileInfo	*m_ki;
 

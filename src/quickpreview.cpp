@@ -2,7 +2,7 @@
     date                 : Feb 15 2007
     version              : 0.34
     copyright            : (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************************/
 
 /***************************************************************************
@@ -26,11 +26,12 @@
 #include <QTextCodec>
 #include <QTextStream>
 
-#include "kiledebug.h"
 #include <KLocale>
 #include <KStandardDirs>
-
 #include <KTextEditor/Document>
+#include <KTextEditor/View>
+
+#include "kiledebug.h"
 
 namespace KileTool
 {

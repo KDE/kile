@@ -505,6 +505,10 @@ void NewTabularDialog::slotButtonClicked(int button)
 			topBorderStr = topBorderHelper.toLaTeX();
 		}
 
+    if(m_cbCenter->isChecked()) {
+			m_td.tagBegin += "\\begin{center}\n";
+		}
+
 		m_td.tagBegin += QString("\\begin{%1}%2%3%4\n")
 			.arg(environmentFormatted)
 			.arg(tableParameter)
@@ -516,10 +520,6 @@ void NewTabularDialog::slotButtonClicked(int button)
 		if(properties.requiredPackages().count()) {
 			m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + '\n';
 			m_requiredPackages << properties.requiredPackages();
-		}
-
-		if(m_cbCenter->isChecked()) {
-			m_td.tagBegin += "\\centering\n";
 		}
 
 		QColor rowColor;
@@ -562,6 +562,10 @@ void NewTabularDialog::slotButtonClicked(int button)
 		}
 
 		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
+
+    if(m_cbCenter->isChecked()) {
+			m_td.tagEnd += "\\end{center}\n";
+		}
 
 		QHashIterator<QString, QString> itColorName(properties.colorNames());
 		QString colorNames = "";

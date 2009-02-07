@@ -119,7 +119,6 @@ public Q_SLOTS:
 	int runWith(const QString &, const QString &);
 	void runArchiveTool();
 	void runArchiveTool(const KUrl&);
-	void fileSelected(const QString & url) { openDocument(url); } //backwards compatibility
 	void showTip();
 
 	void prepareForPart(const QString &);

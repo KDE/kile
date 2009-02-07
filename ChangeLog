@@ -1,7 +1,8 @@
 version 2.0.3 -> 2.0.4svn
 
 Fixes:
- - fix rare crash 
+ - fix rare crash
+ - Create "~/.lyx" if it does not exist (Ubuntu bug #324722)
 
 Syntax:
  - bibtex: add new biblatex types, allow numbers in key names

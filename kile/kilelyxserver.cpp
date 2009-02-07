@@ -107,6 +107,18 @@ bool KileLyxServer::openPipes()
 	QFile *file;
 	struct stat buf;
 	struct stat *stats = &buf;
+
+
+	QDir lyxDir(QDir::homeDirPath() + QDir::separator() + ".lyx");
+	if(!lyxDir.exists()){
+		KILE_DEBUG() << "Directory " << lyxDir.absPath() << " does not exist" << endl;
+			if(mkdir(QFile::encodeName( lyxDir.path() ), m_perms | S_IXUSR) == -1){
+				kdError() << "Could not create directory" << endl;
+			}
+			else{
+				 KILE_DEBUG() << "Directory created sucessfully" << endl;
+			}
+	}
 	
 	for (uint i=0; i < m_pipes.count(); ++i)
 	{

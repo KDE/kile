@@ -207,7 +207,7 @@ from=tex
 to=html
 type=Process
 
-[Tool/MakeIndex/makeindex]
+[Tool/MakeIndex/Default]
 class=Compile
 command=makeindex
 options='%S.idx'
@@ -758,7 +758,7 @@ DVItoPNG=Default
 DVItoPS=Default
 LaTeX=Default
 LaTeX to Web=latex2html
-MakeIndex=makeindex
+MakeIndex=Default
 MetaPost=Default
 PDFLaTeX=Default
 PreviewLaTeX=Default

@@ -40,6 +40,7 @@
 
 #include "kilelistselector.h"
 #include "kileconfig.h"
+#include "kiledebug.h"
 #include "widgets/logwidget.h"
 #include "kiletool_enums.h"
 
@@ -289,6 +290,8 @@ void CodeCompletionConfigWidget::updateColumnWidth(QTreeWidget *listview)
 
 bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 {
+	KILE_DEBUG() << "===bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage" << page << ")";
+	
 	bool changed = false;
 
 	// count number of entries
@@ -315,11 +318,12 @@ bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 		newfiles.append(s);
 
 		// check for a change
-		if (m_wordlist[page][index] != s)
+		if (index >= m_wordlist[page].count() || m_wordlist[page][index] != s)
 			changed = true;
 
 		// go on
 		++it;
+		index++;
 	}
 
 	// only update if there are changes

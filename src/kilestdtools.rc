@@ -674,8 +674,8 @@ type=Part
 class=View
 command=okular
 options='%target'
-from=ps
-to=ps
+from=pdf
+to=pdf
 state=Viewer
 type=Process
 
@@ -683,8 +683,8 @@ type=Process
 class=View
 command=okular
 options=--unique '%target'
-from=ps
-to=ps
+from=pdf
+to=pdf
 state=Viewer
 type=Process
 

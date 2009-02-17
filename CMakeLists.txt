@@ -1,6 +1,8 @@
+cmake_minimum_required(VERSION 2.6.2)
+
 PROJECT( kile )
 
-find_package(KDE4 REQUIRED)
+find_package(KDE4 4.2.0 REQUIRED)
 include (KDE4Defaults)
 
 

@@ -169,6 +169,6 @@ INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTA
 INSTALL( FILES kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
-kileui.rc docpartui.rc kilestdtools.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
+kileui.rc docpartui.rc data/kilestdtools.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
 
 KDE4_INSTALL_ICONS( ${ICON_INSTALL_DIR}  )

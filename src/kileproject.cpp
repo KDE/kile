@@ -491,11 +491,12 @@ bool KileProject::save()
 
 void KileProject::writeConfigEntry(const QString &key, const QString &standardExt, KileProjectItem::Type type)
 {
+	KConfigGroup generalGroup = m_config->group("General");
 	QString userExt = extensions(type);
 	if ( userExt.isEmpty() )
-		m_config->group(QString()).writeEntry(key,standardExt);
+		generalGroup.writeEntry(key,standardExt);
 	else
-		m_config->group(QString()).writeEntry(key,standardExt + ' ' + extensions(type));
+		generalGroup.writeEntry(key,standardExt + ' ' + extensions(type));
 }
 
 void KileProject::buildProjectTree()

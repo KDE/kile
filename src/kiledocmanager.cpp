@@ -1054,7 +1054,9 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 				cleanUpTempFiles(url, true); // yes we pass here url and not docinfo->url()
 
 			//FIXME: use signal/slot
-			m_ki->viewManager()->removeView(doc->views().first());
+			if( doc->views().count() > 0){
+				m_ki->viewManager()->removeView(doc->views().first());
+			}
 			//remove the decorations
 
 			trashDoc(docinfo, doc);

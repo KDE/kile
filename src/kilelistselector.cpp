@@ -57,7 +57,7 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 	m_listview->setRootIsDecorated(false);
 
 	layout->addWidget(m_listview);
-
+	
 	insertStringList(list);
 
 	connect(m_listview, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(accept()));
@@ -66,7 +66,7 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 int KileListSelectorBase::currentItem()
 {
 	QTreeWidgetItem *item = m_listview->currentItem();
-	return (item) ? m_listview->indexOfTopLevelItem(item) : -1;
+	return m_listview->indexOfTopLevelItem(item);
 }
 
 void KileListSelectorBase::insertStringList(const QStringList &list)
@@ -74,7 +74,10 @@ void KileListSelectorBase::insertStringList(const QStringList &list)
 	QStringList::ConstIterator it;
 	for (it = list.begin(); it != list.end(); ++it)
 	{
-		new QTreeWidgetItem(m_listview, QStringList(*it));
+		QTreeWidgetItem *item = new QTreeWidgetItem(m_listview, QStringList(*it));
+		
+		if(it == list.begin())
+			m_listview->setCurrentItem(item);
 	}
 }
 

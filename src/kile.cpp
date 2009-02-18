@@ -923,7 +923,7 @@ void Kile::rebuildBibliographyMenu(){
 	QString currentItem = m_bibTagSettings->currentText();
 	QString name;
 
-	if( currentItem == i18n("Bibtex") ){ // avoid writing i18n'ed strings to config file
+	if( currentItem == i18n("BibTeX") ){ // avoid writing i18n'ed strings to config file
 		name = QString("bibtex");
 	}
 	else if ( currentItem == i18n("Biblatex") ){

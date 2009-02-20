@@ -15,7 +15,12 @@ tools:
 - add kdesvn and sourcecode patch
 - spell checker on the fly should ignore latex commands
 
+config stuff:
+- includegraphics wizard settings not stored in KConfig, this seems to be a bigger problem all over place
+
 regressions:
+- 
+- should complain if tool is not found
 + *_extensions are written to toplevel of project files instead of general
 - create new project dialog, open file dialog does not work
 - adding a file to a project, creates a yellow symbol for a with latex root doc. closing the project and reopening fixes it

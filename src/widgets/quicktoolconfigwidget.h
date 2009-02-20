@@ -35,7 +35,7 @@ class QuickToolConfigWidget : public QWidget, public Ui::QuickToolConfigWidget
 
 	private:
 		QString m_sequence;
-		QString m_notSpecifiedString;
+		QString m_currentDefaultConfig;
 
 	private Q_SLOTS:
 		void down();

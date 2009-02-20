@@ -1,12 +1,12 @@
-<ui version="4.0" >
+<ui version="3.3" >
  <class>ToolConfigWidget</class>
  <widget class="QWidget" name="ToolConfigWidget" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
-    <height>498</height>
+    <width>589</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -24,138 +24,243 @@
   <property name="windowTitle" >
    <string>Configure</string>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="margin" >
-    <number>0</number>
+  <widget class="QWidget" name="" >
+   <property name="geometry" >
+    <rect>
+     <x>13</x>
+     <y>10</y>
+     <width>571</width>
+     <height>561</height>
+    </rect>
    </property>
-   <item>
-    <layout class="QHBoxLayout" >
-     <item>
-      <layout class="QVBoxLayout" >
+   <layout class="QHBoxLayout" name="horizontalLayout_2" >
+    <item>
+     <widget class="QGroupBox" name="groupBox_2" >
+      <property name="title" >
+       <string>Select a tool</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout" >
        <item>
-        <widget class="QLabel" name="m_lbSelectTool" >
-         <property name="text" >
-          <string>Select a tool:</string>
-         </property>
-         <property name="wordWrap" >
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QListWidget" name="m_lstbTools" />
-       </item>
-       <item>
-        <widget class="KPushButton" name="m_pshbRemoveTool" >
-         <property name="text" >
-          <string>Remove Tool</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="KPushButton" name="m_pshbNewTool" >
-         <property name="text" >
-          <string>New Tool...</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="Line" name="m_line" >
-       <property name="frameShape" >
-        <enum>QFrame::VLine</enum>
-       </property>
-       <property name="frameShadow" >
-        <enum>QFrame::Sunken</enum>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" >
-       <item>
-        <layout class="QHBoxLayout" >
-         <item>
-          <widget class="QLabel" name="m_lbConfig" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Maximum" hsizetype="Preferred" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text" >
-            <string>Select a &amp;configuration:</string>
-           </property>
-           <property name="wordWrap" >
-            <bool>false</bool>
-           </property>
-           <property name="buddy" >
-            <cstring>m_cbConfig</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KComboBox" name="m_cbConfig" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Maximum" hsizetype="MinimumExpanding" >
-             <horstretch>1</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="KTabWidget" name="m_tab" >
+        <widget class="QListWidget" name="m_lstbTools" >
          <property name="sizePolicy" >
-          <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+          <sizepolicy vsizetype="MinimumExpanding" hsizetype="Preferred" >
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
          <property name="minimumSize" >
           <size>
-           <width>400</width>
+           <width>0</width>
            <height>0</height>
           </size>
          </property>
-         <property name="currentIndex" >
-          <number>2</number>
+         <property name="contextMenuPolicy" >
+          <enum>Qt::NoContextMenu</enum>
          </property>
-         <widget class="QWidget" name="tab" >
-          <attribute name="title" >
-           <string>General</string>
-          </attribute>
-          <layout class="QVBoxLayout" >
+         <property name="verticalScrollBarPolicy" >
+          <enum>Qt::ScrollBarAlwaysOn</enum>
+         </property>
+         <property name="showDropIndicator" stdset="0" >
+          <bool>true</bool>
+         </property>
+         <property name="resizeMode" >
+          <enum>QListView::Fixed</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout" >
+         <item>
+          <widget class="KPushButton" name="m_pshbNewTool" >
+           <property name="text" >
+            <string>New...</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="KPushButton" name="m_pshbRemoveTool" >
+           <property name="text" >
+            <string>Remove</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3" >
+           <property name="orientation" >
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeType" >
+            <enum>QSizePolicy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0" >
+            <size>
+             <width>13</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="m_line" >
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Expanding" hsizetype="Fixed" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="frameShape" >
+       <enum>QFrame::VLine</enum>
+      </property>
+      <property name="frameShadow" >
+       <enum>QFrame::Sunken</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="verticalLayout_2" >
+      <item>
+       <widget class="QGroupBox" name="m_groupBox" >
+        <property name="title" >
+         <string>Choose a configuration for the current tool</string>
+        </property>
+        <property name="alignment" >
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2" >
+         <item row="0" column="0" >
+          <layout class="QGridLayout" name="gridLayout" >
+           <item row="0" column="0" >
+            <widget class="QLabel" name="m_lbConfig" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Maximum" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text" >
+              <string>Select:</string>
+             </property>
+             <property name="wordWrap" >
+              <bool>false</bool>
+             </property>
+             <property name="buddy" >
+              <cstring>m_cbConfig</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" colspan="2" >
+            <widget class="KComboBox" name="m_cbConfig" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+               <horstretch>1</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2" >
+            <widget class="KPushButton" name="m_pshbNewConfig" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text" >
+              <string>New...</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3" >
+            <widget class="KPushButton" name="m_pshbRemoveConfig" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Fixed" hsizetype="Preferred" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize" >
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text" >
+              <string>Remove</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1" >
+            <spacer name="horizontalSpacer_2" >
+             <property name="orientation" >
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeType" >
+              <enum>QSizePolicy::Expanding</enum>
+             </property>
+             <property name="sizeHint" stdset="0" >
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="KTabWidget" name="m_tab" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="MinimumExpanding" hsizetype="MinimumExpanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>350</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="currentIndex" >
+         <number>0</number>
+        </property>
+        <widget class="QWidget" name="tab" >
+         <attribute name="title" >
+          <string>General</string>
+         </attribute>
+         <widget class="QWidget" name="layoutWidget" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>330</width>
+            <height>306</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_3" >
            <item>
             <widget class="QStackedWidget" name="m_stackBasic" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="MinimumExpanding" hsizetype="Expanding" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize" >
+              <size>
+               <width>0</width>
+               <height>200</height>
+              </size>
+             </property>
              <property name="currentIndex" >
               <number>1</number>
              </property>
@@ -165,376 +270,414 @@
            </item>
            <item>
             <widget class="QStackedWidget" name="m_stackExtra" >
+             <property name="sizePolicy" >
+              <sizepolicy vsizetype="Preferred" hsizetype="Expanding" >
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="currentIndex" >
+              <number>1</number>
+             </property>
              <widget class="QWidget" name="page_3" />
              <widget class="QWidget" name="page_4" />
-            </widget>
-           </item>
-           <item>
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0" >
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="tab" >
-          <attribute name="title" >
-           <string>Advanced</string>
-          </attribute>
-          <layout class="QGridLayout" >
-           <item row="0" column="1" >
-            <widget class="KComboBox" name="m_cbType" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="0" >
-            <widget class="QLabel" name="m_lbType" >
-             <property name="text" >
-              <string>&amp;Type:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_cbType</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1" >
-            <widget class="KLineEdit" name="m_leRelDir" >
-             <property name="enabled" >
-              <bool>true</bool>
-             </property>
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0" >
-            <widget class="QLabel" name="textLabel2" >
-             <property name="text" >
-              <string>&amp;Relative dir:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_leRelDir</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0" >
-            <widget class="QLabel" name="textLabel1" >
-             <property name="text" >
-              <string>Target &amp;file:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_leFile</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0" >
-            <widget class="QLabel" name="m_lbTarget" >
-             <property name="text" >
-              <string>Tar&amp;get extension:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_leTarget</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1" >
-            <widget class="KLineEdit" name="m_leFile" >
-             <property name="enabled" >
-              <bool>true</bool>
-             </property>
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1" >
-            <widget class="KLineEdit" name="m_leTarget" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1" >
-            <widget class="KLineEdit" name="m_leSource" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0" >
-            <widget class="QLabel" name="m_lbSource" >
-             <property name="text" >
-              <string>&amp;Source extension:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_leSource</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" >
-            <widget class="QLabel" name="m_lbClass" >
-             <property name="text" >
-              <string>C&amp;lass:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_cbClass</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" colspan="2" >
-            <widget class="QCheckBox" name="m_ckClose" >
-             <property name="text" >
-              <string>Close Konsole when tool is finished</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1" >
-            <widget class="KComboBox" name="m_cbClass" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="1" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Expanding</enum>
-             </property>
-             <property name="sizeHint" stdset="0" >
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="7" column="0" >
-            <widget class="QLabel" name="m_lbState" >
-             <property name="text" >
-              <string>St&amp;ate:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_cbState</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1" >
-            <widget class="KComboBox" name="m_cbState" />
-           </item>
-          </layout>
-         </widget>
-         <widget class="QWidget" name="TabPage" >
-          <attribute name="title" >
-           <string>Menu</string>
-          </attribute>
-          <layout class="QGridLayout" >
-           <item row="0" column="0" >
-            <widget class="QLabel" name="m_lbMenu" >
-             <property name="text" >
-              <string>Add tool to Build &amp;menu:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_cbMenu</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1" >
-            <widget class="KComboBox" name="m_cbMenu" >
-             <property name="sizePolicy" >
-              <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0" >
-            <widget class="QLabel" name="m_lbIcon" >
-             <property name="text" >
-              <string>&amp;Icon:</string>
-             </property>
-             <property name="wordWrap" >
-              <bool>false</bool>
-             </property>
-             <property name="buddy" >
-              <cstring>m_pshbIcon</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0" >
-            <spacer>
-             <property name="orientation" >
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeType" >
-              <enum>QSizePolicy::Expanding</enum>
-             </property>
-             <property name="sizeHint" stdset="0" >
-              <size>
-               <width>20</width>
-               <height>100</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="1" >
-            <widget class="KPushButton" name="m_pshbIcon" >
-             <property name="text" >
-              <string/>
-             </property>
             </widget>
            </item>
           </layout>
          </widget>
         </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" >
-         <item>
-          <spacer>
-           <property name="orientation" >
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0" >
-            <size>
-             <width>16</width>
-             <height>30</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="KPushButton" name="m_pshbNewConfig" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text" >
-            <string>New Config...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KPushButton" name="m_pshbRemoveConfig" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize" >
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="text" >
-            <string>Remove Config</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="KPushButton" name="m_pshbDefault" >
-           <property name="sizePolicy" >
-            <sizepolicy vsizetype="Minimum" hsizetype="MinimumExpanding" >
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text" >
-            <string>Default Settings</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer>
-         <property name="orientation" >
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0" >
-          <size>
-           <width>447</width>
-           <height>16</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <spacer>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0" >
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-  </layout>
+        <widget class="QWidget" name="tab" >
+         <attribute name="title" >
+          <string>Advanced</string>
+         </attribute>
+         <widget class="KComboBox" name="m_cbType" >
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>4</y>
+            <width>181</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="QLabel" name="m_lbType" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>4</y>
+            <width>199</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>&amp;Type:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_cbType</cstring>
+          </property>
+         </widget>
+         <widget class="KLineEdit" name="m_leRelDir" >
+          <property name="enabled" >
+           <bool>true</bool>
+          </property>
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>194</y>
+            <width>181</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="QLabel" name="textLabel2" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>194</y>
+            <width>199</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>&amp;Relative dir:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_leRelDir</cstring>
+          </property>
+         </widget>
+         <widget class="QLabel" name="textLabel1" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>161</y>
+            <width>199</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>Target &amp;file:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_leFile</cstring>
+          </property>
+         </widget>
+         <widget class="QLabel" name="m_lbTarget" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>128</y>
+            <width>199</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>Tar&amp;get extension:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_leTarget</cstring>
+          </property>
+         </widget>
+         <widget class="KLineEdit" name="m_leFile" >
+          <property name="enabled" >
+           <bool>true</bool>
+          </property>
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>161</y>
+            <width>181</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="KLineEdit" name="m_leTarget" >
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>128</y>
+            <width>181</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="KLineEdit" name="m_leSource" >
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>95</y>
+            <width>181</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="QLabel" name="m_lbSource" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>95</y>
+            <width>199</width>
+            <height>29</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>&amp;Source extension:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_leSource</cstring>
+          </property>
+         </widget>
+         <widget class="QLabel" name="m_lbClass" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>63</y>
+            <width>199</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>C&amp;lass:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_cbClass</cstring>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="m_ckClose" >
+          <property name="geometry" >
+           <rect>
+            <x>0</x>
+            <y>35</y>
+            <width>334</width>
+            <height>23</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>Close Konsole when tool is finished</string>
+          </property>
+         </widget>
+         <widget class="KComboBox" name="m_cbClass" >
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>63</y>
+            <width>181</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="QLabel" name="m_lbState" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>227</y>
+            <width>199</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>St&amp;ate:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_cbState</cstring>
+          </property>
+         </widget>
+         <widget class="KComboBox" name="m_cbState" >
+          <property name="geometry" >
+           <rect>
+            <x>157</x>
+            <y>227</y>
+            <width>181</width>
+            <height>28</height>
+           </rect>
+          </property>
+         </widget>
+        </widget>
+        <widget class="QWidget" name="TabPage" >
+         <attribute name="title" >
+          <string>Menu</string>
+         </attribute>
+         <widget class="QLabel" name="m_lbMenu" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>4</y>
+            <width>253</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>Add tool to Build &amp;menu:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_cbMenu</cstring>
+          </property>
+         </widget>
+         <widget class="KComboBox" name="m_cbMenu" >
+          <property name="geometry" >
+           <rect>
+            <x>187</x>
+            <y>4</y>
+            <width>151</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="sizePolicy" >
+           <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+         </widget>
+         <widget class="QLabel" name="m_lbIcon" >
+          <property name="geometry" >
+           <rect>
+            <x>4</x>
+            <y>36</y>
+            <width>253</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string>&amp;Icon:</string>
+          </property>
+          <property name="wordWrap" >
+           <bool>false</bool>
+          </property>
+          <property name="buddy" >
+           <cstring>m_pshbIcon</cstring>
+          </property>
+         </widget>
+         <widget class="KPushButton" name="m_pshbIcon" >
+          <property name="geometry" >
+           <rect>
+            <x>187</x>
+            <y>36</y>
+            <width>151</width>
+            <height>28</height>
+           </rect>
+          </property>
+          <property name="text" >
+           <string/>
+          </property>
+         </widget>
+        </widget>
+       </widget>
+      </item>
+      <item>
+       <spacer name="spacer" >
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Preferred</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>347</width>
+          <height>25</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="KPushButton" name="m_pshbDefault" >
+        <property name="sizePolicy" >
+         <sizepolicy vsizetype="Fixed" hsizetype="MinimumExpanding" >
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize" >
+         <size>
+          <width>150</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="text" >
+         <string>Restore Default Tools...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="spacer_2" >
+        <property name="orientation" >
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType" >
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0" >
+         <size>
+          <width>347</width>
+          <height>13</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
  </widget>
  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
@@ -563,9 +706,6 @@
  </customwidgets>
  <tabstops>
   <tabstop>m_cbConfig</tabstop>
-  <tabstop>m_tab</tabstop>
-  <tabstop>m_pshbRemoveTool</tabstop>
-  <tabstop>m_pshbNewTool</tabstop>
   <tabstop>m_pshbNewConfig</tabstop>
   <tabstop>m_pshbRemoveConfig</tabstop>
   <tabstop>m_pshbDefault</tabstop>

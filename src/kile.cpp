@@ -1147,7 +1147,8 @@ void Kile::restoreLastSelectedAction(){
 void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 {
 	for (QList<QAction*>::iterator act = list.begin(); act != list.end(); ++act) {
-		if (action((*act)->objectName()) != NULL && !tools.contains(QString((*act)->objectName()).mid(5))) {
+// 		KILE_DEBUG() << "(*act)->objectName()" << (*act)->objectName();
+		if ( (*act) != NULL && action((*act)->objectName()) != NULL && !tools.contains(QString((*act)->objectName()).mid(5))) {
 			list.erase(act);
 			if ((*act)->associatedWidgets().contains(toolBar("toolsToolBar"))) {
 				toolBar("toolsToolBar")->removeAction(*act);
@@ -1221,7 +1222,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-    KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
+        KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	KTextEditor::Document *doc = docManager()->docFor(KUrl::fromPathOrUrl(KileConfig::lastDocument()));
 	if (doc) viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
 }

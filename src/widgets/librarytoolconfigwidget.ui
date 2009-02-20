@@ -1,12 +1,12 @@
-<ui version="4.0" >
+<ui version="3.3" >
  <class>LibraryToolConfigWidget</class>
  <widget class="QWidget" name="LibraryToolConfigWidget" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>382</width>
-    <height>115</height>
+    <width>312</width>
+    <height>119</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -22,16 +22,7 @@
    </size>
   </property>
   <layout class="QGridLayout" >
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>0</number>
    </property>
    <item row="2" column="0" >
@@ -43,18 +34,18 @@
       <bool>false</bool>
      </property>
      <property name="buddy" >
-      <cstring>m_leOptions</cstring>
+      <cstring>m_options</cstring>
      </property>
     </widget>
    </item>
    <item row="0" column="1" >
-    <widget class="KLineEdit" name="m_leLibrary" />
+    <widget class="KLineEdit" name="m_library" />
    </item>
    <item row="1" column="1" >
-    <widget class="KLineEdit" name="m_leLibClass" />
+    <widget class="KLineEdit" name="m_class" />
    </item>
    <item row="2" column="1" >
-    <widget class="KLineEdit" name="m_leOptions" />
+    <widget class="KLineEdit" name="m_options" />
    </item>
    <item row="1" column="0" >
     <widget class="QLabel" name="m_lbLibClass" >
@@ -65,7 +56,7 @@
       <bool>false</bool>
      </property>
      <property name="buddy" >
-      <cstring>m_leLibClass</cstring>
+      <cstring>m_class</cstring>
      </property>
     </widget>
    </item>
@@ -78,7 +69,7 @@
       <bool>false</bool>
      </property>
      <property name="buddy" >
-      <cstring>m_leLibrary</cstring>
+      <cstring>m_library</cstring>
      </property>
     </widget>
    </item>
@@ -90,7 +81,7 @@
      <property name="sizeType" >
       <enum>QSizePolicy::Expanding</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>20</height>

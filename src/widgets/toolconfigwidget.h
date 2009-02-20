@@ -69,7 +69,7 @@ namespace KileWidget
 		void writeDefaults();
 
 		void setCommand(const QString &);
-		void setOptions(const QString &);
+		void setOptions();
 		void setLibrary(const QString &);
 		void setLibOptions(const QString &);
 		void setClassName(const QString &);

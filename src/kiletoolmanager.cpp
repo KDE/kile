@@ -399,10 +399,13 @@ namespace KileTool
 
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
+		QString name;
 
 		for(int i = 0; i < groups.count(); ++i) {
 			if(re.exactMatch(groups[i])) {
-				if(!groups[i].endsWith(configName(re.cap(1), config))) {
+				name = configName(re.cap(1), config);
+
+				if(name.isEmpty() || !groups[i].endsWith(name)) {
 					continue;
 				}
 
@@ -413,6 +416,7 @@ namespace KileTool
 		}
 
 		tools.sort();
+// 		KILE_DEBUG() << "tools " << tools.join(", ");
 
 		return tools;
 	}
@@ -435,7 +439,9 @@ namespace KileTool
 
 	QString groupFor(const QString & tool, const QString & cfg /* = Default */ )
 	{
-		return "Tool/" + tool + '/' + cfg;
+		QString group = "Tool/" + tool + '/' + cfg;
+		KILE_DEBUG() << "groupFor(const QString &" << tool << ", const QString & " << cfg << " ) = " << group;
+		return group;
 	}
 
 	void extract(const QString &str, QString &tool, QString &cfg)

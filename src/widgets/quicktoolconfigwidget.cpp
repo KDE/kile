@@ -18,7 +18,6 @@
 QuickToolConfigWidget::QuickToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
-	m_notSpecifiedString = i18n("Not Specified");
 	connect(m_pshbAdd, SIGNAL(clicked()), this, SLOT(add()));
 	connect(m_pshbRemove, SIGNAL(clicked()), this, SLOT(remove()));
 	connect(m_pshbUp, SIGNAL(clicked()), this, SLOT(up()));
@@ -57,7 +56,14 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 void QuickToolConfigWidget::updateConfigs(const QString &tool)
 {
 	m_cbConfigs->clear();
-	m_cbConfigs->addItem(m_notSpecifiedString);
+	QString currentConfig = KileTool::configName(tool,KGlobal::config().data());
+	if(!currentConfig.isEmpty()){
+		m_currentDefaultConfig = i18n("Current Default (%1)",currentConfig);
+	}
+	else{
+		m_currentDefaultConfig = i18n("Current Default");
+	}
+	m_cbConfigs->addItem(m_currentDefaultConfig);
 	m_cbConfigs->addItems(KileTool::configNames(tool, KGlobal::config().data()));
 }
 
@@ -110,7 +116,7 @@ void QuickToolConfigWidget::remove()
 void QuickToolConfigWidget::add()
 {
 	QString entry = m_cbTools->currentText();
-	if(m_cbConfigs->currentText() != m_notSpecifiedString) {
+	if(m_cbConfigs->currentText() != m_currentDefaultConfig) {
 		entry += " (" + m_cbConfigs->currentText() + ')';
 	}
 	if(!m_lstbSeq->findItems(entry, Qt::MatchExactly).isEmpty()) {

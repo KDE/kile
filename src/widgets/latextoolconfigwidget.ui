@@ -1,12 +1,12 @@
-<ui version="4.0" >
+<ui version="3.3" >
  <class>LaTeXToolConfigWidget</class>
  <widget class="QWidget" name="LaTeXToolConfigWidget" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>668</width>
-    <height>148</height>
+    <width>303</width>
+    <height>121</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -16,36 +16,36 @@
    </sizepolicy>
   </property>
   <layout class="QVBoxLayout" >
-   <property name="leftMargin" >
-    <number>0</number>
-   </property>
-   <property name="topMargin" >
-    <number>0</number>
-   </property>
-   <property name="rightMargin" >
-    <number>0</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin" >
     <number>0</number>
    </property>
    <item>
     <widget class="QCheckBox" name="m_ckRootDoc" >
+     <property name="toolTip" >
+      <string>Check if root document is a LaTeX root before running LaTeX on it</string>
+     </property>
      <property name="text" >
-      <string>Check if &amp;root document is a LaTeX root before running LaTeX on it</string>
+      <string>Check if &amp;root document</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="m_ckJump" >
+     <property name="toolTip" >
+      <string>Jump to first error in case running LaTeX failed</string>
+     </property>
      <property name="text" >
-      <string>&amp;Jump to first error in case running LaTeX failed</string>
+      <string>&amp;Jump to first error</string>
      </property>
     </widget>
    </item>
    <item>
     <widget class="QCheckBox" name="m_ckAutoRun" >
+     <property name="toolTip" >
+      <string>Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX when necessary</string>
+     </property>
      <property name="text" >
-      <string>Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX &amp;when necessary</string>
+      <string>Automatically run addtional tools</string>
      </property>
     </widget>
    </item>
@@ -54,7 +54,7 @@
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0" >
       <size>
        <width>20</width>
        <height>40</height>
@@ -63,10 +63,12 @@
     </spacer>
    </item>
   </layout>
+  <zorder>m_ckJump</zorder>
+  <zorder>m_ckRootDoc</zorder>
+  <zorder>m_ckAutoRun</zorder>
  </widget>
  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <includes/>
  <resources/>
  <connections/>
 </ui>

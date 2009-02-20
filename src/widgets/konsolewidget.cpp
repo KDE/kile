@@ -28,7 +28,7 @@
 #include <KPluginFactory>
 #include <KUrl>
 
-#include <kde_terminal_interface.h>
+#include <kshell.h>
 
 #include <kparts/part.h>
 #include <ktexteditor/document.h>
@@ -41,6 +41,7 @@ namespace KileWidget
 	Konsole::Konsole(KileInfo * info, QWidget *parent) :
 		QWidget(parent),
 		m_part(NULL),
+		m_term(NULL),
 		m_ki(info)
 	{
 		setLayout(new QVBoxLayout(this));
@@ -53,24 +54,29 @@ namespace KileWidget
 
 	void Konsole::spawn()
 	{
+		KILE_DEBUG() << "void Konsole::spawn()";
 		// FIXME we got a complaint about unused lib prefix but without it does not work
 		KPluginFactory *factory = KLibLoader::self()->factory("libkonsolepart");
 
 		if(!factory) {
-			KILE_DEBUG() << "no factory for konsolepart";
+			KILE_DEBUG() << "No factory for konsolepart";
 			return;
 		}
 
 		m_part = static_cast<KParts::ReadOnlyPart*>(factory->create<QObject>(this, this));
-
 		if(!m_part) {
+			return;
+		}
+
+		m_term = qobject_cast<TerminalInterface *>(m_part);
+		if(!m_term){
+			KILE_DEBUG() << "Found no TerminalInterface";
 			return;
 		}
 
 		layout()->addWidget(m_part->widget());
 
-		// start the konsole part
-		qobject_cast<TerminalInterface*>(m_part)->showShellInDir(QString());
+		m_term->showShellInDir(QString());
 
 		setFocusProxy(m_part->widget());
 
@@ -111,11 +117,10 @@ namespace KileWidget
 
 	void Konsole::setDirectory(const QString &dirname)
 	{
-		if(m_part) {
-			KUrl url(dirname);
-			if (m_part->url() != url) {
-				m_part->openUrl(url);
-			}
+// 		KILE_DEBUG() << "void Konsole::setDirectory(const QString &" << dirname << ")";
+		if(m_term && !dirname.isEmpty()) {
+			m_term->sendInput("cd " + KShell::quoteArg(dirname) + '\n');
+        		m_term->sendInput("clear\n");
 		}
 	}
 
@@ -136,6 +141,7 @@ namespace KileWidget
 	void Konsole::slotDestroyed ()
 	{
 		m_part = NULL;
+		m_term = NULL;
 		spawn();
 	}
 }

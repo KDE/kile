@@ -17,6 +17,8 @@
 #ifndef KONSOLEWIDGET_H
 #define KONSOLEWIDGET_H
 
+#include <kde_terminal_interface.h>
+
 #include <QShowEvent>
 #include <QWidget>
 
@@ -48,6 +50,7 @@ namespace KileWidget
 
 		private:
 			KParts::ReadOnlyPart	*m_part;
+			TerminalInterface       *m_term;
 			bool			m_bPresent;
 			KileInfo		*m_ki;
 	};

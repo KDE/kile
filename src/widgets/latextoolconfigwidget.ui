@@ -1,4 +1,4 @@
-<ui version="3.3" >
+<ui version="4.0" >
  <class>LaTeXToolConfigWidget</class>
  <widget class="QWidget" name="LaTeXToolConfigWidget" >
   <property name="geometry" >

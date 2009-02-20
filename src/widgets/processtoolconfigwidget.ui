@@ -1,4 +1,4 @@
-<ui version="3.3" >
+<ui version="4.0" >
  <class>ProcessToolConfigWidget</class>
  <widget class="QWidget" name="ProcessToolConfigWidget" >
   <property name="geometry" >

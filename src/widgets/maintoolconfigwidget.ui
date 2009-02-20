@@ -1,4 +1,4 @@
-<ui version="3.3" >
+<ui version="4.0" >
  <class>ToolConfigWidget</class>
  <widget class="QWidget" name="ToolConfigWidget" >
   <property name="geometry" >

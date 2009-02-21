@@ -20,7 +20,7 @@ MACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _relative_dir _docbook _language )
 	SET( _compiled_docbook ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}/index.cache.bz2 )
 
 	ADD_CUSTOM_COMMAND(OUTPUT ${_compiled_docbook}
-			COMMAND ${KILE_MEINPROC} --check --cache index.cache.bz2 ${_source_docbook}
+			COMMAND ${KDE4_MEINPROC_EXECUTABLE} --check --cache index.cache.bz2 ${_source_docbook}
 			DEPENDS ${_dependencies} ${_source_docbook}
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
 			COMMENT "Compiling ${_language} docbook in ${_relative_dir}/${_docbook}" )
@@ -58,10 +58,10 @@ MACRO( KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sour
 				KILE_ADD_TRANSLATION_DIRECTORY( ${_translation_sources} translations/${_language}/messages ${kile_PO_FILE} ${_language} )
 				SET(_translations_built ${_translations_built} ${_language} )
 			ENDIF( KILE_MSGFMT AND EXISTS ${_entry}/messages )
-			IF( KILE_MEINPROC AND EXISTS ${_entry}/doc )
+			IF( KDE4_MEINPROC_EXECUTABLE AND EXISTS ${_entry}/doc )
 				KILE_ADD_DOCBOOK_DIRECTORY( ${_documentation_sources} translations/${_language}/doc ${kile_DOCBOOK} ${_language} )
 				SET(_docbooks_built ${_docbooks_built} ${_language} )
-			ENDIF( KILE_MEINPROC AND EXISTS ${_entry}/doc )
+			ENDIF( KDE4_MEINPROC_EXECUTABLE AND EXISTS ${_entry}/doc )
 		ENDIF( IS_DIRECTORY ${_entry} )
 	ENDFOREACH( _entry ${_subdirectories} )
 
@@ -79,21 +79,23 @@ MACRO( KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sour
 ENDMACRO( KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sources _dir )
 
 MACRO( KILE_FIND_DOC_TOOLS )
-	FIND_PROGRAM( KILE_MEINPROC "meinproc" DOC "path of the meinproc executable")
-	IF( KILE_MEINPROC )
-		MESSAGE( STATUS "Found meinproc executable: ${KILE_MEINPROC}" )
-	ELSE( KILE_MEINPROC )
-		MESSAGE( STATUS "meinproc executable not found" )
-	ENDIF( KILE_MEINPROC )
+
+	IF( KDE4_MEINPROC_EXECUTABLE )
+		MESSAGE( STATUS "Found meinproc4: ${KDE4_MEINPROC_EXECUTABLE}" )
+	ELSE ( KDE4_MEINPROC_EXECUTABLE)
+		MESSAGE( STATUS "Could not find meinproc4")
+	ENDIF( KDE4_MEINPROC_EXECUTABLE )
+
 	FIND_PROGRAM( KILE_MSGFMT "msgfmt" DOC "path of the msgfmt executable")
-	IF( KILE_MEINPROC )
-		MESSAGE( STATUS "Found msgfmt executable: ${KILE_MSGFMT}" )
-	ELSE( KILE_MEINPROC )
-		MESSAGE( STATUS "msgfmt executable not found" )
-	ENDIF( KILE_MEINPROC )
-	IF( KILE_MEINPROC AND KILE_MSGFMT )
+	IF( KILE_MSGFMT )
+		MESSAGE( STATUS "Found msgfmt: ${KILE_MSGFMT}" )
+	ELSE( KILE_MSGFMT )
+		 MESSAGE( STATUS "Could not find msgfmt" )
+	ENDIF( KILE_MSGFMT )
+
+	IF( KDE4_MEINPROC_EXECUTABLE AND KILE_MSGFMT )
 		SET( KILE_DOC_TOOLS_FOUND true )
-	ENDIF( KILE_MEINPROC AND KILE_MSGFMT )
+	ENDIF ( KDE4_MEINPROC_EXECUTABLE AND KILE_MSGFMT )
 ENDMACRO( KILE_FIND_DOC_TOOLS )
 
 IF( EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations )
@@ -101,18 +103,18 @@ IF( EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations )
 ENDIF(  EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations )
 
 IF( EXISTS ${kile_SOURCE_DIR}/doc )
-	IF( KILE_MEINPROC )
+	IF( KDE4_MEINPROC_EXECUTABLE )
 		MESSAGE( STATUS "Building standard documentation")
 		KILE_ADD_DOCBOOK_DIRECTORY( kile_DOCUMENTATION_SOURCES doc index.docbook en )
-	ENDIF( KILE_MEINPROC )
+	ENDIF( KDE4_MEINPROC_EXECUTABLE )
 ELSE( EXISTS ${kile_SOURCE_DIR}/doc )
 	MESSAGE( STATUS "Not building standard documentation")
 ENDIF( EXISTS ${kile_SOURCE_DIR}/doc )
 
 IF( EXISTS ${kile_SOURCE_DIR}/translations )
-	IF( KILE_MEINPROC OR KILE_MSGFMT )
+	IF( KDE4_MEINPROC_EXECUTABLE OR KILE_MSGFMT )
 		KILE_ADD_TRANSLATION_DIRECTORIES( kile_DOCUMENTATION_SOURCES kile_TRANSLATION_SOURCES ${kile_SOURCE_DIR}/translations )
-	ENDIF( KILE_MEINPROC OR KILE_MSGFMT )
+	ENDIF( KDE4_MEINPROC_EXECUTABLE OR KILE_MSGFMT )
 ELSE( EXISTS ${kile_SOURCE_DIR}/translations )
 	MESSAGE( STATUS "Not building translations")
 ENDIF( EXISTS ${kile_SOURCE_DIR}/translations )

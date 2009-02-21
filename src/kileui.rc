@@ -466,6 +466,8 @@
 	<Separator/>
 	<Action name="Mode"/>
 	<Separator/>
+	<Action name="settings_perform_check" />
+	<Separator/>
 	<Action name="StructureView"/>
 	<Action name="MessageView"/>
 	<Merge name="StandardToolBarMenuHandler" />
@@ -475,7 +477,6 @@
 	<Action name="settings_configure" />
 	<DefineGroup name="configure_merge" append="configure_merge" />
 	<Separator/>
-	<Action name="settings_perform_check" />
 </Menu>
 <Menu name="help"><text>&amp;Help</text>
 	<Action name="help_latex_reference"/>

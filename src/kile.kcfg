@@ -473,12 +473,6 @@
 			<default>true</default>
 		</entry>
 	</group>
-	<group name="KileConfigDialog">
-		<entry name="UnfoldConfigTree" type="Bool">
-			<label></label>
-			<default>false</default>
-		</entry>
-	</group>
 	<group name="Scripting">
 		<entry name="ScriptingEnabled" type="Bool">
 			<label>Enable the scripting support.</label>

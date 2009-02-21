@@ -33,7 +33,6 @@
 
 #include <kdeversion.h>
 #include <KLocale>
-// #include <ksconfig.h>
 #include <KIconLoader>
 #include <KVBox>
 
@@ -100,16 +99,8 @@ namespace KileDialog
 		setupEditor(editorPageWidgetItem);
 		showButtonSeparator(true);
 
-#ifdef __GNUC__
-#warning Things left to be ported!
-#endif
-/*
-		// calculate size for opening
-		if ( ! m_config->hasGroup("KileConfigDialog") )
-			incInitialSize(QSize(50,0));
-		else
-			setInitialSize( configDialogSize("KileConfigDialog") );
-*/
+		m_configDialogSize = m_config->group("KileConfigDialog");
+		restoreDialogSize(m_configDialogSize);
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
@@ -120,20 +111,12 @@ namespace KileDialog
 
 	Config::~Config()
 	{
-#ifdef __GNUC__
-#warning Things left to be ported!
-#endif
-// 		saveDialogSize("KileConfigDialog");
+		saveDialogSize(m_configDialogSize);
 		delete m_manager;
 	}
 
 	void Config::show()
 	{
-#ifdef __GNUC__
-#warning Things left to be ported!
-#endif
-/*		if ( KileConfig::unfoldConfigTree() )
-			unfoldTreeList();*/
 		m_manager->updateWidgets();
 		KDialog::show();
 	}
@@ -151,15 +134,14 @@ namespace KileDialog
 	//////////////////// add a new page ////////////////////
 
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page, const QString &itemName,
-                                   const QString &pixmapName, const QString &header,
-	                           bool addSpacer)
+                                   const QString &pixmapName, const QString &header)
 	{
-		return addConfigPage(parent, page, itemName, KIcon(pixmapName), header, addSpacer);
+		return addConfigPage(parent, page, itemName, KIcon(pixmapName), header);
 	}
 
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page,
                                                const QString &itemName, const KIcon& icon,
-                                               const QString &header, bool addSpacer)
+                                               const QString &header)
 	{
 		KILE_DEBUG() << "slot: add config page item=" << itemName;
 
@@ -167,14 +149,6 @@ namespace KileDialog
 		KPageWidgetItem *pageWidgetItem = addSubPage(parent, page, itemName);
 		pageWidgetItem->setIcon(icon);
 		pageWidgetItem->setHeader(header);
-#ifdef __GNUC__
-#warning Still some things left here!
-#endif
-// 		if ( addSpacer )
-// 		{
-// 			Q3Frame *spacer = new Q3Frame(vbox);
-// 			vbox->setStretchFactor(spacer,1);
-// 		}
 
 		// add to the dialog manager
 		m_manager->addWidget(page);
@@ -196,7 +170,7 @@ namespace KileDialog
 	void Config::setupTools(KPageWidgetItem* parent)
 	{
 		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), 0);
-		addConfigPage(parent, toolPage, i18n("Build"), "launch", i18n("Build"), false);
+		addConfigPage(parent, toolPage, i18n("Build"), "launch", i18n("Build"));
 	}
 
 	//////////////////// Scripting  ////////////////////
@@ -345,13 +319,6 @@ namespace KileDialog
 		m_editorSettingsChanged = true;
 	}
 
-/*
-void Config::slotWidgetModified()
-{
-	KILE_DEBUG() << "slot: widget modified --> " << m_manager->hasChanged();
-  //emit widgetModified();
-}
-*/
 }
 
 #include "configurationdialog.moc"

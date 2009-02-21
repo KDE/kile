@@ -67,6 +67,7 @@ namespace KileDialog
 		KConfigDialogManager *m_manager;
 
 		KConfig *m_config;
+		KConfigGroup m_configDialogSize;
 		KileInfo *m_ki;
 
 		bool m_editorSettingsChanged;
@@ -92,11 +93,11 @@ namespace KileDialog
 
 		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
 		                    const QString &itemName, const QString &pixmapName,
-		                    const QString &header = QString(), bool addSpacer = true);
+		                    const QString &header = QString());
 
 		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
 		                    const QString &itemName, const KIcon& icon,
-		                    const QString &header = QString(), bool addSpacer = true);
+		                    const QString &header = QString());
 
 		void setupGeneralOptions(KPageWidgetItem* parent);
 		void setupTools(KPageWidgetItem* parent);

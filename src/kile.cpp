@@ -175,7 +175,9 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 
 	readGUISettings();
 
-	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/"); // needed for Symbolview
+	// needed for Symbolview
+	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/"); 
+	KILE_DEBUG() << "Symbol path: " << KGlobal::dirs()->resourceDirs("app_symbols").join(" , ");
 
 	// do initializations first
 	m_currentState = m_wantState = "Editor";

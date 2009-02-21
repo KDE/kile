@@ -100,9 +100,8 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 
 	m_PostscriptDialog.m_edInfile->lineEdit()->setText(psfilename);
 
-#ifdef __GNUC__
-#warning This is prone to fail as the indexes might change!
-#endif
+	// according to QT 4.4 docu the index of QComboBox might change if adding or removing items
+	// but because we populate the QComboBox before we start the dialog, we can use the index here
 	if (pstops) {
 		m_PostscriptDialog.m_cbTask->addItem(i18n("1 DIN A5 Page + Empty Page --> DIN A4")); // 0   PS_A5_EMPTY
 		m_PostscriptDialog.m_cbTask->addItem(i18n("1 DIN A5 Page + Duplicate --> DIN A4"));  // 1   PS_A5_DUPLICATE

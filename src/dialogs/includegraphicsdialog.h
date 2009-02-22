@@ -54,6 +54,9 @@ class IncludeGraphics : public KDialog
 
 		void slotOk();
 
+		void slotWrapFigureSelected(bool state);
+		void slotFigureSelected(bool state);
+
 	private:
 		void readConfig();
 		void writeConfig();

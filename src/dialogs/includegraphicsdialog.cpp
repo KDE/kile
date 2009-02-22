@@ -32,6 +32,8 @@
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "editorextension.h"
+#include "kileactions.h"
+#include "kiletool_enums.h"
 
 namespace KileDialog
 {
@@ -67,6 +69,10 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	        this, SLOT(slotUrlSelected(const KUrl&)));
 	connect(m_widget.edit_file, SIGNAL(textChanged(const QString&)),
 	        this, SLOT(slotTextChanged(const QString&)));
+	connect(m_widget.cb_figure, SIGNAL(toggled(bool)),
+		this, SLOT(slotFigureSelected(bool)));
+	connect(m_widget.cb_wrapfigure, SIGNAL(toggled(bool)),
+		this, SLOT(slotWrapFigureSelected(bool)));
 }
 
 IncludeGraphics::~IncludeGraphics()
@@ -81,13 +87,20 @@ void IncludeGraphics::readConfig()
 	m_widget.cb_center->setChecked(KileConfig::igCenter());
 	m_widget.cb_pdftex->setChecked(KileConfig::igPdftex());
 	m_widget.cb_graphicspath->setChecked(KileConfig::igGraphicspath());
-	m_widget.cb_figure->setChecked(KileConfig::igFigure());
 
+	m_widget.cb_figure->setChecked(KileConfig::igFigure());
 	m_widget.cb_Bottom->setChecked(KileConfig::igBottom());
 	m_widget.cb_Force->setChecked(KileConfig::igForce());
 	m_widget.cb_Here->setChecked(KileConfig::igHere());
 	m_widget.cb_Page->setChecked(KileConfig::igPage());
 	m_widget.cb_Top->setChecked(KileConfig::igTop());
+
+	m_widget.cb_wrapfigure->setChecked(KileConfig::igWrapFigure());
+	m_widget.cb_wrapright->setChecked(KileConfig::igWrapRight());
+	m_widget.cb_wrapleft->setChecked(KileConfig::igWrapLeft());
+	m_widget.cb_wrapinside->setChecked(KileConfig::igWrapInside());
+	m_widget.cb_wrapoutside->setChecked(KileConfig::igWrapOutside());
+	m_widget.cb_wrapfloat->setChecked(KileConfig::igWrapFloat());
 
 	m_imagemagick = KileConfig::imagemagick();
 	m_boundingbox = KileConfig::boundingbox();
@@ -99,12 +112,20 @@ void IncludeGraphics::writeConfig()
 	KileConfig::setIgCenter(m_widget.cb_center->isChecked());
 	KileConfig::setIgPdftex(m_widget.cb_pdftex->isChecked());
 	KileConfig::setIgGraphicspath(m_widget.cb_graphicspath->isChecked());
+
 	KileConfig::setIgFigure(m_widget.cb_figure->isChecked());
 	KileConfig::setIgBottom(m_widget.cb_Bottom->isChecked());
 	KileConfig::setIgHere(m_widget.cb_Here->isChecked());
 	KileConfig::setIgPage(m_widget.cb_Page->isChecked());
 	KileConfig::setIgTop(m_widget.cb_Top->isChecked());
 	KileConfig::setIgForce(m_widget.cb_Force->isChecked());
+
+	KileConfig::setIgWrapFigure(m_widget.cb_wrapfigure->isChecked());
+	KileConfig::setIgWrapRight(m_widget.cb_wrapright->isChecked());
+	KileConfig::setIgWrapLeft(m_widget.cb_wrapleft->isChecked());
+	KileConfig::setIgWrapInside(m_widget.cb_wrapinside->isChecked());
+	KileConfig::setIgWrapOutside(m_widget.cb_wrapoutside->isChecked());
+	KileConfig::setIgWrapFloat(m_widget.cb_wrapfloat->isChecked());
 }
 
 ////////////////////////////// determine the whole tag //////////////////////////////
@@ -113,40 +134,97 @@ QString IncludeGraphics::getTemplate()
 {
 	QString s;
 
-	// state of figure and center checkbox
+	// state of figure, wrapfigure, and center checkbox
 	bool figure = m_widget.cb_figure->isChecked();
+	bool wrapfigure = m_widget.cb_wrapfigure->isChecked();
 	bool center = m_widget.cb_center->isChecked();
 	QString indent = (figure || center) ? m_ki->editorExtension()->autoIndentEnvironment() : QString::null;
 
-	// positioning
-	QString p;
-	bool here 	= m_widget.cb_Here->isChecked();
-	bool top 	= m_widget.cb_Top->isChecked();
-	bool bottom 	= m_widget.cb_Bottom->isChecked();
-	bool page 	= m_widget.cb_Page->isChecked();
-	bool force 	= m_widget.cb_Force->isChecked();
-	bool custom 	= m_widget.cb_custom->isChecked();
+	// build tags for start of figure environment
+	if (figure) {
+		// positioning for figure environment
+		QString p;
+		bool here 	= m_widget.cb_Here->isChecked();
+		bool top 	= m_widget.cb_Top->isChecked();
+		bool bottom 	= m_widget.cb_Bottom->isChecked();
+		bool page 	= m_widget.cb_Page->isChecked();
+		bool force 	= m_widget.cb_Force->isChecked();
+		bool custom 	= m_widget.cb_custom->isChecked();
+	
+		// build position string
+		if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
+			p += "[";
+			if (here)	p+= "h";
+			if (top)	p+= "t";
+			if (bottom)	p+= "b";
+			if (page)	p+= "p";
+			if (force)    	p+= "!";
+			if (custom)	p+= m_widget.edit_custom->text();
+			p += "]";
+		}
+	
 
-	// build position string
-	if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
-		p += "[";
-		if (here)	p+= "h";
-		if (top)	p+= "t";
-		if (bottom)	p+= "b";
-		if (page)	p+= "p";
-		if (force)    	p+= "!";
-		if (custom)	p+= m_widget.edit_custom->text();
-		p += "]";
+		// add start of figure environment
+		s += "\\begin{figure}" + p + "\n";
 	}
 
-	// add start of figure environment ?
-	if (figure)
-		s += "\\begin{figure}" + p + "\n";
+	// build tags for start of wrapfigure environment
+	if (wrapfigure) {
+
+		s += "\\begin{wrapfigure}";
+
+		// number of lines in length
+		if (!m_widget.edit_wraplines->text().isEmpty())
+			s += "[" + m_widget.edit_wraplines->text() + "]";
+
+		// positioning for wrapfigure environment
+		bool wrapfloat;
+ 		wrapfloat = m_widget.cb_wrapfloat->isChecked();
+ 		if (m_widget.cb_wrapright->isChecked()){
+			if (wrapfloat) 	s += "{R}";
+			else		s += "{r}";
+		}
+		if (m_widget.cb_wrapleft->isChecked()){
+			if (wrapfloat) 	s += "{L}";
+			else		s += "{l}";
+		}
+		if (m_widget.cb_wrapinside->isChecked()){
+			if (wrapfloat) 	s += "{I}";
+			else		s += "{i}";
+		}
+		if (m_widget.cb_wrapoutside->isChecked()){
+			if (wrapfloat) 	s += "{O}";
+			else		s += "{i}";
+		}
+
+		// overhang into margin
+		if (!m_widget.edit_wrapoverhang->text().isEmpty())
+			s += "[" + m_widget.edit_wrapoverhang->text() + "]";
+
+		// width of figure
+		if (!m_widget.edit_wrapwidth->text().isEmpty())
+			s += "{" + m_widget.edit_wrapwidth->text() + "}";
+		
+		// end of wrapfigure options
+		s += "\n";
+		
+		// Include warning in comment if wrapfig is not loaded.
+		// Sending a warning to the log here would be good, but
+		// the log seems to get cleared before user could catch 
+		// the warning.
+		const QStringList *packagelist = m_ki->allPackages();
+		if (!packagelist->contains("wrapfig")) {
+			s += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+			s += "%%% You will need to add \\usepackage{wrapfig} to your preamble to use textwrapping %%%\n";
+			s += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
+		}
+	}
+
 
 	// add start of center environment ?
 	if (center)
 	{
-		if (figure)
+		if (figure || wrapfigure)
 			s += indent + "\\centering\n";
 		else
 			s += "\\begin{center}\n";
@@ -173,7 +251,7 @@ QString IncludeGraphics::getTemplate()
 		s += indent + info + '\n';
 
 	// close center environment ?
-	if (center && !figure)
+	if (center && !figure && !wrapfigure)
 		s += "\\end{center}\n";
 
 	// close figure environment ?
@@ -186,6 +264,17 @@ QString IncludeGraphics::getTemplate()
 		if (!label.isEmpty() && label != "fig:")
 			s +=  indent + "\\label{" + label + "}\n";
 		s += "\\end{figure}\n";
+	}
+
+	if (wrapfigure)
+	{
+		QString caption = m_widget.edit_wrapcaption->text().trimmed();
+		if (!caption.isEmpty())
+			s +=  indent + "\\caption{" + caption + "}\n";
+		QString label = m_widget.edit_wraplabel->text().trimmed();
+		if (!label.isEmpty() && label != "fig:")
+			s +=  indent + "\\label{" + label + "}\n";
+		s += "\\end{wrapfigure}\n";
 	}
 
 	return s;
@@ -464,6 +553,22 @@ void IncludeGraphics::slotOk()
 		writeConfig();
 		accept();
 	}
+}
+     
+void IncludeGraphics::slotWrapFigureSelected(bool state) {
+	if (m_widget.cb_figure->isChecked() && state)
+		m_widget.cb_figure->setChecked(false);
+	// Adds warning to log if wrapfig isn't in the preamble
+	const QStringList *packagelist = m_ki->allPackages();
+	if (!packagelist->contains("wrapfig"))
+		m_ki->logWidget()->printMessage(KileTool::Error, i18n("You must include the wrapfig package to use the text wrapping options"), i18n("Missing Package"));
+
+
+}
+
+void IncludeGraphics::slotFigureSelected(bool state) {
+	if (m_widget.cb_wrapfigure->isChecked() && state)
+		m_widget.cb_wrapfigure->setChecked(false);
 }
 
 bool IncludeGraphics::checkParameter()

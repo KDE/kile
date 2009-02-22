@@ -234,6 +234,30 @@
 		        <label>Force figure position.</label>
 			<default>false</default>
 		</entry>
+		<entry name="igWrapFigure" type="Bool">
+		        <label>Enable the wrapfigure environment.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igWrapRight" type="Bool">
+		        <label>Set preferred wrapfigure position to the right of text.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igWrapLeft" type="Bool">
+		        <label>Set preferred wrapfigure position to the left of text.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igWrapInside" type="Bool">
+		        <label>Set preferred wrapfigure position to the inside of the page.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igWrapOutside" type="Bool">
+		        <label>Set preferred wrapfigure position to the outside of the page.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igWrapFloat" type="Bool">
+		        <label>Allow wrapped figures to float.</label>
+			<default>false</default>
+		</entry>
 		<entry name="imagemagick" type="Bool">
 			<label>Whether ImageMagick is installed.</label>
 			<default>false</default>

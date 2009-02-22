@@ -364,6 +364,7 @@ void Manager::stopOnTheFlySpellCheckThread()
 
 void Manager::removeOnTheFlyHighlighting()
 {
+	KILE_DEBUG() << "called";
 	const QList<KTextEditor::View*> textViews = m_viewManager->textViews();
 	foreach ( const KTextEditor::View *view, textViews ) {
 		if (!view) {

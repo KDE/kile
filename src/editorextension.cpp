@@ -32,6 +32,7 @@
 #include "kileviewmanager.h"
 #include "kileconfig.h"
 #include "kileactions.h"
+#include "kile.h"
 
 #include "kiletool_enums.h"
 #include "widgets/logwidget.h"
@@ -82,7 +83,10 @@ void EditorExtension::readConfig(void)
 {
 	// init insertion of double quotes
 	initDoubleQuotes();
-
+	
+	// allow special chars?
+	m_specialCharacters = KileConfig::insertSpecialCharacters();
+	
 	// calculate indent for autoindent of environments
 	m_envAutoIndent.clear();
 	if(KileConfig::envIndentation()) {
@@ -2515,6 +2519,53 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 			doc->insertText(KTextEditor::Cursor(row, col), m_leftDblQuote);
 		}
 	}
+	return true;
+}
+
+// If allowed, inserts texString at current cursor postition. Startlingly similar to insertDoubleQuotes.
+
+bool EditorExtension::insertSpecialCharacter(QString texString, KTextEditor::View *view, QString dep) 
+{
+	// stop if special character replacement is disabled
+	if (!m_specialCharacters)
+		return false;
+
+	// return false if konsole has focus
+	if(m_ki->texKonsole()->hasFocus()) {
+		return false;
+	}
+
+	// always return true for event handler
+	view = determineView(view);
+	if(!view) {
+		return true;
+	}
+
+	KTextEditor::Document *doc = view->document();
+
+	// Only change if we have a tex document
+	if(!doc || !m_ki->extensions()->isTexFile(doc->url())) {
+		return false;
+	}
+
+	// In case of replace
+	view->removeSelectionText();
+	
+	int row, col;
+	KTextEditor::Cursor cursor = view->cursorPosition();
+	row = cursor.line();
+	col = cursor.column();
+
+	// insert texString
+	doc->insertText(KTextEditor::Cursor(row, col), texString);
+
+	// Check dependency 
+	if (!dep.isEmpty()) { 
+		const QStringList *packagelist = m_ki->allPackages();
+		if(!packagelist->contains(dep)) 
+			m_ki->logWidget()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
+	}
+	
 	return true;
 }
 

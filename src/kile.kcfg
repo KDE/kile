@@ -196,6 +196,10 @@
 			<label>Language dependent type of double quotes.</label>
 			<default>0</default>
 		</entry>
+		<entry name="InsertSpecialCharacters" type="Bool">
+			<label>Automatic insertion of special characters.</label>
+			<default>false</default>
+		</entry>
 	</group>
 	<group name="IncludeGraphics">
 		<entry name="igCenter" type="Bool">

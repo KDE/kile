@@ -124,6 +124,8 @@ public Q_SLOTS:
 	bool insertDoubleQuotes(KTextEditor::View *view = NULL);
 	void initDoubleQuotes();
 
+	bool insertSpecialCharacter(QString texString, KTextEditor::View *view = NULL, QString dep = "");
+
 	void insertIntelligentTabulator();
 
 	void keyReturn(KTextEditor::View *view = NULL);
@@ -178,6 +180,9 @@ private:
 	QStringList m_quoteList;
 	QString m_leftDblQuote, m_rightDblQuote;
 
+	// special chars
+	bool m_specialCharacters;
+	
 	// change cursor position
 	bool increaseCursorPosition(KTextEditor::Document *doc, int &row, int &col);
 	bool decreaseCursorPosition(KTextEditor::Document *doc, int &row, int &col);

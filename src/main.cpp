@@ -16,6 +16,9 @@
 #include <QDir>
 #include <QFile>
 #include <QtDBus>
+#include <QFile>
+#include <QFileInfo>
+#include <QTextCodec>
 
 #include <KAboutData>
 #include <KCmdLineArgs>
@@ -23,6 +26,9 @@
 #include <KLocale>
 #include <KStartupInfo>
 #include <KUrl>
+#include <KStandardDirs>
+#include <KEncodingProber>
+#include <KLocale>
 
 #include "kile.h"
 #include "kileversion.h"
@@ -57,6 +63,48 @@ QString completePath(const QString &path)
 	return fullpath;
 }
 
+QString readDataFromStdin()
+{
+	KILE_DEBUG() << "===Qstring readDataFromStdin()";
+
+	QByteArray fileData;
+	QFile qstdin;
+	QTextCodec *codec = NULL;
+
+        qstdin.open( stdin, QIODevice::ReadOnly );
+        fileData = qstdin.readAll();
+	qstdin.close();
+
+	KTempDir *tempDir = new KTempDir(KStandardDirs::locateLocal("tmp", "kile-stdin"));
+	QString tempFileName = QFileInfo(tempDir->name(), i18n("StandardInput.tex")).absoluteFilePath();
+	KILE_DEBUG() << "tempFile is " << tempFileName;
+
+	QFile tempFile(tempFileName);
+	if(!tempFile.open(QIODevice::WriteOnly)) {
+		return QString();
+	}
+
+	QTextStream stream(&tempFile);
+
+	KEncodingProber prober(KEncodingProber::Universal);
+ 	KEncodingProber::ProberState state = prober.feed(fileData);
+	KILE_DEBUG() << "KEncodingProber::state " << state;
+	KILE_DEBUG() << "KEncodingProber::prober.confidence() " << prober.confidence();
+	KILE_DEBUG() << "KEncodingProber::encoding " << prober.encodingName();
+
+	codec = QTextCodec::codecForName(prober.encodingName());
+	if(codec){
+		stream.setCodec(codec);
+	}
+
+	stream << fileData;
+	tempFile.close();
+
+	return tempFileName;
+}
+
+
+
 int main( int argc, char ** argv )
 {
 	KAboutData aboutData( "kile", QByteArray(), ki18n("Kile"), kileFullVersion.toAscii(),
@@ -81,9 +129,11 @@ int main( int argc, char ** argv )
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineOptions options;
-	options.add("line <line>", ki18n("Jump to line"), "0");
-	options.add("new", ki18n("Start a new Kile mainwindow"), "0");
-	options.add("+[file]", ki18n("File to open"), "0");
+	options.add("line <line>", ki18n("Jump to line"));
+	options.add("new", ki18n("Start a new Kile mainwindow"));
+	options.add("+[files]", ki18n("Files to open"));
+	options.add("+-", ki18n("Read from stdin"));
+
 	KCmdLineArgs::addCmdLineOptions(options);
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
@@ -101,13 +151,16 @@ int main( int argc, char ** argv )
 			if(isProject(args->arg(i))) {
 				app.openProject(completePath(args->arg(i)));
 			}
+			else if(args->arg(i) == "-"){
+				app.openDocument(readDataFromStdin());
+			}
 			else {
 				app.openDocument(completePath(args->arg(i)));
 			}
 		}
-
-		QString line = args->getOption("line");
-		if(line != "0") {
+		
+		if(args->isSet("line")){
+			QString line = args->getOption("line");
 			app.setLine(line);
 		}
 
@@ -124,13 +177,16 @@ int main( int argc, char ** argv )
 			if ( isProject(args->arg(i)) ){
                          	interface->call("openProject",path);
 			}
+			else if(args->arg(i) == "-"){
+				interface->call("openDocument",readDataFromStdin());
+			}
 			else {
 				interface->call("openDocument",path);
 			}
 		}
 
-		QString line = args->getOption("line");
-		if (line != "0") {
+		if(args->isSet("line")){
+			QString line = args->getOption("line");
 			interface->call("setLine", line);
 		}
 
@@ -140,4 +196,3 @@ int main( int argc, char ** argv )
 	}
 	return 0;
 }
-

@@ -71,6 +71,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 
 Manager::~Manager()
 {
+	KILE_DEBUG() << "destroyed";
 }
 
 void Manager::setClient(KXMLGUIClient *client)

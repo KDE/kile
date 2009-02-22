@@ -83,6 +83,12 @@ void IncludeGraphics::readConfig()
 	m_widget.cb_graphicspath->setChecked(KileConfig::igGraphicspath());
 	m_widget.cb_figure->setChecked(KileConfig::igFigure());
 
+	m_widget.cb_Bottom->setChecked(KileConfig::igBottom());
+	m_widget.cb_Force->setChecked(KileConfig::igForce());
+	m_widget.cb_Here->setChecked(KileConfig::igHere());
+	m_widget.cb_Page->setChecked(KileConfig::igPage());
+	m_widget.cb_Top->setChecked(KileConfig::igTop());
+
 	m_imagemagick = KileConfig::imagemagick();
 	m_boundingbox = KileConfig::boundingbox();
 	m_defaultresolution = KileConfig::resolution();
@@ -94,6 +100,11 @@ void IncludeGraphics::writeConfig()
 	KileConfig::setIgPdftex(m_widget.cb_pdftex->isChecked());
 	KileConfig::setIgGraphicspath(m_widget.cb_graphicspath->isChecked());
 	KileConfig::setIgFigure(m_widget.cb_figure->isChecked());
+	KileConfig::setIgBottom(m_widget.cb_Bottom->isChecked());
+	KileConfig::setIgHere(m_widget.cb_Here->isChecked());
+	KileConfig::setIgPage(m_widget.cb_Page->isChecked());
+	KileConfig::setIgTop(m_widget.cb_Top->isChecked());
+	KileConfig::setIgForce(m_widget.cb_Force->isChecked());
 }
 
 ////////////////////////////// determine the whole tag //////////////////////////////
@@ -107,9 +118,30 @@ QString IncludeGraphics::getTemplate()
 	bool center = m_widget.cb_center->isChecked();
 	QString indent = (figure || center) ? m_ki->editorExtension()->autoIndentEnvironment() : QString::null;
 
+	// positioning
+	QString p;
+	bool here 	= m_widget.cb_Here->isChecked();
+	bool top 	= m_widget.cb_Top->isChecked();
+	bool bottom 	= m_widget.cb_Bottom->isChecked();
+	bool page 	= m_widget.cb_Page->isChecked();
+	bool force 	= m_widget.cb_Force->isChecked();
+	bool custom 	= m_widget.cb_custom->isChecked();
+
+	// build position string
+	if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
+		p += "[";
+		if (here)	p+= "h";
+		if (top)	p+= "t";
+		if (bottom)	p+= "b";
+		if (page)	p+= "p";
+		if (force)    	p+= "!";
+		if (custom)	p+= m_widget.edit_custom->text();
+		p += "]";
+	}
+
 	// add start of figure environment ?
 	if (figure)
-		s += "\\begin{figure}\n";
+		s += "\\begin{figure}" + p + "\n";
 
 	// add start of center environment ?
 	if (center)
@@ -183,6 +215,30 @@ QString IncludeGraphics::getOptions()
 	// But it will be always inserted as a comment.
 	if (!m_widget.edit_bb->text().isEmpty() && !m_widget.cb_pdftex->isChecked())
 		s += ",bb=" + m_widget.edit_bb->text();
+
+	if (!m_widget.edit_scale->text().isEmpty())
+		s += ",scale=" + m_widget.edit_scale->text();
+
+	if (m_widget.cb_keepAspect->isChecked())
+		s+= ",keepaspectratio=true";
+
+	if (m_widget.cb_clip->isChecked()){
+		QString l="0pt", b="0pt", r="0pt", t="0pt";
+		if (!m_widget.edit_trimLeft->text().isEmpty()) 
+			l = m_widget.edit_trimLeft->text();
+		
+		if (!m_widget.edit_trimBottom->text().isEmpty()) 
+			b = m_widget.edit_trimBottom->text();
+
+		if (!m_widget.edit_trimRight->text().isEmpty()) 
+			r = m_widget.edit_trimRight->text();
+
+		if (!m_widget.edit_trimTop->text().isEmpty()) 
+			t = m_widget.edit_trimTop->text();
+		s += ",clip=true,trim=" + l + " " + b + " " + r + " " + t;
+	}
+
+	  
 
 	if (s.left(1) == ",")
 		return s.right(s.length() - 1);

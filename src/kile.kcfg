@@ -214,6 +214,26 @@
 			<label>Embed the graphics in a figure environment.</label>
 			<default>false</default>
 		</entry>
+		<entry name="igTop" type="Bool">
+		        <label>Set preferred figure position to top of page.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igBottom" type="Bool">
+		        <label>Set preferred figure position to bottom of page.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igHere" type="Bool">
+		        <label>Set preferred figure position to "exactly here" on page.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igPage" type="Bool">
+		        <label>Set preferred figure position to be on separate page.</label>
+			<default>false</default>
+		</entry>
+		<entry name="igForce" type="Bool">
+		        <label>Force figure position.</label>
+			<default>false</default>
+		</entry>
 		<entry name="imagemagick" type="Bool">
 			<label>Whether ImageMagick is installed.</label>
 			<default>false</default>

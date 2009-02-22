@@ -1,79 +1,86 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>IncludeGraphicsWidget</class>
- <widget class="QWidget" name="IncludeGraphicsWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="IncludeGraphicsWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>353</width>
-    <height>423</height>
+    <width>466</width>
+    <height>596</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
+  <layout class="QVBoxLayout">
    <item>
-    <widget class="QGroupBox" name="groupBox" >
-     <property name="title" >
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
       <string>File</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label" >
-        <property name="text" >
+     <layout class="QGridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label">
+        <property name="maximumSize">
+         <size>
+          <width>65</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
          <string>Picture:</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" colspan="2" >
-       <widget class="KUrlRequester" name="edit_file" />
+      <item row="0" column="1" colspan="2">
+       <widget class="KUrlRequester" name="edit_file"/>
       </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_2" >
-        <property name="text" >
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
          <string>Info:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2" >
-       <widget class="QLabel" name="infolabel" >
-        <property name="text" >
+      <item row="1" column="1" colspan="2">
+       <widget class="QLabel" name="infolabel">
+        <property name="text">
          <string>---</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="label_4" >
-        <property name="text" >
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
          <string>Output:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
-       <widget class="QCheckBox" name="cb_center" >
-        <property name="text" >
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="cb_center">
+        <property name="text">
          <string>Center picture</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
-      <item row="2" column="2" >
-       <widget class="QCheckBox" name="cb_pdftex" >
-        <property name="text" >
+      <item row="2" column="2">
+       <widget class="QCheckBox" name="cb_pdftex">
+        <property name="text">
          <string>pdftex/pdflatex</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" >
-       <widget class="QLabel" name="label_5" >
-        <property name="text" >
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
          <string>Path:</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1" colspan="2" >
-       <widget class="QCheckBox" name="cb_graphicspath" >
-        <property name="text" >
+      <item row="3" column="1" colspan="2">
+       <widget class="QCheckBox" name="cb_graphicspath">
+        <property name="text">
          <string>Use \graphicspath command of LaTeX</string>
         </property>
        </widget>
@@ -82,120 +89,257 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2" >
-     <property name="title" >
-      <string>Options</string>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Image Options</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label_6" >
-        <property name="text" >
+     <layout class="QGridLayout">
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
          <string>Width:</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="KLineEdit" name="edit_width" />
+      <item row="1" column="1">
+       <widget class="KLineEdit" name="edit_width"/>
       </item>
-      <item row="0" column="2" >
-       <widget class="QLabel" name="label_8" >
-        <property name="text" >
-         <string>Angle:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" >
-       <widget class="KLineEdit" name="edit_angle" />
-      </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="label_7" >
-        <property name="text" >
-         <string>Height:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1" >
-       <widget class="KLineEdit" name="edit_height" />
-      </item>
-      <item row="1" column="2" >
-       <widget class="QLabel" name="label_9" >
-        <property name="text" >
+      <item row="2" column="2">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
          <string>Bounding box:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="3" >
-       <widget class="KLineEdit" name="edit_bb" />
+      <item row="2" column="3">
+       <widget class="KLineEdit" name="edit_bb"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>Height:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="KLineEdit" name="edit_height"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>Angle:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="KLineEdit" name="edit_angle"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="edit_scale"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Scale:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2" colspan="2">
+       <widget class="QCheckBox" name="cb_keepAspect">
+        <property name="text">
+         <string>Keep aspect ratio</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_3" >
-     <property name="title" >
-      <string>Figure Environment</string>
+    <widget class="QGroupBox" name="cb_clip">
+     <property name="toolTip">
+      <string>Trim image by the specified lengths</string>
      </property>
-     <layout class="QGridLayout" >
-      <item row="0" column="0" >
-       <widget class="QLabel" name="label_10" >
-        <property name="text" >
-         <string>Figure:</string>
+     <property name="title">
+      <string>Trim Image</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>Left:</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1" >
-       <widget class="QCheckBox" name="cb_figure" >
-        <property name="text" >
-         <string>Use figure environment</string>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Top:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0" >
-       <widget class="QLabel" name="lb_label" >
-        <property name="enabled" >
-         <bool>false</bool>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>Right:</string>
         </property>
-        <property name="text" >
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>Bottom:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="edit_trimLeft">
+        <property name="text">
+         <string>0pt</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="edit_trimTop">
+        <property name="text">
+         <string>0pt</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="3">
+       <widget class="QLineEdit" name="edit_trimRight">
+        <property name="text">
+         <string>0pt</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="edit_trimBottom">
+        <property name="text">
+         <string>0pt</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="cb_figure">
+     <property name="title">
+      <string>Use figure environment</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QGridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_10">
+        <property name="text">
          <string>Label:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1" >
-       <widget class="KLineEdit" name="edit_label" >
-        <property name="enabled" >
-         <bool>false</bool>
-        </property>
-        <property name="text" >
+      <item row="0" column="1" colspan="3">
+       <widget class="QLineEdit" name="edit_label">
+        <property name="text">
          <string>fig:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0" >
-       <widget class="QLabel" name="lb_caption" >
-        <property name="enabled" >
-         <bool>false</bool>
-        </property>
-        <property name="text" >
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
          <string>Caption:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1" >
-       <widget class="KLineEdit" name="edit_caption" >
-        <property name="enabled" >
+      <item row="1" column="1" colspan="3">
+       <widget class="QLineEdit" name="edit_caption"/>
+      </item>
+      <item row="2" column="0" rowspan="9">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>Position:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QCheckBox" name="cb_Bottom">
+        <property name="text">
+         <string>Bottom of page (b)</string>
+        </property>
+        <property name="checked">
          <bool>false</bool>
         </property>
        </widget>
+      </item>
+      <item row="4" column="2" colspan="2">
+       <widget class="QCheckBox" name="cb_Page">
+        <property name="text">
+         <string>Extra page (p)</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2" colspan="2">
+       <widget class="QCheckBox" name="cb_Here">
+        <property name="text">
+         <string>Here (h)</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QCheckBox" name="cb_Top">
+        <property name="text">
+         <string>Top of page (t)</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QCheckBox" name="cb_Force">
+        <property name="text">
+         <string>Force Positioning (!)</string>
+        </property>
+        <property name="checked">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QCheckBox" name="cb_custom">
+        <property name="text">
+         <string>Custom:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLineEdit" name="edit_custom"/>
       </item>
      </layout>
     </widget>
    </item>
    <item>
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeHint" stdset="0" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
        <height>40</height>
@@ -205,7 +349,7 @@
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+ <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
@@ -224,76 +368,23 @@
   <tabstop>cb_pdftex</tabstop>
   <tabstop>cb_graphicspath</tabstop>
   <tabstop>edit_width</tabstop>
-  <tabstop>edit_angle</tabstop>
-  <tabstop>edit_height</tabstop>
   <tabstop>edit_bb</tabstop>
-  <tabstop>cb_figure</tabstop>
-  <tabstop>edit_label</tabstop>
-  <tabstop>edit_caption</tabstop>
  </tabstops>
  <resources/>
  <connections>
   <connection>
-   <sender>cb_figure</sender>
+   <sender>cb_custom</sender>
    <signal>toggled(bool)</signal>
-   <receiver>lb_label</receiver>
+   <receiver>edit_custom</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
-     <x>266</x>
-     <y>324</y>
+    <hint type="sourcelabel">
+     <x>126</x>
+     <y>540</y>
     </hint>
-    <hint type="destinationlabel" >
-     <x>39</x>
-     <y>355</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cb_figure</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lb_caption</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>266</x>
-     <y>324</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>39</x>
-     <y>390</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cb_figure</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>edit_label</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>266</x>
-     <y>324</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>266</x>
-     <y>355</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>cb_figure</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>edit_caption</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>266</x>
-     <y>324</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>266</x>
-     <y>390</y>
+    <hint type="destinationlabel">
+     <x>214</x>
+     <y>542</y>
     </hint>
    </hints>
   </connection>

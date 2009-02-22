@@ -250,7 +250,8 @@ void Manager::removeView(KTextEditor::View *view)
 		m_client->factory()->removeClient(view);
 
 		m_tabs->removeTab(m_tabs->indexOf(view));
-		m_textViewList.removeAll(view);
+		int numRemoved = m_textViewList.removeAll(view);
+		KILE_DEBUG() << "Removed " << numRemoved << " views";
 		delete view;
 		
 		emit(updateCaption());  //make sure the caption gets updated
@@ -260,6 +261,10 @@ void Manager::removeView(KTextEditor::View *view)
 			                                                    // the DropWidget
 		}
 	}
+	else{
+		KILE_DEBUG() << "View should be removed but is NULL";
+	}
+
 }
 
 KTextEditor::View *Manager::currentTextView() const

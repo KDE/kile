@@ -367,9 +367,15 @@ void Manager::removeOnTheFlyHighlighting()
 	const QList<KTextEditor::View*> textViews = m_viewManager->textViews();
 	foreach ( const KTextEditor::View *view, textViews ) {
 		if (!view) {
+			KILE_DEBUG() << "view is NULL";
 			continue;
 		}
 		KTextEditor::Document *document = view->document();
+		if (!document) {
+			KILE_DEBUG() << "doc is NULL";
+			continue;
+		}
+	
 		KTextEditor::SmartInterface *smartInterface =
 		             qobject_cast<KTextEditor::SmartInterface*>(document);
 		if(smartInterface) {

@@ -437,18 +437,23 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinfo, const QString& encoding, const QString & highlight)
 {
 	KILE_DEBUG() << "==KTextEditor::Document* Manager::createDocument()===========";
-	if(!m_editor) {
+
+	KTextEditor::Document *doc = NULL;
+
 #ifdef __GNUC__
-#warning Check for errors at line 471!
+#warning Check for errors at line 471! Really that line??
 #endif
+	if(!m_editor) {
+		return NULL;
 	}
-	KTextEditor::Document *doc = m_editor->createDocument(NULL);
-	if (docFor(url)) {
+
+	doc = docFor(url);
+	if (doc) {
 		kWarning() << url << " already has a document!";
+		return doc;
 	}
-	else {
-		KILE_DEBUG() << "\tappending document " <<  doc;
-	}
+	doc = m_editor->createDocument(NULL);
+	KILE_DEBUG() << "appending document " <<  doc;
 
 	doc->setEncoding(encoding);
 

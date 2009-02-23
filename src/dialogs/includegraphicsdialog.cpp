@@ -174,8 +174,9 @@ QString IncludeGraphics::getTemplate()
 		s += "\\begin{wrapfigure}";
 
 		// number of lines in length
-		if (!m_widget.edit_wraplines->text().isEmpty())
+		if (!m_widget.edit_wraplines->text().isEmpty()) {
 			s += "[" + m_widget.edit_wraplines->text() + "]";
+		}
 
 		// positioning for wrapfigure environment
 		bool wrapfloat;
@@ -198,12 +199,14 @@ QString IncludeGraphics::getTemplate()
 		}
 
 		// overhang into margin
-		if (!m_widget.edit_wrapoverhang->text().isEmpty())
+		if (!m_widget.edit_wrapoverhang->text().isEmpty()) {
 			s += "[" + m_widget.edit_wrapoverhang->text() + "]";
+		}
 
 		// width of figure
-		if (!m_widget.edit_wrapwidth->text().isEmpty())
+		if (!m_widget.edit_wrapwidth->text().isEmpty()) {
 			s += "{" + m_widget.edit_wrapwidth->text() + "}";
+		}
 		
 		// end of wrapfigure options
 		s += "\n";
@@ -222,12 +225,13 @@ QString IncludeGraphics::getTemplate()
 
 
 	// add start of center environment ?
-	if (center)
-	{
-		if (figure || wrapfigure)
+	if (center) {
+		if (figure || wrapfigure) {
 			s += indent + "\\centering\n";
-		else
+		}
+		else {
 			s += "\\begin{center}\n";
+		}
 	}
 
 	// add includegraphics command
@@ -235,8 +239,9 @@ QString IncludeGraphics::getTemplate()
 
 	// add some options
 	QString options = getOptions();
-	if (!options.isEmpty())
+	if (!options.isEmpty()) {
 		s += '[' + options + ']';
+	}
 
 	// add name of picture
 	// either take the filename or try to take the relative part of the name
@@ -247,33 +252,39 @@ QString IncludeGraphics::getTemplate()
 
 	// add some comments (depending of given resolution, this may be wrong!)
 	QString info = getInfo();
-	if (info.length() > 0)
+	if (info.length() > 0) {
 		s += indent + info + '\n';
+	}
 
 	// close center environment ?
-	if (center && !figure && !wrapfigure)
+	if (center && !figure && !wrapfigure) {
 		s += "\\end{center}\n";
+	}
 
 	// close figure environment ?
 	if (figure)
 	{
 		QString caption = m_widget.edit_caption->text().trimmed();
-		if (!caption.isEmpty())
+		if (!caption.isEmpty()) {
 			s +=  indent + "\\caption{" + caption + "}\n";
+		}
 		QString label = m_widget.edit_label->text().trimmed();
-		if (!label.isEmpty() && label != "fig:")
+		if (!label.isEmpty() && label != "fig:") {
 			s +=  indent + "\\label{" + label + "}\n";
+		}
 		s += "\\end{figure}\n";
 	}
 
 	if (wrapfigure)
 	{
 		QString caption = m_widget.edit_wrapcaption->text().trimmed();
-		if (!caption.isEmpty())
+		if (!caption.isEmpty()) {
 			s +=  indent + "\\caption{" + caption + "}\n";
+		}
 		QString label = m_widget.edit_wraplabel->text().trimmed();
-		if (!label.isEmpty() && label != "fig:")
+		if (!label.isEmpty() && label != "fig:") {
 			s +=  indent + "\\label{" + label + "}\n";
+		}
 		s += "\\end{wrapfigure}\n";
 	}
 
@@ -291,48 +302,55 @@ QString IncludeGraphics::getOptions()
 {
 	QString s = "";
 
-	if (! m_widget.edit_width->text().isEmpty())
+	if (! m_widget.edit_width->text().isEmpty()) {
 		s += ",width=" + m_widget.edit_width->text();
+	}
 
-	if (! m_widget.edit_height->text().isEmpty())
+	if (! m_widget.edit_height->text().isEmpty()) {
 		s += ",height=" + m_widget.edit_height->text();
+	}
 
-	if (! m_widget.edit_angle->text().isEmpty())
+	if (! m_widget.edit_angle->text().isEmpty()) {
 		s += ",angle=" + m_widget.edit_angle->text();
+	}
 
 	// Only dvips needs the bounding box, not pdftex/pdflatex.
 	// But it will be always inserted as a comment.
-	if (!m_widget.edit_bb->text().isEmpty() && !m_widget.cb_pdftex->isChecked())
+	if (!m_widget.edit_bb->text().isEmpty() && !m_widget.cb_pdftex->isChecked()) {
 		s += ",bb=" + m_widget.edit_bb->text();
+	}
 
-	if (!m_widget.edit_scale->text().isEmpty())
+	if (!m_widget.edit_scale->text().isEmpty()) {
 		s += ",scale=" + m_widget.edit_scale->text();
+	}
 
-	if (m_widget.cb_keepAspect->isChecked())
+	if (m_widget.cb_keepAspect->isChecked()) {
 		s+= ",keepaspectratio=true";
+	}
 
-	if (m_widget.cb_clip->isChecked()){
+	if (m_widget.cb_clip->isChecked()) {
 		QString l="0pt", b="0pt", r="0pt", t="0pt";
-		if (!m_widget.edit_trimLeft->text().isEmpty()) 
+		if (!m_widget.edit_trimLeft->text().isEmpty()) {
 			l = m_widget.edit_trimLeft->text();
-		
-		if (!m_widget.edit_trimBottom->text().isEmpty()) 
+		}
+		if (!m_widget.edit_trimBottom->text().isEmpty()) {
 			b = m_widget.edit_trimBottom->text();
-
-		if (!m_widget.edit_trimRight->text().isEmpty()) 
+		}
+		if (!m_widget.edit_trimRight->text().isEmpty()) {
 			r = m_widget.edit_trimRight->text();
-
-		if (!m_widget.edit_trimTop->text().isEmpty()) 
+		}
+		if (!m_widget.edit_trimTop->text().isEmpty()) {
 			t = m_widget.edit_trimTop->text();
+		}
 		s += ",clip=true,trim=" + l + " " + b + " " + r + " " + t;
 	}
 
-	  
-
-	if (s.left(1) == ",")
+	if (s.left(1) == ",") {
 		return s.right(s.length() - 1);
-	else
+	}
+	else {
 		return s;
+	}
 }
 
 ////////////////////////////// graphics info //////////////////////////////
@@ -556,19 +574,20 @@ void IncludeGraphics::slotOk()
 }
      
 void IncludeGraphics::slotWrapFigureSelected(bool state) {
-	if (m_widget.cb_figure->isChecked() && state)
+	if (m_widget.cb_figure->isChecked() && state) {
 		m_widget.cb_figure->setChecked(false);
+	}
 	// Adds warning to log if wrapfig isn't in the preamble
 	const QStringList *packagelist = m_ki->allPackages();
-	if (!packagelist->contains("wrapfig"))
+	if (!packagelist->contains("wrapfig")) {
 		m_ki->logWidget()->printMessage(KileTool::Error, i18n("You must include the wrapfig package to use the text wrapping options"), i18n("Missing Package"));
-
-
+	}
 }
 
 void IncludeGraphics::slotFigureSelected(bool state) {
-	if (m_widget.cb_wrapfigure->isChecked() && state)
+	if (m_widget.cb_wrapfigure->isChecked() && state) {
 		m_widget.cb_wrapfigure->setChecked(false);
+	}
 }
 
 bool IncludeGraphics::checkParameter()

@@ -2524,11 +2524,12 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 
 // If allowed, inserts texString at current cursor postition. Startlingly similar to insertDoubleQuotes.
 
-bool EditorExtension::insertSpecialCharacter(QString texString, KTextEditor::View *view, QString dep) 
+bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEditor::View *view, const QString& dep) 
 {
 	// stop if special character replacement is disabled
-	if (!m_specialCharacters)
+	if (!m_specialCharacters) {
 		return false;
+	}
 
 	// return false if konsole has focus
 	if(m_ki->texKonsole()->hasFocus()) {
@@ -2562,8 +2563,9 @@ bool EditorExtension::insertSpecialCharacter(QString texString, KTextEditor::Vie
 	// Check dependency 
 	if (!dep.isEmpty()) { 
 		const QStringList *packagelist = m_ki->allPackages();
-		if(!packagelist->contains(dep)) 
+		if(!packagelist->contains(dep)) {
 			m_ki->logWidget()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
+		}
 	}
 	
 	return true;

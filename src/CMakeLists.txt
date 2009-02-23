@@ -96,7 +96,6 @@ SET(kile_SRCS
 	dialogs/tabular/tabularproperties.cpp
 	dialogs/tabular/tabulartable.cpp
 	configurationmanager.cpp
-	spellcheck.cpp
 	utilities.cpp
 )
 

@@ -35,7 +35,6 @@
 #include "kileproject.h"
 #include "kileuntitled.h"
 #include "scriptmanager.h"
-#include "spellcheck.h"
 #include "editorkeysequencemanager.h"
 #include "templates.h"
 
@@ -47,7 +46,6 @@ KileInfo::KileInfo(QObject *parent) :
 	m_mainWindow(NULL),
 	m_manager(NULL),
 	m_jScriptManager(NULL),
-	m_spellCheckManager(NULL),
 	m_toolFactory(NULL),
 	m_texKonsole(NULL),
 	m_edit(NULL)

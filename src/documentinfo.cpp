@@ -83,7 +83,6 @@
 #include "kiledebug.h"
 #include "kileuntitled.h"
 #include "kileviewmanager.h"
-#include "spellcheck.h"
 #include "codecompletion.h"
 
 namespace KileDocument
@@ -401,10 +400,8 @@ void Info::slotCompleted()
 
 TextInfo::TextInfo(KTextEditor::Document *doc,
                    Extensions *extensions,
-                   KileSpellCheck::Manager *spellCheckManager,
                    const QString& defaultHighlightMode)
 : m_doc(NULL),
-  m_spellCheckManager(spellCheckManager),
   m_defaultHighlightMode(defaultHighlightMode)
 {
 	setDoc(doc);
@@ -451,7 +448,6 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 		setHighlightMode(m_defaultHighlightMode);
 		installEventFilters();
 		registerCodeCompletionModels();
-		m_spellCheckManager->addOnTheFlySpellChecking(doc);
 	}
 }
 
@@ -462,7 +458,6 @@ void TextInfo::detach()
 		removeInstalledEventFilters();
 		removeSignalConnections();
 		unregisterCodeCompletionModels();
-		m_spellCheckManager->removeOnTheFlySpellChecking(m_doc);
 		emit(documentDetached(m_doc));
 	}
 	m_doc = NULL;
@@ -770,9 +765,8 @@ LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
                      LatexCommands *commands,
                      KileDocument::EditorExtension *editorExtension,
                      KileConfiguration::Manager* manager,
-                     KileSpellCheck::Manager *spellCheckManager,
                      KileCodeCompletion::Manager *codeCompletionManager)
-: TextInfo(doc, extensions, spellCheckManager, "LaTeX"),
+: TextInfo(doc, extensions, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
@@ -1289,9 +1283,8 @@ void LaTeXInfo::checkChangedDeps()
 
 BibInfo::BibInfo (KTextEditor::Document *doc,
                   Extensions *extensions,
-                  LatexCommands* /* commands */,
-                  KileSpellCheck::Manager *spellCheckManager)
-: TextInfo(doc, extensions, spellCheckManager, "BibTeX")
+                  LatexCommands* /* commands */)
+: TextInfo(doc, extensions, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1389,9 +1382,8 @@ QString BibInfo::getFileFilter() const
 }
 
 ScriptInfo::ScriptInfo(KTextEditor::Document *doc,
-                       Extensions *extensions,
-                       KileSpellCheck::Manager *spellCheckManager)
-: TextInfo(doc, extensions, spellCheckManager, "JavaScript")
+                       Extensions *extensions)
+: TextInfo(doc, extensions, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }

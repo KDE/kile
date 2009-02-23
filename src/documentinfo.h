@@ -43,7 +43,6 @@
 
 namespace KileDocument { class EditorExtension; }
 namespace KileConfiguration { class Manager; }
-namespace KileSpellCheck { class Manager; }
 namespace KileCodeCompletion { class LaTeXCompletionModel; class Manager; }
 
 namespace KileStruct
@@ -229,7 +228,6 @@ public:
 	 **/
 	TextInfo(KTextEditor::Document *doc,
 	         Extensions *extensions,
-                 KileSpellCheck::Manager *spellCheckManager,
 	         const QString& defaultHighlightMode = QString());
 	virtual ~TextInfo();
 
@@ -280,7 +278,6 @@ protected Q_SLOTS:
 
 protected:
 	KTextEditor::Document				*m_doc;
-	KileSpellCheck::Manager				*m_spellCheckManager;
 	long						*m_arStatistics;
 	QString						m_defaultHighlightMode;
 	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;
@@ -390,7 +387,6 @@ public:
 	          LatexCommands *commands,
 	          KileDocument::EditorExtension *editorExtension,
 	          KileConfiguration::Manager *manager,
-	          KileSpellCheck::Manager *spellCheckManager,
 	          KileCodeCompletion::Manager *codeCompletionManager);
 	virtual ~LaTeXInfo();
 
@@ -437,8 +433,7 @@ class BibInfo : public TextInfo
 public:
 	BibInfo (KTextEditor::Document *doc,
                  Extensions *extensions,
-                 LatexCommands* commands,
-                 KileSpellCheck::Manager *spellCheckManager);
+                 LatexCommands* commands);
 	virtual ~BibInfo();
 
 	virtual bool isLaTeXRoot();
@@ -457,8 +452,7 @@ class ScriptInfo : public TextInfo
 
 public:
 	ScriptInfo(KTextEditor::Document *doc,
-                   Extensions *extensions,
-                   KileSpellCheck::Manager *spellCheckManager);
+                   Extensions *extensions);
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();

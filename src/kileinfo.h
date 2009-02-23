@@ -32,7 +32,6 @@
 #include "outputinfo.h"
 #include "latexcmd.h"
 #include "kileconfig.h"
-#include "spellcheck.h"
 
 class QWidget;
 
@@ -51,7 +50,6 @@ namespace KileTool { class QuickPreview; }
 namespace KileHelp { class Help; }
 namespace KileScript { class Manager; }
 namespace KileEditorKeySequence { class Manager; }
-namespace KileSpellCheck { class Manager; }
 namespace KileTemplate { class Manager; }
 namespace KileCodeCompletion { class Manager; }
 
@@ -127,7 +125,6 @@ public:
 	KileHelp::Help *help() const { return m_help; }
 	KileTool::QuickPreview *quickPreview() const { return m_quickPreview; }
 	KileDocument::Extensions *extensions() const { return m_extensions; }
-	KileSpellCheck::Manager *spellCheckManager() const { return m_spellCheckManager; }
 	KileTemplate::Manager *templateManager() const { return m_templateManager; }
 	KileCodeCompletion::Manager *codeCompletionManager() const { return m_codeCompletionManager; }
 
@@ -148,7 +145,6 @@ protected:
 	KileTool::Manager		*m_manager;
 	KileTemplate::Manager		*m_templateManager;
 	KileScript::Manager		*m_jScriptManager;
-	KileSpellCheck::Manager		*m_spellCheckManager;
 	KileEditorKeySequence::Manager	*m_editorKeySequenceManager;
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;

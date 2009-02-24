@@ -45,7 +45,7 @@
       <string>Automatically run Asymptote, BibTeX, MakeIndex and rerun LaTeX when necessary</string>
      </property>
      <property name="text" >
-      <string>Automatically run addtional tools</string>
+      <string>Automatically run additional tools</string>
      </property>
     </widget>
    </item>

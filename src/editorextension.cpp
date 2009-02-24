@@ -2522,8 +2522,102 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	return true;
 }
 
-// If allowed, inserts texString at current cursor postition. Startlingly similar to insertDoubleQuotes.
+// Takes an unicode uchar and calls insertSpecialCharacter, inserting the proper LaTeX sequence and any dependencies.
+bool EditorExtension::insertLatexFromUnicode(const uchar& rep, KTextEditor::View *view)
+{
+	switch(rep) 
+		{ // Find the unicode decimal representation
+		case 160:	return insertSpecialCharacter("~", view);
+		case 161:	return insertSpecialCharacter("!`", view);
+		case 162:	return insertSpecialCharacter("\\textcent", view, "textcomp");
+		case 163:	return insertSpecialCharacter("\\pounds", view);
+		case 164:	return insertSpecialCharacter("\\textcurrency", view, "textcomp");
+		case 165:	return insertSpecialCharacter("\\textyen", view, "textcomp");
+		case 167:	return insertSpecialCharacter("\\S", view);
+		case 168:	return insertSpecialCharacter("\"", view);
+		case 169:	return insertSpecialCharacter("\\copyright", view);
+		case 170:	return insertSpecialCharacter("\\textordfeminine", view, "textcomp");
+		case 171:	return insertSpecialCharacter("\\guillemotleft", view);
+		case 172:	return insertSpecialCharacter("\\neg", view); // TODO: Check for math
+		case 174:	return insertSpecialCharacter("\\textregistered", view, "textcomp");
+		case 176:	return insertSpecialCharacter("^\\circ", view); // TODO: Check for math
+		case 177:	return insertSpecialCharacter("\\pm", view); // TODO: Check for math
+		case 178:	return insertSpecialCharacter("^2", view); // TODO: Check for math
+		case 179:	return insertSpecialCharacter("^3", view); // TODO: Check for math
+		case 181:	return insertSpecialCharacter("\\mu", view); // TODO: Check for math
+		case 182:	return insertSpecialCharacter("\\P", view);
+		case 185:	return insertSpecialCharacter("^1", view); // TODO: Check for math
+		case 186:	return insertSpecialCharacter("\\textordmasculine", view, "textcomp");
+		case 187:	return insertSpecialCharacter("\\guillemotright", view);
+		case 191:	return insertSpecialCharacter("?`", view);
+		case 192:	return insertSpecialCharacter("\\`A", view);
+		case 193:	return insertSpecialCharacter("\\'A", view);
+		case 194:	return insertSpecialCharacter("\\^A", view);
+		case 195:	return insertSpecialCharacter("\\~A", view);
+		case 196:	return insertSpecialCharacter("\\\"A", view);
+		case 197:	return insertSpecialCharacter("\\AA", view);
+		case 198:	return insertSpecialCharacter("\\AE", view);
+		case 199:	return insertSpecialCharacter("\\cC", view);
+		case 201:	return insertSpecialCharacter("\\'E", view);
+		case 202:	return insertSpecialCharacter("\\^E", view);
+		case 203:	return insertSpecialCharacter("\\\"E", view);
+		case 204:	return insertSpecialCharacter("\\`I", view);
+		case 205:	return insertSpecialCharacter("\\'I", view);
+		case 206:	return insertSpecialCharacter("\\^I", view);
+		case 207:	return insertSpecialCharacter("\\\"I", view);
+		case 209:	return insertSpecialCharacter("\\~N", view);
+		case 210:	return insertSpecialCharacter("\\`O", view);
+		case 211:	return insertSpecialCharacter("\\'O", view);
+		case 212:	return insertSpecialCharacter("\\^O", view);
+		case 213:	return insertSpecialCharacter("\\~O", view);
+		case 214:	return insertSpecialCharacter("\\\"O", view);
+		case 215:	return insertSpecialCharacter("\\times", view); //TODO: Check for math
+		case 216:	return insertSpecialCharacter("\\Oslash", view);
+		case 217:	return insertSpecialCharacter("\\`U", view);
+		case 218:	return insertSpecialCharacter("\\'U", view);
+		case 219:	return insertSpecialCharacter("\\^U", view);
+		case 220:	return insertSpecialCharacter("\\\"U", view);
+		case 221:	return insertSpecialCharacter("\\'Y", view);
+		case 223:	return insertSpecialCharacter("\\ss", view);
+		case 224:	return insertSpecialCharacter("\\`a", view);
+		case 225:	return insertSpecialCharacter("\\'a", view);
+		case 226:	return insertSpecialCharacter("\\^a", view);
+		case 227:	return insertSpecialCharacter("\\~a", view);
+		case 228:	return insertSpecialCharacter("\\\"a", view);
+		case 229:	return insertSpecialCharacter("\\aa", view);
+		case 230:	return insertSpecialCharacter("\\ae", view);
+		case 231:	return insertSpecialCharacter("\\cc", view);
+		case 232:	return insertSpecialCharacter("\\`e", view);
+		case 233:	return insertSpecialCharacter("\\'e", view);
+		case 234:	return insertSpecialCharacter("\\^e", view);
+		case 235:	return insertSpecialCharacter("\\\"e", view);
+		case 236:	return insertSpecialCharacter("\\`i", view);
+		case 237:	return insertSpecialCharacter("\\'i", view);
+		case 238:	return insertSpecialCharacter("\\^i", view);
+		case 239:	return insertSpecialCharacter("\\\"i", view);
+		case 240:	return insertSpecialCharacter("\\~o", view);
+		case 241:	return insertSpecialCharacter("\\~n", view);
+		case 242:	return insertSpecialCharacter("\\`o", view);
+		case 243:	return insertSpecialCharacter("\\'o", view);
+		case 244:	return insertSpecialCharacter("\\^o", view);
+		case 245:	return insertSpecialCharacter("\\~o", view);
+		case 246:	return insertSpecialCharacter("\\\"o", view);
+		case 247:	return insertSpecialCharacter("\\div", view);
+		case 248:	return insertSpecialCharacter("\\oslash", view);
+		case 249:	return insertSpecialCharacter("\\`u", view);
+		case 250:	return insertSpecialCharacter("\\'u", view);
+		case 251:	return insertSpecialCharacter("\\^u", view);
+		case 252:	return insertSpecialCharacter("\\\"u", view);
+		case 253:	return insertSpecialCharacter("\\'y", view);
+		case 255:	return insertSpecialCharacter("\\\"y", view);
+		case 338:	return insertSpecialCharacter("\\OE", view);
+		case 339:	return insertSpecialCharacter("\\oe", view);
+		case 376:	return insertSpecialCharacter("\\\"Y", view);
+		default:	return true;
+		}
+}
 
+// If allowed, inserts texString at current cursor postition. Startlingly similar to insertDoubleQuotes.
 bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEditor::View *view, const QString& dep) 
 {
 	// stop if special character replacement is disabled
@@ -2543,7 +2637,7 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 	}
 
 	KTextEditor::Document *doc = view->document();
-
+	
 	// Only change if we have a tex document
 	if(!doc || !m_ki->extensions()->isTexFile(doc->url())) {
 		return false;
@@ -2560,14 +2654,17 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 	// insert texString
 	doc->insertText(KTextEditor::Cursor(row, col), texString);
 
+	KILE_DEBUG() << "Replacing with "<<texString;
+
 	// Check dependency 
 	if (!dep.isEmpty()) { 
 		const QStringList *packagelist = m_ki->allPackages();
 		if(!packagelist->contains(dep)) {
 			m_ki->logWidget()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
+			KILE_DEBUG() << "Need package "<< dep;
 		}
 	}
-	
+
 	return true;
 }
 

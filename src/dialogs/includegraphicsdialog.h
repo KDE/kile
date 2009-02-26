@@ -52,10 +52,11 @@ class IncludeGraphics : public KDialog
 		void slotProcessOutput();
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
-		void slotOk();
-
 		void slotWrapFigureSelected(bool state);
 		void slotFigureSelected(bool state);
+
+	protected Q_SLOTS:
+        	virtual void slotButtonClicked(int button);
 
 	private:
 		void readConfig();

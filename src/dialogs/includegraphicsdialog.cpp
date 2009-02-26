@@ -565,14 +565,19 @@ void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus
 	}
 }
 
-void IncludeGraphics::slotOk()
+void IncludeGraphics::slotButtonClicked(int button)
 {
-	if (checkParameter())  {
-		writeConfig();
-		accept();
+	if(button == KDialog::Ok){
+		if(checkParameter()){
+			writeConfig();
+			accept();
+		}
+	}
+	else{
+		KDialog::slotButtonClicked(button);
 	}
 }
-     
+
 void IncludeGraphics::slotWrapFigureSelected(bool state) {
 	if (m_widget.cb_figure->isChecked() && state) {
 		m_widget.cb_figure->setChecked(false);

@@ -62,8 +62,8 @@ class NewLatexCommand : public KDialog
 		KileDocument::CmdAttribute m_cmdType;
 		QMap<QString, bool> *m_dict;
 
-	private Q_SLOTS:
-		void slotOk();
+	protected Q_SLOTS:
+         virtual void slotButtonClicked(int button);
 };
 
 

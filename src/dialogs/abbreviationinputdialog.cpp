@@ -101,24 +101,29 @@ void AbbreviationInputDialog::slotTextChanged(const QString &)
 	enableButton(Ok,state);
 }
 
-void AbbreviationInputDialog::slotOk()
-{
-	QString abbrev = m_leAbbrev->text();
-	QString expansion = m_leExpansion->text().trimmed();
+void AbbreviationInputDialog::slotButtonClicked(int button){
 
-	if(abbrev.isEmpty() || expansion.isEmpty()) {
-		KMessageBox::error(this, i18n("Empty strings are not allowed."));
-		return;
+	if(button == KDialog::Ok){
+	
+		QString abbrev = m_leAbbrev->text();
+		QString expansion = m_leExpansion->text().trimmed();
+	
+		if(abbrev.isEmpty() || expansion.isEmpty()) {
+			KMessageBox::error(this, i18n("Empty strings are not allowed."));
+			return;
+		}
+	
+		if(abbrev!=m_abbrev || expansion!=m_expansion) {
+			accept();
+		}
+		else {
+			reject();
+		}
 	}
-
-	if(abbrev!=m_abbrev || expansion!=m_expansion) {
-		accept();
-	}
-	else {
-		reject();
+	else{
+                 KDialog::slotButtonClicked(button);
 	}
 }
 
 }
-
 #include "abbreviationinputdialog.moc"

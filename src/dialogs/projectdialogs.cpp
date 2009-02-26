@@ -331,110 +331,114 @@ void KileNewProjectDlg::makeProjectPath()
 	m_location->lineEdit()->setText(m_dir + m_filename);
 }
 
-void KileNewProjectDlg::slotOk()
+void KileNewProjectDlg::slotButtonClicked(int button)
 {
-	if (! acceptUserExtensions())
-		return;
-
-	//replace ~ and environment variables in the paths
-	KUrlCompletion uc;
-	uc.setReplaceEnv(true);
-	uc.setReplaceHome(true);
-	m_location->lineEdit()->setText(uc.replacedPath(location()));
-	m_file->setText(uc.replacedPath(file()));
-
-	if (projectTitle().trimmed().isEmpty())
-	{
-		if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes)
-			m_title->setText(i18n("Untitled"));
-		else
+	if( button == KDialog::Ok ){
+		if (! acceptUserExtensions())
 			return;
-	}
-
-	if (location().trimmed().isEmpty())
-	{
-		KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty Location"));
-		return;
-	}
-
-	QFileInfo fi(location().trimmed());
-	QFileInfo dr(fi.path());
-	QDir dir = dr.dir();
-
-	if (location().trimmed().right(7) != ".kilepr")
-	{
-		KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong Filename Extension"));
-		return;
-	}
-	else
-	{
-
-		if (dir.isRelative())
+	
+		//replace ~ and environment variables in the paths
+		KUrlCompletion uc;
+		uc.setReplaceEnv(true);
+		uc.setReplaceHome(true);
+		m_location->lineEdit()->setText(uc.replacedPath(location()));
+		m_file->setText(uc.replacedPath(file()));
+	
+		if (projectTitle().trimmed().isEmpty())
 		{
-			KMessageBox::error(this, i18n("The path for the project file is not an absolute path, absolute paths always begin with an /"), i18n("Relative Path"));
+			if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes)
+				m_title->setText(i18n("Untitled"));
+			else
+				return;
+		}
+	
+		if (location().trimmed().isEmpty())
+		{
+			KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty Location"));
 			return;
 		}
-
-		KILE_DEBUG() << "==KileNewProjectDlg::slotOk()==============" << endl;
-		KILE_DEBUG() << "\t" << location() << " " << fi.path() << endl;
-		if (! dr.exists()) {
-			bool suc = true;
-			QStringList dirs = fi.path().split('/');
-			QString path;
-
-			for (int i = 0; i < dirs.count(); ++i) {
-				path += '/' + dirs[i];
-				dir.setPath(path);
-				KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
-				if (! dir.exists()) {
-					dir.mkdir(dir.absolutePath());
-					suc = dir.exists();
-					KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
+	
+		QFileInfo fi(location().trimmed());
+		QFileInfo dr(fi.path());
+		QDir dir = dr.dir();
+	
+		if (location().trimmed().right(7) != ".kilepr")
+		{
+			KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong Filename Extension"));
+			return;
+		}
+		else
+		{
+	
+			if (dir.isRelative())
+			{
+				KMessageBox::error(this, i18n("The path for the project file is not an absolute path, absolute paths always begin with an /"), i18n("Relative Path"));
+				return;
+			}
+	
+			KILE_DEBUG() << "\t" << location() << " " << fi.path() << endl;
+			if (! dr.exists()) {
+				bool suc = true;
+				QStringList dirs = fi.path().split('/');
+				QString path;
+	
+				for (int i = 0; i < dirs.count(); ++i) {
+					path += '/' + dirs[i];
+					dir.setPath(path);
+					KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
+					if (! dir.exists()) {
+						dir.mkdir(dir.absolutePath());
+						suc = dir.exists();
+						KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
+					}
+	
+					if (!suc) {
+						KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
+						return;
+					}
 				}
-
-				if (!suc) {
-					KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
+			}
+	
+			if (! dr.isWritable()) {
+				KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
+				return;
+			}
+		}
+	
+		if (createNewFile()) {
+			if (file().trimmed().isEmpty()) {
+				KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
+													i18n("No File Name Given"));
+				return;
+			}
+	
+			//check for validity of name first, then check for existence (fixed by tbraun)
+			KUrl fileURL;
+			fileURL.setFileName(file());
+			KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, this, m_extmanager->isTexFile(fileURL), true);
+			if(validURL != fileURL) {
+				m_file->setText(validURL.fileName());
+			}
+	// 		FIXME the repairextension feature is no implemented here
+	
+			if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()) {
+				if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
+				
 					return;
 				}
 			}
 		}
-
-		if (! dr.isWritable()) {
-			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
+	
+		if(QFileInfo(location()).exists()) {
+			KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
 			return;
 		}
+	
+		accept();
 	}
-
-	if (createNewFile()) {
-		if (file().trimmed().isEmpty()) {
-			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
-												 i18n("No File Name Given"));
-			return;
-		}
-
-		//check for validity of name first, then check for existence (fixed by tbraun)
-		KUrl fileURL;
-		fileURL.setFileName(file());
-		KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, this, m_extmanager->isTexFile(fileURL), true);
-		if(validURL != fileURL) {
-			m_file->setText(validURL.fileName());
-		}
-// 		FIXME the repairextension feature is no implemented here
-
-		if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()) {
-			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
-			
-				return;
-			}
-		}
+	else{
+		KDialog::slotButtonClicked(button);
 	}
-
-	if(QFileInfo(location()).exists()) {
-		KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
-		return;
-	}
-
-	accept();
 }
 
 void KileNewProjectDlg::fillProjectDefaults()
@@ -566,45 +570,50 @@ void KileProjectOptionsDlg::toggleMakeIndex(bool on)
 	m_leMakeIndex->setText(m_project->makeIndexOptions());
 }
 
-void KileProjectOptionsDlg::slotOk()
+void KileProjectOptionsDlg::slotButtonClicked(int button)
 {
-	if(!acceptUserExtensions()) {
-		return;
-	}
-	
-	this->m_project->setName(m_title->text());
-
-	QList<KileProjectItem*> rootItemList = m_project->rootItems();
-	for (QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
-		if ((*it)->url().fileName() == m_master->currentText()) {
-			m_project->setMasterDocument((*it)->url().path());
+	if( button == KDialog::Ok ){
+		if(!acceptUserExtensions()) {
+			return;
 		}
-	}
-	if (m_master->currentIndex() == 0) {
-		m_project->setMasterDocument(QString());
-	}
-
-	m_val_extensions[m_sel_extensions->currentIndex()] = m_extensions->text();
-
-	for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
-		m_project->setExtensions((KileProjectItem::Type) i, m_val_extensions[i-1]);
-	}
-
-	if (m_cbQuick->currentText() == tool_default) {
-		m_project->setQuickBuildConfig("");
-	}
-	else {
-		m_project->setQuickBuildConfig(m_cbQuick->currentText());
-	}
+		
+		this->m_project->setName(m_title->text());
 	
-	m_project->setUseMakeIndexOptions(m_ckMakeIndex->isChecked());
-	if (m_project->useMakeIndexOptions()) {
-		m_project->setMakeIndexOptions(m_leMakeIndex->text());
+		QList<KileProjectItem*> rootItemList = m_project->rootItems();
+		for (QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
+			if ((*it)->url().fileName() == m_master->currentText()) {
+				m_project->setMasterDocument((*it)->url().path());
+			}
+		}
+		if (m_master->currentIndex() == 0) {
+			m_project->setMasterDocument(QString());
+		}
+	
+		m_val_extensions[m_sel_extensions->currentIndex()] = m_extensions->text();
+	
+		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
+			m_project->setExtensions((KileProjectItem::Type) i, m_val_extensions[i-1]);
+		}
+	
+		if (m_cbQuick->currentText() == tool_default) {
+			m_project->setQuickBuildConfig("");
+		}
+		else {
+			m_project->setQuickBuildConfig(m_cbQuick->currentText());
+		}
+		
+		m_project->setUseMakeIndexOptions(m_ckMakeIndex->isChecked());
+		if (m_project->useMakeIndexOptions()) {
+			m_project->setMakeIndexOptions(m_leMakeIndex->text());
+		}
+	
+		m_project->save();
+	
+		accept();
 	}
-
-	m_project->save();
-
-	accept();
+	else{
+		KDialog::slotButtonClicked(button);
+	}
 }
 
 

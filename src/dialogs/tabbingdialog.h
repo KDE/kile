@@ -37,8 +37,8 @@ class QuickTabbing : public Wizard
 		             const char *name = NULL, const QString &caption = QString());
 		~QuickTabbing();
 
-	public Q_SLOTS:
-		void slotButtonClicked(int button);
+	protected Q_SLOTS:
+		virtual void slotButtonClicked(int button);
 
 	public:
 		KileInfo *m_ki;

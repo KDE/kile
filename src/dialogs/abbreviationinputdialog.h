@@ -47,8 +47,8 @@ private:
 	int m_mode;
 	QString m_abbrev, m_expansion;
 
-public Q_SLOTS:
-	void slotOk();
+protected Q_SLOTS:
+	void slotButtonClicked(int button);
 
 private Q_SLOTS:
 	void slotTextChanged(const QString &text);

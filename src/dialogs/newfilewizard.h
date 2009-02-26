@@ -41,7 +41,7 @@ public:
 	bool useWizard();
 
 protected Q_SLOTS:
-	void slotOk();
+	virtual void slotButtonClicked(int button);
 	void slotActivated(int index);
 
 	void restoreSelectedIcon();

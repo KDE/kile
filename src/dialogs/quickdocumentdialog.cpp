@@ -1536,6 +1536,9 @@ void QuickDocument::printTemplate()
 	m_td.tagBegin += "\\begin{document}\n%E%C";
 
 	m_td.tagEnd = "\n\\end{document}\n";
+
+	KILE_DEBUG() << "m_td.tagBegin " << m_td.tagBegin;
+	KILE_DEBUG() << "m_td.tagEnd " << m_td.tagEnd;
 }
 
 void QuickDocument::printPackages()
@@ -1640,29 +1643,34 @@ void QuickDocument::printBeamerTheme()
 
 ////////////////////////////// Slots //////////////////////////////
 
-void QuickDocument::slotOk()
+void QuickDocument::slotButtonClicked(int button)
 {
-	KILE_DEBUG() << "==QuickDocument::slotOk()============";
+	KILE_DEBUG() << "called";
 
-	// get current class options
-	m_currentClass = m_cbDocumentClass->currentText();
-	KILE_DEBUG() << "\tcurrent class: " << m_currentClass;
-
-	// save the checked options
-	m_dictDocumentClasses[m_currentClass][qd_SelectedOptions] = getClassOptions();
-	KILE_DEBUG() << "\tsave options: " << m_dictDocumentClasses[m_currentClass][qd_SelectedOptions];
-
-	// build template
-	printTemplate();
-
-	// update config file
-	writeConfig();
-
-	accept();
+	if (button == KDialog::Ok){
+	
+		// get current class options
+		m_currentClass = m_cbDocumentClass->currentText();
+		KILE_DEBUG() << "current class: " << m_currentClass;
+	
+		// save the checked options
+		m_dictDocumentClasses[m_currentClass][qd_SelectedOptions] = getClassOptions();
+		KILE_DEBUG() << "save options: " << m_dictDocumentClasses[m_currentClass][qd_SelectedOptions];
+	
+		// build template
+		printTemplate();
+	
+		// update config file
+		writeConfig();
+	
+		accept();
+	}
+	else{
+                 KDialog::slotButtonClicked(button);
+	}
 }
 
-////////////////////////////// slots: document class //////////////////////////////
-
+////////////////////////////// slots: document class 
 void QuickDocument::slotDocumentClassAdd()
 {
 	KILE_DEBUG() << "==QuickDocument::slotDocumentClassAdd()============";
@@ -2291,70 +2299,75 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 }
 
 // check the main result of the input dialog
-void QuickDocumentInputDialog::slotOk()
+void QuickDocumentInputDialog::slotButtonClicked(int button)
 {
-	if (m_check) {
-		// get the label and main input string from the first label/linedit
-		QString inputlabel = ((QLabel *)m_objectlist[0])->text();
-		QString input = ((KLineEdit *)m_objectlist[1])->text().simplified();
-
-		// should we check for an empty string
-		if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {
-			KMessageBox::error(this, i18n("An empty string is not allowed."));
-			return;
-		}
-
-		// should we check for an existing document class
-		if (m_check & qd_CheckDocumentClass) {
-			if (m_parent->isDocumentClass(input)) {
-				KMessageBox::error(this, i18n("This document class already exists."));
+	if(button == KDialog::Ok){
+	
+		if (m_check) {
+			// get the label and main input string from the first label/linedit
+			QString inputlabel = ((QLabel *)m_objectlist[0])->text();
+			QString input = ((KLineEdit *)m_objectlist[1])->text().simplified();
+	
+			// should we check for an empty string
+			if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {
+				KMessageBox::error(this, i18n("An empty string is not allowed."));
 				return;
 			}
-
-			QRegExp reg("\\w+");
-			if (!reg.exactMatch(input)) {
-				KMessageBox::error(this, i18n("This name is not allowed for a document class."));
+	
+			// should we check for an existing document class
+			if (m_check & qd_CheckDocumentClass) {
+				if (m_parent->isDocumentClass(input)) {
+					KMessageBox::error(this, i18n("This document class already exists."));
+					return;
+				}
+	
+				QRegExp reg("\\w+");
+				if (!reg.exactMatch(input)) {
+					KMessageBox::error(this, i18n("This name is not allowed for a document class."));
+					return;
+				}
+			}
+	
+			// should we check for an existing document class option
+			if ((m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input)) {
+				KMessageBox::error(this, i18n("This document class option already exists."));
+				return;
+			}
+	
+			// should we check for an existing package
+			if ((m_check & qd_CheckPackage) && m_parent->isPackage(input)) {
+				KMessageBox::error(this, i18n("This package already exists."));
+				return;
+			}
+	
+			// should we check for an existing package option
+			if (m_check & qd_CheckPackageOption) {
+				QString package = getPackageName(inputlabel);
+				if (package.isEmpty()) {
+					KMessageBox::error(this, i18n("Could not identify the package name."));
+					return;
+				}
+				if (m_parent->isPackageOption(package, input)) {
+					KMessageBox::error(this, i18n("This package option already exists."));
+					return;
+				}
+			}
+	
+			// should we check for a (list of) fontsizes
+			if ((m_check & qd_CheckFontsize) && !checkListEntries("Fontsize", input, "\\d+pt")) {
+				return;
+			}
+	
+			// should we check for a (list of) papersizes
+			if ((m_check & qd_CheckPapersize) && !checkListEntries("Papersize", input, "\\w+")) {
 				return;
 			}
 		}
-
-		// should we check for an existing document class option
-		if ((m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input)) {
-			KMessageBox::error(this, i18n("This document class option already exists."));
-			return;
-		}
-
-		// should we check for an existing package
-		if ((m_check & qd_CheckPackage) && m_parent->isPackage(input)) {
-			KMessageBox::error(this, i18n("This package already exists."));
-			return;
-		}
-
-		// should we check for an existing package option
-		if (m_check & qd_CheckPackageOption) {
-			QString package = getPackageName(inputlabel);
-			if (package.isEmpty()) {
-				KMessageBox::error(this, i18n("Could not identify the package name."));
-				return;
-			}
-			if (m_parent->isPackageOption(package, input)) {
-				KMessageBox::error(this, i18n("This package option already exists."));
-				return;
-			}
-		}
-
-		// should we check for a (list of) fontsizes
-		if ((m_check & qd_CheckFontsize) && !checkListEntries("Fontsize", input, "\\d+pt")) {
-			return;
-		}
-
-		// should we check for a (list of) papersizes
-		if ((m_check & qd_CheckPapersize) && !checkListEntries("Papersize", input, "\\w+")) {
-			return;
-		}
+		accept();
 	}
-
-	accept();
+	else{
+		KDialog::slotButtonClicked(button);
+	}
 }
 
 } // namespace

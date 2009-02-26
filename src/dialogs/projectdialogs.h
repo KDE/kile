@@ -69,7 +69,6 @@ class KileProjectDlgBase : public KDialog
 		}
 
 	protected Q_SLOTS:
-		virtual void slotOk() = 0;
 		virtual void fillProjectDefaults();
 
 	private Q_SLOTS:
@@ -121,8 +120,10 @@ class KileNewProjectDlg : public KileProjectDlgBase
 	private Q_SLOTS:
 		void clickedCreateNewFileCb();
 		void makeProjectPath();
-		void slotOk();
 		void fillProjectDefaults();
+
+	protected Q_SLOTS:
+		virtual void slotButtonClicked(int button);
 
 	private:
 		KileTemplate::Manager *m_templateManager;
@@ -145,8 +146,10 @@ class KileProjectOptionsDlg : public KileProjectDlgBase
 		~KileProjectOptionsDlg();
 
 	private Q_SLOTS:
-		void slotOk();
 		void toggleMakeIndex(bool);
+
+	protected Q_SLOTS:
+		virtual void slotButtonClicked(int button);
 
 	private:
 		KComboBox *m_master, *m_cbQuick;

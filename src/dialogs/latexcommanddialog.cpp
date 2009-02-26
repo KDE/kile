@@ -297,27 +297,32 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
 	attr.parameter = (m_useParameter) ? m_coParameter->currentText() : QString();
 }
 
-void NewLatexCommand::slotOk()
+void NewLatexCommand::slotButtonClicked(int button)
 {
-	// check for an empty string
-	if(m_edName->text().isEmpty()) {
-		KMessageBox::error(this, i18n("An empty string is not allowed."));
-		return;
+	if(button == KDialog::Ok){
+	
+		// check for an empty string
+		if(m_edName->text().isEmpty()) {
+			KMessageBox::error(this, i18n("An empty string is not allowed."));
+			return;
+		}
+	
+		QString name = m_edName->text();
+		if (m_envmode == false && name.at(0) != '\\') {
+			name.prepend('\\');
+		}
+	
+		if (m_addmode && m_dict->contains(name)) {
+			QString msg = (m_envmode) ? i18n("This environment already exists.")
+										: i18n("This command already exists.");
+			KMessageBox::error(this, msg);
+			return;
+		}	
+		accept();
 	}
-
-	QString name = m_edName->text();
-	if (m_envmode == false && name.at(0) != '\\') {
-		name.prepend('\\');
+	else{
+		KDialog::slotButtonClicked(button);
 	}
-
-	if (m_addmode && m_dict->contains(name)) {
-		QString msg = (m_envmode) ? i18n("This environment already exists.")
-									: i18n("This command already exists.");
-		KMessageBox::error(this, msg);
-		return;
-	}
-
-	accept();
 }
 //END NewLatexCommand
 

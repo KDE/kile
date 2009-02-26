@@ -64,9 +64,6 @@ class QuickDocument : public Wizard
 		bool isPackage(const QString &package);
 		bool isPackageOption(const QString &package, const QString &option);
 
-	public Q_SLOTS:
-		void slotOk();
-
 	private:
 		KileWidget::CategoryComboBox *m_cbDocumentClass;
 		KileWidget::CategoryComboBox *m_cbTypefaceSize;
@@ -203,6 +200,9 @@ class QuickDocument : public Wizard
 		void slotPackageReset();
 
 		void slotEnableButtons();
+
+	protected Q_SLOTS:
+	virtual void slotButtonClicked(int button);
 };
 
 class QuickDocumentInputDialog : public KDialog {
@@ -224,8 +224,8 @@ class QuickDocumentInputDialog : public KDialog {
 		QString getPackageName(const QString &text);
 		bool checkListEntries(const QString &title, const QString &textlist, const QString &pattern);
 
-	private Q_SLOTS:
-		void slotOk();
+	protected Q_SLOTS:
+        	virtual void slotButtonClicked(int button);
 };
 
 } // namespace

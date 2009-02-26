@@ -61,7 +61,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	}
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
-	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotOk()));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotButtonClicked(KDialog::OK)));
 	m_templateManager->scanForTemplates();
 	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
 
@@ -157,16 +157,22 @@ void NewFileWizard::restoreSelectedIcon()
 	}
 }
 
-void NewFileWizard::slotOk()
+void NewFileWizard::slotButtonClicked(int button)
 {
-	KConfigGroup newFileWizardGroup = KGlobal::config()->group("NewFileWizard");
-
-	newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
-	newFileWizardGroup.writeEntry("width", width());
-	newFileWizardGroup.writeEntry("height", height());
+	if(button == KDialog::Ok){
 	
-	storeSelectedIcon();
-	accept();
+		KConfigGroup newFileWizardGroup = KGlobal::config()->group("NewFileWizard");
+	
+		newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
+		newFileWizardGroup.writeEntry("width", width());
+		newFileWizardGroup.writeEntry("height", height());
+		
+		storeSelectedIcon();
+		accept();
+	}
+	else{
+                 KDialog::slotButtonClicked(button);
+	}
 }
 
 void NewFileWizard::slotActivated(int index)

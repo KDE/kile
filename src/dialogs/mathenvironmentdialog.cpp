@@ -157,7 +157,7 @@ void MathEnvironmentDialog::initEnvironments()
 	QStringList list;
 	QStringList::ConstIterator it;
 	m_latexCommands->commandList(list, (uint)(KileDocument::CmdAttrAmsmath | KileDocument::CmdAttrMath), false);
-	for (it = list.begin(); it != list.end(); ++it) {
+	for (it = list.constBegin(); it != list.constEnd(); ++it) {
 		m_coEnvironment->addItem(*it);
 	}
 }

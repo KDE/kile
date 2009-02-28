@@ -391,7 +391,7 @@ void LatexCommandsDialog::resetListviews()
 	KileDocument::LatexCmdAttributes attr;
 
 	m_commands->commandList(list, KileDocument::CmdAttrNone, m_widget.showOnlyUserDefined->isChecked());
-	for (it = list.begin(); it != list.end(); ++it)
+	for (it = list.constBegin(); it != list.constEnd(); ++it)
 	{
 		if (m_commands->commandAttributes(*it, attr))
 		{

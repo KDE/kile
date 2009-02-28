@@ -873,14 +873,14 @@ void LaTeXInfo::updateStructLevelInfo() {
 
 	// labels, we also gather them
 	m_commands->commandList(list,KileDocument::CmdAttrLabel, false);
-	for(it=list.begin(); it != list.end(); ++it) {
+	for(it=list.constBegin(); it != list.constEnd(); ++it) {
 		m_dictStructLevel[*it] = KileStructData(KileStruct::NotSpecified, KileStruct::Label, QString(), "labels");
 	}
 
 	// input files
 	if(m_showStructureInputFiles) {
 		m_commands->commandList(list, KileDocument::CmdAttrIncludes, false);
-		for(it = list.begin(); it != list.end(); ++it) {
+		for(it = list.constBegin(); it != list.constEnd(); ++it) {
 			m_dictStructLevel[*it] = KileStructData(KileStruct::File, KileStruct::Input, "include");
 		}
 	}
@@ -888,7 +888,7 @@ void LaTeXInfo::updateStructLevelInfo() {
 	// references
 	if(m_showStructureReferences) {
 		m_commands->commandList(list, KileDocument::CmdAttrReference, false);
-		for(it=list.begin(); it != list.end(); ++it ) {
+		for(it=list.constBegin(); it != list.constEnd(); ++it ) {
 			m_dictStructLevel[*it] = KileStructData(KileStruct::Hidden, KileStruct::Reference);
 		}
 	}
@@ -1042,10 +1042,10 @@ void LaTeXInfo::updateStruct()
 				tagEnd = tagStart + reCommand.cap(0).length()-1;
 
 				//look up the command in the dictionary
-				it = m_dictStructLevel.find(reCommand.cap(1));
+				it = m_dictStructLevel.constFind(reCommand.cap(1));
 
 				//if it is was a structure element, find the title (or label)
-				if(it != m_dictStructLevel.end()) {
+				if(it != m_dictStructLevel.constEnd()) {
 					tagLine = i+1;
 					tagCol = tagEnd+1;
 					tagStartLine = tagLine;
@@ -1085,15 +1085,15 @@ void LaTeXInfo::updateStruct()
 					{
 						if ( m=="figure" || m=="figure*" || m=="table" )
 						{
-							it = m_dictStructLevel.find("\\begin{" + m +'}');
+							it = m_dictStructLevel.constFind("\\begin{" + m +'}');
 						}
 						else if(m == "frame") {
-							it = m_dictStructLevel.find("\\begin{frame}");
+							it = m_dictStructLevel.constFind("\\begin{frame}");
 							m = i18n("Frame");
 						}
 						else if(m=="block" || m=="exampleblock" || m=="alertblock") {
 							const QString untitledBlockDisplayName = i18n("Untitled Block");
-							it = m_dictStructLevel.find("\\begin{block}");
+							it = m_dictStructLevel.constFind("\\begin{block}");
 							if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
 								tagEnd++;
 								result = matchBracket(i, tagEnd);
@@ -1116,10 +1116,10 @@ void LaTeXInfo::updateStruct()
 					{
 						if ( m=="figure" || m== "figure*" || m=="table")
 						{
-							it = m_dictStructLevel.find("\\end{float}");
+							it = m_dictStructLevel.constFind("\\end{float}");
 						}
 						else if(m == "frame") {
-							it = m_dictStructLevel.find("\\end{frame}");
+							it = m_dictStructLevel.constFind("\\end{frame}");
 						}
 						else {
 							fireSuspended = true;          // only floats, no other environments

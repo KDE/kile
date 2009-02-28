@@ -569,7 +569,7 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		// now check if there are unsolved references
-		for (QList<KileReferenceData>::const_iterator it = m_references.begin(); it!=m_references.end(); ++it) {
+		for (QList<KileReferenceData>::const_iterator it = m_references.constBegin(); it!=m_references.constEnd(); ++it) {
 			if(!labelmap.contains((*it).name())) {
 				StructureViewItem *refitem = folder("refs");
 				refitem->setExpanded(shouldBeOpen(refitem, "refs", 0));

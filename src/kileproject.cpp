@@ -236,7 +236,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 
 		QStringList::ConstIterator it;
 		QStringList list = ext.split(' ');
-		for(it = list.begin(); it != list.end(); ++it) {
+		for(it = list.constBegin(); it != list.constEnd(); ++it) {
 			// some tiny extension checks
 			if((*it).length() < 2 || (*it)[0] != '.') {
 				continue;

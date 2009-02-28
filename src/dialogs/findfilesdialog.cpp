@@ -865,7 +865,7 @@ QString FindFilesDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 
 	// build list of references
 	QString commands;
-	for (it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+	for (it = cmdlist.constBegin(); it != cmdlist.constEnd(); ++it) {
 		commands += '|' + (*it).mid(1);
 	}
 	return commands;

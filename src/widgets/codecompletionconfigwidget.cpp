@@ -255,7 +255,7 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 	m_listview[page]->setUpdatesEnabled(false);
 	m_listview[page]->clear();
 	QStringList::ConstIterator it;
-	for (it = m_wordlist[page].begin(); it != m_wordlist[page].end(); ++it)
+	for (it = m_wordlist[page].constBegin(); it != m_wordlist[page].constEnd(); ++it)
 	{
 		QString basename = (*it).right((*it).length() - 2);
 		bool localExists = QFileInfo(localdir + basename + ".cwl").exists();
@@ -380,8 +380,8 @@ void CodeCompletionConfigWidget::getCwlDirs()
 	m_localCwlDir = KStandardDirs::locateLocal("appdata", "complete/");
 	m_globalCwlDir.clear();
 
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "complete/");
-	for(QStringList::ConstIterator it = dirs.begin(); it != dirs.end(); ++it) {
+	const QStringList dirs = KGlobal::dirs()->findDirs("appdata", "complete/");
+	for(QStringList::ConstIterator it = dirs.constBegin(); it != dirs.constEnd(); ++it) {
 		if((*it) != m_localCwlDir) {
 			m_globalCwlDir = (*it);
 			break;
@@ -397,7 +397,7 @@ void CodeCompletionConfigWidget::getCwlDirs()
 void CodeCompletionConfigWidget::getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir)
 {
 	QStringList files = QDir(dir, "*.cwl").entryList();
-	for (QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+	for (QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it)
 	{
 		QString filename = QFileInfo(*it).fileName();
 		if (! map.contains(filename))
@@ -427,7 +427,7 @@ void CodeCompletionConfigWidget::addClicked()
 		if (dlg->currentItem() >= 0) {
 			QTreeWidget *listview = getListview(tab->currentWidget());     // get current page
 			QStringList filenames = dlg->selected();                   // get selected files
-			for (QStringList::ConstIterator it = filenames.begin(); it != filenames.end(); ++it) {
+			for (QStringList::ConstIterator it = filenames.constBegin(); it != filenames.constEnd(); ++it) {
 				QString filename = *it;
 				// could we accept the wordlist?
 				QFileInfo fi(filemap[filename]);

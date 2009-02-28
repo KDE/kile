@@ -98,7 +98,7 @@ namespace KileEditorKeySequence {
 
 	QString Manager::getKeySequence(const Action* a)
 	{
-		for(QMap<QString, Action*>::const_iterator i = m_actionMap.begin(); i != m_actionMap.end(); ++i) {
+		for(QMap<QString, Action*>::const_iterator i = m_actionMap.constBegin(); i != m_actionMap.constEnd(); ++i) {
 			if(i.value() == a) {
 				return i.key();
 			}

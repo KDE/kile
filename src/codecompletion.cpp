@@ -640,7 +640,7 @@ QString Manager::getCommandsString(KileDocument::CmdAttribute attrtype)
 
 	// build list of references
 	QString commands;
-	for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+	for(it = cmdlist.constBegin(); it != cmdlist.constEnd(); ++it) {
 		if(cmd->isStarredEnv(*it) ) {
 			commands += '|' + (*it).mid(1) + '*';
 		}
@@ -660,7 +660,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 	cmd->commandList(cmdlist, KileDocument::CmdAttrNone, true);
 
 	// add entries to wordlist
-	for(it = cmdlist.begin(); it != cmdlist.end(); ++it) {
+	for(it = cmdlist.constBegin(); it != cmdlist.constEnd(); ++it) {
 		if(cmd->commandAttributes(*it, attr)) {
 			QString command,eos;
 			QStringList entrylist;
@@ -687,7 +687,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 
 			// finally append entries to wordlist
 			QStringList::ConstIterator itentry;
-			for(itentry = entrylist.begin(); itentry != entrylist.end(); ++itentry) {
+			for(itentry = entrylist.constBegin(); itentry != entrylist.constEnd(); ++itentry) {
 				QString entry = (*itentry);
 				if(!attr.parameter.isEmpty()) {
 					entry += "{param}";
@@ -1035,8 +1035,8 @@ namespace KileDocument
 
 		m_labellist.clear();
 		QStringList::ConstIterator it;
-		QStringList::ConstIterator itend(sortedlist.end());
-		for(it = sortedlist.begin(); it != itend; ++it) {
+		QStringList::ConstIterator itend(sortedlist.constEnd());
+		for(it = sortedlist.constBegin(); it != itend; ++it) {
 			m_labellist.append(*it);
 		}
 

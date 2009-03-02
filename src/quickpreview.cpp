@@ -191,7 +191,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KILE_DEBUG() << "==QuickPreview::run()=========================="  << endl;
 	m_ki->logWidget()->clear();
 	if(m_running > 0) {
-		showError( i18n("There is already a preview running, which you have to finish to run this one.") );
+		showError( i18n("There is already a preview running that has to be finished to run this one.") );
 		return false;
 	}
 	

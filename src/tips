@@ -6,7 +6,7 @@
 
 <tip category="Kile|General">
 <html>
-<p>...that Kile supports forward search? This enables you to switch back and forth between places in the source file and their corresponding locations in the DVI file. Stop spending so much time on finding the place in the source file: if you spotted a mistake while viewing the DVI, finding the correct location is just a mouse-click away!.</p>
+<p>...that Kile supports forward search? This enables you to switch back and forth between places in the source file and their corresponding locations in the DVI file. Stop spending so much time on finding the place in the source file: if you spotted a mistake while viewing the DVI, finding the correct location is just a mouse-click away!</p>
 
 <p><a href="help:/kile/quick_inverseforward.html">Read the manual to find out how to activate this feature.</a></p>
 </html>

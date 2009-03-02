@@ -435,7 +435,7 @@
 			<default>false</default>
 		</entry>
 		<entry name="mathgroupPreviewInWidget" type="Bool">
-			<label>Show preview of math groups in bottom bar.</label>
+			<label>Show preview of mathgroups in bottom bar.</label>
 			<default>false</default>
 		</entry>
 		<entry name="envPreviewTool" type="Int">

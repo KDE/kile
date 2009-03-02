@@ -68,7 +68,7 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 	KILE_DEBUG() << "==PreviewWidget::showActivePreview()==========================";
 	m_info->logWidget()->clear();
 	if(m_running || m_info->quickPreview()->isRunning()) {
-		showError( i18n("There is already a preview running, which you have to finish to run this one.") );
+		showError( i18n("There is already a preview running that has to be finished to run this one.") );
 		return;
 	}
 

@@ -166,7 +166,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	pageLayout->addWidget(configPage);
 
 	// whats this texts
-	m_Table->setWhatsThis(i18n("Input data. Just type the text when a cell is selected. When pressing return, the adjacent cell will be selected."));
+	m_Table->setWhatsThis(i18n("Input data. Enter text when a cell is selected. When return is pressed, the adjacent cell will become selected."));
 	m_cmbName->setWhatsThis(i18n("Choose an environment."));
 	m_cmbParameter->setWhatsThis(i18n("Optional parameter for the chosen environment."));
 	m_sbRows->setWhatsThis(i18n("Choose the number of table rows."));
@@ -174,7 +174,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_cbCenter->setWhatsThis(i18n("The tabular will be centered."));
 	m_cbBooktabs->setWhatsThis(i18n("Use line commands of the booktabs package."));
 	m_cbStarred->setWhatsThis(i18n("Use the starred version of this environment."));
-	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quickly from one cell to another."));
 	m_acBold->setWhatsThis(i18n("Set bold font series."));
 	m_acItalic->setWhatsThis(i18n("Set italic font shape."));
 	m_acUnderline->setWhatsThis(i18n("Set underlined font shape."));
@@ -186,7 +186,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acFrame->setWhatsThis(i18n("Choose the border for the selected cells. When clicking on the button, the current border will be applied to the selected cells."));
 	m_acBackground->setWhatsThis(i18n("Choose a background color (needs color package)."));
 	m_acForeground->setWhatsThis(i18n("Choose a text color (needs color package)."));
-	m_acClearText->setWhatsThis(i18n("Clears the text of the selected cells but keeps the attributes like alignment and font shape."));
+	m_acClearText->setWhatsThis(i18n("Clears the text of the selected cells but keeps attributes such as alignment and font shape."));
 	m_acClearAttributes->setWhatsThis(i18n("Resets the attributes of the selected cells to the default values but keeps the text."));
 	m_acClearAll->setWhatsThis(i18n("Clears the text of the selected cells and resets the attributes."));
 

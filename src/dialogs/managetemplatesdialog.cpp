@@ -233,7 +233,7 @@ void ManageTemplatesDialog::addTemplate() {
 	QString templateName = (m_nameEdit->text()).trimmed();
 
 	if (templateName.isEmpty()) {
-		KMessageBox::error(this, i18n("Sorry, but the template name that you have entered is invalid.\nPlease enter a new name."));
+		KMessageBox::error(this, i18n("The template name that you have entered is invalid.\nPlease enter a new name."));
 		return;
 	}
 
@@ -246,19 +246,19 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	if (!KIO::NetAccess::exists(iconURL, true, this)) {
-		KMessageBox::error(this, i18n("Sorry, but the icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
+		KMessageBox::error(this, i18n("The icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
 		return;
 	}
 
 	if (!KIO::NetAccess::exists(m_sourceURL, true, this)) {
-		KMessageBox::error(this, i18n("Sorry, but the file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.prettyUrl()));
+		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.prettyUrl()));
 		return;
 	}
 
 	QTreeWidgetItem* item = m_templateList->currentItem();
 
 	if (!item && m_templateManager->searchForTemplate(templateName, m_templateType)) {
-		KMessageBox::error(this, i18n("Sorry, but a template named \"%1\" already exists.\nPlease remove it first.", templateName));
+		KMessageBox::error(this, i18n("A template named \"%1\" already exists.\nPlease remove it first.", templateName));
 		return;
 	}
 
@@ -308,7 +308,7 @@ bool ManageTemplatesDialog::removeTemplate()
 
 	if (!m_templateManager->remove(templateInfo))
 	{
-		KMessageBox::error(this, i18n("Sorry, but the template could not be removed."));
+		KMessageBox::error(this, i18n("The template could not be removed."));
 		reject();
 		return false;
 	}

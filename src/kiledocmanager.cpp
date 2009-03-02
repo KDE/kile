@@ -637,7 +637,7 @@ void Manager::createTemplate()
 
 	if(type == KileDocument::Undefined || type == KileDocument::Text)
 	{
-		KMessageBox::information(m_ki->mainWindow(),i18n("Sorry, but a template for this type of document cannot be created."));
+		KMessageBox::information(m_ki->mainWindow(),i18n("A template for this type of document cannot be created."));
 		return;
 	}
 
@@ -811,7 +811,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					else {
 						KILE_DEBUG() << "backing up failed (" << url.prettyUrl() << " -> " << backupUrl.prettyUrl() << ")";
 						m_ki->logWidget()->printMessage(KileTool::Error,
-						                                i18n("The file %1 could not be saved, check the permissions and the free disk space!", backupUrl.prettyUrl()),
+						                                i18n("The file %1 could not be saved, check the permissions and free disk space.", backupUrl.prettyUrl()),
 						                                i18n("Autosave"));
 					}
 				}
@@ -1237,7 +1237,7 @@ void Manager::removeFromProject(KileProjectItem *item)
 		KILE_DEBUG() << "\tprojecturl = " << item->project()->url().path() << ", url = " << item->url().path();
 
 		if (item->project()->url() == item->url()) {
-			KMessageBox::error(m_ki->mainWindow(), i18n("This file is the project file, it holds all the information about your project. Therefore it is not allowed to remove this file from its project."), i18n("Cannot Remove File From Project"));
+			KMessageBox::error(m_ki->mainWindow(), i18n("This file is the project file, which holds all the information about your project.  As such, it cannot be removed from the project."), i18n("Cannot Remove File From Project"));
 			return;
 		}
 

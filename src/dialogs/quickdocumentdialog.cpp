@@ -2074,7 +2074,7 @@ void QuickDocument::slotPackageDelete()
 	QString message, optionname;
 	if (cur->parent()) {
 		packageoption = true;
-		message = i18n("Do you want do delete this package option?");
+		message = i18n("Do you want to delete this package option?");
 		optionname = cur->parent()->text(0) + '!' + cur->text(0);
 	} else {
 		packageoption = false;

@@ -155,7 +155,7 @@ Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 	// which are not needed, but probably useful for the work with kile
 	ConfigTest::addFailureMessage("dvipng", i18n("You cannot use the png preview for mathgroups in the bottom bar."));
 	ConfigTest::addFailureMessage("convert", i18n("You cannot use the png previews with conversions 'dvi->ps->png' and 'pdf->png'."));
-	ConfigTest::addFailureMessage("acroread", i18n("You cannot open pdf documents with Acrobat Reader. But you could use Okular."));
+	ConfigTest::addFailureMessage("acroread", i18n("You cannot open pdf documents with Adobe Reader, but you could use Okular."));
 }
 
 

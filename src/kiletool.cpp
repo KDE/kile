@@ -50,13 +50,13 @@ namespace KileTool
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
 		setMsg(NeedTargetDirWrite, ki18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
-		setMsg(NeedTargetExists,  ki18n("The file %1/%2 does not exist. If you are surprised, check the file permissions."));
-		setMsg(NeedTargetRead, ki18n("The file %1/%2 is not readable. If you are surprised, check the file permissions."));
+		setMsg(NeedTargetExists,  ki18n("The file %1/%2 does not exist. If this is unexpected, check the file permissions."));
+		setMsg(NeedTargetRead, ki18n("The file %1/%2 is not readable. If this is unexpected, check the file permissions."));
 		setMsg(NeedActiveDoc, ki18n("Could not determine on which file to run %1, because there is no active document."));
 		setMsg(NeedMasterDoc, ki18n("Could not determine the master file for this document."));
 		setMsg(NoUntitledDoc, ki18n("Please save the untitled document first."));
-		setMsg(NeedSourceExists, ki18n("Sorry, the file %1 does not exist."));
-		setMsg(NeedSourceRead, ki18n("Sorry, the file %1 is not readable."));
+		setMsg(NeedSourceExists, ki18n("The file %1 does not exist."));
+		setMsg(NeedSourceRead, ki18n("The file %1 is not readable."));
 
 		m_bPrepared = false;
 	}

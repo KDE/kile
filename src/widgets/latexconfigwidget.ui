@@ -158,7 +158,7 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Mathmode</string>
+      <string>Math mode</string>
      </property>
      <property name="flat">
       <bool>true</bool>

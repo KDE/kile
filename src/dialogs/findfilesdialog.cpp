@@ -294,8 +294,8 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 				 "build from the editable template, where '%s' is replaced by the given pattern.<br><br>"
 				 "There are additional fixed predefined modes for environments, graphics, labels, references "
 				 "and input files. If the pattern is empty, Kile will search for all commands of this mode. "
-				 "If a pattern is given, it will be inserted as a parameter. F.e., in environment mode with "
-				 "pattern 'center', Kile will search for '\\begin{center}' and in graphics mode with "
+				 "If a pattern is given, it will be inserted as a parameter. For example, in environment mode with "
+				 "pattern 'center', Kile will search for '\\begin{center}', and in graphics mode with "
 				 "pattern '.*\\.png', Kile will search for all png files."));
 	template_edit->setWhatsThis(
 		i18n("For the first three modes you can choose a template for the pattern from the combo box "

@@ -40,7 +40,7 @@
        <item>
         <widget class="QTreeWidget" name="environments" >
          <property name="whatsThis" >
-          <string>List of known environments with a lot of additional information, which Kile could perhaps use. You can add your own environments, which will be recognized by autocompletion of environments, 'Smart Newline' and 'Smart Tabulator' for example. Of course you can only edit and delete user defined environments.</string>
+          <string>List of known environments with a lot of additional information that Kile can potentially use. You can add your own environments, which will then be recognized by autocompletion of environments; 'Smart Newline' and 'Smart Tabulator', for example. Note that you can only edit and delete user-defined environments.</string>
          </property>
          <property name="allColumnsShowFocus" >
           <bool>true</bool>
@@ -158,7 +158,7 @@
       <item>
        <widget class="KPushButton" name="deleteButton" >
         <property name="whatsThis" >
-         <string>Delete an user defined environment.</string>
+         <string>Delete a user-defined environment.</string>
         </property>
         <property name="text" >
          <string>De&amp;lete</string>
@@ -171,7 +171,7 @@
       <item>
        <widget class="KPushButton" name="editButton" >
         <property name="whatsThis" >
-         <string>Edit an user defined environment.</string>
+         <string>Edit a user-defined environment.</string>
         </property>
         <property name="text" >
          <string>&amp;Edit...</string>
@@ -200,7 +200,7 @@
    <item>
     <widget class="QCheckBox" name="showOnlyUserDefined" >
      <property name="text" >
-      <string>Show only user defined environments and commands</string>
+      <string>Show only user-defined environments and commands</string>
      </property>
     </widget>
    </item>

@@ -172,7 +172,7 @@ void PostscriptDialog::execute()
 	m_tempfile = buildTempfile();
 	
 	if(m_tempfile.isEmpty()) {
-		m_log->printMessage(KileTool::Error, i18n("Could not create a tempfile!"));
+		m_log->printMessage(KileTool::Error, i18n("Could not create a temporary file."));
 		return;
 	}
 	else {
@@ -228,7 +228,7 @@ void PostscriptDialog::slotProcessOutput()
 void PostscriptDialog::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
 	if (exitStatus != QProcess::NormalExit) {
-		showError(i18n("An error occurred, while rearranging the file."));
+		showError(i18n("An error occurred while rearranging the file."));
 	}
 
 	QFile::remove(m_tempfile);

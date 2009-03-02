@@ -88,8 +88,8 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	vbox->addWidget(m_texdocs);
 	vbox->addWidget(groupbox);
 
-	m_texdocs->setWhatsThis(i18n("A list of avaiblable documents, which are listed in 'texdoctk.dat', coming with TexLive/teTeX. A double click with the mouse or pressing the space key will open a viewer to show this file."));
-	m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files, which are related to this keyword."));
+	m_texdocs->setWhatsThis(i18n("A list of available documents, which are listed in 'texdoctk.dat', that come with TexLive/teTeX. Double clicking with the mouse or pressing the space key will open a viewer to show this file."));
+	m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files that are related to this keyword."));
 	m_pbSearch->setWhatsThis(i18n("Start the search for the chosen keyword."));
 	button(Default)->setWhatsThis(i18n("Reset TOC to show all available files."));
 
@@ -590,7 +590,7 @@ void TexDocDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStat
 		emit(processFinished());
 	}
 	else {
-		KMessageBox::error(this, i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless.") + i18n("</center>"), i18n("TexDoc Dialog"));
+		KMessageBox::error(this, i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> Hence, this dialog is unable to provide any useful information.") + i18n("</center>"), i18n("TexDoc Dialog"));
 	}
 }
 
@@ -602,7 +602,7 @@ void TexDocDialog::slotInitToc()
 
 	QStringList results = m_output.split('\n', QString::KeepEmptyParts);
 	if(results.count() < 3) {
-		KMessageBox::error(this, i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> So this dialog is useless."));
+		KMessageBox::error(this, i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> Hence, this dialog is unable to provide any useful information."));
 		return;
 	}
 

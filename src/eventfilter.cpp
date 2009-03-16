@@ -46,11 +46,11 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 {
 	// Handles input method events, i.e. multi-key combinations with international keyboard layouts
 	if (e->type() == QEvent::InputMethod) {
-		QInputMethodEvent *ime = (QInputMethodEvent*) e;
+		QInputMethodEvent *ime = static_cast<QInputMethodEvent*>(e);
 		// Only single chars, please. ime->commitString() holds the non-latex unicode character string
 		if (ime->commitString().size() == 1) {
 			// Extract unicode representation:
-			uchar rep = uchar(ime->commitString().at(0).unicode());
+			unsigned short rep = ime->commitString().at(0).unicode();
 			KILE_DEBUG() << "string= "<< ime->commitString().at(0) << " dec= "<< rep;
 			return m_edit->insertLatexFromUnicode(rep, m_view);
 		}

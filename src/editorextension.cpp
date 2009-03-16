@@ -2522,8 +2522,8 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	return true;
 }
 
-// Takes an unicode uchar and calls insertSpecialCharacter, inserting the proper LaTeX sequence and any dependencies.
-bool EditorExtension::insertLatexFromUnicode(const uchar& rep, KTextEditor::View *view)
+// Takes an unicode unsigned short and calls insertSpecialCharacter, inserting the proper LaTeX sequence and any dependencies.
+bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view)
 {
 	switch(rep) 
 		{ // Find the unicode decimal representation

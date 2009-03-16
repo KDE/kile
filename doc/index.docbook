@@ -453,7 +453,7 @@
 			a page instead of a structure element.</para></listitem>
 			<listitem><para><guilabel>cite</guilabel>: create a reference with data from a bibliography.</para></listitem>
 			<listitem><para><guilabel>cite from ViewBib</guilabel>: ask the ViewBib tool for all selected references and insert them.
-			Currently this is only avaible with <ulink url="http://user.digisurf.com.au/~thachly/kbib/">&kbib;</ulink> as ViewBib tool.</para></listitem>
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/">&kbib;</ulink> as ViewBib tool.</para></listitem>
 		</itemizedlist>
 
 		<screenshot>
@@ -484,7 +484,7 @@
 
 		<para>When using <guilabel>cite</guilabel>, you are presented with a drop-down 
 		list of bibitems, but if you are using &bibtex; this will only work if the file 
-		belongs to a Project. For editing &bibtex; files the usage of specialised editors is recommened.
+		belongs to a Project. For editing &bibtex; files the usage of specialised editors is recommended.
 		The author has made good experience with &kbibtex; and &kbib;. Of course you can also write the &bibtex; files by hand inside &kile;.</para>
 
 		<para>The last drop-down box labeled <guilabel>tiny</guilabel> is used to set the size of the text. You can
@@ -2016,8 +2016,8 @@
 		<para>A note of caution has to be sounded about the accuracy of the numbers.
 		We have included some logic to get a good estimate, e. g. K\"uhler gives one word and one command,
 		with six resp. two characters. But there are other combinations in which parts of commands
-		are counted as words and vice versa. It has also to be beared in mind that the algorithm
-		was developed and tested for languages similiar to english or german.
+		are counted as words and vice versa. It is also implied that the algorithm
+		was developed and tested for languages similar to English or German.
 		So don't take the numbers for granted. If you have to make an report with an
 		exact numbers of words or characters, make some tests to check whether &kile;'s accuracy satisfies your needs.</para>
 	</sect1>
@@ -2047,7 +2047,7 @@
 			<caption><para>The Sidebar Menu</para></caption>
 			</mediaobject>
 		</screenshot>
-		<para>The following types are avaible:</para>
+		<para>The following types are available:</para>
 
 		<itemizedlist>
 			<listitem><para>Most Frequently Used</para></listitem>
@@ -2064,7 +2064,7 @@
 		</itemizedlist>
 		<para>The tooltips of the icons show the &latex; commands and additionally needed packages.</para>
 		<para>Pressing <keycombo>&Shift;</keycombo> and clicking a symbol will result in 
-		<userinput>$\symbolcmd$</userinput> being inserted. Similiar pressing <keycombo>&Ctrl;</keycombo> 
+		<userinput>$\symbolcmd$</userinput> being inserted. Similar pressing <keycombo>&Ctrl;</keycombo> 
 		inserts it in curly brackets.</para>
 		<para>If you insert a command which requires a package which is not included in your &latex; document,
 		you will see a warning message in the logview window.</para>
@@ -2078,7 +2078,7 @@
 		<ulink url="http://www.dvipng.sourceforge.net">&dvipng;</ulink> (version 1.7 or later).
  		The procedure is so that you create a &latex; file with <userinput>\input{definitions}</userinput>,
  		which makes the commands listed below available, and let <userinput>gesymb mysymbols.tex user</userinput> 
-		(which calles &latex; and &dvipng;) create the icons. After copying them to 
+		(which calls &latex; and &dvipng;) create the icons. After copying them to 
 		<userinput>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput> and restarting kile you can use your own symbols.
 		</para>
 		<para>

@@ -2613,7 +2613,7 @@ bool EditorExtension::insertLatexFromUnicode(const uchar& rep, KTextEditor::View
 		case 338:	return insertSpecialCharacter("\\OE", view);
 		case 339:	return insertSpecialCharacter("\\oe", view);
 		case 376:	return insertSpecialCharacter("\\\"Y", view);
-		default:	return true;
+		default:	return false;
 		}
 }
 

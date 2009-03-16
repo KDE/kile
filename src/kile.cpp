@@ -600,8 +600,8 @@ void Kile::setupBottomBar()
 	m_bottomBar->addPage(m_previewScrollArea, SmallIcon ("document-preview"), i18n ("Preview"));
 
 	m_bottomBar->setVisible(true);
-	m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
 	m_bottomBar->switchToTab(KileConfig::bottomBarIndex());
+	m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
 }
 
 void Kile::setupGraphicTools()
@@ -2416,16 +2416,16 @@ void Kile::saveSettings()
 	m_verSplitBottom=*it;
 
 #ifdef __GNUC__
-#warning Restoring of the side bar's sizes and states doesn't work perfectly yet!
+#warning Restoring the side bar's sizes from minimized after start up doesn't work perfectly yet!
 #endif
-	// sync vertical splitter and size of bottom bar
-	int sizeBottomBar = m_bottomBar->directionalSize();
-	if(m_bottomBar->isVisible()) {
-		sizeBottomBar = m_verSplitBottom;
-	}
-	else {
-		m_verSplitBottom = sizeBottomBar;
-	}
+// 	// sync vertical splitter and size of bottom bar
+// 	int sizeBottomBar = m_bottomBar->directionalSize();
+// 	if(m_bottomBar->isVisible()) {
+// 		sizeBottomBar = m_verSplitBottom;
+// 	}
+// 	else {
+// 		m_verSplitBottom = sizeBottomBar;
+// 	}
 
 	KileConfig::setHorizontalSplitterLeft(m_horSplitLeft);
 	KileConfig::setHorizontalSplitterRight(m_horSplitRight);
@@ -2435,7 +2435,7 @@ void Kile::saveSettings()
 	KileConfig::setSideBar(!m_sideBar->isHidden()); // do not use 'isVisible()'!
 	KileConfig::setSideBarSize(m_sideBar->directionalSize());
 	KileConfig::setBottomBar(!m_bottomBar->isHidden()); // do not use 'isVisible()'!
-	KileConfig::setBottomBarSize(sizeBottomBar);
+	KileConfig::setBottomBarSize(m_bottomBar->directionalSize());
 	KileConfig::setBottomBarIndex(m_bottomBar->currentTab());
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());

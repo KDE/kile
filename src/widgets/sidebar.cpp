@@ -123,10 +123,12 @@ int SideBar::count()
 
 void SideBar::shrink()
 {
+	KILE_DEBUG();
 	if(isMinimized()) {
 		return;
 	}
 
+	int currentIndex = currentTab(); // before changing m_minimized!
 	m_tabStack->setVisible(false);
 	m_minimized = true;
 
@@ -140,7 +142,6 @@ void SideBar::shrink()
 	}
 
 	// deselect the currect tab
-	int currentIndex = currentTab();
 	m_tabBar->setTab(currentIndex, false);
 
 	emit visibilityChanged(false);
@@ -148,17 +149,21 @@ void SideBar::shrink()
 
 void SideBar::expand()
 {
+	KILE_DEBUG();
 	if(!isMinimized()) {
 		return;
 	}
 
+	KILE_DEBUG() << "directional size = " << m_directionalSize;
 	if(m_orientation == Qt::Horizontal) {
 		setMinimumHeight(0);
 		setMaximumHeight(QWIDGETSIZE_MAX);
+		m_tabStack->resize(m_tabStack->width(), m_directionalSize);
 	}
 	else if(m_orientation == Qt::Vertical) {
 		setMinimumWidth(0);
 		setMaximumWidth(QWIDGETSIZE_MAX);
+		m_tabStack->resize(m_directionalSize, m_tabStack->height());
 	}
 
 	m_tabStack->setVisible(true);
@@ -239,6 +244,8 @@ int SideBar::directionalSize()
 
 void SideBar::setDirectionalSize(int i)
 {
+	KILE_DEBUG() << "size = " << i;
+	m_directionalSize = i;
 	if(m_orientation == Qt::Horizontal) {
 		m_tabStack->resize(m_tabStack->width(), i);
 	}
@@ -249,7 +256,7 @@ void SideBar::setDirectionalSize(int i)
 
 void SideBar::switchToTab(int id)
 {
-	KILE_DEBUG() << "===SideBar::switchToTab(int id)===";
+	KILE_DEBUG() << "id = " << id;
 	int nTabs = m_tabStack->count();
 	int currentIndex = currentTab();
 

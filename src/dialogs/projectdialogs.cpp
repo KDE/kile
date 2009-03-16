@@ -378,27 +378,37 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 	
 			KILE_DEBUG() << "\t" << location() << " " << fi.path() << endl;
 			if (! dr.exists()) {
-				bool suc = true;
-				QStringList dirs = fi.path().split('/');
-				QString path;
-	
-				for (int i = 0; i < dirs.count(); ++i) {
-					path += '/' + dirs[i];
-					dir.setPath(path);
-					KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
-					if (! dir.exists()) {
-						dir.mkdir(dir.absolutePath());
-						suc = dir.exists();
-						KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
+				#ifdef Q_WS_WIN
+					dir.mkdir(dir.absolutePath());
+				#else
+					bool suc = true;
+					QStringList dirs = fi.path().split('/');
+					QString path;
+		
+					for (int i = 0; i < dirs.count(); ++i) {
+						path += '/' + dirs[i];
+						dir.setPath(path);
+						KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
+						if (! dir.exists()) {
+							dir.mkdir(dir.absolutePath());
+							suc = dir.exists();
+							KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
+						}
+		
+						if (!suc) {
+							KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
+							return;
+						}
 					}
-	
-					if (!suc) {
-						KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
-						return;
-					}
-				}
+				#endif //def Q_WS_WIN
+				
 			}
 	
+			if(!dr.exists()){
+				KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
+				return;
+			}
+
 			if (! dr.isWritable()) {
 				KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
 				return;
@@ -582,7 +592,7 @@ void KileProjectOptionsDlg::slotButtonClicked(int button)
 		QList<KileProjectItem*> rootItemList = m_project->rootItems();
 		for (QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
 			if ((*it)->url().fileName() == m_master->currentText()) {
-				m_project->setMasterDocument((*it)->url().path());
+				m_project->setMasterDocument((*it)->url().toLocalFile());
 			}
 		}
 		if (m_master->currentIndex() == 0) {

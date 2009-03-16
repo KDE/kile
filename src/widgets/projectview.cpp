@@ -250,7 +250,7 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
 		}
 		else if(itm->type() != KileType::Folder) {
 			// don't open project configuration files (*.kilepr)
-			if(itm->url().path().right(7) != ".kilepr") {
+			if(itm->url().toLocalFile().right(7) != ".kilepr") {
 				//determine mimeType and open file with preferred application
 				KMimeType::Ptr pMime = KMimeType::findByUrl(itm->url());
 				if(pMime->name().startsWith("text/")) {
@@ -383,14 +383,14 @@ void ProjectView::makeTheConnection(ProjectViewItem *item)
 	if (item->type() == KileType::Project) {
 		KileProject *project = m_ki->docManager()->projectFor(item->url());
 		if (!project) {
-			kWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().path();
+			kWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().toLocalFile();
 		}
 		else {
 			connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
 		}
 	}
 	else {
-		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().path());
+		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().toLocalFile());
 		item->setInfo(docinfo);
 		if(!docinfo) {
 			KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO";
@@ -408,7 +408,7 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 	ProjectViewItem *parent = parentFor(pi, item);
 
 	if(!parent) {
-		kError() << "no parent for " << pi->url().path();
+		kError() << "no parent for " << pi->url().toLocalFile();
 		return NULL;
 	}
 
@@ -524,10 +524,10 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
 	if (parpi) {
 		//find parent viewitem that has an URL parpi->url()
 		QTreeWidgetItemIterator it(projvi);
-		KILE_DEBUG() << "\tlooking for " << parpi->url().path();
+		KILE_DEBUG() << "\tlooking for " << parpi->url().toLocalFile();
 		while(*it) {
 			vi = static_cast<ProjectViewItem*>(*it);
-			KILE_DEBUG() << "\t\t" << vi->url().path();
+			KILE_DEBUG() << "\t\t" << vi->url().toLocalFile();
 			if (vi->url() == parpi->url()) {
 				parpvi = vi;
 				KILE_DEBUG() << "\t\tfound" <<endl;
@@ -656,7 +656,7 @@ void ProjectView::refreshProjectTree(const KileProject *project)
 
 void ProjectView::add(const KUrl& url)
 {
-	KILE_DEBUG() << "\tProjectView::adding item " << url.path();
+	KILE_DEBUG() << "\tProjectView::adding item " << url.toLocalFile();
 	//check if file is already present
 	QTreeWidgetItemIterator it(this);
 	ProjectViewItem *item;

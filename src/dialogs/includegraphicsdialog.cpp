@@ -429,10 +429,10 @@ void IncludeGraphics::slotChooseFilter()
 
 void IncludeGraphics::slotUrlSelected(const KUrl& url)
 {
-	QFileInfo fi(url.path());
+	QFileInfo fi(url.toLocalFile());
 
 	// could we accept the picture?
-	if (!url.path().isEmpty() && fi.exists() && fi.isReadable())
+	if (!url.toLocalFile().isEmpty() && fi.exists() && fi.isReadable())
 	{
 		// execute the command and filter the result:
 		// eps|eps.gz --> %%BoundingBox: 0 0 123 456
@@ -440,17 +440,17 @@ void IncludeGraphics::slotUrlSelected(const KUrl& url)
 		QString grep = " | grep -m1 \"^%%BoundingBox:\"";
 		QString ext = fi.completeSuffix();
 		if (ext == "eps"){
-			execute("cat " + url.path() + grep);
+			execute("cat " + url.toLocalFile() + grep);
 		}
 		else if (ext == "eps.gz"){
-				execute("gunzip -c " + url.path() + grep);
+				execute("gunzip -c " + url.toLocalFile() + grep);
 		}
 		else{
-			execute("identify -format \"w=%w h=%h dpi=%x\" \"" + url.path() + "\"");
+			execute("identify -format \"w=%w h=%h dpi=%x\" \"" + url.toLocalFile() + "\"");
 		}
 	} else {
 		KILE_DEBUG() << "=== IncludeGraphics::error ====================";
-		KILE_DEBUG() << "   filename: '" << url.path() << "'";
+		KILE_DEBUG() << "   filename: '" << url.toLocalFile() << "'";
 
 		m_widget.infolabel->setText("---");
 		m_widget.edit_bb->setText("");

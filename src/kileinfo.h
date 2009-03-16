@@ -135,7 +135,7 @@ public:
 
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
-	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.path(),file, type); }
+	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.toLocalFile(),file, type); }
 
 protected:
 	KileConfiguration::Manager	*m_configurationManager;

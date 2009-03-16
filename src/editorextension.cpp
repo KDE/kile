@@ -187,7 +187,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 	ins += tagEnd + trailing;
 
 	//do some replacements
-	QFileInfo fi( doc->url().path());
+	QFileInfo fi( doc->url().toLocalFile());
 	ins.replace("%S", fi.completeBaseName());
 	ins.replace("%B", s_bullet);
 	

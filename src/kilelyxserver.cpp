@@ -105,7 +105,7 @@ bool KileLyxServer::openPipes()
 {
 	KILE_DEBUG() << "===bool KileLyxServer::openPipes()===";
 	
-	#ifdef Q_OS_WIN
+	#ifdef Q_WS_WIN
 		kError() << "kile's lyx server can not work on windows since we don't have pipes";
 		kError() << "And also lyx itself does not support it, see  http://wiki.lyx.org/LyX/LyXServer";
 		return false;

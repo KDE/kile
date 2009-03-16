@@ -150,7 +150,7 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 	KILE_DEBUG() << "==slotUserHelpActivated(" << url << ")============";
 
 	// does the files exist?
-	QFileInfo fi(url.path());
+	QFileInfo fi(url.toLocalFile());
 	bool local = url.isLocalFile();
 	if(local && !fi.exists()) {
 		KMessageBox::error(m_mainWindow, i18n("The file '%1' does not exist.", url.prettyUrl()));

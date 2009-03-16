@@ -179,15 +179,15 @@ void KileProject::init(const QString& name, const KUrl& url, KileDocument::Exten
 	m_name = name;
 	m_projecturl = KileDocument::Manager::symlinkFreeURL( url);;
 
-	m_config = new KConfig(m_projecturl.path(), KConfig::SimpleConfig);
+	m_config = new KConfig(m_projecturl.toLocalFile(), KConfig::SimpleConfig);
 	m_extmanager = extensions;
 
 	m_baseurl = m_projecturl.directory();
 	m_baseurl.cleanPath(KUrl::SimplifyDirSeparators);
 
-	KILE_DEBUG() << "KileProject m_baseurl = " << m_baseurl.path();
+	KILE_DEBUG() << "KileProject m_baseurl = " << m_baseurl.toLocalFile();
 
-	if (QFileInfo(url.path()).exists())
+	if (QFileInfo(url.toLocalFile()).exists())
 	{
 		load();
 	}
@@ -334,17 +334,18 @@ QString KileProject::addBaseURL(const QString &path)
 	if(path.isEmpty()) {
 		return path;
 	}
-	else if(path.startsWith('/')) {
-		return KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(path)).path();
+
+	else if(QDir::isAbsolutePath(path)) {
+		return KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(path)).toLocalFile();
 	}
 	else {
-		return  KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(m_baseurl.path() + '/' +path)).path();
+		return  KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(m_baseurl.toLocalFile(KUrl::AddTrailingSlash) +path)).toLocalFile();
 	}
 }
 
 QString KileProject::removeBaseURL(const QString &path)
 {
-	if(path.startsWith('/')) {
+	if(QDir::isAbsolutePath(path)) {
 		QFileInfo info(path);
 		QString relPath = findRelativePath(path);
 		KILE_DEBUG() << "removeBaseURL path is" << path << " , relPath is " << relPath;
@@ -402,7 +403,7 @@ bool KileProject::load()
 	for (int i = 0; i < groups.count(); ++i) {
 		if (groups[i].left(5) == "item:") {
 			QString path = groups[i].mid(5);
-			if (path[0] == '/' ) {
+			if (QDir::isAbsolutePath(path)) {
 				url = KUrl::fromPathOrUrl(path);
 			}
 			else {
@@ -447,7 +448,7 @@ bool KileProject::save()
 
 	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));
-	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.path()));
+	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
 
 
 	writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
@@ -574,7 +575,7 @@ KileProjectItem* KileProject::item(const KileDocument::Info *info)
 
 void KileProject::add(KileProjectItem* item)
 {
-	KILE_DEBUG() << "KileProject::add projectitem" << item->url().path();
+	KILE_DEBUG() << "KileProject::add projectitem" << item->url().toLocalFile();
 
 	setType(item);
 
@@ -620,7 +621,7 @@ QString KileProject::findRelativePath(const KUrl &url)
 {
 	KILE_DEBUG() << "QString KileProject::findRelativePath(const KUrl " << url.path() << ")";
 
-	if ( m_baseurl.path() == url.path() ) {
+	if ( m_baseurl.toLocalFile() == url.toLocalFile() ) {
     		return "./";
 	}
 

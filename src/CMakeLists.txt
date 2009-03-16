@@ -154,6 +154,8 @@ SET( kile_KCFG_SRCS kileconfig.kcfgc)
 
 KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
 
+KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
+
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS} 
@@ -162,12 +164,24 @@ ${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
 INSTALL( TARGETS kile DESTINATION ${BIN_INSTALL_DIR} )
 
 
+
 ########### install files ###############
 
 INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 INSTALL( FILES kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
-kileui.rc docpartui.rc data/kilestdtools.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
+kileui.rc docpartui.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
+
+IF(CMAKE_SYSTEM_NAME MATCHES Windows)
+  INSTALL (FILES data/kilestdtools-win.rc 
+           DESTINATION ${DATA_INSTALL_DIR}/kile 
+           RENAME kilestdtools.rc)
+
+ELSE(CMAKE_SYSTEM_NAME MATCHES Windows)
+  INSTALL (FILES data/kilestdtools.rc 
+           DESTINATION ${DATA_INSTALL_DIR}/kile)
+
+ENDIF(CMAKE_SYSTEM_NAME MATCHES Windows)
 
 KDE4_INSTALL_ICONS( ${ICON_INSTALL_DIR}  )

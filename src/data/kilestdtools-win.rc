@@ -1,0 +1,851 @@
+[Tool/Archive/Tar]
+class=Archive
+command=tar
+options=cvf "%S.tar" %AFL
+from=kilepr
+to=tar
+type=Process
+
+[Tool/Archive/Tar + gzip]
+class=Archive
+command=tar
+options=zcvf "%S.tar.gz" %AFL
+from=kilepr
+to=tar.gz
+type=Process
+
+[Tool/Archive/Tar + bzip2]
+class=Archive
+command=tar
+options=jcvf "%S.tar.bz2" %AFL
+from=kilepr
+to=tar.bz2
+type=Process
+
+[Tool/Archive/Zip]
+class=Archive
+command=zip
+options="%S.zip" %AFL
+from=kilepr
+to=zip
+type=Process
+
+[Tool/BibTeX/Default]
+class=Compile
+command=bibtex
+options="%S"
+from=aux
+to=bbl
+type=Process
+
+[Tool/BibTeX/8bit Version]
+class=Compile
+command=bibtex8
+options="%S"
+from=aux
+to=bbl
+type=Process
+
+[Tool/Convert/eps2png]
+class=Convert
+command=convert
+options=+adjoin -antialias -trim -transparent white -density %res "%S.eps" "%S.png"
+from=eps
+to=png
+type=Process
+
+[Tool/Convert/pdf2png]
+class=Convert
+command=convert
+options=+adjoin -antialias -trim -transparent white -density %res "%S.pdf" "%S.png"
+from=pdf
+to=png
+type=Process
+
+[Tool/DBLaTeX/Convert to DVI]
+class=Compile
+command=dblatex
+options=-tdvi "%S.xml"
+from=xml
+to=dvi
+type=Process
+
+[Tool/DBLaTeX/Convert to PDF]
+class=Compile
+command=dblatex
+from=xml
+to=pdf
+options=-tpdf "%S.xml"
+type=Process
+
+[Tool/DBLaTeX/Convert to LaTeX]
+class=Compile
+command=dblatex
+from=xml
+to=tex
+options=-ttex "%S.xml"
+type=Process
+
+[Tool/DBLaTeX/Convert to Postscript]
+class=Compile
+command=dblatex
+from=xml
+to=ps
+options=-tps "%S.xml"
+type=Process
+
+[Tool/DVItoPDF/Default]
+class=Convert
+command=dvipdfmx
+options="%S.dvi"
+from=dvi
+to=pdf
+type=Process
+
+[Tool/DVItoPDF/Black and White]
+class=Convert
+command=dvipdfmx
+options=-c "%S.dvi"
+from=dvi
+to=pdf
+type=Process
+
+[Tool/DVItoPDF/Landscape]
+class=Convert
+command=dvipdfmx
+options=-l "%S.dvi"
+from=dvi
+to=pdf
+type=Process
+
+[Tool/DVItoPNG/Default]
+class=Convert
+command=dvipng
+options=-T tight -D %res -o "%S.png" "%S.dvi"
+from=dvi
+to=png
+type=Process
+
+[Tool/DVItoPS/Default]
+class=Convert
+command=dvips
+options=-o "%S.ps" "%S.dvi"
+from=dvi
+to=ps
+type=Process
+
+[Tool/DVItoPS/dvi2eps]
+class=Convert
+command=dvips
+options=-o "%S.eps" "%S.dvi"
+from=dvi
+to=eps
+type=Process
+
+[Tool/LaTeX/Default]
+class=LaTeX
+command=latex
+options=-interaction=nonstopmode "%source"
+from=
+to=dvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LaTeX/Draft]
+class=LaTeX
+command=latex
+options=-draftmode -interaction=nonstopmode "%source"
+from=
+to=dvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LaTeX/Modern]
+class=LaTeX
+command=latex
+options=-src-specials -interaction=nonstopmode "%source"
+from=
+to=dvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LaTeX to Web/TeX4ht (LaTeX to HTML)]
+class=Compile
+command=mk4ht
+from=tex
+to=html
+options=htlatex "%source"
+type=Process
+
+[Tool/LaTeX to Web/TeX4ht (LaTeX to MathML)]
+class=Compile
+command=mk4ht
+from=tex
+to=xml
+options=xhmlatex "%source"
+type=Process
+
+[Tool/LaTeX to Web/TeX4ht (LaTeX to XML)]
+class=Compile
+command=mk4ht
+from=tex
+to=xml
+options=xhlatex "%source"
+type=Process
+
+[Tool/LaTeX to Web/latex2html]
+class=Compile
+command=latex2html
+options="%source"
+from=tex
+to=html
+type=Process
+
+[Tool/MakeIndex/Default]
+class=Compile
+command=makeindex
+options="%S.idx"
+from=idx
+to=idx
+type=Process
+
+[Tool/MakeIndex/xindy]
+class=Compile
+command=xindy
+options="%S.idx"
+from=idx
+to=idx
+type=Process
+
+[Tool/MetaPost/Default]
+class=Compile
+command=mpost
+options=-tex=latex -interaction=nonstopmode "%source"
+from=
+to=
+type=Process
+
+[Tool/Asymptote/Default]
+class=Compile
+command=asy
+options="%S"
+from=
+to=
+type=Process
+
+[Tool/PDFLaTeX/Default]
+class=LaTeX
+command=pdflatex
+options=-interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/PDFLaTeX/Draft]
+class=LaTeX
+command=pdflatex
+options=-draftmode -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/PDFLaTeX/Modern]
+class=LaTeX
+command=pdflatex
+options=-src-specials -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/ConTeXt/PDF]
+class=Compile
+command=texexec
+options=--pdf --nonstopmode "%source"
+from=
+to=pdf
+type=Process
+
+[Tool/ConTeXt/PDF Draft]
+class=Compile
+command=texexec
+options=--pdf --draft --nonstopmode "%source"
+from=
+to=pdf
+type=Process
+
+[Tool/ConTeXt/DVI and PS]
+class=Compile
+command=texexec
+options=--dvi --nonstopmode "%source"
+from=
+to=dvi
+type=Process
+
+[Tool/ConTeXt/DVI and PS Draft]
+class=Compile
+command=texexec
+options=--dvi --draft --nonstopmode "%source"
+from=
+to=dvi
+type=Process
+
+[Tool/PDFLaTeX/Modern]
+class=LaTeX
+command=pdflatex
+options=-src-specials -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/PDF]
+class=LaTeX
+command=xelatex
+options=-interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/XDVI]
+class=LaTeX
+command=xelatex
+options=-no-pdf -interaction=nonstopmode "%source"
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/PDF Draft]
+class=LaTeX
+command=xelatex
+options=-draftmode -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/XDVI Draft]
+class=LaTeX
+command=xelatex
+options=-no-pdf -draftmode -interaction=nonstopmode "%source"
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/PDF Modern]
+class=LaTeX
+command=xelatex
+options=-src-specials -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/XeLaTeX/XDVI Modern]
+class=LaTeX
+command=xelatex
+options=-no-pdf -src-specials -interaction=nonstopmode "%source"
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/PreviewLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=latex
+from=
+jumpToFirstError=yes
+options=-interaction=nonstopmode "%source"
+to=dvi
+type=Process
+
+[Tool/PreviewPDFLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=pdflatex
+from=
+jumpToFirstError=yes
+options=-interaction=nonstopmode "%source"
+to=pdf
+type=Process
+
+[Tool/PreviewXeLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=xelatex
+from=
+jumpToFirstError=yes
+options=-interaction=nonstopmode "%source"
+to=pdf
+type=Process
+
+[Tool/PStoPDF/Default]
+class=Convert
+command=ps2pdf
+options="%S.ps" "%S.pdf"
+from=ps
+to=pdf
+type=Process
+
+[Tool/QuickBuild/LaTeX]
+class=Sequence
+type=Sequence
+sequence=LaTeX
+
+[Tool/QuickBuild/LaTeX+ViewDVI]
+class=Sequence
+type=Sequence
+sequence=LaTeX,ViewDVI
+
+[Tool/QuickBuild/LaTeX+DVItoPS+ViewPS]
+class=Sequence
+type=Sequence
+sequence=LaTeX,DVItoPS,ViewPS
+
+[Tool/QuickBuild/LaTeX+DVItoPDF+ViewPDF]
+class=Sequence
+type=Sequence
+sequence=LaTeX,DVItoPDF,ViewPDF
+
+[Tool/QuickBuild/PDFLaTeX+ViewPDF]
+class=Sequence
+type=Sequence
+sequence=PDFLaTeX,ViewPDF
+
+[Tool/QuickBuild/LaTeX+ForwardDVI]
+class=Sequence
+type=Sequence
+sequence=LaTeX,ForwardDVI
+
+[Tool/QuickBuild/LaTeX+DVItoPS+PStoPDF+ViewPDF]
+class=Sequence
+sequence=LaTeX,DVItoPS,PStoPDF,ViewPDF
+type=Sequence
+
+[Tool/TeX/Default]
+class=Compile
+command=tex
+options=-interaction=nonstopmode "%source"
+from=
+to=dvi
+type=Process
+
+[Tool/TeX/Modern]
+class=Compile
+command=tex
+options=-src-specials -interaction=nonstopmode "%source"
+from=
+to=dvi
+type=Process
+
+[Tool/PDFTeX/Default]
+class=Compile
+command=pdftex
+options=-interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+
+[Tool/PDFTeX/Draft]
+class=Compile
+command=pdftex
+options=-draftmode -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+
+[Tool/PDFTeX/Modern]
+class=Compile
+command=pdftex
+options=-src-specials -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+
+[Tool/ViewBib/JabRef]
+type=Process
+class=ViewBib
+command=jabref
+options="%source"
+from=bib
+to=bib
+
+[Tool/ViewBib/Pybliographer]
+type=Process
+class=ViewBib
+command=pybliographic
+options="%source"
+from=bib
+to=bib
+
+[Tool/ViewBib/gbib]
+type=Process
+class=ViewBib
+command=gbib
+options="%source"
+from=bib
+to=bib
+
+[Tool/ViewBib/KBib]
+class=ViewBib
+command=kbib
+options="%source"
+from=bib
+to=bib
+type=Process
+
+[Tool/ViewBib/KBibTex]
+type=Process
+class=ViewBib
+command=kbibtex
+options="%source"
+from=bib
+to=bib
+
+[Tool/ViewBib/KBibTex (embedded)]
+type=Part
+class=ViewBib
+libName=kbibtexpart
+className=KBibTeXPart
+liboptions="%source"
+state=Viewer
+from=bib
+to=bib
+
+[Tool/ViewHTML/Embedded Viewer]
+type=DocPart
+class=ViewHTML
+state=HTMLpreview
+relDir=
+target=
+from=html
+to=html
+
+[Tool/ViewHTML/Konqueror]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+command=konqueror
+options="file:%dir_target/%target"
+target=
+from=html
+to=html
+
+[Tool/ViewHTML/Mozilla]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+command=mozilla
+options="file:%dir_target/%target"
+target=
+from=html
+to=html
+
+[Tool/ViewHTML/Firefox]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+command=firefox
+options="file:%dir_target/%target"
+target=
+from=html
+to=html
+
+[Tool/ForwardDVI/Embedded Viewer]
+type=Part
+class=ForwardDVI
+className=Okular::Part
+libName=okularpart
+from=dvi
+to=dvi
+state=Viewer
+libOptions=dvi
+
+[Tool/ForwardDVI/Okular]
+class=ForwardDVI
+type=Process
+command=okular
+options=--unique "%target"
+from=dvi
+to=dvi
+
+[Tool/ViewDVI/Embedded Viewer]
+class=View
+className=Okular::Part
+libName=okularpart
+state=Viewer
+type=Part
+from=dvi
+to=dvi
+
+[Tool/ViewDVI/Okular]
+class=View
+command=okular
+options="%target"
+from=dvi
+to=dvi
+state=Viewer
+type=Process
+
+[Tool/ViewDVI/SystemDefault]
+class=View
+command=cmd
+options=/c start "View DVI" "%target"
+from=dvi
+to=dvi
+state=Viewer
+type=Process
+
+
+[Tool/ViewDVI/Okular Unique]
+class=View
+command=okular
+options=--unique "%target"
+from=dvi
+to=dvi
+state=Viewer
+type=Process
+
+[Tool/ViewPS/GV]
+class=View
+command=gv
+options="%target"
+state=Viewer
+from=ps
+to=ps
+type=Process
+
+[Tool/ViewPS/Okular]
+class=View
+command=okular
+options="%target"
+from=ps
+to=ps
+state=Viewer
+type=Process
+
+[Tool/ViewPS/Okular Unique]
+class=View
+command=okular
+options=--unique "%target"
+from=ps
+to=ps
+state=Viewer
+type=Process
+
+[Tool/ViewPS/Embedded Viewer]
+class=View
+className=Okular::Part
+from=ps
+to=ps
+libName=okularpart
+state=Viewer
+type=Part
+
+[Tool/ViewPS/SystemDefault]
+class=View
+command=cmd
+options=/c start "View PS" "%target"
+from=ps
+to=ps
+state=Viewer
+type=Process
+
+
+[Tool/ViewPDF/Okular]
+class=View
+command=okular
+options="%target"
+from=pdf
+to=pdf
+state=Viewer
+type=Process
+
+[Tool/ViewPDF/Okular Unique]
+class=View
+command=okular
+options=--unique "%target"
+from=pdf
+to=pdf
+state=Viewer
+type=Process
+
+[Tool/ViewPDF/Embedded Viewer]
+class=View
+className=Okular::Part
+libName=okularpart
+from=pdf
+to=pdf
+state=Viewer
+type=Part
+
+[Tool/ViewPDF/Acroread]
+class=View
+command=acroread
+options="%target"
+state=Viewer
+from=pdf
+to=pdf
+type=Process
+
+[Tool/ViewPDF/SystemDefault]
+class=View
+command=cmd
+options=/c start "View PDF" "%target"
+state=Viewer
+from=pdf
+to=pdf
+type=Process
+
+[Tool/Lilypond/PDF]
+class=Compile
+command=lilypond
+options=--pdf "%source"
+from=ly
+to=pdf
+type=Process
+
+[Tool/Lilypond/DVI]
+class=Compile
+command=lilypond
+options=--dvi "%source"
+from=ly
+to=dvi
+type=Process
+
+[Tool/Lilypond/TeX]
+class=Compile
+command=lilypond
+options=--tex "%source"
+from=ly
+to=tex
+type=Process
+
+[Tool/Lilypond/PS]
+class=Compile
+command=lilypond
+options=--ps "%source"
+from=ly
+to=ps
+type=Process
+
+[Tool/Lilypond/PNG]
+class=Compile
+command=lilypond
+options=--png "%source"
+from=ly
+to=png
+type=Process
+
+[Tools]
+Archive=Tar + gzip
+Asymptote=Default
+BibTeX=Default
+Convert=pdf2png
+ConTeXt=PDF
+DBLaTeX=LaTeX
+DVItoPDF=Default
+DVItoPNG=Default
+DVItoPS=Default
+LaTeX=Default
+LaTeX to Web=latex2html
+MakeIndex=Default
+MetaPost=Default
+PDFLaTeX=Default
+PreviewLaTeX=Default
+PreviewPDFLaTeX=Default
+PreviewXeLaTeX=Default
+PStoPDF=Default
+QuickBuild=PDFLaTeX+ViewPDF
+TeX=Default
+PDFTeX=Default
+ViewBib=KBibTex
+ViewPDF=SystemDefault
+ViewPS=SystemDefault
+ViewDVI=SystemDefault
+ViewHTML=Konqueror
+ForwardDVI=Okular
+Lilypond=PDF
+XeLaTeX=PDF
+
+[ToolsGUI]
+Lilypond=Compile,lilypond
+Archive=Archive,package
+Asymptote=Compile,asymptote
+BibTeX=Compile,bibtex
+Convert=Convert,convert
+DVItoPDF=Convert,dvipdf
+DVItoPNG=Convert,dvipng
+DVItoPS=Convert,dvips
+LaTeX to Web=Compile,l2h
+DBLaTeX=Compile,dblatex
+MakeIndex=Compile,makeidx
+MetaPost=Compile,mpost
+PreviewLaTeX=none,none
+PreviewPDFLaTeX=none,none
+PreviewXeLaTeX=none,none
+PStoPDF=Convert,ps2pdf
+QuickBuild=Quick,quick
+LaTeX=Compile,latex
+TeX=Compile,texcompiler
+PDFTeX=Compile,pdftex
+PDFLaTeX=Compile,pdflatex
+ConTeXt=Compile,latex
+XeLaTeX=Compile,latex
+ViewBib=View,viewbib
+ViewDVI=View,viewdvi
+ViewPDF=View,viewpdf
+ViewPS=View,viewps
+ViewHTML=View,viewhtml
+ForwardDVI=View,dvisearch
+
+[Shortcuts]
+tool_QuickBuild=Alt+1
+tool_LaTeX=Alt+2
+tool_ViewDVI=Alt+3
+tool_DVItoPS=Alt+4
+tool_ViewPS=Alt+5
+tool_PDFLaTeX=Alt+6
+tool_ViewPDF=Alt+7
+tool_PStoPDF=Alt+8
+tool_DVItoPDF=Alt+9
+tool_BibTeX=Alt+-
+tool_MakeIndex=Alt+=

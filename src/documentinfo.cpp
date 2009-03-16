@@ -352,7 +352,7 @@ void Info::count(const QString& line, long *stat)
 QString Info::lastModifiedFile(const QStringList *list /* = NULL */)
 {
 	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====";
-	QFileInfo fileinfo(url().path());
+	QFileInfo fileinfo(url().toLocalFile());
 	QString basepath = fileinfo.absolutePath(), last = fileinfo.absoluteFilePath();
 	QDateTime time(fileinfo.lastModified());
 
@@ -682,12 +682,12 @@ void TextInfo::removeInstalledEventFilters()
 	}
 }
 
-void TextInfo::installSignalConnections(KTextEditor::View */* view */)
+void TextInfo::installSignalConnections(KTextEditor::View *)
 {
 	/* does nothing */
 }
 
-void TextInfo::removeSignalConnections(KTextEditor::View */* view */)
+void TextInfo::removeSignalConnections(KTextEditor::View *)
 {
 	/* does nothing */
 }
@@ -714,12 +714,12 @@ void TextInfo::removeSignalConnections()
 	}
 }
 
-void TextInfo::registerCodeCompletionModels(KTextEditor::View */* view */)
+void TextInfo::registerCodeCompletionModels(KTextEditor::View *)
 {
 	/* does nothing */
 }
 
-void TextInfo::unregisterCodeCompletionModels(KTextEditor::View */* view */)
+void TextInfo::unregisterCodeCompletionModels(KTextEditor::View *)
 {
 	/* does nothing */
 }

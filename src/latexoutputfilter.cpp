@@ -57,7 +57,7 @@ bool LatexOutputFilter::fileExists(const QString & name)
 {
 	static QFileInfo fi;
 
-	if (name[0] == '/' ) {
+	if (QDir::isAbsolutePath(name)) {
 		fi.setFile(name);
 		if(fi.exists() && !fi.isDir()) {
 			return true;

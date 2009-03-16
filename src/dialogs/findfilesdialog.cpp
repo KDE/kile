@@ -406,7 +406,7 @@ void FindFilesDialog::setupProject()
 	KileProject *project = m_ki->docManager()->activeProject();
 	if(project) {
 		m_projectOpened = true;
-		m_projectdir = project->baseURL().path();
+		m_projectdir = project->baseURL().toLocalFile();
 		projectname_label->setText(project->name());
 		projectdirname_label->setText(m_projectdir);
 
@@ -519,7 +519,7 @@ void FindFilesDialog::processOutput()
 				}
 			}
 			else {
-				new QListWidgetItem(item.mid(dir_combo->url().path().length() + 1), resultbox);
+				new QListWidgetItem(item.mid(dir_combo->url().toLocalFile().length() + 1), resultbox);
 			}
 		}
 		m_buf = m_buf.right(m_buf.length() - pos - 1);

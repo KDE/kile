@@ -308,7 +308,7 @@ namespace KileTool
 		QString filepath;
 
 		if (doc) {
-			filepath = doc->url().path();
+			filepath = doc->url().toLocalFile();
 		}
 		else {
 			return false;

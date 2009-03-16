@@ -663,7 +663,7 @@ void StructureViewItem::setLabel(const QString &label)
 				}
 			}
 			
-			if(fname.left(1) != "/") { // no absolute path
+			if(QDir::isRelativePath(fname)) { // no absolute path
 				QString fn = m_ki->getCompileName();
 				fname= QFileInfo(fn).path() + '/' + fname;
 			}
@@ -754,7 +754,7 @@ void StructureViewItem::setLabel(const QString &label)
 		else if(m_popupItem->type() == KileStruct::Graphics) {
 			m_popupInfo = m_popupItem->title();
 
-			if(m_popupInfo.left(1) != "/") { // no absolute path
+			if(!QDir::isAbsolutePath(m_popupInfo)) { 
 				QString fn = m_ki->getCompileName();
 				m_popupInfo = QFileInfo(fn).path() + '/' + m_popupInfo;
 			}

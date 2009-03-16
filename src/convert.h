@@ -38,8 +38,8 @@ public:
 
 	void addPair(QChar c, const QString & enc);
 
-	bool canDecode(const QChar & c) { return ( m_toASCII.contains(c) > 0 ); }
-	bool canEncode(const QString & enc) { return ( m_toEncoding.contains(enc) > 0 ); }
+	bool canDecode(const QChar & c) { return ( m_toASCII.contains(c)); }
+	bool canEncode(const QString & enc) { return ( m_toEncoding.contains(enc)); }
 
 	bool load();
 

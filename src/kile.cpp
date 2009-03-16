@@ -1268,7 +1268,7 @@ void Kile::runArchiveTool()
 void Kile::runArchiveTool(const KUrl &url)
 {
 	KileTool::Archive *tool = new KileTool::Archive("Archive", m_manager, false);
-	tool->setSource(url.path());
+	tool->setSource(url.toLocalFile());
 	tool->prepareToRun();
 	m_manager->run(tool);
 }
@@ -1457,7 +1457,7 @@ bool Kile::queryClose()
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
-		KileConfig::setLastDocument(view->document()->url().path());
+		KileConfig::setLastDocument(view->document()->url().toLocalFile());
 	}
 	else {
 		KileConfig::setLastDocument("");
@@ -1474,13 +1474,13 @@ bool Kile::queryClose()
 	m_listDocsOpenOnStart.clear();
 
 	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
-		m_listDocsOpenOnStart.append(viewManager()->textView(i)->document()->url().path());
+		m_listDocsOpenOnStart.append(viewManager()->textView(i)->document()->url().toLocalFile());
 	}
 
 	KILE_DEBUG() << "#projects = " << docManager()->projects().count() << endl;
 	QList<KileProject*> projectList = docManager()->projects();
 	for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
-		m_listProjectsOpenOnStart.append((*i)->url().path());
+		m_listProjectsOpenOnStart.append((*i)->url().toLocalFile());
 	}
 
 	bool stage1 = docManager()->projectCloseAll();
@@ -2203,7 +2203,7 @@ void Kile::quickPostscript()
 
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
-		startdir = QFileInfo(view->document()->url().path()).path();
+		startdir = QFileInfo(view->document()->url().toLocalFile()).path();
 		texfilename = getCompileName();
 	}
 
@@ -2617,7 +2617,7 @@ void Kile::includeGraphics()
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if ( !view ) return;
 
-	QFileInfo fi( view->document()->url().path() );
+	QFileInfo fi( view->document()->url().toLocalFile() );
 	KileDialog::IncludeGraphics *dialog = new KileDialog::IncludeGraphics(m_mainWindow, fi.path(), this);
 
 	if ( dialog->exec() == QDialog::Accepted )
@@ -2788,7 +2788,7 @@ void Kile::updateStatusBarViewMode(KTextEditor::View *view)
 	}
 }
 
-void Kile::updateStatusBarInformationMessage(KTextEditor::View */* view */, const QString &message)
+void Kile::updateStatusBarInformationMessage(KTextEditor::View * /* view */, const QString &message)
 {
 	statusBar()->showMessage(message, 5000);
 }

@@ -93,6 +93,10 @@ namespace KileTool
 			it.next();
 			str.replace(it.key(), it.value());
 		}
+		//Windows doesn't like single quotes on command line '*.tex'
+		#ifdef Q_OS_WIN
+			str.replace("'", "\"");
+		#endif 
 	}
 
 	void Base::prepareToRun(const QString &cfg)
@@ -298,7 +302,7 @@ namespace KileTool
 		KUrl url = KUrl::fromPathOrUrl(m_basedir);
 		url.addPath(m_relativedir);
 		url.cleanPath();
-		m_targetdir = url.path();
+		m_targetdir = url.toLocalFile();
 		
 		setTarget(m_target);
 		setTargetDir(m_targetdir);		
@@ -587,7 +591,7 @@ namespace KileTool
 		}
 
 		manager()->info()->docManager()->projectSave(m_project);
-		Base::setSource(m_project->url().path());
+		Base::setSource(m_project->url().toLocalFile());
 		m_fileList = m_project->archiveFileList();
 		
 		addDict("%AFL", m_fileList);

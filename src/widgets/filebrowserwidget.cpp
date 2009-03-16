@@ -120,7 +120,7 @@ void FileBrowserWidget::readConfig()
 
 void FileBrowserWidget::writeConfig()
 {
-	KileConfig::setLastDir(m_dirOperator->url().path());
+	KileConfig::setLastDir(m_dirOperator->url().toLocalFile());
 }
 
 KUrl FileBrowserWidget::currentUrl() const

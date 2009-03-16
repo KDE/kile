@@ -66,7 +66,7 @@ private:
 // Copyright (C) 2001-2003 David Faure (faure@kde.org)
 void KJSCPUGuard::start(unsigned int ms, unsigned int i_ms)
 {
-#ifndef Q_OS_WIN
+#ifndef Q_WS_WIN
   oldAlarmHandler = signal(SIGVTALRM, alarmHandler);
   itimerval tv = {
       { i_ms / 1000, (i_ms % 1000) * 1000 },
@@ -78,7 +78,7 @@ void KJSCPUGuard::start(unsigned int ms, unsigned int i_ms)
 
 void KJSCPUGuard::stop()
 {
-#ifndef Q_OS_WIN
+#ifndef Q_WS_WIN
   setitimer(ITIMER_VIRTUAL, &oldtv, NULL);
   signal(SIGVTALRM, oldAlarmHandler);
 #endif

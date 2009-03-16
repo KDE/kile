@@ -182,7 +182,7 @@ ConvertIOFile::ConvertIOFile(KTextEditor::Document *doc, const KUrl & url) : Con
 
 void ConvertIOFile::writeText()
 {
-	QFile qf(m_url.path());
+	QFile qf(m_url.toLocalFile());
 	if(qf.open(QIODevice::WriteOnly)) {
 		//read the file
 		QTextStream stream(&qf);
@@ -190,7 +190,7 @@ void ConvertIOFile::writeText()
 		qf.close();
 	}
 	else {
-		kWarning() << "Could not open " << m_url.path();
+		kWarning() << "Could not open " << m_url.toLocalFile();
 	}
 }
 

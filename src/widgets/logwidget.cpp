@@ -155,12 +155,12 @@ namespace KileWidget
 		emit(outputInfoSelected(info));
 	}
 
-	void LogWidget::enterEvent(QEvent */* event */)
+	void LogWidget::enterEvent(QEvent *)
 	{
 		adaptMouseCursor(mapFromGlobal(QCursor::pos()));
 	}
 
-	void LogWidget::leaveEvent(QEvent */* event */)
+	void LogWidget::leaveEvent(QEvent *)
 	{
 		unsetCursor();
 	}

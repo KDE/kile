@@ -106,8 +106,10 @@ namespace KileTool {
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
+
 		if(m_cmd.isEmpty()) {
 			m_cmd = tool()->readEntry("command");
+			KILE_DEBUG() << "\treadEntry('command'): " << m_cmd;
 		}
 
 		if(m_options.isEmpty()) {
@@ -115,20 +117,27 @@ namespace KileTool {
 #warning Better turn this into a QStringList and check whether KShell::quote has been used!
 #endif
 			m_options = tool()->readEntry("options");
+			KILE_DEBUG() << "\treadEntry('option'):" << m_options;
 		}
 
 		if(m_changeTo && (!m_wd.isEmpty())) {
 			m_proc->setWorkingDirectory(m_wd);
-			out += QString("*****     cd '") + m_wd + QString("'\n");
+			KILE_DEBUG() << "\tchanged to " << m_wd;
+			out += QString("*****     cd \"") + m_wd + QString("\"\n");
 		}
 
 		QString str;
 		tool()->translate(m_cmd);
 		tool()->translate(m_options);
+
+		KILE_DEBUG() << "\t after translate: m_cmd=" << m_cmd << ", m_options=" << m_options;
+
 		if(m_cmd.isEmpty()) {
 			return false;
 		}
 		*m_proc << m_cmd << KShell::splitArgs(m_options, KShell::AbortOnMeta);
+
+		KILE_DEBUG() << "\t sent " << m_cmd << KShell::splitArgs(m_options, KShell::AbortOnMeta) << " to m_proc";
 
 		if (m_proc) {
 			out += QString("*****     ") + m_cmd+ ' ' + m_options + '\n';
@@ -173,10 +182,12 @@ namespace KileTool {
 			emit(output(out));
 
 			if(tool()->manager()->shouldBlock()) {
+				KILE_DEBUG() << "About to execute: " << m_proc->program();
 				m_proc->execute();
 			}
 			else {
-				m_proc->start();
+				KILE_DEBUG() << "About to start: " << m_proc->program();
+				m_proc->execute();
 			}
 		}
 		else {

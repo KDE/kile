@@ -114,7 +114,7 @@ void QuickPreview::previewSubdocument(KTextEditor::Document *doc)
 	}
 
 	// the current document should not be the master document
-	QString filename = doc->url().path();
+	QString filename = doc->url().toLocalFile();
 	if(filename == m_ki->getCompileName()) {
 		showError( i18n("This is not a subdocument, but the master document."));
 		return;

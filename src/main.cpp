@@ -51,7 +51,7 @@ QString completePath(const QString &path)
 	if( QDir::isRelativePath(path) ) {
 		if(path.startsWith("file:")) {
 			KUrl url = KUrl::fromPathOrUrl(path);
-			url.setFileName(completePath(url.path()));
+			url.setFileName(completePath(url.toLocalFile()));
 			fullpath = url.url();
 		}
 		else if(path.indexOf(QRegExp("^[a-z]+:")) == -1) {
@@ -165,6 +165,7 @@ int main( int argc, char ** argv )
 		}
 
 		args->clear();
+
 		return app.exec();
 	}
 	else {

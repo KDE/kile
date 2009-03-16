@@ -80,8 +80,8 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 		doc = activeTextDocument();
 	}
 	if (doc) {
-		KILE_DEBUG() << "url " << doc->url().path() << endl;
-		title = shrt ? doc->url().fileName() : doc->url().path();
+		KILE_DEBUG() << "url " << doc->url().toLocalFile() << endl;
+		title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
 	}
 
 	return title;
@@ -96,14 +96,14 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 			if (project->masterDocument().length() > 0) {
 				KUrl master = KUrl::fromPathOrUrl(project->masterDocument());
 				if (shrt) return master.fileName();
-				else return master.path();
+				else return master.toLocalFile();
 			}
 			else {
 				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
 				if (item) {
 					KUrl url = item->url();
 					if (shrt) return url.fileName();
-					else return url.path();
+					else return url.toLocalFile();
 				}
 				else
 					return QString();
@@ -302,7 +302,8 @@ bool KileInfo::similarOrEqualURL(const KUrl &validurl, const KUrl &testurl)
 {
 	if ( testurl.isEmpty() || testurl.path().isEmpty() ) return false;
 
-	bool absolute = testurl.path().startsWith('/');
+
+	bool absolute = QDir::isAbsolutePath(testurl.toLocalFile());
 	return (
 		     (validurl == testurl) ||
 		     (!absolute && validurl.path().endsWith(testurl.path()))
@@ -390,9 +391,9 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 	inputpaths.prepend(path);
 
 		// the first match is supposed to be the correct one
-	for(QStringList::Iterator it = inputpaths.begin(); it != inputpaths.end(); ++it) {
-		KILE_DEBUG() << "path is " << *it << "and file is " << file << endl;
-		info.setFile((*it) + '/' + file);
+	foreach(const QString &string, inputpaths){
+		KILE_DEBUG() << "path is " << string << "and file is " << file << endl;
+		info.setFile(string + '/' + file);
 		if(info.exists()) {
 			KILE_DEBUG() << "filepath after correction is: " << info.path() << endl;
 			return info.absoluteFilePath();

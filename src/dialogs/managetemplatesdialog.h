@@ -29,7 +29,7 @@ class KUrl;
 
 namespace KileTemplate {
 class Manager;
-class Info;
+struct Info;
 }
 
 /**

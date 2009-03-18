@@ -2522,7 +2522,8 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	return true;
 }
 
-// Takes an unicode unsigned short and calls insertSpecialCharacter, inserting the proper LaTeX sequence and any dependencies.
+// Takes an unicode unsigned short and calls insertSpecialCharacter to
+// insert the proper LaTeX sequence and warn user of any dependencies.
 bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view)
 {
 	switch(rep) 
@@ -2533,17 +2534,20 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 		case 163:	return insertSpecialCharacter("\\pounds", view);
 		case 164:	return insertSpecialCharacter("\\textcurrency", view, "textcomp");
 		case 165:	return insertSpecialCharacter("\\textyen", view, "textcomp");
+		case 166:	return insertSpecialCharacter("\\textbrokenbar", view, "textcomp");
 		case 167:	return insertSpecialCharacter("\\S", view);
 		case 168:	return insertSpecialCharacter("\"", view);
 		case 169:	return insertSpecialCharacter("\\copyright", view);
 		case 170:	return insertSpecialCharacter("\\textordfeminine", view, "textcomp");
 		case 171:	return insertSpecialCharacter("\\guillemotleft", view);
 		case 172:	return insertSpecialCharacter("\\neg", view); // TODO: Check for math
+		case 173:	return insertSpecialCharacter("-", view); // TODO: Check for math
 		case 174:	return insertSpecialCharacter("\\textregistered", view, "textcomp");
 		case 176:	return insertSpecialCharacter("^\\circ", view); // TODO: Check for math
 		case 177:	return insertSpecialCharacter("\\pm", view); // TODO: Check for math
 		case 178:	return insertSpecialCharacter("^2", view); // TODO: Check for math
 		case 179:	return insertSpecialCharacter("^3", view); // TODO: Check for math
+		case 180:	return insertSpecialCharacter("'", view);
 		case 181:	return insertSpecialCharacter("\\mu", view); // TODO: Check for math
 		case 182:	return insertSpecialCharacter("\\P", view);
 		case 185:	return insertSpecialCharacter("^1", view); // TODO: Check for math
@@ -2558,6 +2562,7 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 		case 197:	return insertSpecialCharacter("\\AA", view);
 		case 198:	return insertSpecialCharacter("\\AE", view);
 		case 199:	return insertSpecialCharacter("\\cC", view);
+		case 200:	return insertSpecialCharacter("\\`E", view);
 		case 201:	return insertSpecialCharacter("\\'E", view);
 		case 202:	return insertSpecialCharacter("\\^E", view);
 		case 203:	return insertSpecialCharacter("\\\"E", view);
@@ -2610,9 +2615,117 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 		case 252:	return insertSpecialCharacter("\\\"u", view);
 		case 253:	return insertSpecialCharacter("\\'y", view);
 		case 255:	return insertSpecialCharacter("\\\"y", view);
+		case 256:	return insertSpecialCharacter("\\=A", view);
+		case 257:	return insertSpecialCharacter("\\=a", view);
+		case 258:	return insertSpecialCharacter("\\uA", view);
+		case 259:	return insertSpecialCharacter("\\ua", view);
+		case 262:	return insertSpecialCharacter("\\'C", view);
+		case 263:	return insertSpecialCharacter("\\'c", view);
+		case 264:	return insertSpecialCharacter("\\^C", view);
+		case 265:	return insertSpecialCharacter("\\^c", view);
+		case 266:	return insertSpecialCharacter("\\.C", view);
+		case 267:	return insertSpecialCharacter("\\.c", view);
+		case 268:	return insertSpecialCharacter("\\vC", view);
+		case 269:	return insertSpecialCharacter("\\vc", view);
+		case 270:	return insertSpecialCharacter("\\vD", view);
+		case 271:	return insertSpecialCharacter("\\vd", view);
+		case 272:	return insertSpecialCharacter("\\=D", view);
+		case 273:	return insertSpecialCharacter("\\=d", view);
+		case 274:	return insertSpecialCharacter("\\=E", view);
+		case 275:	return insertSpecialCharacter("\\=e", view);
+		case 276:	return insertSpecialCharacter("\\uE", view);
+		case 277:	return insertSpecialCharacter("\\ue", view);
+		case 278:	return insertSpecialCharacter("\\.E", view);
+		case 279:	return insertSpecialCharacter("\\.e", view);
+		case 282:	return insertSpecialCharacter("\\vE", view);
+		case 283:	return insertSpecialCharacter("\\ve", view);
+		case 284:	return insertSpecialCharacter("\\^G", view);
+		case 285:	return insertSpecialCharacter("\\^g", view);
+		case 286:	return insertSpecialCharacter("\\uG", view);
+		case 287:	return insertSpecialCharacter("\\ug", view);
+		case 288:	return insertSpecialCharacter("\\.G", view);
+		case 289:	return insertSpecialCharacter("\\.g", view);
+		case 290:	return insertSpecialCharacter("\\cG", view);
+		case 291:	return insertSpecialCharacter("\\'g", view);
+		case 292:	return insertSpecialCharacter("\\^H", view);
+		case 293:	return insertSpecialCharacter("\\^h", view);
+		case 294:	return insertSpecialCharacter("\\=H", view);
+		case 295:	return insertSpecialCharacter("\\=h", view);
+		case 296:	return insertSpecialCharacter("\\~I", view);
+		case 297:	return insertSpecialCharacter("\\~i", view);
+		case 298:	return insertSpecialCharacter("\\=I", view);
+		case 299:	return insertSpecialCharacter("\\=i", view);
+		case 300:	return insertSpecialCharacter("\\uI", view);
+		case 301:	return insertSpecialCharacter("\\ui", view);
+		case 304:	return insertSpecialCharacter("\\.I", view);
+		case 305:	return insertSpecialCharacter("\\i", view);
+		case 308:	return insertSpecialCharacter("\\^J", view);
+		case 309:	return insertSpecialCharacter("\\^j", view);
+		case 310:	return insertSpecialCharacter("\\cK", view);
+		case 311:	return insertSpecialCharacter("\\ck", view);
+		case 313:	return insertSpecialCharacter("\\'L", view);
+		case 314:	return insertSpecialCharacter("\\'l", view);
+		case 315:	return insertSpecialCharacter("\\cL", view);
+		case 316:	return insertSpecialCharacter("\\cl", view);
+		case 317:	return insertSpecialCharacter("\\vL", view);
+		case 318:	return insertSpecialCharacter("\\vl", view);
+		case 323:	return insertSpecialCharacter("\\'N", view);
+		case 324:	return insertSpecialCharacter("\\'n", view);
+		case 325:	return insertSpecialCharacter("\\cN", view);
+		case 326:	return insertSpecialCharacter("\\cn", view);
+		case 327:	return insertSpecialCharacter("\\vN", view);
+		case 328:	return insertSpecialCharacter("\\vn", view);
+		case 332:	return insertSpecialCharacter("\\=O", view);
+		case 333:	return insertSpecialCharacter("\\=o", view);
+		case 334:	return insertSpecialCharacter("\\uO", view);
+		case 335:	return insertSpecialCharacter("\\uo", view);
+		case 336:	return insertSpecialCharacter("\\HO", view);
+		case 337:	return insertSpecialCharacter("\\Ho", view);
 		case 338:	return insertSpecialCharacter("\\OE", view);
 		case 339:	return insertSpecialCharacter("\\oe", view);
+		case 340:	return insertSpecialCharacter("\\'R", view);
+		case 341:	return insertSpecialCharacter("\\'r", view);
+		case 342:	return insertSpecialCharacter("\\cR", view);
+		case 343:	return insertSpecialCharacter("\\cr", view);
+		case 344:	return insertSpecialCharacter("\\vR", view);
+		case 345:	return insertSpecialCharacter("\\vr", view);
+		case 346:	return insertSpecialCharacter("\\'S", view);
+		case 347:	return insertSpecialCharacter("\\'s", view);
+		case 348:	return insertSpecialCharacter("\\^S", view);
+		case 349:	return insertSpecialCharacter("\\^s", view);
+		case 350:	return insertSpecialCharacter("\\cS", view);
+		case 351:	return insertSpecialCharacter("\\cs", view);
+		case 352:	return insertSpecialCharacter("\\vS", view);
+		case 353:	return insertSpecialCharacter("\\vs", view);
+		case 354:	return insertSpecialCharacter("\\cT", view);
+		case 355:	return insertSpecialCharacter("\\ct", view);
+		case 356:	return insertSpecialCharacter("\\vT", view);
+		case 357:	return insertSpecialCharacter("\\vt", view);
+		case 358:	return insertSpecialCharacter("\\=T", view);
+		case 359:	return insertSpecialCharacter("\\=t", view);
+		case 360:	return insertSpecialCharacter("\\~U", view);
+		case 361:	return insertSpecialCharacter("\\~u", view);
+		case 362:	return insertSpecialCharacter("\\=U", view);
+		case 363:	return insertSpecialCharacter("\\=u", view);
+		case 364:	return insertSpecialCharacter("\\uU", view);
+		case 365:	return insertSpecialCharacter("\\uu", view);
+		case 366:	return insertSpecialCharacter("\\AU", view);
+		case 367:	return insertSpecialCharacter("\\Au", view);
+		case 368:	return insertSpecialCharacter("\\HU", view);
+		case 369:	return insertSpecialCharacter("\\Hu", view);
+		case 370:	return insertSpecialCharacter("\\cU", view);
+		case 371:	return insertSpecialCharacter("\\cu", view);
+		case 372:	return insertSpecialCharacter("\\^W", view);
+		case 373:	return insertSpecialCharacter("\\^w", view);
+		case 374:	return insertSpecialCharacter("\\^Y", view);
+		case 375:	return insertSpecialCharacter("\\^y", view);
 		case 376:	return insertSpecialCharacter("\\\"Y", view);
+		case 377:	return insertSpecialCharacter("\\'Z", view);
+		case 378:	return insertSpecialCharacter("\\'z", view);
+		case 379:	return insertSpecialCharacter("\\.Z", view);
+		case 380:	return insertSpecialCharacter("\\.z", view);
+		case 381:	return insertSpecialCharacter("\\vZ", view);
+		case 382:	return insertSpecialCharacter("\\vz", view);
 		default:	return false;
 		}
 }

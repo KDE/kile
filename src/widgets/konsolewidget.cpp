@@ -115,12 +115,13 @@ namespace KileWidget
 		}
 	}
 
-	void Konsole::setDirectory(const QString &dirname)
+	void Konsole::setDirectory(const QString &directory)
 	{
 // 		KILE_DEBUG() << "void Konsole::setDirectory(const QString &" << dirname << ")";
-		if(m_term && !dirname.isEmpty()) {
-			m_term->sendInput("cd " + KShell::quoteArg(dirname) + '\n');
+		if(m_term && !directory.isEmpty() && directory != m_currentDir) {
+			m_term->sendInput("cd " + KShell::quoteArg(directory) + '\n');
         		m_term->sendInput("clear\n");
+			m_currentDir = directory;
 		}
 	}
 

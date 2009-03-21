@@ -53,6 +53,7 @@ namespace KileWidget
 			TerminalInterface       *m_term;
 			bool			m_bPresent;
 			KileInfo		*m_ki;
+			QString 		m_currentDir;
 	};
 }
 

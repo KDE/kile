@@ -169,7 +169,7 @@ namespace KileDialog
 
 	void Config::setupTools(KPageWidgetItem* parent)
 	{
-		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), 0);
+		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), this);
 		addConfigPage(parent, toolPage, i18n("Build"), "launch", i18n("Build"));
 	}
 
@@ -198,7 +198,7 @@ namespace KileDialog
 
 	void Config::setupQuickPreview(KPageWidgetItem* parent)
 	{
-		previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),0);
+		previewPage = new KileWidgetPreviewConfig(m_config,m_ki->quickPreview(),this);
 		previewPage->readConfig();
 
 		addConfigPage(parent, previewPage, i18n("Preview"), "preview", i18n("Quick Preview"));

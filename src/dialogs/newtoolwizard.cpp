@@ -41,12 +41,6 @@ NewToolWizard::NewToolWizard(QWidget *parent, Qt::WFlags fl) : KAssistantDialog(
 	m_cbTools->addItems(m_toolList);
 }
 
-NewToolWizard::~NewToolWizard()
-{
-	delete toolNamePage;
-	delete classPage;
-}
-
 QString NewToolWizard::customTool()
 {
 	return i18n("<Custom>");

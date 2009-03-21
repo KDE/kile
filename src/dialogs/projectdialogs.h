@@ -104,9 +104,9 @@ class KileNewProjectDlg : public KileProjectDlgBase
 
 		KileProject* project();
 
-		QString bare();
-		QString location() {
-			return m_location->lineEdit()->text();
+		QString cleanProjectFile();
+		QString folder() {
+			return m_folder->lineEdit()->text();
 		}
 
 		TemplateItem* getSelection() const;
@@ -119,7 +119,6 @@ class KileNewProjectDlg : public KileProjectDlgBase
 
 	private Q_SLOTS:
 		void clickedCreateNewFileCb();
-		void makeProjectPath();
 		void fillProjectDefaults();
 
 	protected Q_SLOTS:
@@ -128,13 +127,11 @@ class KileNewProjectDlg : public KileProjectDlgBase
 	private:
 		KileTemplate::Manager *m_templateManager;
 		KLineEdit *m_file, *m_name;
-		KUrlRequester *m_location;
+		KUrlRequester *m_folder;
 		TemplateIconView *m_templateIconView;
 		QCheckBox  *m_cb;
 		QLabel    *m_lb;
-
-		KPushButton *m_pbChooseDir;
-		QString   m_dir, m_filename;
+		KUrl m_projectFileWithPath;
 };
 
 class KileProjectOptionsDlg : public KileProjectDlgBase

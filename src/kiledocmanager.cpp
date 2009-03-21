@@ -548,6 +548,7 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url , 
 //FIXME: template stuff should be in own class
 KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 {
+	KILE_DEBUG() << "templateitem *sel = " << sel;
 	QString text;
 
 	if(!sel) {
@@ -1103,28 +1104,21 @@ void Manager::buildProjectTree(KileProject *project)
 
 void Manager::projectNew()
 {
-	KILE_DEBUG() << "==Kile::projectNew==========================";
 	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->templateManager(), m_ki->extensions(), m_ki->mainWindow());
-	KILE_DEBUG()<< "\tdialog created";
 
 	if (dlg->exec())
 	{
-		KILE_DEBUG()<< "\tdialog executed";
-		KILE_DEBUG() << "\t" << dlg->objectName() << " " << dlg->location();
-
 		KileProject *project = dlg->project();
 
 		//add the project file to the project
-		//TODO: shell expand the filename
 		KileProjectItem *item = new KileProjectItem(project, project->url());
 		item->setOpenState(false);
 		projectOpenItem(item);
 
-		if(dlg->createNewFile()) {
+		if(dlg->createNewFile()){
 			QString filename = dlg->file();
 
 			//create the new document and fill it with the template
-			//TODO: shell expand the filename
 			KTextEditor::View *view = loadTemplate(dlg->getSelection());
 
 			if(view) {

@@ -50,10 +50,9 @@
 #include "templates.h"
 
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
-const QString whatsthisPath = i18n("Insert the path to your project file here. If this file does not yet exists, it will be created. The filename should have the extension: .kilepr. You can also use the browse button to insert a filename.");
+const QString whatsthisPath = i18n("Insert the path to your project here.");
 const QString whatsthisExt = i18n("Insert a list (separated by spaces) of file extensions which should be treated also as files of the corresponding type in this project.");
 const QString whatsthisMaster = i18n("Select the default master document. Leave empty for auto detection.");
-
 const QString tool_default = i18n("(use global setting)");
 
 KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char * name)
@@ -79,7 +78,6 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_pgroup->setLayout(m_pgrid);
 
 	m_title = new KLineEdit(m_pgroup);
-	m_title->setObjectName("le_projectname");
 	m_title->setWhatsThis(whatsthisName);
 	m_plabel = new QLabel(i18n("Project &title:"), m_pgroup);
 	m_plabel->setBuddy(m_title);
@@ -94,13 +92,11 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_egroup->setLayout(m_egrid);
 
 	m_extensions = new KLineEdit(m_egroup);
-	m_extensions->setObjectName("le_ext");
 	QRegExp reg("[\\. a-zA-Z0-9]+");
 	QRegExpValidator *extValidator = new QRegExpValidator(reg, m_egroup);
 	m_extensions->setValidator(extValidator);
 
 	m_sel_extensions = new KComboBox(false, m_egroup);
-	m_sel_extensions->setObjectName("le_sel_ext");
 	m_sel_extensions->addItem(i18n("Source Files"));
 	m_sel_extensions->addItem(i18n("Package Files"));
 	m_sel_extensions->addItem(i18n("Image Files"));
@@ -213,8 +209,7 @@ void KileProjectDlgBase::fillProjectDefaults()
  * KileNewProjectDlg
  */
 KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent, const char* name)
-		: KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name), m_templateManager(templateManager),
-		m_filename(QString())
+		: KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name), m_templateManager(templateManager)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -228,18 +223,17 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	// first groupbox
 	m_pgrid->addWidget(m_plabel, 0, 0);
 	m_pgrid->addWidget(m_title, 0, 1);
-	connect(m_title, SIGNAL(textChanged(const QString&)), this, SLOT(makeProjectPath()));
 
-	m_location = new KUrlRequester(m_pgroup);
-	m_location->setObjectName("le_projectlocation");
+	m_folder = new KUrlRequester(m_pgroup);
+	m_folder->setMode(KFile::Directory);
 
-	QLabel *lb1 = new QLabel(i18n("Project &file:"), m_pgroup);
+	QLabel *lb1 = new QLabel(i18n("Project &folder:"), m_pgroup);
 	lb1->setWhatsThis(whatsthisPath);
-	m_location->setWhatsThis(whatsthisPath);
-	lb1->setBuddy(m_location);
+	m_folder->setWhatsThis(whatsthisPath);
+	lb1->setBuddy(m_folder);
 
 	m_pgrid->addWidget(lb1, 1, 0);
-	m_pgrid->addWidget(m_location, 1, 1);
+	m_pgrid->addWidget(m_folder, 1, 1);
 
 	// second groupbox
 	QGroupBox *group2 = new QGroupBox(i18n("File"), page);
@@ -286,7 +280,7 @@ KileNewProjectDlg::~KileNewProjectDlg()
 KileProject* KileNewProjectDlg::project()
 {
 	if (!m_project) {
-		m_project = new KileProject(projectTitle(), KUrl(location()), m_extmanager);
+		m_project = new KileProject(projectTitle(), m_projectFileWithPath, m_extmanager);
 
 		KileProjectItem::Type type;
 		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
@@ -314,21 +308,9 @@ void KileNewProjectDlg::clickedCreateNewFileCb()
 	}
 }
 
-QString KileNewProjectDlg::bare()
+QString KileNewProjectDlg::cleanProjectFile()
 {
 	return projectTitle().toLower().trimmed().remove(QRegExp("\\s*")) + ".kilepr";
-}
-
-void KileNewProjectDlg::makeProjectPath()
-{
-	m_filename = bare();
-	KILE_DEBUG() << "BEFORE " << QFileInfo(location()).absoluteFilePath() << " " << QFileInfo(location()).path() << endl;
-	m_dir = QFileInfo(location()).path();
-	if (m_dir.right(1) != "/")
-		m_dir = m_dir + '/';
-
-	KILE_DEBUG() << "LOCATION " << location() << " AND " << m_dir << endl;
-	m_location->lineEdit()->setText(m_dir + m_filename);
 }
 
 void KileNewProjectDlg::slotButtonClicked(int button)
@@ -337,88 +319,46 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 		if (! acceptUserExtensions())
 			return;
 	
-		//replace ~ and environment variables in the paths
-		KUrlCompletion uc;
-		uc.setReplaceEnv(true);
-		uc.setReplaceHome(true);
-		m_location->lineEdit()->setText(uc.replacedPath(location()));
-		m_file->setText(uc.replacedPath(file()));
-	
 		if (projectTitle().trimmed().isEmpty())
 		{
-			if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes)
+			if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes){
 				m_title->setText(i18n("Untitled"));
-			else
+			}
+			else{
 				return;
+			}
 		}
 	
-		if (location().trimmed().isEmpty())
-		{
-			KMessageBox::error(this, i18n("Please enter the location where the project file should be save to. Also make sure it ends with .kilepr ."), i18n("Empty Location"));
+		if (folder().trimmed().isEmpty()){
+			KMessageBox::error(this, i18n("Please enter the folder where the project file should be saved to."), i18n("Empty Location"));
 			return;
 		}
 	
-		QFileInfo fi(location().trimmed());
-		QFileInfo dr(fi.path());
-		QDir dir = dr.dir();
+		QDir dir = QDir(folder().trimmed());
+		QFileInfo fi(dir.absolutePath() + QDir::separator());
 	
-		if (location().trimmed().right(7) != ".kilepr")
-		{
-			KMessageBox::error(this, i18n("The extension of the project filename is not .kilepr , please correct the extension"), i18n("Wrong Filename Extension"));
+		KILE_DEBUG() << "project location is " << folder() << endl;
+		
+		if( !dir.exists() ){
+			dir.mkpath(dir.absolutePath());
+		}
+		
+		if(!dir.exists()){
+			KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
 			return;
 		}
-		else
-		{
-	
-			if (dir.isRelative())
-			{
-				KMessageBox::error(this, i18n("The path for the project file is not an absolute path, absolute paths always begin with an /"), i18n("Relative Path"));
-				return;
-			}
-	
-			KILE_DEBUG() << "\t" << location() << " " << fi.path() << endl;
-			if (! dr.exists()) {
-				#ifdef Q_WS_WIN
-					dir.mkdir(dir.absolutePath());
-				#else
-					bool suc = true;
-					QStringList dirs = fi.path().split('/');
-					QString path;
-		
-					for (int i = 0; i < dirs.count(); ++i) {
-						path += '/' + dirs[i];
-						dir.setPath(path);
-						KILE_DEBUG() << "\tchecking : " << dir.absolutePath() << endl;
-						if (! dir.exists()) {
-							dir.mkdir(dir.absolutePath());
-							suc = dir.exists();
-							KILE_DEBUG() << "\t\tcreated : " << dir.absolutePath() << " suc = " << suc << endl;
-						}
-		
-						if (!suc) {
-							KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
-							return;
-						}
-					}
-				#endif //def Q_WS_WIN
-				
-			}
-	
-			if(!dr.exists()){
-				KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
-				return;
-			}
+		if (!fi.isWritable()){
+			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
+			return;
+		}
+		if(QFileInfo(folder() + QDir::separator() + cleanProjectFile()).exists()){
+                       KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
+			return;
+		}
 
-			if (! dr.isWritable()) {
-				KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
-				return;
-			}
-		}
-	
 		if (createNewFile()) {
-			if (file().trimmed().isEmpty()) {
-				KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."),
-													i18n("No File Name Given"));
+			if (file().trimmed().isEmpty()){
+				KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
 				return;
 			}
 	
@@ -429,20 +369,15 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 			if(validURL != fileURL) {
 				m_file->setText(validURL.fileName());
 			}
-	// 		FIXME the repairextension feature is no implemented here
 	
-			if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()) {
+			if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()){
 				if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
-				
 					return;
 				}
 			}
 		}
-	
-		if(QFileInfo(location()).exists()) {
-			KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
-			return;
-		}
+		
+		m_projectFileWithPath = KUrl::fromPathOrUrl(folder() + QDir::separator() + cleanProjectFile() );
 	
 		accept();
 	}
@@ -453,14 +388,8 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 
 void KileNewProjectDlg::fillProjectDefaults()
 {
-	m_dir = KileConfig::defaultProjectLocation();
-	if (!m_dir.endsWith('/')) {
-		m_dir += '/';
-	}
-	KILE_DEBUG() << "M_DIR " << m_dir << endl;
-	m_location->lineEdit()->setText(m_dir);
+	m_folder->lineEdit()->setText(QDir::cleanPath(KileConfig::defaultProjectLocation()));
 	m_cb->setChecked(true);
-
 	KileProjectDlgBase::fillProjectDefaults();
 }
 

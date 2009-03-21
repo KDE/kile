@@ -317,7 +317,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	emptyDocumentInfo.icon = emptyIcon;
 	emptyDocumentInfo.type = type;
 	TemplateItem *emp = new TemplateItem(this, emptyDocumentInfo);
-	emp->setSelected(true);
+ 	setCurrentItem(emp);
 
 	if(type == KileDocument::LaTeX) {
 		// disable non standard templates
@@ -372,14 +372,6 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 
 	// sort all items (item for 'Empty Document' will always be the first one)
 	sortItems();
-	
-	// set the default item, if its given
-	for(int i = 0; i < count(); ++i) {
-		if(static_cast<TemplateItem*>(item(i))->name() == m_selicon) {
-			item(i)->setSelected(true);
-			break;
-		}
-	}
 }
 
 #include "templates.moc"

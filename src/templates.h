@@ -146,7 +146,6 @@ class TemplateIconView : public QListWidget {
 	protected:
 		KileTemplate::Manager *m_templateManager;
 		QString m_output;
-		QString m_selicon;
 		KProcess *m_proc;
 
 		void addTemplateIcons(KileDocument::Type type);

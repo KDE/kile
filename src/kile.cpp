@@ -1139,12 +1139,17 @@ void Kile::restoreLastSelectedAction(){
 
 void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 {
-	for (QList<QAction*>::iterator act = list.begin(); act != list.end(); ++act) {
-// 		KILE_DEBUG() << "(*act)->objectName()" << (*act)->objectName();
-		if ( (*act) != NULL && action((*act)->objectName()) != NULL && !tools.contains(QString((*act)->objectName()).mid(5))) {
-			list.erase(act);
-			if ((*act)->associatedWidgets().contains(toolBar("toolsToolBar"))) {
-				toolBar("toolsToolBar")->removeAction(*act);
+// 	KILE_DEBUG() << "cleanUpActionList tools are" << tools.join("; ");
+	QList<QAction*>::iterator it, testIt;
+	for ( it= list.begin(); it != list.end(); it++){
+		QAction *act = *it;
+		if ( act != NULL && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
+			if (act->associatedWidgets().contains(toolBar("toolsToolBar"))) {
+				toolBar("toolsToolBar")->removeAction(act);
+			}
+			testIt = list.erase(it);
+			if( testIt == list.end()){
+				break;
 			}
 		}
 	}

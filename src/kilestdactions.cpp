@@ -125,14 +125,14 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	actionother_list->addAction(new KileAction::InputTag(ki,"ref", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_ref", parentWidget, KileAction::FromLabelList, "\\ref{%R", "}", 5,0, QString(), i18n("Label") ));
 	actionother_list->addAction(new KileAction::InputTag(ki,"pageref", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_pageref", parentWidget, KileAction::FromLabelList, "\\pageref{%R", "}", 9,0, QString(), i18n("Label") ));
 	actionother_list->addAction(new KileAction::InputTag(ki,"cite", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_cite", parentWidget, KileAction::FromBibItemList, "\\cite{%R", "}", 6,0, i18n("This command generates an in-text citation to the reference associated with the ref entry in the bib file\nYou can open the bib file with Kile to see all the available references"), i18n("Reference")));
-	KAction *action = actionCollection->addAction("citeViewBib", receiver, SLOT(citeViewBib()));
-	action->setText(i18n("cite from ViewBib"));
-	actionother_list->addAction(action);
+// 	KAction *action = actionCollection->addAction("citeViewBib", receiver, SLOT(citeViewBib()));
+// 	action->setText(i18n("cite from ViewBib"));
+// 	actionother_list->addAction(action);
 
 	(void) new KileAction::Tag(i18n("Underline - \\underline{}"), i18n("Underline"), "format-text-underline", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_underline", "\\underline{","}",11);
 
 	QString icon = (KStandardDirs::locate("icon","default.kde/22x22/actions/key_enter.png").isEmpty()) ? "newline" : "key_enter";
-	action = actionCollection->addAction("tag_newline", ki->editorExtension(), SLOT(insertIntelligentNewline()));
+	KAction *action = actionCollection->addAction("tag_newline", ki->editorExtension(), SLOT(insertIntelligentNewline()));
 	action->setText(i18n("Smart New Line"));
 	action->setShortcut(KShortcut(Qt::SHIFT + Qt::Key_Return));
 	action->setIcon(KIcon(icon));

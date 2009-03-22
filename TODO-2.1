@@ -7,6 +7,7 @@ general:
 - prevent having two kile services registered on d-bus
 - cmake stuff has to be rechecked, especially the doc and translations handling might be unnecessary difficult because it was written for KDE3.
 - try to get inverse search working in okular, see https://bugs.kde.org/show_bug.cgi?id=159074
+- many shortcuts are wrong. In KDE3 shortcuts could be labelled as "Alt+I,F" where you press ALT and I and then a small widgets pops up where you can decide if you want to add F, G or H. In KDE4 this is no longer possible. The most straight forward way would be to change the shortcut to ALT + I + F, although this is much more difficult to type.
 
 minor:
 - some operator symbols look really ugly, but I (tbraun) have no idea why. The dvi and the pngs look good.
@@ -22,7 +23,7 @@ regressions:
 - should complain if tool is not found
 + *_extensions are written to toplevel of project files instead of general
 + create new project dialog, open file dialog does not work
-- adding a file to a project, creates a yellow symbol for a with latex root doc. closing the project and reopening fixes it
+- adding a file to a project, creates a yellow symbol for a with latex root doc. closing the project and reopening fixes it. The problem here is that we don't have a doc object and therefore don't return a reasonable url. See makeTheConnection in structurewidget.cpp.
 
 by private from Jiri Tyr:
 - > When I want to open a PDF file in Okular directly from the Kile, it
@@ -32,6 +33,11 @@ by private from Jiri Tyr:
   > Main Menu: LaTeX -> Floating Environment -> Figure, Table
   > which are missing also in the Structure list view.
   In KDE 3.5 they have been taken from kdelibs and are now no longer present.
+- > I have found some more missing icons in Menu: Settings -> Configure Kile:
+  >
+  > Kile -> Scripting
+  > LaTeX
+  > Tools -> Build
 
 postponed after 2.1 release:
 - spell checker on the fly should ignore latex commands

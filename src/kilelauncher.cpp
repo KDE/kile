@@ -187,7 +187,7 @@ namespace KileTool {
 			}
 			else {
 				KILE_DEBUG() << "About to start: " << m_proc->program();
-				m_proc->execute();
+				m_proc->start();
 			}
 		}
 		else {

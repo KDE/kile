@@ -361,11 +361,10 @@ void Kile::hideEvent(QHideEvent *)
 
 void Kile::setupStatusBar()
 {
-//	uncommented by tbraun, fixes some debug complaints
-// 	statusBar()->removeItem(ID_LINE_COLUMN);
-// 	statusBar()->removeItem(ID_HINTTEXT);
-// 	statusBar()->removeItem(ID_VIEW_MODE);
-// 	statusBar()->removeItem(ID_SELECTION_MODE);
+	statusBar()->removeItem(ID_LINE_COLUMN);
+	statusBar()->removeItem(ID_HINTTEXT);
+	statusBar()->removeItem(ID_VIEW_MODE);
+	statusBar()->removeItem(ID_SELECTION_MODE);
 
 	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT, 10);
 	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);

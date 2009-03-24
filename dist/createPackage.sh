@@ -240,7 +240,7 @@ function getResource
             COMMAND="svn export -N $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE $DESTINATION"
         ;;
         admindir)
-            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$ADMINDIR $DESTINATION"
+#            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$ADMINDIR $DESTINATION"
         ;;
         source)
             COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/$APPNAME $DESTINATION"
@@ -316,7 +316,7 @@ function assembleApplicationData
         getResource "topleveldir" $APPDIR
     fi
 
-    getResource "admindir" $APPDIR/admin
+#    getResource "admindir" $APPDIR/admin
 
     if [ $TOPLEVEL = "yes" ]; then
         getResource "source" $APPDIR/src
@@ -447,7 +447,7 @@ function setupI18NDir
         I18NDIR="$APPNAME-i18n-$APPVERSION"
 
         getResource "topleveldir" $I18NDIR
-        getResource "admindir" $I18NDIR/admin
+#        getResource "admindir" $I18NDIR/admin
         moveGNUFiles $I18NDIR
 
         TRANSDIR=$I18NDIR
@@ -541,7 +541,7 @@ function retrieveGUITranslations
         done
 
         if [ $INCLUDE_THIS_LANG = "yes" ]; then
-            createGUITranslationMakefile $language $BUILDDIR/$TRANSDIR/$language/messages
+     #       createGUITranslationMakefile $language $BUILDDIR/$TRANSDIR/$language/messages
             INCLUDED_LANGUAGES="$INCLUDED_LANGUAGES $language"
         else
             rm -rf $TRANSDIR/$language
@@ -560,10 +560,7 @@ function retrieveDocTranslations
     for language in $INCLUDED_LANGUAGES ; do
         print "         Including documentation for language $language"
         getResource "doctranslation" $language $TRANSDIR/$language/doc
-        if [ -e $BUILDDIR/$TRANSDIR/$language/doc/index.docbook ]
-        then
-            createDocTranslationMakefile $language $BUILDDIR/$TRANSDIR/$language/doc
-        else
+	if [ ! -e $BUILDDIR/$TRANSDIR/$language/doc/index.docbook ]; then
             print "                  No translations for $language docs available."
             rm -rf $TRANSDIR/$language/doc
         fi
@@ -577,8 +574,8 @@ function packageApplication
 {
     cd $BUILDDIR
 
-    print "Creating configure script and Makefile.in files"
-    (cd $APPDIR; runCommand make -f admin/Makefile.common cvs)
+#    print "Creating configure script and Makefile.in files"
+#    (cd $APPDIR; runCommand make -f admin/Makefile.common cvs)
 
     cleanupDirectory $APPDIR
 
@@ -610,8 +607,8 @@ function packageTranslations
 
     cd $BUILDDIR
 
-    print "Creating translations configure script and Makefile.in files"
-    (cd $I18NDIR; runCommand make -f admin/Makefile.common cvs)
+#    print "Creating translations configure script and Makefile.in files"
+#    (cd $I18NDIR; runCommand make -f admin/Makefile.common cvs)
 
     cleanupDirectory $I18NDIR
 
@@ -692,7 +689,7 @@ function initVars
     I18NSUB=""
     I18NDOCSUB=""
     APP_POFILES=""
-    ADMINDIR="trunk/KDE/kde-common/admin"
+#    ADMINDIR="trunk/KDE/kde-common/admin"
 
     LASTRESULT="0"
     BUILDDIR="$PWD/build"
@@ -865,8 +862,8 @@ retrieveDocumentation
 
 retrieveGUITranslations
 retrieveDocTranslations
-createTranslationMakefiles
-createTranslationDirMakefile $BUILDDIR/$TRANSDIR
+#createTranslationMakefiles
+#createTranslationDirMakefile $BUILDDIR/$TRANSDIR
 
 postProcessApplicationDir
 

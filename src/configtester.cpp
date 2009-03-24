@@ -49,8 +49,12 @@ ConfigTest::ConfigTest(const QString &name, bool mustpass, const QString &arg, c
 int ConfigTest::status() const
 {
 	bool passed = false;
-	if ( m_name == "binary" )
+	if ( m_name == "binary" ){
 		passed = m_arg.endsWith(m_altArg);
+	#ifdef Q_WS_WIN 
+		passed = passed || m_arg.endsWith(m_altArg + ".exe");
+	#endif;
+	}
 	else if ( m_name == "version" )
 		passed = true;
 	else
@@ -155,7 +159,11 @@ Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 	// which are not needed, but probably useful for the work with kile
 	ConfigTest::addFailureMessage("dvipng", i18n("You cannot use the png preview for mathgroups in the bottom bar."));
 	ConfigTest::addFailureMessage("convert", i18n("You cannot use the png previews with conversions 'dvi->ps->png' and 'pdf->png'."));
+#ifdef Q_WS_WIN
+	ConfigTest::addFailureMessage("acrord32", i18n("You cannot open pdf documents with Adobe Reader because acroread could not be found in your path.  <br>If Adobe Reader is your default pdf viewer, try setting ViewPDF to System Default.  Alternatively, you could use Okular."));
+#else
 	ConfigTest::addFailureMessage("acroread", i18n("You cannot open pdf documents with Adobe Reader, but you could use Okular."));
+#endif 
 }
 
 
@@ -173,7 +181,12 @@ void Tester::saveResults(const KUrl & dest)
 
 void Tester::runTests()
 {
+#ifdef Q_WS_WIN
+	QString srcdir = KGlobal::dirs()->findResourceDir("appdata","test/runTests.bat") + "test";
+#else
 	QString srcdir = KGlobal::dirs()->findResourceDir("appdata","test/runTests.sh") + "test";
+#endif 
+	QString command;
 	KILE_DEBUG() << "Tester::runTests: srcdir = " << srcdir << endl;
 	m_tempDir = new KTempDir();
 	QString destdir = m_tempDir->name();
@@ -186,9 +199,28 @@ void Tester::runTests()
 	{
 		m_process->setEnv("TEXINPUTS", KileInfo::expandEnvironmentVars( KileConfig::teXPaths() + ":$TEXINPUTS"));
 	}
-	QString command = "cd " + KShell::quoteArg(destdir) + " && ";
+#ifdef Q_WS_WIN
+	//Most things don't care, but the command-line copy tool won't work with '/'
+	//Also: calling quoteArg on something ending with '\' behaves oddly
+	destdir = KShell::quoteArg(destdir);
+	srcdir = KShell::quoteArg(srcdir + "\\*");
+	srcdir.replace("/","\\");
+	destdir.replace("/","\\");
+
+	//Copy files to working directory
+	QStringList copyArgs;
+	copyArgs << "/c" << "copy" << srcdir << destdir;
+	int res = KProcess::execute("cmd", copyArgs);
+
+	//Execute the test script
+	command = "runTests.bat " + KShell::quoteArg(m_resultsFile) + " " +  destdir;
+	m_process->setWorkingDirectory(destdir);
+#else
+	command = "cd " + KShell::quoteArg(destdir) + " && ";
 	command += "cp " + KShell::quoteArg(srcdir) +"/* " + KShell::quoteArg(destdir) + " && ";
 	command += "bash runTests.sh " + KShell::quoteArg(m_resultsFile) + " " +  KShell::quoteArg(destdir);
+#endif //def Q_WS_WIN
+
 	m_process->setShellCommand(command);
 	
 	connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(determineProgress()));

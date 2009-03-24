@@ -1997,6 +1997,11 @@ void Manager::projectAddFile(QString filename, bool graphics)
 
 const KUrl Manager::symlinkFreeURL(const KUrl& url)
 {
+#ifdef Q_WS_WIN
+	//TODO: maybe actually do something here?  Seems unncecessary given Windows' lack of symlinks though...
+	//Also: the else'd code below fails badly on Windows
+	return url;
+#else
 	KILE_DEBUG() << "===symlinkFreeURL==";
 
 	if( !url.isLocalFile() )
@@ -2011,6 +2016,7 @@ const KUrl Manager::symlinkFreeURL(const KUrl& url)
 		KILE_DEBUG() << "directory " << url.directory() << "does not exist";
 
 	return KUrl::fromPathOrUrl(filename);
+#endif //def Q_WS_WIN
 }
 
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)

@@ -1,6 +1,7 @@
 #!/bin/bash
 # some changes for KDE4
 
+svn up # get newest revision info
 revision=`LANG=C svn info | grep "Last Changed Rev:" | tr -d " " | cut -f 2 -d":"`
 logfile=createPackage-`date +%S-%M-%H--%d.%m.%y`.log
 

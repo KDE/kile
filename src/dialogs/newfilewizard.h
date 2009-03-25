@@ -42,6 +42,8 @@ public:
 
 protected Q_SLOTS:
 	virtual void slotButtonClicked(int button);
+	void slotClickOKButton();
+
 	void slotActivated(int index);
 
 	void restoreSelectedIcon();

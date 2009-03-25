@@ -61,7 +61,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	}
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
-	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotButtonClicked(KDialog::OK)));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotClickOKButton()));
 	m_templateManager->scanForTemplates();
 	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
 
@@ -173,6 +173,11 @@ void NewFileWizard::slotButtonClicked(int button)
 	else{
                  KDialog::slotButtonClicked(button);
 	}
+}
+
+void NewFileWizard::slotClickOKButton()
+{
+	slotButtonClicked(KDialog::Ok);
 }
 
 void NewFileWizard::slotActivated(int index)

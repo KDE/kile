@@ -83,6 +83,7 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 
 	if(completionString.startsWith('\\')) {
 		m_completionList = m_codeCompletionManager->getLaTeXCommands();
+		m_completionList += m_codeCompletionManager->getLocallyDefinedLaTeXCommands(view);
 		filterModel(completionString);
 		reset();
 	}
@@ -547,6 +548,16 @@ Manager::~Manager()
 QStringList Manager::getLaTeXCommands() const
 {
 	return m_texWordList;
+}
+
+QStringList Manager::getLocallyDefinedLaTeXCommands(KTextEditor::View *view) const
+{
+	//FIXME: the retrieval of these commands has to be revised!
+	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(view->document());
+	if(!textInfo) {
+		return QStringList();
+	}
+	return *(m_ki->allNewCommands(textInfo));
 }
 
 void Manager::readConfig(KConfig *config)

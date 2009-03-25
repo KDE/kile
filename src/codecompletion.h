@@ -101,6 +101,7 @@ namespace KileCodeCompletion
 			virtual ~Manager();
 
 			QStringList getLaTeXCommands() const;
+			QStringList getLocallyDefinedLaTeXCommands(KTextEditor::View *view) const;
 
 			void readConfig(KConfig *config);
 

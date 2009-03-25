@@ -53,7 +53,7 @@ int ConfigTest::status() const
 		passed = m_arg.endsWith(m_altArg);
 	#ifdef Q_WS_WIN 
 		passed = passed || m_arg.endsWith(m_altArg + ".exe");
-	#endif;
+	#endif
 	}
 	else if ( m_name == "version" )
 		passed = true;

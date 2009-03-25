@@ -26,7 +26,7 @@ MACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _relative_dir _docbook _language )
 			COMMENT "Compiling ${_language} docbook in ${_relative_dir}/${_docbook}" )
 
 	INSTALL( FILES ${_compiled_docbook} ${_dependencies} DESTINATION
-${HTML_INSTALL_DIR}/${_language})
+${HTML_INSTALL_DIR}/${_language}/kile)
 	SET( ${_sources} ${${_sources}} ${_compiled_docbook} )
 ENDMACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _docbook _language )
 

@@ -106,16 +106,16 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 	KActionMenu *actionsize_list = new KActionMenu(i18n("Size"), actionCollection);
 	actionCollection->addAction("size_list", actionsize_list);
-	actionsize_list->addAction(new KileAction::Tag(i18n("tiny"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{tiny}", "\\end{tiny}", 12, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("scriptsize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{scriptsize}", "\\end{scriptsize}", 18, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("footnotesize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{footnotesize}", "\\end{footnotesize}", 20, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("small"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{small}", "\\end{small}", 13, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("normalsize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{normalsize}", "\\end{normalsize}", 18, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("large"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"", "\\begin{large}", "\\end{large}", 13, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("Large"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"", "\\begin{Large}", "\\end{Large}", 13, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("LARGE"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"", "\\begin{LARGE}", "\\end{LARGE}", 13, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("huge"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{huge}", "\\end{huge}", 12, 0));
-	actionsize_list->addAction(new KileAction::Tag(i18n("Huge"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\begin{Huge}", "\\end{Huge}", 12, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("tiny"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_tiny", "\\begin{tiny}", "\\end{tiny}", 12, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("scriptsize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_scriptsize", "\\begin{scriptsize}", "\\end{scriptsize}", 18, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("footnotesize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_footnotesize", "\\begin{footnotesize}", "\\end{footnotesize}", 20, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("small"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_small", "\\begin{small}", "\\end{small}", 13, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("normalsize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_normalsize", "\\begin{normalsize}", "\\end{normalsize}", 18, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("large"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_large", "\\begin{large}", "\\end{large}", 13, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("Large"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_Large", "\\begin{Large}", "\\end{Large}", 13, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("LARGE"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_LARGE", "\\begin{LARGE}", "\\end{LARGE}", 13, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("huge"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_huge", "\\begin{huge}", "\\end{huge}", 12, 0));
+	actionsize_list->addAction(new KileAction::Tag(i18n("Huge"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_Huge", "\\begin{Huge}", "\\end{Huge}", 12, 0));
 
 	KActionMenu *actionother_list = new KActionMenu(i18n("Other"), actionCollection);
 	actionCollection->addAction("other_list", actionother_list);
@@ -373,27 +373,27 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 
 	KActionMenu *actionleft_list = new KActionMenu(i18n("Left Delimiter"), actionCollection);
 	actionCollection->addAction("left_list", actionleft_list);
-	actionleft_list->addAction(new KileAction::Tag(i18n("left ("), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left( ", QString(), 7, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left ["), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left[ ", QString(), 7, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left {"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left\\lbrace ", QString(), 14, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left <"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left\\langle ", QString(), 14, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left )"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left) ", QString(), 7, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left ]"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left] ", QString(), 7, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left }"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left\\rbrace ", QString(), 14, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left >"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left\\rangle ", QString(), 14, 0));
-	actionleft_list->addAction(new KileAction::Tag(i18n("left ."), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\left. ", QString(), 7, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left ("), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_(", "\\left( ", QString(), 7, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left ["), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_[", "\\left[ ", QString(), 7, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left {"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_{", "\\left\\lbrace ", QString(), 14, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left <"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_<", "\\left\\langle ", QString(), 14, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left )"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_)", "\\left) ", QString(), 7, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left ]"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_]", "\\left] ", QString(), 7, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left }"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_}", "\\left\\rbrace ", QString(), 14, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left >"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_>", "\\left\\rangle ", QString(), 14, 0));
+	actionleft_list->addAction(new KileAction::Tag(i18n("left ."), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_.", "\\left. ", QString(), 7, 0));
 
 	KActionMenu *actionright_list = new KActionMenu(i18n("Right Delimiter"), actionCollection);
 	actionCollection->addAction("right_list", actionright_list);
-	actionright_list->addAction(new KileAction::Tag(i18n("right )"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right) ", QString(), 8, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right ]"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right] ", QString(), 8, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right }"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right\\rbrace ", QString(), 14, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right >"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right\\rangle ", QString(), 14, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right ("), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right( ", QString(), 8, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right ["), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right[ ", QString(), 8, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right {"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right\\lbrace ", QString(), 14, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right <"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right\\langle ", QString(), 14, 0));
-	actionright_list->addAction(new KileAction::Tag(i18n("right ."), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "", "\\right. ", QString(), 8, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right )"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_)", "\\right) ", QString(), 8, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right ]"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_]", "\\right] ", QString(), 8, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right }"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_}", "\\right\\rbrace ", QString(), 14, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right >"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_>", "\\right\\rangle ", QString(), 14, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right ("), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_(", "\\right( ", QString(), 8, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right ["), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_[", "\\right[ ", QString(), 8, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right {"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_{", "\\right\\lbrace ", QString(), 14, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right <"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_<", "\\right\\langle ", QString(), 14, 0));
+	actionright_list->addAction(new KileAction::Tag(i18n("right ."), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_.", "\\right. ", QString(), 8, 0));
 
 	// new math tags (dani 29.01.2005)
 	KActionCollection* ac = actionCollection;

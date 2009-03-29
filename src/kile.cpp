@@ -1894,7 +1894,7 @@ void Kile::initMenu()
 	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
 	   << "wizard_float" << "wizard_mathenv"
 	   // settings
-	   << "Mode" << "settings_keys"
+	   << "Mode"
 	   // help
 	   << "help_context"
 	   // action lists

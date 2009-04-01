@@ -51,7 +51,7 @@ namespace KileDialog
 {
 
 TexDocDialog::TexDocDialog(QWidget *parent)
-		: KDialog(parent), m_tempfile(0), m_proc(0)
+		: KDialog(parent), m_tempfile(NULL), m_proc(NULL)
 {
 	setCaption(i18n("Documentation Browser"));
 	setModal(true);
@@ -85,9 +85,6 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	groupboxLayout->addWidget(m_leKeywords);
 	groupboxLayout->addWidget(m_pbSearch);
 
-	vbox->addWidget(m_texdocs);
-	vbox->addWidget(groupbox);
-
 	m_texdocs->setWhatsThis(i18n("A list of available documents, which are listed in 'texdoctk.dat', that come with TexLive/teTeX. Double clicking with the mouse or pressing the space key will open a viewer to show this file."));
 	m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files that are related to this keyword."));
 	m_pbSearch->setWhatsThis(i18n("Start the search for the chosen keyword."));
@@ -106,45 +103,9 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	connect(m_pbSearch, SIGNAL(clicked()), this, SLOT(slotSearchClicked()));
 	connect(m_leKeywords, SIGNAL(textChanged(const QString &)), this, SLOT(slotTextChanged(const QString &)));
 
-	// kpsewhich --expand-path='$TEXMF'
-	//m_texmfPath = "/usr/local/share/texmf:/usr/local/lib/texmf:/var/lib/texmf:/usr/share/texmf";
-	// kpsewhich --expand-path='$TEXMF/doc'
-	//m_texmfdocPath = "/usr/local/share/texmf/doc:/usr/local/lib/texmf/doc:/usr/share/texmf/doc";
-	// kpsewhich --progname=texdoctk --format='other text files' texdoctk.dat
-	//m_texdoctkPath = "/usr/share/texmf/texdoctk/texdoctk.dat";
-
 	m_texmfPath.clear();
 	m_texmfdocPath.clear();
 	m_texdoctkPath.clear();
-
-#ifdef __GNUC__
-#warning Hardcoding the size of the dialog should not be necessary!
-#endif
-	QDesktopWidget *desktop = KApplication::desktop();
-	int w = desktop->screenGeometry(0).width();
-	if(w >= 1024)
-		w = 550;
-	else {
-		if(w >= 800) {
-			w = 500;
-		}
-		else {
-			w = 450;
-		}
-	}
-	int h = desktop->screenGeometry(0).height() ;
-	if(h >= 768) {
-		h = 550;
-	}
-	else {
-		if(h >= 600) {
-			h = 500;
-		}
-		else {
-			h = 450;
-		}
-	}
-	resize(w, h);
 
 	connect(this, SIGNAL(processFinished()), this, SLOT(slotInitToc()));
 	executeScript(
@@ -152,19 +113,17 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	  "kpsewhich --expand-path='$TEXMF/doc' && "
 	  "kpsewhich --expand-path='$TEXMF'"
 	);
+	
+	vbox->addWidget(m_texdocs);
+	vbox->addWidget(groupbox);
 
-	//readToc();
-	//slotHelp();
+	resize(sizeHint() + m_texdocs->sizeHint());
 }
 
 TexDocDialog::~TexDocDialog()
 {
-	if(m_proc) {
-		delete m_proc;
-	}
-	if(m_tempfile) {
-		delete m_tempfile;
-	}
+	delete m_proc;
+	delete m_tempfile;
 }
 
 ////////////////////// TOC //////////////////////
@@ -217,7 +176,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 {
 	QString section, textline;
 	QStringList keylist;
-	QTreeWidgetItem *itemsection = 0;
+	QTreeWidgetItem *itemsection = NULL;
 
 	setUpdatesEnabled(false);
 	m_texdocs->setHeaderLabel(caption);
@@ -254,6 +213,9 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 	}
 	enableButton(Default, !toc);
 	m_texdocs->setFocus();
+	
+	if( m_texdocs->topLevelItemCount() == 1 )
+		m_texdocs->expandAll();
 }
 
 bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
@@ -324,20 +286,17 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 	m_tempfile->setSuffix('.' + ext);
 	m_tempfile->setAutoRemove(true);
 
-#ifdef __GNUC__
-#warning check whether the function decompressFile actually works!
-#endif
 	if(!m_tempfile->open()) {
 		KMessageBox::error(this, i18n("Could not create a temporary file."));
 		m_filename.clear();
 		return;
 	}
-	m_filename = m_tempfile->fileName();
-	m_tempfile->close(); // the unique file name of the temporary file should be kept
+	m_filename = m_tempfile->fileName(); // the unique file name of the temporary file should be kept
+	m_tempfile->close(); 
 
-	KILE_DEBUG() << "\tdecompress file: "  << command + " > " + m_tempfile->fileName() << endl;
+	KILE_DEBUG() << "\tdecompress file: "  << command + " > " + m_filename << endl;
 	connect(this, SIGNAL(processFinished()), this, SLOT(slotShowFile()));
-	executeScript(command + " > " + m_tempfile->fileName());
+	executeScript(command + " > " + m_filename);
 }
 
 void TexDocDialog::showStyleFile(const QString &filename, const QString &stylecode)
@@ -602,7 +561,7 @@ void TexDocDialog::slotInitToc()
 
 	QStringList results = m_output.split('\n', QString::KeepEmptyParts);
 	if(results.count() < 3) {
-		KMessageBox::error(this, i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> Hence, this dialog is unable to provide any useful information."));
+		KMessageBox::error(this, i18n("Could not determine the search paths of TexLive or file 'texdoctk.dat'.<br> Hence, this dialog is unable to provide any useful information."));
 		return;
 	}
 
@@ -658,11 +617,8 @@ QString TexDocDialog::getIconName(const QString &filename)
 	QString basename = fi.baseName().toLower();
 	QString ext = fi.suffix().toLower();
 
-#ifdef __GNUC__
-#warning fix missing icons (readme, dvi)as soon as they are available
-#endif
 	QString icon;
-	if(ext == "dvi" ) {
+	if(ext == "application-x-bzdvi" ) { // FIXME exchange as soon as a real dvi icon is available
 		icon = ext;
 	}
 	else if( ext == "htm" || ext == "html" ){
@@ -684,7 +640,7 @@ QString TexDocDialog::getIconName(const QString &filename)
 			}
 			else {
 				if(ext == "faq" || basename == "readme" || basename == "00readme") {
-					icon = "readme";
+					icon = "text-x-readme";
 				}
 				else {
 					icon = "text-plain";

@@ -100,6 +100,10 @@
 			<label>Open the parent item for all TODO and FIXME comments as default</label>
 			<default>false</default>
 		</entry>
+		<entry name="SvDefaultGraphicExt" type="String">
+			<label>Default extension to use when opening graphic files with no extension</label>
+			<default>eps</default>
+		</entry>
 	</group>
 	<group name="BibliographyMenu">
 		<entry name="BibliographyType" type="String">

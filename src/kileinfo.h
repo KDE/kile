@@ -97,6 +97,9 @@ public:
 	bool isOpen(const KUrl & url);
 	bool projectIsOpen(const KUrl & );
 
+	QString defaultGraphicExt();
+	void setDefaultGraphicExt(QString ext);
+
 	bool watchFile() { return m_bWatchFile; }
 	bool logPresent() { return m_logPresent; }
 	void setLogPresent(bool pr) { m_logPresent = pr; }
@@ -166,6 +169,8 @@ protected:
 	QString	m_masterName;
 
 	QString	m_currentTarget;
+	
+	QString m_defGraphicExt;
 	
 	bool m_bWatchFile, m_logPresent;
 

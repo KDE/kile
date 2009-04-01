@@ -6,7 +6,7 @@
     <x>0</x>
     <y>0</y>
     <width>508</width>
-    <height>377</height>
+    <height>336</height>
    </rect>
   </property>
   <property name="sizePolicy" >
@@ -220,11 +220,57 @@
         </property>
        </widget>
       </item>
+      <item row="8" column="0">
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Default Graphic Extension:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="kcfg_SvDefaultGraphicExt">
+          <property name="toolTip">
+           <string>Extension to use for graphic files without extensions</string>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>eps</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>pdf</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>png</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>jpg</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>tif</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
      </layout>
     </widget>
    </item>
    <item>
-    <spacer>
+    <spacer name="verticalSpacer">
      <property name="orientation" >
       <enum>Qt::Vertical</enum>
      </property>

@@ -83,9 +83,10 @@ class KileProjectDlgBase : public KDialog
 		QLabel *m_plabel;
 
 		KLineEdit *m_title, *m_extensions;
-		QLabel *m_lbPredefinedExtensions, *m_lbStandardExtensions;
+		QLabel *m_lbPredefinedExtensions, *m_lbStandardExtensions, *m_lbDefGraphicExt;
 		KileProject *m_project;
 		KComboBox *m_sel_extensions;
+		KComboBox *m_sel_defGraphicExt;
 
 		QString  m_val_extensions[KileProjectItem::Other - 1];
 		QString   m_val_standardExtensions[KileProjectItem::Other - 1];

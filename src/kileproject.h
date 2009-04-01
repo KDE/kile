@@ -147,6 +147,9 @@ public:
 	void setExtensions(KileProjectItem::Type type, const QString & ext);
 	const QString & extensions(KileProjectItem::Type type) { return m_extensions[type-1]; }
 
+	void setDefaultGraphicExt(const QString & ext);
+	const QString & defaultGraphicExt();
+
 	void setQuickBuildConfig(const QString & cfg) { m_quickBuildConfig = cfg; }
 	const QString & quickBuildConfig() { return m_quickBuildConfig; }
 
@@ -210,7 +213,7 @@ private:
 	void writeConfigEntry(const QString &key,const QString &standardExt,KileProjectItem::Type type);
 
 private:
-	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion;
+	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion, m_defGraphicExt;
 	KUrl		m_projecturl, m_baseurl, m_lastDocument;
 	bool		m_invalid;
 	QList<KileProjectItem*> m_rootItems;

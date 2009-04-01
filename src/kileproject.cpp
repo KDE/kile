@@ -279,6 +279,14 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 	}
 }
 
+void KileProject::setDefaultGraphicExt(const QString & ext){
+	m_defGraphicExt = ext;
+}
+
+const QString & KileProject::defaultGraphicExt(){
+	return m_defGraphicExt;
+}
+
 void KileProject::setType(KileProjectItem *item)
 {
 	if(item->path().right(7) == ".kilepr") {
@@ -365,6 +373,8 @@ bool KileProject::load()
 	m_name = generalGroup.readEntry("name", i18n("Project"));
 	m_kileversion = generalGroup.readEntry("kileversion", QString());
 	m_kileprversion = generalGroup.readEntry("kileprversion",QString());
+	
+	m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
 
 	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt())
 	{
@@ -445,6 +455,7 @@ bool KileProject::save()
 	generalGroup.writeEntry("name", m_name);
 	generalGroup.writeEntry("kileprversion", kilePrVersion);
 	generalGroup.writeEntry("kileversion", kileVersion);
+	generalGroup.writeEntry("def_graphic_ext", m_defGraphicExt);
 
 	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));

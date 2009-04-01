@@ -77,6 +77,8 @@
 #include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "documentinfo.h"
+#include "kileproject.h"
+#include "kiletool_enums.h"
 
 namespace KileWidget
 {
@@ -658,14 +660,38 @@ void StructureViewItem::setLabel(const QString &label)
 				else if(item->type() == KileStruct::Bibliography) {
 					fname += m_ki->extensions()->bibtexDefault();
 				}
-				else {
-					// FIXME get graphics suffix from an project config option
+				else if(item->type() == KileStruct::Graphics){
+						
+					KileProjectItem *kiItem = m_ki->docManager()->itemFor(item->url());
+					KileProject *proj;
+					QString extToAdd;
+					bool fromProject = true;
+
+					if(kiItem && (proj = kiItem->project())){
+						extToAdd = proj->defaultGraphicExt();
+					}
+					if(extToAdd.isEmpty()){
+						extToAdd = m_ki->defaultGraphicExt();
+						fromProject = false;
+					}
+
+					m_ki->logWidget()->printMessage(KileTool::Info,
+						i18n("No extension specified for graphic file.  Using .") + extToAdd + 
+							(fromProject ? i18n(" from Project settings") : i18n(" from global Structure View settings.")),
+						i18n("File extension not specified") );
+
+					fname += "." + extToAdd;
+
 				}
+				else{
+					KILE_DEBUG() << "Suffixless item with unknown type found";
+				}
+		
 			}
 			
 			if(QDir::isRelativePath(fname)) { // no absolute path
 				QString fn = m_ki->getCompileName();
-				fname= QFileInfo(fn).path() + '/' + fname;
+				fname= QFileInfo(fn).path() + QDir::separator() + fname;
 			}
 			
 			QFileInfo fi(fname);

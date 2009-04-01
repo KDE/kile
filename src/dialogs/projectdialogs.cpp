@@ -52,6 +52,7 @@
 const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
 const QString whatsthisPath = i18n("Insert the path to your project here.");
 const QString whatsthisExt = i18n("Insert a list (separated by spaces) of file extensions which should be treated also as files of the corresponding type in this project.");
+const QString whatsthisDefGraphicExt = i18n("Default graphic extension to open when none specified by file name.");
 const QString whatsthisMaster = i18n("Select the default master document. Leave empty for auto detection.");
 const QString tool_default = i18n("(use global setting)");
 
@@ -91,6 +92,15 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_egrid->setAlignment(Qt::AlignTop);
 	m_egroup->setLayout(m_egrid);
 
+	m_sel_defGraphicExt = new KComboBox(false, m_egroup);
+	m_sel_defGraphicExt->addItem("eps", "eps");
+	m_sel_defGraphicExt->addItem("pdf", "pdf");
+	m_sel_defGraphicExt->addItem("png", "png");
+	m_sel_defGraphicExt->addItem("jpg", "jpg");
+	m_sel_defGraphicExt->addItem("tif", "tif");
+	m_sel_defGraphicExt->addItem(i18n("(use global settings)"),"");
+	m_lbDefGraphicExt = new QLabel(i18n("Default Graphics Extension:"), m_egroup);
+
 	m_extensions = new KLineEdit(m_egroup);
 	QRegExp reg("[\\. a-zA-Z0-9]+");
 	QRegExpValidator *extValidator = new QRegExpValidator(reg, m_egroup);
@@ -103,6 +113,8 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_lbPredefinedExtensions = new QLabel(i18n("Predefined:"), m_egroup);
 	m_lbStandardExtensions = new QLabel(QString(), m_egroup);
 
+
+	m_sel_defGraphicExt->setWhatsThis(whatsthisDefGraphicExt);
 	m_sel_extensions->setWhatsThis(whatsthisExt);
 	m_extensions->setWhatsThis(whatsthisExt);
 
@@ -182,6 +194,8 @@ void KileProjectDlgBase::setProject(KileProject *project, bool override)
 	m_title->setText(m_project->name());
 	m_extensions->setText(m_val_extensions[0]);
 	m_lbStandardExtensions->setText(m_val_standardExtensions[0]);
+
+	m_sel_defGraphicExt->setCurrentIndex(m_sel_defGraphicExt->findData(project->defaultGraphicExt()));
 }
 
 KileProject* KileProjectDlgBase::project()
@@ -202,6 +216,8 @@ void KileProjectDlgBase::fillProjectDefaults()
 
 	m_extensions->setText(m_val_extensions[0]);
 	m_lbStandardExtensions->setText(m_val_standardExtensions[0]);
+
+	m_sel_defGraphicExt->setCurrentIndex(0);
 }
 
 
@@ -260,6 +276,8 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	connect(m_cb, SIGNAL(clicked()), this, SLOT(clickedCreateNewFileCb()));
 
 	// third groupbox
+	m_egrid->addWidget(m_lbDefGraphicExt, 5, 0);
+	m_egrid->addWidget(m_sel_defGraphicExt, 5, 1);
 	m_egrid->addWidget(m_sel_extensions, 6, 0);
 	m_egrid->addWidget(m_extensions, 6, 1, 1, 3);
 	m_egrid->addWidget(m_lbPredefinedExtensions, 7, 0);
@@ -287,6 +305,8 @@ KileProject* KileNewProjectDlg::project()
 			type = (KileProjectItem::Type) i;
 			m_project->setExtensions(type, extensions(type));
 		}
+
+		m_project->setDefaultGraphicExt(m_sel_defGraphicExt->itemData(m_sel_defGraphicExt->currentIndex()).toString());
 
 		m_project->buildProjectTree();
 	}
@@ -417,6 +437,8 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_pgrid->addWidget(m_title, 0, 1);
 
 	// second groupbox
+	m_egrid->addWidget(m_lbDefGraphicExt, 5, 0);
+	m_egrid->addWidget(m_sel_defGraphicExt, 5, 1);
 	m_egrid->addWidget(m_sel_extensions, 6, 0);
 	m_egrid->addWidget(m_extensions, 6, 1, 1, 3);
 	m_egrid->addWidget(m_lbPredefinedExtensions, 7, 0);
@@ -546,6 +568,8 @@ void KileProjectOptionsDlg::slotButtonClicked(int button)
 			m_project->setMakeIndexOptions(m_leMakeIndex->text());
 		}
 	
+		m_project->setDefaultGraphicExt(m_sel_defGraphicExt->itemData(m_sel_defGraphicExt->currentIndex()).toString());
+
 		m_project->save();
 	
 		accept();

@@ -489,7 +489,9 @@ const long* TextInfo::getStatistics(KTextEditor::View *view)
 
 KUrl TextInfo::url()
 {
+	KILE_DEBUG() << "called";
 	if(m_doc) {
+		KILE_DEBUG() << "has a doc";
 		return m_doc->url();
 	}
 	else {
@@ -853,9 +855,9 @@ void LaTeXInfo::updateStructLevelInfo() {
 		m_dictStructLevel["\\end"] = KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
 
 		// some entries, which could never be found (but they are set manually)
-		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
-		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_image");
-		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "frame_spreadsheet");
+		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
+		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
+		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "tabular");
 		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
 

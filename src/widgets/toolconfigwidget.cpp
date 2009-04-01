@@ -253,6 +253,9 @@ namespace KileWidget
 					m_config->deleteGroup(groups[i]);
 				}
 			}
+			// magic names, defined in kilestdtools.rc
+			m_config->deleteGroup("ToolsGUI");
+			m_config->deleteGroup("Tools");
 
 			m_manager->factory()->writeStdConfig();
 			m_config->sync();

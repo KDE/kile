@@ -77,7 +77,7 @@ namespace KileDialog
 		m_manager = new KConfigDialogManager(this,KileConfig::self());
 
 		KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
-		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "tex");
+		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "text-x-tex");
 		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "system-run");
 		KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "accessories-text-editor");
 
@@ -170,7 +170,7 @@ namespace KileDialog
 	void Config::setupTools(KPageWidgetItem* parent)
 	{
 		toolPage = new KileWidget::ToolConfig(m_ki->toolManager(), this);
-		addConfigPage(parent, toolPage, i18n("Build"), "launch", i18n("Build"));
+		addConfigPage(parent, toolPage, i18n("Build"), "application-x-executable", i18n("Build"));
 	}
 
 	//////////////////// Scripting  ////////////////////
@@ -179,7 +179,7 @@ namespace KileDialog
 	{
 		scriptingPage = new KileWidgetScriptingConfig(this);
 		scriptingPage->setObjectName("Scripting");
-		addConfigPage(parent, scriptingPage, i18n("Scripting"), "exec", i18n("Scripting Support"));
+		addConfigPage(parent, scriptingPage, i18n("Scripting"), "application-x-executable-script", i18n("Scripting Support"));
 	}
 
 	//////////////////// LaTeX specific editing options ////////////////////

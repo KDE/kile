@@ -808,8 +808,8 @@ XeLaTeX=PDF
 
 [ToolsGUI]
 Lilypond=Compile,lilypond
-Archive=Archive,package
-Asymptote=Compile,asymptote
+Archive=Archive,archive-insert
+Asymptote=Compile,application-x-executable
 BibTeX=Compile,bibtex
 Convert=Convert,convert
 DVItoPDF=Convert,dvipdf
@@ -819,9 +819,9 @@ LaTeX to Web=Compile,l2h
 DBLaTeX=Compile,dblatex
 MakeIndex=Compile,makeidx
 MetaPost=Compile,mpost
-PreviewLaTeX=none,none
-PreviewPDFLaTeX=none,none
-PreviewXeLaTeX=none,none
+PreviewLaTeX=none,application-x-executable
+PreviewPDFLaTeX=none,application-x-executable
+PreviewXeLaTeX=none,application-x-executable
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 LaTeX=Compile,latex

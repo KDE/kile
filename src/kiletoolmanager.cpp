@@ -485,12 +485,12 @@ namespace KileTool
 
 	QString menuFor(const QString &tool, KConfig *config)
 	{
-		return config->group("ToolsGUI").readEntry(tool, "Other,gear").section(',', 0, 0);
+		return config->group("ToolsGUI").readEntry(tool, "Other,application-x-executable").section(',', 0, 0);
 	}
 
 	QString iconFor(const QString &tool, KConfig *config)
 	{
-		return config->group("ToolsGUI").readEntry(tool, "Other,gear").section(',', 1, 1);
+		return config->group("ToolsGUI").readEntry(tool, "Other,application-x-executable").section(',', 1, 1);
 	}
 
 	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config)

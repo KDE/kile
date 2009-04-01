@@ -674,7 +674,7 @@ void Kile::setupActions()
 	m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
 	createAction(i18n("Save All"), "file_save_all", "document-save-all", docManager(), SLOT(fileSaveAll()));
-	createAction(i18n("Save Copy As..."), "file_save_copy_as", "save_copy_as", docManager(), SLOT(fileSaveCopyAs()));
+	createAction(i18n("Save Copy As..."), "file_save_copy_as", docManager(), SLOT(fileSaveCopyAs()));
 	createAction(i18n("Create Template From Document..."), "template_create", docManager(), SLOT(createTemplate()));
 	createAction(i18n("&Remove Template..."), "template_remove", docManager(), SLOT(removeTemplate()));
 	createAction(KStandardAction::Close, "file_close", docManager(), SLOT(fileClose()));
@@ -702,7 +702,7 @@ void Kile::setupActions()
 	createAction(i18n("Refresh Str&ucture"), "RefreshStructure", "refreshstructure", KShortcut(Qt::Key_F12), this, SLOT(refreshStructure()));
 
 	//project actions
-	createAction(i18n("&New Project..."), "project_new", "window_new", docManager(), SLOT(projectNew()));
+	createAction(i18n("&New Project..."), "project_new", "window-new", docManager(), SLOT(projectNew()));
 	createAction(i18n("&Open Project..."), "project_open", "project-open", docManager(), SLOT(projectOpen()));
 
 	m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
@@ -714,7 +714,7 @@ void Kile::setupActions()
 
 	createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), SLOT(projectAddFiles()));
 	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "rebuild", docManager(), SLOT(buildProjectTree()));
- 	createAction(i18n("&Archive"), "package", "project_archive", this, SLOT(runArchiveTool()));
+ 	createAction(i18n("&Archive"), "package", "archive-insert", this, SLOT(runArchiveTool()));
 	createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), SLOT(projectOptions()));
 	createAction(i18n("&Close Project"), "project_close", "window-close", docManager(), SLOT(projectClose()));
 
@@ -746,7 +746,7 @@ void Kile::setupActions()
 	act = createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
 	m_latexOutputErrorToolBar->addAction(act);
 
-	createAction(i18n("Editor View"), "EditorView", "edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
+	createAction(i18n("Editor View"), "EditorView", "document-edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
 	createAction(i18n("Next Document"), "gotoNextDocument", "arrow-right", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
 	createAction(i18n("Previous Document"), "gotoPrevDocument", "arrow-left", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
 	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_M), this, SLOT(focusLog()));
@@ -798,7 +798,7 @@ void Kile::setupActions()
 	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()));
 	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()));
 	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()));
-	createAction(i18n("Mathgroup"), "quickpreview_math", "edu_mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()));
+	createAction(i18n("Mathgroup"), "quickpreview_math", "applications-education-mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()));
 
 	KileStdActions::setupStdTags(this, this, actionCollection(), m_mainWindow);
 	KileStdActions::setupMathTags(this, actionCollection());

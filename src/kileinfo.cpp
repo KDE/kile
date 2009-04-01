@@ -332,14 +332,6 @@ bool KileInfo::projectIsOpen(const KUrl & url)
 	return project != 0 ;
 }
 
-QString KileInfo::defaultGraphicExt()
-{
-	return m_defGraphicExt;
-}
-
-void KileInfo::setDefaultGraphicExt(QString ext){
-	m_defGraphicExt = ext;
-}
 
 QString KileInfo::getSelection() const
 {

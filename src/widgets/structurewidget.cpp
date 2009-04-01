@@ -671,7 +671,7 @@ void StructureViewItem::setLabel(const QString &label)
 						extToAdd = proj->defaultGraphicExt();
 					}
 					if(extToAdd.isEmpty()){
-						extToAdd = m_ki->defaultGraphicExt();
+						extToAdd = KileConfig::svDefaultGraphicExt();
 						fromProject = false;
 					}
 

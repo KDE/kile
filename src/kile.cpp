@@ -2355,7 +2355,6 @@ void Kile::readConfig()
 		disableSymbolViewMFUS();
 	}
 
-	m_defGraphicExt = KileConfig::svDefaultGraphicExt();
 }
 
 void Kile::saveSettings()
@@ -2445,8 +2444,6 @@ void Kile::saveSettings()
 	KileConfig::setBottomBarIndex(m_bottomBar->currentTab());
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
-
-	KileConfig::setSvDefaultGraphicExt(m_defGraphicExt);
 
 	KileConfig::self()->writeConfig();
 	m_config->sync();

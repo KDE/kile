@@ -1849,7 +1849,7 @@ void Kile::initMenu()
 	   << "tag_makeindex" << "tag_printindex" << "tag_makeglossary" << "tag_env_thebibliography"
 	   << "tag_part" << "tag_chapter" << "tag_section" << "tag_subsection" << "tag_subsubsection"
 	   << "tag_paragraph" << "tag_subparagraph" << "tag_label"
-	   << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite" << "citeViewBib"
+	   << "tag_ref" << "tag_pageref" << "tag_index" << "tag_footnote" << "tag_cite" // << "citeViewBib"
 	   << "tag_center" << "tag_flushleft" << "tag_flushright"
 	   << "tag_env_minipage" << "tag_quote" << "tag_quotation" << "tag_verse"
 	   << "tag_env_itemize" << "tag_env_enumerate" << "tag_env_description" << "tag_item"
@@ -2672,12 +2672,10 @@ void Kile::slotQuickPreview(int type)
 	}
 }
 
-#ifdef __GNUC__
-#warning Port the citeViewBib function as soon as we got a kbib version for KDE4.
-#endif
+/* FIXME
+ Port the citeViewBib function as soon as we got a kbib version for KDE4.
 void Kile::citeViewBib()
 {
-/*
 	KILE_DEBUG()  << "===void Kile::citeViewBib()===" << endl;
 
 	DCOPClient *client = kapp->dcopClient();
@@ -2750,8 +2748,8 @@ void Kile::citeViewBib()
 			}
 		}
 	}
-*/
 }
+*/
 
 void Kile::addRecentFile(const KUrl& url)
 {

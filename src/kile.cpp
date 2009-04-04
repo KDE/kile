@@ -1012,7 +1012,7 @@ void Kile::setupTools()
 	cleanUpActionList(m_listQuickActions, tools);
 	cleanUpActionList(m_listOtherActions, tools);
 
-	plugActionList("list_compilers", static_cast<QList<QAction*> >(m_listCompilerActions));
+	plugActionList("list_compilers", m_listCompilerActions);
 	plugActionList("list_viewers", m_listViewerActions);
 	plugActionList("list_converters", m_listConverterActions);
 	plugActionList("list_quickies", m_listQuickActions);

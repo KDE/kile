@@ -475,7 +475,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	}
 
 	if (project->masterDocument().isEmpty()) {
-		m_master->setCurrentItem(0);
+		m_master->setCurrentIndex(0);
 	}
 
 	QLabel *lb2 = new QLabel(i18n("&QuickBuild configuration:"), group3);

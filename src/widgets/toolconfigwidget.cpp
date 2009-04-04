@@ -132,7 +132,7 @@ namespace KileWidget
 		bool enablekonsoleclose = false;
 		QString type = m_map["type"];
 		if(type == "Process") {
-			m_configWidget->m_cbType->setCurrentItem(0);
+			m_configWidget->m_cbType->setCurrentIndex(0);
 		}
 		else if(type == "Konsole") {
 			m_configWidget->m_cbType->setCurrentIndex(1);

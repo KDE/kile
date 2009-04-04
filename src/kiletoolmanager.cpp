@@ -378,7 +378,8 @@ namespace KileTool
 		Config map;
 
 		if(!retrieveEntryMap(tool->name(), map, true, true, cfg)) {
-			m_log->printMessage(Error, i18n("Cannot find the tool %1 in the configuration database.", tool->name()));
+		QString group = (cfg.isEmpty()) ? currentGroup(tool->name(), true, true) : groupFor(tool->name(), cfg);
+			m_log->printMessage(Error, i18n("Cannot find the tool \"%1\" in the configuration database.", group));
 			return false;
 		}
 

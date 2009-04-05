@@ -113,6 +113,7 @@ namespace KileTool
 
 	int LaTeX::m_reRun = 0;
 
+	// FIXME don't hardcode bbl and ind suffix here.
 	bool LaTeX::updateBibs()
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());

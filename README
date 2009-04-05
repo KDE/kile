@@ -2,48 +2,82 @@ Dear User/Packager,
 
 this Readme is targeted towards people who want to build Kile from source or plan to create binary packages.
 If you have created a package, please drop us a note ( kile-devel@lists.sourceforge.net ) so that we can promote your package.
-All specified versions are minimum versions except for KDE and QT.
 
 1.) Checking dependencies
+============================
 
-- kdelibs 3.2 - 3.5 and according QT development packages
-- autoconf 2.53, automake and make (alternatively cmake 2.4.4, see also Building-with-cmake.txt)
+- kdelibs 4.2 or KDE trunk and according QT development packages
+- cmake 2.6.2
 - gcc 3.x/4.x
 
 2.) Building Kile from source
+============================
 
-- Extract the source code with `tar xjf kile-2.0.x.tar.bz2`
-- `cd kile-2.0.x`
-- ./configure --prefix=path_to_KDE3 (/usr or /opt/kde3 generally) --with-qt-dir=path_to_QT3 library (/usr/lib/qt3 generally)
-	-- If you don't know what the path to KDE3 on your system is, you can use output of `kde-config --prefix`.
-	-- Or you can choose `--prefix=$HOME/.kde` to not mess up with your distribution's package management system.
-- Type `make` to compile the package.
-- Type `make install` to install the programs, data files and documentation.
-- Type `kile` and enjoy the power of LaTeX together with the joy of using Kile :)
+- Extract the source code with "tar xjf kile-x.tar.bz2"
+- Create a "kile-build" directory somewhere for an out-of-source build.
+- Enter the "kile-build" directory and call cmake with:
+  " cmake <path to the kile directory> -DCMAKE_INSTALL_PREFIX=$HOME/.kde4 -DCMAKE_BUILD_TYPE="Debugfull" "
+- Type "make -j 2" to compile the package.
+- Type "make install -j 2" to install the programs, data files and documentation.
+- Type "kile" and enjoy the power of LaTeX together with the joy of using Kile :)
+
+2.1.) Building Documentation
+============================
+
+The documentation will automatically be built provided that the documentation files
+are located in the following directories:
+<kile-root>
+           /doc                                   for the standard documentation and
+                                                  accompanying image files
+
+           /translations
+                        /<language>
+                                   /doc           for the translated documentation and
+                                                  images in language <language>
+
+                                   /messages      for the translated message catalogs
+                                                  in language <language>
+
+Please note that every docbook must be called "index.docbook" and that only PNG image
+files can be used. Furthermore, message catalogs must be called "kile.po".
+
+When the "doc" and "translations" directories are found, the build targets "docbooks"
+and "translations" will be generated for the compiling of the documentation.
+
+2.3.) Special Flags for the build
+===============================
+The flag "KILE_VERSION" can be set in the CMake cache to specify the installation
+directory of basic documentation files (README, AUTHORS, ChangeLog,...), i.e. they
+will be installed in "share/doc/kile-${KILE_VERSION}/" instead of "share/doc/kile/".
 
 3.) Using Kile
+===============================
 
 To use Kile you (obviously) need some external programs.
 The following list is divided into basic, advanced and additional usage.
 
 Basic:
-
-- TeTeX 2.0/3.0 or TeXLive 2005/2007 (Including "AMS"-Packages and the documentation)
-- KDVI
+- TeXLive 2005/2007/2008 (Including "AMS"-Packages and the documentation).
+  This add among others the following programs:
+    - Tex/LaTeX
+    - PDFLaTeX
+    - XeLaTeX
+    - ConTeXt
+    - BibTeX
+    - MakeIndex
+- Okular (DVI, PS, PDF Viewer from KDE)
 
 Advanced:
-
-- KPDF, KGhostView (Viewing PS and PDF)
 - Acroread (Viewing PDF)
 - Imagemagick, DVIPNG 1.7 (Bottom bar preview)
 
 By default there are also tools for the following programs defined:
-
 - Tar/zip/gzip/bzip2 (Archive)
 - DBlatex (Docbook to LaTeX)
 - Metapost and Asymptote
 - Latex2html (LaTeX to Web)
 - Tex4ht (LaTeX to Web)
+- Xindy (MakeIndex replacement)
 - Lilypond (Music Typesetting)
 - Konqueror/Mozilla/Firefox (Viewing HTML)
 - Kbibtex, KBib, JabRef, pybliographer, gbib (View Bibtex files)
@@ -51,4 +85,3 @@ By default there are also tools for the following programs defined:
 If you have any questions or corrections, please don't hesitate to contact us via kile-devel@lists.sourceforge.net.
 
 The Kile dev team
-

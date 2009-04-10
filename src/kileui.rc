@@ -802,5 +802,17 @@
 	<Action name="EditorView"/>
 </Disable>
 </State>
+<ActionProperties scheme="Default">
+  <Action shortcut="Alt+1" name="tool_QuickBuild" />
+  <Action shortcut="Alt+2" name="tool_LaTeX" />
+  <Action shortcut="Alt+3" name="tool_ViewDVI" />
+  <Action shortcut="Alt+4" name="tool_DVItoPS" />
+  <Action shortcut="Alt+5" name="tool_ViewPS" />
+  <Action shortcut="Alt+6" name="tool_PDFLaTeX" />
+  <Action shortcut="Alt+7" name="tool_ViewPDF" />
+  <Action shortcut="Alt+8" name="tool_PStoPDF" />
+  <Action shortcut="Alt+9" name="tool_DVItoPDF" />
+  <Action shortcut="Alt+-" name="tool_BibTeX" />
+  <Action shortcut="Alt+=" name="tool_MakeIndex" />
+</ActionProperties>
 </kpartgui>
-

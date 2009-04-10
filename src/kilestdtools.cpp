@@ -17,6 +17,8 @@
 #include <QFileInfo>
 #include <QRegExp>
 
+#include <KAction>
+#include <KActionCollection>
 #include <KConfig>
 #include <KLocale>
 #include <KStandardDirs>
@@ -33,13 +35,17 @@
 
 namespace KileTool
 {
-	Factory::Factory(Manager *mngr, KConfig *config) : m_manager(mngr), m_config(config)
+	Factory::Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection)
+	: m_manager(mngr), m_config(config), m_actionCollection(actionCollection)
 	{
+		m_standardToolConfigurationFileName = KGlobal::dirs()->findResource("appdata", "kilestdtools.rc");
 	}
 
 	Factory::~Factory()
 	{
 	}
+
+	static const QString shortcutGroupName = "Shortcuts";
 
 	Base* Factory::create(const QString& tool, bool prepare /* = true */)
 	{
@@ -97,12 +103,19 @@ namespace KileTool
 		return NULL;
 	}
 
-	void Factory::writeStdConfig()
+	void Factory::readStandardToolConfig()
 	{
-		QString from_cfg = KGlobal::dirs()->findResource("appdata", "kilestdtools.rc");
-		QString to_cfg = KGlobal::dirs()->saveLocation("config") + "/kilerc";
-		KConfig *pCfg = new KConfig(from_cfg, KConfig::NoGlobals);
-		pCfg->copyTo(to_cfg, m_config);
+		KConfig stdToolConfig(m_standardToolConfigurationFileName, KConfig::NoGlobals);
+		QStringList groupList = stdToolConfig.groupList();
+		for(QStringList::iterator it = groupList.begin(); it != groupList.end(); ++it) {
+			QString groupName = *it;
+			if(groupName != shortcutGroupName) {
+				KConfigGroup configGroup = stdToolConfig.group(groupName);
+				m_config->deleteGroup(groupName);
+				KConfigGroup newGroup = m_config->group(groupName);
+				configGroup.copyTo(&newGroup, KConfigGroup::Persistent);
+			}
+		}
 	}
 
 	/////////////// LaTeX ////////////////

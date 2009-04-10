@@ -837,15 +837,3 @@ ViewPS=View,viewps
 ViewHTML=View,viewhtml
 ForwardDVI=View,dvisearch
 
-[Shortcuts]
-tool_QuickBuild=Alt+1
-tool_LaTeX=Alt+2
-tool_ViewDVI=Alt+3
-tool_DVItoPS=Alt+4
-tool_ViewPS=Alt+5
-tool_PDFLaTeX=Alt+6
-tool_ViewPDF=Alt+7
-tool_PStoPDF=Alt+8
-tool_DVItoPDF=Alt+9
-tool_BibTeX=Alt+-
-tool_MakeIndex=Alt+=

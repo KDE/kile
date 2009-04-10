@@ -257,7 +257,7 @@ namespace KileWidget
 			m_config->deleteGroup("ToolsGUI");
 			m_config->deleteGroup("Tools");
 
-			m_manager->factory()->writeStdConfig();
+			m_manager->factory()->readStandardToolConfig();
 			m_config->sync();
 			updateToollist();
   			QStringList tools = KileTool::toolList(m_config, true);
@@ -266,8 +266,10 @@ namespace KileWidget
  				switchTo(tools[i],true); // this writes the newly retrieved entry map (and not an perhaps changed old one)
 			}
 			int index = indexQuickBuild();
-			switchTo(tools[index], false);
-			m_configWidget->m_lstbTools->item(index)->setSelected(true);
+			if(!tools.empty()) {
+				switchTo(tools[index], false);
+				m_configWidget->m_lstbTools->item(index)->setSelected(true);
+			}
 		}
 	}
 

@@ -248,7 +248,7 @@ private Q_SLOTS:
 
 	void restoreFilesAndProjects(bool allowRestore);
 	void readGUISettings();
-	void readUserSettings();
+	void transformOldUserSettings();
 	void readRecentFileSettings();
 	void saveSettings();
 

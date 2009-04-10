@@ -146,8 +146,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	splashScreen.show();
 
 	m_config = KGlobal::config();
-	readUserSettings();
-	readRecentFileSettings();
 
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
 
@@ -170,8 +168,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_extensions = new KileDocument::Extensions();
 
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
-
-	readGUISettings();
 
 	// needed for Symbolview
 	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/"); 
@@ -226,9 +222,44 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	m_verticalSplitter->addWidget(m_bottomBar);
 	setupGraphicTools();
 	setupPreviewTools();
-	setupActions();
+	setupActions(); // sets up m_paStop
+
+	m_manager = new KileTool::Manager(this, m_config.data(), m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
+	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
+	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
+	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
+	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
+	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
+
+	m_toolFactory = new KileTool::Factory(m_manager, m_config.data(), actionCollection());
+	m_manager->setFactory(m_toolFactory);
+
 	initSelectActions();
 	setupTools();
+
+	m_topWidgetStack->addWidget(m_horizontalSplitter);
+	m_mainWindow->setCentralWidget(m_topWidgetStack);
+	newCaption();
+
+	m_partManager->setActivePart(NULL);
+
+	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
+	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
+
+	m_help->setUserhelp(m_manager, m_userHelpActionMenu);     // kile user help (dani)
+
+	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
+	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
+	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
+	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
+	connect(docManager(), SIGNAL(updateReferences(KileDocument::Info *)), m_kwStructure, SLOT(updateReferences(KileDocument::Info *)));
+
+	transformOldUserSettings();
+	readGUISettings();
+	readRecentFileSettings();
+	readConfig();
+
+	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
 
 	QList<int> sizes;
 	sizes << m_verSplitTop << m_verSplitBottom;
@@ -243,36 +274,6 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 // 		showFullScreen();
 		m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
 	}
-
-	m_topWidgetStack->addWidget(m_horizontalSplitter);
-	m_mainWindow->setCentralWidget(m_topWidgetStack);
-	newCaption();
-
-	m_partManager->setActivePart(NULL);
-
-	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
-	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
-
-	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
-
-	m_manager = new KileTool::Manager(this, m_config.data(), m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
-	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
-	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
-	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
-	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
-	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
-
-	m_toolFactory = new KileTool::Factory(m_manager, m_config.data());
-	m_manager->setFactory(m_toolFactory);
-	m_help->setUserhelp(m_manager, m_userHelpActionMenu);     // kile user help (dani)
-
-	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
-	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
-	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
-	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
-	connect(docManager(), SIGNAL(updateReferences(KileDocument::Info *)), m_kwStructure, SLOT(updateReferences(KileDocument::Info *)));
-
-	readConfig();
 
 	m_mainWindow->resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	m_mainWindow->show();
@@ -289,9 +290,16 @@ Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
 	initMenu();
 	updateModeStatus();
 
-	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
-	actionCollection()->readSettings(&shortcutsGroup);
-
+	actionCollection()->readSettings();
+	// before Kile 2.1 shortcuts were stored in a "Shortcuts" group inside
+	// Kile's configuration file, but this led to problems with the way of how shortcuts
+	// are generally stored in kdelibs; we now delete the "Shortcuts" group if it
+	// still present in Kile's configuration file. 
+	if(m_config->hasGroup("Shortcuts")) {
+		KConfigGroup shortcutGroup = m_config->group("Shortcuts");
+		actionCollection()->readSettings(&shortcutGroup);
+		m_config->deleteGroup("Shortcuts");
+	}
 }
 
 Kile::~Kile()
@@ -1018,8 +1026,7 @@ void Kile::setupTools()
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
 
-	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
-	actionCollection()->readSettings(&shortcutsGroup);
+	actionCollection()->readSettings();
 }
 
 void Kile::initSelectActions(){
@@ -1189,8 +1196,7 @@ void Kile::setupUserTagActions()
 		m_menuUserTags->addAction(menuItem);
 	}
 
-	KConfigGroup shortcutGroup = m_config->group("Shortcuts");
-	actionCollection()->readSettings(&shortcutGroup);
+	actionCollection()->readSettings();
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
@@ -2255,7 +2261,7 @@ void Kile::readGUISettings()
 	m_verSplitBottom = KileConfig::verticalSplitterBottom();
 }
 
-void Kile::readUserSettings()
+void Kile::transformOldUserSettings()
 {
 	//test for old kilerc
 	int version = KileConfig::rCVersion();
@@ -2263,42 +2269,34 @@ void Kile::readUserSettings()
 	//if the kilerc file is old some of the configuration
 	//data must be set by kile, even if the keys are present
 	//in the kilerc file
-	if ( version < 4 )
-	{
-		KileTool::Factory *factory = new KileTool::Factory(0, m_config.data());
-		KILE_DEBUG() << "WRITING STD TOOL CONFIG" << endl;
-		factory->writeStdConfig();
-		delete factory;
+	if(version < 4) {
+		KILE_DEBUG() << "READING STD TOOL CONFIG" << endl;
+		m_toolFactory->readStandardToolConfig();
 	}
 
 	//delete old editor key
-	if (m_config->hasGroup("Editor") )
-	{
+	if(m_config->hasGroup("Editor")) {
 		m_config->deleteGroup("Editor");
 	}
 
 	KConfigGroup userGroup = m_config->group("User");
 	int len = userGroup.readEntry("nUserTags", 0);
-	for (int i = 0; i < len; ++i)
-	{
+	for (int i = 0; i < len; ++i) {
 		m_listUserTags.append(KileDialog::UserTags::splitTag(userGroup.readEntry("userTagName" + QString::number(i), i18n("no name")) , userGroup.readEntry("userTag" + QString::number(i), "")));
 	}
 
 	//convert user tools to new KileTool classes
 	userItem tempItem;
 	len = userGroup.readEntry("nUserTools", 0);
-	for (int i=0; i< len; ++i)
-	{
+	for (int i=0; i< len; ++i) {
 		tempItem.name = userGroup.readEntry("userToolName" + QString::number(i), i18n("no name"));
 		tempItem.tag = userGroup.readEntry("userTool" + QString::number(i), "");
 		m_listUserTools.append(tempItem);
 	}
-	if ( len > 0 )
-	{
+	if(len > 0) {
  		//move the tools
 		userGroup.writeEntry("nUserTools", 0);
-		for ( int i = 0; i < len; ++i)
-		{
+		for(int i = 0; i < len; ++i) {
 			tempItem = m_listUserTools[i];
 			KConfigGroup toolsGroup = m_config->group("Tools");
 			toolsGroup.writeEntry(tempItem.name, "Default");
@@ -2314,10 +2312,9 @@ void Kile::readUserSettings()
 			group.writeEntry("from", "");
 			group.writeEntry("to", "");
 
-			if ( i < 10 )
-			{
-				KConfigGroup shortcutGroup = m_config->group("Shortcuts");
-				shortcutGroup.writeEntry("tool_" + tempItem.name, "Alt+Shift+" + QString::number(i + 1) ); //should be alt+shift+
+			if(i < 10) {
+				KAction *toolAction = static_cast<KAction*>(actionCollection()->action("tool_" + tempItem.name));
+				toolAction->setShortcut("Alt+Shift+" + QString::number(i + 1)); //should be alt+shift+
 			}
 		}
 	}
@@ -2556,9 +2553,7 @@ void Kile::configureKeys()
 	for(QList<KXMLGUIClient*>::iterator it = clients.begin(); it != clients.end(); ++it) {
 		dlg.addCollection((*it)->actionCollection());
 	}
-	dlg.configure(false); // don't save the settings automatically
-	KConfigGroup shortcutsGroup = m_config->group("Shortcuts");
-	actionCollection()->writeSettings(&shortcutsGroup);
+	dlg.configure();
 }
 
 void Kile::configureToolbars()

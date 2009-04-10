@@ -21,6 +21,7 @@
 #include "kiletool.h"
 
 class KConfig;
+class KActionCollection;
 
 namespace KileTool
 {
@@ -31,16 +32,18 @@ namespace KileTool
 	class Factory
 	{
 		public:
-			Factory(Manager *mngr, KConfig *config);
+			Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection);
 			~Factory();
 	
 			Base* create(const QString & tool, bool prepare = true);
 	
-			void writeStdConfig();
-	
+			void readStandardToolConfig();
+
 		private:
-			Manager		*m_manager;
-			KConfig		*m_config;
+			Manager            *m_manager;
+			KConfig            *m_config;
+			KActionCollection  *m_actionCollection;
+			QString             m_standardToolConfigurationFileName;
 	};
 
 	class LaTeX : public Compile

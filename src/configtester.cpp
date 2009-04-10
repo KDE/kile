@@ -204,8 +204,8 @@ void Tester::runTests()
 	//Also: calling quoteArg on something ending with '\' behaves oddly
 	destdir = KShell::quoteArg(destdir);
 	srcdir = KShell::quoteArg(srcdir + "\\*");
-	srcdir.replace("/","\\");
-	destdir.replace("/","\\");
+	srcdir.replace('/','\\');
+	destdir.replace('/','\\');
 
 	//Copy files to working directory
 	QStringList copyArgs;
@@ -213,7 +213,7 @@ void Tester::runTests()
 	int res = KProcess::execute("cmd", copyArgs);
 
 	//Execute the test script
-	command = "runTests.bat " + KShell::quoteArg(m_resultsFile) + " " +  destdir;
+	command = "runTests.bat " + KShell::quoteArg(m_resultsFile) + ' ' +  destdir;
 	m_process->setWorkingDirectory(destdir);
 #else
 	command = "cd " + KShell::quoteArg(destdir) + " && ";

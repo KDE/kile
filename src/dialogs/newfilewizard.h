@@ -32,7 +32,7 @@ class NewFileWizard : public KDialog
 {
 	Q_OBJECT
 public:
-	NewFileWizard(KileTemplate::Manager *manager, KileDocument::Type startType = KileDocument::LaTeX,
+	explicit NewFileWizard(KileTemplate::Manager *manager, KileDocument::Type startType = KileDocument::LaTeX,
 	              QWidget *parent = NULL, const char *name = NULL);
 	~NewFileWizard();
 

@@ -123,7 +123,7 @@ bool KileLyxServer::openPipes()
 				kError() << "Could not create directory";
 			}
 			else{
-				KILE_DEBUG() << "Directory created sucessfully";	
+				KILE_DEBUG() << "Directory created successfully";	
 			}
 		}
 		

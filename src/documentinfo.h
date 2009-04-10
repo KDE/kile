@@ -73,7 +73,7 @@ namespace KileStruct
 class KileStructData
 {
 public:
-	KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString(), QString fldr = "root" )  : level(lvl), type(tp), pix(px), folder(fldr) {}
+	explicit KileStructData(int lvl = 0, int tp = KileStruct::None, QString px = QString(), QString fldr = "root" )  : level(lvl), type(tp), pix(px), folder(fldr) {}
 	/** At which level the element should be visible **/
 	int				level;
 	/** The type of element (see @ref KileStruct) **/

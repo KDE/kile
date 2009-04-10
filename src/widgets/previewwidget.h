@@ -50,7 +50,7 @@ class PreviewWidget : public QWidget
 	Q_OBJECT
 
 public:
-	PreviewWidget(KileInfo *info, QWidget *parent = 0, const char *name = 0);
+	explicit PreviewWidget(KileInfo *info, QWidget *parent = 0, const char *name = 0);
 	~PreviewWidget();
 
 	/**

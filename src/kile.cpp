@@ -1147,7 +1147,7 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 {
 // 	KILE_DEBUG() << "cleanUpActionList tools are" << tools.join("; ");
 	QList<QAction*>::iterator it, testIt;
-	for ( it= list.begin(); it != list.end(); it++){
+	for ( it= list.begin(); it != list.end(); ++it){
 		QAction *act = *it;
 		if ( act != NULL && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
 			if (act->associatedWidgets().contains(toolBar("toolsToolBar"))) {

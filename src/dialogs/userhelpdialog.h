@@ -38,7 +38,7 @@ class UserHelpDialog : public KDialog
 		Q_OBJECT
 
 	public:
-		UserHelpDialog(QWidget *parent = 0, const char *name = 0);
+		explicit UserHelpDialog(QWidget *parent = 0, const char *name = 0);
 		~UserHelpDialog() {}
 
 		void setParameter(const QStringList &menuentries, const QList<KUrl> &helpfiles);
@@ -66,7 +66,7 @@ class UserHelpAddDialog : public KDialog
 		Q_OBJECT
 
 	public:
-		UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = NULL);
+		explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = NULL);
 		~UserHelpAddDialog() {}
 
 	private:

@@ -40,7 +40,7 @@ class UserTags: public KDialog
 	Q_OBJECT
 
 public:
-	UserTags(const QList<KileAction::TagData> &list, QWidget* parent = NULL, const char* name = NULL, const QString &caption = QString());
+	explicit UserTags(const QList<KileAction::TagData> &list, QWidget* parent = NULL, const char* name = NULL, const QString &caption = QString());
 	~UserTags();
 
 	int index() { return m_prevIndex; }

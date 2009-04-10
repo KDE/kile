@@ -36,7 +36,7 @@ class KileProjectItem : public QObject
 	Q_OBJECT
 
 public:
-	KileProjectItem(KileProject *project = 0, const KUrl &url = KUrl(), int type = Source);
+	explicit KileProjectItem(KileProject *project = 0, const KUrl &url = KUrl(), int type = Source);
 	~KileProjectItem() { KILE_DEBUG() << "DELETING PROJITEM " << m_path << endl;}
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}

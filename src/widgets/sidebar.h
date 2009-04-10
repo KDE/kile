@@ -29,7 +29,7 @@ class SideBar : public QWidget
 	Q_OBJECT
 
 public:
-	SideBar(QWidget *parent = NULL, Qt::Orientation orientation = Qt::Vertical);
+	explicit SideBar(QWidget *parent = NULL, Qt::Orientation orientation = Qt::Vertical);
 	virtual ~SideBar();
 
 	int addPage(QWidget *tab, const QPixmap &pic, const QString &text = QString());

@@ -680,7 +680,7 @@ void StructureViewItem::setLabel(const QString &label)
 							(fromProject ? i18n(" from Project settings") : i18n(" from global Structure View settings.")),
 						i18n("File extension not specified") );
 
-					fname += "." + extToAdd;
+					fname += '.' + extToAdd;
 
 				}
 				else{

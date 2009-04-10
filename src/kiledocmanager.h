@@ -44,7 +44,7 @@ class Manager : public QObject
 {
 	Q_OBJECT
 public:
-	Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
+	explicit Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
 	~Manager();
 
 public Q_SLOTS:

@@ -55,7 +55,7 @@ class QuickDocument : public Wizard
 		Q_OBJECT
 
 	public:
-		QuickDocument(KConfig *, QWidget *parent = 0, const char *name = 0, const QString &caption = QString());
+		explicit QuickDocument(KConfig *, QWidget *parent = 0, const char *name = 0, const QString &caption = QString());
 		~QuickDocument();
 
 		bool isStandardClass(const QString &classname);

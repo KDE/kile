@@ -35,7 +35,7 @@ class KTextEdit;
 class LOFStackItem
 {
 public:
-	LOFStackItem(const QString& file = QString(), bool sure = false) : m_file(file), m_reliable(sure) {}
+	explicit LOFStackItem(const QString& file = QString(), bool sure = false) : m_file(file), m_reliable(sure) {}
 
 	const QString & file() const { return m_file; }
 	void setFile(const QString & file) { m_file = file; }

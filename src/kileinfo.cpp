@@ -359,7 +359,7 @@ QString KileInfo::expandEnvironmentVars(const QString &str)
 	QString result = str;
 	int index = -1;
 	while ( (index = str.indexOf(reEnvVars, index + 1)) != -1 )
-		result.replace(reEnvVars.cap(0),getenv(reEnvVars.cap(1).toLocal8Bit()));
+		result.replace(reEnvVars.cap(0),qgetenv(reEnvVars.cap(1).toLocal8Bit()));
 
 	return result;
 }

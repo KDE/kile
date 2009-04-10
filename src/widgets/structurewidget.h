@@ -46,7 +46,7 @@ class StructureViewItem : public QTreeWidgetItem
 public:
 	StructureViewItem(QTreeWidgetItem *parent, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
 	StructureViewItem(QTreeWidget *parent, const QString &label);
-	StructureViewItem(const QString &label, QTreeWidgetItem *parent = NULL);
+	explicit StructureViewItem(const QString &label, QTreeWidgetItem *parent = NULL);
 
 	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
 	const QString& title() const { return m_title; }

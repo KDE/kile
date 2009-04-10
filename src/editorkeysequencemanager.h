@@ -86,7 +86,7 @@ namespace KileEditorKeySequence {
 			/**
 			 * Constructs a new manager object.
 			 **/
-			Manager(KileInfo* kileInfo, QObject *parent = 0, const char *name = 0);
+			explicit Manager(KileInfo* kileInfo, QObject *parent = 0, const char *name = 0);
 			virtual ~Manager();
 
 			/**

@@ -16,7 +16,6 @@
 #include <QDir>
 #include <QFile>
 #include <QtDBus>
-#include <QFile>
 #include <QFileInfo>
 #include <QTextCodec>
 
@@ -28,7 +27,6 @@
 #include <KUrl>
 #include <KStandardDirs>
 #include <KEncodingProber>
-#include <KLocale>
 
 #include "kile.h"
 #include "kileversion.h"

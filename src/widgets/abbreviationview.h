@@ -32,7 +32,7 @@ public:
 	enum {ALVabbrev = 0, ALVlocal = 1, ALVexpansion = 2};
 	enum {ALVnone = 0, ALVadd = 1, ALVedit = 2, ALVdelete = 3};
 
-	AbbreviationView(QWidget *parent = NULL, const char *name = NULL);
+	explicit AbbreviationView(QWidget *parent = NULL, const char *name = NULL);
 	~AbbreviationView();
 
 	void init(const QStringList *globallist, const QStringList *locallist);

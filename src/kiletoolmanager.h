@@ -39,7 +39,7 @@ namespace KileTool
 	class QueueItem
 	{
 	public:
-		QueueItem(Base *tool, const QString & cfg = QString(), bool block = false);
+		explicit QueueItem(Base *tool, const QString & cfg = QString(), bool block = false);
 		~QueueItem();
 
 		Base* tool() const { return m_tool; }

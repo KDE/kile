@@ -57,7 +57,7 @@ class Manager : public QObject
 	Q_OBJECT
 
 public:
-	Manager(KileInfo *ki, QObject *parent = 0, const char *name = 0);
+	explicit Manager(KileInfo *ki, QObject *parent = 0, const char *name = 0);
 
 	~Manager();
 
@@ -154,7 +154,7 @@ class DropWidget : public QWidget {
 	Q_OBJECT
 
 	public:
-		DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WFlags f = 0);
+		explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WFlags f = 0);
 		virtual ~DropWidget();
 
 		virtual void dragEnterEvent(QDragEnterEvent *e);

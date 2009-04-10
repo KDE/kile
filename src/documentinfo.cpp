@@ -83,7 +83,6 @@
 #include "kiledebug.h"
 #include "kileuntitled.h"
 #include "kileviewmanager.h"
-#include "codecompletion.h"
 
 namespace KileDocument
 {

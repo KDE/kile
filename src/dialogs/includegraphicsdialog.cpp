@@ -154,18 +154,18 @@ QString IncludeGraphics::getTemplate()
 		// build position string
 		if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
 			p += "[";
-			if (here)	p+= "h";
-			if (top)	p+= "t";
-			if (bottom)	p+= "b";
-			if (page)	p+= "p";
-			if (force)    	p+= "!";
+			if (here)	p+= 'h';
+			if (top)	p+= 't';
+			if (bottom)	p+= 'b';
+			if (page)	p+= 'p';
+			if (force)    	p+= '!';
 			if (custom)	p+= m_widget.edit_custom->text();
-			p += "]";
+			p += ']';
 		}
 	
 
 		// add start of figure environment
-		s += "\\begin{figure}" + p + "\n";
+		s += "\\begin{figure}" + p + '\n';
 	}
 
 	// build tags for start of wrapfigure environment
@@ -175,7 +175,7 @@ QString IncludeGraphics::getTemplate()
 
 		// number of lines in length
 		if (!m_widget.edit_wraplines->text().isEmpty()) {
-			s += "[" + m_widget.edit_wraplines->text() + "]";
+			s += '[' + m_widget.edit_wraplines->text() + ']';
 		}
 
 		// positioning for wrapfigure environment
@@ -200,16 +200,16 @@ QString IncludeGraphics::getTemplate()
 
 		// overhang into margin
 		if (!m_widget.edit_wrapoverhang->text().isEmpty()) {
-			s += "[" + m_widget.edit_wrapoverhang->text() + "]";
+			s += '[' + m_widget.edit_wrapoverhang->text() + ']';
 		}
 
 		// width of figure
 		if (!m_widget.edit_wrapwidth->text().isEmpty()) {
-			s += "{" + m_widget.edit_wrapwidth->text() + "}";
+			s += '{' + m_widget.edit_wrapwidth->text() + '}';
 		}
 		
 		// end of wrapfigure options
-		s += "\n";
+		s += '\n';
 		
 		// Include warning in comment if wrapfig is not loaded.
 		// Sending a warning to the log here would be good, but
@@ -342,7 +342,7 @@ QString IncludeGraphics::getOptions()
 		if (!m_widget.edit_trimTop->text().isEmpty()) {
 			t = m_widget.edit_trimTop->text();
 		}
-		s += ",clip=true,trim=" + l + " " + b + " " + r + " " + t;
+		s += ",clip=true,trim=" + l + ' ' + b + ' ' + r + ' ' + t;
 	}
 
 	if (s.left(1) == ",") {

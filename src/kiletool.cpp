@@ -94,8 +94,8 @@ namespace KileTool
 			str.replace(it.key(), it.value());
 		}
 		//Windows doesn't like single quotes on command line '*.tex'
-		#ifdef Q_OS_WIN
-			str.replace("'", "\"");
+		#ifdef Q_WS_WIN
+			str.replace('\'', '\"');
 		#endif 
 	}
 

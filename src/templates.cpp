@@ -232,6 +232,7 @@ TemplateIconView::TemplateIconView(QWidget *parent)
 	setSelectionMode(QAbstractItemView::SingleSelection);
 	setFlow(QListView::TopToBottom);
 	setMinimumHeight(100);
+	setIconSize(QSize(48, 48));
 }
 
 TemplateIconView::~TemplateIconView() {

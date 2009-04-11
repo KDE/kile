@@ -72,6 +72,7 @@ namespace KileTool {
 
 		connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
 		connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+		connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError(QProcess::ProcessError)));
 	}
 
 	ProcessLauncher::~ProcessLauncher()
@@ -260,7 +261,7 @@ namespace KileTool {
 			}
 			else {
 				KILE_DEBUG() << "\tabnormal exit";
-				emit(message(Error,i18n("finished abruptly")));
+				emit(message(Error, i18n("finished abruptly")));
 				emit(done(AbnormalExit));
 			}
 		}
@@ -268,6 +269,25 @@ namespace KileTool {
 			kWarning() << "\tNO PROCESS, emitting done";
 			emit(done(Success));
 		}
+	}
+
+	void ProcessLauncher::slotProcessError(QProcess::ProcessError error)
+	{
+		KILE_DEBUG() << "error =" << error << "tool = " << tool()->name();
+		QString errorString;
+		switch(error) {
+			case QProcess::FailedToStart:
+				errorString = i18n("failed to start");
+				break;
+			case QProcess::Crashed:
+				errorString = i18n("crashed");
+				break;
+			default:
+				errorString = i18n("failed (error code %i)", error);
+				break;
+		}
+		emit(message(Error, errorString));
+		emit(done(AbnormalExit));
 	}
 
 	KonsoleLauncher::KonsoleLauncher(const QString& shellCommand) : ProcessLauncher(shellCommand)

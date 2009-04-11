@@ -91,6 +91,7 @@ namespace KileTool
 	private Q_SLOTS:
 		void slotProcessOutput();
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
+		void slotProcessError(QProcess::ProcessError error);
 
 	private:
 		QString 	m_wd, m_cmd, m_texinputs, m_bibinputs, m_bstinputs;

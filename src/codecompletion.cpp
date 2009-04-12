@@ -633,8 +633,6 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 			return;
 		}
 	}
-	int row, col;
-	QString environmentName;
 	// FIXME: optimise this once we have a better LaTeX parser
 	view->document()->insertText(view->cursorPosition(), "\\begin{");
 	startLaTeXCompletion(view);

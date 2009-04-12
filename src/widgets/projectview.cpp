@@ -213,8 +213,6 @@ int ProjectViewItem::folder() const
  * ProjectView
  */
 ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m_ki(ki), m_nProjects(0)
-
-// FIXME Missing drop-support
 {
 	setColumnCount(2);
 	QStringList labelList;
@@ -231,7 +229,6 @@ ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m
 
 	connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(slotClicked(QTreeWidgetItem*)));
 	setAcceptDrops(true);
-	connect(this, SIGNAL(dropped(QDropEvent*, QTreeWidgetItem*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 }
 
 void ProjectView::slotClicked(QTreeWidgetItem *item)
@@ -727,11 +724,6 @@ void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 
 }
 
-bool ProjectView::acceptDrag(QDropEvent *e) const
-{
-	return e->mimeData()->hasUrls(); // only accept URL drops
-}
-
 void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 {
 	QSignalMapper signalMapper;
@@ -851,6 +843,25 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 	}
 
 	popup.exec(event->globalPos());
+}
+
+void ProjectView::dragEnterEvent(QDragEnterEvent *event)
+{
+	if(event->mimeData()->hasUrls()) { // only accept URL drags
+		event->acceptProposedAction();
+	}
+}
+
+void ProjectView::dragMoveEvent(QDragMoveEvent *event)
+{
+	if(event->mimeData()->hasUrls()) { // only accept URL drags
+		event->acceptProposedAction();
+	}
+}
+
+void ProjectView::dropEvent(QDropEvent *event)
+{
+	m_ki->docManager()->openDroppedURLs(event);
 }
 
 }

@@ -140,8 +140,10 @@ Q_SIGNALS:
 	void buildProjectTree(const KUrl&);
 
 protected:
-	virtual bool acceptDrag(QDropEvent *e) const;
 	virtual void contextMenuEvent(QContextMenuEvent *event);
+	virtual void dragEnterEvent(QDragEnterEvent *event);
+	virtual void dragMoveEvent(QDragMoveEvent *event);
+	virtual void dropEvent(QDropEvent *event);
 
 private:
 

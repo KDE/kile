@@ -763,11 +763,11 @@ void Kile::setupActions()
 	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_E), this, SLOT(focusEditor()));
 
  // CodeCompletion (dani)
-	createAction(i18nc("@action: Starts the completion of the current latex command", "Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
+	createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
 #ifdef __GNUC__
 #warning Fix the remaining code completion actions.
 #endif
-// 	createAction(i18n("Complete Environment"), "edit_complete_env", "complete2", KShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeEnvironment()));
+	createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), "edit_complete_env", "complete2", KShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXEnvironment()));
 // 	createAction(i18n("Complete Abbreviation"), "edit_complete_abbrev", "complete3", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Space), m_edit, SLOT(completeAbbreviation()));
 
 	createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Right), m_edit, SLOT(nextBullet()));
@@ -1666,18 +1666,17 @@ bool Kile::resetPart()
 	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
 	KILE_DEBUG() << "\twant state " << m_wantState << endl;
 
-	KParts::ReadOnlyPart *part = (KParts::ReadOnlyPart*)m_partManager->activePart();
+	KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart*>(m_partManager->activePart());
 
-	if (part && m_currentState != "Editor")
-	{
-		if(part->closeUrl())
-		{
+	if (part && m_currentState != "Editor") {
+		if(part->closeUrl()) {
 			m_partManager->removePart(part);
 			m_topWidgetStack->removeWidget(part->widget());
 			delete part;
 		}
-		else
+		else {
 			return false;
+		}
 	}
 
 	setupStatusBar();
@@ -1710,14 +1709,12 @@ void Kile::activePartGUI(KParts::Part * part)
 	//a KParts::BrowserExtension)
 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
 
-	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) //part is a BrowserExtension, connect printAction()
-	{
+	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) { //part is a BrowserExtension, connect printAction()
 		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
 		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
 		m_paPrint->setEnabled(true);
 	}
-	else
-	{
+	else {
 		if (m_paPrint->associatedWidgets().contains(toolBar("mainToolBar"))) {
 			toolBar("mainToolBar")->removeAction(m_paPrint);
 		}

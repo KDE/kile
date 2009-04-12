@@ -625,6 +625,21 @@ void Manager::startLaTeXCompletion(KTextEditor::View *view)
 	latexInfo->startLaTeXCompletion(view);
 }
 
+void Manager::startLaTeXEnvironment(KTextEditor::View *view)
+{
+	if(!view) {
+		view = m_ki->viewManager()->currentTextView();
+		if(!view) {
+			return;
+		}
+	}
+	int row, col;
+	QString environmentName;
+	// FIXME: optimise this once we have a better LaTeX parser
+	view->document()->insertText(view->cursorPosition(), "\\begin{");
+	startLaTeXCompletion(view);
+}
+
 void Manager::buildReferenceCitationRegularExpressions()
 {
 	// build list of references

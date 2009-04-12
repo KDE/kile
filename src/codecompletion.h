@@ -107,6 +107,7 @@ namespace KileCodeCompletion
 
 		public Q_SLOTS:
 			void startLaTeXCompletion(KTextEditor::View *view = NULL);
+			void startLaTeXEnvironment(KTextEditor::View *view = NULL);
 
 		protected:
 			KileInfo* m_ki;

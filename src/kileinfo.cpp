@@ -35,6 +35,7 @@
 #include "kileproject.h"
 #include "kileuntitled.h"
 #include "scriptmanager.h"
+#include "abbreviationmanager.h"
 #include "editorkeysequencemanager.h"
 #include "templates.h"
 
@@ -59,6 +60,7 @@ KileInfo::KileInfo(QObject *parent) :
 	                 SIGNAL(documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
 	                 m_viewManager,
 	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
+	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
 }
 
 KileInfo::~KileInfo()

@@ -44,6 +44,7 @@
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 
+#include "abbreviationmanager.h"
 #include "configurationmanager.h"
 #include "documentinfo.h"
 #include "kileactions.h"
@@ -549,14 +550,11 @@ void Kile::setupSymbolViews()
 
 void Kile::setupAbbreviationView()
 {
-	m_kileAbbrevView = new KileWidget::AbbreviationView(m_sideBar);
-#ifdef __GNUC__
-#warning Check this.
-#endif
-// 	m_edit->complete()->setAbbreviationListview(m_kileAbbrevView);
+	m_kileAbbrevView = new KileWidget::AbbreviationView(abbreviationManager(), m_sideBar);
+	connect(abbreviationManager(), SIGNAL(abbreviationsChanged()), m_kileAbbrevView, SLOT(updateAbbreviations()));;
 	m_sideBar->addPage(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
 
-	connect(m_kileAbbrevView, SIGNAL(sendText(const QString& )), this, SLOT(insertText(const QString& )));
+	connect(m_kileAbbrevView, SIGNAL(sendText(const QString&)), this, SLOT(insertText(const QString&)));
 }
 
 void Kile::setupBottomBar()
@@ -2348,7 +2346,7 @@ void Kile::readConfig()
 	else {
 		disableSymbolViewMFUS();
 	}
-
+	abbreviationManager()->readAbbreviationFiles();
 }
 
 void Kile::saveSettings()
@@ -2438,6 +2436,8 @@ void Kile::saveSettings()
 	KileConfig::setBottomBarIndex(m_bottomBar->currentTab());
 
 	KileConfig::setSelectedLeftView(m_sideBar->currentTab());
+
+	abbreviationManager()->saveLocalAbbreviations();
 
 	KileConfig::self()->writeConfig();
 	m_config->sync();

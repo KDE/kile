@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Feb 24 2007
     copyright            : 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           2008 - 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
 *****************************************************************************************/
 
 /***************************************************************************
@@ -24,16 +24,15 @@
 #include <KMenu>
 #include <KMessageBox>
 
+#include "abbreviationmanager.h"
 #include "dialogs/abbreviationinputdialog.h"
-
 #include "kiledebug.h"
 
 namespace KileWidget {
 
-AbbreviationView::AbbreviationView(QWidget *parent, const char *name)
-	: QTreeWidget(parent), m_changes(false)
+AbbreviationView::AbbreviationView(KileAbbreviation::Manager *manager, QWidget *parent)
+	: QTreeWidget(parent), m_abbreviationManager(manager)
 {
-	setObjectName(name);
 	setColumnCount(2);
 	QStringList headerLabelList;
 	headerLabelList << i18n("Short") << QString() << i18n("Expanded Text");
@@ -55,70 +54,25 @@ AbbreviationView::~AbbreviationView()
 //////////////////// init abbreviation view with wordlists ////////////////////
 
 
-void AbbreviationView::init(const QStringList *globallist, const QStringList *locallist)
+void AbbreviationView::updateAbbreviations()
 {
+KILE_DEBUG();
 	setUpdatesEnabled(false);
 	clear();
-	addWordlist(globallist,true);
-	addWordlist(locallist,false);
+	const QMap<QString, QPair<QString, bool> >& abbreviationMap = m_abbreviationManager->getAbbreviationMap();
+	QList<QTreeWidgetItem*> itemList;
+	for(QMap<QString, QPair<QString, bool> >::const_iterator i = abbreviationMap.begin();
+	    i != abbreviationMap.end(); ++i) {
+		QPair<QString, bool> pair = i.value();
+		QTreeWidgetItem *item = new QTreeWidgetItem();
+		item->setText(ALVabbrev, i.key());
+		item->setText(ALVlocal, (pair.second) ? QString() : "*");
+		item->setText(ALVexpansion, pair.first);
+		itemList.push_back(item);
+	}
+	addTopLevelItems(itemList);
+
 	setUpdatesEnabled(true);
-
-	m_changes = false;
-}
-
-void AbbreviationView::addWordlist(const QStringList *wordlist, bool global)
-{
-	QString type = (global) ? QString() : "*";
-
-	QStringList::ConstIterator it;
-	for(it = wordlist->begin(); it != wordlist->end(); ++it) {
-		int index = (*it).indexOf('=');
-		if(index >= 0) {
-			QTreeWidgetItem *item = new QTreeWidgetItem(this);
-			item->setText(0, (*it).left(index));
-			item->setText(1, type);
-			item->setText(2, (*it).right((*it).length() - index - 1));
-			addTopLevelItem(item);
-		}
-	}
-}
-
-//////////////////// save local abbreviation list ////////////////////
-
-void AbbreviationView::saveLocalAbbreviation(const QString &filename)
-{
-	if(!m_changes) {
-		return;
-	}
-
-	KILE_DEBUG() << "=== AbbreviationView::saveLocalAbbreviation ===================";
-	// create the file 
-	QFile abbrevfile(filename);
-	if(!abbrevfile.open( QIODevice::WriteOnly)) {
-		return;
-	}
-
-	QTextStream stream(&abbrevfile);
-	stream << "# abbreviation mode: editable abbreviations\n";
-	stream << "# dani/2007\n";
-
-	//QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().ascii());
-	// stream.setCodec(codec);
-
-	QTreeWidgetItemIterator it(this);
-	while(*it) {
-		QTreeWidgetItem *current = *it;
-		if(current->text(AbbreviationView::ALVlocal) == "*") {
-			stream << current->text(AbbreviationView::ALVabbrev)
-			       << "=" 
-			       << current->text(AbbreviationView::ALVexpansion)
-			       << "\n";
-		}
-		++it;
-	}
-	abbrevfile.close();
-
-	m_changes = false;
 }
 
 //////////////////// find abbreviation ////////////////////
@@ -180,7 +134,7 @@ void AbbreviationView::slotAddAbbreviation()
 	if(dialog.exec() == QDialog::Accepted) {
 		QString abbrev, expansion;
 		dialog.abbreviation(abbrev, expansion);
-		addAbbreviation(abbrev, expansion);
+		m_abbreviationManager->updateLocalAbbreviation(abbrev, expansion);
 	}
 }
 
@@ -191,11 +145,16 @@ void AbbreviationView::slotChangeAbbreviation()
 		return;
 	}
 	QTreeWidgetItem *selectedItem = selectedList.first();
+	QString oldAbbreviationText = selectedItem->text(ALVabbrev);
+	QString oldAbbreviationExpansion = selectedItem->text(ALVexpansion);
 	KileDialog::AbbreviationInputDialog dialog(this, selectedItem, ALVedit);
 	if(dialog.exec() == QDialog::Accepted) {
 		QString abbrev, expansion;
 		dialog.abbreviation(abbrev, expansion);
-		changeAbbreviation(selectedItem, abbrev, expansion);
+		if(oldAbbreviationText != abbrev) {
+			m_abbreviationManager->removeLocalAbbreviation(oldAbbreviationText);
+		}
+		m_abbreviationManager->updateLocalAbbreviation(abbrev, expansion);
 	}
 }
 
@@ -205,49 +164,18 @@ void AbbreviationView::slotDeleteAbbreviation()
 	if(selectedList.count() == 0) {
 		return;
 	}
-	deleteAbbreviation(selectedList.first());
-}
-
-void AbbreviationView::addAbbreviation(const QString &abbrev, const QString &expansion)
-{
-	QTreeWidgetItem *item = new QTreeWidgetItem(this);
-	item->setText(0, abbrev);
-	item->setText(1, "*");
-	item->setText(2, expansion);
-	addTopLevelItem(item);
-	QString newAbbrev = abbrev + '=' + expansion;
-
-	emit(updateAbbrevList(QString(), newAbbrev));
-	m_changes = true;
-}
-
-void AbbreviationView::changeAbbreviation(QTreeWidgetItem *item, const QString &abbrev, const QString &expansion)
-{
-	if(item) {
-		QString oldAbbrev = item->text(ALVabbrev) + '=' + item->text(ALVexpansion);
-		QString newAbbrev = abbrev + '=' + expansion;
-		item->setText(ALVabbrev,abbrev);
-		item->setText(ALVexpansion,expansion);
-
-		emit(updateAbbrevList(oldAbbrev,newAbbrev));
-		m_changes = true;
-	}
-}
-
-void AbbreviationView::deleteAbbreviation(QTreeWidgetItem *item)
-{
-	QString abbrev = item->text(ALVabbrev);
-	QString message = i18n("Delete the abbreviation '%1'?", abbrev);
+	QTreeWidgetItem *item = selectedList.first();
+	QString abbreviationText = item->text(ALVabbrev);
+	QString abbreviationExpansion = item->text(ALVexpansion);
+	QString message = i18n("Delete the abbreviation '%1'?", abbreviationText);
 	if(KMessageBox::questionYesNo(this,
 		       "<center>" + message + "</center>",
 		       i18n("Delete Abbreviation") ) == KMessageBox::Yes) {
-		QString s = item->text(ALVabbrev) + '=' + item->text(ALVexpansion);
-		delete item;
-
-		emit(updateAbbrevList(s, QString()));
-		m_changes = true;
+		QString s = abbreviationText + '=' + abbreviationExpansion;
 	}
+	m_abbreviationManager->removeLocalAbbreviation(abbreviationText);
 }
+
 
 }
 

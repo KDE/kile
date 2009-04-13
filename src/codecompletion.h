@@ -105,6 +105,9 @@ namespace KileCodeCompletion
 
 			void readConfig(KConfig *config);
 
+			QStringList readCWLFile(const QString &filename, bool fullPathGiven = false);
+			QStringList readCWLFiles(const QStringList &files, const QString &dir);
+
 		public Q_SLOTS:
 			void startLaTeXCompletion(KTextEditor::View *view = NULL);
 			void startLaTeXEnvironment(KTextEditor::View *view = NULL);
@@ -119,8 +122,6 @@ namespace KileCodeCompletion
 			QRegExp m_citeExtRegExp;
 	
 			void addUserDefinedLaTeXCommands(QStringList &wordlist);
-			void readCWLFile(QStringList &wordlist, const QString &filename);
-			QStringList readCWLFiles(const QStringList &files, const QString &dir);
 			void buildReferenceCitationRegularExpressions();
 			QString getCommandsString(KileDocument::CmdAttribute attrtype);
 }	;
@@ -171,7 +172,6 @@ public:
 
 	void readConfig(KConfig *config);
 	void readKateConfigFlags(KConfig *config);
-	void saveLocalChanges();
 
 	void setAbbreviationListview(KileWidget::AbbreviationView *listview);
 

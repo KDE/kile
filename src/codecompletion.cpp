@@ -591,14 +591,12 @@ void Manager::readConfig(KConfig *config)
 		// wordlists for Tex/Latex mode
 		QStringList files = KileConfig::completeTex();
 		m_texWordList = readCWLFiles(files, "tex");
+		addUserDefinedLaTeXCommands(m_texWordList);
 
 		// wordlist for dictionary mode
 		files = KileConfig::completeDict();
 		m_dictWordList = readCWLFiles(files, "dictionary");
-
-		// wordlist for abbreviation mode
-		files = KileConfig::completeAbbrev();
-		m_abbrevWordList = readCWLFiles(files, "abbreviation");
+		m_dictWordList.sort();
 
 		// remember changed lists
 		// FIXME: remove these hacks
@@ -725,11 +723,12 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 	}
 }
 
-void Manager::readCWLFile(QStringList &wordlist, const QString &filename)
+QStringList Manager::readCWLFile(const QString &filename, bool fullPathGiven)
 {
-	QString file = KGlobal::dirs()->findResource("appdata", "complete/" + filename);
+	QStringList toReturn;
+	QString file = fullPathGiven ? filename : KGlobal::dirs()->findResource("appdata", "complete/" + filename);
 	if(file.isEmpty()) {
-		return;
+		return toReturn;
 	}
 
 	QFile f(file);
@@ -738,11 +737,12 @@ void Manager::readCWLFile(QStringList &wordlist, const QString &filename)
 		while(!t.atEnd()) {        // until end of file...
 			QString s = t.readLine().trimmed();       // line of text excluding '\n'
 			if(!(s.isEmpty() || s.at(0) == '#')) {
-				wordlist.append(s);
+				toReturn.append(s);
 			}
 		}
 		f.close();
 	}
+	return toReturn;
 }
 
 QStringList Manager::readCWLFiles(const QStringList &files, const QString &dir)
@@ -753,38 +753,9 @@ QStringList Manager::readCWLFiles(const QStringList &files, const QString &dir)
 	for(int i = 0; i < files.count(); ++i) {
 		// if checked, the wordlist has to be read
 		if(files[i].at(0) == '1') {
-			readCWLFile(wordlist, dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl");
+			wordlist += readCWLFile(dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl");
 		}
 	}
-
-//FIXME: better move the following out of this method
-	// add user defined commands and environments
-	if(dir == "tex") {
-		addUserDefinedLaTeXCommands(wordlist);
-	}
-	else if(dir == "dictionary") {
-		wordlist.sort();
-	}
-	else if(dir == "abbreviation") {
-// FIXME
-/*
-		// read local wordlist
-		QStringList localWordlist;
-		readWordlist(localWordlist, QString(), false);
-
-		// add local/global wordlists to the abbreviation view
-		m_abbrevListview->init(&wordlist,&localWordlist);
-
-		// finally add local wordlists to the abbreviation list
-		QStringList::ConstIterator it;
-		for(it = localWordlist.begin(); it != localWordlist.end(); ++it) {
-			wordlist.append(*it);
-		}
-
-		wordlist.sort();
-*/
-	}
-
 	return wordlist;
 }
 
@@ -814,7 +785,6 @@ namespace KileDocument
 
 		// local abbreviation list
 		m_abbrevListview = NULL;
-		m_localAbbrevFile = KStandardDirs::locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
 
 		//reRef.setPattern("^\\\\(pageref|ref|xyz)\\{");
 		m_completeTimer = new QTimer( this );
@@ -917,15 +887,6 @@ namespace KileDocument
 		KConfigGroup configGroup = config->group("Kate Document Defaults");
 		m_autobrackets = ( configGroup.readEntry("Basic Config Flags",0) & cfAutoBrackets );
 		m_autoindent   = ( configGroup.readEntry("Indentation Mode",0) > 0 );
-	}
-
-	// save local abbreviation changes
-	// (for example before a new configuration should be read)
-
-	void CodeCompletion::saveLocalChanges()
-	{
-		KILE_DEBUG() << "=== CodeCompletion::saveLocalChanges ===================";
-		m_abbrevListview->saveLocalAbbreviation(m_localAbbrevFile);
 	}
 
 	//////////////////// references and citations ////////////////////

@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Feb 24 2007
     copyright            : 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           2008 - 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -22,6 +22,8 @@
 
 //////////////////// KlistView for abbreviations ////////////////////
 
+namespace KileAbbreviation { class Manager; }
+
 namespace KileWidget {
 
 class AbbreviationView : public QTreeWidget
@@ -32,18 +34,16 @@ public:
 	enum {ALVabbrev = 0, ALVlocal = 1, ALVexpansion = 2};
 	enum {ALVnone = 0, ALVadd = 1, ALVedit = 2, ALVdelete = 3};
 
-	explicit AbbreviationView(QWidget *parent = NULL, const char *name = NULL);
+	AbbreviationView(KileAbbreviation::Manager *manager, QWidget *parent = NULL);
 	~AbbreviationView();
 
-	void init(const QStringList *globallist, const QStringList *locallist);
 	bool findAbbreviation(const QString &abbrev);
-	void saveLocalAbbreviation(const QString &filename);
 
 Q_SIGNALS:
-	void updateAbbrevList(const QString &ds, const QString &as);
 	void sendText(const QString &text);
  
 private Q_SLOTS:
+	void updateAbbreviations();
 	void slotItemClicked(QTreeWidgetItem *item, int column);
 	void slotCustomContextMenuRequested(const QPoint& p);
 	void slotAddAbbreviation();
@@ -51,13 +51,7 @@ private Q_SLOTS:
 	void slotDeleteAbbreviation();
 
 private:
-	bool m_changes;
-
-	void addAbbreviation(const QString &abbrev, const QString &expansion);
-	void changeAbbreviation(QTreeWidgetItem *item, const QString &abbrev, const QString &expansion);
-	void deleteAbbreviation(QTreeWidgetItem *item);
-
-	void addWordlist(const QStringList *wordlist, bool global);
+	KileAbbreviation::Manager *m_abbreviationManager;
 
 };
 

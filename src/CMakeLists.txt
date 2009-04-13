@@ -97,6 +97,7 @@ SET(kile_SRCS
 	dialogs/tabular/tabulartable.cpp
 	configurationmanager.cpp
 	utilities.cpp
+	abbreviationmanager.cpp
 )
 
 SET( kile_UI

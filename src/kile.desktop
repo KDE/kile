@@ -1,9 +1,8 @@
-# KDE Config File
 [Desktop Entry]
 Type=Application
 Exec=kile
 Icon=kile
-DocPath=kile/index.html
+X-DocPath=kile/index.html
 Comment=(La)TeX development environment
 Comment[ar]=بيئة تطوير لاتكس.
 Comment[be]=Асяроддзе распрацоўкі (La)TeX
@@ -103,4 +102,3 @@ GenericName[zh_CN]=LaTeX 前端
 GenericName[zh_TW]=LaTeX 前端介面
 MimeType=text/x-tex;text/x-kilepr;
 Categories=Qt;KDE;Office;Publishing;
-Encoding=UTF-8

@@ -95,7 +95,7 @@ void Manager::saveLocalAbbreviations()
 	// create the file 
 	QFile abbreviationFile(m_localAbbreviationFile);
 	if(!abbreviationFile.open(QIODevice::WriteOnly)) {
-		KMessageBox::error(m_kileInfo->mainWindow(), i18n("Could not save the local abbreviation list!\nError code %i", abbreviationFile.error()),
+		KMessageBox::error(m_kileInfo->mainWindow(), i18n("Could not save the local abbreviation list.\nError code %1.", QString::number(abbreviationFile.error())),
 		                   i18n("Saving Problem"));
 		return;
 	}

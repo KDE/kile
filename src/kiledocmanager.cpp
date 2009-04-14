@@ -362,11 +362,13 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 			case Undefined: // fall through
 			case Text:
 				KILE_DEBUG() << "CREATING TextInfo for " << url.url();
-				docinfo = new TextInfo(NULL, m_ki->extensions());
+				docinfo = new TextInfo(NULL, m_ki->extensions(),
+				                             m_ki->abbreviationManager());
 				break;
 			case LaTeX:
 				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url();
 				docinfo = new LaTeXInfo(NULL, m_ki->extensions(),
+				                              m_ki->abbreviationManager(),
                                                               m_ki->latexCommands(),
                                                               m_ki->editorExtension(),
                                                               m_ki->configurationManager(),
@@ -374,11 +376,14 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 				break;
 			case BibTeX:
 				KILE_DEBUG() << "CREATING BibInfo for " << url.url();
-				docinfo = new BibInfo(NULL, m_ki->extensions(), m_ki->latexCommands());
+				docinfo = new BibInfo(NULL, m_ki->extensions(),
+				                            m_ki->abbreviationManager(),
+				                            m_ki->latexCommands());
 				break;
 			case Script:
 				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url();
-				docinfo = new ScriptInfo(NULL, m_ki->extensions());
+				docinfo = new ScriptInfo(NULL, m_ki->extensions(),
+				                               m_ki->abbreviationManager());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);

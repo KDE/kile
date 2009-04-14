@@ -90,7 +90,41 @@ namespace KileCodeCompletion
 			                                               const KTextEditor::Cursor& position) const;
 			bool isWithinLaTeXCommand(KTextEditor::Document *doc, const KTextEditor::Cursor& commandStart,
 			                                                      const KTextEditor::Cursor& cursorPosition) const;
-};
+	};
+
+	class AbbreviationCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::CodeCompletionModelControllerInterface {
+		Q_OBJECT
+		Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
+		
+		public:
+			AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager);
+			virtual ~AbbreviationCompletionModel();
+
+			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
+			virtual QVariant data(const QModelIndex& index, int role) const;
+			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+
+			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+			                                                            const QString &currentCompletion);
+			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
+			                                                        InvocationType invocationType);
+			virtual void updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range);
+			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
+			                                           const KTextEditor::Cursor &position);
+			virtual QString filterString(KTextEditor::View *view,
+			                             const KTextEditor::SmartRange &range,
+			                             const KTextEditor::Cursor &position);
+
+			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
+			                                                                    int row) const;
+
+		protected:
+			KileAbbreviation::Manager *m_abbreviationManager;
+			QStringList m_completionList;
+			KTextEditor::View *m_currentView;
+
+			void buildModel(KTextEditor::View *view, const KTextEditor::Range &r);
+	};
 
 	class Manager : public QObject {
 		Q_OBJECT

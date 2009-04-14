@@ -75,6 +75,7 @@
 #include <KLocale>
 #include <KMessageBox>
 
+#include "abbreviationmanager.h"
 #include "codecompletion.h"
 #include "configurationmanager.h"
 #include "editorextension.h"
@@ -399,9 +400,11 @@ void Info::slotCompleted()
 
 TextInfo::TextInfo(KTextEditor::Document *doc,
                    Extensions *extensions,
+                   KileAbbreviation::Manager *abbreviationManager,
                    const QString& defaultHighlightMode)
 : m_doc(NULL),
-  m_defaultHighlightMode(defaultHighlightMode)
+  m_defaultHighlightMode(defaultHighlightMode),
+  m_abbreviationManager(abbreviationManager)
 {
 	setDoc(doc);
 	if(m_doc) {
@@ -411,6 +414,7 @@ TextInfo::TextInfo(KTextEditor::Document *doc,
  	m_arStatistics = new long[SIZE_STAT_ARRAY];
 
 	m_extensions = extensions;
+	m_abbreviationCodeCompletionModel = new KileCodeCompletion::AbbreviationCompletionModel(this, m_abbreviationManager);
 }
 
 TextInfo::~TextInfo()
@@ -715,14 +719,23 @@ void TextInfo::removeSignalConnections()
 	}
 }
 
-void TextInfo::registerCodeCompletionModels(KTextEditor::View *)
+void TextInfo::registerCodeCompletionModels(KTextEditor::View *view)
 {
-	/* does nothing */
+	KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(!completionInterface) {
+		return;
+	}
+	completionInterface->registerCompletionModel(m_abbreviationCodeCompletionModel);
+	completionInterface->setAutomaticInvocationEnabled(true);
 }
 
-void TextInfo::unregisterCodeCompletionModels(KTextEditor::View *)
+void TextInfo::unregisterCodeCompletionModels(KTextEditor::View *view)
 {
-	/* does nothing */
+	KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(!completionInterface) {
+		return;
+	}
+	completionInterface->unregisterCompletionModel(m_abbreviationCodeCompletionModel);
 }
 
 void TextInfo::registerCodeCompletionModels()
@@ -763,11 +776,12 @@ void TextInfo::slotViewDestroyed(QObject *object)
 
 LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
                      Extensions *extensions,
+                     KileAbbreviation::Manager *abbreviationManager,
                      LatexCommands *commands,
                      KileDocument::EditorExtension *editorExtension,
                      KileConfiguration::Manager* manager,
                      KileCodeCompletion::Manager *codeCompletionManager)
-: TextInfo(doc, extensions, "LaTeX"),
+: TextInfo(doc, extensions, abbreviationManager, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
@@ -922,6 +936,7 @@ void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)
 	}
 	completionInterface->registerCompletionModel(m_latexCompletionModel);
 	completionInterface->setAutomaticInvocationEnabled(true);
+	TextInfo::registerCodeCompletionModels(view);
 }
 
 void LaTeXInfo::unregisterCodeCompletionModels(KTextEditor::View *view)
@@ -931,6 +946,7 @@ void LaTeXInfo::unregisterCodeCompletionModels(KTextEditor::View *view)
 		return;
 	}
 	completionInterface->unregisterCompletionModel(m_latexCompletionModel);
+	TextInfo::unregisterCodeCompletionModels(view);
 }
 
 BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
@@ -1284,8 +1300,9 @@ void LaTeXInfo::checkChangedDeps()
 
 BibInfo::BibInfo (KTextEditor::Document *doc,
                   Extensions *extensions,
+                  KileAbbreviation::Manager *abbreviationManager,
                   LatexCommands* /* commands */)
-: TextInfo(doc, extensions, "BibTeX")
+: TextInfo(doc, extensions, abbreviationManager, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1383,8 +1400,9 @@ QString BibInfo::getFileFilter() const
 }
 
 ScriptInfo::ScriptInfo(KTextEditor::Document *doc,
-                       Extensions *extensions)
-: TextInfo(doc, extensions, "JavaScript")
+                       Extensions *extensions,
+                       KileAbbreviation::Manager *abbreviationManager)
+: TextInfo(doc, extensions, abbreviationManager, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }

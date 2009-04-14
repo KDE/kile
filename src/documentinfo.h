@@ -43,8 +43,8 @@
 
 namespace KileDocument { class EditorExtension; }
 namespace KileConfiguration { class Manager; }
-namespace KileCodeCompletion { class LaTeXCompletionModel; class Manager; }
-
+namespace KileCodeCompletion { class LaTeXCompletionModel; class AbbreviationCompletionModel; class Manager; }
+namespace KileAbbreviation { class Manager; }
 namespace KileStruct
 {
 	//Different types of elements in the structure view
@@ -228,6 +228,7 @@ public:
 	 **/
 	TextInfo(KTextEditor::Document *doc,
 	         Extensions *extensions,
+	         KileAbbreviation::Manager *abbreviationManager,
 	         const QString& defaultHighlightMode = QString());
 	virtual ~TextInfo();
 
@@ -281,6 +282,8 @@ protected:
 	long						*m_arStatistics;
 	QString						m_defaultHighlightMode;
 	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;
+	KileAbbreviation::Manager			*m_abbreviationManager;
+	KileCodeCompletion::AbbreviationCompletionModel *m_abbreviationCodeCompletionModel;
 
 	QString matchBracket(QChar c, int &, int &);
 	QString getTextline(uint line, TodoResult &todo);
@@ -384,6 +387,7 @@ public:
 	 **/
 	LaTeXInfo(KTextEditor::Document *doc,
 	          Extensions *extensions,
+	          KileAbbreviation::Manager *abbreviationManager,
 	          LatexCommands *commands,
 	          KileDocument::EditorExtension *editorExtension,
 	          KileConfiguration::Manager *manager,
@@ -433,6 +437,7 @@ class BibInfo : public TextInfo
 public:
 	BibInfo (KTextEditor::Document *doc,
                  Extensions *extensions,
+                 KileAbbreviation::Manager *abbreviationManager,
                  LatexCommands* commands);
 	virtual ~BibInfo();
 
@@ -452,7 +457,8 @@ class ScriptInfo : public TextInfo
 
 public:
 	ScriptInfo(KTextEditor::Document *doc,
-                   Extensions *extensions);
+	           Extensions *extensions,
+                   KileAbbreviation::Manager *abbreviationManager);
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();

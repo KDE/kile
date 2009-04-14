@@ -70,6 +70,13 @@ namespace KileAbbreviation {
 				return StringBooleanPair(s, false);
 			}
 
+			/**
+			 * Returns the replacement strings of those strings that start with 'text'.
+			 **/
+			QStringList getAbbreviationTextMatches(const QString& text) const;
+
+			bool isAbbreviationDefined(const QString& text) const;
+
 		Q_SIGNALS:
 			void abbreviationsChanged();
 

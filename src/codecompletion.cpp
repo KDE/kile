@@ -30,16 +30,13 @@
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Cursor>
 
+#include "abbreviationmanager.h"
 #include "documentinfo.h"
 #include "editorextension.h"
 #include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
-
-#ifdef __GNUC__
-#warning !!This whole file should be reworked completely!!
-#endif
 
 namespace KileCodeCompletion {
 
@@ -493,7 +490,7 @@ QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text,
 		s += envIndent;
 	}
 
-QString type;
+	QString type;
 	bool item = (type == "list");
 	if(item) {
 		s += "\\item ";
@@ -533,6 +530,120 @@ QString LaTeXCompletionModel::buildWhiteSpaceString(const QString &s) const
 		}
 	}
 	return whitespace;
+}
+
+AbbreviationCompletionModel::AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager)
+: KTextEditor::CodeCompletionModel(parent), m_abbreviationManager(manager)
+{
+	setHasGroups(false);
+}
+
+AbbreviationCompletionModel::~AbbreviationCompletionModel()
+{
+}
+
+QModelIndex AbbreviationCompletionModel::index(int row, int column, const QModelIndex &parent) const
+{
+	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+		return QModelIndex();
+	}
+
+	return createIndex(row, column, 0);
+}
+
+QVariant AbbreviationCompletionModel::data(const QModelIndex& index, int role) const
+{
+	if(index.column() != KTextEditor::CodeCompletionModel::Name) {
+		return QVariant();
+	}
+	switch(role) {
+		case Qt::DisplayRole:
+			return m_completionList.at(index.row());
+		case CompletionRole:
+			return static_cast<int>(FirstProperty | LastProperty | Public);
+		case MatchQuality:
+			return 10;
+		case ScopeIndex:
+			return 0;
+		case InheritanceDepth:
+			return 0;
+		case HighlightingMethod:
+			return QVariant::Invalid;
+	}
+
+	return QVariant();
+}
+
+int AbbreviationCompletionModel::rowCount(const QModelIndex &parent) const
+{
+	if(parent.isValid()) {
+		return 0;
+	}
+	return m_completionList.size();
+}
+
+bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+                                                        const QString &currentCompletion)
+{
+	if(view->cursorPosition() < range.start() || view->cursorPosition() > range.end()
+	                                          || m_completionList.size() == 0) {
+		return true;
+	}
+	return false;
+}
+
+void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
+                                                    InvocationType invocationType)
+{
+	KILE_DEBUG() << "building model...";
+	buildModel(view, range);
+}
+
+void AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
+{
+	KILE_DEBUG() << "updating model...";
+	range = completionRange(view, view->cursorPosition());
+	buildModel(view, range);
+}
+
+KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::View *view,
+                                                                const KTextEditor::Cursor &position)
+{
+	KILE_DEBUG();
+	if(!KileConfig::completeAutoAbbrev()) {
+		return KTextEditor::Range::invalid();
+	}
+	return KTextEditor::CodeCompletionModelControllerInterface::completionRange(view, position);
+}
+
+QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
+                                                  const KTextEditor::SmartRange &range,
+                                                  const KTextEditor::Cursor &position)
+{
+	return "";
+}
+
+void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
+                                                        int row) const
+{
+	KTextEditor::CodeCompletionModel::executeCompletionItem(document, word, row);
+}
+
+void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
+{
+	if(!KileConfig::completeAutoAbbrev() || !range.isValid()) {
+		m_completionList.clear();
+		reset();
+		return;
+	}
+	QString text = view->document()->text(range);
+	KILE_DEBUG() << text;
+	m_completionList = m_abbreviationManager->getAbbreviationTextMatches(text);
+	m_completionList.sort();
+	if(m_completionList.size() == 1
+	   && m_abbreviationManager->isAbbreviationDefined(text)) {
+		executeCompletionItem(view->document(), range, 0);
+	}
 }
 
 Manager::Manager(KileInfo *info, QObject *parent)

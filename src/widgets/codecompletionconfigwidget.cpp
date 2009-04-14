@@ -98,7 +98,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	sp_latexthreshold->setSingleStep(1);
 	QLabel *lb_latexletters = new QLabel(i18n("letters"), bg_options);
 	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"), bg_options);
-	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbrev.)"), bg_options);
+	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbreviations)"), bg_options);
 	cb_citeoutofbraces = new QCheckBox(i18n("Move out of braces (citation keylists)"), bg_options);
 
 	bg_optionsLayout->addWidget(cb_setcursor, 0, 0);

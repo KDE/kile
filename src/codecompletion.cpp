@@ -66,6 +66,54 @@ void LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextE
 	buildModel(view, range);
 }
 
+static inline bool isSpecialLaTeXCommandCharacter(const QChar& c) {
+	return (c == '{' || c == '[' || c == '*' || c.isLetterOrNumber());
+}
+
+static inline int specialLaTeXCommandCharacterOrdering(const QChar& c)
+{
+	switch(c.unicode()) {
+		case '{':
+			return 1;
+		case '[':
+			return 2;
+		case '*':
+			return 3;
+		default: // does nothing
+		break;
+	}
+	return 4; // must be 'isLetterOrNumber()' now
+}
+
+// required ordering on chars: '{' < '[' < '*' < isLetterOrNumber()
+static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
+{
+	for(int i = 0; i < s1.length(); ++i) {
+		if(i >= s2.length()) {
+			return false;
+		}
+		const QChar c1 = s1.at(i);
+		const QChar c2 = s2.at(i);
+		if(c1 == c2) {
+			continue;
+		}
+		if(isSpecialLaTeXCommandCharacter(c1)
+		   && isSpecialLaTeXCommandCharacter(c2)) {
+			if(specialLaTeXCommandCharacterOrdering(c1)
+			     < specialLaTeXCommandCharacterOrdering(c2)) {
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		if(c1 < c2) {
+			return true;
+		}
+	}
+	return false;
+}
+
 void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
 	if(!KileConfig::completeAuto() || !range.isValid()) {
@@ -81,8 +129,6 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 	if(completionString.startsWith('\\')) {
 		m_completionList = m_codeCompletionManager->getLaTeXCommands();
 		m_completionList += m_codeCompletionManager->getLocallyDefinedLaTeXCommands(view);
-		filterModel(completionString);
-		reset();
 	}
 	else {
 		KTextEditor::Cursor latexCommandStart = determineLaTeXCommandStart(view->document(),
@@ -102,9 +148,10 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 		else if(citationIndex != -1) {
 			m_completionList = *m_codeCompletionManager->m_ki->allBibItems();
 		}
-		filterModel(completionString);
-		reset();
 	}
+	filterModel(completionString);
+	qSort(m_completionList.begin(), m_completionList.end(), laTeXCommandLessThan);
+	reset();
 }
 
 KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor::Document *doc,

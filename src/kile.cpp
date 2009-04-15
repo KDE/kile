@@ -89,6 +89,11 @@
 #include "widgets/previewwidget.h"
 #include "widgets/extendedscrollarea.h"
 
+#define LOG_TAB     0
+#define OUTPUT_TAB  1
+#define KONSOLE_TAB 2
+#define PREVIEW_TAB 3
+
 /*
  * Class KileMainWindow.
  */
@@ -563,7 +568,7 @@ void Kile::setupBottomBar()
 	m_bottomBar->setFocusPolicy(Qt::ClickFocus);
 
 	m_logWidget = new KileWidget::LogWidget(this, m_mainWindow);
-	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), m_bottomBar, SLOT(showPage(QWidget* )));
+	connect(m_logWidget, SIGNAL(showingErrorMessage(QWidget* )), this, SLOT(focusLog()));
 	connect(m_logWidget, SIGNAL(outputInfoSelected(const OutputInfo&)), m_errorHandler, SLOT(jumpToProblem(const OutputInfo&)));
 
 	m_logWidget->setFocusPolicy(Qt::ClickFocus);
@@ -1423,22 +1428,22 @@ void Kile::openProject(const QString& proj)
 
 void Kile::focusPreview()
 {
-	m_bottomBar->showPage(m_previewScrollArea);
+	m_bottomBar->switchToTab(PREVIEW_TAB);
 }
 
 void Kile::focusLog()
 {
-	m_bottomBar->showPage(m_logWidget);
+	m_bottomBar->switchToTab(LOG_TAB);
 }
 
 void Kile::focusOutput()
 {
-	m_bottomBar->showPage(m_outputWidget);
+	m_bottomBar->switchToTab(OUTPUT_TAB);
 }
 
 void Kile::focusKonsole()
 {
-	m_bottomBar->showPage(m_texKonsole);
+	m_bottomBar->switchToTab(KONSOLE_TAB);
 }
 
 void Kile::focusEditor()
@@ -2050,7 +2055,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 	logWidget()->clear();
 
 	if(data.description.length() > 0) {
-		outputView()->showPage(logWidget());
+		focusLog();
 		setLogPresent(false);
 		logWidget()->printMessage(data.description);
 	}

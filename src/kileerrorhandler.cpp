@@ -55,7 +55,7 @@ void KileErrorHandler::reset()
 void KileErrorHandler::ViewLog()
 {
 	KileWidget::LogWidget *logWidget = m_ki->logWidget();
-	m_ki->outputView()->showPage(logWidget);
+	m_ki->focusLog();
 	m_ki->setLogPresent(false);
 
 	QString cn = m_ki->getCompileName();

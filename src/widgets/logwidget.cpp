@@ -214,10 +214,8 @@ namespace KileWidget
 	                             bool scroll)
 	{
 		if(type == KileTool::Error) {
+		KILE_DEBUG() << "showing error message emitted";
 			emit showingErrorMessage(this);
-			#ifdef __GNUC__
-			#warning does not work
-			#endif
 		}
 
 		QString ot = "", ct = "</font>";

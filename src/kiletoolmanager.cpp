@@ -300,7 +300,7 @@ namespace KileTool
 				delete (*i);
 			}
 			m_queue.clear();
-			m_ki->outputView()->showPage(m_log);
+			m_ki->focusLog();
 		}
 		else { //continue
 			runNextInQueue();

@@ -89,6 +89,12 @@ public:
 
 	static QString documentTypeToString(KileDocument::Type type);
 
+	virtual void focusLog() = 0;
+	virtual void focusOutput() = 0;
+	virtual void focusKonsole() = 0;
+	virtual void focusEditor() = 0;
+	virtual void focusPreview() = 0;
+
 private:
 	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0L);
 	QStringList m_listTemp;

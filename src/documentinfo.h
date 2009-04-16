@@ -276,6 +276,7 @@ Q_SIGNALS:
 protected Q_SLOTS:
 	void slotFileNameChanged();
 	void slotViewDestroyed(QObject *object);
+	void activateDefaultHightlightMode();
 
 protected:
 	KTextEditor::Document				*m_doc;

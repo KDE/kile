@@ -119,9 +119,7 @@ void QuickToolConfigWidget::add()
 	if(m_cbConfigs->currentText() != m_currentDefaultConfig) {
 		entry += " (" + m_cbConfigs->currentText() + ')';
 	}
-	if(!m_lstbSeq->findItems(entry, Qt::MatchExactly).isEmpty()) {
-		return;
-	}
+
 	m_lstbSeq->addItem(entry);
 	changed();
 }

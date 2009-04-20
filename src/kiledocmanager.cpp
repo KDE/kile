@@ -708,8 +708,11 @@ void Manager::fileOpen()
 	                 + extensions->metapostFileFilter() + '\n'
 	                 + "*|" + i18n("All Files");
 
+	// try to get the current encoding, this is kind of ugly ...
+	QString encoding = m_ki->toolManager()->config()->group("Kate Document Defaults").readEntry("Encoding","");
+
 	//get the URLs
-	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(QString (), currentDir, filter, m_ki->mainWindow(), i18n("Open Files"));
+	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, currentDir, filter, m_ki->mainWindow(), i18n("Open Files"));
 	
 	//open them
 	KUrl::List urls = result.URLs;

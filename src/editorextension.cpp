@@ -1336,11 +1336,14 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 
 	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, m_reg.pattern(), searchOptions);
 
+	KILE_DEBUG() << "number of ranges " << foundRanges.count();
+
 	EnvTag wrong_env = (backwards) ? EnvEnd : EnvBegin;
 
-	for(QVector<KTextEditor::Range>::iterator i = foundRanges.begin(); i != foundRanges.end(); ++i) {
+	// it is +5 here because every search returns at least 5 ranges, because the regexp contains 4 capturing parantheses (full match + 4 =5 )
+	for(QVector<KTextEditor::Range>::iterator i = foundRanges.begin(); i < foundRanges.end(); i+=5) {
 		KTextEditor::Range range = *i;
-		KILE_DEBUG() << doc->text(*i);
+		KILE_DEBUG() << "text is " << doc->text(*i);
 		if(!range.isValid()) {
 			break;
 		}

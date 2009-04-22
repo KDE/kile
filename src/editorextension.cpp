@@ -1314,6 +1314,10 @@ bool EditorExtension::findEndEnvironment(KTextEditor::Document *doc, int row, in
 
 //////////////////// search for an environment tag ////////////////////
 
+#ifdef __GNUC__
+#warning this function does not work properly, the porting has changed the logic a bit
+#endif
+
 // find the last/next non-nested environment tag
 bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, int col, EnvData &env,bool backwards)
 {
@@ -1352,13 +1356,11 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 		env.len = doc->text(range).length();
 
 		if(isValidBackslash(doc, env.row, env.col)) {
-			++i; // ignore cap(1)
-			++i;
-			QString cap2 = doc->text(*i);
-			++i;
-			QString cap3 = doc->text(*i);
-			++i;
-			QString cap4 = doc->text(*i);
+			// *i is the fullmatch, *(i+1) first cap and so on
+			// don't move the iterator here
+			QString cap2 = doc->text(*(i+2));
+			QString cap3 = doc->text(*(i+3));
+			QString cap4 = doc->text(*(i+4));
 			EnvTag found_env = (cap2 == "begin" || cap4 == "\\[") ? EnvBegin : EnvEnd;
 			if(found_env == wrong_env) {
 				++envcount;
@@ -1375,12 +1377,14 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 						env.name = (cap2 == "end") ? cap3 : "\\]";
 					}
 					env.tag = found_env;
+					KILE_DEBUG() << "found " << env.name;
 					return true;
 				}
 			}
 		}
 	}
 
+	KILE_DEBUG() << "not found anything";
 	return false;
 }
 

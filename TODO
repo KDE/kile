@@ -21,6 +21,7 @@ TODO
 - strange ref error see http://sourceforge.net/forum/forum.php?thread_id=1746112&forum_id=292014 and BTS
 
 - the existence of the file .ind should not be checked for makeindex,. becasue it is for example for glosstex not necessary
+- remove number in front of the user tags, this looks really stupid if you put them into the toolbar
 
 docu:
 - explain tool stuff and the magic %... abbreviations

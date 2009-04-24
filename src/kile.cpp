@@ -739,7 +739,7 @@ void Kile::setupActions()
 
 	//build actions
 	act = createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
-	m_paStop = m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape), NULL, NULL);
+	m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape));
 	m_paStop->setEnabled(false);
 	m_latexOutputErrorToolBar->addAction(m_paStop);
 	act = createAction(i18n("View Log File"), "ViewLog", "viewlog", KShortcut(Qt::ALT + Qt::Key_0), m_errorHandler, SLOT(ViewLog()));

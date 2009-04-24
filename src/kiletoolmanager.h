@@ -103,6 +103,9 @@ namespace KileTool
 		int runBlocking(const QString&, const QString& = QString(), bool = false);
 		int runNextBlocking(const QString&, const QString& = QString());
 
+	private:
+		void setEnabledStopButton(bool state);
+
 	private Q_SLOTS:
 		int runNextInQueue();
 		void enableClear();

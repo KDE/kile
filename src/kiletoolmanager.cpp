@@ -120,6 +120,14 @@ namespace KileTool
 		return m_queue.shouldBlock();
 	}
 
+	// in some cases the pointer m_stop might not be valid, therefore this helper function comes in handy
+	void Manager::setEnabledStopButton(bool state){
+	
+		if(m_stop){
+			m_stop->setEnabled(state);
+		}
+	}
+
 	void Manager::enableClear()
 	{
 		m_bClear = true;
@@ -257,7 +265,7 @@ namespace KileTool
 	void Manager::started(Base *tool)
 	{
 		KILE_DEBUG() << "STARTING tool: " << tool->name() << endl;
-		m_stop->setEnabled(true);
+		setEnabledStopButton(true);
 
 		if (tool->isViewer()) {
 			if(tool == m_queue.tool()) {
@@ -270,7 +278,7 @@ namespace KileTool
 
 	void Manager::stop()
 	{
-		m_stop->setEnabled(false);
+		setEnabledStopButton(false);
 		if(m_queue.tool()) {
 			m_queue.tool()->stop();
 		}
@@ -278,7 +286,7 @@ namespace KileTool
 
 	void Manager::done(Base *tool, int result)
 	{
-		m_stop->setEnabled(false);
+		setEnabledStopButton(false);
 		m_nLastResult = result;
 
 		if(tool != m_queue.tool()) { //oops, tool finished async, could happen with view tools

@@ -59,15 +59,15 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 
 	// init double quotes
 	m_quoteList 
-		<< "English quotes:   ``   ''"
-		<< "French quotes:   \"<   \">"
-		<< "German quotes:   \"`   \"'"
-		<< "French quotes (long):   \\flqq   \\frqq"
-		<< "German quotes (long):   \\glqq   \\grqq"
-		<< "Icelandic quotes (v1):   \\ilqq   \\irqq"
-		<< "Icelandic quotes (v2):   \\iflqq   \\ifrqq"
-		<< "Czech quotes:   \\uv{   }"
-		<< "csquotes package:   \\enquote{   }"
+		<< i18n("English quotes:   ``   &apos;&apos;")
+		<< i18n("French quotes:   &quot;&lt;   &quot;&gt;")
+		<< i18n("German quotes:   &quot;`   &quot;&apos;")
+		<< i18n("French quotes (long):   \\flqq   \\frqq")
+		<< i18n("German quotes (long):   \\glqq   \\grqq")
+		<< i18n("Icelandic quotes (v1):   \\ilqq   \\irqq")
+		<< i18n("Icelandic quotes (v2):   \\iflqq   \\ifrqq")
+		<< i18n("Czech quotes:   \\uv{   }")
+		<< i18n("csquotes package:   \\enquote{   }")
 		;
 
 	readConfig();

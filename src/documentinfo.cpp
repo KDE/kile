@@ -627,6 +627,19 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 	return view;
 }
 
+void TextInfo::startAbbreviationCompletion(KTextEditor::View *view)
+{
+	KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(!completionInterface) {
+		return;
+	}
+	KTextEditor::Range range = m_abbreviationCodeCompletionModel->completionRange(view, view->cursorPosition());
+	if(!range.isValid()) {
+		range = KTextEditor::Range(view->cursorPosition(), view->cursorPosition());
+	}
+	completionInterface->startCompletion(range, m_abbreviationCodeCompletionModel);
+}
+
 void TextInfo::slotFileNameChanged()
 {
 	emit urlChanged(this, url());

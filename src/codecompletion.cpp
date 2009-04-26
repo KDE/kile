@@ -803,6 +803,22 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 	startLaTeXCompletion(view);
 }
 
+void Manager::startAbbreviationCompletion(KTextEditor::View *view)
+{
+	if(!view) {
+		view = m_ki->viewManager()->currentTextView();
+		if(!view) {
+			return;
+		}
+	}
+
+	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(view->document());
+	if(!textInfo) {
+		return;
+	}
+	textInfo->startAbbreviationCompletion(view);
+}
+
 void Manager::buildReferenceCitationRegularExpressions()
 {
 	// build list of references

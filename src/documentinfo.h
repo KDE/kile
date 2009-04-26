@@ -270,6 +270,8 @@ public:
 	 **/
 	KTextEditor::View* createView(QWidget *parent, const char *name = NULL);
 
+	void startAbbreviationCompletion(KTextEditor::View *view);
+
 Q_SIGNALS:
 	void documentDetached(KTextEditor::Document*);
 

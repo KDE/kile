@@ -83,8 +83,10 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 {
 	setObjectName(name);
 	m_editor = KTextEditor::EditorChooser::editor();
-//FIXME: check whether this is still needed
-// 	KTextEditor::Document::setFileChangedDialogsActivated (true);
+	if(!m_editor) {
+		KMessageBox::error(m_ki->mainWindow(), i18n("No editor component found. Please check your KDE installation."),
+		                                       i18n("No editor component found."));
+	}
 }
 
 Manager::~Manager()
@@ -443,9 +445,6 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 
 	KTextEditor::Document *doc = NULL;
 
-#ifdef __GNUC__
-#warning Check for errors at line 471! Really that line??
-#endif
 	if(!m_editor) {
 		return NULL;
 	}

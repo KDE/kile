@@ -72,20 +72,6 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	m_dirOperator->setNameFilter(filter);
 
 	KActionCollection *coll = m_dirOperator->actionCollection();
-#ifdef __GNUC__
-#warning Check whether these shortcut settings are needed!
-#endif
-//FIXME: port for KDE4
-/*
-	// some shortcuts of diroperator that clashes with Kate
-	coll->action("delete")->setShortcut(KShortcut(Qt::ALT + Qt::Key_Delete));
-	coll->action("reload")->setShortcut(KShortcut(Qt::ALT + Qt::Key_F5));
-	coll->action("back")->setShortcut(KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Left));
-	coll->action("forward")->setShortcut(KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Right));
-	// some consistency - reset up for m_dirOperator too
-	coll->action("up")->setShortcut(KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Up));
-	coll->action("home")->setShortcut(KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Home));
-*/
 	toolbar->addAction(coll->action("home"));
 	toolbar->addAction(coll->action("up"));
 	toolbar->addAction(coll->action("back"));

@@ -134,11 +134,12 @@ bool KileMainWindow::queryClose()
  * Class Kile.
  */
 
-Kile::Kile( bool allowRestore, QWidget *parent, const char *name ) :
-	KApplication(),
+Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
+:	KApplication(),
 	KileInfo(this),
 	m_paPrint(NULL)
 {
+	setObjectName(name);
 	// publish the D-Bus interfaces
 	new MainAdaptor(this);
 	QDBusConnection dbus = QDBusConnection::sessionBus();
@@ -1774,30 +1775,14 @@ void Kile::setViewerToolBars()
 
 void Kile::enableKileGUI(bool enable)
 {
-	int id;
-	QString text;
-
-	QMenuBar *menubar = menuBar();
-#ifdef __GNUC__
-#warning Commenting out the popup menu stuff!
-#endif
-//FIXME: port for KDE4
-/*
-	for (uint i=0; i<menubar->count(); ++i) {
-		id = menubar->idAt(i);
-		Q3PopupMenu *popup = menubar->findItem(id)->popup();
-		if ( popup ) {
-			text = popup->name();
-			if ( text == "menu_build"   ||
-				  text == "menu_project" ||
-				  text == "menu_latex"   ||
-				  text == "wizard"       ||
-				  text == "tools"
-			   )
-			   menubar->setItemEnabled(id, enable);
+	QStringList menuList;
+	menuList << "edit" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
+	for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
+		QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(*it, m_mainWindow));
+		if(menu) {
+			updateMenuActivationStatus(menu);
 		}
 	}
-*/
 	// enable or disable userhelp entries 
 	m_help->enableUserhelpEntries(enable);
 }
@@ -1881,6 +1866,7 @@ void Kile::initMenu()
 	   << "tag_env_aligned" << "tag_env_gathered" << "tag_env_alignedat" << "tag_env_cases"
 	   // bibliography stuff
 	   << "menu_bibliography"
+	   << "setting_bibtex" << "setting_biblatex"
 	   << "tag_textit" << "tag_textsl" << "tag_textbf" << "tag_underline"
 	   << "tag_texttt" << "tag_textsc" << "tag_emph" << "tag_strong"
 	   << "tag_rmfamily" << "tag_sffamily" << "tag_ttfamily"
@@ -1903,8 +1889,30 @@ void Kile::initMenu()
 	   << "structure_list" << "size_list" << "other_list"
 	   << "left_list" << "right_list"
 	  // user help
-	   << "help_userhelp";
+	   << "help_userhelp"
+	   << "edit_next_bullet" << "edit_prev_bullet"
+	   << "edit_next_section" << "edit_prev_section" << "edit_next_paragraph" << "edit_prev_paragraph"
 
+	   << "edit_select_inside_env" << "edit_select_outside_env" << "edit_select_inside_group"
+	   << "edit_select_outside_group" << "edit_select_mathgroup" << "edit_select_paragraph"
+	   << "edit_select_line" << "edit_select_word"
+
+	   << "edit_delete_inside_env" << "edit_delete_outside_env" << "edit_delete_inside_group"
+	   << "edit_delete_outside_group" << "edit_delete_mathgroup" << "edit_delete_paragraph"
+	   << "edit_delete_eol" << "edit_delete_word"
+
+	   << "edit_complete_word" << "edit_complete_env" << "edit_complete_abbrev"
+
+	   << "edit_begin_env" << "edit_end_env" << "edit_match_env" << "edit_close_env" << "edit_closeall_env"
+
+	   << "edit_begin_group" << "edit_end_group" << "edit_match_group" << "edit_close_group"
+
+	   << "file_export_ascii" << "file_export_latin1" << "file_export_latin2" << "file_export_latin3"
+	   << "file_export_latin4" << "file_export_latin5" << "file_export_latin9" << "file_export_cp1250"
+	   << "file_export_cp1252"
+
+	   << "EditUserMenu"
+	   ;
 	setMenuItems(projectlist,m_dictMenuProject);
 	setMenuItems(filelist,m_dictMenuFile);
 	setMenuItems(actionlist,m_dictMenuAction);
@@ -1945,50 +1953,52 @@ void Kile::updateMenu()
 	bool file_open = ( viewManager()->currentTextView() );
 	KILE_DEBUG() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
-	QMenuBar *menubar = menuBar();
-#ifdef __GNUC__
-#warning Commenting out the popup menu stuff!
-#endif
-//FIXME: port for KDE4
-/*
-	for ( uint i=0; i<menubar->count(); ++i ) {
-		int menu_id = menubar->idAt(i);
-		Q3PopupMenu *menu = menubar->findItem(menu_id)->popup();
-		if ( menu ) {
-			QString menu_name = menu->name();
-			for ( uint j=0; j<menu->count(); ++j ) {
-				int sub_id = menu->idAt(j);
-				Q3PopupMenu *submenu = menu->findItem(sub_id)->popup();
-				if ( submenu ) {
-					QString submenu_name = submenu->name();
-					if ( m_dictMenuFile.contains(submenu_name) ) {
-//					if ( m_menuFileList.findIndex( submenu_name ) >= 0 ) {
-						menu->setItemEnabled(sub_id, file_open);
-					}
-				}
-			}
-		}
-	}
-*/
 	// update action lists
 	QList<QAction *> actions = actionCollection()->actions();
 	for(QList<QAction *>::iterator itact = actions.begin(); itact != actions.end(); ++itact) {
-		if (m_dictMenuAction.contains((*itact)->objectName())) {
+		if (m_dictMenuAction.contains((*itact)->objectName())
+		    || m_dictMenuFile.contains((*itact)->objectName())) {
 			(*itact)->setEnabled(file_open);
 		}
 	}
 
-	updateActionList(m_listQuickActions,file_open);
-	updateActionList(m_listCompilerActions,file_open);
-	updateActionList(m_listConverterActions,file_open);
-	updateActionList(m_listViewerActions,file_open);
-	updateActionList(m_listOtherActions,file_open);
+	updateActionList(m_listQuickActions, file_open);
+	updateActionList(m_listCompilerActions, file_open);
+	updateActionList(m_listConverterActions, file_open);
+	updateActionList(m_listViewerActions, file_open);
+	updateActionList(m_listOtherActions, file_open);
+	
+	QList<QAction*> actionList = m_bibTagActionMenu->menu()->actions();
+	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
+		(*it)->setEnabled(file_open);
+	}
+	enableKileGUI(file_open);
 }
 
 void Kile::updateActionList(const QList<QAction*>& list, bool state){
 	for (QList<QAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
 		(*i)->setEnabled(state);
 	}
+}
+
+bool Kile::updateMenuActivationStatus(QMenu *menu)
+{
+	bool enabled = false;
+	QList<QAction*> actionList = menu->actions();
+	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
+		QAction *action = *it;
+		QMenu *subMenu = action->menu();
+		if(subMenu) {
+			if(updateMenuActivationStatus(subMenu)) {
+				enabled = true;
+			}
+		}
+		else if(!action->isSeparator() && action->isEnabled()) {
+			enabled = true;
+		}
+	}
+	menu->setEnabled(enabled);
+	return enabled;
 }
 
 //TODO: move to KileView::Manager

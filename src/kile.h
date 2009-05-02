@@ -222,6 +222,7 @@ private:
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
 	void updateActionList(const QList<QAction*>& list, bool state);
+	bool updateMenuActivationStatus(QMenu *menu);
 
 	void setViewerToolBars();
 

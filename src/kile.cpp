@@ -1031,10 +1031,10 @@ void Kile::setupTools()
 
 void Kile::initSelectActions(){
 
-	m_compilerActions = new ToolbarSelectAction(i18n("Compile"), this);
-	m_viewActions = new ToolbarSelectAction(i18n("View"), this);
-	m_convertActions = new ToolbarSelectAction(i18n("Convert"), this);
-	m_quickActions = new ToolbarSelectAction(i18n("Quick"), this);
+	m_compilerActions = new ToolbarSelectAction(i18n("Compile"), m_mainWindow);
+	m_viewActions = new ToolbarSelectAction(i18n("View"), m_mainWindow);
+	m_convertActions = new ToolbarSelectAction(i18n("Convert"), m_mainWindow);
+	m_quickActions = new ToolbarSelectAction(i18n("Quick"), m_mainWindow);
 	
 	actionCollection()->addAction("list_compiler_select", m_compilerActions);
 	actionCollection()->addAction("list_convert_select", m_convertActions);

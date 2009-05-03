@@ -111,6 +111,7 @@ void QuickToolConfigWidget::remove()
 	}
 	QListWidgetItem *selectedItem = selectedItems.first();
 	delete selectedItem;
+	changed();
 }
 
 void QuickToolConfigWidget::add()

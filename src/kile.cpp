@@ -1888,7 +1888,9 @@ void Kile::initMenu()
 	   // action lists
 	   << "structure_list" << "size_list" << "other_list"
 	   << "left_list" << "right_list"
-	  // user help
+	   // tool lists
+	   << "list_compiler_select" << "list_convert_select" << "list_view_select" << "list_quick_select"
+	   // user help
 	   << "help_userhelp"
 	   << "edit_next_bullet" << "edit_prev_bullet"
 	   << "edit_next_section" << "edit_prev_section" << "edit_next_paragraph" << "edit_prev_paragraph"

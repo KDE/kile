@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -17,8 +17,6 @@
 #define KILE_H
 
 #include <QList>
-#include <QHideEvent>
-#include <QShowEvent>
 #include <QSplitter>
 #include <QStackedWidget>
 #include <QString>
@@ -190,12 +188,7 @@ private:
 	KileLyxServer		*m_lyxserver;
 	KileErrorHandler 	*m_errorHandler;
 
-	QWidget *m_focusWidget;
-
 	/* actions */
-	void showEvent(QShowEvent *e);
-	void hideEvent(QHideEvent *e);
-
 	void initSelectActions();
 	void setupStatusBar();
 	void setupSideBar();

@@ -147,7 +147,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	dbus.registerService("net.sourceforge.kile"); // register under a constant names
 
 	m_mainWindow = new KileMainWindow(this);
-	m_focusWidget = NULL;
 
 	QSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	splashScreen.show();
@@ -350,21 +349,6 @@ void Kile::plugActionList(const QString& name, const QList<QAction*>& actionList
 void Kile::unplugActionList(const QString& name)
 {
 	m_mainWindow->unplugActionList(name);
-}
-
-void Kile::showEvent(QShowEvent *)
-{
-#ifdef __GNUC__
-#warning Check whether this is still needed!
-#endif
-	if(m_focusWidget) {
-		m_focusWidget->setFocus();
-	}
-}
-
-void Kile::hideEvent(QHideEvent *)
-{
-	m_focusWidget = focusWidget();
 }
 
 void Kile::setupStatusBar()

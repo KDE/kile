@@ -221,7 +221,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
- 	m_signalMapper = new QSignalMapper(this);
+	m_signalMapper = new QSignalMapper(this);
 	connect(m_signalMapper, SIGNAL(mapped(const QString &)),
              this, SLOT(runTool(const QString &)));
 
@@ -274,13 +274,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	sizes.clear();
 	sizes << m_horSplitLeft << m_horSplitRight;
 	m_horizontalSplitter->setSizes(sizes);
-	if (!KileConfig::bottomBar()) {
-#ifdef __GNUC__
-#warning Disabling this for now.
-#endif
-// 		showFullScreen();
-		m_bottomBar->setDirectionalSize(KileConfig::bottomBarSize());
-	}
 
 	m_mainWindow->resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	m_mainWindow->show();

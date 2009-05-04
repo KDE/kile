@@ -1776,7 +1776,7 @@ void Kile::setViewerToolBars()
 void Kile::enableKileGUI(bool enable)
 {
 	QStringList menuList;
-	menuList << "edit" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
+	menuList << "file" << "edit" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
 	for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
 		QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(*it, m_mainWindow));
 		if(menu) {

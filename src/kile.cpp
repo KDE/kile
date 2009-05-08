@@ -1625,15 +1625,6 @@ void Kile::showEditorWidget()
 	m_topWidgetStack->show();
 	m_horizontalSplitter->show();
 	m_verticalSplitter->show();
-
-	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view){
-		view->setFocus();
-	}
-
-	setupStatusBar();
-	updateModeStatus();
-	newCaption();
 }
 
 
@@ -1659,6 +1650,11 @@ bool Kile::resetPart()
 	setupStatusBar();
 	updateModeStatus();
 	newCaption();
+
+	KTextEditor::View *view = viewManager()->currentTextView();
+	if (view){
+		activateView(view);
+	}
 
 	m_currentState = "Editor";
 	m_wantState = "Editor";

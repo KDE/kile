@@ -1307,9 +1307,6 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	view->setFocus(Qt::OtherFocusReason);
 
-	// remove menu entry to config Kate
-	checkKateSettings();
-
 	for(QList<KToolBar*>::iterator i = toolBarsList.begin();
 	                              i != toolBarsList.end(); ++i) {
 		KToolBar *toolBar = *i;
@@ -2485,9 +2482,6 @@ void Kile::generalOptions()
 
 	if (dlg->exec())
 	{
-		// check new Kate settings
-		checkKateSettings();
-
 		// update new settings
 		readConfig();
 		saveLastSelectedAction(); // save the old current tools before calling setupTools() which calls restoreLastSelectedActions()
@@ -2505,16 +2499,6 @@ void Kile::generalOptions()
 	}
 
 	delete dlg;
-}
-
-void Kile::checkKateSettings()
-{
-	// editor settings were only available with an opened document
-	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view) {
-		// remove menu entry to config Kate
-		viewManager()->unplugTextEditorPartMenu(view);
-	}
 }
 
 void Kile::slotPerformCheck()

@@ -195,7 +195,6 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	view->setFocus();
 
 	emit(prepareForPart("Editor"));
-	unplugTextEditorPartMenu(view);
 
 	// use Kile's save and save-as functions instead of the text editor's
 	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
@@ -646,36 +645,9 @@ void DropWidget::dropEvent(QDropEvent *e)
 
 void DropWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
+	Q_UNUSED(e);
 	emit mouseDoubleClick();
 }
-
-// remove entries from KatePart menu: 
-//  - menu entry to config Kate, because there is
-//    already one call to this configuration dialog from Kile
-//  - goto line, because we put it into a submenu
-
-#ifdef __GNUC__
-#warning Check whether this function is actually needed / allowed!
-#endif
-void Manager::unplugTextEditorPartMenu(KTextEditor::View* view)
-{
-	if(view) {
-		QStringList actionlist;
-		actionlist << "set_confdlg";      // action names from katepartui.rc
-
-		for(int i = 0; i < actionlist.count(); ++i) {
-			QAction *action = view->actionCollection()->action(actionlist[i]);
-			if(action) {
-//FIXME: should be removed for KDE4
-//				action->setShortcut(KShortcut());
-				foreach(QWidget *w, action->associatedWidgets()) {
-					w->removeAction(action);
-				}
-			}
-		}
-	}
-}
-
 
 void Manager::installEventFilter(KTextEditor::View *view, QObject *eventFilter)
 {

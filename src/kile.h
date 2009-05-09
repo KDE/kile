@@ -209,8 +209,6 @@ private:
 	void restoreLastSelectedAction();
 	void saveLastSelectedAction();
 
-	void checkKateSettings();
-	
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();

@@ -78,8 +78,6 @@ public:
 // 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
 // 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
-	void unplugTextEditorPartMenu(KTextEditor::View* view);
-
 	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
 	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 

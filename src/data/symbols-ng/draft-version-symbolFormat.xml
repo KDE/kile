@@ -2,7 +2,7 @@
 
 <!-- License: 	GPLv2 or later
      Author: 	Thomas Braun
-     date: 	11 april 2009
+     date: 	8 mai 2009
      description: draft version of the new data format for generating png symbols for kile
 -->
 
@@ -12,7 +12,7 @@
 
 	<!-- define the file format, therefore allow future changes
 	     version 0.20 was added to subversion-->
-	<formatVersion major="0" minor ="21" />
+	<formatVersion major="0" minor ="22" />
 	
 	<!-- This is part of the png filename, e.g. "math" results in img001math.png, img002math.png and so on-->
 	<symbolGroupName>math</symbolGroupName>
@@ -25,11 +25,16 @@
 		<additional>\pagestyle{empty}</additional>
 	</preamble>
 
-	<!--  the package and argument needed for <unicodeCommand> to work -->
-	<unicodeCommandPackage>
-	    <name>inputenc</name>
-	    <arguments>utf8x</arguments>
-	</unicodeCommandPackage>
+	<!--  the packages needed for <unicodeCommand> to work -->
+	<unicodeCommandPackages>
+	    <package>
+	       <name>inputenc</name>
+	       <arguments>utf8x</arguments>
+	    </package>
+	    <package>
+	       <name>ucs</name>
+	    </package>
+	</unicodeCommandPackages>
 	
 	<!-- define the command for which the png should be created, only <latexCommand> is mandatory-->
 	<commandDefinition>
@@ -55,7 +60,9 @@
 		<unicodeCommand>≠</unicodeCommand>
 		<imageCommand>\neq</imageCommand>
 		<mathMode>true</mathMode>
-		<comment>This command gives nice weather!</comment>
+		<comment>This command gives nice weather! And one can use 
+		any fancy UTF-8 characters like ä,ö,ü,ß or even Берлин. 8 мая and 了防疫第.
+		Even HTML markup like &lt;b&gt; bold &lt;/b&gt; is possible.</comment>
 		<package>
 			<name>amsmath</name>
 			<arguments>fleqn</arguments>

@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006 - 2007 by Thomas Braun
+                               2006 - 2009 by Thomas Braun
  ****************************************************************************************/
 
 /***************************************************************************
@@ -43,6 +43,8 @@ tbraun 2007-06-13
 
 #include "kileconfig.h"
 #include "kiledebug.h"
+#include "../symbolviewclasses.h"
+#include "symbolview.h"
 
 #define MFUS_GROUP "MostFrequentlyUsedSymbols"
 #define MFUS_PREFIX "MFUS"
@@ -73,35 +75,67 @@ SymbolView::~SymbolView()
 {
 }
 
+/* key format
+from old symbols with package info
+1%\textonequarter%%%{textcomp}%%/home/kdedev/.kde4/share/apps/kile/mathsymbols/misc-text/img072misc-text.png
+from old symbols without package info
+1%\oldstylenums{9}%%%%%/home/kdedev/.kde4/share/apps/kile/mathsymbols/misc-text/img070misc-text.png
+new symbol
+1%\neq%≠%[utf8x,,]{inputenc,ucs,}%[fleqn,]{amsmath,}%This command gives nice weather!%/home/kdedev/.kde4/share/apps/kile/mathsymbols/user/img002math.png
+*/
+
 void SymbolView::extract(const QString& key, int& refCnt)
 {
-	if (!key.isEmpty()) {
-		refCnt = key.section('%', 0, 0).toInt();
-	}
-
-	return;
+   if (!key.isEmpty()) {
+	refCnt = key.section('%', 0, 0).toInt();
+   }
 }
 
-void SymbolView::extract(const QString& key, int& refCnt, QString &cmd, QStringList &args, QStringList &pkgs)
+void SymbolView::extractPackageString(const QString&string, QList<Package> &packages){
+
+  QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
+  QStringList args,pkgs;
+  Package pkg;
+  
+  if(string.isEmpty()){
+      return;
+   }
+   
+   packages.clear();
+   
+   if ( rePkgs.exactMatch(string) ){
+      args = rePkgs.cap(1).split(',');
+      pkgs = rePkgs.cap(2).split(',');
+   }
+   else{
+      return;
+   }
+   
+   for(int i = 0 ; i <  pkgs.count() && i < args.count() ; i++){
+      pkg.name = pkgs.at(i);
+      pkg.arguments = args.at(i);
+      packages.append(pkg);
+   }
+   
+}
+
+void SymbolView::extract(const QString& key, Command &cmd)
 {
 	if (key.isEmpty()) {
 		return;
 	}
 
-	extract(key, refCnt);
+	QStringList contents = key.split('%');
+	QString packages;
+	
+	cmd.referenceCount = contents.at(0).toInt();
+	cmd.latexCommand = contents.at(1);
+	cmd.unicodeCommand = contents.at(2);
 
-	QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
-
-	args.clear();
-	pkgs.clear();
-
-	cmd = key.section('%', 1, 1);
-	QString text = key.section('%', 2, 2);
-
-	if (text.indexOf(rePkgs) != -1) {
-		args = rePkgs.cap(1).split(',',QString::SkipEmptyParts);
-		pkgs = rePkgs.cap(2).split(',',QString::SkipEmptyParts);
-	}
+	extractPackageString(contents.at(3),cmd.unicodePackages);
+	extractPackageString(contents.at(4),cmd.packages);
+	cmd.comment = contents.at(5);
+	cmd.path = contents.at(6);
 }
 
 void SymbolView::initPage(int page)
@@ -159,30 +193,42 @@ void SymbolView::initPage(int page)
 
 QString SymbolView::getToolTip(const QString &key)
 {
-	QString cmd, label;
+	QString label;
 	QStringList pkgs, args;
-	int refCnt;
+	Command cmd;
+	Package pkg;
 
-	extract(key, refCnt, cmd, args, pkgs);
+	extract(key, cmd);
 
-	label = i18n("Command: ") + cmd + '\n';
-
-	if(pkgs.count() > 0) {
-		if(pkgs.count() == 1) {
+	 label = "<b>" + i18n("Command: ") + cmd.latexCommand + "</b><br>";
+	 if(!cmd.unicodeCommand.isEmpty()) {
+	    label += i18n("Unicode command: ") + cmd.unicodeCommand + "<br>";
+	 }
+	
+	if(cmd.packages.count() > 0) {
+	        if(cmd.packages.count() == 1) {
 			label += i18n("Package: ");
 		}
 		else {
 			label += i18n("Packages: ");
 		}
 
-		for (int i = 0; i < pkgs.count() ; i++) {
-			if(i < args.count()) {
-				label = label + '[' + args[i] + ']' + pkgs[i] + '\n';
-			}
-			else {
-				label = label + pkgs[i] + '\n';
-			}
+		for (int i = 0; i < cmd.packages.count() ; i++) {
+		     pkg = cmd.packages.at(i);
+		     if(!pkg.arguments.isEmpty()) {
+			label += '[' + pkg.arguments + ']' + pkg.name;
+		     }
+		     else {
+			label += pkg.name;
+		     }
+		     if( i != ( cmd.packages.count() - 1 ) ){
+			label += "<br>";
+		     }
 		}
+	}
+	
+	if(!cmd.comment.isEmpty()) {
+	   label += "<i>" + i18n("Comment: ") + cmd.comment + "</i>";
 	}
 
 	return label;
@@ -190,33 +236,65 @@ QString SymbolView::getToolTip(const QString &key)
 
 void SymbolView::mousePressEvent(QMouseEvent *event)
 {
+	Command cmd;
 	QString code_symbol;
-	QStringList args, pkgs;
+	QList<Package> packages; 
 	QListWidgetItem *item = NULL;
-	int count;
 	bool math = false, bracket = false;
 
 	if(event->button() == Qt::LeftButton && (item = itemAt(event->pos()))) {
 		bracket = event->modifiers() & Qt::ControlModifier;
 		math = event->modifiers() & Qt::ShiftModifier;
 
-		extract(item->data(Qt::UserRole).toString(), count, code_symbol, args, pkgs);
+		extract(item->data(Qt::UserRole).toString(), cmd);
+		if(KileConfig::symbolViewUTF8()){
+		  code_symbol = cmd.unicodeCommand;
+		  packages = cmd.unicodePackages;
+		}
+		else{
+		   code_symbol = cmd.latexCommand;
+		   packages = cmd.packages;
+		}
 
 		if(math != bracket) {
 			if(math) {
 				code_symbol = '$' + code_symbol + '$';
 			}
-			else {
-				if(bracket) {
+			else if(bracket) {
 					code_symbol = '{' + code_symbol + '}';
 				}
-			}
 		}
-		emit(insertText(code_symbol, pkgs));
+		emit(insertText(code_symbol, packages));
 		emit(addToList(item));
 	}
 
 	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
+}
+
+QString convertLatin1StringtoUTF8(const QString &string ){
+
+   if(string.isEmpty()){ 
+      return QString();
+   }
+   
+   QVector<uint> stringAsIntVector;
+   QStringList stringList = string.split(",",QString::SkipEmptyParts);
+   
+   QStringList::const_iterator it;
+   QString str;
+   bool ok;
+   int stringAsInt;
+   for(it = stringList.begin(); it != stringList.end(); it++) {
+	 str = *it;
+	 str.remove("U+");
+	 stringAsInt = str.toInt(&ok);
+	 if(!ok) {
+	    return QString();
+	 }
+	 stringAsIntVector.append(stringAsInt);
+   }
+   return QString::fromUcs4(stringAsIntVector.data(),stringAsIntVector.count());
+   
 }
 
 void SymbolView::fillWidget(const QString& prefix)
@@ -224,7 +302,8 @@ void SymbolView::fillWidget(const QString& prefix)
 	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
 	QImage image;
 	QListWidgetItem* item;
-	QStringList refCnts, paths;
+	QStringList refCnts, paths, unicodeValues;
+	QString key;
 
 	if (prefix == MFUS_PREFIX) {
 		KConfigGroup config = KGlobal::config()->group(MFUS_GROUP);
@@ -250,7 +329,16 @@ void SymbolView::fillWidget(const QString& prefix)
 		if(image.load(paths[i])) {
 //      		KILE_DEBUG() << "path is " << paths[i];
 			item = new QListWidgetItem(this);
-			QString key = refCnts[i] + '%' + image.text("Command") + '%' + image.text("Packages") + '%' + paths[i];
+
+			key = refCnts[i] + '%' + image.text("Command");
+			key += '%' + convertLatin1StringtoUTF8(image.text("CommandUnicode"));
+			key += '%' + image.text("UnicodePackages");
+			key += '%' + image.text("Packages");
+			key += '%' + convertLatin1StringtoUTF8(image.text("Comment"));
+			key += '%' + paths[i];
+			
+// 			KILE_DEBUG() << "key is " << key;
+
 			item->setData(Qt::UserRole, key);
 			item->setToolTip(getToolTip(key));
 
@@ -278,8 +366,9 @@ void SymbolView::fillWidget(const QString& prefix)
 void SymbolView::writeConfig()
 {
 	QListWidgetItem *item;
-	QStringList paths, refCnts;
-
+	QStringList paths;
+	QList<int> refCnts;
+	Command cmd;
 
 	KConfigGroup grp = KGlobal::config()->group(MFUS_GROUP);
 
@@ -290,8 +379,9 @@ void SymbolView::writeConfig()
 	else {
 		for(int i = 0; i < count(); ++i) {
 			item = this->item(i);
-			refCnts.append(item->data(Qt::UserRole).toString().section('%', 0, 0));
-			paths.append(item->data(Qt::UserRole).toString().section('%', 3, 3));
+			extract(item->data(Qt::UserRole).toString(),cmd);
+			refCnts.append(cmd.referenceCount);
+			paths.append(cmd.path);
 			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last();
 		}
 		grp.writeEntry("paths", paths);

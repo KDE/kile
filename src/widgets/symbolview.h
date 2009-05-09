@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006 - 2007 Thomas Braun
+                               2006 - 2009 Thomas Braun
  ***************************************************************************************/
 
 /***************************************************************************
@@ -21,6 +21,7 @@
 
 #include <kcolorscheme.h>
 
+#include "../symbolviewclasses.h"
 class QMouseEvent;
 
 namespace KileWidget {
@@ -37,9 +38,9 @@ class SymbolView : public QListWidget
 
 	private:
 		void fillWidget(const QString &prefix);
-		//void contentsMousePressEvent(QMouseEvent *e);
-		void extract(const QString& key, int& count, QString &cmd, QStringList &args, QStringList &pkgs);
-		void extract(const QString& key, int& count);
+		void extractPackageString(const QString &string, QList<Package> &pkgs);
+		void extract(const QString& key, Command &cmd);
+		void extract(const QString& key, int& refCnt);
 		void initPage(int page);
 		QString getToolTip(const QString &key);
 
@@ -49,7 +50,7 @@ class SymbolView : public QListWidget
 		virtual void mousePressEvent(QMouseEvent *event);
 
 	Q_SIGNALS:
-		void insertText(const QString& text, const QStringList &pkgs);
+		void insertText(const QString& text, const QList<Package> &pkgs);
 		void addToList(const QListWidgetItem *item);
 
 	public Q_SLOTS:

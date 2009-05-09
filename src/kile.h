@@ -290,12 +290,16 @@ private Q_SLOTS:
 	* warns if latex packages in pkgs are not included in the document 
 	**/
 	void insertTag(const KileAction::TagData& td, const QStringList& pkgs);
+	
 	/**
 	 * An overloaded member function, behaves essentially as above.
 	 **/
+	
+	void insertTag(const KileAction::TagData& td, const QList<Package>& pkgs);
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
 	void insertAmsTag(const KileAction::TagData& td);
 	void insertText(const QString &text, const QStringList &pkgs);
+	void insertText(const QString &text, const QList<Package> &pkgs);
 
 	void quickTabular();
 	void quickArray();

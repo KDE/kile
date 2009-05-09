@@ -88,6 +88,7 @@
 #include "scriptmanager.h"
 #include "widgets/previewwidget.h"
 #include "widgets/extendedscrollarea.h"
+#include "symbolviewclasses.h"
 
 #define LOG_TAB     0
 #define OUTPUT_TAB  1
@@ -471,58 +472,58 @@ void Kile::setupSymbolViews()
 	m_symbolViewMFUS = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::MFUS);
 	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
-	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		this, SLOT(insertText(const QString& ,const QList<Package>&)));
 	
 	m_symbolViewRelation = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Relation);
 	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
-	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QStringList&)),
-		 this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 		
 	m_symbolViewOperators = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Operator);
 	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
-	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewArrows = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Arrow);
 	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
-	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewMiscMath = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::MiscMath);
 	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
-	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewMiscText = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::MiscText);
 	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
-	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewDelimiters= new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Delimiters);
 	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
-	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString& ,const QStringList&)));
+	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewGreek = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Greek);
 	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
-	connect(m_symbolViewGreek, SIGNAL(insertText(const QString&, const QStringList&)),
-		this, SLOT(insertText(const QString&, const QStringList&)));
+	connect(m_symbolViewGreek, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewSpecial = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Special);
 	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
-	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString&, const QStringList&)));
+	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewCyrillic = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Cyrillic);
 	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
-	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& ,const QStringList&)),
-		this, SLOT(insertText(const QString&, const QStringList&)));
+	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewUser = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::User);
 	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
-	connect(m_symbolViewUser, SIGNAL(insertText(const QString&, const QStringList&)),
-		this, SLOT(insertText(const QString&, const QStringList& )));
+	connect(m_symbolViewUser, SIGNAL(insertText(const QString& ,const QList<Package>&)),
+		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	for(int i = 0; i < m_toolBox->count(); ++i) {
 		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.<br>\
@@ -2059,6 +2060,22 @@ void Kile::insertAmsTag(const KileAction::TagData& data)
 	insertTag(data, QStringList("amsmath"));
 }
 
+void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs){
+
+   QStringList packages;
+   QString pkgName;
+
+   QList<Package>::const_iterator it;
+   for(it = pkgs.begin(); it != pkgs.end() ; it++){
+	 pkgName = (*it).name;
+	 if(!pkgName.isEmpty()){
+	    packages.append(pkgName);
+	 }
+   }
+   
+   insertTag(data,packages);
+}
+
 void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 {
 	KILE_DEBUG() << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
@@ -2095,6 +2112,11 @@ void Kile::insertText(const QString &text)
 void Kile::insertText(const QString &text, const QStringList &pkgs)
 {
 	insertTag(KileAction::TagData(QString(), text, "%C", 0, 0), pkgs);
+}
+
+void Kile::insertText(const QString &text, const QList<Package> &pkgs)
+{
+   insertTag(KileAction::TagData(QString(), text, "%C", 0, 0), pkgs);
 }
 
 void Kile::quickDocument()

@@ -31,6 +31,7 @@ SET(kile_SRCS
 	dialogs/quickdocumentdialog.cpp
 	widgets/filebrowserwidget.cpp
 	docpart.cpp
+	symbolviewclasses.h
 	kile.cpp
 	main.cpp
 	kileactions.cpp

@@ -552,5 +552,9 @@
 			<label>Clear the list of the most frequently used symbols whilst closing Kile.</label>
 			<default>false</default>
 		</entry>
+		<entry name="symbolViewUTF8" type="Bool">
+		<label>Should UTF-8 characters instead of commands be inserted</label>
+		<default>false</default>
+		</entry>
 	</group>
 </kcfg>

@@ -316,6 +316,7 @@ namespace KileTool {
 
 	PartLauncher::~PartLauncher()
 	{
+		// the created part will be deleted in 'Kile::resetPart' 
 		KILE_DEBUG () << "DELETING PartLauncher";
 	}
 
@@ -405,9 +406,6 @@ namespace KileTool {
 
 	void PartLauncher::kill()
 	{
-#ifdef __GNUC__
-#warning We still need to check whether the created part is deleted somewhere!
-#endif
 	}
 
 	KParts::ReadOnlyPart* PartLauncher::part()

@@ -60,6 +60,9 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	readConfig();
 
 	slotChooseFilter();
+	
+	m_widget.edit_file->setUrl(KUrl::fromPath(m_startdir));
+	
 	setFocusProxy(m_widget.edit_file);
 	m_widget.edit_file->setFocus();
 

@@ -20,6 +20,7 @@
 #include <QClipboard>
 
 #include <KApplication>
+#include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <KTextEditor/SearchInterface>
@@ -2837,14 +2838,13 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 		return false;
 	}
 
-#ifdef __GNUC__
-#warning Check this.
-#endif
 	// don't complete environment, if we are
 	// still working inside the completion box
-// 	if(m_complete->inProgress(view)) {
-// 		return false;
-// 	}
+	KTextEditor::CodeCompletionInterface *codeCompletionInterface
+	                                      = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
+	if(codeCompletionInterface && codeCompletionInterface->isCompletionActive()) {
+		return false;
+	}
 
 	int row = view->cursorPosition().line();
 	int col = view->cursorPositionVirtual().column();

@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Thu Jul 17 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -43,6 +43,33 @@
 #include <qstringlist.h>
 #include <qstring.h>
 
+/*
+ * Class KileMainWindow.
+ */
+
+KileMainWindow::KileMainWindow(KileInfo *ki, QWidget *parent, Qt::WindowFlags f)
+: KParts::MainWindow(parent, f), m_ki(ki)
+{
+}
+
+KileMainWindow::~KileMainWindow()
+{
+}
+
+bool KileMainWindow::queryExit()
+{
+	return m_ki->queryExit();
+}
+
+bool KileMainWindow::queryClose()
+{
+	return m_ki->queryClose();
+}
+
+/*
+ * Class KileInfo.
+ */
+ 
 KileInfo::KileInfo(QObject *parent) :
 	m_mainWindow(NULL),
 	m_manager(NULL),

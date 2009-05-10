@@ -22,7 +22,7 @@
 #include "kiledebug.h"
 #include <kurl.h>
 
-#include <KXmlGuiWindow>
+#include <KParts/MainWindow>
 
 #include "kileconstants.h"
 #include "kileextensions.h"
@@ -54,9 +54,26 @@ namespace KileTemplate { class Manager; }
 namespace KileCodeCompletion { class Manager; }
 namespace KileAbbreviation { class Manager; }
 
+class KileMainWindow : public KParts::MainWindow
+{
+	friend class Kile;
+
+	public:
+		KileMainWindow(KileInfo *kileInfo, QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+		virtual ~KileMainWindow();
+
+	protected:
+		virtual bool queryExit();
+		virtual bool queryClose();
+
+	private:
+		KileInfo *m_ki;
+};
+
 class KileInfo
 {
-	
+	friend class KileMainWindow;
+
 public:
 	KileInfo(QObject *parent);
 	virtual ~KileInfo();
@@ -94,6 +111,10 @@ public:
 	virtual void focusKonsole() = 0;
 	virtual void focusEditor() = 0;
 	virtual void focusPreview() = 0;
+
+protected:
+	virtual bool queryExit() = 0;
+	virtual bool queryClose() = 0;
 
 private:
 	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0L);
@@ -139,7 +160,7 @@ public:
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
 
-	KXmlGuiWindow* mainWindow() const { return m_mainWindow; }
+	KileMainWindow* mainWindow() const { return m_mainWindow; }
 
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
@@ -147,7 +168,7 @@ public:
 
 protected:
 	KileConfiguration::Manager	*m_configurationManager;
-	KXmlGuiWindow 			*m_mainWindow;
+	KileMainWindow			*m_mainWindow;
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;

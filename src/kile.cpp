@@ -96,42 +96,6 @@
 #define PREVIEW_TAB 3
 
 /*
- * Class KileMainWindow.
- */
-
-class KileMainWindow : public KXmlGuiWindow
-{
-	public:
-		KileMainWindow(Kile *kile, QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
-		virtual ~KileMainWindow();
-
-	protected:
-		virtual bool queryExit();
-		virtual bool queryClose();
-
-	private:
-		Kile *m_kile;
-};
-
-KileMainWindow::KileMainWindow(Kile *kile, QWidget *parent, Qt::WindowFlags f) : KXmlGuiWindow(parent, f), m_kile(kile)
-{
-}
-
-KileMainWindow::~KileMainWindow()
-{
-}
-
-bool KileMainWindow::queryExit()
-{
-	return m_kile->queryExit();
-}
-
-bool KileMainWindow::queryClose()
-{
-	return m_kile->queryClose();
-}
-
-/*
  * Class Kile.
  */
 
@@ -181,7 +145,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	KILE_DEBUG() << "Symbol path: " << KGlobal::dirs()->resourceDirs("app_symbols").join(" , ");
 
 	// do initializations first
-	m_currentState = m_wantState = "Editor";
+	m_currentState = "Editor";
+	m_wantState = "Editor";
 	m_bWatchFile = m_logPresent = false;
 
 	viewManager()->setClient(m_mainWindow);
@@ -227,6 +192,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	setupBottomBar();
 	m_verticalSplitter->addWidget(m_bottomBar);
+	m_topWidgetStack->addWidget(m_horizontalSplitter);
+	m_mainWindow->setCentralWidget(m_topWidgetStack);
+
 	setupGraphicTools();
 	setupPreviewTools();
 	setupActions(); // sets up m_paStop
@@ -242,13 +210,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_manager->setFactory(m_toolFactory);
 
 	initSelectActions();
-	setupTools();
 
-	m_topWidgetStack->addWidget(m_horizontalSplitter);
-	m_mainWindow->setCentralWidget(m_topWidgetStack);
 	newCaption();
-
-	m_partManager->setActivePart(NULL);
 
 	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
 	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
@@ -266,7 +229,10 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	readRecentFileSettings();
 	readConfig();
 
-	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
+	m_mainWindow->setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::Keys | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
+	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
+
+	restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!
 
 	QList<int> sizes;
 	sizes << m_verSplitTop << m_verSplitBottom;
@@ -275,6 +241,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	sizes << m_horSplitLeft << m_horSplitRight;
 	m_horizontalSplitter->setSizes(sizes);
 
+	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
 	m_mainWindow->resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	m_mainWindow->show();
 	splashScreen.finish(m_mainWindow);
@@ -289,6 +256,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	restoreFilesAndProjects(allowRestore);
 	initMenu();
 	updateModeStatus();
+	m_mainWindow->slotStateChanged("Editor");
 
 	actionCollection()->readSettings();
 	// before Kile 2.1 shortcuts were stored in a "Shortcuts" group inside
@@ -880,11 +848,7 @@ void Kile::setupActions()
 
 	createAction(i18n("&System Check..."), "settings_perform_check", this, SLOT(slotPerformCheck()));
 
-	m_menuUserTags = new KActionMenu(i18n("User Tags"), actionCollection());
-	m_menuUserTags->setIcon(KIcon("label"));
-	m_menuUserTags->setDelayed(false);
-	actionCollection()->addAction("menuUserTags", m_menuUserTags);
-	setupUserTagActions();
+	createAction(i18n("Edit User Tags..."), "EditUserMenu", this, SLOT(editUserMenu()));
 
 	m_userHelpActionMenu = new KActionMenu(i18n("User Help"), actionCollection());
 	actionCollection()->addAction("help_userhelp", m_userHelpActionMenu);
@@ -907,7 +871,7 @@ void Kile::rebuildBibliographyMenu(){
 	else if ( currentItem == i18n("Biblatex") ){
 		name = QString("biblatex");
 	}
-	else{
+	else {
 		KILE_DEBUG() << "wrong currentItem in bibliography settings menu"; 
 		name = QString("bibtex");
 	}
@@ -935,7 +899,12 @@ void Kile::setupTools()
 	unplugActionList("list_quickies");
 	unplugActionList("list_viewers");
 	unplugActionList("list_other");
-	
+
+	m_compilerActions->saveCurrentAction();
+	m_viewActions->saveCurrentAction();
+	m_convertActions->saveCurrentAction();
+	m_quickActions->saveCurrentAction();
+
 	m_compilerActions->removeAllActions();
 	m_viewActions->removeAllActions();
 	m_convertActions->removeAllActions();
@@ -945,7 +914,6 @@ void Kile::setupTools()
 		QString grp = KileTool::groupFor(tools[i], m_config.data());
 		KILE_DEBUG() << tools[i] << " is using group: " << grp << endl;
 		toolMenu = KileTool::menuFor(tools[i], m_config.data());
-
 		if(toolMenu == "none") {
 			continue;
 		}
@@ -986,12 +954,10 @@ void Kile::setupTools()
 	}
 
 	m_quickActions->addAction(action("quickpreview_selection"));
- 	m_quickActions->addAction(action("quickpreview_environment"));
- 	m_quickActions->addAction(action("quickpreview_subdocument"));
- 	m_quickActions->addAction(action("quickpreview_math"));
- 	
- 	restoreLastSelectedAction();
-
+	m_quickActions->addAction(action("quickpreview_environment"));
+	m_quickActions->addAction(action("quickpreview_subdocument"));
+	m_quickActions->addAction(action("quickpreview_math"));
+ 
 	cleanUpActionList(m_listCompilerActions, tools);
 	cleanUpActionList(m_listViewerActions, tools);
 	cleanUpActionList(m_listConverterActions, tools);
@@ -1003,6 +969,11 @@ void Kile::setupTools()
 	plugActionList("list_converters", m_listConverterActions);
 	plugActionList("list_quickies", m_listQuickActions);
 	plugActionList("list_other", m_listOtherActions);
+
+	m_compilerActions->restoreCurrentAction();
+	m_viewActions->restoreCurrentAction();
+	m_convertActions->restoreCurrentAction();
+	m_quickActions->restoreCurrentAction();
 
 	actionCollection()->readSettings();
 }
@@ -1024,18 +995,13 @@ void Kile::saveLastSelectedAction(){
 
 	KILE_DEBUG() << "Kile::saveLastSelectedAction()" << endl;
 	QStringList list;
-	QString actName;
-	
 	list << "Compile" << "Convert" << "View" << "Quick";
-	
+
 	ToolbarSelectAction *pSelectAction = NULL ;
-	
+
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 
 	for(QStringList::Iterator it = list.begin(); it != list.end() ; ++it) {
-		
-		actName.clear();
-		
 		if ( *it == "Compile" ){
 			pSelectAction = m_compilerActions;
 		}
@@ -1048,14 +1014,10 @@ void Kile::saveLastSelectedAction(){
 		else if ( *it == "Quick" ){
 			pSelectAction = m_quickActions;
 		}
-		
-		KILE_DEBUG() << "list is " << *it << " " << pSelectAction->items().join(" ,");
-		
-		actName = pSelectAction->currentText();
-		
-		KILE_DEBUG() << "actName is " << actName;
-		
-		grp.writeEntry(*it,actName);
+
+		KILE_DEBUG() << "current item is " << pSelectAction->currentItem();
+
+		grp.writeEntry(*it, pSelectAction->currentItem());
 	}
 }
 
@@ -1063,18 +1025,12 @@ void Kile::restoreLastSelectedAction(){
 
 	QStringList list;
 	list << "Compile" << "Convert" << "View" << "Quick";
-	
-	QString actName;
+
 	ToolbarSelectAction *pSelectAction = NULL;
-	QAction *act = NULL;
 	
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 	
 	for(QStringList::Iterator it = list.begin(); it != list.end(); ++it) {
-		
-		actName.clear();
-		act = NULL;
-		
 		if ( *it == "Compile" ) {
 			pSelectAction = m_compilerActions;
 		}
@@ -1087,37 +1043,10 @@ void Kile::restoreLastSelectedAction(){
 		else if ( *it == "Quick" ) {
 			pSelectAction = m_quickActions;
 		}
-		
- 		actName = grp.readEntry(*it,QString());
-				
-		if( *it == "Quick" ) {
-			if( actName == i18n("Selection") )
-				act = action("quickpreview_selection");
-			else if( actName == i18n("Environment") )
-				act = action("quickpreview_environment");
-			else if( actName == i18n("Subdocument") )
-				act = action("quickpreview_subdocument");
-			else if( actName == i18n("Mathgroup") )
-				act = action("quickpreview_math");
-			else
-				act = action("tool_quickpreview");
-		}
-		else{
-			KILE_DEBUG() << "actName is " << actName;
-			act = action("tool_" + actName);
-		}
 
-		if( pSelectAction->actions().count() == 0){ // don't crash with empty tool list
-			KILE_DEBUG() << "Error in " << *it << " tool list";
-			return;
-		}
-		if( act == NULL ) {
-			act = pSelectAction->actions().first(); // set default value
-		}
-		if( act != NULL ) {
-			KILE_DEBUG() << "inserting" << act->text();
-			pSelectAction->slotTriggered(act);
-		}
+		int actIndex = grp.readEntry(*it, 0);
+		KILE_DEBUG() << "selecting" << actIndex << "for" << *it;
+		pSelectAction->setCurrentItem(actIndex);
 	}
 }
 
@@ -1152,15 +1081,11 @@ void Kile::setupUserTagActions()
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_9),
 				   KShortcut(Qt::CTRL+Qt::SHIFT+Qt::Key_0)};
 
-	KAction *action = new KAction(m_menuUserTags);
-	action->setText(i18n("Edit User Tags..."));
-	connect(action, SIGNAL(triggered()), this, SLOT(editUserMenu()));
-	actionCollection()->addAction("EditUserMenu", action);
-
-	m_menuUserTags->addAction(action);
-	if(m_listUserTags.size() > 0)  {
-		m_menuUserTags->addSeparator();
+	unplugActionList("list_user_tags");
+	for(QList<QAction*>::iterator i = m_listUserTagsActions.begin(); i != m_listUserTagsActions.end(); ++i) {
+		delete(*i);
 	}
+	m_listUserTagsActions.clear();
 	for (int i = 0; i < m_listUserTags.size(); ++i) {
 		KShortcut sc;
 		if(i < 10) {
@@ -1171,9 +1096,9 @@ void Kile::setupUserTagActions()
 		                                                actionCollection(), "tag_user_" + m_listUserTags[i].text,
 		                                                m_listUserTags[i]);
 		m_listUserTagsActions.append(menuItem);
-		m_menuUserTags->addAction(menuItem);
 	}
 
+	plugActionList("list_user_tags", m_listUserTagsActions);
 	actionCollection()->readSettings();
 }
 
@@ -1656,24 +1581,20 @@ bool Kile::resetPart()
 
 	m_currentState = "Editor";
 	m_wantState = "Editor";
-	//m_partManager->setActivePart( 0L);
 	return true;
 }
 
-void Kile::activePartGUI(KParts::Part * part)
+void Kile::activePartGUI(KParts::Part *part)
 {
 	KILE_DEBUG() << "==Kile::activePartGUI()=============================" << endl;
 	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
 	KILE_DEBUG() << "\twant state " << m_wantState << endl;
 
-	m_mainWindow->createGUI("kileui.rc");
 	unplugActionList("list_quickies"); plugActionList("list_quickies", m_listQuickActions);
 	unplugActionList("list_compilers"); plugActionList("list_compilers", m_listCompilerActions);
 	unplugActionList("list_converters"); plugActionList("list_converters", m_listConverterActions);
 	unplugActionList("list_viewers"); plugActionList("list_viewers", m_listViewerActions);
 	unplugActionList("list_other"); plugActionList("list_other", m_listOtherActions);
-
-	showToolBars(m_wantState);
 
 	//manually plug the print action into the toolbar for
 	//kghostview (which has the print action defined in
@@ -1692,12 +1613,18 @@ void Kile::activePartGUI(KParts::Part * part)
 		m_paPrint->setEnabled(false);
 	}
 
+	m_mainWindow->createGUI(part);
+	// populate the action lists (again)
+	setupUserTagActions();
+	setupTools();
+	// finally update the GUI regarding the current state
+	updateGUI(m_wantState);
 	//set the current state
 	m_currentState = m_wantState;
 	m_wantState = "Editor";
 }
 
-void Kile::showToolBars(const QString & wantState)
+void Kile::updateGUI(const QString &wantState)
 {
 	// save state of all toolbars
 	static bool mainToolBar = true;
@@ -1746,6 +1673,35 @@ void Kile::setViewerToolBars()
 
 void Kile::enableKileGUI(bool enable)
 {
+	// update action lists
+	QList<QAction *> actions = actionCollection()->actions();
+	for(QList<QAction *>::iterator itact = actions.begin(); itact != actions.end(); ++itact) {
+		if (m_dictMenuAction.contains((*itact)->objectName())
+		    || m_dictMenuFile.contains((*itact)->objectName())) {
+			(*itact)->setEnabled(enable);
+		}
+	}
+
+	// enable or disable userhelp entries 
+	m_help->enableUserhelpEntries(enable);
+
+	QList<QAction*> actionList;
+	actionList << m_listUserTagsActions
+	           << m_listQuickActions
+	           << m_listCompilerActions
+	           << m_listConverterActions
+	           << m_listViewerActions
+	           << m_listOtherActions;
+	// enable or disable list actions
+	for(QList<QAction*>::iterator i = actionList.begin(); i != actionList.end(); ++i) {
+		(*i)->setEnabled(enable);
+	}
+
+	// enable or disable bibliography menu entries
+	actionList = m_bibTagActionMenu->menu()->actions();
+	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
+		(*it)->setEnabled(enable);
+	}
 	QStringList menuList;
 	menuList << "file" << "edit" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
 	for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
@@ -1754,8 +1710,6 @@ void Kile::enableKileGUI(bool enable)
 			updateMenuActivationStatus(menu);
 		}
 	}
-	// enable or disable userhelp entries 
-	m_help->enableUserhelpEntries(enable);
 }
 
 // adds action names to their lists
@@ -1900,7 +1854,7 @@ void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
 
 void Kile::updateMenu()
 {
-	KILE_DEBUG() << "==Kile::updateKileMenu()====================" << endl;
+	KILE_DEBUG() << "==Kile::updateMenu()====================" << endl;
 	QAction *a;
 	QMap<QString,bool>::Iterator it;
 
@@ -1926,32 +1880,7 @@ void Kile::updateMenu()
 	bool file_open = ( viewManager()->currentTextView() );
 	KILE_DEBUG() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
-	// update action lists
-	QList<QAction *> actions = actionCollection()->actions();
-	for(QList<QAction *>::iterator itact = actions.begin(); itact != actions.end(); ++itact) {
-		if (m_dictMenuAction.contains((*itact)->objectName())
-		    || m_dictMenuFile.contains((*itact)->objectName())) {
-			(*itact)->setEnabled(file_open);
-		}
-	}
-
-	updateActionList(m_listQuickActions, file_open);
-	updateActionList(m_listCompilerActions, file_open);
-	updateActionList(m_listConverterActions, file_open);
-	updateActionList(m_listViewerActions, file_open);
-	updateActionList(m_listOtherActions, file_open);
-	
-	QList<QAction*> actionList = m_bibTagActionMenu->menu()->actions();
-	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
-		(*it)->setEnabled(file_open);
-	}
 	enableKileGUI(file_open);
-}
-
-void Kile::updateActionList(const QList<QAction*>& list, bool state){
-	for (QList<QAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
-		(*i)->setEnabled(state);
-	}
 }
 
 bool Kile::updateMenuActivationStatus(QMenu *menu)
@@ -2238,14 +2167,6 @@ void Kile::editUserMenu()
 	KileDialog::UserTags *dlg = new KileDialog::UserTags(m_listUserTags, m_mainWindow, "Edit User Tags", i18n("Edit User Tags"));
 
 	if(dlg->exec()) {
-		//remove all actions
-		for(QList<QAction*>::iterator i = m_listUserTagsActions.begin();
-		                              i != m_listUserTagsActions.end(); ++i) {
-			delete(*i);
-		}
-		m_listUserTagsActions.clear();
-		m_menuUserTags->menu()->clear();
-
 		m_listUserTags = dlg->result();
 		setupUserTagActions();
 	}
@@ -2552,7 +2473,7 @@ void Kile::configureToolbars()
 	dlg.exec();
 
 	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
- 	showToolBars(m_currentState);
+	updateGUI(m_currentState);
 }
 
 //////////////////// CLEAN BIB /////////////////////

@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -17,6 +17,7 @@
 
 #include <KAction>
 #include <KActionCollection>
+#include <KActionMenu>
 #include <KSelectAction>
 #include <KDialog>
 #include <KLineEdit>
@@ -201,16 +202,39 @@ class VariantSelection : public KAction
 
 }
 
-class ToolbarSelectAction : public KSelectAction
+class ToolbarSelectAction : public KAction
 {
 	Q_OBJECT
 
 public:
-	ToolbarSelectAction(const QString& text, QObject* parent, bool doFancyActionTriggering = true );
+	ToolbarSelectAction(const QString& text, QObject* parent, bool changeMainActionOnTriggering = true);
 	
-public Q_SLOTS:
-	void slotTriggered(QAction*);
+	void addAction(QAction *action);
+	int actionIndex(QAction *action);
+	QAction* action(int i);
+	QAction* currentAction();
+	bool containsAction(QAction *action);
+	int currentItem() const;
+	void setCurrentItem(int i);
+	void setCurrentAction(QAction *action);
+	void removeAllActions();
 
+	void saveCurrentAction();
+	void restoreCurrentAction();
+
+protected Q_SLOTS:
+	void slotTriggered(QAction*);
+	void slotMainActionTriggered();
+
+protected:
+	KMenu* menu();
+	QWidget* createWidget(QWidget *parent);
+
+private:
+	QList<QAction*> m_actionList;
+	int m_currentItem;
+	QString m_mainText;
+	QAction *m_savedCurrentAction;
 };
 
 #endif

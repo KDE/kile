@@ -121,9 +121,6 @@ public Q_SLOTS:
 
 	void prepareForPart(const QString &);
 
-	bool queryExit();
-	bool queryClose();
-
 	void updateModeStatus();
 	void newCaption();
 // 	void citeViewBib();
@@ -143,11 +140,14 @@ public Q_SLOTS:
 	int runToolWithConfig(const QString &tool, const QString &config);
 	void insertText(const QString &text);
 
+protected:
+	virtual bool queryExit();
+	virtual bool queryClose();
+
 private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 	
 	KToolBar				*m_toolsToolBar;
-	KActionMenu 				*m_menuUserTags;
 	KActionMenu				*m_userHelpActionMenu;
 	KSelectAction				*m_bibTagSettings;
 	ToolbarSelectAction			*m_compilerActions, *m_viewActions, *m_convertActions, *m_quickActions;
@@ -212,7 +212,6 @@ private:
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
-	void updateActionList(const QList<QAction*>& list, bool state);
 	bool updateMenuActivationStatus(QMenu *menu);
 
 	void setViewerToolBars();
@@ -234,7 +233,7 @@ private Q_SLOTS:
 
 	bool resetPart();
 	void activePartGUI(KParts::Part *);
-	void showToolBars(const QString &);
+	void updateGUI(const QString &wantingState);
 	void enableKileGUI(bool);
 	void slotToggleFullScreen();
 

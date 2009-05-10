@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -22,13 +22,16 @@
 
 #include "kileactions.h"
 
-#include <QString>
-#include <QStringList>
-#include <QLayout>
-#include <QLabel>
 #include <QCheckBox>
 #include <QFileInfo>
 #include <QGridLayout>
+#include <QLayout>
+#include <QLabel>
+#include <QString>
+#include <QStringList>
+#include <QToolBar>
+
+#include <KMenu>
 
 #include <klineedit.h>
 #include <kglobal.h>
@@ -422,16 +425,96 @@ void VariantSelection::slotTriggered()
 
 }
 
-// Toolbar
+// ToolbarSelectAction
+// based on 'KActionMenu', therefore our thanks go to
+// Copyright (C) 1999 Reginald Stadlbauer <reggie@kde.org>
+//           (C) 1999 Simon Hausmann <hausmann@kde.org>
+//           (C) 2000 Nicolas Hadacek <haadcek@kde.org>
+//           (C) 2000 Kurt Granroth <granroth@kde.org>
+//           (C) 2000 Michael Koch <koch@kde.org>
+//           (C) 2001 Holger Freyther <freyther@kde.org>
+//           (C) 2002 Ellis Whitehead <ellis@kde.org>
+//           (C) 2002 Joseph Wenninger <jowenn@kde.org>
+//           (C) 2003 Andras Mantia <amantia@kde.org>
+//           (C) 2005-2006 Hamish Rodda <rodda@kde.org>
 
-ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject* parent, bool doFancyActionTriggering /*= true */)
-	: KSelectAction(text, parent)
+ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject* parent,
+                                         bool changeMainActionOnTriggering /*= true */)
+	: KAction(text, parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(NULL)
 {
-	setToolBarMode(KSelectAction::MenuMode);
-	setToolButtonPopupMode(QToolButton::MenuButtonPopup);
-	if(doFancyActionTriggering){
-	 connect(this, SIGNAL(triggered(QAction*)), this, SLOT(slotTriggered(QAction*)));
+	if(changeMainActionOnTriggering) {
+		connect(menu(), SIGNAL(triggered(QAction*)), this, SLOT(slotTriggered(QAction*)));
 	}
+	setShortcutConfigurable(false);
+}
+
+int ToolbarSelectAction::actionIndex(QAction *action)
+{
+	int counter = -1;
+	QList<QAction*> actionList = menu()->actions();
+	for(QList<QAction*>::iterator i = actionList.begin(); i != actionList.end(); ++i) {
+		if(*i == action) {
+			return counter + 1;
+		}
+		++counter;
+	}
+	return counter;
+}
+
+void ToolbarSelectAction::addAction(QAction *action)
+{
+	menu()->addAction(action);
+}
+
+QAction* ToolbarSelectAction::action(int i)
+{
+	QList<QAction*> actionList = menu()->actions();
+	if(i < 0 || i >= actionList.size()) {
+		return NULL;
+	}
+	return actionList.at(i);
+}
+
+int ToolbarSelectAction::currentItem() const
+{
+	return m_currentItem;
+}
+
+QAction* ToolbarSelectAction::currentAction()
+{
+	return action(m_currentItem);
+}
+
+bool ToolbarSelectAction::containsAction(QAction *action)
+{
+	return actionIndex(action) >= 0;
+}
+
+void ToolbarSelectAction::setCurrentItem(int i)
+{
+	setCurrentAction(action(i));
+}
+
+void ToolbarSelectAction::setCurrentAction(QAction *action)
+{
+	if(!action) {
+		return;
+	}
+	int index = actionIndex(action);
+	if(index < 0) {
+		return;
+	}
+	setIcon(action->icon());
+	setText(action->text());
+	m_currentItem = index;
+}
+
+void ToolbarSelectAction::removeAllActions()
+{
+	menu()->clear();
+	m_currentItem = -1;
+	setText(m_mainText);
+	setIcon(KIcon());
 }
 
 void ToolbarSelectAction::slotTriggered(QAction* action){
@@ -441,14 +524,61 @@ void ToolbarSelectAction::slotTriggered(QAction* action){
 	if( currentAction() != action ) {
 		setIcon(action->icon());
 		setText(action->text());
-
-		action->setCheckable(true); // FIXME verys hackish but needed by KSelectAction
 		setCurrentAction(action);
-		action->setCheckable(false);
-
-		disconnect(SIGNAL(triggered(bool)));
-		connect(this,SIGNAL(triggered(bool)),action,SIGNAL(triggered(bool)));
 	}
+}
+
+void ToolbarSelectAction::slotMainActionTriggered()
+{
+	QAction *action = currentAction();
+	if(action) {
+		action->trigger();
+	}
+}
+
+KMenu* ToolbarSelectAction::menu()
+{
+	if(!KAction::menu()) {
+		KMenu *menu = new KMenu();
+		setMenu(menu);
+	}
+
+	return qobject_cast<KMenu*>(KAction::menu());
+}
+
+QWidget* ToolbarSelectAction::createWidget(QWidget *parent)
+{
+	QToolBar *parentToolBar = qobject_cast<QToolBar*>(parent);
+	if (!parentToolBar) {
+		return KAction::createWidget(parent);
+	}
+	QToolButton* button = new QToolButton(parent);
+	button->setAutoRaise(true);
+	button->setFocusPolicy(Qt::NoFocus);
+	button->setPopupMode(QToolButton::MenuButtonPopup);
+	button->setIconSize(parentToolBar->iconSize());
+	button->setToolButtonStyle(parentToolBar->toolButtonStyle());
+	connect(parent, SIGNAL(iconSizeChanged(const QSize&)),
+	        button, SLOT(setIconSize(const QSize&)));
+	connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
+                button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
+	button->setDefaultAction(this);
+	connect(button, SIGNAL(clicked()), this, SLOT(slotMainActionTriggered()));
+	return button;
+}
+
+void ToolbarSelectAction::saveCurrentAction()
+{
+	m_savedCurrentAction = currentAction();
+}
+
+void ToolbarSelectAction::restoreCurrentAction()
+{
+	if(!m_savedCurrentAction) {
+		return;
+	}
+	setCurrentAction(m_savedCurrentAction);
+	m_savedCurrentAction = NULL;
 }
 
 #include "kileactions.moc"

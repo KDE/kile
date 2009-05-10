@@ -536,6 +536,14 @@ void ToolbarSelectAction::slotMainActionTriggered()
 	}
 }
 
+void ToolbarSelectAction::slotMainButtonPressed()
+{
+	QAction *action = currentAction();
+	if(!action) {
+		emit(mainButtonWithNoActionPressed());
+	}
+}
+
 KMenu* ToolbarSelectAction::menu()
 {
 	if(!KAction::menu()) {
@@ -564,6 +572,8 @@ QWidget* ToolbarSelectAction::createWidget(QWidget *parent)
                 button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
 	button->setDefaultAction(this);
 	connect(button, SIGNAL(clicked()), this, SLOT(slotMainActionTriggered()));
+	connect(button, SIGNAL(pressed()), this, SLOT(slotMainButtonPressed()));
+	connect(this, SIGNAL(mainButtonWithNoActionPressed()), button, SLOT(showMenu()));
 	return button;
 }
 

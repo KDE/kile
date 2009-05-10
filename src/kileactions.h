@@ -225,6 +225,10 @@ public:
 protected Q_SLOTS:
 	void slotTriggered(QAction*);
 	void slotMainActionTriggered();
+	void slotMainButtonPressed();
+
+Q_SIGNALS:
+	void mainButtonWithNoActionPressed();
 
 protected:
 	KMenu* menu();

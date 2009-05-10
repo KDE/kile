@@ -94,7 +94,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	(void) new KileAction::InputTag(ki, i18n("Customizable File Inclusion - \\include{file}"), i18n("Customizable File Inclusion"), "include", KShortcut("Alt+I,F"), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_include", parentWidget, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\include{%R","}",9,0, i18n("\\include{file}\nThe \\include command is used in conjunction with the \\includeonly command for selective inclusion of files."),i18n("Type or select a filename: "));
 	(void) new KileAction::InputTag(ki, i18n("File Inclusion - \\input{file}"), i18n("File Inclusion"), "include", KShortcut("Alt+I,P"), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_input", parentWidget, KileAction::KeepHistory | KileAction::ShowBrowseButton | KileAction::AddProjectFile, "\\input{%R","}",7,0,i18n("\\input{file}\nThe \\input command causes the indicated file to be read and processed, exactly as if its contents had been inserted in the current file at that point."),i18n("Type or select a filename: "));
 
-	KActionMenu *actionstructure_list = new KActionMenu(i18n("Sectioning"), actionCollection);
+	ToolbarSelectAction *actionstructure_list = new ToolbarSelectAction(i18n("Sectioning"), actionCollection,false);
 	actionCollection->addAction("structure_list", actionstructure_list);
 	actionstructure_list->addAction(new KileAction::InputTag(ki,"&part", QString(), "part", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_part", parentWidget, KileAction::ShowAlternative|KileAction::ShowLabel , "\\part%A{%R}","\n", 0,1,i18n("\\part{title}\n\\part*{title} : do not include a number and do not make an entry in the table of contents\n"), i18n("&Part"),i18n("No &numbering")));
 	actionstructure_list->addAction(new KileAction::InputTag(ki,"&chapter", QString(), "chapter", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_chapter", parentWidget, KileAction::ShowAlternative|KileAction::ShowLabel , "\\chapter%A{%R}","\n", 0,1,i18n("\\chapter{title}\n\\chapter*{title} : do not include a number and do not make an entry in the table of contents\nOnly for 'report' and 'book' class document."), i18n("C&hapter"),i18n("No &numbering")));
@@ -104,7 +104,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	actionstructure_list->addAction(new KileAction::InputTag(ki,"p&aragraph", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_paragraph", parentWidget, KileAction::ShowAlternative|KileAction::ShowLabel , "\\paragraph%A{%R}","\n", 0,1,i18n("\\paragraph{title}\n\\paragraph*{title} : do not include a number and do not make an entry in the table of contents"), i18n("&Paragraph"),i18n("No &numbering")));
 	actionstructure_list->addAction(new KileAction::InputTag(ki,"subpa&ragraph", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_subparagraph", parentWidget, KileAction::ShowAlternative|KileAction::ShowLabel , "\\subparagraph%A{%R}","\n", 0,1,i18n("\\subparagraph{title}\n\\subparagraph*{title} : do not include a number and do not make an entry in the table of contents"), i18n("&Subparagraph"),i18n("No &numbering")));
 
-	KActionMenu *actionsize_list = new KActionMenu(i18n("Size"), actionCollection);
+	ToolbarSelectAction *actionsize_list = new ToolbarSelectAction(i18n("Size"), actionCollection,false);
 	actionCollection->addAction("size_list", actionsize_list);
 	actionsize_list->addAction(new KileAction::Tag(i18n("tiny"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_tiny", "\\begin{tiny}", "\\end{tiny}", 12, 0));
 	actionsize_list->addAction(new KileAction::Tag(i18n("scriptsize"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_scriptsize", "\\begin{scriptsize}", "\\end{scriptsize}", 18, 0));
@@ -117,7 +117,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	actionsize_list->addAction(new KileAction::Tag(i18n("huge"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_huge", "\\begin{huge}", "\\end{huge}", 12, 0));
 	actionsize_list->addAction(new KileAction::Tag(i18n("Huge"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_Huge", "\\begin{Huge}", "\\end{Huge}", 12, 0));
 
-	KActionMenu *actionother_list = new KActionMenu(i18n("Other"), actionCollection);
+	ToolbarSelectAction *actionother_list = new ToolbarSelectAction(i18n("Other"), actionCollection,false);
 	actionCollection->addAction("other_list", actionother_list);
 	actionother_list->addAction(new KileAction::Tag("label", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_label", "\\label{","} ",7,0,i18n("\\label{key}")));
 	actionother_list->addAction(new KileAction::Tag("index", QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_index","\\index{","}",7,0,i18n( "\\index{word}")));
@@ -371,7 +371,7 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 		i18n("\\begin{array}{col1col2...coln}\ncolumn 1 entry & column 2 entry ... & column n entry \\\\ \n...\n\\end{array}\nEach column, coln, is specified by a single letter that tells how items in that column should be formatted.\n"
 		"     c -- for centered \n     l -- for flush left \n     r -- for flush right\n"));
 
-	KActionMenu *actionleft_list = new KActionMenu(i18n("Left Delimiter"), actionCollection);
+	ToolbarSelectAction *actionleft_list = new ToolbarSelectAction(i18n("Left Delimiter"), actionCollection,false);
 	actionCollection->addAction("left_list", actionleft_list);
 	actionleft_list->addAction(new KileAction::Tag(i18n("left ("), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_(", "\\left( ", QString(), 7, 0));
 	actionleft_list->addAction(new KileAction::Tag(i18n("left ["), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_[", "\\left[ ", QString(), 7, 0));
@@ -383,7 +383,7 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	actionleft_list->addAction(new KileAction::Tag(i18n("left >"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_>", "\\left\\rangle ", QString(), 14, 0));
 	actionleft_list->addAction(new KileAction::Tag(i18n("left ."), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_left_.", "\\left. ", QString(), 7, 0));
 
-	KActionMenu *actionright_list = new KActionMenu(i18n("Right Delimiter"), actionCollection);
+	ToolbarSelectAction *actionright_list = new ToolbarSelectAction(i18n("Right Delimiter"), actionCollection,false);
 	actionCollection->addAction("right_list", actionright_list);
 	actionright_list->addAction(new KileAction::Tag(i18n("right )"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_)", "\\right) ", QString(), 8, 0));
 	actionright_list->addAction(new KileAction::Tag(i18n("right ]"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection, "tag_right_]", "\\right] ", QString(), 8, 0));

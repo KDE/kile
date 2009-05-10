@@ -424,13 +424,14 @@ void VariantSelection::slotTriggered()
 
 // Toolbar
 
-ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject *parent)
+ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject* parent, bool doFancyActionTriggering /*= true */)
 	: KSelectAction(text, parent)
 {
 	setToolBarMode(KSelectAction::MenuMode);
 	setToolButtonPopupMode(QToolButton::MenuButtonPopup);
-
-	connect(this, SIGNAL(triggered(QAction*)), this, SLOT(slotTriggered(QAction*)));
+	if(doFancyActionTriggering){
+	 connect(this, SIGNAL(triggered(QAction*)), this, SLOT(slotTriggered(QAction*)));
+	}
 }
 
 void ToolbarSelectAction::slotTriggered(QAction* action){

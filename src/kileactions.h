@@ -206,8 +206,8 @@ class ToolbarSelectAction : public KSelectAction
 	Q_OBJECT
 
 public:
-	ToolbarSelectAction(const QString& text, QObject *parent);
-
+	ToolbarSelectAction(const QString& text, QObject* parent, bool doFancyActionTriggering = true );
+	
 public Q_SLOTS:
 	void slotTriggered(QAction*);
 

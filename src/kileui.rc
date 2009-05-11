@@ -654,7 +654,6 @@
 	<Action name="NextWarning"/>
 	<Action name="PreviousBadBox"/>
 	<Action name="NextBadBox"/>
-	<Action name="Stop"/>
 	<Action name="CleanAll"/>
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>
@@ -931,7 +930,6 @@
 	<Action name="NextWarning"/>
 	<Action name="PreviousBadBox"/>
 	<Action name="NextBadBox"/>
-	<Action name="Stop"/>
 	<Action name="CleanAll"/>
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>
@@ -1202,7 +1200,6 @@
 	<Action name="NextWarning"/>
 	<Action name="PreviousBadBox"/>
 	<Action name="NextBadBox"/>
-	<Action name="Stop"/>
 	<Action name="CleanAll"/>
 	<Action name="tag_documentclass"/>
 	<Action name="tag_usepackage"/>

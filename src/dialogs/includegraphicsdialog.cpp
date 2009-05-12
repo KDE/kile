@@ -60,8 +60,12 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	readConfig();
 
 	slotChooseFilter();
-	
-	m_widget.edit_file->setUrl(KUrl::fromPath(m_startdir));
+
+	#if KDE_IS_VERSION(4,2,90)
+		m_widget.edit_file->setStartDir(KUrl::fromPath(m_startdir));
+	#else
+		m_widget.edit_file->setUrl(KUrl::fromPath(m_startdir));
+	#endif
 	
 	setFocusProxy(m_widget.edit_file);
 	m_widget.edit_file->setFocus();

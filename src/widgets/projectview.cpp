@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006 - 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006 - 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -19,10 +19,12 @@
 #include <QList>
 #include <QSignalMapper>
 
+#include <KActionMenu>
 #include <KIcon>
 #include <KLocale>
 #include <KMenu>
 #include <KMimeType>
+#include <KMimeTypeTrader>
 #include <KRun>
 #include <KUrl>
 
@@ -726,7 +728,7 @@ void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 
 void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 {
-	QSignalMapper signalMapper;
+	QSignalMapper signalMapper, serviceSignalMapper;
 	KMenu popup;
 	QAction *action = NULL;
 
@@ -750,23 +752,25 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 	                                                && projectViewItem->projectItem()->project()) {
 		isKilePrFile = projectViewItem->projectItem()->project()->url() == projectViewItem->url();
 	}
-#ifdef __GNUC__
-#warning The popup menu has not been ported completely yet!
-#endif
-/*
-	if(projectViewItem->type() == KileType::ProjectExtra && !isKilePrFile) {
-		KMenu *apps = new KMenu( m_popup);
-		m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(projectViewItem->url())->name(), "Type == 'Application'");
-		for (uint i=0; i < m_offerList.count(); ++i)
-			apps->insertItem(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(), i+1);
 
-		apps->insertSeparator();
-		apps->insertItem(i18n("Other..."), 0);
-		connect(apps, SIGNAL(activated(int)), this, SLOT(slotRun(int)));
-		m_popup->insertItem(KIcon("fork"), i18n("&Open With"),apps);
+	if(projectViewItem->type() == KileType::ProjectExtra && !isKilePrFile) {
+		QMenu *servicesMenu = popup.addMenu(KIcon("fork"), i18n("&Open With"));
+		connect(&serviceSignalMapper, SIGNAL(mapped(int)), this, SLOT(slotRun(int)));
+		m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(projectViewItem->url())->name(), "Application");
+		for (int i = 0; i < m_offerList.count(); ++i) {
+			action = new KAction(servicesMenu);
+			action->setIcon(KIcon(m_offerList[i]->icon()));
+			action->setText(m_offerList[i]->name());
+			connect(action, SIGNAL(triggered()), &serviceSignalMapper, SLOT(map()));
+			serviceSignalMapper.setMapping(action, i + 1);
+			servicesMenu->addAction(action);
+		}
+
+		servicesMenu->addSeparator();
+		action = servicesMenu->addAction(i18n("Other..."), &serviceSignalMapper, SLOT(map()));
+		serviceSignalMapper.setMapping(action, 0);
 		insertsep = true;
 	}
-*/
 
 	if (projectViewItem->type() == KileType::File || projectViewItem->type() == KileType::ProjectItem) {
 		if(!m_ki->isOpen(projectViewItem->url())) {
@@ -843,6 +847,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 	}
 
 	popup.exec(event->globalPos());
+	m_offerList.clear();
 }
 
 void ProjectView::dragEnterEvent(QDragEnterEvent *event)

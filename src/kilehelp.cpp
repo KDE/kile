@@ -246,7 +246,7 @@ namespace KileHelp
 	// Context help: user either Kile LaTeX help or the help files shipped with teTeX,
 	void Help::helpKeyword(KTextEditor::View *view)                   // dani 04.08.2004
 	{
-		int type = (0 == KileConfig::use()) ? HelpKileRefs : HelpTexRefs;
+		int type = ( KileConfig::kilerefs() ) ? HelpKileRefs : HelpTexRefs;
 		switch(type) {
 			case HelpTexRefs:
 				helpTexRefsKeyword(view);

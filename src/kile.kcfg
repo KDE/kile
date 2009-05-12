@@ -284,13 +284,21 @@
 			<label>Location of the TeX documentation.</label>
 			<default>/usr/share/texmf/doc</default>
 		</entry>
-		<entry name="use" type="Int">
-			<label>Use the system's TeX reference for the contextual help.</label>
-			<default>0</default>
+		<entry name="kilerefs" type="Bool">
+			<label>Use the Kile LaTeX reference for the contextual help.</label>
+			<default>true</default>
 		</entry>
-		<entry name="embedded" type="Int">
+		<entry name="texrefs" type="Bool">
+			<label>Use the system's TeX reference for the contextual help.</label>
+			<default>false</default>
+		</entry>
+		<entry name="embedded" type="Bool">
 			<label>Use embedded viewer for user help.</label>
-			<default>1</default>
+			<default>false</default>
+		</entry>
+		<entry name="external" type="Bool">
+			<label>Use an external viewer for user help.</label>
+			<default>true</default>
 		</entry>
 	</group>
 	<group name="Files">

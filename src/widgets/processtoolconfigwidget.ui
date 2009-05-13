@@ -1,109 +1,110 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>ProcessToolConfigWidget</class>
- <widget class="QWidget" name="ProcessToolConfigWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="ProcessToolConfigWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>319</width>
-    <height>184</height>
+    <width>535</width>
+    <height>251</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Minimum" hsizetype="Preferred" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <widget class="QWidget" name="" >
-   <property name="geometry" >
-    <rect>
-     <x>6</x>
-     <y>6</y>
-     <width>311</width>
-     <height>171</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout" >
-    <item row="0" column="0" >
-     <widget class="QLabel" name="m_lbCommand" >
-      <property name="minimumSize" >
-       <size>
-        <width>71</width>
-        <height>0</height>
-       </size>
-      </property>
-      <property name="text" >
-       <string>Co&amp;mmand:</string>
-      </property>
-      <property name="wordWrap" >
-       <bool>false</bool>
-      </property>
-      <property name="buddy" >
-       <cstring>m_command</cstring>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1" >
-     <widget class="KLineEdit" name="m_command" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="minimumSize" >
-       <size>
-        <width>200</width>
-        <height>0</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0" >
-     <widget class="QLabel" name="m_lbOptions" >
-      <property name="toolTip" >
-       <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
-&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <property name="sizeConstraint">
+      <enum>QLayout::SetNoConstraint</enum>
+     </property>
+     <property name="labelAlignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="m_lbCommand">
+       <property name="minimumSize">
+        <size>
+         <width>71</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="text">
+        <string>Co&amp;mmand:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+       <property name="buddy">
+        <cstring>m_command</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="KLineEdit" name="m_command">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>200</width>
+         <height>0</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="m_lbOptions">
+       <property name="toolTip">
+        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;">
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">Consider the file &lt;span style=" font-style:italic;">myBestBook.tex&lt;/span> with full path &lt;span style=" font-style:italic;">/home/archimedes/latex/&lt;/span>&lt;span style=" font-style:italic;">myBestBook.tex&lt;/span>, compiled with pdflatex to &lt;span style=" font-style:italic;">myBestBook.pdf&lt;/span>.&lt;/p>
-&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">The variables have the following meanings:&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">%source&lt;/span>: filename with suffix but without path &amp;lt;-&amp;gt; &lt;span style=" font-style:italic;">myBestBook.tex&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">%S:&lt;/span> filename without suffix and without path &amp;lt;-&amp;gt; &lt;span style=" font-style:italic;">myBestBook&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">%dir_base&lt;/span>: path of the source file without filename  &amp;lt;-&amp;gt;&lt;span style=" font-style:italic;"> /home/archimedes/latex&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;">%dir_target&lt;span style=" font-weight:400;">: path of the target file without filename, same as %dir_base if no relative path has been set &amp;lt;-&amp;gt; &lt;/span>&lt;span style=" font-weight:400; font-style:italic;">/home/archimedes/latex&lt;/span>&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">%target:&lt;/span> target filename without path &amp;lt;-&amp;gt; &lt;span style=" font-style:italic;">myBestBook.pdf&lt;/span>&lt;/p>
-&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600; font-style:italic;">&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">%res:&lt;/span> resolution of the quickpreview action set in configure kile-&amp;gt;tools-&amp;gt;preview&lt;/p>
-&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;">&lt;span style=" font-weight:600;">%AFL&lt;/span>: List of all files in a project marked for archiving. Set the archive flag in the "Files and projects" sidebar using the context menu.&lt;/p>&lt;/body>&lt;/html></string>
-      </property>
-      <property name="text" >
-       <string>Options:</string>
-      </property>
-      <property name="wordWrap" >
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1" >
-     <widget class="KTextEdit" name="m_options" >
-      <property name="sizePolicy" >
-       <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-        <horstretch>0</horstretch>
-        <verstretch>0</verstretch>
-       </sizepolicy>
-      </property>
-      <property name="acceptRichText" >
-       <bool>false</bool>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Consider the file &lt;span style=&quot; font-style:italic;&quot;&gt;myBestBook.tex&lt;/span&gt; with full path &lt;span style=&quot; font-style:italic;&quot;&gt;/home/archimedes/latex/&lt;/span&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;myBestBook.tex&lt;/span&gt;, compiled with pdflatex to &lt;span style=&quot; font-style:italic;&quot;&gt;myBestBook.pdf&lt;/span&gt;.&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;The variables have the following meanings:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;%source&lt;/span&gt;: filename with suffix but without path &amp;lt;-&amp;gt; &lt;span style=&quot; font-style:italic;&quot;&gt;myBestBook.tex&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;%S:&lt;/span&gt; filename without suffix and without path &amp;lt;-&amp;gt; &lt;span style=&quot; font-style:italic;&quot;&gt;myBestBook&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;%dir_base&lt;/span&gt;: path of the source file without filename  &amp;lt;-&amp;gt;&lt;span style=&quot; font-style:italic;&quot;&gt; /home/archimedes/latex&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;%dir_target&lt;span style=&quot; font-weight:400;&quot;&gt;: path of the target file without filename, same as %dir_base if no relative path has been set &amp;lt;-&amp;gt; &lt;/span&gt;&lt;span style=&quot; font-weight:400; font-style:italic;&quot;&gt;/home/archimedes/latex&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;%target:&lt;/span&gt; target filename without path &amp;lt;-&amp;gt; &lt;span style=&quot; font-style:italic;&quot;&gt;myBestBook.pdf&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600; font-style:italic;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;%res:&lt;/span&gt; resolution of the quickpreview action set in configure kile-&amp;gt;tools-&amp;gt;preview&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;%AFL&lt;/span&gt;: List of all files in a project marked for archiving. Set the archive flag in the &quot;Files and projects&quot; sidebar using the context menu.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>Options:</string>
+       </property>
+       <property name="wordWrap">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="KTextEdit" name="m_options">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="acceptRichText">
+        <bool>false</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
+ <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>

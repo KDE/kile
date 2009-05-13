@@ -145,9 +145,6 @@ namespace KileTool
 
 		m_launcher->setWorkingDirectory(workingDir());
 
-#ifdef __GNUC__
-#warning Better turn this into a QStringList!
-#endif
 		//fill in the dictionary
 		addDict("%options", m_options);
 

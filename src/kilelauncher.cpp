@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : mon 3-11 20:40:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -35,6 +35,15 @@
 #include <KParts/Part>
 #include <KParts/Factory>
 #include <KParts/PartManager>
+
+static QVariantList toVariantList(const QStringList& list)
+{
+	QVariantList toReturn;
+	for(QStringList::const_iterator i = list.begin(); i != list.end(); ++i) {
+		toReturn.push_back(QVariant(*i));
+	}
+	return toReturn;
+}
 
 namespace KileTool {
 
@@ -114,9 +123,6 @@ namespace KileTool {
 		}
 
 		if(m_options.isEmpty()) {
-#ifdef __GNUC__
-#warning Better turn this into a QStringList and check whether KShell::quote has been used!
-#endif
 			m_options = tool()->readEntry("options");
 			KILE_DEBUG() << "\treadEntry('option'):" << m_options;
 		}
@@ -368,11 +374,7 @@ namespace KileTool {
 		QStackedWidget *stack = tool()->manager()->widgetStack();
 		KParts::PartManager *pm = tool()->manager()->partManager();
 
-#ifdef __GNUC__
-#warning We still need to use QStringLists for arguments instead of QStrings!
-#endif
-// 		m_part = factory->create<KParts::ReadOnlyPart>(stack, m_options);
-		m_part = factory->create<KParts::ReadOnlyPart>(stack, QStringList());
+		m_part = factory->create<KParts::ReadOnlyPart>(stack, toVariantList(KShell::splitArgs(m_options, KShell::AbortOnMeta)));
 
 		if(!m_part) {
 			emit(message(Error, i18n("Could not create component %1 from the library %2.", m_className, m_libName)));

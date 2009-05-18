@@ -158,7 +158,7 @@ void StructureViewItem::setLabel(const QString &label)
 		if(m_docinfo) {
 			m_root->setURL(m_docinfo->url());
 			m_root->setExpanded(true);
-			m_root->setIcon(0, KIcon("help-contents"));
+			m_root->setIcon(0, KIcon("contents"));
 			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)), 
 			        this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
 // 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));

@@ -2153,7 +2153,7 @@ void Kile::quickPostscript()
 
 void Kile::helpLaTex()
 {
-	QString loc = KStandardDirs::locate("html","en/kile/latexhelp.html");
+	QString loc = KGlobal::dirs()->findResource("appdata","help/latexhelp.html");
 	KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager, false);
 	tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
 	tool->setSource(loc);

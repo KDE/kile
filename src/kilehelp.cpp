@@ -271,7 +271,7 @@ namespace KileHelp
 
 	void Help::helpKileRefsKeyword(KTextEditor::View *view)
 	{
-		QString kilehelp = KGlobal::dirs()->findResource("html","en/kile/latexhelp.html");
+		QString kilehelp = KGlobal::dirs()->findResource("appdata","help/latexhelp.html");
 		KILE_DEBUG() << "kilehelp = " << kilehelp << endl;
 		if(!kilehelp.isEmpty()) {
 			QString word = getKeyword(view);

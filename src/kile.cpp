@@ -254,9 +254,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	KTipDialog::showTip(m_mainWindow, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);
+	m_mainWindow->slotStateChanged("Editor");
 	initMenu();
 	updateModeStatus();
-	m_mainWindow->slotStateChanged("Editor");
 
 	actionCollection()->readSettings();
 	// before Kile 2.1 shortcuts were stored in a "Shortcuts" group inside

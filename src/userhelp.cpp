@@ -126,7 +126,7 @@ void UserHelp::setupUserHelpMenu()
 			}
 			KileAction::VariantSelection *action = new KileAction::VariantSelection(menu, QVariant::fromValue(url), this);
 			if(!url.isLocalFile() ||  ext == "html" || ext == "dvi" || ext == "ps" || ext == "pdf") {
-				QString icon = (!url.isLocalFile()) ? "viewhtml" : ext;
+				QString icon = (!url.isLocalFile()) ? "viewhtml" : "view" + ext;
 				action->setIcon(KIcon(icon));
 			}
 			connect(action, SIGNAL(triggered(const KUrl&)), this, SLOT(slotUserHelpActivated(const KUrl&)));
@@ -162,8 +162,8 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 
 	// determine, how to show the file
 	QString type;
-	QString cfg = "Embedded Viewer";
-	if(local && KileConfig::embedded() == 0) {
+	QString cfg = (KileConfig::embedded()) ? "Embedded Viewer" : "Okular";
+	if(local) {
 		QString ext = fi.suffix();
 		if(ext == "dvi") {
 			type = "ViewDVI";
@@ -183,14 +183,11 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 	if(!type.isEmpty() && config->hasGroup("Tool/" + type + '/' + cfg)) {
 		KileTool::View *tool = new KileTool::View(type, m_manager, false);
 		tool->setFlags(0);
-		tool->setSource(url.fileName());
-		tool->setTarget(fi.fileName());
-		tool->prepareToRun();
+		tool->setSource(url.toLocalFile());
 		m_manager->run(tool,cfg);
 	}
 	else {
-		KMimeType::Ptr pMime = KMimeType::findByUrl(url);
-		KRun::runUrl(url, pMime->name(), m_mainWindow);
+		new KRun(url,m_mainWindow);
 	}
 }
 

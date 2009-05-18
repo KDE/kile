@@ -123,7 +123,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 	KTextEditor::Cursor virtualCursor = view->cursorPositionVirtual();
 	int para = cursor.line();
 	int para_begin = para;
-	int index = virtualCursor.column();
+	int index = cursor.column();
 	int index_begin = index;
 	int para_end = 0;
 	int index_cursor = index;

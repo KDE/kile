@@ -62,13 +62,15 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	showButtonSeparator(true);
 
 	// determine if a psfile already exists
-	QString psfilename;
+	QString psfilename,psoutfilename;
 	if(!texfilename.isEmpty()) {
 		// working with a postscript document, so we try to determine the LaTeX source file
 		QStringList extlist = latexextensions.split(' ');
 		for (QStringList::Iterator it = extlist.begin(); it != extlist.end(); ++it) {
 			if (texfilename.indexOf((*it), -(*it).length()) >= 0) {
-				psfilename = texfilename.left(texfilename.length() - (*it).length()) + ".ps";
+				QString basename = psfilename = texfilename.left(texfilename.length() - (*it).length());
+				psfilename = basename + ".ps";
+				psoutfilename = basename + "-out.ps";
 				if (!QFileInfo(psfilename).exists())
 					psfilename.clear();
 				break;
@@ -99,6 +101,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	}
 
 	m_PostscriptDialog.m_edInfile->lineEdit()->setText(psfilename);
+	m_PostscriptDialog.m_edOutfile->lineEdit()->setText(psoutfilename);
 
 	// according to QT 4.4 docu the index of QComboBox might change if adding or removing items
 	// but because we populate the QComboBox before we start the dialog, we can use the index here
@@ -131,6 +134,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 
 	m_PostscriptDialog.m_edInfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
 	m_PostscriptDialog.m_edOutfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
+	m_PostscriptDialog.m_edOutfile->setMode(KFile::File | KFile::LocalOnly);
 
 	// choose one common task
 	m_PostscriptDialog.m_cbTask->setCurrentIndex(PS_2xA4);

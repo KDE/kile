@@ -341,10 +341,9 @@ void Kile::setupSideBar()
 {
 	m_sideBar = new KileWidget::SideBar(m_horizontalSplitter);
 
-	m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar, "File Selector");
+	m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar);
 	m_sideBar->addPage(m_fileBrowserWidget, SmallIcon("document-open"), i18n("Open File"));
 	connect(m_fileBrowserWidget,SIGNAL(fileSelected(const KFileItem&)), docManager(), SLOT(fileSelected(const KFileItem&)));
-	m_fileBrowserWidget->readConfig();
 
 	setupProjectView();
 	setupStructureView();

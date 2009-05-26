@@ -31,15 +31,17 @@ from Kate (C) 2001 by Matt Newell
 #include <KCharsets>
 #include <KLocale>
 #include <KToolBar>
+#include <KConfig>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
 
 namespace KileWidget {
 
-FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent, const char *name) : QWidget(parent)
+FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent) : QWidget(parent)
 {
-	setObjectName(name);
+	m_configGroup = KConfigGroup(KGlobal::config(),"FileBrowserWidget");
+
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	setLayout(layout);
 
@@ -58,8 +60,11 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	connect(m_pathComboBox, SIGNAL(returnPressed(const QString&)), this, SLOT(comboBoxReturnPressed(const QString&)));
 
 	m_dirOperator = new KDirOperator(KUrl(), this);
-	m_dirOperator->setView(KFile::Simple);
+	m_dirOperator->setViewConfig(m_configGroup);
+	m_dirOperator->readConfig(m_configGroup);
+	m_dirOperator->setView(KFile::Default);
 	m_dirOperator->setMode(KFile::Files);
+
 	connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
 	connect(m_dirOperator, SIGNAL(urlEntered(const KUrl&)), this, SLOT(dirUrlEntered(const KUrl&)));
 
@@ -85,6 +90,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 
 	layout->addWidget(m_dirOperator);
 	layout->setStretchFactor(m_dirOperator, 2);
+	readConfig();
 }
 
 FileBrowserWidget::~FileBrowserWidget()
@@ -97,6 +103,7 @@ void FileBrowserWidget::readConfig()
 	QString lastDir = KileConfig::lastDir();
 	QFileInfo ldi(lastDir);
 	if (!ldi.isReadable()) {
+		KILE_DEBUG() << "lastDir is not readable";
 		m_dirOperator->home();
 	}
 	else {
@@ -107,6 +114,7 @@ void FileBrowserWidget::readConfig()
 void FileBrowserWidget::writeConfig()
 {
 	KileConfig::setLastDir(m_dirOperator->url().toLocalFile());
+	m_dirOperator->writeConfig(m_configGroup);
 }
 
 KUrl FileBrowserWidget::currentUrl() const

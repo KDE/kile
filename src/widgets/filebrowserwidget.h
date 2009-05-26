@@ -27,6 +27,8 @@ from Kate (C) 2001 by Matt Newell
 #include <KUrlComboBox>
 #include <KUrlCompletion>
 #include <KUrl>
+#include <KConfig>
+#include <KConfigGroup>
 
 #include "kileextensions.h"
 
@@ -39,23 +41,22 @@ class FileBrowserWidget : public QWidget
 	Q_OBJECT
 
 public: 
-	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent = NULL, const char *name = NULL);
+	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent);
 	~FileBrowserWidget();
 
 	KUrl currentUrl() const;
 
 public Q_SLOTS:
 	void setDir(const KUrl& url);
-	void readConfig();
 	void writeConfig();
 
 private Q_SLOTS:
 	void comboBoxReturnPressed(const QString& u);
 	void dirUrlEntered(const KUrl& u);
-
 	void emitFileSelectedSignal();
 
 protected:
+	void readConfig();
 	void focusInEvent(QFocusEvent*);
 
 Q_SIGNALS:
@@ -65,6 +66,8 @@ private:
 	KUrlComboBox	*m_pathComboBox;
 	KDirOperator	*m_dirOperator;
 	KUrlCompletion	*m_urlCompletion;
+	KConfig		*m_config;
+	KConfigGroup 	m_configGroup;
 };
 
 }

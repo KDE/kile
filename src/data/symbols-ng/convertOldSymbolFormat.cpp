@@ -16,6 +16,7 @@
 #include "convertOldSymbolFormat.h"
 
 using std::cout;
+using std::cerr;
 using std::endl;
 
 int main( int argc, char ** argv )
@@ -46,7 +47,7 @@ int main( int argc, char ** argv )
 
 	QFile file(texfile);
 	if (  !file.open( QIODevice::ReadOnly ) ) {                                                                                         
-	 cout << "File " << qPrintable(texfile) << " is not readable" << endl;                                                       
+	 cerr << "File " << qPrintable(texfile) << " is not readable" << endl;                                                       
 	 return 1;
 	}
 
@@ -109,13 +110,15 @@ int main( int argc, char ** argv )
 	
 
 	 QString packageString = QString("{%1}").arg(pkgs);
+	 mathMode = false;
+
 	 if(!pkgsarg.isEmpty()){
 	    packageString.prepend(QString("[%1]").arg(pkgsarg));
 	 }
 
 	 if(line.indexOf(optarg) != -1) {
 	    cout << "<!-- optarg " << qPrintable(optarg.cap(1) + " " + optarg.cap(2) + " " + optarg.cap(3) + " -->") << endl;
-	    if(arg.cap(1) == QString("math") ){
+	    if(optarg.cap(1) == QString("math") ){
 	       mathMode = true;
 	    }
 	    extractPackageString(packageString,PackagesList);
@@ -137,11 +140,11 @@ int main( int argc, char ** argv )
 
 void usage()
 {
-	cout << "Usage:\n";
-	cout << "convertOldSymbolFormat <latex-file> <greadyOptArg>\n";
-	cout << "latex-file, a file which can be compiled with LaTeX, has to end with .tex\n";
-	cout << "greedyOptArg, can be true or false, defaults to true\n";
-	cout << "Setting it to true will match as much of the square brackets from \\command[.*], setting it to false to as few as possible.\n";
+	cerr << "Usage:\n";
+	cerr << "convertOldSymbolFormat <latex-file> <greadyOptArg>\n";
+	cerr << "latex-file, a file which can be compiled with LaTeX, has to end with .tex\n";
+	cerr << "greedyOptArg, can be true or false, defaults to true\n";
+	cerr << "Setting it to true will match as much of the square brackets from \\command[.*], setting it to false to as few as possible.\n";
 	exit(1);
 }
 
@@ -161,6 +164,7 @@ void outputXML(const QString latexCommand, const QString imageCommand, QList< Pa
    if(mathMode){
       output += "   <mathMode>true</mathMode>\n";
    }
+
    foreach(pkg, packages){
       if(pkg.name.isEmpty()){
 	 continue;

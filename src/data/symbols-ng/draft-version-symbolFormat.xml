@@ -45,7 +45,7 @@
 	     the command is being placed inside \ensuremath{}-->
 	<commandDefinition>
 		<latexCommand>\neq</latexCommand>
-		<mathMode>true</mathMode> <!--Should the commands be surroundded by $..$ for image generation?-->
+		<mathMode>true</mathMode>
 	</commandDefinition>
 	
 	<!-- example including all optional tags:
@@ -53,7 +53,8 @@
 		<imageCommand>	Use this latex command for generating the image instead of <latexCommand>
 		<comment>	UTF-8 string which describes the command and/or gives user hints
 		<package>	Define the packages which are needed for <imageCommand> to work,
-				The tag <arguments> may be empty. The number of <packages> is not limited.
+				The tag <arguments> may be empty. The number of <packages> is not limited. The order
+				of the package inclusion is given here.
 	-->
 	<commandDefinition>
 		<latexCommand>\neq</latexCommand>

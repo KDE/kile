@@ -130,7 +130,8 @@ QString generatePNG(QString latexFile, int index, QString symbolGroupName) {
    }
 
    QString texcommand=QString("latex %1").arg(texfile);
-   QString dvipngcommand=QString("dvipng  --strict --picky --freetype -bg Transparent -x 518 -O -1.2in,-1.2in -T bbox -D 300 -o %1 %2.dvi").arg(pngfile).arg(texfileWithoutSuffix);
+   QString dvipngcommand=QString("dvipng  --strict --picky --freetype -x 1440 -bg Transparent -O -1.2in,-1.2in -T bbox -z 6 -o %1 %2.dvi").arg(pngfile).arg(texfileWithoutSuffix);
+
    qDebug() << texcommand;
    qDebug() << dvipngcommand;
  
@@ -329,7 +330,7 @@ int main(int argc, char** argv)
     for(int i=0; i < commands.count();i++) {
        content = generateLatexFile(preamble,commands[i]);
        qDebug() << content;
-       pngfile = generatePNG(content,i,symbolGroupName);
+       pngfile = generatePNG(content,i+1,symbolGroupName);
        writeImageComments(commands[i],pngfile);
        readImageComments(pngfile);
     }

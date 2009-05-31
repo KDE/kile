@@ -9,7 +9,7 @@
 
    <preamble>
       <class>article</class>
-      <arguments>10pt</arguments>
+      <arguments>12pt</arguments>
       <additional>\pagestyle{empty}
 		  \setlength{\parindent}{0cm}
 		  \usepackage[T1]{fontenc}

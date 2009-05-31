@@ -305,8 +305,7 @@ namespace KileTool {
 		QString cmd = tool()->readEntry("command");
 		QString noclose = (tool()->readEntry("close") == "no") ? "--noclose" : "";
 		setCommand("konsole");
-		setOptions(noclose + " -T \"" + cmd + " (Kile)\" -e " + cmd + ' ' + tool()->readEntry("options"));
-
+		setOptions(noclose + " -e " + cmd + ' ' + tool()->readEntry("options"));
 		if(KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)).isEmpty()) {
 			return false;
 		}

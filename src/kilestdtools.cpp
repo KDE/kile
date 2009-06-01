@@ -131,7 +131,7 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			if(manager()->info()->allBibliographies()->count() > 0) {
+			if(manager()->info()->allBibliographies().count() > 0) {
 				return needsUpdate ( baseDir() + '/' + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
 			}
 		}
@@ -143,8 +143,8 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			const QStringList *pckgs = manager()->info()->allPackages();
-			if(pckgs->contains("makeidx")) {
+			QStringList pckgs = manager()->info()->allPackages();
+			if(pckgs.contains("makeidx")) {
 				return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
 			}
 		}
@@ -156,8 +156,8 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			const QStringList *pckgs = manager()->info()->allPackages();
-			if(pckgs->contains("asymptote")) {
+			QStringList pckgs = manager()->info()->allPackages();
+			if(pckgs.contains("asymptote")) {
 				static QRegExp msg("File " + QRegExp::escape(S()) + "_?\\d+_?.(?:eps|pdf|tex) does not exist");
 				int sz =  manager()->info()->outputInfo()->size();
 				for(int i = 0; i < sz; ++i) {
@@ -353,16 +353,16 @@ namespace KileTool
 		QFileInfo info(path);
 
 		//get the bibliographies for this source
-		const QStringList *bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
-		KILE_DEBUG() << "\tfound " << bibs->count() << " bibs";
-		if(bibs->count() > 0) {
-			QString bib = bibs->front();
-			if (bibs->count() > 1) {
+		QStringList bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
+		KILE_DEBUG() << "\tfound " << bibs.count() << " bibs";
+		if(bibs.count() > 0) {
+			QString bib = bibs.front();
+			if (bibs.count() > 1) {
 				//show dialog
 				bool bib_selected = false;
-				KileListSelector *dlg = new KileListSelector(*bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
+				KileListSelector *dlg = new KileListSelector(bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
 				if (dlg->exec()) {
-					bib = (*bibs)[dlg->currentItem()];
+					bib = bibs[dlg->currentItem()];
 					bib_selected = true;
 					KILE_DEBUG() << "Bibliography selected : " << bib;
 				}

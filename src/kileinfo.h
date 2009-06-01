@@ -80,8 +80,8 @@ public:
 
 public:
 	enum {bibinputs = 0,bstinputs, texinputs};
-	QString getName(KTextEditor::Document *doc = 0, bool shrt = false);
-	QString getShortName(KTextEditor::Document *doc = 0) { return getName(doc, true); }
+	QString getName(KTextEditor::Document *doc = NULL, bool shrt = false);
+	QString getShortName(KTextEditor::Document *doc = NULL) { return getName(doc, true); }
 	QString getCompileName(bool shrt = false);
 	QString getFullFromPrettyName(const QString & name);
 	KUrl::List getParentsFor(KileDocument::Info *);
@@ -95,14 +95,14 @@ public:
 	QString getSelection() const;
 	void clearSelection() const;
 
-	virtual const QStringList* allLabels(KileDocument::Info * info = 0L);
-	virtual const QStringList* allBibItems(KileDocument::Info * info = 0L);
-	virtual const QStringList* allBibliographies(KileDocument::Info * info = 0L);
-	virtual const QStringList* allDependencies(KileDocument::Info * info = 0L);
-	virtual const QStringList* allNewCommands(KileDocument::Info * info = 0L);
-	virtual const QStringList* allPackages(KileDocument::Info * info = 0L);
+	virtual QStringList allLabels(KileDocument::Info *info = NULL);
+	virtual QStringList allBibItems(KileDocument::Info *info = NULL);
+	virtual QStringList allBibliographies(KileDocument::Info *info = NULL);
+	virtual QStringList allDependencies(KileDocument::Info *info = NULL);
+	virtual QStringList allNewCommands(KileDocument::Info *info = NULL);
+	virtual QStringList allPackages(KileDocument::Info *info = NULL);
 
-	QString lastModifiedFile(KileDocument::Info * info = 0L);
+	QString lastModifiedFile(KileDocument::Info * info = NULL);
 
 	static QString documentTypeToString(KileDocument::Type type);
 
@@ -117,8 +117,7 @@ protected:
 	virtual bool queryClose() = 0;
 
 private:
-	const QStringList* retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo = 0L);
-	QStringList m_listTemp;
+	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::Info *docinfo = NULL);
 
 public:
 	bool similarOrEqualURL(const KUrl &validurl, const KUrl &testurl);

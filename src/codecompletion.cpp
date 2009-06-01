@@ -144,10 +144,10 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 		int referenceIndex = leftSubstring.indexOf(m_codeCompletionManager->m_referencesRegExp);
 		if(referenceIndex != -1) {
 			//FIXME: the retrieval of labels and BibTeX entries has to be revised!
-			m_completionList = *m_codeCompletionManager->m_ki->allLabels();
+			m_completionList = m_codeCompletionManager->m_ki->allLabels();
 		}
 		else if(citationIndex != -1) {
-			m_completionList = *m_codeCompletionManager->m_ki->allBibItems();
+			m_completionList = m_codeCompletionManager->m_ki->allBibItems();
 		}
 	}
 	filterModel(completionString);
@@ -723,7 +723,7 @@ QStringList Manager::getLocallyDefinedLaTeXCommands(KTextEditor::View *view) con
 	if(!textInfo) {
 		return QStringList();
 	}
-	return *(m_ki->allNewCommands(textInfo));
+	return m_ki->allNewCommands(textInfo);
 }
 
 void Manager::readConfig(KConfig *config)

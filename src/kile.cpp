@@ -2011,12 +2011,12 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
 	KileDocument::Info *docinfo = docManager()->textInfoFor(getCompileName());
 	if(docinfo) {
-		const QStringList *packagelist = allPackages(docinfo);
+		QStringList packagelist = allPackages(docinfo);
 		QStringList::const_iterator it;
 		QStringList warnPkgs;
 		
 		for ( it = pkgs.begin(); it != pkgs.end(); ++it) {
-			if(!(*packagelist).contains(*it)) {
+			if(!packagelist.contains(*it)) {
 				warnPkgs.append(*it);
 			}
 		}

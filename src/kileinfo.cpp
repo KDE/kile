@@ -208,13 +208,11 @@ KUrl::List KileInfo::getParentsFor(KileDocument::Info *info)
 	return list;
 }
 
-#ifdef __GNUC__
-#warning Check why this function pointer is needed!
-#endif
-const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info::*getit)() const, KileDocument::Info * docinfo /* = 0L */)
+QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::Info *docinfo)
 {
-	m_listTemp.clear();
-	if (docinfo == 0L) docinfo = docManager()->getInfo();
+	if(!docinfo) {
+		docinfo = docManager()->getInfo();
+	}
 	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
 
 	KILE_DEBUG() << "Kile::retrieveList()";
@@ -228,85 +226,68 @@ const QStringList* KileInfo::retrieveList(const QStringList* (KileDocument::Info
 			children.append(root);
 			root->allChildren(&children);
 
-			const QStringList *list;
-
+			QStringList toReturn;
 			for(QList<KileProjectItem*>::iterator it = children.begin(); it != children.end(); ++it) {
 				KILE_DEBUG() << "\t" << (*it)->url().fileName();
 
-				list = ((*it)->getInfo()->*getit)();
-				if (list) {
-					for(int i = 0; i < list->count(); ++i) {
-						m_listTemp << (*list)[i];
-					}
-				}
+				toReturn << ((*it)->getInfo()->*getit)();
 			}
-
-			return &m_listTemp;
+			return toReturn;
 		}
-		else
-			return &m_listTemp;
+		else {
+			return QStringList();
+		}
 	}
-	else	if (docinfo)
-	{
-		m_listTemp = *((docinfo->*getit)());
-		return &m_listTemp;
+	else if (docinfo) {
+		return (docinfo->*getit)();
 	}
-	else
-		return &m_listTemp;
+	else {
+		return QStringList();
+	}
 }
 
-const QStringList* KileInfo::allLabels(KileDocument::Info * info)
+QStringList KileInfo::allLabels(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::allLabels()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::labels;
-	const QStringList* list = retrieveList(p, info);
-	return list;
+	return retrieveList(&KileDocument::Info::labels, info);
 }
 
-const QStringList* KileInfo::allBibItems(KileDocument::Info * info)
+QStringList KileInfo::allBibItems(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::allBibItems()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibItems;
-	const QStringList* list = retrieveList(p, info);
-	return list;
+	return retrieveList(&KileDocument::Info::bibItems, info);
 }
 
-const QStringList* KileInfo::allBibliographies(KileDocument::Info * info)
+QStringList KileInfo::allBibliographies(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::bibliographies()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::bibliographies;
-	const QStringList* list = retrieveList(p, info);
-	return list;
+	return retrieveList(&KileDocument::Info::bibliographies, info);
 }
 
-const QStringList* KileInfo::allDependencies(KileDocument::Info * info)
+QStringList KileInfo::allDependencies(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::dependencies()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::dependencies;
-	const QStringList* list = retrieveList(p, info);
-	return list;
+	return retrieveList(&KileDocument::Info::dependencies, info);
 }
 
-const QStringList* KileInfo::allNewCommands(KileDocument::Info * info)
+QStringList KileInfo::allNewCommands(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::newCommands()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::newCommands;
-	const QStringList* list = retrieveList(p, info);
-	return list;
+	return retrieveList(&KileDocument::Info::newCommands, info);
 }
 
-const QStringList* KileInfo::allPackages(KileDocument::Info * info)
+QStringList KileInfo::allPackages(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::allPackages()" << endl;
-	const QStringList* (KileDocument::Info::*p)() const=&KileDocument::Info::packages;
-	const QStringList* list = retrieveList(p, info);
-	return list;
+	return retrieveList(&KileDocument::Info::packages, info);
 }
 
-QString KileInfo::lastModifiedFile(KileDocument::Info * info)
+QString KileInfo::lastModifiedFile(KileDocument::Info *info)
 {
-	if (info == 0) info = docManager()->getInfo();
-	const QStringList *list = allDependencies(info);
+	if(!info) {
+		info = docManager()->getInfo();
+	}
+	QStringList list = allDependencies(info);
 	return info->lastModifiedFile(list);
 }
 

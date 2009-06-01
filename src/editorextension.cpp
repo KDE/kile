@@ -2779,8 +2779,8 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 
 	// Check dependency 
 	if (!dep.isEmpty()) { 
-		const QStringList *packagelist = m_ki->allPackages();
-		if(!packagelist->contains(dep)) {
+		QStringList packagelist = m_ki->allPackages();
+		if(!packagelist.contains(dep)) {
 			m_ki->logWidget()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
 			KILE_DEBUG() << "Need package "<< dep;
 		}

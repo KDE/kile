@@ -517,7 +517,7 @@ void KileProject::buildProjectTree()
 
 	//determine the parent doc for each item (TODO:an item can only have one parent, not necessarily true for LaTeX docs)
 
-	const QStringList *deps;
+	QStringList deps;
 	QString dep;
 	KileProjectItem *itm;
 	KUrl url;
@@ -534,17 +534,20 @@ void KileProject::buildProjectTree()
 
 		if((*it)->getInfo()) {
 			deps = (*it)->getInfo()->dependencies();
-			for(int i = 0; i < deps->count(); ++i) {
-				dep = (*deps)[i];
+			for(int i = 0; i < deps.count(); ++i) {
+				dep = deps[i];
 
-				if( m_extmanager->isTexFile(dep) )
+				if(m_extmanager->isTexFile(dep)) {
 					url = KileInfo::checkOtherPaths(m_baseurl,dep,KileInfo::texinputs);
-				else if( m_extmanager->isBibFile(dep) )
+				}
+				else if(m_extmanager->isBibFile(dep)) {
 					url = KileInfo::checkOtherPaths(m_baseurl,dep,KileInfo::bibinputs);
-				
+				}
+
 				itm = item(url);
-				if (itm && (itm->parent() == 0))
+				if(itm && (itm->parent() == 0)) {
 					itm->setParent(*it);
+				}
 			}
 		}
 	}

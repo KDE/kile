@@ -222,8 +222,8 @@ QString IncludeGraphics::getTemplate()
 		// Sending a warning to the log here would be good, but
 		// the log seems to get cleared before user could catch 
 		// the warning.
-		const QStringList *packagelist = m_ki->allPackages();
-		if (!packagelist->contains("wrapfig")) {
+		QStringList packagelist = m_ki->allPackages();
+		if (!packagelist.contains("wrapfig")) {
 			s += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
 			s += "%%% You will need to add \\usepackage{wrapfig} to your preamble to use textwrapping %%%\n";
 			s += "%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%\n";
@@ -590,8 +590,8 @@ void IncludeGraphics::slotWrapFigureSelected(bool state) {
 		m_widget.cb_figure->setChecked(false);
 	}
 	// Adds warning to log if wrapfig isn't in the preamble
-	const QStringList *packagelist = m_ki->allPackages();
-	if (!packagelist->contains("wrapfig")) {
+	QStringList packagelist = m_ki->allPackages();
+	if (!packagelist.contains("wrapfig")) {
 		m_ki->logWidget()->printMessage(KileTool::Error, i18n("You must include the wrapfig package to use the text wrapping options"), i18n("Missing Package"));
 	}
 }

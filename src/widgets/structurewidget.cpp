@@ -563,10 +563,10 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		// read list with all labels
-		const QStringList *list = ki->allLabels();
-		//KILE_DEBUG() << "\tfound " << list->count() << " labels";
+		QStringList list = ki->allLabels();
+		//KILE_DEBUG() << "\tfound " << list.count() << " labels";
 		QMap<QString,bool> labelmap;
-		for (QStringList::const_iterator itmap = list->begin(); itmap != list->end(); ++itmap) {
+		for (QStringList::const_iterator itmap = list.begin(); itmap != list.end(); ++itmap) {
 			labelmap[(*itmap)] = true;
 		}
 

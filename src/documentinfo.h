@@ -120,14 +120,14 @@ public:
 	Info();
 	~Info();
 
-	const QStringList* labels() const{ return &m_labels; }
-	const QStringList* bibItems() const { return &m_bibItems; }
-	const QStringList* dependencies() const {return &m_deps; }
-	const QStringList* bibliographies() const { return &m_bibliography; }
-	const QStringList* packages() const { return &m_packages; }
-	const QStringList* newCommands() const { return &m_newCommands; }
+	QStringList labels() const{ return m_labels; }
+	QStringList bibItems() const { return m_bibItems; }
+	QStringList dependencies() const {return m_deps; }
+	QStringList bibliographies() const { return m_bibliography; }
+	QStringList packages() const { return m_packages; }
+	QStringList newCommands() const { return m_newCommands; }
 
-	QString lastModifiedFile(const QStringList *list = 0L);
+	QString lastModifiedFile(const QStringList& list);
 
 	bool openStructureLabels() { return m_openStructureLabels; }
 	bool openStructureReferences() { return m_openStructureReferences; }

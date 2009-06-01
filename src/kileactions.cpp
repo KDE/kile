@@ -247,20 +247,20 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 			gbox->addWidget(input, 1, 0, 1, 3);
 		}
 
-		const QStringList *list;
+		QStringList list;
 
 		if(options & KileAction::FromLabelList) {
 			list = ki->allLabels();
-			if(list && list->size() > 0) {
-				input->addItems(*list);
-				m_tag = list->first();
+			if(list.size() > 0) {
+				input->addItems(list);
+				m_tag = list.first();
 			}
 		}
 		else if(options & KileAction::FromBibItemList) {
 			list = ki->allBibItems();
-			if(list && list->size() > 0) {
-				input->addItems(*list);
-				m_tag = list->first();
+			if(list.size() > 0) {
+				input->addItems(list);
+				m_tag = list.first();
 			}
 		}
 		else {

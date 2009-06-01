@@ -349,20 +349,16 @@ void Info::count(const QString& line, long *stat)
 	}
 }
 
-QString Info::lastModifiedFile(const QStringList *list /* = NULL */)
+QString Info::lastModifiedFile(const QStringList& list)
 {
 	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====";
 	QFileInfo fileinfo(url().toLocalFile());
 	QString basepath = fileinfo.absolutePath(), last = fileinfo.absoluteFilePath();
 	QDateTime time(fileinfo.lastModified());
 
-	if(!list) {
-		list = &m_deps;
-	}
-
 	KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << time.toString();
-	for(int i = 0; i < list->count(); ++i) {
-		fileinfo.setFile( basepath + '/' + (*list)[i] );
+	for(int i = 0; i < list.count(); ++i) {
+		fileinfo.setFile(basepath + '/' + list[i]);
 		KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << fileinfo.lastModified().toString();
 		if(fileinfo.lastModified() >  time) {
 			time = fileinfo.lastModified();

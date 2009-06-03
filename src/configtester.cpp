@@ -164,6 +164,11 @@ Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 #else
 	ConfigTest::addFailureMessage("acroread", i18n("You cannot open pdf documents with Adobe Reader, but you could use Okular."));
 #endif 
+
+	ConfigTest::addPrettyName("okular", i18n("ForwardDVI"));
+	ConfigTest::addSuccessMessage("okular", i18n("Supported."));
+	ConfigTest::addFailureMessage("okular", i18n("The Okular version is too old for ForwardDVI, you must use a version higher than 0.8.5"));
+
 }
 
 
@@ -289,6 +294,8 @@ void Tester::processTool(KConfig *config, const QString &tool)
 		tests << ConfigTest("src", criticaltests.contains("src"), group.readEntry("src"));
 	if (group.hasKey("kile") )
 		tests << ConfigTest("kile", criticaltests.contains("kile"), group.readEntry("kile"));
+	if (group.hasKey("okular") )
+		tests << ConfigTest("okular", criticaltests.contains("okular"), group.readEntry("okular"));
 
 	addResult(tool, tests);
 }

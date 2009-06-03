@@ -70,6 +70,33 @@ function getTeXVersion
 	($* -v || $* -version || $* --version) | grep '^TeX' | sed 's/TeX\s*\(.*\)\s*([^\s]*)/\1/'
 }
 
+function getOkularVersion
+{
+	($* -v || $* -version || $* --version) | grep '^Okular' | cut -f 2 -d " "
+}
+
+function isTheOkularVersionRecentEnough
+{
+#	version="0.8.5"
+	version=`getOkularVersion okular`
+	majorVersion=`echo $version | cut -f 1 -d "."`
+	minorVersion=`echo $version | cut -f 2 -d "."`
+	veryMinorVersion=`echo $version | cut -f 3 -d "."`
+
+	# see http://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
+	# the required okular version is > 0.8.5
+
+	if [[ "$minorVersion" -lt 8 ]]; then
+	  return 1
+	fi
+	if [[ "$veryMinorVersion" -le 5 ]]; then
+	  return 1
+	fi
+
+	return 0
+
+}
+
 cd $basedir
 echo "current dir $PWD"
 
@@ -179,6 +206,8 @@ echo "starting test: Okular"
 setTool Okular
 setKey mustpass "where"
 setKey executable okular
+setKey version `getOkularVersion okular`
+performTest okular "isTheOkularVersionRecentEnough"
 setKey where `which okular`
 
 echo "starting test: Acroread"

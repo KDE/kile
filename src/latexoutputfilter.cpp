@@ -203,6 +203,10 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 		if(expectFileName && (isLastChar || nextIsTerminator)) {
 			KILE_DEBUG() << "Update the partial filename " << strPartialFileName << endl;
 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
+			
+			if(strPartialFileName.isEmpty()){ // nothing left to do here
+			  continue;
+			}
 
 			//FIXME: improve these heuristics
 			if((isLastChar && (i < 78)) || nextIsTerminator || fileExists(strPartialFileName)) {
@@ -247,7 +251,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 			//If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
 			//a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
 			//from the stack too soon.
-			if(!m_stackFile.top().reliable()) {
+			if(m_stackFile.count() > 1 && !m_stackFile.top().reliable()) {
 				m_stackFile.pop();
 			}
 			else {
@@ -263,7 +267,7 @@ void LatexOutputFilter::flushCurrentItem()
 	//KILE_DEBUG() << "==LatexOutputFilter::flushCurrentItem()================" << endl;
 	int nItemType = m_currentItem.type();
 
-	while((!fileExists(m_stackFile.top().file())) && (m_stackFile.count() > 1)) {
+	while( m_stackFile.count() > 0 && !fileExists(m_stackFile.top().file()) ) {
 		m_stackFile.pop();
 	}
 

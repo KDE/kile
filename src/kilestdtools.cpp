@@ -22,6 +22,7 @@
 #include <KConfig>
 #include <KLocale>
 #include <KStandardDirs>
+#include <KProcess>
 
 #include "kileconfig.h"
 #include "kiletool.h"
@@ -309,6 +310,50 @@ namespace KileTool
 
 	ForwardDVI::ForwardDVI(const QString& tool, Manager *mngr, bool prepare) : View(tool, mngr, prepare)
 	{
+	}
+
+	bool ForwardDVI::checkPrereqs ()
+	{
+          KProcess okularVersionTester;
+	  bool versionOK = false;
+	  okularVersionTester.setOutputChannelMode(KProcess::MergedChannels);
+	  okularVersionTester.setProgram("okular", QStringList("--version"));
+	  okularVersionTester.start();
+	  
+	  if (!okularVersionTester.waitForFinished()){
+	    KILE_DEBUG() << "could not execute okular: " << okularVersionTester.errorString();
+	    versionOK = false;
+	  }
+	  else{
+	    QString output = okularVersionTester.readAll();
+	    QRegExp regExp = QRegExp("Okular: (\\d+).(\\d+).(\\d+)");
+	    if(output.contains(regExp)){
+     	      int majorVersion = regExp.cap(1).toInt();
+      	      int minorVersion = regExp.cap(2).toInt();
+	      int veryMinorVersion = regExp.cap(3).toInt();
+		      
+	    //  see http://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
+	    // 	the required okular version is > 0.8.5
+	  
+	    if(majorVersion > 0 ){
+	      versionOK = true;
+	    }
+	    else if(majorVersion == 0 && minorVersion > 8 ){
+	      versionOK = true;
+	    }
+	    else if(majorVersion == 0 && minorVersion == 8 && veryMinorVersion > 5){
+	      versionOK = true;
+	    }
+	    else{
+	      sendMessage(Error,i18n("The version %1.%2.%3 of okular is too old for ForwardDVI. Please update okular to version 0.8.6 or higher",majorVersion,minorVersion,veryMinorVersion));
+	      versionOK = false;
+	      }
+	    }
+	    else{// just to be on the safe side, if the output format changed we try to open okular
+	      versionOK = true;
+	    }
+	  }
+	  return versionOK;
 	}
 
 	bool ForwardDVI::determineTarget()

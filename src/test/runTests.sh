@@ -86,15 +86,15 @@ function isTheOkularVersionRecentEnough
 	# see http://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
 	# the required okular version is > 0.8.5
 
-	if [[ "$minorVersion" -lt 8 ]]; then
+	if [[ "$majorVersion" -gt 0 ]]; then
+	  return 0
+	elif [[ "$majorVersion" -eq 0 && "$minorVersion" -gt 8 ]]; then
+	  return 0
+	elif [[ "$majorVersion" -eq 0 && "$minorVersion" -eq 8 && "$veryMinorVersion" -gt 5 ]]; then
+	  return 0
+	else
 	  return 1
 	fi
-	if [[ "$veryMinorVersion" -le 5 ]]; then
-	  return 1
-	fi
-
-	return 0
-
 }
 
 cd $basedir

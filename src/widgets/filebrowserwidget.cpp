@@ -53,6 +53,8 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	m_pathComboBox = new KUrlComboBox(KUrlComboBox::Directories, this);
 	m_pathComboBox->setEditable(true);
 	m_pathComboBox->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
+	m_pathComboBox->setMinimumContentsLength(0);
+	m_pathComboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
 	m_urlCompletion = new KUrlCompletion(KUrlCompletion::DirCompletion);
 	m_pathComboBox->setCompletionObject(m_urlCompletion);
 	layout->addWidget(m_pathComboBox);

@@ -703,13 +703,13 @@ void Kile::setupActions()
 	act = createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
 	m_latexOutputErrorToolBar->addAction(act);
 
-	createAction(i18n("Editor View"), "EditorView", "document-edit", KShortcut(Qt::CTRL + Qt::Key_E), this, SLOT(showEditorWidget()));
+	createAction(i18n("Editor View"), "EditorView", "document-edit", KShortcut("CTRL+E"), this, SLOT(showEditorWidget()));
 	createAction(i18n("Next Document"), "gotoNextDocument", "arrow-right", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
 	createAction(i18n("Previous Document"), "gotoPrevDocument", "arrow-left", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
-	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_M), this, SLOT(focusLog()));
-	createAction(i18n("Focus Output View"), "focus_output", KShortcut(Qt::CTRL + Qt::ALT+ Qt::Key_O), this, SLOT(focusOutput()));
-	createAction(i18n("Focus Konsole View"), "focus_konsole", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_K), this, SLOT(focusKonsole()));
-	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_E), this, SLOT(focusEditor()));
+	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut("CTRL+Alt+M"), this, SLOT(focusLog()));
+	createAction(i18n("Focus Output View"), "focus_output", KShortcut("CTRL+Alt+O"), this, SLOT(focusOutput()));
+	createAction(i18n("Focus Konsole View"), "focus_konsole", KShortcut("CTRL+Alt+K"), this, SLOT(focusKonsole()));
+	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut("CTRL+Alt+F"), this, SLOT(focusEditor()));
 
 	createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
 	createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), "edit_complete_env", "complete2", KShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXEnvironment()));
@@ -719,39 +719,39 @@ void Kile::setupActions()
 	createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Left), m_edit, SLOT(prevBullet()));
 
  // advanced editor (dani)
-	createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", KShortcut("CTRL+Alt+S,E"), m_edit, SLOT(selectEnvInside()));
-	createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", KShortcut("CTRL+Alt+S,F"), m_edit, SLOT(selectEnvOutside()));
-	createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", KShortcut("CTRL+Alt+S,T"), m_edit, SLOT(selectTexgroupInside()));
-	createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", KShortcut("CTRL+Alt+S,U"),m_edit, SLOT(selectTexgroupOutside()));
-	createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", KShortcut("CTRL+Alt+S,M"), m_edit, SLOT(selectMathgroup()));
-	createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", KShortcut("CTRL+Alt+S,P"), m_edit, SLOT(selectParagraph()));
-	createAction(i18n("Line"), "edit_select_line", "selline", KShortcut("CTRL+Alt+S,L"), m_edit, SLOT(selectLine()));
-	createAction(i18n("TeX Word"), "edit_select_word", "selword", KShortcut("CTRL+Alt+S,W"), m_edit, SLOT(selectWord()));
+	createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", KShortcut("CTRL+Alt+S, E"), m_edit, SLOT(selectEnvInside()));
+	createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", KShortcut("CTRL+Alt+S, F"), m_edit, SLOT(selectEnvOutside()));
+	createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", KShortcut("CTRL+Alt+S, T"), m_edit, SLOT(selectTexgroupInside()));
+	createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", KShortcut("CTRL+Alt+S, U"),m_edit, SLOT(selectTexgroupOutside()));
+	createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", KShortcut("CTRL+Alt+S, M"), m_edit, SLOT(selectMathgroup()));
+	createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", KShortcut("CTRL+Alt+S, P"), m_edit, SLOT(selectParagraph()));
+	createAction(i18n("Line"), "edit_select_line", "selline", KShortcut("CTRL+Alt+S, L"), m_edit, SLOT(selectLine()));
+	createAction(i18n("TeX Word"), "edit_select_word", "selword", KShortcut("CTRL+Alt+S, W"), m_edit, SLOT(selectWord()));
 
-	createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", KShortcut("CTRL+Alt+T,E"), m_edit, SLOT(deleteEnvInside()));
-	createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", KShortcut("CTRL+Alt+T,F"), m_edit, SLOT(deleteEnvOutside()));
-	createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", KShortcut("CTRL+Alt+T,T"), m_edit, SLOT(deleteTexgroupInside()));
-	createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",KShortcut("CTRL+Alt+T,U"),m_edit, SLOT(deleteTexgroupInside()));
-	createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", KShortcut("CTRL+Alt+T,M"), m_edit, SLOT(deleteMathgroup()));
-	createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", KShortcut("CTRL+Alt+T,P"), m_edit, SLOT(deleteParagraph()));
-	createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", KShortcut("CTRL+Alt+T,I"), m_edit, SLOT(deleteEndOfLine()));
-	createAction(i18n("TeX Word"), "edit_delete_word", "delword", KShortcut("CTRL+Alt+T,W"), m_edit, SLOT(deleteWord()));
+	createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", KShortcut("CTRL+Alt+T, E"), m_edit, SLOT(deleteEnvInside()));
+	createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", KShortcut("CTRL+Alt+T, F"), m_edit, SLOT(deleteEnvOutside()));
+	createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", KShortcut("CTRL+Alt+T, T"), m_edit, SLOT(deleteTexgroupInside()));
+	createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",KShortcut("CTRL+Alt+T, U"),m_edit, SLOT(deleteTexgroupInside()));
+	createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", KShortcut("CTRL+Alt+T, M"), m_edit, SLOT(deleteMathgroup()));
+	createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", KShortcut("CTRL+Alt+T, P"), m_edit, SLOT(deleteParagraph()));
+	createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", KShortcut("CTRL+Alt+T, I"), m_edit, SLOT(deleteEndOfLine()));
+	createAction(i18n("TeX Word"), "edit_delete_word", "delword", KShortcut("CTRL+Alt+T, W"), m_edit, SLOT(deleteWord()));
 
-	createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", KShortcut("CTRL+Alt+E,B"), m_edit, SLOT(gotoBeginEnv()));
-	createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", KShortcut("CTRL+Alt+E,E"), m_edit, SLOT(gotoEndEnv()));
-	createAction(i18n("Match"), "edit_match_env", "matchenv", KShortcut("CTRL+Alt+E,M"), m_edit, SLOT(matchEnv()));
-	createAction(i18n("Close"), "edit_close_env", "closeenv", KShortcut("CTRL+Alt+E,C"), m_edit, SLOT(closeEnv()));
-	createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", KShortcut("CTRL+Alt+E,A"), m_edit, SLOT(closeAllEnv()));
+	createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", KShortcut("CTRL+Alt+E, B"), m_edit, SLOT(gotoBeginEnv()));
+	createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", KShortcut("CTRL+Alt+E, E"), m_edit, SLOT(gotoEndEnv()));
+	createAction(i18n("Match"), "edit_match_env", "matchenv", KShortcut("CTRL+Alt+E, M"), m_edit, SLOT(matchEnv()));
+	createAction(i18n("Close"), "edit_close_env", "closeenv", KShortcut("CTRL+Alt+E, C"), m_edit, SLOT(closeEnv()));
+	createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", KShortcut("CTRL+Alt+E, A"), m_edit, SLOT(closeAllEnv()));
 
-	createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", KShortcut("CTRL+Alt+G,B"), m_edit, SLOT(gotoBeginTexgroup()));
-	createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", KShortcut("CTRL+Alt+G,E"), m_edit, SLOT(gotoEndTexgroup()));
-	createAction(i18n("Match"), "edit_match_group", "matchgroup", KShortcut("CTRL+Alt+G,M"), m_edit, SLOT(matchTexgroup()));
-	createAction(i18n("Close"), "edit_close_group", "closegroup", KShortcut("CTRL+Alt+G,C"), m_edit, SLOT(closeTexgroup()));
+	createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", KShortcut("CTRL+Alt+G, B"), m_edit, SLOT(gotoBeginTexgroup()));
+	createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", KShortcut("CTRL+Alt+G, E"), m_edit, SLOT(gotoEndTexgroup()));
+	createAction(i18n("Match"), "edit_match_group", "matchgroup", KShortcut("CTRL+Alt+G, M"), m_edit, SLOT(matchTexgroup()));
+	createAction(i18n("Close"), "edit_close_group", "closegroup", KShortcut("CTRL+Alt+G, C"), m_edit, SLOT(closeTexgroup()));
 
-	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", KShortcut("CTRL+Alt+P,S"), this, SLOT(quickPreviewSelection()));
-	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",KShortcut("CTRL+Alt+P,E"), this, SLOT(quickPreviewEnvironment()));
-	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P,D"), this, SLOT(quickPreviewSubdocument()));
-	createAction(i18n("Mathgroup"), "quickpreview_math", "applications-education-mathematics", KShortcut("CTRL+Alt+P,M"), this, SLOT(quickPreviewMathgroup()));
+	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", KShortcut("CTRL+Alt+P, S"), this, SLOT(quickPreviewSelection()));
+	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",KShortcut("CTRL+Alt+P, E"), this, SLOT(quickPreviewEnvironment()));
+	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P, D"), this, SLOT(quickPreviewSubdocument()));
+	createAction(i18n("Mathgroup"), "quickpreview_math", "applications-education-mathematics", KShortcut("CTRL+Alt+P, M"), this, SLOT(quickPreviewMathgroup()));
 
 	KileStdActions::setupStdTags(this, this, actionCollection(), m_mainWindow);
 	KileStdActions::setupMathTags(this, actionCollection());
@@ -825,13 +825,13 @@ void Kile::setupActions()
 
 	actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(showTip()));
 
-	createAction(i18n("TeX Guide"), "help_tex_guide", KShortcut("CTRL+Alt+H,G"), m_help, SLOT(helpTexGuide()));
-	createAction(i18n("LaTeX"), "help_latex_index", KShortcut("CTRL+Alt+H,L"), m_help, SLOT(helpLatexIndex()));
-	createAction(i18n("LaTeX Command"), "help_latex_command", KShortcut("CTRL+Alt+H,C"), m_help, SLOT(helpLatexCommand()));
-	createAction(i18n("LaTeX Subject"), "help_latex_subject", KShortcut("CTRL+Alt+H,S"), m_help, SLOT(helpLatexSubject()));
-	createAction(i18n("LaTeX Env"), "help_latex_env", KShortcut("CTRL+Alt+H,E"), m_help, SLOT(helpLatexEnvironment()));
-	createAction(i18n("Context Help"), "help_context", KShortcut("CTRL+Alt+H,K"), m_help, SLOT(helpKeyword()));
-	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H,B"), m_help, SLOT(helpDocBrowser()));
+	createAction(i18n("TeX Guide"), "help_tex_guide", KShortcut("CTRL+Alt+H, G"), m_help, SLOT(helpTexGuide()));
+	createAction(i18n("LaTeX"), "help_latex_index", KShortcut("CTRL+Alt+H, L"), m_help, SLOT(helpLatexIndex()));
+	createAction(i18n("LaTeX Command"), "help_latex_command", KShortcut("CTRL+Alt+H, C"), m_help, SLOT(helpLatexCommand()));
+	createAction(i18n("LaTeX Subject"), "help_latex_subject", KShortcut("CTRL+Alt+H, S"), m_help, SLOT(helpLatexSubject()));
+	createAction(i18n("LaTeX Env"), "help_latex_env", KShortcut("CTRL+Alt+H, E"), m_help, SLOT(helpLatexEnvironment()));
+	createAction(i18n("Context Help"), "help_context", KShortcut("CTRL+Alt+H, K"), m_help, SLOT(helpKeyword()));
+	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H, B"), m_help, SLOT(helpDocBrowser()));
 
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-contents", this, SLOT(helpLaTex()));
 	actionCollection()->addAction(KStandardAction::HelpContents, "help_handbook", help_menu, SLOT(appHelpActivated()));

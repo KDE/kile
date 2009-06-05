@@ -36,7 +36,7 @@
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 #include <KMenu>
-
+#include <KAcceleratorManager>
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"
 #include "kileconstants.h"
@@ -100,6 +100,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
 	connect(m_emptyDropWidget, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
 	m_tabs = new KTabWidget(parent);
+	KAcceleratorManager::setNoAccel(m_tabs);
 	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(Qt::ClickFocus);
 	m_tabs->setTabReorderingEnabled(true);
@@ -145,7 +146,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	}
 
 	//insert the view in the tab widget
-	m_tabs->insertTab(index, view, m_ki->getShortName(doc));
+	m_tabs->insertTab(index, view, QString());
 	m_tabs->setTabToolTip(m_tabs->indexOf(view), doc->url().pathOrUrl());
 	
 	m_tabs->setCurrentIndex(m_tabs->indexOf(view));

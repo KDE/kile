@@ -74,7 +74,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		ProcessLauncher(const QString& shellCommand = QString());
+		ProcessLauncher();
 		~ProcessLauncher();
 
 	public:
@@ -105,7 +105,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		KonsoleLauncher(const QString& shellCommand = QString());
+		KonsoleLauncher();
 
 	public Q_SLOTS:
 		bool launch();

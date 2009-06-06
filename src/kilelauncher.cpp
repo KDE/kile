@@ -57,7 +57,7 @@ namespace KileTool {
 		KILE_DEBUG() << "DELETING launcher";
 	}
 
-	ProcessLauncher::ProcessLauncher(const QString& shellCommand) :
+	ProcessLauncher::ProcessLauncher() :
 		m_texinputs(KileConfig::teXPaths()),
 		m_bibinputs(KileConfig::bibInputPaths()),
  		m_bstinputs(KileConfig::bstInputPaths()),
@@ -66,18 +66,9 @@ namespace KileTool {
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::ProcessLauncher()==============";
 
 		m_proc = new KProcess(this);
-		if(m_proc) {
-			KILE_DEBUG() << "\tKProcess created";
-		}
-		else {
-			KILE_DEBUG() << "\tNo KProcess created";
-		}
 
 		m_proc->setOutputChannelMode(KProcess::MergedChannels);
 		m_proc->setReadChannel(QProcess::StandardOutput);
-		if(!shellCommand.isEmpty()) {
-			m_proc->setShellCommand(shellCommand);
-		}
 
 		connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
 		connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
@@ -111,25 +102,31 @@ namespace KileTool {
 
 	bool ProcessLauncher::launch()
 	{
-		KILE_DEBUG() << "KileTool::ProcessLauncher::launch()=================";
-		KILE_DEBUG() << "\tbelongs to tool " << tool()->name();
+		if(tool() == NULL){
+		  kdWarning() << "tool() is NULL which is a BUG";
+		  return false;
+		}
+		if(m_proc == NULL){
+		  kdWarning() << "m_proc is NULL which is a BUG";
+		  return false;
+		}
 
-		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
-
+		QString msg;
+		QString out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
 		if(m_cmd.isEmpty()) {
 			m_cmd = tool()->readEntry("command");
-			KILE_DEBUG() << "\treadEntry('command'): " << m_cmd;
+			KILE_DEBUG() << "readEntry('command'): " << m_cmd;
 		}
 
 		if(m_options.isEmpty()) {
 			m_options = tool()->readEntry("options");
-			KILE_DEBUG() << "\treadEntry('option'):" << m_options;
+			KILE_DEBUG() << "readEntry('option'):" << m_options;
 		}
 
 		if(m_changeTo && (!m_wd.isEmpty())) {
 			m_proc->setWorkingDirectory(m_wd);
-			KILE_DEBUG() << "\tchanged to " << m_wd;
+			KILE_DEBUG() << "changed to " << m_wd;
 			out += QString("*****     cd \"") + m_wd + QString("\"\n");
 		}
 
@@ -137,68 +134,64 @@ namespace KileTool {
 		tool()->translate(m_cmd);
 		tool()->translate(m_options);
 
-		KILE_DEBUG() << "\t after translate: m_cmd=" << m_cmd << ", m_options=" << m_options;
+		KILE_DEBUG() << "after translate: m_cmd=" << m_cmd << ", m_options=" << m_options;
 
 		if(m_cmd.isEmpty()) {
 			return false;
 		}
-		*m_proc << m_cmd << KShell::splitArgs(m_options, KShell::AbortOnMeta);
 
-		KILE_DEBUG() << "\t sent " << m_cmd << KShell::splitArgs(m_options, KShell::AbortOnMeta) << " to m_proc";
+		m_proc->setShellCommand(m_cmd + ' ' + m_options );
 
-		if (m_proc) {
-			out += QString("*****     ") + m_cmd+ ' ' + m_options + '\n';
+		KILE_DEBUG() << "sent " << m_cmd << ' ' << m_options;
 
-			QString src = tool()->source(false);
-			QString trgt = tool()->target();
-			if(src == trgt) {
-				msg = src;
-			}
-			else {
-				msg = src + " => " + trgt;
-			}
+		out += QString("*****     ") + m_cmd + ' ' + m_options + '\n';
 
-			msg += " (" + m_cmd + ')';
-			 
-			emit(message(Info, msg));
-
-			// QuickView tools need a special TEXINPUTS environment variable
-			if(tool()->isQuickie()) {
-				m_texinputs = KileConfig::previewTeXPaths();
-			}
-
-			KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-			KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS");
-			KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS");
-			KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS");
-			KILE_DEBUG() << "Tool name is "<< tool()->name();
-
-			m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
-
-			if(!m_texinputs.isEmpty()) {
-				m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
-			}
-			if(!m_bibinputs.isEmpty()) {
-				m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
-			}
-			if(!m_bstinputs.isEmpty()) {
-				m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
-			}
-
-			out += "*****\n";
-			emit(output(out));
-
-			if(tool()->manager()->shouldBlock()) {
-				KILE_DEBUG() << "About to execute: " << m_proc->program();
-				m_proc->execute();
-			}
-			else {
-				KILE_DEBUG() << "About to start: " << m_proc->program();
-				m_proc->start();
-			}
+		QString src = tool()->source(false);
+		QString trgt = tool()->target();
+		if(src == trgt) {
+			msg = src;
 		}
 		else {
-			return false;
+			msg = src + " => " + trgt;
+		}
+
+		msg += " (" + m_cmd + ')';
+
+		emit(message(Info, msg));
+
+		// QuickView tools need a special TEXINPUTS environment variable
+		if(tool()->isQuickie()) {
+			m_texinputs = KileConfig::previewTeXPaths();
+		}
+
+		KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
+		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS");
+		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS");
+		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS");
+		KILE_DEBUG() << "Tool name is "<< tool()->name();
+
+		m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
+
+		if(!m_texinputs.isEmpty()) {
+			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
+		}
+		if(!m_bibinputs.isEmpty()) {
+			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
+		}
+		if(!m_bstinputs.isEmpty()) {
+			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
+		}
+
+		out += "*****\n";
+		emit(output(out));
+
+		if(tool()->manager()->shouldBlock()) {
+			KILE_DEBUG() << "About to execute: " << m_proc->program();
+			m_proc->execute();
+		}
+		else {
+			KILE_DEBUG() << "About to start: " << m_proc->program();
+			m_proc->start();
 		}
 		return true;
 	}
@@ -296,7 +289,7 @@ namespace KileTool {
 		emit(done(AbnormalExit));
 	}
 
-	KonsoleLauncher::KonsoleLauncher(const QString& shellCommand) : ProcessLauncher(shellCommand)
+	KonsoleLauncher::KonsoleLauncher() : ProcessLauncher()
 	{
 	}
 

@@ -1025,24 +1025,29 @@ void Kile::restoreLastSelectedAction(){
 	list << "Compile" << "Convert" << "View" << "Quick";
 
 	ToolbarSelectAction *pSelectAction = NULL;
+	int defaultAction = 0;
 	
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 	
 	for(QStringList::Iterator it = list.begin(); it != list.end(); ++it) {
 		if ( *it == "Compile" ) {
 			pSelectAction = m_compilerActions;
+			defaultAction = 9; // PDFLatex
 		}
 		else if ( *it == "View" ) {
 			pSelectAction = m_viewActions;
+			defaultAction = 4; // ViewPDF
 		}
 		else if ( *it == "Convert" ) {
 			pSelectAction = m_convertActions;
+			defaultAction = 0;
 		}
 		else if ( *it == "Quick" ) {
 			pSelectAction = m_quickActions;
+			defaultAction = 0;
 		}
 
-		int actIndex = grp.readEntry(*it, 0);
+		int actIndex = grp.readEntry(*it, defaultAction);
 		KILE_DEBUG() << "selecting" << actIndex << "for" << *it;
 		pSelectAction->setCurrentItem(actIndex);
 	}

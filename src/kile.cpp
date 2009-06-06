@@ -124,8 +124,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	m_mainWindow->setStandardToolBarMenuEnabled(true);
 
-	m_masterName = KileConfig::master();
-	m_singlemode = (m_masterName.isEmpty());
+	m_singlemode = true;
 
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
@@ -2298,11 +2297,6 @@ void Kile::saveSettings()
 		for (int i = 0; i < m_listProjectsOpenOnStart.count(); ++i) {
 			configGroup.writePathEntry("ProjectsOpenOnStart"+QString::number(i), m_listProjectsOpenOnStart[i]);
 		}
-
-		if (!m_singlemode)
-			KileConfig::setMaster(m_masterName);
-		else
-			KileConfig::setMaster("");
 	}
 
 	KConfigGroup userGroup = m_config->group("User");
@@ -2383,14 +2377,12 @@ void Kile::toggleMode()
 		if ( KileUntitled::isUntitled(m_masterName) || m_masterName.isEmpty()) {
 			ModeAction->setChecked(false);
 			KMessageBox::error(m_mainWindow, i18n("In order to define the current document as a master document, it has to be saved first."));
-			m_masterName = "";
+			m_masterName.clear();
 			return;
 		}
 
-		QString shortName = m_masterName;
-		int pos;
-		while ( (pos = (int)shortName.indexOf('/')) != -1 )
-			shortName.remove(0,pos+1);
+		QFileInfo fi(m_masterName);
+		QString shortName = fi.fileName();
 
 		ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
 		ModeAction->setChecked(true);

@@ -415,12 +415,6 @@
 			<default>false</default>
 		</entry>
 	</group>
-	<group name="FilesOpenOnStart">
-		<entry name="Master" type="String">
-			<label></label>
-			<default></default>
-		</entry>
-	</group>
 	<group name="QuickPreview">
 		<entry name="previewTask" type="String">
 			<label></label>

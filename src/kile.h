@@ -216,11 +216,11 @@ private:
 
 	void setViewerToolBars();
 
-	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = 0, const char *member = 0);
-	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = 0, const char *member = 0);
+	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = NULL, const char *member = NULL);
+	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = NULL, const char *member = NULL);
+	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = NULL, const char *member = NULL);
+	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
 
 
 private Q_SLOTS:

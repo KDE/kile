@@ -702,7 +702,7 @@ void Kile::setupActions()
 	act = createAction(i18n("Next LaTeX BadBox"), "NextBadBox", "bboxnext", m_errorHandler, SLOT(NextBadBox()));
 	m_latexOutputErrorToolBar->addAction(act);
 
-	createAction(i18n("Editor View"), "EditorView", "document-edit", KShortcut("CTRL+E"), this, SLOT(showEditorWidget()));
+	createAction(i18n("Return to Editor"), "return_to_editor", "document-edit", KShortcut("CTRL+E"), this, SLOT(showEditorWidget()));
 	createAction(i18n("Next Document"), "gotoNextDocument", "arrow-right", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
 	createAction(i18n("Previous Document"), "gotoPrevDocument", "arrow-left", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
 	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut("CTRL+Alt+M"), this, SLOT(focusLog()));
@@ -1646,11 +1646,13 @@ void Kile::updateGUI(const QString &wantState)
 		m_mainWindow->slotStateChanged("HTMLpreview");
 		setViewerToolBars();
 		enableKileGUI(false);
+		actionCollection()->action("return_to_editor")->setVisible(true);
 	}
 	else if(wantState == "Viewer") {
 		m_mainWindow->slotStateChanged("Viewer");
 		setViewerToolBars();
 		enableKileGUI(false);
+		actionCollection()->action("return_to_editor")->setVisible(true);
 	}
 	else {
 		m_mainWindow->slotStateChanged( "Editor" );
@@ -1660,7 +1662,7 @@ void Kile::updateGUI(const QString &wantState)
 		if ( toolsToolBar ) toolBar("toolsToolBar")->show();
 		if ( editToolBar  ) toolBar("editToolBar")->show();
 		if ( mathToolBar  ) toolBar("mathToolBar")->show();
-		toolBar("extraToolBar")->hide();
+		actionCollection()->action("return_to_editor")->setVisible(false);
 		enableKileGUI(true);
 	}
 }
@@ -1671,7 +1673,6 @@ void Kile::setViewerToolBars()
 	toolBar("toolsToolBar")->hide();
 	toolBar("editToolBar")->hide();
 	toolBar("mathToolBar")->hide();
-	toolBar("extraToolBar")->show();
 }
 
 void Kile::enableKileGUI(bool enable)

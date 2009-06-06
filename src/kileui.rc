@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="33">
+<kpartgui name="kile" version="34">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -117,7 +117,7 @@
 </Menu>
 
 <Menu name="view"><text>&amp;View</text>
-<Action name="EditorView"/>
+<Action name="return_to_editor"/>
 <Action name="fullscreen"/>
 <Merge/>
 <Separator/>
@@ -510,6 +510,7 @@
 	<Action name="file_new"/>
 	<Action name="file_open"/>
 	<Action name="file_close"/>
+	<Action name="return_to_editor"/>
 	<Merge/>
 </ToolBar>
 <ToolBar name="toolsToolBar" fullWidth="false" index="2"><text>Tools</text>
@@ -554,11 +555,6 @@
 	<Action name="right_list"/>
 	<Separator lineSeparator="true"/>
 	<Action name="tag_newline"/>
-</ToolBar>
-<ToolBar name="extraToolBar" index="5" noMerge="1"><text>Extra</text>
-	<Merge/>
-	<Separator lineSeparator="true"/>
-	<Action name="EditorView"/>
 </ToolBar>
 <State name="HTMLpreview">
 <Disable>
@@ -825,7 +821,7 @@
 </Disable>
 <Enable>
 	<Action name="file_print"/>
-	<Action name="EditorView"/>
+	<Action name="return_to_editor"/>
 	<Action name="Back"/>
 	<Action name="Forward"/>
 	<Action name="Home"/>
@@ -1101,7 +1097,7 @@
 </Disable>
 <Enable>
 	<Action name="file_print"/>
-	<Action name="EditorView"/>
+	<Action name="return_to_editor"/>
 </Enable>
 </State>
 <State name="Editor">
@@ -1370,7 +1366,7 @@
 	<Action name="EditUserMenu" />
 </Enable>
 <Disable>
-	<Action name="EditorView"/>
+	<Action name="return_to_editor"/>
 </Disable>
 </State>
 <ActionProperties scheme="Default">

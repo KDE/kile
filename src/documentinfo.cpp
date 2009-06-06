@@ -244,7 +244,8 @@ void Info::count(const QString& line, long *stat)
 	int state = stStandard;
 	bool word = false; // we are in a word
 
-	for(int p = 0; p < line.length(); ++p) {
+	int lineLength = line.length();
+	for(int p = 0; p < lineLength; ++p) {
 		c = line[p];
 
 		switch(state) {
@@ -254,7 +255,7 @@ void Info::count(const QString& line, long *stat)
 					++stat[1];
 
 					//look ahead to avoid counting words like K\"ahler as two words
-					if(!line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^') {
+					if( (p+1) < lineLength && ( !line[p+1].isPunct() || line[p+1] == '~' || line[p+1] == '^' )) {
 						word = false;
 					}
 				}

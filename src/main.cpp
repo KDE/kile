@@ -112,7 +112,7 @@ int main( int argc, char ** argv )
 				KLocalizedString(),
 				"http://kile.sourceforge.net");
 	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
-        aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("developer"), "braun@physik.fu-berlin.de");
+        aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("developer"), "thomas.braun@virtuell-zuhause.de");
 	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("former developer"), "holger.danielsson@versanet.de");
 	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("former maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
 	aboutData.addAuthor(ki18n("Brachet Pascal"));

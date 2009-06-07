@@ -1,6 +1,6 @@
 /**************************************************************************************
     Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-              (C) 2006 by Thomas Braun (braun@physik.fu-berlin.de)
+              (C) 2006 by Thomas Braun (thomas.braun@virtuell-zuhause.de)
               (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 

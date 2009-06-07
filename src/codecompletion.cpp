@@ -521,7 +521,7 @@ QString LaTeXCompletionModel::buildRegularCompletedText(const QString &text, int
 QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text, const QString &prefix,
                                                             int &ypos, int &xpos) const
 {
-	static QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}(.*)");
+	static QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}([^\\\\]*)(.*)");
 
 	if(reEnv.indexIn(text) == -1) {
 		return text;
@@ -530,6 +530,7 @@ QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text,
 	QString parameter = stripParameters(reEnv.cap(3));
 	QString start = reEnv.cap(1);
 	QString envname = reEnv.cap(2);
+	QString remainder = reEnv.cap(4);
 	QString whitespace = buildWhiteSpaceString(prefix);
 	QString envIndent = m_editorExtension->autoIndentEnvironment();
 
@@ -540,10 +541,8 @@ QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text,
 		s += envIndent;
 	}
 
-	QString type;
-	bool item = (type == "list");
-	if(item) {
-		s += "\\item ";
+	if(!remainder.isEmpty()) {
+		s += remainder + ' ';
 	}
 
 	if(KileConfig::completeBullets() && !parameter.isEmpty()) {
@@ -556,7 +555,7 @@ QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text,
 
 	if(parameter.isEmpty()) {
 		ypos = 1;
-		xpos = envIndent.length() + ((item) ? 6 : 0);
+		xpos = envIndent.length() + ((!remainder.isEmpty()) ? remainder.length() + 1 : 0);
 	}
 	else {
 		ypos = 0;

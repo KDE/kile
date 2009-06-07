@@ -7,6 +7,7 @@
 #          Sebastian Trueg
 #          Aurelien Gateau
 #          Klas Kalass
+#          Michel Ludwig <michel.ludwig@kdemail.net>
 # License: GPL (http://www.gnu.org/)
 #
 #
@@ -30,7 +31,8 @@
 #            + doc
 #        + de (etc.)
 
-COPYRIGHT="2005 Michael Buesch <mbuesch@freenet.de>
+COPYRIGHT="2009 Michel Ludwig <michel.ludwig@kdemail.net>
+          2005 Michael Buesch <mbuesch@freenet.de>
           2004-2005 Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
           2003-2004 Sebastian Trueg
           2002 Aurelien Gateau
@@ -90,6 +92,12 @@ The following options are available:
                                     kdeextragear-2
                                 Default:
                                     path of --i18n-sub
+
+    -tb|--tag-base <PATH>       Path to the tag base.
+                                Default:
+                                    tags/
+
+    --tag                       Create tag directory.
 
     --admin <PATH>              Path to the /admin/ directory.
                                 Default:
@@ -303,6 +311,25 @@ function setupBuildDir
 }
 
 #
+# Creates and initializes the tag dir, the dir under which the tagging
+# takes place.
+#
+function setupTagDir
+{
+    print "Creating the tag directory..."
+    print "         ($TAGDIR)"
+
+    # clean up first
+    if [ -d $TAGDIR ]; then
+        print "         Removing the old tag directory"
+        rm -rf $TAGDIR
+    fi
+
+    mkdir $TAGDIR
+    runCommand "svn $SVN_CHECKOUT_OPTIONS co -N $SVNROOT/$TAGBASE/$APPNAME $TAGDIR"
+}
+
+#
 # Gather all data in the build dir needed to build
 # the application (without translations).
 #
@@ -322,6 +349,10 @@ function assembleApplicationData
         getResource "source" $APPDIR/src
     else
         getResource "source" $APPDIR
+    fi
+
+    if [ "$CREATE_TAG" = "yes" ]; then
+        runCommand "svn $SVN_CHECKOUT_OPTIONS cp "$SVNROOT/$APPBASE/$APPNAME" "$TAGDIR/$APPVERSION""
     fi
 }
 
@@ -395,6 +426,9 @@ function retrieveDocumentation
     print "         ($DOCDIR)"
 
     getResource "documentation" $DOCDIR
+    if [ "$CREATE_TAG" = "yes" ]; then
+        runCommand "svn $SVN_CHECKOUT_OPTIONS cp $SVNROOT/$APPBASE/doc/$APPNAME $TAGDIR/$APPVERSION/doc"
+    fi
 }
 
 #
@@ -525,6 +559,10 @@ function retrieveGUITranslations
     # determine which languages to get
     getLanguageList
 
+    if [ "$CREATE_TAG" = "yes" ]; then
+        runCommand "svn $SVN_CHECKOUT_OPTIONS mkdir $TAGDIR/$APPVERSION/translations"
+    fi
+
     # then get them (its really simple actually)
     INCLUDED_LANGUAGES=""
     for language in $LANGUAGES
@@ -532,11 +570,21 @@ function retrieveGUITranslations
         print "         Including language $language"
         makeDir $TRANSDIR/$language
         makeDir $TRANSDIR/$language/messages
+
+        if [ "$CREATE_TAG" = "yes" ]; then
+            runCommand "svn $SVN_CHECKOUT_OPTIONS mkdir $TAGDIR/$APPVERSION/translations/$language"
+            runCommand "svn $SVN_CHECKOUT_OPTIONS mkdir $TAGDIR/$APPVERSION/translations/$language/messages"
+        fi
+
         INCLUDE_THIS_LANG="yes"
         for pofile in $APP_POFILES; do
             getResource "guitranslation" $language $TRANSDIR/$language/messages $pofile
             if [ ! -e $BUILDDIR/$TRANSDIR/$language/messages/$pofile.po ]; then
                 INCLUDE_THIS_LANG="no"
+            else
+                if [ "$CREATE_TAG" = "yes" ]; then
+                    runCommand "svn $SVN_CHECKOUT_OPTIONS cp $SVNROOT/$I18NBASE/$language/messages/$I18NSUB/$pofile.po $TAGDIR/$APPVERSION/translations/$language/messages"
+                fi
             fi
         done
 
@@ -545,6 +593,9 @@ function retrieveGUITranslations
             INCLUDED_LANGUAGES="$INCLUDED_LANGUAGES $language"
         else
             rm -rf $TRANSDIR/$language
+            if [ "$CREATE_TAG" = "yes" ]; then
+                runCommand "svn $SVN_CHECKOUT_OPTIONS rm --force $TAGDIR/$APPVERSION/translations/$language"
+            fi
         fi
     done
 }
@@ -560,9 +611,13 @@ function retrieveDocTranslations
     for language in $INCLUDED_LANGUAGES ; do
         print "         Including documentation for language $language"
         getResource "doctranslation" $language $TRANSDIR/$language/doc
-	if [ ! -e $BUILDDIR/$TRANSDIR/$language/doc/index.docbook ]; then
+        if [ ! -e $BUILDDIR/$TRANSDIR/$language/doc/index.docbook ]; then
             print "                  No translations for $language docs available."
             rm -rf $TRANSDIR/$language/doc
+        else
+            if [ "$CREATE_TAG" = "yes" ]; then
+                runCommand "svn $SVN_CHECKOUT_OPTIONS cp $SVNROOT/$I18NBASE/$language/docs/$I18NDOCSUB/$APPNAME/ $TAGDIR/$APPVERSION/translations/$language/doc"
+            fi
         fi
     done
 }
@@ -712,6 +767,9 @@ function initVars
 
     BZIP2="tar jcf"
     GZIP="tar zcf"
+    TAGDIR="$PWD/tag"
+    CREATE_TAG="no"
+    TAGBASE="tags"
 }
 
 ####################################################################
@@ -756,6 +814,14 @@ do
             testParameter $1 $2
             I18NDOCSUB="$2"
             shift
+        ;;
+        -tb|--tag-base)
+            testParameter $1 $1
+            TAGBASE="$2"
+            shift
+        ;;
+        --tag)
+            CREATE_TAG="yes"
         ;;
         --admin)
             testParameter $1 $2
@@ -856,6 +922,9 @@ initBasic
 # Create the builddir, the place where the package will be assembled.
 # If no builddir is specified is specified "./$APPNAME-build" is used.
 setupBuildDir
+if [ "$CREATE_TAG" = "yes" ]; then
+    setupTagDir
+fi
 
 assembleApplicationData
 retrieveDocumentation

@@ -6,4 +6,4 @@ if [ -z "$1" ]; then
 fi
 
 ./createPackage.sh --svnroot "https://svn.kde.org/home/kde" -ab trunk/extragear/office -a kile --i18n-base trunk/l10n-kde4 \
---i18n-sub extragear-office --notoplevel --package --logfile $0.log -av $1
+--i18n-sub extragear-office --notoplevel --package --logfile $0.log -av $1 --tag

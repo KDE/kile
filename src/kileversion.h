@@ -21,6 +21,7 @@
 
 const QString kileVersion="2.1";
 const QString kileFullVersion="2.0.81";
+// const QString kileFullVersion="2.1beta1";
 const QString kilePrVersion="2";
 
 /**

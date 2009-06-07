@@ -1,3 +1,111 @@
+version 2.0 -> 2.1beta1
+
+Bigger Features:
+ - port code to KDE4 and QT4, this includes the move from DCOP to DBUS interface
+ - Fix something like 70 bugs at least
+ - move from old autoconf and friends to the cmake buildsystem
+ - change source code layout
+ - complete rewrite of the TabularDialog
+ - adapt the tools, removed kghostview,kdvi,kpdf, use okular instead,
+   add draft mode for *tex tools, added context and xelatex tools.
+ - reworked toolbars for the tools
+ - porting of kile to Windows has started
+ - better LaTeX syntax highlightning
+ - New way of generating symbols for the symbolview. Now also utf8 symbols can
+   be included and text in utf8 as a comment. The old method with tex files and
+   gesymb has been removed. The new way needs a xml file as input and gesymb-ng found in src/data/symbols-ng
+
+Features:
+ - Lots of added cwl files, also some changes
+ - reworked Image Include dialog
+ - reworked New Project dialog
+ - reworked Tools configuration dialog
+ - add biblatex menu as an alternative to the bibtex menu
+ - ddd some more templates
+ - on-the-fly special-character-to-latex-code substitution
+
+version 2.0.3 -> 2.0.4svn 
+
+Fixes:
+ - fix rare crash
+ - Create "~/.lyx" if it does not exist (Ubuntu bug #324722)
+
+Syntax:
+ - bibtex: add new biblatex types, allow numbers in key names
+
+version 2.0.2 -> 2.0.3
+
+Fixes:
+ - Add {} to special characters in symbolview for easier handling (#170144)
+ - Don't blend user defined symbols because we don't know how they look like
+ - Misplaced cursor with intelligent double quotes and selections (#174937) 
+ - Fixed a case where the autocompletion dies (#164231,#174003)
+ - Make the statistics pane work also for non latex files (#173745)
+ - Don't report certain log messages as tex errors (#174665)
+ - Properly escape the log messages so that also <...> shows up (#175148)
+ - some cwl typos  
+
+CWL:
+ - Added babel, todonotes (thanks to Salim), glosstex, nicefrac, float,
+   fastex (thanks to Fabian Rost)
+
+Syntax:
+ - latex: -- fixed corner case where \newcommand got highlighted wrong
+ -- highlight alignat and friends correctly
+
+version 2.0.1 -> 2.0.2
+
+Fixes:
+ - Insert \item[] in description environments for smart newline (#161658),
+ reported and fixed by Job Noorman
+ - Fix regression in 2.0.1 inside structure view related to opening files (debian #484146)
+ - Fix regression in latexoutputfilter resulting in the wrong file being
+reported (#162899)
+ - Fix regression in Kile 2.0.x, blend symbols so that they are usable with
+   dark themes also (#161153)
+ - Don't create 'save' and 'save-as' actions specifically for Kile as they will
+   interfere with the corresponding actions from KatePart. Thanks to Mathias
+   Soeken for reporting.
+ - Also parse class warnings and show them in the Logview, patch by Jeroen Leeuwestein (#169040)
+ - Remove not sh-compliant code by requiring a Bash shell for system check (debian #489618)
+ - Add a workaround for a bug contained in KatePart 3.x in the 'setEncoding' method, which enforces
+   a reload on every change of the encoding (as a consequence the user sees a confusing
+   document-modified dialog) (#160258)
+ - Make find-in-files work again with anyting else than the "all files" filter (#165636)
+ - Minor cwl fixes
+
+Features:
+ - cwl file for siunitx (thanks to Dirk Sarpe) and allrunes packages
+
+version 2.0 -> 2.0.1
+
+Fixes:
+ - Do all section actions on the whole section (#154272)
+ - Fix possible crash due to unchecked index bounds
+ - Some i18n fixes (#153371)
+ - cwl files: fix wrong commands with \left and \right and make them more complete
+ - Typos in symbols (#158749)
+ - Sync kile project on disk before archiving
+ - Add figure* to the structure view also (#151743)
+ - Fix completion for multiple citations/references (#152766)
+ - Fix crash at template handling, reported and fixed by Vincenzo Di Massa
+ - Rename some cwl files so that they not only differ by case (#158600)
+ - Search also in $BIBINPUTS and $TEXINPUTS paths if opening files from the
+   structure view
+ - Add missing package definitions to some symbols from the misc-text pane
+ - Allow spaces in the name of images in the includegraphics dialog (#161101)
+ - Don't recompile forever if some file timestamps are in the future (#121956)
+ - Fix the "autocompletion dies" bug (#155044) and also (#160555)
+
+Features:
+ - Add \newlength as a variation of newcommand
+ - Add url.cwl, svninfo.cwl, svn-multi.cwl, yfonts.cwl, virginialake.cwl
+ - Allow ":" and "-" in citation keys, important for codecompletion
+
+Syntax:
+ - Highlight & and @{} in tabular like environments
+ - Ignore Noweb blocks
+
 version 2.0beta2 -> 2.0
 
 Fixes:
@@ -7,7 +115,7 @@ Fixes:
 Features:
  - New documentation kile-remote-control.txt
  - Added new DVItoPDF config Modern which calls dvipdfmx instead of dvipdfm,
-   set Modern as default
+set Modern as default
 
 version 2.0beta1 -> 2.0beta2
 
@@ -50,8 +158,8 @@ Bigger Features:
 	c) Editable abbreviations are marked with a star.
 	d) It is possible to add new abbreviations or delete existing ones.
 	e) A new auto mode to expand abbreviations was added (configurable
-        of course). If an abbreviation is followed by a space or a punctuation
-        symbol, it is immediately expanded without further user commands.
+  of course). If an abbreviation is followed by a space or a punctuation
+  symbol, it is immediately expanded without further user commands.
  - Added a set of commands to work directly with sectioning on the structure view: 
 	copy, cut, paste, select, delete, comment, quick preview 
  - New Symbolview which contains:
@@ -88,7 +196,7 @@ Smaller Features:
  - Recursive parsing of footnote command
  - New citeViewBib action, which asks the bibtex viewer (currently only
    kbib) to send marked references. Thanks to Thach Nguyen for the
-   initial patch 
+   initial patch
  - New function "Save Copy as..."
  - Revamped the new-file dialog.
  - Add support for templates types other than LaTeX.
@@ -247,7 +355,7 @@ version 1.5 -> 1.5.2 :
 - improved "clicking on errors in the log file jumps to corresponding line"
 - user can define an arbitrary number of user tools/tags.
 - autosave
-- added an Output view, the   Output view is the location for the raw
+- added an Output view, theOutput view is the location for the raw
   output of the shell processes (latex,dvips, etc.)
 - more error messages/warnings when the user tries to do compile/view
   non-existing/untitled documents

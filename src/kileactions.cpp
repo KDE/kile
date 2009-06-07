@@ -60,7 +60,9 @@ Tag::Tag(const QString &text, const QString& iconText, const KShortcut &cut, con
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-	setShortcut(cut);
+    if(!cut.isEmpty()){
+      setShortcut(cut);
+    }
 	init(receiver,slot);
 }
 
@@ -72,7 +74,9 @@ Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-	setShortcut(cut);
+    if(!cut.isEmpty()){
+      setShortcut(cut);
+    }
 	init(receiver,slot);
 }
 
@@ -83,7 +87,9 @@ Tag::Tag(const QString &text, const QString& iconText, const KShortcut &cut, con
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-	setShortcut(cut);
+    if(!cut.isEmpty()){
+      setShortcut(cut);
+    }
 	init(receiver,slot);
 }
 
@@ -93,7 +99,9 @@ Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const
 	  m_data(data)
 {
 	parent->addAction(name, this);
-	setShortcut(cut);
+    if(!cut.isEmpty()){
+      setShortcut(cut);
+    }
 	setIconText(iconText);
 	init(receiver,slot);
 }

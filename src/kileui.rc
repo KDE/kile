@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="34">
+<kpartgui name="kile" version="35">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -125,7 +125,6 @@
 <Action name="gotoNextDocument"/>
 </Menu>
 <Menu name="menu_build"><text>B&amp;uild</text>
-	<ActionList name="list_quickies"/>
 	<Menu name="quickpreview"><text>QuickPreview</text>
 		<Action name="quickpreview_selection"/>
 		<Action name="quickpreview_environment"/>
@@ -135,16 +134,12 @@
 	</Menu>
 	<Separator/>
 	<Menu name="menu_compile"><text>&amp;Compile</text>
-		<ActionList name="list_compilers"/>
 	</Menu>
 	<Menu name="menu_convert"><text>C&amp;onvert</text>
-		<ActionList name="list_converters"/>
 	</Menu>
-	<Menu name="menu_viewers"><text>&amp;View</text>
-		<ActionList name="list_viewers"/>
+	<Menu name="menu_viewer"><text>&amp;View</text>
 	</Menu>
 	<Menu name="menu_other"><text>O&amp;ther</text>
-		<ActionList name="list_other"/>
 	</Menu>
 	<Action name="WatchFile"/>
 	<Separator/>
@@ -445,9 +440,6 @@
 	<Action name="tag_input"/>
 	<Separator/>
 	<Menu name="menu_user_tags"><text>User Tags</text>
-		<Action name="EditUserMenu"/>
-		<Separator/>
-		<ActionList name="list_user_tags"/>
 	</Menu>
 </Menu>
 
@@ -812,7 +804,7 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Action name="menuUserTags"/>
+	<Action name="menu_User_tags"/>
 	<Action name="quickpreview_selection"/>
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
@@ -1088,7 +1080,7 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Action name="menuUserTags"/>
+	<Action name="menu_user_tags"/>
 	<Action name="quickpreview_selection"/>
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
@@ -1358,7 +1350,7 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Action name="menuUserTags"/>
+	<Action name="menu_user_tags"/>
 	<Action name="quickpreview_selection"/>
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
@@ -1369,7 +1361,7 @@
 	<Action name="return_to_editor"/>
 </Disable>
 </State>
-<ActionProperties scheme="Default">
+<ActionProperties scheme="Default" version="1">
   <Action shortcut="Alt+1" name="tool_QuickBuild" />
   <Action shortcut="Alt+2" name="tool_LaTeX" />
   <Action shortcut="Alt+3" name="tool_ViewDVI" />
@@ -1390,5 +1382,6 @@
   <Action shortcut="CTRL+SHIFT+7" name="tag_user_7" />
   <Action shortcut="CTRL+SHIFT+8" name="tag_user_8" />
   <Action shortcut="CTRL+SHIFT+9" name="tag_user_9" />
+  <Action shortcut="CTRL+SHIFT+0" name="tag_user_10" />
 </ActionProperties>
 </kpartgui>

@@ -107,8 +107,8 @@ public:
 	KStatusBar* statusBar();
 
 	QAction* action(const QString& name) const;
-	void plugActionList(const QString& name, const QList<QAction*>& actionList);
-	void unplugActionList(const QString& name);
+// 	void plugActionList(const QString& name, const QList<QAction*>& actionList);
+// 	void unplugActionList(const QString& name);
 
 public Q_SLOTS:
 	void setCursor(const KUrl &, int, int);
@@ -170,6 +170,7 @@ private:
 	QToolBox			*m_toolBox;
 	KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 	KToolBar			*m_latexOutputErrorToolBar;
+    QMenu               *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview, *m_userTagMenu;
 
 	//parts
 	KParts::PartManager 		*m_partManager;
@@ -204,11 +205,14 @@ private:
 	void setupPreviewTools();
 	void setupActions();
 	void setupTools();
-	void setupUserTagActions();
 	void cleanUpActionList(QList<QAction*> &list, const QStringList &tools);
 	void restoreLastSelectedAction();
 	void saveLastSelectedAction();
 
+	void setupUserTagActions();
+	void readUserTagActions();
+	void writeUserTagActions();
+	
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();

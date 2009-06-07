@@ -267,6 +267,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		actionCollection()->readSettings(&shortcutGroup);
 		m_config->deleteGroup("Shortcuts");
 	}
+
+	m_mainWindow->setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 }
 
 Kile::~Kile()

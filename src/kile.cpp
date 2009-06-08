@@ -890,21 +890,21 @@ void Kile::setupTools()
 {
 	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
 
-    if(!m_buildMenuCompile || !m_buildMenuConvert ||  !m_buildMenuTopLevel || !m_buildMenuQuickPreview || !m_buildMenuViewer || !m_buildMenuOther){
-        KILE_DEBUG() << "BUG, menu pointers are NULL";
-        KILE_DEBUG() << m_buildMenuCompile;
-        KILE_DEBUG() << m_buildMenuConvert;
-        KILE_DEBUG() << m_buildMenuTopLevel;
-        KILE_DEBUG() << m_buildMenuQuickPreview;
-        KILE_DEBUG() << m_buildMenuViewer;
-        KILE_DEBUG() << m_buildMenuOther;
-        return;
-    }
+	if(!m_buildMenuCompile || !m_buildMenuConvert ||  !m_buildMenuTopLevel || !m_buildMenuQuickPreview || !m_buildMenuViewer || !m_buildMenuOther){
+		KILE_DEBUG() << "BUG, menu pointers are NULL"
+		             << (m_buildMenuCompile == NULL)
+		             << (m_buildMenuConvert == NULL)
+		             << (m_buildMenuTopLevel == NULL)
+		             << (m_buildMenuQuickPreview == NULL)
+		             << (m_buildMenuViewer == NULL)
+		             << (m_buildMenuOther == NULL);
+		return;
+	}
 
 	QStringList tools = KileTool::toolList(m_config.data());
 	QString toolMenu, grp;
 	QList<QAction*> *pl;
-    QAction *act;
+	QAction *act;
 	ToolbarSelectAction *pSelectAction = NULL;
 
 	m_compilerActions->saveCurrentAction();
@@ -912,15 +912,15 @@ void Kile::setupTools()
 	m_convertActions->saveCurrentAction();
 	m_quickActions->saveCurrentAction();
 
-    // do plugActionList by hand ...
-    foreach(act, m_listQuickActions){
-      m_buildMenuTopLevel->removeAction(act);
-    }
+	// do plugActionList by hand ...
+	foreach(act, m_listQuickActions){
+		m_buildMenuTopLevel->removeAction(act);
+	}
 
-    m_buildMenuCompile->clear();
-    m_buildMenuConvert->clear();
-    m_buildMenuViewer->clear();
-    m_buildMenuOther->clear();
+	m_buildMenuCompile->clear();
+	m_buildMenuConvert->clear();
+	m_buildMenuViewer->clear();
+	m_buildMenuOther->clear();
 
 	m_compilerActions->removeAllActions();
 	m_viewActions->removeAllActions();
@@ -985,11 +985,11 @@ void Kile::setupTools()
 	cleanUpActionList(m_listQuickActions, tools);
 	cleanUpActionList(m_listOtherActions, tools);
 
-    m_buildMenuTopLevel->insertActions(m_buildMenuQuickPreview->menuAction(),m_listQuickActions);
-    m_buildMenuCompile->addActions(m_listCompilerActions);
-    m_buildMenuConvert->addActions(m_listConverterActions);
-    m_buildMenuViewer->addActions(m_listViewerActions);
-    m_buildMenuOther->addActions(m_listOtherActions);
+	m_buildMenuTopLevel->insertActions(m_buildMenuQuickPreview->menuAction(),m_listQuickActions);
+	m_buildMenuCompile->addActions(m_listCompilerActions);
+	m_buildMenuConvert->addActions(m_listConverterActions);
+	m_buildMenuViewer->addActions(m_listViewerActions);
+	m_buildMenuOther->addActions(m_listOtherActions);
 
 	m_compilerActions->restoreCurrentAction();
 	m_viewActions->restoreCurrentAction();
@@ -1633,16 +1633,16 @@ void Kile::activePartGUI(KParts::Part *part)
 
 	m_mainWindow->createGUI(part);
 
-    m_buildMenuTopLevel = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_build", m_mainWindow));
-    m_buildMenuCompile  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_compile", m_mainWindow));
-    m_buildMenuConvert  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_convert", m_mainWindow));
-    m_buildMenuViewer  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_viewer", m_mainWindow));
-    m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_other", m_mainWindow));
-    m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
-    m_userTagMenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_user_tags", m_mainWindow));
+	m_buildMenuTopLevel = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_build", m_mainWindow));
+	m_buildMenuCompile  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_compile", m_mainWindow));
+	m_buildMenuConvert  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_convert", m_mainWindow));
+	m_buildMenuViewer  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_viewer", m_mainWindow));
+	m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_other", m_mainWindow));
+	m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
+	m_userTagMenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_user_tags", m_mainWindow));
 
-    setupUserTagActions();
-    setupTools();
+	setupUserTagActions();
+	setupTools();
 
 	// finally update the GUI regarding the current state
 	updateGUI(m_wantState);

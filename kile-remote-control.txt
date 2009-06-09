@@ -1,16 +1,12 @@
-This document describes Kile's DCOP interface, the parts of the Lyx protocol known by Kile and
-the services Kile can use from other KDE apps.
+This document describes Kile's DBUS interface and the parts of the Lyx protocol known by Kile.
 
-1. Kile's DCOP interface
+1. Kile's DBUS interface
 
 Open a file either by absolute or relative path:
 	virtual void openDocument(const QString &);
 
 Insert text at the cursor position in the current document; this can be used to replace Lyx's pipe mechanism:
 	virtual void insertText(const QString &);
-
-Same effect as openDocument; kept for backward compatibility:
-	virtual void fileSelected(const QString &);
 
 Close the current document:
 	virtual void closeDocument();
@@ -44,14 +40,7 @@ Insert the command \bibliography with the files named $myBib1, $myBib2, ... at t
 Insert the string $text at the current cursor position:
 	:paste:$text
 
-
-3. Services usable Kile
-
-Kile can ask a BibTeX manager to insert all marked citations; for example, via the menu item "LaTeX->References->cite from viewBib".
-Currently only KBib (http://user.digisurf.com.au/~thachly/kbib) is supported. If you want to get your application added, please contact us
-at kile-devel _ aht_ lists.sourceforge.net.
-
-Valid for Kile 2.0, written at 10/08/2007
+Valid for Kile 2.1, written at 6/9/2009
 
 The Kile Development Team
 

@@ -45,6 +45,7 @@ namespace KileWidget
 		m_ki(info)
 	{
 		setLayout(new QVBoxLayout(this));
+		layout()->setMargin(0);
 		spawn();
 	}
 

@@ -43,6 +43,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	m_configGroup = KConfigGroup(KGlobal::config(),"FileBrowserWidget");
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
+	layout->setMargin(0);
 	setLayout(layout);
 
 	KToolBar *toolbar = new KToolBar(this);

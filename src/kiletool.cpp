@@ -541,7 +541,7 @@ namespace KileTool
 		setFlags(NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 		
 		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists);
-		setMsg(NeedTargetExists, ki18n("The file %2/%3 does not exist; did you compile the source file?"));
+		setMsg(NeedTargetExists, ki18n("The file %1/%2 does not exist; did you compile the source file?"));
 	}
 
 	View::~View()

@@ -18,7 +18,7 @@
 
 #include "kileinfo.h"
 
-#include <qfileinfo.h>
+#include <QFileInfo>
 
 #include <QShowEvent>
 #include <QVBoxLayout>

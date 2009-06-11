@@ -16,8 +16,8 @@
 #ifndef CONVERT_H
 #define CONVERT_H
 
-#include <qstring.h>
-#include <qstringlist.h>
+#include <QString>
+#include <QStringList>
 #include <qmap.h>
 
 #include <kurl.h>

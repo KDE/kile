@@ -19,8 +19,8 @@
 #include "kileinfo.h"
 
 #include <qwidget.h>
-#include <qfileinfo.h>
-#include <qobject.h>
+#include <QFileInfo>
+#include <QObject>
 
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
@@ -40,8 +40,8 @@
 #include "templates.h"
 
 #include <kstandarddirs.h>
-#include <qstringlist.h>
-#include <qstring.h>
+#include <QStringList>
+#include <QString>
 
 /*
  * Class KileMainWindow.

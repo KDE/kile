@@ -16,7 +16,7 @@
 #ifndef KILEERRORHANDLER_H
 #define KILEERRORHANDLER_H
 
-#include <qobject.h>
+#include <QObject>
 
 /**
 @author Jeroen Wijnhout

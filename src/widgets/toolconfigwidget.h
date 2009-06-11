@@ -16,7 +16,7 @@
 #ifndef TOOLCONFIGWIDGET_H
 #define TOOLCONFIGWIDGET_H
 
-#include <qstringlist.h>
+#include <QStringList>
 
 #include <keditlistbox.h>
 

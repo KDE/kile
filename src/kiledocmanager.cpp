@@ -20,9 +20,9 @@
 
 #include <QAbstractItemView>
 
-#include <qtextcodec.h>
-#include <qfile.h>
-#include <qdir.h>
+#include <QTextCodec>
+#include <QFile>
+#include <QDir>
 
 #include <QList>
 #include <QDropEvent>

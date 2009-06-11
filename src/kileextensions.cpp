@@ -15,9 +15,9 @@
 
 #include "kileextensions.h"
 
-#include <qstring.h>
-#include <qstringlist.h>
-#include <qfileinfo.h>
+#include <QString>
+#include <QStringList>
+#include <QFileInfo>
 
 #include <klocale.h>
 #include "kiledebug.h"

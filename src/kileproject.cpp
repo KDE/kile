@@ -20,9 +20,9 @@
 #include "kileproject.h"
 #include "kileversion.h"
 
-#include <qstringlist.h>
-#include <qfileinfo.h>
-#include <qdir.h>
+#include <QStringList>
+#include <QFileInfo>
+#include <QDir>
 
 #include <krun.h>
 #include <KUrl>

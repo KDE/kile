@@ -15,9 +15,9 @@
 
 #include "outputfilter.h"
 
-#include <qfile.h>
-#include <qregexp.h>
-#include <qfileinfo.h>
+#include <QFile>
+#include <QRegExp>
+#include <QFileInfo>
 
 #include "kiledebug.h"
 #include <ktextedit.h>

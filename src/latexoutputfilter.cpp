@@ -17,10 +17,10 @@
 
 #include "latexoutputfilter.h"
 
- #include <qdir.h>
-#include <qfile.h>
-#include <qregexp.h>
-#include <qfileinfo.h>
+ #include <QDir>
+#include <QFile>
+#include <QRegExp>
+#include <QFileInfo>
 
 #include "kiledebug.h"
 #include <ktextedit.h>

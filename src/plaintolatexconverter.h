@@ -20,7 +20,7 @@
 #define _PLAINTOLATEXCONVERTER_H_
 
 #include <qmap.h>
-#include <qstring.h>
+#include <QString>
 
 /**
  * A class that replaces the selection in the document (plain text) by its

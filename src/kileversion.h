@@ -17,7 +17,7 @@
 #ifndef KILEVERSION_H
 #define KILEVERSION_H
 
-#include <qstring.h>
+#include <QString>
 
 const QString kileVersion="2.1 beta1";
 const QString kileFullVersion="2.0.82"; // only use numbers and '.'

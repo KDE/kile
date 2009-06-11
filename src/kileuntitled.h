@@ -14,7 +14,7 @@
 #ifndef KILEUNTITLED_H
 #define KILEUNTITLED_H
 
-#include <qstring.h>
+#include <QString>
 
 class KileUntitled
 {

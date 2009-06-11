@@ -13,7 +13,7 @@
 
 #include "kileuntitled.h"
 
-#include <qregexp.h>
+#include <QRegExp>
 #include <klocale.h>
 
 QString KileUntitled::m_untitled = i18n("Untitled");

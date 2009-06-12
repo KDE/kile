@@ -1661,10 +1661,10 @@ void Kile::updateGUI(const QString &wantState)
 	static bool mathToolBar = true;
 
 	if(m_currentState == "Editor") {
-		mainToolBar  = toolBar("mainToolBar")->isVisible();
-		toolsToolBar = toolBar("toolsToolBar")->isVisible();
-		editToolBar  = toolBar("editToolBar")->isVisible();
-		mathToolBar  = toolBar("mathToolBar")->isVisible();
+		mainToolBar  = !toolBar("mainToolBar")->isHidden();
+		toolsToolBar = !toolBar("toolsToolBar")->isHidden();
+		editToolBar  = !toolBar("editToolBar")->isHidden();
+		mathToolBar  = !toolBar("mathToolBar")->isHidden();
 	}
 
 	if(wantState == "HTMLpreview") {
@@ -1683,7 +1683,7 @@ void Kile::updateGUI(const QString &wantState)
 		m_mainWindow->slotStateChanged( "Editor" );
 		m_wantState="Editor";
 		m_topWidgetStack->setCurrentIndex(0);
-		if ( ! mainToolBar  ) toolBar("mainToolBar")->hide();
+		if ( !mainToolBar  ) toolBar("mainToolBar")->hide();
 		if ( toolsToolBar ) toolBar("toolsToolBar")->show();
 		if ( editToolBar  ) toolBar("editToolBar")->show();
 		if ( mathToolBar  ) toolBar("mathToolBar")->show();

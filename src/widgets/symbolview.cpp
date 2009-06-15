@@ -54,7 +54,7 @@ namespace KileWidget {
 
 SymbolView::SymbolView(QWidget *parent, int type, const char *name)
 		: QListWidget(parent)
-{	
+{
 	setObjectName(name);
 	setViewMode(IconMode);
 	setGridSize(QSize(36, 36));
@@ -96,13 +96,13 @@ void SymbolView::extractPackageString(const QString&string, QList<Package> &pack
   QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
   QStringList args,pkgs;
   Package pkg;
-  
+
   if(string.isEmpty()){
       return;
    }
-   
+
    packages.clear();
-   
+
    if ( rePkgs.exactMatch(string) ){
       args = rePkgs.cap(1).split(',');
       pkgs = rePkgs.cap(2).split(',');
@@ -110,13 +110,13 @@ void SymbolView::extractPackageString(const QString&string, QList<Package> &pack
    else{
       return;
    }
-   
+
    for(int i = 0 ; i <  pkgs.count() && i < args.count() ; i++){
       pkg.name = pkgs.at(i);
       pkg.arguments = args.at(i);
       packages.append(pkg);
    }
-   
+
 }
 
 void SymbolView::extract(const QString& key, Command &cmd)
@@ -127,7 +127,7 @@ void SymbolView::extract(const QString& key, Command &cmd)
 
 	QStringList contents = key.split('%');
 	QString packages;
-	
+
 	cmd.referenceCount = contents.at(0).toInt();
 	cmd.latexCommand = contents.at(1);
 	cmd.unicodeCommand = contents.at(2);
@@ -144,47 +144,47 @@ void SymbolView::initPage(int page)
 		case MFUS:
 			fillWidget(MFUS_PREFIX);
 			break;
-	
+
 		case Relation:
 			fillWidget("relation");
 			break;
-	
+
 		case Operator:
 			fillWidget("operators");
 			break;
-	
+
 		case Arrow:
 			fillWidget("arrows");
 			break;
-	
+
 		case MiscMath:
 			fillWidget("misc-math");
 			break;
-	
+
 		case MiscText:
 			fillWidget("misc-text");
 			break;
-	
+
 		case Delimiters:
 			fillWidget("delimiters");
 			break;
-	
+
 		case Greek:
 			fillWidget("greek");
 			break;
-	
+
 		case Special:
 			fillWidget("special");
 			break;
-	
+
 		case Cyrillic:
 			fillWidget("cyrillic");
 			break;
-	
+
 		case User:
 			fillWidget("user");
 			break;
-	
+
 		default:
 			kWarning() << "wrong argument in initPage()";
 			break;
@@ -204,7 +204,7 @@ QString SymbolView::getToolTip(const QString &key)
 	 if(!cmd.unicodeCommand.isEmpty()) {
 	    label += i18n("Unicode command: ") + cmd.unicodeCommand + "<br>";
 	 }
-	
+
 	if(cmd.packages.count() > 0) {
 	        if(cmd.packages.count() == 1) {
 			label += i18n("Package: ");
@@ -226,7 +226,7 @@ QString SymbolView::getToolTip(const QString &key)
 		     }
 		}
 	}
-	
+
 	if(!cmd.comment.isEmpty()) {
 	   label += "<i>" + i18n("Comment: ") + cmd.comment + "</i>";
 	}
@@ -238,7 +238,7 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 {
 	Command cmd;
 	QString code_symbol;
-	QList<Package> packages; 
+	QList<Package> packages;
 	QListWidgetItem *item = NULL;
 	bool math = false, bracket = false;
 
@@ -273,18 +273,18 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 
 QString convertLatin1StringtoUTF8(const QString &string ){
 
-   if(string.isEmpty()){ 
+   if(string.isEmpty()){
       return QString();
    }
-   
+
    QVector<uint> stringAsIntVector;
    QStringList stringList = string.split(",",QString::SkipEmptyParts);
-   
+
    QStringList::const_iterator it;
    QString str;
    bool ok;
    int stringAsInt;
-   for(it = stringList.begin(); it != stringList.end(); it++) {
+   for(it = stringList.constBegin(); it != stringList.constEnd(); it++) {
 	 str = *it;
 	 str.remove("U+");
 	 stringAsInt = str.toInt(&ok);
@@ -294,7 +294,7 @@ QString convertLatin1StringtoUTF8(const QString &string ){
 	 stringAsIntVector.append(stringAsInt);
    }
    return QString::fromUcs4(stringAsIntVector.data(),stringAsIntVector.count());
-   
+
 }
 
 void SymbolView::fillWidget(const QString& prefix)
@@ -336,7 +336,7 @@ void SymbolView::fillWidget(const QString& prefix)
 			key += '%' + image.text("Packages");
 			key += '%' + convertLatin1StringtoUTF8(image.text("Comment"));
 			key += '%' + paths[i];
-			
+
 // 			KILE_DEBUG() << "key is " << key;
 
 			item->setData(Qt::UserRole, key);
@@ -346,7 +346,7 @@ void SymbolView::fillWidget(const QString& prefix)
 				if(image.format() != QImage::Format_ARGB32_Premultiplied && image.format() != QImage::Format_ARGB32){
 					image = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 				}
-	
+
 				QPainter p;
 				p.begin(&image);
 				p.setCompositionMode(QPainter::CompositionMode_SourceAtop);

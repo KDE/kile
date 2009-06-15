@@ -48,7 +48,7 @@ QString completePath(const QString &path)
 	KILE_DEBUG() << "==complete path is " << path;
 	if( QDir::isRelativePath(path) ) {
 		if(path.startsWith("file:")) {
-			KUrl url = KUrl::fromPathOrUrl(path);
+			KUrl url(path);
 			url.setFileName(completePath(url.toLocalFile()));
 			fullpath = url.url();
 		}
@@ -156,7 +156,7 @@ int main( int argc, char ** argv )
 				app.openDocument(completePath(args->arg(i)));
 			}
 		}
-		
+
 		if(args->isSet("line")){
 			QString line = args->getOption("line");
 			app.setLine(line);
@@ -190,7 +190,7 @@ int main( int argc, char ** argv )
 		}
 
 		KStartupInfo::appStarted();
-		interface->call("setActive"); 
+		interface->call("setActive");
 		delete interface;
 	}
 	return 0;

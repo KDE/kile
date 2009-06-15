@@ -197,7 +197,7 @@ TextInfo* Manager::textInfoForURL(const KUrl& url)
 	KILE_DEBUG() << "==KileInfo::textInfoFor(" << url << ")==========================";
 
 	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
-		TextInfo *info = *it;	
+		TextInfo *info = *it;
 
 		if (info->url() == url) {
 			return info;
@@ -219,7 +219,7 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 			return (*it);
 		}
 	}
-	
+
 	return NULL;
 }
 
@@ -712,7 +712,7 @@ void Manager::fileOpen()
 
 	//get the URLs
 	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, currentDir, filter, m_ki->mainWindow(), i18n("Open Files"));
-	
+
 	//open them
 	KUrl::List urls = result.URLs;
 	for (KUrl::List::Iterator i=urls.begin(); i != urls.end(); ++i)
@@ -742,7 +742,7 @@ void Manager::saveURL(const KUrl & url)
 
 void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
-	KILE_DEBUG() << "void Manager::newDocumentStatus(Kate::Document)" << endl; 
+	KILE_DEBUG() << "void Manager::newDocumentStatus(Kate::Document)" << endl;
 	if (doc == 0L) return;
 
 	//sync terminal
@@ -761,7 +761,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	QFileInfo fi;
 	bool saveResult;
 	KUrl url, backupUrl;
-	
+
 	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")";
 
 	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i) {
@@ -771,13 +771,13 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 		{
 			url = view->document()->url();
 			fi.setFile(url.toLocalFile());
-			
+
 			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
 					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
 					|| ( !amAutoSaving && !disUntitled )	// both false, so we want to save everything
 				)
 			{
-	
+
 				KILE_DEBUG() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings";
 
 				if(amAutoSaving) {
@@ -796,10 +796,10 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 					}
 				}
 				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
-					KUrl backupUrl = KUrl::fromPathOrUrl(url.toLocalFile()+ ".backup");
-					
+					KUrl backupUrl = KUrl(url.toLocalFile()+ ".backup");
+
 				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
-					
+
     					// get the right permissions, start with safe default
 					mode_t  perms = 0600;
 					KIO::UDSEntry fentry;
@@ -823,11 +823,11 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 						                                i18n("Autosave"));
 					}
 				}
-				
+
 				KILE_DEBUG() << "trying to save: " << url.toLocalFile();
 				saveResult = view->document()->documentSave();
 				fi.refresh();
-			
+
 				if(!saveResult) {
 					m_ki->logWidget()->printMessage(KileTool::Error,
 					                                i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()),
@@ -854,7 +854,7 @@ void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
 	KILE_DEBUG() << "url is " << url.url();
 	const KUrl realurl = symlinkFreeURL(url);
 	KILE_DEBUG() << "symlink free url is " << realurl.url();
-	
+
 	bool isopen = m_ki->isOpen(realurl);
 
 	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), index);
@@ -894,7 +894,7 @@ void Manager::fileSave()
 
 void Manager::fileSaveAs(KTextEditor::View* view)
 {
-	
+
 	if(!view) {
 		view = m_ki->viewManager()->currentTextView();
 	}
@@ -917,7 +917,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 			startDir = baseDirectory.url();
 		}
 	}
-	
+
 	KILE_DEBUG() << "startDir is " << startDir;
 
 	KEncodingFileDialog::Result result;
@@ -962,15 +962,15 @@ void Manager::fileSaveCopyAs()
 	KTextEditor::View *view = NULL;
 	if(doc) {
 		KileDocument::TextInfo *originalInfo = textInfoFor(doc);
-		
+
 		if(!originalInfo) {
 			return;
 		}
 
 		view = createDocumentWithText(doc->text(),originalInfo->getType());
-		
+
 		KileDocument::TextInfo *newInfo = textInfoFor(view->document());
-		
+
 		if(originalInfo->url().isEmpty()) { // untitled doc
 			newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl().toLocalFile());
 		}
@@ -979,7 +979,7 @@ void Manager::fileSaveCopyAs()
 		}
 
 		fileSaveAs(view);
-		
+
 		doc = view->document();
 		if(doc && !doc->isModified()) // fileSaveAs was successful
 			fileClose(doc);
@@ -1060,7 +1060,7 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 			// docinfo may have been recreated from 'Untitled' doc to a named doc
 			if ( url.isEmpty() )
 				docinfo= textInfoFor(doc);
-			
+
 			if ( KileConfig::cleanUpAfterClose() )
 				cleanUpTempFiles(url, true); // yes we pass here url and not docinfo->url()
 
@@ -1224,7 +1224,7 @@ void Manager::addToProject(KileProject* project, const KUrl & url)
 		                                i18n("Add to Project"));
 		return;
 	}
-	
+
 	KileProjectItem *item = new KileProjectItem(project, realurl);
 	item->setOpenState(m_ki->isOpen(realurl));
 	projectOpenItem(item);
@@ -1308,7 +1308,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	m_progressDialog->show();
 
 	KileProject *kp = new KileProject(realurl,m_ki->extensions());
-	
+
 	if(kp->isInvalid()) {
 		if(m_progressDialog) {
 			m_progressDialog->hide();
@@ -1374,7 +1374,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	if (step == (max - 1)) {
 		m_progressDialog->hide();
 	}
-	
+
 	m_ki->viewManager()->switchToTextView(kp->lastDocument());
 
 	return kp;
@@ -1654,23 +1654,23 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 {
 	KILE_DEBUG() << "===void Manager::cleanUpTempFiles(const KUrl " << url.toLocalFile() << ", bool " << silent << ")===";
-	
+
 	if( url.isEmpty() )
 		return;
-	
+
 	QStringList extlist;
 	QFileInfo fi(url.toLocalFile());
 	const QStringList templist = KileConfig::cleanUpFileExtensions().split(' ');
 	const QString fileName = fi.fileName();
 	const QString dirPath = fi.absolutePath();
 	const QString baseName = fi.completeBaseName();
-	
+
 	for (int i=0; i < templist.count(); ++i) {
 		fi.setFile( dirPath + '/' + baseName + templist[i] );
 		if ( fi.exists() )
 			extlist.append(templist[i]);
 	}
-	
+
 	if (!silent &&  ( KileUntitled::isUntitled(fileName) || fileName.isEmpty() ) )
 		return;
 
@@ -1747,7 +1747,7 @@ void Manager::projectShow()
 
 			QString itempath = item->path();
 
-			// called from KAction 'Show projects...': find the first opened 
+			// called from KAction 'Show projects...': find the first opened
 			// LaTeX document or, if that fails, any other opened file
 			QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
 			for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
@@ -1980,7 +1980,7 @@ void Manager::projectAddFile(QString filename, bool graphics)
 	{
 		if ( graphics )
 			return;
-		
+
 		// called from InputDialog after a \input- or \include command:
 		//  - if the chosen file has an extension: accept
 		//  - if not we add the default TeX extension: accept if it exists else reject
@@ -2022,7 +2022,7 @@ const KUrl Manager::symlinkFreeURL(const KUrl& url)
 	else
 		KILE_DEBUG() << "directory " << url.directory() << "does not exist";
 
-	return KUrl::fromPathOrUrl(filename);
+	return KUrl(filename);
 #endif //def Q_WS_WIN
 }
 

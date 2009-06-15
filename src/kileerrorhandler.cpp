@@ -124,10 +124,10 @@ void KileErrorHandler::jumpToProblem(const OutputInfo& info)
 	QString file = m_ki->getFullFromPrettyName(info.source());
 
 	if(!file.isEmpty()) {
-		m_ki->docManager()->fileOpen(KUrl::fromPathOrUrl(file));
+		m_ki->docManager()->fileOpen(KUrl(file));
 		int line = (info.sourceLine() > 0) ? (info.sourceLine() - 1) : 0;
 
-		KTextEditor::Document *doc = m_ki->docManager()->docFor(KUrl::fromPathOrUrl(file));
+		KTextEditor::Document *doc = m_ki->docManager()->docFor(KUrl(file));
 		if(doc) {
 			KTextEditor::View* view = doc->views().first();
 			if(view) {

@@ -71,10 +71,10 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
 	connect(m_dirOperator, SIGNAL(urlEntered(const KUrl&)), this, SLOT(dirUrlEntered(const KUrl&)));
 
-	// FileBrowserWidget filter for sidebar 
-	QString filter =  extensions->latexDocuments() 
-	                    + ' ' + extensions->latexPackages() 
-	                    + ' ' + extensions->bibtex() 
+	// FileBrowserWidget filter for sidebar
+	QString filter =  extensions->latexDocuments()
+	                    + ' ' + extensions->latexPackages()
+	                    + ' ' + extensions->bibtex()
 	                    + ' ' +  extensions->metapost();
 	filter.replace('.', "*.");
 	m_dirOperator->setNameFilter(filter);
@@ -110,7 +110,7 @@ void FileBrowserWidget::readConfig()
 		m_dirOperator->home();
 	}
 	else {
-		setDir(KUrl::fromPathOrUrl(lastDir));
+		setDir(KUrl(lastDir));
 	}
 }
 

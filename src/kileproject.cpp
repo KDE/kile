@@ -15,7 +15,7 @@
 
 // 2007-03-12 dani
 //  - use KileDocument::Extensions
-//  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex 
+//  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex
 
 #include "kileproject.h"
 #include "kileversion.h"
@@ -137,7 +137,7 @@ void KileProjectItem::setInfo(KileDocument::TextInfo *docinfo)
 void KileProjectItem::changeURL(const KUrl &url)
 {
 	// don't allow empty URLs
-	if(!url.isEmpty() && m_url != url) 
+	if(!url.isEmpty() && m_url != url)
 	{
 		m_url = url;
 		emit(urlChanged(this));
@@ -162,7 +162,7 @@ KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions) 
 {
 	setObjectName(url.fileName());
 	init(url.fileName(), url, extensions);
-}	
+}
 
 KileProject::~KileProject()
 {
@@ -210,7 +210,7 @@ void KileProject::setLastDocument(const KUrl &url)
 
 void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
-	if (type<KileProjectItem::Source || type>KileProjectItem::Image) 
+	if (type<KileProjectItem::Source || type>KileProjectItem::Image)
 	{
 		kWarning() << "ERROR: TYPE<1 or TYPE>3";
 		return;
@@ -227,8 +227,8 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 	else { // if ( type == KileProjectItem::Image )
 		standardExtList = (m_extmanager->images()).split(' ');
 	}
-	
-	// now we scan user defined list and accept all extension, 
+
+	// now we scan user defined list and accept all extension,
 	// except standard extensions of course
 	QString userExt;
 	if(!ext.isEmpty()) {
@@ -316,7 +316,7 @@ void KileProject::readMakeIndexOptions()
 	KSharedConfig::Ptr cfg = KGlobal::config();
 	KConfigGroup configGroup = cfg->group(KileTool::groupFor("MakeIndex", KileTool::configName("MakeIndex", cfg.data())));
 	QString deflt = configGroup.readEntry("options", "'%S'.idx");
-	
+
 	if ( useMakeIndexOptions() && !grp.isEmpty() )
 	{
 		KConfigGroup makeIndexGroup = m_config->group(grp);
@@ -332,7 +332,7 @@ void KileProject::writeUseMakeIndexOptions()
 {
 	if ( useMakeIndexOptions() )
 		KileTool::setConfigName("MakeIndex", "Default", m_config);
-	else 
+	else
 		KileTool::setConfigName("MakeIndex", "", m_config);
 }
 
@@ -344,10 +344,10 @@ QString KileProject::addBaseURL(const QString &path)
 	}
 
 	else if(QDir::isAbsolutePath(path)) {
-		return KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(path)).toLocalFile();
+		return KileDocument::Manager::symlinkFreeURL(KUrl(path)).toLocalFile();
 	}
 	else {
-		return  KileDocument::Manager::symlinkFreeURL(KUrl::fromPathOrUrl(m_baseurl.toLocalFile(KUrl::AddTrailingSlash) +path)).toLocalFile();
+		return  KileDocument::Manager::symlinkFreeURL(KUrl(m_baseurl.toLocalFile(KUrl::AddTrailingSlash) +path)).toLocalFile();
 	}
 }
 
@@ -373,7 +373,7 @@ bool KileProject::load()
 	m_name = generalGroup.readEntry("name", i18n("Project"));
 	m_kileversion = generalGroup.readEntry("kileversion", QString());
 	m_kileprversion = generalGroup.readEntry("kileprversion",QString());
-	
+
 	m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
 
 	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt())
@@ -387,7 +387,7 @@ bool KileProject::load()
 			return false;
 		}
 	}
-	
+
 	QString master = addBaseURL(generalGroup.readEntry("masterDocument", QString()));
   	KILE_DEBUG() << "masterDoc == " << master;
 	setMasterDocument(master);
@@ -414,7 +414,7 @@ bool KileProject::load()
 		if (groups[i].left(5) == "item:") {
 			QString path = groups[i].mid(5);
 			if (QDir::isAbsolutePath(path)) {
-				url = KUrl::fromPathOrUrl(path);
+				url = KUrl(path);
 			}
 			else {
 				url = m_baseurl;
@@ -440,7 +440,7 @@ bool KileProject::load()
 
     // only call this after all items are created, otherwise setLastDocument doesn't accept the url
     generalGroup = m_config->group("General");
-    setLastDocument(KUrl::fromPathOrUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
+    setLastDocument(KUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
 // 	dump();
 
@@ -628,7 +628,7 @@ void KileProject::itemRenamed(KileProjectItem *item)
 
 QString KileProject::findRelativePath(const QString &path)
 {
-	return this->findRelativePath(KUrl::fromPathOrUrl(path));
+	return this->findRelativePath(KUrl(path));
 }
 
 QString KileProject::findRelativePath(const KUrl &url)
@@ -692,8 +692,8 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 		//no LaTeX root found, return previously found root
 		return root;
 	}
-	
-	//root is not a valid item (getInfo() return 0L), return original item	
+
+	//root is not a valid item (getInfo() return 0L), return original item
 	return item;
 }
 
@@ -724,17 +724,17 @@ QString KileProject::archiveFileList() const
 }
 
 void KileProject::setMasterDocument(const QString & master){
-	
+
 	if(!master.isEmpty()){
-	
+
 		QFileInfo fi(master);
 		if(fi.exists())
 			m_masterDocument = master;
 		else {
 			m_masterDocument.clear();
-			KILE_DEBUG() << "setMasterDocument: masterDoc=NULL";	
+			KILE_DEBUG() << "setMasterDocument: masterDoc=NULL";
 		}
-	
+
 	}
 	else {
 		m_masterDocument.clear();

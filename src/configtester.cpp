@@ -51,7 +51,7 @@ int ConfigTest::status() const
 	bool passed = false;
 	if ( m_name == "binary" ){
 		passed = m_arg.endsWith(m_altArg);
-	#ifdef Q_WS_WIN 
+	#ifdef Q_WS_WIN
 		passed = passed || m_arg.endsWith(m_altArg + ".exe");
 	#endif
 	}
@@ -84,7 +84,7 @@ QString ConfigTest::resultText() const
 	if ( m_name == "binary" )
 	{
 		str += " (" + m_altArg + " => " + m_arg + ')';
-		if ( status()==Failure && s_msgFailure.contains(m_altArg) ) 
+		if ( status()==Failure && s_msgFailure.contains(m_altArg) )
 			str += QString("<br>(%1)").arg( s_msgFailure[m_altArg] );
 		return str;
 	}
@@ -155,7 +155,7 @@ Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 	ConfigTest::addSuccessMessage("src", i18n("Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to auto-enable inverse and forward search capabilities."));
 	ConfigTest::addFailureMessage("src", i18n("Not supported, use the srcltx package to enable the inverse and forward search capabilities."));
 
-	// add some special messages, when programs are not installed, 
+	// add some special messages, when programs are not installed,
 	// which are not needed, but probably useful for the work with kile
 	ConfigTest::addFailureMessage("dvipng", i18n("You cannot use the png preview for mathgroups in the bottom bar."));
 	ConfigTest::addFailureMessage("convert", i18n("You cannot use the png previews with conversions 'dvi->ps->png' and 'pdf->png'."));
@@ -163,7 +163,7 @@ Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 	ConfigTest::addFailureMessage("acrord32", i18n("You cannot open pdf documents with Adobe Reader because acroread could not be found in your path.  <br>If Adobe Reader is your default pdf viewer, try setting ViewPDF to System Default.  Alternatively, you could use Okular."));
 #else
 	ConfigTest::addFailureMessage("acroread", i18n("You cannot open pdf documents with Adobe Reader, but you could use Okular."));
-#endif 
+#endif
 
 	ConfigTest::addPrettyName("okular", i18n("ForwardDVI"));
 	ConfigTest::addSuccessMessage("okular", i18n("Supported."));
@@ -181,7 +181,7 @@ Tester::~Tester()
 
 void Tester::saveResults(const KUrl & dest)
 {
-	KIO::file_copy(KUrl::fromPathOrUrl(m_resultsFile), dest, -1, KIO::Overwrite | KIO::HideProgressInfo);
+	KIO::file_copy(KUrl(m_resultsFile), dest, -1, KIO::Overwrite | KIO::HideProgressInfo);
 }
 
 void Tester::runTests()
@@ -190,7 +190,7 @@ void Tester::runTests()
 	QString srcdir = KGlobal::dirs()->findResourceDir("appdata","test/runTests.bat") + "test";
 #else
 	QString srcdir = KGlobal::dirs()->findResourceDir("appdata","test/runTests.sh") + "test";
-#endif 
+#endif
 	QString command;
 	KILE_DEBUG() << "Tester::runTests: srcdir = " << srcdir << endl;
 	m_tempDir = new KTempDir();
@@ -227,7 +227,7 @@ void Tester::runTests()
 #endif //def Q_WS_WIN
 
 	m_process->setShellCommand(command);
-	
+
 	connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(determineProgress()));
 	connect(m_process, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(processTestResults(int,QProcess::ExitStatus)));
 	m_process->setOutputChannelMode(KProcess::MergedChannels);

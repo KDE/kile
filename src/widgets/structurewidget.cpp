@@ -27,17 +27,17 @@
 //  - if an item has a companion label, you can use the context menu (right mouse)
 //    to insert this label as reference, as a page reference or only the keyword
 //    into the text or copy it to the clipboard.
-//  - graphics files have also a context menu to open them with a special program 
+//  - graphics files have also a context menu to open them with a special program
 
 // 2005-12-08: dani
-//  - make some items like labels, bibitems, graphics and float environments 
+//  - make some items like labels, bibitems, graphics and float environments
 //    configurable for the user
 
 // 2005-12-16: dani
 //  - add listview item for undefined references
 
 // 2007-02-15: dani
-// - class StructureViewItem gets two new members to 
+// - class StructureViewItem gets two new members to
 //   save the real cursor position of the command
 
 // 2007-03-12 dani
@@ -84,7 +84,7 @@ namespace KileWidget
 {
 ////////////////////// StructureViewItem with all info //////////////////////
 
-StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &title, const KUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) : 
+StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &title, const KUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) :
 	QTreeWidgetItem(parent),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level),
 	m_startline(startline), m_startcol(startcol)
@@ -94,14 +94,14 @@ StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &tit
 
 StructureViewItem::StructureViewItem(QTreeWidget* parent, const QString& label) :
 	QTreeWidgetItem(parent, QStringList(label)),
-	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
+	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0)
 {
 	setToolTip(0, i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button)."));
 }
 
 StructureViewItem::StructureViewItem(const QString& label, QTreeWidgetItem* parent) :
 	QTreeWidgetItem(parent, QStringList(label)),
-	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0) 
+	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0)
 {}
 
 void StructureViewItem::setTitle(const QString &title)
@@ -124,7 +124,7 @@ void StructureViewItem::setLabel(const QString &label)
 }
 
 ////////////////////// StructureView tree widget //////////////////////
-	
+
 	StructureView::StructureView(StructureWidget *stack, KileDocument::Info *docinfo) :
 		QTreeWidget(stack),
 		m_stack(stack), m_docinfo(docinfo)
@@ -142,10 +142,10 @@ void StructureViewItem::setLabel(const QString &label)
 
 		//connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
 		connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotDoubleClicked(QTreeWidgetItem*)));
-		
+
 		connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotClicked(QTreeWidgetItem*)));
 		connect(m_stack, SIGNAL(configChanged()), this, SLOT(slotConfigChanged()));
-		
+
 		init();
 	}
 
@@ -159,7 +159,7 @@ void StructureViewItem::setLabel(const QString &label)
 			m_root->setURL(m_docinfo->url());
 			m_root->setExpanded(true);
 			m_root->setIcon(0, KIcon("contents"));
-			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)), 
+			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)),
 			        this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
 // 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
 		}
@@ -191,9 +191,9 @@ void StructureViewItem::setLabel(const QString &label)
  		}
 	}
 
-	void StructureView::updateRoot() 
+	void StructureView::updateRoot()
 	{
-		m_root->setURL( m_docinfo->url() ); 
+		m_root->setURL( m_docinfo->url() );
 		m_root->setText(0, m_docinfo->url().fileName() );
 	}
 
@@ -209,7 +209,7 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 		init();
 	}
-	
+
 	void StructureView::slotConfigChanged(){
 		QWidget *current = m_stack->currentWidget();
 		if(!current) {
@@ -374,7 +374,7 @@ void StructureViewItem::setLabel(const QString &label)
 				case KileStruct::File:
 					par = (!m_lastSectioning) ? m_root : m_lastSectioning;
 				break;
-				
+
 				case 0:
 				case 1:
 					par = m_root;
@@ -395,44 +395,44 @@ void StructureViewItem::setLabel(const QString &label)
 ////////////////////// add a new item to the tree widget //////////////////////
 
 	/* some items have a special action:
-		- KileStruct::Sect: 
-		      The new item is saved in m_lastSectioning, so that all following entries 
+		- KileStruct::Sect:
+		      The new item is saved in m_lastSectioning, so that all following entries
 		      can be inserted as children. \part will drop back to level 0 of the Listview,
 		      all other sectioning commands will be children of the last sectioning item.
 		      If a \label command follows in the same or the next line, it is assigned
 		      to this item.
 		- KileStruct::BeginFloat:
 		      The new item is saved in m_lastFloat. If a \caption command follows before
-		      the floating environment is closed, it is inserted into the title of this item. 
+		      the floating environment is closed, it is inserted into the title of this item.
 		      If a \label command follows, it is assigned to this float item.
 		- KileStruct::EndFloat
-		      Reset m_lastFloat to NULL to close this environment. No more \caption or \label 
+		      Reset m_lastFloat to NULL to close this environment. No more \caption or \label
 		      commands are assigned to this float after this.
 		- KileStruct::Caption
 		      If a float environment is opened, the caption is assigned to the float item.
 		      A caption item has hidden attribute, so that no other action is performed and
 		      function addItem() will return immediately.
 		- KileStruct::Label
-		      If we are inside a float, this label is assigned to this environment. If the last 
-		      type was a sectioning command on the current line or the line before, the label is 
-		      assigned to this sectioning item. Assigning means that a popup menu will open, 
+		      If we are inside a float, this label is assigned to this environment. If the last
+		      type was a sectioning command on the current line or the line before, the label is
+		      assigned to this sectioning item. Assigning means that a popup menu will open,
 		      when the mouse is over this item.
 		- KileStruct::BeamerBeginFrame
 		      The new item is saved in m_lastFrameEnv. If a \frametitle command follows before
-		      the frame environment is closed, it is inserted into the title of this item. 
+		      the frame environment is closed, it is inserted into the title of this item.
 		      If a \label command follows, it is assigned to this float item.
 		- KileStruct::BeamerEndFrame
-		      Reset m_lastFloatEnv to NULL to close this environment. No more \frametitle 
+		      Reset m_lastFloatEnv to NULL to close this environment. No more \frametitle
 		      or \label commands are assigned to this frame after this.
 		- KileStruct::BeamerBeginBlock
 		      Inside a beamer frame this environment is taken as child of this frame
 		- KileStruct::BeamerFrame
 		      The new item is saved in m_lastFrame. If a \frametitle command follows
-		      immediately as next command, it is inserted into the title of this item. 
+		      immediately as next command, it is inserted into the title of this item.
 		*/
-		
+
 	void StructureView::addItem(const QString &title, uint line, uint column, int type, int lev,
-	                            uint startline, uint startcol, 
+	                            uint startline, uint startcol,
 	                            const QString &pix, const QString &fldr /* = "root" */)
 	{
 //  		KILE_DEBUG() << "\t\taddItem: " << title << ", with type " <<  type;
@@ -465,13 +465,13 @@ void StructureViewItem::setLabel(const QString &label)
 			m_lastFrameEnv = NULL;
 		}
 		m_lastFrame = NULL;
-		
+
 		// that's all for hidden types: we must immediately return
 		if(lev == KileStruct::Hidden) {
 			//KILE_DEBUG() << "\t\thidden item: not created";
 			return;
 		}
-			
+
 		//KILE_DEBUG() << "\t\tcreate new item";
 		// check if we have to update a label before loosing this item
 		if(type==KileStruct::Label) {
@@ -492,7 +492,7 @@ void StructureViewItem::setLabel(const QString &label)
 					return;
 			}
 		}
-		
+
 		// remember current type and line for the next call of addItem()
 		m_lastType = type;
 		m_lastLine = line;
@@ -510,11 +510,11 @@ void StructureViewItem::setLabel(const QString &label)
 			newChild->setIcon(0, KIcon(pix));
 		}
 		//m_stop = true;
-		
+
 		//if the level is not greater than the defaultLevel
 		//open the parentItem to make this item visible
 		parentItem->setExpanded(shouldBeOpen(parentItem, fldr, lev));
-		
+
 		//update the m_parent levels, such that section etc. get inserted at the correct level
 		//m_current = newChild;
 		if(lev > 0) {
@@ -529,7 +529,7 @@ void StructureViewItem::setLabel(const QString &label)
 				m_parent[l] = m_root;
 			}
 		}
-		
+
 		// check if we have to remember the new item for setting a label or caption
 		if(type == KileStruct::Sect) {
 			m_lastSectioning = newChild;
@@ -566,7 +566,7 @@ void StructureViewItem::setLabel(const QString &label)
 		QStringList list = ki->allLabels();
 		//KILE_DEBUG() << "\tfound " << list.count() << " labels";
 		QMap<QString,bool> labelmap;
-		for (QStringList::const_iterator itmap = list.begin(); itmap != list.end(); ++itmap) {
+		for (QStringList::const_iterator itmap = list.constBegin(); itmap != list.constEnd(); ++itmap) {
 			labelmap[(*itmap)] = true;
 		}
 
@@ -599,7 +599,7 @@ void StructureViewItem::setLabel(const QString &label)
 	}
 
 	StructureWidget::~StructureWidget()
-	{ 
+	{
 	}
 
 	int StructureWidget::level()
@@ -637,17 +637,17 @@ void StructureViewItem::setLabel(const QString &label)
 		KILE_DEBUG() << "\tStructureWidget::slotDoubleClicked";
 		StructureViewItem *item = dynamic_cast<StructureViewItem*>(itm);
 		static QRegExp suffix("\\.[\\d\\w]*$");
-		
+
 		if (!item) {
 			return;
 		}
-		
+
 		KILE_DEBUG() <<"item->url() is " << item->url() << ", item->title() is " << item->title();
-		
+
 		if(item->type() & (KileStruct::Input | KileStruct::Bibliography | KileStruct::Graphics)) {
 			QString fname = item->title();
-			
-			
+
+
 			if(fname.indexOf(suffix) != -1) { // check if we have a suffix, if not add standard suffixes
 				KILE_DEBUG() << "Suffix found: " << suffix.cap(0);
 			}
@@ -661,7 +661,7 @@ void StructureViewItem::setLabel(const QString &label)
 					fname += m_ki->extensions()->bibtexDefault();
 				}
 				else if(item->type() == KileStruct::Graphics){
-						
+
 					KileProjectItem *kiItem = m_ki->docManager()->itemFor(item->url());
 					KileProject *proj;
 					QString extToAdd;
@@ -676,7 +676,7 @@ void StructureViewItem::setLabel(const QString &label)
 					}
 
 					m_ki->logWidget()->printMessage(KileTool::Info,
-						i18n("No extension specified for graphic file.  Using .") + extToAdd + 
+						i18n("No extension specified for graphic file.  Using .") + extToAdd +
 							(fromProject ? i18n(" from Project settings") : i18n(" from global Structure View settings.")),
 						i18n("File extension not specified") );
 
@@ -686,18 +686,18 @@ void StructureViewItem::setLabel(const QString &label)
 				else{
 					KILE_DEBUG() << "Suffixless item with unknown type found";
 				}
-		
+
 			}
-			
+
 			if(QDir::isRelativePath(fname)) { // no absolute path
 				QString fn = m_ki->getCompileName();
 				fname= QFileInfo(fn).path() + QDir::separator() + fname;
 			}
-			
+
 			QFileInfo fi(fname);
 			KUrl url;
 			url.setPath(fname);
-			
+
 			if (fi.isReadable()) {
 				if( item->type() == KileStruct::Graphics) {
 					KMimeType::Ptr pMime = KMimeType::findByUrl(url);
@@ -780,16 +780,16 @@ void StructureViewItem::setLabel(const QString &label)
 		else if(m_popupItem->type() == KileStruct::Graphics) {
 			m_popupInfo = m_popupItem->title();
 
-			if(!QDir::isAbsolutePath(m_popupInfo)) { 
+			if(!QDir::isAbsolutePath(m_popupInfo)) {
 				QString fn = m_ki->getCompileName();
 				m_popupInfo = QFileInfo(fn).path() + '/' + m_popupInfo;
 			}
-			
+
 			QFileInfo fi(m_popupInfo);
 			if(fi.isReadable()) {
 				KUrl url;
 				url.setPath(m_popupInfo);
-				
+
 				m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(url)->name(), "Application");
 				for(int i = 0; i < m_offerList.count(); ++i) {
 					action = popup.addAction(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(),
@@ -843,7 +843,7 @@ void StructureViewItem::setLabel(const QString &label)
 	void StructureWidget::slotPopupLabel(int id)
 	{
 		KILE_DEBUG() << "\tStructureWidget::slotPopupLabel (" << id << ")"<< endl;
-		
+
 		QString s = m_popupItem->label();
 		if(id == 1 || id == 4) {
 			s = "\\ref{" + s + '}';
@@ -851,7 +851,7 @@ void StructureViewItem::setLabel(const QString &label)
 		else if(id == 2 || id == 5) {
 			s = "\\pageref{" + s + '}';
 		}
-	
+
 		if(id <= 3) {
 			emit(sendText(s));
 		}
@@ -876,7 +876,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 		KUrl url;
 		url.setPath(m_popupInfo);
-		
+
 		if(id == SectioningGraphicsOther) {
 			KRun::displayOpenWithDialog(url, this);
 		}
@@ -916,7 +916,7 @@ void StructureViewItem::setLabel(const QString &label)
 			m_map.remove(docinfo);
 			delete data;
 		}
-		
+
 		if(m_map.isEmpty()) {
 			m_default->activate();
 		}
@@ -1033,7 +1033,7 @@ void StructureViewItem::setLabel(const QString &label)
 					else {
 						return found;
 					}
-					
+
 				}
 				else if(!backwards && (foundRow > row || (foundRow == row && foundCol > col))) {
 					sectRow = foundRow;

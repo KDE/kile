@@ -69,7 +69,7 @@ bool KileMainWindow::queryClose()
 /*
  * Class KileInfo.
  */
- 
+
 KileInfo::KileInfo(QObject *parent) :
 	m_mainWindow(NULL),
 	m_manager(NULL),
@@ -104,7 +104,7 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 {
 	KILE_DEBUG() << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << endl;
 	QString title;
-	
+
 	if (!doc) {
 		doc = activeTextDocument();
 	}
@@ -123,7 +123,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 	if (m_singlemode) {
 		if (project) {
 			if (project->masterDocument().length() > 0) {
-				KUrl master = KUrl::fromPathOrUrl(project->masterDocument());
+				KUrl master(project->masterDocument());
 				if (shrt) return master.fileName();
 				else return master.toLocalFile();
 			}
@@ -158,7 +158,7 @@ QString KileInfo::getFullFromPrettyName(const QString& name)
 	if(name.isEmpty()) {
 		return name;
 	}
-	
+
 	QString file = name;
 
 	if(file.left(2) == "./") {
@@ -171,7 +171,7 @@ QString KileInfo::getFullFromPrettyName(const QString& name)
 
 	QFileInfo fi(file);
 	if(file.isEmpty() || fi.isDir() || (! fi.exists()) || (! fi.isReadable())) {
-		// - call from logwidget or error handling, which 
+		// - call from logwidget or error handling, which
 		//   tries to determine the LaTeX source file
 		bool found = false;
 		QStringList extlist = (m_extensions->latexDocuments()).split(' ');
@@ -300,7 +300,7 @@ QString KileInfo::documentTypeToString(KileDocument::Type type)
 			return i18n("Text");
 		case KileDocument::LaTeX:
 			return i18n("LaTeX");
-		case KileDocument::BibTeX:	
+		case KileDocument::BibTeX:
 			return i18n("BibTeX");
 		case KileDocument::Script:
 			return i18n("Script");
@@ -324,7 +324,7 @@ bool KileInfo::isOpen(const KUrl & url)
 {
 	KILE_DEBUG() << "==bool KileInfo::isOpen(const KUrl & url)=============" << endl;
 	uint cnt = viewManager()->textViews().count();
-	
+
 	for ( uint i = 0; i < cnt; ++i)
 	{
 		if (viewManager()->textView(i)->document() && similarOrEqualURL(viewManager()->textView(i)->document()->url(), url)) {
@@ -350,14 +350,14 @@ QString KileInfo::getSelection() const
 	if (view && view->selection()) {
 		return view->selectionText();
 	}
-	
+
 	return QString();
 }
 
 void KileInfo::clearSelection() const
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
-	
+
 	if(view && view->selection()) {
 		view->removeSelectionText();
 	}

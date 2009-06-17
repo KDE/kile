@@ -481,7 +481,9 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 	}
 
 	docinfo->setDoc(doc);
-	docinfo->setHighlightMode(highlight);
+    if(!highlight.isEmpty()){
+        docinfo->setHighlightMode(highlight);     // this ensures that highlightning modes passed with the highlight parameter are actually used
+    }
 	// FIXME: the whole structure updating stuff needs to be rewritten; updates should originate from
 	//        the docinfo only, i.e. the structure view should just react to changes!
 	connect(docinfo, SIGNAL(completed(KileDocument::Info*)), m_ki->structureWidget(), SLOT(update(KileDocument::Info*)));

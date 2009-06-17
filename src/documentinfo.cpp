@@ -788,10 +788,11 @@ void TextInfo::slotViewDestroyed(QObject *object)
 
 void TextInfo::activateDefaultHightlightMode()
 {
-	if(!m_doc) {
-		return;
+    KILE_DEBUG() << "m_defaultHighlightMode = " <<  m_defaultHighlightMode << endl;
+    
+	if(m_doc && !m_defaultHighlightMode.isEmpty()) {
+        m_doc->setHighlightingMode(m_defaultHighlightMode);
 	}
-	m_doc->setHighlightingMode(m_defaultHighlightMode);
 }
 
 LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,

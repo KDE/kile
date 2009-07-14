@@ -20,12 +20,9 @@ from Kate (C) 2001 by Matt Newell
 #ifndef FILEBROWSERWIDGET_H
 #define FILEBROWSERWIDGET_H
 
-#include <QFocusEvent>
-
 #include <KFile>
 #include <KDirOperator>
-#include <KUrlComboBox>
-#include <KUrlCompletion>
+#include <KUrlNavigator>
 #include <KUrl>
 #include <KConfig>
 #include <KConfigGroup>
@@ -40,7 +37,7 @@ class FileBrowserWidget : public QWidget
 {
 	Q_OBJECT
 
-public: 
+public:
 	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent);
 	~FileBrowserWidget();
 
@@ -57,16 +54,14 @@ private Q_SLOTS:
 
 protected:
 	void readConfig();
-	void focusInEvent(QFocusEvent*);
 
 Q_SIGNALS:
 	void fileSelected(const KFileItem& fileItem);
 
 private:
-	KUrlComboBox	*m_pathComboBox;
+	KUrlNavigator	*m_urlNavigator;
 	KDirOperator	*m_dirOperator;
-	KUrlCompletion	*m_urlCompletion;
-	KConfig		*m_config;
+	KConfig			*m_config;
 	KConfigGroup 	m_configGroup;
 };
 

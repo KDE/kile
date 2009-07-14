@@ -29,6 +29,7 @@ from Kate (C) 2001 by Matt Newell
 
 #include <KActionCollection>
 #include <KCharsets>
+#include <KFilePlacesModel>
 #include <KLocale>
 #include <KToolBar>
 #include <KConfig>
@@ -44,29 +45,26 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->setMargin(0);
+	layout->setSpacing(0);
 	setLayout(layout);
 
 	KToolBar *toolbar = new KToolBar(this);
+	toolbar->setMovable(false);
 	toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	toolbar->setIconDimensions(KIconLoader::SizeSmall);
+	toolbar->setContextMenuPolicy(Qt::NoContextMenu);
 	layout->addWidget(toolbar);
 
-	m_pathComboBox = new KUrlComboBox(KUrlComboBox::Directories, this);
-	m_pathComboBox->setEditable(true);
-	m_pathComboBox->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed));
-	m_pathComboBox->setMinimumContentsLength(0);
-	m_pathComboBox->setSizeAdjustPolicy(QComboBox::AdjustToMinimumContentsLengthWithIcon);
-	m_urlCompletion = new KUrlCompletion(KUrlCompletion::DirCompletion);
-	m_pathComboBox->setCompletionObject(m_urlCompletion);
-	layout->addWidget(m_pathComboBox);
-	connect(m_pathComboBox, SIGNAL(urlActivated(const KUrl&)), this, SLOT(setDir(const KUrl&)));
-	connect(m_pathComboBox, SIGNAL(returnPressed(const QString&)), this, SLOT(comboBoxReturnPressed(const QString&)));
+	KFilePlacesModel* model = new KFilePlacesModel(this);
+	m_urlNavigator = new KUrlNavigator(model, KUrl(QDir::homePath()), this);
+	layout->addWidget(m_urlNavigator);
+	connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)), SLOT(setDir(const KUrl&)));
 
 	m_dirOperator = new KDirOperator(KUrl(), this);
 	m_dirOperator->setViewConfig(m_configGroup);
 	m_dirOperator->readConfig(m_configGroup);
 	m_dirOperator->setView(KFile::Default);
 	m_dirOperator->setMode(KFile::Files);
+	setFocusProxy(m_dirOperator);
 
 	connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
 	connect(m_dirOperator, SIGNAL(urlEntered(const KUrl&)), this, SLOT(dirUrlEntered(const KUrl&)));
@@ -98,7 +96,6 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 
 FileBrowserWidget::~FileBrowserWidget()
 {
-	delete m_urlCompletion;
 }
 
 void FileBrowserWidget::readConfig()
@@ -133,18 +130,7 @@ void FileBrowserWidget::comboBoxReturnPressed(const QString& u)
 
 void FileBrowserWidget::dirUrlEntered(const KUrl& u)
 {
-	m_pathComboBox->removeUrl(u);
-	QStringList urls = m_pathComboBox->urls();
-	urls.prepend(u.url());
-	while(urls.count() >= m_pathComboBox->maxItems()) {
-		urls.removeAll(urls.last());
-	}
-	m_pathComboBox->setUrls(urls);
-}
-
-void FileBrowserWidget::focusInEvent(QFocusEvent* /* e */)
-{
-	m_dirOperator->setFocus();
+	m_urlNavigator->setUrl(u);
 }
 
 void FileBrowserWidget::setDir(const KUrl& url)

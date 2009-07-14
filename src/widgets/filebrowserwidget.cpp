@@ -28,6 +28,7 @@ from Kate (C) 2001 by Matt Newell
 #include <QVBoxLayout>
 
 #include <KActionCollection>
+#include <KActionMenu>
 #include <KCharsets>
 #include <KFilePlacesModel>
 #include <KLocale>
@@ -48,11 +49,11 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	layout->setSpacing(0);
 	setLayout(layout);
 
-	KToolBar *toolbar = new KToolBar(this);
-	toolbar->setMovable(false);
-	toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	toolbar->setContextMenuPolicy(Qt::NoContextMenu);
-	layout->addWidget(toolbar);
+	m_toolbar = new KToolBar(this);
+	m_toolbar->setMovable(false);
+	m_toolbar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+	m_toolbar->setContextMenuPolicy(Qt::NoContextMenu);
+	layout->addWidget(m_toolbar);
 
 	KFilePlacesModel* model = new KFilePlacesModel(this);
 	m_urlNavigator = new KUrlNavigator(model, KUrl(QDir::homePath()), this);
@@ -66,6 +67,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	m_dirOperator->setMode(KFile::Files);
 	setFocusProxy(m_dirOperator);
 
+	connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)), m_dirOperator, SLOT(setFocus()));
 	connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
 	connect(m_dirOperator, SIGNAL(urlEntered(const KUrl&)), this, SLOT(dirUrlEntered(const KUrl&)));
 
@@ -77,17 +79,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	filter.replace('.', "*.");
 	m_dirOperator->setNameFilter(filter);
 
-	KActionCollection *coll = m_dirOperator->actionCollection();
-	toolbar->addAction(coll->action("home"));
-	toolbar->addAction(coll->action("up"));
-	toolbar->addAction(coll->action("back"));
-	toolbar->addAction(coll->action("forward"));
-
-	KAction *action = new KAction(this);
-	action->setIcon(SmallIcon("document-open"));
-	action->setText(i18n("Open selected"));
-	connect(action, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
-	toolbar->addAction(action);
+	setupToolbar();
 
 	layout->addWidget(m_dirOperator);
 	layout->setStretchFactor(m_dirOperator, 2);
@@ -117,15 +109,36 @@ void FileBrowserWidget::writeConfig()
 	m_dirOperator->writeConfig(m_configGroup);
 }
 
+void FileBrowserWidget::setupToolbar()
+{
+	KActionCollection *coll = m_dirOperator->actionCollection();
+	m_toolbar->addAction(coll->action("back"));
+	m_toolbar->addAction(coll->action("forward"));
+
+	KAction *action = new KAction(this);
+	action->setIcon(SmallIcon("document-open"));
+	action->setText(i18n("Open selected"));
+	connect(action, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
+	m_toolbar->addAction(action);
+
+
+	// section for settings menu
+	KActionMenu *optionsMenu = new KActionMenu(KIcon("configure"), i18n("Options"), this);
+	optionsMenu->setDelayed(false);
+	optionsMenu->addAction(m_dirOperator->actionCollection()->action("short view"));
+	optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed view"));
+	optionsMenu->addAction(m_dirOperator->actionCollection()->action("tree view"));
+	optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed tree view"));
+	optionsMenu->addSeparator();
+	optionsMenu->addAction(m_dirOperator->actionCollection()->action("show hidden"));
+
+	m_toolbar->addSeparator();
+	m_toolbar->addAction(optionsMenu);
+}
+
 KUrl FileBrowserWidget::currentUrl() const
 {
 	return m_dirOperator->url();
-}
-
-void FileBrowserWidget::comboBoxReturnPressed(const QString& u)
-{
-	m_dirOperator->setFocus();
-	setDir(KUrl(u));
 }
 
 void FileBrowserWidget::dirUrlEntered(const KUrl& u)

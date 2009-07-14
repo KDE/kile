@@ -30,6 +30,7 @@ from Kate (C) 2001 by Matt Newell
 #include "kileextensions.h"
 
 class KFileItem;
+class KToolBar;
 
 namespace KileWidget {
 
@@ -48,20 +49,21 @@ public Q_SLOTS:
 	void writeConfig();
 
 private Q_SLOTS:
-	void comboBoxReturnPressed(const QString& u);
 	void dirUrlEntered(const KUrl& u);
 	void emitFileSelectedSignal();
 
 protected:
+	void setupToolbar();
 	void readConfig();
 
 Q_SIGNALS:
 	void fileSelected(const KFileItem& fileItem);
 
 private:
+	KToolBar 	*m_toolbar;
 	KUrlNavigator	*m_urlNavigator;
 	KDirOperator	*m_dirOperator;
-	KConfig			*m_config;
+	KConfig		*m_config;
 	KConfigGroup 	m_configGroup;
 };
 

@@ -103,11 +103,11 @@ namespace KileTool {
 	bool ProcessLauncher::launch()
 	{
 		if(tool() == NULL){
-		  kdWarning() << "tool() is NULL which is a BUG";
+		  kWarning() << "tool() is NULL which is a BUG";
 		  return false;
 		}
 		if(m_proc == NULL){
-		  kdWarning() << "m_proc is NULL which is a BUG";
+		  kWarning() << "m_proc is NULL which is a BUG";
 		  return false;
 		}
 

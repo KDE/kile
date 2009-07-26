@@ -42,6 +42,7 @@ class ResultItemDelegate : public QItemDelegate {
 
 		virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 		{
+			painter->save();
 			drawBackground(painter, option, index);
 
 			QTextDocument document;
@@ -49,6 +50,7 @@ class ResultItemDelegate : public QItemDelegate {
 			painter->resetMatrix();
 			painter->translate(option.rect.topLeft());
 			document.drawContents(painter);
+			painter->restore();
 		}
 
 		virtual QSize sizeHint(const QStyleOptionViewItem& /* option */, const QModelIndex &index) const

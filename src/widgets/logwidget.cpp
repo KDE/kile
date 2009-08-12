@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Sat Dec 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -26,6 +26,7 @@
 
 #include <KAction>
 #include <KLocale>
+#include <KColorScheme>
 #include <KStandardAction>
 #include <KUrl>
 
@@ -218,43 +219,43 @@ namespace KileWidget
 			emit showingErrorMessage(this);
 		}
 
-		QString ot = "", ct = "</font>";
-		
 		QString myMsg = Qt::escape(message);
+		QString fontColor;
 
 		switch(type) {
 			case KileTool::Warning :
-				ot = "<font color='blue'>";
+				fontColor = "<font color='" + KStatefulBrush(KColorScheme::View, KColorScheme::NeutralText).brush(this).color().name() + "'>";
 				break;
 			case KileTool::ProblemWarning :
 				if(KileConfig::hideProblemWarning()) {
 					return;
 				}
-				ot = "<font color='blue'>";
+				fontColor = "<font color='" + KStatefulBrush(KColorScheme::View, KColorScheme::NeutralText).brush(this).color().name() + "'>";
 				break;
 			case KileTool::Error: // fall through
 			case KileTool::ProblemError:
-				ot = "<font color='red'>";
+				fontColor = "<font color='" + KStatefulBrush(KColorScheme::View, KColorScheme::NegativeText).brush(this).color().name() + "'>";
 				break;
 			case KileTool::ProblemBadBox:
 				if (KileConfig::hideProblemBadBox()) {
 					return;
 				}
-				ot = "<font color='#666666'>";
+				fontColor = "<font color='" + KColorScheme::shade(KStatefulBrush(KColorScheme::View, KColorScheme::NeutralText).brush(this).color(), KColorScheme::DarkShade).name() + "'>";
 				break;
 			default:
-				ot = "<font color='black'>";
+				fontColor = "<font color='" + KStatefulBrush(KColorScheme::View, KColorScheme::NormalText).brush(this).color().name() + "'>";
 				break;
 		}
 
 		QListWidgetItem *item = new QListWidgetItem(this);
 
 		if(tool.isEmpty()) {
-			item->setText(ot + myMsg + ct);
+			item->setText(fontColor + myMsg + "</font>");
 		}
 		else {
-			item->setText(ot + "<b>[" + tool + "]</b> " + myMsg + ct);
+			item->setText(fontColor + "<b>[" + tool + "]</b> " + myMsg + "</font>");
 		}
+
 
 		if(outputInfo.isValid()) {
 			item->setData(Qt::UserRole, QVariant::fromValue(outputInfo));

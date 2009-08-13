@@ -114,6 +114,7 @@ namespace KileTool
 		void done(Base *, int);
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
+		void stopActionDestroyed();
 
 	Q_SIGNALS:
 		void requestGUIState(const QString &);

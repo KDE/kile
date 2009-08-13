@@ -111,6 +111,7 @@ namespace KileTool
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
 		connect(stop, SIGNAL(triggered()), this, SLOT(stop()));
+		connect(stop, SIGNAL(destroyed(QObject*)), this, SLOT(stopActionDestroyed()));
 	}
 	
 	Manager::~Manager() {}
@@ -271,7 +272,7 @@ namespace KileTool
 			if(tool == m_queue.tool()) {
 				m_queue.dequeue();
 			}
-			m_stop->setEnabled(false);
+			setEnabledStopButton(false);
 			QTimer::singleShot(100, this, SLOT(runNextInQueue()));
 		}
 	}
@@ -282,6 +283,11 @@ namespace KileTool
 		if(m_queue.tool()) {
 			m_queue.tool()->stop();
 		}
+	}
+
+	void Manager::stopActionDestroyed()
+	{
+		m_stop = NULL;
 	}
 
 	void Manager::done(Base *tool, int result)

@@ -625,6 +625,15 @@ to=dvi
 state=Viewer
 type=Process
 
+[Tool/ViewDVI/Evince]
+class=View
+command=evince
+options='%target'
+from=dvi
+to=dvi
+state=Viewer
+type=Process
+
 [Tool/ViewDVI/Okular Unique]
 class=View
 command=okular
@@ -652,6 +661,15 @@ to=ps
 state=Viewer
 type=Process
 
+[Tool/ViewPS/Evince]
+class=View
+command=evince
+options='%target'
+from=ps
+to=ps
+state=Viewer
+type=Process
+
 [Tool/ViewPS/Okular Unique]
 class=View
 command=okular
@@ -673,6 +691,15 @@ type=Part
 [Tool/ViewPDF/Okular]
 class=View
 command=okular
+options='%target'
+from=pdf
+to=pdf
+state=Viewer
+type=Process
+
+[Tool/ViewPDF/Evince]
+class=View
+command=evince
 options='%target'
 from=pdf
 to=pdf

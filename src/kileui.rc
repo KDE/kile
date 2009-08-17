@@ -154,7 +154,7 @@
 	<Separator/>
 	<Action name="CleanAll"/>
 </Menu>
-<Menu name="menu_project"><text>&amp;Project</text>
+<Menu name="menu_project"><text>Pr&amp;oject</text>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>

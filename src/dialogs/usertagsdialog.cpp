@@ -218,7 +218,7 @@ KileAction::TagData UserTags::splitTag(const QString& name, const QString& tag)
 	QStringList parts = tag.split("%M");
 	int dx = parts[0].length();
 	QString secondPart;
-	if(parts.size() >= 2 && parts[1].length() == 0) {
+	if(parts.size() >= 2 && parts[1].length() > 0) {
 		secondPart = parts[1];
 		int i = parts[0].indexOf(QRegExp("[\\[\\{\\(]"));
 		if(i != -1) {

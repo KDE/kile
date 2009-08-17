@@ -2996,7 +2996,9 @@ void EditorExtension::gotoSectioning(bool backwards, KTextEditor::View *view)
 	}
 
 	int rowFound, colFound;
-	m_ki->viewManager()->updateStructure(true);
+	if( view && view->document()->isModified() ){ // after saving, the document structure is the current one, so in this case we don't need to update it
+		m_ki->viewManager()->updateStructure(true);
+	}
 	if(m_ki->structureWidget()->findSectioning(NULL,view->document(), view->cursorPosition().line(), view->cursorPosition().column(), backwards, false, rowFound, colFound)) {
 		view->setCursorPosition(KTextEditor::Cursor(rowFound, colFound));
 	}

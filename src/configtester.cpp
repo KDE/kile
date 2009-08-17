@@ -167,7 +167,7 @@ Tester::Tester(QObject *parent) : QObject(parent), m_process(0L)
 
 	ConfigTest::addPrettyName("okular", i18n("ForwardDVI"));
 	ConfigTest::addSuccessMessage("okular", i18n("Supported."));
-	ConfigTest::addFailureMessage("okular", i18n("The Okular version is too old for ForwardDVI, you must use a version higher than 0.8.5"));
+	ConfigTest::addFailureMessage("okular", i18n("The Okular version is too old for ForwardDVI, you must use at least version 0.8.6"));
 
 }
 

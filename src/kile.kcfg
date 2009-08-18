@@ -326,12 +326,6 @@
 			<label></label>
 			<default></default>
 		</entry>
-		<entry name="InputEncoding" type="String">
-			<label></label>
-			<default code="true">
-				QString::fromLatin1(QTextCodec::codecForLocale()->name())
-			</default>
-		</entry>
 		<entry name="lastDir" type="Path">
 			<label></label>
 			<default></default>

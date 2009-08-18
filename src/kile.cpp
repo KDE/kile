@@ -252,6 +252,14 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		m_listUserTools.clear();
 	}
 
+        if(KileConfig::rCVersion() < 7) {
+		if (KMessageBox::questionYesNo(mainWindow(),
+		    i18n("The standard tool list need to be reloaded because of the switch from KDE3 to KDE4. This will overwrite any changes in the tools you have made. Do you want to reload the list now (recommended)?"),
+			i18n("Tools need to be updated"))  == KMessageBox::Yes){
+				m_toolFactory->readStandardToolConfig();
+		}
+	}
+
 	KTipDialog::showTip(m_mainWindow, "kile/tips");
 
 	restoreFilesAndProjects(allowRestore);

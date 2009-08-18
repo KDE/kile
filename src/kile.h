@@ -57,7 +57,7 @@
 #define ID_VIEW_MODE        303
 #define ID_SELECTION_MODE   304
 
-#define KILERC_VERSION 6
+#define KILERC_VERSION 7
 
 class QFileInfo;
 class QTimer;

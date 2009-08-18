@@ -477,7 +477,7 @@ void QuickDocument::readDocumentClassConfig()
 	// set encoding combobox
 	fillCombobox(m_cbEncoding,
 	             "ansinew,applemac,ascii,cp1252,cp1250,cp1251,cp1257,cp437,cp437de,cp850,cp858,"
-	             "cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin4,latin5,latin9,latin10,next,utf8,utf8x,utf-8,utfcyr",
+	             "cp852,cp865,decmulti,koi8-r,latin1,latin2,latin3,latin4,latin5,latin9,latin10,next,utf8x,utfcyr",
 	             m_currentEncoding);
 }
 

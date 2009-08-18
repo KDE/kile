@@ -1,3 +1,20 @@
+version 2.1beta1 -> 2.1beta2
+
+Fixes: 
+ - ask the user if the tool list should be reloaded, needed due to the switch
+   to KDE4
+ - remove some uncommong utf8 settings from Quickdocument Wizard, make the
+ default encoding utf8x (#204189)
+ - make the ALT+p shortcut unique (ubuntu #404879)
+ - make section jumping faster for unchanged documents (thanks to Rafał Nowak)
+ - fix %M support in user tags (thanks to Amaro Rica da Silva)
+ - use the KDE system colours for displaying entries in the log widget (#185529)
+ - don't set empty highlightning, work around for katepart bug (#196791)
+
+Features:
+ - add Evince as PDF, PS, DVI Viewer
+ - Nicer "Open File" widget (thanks to dhaumann)
+
 version 2.0 -> 2.1beta1
 
 Bigger Features:

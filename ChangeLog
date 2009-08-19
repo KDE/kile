@@ -10,6 +10,7 @@ Fixes:
  - fix %M support in user tags (thanks to Amaro Rica da Silva)
  - use the KDE system colours for displaying entries in the log widget (#185529)
  - don't set empty highlightning, work around for katepart bug (#196791)
+ - add biblatex file suffixes
 
 Features:
  - add Evince as PDF, PS, DVI Viewer

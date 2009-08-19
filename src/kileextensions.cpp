@@ -30,7 +30,7 @@ namespace KileDocument
 Extensions::Extensions()
 {
 	m_documents = ".tex .ltx .latex .dtx .ins";
-	m_packages = ".cls .sty";
+	m_packages = ".cls .sty .bbx .cbx .lbx";
 	m_bibtex = ".bib";
 	m_metapost = ".mp";
 	m_script = ".js";

@@ -204,7 +204,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	KTextEditor::Cursor startCursor = position;
 	KTextEditor::Cursor endCursor = position;
 
-	QRegExp completionEndRegExp("\\b|\\\\");
+	QRegExp completionEndRegExp("\\W|\\b|\\\\");
 
 	int cursorPos = position.column();
 
@@ -248,6 +248,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	}
 
 	int endPos = line.indexOf(completionEndRegExp, cursorPos);
+	KILE_DEBUG() << "endPos" << endPos;
 	if(endPos >= 0) {
 		endCursor.setColumn(endPos);
 	}
@@ -260,6 +261,24 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	}
 	KILE_DEBUG() << "returning completion range: " << completionRange;
 	return completionRange;
+}
+
+bool LaTeXCompletionModel::shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
+                                                 bool userInsertion, const KTextEditor::Cursor &position)
+{
+	Q_UNUSED(view);
+	Q_UNUSED(position);
+
+	if(insertedText.isEmpty()) {
+		return false;
+	}
+
+	if(insertedText.endsWith('{')) {
+		return true;
+	}
+	else {
+		return CodeCompletionModelControllerInterface::shouldStartCompletion(view, insertedText, userInsertion, position);
+	}
 }
 
 bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,

@@ -243,6 +243,7 @@ namespace KileTool
 				return status;
 			}
 
+			m_log->startToolLogOutput();
 			emit(toolStarted());
 
 			return Running;
@@ -294,6 +295,8 @@ namespace KileTool
 	{
 		setEnabledStopButton(false);
 		m_nLastResult = result;
+
+		m_log->endToolLogOutput();
 
 		if(tool != m_queue.tool()) { //oops, tool finished async, could happen with view tools
 			tool->deleteLater();

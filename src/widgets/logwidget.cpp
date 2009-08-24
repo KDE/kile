@@ -126,10 +126,10 @@ namespace KileWidget
 		return (count() > 0);
 	}
 
-	void LogWidget::highlight(const OutputInfo& info)
+	void LogWidget::highlight(const OutputInfo& info, bool startFromBottom)
 	{
 		for(int i = 0; i < count(); ++i) {
-			QListWidgetItem *listItem = item(i);
+			QListWidgetItem *listItem = item(startFromBottom ? count() - 1 - i : i);
 			QVariant variant = listItem->data(Qt::UserRole);
 			if(!variant.isValid()) {
 				continue;
@@ -265,6 +265,11 @@ namespace KileWidget
 			item->setFlags(item->flags() & ~Qt::ItemIsSelectable);
 		}
 
+		if((type == KileTool::Error || type == KileTool::ProblemError)
+		   && !m_firstErrorMessgeInToolLog.isValid()) {
+			m_firstErrorMessgeInToolLog = outputInfo;
+		}
+
 		if(scroll) {
 			scrollToItem(item);
 		}
@@ -312,7 +317,19 @@ namespace KileWidget
 			QApplication::clipboard()->setText(toCopy);
 		}
 	}
- 
+
+	void LogWidget::startToolLogOutput()
+	{
+		m_firstErrorMessgeInToolLog = OutputInfo();
+	}
+
+	void LogWidget::endToolLogOutput()
+	{
+		if(m_firstErrorMessgeInToolLog.isValid()) {
+			highlight(m_firstErrorMessgeInToolLog, true);
+		}
+	}
+
 	void LogWidget::contextMenuEvent(QContextMenuEvent *event)
 	{
 		QMenu popup;

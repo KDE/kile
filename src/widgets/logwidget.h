@@ -56,7 +56,7 @@ namespace KileWidget {
 		struct ProblemInformation {
 			int type;
 			QString message;
-			OutputInfo outputInfo; 
+			OutputInfo outputInfo;
 		};
 		
 		LogWidget(KileInfo *info, QWidget *parent, const char *name = NULL);
@@ -65,7 +65,7 @@ namespace KileWidget {
 		bool isShowingOutput() const;
 
 	public Q_SLOTS:
-		void highlight(const OutputInfo& info);
+		void highlight(const OutputInfo& info, bool startFromBottom = false);
 
 		void printMessage(const QString& message);
 		void printMessage(int type, const QString& message, const QString &tool = "Kile",
@@ -77,6 +77,9 @@ namespace KileWidget {
 		void addEmptyLine();
 
 		void copy();
+
+		void startToolLogOutput();
+		void endToolLogOutput();
 
 	Q_SIGNALS:
 		void showingErrorMessage(QWidget*);
@@ -103,6 +106,7 @@ namespace KileWidget {
 		KileInfo		*m_info;
 		int			m_idWarning, m_idBadBox;
 		LogWidgetItemDelegate	*m_itemDelegate;
+		OutputInfo 		m_firstErrorMessgeInToolLog;
 
 		bool containsSelectableItems() const;
 	};

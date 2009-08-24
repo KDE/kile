@@ -913,7 +913,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 	if(startDir.isEmpty()) {
 		KUrl baseDirectory = info->getBaseDirectory();
 		if(baseDirectory.isEmpty()) {
-			startDir = ":KILE_LATEX_SAVE_DIR";
+			startDir = "kfiledialog:///KILE_LATEX_SAVE_DIR";
 		}
 		else {
 			startDir = baseDirectory.url();

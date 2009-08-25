@@ -4,7 +4,7 @@ img_extIsRegExp=false
 img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
 kileprversion=2
 kileversion=2.1 beta1
-lastDocument=biblatexreqlines.tex
+lastDocument=biblatexreqlines.bib
 masterDocument=
 name=biblatexreqlines
 pkg_extIsRegExp=false
@@ -18,10 +18,10 @@ QuickBuild=
 
 [item:biblatexreqlines.bib]
 archive=true
-column=23
+column=0
 encoding=UTF-8
 highlight=BibTeX
-line=0
+line=9
 open=true
 order=1
 
@@ -36,7 +36,7 @@ order=-1
 
 [item:biblatexreqlines.tex]
 archive=true
-column=26
+column=34
 encoding=UTF-8
 highlight=LaTeX
 line=2

@@ -1,0 +1,44 @@
+[General]
+def_graphic_ext=eps
+img_extIsRegExp=false
+img_extensions=.eps .jpg .jpeg .png .pdf .ps .fig .gif
+kileprversion=2
+kileversion=2.1 beta1
+lastDocument=biblatexreqlines.tex
+masterDocument=
+name=biblatexreqlines
+pkg_extIsRegExp=false
+pkg_extensions=.cls .sty .bbx .cbx .lbx
+src_extIsRegExp=false
+src_extensions=.tex .ltx .latex .dtx .ins
+
+[Tools]
+MakeIndex=
+QuickBuild=
+
+[item:biblatexreqlines.bib]
+archive=true
+column=23
+encoding=UTF-8
+highlight=BibTeX
+line=0
+open=true
+order=1
+
+[item:biblatexreqlines.kilepr]
+archive=true
+column=138233440
+encoding=
+highlight=
+line=0
+open=false
+order=-1
+
+[item:biblatexreqlines.tex]
+archive=true
+column=26
+encoding=UTF-8
+highlight=LaTeX
+line=2
+open=true
+order=0

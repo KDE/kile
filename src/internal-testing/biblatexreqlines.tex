@@ -1,0 +1,27 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[mincrossrefs=5,bibtex8]{biblatex}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{csquotes}
+\usepackage[ngerman]{babel}
+ 
+\bibliography{biblatexreqlines}
+\begin{document}
+
+\section{First}
+
+\begin{refsection}
+Test \cite{Scherzer1936}
+\end{refsection}
+
+
+\section{Second}
+
+\begin{refsection}
+Test \cite{Scherzer1936}
+\end{refsection}
+
+\printbibliography[section=1]
+\printbibliography[section=2]
+\end{document}

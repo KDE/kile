@@ -1,3 +1,8 @@
+version 2.1beta2 -> 2.1??
+
+Fixes:
+ - make find in project work again (#205087)
+
 version 2.1beta1 -> 2.1beta2
 
 Fixes: 

@@ -467,10 +467,10 @@ void FindFilesDialog::slotItemSelected(const QString& item)
 		if((pos = str.indexOf(':')) != -1) {
 			linenumber = str.left(pos);
 			if(m_mode == KileGrep::Project) {
-				emit itemSelected(m_projectdir + '/' + filename, linenumber.toInt());
+				emit itemSelected(m_projectdir + QDir::separator() + filename, linenumber.toInt());
 			}
 			else {
-				emit itemSelected(dir_combo->comboBox()->itemText(0) + '/' + filename, linenumber.toInt());
+				emit itemSelected(dir_combo->comboBox()->itemText(0) + QDir::separator() + filename, linenumber.toInt());
 			}
 		}
 	}
@@ -511,8 +511,8 @@ void FindFilesDialog::processOutput()
 		QString item = m_buf.left(pos);
 		if(!item.isEmpty()) {
 			if(m_mode == KileGrep::Project) {
-				if (item.indexOf(m_projectdir + '/') == 0) {
-					new QListWidgetItem(item.mid(m_projectdir.length() + 1), resultbox);
+				if (item.indexOf(m_projectdir) == 0) {
+					new QListWidgetItem(item.mid(m_projectdir.length()), resultbox);
 				}
 				else {
 					new QListWidgetItem(item, resultbox);

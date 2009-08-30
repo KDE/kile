@@ -197,7 +197,7 @@ void KileProject::init(const QString& name, const KUrl& url, KileDocument::Exten
 		KConfigGroup configGroup = m_config->group("General");
 		configGroup.writeEntry("name", m_name);
 		configGroup.writeEntry("kileprversion", kilePrVersion);
-		configGroup.writeEntry("kileversion", kileVersion);
+		configGroup.writeEntry("kileversion", kileFullVersion);
 		configGroup.sync();
 	}
 }
@@ -454,7 +454,7 @@ bool KileProject::save()
 	KConfigGroup generalGroup = m_config->group("General");
 	generalGroup.writeEntry("name", m_name);
 	generalGroup.writeEntry("kileprversion", kilePrVersion);
-	generalGroup.writeEntry("kileversion", kileVersion);
+	generalGroup.writeEntry("kileversion", kileFullVersion);
 	generalGroup.writeEntry("def_graphic_ext", m_defGraphicExt);
 
 	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);

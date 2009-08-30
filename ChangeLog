@@ -2,6 +2,7 @@ version 2.1beta2 -> 2.1??
 
 Fixes:
  - make find in project work again (#205087)
+ - use correct version string in kilepr files
 
 version 2.1beta1 -> 2.1beta2
 

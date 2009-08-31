@@ -102,7 +102,7 @@ ConfigChecker::ConfigChecker(QWidget* parent) :
 	setButtons(Ok | Cancel | User1);
 	setDefaultButton(Ok);
 	showButtonSeparator(true);
-	setButtonGuiItem(User1, KGuiItem("&Save Results..."));
+	setButtonGuiItem(User1, KGuiItem(i18n("&Save Results...")));
 
 	m_widget = new ConfigCheckerWidget(this);
 	setMainWidget(m_widget);

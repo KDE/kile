@@ -290,7 +290,7 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	frame->setLayout(hl);
 	hl->addStretch();
 
-	m_btnPackagesAdd = new KPushButton("&Add Package...", frame);
+	m_btnPackagesAdd = new KPushButton(i18n("&Add Package..."), frame);
 	m_btnPackagesAdd->setIcon(KIcon("list-add"));
 	m_btnPackagesAdd->setWhatsThis(i18n("Add a new package"));
 	connect(m_btnPackagesAdd, SIGNAL(clicked()), this, SLOT(slotPackageAdd()));
@@ -300,7 +300,7 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	m_btnPackagesAddOption->setWhatsThis(i18n("Add a new package option"));
 	connect(m_btnPackagesAddOption, SIGNAL(clicked()), this, SLOT(slotPackageAddOption()));
 	hl->addWidget(m_btnPackagesAddOption);
-	m_btnPackagesEdit = new KPushButton("Ed&it...", frame);
+	m_btnPackagesEdit = new KPushButton(i18n("Ed&it..."), frame);
 	m_btnPackagesEdit->setIcon(KIcon("document-properties"));
 	m_btnPackagesEdit->setWhatsThis(i18n("Edit the current package option"));
 	connect(m_btnPackagesEdit, SIGNAL(clicked()), this, SLOT(slotPackageEdit()));

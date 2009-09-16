@@ -650,6 +650,15 @@ int AbbreviationCompletionModel::rowCount(const QModelIndex &parent) const
 	return m_completionList.size();
 }
 
+bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
+                                                        bool userInsertion, const KTextEditor::Cursor &position)
+{
+	Q_UNUSED(view);
+	Q_UNUSED(userInsertion);
+	Q_UNUSED(position);
+	return m_abbreviationManager->abbreviationStartsWith(insertedText);
+}
+
 bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
                                                         const QString &currentCompletion)
 {

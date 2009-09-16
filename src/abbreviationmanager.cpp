@@ -150,6 +150,17 @@ QStringList Manager::getAbbreviationTextMatches(const QString& text) const
 	return toReturn;
 }
 
+bool Manager::abbreviationStartsWith(const QString& text) const
+{
+	for(AbbreviationMap::const_iterator i = m_abbreviationMap.begin();
+	    i != m_abbreviationMap.end(); ++i) {
+		if(i.key().startsWith(text)) {
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Manager::isAbbreviationDefined(const QString& text) const
 {
 	return m_abbreviationMap.find(text) != m_abbreviationMap.end();

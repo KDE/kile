@@ -57,8 +57,8 @@ namespace KileCodeCompletion
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
-			virtual bool shouldStartCompletion (KTextEditor::View *view, const QString &insertedText,
-			                                    bool userInsertion, const KTextEditor::Cursor &position);
+			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
+			                                   bool userInsertion, const KTextEditor::Cursor &position);
 			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
 			                                                            const QString &currentCompletion);
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
@@ -106,6 +106,8 @@ namespace KileCodeCompletion
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
+			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
+			                                   bool userInsertion, const KTextEditor::Cursor &position);
 			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
 			                                                            const QString &currentCompletion);
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,

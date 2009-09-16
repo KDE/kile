@@ -75,6 +75,11 @@ namespace KileAbbreviation {
 			 **/
 			QStringList getAbbreviationTextMatches(const QString& text) const;
 
+			/**
+			 * Returns true iff there exists an abbreviation which starts with 'text'.
+			 **/
+			bool abbreviationStartsWith(const QString& text) const;
+
 			bool isAbbreviationDefined(const QString& text) const;
 
 		Q_SIGNALS:

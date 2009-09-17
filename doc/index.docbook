@@ -610,7 +610,7 @@
 			<step><para>Select <guibutton>ViewDVI</guibutton>.</para></step>
 			<step><para>Check out all your new text.</para></step>
 			<step><para>When you are done viewing your document, click the <guibutton>Editor View</guibutton>
-					button or press <keycombo>&Ctrl;<keycap>e</keycap></keycombo>
+					button or press <keycombo>&Ctrl;<keycap>E</keycap></keycombo>
 					to return to the editor if you are using the embedded 
 			viewer, or close the viewer window if you are using a separate viewer.</para></step>
 		</procedure>

@@ -713,13 +713,16 @@ void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *d
 
 void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
+	m_completionList.clear();
 	if(!KileConfig::completeAutoAbbrev() || !range.isValid()) {
-		m_completionList.clear();
 		reset();
 		return;
 	}
 	QString text = view->document()->text(range);
 	KILE_DEBUG() << text;
+	if(text.isEmpty()) {
+		return;
+	}
 	m_completionList = m_abbreviationManager->getAbbreviationTextMatches(text);
 	m_completionList.sort();
 	if(m_completionList.size() == 1

@@ -207,6 +207,7 @@ private:
 	void setupPreviewTools();
 	void setupActions();
 	void setupTools();
+	void updateUserDefinedMenus();
 	void cleanUpActionList(QList<QAction*> &list, const QStringList &tools);
 	void restoreLastSelectedAction();
 	void saveLastSelectedAction();

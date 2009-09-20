@@ -1641,7 +1641,17 @@ void Kile::activePartGUI(KParts::Part *part)
 	}
 
 	m_mainWindow->createGUI(part);
+	updateUserDefinedMenus();
 
+	// finally update the GUI regarding the current state
+	updateGUI(m_wantState);
+	//set the current state
+	m_currentState = m_wantState;
+	m_wantState = "Editor";
+}
+
+void Kile::updateUserDefinedMenus()
+{
 	m_buildMenuTopLevel = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_build", m_mainWindow));
 	m_buildMenuCompile  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_compile", m_mainWindow));
 	m_buildMenuConvert  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_convert", m_mainWindow));
@@ -1652,12 +1662,6 @@ void Kile::activePartGUI(KParts::Part *part)
 
 	setupUserTagActions();
 	setupTools();
-
-	// finally update the GUI regarding the current state
-	updateGUI(m_wantState);
-	//set the current state
-	m_currentState = m_wantState;
-	m_wantState = "Editor";
 }
 
 void Kile::updateGUI(const QString &wantState)
@@ -2509,6 +2513,7 @@ void Kile::configureToolbars()
 	dlg.exec();
 
 	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
+	updateUserDefinedMenus();
 	updateGUI(m_currentState);
 }
 

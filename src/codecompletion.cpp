@@ -54,6 +54,12 @@ LaTeXCompletionModel::~LaTeXCompletionModel()
 void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
                                                                       InvocationType invocationType)
 {
+	if(!range.isValid()
+	|| (invocationType == AutomaticInvocation && !KileConfig::completeAuto())) {
+		m_completionList.clear();
+		reset();
+		return;
+	}
 	Q_UNUSED(invocationType);
 	m_currentView = view;
 	KILE_DEBUG() << "building model...";
@@ -62,9 +68,11 @@ void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTex
 
 void LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
 {
-	KILE_DEBUG() << "updating model...";
+	KILE_DEBUG() << "updating model..." << view << range;
 	range = completionRange(view, view->cursorPosition());
-	buildModel(view, range);
+	if(range.isValid()) {
+		buildModel(view, range);
+	}
 }
 
 static inline bool isSpecialLaTeXCommandCharacter(const QChar& c) {
@@ -117,11 +125,6 @@ static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
 
 void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
-	if(!KileConfig::completeAuto() || !range.isValid()) {
-		m_completionList.clear();
-		reset();
-		return;
-	}
 	KTextEditor::Cursor startCursor = range.start();
 	QString completionString = view->document()->text(range);
 	KILE_DEBUG() << "Text in completion range: " << completionString;
@@ -197,9 +200,6 @@ bool LaTeXCompletionModel::isWithinLaTeXCommand(KTextEditor::Document *doc, cons
 KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view, const KTextEditor::Cursor &position)
 {
 	bool latexCompletion = true;
-	if(!KileConfig::completeAuto()) {
-		return KTextEditor::Range::invalid();
-	}
 	QString line = view->document()->line(position.line());
 	KTextEditor::Cursor startCursor = position;
 	KTextEditor::Cursor endCursor = position;
@@ -268,6 +268,9 @@ bool LaTeXCompletionModel::shouldStartCompletion(KTextEditor::View *view, const 
 {
 	Q_UNUSED(view);
 	Q_UNUSED(position);
+	if(!KileConfig::completeAuto()) {
+		return false;
+	}
 
 	if(insertedText.isEmpty()) {
 		return false;
@@ -656,7 +659,7 @@ bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view,
 	Q_UNUSED(view);
 	Q_UNUSED(userInsertion);
 	Q_UNUSED(position);
-	return m_abbreviationManager->abbreviationStartsWith(insertedText);
+	return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(insertedText));
 }
 
 bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
@@ -673,7 +676,12 @@ bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view,
 void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
                                                     InvocationType invocationType)
 {
-	Q_UNUSED(invocationType);
+	if(!range.isValid()
+	|| (invocationType == AutomaticInvocation && !KileConfig::completeAutoAbbrev())) {
+		m_completionList.clear();
+		reset();
+		return;
+	}
 	KILE_DEBUG() << "building model...";
 	buildModel(view, range);
 }
@@ -682,16 +690,15 @@ void AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view,
 {
 	KILE_DEBUG() << "updating model...";
 	range = completionRange(view, view->cursorPosition());
-	buildModel(view, range);
+	if(range.isValid()) {
+		buildModel(view, range);
+	}
 }
 
 KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::View *view,
                                                                 const KTextEditor::Cursor &position)
 {
 	KILE_DEBUG();
-	if(!KileConfig::completeAutoAbbrev()) {
-		return KTextEditor::Range::invalid();
-	}
 	return KTextEditor::CodeCompletionModelControllerInterface::completionRange(view, position);
 }
 
@@ -714,10 +721,6 @@ void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *d
 void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
 	m_completionList.clear();
-	if(!KileConfig::completeAutoAbbrev() || !range.isValid()) {
-		reset();
-		return;
-	}
 	QString text = view->document()->text(range);
 	KILE_DEBUG() << text;
 	if(text.isEmpty()) {

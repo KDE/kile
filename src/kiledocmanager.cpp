@@ -537,9 +537,11 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url , 
 	KTextEditor::Document *doc = createDocument(url, docinfo, encoding, highlight);
 
 	m_ki->structureWidget()->clean(docinfo);
-	docinfo->updateStruct();
+	m_ki->structureWidget()->update(docinfo, true);
 
-	if ( !text.isNull() ) doc->setText(text);
+	if(!text.isEmpty()) {
+		doc->setText(text);
+	}
 
 	//FIXME: use signal/slot
 	if (doc && create)

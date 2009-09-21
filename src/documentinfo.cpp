@@ -1031,7 +1031,7 @@ void LaTeXInfo::updateStruct()
 	for(int i = 0; i < m_doc->lines(); ++i) {
 		if (teller > 100) {
 			teller=0;
-			kapp->processEvents();
+			kapp->processEvents(QEventLoop::ExcludeUserInputEvents);
 		}
 		else {
 			++teller;

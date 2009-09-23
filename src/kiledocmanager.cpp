@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2009 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -93,7 +93,9 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 Manager::~Manager()
 {
 	KILE_DEBUG() << "==KileDocument::Manager::~Manager()=========";
-	delete m_progressDialog;
+	if(m_progressDialog.isNull()) {
+		delete m_progressDialog.data();
+	}
 }
 
 void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= NULL */ )

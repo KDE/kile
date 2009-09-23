@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2009 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,6 +17,7 @@
 
 #include <QDropEvent>
 #include <QObject>
+#include <QPointer>
 #include <QStringList>
 
 #include <KTextEditor/Editor>
@@ -24,18 +25,18 @@
 
 #include "kileconstants.h"
 #include "kileproject.h"
+#include "widgets/progressdialog.h"
 
 class KUrl;
 class KFileItem;
 class KProgressDialog;
 namespace KTextEditor {class Document; class View;}
-namespace KileWidget { class ProgressDialog; }
 
 class TemplateItem;
 class KileInfo;
 class KileProjectItem;
 
-namespace KileDocument 
+namespace KileDocument
 {
 
 class Info;
@@ -226,11 +227,11 @@ protected:
 	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString& text = QString(), bool openProjectItemViews = true);
 
 private:
-	KTextEditor::Editor		*m_editor;
-	QList<TextInfo*>		m_textInfoList;
-	KileInfo			*m_ki;
-	QList<KileProject*>		m_projects;
-	KileWidget::ProgressDialog	*m_progressDialog;
+	KTextEditor::Editor			*m_editor;
+	QList<TextInfo*>			m_textInfoList;
+	KileInfo				*m_ki;
+	QList<KileProject*>			m_projects;
+	QPointer<KileWidget::ProgressDialog>	m_progressDialog;
 	
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);

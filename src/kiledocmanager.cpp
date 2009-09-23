@@ -67,6 +67,7 @@
 #include "widgets/konsolewidget.h"
 #include "kileconfig.h"
 #include "widgets/logwidget.h"
+#include "widgets/progressdialog.h"
 #include "dialogs/cleandialog.h"
 
 /*
@@ -92,6 +93,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 Manager::~Manager()
 {
 	KILE_DEBUG() << "==KileDocument::Manager::~Manager()=========";
+	delete m_progressDialog;
 }
 
 void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= NULL */ )
@@ -2040,9 +2042,9 @@ void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 
 void Manager::createProgressDialog()
 {
-	m_progressDialog = new KProgressDialog(kapp->activeWindow(), i18n("Open Project..."));
+	m_progressDialog = new KileWidget::ProgressDialog(m_ki->mainWindow(), i18n("Opening Project..."));
 	m_progressDialog->setModal(true);
-	m_progressDialog->showCancelButton(false);
+	m_progressDialog->setAllowCancel(false);
 	m_progressDialog->setLabelText(i18n("Scanning project files..."));
 	m_progressDialog->setAutoClose(true);
 	m_progressDialog->setMinimumDuration(2000);

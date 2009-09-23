@@ -85,6 +85,8 @@ SET(kile_SRCS
 	kileextensions.cpp
 	widgets/categorycombobox.cpp
 	widgets/extendedscrollarea.cpp
+	widgets/progressdialog.h
+	widgets/progressdialog.cpp
 	scripting/bindings.cpp
 	scriptmanager.cpp
 	dialogs/tabular/multicolumnborderhelper.cpp

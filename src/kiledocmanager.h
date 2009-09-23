@@ -29,6 +29,7 @@ class KUrl;
 class KFileItem;
 class KProgressDialog;
 namespace KTextEditor {class Document; class View;}
+namespace KileWidget { class ProgressDialog; }
 
 class TemplateItem;
 class KileInfo;
@@ -229,7 +230,7 @@ private:
 	QList<TextInfo*>		m_textInfoList;
 	KileInfo			*m_ki;
 	QList<KileProject*>		m_projects;
-	KProgressDialog			*m_progressDialog;
+	KileWidget::ProgressDialog	*m_progressDialog;
 	
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);

@@ -105,7 +105,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
+ <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>

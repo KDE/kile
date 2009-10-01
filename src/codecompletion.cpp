@@ -76,7 +76,7 @@ void LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextE
 }
 
 static inline bool isSpecialLaTeXCommandCharacter(const QChar& c) {
-	return (c == '{' || c == '[' || c == '*' || c.isLetterOrNumber());
+	return (c == '{' || c == '[' || c == '*' || c == ']' || c == '}');
 }
 
 static inline int specialLaTeXCommandCharacterOrdering(const QChar& c)
@@ -86,15 +86,18 @@ static inline int specialLaTeXCommandCharacterOrdering(const QChar& c)
 			return 1;
 		case '[':
 			return 2;
-		case '*':
+		case ']':
 			return 3;
+		case '}':
+			return 4;
+		case '*':
+			return 5;
 		default: // does nothing
 		break;
 	}
 	return 4; // must be 'isLetterOrNumber()' now
 }
 
-// required ordering on chars: '{' < '[' < '*' < isLetterOrNumber()
 static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
 {
 	for(int i = 0; i < s1.length(); ++i) {
@@ -103,24 +106,32 @@ static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
 		}
 		const QChar c1 = s1.at(i);
 		const QChar c2 = s2.at(i);
+
 		if(c1 == c2) {
 			continue;
 		}
-		if(isSpecialLaTeXCommandCharacter(c1)
-		   && isSpecialLaTeXCommandCharacter(c2)) {
-			if(specialLaTeXCommandCharacterOrdering(c1)
-			     < specialLaTeXCommandCharacterOrdering(c2)) {
+		if(c1.isLetterOrNumber()) {
+			if(isSpecialLaTeXCommandCharacter(c2)) {
+				return false;
+			}
+			else {
+				return (c1 < c2);
+			}
+		}
+		else if(isSpecialLaTeXCommandCharacter(c1)) {
+			if(isSpecialLaTeXCommandCharacter(c2)) {
+				return (specialLaTeXCommandCharacterOrdering(c1)
+				          < specialLaTeXCommandCharacterOrdering(c2));
+			}
+			else if(c2.isLetterOrNumber()) {
 				return true;
 			}
 			else {
-				return false;
+				return (c1 < c2);
 			}
 		}
-		if(c1 < c2) {
-			return true;
-		}
 	}
-	return false;
+	return true;
 }
 
 void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
@@ -308,22 +319,14 @@ QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextE
 
 QVariant LaTeXCompletionModel::data(const QModelIndex& index, int role) const
 {
-	if(index.column() != KTextEditor::CodeCompletionModel::Name) {
-		return QVariant();
-	}
 	switch(role) {
 		case Qt::DisplayRole:
+			if(index.column() != KTextEditor::CodeCompletionModel::Name) {
+				return QVariant();
+			}
 			return m_completionList.at(index.row());
-		case CompletionRole:
-			return static_cast<int>(FirstProperty | LastProperty | Public);
-		case MatchQuality:
-			return 10;
-		case ScopeIndex:
-			return 0;
 		case InheritanceDepth:
-			return 0;
-		case HighlightingMethod:
-			return QVariant::Invalid;
+			return index.row();
 	}
 
 	return QVariant();
@@ -630,16 +633,6 @@ QVariant AbbreviationCompletionModel::data(const QModelIndex& index, int role) c
 	switch(role) {
 		case Qt::DisplayRole:
 			return m_completionList.at(index.row());
-		case CompletionRole:
-			return static_cast<int>(FirstProperty | LastProperty | Public);
-		case MatchQuality:
-			return 10;
-		case ScopeIndex:
-			return 0;
-		case InheritanceDepth:
-			return 0;
-		case HighlightingMethod:
-			return QVariant::Invalid;
 	}
 
 	return QVariant();

@@ -177,7 +177,7 @@ KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor
 // 	QRegExp completionStartRegExp("((\\\\\\w*)|([^\\\\]\\b\\w+))$");
 // 	QRegExp completionStartRegExp("(\\\\\\w*)[^\\\\]*$");
  
-	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,=\"'~]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
+	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
 	completionStartRegExp.setMinimal(true);
 	QString leftSubstring = line.left(position.column());
 	KILE_DEBUG() << "leftSubstring: " << leftSubstring;
@@ -194,11 +194,10 @@ bool LaTeXCompletionModel::isWithinLaTeXCommand(KTextEditor::Document *doc, cons
                                                                             const KTextEditor::Cursor& cursorPosition) const
 {
 	QString commandText = doc->text(KTextEditor::Range(commandStart, cursorPosition));
-	int numOpenSquareBrackets = commandText.count(QRegExp("[^\\]\\["));
-	int numClosedSquareBrackets = commandText.count(QRegExp("[^\\]\\]"));
-	int numOpenCurlyBrackets = commandText.count(QRegExp("[^\\]\\{"));
-	int numClosedCurlyBrackets = commandText.count(QRegExp("[^\\]\\}"));
-
+	int numOpenSquareBrackets = commandText.count(QRegExp("[^\\\\]\\["));
+	int numClosedSquareBrackets = commandText.count(QRegExp("[^\\\\]\\]"));
+	int numOpenCurlyBrackets = commandText.count(QRegExp("[^\\\\]\\{"));
+	int numClosedCurlyBrackets = commandText.count(QRegExp("[^\\\\]\\}"));
 	if(numOpenSquareBrackets != numClosedSquareBrackets || numOpenCurlyBrackets != numClosedCurlyBrackets) {
 		return true;
 	}
@@ -233,17 +232,18 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 		KILE_DEBUG() << "found citation or reference!";
 		int openBracketIndex = completionString.indexOf('{');
 		if(openBracketIndex != -1) {
-			QRegExp labelListRegExp("\\s*(([\\w]+)|([\\w]+(\\s*,\\s*[\\w]*)+))");
+			QRegExp labelListRegExp("\\s*(([:\\w]+)|([:\\w]+(\\s*,\\s*[:\\w]*)+))");
 			labelListRegExp.setMinimal(false);
 			int column = openBracketIndex + 1;
 			KILE_DEBUG() << "open bracket column + 1: " << column;
 			KILE_DEBUG() << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
 			if(labelListRegExp.indexIn(completionString, openBracketIndex + 1) == openBracketIndex + 1
 			      && labelListRegExp.matchedLength() + openBracketIndex + 1 == completionString.length()) {
-				int lastCommaIndex = completionString.lastIndexOf(',');
+				QRegExp lastCommaRegExp(",\\s*");
+				int lastCommaIndex = lastCommaRegExp.lastIndexIn(completionString);
 				if(lastCommaIndex >= 0) {
 					KILE_DEBUG() << "last comma found at: " << lastCommaIndex;
-					column =  lastCommaIndex + 1;
+					column =  lastCommaIndex + lastCommaRegExp.matchedLength();
 				}
 			}
 			KILE_DEBUG() << labelListRegExp.errorString();

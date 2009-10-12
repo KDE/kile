@@ -113,7 +113,7 @@ public:
 	bool hasAlternative() { return (m_options & ShowAlternative); }
 	bool hasBrowseButton() { return (m_options & ShowBrowseButton); }
 
-	void addToHistory(const QString& str) { if ( m_history.first() != str ) m_history.prepend(str); }
+	void addToHistory(const QString& str);
 
 private:
 	void init();

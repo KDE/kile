@@ -167,6 +167,13 @@ void InputTag::init()
 	m_history.clear();
 }
 
+void InputTag::addToHistory(const QString& str)
+{
+	if(!m_history.contains(str)) {
+		m_history.prepend(str);
+	}
+}
+
 void InputTag::emitData()
 {
 	KILE_DEBUG() << "InputTag::emitData() " << m_ki->getName();

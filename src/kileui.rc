@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="36">
+<kpartgui name="kile" version="37">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -8,22 +8,22 @@
 	<Separator/>
 	<Action name="popup_quickpreview"/>
 </Menu>
-<MenuBar noMerge="1">
-<Menu name="file"><text>&amp;File</text>
+<MenuBar>
+<Menu name="file" noMerge="1"><text>&amp;File</text>
 	<Action name="file_new"/>
 	<Separator/>
 	<Action name="file_open"/>
 	<Action name="file_open_recent"/>
-	<DefineGroup name="revert_merge" append="revert_merge"/>
+	<DefineGroup name="revert_merge"/>
 	<Separator/>
-	<DefineGroup name="save_merge" append="save_merge" />
+	<DefineGroup name="save_merge"/>
 	<Action name="file_save_copy_as"/>
 	<Action name="file_save_all"/>
 	<Separator/>
 	<Action name="template_create"/>
 	<Action name="template_remove"/>
 	<Separator/>
-	<DefineGroup name="print_merge" append="print_merge" />
+	<DefineGroup name="print_merge"/>
 	<Merge/>
 	<Menu name="convert"><text>Con&amp;vert To</text>
 		<Action name="file_export_ascii"/>
@@ -118,7 +118,6 @@
 
 <Menu name="view"><text>&amp;View</text>
 <Action name="return_to_editor"/>
-<Action name="fullscreen"/>
 <Merge/>
 <Separator/>
 <Action name="gotoPrevDocument"/>
@@ -458,28 +457,20 @@
 
 <Merge/>
 
-<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+<Menu name="settings" ><text>&amp;Settings</text>
 	<Action name="Mode"/>
 	<Separator/>
 	<Action name="settings_perform_check" />
 	<Separator/>
-	<Action name="StructureView"/>
-	<Action name="MessageView"/>
-	<Merge name="StandardToolBarMenuHandler" />
-	<Separator/>
-	<Action name="settings_keys"/>
-	<Action name="settings_toolbars"/>
-	<DefineGroup name="configure_merge" append="configure_merge" />
-	<Action name="settings_configure" />
+	<Action name="StructureView" append="show_merge"/>
+	<Action name="MessageView" append="show_merge"/>
 </Menu>
+
 <Menu name="help"><text>&amp;Help</text>
-	<Action name="help_latex_reference"/>
-	<Action name="help_handbook"/>
-	<Action name="help_tipofday"/>
-	<Merge/>
-	<Separator/>
-	<Action name="help_context" />
-	<Menu name="help_tex" ><text>TeX Documentation</text>
+	<Separator append="help_whats_this_merge" />
+	<Action name="help_latex_reference" append="help_whats_this_merge"/>
+	<Action name="help_context" append="help_whats_this_merge"/>
+	<Menu name="help_tex" append="help_whats_this_merge"><text>TeX Documentation</text>
 		<Action name="help_docbrowser" />
 		<Action name="help_tex_guide" />
 		<Separator/>
@@ -489,13 +480,10 @@
 		<Action name="help_latex_subject" />
 		<Action name="help_latex_env" />
 	</Menu>
+	<Separator append="help_whats_this_merge" />
+	<Action name="help_userhelp" append="help_whats_this_merge"/>
 	<Separator/>
-	<Action name="help_userhelp"/>
-	<Separator/>
-	<Action name="report_bug"/>
-	<Separator/>
-	<Action name="help_aboutKile"/>
-	<Action name="help_aboutKDE"/>
+	<Action name="help_about_editor" append="about_merge"/>
 </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1" hidden="false"><text>Main</text>

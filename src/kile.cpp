@@ -25,6 +25,7 @@
 #include <QShowEvent>
 #include <QSplashScreen>
 
+#include <KAboutApplicationDialog>
 #include <KAction>
 #include <KActionMenu>
 #include <KConfigGroup>
@@ -836,7 +837,7 @@ void Kile::setupActions()
 	const KAboutData *aboutData = KGlobal::mainComponent().aboutData();
 	KHelpMenu *help_menu = new KHelpMenu(m_mainWindow, aboutData);
 
-	actionCollection()->addAction(KStandardAction::TipofDay, "help_tipofday", this, SLOT(showTip()));
+	actionCollection()->addAction(KStandardAction::TipofDay, this, SLOT(showTip()));
 
 	createAction(i18n("TeX Guide"), "help_tex_guide", KShortcut("CTRL+Alt+H, G"), m_help, SLOT(helpTexGuide()));
 	createAction(i18n("LaTeX"), "help_latex_index", KShortcut("CTRL+Alt+H, L"), m_help, SLOT(helpLatexIndex()));
@@ -847,16 +848,17 @@ void Kile::setupActions()
 	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H, B"), m_help, SLOT(helpDocBrowser()));
 
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-contents", this, SLOT(helpLaTex()));
-	actionCollection()->addAction(KStandardAction::HelpContents, "help_handbook", help_menu, SLOT(appHelpActivated()));
-	actionCollection()->addAction(KStandardAction::ReportBug, "report_bug", help_menu, SLOT(reportBug()));
-	actionCollection()->addAction(KStandardAction::AboutApp, "help_aboutKile", help_menu, SLOT(aboutApplication()));
-	actionCollection()->addAction(KStandardAction::AboutKDE, "help_aboutKDE", help_menu, SLOT(aboutKDE()));
+	actionCollection()->addAction(KStandardAction::HelpContents, help_menu, SLOT(appHelpActivated()));
+	actionCollection()->addAction(KStandardAction::ReportBug, help_menu, SLOT(reportBug()));
+	actionCollection()->addAction(KStandardAction::AboutApp, help_menu, SLOT(aboutApplication()));
+	actionCollection()->addAction(KStandardAction::AboutKDE, help_menu, SLOT(aboutKDE()));
+	createAction(i18n("&About Editor Component"), "help_about_editor", this, SLOT(aboutEditorComponent()));
 
-	KAction *kileconfig = actionCollection()->addAction(KStandardAction::Preferences, "settings_configure", this, SLOT(generalOptions()));
+	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection());
 	kileconfig->setIcon(KIcon("configure-kile"));
 
-	actionCollection()->addAction(KStandardAction::KeyBindings, "settings_keys", this, SLOT(configureKeys()));
-	actionCollection()->addAction(KStandardAction::ConfigureToolbars, "settings_toolbars", this, SLOT(configureToolbars()));
+	actionCollection()->addAction(KStandardAction::KeyBindings, this, SLOT(configureKeys()));
+	actionCollection()->addAction(KStandardAction::ConfigureToolbars, this, SLOT(configureToolbars()));
 
 	createAction(i18n("&System Check..."), "settings_perform_check", this, SLOT(slotPerformCheck()));
 
@@ -2493,6 +2495,16 @@ void Kile::slotPerformCheck()
 	KileDialog::ConfigChecker *dlg = new KileDialog::ConfigChecker(m_mainWindow);
 	dlg->exec();
 	delete dlg;
+}
+
+void Kile::aboutEditorComponent()
+{
+	KTextEditor::Editor *editor = m_docManager->getEditor();
+	if(!editor) {
+		return;
+	}
+	KAboutApplicationDialog dialog(editor->aboutData(), m_mainWindow);
+	dialog.exec();
 }
 
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////

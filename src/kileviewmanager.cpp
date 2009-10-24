@@ -197,6 +197,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	emit(prepareForPart("Editor"));
 
+	// delete the 'Configure Editor...' action
+	delete view->actionCollection()->action("set_confdlg");
+
 	// use Kile's save and save-as functions instead of the text editor's
 	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
 	if(action) {

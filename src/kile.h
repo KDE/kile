@@ -257,6 +257,8 @@ private Q_SLOTS:
 	void configureToolbars();
 	void slotPerformCheck();
 
+	void aboutEditorComponent();
+
 	/**
 	 * Activates (sets up the GUI for the editor part) the view.
 	 * @param updateStruct  If true, force an update of the structure view.

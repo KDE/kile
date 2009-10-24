@@ -589,6 +589,17 @@ target=
 from=html
 to=html
 
+[Tool/ViewHTML/Seamonkey]
+type=Process
+class=ViewHTML
+state=Editor
+relDir=
+command=seamonkey
+options="file:%dir_target/%target"
+target=
+from=html
+to=html
+
 [Tool/ForwardDVI/Embedded Viewer]
 type=Part
 class=ForwardDVI

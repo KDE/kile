@@ -125,6 +125,27 @@ void KileTextDocumentScriptObject::setCursorColumn(int c)
 
 void KileTextDocumentScriptObject::backspace()
 {
+	KTextEditor::Document *document = m_view->document();
+	KTextEditor::Range selectionRange = m_view->selectionRange();
+	if(selectionRange.isValid() && !selectionRange.isEmpty()) {
+		document->removeText(selectionRange);
+		return;
+	}
+	KTextEditor::Cursor currentPosition = m_view->cursorPosition();
+	if(currentPosition.atStartOfDocument()) {
+		return;
+	}
+	if(currentPosition.atStartOfLine()) {
+		const int previousLine = currentPosition.line() - 1;
+		KTextEditor::Range range(KTextEditor::Cursor(previousLine,
+		                                             document->lineLength(previousLine)),
+		                         currentPosition);
+		m_view->document()->removeText(range);
+		return;
+	}
+	KTextEditor::Range range(KTextEditor::Cursor(currentPosition.line(), currentPosition.column() - 1),
+		                 currentPosition);
+	m_view->document()->removeText(range);
 }
 
 KileScriptObject::KileScriptObject(QObject *parent, KileInfo* kileInfo) : QObject(parent), m_kileInfo(kileInfo)

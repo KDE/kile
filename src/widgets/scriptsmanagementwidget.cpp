@@ -107,7 +107,9 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 
 	baseLayout->addWidget(m_toolBar);
 	m_treeWidget = new QTreeWidget(this);
+	m_treeWidget->setSortingEnabled(true);
 	m_treeWidget->setColumnCount(2);
+	m_treeWidget->sortByColumn(0, Qt::AscendingOrder);
 	QStringList headerLabels;
 	headerLabels.push_back(i18n("Script Name"));
 	headerLabels.push_back(i18n("Sequence"));

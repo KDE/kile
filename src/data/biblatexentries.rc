@@ -63,7 +63,7 @@ optkey =  subtitle, titleaddon, language, howpublished, type, version, note, org
 
 [online]
 internalName = online
-name = Online Ressource
+name = Online Resource
 key = title,year,url
 altkey = author, editor
 optkey =  subtitle, titleaddon, language, version, note, organization, date, addendum, urldate, gender

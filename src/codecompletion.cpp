@@ -824,7 +824,7 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 			return;
 		}
 	}
-	// FIXME: optimise this once we have a better LaTeX parser
+	// FIXME: optimize this once we have a better LaTeX parser
 	view->document()->insertText(view->cursorPosition(), "\\begin{");
 	startLaTeXCompletion(view);
 }

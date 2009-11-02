@@ -177,7 +177,7 @@
 			<default>true</default>
 		</entry>
 		<entry name="envIndentation" type="Bool">
-			<label>Enable auto indentation of environemnts</label>
+			<label>Enable auto indentation of environments</label>
 			<default>true</default>
 		</entry>
 		<entry name="envIndentSpaces" type="Bool">

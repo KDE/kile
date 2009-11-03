@@ -363,6 +363,7 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	(void) new KileAction::Tag(i18n("Superscript - ^{}"), i18n("Superscript"), "format-text-superscript", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_U), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_superscript","^{","}",2);
 	(void) new KileAction::Tag(i18n("Normal Fraction - \\frac{}{}"), i18n("Normal Fraction"), "smallfrac", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_F), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_frac", "\\frac{","}{}",6);
 	(void) new KileAction::Tag(i18n("Displaystyle Fraction - \\dfrac{}{}"), i18n("Displaystyle Fraction"), "dfrac", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_Q), receiver, SLOT(insertAmsTag(const KileAction::TagData&)), actionCollection,"tag_dfrac", "\\dfrac{","}{}", 7);
+	(void) new KileAction::Tag(i18n("Textstyle Fraction - \\tfrac{}{}"), i18n("Textstyle Fraction"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)), actionCollection, "tag_tfrac", "\\tfrac{", "}{}", 7);
 	(void) new KileAction::Tag(i18n("Square Root - \\sqrt{}"), i18n("Square Root"), "sqrt", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_S), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_sqrt", "\\sqrt{","}", 6);
 	(void) new KileAction::Tag(i18n("\\left"), QString(), KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_L), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_left", "\\left", QString(), 5);
 	(void) new KileAction::Tag(i18n("\\right"), QString(), KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_R), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_right", "\\right", QString(), 6);
@@ -396,8 +397,6 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 
 	// new math tags (dani 29.01.2005)
 	KActionCollection* ac = actionCollection;
-
-	(void) new KileAction::Tag(i18n("Textstyle Binomial - \\tfrac{}{}"), i18n("Textstyle Binomial"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_tfrac", "\\tfrac{","}{}", 7);
 
 	(void) new KileAction::Tag(i18n("Normal Binomial - \\binom{}{}"), i18n("Normal Binomial"), "binom", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)), ac,"tag_binom", "\\binom{","}{}", 7);
 

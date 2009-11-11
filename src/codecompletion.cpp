@@ -380,6 +380,32 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::Document *document
 	else {
 		textToInsert = buildRegularCompletedText(stripParameters(completionText), cursorYPos, cursorXPos, true);
 	}
+	// if there are brackets present immediately after 'word' (for example, due to auto-bracketing of
+	// the editor), we still have to remove them
+	QString replaceText = document->text(word);
+	const int numberOfOpenSimpleBrackets = replaceText.count('(');
+	const int numberOfOpenSquareBrackets = replaceText.count('[');
+	const int numberOfOpenCurlyBrackets = replaceText.count('{');
+	const int numberOfClosedSimpleBrackets = replaceText.count(')');
+	const int numberOfClosedSquareBrackets = replaceText.count(']');
+	const int numberOfClosedCurlyBrackets = replaceText.count('}');
+	const int numberOfClosedBracketsLeft = (numberOfOpenSimpleBrackets - numberOfClosedSimpleBrackets)
+	                                       + (numberOfOpenSquareBrackets - numberOfClosedSquareBrackets)
+	                                       + (numberOfOpenCurlyBrackets - numberOfClosedCurlyBrackets);
+	if(numberOfOpenSimpleBrackets >= numberOfClosedSimpleBrackets
+	   && numberOfOpenSquareBrackets >= numberOfClosedSquareBrackets
+	   && numberOfOpenCurlyBrackets >= numberOfClosedCurlyBrackets
+	   && document->lineLength(word.end().line()) >= word.end().column() + numberOfClosedBracketsLeft) {
+		KTextEditor::Range bracketRange = KTextEditor::Range(word.end(), numberOfClosedBracketsLeft);
+
+		QString bracketText = document->text(bracketRange);
+		if(bracketText.count(")") == (numberOfOpenSimpleBrackets - numberOfClosedSimpleBrackets)
+		   && bracketText.count("]") == (numberOfOpenSquareBrackets - numberOfClosedSquareBrackets)
+		   && bracketText.count("}") == (numberOfOpenCurlyBrackets - numberOfClosedCurlyBrackets)) {
+			document->removeText(bracketRange);
+		}
+	}
+	// now do the real completion
 	document->replaceText(word, textToInsert);
 	//HACK, but it's impossible to do this otherwise
 	if(KileConfig::completeCursor() && (cursorXPos > 0 || cursorYPos > 0)

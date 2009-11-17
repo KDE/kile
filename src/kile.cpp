@@ -2080,7 +2080,10 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
 void Kile::insertText(const QString &text)
 {
-	insertTag(KileAction::TagData(QString(), text, "%C", 0, 0));
+	if(text.indexOf("%C")>=0) 
+		insertTag(KileAction::TagData(QString(), text, QString(), 0, 0));
+	else
+		insertTag(KileAction::TagData(QString(), text, "%C", 0, 0));
 }
 
 void Kile::insertText(const QString &text, const QStringList &pkgs)

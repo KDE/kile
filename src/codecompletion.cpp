@@ -28,6 +28,7 @@
 #include <KLocale>
 #include <KStandardDirs>
 #include <KTextEditor/CodeCompletionInterface>
+#include <KTextEditor/SearchInterface>
 #include <KTextEditor/Cursor>
 
 #include "abbreviationmanager.h"
@@ -755,7 +756,26 @@ QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
 void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
                                                         int row) const
 {
-	KTextEditor::CodeCompletionModel::executeCompletionItem(document, word, row);
+	// replace abbreviation and take care of newlines  
+	QString completionText = data(index(row, KTextEditor::CodeCompletionModel::Name, QModelIndex()), Qt::DisplayRole).toString();
+	completionText.replace("\\n","\n");
+	document->replaceText(word, completionText);
+	
+	// look if there is a %C-wish to place the cursor
+	if(completionText.indexOf("%C")>=0) {
+		KTextEditor::SearchInterface *iface = qobject_cast<KTextEditor::SearchInterface*>( document );
+		if( iface ) {
+			KTextEditor::Range searchrange = KTextEditor::Range(word.start(),document->lines()+1,0);
+			QVector<KTextEditor::Range> rangevec = iface->searchText(searchrange,"%C");
+			if ( rangevec.size() >= 1 ) {
+				KTextEditor::Range range = rangevec.at(0);
+				document->removeText(range);
+				KTextEditor::View *view = document->activeView(); 
+				if ( view )
+					view->setCursorPosition(range.start());
+			}
+		}
+	}
 }
 
 void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)

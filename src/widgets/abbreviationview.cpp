@@ -96,9 +96,12 @@ bool AbbreviationView::findAbbreviation(const QString &abbrev)
 void AbbreviationView::slotItemClicked(QTreeWidgetItem *item, int /* column */)
 {
 	if(item) {
-		emit(sendText(item->text(AbbreviationView::ALVexpansion)));
+		QString s = item->text(AbbreviationView::ALVexpansion);
+		s.replace("\\n","\n");
+		emit( sendText(s) );
 	}
 }
+
 
 //////////////////// context menu ////////////////////
 

@@ -765,7 +765,7 @@ void Kile::setupActions()
 	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", KShortcut("CTRL+Alt+P, S"), this, SLOT(quickPreviewSelection()));
 	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",KShortcut("CTRL+Alt+P, E"), this, SLOT(quickPreviewEnvironment()));
 	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P, D"), this, SLOT(quickPreviewSubdocument()));
-	createAction(i18n("Mathgroup"), "quickpreview_math", "applications-education-mathematics", KShortcut("CTRL+Alt+P, M"), this, SLOT(quickPreviewMathgroup()));
+	createAction(i18n("Mathgroup"), "quickpreview_math", "preview_math", KShortcut("CTRL+Alt+P, M"), this, SLOT(quickPreviewMathgroup()));
 
 	KileStdActions::setupStdTags(this, this, actionCollection(), m_mainWindow);
 	KileStdActions::setupMathTags(this, actionCollection());

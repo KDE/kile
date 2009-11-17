@@ -266,7 +266,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	KTextEditor::Range completionRange(startCursor, endCursor);
 	int rangeLength = endCursor.column() - startCursor.column();
 
-	if(latexCompletion && rangeLength < KileConfig::completeAutoThreshold() + 1) { // + 1 for the command backslash
+	if(latexCompletion && KileConfig::completeAuto() && rangeLength < KileConfig::completeAutoThreshold() + 1) { // + 1 for the command backslash
 		KILE_DEBUG() << "not reached the completion threshold yet";
 		return KTextEditor::Range::invalid();
 	}
@@ -678,7 +678,14 @@ bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view,
 	Q_UNUSED(view);
 	Q_UNUSED(userInsertion);
 	Q_UNUSED(position);
-	return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(insertedText));
+
+	int len = insertedText.length();
+	QRegExp whitespace(" |\t");
+	whitespace.setMinimal(true);
+	int pos = insertedText.lastIndexOf(whitespace,-1);
+	QString searchText = (pos>=0 && pos<len-2) ? insertedText.right(len-pos-1) : insertedText; 
+	
+	return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(searchText));
 }
 
 bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
@@ -707,6 +714,12 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 
 void AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
 {
+	if(!range.isValid() || !KileConfig::completeAutoAbbrev()) {
+		m_completionList.clear();
+		reset();
+		return;
+	}
+	
 	KILE_DEBUG() << "updating model...";
 	range = completionRange(view, view->cursorPosition());
 	if(range.isValid()) {
@@ -717,8 +730,16 @@ void AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view,
 KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::View *view,
                                                                 const KTextEditor::Cursor &position)
 {
-	KILE_DEBUG();
-	return KTextEditor::CodeCompletionModelControllerInterface::completionRange(view, position);
+	QString insertedText = view->document()->line(position.line()).left(position.column());
+	int len = insertedText.length();
+	
+	QRegExp whitespace(" |\t");
+	whitespace.setMinimal(true);
+	int pos = insertedText.lastIndexOf(whitespace,-1);
+	QString searchText = (pos>=0 && pos<len-2) ? insertedText.right(len-pos-1) : insertedText; 
+	pos++;
+	
+	return KTextEditor::Range( position.line(), pos, position.line(),position.column() );
 }
 
 QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
@@ -850,8 +871,17 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 			return;
 		}
 	}
-	// FIXME: optimize this once we have a better LaTeX parser
-	view->document()->insertText(view->cursorPosition(), "\\begin{");
+	
+	KTextEditor::Cursor cursor = view->cursorPosition();
+	QString line = view->document()->line(cursor.line()).left(cursor.column());
+	
+	QRegExp regexp("\\\\b|\\\\be|\\\\beg|\\\\begi|\\\\begin|\\\\begin\\{|\\\\begin\\{([a-zA-z]*)");
+	int pos = regexp.lastIndexIn(line);
+	if (pos>=0)
+		view->document()->replaceText(KTextEditor::Range(cursor.line(),pos,cursor.line(),cursor.column()), "\\begin{"+regexp.cap(1));	  
+	else 
+		view->document()->insertText(cursor, "\\begin{");
+	
 	startLaTeXCompletion(view);
 }
 

@@ -424,6 +424,7 @@ void Manager::onTextEditorPopupMenuRequest()
 
 	const QString quickPreviewSelection = i18n("&QuickPreview Selection");
 	const QString quickPreviewEnvironment = i18n("&QuickPreview Environment");
+	const QString quickPreviewMath = i18n("&QuickPreview Math");
 
 	// Setting up the "QuickPreview selection" entry
 	if(view->selection()) {
@@ -431,8 +432,11 @@ void Manager::onTextEditorPopupMenuRequest()
 		m_quickPreviewAction->setEnabled(true);
 		
 	}
-	else if(m_ki->editorExtension()->hasMathgroup(view)
-	     || m_ki->editorExtension()->hasEnvironment(view)) {
+	else if(m_ki->editorExtension()->hasMathgroup(view)) {
+		m_quickPreviewAction->setText(quickPreviewMath);
+		m_quickPreviewAction->setEnabled(true);
+	}
+	else if(m_ki->editorExtension()->hasEnvironment(view)) {
 		m_quickPreviewAction->setText(quickPreviewEnvironment);
 		m_quickPreviewAction->setEnabled(true);
 	}

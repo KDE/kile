@@ -231,7 +231,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	readRecentFileSettings();
 	readConfig();
 
-	m_mainWindow->setupGUI(KXmlGuiWindow::ToolBar | KXmlGuiWindow::Keys | KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
+	m_mainWindow->setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
 	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
 
 	restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!

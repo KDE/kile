@@ -985,9 +985,11 @@ void Kile::setupTools()
 		}
 	}
 
+	m_quickActions->addSeparator();
 	m_quickActions->addAction(action("quickpreview_selection"));
 	m_quickActions->addAction(action("quickpreview_environment"));
 	m_quickActions->addAction(action("quickpreview_subdocument"));
+	m_quickActions->addSeparator();
 	m_quickActions->addAction(action("quickpreview_math"));
  
 	cleanUpActionList(m_listCompilerActions, tools);

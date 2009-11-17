@@ -481,6 +481,11 @@ void ToolbarSelectAction::addAction(QAction *action)
 	menu()->addAction(action);
 }
 
+void ToolbarSelectAction::addSeparator()
+{
+	menu()->addSeparator();
+}
+
 QAction* ToolbarSelectAction::action(int i)
 {
 	QList<QAction*> actionList = menu()->actions();

@@ -212,6 +212,7 @@ public:
 	ToolbarSelectAction(const QString& text, QObject* parent, bool changeMainActionOnTriggering = true);
 	
 	void addAction(QAction *action);
+	void addSeparator();
 	int actionIndex(QAction *action);
 	QAction* action(int i);
 	QAction* currentAction();

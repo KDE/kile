@@ -207,9 +207,6 @@ void SideBar::setPageVisible(QWidget *w, bool b)
 	int currentIndex = currentTab();
 
 	KMultiTabBarTab *tab = m_tabBar->tab(index);
-	if(tab->isVisible() == b) {
-		return;
-	}
 	tab->setVisible(b);
 	if(!b && index == currentIndex && nTabs >= 2) {
 		switchToTab(findNextShownTab(index));

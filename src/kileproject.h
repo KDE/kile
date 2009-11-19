@@ -1,8 +1,8 @@
-/***************************************************************************
+/***************************************************************************************
     begin                : Fri Aug 1 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -20,8 +20,10 @@
 #include <QRegExp>
 
 #include "kiledebug.h"
-#include <kconfig.h>
-#include <kurl.h>
+
+#include <KConfig>
+#include <KUrl>
+#include <KTextEditor/View>
 
 class QString;
 class QStringList;
@@ -73,6 +75,9 @@ public:
 	const QString& highlight() { return m_highlight;}
 	void setHighlight(const QString& highlight) {m_highlight = highlight;}
 
+	const QString& mode() { return m_mode;}
+	void setMode(const QString& mode) {m_mode = mode;}
+
 	uint lineNumber() { return m_nLine; }
 	void setLineNumber(uint l) { m_nLine = l; }
 
@@ -85,9 +90,21 @@ public:
 	//project tree functions
 	void setParent(KileProjectItem * item);
 
+	void load();
+	void save();
+
+	void loadDocumentAndViewSettings();
+	void saveDocumentAndViewSettings();
+
 protected:
 	void setChild(KileProjectItem *item) { m_child = item; }
 	void setSibling(KileProjectItem *item) { m_sibling = item; }
+
+	void loadViewSettings(KTextEditor::View *view, int viewIndex);
+	void saveViewSettings(KTextEditor::View *view, int viewIndex);
+
+	void loadDocumentSettings(KTextEditor::Document *document);
+	void saveDocumentSettings(KTextEditor::Document *document);
 
 public:
 	KileProjectItem* parent() const { return m_parent; }
@@ -116,6 +133,7 @@ private:
 	KUrl			m_url;
 	QString			m_path;
 	QString			m_encoding;
+	QString			m_mode;
 	QString			m_highlight;
 	bool			m_bOpen, m_archive;
 	int			m_type;
@@ -131,6 +149,7 @@ private:
 class KileProject : public QObject
 {
 	Q_OBJECT
+	friend class KileProjectItem;
 
 public:
 	KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions);
@@ -208,9 +227,15 @@ private:
 	QString	findRelativePath(const QString&);
 
 	void setType(KileProjectItem *item);
-  	QString addBaseURL(const QString &path);
-  	QString removeBaseURL(const QString &path);
+	QString addBaseURL(const QString &path);
+	QString removeBaseURL(const QString &path);
 	void writeConfigEntry(const QString &key,const QString &standardExt,KileProjectItem::Type type);
+
+	KConfigGroup configGroupForItem(KileProjectItem *item) const;
+	KConfigGroup configGroupForItemDocumentSettings(KileProjectItem *item) const;
+	KConfigGroup configGroupForItemViewSettings(KileProjectItem *item, int viewIndex) const;
+
+	void removeConfigGroupsForItem(KileProjectItem *item);
 
 private:
 	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion, m_defGraphicExt;

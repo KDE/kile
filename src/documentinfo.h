@@ -223,13 +223,13 @@ class TextInfo : public Info
 	Q_OBJECT
 public:
 	/**
-	 * @param defaultHighlightMode the highlight mode that will be set automatically
-	 *                             once a new document is installed
+	 * @param defaultMode the mode that will be set automatically
+	 *                    once a new document is installed
 	 **/
 	TextInfo(KTextEditor::Document *doc,
 	         Extensions *extensions,
 	         KileAbbreviation::Manager *abbreviationManager,
-	         const QString& defaultHighlightMode = QString());
+	         const QString& defaultMode = QString());
 	virtual ~TextInfo();
 
 	/**
@@ -237,7 +237,10 @@ public:
 	 **/
 	const KTextEditor::Document* getDoc() const;
 	KTextEditor::Document* getDoc();
+	const KTextEditor::Document* getDocument() const;
+	KTextEditor::Document* getDocument();
 	void setDoc(KTextEditor::Document *doc);
+	void setDocument(KTextEditor::Document *doc);
 	void detach();
 
 	/**
@@ -257,9 +260,11 @@ public:
 
 	bool isTextDocument();
 
-	void setHighlightMode(const QString & highlight = QString());
+	void setHighlightingMode(const QString& highlight = QString());
 
-	void setDefaultHightlightMode(const QString& string);
+	void setMode(const QString& mode = QString());
+
+	void setDefaultMode(const QString& string);
 
 	/**
 	 * "Overridden" method that installs custom event filters by using the "installEventFilters"
@@ -278,12 +283,12 @@ Q_SIGNALS:
 protected Q_SLOTS:
 	void slotFileNameChanged();
 	void slotViewDestroyed(QObject *object);
-	void activateDefaultHightlightMode();
+	void activateDefaultMode();
 
 protected:
 	KTextEditor::Document				*m_doc;
 	long						*m_arStatistics;
-	QString						m_defaultHighlightMode;
+	QString						m_defaultMode;
 	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;
 	KileAbbreviation::Manager			*m_abbreviationManager;
 	KileCodeCompletion::AbbreviationCompletionModel *m_abbreviationCodeCompletionModel;

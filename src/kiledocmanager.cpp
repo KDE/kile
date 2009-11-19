@@ -30,6 +30,7 @@
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
 #include <KTextEditor/EditorChooser>
+#include <KTextEditor/SessionConfigInterface>
 #include <KTextEditor/View>
 #include <kapplication.h>
 #include "kiledebug.h"
@@ -73,6 +74,8 @@
 /*
  * Newly created text documents have an empty URL and a non-empty document name.
  */
+
+#define MAX_NUMBER_OF_STORED_SETTINGS 50
 
 namespace KileDocument
 {
@@ -311,6 +314,20 @@ QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const
 	return list;
 }
 
+QList<KileProjectItem*> Manager::itemsFor(const KUrl& url) const
+{
+	QList<KileProjectItem*> list;
+	for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProject *project = *it;
+
+		if(project->contains(url)) {
+			list.append(project->item(url));
+		}
+	}
+
+	return list;
+}
+
 bool Manager::isProjectOpen()
 {
 	return ( m_projects.count() > 0 );
@@ -443,7 +460,10 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 	return false;
 }
 
-KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinfo, const QString& encoding, const QString & highlight)
+
+KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinfo, const QString& encoding,
+                                                                                   const QString& mode,
+                                                                                   const QString& highlight)
 {
 	KILE_DEBUG() << "==KTextEditor::Document* Manager::createDocument()===========";
 
@@ -485,9 +505,12 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 	}
 
 	docinfo->setDoc(doc);
-    if(!highlight.isEmpty()){
-        docinfo->setHighlightMode(highlight);     // this ensures that highlightning modes passed with the highlight parameter are actually used
-    }
+	if(!mode.isEmpty()){
+		docinfo->setMode(mode);     // this ensures that mode passed with the mode parameter is actually used
+	}
+	if(!highlight.isEmpty()){
+		docinfo->setHighlightingMode(highlight);
+	}
 	// FIXME: the whole structure updating stuff needs to be rewritten; updates should originate from
 	//        the docinfo only, i.e. the structure view should just react to changes!
 	connect(docinfo, SIGNAL(completed(KileDocument::Info*)), m_ki->structureWidget(), SLOT(update(KileDocument::Info*)));
@@ -503,9 +526,8 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 
 	KILE_DEBUG() << "==loadItem(" << item->url().toLocalFile() << ")======";
 
-	if ( item->type() != KileProjectItem::Image )
-	{
-		view = loadText(type, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->highlight(), text);
+	if(item->type() != KileProjectItem::Image) {
+		view = loadText(type, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->mode(), item->highlight(), text);
 		KILE_DEBUG() << "\tloadItem: docfor = " << docFor(item->url().toLocalFile());
 
 		TextInfo *docinfo = textInfoFor(item->url().toLocalFile());
@@ -514,14 +536,12 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 		KILE_DEBUG() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
 		if ( docinfo->getDoc() != docFor(docinfo->url().toLocalFile()) ) kWarning() << "docinfo->getDoc() != docFor()";
 	}
-	else
-	{
+	else {
 		KILE_DEBUG() << "\tloadItem: no document generated";
 		TextInfo *docinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(item->url()), item->url());
 		item->setInfo(docinfo);
 
-		if ( docFor(item->url()) == 0L)
-		{
+		if(!docFor(item->url())) {
 			docinfo->detach();
 			KILE_DEBUG() << "\t\t\tdetached";
 		}
@@ -530,15 +550,22 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 	return view;
 }
 
-KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url , const QString& encoding /* = QString::null */, bool create /* = true */, const QString & highlight /* = QString::null */, const QString & text /* = QString::null */, int index /* = - 1 */, const KUrl& baseDirectory /* = KUrl() */)
+KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url, const QString& encoding,
+                                                                               bool create,
+                                                                               const QString& mode,
+                                                                               const QString& highlight,
+                                                                               const QString& text,
+                                                                               int index,
+                                                                               const KUrl& baseDirectory)
 {
 	KILE_DEBUG() << "==loadText(" << url.url() << ")=================";
 	//if doc already opened, update the structure view and return the view
-	if ( !url.isEmpty() && m_ki->isOpen(url))
+	if(!url.isEmpty() && m_ki->isOpen(url)) {
 		return m_ki->viewManager()->switchToTextView(url);
+	}
 
 	TextInfo *docinfo = createTextDocumentInfo(type, url, baseDirectory);
-	KTextEditor::Document *doc = createDocument(url, docinfo, encoding, highlight);
+	KTextEditor::Document *doc = createDocument(url, docinfo, encoding, mode, highlight);
 
 	m_ki->structureWidget()->clean(docinfo);
 	m_ki->structureWidget()->update(docinfo, true);
@@ -548,13 +575,14 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url , 
 	}
 
 	//FIXME: use signal/slot
-	if (doc && create)
+	if (doc && create) {
 		return m_ki->viewManager()->createTextView(docinfo, index);
+	}
 
 	KILE_DEBUG() << "just after createView()";
 	KILE_DEBUG() << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
 
-	return 0L;
+	return NULL;
 }
 
 //FIXME: template stuff should be in own class
@@ -592,7 +620,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 
 KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& /* extension */, const KUrl& baseDirectory)
 {
-	KTextEditor::View *view = loadText(type, KUrl(), QString(), true, QString(), text, -1, baseDirectory);
+	KTextEditor::View *view = loadText(type, KUrl(), QString(), true, QString(), QString(), text, -1, baseDirectory);
 	if(view) {
 		//FIXME this shouldn't be necessary!!!
 		view->document()->setModified(true);
@@ -685,7 +713,7 @@ void Manager::fileNewScript()
 	fileNew(KileDocument::Script);
 }
 
-void Manager::fileNew(const KUrl & url)
+void Manager::fileNew(const KUrl& url)
 {
 	//create an empty file
 	QFile file(url.toLocalFile());
@@ -723,8 +751,9 @@ void Manager::fileOpen()
 
 	//open them
 	KUrl::List urls = result.URLs;
-	for (KUrl::List::Iterator i=urls.begin(); i != urls.end(); ++i)
+	for (KUrl::List::Iterator i=urls.begin(); i != urls.end(); ++i) {
 		fileOpen(*i, result.encoding);
+	}
 }
 
 void Manager::fileSelected(const KFileItem& file)
@@ -851,7 +880,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	emit(updateStructure(false,NULL));
 }
 
-void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
+void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 {
 	KILE_DEBUG() << "==Kile::fileOpen==========================";
 
@@ -864,23 +893,33 @@ void Manager::fileOpen(const KUrl & url, const QString & encoding, int index)
 	KILE_DEBUG() << "symlink free url is " << realurl.url();
 
 	bool isopen = m_ki->isOpen(realurl);
+	if(isopen) {
+		m_ki->viewManager()->switchToTextView(realurl);
+		return;
+	}
 
-	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), index);
-	KileProjectItem *item = itemFor(realurl);
+	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
+	QList<KileProjectItem*> itemList = itemsFor(realurl);
+	TextInfo *textInfo = textInfoForURL(realurl);
 
-	if(!isopen) {
-		if(!item) {
-			emit addToProjectView(realurl);
-		}
-		else if(view) {
-			view->setCursorPosition(KTextEditor::Cursor(item->lineNumber(),item->columnNumber()));
-		}
+	for(QList<KileProjectItem*>::iterator it = itemList.begin(); it != itemList.end(); ++it) {
+		(*it)->setInfo(textInfo);
+	}
+
+	if(itemList.isEmpty()) {
+		emit addToProjectView(realurl);
+		loadDocumentAndViewSettings(view->document());
+	}
+	else if(view) {
+		KileProjectItem *item = itemList.first();
+		view->setCursorPosition(KTextEditor::Cursor(item->lineNumber(),item->columnNumber()));
+		item->loadDocumentAndViewSettings();
 	}
 
 	emit(updateStructure(true, 0L));
 	emit(updateModeStatus());
 	// update undefined references in this file
-	emit(updateReferences(textInfoFor(realurl.toLocalFile())) );
+	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
 	m_ki->fileSelector()->blockSignals(false);
 }
 
@@ -890,7 +929,7 @@ void Manager::fileSave()
 	if(!view) {
 		return;
 	}
- 	KUrl url = view->document()->url();
+	KUrl url = view->document()->url();
 	if(url.isEmpty()) { // newly created document
 		fileSaveAs();
 		return;
@@ -1026,67 +1065,78 @@ bool Manager::fileCloseAll()
 bool Manager::fileClose(const KUrl & url)
 {
 	KTextEditor::Document *doc = docFor(url);
-	if ( doc == 0L )
+	if(!doc) {
 		return true;
-	else
+	}
+	else {
 		return fileClose(doc);
+	}
 }
 
 bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingproject /*= false*/)
 {
 	KILE_DEBUG() << "==Kile::fileClose==========================";
 
-	if (doc == 0L)
+	if(!doc) {
 		doc = m_ki->activeTextDocument();
+	}
 
-	if (doc == 0L)
+	if(!doc) {
 		return true;
-	else
+	}
+
 	//FIXME: remove from docinfo map, remove from dirwatch
-	{
-		KILE_DEBUG() << "doc->url().toLocalFile()=" << doc->url().toLocalFile();
+	KILE_DEBUG() << "doc->url().toLocalFile()=" << doc->url().toLocalFile();
 
-		const KUrl url = doc->url();
+	const KUrl url = doc->url();
 
-		TextInfo *docinfo= textInfoFor(doc);
-		if (docinfo == 0L)
-		{
-			kWarning() << "no DOCINFO for " << url.url();
-			return true;
+	TextInfo *docinfo= textInfoFor(doc);
+	if(!docinfo) {
+		kWarning() << "no DOCINFO for " << url.url();
+		return true;
+	}
+	bool inProject = false;
+	QList<KileProjectItem*> items = itemsFor(docinfo);
+	for(QList<KileProjectItem*>::iterator it = items.begin(); it != items.end(); ++it) {
+		KileProjectItem *item = *it;
+
+		//FIXME: refactor here
+		if(item && doc) {
+			storeProjectItem(item, doc);
+			inProject = true;
 		}
-		QList<KileProjectItem*> items = itemsFor(docinfo);
-		for(QList<KileProjectItem*>::iterator it = items.begin(); it != items.end(); ++it) {
-			KileProjectItem *item = *it;
+	}
 
-			//FIXME: refactor here
- 			if(item && doc) {
-				storeProjectItem(item, doc);
-			}
+	if(!inProject) {
+	KILE_DEBUG() << "not in project";
+		saveDocumentAndViewSettings(doc);
+	}
+
+	if(doc->closeUrl()) {
+		// docinfo may have been recreated from 'Untitled' doc to a named doc
+		if(url.isEmpty()) {
+			docinfo= textInfoFor(doc);
 		}
 
-		if(doc->closeUrl()) {
-			// docinfo may have been recreated from 'Untitled' doc to a named doc
-			if ( url.isEmpty() )
-				docinfo= textInfoFor(doc);
-
-			if ( KileConfig::cleanUpAfterClose() )
-				cleanUpTempFiles(url, true); // yes we pass here url and not docinfo->url()
-
-			//FIXME: use signal/slot
-			if( doc->views().count() > 0){
-				m_ki->viewManager()->removeView(doc->views().first());
-			}
-			//remove the decorations
-
-			trashDoc(docinfo, doc);
-            		m_ki->structureWidget()->clean(docinfo);
- 			removeTextDocumentInfo(docinfo, closingproject);
-
-			emit removeFromProjectView(url);
-            		emit updateModeStatus();
+		if(KileConfig::cleanUpAfterClose()) {
+			cleanUpTempFiles(url, true); // yes we pass here url and not docinfo->url()
 		}
-		else
-			return false;
+
+		//FIXME: use signal/slot
+		if( doc->views().count() > 0){
+			m_ki->viewManager()->removeView(doc->views().first());
+		}
+		//remove the decorations
+
+		trashDoc(docinfo, doc);
+		m_ki->structureWidget()->clean(docinfo);
+		removeTextDocumentInfo(docinfo, closingproject);
+
+		emit removeFromProjectView(url);
+		emit updateModeStatus();
+	}
+	else {
+		return false;
 	}
 
 	return true;
@@ -1266,19 +1316,24 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 	KILE_DEBUG() << "==Kile::projectOpenItem==========================";
 	KILE_DEBUG() << "\titem:" << item->url().toLocalFile();
 
-	if (m_ki->isOpen(item->url())) //remove item from projectview (this file was opened before as a normal file)
+	if (m_ki->isOpen(item->url())) { //remove item from projectview (this file was opened before as a normal file)
 		emit removeFromProjectView(item->url());
+	}
 
 	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
 
-	if ( (!item->isOpen()) && (view == 0L) && (item->getInfo()) ) //doc shouldn't be displayed, trash the doc
+	if((!item->isOpen()) && !view && item->getInfo()) { //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());
-	else if (view != 0L)
+	}
+	else if(view) {
 		view->setCursorPosition(KTextEditor::Cursor(item->lineNumber(), item->columnNumber()));
+		item->loadDocumentAndViewSettings();
+	}
 
 	//oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
-	if ((!item->isOpen()) && (view != 0L))
+	if ((!item->isOpen()) && view) {
 		item->setOpenState(true);
+	}
 }
 
 KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool openProjectItemViews)
@@ -1402,10 +1457,12 @@ KileProject* Manager::projectOpen()
 	KILE_DEBUG() << "==Kile::projectOpen==========================";
 	KUrl url = KFileDialog::getOpenUrl( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->mainWindow(), i18n("Open Project") );
 
-	if (!url.isEmpty())
+	if(!url.isEmpty()) {
 		return projectOpen(url);
-	else
-		return 0L;
+	}
+	else {
+		return NULL;
+	}
 }
 
 
@@ -1456,19 +1513,22 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 			item->setOpenState(m_ki->isOpen(item->url()));
 			docinfo = item->getInfo();
 
-			if (docinfo != 0L)
+			if(docinfo) {
 				doc = docinfo->getDoc();
-			if (doc != 0L)
+			}
+			if(doc) {
 				storeProjectItem(item, doc);
+			}
 
-			doc = 0L;
-			docinfo = 0L;
+			doc = NULL;
+			docinfo = NULL;
 		}
 
 		project->save();
 	}
-	else
+	else {
 		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to save, then choose Save Project again."),i18n( "Could Determine Active Project"));
+	}
 }
 
 void Manager::projectAddFiles(const KUrl & url)
@@ -1572,15 +1632,14 @@ bool Manager::projectClose(const KUrl & url)
 	KILE_DEBUG() << "==Kile::projectClose==========================";
 	KileProject *project = 0;
 
-	if (url.isEmpty())
-	{
+	if (url.isEmpty()) {
 		 project = activeProject();
 
-		 if (project == 0 )
+		if (!project) {
 			project = selectProject(i18n("Close Project"));
+		}
 	}
-	else
-	{
+	else {
 		project = projectFor(url);
 	}
 
@@ -1641,6 +1700,7 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 	KILE_DEBUG() << "===Kile::storeProjectItem==============";
 	KILE_DEBUG() << "\titem = " << item << ", doc = " << doc;
 	item->setEncoding(doc->encoding());
+	item->setMode(doc->mode());
 	item->setHighlight(doc->highlightingMode());
 	uint l = 0, c = 0;
 	QList<KTextEditor::View*> viewList = doc->views();
@@ -1655,8 +1715,7 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 	}
 	item->setLineNumber(l);
 	item->setColumnNumber(c);
-
-	KILE_DEBUG() << "\t" << item->encoding() << " " << item->highlight() << " should be " << doc->highlightingMode();
+	item->saveDocumentAndViewSettings();
 }
 
 void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
@@ -1788,7 +1847,7 @@ void Manager::projectShow()
 		m_ki->viewManager()->switchToTextView(docitem->url());
 	}
 	else {
-		fileOpen(docitem->url(),docitem->encoding());
+		fileOpen(docitem->url(), docitem->encoding());
 	}
 }
 
@@ -1805,19 +1864,20 @@ void Manager::projectRemoveFiles()
 void Manager::projectShowFiles()
 {
 	KileProjectItem *item = selectProjectFileItem( i18n("Select File") );
-	if ( item )
-	{
-		if  ( item->type() == KileProjectItem::ProjectFile )
-			dontOpenWarning( item, i18n("Show Project Files"), i18n("project configuration file") );
-		else if ( item->type() == KileProjectItem::Image )
-			dontOpenWarning( item, i18n("Show Project Files"), i18n("graphics file") );
-		else
-		{
-			// ok, we can switch to another file
-			if  ( m_ki->isOpen(item->url()) )
+	if(item) {
+		if (item->type() == KileProjectItem::ProjectFile) {
+			dontOpenWarning(item, i18n("Show Project Files"), i18n("project configuration file"));
+		}
+		else if(item->type() == KileProjectItem::Image) {
+			dontOpenWarning(item, i18n("Show Project Files"), i18n("graphics file"));
+		}
+		else { // ok, we can switch to another file
+			if  (m_ki->isOpen(item->url())) {
 				m_ki->viewManager()->switchToTextView(item->url());
-			else
-				fileOpen( item->url(),item->encoding() );
+			}
+			else {
+				fileOpen(item->url(), item->encoding() );
+			}
 		}
 	}
 }
@@ -1825,10 +1885,9 @@ void Manager::projectShowFiles()
 void Manager::projectOpenAllFiles()
 {
 	KileProject *project = selectProject(i18n("Select Project"));
-	if (project != 0L)
-  {
+	if(project) {
 		projectOpenAllFiles(project->url());
-  }
+	}
 }
 
 void Manager::projectOpenAllFiles(const KUrl & url)
@@ -2051,6 +2110,118 @@ void Manager::createProgressDialog()
 	m_progressDialog->setAutoClose(true);
 	m_progressDialog->setMinimumDuration(2000);
 	m_progressDialog->hide();
+}
+
+void Manager::loadDocumentAndViewSettings(KTextEditor::Document *document)
+{
+	KConfigGroup configGroup = configGroupForDocumentSettings(document);
+	if(!configGroup.exists()) {
+		return;
+	}
+#if KDE_IS_VERSION(4,3,75)
+	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
+	if(!interface) {
+		return;
+	}
+	interface->readParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
+
+	QList<KTextEditor::View*> viewList = document->views();
+	int i = 0;
+	for(QList<KTextEditor::View*>::iterator it = viewList.begin(); it != viewList.end(); ++it) {
+		KTextEditor::View *view = *it;
+		KTextEditor::SessionConfigInterface *viewConfigInterface = qobject_cast<KTextEditor::SessionConfigInterface*>(view);
+		if(!interface) {
+			continue;
+		}
+		configGroup = configGroupForViewSettings(document, i);
+		viewConfigInterface->readSessionConfig(configGroup);
+		++i;
+	}
+#endif
+}
+
+void Manager::saveDocumentAndViewSettings(KTextEditor::Document *document)
+{
+	KConfigGroup configGroup = configGroupForDocumentSettings(document);
+#if KDE_IS_VERSION(4,3,75)
+	KUrl url = document->url();
+	url.setPassword(""); // we don't want the password to appear in the configuration file
+	deleteDocumentAndViewSettingsGroups(url);
+
+	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
+	if(!interface) {
+		return;
+	}
+	interface->writeParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
+
+	QList<KTextEditor::View*> viewList = document->views();
+	int i = 0;
+	for(QList<KTextEditor::View*>::iterator it = viewList.begin(); it != viewList.end(); ++it) {
+		KTextEditor::View *view = *it;
+		KTextEditor::SessionConfigInterface *viewConfigInterface = qobject_cast<KTextEditor::SessionConfigInterface*>(view);
+		if(!interface) {
+			continue;
+		}
+		configGroup = configGroupForViewSettings(document, i);
+		viewConfigInterface->writeSessionConfig(configGroup);
+		++i;
+	}
+	// finally remove the config groups for the oldest documents that exceed MAX_NUMBER_OF_STORED_SETTINGS
+	configGroup = KGlobal::config()->group("Session Settings");
+	KUrl::List urlList(configGroup.readEntry("Saved Documents", QStringList()));
+	urlList.removeAll(url);
+	urlList.push_front(url);
+	// remove excess elements
+	if(urlList.length() > MAX_NUMBER_OF_STORED_SETTINGS) {
+		int excessNumber = urlList.length() - MAX_NUMBER_OF_STORED_SETTINGS;
+		for(; excessNumber > 0; --excessNumber) {
+			KUrl url = urlList.takeLast();
+			deleteDocumentAndViewSettingsGroups(url);
+		}
+	}
+	configGroup.writeEntry("Documents", url);
+	configGroup.writeEntry("Saved Documents", urlList.toStringList());
+#endif
+}
+
+KConfigGroup Manager::configGroupForDocumentSettings(KTextEditor::Document *doc) const
+{
+	return KGlobal::config()->group(configGroupNameForDocumentSettings(doc->url()));
+}
+
+QString Manager::configGroupNameForDocumentSettings(const KUrl& url) const
+{
+	KUrl url2 = url;
+	url2.setPassword("");
+	return "Document-Settings,URL=" + url2.url();
+}
+
+KConfigGroup Manager::configGroupForViewSettings(KTextEditor::Document *doc, int viewIndex) const
+{
+	return KGlobal::config()->group(configGroupNameForViewSettings(doc->url(), viewIndex));
+}
+
+QString Manager::configGroupNameForViewSettings(const KUrl& url, int viewIndex) const
+{
+	KUrl url2 = url;
+	url2.setPassword("");
+	return "View-Settings,View=" + QString::number(viewIndex) + ",URL=" + url2.url();
+}
+
+void Manager::deleteDocumentAndViewSettingsGroups(const KUrl& url)
+{
+	QString urlString = url.url();
+	QStringList groupList = KGlobal::config()->groupList();
+	for(QStringList::iterator i = groupList.begin(); i != groupList.end(); ++i) {
+		QString groupName = *i;
+		if(groupName.startsWith("Document-Settings")
+		|| groupName.startsWith("View-Settings")) {
+			int urlIndex = groupName.indexOf("URL=");
+			if(urlIndex >= 0 && groupName.mid(urlIndex + 4) == urlString) {
+				KGlobal::config()->deleteGroup(groupName);
+			}
+		}
+	}
 }
 
 }

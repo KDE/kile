@@ -398,9 +398,9 @@ void Info::slotCompleted()
 TextInfo::TextInfo(KTextEditor::Document *doc,
                    Extensions *extensions,
                    KileAbbreviation::Manager *abbreviationManager,
-                   const QString& defaultHighlightMode)
+                   const QString& defaultMode)
 : m_doc(NULL),
-  m_defaultHighlightMode(defaultHighlightMode),
+  m_defaultMode(defaultMode),
   m_abbreviationManager(abbreviationManager)
 {
 	setDoc(doc);
@@ -431,7 +431,22 @@ KTextEditor::Document* TextInfo::getDoc()
 	return m_doc;
 }
 
+const KTextEditor::Document* TextInfo::getDocument() const
+{
+	return m_doc;
+}
+
+KTextEditor::Document* TextInfo::getDocument()
+{
+	return m_doc;
+}
+
 void TextInfo::setDoc(KTextEditor::Document *doc)
+{
+	setDocument(doc);
+}
+
+void TextInfo::setDocument(KTextEditor::Document *doc)
 {
 	KILE_DEBUG() << "===void TextInfo::setDoc(KTextEditor::Document *doc)===";
 
@@ -447,7 +462,7 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		// this could be a KatePart bug, and as "work-around" we manually set the highlighting mode again
 		connect(m_doc, SIGNAL(completed()), this, SLOT(activateDefaultHightlightMode()));
-		setHighlightMode(m_defaultHighlightMode);
+		setMode(m_defaultMode);
 		installEventFilters();
 		registerCodeCompletionModels();
 	}
@@ -511,18 +526,27 @@ bool TextInfo::isTextDocument()
 	return true;
 }
 
-void TextInfo::setHighlightMode(const QString &highlight)
+void TextInfo::setMode(const QString &mode)
 {
-	KILE_DEBUG() << "==Kile::setHighlightMode(" << m_doc->url() << "," << highlight << " )==================";
+	KILE_DEBUG() << "==Kile::setMode(" << m_doc->url() << "," << mode << " )==================";
+
+	if (m_doc && !mode.isEmpty()) {
+		m_doc->setMode(mode);
+	}
+}
+
+void TextInfo::setHighlightingMode(const QString& highlight)
+{
+	KILE_DEBUG() << "==Kile::setHighlightingMode(" << m_doc->url() << "," << highlight << " )==================";
 
 	if (m_doc && !highlight.isEmpty()) {
 		m_doc->setHighlightingMode(highlight);
 	}
 }
 
-void TextInfo::setDefaultHightlightMode(const QString& string)
+void TextInfo::setDefaultMode(const QString& string)
 {
-	m_defaultHighlightMode = string;
+	m_defaultMode = string;
 }
 
 // match a { with the corresponding }
@@ -786,12 +810,12 @@ void TextInfo::slotViewDestroyed(QObject *object)
 	}
 }
 
-void TextInfo::activateDefaultHightlightMode()
+void TextInfo::activateDefaultMode()
 {
-    KILE_DEBUG() << "m_defaultHighlightMode = " <<  m_defaultHighlightMode << endl;
-    
-	if(m_doc && !m_defaultHighlightMode.isEmpty()) {
-        m_doc->setHighlightingMode(m_defaultHighlightMode);
+	KILE_DEBUG() << "m_defaultMode = " <<  m_defaultMode << endl;
+
+	if(m_doc && !m_defaultMode.isEmpty()) {
+		m_doc->setMode(m_defaultMode);
 	}
 }
 

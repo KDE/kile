@@ -232,7 +232,10 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 	KMenu tabMenu;
 
 	tabMenu.addTitle(m_ki->getShortName(view->document()));
-	tabMenu.addAction( m_ki->mainWindow()->action("kile_file_save"));
+	if ( view->document()->isModified() ) {
+		tabMenu.addAction( view->actionCollection()->action("file_save"));
+		tabMenu.addSeparator();
+	}
 	tabMenu.addAction( m_ki->mainWindow()->action("file_close"));
 	tabMenu.addAction(m_ki->mainWindow()->action("file_close_all_others"));
 

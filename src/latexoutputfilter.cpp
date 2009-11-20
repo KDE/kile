@@ -107,7 +107,6 @@ bool LatexOutputFilter::fileExists(const QString & name)
 void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStack()================" << endl;
-
 	static QString strPartialFileName;
 
 	switch (dwCookie) {
@@ -125,7 +124,9 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 			//TeX closed a file
 			else if(strLine.startsWith(":<-")) {
 // 				KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
-				m_stackFile.pop();
+				if(!m_stackFile.isEmpty()) {
+					m_stackFile.pop();
+				}
 				dwCookie = Start;
 			}
 			else {
@@ -271,7 +272,8 @@ void LatexOutputFilter::flushCurrentItem()
 		m_stackFile.pop();
 	}
 
-	m_currentItem.setSource(m_stackFile.top().file());
+	QString sourceFile = (m_stackFile.isEmpty()) ? QFileInfo(source()).fileName() : m_stackFile.top().file();
+	m_currentItem.setSource(sourceFile);
 
 	switch (nItemType) {
 		case itmError:
@@ -566,7 +568,7 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 
 short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::parseLine(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LatexOutputFilter::parseLine(" << strLine << dwCookie << strLine.length() << ")================" << endl;
 
 	switch (dwCookie) {
 		case Start :

@@ -271,9 +271,7 @@ void EditorExtension::gotoEnvironment(bool backwards, KTextEditor::View *view)
 	}
 	else {
 		found = findEndEnvironment(doc,row,col,env);
-		if(!m_overwritemode) {
-			env.col += env.len;
-		}
+		env.col += env.len;
 	}
 	
 	if(found) {
@@ -1137,20 +1135,10 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 	}
 	
 	if(inside) {
-		// check first line
 		envbegin.col += envbegin.len;
-		if (envbegin.col >= doc->lineLength(envbegin.row)) {
-			++envbegin.row;
-			envbegin.col = 0;
-		}
 	}
 	else {
 		envend.col += envend.len;
-		// check last line
-		if(envbegin.col == 0 && envend.col == doc->lineLength(envend.row)) {
-			++envend.row;
-			envend.col = 0;
-		}
 	}
 	
 	return true;
@@ -1194,11 +1182,6 @@ bool EditorExtension::hasEnvironment(KTextEditor::View *view)
 
 bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View *view)
 {
-	view = determineView(view);
-	if(!view) {
-		return false;
-	}
-
 	KTextEditor::Document *doc = view->document();
 	if (!view->selection()) {
 		return false;
@@ -1215,7 +1198,7 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 	int row1 = selectionRange.start().line();
 	int col1 = selectionRange.start().column();
 	int row2 = selectionRange.end().line();
-	int col2 = selectionRange.start().column();
+	int col2 = selectionRange.end().column();
 
 	// determine current environment outside 
 	EnvData oenvbegin,oenvend;
@@ -1226,6 +1209,7 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 	bool newselection = false;
 	// first look, if this environment is selected outside
 	if(row1 == oenvbegin.row && col1 == oenvbegin.col && row2 == oenvend.row && col2 == oenvend.col) {
+
 		if(!decreaseCursorPosition(doc, oenvbegin.row, oenvbegin.col) ) {
 			return newselection;
 		}
@@ -1234,10 +1218,11 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 		if(getEnvironment(inside, oenvbegin, oenvend, view)) {
 			view->setSelection(KTextEditor::Range(oenvbegin.row, oenvbegin.col, oenvend.row, oenvend.col));
 			newselection = true;
+
 		}
 	}
 	else {
-		// then determine current environment inside 
+	// then determine current environment inside 
 		EnvData ienvbegin, ienvend;
 		getEnvironment(true, ienvbegin, ienvend, view);
 		// and look, if this environment is selected inside
@@ -1251,9 +1236,10 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 				view->setSelection(KTextEditor::Range(ienvbegin.row, ienvbegin.col, ienvend.row, ienvend.col));
 				newselection = true;
 			}
+
 		}
 	} 
-	
+
 	// restore old cursor position
 	view->setCursorPosition(KTextEditor::Cursor(row, col));
 	return newselection;
@@ -1402,6 +1388,12 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 // Check if the current position belongs to an environment. The result is set
 // to the beginning backslash of the environment tag. The same algorithms as
 // matching brackets is used.
+//
+// insert mode:    if there is a full tag on the left, always take it
+//                 if not, look to the right
+// overwrite mode: always take the tag, which begins at the cursor position
+//
+// test it with {a}{{b}}{c}
 
 bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row, int col, EnvData &env)
 {
@@ -1412,19 +1404,20 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 		return false;
 	}
 	
-	EnvData envright;
 	bool left = false;
-	bool right = false;
 	
+   KILE_DEBUG() << "col=" << col;
 	//KTextEditor::SearchInterface *iface;
 	//iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
 	
 	// check if there is a match in this line from the current position to the left
 	int startcol = (textline[col] == '\\') ? col - 1 : col;
 	if(startcol >= 1) {
+		KILE_DEBUG() << "search to the left ";
 		int pos = textline.lastIndexOf(m_reg, startcol);
 		env.len = m_reg.matchedLength();
 		if(pos != -1 && pos < col && col <= pos + env.len) {
+		   KILE_DEBUG() << "search to the left: found";
 			env.row = row;
 			env.col = pos;
 			QChar ch = textline.at(pos + 1);
@@ -1436,76 +1429,40 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 				env.tag = (ch == '[') ? EnvBegin : EnvEnd;
 				env.name = m_reg.cap(4);
 			}
-			env.cpos = (col < pos + env.len) ? EnvInside : EnvRight;
-			// we have already found a tag, if the cursor is inside, but not behind this tag
-			if(env.cpos == EnvInside) {
+
+			if ( !m_overwritemode || (m_overwritemode && col<pos+env.len) ) {
+				// insert mode:    position is inside the tag or behind the tag, which also belongs to the tag
+				// overwrit emode: position is inside the tag) {
+				KILE_DEBUG() << "search to the left: stop";
 				return true;
 			}
+			// overwritemode: position is behind the tag
 			left = true;
-		//KILE_DEBUG() << "   is - found left:  pos=" << pos << " " << env.name << " " << QString(textline.at(pos+1));
+			KILE_DEBUG() << "search to the left: left=true, but also look to the right";
 		}
 	}
 	
 	// check if there is a match in this line from the current position to the right
+	KILE_DEBUG() << "search to the right " ;
 	if (textline[col] == '\\' && col == textline.indexOf(m_reg, col)) {
-		envright.row = row;
-		envright.col = col;
-		envright.len = m_reg.matchedLength();
+		KILE_DEBUG() << "search to the right: found";
+		env.row = row;
+		env.col = col;
+		env.len = m_reg.matchedLength();
 		QChar ch = textline.at(col+1);
 		if(ch == 'b' || ch == 'e') { // found "\begin" or "\end"
-			envright.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
-			envright.name = m_reg.cap(3);
+			env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
+			env.name = m_reg.cap(3);
 		}
 		else { // found "\[" or "\\]"
-			envright.tag = (ch == '[') ? EnvBegin : EnvEnd;
-			envright.name = m_reg.cap(4);
+			env.tag = (ch == '[') ? EnvBegin : EnvEnd;
+			env.name = m_reg.cap(4);
 		}
-		envright.cpos = EnvLeft;
-		right = true;
-		//KILE_DEBUG() << "   is - found right:  pos=" <<col << " " << envright.name << " " << QString(textline.at(col+1));
-	}
-	
-	//KILE_DEBUG() << "found left/right: " << left << "/" << right;
-	// did we find a tag?
-	if(!(left || right)) {
-		return false;
-	}
-	
-	// now check, which tag we should be taken (algorithm like matching brackets)
-	
-	if(m_overwritemode) {
-		if(right && envright.tag == EnvBegin) {
-			env = envright;
-			return true;
-		}
-		else if(left && env.tag == EnvEnd) {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}
-	else if(left && env.tag == EnvEnd) {
-		//KILE_DEBUG() << "   1: accept left end:  " << env.name;
+		KILE_DEBUG() << "search to the right: stop";
 		return true;
 	}
-	else if(right && envright.tag == EnvBegin) {
-		//KILE_DEBUG() << "   2: accept right begin:  " << envright.name;
-		env = envright;
-	}
-	else if(left && env.tag == EnvBegin) {
-		// KILE_DEBUG() << "   3: accept left begin:  " << env.name;
-		return true;
-	}
-	else if(right && envright.tag == EnvEnd) {
-		//KILE_DEBUG() << "   4: accept right end:  " << envright.name;
-		env = envright;
-	}
-	else {
-		return false;
-	}
-
-	return true;
+	
+	return left;
 }
 
 //////////////////// check for a comment ////////////////////

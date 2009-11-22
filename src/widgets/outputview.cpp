@@ -1,6 +1,7 @@
 /*************************************************************************************
     begin                : Sun Dec 21 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -13,6 +14,9 @@
  ****************************************************************************/
 
 #include "widgets/outputview.h"
+
+#include <KColorScheme>
+
 #include "kiledebug.h"
 
 namespace KileWidget {
@@ -20,10 +24,6 @@ namespace KileWidget {
 OutputView::OutputView(QWidget *parent) : KTextEdit(parent)
 {
 	setReadOnly(true);
-	QPalette customPalette = palette();
-	customPalette.setColor(QPalette::Base, QColor(Qt::white));
-	customPalette.setColor(QPalette::Window, QColor(Qt::white));
-	setPalette(customPalette);
 }
 
 OutputView::~OutputView()
@@ -48,6 +48,15 @@ void OutputView::receive(const QString& str)
 	else {
 		line += str;
 	}
+}
+
+void OutputView::paintEvent(QPaintEvent *ev)
+{
+	QPalette customPalette = palette();
+	KColorScheme::adjustBackground(customPalette, KColorScheme::NormalBackground,
+	                               QPalette::Base, KColorScheme::View);
+	setPalette(customPalette);
+	KTextEdit::paintEvent(ev);
 }
 
 }

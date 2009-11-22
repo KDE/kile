@@ -1314,13 +1314,8 @@ bool EditorExtension::findEndEnvironment(KTextEditor::Document *doc, int row, in
 }
 
 //////////////////// search for an environment tag ////////////////////
-
-#ifdef __GNUC__
-#warning this function does not work properly, the porting has changed the logic a bit
-#endif
-
 // find the last/next non-nested environment tag
-bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, int col, EnvData &env,bool backwards)
+bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, int col, EnvData &env, bool backwards)
 {
 	KTextEditor::SearchInterface *iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
 	if(!iface) {
@@ -1336,19 +1331,25 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 	else {
 		searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
 	}
-
+	
 	KTextEditor::Search::SearchOptions searchOptions = (backwards) ? KTextEditor::Search::Regex | KTextEditor::Search::Backwards : KTextEditor::Search::Regex;
 
-	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, m_reg.pattern(), searchOptions);
+	while(true) {
+		QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, m_reg.pattern(), searchOptions);
+		if(foundRanges.isEmpty() || (foundRanges.size() == 1 && !foundRanges.first().isValid())) {
+			break;
+		}
 
-	KILE_DEBUG() << "number of ranges " << foundRanges.count();
+		KILE_DEBUG() << "number of ranges " << foundRanges.count();
 
-	EnvTag wrong_env = (backwards) ? EnvEnd : EnvBegin;
+		EnvTag wrong_env = (backwards) ? EnvEnd : EnvBegin;
 
-	// it is +5 here because every search returns at least 5 ranges, because the regexp contains 4 capturing parantheses (full match + 4 =5 )
-	for(QVector<KTextEditor::Range>::iterator i = foundRanges.begin(); i < foundRanges.end(); i+=5) {
-		KTextEditor::Range range = *i;
-		KILE_DEBUG() << "text is " << doc->text(*i);
+		if(foundRanges.size() < 5) {
+			break;
+		}
+
+		KTextEditor::Range range = foundRanges.first();
+		KILE_DEBUG() << "text is " << doc->text(range);
 		if(!range.isValid()) {
 			break;
 		}
@@ -1359,9 +1360,9 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 		if(isValidBackslash(doc, env.row, env.col)) {
 			// *i is the fullmatch, *(i+1) first cap and so on
 			// don't move the iterator here
-			QString cap2 = doc->text(*(i+2));
-			QString cap3 = doc->text(*(i+3));
-			QString cap4 = doc->text(*(i+4));
+			QString cap2 = doc->text(foundRanges[2]);
+			QString cap3 = doc->text(foundRanges[3]);
+			QString cap4 = doc->text(foundRanges[4]);
 			EnvTag found_env = (cap2 == "begin" || cap4 == "\\[") ? EnvBegin : EnvEnd;
 			if(found_env == wrong_env) {
 				++envcount;
@@ -1382,6 +1383,14 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 					return true;
 				}
 			}
+		}
+
+		// finally, prepare the range for the next search
+		if(backwards) {
+			searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), foundRanges.first().start());
+		}
+		else {
+			searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
 		}
 	}
 

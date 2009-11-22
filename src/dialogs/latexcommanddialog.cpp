@@ -170,7 +170,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 			m_coOption->setWhatsThis(i18n("Define an optional alignment parameter."));
 		}
 		else {
-			m_coOption->setWhatsThis(i18n("Does this command need an optional parameter."));
+			m_coOption->setWhatsThis(i18n("Does this command need an optional parameter?"));
 		}
 		m_coOption->addItem("[ ]");
 

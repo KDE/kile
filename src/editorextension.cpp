@@ -1358,8 +1358,7 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 		env.len = doc->text(range).length();
 
 		if(isValidBackslash(doc, env.row, env.col)) {
-			// *i is the fullmatch, *(i+1) first cap and so on
-			// don't move the iterator here
+			// index 0 is the fullmatch, 1 first cap and so on
 			QString cap2 = doc->text(foundRanges[2]);
 			QString cap3 = doc->text(foundRanges[3]);
 			QString cap4 = doc->text(foundRanges[4]);

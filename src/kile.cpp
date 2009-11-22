@@ -362,6 +362,7 @@ void Kile::setupSideBar()
 	setupStructureView();
 	setupSymbolViews();
 	setupScriptsManagementView();
+	setupCommandViewToolbox();
 	setupAbbreviationView();
 
 	m_sideBar->switchToTab(KileConfig::selectedLeftView());
@@ -442,8 +443,6 @@ void Kile::disableSymbolViewMFUS()
 	disconnect(m_symbolViewMFUS,SIGNAL(addtoList(const Q3IconViewItem *)));
 }
 
-
-
 void Kile::setupSymbolViews()
 {
 	m_toolBox = new QToolBox(m_sideBar);
@@ -510,6 +509,14 @@ void Kile::setupSymbolViews()
 		                                   Click on the images to insert the command, additionally pressing \"Shift\" inserts\
 		                                   it in math mode, pressing \"Ctrl\" in curly brackets."));
 	}
+}
+
+void Kile::setupCommandViewToolbox()
+{
+	m_commandViewToolBox = new KileWidget::CommandViewToolBox(this,m_sideBar);
+	m_sideBar->addPage(m_commandViewToolBox,SmallIcon("texlion"),i18n("LaTeX"));
+	
+	connect(m_commandViewToolBox, SIGNAL(sendText(const QString &)),this, SLOT(insertText(const QString &)));
 }
 
 void Kile::setupAbbreviationView()
@@ -2326,7 +2333,10 @@ void Kile::readConfig()
 	m_edit->readConfig();
 	docManager()->updateInfos();
 	m_jScriptManager->readConfig();
+	
+	// set visible views in sidebar
 	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
+	m_sideBar->setPageVisible(m_commandViewToolBox, KileConfig::showCwlCommands());
 	m_sideBar->setPageVisible(m_kileAbbrevView, KileConfig::completeShowAbbrev());
 	
 	if(KileConfig::displayMFUS()) {
@@ -2335,6 +2345,7 @@ void Kile::readConfig()
 	else {
 		disableSymbolViewMFUS();
 	}
+	m_commandViewToolBox->readCommandViewFiles();
 	abbreviationManager()->readAbbreviationFiles();
 }
 

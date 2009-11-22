@@ -376,6 +376,14 @@
 			<label></label>
 			<default>false</default>
 		</entry>
+		<entry name="showCwlCommands" type="Bool">
+			<label></label>
+			<default>true</default>
+		</entry>
+		<entry name="maxCwlFiles" type="Int">
+			<label></label>
+			<default>10</default>
+		</entry>
 		<entry name="completeCitationMove" type="Bool">
 			<label></label>
 			<default>false</default>
@@ -524,7 +532,7 @@
 	<group name="Scripting">
 		<entry name="ScriptingEnabled" type="Bool">
 			<label>Enable the scripting support.</label>
-			<default>true</default>
+			<default>false</default>
 		</entry>
 		<entry name="TimeLimitEnabled" type="Bool">
 			<label>Set a time limit for the execution of scripts.</label>

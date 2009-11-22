@@ -97,7 +97,14 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	sp_latexthreshold->setMaximum(9);
 	sp_latexthreshold->setSingleStep(1);
 	QLabel *lb_latexletters = new QLabel(i18n("letters"), bg_options);
+	lb_cwlthreshold = new QLabel(i18n("Maximum:"), bg_options);
+	sp_cwlthreshold = new QSpinBox(bg_options);
+	sp_cwlthreshold->setMinimum(1);
+	sp_cwlthreshold->setMaximum(10);
+	sp_cwlthreshold->setSingleStep(1);
+	QLabel *lb_cwlfiles = new QLabel(i18n("files"), bg_options);
 	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"), bg_options);
+	cb_showcwlview = new QCheckBox(i18n("Show LaTeX commands"), bg_options);
 	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbreviations)"), bg_options);
 	cb_citeoutofbraces = new QCheckBox(i18n("Move out of braces (citation keylists)"), bg_options);
 
@@ -105,12 +112,16 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	bg_optionsLayout->addWidget(cb_setbullets, 1, 0);
 	bg_optionsLayout->addWidget(cb_closeenv, 2, 0);
 	bg_optionsLayout->addWidget(cb_showabbrevview, 3, 0);
+	bg_optionsLayout->addWidget(cb_showcwlview, 4, 0);
 	bg_optionsLayout->addWidget(cb_autocomplete, 0, 2);
 	bg_optionsLayout->addWidget(lb_latexthreshold, 0, 4);
 	bg_optionsLayout->addWidget(sp_latexthreshold, 0, 6);
 	bg_optionsLayout->addWidget(lb_latexletters, 0, 7);
 	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 1, 2);
-	bg_optionsLayout->addWidget(cb_citeoutofbraces, 4, 0, 1, 7);
+	bg_optionsLayout->addWidget(lb_cwlthreshold, 4, 4);
+	bg_optionsLayout->addWidget(sp_cwlthreshold, 4, 6);
+	bg_optionsLayout->addWidget(lb_cwlfiles, 4, 7);
+	bg_optionsLayout->addWidget(cb_citeoutofbraces, 5, 0, 1, 7);
 
 	// tune layout
 	bg_optionsLayout->setColumnMinimumWidth(1, 20);
@@ -124,6 +135,11 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	cb_autocomplete->setWhatsThis(i18n("Directional or popup-based completion of the TeX/LaTeX commands that are contained in the selected completion files."));
 	sp_latexthreshold->setWhatsThis(i18n("Automatically show a completion list of TeX/LaTeX commands when the word has this length."));
 	cb_citeoutofbraces->setWhatsThis(i18n("Move cursor out of braces after selecting from a citation keylist."));
+
+	cb_showabbrevview->setWhatsThis(i18n("Show abbreviations of the selected completion files in the sidebar"));
+	cb_autocompleteabbrev->setWhatsThis(i18n("Directional or popup-based completion of abbreviations that are contained in the selected completion files."));
+	cb_showcwlview->setWhatsThis(i18n("Show LaTeX commands of the selected completion files in the sidebar"));
+	sp_cwlthreshold->setWhatsThis(i18n("Maximum number of completion files, which can be shown in the sidebar."));
 
 	// add OptionBox and TabDialog into the layout
 	vbox->addWidget(gb_tab);
@@ -192,13 +208,14 @@ void CodeCompletionConfigWidget::readConfig(void)
 	cb_setbullets->setChecked(KileConfig::completeBullets());
 	cb_closeenv->setChecked(KileConfig::completeCloseEnv());
 	cb_showabbrevview->setChecked(KileConfig::completeShowAbbrev());
+	cb_showcwlview->setChecked(KileConfig::showCwlCommands());
 	cb_citeoutofbraces->setChecked(KileConfig::completeCitationMove());
-
 
 	cb_autocomplete->setChecked(KileConfig::completeAuto());
 	cb_autocompleteabbrev->setChecked(KileConfig::completeAutoAbbrev());
 
 	sp_latexthreshold->setValue(KileConfig::completeAutoThreshold());
+	sp_cwlthreshold->setValue(KileConfig::maxCwlFiles());
 
 	// insert filenames into listview
 	for (uint i = TexPage; i < NumPages; ++i) {
@@ -226,6 +243,7 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	KileConfig::setCompleteBullets(cb_setbullets->isChecked());
 	KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
 	KileConfig::setCompleteShowAbbrev(cb_showabbrevview->isChecked());
+	KileConfig::setShowCwlCommands(cb_showcwlview->isChecked());
 	KileConfig::setCompleteCitationMove(cb_citeoutofbraces->isChecked());
 
 	// read autocompletion settings
@@ -236,7 +254,8 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	KileConfig::setCompleteAuto(autoModeLatex);
 	KileConfig::setCompleteAutoAbbrev(autoModeAbbrev);
 	KileConfig::setCompleteAutoThreshold(sp_latexthreshold->value());
-
+	KileConfig::setMaxCwlFiles(sp_cwlthreshold->value());
+	
 	// save changed wordlists?
 	KileConfig::setCompleteChangedLists(changed);
 }

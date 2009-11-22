@@ -42,6 +42,7 @@
 #include "kileinfo.h"
 #include "kileactions.h"
 #include "widgets/symbolview.h"
+#include "widgets/commandview.h"
 
 #include "outputinfo.h"
 #include "latexoutputfilter.h"
@@ -170,7 +171,9 @@ private:
 	QStackedWidget			*m_topWidgetStack;
 	QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
 	QToolBox			*m_toolBox;
+	KileWidget::CommandViewToolBox *m_commandViewToolBox;
 	KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
+	KileWidget::CommandView *m_commandView;
 	KToolBar			*m_latexOutputErrorToolBar;
     QMenu               *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview, *m_userTagMenu;
 
@@ -198,6 +201,7 @@ private:
 	void setupProjectView();
 	void setupStructureView();
 	void setupScriptsManagementView();
+	void setupCommandViewToolbox();
 	void setupSymbolViews();
 	void enableSymbolViewMFUS();
 	void disableSymbolViewMFUS();

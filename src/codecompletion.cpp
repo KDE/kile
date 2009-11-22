@@ -416,6 +416,22 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::Document *document
 	}
 }
 
+QString LaTeXCompletionModel::filterLatexCommand(const QString &text, int &cursorYPos, int &cursorXPos)
+{
+	const static QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
+
+	cursorXPos = -1, cursorYPos = -1;
+	QString textToInsert;
+	int envIndex = reEnv.indexIn(text);
+	if(text != "\\begin{}" && envIndex != -1) { 
+		textToInsert = buildEnvironmentCompletedText(text, QString(), cursorYPos, cursorXPos);
+	}
+	else {
+		textToInsert = buildRegularCompletedText(stripParameters(text), cursorYPos, cursorXPos, true);
+	}
+	return textToInsert;
+}
+
 // strip all names enclosed in braces
 // consider also beamer like stuff [<...>] and <...>
 QString LaTeXCompletionModel::stripParameters(const QString &text) const
@@ -1036,12 +1052,17 @@ QStringList Manager::readCWLFiles(const QStringList &files, const QString &dir)
 	// read wordlists from files
 	QStringList wordlist;
 	for(int i = 0; i < files.count(); ++i) {
-		// if checked, the wordlist has to be read
-		if(files[i].at(0) == '1') {
-			wordlist += readCWLFile(dir + '/' + files[i].right( files[i].length()-2 ) + ".cwl");
+		QString cwlfile = validCwlFile(files[i]);
+		if( !cwlfile.isEmpty() ) {
+			wordlist += readCWLFile(dir + '/' + cwlfile + ".cwl");
 		}
 	}
 	return wordlist;
+}
+
+QString Manager::validCwlFile(const QString &filename)
+{
+  	return (filename.at(0) == '1') ? filename.right( filename.length()-2 ) : QString();
 }
 
 }

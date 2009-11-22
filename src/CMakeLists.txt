@@ -28,6 +28,7 @@ SET(kile_SRCS
 	dialogs/configurationdialog.cpp
 	dialogs/tabbingdialog.cpp
 	widgets/symbolview.cpp
+	widgets/commandview.cpp
 	dialogs/quickdocumentdialog.cpp
 	widgets/filebrowserwidget.cpp
 	docpart.cpp

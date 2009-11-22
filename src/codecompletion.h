@@ -72,6 +72,8 @@ namespace KileCodeCompletion
 
 			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
 			                                                                    int row) const;
+			QString filterLatexCommand(const QString &text, int &cursorYPos, int &cursorXPos);
+
 
 		protected:
 			KileCodeCompletion::Manager *m_codeCompletionManager;
@@ -145,6 +147,7 @@ namespace KileCodeCompletion
 
 			QStringList readCWLFile(const QString &filename, bool fullPathGiven = false);
 			QStringList readCWLFiles(const QStringList &files, const QString &dir);
+			QString validCwlFile(const QString &filename);
 
 		public Q_SLOTS:
 			void startLaTeXCompletion(KTextEditor::View *view = NULL);

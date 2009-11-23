@@ -70,7 +70,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	setFocusProxy(m_widget.edit_file);
 	m_widget.edit_file->setFocus();
 
-	connect(m_widget.cb_pdftex, SIGNAL(toggled(bool)),
+	connect(m_widget.cb_bb, SIGNAL(toggled(bool)),
 	        this, SLOT(slotChooseFilter()));
 	connect(m_widget.edit_file, SIGNAL(urlSelected(const KUrl&)),
 	        this, SLOT(slotUrlSelected(const KUrl&)));
@@ -92,7 +92,7 @@ IncludeGraphics::~IncludeGraphics()
 void IncludeGraphics::readConfig()
 {
 	m_widget.cb_center->setChecked(KileConfig::igCenter());
-	m_widget.cb_pdftex->setChecked(KileConfig::igPdftex());
+	m_widget.cb_bb->setChecked(KileConfig::igBoundingBox());
 	m_widget.cb_graphicspath->setChecked(KileConfig::igGraphicspath());
 
 	m_widget.cb_figure->setChecked(KileConfig::igFigure());
@@ -117,7 +117,7 @@ void IncludeGraphics::readConfig()
 void IncludeGraphics::writeConfig()
 {
 	KileConfig::setIgCenter(m_widget.cb_center->isChecked());
-	KileConfig::setIgPdftex(m_widget.cb_pdftex->isChecked());
+	KileConfig::setIgBoundingBox(m_widget.cb_bb->isChecked());
 	KileConfig::setIgGraphicspath(m_widget.cb_graphicspath->isChecked());
 
 	KileConfig::setIgFigure(m_widget.cb_figure->isChecked());
@@ -323,7 +323,7 @@ QString IncludeGraphics::getOptions()
 
 	// Only dvips needs the bounding box, not pdftex/pdflatex.
 	// But it will be always inserted as a comment.
-	if (!m_widget.edit_bb->text().isEmpty() && !m_widget.cb_pdftex->isChecked()) {
+	if (!m_widget.edit_bb->text().isEmpty() && m_widget.cb_bb->isChecked()) {
 		s += ",bb=" + m_widget.edit_bb->text();
 	}
 
@@ -419,7 +419,7 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &
 
 void IncludeGraphics::slotChooseFilter()
 {
-	QString filter = (m_widget.cb_pdftex->isChecked())
+	QString filter = (!m_widget.cb_bb->isChecked())
 			? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
 			+ "*.png|PNG Files\n"
 			+ "*.jpg|JPG Files\n"

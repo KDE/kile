@@ -210,8 +210,8 @@
 			<label>Center the graphics.</label>
 			<default>true</default> 
 		</entry>
-		<entry name="igPdftex" type="Bool">
-			<label>Use PdfTeX or PdfLaTeX.</label>
+		<entry name="igBoundingBox" type="Bool">
+			<label>Insert the bounding box as an option for the includegraphics command.</label>
 			<default>false</default> 
 		</entry>
 		<entry name="igGraphicspath" type="Bool">

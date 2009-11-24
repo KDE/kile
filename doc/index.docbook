@@ -285,11 +285,20 @@
 				indentations that nobody really remembers.</para></listitem>
 				<listitem><para>Beamer,HA-Prosper: create nice presentations in PDF with a superior look and all 
 						&latex; power.</para></listitem>
+				<listitem><para>Powerdot: Powerdot is the follower of the packages <userinput>seminar</userinput> 
+				and <userinput>HA-Prosper</userinput>. It hasn't so much options like Beamer, 
+				but it is easy to use and creates really nice presentations in PDF.</para></listitem>
 				<listitem><para>Scrartcl,Scrbook,Scrreprt,Scrlttr2: the KOMA-Script document classes, 
 						especially adapted to german typography. Use them whenever you write german
 						texts.</para></listitem>
+				<listitem><para>PDF: a modified <userinput>Article</userinput> template to use with 
+				<userinput>PdfLaTeX</userinput>.</para></listitem>
+				<listitem><para>Xelatex: an modified <userinput>Article</userinput> template to use with 
+				<userinput>XeLaTeX</userinput>.</para></listitem>
 			</itemizedlist>
 			
+			<para>Remember that you can take all these templates as starting point for your own requirements.</para>
+
 			<para>New users need not to worry, this list is just a brief description of features,
 			and more attention will be paid to complete these tasks in detail later in 
 			<xref linkend="quickstart"/>.</para>
@@ -689,7 +698,7 @@
 		click into &okular;'s window with the &MMB; (on some systems,
 		when you do not have a three-button mouse, you can simultaneously
 		use the <mousebutton>left</mousebutton> and the
-		<mousebutton>right</mousebutton> button). After that kile load the &latex; source file and jump to
+		<mousebutton>right</mousebutton> button). After that &kile; load the &latex; source file and jump to
 		the proper paragraph. To use inverse search, you have to compile your &latex; file with the <guilabel>Modern</guilabel> configuration.</para>
 
 		<para>Inverse search cannot work unless:</para>
@@ -750,12 +759,15 @@
 		<listitem><para>Beamer</para></listitem>
 		<listitem><para>Book</para></listitem>
 		<listitem><para>HA-Prosper</para></listitem>
+		<listitem><para>Powerdot</para></listitem>
 		<listitem><para>Letter</para></listitem>
 		<listitem><para>Report</para></listitem>
 		<listitem><para>Scrartcl (from the KOMA-Script package)</para></listitem>
 		<listitem><para>Scrbook (from the KOMA-Script package)</para></listitem>
 		<listitem><para>Scrlttr2 (from the KOMA-Script package)</para></listitem>
 		<listitem><para>Scrreprt (from the KOMA-Script package)</para></listitem>
+		<listitem><para>PDF</para></listitem>
+		<listitem><para>XeLaTeX</para></listitem>
 	</itemizedlist>
 
 	<para>If you selected an <guilabel>Empty document</guilabel>, you can either start 
@@ -1001,23 +1013,26 @@
 		<variablelist>
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>E</keycap></shortcut>
+		<keycap>,E</keycap></shortcut>
 		<guimenuitem>Environment (inside)</guimenuitem></menuchoice></term>
 		<listitem><para>Select an environment 
-		without the surrounding tags.</para></listitem>
+		without the surrounding tags. If this command is called, when an environment 
+		is already selected, &kile; will expand theis selection to the next surrounding 
+		environment.</para></listitem>
 		</varlistentry>
 		
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>F</keycap></shortcut>
+		<keycap>,F</keycap></shortcut>
 		<guimenuitem>Environment (outside)</guimenuitem></menuchoice></term>
 		<listitem><para>Select an environment 
-		including the surrounding tags.</para></listitem>
+		including the surrounding tags. This selection can also be expanded with a 
+		second call of this command. </para></listitem>
 		</varlistentry>
 		
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>T</keycap></shortcut>
+		<keycap>,T</keycap></shortcut>
 		<guimenuitem>TeX Group (inside)</guimenuitem></menuchoice></term>
 		<listitem><para>Select a TeX group 
 		inside the surrounding braces.</para></listitem>
@@ -1025,7 +1040,7 @@
 				
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>U</keycap></shortcut>
+		<keycap>,U</keycap></shortcut>
 		<guimenuitem>TeX Group (outside)</guimenuitem></menuchoice></term>
 		<listitem><para>Select a TeX group 
 		including the surrounding braces.</para></listitem>
@@ -1033,14 +1048,14 @@
 		
 		<varlistentry><term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-						<keycap>M</keycap></shortcut>
+						<keycap>,M</keycap></shortcut>
 					<guimenuitem>Math Group</guimenuitem></menuchoice></term>
 			<listitem><para>Select the current math group including the math commands.</para></listitem>
 		</varlistentry>
 		
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>P</keycap></shortcut>
+		<keycap>,P</keycap></shortcut>
 		<guimenuitem>Paragraph</guimenuitem></menuchoice></term>
 		<listitem><para>Select a whole paragraph, 
 		&ie; a group of text lines separated on both sides by empty lines.
@@ -1052,7 +1067,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>L</keycap></shortcut>
+		<keycap>,L</keycap></shortcut>
 		<guimenuitem>Line</guimenuitem></menuchoice></term>
 		<listitem><para>Select the text line of the 
 		current cursor position.</para></listitem>
@@ -1060,7 +1075,7 @@
 		
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
-		<keycap>W</keycap></shortcut>
+		<keycap>,W</keycap></shortcut>
 		<guimenuitem>TeX Word</guimenuitem></menuchoice></term>
 		<listitem><para>Select the word under 
 		the current cursor position. This selection has also en extended meaning, 
@@ -1070,6 +1085,20 @@
 		</varlistentry>
 
 		</variablelist>
+		
+		<sect2 id="editing_select_latex_commands">
+		
+		<para>&kile; has an extended feature to select LaTeX commands. If you for example 
+		have typed</para>
+		
+		<screen><userinput>text \bfseries\itshape more text</userinput></screen>
+
+		<para> and double click on one of the &latex; commands, both will be selected. 
+		But often you only want to select one of two or more commands. This can be done using 
+		the <keycombo>&Ctrl;</keycombo> key. You only have to press the <keycombo>&Ctrl;</keycombo> key 
+		and a double click will only select the desired command.</para>
+
+		</sect2>
 		
 	</sect1>
 
@@ -1099,42 +1128,42 @@
 		<variablelist>
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-		<keycap>E</keycap></shortcut>
+		<keycap>,E</keycap></shortcut>
 		<guimenuitem>Environment (inside)</guimenuitem></menuchoice></term>
 		<listitem><para>Delete an environment without the surrounding tags.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-		<keycap>F</keycap></shortcut>
+		<keycap>,F</keycap></shortcut>
 		<guimenuitem>Environment (outside)</guimenuitem></menuchoice></term>
 		<listitem><para>Delete an environment including the surrounding tags.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-		<keycap>T</keycap></shortcut>
+		<keycap>,T</keycap></shortcut>
 		<guimenuitem>TeX Group (inside)</guimenuitem></menuchoice></term>
 		<listitem><para>Delete a TeX group inside the surrounding braces.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-		<keycap>U</keycap></shortcut>
+		<keycap>,U</keycap></shortcut>
 		<guimenuitem>TeX Group (outside)</guimenuitem></menuchoice></term>
 		<listitem><para>Delete a TeX group including the surrounding braces.</para></listitem>
 		</varlistentry>
 		
 		<varlistentry><term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-						<keycap>M</keycap></shortcut>
+						<keycap>,M</keycap></shortcut>
 					<guimenuitem>Math Group</guimenuitem></menuchoice></term>
 			<listitem><para>Delete the current math group including the math commands.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-		<keycap>P</keycap></shortcut>
+		<keycap>,P</keycap></shortcut>
 		<guimenuitem>Paragraph</guimenuitem></menuchoice></term>
 		<listitem><para>Delete a whole paragraph. Look at the 
 		<menuchoice><guisubmenu>Select</guisubmenu><guimenuitem>Paragraph</guimenuitem></menuchoice>
@@ -1145,7 +1174,7 @@
 		
 		<varlistentry><term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-						<keycap>I</keycap></shortcut>
+						<keycap>,I</keycap></shortcut>
 					<guimenuitem>To End of Line</guimenuitem></menuchoice></term>
 			<listitem><para>Delete the text from the current cursor position to the end of the line.
 				</para></listitem>
@@ -1153,7 +1182,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
-		<keycap>W</keycap></shortcut>
+		<keycap>,W</keycap></shortcut>
 		<guimenuitem>TeX Word</guimenuitem></menuchoice></term>
 		<listitem><para>Delete the word or &latex;
 		 command under the current cursor position.</para></listitem>
@@ -1187,7 +1216,7 @@
 		
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>E</keycap></keycombo>
-		<keycap>B</keycap></shortcut>
+		<keycap>,B</keycap></shortcut>
 		<guimenuitem>Go to Begin</guimenuitem></menuchoice></term>
 		<listitem><para>This command will jump to the beginning of the current environment, 
 		wherever your current position is. The cursor will be placed directly 
@@ -1196,7 +1225,7 @@
 		
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>E</keycap></keycombo>
-		<keycap>E</keycap></shortcut>
+		<keycap>,E</keycap></shortcut>
 		<guimenuitem>Go to End</guimenuitem></menuchoice></term>
 		<listitem><para>This command will jump to the end of the current environment, 
 		wherever your current position is. The cursor will be placed directly 
@@ -1205,7 +1234,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>E</keycap></keycombo>
-		<keycap>M</keycap></shortcut>
+		<keycap>,M</keycap></shortcut>
 		<guimenuitem>Match</guimenuitem></menuchoice></term>
 		<listitem><para>When your cursor is placed in front of or above the 
 		<userinput>\begin{environment}</userinput> tag, it will be moved to the 
@@ -1214,7 +1243,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>E</keycap></keycombo>
-		<keycap>C</keycap></shortcut>
+		<keycap>,C</keycap></shortcut>
 		<guimenuitem>Close</guimenuitem></menuchoice></term>
 		<listitem><para>Typing a lot of nested environment tags, you may lose 
 		control of all those environments. This command will close the last 
@@ -1224,7 +1253,7 @@
 
 		<varlistentry><term><menuchoice>
 					<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>E</keycap></keycombo>
-						<keycap>A</keycap></shortcut>
+						<keycap>,A</keycap></shortcut>
 					<guimenuitem>Close All</guimenuitem></menuchoice></term>
 			<listitem><para>This closes all open environments, not only the last opened environment.</para></listitem>
 		</varlistentry>
@@ -1259,7 +1288,7 @@
 		<variablelist>
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>G</keycap></keycombo>
-		<keycap>B</keycap></shortcut>
+		<keycap>,B</keycap></shortcut>
 		<guimenuitem>Go to Begin</guimenuitem></menuchoice></term>
 		<listitem><para>This command will jump to the beginning of the current group, 
 		wherever your current position is. The cursor will be placed directly in front 
@@ -1268,7 +1297,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>G</keycap></keycombo>
-		<keycap>E</keycap></shortcut>
+		<keycap>,E</keycap></shortcut>
 		<guimenuitem>Go to End</guimenuitem></menuchoice></term>
 		<listitem><para>This command will jump to the end of the current group, 
 		wherever your current position is. The cursor will be placed directly 
@@ -1277,7 +1306,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>G</keycap></keycombo>
-		<keycap>M</keycap></shortcut>
+		<keycap>,M</keycap></shortcut>
 		<guimenuitem>Match</guimenuitem></menuchoice></term>
 		<listitem><para>When your cursor is placed in front of or behind an 
 		opening brace of a &tex; group, he will be moved to the opposite end of 
@@ -1286,7 +1315,7 @@
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>G</keycap></keycombo>
-		<keycap>C</keycap></shortcut>
+		<keycap>,C</keycap></shortcut>
 		<guimenuitem>Close</guimenuitem></menuchoice></term>
 		<listitem><para>Typing a lot of nested group braces may be hard work. 
 		This command will close the last opened group, so that the nested 
@@ -1340,7 +1369,7 @@
 
 		<title>Smart Newline</title>
 
-		<para>If you press <keycombo>&Shift;<keycap>Return</keycap></keycombo>, 
+		<para>If you press <keycombo>&Ctrl;<keycap>Return</keycap></keycombo>, 
 		&kile; inserts an intelligent newline. If your current position 
 		is inside a list environment, like <userinput>enumerate</userinput> 
 		or <userinput>itemize</userinput>, &kile; will not only insert 
@@ -1365,7 +1394,7 @@
 
 		<para>Some users like to arrange columns in tabular environments and
 		put all ampersand characters <keycap>&amp;</keycap> beneath each other. &kile; tries
-		to support this. If you press <keycombo>&Shift;&Alt;<keycap>&amp;</keycap></keycombo>, 
+		to support this. If you press <keycombo>&Alt;&Shift;<keycap>&amp;</keycap></keycombo>, 
 		&kile; will look for the next tab in the row above. Although this tab may not the  
 		corresponding tab, &kile; will add some spaces to adjust the column position with 
 		the current tab.</para>
@@ -1417,7 +1446,7 @@
 
 		<para>When you type some letters, you can activate this completion mode for &latex; commands 
 		and normal words with <menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>(La)TeX Command</guimenuitem></menuchoice> or the keyboard shortcut 
-		<keycombo>&Ctrl;<keycap>Space</keycap></keycombo>. 
+		<keycombo>&Ctrl;&Shift;<keycap>Space</keycap></keycombo>. 
 		&kile; first reads the letters from the current cursor position to the 
 		left and stops at the first non-letter character or a backslash. If this 
 		pattern begins with a backslash, &kile; will enter completion mode for &tex; or &latex; 
@@ -1471,6 +1500,32 @@
 		to configure one or more of these lists. You can choose different word lists 
 		for &tex; and &latex; commands and dictionary mode for normal words.</para> 
 		
+		<para>If you choose the option <guimenuitem>Show Latex commands</guimenuitem>, 
+		the entries of all chosen cwl files for LaTeX command completion are shown in a 
+		separate view of &kile;'s sidebar. So you will have a good survey, 
+		which commands are available and what parameters and options must or can be 
+		given for a completion. You can also simply select one entry with a mouse click 
+		and it will be inserted into the document, where all named parameters and 
+		options are stripped.</para>
+
+		<screenshot>
+			<screeninfo>LaTeX commands in the sidebar</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>LaTeX commands in the sidebar</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>As each chosen wordlist will be shown in a separate view for its own, 
+		there could be too much views, so that &kile;'s main window may be greater
+		than small screens. As this looks very ugly, &kile; works with a maximum 
+		number of allowed views, which is set to 10. If this value is too big 
+		for your screen, you should reduce this number.</para>
+
 	</sect1>
 
 	<sect1 id="complete_environment">
@@ -1484,7 +1539,7 @@
 		environments. Forget the opening tag and write, for example, <userinput>eq</userinput>.</para> 
 
 		<para>When you call the completion mode with 
-		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>Environment</guimenuitem></menuchoice> or keyboard shortcut <keycombo>&Alt;<keycap>Space</keycap></keycombo>,
+		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>Environment</guimenuitem></menuchoice> or keyboard shortcut <keycombo>&Alt;&Shift;<keycap>Space</keycap></keycombo>,
 		the opening tag is automatically added and you will see <userinput>\begin{eq}</userinput>. 
 		After this change, the completion list is much less cluttered.</para>
 
@@ -1541,6 +1596,30 @@
 		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>Abbreviation</guimenuitem></menuchoice> or keyboard shortcut <keycombo>&Ctrl;&Alt;<keycap>Space</keycap></keycombo>,
 		and the letter <userinput>L</userinput> is replaced by the string 
 		<userinput>\LaTeX</userinput>.</para>
+		
+		<para>Abbreviation completion also supports newline <userinput>\n</userinput> and <userinput>%C</userinput> 
+		to place the cursor, if these characters are present in the expansion text. 
+		So if you have the entry</para>
+
+		<screen><userinput>en1=\begin{enumerate}\n\item %C\n\end{enumerate}\n</userinput></screen>
+
+		<para>in the completion file, and invoke the abbreviation completion, 
+		the expansion looks like below, where <userinput>x</userinput> shows the final cursor position.</para>
+
+		<screen><userinput>
+		\begin{enumerate}
+		\item x
+		\end{enumerate}</userinput></screen>
+
+		<sect2 id="complete_abbrev_view">
+	
+			<title>Abbreviations</title>
+
+			<para>If you choose <guimenuitem>Show abbreviations</guimenuitem>, all possible 
+			abbreviations are shown in a view of the sidebar. So you will have a good survey 
+			of all possible abbreviations.</para>
+
+		</sect2>
 
 	</sect1>
 	
@@ -1576,20 +1655,24 @@
 		</screenshot>
 		
 		</sect2>
-		
+				
 		<sect2 id="complete_autotext">
 
 			<title>Document Words</title>
 
 			<para>Large dictionaries are not useful in autocompletion mode. But, we have seen 
 			that a lot of words in a document are typed more than once. So &kile; offers a 
-			completion for all words from the document that the user has already typed before.</para>
+			completion for all words from the document that the user has already typed before.
+			You can manually invoke this completion, if you press 
+			<shortcut><keycombo>&Ctrl;<keycap>Space</keycap></keycombo></shortcut>. Note that 
+			this mode is different from completion mode of &latex; commands.</para>
 
 			<para>If you want to turn this mode on or off, go to
 			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
-			<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>.
-			In this configuration dialog you can also change the threshold at which 
-			the completion box pops up.</para>
+			<guimenuitem>Editor</guimenuitem><guimenuitem>Editing</guimenuitem><guilabel>Auto Completion</guilabel></menuchoice>.
+			In this configuration dialog you can configure, if completion mode for 
+			document words should be enabled. There is also an additional autocompletion mode, 
+			where a completion box pops up, when a certain threshold is reached.</para>
 	
 		</sect2>	
 
@@ -1695,13 +1778,29 @@
 		when you choose a graphics file. This information is only needed 
 		when you work with traditional &latex; and bitmapped graphics. 
 		See the discussion of <link linkend="build_epsgraphics">EPS graphics</link>. 
-		</para></step> 
+		</para>
+		
+		<para>If Latex needs a bounding box and you don't want to generate a bb file, 
+		Kile supports this option. On the other side, &pdflatex; will give a warning, 
+		when you want to include a png or jpg graphics with this option. This checkbox 
+		enables or disables the bounding box option.</para></step> 
 
+		<step><para>Scale the image by the desired scale factor. e.g, 0.5 to reduce by half, 
+		or 2 to double.</para></step> 
+		
+		<step><para>The trim option will crop the imported image by l from the left, b from the bottom, 
+		r from the right, and t from the top. Where l, b, r and t are lengths.</para></step> 
+		
 		<step><para>Your last choice is whether to embed this graphics into a 
 		figure environment. If you decide to do so, you can also insert a 
 		caption and a label. It is a good idea to add a different prefix to 
 		each kind of label. It is common to use the prefix 
 		<userinput>fig:</userinput> for images.</para></step> 
+		
+		<step><para>If may prefer that some floats do not break the flow of text, but instead 
+		allow text to wrap around it, you have another choice here. To use wrapfig, you must 
+		first add <userinput>\usepackage{wrapfig}</userinput> to the preamble and set some 
+		of the parameter here.</para></step> 
 		</procedure>
 		
 	</sect1>
@@ -3192,12 +3291,24 @@
 		 in your $<envar>TEXINPUTS</envar> envirnoment variable. This can also be set inside kile.</para>
 		</listitem>
 		</itemizedlist>
+		
 		<screen><userinput>
 		\usepackage{ucs}
 		\usepackage[utf8x]{inputenc}</userinput></screen>
-		
+
 	</sect1>
 	
+	<sect1 id="xelatex">
+	
+		<title>XeLaTeX</title>
+		
+		<para>If you are using <userinput>XeLaTeX</userinput> you can simply load the
+		<userinput>xltxtra</userinput>. It will load all required packages.</para>
+		<screen><userinput>
+		\usepackage{xltxtra}</userinput></screen>
+		
+	</sect1>
+
 	<sect1 id="cjk">
 		
 		<title>&cjk; Support</title>

@@ -1,8 +1,22 @@
-version 2.1beta2 -> 2.1??
+version 2.1beta2 -> 2.1beta3
 
 Fixes:
- - make find in project work again (#205087)
- - use correct version string in kilepr files
+ - Restore find-in-project functionality (#205087)
+ - Use correct version string in project files
+ - Lots of code completion improvements (#193583, #209089, #209850)
+ - Fix crash related to the customizable file inclusion feature (#210217)
+ - Add SeaMonkey as browser for the 'ViewHTML' tool (Ubuntu bug 429336)
+ - Some improvements to the scripting functionality (missing bindings)
+ - Fix the labelling of the '\tfrac' insertion action (#212500)
+ - Fix crash related to the parsing of LaTeX output logs (#212224)
+ - Fix problems related to the handling of LaTeX environments (#214740)
+ - Make the output view use KDE colours (#215389)
+
+Features:
+ - Allow newline characters (\n) and cursor position (%C) in the expansion text of abbreviations
+ - Save and restore editor settings for regular documents and for projects (requires KDE libraries 4.4).
+ - Add a sidebar tab which allows to display CWL word lists
+ - Improve the graphics inclusion dialog
 
 version 2.1beta1 -> 2.1beta2
 

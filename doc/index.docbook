@@ -1017,7 +1017,7 @@
 		<guimenuitem>Environment (inside)</guimenuitem></menuchoice></term>
 		<listitem><para>Select an environment 
 		without the surrounding tags. If this command is called, when an environment 
-		is already selected, &kile; will expand theis selection to the next surrounding 
+		is already selected, &kile; will expand the selection to the next surrounding 
 		environment.</para></listitem>
 		</varlistentry>
 		
@@ -1087,8 +1087,9 @@
 		</variablelist>
 		
 		<sect2 id="editing_select_latex_commands">
+		<title>Select &latex; commands</title>
 		
-		<para>&kile; has an extended feature to select LaTeX commands. If you for example 
+		<para>&kile; has an extended feature to select &latex; commands. If you for example 
 		have typed</para>
 		
 		<screen><userinput>text \bfseries\itshape more text</userinput></screen>
@@ -1501,7 +1502,7 @@
 		for &tex; and &latex; commands and dictionary mode for normal words.</para> 
 		
 		<para>If you choose the option <guimenuitem>Show Latex commands</guimenuitem>, 
-		the entries of all chosen cwl files for LaTeX command completion are shown in a 
+		the entries of all chosen cwl files for &latex; command completion are shown in a 
 		separate view of &kile;'s sidebar. So you will have a good survey, 
 		which commands are available and what parameters and options must or can be 
 		given for a completion. You can also simply select one entry with a mouse click 
@@ -1664,7 +1665,7 @@
 			that a lot of words in a document are typed more than once. So &kile; offers a 
 			completion for all words from the document that the user has already typed before.
 			You can manually invoke this completion, if you press 
-			<shortcut><keycombo>&Ctrl;<keycap>Space</keycap></keycombo></shortcut>. Note that 
+			<keycombo>&Ctrl;<keycap>Space</keycap></keycombo>. Note that 
 			this mode is different from completion mode of &latex; commands.</para>
 
 			<para>If you want to turn this mode on or off, go to
@@ -1780,8 +1781,8 @@
 		See the discussion of <link linkend="build_epsgraphics">EPS graphics</link>. 
 		</para>
 		
-		<para>If Latex needs a bounding box and you don't want to generate a bb file, 
-		Kile supports this option. On the other side, &pdflatex; will give a warning, 
+		<para>If &latex; needs a bounding box and you don't want to generate a bb file, 
+		&kile; supports this option. On the other side, &pdflatex; will give a warning, 
 		when you want to include a png or jpg graphics with this option. This checkbox 
 		enables or disables the bounding box option.</para></step> 
 

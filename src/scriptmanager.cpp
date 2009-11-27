@@ -43,6 +43,8 @@
 #include <kross/core/action.h>
 #include <kross/core/manager.h>
 
+
+/*
 // Modified declaration from <khtml/ecma/kjs_proxy.h>
 // Acknowledgements go to:
 //  Copyright (C) 1999 Harri Porten (porten@kde.org)
@@ -66,30 +68,29 @@ private:
 // Copyright (C) 2001-2003 David Faure (faure@kde.org)
 void KJSCPUGuard::start(unsigned int ms, unsigned int i_ms)
 {
-#ifndef Q_WS_WIN
   oldAlarmHandler = signal(SIGVTALRM, alarmHandler);
   itimerval tv = {
       { i_ms / 1000, (i_ms % 1000) * 1000 },
       { ms / 1000, (ms % 1000) * 1000 }
   };
   setitimer(ITIMER_VIRTUAL, &tv, &oldtv);
-#endif
 }
 
 void KJSCPUGuard::stop()
 {
-#ifndef Q_WS_WIN
   setitimer(ITIMER_VIRTUAL, &oldtv, NULL);
   signal(SIGVTALRM, oldAlarmHandler);
-#endif
 }
 
 void KJSCPUGuard::alarmHandler(int) {
+
+//     KJS::ExecState::requestTerminate();
+}
+*/
+
 #ifdef __GNUC__
 #warning "Fix time limit functionality!"
 #endif
-//     KJS::ExecState::requestTerminate();
-}
 
 namespace KileScript {
 ////////////////////////////// Script //////////////////////////////

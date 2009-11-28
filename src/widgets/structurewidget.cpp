@@ -216,7 +216,7 @@ void StructureViewItem::setLabel(const QString &label)
 			return;
 		}
 		cleanUp(false);
- 		m_stack->update(m_docinfo, true, false);
+ 		m_stack->update(m_docinfo, true, true);
 	}
 
 	void StructureView::contextMenuEvent(QContextMenuEvent *event)

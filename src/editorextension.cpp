@@ -2362,7 +2362,7 @@ void EditorExtension::commentLaTeX(KTextEditor::Document* document, const KTextE
 {
 	int startLine = range.start().line(), endLine = range.end().line();
 	for(int i = startLine; i <= endLine; ++i) {
-		document->insertText(KTextEditor::Cursor(startLine, 0), "%");
+		document->insertText(KTextEditor::Cursor(i, 0), "% ");
 	}
 }
 

@@ -81,7 +81,10 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 		case KileTool::qpEnvironment:
 			conversiontype = KileConfig::envPreviewTool();
 			break;
-		default:
+		case KileTool::qpMathgroup:
+			conversiontype = KileConfig::mathgroupPreviewTool();
+			break;
+		default: // should not happen
 			conversiontype = pwDvipng;
 			break;
 	}

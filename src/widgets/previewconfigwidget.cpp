@@ -129,7 +129,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	m_cbMathgroup = new QCheckBox(m_gbPreview);
 	m_coSelection = new KComboBox(false, m_gbPreview);
 	m_coEnvironment = new KComboBox(false, m_gbPreview);
-	m_lbMathgroup = new QLabel(i18n("Preview uses always 'dvipng'."), m_gbPreview);
+	m_coMathgroup = new KComboBox(false, m_gbPreview);
 
 	previewLayout->addWidget(labelPreviewWidget, 0, 0, 1, 3);
 	previewLayout->addWidget(labelPreviewType, 0, 4);
@@ -141,7 +141,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	previewLayout->addWidget(m_coEnvironment, 2, 4);
 	previewLayout->addWidget(labelMathgroup, 3, 0);
 	previewLayout->addWidget(m_cbMathgroup, 3, 2);
-	previewLayout->addWidget(m_lbMathgroup, 3, 4, 1, 2, Qt::AlignLeft);
+	previewLayout->addWidget(m_coMathgroup, 3, 4);
 	previewLayout->addWidget(labelSubdocument1, 4, 0);
 	previewLayout->addWidget(labelSubdocument2, 4, 2, 1, 4, Qt::AlignLeft);
 	previewLayout->setRowMinimumHeight(0, 3 * labelPreviewWidget->sizeHint().height() / 2);
@@ -193,15 +193,17 @@ void KileWidgetPreviewConfig::writeConfig(void)
 	if(m_gbPreview->isEnabled()) {
 		KileConfig::setSelPreviewInWidget(m_cbSelection->isChecked());
 		KileConfig::setEnvPreviewInWidget(m_cbEnvironment->isChecked());
-		KileConfig::setMathgroupPreviewInWidget((m_dvipngInstalled) ? m_cbMathgroup->isChecked() : false);
-
-		KileConfig::setSelPreviewTool(index2tool(m_coSelection->currentIndex()));
-		KileConfig::setEnvPreviewTool(index2tool(m_coEnvironment->currentIndex()));
+		KileConfig::setMathgroupPreviewInWidget(m_cbMathgroup->isChecked());
 	}
 	else {
 		KileConfig::setEnvPreviewInWidget(false);
 		KileConfig::setSelPreviewInWidget(false);
+		KileConfig::setMathgroupPreviewInWidget(false);
 	}
+
+	KileConfig::setSelPreviewTool(index2tool(m_coSelection->currentIndex()));
+	KileConfig::setEnvPreviewTool(index2tool(m_coEnvironment->currentIndex()));
+	KileConfig::setMathgroupPreviewTool(index2tool(m_coMathgroup->currentIndex()));
 }
 
 void KileWidgetPreviewConfig::setupSeparateWindow()
@@ -248,11 +250,6 @@ void KileWidgetPreviewConfig::setupProperties()
 	if(m_dvipngInstalled) {
 		toollist << i18n("dvi --> png");
 	}
-	else {
-		m_cbMathgroup->setChecked(false);
-		m_cbMathgroup->setEnabled(false);
-		m_lbMathgroup->setText(i18n("Opens always in a separate window."));
-	}
 	if(m_convertInstalled) {
 		toollist << i18n("dvi --> ps --> png");
 		toollist << i18n("pdf --> png");
@@ -265,9 +262,11 @@ void KileWidgetPreviewConfig::setupProperties()
 	else {
 		m_coSelection->addItems(toollist);
 		m_coEnvironment->addItems(toollist);
+		m_coMathgroup->addItems(toollist);
 
 		m_coSelection->setCurrentIndex(tool2index(KileConfig::selPreviewTool()));
 		m_coEnvironment->setCurrentIndex(tool2index(KileConfig::envPreviewTool()));
+		m_coMathgroup->setCurrentIndex(tool2index(KileConfig::mathgroupPreviewTool()));
 	}
 }
 
@@ -338,9 +337,7 @@ void KileWidgetPreviewConfig::updateConversionTools()
 {
 	m_coSelection->setEnabled(m_cbSelection->isChecked());
 	m_coEnvironment->setEnabled(m_cbEnvironment->isChecked());
-	if(m_dvipngInstalled) {
-		m_lbMathgroup->setEnabled(m_cbMathgroup->isChecked());
-	}
+	m_coMathgroup->setEnabled(m_cbMathgroup->isChecked());
 }
 
 #include "previewconfigwidget.moc"

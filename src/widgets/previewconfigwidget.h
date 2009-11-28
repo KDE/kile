@@ -47,9 +47,9 @@ class KileWidgetPreviewConfig : public QWidget
 		KComboBox *m_combobox;
 		KileTool::QuickPreview *m_preview;
 		KLineEdit *m_leDvipngResolution;
-		QLabel *m_lbDvipng, *m_lbConvert, *m_lbMathgroup;
+		QLabel *m_lbDvipng, *m_lbConvert;
 		QCheckBox *m_cbEnvironment, *m_cbSelection, *m_cbMathgroup;
-		KComboBox *m_coSelection, *m_coEnvironment;
+		KComboBox *m_coSelection, *m_coEnvironment, *m_coMathgroup;
 		QGroupBox *m_gbPreview;
 
 		bool m_dvipngInstalled, m_convertInstalled;

@@ -159,6 +159,17 @@
 
 		<sect2>
 
+			<title>&kile; and &kate;</title>
+
+			<para>&kile; is based on &kate;, so a lot of editing capabilities come from &kate; and  &kile; extends 
+			these capabilities to edit &latex; documents. To learn more about &kate; and its capabilities, see 
+			the <ulink url="help:kate">&kate; Handbook</ulink>. &kile; users should start reading from the chapters
+			<quote>Working with the &kate; Editor</quote> and <quote>Configuring &kate;</quote>.</para>
+
+		</sect2>
+
+		<sect2>
+
 			<title>What is &latex;</title>
 
 			<para>&latex; is a text-processing system derived from &tex;, a program developed originally in
@@ -3005,6 +3016,60 @@
 			</mediaobject>
 		</screenshot>
 
+		<sect2 id="navigating_contextmenu">
+
+			<title>Using the Context Menu</title>
+
+			<para>Most of the entries in the structure view have a lot of entries in the context menu, 
+			which you can open with a right mouse click. So look at the structure view in the 
+			following picture.</para>
+			
+			<screenshot>
+				<screeninfo>Using the Structure View</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Using the Structure View</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			
+			<para>You will find some labels, some sectioning entries, one figure environment and three
+			pictures. If you right click on one of the sectioning entries, a menu with some useful 
+			commands will popup. All commands like <guibutton>Select</guibutton>, <guibutton>Delete</guibutton> 
+			or <guibutton>Comment</guibutton> will work with all lines, which belong to this section.</para>
+	
+			<screenshot>
+				<screeninfo>Context menu for sectioning entries</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Context menu for sectioning entries</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>Clicking on a figure or table entry will offer some actions with respect to references
+			and a right click on a graphics entry will offer some programs to open the graphics.</para>
+
+			<screenshot>
+				<screeninfo>Context menu for figure/tables and graphics entries</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Context menu for figure/tables and graphics entries</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
 		<sect2 id="navigating_update">
 
 			<title>Updating the Structure View</title>
@@ -3305,7 +3370,7 @@
 		<title>XeLaTeX</title>
 		
 		<para>If you are using <userinput>XeLaTeX</userinput> you can simply load the
-		<userinput>xltxtra</userinput>. It will load all required packages.</para>
+		<userinput>xltxtra</userinput> package. It will load all required packages.</para>
 		<screen><userinput>
 		\usepackage{xltxtra}</userinput></screen>
 		

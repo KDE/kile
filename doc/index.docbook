@@ -1087,6 +1087,7 @@
 		</variablelist>
 		
 		<sect2 id="editing_select_latex_commands">
+		
 		<title>Select &latex; commands</title>
 		
 		<para>&kile; has an extended feature to select &latex; commands. If you for example 
@@ -3769,19 +3770,46 @@
 		remove or navigate menu entries, and also insert separators to get 
 		a better structure.</para>
 
+		<screenshot>
+			<screeninfo>Dialog: configure user defined help entries</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Dialog: configure user defined help entries</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
 		<para>Pressing the <guibutton>Add</guibutton> button will open 
 		another dialog, where you must edit the name of the menu entry, 
 		and choose the corresponding file or Web &URL;. If you choose a Web &URL;, 
 		&konqueror; is started and you should copy the final &URL;.</para>
 
 		<screenshot>
-			<screeninfo>Bullets</screeninfo>
+			<screeninfo>Dialog: add a new helpentry</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="dialog-addhelp.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>Bullets</phrase>
+			<phrase>Dialog: add a new helpentry</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para>After configuration all chosen entries will appear in the <guimenu>Help</guimenu> 
+		menu of &kile; as a special menu entry <guimenu>User help</guimenu>.</para>
+		
+		<screenshot>
+			<screeninfo>Userhelp menu</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG" />
+			</imageobject>
+			<textobject>
+			<phrase>Userhelp menu</phrase>
 			</textobject>
 			</mediaobject>
 		</screenshot>

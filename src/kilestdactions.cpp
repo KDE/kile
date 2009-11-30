@@ -85,8 +85,8 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	(void) new KileAction::Tag(i18n("New Page - \\newpage"), i18n("New Page"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_newpage","\\newpage ",QString(),9,0,i18n("The \\newpage command ends the current page"));
 	(void) new KileAction::Tag(i18n("Line Break - \\linebreak"), i18n("Line Break"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_linebreak","\\linebreak ",QString(),11,0,i18n("The \\linebreak command tells LaTeX to break the current line at the point of the command."));
 	(void) new KileAction::Tag(i18n("Page Break - \\pagebreak"), i18n("Page Break"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_pagebreak","\\pagebreak ",QString(),11,0,i18n("The \\pagebreak command tells LaTeX to break the current page at the point of the command."));
-	(void) new KileAction::Tag(i18n("\"Big\" Vertical Space - \\bigskip"), i18n("\"Big\" Vertical Space"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bigskip","\\bigskip ",QString(),9,0,i18n("The \\bigskip command adds a 'big' vertical space."));
-	(void) new KileAction::Tag(i18n("\"Medium\" Vertical Space - \\medskip"), i18n("\"Medium\" Vertical Space"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_medskip","\\medskip ",QString(),9,0,i18n("The \\medskip command adds a 'medium' vertical space."));
+	(void) new KileAction::Tag(i18n("\"Big\" Vertical Space - \\bigskip"), i18n("\"Big\" Vertical Space"), "bigskip", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bigskip","\\bigskip ",QString(),9,0,i18n("The \\bigskip command adds a 'big' vertical space."));
+	(void) new KileAction::Tag(i18n("\"Medium\" Vertical Space - \\medskip"), i18n("\"Medium\" Vertical Space"), "medskip", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_medskip","\\medskip ",QString(),9,0,i18n("The \\medskip command adds a 'medium' vertical space."));
 
 	// includegraphics (dani)
 	(void) new KileAction::Tag(i18n("Image Insertion - \\includegraphics{file}"), i18n("Image Insertion"), "graphics", KShortcut("Alt+I, G"),receiver,SLOT(includeGraphics()), actionCollection,"tag_includegraphics",0L);
@@ -177,9 +177,9 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 	(void) new KileAction::Tag(i18n("Embedded Code (show spaces) - \\verb*||"), i18n("Embedded Code (show spaces)"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)),ac,"tag_verb*","\\verb*|","|",7,0, i18n("Macro form of the verbatim* environment."));
 
 	// horizontal/vertical space
-	(void) new KileAction::Tag(i18n("\"Small\" Vertical Space - \\smallskip"), i18n("\"Small\" Vertical Space"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_smallskip","\\smallskip ",QString(),10,0, i18n("The \\smallskip command adds a 'small' vertical space."));
+	(void) new KileAction::Tag(i18n("\"Small\" Vertical Space - \\smallskip"), i18n("\"Small\" Vertical Space"), "smallskip", KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), ac,"tag_smallskip","\\smallskip ",QString(),10,0, i18n("The \\smallskip command adds a 'small' vertical space."));
 
-	(void) new KileAction::Tag(i18n("\\enskip"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_enskip", "\\enskip ", QString(), 8);
+	(void) new KileAction::Tag(i18n("\\enskip"), QString(), "enskip", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_enskip", "\\enskip ", QString(), 8);
 
 	(void) new KileAction::Tag(i18n("Horizontal Variable Space - \\hfill"), i18n("Horizontal Variable Space"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hfill","\\hfill",QString(),6,0, i18n("The \\hfill fill command produces a \"rubber length\" which can stretch or shrink horizontally. It will be filled with spaces."));
 
@@ -189,13 +189,13 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 	(void) new KileAction::Tag(i18n("Vertical Variable Space - \\vfill"), i18n("Vertical Variable Space"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vfill","\\vfill",QString(),6,0, i18n("The \\vfill fill command produces a \"rubber length\" which can stretch or shrink vertically."));
 
-	(void) new KileAction::Tag(i18n("Horizontal Space - \\hspace{}"), i18n("Horizontal Space"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace","\\hspace{","}",8,0, i18n("The \\hspace command adds horizontal space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\hspace command. Adding negative space is like backspacing."));
+	(void) new KileAction::Tag(i18n("Horizontal Space - \\hspace{}"), i18n("Horizontal Space"), "hspace", KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace","\\hspace{","}",8,0, i18n("The \\hspace command adds horizontal space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\hspace command. Adding negative space is like backspacing."));
 
-	(void) new KileAction::Tag(i18n("Horizontal Space (forced) - \\hspace*{}"), i18n("Horizontal Space (forced)"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace*","\\hspace*{","}",9,0, i18n("The \\hspace* command adds horizontal space like the \\hspace command. LaTeX removes horizontal space that comes at the end of a line. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	(void) new KileAction::Tag(i18n("Horizontal Space (forced) - \\hspace*{}"), i18n("Horizontal Space (forced)"), "hspace-star", KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_hspace*","\\hspace*{","}",9,0, i18n("The \\hspace* command adds horizontal space like the \\hspace command. LaTeX removes horizontal space that comes at the end of a line. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
 
-	(void) new KileAction::Tag(i18n("Vertical Space - \\vspace{}"), i18n("Vertical Space"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace","\\vspace{","}",8,0, i18n("The \\vspace command adds vertical space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\vspace command."));
+	(void) new KileAction::Tag(i18n("Vertical Space - \\vspace{}"), i18n("Vertical Space"), "vspace", KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace","\\vspace{","}",8,0, i18n("The \\vspace command adds vertical space. The length of the space can be expressed in any terms that LaTeX understands, i.e., points, inches, etc. You can add negative as well as positive space with an \\vspace command."));
 
-	(void) new KileAction::Tag(i18n("Vertical Space (forced) - \\vspace*{}"), i18n("Vertical Space (forced)"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds vertical space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
+	(void) new KileAction::Tag(i18n("Vertical Space (forced) - \\vspace*{}"), i18n("Vertical Space (forced)"), "vspace-star", KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)),ac,"tag_vspace*","\\vspace*{","}",9,0, i18n("The \\vspace* command adds vertical space like the \\vspace command. LaTeX removes vertical space that comes at the end of a page. If you do not want LaTeX to remove this space, include the optional * argument. Then the space is never removed."));
 
 	// fonts
 	new KileAction::Tag(i18n("Emphasized - \\emph{}"), i18n("Emphasized"), "emph", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_emph","\\emph{","}",6,0,i18n("\\emph{emphasized text}"));
@@ -356,11 +356,11 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	(void) new KileAction::Tag(i18n("\\dot{}"), QString(), "dot",    KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_dot", "\\dot{","}", 5);
 	(void) new KileAction::Tag(i18n("\\ddot{}"), QString(), "ddot",  KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_ddot", "\\ddot{","}", 6);
 
-	(void) new KileAction::Tag(i18n("Small Space"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_space_small", "\\,", QString(), 2);
-	(void) new KileAction::Tag(i18n("Medium Space"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_space_medium", "\\:", QString(),2);
-	(void) new KileAction::Tag(i18n("Large Space"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_space_large", "\\;", QString(),2);
-	(void) new KileAction::Tag(i18n("\\quad"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_quad", "\\quad ", QString(), 6);
-	(void) new KileAction::Tag(i18n("\\qquad"), QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_qquad", "\\qquad ", QString(), 7);
+	(void) new KileAction::Tag(i18n("Small Space"), QString(), "thinspace", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_space_small", "\\,", QString(), 2);
+	(void) new KileAction::Tag(i18n("Medium Space"), QString(), "medspace", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_space_medium", "\\:", QString(),2);
+	(void) new KileAction::Tag(i18n("Large Space"), QString(), "bigspace", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_space_large", "\\;", QString(),2);
+	(void) new KileAction::Tag(i18n("\\quad"), QString(), "quad", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_quad", "\\quad ", QString(), 6);
+	(void) new KileAction::Tag(i18n("\\qquad"), QString(), "qquad", KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_qquad", "\\qquad ", QString(), 7);
 
 	(void) new KileAction::Tag(i18n("Math Mode - $...$"), i18n("Math Mode"), "mathmode", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_M), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_mathmode","$","$",1);
 	(void) new KileAction::Tag(i18n("Displaymath Mode - \\[...\\]"), i18n("Displaymath Mode"), "displaymathmode", KShortcut(Qt::ALT+Qt::SHIFT+Qt::Key_E), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_equation", "\\[","\\]", 2);
@@ -441,18 +441,18 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	(void) new KileAction::Tag(i18n("Equation (not numbered) - \\begin{equation*}"), i18n("Equation (not numbered)"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), ac,"tag_env_equation*","\\begin{equation*}\n","%E\n\\end{equation*}\n",0,1);
 
 	// AMS environments
-	(void) new KileAction::Tag(i18n("Multline - \\begin{multline}"), i18n("Multline"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_multline","\\begin{multline}\n","%E\n\\end{multline}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Multline - \\begin{multline}"), i18n("Multline"), "multline", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_multline","\\begin{multline}\n","%E\n\\end{multline}\n", 0,1);
  	(void) new KileAction::Tag(i18n("Multline* - \\begin{multline*}"), i18n("Multline*"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_multline*","\\begin{multline*}\n","%E\n\\end{multline*}\n", 0,1);
 
 	(void) new KileAction::Tag(i18n("Split - \\begin{split}"), i18n("Split"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_split","\\begin{split}\n","%E\n\\end{split}\n", 0,1);
 
-	(void) new KileAction::Tag(i18n("Gather - \\begin{gather}"), i18n("Gather"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gather","\\begin{gather}\n","%E\n\\end{gather}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Gather - \\begin{gather}"), i18n("Gather"), "gather", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gather","\\begin{gather}\n","%E\n\\end{gather}\n", 0,1);
  	(void) new KileAction::Tag(i18n("Gather* - \\begin{gather*}"), i18n("Gather*"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gather*","\\begin{gather*}\n","%E\n\\end{gather*}\n", 0,1);
 
-	(void) new KileAction::Tag(i18n("Align - \\begin{align}"), i18n("Align"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_align","\\begin{align}\n","%E\n\\end{align}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Align - \\begin{align}"), i18n("Align"), "align", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_align","\\begin{align}\n","%E\n\\end{align}\n", 0,1);
  	(void) new KileAction::Tag(i18n("Align* - \\begin{align*}"), i18n("Align*"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_align*","\\begin{align*}\n","%E\n\\end{align*}\n", 0,1);
 
-	(void) new KileAction::Tag(i18n("Flalign - \\begin{flalign}"), i18n("Flalign"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign","\\begin{flalign}\n","%E\n\\end{flalign}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Flalign - \\begin{flalign}"), i18n("Flalign"), "flalign", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign","\\begin{flalign}\n","%E\n\\end{flalign}\n", 0,1);
  	(void) new KileAction::Tag(i18n("Flalign* - \\begin{flalign*}"), i18n("Flalign*"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_flalign*","\\begin{flalign*}\n","%E\n\\end{flalign*}\n", 0,1);
 
 	(void) new KileAction::Tag(i18n("Alignat - \\begin{alignat}"), i18n("Alignat"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignat","\\begin{alignat}{","}\n%E\n\\end{alignat}\n", 16,0);
@@ -462,7 +462,7 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	(void) new KileAction::Tag(i18n("Gathered - \\begin{gathered}"), i18n("Gathered"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_gathered","\\begin{gathered}\n","%E\n\\end{gathered}\n", 0,1);
 	(void) new KileAction::Tag(i18n("Alignedat - \\begin{alignedat}"), i18n("Alignedat"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_alignedat","\\begin{alignedat}\n","%E\n\\end{alignedat}\n", 0,1);
 
-	(void) new KileAction::Tag(i18n("Cases - \\begin{cases}"), i18n("Cases"), KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_cases","\\begin{cases}\n","%E\n\\end{cases}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Cases - \\begin{cases}"), i18n("Cases"), "cases", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_cases","\\begin{cases}\n","%E\n\\end{cases}\n", 0,1);
 
 }
 

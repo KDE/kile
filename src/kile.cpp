@@ -692,7 +692,7 @@ void Kile::setupActions()
 
 	createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), SLOT(projectAddFiles()));
 	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "rebuild", docManager(), SLOT(buildProjectTree()));
- 	createAction(i18n("&Archive"), "package", "archive-insert", this, SLOT(runArchiveTool()));
+ 	createAction(i18n("&Archive"), "project_archive", "package", this, SLOT(runArchiveTool()));
 	createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), SLOT(projectOptions()));
 	createAction(i18n("&Close Project"), "project_close", "window-close", docManager(), SLOT(projectClose()));
 
@@ -947,7 +947,7 @@ void Kile::setupTools()
 	
 	for (int i = 0; i < tools.count(); ++i) {
 		grp = KileTool::groupFor(tools[i], m_config.data());
-        toolMenu = KileTool::menuFor(tools[i], m_config.data());
+		toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
 		KILE_DEBUG() << tools[i] << " is using group: " << grp << " and menu: "<< toolMenu;
 		if(toolMenu == "none") {
@@ -977,15 +977,15 @@ void Kile::setupTools()
 
 		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-        act = action("tool_" + tools[i]);
-		if (!act) {
-            KILE_DEBUG() << "no tool for " << tools[i];
+		act = action("tool_" + tools[i]);
+		if(!act) {
+			KILE_DEBUG() << "no tool for " << tools[i];
 			act = createAction(tools[i], "tool_" + tools[i],
-			                            KileTool::iconFor(tools[i], m_config.data()), m_signalMapper, SLOT(map()));
+			                   KileTool::iconFor(tools[i], m_config.data()), m_signalMapper, SLOT(map()));
 			m_signalMapper->removeMappings(act);
 			m_signalMapper->setMapping(act, tools[i]);
 		}
-        pl->append(act);
+		pl->append(act);
 
 		if(pSelectAction){
 			pSelectAction->addAction(action("tool_" + tools[i]));

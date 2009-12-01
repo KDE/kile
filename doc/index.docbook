@@ -1610,11 +1610,11 @@
 		and the letter <userinput>L</userinput> is replaced by the string 
 		<userinput>\LaTeX</userinput>.</para>
 		
-		<para>Abbreviation completion also supports newline <userinput>\n</userinput> and <userinput>%C</userinput> 
+		<para>Abbreviation completion also supports newline <userinput>%n</userinput> and <userinput>%C</userinput> 
 		to place the cursor, if these characters are present in the expansion text. 
 		So if you have the entry</para>
 
-		<screen><userinput>en1=\begin{enumerate}\n\item %C\n\end{enumerate}\n</userinput></screen>
+		<screen><userinput>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</userinput></screen>
 
 		<para>in the completion file, and invoke the abbreviation completion, 
 		the expansion looks like below, where <userinput>x</userinput> shows the final cursor position.</para>

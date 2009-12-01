@@ -774,7 +774,7 @@ void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *d
 {
 	// replace abbreviation and take care of newlines  
 	QString completionText = data(index(row, KTextEditor::CodeCompletionModel::Name, QModelIndex()), Qt::DisplayRole).toString();
-	completionText.replace("\\n","\n");
+	completionText.replace("%n","\n");
 	document->replaceText(word, completionText);
 	
 	// look if there is a %C-wish to place the cursor

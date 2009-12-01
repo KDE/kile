@@ -13,7 +13,7 @@ Fixes:
  - Make the output view use KDE colours (#215389)
 
 Features:
- - Allow newline characters (\n) and cursor position (%C) in the expansion text of abbreviations
+ - Allow newline characters (%n) and cursor position (%C) in the expansion text of abbreviations
  - Save and restore editor settings for regular documents and for projects (requires KDE libraries 4.4).
  - Add a sidebar tab which allows to display CWL word lists
  - Improve the graphics inclusion dialog

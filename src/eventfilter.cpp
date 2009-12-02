@@ -81,7 +81,7 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 			case Qt::Key_threequarters:	return m_edit->insertSpecialCharacter("\\textthreequarter", m_view, "textcomp");
 			case Qt::Key_questiondown:	return m_edit->insertSpecialCharacter("?`", m_view);
 			case Qt::Key_multiply:		return m_edit->insertSpecialCharacter("\\times", m_view);
-			case Qt::Key_ssharp:		return m_edit->insertSpecialCharacter("\\ss", m_view);
+			case Qt::Key_ssharp:		return m_edit->insertSpecialCharacter("\\ss{}", m_view);
 			case Qt::Key_Agrave:		
 				if (ke->modifiers() == Qt::ShiftModifier) {
 					return m_edit->insertSpecialCharacter("\\`A", m_view);

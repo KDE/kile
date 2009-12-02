@@ -939,15 +939,15 @@
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
-<!-- arg  \ss  -->
+<!-- arg  \ss{}  -->
 <commandDefinition>
-   <latexCommand>\ss</latexCommand>
+   <latexCommand>\ss{}</latexCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
-<!-- arg  \SS  -->
+<!-- arg  \SS{}  -->
 <commandDefinition>
-   <latexCommand>\SS</latexCommand>
+   <latexCommand>\SS{}</latexCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->

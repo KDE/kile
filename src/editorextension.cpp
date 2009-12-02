@@ -2556,7 +2556,7 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 		case 219:	return insertSpecialCharacter("\\^U", view);
 		case 220:	return insertSpecialCharacter("\\\"U", view);
 		case 221:	return insertSpecialCharacter("\\'Y", view);
-		case 223:	return insertSpecialCharacter("\\ss", view);
+		case 223:	return insertSpecialCharacter("\\ss{}", view);
 		case 224:	return insertSpecialCharacter("\\`a", view);
 		case 225:	return insertSpecialCharacter("\\'a", view);
 		case 226:	return insertSpecialCharacter("\\^a", view);

@@ -194,6 +194,9 @@ private:
 	KileLyxServer		*m_lyxserver;
 	KileErrorHandler 	*m_errorHandler;
 
+	QProgressBar		*m_parserProgressBar;
+	QTimer			*m_parserProgressBarShowTimer;
+
 	/* actions */
 	void initSelectActions();
 	void setupStatusBar();
@@ -347,6 +350,10 @@ private Q_SLOTS:
 	void updateStatusBarViewMode(KTextEditor::View *view);
 	void updateStatusBarInformationMessage(KTextEditor::View *view, const QString &message);
 	void updateStatusBarSelection(KTextEditor::View *view);
+
+	void connectDocumentInfoWithParserProgressBar(KileDocument::Info *info);
+	void parsingStarted(int maxValue);
+	void parsingCompleted();
 };
 
 #endif

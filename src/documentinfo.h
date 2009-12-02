@@ -175,6 +175,9 @@ Q_SIGNALS:
 	void doneUpdating();
 	void depChanged();
 	void completed(KileDocument::Info* info);
+	void parsingStarted(int maxValue);
+	void parsingCompleted();
+	void parsingUpdate(int value);
 
 protected Q_SLOTS:
 	void slotCompleted();

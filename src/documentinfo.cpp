@@ -1052,7 +1052,9 @@ void LaTeXInfo::updateStruct()
 	bool fireSuspended; // found an item, but it should not be fired (this time)
 	TodoResult todo;
 
+	emit(parsingStarted(m_doc->lines()));
 	for(int i = 0; i < m_doc->lines(); ++i) {
+		emit(parsingUpdate(i));
 		if (teller > 100) {
 			teller=0;
 			kapp->processEvents(QEventLoop::ExcludeUserInputEvents);
@@ -1332,6 +1334,7 @@ void LaTeXInfo::updateStruct()
 	checkChangedDeps();
 	emit(doneUpdating());
 	emit(isrootChanged(isLaTeXRoot()));
+	emit(parsingCompleted());
 }
 
 void LaTeXInfo::checkChangedDeps()

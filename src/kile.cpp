@@ -223,6 +223,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
 	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
 	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
+	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), this, SLOT(connectDocumentInfoWithParserProgressBar(KileDocument::Info*)));
 	connect(docManager(), SIGNAL(updateReferences(KileDocument::Info *)), m_kwStructure, SLOT(updateReferences(KileDocument::Info *)));
 
 	transformOldUserSettings();
@@ -335,6 +336,14 @@ QAction* Kile::action(const QString& name) const
 
 void Kile::setupStatusBar()
 {
+	m_parserProgressBar = new QProgressBar(m_mainWindow);
+	m_parserProgressBar->setMaximumHeight(kapp->fontMetrics().height());
+	m_parserProgressBar->setVisible(false);
+
+	m_parserProgressBarShowTimer = new QTimer(this);
+	m_parserProgressBarShowTimer->setSingleShot(true);
+	connect(m_parserProgressBarShowTimer, SIGNAL(timeout()), m_parserProgressBar, SLOT(show()));
+
 	statusBar()->removeItem(ID_LINE_COLUMN);
 	statusBar()->removeItem(ID_HINTTEXT);
 	statusBar()->removeItem(ID_VIEW_MODE);
@@ -348,6 +357,7 @@ void Kile::setupStatusBar()
 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_SELECTION_MODE, 0);
 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->insertWidget(4, m_parserProgressBar, 1);
 }
 
 void Kile::setupSideBar()
@@ -2790,6 +2800,27 @@ void Kile::updateStatusBarSelection(KTextEditor::View *view)
 					i18nc("@info:status status bar label for line selection mode", "LINE") + ' ';
 		statusBar()->changeItem(text, ID_SELECTION_MODE);
 	}
+}
+
+void Kile::connectDocumentInfoWithParserProgressBar(KileDocument::Info *info)
+{
+	connect(info, SIGNAL(parsingStarted(int)), this, SLOT(parsingStarted(int)));
+	connect(info, SIGNAL(parsingCompleted()), this, SLOT(parsingCompleted()));
+	connect(info, SIGNAL(parsingUpdate(int)), m_parserProgressBar, SLOT(setValue(int)));
+}
+
+void Kile::parsingStarted(int maxValue)
+{
+	m_parserProgressBar->reset();
+	m_parserProgressBar->setRange(0, maxValue);
+	m_parserProgressBar->setValue(0);
+	m_parserProgressBarShowTimer->start(50);
+}
+
+void Kile::parsingCompleted()
+{
+	m_parserProgressBarShowTimer->stop();
+	m_parserProgressBar->hide();
 }
 
 #include "kile.moc"

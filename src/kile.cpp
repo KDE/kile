@@ -1348,7 +1348,12 @@ void Kile::closeDocument()
 
 void Kile::autoSaveAll()
 {
-	docManager()->fileSaveAll(true);
+	if(docManager()->isAutoSaveAllowed()) {
+		docManager()->fileSaveAll(true);
+	}
+	else {
+		QTimer::singleShot(0, this, SLOT(autoSaveAll()));
+	}
 }
 
 void Kile::enableAutosave(bool as)
@@ -1356,10 +1361,14 @@ void Kile::enableAutosave(bool as)
 	if(as) {
 		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
 		int interval = KileConfig::autosaveInterval();
-		if ( interval < 1 || interval > 99 ) interval = 10;
+		if(interval < 1 || interval > 99) {
+			interval = 10;
+		}
 		m_AutosaveTimer->start(interval * 60000);
 	}
-	else m_AutosaveTimer->stop();
+	else {
+		m_AutosaveTimer->stop();
+	}
 }
 
 void Kile::openProject(const QString& proj)

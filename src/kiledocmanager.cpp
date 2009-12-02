@@ -74,6 +74,36 @@
 /*
  * Newly created text documents have an empty URL and a non-empty document name.
  */
+ 
+/*
+ * WARNING: Several methods in the document manager can open dialogs and consequently
+ *          launch a new event loop. It is therefore possible that the auto save feature
+ *          gets triggered when such a dialog is shown, potentially modifying variables
+ *          that are currently being modified by the method in question. It is therefore
+ *          *essential* that the 'm_autoSaveLock' variable is locked before such a method is
+ *          executed (also see the 'Locker' class).
+ */
+
+class Locker
+{
+	public:
+		Locker(unsigned int *lock)
+		{
+			m_lock = lock;
+			++*m_lock;
+		}
+
+		~Locker()
+		{
+			if(*m_lock == 0) {
+				return;
+			}
+			--*m_lock;
+		}
+
+	private:
+		unsigned int *m_lock;
+};
 
 #define MAX_NUMBER_OF_STORED_SETTINGS 50
 
@@ -83,7 +113,9 @@ namespace KileDocument
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent),
 	m_ki(info),
-	m_progressDialog(NULL)
+	m_progressDialog(NULL),
+	m_autoSaveLock(0),
+	m_currentlySavingAll(false)
 {
 	setObjectName(name);
 	m_editor = KTextEditor::EditorChooser::editor();
@@ -147,6 +179,11 @@ void Manager::updateInfos()
 	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
 		(*it)->updateStructLevelInfo();
 	}
+}
+
+bool Manager::isAutoSaveAllowed()
+{
+	return (m_autoSaveLock == 0);
 }
 
 KTextEditor::Editor* Manager::getEditor()
@@ -595,6 +632,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		return NULL;
 	}
 
+	Locker lock(&m_autoSaveLock);
 	if (sel->name() != DEFAULT_EMPTY_CAPTION && sel->name() != DEFAULT_EMPTY_LATEX_CAPTION && sel->name() != DEFAULT_EMPTY_BIBTEX_CAPTION) {
 		if(!m_editor) {
 			return NULL;
@@ -659,16 +697,13 @@ void Manager::replaceTemplateVariables(QString &line)
 void Manager::createTemplate()
 {
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
-	if (view)
-	{
-		if (view->document()->isModified() )
-		{
+	if (view) {
+		if (view->document()->isModified()) {
 			KMessageBox::information(m_ki->mainWindow(),i18n("Please save the file first."));
 			return;
 		}
 	}
-	else
-	{
+	else {
 		KMessageBox::information(m_ki->mainWindow(),i18n("Open/create a document first."));
 		return;
 	}
@@ -676,8 +711,7 @@ void Manager::createTemplate()
 	KUrl url = view->document()->url();
 	KileDocument::Type type = m_ki->extensions()->determineDocumentType(url);
 
-	if(type == KileDocument::Undefined || type == KileDocument::Text)
-	{
+	if(type == KileDocument::Undefined || type == KileDocument::Text) {
 		KMessageBox::information(m_ki->mainWindow(),i18n("A template for this type of document cannot be created."));
 		return;
 	}
@@ -696,6 +730,7 @@ void Manager::fileNew(KileDocument::Type type)
 {
 	NewFileWizard *nfw = new NewFileWizard(m_ki->templateManager(), type, m_ki->mainWindow());
 	if(nfw->exec()) {
+		Locker lock(&m_autoSaveLock);
 		KTextEditor::View *view = loadTemplate(nfw->getSelection());
 		if(view) {
 			if(nfw->useWizard()) {
@@ -710,11 +745,13 @@ void Manager::fileNew(KileDocument::Type type)
 
 void Manager::fileNewScript()
 {
+	Locker lock(&m_autoSaveLock);
 	fileNew(KileDocument::Script);
 }
 
 void Manager::fileNew(const KUrl& url)
 {
+	Locker lock(&m_autoSaveLock);
 	//create an empty file
 	QFile file(url.toLocalFile());
 	file.open(QIODevice::ReadWrite);
@@ -749,6 +786,7 @@ void Manager::fileOpen()
 	//get the URLs
 	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, currentDir, filter, m_ki->mainWindow(), i18n("Open Files"));
 
+	Locker lock(&m_autoSaveLock);
 	//open them
 	KUrl::List urls = result.URLs;
 	for (KUrl::List::Iterator i=urls.begin(); i != urls.end(); ++i) {
@@ -758,29 +796,37 @@ void Manager::fileOpen()
 
 void Manager::fileSelected(const KFileItem& file)
 {
+	Locker lock(&m_autoSaveLock);
 	fileSelected(file.url());
 }
 
 void Manager::fileSelected(const KileProjectItem * item)
 {
+	Locker lock(&m_autoSaveLock);
 	fileOpen(item->url(), item->encoding());
 }
 
 void Manager::fileSelected(const KUrl& url)
 {
+	Locker lock(&m_autoSaveLock);
 	fileOpen(url, QString());
 }
 
 void Manager::saveURL(const KUrl & url)
 {
+	Locker lock(&m_autoSaveLock);
 	KTextEditor::Document *doc = docFor(url);
-	if (doc) doc->save();
+	if(doc) {
+		doc->save();
+	}
 }
 
 void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
 	KILE_DEBUG() << "void Manager::newDocumentStatus(Kate::Document)" << endl;
-	if (doc == 0L) return;
+	if(!doc) {
+		return;
+	}
 
 	//sync terminal
 	m_ki->texKonsole()->sync();
@@ -788,13 +834,20 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
 	emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
 
 	//updatestructure if active document changed from modified to unmodified (typically after a save)
-	if (!doc->isModified())
+	if (!doc->isModified()) {
 		emit(updateStructure(true, textInfoFor(doc)));
+	}
 }
 
-void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
+void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 {
-	KTextEditor::View *view= 0L;
+	// this can occur when autosaving should take place when we
+	// are still busy with it (KIO::NetAccess keeps the event loop running)
+	if(m_currentlySavingAll) {
+		return;
+	}
+	m_currentlySavingAll = true;
+	KTextEditor::View *view = NULL;
 	QFileInfo fi;
 	bool saveResult;
 	KUrl url, backupUrl;
@@ -804,15 +857,14 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i) {
 		view = m_ki->viewManager()->textView(i);
 
-		if ( view && view->document()->isModified() )
-		{
+		if(view && view->document()->isModified()) {
 			url = view->document()->url();
 			fi.setFile(url.toLocalFile());
 
-			if	( 	( !amAutoSaving && !(disUntitled && url.isEmpty() ) ) // DisregardUntitled is true and we have an untitled doc and don't autosave
-					|| ( amAutoSaving && !url.isEmpty() ) //don't save untitled documents when autosaving
-					|| ( !amAutoSaving && !disUntitled )	// both false, so we want to save everything
-				)
+			if( (!amAutoSaving && !(disUntitled && url.isEmpty())) // DisregardUntitled is true and we have an untitled doc and don't autosave
+				|| (amAutoSaving && !url.isEmpty())            //don't save untitled documents when autosaving
+				|| (!amAutoSaving && !disUntitled)             // both false, so we want to save everything
+			  )
 			{
 
 				KILE_DEBUG() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings";
@@ -837,7 +889,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 
 				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
 
-    					// get the right permissions, start with safe default
+					// get the right permissions, start with safe default
 					mode_t  perms = 0600;
 					KIO::UDSEntry fentry;
 					if (KIO::NetAccess::stat (url, fentry, m_ki->mainWindow())) {
@@ -873,15 +925,18 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled )
 			}
 		}
 	}
+
 	/*
 	 This may look superfluos but actually it is not, in the case of multiple modified docs it ensures that the structure view keeps synchronized with the currentTextView
 	 And if we only have one masterdoc or none nothing goes wrong.
 	*/
 	emit(updateStructure(false,NULL));
+	m_currentlySavingAll = false;
 }
 
 void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::fileOpen==========================";
 
 	//don't want to receive signals from the fileselector since
@@ -925,6 +980,7 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 
 void Manager::fileSave()
 {
+	Locker lock(&m_autoSaveLock);
 	KTextEditor::View* view = m_ki->viewManager()->currentTextView();
 	if(!view) {
 		return;
@@ -941,7 +997,7 @@ void Manager::fileSave()
 
 void Manager::fileSaveAs(KTextEditor::View* view)
 {
-
+	Locker lock(&m_autoSaveLock);
 	if(!view) {
 		view = m_ki->viewManager()->currentTextView();
 	}
@@ -1005,6 +1061,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 
 void Manager::fileSaveCopyAs()
 {
+	Locker lock(&m_autoSaveLock);
 	KTextEditor::Document *doc= m_ki->activeTextDocument();
 	KTextEditor::View *view = NULL;
 	if(doc) {
@@ -1028,13 +1085,15 @@ void Manager::fileSaveCopyAs()
 		fileSaveAs(view);
 
 		doc = view->document();
-		if(doc && !doc->isModified()) // fileSaveAs was successful
+		if(doc && !doc->isModified()) { // fileSaveAs was successful
 			fileClose(doc);
+		}
 	}
 }
 
 bool Manager::fileCloseAllOthers()
 {
+	Locker lock(&m_autoSaveLock);
 	KTextEditor::View * currentView = m_ki->viewManager()->currentTextView();
 	QList<KTextEditor::View*> list = m_ki->viewManager()->textViews();
 	list.removeAll(currentView);
@@ -1044,21 +1103,22 @@ bool Manager::fileCloseAllOthers()
 			return false;
 		}
 	}
-
 	return true;
 }
 
 bool Manager::fileCloseAll()
 {
+	Locker lock(&m_autoSaveLock);
 	KTextEditor::View * view = m_ki->viewManager()->currentTextView();
 
 	//assumes one view per doc here
 	while( ! m_ki->viewManager()->textViews().isEmpty() )
 	{
 		view = m_ki->viewManager()->textView(0);
-		if (! fileClose(view->document())) return false;
+		if (!fileClose(view->document())) {
+			return false;
+		}
 	}
-
 	return true;
 }
 
@@ -1084,6 +1144,8 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 	if(!doc) {
 		return true;
 	}
+
+	Locker lock(&m_autoSaveLock);
 
 	//FIXME: remove from docinfo map, remove from dirwatch
 	KILE_DEBUG() << "doc->url().toLocalFile()=" << doc->url().toLocalFile();
@@ -1146,25 +1208,28 @@ void Manager::buildProjectTree(const KUrl & url)
 {
 	KileProject * project = projectFor(url);
 
-	if (project)
+	if (project) {
 		buildProjectTree(project);
+	}
 }
 
 void Manager::buildProjectTree(KileProject *project)
 {
-	if (project == 0)
+	if(!project) {
 		project = activeProject();
+	}
 
-	if (project == 0 )
+	if(!project) {
 		project = selectProject(i18n("Refresh Project Tree"));
+	}
 
-	if (project)
-	{
+	if (project) {
 		//TODO: update structure for all docs
 		project->buildProjectTree();
 	}
-	else if (m_projects.count() == 0)
+	else if (m_projects.count() == 0) {
 		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to build the tree for, then choose Refresh Project Tree again."),i18n( "Could Not Refresh Project Tree"));
+	}
 }
 
 void Manager::projectNew()
@@ -1173,6 +1238,7 @@ void Manager::projectNew()
 
 	if (dlg->exec())
 	{
+		Locker lock(&m_autoSaveLock);
 		KileProject *project = dlg->project();
 
 		//add the project file to the project
@@ -1218,6 +1284,7 @@ void Manager::projectNew()
 
 void Manager::addProject(KileProject *project)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==void Manager::addProject(const KileProject *project)==========";
 	m_projects.append(project);
 	KILE_DEBUG() << "\tnow " << m_projects.count() << " projects";
@@ -1256,16 +1323,19 @@ KileProject* Manager::selectProject(const QString& caption)
 
 void Manager::addToProject(const KUrl & url)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "===Kile::addToProject(const KUrl & url =" << url.url() << ")";
 
 	KileProject *project = selectProject(i18n("Add to Project"));
 
-	if (project)
+	if (project) {
 		addToProject(project, url);
+	}
 }
 
 void Manager::addToProject(KileProject* project, const KUrl & url)
 {
+	Locker lock(&m_autoSaveLock);
 	const KUrl realurl = symlinkFreeURL(url);
 	QFileInfo fi(realurl.toLocalFile());
 
@@ -1292,6 +1362,7 @@ void Manager::addToProject(KileProject* project, const KUrl & url)
 
 void Manager::removeFromProject(KileProjectItem *item)
 {
+	Locker lock(&m_autoSaveLock);
 	if (item && item->project()) {
 		KILE_DEBUG() << "\tprojecturl = " << item->project()->url().toLocalFile() << ", url = " << item->url().toLocalFile();
 
@@ -1313,6 +1384,7 @@ void Manager::removeFromProject(KileProjectItem *item)
 
 void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectOpenItem==========================";
 	KILE_DEBUG() << "\titem:" << item->url().toLocalFile();
 
@@ -1338,6 +1410,7 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 
 KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool openProjectItemViews)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectOpen==========================";
 	KILE_DEBUG() << "\tfilename: " << url.fileName();
 
@@ -1468,6 +1541,7 @@ KileProject* Manager::projectOpen()
 
 void Manager::projectSave(KileProject *project /* = 0 */)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectSave==========================";
 	if (!project) {
 		//find the project that corresponds to the active doc
@@ -1533,14 +1607,17 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 
 void Manager::projectAddFiles(const KUrl & url)
 {
+	Locker lock(&m_autoSaveLock);
 	KileProject *project = projectFor(url);
 
-	if (project)
+	if (project) {
 		projectAddFiles(project,url);
+	}
 }
 
 void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectAddFiles()==========================";
  	if(project == 0) {
 		project = activeProject();
@@ -1591,31 +1668,35 @@ void Manager::projectOptions(const KUrl & url)
 {
 	KileProject *project = projectFor(url);
 
-	if (project)
+	if (project) {
 		projectOptions(project);
+	}
 }
 
 void Manager::projectOptions(KileProject *project /* = 0*/)
 {
 	KILE_DEBUG() << "==Kile::projectOptions==========================";
-	if (project ==0 )
+	if(!project) {
 		project = activeProject();
+	}
 
-	if (project == 0 )
+	if(!project) {
 		project = selectProject(i18n("Project Options For"));
+	}
 
-	if (project)
-	{
+	if (project) {
 		KILE_DEBUG() << "\t" << project->name();
 		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->extensions(), m_ki->mainWindow());
 		dlg->exec();
 	}
-	else if (m_projects.count() == 0)
+	else if (m_projects.count() == 0) {
 		KMessageBox::error(m_ki->mainWindow(), i18n("The current document is not associated to a project. Please activate a document that is associated to the project you want to modify, then choose Project Options again."),i18n( "Could Not Determine Active Project"));
+	}
 }
 
 bool Manager::projectCloseAll()
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectCloseAll==========================";
 
 	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
@@ -1629,6 +1710,7 @@ bool Manager::projectCloseAll()
 
 bool Manager::projectClose(const KUrl & url)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectClose==========================";
 	KileProject *project = 0;
 
@@ -1697,6 +1779,7 @@ bool Manager::projectClose(const KUrl & url)
 
 void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "===Kile::storeProjectItem==============";
 	KILE_DEBUG() << "\titem = " << item << ", doc = " << doc;
 	item->setEncoding(doc->encoding());
@@ -1720,6 +1803,7 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 
 void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 {
+	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "===void Manager::cleanUpTempFiles(const KUrl " << url.toLocalFile() << ", bool " << silent << ")===";
 
 	if( url.isEmpty() )
@@ -1772,6 +1856,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 }
 
 void Manager::openDroppedURLs(QDropEvent *e) {
+	Locker lock(&m_autoSaveLock);
 	KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
 	Extensions *extensions = m_ki->extensions();
 
@@ -1790,6 +1875,7 @@ void Manager::openDroppedURLs(QDropEvent *e) {
 
 void Manager::projectShow()
 {
+	Locker lock(&m_autoSaveLock);
 	if(m_projects.count() <= 1) {
 		return;
 	}
@@ -1853,6 +1939,7 @@ void Manager::projectShow()
 
 void Manager::projectRemoveFiles()
 {
+	Locker lock(&m_autoSaveLock);
 	QList<KileProjectItem*> itemsList = selectProjectFileItems(i18n("Select Files to Remove"));
 	if(itemsList.count() > 0) {
 		for(QList<KileProjectItem*>::iterator it = itemsList.begin(); it != itemsList.end(); ++it) {
@@ -1863,6 +1950,7 @@ void Manager::projectRemoveFiles()
 
 void Manager::projectShowFiles()
 {
+	Locker lock(&m_autoSaveLock);
 	KileProjectItem *item = selectProjectFileItem( i18n("Select File") );
 	if(item) {
 		if (item->type() == KileProjectItem::ProjectFile) {
@@ -1884,6 +1972,7 @@ void Manager::projectShowFiles()
 
 void Manager::projectOpenAllFiles()
 {
+	Locker lock(&m_autoSaveLock);
 	KileProject *project = selectProject(i18n("Select Project"));
 	if(project) {
 		projectOpenAllFiles(project->url());
@@ -1892,11 +1981,13 @@ void Manager::projectOpenAllFiles()
 
 void Manager::projectOpenAllFiles(const KUrl & url)
 {
+	Locker lock(&m_autoSaveLock);
 	KileProject* project;
-	KTextEditor::Document* doc = 0L;
+	KTextEditor::Document* doc = NULL;
 
-	if(!url.isValid())
+	if(!url.isValid()) {
 		return;
+	}
 	project = projectFor(url);
 
 	if(!project)
@@ -2037,16 +2128,18 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 
 void Manager::projectAddFile(QString filename, bool graphics)
 {
- 	KILE_DEBUG() << "===Kile::projectAddFile==============";
+	Locker lock(&m_autoSaveLock);
+	KILE_DEBUG() << "===Kile::projectAddFile==============";
 	KileProject *project = activeProject();
- 	if ( ! project )
+	if(!project) {
 		return;
+	}
 
 	QFileInfo fi(filename);
-	if ( ! fi.exists() )
-	{
-		if ( graphics )
+	if(!fi.exists()) {
+		if(graphics) {
 			return;
+		}
 
 		// called from InputDialog after a \input- or \include command:
 		//  - if the chosen file has an extension: accept

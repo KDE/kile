@@ -162,6 +162,15 @@ Q_SIGNALS:
 	void addToProjectView(const KileProject*);
 
 public:
+	/**
+	 * Autosave is not allowed whenever the documents are opened, closed, etc.
+	 * Note that even though the autosave functionality is not executed in a separate
+	 * thread, it would be possible that autosave is executed during the manipulation
+	 * of documents as a separate event handling loop can be started (for example, for
+	 * a progress dialog).
+	 **/
+	bool isAutoSaveAllowed();
+
 	KTextEditor::Editor* getEditor();
 
 	QList<KileProject*> projects() { return m_projects; }
@@ -233,7 +242,9 @@ private:
 	KileInfo				*m_ki;
 	QList<KileProject*>			m_projects;
 	QPointer<KileWidget::ProgressDialog>	m_progressDialog;
-	
+	unsigned int				m_autoSaveLock;
+	bool					m_currentlySavingAll;
+
 	void dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype);
 	void cleanupDocumentInfoForProjectItems(KileDocument::Info *info);
 	void createProgressDialog();

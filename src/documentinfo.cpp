@@ -461,7 +461,7 @@ void TextInfo::setDocument(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
 		// this could be a KatePart bug, and as "work-around" we manually set the highlighting mode again
-		connect(m_doc, SIGNAL(completed()), this, SLOT(activateDefaultHightlightMode()));
+		connect(m_doc, SIGNAL(completed()), this, SLOT(activateDefaultMode()));
 		setMode(m_defaultMode);
 		installEventFilters();
 		registerCodeCompletionModels();

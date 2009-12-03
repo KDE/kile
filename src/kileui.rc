@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="38">
+<kpartgui name="kile" version="39">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -356,25 +356,41 @@
 		<Action name="tag_env_array"/>
 	</Menu>
 	<Menu name="menu_mathamsenv"><text>&amp;AMS Math Environments</text>
-		<Action name="tag_env_multline"/>
-		<Action name="tag_env_multline*"/>
-		<Separator/>
-		<Action name="tag_env_split"/>
-		<Separator/>
-		<Action name="tag_env_gather"/>
-		<Action name="tag_env_gather*"/>
-		<Separator/>
-		<Action name="tag_env_align"/>
-		<Action name="tag_env_align*"/>
-		<Action name="tag_env_flalign"/>
-		<Action name="tag_env_flalign*"/>
-		<Separator/>
-		<Action name="tag_env_alignat"/>
-		<Action name="tag_env_alignat*"/>
-		<Separator/>
-		<Action name="tag_env_aligned"/>
-		<Action name="tag_env_gathered"/>
-		<Action name="tag_env_alignedat"/>
+		<Menu name="menu_amsenv_align"><text>&amp;Align Environments</text>
+			<Action name="tag_env_align"/>
+			<Action name="tag_env_align*"/>
+			<Separator/>
+			<Action name="tag_env_alignat"/>
+			<Action name="tag_env_alignat*"/>
+			<Separator/>
+			<Action name="tag_env_aligned"/>
+			<Action name="tag_env_alignedat"/>
+			<Separator/>
+			<Action name="tag_env_flalign"/>
+			<Action name="tag_env_flalign*"/>
+		</Menu>
+		<Menu name="menu_amsenv_center"><text>&amp;Center Environments</text>
+			<Action name="tag_env_gather"/>
+			<Action name="tag_env_gather*"/>
+			<Separator/>
+			<Action name="tag_env_gathered"/>
+		</Menu>
+		<Menu name="menu_amsenv_multiline"><text>Multi &amp;Line Environments</text>
+			<Action name="tag_env_multline"/>
+			<Action name="tag_env_multline*"/>
+			<Separator/>
+			<Action name="tag_env_split"/>
+		</Menu>
+		<Menu name="menu_amsenv_matrix"><text>&amp;Matrix Environments</text>
+			<Action name="tag_env_matrix"/>
+			<Action name="tag_env_pmatrix"/>
+			<Separator/>
+			<Action name="tag_env_vmatrix"/>
+			<Action name="tag_env_Vmatrix"/>
+			<Separator/>
+			<Action name="tag_env_bmatrix"/>
+			<Action name="tag_env_Bmatrix"/>
+		</Menu>
 		<Separator/>
 		<Action name="tag_env_cases"/>
 	</Menu>

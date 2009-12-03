@@ -468,6 +468,13 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 
 	(void) new KileAction::Tag(i18n("Cases - \\begin{cases}"), i18n("Cases"), "cases", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_cases","\\begin{cases}\n","%E\n\\end{cases}\n", 0,1);
 
+	(void) new KileAction::Tag(i18n("matrix - \\begin{matrix}"), i18n("matrix"), "matrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_matrix","\\begin{matrix}\n","%E\n\\end{matrix}\n", 0,1);
+	(void) new KileAction::Tag(i18n("pmatrix - \\begin{pmatrix}"), i18n("pmatrix"), "pmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_pmatrix","\\begin{pmatrix}\n","%E\n\\end{pmatrix}\n", 0,1);
+	(void) new KileAction::Tag(i18n("vmatrix - \\begin{vmatrix}"), i18n("vmatrix"), "vmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_vmatrix","\\begin{vmatrix}\n","%E\n\\end{vmatrix}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Vmatrix - \\begin{Vmatrix}"), i18n("Vmatrix"), "Vmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_Vmatrix","\\begin{Vmatrix}\n","%E\n\\end{Vmatrix}\n", 0,1);
+	(void) new KileAction::Tag(i18n("bmatrix - \\begin{bmatrix}"), i18n("bmatrix"), "bmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_bmatrix","\\begin{bmatrix}\n","%E\n\\end{bmatrix}\n", 0,1);
+	(void) new KileAction::Tag(i18n("Bmatrix - \\begin{Bmatrix}"), i18n("Bmatrix"), "Bmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_Bmatrix","\\begin{Bmatrix}\n","%E\n\\end{Bmatrix}\n", 0,1);
+
 }
 
 }

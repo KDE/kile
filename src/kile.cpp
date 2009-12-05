@@ -701,8 +701,8 @@ void Kile::setupActions()
 	m_actRecentProjects->loadEntries(m_config->group("Projects"));
 
 	createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), SLOT(projectAddFiles()));
-	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "rebuild", docManager(), SLOT(buildProjectTree()));
- 	createAction(i18n("&Archive"), "project_archive", "package", this, SLOT(runArchiveTool()));
+	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "project_rebuild", docManager(), SLOT(buildProjectTree()));
+ 	createAction(i18n("&Archive"), "project_archive", "project_archive", this, SLOT(runArchiveTool()));
 	createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), SLOT(projectOptions()));
 	createAction(i18n("&Close Project"), "project_close", "window-close", docManager(), SLOT(projectClose()));
 

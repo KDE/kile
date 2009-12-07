@@ -578,13 +578,13 @@ bool EditorExtension::checkMathtags(const MathData &begin,const MathData &end)
 {
 	// both tags were found, but they must be of the same type
 	if(begin.tag != end.tag) {
-		//KILE_DEBUG() << "error: opening and closing tag of mathmode don't match" ;
+		//KILE_DEBUG() << "error: opening and closing tag of mathmode don't match: " << begin.tag << " - " << end.tag;
 		return false;
 	}
 
 	// and additionally: if it is a math env, both tags must have the same name
 	if(begin.tag == mmDisplaymathEnv && begin.envname != end.envname) {
-		//KILE_DEBUG() << "error: opening and closing env tags have different names" ;
+		//KILE_DEBUG() << "error: opening and closing env tags have different names: " << begin.envname << " - " << end.envname;
 		return false;
 	}
 
@@ -796,8 +796,7 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 	 		textline = getTextLineReal(doc,--row);
 			col = textline.length();
 		}
-
-		if(column == -1) {
+		else if(column == -1) {
 			continueSearch = false;
 			break;
 		}
@@ -831,10 +830,20 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 	QRegExp reg(regExpString);
 
 	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
-	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, regExpString, KTextEditor::Search::Regex | KTextEditor::Search::CaseInsensitive);
 
-	for(QVector<KTextEditor::Range>::iterator i = foundRanges.begin(); i != foundRanges.end(); ++i) {
-		KTextEditor::Range range = *i;
+	while(true) {
+		QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, regExpString, KTextEditor::Search::Regex | KTextEditor::Search::CaseInsensitive);
+		if(foundRanges.isEmpty() || (foundRanges.size() == 1 && !foundRanges.first().isValid())) {
+			break;
+		}
+
+		//KILE_DEBUG() << "number of ranges " << foundRanges.count();
+		if(foundRanges.size() < 3) {
+			break;
+		}	
+
+		KTextEditor::Range range = foundRanges.first();
+		//KILE_DEBUG() << "found math tag: " << doc->text(range);
 		if(!range.isValid()) {
 			break;
 		}
@@ -870,9 +879,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 				return false;
 			}
 			else if(mathname=="\\b") {
-				++i;
-				QString envname = doc->text(*i);
-				
+				QString envname = doc->text(foundRanges[1]);
 				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
 					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found begin tag)";
 					return false;
@@ -882,13 +889,11 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 					//KILE_DEBUG() << "error: mathenv with its own mathmode are not allowed in mathmode ";
 					return false;
 				}
+
 				// else continue search
-				++i; // skip the remaining matching regexp parenthesis
 			}
 			else if(mathname == "\\e") {
-				++i;
-				++i; // we want the final matching regexp parenthesis
-				QString envname = doc->text(*i);
+				QString envname = doc->text(foundRanges[2]);
 				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
 					//KILE_DEBUG() << "error: only math env are allowed in mathmode (found end tag)";
 					return false;
@@ -909,8 +914,12 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 				// else continue search
 			}
 		}
+		
+		// go ahead
+		searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
 	}
 
+	//KILE_DEBUG() << "not found anything";
 	return false;
 }
 

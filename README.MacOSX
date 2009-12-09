@@ -1,22 +1,14 @@
 [See below for an alternative way]
 
 In order to install Kile on MacOS X, you need the following things:
-- a working X11 installation
 - a working LaTeX distribution
 - the KDE libraries
 - and Kile itself, of course
 
-Once everything is in place, Kile needs X11 to run, so make sure you launch X11 before Kile.
-
-
 Installing X11
 --------------
 
-Apple provides its own X11 installation for MacOS X 10.3 (downloadable from Apple's web site) and 10.4 (available directly on the Tiger DVD). If you install by hand, make sure to install the X11User.pkg package.
-
-Apple's documentation on X11: http://developer.apple.com/opensource/tools/X11.html
-
-You should install Apple's X11. But if you have a good reason not to, Fink (see below) provides the latest X.org distribution. Refer to Fink documentation for details. MAKE SURE YOU NEVER MIX TWO X11 VERSIONS ON THE SAME SYSTEM.
+[X11 does not need to be installed with Qt4 as it can use the Aqua framework.]
 
 
 Installing all the rest through Fink
@@ -39,36 +31,82 @@ Have fun!
 
 Fink project: http://fink.sourceforge.net
 
+
+Installing Kile through Macports
+--------------------------------
+
+Macports is a source-based package manager, from which it is possible to install the whole software suite needed for Kile. 
+Macports can be installed from a package installer, which can be found for each Apple platform at: http://www.macports.org/install.php.
+
+Configuring Macports:
+When Macports is installed, it needs to be configured slightly in order to ensure that the correct configurations are prepared for Kile. For this, run:
+	sudo pico /opt/local/etc/macports/variants.conf
+and add:
+	+no_x11 +quartz +qt4
+at the end of the file. 
+
+Then, run
+	sudo port selfupdate
+in order to ensure that latest versions of the softwares will be installed. 
+
+Installing Kile:
+At this point, you can run 
+	sudo port install kile-devel
+kile-devel is the KDE4 port for Kile. This will install all the libraries needed for Kile, including Qt4, and KDE packages. This compilation will take a lot of time, but you can follow the installation progress for each package. At the end of the installation, you need to run some commands in order to finish the configuration, to ensure that DBUS will work, and to ensure you have access to KDE preferences:
+	sudo launchctl load -w /Library/LaunchDaemons/org.freedesktop.dbus-system.plist
+	launchctl load -w /Library/LaunchAgents/org.freedesktop.dbus-session.plist
+	sudo chown -R $USER ~/Library/Preferences/KDE
+where $USER should be changed to your login name. 
+
+Finding TeX paths:
+The application bundles of Apple do not recognize the $PATH variables set for xterm. We therefore need to set them for Kile. To set globally the $PATH variable for application bundles. For this, you can run the following commands:
+	mkdir ~/.MacOSX
+	pico ./.MacOSX/environments.plist
+and add the following text in environments.plist:
+	<?xml version="1.0" encoding="UTF-8"?>
+	<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+	<plist version="1.0">
+	<dict>
+	        <key>KDEDIRS</key>
+	        <string>/opt/local</string>
+	        <key>PATH</key>
+	        <string>/opt/local/bin:/opt/local/sbin:$TEXPATH</string>
+	</dict>
+	</plist>
+where you should replace $TEXPATH with the path to your TeX distribution. Typically, it should be /opt/local/bin if you are using the TeXLive port of Macports (so that you can leave it blank), or /usr/local/texbin if you are using MacTeX package. 
+
+Starting Kile:
+You should first start the /Applications/Macports/KDE4/kdeinit4.app program to set up the KDE environment. Then, you can start Kile, and check that everything work fine by performing a system check from the Settings menu.
+
+
 Other installation methods
 --------------------------
 
-There is no easy way, other than Fink, to install the KDE libraries and Kile. But if you want, there is another popular way to install LaTeX: the i-Installer.
-
-i-Installer web site: http://ii2.sourceforge.net
+[i-installer is deprecated as of Jan 1 2007]
 
 [This upper part of the readme was contributed by Thibaut Cousin (cousin@kde.org)]
 
 
 Kile SVN for KDE 4
 ------------------
-It is now possible to install the latest version of Kile from subversion using the KDE 4 libraries. This means that you no longer need to use the X11 libraries. To achieve this you need:
+It is now possible to install the latest version of Kile from the Subversion repository using the KDE 4 libraries. This means that you no longer need to use the X11 libraries. To achieve this you need:
 
 - KDE 4.1 packages from http://mac.kde.org/
 - Kile source from SVN
 
 First download the latest packages from http://mac.kde.org/?id=download
 At the time of writing the latest version is 4.1.2. Install the packages in order. Once these
-are installed you should have a working version of KDE for the Mac. If applications crash, try iissuing the command: 
+are installed you should have a working version of KDE for the Mac. If applications crash, try issuing the command: 
 
 launchctl load -F /Library/LaunchAgents/org.freedesktop.dbus-session.plist 
 
 to launch D-BUS. If when a program starts but gives an error about D-BUS being uncontactable, try rebooting.
 
-Once you have a working copy of KDE 4.1 the next step is to download and compile Kile from subversion. Follow the instructions on:
+Once you have a working copy of KDE 4.1 the next step is to download and compile Kile from the Subversion repository. Follow the instructions on:
 
 http://techbase.kde.org/Projects/KDE_on_Mac_OS_X/Macbook_Manifesto 
 
-This will set up your build environment. Next get the latest version from anonymous subversion using the command:
+This will set up your build environment. Next get the latest version using the command:
 
 svn co svn://anonsvn.kde.org/home/kde/trunk/extragear/office/kile
 

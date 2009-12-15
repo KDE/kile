@@ -232,6 +232,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	readRecentFileSettings();
 	readConfig();
 
+	createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
+	createUserTagActions();
+
 	m_mainWindow->setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
 	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
 
@@ -280,7 +283,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	}
 
 	m_mainWindow->setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
-    m_mainWindow->guiFactory()->refreshActionProperties();
+	m_mainWindow->guiFactory()->refreshActionProperties();
 }
 
 Kile::~Kile()
@@ -914,6 +917,26 @@ void Kile::rebuildBibliographyMenu(){
 	m_bibTagActionMenu->addAction(action("settings_menu_bibliography"));
 }
 
+QAction* Kile::createToolAction(QString toolName)
+{
+	return createAction(toolName, "tool_" + toolName,
+	                    KileTool::iconFor(toolName, m_config.data()), m_signalMapper, SLOT(map()));
+}
+
+void Kile::createToolActions()
+{
+	QStringList tools = KileTool::toolList(m_config.data());
+	for (QStringList::iterator i = tools.begin(); i != tools.end(); ++i) {
+		QString toolName = *i;
+		if(!action("tool_" + toolName)) {
+			KILE_DEBUG() << "Creating action for tool" << toolName;
+			QAction *act = createToolAction(toolName);
+			m_signalMapper->removeMappings(act);
+			m_signalMapper->setMapping(act, toolName);
+		}
+	}
+}
+
 void Kile::setupTools()
 {
 	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
@@ -990,8 +1013,7 @@ void Kile::setupTools()
 		act = action("tool_" + tools[i]);
 		if(!act) {
 			KILE_DEBUG() << "no tool for " << tools[i];
-			act = createAction(tools[i], "tool_" + tools[i],
-			                   KileTool::iconFor(tools[i], m_config.data()), m_signalMapper, SLOT(map()));
+			act = createToolAction(tools[i]);
 			m_signalMapper->removeMappings(act);
 			m_signalMapper->setMapping(act, tools[i]);
 		}
@@ -1123,19 +1145,8 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 	}
 }
 
-void Kile::setupUserTagActions()
+void Kile::createUserTagActions()
 {
-    if(!m_userTagMenu){
-      KILE_DEBUG() << "no menu for userTags";
-      return;
-    }
-
-    m_userTagMenu->clear();
-    QAction *act = createAction(i18n("Edit User Tags..."), "EditUserMenu", this, SLOT(editUserMenu()));
-
-    m_userTagMenu->addAction(act);
-    m_userTagMenu->addSeparator();
-
 	foreach(QAction *act, m_listUserTagsActions){
 		actionCollection()->removeAction(act);
 	}
@@ -1144,16 +1155,36 @@ void Kile::setupUserTagActions()
 	QString name, number;
 	KILE_DEBUG() << "# user tags is " << m_listUserTags.size();
 
-	for (int i = 0; i < m_listUserTags.size(); ++i) {
-        number = QString::number(i+1);
-        name = number + ": " + m_listUserTags[i].text;
-        KileAction::Tag *tag= new KileAction::Tag(name, QString(), KShortcut(), this, SLOT(insertTag(const KileAction::TagData &)),
-                                                        actionCollection(), "tag_user_" + number,
-                                                        m_listUserTags[i]);
-        m_listUserTagsActions.append(tag);
-        m_userTagMenu->addAction(tag);
+	for(int i = 0; i < m_listUserTags.size(); ++i) {
+		QString number = QString::number(i + 1);
+		QString name = number + ": " + m_listUserTags[i].text;
+		KileAction::Tag *tag = new KileAction::Tag(name, QString(), KShortcut(), this, SLOT(insertTag(const KileAction::TagData &)),
+		                                           actionCollection(), "tag_user_" + number,
+		                                           m_listUserTags[i]);
+		m_listUserTagsActions.append(tag);
 	}
-    m_mainWindow->guiFactory()->refreshActionProperties();
+}
+
+void Kile::updateUserTagMenu()
+{
+	if(!m_userTagMenu){
+		KILE_DEBUG() << "no menu for userTags";
+		return;
+	}
+
+	m_userTagMenu->clear();
+	QAction *act = createAction(i18n("Edit User Tags..."), "EditUserMenu", this, SLOT(editUserMenu()));
+
+	m_userTagMenu->addAction(act);
+	m_userTagMenu->addSeparator();
+
+	QString name, number;
+	KILE_DEBUG() << "# user tags is " << m_listUserTags.size();
+
+	for(QList<QAction*>::iterator i = m_listUserTagsActions.begin(); i != m_listUserTagsActions.end(); ++i) {
+		m_userTagMenu->addAction(*i);
+	}
+	m_mainWindow->guiFactory()->refreshActionProperties();
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
@@ -1690,7 +1721,7 @@ void Kile::updateUserDefinedMenus()
 	m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
 	m_userTagMenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_user_tags", m_mainWindow));
 
-	setupUserTagActions();
+	updateUserTagMenu();
 	setupTools();
 }
 
@@ -2244,7 +2275,8 @@ void Kile::editUserMenu()
 
 	if(dlg->exec()) {
 		m_listUserTags = dlg->result();
-		setupUserTagActions();
+		createUserTagActions();
+		updateUserTagMenu();
 	}
 
 	delete dlg;
@@ -2562,6 +2594,7 @@ void Kile::configureToolbars()
 	dlg.exec();
 
 	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
+
 	updateUserDefinedMenus();
 	updateGUI(m_currentState);
 }

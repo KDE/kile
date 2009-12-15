@@ -213,13 +213,16 @@ private:
 	void setupGraphicTools();
 	void setupPreviewTools();
 	void setupActions();
+	QAction* createToolAction(QString toolName);
+	void createToolActions();
 	void setupTools();
 	void updateUserDefinedMenus();
 	void cleanUpActionList(QList<QAction*> &list, const QStringList &tools);
 	void restoreLastSelectedAction();
 	void saveLastSelectedAction();
 
-	void setupUserTagActions();
+	void createUserTagActions();
+	void updateUserTagMenu();
 	void readUserTagActions();
 	void writeUserTagActions();
 	

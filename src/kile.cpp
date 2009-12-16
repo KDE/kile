@@ -1494,7 +1494,14 @@ bool Kile::queryClose()
 		stage2 = docManager()->fileCloseAll();
 	}
 
-	return stage1 && stage2;
+	bool close = stage1 && stage2;
+	if(close) {
+		// auto save has to be disabled because it might still be triggered when the main
+		// window (and all the widgets) have already been destroyed, causing a crash
+		enableAutosave(false);
+	}
+
+	return close;
 }
 
 void Kile::showDocInfo(KTextEditor::View *view)

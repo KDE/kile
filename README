@@ -1,25 +1,32 @@
 Dear User/Packager,
 
 this Readme is targeted towards people who want to build Kile from source or plan to create binary packages.
-If you have created a package, please drop us a note ( kile-devel@lists.sourceforge.net ) so that we can promote your package.
+If you have created a package, please drop us a note ( kile-devel@lists.sourceforge.net ), so that we can promote your package.
 
 1.) Checking dependencies
 ============================
 
-- KDE 4.2/4.3 and according QT development packages (ForwardDVI only works with KDE 4.3)
-- cmake 2.6.2
-- gcc 3.x/4.x
+- KDE 4.x with x >= 2 and corresponding Qt development packages (ForwardDVI only works with KDE 4.3)
+  KDE 4.4 is required for enabling additional functionality in Kile.
+- CMake 2.6.2 or greater
+- GCC 4.x
 
-2.) Building Kile from source
-============================
+2.) Building Kile from Source
+==============================
+
+It is recommended to create a special directory which will contain the Kile executable and related files. In that way
+it is easier to upgrade Kile. We assume in the following that the directory $HOME/kile-install is used for that purpose.
+If you do not want to use a separate directory, you can also install Kile into the local KDE directory for your user,
+which is named $HOME/.kde usually. The different steps for compiling Kile are now as follows:
 
 - Extract the source code with "tar xjf kile-x.tar.bz2"
 - Create a "kile-build" directory somewhere for an out-of-source build.
-- Enter the "kile-build" directory and call cmake with:
-  " cmake <path to the kile directory> -DCMAKE_INSTALL_PREFIX=$HOME/.kde -DCMAKE_BUILD_TYPE="Debugfull" "
+- Enter the "kile-build" directory and call CMake with:
+  " cmake <path to the Kile source directory> -DCMAKE_INSTALL_PREFIX=$HOME/kile-install -DCMAKE_BUILD_TYPE="Debug" "
 - Type "make -j 2" to compile the package.
 - Type "make install -j 2" to install the programs, data files and documentation.
-- Type "kile" and enjoy the power of LaTeX together with the joy of using Kile :)
+- Type "KDEDIRS=$HOME/kile-install:$KDEDIRS $HOME/kile-install/bin/kile" and enjoy the power of LaTeX together with
+  the joy of using Kile :)
 
 2.1.) Building Documentation
 ============================
@@ -44,10 +51,10 @@ files can be used. Furthermore, message catalogs must be called "kile.po".
 When the "doc" and "translations" directories are found, the build targets "docbooks"
 and "translations" will be generated for the compiling of the documentation.
 
-2.3.) Special Flags for the build
-===============================
+2.3.) Special Flags for Building
+=================================
 The flag "KILE_VERSION" can be set in the CMake cache to specify the installation
-directory of basic documentation files (README, AUTHORS, ChangeLog,...), i.e. they
+directory for basic documentation files (README, AUTHORS, ChangeLog,...), i.e. they
 will be installed in "share/doc/kile-${KILE_VERSION}/" instead of "share/doc/kile/".
 
 3.) Using Kile
@@ -57,7 +64,7 @@ To use Kile you (obviously) need some external programs.
 The following list is divided into basic, advanced and additional usage.
 
 Basic:
-- TeXLive 2005/2007/2008 (Including "AMS"-Packages and the documentation).
+- TeXLive 2005/2007/2008/2009 (Including "AMS"-Packages and the documentation).
   This add among others the following programs:
     - Tex/LaTeX
     - PDFLaTeX
@@ -68,11 +75,10 @@ Basic:
 - Okular (DVI, PS, PDF Viewer from KDE)
 
 Advanced:
-- Acroread (Viewing PDF)
 - Imagemagick, DVIPNG 1.7 (Bottom bar preview)
 
 By default there are also tools for the following programs defined:
-- Tar/zip/gzip/bzip2 (Archive)
+- Tar/Zip/GZip/BZip2 (Archive)
 - DBlatex (Docbook to LaTeX)
 - Metapost and Asymptote
 - Latex2html (LaTeX to Web)
@@ -80,8 +86,8 @@ By default there are also tools for the following programs defined:
 - Xindy (MakeIndex replacement)
 - Lilypond (Music Typesetting)
 - Konqueror/Mozilla/Firefox (Viewing HTML)
-- Kbibtex, KBib, JabRef, pybliographer, gbib (View Bibtex files)
+- KBibTeX, KBib, JabRef, PyBliographer, GBib (View Bibtex files)
 
 If you have any questions or corrections, please don't hesitate to contact us via kile-devel@lists.sourceforge.net.
 
-The Kile dev team
+The Kile development team

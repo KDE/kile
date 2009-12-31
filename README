@@ -11,8 +11,8 @@ If you have created a package, please drop us a note ( kile-devel@lists.sourcefo
 - CMake 2.6.2 or greater
 - GCC 4.x
 
-2.) Building Kile from Source
-==============================
+2.) Building Kile from Source on Linux/BSD
+===========================================
 
 It is recommended to create a special directory which will contain the Kile executable and related files. In that way
 it is easier to upgrade Kile. We assume in the following that the directory $HOME/kile-install is used for that purpose.

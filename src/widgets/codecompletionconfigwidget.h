@@ -90,6 +90,7 @@ class CodeCompletionConfigWidget : public QWidget
 
 	private Q_SLOTS:
 		void showPage(QWidget *page);
+		void showPage(int index);
 		void addClicked();
 		void removeClicked();
 		void slotSelectionChanged();

@@ -345,7 +345,7 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 
 	slotEnableButtons();
 
-	connect(m_widget.tab, SIGNAL(currentChanged(QWidget*)), this, SLOT(slotPageChanged(QWidget*)));
+	connect(m_widget.tab, SIGNAL(currentChanged(int)), this, SLOT(slotEnableButtons()));
 	connect(m_widget.environments, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
 	connect(m_widget.commands, SIGNAL(itemSelectionChanged()), this, SLOT(slotEnableButtons()));
 	connect(m_widget.addButton, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
@@ -576,11 +576,6 @@ bool LatexCommandsDialog::hasUserDefined(QTreeWidget *listview)
 }
 
 ////////////////////////////// slots //////////////////////////////
-
-void LatexCommandsDialog::slotPageChanged(QWidget *)
-{
-	slotEnableButtons();
-}
 
 void LatexCommandsDialog::slotEnableButtons()
 {

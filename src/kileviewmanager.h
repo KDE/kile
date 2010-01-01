@@ -130,6 +130,8 @@ protected Q_SLOTS:
 	 **/
 	void updateTabTexts(KTextEditor::Document* changedDoc);
 
+	void currentViewChanged(int index);
+
 private:
 	KileInfo			*m_ki;
 	KTextEditor::View		*m_activeTextView;

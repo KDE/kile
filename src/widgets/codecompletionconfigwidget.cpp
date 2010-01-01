@@ -146,7 +146,7 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	vbox->addWidget(bg_options);
 	vbox->addStretch();
 
-	connect(tab, SIGNAL(currentChanged(QWidget*)), this, SLOT(showPage(QWidget*)));
+	connect(tab, SIGNAL(currentChanged(int)), this, SLOT(showPage(int)));
 	connect(add, SIGNAL(clicked()), this, SLOT(addClicked()));
 	connect(remove, SIGNAL(clicked()), this, SLOT(removeClicked()));
 
@@ -388,6 +388,11 @@ void CodeCompletionConfigWidget::showPage(QWidget *page)
 	if(listview) {
 		remove->setEnabled(listview->selectedItems().count() > 0);
 	}
+}
+
+void CodeCompletionConfigWidget::showPage(int index)
+{
+	showPage(tab->widget(index));
 }
 
 //////////////////// add/remove new wordlists ////////////////////

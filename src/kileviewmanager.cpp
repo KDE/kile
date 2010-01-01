@@ -106,7 +106,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_tabs->setTabReorderingEnabled(true);
 	m_tabs->setCloseButtonEnabled(true);
 	m_tabs->setFocus();
-	connect(m_tabs, SIGNAL(currentChanged(QWidget*)), this, SIGNAL(currentViewChanged(QWidget*)));
+	connect(m_tabs, SIGNAL(currentChanged(int)), this, SLOT(currentViewChanged(int)));
 	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
@@ -628,6 +628,11 @@ void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 		}
 		setTabLabel(*i, documentName);
 	}
+}
+
+void Manager::currentViewChanged(int index)
+{
+	emit currentViewChanged(m_tabs->widget(index));
 }
 
 DropWidget::DropWidget(QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, f)

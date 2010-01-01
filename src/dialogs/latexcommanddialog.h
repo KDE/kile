@@ -114,7 +114,6 @@ class LatexCommandsDialog : public KDialog
 		void writeConfig(QTreeWidget *listview, const QString &groupname, bool env);
 
 	private Q_SLOTS:
-		void slotPageChanged(QWidget *);
 		void slotEnableButtons();
 		void slotAddClicked();
 		void slotDeleteClicked();

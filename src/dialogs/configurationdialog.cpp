@@ -179,6 +179,8 @@ namespace KileDialog
 	{
 		scriptingPage = new KileWidgetScriptingConfig(this);
 		scriptingPage->setObjectName("Scripting");
+		// we hide this now as the feature is not implemented currently
+		scriptingPage->executionTimeLimitGroupBox->setHidden(true);
 		addConfigPage(parent, scriptingPage, i18n("Scripting"), "application-x-executable-script", i18n("Scripting Support"));
 	}
 

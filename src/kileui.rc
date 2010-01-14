@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="39">
+<kpartgui name="kile" version="40">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -153,7 +153,7 @@
 	<Separator/>
 	<Action name="CleanAll"/>
 </Menu>
-<Menu name="menu_project"><text>Pr&amp;oject</text>
+<Menu name="menu_project"><text>Pro&amp;ject</text>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -175,7 +175,7 @@
 	<Action name="project_close"/>
 </Menu>
 
-<Menu name="menu_latex"><text>&amp;LaTeX</text>
+<Menu name="menu_latex"><text>LaTe&amp;X</text>
 	<Menu name="menu_preamble"><text>&amp;Preamble</text>
 		<Action name="tag_documentclass"/>
 		<Action name="tag_usepackage"/>

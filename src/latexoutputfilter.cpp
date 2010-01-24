@@ -122,7 +122,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 				dwCookie = FileName;
 			}
 			//TeX closed a file
-			else if(strLine.startsWith(":<-")) {
+			else if(strLine.contains(QRegExp("(\\) )?:<-"))) {
 // 				KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
 				if(!m_stackFile.isEmpty()) {
 					m_stackFile.pop();
@@ -175,6 +175,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
 {
 	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStackHeuristic()================";
+	//KILE_DEBUG() << strLine << dwCookie;
 	static QString strPartialFileName;
 	bool expectFileName = (dwCookie == FileNameHeuristic);
 	int index = 0;
@@ -202,7 +203,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 		bool nextIsTerminator = isLastChar ? false : (strLine[i+1].isSpace() || strLine[i+1] == ')');
 		
 		if(expectFileName && (isLastChar || nextIsTerminator)) {
-			KILE_DEBUG() << "Update the partial filename " << strPartialFileName << endl;
+			KILE_DEBUG() << "Update the partial filename " << strPartialFileName;
 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
 			
 			if(strPartialFileName.isEmpty()){ // nothing left to do here
@@ -212,7 +213,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 			//FIXME: improve these heuristics
 			if((isLastChar && (i < 78)) || nextIsTerminator || fileExists(strPartialFileName)) {
 				m_stackFile.push(LOFStackItem(strPartialFileName));
-				// KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+				//KILE_DEBUG() << "\tpushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName;
 				expectFileName = false;
 				dwCookie = Start;
 			}
@@ -248,7 +249,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
         	}
 		//TeX is closing a file
 		else if(strLine[i] == ')') {
-			// KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
+			//KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file();
 			//If this filename was pushed on the stack by the reliable ":<+-" method, don't pop
 			//a ":<-" will follow. This helps in preventing unbalanced ')' from popping filenames
 			//from the stack too soon.
@@ -380,7 +381,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 
 bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::detectWarning(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << strLine << strLine.length();
 
 	bool found = false, flush = false;
 	QString warning;

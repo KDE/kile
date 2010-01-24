@@ -122,7 +122,7 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 				dwCookie = FileName;
 			}
 			//TeX closed a file
-			else if(strLine.contains(QRegExp("(\\) )?:<-"))) {
+			else if(strLine.contains(":<-")) {
 // 				KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file() << endl;
 				if(!m_stackFile.isEmpty()) {
 					m_stackFile.pop();

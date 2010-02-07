@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2009 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -469,7 +469,7 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 
 	removeTextDocumentInfo(oldinfo);
 
-	emit(updateStructure(true, newinfo));
+	emit(updateStructure(false, newinfo));
 }
 
 bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* = false */)
@@ -605,7 +605,6 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url, c
 	KTextEditor::Document *doc = createDocument(url, docinfo, encoding, mode, highlight);
 
 	m_ki->structureWidget()->clean(docinfo);
-	m_ki->structureWidget()->update(docinfo, true);
 
 	if(!text.isEmpty()) {
 		doc->setText(text);
@@ -832,11 +831,6 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
 	m_ki->texKonsole()->sync();
 
 	emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
-
-	//updatestructure if active document changed from modified to unmodified (typically after a save)
-	if (!doc->isModified()) {
-		emit(updateStructure(true, textInfoFor(doc)));
-	}
 }
 
 void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
@@ -930,7 +924,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 	 This may look superfluos but actually it is not, in the case of multiple modified docs it ensures that the structure view keeps synchronized with the currentTextView
 	 And if we only have one masterdoc or none nothing goes wrong.
 	*/
-	emit(updateStructure(false,NULL));
+	emit(updateStructure(false, NULL));
 	m_currentlySavingAll = false;
 }
 
@@ -971,7 +965,7 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 		item->loadDocumentAndViewSettings();
 	}
 
-	emit(updateStructure(true, 0L));
+	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
 	// update undefined references in this file
 	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
@@ -992,6 +986,7 @@ void Manager::fileSave()
 	}
 	else {
 		view->document()->documentSave();
+		emit(updateStructure(false, textInfoFor(view->document())));
 	}
 }
 
@@ -1270,7 +1265,7 @@ void Manager::projectNew()
 				mapItem(docinfo, item);
 
 				//docinfo->updateStruct(m_kwStructure->level());
-				emit(updateStructure(true, docinfo));
+				emit(updateStructure(false, docinfo));
 			}
 		}
 
@@ -1502,7 +1497,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	kp->buildProjectTree();
 	addProject(kp);
 
-	emit(updateStructure(false, 0L));
+	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
 	// update undefined references in all project files
 	updateProjectReferences(kp);
@@ -2155,7 +2150,7 @@ void Manager::projectAddFile(QString filename, bool graphics)
 
 	//ok, we have a project and an existing file
 	KILE_DEBUG() << "\tadd file: " << filename;
-	m_ki->viewManager()->updateStructure(true);
+	m_ki->viewManager()->updateStructure(false);
 
 	KUrl url;
 	url.setPath(filename);

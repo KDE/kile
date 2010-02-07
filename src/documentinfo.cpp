@@ -2,7 +2,7 @@
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -169,7 +169,11 @@ KUrl Info::makeValidTeXURL(const KUrl& url, QWidget *mainWidget, bool istexfile,
 	return newURL;
 }
 
-Info::Info() : m_bIsRoot(false), m_config(KGlobal::config().data()), documentTypePromotionAllowed(true)
+Info::Info() :
+ m_bIsRoot(false),
+ m_dirty(false),
+ m_config(KGlobal::config().data()),
+ documentTypePromotionAllowed(true)
 {
 	updateStructLevelInfo();
 }
@@ -231,6 +235,17 @@ bool Info::isDocumentTypePromotionAllowed()
 void Info::setDocumentTypePromotionAllowed(bool b)
 {
 	documentTypePromotionAllowed = b;
+}
+
+bool Info::isDirty() const
+{
+	return m_dirty;
+}
+
+void Info::setDirty(bool b)
+{
+KILE_DEBUG() << b;
+	m_dirty = b;
 }
 
 KUrl Info::url()
@@ -391,6 +406,7 @@ void Info::updateBibItems()
 
 void Info::slotCompleted()
 {
+	setDirty(true);
 	emit completed(this);
 }
 
@@ -460,6 +476,7 @@ void TextInfo::setDocument(KTextEditor::Document *doc)
 		connect(m_doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
+		connect(m_doc, SIGNAL(modifiedChanged(KTextEditor::Document*)), this, SLOT(makeDirtyIfModified()));
 		// this could be a KatePart bug, and as "work-around" we manually set the highlighting mode again
 		connect(m_doc, SIGNAL(completed()), this, SLOT(activateDefaultMode()));
 		setMode(m_defaultMode);
@@ -478,6 +495,13 @@ void TextInfo::detach()
 		emit(documentDetached(m_doc));
 	}
 	m_doc = NULL;
+}
+
+void TextInfo::makeDirtyIfModified()
+{
+	if(m_doc && m_doc->isModified()) {
+		setDirty(true);
+	}
 }
 
 const long* TextInfo::getStatistics(KTextEditor::View *view)
@@ -1336,6 +1360,7 @@ void LaTeXInfo::updateStruct()
 	emit(doneUpdating());
 	emit(isrootChanged(isLaTeXRoot()));
 	emit(parsingCompleted());
+	setDirty(false);
 }
 
 void LaTeXInfo::checkChangedDeps()
@@ -1436,6 +1461,7 @@ void BibInfo::updateStruct()
 	}
 
 	emit(doneUpdating());
+	setDirty(false);
 }
 
 Type BibInfo::getType()

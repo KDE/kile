@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -159,6 +159,12 @@ public:
 	virtual bool isDocumentTypePromotionAllowed();
 	void setDocumentTypePromotionAllowed(bool b);
 
+	/**
+	 * Returns true iff new parsing is required.
+	 **/
+	bool isDirty() const;
+	void setDirty(bool b);
+
 public Q_SLOTS:
 	/**
 	 * Never call this function directly, use KileWidget::Structure::update(KileDocument::Info *, bool) instead
@@ -191,6 +197,7 @@ protected:
 	};
 
 	bool						m_bIsRoot;
+	bool						m_dirty;
 	QStringList					m_labels;
 	QStringList					m_bibItems;
 	QStringList					m_deps, m_depsPrev;
@@ -288,8 +295,11 @@ protected Q_SLOTS:
 	void slotViewDestroyed(QObject *object);
 	void activateDefaultMode();
 
+	void makeDirtyIfModified();
+
 protected:
 	KTextEditor::Document				*m_doc;
+	bool						m_dirty;
 	long						*m_arStatistics;
 	QString						m_defaultMode;
 	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;

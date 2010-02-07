@@ -2,7 +2,7 @@
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net
                                2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -948,10 +948,10 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::update(KileDocument::Info *docinfo)
 	{
-		update(docinfo, true);
+		update(docinfo, false);
 	}
 
-	void StructureWidget::update(KileDocument::Info *docinfo, bool parse, bool activate /* =true */)
+	void StructureWidget::update(KileDocument::Info *docinfo, bool forceParsing, bool activate /* =true */)
 	{
 		KILE_DEBUG() << "==KileWidget::StructureWidget::update(" << docinfo << ")=============";
 
@@ -961,18 +961,24 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		m_docinfo = docinfo;
-
-		bool needParsing = parse || ( ! viewExistsFor(m_docinfo) );
+		bool needParsing = forceParsing || m_docinfo->isDirty() || !viewExistsFor(docinfo);
 
 		//find structview-item for this docinfo
 		StructureView *view = viewFor(m_docinfo);
+		if(!view) {
+			m_default->activate();
+			return;
+		}
 
 		if(needParsing) { //need to reparse the doc
 			int xtop = view->horizontalScrollBar()->value();
 			int ytop = view->verticalScrollBar()->value();
 			//KILE_DEBUG() << "\tStructure::update parsing doc";
+			// avoid flickering when parsing
+			view->setUpdatesEnabled(false);
 			view->cleanUp();
 			m_docinfo->updateStruct();
+			view->setUpdatesEnabled(true);
 			view->showReferences(m_ki);
 			view->horizontalScrollBar()->setValue(xtop);
 			view->verticalScrollBar()->setValue(ytop);

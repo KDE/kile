@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
                            (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/

@@ -2,7 +2,7 @@
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                                2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************************/
 
 /***************************************************************************

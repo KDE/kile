@@ -147,9 +147,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	//insert the view in the tab widget
 	m_tabs->insertTab(index, view, QString());
-	m_tabs->setTabToolTip(m_tabs->indexOf(view), doc->url().pathOrUrl());
-	
-	m_tabs->setCurrentIndex(m_tabs->indexOf(view));
+
 	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
@@ -215,6 +213,10 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	}
 	updateTabTexts(doc);
 	m_widgetStack->setCurrentWidget(m_tabs); // there is at least one tab, so show the KTabWidget now
+	// we do this twice as otherwise the tool tip for the first view did not appear (Qt issue ?)
+	// (BUG 205245)
+	updateTabTexts(doc);
+	m_tabs->setCurrentIndex(m_tabs->indexOf(view));
 
 	return view;
 }
@@ -323,12 +325,6 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 		}
 	}
 	return view;
-}
-
-
-void Manager::setTabLabel(QWidget *view, const QString& name)
-{
-	m_tabs->setTabText(m_tabs->indexOf(view), name);
 }
 
 void Manager::setTabIcon(QWidget *view, const QPixmap& icon)
@@ -626,7 +622,9 @@ void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 		if(documentName.isEmpty()) {
 			documentName = i18n("Untitled");
 		}
-		setTabLabel(*i, documentName);
+		const int viewIndex = m_tabs->indexOf(*i);
+		m_tabs->setTabText(viewIndex, documentName);
+		m_tabs->setTabToolTip(viewIndex, changedDoc->url().pathOrUrl());
 	}
 }
 

@@ -115,7 +115,6 @@ public Q_SLOTS:
 	void tabContext(QWidget* widget,const QPoint & pos);
 
 protected:
-	void setTabLabel(QWidget *view, const QString& name);
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 
 protected Q_SLOTS:

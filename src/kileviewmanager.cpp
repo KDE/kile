@@ -389,11 +389,13 @@ void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
 
 	QPixmap icon;
 	if(reason == KTextEditor::ModificationInterface::OnDiskUnmodified && isModified) { //nothing
-		icon = SmallIcon("modified");
+		icon = SmallIcon("modified"); // This icon is taken from Kate. Therefore
+		                              // our thanks go to the authors of Kate.
 	}
 	else if(reason == KTextEditor::ModificationInterface::OnDiskModified
 	     || reason == KTextEditor::ModificationInterface::OnDiskCreated) { //dirty file
-		icon = SmallIcon("modonhd");
+		icon = SmallIcon("modonhd"); // This icon is taken from Kate. Therefore
+		                             // our thanks go to the authors of Kate.
 	}
 	else if(reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
 		icon = SmallIcon("process-stop");

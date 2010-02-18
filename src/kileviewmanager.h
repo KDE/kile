@@ -11,7 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef KILEVIEWKILEVIEWMANAGER_H
 #define KILEVIEWKILEVIEWMANAGER_H
 
@@ -24,6 +24,7 @@
 
 #include <KAction>
 #include <KTabWidget>
+#include <KTextEditor/ContainerInterface>
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
 
@@ -48,13 +49,16 @@ namespace KileDocument {
 	class TextInfo;
 }
 
-namespace KileView 
+namespace KileView
 {
 
 //TODO inherit from KParts::Manager
-class Manager : public QObject
+class Manager
+	: public QObject
+	, public KTextEditor::MdiContainer
 {
 	Q_OBJECT
+	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
 	explicit Manager(KileInfo *ki, QObject *parent = 0, const char *name = 0);
@@ -114,6 +118,16 @@ public Q_SLOTS:
 	void quickPreviewPopup();
 	void tabContext(QWidget* widget,const QPoint & pos);
 
+// KTextEditor::MdiContainer
+public:
+	void registerMdiContainer();
+	virtual void setActiveView( KTextEditor::View * view );
+	virtual KTextEditor::View * activeView();
+	virtual KTextEditor::Document * createDocument();
+	virtual bool closeDocument( KTextEditor::Document * doc );
+	virtual KTextEditor::View * createView( KTextEditor::Document * doc );
+	virtual bool closeView( KTextEditor::View * view );
+		
 protected:
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 
@@ -133,7 +147,6 @@ protected Q_SLOTS:
 
 private:
 	KileInfo			*m_ki;
-	KTextEditor::View		*m_activeTextView;
 // 	KileWidget::ProjectView			*m_projectview;
 	QList<KTextEditor::View*>	m_textViewList;
 	KTabWidget 			*m_tabs;
@@ -158,7 +171,7 @@ class DropWidget : public QWidget {
 
 		virtual void dragEnterEvent(QDragEnterEvent *e);
 		virtual void dropEvent(QDropEvent *e);
-		
+
 		virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
 	Q_SIGNALS:

@@ -104,7 +104,6 @@
 Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 :	KApplication(),
 	KileInfo(this),
-	KTextEditor::MdiContainer(),
 	m_paPrint(NULL)
 {
 	setObjectName(name);
@@ -288,8 +287,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	m_mainWindow->setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	m_mainWindow->guiFactory()->refreshActionProperties();
-
-	registerMdiContainer();
 }
 
 Kile::~Kile()
@@ -2870,63 +2867,5 @@ void Kile::parsingCompleted()
 	m_parserProgressBarShowTimer->stop();
 	m_parserProgressBar->hide();
 }
-
-
-//BEGIN KTextEditor::MdiContainer
-void Kile::registerMdiContainer()
-{
-	KTextEditor::ContainerInterface *iface =
-		qobject_cast<KTextEditor::ContainerInterface*>(m_docManager->getEditor());
-	if (iface) {
-		iface->setContainer(this);
-	}
-}
-
-void Kile::setActiveView(KTextEditor::View *view)
-{
-	Q_UNUSED(view)
-	// NOTE: not implemented, because KatePart does not use it
-}
-
-KTextEditor::View *Kile::activeView()
-{
-	KTextEditor::Document *doc = activeTextDocument();
-	if (doc) {
-		return doc->activeView();
-	}
-	return 0;
-}
-
-KTextEditor::Document *Kile::createDocument()
-{
-	// NOTE: not implemented, because KatePart does not use it
-	kWarning() << "WARNING: interface call not implemented";
-	return 0;
-}
-
-bool Kile::closeDocument(KTextEditor::Document *doc)
-{
-	Q_UNUSED(doc)
-	// NOTE: not implemented, because KatePart does not use it
-	kWarning() << "WARNING: interface call not implemented";
-	return false;
-}
-
-KTextEditor::View *Kile::createView(KTextEditor::Document *doc)
-{
-	Q_UNUSED(doc)
-	// NOTE: not implemented, because KatePart does not use it
-	kWarning() << "WARNING: interface call not implemented";
-	return 0;
-}
-
-bool Kile::closeView(KTextEditor::View *view)
-{
-	Q_UNUSED(view)
-	// NOTE: not implemented, because KatePart does not use it
-	kWarning() << "WARNING: interface call not implemented";
-	return false;
-}
-//END KTextEditor::MdiContainer
 
 #include "kile.moc"

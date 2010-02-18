@@ -31,7 +31,6 @@
 #include <kdeversion.h>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
-#include <KTextEditor/ContainerInterface>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
@@ -94,10 +93,9 @@ struct userItem
 /**
  * The Kile main class. It acts as information manager and DBUS interface. It also manages the main window.
  **/
-class Kile : public KApplication, public KileInfo, public KTextEditor::MdiContainer
+class Kile : public KApplication, public KileInfo
 {
 	Q_OBJECT
-	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
 	explicit Kile(bool allowRestore = true, QWidget *parent = 0, const char *name = 0);
@@ -359,18 +357,6 @@ private Q_SLOTS:
 	void connectDocumentInfoWithParserProgressBar(KileDocument::Info *info);
 	void parsingStarted(int maxValue);
 	void parsingCompleted();
-
-	//
-	// KTextEditor::MdiContainer
-	//
-public:
-	void registerMdiContainer();
-	virtual void setActiveView( KTextEditor::View * view );
-	virtual KTextEditor::View * activeView();
-	virtual KTextEditor::Document * createDocument();
-	virtual bool closeDocument( KTextEditor::Document * doc );
-	virtual KTextEditor::View * createView( KTextEditor::Document * doc );
-	virtual bool closeView( KTextEditor::View * view );
 };
 
 #endif

@@ -50,13 +50,13 @@
 #include "widgets/previewwidget.h"
 #include "quickpreview.h"
 
-namespace KileView 
+namespace KileView
 {
 
 Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	QObject(parent),
+	KTextEditor::MdiContainer(),
 	m_ki(info),
-	m_activeTextView(NULL),
 // 	m_projectview(NULL),
 	m_tabs(NULL),
 	m_widgetStack(NULL),
@@ -66,6 +66,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_quickPreviewAction(NULL)
 {
 	setObjectName(name);
+	registerMdiContainer();
 }
 
 
@@ -199,7 +200,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	delete view->actionCollection()->action("set_confdlg");
 
 	// use Kile's save and save-as functions instead of the text editor's
-	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save)); 
+	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save));
 	if(action) {
 		KILE_DEBUG() << "   reconnect action 'file_save'...";
 		action->disconnect(SIGNAL(triggered(bool)));
@@ -262,7 +263,7 @@ void Manager::removeView(KTextEditor::View *view)
 		int numRemoved = m_textViewList.removeAll(view);
 		KILE_DEBUG() << "Removed " << numRemoved << " views";
 		delete view;
-		
+
 		emit(updateCaption());  //make sure the caption gets updated
 		if (textViews().isEmpty()) {
 			m_ki->structureWidget()->clear();
@@ -431,7 +432,7 @@ void Manager::onTextEditorPopupMenuRequest()
 	if(view->selection()) {
 		m_quickPreviewAction->setText(quickPreviewSelection);
 		m_quickPreviewAction->setEnabled(true);
-		
+
 	}
 	else if(m_ki->editorExtension()->hasMathgroup(view)) {
 		m_quickPreviewAction->setText(quickPreviewMath);
@@ -686,6 +687,63 @@ void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
 		view->removeEventFilter(eventFilter);
 	}
 }
+
+//BEGIN KTextEditor::MdiContainer
+void Manager::registerMdiContainer()
+{
+	KTextEditor::ContainerInterface *iface =
+		qobject_cast<KTextEditor::ContainerInterface*>(m_ki->docManager()->getEditor());
+	if (iface) {
+		iface->setContainer(this);
+	}
+}
+
+void Manager::setActiveView(KTextEditor::View *view)
+{
+	Q_UNUSED(view)
+	// NOTE: not implemented, because KatePart does not use it
+}
+
+KTextEditor::View *Manager::activeView()
+{
+	KTextEditor::Document *doc = m_ki->activeTextDocument();
+	if (doc) {
+		return doc->activeView();
+	}
+	return 0;
+}
+
+KTextEditor::Document *Manager::createDocument()
+{
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return 0;
+}
+
+bool Manager::closeDocument(KTextEditor::Document *doc)
+{
+	Q_UNUSED(doc)
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return false;
+}
+
+KTextEditor::View *Manager::createView(KTextEditor::Document *doc)
+{
+	Q_UNUSED(doc)
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return 0;
+}
+
+bool Manager::closeView(KTextEditor::View *view)
+{
+	Q_UNUSED(view)
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return false;
+}
+//END KTextEditor::MdiContainer
 
 }
 

@@ -31,6 +31,7 @@
 #include <kdeversion.h>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
+#include <KTextEditor/ContainerInterface>
 #include <kparts/mainwindow.h>
 #include <kparts/partmanager.h>
 #include <kparts/part.h>
@@ -93,9 +94,10 @@ struct userItem
 /**
  * The Kile main class. It acts as information manager and DBUS interface. It also manages the main window.
  **/
-class Kile : public KApplication, public KileInfo
+class Kile : public KApplication, public KileInfo, public KTextEditor::MdiContainer
 {
 	Q_OBJECT
+	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
 	explicit Kile(bool allowRestore = true, QWidget *parent = 0, const char *name = 0);
@@ -149,7 +151,7 @@ protected:
 
 private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
-	
+
 	KToolBar				*m_toolsToolBar;
 	KActionMenu				*m_userHelpActionMenu;
 	KSelectAction				*m_bibTagSettings;
@@ -225,7 +227,7 @@ private:
 	void updateUserTagMenu();
 	void readUserTagActions();
 	void writeUserTagActions();
-	
+
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
@@ -305,14 +307,14 @@ private Q_SLOTS:
 	* @param td Inserts the TagData td into the current editor
 	* @param pkgs list of packages needed for this command
 	*
-	* warns if latex packages in pkgs are not included in the document 
+	* warns if latex packages in pkgs are not included in the document
 	**/
 	void insertTag(const KileAction::TagData& td, const QStringList& pkgs);
-	
+
 	/**
 	 * An overloaded member function, behaves essentially as above.
 	 **/
-	
+
 	void insertTag(const KileAction::TagData& td, const QList<Package>& pkgs);
 	void insertTag(const QString& tagB, const QString& tagE, int dx, int dy);
 	void insertAmsTag(const KileAction::TagData& td);
@@ -357,6 +359,18 @@ private Q_SLOTS:
 	void connectDocumentInfoWithParserProgressBar(KileDocument::Info *info);
 	void parsingStarted(int maxValue);
 	void parsingCompleted();
+
+	//
+	// KTextEditor::MdiContainer
+	//
+public:
+	void registerMdiContainer();
+	virtual void setActiveView( KTextEditor::View * view );
+	virtual KTextEditor::View * activeView();
+	virtual KTextEditor::Document * createDocument();
+	virtual bool closeDocument( KTextEditor::Document * doc );
+	virtual KTextEditor::View * createView( KTextEditor::Document * doc );
+	virtual bool closeView( KTextEditor::View * view );
 };
 
 #endif

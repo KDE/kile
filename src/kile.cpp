@@ -104,6 +104,7 @@
 Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 :	KApplication(),
 	KileInfo(this),
+	KTextEditor::MdiContainer(),
 	m_paPrint(NULL)
 {
 	setObjectName(name);
@@ -145,7 +146,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
 
 	// needed for Symbolview
-	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/"); 
+	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/");
 	KILE_DEBUG() << "Symbol path: " << KGlobal::dirs()->resourceDirs("app_symbols").join(" , ");
 
 	// do initializations first
@@ -278,7 +279,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	// before Kile 2.1 shortcuts were stored in a "Shortcuts" group inside
 	// Kile's configuration file, but this led to problems with the way of how shortcuts
 	// are generally stored in kdelibs; we now delete the "Shortcuts" group if it
-	// still present in Kile's configuration file. 
+	// still present in Kile's configuration file.
 	if(m_config->hasGroup("Shortcuts")) {
 		KConfigGroup shortcutGroup = m_config->group("Shortcuts");
 		actionCollection()->readSettings(&shortcutGroup);
@@ -287,6 +288,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	m_mainWindow->setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	m_mainWindow->guiFactory()->refreshActionProperties();
+
+	registerMdiContainer();
 }
 
 Kile::~Kile()
@@ -469,12 +472,12 @@ void Kile::setupSymbolViews()
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
 	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QList<Package>&)),
 		this, SLOT(insertText(const QString& ,const QList<Package>&)));
-	
+
 	m_symbolViewRelation = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Relation);
 	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
 	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QList<Package>&)),
 		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
-		
+
 	m_symbolViewOperators = new KileWidget::SymbolView(m_toolBox, KileWidget::SymbolView::Operator);
 	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
 	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QList<Package>&)),
@@ -531,7 +534,7 @@ void Kile::setupCommandViewToolbox()
 {
 	m_commandViewToolBox = new KileWidget::CommandViewToolBox(this,m_sideBar);
 	m_sideBar->addPage(m_commandViewToolBox,SmallIcon("texlion"),i18n("LaTeX"));
-	
+
 	connect(m_commandViewToolBox, SIGNAL(sendText(const QString &)),this, SLOT(insertText(const QString &)));
 }
 
@@ -560,7 +563,7 @@ void Kile::setupBottomBar()
 	QHBoxLayout *layout = new QHBoxLayout(widget);
 	layout->setMargin(0);
 	widget->setLayout(layout);
-	
+
 	m_latexOutputErrorToolBar = new KToolBar(widget);
 	m_latexOutputErrorToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	m_latexOutputErrorToolBar->setIconDimensions(KIconLoader::SizeSmall);
@@ -633,7 +636,7 @@ KAction* Kile::createAction(const QString &text, const QString &name, const KSho
 	return createAction(text, name, QString(), shortcut, receiver, member);
 }
 
-KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver, const char *member) 
+KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver, const char *member)
 {
 	return createAction(text, name, iconName, KShortcut(), receiver, member);
 }
@@ -906,7 +909,7 @@ void Kile::rebuildBibliographyMenu(){
 		name = QString("biblatex");
 	}
 	else {
-		KILE_DEBUG() << "wrong currentItem in bibliography settings menu"; 
+		KILE_DEBUG() << "wrong currentItem in bibliography settings menu";
 		name = QString("bibtex");
 	}
 
@@ -980,7 +983,7 @@ void Kile::setupTools()
 	m_viewActions->removeAllActions();
 	m_convertActions->removeAllActions();
 	m_quickActions->removeAllActions();
-	
+
 	for (int i = 0; i < tools.count(); ++i) {
 		grp = KileTool::groupFor(tools[i], m_config.data());
 		toolMenu = KileTool::menuFor(tools[i], m_config.data());
@@ -1033,7 +1036,7 @@ void Kile::setupTools()
 	m_quickActions->addAction(action("quickpreview_subdocument"));
 	m_quickActions->addSeparator();
 	m_quickActions->addAction(action("quickpreview_math"));
- 
+
 	cleanUpActionList(m_listCompilerActions, tools);
 	cleanUpActionList(m_listViewerActions, tools);
 	cleanUpActionList(m_listConverterActions, tools);
@@ -1058,7 +1061,7 @@ void Kile::initSelectActions(){
 	m_viewActions = new ToolbarSelectAction(i18n("View"), m_mainWindow);
 	m_convertActions = new ToolbarSelectAction(i18n("Convert"), m_mainWindow);
 	m_quickActions = new ToolbarSelectAction(i18n("Quick"), m_mainWindow);
-	
+
 	actionCollection()->addAction("list_compiler_select", m_compilerActions);
 	actionCollection()->addAction("list_convert_select", m_convertActions);
 	actionCollection()->addAction("list_view_select", m_viewActions);
@@ -1102,9 +1105,9 @@ void Kile::restoreLastSelectedAction(){
 
 	ToolbarSelectAction *pSelectAction = NULL;
 	int defaultAction = 0;
-	
+
 	KConfigGroup grp = m_config->group("ToolSelectAction");
-	
+
 	for(QStringList::Iterator it = list.begin(); it != list.end(); ++it) {
 		if ( *it == "Compile" ) {
 			pSelectAction = m_compilerActions;
@@ -1200,7 +1203,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	KUrl url;
 	for (int i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
 		fi.setFile(m_listProjectsOpenOnStart[i]);
-		// don't open project files as they will be opened later in this method 
+		// don't open project files as they will be opened later in this method
 		if (fi.isReadable()) docManager()->projectOpen(KUrl::fromPathOrUrl(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
 	}
 
@@ -1794,7 +1797,7 @@ void Kile::enableKileGUI(bool enable)
 		}
 	}
 
-	// enable or disable userhelp entries 
+	// enable or disable userhelp entries
 	m_help->enableUserhelpEntries(enable);
 
 	QList<QAction*> actionList;
@@ -1862,7 +1865,7 @@ void Kile::initMenu()
 	    // view
 	   << "gotoPrevDocument" << "gotoNextDocument"
 	   // build
-	   << "quickpreview_selection" << "quickpreview_environment" 
+	   << "quickpreview_selection" << "quickpreview_environment"
 	   << "quickpreview_subdocument" << "quickpreview_math"
 	   << "WatchFile" << "ViewLog" << "PreviousError" << "NextError" << "PreviousWarning"
 	   << "NextWarning" << "PreviousBadBox" << "NextBadBox" << "CleanAll"
@@ -2115,7 +2118,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs)
 	    packages.append(pkgName);
 	 }
    }
-   
+
    insertTag(data,packages);
 }
 
@@ -2129,7 +2132,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 		QStringList packagelist = allPackages(docinfo);
 		QStringList::const_iterator it;
 		QStringList warnPkgs;
-		
+
 		for ( it = pkgs.begin(); it != pkgs.end(); ++it) {
 			if(!packagelist.contains(*it)) {
 				warnPkgs.append(*it);
@@ -2149,7 +2152,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 
 void Kile::insertText(const QString &text)
 {
-	if(text.indexOf("%C")>=0) 
+	if(text.indexOf("%C")>=0)
 		insertTag(KileAction::TagData(QString(), text, QString(), 0, 0));
 	else
 		insertTag(KileAction::TagData(QString(), text, "%C", 0, 0));
@@ -2396,12 +2399,12 @@ void Kile::readConfig()
 	m_edit->readConfig();
 	docManager()->updateInfos();
 	m_jScriptManager->readConfig();
-	
+
 	// set visible views in sidebar
 	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
 	m_sideBar->setPageVisible(m_commandViewToolBox, KileConfig::showCwlCommands());
 	m_sideBar->setPageVisible(m_kileAbbrevView, KileConfig::completeShowAbbrev());
-	
+
 	if(KileConfig::displayMFUS()) {
 		enableSymbolViewMFUS();
 	}
@@ -2697,7 +2700,7 @@ void Kile::slotQuickPreview(int type)
 	KTextEditor::Document *doc = view->document();
 	if ( ! doc )
 		return;
- 
+
 	switch ( type )
 	{
 		case KileTool::qpSelection:   m_quickPreview->previewSelection(view);   break;
@@ -2736,7 +2739,7 @@ void Kile::citeViewBib()
 			m_logWidget->printMessage(KileTool::Info,
 				i18n("Please select the desired bibliographies and re-execute this command"),
 				i18n("ViewBib Citation"));
-		return;	
+		return;
 	}
 
 	remoteObjs = client->remoteObjects(viewBibApp);
@@ -2867,5 +2870,63 @@ void Kile::parsingCompleted()
 	m_parserProgressBarShowTimer->stop();
 	m_parserProgressBar->hide();
 }
+
+
+//BEGIN KTextEditor::MdiContainer
+void Kile::registerMdiContainer()
+{
+	KTextEditor::ContainerInterface *iface =
+		qobject_cast<KTextEditor::ContainerInterface*>(m_docManager->getEditor());
+	if (iface) {
+		iface->setContainer(this);
+	}
+}
+
+void Kile::setActiveView(KTextEditor::View *view)
+{
+	Q_UNUSED(view)
+	// NOTE: not implemented, because KatePart does not use it
+}
+
+KTextEditor::View *Kile::activeView()
+{
+	KTextEditor::Document *doc = activeTextDocument();
+	if (doc) {
+		return doc->activeView();
+	}
+	return 0;
+}
+
+KTextEditor::Document *Kile::createDocument()
+{
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return 0;
+}
+
+bool Kile::closeDocument(KTextEditor::Document *doc)
+{
+	Q_UNUSED(doc)
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return false;
+}
+
+KTextEditor::View *Kile::createView(KTextEditor::Document *doc)
+{
+	Q_UNUSED(doc)
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return 0;
+}
+
+bool Kile::closeView(KTextEditor::View *view)
+{
+	Q_UNUSED(view)
+	// NOTE: not implemented, because KatePart does not use it
+	kWarning() << "WARNING: interface call not implemented";
+	return false;
+}
+//END KTextEditor::MdiContainer
 
 #include "kile.moc"

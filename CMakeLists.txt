@@ -25,8 +25,7 @@ MACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _relative_dir _docbook _language )
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
 			COMMENT "Compiling ${_language} docbook in ${_relative_dir}/${_docbook}" )
 
-	INSTALL( FILES ${_compiled_docbook} ${_dependencies} DESTINATION
-${HTML_INSTALL_DIR}/${_language}/kile)
+	INSTALL( FILES ${_compiled_docbook} ${_source_docbook} ${_dependencies} DESTINATION ${HTML_INSTALL_DIR}/${_language}/kile )
 	SET( ${_sources} ${${_sources}} ${_compiled_docbook} )
 ENDMACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _docbook _language )
 

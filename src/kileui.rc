@@ -386,10 +386,10 @@
 			<Action name="tag_env_pmatrix"/>
 			<Separator/>
 			<Action name="tag_env_vmatrix"/>
-			<Action name="tag_env_Vmatrix"/>
+			<Action name="tag_env_VVmatrix"/>
 			<Separator/>
 			<Action name="tag_env_bmatrix"/>
-			<Action name="tag_env_Bmatrix"/>
+			<Action name="tag_env_BBmatrix"/>
 		</Menu>
 		<Separator/>
 		<Action name="tag_env_cases"/>

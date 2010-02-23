@@ -1902,7 +1902,7 @@ void Kile::initMenu()
 	   << "tag_env_flalign" << "tag_env_flalign*" << "tag_env_alignat" << "tag_env_alignat*"
 	   << "tag_env_aligned" << "tag_env_gathered" << "tag_env_alignedat" << "tag_env_cases"
 		<< "tag_env_matrix" << "tag_env_pmatrix" << "tag_env_vmatrix"
-		<< "tag_env_Vmatrix" << "tag_env_bmatrix" << "tag_env_Bmatrix"
+		<< "tag_env_VVmatrix" << "tag_env_bmatrix" << "tag_env_BBmatrix"
 	   // bibliography stuff
 	   << "menu_bibliography"
 	   << "setting_bibtex" << "setting_biblatex"

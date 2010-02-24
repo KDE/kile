@@ -352,21 +352,22 @@ namespace KileTool
 
 		int para = manager()->info()->lineNumber();
 		KTextEditor::Document *doc = manager()->info()->activeTextDocument();
-		QString filepath;
 
-		if (doc) {
-			filepath = doc->url().toLocalFile();
-		}
-		else {
+		if (!doc) {
 			return false;
 		}
 
+		QString filepath = doc->url().toLocalFile();
+
 		QString texfile = KUrl::relativePath(baseDir(),filepath);
-		m_urlstr = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
+		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
+		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + filepath;
 		addDict("%dir_target", QString());
-		addDict("%target", m_urlstr);
+		addDict("%target", relativeTarget);
+		addDict("%absolute_target", absoluteTarget);
 		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n";
-		KILE_DEBUG() << "\tusing  " << m_urlstr;
+		KILE_DEBUG() << "\tusing  (absolute)" << absoluteTarget;
+		KILE_DEBUG() << "\tusing  (relative)" << relativeTarget;
 
 		return true;
 	}

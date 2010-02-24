@@ -98,9 +98,6 @@ namespace KileTool
 		protected:
 			bool determineTarget();
 			bool checkPrereqs();
-	
-		private:
-			QString m_urlstr;
 	};
 
 	class ViewBib : public View

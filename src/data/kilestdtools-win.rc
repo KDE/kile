@@ -272,6 +272,17 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
+[Tool/PDFLaTeX/Synctex]
+class=LaTeX
+command=pdflatex
+options=-synctex=1 -interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
 [Tool/ConTeXt/PDF]
 class=Compile
 command=texexec
@@ -452,6 +463,11 @@ class=Sequence
 type=Sequence
 sequence=LaTeX,ForwardDVI
 
+[Tool/QuickBuild/PDFLaTeX+ForwardPDF]
+class=Sequence
+type=Sequence
+sequence=PDFLaTeX,ForwardPDF
+
 [Tool/QuickBuild/LaTeX+DVItoPS+PStoPDF+ViewPDF]
 class=Sequence
 sequence=LaTeX,DVItoPS,PStoPDF,ViewPDF
@@ -617,6 +633,14 @@ command=okular
 options=--unique "%target"
 from=dvi
 to=dvi
+
+[Tool/ForwardPDF/Okular]
+class=ForwardDVI
+type=Process
+command=okular
+options=--unique '%absolute_target'
+from=pdf
+to=pdf
 
 [Tool/ViewDVI/Embedded Viewer]
 class=View
@@ -814,6 +838,7 @@ ViewPS=SystemDefault
 ViewDVI=SystemDefault
 ViewHTML=Konqueror
 ForwardDVI=Okular
+ForwardPDF=Okular
 Lilypond=PDF
 XeLaTeX=PDF
 
@@ -847,4 +872,4 @@ ViewPDF=View,viewpdf
 ViewPS=View,viewps
 ViewHTML=View,viewhtml
 ForwardDVI=View,dvisearch
-
+ForwardPDF=View,dvisearch

@@ -1081,7 +1081,7 @@ void LaTeXInfo::updateStruct()
 	for(int i = 0; i < m_doc->lines(); ++i) {
 		emit(parsingUpdate(i));
 		if (teller > 100) {
-			teller=0;
+			teller = 0;
 			kapp->processEvents(QEventLoop::ExcludeUserInputEvents);
 		}
 		else {
@@ -1405,8 +1405,18 @@ void BibInfo::updateStruct()
 
 	QString s, key;
 	int col = 0, startcol, startline = 0;
+	int teller = 0;
 
+	emit(parsingStarted(m_doc->lines()));
 	for(int i = 0; i < m_doc->lines(); ++i) {
+		emit(parsingUpdate(i));
+		if (teller > 200) {
+			teller = 0;
+			kapp->processEvents(QEventLoop::ExcludeUserInputEvents);
+		}
+		else {
+			++teller;
+		}
 		s = m_doc->line(i);
 		if((s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower())) {
 			KILE_DEBUG() << "found: " << reItem.cap(2);
@@ -1459,7 +1469,7 @@ void BibInfo::updateStruct()
 			}
 		}
 	}
-
+	emit(parsingCompleted());
 	emit(doneUpdating());
 	setDirty(false);
 }

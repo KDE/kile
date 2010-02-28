@@ -2856,6 +2856,7 @@ void Kile::connectDocumentInfoWithParserProgressBar(KileDocument::Info *info)
 
 void Kile::parsingStarted(int maxValue)
 {
+	kapp->setOverrideCursor(QCursor(Qt::WaitCursor));
 	m_parserProgressBar->reset();
 	m_parserProgressBar->setRange(0, maxValue);
 	m_parserProgressBar->setValue(0);
@@ -2866,6 +2867,7 @@ void Kile::parsingCompleted()
 {
 	m_parserProgressBarShowTimer->stop();
 	m_parserProgressBar->hide();
+	kapp->restoreOverrideCursor();
 }
 
 #include "kile.moc"

@@ -70,12 +70,12 @@ public Q_SLOTS:
 	void fileOpen();
 	void fileOpen(const KUrl& url, const QString& encoding = QString(), int index = -1);
 
-	void fileSave();
-	void fileSaveAs(KTextEditor::View* = NULL);
+	bool fileSave(KTextEditor::View* = NULL);
+	bool fileSaveAs(KTextEditor::View* = NULL);
 	void fileSaveCopyAs();
 
 	void saveURL(const KUrl&);
-	void fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
+	bool fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
 
 	bool fileCloseAllOthers();
 	bool fileCloseAll();

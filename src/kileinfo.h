@@ -54,6 +54,8 @@ namespace KileTemplate { class Manager; }
 namespace KileCodeCompletion { class Manager; }
 namespace KileAbbreviation { class Manager; }
 
+class EditorCommands;
+
 class KileMainWindow : public KParts::MainWindow
 {
 	friend class Kile;
@@ -184,6 +186,8 @@ protected:
 	KileWidget::ExtendedScrollArea	*m_previewScrollArea;
 	KileCodeCompletion::Manager	*m_codeCompletionManager;
 	KileAbbreviation::Manager	*m_abbreviationManager;
+
+	EditorCommands				*m_editorCommands;
 
 	KileHelp::Help		*m_help;
 	KileDocument::EditorExtension 	*m_edit;

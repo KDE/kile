@@ -102,6 +102,7 @@ SET(kile_SRCS
 	configurationmanager.cpp
 	utilities.cpp
 	abbreviationmanager.cpp
+	editorcommands.cpp
 )
 
 SET( kile_UI

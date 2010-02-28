@@ -833,17 +833,17 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
 	emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
 }
 
-void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
+bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 {
 	// this can occur when autosaving should take place when we
 	// are still busy with it (KIO::NetAccess keeps the event loop running)
 	if(m_currentlySavingAll) {
-		return;
+		return true;
 	}
 	m_currentlySavingAll = true;
 	KTextEditor::View *view = NULL;
 	QFileInfo fi;
-	bool saveResult;
+	bool oneSaveFailed = false;
 	KUrl url, backupUrl;
 
 	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")";
@@ -908,10 +908,11 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 				}
 
 				KILE_DEBUG() << "trying to save: " << url.toLocalFile();
-				saveResult = view->document()->documentSave();
+				bool saveResult = view->document()->documentSave();
 				fi.refresh();
 
 				if(!saveResult) {
+					oneSaveFailed = true;
 					m_ki->logWidget()->printMessage(KileTool::Error,
 					                                i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()),
 					                                i18n("Saving"));
@@ -926,6 +927,7 @@ void Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 	*/
 	emit(updateStructure(false, NULL));
 	m_currentlySavingAll = false;
+	return !oneSaveFailed;
 }
 
 void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
@@ -972,32 +974,34 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	m_ki->fileSelector()->blockSignals(false);
 }
 
-void Manager::fileSave()
-{
-	Locker lock(&m_autoSaveLock);
-	KTextEditor::View* view = m_ki->viewManager()->currentTextView();
-	if(!view) {
-		return;
-	}
-	KUrl url = view->document()->url();
-	if(url.isEmpty()) { // newly created document
-		fileSaveAs();
-		return;
-	}
-	else {
-		view->document()->documentSave();
-		emit(updateStructure(false, textInfoFor(view->document())));
-	}
-}
-
-void Manager::fileSaveAs(KTextEditor::View* view)
+bool Manager::fileSave(KTextEditor::View *view)
 {
 	Locker lock(&m_autoSaveLock);
 	if(!view) {
 		view = m_ki->viewManager()->currentTextView();
 	}
 	if(!view) {
-		return;
+		return false;
+	}
+	KUrl url = view->document()->url();
+	if(url.isEmpty()) { // newly created document
+		return fileSaveAs(view);
+	}
+	else {
+		bool ret = view->document()->documentSave();
+		emit(updateStructure(false, textInfoFor(view->document())));
+		return ret;
+	}
+}
+
+bool Manager::fileSaveAs(KTextEditor::View* view)
+{
+	Locker lock(&m_autoSaveLock);
+	if(!view) {
+		view = m_ki->viewManager()->currentTextView();
+	}
+	if(!view) {
+		return false;
 	}
 
 	KTextEditor::Document* doc = view->document();
@@ -1024,7 +1028,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
 		result = KEncodingFileDialog::getSaveUrlAndEncoding(doc->encoding(), startDir, filter, m_ki->mainWindow(), i18n("Save File"));
 		if(result.URLs.isEmpty() || result.URLs.first().isEmpty()) {
-			return;
+			return false;
 		}
 		saveURL = result.URLs.first();
 		if(info->getType() == KileDocument::LaTeX) {
@@ -1041,7 +1045,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 	}
 	doc->setEncoding(result.encoding);
 	if(!doc->saveAs(saveURL)) {
-		return;
+		return false;
 	}
 	if(oldURL != saveURL) {
 		if(info->isDocumentTypePromotionAllowed()) {
@@ -1052,6 +1056,7 @@ void Manager::fileSaveAs(KTextEditor::View* view)
 		emit addToRecentFiles(saveURL);
 		emit addToProjectView(doc->url());
 	}
+	return true;
 }
 
 void Manager::fileSaveCopyAs()

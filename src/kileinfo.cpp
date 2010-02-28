@@ -29,6 +29,7 @@
 
 #include "widgets/structurewidget.h"
 #include "configurationmanager.h"
+#include "editorcommands.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
 #include "documentinfo.h"
@@ -88,10 +89,14 @@ KileInfo::KileInfo(QObject *parent) :
 	                 m_viewManager,
 	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
+	
+	m_editorCommands = new EditorCommands(this);
 }
 
 KileInfo::~KileInfo()
 {
+	// this has to be deleted before the editor component is destroyed
+	delete m_editorCommands;
 }
 
 KTextEditor::Document * KileInfo::activeTextDocument() const

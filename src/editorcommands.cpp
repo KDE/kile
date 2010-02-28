@@ -23,7 +23,7 @@
 EditorCommands::EditorCommands(KileInfo *info)
  : m_ki(info)
 {
-	m_commandList << "w" << "wa" << "wq" << "q";
+	m_commandList << "w" << "wa" << "wq" << "q" << "wqa";
 	KTextEditor::CommandInterface *commandInterface
 	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
 
@@ -63,9 +63,16 @@ bool EditorCommands::exec(KTextEditor::View *view, const QString &cmd, QString &
 			return result;
 		}
 	}
-	else if(cmd == "q" || cmd == "wq") {
-		if(cmd == "wq") {
-			if(!m_ki->docManager()->fileSave(view)) {
+	else if(cmd == "q" || cmd == "wq" || cmd == "wqa") {
+		if(cmd == "wq" || cmd == "wqa") {
+			bool result = true;
+			if(cmd == "wq") {
+				result = m_ki->docManager()->fileSave(view);
+			}
+			else {
+				result = m_ki->docManager()->fileSaveAll();
+			}
+			if(!result) {
 				msg = i18n("Saving failed and quitting canceled.");
 				return false;
 			}
@@ -87,10 +94,11 @@ bool EditorCommands::help(KTextEditor::View *view, const QString &cmd, QString &
 		      "<b>wa</b> saves all the documents.</p>";
 		return true;
 	}
-	else if(cmd == "q" || cmd == "wq") {
-		msg = "<p><b>q/wq</b>: Quit Kile</p>"
+	else if(cmd == "q" || cmd == "wq" || cmd == "wqa") {
+		msg = "<p><b>q/wq/wqa</b>: Quit Kile</p>"
 		      "<p><b>wq</b> additionally saves the current document to disk "
-		      "before quitting.</p>";
+		      "before quitting, whereas <b>wqa</b> saves all the documents "
+		      "before exiting.</p>";
 		return true;
 	}
 

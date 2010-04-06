@@ -264,17 +264,6 @@ autoRun=yes
 [Tool/PDFLaTeX/Modern]
 class=LaTeX
 command=pdflatex
-options=-src-specials -interaction=nonstopmode '%source'
-from=
-to=pdf
-type=Process
-checkForRoot=yes
-jumpToFirstError=yes
-autoRun=yes
-
-[Tool/PDFLaTeX/Synctex]
-class=LaTeX
-command=pdflatex
 options=-synctex=1 -interaction=nonstopmode '%source'
 from=
 to=pdf
@@ -314,17 +303,6 @@ options=--dvi --draft --nonstopmode '%source'
 from=
 to=dvi
 type=Process
-
-[Tool/PDFLaTeX/Modern]
-class=LaTeX
-command=pdflatex
-options=-src-specials -interaction=nonstopmode '%source'
-from=
-to=pdf
-type=Process
-checkForRoot=yes
-jumpToFirstError=yes
-autoRun=yes
 
 [Tool/XeLaTeX/PDF]
 class=LaTeX
@@ -373,7 +351,7 @@ autoRun=yes
 [Tool/XeLaTeX/PDF Modern]
 class=LaTeX
 command=xelatex
-options=-src-specials -interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode '%source'
 from=
 to=pdf
 type=Process
@@ -508,7 +486,7 @@ type=Process
 [Tool/PDFTeX/Modern]
 class=Compile
 command=pdftex
-options=-src-specials -interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode '%source'
 from=
 to=pdf
 type=Process

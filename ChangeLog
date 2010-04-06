@@ -1,4 +1,32 @@
-version 2.1beta2 -> 2.1beta3
+version 2.1 beta 3 -> 2.1 beta 4
+
+Fixes:
+- Set up the project archive feature correctly (#216964)
+- Ensure that toolbar customizations are correctly loaded on start-up (#216957)
+- Force termination of Kile when the main window is closed. (#220343)
+- Implement bindings for the commands "w", "wa", "wq", "wqa", "q" of KatePart's VI input mode (#223701)
+- Recognize the 'table*' environment during parsing (Patch by Andreas Wenning)
+- Ensure that the Kile window is raised to the top during inverse search
+- Add SyncTeX support (Patch by Christian Trippe, #226718)
+- Fix a typo in the Powerdot template (#225863)
+- Fix menu accelerator clashes w.r.t. the find/replace functionality of KatePart (#216980, #222703)
+- Add several missing icons
+- Fix problems related to the auto-save functionality
+- Optimize the parsing of documents by only doing it when it is required
+- Ensure that the tool tips showing the document names are set correctly on all tabs (#205245)
+- Insert '\ss{}' and '\SS{}' instead of '\ss' and '\SS'
+- Fix the search for multi-line math groups 
+- Fix the detection of the correct file during LaTeX output parsing when files are included with '\Input' or '\include' (#223200)
+- Track the current editor highlight schema in the configuration dialog (Patch by Dominik Haumann, #227141)
+
+Features:
+- Add support for some currently missing AMS LaTeX environments
+- New CWL files for the 'Cancel', 'Gauss' and 'Mathtools' packages
+- Add a progress bar showing parsing progress to the status bar
+- Allow to choose a preview tool for the quick preview feature of math groups
+
+
+version 2.1 beta 2 -> 2.1 beta 3
 
 Fixes:
  - Restore find-in-project functionality (#205087)
@@ -18,7 +46,7 @@ Features:
  - Add a sidebar tab which allows to display CWL word lists
  - Improve the graphics inclusion dialog
 
-version 2.1beta1 -> 2.1beta2
+version 2.1 beta 1 -> 2.1 beta 2
 
 Fixes: 
  - ask the user if the tool list should be reloaded, needed due to the switch
@@ -37,7 +65,7 @@ Features:
  - Nicer "Open File" widget (thanks to dhaumann)
  - biblatex cwl files, one for users and one for authors
 
-version 2.0 -> 2.1beta1
+version 2.0 -> 2.1 beta 1
 
 Bigger Features:
  - port code to KDE4 and QT4, this includes the move from DCOP to DBUS interface

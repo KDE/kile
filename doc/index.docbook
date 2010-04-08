@@ -371,7 +371,7 @@
 
 			<para>When creating your own &latex; files, inverse search can be very helpful. Once you
 			have created a &DVI; file (DeVice Independent File) or PDF file, you can click the left
-			mouse button while pressing Shift in the viewer and &kile; will jump to the corresponding line in the
+			mouse button while pressing &Shift; in the viewer and &kile; will jump to the corresponding line in the
 			&latex; source code.</para>
 
 			<para>A &DVI; is a type of file containing a
@@ -706,7 +706,7 @@
 
 		<para>Inverse search is a very useful feature when you are writing
 		a &latex; document yourself. If everything is set up properly, you can
-		click into &okular;'s window with the <mousebutton>left</mousebutton> mouse button while pressing Shift. After that &kile; loads the &latex; source file and jumps to
+		click into &okular;'s window with the <mousebutton>left</mousebutton> mouse button while pressing &Shift;. After that &kile; loads the &latex; source file and jumps to
 		the proper paragraph. To use inverse search, you have to compile your &latex; file with the <guilabel>Modern</guilabel> configuration.</para>
 
 		<para>Inverse search cannot work unless:</para>
@@ -716,7 +716,7 @@
 			<listitem><para>&okular; knows which editor you would like to use.</para></listitem>
 		</itemizedlist>
 
-		<para>With this feature of &okular;, a left mouse click while pressing Shift in the &DVI; or PDF document will
+		<para>With this feature of &okular;, a left mouse click while pressing &Shift; in the &DVI; or PDF document will
 		result in &kile; opening the corresponding &latex; document and attempt to go to the
 		corresponding line. Remember to tell &okular; to use &kile; as a text editor, in &okular;'s
 		menu item <menuchoice><guimenu>Settings</guimenu><guimenuitem>Configure Okular...</guimenuitem></menuchoice>
@@ -926,7 +926,7 @@
 		<para>Holding the left mouse button, and dragging the text you want to select,
 		automatically copies the selected text to the clipboard.</para>
 
-		<para>Holding shift and using the arrow keys allows you to select portions of the source
+		<para>Holding &Shift; and using the arrow keys allows you to select portions of the source
 		code in the editor window.</para>
 
 	</sect1>

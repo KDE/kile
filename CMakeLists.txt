@@ -5,6 +5,8 @@ PROJECT( kile )
 find_package(KDE4 4.2.0 REQUIRED)
 include (KDE4Defaults)
 
+find_package( SharedMimeInfo REQUIRED )
+
 
 SET( KILE_VERSION CACHE STRING "Kile's version; can be used to install special documentation files in share/doc/kile-$KILE_VERSION/" )
 
@@ -130,7 +132,8 @@ ADD_SUBDIRECTORY( src )
 
 ########### install files ###############
 
-INSTALL( FILES x-kilepr.desktop DESTINATION share/mimelink/text )
+install( FILES kile.xml DESTINATION ${XDG_MIME_INSTALL_DIR} )
+update_xdg_mimetypes( ${XDG_MIME_INSTALL_DIR} )
 
 INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl
 kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl

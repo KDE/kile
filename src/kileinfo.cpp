@@ -127,20 +127,29 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 
 	if (m_singlemode) {
 		if (project) {
-			if (project->masterDocument().length() > 0) {
+			if (!project->masterDocument().isEmpty()) {
 				KUrl master(project->masterDocument());
-				if (shrt) return master.fileName();
-				else return master.toLocalFile();
+				if(shrt) {
+					return master.fileName();
+				}
+				else {
+					return master.toLocalFile();
+				}
 			}
 			else {
 				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
 				if (item) {
 					KUrl url = item->url();
-					if (shrt) return url.fileName();
-					else return url.toLocalFile();
+					if(shrt) {
+						return url.fileName();
+					}
+					else {
+						return url.toLocalFile();
+					}
 				}
-				else
+				else {
 					return QString();
+				}
 			}
 		}
 		else {

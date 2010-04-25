@@ -518,6 +518,7 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 	doc = m_editor->createDocument(NULL);
 	KILE_DEBUG() << "appending document " <<  doc;
 
+	docinfo->setDoc(doc); // do this here to set up all the signals correctly in 'TextInfo'
 	doc->setEncoding(encoding);
 
 	KILE_DEBUG() << "url is = " << docinfo->url();
@@ -541,7 +542,6 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
                         this, SIGNAL(documentModificationStatusChanged(KTextEditor::Document*,bool,KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 	}
 
-	docinfo->setDoc(doc);
 	if(!mode.isEmpty()){
 		docinfo->setMode(mode);     // this ensures that mode passed with the mode parameter is actually used
 	}
@@ -1393,6 +1393,10 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 	}
 
 	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
+	if(item->getInfo()) { // make sure that the item has been parsed, even if it isn't shown
+	                      // this is necessary to identify the correct LaTeX root document (bug 233667)
+		m_ki->structureWidget()->update(item->getInfo());
+	}
 
 	if((!item->isOpen()) && !view && item->getInfo()) { //doc shouldn't be displayed, trash the doc
 		trashDoc(item->getInfo());

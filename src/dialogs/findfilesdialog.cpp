@@ -4,7 +4,7 @@
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
    Copyright (C) 2005 Holger Danielsson <holger.danielsson@versanet.de>
-   Copyright (C) 2008 Michel Ludwig <michel.ludwig@kdemail.net>
+   Copyright (C) 2008-2010 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -466,7 +466,11 @@ void FindFilesDialog::slotItemSelected(const QString& item)
 		str = str.right(str.length() - 1 - pos);
 		if((pos = str.indexOf(':')) != -1) {
 			linenumber = str.left(pos);
-			if(m_mode == KileGrep::Project) {
+			QFileInfo fileInfo(filename);
+			if(fileInfo.isAbsolute()) {
+				emit itemSelected(filename, linenumber.toInt());
+			}
+			else if(m_mode == KileGrep::Project) {
 				emit itemSelected(m_projectdir + QDir::separator() + filename, linenumber.toInt());
 			}
 			else {

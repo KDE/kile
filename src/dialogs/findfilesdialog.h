@@ -3,7 +3,7 @@
    Copyright (C) 2001 Joseph Wenninger <jowenn@kde.org>
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
-   Copyright (C) 2008 Michel Ludwig <michel.ludwig@kdemail.net>
+   Copyright (C) 2008-2010 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This library is free software; you can redistribute it and/or
    modify it under the terms of the GNU Library General Public
@@ -86,7 +86,7 @@ class FindFilesDialog : public KDialog
 		int findListItem(KComboBox *combo, const QString &s);
 		void updateListItems(KComboBox *combo);
 
-		void processOutput();
+		void processOutput(bool forceAll = false);
 		void finish();
 
 		void startGrep();

@@ -508,9 +508,13 @@ void FindFilesDialog::startGrep()
 	m_proc->start();
 }
 
-void FindFilesDialog::processOutput()
+void FindFilesDialog::processOutput(bool forceAll)
 {
+	// NOTE: it isn't possible to use 'kapp->processEvents()' in this method as
+	//       this will trigger the 'readAllStandardOutput()' signal, and call this
+	//       method again.
 	int pos;
+	int n = 0;
 	while((pos = m_buf.indexOf('\n')) != -1) {
 		QString item = m_buf.left(pos);
 		if(!item.isEmpty()) {
@@ -527,8 +531,13 @@ void FindFilesDialog::processOutput()
 			}
 		}
 		m_buf = m_buf.right(m_buf.length() - pos - 1);
+		if(!forceAll) {
+			++n;
+			if(n == 100) {
+				break;
+			}
+		}
 	}
-	kapp->processEvents();
 }
 
 void FindFilesDialog::processStandardOutputReady()
@@ -559,12 +568,15 @@ void FindFilesDialog::processExited(int /*exitCode*/, QProcess::ExitStatus /*exi
 
 void FindFilesDialog::finish()
 {
-	m_buf += '\n';
-	processOutput();
 	if(m_proc) {
+		m_proc->kill();
+		m_proc->disconnect();
 		m_proc->deleteLater();
 		m_proc = NULL;
 	}
+	m_buf += '\n';
+	// we process all the remaining output
+	processOutput(true);
 
 	if (shouldRestart()) {
 		startGrep();
@@ -665,15 +677,15 @@ QString FindFilesDialog::buildProjectCommand()
 
 void FindFilesDialog::slotSearch()
 {
-	KILE_DEBUG() << "\tgrep: start slot search";
-	slotClear();
+	KILE_DEBUG() << "\tgrep: start slot search" << m_proc;
 
-	if (template_combo->currentIndex() < KileGrep::tmEnv && pattern_combo->currentText().isEmpty()) {
+	if (m_proc) {
+		clearGrepJobs();
+		finish();
 		return;
 	}
 
-	if (m_proc && m_proc->state() == QProcess::Running) {
-		m_proc->kill();
+	if (template_combo->currentIndex() < KileGrep::tmEnv && pattern_combo->currentText().isEmpty()) {
 		return;
 	}
 
@@ -704,15 +716,15 @@ void FindFilesDialog::slotSearchFor(const QString &pattern)
 
 void FindFilesDialog::slotClear()
 {
-	//KILE_DEBUG() << "\tgrep: slot clear";
+	KILE_DEBUG() << "\tgrep: slot clear";
 	clearGrepJobs();
-	resultbox->clear();
 	finish();
+	resultbox->clear();
 }
 
 void FindFilesDialog::slotClose()
 {
-	//KILE_DEBUG() << "\tgrep: slot close";
+	KILE_DEBUG() << "\tgrep: slot close";
 	clearGrepJobs();
 	finish();
 	delayedDestruct();
@@ -720,7 +732,8 @@ void FindFilesDialog::slotClose()
 
 void FindFilesDialog::slotFinished()
 {
-	//KILE_DEBUG() << "\tgrep: slot finished";
+	KILE_DEBUG() << "\tgrep: slot finished";
+	clearGrepJobs();
 	finish();
 	delayedDestruct();
 }

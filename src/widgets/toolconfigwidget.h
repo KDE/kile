@@ -57,7 +57,7 @@ namespace KileWidget
 		void updateToollist();
 		void updateConfiglist();
 		void selectIcon();
-		void setMenu(const QString &);
+		void setMenu(int index);
 		void switchConfig(int index = -1);
 		void switchConfig(const QString &);
 

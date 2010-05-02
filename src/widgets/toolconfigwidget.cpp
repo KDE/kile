@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Sat 3-1 20:40:00 CEST 2004
     copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -71,9 +71,13 @@ namespace KileWidget
 
 		connect(m_configWidget->m_cbConfig, SIGNAL(activated(int)), this, SLOT(switchConfig(int)));
 
-		QStringList lst; lst << i18n( "Quick" ) << i18n( "Compile" ) << i18n( "Convert" ) << i18n( "View" ) << i18n( "Other" );
-		m_configWidget->m_cbMenu->addItems(lst);
-		connect(m_configWidget->m_cbMenu, SIGNAL(activated(const QString &)), this, SLOT(setMenu(const QString &)));
+		// 'm_cbMenu' also stores a mapping from English menu names to their translation
+		m_configWidget->m_cbMenu->addItem(i18n("Quick"), QVariant("Quick"));
+		m_configWidget->m_cbMenu->addItem(i18n("Compile"), QVariant("Compile"));
+		m_configWidget->m_cbMenu->addItem(i18n("Convert"), QVariant("Convert"));
+		m_configWidget->m_cbMenu->addItem(i18n("View"), QVariant("View"));
+		m_configWidget->m_cbMenu->addItem(i18n("Other"), QVariant("Other"));
+		connect(m_configWidget->m_cbMenu, SIGNAL(activated(int)), this, SLOT(setMenu(int)));
 		connect(m_configWidget->m_pshbIcon, SIGNAL(clicked()), this, SLOT(selectIcon()));
 
 		connect(m_configWidget->m_pshbRemoveTool, SIGNAL(clicked()), this, SLOT(removeTool()));
@@ -281,10 +285,10 @@ namespace KileWidget
 		m_configWidget->m_lstbTools->sortItems();
 	}
 
-	void ToolConfig::setMenu(const QString & menu)
+	void ToolConfig::setMenu(int index)
 	{
-		//KILE_DEBUG() << "==ToolConfig::setMenu(const QString & menu)====================";
-		m_map["menu"] = menu;
+		// internally, menu names are stored in English
+		m_map["menu"] = m_configWidget->m_cbMenu->itemData(index).toString();
 	}
 
 	void ToolConfig::writeConfig()
@@ -292,7 +296,11 @@ namespace KileWidget
 		//KILE_DEBUG() << "==ToolConfig::writeConfig()====================";
 		//save config
 		m_manager->saveEntryMap(m_current, m_map, false, false);
-		KileTool::setGUIOptions(m_current, m_configWidget->m_cbMenu->currentText(), m_icon, m_config);
+		// internally, menu names are stored in English
+		KileTool::setGUIOptions(m_current,
+		                        m_configWidget->m_cbMenu->itemData(m_configWidget->m_cbMenu->currentIndex()).toString(),
+		                        m_icon,
+		                        m_config);
 	}
 
 	int ToolConfig::indexQuickBuild()
@@ -346,12 +354,13 @@ namespace KileWidget
 
 		//show GUI info
 		QString menu = KileTool::menuFor(m_current, m_config);
-		int i = m_configWidget->m_cbMenu->findText(menu);
+		int i = m_configWidget->m_cbMenu->findData(menu);
 		if(i >= 0) {
 			m_configWidget->m_cbMenu->setCurrentIndex(i);
 		}
 		else {
-			m_configWidget->m_cbMenu->setItemText(m_configWidget->m_cbMenu->currentIndex(), menu);
+			m_configWidget->m_cbMenu->addItem(menu, QVariant(menu));
+			m_configWidget->m_cbMenu->setCurrentIndex(m_configWidget->m_cbMenu->count() - 1);
 		}
 		m_icon = KileTool::iconFor(m_current, m_config);
 		if(m_icon.isEmpty()) {

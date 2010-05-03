@@ -330,6 +330,10 @@
 			<label></label>
 			<default></default>
 		</entry>
+		<entry name="SingleFileMasterDocument" type="Path">
+			<label></label>
+			<default></default>
+		</entry>
 	</group>
 	<group name="User">
 		<entry name="Author" type="String">

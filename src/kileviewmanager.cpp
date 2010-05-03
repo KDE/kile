@@ -745,6 +745,17 @@ bool Manager::closeView(KTextEditor::View *view)
 }
 //END KTextEditor::MdiContainer
 
+bool Manager::viewForLocalFilePresent(const QString& localFileName)
+{
+	for(QList<KTextEditor::View*>::iterator it = m_textViewList.begin();
+	    it != m_textViewList.end(); ++it) {
+		if(KileDocument::Manager::symlinkFreeURL((*it)->document()->url()).toLocalFile() == localFileName) {
+			return true;
+		}
+	}
+	return false;
+}
+
 }
 
 #include "kileviewmanager.moc"

@@ -115,7 +115,8 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 	}
 	if (doc) {
 		KILE_DEBUG() << "url " << doc->url().toLocalFile() << endl;
-		title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
+		KUrl symlinkFreeURL = KileDocument::Manager::symlinkFreeURL(doc->url());
+		title = shrt ? symlinkFreeURL.fileName() : symlinkFreeURL.toLocalFile();
 	}
 
 	return title;

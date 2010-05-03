@@ -1,8 +1,8 @@
 /***************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
-                          (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
+                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
 
  ***************************************************************************************/
 
@@ -239,9 +239,12 @@ private:
 	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = NULL, const char *member = NULL);
 	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
 
+	QString getMasterDocument() const;
+	void setMasterDocument(const QString& fileName);
+	void clearMasterDocument();
 
 private Q_SLOTS:
-	void toggleMode();
+	void toggleMasterDocumentMode();
 	void toggleWatchFile();
 	void showEditorWidget();
 	void refreshStructure();

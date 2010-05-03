@@ -826,7 +826,7 @@ void Kile::setupActions()
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
 	ModeAction->setIcon(KIcon("master"));
-	connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMode()));
+	connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMasterDocumentMode()));
 
 	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
 	actionCollection()->addAction("StructureView", tact);
@@ -1219,7 +1219,10 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
         KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	KTextEditor::Document *doc = docManager()->docFor(KUrl::fromPathOrUrl(KileConfig::lastDocument()));
-	if (doc) viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
+	if (doc) {
+		viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
+	}
+	setMasterDocument(KileConfig::singleFileMasterDocument());
 }
 
 void Kile::setActive()
@@ -2431,6 +2434,7 @@ void Kile::saveSettings()
 	if (KileConfig::restore())
 	{
 		KConfigGroup configGroup = m_config->group("FilesOpenOnStart");
+		KileConfig::setSingleFileMasterDocument(getMasterDocument());
 		configGroup.writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
 		for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
 			configGroup.writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
@@ -2497,30 +2501,48 @@ void Kile::saveSettings()
 }
 
 /////////////////  OPTIONS ////////////////////
-void Kile::toggleMode()
+QString Kile::getMasterDocument() const
+{
+	return m_masterName;
+}
+
+void Kile::setMasterDocument(const QString& fileName)
+{
+	if(fileName.isEmpty() || !viewManager()->viewForLocalFilePresent(fileName)) {
+		return;
+	}
+
+	m_masterName = fileName;
+
+	QString shortName = QFileInfo(m_masterName).fileName();
+
+	ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
+	ModeAction->setChecked(true);
+	m_singlemode = false;
+}
+
+void Kile::clearMasterDocument()
+{
+	ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
+	ModeAction->setChecked(false);
+	m_logPresent = false;
+	m_singlemode = true;
+	m_masterName.clear();
+}
+
+void Kile::toggleMasterDocumentMode()
 {
 	if (!m_singlemode) {
-		ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
-		ModeAction->setChecked(false);
-		m_logPresent = false;
-		m_singlemode = true;
-		m_masterName.clear();
+		clearMasterDocument();
 	}
 	else if (m_singlemode && viewManager()->currentTextView()) {
-		m_masterName=getName();
-		if ( KileUntitled::isUntitled(m_masterName) || m_masterName.isEmpty()) {
+		QString name = getName();
+		if (KileUntitled::isUntitled(name) || name.isEmpty()) {
 			ModeAction->setChecked(false);
 			KMessageBox::error(m_mainWindow, i18n("In order to define the current document as a master document, it has to be saved first."));
-			m_masterName.clear();
 			return;
 		}
-
-		QFileInfo fi(m_masterName);
-		QString shortName = fi.fileName();
-
-		ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
-		ModeAction->setChecked(true);
-		m_singlemode=false;
+		setMasterDocument(name);
 	}
 	else {
 		ModeAction->setChecked(false);

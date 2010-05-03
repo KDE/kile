@@ -127,7 +127,9 @@ public:
 	virtual bool closeDocument( KTextEditor::Document * doc );
 	virtual KTextEditor::View * createView( KTextEditor::Document * doc );
 	virtual bool closeView( KTextEditor::View * view );
-		
+
+	bool viewForLocalFilePresent(const QString& localFileName);
+
 protected:
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 

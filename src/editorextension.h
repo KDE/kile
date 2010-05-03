@@ -2,7 +2,7 @@
     date                 : Feb 20 2007
     version              : 0.45
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -129,6 +129,7 @@ public Q_SLOTS:
 
 	void insertIntelligentTabulator();
 
+	void moveCursorToLastPositionInCurrentLine(KTextEditor::View *view = NULL);
 	void keyReturn(KTextEditor::View *view = NULL);
 	void commentLaTeX(KTextEditor::Document* document, const KTextEditor::Range &range);
 
@@ -244,6 +245,8 @@ private:
 	void readHelpList(QString const &filename);
 
 	KTextEditor::View *determineView(KTextEditor::View *view);
+	
+	QString extractIndentationString(KTextEditor::View *view, int line);
 };
 
 }

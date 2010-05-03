@@ -2,7 +2,7 @@
     date                 : Mar 12 2007
     version              : 0.46
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -923,6 +923,8 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 	return false;
 }
 
+
+
 //////////////////// insert newlines inside an environment ////////////////////
 
 // intelligent newlines: look for the last opened environment
@@ -931,7 +933,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 
 void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 {
-	KILE_DEBUG() << "void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)";
+	KILE_DEBUG() << view;
 	
 	view = determineView(view);
 	
@@ -945,46 +947,42 @@ void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 		return;
 	}
 
-	int row, col;
 	QString name;
-	
 	KTextEditor::Cursor cursor = view->cursorPosition();
-	row = cursor.line();
-	col = cursor.column();
+	int row = cursor.line();
+	int col = cursor.column();
 
-		
+	QString newLineAndIndentationString = '\n' + extractIndentationString(view, row);
+	
 	if(isCommentPosition(doc, row, col)) {
 		KILE_DEBUG() << "found comment";
-		keyReturn(view);
-		view->insertText("% ");
+		view->insertText(newLineAndIndentationString + "% ");
+		moveCursorToLastPositionInCurrentLine(view);
 		return;
 	}
 	else if(findOpenedEnvironment(row, col, name, view)) {
 		if(m_latexCommands->isListEnv(name)) {
-			keyReturn(view);
-			
-			if ( name == "description" )
-			{
-				view->insertText("\\item[]");
-				cursor = view->cursorPosition();
-				row = cursor.line();
-				col = cursor.column();
-				view->setCursorPosition(KTextEditor::Cursor(row, col-1));
+			if ( name == "description" ) {
+				view->insertText(newLineAndIndentationString + "\\item[]");
 			}
-			else
-				view->insertText("\\item ");
-			
+			else {
+				view->insertText(newLineAndIndentationString + "\\item ");
+			}
+			moveCursorToLastPositionInCurrentLine(view);
 			return;
 		}
 		else if(m_latexCommands->isTabularEnv(name) || m_latexCommands->isMathEnv(name)) {
-			view->insertText(" \\\\");
+			view->insertText(newLineAndIndentationString + "\\\\");
+			moveCursorToLastPositionInCurrentLine(view);
+			return;
 		}
 	}
 	// - no comment position
 	// - found no opened environment
 	// - unknown environment
 	// - finish tabular or math environment
-	keyReturn(view);
+	view->insertText(newLineAndIndentationString);
+	moveCursorToLastPositionInCurrentLine(view);
 }
 
 bool EditorExtension::findOpenedEnvironment(int &row, int &col, QString &envname, KTextEditor::View *view)
@@ -2354,6 +2352,29 @@ void EditorExtension::insertBullet(KTextEditor::View* view)
 }
 
 ///////////////////// Special Functions ///////////////
+/*
+void EditorExtension::insertNewLine(KTextEditor::View *view)
+{
+	view = determineView(view);
+	if(!view) {
+		return;
+	}
+
+	int newLineNumber = view->cursorPosition().line() + 1;
+	view->document()->insertLine(newLineNumber, QString());
+}
+*/
+void EditorExtension::moveCursorToLastPositionInCurrentLine(KTextEditor::View *view)
+{
+	view = determineView(view);
+	if(!view) {
+		return;
+	}
+
+	const KTextEditor::Cursor currentPosition = view->cursorPosition();
+	view->setCursorPosition(KTextEditor::Cursor(currentPosition.line(),
+	                                            view->document()->lineLength(currentPosition.line())));
+}
 
 void EditorExtension::keyReturn(KTextEditor::View *view)
 {
@@ -3090,6 +3111,26 @@ bool EditorExtension::findEndOfDocument(KTextEditor::Document *doc, int row, int
 	}
 
 	return false;
+}
+
+QString EditorExtension::extractIndentationString(KTextEditor::View *view, int line)
+{
+	KTextEditor::Document* doc = view->document();
+
+	if(!doc) {
+		return QString();
+	}
+
+	const QString lineString = doc->line(line);
+	int lastWhiteSpaceCharIndex = -1;
+
+	for(int i = 0; i < lineString.length(); ++i) {
+		if(!lineString[i].isSpace()) {
+			break;
+		}
+		++lastWhiteSpaceCharIndex;
+	}
+	return lineString.left(lastWhiteSpaceCharIndex + 1);
 }
 
 }

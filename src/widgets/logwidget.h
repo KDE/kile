@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Sat Dec 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -94,6 +94,10 @@ namespace KileWidget {
 		void keyPressEvent(QKeyEvent *event);
 
 		virtual void contextMenuEvent(QContextMenuEvent *event);
+
+		void printMessageLine(int type, const QString& message, const QString &tool = "Kile",
+		                      const OutputInfo& outputInfo = OutputInfo(), bool allowSelection = false,
+		                      bool scroll = true);
 
 	protected Q_SLOTS:
 		void slotItemClicked(QListWidgetItem *item);

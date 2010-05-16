@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Sat Dec 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -211,6 +211,16 @@ namespace KileWidget
 	}
 
 	void LogWidget::printMessage(int type, const QString& message, const QString &tool,
+	                             const OutputInfo& outputInfo, bool allowSelection,
+	                             bool scroll)
+	{
+		QStringList messageList = message.split('\n');
+		for(QStringList::iterator it = messageList.begin(); it != messageList.end(); ++it) {
+			printMessageLine(type, *it, tool, outputInfo, allowSelection, scroll);
+		}
+	}
+
+	void LogWidget::printMessageLine(int type, const QString& message, const QString &tool,
 	                             const OutputInfo& outputInfo, bool allowSelection,
 	                             bool scroll)
 	{

@@ -436,10 +436,6 @@ void Kile::setupScriptsManagementView()
 void Kile::enableSymbolViewMFUS()
 {
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),true);
-	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),
-			i18n("Move the mouse over an icon to see the corresponding LaTeX command.<br/>\
-			Click on an icon to insert the command, additionally pressing \"Shift\" inserts it in math mode,\
-			pressing \"Ctrl\" in curly brackets."));
 
 	connect(m_symbolViewRelation,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
 	connect(m_symbolViewOperators,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
@@ -522,9 +518,9 @@ void Kile::setupSymbolViews()
 		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	for(int i = 0; i < m_toolBox->count(); ++i) {
-		m_toolBox->setItemToolTip(i, i18n("Move the mouse over the icons to see the corresponding LaTeX commands.<br/>\
-		                                   Click on the images to insert the command, additionally pressing \"Shift\" inserts\
-		                                   it in math mode, pressing \"Ctrl\" in curly brackets."));
+		m_toolBox->setItemToolTip(i, i18n("<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/>"
+		                                  "Click on an image to insert the corresponding command, additionally pressing \"Shift\" inserts "
+		                                  "it in math mode, pressing \"Ctrl\" in curly brackets.</p>"));
 	}
 }
 

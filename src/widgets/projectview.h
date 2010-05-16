@@ -1,7 +1,7 @@
 /*****************************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006 - 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006 - 2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *****************************************************************************************/
 
 /***************************************************************************
@@ -152,7 +152,7 @@ private:
 
 	KService::List m_offerList;
 
-	void makeTheConnection(ProjectViewItem *);
+	void makeTheConnection(ProjectViewItem *projectViewItem, KileDocument::TextInfo *textInfo = NULL);
 	ProjectViewItem* folder(const KileProjectItem *item, ProjectViewItem *);
 
 };

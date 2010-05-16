@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006 - 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006 - 2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -45,38 +45,38 @@ namespace KileWidget {
  * ProjectViewItem
  */
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, KileProjectItem *item, bool ar)
-: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_folder(-1), m_projectItem(item)
+: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_docinfo(NULL), m_folder(-1), m_projectItem(item)
 {
 	setArchiveState(ar);
 }
 
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, QTreeWidgetItem *after, KileProjectItem *item, bool ar)
-: QTreeWidgetItem(parent, after), m_folder(-1), m_projectItem(item)
+: QTreeWidgetItem(parent, after), m_docinfo(NULL), m_folder(-1), m_projectItem(item)
 {
 	setText(0, item->url().fileName());
 	setArchiveState(ar);
 }
 
 ProjectViewItem::ProjectViewItem(QTreeWidgetItem *parent, KileProjectItem *item, bool ar)
-: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_folder(-1), m_projectItem(item)
+: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_docinfo(NULL), m_folder(-1), m_projectItem(item)
 {
 	setArchiveState(ar);
 }
 
 //use this to create folders
 ProjectViewItem::ProjectViewItem(QTreeWidgetItem *parent, const QString& name)
-: QTreeWidgetItem(parent, QStringList(name)), m_folder(-1), m_projectItem(NULL)
+: QTreeWidgetItem(parent, QStringList(name)), m_docinfo(NULL), m_folder(-1), m_projectItem(NULL)
 {
 }
 
 //use this to create non-project files
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, const QString& name)
-: QTreeWidgetItem(parent, QStringList(name)), m_folder(-1), m_projectItem(NULL)
+: QTreeWidgetItem(parent, QStringList(name)), m_docinfo(NULL), m_folder(-1), m_projectItem(NULL)
 {
 }
 
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, const KileProject *project)
-: QTreeWidgetItem(parent, QStringList(project->name())), m_folder(-1), m_projectItem(NULL)
+: QTreeWidgetItem(parent, QStringList(project->name())), m_docinfo(NULL), m_folder(-1), m_projectItem(NULL)
 {
 }
 
@@ -375,7 +375,7 @@ void ProjectView::slotRun(int id)
 	itm->setSelected(false);
 }
 
-void ProjectView::makeTheConnection(ProjectViewItem *item)
+void ProjectView::makeTheConnection(ProjectViewItem *item, KileDocument::TextInfo *textInfo)
 {
 	KILE_DEBUG() << "\tmakeTheConnection " << item->text(0);
 
@@ -389,16 +389,18 @@ void ProjectView::makeTheConnection(ProjectViewItem *item)
 		}
 	}
 	else {
-		KileDocument::TextInfo *docinfo = m_ki->docManager()->textInfoFor(item->url().toLocalFile());
-		item->setInfo(docinfo);
-		if(!docinfo) {
-			KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO";
-			return;
+		if(!textInfo) {
+			textInfo = m_ki->docManager()->textInfoFor(item->url().toLocalFile());
+			if(!textInfo) {
+				KILE_DEBUG() << "\tmakeTheConnection COULD NOT FIND A DOCINFO";
+				return;
+			}
 		}
-		connect(docinfo, SIGNAL(urlChanged(KileDocument::Info*, const KUrl&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KUrl&)));
-		connect(docinfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
+		item->setInfo(textInfo);
+		connect(textInfo, SIGNAL(urlChanged(KileDocument::Info*, const KUrl&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const KUrl&)));
+		connect(textInfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
 		//set the pixmap
-		item->isrootChanged(docinfo->isLaTeXRoot());
+		item->isrootChanged(textInfo->isLaTeXRoot());
 	}
 }
 
@@ -592,7 +594,7 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *pr
 	
 	item->setArchiveState(projitem->archive());
 	item->setURL(projitem->url());
-	makeTheConnection(item);
+	makeTheConnection(item, projitem->getInfo());
 
 	projvi->sortChildren(0, Qt::AscendingOrder);
 	// seems to be necessary to get a correct refreh (Qt 4.4.3)

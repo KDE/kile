@@ -935,10 +935,6 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::fileOpen==========================";
 
-	//don't want to receive signals from the fileselector since
-	//that would allow the user to open a single file twice by double-clicking on it
-	m_ki->fileSelector()->blockSignals(true);
-
 	KILE_DEBUG() << "url is " << url.url();
 	const KUrl realurl = symlinkFreeURL(url);
 	KILE_DEBUG() << "symlink free url is " << realurl.url();
@@ -971,7 +967,6 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	emit(updateModeStatus());
 	// update undefined references in this file
 	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
-	m_ki->fileSelector()->blockSignals(false);
 }
 
 bool Manager::fileSave(KTextEditor::View *view)

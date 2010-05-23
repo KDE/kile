@@ -1714,9 +1714,10 @@ void QuickDocument::slotDocumentClassAdd()
 		// insert the stringlist for this new document class
 		m_dictDocumentClasses[classname] = classlist;
 
+		fillDocumentClassCombobox();
+		
 		// add the new document class into the userClasslist and the documentClass-combobox
 		m_userClasslist.append(classname);
-		fillDocumentClassCombobox();
 
 		// activate the new document class
 		m_cbDocumentClass->addItem(classname);
@@ -1749,7 +1750,6 @@ void QuickDocument::slotDocumentClassDelete()
 		// and finally remove it from the combobox
 		int i = m_cbDocumentClass->currentIndex();
 		m_cbDocumentClass->removeItem(i);
-		m_cbDocumentClass->setCurrentItem(0);
 
 		// init a new document class
 		m_currentClass = m_cbDocumentClass->currentText();

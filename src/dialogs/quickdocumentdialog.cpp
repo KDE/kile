@@ -141,13 +141,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnDocumentClassAdd = new KPushButton(classOptions);
 	m_btnDocumentClassAdd->setIcon(KIcon("list-add"));
-	m_btnDocumentClassAdd->setWhatsThis(i18n("Add current text to this list"));
+	m_btnDocumentClassAdd->setWhatsThis(i18n("Add an entry to this combo box"));
 	gl->addWidget(m_btnDocumentClassAdd, 0, 2);
 	connect(m_btnDocumentClassAdd, SIGNAL(clicked()), this, SLOT(slotDocumentClassAdd()));
 
 	m_btnDocumentClassDelete = new KPushButton(classOptions);
 	m_btnDocumentClassDelete->setIcon(KIcon("list-remove"));
-	m_btnDocumentClassDelete->setWhatsThis(i18n("Remove current element from this list"));
+	m_btnDocumentClassDelete->setWhatsThis(i18n("Remove current entry from this combo box"));
 	gl->addWidget(m_btnDocumentClassDelete, 0, 3);
 	connect(m_btnDocumentClassDelete, SIGNAL(clicked()), this, SLOT(slotDocumentClassDelete()));
 
@@ -163,13 +163,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnTypefaceSizeAdd = new KPushButton(classOptions);
 	m_btnTypefaceSizeAdd->setIcon(KIcon("list-add"));
-	m_btnTypefaceSizeAdd->setWhatsThis(i18n("Add current text to this list"));
+	m_btnTypefaceSizeAdd->setWhatsThis(i18n("Add an entry to this combo box"));
 	gl->addWidget(m_btnTypefaceSizeAdd, 1, 2);
 	connect(m_btnTypefaceSizeAdd, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeAdd()));
 
 	m_btnTypefaceSizeDelete = new KPushButton(classOptions);
 	m_btnTypefaceSizeDelete->setIcon(KIcon("list-remove"));
-	m_btnTypefaceSizeDelete->setWhatsThis(i18n("Remove current element from this list"));
+	m_btnTypefaceSizeDelete->setWhatsThis(i18n("Remove current entry from this combo box"));
 	gl->addWidget(m_btnTypefaceSizeDelete, 1, 3);
 	connect(m_btnTypefaceSizeDelete, SIGNAL(clicked()), this, SLOT(slotTypefaceSizeDelete()));
 
@@ -186,13 +186,13 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	m_btnPaperSizeAdd = new KPushButton(classOptions);
 	m_btnPaperSizeAdd->setIcon(KIcon("list-add"));
-	m_btnPaperSizeAdd->setWhatsThis(i18n("Add current text to this list"));
+	m_btnPaperSizeAdd->setWhatsThis(i18n("Add an entry to this combo box"));
 	gl->addWidget(m_btnPaperSizeAdd, 2, 2);
 	connect(m_btnPaperSizeAdd, SIGNAL(clicked()), this, SLOT(slotPaperSizeAdd()));
 
 	m_btnPaperSizeDelete = new KPushButton(classOptions);
 	m_btnPaperSizeDelete->setIcon(KIcon("list-remove"));
-	m_btnPaperSizeDelete->setWhatsThis(i18n("Remove current element from this list"));
+	m_btnPaperSizeDelete->setWhatsThis(i18n("Remove current entry from this combo box"));
 	gl->addWidget(m_btnPaperSizeDelete, 2, 3);
 	connect(m_btnPaperSizeDelete, SIGNAL(clicked()), this, SLOT(slotPaperSizeDelete()));
 

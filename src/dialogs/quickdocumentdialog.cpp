@@ -944,7 +944,7 @@ void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QStr
 	bool documentclasscombo = (combo == m_cbDocumentClass);
 
 	QString sep = (m_currentClass == "beamer" && combo == m_cbPaperSize) ? ";" : ",";
-	QStringList list = cslist.split(sep);
+	QStringList list = cslist.split(sep, QString::SkipEmptyParts);
 	if (!documentclasscombo) {
 		list.sort();
 	}
@@ -1795,18 +1795,24 @@ void QuickDocument::slotTypefaceSizeAdd()
 
 		// save the new list of fontsizes
 		m_dictDocumentClasses[m_currentClass][qd_Fontsizes] = getComboxboxList(m_cbTypefaceSize);
+
+		// enable/disable buttons to add or delete entries
+		slotEnableButtons();
 	}
 }
 
 void QuickDocument::slotTypefaceSizeDelete()
 {
-	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?", m_cbPaperSize->currentText()), i18n("Remove Fontsize")) == KMessageBox::Continue)
+	if (KMessageBox::warningContinueCancel(this, i18n("Do you want to remove \"%1\" from the fontsize list?", m_cbTypefaceSize->currentText()), i18n("Remove Fontsize")) == KMessageBox::Continue)
 	{
-		int i = m_cbPaperSize->currentIndex();
-		m_cbPaperSize->removeItem(i);
+		int i = m_cbTypefaceSize->currentIndex();
+		m_cbTypefaceSize->removeItem(i);
 
 		// save the new list of fontsizes
 		m_dictDocumentClasses[m_currentClass][qd_Fontsizes] = getComboxboxList(m_cbTypefaceSize);
+
+		// enable/disable buttons to add or delete entries
+		slotEnableButtons();
 	}
 }
 
@@ -1826,6 +1832,9 @@ void QuickDocument::slotPaperSizeAdd()
 
 		// save the new list of papersizes
 		m_dictDocumentClasses[m_currentClass][qd_Papersizes] = getComboxboxList(m_cbPaperSize);
+
+		// enable/disable buttons to add or delete entries
+		slotEnableButtons();
 	}
 }
 
@@ -1838,6 +1847,9 @@ void QuickDocument::slotPaperSizeDelete()
 
 		// save the new list of papersizes
 		m_dictDocumentClasses[m_currentClass][qd_Papersizes] = getComboxboxList(m_cbPaperSize);
+
+		// enable/disable buttons to add or delete entries
+		slotEnableButtons();
 	}
 }
 

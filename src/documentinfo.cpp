@@ -101,8 +101,8 @@ KUrl Info::repairInvalidCharacters(const KUrl& url, QWidget* mainWidget, bool ch
 		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("Invalid Characters"),
-			i18n("The filename contains invalid characters ($~ #).<br>Please provide \
-				another one, or click \"Cancel\" to save anyway."),
+			i18n("The filename contains invalid characters ($~ #).<br>Please provide "
+			     "another one, or click \"Cancel\" to save anyway."),
 			ret.fileName(),
 			&isOK);
 		if(!isOK)
@@ -120,8 +120,8 @@ KUrl Info::renameIfExist(const KUrl& url, QWidget* mainWidget)
 		bool isOK;
 		QString newURL = KInputDialog::getText(
 			i18n("File Already Exists"),
-			i18n("A file with filename '%1' already exists.<br>Please provide \
-				another one, or click \"Cancel\" to overwrite it.", ret.fileName()),
+			i18n("A file with filename '%1' already exists.<br>Please provide "
+			     "another one, or click \"Cancel\" to overwrite it.", ret.fileName()),
 			ret.fileName(),
 			&isOK);
 		if(!isOK) {

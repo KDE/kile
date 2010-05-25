@@ -2,7 +2,7 @@
     begin                : Mon Dec 22 2003
     copyright            : (C) 2001 - 2003 by Brachet Pascal
                                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************************/
 
 /***************************************************************************
@@ -109,10 +109,7 @@ namespace KileWidget
 			QFileInfo fic(url.directory());
 			if(fic.isReadable()) {
 				setDirectory(url.directory());
-				activate();
 			}
-
-			view->setFocus();
 		}
 	}
 

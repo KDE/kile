@@ -343,11 +343,6 @@ void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *doci
 		m_ki->structureWidget()->update(docinfo, parse);
 	}
 
-	KTextEditor::View *view = currentTextView();
-	if(view) {
-		view->setFocus();
-	}
-
 	if(textViews().count() == 0) {
 		m_ki->structureWidget()->clear();
 	}

@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : mon 3-11 20:40:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -140,11 +140,22 @@ namespace KileTool {
 			return false;
 		}
 
-		m_proc->setShellCommand(m_cmd + ' ' + m_options );
+		KShell::Errors err;
+		QStringList arguments = KShell::splitArgs(m_options, KShell::AbortOnMeta | KShell::TildeExpand, &err);
+		if(err == KShell::BadQuoting || err == KShell::FoundMeta) {
+			return false;
+		}
 
-		KILE_DEBUG() << "sent " << m_cmd << ' ' << m_options;
+		// we cannot use 'KProcess::setShellCommand' here as that method uses 'KStandardDirs::findExe'
+		// which doesn't respect the path preferences given by the user, i.e. 'KStandardDirs::findExe' is happy
+		// to return the first executable it finds (for example, in '/usr/bin' although the user maybe didn't
+		// want to use that directory)
+		// BUG: 204397
+		m_proc->setProgram(m_cmd, arguments);
+		
+		KILE_DEBUG() << "sent " << m_cmd << ' ' << arguments;
 
-		out += QString("*****     ") + m_cmd + ' ' + m_options + '\n';
+		out += QString("*****     ") + m_cmd + ' ' + arguments.join(" ") + '\n';
 
 		QString src = tool()->source(false);
 		QString trgt = tool()->target();
@@ -208,9 +219,22 @@ namespace KileTool {
 		}
 	}
 
+	// FIXME: this should be done in the 'launch()' method itself
 	bool ProcessLauncher::selfCheck()
 	{
 		emit(message(Error, i18n("Launching failed, diagnostics:")));
+
+		KShell::Errors err;
+		QStringList arguments = KShell::splitArgs(m_options, KShell::AbortOnMeta | KShell::TildeExpand, &err);
+		if(err == KShell::BadQuoting) {
+			emit(message(Error, i18n("An error occurred while parsing the options given to the tool.")));
+			return false;
+		}
+		else if(err == KShell::FoundMeta) {
+			emit(message(Error, i18n("Shell meta characters that cannot be handled are present in the options given to the tool.")));
+			return false;
+		}
+		
 
 		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
 		QString path = KGlobal::dirs()->findExe(exe, QString(), KStandardDirs::IgnoreExecBit);

@@ -84,8 +84,8 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acItalic = addAction(KIcon("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
 	m_acUnderline = addAction(KIcon("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
 	m_tbFormat->addSeparator();
-	m_acJoin = addAction(KIcon("table-join-cells"), i18n("Join Cells"), SLOT(slotJoinCells()), page); // FIXME icon
-	m_acSplit = addAction(KIcon("table-split-cells"), i18n("Split Cells"), SLOT(slotSplitCells()), page); // FIXME icon
+	m_acJoin = addAction(KIcon("joincells"), i18n("Join Cells"), SLOT(slotJoinCells()), page);
+	m_acSplit = addAction(KIcon("splitcells"), i18n("Split Cells"), SLOT(slotSplitCells()), page);
 	m_acSplit->setEnabled(false);
 	m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
 	connect(m_acFrame, SIGNAL(borderSelected(int)), this, SLOT(slotFrame(int)));

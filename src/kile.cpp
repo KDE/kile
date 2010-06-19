@@ -1189,25 +1189,23 @@ void Kile::updateUserTagMenu()
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
 {
-	if (! (allowRestore && KileConfig::restore()) )
+	if (!(allowRestore && KileConfig::restore())) {
 	  return;
-
-	QFileInfo fi;
+	}
 
 	KUrl url;
 	for (int i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
-		fi.setFile(m_listProjectsOpenOnStart[i]);
 		// don't open project files as they will be opened later in this method
-		if (fi.isReadable()) docManager()->projectOpen(KUrl::fromPathOrUrl(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
+		docManager()->projectOpen(KUrl::fromPathOrUrl(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
 	}
 
 	for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
-		fi.setFile(m_listDocsOpenOnStart[i]);
-		if (fi.isReadable())
-			docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]));
+		docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]));
 	}
 
-	if (ModeAction) ModeAction->setChecked(!m_singlemode);
+	if (ModeAction) {
+		ModeAction->setChecked(!m_singlemode);
+	}
 	updateModeStatus();
 
 	m_listProjectsOpenOnStart.clear();

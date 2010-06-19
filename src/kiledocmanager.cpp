@@ -1430,9 +1430,9 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 			m_progressDialog->hide();
 		}
 
-		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for this project does not exists or is not readable. Remove this project from the recent projects list?"),i18n("Could Not Load Project File"))  == KMessageBox::Yes)
+		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for the project \"%1\" does not exist or is not readable. Remove this project from the recent projects list?", url.prettyUrl()), i18n("Could Not Load Project File"))  == KMessageBox::Yes) {
 			emit(removeFromRecentProjects(realurl));
-
+		}
 		return NULL;
 	}
 

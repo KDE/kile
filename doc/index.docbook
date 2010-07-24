@@ -2965,7 +2965,7 @@
 
 			<para>When you launch the <guibutton>Quickbuild</guibutton> command, a viewer of
 			some sort will normally be called after the compilation. If you are not using an embedded 
-			viewer, a new window will be open every time.</para>
+			viewer, a new window will be opened every time.</para>
 
 			<para>If you are adjusting the look of your document, you might launch
 			<guibutton>Quickbuild</guibutton> very often, and have many viewer windows open on

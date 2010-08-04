@@ -620,6 +620,16 @@ options=--unique '%absolute_target'
 from=pdf
 to=pdf
 
+[Tool/ForwardPDF/Embedded Viewer]
+type=Part
+class=ForwardDVI
+className=Okular::Part
+libName=okularpart
+from=pdf
+to=pdf
+state=Viewer
+libOptions=
+
 [Tool/ViewDVI/Embedded Viewer]
 class=View
 className=Okular::Part

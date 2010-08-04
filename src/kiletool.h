@@ -1,8 +1,7 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : mon 3-11 20:40:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -147,6 +146,9 @@ namespace KileTool
 		%res <-> resolution of the quickpreview action set in configure kile->tools->preview
 
 		%AFL <-> List of all files in a project marked for archiving. You can set the archive flag in the "Files and projects" sidebar using the context menu.
+
+		%absolute_target -> Used in conjunction with Okular to inform it about the cursor position for
+		                    the ForwardDVI/PDF feature
 
 		*/
 		QHash<QString,QString>& paramDict() { return m_dictParams; }

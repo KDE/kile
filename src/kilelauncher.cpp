@@ -371,13 +371,25 @@ namespace KileTool {
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 		
-		QString shrt = "%target";
-		tool()->translate(shrt);
-		QString dir  = "%dir_target"; tool()->translate(dir);
+		QString name, shrt;
 
-		QString name = shrt;
-		if(!QDir::isRelativePath(dir)) {
-			name = dir + '/' + shrt;
+		// FIXME: this should be made user configurable
+		// allow support for embedding ForwardPDF (with Okular) as part (bug 245483)
+		if(tool()->paramDict().contains("%absolute_target")) {
+			shrt = "%absolute_target";
+			tool()->translate(shrt);
+			name = shrt;
+		}
+		else {
+			shrt = "%target";
+			tool()->translate(shrt);
+			QString dir  = "%dir_target";
+			tool()->translate(dir);
+
+			name = shrt;
+			if(!QDir::isRelativePath(dir)) {
+				name = dir + '/' + shrt;
+			}
 		}
 
 		KPluginLoader pluginLoader(m_libName);

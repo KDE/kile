@@ -658,19 +658,27 @@ void KileProject::buildProjectTree()
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
 		//set the type correctly (changing m_extensions causes a call to buildProjectTree)
 		setType(*it);
+		KileDocument::Info *docinfo = (*it)->getInfo();
 
-		if((*it)->getInfo()) {
-			deps = (*it)->getInfo()->dependencies();
+		if(docinfo) {
+			KUrl parentUrl = docinfo->url();
+			if(parentUrl.isLocalFile()) {
+				// strip the file name from 'parentUrl'
+				parentUrl = KUrl::fromPathOrUrl(QFileInfo(parentUrl.path()).path());
+			}
+			else {
+				parentUrl = m_baseurl;
+			}
+			deps = docinfo->dependencies();
 			for(int i = 0; i < deps.count(); ++i) {
 				dep = deps[i];
 
 				if(m_extmanager->isTexFile(dep)) {
-					url = KileInfo::checkOtherPaths(m_baseurl,dep,KileInfo::texinputs);
+					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs);
 				}
 				else if(m_extmanager->isBibFile(dep)) {
-					url = KileInfo::checkOtherPaths(m_baseurl,dep,KileInfo::bibinputs);
+					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs);
 				}
-
 				itm = item(url);
 				if(itm && (itm->parent() == 0)) {
 					itm->setParent(*it);

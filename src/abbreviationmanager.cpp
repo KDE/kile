@@ -1,6 +1,6 @@
 /********************************************************************************
 *   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)     *
-*                 2008 - 2009 by Michel Ludwig (michel.ludwig@kdemail.net)      *
+*                 2008 - 2010 by Michel Ludwig (michel.ludwig@kdemail.net)      *
 *********************************************************************************/
 
 /**************************************************************************
@@ -148,6 +148,11 @@ QStringList Manager::getAbbreviationTextMatches(const QString& text) const
 		}
 	}
 	return toReturn;
+}
+
+QString Manager::getAbbreviationTextMatch(const QString& text) const
+{
+	return m_abbreviationMap[text].first;
 }
 
 bool Manager::abbreviationStartsWith(const QString& text) const

@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2009-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -74,6 +74,12 @@ namespace KileAbbreviation {
 			 * Returns the replacement strings of those strings that start with 'text'.
 			 **/
 			QStringList getAbbreviationTextMatches(const QString& text) const;
+
+			/**
+			 * Returns the replacement string for 'text'; an empty string is returned
+			 * is 'text' is not found
+			 **/
+			QString getAbbreviationTextMatch(const QString& text) const;
 
 			/**
 			 * Returns true iff there exists an abbreviation which starts with 'text'.

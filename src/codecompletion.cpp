@@ -726,12 +726,12 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 		return;
 	}
 	KILE_DEBUG() << "building model...";
-	buildModel(view, range);
+	buildModel(view, range, (invocationType == UserInvocation || invocationType == ManualInvocation));
 }
 
 void AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
 {
-	if(!range.isValid() || !KileConfig::completeAutoAbbrev()) {
+	if(!range.isValid()) {
 		m_completionList.clear();
 		reset();
 		return;
@@ -794,19 +794,27 @@ void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *d
 	}
 }
 
-void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
+void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range,
+                                             bool singleMatchMode)
 {
+	reset();
 	m_completionList.clear();
 	QString text = view->document()->text(range);
 	KILE_DEBUG() << text;
 	if(text.isEmpty()) {
 		return;
 	}
-	m_completionList = m_abbreviationManager->getAbbreviationTextMatches(text);
-	m_completionList.sort();
-	if(m_completionList.size() == 1
-	   && m_abbreviationManager->isAbbreviationDefined(text)) {
+	if(singleMatchMode && m_abbreviationManager->isAbbreviationDefined(text)) {
+		m_completionList << m_abbreviationManager->getAbbreviationTextMatch(text);
 		executeCompletionItem(view->document(), range, 0);
+	}
+	else {
+		m_completionList = m_abbreviationManager->getAbbreviationTextMatches(text);
+		m_completionList.sort();
+		if(m_completionList.size() == 1
+		  && m_abbreviationManager->isAbbreviationDefined(text)) {
+			executeCompletionItem(view->document(), range, 0);
+		}
 	}
 }
 

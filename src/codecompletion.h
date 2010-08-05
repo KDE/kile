@@ -129,7 +129,13 @@ namespace KileCodeCompletion
 			QStringList m_completionList;
 			KTextEditor::View *m_currentView;
 
-			void buildModel(KTextEditor::View *view, const KTextEditor::Range &r);
+			/**
+			 * 'singleMatchMode' should be set to true for manual invocations of this completion model;
+			 * it triggers an immediate substitution of a matching abbreviation even if there is a longer
+			 * abbreviation match, e.g. for two abbreviations 'a' -> 'x1' and 'ab' -> 'x2', 'singleMatchMode'
+			 * will immediately replace 'a' with 'x1' if 'a' has been entered by the user.
+			 **/
+			void buildModel(KTextEditor::View *view, const KTextEditor::Range &r, bool singleMatchMode = false);
 	};
 
 	class Manager : public QObject {

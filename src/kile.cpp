@@ -120,7 +120,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
 
 	QSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
-	splashScreen.show();
+	if(KileConfig::showSplashScreen()) {
+		splashScreen.show();
+	}
 
 	m_config = KGlobal::config();
 
@@ -254,7 +256,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
 	m_mainWindow->resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	m_mainWindow->show();
-	splashScreen.finish(m_mainWindow);
+	if(KileConfig::showSplashScreen()) {
+		splashScreen.finish(m_mainWindow);
+	}
 
 	if(m_listUserTools.count() > 0) {
 		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));

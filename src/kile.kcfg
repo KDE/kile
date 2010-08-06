@@ -142,18 +142,18 @@
 			<label>Whether to show the bottom bar.</label>
 			<default>true</default>
 		</entry>
-        <entry name="BottomBarSize" type="Int">
-            <label>Height of the bottom bar.</label>
-            <default>200</default>
-        </entry>
+		<entry name="BottomBarSize" type="Int">
+			<label>Height of the bottom bar.</label>
+			<default>200</default>
+		</entry>
 		<entry name="BottomBarIndex" type="Int">
 			<label>Which tab of the bottom bar to show.</label>
 			<default>0</default>
 		</entry>
-        <entry name="SideBarSize" type="Int">
-            <label>Width of the sidebar.</label>
-            <default>300</default>
-        </entry>
+		<entry name="SideBarSize" type="Int">
+			<label>Width of the sidebar.</label>
+			<default>300</default>
+		</entry>
 		<entry name="SideBar" type="Bool">
 			<label>Whether to show the side bar.</label>
 			<default>true</default>
@@ -169,6 +169,10 @@
 		<entry name="SelectedLeftView" type="Int">
 			<label>The identifier of the selected view in the left pane.</label>
 			<default>1</default>
+		</entry>
+		<entry name="ShowSplashScreen" type="Bool">
+			<label>Whether to show the splash screen on startup.</label>
+			<default>true</default>
 		</entry>
 	</group>
 	<group name="Editor Ext">

@@ -683,6 +683,9 @@ void Kile::setupActions()
 	createAction(i18n("&Western European (cp-1252)"), "file_export_cp1252", this, SLOT(convertToEnc()));
 	createAction(KStandardAction::Quit, "file_quit", m_mainWindow, SLOT(close()));
 
+	createAction(i18n("Move Tab Left"), "move_view_tab_left", "arrow-left", viewManager(), SLOT(moveTabLeft()));
+	createAction(i18n("Move Tab Right"), "move_view_tab_right", "arrow-right", viewManager(), SLOT(moveTabRight()));
+
 	createAction(i18n("Next section"), "edit_next_section", "nextsection", KShortcut(Qt::ALT + Qt::Key_Down), m_edit, SLOT(gotoNextSectioning()));
 	createAction(i18n("Prev section"), "edit_prev_section", "prevsection", KShortcut(Qt::ALT + Qt::Key_Up), m_edit, SLOT(gotoPrevSectioning()));
 	createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Down), m_edit, SLOT(gotoNextParagraph()));
@@ -1309,7 +1312,7 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(w);
 	Q_ASSERT(view);
 
-	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
+	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
 		KTextEditor::View *view2 = viewManager()->textView(i);
 		if(view == view2) {
 			continue;
@@ -1481,7 +1484,7 @@ bool Kile::queryClose()
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
 
-	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
+	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
 		m_listDocsOpenOnStart.append(viewManager()->textView(i)->document()->url().toLocalFile());
 	}
 
@@ -2031,7 +2034,7 @@ void Kile::prepareForPart(const QString & state)
 	m_wantState = state;
 
 	//deactivate kateparts
-	for(int i = 0; i < viewManager()->textViews().count(); ++i) {
+	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
 		KTextEditor::View *view = viewManager()->textView(i);
 		m_mainWindow->guiFactory()->removeClient(view);
 		view->clearFocus();

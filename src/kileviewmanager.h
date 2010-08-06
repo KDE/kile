@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -69,9 +69,9 @@ public:
 	void setClient(KXMLGUIClient *client);
 
 	KTextEditor::View* currentTextView() const;
-	const QList<KTextEditor::View*>& textViews() { return m_textViewList; }
-	KTextEditor::View* textView(int i) { return m_textViewList.at(i); }
+	KTextEditor::View* textView(int i);
 	KTextEditor::View* textView(KileDocument::TextInfo *info);
+	int textViewCount() const;
 	int getIndexOf(KTextEditor::View* view) const;
 	unsigned int getTabCount() const;
 
@@ -116,8 +116,13 @@ public Q_SLOTS:
 	void convertSelectionToLaTeX(void);
 	void pasteAsLaTeX(void);
 	void quickPreviewPopup();
-	void tabContext(QWidget* widget,const QPoint & pos);
 
+	void moveTabLeft(QWidget *widget = NULL);
+	void moveTabRight(QWidget *widget = NULL);
+
+private Q_SLOTS:
+	void tabContext(QWidget* widget,const QPoint & pos);
+  
 // KTextEditor::MdiContainer
 public:
 	void registerMdiContainer();
@@ -139,6 +144,8 @@ protected Q_SLOTS:
 	void replaceLoadedURL(QWidget *w, QDropEvent *e);
 	void onTextEditorPopupMenuRequest(void);
 
+	void clearActionDataFromTabContextMenu();
+
 	/**
 	 * Updates the labels of every tab that contains a view for 'changedDoc' to reflect there
 	 * the name of 'changedDoc'.
@@ -149,8 +156,6 @@ protected Q_SLOTS:
 
 private:
 	KileInfo			*m_ki;
-// 	KileWidget::ProjectView			*m_projectview;
-	QList<KTextEditor::View*>	m_textViewList;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient			*m_client;
@@ -183,5 +188,7 @@ class DropWidget : public QWidget {
 };
 
 }
+
+Q_DECLARE_METATYPE(KTextEditor::View*)
 
 #endif

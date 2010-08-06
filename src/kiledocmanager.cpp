@@ -848,7 +848,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 
 	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")";
 
-	for(int i = 0; i < m_ki->viewManager()->textViews().count(); ++i) {
+	for(int i = 0; i < m_ki->viewManager()->textViewCount(); ++i) {
 		view = m_ki->viewManager()->textView(i);
 
 		if(view && view->document()->isModified()) {
@@ -1086,15 +1086,36 @@ void Manager::fileSaveCopyAs()
 	}
 }
 
-bool Manager::fileCloseAllOthers()
+bool Manager::fileCloseAllOthers(KTextEditor::View *currentView)
 {
 	Locker lock(&m_autoSaveLock);
-	KTextEditor::View * currentView = m_ki->viewManager()->currentTextView();
-	QList<KTextEditor::View*> list = m_ki->viewManager()->textViews();
-	list.removeAll(currentView);
+	QAction *action = m_ki->mainWindow()->action("file_close_all_others");
+	// the 'data' property can be set by the view manager
+	QVariant var = action->data();
+	if(!currentView && var.isValid()) {
+		// the 'data' property for the relevant actions is cleared
+		// inside the view manager
+		currentView = var.value<KTextEditor::View*>();
+	}
+	if(!currentView) {
+		currentView = m_ki->viewManager()->currentTextView();
+	}
+	if(!currentView) {
+		return false;
+	}
 
-	for(QList<KTextEditor::View*>::iterator i =  list.begin(); i != list.end(); ++i) {
-		if (!fileClose((*i)->document())) {
+	QList<KTextEditor::View*> viewList;
+	for(int i = 0; i < m_ki->viewManager()->textViewCount(); ++i) {
+		KTextEditor::View *view = m_ki->viewManager()->textView(i);
+		if(currentView == view) {
+			continue;
+		}
+		viewList.push_back(view);
+
+	}
+	for(QList<KTextEditor::View*>::iterator it = viewList.begin();
+	    it != viewList.end(); ++it) {
+		if (!fileClose(*it)) {
 			return false;
 		}
 	}
@@ -1107,8 +1128,7 @@ bool Manager::fileCloseAll()
 	KTextEditor::View * view = m_ki->viewManager()->currentTextView();
 
 	//assumes one view per doc here
-	while( ! m_ki->viewManager()->textViews().isEmpty() )
-	{
+	while(m_ki->viewManager()->textViewCount() > 0) {
 		view = m_ki->viewManager()->textView(0);
 		if (!fileClose(view->document())) {
 			return false;
@@ -1126,6 +1146,25 @@ bool Manager::fileClose(const KUrl & url)
 	else {
 		return fileClose(doc);
 	}
+}
+
+bool Manager::fileClose(KTextEditor::View *view)
+{
+	QAction *action = m_ki->mainWindow()->action("file_close");
+	// the 'data' property can be set by the view manager
+	QVariant var = action->data();
+	if(!view && var.isValid()) {
+		view = var.value<KTextEditor::View*>();
+		// the 'data' property for the relevant actions is cleared
+		// inside the view manager
+	}
+	if(!view) {
+		view = m_ki->viewManager()->currentTextView();
+	}
+	if(!view) {
+		return false;
+	}
+	return fileClose(view->document());
 }
 
 bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingproject /*= false*/)

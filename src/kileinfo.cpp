@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Thu Jul 17 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -337,11 +337,10 @@ bool KileInfo::similarOrEqualURL(const KUrl &validurl, const KUrl &testurl)
 bool KileInfo::isOpen(const KUrl & url)
 {
 	KILE_DEBUG() << "==bool KileInfo::isOpen(const KUrl & url)=============" << endl;
-	uint cnt = viewManager()->textViews().count();
 
-	for ( uint i = 0; i < cnt; ++i)
-	{
-		if (viewManager()->textView(i)->document() && similarOrEqualURL(viewManager()->textView(i)->document()->url(), url)) {
+	for (int i = 0; i < viewManager()->textViewCount(); ++i) {
+		KTextEditor::View *view = viewManager()->textView(i);
+		if (view->document() && similarOrEqualURL(view->document()->url(), url)) {
 			return true;
 		}
 	}

@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -75,6 +75,16 @@ Manager::~Manager()
 	KILE_DEBUG() << "destroyed";
 }
 
+static inline bool isTextView(QWidget* /*w*/)
+{
+	return true;
+}
+
+static inline KTextEditor::View* toTextView(QWidget* w)
+{
+	return qobject_cast<KTextEditor::View*>(w);
+}
+
 void Manager::setClient(KXMLGUIClient *client)
 {
 	m_client = client;
@@ -106,6 +116,8 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_tabs->setFocusPolicy(Qt::ClickFocus);
 	m_tabs->setTabReorderingEnabled(true);
 	m_tabs->setCloseButtonEnabled(true);
+	m_tabs->setMovable(true);
+	m_tabs->setUsesScrollButtons(true);
 	m_tabs->setFocus();
 	connect(m_tabs, SIGNAL(currentChanged(int)), this, SLOT(currentViewChanged(int)));
 	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
@@ -148,8 +160,6 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	//insert the view in the tab widget
 	m_tabs->insertTab(index, view, QString());
-
-	m_textViewList.insert((index < 0 || index >= m_textViewList.count()) ? m_textViewList.count() : index, view);
 
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	        this, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
@@ -222,6 +232,18 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	return view;
 }
 
+void Manager::clearActionDataFromTabContextMenu()
+{
+	QAction *action = m_ki->mainWindow()->action("move_view_tab_left");
+	action->setData(QVariant());
+	action = m_ki->mainWindow()->action("move_view_tab_right");
+	action->setData(QVariant());
+	action = m_ki->mainWindow()->action("file_close");
+	action->setData(QVariant());
+	action = m_ki->mainWindow()->action("file_close_all_others");
+	action->setData(QVariant());
+}
+
 void Manager::tabContext(QWidget* widget,const QPoint & pos)
 {
 	KILE_DEBUG() << "void Manager::tabContext(QWidget* widget,const QPoint & pos)";
@@ -239,9 +261,22 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 		tabMenu.addAction(view->actionCollection()->action(KStandardAction::name(KStandardAction::Save)));
 		tabMenu.addSeparator();
 	}
-	tabMenu.addAction( m_ki->mainWindow()->action("file_close"));
-	tabMenu.addAction(m_ki->mainWindow()->action("file_close_all_others"));
 
+	QAction *action = m_ki->mainWindow()->action("move_view_tab_left");
+	action->setData(qVariantFromValue(widget));
+	tabMenu.addAction(action);
+	action = m_ki->mainWindow()->action("move_view_tab_right");
+	action->setData(qVariantFromValue(widget));
+	tabMenu.addAction(action);
+	tabMenu.addSeparator();
+	action = m_ki->mainWindow()->action("file_close");
+	action->setData(qVariantFromValue(view));
+	tabMenu.addAction(action);
+	action = m_ki->mainWindow()->action("file_close_all_others");
+	action->setData(qVariantFromValue(view));
+	tabMenu.addAction(action);
+
+	connect(&tabMenu, SIGNAL(destroyed(QObject*)), this, SLOT(clearActionDataFromTabContextMenu()));
 /*
 	FIXME create proper actions which delete/add the current file without asking stupidly
 	QAction* removeAction = m_ki->mainWindow()->action("project_remove");
@@ -260,12 +295,10 @@ void Manager::removeView(KTextEditor::View *view)
 		m_client->factory()->removeClient(view);
 
 		m_tabs->removeTab(m_tabs->indexOf(view));
-		int numRemoved = m_textViewList.removeAll(view);
-		KILE_DEBUG() << "Removed " << numRemoved << " views";
 		delete view;
 
 		emit(updateCaption());  //make sure the caption gets updated
-		if (textViews().isEmpty()) {
+		if (m_tabs->count() == 0) {
 			m_ki->structureWidget()->clear();
 			m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs left, so show
 			                                                    // the DropWidget
@@ -284,14 +317,22 @@ KTextEditor::View *Manager::currentTextView() const
 	return view;
 }
 
+KTextEditor::View* Manager::textView(int i)
+{
+	return qobject_cast<KTextEditor::View*>(m_tabs->widget(i));
+}
+
 KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 {
 	KTextEditor::Document *doc = info->getDoc();
 	if(!doc) {
 		return NULL;
 	}
-	for(QList<KTextEditor::View*>::iterator i =  m_textViewList.begin(); i != m_textViewList.end(); ++i) {
-		KTextEditor::View *view = *i;
+	for(int i = 0; i < m_tabs->count(); ++i) {
+		KTextEditor::View *view = toTextView(m_tabs->widget(i));
+		if(!view) {
+			continue;
+		}
 
 		if(view->document() == doc) {
 			return view;
@@ -299,6 +340,11 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 	}
 
 	return NULL;
+}
+
+int Manager::textViewCount() const
+{
+	return m_tabs->count();
 }
 
 int Manager::getIndexOf(KTextEditor::View* view) const
@@ -343,7 +389,7 @@ void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *doci
 		m_ki->structureWidget()->update(docinfo, parse);
 	}
 
-	if(textViews().count() == 0) {
+	if(m_tabs->count() == 0) {
 		m_ki->structureWidget()->clear();
 	}
 }
@@ -376,6 +422,56 @@ void Manager::gotoPrevView()
 	else {
 		m_tabs->setCurrentIndex(cPage);
 	}
+}
+
+void Manager::moveTabLeft(QWidget *widget)
+{
+	if(m_tabs->count() < 2) {
+		return;
+	}
+
+	QAction *action = m_ki->mainWindow()->action("move_view_tab_left");
+	// the 'data' property can be set by 'tabContext'
+	QVariant var = action->data();
+	if(!widget && var.isValid()) {
+		// the action's 'data' property is cleared
+		// when the context menu is destroyed
+		widget = var.value<QWidget*>();
+	}
+	if(!widget) {
+		widget = currentTextView();
+	}
+	if(!widget) {
+		return;
+	}
+	int currentIndex = m_tabs->indexOf(widget);
+	int newIndex = (currentIndex == 0 ? m_tabs->count() - 1 : currentIndex - 1);
+	m_tabs->moveTab(currentIndex, newIndex);
+}
+
+void Manager::moveTabRight(QWidget *widget)
+{
+	if(m_tabs->count() < 2) {
+		return;
+	}
+
+	QAction *action = m_ki->mainWindow()->action("move_view_tab_right");
+	// the 'data' property can be set by 'tabContext'
+	QVariant var = action->data();
+	if(!widget && var.isValid()) {
+		// the action's 'data' property is cleared
+		// when the context menu is destroyed
+		widget = var.value<QWidget*>();
+	}
+	if(!widget) {
+		widget = currentTextView();
+	}
+	if(!widget) {
+		return;
+	}
+	int currentIndex = m_tabs->indexOf(widget);
+	int newIndex = (currentIndex == m_tabs->count() - 1 ? 0 : currentIndex + 1);
+	m_tabs->moveTab(currentIndex, newIndex);
 }
 
 void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
@@ -742,9 +838,12 @@ bool Manager::closeView(KTextEditor::View *view)
 
 bool Manager::viewForLocalFilePresent(const QString& localFileName)
 {
-	for(QList<KTextEditor::View*>::iterator it = m_textViewList.begin();
-	    it != m_textViewList.end(); ++it) {
-		if((*it)->document()->url().toLocalFile() == localFileName) {
+	for(int i = 0; i < m_tabs->count(); ++i) {
+		KTextEditor::View *view = toTextView(m_tabs->widget(i));
+		if(!view) {
+			continue;
+		}
+		if(view->document()->url().toLocalFile() == localFileName) {
 			return true;
 		}
 	}

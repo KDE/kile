@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2009 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -77,10 +77,11 @@ public Q_SLOTS:
 	void saveURL(const KUrl&);
 	bool fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
 
-	bool fileCloseAllOthers();
+	bool fileCloseAllOthers(KTextEditor::View *view = NULL);
 	bool fileCloseAll();
 	bool fileClose(const KUrl& url);
-	bool fileClose(KTextEditor::Document *doc = NULL, bool closingproject = false);
+	bool fileClose(KTextEditor::View *view = NULL);
+	bool fileClose(KTextEditor::Document *doc, bool closingproject = false);
 
 //templates
 	KTextEditor::View* loadTemplate(TemplateItem*);

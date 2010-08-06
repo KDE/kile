@@ -286,8 +286,10 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		m_config->deleteGroup("Shortcuts");
 	}
 
+	m_mainWindow->setUpdatesEnabled(false);
 	m_mainWindow->setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	m_mainWindow->guiFactory()->refreshActionProperties();
+	m_mainWindow->setUpdatesEnabled(true);
 }
 
 Kile::~Kile()
@@ -1187,7 +1189,9 @@ void Kile::updateUserTagMenu()
 	for(QList<QAction*>::iterator i = m_listUserTagsActions.begin(); i != m_listUserTagsActions.end(); ++i) {
 		m_userTagMenu->addAction(*i);
 	}
+	m_mainWindow->setUpdatesEnabled(false);
 	m_mainWindow->guiFactory()->refreshActionProperties();
+	m_mainWindow->setUpdatesEnabled(true);
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
@@ -1302,11 +1306,11 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	QList<KToolBar*> toolBarsList = m_mainWindow->toolBars();
 	QHash<KToolBar*, bool> toolBarVisibilityHash;
+
 	for(QList<KToolBar*>::iterator i = toolBarsList.begin();
 	                              i != toolBarsList.end(); ++i) {
 		KToolBar *toolBar = *i;
 		toolBarVisibilityHash[toolBar] = toolBar->isVisible();
-		toolBar->hide(); // hide all the tool bars to avoid flickering
 	}
 
 	KTextEditor::View* view = dynamic_cast<KTextEditor::View*>(w);
@@ -2626,10 +2630,12 @@ void Kile::configureToolbars()
 	KEditToolBar dlg(m_mainWindow->factory());
 	dlg.exec();
 
+	m_mainWindow->setUpdatesEnabled(false);
 	m_mainWindow->applyMainWindowSettings(m_config->group("KileMainWindow"));
 
 	updateUserDefinedMenus();
 	updateGUI(m_currentState);
+	m_mainWindow->setUpdatesEnabled(true);
 }
 
 //////////////////// CLEAN BIB /////////////////////

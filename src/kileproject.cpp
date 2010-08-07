@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -638,6 +638,18 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
 	}
 }
 
+static bool isAncestorOf(KileProjectItem *toBeChecked, KileProjectItem *parent)
+{
+	KileProjectItem *item = parent;
+	while(item != NULL) {
+		if(item == toBeChecked) {
+			return true;
+		}
+		item = item->parent();
+	}
+	return false;
+}
+
 void KileProject::buildProjectTree()
 {
 	KILE_DEBUG() << "==KileProject::buildProjectTree==========================";
@@ -680,7 +692,9 @@ void KileProject::buildProjectTree()
 					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs);
 				}
 				itm = item(url);
-				if(itm && (itm->parent() == 0)) {
+				if(itm && (itm->parent() == 0)
+				       && !isAncestorOf(itm, *it)) { // avoid circular references if a file should
+				                                     // include itself in a circular way
 					itm->setParent(*it);
 				}
 			}

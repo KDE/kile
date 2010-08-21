@@ -808,11 +808,11 @@ void Kile::setupActions()
 	m_bibTagSettings = new KSelectAction(i18n("&Settings"),actionCollection());
 	actionCollection()->addAction("settings_menu_bibliography", m_bibTagSettings);
 
-	act = createAction(i18n("BibTeX"), "setting_bibtex", this, SLOT(rebuildBibliographyMenu()));
+	act = createAction(i18n("Settings for BibTeX"), "setting_bibtex", this, SLOT(rebuildBibliographyMenu()));
 	act->setCheckable(true);
 	m_bibTagSettings->addAction(act);
 
-	act = createAction(i18n("Biblatex"), "setting_biblatex", this, SLOT(rebuildBibliographyMenu()));
+	act = createAction(i18n("Settings for Biblatex"), "setting_biblatex", this, SLOT(rebuildBibliographyMenu()));
 	act->setCheckable(true);
 	m_bibTagSettings->addAction(act);
 	m_bibTagSettings->setCurrentAction(action((QString("setting_") + KileConfig::bibliographyType()).toAscii()));

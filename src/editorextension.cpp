@@ -2439,10 +2439,10 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	if(!view) {
 		return true;
 	}
-	
+
 	KTextEditor::Document *doc = view->document();
 
-	if(!doc || !m_ki->extensions()->isTexFile(doc->url())) {
+	if(!doc) {
 		return false;
 	}
 

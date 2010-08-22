@@ -1,6 +1,10 @@
 #! /usr/bin/env bash
 
-$EXTRACTRC `find . -name \*.rc -o -name \*.ui -o -name \*.kcfg` >> rc.cpp
+$EXTRACTRC `find . -name \*.rc -o -name \*.ui -o -name \*.kcfg \
+            | grep -v ./data/kilestdtools.rc                   \
+            | grep -v ./data/biblatexentries.rc                \
+            | grep -v ./data/bibtexentries.rc                  \
+            | grep -v ./data/kilestdtools-win.rc               ` >> rc.cpp
 
 $PREPARETIPS > tips.cpp
 

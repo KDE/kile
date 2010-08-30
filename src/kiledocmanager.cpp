@@ -1909,6 +1909,18 @@ void Manager::openDroppedURLs(QDropEvent *e) {
 	}
 }
 
+void Manager::reloadXMLOnAllDocumentsAndViews()
+{
+	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
+		KTextEditor::Document *doc = (*it)->getDoc();
+		doc->reloadXML();
+		QList<KTextEditor::View*> views = doc->views(); 
+		for(QList<KTextEditor::View*>::iterator viewIt = views.begin(); viewIt != views.end(); ++viewIt) {
+			(*viewIt)->reloadXML();
+		}
+	}
+}
+
 // Show all opened projects and switch to another one, if you want
 
 void Manager::projectShow()

@@ -136,6 +136,8 @@ public Q_SLOTS:
 
 	void openDroppedURLs(QDropEvent *e);
 
+	void reloadXMLOnAllDocumentsAndViews();
+
 Q_SIGNALS:
 	void projectTreeChanged(const KileProject*);
 	void closingDocument(KileDocument::Info*);

@@ -2626,6 +2626,9 @@ void Kile::configureKeys()
 		dlg.addCollection((*it)->actionCollection());
 	}
 	dlg.configure();
+
+	// tell all the documents and views to update their action shortcuts (bug 247646)
+	docManager()->reloadXMLOnAllDocumentsAndViews();
 }
 
 void Kile::configureToolbars()

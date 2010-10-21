@@ -174,7 +174,7 @@ INSTALL( TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files ###############
 
 INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
-INSTALL( FILES kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+INSTALL( PROGRAMS kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
 kileui.rc docpartui.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )

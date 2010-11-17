@@ -1,8 +1,7 @@
-/***************************************************************************
+/****************************************************************************************
     begin                : Wednesday Jan 25 2006
-    copyright            : (C) 2006 by Thomas Braun
-    email                :thomas.braun@virtuell-zuhause.de
- ***************************************************************************/
+    copyright            : (C) 2006 by Thomas Braun (thomas.braun@virtuell-zuhause.de)
+ ****************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -19,8 +18,8 @@
 
 #include <QString>
 
-const QString kileVersion="2.1 beta4";
-const QString kileFullVersion="2.0.85"; // only use numbers and '.'
+const QString kileVersion="2.1 beta5";
+const QString kileFullVersion="2.0.86"; // only use numbers and '.'
 const QString kilePrVersion="2";
 
 /**

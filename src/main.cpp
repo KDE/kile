@@ -111,19 +111,19 @@ int main( int argc, char ** argv )
 				ki18n("by the Kile Team (2003 - 2010)"),
 				KLocalizedString(),
 				"http://kile.sourceforge.net");
-	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("project management/developer (scripting & bug fixes)"), "michel.ludwig@kdemail.net");
-        aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("developer"), "thomas.braun@virtuell-zuhause.de");
-	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("former developer"), "holger.danielsson@versanet.de");
-	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("former maintainer/developer"),"Jeroen.Wijnhout@kdemail.net");
+	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
+        aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
+	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("Former Developer"), "holger.danielsson@versanet.de");
+	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
 	aboutData.addAuthor(ki18n("Brachet Pascal"));
 
-	aboutData.addCredit(ki18n("Simon Martin"), ki18n("KConfig XT, various improvements and bugfixing"));
-	aboutData.addCredit(ki18n("Roland Schulz"), ki18n("KatePart integration"));
+	aboutData.addCredit(ki18n("Andrius Štikonas"), ki18n("Migration from Subversion to Git"));
+	aboutData.addCredit(ki18n("Simon Martin"), ki18n("KConfig XT, Various Improvements and Bug-Fixing"));
+	aboutData.addCredit(ki18n("Roland Schulz"), ki18n("KatePart Integration"));
 	aboutData.addCredit(ki18n("Thorsten Lück"), ki18n("Log Parsing"));
-	aboutData.addCredit(ki18n("Jan-Marek Glogowski"), ki18n("Find in Files dialog"));
-	aboutData.addCredit(ki18n("Thomas Basset"), ki18n("Translations"));
-	aboutData.addCredit(ki18n("Please consult the webpage for up to date translation credits."));
-	aboutData.addCredit(ki18n("Jonathan Pechta and Federico Zenith"), ki18n("Documentation"));
+	aboutData.addCredit(ki18n("Jan-Marek Glogowski"), ki18n("Find-in-Files Dialog"));
+	aboutData.addCredit(ki18n("Jonathan Pechta"), ki18n("Documentation"));
+	aboutData.addCredit(ki18n("Federico Zenith"), ki18n("Documentation"));
 
 	KCmdLineArgs::init( argc, argv, &aboutData );
 	KCmdLineOptions options;

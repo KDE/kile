@@ -1,9 +1,23 @@
-/* 
-   License: 	GPLv2 or later
-   Author: 	Thomas Braun
-   date: 	8 mai 2009
-   description: converter from xml to png files for new file format
-*/
+/*
+ *  description: converter from xml to png files for new file format
+ *  date: 8 may 2009
+ *
+ *  Copyright (C) 2010  Thomas Braun <thomas.braun@virtuell-zuhause.de>
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation; either version 2 of
+ *  the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 
 #include <QDomDocument>
 #include <QFile>
@@ -57,8 +71,8 @@ QString pkgListToString(const QList<Package> &packages){
    QString packagesArg, packagesName;
    
    for(int i=0; i < packages.count() ; i++){
-      packagesArg  += packages[i].arguments + ",";
-      packagesName += packages[i].name + ",";
+      packagesArg  += packages[i].arguments + ',';
+      packagesName += packages[i].name + ',';
    }
    QString result = ( packagesArg.isEmpty() ? "" : '[' + packagesArg + ']' ) + ( packagesName.isEmpty() ? "" : '{' + packagesName + '}' );
    return result;
@@ -159,9 +173,9 @@ QString generateLatexFile(const Preamble &preamble, const Command &cmd)
    QString cmdString;
    
    output += QString("\\documentclass[%1]{%2}\n").arg(preamble.classArguments).arg(preamble.className);
-   output += "\n";
+   output += '\n';
    output += preamble.additional;
-   output += "\n";
+   output += '\n';
    
    for(int i=0; i < cmd.packages.count(); i++){
       pkg = cmd.packages[i];
@@ -174,10 +188,10 @@ QString generateLatexFile(const Preamble &preamble, const Command &cmd)
    }
    
    output += "\\begin{document}\n";
-   output += "\n";
+   output += '\n';
    cmdString = !cmd.ImageCommand.isEmpty() ? cmd.ImageCommand : cmd.latexCommand;
    output += cmd.mathMode ? QString("\\ensuremath{%1}\n").arg(cmdString) : QString("%1\n").arg(cmdString);
-   output += "\n";
+   output += '\n';
    output += "\\end{document}\n";
    
    return output;

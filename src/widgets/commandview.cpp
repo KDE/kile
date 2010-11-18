@@ -13,14 +13,14 @@
  ***************************************************************************/
 
 
+#include "commandview.h"
+
 #include <KLocale>
 #include <KTextEditor/View>
 
 #include "kileconfig.h"
 #include "kileviewmanager.h"
 #include "kiledebug.h"
-
-#include "commandview.h"
 
 
 namespace KileWidget {

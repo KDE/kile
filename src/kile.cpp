@@ -1252,7 +1252,7 @@ void Kile::setLine(const QString &line)
 		m_mainWindow->show();
 		m_mainWindow->raise();
 		m_mainWindow->activateWindow();
-		// be very agressive when it comes to raising the main window to the top
+		// be very aggressive when it comes to raising the main window to the top
 		KWindowSystem::forceActiveWindow(m_mainWindow->winId());
 		view->setFocus();
 		editorExtension()->goToLine(l - 1, view);

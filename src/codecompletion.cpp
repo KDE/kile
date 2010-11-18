@@ -997,7 +997,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 			QStringList entrylist;
 			if(attr.type < KileDocument::CmdAttrLabel) {         // environment
 				command = "\\begin{" + (*it);
-				eos = "}";
+				eos = '}';
 			}
 			else {                                                   // command
 				command = (*it);

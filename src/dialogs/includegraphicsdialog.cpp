@@ -160,7 +160,7 @@ QString IncludeGraphics::getTemplate()
 	
 		// build position string
 		if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
-			p += "[";
+			p += '[';
 			if (here)	p+= 'h';
 			if (top)	p+= 't';
 			if (bottom)	p+= 'b';

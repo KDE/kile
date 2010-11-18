@@ -110,7 +110,7 @@ void Manager::saveLocalAbbreviations()
 	    i != m_abbreviationMap.end(); ++i) {
 		StringBooleanPair pair = i.value();
 		if(!pair.second) {
-			stream << QString(i.key()).replace("=", "\\=")
+			stream << QString(i.key()).replace('=', "\\=")
 			       << '=' << pair.first << '\n';
 		}
 	}

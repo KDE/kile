@@ -28,7 +28,8 @@ tbraun 2007-06-13
     - Added Most frequently used symbolview, including remembering icons upon restart, removing of least popular item and configurable max item count
 */
 
-#include "widgets/symbolview.h"
+
+#include "symbolview.h"
 
 #include <QApplication>
 #include <QMouseEvent>
@@ -44,7 +45,6 @@ tbraun 2007-06-13
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "../symbolviewclasses.h"
-#include "symbolview.h"
 
 #define MFUS_GROUP "MostFrequentlyUsedSymbols"
 #define MFUS_PREFIX "MFUS"
@@ -278,7 +278,7 @@ QString convertLatin1StringtoUTF8(const QString &string ){
    }
 
    QVector<uint> stringAsIntVector;
-   QStringList stringList = string.split(",",QString::SkipEmptyParts);
+   QStringList stringList = string.split(',', QString::SkipEmptyParts);
 
    QStringList::const_iterator it;
    QString str;

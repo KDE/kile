@@ -117,7 +117,7 @@ int main( int argc, char ** argv )
 	 }
 
 	 if(line.indexOf(optarg) != -1) {
-	    cout << "<!-- optarg " << qPrintable(optarg.cap(1) + " " + optarg.cap(2) + " " + optarg.cap(3) + " -->") << endl;
+	    cout << "<!-- optarg " << qPrintable(optarg.cap(1) + ' ' + optarg.cap(2) + ' ' + optarg.cap(3) + " -->") << endl;
 	    if(optarg.cap(1) == QString("math") ){
 	       mathMode = true;
 	    }
@@ -125,7 +125,7 @@ int main( int argc, char ** argv )
 	    outputXML(optarg.cap(2),optarg.cap(3),PackagesList,mathMode);
 	 }
 	 else if(line.indexOf(arg) != -1) {
-	    cout << "<!-- arg " << qPrintable(arg.cap(1) + " " + arg.cap(2) + " " + arg.cap(3)+ " -->") << endl;
+	    cout << "<!-- arg " << qPrintable(arg.cap(1) + ' ' + arg.cap(2) + ' ' + arg.cap(3)+ " -->") << endl;
 	    
 	    if(arg.cap(1) == QString("math") ){
 	       mathMode = true;

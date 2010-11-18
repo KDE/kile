@@ -2815,7 +2815,7 @@ void EditorExtension::insertIntelligentTabulator()
 	}
 	
 	if(tab.isEmpty()) {
-		tab = "&";
+		tab = '&';
 	}
 	tab = prefix + tab + ' ';
 	

@@ -1,3 +1,38 @@
+version 2.1 beta 4 -> 2.1 beta 5
+
+Fixes:
+
+- Ensure that LaTeX root documents are recognised correctly when Kile is starting up (#233667)
+- Don't prepend the base directory to absolute file names returned by 'grep' (#234235)
+- Fix some crashes in the find-in-files dialog
+- Fix problems that could occur when using custom tools in combination with a translated GUI (#224130)
+- Make the 'smart new line' feature respect custom indentation (#226161)
+- Restore the master document setting (for single files) when Kile is starting up (#222029)
+- Correct the tool tip for the symbol panel in the side bar (Patch by Christian Herzberg)
+- Fix the problem that the LaTeX root icon isn't shown for project items if they aren't opened
+- Fix problems related to opening files from the file browser widget (#222325)
+- Correctly split strings containing line breaks in the log widget (#237885)
+- Fix some bugs related to the new-document wizard (#238544)
+- Correct the problem of changing the focus when auto-save is triggered (#228321)
+- Rename the 'BibTeX' and 'Biblatex' actions in the LaTeX menu to avoid confusion within the shortcut configuration dialog (#184847)
+- After a manual invocation, abbreviations are now replaced immediately even if longer matches are possible (#238897).
+- Add icons for the 'Split Cells' and 'Join Cells' actions in the tabular dialog (#237897)
+- Add missing fields to 'bibtexentries.rc' (Patch by Martin Weis)
+- Add support for the '%absolute_target' keyword, which enables ForwardPDF (with Okular) to work correctly in embedded mode (#245483)
+- Reduce GUI flickering a little more
+- Ensure that the $PATH variable is respected when tools are launched (#204397)
+- Fix a problem related to opening non-existing files in projects which can freeze the GUI (#241181)
+- Fix the bug which causes keyboard shortcuts to change when switching between documents (#247646)
+- Correct a bug which results in references to appear as undefined (#241730)
+
+Features:
+- Make it configurable whether the splash screen is shown or not (#244909)
+- Add an embedded viewer configuration for the 'ForwardPDF' tool
+- Add completion files for 'units.sty' and 'nomencl.sty' (Patch by Andreas Weder)
+- Update 'todonotes.sty' (2009/12/25) (Patch by by Andreas Weder)
+- Make the document tabs movable (Initial patch by Nicolas Pavillon, #200890)
+
+
 version 2.1 beta 3 -> 2.1 beta 4
 
 Fixes:
@@ -45,6 +80,7 @@ Features:
  - Save and restore editor settings for regular documents and for projects (requires KDE libraries 4.4).
  - Add a sidebar tab which allows to display CWL word lists
  - Improve the graphics inclusion dialog
+
 
 version 2.1 beta 1 -> 2.1 beta 2
 

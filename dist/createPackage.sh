@@ -23,15 +23,13 @@
 #                + doc
 #            + de (etc.)
 #
-# If the --notoplevel parameter is used everything under src is put into the root dir
-#
 # Translations:
 #        + nl
 #            + messages
 #            + doc
 #        + de (etc.)
 
-COPYRIGHT="2009 Michel Ludwig <michel.ludwig@kdemail.net>
+COPYRIGHT="2009-2010 Michel Ludwig <michel.ludwig@kdemail.net>
           2005 Michael Buesch <mbuesch@freenet.de>
           2004-2005 Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
           2003-2004 Sebastian Trueg
@@ -138,9 +136,6 @@ The following options are available:
     --logfile <FILE>            Write all logging information to FILE.
                                 If FILE is \"no\", no logfile will be created.
 
-    --notoplevel                Do not create an additional src directory. Do not checkout the top level files.
-                                Use configure.in.in and Makefile.am from the application's root directory.
-
     -v|--version                Version of this script
     -h|--help                   This Help"
 }
@@ -181,7 +176,8 @@ function runCommand
     if [ -z "$stdoutlog" ]; then
         stdoutlog="/dev/null"
     fi
-    $* >> $stdoutlog 2>&1
+
+    eval "$1" >> $stdoutlog 2>&1
     LASTRESULT=$?
     print "         [$1 returned $LASTRESULT]"
 }
@@ -195,7 +191,7 @@ function runCommandRedirect
     if [ -z "$stdoutlog" ]; then
         stdoutlog="/dev/null"
     fi
-    $* > $destinationfile 2>>$stdoutlog
+    eval "$1" > $destinationfile 2>>$stdoutlog
     LASTRESULT=$?
     if [ $LASTRESULT -ne 0 ]; then
         rm $destinationfile
@@ -232,6 +228,15 @@ function removeVCDirs
     find . -type d -a -name '.svn' | xargs rm -rf
 }
 
+function findRootWorkingDirectory
+{
+    DIR=$PWD
+    while [ ! -d "$DIR/.git" ]; do
+      DIR=$( dirname $DIR )
+    done
+    ROOTWORKINGDIRECTORY=$DIR
+}
+
 #
 # This is our work-horse. getResource retrieves all
 # data needed to assemble a working package.
@@ -243,6 +248,7 @@ function getResource
 {
     DESTINATION=$2
     SINGLEFILEHACK="no"
+    DIR=$BUILDDIR
     case $1 in
         topleveldir)
             COMMAND="svn export -N $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE $DESTINATION"
@@ -251,7 +257,9 @@ function getResource
 #            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$ADMINDIR $DESTINATION"
         ;;
         source)
-            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/$APPNAME $DESTINATION"
+            findRootWorkingDirectory
+            DIR=$ROOTWORKINGDIRECTORY
+            COMMAND="git $GIT_CHECKOUT_OPTIONS archive $TAGNAME | tar x -C $DESTINATION"
         ;;
         documentation)
             COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/doc/$APPNAME $DESTINATION"
@@ -278,17 +286,19 @@ function getResource
     print "         Retrieving resource: $1"
     printlog "         getResource $1: $COMMAND"
 
-    cd $BUILDDIR
+    CURRENTDIR=$PWD
+    cd $DIR
 
     if [ $SINGLEFILEHACK = "yes" ]; then
-       runCommandRedirect $DESTINATION $COMMAND
+       runCommandRedirect $DESTINATION "$COMMAND"
     else
-       runCommand $COMMAND
+       runCommand "$COMMAND"
     fi
 
     if [ $LASTRESULT != "0" ]; then
         print "Warning: Resource \"$1\" is not available."
     fi
+    cd $CURRENTDIR
     return $LASTRESULT
 }
 
@@ -339,21 +349,10 @@ function assembleApplicationData
     APPDIR=$APPNAME-$APPVERSION
     print "         ($APPDIR)"
 
-    if [ $TOPLEVEL = "yes" ]; then
-        getResource "topleveldir" $APPDIR
-    fi
+    runCommand "git tag -a $TAGNAME -m \"$TAGMESSAGE\""
 
-#    getResource "admindir" $APPDIR/admin
-
-    if [ $TOPLEVEL = "yes" ]; then
-        getResource "source" $APPDIR/src
-    else
-        getResource "source" $APPDIR
-    fi
-
-    if [ "$CREATE_TAG" = "yes" ]; then
-        runCommand "svn $SVN_CHECKOUT_OPTIONS cp "$SVNROOT/$APPBASE/$APPNAME" "$TAGDIR/$APPVERSION""
-    fi
+    mkdir -p $BUILDDIR/$APPDIR
+    getResource "source" $BUILDDIR/$APPDIR
 }
 
 #
@@ -398,9 +397,6 @@ function cleanupDirectory
 function postProcessApplicationDir
 {
     print "Post-processing the application directory..."
-    if [ $TOPLEVEL = "yes" ]; then
-        moveGNUFiles $APPDIR
-    fi
 
     if [ ! -z "$POSTPROCESSSCRIPT" ]; then
         print "Running post-processing script..."
@@ -730,6 +726,8 @@ function initBasic
         APP_POFILES="$APPNAME"
     fi
 
+    TAGNAME="v$APPVERSION"
+
     print "Using svn-root: $SVNROOT"
 }
 
@@ -753,14 +751,13 @@ function initVars
     GETDOC="yes"
     GETI18N="yes"
     SPLIT="no"
-    TOPLEVEL="yes"
     PLAINCONFIGURE="no"
     LISTTAGS="no"
     PACKAGE="no"
     LANGUAGES=""
     EXCLUDELANGUAGES="xx"
     GNUFiles="AUTHORS COPYING ChangeLog INSTALL TODO README README.MacOSX README.cwl kile-remote-control.txt Building-with-cmake.txt"
-    CLEANUPFILES="autom4te.cache Makefile.cvs"
+    CLEANUPFILES="autom4te.cache Makefile.cvs dist"
     POSTPROCESSSCRIPT=""
 
     SVN_CHECKOUT_OPTIONS=""
@@ -780,6 +777,14 @@ function initVars
 
 # Set the default values for options.
 initVars
+
+# First check if the script is run within a Git working copy
+git status 2>&1 > /dev/null
+
+if [ $? -ne 0 ]; then
+  echo "Please run this script from within a Git working copy."
+  exit -1
+fi
 
 # Process the options given on the command-line.
 while [ "$#" -gt 0 ]
@@ -815,13 +820,10 @@ do
             I18NDOCSUB="$2"
             shift
         ;;
-        -tb|--tag-base)
-            testParameter $1 $1
-            TAGBASE="$2"
+        -tm|--tag-message)
+            testParameter $1 $2
+            TAGMESSAGE="$2"
             shift
-        ;;
-        --tag)
-            CREATE_TAG="yes"
         ;;
         --admin)
             testParameter $1 $2
@@ -851,9 +853,6 @@ do
         ;;
         --split)
             SPLIT="yes"
-        ;;
-        --notoplevel)
-            TOPLEVEL="no"
         ;;
         --package)
             PKGTYPE="$2"
@@ -922,21 +921,18 @@ initBasic
 # Create the builddir, the place where the package will be assembled.
 # If no builddir is specified is specified "./$APPNAME-build" is used.
 setupBuildDir
-if [ "$CREATE_TAG" = "yes" ]; then
-    setupTagDir
-fi
 
 assembleApplicationData
-retrieveDocumentation
+# retrieveDocumentation
 
-retrieveGUITranslations
-retrieveDocTranslations
-#createTranslationMakefiles
-#createTranslationDirMakefile $BUILDDIR/$TRANSDIR
+# retrieveGUITranslations
+# retrieveDocTranslations
+# #createTranslationMakefiles
+# #createTranslationDirMakefile $BUILDDIR/$TRANSDIR
 
 postProcessApplicationDir
 
 packageApplication
-packageTranslations
+# packageTranslations
 
 # vim: set et ts=4 sts=4:

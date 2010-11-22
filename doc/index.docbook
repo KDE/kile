@@ -1692,7 +1692,8 @@
 
 		<title>Writing Own Completion Files</title>
 
-    <para>The specification of the completion file format can found in the <ulink url="http://websvn.kde.org/*checkout*/tags/kile/2.0/src/README.cwl">
+    <para>The latest specification of the completion file format can found in the
+		<ulink url="http://projects.kde.org/projects/extragear/office/kile/repository/revisions/master/raw/README.cwl">
 		CWL file format specification</ulink>.
 		</para>
 

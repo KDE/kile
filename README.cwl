@@ -60,7 +60,7 @@ File content:
 		  \circle*{diameter}
 		
 Getting assistance:
-	- You can see some examples at http://websvn.kde.org/trunk/extragear/office/kile/kile/complete/tex
+	- You can see some examples under http://projects.kde.org/projects/extragear/office/kile/repository/revisions/master/show/src/data/complete/tex
 	- If in doubt don't hesitate to mail to kile-devel@lists.sourceforge.net and ask, we will be glad to help you :)
 
 The Kile development team

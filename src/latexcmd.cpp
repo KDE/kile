@@ -1,9 +1,6 @@
 /*****************************************************************************************
-                         latexcmd.cpp
-                         ------------
-    date                 : Nov 26 2005
-    version              : 0.22
-    copyright            : (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+  Copyright (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -17,7 +14,9 @@
 
 #include "latexcmd.h"
 
+#include <KConfigGroup>
 #include <KLocale>
+
 #include "kiledebug.h"
 
 namespace KileDocument
@@ -140,19 +139,31 @@ void LatexCommands::resetCommands()
 
 // add user defined environments/commands 
 
+//FIXME: the code for reading and writing these configuration entries should be regrouped
+//       within a single class (currently, the code for writing the values can be found
+//       in 'latexcommanddialog.cpp').
 void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 {
-	if(m_config->hasGroup(name)) {
-		KILE_DEBUG() << name;
-		QMap<QString,QString> map = m_config->entryMap(name);
-		if(!map.empty()) {
-			QMapIterator<QString, QString> it(map);
-			while(it.hasNext()) {
-				it.next();
-				list << it.key() + ",-," + it.value();
-				KILE_DEBUG() << "\tadd: " <<  it.key() + " --> " + it.value();
-			}
+	KILE_DEBUG() << name;
+	if(!m_config->hasGroup(name)) {
+		KILE_DEBUG() << "\tGroup does not exist.";
+		return;
+	}
+
+	KConfigGroup group = m_config->group(name);
+	int nrOfDefinedCommands = group.readEntry("Number of Commands", 0);
+
+	for(int i = 0; i < nrOfDefinedCommands; ++i) {
+		const QString commandKey = "Command" + QString::number(i);
+		const QString parametersKey = "Parameters" + QString::number(i);
+
+		if(!group.hasKey(commandKey) || !group.hasKey(parametersKey)) {
+			KILE_DEBUG() << "\tEntry" << i << "is invalid!";
 		}
+		const QString command = group.readEntry(commandKey);
+		const QString parameters = group.readEntry(parametersKey);
+		list << command + ",-," + parameters;
+		KILE_DEBUG() << "\tAdding: " <<  command + " --> " + parameters;
 	}
 }
 

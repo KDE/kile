@@ -24,6 +24,7 @@ Fixes:
 - Fix a problem related to opening non-existing files in projects which can freeze the GUI (#241181)
 - Fix the bug which causes keyboard shortcuts to change when switching between documents (#247646)
 - Correct a bug which results in references to appear as undefined (#241730)
+- Fix restoring of user-defined LaTeX commands and environments (#257463)
 
 Features:
 - Make it configurable whether the splash screen is shown or not (#244909)

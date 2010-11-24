@@ -1,10 +1,6 @@
 /***************************************************************************
-                         latexcmddialog.cpp
-                         --------------
-    date                 : Jul 25 2005
-    version              : 0.20
-    copyright            : (C) 2005 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
+  Copyright (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -793,8 +789,9 @@ void LatexCommandsDialog::readConfig()
 void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &groupname, bool env)
 {
 	// first delete old entries
-	if (m_config->hasGroup(groupname))
+	if (m_config->hasGroup(groupname)) {
 		m_config->deleteGroup(groupname);
+	}
 
 	// prepare for new entries
 	KConfigGroup group = m_config->group(groupname);
@@ -802,6 +799,8 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 	// now get all attributes
 	KileDocument::LatexCmdAttributes attr;
 	attr.standard = false;
+
+	int nrOfdefinedCommands = 0;
 
 	// scan the listview for non standard entries
 	for (int i = 0; i < listview->topLevelItemCount(); ++i) {
@@ -823,10 +822,16 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 				getEntry(curchild, attr);
 				QString value = m_commands->configString(attr, env);
 				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
-				if (! value.isEmpty())
-					group.writeEntry(key, value);
+				if (!value.isEmpty()) {
+					group.writeEntry("Command" + QString::number(nrOfdefinedCommands), key);
+					group.writeEntry("Parameters" + QString::number(nrOfdefinedCommands), value);
+					++nrOfdefinedCommands;
+				}
 			}
 		}
+	}
+	if(nrOfdefinedCommands > 0) {
+		group.writeEntry("Number of Commands", nrOfdefinedCommands);
 	}
 }
 

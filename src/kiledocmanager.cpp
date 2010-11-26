@@ -1913,6 +1913,13 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 {
 	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
 		KTextEditor::Document *doc = (*it)->getDoc();
+		// FIXME: 'doc' can be null, for example if it belongs to a project item
+		//        which has been closed, but this should be improved in the sense
+		//        that 'm_textInfoList' should only contain 'TextInfo' objects which
+		//        contain valid pointers to 'KTextEditor::Document' objects.
+		if(!doc) {
+			continue;
+		}
 		doc->reloadXML();
 		QList<KTextEditor::View*> views = doc->views(); 
 		for(QList<KTextEditor::View*>::iterator viewIt = views.begin(); viewIt != views.end(); ++viewIt) {

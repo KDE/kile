@@ -25,6 +25,7 @@ Fixes:
 - Fix the bug which causes keyboard shortcuts to change when switching between documents (#247646)
 - Correct a bug which results in references to appear as undefined (#241730)
 - Fix restoring of user-defined LaTeX commands and environments (#257463)
+- Fix a crash which could occur after clicking on 'Ok' in the shortcut configuration dialog when at least one project is open (#257318)
 
 Features:
 - Make it configurable whether the splash screen is shown or not (#244909)

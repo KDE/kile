@@ -47,7 +47,6 @@
 #include <kurl.h>
 #include <kfileitem.h>
 
-#include "kileuntitled.h"
 #include "templates.h"
 #include "dialogs/newfilewizard.h"
 #include "dialogs/managetemplatesdialog.h"
@@ -1854,14 +1853,16 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	const QString dirPath = fi.absolutePath();
 	const QString baseName = fi.completeBaseName();
 
-	for (int i=0; i < templist.count(); ++i) {
+	for (int i = 0; i < templist.count(); ++i) {
 		fi.setFile( dirPath + '/' + baseName + templist[i] );
-		if ( fi.exists() )
+		if(fi.exists()) {
 			extlist.append(templist[i]);
+		}
 	}
 
-	if (!silent &&  ( KileUntitled::isUntitled(fileName) || fileName.isEmpty() ) )
+	if(!silent && fileName.isEmpty()) {
 		return;
+	}
 
 	if (!silent && extlist.count() > 0) {
 		KILE_DEBUG() << "not silent";

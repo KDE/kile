@@ -85,7 +85,6 @@
 #include "dialogs/postscriptdialog.h"
 #include "latexcmd.h"
 #include "mainadaptor.h"
-#include "kileuntitled.h"
 #include "dialogs/statisticsdialog.h"
 #include "widgets/scriptsmanagementwidget.h"
 #include "scriptmanager.h"
@@ -2542,7 +2541,7 @@ void Kile::toggleMasterDocumentMode()
 	}
 	else if (m_singlemode && viewManager()->currentTextView()) {
 		QString name = getName();
-		if (KileUntitled::isUntitled(name) || name.isEmpty()) {
+		if(name.isEmpty()) {
 			ModeAction->setChecked(false);
 			KMessageBox::error(m_mainWindow, i18n("In order to define the current document as a master document, it has to be saved first."));
 			return;

@@ -1,7 +1,6 @@
 /***************************************************************************
-    begin                : mon 3-11 20:40:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
+  Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
+                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -156,18 +155,22 @@ namespace KileTool
 	{
 		KILE_DEBUG() << "==KileTool::Base::run()=================";
 	
-		if ( m_nPreparationResult != 0 )
+		if(m_nPreparationResult != 0) {
 			return m_nPreparationResult;
-		
-		if (!checkSource())
+		}
+
+		if(!checkSource()) {
 			return NoValidSource;
-		
-		if (!checkTarget())
+		}
+
+		if(!checkTarget()) {
 			return TargetHasWrongPermissions;
-		
-		if (!checkPrereqs())
+		}
+
+		if (!checkPrereqs()) {
 			return NoValidPrereqs;
-		
+		}
+
 		//everything ok so far
 		emit(requestSaveAll(false, true));
 		emit(start(this));
@@ -197,8 +200,9 @@ namespace KileTool
 
 		//the basedir is determined from the current compile target
 		//determined by getCompileName()
-		if (src.isNull()) src = m_ki->getCompileName();
-
+		if(src.isEmpty()) {
+			src = m_ki->getCompileName();
+		}
 		setSource(src);
 
 		return true;
@@ -208,31 +212,33 @@ namespace KileTool
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if((m_source.isNull()) && (m_manager->info()->activeTextDocument() == NULL)) {
+		if((m_source.isEmpty()) && (m_manager->info()->activeTextDocument() == NULL)) {
 			sendMessage(Error, msg(NeedActiveDoc).subs(name()).toString());
 			return false;
 		}
 
-		if((m_source.isNull()) && (m_manager->info()->activeTextDocument() != NULL)) {
-			//couldn't find a source file, huh?
-			//we know there is an active document, the only reason is could have failed is because
-			//we couldn't find a LaTeX root document
-			sendMessage(Error, msg(NeedMasterDoc).toString());
-			return false;
+		if(m_source.isEmpty() && m_manager->info()->activeTextDocument() != NULL) {
+			if(m_manager->info()->activeTextDocument()->url().isEmpty()
+			   && (flags() & NoUntitledDoc)) {
+				sendMessage(Error, msg(NoUntitledDoc).toString());
+				emit(requestSaveAll());
+				return false;
+			}
+			else {
+				//couldn't find a source file, huh?
+				//we know there is an active document, the only reason is could have failed is because
+				//we couldn't find a LaTeX root document
+				sendMessage(Error, msg(NeedMasterDoc).toString());
+				return false;
+			}
 		}
 
-		if(KileUntitled::isUntitled(m_source) && (flags() & NoUntitledDoc)) {
-			sendMessage(Error, msg(NoUntitledDoc).toString());
-			emit(requestSaveAll());
-			return false;
-		}
-		
 		QFileInfo fi(source());
 		if((flags() & NeedSourceExists) && !fi.exists()) {
 			sendMessage(Error, msg(NeedSourceExists).subs(fi.absoluteFilePath()).toString());
 			return false;
 		}
-		
+
 		if((flags() & NeedSourceRead) && !fi.isReadable()) {
 			sendMessage(Error, msg(NeedSourceRead).subs(fi.absoluteFilePath()).toString());
 			return false;
@@ -247,11 +253,11 @@ namespace KileTool
 
 		QFileInfo info(source);
 		
-		if (!m_from.isNull())
-		{
+		if(!m_from.isEmpty()) {
 			QString src = source;
-			if ( (m_from.length() > 0) && (info.suffix().length() > 0) )
+			if((m_from.length() > 0) && (info.suffix().length() > 0)) {
 				src.replace(QRegExp(info.suffix() + '$'), m_from);
+			}
  			info.setFile(src);
 		}
 
@@ -277,22 +283,21 @@ namespace KileTool
 		m_to = readEntry("to");
 		
 		//if the target is not set previously, use the source filename
-		if (m_target.isNull())
-		{
+		if(m_target.isEmpty()) {
 			//test for explicit override
-			if ( !readEntry("target").isEmpty() )
-			{
+			if (!readEntry("target").isEmpty()) {
 				KILE_DEBUG() << "USING target SETTING";
 				m_target = readEntry("target");
 			}
-			else if ( to().length() > 0)
+			else if ( to().length() > 0) {
 				m_target = S() + '.' + to();
-			else
+			}
+			else {
 				m_target = source(false);
+			}
 		}
 
-		if ( m_relativedir.isNull() && (!readEntry("relDir").isEmpty()) )
-		{
+		if(m_relativedir.isEmpty() && (!readEntry("relDir").isEmpty())) {
 			m_relativedir = readEntry("relDir");
 		}
 
@@ -547,7 +552,7 @@ namespace KileTool
 	View::~View()
 	{
 	}
-	
+
 
 	Archive::Archive(const QString &name, Manager * manager, bool prepare /* = true*/)
 		: Base(name, manager,prepare)
@@ -623,9 +628,11 @@ namespace KileTool
 	{
 		KILE_DEBUG() << "==KileTool::Sequence::run()==================";
 
- 		configure();
+		configure();
 		determineSource();
-		if (!checkSource()) return NoValidSource;		
+		if (!checkSource()) {
+			return NoValidSource;
+		}
 
 		QStringList tools = readEntry("sequence").split(',');
 		QString tl, cfg;

@@ -72,7 +72,6 @@ SET(kile_SRCS
 	configtester.cpp
 	widgets/sidebar.cpp
 	plaintolatexconverter.cpp
-	kileuntitled.cpp
 	dialogs/statisticsdialog.cpp
 	widgets/statisticswidget.cpp
 	widgets/previewwidget.cpp

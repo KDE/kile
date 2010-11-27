@@ -102,7 +102,7 @@ namespace KileWidget
 			QString finame;
 			KUrl url = view->document()->url();
 
-			if(url.path().isEmpty() || KileUntitled::isUntitled(url.toLocalFile())) {
+			if(url.path().isEmpty()) {
 				return;
 			}
 

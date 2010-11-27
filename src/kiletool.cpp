@@ -25,7 +25,6 @@
 #include <KUrl>
 
 #include "kileconfig.h"
-#include "kileuntitled.h"
 #include "kiletool_enums.h"
 #include "kilestdtools.h" //for the factory
 #include "kiletoolmanager.h"

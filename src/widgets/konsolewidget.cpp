@@ -34,8 +34,6 @@
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
 
-#include "kileuntitled.h"
-
 namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent) :

@@ -82,7 +82,6 @@
 #include "eventfilter.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
-#include "kileuntitled.h"
 #include "kileviewmanager.h"
 
 namespace KileDocument

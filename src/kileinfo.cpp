@@ -34,7 +34,6 @@
 #include "kileviewmanager.h"
 #include "documentinfo.h"
 #include "kileproject.h"
-#include "kileuntitled.h"
 #include "scriptmanager.h"
 #include "abbreviationmanager.h"
 #include "editorkeysequencemanager.h"

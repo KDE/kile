@@ -1,7 +1,5 @@
 /***************************************************************************
-    begin                : Sun Aug 3 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -153,6 +151,7 @@ class KileProjectOptionsDlg : public KileProjectDlgBase
 		KComboBox *m_master, *m_cbQuick;
 		KLineEdit *m_leMakeIndex;
 		QCheckBox *m_ckMakeIndex;
+		QString m_toolDefaultString;
 };
 
 #endif

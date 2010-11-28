@@ -2061,21 +2061,21 @@ int Kile::runToolWithConfig(const QString &tool, const QString &config)
 
 void Kile::cleanAll(KileDocument::TextInfo *docinfo)
 {
-	static QString noactivedoc = i18n("There is no active document or it is not saved.");
-	if (docinfo == 0)
-	{
+	const QString noactivedoc = i18n("There is no active document or it is not saved.");
+	if(!docinfo) {
 		KTextEditor::Document *doc = activeTextDocument();
-		if (doc)
+		if (doc) {
 			docinfo = docManager()->textInfoFor(doc);
-		else
-		{
+		}
+		else {
 			m_logWidget->printMessage(KileTool::Error, noactivedoc, i18n("Clean"));
 			return;
 		}
 	}
 
-	if (docinfo)
+	if (docinfo) {
 		docManager()->cleanUpTempFiles(docinfo->url(), false);
+	}
 }
 
 void Kile::refreshStructure()

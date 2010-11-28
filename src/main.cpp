@@ -63,14 +63,14 @@ QString completePath(const QString &path)
 
 QString readDataFromStdin()
 {
-	KILE_DEBUG() << "===Qstring readDataFromStdin()";
+	KILE_DEBUG();
 
 	QByteArray fileData;
 	QFile qstdin;
 	QTextCodec *codec = NULL;
 
-        qstdin.open( stdin, QIODevice::ReadOnly );
-        fileData = qstdin.readAll();
+	qstdin.open( stdin, QIODevice::ReadOnly );
+	fileData = qstdin.readAll();
 	qstdin.close();
 
 	KTempDir *tempDir = new KTempDir(KStandardDirs::locateLocal("tmp", "kile-stdin"));
@@ -136,11 +136,10 @@ int main( int argc, char ** argv )
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
-     	QDBusConnection dbus = QDBusConnection::sessionBus();
+	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
-	if( !running  || args->isSet("new") ){
-
+	if(!running  || args->isSet("new")) {
 		bool restore = (args->count() == 0);
 		Kile app(restore);
 

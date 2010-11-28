@@ -631,7 +631,9 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 	}
 
 	Locker lock(&m_autoSaveLock);
-	if (sel->name() != DEFAULT_EMPTY_CAPTION && sel->name() != DEFAULT_EMPTY_LATEX_CAPTION && sel->name() != DEFAULT_EMPTY_BIBTEX_CAPTION) {
+	if (sel->name() != KileTemplate::Manager::defaultEmptyTemplateCaption()
+	    && sel->name() != KileTemplate::Manager::defaultEmptyLaTeXTemplateCaption()
+	    && sel->name() != KileTemplate::Manager::defaultEmptyBibTeXTemplateCaption()) {
 		if(!m_editor) {
 			return NULL;
 		}

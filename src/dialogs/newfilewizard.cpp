@@ -114,7 +114,11 @@ TemplateItem* NewFileWizard::getSelection() const
 bool NewFileWizard::useWizard()
 {
 	// check (among other things) whether we want to create a LaTeX document
-	return ( (m_newDocumentWidget->documentTypeComboBox->currentIndex() == 0) && getSelection() && (getSelection()->name() == DEFAULT_EMPTY_CAPTION || getSelection()->name() == DEFAULT_EMPTY_LATEX_CAPTION) && m_newDocumentWidget->quickStartWizardCheckBox->isChecked() );
+	return ((m_newDocumentWidget->documentTypeComboBox->currentIndex() == 0)
+	         && getSelection()
+	         && (getSelection()->name() == KileTemplate::Manager::defaultEmptyTemplateCaption()
+	             || getSelection()->name() == KileTemplate::Manager::defaultEmptyLaTeXTemplateCaption())
+	         && m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
 }
 
 QString NewFileWizard::getConfigKey(int index)
@@ -150,7 +154,8 @@ void NewFileWizard::storeSelectedIcon()
 void NewFileWizard::restoreSelectedIcon()
 {
 	KConfigGroup defaultGroup = KGlobal::config()->group("default");
-	QString selectedIconName = defaultGroup.readEntry(getConfigKey(m_currentlyDisplayedType), DEFAULT_EMPTY_CAPTION);
+	QString selectedIconName = defaultGroup.readEntry(getConfigKey(m_currentlyDisplayedType),
+	                                                  KileTemplate::Manager::defaultEmptyTemplateCaption());
 	QList<QListWidgetItem*> items = m_newDocumentWidget->templateIconView->findItems(selectedIconName, Qt::MatchExactly);
 	if(items.count() > 0) {
 		items[0]->setSelected(true);

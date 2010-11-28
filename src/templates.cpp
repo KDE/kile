@@ -179,6 +179,21 @@ void Manager::scanForTemplates() {
 	}
 }
 
+QString Manager::defaultEmptyTemplateCaption()
+{
+	return i18n("Empty File");
+}
+
+QString Manager::defaultEmptyLaTeXTemplateCaption()
+{
+	return i18n("Empty LaTeX File");
+}
+
+QString Manager::defaultEmptyBibTeXTemplateCaption()
+{
+	return i18n("Empty BibTeX File");
+}
+
 TemplateList Manager::getAllTemplates() const {
 	return m_TemplateList;
 }
@@ -211,10 +226,10 @@ TemplateItem::TemplateItem(QListWidget * parent, const KileTemplate::Info& info)
 
 bool TemplateItem::operator<(const QListWidgetItem &other) const
 {
-	if(text() == DEFAULT_EMPTY_CAPTION) {
+	if(text() == KileTemplate::Manager::defaultEmptyTemplateCaption()) {
 		return true;
 	}
-	else if(other.text() == DEFAULT_EMPTY_CAPTION) {
+	else if(other.text() == KileTemplate::Manager::defaultEmptyTemplateCaption()) {
 		return false;
 	}
 	else {
@@ -314,7 +329,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
 
 	KileTemplate::Info emptyDocumentInfo;
-	emptyDocumentInfo.name = DEFAULT_EMPTY_CAPTION;
+	emptyDocumentInfo.name = KileTemplate::Manager::defaultEmptyTemplateCaption();
 	emptyDocumentInfo.icon = emptyIcon;
 	emptyDocumentInfo.type = type;
 	TemplateItem *emp = new TemplateItem(this, emptyDocumentInfo);

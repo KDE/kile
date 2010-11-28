@@ -79,14 +79,19 @@ class Manager : public QObject {
 		 **/
 		bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
 
-		//add a template in $HOME/kile/templates/
+		// add a template in $HOME/kile/templates/
 		bool add(const KUrl& templateSourceURL, const QString& name, const KUrl& icon);
 		
-		//remove a template from $HOME/kile/templates/
+		// remove a template from $HOME/kile/templates/
 		bool remove(KileTemplate::Info ti);
 
-		//replaces a template
+		// replaces a template
 		bool replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTemplateSourceURL, const QString& newName, const KUrl& newIcon);
+
+		// these have to be methods as we cannot use i18n calls in global objects
+		static QString defaultEmptyTemplateCaption();
+		static QString defaultEmptyLaTeXTemplateCaption();
+		static QString defaultEmptyBibTeXTemplateCaption();
 
 	protected:
 		KileInfo* m_kileInfo;
@@ -108,9 +113,6 @@ class Manager : public QObject {
 
 }
 
-const QString DEFAULT_EMPTY_CAPTION = i18n("Empty Document");
-const QString DEFAULT_EMPTY_LATEX_CAPTION = i18n("Empty LaTeX Document");
-const QString DEFAULT_EMPTY_BIBTEX_CAPTION = i18n("Empty BibTeX Document");
 
 class TemplateItem : public QListWidgetItem
 {
@@ -133,7 +135,7 @@ class TemplateIconView : public QListWidget {
 	Q_OBJECT
 	
 	public:
-		TemplateIconView(QWidget *parent=0);
+		TemplateIconView(QWidget *parent = NULL);
 		virtual ~TemplateIconView();
 
 		void setTemplateManager(KileTemplate::Manager *templateManager);

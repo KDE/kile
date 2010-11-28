@@ -1,7 +1,6 @@
 /*******************************************************************************************
-    begin                : Sun Aug 3 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                         : (C) 2007  by Holger Danielsson (holger.danielsson@versanet.de)                           
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
 ********************************************************************************************/
 
 /***************************************************************************
@@ -49,13 +48,6 @@
 #include "kileextensions.h"
 #include "templates.h"
 
-const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
-const QString whatsthisPath = i18n("Insert the path to your project here.");
-const QString whatsthisExt = i18n("Insert a list (separated by spaces) of file extensions which should be treated also as files of the corresponding type in this project.");
-const QString whatsthisDefGraphicExt = i18n("Default graphic extension to open when none specified by file name.");
-const QString whatsthisMaster = i18n("Select the default master document. Leave empty for auto detection.");
-const QString tool_default = i18n("(use global setting)");
-
 KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char * name)
 		: KDialog(parent),
 		m_extmanager(extensions), m_project(0)
@@ -77,6 +69,10 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_pgrid->setSpacing(KDialog::spacingHint());
 	m_pgrid->setAlignment(Qt::AlignTop);
 	m_pgroup->setLayout(m_pgrid);
+
+	const QString whatsthisName = i18n("Insert a short descriptive name of your project here.");
+	const QString whatsthisExt = i18n("Insert a list (separated by spaces) of file extensions which should be treated also as files of the corresponding type in this project.");
+	const QString whatsthisDefGraphicExt = i18n("Default graphic extension to open when none specified by file name.");
 
 	m_title = new KLineEdit(m_pgroup);
 	m_title->setWhatsThis(whatsthisName);
@@ -242,6 +238,8 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 
 	m_folder = new KUrlRequester(m_pgroup);
 	m_folder->setMode(KFile::Directory);
+
+	const QString whatsthisPath = i18n("Insert the path to your project here.");
 
 	QLabel *lb1 = new QLabel(i18n("Project &folder:"), m_pgroup);
 	lb1->setWhatsThis(whatsthisPath);
@@ -422,7 +420,8 @@ TemplateItem* KileNewProjectDlg::getSelection() const
  * KileProjectOptionsDlg
  */
 KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent, const char * name) :
-		KileProjectDlgBase(i18n("Project Options"), extensions, parent, name)
+		KileProjectDlgBase(i18n("Project Options"), extensions, parent, name),
+		m_toolDefaultString(i18n("(use global setting)"))
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -451,6 +450,8 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	grid3->setSpacing(KDialog::spacingHint());
 	grid3->setAlignment(Qt::AlignTop);
 	group3->setLayout(grid3);
+
+	const QString whatsthisMaster = i18n("Select the default master document. Leave empty for auto detection.");
 
 	m_master = new KComboBox(false, group3);
 	m_master->setObjectName("master");
@@ -481,9 +482,9 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	QLabel *lb2 = new QLabel(i18n("&QuickBuild configuration:"), group3);
 	m_cbQuick = new KComboBox(group3);
 	lb2->setBuddy(m_cbQuick);
-	m_cbQuick->addItem(tool_default);
+	m_cbQuick->addItem(m_toolDefaultString);
 	m_cbQuick->addItems(KileTool::configNames("QuickBuild", KGlobal::config().data()));
-	QString itemToSelect = project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : tool_default;
+	QString itemToSelect = project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : m_toolDefaultString;
 	int selectIndex = m_cbQuick->findText(itemToSelect);
 	if(selectIndex >= 0) {
 		m_cbQuick->setCurrentIndex(selectIndex);
@@ -556,7 +557,7 @@ void KileProjectOptionsDlg::slotButtonClicked(int button)
 			m_project->setExtensions((KileProjectItem::Type) i, m_val_extensions[i-1]);
 		}
 	
-		if (m_cbQuick->currentText() == tool_default) {
+		if (m_cbQuick->currentText() == m_toolDefaultString) {
 			m_project->setQuickBuildConfig("");
 		}
 		else {

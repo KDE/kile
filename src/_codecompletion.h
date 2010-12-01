@@ -22,7 +22,6 @@
 #include <KTextEditor/CodeCompletionModel>
 // mainly needed for CodeCompletionModelControllerInferface3
 #include <ktexteditor/codecompletionmodelcontrollerinterface.h>
-#include <KTextEditor/MovingRange>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <kconfig.h>

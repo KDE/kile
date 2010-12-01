@@ -33,6 +33,7 @@ Features:
 - Add completion files for 'units.sty' and 'nomencl.sty' (Patch by Andreas Weder)
 - Update 'todonotes.sty' (2009/12/25) (Patch by by Andreas Weder)
 - Make the document tabs movable (Initial patch by Nicolas Pavillon, #200890)
+- New CWL file for the 'fancyref' package
 
 
 version 2.1 beta 3 -> 2.1 beta 4

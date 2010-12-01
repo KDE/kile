@@ -57,7 +57,6 @@ SET(kile_SRCS
 	widgets/konsolewidget.cpp
 	kilewizard.cpp
 	widgets/structurewidget.cpp
-	codecompletion.cpp
 	widgets/codecompletionconfigwidget.cpp
 	widgets/toolconfigwidget.cpp
 	editorextension.cpp
@@ -147,6 +146,42 @@ SET( kile_UI_SRCS
 	widgets/symbolviewconfigwidget.cpp
 	widgets/maintoolconfigwidget.cpp
 )
+
+# Special handling of code completion due to the removal of 'KTextEditor::SmartRange' from
+# KDE SC 4.5 onwards
+
+# SET(kile_SRCS ${kile_SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.h
+#                            ${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.cpp)
+
+if( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
+  MESSAGE( STATUS "Configuring code completion for KDE SC >= 4.5" )
+
+  SET(CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME CodeCompletionModelControllerInterface3)
+  SET(CODECOMPLETION_RANGE_CLASSNAME "Range")
+  SET(CODECOMPLETION_RANGE_EXTRA "const")
+  SET(CODECOMPLETION_RANGE_RETURN "KTextEditor::Range")
+else( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
+  MESSAGE( STATUS "Configuring code completion for KDE SC < 4.5")
+
+  SET(CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME CodeCompletionModelControllerInterface)
+  SET(CODECOMPLETION_RANGE_CLASSNAME "SmartRange")
+  SET(CODECOMPLETION_RANGE_EXTRA "")
+  SET(CODECOMPLETION_RANGE_RETURN "void")
+ENDIF( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.h
+               ${CMAKE_CURRENT_BINARY_DIR}/codecompletion.h)
+
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.cpp
+               ${CMAKE_CURRENT_BINARY_DIR}/codecompletion.cpp)
+
+SET(kile_SRCS
+    ${kile_SRCS}
+    ${CMAKE_CURRENT_BINARY_DIR}/codecompletion.h
+    ${CMAKE_CURRENT_BINARY_DIR}/codecompletion.cpp)
+
+
+
 
 SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 

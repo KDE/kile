@@ -1,8 +1,6 @@
 /**********************************************************************************************
-    date                 : Mar 21 2007
-    version              : 0.40
-    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
 ***********************************************************************************************/
 
 /***************************************************************************
@@ -27,7 +25,6 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KStandardDirs>
-#include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/SearchInterface>
 #include <KTextEditor/Cursor>
 
@@ -67,13 +64,19 @@ void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTex
 	buildModel(view, range);
 }
 
-void LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
+${CODECOMPLETION_RANGE_RETURN} LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view,
+                                                                           ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range)
 {
 	KILE_DEBUG() << "updating model..." << view << range;
-	range = completionRange(view, view->cursorPosition());
-	if(range.isValid()) {
-		buildModel(view, range);
+	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
+	if(newRange.isValid()) {
+		buildModel(view, newRange);
 	}
+	#if KDE_IS_VERSION(4,5,0)
+		return newRange;
+	#else
+		range = newRange;
+	#endif
 }
 
 static inline bool isSpecialLaTeXCommandCharacter(const QChar& c) {
@@ -292,11 +295,11 @@ bool LaTeXCompletionModel::shouldStartCompletion(KTextEditor::View *view, const 
 		return true;
 	}
 	else {
-		return CodeCompletionModelControllerInterface::shouldStartCompletion(view, insertedText, userInsertion, position);
+		return ${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME}::shouldStartCompletion(view, insertedText, userInsertion, position);
 	}
 }
 
-bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
                                                                           const QString &currentCompletion)
 {
 	Q_UNUSED(currentCompletion);
@@ -307,7 +310,7 @@ bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const 
 	return false;
 }
 
-QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
                                                                     const KTextEditor::Cursor &position)
 {
 	Q_UNUSED(position);
@@ -705,7 +708,7 @@ bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view,
 	return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(searchText));
 }
 
-bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::SmartRange &range,
+bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
                                                         const QString &currentCompletion)
 {
 	Q_UNUSED(currentCompletion);
@@ -729,19 +732,29 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 	buildModel(view, range, (invocationType == UserInvocation || invocationType == ManualInvocation));
 }
 
-void AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view, KTextEditor::SmartRange &range)
+${CODECOMPLETION_RANGE_RETURN} AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view,
+                                                                                  ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range)
 {
 	if(!range.isValid()) {
 		m_completionList.clear();
 		reset();
-		return;
+		#if KDE_IS_VERSION(4,5,0)
+			return range;
+		#else
+			return;
+		#endif
 	}
 	
 	KILE_DEBUG() << "updating model...";
-	range = completionRange(view, view->cursorPosition());
-	if(range.isValid()) {
-		buildModel(view, range);
+	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
+	if(newRange.isValid()) {
+		buildModel(view, newRange);
 	}
+	#if KDE_IS_VERSION(4,5,0)
+		return newRange;
+	#else
+		range = newRange;
+	#endif
 }
 
 KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::View *view,
@@ -760,7 +773,7 @@ KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::Vie
 }
 
 QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
-                                                  const KTextEditor::SmartRange &range,
+                                                  const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
                                                   const KTextEditor::Cursor &position)
 {
 	Q_UNUSED(view);

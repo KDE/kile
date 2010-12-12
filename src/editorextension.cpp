@@ -1342,9 +1342,13 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 		}
 
 		KTextEditor::Range range = foundRanges.first();
-		KILE_DEBUG() << "text is " << doc->text(range);
+
 		if(!range.isValid()) {
+			KILE_DEBUG() << "invalid range found";
 			break;
+		}
+		else {
+			KILE_DEBUG() << "range:" << range << "text:" << doc->text(range);
 		}
 		env.row = range.start().line();
 		env.col = range.start().column();
@@ -1352,9 +1356,9 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 
 		if(isValidBackslash(doc, env.row, env.col)) {
 			// index 0 is the fullmatch, 1 first cap and so on
-			QString cap2 = doc->text(foundRanges[2]);
-			QString cap3 = doc->text(foundRanges[3]);
-			QString cap4 = doc->text(foundRanges[4]);
+			QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : "");
+			QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : "");
+			QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : "");
 			EnvTag found_env = (cap2 == "begin" || cap4 == "\\[") ? EnvBegin : EnvEnd;
 			if(found_env == wrong_env) {
 				++envcount;

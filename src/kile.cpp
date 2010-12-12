@@ -1406,9 +1406,8 @@ void Kile::autoSaveAll()
 	if(docManager()->isAutoSaveAllowed()) {
 		docManager()->fileSaveAll(true);
 	}
-	else {
-		QTimer::singleShot(0, this, SLOT(autoSaveAll()));
-	}
+	// in case we can't auto-save, we simply skip it and wait for the next one;
+	// if we kept calling this method again, we could end up doing a busy-wait (see bug 259612)
 }
 
 void Kile::enableAutosave(bool as)

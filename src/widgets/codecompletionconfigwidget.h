@@ -1,9 +1,7 @@
-/***************************************************************************
-    date                 : Mar 30 2007
-    version              : 0.24
-    copyright            : (C) 2004-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+/********************************************************************************
+  Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                2010 by Michel Ludwig (michel.ludwig@liverpool.ac.uk)
+ ********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -19,6 +17,8 @@
 
 #include <QWidget>
 
+#include "ui_codecompletionconfigwidget.h"
+
 class QCheckBox;
 class QLabel;
 class QSpinBox;
@@ -30,19 +30,16 @@ class KConfig;
 class KPushButton;
 class KTabWidget;
 
-/**
-  *@author Holger Danielsson
-  */
 
 namespace KileWidget {
 class LogWidget;
 }
 
-class CodeCompletionConfigWidget : public QWidget
+class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeCompletionConfig
 {
 		Q_OBJECT
 	public:
-		CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent = 0, const char *name = 0);
+		CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent = NULL, const char *name = NULL);
 		~CodeCompletionConfigWidget();
 
 		void readConfig(void);
@@ -55,25 +52,10 @@ class CodeCompletionConfigWidget : public QWidget
 		KileWidget::LogWidget *m_logwidget;
 
 		// tabs, views, pages, wordlists
-		KTabWidget *tab;
 		QTreeWidget *m_listview[NumPages];
 		QWidget *m_page[NumPages];
 		QStringList m_wordlist[NumPages];
 		QStringList m_dirname;
-
-		// button
-		KPushButton *add, *remove;
-
-		// Checkboxes/Spinboxes
-		QCheckBox *cb_autocomplete;
-		QCheckBox *cb_setcursor, *cb_setbullets;
-		QCheckBox *cb_closeenv;
-		QSpinBox *sp_latexthreshold, *sp_cwlthreshold;
-		QLabel *lb_latexthreshold, *lb_cwlthreshold;
-		QCheckBox *cb_autocompleteabbrev;
-		QCheckBox *cb_showabbrevview;
-		QCheckBox *cb_showcwlview;
-		QCheckBox *cb_citeoutofbraces;
 
 		QTreeWidget *getListview(QWidget *page);
 		QString getListname(QWidget *page);

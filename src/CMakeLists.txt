@@ -104,6 +104,7 @@ SET(kile_SRCS
 )
 
 SET( kile_UI
+	widgets/codecompletionconfigwidget.ui
 	widgets/helpconfigwidget.ui
 	widgets/latexconfigwidget.ui
 	widgets/generalconfigwidget.ui

@@ -1,8 +1,6 @@
 /************************************************************************************************
-    date                 : Mar 30 2007
-    version              : 0.24
-    copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                2009-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************************/
 
 
@@ -48,86 +46,12 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 		: QWidget(parent), m_config(config), m_logwidget(logwidget)
 {
 	setObjectName(name);
-	// Layout
-	QVBoxLayout *vbox = new QVBoxLayout();
-	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
-	setLayout(vbox);
-
-	// Groupbox with TabDialog and two button
-	QGroupBox *gb_tab = new QGroupBox(i18n("Complete Modes"), this);
-	gb_tab->setFlat(true);
-	QGridLayout *grid_tab = new QGridLayout();
-	grid_tab->setMargin(KDialog::marginHint());
-	grid_tab->setSpacing(KDialog::spacingHint());
-	gb_tab->setLayout(grid_tab);
-
-	// create TabWidget
-	tab = new KTabWidget(gb_tab);
+	setupUi(this);
 
 	// add three pages: Tex/Latex, Dictionary, Abbreviation
-	addPage(tab, TexPage, i18n("TeX/LaTeX"), "tex");
-	addPage(tab, DictionaryPage, i18n("Dictionary"), "dictionary");
-	addPage(tab, AbbreviationPage, i18n("Abbreviation"), "abbreviation");
-
-	// add two centered button
-	add = new KPushButton(i18n("Add..."), gb_tab);
-	remove = new KPushButton(i18n("Remove"), gb_tab);
-
-	grid_tab->addWidget(tab, 1, 0, 1, 2);
-	grid_tab->addWidget(add, 2, 0, Qt::AlignRight);
-	grid_tab->addWidget(remove, 2, 1, Qt::AlignLeft);
-
-	// below: OptionBox
-	QGroupBox *bg_options = new QGroupBox(this);
-	bg_options->setFlat(true);
-	QGridLayout *bg_optionsLayout = new QGridLayout();
-	bg_optionsLayout->setAlignment(Qt::AlignTop);
-	bg_optionsLayout->setMargin(KDialog::marginHint());
-	bg_optionsLayout->setSpacing(KDialog::spacingHint());
-	bg_options->setLayout(bg_optionsLayout);
-
-	cb_setcursor = new QCheckBox(i18n("Place cursor"), bg_options);
-	cb_setbullets = new QCheckBox(i18n("Insert bullets"), bg_options);
-	cb_closeenv = new QCheckBox(i18n("Close environments"), bg_options);
-	cb_autocomplete = new QCheckBox(i18n("Auto completion (LaTeX)"), bg_options);
-	lb_latexthreshold = new QLabel(i18n("Threshold:"), bg_options);
-	sp_latexthreshold = new QSpinBox(bg_options);
-	sp_latexthreshold->setMinimum(1);
-	sp_latexthreshold->setMaximum(9);
-	sp_latexthreshold->setSingleStep(1);
-	QLabel *lb_latexletters = new QLabel(i18n("letters"), bg_options);
-	lb_cwlthreshold = new QLabel(i18n("Maximum:"), bg_options);
-	sp_cwlthreshold = new QSpinBox(bg_options);
-	sp_cwlthreshold->setMinimum(1);
-	sp_cwlthreshold->setMaximum(10);
-	sp_cwlthreshold->setSingleStep(1);
-	QLabel *lb_cwlfiles = new QLabel(i18n("files"), bg_options);
-	cb_showabbrevview = new QCheckBox(i18n("Show abbreviations"), bg_options);
-	cb_showcwlview = new QCheckBox(i18n("Show LaTeX commands"), bg_options);
-	cb_autocompleteabbrev = new QCheckBox(i18n("Auto completion (abbreviations)"), bg_options);
-	cb_citeoutofbraces = new QCheckBox(i18n("Move out of braces (citation keylists)"), bg_options);
-
-	bg_optionsLayout->addWidget(cb_setcursor, 0, 0);
-	bg_optionsLayout->addWidget(cb_setbullets, 1, 0);
-	bg_optionsLayout->addWidget(cb_closeenv, 2, 0);
-	bg_optionsLayout->addWidget(cb_showabbrevview, 3, 0);
-	bg_optionsLayout->addWidget(cb_showcwlview, 4, 0);
-	bg_optionsLayout->addWidget(cb_autocomplete, 0, 2);
-	bg_optionsLayout->addWidget(lb_latexthreshold, 0, 4);
-	bg_optionsLayout->addWidget(sp_latexthreshold, 0, 6);
-	bg_optionsLayout->addWidget(lb_latexletters, 0, 7);
-	bg_optionsLayout->addWidget(cb_autocompleteabbrev, 1, 2);
-	bg_optionsLayout->addWidget(lb_cwlthreshold, 4, 4);
-	bg_optionsLayout->addWidget(sp_cwlthreshold, 4, 6);
-	bg_optionsLayout->addWidget(lb_cwlfiles, 4, 7);
-	bg_optionsLayout->addWidget(cb_citeoutofbraces, 5, 0, 1, 7);
-
-	// tune layout
-	bg_optionsLayout->setColumnMinimumWidth(1, 20);
-	bg_optionsLayout->setColumnMinimumWidth(3, 12);
-	bg_optionsLayout->setColumnMinimumWidth(5, 8);
-	bg_optionsLayout->setColumnStretch(7, 1);
+	addPage(m_tabWidget, TexPage, i18n("TeX/LaTeX"), "tex");
+	addPage(m_tabWidget, DictionaryPage, i18n("Dictionary"), "dictionary");
+	addPage(m_tabWidget, AbbreviationPage, i18n("Abbreviation"), "abbreviation");
 
 	cb_setcursor->setWhatsThis(i18n("Try to place the cursor."));
 	cb_setbullets->setWhatsThis(i18n("Insert bullets where the user must input data."));
@@ -141,23 +65,9 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	cb_showcwlview->setWhatsThis(i18n("Show LaTeX commands of the selected completion files in the sidebar"));
 	sp_cwlthreshold->setWhatsThis(i18n("Maximum number of completion files, which can be shown in the sidebar."));
 
-	// add OptionBox and TabDialog into the layout
-	vbox->addWidget(gb_tab);
-	vbox->addWidget(bg_options);
-	vbox->addStretch();
-
-	connect(tab, SIGNAL(currentChanged(int)), this, SLOT(showPage(int)));
-	connect(add, SIGNAL(clicked()), this, SLOT(addClicked()));
-	connect(remove, SIGNAL(clicked()), this, SLOT(removeClicked()));
-
-	// justify height
-	QTreeWidgetItem *item = new QTreeWidgetItem(m_listview[AbbreviationPage], QStringList(I18N_NOOP("Test")));
-	item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-	int h = 6 * (m_listview[AbbreviationPage]->sizeHintForRow(0) + 1) + 1;
-	for (uint i = TexPage; i < NumPages; ++i) {
-		m_listview[i]->setFixedHeight(h);
-	}
-	delete item;
+	connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(showPage(int)));
+	connect(m_addFileButton, SIGNAL(clicked()), this, SLOT(addClicked()));
+	connect(m_removeFileButton, SIGNAL(clicked()), this, SLOT(removeClicked()));
 
 	// find resource directories for cwl files
 	getCwlDirs();
@@ -191,7 +101,7 @@ void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, c
 	m_dirname << dirname;
 
 	connect(m_listview[page], SIGNAL(itemSelectionChanged()),
-					this, SLOT(slotSelectionChanged()));
+	        this, SLOT(slotSelectionChanged()));
 }
 
 //////////////////// read/write configuration ////////////////////
@@ -274,28 +184,25 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 	m_listview[page]->setUpdatesEnabled(false);
 	m_listview[page]->clear();
 	QStringList::ConstIterator it;
-	for (it = m_wordlist[page].constBegin(); it != m_wordlist[page].constEnd(); ++it)
-	{
+	for (it = m_wordlist[page].constBegin(); it != m_wordlist[page].constEnd(); ++it) {
 		QString basename = (*it).right((*it).length() - 2);
 		bool localExists = QFileInfo(localdir + basename + ".cwl").exists();
 
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_listview[page], QStringList(basename));
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-		if (localExists)
-		{
+		if (localExists) {
 			item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
 			item->setText(1, "+");
 		}
-		else
-			if (QFileInfo(globaldir + basename + ".cwl").exists())
-			{
+		else {
+			if (QFileInfo(globaldir + basename + ".cwl").exists()) {
 				item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
 			}
-			else
-			{
+			else {
 				item->setCheckState(0, Qt::Unchecked);
 				item->setText(1, i18n("File not found"));
 			}
+		}
 	}
 
 	updateColumnWidth(m_listview[page]);
@@ -337,8 +244,9 @@ bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 		newfiles.append(s);
 
 		// check for a change
-		if (index >= m_wordlist[page].count() || m_wordlist[page][index] != s)
+		if (index >= m_wordlist[page].count() || m_wordlist[page][index] != s) {
 			changed = true;
+		}
 
 		// go on
 		++it;
@@ -362,10 +270,10 @@ bool CodeCompletionConfigWidget::isListviewEntry(QTreeWidget *listview, const QS
 
 QTreeWidget *CodeCompletionConfigWidget::getListview(QWidget *page)
 {
-	for (uint i = TexPage; i < NumPages; ++i)
-	{
-		if (page == m_page[i])
+	for (uint i = TexPage; i < NumPages; ++i) {
+		if (page == m_page[i]) {
 			return m_listview[i];
+		}
 	}
 	return 0;
 }
@@ -386,13 +294,13 @@ void CodeCompletionConfigWidget::showPage(QWidget *page)
 {
 	QTreeWidget *listview = getListview(page);
 	if(listview) {
-		remove->setEnabled(listview->selectedItems().count() > 0);
+		m_removeFileButton->setEnabled(listview->selectedItems().count() > 0);
 	}
 }
 
 void CodeCompletionConfigWidget::showPage(int index)
 {
-	showPage(tab->widget(index));
+	showPage(m_tabWidget->widget(index));
 }
 
 //////////////////// add/remove new wordlists ////////////////////
@@ -421,11 +329,9 @@ void CodeCompletionConfigWidget::getCwlDirs()
 void CodeCompletionConfigWidget::getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir)
 {
 	QStringList files = QDir(dir, "*.cwl").entryList();
-	for (QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it)
-	{
+	for (QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it) {
 		QString filename = QFileInfo(*it).fileName();
-		if (! map.contains(filename))
-		{
+		if(! map.contains(filename)) {
 			map[filename] = dir + '/' + (*it);
 			list << filename;
 		}
@@ -435,7 +341,7 @@ void CodeCompletionConfigWidget::getCwlFiles(QMap<QString, QString> &map, QStrin
 void CodeCompletionConfigWidget::addClicked()
 {
 	// determine current subdirectory for current tab page
-	QString listname = getListname(tab->currentWidget());
+	QString listname = getListname(m_tabWidget->currentWidget());
 
 
 	// get a sorted list of all cwl files from both directories
@@ -449,7 +355,7 @@ void CodeCompletionConfigWidget::addClicked()
 	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Complete Files"), i18n("Select Files"), this);
 	if (dlg->exec()) {
 		if (dlg->currentItem() >= 0) {
-			QTreeWidget *listview = getListview(tab->currentWidget());     // get current page
+			QTreeWidget *listview = getListview(m_tabWidget->currentWidget());     // get current page
 			QStringList filenames = dlg->selected();                   // get selected files
 			for (QStringList::ConstIterator it = filenames.constBegin(); it != filenames.constEnd(); ++it) {
 				QString filename = *it;
@@ -485,7 +391,7 @@ void CodeCompletionConfigWidget::addClicked()
 
 void CodeCompletionConfigWidget::removeClicked()
 {
-	QWidget *page = tab->currentWidget();
+	QWidget *page = m_tabWidget->currentWidget();
 	QTreeWidget *list = getListview(page);                              // determine page
 
 	foreach(QTreeWidgetItem *item, list->selectedItems()) {
@@ -497,8 +403,8 @@ void CodeCompletionConfigWidget::removeClicked()
 
 void CodeCompletionConfigWidget::slotSelectionChanged()
 {
-	QTreeWidget *listview = getListview(tab->currentWidget());     // get current page
-	remove->setEnabled(listview->selectedItems().count() > 0);
+	QTreeWidget *listview = getListview(m_tabWidget->currentWidget());     // get current page
+	m_removeFileButton->setEnabled(listview->selectedItems().count() > 0);
 }
 
 #include "codecompletionconfigwidget.moc"

@@ -702,9 +702,10 @@ bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view,
 	int len = insertedText.length();
 	QRegExp whitespace(" |\t");
 	whitespace.setMinimal(true);
-	int pos = insertedText.lastIndexOf(whitespace,-1);
-	QString searchText = (pos>=0 && pos<len-2) ? insertedText.right(len-pos-1) : insertedText; 
-	
+	int pos = insertedText.lastIndexOf(whitespace, -1);
+	// 'pos' is less than or equal to 'len - 1'
+	QString searchText = (pos >= 0 && pos < len) ? insertedText.right(len - pos - 1) : insertedText;
+
 	return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(searchText));
 }
 

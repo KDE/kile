@@ -37,13 +37,14 @@
 namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent) :
-		QWidget(parent),
+		QFrame(parent),
 		m_part(NULL),
 		m_term(NULL),
 		m_ki(info)
 	{
 		setLayout(new QVBoxLayout(this));
 		layout()->setMargin(0);
+		setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
 		spawn();
 	}
 
@@ -62,28 +63,23 @@ namespace KileWidget
 			return;
 		}
 
+		// the catalogue for translations is added by the Konsole part constructor already
 		m_part = static_cast<KParts::ReadOnlyPart*>(factory->create<QObject>(this, this));
 		if(!m_part) {
 			return;
 		}
 
-		m_term = qobject_cast<TerminalInterface *>(m_part);
+		m_term = qobject_cast<TerminalInterface*>(m_part);
 		if(!m_term){
 			KILE_DEBUG() << "Found no TerminalInterface";
 			return;
 		}
 
 		layout()->addWidget(m_part->widget());
+		setFocusProxy(m_part->widget());
+		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
 
 		m_term->showShellInDir(QString());
-
-		setFocusProxy(m_part->widget());
-
-		if (m_part->widget()->inherits("QFrame")) {
-			((QFrame*)m_part->widget())->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
-		}
-
-		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
 	}
 
 
@@ -113,10 +109,10 @@ namespace KileWidget
 
 	void Konsole::setDirectory(const QString &directory)
 	{
-// 		KILE_DEBUG() << "void Konsole::setDirectory(const QString &" << dirname << ")";
+//		KILE_DEBUG() << "void Konsole::setDirectory(const QString &" << dirname << ")";
 		if(m_term && !directory.isEmpty() && directory != m_currentDir) {
 			m_term->sendInput("cd " + KShell::quoteArg(directory) + '\n');
-        		m_term->sendInput("clear\n");
+			m_term->sendInput("clear\n");
 			m_currentDir = directory;
 		}
 	}
@@ -137,6 +133,7 @@ namespace KileWidget
 
 	void Konsole::slotDestroyed ()
 	{
+		layout()->removeWidget(m_part->widget());
 		m_part = NULL;
 		m_term = NULL;
 		spawn();

@@ -1,9 +1,8 @@
-/************************************************************************************************
-    begin                : Sat Dec 8 2001
-    copyright            : (C) 2001 - 2003 by Brachet Pascal
-                               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
- ************************************************************************************************/
+/**********************************************************************
+ Copyright (C) 2001 - 2003 by Brachet Pascal
+               2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **********************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -19,8 +18,8 @@
 
 #include <kde_terminal_interface.h>
 
+#include <QFrame>
 #include <QShowEvent>
-#include <QWidget>
 
 namespace KParts { class ReadOnlyPart; }
 
@@ -28,7 +27,7 @@ class KileInfo;
 
 namespace KileWidget
 {
-	class Konsole : public QWidget
+	class Konsole : public QFrame
 	{
 		Q_OBJECT
 

@@ -1032,7 +1032,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 			                                m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
 		if(KIO::NetAccess::exists(saveURL, true, m_ki->mainWindow())) { // check for writing possibility
-			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it ?", saveURL.fileName()), i18n("Overwrite File ?"), KGuiItem(i18n("&Overwrite")));
+			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?", saveURL.fileName()), i18n("Overwrite File?"), KGuiItem(i18n("&Overwrite")));
 			if(r != KMessageBox::Continue) {
 				continue;
 			}
@@ -1891,7 +1891,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 			file.remove();
 		}
 		m_ki->logWidget()->printMessage(KileTool::Info,
-		                                i18n("Cleaning %1 : %2", fileName, extlist.join(" ")),
+		                                i18n("Cleaning %1: %2", fileName, extlist.join(" ")),
 		                                i18n("Clean"));
 	}
 }

@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
                            (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -104,7 +104,9 @@
 Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 :	KApplication(),
 	KileInfo(this),
-	m_paPrint(NULL)
+	m_paPrint(NULL),
+	m_parserProgressBar(NULL),
+	m_parserProgressBarShowTimer(NULL)
 {
 	setObjectName(name);
 	// publish the D-Bus interfaces
@@ -348,27 +350,44 @@ QAction* Kile::action(const QString& name) const
 
 void Kile::setupStatusBar()
 {
-	m_parserProgressBar = new QProgressBar(m_mainWindow);
-	m_parserProgressBar->setMaximumHeight(kapp->fontMetrics().height());
-	m_parserProgressBar->setVisible(false);
+	// please keep in mind that this method can be called several times during an execution
+	// of Kile (due to KParts switching)
+	if(!m_parserProgressBar) {
+		m_parserProgressBar = new QProgressBar(m_mainWindow);
+		m_parserProgressBar->setMaximumHeight(kapp->fontMetrics().height());
+		m_parserProgressBar->setVisible(false);
+	}
+	else {
+		statusBar()->removeWidget(m_parserProgressBar);
+	}
 
-	m_parserProgressBarShowTimer = new QTimer(this);
-	m_parserProgressBarShowTimer->setSingleShot(true);
-	connect(m_parserProgressBarShowTimer, SIGNAL(timeout()), m_parserProgressBar, SLOT(show()));
+	if(!m_parserProgressBarShowTimer) {
+		m_parserProgressBarShowTimer = new QTimer(this);
+		m_parserProgressBarShowTimer->setSingleShot(true);
+		connect(m_parserProgressBarShowTimer, SIGNAL(timeout()), m_parserProgressBar, SLOT(show()));
+	}
 
-	statusBar()->removeItem(ID_LINE_COLUMN);
-	statusBar()->removeItem(ID_HINTTEXT);
-	statusBar()->removeItem(ID_VIEW_MODE);
-	statusBar()->removeItem(ID_SELECTION_MODE);
+	if(statusBar()->hasItem(ID_HINTTEXT)) {
+		statusBar()->removeItem(ID_HINTTEXT);
+	}
+	if(statusBar()->hasItem(ID_LINE_COLUMN)) {
+		statusBar()->removeItem(ID_LINE_COLUMN);
+	}
+	if(statusBar()->hasItem(ID_VIEW_MODE)) {
+		statusBar()->removeItem(ID_VIEW_MODE);
+	}
+	if(statusBar()->hasItem(ID_SELECTION_MODE)) {
+		statusBar()->removeItem(ID_SELECTION_MODE);
+	}
 
 	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT, 10);
 	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_LINE_COLUMN, 0);
 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_VIEW_MODE, 0);
-	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->setItemAlignment(ID_VIEW_MODE, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_SELECTION_MODE, 0);
-	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->setItemAlignment(ID_SELECTION_MODE, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertWidget(4, m_parserProgressBar, 1);
 }
 

@@ -2,7 +2,7 @@
     begin                : Mon Dec 22 2003
     copyright            : (C) 2001 - 2003 by Brachet Pascal
                                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************************/
 
 /***************************************************************************
@@ -133,7 +133,8 @@ namespace KileWidget
 
 	void Konsole::slotDestroyed ()
 	{
-		layout()->removeWidget(m_part->widget());
+		// there is no need to remove the widget from the layout as this is done
+		// automatically when the widget is destroyed
 		m_part = NULL;
 		m_term = NULL;
 		spawn();

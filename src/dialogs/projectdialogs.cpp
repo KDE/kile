@@ -333,16 +333,17 @@ QString KileNewProjectDlg::cleanProjectFile()
 
 void KileNewProjectDlg::slotButtonClicked(int button)
 {
-	if( button == KDialog::Ok ){
-		if (! acceptUserExtensions())
+	if(button == KDialog::Ok) {
+		if (! acceptUserExtensions()) {
 			return;
-	
-		if (projectTitle().trimmed().isEmpty())
-		{
-			if (KMessageBox::warningYesNo(this, i18n("You did not enter a project name, if you continue the project name will be set to: Untitled."), i18n("No Name")) == KMessageBox::Yes){
+		}
+
+		if (projectTitle().trimmed().isEmpty()) {
+			if (KMessageBox::warningYesNo(this, i18n("You have not entered a project name. If you decide to proceed, the project name will be set to \"Untitled\".\n"
+			                                         "Do you want to create the project nevertheless?"), i18n("No Project Name Given")) == KMessageBox::Yes) {
 				m_title->setText(i18n("Untitled"));
 			}
-			else{
+			else {
 				return;
 			}
 		}

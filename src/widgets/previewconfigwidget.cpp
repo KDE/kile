@@ -77,9 +77,10 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	QLabel *resDpi = new QLabel(i18n("dpi"), gbResolution);
 	QLabel *resAllowed = new QLabel(i18n("(allowed values: 30-1000 dpi)"), gbResolution);
 
-	QLabel *backgroundColor = new QLabel(i18n("Background Color:"), gbResolution);
+	QLabel *backgroundColorLabel = new QLabel(i18n("&Background Color:"), gbResolution);
 	m_backgroundColorButton = new KColorButton(gbResolution);
 	m_backgroundColorButton->setDefaultColor(QColor(Qt::white));
+	backgroundColorLabel->setBuddy(m_backgroundColorButton);
 	// set validator
 	QValidator* validator = new QIntValidator(30, 1000, this);
 	m_leDvipngResolution->setValidator(validator);
@@ -102,7 +103,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->addWidget(m_leDvipngResolution, 0, 2);
 	resLayout->addWidget(resDpi, 0, 3);
 	resLayout->addWidget(resAllowed, 0, 5, Qt::AlignLeft);
-	resLayout->addWidget(backgroundColor, 1, 0);
+	resLayout->addWidget(backgroundColorLabel, 1, 0);
 	resLayout->addWidget(m_backgroundColorButton, 1, 2);
 	resLayout->addWidget(labelDescription, 2, 0, 1, 6);
 	resLayout->addWidget(labelDvipng, 3, 0);

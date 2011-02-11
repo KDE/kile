@@ -1,9 +1,7 @@
-/***************************************************************************
-    date                 : Sep 05 2006
-    version              : 0.32
-    copyright            : (C) 2005-2006 by Holger Danielsson
-    email                : holger.danielsson@t-online.de
- ***************************************************************************/
+/********************************************************************************
+ * Copyright (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de) *
+ *           (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)              *
+ ********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,6 +22,7 @@ class QCheckBox;
 class QGroupBox;
 class QLabel;
 
+class KColorButton;
 class KComboBox;
 class KConfig;
 class KLineEdit;
@@ -51,6 +50,7 @@ class KileWidgetPreviewConfig : public QWidget
 		QCheckBox *m_cbEnvironment, *m_cbSelection, *m_cbMathgroup;
 		KComboBox *m_coSelection, *m_coEnvironment, *m_coMathgroup;
 		QGroupBox *m_gbPreview;
+		KColorButton *m_backgroundColorButton;
 
 		bool m_dvipngInstalled, m_convertInstalled;
 

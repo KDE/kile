@@ -1,8 +1,7 @@
-/************************************************************************************************
-    date                 : Sep 05 2006
-    version              : 0.32
-    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
- ************************************************************************************************/
+/********************************************************************************
+ * Copyright (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de) *
+ *           (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)              *
+ ********************************************************************************/
 
 
 /***************************************************************************
@@ -26,6 +25,7 @@
 #include <QValidator>
 #include <QVBoxLayout>
 
+#include <KColorButton>
 #include <KComboBox>
 #include <KDialog>
 #include <KLineEdit>
@@ -77,6 +77,9 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	QLabel *resDpi = new QLabel(i18n("dpi"), gbResolution);
 	QLabel *resAllowed = new QLabel(i18n("(allowed values: 30-1000 dpi)"), gbResolution);
 
+	QLabel *backgroundColor = new QLabel(i18n("Background Color:"), gbResolution);
+	m_backgroundColorButton = new KColorButton(gbResolution);
+	m_backgroundColorButton->setDefaultColor(QColor(Qt::white));
 	// set validator
 	QValidator* validator = new QIntValidator(30, 1000, this);
 	m_leDvipngResolution->setValidator(validator);
@@ -99,11 +102,13 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->addWidget(m_leDvipngResolution, 0, 2);
 	resLayout->addWidget(resDpi, 0, 3);
 	resLayout->addWidget(resAllowed, 0, 5, Qt::AlignLeft);
-	resLayout->addWidget(labelDescription, 1, 0, 1, 6);
-	resLayout->addWidget(labelDvipng, 2, 0);
-	resLayout->addWidget(m_lbDvipng, 2, 2);
-	resLayout->addWidget(labelConvert, 3, 0);
-	resLayout->addWidget(m_lbConvert, 3, 2);
+	resLayout->addWidget(backgroundColor, 1, 0);
+	resLayout->addWidget(m_backgroundColorButton, 1, 2);
+	resLayout->addWidget(labelDescription, 2, 0, 1, 6);
+	resLayout->addWidget(labelDvipng, 3, 0);
+	resLayout->addWidget(m_lbDvipng, 3, 2);
+	resLayout->addWidget(labelConvert, 4, 0);
+	resLayout->addWidget(m_lbConvert, 4, 2);
 	resLayout->setColumnMinimumWidth(1, 8);
 	resLayout->setColumnMinimumWidth(4, 24);
 	resLayout->setColumnStretch(5, 1);
@@ -189,7 +194,7 @@ void KileWidgetPreviewConfig::writeConfig(void)
 		}
 		KileConfig::setDvipngResolution(resolution);
 	}
-
+	KileConfig::setPreviewPaneBackgroundColor(m_backgroundColorButton->color());
 	if(m_gbPreview->isEnabled()) {
 		KileConfig::setSelPreviewInWidget(m_cbSelection->isChecked());
 		KileConfig::setEnvPreviewInWidget(m_cbEnvironment->isChecked());
@@ -233,6 +238,8 @@ void KileWidgetPreviewConfig::setupBottomBar()
 	// setup tools
 	m_dvipngInstalled = KileConfig::dvipng();
 	m_convertInstalled = KileConfig::convert();
+
+	m_backgroundColorButton->setColor(KileConfig::previewPaneBackgroundColor());
 
 	m_lbDvipng->setText((m_dvipngInstalled) ? i18n("installed") : i18n("not installed"));
 	m_lbConvert->setText((m_convertInstalled) ? i18n("installed") : i18n("not installed"));

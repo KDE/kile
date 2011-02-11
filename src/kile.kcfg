@@ -466,6 +466,10 @@
 			<label>Conversion tool for preview of mathgroups in bottom bar.</label>
 			<default>0</default>
 		</entry>
+		<entry name="previewPaneBackgroundColor" type="Color">
+			<label>The background color of the quick preview pane.</label>
+			<default>white</default>
+		</entry>
 	</group>
 	<group name="QuickDocument">
 		<entry name="userClasses" type="StringList">

@@ -1,5 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2006 by Mathias Soeken (msoeken@informatik.uni-bremen.de)  *
+*             (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)          *
 ******************************************************************************/
 
 /***************************************************************************
@@ -14,10 +15,10 @@
 #ifndef PREVIEWWIDGET_H
 #define PREVIEWWIDGET_H
 
-#include <QWidget>
-#include <QPaintEvent>
+#include <QScrollArea>
 
 class QImage;
+class QLabel;
 
 class KileInfo;
 
@@ -25,6 +26,9 @@ namespace KileTool { class Base; }
 
 namespace KileWidget
 {
+
+// declared in the .cpp file
+class ImageDisplayWidget;
 
 /**
  * Widget which can display PNG images from Math LaTeX
@@ -45,7 +49,7 @@ namespace KileWidget
  * @author Mathias Soeken <msoeken@informatik.uni-bremen.de>
  */
 
-class PreviewWidget : public QWidget
+class PreviewWidget : public QScrollArea
 {
 	Q_OBJECT
 
@@ -73,12 +77,11 @@ private:
 	enum { pwDvipng=0, pwDvipsConvert, pwConvert };
 
 	KileInfo *m_info;
-	QImage *m_previewImage;
+	ImageDisplayWidget *m_imageDisplayWidget;
 	bool m_running;
 	QString m_conversionTool;
 
 protected:
-	void paintEvent (QPaintEvent*);
 	void showError(const QString &text);
 
 public Q_SLOTS:

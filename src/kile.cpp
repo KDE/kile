@@ -89,7 +89,6 @@
 #include "widgets/scriptsmanagementwidget.h"
 #include "scriptmanager.h"
 #include "widgets/previewwidget.h"
-#include "widgets/extendedscrollarea.h"
 #include "symbolviewclasses.h"
 
 #define LOG_TAB     0
@@ -607,11 +606,8 @@ void Kile::setupBottomBar()
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
 	connect(viewManager()->tabs(), SIGNAL(currentChanged(int)), m_texKonsole, SLOT(sync()));
 
-	m_previewScrollArea = new KileWidget::ExtendedScrollArea(m_mainWindow);
-	m_previewWidget = new KileWidget::PreviewWidget(this, m_previewScrollArea);
-	m_previewScrollArea->setBackgroundColor(QColor(Qt::white));
-	m_previewScrollArea->setWidget(m_previewWidget);
-	m_bottomBar->addPage(m_previewScrollArea, SmallIcon ("document-preview"), i18n ("Preview"));
+	m_previewWidget = new KileWidget::PreviewWidget(this, m_bottomBar);
+	m_bottomBar->addPage(m_previewWidget, SmallIcon ("document-preview"), i18n ("Preview"));
 
 	m_bottomBar->setVisible(true);
 	m_bottomBar->switchToTab(KileConfig::bottomBarIndex());

@@ -1,6 +1,7 @@
 /*****************************************************************************
 *   Copyright (C) 2006 by Mathias Soeken (msoeken@informatik.uni-bremen.de)  *
 *                        (orginal version of this preview)                   *
+*             (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)          *
 ******************************************************************************/
 
 // dani/2006:
@@ -23,10 +24,11 @@
 #include "widgets/previewwidget.h"
 
 #include <QImage>
+#include <QLabel>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QPalette>
-#include <QWidget>
+#include <QScrollArea>
 
 #include <KLocale>
 
@@ -42,25 +44,81 @@
 namespace KileWidget
 {
 
-PreviewWidget::PreviewWidget(KileInfo *info, QWidget *parent, const char *name) 
-	: QWidget(parent), m_info(info), m_previewImage(NULL), m_running(false) 
+// We can't use signals/slots in this class as the moc doesn't parse it.
+// Also, we better keep the declaration and implementation separate as
+// we might have to move it back at some point.
+class ImageDisplayWidget : public QWidget
 {
-	setObjectName(name);
-	setPalette(QPalette(QColor(0xff,0xff,0xff)));
+	public:
+		ImageDisplayWidget(QWidget *parent);
+		virtual ~ImageDisplayWidget();
+
+		void clear();
+		void setImageFile(const QString& fileName);
+
+	protected:
+		void paintEvent(QPaintEvent *event);
+
+	private:
+		QImage *m_image;
+};
+
+ImageDisplayWidget::ImageDisplayWidget(QWidget *parent)
+  : QWidget(parent),
+    m_image(NULL)
+{
+	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
-
-PreviewWidget::~PreviewWidget() 
+ImageDisplayWidget::~ImageDisplayWidget()
 {
-	delete m_previewImage;
+	delete m_image;
 }
 
-void PreviewWidget::paintEvent(QPaintEvent*)
+void ImageDisplayWidget::paintEvent(QPaintEvent *event)
 {
 	QPainter p(this);
-	if(m_previewImage) {
-		p.drawImage(3, 3, *m_previewImage);
+	// draw the background first
+	p.fillRect(0, 0, width(), height(), KileConfig::previewPaneBackgroundColor());
+	// and then the image
+	if(m_image) {
+		p.drawImage(3, 3, *m_image);
 	}
+}
+
+void ImageDisplayWidget::clear()
+{
+	delete m_image;
+	m_image = NULL;
+	setMinimumSize(0, 0);
+	repaint();
+}
+
+void ImageDisplayWidget::setImageFile(const QString& fileName)
+{
+	if(!m_image) {
+		delete m_image;
+	}
+
+	m_image = new QImage(fileName);
+	setMinimumSize(m_image->width() + 6, m_image->height() + 6);
+	repaint();
+}
+
+PreviewWidget::PreviewWidget(KileInfo *info, QWidget *parent, const char *name)
+ : QScrollArea(parent), m_info(info), m_running(false)
+{
+	setObjectName(name);
+	setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
+	setWidgetResizable(true);
+
+	m_imageDisplayWidget = new ImageDisplayWidget(this);
+	setWidget(m_imageDisplayWidget);
+}
+
+
+PreviewWidget::~PreviewWidget()
+{
 }
 
 void PreviewWidget::showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype)
@@ -161,22 +219,13 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 
 void PreviewWidget::clear()
 {
-	delete m_previewImage;
-	m_previewImage = NULL;
-	repaint();
+	m_imageDisplayWidget->clear();
 }
 
 void PreviewWidget::drawImage()
 {
 	KILE_DEBUG() << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)";
-	if(!m_previewImage) {
-		delete m_previewImage;
-	}
-
-	m_previewImage = new QImage (m_info->quickPreview()->getPreviewFile ("png"));
-	setFixedSize(m_previewImage->width() + 6, m_previewImage->height() + 6);
-
-	repaint();
+	m_imageDisplayWidget->setImageFile(m_info->quickPreview()->getPreviewFile ("png"));
 }
 
 void PreviewWidget::toolDestroyed()

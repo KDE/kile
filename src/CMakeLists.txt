@@ -83,7 +83,6 @@ SET(kile_SRCS
 	dialogs/abbreviationinputdialog.cpp
 	kileextensions.cpp
 	widgets/categorycombobox.cpp
-	widgets/extendedscrollarea.cpp
 	widgets/progressdialog.h
 	widgets/progressdialog.cpp
 	scripting/bindings.cpp

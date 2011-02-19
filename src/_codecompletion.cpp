@@ -180,8 +180,9 @@ KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor
 // 	QRegExp completionStartRegExp("((\\s|^)?)((\\\\\\w*)|(\\w+))$");
 // 	QRegExp completionStartRegExp("((\\\\\\w*)|([^\\\\]\\b\\w+))$");
 // 	QRegExp completionStartRegExp("(\\\\\\w*)[^\\\\]*$");
- 
-	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
+
+	// TeX allows '.' characters inside citation labels (bug 266670)
+	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,.=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
 	completionStartRegExp.setMinimal(true);
 	QString leftSubstring = line.left(position.column());
 	KILE_DEBUG() << "leftSubstring: " << leftSubstring;
@@ -236,7 +237,8 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 		KILE_DEBUG() << "found citation or reference!";
 		int openBracketIndex = completionString.indexOf('{');
 		if(openBracketIndex != -1) {
-			QRegExp labelListRegExp("\\s*(([:\\w]+)|([:\\w]+(\\s*,\\s*[:\\w]*)+))");
+			// TeX allows '.' characters inside citation labels (bug 266670)
+			QRegExp labelListRegExp("\\s*(([:.\\w]+)|([:.\\w]+(\\s*,\\s*[:.\\w]*)+))");
 			labelListRegExp.setMinimal(false);
 			int column = openBracketIndex + 1;
 			KILE_DEBUG() << "open bracket column + 1: " << column;

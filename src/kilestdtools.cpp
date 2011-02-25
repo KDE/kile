@@ -158,14 +158,10 @@ namespace KileTool
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
 			QStringList pckgs = manager()->info()->allPackages();
+			// As asymptote doesn't properly notify the user when it needs to be rerun, we run
+			// it every time LaTeX is run (but only for m_reRun == 0 if LaTeX has to be rerun).
 			if(pckgs.contains("asymptote")) {
-				static QRegExp msg("File " + QRegExp::escape(S()) + "_?\\d+_?.(?:eps|pdf|tex) does not exist");
-				int sz =  manager()->info()->outputInfo()->size();
-				for(int i = 0; i < sz; ++i) {
-					if((*manager()->info()->outputInfo())[i].message().contains(msg)) {
-						return true;
-					}
-				}
+				return true;
 			}
 		}
 		return false;
@@ -217,63 +213,76 @@ namespace KileTool
 	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
 	{
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
+		if(m_reRun >= 2) {
+			KILE_DEBUG() << "Already rerun twice, doing nothing.";
+			m_reRun = 0;
+			return;
+		}
+		if(nErrors > 0) {
+			KILE_DEBUG() << "Errors found, not running again.";
+			m_reRun = 0;
+			return;
+		}
+		bool reRunWarningFound = false;
 		//check for "rerun LaTeX" warnings
-		bool reRan = false;
-		if((m_reRun < 2) && (nErrors == 0) && (nWarnings > 0)) {
+		if(nWarnings > 0) {
 			int sz =  manager()->info()->outputInfo()->size();
 			for(int i = 0; i < sz; ++i) {
 				if ((*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
 				&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun")) {
-					reRan = true;
+					reRunWarningFound = true;
 					break;
 				}
 			}
 		}
 
-		
-		if(reRan) {
+		bool asy = (m_reRun == 0) && updateAsy();
+		bool bibs = updateBibs();
+		bool index = updateIndex();
+		KILE_DEBUG() << "asy:" << asy << "bibs:" << bibs << "index:" << index << "reRunWarningFound:" << reRunWarningFound;
+		// Currently, we don't properly detect yet whether asymptote has to be run.
+		// So, if asymtote figures are present, we run it each time after the first LaTeX run.
+		bool reRun = (asy || bibs || index || reRunWarningFound);
+		KILE_DEBUG() << "reRun:" << reRun;
+
+		if(reRun) {
+			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
+			Base *tool = manager()->factory()->create(name());
+			tool->setSource(source());
+			manager()->runNext(tool);
+		}
+
+		if(bibs) {
+			KILE_DEBUG() << "need to run BibTeX";
+			Base *tool = manager()->factory()->create("BibTeX");
+			tool->setSource(source());
+			manager()->runNext(tool);
+		}
+
+		if(index) {
+			KILE_DEBUG() << "need to run MakeIndex";
+			Base *tool = manager()->factory()->create("MakeIndex");
+			tool->setSource(source());
+			manager()->runNext(tool);
+		}
+
+		if(asy) {
+			KILE_DEBUG() << "need to run asymptote";
+			int sz = manager()->info()->allAsyFigures().size();
+			for(int i = sz -1; i >= 0; --i) {
+			  Base *tool = manager()->factory()->create("Asymptote");
+			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + ".asy");
+			  KILE_DEBUG();
+			  KILE_DEBUG() << "calling manager()->runNext(";
+			  manager()->runNext(tool);
+			}
+		}
+
+		if(reRun) {
 			m_reRun++;
 		}
 		else {
 			m_reRun = 0;
-		}
-
-		bool bibs = updateBibs();
-		bool index = updateIndex();
-		bool asy = updateAsy();
-		
-		if(reRan) {
-			KILE_DEBUG() << "rerunning LaTeX " << m_reRun;
-			Base *tool = manager()->factory()->create(name());
-			tool->setSource(source());
-			manager()->runNext(tool);
-		}
-		
-		if(bibs || index || asy) {
-			Base *tool = manager()->factory()->create(name());
-			tool->setSource(source());
-			manager()->runNext(tool);
-
-			if(bibs) {
-				KILE_DEBUG() << "need to run BibTeX";
-				tool = manager()->factory()->create("BibTeX");
-				tool->setSource(source());
-				manager()->runNext(tool);
-			}
-
-			if(index) {
-				KILE_DEBUG() << "need to run MakeIndex";
-				tool = manager()->factory()->create("MakeIndex");
-				tool->setSource(source());
-				manager()->runNext(tool);
-			}
-			
-			if(asy) {
-				KILE_DEBUG() << "need to run asymptote";
-				tool = manager()->factory()->create("Asymptote");
-				tool->setSource(source());
-				manager()->runNext(tool);
-			}
 		}
 	}
 	

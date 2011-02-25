@@ -126,6 +126,7 @@ public:
 	QStringList bibliographies() const { return m_bibliography; }
 	QStringList packages() const { return m_packages; }
 	QStringList newCommands() const { return m_newCommands; }
+	QStringList asyFigures() const {return m_asyFigures; }
 
 	QString lastModifiedFile(const QStringList& list);
 
@@ -204,6 +205,7 @@ protected:
 	QStringList					m_bibliography;
 	QStringList					m_packages;
 	QStringList					m_newCommands;
+	QStringList					m_asyFigures;
 	QString						m_preamble;
 	QMap<QString,KileStructData>			m_dictStructLevel;
 	KConfig						*m_config;

@@ -289,6 +289,12 @@ QStringList KileInfo::allNewCommands(KileDocument::Info *info)
 	return retrieveList(&KileDocument::Info::newCommands, info);
 }
 
+QStringList KileInfo::allAsyFigures(KileDocument::Info *info)
+{
+	KILE_DEBUG() << "Kile::asyFigures()" << endl;
+	return retrieveList(&KileDocument::Info::asyFigures, info);
+}
+
 QStringList KileInfo::allPackages(KileDocument::Info *info)
 {
 	KILE_DEBUG() << "Kile::allPackages()" << endl;

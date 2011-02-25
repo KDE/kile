@@ -395,6 +395,7 @@ void Info::updateStruct()
 	m_bibliography.clear();
 	m_packages.clear();
 	m_newCommands.clear();
+	m_asyFigures.clear();
 	m_bIsRoot = false;
 	m_preamble.clear();
 }
@@ -940,6 +941,7 @@ void LaTeXInfo::updateStructLevelInfo() {
 		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
 		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "tabular");
 		m_dictStructLevel["\\begin{table*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "tabular");
+		m_dictStructLevel["\\begin{asy}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
 		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
 
@@ -1175,6 +1177,10 @@ void LaTeXInfo::updateStruct()
 						{
 							it = m_dictStructLevel.constFind("\\begin{" + m +'}');
 						}
+						else if(m == "asy") {
+							it = m_dictStructLevel.constFind("\\begin{" + m +'}');
+							m_asyFigures.append(m);
+						}
 						else if(m == "frame") {
 							it = m_dictStructLevel.constFind("\\begin{frame}");
 							m = i18n("Frame");
@@ -1202,7 +1208,7 @@ void LaTeXInfo::updateStruct()
 					// tell structure view that a floating environment or a beamer frame must be closed
 					else if ( (*it).type == KileStruct::EndEnv )
 					{
-						if ( m=="figure" || m== "figure*" || m=="table" || m=="table*" )
+						if ( m=="figure" || m== "figure*" || m=="table" || m=="table*" || m=="asy")
 						{
 							it = m_dictStructLevel.constFind("\\end{float}");
 						}

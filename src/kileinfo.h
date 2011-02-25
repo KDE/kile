@@ -102,6 +102,7 @@ public:
 	virtual QStringList allBibliographies(KileDocument::Info *info = NULL);
 	virtual QStringList allDependencies(KileDocument::Info *info = NULL);
 	virtual QStringList allNewCommands(KileDocument::Info *info = NULL);
+	virtual QStringList allAsyFigures(KileDocument::Info *info = NULL);
 	virtual QStringList allPackages(KileDocument::Info *info = NULL);
 
 	QString lastModifiedFile(KileDocument::Info * info = NULL);

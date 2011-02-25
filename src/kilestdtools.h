@@ -69,6 +69,7 @@ namespace KileTool
 			bool updateIndex();
 			bool updateAsy();
 
+			//FIXME: this is a little 'hackish'
 			static int m_reRun;
 	};
 

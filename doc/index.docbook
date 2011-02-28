@@ -60,11 +60,11 @@
 </copyright>
 
 <copyright>
-<year>2007</year>
+<year>2007</year><year>2011</year>
 <holder>Michel Ludwig</holder>
 </copyright>
 
-<date>June 13, 2009</date>
+<date>February 28, 2011</date>
 <releaseinfo>2.1</releaseinfo>
 
 <legalnotice>
@@ -95,7 +95,7 @@
 
 		<title>Requirements</title>
 			
-		<para>To Run &kile;, you will be required to have the following components 
+		<para>To run &kile;, you need to have the following components
 		installed on your system:</para>
 
 		<itemizedlist>
@@ -112,9 +112,8 @@
 		distribution documentation, or refer to your installation &CD; or DVD, for adding these
 		packages to your computer.</para>
 
-		<para>The &kile; project includes several binary packages of &kile; for different distributions that can be easily
-		installed and run without having to compile; check out the <ulink url="http://kile.sourceforge.net/">&kile;
-		homepage</ulink>.</para>
+		<para>&kile; might also be available as a pre-compiled package for your &Linux; distribution already. Please check with the
+		package manager of your distribution.</para>
 
 	</sect1>
 
@@ -129,8 +128,8 @@
 		documentation will be considered. If you would like to contribute to this project or the
 		documentation, please consult the <ulink url="http://kile.sourceforge.net/">&kile; web page</ulink>.</para>
 
-		<para>Need answers about &kile;? Are you stuck with your compile? Want to see a new
-		feature? The preferred way to ask technical questions or start a discussion is to
+		<para>Do you need answers about &kile;? Are you stuck with the compilation process? Do you want to see a new
+		feature implemented? The preferred way to ask technical questions or to start a discussion is to
 		use our mailing list: <email>kile-devel@lists.sourceforge.net</email>.</para>
 
 	</sect1>
@@ -151,7 +150,7 @@
 
 			<para>&kile; is an integrated &latex; environment for the &kde; desktop. &kile; gives you the
 			ability to use all the functionalities of &latex; in a graphical interface, giving you easy,
-			immediate, and customized access to all programs for &latex; codecompletion, compiling, postprocessing,
+			immediate, and customized access to all programs for &latex; code-completion, compiling, postprocessing,
 			debugging, conversion and viewing tools; you also get very handy wizards, a &latex;
 			reference and a powerful project management.</para>
 
@@ -159,30 +158,29 @@
 
 		<sect2>
 
-			<title>&kile; and &kate;</title>
+			<title>&kile; and the &kate; Editor Component</title>
 
-			<para>&kile; is based on &kate;, so a lot of editing capabilities come from &kate; and  &kile; extends 
-			these capabilities to edit &latex; documents. To learn more about &kate; and its capabilities, see 
-			the <ulink url="help:kate">&kate; Handbook</ulink>. &kile; users should start reading from the chapters
-			<quote>Working with the &kate; Editor</quote> and <quote>Configuring &kate;</quote>.</para>
+			<para>&kile; is based on the &kate; editor component, i.e. a lot of its editing capabilities stem from the &kate;
+			editor component itself. &kile; extends these capabilities with features to edit &latex; documents. To learn more
+			about the &kate; editor component and its capabilities, see the <ulink url="http://kate-editor.org">&kate;
+			webpage</ulink>.</para>
 
 		</sect2>
 
 		<sect2>
 
-			<title>What is &latex;</title>
+			<title>What is &latex;?</title>
 
 			<para>&latex; is a text-processing system derived from &tex;, a program developed originally in
-			1977 by Donald Knuth to help him layout his work professionally, obtaining a work similar 
-			to a typesetter's; the typesetter is the professional that styles a document's look according to 
-			specifications for the type of document.
-			&latex; was created by Leslie Lamport to give authors an automatic typesetter, especially when 
-			it came to the expensive and painstaking typesetting of mathematical formulas and expressions,
-			that <emphasis>by no chance</emphasis> are enclosed in dollar signs in &latex;.
-			Today, word-processing programs let any user be the typesetter; but what you often want
-			is a document that looks good, not one that you spent hours on to make it look good.
-			&latex; takes that burden, and lets you think of the document, not of the layout. And yes,
-			it <emphasis>will</emphasis> look good!</para>
+			1977 by Donald Knuth to help layout text in a professional way and obtain a layout quality that
+			is on par with the work of a professional typesetter.
+			&latex; was created by Leslie Lamport to give authors an automatic typesetter, especially to ease
+			the expensive and painstaking process of typesetting of mathematical formulas and expressions,
+			which are enclosed within dollar signs in &latex; <emphasis>for a reason</emphasis>.
+			Today, word-processing programs let any user act as typesetter, but what is often needed
+			is a document that simply looks good without having to spend hours to bring it into shape.
+			&latex; takes that burden on its shoulders, and lets you concentrate on the document instead of on the layout.
+			And yes, it <emphasis>will</emphasis> look good!</para>
 
 		</sect2>
 
@@ -190,7 +188,7 @@
 
 			<title>How do you pronounce it? Why that strange typesetting?</title>
 
-			<para>There is a funny traditions of &tex;-related packages to have the strangest pronunciation
+			<para>There is a funny tradition of &tex;-related packages to have the strangest pronunciation
 			and typesetting possible. &tex; was supposed to be brought in from the Greek <emphasis>τεχ</emphasis>,
 			in Latin letters <emphasis>tech</emphasis>. There are a lot of explanations why, but most likely it is because
 			&tex; was originally conceived for technical reports, and indeed its foremost ability was the correct and
@@ -199,11 +197,11 @@
 			<para>The pronunciation is supposed to be as follows: <emphasis>T</emphasis> as you would expect,
 			<emphasis>E</emphasis> as in <emphasis>get</emphasis>, and <emphasis>X</emphasis> as in the
 			German i<emphasis>ch</emphasis>. If you do not know what <emphasis>ch</emphasis> sounds like,
-			it is more or less as an hissing cat; the IPA symbol is /ç/. Many people report the different pronunciation
-			of <emphasis>ach</emphasis> (IPA symbol /x/), but I have personally asked some Greeks, and can
-			confirm the first version. You should be aware that a lot of people mispronounce /teks/ or /tek/.</para>
+			it is more or less like the sound a hissing cat produces; the IPA symbol is /ç/. Many people report a different pronunciation
+			of <emphasis>ach</emphasis> (IPA symbol /x/), but according to some Greeks, the first version is indeed correct.
+			You should be aware that a lot of people mispronounce &tex; as /teks/ or /tek/.</para>
 			<para>Last, in &latex; the first L<superscript>A</superscript> is pronounced as
-			<emphasis>lay</emphasis>: the idea is that, while raw &tex; is difficult, even a <emphasis>lay</emphasis>man
+			<emphasis>lay</emphasis>: the idea being, while raw &tex; is difficult, even a <emphasis>lay</emphasis>man
 			can use &latex; macros. A less inspiring, but more realistic explanation is that it stems from the surname of 
 			Leslie Lamport, the creator of &latex;. Now you know!</para>
 

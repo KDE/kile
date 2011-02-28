@@ -53,6 +53,9 @@
         <item>
          <widget class="KLineEdit" name="kcfg_DefaultProjectLocation"/>
         </item>
+        <item>
+         <widget class="KPushButton" name="m_defaultProjectLocationButton"/>
+        </item>
        </layout>
       </item>
       <item>
@@ -198,7 +201,7 @@
       <item>
        <widget class="QCheckBox" name="kcfg_CleanUpAfterClose">
         <property name="text">
-         <string>Automatically clean-up files after close</string>
+         <string>Automatically clean-up files after closing Kile</string>
         </property>
        </widget>
       </item>
@@ -239,6 +242,11 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>

@@ -1,5 +1,6 @@
 /**************************************************************************
-*   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*                 2011 by Felix Mauch (felix_mauch@web.de)                *
 ***************************************************************************/
 
 /**************************************************************************
@@ -23,8 +24,11 @@ class KileWidgetGeneralConfig : public QWidget, public Ui::KileWidgetGeneralConf
 	Q_OBJECT
 
 	public:
-		KileWidgetGeneralConfig(QWidget *parent = 0);
+		KileWidgetGeneralConfig(QWidget *parent = NULL);
 		~KileWidgetGeneralConfig();
+
+	private slots:
+		void selectDefaultProjectLocation();
 };
 
 #endif

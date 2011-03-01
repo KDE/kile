@@ -213,24 +213,22 @@
 
 		<title>&latex; 101</title>
 
-		<para>The &latex; typesetting system is similar to other markup languages as &XML;, used for
-		many types of documents (including the one you are reading), or &HTML;, used for web
-		pages. The general idea is about having specially wrapped keywords, called <emphasis>
+		<para>The &latex; typesetting system is similar to other markup languages such as &XML;, which is used in
+		many types of documents (including the one you are reading), or &HTML;, which is used for web
+		pages. The general idea behind markup languages is to have special keywords, called <emphasis>
 		tags</emphasis>, that tell a program (a word processor, a web browser, or the &latex;
-		compiler) how to present text. &kile; offers you a good number of such tags in the
-		menu <guimenu>LaTeX</guimenu> in the menu bar.</para>
+		compiler) how to the text enclosed within the tags is to be interpreted. &kile; offers a number of such tags in the
+		<guimenu>LaTeX</guimenu> menu in the menu bar.</para>
 
-		<para>While we will try to give you a good idea of what &latex; is, this is not The Definitive
-		Book on &latex;. If you want to learn &latex; well, you may want to loan a book in your
-		library. The writer has had a good experience with A Guide to &latex; by H. Kopka
-		and P. W. Daly, and still keeps it on the shelf.</para>
+		<para>While we will try to give you a good idea of what &latex; is, this document is, of course, not The Definitive
+		Book on &latex;. If you want to learn &latex; in depth, you may want to borrow a specialized book from your local library.</para>
 
-		<para>As other markup languages, &latex; contains a <emphasis>preamble</emphasis>, which
-		sets global commands, such as paper size, page numbering, dimensions of the text on the page,
-		and a <emphasis>body</emphasis>, that contains the document text; the preamble contains
-		at least the <userinput>\documentclass</userinput> command, and precedes the body, that 
-		starts with the command <userinput>\begin{document}</userinput>, and is quite predictably 
-		concluded by the command <userinput>\end{document}</userinput>.</para>
+		<para>As any other markup language, &latex; documents contain a <emphasis>preamble</emphasis>, which
+		defines global properties, such as paper size, page numbering, dimensions of the text on the page,
+		and a document <emphasis>body</emphasis>, which contains the text of the document. The preamble is composed
+		at least of the <userinput>\documentclass</userinput> command. It precedes the document body, which
+		starts with the command <userinput>\begin{document}</userinput> is concluded with the command
+		<userinput>\end{document}</userinput>.</para>
 
 	</sect1>
 
@@ -256,7 +254,7 @@
 				<listitem><para><guilabel>Typeface Size</guilabel>: tell &kile; what point size (pt) 
 				you want to use.</para></listitem>
 				<listitem><para><guilabel>Paper Size</guilabel>: choose the size or style of sheets.</para></listitem>
-				<listitem><para><guilabel>Encoding</guilabel>: In general it is a good idea to use your systems standard
+				<listitem><para><guilabel>Encoding</guilabel>: In general it is a good idea to use your system's standard
 						encoding. Modern systems now move more and more to UTF-8 as the standard encoding.
 						If you can, use utf8x (which is indeed the correct spelling for &latex; documents).
 					</para></listitem>
@@ -286,31 +284,27 @@
 				<listitem><para>Empty document: real freaks start from scratch!</para></listitem>
 				<listitem><para>Article: sets the article format, for a document short enough not to
 				be broken down to chapters.</para></listitem>
-				<listitem><para>Report: sets the report format, for a middle-sized document, with for
-				example page numbering on the page's outer edge.</para></listitem>
+				<listitem><para>Report: sets the report format, for a middle-sized document, with, for
+				example, page numbering on the page's outer edge.</para></listitem>
 				<listitem><para>Book: sets the book format, a full-fledged flavor, so powerful that
 				it is used to write many university textbooks.</para></listitem>
-				<listitem><para>Letter: sets the letter format, that can automatically do those nasty
-				indentations that nobody really remembers.</para></listitem>
-				<listitem><para>Beamer,HA-Prosper: create nice presentations in PDF with a superior look and all 
+				<listitem><para>Letter: sets the letter format.</para></listitem>
+				<listitem><para>Beamer, HA-Prosper: create nice presentations in PDF with a superior look and all
 						&latex; power.</para></listitem>
 				<listitem><para>Powerdot: Powerdot is the follower of the packages <userinput>seminar</userinput> 
-				and <userinput>HA-Prosper</userinput>. It hasn't so much options like Beamer, 
-				but it is easy to use and creates really nice presentations in PDF.</para></listitem>
-				<listitem><para>Scrartcl,Scrbook,Scrreprt,Scrlttr2: the KOMA-Script document classes, 
-						especially adapted to german typography. Use them whenever you write german
+				and <userinput>HA-Prosper</userinput>. It does not have as many options as Beamer,
+				but it is easy to use and it can create really nice presentations in PDF.</para></listitem>
+				<listitem><para>Scrartcl, Scrbook, Scrreprt, Scrlttr2: the KOMA-Script document classes,
+						especially adapted to German typography. Use them whenever you write German
 						texts.</para></listitem>
-				<listitem><para>PDF: a modified <userinput>Article</userinput> template to use with 
-				<userinput>PdfLaTeX</userinput>.</para></listitem>
 				<listitem><para>Xelatex: an modified <userinput>Article</userinput> template to use with 
 				<userinput>XeLaTeX</userinput>.</para></listitem>
 			</itemizedlist>
 			
-			<para>Remember that you can take all these templates as starting point for your own requirements.</para>
+			<para>Note that all of these templates can be adjusted to the user's requirements.</para>
 
-			<para>New users need not to worry, this list is just a brief description of features,
-			and more attention will be paid to complete these tasks in detail later in 
-			<xref linkend="quickstart"/>.</para>
+			<para>New users need not worry: this list is just a brief description of the available features,
+			and a more detailed description can be found in <xref linkend="quickstart"/>.</para>
 
 		</sect2>
 
@@ -318,12 +312,10 @@
 
 			<title>Syntax Highlighting</title>
 
-			<para>&kile; is similar to programs that deal with source code and editing, and will
+			<para>&kile; is similar to other programs that deal with source code and editing, and will
 			automatically highlight commands, options and items that are used (and abused).
-			&kile; makes it possible to spot easily problem areas: for example, if you see major
-			areas of text turned green, it is likely that you forgot closing a math environment somewhere;
-			you would have noticed anyway by how crappy the output file would have looked, but
-			highlighting really saves you time and frustration.</para>
+			&kile; makes it possible to easily spot problematic areas: for example, if you see major
+			areas of text turn green, it is likely that you forgot closing a math environment somewhere.</para>
 
 		</sect2>
 
@@ -407,17 +399,17 @@
 			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project-></guimenu><guisubmenu>Project
 			Options</guisubmenu></menuchoice> a project-wide master document.</para></listitem>
 			<listitem><para><guibutton>Quickbuild</guibutton>: compiles your &latex; source code and displays the results
-			automatically, unless you have code errors.</para></listitem>
+			automatically unless there are errors contained in the document.</para></listitem>
 			<listitem><para><guibutton>Watch file mode</guibutton>: this mode will "watch" the &DVI; file for changes, and
 			will not launch a new session of &okular; after <guibutton>Quickbuild</guibutton>.</para></listitem>
 			<listitem><para><guibutton>View logfile</guibutton>: views the <literal role="extension">.log</literal> file,
 					so you can spot errors.</para></listitem>
 			<listitem><para><guibutton>Previous error</guibutton>: jumps backward through the 
 					<literal role="extension">.log</literal> file 
-					and highlights errors in source.</para></listitem>
+					and highlights errors in the source.</para></listitem>
 			<listitem><para><guibutton>Next error</guibutton>: jumps forward through
 					<literal role="extension">.log</literal> file and 
-			highlights errors in source.</para></listitem>
+			highlights errors in the source.</para></listitem>
 			<listitem><para><guibutton>Stop</guibutton>: halts current tool.</para></listitem>
 			<listitem><para><guibutton>LaTeX</guibutton>: runs &latex; on the active document.</para></listitem>
 			<listitem><para><guibutton>ViewDVI</guibutton>: launches &DVI; viewer.</para></listitem>
@@ -462,8 +454,9 @@
 			<listitem><para><guilabel>pageref</guilabel>: just like <guilabel>ref</guilabel>, but refers to 
 			a page instead of a structure element.</para></listitem>
 			<listitem><para><guilabel>cite</guilabel>: create a reference with data from a bibliography.</para></listitem>
-			<listitem><para><guilabel>cite from ViewBib</guilabel>: ask the ViewBib tool for all selected references and insert them.
-			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/">&kbib;</ulink> as ViewBib tool.</para></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem><para><guilabel>cite from ViewBib</guilabel>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/">&kbib;</ulink> as ViewBib tool.</para></listitem>-->
 		</itemizedlist>
 
 		<screenshot>

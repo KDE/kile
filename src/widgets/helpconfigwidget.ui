@@ -41,6 +41,9 @@
      <item>
       <widget class="KLineEdit" name="kcfg_location"/>
      </item>
+     <item>
+         <widget class="KPushButton" name="m_helpLocationButton"/>
+        </item>
     </layout>
    </item>
    <item>

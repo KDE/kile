@@ -1,5 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*                 2011 by Felix Mauch (felix_mauch@web.de)                *
 ***************************************************************************/
 
 /**************************************************************************
@@ -32,6 +33,7 @@ class KileWidgetHelpConfig : public QWidget, public Ui::KileWidgetHelpConfig
 
 	protected Q_SLOTS:
 		void slotConfigure();
+		void selectHelpLocation();
 
 	protected:
 		KileHelp::Help *m_help;

@@ -1,5 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*                 2011 by Felix Mauch (felix_mauch@web.de)                *
 ***************************************************************************/
 
 /**************************************************************************
@@ -13,10 +14,17 @@
 
 #include "widgets/helpconfigwidget.h"
 
+#include <KFileDialog>
+
 KileWidgetHelpConfig::KileWidgetHelpConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
+
+	m_helpLocationButton->setIcon(KIcon("folder-open"));
+
 	connect(m_pbConfigure, SIGNAL(clicked()), this, SLOT(slotConfigure()));
+	connect(m_helpLocationButton, SIGNAL(clicked()),
+	        this, SLOT(selectHelpLocation()));
 }
 
 KileWidgetHelpConfig::~KileWidgetHelpConfig()
@@ -28,11 +36,17 @@ void KileWidgetHelpConfig::slotConfigure()
 	m_help->userHelpDialog();
 }
 
-
-
 void KileWidgetHelpConfig::setHelp(KileHelp::Help *help)
 {
 	m_help = help;
+}
+
+void KileWidgetHelpConfig::selectHelpLocation()
+{
+	QString newLocation = KFileDialog::getExistingDirectory(kcfg_location->text(), this);
+	if (!newLocation.isEmpty()) {
+		kcfg_location->setText(newLocation);
+	}
 }
 
 #include "helpconfigwidget.moc"

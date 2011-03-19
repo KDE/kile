@@ -304,7 +304,7 @@ void MathEnvironmentDialog::slotButtonClicked(int button)
 		int numrows = m_spRows->value();
 
 		// get number of groups/columns and tabulator to separate these
-		QString topgrouptabulator, grouptabulator;
+		QString grouptabulator;
 		int numgroups;
 		bool aligngroups;
 		if (m_groups) {
@@ -312,11 +312,9 @@ void MathEnvironmentDialog::slotButtonClicked(int button)
 			numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
 			if (m_edSpace->isEnabled()) {
 				QString spaces;
-				topgrouptabulator = "  &" + m_edSpace->text() + "  ";
-				grouptabulator = "  &  " + spaces.fill(' ', m_edSpace->text().length());
+				grouptabulator = "  &" + m_edSpace->text() + "  ";
 			}
 			else {
-				topgrouptabulator = "  &  ";
 				grouptabulator = "  &  ";
 			}
 		}
@@ -369,12 +367,7 @@ void MathEnvironmentDialog::slotButtonClicked(int button)
 				m_td.tagBegin += tabulator;
 				// is there more than one group or column?
 				if(aligngroups && col < numgroups - 1) {
-					if (row == 0) {
-						m_td.tagBegin += bullet + topgrouptabulator;
-					}
-					else {
 						m_td.tagBegin += bullet + grouptabulator;
-					}
 				}
 			}
 			// last row without CR

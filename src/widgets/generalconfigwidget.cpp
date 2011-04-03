@@ -15,6 +15,7 @@
 #include "widgets/generalconfigwidget.h"
 
 #include <KFileDialog>
+#include <KUrlCompletion>
 
 KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(parent)
 {
@@ -23,6 +24,11 @@ KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(pare
 
 	connect(m_defaultProjectLocationButton, SIGNAL(clicked()),
 	        this, SLOT(selectDefaultProjectLocation()));
+
+	KUrlCompletion *dirCompletion = new KUrlCompletion();
+	dirCompletion->setMode(KUrlCompletion::DirCompletion);
+	kcfg_DefaultProjectLocation->setCompletionObject(dirCompletion);
+	kcfg_DefaultProjectLocation->setAutoDeleteCompletionObject(true);
 }
 
 KileWidgetGeneralConfig::~KileWidgetGeneralConfig()

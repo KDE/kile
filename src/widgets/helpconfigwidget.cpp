@@ -15,6 +15,7 @@
 #include "widgets/helpconfigwidget.h"
 
 #include <KFileDialog>
+#include <KUrlCompletion>
 
 KileWidgetHelpConfig::KileWidgetHelpConfig(QWidget *parent) : QWidget(parent)
 {
@@ -25,6 +26,11 @@ KileWidgetHelpConfig::KileWidgetHelpConfig(QWidget *parent) : QWidget(parent)
 	connect(m_pbConfigure, SIGNAL(clicked()), this, SLOT(slotConfigure()));
 	connect(m_helpLocationButton, SIGNAL(clicked()),
 	        this, SLOT(selectHelpLocation()));
+
+	KUrlCompletion *dirCompletion = new KUrlCompletion();
+	dirCompletion->setMode(KUrlCompletion::DirCompletion);
+	kcfg_location->setCompletionObject(dirCompletion);
+	kcfg_location->setAutoDeleteCompletionObject(true);
 }
 
 KileWidgetHelpConfig::~KileWidgetHelpConfig()

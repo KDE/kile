@@ -49,6 +49,7 @@
 #include "plaintolatexconverter.h"
 #include "widgets/previewwidget.h"
 #include "quickpreview.h"
+#include "codecompletion.h"
 
 namespace KileView
 {
@@ -173,6 +174,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
+
+	connect(view, SIGNAL(textInserted(KTextEditor::View*, const KTextEditor::Cursor&, const QString &)),
+	        m_ki->codeCompletionManager(), SLOT(textInserted(KTextEditor::View*, const KTextEditor::Cursor&, const QString &)));
 
 	// code completion
 	KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);

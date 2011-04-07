@@ -876,7 +876,6 @@ void Manager::readConfig(KConfig *config)
 	m_latexthreshold = KileConfig::completeAutoThreshold();
 	m_textthreshold = KileConfig::completeAutoTextThreshold();
 	m_citationMove = KileConfig::completeCitationMove();
-	m_autoDollar = KileConfig::autoInsertDollar();
 */
 	// we need to read some of Kate's config flags
 // 	readKateConfigFlags(config);
@@ -922,6 +921,19 @@ void Manager::startLaTeXCompletion(KTextEditor::View *view)
 	}
 	latexInfo->startLaTeXCompletion(view);
 }
+
+void Manager::textInserted(KTextEditor::View* view, const KTextEditor::Cursor& position, const QString& text)
+{
+	// auto insert '$' if the user just typed a '$' character
+	if (KileConfig::autoInsertDollar() && text == "$") {
+		// code completion seems to be never active, so there is no need to
+		// check KTextEditor::CodeCompletionInterface::isCompletionActive()
+		KTextEditor::Cursor currentCursorPos = view->cursorPosition();
+		view->document()->insertText(currentCursorPos, "$");
+		view->setCursorPosition(currentCursorPos);
+	}
+}
+
 
 void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 {

@@ -162,6 +162,8 @@ namespace KileCodeCompletion
 			void startLaTeXEnvironment(KTextEditor::View *view = NULL);
 			void startAbbreviationCompletion(KTextEditor::View *view = NULL);
 
+			void textInserted(KTextEditor::View* view, const KTextEditor::Cursor& position, const QString & text);
+
 		protected:
 			KileInfo* m_ki;
 			QStringList m_texWordList, m_dictWordList, m_abbrevWordList;

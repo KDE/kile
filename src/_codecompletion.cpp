@@ -864,22 +864,6 @@ void Manager::readConfig(KConfig *config)
 	Q_UNUSED(config);
 	KILE_DEBUG() << "======================";
 
-	// save normal parameter
-	//KILE_DEBUG() << "   read bool entries";
-/*
-	m_setcursor = KileConfig::completeCursor();
-	m_setbullets = KileConfig::completeBullets();
-	m_closeenv = KileConfig::completeCloseEnv();
-	m_autocomplete = KileConfig::completeAuto();
-	m_autocompletetext = KileConfig::completeAutoText();
-	m_autocompleteabbrev = KileConfig::completeAutoAbbrev();
-	m_latexthreshold = KileConfig::completeAutoThreshold();
-	m_textthreshold = KileConfig::completeAutoTextThreshold();
-	m_citationMove = KileConfig::completeCitationMove();
-*/
-	// we need to read some of Kate's config flags
-// 	readKateConfigFlags(config);
-
 	// reading the wordlists is only necessary at the first start
 	// and when the list of files changes
 	if(m_firstConfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
@@ -922,7 +906,7 @@ void Manager::startLaTeXCompletion(KTextEditor::View *view)
 	latexInfo->startLaTeXCompletion(view);
 }
 
-void Manager::textInserted(KTextEditor::View* view, const KTextEditor::Cursor& position, const QString& text)
+void Manager::textInserted(KTextEditor::View* view, const KTextEditor::Cursor& /* position */, const QString& text)
 {
 	// auto insert '$' if the user just typed a '$' character
 	if (KileConfig::autoInsertDollar() && text == "$") {

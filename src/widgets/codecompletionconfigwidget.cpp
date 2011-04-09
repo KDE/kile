@@ -58,7 +58,6 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	cb_closeenv->setWhatsThis(i18n("Also close an environment when an opening command is inserted."));
 	cb_autocomplete->setWhatsThis(i18n("Directional or popup-based completion of the TeX/LaTeX commands that are contained in the selected completion files."));
 	sp_latexthreshold->setWhatsThis(i18n("Automatically show a completion list of TeX/LaTeX commands when the word has this length."));
-	cb_citeoutofbraces->setWhatsThis(i18n("Move cursor out of braces after selecting from a citation keylist."));
 
 	cb_showabbrevview->setWhatsThis(i18n("Show abbreviations of the selected completion files in the sidebar"));
 	cb_autocompleteabbrev->setWhatsThis(i18n("Directional or popup-based completion of abbreviations that are contained in the selected completion files."));
@@ -119,7 +118,6 @@ void CodeCompletionConfigWidget::readConfig(void)
 	cb_closeenv->setChecked(KileConfig::completeCloseEnv());
 	cb_showabbrevview->setChecked(KileConfig::completeShowAbbrev());
 	cb_showcwlview->setChecked(KileConfig::showCwlCommands());
-	cb_citeoutofbraces->setChecked(KileConfig::completeCitationMove());
 
 	cb_autocomplete->setChecked(KileConfig::completeAuto());
 	cb_autocompleteabbrev->setChecked(KileConfig::completeAutoAbbrev());
@@ -154,7 +152,6 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	KileConfig::setCompleteCloseEnv(cb_closeenv->isChecked());
 	KileConfig::setCompleteShowAbbrev(cb_showabbrevview->isChecked());
 	KileConfig::setShowCwlCommands(cb_showcwlview->isChecked());
-	KileConfig::setCompleteCitationMove(cb_citeoutofbraces->isChecked());
 
 	// read autocompletion settings
 	bool autoModeLatex = cb_autocomplete->isChecked();

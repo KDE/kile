@@ -243,13 +243,6 @@
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="cb_citeoutofbraces">
-        <property name="text">
-         <string>Move out of braces (citation keylists)</string>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>

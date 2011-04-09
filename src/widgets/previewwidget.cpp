@@ -75,7 +75,7 @@ ImageDisplayWidget::~ImageDisplayWidget()
 	delete m_image;
 }
 
-void ImageDisplayWidget::paintEvent(QPaintEvent *event)
+void ImageDisplayWidget::paintEvent(QPaintEvent * /* event */)
 {
 	QPainter p(this);
 	// draw the background first

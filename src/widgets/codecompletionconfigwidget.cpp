@@ -189,11 +189,12 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
 		if (localExists) {
 			item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
-			item->setText(1, "+");
+			item->setText(1, "yes");
 		}
 		else {
 			if (QFileInfo(globaldir + basename + ".cwl").exists()) {
 				item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
+				item->setText(1, "no");
 			}
 			else {
 				item->setCheckState(0, Qt::Unchecked);
@@ -258,9 +259,18 @@ bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 	return changed;
 }
 
-bool CodeCompletionConfigWidget::isListviewEntry(QTreeWidget *listview, const QString &filename)
+QTreeWidgetItem* CodeCompletionConfigWidget::getListviewEntry(QTreeWidget *listview, const QString &filename)
 {
-	return listview->findItems(filename, Qt::MatchExactly).count() > 0;
+	QList<QTreeWidgetItem*> items = listview->findItems(filename, Qt::MatchExactly);
+	if (items.empty()) {
+		return NULL;
+	}
+	else {
+		if (items.count() > 1) {
+			m_logwidget->printMessage(KileTool::Info, i18n("Wordlist '%1' contains duplicate entries.", filename), i18n("Completion"));
+		}
+		return items.first();
+	}
 }
 
 //////////////////// tabpages parameter ////////////////////
@@ -339,49 +349,56 @@ void CodeCompletionConfigWidget::addClicked()
 {
 	// determine current subdirectory for current tab page
 	QString listname = getListname(m_tabWidget->currentWidget());
-
+	QString localPath = m_localCwlDir + listname, globalPath = m_globalCwlDir + listname;
 
 	// get a sorted list of all cwl files from both directories
+	// Local files are prefered before global.
 	QMap<QString, QString> filemap;
 	QStringList filelist;
-	getCwlFiles(filemap, filelist, m_localCwlDir + listname);
-	getCwlFiles(filemap, filelist, m_globalCwlDir + listname);
+	getCwlFiles(filemap, filelist, localPath);
+	getCwlFiles(filemap, filelist, globalPath);
 	filelist.sort();
 
 	// dialog to add cwl files
-	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Complete Files"), i18n("Select Files"), this);
-	if (dlg->exec()) {
-		if (dlg->currentItem() >= 0) {
+	ManageCompletionFilesDialog dlg(filelist, i18n("Completion Files"), localPath, globalPath, this);
+
+	if (dlg.exec()) {
+		QStringList filenames = dlg.selected();
+		if (!filenames.empty()) {
 			QTreeWidget *listview = getListview(m_tabWidget->currentWidget());     // get current page
-			QStringList filenames = dlg->selected();                   // get selected files
 			for (QStringList::ConstIterator it = filenames.constBegin(); it != filenames.constEnd(); ++it) {
 				QString filename = *it;
-				// could we accept the wordlist?
+				// Reload map of files.
+				filemap.clear(); filelist.clear();
+				getCwlFiles(filemap, filelist, localPath);
+				getCwlFiles(filemap, filelist, globalPath);
+
+				// Could we accept the wordlist?
 				QFileInfo fi(filemap[filename]);
 				if (!filename.isEmpty() && fi.exists() && fi.isReadable()) {
 					QString basename = filename.left(filename.length() - 4);
 
-					// check if this entry already exists
-					if (isListviewEntry(listview, basename)) {
-						m_logwidget->printMessage(KileTool::Info, i18n("Wordlist '%1' is already used.", basename), i18n("Complete"));
-						continue;
+					// Check if this entry already exists.
+					QTreeWidgetItem* entry = NULL;
+					if ((entry = getListviewEntry(listview, basename)) == NULL) {
+						// A new entry has to be created
+						entry = new QTreeWidgetItem(listview, QStringList(basename));
 					}
 
-					// add new entry
-					QTreeWidgetItem *item = new QTreeWidgetItem(listview, QStringList(basename));
-					item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-					item->setCheckState(0, Qt::Checked);
-					item->setSelected(true);
+					entry->setFlags(entry->flags() | Qt::ItemIsUserCheckable);
+					entry->setCheckState(0, Qt::Checked);
+					entry->setSelected(true);
 					if (filemap[filename].left(m_localCwlDir.length()) == m_localCwlDir) {
-						item->setText(1, "+");
+						entry->setText(1, "yes");
+					}
+					else {
+						entry->setText(1, "no");
 					}
 				}
 			}
 			updateColumnWidth(listview);
 		}
 	}
-	delete dlg;
-
 }
 
 // delete a selected entry

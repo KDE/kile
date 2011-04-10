@@ -2,6 +2,7 @@
     begin                : Fri Aug 15 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                           (C) 2011 by Libor Bukata (lbukata@gmail.com)
  *****************************************************************************************/
 
 /***************************************************************************
@@ -29,7 +30,7 @@ class KileListSelectorBase : public KDialog
 		int currentItem();
 
 	protected:
-		QTreeWidget *m_listview;
+		QTreeWidget *m_listView;
 		void insertStringList(const QStringList &list);
 };
 
@@ -48,9 +49,31 @@ class KileListSelectorMultiple : public KileListSelectorBase
 
 		const QStringList &selected();
 
-	private:
+	protected:
 		QStringList m_selectedfiles;
 };
 
+class ManageCompletionFilesDialog : public KDialog
+{
+	Q_OBJECT;
+
+	public:
+		ManageCompletionFilesDialog(const QStringList &list, const QString &caption,
+		                            const QString &localCompletionDir, const QString &globalCompletionDir, QWidget* parent = NULL, const char *name = NULL);
+		~ManageCompletionFilesDialog() {}
+
+		const QStringList selected() const;
+
+	public slots:
+		void addCustomCompletionFiles();
+		void openLocalCompletionDirectoryInFileManager();
+
+	protected:
+		void fillTreeView(const QStringList &list);
+
+	private:
+		QTreeWidget *m_listView;
+		QString m_localCompletionDirectory, m_globalCompletionDirectory;
+};
 
 #endif

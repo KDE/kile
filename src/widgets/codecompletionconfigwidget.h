@@ -63,7 +63,7 @@ class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeComp
 
 		void setListviewEntries(CompletionPage page);
 		bool getListviewEntries(CompletionPage page);
-		bool isListviewEntry(QTreeWidget *listview, const QString &filename);
+		QTreeWidgetItem* getListviewEntry(QTreeWidget *listview, const QString &filename);
 		void updateColumnWidth(QTreeWidget *listview);
 
 		QString m_localCwlDir, m_globalCwlDir;

@@ -184,25 +184,25 @@ void TabularHeaderItem::slotAlignRight()
 void TabularHeaderItem::slotAlignP()
 {
 	setAlignment(AlignP);
-	emit alignColumn(Qt::AlignLeft);
+	emit alignColumn(AlignP);
 }
 
 void TabularHeaderItem::slotAlignB()
 {
 	setAlignment(AlignB);
-	emit alignColumn(Qt::AlignLeft);
+	emit alignColumn(AlignB);
 }
 
 void TabularHeaderItem::slotAlignM()
 {
 	setAlignment(AlignM);
-	emit alignColumn(Qt::AlignLeft);
+	emit alignColumn(AlignM);
 }
 
 void TabularHeaderItem::slotAlignX()
 {
 	setAlignment(AlignX);
-	emit alignColumn(Qt::AlignLeft);
+	emit alignColumn(AlignX);
 }
 
 void TabularHeaderItem::slotDeclPre()

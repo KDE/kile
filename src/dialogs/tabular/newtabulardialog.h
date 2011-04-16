@@ -89,6 +89,7 @@ class NewTabularDialog : public Wizard {
 		void slotClearAttributes();
 		void slotClearAll();
 		void slotRowAppended();
+		void slotStarredChanged();
 
 	private:
 		KileDocument::LatexCommands *m_latexCommands;
@@ -104,6 +105,7 @@ class NewTabularDialog : public Wizard {
 		KComboBox *m_cmbName, *m_cmbParameter;
 		QSpinBox *m_sbRows, *m_sbCols;
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
+		KLineEdit *m_leTableWidth;
 		QColor m_clCurrentBackground, m_clCurrentForeground;
 		QString m_defaultEnvironment;
 		QStringList m_requiredPackages;

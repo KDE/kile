@@ -151,15 +151,22 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	configPageLayout->addWidget(m_sbCols, 1, 3);
 
 	m_cbStarred = new QCheckBox(i18n("Use starred version"), configPage);
+	label = new QLabel(i18n("Table width:"), configPage);
+	m_leTableWidth = new KLineEdit(configPage);
+	m_leTableWidth->setEnabled(false);
+	connect(m_cbStarred, SIGNAL(stateChanged(int)), this, SLOT(slotStarredChanged()));
+	label->setBuddy(m_leTableWidth);
 	m_cbCenter = new QCheckBox(i18n("Center"), configPage);
 	m_cbCenter->setChecked(true);
 	m_cbBooktabs = new QCheckBox(i18n("Use booktabs package"), configPage);
 	m_cbBullets = new QCheckBox(i18n("Insert bullets"), configPage);
 	m_cbBullets->setChecked(true);
 	configPageLayout->addWidget(m_cbStarred, 2, 0, 1, 2);
-	configPageLayout->addWidget(m_cbCenter, 2, 2, 1, 2);
-	configPageLayout->addWidget(m_cbBooktabs, 3, 0, 1, 2);
-	configPageLayout->addWidget(m_cbBullets, 3, 2, 1, 2);
+	configPageLayout->addWidget(label, 2, 2, 1, 1);
+	configPageLayout->addWidget(m_leTableWidth, 2, 3, 1, 1);
+	configPageLayout->addWidget(m_cbCenter, 3, 0, 1, 2);
+	configPageLayout->addWidget(m_cbBooktabs, 3, 2, 1, 2);
+	configPageLayout->addWidget(m_cbBullets, 4, 0, 1, 2);
 
 	pageLayout->addWidget(m_tbFormat);
 	pageLayout->addWidget(m_Table);
@@ -174,6 +181,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_cbCenter->setWhatsThis(i18n("The tabular will be centered."));
 	m_cbBooktabs->setWhatsThis(i18n("Use line commands of the booktabs package."));
 	m_cbStarred->setWhatsThis(i18n("Use the starred version of this environment."));
+	m_leTableWidth->setWhatsThis(i18n("Set the width of the table."));
 	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quickly from one cell to another."));
 	m_acBold->setWhatsThis(i18n("Set bold font series."));
 	m_acItalic->setWhatsThis(i18n("Set italic font shape."));
@@ -429,8 +437,14 @@ void NewTabularDialog::slotButtonClicked(int button)
 		/* environment */
 		QString environment = m_cmbName->currentText();
 		QString environmentFormatted = environment;
-		if(m_cbStarred->isChecked()) {
+		QString tableWidth;
+		if(m_cbStarred->isEnabled() && m_cbStarred->isChecked()) {
 			environmentFormatted += '*';
+		}
+
+		// Environment needs a width
+		if(m_leTableWidth->isEnabled()) {
+			tableWidth = '{' + m_leTableWidth->text() + '}';
 		}
 
 		/* build table parameter */
@@ -492,8 +506,14 @@ void NewTabularDialog::slotButtonClicked(int button)
 		/* build top border */
 		QString topBorderStr;
 		if(properties.hasTopBorder()) {
-			topBorderStr = "\\hline";
-		} else {
+			if(m_cbBooktabs->isChecked()) { // we need a toprule with booktabs here
+				topBorderStr = "\\toprule";
+			}
+			else {
+				topBorderStr = "\\hline";
+			}
+		}
+		else {
 			MultiColumnBorderHelper topBorderHelper;
 			for(int column = 0; column < columns; ++column) {
 				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(0, column));
@@ -509,8 +529,9 @@ void NewTabularDialog::slotButtonClicked(int button)
 			m_td.tagBegin += "\\begin{center}\n";
 		}
 
-		m_td.tagBegin += QString("\\begin{%1}%2%3%4\n")
+		m_td.tagBegin += QString("\\begin{%1}%2%3%4%5\n")
 			.arg(environmentFormatted)
+			.arg(tableWidth)
 			.arg(tableParameter)
 			.arg(tableAlignment)
 			.arg(topBorderStr);
@@ -545,8 +566,19 @@ void NewTabularDialog::slotButtonClicked(int button)
 					QString end;
 					sep.clear();
 					if(properties.hasBorderUnderRow(row)) {
-						end = "\\hline";
-					} else {
+						if(m_cbBooktabs->isChecked()){ // we need a midrule with booktabs.
+							if(row < rows-1) {
+								end = "\\midrule";
+							}
+							else { // last line gets a bottomrule
+								end = "\\bottomrule";
+							}
+						}
+						else {
+							end = "\\hline";
+						}
+					}
+					else {
 						columnBorderHelper.finish();
 						end = columnBorderHelper.toLaTeX();
 					}
@@ -678,12 +710,15 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 	// clear parameter combobox
 	m_cmbParameter->clear();
 	m_cmbParameter->setEnabled(false);
+	// disable table width line edit
+	m_leTableWidth->setEnabled(false);
 
 	// look for environment parameter in dictionary
 	KileDocument::LatexCmdAttributes attr;
 	if(m_latexCommands->commandAttributes(environment, attr)) {
 		// starred version
 		m_cbStarred->setEnabled(attr.starred);
+		slotStarredChanged();
 
 		// option
 		if(attr.option.indexOf('[') == 0) {
@@ -698,6 +733,11 @@ void NewTabularDialog::slotEnvironmentChanged(const QString &environment)
 					m_cmbParameter->addItem(optionlist[i]);
 				}
 			}
+		}
+
+		// enable table width line edit if needed
+		if( attr.parameter.indexOf('{') == 0 ) {
+			m_leTableWidth->setEnabled(true);
 		}
 	}
 
@@ -953,6 +993,11 @@ void NewTabularDialog::slotRowAppended()
 	updateColsAndRows();
 }
 
+}
+
+void KileDialog::NewTabularDialog::slotStarredChanged()
+{
+	m_leTableWidth->setEnabled(m_cbStarred->isChecked() && m_cbStarred->isEnabled());
 }
 
 #include "newtabulardialog.moc"

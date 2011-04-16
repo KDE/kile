@@ -60,20 +60,28 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 	}
 
 	QString leftBorder, rightBorder;
-	if(column() == 0 &&  !properties.hasLeftBorder() &&
-		 (border() & TabularCell::Left)) {
-		leftBorder = '|';
-		if(properties.hasBorderBesideColumn(1)) {
-			rightBorder = '|';
-		}
-	}
-	if(!properties.hasBorderBesideColumn(column()) && (border() & TabularCell::Right)) {
-		rightBorder = '|';
-		if(column() == 0 && properties.hasLeftBorder()) {
+	// First col border always needs to be set
+	if(column() == 0) {
+		if(border() & TabularCell::Left) {
 			leftBorder = '|';
 		}
 	}
-	bool adjustBorder = !leftBorder.isEmpty() || !rightBorder.isEmpty();
+	// Does the cell have a right border?
+	if(border() & TabularCell::Right) {
+		rightBorder = '|';
+	}
+
+	bool adjustBorder = false;
+	// If 1st col has no left border, but the cell should have one, set it manually
+	if(column() == 0 &&  !properties.hasLeftBorder() &&
+		 (border() & TabularCell::Left)) {
+		adjustBorder = true;
+	}
+	// Do we have to set the right border manually?
+	if(!properties.hasBorderBesideColumn(column()) &&
+		(border() & TabularCell::Right)) {
+		adjustBorder = true;
+	}
 
 	int columnSpan = tableWidget()->columnSpan(row(), column());
 
@@ -81,13 +89,6 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 		 adjustBorder || columnSpan > 1 ) {
 
 		switch(alignment) {
-			case Qt::AlignLeft: // TODO consider AlignP etc.
-				properties.setUseMultiColumn();
-				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
-				          leftBorder + colorCommand + 'l' + rightBorder + "}{";
-				suffix = '}' + suffix;
-				break;
-
 			case Qt::AlignHCenter:
 				properties.setUseMultiColumn();
 				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
@@ -99,6 +100,13 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 				properties.setUseMultiColumn();
 				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
 				          leftBorder + colorCommand + 'r' + rightBorder + "}{";
+				suffix = '}' + suffix;
+				break;
+			default: // This handles Qt::AlignLeft,
+				 // alignP, alignM, alignB and alignX (they get thrown away here)
+				properties.setUseMultiColumn();
+				prefix += "\\mc{" + QString::number(columnSpan) + "}{" +
+				          leftBorder + colorCommand + 'l' + rightBorder + "}{";
 				suffix = '}' + suffix;
 				break;
 		};

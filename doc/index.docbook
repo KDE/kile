@@ -36,6 +36,8 @@
 	<author><firstname>Thomas</firstname><surname>Braun</surname></author>
 	<author><firstname>Michel</firstname><surname>Ludwig</surname>
 	<affiliation><address><email>michel.ludwig@kdemail.net</email></address></affiliation></author>
+	<author><firstname>Felix</firstname><surname>Mauch</surname>
+	<affiliation><address><email>felix_mauch@web.de</email></address></affiliation></author>
 	<!-- TRANS:ROLES_OF_TRANSLATORS -->
 </authorgroup>
 
@@ -64,7 +66,12 @@
 <holder>Michel Ludwig</holder>
 </copyright>
 
-<date>February 28, 2011</date>
+<copyright>
+<year>2011</year>
+<holder>Felix Mauch</holder>
+</copyright>
+
+<date>April 17, 2011</date>
 <releaseinfo>2.1</releaseinfo>
 
 <legalnotice>
@@ -304,7 +311,7 @@
 			<para>Note that all of these templates can be adjusted to the user's requirements.</para>
 
 			<para>New users need not worry: this list is just a brief description of the available features,
-			and a more detailed description can be found in <xref linkend="quickstart"/>.</para>
+			and a more detailed description can be found in <xref linkend="quickstart" role='select: title pageabbrv'/>.</para>
 
 		</sect2>
 
@@ -654,7 +661,7 @@
 		<title>Printing a &DVI;</title>
 
 			<para>To print a &DVI;, you can use the same process that you used to create your
-			document earlier (see <xref linkend="quick_using"/>). At step 7, after
+			document earlier (see <xref linkend="quick_using" role='select: title pageabbrv'/>). At step 7, after
 			clicking <guibutton>ViewDVI</guibutton>, select
 			<menuchoice><guimenu>File</guimenu><guimenuitem>Print</guimenuitem></menuchoice>
 			in the viewer, and if you have your printer properly configured, you will be able 
@@ -771,7 +778,7 @@
 
 	<para>If you selected an <guilabel>Empty document</guilabel>, you can either start 
 	writing a document from scratch, or you can use the wizard to quickly start a new 
-	document (see <xref linkend="intro_docwizard"/>).</para>
+	document (see <xref linkend="intro_docwizard" role='select: title pageabbrv'/>).</para>
 
 
 	<sect1 id="startnew_templates">
@@ -845,8 +852,8 @@
 			<title>Creating a Template from any File</title>
 
 			<para>A template can be created from any &latex; file. If you are looking for an easy way to
-			configure a template, go find one you like on the Internet and follow the same steps
-			listed in <xref linkend="templ_wiz"/>.</para>
+			configure a template, go find one you like on the Internet and follow the same steps as
+			listed in <xref linkend="templ_wiz" role='select: title pageabbrv'/>.</para>
 
 			<para>For instance, you may want to create a full-fledged A0 poster. These posters are usually seen
 			at scientific conferences, and &latex; will help you making an attractive, catchy poster. You can get a
@@ -1700,13 +1707,22 @@
 
 	<title>Wizards and Dialogs</title>
 
+	<sect1 id="wizard_quickstart">
+
+		<title>QuickStart Wizard</title>
+
+		<para>This wizard has already been described in the section <xref linkend="intro_docwizard" role='select: title pageabbrv'/>.</para>
+
+	</sect1>
+
 	<sect1 id="wizard_graphics">
 
 		<title>Include Graphics</title>
 
 		<para>The <guilabel>Include Graphics</guilabel> dialog makes insertion of
-		graphics as easy as possible. Please take a look at 
-		<xref linkend="build_graphics"/> and <xref linkend="build_epsgraphics"/> to
+		graphics as easy as possible. You can reach it via the menubar with <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>Image
+		Insertion</guimenuitem></menuchoice>. Please take a look at
+		<xref linkend="build_graphics" role='select: title pageabbrv'/> and <xref linkend="build_epsgraphics" role='select: title pageabbrv'/> to
 		get an overview of some basic facts concerning graphic formats.</para>
 
 		<screenshot>
@@ -1722,7 +1738,7 @@
 		</screenshot>
 
 		<procedure>
-		<step><para>Choose a graphics file. This can be a JPEG, PNG, EPS 
+		<step><para>Choose a graphics file. This can be a JPEG, PNG, PDF, EPS
 		or even a zipped or gzipped EPS file. If you have installed 
 		<ulink url="http://www.imagemagick.org/">&imagemagick;</ulink>
 		and also configured &kile; to use it 
@@ -1734,25 +1750,20 @@
 
 		<step><para>Decide whether your image shall be centered on the page.</para></step>
 
-		<step><para>Choose either traditional &latex; or &pdflatex;. 
-		Please remember that &pdflatex; can also create &DVI; output, 
-		not only PDF.</para></step>
+		<step><para>Choose whether you want the <userinput>\graphicspath</userinput>
+		notation for your graphics file.</para>
 
-		<step><para>You can choose whether the filename should be taken 
-		relative. This is the preferred way, when you use the
-		<userinput>\graphicspath</userinput> command.</para>
-
-		<para>By default graphics files have to be in the same 
-		folder than your master document. However 
+		<para>By default graphics files have to be in the same
+		folder as your master document. However,
 		it is possible to put them in other folders to make 
 		things tidier. Without a <userinput>\graphicspath</userinput> 
 		command, &kile; would include the path for the graphics file. 
-		But if you use <userinput>\graphicspath</userinput>,
-		like:</para>
+		But if you use <userinput>\graphicspath</userinput> in your
+		preamble like this:</para>
 
-<programlisting>
-	\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}} 
-</programlisting>
+		<programlisting>
+			\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}}
+		</programlisting>
 
 		<para>and check this option, &kile; will only use the 
 		base name of the graphics file.</para>
@@ -1760,9 +1771,9 @@
 		<para>Another example: if you set <userinput>\graphicspath</userinput> 
 		command like:</para>
 
-<programlisting>
-	\graphicspath{{./}{camera/}{images/}}
-</programlisting>
+		<programlisting>
+			\graphicspath{{./}{camera/}{images/}}
+		</programlisting>
 
 		<para>&latex; will search in the current folder, then in 
 		<filename>camera</filename> and finally in 
@@ -1778,44 +1789,72 @@
 
 		<step><para>The bounding-box information is set automatically 
 		when you choose a graphics file. This information is only needed 
-		when you work with traditional &latex; and bitmapped graphics. 
+		when you work with traditional &latex; and bitmapped graphics.
 		See the discussion of <link linkend="build_epsgraphics">EPS graphics</link>. 
 		</para>
 		
-		<para>If &latex; needs a bounding box and you don't want to generate a bb file, 
+		<para>If &latex; needs a bounding box and you do not want to generate a bb file,
 		&kile; supports this option. On the other side, &pdflatex; will give a warning, 
 		when you want to include a png or jpg graphics with this option. This checkbox 
-		enables or disables the bounding box option.</para></step> 
+		enables or disables the bounding box option.</para></step>
 
 		<step><para>Scale the image by the desired scale factor. e.g, 0.5 to reduce by half, 
-		or 2 to double.</para></step> 
+		or 2 to double. When you use this option, you do not have to set a width or height for
+		the image.</para></step>
 		
-		<step><para>The trim option will crop the imported image by l from the left, b from the bottom, 
-		r from the right, and t from the top. Where l, b, r and t are lengths.</para></step> 
+		<step><para>In the <guilabel>Trim Image</guilabel>-tab you can crop your
+		image in all four directions.</para></step>
 		
-		<step><para>Your last choice is whether to embed this graphics into a 
-		figure environment. If you decide to do so, you can also insert a 
-		caption and a label. It is a good idea to add a different prefix to 
-		each kind of label. It is common to use the prefix 
-		<userinput>fig:</userinput> for images.</para></step> 
-		
-		<step><para>If may prefer that some floats do not break the flow of text, but instead 
-		allow text to wrap around it, you have another choice here. To use wrapfig, you must 
-		first add <userinput>\usepackage{wrapfig}</userinput> to the preamble and set some 
-		of the parameter here.</para></step> 
+		<step>
+		  <para>Finally, you have to specify whether you want to embed this image into a
+			figure environment. When you want the text to wrap around the figure, use the wrapfigure environment instead.
+		  </para>
+			<para>
+				NOTE: When you chose the wrapfigure environment, you need to include the wrapfig package in your preamble.
+			</para>
+		  <para>In either case you can insert a
+		  caption and a label for your image. Generally, it is a good idea to add a different prefix to
+		  each kind of label. It is common to use the prefix <userinput>fig:</userinput> for images.
+		  </para>
+		</step>
+
+		<step><para>If you pick the figure environment, you can choose where &latex; should position the figure
+		preferably.</para></step>
+		<step>
+		  <para>In the wrapfigre environment you can</para>
+		  <substeps>
+		    <step><para>
+		      Pick a placement rule for the figure and decide whether the figure should float or not.
+		      In a two-sided document you can define whether the figure should be on the inside of the page or on the outside.
+		    </para></step>
+		    <step><para>
+		      Define how many lines the wrapping text should be broken. If you leave this empty, &latex; will determine this itself as
+		      good as possible.
+		    </para></step>
+		    <step><para>
+		      Define an overhang to the chosen side. This is especially useful when you have columns in your document and you want
+		      a figure span over more than just one column or you want it being wrapped by two columns.
+		    </para></step>
+		    <step><para>
+		      Choose a width for the figure. This should be a bit bigger than your actual image width, so there will be some empty
+		      space between the figure and the text.
+		    </para></step>
+		  </substeps>
+		</step>
 		</procedure>
 		
 	</sect1>
 	
 	<sect1 id="wizard_array">
 
-		<title>Array Wizard</title>
+		<title>Arrays and tabulars</title>
 
 		<para>One of the most boring jobs one can do in &latex; is to write a matrix or a 
 		tabular environment. One has to keep track of all the elements, ensure that the environment
 		is well formed, and that all things are where they are supposed to be. Good indentation helps, 
-		but there is a simpler way: using &kile;'s <guimenu>Wizard</guimenu> menu. It contains
-		<guimenuitem>Tabular</guimenuitem> and <guimenuitem>Array</guimenuitem> (used in math environments).
+		but there is a simpler way: using &kile;'s <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Array</guimenuitem></menuchoice>
+		or
+		<menuchoice><guimenu>Wizard</guimenu><guimenuitem>Tabular</guimenuitem></menuchoice> menu entries.
 		You will then have a matrix-formed input form that you can easily fill in with your entries. This dialog also 
 		offers some options to typeset the tabular material.</para>
 
@@ -1831,9 +1870,123 @@
 			</mediaobject>
 		</screenshot>
 
-		<para>The <guimenuitem>Tabbing</guimenuitem> option will display a simpler menu 
-		to set up a tabbing environment. In all these environments, you can easily set the
-		number of rows and columns, along with other specific options.</para>
+		<para>
+			You can choose how many rows and columns you want, and you can tweak some more things about your array:
+		</para>
+
+		<itemizedlist>
+			<listitem><para>
+				With the <guilabel>Name</guilabel> option you can select which environment should be used for your array or tabular material.
+			</para></listitem>
+			<listitem><para>
+				You can select the vertical cell alignment with the <guilabel>Parameter</guilabel> option. This is only enabled for
+				environments which support that feature.
+			</para></listitem>
+			<listitem><para>
+				If it exists for the selected environment, you can select <guilabel>use starred version</guilabel>. When you select this option, 
+				you also have to specify a <guilabel>table width</guilabel>.
+			</para></listitem>
+			<listitem><para>
+				Tables sometimes look nicer when you select the <guilabel>use booktabs package</guilabel> option.
+			</para></listitem>
+			<listitem><para>
+				Of course, you can also <guilabel>Center</guilabel> your whole array.
+			</para></listitem>
+			<listitem><para>
+				<guilabel>Inserting bullets</guilabel> helps you when you want to fill in your content in the editor. With this option
+				checked, &kile; will insert bullet placeholders for each element of your array.
+			</para></listitem>
+		</itemizedlist>
+
+		<para>The <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Tabbing</guimenuitem></menuchoice> option will display a simpler
+		dialog to quickly set up a tabbing environment. It allows you to easily specify the
+		number of rows or columns and the required spacing.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title>Inserting floating elements</title>
+
+	  <para>&kile; helps you with inserting your floating elements. With the
+	    <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Floats</guimenuitem></menuchoice> wizard it is very simple to create
+	    a new figure or table-environment.
+	  </para>
+
+	  <screenshot>
+		<screeninfo>Inserting a floating element</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Inserting a floating element</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para>
+	   To insert a new floating environment just follow these steps:
+	 </para>
+
+	     <procedure>
+	       <step>
+		 <para>
+		   Choose wether you want to insert a figure or a table.
+		 </para>
+	       </step>
+	       <step>
+		 <para>
+		   Select the desired positioning rules.
+		 </para>
+	       </step>
+	       <step>
+		 <para>
+		  Enter a caption for your floating element.
+		</para>
+	      </step>
+	      <step>
+		<para>
+		  Type in a label for your new floating element. &kile; will automatically suggest an appropriate prefix , e.g. "fig:"
+		  for figures and "tab:" for tables.
+		</para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title>Inserting Math environments</title>
+
+	  <para>Remembering how all the different math elements work can be really annoying. Of course &kile; can do the
+	  magic for you here: <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Math</guimenuitem></menuchoice></para>
+
+	  <screenshot>
+		<screeninfo>Inserting a math element</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Inserting a math element</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para>
+	    Options:
+	  </para>
+	  <itemizedlist>
+				<listitem><para><guilabel>Name:</guilabel> Choose the type of math element you want to create.</para></listitem>
+				<listitem><para><guilabel>Without numbering:</guilabel> This can switch numbering off for numbered
+					elements like equations or aligns.</para></listitem>
+				<listitem><para><guilabel>Space command to separate groups:</guilabel> In an environment which supports several
+				groups like alignat, you can define a space separator when you have more than one group. You can enter any space command here,
+				which exists in mathmode, e.g. \quad. </para></listitem>
+				<listitem><para><guilabel>Standard tabulator:</guilabel> Select the tabulator which should be used.
+					&kile; should automatically pick the right one for you here.</para></listitem>
+				<listitem><para><guilabel>Displaymath mode:</guilabel> For environments like matrices or arrays you can
+					choose with which math environment your mathematical text should be displayed with. </para></listitem>
+				<listitem><para><guilabel>Use bullets:</guilabel> With this option checked, &kile; will insert bullet
+					placeholders for each element of your mathematical text.</para></listitem>
+			</itemizedlist>
 	</sect1>
 
 	<sect1 id="wizard_postscript">
@@ -1845,10 +1998,11 @@
 		output, you can rearrange pages with some &PostScript; utilities and then 
 		convert it to PDF with <command>ps2pdf</command>.</para>
 		
-		<para>The <emphasis>&PostScript; Wizard</emphasis> will suggest the most 
-		popular rearrangements, but you are free to do your own choice. Work is done 
+		<para>The <emphasis>&PostScript; Wizard</emphasis> under <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Postscript
+		Tools</guimenuitem></menuchoice> will suggest the most
+		popular rearrangement. The conversion is done
 		by the programs <command>pstops</command> and <command>psselect</command>, which
-		you will find in most distributions in the package <userinput>psutils</userinput>.
+		can be found in most distributions in the package <userinput>psutils</userinput>.
 		If one of these programs is not available, the corresponding item will not 
 		be visible.</para>
 		
@@ -1869,9 +2023,9 @@
 		to choose another file. Then choose an output file, and select one of the tasks. 
 		Finally, you have to decide whether you want to do the conversion only, or also invoke
 		&okular; to view the result.</para>
-		
+
 		<variablelist>
-		
+
 		<varlistentry>
 		<term>1 A5 page + empty page --> A4</term>
 		<listitem><para>Combine one A5 page together with one empty page 
@@ -1891,7 +2045,7 @@
 		</screenshot>
 		</listitem>
 		</varlistentry>
-	
+
 		<varlistentry>
 		<term>1 A5 page + duplicate --> A4</term>
 		<listitem><para>Put one A5 page and a duplicate together
@@ -1909,7 +2063,7 @@
 		</screenshot>
 		</listitem>
 		</varlistentry>
-		
+
 		<varlistentry>
 		<term>2 A5 pages --> A4</term>
 		<listitem><para>Put two consecutive A5 pages together
@@ -1927,13 +2081,13 @@
 		</screenshot>
 		</listitem>
 		</varlistentry>
-		
+
 		<varlistentry>
 		<term>2 A5L pages --> A4</term>
 		<listitem><para>Put two consecutive A5 pages in landscape mode together
 		on one A4 page.</para></listitem>
 		</varlistentry>
-		
+
 		<varlistentry>
 		<term>4 A5 pages --> A4</term>
 		<listitem><para>Combine four consecutive A5 pages together on one 
@@ -1952,7 +2106,7 @@
 		</screenshot>
 		</listitem>
 		</varlistentry>
-		
+
 		<varlistentry>
 		<term>1 A4 page + empty page --> A4</term>
 		<listitem><para>Combine one A4 page together with one empty page 
@@ -2099,23 +2253,30 @@
 	<sect1 id="statistics">	
 		<title>Document Statistics</title>
 		
-		<para>The statistics dialog gives you an statistical overview for a selection,
+		<para>The statistics dialog in <menuchoice><guimenu>File</guimenu><guimenuitem>Statistics</guimenuitem></menuchoice> gives you
+		an statistical overview for a selection,
 		a document or an whole project. It includes the number of words, &latex; 
-		commands/environments and also includes the number of characters for each type.
-		The statistical numbers can be copied as text or as a nice formatted &latex; tabular
-		to the clipboard. If you want to get statistics for the whole project you can use 
-		<menuchoice><guimenu>File</guimenu><guisubmenu>Open All Project Files</guisubmenu></menuchoice>
-    for an easy and quick way to open all source files of your project.</para>
+		commands/environments and also includes the number of characters for each type.</para>
+
+		<para>The statistics obtained can be copied as text or as a nicely formatted &latex; table
+		to the clipboard. </para>
+		<para>When you select a text and open the statistics dialog, you get the statistics for the currently selected text. If
+		you open the dialog without any text selected, the statistics for all opened files are shown.
+		If you want to get statistics for the whole project, you can use
+		<menuchoice><guimenu>Project</guimenu><guisubmenu>Open All Project Files</guisubmenu></menuchoice>
+		for an easy and quick way to open all source files of your project.</para>
+
 		<para>A note of caution has to be sounded about the accuracy of the numbers.
 		We have included some logic to get a good estimate, &eg; K\"uhler gives one word and one command,
 		with six resp. two characters. But there are other combinations in which parts of commands
-		are counted as words and vice versa. It is also implied that the algorithm
+		are counted as words and vice versa. Please note that the algorithm
 		was developed and tested for languages similar to English or German.
-		So don't take the numbers for granted. If you have to make an report with an
-		exact numbers of words or characters, make some tests to check whether &kile;'s accuracy satisfies your needs.</para>
+		So don't take the numbers for granted. If you write a report whose length has to be of a certain
+		numbers of words or characters, please make some tests first in order to check whether &kile;'s accuracy satisfies your needs.</para>
 	</sect1>
 
 </chapter>
+
 
 <chapter id="latex">
 
@@ -3391,7 +3552,7 @@
 		url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html">&cjk;</ulink> 
 		package. Copy its unpacked files to an appropriate subfolder of 
 		$<envar>TEXMF</envar>, just like you did with the &ucs; package 
-		before (see <xref linkend="ucs"/>). The files will be unpacked in a 
+		before (see <xref linkend="ucs" role='select: title pageabbrv'/>). The files will be unpacked in a
 		<filename>CJK/X_Y.Z</filename> folder, it is not important that you 
 		take them out, though it will probably be tidier for you to 
 		maintain.</para></listitem>
@@ -3821,7 +3982,7 @@
 		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
 		and choose <guibutton>Configure</guibutton> button
 		to configure this <guimenu>User help</guimenu> menu. You can add, 
-		remove or navigate menu entries, and also insert separators to get 
+		remove or navigate menu entries, and also insert separators to get
 		a better structure.</para>
 
 		<screenshot>

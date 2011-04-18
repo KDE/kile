@@ -311,7 +311,7 @@
 			<para>Note that all of these templates can be adjusted to the user's requirements.</para>
 
 			<para>New users need not worry: this list is just a brief description of the available features,
-			and a more detailed description can be found in <xref linkend="quickstart" role='select: title pageabbrv'/>.</para>
+			and a more detailed description can be found in <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
 
 		</sect2>
 
@@ -661,7 +661,7 @@
 		<title>Printing a &DVI;</title>
 
 			<para>To print a &DVI;, you can use the same process that you used to create your
-			document earlier (see <xref linkend="quick_using" role='select: title pageabbrv'/>). At step 7, after
+			document earlier (see <xref linkend="quick_using" role="select: title pageabbrv"/>). At step 7, after
 			clicking <guibutton>ViewDVI</guibutton>, select
 			<menuchoice><guimenu>File</guimenu><guimenuitem>Print</guimenuitem></menuchoice>
 			in the viewer, and if you have your printer properly configured, you will be able 
@@ -778,7 +778,7 @@
 
 	<para>If you selected an <guilabel>Empty document</guilabel>, you can either start 
 	writing a document from scratch, or you can use the wizard to quickly start a new 
-	document (see <xref linkend="intro_docwizard" role='select: title pageabbrv'/>).</para>
+	document (see <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
 
 
 	<sect1 id="startnew_templates">
@@ -853,7 +853,7 @@
 
 			<para>A template can be created from any &latex; file. If you are looking for an easy way to
 			configure a template, go find one you like on the Internet and follow the same steps as
-			listed in <xref linkend="templ_wiz" role='select: title pageabbrv'/>.</para>
+			listed in <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para>For instance, you may want to create a full-fledged A0 poster. These posters are usually seen
 			at scientific conferences, and &latex; will help you making an attractive, catchy poster. You can get a
@@ -1711,7 +1711,7 @@
 
 		<title>QuickStart Wizard</title>
 
-		<para>This wizard has already been described in the section <xref linkend="intro_docwizard" role='select: title pageabbrv'/>.</para>
+		<para>This wizard has already been described in the section <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
 
 	</sect1>
 
@@ -1722,7 +1722,7 @@
 		<para>The <guilabel>Include Graphics</guilabel> dialog makes insertion of
 		graphics as easy as possible. You can reach it via the menubar with <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>Image
 		Insertion</guimenuitem></menuchoice>. Please take a look at
-		<xref linkend="build_graphics" role='select: title pageabbrv'/> and <xref linkend="build_epsgraphics" role='select: title pageabbrv'/> to
+		<xref linkend="build_graphics" role="select: title pageabbrv"/> and <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> to
 		get an overview of some basic facts concerning graphic formats.</para>
 
 		<screenshot>
@@ -1798,7 +1798,7 @@
 		when you want to include a png or jpg graphics with this option. This checkbox 
 		enables or disables the bounding box option.</para></step>
 
-		<step><para>Scale the image by the desired scale factor. e.g, 0.5 to reduce by half, 
+		<step><para>Scale the image by the desired scale factor. &eg;, 0.5 to reduce by half, 
 		or 2 to double. When you use this option, you do not have to set a width or height for
 		the image.</para></step>
 		
@@ -1809,9 +1809,9 @@
 		  <para>Finally, you have to specify whether you want to embed this image into a
 			figure environment. When you want the text to wrap around the figure, use the wrapfigure environment instead.
 		  </para>
-			<para>
-				NOTE: When you choose the wrapfigure environment, you need to include the wrapfig package in your preamble.
-			</para>
+			<note>
+				<para>When you choose the wrapfigure environment, you need to include the wrapfig package in your preamble.</para>
+			</note>
 		  <para>In either case you can insert a
 		  caption and a label for your image. Generally, it is a good idea to add a different prefix to
 		  each kind of label. It is common to use the prefix <userinput>fig:</userinput> for images.
@@ -3552,7 +3552,7 @@
 		url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html">&cjk;</ulink> 
 		package. Copy its unpacked files to an appropriate subfolder of 
 		$<envar>TEXMF</envar>, just like you did with the &ucs; package 
-		before (see <xref linkend="ucs" role='select: title pageabbrv'/>). The files will be unpacked in a
+		before (see <xref linkend="ucs" role="select: title pageabbrv"/>). The files will be unpacked in a
 		<filename>CJK/X_Y.Z</filename> folder, it is not important that you 
 		take them out, though it will probably be tidier for you to 
 		maintain.</para></listitem>

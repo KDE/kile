@@ -1810,7 +1810,7 @@
 			figure environment. When you want the text to wrap around the figure, use the wrapfigure environment instead.
 		  </para>
 			<para>
-				NOTE: When you chose the wrapfigure environment, you need to include the wrapfig package in your preamble.
+				NOTE: When you choose the wrapfigure environment, you need to include the wrapfig package in your preamble.
 			</para>
 		  <para>In either case you can insert a
 		  caption and a label for your image. Generally, it is a good idea to add a different prefix to
@@ -1821,7 +1821,7 @@
 		<step><para>If you pick the figure environment, you can choose where &latex; should position the figure
 		preferably.</para></step>
 		<step>
-		  <para>In the wrapfigre environment you can</para>
+		  <para>In the wrapfigure environment you can</para>
 		  <substeps>
 		    <step><para>
 		      Pick a placement rule for the figure and decide whether the figure should float or not.
@@ -1930,7 +1930,7 @@
 	     <procedure>
 	       <step>
 		 <para>
-		   Choose wether you want to insert a figure or a table.
+		   Choose whether you want to insert a figure or a table.
 		 </para>
 	       </step>
 	       <step>
@@ -1945,7 +1945,7 @@
 	      </step>
 	      <step>
 		<para>
-		  Type in a label for your new floating element. &kile; will automatically suggest an appropriate prefix , e.g. "fig:"
+		  Type in a label for your new floating element. &kile; will automatically suggest an appropriate prefix , &eg; "fig:"
 		  for figures and "tab:" for tables.
 		</para>
 	      </step>
@@ -1979,7 +1979,7 @@
 					elements like equations or aligns.</para></listitem>
 				<listitem><para><guilabel>Space command to separate groups:</guilabel> In an environment which supports several
 				groups like alignat, you can define a space separator when you have more than one group. You can enter any space command here,
-				which exists in mathmode, e.g. \quad. </para></listitem>
+				which exists in mathmode, &eg; \quad. </para></listitem>
 				<listitem><para><guilabel>Standard tabulator:</guilabel> Select the tabulator which should be used.
 					&kile; should automatically pick the right one for you here.</para></listitem>
 				<listitem><para><guilabel>Displaymath mode:</guilabel> For environments like matrices or arrays you can

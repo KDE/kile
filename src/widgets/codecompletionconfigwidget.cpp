@@ -189,12 +189,12 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 		item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
 		if (localExists) {
 			item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
-			item->setText(1, "yes");
+			item->setText(1, i18n("yes"));
 		}
 		else {
 			if (QFileInfo(globaldir + basename + ".cwl").exists()) {
 				item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
-				item->setText(1, "no");
+				item->setText(1, i18n("no"));
 			}
 			else {
 				item->setCheckState(0, Qt::Unchecked);
@@ -389,10 +389,10 @@ void CodeCompletionConfigWidget::addClicked()
 					entry->setCheckState(0, Qt::Checked);
 					entry->setSelected(true);
 					if (filemap[filename].left(m_localCwlDir.length()) == m_localCwlDir) {
-						entry->setText(1, "yes");
+						entry->setText(1, i18n("yes"));
 					}
 					else {
-						entry->setText(1, "no");
+						entry->setText(1, i18n("no"));
 					}
 				}
 			}

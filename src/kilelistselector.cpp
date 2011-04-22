@@ -163,15 +163,15 @@ void ManageCompletionFilesDialog::fillTreeView(const QStringList& list) {
 		QString expectedLocalPath = m_localCompletionDirectory + "/" + filename;
 		QString expectedGlobalPath = m_globalCompletionDirectory + "/" + filename;
 		if (QFileInfo(expectedLocalPath).exists() && QFileInfo(expectedLocalPath).isReadable()) {
-			QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << "yes");
+			QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("yes"));
 			item->setCheckState(2, Qt::Unchecked);
 		}
 		else if (QFileInfo(expectedGlobalPath).exists() && QFileInfo(expectedGlobalPath).isReadable()) {
-			QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << "no");
+			QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("no"));
 			item->setCheckState(2, Qt::Unchecked);
 		}
 		else {
-			KILE_DEBUG() << "Cannot load file " << filename << "!";
+			KILE_DEBUG() << "Cannot load file" << filename << "!";
 		}
 	}
 	m_listView->resizeColumnToContents(0);
@@ -211,12 +211,12 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 			// Add file to QTreeWidget or change status to local if a global file with the same name exists.
 			QList<QTreeWidgetItem*> foundItems = m_listView->findItems(fileInf.fileName(), Qt::MatchExactly, 0);
 			if (foundItems.empty()) {
-				QTreeWidgetItem *item = new QTreeWidgetItem(m_listView, QStringList() << localFile.fileName() << "yes");
+				QTreeWidgetItem *item = new QTreeWidgetItem(m_listView, QStringList() << localFile.fileName() << i18n("yes"));
 				item->setCheckState(2, Qt::Checked);
 			}
 			else {
 				foundItems.first()->setCheckState(2, Qt::Checked);
-				foundItems.first()->setText(1, "yes");
+				foundItems.first()->setText(1, i18n("yes"));
 			}
 			someFileAdded = true;
 		}

@@ -67,8 +67,6 @@ class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeComp
 		void updateColumnWidth(QTreeWidget *listview);
 
 		QString m_localCwlDir, m_globalCwlDir;
-		void getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir);
-		void getCwlDirs();
 
 	private Q_SLOTS:
 		void showPage(QWidget *page);

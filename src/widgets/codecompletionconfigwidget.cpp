@@ -36,6 +36,7 @@
 #include <KStandardDirs>
 #include <KTabWidget>
 
+#include "codecompletion.h"
 #include "kilelistselector.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -69,7 +70,9 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	connect(m_removeFileButton, SIGNAL(clicked()), this, SLOT(removeClicked()));
 
 	// find resource directories for cwl files
-	getCwlDirs();
+	QPair<QString, QString> p = KileCodeCompletion::Manager::getCwlBaseDirs();
+	m_localCwlDir = p.first;
+	m_globalCwlDir = p.second;
 }
 
 CodeCompletionConfigWidget::~CodeCompletionConfigWidget()
@@ -312,55 +315,14 @@ void CodeCompletionConfigWidget::showPage(int index)
 
 //////////////////// add/remove new wordlists ////////////////////
 
-// find local and global resource directories
-
-void CodeCompletionConfigWidget::getCwlDirs()
-{
-	m_localCwlDir = KStandardDirs::locateLocal("appdata", "complete/");
-	m_globalCwlDir.clear();
-
-	const QStringList dirs = KGlobal::dirs()->findDirs("appdata", "complete/");
-	for(QStringList::ConstIterator it = dirs.constBegin(); it != dirs.constEnd(); ++it) {
-		if((*it) != m_localCwlDir) {
-			m_globalCwlDir = (*it);
-			break;
-		}
-	}
-}
-
-// find local and global cwl files: global files are not added,
-// if there is already a local file with this name. We fill a map
-// with filename as key and filepath as value. Additionally all
-// filenames are added to a stringlist.
-
-void CodeCompletionConfigWidget::getCwlFiles(QMap<QString, QString> &map, QStringList &list, const QString &dir)
-{
-	QStringList files = QDir(dir, "*.cwl").entryList();
-	for (QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it) {
-		QString filename = QFileInfo(*it).fileName();
-		if(! map.contains(filename)) {
-			map[filename] = dir + '/' + (*it);
-			list << filename;
-		}
-	}
-}
-
 void CodeCompletionConfigWidget::addClicked()
 {
 	// determine current subdirectory for current tab page
 	QString listname = getListname(m_tabWidget->currentWidget());
 	QString localPath = m_localCwlDir + listname, globalPath = m_globalCwlDir + listname;
 
-	// get a sorted list of all cwl files from both directories
-	// Local files are prefered before global.
-	QMap<QString, QString> filemap;
-	QStringList filelist;
-	getCwlFiles(filemap, filelist, localPath);
-	getCwlFiles(filemap, filelist, globalPath);
-	filelist.sort();
-
 	// dialog to add cwl files
-	ManageCompletionFilesDialog dlg(filelist, i18n("Completion Files"), localPath, globalPath, this);
+	ManageCompletionFilesDialog dlg(i18n("Completion Files"), localPath, globalPath, this);
 
 	if (dlg.exec()) {
 		QStringList filenames = dlg.selected();
@@ -369,9 +331,7 @@ void CodeCompletionConfigWidget::addClicked()
 			for (QStringList::ConstIterator it = filenames.constBegin(); it != filenames.constEnd(); ++it) {
 				QString filename = *it;
 				// Reload map of files.
-				filemap.clear(); filelist.clear();
-				getCwlFiles(filemap, filelist, localPath);
-				getCwlFiles(filemap, filelist, globalPath);
+				QMap<QString, QString> filemap = KileCodeCompletion::Manager::getAllCwlFiles(localPath, globalPath);
 
 				// Could we accept the wordlist?
 				QFileInfo fi(filemap[filename]);

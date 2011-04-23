@@ -157,6 +157,15 @@ namespace KileCodeCompletion
 			QStringList readCWLFiles(const QStringList &files, const QString &dir);
 			QString validCwlFile(const QString &filename);
 
+			/**
+			 * A map from file names to paths is returned.
+			 */
+			static QMap<QString, QString> getAllCwlFiles(const QString &localCwlPath, const QString &globalCwlPath);
+			/**
+			 * Returns a pair (local CWL base dir, global CWL base dir).
+			 */
+			static QPair<QString, QString> getCwlBaseDirs();
+
 		public Q_SLOTS:
 			void startLaTeXCompletion(KTextEditor::View *view = NULL);
 			void startLaTeXEnvironment(KTextEditor::View *view = NULL);

@@ -20,6 +20,7 @@
 
 class QTreeWidget;
 class QStringList;
+class KDirWatch;
 
 class KileListSelectorBase : public KDialog
 {
@@ -58,20 +59,19 @@ class ManageCompletionFilesDialog : public KDialog
 	Q_OBJECT;
 
 	public:
-		ManageCompletionFilesDialog(const QStringList &list, const QString &caption,
+		ManageCompletionFilesDialog(const QString &caption,
 		                            const QString &localCompletionDir, const QString &globalCompletionDir, QWidget* parent = NULL, const char *name = NULL);
-		~ManageCompletionFilesDialog() {}
+		~ManageCompletionFilesDialog();
 
 		const QStringList selected() const;
 
-	public slots:
+	protected Q_SLOTS:
 		void addCustomCompletionFiles();
 		void openLocalCompletionDirectoryInFileManager();
-
-	protected:
-		void fillTreeView(const QStringList &list);
+		void fillTreeView();
 
 	private:
+		KDirWatch *m_dirWatcher;
 		QTreeWidget *m_listView;
 		QString m_localCompletionDirectory, m_globalCompletionDirectory;
 };

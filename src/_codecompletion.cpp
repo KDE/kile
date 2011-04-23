@@ -1082,7 +1082,48 @@ QStringList Manager::readCWLFiles(const QStringList &files, const QString &dir)
 
 QString Manager::validCwlFile(const QString &filename)
 {
-  	return (filename.at(0) == '1') ? filename.right( filename.length()-2 ) : QString();
+	return (filename.at(0) == '1') ? filename.right( filename.length()-2 ) : QString();
+}
+
+
+// find local and global cwl files: global files are not added,
+// if there is already a local file with this name. We fill a map
+// with filename as key and filepath as value.
+
+static void getCwlFiles(QMap<QString, QString> &map, const QString &dir)
+{
+	QStringList files = QDir(dir, "*.cwl").entryList();
+	for (QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it) {
+		QString filename = QFileInfo(*it).fileName();
+		if(!map.contains(filename)) {
+			map[filename] = dir + '/' + (*it);
+		}
+	}
+}
+
+QMap<QString, QString> Manager::getAllCwlFiles(const QString &localCwlPath, const QString &globalCwlPath)
+{
+	// get a sorted list of all cwl files from both directories
+	// Local files are prefered over global ones.
+	QMap<QString, QString> fileMap;
+	getCwlFiles(fileMap, localCwlPath);
+	getCwlFiles(fileMap, globalCwlPath);
+	return fileMap;
+}
+
+QPair<QString, QString> Manager::getCwlBaseDirs()
+{
+	QString localDir = KStandardDirs::locateLocal("appdata", "complete/");
+	QString globalDir;
+
+	const QStringList dirs = KGlobal::dirs()->findDirs("appdata", "complete/");
+	for(QStringList::ConstIterator it = dirs.constBegin(); it != dirs.constEnd(); ++it) {
+		if((*it) != localDir) {
+			globalDir = (*it);
+			break;
+		}
+	}
+	return QPair<QString, QString>(localDir, globalDir);
 }
 
 }

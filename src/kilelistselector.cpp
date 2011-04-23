@@ -28,6 +28,7 @@
 #include <QVBoxLayout>
 
 #include <KApplication>
+#include <KDirWatch>
 #include <KFileDialog>
 #include <KLocale>
 #include <KMessageBox>
@@ -35,6 +36,7 @@
 
 
 #include "kiledebug.h"
+#include "codecompletion.h"
 
 //////////////////// KileListSelectorBase ////////////////////
 
@@ -121,7 +123,7 @@ const QStringList& KileListSelectorMultiple::selected()
 
 //////////////////// ManageCompletionFilesDialog ////////////////////
 
-ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QStringList& list, const QString& caption,
+ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QString& caption,
   const QString &localCompletionDir, const QString &globalCompletionDir, QWidget* parent, const char* name)
   : KDialog(parent), m_localCompletionDirectory(localCompletionDir), m_globalCompletionDirectory(globalCompletionDir)
 {
@@ -144,7 +146,13 @@ ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QStringList& list
 	m_listView->setSortingEnabled(false);
 	m_listView->setSelectionMode(QAbstractItemView::NoSelection);
 	m_listView->setRootIsDecorated(false);
-	fillTreeView(list);
+
+	m_dirWatcher = new KDirWatch(this);
+	if (m_dirWatcher) {
+		m_dirWatcher->addDir(localCompletionDir, KDirWatch::WatchFiles);
+		connect(m_dirWatcher, SIGNAL(created(QString)), this, SLOT(fillTreeView()));
+		connect(m_dirWatcher, SIGNAL(deleted(QString)), this, SLOT(fillTreeView()));
+	}
 
 	connect(this, SIGNAL(user1Clicked()), this, SLOT(addCustomCompletionFiles()));
 	connect(this, SIGNAL(user2Clicked()), this, SLOT(openLocalCompletionDirectoryInFileManager()));
@@ -155,10 +163,18 @@ ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QStringList& list
 		workPath.mkpath(m_localCompletionDirectory);
 	}
 
+	fillTreeView();
 	setMainWidget(m_listView);
 }
 
-void ManageCompletionFilesDialog::fillTreeView(const QStringList& list) {
+ManageCompletionFilesDialog::~ManageCompletionFilesDialog()
+{
+}
+
+void ManageCompletionFilesDialog::fillTreeView() {
+	QStringList list = KileCodeCompletion::Manager::getAllCwlFiles(m_localCompletionDirectory, m_globalCompletionDirectory).uniqueKeys();
+	qSort(list);
+	m_listView->clear();
 	foreach(QString filename, list) {
 		QString expectedLocalPath = m_localCompletionDirectory + "/" + filename;
 		QString expectedGlobalPath = m_globalCompletionDirectory + "/" + filename;

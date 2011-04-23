@@ -30,6 +30,9 @@ class TabularTable : public QTableWidget {
 	public:
 		TabularTable(QWidget *parent = 0);
 
+	public Q_SLOTS:
+		void paste();
+
 	protected:
 		bool eventFilter(QObject *obj, QEvent *event);
 		void mousePressEvent(QMouseEvent *event);
@@ -38,6 +41,7 @@ class TabularTable : public QTableWidget {
 
 	Q_SIGNALS:
 		void rowAppended();
+		void colAppended();
 
 	private:
 		SelectionMode m_DefaultMode;

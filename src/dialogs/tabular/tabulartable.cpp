@@ -1,7 +1,8 @@
 /********************************************************************************************
     begin                : Sunday Jun 27 2008
-    copyright            : (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
-    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+    Copyright (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
+              (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+              (C) 2011 by Felix Mauch (felix_mauch@web.de)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -15,6 +16,8 @@
 
 #include "tabulartable.h"
 
+#include <QApplication>
+#include <QClipboard>
 #include <QEvent>
 #include <QHeaderView>
 #include <QKeyEvent>
@@ -22,6 +25,8 @@
 #include <QPaintEvent>
 
 #include <KDebug>
+#include <KLocale>
+#include <KMessageBox>
 
 #include "tabularcell.h"
 #include "tabularcelldelegate.h"
@@ -42,10 +47,10 @@ TabularTable::TabularTable(QWidget *parent)
 bool TabularTable::eventFilter(QObject *obj, QEvent *event)
 {
 	if(obj == this) {
-		if(event->type() == QEvent::KeyPress && selectedItems().count() == 1) {
+		if(event->type() == QEvent::KeyPress) {
 			QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
 
-			if(keyEvent->key() == Qt::Key_Return) {
+			if(keyEvent->key() == Qt::Key_Return  && selectedItems().count() == 1) {
 				QTableWidgetItem *selectedItem = selectedItems()[0];
 				int row = selectedItem->row();
 				int column = selectedItem->column();
@@ -61,10 +66,13 @@ bool TabularTable::eventFilter(QObject *obj, QEvent *event)
 					item(row + 1, 0)->setSelected(true);
 					setCurrentItem(item(row + 1, 0));
 				}
-
 				return true;
 			}
-		} else if(event->type() == QEvent::HoverMove) {
+			else if(keyEvent->matches(QKeySequence::Paste)) {
+				paste();
+			}
+		}
+		else if(event->type() == QEvent::HoverMove) {
 			QHoverEvent *hoverEvent = static_cast<QHoverEvent*>(event);
 			QPoint pos = viewport()->mapFromGlobal(mapToGlobal(hoverEvent->pos()));
 			QTableWidgetItem *itemAtPos = itemAt(pos);
@@ -75,26 +83,31 @@ bool TabularTable::eventFilter(QObject *obj, QEvent *event)
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(columnCount());
 					m_ManualBorderPosition.setY(0);
-				} else if(itemAtPos->row() == 0 &&
-				          (visualItemRect(itemAtPos).topLeft() - pos).manhattanLength() <= 8) {
+				}
+				else if(itemAtPos->row() == 0 &&
+				        (visualItemRect(itemAtPos).topLeft() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(itemAtPos->column());
 					m_ManualBorderPosition.setY(0);
-				} else if(itemAtPos->column() == columnCount() - 1 &&
-				          (visualItemRect(itemAtPos).bottomRight() - pos).manhattanLength() <= 8) {
+				}
+				else if(itemAtPos->column() == columnCount() - 1 &&
+				        (visualItemRect(itemAtPos).bottomRight() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(columnCount());
 					m_ManualBorderPosition.setY(itemAtPos->row() + 1);
-				} else if((visualItemRect(itemAtPos).bottomLeft() - pos).manhattanLength() <= 8) {
+				}
+				else if((visualItemRect(itemAtPos).bottomLeft() - pos).manhattanLength() <= 8) {
 					setCursor(Qt::CrossCursor);
 					m_ManualBorderPosition.setX(itemAtPos->column());
 					m_ManualBorderPosition.setY(itemAtPos->row() + 1);
-				} else {
+				}
+				else {
 					unsetCursor();
 					m_ManualBorderPosition.setX(-1);
 					m_ManualBorderPosition.setY(-1);
 				}
-			} else {
+			}
+			else {
 				unsetCursor();
 				m_ManualBorderPosition.setX(-1);
 				m_ManualBorderPosition.setY(-1);
@@ -189,5 +202,50 @@ void TabularTable::paintEvent(QPaintEvent *event)
 }
 
 }
+
+void KileDialog::TabularTable::paste()
+{
+	// Maybe we want to insert content at a certain point in the table
+	int selectedRow = 0;
+	int selectedCol = 0;
+	if(!selectedItems().isEmpty()) {
+		selectedRow = selectedItems().first()->row();
+		selectedCol = selectedItems().first()->column();
+	}
+
+	//Clipboard->QStringlist
+	QString selectedText = qApp->clipboard()->text();
+	selectedText = selectedText.remove("\\r");
+	if(selectedText.isEmpty()) {
+		KMessageBox::information(this, i18n("There is no content to insert into the table as the clipboard is empty."), i18n("Empty Clipboard"));
+		return;
+	}
+	QStringList cells = selectedText.split(QRegExp(QLatin1String("\\n|\\t")));
+	while(!cells.empty() && cells.back().size() == 0) {
+		cells.pop_back(); // strip empty trailing tokens
+	}
+	int rows = selectedText.count(QLatin1Char('\n'));
+	// When there's no '\n':
+	if(rows == 0) {
+		rows = 1;
+	}
+	int cols = cells.size() / rows;
+
+	// Fill everything in the tableWidget
+	// If needed, new rows and cols get generated on the fly
+	int cell = 0;
+	for(int row = 0; row < rows; ++row) {
+		if(selectedRow + row > (rowCount() - 1)) {
+			emit rowAppended();
+		}
+		for(int col = 0; col < cols; ++col, ++cell) {
+			if(selectedCol + col > (columnCount() - 1)) {
+				emit colAppended();
+			}
+			item(selectedRow + row, selectedCol + col)->setText(cells[cell]);
+		}
+	}
+}
+
 
 #include "tabulartable.moc"

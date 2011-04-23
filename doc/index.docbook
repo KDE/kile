@@ -1871,7 +1871,15 @@
 		</screenshot>
 
 		<para>
-			You can choose how many rows and columns you want, and you can tweak some more things about your array:
+			Using the toolbar on top of the dialog you can set the <userinput>align</userinput> of a cell, define a certain <userinput>font style</userinput>,
+			<userinput>join</userinput> and <userinput>split</userinput> cells, choose a <userinput>border</userinput>, and specify background and font
+			<userinput>colors</userinput>.
+			On the very right there is a <guilabel>Paste</guilabel> button. With this button you can insert a table
+			from the clipboard into the dialog, which allows you to copy and paste tables from a spreadsheet program, for example.
+		</para>
+
+		<para>
+			At the bottom you can choose how many rows and columns you want, and you can tweak some more things about your array:
 		</para>
 
 		<itemizedlist>

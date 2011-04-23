@@ -71,6 +71,8 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	pageLayout->setSpacing(KDialog::spacingHint());
 	page->setLayout(pageLayout);
 
+	m_Table = new TabularTable(page);
+
 	m_tbFormat = new QToolBar(page);
 	m_tbFormat->setMovable(false);
 	m_tbFormat->setFloatable(false);
@@ -107,6 +109,8 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acClearText = addAction(KIcon("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
 	m_acClearAttributes = addAction(KIcon("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
 	m_acClearAll = addAction(KIcon("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
+	m_tbFormat->addSeparator();
+	m_acPaste = addAction(KIcon("edit-paste"), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);
@@ -115,8 +119,6 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acBold->setCheckable(true);
 	m_acItalic->setCheckable(true);
 	m_acUnderline->setCheckable(true);
-
-	m_Table = new TabularTable(page);
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
@@ -197,6 +199,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acClearText->setWhatsThis(i18n("Clears the text of the selected cells but keeps attributes such as alignment and font shape."));
 	m_acClearAttributes->setWhatsThis(i18n("Resets the attributes of the selected cells to the default values but keeps the text."));
 	m_acClearAll->setWhatsThis(i18n("Clears the text of the selected cells and resets the attributes."));
+	m_acPaste->setWhatsThis(i18n("Pastes a table stored in the clipboard into this wizard."));
 
 	setMainWidget(page);
 	initEnvironments();
@@ -207,6 +210,8 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	        this, SLOT(slotItemSelectionChanged()));
 	connect(m_Table, SIGNAL(rowAppended()),
 	        this, SLOT(slotRowAppended()));
+	connect(m_Table, SIGNAL(colAppended()),
+	        this, SLOT(slotColAppended()));
 	connect(m_cmbName, SIGNAL(activated(const QString&)),
 	        this, SLOT(slotEnvironmentChanged(const QString&)));
 	connect(m_sbCols, SIGNAL(valueChanged(int)),
@@ -256,8 +261,13 @@ void NewTabularDialog::initEnvironments()
 
 KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)
 {
+	return addAction(icon, text, this, method, parent);
+}
+
+KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent)
+{
 	KAction *action = new KAction(icon, text, parent);
-	connect(action, SIGNAL(triggered(bool)), this, method);
+	connect(action, SIGNAL(triggered(bool)), receiver, method);
 	m_tbFormat->addAction(action);
 
 	return action;
@@ -989,6 +999,13 @@ void NewTabularDialog::slotClearAll()
 void NewTabularDialog::slotRowAppended()
 {
 	m_sbRows->setValue(m_sbRows->value() + 1);
+	/* This is called twice, but now we can be sure that the new row has been created */
+	updateColsAndRows();
+}
+
+void NewTabularDialog::slotColAppended()
+{
+	m_sbCols->setValue(m_sbCols->value() + 1);
 	/* This is called twice, but now we can be sure that the new row has been created */
 	updateColsAndRows();
 }

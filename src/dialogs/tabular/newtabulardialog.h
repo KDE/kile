@@ -56,7 +56,8 @@ class NewTabularDialog : public Wizard {
 
 	private:
 		void initEnvironments();
-		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = 0);
+		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = NULL);
+		KAction* addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = NULL);
 		void alignItems(int alignment);
 		bool checkForColumnAlignment(int column);
 		QIcon generateColorIcon(bool background) const;
@@ -89,6 +90,7 @@ class NewTabularDialog : public Wizard {
 		void slotClearAttributes();
 		void slotClearAll();
 		void slotRowAppended();
+		void slotColAppended();
 		void slotStarredChanged();
 
 	private:
@@ -97,7 +99,8 @@ class NewTabularDialog : public Wizard {
 		KAction *m_acLeft, *m_acCenter, *m_acRight,
 		        *m_acBold, *m_acItalic, *m_acUnderline,
 		        *m_acJoin, *m_acSplit,
-		        *m_acClearText, *m_acClearAttributes, *m_acClearAll;
+		        *m_acClearText, *m_acClearAttributes, *m_acClearAll,
+						*m_acPaste;
 		SelectFrameAction *m_acFrame;
 		SelectColorAction *m_acBackground, *m_acForeground;
 		QToolBar *m_tbFormat;

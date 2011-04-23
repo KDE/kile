@@ -1268,7 +1268,7 @@ void Kile::setLine(const QString &line)
 		m_mainWindow->activateWindow();
 		// be very aggressive when it comes to raising the main window to the top
 		KWindowSystem::forceActiveWindow(m_mainWindow->winId());
-		view->setFocus();
+		focusTextView(view);
 		editorExtension()->goToLine(l - 1, view);
 
 		showEditorWidget();
@@ -1282,7 +1282,7 @@ void Kile::setCursor(const KUrl &url, int parag, int index)
 		KTextEditor::View *view = (KTextEditor::View*)doc->views().first();
 		if(view) {
 			view->setCursorPosition(KTextEditor::Cursor(parag, index));
-			view->setFocus();
+			focusTextView(view);
 		}
 	}
 }
@@ -1345,8 +1345,6 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 	m_mainWindow->guiFactory()->addClient(view);
 
-	view->setFocus(Qt::OtherFocusReason);
-
 	for(QList<KToolBar*>::iterator i = toolBarsList.begin();
 	                              i != toolBarsList.end(); ++i) {
 		KToolBar *toolBar = *i;
@@ -1358,6 +1356,8 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 	if(updateStruct) {
 		viewManager()->updateStructure();
 	}
+
+	focusTextView(view);
 }
 
 void Kile::updateModeStatus()
@@ -1468,7 +1468,9 @@ void Kile::focusKonsole()
 void Kile::focusEditor()
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view) view->setFocus();
+	if(view) {
+		focusTextView(view);
+	}
 }
 
 void Kile::sideOrBottomBarChanged(bool visible)
@@ -2113,7 +2115,7 @@ void Kile::insertTag(const KileAction::TagData& data)
 		return;
 	}
 
-	view->setFocus();
+	focusTextView(view);
 
 	editorExtension()->insertTag(data, view);
 }

@@ -199,17 +199,6 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 		view->setContextMenu(popupMenu);
 	}
 
-	//activate the newly created view
-	emit(activateView(view, false));
-	emit(updateCaption());  //make sure the caption gets updated
-
-	reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
-
-	view->setFocusPolicy(Qt::StrongFocus);
-	view->setFocus();
-
-	emit(prepareForPart("Editor"));
-
 	// delete the 'Configure Editor...' action
 	delete view->actionCollection()->action("set_confdlg");
 
@@ -232,6 +221,14 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	// (BUG 205245)
 	updateTabTexts(doc);
 	m_tabs->setCurrentIndex(m_tabs->indexOf(view));
+
+	//activate the newly created view
+	emit(activateView(view, false));
+	emit(updateCaption());  //make sure the caption gets updated
+
+	reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
+
+	emit(prepareForPart("Editor"));
 
 	return view;
 }
@@ -370,8 +367,9 @@ KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus
 			view = static_cast<KTextEditor::View*>(doc->views().first());
 			if(view) {
 				m_tabs->setCurrentIndex(m_tabs->indexOf(view));
-				if(requestFocus)
-					view->setFocus();
+				if(requestFocus) {
+					focusTextView(view);
+				}
 			}
 		}
 	}
@@ -854,6 +852,14 @@ bool Manager::viewForLocalFilePresent(const QString& localFileName)
 	return false;
 }
 
+}
+
+void focusTextView(KTextEditor::View *view)
+{
+	// we work around a potential Qt bug here which can result in dead keys
+	// being treated as 'alive' keys in some circumstances, probably when 'setFocus'
+	// is called when the widget hasn't been shown yet (see bug 269590)
+	QTimer::singleShot(0, view, SLOT(setFocus()));
 }
 
 #include "kileviewmanager.moc"

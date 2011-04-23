@@ -189,6 +189,8 @@ class DropWidget : public QWidget {
 
 }
 
+void focusTextView(KTextEditor::View *view);
+
 Q_DECLARE_METATYPE(KTextEditor::View*)
 
 #endif

@@ -71,7 +71,7 @@
 <holder>Felix Mauch</holder>
 </copyright>
 
-<date>April 17, 2011</date>
+<date>April 29, 2011</date>
 <releaseinfo>2.1</releaseinfo>
 
 <legalnotice>
@@ -529,11 +529,10 @@
 		would like to create and options such as font size, paper size, and so on; otherwise, 
 		they can write the code by hand.</para>
 
-		<screen><userinput>
-		\documentclass[12pt]{article}
-		\begin{document}
-		Here is a bunch of text coded in \LaTeX.
-		\end{document}</userinput></screen>
+<programlisting>\documentclass[12pt]{article}
+\begin{document}
+	Here is a bunch of text coded in \LaTeX.
+\end{document}</programlisting>
 
 		<para>Every document in &latex; begins with the command <userinput>
 		\documentclass[optional argument]{class}</userinput>, where class specifies the document type.</para>
@@ -1099,7 +1098,7 @@
 		<para>&kile; has an extended feature to select &latex; commands. If you for example 
 		have typed</para>
 		
-		<screen><userinput>text \bfseries\itshape more text</userinput></screen>
+		<programlisting>text \bfseries\itshape more text</programlisting>
 
 		<para> and double click on one of the &latex; commands, both will be selected. 
 		But often you only want to select one of two or more commands. This can be done using 
@@ -1609,15 +1608,14 @@
 		to place the cursor, if these characters are present in the expansion text. 
 		So if you have the entry</para>
 
-		<screen><userinput>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</userinput></screen>
+		<programlisting>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
 
 		<para>in the completion file, and invoke the abbreviation completion, 
 		the expansion looks like below, where <userinput>x</userinput> shows the final cursor position.</para>
 
-		<screen><userinput>
-		\begin{enumerate}
-		\item x
-		\end{enumerate}</userinput></screen>
+<programlisting>\begin{enumerate}
+	\item x
+\end{enumerate}</programlisting>
 
 		<sect2 id="complete_abbrev_view">
 	
@@ -1761,9 +1759,7 @@
 		But if you use <userinput>\graphicspath</userinput> in your
 		preamble like this:</para>
 
-		<programlisting>
-			\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}}
-		</programlisting>
+		<programlisting>\graphicspath{{/path/to/my/graphics}{other/path/to/more/graphics}}</programlisting>
 
 		<para>and check this option, &kile; will only use the 
 		base name of the graphics file.</para>
@@ -1771,9 +1767,7 @@
 		<para>Another example: if you set <userinput>\graphicspath</userinput> 
 		command like:</para>
 
-		<programlisting>
-			\graphicspath{{./}{camera/}{images/}}
-		</programlisting>
+		<programlisting>\graphicspath{{./}{camera/}{images/}}</programlisting>
 
 		<para>&latex; will search in the current folder, then in 
 		<filename>camera</filename> and finally in 
@@ -1798,7 +1792,7 @@
 		when you want to include a png or jpg graphics with this option. This checkbox 
 		enables or disables the bounding box option.</para></step>
 
-		<step><para>Scale the image by the desired scale factor. &eg;, 0.5 to reduce by half, 
+		<step><para>Scale the image by the desired scale factor. &eg;, 0.5 to reduce by half,
 		or 2 to double. When you use this option, you do not have to set a width or height for
 		the image.</para></step>
 		
@@ -2377,34 +2371,32 @@
 		</para>
 		<para>
 		An example for completeness is given here:
- 		<screen><userinput>
-		\documentclass[a4paper,10pt]{article}
-		\usepackage{amssymb}
-		\input{definitions}
-		%
-		\begin{document}
-		\pagestyle{empty}
-		%
-		\begin{neededpkgs}{amssymb}
-		\mathcommand{\surd}
-		\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
-		\mathcommand{\angle}
-		\end{neededpkgs}
-		\command{\"A}
-		\mathcommand{\exists}
-		\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
-		
-		%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
-		%   	
-		%   \end{neededpkgs}
-		% this would need to include the packages
-		% \usepackage{mathtext}
-		% \usepackage[T2C]{fontenc}
-		% \usepackage[russian]{babel}
-		% \usepackage[koi8-r]{inputenc}
-		%  just to explain the format
-		\end{document}
-		</userinput></screen>
+<programlisting>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% this would need to include the packages
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  just to explain the format
+\end{document}</programlisting>
 		</para>
 	</sect1>
 
@@ -2437,38 +2429,34 @@
 		<para>The bibliography is a section apart from your main document, and an example of
 		code for the bibliography would look like the following:</para>
 
-		<screen><userinput>
-		\begin{thebibliography}{50}
-		\bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}.
-		Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998
-		\end{thebibliography)</userinput></screen>
+<programlisting>\begin{thebibliography}{50}
+	\bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}. Evergreen Terrace Printing Co.,
+	                  Springfield, SomewhereUSA, 1998
+\end{thebibliography}</programlisting>
 
 		<para>Then, your main source code would contain the location of the information relating to
 		the <userinput>\bibitem</userinput> using <userinput>\cite</userinput>. That source code would look similar to this:</para>
 
-		<screen><userinput>
-		My thesis, about the philosophy of The Simpsons\copyright
-		comes from my favorite book \cite{Simpson}.</userinput></screen>
+		<programlisting>My thesis, about the philosophy of The Simpsons\copyright comes from my favorite book \cite{Simpson}.</programlisting>
 
 		<para>As it is often difficult to remember the exact citation key once you have many 
-		references, &kile; provides an easy way to insert a citation. On the <guilabel>Edit</guilabel> 
-		toolbar click on the second drop-down box (usually it reads <guilabel>label</guilabel>) and select 
-		<guilabel>cite</guilabel>. A list with all the citation keys pops up: select the correct 
+		references, &kile; provides an easy way to insert a citation. Using <menuchoice><guimenu>LaTeX
+		</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Cite</guimenuitem></menuchoice>
+		a list with all the citation keys pops up. Select the correct
 		reference and a citation will be inserted into your document. To update the list of keys, 
 		either save the file, or <menuchoice><guimenu>Edit</guimenu><guimenuitem>Refresh 
-		Structure</guimenuitem></menuchoice>, or press <keycap>F12</keycap>.</para>
+		Structure</guimenuitem></menuchoice>, or press <keycap>F12</keycap>.
+		With code completion enabled, &kile; will show you a list of all the <userinput>bibitem</userinput>-labels
+		as soon as you open up a <userinput>\cite</userinput> command.</para>
 
-		<para>The final product in your document's bibliography would then look like this:</para>
+		<para>The final result in your document's bibliography would then look like this:</para>
 
 		<para><computeroutput>[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co.,
 		Springfield, SomewhereUSA, 1998.</computeroutput></para>
 
-		<para>The easiest way to work with <userinput>\bibitem</userinput> and
-		<userinput>\cite</userinput> is to use the toolbar drop-down box marked
-		<guilabel>cite</guilabel>. When you select a citation to insert, you will be given the list of
-		<userinput>bibitem</userinput>s you have created so far, and will be able to select the
-		reference from the list. &kile; can also work together with &bibtex; editor applications,
-		such as &kbibtex; to help make citations easier.</para>
+		<para>&kile; can also work together with &bibtex; editors,
+		such as &kbibtex; to make it easier to enter citations. When a &bibtex; file is added to the project,
+		&kile; will help you complete citation commands, just as described above</para>
 
 	</sect1>
 
@@ -2534,13 +2522,10 @@
 				<listitem><para><userinput>%S</userinput>: will be replaced by the source file's name without file extension.</para></listitem>
 			</itemizedlist>
 
-			<para>To show you how this works let's say for example that we have a user-defined tag,
-			which contains the value <userinput>\bfseries{%M}%C</userinput>, and I have a selection of text
-			highlighted in my document that we want to turn into bold text. So, we highlight the
-			phrase <userinput>I love Fridays</userinput>, apply our user-defined tag by pressing
-			<keycombo>&Ctrl;&Shift;<keycap>1</keycap></keycombo>, and we get the text
-			<userinput>\bfseries{I love Fridays}</userinput>, with the cursor 
-			placed at the end of the text.</para>
+			<para>Let's consider the example you can see in the screenshots. First, we select a number in our text, let's say <userinput>2</userinput>.
+			Now we press <keycombo>&Ctrl;&Shift;<keycap>1</keycap></keycombo> or choose <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>User Tags</guisubmenu><guimenuitem>
+			Frac</guimenuitem></menuchoice>, and we obtain <userinput>\frac{2}{}</userinput> with the cursor begin located within the second
+			pair of brackets.</para>
 
 		</sect2>
 
@@ -2588,9 +2573,10 @@
 
 			<title>&makeidx;</title>
 
-			<para>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf">&makeidx;</ulink> 
+<!-- 		Already stated in last paragraph	 -->
+			<!--<para>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf">&makeidx;</ulink>
 			package to make a final, alphabetical index for your document, you have also to follow a certain
-			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>-->
 
 		</sect2>
 
@@ -2694,7 +2680,7 @@
 			or the keyboard shortcut <keycombo action="simul">&Ctrl;&Alt;<keycap>P</keycap></keycombo>,<keycap>S</keycap>
 			will start the selected programs. &kile; takes the preamble of the original text, so that 
 			all packages and user defined commands are included. The user can choose one 
-			of seven predefined configurations:</para>
+			of eight predefined configurations:</para>
 
 			<itemizedlist>
 			<listitem><para><application>LaTeX+&DVI; (embedded viewer)</application></para></listitem>
@@ -2703,7 +2689,8 @@
 			<listitem><para><application>LaTeX+PS (&okular;)</application></para></listitem>
 			<listitem><para><application>PDFLaTeX+PDF (embedded viewer)</application></para></listitem>
 			<listitem><para><application>PDFLaTeX+PDF (&okular;)</application></para></listitem>
-			<listitem><para><application>PDFLaTeX+PDF (&okular;)</application></para></listitem>
+			<listitem><para><application>XeLaTeX+PS (embedded viewer)</application></para></listitem>
+			<listitem><para><application>XeLaTeX+PDF (&okular;)</application></para></listitem>
 			</itemizedlist>
 
 			<para>This should be sufficient for all situations for which a quick preview is needed.</para>
@@ -3161,7 +3148,7 @@
 		
 		<para>The hierarchy tree has also a separate branch for labels used in the text.</para>
 
-		<screenshot>
+<!--		<screenshot>
 			<screeninfo>Using the Structure View</screeninfo>
 			<mediaobject>
 			<imageobject>
@@ -3172,7 +3159,7 @@
 			</textobject>
 			<caption><para>Using the Structure View</para></caption>
 			</mediaobject>
-		</screenshot>
+		</screenshot>-->
 
 		<sect2 id="navigating_contextmenu">
 
@@ -3194,7 +3181,7 @@
 				</mediaobject>
 			</screenshot>
 			
-			<para>You will find some labels, some sectioning entries, one figure environment and three
+			<para>You will find some labels, some sectioning entries, two figure environments and three
 			pictures. If you right click on one of the sectioning entries, a menu with some useful 
 			commands will popup. All commands like <guibutton>Select</guibutton>, <guibutton>Delete</guibutton> 
 			or <guibutton>Comment</guibutton> will work with all lines, which belong to this section.</para>
@@ -3256,8 +3243,6 @@
 		<para>To remove all your bookmarks, select <menuchoice><guimenu>Bookmarks</guimenu>
 		<guimenuitem>Clear All Bookmarks</guimenuitem></menuchoice>.</para>
 
-    <para>Please note that currently the bookmarks are not saved after exiting &kile;.</para>
-
 	</sect1>
 
 </chapter>
@@ -3292,6 +3277,8 @@
       <listitem><para> Search in all project files.</para></listitem> 
       <listitem><para> Specify custom quickbuild and &makeidx; command.</para></listitem>
 		</itemizedlist>
+
+		<para>You can find all project related commands in the <guilabel>Project</guilabel>-menu. From there you can open, close and manage your projects.</para>
 
 	</sect1>
 
@@ -3345,17 +3332,17 @@
 
 		<para>To add a file to your project, open any &tex; file, right click on its name in the
 		<guilabel>Files and Projects</guilabel> view, and select <guilabel>Add to
-		Project</guilabel>. If you have multiple projects open, a dialog box will ask
-		you which project the file has to be added to.</para>
+		Project</guilabel>. If you have opened multiple projects, a dialog box will pop up in which
+		you can specify to which project the file should be added.</para>
 
 		<para>If you have multiple files to be added to a project, you can select the
 		project from the <guilabel>Files and Projects</guilabel> view and right-click then select
 		<guilabel>Add Files...</guilabel>; you will then be able to select your files in a dialog box.</para>
 		
-<!--		<para>You can also right-click on the project's name in the <guilabel>Files and 
+		<para>You can also right-click on the project's name in the <guilabel>Files and
 		Projects</guilabel> view, and select <guilabel>Add Files...</guilabel> to bring
 		up a file selection dialog.</para>
--->
+
 		<screenshot>
 			<screeninfo>Adding a file to a project</screeninfo>
 			<mediaobject>
@@ -3373,6 +3360,24 @@
 		This does <emphasis>not</emphasis> delete your file (and also does not close it), but only removes it from the list 
 		of files contained in the <literal role="extension">.kilepr</literal> extension.</para>
 
+		<sect2 id="projects_archive">
+
+			<title>Archiving your Project</title>
+
+			<para>&kile; allows you to easily backup your project by storing all its files
+			into a single archive (often known as <emphasis>tarball</emphasis>). To archive your project,
+			right-click on its name in the <guilabel>Files and Projects</guilabel> view, or select
+			<menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
+
+			<para>By default, all files in a project are added to the archive. If you do not want to include
+			a certain file in the archive, right-click on it in the <guilabel>Files and Projects</guilabel>
+			view, and uncheck the <guilabel>Include in Archive</guilabel> option.</para>
+
+			<para>The archive operation is currently realized by executing the <command>tar</command> from the project
+			folder (where the <literal role="extension">.kilepr</literal> file is located).</para>
+
+		</sect2>
+
 	</sect1>
 
 	<sect1 id="projects_options">
@@ -3385,28 +3390,12 @@
 
 		<itemizedlist>
 			<listitem><para>The title of your project.</para></listitem>
+			<listitem><para>Default file extensions.</para></listitem>
  			<listitem><para>The Master document.</para></listitem>
  			<listitem><para>The Quickbuild command.</para></listitem>
  			<listitem><para>The &makeidx; options.</para></listitem>
 		</itemizedlist>
 
-		<sect2 id="projects_archive">
-
-			<title>Archiving your Project</title>
-
-			<para>&kile; allows you to easily backup your project by storing all its files 
-			into a single archive (often known as <emphasis>tarball</emphasis>). To archive your project 
-			right-click on its name in the <guilabel>Files and Projects</guilabel> view, or select 
-			<menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
-
-			<para>By default, all files in a project are added to the archive. If you do not want to include 
-			a certain file in the archive, right-click on it in the <guilabel>Files and Projects</guilabel> 
-			view, and uncheck the <guilabel>Include in Archive</guilabel> option.</para>
-
-			<para>Archive commands are simple shell commands that are executed from the project
-			folder (where the <literal role="extension">.kilepr</literal> file is located).</para>
-
-		</sect2>
 
 <!-- FIXME not working in kile, tbraun 11/3/2007
 		<sect2 id="projects_ext">
@@ -3517,21 +3506,19 @@
 		</listitem>
 		</itemizedlist>
 		
-		<screen><userinput>
-		\usepackage{ucs}
-		\usepackage[utf8x]{inputenc}</userinput></screen>
+<programlisting>\usepackage{ucs}
+\usepackage[utf8x]{inputenc}</programlisting>
 
 	</sect1>
 	
 	<sect1 id="xelatex">
 	
 		<title>XeLaTeX</title>
-		
+
 		<para>If you are using <userinput>XeLaTeX</userinput> you can simply load the
 		<userinput>xltxtra</userinput> package. It will load all required packages.</para>
-		<screen><userinput>
-		\usepackage{xltxtra}</userinput></screen>
-		
+		<programlisting>\usepackage{xltxtra}</programlisting>
+
 	</sect1>
 
 	<sect1 id="cjk">

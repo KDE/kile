@@ -2,7 +2,7 @@
     date                 : Mar 12 2007
     version              : 0.46
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -59,7 +59,7 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 	//                         1   23                 4               5 
 
 	// init double quotes
-	m_quoteList 
+	m_quoteListI18N // this is shown in the configuration dialog
 		<< i18n("English quotes:   ``   &apos;&apos;")
 		<< i18n("French quotes:   &quot;&lt;   &quot;&gt;")
 		<< i18n("German quotes:   &quot;`   &quot;&apos;")
@@ -67,9 +67,20 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 		<< i18n("German quotes (long):   \\glqq   \\grqq")
 		<< i18n("Icelandic quotes (v1):   \\ilqq   \\irqq")
 		<< i18n("Icelandic quotes (v2):   \\iflqq   \\ifrqq")
-		<< i18n("Czech quotes:   \\uv{   }")
-		<< i18n("csquotes package:   \\enquote{   }")
-		;
+		<< i18n("Czech quotes:   \\uv{}")
+		<< i18n("csquotes package:   \\enquote{}");
+
+
+	m_quoteList
+		<< QPair<QString, QString>("``", "''")
+		<< QPair<QString, QString>("\"<", "\">")
+		<< QPair<QString, QString>("\"`", "\"'")
+		<< QPair<QString, QString>("\\flqq", "\\frqq")
+		<< QPair<QString, QString>("\\glqq", "\\grqq")
+		<< QPair<QString, QString>("\\ilqq", "\\irqq")
+		<< QPair<QString, QString>("\\iflqq", "\\ifrqq")
+		<< QPair<QString, QString>("\\uv{", "}")
+		<< QPair<QString, QString>("\\enquote{", "}");
 
 	readConfig();
 }
@@ -2416,15 +2427,14 @@ void EditorExtension::goToLine(int line, KTextEditor::View *view)
 void EditorExtension::initDoubleQuotes()
 {
 	m_dblQuotes = KileConfig::insertDoubleQuotes();
-	
+
 	int index = KileConfig::doubleQuotes();
-	if(index < 0 && index >= m_quoteList.count()) {
+	if(index < 0 || index >= m_quoteList.count()) {
 		index = 0;
 	}
-	
-	QStringList quotes = m_quoteList[index].split(QRegExp("\\s{2,}"));
-	m_leftDblQuote = quotes[1];
-	m_rightDblQuote = quotes[2];
+
+	m_leftDblQuote = m_quoteList[index].first;
+	m_rightDblQuote = m_quoteList[index].second;
 	KILE_DEBUG() << "new quotes: " << m_dblQuotes << " left=" << m_leftDblQuote << " right=" << m_rightDblQuote<< endl;
 }
 

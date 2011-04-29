@@ -2,7 +2,7 @@
     date                 : Feb 20 2007
     version              : 0.45
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -64,7 +64,10 @@ public:
 	void selectTexgroup(bool inside, KTextEditor::View *view = NULL);
 	void deleteTexgroup(bool inside, KTextEditor::View *view = NULL);
 
-	const QStringList doubleQuotesList() { return m_quoteList; }
+	/**
+	 * Returns a (potentially) translated list of options for inserting double quotes
+	 */
+	const QStringList doubleQuotesListI18N() { return m_quoteListI18N; }
 	
 	// get current word
 	bool getCurrentWord(KTextEditor::Document *doc, int row, int col, SelectMode mode, QString &word, int &x1, int &x2);
@@ -179,7 +182,8 @@ private:
 
 	// double Quotes
 	bool m_dblQuotes;
-	QStringList m_quoteList;
+	QStringList m_quoteListI18N;
+	QList<QPair<QString, QString> > m_quoteList;
 	QString m_leftDblQuote, m_rightDblQuote;
 
 	// special chars

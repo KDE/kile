@@ -2563,23 +2563,23 @@
 			for your bibliography entries, you usually have to follow a special compiling scheme.
       This means calling &latex; and then &bibtex; and then &latex; twice again. Fortunately &kile; is clever enough to
       detect automatically if it is necessary to call additional tools like &bibtex;, &makeidx; and &asymptote;.
-      This logic is by default turned on and can be changed in <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
+      This logic is turned on by default and can be changed in <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
       Kile...</guisubmenu><guisubmenu>Tools</guisubmenu><guilabel>Build</guilabel></menuchoice> in the <guilabel>General</guilabel> tab in the &latex; and &pdflatex; tools.
       </para>
 
 		</sect2>
 
+<!-- Already stated in last paragraph
 		<sect2>
 
 			<title>&makeidx;</title>
 
-<!-- 		Already stated in last paragraph	 -->
-			<!--<para>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf">&makeidx;</ulink>
+			<para>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf">&makeidx;</ulink>
 			package to make a final, alphabetical index for your document, you have also to follow a certain
-			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>-->
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
 
 		</sect2>
-
+-->
 		<sect2>
 
 			<title>MetaPost and &asymptote;</title>

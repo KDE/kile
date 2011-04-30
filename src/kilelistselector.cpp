@@ -157,12 +157,6 @@ ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QString& caption,
 	connect(this, SIGNAL(user1Clicked()), this, SLOT(addCustomCompletionFiles()));
 	connect(this, SIGNAL(user2Clicked()), this, SLOT(openLocalCompletionDirectoryInFileManager()));
 
-	// Create local path if it doesn't exist.
-	QDir workPath(m_localCompletionDirectory);
-	if (!workPath.isReadable()) {
-		workPath.mkpath(m_localCompletionDirectory);
-	}
-
 	fillTreeView();
 	setMainWidget(m_listView);
 }
@@ -172,6 +166,8 @@ ManageCompletionFilesDialog::~ManageCompletionFilesDialog()
 }
 
 void ManageCompletionFilesDialog::fillTreeView() {
+	// we want to keep selected items still selected after refreshing
+	QSet<QString> previouslySelectedItems = selected();
 	QStringList list = KileCodeCompletion::Manager::getAllCwlFiles(m_localCompletionDirectory, m_globalCompletionDirectory).uniqueKeys();
 	qSort(list);
 	m_listView->clear();
@@ -180,11 +176,11 @@ void ManageCompletionFilesDialog::fillTreeView() {
 		QString expectedGlobalPath = m_globalCompletionDirectory + "/" + filename;
 		if (QFileInfo(expectedLocalPath).exists() && QFileInfo(expectedLocalPath).isReadable()) {
 			QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("yes"));
-			item->setCheckState(2, Qt::Unchecked);
+			item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
 		}
 		else if (QFileInfo(expectedGlobalPath).exists() && QFileInfo(expectedGlobalPath).isReadable()) {
 			QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("no"));
-			item->setCheckState(2, Qt::Unchecked);
+			item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
 		}
 		else {
 			KILE_DEBUG() << "Cannot load file" << filename << "!";
@@ -199,6 +195,15 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 {
 	bool someFileAdded = false;
 	QStringList files = KFileDialog::getOpenFileNames(KUrl(), i18n("*.cwl|Completion files (*.cwl)"), this, i18n("Select Completion Files to Install Locally"));
+
+	if(files.isEmpty()) {
+		return;
+	}
+	// Create local path if it doesn't exist or has been deleted in the mean time
+	QDir workPath(m_localCompletionDirectory);
+	if (!workPath.isReadable()) {
+		workPath.mkpath(m_localCompletionDirectory);
+	}
 
 	foreach (QString file, files) {
 		QFileInfo fileInf(file);
@@ -252,13 +257,13 @@ void ManageCompletionFilesDialog::openLocalCompletionDirectoryInFileManager()
 	new KRun(KUrl(m_localCompletionDirectory), QApplication::activeWindow());
 }
 
-const QStringList ManageCompletionFilesDialog::selected() const
+const QSet<QString> ManageCompletionFilesDialog::selected() const
 {
-	QStringList checked_files;
+	QSet<QString> checked_files;
 	for (int i = 0; i < m_listView->topLevelItemCount(); ++i) {
 		QTreeWidgetItem* item = m_listView->topLevelItem(i);
 		if (item->checkState(2) == Qt::Checked) {
-			checked_files.push_back(item->text(0));
+			checked_files.insert(item->text(0));
 		}
 	}
 

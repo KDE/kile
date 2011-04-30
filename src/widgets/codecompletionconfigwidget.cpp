@@ -325,10 +325,10 @@ void CodeCompletionConfigWidget::addClicked()
 	ManageCompletionFilesDialog dlg(i18n("Completion Files"), localPath, globalPath, this);
 
 	if (dlg.exec()) {
-		QStringList filenames = dlg.selected();
-		if (!filenames.empty()) {
+		QSet<QString> filenames = dlg.selected();
+		if (!filenames.isEmpty()) {
 			QTreeWidget *listview = getListview(m_tabWidget->currentWidget());     // get current page
-			for (QStringList::ConstIterator it = filenames.constBegin(); it != filenames.constEnd(); ++it) {
+			for (QSet<QString>::ConstIterator it = filenames.constBegin(); it != filenames.constEnd(); ++it) {
 				QString filename = *it;
 				// Reload map of files.
 				QMap<QString, QString> filemap = KileCodeCompletion::Manager::getAllCwlFiles(localPath, globalPath);

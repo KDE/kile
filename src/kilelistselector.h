@@ -16,6 +16,8 @@
 #ifndef KILELISTSELECTOR_H
 #define KILELISTSELECTOR_H
 
+#include <QSet>
+
 #include <KDialog>
 
 class QTreeWidget;
@@ -63,7 +65,7 @@ class ManageCompletionFilesDialog : public KDialog
 		                            const QString &localCompletionDir, const QString &globalCompletionDir, QWidget* parent = NULL, const char *name = NULL);
 		~ManageCompletionFilesDialog();
 
-		const QStringList selected() const;
+		const QSet<QString> selected() const;
 
 	protected Q_SLOTS:
 		void addCustomCompletionFiles();

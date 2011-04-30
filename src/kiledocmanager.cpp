@@ -2150,7 +2150,7 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 		return QList<KileProjectItem*>();
 	}
 
-	QStringList filelist, selectedfiles;
+	QStringList filelist;
 	QMap<QString,KileProjectItem *> map;
 
 	QList<KileProjectItem*> list = project->items();
@@ -2166,7 +2166,7 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, m_ki->mainWindow());
 	if(dlg->exec()) {
 		if(dlg->currentItem() >= 0) {
-			selectedfiles = dlg->selected();
+			QStringList selectedfiles = dlg->selected();
 			for(QStringList::Iterator it = selectedfiles.begin(); it != selectedfiles.end(); ++it ){
 				if(map.contains(*it)) {
 					itemsList.append(map[(*it)]);

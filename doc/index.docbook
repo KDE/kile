@@ -71,7 +71,7 @@
 <holder>Felix Mauch</holder>
 </copyright>
 
-<date>April 29, 2011</date>
+<date>May 1, 2011</date>
 <releaseinfo>2.1</releaseinfo>
 
 <legalnotice>
@@ -3428,15 +3428,13 @@
 
 	<title>Document Encoding</title>
 
-	<para>The &kile; editor allows you to read, convert and set the text to the encoding 
-	your document needs. This allows you to use non-standard letters and symbols; 
-	you can use, for example, accented characters for Italian or French.
-	Selecting the encoding for your document can be done in three ways:</para>
+	<para>The &kile; editor allows you to read, convert and save text in the character encoding
+	your document needs. With this it is possible, for example, to use accented characters such
+	as they are commonly used in Italian or French directly in &latex; documents.
+	Selecting the encoding for your document can be done in two ways:</para>
 
 	<itemizedlist>
-		<listitem><para>One way to set the encoding is to use the <guilabel>Set encoding</guilabel> combo
-		box, located at the bottom of the <guilabel>Open File</guilabel> sidebar view.</para></listitem>
-		<listitem><para>Another way is using the submenu 
+		<listitem><para>One way to set the document encoding is by using the submenu
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
 		Kile...</guisubmenu><guimenuitem>Editor</guimenuitem></menuchoice>,
 		where you can set the default character encoding for all files.</para>
@@ -3452,42 +3450,28 @@
 			</mediaobject>
 		</screenshot>
 		</listitem>
-		<listitem><para>A third way to set the encoding for a document is to set the option
-		when you use the wizard to create a new document.</para></listitem>
+		<listitem><para>A second way to set the encoding for a document is to choose the desired encoding
+		within the wizard to create a new document.</para></listitem>
 	</itemizedlist>
 
-	<para>&latex; itself understands only ASCII, a very limited set of characters, so you could not use
-	accented or special letters directly. To use accented letters, a special syntax was created: 
+	<para>&latex; itself only understands ASCII, which represents a very limited set of characters. Hence, it is not possible to use
+	accented characters directly. To use them nevertheless, a special syntax was invented:
 	such as for example <userinput>\"e</userinput> for <computeroutput>ë</computeroutput>. 
-	There is a package to help you with this, called <application>inputenc</application>, and is included 
+	The <application>inputenc</application> package is available to help you with this. It is included
 	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the optional argument 
-	is the encoding you would like to use (nowadays in most cases <userinput>utf8x</userinput>). This tells &latex;
+	specifies the encoding you would like to use (nowadays in most cases <userinput>utf8x</userinput>). This tells &latex;
 	to translate all of the <userinput>ë</userinput>'s you wrote to <userinput>\"e</userinput>'s before
-	compiling. Please refer to the <application>inputenc</application> documents directly for more
-	information on <application>inputenc</application>. Last but not least: remember to make sure that 
-	your file is <emphasis>actually</emphasis> encoded in the same encoding you told 
-	<application>inputenc</application>!</para>
+	compiling. Please refer to the <application>inputenc</application> documentation directly for more
+	information. Last but not least: remember to make sure that your file is <emphasis>actually</emphasis> saved
+	in the same encoding you specified for the <application>inputenc</application> package!</para>
 
-	<screenshot>
-		<screeninfo>Choosing the source file's encoding</screeninfo>
-		<mediaobject>
-		<imageobject>
-		<imagedata fileref="snap_encoding.png" format="PNG" />
-		</imageobject>
-		<textobject>
-		<phrase>Choosing the source file's encoding</phrase>
-		</textobject>
-		<caption><para>Choosing the source file's encoding</para></caption>
-		</mediaobject>
-	</screenshot>
-
-	<para>This host of different character coding tables has been creating problems on 
-	many applications: for example, you cannot write a course of Turkish in French without 
-	losing one language's special characters. There is general agreement that, sooner or later, 
+	<para>This multitude of different character coding tables has created numerous problems: for example,
+	you cannot write a course of Turkish in French without losing one language's special characters.
+	There is general agreement that, sooner or later,
 	everybody will switch to <ulink url="http://www.unicode.org">Unicode</ulink>. There
 	are many implementations of Unicode, and <abbrev>UTF-8</abbrev> is the most
 	successful in &Linux;; &Windows;&reg; relies instead on the more cumbersome and
-	less flexible <abbrev>UCS-2</abbrev>. Some distributions, as RedHat, have already
+	less flexible <abbrev>UCS-2</abbrev>. Most distributions have already
 	begun setting their default encoding to <abbrev>UTF-8</abbrev>, and therefore you
 	may be very interested in using of the <userinput>utf8x</userinput> argument to the
 	<userinput>inputenc</userinput> package.</para>
@@ -3497,12 +3481,12 @@
 		<title>The &ucs; Package</title>
 		<para>If you don't have the &ucs; package installed, you can proceed as follows:</para>
 		<itemizedlist>
-		<listitem><para>Get the &ucs; package from the home page of 
-		<ulink url="http://www.unruh.de/DniQ/latex/unicode/">Unicode support for 
-		&latex;</ulink>, by Dominique Unruh from the University of Karlsruhe.</para></listitem>
+		<listitem><para>Get the &ucs; package from
+		<ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/">CTAN</ulink>.
+		</para></listitem>
 		<listitem>
 		<para>To install it, unpack the downloaded file and place it in a folder listed
-		 in your $<envar>TEXINPUTS</envar> envirnoment variable. This can also be set inside kile.</para>
+		 in your $<envar>TEXINPUTS</envar> environment variable. This can also be set inside kile.</para>
 		</listitem>
 		</itemizedlist>
 		
@@ -3515,8 +3499,8 @@
 	
 		<title>XeLaTeX</title>
 
-		<para>If you are using <userinput>XeLaTeX</userinput> you can simply load the
-		<userinput>xltxtra</userinput> package. It will load all required packages.</para>
+		<para>If you are using <userinput>XeLaTeX</userinput>, you can simply load the
+		<userinput>xltxtra</userinput> package. It will additionally load all the required packages.</para>
 		<programlisting>\usepackage{xltxtra}</programlisting>
 
 	</sect1>
@@ -3535,7 +3519,7 @@
 		
 		<para>There is the possibility of using the &ucs; package in order to write
 		short snippets of &cjk; text, but that option is seriously limited as it does
-		not handle, among other things, newlines. We will instead install the complete
+		not handle, among other things, newlines. Instead, we will install the complete
 		&cjk;-&latex; package and make it work for both &latex; and &pdflatex;. A lot
 		of this material has been inspired by <ulink url="http://www.ece.uci.edu/~chou/">Pai
 		H. Chou</ulink>'s <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html">page 
@@ -3548,14 +3532,14 @@
 		package. Copy its unpacked files to an appropriate subfolder of 
 		$<envar>TEXMF</envar>, just like you did with the &ucs; package 
 		before (see <xref linkend="ucs" role="select: title pageabbrv"/>). The files will be unpacked in a
-		<filename>CJK/X_Y.Z</filename> folder, it is not important that you 
-		take them out, though it will probably be tidier for you to 
+		<filename>CJK/X_Y.Z</filename> folder; it is not important that you
+		take them out, though it will probably be tidier and easier for you to
 		maintain.</para></listitem>
 		
 		<listitem><para>Now you have to download a font that supports all the &cjk; characters 
 		you need. You can choose any <literal role="extension">*.ttf</literal> file that
 		covers them, but in this walkthrough we will use <ulink
-		url="ftp://ftp.netscape.com/pub/communicator/extras/fonts/windows/Cyberbit.ZIP">Cyberbit</ulink>.
+		url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP">Cyberbit</ulink>.
 		Unzip the file and rename <filename>Cyberbit.ttf</filename> to 
 		<filename>cyberbit.ttf</filename>, since uppercase might confuse your system.</para>
 		<para>Place <filename>cyberbit.ttf</filename> in a folder together with
@@ -3609,8 +3593,8 @@
 		files with &cjk; characters, you have to add a line in file 
 		<filename>ttfonts.map</filename>. The file might be in a folder named 
 		<filename>$<envar>TEXMF</envar>/ttf2pk/</filename>, but you will probably have to look 
-		for it. Add the line <userinput>cyberbit@Unicode@ cyberbit.ttf</userinput>
-		into it.</para></listitem>
+		for it. Append the line <userinput>cyberbit@Unicode@ cyberbit.ttf</userinput>
+		to it.</para></listitem>
 		
 		<listitem><para>Now, you only have to run <userinput><command>texhash</command></userinput> 
 		and the system should be ready.</para></listitem>

@@ -29,6 +29,7 @@ class QTreeWidgetItem;
 class KConfig;
 class KPushButton;
 class KTabWidget;
+class KDirWatch;
 
 
 namespace KileWidget {
@@ -66,7 +67,9 @@ class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeComp
 		QTreeWidgetItem* getListviewEntry(QTreeWidget *listview, const QString &filename);
 		void updateColumnWidth(QTreeWidget *listview);
 
+		bool m_configChanged;
 		QString m_localCwlDir, m_globalCwlDir;
+		KDirWatch *m_dirWatcher;
 
 	private Q_SLOTS:
 		void showPage(QWidget *page);
@@ -74,6 +77,7 @@ class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeComp
 		void addClicked();
 		void removeClicked();
 		void slotSelectionChanged();
+		void updateCompletionFilesTab(const QString& path);
 };
 
 #endif

@@ -30,6 +30,7 @@
 
 #include <KConfig>
 #include <KDialog>
+#include <KDirWatch>
 #include <KLocale>
 #include <KMessageBox>
 #include <KPushButton>
@@ -44,7 +45,7 @@
 #include "kiletool_enums.h"
 
 CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent, const char *name)
-		: QWidget(parent), m_config(config), m_logwidget(logwidget)
+		: QWidget(parent), m_config(config), m_logwidget(logwidget), m_configChanged(false)
 {
 	setObjectName(name);
 	setupUi(this);
@@ -73,6 +74,15 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidg
 	QPair<QString, QString> p = KileCodeCompletion::Manager::getCwlBaseDirs();
 	m_localCwlDir = p.first;
 	m_globalCwlDir = p.second;
+
+	// Watch for changes in the directories
+	m_dirWatcher = new KDirWatch(this);
+	if (m_dirWatcher) {
+		m_dirWatcher->addDir(m_localCwlDir, KDirWatch::WatchSubDirs | KDirWatch::WatchFiles);
+		m_dirWatcher->addDir(m_globalCwlDir, KDirWatch::WatchSubDirs | KDirWatch::WatchFiles);
+		connect(m_dirWatcher, SIGNAL(created(const QString&)), this, SLOT(updateCompletionFilesTab(const QString&)));
+		connect(m_dirWatcher, SIGNAL(deleted(const QString&)), this, SLOT(updateCompletionFilesTab(const QString&)));
+	}
 }
 
 CodeCompletionConfigWidget::~CodeCompletionConfigWidget()
@@ -136,12 +146,9 @@ void CodeCompletionConfigWidget::readConfig(void)
 
 void CodeCompletionConfigWidget::writeConfig(void)
 {
-	// default: no changes in configuration
-	bool changed = false;
-
 	// get listview entries
 	for (uint i = TexPage; i < NumPages; ++i) {
-		changed |= getListviewEntries(CompletionPage(i));
+		m_configChanged |= getListviewEntries(CompletionPage(i));
 	}
 
 	// Konfigurationslisten abspeichern
@@ -167,7 +174,7 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	KileConfig::setMaxCwlFiles(sp_cwlthreshold->value());
 	
 	// save changed wordlists?
-	KileConfig::setCompleteChangedLists(changed);
+	KileConfig::setCompleteChangedLists(m_configChanged);
 }
 
 //////////////////// listview ////////////////////
@@ -212,6 +219,8 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 
 void CodeCompletionConfigWidget::updateColumnWidth(QTreeWidget *listview)
 {
+	listview->resizeColumnToContents(0);
+	listview->resizeColumnToContents(1);
 	listview->setColumnWidth(0, listview->columnWidth(0) + 60);
 }
 
@@ -380,5 +389,19 @@ void CodeCompletionConfigWidget::slotSelectionChanged()
 	QTreeWidget *listview = getListview(m_tabWidget->currentWidget());     // get current page
 	m_removeFileButton->setEnabled(listview->selectedItems().count() > 0);
 }
+
+void CodeCompletionConfigWidget::updateCompletionFilesTab(const QString& path)
+{
+	int localLength = (path.startsWith(m_localCwlDir) ? m_localCwlDir.length() : m_globalCwlDir.length());
+	// 'm_globalCwlDir' and 'm_localCwlDir' are guaranteed to end in '/' (see 'KileCodeCompletion::Manager::getCwlBaseDirs()')
+	QString dirname = path.mid(localLength, path.indexOf('/', localLength) - localLength);
+
+	int dirnameIdx = m_dirname.indexOf(dirname);
+	if (dirnameIdx >= 0) {
+		m_configChanged |= getListviewEntries(CompletionPage(dirnameIdx));
+		setListviewEntries(CompletionPage(dirnameIdx));
+	}
+}
+
 
 #include "codecompletionconfigwidget.moc"

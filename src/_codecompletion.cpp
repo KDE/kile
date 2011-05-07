@@ -1123,6 +1123,13 @@ QPair<QString, QString> Manager::getCwlBaseDirs()
 			break;
 		}
 	}
+	// we ensure that the directory strings end in '/'
+	if(!localDir.endsWith('/')) {
+		localDir += '/';
+	}
+	if(!globalDir.endsWith('/')) {
+		globalDir += '/';
+	}
 	return QPair<QString, QString>(localDir, globalDir);
 }
 

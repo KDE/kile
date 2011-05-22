@@ -71,7 +71,7 @@
 <holder>Felix Mauch</holder>
 </copyright>
 
-<date>May 1, 2011</date>
+<date>May 22, 2011</date>
 <releaseinfo>2.1</releaseinfo>
 
 <legalnotice>
@@ -3823,9 +3823,9 @@
 		
 		<title>Help Documents</title>
 
-		<para>&latex; is a rather sophisticated system, where the basic features
+		<para>&latex; is a rather sophisticated system, where basic features
 		can be expanded by a great variety of additional packages.
-		&kile; provides a lot of different help to support the user.</para>
+		&kile; provides numeroues different ways to aid the user.</para>
 
 		<variablelist>
 
@@ -3837,19 +3837,19 @@
 		
 		<varlistentry>
 		<term><guimenu>TeX Documentation</guimenu></term>
-		<listitem><para>&tetex;/&texlive; comes with a huge amount of documents. 
-		This includes a documentation for all included packages and an additional &latex; 
+		<listitem><para>&tetex;/&texlive; ships with a huge number of help documents.
+		This includes documentation for all the included packages and an additional &latex;
 		reference.</para></listitem>
 		</varlistentry>
 
 		<varlistentry>
 		<term><guimenu>LaTeX</guimenu></term>
 		<listitem><para>A full reference for &tex; and friends. This is not 
-		only a description of all programs, some important packages are also 
-		mentioned. And it includes a full reference manual of &latex; 
+		only a description of all programs, but some important packages are also
+		mentioned. It also includes a full reference manual of &latex;
 		commands&mdash;ideal for looking up a particular piece of formatting 
 		while writing a document. As this document is really extensive, 
-		&kile; separates it with three important bookmarks.</para></listitem>
+		it is referenced in &kile; by three bookmarks.</para></listitem>
 		</varlistentry>
 
 		<varlistentry>
@@ -3903,11 +3903,11 @@
 	
 		<title>Searching for Keywords</title>
 		
-		<para>It is not always easy to find the right document, as &tetex;/&texlive; 
-		comes with a huge amount of documents. As one possible help, &tetex;/&texlive; 
-		provides a tiny program <application>texdoctk</application>. 
-		It comes with a database of all documents that &kile; uses to offer 
-		an interface to it.</para>
+		<para>It is not always easy to find the right document as &tetex;/&texlive;
+		ships with a huge number of help documents. In order to facilitate this process, &tetex;/&texlive;
+		provides a tiny program called <application>texdoctk</application>.
+		It provides a database of all the help documents, for which &kile; offers a user-friendly
+		interface.</para>
 
 		<screenshot>
 			<screeninfo>Bullets</screeninfo>
@@ -3921,9 +3921,9 @@
 			</mediaobject>
 		</screenshot>
 
-		<para>All documents are grouped into some categories, and the main 
-		advantage is that you can search for packages names or keywords. 
-		&kile; will then show only the results.</para> 
+		<para>All the documents are grouped into categories. Additionally,
+		one can search for package names or keywords.
+		&kile; will then show only the help documents matching the search string.</para>
 		
 		<screenshot>
 			<screeninfo>Bullets</screeninfo>
@@ -3937,10 +3937,10 @@
 			</mediaobject>
 		</screenshot>
 		
-		<para>A mouse double click or the <keycap>Space</keycap> key will start the 
-		viewer for this document. This can be a arbitrary document, not only a 
-		&DVI;, PS, PDF or &HTML; document. &kile; will take &kde; settings to 
-		start a appropriate viewer.</para>
+		<para>A mouse double-click or the <keycap>Space</keycap> key will start a
+		viewer for the selected document. This can be an arbitrary document, not only a
+		&DVI;, PS, PDF or &HTML; document. &kile; takes the &kde; settings into account in order to
+		start an appropriate viewer.</para>
 
 		
 	</sect1>
@@ -3949,20 +3949,20 @@
 	
 		<title>User Defined Help</title>
 	
-		<para>Beside this static &tetex;/&texlive; documentation, &kile; supports also 
-		another variable way for user-help documents. In <guimenu>Help</guimenu> 
-		menu &kile; has a special <guimenu>User help</guimenu> 
-		submenu, where the user can add documents of his own choice. 
-		These can be the most important documents of &tetex;/&texlive; documentation, or even 
-		self written documents. It is even possible to choose some Web URLs.</para> 
+		<para>Besides this static &tetex;/&texlive; documentation, &kile; also supports
+		a more flexible variable way for help documents. In the <guimenu>Help</guimenu>
+		menu &kile; has a special <guimenu>User help</guimenu>
+		submenu, where the user can add documents of his or her own choice.
+		These can be the most important documents of the &tetex;/&texlive; documentation, or even
+		self-written documents. It is also possible to enter URLs</para>
 
 		<para>Go to 
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
 		and choose <guibutton>Configure</guibutton> button
 		to configure this <guimenu>User help</guimenu> menu. You can add, 
-		remove or navigate menu entries, and also insert separators to get
-		a better structure.</para>
+		remove or move menu entries around, and insert separators to optimize
+		the structure of the menu.</para>
 
 		<screenshot>
 			<screeninfo>Dialog: configure user defined help entries</screeninfo>
@@ -3976,10 +3976,10 @@
 			</mediaobject>
 		</screenshot>
 
-		<para>Pressing the <guibutton>Add</guibutton> button will open 
-		another dialog, where you must edit the name of the menu entry, 
-		and choose the corresponding file or Web &URL;. If you choose a Web &URL;, 
-		&konqueror; is started and you should copy the final &URL;.</para>
+		<para>Pressing the <guibutton>Add</guibutton> button will open
+		another dialog, where you can edit the name of the menu entry,
+		and choose the corresponding file or &URL;. The second button right of text field launches
+		&konqueror;, which can be used to determine the correct &URL;.</para>
 
 		<screenshot>
 			<screeninfo>Dialog: add a new helpentry</screeninfo>
@@ -3993,7 +3993,7 @@
 			</mediaobject>
 		</screenshot>
 
-		<para>After configuration all chosen entries will appear in the <guimenu>Help</guimenu> 
+		<para>After finishing the configuration, all the entries will appear in the <guimenu>Help</guimenu>
 		menu of &kile; as a special menu entry <guimenu>User help</guimenu>.</para>
 		
 		<screenshot>
@@ -4016,18 +4016,15 @@
 
 	<title>Credits and License</title>
 
-	<para>&kile; is an open-source user-friendly &latex; / &tex; source code editor. It will run on systems
-	with the &kde; Desktop Environment installed. &kde; is available for several architectures
-	with &Linux; and other Unix-like systems installed. &kile; is also part of the Fink project,
-	which means you can run &kile; on a &Mac; with OS-X.</para>
+	<para>&kile; is an open-source user-friendly &latex; / &tex; source code editor. It runs on systems
+	that have the &kde; Desktop Environment installed. &kde; is available for several architectures
+	including &Linux; and other Unix-like systems.</para>
 
-	<para>Many thanks are owed to those who strive to continue the &kile; project, and the many
-	hours of contributions made by those who sacrifice their time to develop tools we can all
-	use under the &GNU; license. Up-to-date information about contributors can be found in
+	<para>Many thanks are owed to the people who strive to continue the &kile; project and to those
+	who sacrifice numerous hours of their time to develop tools we can all use under the &GNU; license.
+	Up-to-date information about contributors can be found in
 	the <guimenuitem>About &kile;</guimenuitem> dialog from the <guimenu>Help</guimenu> menu.
 	</para>
-
-	<para>Contributions among others from: Rob Lensen, Roland Schulz, Michael Margraf, Holger Danielsson</para>
 
 	<para>Many thanks to all those involved!</para>
 	

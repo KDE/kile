@@ -91,12 +91,6 @@ The following options are available:
                                 Default:
                                     path of --i18n-sub
 
-    -tb|--tag-base <PATH>       Path to the tag base.
-                                Default:
-                                    tags/
-
-    --tag                       Create tag directory.
-
     --admin <PATH>              Path to the /admin/ directory.
                                 Default:
                                     trunk/KDE/kde-common/admin
@@ -211,7 +205,7 @@ function makeDir
 {
     cd $BUILDDIR
     print "                  Creating directory $*"
-    runCommand mkdir $*
+    runCommand "mkdir $*"
 }
 
 
@@ -262,7 +256,7 @@ function getResource
             COMMAND="git $GIT_CHECKOUT_OPTIONS archive $TAGNAME | tar x -C $DESTINATION"
         ;;
         documentation)
-            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE/doc/$APPNAME $DESTINATION"
+            COMMAND="git $GIT_CHECKOUT_OPTIONS archive $TAGNAME doc | tar x -C $DESTINATION"
         ;;
         languagelist)
             SINGLEFILEHACK="yes"
@@ -411,22 +405,6 @@ function postProcessApplicationDir
     fi
 }
 
-function retrieveDocumentation
-{
-    if [ $GETDOC = "no" ]; then
-        return
-    fi
-
-    print "Retrieving the documentation..."
-    DOCDIR=$APPDIR/doc
-    print "         ($DOCDIR)"
-
-    getResource "documentation" $DOCDIR
-    if [ "$CREATE_TAG" = "yes" ]; then
-        runCommand "svn $SVN_CHECKOUT_OPTIONS cp $SVNROOT/$APPBASE/doc/$APPNAME $TAGDIR/$APPVERSION/doc"
-    fi
-}
-
 #
 # Determines what languages need to be retrieved.
 # If LANGUAGES was not set using the -l switch,
@@ -555,10 +533,6 @@ function retrieveGUITranslations
     # determine which languages to get
     getLanguageList
 
-    if [ "$CREATE_TAG" = "yes" ]; then
-        runCommand "svn $SVN_CHECKOUT_OPTIONS mkdir $TAGDIR/$APPVERSION/translations"
-    fi
-
     # then get them (its really simple actually)
     INCLUDED_LANGUAGES=""
     for language in $LANGUAGES
@@ -567,20 +541,11 @@ function retrieveGUITranslations
         makeDir $TRANSDIR/$language
         makeDir $TRANSDIR/$language/messages
 
-        if [ "$CREATE_TAG" = "yes" ]; then
-            runCommand "svn $SVN_CHECKOUT_OPTIONS mkdir $TAGDIR/$APPVERSION/translations/$language"
-            runCommand "svn $SVN_CHECKOUT_OPTIONS mkdir $TAGDIR/$APPVERSION/translations/$language/messages"
-        fi
-
         INCLUDE_THIS_LANG="yes"
         for pofile in $APP_POFILES; do
             getResource "guitranslation" $language $TRANSDIR/$language/messages $pofile
             if [ ! -e $BUILDDIR/$TRANSDIR/$language/messages/$pofile.po ]; then
                 INCLUDE_THIS_LANG="no"
-            else
-                if [ "$CREATE_TAG" = "yes" ]; then
-                    runCommand "svn $SVN_CHECKOUT_OPTIONS cp $SVNROOT/$I18NBASE/$language/messages/$I18NSUB/$pofile.po $TAGDIR/$APPVERSION/translations/$language/messages"
-                fi
             fi
         done
 
@@ -589,9 +554,6 @@ function retrieveGUITranslations
             INCLUDED_LANGUAGES="$INCLUDED_LANGUAGES $language"
         else
             rm -rf $TRANSDIR/$language
-            if [ "$CREATE_TAG" = "yes" ]; then
-                runCommand "svn $SVN_CHECKOUT_OPTIONS rm --force $TAGDIR/$APPVERSION/translations/$language"
-            fi
         fi
     done
 }
@@ -610,10 +572,6 @@ function retrieveDocTranslations
         if [ ! -e $BUILDDIR/$TRANSDIR/$language/doc/index.docbook ]; then
             print "                  No translations for $language docs available."
             rm -rf $TRANSDIR/$language/doc
-        else
-            if [ "$CREATE_TAG" = "yes" ]; then
-                runCommand "svn $SVN_CHECKOUT_OPTIONS cp $SVNROOT/$I18NBASE/$language/docs/$I18NDOCSUB/$APPNAME/ $TAGDIR/$APPVERSION/translations/$language/doc"
-            fi
         fi
     done
 }
@@ -765,7 +723,6 @@ function initVars
     BZIP2="tar jcf"
     GZIP="tar zcf"
     TAGDIR="$PWD/tag"
-    CREATE_TAG="no"
     TAGBASE="tags"
 }
 
@@ -923,10 +880,9 @@ initBasic
 setupBuildDir
 
 assembleApplicationData
-# retrieveDocumentation
 
-# retrieveGUITranslations
-# retrieveDocTranslations
+retrieveGUITranslations
+retrieveDocTranslations
 # #createTranslationMakefiles
 # #createTranslationDirMakefile $BUILDDIR/$TRANSDIR
 

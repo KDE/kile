@@ -1,7 +1,37 @@
+version 2.1 beta 5 -> 2.1
+
+Fixes:
+- Fix a potential memory leak related to the parser progress bar
+- Fix a crash that occurred when typing "exit" in the embedded console (#263405)
+- Improve the wording of the message box which pops up when the user
+  wants to create a new project but no project name has been given yet (#263661)
+- Correctly handle '.' characters that occur in citation labels (#266670)
+- Run the tool 'asymptote' automatically when 'asymptote' figures are present
+  in the document (Patch by Felix Mauch, #258352)
+- Fix a typo present in the LaTeX markup when inserting a description list
+  environment via the 'LaTeX' menu (Patch by Mark  Morschhäuser, #268043)
+- Fix some bugs in the tabular wizard (Patch by Felix Mauch)
+- Revive the automatic insertion of $ feature (Patch by Dominik Haumann)
+- Fix the problem that dead keys are sometimes treated as 'alive' (#269590)
+- Avoid crashes when running Kile in a non-English locale (#271910)
+
+Features:
+- Make the background colour of the quick preview pane configurable (#265879)
+- Add a directory selection button (and the corresponding dialog) which allows
+  it to select the default location for projects in a more comfortable way
+  (Patch by Felix Mauch, #116670)
+- Also add a directory selection button for the TeX documentation (Patch by
+  Felix Mauch)
+- Allow users to comfortably install custom completion files (Patch by Libor
+  Bukata, #265284)
+- Add the possibility to copy tables from the clipboard into the tabular
+  wizard (Patch by Felix Mauch)
+- New CWL file for the 'soul package' (Patch by Thomas Braun, #271688)
+
+
 version 2.1 beta 4 -> 2.1 beta 5
 
 Fixes:
-
 - Ensure that LaTeX root documents are recognised correctly when Kile is starting up (#233667)
 - Don't prepend the base directory to absolute file names returned by 'grep' (#234235)
 - Fix some crashes in the find-in-files dialog

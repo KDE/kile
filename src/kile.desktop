@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Exec=kile
+Exec=kile %U
 Icon=kile
 X-DocPath=kile/index.html
 Comment=(La)TeX development environment

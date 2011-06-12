@@ -60,6 +60,7 @@ UserTags::UserTags(const QList<KileAction::TagData> &list, QWidget* parent,  con
 	m_labelTag->setText(i18n("Value:"));
 	m_editTag = new KTextEdit(page);
 	m_editTag->setAcceptRichText(false);
+	m_editTag->setToolTip(i18n("Available placeholders:\n%B: Bullet\n%C: Cursor position\n%M: Marked text\n%S: Source file name without extension"));
 
 	m_buttonAdd = new KPushButton(i18n("Add"), page);
 	m_buttonInsert = new KPushButton(i18n("Insert"), page);

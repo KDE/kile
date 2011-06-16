@@ -62,6 +62,8 @@
 
 #include "documentinfo.h"
 
+#include "config.h"
+
 #include <QDateTime>
 #include <QFileInfo>
 #include <QRegExp>
@@ -83,6 +85,7 @@
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "kileviewmanager.h"
+#include "livepreview.h"
 
 namespace KileDocument
 {
@@ -849,12 +852,15 @@ LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
                      LatexCommands *commands,
                      KileDocument::EditorExtension *editorExtension,
                      KileConfiguration::Manager* manager,
-                     KileCodeCompletion::Manager *codeCompletionManager)
+                     KileCodeCompletion::Manager *codeCompletionManager,
+                     KileTool::LivePreviewManager *livePreviewManager
+                    )
 : TextInfo(doc, extensions, abbreviationManager, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
-  m_eventFilter(NULL)
+  m_eventFilter(NULL),
+  m_livePreviewManager(livePreviewManager)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -989,14 +995,24 @@ QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 	return toReturn;
 }
 
-void LaTeXInfo::installSignalConnections(KTextEditor::View * /* view */)
+void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
 {
-
+#ifdef LIVEPREVIEW_POSSIBLE
+	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
+	        m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
+	connect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
+	        m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)), Qt::UniqueConnection);
+#endif
 }
 
-void LaTeXInfo::removeSignalConnections(KTextEditor::View * /* view */)
+void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
 {
-
+#ifdef LIVEPREVIEW_POSSIBLE
+	disconnect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
+	           m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
+	disconnect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
+	           m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)));
+#endif
 }
 
 void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)

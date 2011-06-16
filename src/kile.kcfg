@@ -131,6 +131,11 @@
 			<whatsthis>Set the BIBINPUTS environment variable here. BIBINPUTS should be a colon-separated list of all paths bibtex should look for additional .bib files. You do not have to add :$BIBINPUTS at the end.</whatsthis>
 			<default></default>
 		</entry>
+		<entry name="PreviewBibInputPaths" type="String">
+			<label>Holds the BIBINPUTS environment variable for QuickPreview tools.</label>
+			<whatsthis>Set the BIBINPUTS environment variable for QuickPreview tools here. BIBINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$TEXINPUTS at the end.</whatsthis>
+			<default></default>
+		</entry>
 		<entry name="BstInputPaths" type="String">
 			<label>Holds the BSTINPUTS environment variable.</label>
 			<whatsthis>Set the BSTINPUTS environment variable here. BSTINPUTS should be a colon-separated list of all paths bibtex should look for additional .bst files. You do not have to add :$BSTINPUTS at the end.</whatsthis>
@@ -571,6 +576,20 @@
 		<entry name="symbolViewUTF8" type="Bool">
 		<label>Should UTF-8 characters instead of commands be inserted</label>
 		<default>false</default>
+		</entry>
+	</group>
+	<group name="Preview">
+		<entry name="livePreview" type="Bool">
+			<label>Activate live preview functionality.</label>
+			<default>true</default>
+		</entry>
+		<entry name="synchronizeCursorWithView" type="Bool">
+			<label>Synchronize the cursor position with the view.</label>
+			<default>true</default>
+		</entry>
+		<entry name="previewEnabledForFreshlyOpenedDocuments" type="Bool">
+			<label>Enable preview for freshly opened documents.</label>
+			<default>true</default>
 		</entry>
 	</group>
 </kcfg>

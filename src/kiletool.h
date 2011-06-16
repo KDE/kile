@@ -1,6 +1,6 @@
 /****************************************************************************************
-    begin                : mon 3-11 20:40:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+            (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -71,9 +71,9 @@ namespace KileTool
 		const QString& name() const { return m_name; }
 		
 		/**
-		 * Allows you to set the source file explicitly (absolute path).
+		 * Allows you to set the source file and working directory explicitly (absolute path).
 		 **/
-		virtual void setSource(const QString & source);
+		virtual void setSource(const QString& source, const QString& workingDir = "");
 		
 		/**
 		 * @returns the source file that is used to run the tool on.
@@ -95,6 +95,17 @@ namespace KileTool
 
 		void setQuickie() { m_quickie = true; }
 		bool isQuickie() { return m_quickie; }
+
+		void setPartOfLivePreview() { m_isPartOfLivePreview = true; }
+		bool isPartOfLivePreview() const { return m_isPartOfLivePreview; }
+
+		void setTeXInputPaths(const QString& s);
+		QString teXInputPaths() const;
+		void setBibInputPaths(const QString& s);
+		QString bibInputPaths() const;
+		void setBstInputPaths(const QString& s);
+		QString bstInputPaths() const;
+		void copyPaths(Base* tool);
 
 		/**
 		 * Allows you to set the target file explicitly (filename only).
@@ -128,7 +139,9 @@ namespace KileTool
 		/**
 		 * @returns the working dir for this tool.
 		 **/
-		const QString &workingDir() const { return m_basedir; }
+		const QString &workingDir() const { return m_workingDir; }
+
+		void setWorkingDir(const QString& s) { m_workingDir = s; }
 
 		/**
 		 * @returns the dictionary that translates the following keys
@@ -192,7 +205,7 @@ namespace KileTool
 		void output(const QString &);
 
 		void start(KileTool::Base*);
-		void done(KileTool::Base*, int);
+		void done(KileTool::Base*, int, bool childToolSpawned);
 
 		void requestSaveAll(bool amAutoSaving = false, bool disUntitled= false);
 
@@ -212,6 +225,7 @@ namespace KileTool
 	protected:
 		Launcher	*m_launcher;
 		bool		m_quickie;
+		bool		m_isPartOfLivePreview;
 
 		bool needsUpdate(const QString &target, const QString &source);
 
@@ -239,13 +253,15 @@ namespace KileTool
 		
 		virtual bool checkSource();
 
+		void runChildNext(Base *tool, const QString& config = QString(), bool block = false);
+
 	private:
 		Manager			*m_manager;
 		KileInfo		*m_ki;
 		KConfig			*m_config;
 
 		QString			m_name, m_from, m_to;
-		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S;
+		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_workingDir;
 		QString			m_options;
 		QString			m_resolution;
 
@@ -261,8 +277,13 @@ namespace KileTool
 		bool			m_bPrepared;
 		bool			m_bPrepareToRun;
 
+		QString m_texInputs, m_bibInputs, m_bstInputs;
+
 		//messages
 		QMap<long, KLocalizedString>	m_messages;
+
+	protected:
+		bool			m_childToolSpawned;
 	};
 
 	/**
@@ -313,7 +334,7 @@ namespace KileTool
 		Archive(const QString &name, Manager * manager, bool prepare = true);
 		~Archive();
 		bool checkPrereqs();
- 		void setSource(const QString & source);
+		void setSource(const QString & source, const QString& workingDir = "");
 	private:
 		KileProject *m_project;
 		QString m_fileList;

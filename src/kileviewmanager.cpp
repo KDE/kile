@@ -738,7 +738,15 @@ void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 
 void Manager::currentViewChanged(int index)
 {
-	emit currentViewChanged(m_tabs->widget(index));
+	QWidget *activatedWidget = m_tabs->widget(index);
+	if(!activatedWidget) {
+		return;
+	}
+	emit currentViewChanged(activatedWidget);
+	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(activatedWidget);
+	if(view) {
+		emit textViewActivated(view);
+	}
 }
 
 DropWidget::DropWidget(QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, f)

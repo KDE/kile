@@ -64,6 +64,7 @@ namespace KileTool
 	
 	class Manager : public QObject
 	{
+		friend class Base;
 		Q_OBJECT
 		
 	public:
@@ -94,14 +95,16 @@ namespace KileTool
 		int lastResult() { return m_nLastResult; }
 
 	public Q_SLOTS:
-		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false);
-		int run(Base *, const QString& = QString(), bool insertAtTop = false, bool block = false);
+		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false, Base *parent = NULL);
+		int run(Base *tool, const QString& = QString(), bool insertAtTop = false, bool block = false, Base *parent = NULL);
 
 		int runNext(const QString&, const QString& = QString(), bool block = false);
-		int runNext(Base *, const QString& = QString(), bool block = false);
+		int runNext(Base *tool, const QString& = QString(), bool block = false);
 
 		int runBlocking(const QString&, const QString& = QString(), bool = false);
 		int runNextBlocking(const QString&, const QString& = QString());
+
+		void stopLivePreview();
 
 	private:
 		void setEnabledStopButton(bool state);
@@ -116,12 +119,17 @@ namespace KileTool
 		void stop(); //should be a slot that stops the active tool and clears the queue
 		void stopActionDestroyed();
 
+		// must be used when a child tool is launched from within another tool!
+		int runChildNext(Base *parent, Base *tool, const QString& = QString(), bool block = false);
+
 	Q_SIGNALS:
 		void requestGUIState(const QString &);
 		void requestSaveAll(bool, bool);
 		void jumpToFirstError();
 		void toolStarted();
 		void previewDone();
+		// emitted when a tool spawns another tool (parent, child).
+		void childToolSpawned(KileTool::Base*,KileTool::Base*);
 
 	private:
 		KileInfo		*m_ki;
@@ -137,6 +145,8 @@ namespace KileTool
 		bool					m_bClear;
 		int					m_nLastResult;
 		uint					m_nTimeout;
+
+		void deleteLivePreviewToolsFromQueue();
 	};
 
 	QStringList toolList(KConfig *config, bool menuOnly = false);

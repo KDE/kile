@@ -20,6 +20,8 @@
 
 #include "kile.h"
 
+#include "config.h"
+
 #include <QHideEvent>
 #include <QPointer>
 #include <QShowEvent>
@@ -46,6 +48,10 @@
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 #include <KWindowSystem>
+
+#ifdef HAVE_VIEWERINTERFACE_H
+#include <okular/interfaces/viewerinterface.h>
+#endif
 
 #include "abbreviationmanager.h"
 #include "configurationmanager.h"
@@ -90,6 +96,7 @@
 #include "scriptmanager.h"
 #include "widgets/previewwidget.h"
 #include "symbolviewclasses.h"
+#include "livepreview.h"
 
 #define LOG_TAB     0
 #define OUTPUT_TAB  1
@@ -180,6 +187,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
 	m_horizontalSplitter = new QSplitter(Qt::Horizontal, m_mainWindow);
+	QSplitter *textViewHorizontalSplitter = new QSplitter(Qt::Horizontal, m_mainWindow);
 
 	setupSideBar();
 	m_horizontalSplitter->addWidget(m_sideBar);
@@ -187,7 +195,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_verticalSplitter = new QSplitter(Qt::Vertical);
 	m_horizontalSplitter->addWidget(m_verticalSplitter);
 	QWidget *tabWidget = viewManager()->createTabs(m_verticalSplitter);
-	m_verticalSplitter->addWidget(tabWidget);
+	m_verticalSplitter->addWidget(textViewHorizontalSplitter);
+	textViewHorizontalSplitter->addWidget(tabWidget);
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
@@ -212,6 +221,24 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
+
+#ifdef LIVEPREVIEW_POSSIBLE
+	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection(), textViewHorizontalSplitter);
+
+	if(m_livePreviewManager->livePreviewPart()) {
+		textViewHorizontalSplitter->addWidget(m_livePreviewManager->livePreviewPart()->widget());
+		QList<int> sizes;
+		sizes << m_verticalSplitter->width() / 2 << m_verticalSplitter->width() / 2;
+		textViewHorizontalSplitter->setSizes(sizes);
+		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
+	}
+	else { // live preview part couldn't be created
+		delete m_livePreviewManager;
+		m_livePreviewManager = NULL;
+	}
+#else
+	m_livePreviewManager = NULL;
+#endif
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config.data(), actionCollection());
 	m_manager->setFactory(m_toolFactory);
@@ -303,6 +330,7 @@ Kile::~Kile()
 	delete m_extensions;
 	delete m_latexCommands;
 	delete m_quickPreview;
+	delete m_livePreviewManager;
 	delete m_edit;
 	delete m_help;
 	delete m_AutosaveTimer;
@@ -2419,6 +2447,11 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_codeCompletionManager->readConfig(m_config.data());
+#ifdef LIVEPREVIEW_POSSIBLE
+	if(m_livePreviewManager) {
+		m_livePreviewManager->readConfig(m_config.data());
+	}
+#endif
 	//m_edit->initDoubleQuotes();
 	m_edit->readConfig();
 	docManager()->updateInfos();
@@ -2444,6 +2477,11 @@ void Kile::saveSettings()
 	showEditorWidget();
 
 	m_fileBrowserWidget->writeConfig();
+#ifdef LIVEPREVIEW_POSSIBLE
+	if(m_livePreviewManager) {
+		m_livePreviewManager->writeConfig();
+	}
+#endif
 	m_symbolViewMFUS->writeConfig();
 	saveLastSelectedAction();
 	// Store recent files

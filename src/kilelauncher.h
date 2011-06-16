@@ -94,7 +94,7 @@ namespace KileTool
 		void slotProcessError(QProcess::ProcessError error);
 
 	private:
-		QString 	m_wd, m_cmd, m_texinputs, m_bibinputs, m_bstinputs;
+		QString 	m_wd, m_cmd;
 		QString		m_options;
 		KProcess	*m_proc;
 		bool		m_changeTo;

@@ -46,7 +46,7 @@ namespace KileConfiguration{ class Manager; }
 namespace KileDocument { class Extensions; class Manager; class EditorExtension; }
 namespace KileView { class Manager; }
 namespace KileWidget { class StructureWidget; class Konsole; class ScriptsManagement; class PreviewWidget; class ExtendedScrollArea; class FileBrowserWidget; class OutputView; class BottomBar; }
-namespace KileTool { class QuickPreview; }
+namespace KileTool { class QuickPreview; class LivePreviewManager; }
 namespace KileHelp { class Help; }
 namespace KileScript { class Manager; }
 namespace KileEditorKeySequence { class Manager; }
@@ -154,6 +154,7 @@ public:
 	KileDocument::LatexCommands *latexCommands() const { return m_latexCommands; }
 	KileHelp::Help *help() const { return m_help; }
 	KileTool::QuickPreview *quickPreview() const { return m_quickPreview; }
+	KileTool::LivePreviewManager *livePreviewManager() const { return m_livePreviewManager; }
 	KileDocument::Extensions *extensions() const { return m_extensions; }
 	KileTemplate::Manager *templateManager() const { return m_templateManager; }
 	KileCodeCompletion::Manager *codeCompletionManager() const { return m_codeCompletionManager; }
@@ -167,6 +168,8 @@ public:
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
 	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.toLocalFile(),file, type); }
+
+	virtual void setLine(const QString &line) = 0;
 
 protected:
 	KileConfiguration::Manager	*m_configurationManager;
@@ -195,6 +198,7 @@ protected:
 	KileDocument::LatexCommands *m_latexCommands;
 	KileDocument::Extensions *m_extensions;
 	KileTool::QuickPreview *m_quickPreview;
+	KileTool::LivePreviewManager *m_livePreviewManager;
 
 	bool 		m_singlemode;
 	QString	m_masterName;

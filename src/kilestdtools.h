@@ -52,6 +52,7 @@ namespace KileTool
 
 		public:
 			LaTeX(const QString& tool, Manager *mngr, bool prepare);
+			virtual ~LaTeX();
 
 		Q_SIGNALS:
 			void jumpToFirstError();
@@ -63,11 +64,10 @@ namespace KileTool
 			bool filterLogfile();
 			void checkErrors(int &nErrors, int &nWarnings);
 			void checkAutoRun(int nErrors, int nWarnings);
-			
-		private:
-			bool updateBibs();
-			bool updateIndex();
-			bool updateAsy();
+
+			virtual bool updateBibs();
+			virtual bool updateIndex();
+			virtual bool updateAsy();
 
 			//FIXME: this is a little 'hackish'
 			static int m_reRun;
@@ -90,7 +90,28 @@ namespace KileTool
 			int m_selrow;
 			int m_docrow;
 	};
-	
+
+	class LivePreviewLaTeX : public LaTeX
+	{
+		Q_OBJECT
+
+		public:
+			LivePreviewLaTeX(const QString& tool, Manager *mngr, bool prepare);
+
+// 			void setPreviewInfo(const QString &filename, int selrow, int docrow);
+
+		public Q_SLOTS:
+// 			bool finish(int);
+
+		protected:
+			virtual bool updateBibs();
+
+		private:
+			QString m_filename;
+			int m_selrow;
+			int m_docrow;
+	};
+
 	class ForwardDVI : public View
 	{
 		public:

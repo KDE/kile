@@ -139,7 +139,7 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
-	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
+	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
 	{
 		if (!m_factory) {
 			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
@@ -152,10 +152,10 @@ namespace KileTool
 			return ConfigureFailed;
 		}
 		
-		return run(pTool, cfg, insertNext, block);
+		return run(pTool, cfg, insertNext, block, parent);
 	}
 
-	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
+	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
@@ -183,6 +183,10 @@ namespace KileTool
 			m_queue.enqueue(new QueueItem(tool, cfg, block));
 		}
 
+		if(parent) {
+			emit(childToolSpawned(parent,tool));
+		}
+
 		KILE_DEBUG() << "\tin queue: " << m_queue.count() << endl;
 		if(m_queue.count() == 1) {
 			return runNextInQueue();
@@ -203,6 +207,11 @@ namespace KileTool
 	int Manager::runNext(Base *tool, const QString &config, bool block /*= false*/) 
 	{
 		return run(tool, config, true, block); 
+	}
+
+	int Manager::runChildNext(Base *parent, Base *tool, const QString& config/*= QString()*/, bool block /*= false*/)
+	{
+		return run(tool, config, true, block, parent);
 	}
 
 	int Manager::runBlocking(const QString &tool, const QString &config /*= QString::null*/, bool insertAtTop /*= false*/)
@@ -259,7 +268,7 @@ namespace KileTool
 
 		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMessage(int, const QString &, const QString &)));
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
-		connect(tool, SIGNAL(done(KileTool::Base*,int)), this, SLOT(done(KileTool::Base*, int)));
+		connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(done(KileTool::Base*, int)));
 		connect(tool, SIGNAL(start(KileTool::Base*)), this, SLOT(started(KileTool::Base*)));
 		connect(tool, SIGNAL(requestSaveAll(bool, bool)), this, SIGNAL(requestSaveAll(bool, bool)));
 	}
@@ -284,6 +293,17 @@ namespace KileTool
 		if(m_queue.tool()) {
 			m_queue.tool()->stop();
 		}
+	}
+
+	void Manager::stopLivePreview()
+	{
+	  KILE_DEBUG();
+		setEnabledStopButton(false);
+		Base *tool = m_queue.tool();
+		if(tool && tool->isPartOfLivePreview()) {
+			tool->stop();
+		}
+		deleteLivePreviewToolsFromQueue();
 	}
 
 	void Manager::stopActionDestroyed()
@@ -312,15 +332,35 @@ namespace KileTool
 		}
 
 		if(result != Success && result != Silent) { //abort execution, delete all remaining tools
-			for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
-				(*i)->tool()->deleteLater();
-				delete (*i);
+			if(tool->isPartOfLivePreview()) { // live preview was stopped / aborted
+				deleteLivePreviewToolsFromQueue();
 			}
-			m_queue.clear();
-			m_ki->focusLog();
+			else {
+				for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+					(*i)->tool()->deleteLater();
+					delete (*i);
+				}
+				m_queue.clear();
+				m_ki->focusLog();
+			}
 		}
 		else { //continue
 			runNextInQueue();
+		}
+	}
+
+	void Manager::deleteLivePreviewToolsFromQueue()
+	{
+		for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end();) {
+			QueueItem *item = *i;
+			if(item->tool()->isPartOfLivePreview()) {
+				item->tool()->deleteLater();
+				delete item;
+				i = m_queue.erase(i);
+			}
+			else {
+				++i;
+			}
 		}
 	}
 

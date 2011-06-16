@@ -58,9 +58,6 @@ namespace KileTool {
 	}
 
 	ProcessLauncher::ProcessLauncher() :
-		m_texinputs(KileConfig::teXPaths()),
-		m_bibinputs(KileConfig::bibInputPaths()),
- 		m_bstinputs(KileConfig::bstInputPaths()),
 		m_changeTo(true)
 	{
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::ProcessLauncher()==============";
@@ -170,27 +167,32 @@ namespace KileTool {
 
 		emit(message(Info, msg));
 
+		QString teXInputPaths = tool()->teXInputPaths();
+		QString bibInputPaths = tool()->bibInputPaths();
+		QString bstInputPaths = tool()->bstInputPaths();
+
 		// QuickView tools need a special TEXINPUTS environment variable
 		if(tool()->isQuickie()) {
-			m_texinputs = KileConfig::previewTeXPaths();
+			teXInputPaths = KileConfig::previewTeXPaths();
+			bibInputPaths = KileConfig::previewBibInputPaths();
 		}
 
 		KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS");
-		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS");
-		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS");
+		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + ":$TEXINPUTS");
+		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + ":$BIBINPUTS");
+		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + ":$BSTINPUTS");
 		KILE_DEBUG() << "Tool name is "<< tool()->name();
 
 		m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
-		if(!m_texinputs.isEmpty()) {
-			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
+		if(!teXInputPaths.isEmpty()) {
+			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + ":$TEXINPUTS"));
 		}
-		if(!m_bibinputs.isEmpty()) {
-			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
+		if(!bibInputPaths.isEmpty()) {
+			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + ":$BIBINPUTS"));
 		}
-		if(!m_bstinputs.isEmpty()) {
-			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
+		if(!bstInputPaths.isEmpty()) {
+			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + ":$BSTINPUTS"));
 		}
 
 		out += "*****\n";

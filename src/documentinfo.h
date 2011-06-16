@@ -45,6 +45,7 @@ namespace KileDocument { class EditorExtension; }
 namespace KileConfiguration { class Manager; }
 namespace KileCodeCompletion { class LaTeXCompletionModel; class AbbreviationCompletionModel; class Manager; }
 namespace KileAbbreviation { class Manager; }
+namespace KileTool { class LivePreviewManager; }
 namespace KileStruct
 {
 	//Different types of elements in the structure view
@@ -414,7 +415,9 @@ public:
 	          LatexCommands *commands,
 	          KileDocument::EditorExtension *editorExtension,
 	          KileConfiguration::Manager *manager,
-	          KileCodeCompletion::Manager *codeCompletionManager);
+	          KileCodeCompletion::Manager *codeCompletionManager,
+	          KileTool::LivePreviewManager *livePreviewManager);
+
 	virtual ~LaTeXInfo();
 
 	virtual Type getType();
@@ -432,6 +435,7 @@ protected:
 	KileConfiguration::Manager *m_configurationManager;
 	QObject *m_eventFilter;
 	KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
+	KileTool::LivePreviewManager *m_livePreviewManager;
 
 	virtual void updateStructLevelInfo();
 	virtual void checkChangedDeps();

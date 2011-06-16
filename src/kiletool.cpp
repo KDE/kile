@@ -38,9 +38,14 @@ namespace KileTool
 	Base::Base(const QString &name, Manager * manager, bool prepare /* = true */) :
 		m_launcher(NULL),
 		m_quickie(false),
+		m_isPartOfLivePreview(false),
 		m_manager(manager),
 		m_name(name),
-		m_bPrepareToRun(prepare)
+		m_bPrepareToRun(prepare),
+		m_texInputs(KileConfig::teXPaths()),
+		m_bibInputs(KileConfig::bibInputPaths()),
+		m_bstInputs(KileConfig::bstInputPaths()),
+		m_childToolSpawned(false)
 	{
 		m_manager->initTool(this);
 		
@@ -253,7 +258,16 @@ namespace KileTool
 		return true;
 	}
 
-	void Base::setSource(const QString &source)
+	void Base::runChildNext(Base *tool, const QString& config /*= QString()*/, bool block /*= false*/)
+	{
+		m_childToolSpawned = true;
+		if(isPartOfLivePreview()) {
+			tool->setPartOfLivePreview();
+		}
+		manager()->runChildNext(this, tool, config, block);
+	}
+
+	void Base::setSource(const QString &source, const QString& workingDir)
 	{
 		m_from = readEntry("from");
 
@@ -265,6 +279,10 @@ namespace KileTool
 				src.replace(QRegExp(info.suffix() + '$'), m_from);
 			}
  			info.setFile(src);
+		}
+
+		if(!workingDir.isEmpty()) {
+			setWorkingDir(workingDir);
 		}
 
 		m_basedir = info.absolutePath();
@@ -281,7 +299,44 @@ namespace KileTool
 		KILE_DEBUG() << "S=" << m_S;
 		KILE_DEBUG() << "basedir=" << m_basedir;
 	}
+
+	void Base::setTeXInputPaths(const QString& s)
+	{
+		m_texInputs = s;
+	}
 	
+	QString Base::teXInputPaths() const
+	{
+		return m_texInputs;
+	}
+
+	void Base::setBibInputPaths(const QString& s)
+	{
+		m_bibInputs = s;
+	}
+
+	QString Base::bibInputPaths() const
+	{
+		return m_bibInputs;
+	}
+
+	void Base::setBstInputPaths(const QString& s)
+	{
+		m_bstInputs = s;
+	}
+
+	QString Base::bstInputPaths() const
+	{
+		return m_bstInputs;
+	}
+
+	void Base::copyPaths(Base* tool)
+	{
+		setTeXInputPaths(tool->teXInputPaths());
+		setBibInputPaths(tool->bibInputPaths());
+		setBstInputPaths(tool->bstInputPaths());
+	}
+
 	bool Base::determineTarget()
 	{
 		QFileInfo info(source());
@@ -307,14 +362,20 @@ namespace KileTool
 			m_relativedir = readEntry("relDir");
 		}
 
-		KUrl url = KUrl::fromPathOrUrl(m_basedir);
+		KUrl url;
+		if(!m_workingDir.isEmpty()) {
+			url = KUrl::fromPathOrUrl(m_workingDir);
+		}
+		else {
+			url = KUrl::fromPathOrUrl(m_basedir);
+		}
 		url.addPath(m_relativedir);
 		url.cleanPath();
 		m_targetdir = url.toLocalFile();
-		
+
 		setTarget(m_target);
-		setTargetDir(m_targetdir);		
-		
+		setTargetDir(m_targetdir);
+
 		KILE_DEBUG() << "==KileTool::Base::determineTarget()=========";
 		KILE_DEBUG() << "\tm_targetdir=" << m_targetdir;
 		KILE_DEBUG() << "\tm_target=" << m_target;
@@ -396,7 +457,7 @@ namespace KileTool
 		{
 			KILE_DEBUG() << "\tcalled by " << sender()->objectName() << " " << sender()->metaObject()->className();
 		}
-		
+
 		if ( result == Aborted )
 			sendMessage(Error, "Aborted");
 		
@@ -404,7 +465,7 @@ namespace KileTool
 			sendMessage(Info,"Done!");
 
 		KILE_DEBUG() << "\temitting done(KileTool::Base*, int) " << name();
-		emit(done(this, result));
+		emit(done(this, result, m_childToolSpawned));
 	
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
 		if (result == Success) {
@@ -586,8 +647,9 @@ namespace KileTool
 		}
 	}
 
-	void Archive::setSource(const QString &source)
-	{	
+	void Archive::setSource(const QString &source, const QString& workingDir)
+	{
+		Q_UNUSED(workingDir);
 		KUrl url = KUrl::fromPathOrUrl(source);
 		m_project = manager()->info()->docManager()->projectFor(url);
 		if ( !m_project )
@@ -660,12 +722,12 @@ namespace KileTool
 			}
 			else {
 				sendMessage(Error, i18n("Unknown tool %1.", tools[i]));
-				emit(done(this, Failed));
+				emit(done(this, Failed, m_childToolSpawned));
 				return ConfigureFailed;
 			}
 		}
 
-		emit(done(this, Silent));
+		emit(done(this, Silent, m_childToolSpawned));
 
 		return Success;
 	}

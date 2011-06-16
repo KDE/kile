@@ -377,7 +377,7 @@ class=LaTeXpreview
 command=latex
 from=
 jumpToFirstError=yes
-options=-interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode '%source'
 to=dvi
 type=Process
 
@@ -400,6 +400,28 @@ command=xelatex
 from=
 jumpToFirstError=yes
 options=-interaction=nonstopmode '%source'
+to=pdf
+type=Process
+
+[Tool/LivePreviewLaTeX/Default]
+autoRun=yes
+checkForRoot=no
+class=LaTeXLivePreview
+command=latex
+from=
+jumpToFirstError=yes
+options=-synctex=1 -interaction=nonstopmode '%source'
+to=dvi
+type=Process
+
+[Tool/LivePreviewPDFLaTeX/Default]
+autoRun=yes
+checkForRoot=no
+class=LaTeXLivePreview
+command=pdflatex
+from=
+jumpToFirstError=yes
+options=-synctex=1 -interaction=nonstopmode '%source'
 to=pdf
 type=Process
 
@@ -814,6 +836,8 @@ PDFLaTeX=Default
 PreviewLaTeX=Default
 PreviewPDFLaTeX=Default
 PreviewXeLaTeX=Default
+LivePreviewLaTeX=Default
+LivePreviewPDFLaTeX=Default
 PStoPDF=Default
 QuickBuild=PDFLaTeX+ViewPDF
 TeX=Default
@@ -844,6 +868,8 @@ MetaPost=Compile,mpost
 PreviewLaTeX=none,application-x-executable
 PreviewPDFLaTeX=none,application-x-executable
 PreviewXeLaTeX=none,application-x-executable
+LivePreviewLaTeX=none,application-x-executable
+LivePreviewPDFLaTeX=none,application-x-executable
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 LaTeX=Compile,latex

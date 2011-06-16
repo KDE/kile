@@ -64,6 +64,10 @@ namespace KileTool
 				return new PreviewLaTeX(tool, m_manager, prepare);
 			}
 
+			if(toolClass == "LaTeXLivePreview") {
+				return new LivePreviewLaTeX(tool, m_manager, prepare);
+			}
+
 			if(toolClass == "ForwardDVI") {
 				return new ForwardDVI(tool, m_manager, prepare);
 			}
@@ -123,6 +127,10 @@ namespace KileTool
 	/////////////// LaTeX ////////////////
 
 	LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare) : Compile(tool, mngr, prepare)
+	{
+	}
+
+	LaTeX::~LaTeX()
 	{
 	}
 
@@ -187,8 +195,7 @@ namespace KileTool
 	bool LaTeX::filterLogfile()
 	{
 		manager()->info()->outputFilter()->setSource(source());
-		QString log = baseDir() + '/' + S() + ".log";
-
+		QString log = targetDir() + '/' + S() + ".log";
 		return manager()->info()->outputFilter()->Run(log);
 	}
 
@@ -207,7 +214,7 @@ namespace KileTool
 		                        "%1, %2, %3").arg(es).arg(ws).arg(bs));
 
 		//jump to first error
-		if(nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
+		if(!isPartOfLivePreview() && nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
 			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
 			emit(jumpToFirstError());
 		}
@@ -251,22 +258,27 @@ namespace KileTool
 		if(reRun) {
 			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
 			Base *tool = manager()->factory()->create(name());
-			tool->setSource(source());
-			manager()->runNext(tool);
+			tool->setSource(source(), workingDir());
+			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			tool->copyPaths(this);
+			runChildNext(tool);
 		}
 
 		if(bibs) {
 			KILE_DEBUG() << "need to run BibTeX";
 			Base *tool = manager()->factory()->create("BibTeX");
-			tool->setSource(source());
-			manager()->runNext(tool);
+			tool->setSource(targetDir() + S() + ".aux", workingDir());
+			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			tool->copyPaths(this);
+			runChildNext(tool);
 		}
 
 		if(index) {
 			KILE_DEBUG() << "need to run MakeIndex";
 			Base *tool = manager()->factory()->create("MakeIndex");
-			tool->setSource(source());
-			manager()->runNext(tool);
+			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			tool->copyPaths(this);
+			runChildNext(tool);
 		}
 
 		if(asy) {
@@ -275,9 +287,11 @@ namespace KileTool
 			for(int i = sz -1; i >= 0; --i) {
 			  Base *tool = manager()->factory()->create("Asymptote");
 			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + ".asy");
+			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			  tool->copyPaths(this);
 			  KILE_DEBUG();
 			  KILE_DEBUG() << "calling manager()->runNext(";
-			  manager()->runNext(tool);
+			  runChildNext(tool);
 			}
 		}
 
@@ -319,6 +333,43 @@ namespace KileTool
 		m_selrow = selrow;
 		m_docrow = docrow;
 	}
+
+	/////////////// LivePreviewLaTeX ////////////////
+
+	LivePreviewLaTeX::LivePreviewLaTeX(const QString& tool, Manager *mngr, bool prepare)
+	: LaTeX(tool, mngr, prepare)
+	{
+	}
+
+	bool LivePreviewLaTeX::updateBibs()
+	{
+		return LaTeX::updateBibs();
+	}
+
+	// PreviewLatex makes three steps:
+	// - filterLogfile()  : parse logfile and read info into InfoLists
+	// - updateInfoLists(): change entries of temporary file into normal tex file
+	// - checkErrors()    : count errors and warnings and emit signals   
+// 	bool LivePreviewLaTeX::finish(int r)
+// 	{
+// 		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
+// 		
+// 		int nErrors = 0, nWarnings = 0;
+// 		if(filterLogfile()) {
+// 			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
+// 			checkErrors(nErrors,nWarnings);
+// 		}
+// 		
+// 		return Compile::finish(r);
+// 	}
+// 
+// 	void LivePreviewLaTeX::setPreviewInfo(const QString &filename, int selrow,int docrow)
+// 	{
+// 		m_filename = filename;
+// 		m_selrow = selrow;
+// 		m_docrow = docrow;
+// 	}
+
 
 	ForwardDVI::ForwardDVI(const QString& tool, Manager *mngr, bool prepare) : View(tool, mngr, prepare)
 	{

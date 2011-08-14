@@ -1,6 +1,7 @@
 /**************************************************************************************
     begin                : Thu Nov 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                           (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -197,12 +198,14 @@ namespace KileTool
 		
 		manager()->info()->outputFilter()->sendProblems();
 		manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
-		QString es = i18np("1 error", "%1 errors", nErrors);
-		QString ws = i18np("1 warning", "%1 warnings", nWarnings);
-		QString bs = i18np("1 badbox", "%1 badboxes", nBadBoxes);
+		// work around the 0 cases as the i18np call can cause some confusion when 0 is passed to it (#275700)
+		QString es = (nErrors == 0 ? i18n("0 errors") : i18np("1 error", "%1 errors", nErrors));
+		QString ws = (nWarnings == 0 ? i18n("0 warnings") : i18np("1 warning", "%1 warnings", nWarnings));
+		QString bs = (nBadBoxes == 0 ? i18n("0 badboxes") : i18np("1 badbox", "%1 badboxes", nBadBoxes));
 
-		sendMessage(Info, es +", " + ws + ", " + bs);
-	
+		sendMessage(Info, i18nc("String displayed in the log panel showing the number of errors/warnings/badboxes",
+		                        "%1, %2, %3").arg(es).arg(ws).arg(bs));
+
 		//jump to first error
 		if(nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
 			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));

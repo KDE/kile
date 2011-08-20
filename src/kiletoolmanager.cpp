@@ -259,8 +259,8 @@ namespace KileTool
 
 		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMessage(int, const QString &, const QString &)));
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
-		connect(tool, SIGNAL(done(Base*,int)), this, SLOT(done(Base*, int)));
-		connect(tool, SIGNAL(start(Base* )), this, SLOT(started(Base*)));
+		connect(tool, SIGNAL(done(KileTool::Base*,int)), this, SLOT(done(KileTool::Base*, int)));
+		connect(tool, SIGNAL(start(KileTool::Base*)), this, SLOT(started(KileTool::Base*)));
 		connect(tool, SIGNAL(requestSaveAll(bool, bool)), this, SIGNAL(requestSaveAll(bool, bool)));
 	}
 
@@ -291,7 +291,7 @@ namespace KileTool
 		m_stop = NULL;
 	}
 
-	void Manager::done(Base *tool, int result)
+	void Manager::done(KileTool::Base *tool, int result)
 	{
 		setEnabledStopButton(false);
 		m_nLastResult = result;

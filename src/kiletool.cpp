@@ -396,14 +396,16 @@ namespace KileTool
 		if ( result == Success )
 			sendMessage(Info,"Done!");
 
-		KILE_DEBUG() << "\temitting done(Base*, int) " << name();
+		KILE_DEBUG() << "\temitting done(KileTool::Base*, int) " << name();
 		emit(done(this, result));
 	
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
-		if (result == Success)
+		if (result == Success) {
 			return true;
-		else
+		}
+		else {
 			return false;
+		}
 	}
 
 	void Base::installLauncher(Launcher *lr)

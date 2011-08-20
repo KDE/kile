@@ -190,8 +190,8 @@ namespace KileTool
 		void message(int, const QString &, const QString &);
 		void output(const QString &);
 
-		void start(Base*);
-		void done(Base*, int);
+		void start(KileTool::Base*);
+		void done(KileTool::Base*, int);
 
 		void requestSaveAll(bool amAutoSaving = false, bool disUntitled= false);
 

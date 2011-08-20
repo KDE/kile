@@ -110,8 +110,8 @@ namespace KileTool
 		int runNextInQueue();
 		void enableClear();
 
-		void started(Base*);
-		void done(Base *, int);
+		void started(KileTool::Base *tool);
+		void done(KileTool::Base *tool, int result);
 
 		void stop(); //should be a slot that stops the active tool and clears the queue
 		void stopActionDestroyed();

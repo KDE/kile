@@ -186,14 +186,14 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 	// First, we have to disconnect the old done() signal, because this is 
 	// passed immediately to the toolmanager, whichs destroys the tool. This
 	// means, that all connections, which are done later, will never been called.
-	disconnect(pngConverter, SIGNAL(done(Base*,int)), m_info->toolManager(), SLOT(done(Base*,int)));
+	disconnect(pngConverter, SIGNAL(done(KileTool::Base*,int)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
 
 	// Now we make some new connections, which are called in this sequence:
 	// 1) when the tool is finished, the preview will be shown
 	// 2) then the done() signal can be passed to the toolmanager,
 	//    which destroys the tool
-	connect(pngConverter, SIGNAL(done (Base*,int)), this, SLOT(drawImage()));
-	connect(pngConverter, SIGNAL(done(Base*,int)), m_info->toolManager(), SLOT(done(Base*,int)));
+	connect(pngConverter, SIGNAL(done(KileTool::Base*,int)), this, SLOT(drawImage()));
+	connect(pngConverter, SIGNAL(done(KileTool::Base*,int)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
 
 	// Finally we will send a signal, which will pass the focus from the log window
 	// to the formula preview (dvipng --> toolmanager --> kile)

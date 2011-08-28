@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -99,7 +99,9 @@ Q_SIGNALS:
 	void selectionChanged(KTextEditor::View *view);
 
 public Q_SLOTS:
-	KTextEditor::View* switchToTextView(const KUrl & url, bool requestFocus = false);
+	KTextEditor::View* switchToTextView(const KUrl& url, bool requestFocus = false);
+	KTextEditor::View* switchToTextView(KTextEditor::Document *doc, bool requestFocus = false);
+	void switchToTextView(KTextEditor::View *view, bool requestFocus = false);
 
 	void closeWidget(QWidget *);
 	void removeView(KTextEditor::View *view);

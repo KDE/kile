@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -357,23 +357,35 @@ unsigned int Manager::getTabCount() const {
 	return m_tabs->count();
 }
 
-KTextEditor::View* Manager::switchToTextView(const KUrl & url, bool requestFocus)
+KTextEditor::View* Manager::switchToTextView(const KUrl& url, bool requestFocus)
+{
+	return switchToTextView(m_ki->docManager()->docFor(url), requestFocus);
+}
+
+KTextEditor::View* Manager::switchToTextView(KTextEditor::Document *doc, bool requestFocus)
 {
 	KTextEditor::View *view = NULL;
-	KTextEditor::Document *doc = m_ki->docManager()->docFor(url);
-
-	if (doc) {
+	if(doc) {
 		if (doc->views().count() > 0) {
-			view = static_cast<KTextEditor::View*>(doc->views().first());
+			view = doc->views().first();
 			if(view) {
-				m_tabs->setCurrentIndex(m_tabs->indexOf(view));
-				if(requestFocus) {
-					focusTextView(view);
-				}
+				switchToTextView(view, requestFocus);
 			}
 		}
 	}
 	return view;
+}
+
+void Manager::switchToTextView(KTextEditor::View *view, bool requestFocus)
+{
+	int index = m_tabs->indexOf(view);
+	if(index < 0) {
+		return;
+	}
+	m_tabs->setCurrentIndex(index);
+	if(requestFocus) {
+		focusTextView(view);
+	}
 }
 
 void Manager::setTabIcon(QWidget *view, const QPixmap& icon)

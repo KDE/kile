@@ -159,6 +159,7 @@ namespace KileTool
 
 		void setFlags(uint flags) { m_flags = flags; }
 		uint flags() { return m_flags; }
+		void removeFlag(uint flag);
 
 		void setMsg(long n, const KLocalizedString& msg);
 		KLocalizedString msg(long n) const { return m_messages[n]; }

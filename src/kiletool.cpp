@@ -44,7 +44,7 @@ namespace KileTool
 	{
 		m_manager->initTool(this);
 		
-		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead;
+		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | EmitSaveAllSignal;
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
 		setMsg(NeedTargetDirWrite, ki18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
@@ -95,6 +95,11 @@ namespace KileTool
 		#ifdef Q_WS_WIN
 			str.replace('\'', '\"');
 		#endif 
+	}
+
+	void Base::removeFlag(uint flag)
+	{
+		m_flags &= ~flag;
 	}
 
 	void Base::prepareToRun(const QString &cfg)
@@ -171,7 +176,9 @@ namespace KileTool
 		}
 
 		//everything ok so far
-		emit(requestSaveAll(false, true));
+		if(flags() & EmitSaveAllSignal) {
+			emit(requestSaveAll(false, true));
+		}
 		emit(start(this));
 		
 		if (!m_launcher || !m_launcher->launch()) {

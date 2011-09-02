@@ -31,15 +31,16 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 {
 	QBoxLayout *layout = NULL, *extraLayout = NULL;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
+	m_extraWidget = new QWidget(this);
 
 	if (orientation == Qt::Horizontal) {
 		layout = new QVBoxLayout(this);
-		extraLayout = new QHBoxLayout(this);
+		extraLayout = new QHBoxLayout(m_extraWidget);
 		tabbarpos = KMultiTabBar::Top;
 	}
 	else if(orientation == Qt::Vertical) {
 		layout = new QHBoxLayout(this);
-		extraLayout = new QVBoxLayout(this);
+		extraLayout = new QVBoxLayout(m_extraWidget);
 		tabbarpos = KMultiTabBar::Left;
 	}
 
@@ -50,7 +51,6 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	m_tabBar = new KMultiTabBar(tabbarpos, this);
 	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
-	m_extraWidget = new QWidget(this);
 	m_extraWidget->setLayout(extraLayout);
 	extraLayout->addWidget(m_tabBar);
 

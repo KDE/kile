@@ -1,7 +1,7 @@
 /**************************************************************************************
     Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
               (C) 2006 by Thomas Braun (thomas.braun@virtuell-zuhause.de)
-              (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -65,6 +65,11 @@ public:
 	 **/	
 	void setDirectionalSize(int i);
 
+	/**
+	 * Add a widget to the (right or bottom) of the tab bar, which is not connected to any tabs.
+	 **/
+	void addExtraWidget(QWidget *w);
+
 Q_SIGNALS:
 	void visibilityChanged(bool b);
 
@@ -92,6 +97,7 @@ protected:
 	int 			m_currentTab;
 	QStackedWidget		*m_tabStack;
 	KMultiTabBar		*m_tabBar;
+	QWidget			*m_extraWidget;
 };
 
 class BottomBar : public SideBar

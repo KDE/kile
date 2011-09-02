@@ -1,7 +1,7 @@
 /**************************************************************************************
     Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
               (C) 2006 by Thomas Braun (thomas.braun@virtuell-zuhause.de)
-              (C) 2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -29,15 +29,17 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	m_minimized(true),
 	m_directionalSize(0)
 {
-	QBoxLayout *layout = NULL;
+	QBoxLayout *layout = NULL, *extraLayout = NULL;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
 
 	if (orientation == Qt::Horizontal) {
 		layout = new QVBoxLayout(this);
+		extraLayout = new QHBoxLayout(this);
 		tabbarpos = KMultiTabBar::Top;
 	}
 	else if(orientation == Qt::Vertical) {
 		layout = new QHBoxLayout(this);
+		extraLayout = new QVBoxLayout(this);
 		tabbarpos = KMultiTabBar::Left;
 	}
 
@@ -48,19 +50,25 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	m_tabBar = new KMultiTabBar(tabbarpos, this);
 	m_tabBar->setStyle(KMultiTabBar::KDEV3ICON);
 
+	m_extraWidget = new QWidget(this);
+	m_extraWidget->setLayout(extraLayout);
+	extraLayout->addWidget(m_tabBar);
+
 	if(orientation == Qt::Horizontal) {
-		layout->addWidget(m_tabBar);
+		layout->addWidget(m_extraWidget);
 		layout->addWidget(m_tabStack);
 		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 	}
 	else if(orientation == Qt::Vertical) {
 		layout->addWidget(m_tabStack);
-		layout->addWidget(m_tabBar);
+		layout->addWidget(m_extraWidget);
 		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
 	}
 
 	layout->setMargin(0);
 	layout->setSpacing(0);
+	extraLayout->setMargin(0);
+	extraLayout->setSpacing(0);
 
 	setLayout(layout);
 }
@@ -249,6 +257,11 @@ void SideBar::setDirectionalSize(int i)
 	else if(m_orientation == Qt::Vertical) {
 		m_tabStack->resize(i, m_tabStack->height());
 	}
+}
+
+void SideBar::addExtraWidget(QWidget *w)
+{
+	m_extraWidget->layout()->addWidget(w);
 }
 
 void SideBar::switchToTab(int id)

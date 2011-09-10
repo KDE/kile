@@ -373,7 +373,7 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info
 		m_shownPreviewInformation = previewInformation;
 	}
 
-	ViewerInterface *v = dynamic_cast<ViewerInterface*>(m_livePreviewPart);
+	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart);
 	if(v) {
 		v->showSourceLocation(filePath, newPosition.line(), newPosition.column());
 	}
@@ -526,7 +526,7 @@ void LivePreviewManager::createLivePreviewPart(QWidget *parent)
 		QVariantList argList;
 		argList << "ViewerWidget";
 		m_livePreviewPart = factory->create<KParts::ReadOnlyPart>(parent, argList);
-		ViewerInterface *viewerInterface = dynamic_cast<ViewerInterface*>(m_livePreviewPart);
+		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart);
 		if(!viewerInterface) {
 			// Okular doesn't provide the ViewerInterface
 			delete m_livePreviewPart;

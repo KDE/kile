@@ -469,22 +469,35 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 	const QString fileName = fileInfo.fileName();
 	KILE_DEBUG() << "fileName" << fileName;
 
+	const QString inputDir = previewInformation->getTempDir() + ':' + fileInfo.absolutePath();
+
 	// set value of texinput path (only for LivePreviewManager tools)
-	QString texinputpath = KileConfig::teXPaths();
-	QString inputDir = previewInformation->getTempDir() + ':' + fileInfo.absolutePath();
-	if(!texinputpath.isEmpty()) {
-		inputDir += ':' + texinputpath;
+	QString texInputPath = KileConfig::teXPaths();
+	if(!texInputPath.isEmpty()) {
+		texInputPath = inputDir + ':' + texInputPath;
 	}
-	latex->setTeXInputPaths(inputDir);
+	else {
+		texInputPath = inputDir;
+	}
+	latex->setTeXInputPaths(texInputPath);
 
 	QString bibInputPath = KileConfig::bibInputPaths();
-	inputDir = previewInformation->getTempDir() + ':' + fileInfo.absolutePath();
 	if(!bibInputPath.isEmpty()) {
-		inputDir += ':' + bibInputPath;
+		bibInputPath = inputDir + ':' + bibInputPath;
 	}
-	latex->setBibInputPaths(inputDir);
+	else {
+		bibInputPath = inputDir;
+	}
+	latex->setBibInputPaths(bibInputPath);
 
-	KILE_DEBUG() << "\tLivePreviewManager: inputdir is '" << inputDir << "'" << endl;
+	QString bstInputPath = KileConfig::bstInputPaths();
+	if(!bstInputPath.isEmpty()) {
+		bstInputPath = inputDir + ':' + bstInputPath;
+	}
+	else {
+		bstInputPath = inputDir;
+	}
+	latex->setBstInputPaths(bstInputPath);
 
 	// prepare tools: previewlatex
 // 	latex->setPreviewInfo(textfilename, startrow, preamblelines + 1);

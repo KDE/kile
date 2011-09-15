@@ -84,8 +84,8 @@ namespace KileTool
 		QString baseDir() const { return m_basedir; }
 		QString relativeDir() const { return m_relativedir; }
 		QString targetDir() const { return m_targetdir; }
-		QString from() const { return m_from; }
-		QString to() const { return m_to; }
+		inline QString from() const { return readEntry("from"); }
+		inline QString to() const { return readEntry("to"); }
 		QString target() const { return m_target; }
 		QString options() const { return m_options; }
 
@@ -211,7 +211,7 @@ namespace KileTool
 
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }
-		const QString readEntry(const QString& key) { return m_entryMap[key]; }
+		const QString readEntry(const QString& key) const { return m_entryMap[key]; }
 
 		virtual void prepareToRun(const QString &cfg = QString());
 		bool isPrepared() { return m_bPrepared; }
@@ -260,7 +260,7 @@ namespace KileTool
 		KileInfo		*m_ki;
 		KConfig			*m_config;
 
-		QString			m_name, m_from, m_to;
+		QString			m_name;
 		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_workingDir;
 		QString			m_options;
 		QString			m_resolution;

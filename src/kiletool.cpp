@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
-                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -151,7 +151,12 @@ namespace KileTool
 			return;
 		}
 
-		m_launcher->setWorkingDirectory(workingDir());
+		if(!workingDir().isEmpty()) {
+			m_launcher->setWorkingDirectory(workingDir());
+		}
+		else {
+			m_launcher->setWorkingDirectory(baseDir());
+		}
 
 		//fill in the dictionary
 		addDict("%options", m_options);
@@ -269,14 +274,12 @@ namespace KileTool
 
 	void Base::setSource(const QString &source, const QString& workingDir)
 	{
-		m_from = readEntry("from");
-
 		QFileInfo info(source);
-		
-		if(!m_from.isEmpty()) {
+
+		if(!from().isEmpty()) {
 			QString src = source;
-			if((m_from.length() > 0) && (info.suffix().length() > 0)) {
-				src.replace(QRegExp(info.suffix() + '$'), m_from);
+			if(info.suffix().length() > 0) {
+				src.replace(QRegExp(info.suffix() + '$'), from());
 			}
  			info.setFile(src);
 		}
@@ -288,7 +291,7 @@ namespace KileTool
 		m_basedir = info.absolutePath();
 		m_source = info.fileName();
 		m_S = info.completeBaseName();
-		
+
 		addDict("%dir_base", m_basedir);
 		addDict("%source", m_source);
 		addDict("%S",m_S);
@@ -298,6 +301,7 @@ namespace KileTool
 		KILE_DEBUG() << "source="<<m_source;
 		KILE_DEBUG() << "S=" << m_S;
 		KILE_DEBUG() << "basedir=" << m_basedir;
+		KILE_DEBUG() << "workingDir=" << m_workingDir;
 	}
 
 	void Base::setTeXInputPaths(const QString& s)
@@ -341,8 +345,6 @@ namespace KileTool
 	{
 		QFileInfo info(source());
 
-		m_to = readEntry("to");
-		
 		//if the target is not set previously, use the source filename
 		if(m_target.isEmpty()) {
 			//test for explicit override
@@ -363,7 +365,10 @@ namespace KileTool
 		}
 
 		KUrl url;
-		if(!m_workingDir.isEmpty()) {
+		if(!m_targetdir.isEmpty()) {
+			url = KUrl::fromPathOrUrl(m_targetdir);
+		}
+		else if(!m_workingDir.isEmpty()) {
 			url = KUrl::fromPathOrUrl(m_workingDir);
 		}
 		else {

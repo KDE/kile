@@ -69,6 +69,9 @@ namespace KileTool
 			virtual bool updateIndex();
 			virtual bool updateAsy();
 
+			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
 			//FIXME: this is a little 'hackish'
 			static int m_reRun;
 	};
@@ -105,6 +108,10 @@ namespace KileTool
 
 		protected:
 			virtual bool updateBibs();
+
+			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
 
 		private:
 			QString m_filename;

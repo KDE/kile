@@ -54,7 +54,9 @@ public:
 	: m_textInfo(textInfo),
 	  m_previewEnabled(KileConfig::previewEnabledForFreshlyOpenedDocuments())
 	{
-		m_tempDir = new KTempDir(KStandardDirs::locateLocal("tmp", "kile-livepreview"));
+		// work around bug in the SyncTeX implementation of PDFTeX (can't rename file)
+		// should be: KStandardDirs::locateLocal("tmp", "kile-livepreview")
+		m_tempDir = new KTempDir(QFileInfo(textInfo->getDoc()->url().path()).absolutePath() + "/.kile-livepreview-");
 	}
 
 	~PreviewInformation() {
@@ -361,7 +363,6 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info
 
 	KUrl previewUrl(KUrl(previewInformation->previewFile));
 
-// 	if(QFileInfo(m_currentFileShown).exists()) {
 	if(!m_livePreviewPart || !QFile::exists(previewInformation->previewFile)) {
 		return;
 	}
@@ -454,11 +455,12 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 		return;
 	}
 
-	KileTool::Base *latex = m_ki->toolFactory()->create("LivePreviewPDFLaTeX", false);
+	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolFactory()->create("LivePreviewPDFLaTeX", false));
 	if(!latex) {
 		KILE_DEBUG()<< "couldn't create the tool";
 		return;
 	}
+
 	// important!
 	latex->setPartOfLivePreview();
 	connect(latex, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(toolDone(KileTool::Base*,int,bool)));
@@ -508,7 +510,8 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 	// don't emit the 'requestSaveAll' signal
 // 	latex->removeFlag(EmitSaveAllSignal);
 
-	latex->setSource(fileInfo.absoluteFilePath(), previewInformation->getTempDir());
+	latex->setTargetDir(previewInformation->getTempDir());
+	latex->setSource(fileInfo.absoluteFilePath(), fileInfo.absolutePath());
 // 	latex->setTargetDir(previewInformation->getTempDir());
 	latex->prepareToRun();
 // 	latex->launcher()->setWorkingDirectory(previewInformation->getTempDir());

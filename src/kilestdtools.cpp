@@ -179,7 +179,11 @@ namespace KileTool
 	bool LaTeX::finish(int r)
 	{
 		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====";
-		
+
+		if(r != Success) {
+			return Compile::finish(r);
+		}
+
 		int nErrors = 0, nWarnings = 0;
 		if(filterLogfile()) {
 			checkErrors(nErrors,nWarnings);
@@ -219,7 +223,22 @@ namespace KileTool
 			emit(jumpToFirstError());
 		}
 	}
-	
+
+	void LaTeX::configureLaTeX(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
+	void LaTeX::configureBibTeX(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
+	void LaTeX::configureMakeIndex(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
 	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
 	{
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
@@ -258,7 +277,7 @@ namespace KileTool
 		if(reRun) {
 			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
 			Base *tool = manager()->factory()->create(name());
-			tool->setSource(source(), workingDir());
+			configureLaTeX(tool, source());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
 			runChildNext(tool);
@@ -267,7 +286,9 @@ namespace KileTool
 		if(bibs) {
 			KILE_DEBUG() << "need to run BibTeX";
 			Base *tool = manager()->factory()->create("BibTeX");
-			tool->setSource(targetDir() + S() + ".aux", workingDir());
+			// FIXME: this extension shouldn't be hard-coded; for this tools have to be configured in the
+			//        factory already as then the 'from' method could be used
+			configureBibTeX(tool, targetDir() + '/' + S() + ".aux");
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
 			runChildNext(tool);
@@ -276,6 +297,8 @@ namespace KileTool
 		if(index) {
 			KILE_DEBUG() << "need to run MakeIndex";
 			Base *tool = manager()->factory()->create("MakeIndex");
+			KILE_DEBUG() << targetDir() << S() << tool->from();
+			configureMakeIndex(tool, targetDir() + '/' + S() + ".ind");
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
 			runChildNext(tool);
@@ -344,6 +367,22 @@ namespace KileTool
 	bool LivePreviewLaTeX::updateBibs()
 	{
 		return LaTeX::updateBibs();
+	}
+
+	void LivePreviewLaTeX::configureLaTeX(KileTool::Base *tool, const QString& source)
+	{
+		LaTeX::configureLaTeX(tool, source);
+		tool->setTargetDir(targetDir());
+	}
+
+	void LivePreviewLaTeX::configureBibTeX(KileTool::Base *tool, const QString& /* source */)
+	{
+		tool->setSource(targetDir() + '/' + S() + ".bbl", targetDir());
+	}
+
+	void LivePreviewLaTeX::configureMakeIndex(KileTool::Base *tool, const QString& /*source*/)
+	{
+		tool->setSource(targetDir() + '/' + S() + ".ind", targetDir());
 	}
 
 	// PreviewLatex makes three steps:

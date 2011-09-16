@@ -285,9 +285,7 @@ namespace KileTool
 		if(bibs) {
 			KILE_DEBUG() << "need to run BibTeX";
 			Base *tool = manager()->factory()->create("BibTeX", QString());
-			// FIXME: this extension shouldn't be hard-coded; for this tools have to be configured in the
-			//        factory already as then the 'from' method could be used
-			configureBibTeX(tool, targetDir() + '/' + S() + ".aux");
+			configureBibTeX(tool, targetDir() + '/' + S() + '.' + tool->from());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
 			runChildNext(tool);
@@ -297,7 +295,7 @@ namespace KileTool
 			KILE_DEBUG() << "need to run MakeIndex";
 			Base *tool = manager()->factory()->create("MakeIndex", QString());
 			KILE_DEBUG() << targetDir() << S() << tool->from();
-			configureMakeIndex(tool, targetDir() + '/' + S() + ".ind");
+			configureMakeIndex(tool, targetDir() + '/' + S() + '.' + tool->from());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
 			runChildNext(tool);
@@ -308,7 +306,7 @@ namespace KileTool
 			int sz = manager()->info()->allAsyFigures().size();
 			for(int i = sz -1; i >= 0; --i) {
 			  Base *tool = manager()->factory()->create("Asymptote", QString());
-			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + ".asy");
+			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
 			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			  tool->copyPaths(this);
 			  KILE_DEBUG();
@@ -376,12 +374,12 @@ namespace KileTool
 
 	void LivePreviewLaTeX::configureBibTeX(KileTool::Base *tool, const QString& /* source */)
 	{
-		tool->setSource(targetDir() + '/' + S() + ".bbl", targetDir());
+		tool->setSource(targetDir() + '/' + S() + '.' + tool->from(), targetDir());
 	}
 
 	void LivePreviewLaTeX::configureMakeIndex(KileTool::Base *tool, const QString& /*source*/)
 	{
-		tool->setSource(targetDir() + '/' + S() + ".ind", targetDir());
+		tool->setSource(targetDir() + '/' + S() + '.' + tool->from(), targetDir());
 	}
 
 	// PreviewLatex makes three steps:

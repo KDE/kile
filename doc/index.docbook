@@ -3806,7 +3806,7 @@
 			<varlistentry>
 				<term>(KileTextDocument).<function>setCursorColumn(<parameter>column</parameter>)</function></term>
 				<listitem>
-					<para>Moves the cursor to the column denoted by <parameter>line</parameter>.</para>
+					<para>Moves the cursor to the column denoted by <parameter>column</parameter>.</para>
 				</listitem>
 			</varlistentry>
 		</variablelist>

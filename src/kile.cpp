@@ -1317,13 +1317,21 @@ void Kile::setCursor(const KUrl &url, int parag, int index)
 
 void Kile::runArchiveTool()
 {
-	this->run("Archive");
+	runArchiveTool(KUrl());
 }
 
 void Kile::runArchiveTool(const KUrl &url)
 {
-	KileTool::Archive *tool = new KileTool::Archive("Archive", m_manager, false);
-	tool->setSource(url.toLocalFile());
+	KileTool::Archive *tool = dynamic_cast<KileTool::Archive*>(m_manager->factory()->create("Archive", QString(), false));
+	if(!tool) {
+		KMessageBox::error(mainWindow(), i18n("It was impossible to create the \"Archive\" tool.\n\n"
+		                                      "Please check and repair your installation of Kile."),
+		                                 i18n("Unable to Create Archive Tool"));
+		return;
+	}
+	if(url.isValid()) {
+		tool->setSource(url.toLocalFile());
+	}
 	tool->prepareToRun();
 	m_manager->run(tool);
 }

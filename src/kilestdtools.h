@@ -35,7 +35,7 @@ namespace KileTool
 			Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection);
 			~Factory();
 	
-			Base* create(const QString & tool, bool prepare = true);
+			Base* create(const QString& tool, const QString& config, bool prepare = true);
 	
 			void readStandardToolConfig();
 
@@ -49,9 +49,11 @@ namespace KileTool
 	class LaTeX : public Compile
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-		public:
+		protected:
 			LaTeX(const QString& tool, Manager *mngr, bool prepare);
+		public:
 			virtual ~LaTeX();
 
 		Q_SIGNALS:
@@ -79,10 +81,12 @@ namespace KileTool
 	class PreviewLaTeX : public LaTeX
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-		public:
+		protected:
 			PreviewLaTeX(const QString& tool, Manager *mngr, bool prepare);
 
+		public:
 			void setPreviewInfo(const QString &filename, int selrow, int docrow);
 
 		public Q_SLOTS:
@@ -97,10 +101,12 @@ namespace KileTool
 	class LivePreviewLaTeX : public LaTeX
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-		public:
+		protected:
 			LivePreviewLaTeX(const QString& tool, Manager *mngr, bool prepare);
 
+		public:
 // 			void setPreviewInfo(const QString &filename, int selrow, int docrow);
 
 		public Q_SLOTS:
@@ -121,6 +127,7 @@ namespace KileTool
 
 	class ForwardDVI : public View
 	{
+		friend class KileTool::Factory;
 		public:
 			ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
 
@@ -131,6 +138,7 @@ namespace KileTool
 
 	class ViewBib : public View
 	{
+		friend class KileTool::Factory;
 		public:
 			ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
 	
@@ -141,6 +149,7 @@ namespace KileTool
 	class ViewHTML : public View
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
 		public:
 			ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);

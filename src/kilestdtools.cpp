@@ -49,64 +49,63 @@ namespace KileTool
 
 	static const QString shortcutGroupName = "Shortcuts";
 
-	Base* Factory::create(const QString& tool, bool prepare /* = true */)
+	Base* Factory::create(const QString& toolName, const QString& config, bool prepare /* = true */)
 	{
+		KILE_DEBUG() << toolName << config << prepare;
+		KileTool::Base *tool = NULL;
 		//perhaps we can find the tool in the config file
-		if (m_config->hasGroup(groupFor(tool, m_config))) {
-			KConfigGroup configGroup = m_config->group(groupFor(tool, m_config));
+		if (m_config->hasGroup(groupFor(toolName, m_config))) {
+			KConfigGroup configGroup = m_config->group(groupFor(toolName, m_config));
 			QString toolClass = configGroup.readEntry("class", QString());
 
 			if(toolClass == "LaTeX") {
-				return new LaTeX(tool, m_manager, prepare);
+				tool = new LaTeX(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "LaTeXpreview") {
-				return new PreviewLaTeX(tool, m_manager, prepare);
+			else if(toolClass == "LaTeXpreview") {
+				tool = new PreviewLaTeX(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "LaTeXLivePreview") {
-				return new LivePreviewLaTeX(tool, m_manager, prepare);
+			else if(toolClass == "LaTeXLivePreview") {
+				tool = new LivePreviewLaTeX(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "ForwardDVI") {
-				return new ForwardDVI(tool, m_manager, prepare);
+			else if(toolClass == "ForwardDVI") {
+				tool = new ForwardDVI(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "ViewHTML") {
-				return new ViewHTML(tool, m_manager, prepare);
+			else if(toolClass == "ViewHTML") {
+				tool = new ViewHTML(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "ViewBib") {
-				return new ViewBib(tool, m_manager, prepare);
+			else if(toolClass == "ViewBib") {
+				tool = new ViewBib(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Base") {
-				return new Base(tool, m_manager, prepare);
+			else if(toolClass == "Base") {
+				tool = new Base(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Compile") {
-				return new Compile(tool, m_manager, prepare);
+			else if(toolClass == "Compile") {
+				tool = new Compile(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Convert") {
-				return new Convert(tool, m_manager, prepare);
+			else if(toolClass == "Convert") {
+				tool = new Convert(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Archive") {
-				return new Archive(tool, m_manager, prepare);
+			else if(toolClass == "Archive") {
+				tool = new Archive(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "View") {
-				return new View(tool, m_manager, prepare);
+			else if(toolClass == "View") {
+				tool = new View(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Sequence") {
-				return new Sequence(tool, m_manager, prepare);
+			else if(toolClass == "Sequence") {
+				tool = new Sequence(toolName, m_manager, prepare);
 			}
 		}
+		if(!tool) {
+			return NULL;
+		}
 
-		//unknown tool, return 0
-		return NULL;
+		if(!m_manager->configure(tool, config)) {
+			delete tool;
+			return NULL;
+		}
+		tool->setToolConfig(config);
+
+		return tool;
 	}
 
 	void Factory::readStandardToolConfig()
@@ -276,7 +275,7 @@ namespace KileTool
 
 		if(reRun) {
 			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
-			Base *tool = manager()->factory()->create(name());
+			Base *tool = manager()->factory()->create(name(), toolConfig());
 			configureLaTeX(tool, source());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
@@ -285,7 +284,7 @@ namespace KileTool
 
 		if(bibs) {
 			KILE_DEBUG() << "need to run BibTeX";
-			Base *tool = manager()->factory()->create("BibTeX");
+			Base *tool = manager()->factory()->create("BibTeX", QString());
 			// FIXME: this extension shouldn't be hard-coded; for this tools have to be configured in the
 			//        factory already as then the 'from' method could be used
 			configureBibTeX(tool, targetDir() + '/' + S() + ".aux");
@@ -296,7 +295,7 @@ namespace KileTool
 
 		if(index) {
 			KILE_DEBUG() << "need to run MakeIndex";
-			Base *tool = manager()->factory()->create("MakeIndex");
+			Base *tool = manager()->factory()->create("MakeIndex", QString());
 			KILE_DEBUG() << targetDir() << S() << tool->from();
 			configureMakeIndex(tool, targetDir() + '/' + S() + ".ind");
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
@@ -308,7 +307,7 @@ namespace KileTool
 			KILE_DEBUG() << "need to run asymptote";
 			int sz = manager()->info()->allAsyFigures().size();
 			for(int i = sz -1; i >= 0; --i) {
-			  Base *tool = manager()->factory()->create("Asymptote");
+			  Base *tool = manager()->factory()->create("Asymptote", QString());
 			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + ".asy");
 			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			  tool->copyPaths(this);

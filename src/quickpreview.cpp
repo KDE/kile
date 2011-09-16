@@ -217,7 +217,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	
 	// create preview tools
 	KILE_DEBUG() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
-	KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolFactory()->create(previewlist[pvLatex], false));
+	KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolFactory()->create(previewlist[pvLatex], QString(), false));
 	if(!latex) {
 		showError(i18n("Could not run '%1' for QuickPreview.", QString("LaTeX")));
 		return false;
@@ -227,7 +227,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if(!previewlist[1].isEmpty()) {
 		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
 		KILE_DEBUG() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
-		dvips = m_ki->toolFactory()->create(previewlist[pvDvips]);
+		dvips = m_ki->toolFactory()->create(previewlist[pvDvips], previewlist[pvDvipsCfg]);
 		if(!dvips) {
 			showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
 			return false;
@@ -238,7 +238,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if(!previewlist[pvViewer].isEmpty()) {
 		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
 		KILE_DEBUG() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
-		viewer = m_ki->toolFactory()->create(previewlist[pvViewer],false);
+		viewer = m_ki->toolFactory()->create(previewlist[pvViewer], previewlist[pvViewerCfg], false);
 		if(!viewer) {
 			showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
 			return false;
@@ -271,7 +271,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if(dvips) {
 		dvips->setSource( filepath + "dvi" );
 		dvips->setQuickie();
-		if ( m_ki->toolManager()->run(dvips,previewlist[pvDvipsCfg])  != KileTool::Running )
+		if ( m_ki->toolManager()->run(dvips)  != KileTool::Running )
 			return false;
 
 		connect(dvips, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
@@ -283,11 +283,11 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		connect(viewer, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
 		viewer->setSource( filepath + previewlist[pvExtension] );
 		viewer->setQuickie();
-		if ( m_ki->toolManager()->run(viewer,previewlist[pvViewerCfg]) != KileTool::Running )
+		if ( m_ki->toolManager()->run(viewer) != KileTool::Running )
 			return false;
 	}
 
-	return true;	
+	return true;
 }
 
 void QuickPreview::toolDestroyed()

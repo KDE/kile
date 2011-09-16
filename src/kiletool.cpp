@@ -107,21 +107,10 @@ namespace KileTool
 		m_flags &= ~flag;
 	}
 
-	void Base::prepareToRun(const QString &cfg)
+	void Base::prepareToRun()
 	{
 		KILE_DEBUG() << "==Base::prepareToRun()=======";
-		
-		m_bPrepared = true;		
-		m_nPreparationResult = Running;
 
-		//configure me
-		if (!configure(cfg))
-		{
-			m_nPreparationResult = ConfigureFailed;
-			m_bPrepared = false;
-			return;
-		}
-		
 		//install a launcher
 		if (!installLauncher())
 		{
@@ -163,6 +152,9 @@ namespace KileTool
 
 		m_resolution = KileConfig::dvipngResolution() ;
 		addDict("%res",m_resolution);
+
+		m_bPrepared = true;
+		m_nPreparationResult = Running;
 	}
 
 	int Base::run()
@@ -214,6 +206,11 @@ namespace KileTool
 	{
 		QString src = source();
 
+		// check whether the source has been set already
+		if(!src.isEmpty()) {
+			return true;
+		}
+
 		//the basedir is determined from the current compile target
 		//determined by getCompileName()
 		if(src.isEmpty()) {
@@ -263,13 +260,13 @@ namespace KileTool
 		return true;
 	}
 
-	void Base::runChildNext(Base *tool, const QString& config /*= QString()*/, bool block /*= false*/)
+	void Base::runChildNext(Base *tool, bool block /*= false*/)
 	{
 		m_childToolSpawned = true;
 		if(isPartOfLivePreview()) {
 			tool->setPartOfLivePreview();
 		}
-		manager()->runChildNext(this, tool, config, block);
+		manager()->runChildNext(this, tool, block);
 	}
 
 	void Base::setSource(const QString &source, const QString& workingDir)
@@ -442,11 +439,6 @@ namespace KileTool
 		return true;
 	}
 
-	bool Base::configure(const QString &cfg)
-	{
-		return m_manager->configure(this, cfg);
-	}
-	
 	void Base::stop()
 	{
 		if (m_launcher)
@@ -703,7 +695,6 @@ namespace KileTool
 	{
 		KILE_DEBUG() << "==KileTool::Sequence::run()==================";
 
-		configure();
 		determineSource();
 		if (!checkSource()) {
 			return NoValidSource;
@@ -716,13 +707,13 @@ namespace KileTool
 			tools[i] = tools[i].trimmed();
 			extract(tools[i], tl, cfg);
 
-			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation
+			tool = manager()->factory()->create(tl, cfg, false); //create tool with delayed preparation
 			if (tool) {
 				KILE_DEBUG() << "===tool created with name " << tool->name();
 				if(!(manager()->info()->watchFile() && tool->isViewer())) {
 					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
 					tool->setSource(source());
-					manager()->run(tool, cfg);
+					manager()->run(tool);
 				}
 			}
 			else {

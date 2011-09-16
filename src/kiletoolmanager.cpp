@@ -37,7 +37,7 @@
 
 namespace KileTool
 {
-	QueueItem::QueueItem(Base *tool, const QString &cfg, bool block) : m_tool(tool), m_cfg(cfg), m_bBlock(block)
+	QueueItem::QueueItem(Base *tool, bool block) : m_tool(tool), m_bBlock(block)
 	{
 	}
 
@@ -52,16 +52,6 @@ namespace KileTool
 		}
 		else {
 			return 0;
-		}
-	}
-
-	const QString Queue::cfg() const
-	{
-		if(count() > 0 && head()) {
-			return head()->cfg();
-		}
-		else {
-			return QString();
 		}
 	}
 
@@ -139,23 +129,23 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
-	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	int Manager::run(const QString &tool, const QString& cfg, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
 	{
 		if (!m_factory) {
 			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
 			return ConfigureFailed;
 		}
 	
-		Base* pTool = m_factory->create(tool);
+		Base* pTool = m_factory->create(tool, cfg);
 		if (!pTool) {
 			m_log->printMessage(Error, i18n("Unknown tool %1.", tool));
 			return ConfigureFailed;
 		}
 		
-		return run(pTool, cfg, insertNext, block, parent);
+		return run(pTool, insertNext, block, parent);
 	}
 
-	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	int Manager::run(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
@@ -165,22 +155,19 @@ namespace KileTool
 		}
 
 		if(tool->needsToBePrepared()) {
-			tool->prepareToRun(cfg);
-		}
-		else { 
-			tool->configure(cfg);
+			tool->prepareToRun();
 		}
 
 		//FIXME: shouldn't restart timer if a Sequence command takes longer than the 10 secs
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
-		m_bClear=false;
+		m_bClear = false;
 		m_timer->start(m_nTimeout);
 
 		if(insertNext) {
-			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
+			m_queue.enqueueNext(new QueueItem(tool, block));
 		}
 		else {
-			m_queue.enqueue(new QueueItem(tool, cfg, block));
+			m_queue.enqueue(new QueueItem(tool, block));
 		}
 
 		if(parent) {
@@ -199,19 +186,19 @@ namespace KileTool
 		}
 	}
 
-	int Manager::runNext(const QString &tool , const QString &config, bool block /*= false*/) 
+	int Manager::runNext(const QString &tool, const QString &config, bool block /*= false*/)
 	{
 		return run(tool, config, true, block);
 	}
 
-	int Manager::runNext(Base *tool, const QString &config, bool block /*= false*/) 
+	int Manager::runNext(Base *tool, bool block /*= false*/)
 	{
-		return run(tool, config, true, block); 
+		return run(tool, true, block);
 	}
 
-	int Manager::runChildNext(Base *parent, Base *tool, const QString& config/*= QString()*/, bool block /*= false*/)
+	int Manager::runChildNext(Base *parent, Base *tool, bool block /*= false*/)
 	{
-		return run(tool, config, true, block, parent);
+		return run(tool, true, block, parent);
 	}
 
 	int Manager::runBlocking(const QString &tool, const QString &config /*= QString::null*/, bool insertAtTop /*= false*/)
@@ -375,8 +362,8 @@ namespace KileTool
 				}
 			}
 		} 
-		if(usequeue && !m_queue.isEmpty() && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isEmpty())) {
-			return groupFor(name, m_queue.cfg());
+		if(usequeue && !m_queue.isEmpty() && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.tool()->toolConfig().isEmpty())) {
+			return groupFor(name, m_queue.tool()->toolConfig());
 		}
 		else {
 			return groupFor(name, m_config);
@@ -427,7 +414,7 @@ namespace KileTool
 		}
 	}
 
-	bool Manager::configure(Base *tool, const QString & cfg /*=QString::null*/)
+	bool Manager::configure(Base *tool, const QString& cfg /* = QString() */)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::configure()===============" << endl;
 		//configure the tool
@@ -495,7 +482,7 @@ namespace KileTool
 		return groupFor(tool, configName(tool, config));
 	}
 
-	QString groupFor(const QString & tool, const QString & cfg /* = Default */ )
+	QString groupFor(const QString& tool, const QString& cfg /* = Default */ )
 	{
 		QString group = "Tool/" + tool + '/' + cfg;
 		KILE_DEBUG() << "groupFor(const QString &" << tool << ", const QString & " << cfg << " ) = " << group;

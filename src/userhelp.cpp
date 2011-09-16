@@ -1,10 +1,6 @@
 /**********************************************************************************************
-                           userhelp.cpp
-----------------------------------------------------------------------------
-    date                 : Aug 17 2006
-    version              : 0.25
-    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+                2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************************************/
 
 /***************************************************************************
@@ -31,6 +27,7 @@
 #include "kileactions.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
+#include "kilestdtools.h"
 #include "dialogs/userhelpdialog.h"
 
 namespace KileHelp
@@ -179,12 +176,11 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 		}
 	}
 
-	KConfig *config = m_manager->config();
-	if(!type.isEmpty() && config->hasGroup("Tool/" + type + '/' + cfg)) {
-		KileTool::View *tool = new KileTool::View(type, m_manager, false);
+	KileTool::Base *tool = m_manager->factory()->create(type, cfg, false);
+	if(tool) {
 		tool->setFlags(0);
 		tool->setSource(url.toLocalFile());
-		m_manager->run(tool,cfg);
+		m_manager->run(tool);
 	}
 	else {
 		new KRun(url,m_mainWindow);

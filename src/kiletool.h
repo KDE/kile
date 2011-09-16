@@ -33,6 +33,7 @@ namespace KileTool
 {
 	typedef QMap<QString, QString> Config;
 
+	class Factory;
 	class Manager;
 	
 	/**
@@ -45,9 +46,12 @@ namespace KileTool
 	class Base : public QObject
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-	public:
+	// only the factory can create tools
+	protected:
 		Base(const QString &name, Manager *manager, bool prepare = true);
+	public:
 		~Base();
 
 		/**
@@ -88,6 +92,8 @@ namespace KileTool
 		inline QString to() const { return readEntry("to"); }
 		QString target() const { return m_target; }
 		QString options() const { return m_options; }
+
+		QString toolConfig() const { return m_toolConfig; }
 
 		void setOptions(const QString& opt) { m_options = opt; }
 
@@ -213,14 +219,9 @@ namespace KileTool
 		void setEntryMap(Config map) { m_entryMap = map; }
 		const QString readEntry(const QString& key) const { return m_entryMap[key]; }
 
-		virtual void prepareToRun(const QString &cfg = QString());
+		virtual void prepareToRun();
 		bool isPrepared() { return m_bPrepared; }
 		bool needsToBePrepared() { return m_bPrepareToRun; }
-
-		/**
-		 * Configures the tool object.
-		 **/
-		 virtual bool configure(const QString& cfg = QString());
 
 	protected:
 		Launcher	*m_launcher;
@@ -253,7 +254,9 @@ namespace KileTool
 		
 		virtual bool checkSource();
 
-		void runChildNext(Base *tool, const QString& config = QString(), bool block = false);
+		void runChildNext(Base *tool, bool block = false);
+
+		void setToolConfig(const QString& config) { m_toolConfig = config; }
 
 	private:
 		Manager			*m_manager;
@@ -276,6 +279,7 @@ namespace KileTool
 		int			m_nPreparationResult;
 		bool			m_bPrepared;
 		bool			m_bPrepareToRun;
+		QString			m_toolConfig;
 
 		QString m_texInputs, m_bibInputs, m_bstInputs;
 
@@ -291,8 +295,10 @@ namespace KileTool
 	 **/
 	class Compile : public Base
 	{
-	public:
+		friend class KileTool::Factory;
+	protected:
 		Compile(const QString &name, Manager * manager, bool prepare = true);
+	public:
 		~Compile();
 		
 	protected:
@@ -304,8 +310,10 @@ namespace KileTool
 	 **/
 	class View : public Base
 	{
-	public:
+		friend class KileTool::Factory;
+	protected:
 		View(const QString &name, Manager * manager, bool prepare = true);
+	public:
 		~View();
 
 		bool isViewer() { return true; }
@@ -316,8 +324,10 @@ namespace KileTool
 	 **/
 	class Convert : public Base
 	{
-	public:
+		friend class KileTool::Factory;
+	protected:
 		Convert(const QString &name, Manager * manager, bool prepare = true);
+	public:
 		~Convert();
 		
 		bool determineSource();
@@ -329,9 +339,11 @@ namespace KileTool
 	class Archive: public Base
 	{
 		Q_OBJECT
- 
-	public:
+		friend class KileTool::Factory;
+
+	protected:
 		Archive(const QString &name, Manager * manager, bool prepare = true);
+	public:
 		~Archive();
 		bool checkPrereqs();
 		void setSource(const QString & source, const QString& workingDir = "");
@@ -343,8 +355,9 @@ namespace KileTool
 	class Sequence : public Base
 	{
 		Q_OBJECT
-		
-	public:
+		friend class KileTool::Factory;
+
+	protected:
 		Sequence(const QString &name, Manager * manager, bool prepare = true);
 
 	public Q_SLOTS:

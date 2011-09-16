@@ -1,6 +1,6 @@
 /**************************************************************************************
-    begin                : Tue Nov 25 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -39,24 +39,21 @@ namespace KileTool
 	class QueueItem
 	{
 	public:
-		explicit QueueItem(Base *tool, const QString & cfg = QString(), bool block = false);
+		explicit QueueItem(Base *tool, bool block = false);
 		~QueueItem();
 
 		Base* tool() const { return m_tool; }
-		const QString cfg() const { return m_cfg; }
 		bool shouldBlock() { return m_bBlock; }
 
 	private:
-		Base	*m_tool;
-		QString	m_cfg;
-		bool		m_bBlock;
+		Base *m_tool;
+		bool m_bBlock;
 	};
 
 	class Queue : public QQueue<QueueItem*>
 	{
 	public:
 		Base* tool() const;
-		const QString cfg() const;
 		bool shouldBlock() const;
 
 		void enqueueNext(QueueItem *);
@@ -96,10 +93,10 @@ namespace KileTool
 
 	public Q_SLOTS:
 		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false, Base *parent = NULL);
-		int run(Base *tool, const QString& = QString(), bool insertAtTop = false, bool block = false, Base *parent = NULL);
+		int run(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = NULL);
 
 		int runNext(const QString&, const QString& = QString(), bool block = false);
-		int runNext(Base *tool, const QString& = QString(), bool block = false);
+		int runNext(Base *tool, bool block = false);
 
 		int runBlocking(const QString&, const QString& = QString(), bool = false);
 		int runNextBlocking(const QString&, const QString& = QString());
@@ -120,7 +117,7 @@ namespace KileTool
 		void stopActionDestroyed();
 
 		// must be used when a child tool is launched from within another tool!
-		int runChildNext(Base *parent, Base *tool, const QString& = QString(), bool block = false);
+		int runChildNext(Base *parent, Base *tool, bool block = false);
 
 	Q_SIGNALS:
 		void requestGUIState(const QString &);

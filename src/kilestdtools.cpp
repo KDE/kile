@@ -141,7 +141,7 @@ namespace KileTool
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
 			if(manager()->info()->allBibliographies().count() > 0) {
-				return needsUpdate ( baseDir() + '/' + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
+				return needsUpdate(targetDir() + '/' + S() + ".bbl", manager()->info()->lastModifiedFile(docinfo));
 			}
 		}
 
@@ -154,7 +154,7 @@ namespace KileTool
 		if(docinfo) {
 			QStringList pckgs = manager()->info()->allPackages();
 			if(pckgs.contains("makeidx")) {
-				return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
+				return needsUpdate(targetDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo));
 			}
 		}
 

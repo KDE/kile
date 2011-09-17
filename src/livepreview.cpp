@@ -683,9 +683,7 @@ void LivePreviewManager::handleSpawnedChildTool(KileTool::Base *parent, KileTool
 	KILE_DEBUG() << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 	KILE_DEBUG() << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << endl;
 	KILE_DEBUG() << "\tLivePreviewManager: handleSpawnedChildTool" << endl;
-	if(dynamic_cast<KileTool::LaTeX*>(child)) {
-		connect(child, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(childToolDone(KileTool::Base*,int,bool)));
-	}
+	connect(child, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(childToolDone(KileTool::Base*,int,bool)));
 }
 
 void LivePreviewManager::childToolDone(KileTool::Base *base, int i, bool childToolSpawned)
@@ -700,7 +698,8 @@ void LivePreviewManager::childToolDone(KileTool::Base *base, int i, bool childTo
 		KILE_DEBUG() << "tool didn't return successfully, doing nothing";
 		showPreviewFailed();
 	}
-	else if(!childToolSpawned) {
+	// a LaTeX variant must have finished for the preview to be complete
+	else if(!childToolSpawned && dynamic_cast<KileTool::LaTeX*>(base)) {
 		m_shownPreviewInformation = m_runningPreviewInformation;
 		m_shownPreviewInformation->pathToPreviewPathHash = m_runningPathToPreviewPathHash;
 		m_shownPreviewInformation->previewPathToPathHash = m_runningPreviewPathToPathHash;

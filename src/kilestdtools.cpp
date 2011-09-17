@@ -238,6 +238,11 @@ namespace KileTool
 		tool->setSource(source, workingDir());
 	}
 
+	void LaTeX::configureAsymptote(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
 	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
 	{
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
@@ -306,7 +311,7 @@ namespace KileTool
 			int sz = manager()->info()->allAsyFigures().size();
 			for(int i = sz -1; i >= 0; --i) {
 			  Base *tool = manager()->factory()->create("Asymptote", QString());
-			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
+			  configureAsymptote(tool, targetDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
 			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			  tool->copyPaths(this);
 			  KILE_DEBUG();
@@ -372,16 +377,20 @@ namespace KileTool
 		tool->setTargetDir(targetDir());
 	}
 
-	void LivePreviewLaTeX::configureBibTeX(KileTool::Base *tool, const QString& /* source */)
+	void LivePreviewLaTeX::configureBibTeX(KileTool::Base *tool, const QString& source)
 	{
-		tool->setSource(targetDir() + '/' + S() + '.' + tool->from(), targetDir());
+		tool->setSource(source, targetDir());
 	}
 
-	void LivePreviewLaTeX::configureMakeIndex(KileTool::Base *tool, const QString& /*source*/)
+	void LivePreviewLaTeX::configureMakeIndex(KileTool::Base *tool, const QString& source)
 	{
-		tool->setSource(targetDir() + '/' + S() + '.' + tool->from(), targetDir());
+		tool->setSource(source, targetDir());
 	}
 
+	void LivePreviewLaTeX::configureAsymptote(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, targetDir());
+	}
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
 	// - updateInfoLists(): change entries of temporary file into normal tex file

@@ -455,7 +455,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 		return;
 	}
 
-	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolFactory()->create("LivePreviewPDFLaTeX", false));
+	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolFactory()->create("LivePreviewPDFLaTeX", QString(), false));
 	if(!latex) {
 		KILE_DEBUG()<< "couldn't create the tool";
 		return;

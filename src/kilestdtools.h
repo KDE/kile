@@ -74,6 +74,8 @@ namespace KileTool
 			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
 			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
 			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
+			virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
+
 			//FIXME: this is a little 'hackish'
 			static int m_reRun;
 	};
@@ -118,6 +120,7 @@ namespace KileTool
 			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
 			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
 			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
+			virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
 
 		private:
 			QString m_filename;

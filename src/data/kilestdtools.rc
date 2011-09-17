@@ -235,7 +235,7 @@ type=Process
 class=Compile
 command=asy
 options='%S'
-from=
+from=asy
 to=
 type=Process
 

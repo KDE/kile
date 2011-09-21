@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -203,6 +203,8 @@ Q_SIGNALS:
 	void nameChanged(const QString &);
 	void masterDocumentChanged(const QString &);
 	void projectTreeChanged(const KileProject *);
+	void projectItemAdded(KileProject *project, KileProjectItem *item);
+	void projectItemRemoved(KileProject *project, KileProjectItem *item);
 
 public Q_SLOTS:
 	bool load();

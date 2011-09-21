@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -747,6 +747,8 @@ void KileProject::add(KileProjectItem* item)
 
 	m_projectItems.append(item);
 
+	emit projectItemAdded(this, item);
+
 	// dump();
 }
 
@@ -755,6 +757,8 @@ void KileProject::remove(KileProjectItem* item)
 	KILE_DEBUG() << item->path();
 	removeConfigGroupsForItem(item);
 	m_projectItems.removeAll(item);
+
+	emit projectItemRemoved(this, item);
 
 	// dump();
 }

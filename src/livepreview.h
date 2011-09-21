@@ -16,6 +16,7 @@
 
 #include "documentinfo.h"
 #include "kileinfo.h"
+#include "kileproject.h"
 #include "kiletool.h"
 #include "editorextension.h"
 #include "widgets/previewwidget.h"
@@ -79,6 +80,10 @@ public Q_SLOTS:
 	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
 	void handleTextChanged(KTextEditor::Document *doc);
 
+	void handleMasterDocumentChanged();
+
+	void refreshLivePreview();
+
 private Q_SLOTS:
 	void handleDocumentModificationTimerTimeout();
 
@@ -89,6 +94,10 @@ private Q_SLOTS:
 	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 	void handleTextViewActivated(KTextEditor::View *view);
 	void handleTextInfoDestroyed(QObject *obj);
+	void handleProjectDestroyed(QObject *obj);
+
+	void handleProjectItemAdded(KileProject *project, KileProjectItem *item);
+	void handleProjectItemRemoved(KileProject *project, KileProjectItem *item);
 
 	void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);
 
@@ -113,15 +122,21 @@ private:
 	QString m_runningPreviewFile;
 	KileDocument::LaTeXInfo *m_runningLaTeXInfo;
 	KTextEditor::View *m_runningTextView;
+	KileProject *m_runningProject;
 	PreviewInformation *m_runningPreviewInformation;
-	QList<QPair<QString, QByteArray> > m_runningTextHashList;
+	QHash<KileDocument::TextInfo*, QByteArray> m_runningTextHash;
 
 	PreviewInformation *m_shownPreviewInformation;
 
-	QHash<KileDocument::TextInfo*,PreviewInformation*> m_textInfoToPreviewInformationHash;
-// 	QHash<KileDocument::TextInfo*,PreviewInformation*> m_projectToPreviewInformationHash;
+	QHash<KileDocument::TextInfo*, PreviewInformation*> m_textInfoToPreviewInformationHash;
+	QHash<KileProject*, PreviewInformation*> m_projectToPreviewInformationHash;
+	PreviewInformation *m_masterDocumentPreviewInformation;
 
 	void createLivePreviewPart(QWidget *parent);
+
+	PreviewInformation* findPreviewInformation(KileDocument::LaTeXInfo *latexInfo, KileProject* *locatedProject = NULL);
+
+	void updatePreviewInformationAfterCompilationFinished();
 
 	void displayErrorMessage(const QString &text);
 
@@ -137,6 +152,15 @@ private:
 	void showPreviewSuccessful();
 
 	void stopLivePreview();
+	void clearLivePreview();
+
+	void deleteAllLivePreviewInformation();
+
+	void removeTextInfo(KileDocument::TextInfo *info);
+	void removeProject(KileProject *project);
+	void handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item);
+
+	void fillTextHashForMasterDocument(QHash<KileDocument::TextInfo*, QByteArray> &textHash);
 };
 
 }

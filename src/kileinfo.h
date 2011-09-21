@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Thu Jul 17 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -84,6 +84,7 @@ public:
 	enum {bibinputs = 0,bstinputs, texinputs};
 	QString getName(KTextEditor::Document *doc = NULL, bool shrt = false);
 	QString getShortName(KTextEditor::Document *doc = NULL) { return getName(doc, true); }
+	QString getCompileNameForProject(KileProject *project, bool shrt = false);
 	QString getCompileName(bool shrt = false);
 	QString getFullFromPrettyName(const QString & name);
 	KUrl::List getParentsFor(KileDocument::Info *);
@@ -171,6 +172,8 @@ public:
 
 	virtual void setLine(const QString &line) = 0;
 
+	QString getMasterDocumentFileName() const { return m_masterDocumentFileName; }
+
 protected:
 	KileConfiguration::Manager	*m_configurationManager;
 	KileMainWindow			*m_mainWindow;
@@ -201,7 +204,7 @@ protected:
 	KileTool::LivePreviewManager *m_livePreviewManager;
 
 	bool 		m_singlemode;
-	QString	m_masterName;
+	QString		m_masterDocumentFileName;
 
 	QString	m_currentTarget;
 	

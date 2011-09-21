@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Thu Jul 17 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -126,42 +126,47 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 
 	if (m_singlemode) {
 		if (project) {
-			if (!project->masterDocument().isEmpty()) {
-				KUrl master(project->masterDocument());
-				if(shrt) {
-					return master.fileName();
-				}
-				else {
-					return master.toLocalFile();
-				}
-			}
-			else {
-				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
-				if (item) {
-					KUrl url = item->url();
-					if(shrt) {
-						return url.fileName();
-					}
-					else {
-						return url.toLocalFile();
-					}
-				}
-				else {
-					return QString();
-				}
-			}
+			return getCompileNameForProject(project, shrt);
 		}
 		else {
 			return getName(activeTextDocument(), shrt);
 		}
 	}
 	else {
-		QFileInfo fi(m_masterName);
+		QFileInfo fi(m_masterDocumentFileName);
 		if(shrt) {
 			return fi.fileName();
 		}
 		else {
-			return m_masterName;
+			return m_masterDocumentFileName;
+		}
+	}
+}
+
+QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt)
+{
+	if (!project->masterDocument().isEmpty()) {
+		KUrl master(project->masterDocument());
+		if(shrt) {
+			return master.fileName();
+		}
+		else {
+			return master.toLocalFile();
+		}
+	}
+	else {
+		KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
+		if (item) {
+			KUrl url = item->url();
+			if(shrt) {
+				return url.fileName();
+			}
+			else {
+				return url.toLocalFile();
+			}
+		}
+		else {
+			return QString();
 		}
 	}
 }

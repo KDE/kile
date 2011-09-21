@@ -224,6 +224,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 #ifdef LIVEPREVIEW_POSSIBLE
 	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection(), textViewHorizontalSplitter);
+	connect(this, SIGNAL(masterDocumentChanged()), m_livePreviewManager, SLOT(handleMasterDocumentChanged()));
 
 	if(m_livePreviewManager->livePreviewPart()) {
 		textViewHorizontalSplitter->addWidget(m_livePreviewManager->livePreviewPart()->widget());
@@ -1269,7 +1270,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	if (doc) {
 		viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
 	}
-	setMasterDocument(KileConfig::singleFileMasterDocument());
+	setMasterDocumentFileName(KileConfig::singleFileMasterDocument());
 }
 
 void Kile::setActive()
@@ -1400,7 +1401,7 @@ void Kile::updateModeStatus()
 {
 	KILE_DEBUG() << "==Kile::updateModeStatus()==========";
 	KileProject *project = docManager()->activeProject();
-	QString shortName = m_masterName;
+	QString shortName = m_masterDocumentFileName;
 	int pos = shortName.lastIndexOf('/');
 	shortName.remove(0, pos + 1);
 
@@ -2500,7 +2501,7 @@ void Kile::saveSettings()
 	if (KileConfig::restore())
 	{
 		KConfigGroup configGroup = m_config->group("FilesOpenOnStart");
-		KileConfig::setSingleFileMasterDocument(getMasterDocument());
+		KileConfig::setSingleFileMasterDocument(getMasterDocumentFileName());
 		configGroup.writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
 		for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
 			configGroup.writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
@@ -2567,24 +2568,20 @@ void Kile::saveSettings()
 }
 
 /////////////////  OPTIONS ////////////////////
-QString Kile::getMasterDocument() const
-{
-	return m_masterName;
-}
-
-void Kile::setMasterDocument(const QString& fileName)
+void Kile::setMasterDocumentFileName(const QString& fileName)
 {
 	if(fileName.isEmpty() || !viewManager()->viewForLocalFilePresent(fileName)) {
 		return;
 	}
 
-	m_masterName = fileName;
+	m_masterDocumentFileName = fileName;
 
-	QString shortName = QFileInfo(m_masterName).fileName();
+	QString shortName = QFileInfo(m_masterDocumentFileName).fileName();
 
 	ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
 	ModeAction->setChecked(true);
 	m_singlemode = false;
+	emit masterDocumentChanged();
 }
 
 void Kile::clearMasterDocument()
@@ -2593,7 +2590,8 @@ void Kile::clearMasterDocument()
 	ModeAction->setChecked(false);
 	m_logPresent = false;
 	m_singlemode = true;
-	m_masterName.clear();
+	m_masterDocumentFileName.clear();
+	emit masterDocumentChanged();
 }
 
 void Kile::toggleMasterDocumentMode()
@@ -2608,14 +2606,14 @@ void Kile::toggleMasterDocumentMode()
 			KMessageBox::error(m_mainWindow, i18n("In order to define the current document as a master document, it has to be saved first."));
 			return;
 		}
-		setMasterDocument(name);
+		setMasterDocumentFileName(name);
 	}
 	else {
 		ModeAction->setChecked(false);
 	}
 
 	updateModeStatus();
-	KILE_DEBUG() << "SETTING master to " << m_masterName << " singlemode = " << m_singlemode << endl;
+	KILE_DEBUG() << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << endl;
 }
 
 void Kile::toggleWatchFile()

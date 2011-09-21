@@ -143,6 +143,9 @@ public Q_SLOTS:
 	int runToolWithConfig(const QString &tool, const QString &config);
 	void insertText(const QString &text);
 
+Q_SIGNALS:
+	void masterDocumentChanged();
+
 protected:
 	virtual bool queryExit();
 	virtual bool queryClose();
@@ -239,8 +242,7 @@ private:
 	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = NULL, const char *member = NULL);
 	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
 
-	QString getMasterDocument() const;
-	void setMasterDocument(const QString& fileName);
+	void setMasterDocumentFileName(const QString& fileName);
 	void clearMasterDocument();
 
 private Q_SLOTS:

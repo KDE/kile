@@ -533,9 +533,7 @@ const long* TextInfo::getStatistics(KTextEditor::View *view)
 
 KUrl TextInfo::url()
 {
-	KILE_DEBUG() << "called";
 	if(m_doc) {
-		KILE_DEBUG() << "has a doc";
 		return m_doc->url();
 	}
 	else {

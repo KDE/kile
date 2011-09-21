@@ -133,7 +133,7 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			if(manager()->info()->allBibliographies().count() > 0) {
+			if(manager()->info()->allBibliographies(docinfo).count() > 0) {
 				return needsUpdate ( baseDir() + '/' + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
 			}
 		}
@@ -145,7 +145,7 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			QStringList pckgs = manager()->info()->allPackages();
+			QStringList pckgs = manager()->info()->allPackages(docinfo);
 			if(pckgs.contains("makeidx")) {
 				return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
 			}
@@ -158,7 +158,7 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			QStringList pckgs = manager()->info()->allPackages();
+			QStringList pckgs = manager()->info()->allPackages(docinfo);
 			// As asymptote doesn't properly notify the user when it needs to be rerun, we run
 			// it every time LaTeX is run (but only for m_reRun == 0 if LaTeX has to be rerun).
 			if(pckgs.contains("asymptote")) {

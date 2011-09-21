@@ -18,6 +18,7 @@ SET(kile_SRCS
 	dialogs/floatdialog.cpp
 	dialogs/mathenvironmentdialog.cpp
 	dialogs/postscriptdialog.cpp
+	dialogs/pdf-wizard/pdfdialog.cpp
 	widgets/previewconfigwidget.cpp
 	quickpreview.cpp
 	dialogs/includegraphicsdialog.cpp
@@ -124,6 +125,7 @@ SET( kile_UI
 	dialogs/tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
 	dialogs/postscriptdialog_base.ui
+	dialogs/pdf-wizard/pdfdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
 )
@@ -199,7 +201,7 @@ KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
 TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS} 
-${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS} okularcore)
 
 INSTALL( TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

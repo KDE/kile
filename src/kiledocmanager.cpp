@@ -271,6 +271,18 @@ void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
 	item->setInfo(docinfo);
 }
 
+KileProject* Manager::projectForMember(const KUrl &memberUrl)
+{
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProject *project = *it;
+
+		if(project->contains(memberUrl)) {
+			return project;
+		}
+	}
+	return NULL;
+}
+
 KileProject* Manager::projectFor(const KUrl &projecturl)
 {
 	//find project with url = projecturl
@@ -374,16 +386,11 @@ KileProject* Manager::activeProject()
 	KTextEditor::Document *doc = m_ki->activeTextDocument();
 
 	if (doc) {
-		for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-			KileProject *project = *it;
-
-			if(project->contains(doc->url())) {
-				return project;
-			}
-		}
+		return projectForMember(doc->url());
 	}
-
-	return NULL;
+	else {
+		return NULL;
+	}
 }
 
 KileProjectItem* Manager::activeProjectItem()

@@ -189,6 +189,7 @@ public:
 	TextInfo* textInfoFor(KTextEditor::Document* doc) const;
 	void updateInfos();
 
+	KileProject* projectForMember(const KUrl &memberUrl);
 	KileProject* projectFor(const KUrl &projecturl);
 	KileProject* projectFor(const QString & name);
 	KileProject* activeProject();

@@ -1,6 +1,7 @@
 /***************************************************************************
-    Copyright (C) 2009 by Holger Danielsson (holger.danielsson@versanet.de)
- ***************************************************************************/
+    begin                : May 12 2009
+    copyright            : (C) 2009 dani
+  ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -11,8 +12,6 @@
  *                                                                         *
  ***************************************************************************/
 
-
-// 31.08.2009 dani
 
 #include "pdfdialog.h"
 
@@ -100,6 +99,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 	// init important variables
 	m_numpages = 0;
+	m_encrypted = false;
 	m_pdftk = false;
 	m_pdfpages = false;
 	m_scriptrunning = false;
@@ -134,10 +134,14 @@ PdfDialog::PdfDialog(QWidget *parent,
 	// default permissions
 	m_pdfPermissionState << false << false  << false  << false  << false;
  
-	// disable all widgets
-m_PdfDialog.m_cbOverwrite->setChecked(true);
+	// init Dialog
+	m_PdfDialog.m_cbOverwrite->setChecked(true);
 	updateDialog();
 	
+	// create tempdir
+	m_tempdir = new KTempDir(KStandardDirs::locateLocal("tmp", "pdfwizard/pdf-"));
+	KILE_DEBUG() << "tempdir: " << m_tempdir->name() << endl ;
+
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
@@ -150,6 +154,7 @@ m_PdfDialog.m_cbOverwrite->setChecked(true);
 
 PdfDialog::~PdfDialog()
 {
+	delete m_tempdir;
 	delete m_proc;
 }
 
@@ -402,8 +407,6 @@ void PdfDialog::updateTasks()
 		index = ( (m_pdftk && !m_pdfpages) || m_encrypted ) ? 5 : PDF_SELECT;
 	}
 	
-index = PDF_2UP;
-
 	m_PdfDialog.m_cbTask->setCurrentIndex(index);
 	slotTaskChanged(index);
 
@@ -609,12 +612,7 @@ to respect the author's wishes.</p>"),
 
 void PdfDialog::executeAction()
 {
-	QString tempfile = buildTempfile();
-	if(tempfile.isEmpty()) {
-		m_log->printMessage(KileTool::Error, i18n("Could not create a temporary file in PdfDialog::executeAction()."));
-		return;
-	}
-	QString filepath = QFileInfo(tempfile).absolutePath();
+	QString command = buildActionCommand();
 
 	m_log->clear();
 	QFileInfo from(m_inputfile);
@@ -637,13 +635,14 @@ void PdfDialog::executeAction()
 	              + i18n("***** viewer:      ") + ((m_PdfDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
 	              + "*****\n";
 	emit( output(s) );
-
+	
 	// run Process
-	executeScript("sh "+tempfile, filepath, PDF_SCRIPTMODE_ACTION);
+	executeScript(command, m_tempdir->name(), PDF_SCRIPTMODE_ACTION);
 }
 
 void PdfDialog::executeProperties()
 {
+	// create temporary file
 	KTemporaryFile infotemp;
 	infotemp.setSuffix(".txt");
 	infotemp.setAutoRemove(false);
@@ -662,101 +661,58 @@ void PdfDialog::executeProperties()
 	}
 	infotemp.close();
 
-	// create another temporary file
-	KTemporaryFile temp;
-	temp.setSuffix(".sh");
-	temp.setAutoRemove(false);
-
-	if(!temp.open()) {
-		KILE_DEBUG() << "Could not create tempfile in QString PdfDialog::executeProperties()" ;
-		return;
-	}
-
+	// build command
 	QString inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	QString password =  m_PdfDialog.m_edPassword->text().trimmed();
-	QString tempfile = temp.fileName();
-	QString pdffile = tempfile + ".pdf";
+	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-props.pdf";
 
-	QTextStream stream(&temp);
 	QString param = "\"" + inputfile + "\"";
 	if ( m_encrypted )
 		param += " input_pw " + password;
-	param += " update_info " + infofile + " output " + pdffile;
-	stream << "pdftk " << param << endl;
+	param += " update_info " + infofile + " output \"" + pdffile+ "\"";
+	QString command = "pdftk " + param;
 
-	// success?
-	stream << "if [ $? != 0 ]; then" << endl;
-	stream << "   rm " << tempfile << endl;
-	stream << "   rm " << infofile << endl;
-	stream << "   exit 1" << endl;
-	stream << "fi" << endl;
-
-	// remove all files
-	stream << "rm \"" << inputfile << "\""<< endl;
-	stream << "mv " << pdffile << " \"" << inputfile << "\""<< endl;
-	stream << "rm "<< tempfile << endl;
-	stream << "rm " << infofile << endl;
-	stream << "exit 0"<< endl;
-
-	// everything is prepared to do the job
-	temp.close();
-
+	// move destination file
+	m_move_filelist.clear();
+	m_move_filelist << pdffile << inputfile;
+	
 	// execute script
 	showLogs("update properties",inputfile,param);
-	executeScript("sh "+tempfile, QString::null, PDF_SCRIPTMODE_PROPERTIES);
+	executeScript(command, QString::null, PDF_SCRIPTMODE_PROPERTIES);
 
 }
 
 void PdfDialog::executePermissions()
 {
-	QString inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
-	QString password =  m_PdfDialog.m_edPassword->text().trimmed();
-
+	// read permissions
 	QString permissions;
 	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 		if ( m_pdfPermissionWidgets.at(i)->isChecked() )
 			permissions += m_pdfPermissionPdftk.at(i) + " ";
 	}
 
-	// create a temporary file
-	KTemporaryFile temp;
-	temp.setSuffix(".sh");
-	temp.setAutoRemove(false);
+	// build command
+	QString inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
+	QString password =  m_PdfDialog.m_edPassword->text().trimmed();
+	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-perms.pdf";
 
-	if(!temp.open()) {
-		KILE_DEBUG() << "Could not create tempfile in QString PdfDialog::executePermissions()" ;
-		return;
-	}
-
-	QString tempfile = temp.fileName();
-	QString pdffile = tempfile + ".pdf";
-
-	QTextStream stream(&temp);
 	QString param = "\"" + inputfile + "\"";
 	if ( m_encrypted )
 		param += " input_pw " + password;
-	param += " output " + pdffile + " encrypt_128bit";
+	param += " output \"" + pdffile + "\" encrypt_128bit";
 	if ( !permissions.isEmpty() )
 		param += " allow " + permissions;
 	if ( !m_encrypted )
 		param += " owner_pw " + password;
-	stream << "pdftk " << param << endl;
+	QString command = "pdftk " + param;
 
-	// success?
-	stream << "if [ $? != 0 ]; then" << endl;
-	stream << "   rm " << tempfile << endl;
-	stream << "   exit 1" << endl;
-	stream << "fi" << endl;
-
-	// remove all files
-	stream << "rm \"" << inputfile << "\""<< endl;
-	stream << "mv " << pdffile << " \"" << inputfile << "\""<< endl;
-	stream << "rm "<< tempfile << endl;
-	stream << "exit 0"<< endl;
+	// move destination file
+	m_move_filelist.clear();
+	m_move_filelist << pdffile << inputfile;
 
 	// execute script
 	showLogs("update permissions",inputfile,param);
-	executeScript("sh "+tempfile, QString::null, PDF_SCRIPTMODE_PERMISSIONS);
+	executeScript(command, QString::null, PDF_SCRIPTMODE_PERMISSIONS);
 
 }
 
@@ -783,6 +739,8 @@ void PdfDialog::executeScript(const QString &command, const QString &dir, int sc
 	if (m_proc)
 		delete m_proc;
 
+//	KMessageBox::information(this, "script running", "PDF Tools"); // HACK
+	
 	m_scriptmode = scriptmode;
 	m_outputtext = "";
 
@@ -844,6 +802,13 @@ void PdfDialog::finishPdfAction(bool state)
 	if ( state ) {
 			m_log->printMessage(KileTool::Info, "finished", program);
 
+			// should we move the temporary pdf file
+			if ( ! m_move_filelist.isEmpty() ) {
+				QFile::remove( m_move_filelist[1] );
+				QFile::rename( m_move_filelist[0], m_move_filelist[1] );
+				KILE_DEBUG() << "move file: " << m_move_filelist[0] << " --->  " << m_move_filelist[1] << endl;
+			}
+			
 			// run viewer
 			if ( m_PdfDialog.m_cbView->isChecked() )
 				runViewer();
@@ -869,10 +834,10 @@ void PdfDialog::runViewer()
 	
 }
 
-QString PdfDialog::buildTempfile()
+QString PdfDialog::buildActionCommand()
 {
-	// build command
-	m_execLatex = true;          // default
+	// build action: parameter
+	m_execLatex = true;           // default
 	m_inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	m_outputfile = m_PdfDialog.m_edOutfile->lineEdit()->text().trimmed();
 	
@@ -982,31 +947,21 @@ QString PdfDialog::buildTempfile()
 		break;
 	}
 
-	// create a temporary file
-	KTemporaryFile temp;
-	temp.setSuffix(".sh");
-	temp.setAutoRemove(false);
-	if(!temp.open()) {
-		KILE_DEBUG() << "Could not create tempfile in PdfDialog::buildTempfile()" ;
-		return QString();
-	}
-	QString tempname = temp.fileName();
-	
-	QString latexfile,pdffile;
-	QTextStream stream(&temp);
+	// build action: command
+	QString command,latexfile,pdffile;
 	if ( m_execLatex ) {
 		latexfile = buildLatexFile(m_param);
 		pdffile = latexfile + ".pdf";
-		stream << "pdflatex " << latexfile << ".tex" << endl;
+		command = "pdflatex " + latexfile + ".tex";
 	}
 	else {
-		pdffile = tempname + ".pdf";
-		stream << "pdftk \"" << m_inputfile << "\"";
+		pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-temp.pdf";
+		command = "pdftk \"" + m_inputfile + "\"";
 		if ( m_encrypted ) {
 			QString password =  m_PdfDialog.m_edPassword->text().trimmed();
-			stream << " input_pw " << password;
+			command += " input_pw " + password;
 		}
-		stream << " " << m_param << " output " << pdffile << endl;
+		command += " " + m_param + " output \"" + pdffile+ "\"";
 	}
 
 	// additional actions
@@ -1016,46 +971,30 @@ QString PdfDialog::buildTempfile()
 	if (equalfiles)
 		 m_outputfile = m_inputfile;
 
-	if ( equalfiles || viewer ) {
-		stream << "if [ $? != 0 ]; then" << endl;
-		stream << "   rm " << tempname << endl;
-		if ( m_execLatex  )
-			stream << "   rm "<< latexfile << ".*" << endl;
-		stream << "   exit 1" << endl;
-		stream << "fi" << endl;
-	}
-
-	// move dest file
+	// move destination file
+	m_move_filelist.clear();
 	if ( equalfiles ) {
-		stream << "rm \"" << m_inputfile << "\""<< endl;
-		stream << "mv " << pdffile << " \"" << m_inputfile << "\""<< endl;
+		m_move_filelist << pdffile << m_inputfile;
 	}
 	else if ( !m_outputfile.isEmpty() ) {
-		stream << "mv " << pdffile << " \"" << m_outputfile << "\"" << endl;
+		m_move_filelist << pdffile << m_outputfile;
 	}
 
 	// viewer
 	if ( viewer && m_outputfile.isEmpty() )
 		m_outputfile = pdffile;
 
-	// remove all files
-	stream << "rm " << tempname << endl;
-	if ( m_execLatex  ) {
-		stream << "rm "<< latexfile << ".*" << endl;
-	}
-		stream << "exit 0" << endl;
-
-	// everything is prepared to do the job
-	temp.close();
-	return(tempname);
+	return command;
 }
 
 // create a temporary file to run latex with package pdfpages.sty
 QString PdfDialog::buildLatexFile(const QString &param)
 {
 	KTemporaryFile temp;
+	temp.setPrefix(m_tempdir->name());
 	temp.setSuffix(".tex");
 	temp.setAutoRemove(false);
+
 	if(!temp.open()) {
 		KILE_DEBUG() << "Could not create tempfile in PdfDialog::buildLatexFile()" ;
 		return QString();
@@ -1182,7 +1121,7 @@ bool PdfDialog::checkParameter()
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 

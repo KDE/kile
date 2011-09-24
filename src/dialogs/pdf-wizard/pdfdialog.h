@@ -1,6 +1,7 @@
 /***************************************************************************
-    Copyright (C) 2009 by Holger Danielsson (holger.danielsson@versanet.de)
- ***************************************************************************/
+    begin                : May 12 2009
+    copyright            : (C) 2009 dani
+  ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -11,12 +12,12 @@
  *                                                                         *
  ***************************************************************************/
 
-// 31.08.2009 dani
 
 #ifndef PDFDIALOG_H
 #define PDFDIALOG_H
 
 #include <KDialog>
+#include <KTempDir>
 
 #include <QProcess>
 #include <QMap>
@@ -32,28 +33,7 @@
 
 #include "ui_pdfdialog_base.h"
 
-#define PDF_PAGE_EMPTY              0
-#define PDF_PAGE_DUPLICATE          1
-#define PDF_2UP                     2
-#define PDF_2UP_LANDSCAPE           3
-#define PDF_4UP                     4
-#define PDF_4UP_LANDSCAPE           5
-#define PDF_EVEN                    6
-#define PDF_ODD                     7
-#define PDF_EVEN_REV                8
-#define PDF_ODD_REV                 9
-#define PDF_REVERSE                 10
-#define PDF_SELECT                  11
-#define PDF_PDFPAGES_FREE           12
-#define PDF_PDFTK_FREE              13
-#define PDF_PDFTK_BACKGROUND       14
-#define PDF_PDFTK_STAMP             15
 
-#define PDF_SCRIPTMODE_TOOLS        0
-#define PDF_SCRIPTMODE_ACTION       1
-#define PDF_SCRIPTMODE_PROPERTIES   2
-#define PDF_SCRIPTMODE_PERMISSIONS  3
- 
 class KProcess;
 
 namespace KileDialog
@@ -89,6 +69,14 @@ class PdfDialog : public KDialog
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
 	private:
+		enum PDF_Action { PDF_PAGE_EMPTY=0,     PDF_PAGE_DUPLICATE=1, PDF_2UP=2,               PDF_2UP_LANDSCAPE=3,
+		                  PDF_4UP=4,            PDF_4UP_LANDSCAPE=5,  PDF_EVEN=6,              PDF_ODD=7,
+		                  PDF_EVEN_REV=8,       PDF_ODD_REV=9,        PDF_REVERSE=10,          PDF_SELECT=11,
+		                  PDF_PDFPAGES_FREE=12,  PDF_PDFTK_FREE=13,   PDF_PDFTK_BACKGROUND=14, PDF_PDFTK_STAMP=15 };
+
+		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
+		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3 };
+
 		QString m_inputfile;
 		QString m_outputfile;
 
@@ -102,7 +90,7 @@ class PdfDialog : public KDialog
 		bool checkInputFile();
 		bool checkPassword();
 
-		QString buildTempfile();
+		QString buildActionCommand();
 		QString buildLatexFile(const QString &param);
 		QString buildPageRange(int type);
 		QString buildPageList(bool even);
@@ -138,6 +126,9 @@ class PdfDialog : public KDialog
 		QString m_param;
 		bool m_scriptrunning;
 
+		KTempDir *m_tempdir;
+		QStringList m_move_filelist;
+		
 		bool m_pdftk;
 		bool m_pdfpages;
 

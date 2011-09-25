@@ -305,7 +305,16 @@ void LivePreviewManager::handleDocumentModificationTimerTimeout()
 		return;
 	}
 
-	compilePreview(latexInfo, view);
+	PreviewInformation *previewInformation = findPreviewInformation(latexInfo);
+	if(previewInformation) {
+		if(previewInformation->isPreviewEnabled()) {
+			compilePreview(latexInfo, view);
+		}
+	}
+	else if(KileConfig::previewEnabledForFreshlyOpenedDocuments()) {
+		compilePreview(latexInfo, view);
+	}
+
 }
 
 void LivePreviewManager::showPreviewDisabled()
@@ -581,10 +590,6 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 		connect(project, SIGNAL(projectItemRemoved(KileProject*,KileProjectItem*)),
 		        this, SLOT(handleProjectItemRemoved(KileProject*,KileProjectItem*)),
 		        Qt::UniqueConnection);
-	}
-
-	if(!previewInformation->isPreviewEnabled()) {
-		return;
 	}
 
 	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolManager()->createTool("LivePreviewPDFLaTeX", QString(), false));

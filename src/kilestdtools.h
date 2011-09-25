@@ -31,12 +31,12 @@ namespace KileTool
 
 	class Factory
 	{
+		friend class Manager;
+
 		public:
 			Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection);
 			~Factory();
-	
-			Base* create(const QString& tool, const QString& config, bool prepare = true);
-	
+
 			void readStandardToolConfig();
 
 		private:
@@ -44,6 +44,9 @@ namespace KileTool
 			KConfig            *m_config;
 			KActionCollection  *m_actionCollection;
 			QString             m_standardToolConfigurationFileName;
+
+			// only the 'Manager' is allowed to call this
+			Base* create(const QString& tool, const QString& config, bool prepare = true);
 	};
 
 	class LaTeX : public Compile

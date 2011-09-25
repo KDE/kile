@@ -176,7 +176,7 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 		return;
 	}
 
-	KileTool::Base *pngConverter = m_info->toolFactory()->create(tool, toolcfg);
+	KileTool::Base *pngConverter = m_info->toolManager()->createTool(tool, toolcfg);
 	if(!pngConverter) {
 		showError(i18n("Could not run '%1' for QuickPreview.", tool));
 		return;

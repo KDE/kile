@@ -129,22 +129,6 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
-	int Manager::run(const QString &tool, const QString& cfg, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
-	{
-		if (!m_factory) {
-			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
-			return ConfigureFailed;
-		}
-	
-		Base* pTool = m_factory->create(tool, cfg);
-		if (!pTool) {
-			m_log->printMessage(Error, i18n("Unknown tool %1.", tool));
-			return ConfigureFailed;
-		}
-		
-		return run(pTool, insertNext, block, parent);
-	}
-
 	int Manager::run(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
@@ -186,11 +170,6 @@ namespace KileTool
 		}
 	}
 
-	int Manager::runNext(const QString &tool, const QString &config, bool block /*= false*/)
-	{
-		return run(tool, config, true, block);
-	}
-
 	int Manager::runNext(Base *tool, bool block /*= false*/)
 	{
 		return run(tool, true, block);
@@ -199,21 +178,6 @@ namespace KileTool
 	int Manager::runChildNext(Base *parent, Base *tool, bool block /*= false*/)
 	{
 		return run(tool, true, block, parent);
-	}
-
-	int Manager::runBlocking(const QString &tool, const QString &config /*= QString::null*/, bool insertAtTop /*= false*/)
-	{
-		if(run(tool, config, insertAtTop, true) == Running) {
-			return lastResult();
-		}
-		else {
-			return Failed;
-		}
-	}
-
-	int Manager::runNextBlocking(const QString &tool, const QString &config)
-	{
-		return runBlocking(tool, config, true);
 	}
 
 	int Manager::runNextInQueue()
@@ -248,6 +212,22 @@ namespace KileTool
 		return ConfigureFailed;
 	}
 
+	Base* Manager::createTool(const QString& name, const QString &cfg, bool prepare)
+	{
+		if (!m_factory) {
+			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
+			return NULL;
+		}
+
+		Base* pTool = m_factory->create(name, cfg, prepare);
+		if (!pTool) {
+			m_log->printMessage(Error, i18n("Unknown tool %1.", name));
+			return NULL;
+		}
+		initTool(pTool);
+		return pTool;
+	}
+
 	void Manager::initTool(Base *tool)
 	{
 		tool->setInfo(m_ki);
@@ -257,7 +237,6 @@ namespace KileTool
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 		connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(done(KileTool::Base*, int)));
 		connect(tool, SIGNAL(start(KileTool::Base*)), this, SLOT(started(KileTool::Base*)));
-		connect(tool, SIGNAL(requestSaveAll(bool, bool)), this, SIGNAL(requestSaveAll(bool, bool)));
 	}
 
 	void Manager::started(Base *tool)

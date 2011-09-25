@@ -217,7 +217,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	
 	// create preview tools
 	KILE_DEBUG() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
-	KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolFactory()->create(previewlist[pvLatex], QString(), false));
+	KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolManager()->createTool(previewlist[pvLatex], QString(), false));
 	if(!latex) {
 		showError(i18n("Could not run '%1' for QuickPreview.", QString("LaTeX")));
 		return false;
@@ -227,7 +227,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if(!previewlist[1].isEmpty()) {
 		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
 		KILE_DEBUG() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
-		dvips = m_ki->toolFactory()->create(previewlist[pvDvips], previewlist[pvDvipsCfg]);
+		dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
 		if(!dvips) {
 			showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
 			return false;
@@ -238,7 +238,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	if(!previewlist[pvViewer].isEmpty()) {
 		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
 		KILE_DEBUG() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
-		viewer = m_ki->toolFactory()->create(previewlist[pvViewer], previewlist[pvViewerCfg], false);
+		viewer = m_ki->toolManager()->createTool(previewlist[pvViewer], previewlist[pvViewerCfg], false);
 		if(!viewer) {
 			showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
 			return false;

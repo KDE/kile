@@ -102,6 +102,11 @@ namespace KileTool
 		void setQuickie() { m_quickie = true; }
 		bool isQuickie() { return m_quickie; }
 
+		/**
+		 * Returns true iff all documents must be saved before the tool can be launched
+		 **/
+		virtual bool requestSaveAll();
+
 		void setPartOfLivePreview() { m_isPartOfLivePreview = true; }
 		bool isPartOfLivePreview() const { return m_isPartOfLivePreview; }
 
@@ -212,8 +217,6 @@ namespace KileTool
 
 		void start(KileTool::Base*);
 		void done(KileTool::Base*, int, bool childToolSpawned);
-
-		void requestSaveAll(bool amAutoSaving = false, bool disUntitled= false);
 
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }
@@ -357,11 +360,18 @@ namespace KileTool
 		Q_OBJECT
 		friend class KileTool::Factory;
 
+		bool requestSaveAll();
+
 	protected:
 		Sequence(const QString &name, Manager * manager, bool prepare = true);
+		~Sequence();
 
 	public Q_SLOTS:
 		int run();
+
+	private:
+		QString m_unknownToolSpec;
+		QList<Base*> m_tools;
 	};
 }
 

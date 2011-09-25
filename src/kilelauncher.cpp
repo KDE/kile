@@ -75,6 +75,7 @@ namespace KileTool {
 	ProcessLauncher::~ProcessLauncher()
 	{
 		KILE_DEBUG() << "DELETING ProcessLauncher";
+		// 'm_proc' is deleted automagically
 	}
 
 	void ProcessLauncher::setWorkingDirectory(const QString &wd)

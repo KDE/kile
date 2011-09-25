@@ -176,7 +176,7 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 		}
 	}
 
-	KileTool::Base *tool = m_manager->factory()->create(type, cfg, false);
+	KileTool::Base *tool = m_manager->createTool(type, cfg, false);
 	if(tool) {
 		tool->setFlags(0);
 		tool->setSource(url.toLocalFile());

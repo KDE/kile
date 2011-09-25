@@ -116,8 +116,6 @@ public:
 public Q_SLOTS:
 	void setCursor(const KUrl &, int, int);
 
-	int run(const QString &);
-	int runWith(const QString &, const QString &);
 	void runArchiveTool();
 	void runArchiveTool(const KUrl&);
 	void showTip();

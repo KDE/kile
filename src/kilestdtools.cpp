@@ -280,7 +280,7 @@ namespace KileTool
 
 		if(reRun) {
 			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
-			Base *tool = manager()->factory()->create(name(), toolConfig());
+			Base *tool = manager()->createTool(name(), toolConfig());
 			configureLaTeX(tool, source());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
@@ -289,7 +289,7 @@ namespace KileTool
 
 		if(bibs) {
 			KILE_DEBUG() << "need to run BibTeX";
-			Base *tool = manager()->factory()->create("BibTeX", QString());
+			Base *tool = manager()->createTool("BibTeX", QString());
 			configureBibTeX(tool, targetDir() + '/' + S() + '.' + tool->from());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);
@@ -298,7 +298,7 @@ namespace KileTool
 
 		if(index) {
 			KILE_DEBUG() << "need to run MakeIndex";
-			Base *tool = manager()->factory()->create("MakeIndex", QString());
+			Base *tool = manager()->createTool("MakeIndex", QString());
 			KILE_DEBUG() << targetDir() << S() << tool->from();
 			configureMakeIndex(tool, targetDir() + '/' + S() + '.' + tool->from());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
@@ -310,7 +310,7 @@ namespace KileTool
 			KILE_DEBUG() << "need to run asymptote";
 			int sz = manager()->info()->allAsyFigures().size();
 			for(int i = sz -1; i >= 0; --i) {
-			  Base *tool = manager()->factory()->create("Asymptote", QString());
+			  Base *tool = manager()->createTool("Asymptote", QString());
 			  configureAsymptote(tool, targetDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
 			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			  tool->copyPaths(this);

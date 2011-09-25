@@ -22,6 +22,19 @@
 
 #include "kiletool.h"
 
+/***********************************************************************************************************
+ * CAUTION!!
+ * It must be ensured that no event loop is started whenever some tool operation
+ * is running. This includes running code inside the tool classes!
+ *
+ * The reason for that is that an event loop might trigger the deletion a tool object for which code
+ * is currently executed, for instance with the 'stopLivePreview' method.
+ * An event loop is executed, for example, within the 'documentSave' method of KatePart. Although the event
+ * loop doesn't process user events, the document modification timer might still be triggered in such
+ * an event loop and 'stopLivePreview' will be called. Now, no document saving is performed inside tool
+ * classes anymore (including the tool manager).
+ ***********************************************************************************************************/
+
 class QTimer;
 
 class KConfig;
@@ -69,8 +82,8 @@ namespace KileTool
 		~Manager();
 
 	public:
-		void initTool(Base*);
-		bool configure(Base*, const QString & cfg = QString());
+		Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
+		bool configure(Base*, const QString &cfg = QString());
 		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString());
 		void saveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
 		QString currentGroup(const QString &name, bool usequeue = true, bool useproject = true);
@@ -92,19 +105,15 @@ namespace KileTool
 		int lastResult() { return m_nLastResult; }
 
 	public Q_SLOTS:
-		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false, Base *parent = NULL);
 		int run(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = NULL);
 
-		int runNext(const QString&, const QString& = QString(), bool block = false);
 		int runNext(Base *tool, bool block = false);
-
-		int runBlocking(const QString&, const QString& = QString(), bool = false);
-		int runNextBlocking(const QString&, const QString& = QString());
 
 		void stopLivePreview();
 
 	private:
 		void setEnabledStopButton(bool state);
+		void initTool(Base*);
 
 	private Q_SLOTS:
 		int runNextInQueue();
@@ -121,7 +130,6 @@ namespace KileTool
 
 	Q_SIGNALS:
 		void requestGUIState(const QString &);
-		void requestSaveAll(bool, bool);
 		void jumpToFirstError();
 		void toolStarted();
 		void previewDone();

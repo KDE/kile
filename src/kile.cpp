@@ -217,7 +217,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	m_manager = new KileTool::Manager(this, m_config.data(), m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
-	connect(m_manager, SIGNAL(requestSaveAll(bool, bool)), docManager(), SLOT(fileSaveAll(bool, bool)));
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(toolStarted()), m_errorHandler, SLOT(reset()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
@@ -1323,7 +1322,7 @@ void Kile::runArchiveTool()
 
 void Kile::runArchiveTool(const KUrl &url)
 {
-	KileTool::Archive *tool = dynamic_cast<KileTool::Archive*>(m_manager->factory()->create("Archive", QString(), false));
+	KileTool::Archive *tool = dynamic_cast<KileTool::Archive*>(m_manager->createTool("Archive", QString(), false));
 	if(!tool) {
 		KMessageBox::error(mainWindow(), i18n("It was impossible to create the \"Archive\" tool.\n\n"
 		                                      "Please check and repair your installation of Kile."),
@@ -1335,17 +1334,6 @@ void Kile::runArchiveTool(const KUrl &url)
 	}
 	tool->prepareToRun();
 	m_manager->run(tool);
-}
-
-
-int Kile::run(const QString & tool)
-{
-	return m_manager->runBlocking(tool);
-}
-
-int Kile::runWith(const QString &tool, const QString &config)
-{
-	return m_manager->runBlocking(tool, config);
 }
 
 //TODO: move to KileView::Manager
@@ -2106,10 +2094,18 @@ int Kile::runTool(const QString& tool)
 	return runToolWithConfig(tool, QString());
 }
 
-int Kile::runToolWithConfig(const QString &tool, const QString &config)
+int Kile::runToolWithConfig(const QString &toolName, const QString &config)
 {
+	KILE_DEBUG() << toolName << config;
+
 	focusLog();
-	return m_manager->run(tool, config);
+	KileTool::Base *tool = m_manager->createTool(toolName, config);
+
+	if(!tool || (tool->requestSaveAll() && !m_docManager->fileSaveAll())) {
+		return KileTool::ConfigureFailed;
+	}
+
+	return m_manager->run(tool);
 }
 
 void Kile::cleanAll(KileDocument::TextInfo *docinfo)

@@ -47,8 +47,6 @@ namespace KileTool
 		m_bstInputs(KileConfig::bstInputPaths()),
 		m_childToolSpawned(false)
 	{
-		m_manager->initTool(this);
-		
 		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | EmitSaveAllSignal;
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
@@ -105,6 +103,12 @@ namespace KileTool
 	void Base::removeFlag(uint flag)
 	{
 		m_flags &= ~flag;
+	}
+
+
+	bool Base::requestSaveAll()
+	{
+		return (flags() & EmitSaveAllSignal);
 	}
 
 	void Base::prepareToRun()
@@ -177,10 +181,6 @@ namespace KileTool
 			return NoValidPrereqs;
 		}
 
-		//everything ok so far
-		if(flags() & EmitSaveAllSignal) {
-			emit(requestSaveAll(false, true));
-		}
 		emit(start(this));
 		
 		if (!m_launcher || !m_launcher->launch()) {
@@ -234,7 +234,6 @@ namespace KileTool
 			if(m_manager->info()->activeTextDocument()->url().isEmpty()
 			   && (flags() & NoUntitledDoc)) {
 				sendMessage(Error, msg(NoUntitledDoc).toString());
-				emit(requestSaveAll());
 				return false;
 			}
 			else {
@@ -686,9 +685,51 @@ namespace KileTool
 		return br;
 	}
 
-	Sequence::Sequence(const QString &name, Manager * manager, bool prepare /*= true*/) : 
-		Base(name, manager, prepare)
+	Sequence::Sequence(const QString &name, Manager *manager, bool prepare /*= true*/)
+	 : Base(name, manager, prepare)
 	{
+		QStringList tools = readEntry("sequence").split(',');
+		QString tl, cfg;
+		Base *tool;
+		for(QStringList::iterator i = tools.begin(); i != tools.end(); ++i) {
+			QString fullToolSpec = (*i).trimmed();
+			extract(fullToolSpec, tl, cfg);
+
+			tool = manager->createTool(tl, cfg, false); // create tool with delayed preparation
+			if (tool) {
+				KILE_DEBUG() << "===tool created with name " << tool->name();
+				if(!(manager->info()->watchFile() && tool->isViewer())) { // FIXME: why this?
+					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
+					m_tools << tool;
+				}
+				else {
+					delete tool;
+				}
+			}
+			else {
+				m_unknownToolSpec = fullToolSpec;
+				break;
+			}
+		}
+	}
+
+	Sequence::~Sequence() {
+		for(QList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+			delete *i;
+		}
+	}
+
+	bool Sequence::requestSaveAll()
+	{
+		// if one of the tools in the sequence requests save-all, then we also
+		// request it
+		for(QList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+			if((*i)->requestSaveAll()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	int Sequence::run()
@@ -700,27 +741,16 @@ namespace KileTool
 			return NoValidSource;
 		}
 
-		QStringList tools = readEntry("sequence").split(',');
-		QString tl, cfg;
-		Base *tool;
-		for(int i=0; i < tools.count(); ++i) {
-			tools[i] = tools[i].trimmed();
-			extract(tools[i], tl, cfg);
+		if(!m_unknownToolSpec.isEmpty()) {
+			sendMessage(Error, i18n("Unknown tool %1.", m_unknownToolSpec));
+			emit(done(this, Failed, m_childToolSpawned));
+			return ConfigureFailed;
+		}
 
-			tool = manager()->factory()->create(tl, cfg, false); //create tool with delayed preparation
-			if (tool) {
-				KILE_DEBUG() << "===tool created with name " << tool->name();
-				if(!(manager()->info()->watchFile() && tool->isViewer())) {
-					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
-					tool->setSource(source());
-					manager()->run(tool);
-				}
-			}
-			else {
-				sendMessage(Error, i18n("Unknown tool %1.", tools[i]));
-				emit(done(this, Failed, m_childToolSpawned));
-				return ConfigureFailed;
-			}
+		for(QList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+			Base *tool = *i;
+			tool->setSource(source());
+			manager()->run(tool);
 		}
 
 		emit(done(this, Silent, m_childToolSpawned));

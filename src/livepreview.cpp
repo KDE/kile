@@ -282,12 +282,14 @@ void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, co
 
 void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 {
+	KILE_DEBUG();
 	Q_UNUSED(doc);
 	m_documentChangedTimer->start(500);
 }
 
 void LivePreviewManager::handleDocumentModificationTimerTimeout()
 {
+	KILE_DEBUG();
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
 	if(!latexInfo) {
@@ -535,6 +537,12 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 	m_runningPathToPreviewPathHash.clear();
 	m_runningPreviewPathToPathHash.clear();
 
+	// first, we have to save the documents
+	if(!m_ki->docManager()->fileSaveAll()) {
+		displayErrorMessage(i18n("One document could not be saved correctly"));
+		return;
+	}
+
 	// document is new and hasn't been saved yet at all
 	if(view->document()->url().isEmpty()) {
 		displayErrorMessage(i18n("The document must have been saved before the live preview can be started"));
@@ -579,7 +587,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 		return;
 	}
 
-	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolFactory()->create("LivePreviewPDFLaTeX", QString(), false));
+	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolManager()->createTool("LivePreviewPDFLaTeX", QString(), false));
 	if(!latex) {
 		KILE_DEBUG()<< "couldn't create the tool";
 		return;

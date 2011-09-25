@@ -105,6 +105,8 @@ private Q_SLOTS:
 	void previewForCurrentDocumentActionToggled(bool b);
 
 	void handleLivePreviewPartDestroyed();
+	void handlePreviewStatusLedDestroyed();
+	void handleControlToolbarDestroyed();
 
 private:
 	class PreviewInformation;

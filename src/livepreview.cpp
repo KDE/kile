@@ -261,8 +261,12 @@ void LivePreviewManager::createControlToolBar()
 
 	m_controlToolBar->addSeparator();
 
+	connect(m_controlToolBar, SIGNAL(destroyed()), this, SLOT(handleControlToolbarDestroyed()));
+
 	m_previewStatusLed = new KLed(m_controlToolBar);
 	m_controlToolBar->addWidget(m_previewStatusLed);
+
+	connect(m_previewStatusLed, SIGNAL(destroyed()), this, SLOT(handlePreviewStatusLedDestroyed()));
 }
 
 void LivePreviewManager::handleMasterDocumentChanged()
@@ -321,14 +325,18 @@ void LivePreviewManager::showPreviewDisabled()
 {
 	KILE_DEBUG();
 	m_ledBlinkingTimer->stop();
-	m_previewStatusLed->off();
+	if(m_previewStatusLed) {
+		m_previewStatusLed->off();
+	}
 }
 
 void LivePreviewManager::showPreviewRunning()
 {
 	KILE_DEBUG();
-	m_previewStatusLed->setColor(QColor(Qt::yellow));
-	m_previewStatusLed->off();
+	if(m_previewStatusLed) {
+		m_previewStatusLed->setColor(QColor(Qt::yellow));
+		m_previewStatusLed->off();
+	}
 	m_ledBlinkingTimer->start();
 }
 
@@ -336,16 +344,20 @@ void LivePreviewManager::showPreviewFailed()
 {
 	KILE_DEBUG();
 	m_ledBlinkingTimer->stop();
-	m_previewStatusLed->on();
-	m_previewStatusLed->setColor(QColor(Qt::red));
+	if(m_previewStatusLed) {
+		m_previewStatusLed->on();
+		m_previewStatusLed->setColor(QColor(Qt::red));
+	}
 }
 
 void LivePreviewManager::showPreviewSuccessful()
 {
 	KILE_DEBUG();
 	m_ledBlinkingTimer->stop();
-	m_previewStatusLed->on();
-	m_previewStatusLed->setColor(QColor(Qt::green));
+	if(m_previewStatusLed) {
+		m_previewStatusLed->on();
+		m_previewStatusLed->setColor(QColor(Qt::green));
+	}
 }
 
 LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformation(KileDocument::LaTeXInfo *latexInfo,
@@ -713,6 +725,16 @@ void LivePreviewManager::createLivePreviewPart(QWidget *parent)
 void LivePreviewManager::handleLivePreviewPartDestroyed()
 {
 	m_livePreviewPart = NULL;
+}
+
+void LivePreviewManager::handlePreviewStatusLedDestroyed()
+{
+	m_previewStatusLed = NULL;
+}
+
+void LivePreviewManager::handleControlToolbarDestroyed()
+{
+	m_controlToolBar = NULL;
 }
 
 bool LivePreviewManager::isLivePreviewPossible() const

@@ -47,7 +47,7 @@ namespace KileTool
 		m_bstInputs(KileConfig::bstInputPaths()),
 		m_childToolSpawned(false)
 	{
-		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | EmitSaveAllSignal;
+		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | NeedSaveAll;
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
 		setMsg(NeedTargetDirWrite, ki18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
@@ -108,7 +108,7 @@ namespace KileTool
 
 	bool Base::requestSaveAll()
 	{
-		return (flags() & EmitSaveAllSignal);
+		return (flags() & NeedSaveAll);
 	}
 
 	void Base::prepareToRun()

@@ -546,9 +546,14 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 	m_runningPathToPreviewPathHash.clear();
 	m_runningPreviewPathToPathHash.clear();
 
+	//CAUTION: as saving launches an event loop, we don't want 'compilePreview'
+	//         to be called from within 'compilePreview'
+	m_documentChangedTimer->blockSignals(true);
+	bool saveResult = m_ki->docManager()->fileSaveAll();
+	m_documentChangedTimer->blockSignals(false);
 	// first, we have to save the documents
-	if(!m_ki->docManager()->fileSaveAll()) {
-		displayErrorMessage(i18n("One document could not be saved correctly"));
+	if(!saveResult) {
+		displayErrorMessage(i18n("Some documents could not be saved correctly"));
 		return;
 	}
 

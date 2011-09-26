@@ -261,12 +261,8 @@ void LivePreviewManager::createControlToolBar()
 
 	m_controlToolBar->addSeparator();
 
-	connect(m_controlToolBar, SIGNAL(destroyed()), this, SLOT(handleControlToolbarDestroyed()));
-
 	m_previewStatusLed = new KLed(m_controlToolBar);
 	m_controlToolBar->addWidget(m_previewStatusLed);
-
-	connect(m_previewStatusLed, SIGNAL(destroyed()), this, SLOT(handlePreviewStatusLedDestroyed()));
 }
 
 void LivePreviewManager::handleMasterDocumentChanged()
@@ -454,7 +450,7 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info
 		m_shownPreviewInformation = previewInformation;
 	}
 
-	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart);
+	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
 	if(v) {
 		v->showSourceLocation(filePath, newPosition.line(), newPosition.column());
 	}
@@ -709,7 +705,7 @@ void LivePreviewManager::createLivePreviewPart(QWidget *parent)
 		QVariantList argList;
 		argList << "ViewerWidget";
 		m_livePreviewPart = factory->create<KParts::ReadOnlyPart>(parent, argList);
-		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart);
+		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
 		if(!viewerInterface) {
 			// Okular doesn't provide the ViewerInterface
 			delete m_livePreviewPart;
@@ -718,23 +714,7 @@ void LivePreviewManager::createLivePreviewPart(QWidget *parent)
 		}
 		viewerInterface->setWatchFileModeEnabled(false);
 		connect(m_livePreviewPart, SIGNAL(openSourceReference(const QString&, int, int)), this, SLOT(handleActivatedSourceReference(const QString&, int, int)));
-		connect(m_livePreviewPart, SIGNAL(destroyed()), this, SLOT(handleLivePreviewPartDestroyed()));
 	}
-}
-
-void LivePreviewManager::handleLivePreviewPartDestroyed()
-{
-	m_livePreviewPart = NULL;
-}
-
-void LivePreviewManager::handlePreviewStatusLedDestroyed()
-{
-	m_previewStatusLed = NULL;
-}
-
-void LivePreviewManager::handleControlToolbarDestroyed()
-{
-	m_controlToolBar = NULL;
 }
 
 bool LivePreviewManager::isLivePreviewPossible() const

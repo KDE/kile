@@ -23,6 +23,7 @@
 
 #include <QHash>
 #include <QObject>
+#include <QPointer>
 #include <QString>
 #include <QStringList>
 
@@ -104,20 +105,16 @@ private Q_SLOTS:
 	void synchronizeViewWithCursorActionToggled(bool b);
 	void previewForCurrentDocumentActionToggled(bool b);
 
-	void handleLivePreviewPartDestroyed();
-	void handlePreviewStatusLedDestroyed();
-	void handleControlToolbarDestroyed();
-
 private:
 	class PreviewInformation;
 
 	KileInfo *m_ki;
-	KToolBar *m_controlToolBar;
-	KLed *m_previewStatusLed;
+	QPointer<KToolBar> m_controlToolBar;
+	QPointer<KLed> m_previewStatusLed;
 	KToggleAction *m_synchronizeViewWithCursorAction, *m_previewForCurrentDocumentAction;
 	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer;
 
-	KParts::ReadOnlyPart *m_livePreviewPart;
+	QPointer<KParts::ReadOnlyPart> m_livePreviewPart;
 
 	QHash<QString, QString> m_runningPathToPreviewPathHash;
 	QHash<QString, QString> m_runningPreviewPathToPathHash;

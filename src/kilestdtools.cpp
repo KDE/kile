@@ -204,7 +204,7 @@ namespace KileTool
 		QString bs = (nBadBoxes == 0 ? i18n("0 badboxes") : i18np("1 badbox", "%1 badboxes", nBadBoxes));
 
 		sendMessage(Info, i18nc("String displayed in the log panel showing the number of errors/warnings/badboxes",
-		                        "%1, %2, %3").arg(es).arg(ws).arg(bs));
+		                        "%1, %2, %3", es, ws, bs));
 
 		//jump to first error
 		if(nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {

@@ -15,7 +15,9 @@
 
 #include "pdfdialog.h"
 
+#ifdef OKULARPARSER_POSSIBLE
 #include <okular/core/document.h>
+#endif
 
 #include <QLabel>
 #include <QCheckBox>
@@ -25,6 +27,10 @@
 #include <QProcess>
 #include <QStringList>
 #include <QValidator>
+
+#include <QFile>
+#include <QTextStream>
+#include <QRegExp>
 
 #include <KComboBox>
 #include <KFileDialog>
@@ -36,8 +42,10 @@
 #include <KStandardDirs>
 #include <KTemporaryFile>
 #include <KUrlRequester>
+#include <KInputDialog>
 
 #include "kdatetime.h"
+#include "kileconfig.h"
 #include "kiledebug.h"
 
 
@@ -98,6 +106,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_PdfDialog.m_lbParameterIcon->setPixmap(KIconLoader::global()->loadIcon("help-about", KIconLoader::NoGroup, KIconLoader::SizeSmallMedium));
 
 	// init important variables
+	m_okular = true;
 	m_numpages = 0;
 	m_encrypted = false;
 	m_pdftk = false;
@@ -134,19 +143,33 @@ PdfDialog::PdfDialog(QWidget *parent,
 	// default permissions
 	m_pdfPermissionState << false << false  << false  << false  << false;
  
+	// check for okular pdf parser
+#ifndef OKULARPARSER_POSSIBLE
+	m_okular = false;
+	KILE_DEBUG() << "working without okular pdf parser";
+	m_PdfDialog.tabWidget->removeTab(2);
+	m_PdfDialog.tabWidget->removeTab(1);
+	m_PdfDialog.m_lbParameterInfo->setTextFormat(Qt::RichText);
+#else
+	KILE_DEBUG() << "working with okular pdf parser";
+#endif
+	
 	// init Dialog
 	m_PdfDialog.m_cbOverwrite->setChecked(true);
 	updateDialog();
 	
 	// create tempdir
 	m_tempdir = new KTempDir(KStandardDirs::locateLocal("tmp", "pdfwizard/pdf-"));
-	KILE_DEBUG() << "tempdir: " << m_tempdir->name() << endl ;
+	KILE_DEBUG() << "tempdir: " << m_tempdir->name() ;
 
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
+	
+#ifdef OKULARPARSER_POSSIBLE
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
 	connect(m_PdfDialog.m_pbPrinting, SIGNAL(clicked()), this, SLOT(slotPrintingClicked()));
 	connect(m_PdfDialog.m_pbAll, SIGNAL(clicked()), this, SLOT(slotAllClicked()));
+#endif
 
 	// find available utilities for this dialog
 	executeScript("kpsewhich pdfpages.sty", QString::null, PDF_SCRIPTMODE_TOOLS);
@@ -171,16 +194,31 @@ void PdfDialog::initUtilities()
 
 	KILE_DEBUG() << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
 
+#ifndef OKULARPARSER_POSSIBLE
+	m_imagemagick = KileConfig::imagemagick();
+
+	// we can't use okular pdf parser and need to find another method to determine the number of pdf pages
+	// Kile will use three options before giving up
+	if ( m_pdftk )
+		m_numpagesMode = PDF_SCRIPTMODE_NUMPAGES_PDFTK;
+	else if ( m_imagemagick )
+		m_numpagesMode = PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK;
+	else
+		m_numpagesMode = PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT;
+#endif
+	
 	// no pdftk, so properties and permissions are readonly
 	if ( ! m_pdftk ) {
 		// set readonly properties
 		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 			m_pdfInfoWidget[*it]->setReadOnly(true);
 		}
+#ifdef OKULARPARSER_POSSIBLE
 		//readonly checkboxes
 		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 			connect(m_pdfPermissionWidgets.at(i), SIGNAL(clicked(bool)), this, SLOT(slotPermissionClicked(bool)));
 		}
+#endif
 	}
 
 	// if we found at least one utility, we can enable some connections
@@ -197,6 +235,8 @@ void PdfDialog::initUtilities()
 // read properties and permissions from the PDF document
 void PdfDialog::pdfparser(const QString &filename)
 {
+#ifdef OKULARPARSER_POSSIBLE
+
 	KUrl url;
 	url.setPath(filename);
 	KMimeType::Ptr pMime = KMimeType::findByUrl(url);
@@ -234,18 +274,128 @@ void PdfDialog::pdfparser(const QString &filename)
 	else
 		KILE_DEBUG() << "   No document info for pdf file available.";
 
-	QString pages;
-	m_numpages = okular->pages();
+	setNumberOfPages( okular->pages() );
+	okular->closeDocument();
+	delete okular;
+	
+#else
+	/* Okular pdf parser ist not available:
+	 * - we use a brute force method to determine, if this file is encrypted
+	 * - then we try to determine the number of pages with 
+	 *   - pdftk (always first choice, if installed)
+	 *   - imagemagick (second choice)
+	 *   - gs (third and last choice)
+	 * - if the pdf file is encrypted, pdftk will ask for a password
+	 */
+	
+	// look if the pdf file is encrypted (brute force)
+	m_encrypted = readEncryption(filename);
+	KILE_DEBUG() << "PDF encryption: " << m_encrypted;
+	
+	// determine the number of pages of the pdf file 
+	determineNumberOfPages(filename,m_encrypted);
+	KILE_DEBUG() << "PDF number of pages: " << m_numpages;
+#endif
+}
+
+void PdfDialog::setNumberOfPages(int numpages)
+{
+	m_numpages = numpages;
 	if (m_numpages > 0) {
+		// show all, if the number of pages is known
+		m_PdfDialog.tabWidget->widget(0)->setEnabled(true);
+		
+		QString pages;
 		if ( m_encrypted )
 			m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages)+"   "+i18n("(encrypted)"));
 		else
 			m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages));
+	} else {
+		// hide all, if the number of pages can't be determined
+		m_PdfDialog.tabWidget->widget(0)->setEnabled(false);
+		m_PdfDialog.m_lbPages->setText(i18n("Error: unknown number of pages"));
 	}
-
-	okular->closeDocument();
-	delete okular;
 }
+
+#ifndef OKULARPARSER_POSSIBLE
+void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassword)
+{
+	// determine the number of pages of the pdf file (delegate this task)
+	QString command = QString::null;
+	QString passwordparam = QString::null;
+	int scriptmode = m_numpagesMode;
+
+	if ( scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK && askForPassword ) {
+		bool ok;
+		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
+		                                          i18n("This PDF file is encrypted and 'pdftk' can't open it.") + "\n" 
+		                                          + i18n("Please enter the password for this PDF file\n or leave it blank to try another method: "), 
+		                                         QString::null, &ok, this ).trimmed();
+		if ( ! password.isEmpty() )
+			passwordparam = " input_pw " + password;
+		else
+			scriptmode = ( m_imagemagick ) ? PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK : PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT;
+	}
+		
+	// now take the original or changed mode
+	if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_PDFTK )
+		command = "pdftk \"" + filename + "\"" + passwordparam + " dump_data | grep NumberOfPages";
+	else if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK )
+		command = "identify -format \"%n\" \"" + filename + "\"";
+	else
+		command = "gs -q -c \"(" + filename + ") (r) file runpdfbegin pdfpagecount = quit\"";
+	
+	// run Process
+	KILE_DEBUG() << "execute for NumberOfPages: " << command;
+	executeScript(command, m_tempdir->name(), scriptmode);
+}
+
+void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
+{
+	int numpages = 0;
+
+	bool ok;
+	if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_PDFTK ) {
+			KILE_DEBUG() << "pdftk output for NumberOfPages: " << output;
+			if ( output.contains("OWNER PASSWORD REQUIRED") ) {
+				QString filename = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
+				determineNumberOfPages(m_PdfDialog.m_edInfile->lineEdit()->text().trimmed(),true);
+				return;
+			} else {
+				QRegExp re("\\d+");
+					if ( re.indexIn(output) >= 0) {
+						numpages = re.cap(0).toInt(&ok);
+					}
+			}
+
+	} else {
+		QString s = output;
+		numpages = s.remove("\n").toInt(&ok);
+	}
+	
+	setNumberOfPages(numpages);
+}
+
+bool PdfDialog::readEncryption(const QString &filename)
+{
+	QFile file(filename);
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+		return false;     
+
+	KILE_DEBUG() << "search for encryption ";
+	QRegExp re("/Encrypt(\\W|\\s|$)");
+	QTextStream in(&file);
+	QString line = in.readLine();
+	while ( !line.isNull() ) {
+		if ( re.indexIn(line) >= 0 ) {
+			KILE_DEBUG() << "pdf file is encrypted !!!";
+			return  true;
+		}
+		line = in.readLine();
+	}
+	return false;
+}
+#endif
 
 void PdfDialog::setDateTimeInfo(const QString &value, QLabel *label)
 {
@@ -262,6 +412,7 @@ void PdfDialog::clearDocumentInfo()
 	m_encrypted = false;
 	m_PdfDialog.m_lbPassword->setEnabled(false);
 	m_PdfDialog.m_edPassword->setEnabled(false);
+	m_PdfDialog.m_edPassword->setText(QString::null);
 
 	for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 		m_pdfInfoWidget[*it]->setText(QString::null);
@@ -325,11 +476,12 @@ void PdfDialog::updateDialog()
 void PdfDialog::updateToolsInfo()
 {
 	QString info; 
+	QString newline = ( m_okular ) ? "\n" : "<br>";
 	QString password = i18n("A password is necessary to set or change current settings.");
 
 	int tabindex = m_PdfDialog.tabWidget->currentIndex();
 	if (tabindex == 2 ) {
-		info = ( m_pdftk ) ? i18n("Permissions of this document can be changed with 'pdftk'.") + "\n" + password
+		info = ( m_pdftk ) ? i18n("Permissions of this document can be changed with 'pdftk'.") + newline + password
 		                   : i18n("'pdftk' is not available, so no permission can be changed.");
 	}
 	else if ( tabindex == 1 ) {
@@ -339,13 +491,13 @@ void PdfDialog::updateToolsInfo()
 		else {
 			info = i18n("Properties of this document can be changed with 'pdftk'.");
 			if ( m_encrypted )
-				info += "\n" + password;
+				info += newline + password;
 		}
 	}
 	else { // if ( tabindex == 0 )
 		if ( m_encrypted ) {
-			info = ( m_pdftk ) ? i18n("This input file is encrypted, so only 'pdftk' works.") + "\n" 
-			                       + i18n("A password is necessary to rearrange pages.")
+			info = ( m_pdftk ) ? i18n("This input file is encrypted, so only 'pdftk' works.") + newline
+			                       + i18n("A password is necessary to rearrange pages.") 
 			                   : i18n("This input file is encrypted, but 'pdftk' is not installed.");
 		}
 		else {
@@ -359,6 +511,9 @@ void PdfDialog::updateToolsInfo()
 			}
 		}
 	}
+	
+	QString okularinfo = (m_okular ) ? QString::null : newline + i18n("<i>(Compiled without Okular pdf parser. Not all tasks are available.)</i>");
+	info += okularinfo;
 
 	// set info text
 	m_PdfDialog.m_lbParameterInfo->setText(info);
@@ -587,9 +742,9 @@ void PdfDialog::slotButtonClicked(int button)
 		}
 	}
 	else if (button==Help) {
-	KMessageBox::information(this, 
+		QString message =
 i18n("<center>PDF-Wizard</center><br> \
-This Wizard uses 'pdftk' and LaTeX packages 'pdfpages.sty' to \
+This wizard uses 'pdftk' and LaTeX package 'pdfpages.sty' to \
 <ul> \
 <li>rearrange pages of an existing PDF document</li> \
 <li>read and update documentinfo of a PDF document (only pdftk)</li>  \
@@ -602,8 +757,14 @@ Additionally PDF encryption is done to lock the file's content behind this passw
 If one of 'pdftk' or 'pdfpages.sty' is not available, the possible rearrangements are reduced.</p>\
 <p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content \
 is encrypted, but the key is known. You should see it more as a polite but firm request \
-to respect the author's wishes.</p>"), 
-    i18n("PDF Tools"));
+to respect the author's wishes.</p>");
+
+#ifndef OKULARPARSER_POSSIBLE
+	message += i18n("<p><i>Information: </i>This version of Kile wasn't compiled with Okular pdf parser. \
+So setting, changing and removing of properties and permissions is not possible.</p>");
+#endif
+	
+		KMessageBox::information(this,message,i18n("PDF Tools"));
 	}
 	else {
 		KDialog::slotButtonClicked(button);
@@ -656,8 +817,8 @@ void PdfDialog::executeProperties()
 	// create a text file with key/value pairs for pdftk
 	QTextStream infostream(&infotemp);
 	for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
-		infostream << "InfoKey: " << m_pdfInfoPdftk[*it] << endl;
-		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed() << endl;
+		infostream << "InfoKey: " << m_pdfInfoPdftk[*it];
+		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed();
 	}
 	infotemp.close();
 
@@ -739,8 +900,6 @@ void PdfDialog::executeScript(const QString &command, const QString &dir, int sc
 	if (m_proc)
 		delete m_proc;
 
-//	KMessageBox::information(this, "script running", "PDF Tools"); // HACK
-	
 	m_scriptmode = scriptmode;
 	m_outputtext = "";
 
@@ -782,6 +941,13 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 		bool state = ( exitCode == 0 );
 		if ( m_scriptmode == PDF_SCRIPTMODE_TOOLS ) 
 			initUtilities();
+#ifndef OKULARPARSER_POSSIBLE
+		else if ( m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK 
+			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK 
+			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT ) {
+				readNumberOfPages(m_scriptmode,m_outputtext);
+		}
+#endif
 		else
 			finishPdfAction(state);
 	} 
@@ -806,12 +972,16 @@ void PdfDialog::finishPdfAction(bool state)
 			if ( ! m_move_filelist.isEmpty() ) {
 				QFile::remove( m_move_filelist[1] );
 				QFile::rename( m_move_filelist[0], m_move_filelist[1] );
-				KILE_DEBUG() << "move file: " << m_move_filelist[0] << " --->  " << m_move_filelist[1] << endl;
+				KILE_DEBUG() << "move file: " << m_move_filelist[0] << " --->  " << m_move_filelist[1];
 			}
 			
 			// run viewer
 			if ( m_PdfDialog.m_cbView->isChecked() )
 				runViewer();
+			
+			// perhaps file properties changed in overwrite mode
+			if ( m_PdfDialog.m_cbOverwrite->isChecked() )
+				slotInputfileChanged( m_PdfDialog.m_edInfile->lineEdit()->text().trimmed() );
 	}
 	else {
 		QString msg = "finished with error";
@@ -1002,11 +1172,11 @@ QString PdfDialog::buildLatexFile(const QString &param)
 	QString tempname = temp.fileName();
 	
 	QTextStream stream(&temp);
-	stream << "\\documentclass[a4paper,12pt]{article}" << endl;
-	stream << "\\usepackage[final]{pdfpages}" << endl;
-	stream << "\\begin{document}" << endl;
-	stream << "\\includepdf[" << param << "]{" << m_inputfile << "}" << endl;
-	stream << "\\end{document}" << endl;
+	stream << "\\documentclass[a4paper,12pt]{article}";
+	stream << "\\usepackage[final]{pdfpages}";
+	stream << "\\begin{document}";
+	stream << "\\includepdf[" << param << "]{" << m_inputfile << "}";
+	stream << "\\end{document}";
 
 	// everything is prepared to do the job
 	temp.close();

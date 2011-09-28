@@ -16,6 +16,8 @@
 #ifndef PDFDIALOG_H
 #define PDFDIALOG_H
 
+#include "config.h"
+
 #include <KDialog>
 #include <KTempDir>
 
@@ -35,6 +37,24 @@
 
 
 class KProcess;
+
+#ifndef OKULARPARSER_POSSIBLE
+namespace Okular {
+	
+/**
+ * Describes the DRM capabilities.
+ */
+enum Permission
+{
+    AllowModify = 1,  ///< Allows to modify the document
+    AllowCopy = 2,    ///< Allows to copy the document
+    AllowPrint = 4,   ///< Allows to print the document
+    AllowNotes = 8,   ///< Allows to add annotations to the document
+    AllowFillForms = 16     ///< Allows to fill the forms in the document
+};
+
+}
+#endif
 
 namespace KileDialog
 {
@@ -75,7 +95,13 @@ class PdfDialog : public KDialog
 		                  PDF_PDFPAGES_FREE=12,  PDF_PDFTK_FREE=13,   PDF_PDFTK_BACKGROUND=14, PDF_PDFTK_STAMP=15 };
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
-		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3 };
+		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3, 
+#ifndef OKULARPARSER_POSSIBLE
+		                      PDF_SCRIPTMODE_NUMPAGES_PDFTK=4,
+		                      PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK=5,
+		                      PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT=6
+#endif
+		                    };
 
 		QString m_inputfile;
 		QString m_outputfile;
@@ -111,6 +137,7 @@ class PdfDialog : public KDialog
 		int taskIndex(int index);
 		void clearDocumentInfo();
 		void setPermissions(bool print,bool other);
+		void setNumberOfPages(int numpages);
 
 		void pdfparser(const QString &filename);
 		void setDateTimeInfo(const QString &value, QLabel *label);
@@ -129,9 +156,10 @@ class PdfDialog : public KDialog
 		KTempDir *m_tempdir;
 		QStringList m_move_filelist;
 		
+		bool m_okular;
 		bool m_pdftk;
 		bool m_pdfpages;
-
+				
 		int  m_numpages;
 		bool  m_encrypted;
 
@@ -148,6 +176,15 @@ class PdfDialog : public KDialog
 		KProcess* m_proc;
 
 		Ui::PdfDialog m_PdfDialog;
+		
+#ifndef OKULARPARSER_POSSIBLE
+		int m_imagemagick;
+		int m_numpagesMode;
+		void determineNumberOfPages(const QString &filename, bool askForPasswor);
+		void readNumberOfPages(int scriptmode, const QString &output);
+		bool readEncryption(const QString &filename);
+#endif
+		
 };
 
 }

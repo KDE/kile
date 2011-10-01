@@ -2,6 +2,7 @@
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 - 2005 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -141,24 +142,26 @@ int main( int argc, char ** argv )
 
 	if(!running  || args->isSet("new")) {
 		bool restore = (args->count() == 0);
-		Kile app(restore);
+
+		KApplication app;
+		Kile *kile = new Kile(restore);
 
 		for(int i = 0; i < args->count(); ++i) {
 			//FIXME: check whether this can be used to open Urls
 			if(isProject(args->arg(i))) {
-				app.openProject(completePath(args->arg(i)));
+				kile->openProject(completePath(args->arg(i)));
 			}
 			else if(args->arg(i) == "-"){
-				app.openDocument(readDataFromStdin());
+				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				app.openDocument(completePath(args->arg(i)));
+				kile->openDocument(completePath(args->arg(i)));
 			}
 		}
 
 		if(args->isSet("line")){
 			QString line = args->getOption("line");
-			app.setLine(line);
+			kile->setLine(line);
 		}
 
 		args->clear();
@@ -192,5 +195,6 @@ int main( int argc, char ** argv )
 		interface->call("setActive");
 		delete interface;
 	}
-	return 0;
+
+	return EXIT_SUCCESS;
 }

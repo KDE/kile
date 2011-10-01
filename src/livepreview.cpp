@@ -94,7 +94,7 @@ public:
 	QHash<KileDocument::TextInfo*, QByteArray> textHash;
 };
 
-LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac, QWidget *livePreviewPartParent)
+LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
  : m_ki(ki),
    m_controlToolBar(NULL),
    m_previewStatusLed(NULL),
@@ -119,11 +119,13 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac, QWid
 	connect(m_documentChangedTimer, SIGNAL(timeout()), this, SLOT(handleDocumentModificationTimerTimeout()));
 
 	showPreviewDisabled();
-	createLivePreviewPart(livePreviewPartParent);
+	createLivePreviewPart();
 }
 
 LivePreviewManager::~LivePreviewManager()
 {
+	KILE_DEBUG();
+
 	deleteAllLivePreviewInformation();
 	delete m_livePreviewPart;
 }
@@ -692,7 +694,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 	m_ki->toolManager()->run(latex);
 }
 
-void LivePreviewManager::createLivePreviewPart(QWidget *parent)
+void LivePreviewManager::createLivePreviewPart()
 {
 	KPluginLoader pluginLoader("okularpart");
 	KPluginFactory *factory = pluginLoader.factory();
@@ -704,7 +706,7 @@ void LivePreviewManager::createLivePreviewPart(QWidget *parent)
 	else {
 		QVariantList argList;
 		argList << "ViewerWidget";
-		m_livePreviewPart = factory->create<KParts::ReadOnlyPart>(parent, argList);
+		m_livePreviewPart = factory->create<KParts::ReadOnlyPart>(this, argList);
 		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
 		if(!viewerInterface) {
 			// Okular doesn't provide the ViewerInterface

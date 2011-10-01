@@ -15,10 +15,11 @@
 #ifndef KILETOOLMANAGER_H
 #define KILETOOLMANAGER_H
 
-#include <QStackedWidget>
-#include <QStringList>
+#include <QLinkedList>
 #include <QObject>
 #include <QQueue>
+#include <QStackedWidget>
+#include <QStringList>
 
 #include "kiletool.h"
 

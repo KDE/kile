@@ -56,28 +56,12 @@ namespace KileAbbreviation { class Manager; }
 
 class EditorCommands;
 
-class KileMainWindow : public KParts::MainWindow
-{
-	friend class Kile;
-
-	public:
-		KileMainWindow(KileInfo *kileInfo, QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
-		virtual ~KileMainWindow();
-
-	protected:
-		virtual bool queryExit();
-		virtual bool queryClose();
-
-	private:
-		KileInfo *m_ki;
-};
-
 class KileInfo
 {
 	friend class KileMainWindow;
 
 public:
-	KileInfo(QObject *parent);
+	KileInfo(KParts::MainWindow *mainWindow);
 	virtual ~KileInfo();
 
 public:
@@ -164,7 +148,7 @@ public:
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
 
-	KileMainWindow* mainWindow() const { return m_mainWindow; }
+	KParts::MainWindow* mainWindow() const { return m_mainWindow; }
 
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
@@ -176,7 +160,7 @@ public:
 
 protected:
 	KileConfiguration::Manager	*m_configurationManager;
-	KileMainWindow			*m_mainWindow;
+	KParts::MainWindow		*m_mainWindow;
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;

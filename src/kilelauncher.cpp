@@ -75,7 +75,13 @@ namespace KileTool {
 	ProcessLauncher::~ProcessLauncher()
 	{
 		KILE_DEBUG() << "DELETING ProcessLauncher";
-		// 'm_proc' is deleted automagically
+
+		if(m_proc) {
+			// we don't want it to emit any signals as we are being deleted
+			m_proc->disconnect();
+			kill();
+			delete m_proc;
+		}
 	}
 
 	void ProcessLauncher::setWorkingDirectory(const QString &wd)
@@ -216,6 +222,7 @@ namespace KileTool {
 		if(m_proc && m_proc->state() == QProcess::Running) {
 			KILE_DEBUG() << "\tkilling";
 			m_proc->kill();
+			m_proc->waitForFinished(-1);
 		}
 		else {
 			KILE_DEBUG() << "\tno process or process not running";

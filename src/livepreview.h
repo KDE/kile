@@ -42,7 +42,7 @@ class LivePreviewManager : public QObject
 
 public:
 	// has to be instatiated after the view manager only!
-	LivePreviewManager(KileInfo *ki, KActionCollection *ac, QWidget *livePreviewPartParent);
+	LivePreviewManager(KileInfo *ki, KActionCollection *ac);
 	~LivePreviewManager();
 
 	void readConfig(KConfig *config);
@@ -131,7 +131,7 @@ private:
 	QHash<KileProject*, PreviewInformation*> m_projectToPreviewInformationHash;
 	PreviewInformation *m_masterDocumentPreviewInformation;
 
-	void createLivePreviewPart(QWidget *parent);
+	void createLivePreviewPart();
 
 	PreviewInformation* findPreviewInformation(KileDocument::LaTeXInfo *latexInfo, KileProject* *locatedProject = NULL);
 

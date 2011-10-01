@@ -114,7 +114,19 @@ namespace KileTool
 		connect(stop, SIGNAL(destroyed(QObject*)), this, SLOT(stopActionDestroyed()));
 	}
 	
-	Manager::~Manager() {}
+	Manager::~Manager()
+	{
+		KILE_DEBUG();
+
+		for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+			// this will also stop any running processes
+			delete (*i)->tool();
+			delete (*i);
+		}
+		// tools have the tool manager as parent; so, all remaining tools will be deleted
+		// after this, i.e. those that were scheduled for deletion via 'deleteLater' but
+		// are no longer member of the queue
+	}
 
 	bool Manager::shouldBlock()
 	{

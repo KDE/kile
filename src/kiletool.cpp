@@ -35,7 +35,8 @@
 
 namespace KileTool
 {
-	Base::Base(const QString &name, Manager * manager, bool prepare /* = true */) :
+	Base::Base(const QString &name, Manager *manager, bool prepare /* = true */) :
+		QObject(manager), // ensure that they are deleted whenever the tool manager gets deleted
 		m_launcher(NULL),
 		m_quickie(false),
 		m_manager(manager),
@@ -61,7 +62,7 @@ namespace KileTool
 
 	Base::~Base()
 	{
-		KILE_DEBUG() << "DELETING TOOL: " << name();
+		KILE_DEBUG() << "DELETING TOOL: " << name() << this;
 		delete m_launcher;
 	}
 

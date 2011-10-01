@@ -300,8 +300,8 @@ Kile::~Kile()
 {
 	KILE_DEBUG() << "cleaning up..." << endl;
 	// m_mainWindow is deleted automatically after it has been closed
-	delete m_extensions;
-	delete m_latexCommands;
+	delete m_toolFactory;
+	delete m_manager;
 	delete m_quickPreview;
 	delete m_edit;
 	delete m_help;
@@ -309,6 +309,8 @@ Kile::~Kile()
 	delete m_lyxserver; //QObject without parent, have to delete it ourselves
 	delete m_outputInfo;
 	delete m_outputFilter;
+	delete m_latexCommands;
+	delete m_extensions;
 }
 
 KActionCollection* Kile::actionCollection()

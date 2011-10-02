@@ -233,7 +233,7 @@
           <item row="6" column="1">
            <widget class="KComboBox" name="m_cbTask">
             <property name="whatsThis">
-             <string>Choose one of the 15 operations to rearrange a pdf file. Some operations need specific parameters.</string>
+             <string>Choose one of the 15 operations to rearrange a PDF file. Some operations need specific parameters.</string>
             </property>
            </widget>
           </item>
@@ -250,7 +250,7 @@
              <string>View the result of the conversion process. okular is always taken as an external viewer.</string>
             </property>
             <property name="text">
-             <string>Show the resulting pdf file</string>
+             <string>Show the resulting PDF file</string>
             </property>
             <property name="checked">
              <bool>true</bool>
@@ -291,7 +291,7 @@
           <item row="11" column="0">
            <widget class="QLabel" name="m_lbStamp">
             <property name="text">
-             <string>PDF file</string>
+             <string>PDF file:</string>
             </property>
            </widget>
           </item>

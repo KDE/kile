@@ -480,11 +480,11 @@ void PdfDialog::updateToolsInfo()
 {
 	QString info; 
 	QString newline = ( m_okular ) ? "\n" : "<br>";
-	QString password = i18n("A password is necessary to set or change current settings.");
+	QString password = i18n("A password is necessary to set or change the current settings.");
 
 	int tabindex = m_PdfDialog.tabWidget->currentIndex();
 	if (tabindex == 2 ) {
-		info = ( m_pdftk ) ? i18n("Permissions of this document can be changed with 'pdftk'.") + newline + password
+		info = ( m_pdftk ) ? i18n("The permissions of this document can be changed with 'pdftk'.") + newline + password
 		                   : i18n("'pdftk' is not available, so no permission can be changed.");
 	}
 	else if ( tabindex == 1 ) {
@@ -492,7 +492,7 @@ void PdfDialog::updateToolsInfo()
 			info = i18n("'pdftk' is not available, so no property can be changed.");
 		}
 		else {
-			info = i18n("Properties of this document can be changed with 'pdftk'.");
+			info = i18n("The properties of this document can be changed with 'pdftk'.");
 			if ( m_encrypted )
 				info += newline + password;
 		}
@@ -515,7 +515,7 @@ void PdfDialog::updateToolsInfo()
 		}
 	}
 	
-	QString okularinfo = (m_okular ) ? QString::null : newline + i18n("<i>(Compiled without Okular pdf parser. Not all tasks are available.)</i>");
+	QString okularinfo = (m_okular ) ? QString::null : newline + i18n("<i>(Compiled without Okular PDF parser. Not all tasks are available.)</i>");
 	info += okularinfo;
 
 	// set info text
@@ -676,18 +676,18 @@ void PdfDialog::slotTaskChanged(int index)
 		QString s,labeltext;
 		if (taskindex==PDF_SELECT) {
 			labeltext = i18n("Pages:");
-			s = i18n("comma separated page list: 1,4-7,9");
+			s = i18n("Comma separated page list: 1,4-7,9");
 			QRegExp re("((\\d+(-\\d+)?),)*\\d+(-\\d+)?");
 			m_PdfDialog.m_edParameter->setValidator(new QRegExpValidator(re, m_PdfDialog.m_edParameter));
 		}
 		else if (taskindex==PDF_PDFTK_FREE) {
 			labeltext = i18n("Parameter:");
-			s = i18n("all options for 'pdftk'");
+			s = i18n("All options for 'pdftk'");
 			m_PdfDialog.m_edParameter->setValidator(0);
 		}
 		else { //if (taskindex==PDF_PDFPAGES_FREE) {
 			labeltext = i18n("Parameter:");
-			s = i18n("all options for 'pdfpages'");
+			s = i18n("All options for 'pdfpages'");
 			m_PdfDialog.m_edParameter->setValidator(0);
 		}
 		m_PdfDialog.m_lbParamInfo->setText(" (" + s + ")");
@@ -874,7 +874,7 @@ void PdfDialog::executePermissions()
 	m_move_filelist << pdffile << inputfile;
 
 	// execute script
-	showLogs("update permissions",inputfile,param);
+	showLogs("Updating permissions", inputfile, param);
 	executeScript(command, QString::null, PDF_SCRIPTMODE_PERMISSIONS);
 
 }
@@ -986,16 +986,20 @@ void PdfDialog::finishPdfAction(bool state)
 				slotInputfileChanged( m_PdfDialog.m_edInfile->lineEdit()->text().trimmed() );
 	}
 	else {
-		QString msg = "finished with error";
-		if (m_outputtext.indexOf("OWNER PASSWORD") >= 0 )
-			msg += " (" + i18n("wrong password") + ")";
+		QString msg;
+		if (m_outputtext.indexOf("OWNER PASSWORD") >= 0 ) {
+			msg = i18n("Finished with an error (wrong password)");
+		}
+		else {
+			msg = i18n("Finished with an error");
+		}
 		m_log->printMessage(KileTool::Error, msg, program);
 	}
 }
 
 void PdfDialog::runViewer()
 {
-	m_log->printMessage(KileTool::Info, "run viewer", "ViewPDF");
+	m_log->printMessage(KileTool::Info, "Running viewer", "ViewPDF");
 	
 	// call ViewPDF
 	QString cfg = KileTool::configName("ViewPDF", m_manager->config());

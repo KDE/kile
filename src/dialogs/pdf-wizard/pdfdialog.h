@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : May 12 2009
-    copyright            : (C) 2009 dani
-  ***************************************************************************/
+/******************************************************************************
+  Copyright (C) 2009-2011 by Holger Danielsson (holger.danielsson@versanet.de)
+ ******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -38,7 +37,7 @@
 
 class KProcess;
 
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 namespace Okular {
 	
 /**
@@ -61,7 +60,7 @@ namespace KileDialog
 
 class PdfDialog : public KDialog
 {
-		Q_OBJECT
+	Q_OBJECT
 
 	public:
 		PdfDialog(QWidget *parent,
@@ -96,7 +95,7 @@ class PdfDialog : public KDialog
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
 		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3, 
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 		                      PDF_SCRIPTMODE_NUMPAGES_PDFTK=4,
 		                      PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK=5,
 		                      PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT=6
@@ -159,7 +158,7 @@ class PdfDialog : public KDialog
 		bool m_okular;
 		bool m_pdftk;
 		bool m_pdfpages;
-				
+
 		int  m_numpages;
 		bool  m_encrypted;
 
@@ -177,14 +176,13 @@ class PdfDialog : public KDialog
 
 		Ui::PdfDialog m_PdfDialog;
 		
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 		int m_imagemagick;
 		int m_numpagesMode;
 		void determineNumberOfPages(const QString &filename, bool askForPasswor);
 		void readNumberOfPages(int scriptmode, const QString &output);
 		bool readEncryption(const QString &filename);
 #endif
-		
 };
 
 }

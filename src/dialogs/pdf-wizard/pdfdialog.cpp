@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : May 12 2009
-    copyright            : (C) 2009 dani
-  ***************************************************************************/
+/******************************************************************************
+  Copyright (C) 2009-2011 by Holger Danielsson (holger.danielsson@versanet.de)
+ ******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,7 +14,7 @@
 
 #include "pdfdialog.h"
 
-#ifdef OKULARPARSER_POSSIBLE
+#ifdef OKULARPARSER_AVAILABLE
 #include <okular/core/document.h>
 #endif
 
@@ -56,13 +55,13 @@ PdfDialog::PdfDialog(QWidget *parent,
                      const QString &texfilename,const QString &startdir,
                      const QString &latexextensions,
                      KileTool::Manager *manager,
-                     KileWidget::LogWidget *log,KileWidget::OutputView *output) :
+                     KileWidget::LogWidget *log, KileWidget::OutputView *output) :
 	KDialog(parent),
 	m_startdir(startdir),
 	m_manager(manager),
 	m_log(log),
 	m_output(output),
-	m_proc(0)
+	m_proc(NULL)
 {
 	setCaption(i18n("PDF Wizard"));
 	setModal(true);
@@ -144,7 +143,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdfPermissionState << false << false  << false  << false  << false;
  
 	// check for okular pdf parser
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 	m_okular = false;
 	KILE_DEBUG() << "working without okular pdf parser";
 	m_PdfDialog.tabWidget->removeTab(2);
@@ -153,11 +152,11 @@ PdfDialog::PdfDialog(QWidget *parent,
 #else
 	KILE_DEBUG() << "working with okular pdf parser";
 #endif
-	
+
 	// init Dialog
 	m_PdfDialog.m_cbOverwrite->setChecked(true);
 	updateDialog();
-	
+
 	// create tempdir
 	m_tempdir = new KTempDir(KStandardDirs::locateLocal("tmp", "pdfwizard/pdf-"));
 	KILE_DEBUG() << "tempdir: " << m_tempdir->name() ;
@@ -165,7 +164,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
 	
-#ifdef OKULARPARSER_POSSIBLE
+#ifdef OKULARPARSER_AVAILABLE
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
 	connect(m_PdfDialog.m_pbPrinting, SIGNAL(clicked()), this, SLOT(slotPrintingClicked()));
 	connect(m_PdfDialog.m_pbAll, SIGNAL(clicked()), this, SLOT(slotAllClicked()));
@@ -194,7 +193,7 @@ void PdfDialog::initUtilities()
 
 	KILE_DEBUG() << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
 
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 	m_imagemagick = KileConfig::imagemagick();
 
 	// we can't use okular pdf parser and need to find another method to determine the number of pdf pages
@@ -213,7 +212,7 @@ void PdfDialog::initUtilities()
 		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 			m_pdfInfoWidget[*it]->setReadOnly(true);
 		}
-#ifdef OKULARPARSER_POSSIBLE
+#ifdef OKULARPARSER_AVAILABLE
 		//readonly checkboxes
 		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 			connect(m_pdfPermissionWidgets.at(i), SIGNAL(clicked(bool)), this, SLOT(slotPermissionClicked(bool)));
@@ -235,7 +234,7 @@ void PdfDialog::initUtilities()
 // read properties and permissions from the PDF document
 void PdfDialog::pdfparser(const QString &filename)
 {
-#ifdef OKULARPARSER_POSSIBLE
+#ifdef OKULARPARSER_AVAILABLE
 
 	KUrl url;
 	url.setPath(filename);
@@ -267,8 +266,9 @@ void PdfDialog::pdfparser(const QString &filename)
 			bool value = okular->isAllowed( (Okular::Permission)m_pdfPermissionKeys.at(i) );
 			m_pdfPermissionWidgets.at(i)->setChecked(value);
 
-			if ( !m_pdftk )
+			if ( !m_pdftk ) {
 				m_pdfPermissionState[i] = value;
+			}
 		}
 	}
 	else
@@ -310,14 +310,15 @@ void PdfDialog::setNumberOfPages(int numpages)
 			m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages)+"   "+i18n("(encrypted)"));
 		else
 			m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages));
-	} else {
+	}
+	else {
 		// hide all, if the number of pages can't be determined
 		m_PdfDialog.tabWidget->widget(0)->setEnabled(false);
 		m_PdfDialog.m_lbPages->setText(i18n("Error: unknown number of pages"));
 	}
 }
 
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassword)
 {
 	// determine the number of pages of the pdf file (delegate this task)
@@ -328,13 +329,15 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 	if ( scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK && askForPassword ) {
 		bool ok;
 		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
-		                                          i18n("This PDF file is encrypted and 'pdftk' can't open it.") + "\n" 
-		                                          + i18n("Please enter the password for this PDF file\n or leave it blank to try another method: "), 
+		                                          i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
+		                                               "Please enter the password for this PDF file\n or leave it blank to try another method: "),
 		                                         QString::null, &ok, this ).trimmed();
-		if ( ! password.isEmpty() )
+		if ( ! password.isEmpty() ) {
 			passwordparam = " input_pw " + password;
-		else
+		}
+		else {
 			scriptmode = ( m_imagemagick ) ? PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK : PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT;
+		}
 	}
 		
 	// now take the original or changed mode
@@ -502,11 +505,11 @@ void PdfDialog::updateToolsInfo()
 		}
 		else {
 			if ( m_pdftk ) { // not encrypted and pdftk
-				info = ( m_pdfpages ) ? i18n("This wizard will use 'pdftk' and LaTeX package 'pdfpages'.")
+				info = ( m_pdfpages ) ? i18n("This wizard will use 'pdftk' and the LaTeX package 'pdfpages'.")
 				                      : i18n("This wizard will only use 'pdftk' ('pdfpages.sty' is not installed).");
 			}
 			else {           // not encrypted and not pdftk
-				info = ( m_pdfpages ) ? i18n("This wizard will only use 'pdfpages.sty' ('pdftk' was not found).")
+				info = ( m_pdfpages ) ? i18n("This wizard will only use the LaTeX package 'pdfpages' ('pdftk' was not found).")
 				                      : i18n("This wizard can't work, because no tool was found (see help section).");
 			}
 		}
@@ -711,14 +714,14 @@ void PdfDialog::slotTaskChanged(int index)
 	}
 	
 	if ( taskindex == PDF_PDFTK_BACKGROUND )
-		m_PdfDialog.m_edStamp->setWhatsThis( i18n("Applies a PDF watermark to the background of a single input PDF. \
-Pdftk uses only the first page from the background PDF and applies it to every page of the input PDF. \
-This page is scaled and rotated as needed to fit the input page.") );
+		m_PdfDialog.m_edStamp->setWhatsThis(i18n("Applies a PDF watermark to the background of a single input PDF. "
+		                                         "Pdftk uses only the first page from the background PDF and applies it to every page of the input PDF. "
+		                                         "This page is scaled and rotated as needed to fit the input page.") );
 	else if ( taskindex == PDF_PDFTK_STAMP )
-		m_PdfDialog.m_edStamp->setWhatsThis( i18n("Applies a foreground stamp on top of the input PDF document's pages. \
-Pdftk uses only the first page from the stamp PDF and applies it to every page of the input PDF. \
-This page is scaled and rotated as needed to fit the input page. \
-This works best if the stamp PDF page has a transparent background.") );
+		m_PdfDialog.m_edStamp->setWhatsThis( i18n("Applies a foreground stamp on top of the input PDF document's pages. "
+		                                          "Pdftk uses only the first page from the stamp PDF and applies it to every page of the input PDF. "
+		                                          "This page is scaled and rotated as needed to fit the input page. "
+		                                          "This works best if the stamp PDF page has a transparent background.") );
 
 
 }
@@ -741,27 +744,26 @@ void PdfDialog::slotButtonClicked(int button)
 				     break;
 		}
 	}
-	else if (button==Help) {
-		QString message =
-i18n("<center>PDF-Wizard</center><br> \
-This wizard uses 'pdftk' and LaTeX package 'pdfpages.sty' to \
-<ul> \
-<li>rearrange pages of an existing PDF document</li> \
-<li>read and update documentinfo of a PDF document (only pdftk)</li>  \
-<li>read, set or change some permissions of a PDF document (only pdftk). \
-A password is necessary to set or change this document settings. \
-Additionally PDF encryption is done to lock the file's content behind this password.</li>\
-</ul> \
-<p>'pdfpages.sty' will only work with non encrypted documents. \
-'pdftk' can handle both kind of documents, but a password is needed for encrypted files. \
-If one of 'pdftk' or 'pdfpages.sty' is not available, the possible rearrangements are reduced.</p>\
-<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content \
-is encrypted, but the key is known. You should see it more as a polite but firm request \
-to respect the author's wishes.</p>");
+	else if (button == Help) {
+		QString message = i18n("<center>PDF-Wizard</center><br>"
+		"This wizard uses 'pdftk' and the LaTeX package 'pdfpages' to"
+		"<ul>"
+		"<li>rearrange pages of an existing PDF document</li>"
+		"<li>read and update documentinfo of a PDF document (only pdftk)</li>"
+		"<li>read, set or change some permissions of a PDF document (only pdftk)."
+		"A password is necessary to set or change this document settings. "
+		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
+		"</ul>"
+		"<p>The package 'pdfpages' will only work with non encrypted documents. "
+		"'pdftk' can handle both kind of documents, but a password is needed for encrypted files. "
+		"If one of 'pdftk' or 'pdfpages' is not available, the possible rearrangements are reduced.</p>"
+		"<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content "
+		"is encrypted, but the key is known. You should see it more as a polite but firm request "
+		"to respect the author's wishes.</p>");
 
-#ifndef OKULARPARSER_POSSIBLE
-	message += i18n("<p><i>Information: </i>This version of Kile wasn't compiled with Okular pdf parser. \
-So setting, changing and removing of properties and permissions is not possible.</p>");
+#ifndef OKULARPARSER_AVAILABLE
+	message += i18n("<p><i>Information: </i>This version of Kile wasn't compiled with Okular PDF parser."
+	                "Setting, changing and removing of properties and permissions is not possible.</p>");
 #endif
 	
 		KMessageBox::information(this,message,i18n("PDF Tools"));
@@ -780,8 +782,8 @@ void PdfDialog::executeAction()
 	QFileInfo to(m_outputfile);
 
 	// output for log window
-	QString program = (m_execLatex) ? i18n("LaTeX with pdfpages.sty") : i18n("pdftk");
-	QString msg = i18n("rearrange pdf file: ") + from.fileName();
+	QString program = (m_execLatex) ? i18n("LaTeX with 'pdfpages' package") : i18n("pdftk");
+	QString msg = i18n("Rearranging PDF file: ") + from.fileName();
 	if (!to.fileName().isEmpty())
 		msg += " ---> " + to.fileName();
 	m_log->printMessage(KileTool::Info, msg, program);
@@ -838,7 +840,7 @@ void PdfDialog::executeProperties()
 	m_move_filelist << pdffile << inputfile;
 	
 	// execute script
-	showLogs("update properties",inputfile,param);
+	showLogs("Updating properties", inputfile, param);
 	executeScript(command, QString::null, PDF_SCRIPTMODE_PROPERTIES);
 
 }
@@ -941,7 +943,7 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 		bool state = ( exitCode == 0 );
 		if ( m_scriptmode == PDF_SCRIPTMODE_TOOLS ) 
 			initUtilities();
-#ifndef OKULARPARSER_POSSIBLE
+#ifndef OKULARPARSER_AVAILABLE
 		else if ( m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK 
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK 
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT ) {
@@ -963,7 +965,7 @@ void PdfDialog::finishPdfAction(bool state)
 	emit( output(m_outputtext) );
 
 	// log window
-	QString program = (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_execLatex) ? "LaTeX with pdfpages.sty" : "pdftk";
+	QString program = (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_execLatex) ? "LaTeX with 'pdfpages' package" : "pdftk";
 
 	if ( state ) {
 			m_log->printMessage(KileTool::Info, "finished", program);
@@ -1037,11 +1039,11 @@ QString PdfDialog::buildActionCommand()
 		break;
 
 		case PDF_EVEN:           
-			if ( m_pdftk ) {                       	
-				m_param = "cat 1-endeven";                       	
+			if ( m_pdftk ) {
+				m_param = "cat 1-endeven";
 				m_execLatex = false;                        
 			}                         
-			else {                        	
+			else {
 				m_param = buildPageList(true);                         
 			}                         
 		break;
@@ -1297,16 +1299,18 @@ bool PdfDialog::checkParameter()
 
 bool PdfDialog::checkProperties()
 {
-	if ( !checkInputFile() )
+	if ( !checkInputFile() ) {
 		return false;
+	}
 
 	return ( m_encrypted ) ? checkPassword() : true;
 }
 
 bool PdfDialog::checkPermissions()
 {
-	if ( !checkInputFile() )
+	if ( !checkInputFile() ) {
 		return false;
+	}
 
 	return checkPassword();
 }
@@ -1343,8 +1347,8 @@ bool PdfDialog::checkPassword()
 		return false;
 	}
 	
-	if (password.length()<6) {
-		showError(i18n("Password length should be at least 6 characters."));
+	if (password.length() < 6) {
+		showError(i18n("The password should be at least 6 characters long."));
 		return false;
 	}
 

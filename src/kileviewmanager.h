@@ -91,6 +91,7 @@ Q_SIGNALS:
 	void startQuickPreview(int);
 	void currentViewChanged(QWidget*);
 	void textViewActivated(KTextEditor::View *view);
+	void textViewClosed(KTextEditor::View *view, bool wasActiveView);
 	void updateModeStatus();
 	void updateCaption();
 

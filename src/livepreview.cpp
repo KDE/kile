@@ -104,6 +104,8 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 {
 	connect(m_ki->viewManager(), SIGNAL(textViewActivated(KTextEditor::View*)),
 	        this, SLOT(handleTextViewActivated(KTextEditor::View*)));
+	connect(m_ki->viewManager(), SIGNAL(textViewClosed(KTextEditor::View*,bool)),
+	        this, SLOT(handleTextViewClosed(KTextEditor::View*,bool)));
 	connect(m_ki->toolManager(), SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
 	        this, SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
 	createActions(ac);
@@ -781,6 +783,17 @@ void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view)
 	}
 	else {
 		clearLivePreview();
+	}
+}
+
+void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasActiveView)
+{
+	Q_UNUSED(view);
+	Q_UNUSED(wasActiveView);
+
+	// check if there is still an open editor tab
+	if(!m_ki->viewManager()->activeView()) {
+		stopAndClearPreview();
 	}
 }
 

@@ -94,6 +94,7 @@ private Q_SLOTS:
 
 	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 	void handleTextViewActivated(KTextEditor::View *view);
+	void handleTextViewClosed(KTextEditor::View *view, bool wasActiveView);
 	void handleTextInfoDestroyed(QObject *obj);
 	void handleProjectDestroyed(QObject *obj);
 

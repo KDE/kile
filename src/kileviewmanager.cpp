@@ -295,8 +295,8 @@ void Manager::removeView(KTextEditor::View *view)
 	if (view) {
 		m_client->factory()->removeClient(view);
 
+		const bool isActiveView = (activeView() == view);
 		m_tabs->removeTab(m_tabs->indexOf(view));
-		delete view;
 
 		emit(updateCaption());  //make sure the caption gets updated
 		if (m_tabs->count() == 0) {
@@ -304,6 +304,9 @@ void Manager::removeView(KTextEditor::View *view)
 			m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs left, so show
 			                                                    // the DropWidget
 		}
+
+		emit(textViewClosed(view, isActiveView));
+		delete view;
 	}
 	else{
 		KILE_DEBUG() << "View should be removed but is NULL";

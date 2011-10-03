@@ -978,11 +978,12 @@ void PdfDialog::finishPdfAction(bool state)
 			}
 			
 			// run viewer
-			if ( m_PdfDialog.m_cbView->isChecked() )
+			if ( m_PdfDialog.m_cbView->isChecked() && m_scriptmode==PDF_SCRIPTMODE_ACTION )
 				runViewer();
 			
-			// perhaps file properties changed in overwrite mode
-			if ( m_PdfDialog.m_cbOverwrite->isChecked() )
+			// file properties/permissions could be changed changed 
+			if ( (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_PdfDialog.m_cbOverwrite->isChecked()) 
+				   || m_scriptmode==PDF_SCRIPTMODE_PROPERTIES || m_scriptmode==PDF_SCRIPTMODE_PERMISSIONS )
 				slotInputfileChanged( m_PdfDialog.m_edInfile->lineEdit()->text().trimmed() );
 	}
 	else {

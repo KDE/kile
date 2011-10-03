@@ -829,10 +829,24 @@ void PdfDialog::executeProperties()
 	QString password =  m_PdfDialog.m_edPassword->text().trimmed();
 	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-props.pdf";
 
+	// read permissions
+	QString permissions;
+	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
+		if ( m_pdfPermissionWidgets.at(i)->isChecked() )
+			permissions += m_pdfPermissionPdftk.at(i) + " ";
+	}
+
+	// build param
 	QString param = "\"" + inputfile + "\"";
 	if ( m_encrypted )
 		param += " input_pw " + password;
 	param += " update_info " + infofile + " output \"" + pdffile+ "\"";
+	if ( m_encrypted ) {
+		param += " encrypt_128bit";
+		if ( !permissions.isEmpty() )
+			param += " allow " + permissions;
+		param += " owner_pw " + password;
+	}
 	QString command = "pdftk " + param;
 
 	// move destination file
@@ -865,8 +879,7 @@ void PdfDialog::executePermissions()
 	param += " output \"" + pdffile + "\" encrypt_128bit";
 	if ( !permissions.isEmpty() )
 		param += " allow " + permissions;
-	if ( !m_encrypted )
-		param += " owner_pw " + password;
+	param += " owner_pw " + password;
 	QString command = "pdftk " + param;
 
 	// move destination file

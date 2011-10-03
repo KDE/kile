@@ -819,8 +819,8 @@ void PdfDialog::executeProperties()
 	// create a text file with key/value pairs for pdftk
 	QTextStream infostream(&infotemp);
 	for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
-		infostream << "InfoKey: " << m_pdfInfoPdftk[*it];
-		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed();
+		infostream << "InfoKey: " << m_pdfInfoPdftk[*it] << "\n";
+		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed() << "\n";
 	}
 	infotemp.close();
 

@@ -105,7 +105,6 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_PdfDialog.m_lbParameterIcon->setPixmap(KIconLoader::global()->loadIcon("help-about", KIconLoader::NoGroup, KIconLoader::SizeSmallMedium));
 
 	// init important variables
-	m_okular = true;
 	m_numpages = 0;
 	m_encrypted = false;
 	m_pdftk = false;
@@ -148,12 +147,13 @@ PdfDialog::PdfDialog(QWidget *parent,
 	KILE_DEBUG() << "working without okular pdf parser";
 	m_PdfDialog.tabWidget->removeTab(2);
 	m_PdfDialog.tabWidget->removeTab(1);
-	m_PdfDialog.m_lbParameterInfo->setTextFormat(Qt::RichText);
 #else
+	m_okular = true;
 	KILE_DEBUG() << "working with okular pdf parser";
 #endif
 
 	// init Dialog
+	m_PdfDialog.m_lbParameterInfo->setTextFormat(Qt::RichText);
 	m_PdfDialog.m_cbOverwrite->setChecked(true);
 	updateDialog();
 
@@ -479,12 +479,14 @@ void PdfDialog::updateDialog()
 void PdfDialog::updateToolsInfo()
 {
 	QString info; 
-	QString newline = ( m_okular ) ? "\n" : "<br>";
+	QString newline = "<br>";
 	QString password = i18n("A password is necessary to set or change the current settings.");
 
 	int tabindex = m_PdfDialog.tabWidget->currentIndex();
 	if (tabindex == 2 ) {
-		info = ( m_pdftk ) ? i18n("The permissions of this document can be changed with 'pdftk'.") + newline + password
+		info = ( m_pdftk ) ? i18n("The permissions of this document can be changed with 'pdftk'.") + newline 
+		                     + password + newline
+		                     + i18n("<i>(Okular configuration 'Obey DRM limitations' should be set.)</i>")
 		                   : i18n("'pdftk' is not available, so no permission can be changed.");
 	}
 	else if ( tabindex == 1 ) {
@@ -594,8 +596,8 @@ int PdfDialog::taskIndex(int index)
 		if ( index <= 5) {
 			return index + 6;
 		}
-		if ( index == 6 ) {
-			return 13;
+		if ( index >= 6 ) {
+			return index+7;
 		}
 	}
 
@@ -703,8 +705,7 @@ void PdfDialog::slotTaskChanged(int index)
 		m_PdfDialog.m_lbParamInfo->hide();
 	}
 	
-	state = ( taskindex == PDF_PDFTK_BACKGROUND || taskindex == PDF_PDFTK_STAMP );
-	if ( state ) {
+	if ( taskindex==PDF_PDFTK_BACKGROUND || taskindex==PDF_PDFTK_STAMP ) {
 		m_PdfDialog.m_lbStamp->show();
 		m_PdfDialog.m_edStamp->show();
 	}
@@ -712,7 +713,7 @@ void PdfDialog::slotTaskChanged(int index)
 		m_PdfDialog.m_lbStamp->hide();
 		m_PdfDialog.m_edStamp->hide();
 	}
-	
+
 	if ( taskindex == PDF_PDFTK_BACKGROUND )
 		m_PdfDialog.m_edStamp->setWhatsThis(i18n("Applies a PDF watermark to the background of a single input PDF. "
 		                                         "Pdftk uses only the first page from the background PDF and applies it to every page of the input PDF. "
@@ -722,6 +723,13 @@ void PdfDialog::slotTaskChanged(int index)
 		                                          "Pdftk uses only the first page from the stamp PDF and applies it to every page of the input PDF. "
 		                                          "This page is scaled and rotated as needed to fit the input page. "
 		                                          "This works best if the stamp PDF page has a transparent background.") );
+
+	if ( taskindex==PDF_PDFTK_BACKGROUND || taskindex==PDF_PDFTK_STAMP ||
+		  taskindex==PDF_PDFPAGES_FREE || taskindex==PDF_PDFTK_FREE ) {
+		setButtonText(User1, i18n("&Apply"));
+	} else {
+		setButtonText(User1, i18n("Re&arrange"));
+	}
 
 
 }
@@ -1127,12 +1135,12 @@ QString PdfDialog::buildActionCommand()
 		break;
 		
 		case PDF_PDFTK_BACKGROUND:     
-			m_param = "background " + m_PdfDialog.m_edStamp->text().trimmed();
+			m_param = "background \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
 			m_execLatex = false;                        
 		break;
 		
 		case PDF_PDFTK_STAMP:     
-			m_param = "stamp " + m_PdfDialog.m_edStamp->text().trimmed();
+			m_param = "stamp \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
 			m_execLatex = false;                        
 		break;
 	}

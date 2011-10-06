@@ -110,6 +110,8 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdftk = false;
 	m_pdfpages = false;
 	m_scriptrunning = false;
+	m_okularconfigchanged = false;
+	m_okularconfig = 0L;
 
 	// set data for properties: key/widget
 	m_pdfInfoKeys << "title" << "subject" << "author" << "creator" << "producer" << "keywords";
@@ -176,6 +178,18 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 PdfDialog::~PdfDialog()
 {
+#ifdef OKULARPARSER_AVAILABLE
+	if ( m_okularconfig ) {
+		// restore modified config file?
+		if ( m_okularconfigchanged ) {
+			KConfigGroup generalGroup(m_okularconfig,"General");
+			generalGroup.writeEntry("ObeyDRM",false);
+			generalGroup.config()->sync();
+		}
+		delete m_okularconfig;
+	}
+#endif
+
 	delete m_tempdir;
 	delete m_proc;
 }
@@ -192,6 +206,21 @@ void PdfDialog::initUtilities()
 //m_pdftk = false;               // <----------- only for testing  HACK
 
 	KILE_DEBUG() << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
+
+#ifdef OKULARPARSER_AVAILABLE
+	// ensure that okular configuration option 'ObeyDRM' is set to true
+	QString okularconffile = KStandardDirs::locateLocal( "config", "okularpartrc" );
+	m_okularconfig = new KConfig(okularconffile);
+	KConfigGroup generalGroup(m_okularconfig,"General");
+	
+	m_okularconfigchanged = false;
+	bool drm = generalGroup.readEntry("ObeyDRM",true);
+	if ( ! drm ) {
+	   generalGroup.writeEntry("ObeyDRM",true);
+		generalGroup.config()->sync();
+	   m_okularconfigchanged = true;
+	}
+#endif
 
 #ifndef OKULARPARSER_AVAILABLE
 	m_imagemagick = KileConfig::imagemagick();
@@ -248,20 +277,21 @@ void PdfDialog::pdfparser(const QString &filename)
 
 	const Okular::DocumentInfo *docinfo = okular->documentInfo ();
 	if ( docinfo )  {
-
+		// read encryption
 		m_PdfDialog.m_lbFormat->setText( docinfo->get("format") );
 		m_encrypted = ( docinfo->get("encryption") == i18n("Encrypted") ) ? true : false;
 		m_PdfDialog.m_lbEncryption->setText( (m_encrypted) ? i18n("yes") : i18n("no") );
 
+		// read properties
 		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 			QString value = docinfo->get(*it);
 			m_pdfInfo[*it] = value;
 			m_pdfInfoWidget[*it]->setText(value);
 		}
-
 		m_PdfDialog.m_lbCreationDate->setText( docinfo->get("creationDate") );
 		m_PdfDialog.m_lbModDate->setText( docinfo->get("modificationDate") );
 
+		// read permissions
 		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 			bool value = okular->isAllowed( (Okular::Permission)m_pdfPermissionKeys.at(i) );
 			m_pdfPermissionWidgets.at(i)->setChecked(value);
@@ -296,6 +326,7 @@ void PdfDialog::pdfparser(const QString &filename)
 	determineNumberOfPages(filename,m_encrypted);
 	KILE_DEBUG() << "PDF number of pages: " << m_numpages;
 #endif
+	
 }
 
 void PdfDialog::setNumberOfPages(int numpages)

@@ -158,6 +158,11 @@ class PdfDialog : public KDialog
 		bool m_okular;
 		bool m_pdftk;
 		bool m_pdfpages;
+		
+#ifdef OKULARPARSER_AVAILABLE
+		KConfig *m_okularconfig;
+		bool m_okularconfigchanged;
+#endif
 
 		int  m_numpages;
 		bool  m_encrypted;

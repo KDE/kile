@@ -259,8 +259,8 @@ void PdfDialog::pdfparser(const QString &filename)
 			m_pdfInfoWidget[*it]->setText(value);
 		}
 
-		setDateTimeInfo(docinfo->get("creationDate"),m_PdfDialog.m_lbCreationDate);
-		setDateTimeInfo(docinfo->get("modificationDate"),m_PdfDialog.m_lbModDate);
+		m_PdfDialog.m_lbCreationDate->setText( docinfo->get("creationDate") );
+		m_PdfDialog.m_lbModDate->setText( docinfo->get("modificationDate") );
 
 		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 			bool value = okular->isAllowed( (Okular::Permission)m_pdfPermissionKeys.at(i) );
@@ -399,15 +399,6 @@ bool PdfDialog::readEncryption(const QString &filename)
 	return false;
 }
 #endif
-
-void PdfDialog::setDateTimeInfo(const QString &value, QLabel *label)
-{
-	KDateTime date = KDateTime::fromString(value,"%:A %d %:B %Y %H:%M:%S");
-	QString info = ( value.length() >= 10 ) ? KGlobal::locale()->formatDateTime(date,KLocale::LongDate,KLocale::Seconds)
-	                                       : QString::null;
-
-	label->setText(info);
-}
 
 void PdfDialog::clearDocumentInfo()
 {
@@ -613,6 +604,17 @@ void PdfDialog::setPermissions(bool print, bool other)
 	}
 }
 
+// read permissions
+QString PdfDialog::readPermissions()
+{
+	QString permissions;
+	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
+		if ( m_pdfPermissionWidgets.at(i)->isChecked() )
+			permissions += m_pdfPermissionPdftk.at(i) + " ";
+	}
+	return permissions;
+}
+
 //-------------------- slots --------------------
 
 void PdfDialog::slotTabwidgetChanged(int index)
@@ -672,6 +674,9 @@ void PdfDialog::slotOutputfileChanged(const QString &)
 
 void PdfDialog::slotTaskChanged(int index)
 {
+	if ( m_PdfDialog.tabWidget->currentIndex() > 0 )
+		return;
+
 	int taskindex = taskIndex(index);
 	bool state = (taskindex == PDF_SELECT || taskindex == PDF_PDFPAGES_FREE || taskindex == PDF_PDFTK_FREE );
 	if ( state ) {
@@ -830,6 +835,11 @@ void PdfDialog::executeProperties()
 		infostream << "InfoKey: " << m_pdfInfoPdftk[*it] << "\n";
 		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed() << "\n";
 	}
+	// add modification Date
+	QString datetime = KDateTime::currentUtcDateTime().toString("%Y%m%d%H%M%S%:z");
+	datetime = datetime.replace(":","'");
+	infostream << "InfoKey: " << "ModDate" << "\n";
+	infostream << "InfoValue: " << "D:" << datetime << "'\n";
 	infotemp.close();
 
 	// build command
@@ -838,11 +848,7 @@ void PdfDialog::executeProperties()
 	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-props.pdf";
 
 	// read permissions
-	QString permissions;
-	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
-		if ( m_pdfPermissionWidgets.at(i)->isChecked() )
-			permissions += m_pdfPermissionPdftk.at(i) + " ";
-	}
+	QString permissions = readPermissions();
 
 	// build param
 	QString param = "\"" + inputfile + "\"";
@@ -870,11 +876,7 @@ void PdfDialog::executeProperties()
 void PdfDialog::executePermissions()
 {
 	// read permissions
-	QString permissions;
-	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
-		if ( m_pdfPermissionWidgets.at(i)->isChecked() )
-			permissions += m_pdfPermissionPdftk.at(i) + " ";
-	}
+	QString permissions = readPermissions();
 
 	// build command
 	QString inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();

@@ -136,10 +136,10 @@ class PdfDialog : public KDialog
 		int taskIndex(int index);
 		void clearDocumentInfo();
 		void setPermissions(bool print,bool other);
+		QString readPermissions();
 		void setNumberOfPages(int numpages);
 
 		void pdfparser(const QString &filename);
-		void setDateTimeInfo(const QString &value, QLabel *label);
 
 		QString m_startdir;
 		KileTool::Manager *m_manager;

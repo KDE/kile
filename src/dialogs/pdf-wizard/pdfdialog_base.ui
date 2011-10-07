@@ -206,14 +206,14 @@
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
          </property>
          <layout class="QGridLayout" name="_2">
-          <item row="4" column="0">
+          <item row="2" column="0">
            <widget class="QLabel" name="m_lbOutfile">
             <property name="text">
              <string>Output file:</string>
             </property>
            </widget>
           </item>
-          <item row="4" column="1">
+          <item row="2" column="1">
            <widget class="KUrlRequester" name="m_edOutfile">
             <property name="whatsThis">
              <string>The name of the output file. This entry may also be empty, if you want to overwrite the original file.</string>
@@ -223,28 +223,21 @@
             </property>
            </widget>
           </item>
-          <item row="6" column="0">
+          <item row="4" column="0">
            <widget class="QLabel" name="m_lbTask">
             <property name="text">
              <string>Task:</string>
             </property>
            </widget>
           </item>
-          <item row="6" column="1">
-           <widget class="KComboBox" name="m_cbTask">
-            <property name="whatsThis">
-             <string>Choose one of the 15 operations to rearrange a PDF file. Some operations need specific parameters.</string>
-            </property>
-           </widget>
-          </item>
-          <item row="12" column="0">
+          <item row="9" column="0">
            <widget class="QLabel" name="m_lbView">
             <property name="text">
              <string>Viewer:</string>
             </property>
            </widget>
           </item>
-          <item row="12" column="1">
+          <item row="9" column="1">
            <widget class="QCheckBox" name="m_cbView">
             <property name="whatsThis">
              <string>View the result of the conversion process. okular is always taken as an external viewer.</string>
@@ -257,7 +250,7 @@
             </property>
            </widget>
           </item>
-          <item row="3" column="1">
+          <item row="1" column="1">
            <widget class="QCheckBox" name="m_cbOverwrite">
             <property name="layoutDirection">
              <enum>Qt::LeftToRight</enum>
@@ -267,36 +260,68 @@
             </property>
            </widget>
           </item>
-          <item row="10" column="1">
+          <item row="6" column="1">
            <widget class="QLabel" name="m_lbParamInfo">
             <property name="text">
              <string>TextLabel</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="1">
+          <item row="5" column="1">
            <widget class="KLineEdit" name="m_edParameter">
             <property name="whatsThis">
              <string>'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here</string>
             </property>
            </widget>
           </item>
-          <item row="7" column="0">
+          <item row="5" column="0">
            <widget class="QLabel" name="m_lbParameter">
             <property name="text">
              <string>Parameter:</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="0">
+          <item row="7" column="0">
            <widget class="QLabel" name="m_lbStamp">
             <property name="text">
              <string>PDF file:</string>
             </property>
            </widget>
           </item>
-          <item row="11" column="1">
+          <item row="7" column="1">
            <widget class="KUrlRequester" name="m_edStamp"/>
+          </item>
+          <item row="8" column="1">
+           <spacer name="verticalSpacer_6">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>16</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="3" column="1">
+           <spacer name="verticalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>20</width>
+              <height>10</height>
+             </size>
+            </property>
+           </spacer>
           </item>
          </layout>
         </widget>
@@ -782,19 +807,14 @@
  <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <class>KUrlRequester</class>
+   <extends>QFrame</extends>
+   <header>kurlrequester.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

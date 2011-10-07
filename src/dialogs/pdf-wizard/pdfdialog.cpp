@@ -92,6 +92,11 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_PdfDialog.m_pbPrinting->setIcon(KIcon("printer"));
 	m_PdfDialog.m_pbAll->setIcon(KIcon("list-add"));
 
+	// insert KileWidget::CategoryComboBox
+	m_cbTask = new KileWidget::CategoryComboBox(m_PdfDialog.m_gbParameter);
+	QGridLayout *paramLayout = (QGridLayout *)m_PdfDialog.m_gbParameter->layout();
+	paramLayout->addWidget(m_cbTask, 4, 1);
+
 	// setup filenames
 	m_PdfDialog.m_edInfile->setFilter(i18n("*.pdf|PDF Files"));
 	m_PdfDialog.m_edInfile->lineEdit()->setText(pdffilename);
@@ -113,6 +118,25 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_okularconfigchanged = false;
 	m_okularconfig = 0L;
 
+	// setup tasks
+	m_tasklist << i18n("1 Page + Empty Page --> 2up")           // 0   PDF_PAGE_EMPTY
+	           << i18n("1 Page + Duplicate --> 2up")            // 1   PDF_PAGE_DUPLICATE
+	           << i18n("2 Pages --> 2up")                       // 2   PDF_2UP
+	           << i18n("2 Pages (landscape) --> 2up")           // 3   PDF_2UP_LANDSCAPE
+	           << i18n("4 Pages --> 4up")                       // 4   PDF_4UP
+	           << i18n("4 Pages (landscape) --> 4up")           // 5   PDF_4UP_LANDSCAPE
+	           << i18n("Select Even Pages")                     // 6   PDF_EVEN
+	           << i18n("Select Odd Pages")                      // 7   PDF_ODD
+	           << i18n("Select Even Pages (reverse order)")     // 8   PDF_EVEN_REV
+	           << i18n("Select Odd Pages (reverse order)")      // 9   PDF_ODD_REV
+	           << i18n("Reverse All Pages")                     // 10  PDF_REVERSE
+	           << i18n("Select Pages")                          // 11  PDF_SELECT
+	           << i18n("pdfpages: Choose Parameter")            // 12  PDF_PDFPAGES_FREE 
+	           << i18n("pdftk: Choose Parameter")               // 13  PDF_PDFTK_FREE 
+	           << i18n("Apply a background watermark")          // 14  PDF_PDFTK_BACKGROUND
+	           << i18n("Apply a foreground stamp")              // 15  PDF_PDFTK_STAMP 
+	           ;
+	
 	// set data for properties: key/widget
 	m_pdfInfoKeys << "title" << "subject" << "author" << "creator" << "producer" << "keywords";
 
@@ -253,7 +277,7 @@ void PdfDialog::initUtilities()
 	if ( m_pdftk || m_pdfpages) {
 		connect(m_PdfDialog.m_edOutfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotOutputfileChanged(const QString &)));
 		connect(m_PdfDialog.m_cbOverwrite, SIGNAL(stateChanged(int)), this, SLOT(slotOverwriteChanged(int)));
-		connect(m_PdfDialog.m_cbTask, SIGNAL(activated(int)), this, SLOT(slotTaskChanged(int)));
+		connect(m_cbTask, SIGNAL(activated(int)), this, SLOT(slotTaskChanged(int)));
 	}
 
 	// setup dialog
@@ -552,44 +576,58 @@ void PdfDialog::updateTasks()
 {
 	// according to QT 4.4 docu the index of QComboBox might change if adding or removing items
 	// but because we populate the QComboBox before we start the dialog, we can use the index here
-	int lastindex = m_PdfDialog.m_cbTask->currentIndex();
-	QString lasttext = m_PdfDialog.m_cbTask->currentText();
+	int lastindex = m_cbTask->currentIndex();
+	QString lasttext = m_cbTask->currentText();
 
-	m_PdfDialog.m_cbTask->clear();
-	if (m_pdfpages && !m_encrypted) {                                                // task index
-		m_PdfDialog.m_cbTask->addItem(i18n("1 Page + Empty Page --> 2up"));           // 0   PDF_PAGE_EMPTY
-		m_PdfDialog.m_cbTask->addItem(i18n("1 Page + Duplicate --> 2up"));            // 1   PDF_PAGE_DUPLICATE
-		m_PdfDialog.m_cbTask->addItem(i18n("2 Pages --> 2up"));                       // 2   PDF_2UP
-		m_PdfDialog.m_cbTask->addItem(i18n("2 Pages (landscape) --> 2up"));           // 3   PDF_2UP_LANDSCAPE
-		m_PdfDialog.m_cbTask->addItem(i18n("4 Pages --> 4up"));                       // 4   PDF_4UP
-		m_PdfDialog.m_cbTask->addItem(i18n("4 Pages (landscape) --> 4up"));           // 5   PDF_4UP_LANDSCAPE
+	int offset = 0;
+	int group = 0;
+	m_cbTask->clear();
+	if (m_pdfpages && !m_encrypted) {                               // task index
+		m_cbTask->addItem( m_tasklist[PDF_PAGE_EMPTY] );             // 0   PDF_PAGE_EMPTY
+		m_cbTask->addItem( m_tasklist[PDF_PAGE_DUPLICATE] );         // 1   PDF_PAGE_DUPLICATE
+		m_cbTask->addItem( m_tasklist[PDF_2UP] );                    // 2   PDF_2UP
+		m_cbTask->addItem( m_tasklist[PDF_2UP_LANDSCAPE] );          // 3   PDF_2UP_LANDSCAPE
+		m_cbTask->addItem( m_tasklist[PDF_4UP] );                    // 4   PDF_4UP
+		m_cbTask->addItem( m_tasklist[PDF_4UP_LANDSCAPE] );          // 5   PDF_4UP_LANDSCAPE
+		group = 1;
 	}
 
 	if ( (m_pdfpages && !m_encrypted) || m_pdftk ){
-		m_PdfDialog.m_cbTask->addItem(i18n("Select Even Pages"));                     // 6   PDF_EVEN
-		m_PdfDialog.m_cbTask->addItem(i18n("Select Odd Pages"));                      // 7   PDF_ODD
-		m_PdfDialog.m_cbTask->addItem(i18n("Select Even Pages (reverse order)"));     // 8   PDF_EVEN_REV
-		m_PdfDialog.m_cbTask->addItem(i18n("Select Odd Pages (reverse order)"));      // 9   PDF_ODD_REV
-		m_PdfDialog.m_cbTask->addItem(i18n("Reverse All Pages"));                     // 10  PDF_REVERSE
-		m_PdfDialog.m_cbTask->addItem(i18n("Select Pages"));                          // 11  PDF_SELECT
+		if ( group > 0 ) {
+			m_cbTask->addCategoryItem("");
+			offset = 1;
+		}
+		m_cbTask->addItem( m_tasklist[PDF_EVEN] );                   // 6   PDF_EVEN
+		m_cbTask->addItem( m_tasklist[PDF_ODD] );                    // 7   PDF_ODD
+		m_cbTask->addItem( m_tasklist[PDF_EVEN_REV] );               // 8   PDF_EVEN_REV
+		m_cbTask->addItem( m_tasklist[PDF_ODD_REV] );                // 9   PDF_ODD_REV
+		m_cbTask->addItem( m_tasklist[PDF_REVERSE] );                // 10  PDF_REVERSE
+		m_cbTask->addItem( m_tasklist[PDF_SELECT] );                 // 11  PDF_SELECT
+		group = 2;
 	}
 
 	if (m_pdfpages && !m_encrypted) {  
-		m_PdfDialog.m_cbTask->addItem(i18n("pdfpages: Choose Parameter"));            // 12  PDF_PDFPAGES_FREE 
+		if ( group > 0 )
+			m_cbTask->addCategoryItem("");
+		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 12  PDF_PDFPAGES_FREE 
+		group = 3;
 	}
 	if (m_pdftk) {
-		m_PdfDialog.m_cbTask->addItem(i18n("pdftk: Choose Parameter"));               // 13  PDF_PDFTK_FREE 
-		m_PdfDialog.m_cbTask->addItem(i18n("Apply a background watermark"));          // 14  PDF_PDFTK_BACKGROUND
-		m_PdfDialog.m_cbTask->addItem(i18n("Apply a foreground stamp"));              // 15  PDF_PDFTK_STAMP 
+		if ( group==1 || group==2 )
+			m_cbTask->addCategoryItem("");
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 13  PDF_PDFTK_FREE 
+		m_cbTask->addCategoryItem("");
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 14  PDF_PDFTK_BACKGROUND
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 15  PDF_PDFTK_STAMP 
 	}
 
 	// choose one common task (need to calculate the combobox index)
-	int index = m_PdfDialog.m_cbTask->findText(lasttext);
+	int index = m_cbTask->findText(lasttext);
 	if ( lastindex==-1 || index==-1 ) {
-		index = ( (m_pdftk && !m_pdfpages) || m_encrypted ) ? 5 : PDF_SELECT;
+		index = ( (m_pdftk && !m_pdfpages) || m_encrypted ) ? 5+offset : PDF_SELECT+offset;
 	}
 	
-	m_PdfDialog.m_cbTask->setCurrentIndex(index);
+	m_cbTask->setCurrentIndex(index);
 	slotTaskChanged(index);
 
 	setFocusProxy(m_PdfDialog.m_edInfile);
@@ -598,32 +636,13 @@ void PdfDialog::updateTasks()
 
 QString PdfDialog::getOutfileName(const QString &infile)
 {
-	return infile.left(infile.length()-4) + "-out" + ".pdf";
+	return ( infile.isEmpty() ) ? QString::null : infile.left(infile.length()-4) + "-out" + ".pdf";
 }
 
-
-// calculate task index from comboxbox index (available at this moment: 0..13)
-//
-// taskindex                 -----------------comboxindex-----------------       
-//                           -----not encrypted-----   -----encrypted-----        
-//                           both   pdfpages   pdftk          pdftk
-// 0..5  (only pdfpages)      0..5     0..5      --             --
-// 6-11  (pdfpages+pdftk)     6-11     6..11    0..5           0..5
-// 12    (only pdfpages)       12       12       --             --
-// 13-15 (only pdftk)        13-15      --      6-8            6-8
-
-int PdfDialog::taskIndex(int index)
+// calculate task index from comboxbox index 
+int PdfDialog::taskIndex()
 {
-	if ( (m_pdftk  && !m_pdfpages) || m_encrypted ) {
-		if ( index <= 5) {
-			return index + 6;
-		}
-		if ( index >= 6 ) {
-			return index+7;
-		}
-	}
-
-	return index;
+	return m_tasklist.indexOf( m_cbTask->currentText() );
 }
 
 void PdfDialog::setPermissions(bool print, bool other)
@@ -703,12 +722,12 @@ void PdfDialog::slotOutputfileChanged(const QString &)
 	updateDialog();
 }
 
-void PdfDialog::slotTaskChanged(int index)
+void PdfDialog::slotTaskChanged(int)
 {
 	if ( m_PdfDialog.tabWidget->currentIndex() > 0 )
 		return;
 
-	int taskindex = taskIndex(index);
+	int taskindex = taskIndex();
 	bool state = (taskindex == PDF_SELECT || taskindex == PDF_PDFPAGES_FREE || taskindex == PDF_PDFTK_FREE );
 	if ( state ) {
 		QString s,labeltext;
@@ -1072,7 +1091,7 @@ QString PdfDialog::buildActionCommand()
 	m_inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	m_outputfile = m_PdfDialog.m_edOutfile->lineEdit()->text().trimmed();
 	
-	switch (taskIndex(m_PdfDialog.m_cbTask->currentIndex())) {
+	switch (taskIndex()) {
 		case PDF_PAGE_EMPTY:     
 			m_param = "nup=1x2,landscape,pages=" + buildPageRange(PDF_PAGE_EMPTY);                     
 		break;
@@ -1303,7 +1322,7 @@ bool PdfDialog::checkParameter()
 	}
 
 	// check parameter
-	int taskindex = taskIndex(m_PdfDialog.m_cbTask->currentIndex());
+	int taskindex = taskIndex();
 	if ( taskindex>=PDF_SELECT && taskindex<=PDF_PDFTK_FREE && m_PdfDialog.m_edParameter->text().trimmed().isEmpty() ) {
 		showError( i18n("The utility needs some parameters in this mode.") );
 		return false;

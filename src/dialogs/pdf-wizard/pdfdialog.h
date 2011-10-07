@@ -28,6 +28,7 @@
 
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
+#include "widgets/categorycombobox.h"
 
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
@@ -104,6 +105,7 @@ class PdfDialog : public KDialog
 
 		QString m_inputfile;
 		QString m_outputfile;
+		QStringList m_tasklist;
 
 		void executeAction();
 		void executeProperties();
@@ -133,7 +135,7 @@ class PdfDialog : public KDialog
 		void updateOwnerPassword(bool infile_exists);
 		void updateToolsInfo();
 		void updateTasks();
-		int taskIndex(int index);
+		int taskIndex();
 		void clearDocumentInfo();
 		void setPermissions(bool print,bool other);
 		QString readPermissions();
@@ -145,7 +147,8 @@ class PdfDialog : public KDialog
 		KileTool::Manager *m_manager;
 		KileWidget::LogWidget *m_log;
 		KileWidget::OutputView *m_output;
-
+		KileWidget::CategoryComboBox *m_cbTask;
+		
 		int m_scriptmode;
 		QString m_outputtext;
 		bool m_execLatex;

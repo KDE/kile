@@ -91,6 +91,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	page->setMinimumWidth(500);
 	m_PdfDialog.m_pbPrinting->setIcon(KIcon("printer"));
 	m_PdfDialog.m_pbAll->setIcon(KIcon("list-add"));
+	m_PdfDialog.m_pbBackgroundColor->setColor(QColor(255,255,224));
 
 	// insert KileWidget::CategoryComboBox
 	m_cbTask = new KileWidget::CategoryComboBox(m_PdfDialog.m_gbParameter);
@@ -104,6 +105,9 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_PdfDialog.m_edOutfile->setMode(KFile::File | KFile::LocalOnly );
 	m_PdfDialog.m_edOutfile->lineEdit()->setText( getOutfileName(pdffilename) );
 
+	//max password length for pdf files
+	m_PdfDialog.m_edPassword->setMaxLength(32);
+
 	// set an user button to execute the task and icon for help button
 	setButtonText(User1, i18n("Re&arrange"));
 	setButtonIcon(User1, KIcon("system-run"));
@@ -115,6 +119,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdftk = false;
 	m_pdfpages = false;
 	m_scriptrunning = false;
+	m_pagesize = QSize(0,0);
 	m_okularconfigchanged = false;
 	m_okularconfig = 0L;
 
@@ -130,12 +135,14 @@ PdfDialog::PdfDialog(QWidget *parent,
 	           << i18n("Select Even Pages (reverse order)")     // 8   PDF_EVEN_REV
 	           << i18n("Select Odd Pages (reverse order)")      // 9   PDF_ODD_REV
 	           << i18n("Reverse All Pages")                     // 10  PDF_REVERSE
-	           << i18n("Select Pages")                          // 11  PDF_SELECT
-	           << i18n("Delete Pages")                          // 12  PDF_DELETE
-	           << i18n("pdfpages: Choose Parameter")            // 13  PDF_PDFPAGES_FREE 
-	           << i18n("pdftk: Choose Parameter")               // 14  PDF_PDFTK_FREE 
-	           << i18n("Apply a background watermark")          // 15  PDF_PDFTK_BACKGROUND
+	           << i18n("Decrypt")                               // 11  PDF_DECRYPT
+	           << i18n("Select Pages")                          // 12  PDF_SELECT
+	           << i18n("Delete Pages")                          // 13  PDF_DELETE
+	           << i18n("Apply a background watermark")          // 14  PDF_PDFTK_BACKGROUND
+	           << i18n("Apply a background color")              // 15  PDF_PDFTK_BGCOLOR
 	           << i18n("Apply a foreground stamp")              // 16  PDF_PDFTK_STAMP 
+	           << i18n("pdftk: Choose Parameter")               // 17  PDF_PDFTK_FREE 
+	           << i18n("pdfpages: Choose Parameter")            // 18  PDF_PDFPAGES_FREE 
 	           ;
 	
 	// set data for properties: key/widget
@@ -327,9 +334,21 @@ void PdfDialog::pdfparser(const QString &filename)
 		}
 	}
 	else
-		KILE_DEBUG() << "   No document info for pdf file available.";
+		KILE_DEBUG() << "No document info for pdf file available.";
 
+	// determine number of pages
 	setNumberOfPages( okular->pages() );
+	
+	// look if all pages have the same size
+	QSizeF pagesizes = okular->allPagesSize();
+	if ( !pagesizes.isEmpty() ) {
+		m_pagesize = pagesizes.toSize();
+		KILE_DEBUG() << "Document has equal page sizes: w=" << m_pagesize.width() << " h=" << m_pagesize.height();
+	} else {
+		m_pagesize = QSize(0,0);
+		KILE_DEBUG() << "Document has different page sizes";
+	}
+
 	okular->closeDocument();
 	delete okular;
 	
@@ -350,6 +369,9 @@ void PdfDialog::pdfparser(const QString &filename)
 	// determine the number of pages of the pdf file 
 	determineNumberOfPages(filename,m_encrypted);
 	KILE_DEBUG() << "PDF number of pages: " << m_numpages;
+	
+	// clear pagesize
+	m_pagesize = QSize(0,0);
 #endif
 	
 }
@@ -580,7 +602,6 @@ void PdfDialog::updateTasks()
 	int lastindex = m_cbTask->currentIndex();
 	QString lasttext = m_cbTask->currentText();
 
-	int offset = 0;
 	int group = 0;
 	m_cbTask->clear();
 	if (m_pdfpages && !m_encrypted) {                               // task index
@@ -596,38 +617,44 @@ void PdfDialog::updateTasks()
 	if ( (m_pdfpages && !m_encrypted) || m_pdftk ){
 		if ( group > 0 ) {
 			m_cbTask->addCategoryItem("");
-			offset = 2;
 		}
 		m_cbTask->addItem( m_tasklist[PDF_EVEN] );                   // 6   PDF_EVEN
 		m_cbTask->addItem( m_tasklist[PDF_ODD] );                    // 7   PDF_ODD
 		m_cbTask->addItem( m_tasklist[PDF_EVEN_REV] );               // 8   PDF_EVEN_REV
 		m_cbTask->addItem( m_tasklist[PDF_ODD_REV] );                // 9   PDF_ODD_REV
 		m_cbTask->addItem( m_tasklist[PDF_REVERSE] );                // 10  PDF_REVERSE
+		if (m_encrypted) {
+			m_cbTask->addItem( m_tasklist[PDF_DECRYPT] );             // 11  PDF_DECRYPT
+		}
 		m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_SELECT] );                 // 11  PDF_SELECT
-		m_cbTask->addItem( m_tasklist[PDF_DELETE] );                 // 12  PDF_DELETE
+		m_cbTask->addItem( m_tasklist[PDF_SELECT] );                 // 12  PDF_SELECT
+		m_cbTask->addItem( m_tasklist[PDF_DELETE] );                 // 13  PDF_DELETE
 		group = 2;
 	}
 
-	if (m_pdfpages && !m_encrypted) {  
-		if ( group > 0 )
-			m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 13  PDF_PDFPAGES_FREE 
+	if (m_pdftk) {
+		m_cbTask->addCategoryItem("");
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 14  PDF_PDFTK_BACKGROUND
+		if ( ! m_pagesize.isNull() )
+			m_cbTask->addItem( m_tasklist[PDF_PDFTK_BGCOLOR] );       // 15  PDF_PDFTK_BGCOLOR 
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 16  PDF_PDFTK_STAMP 
+		m_cbTask->addCategoryItem("");
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 17  PDF_PDFTK_FREE 
 		group = 3;
 	}
-	if (m_pdftk) {
-		if ( group==1 || group==2 )
+
+	if (m_pdfpages && !m_encrypted) {  
+		if ( group < 3 )
 			m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 14  PDF_PDFTK_FREE 
-		m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 15  PDF_PDFTK_BACKGROUND
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 16  PDF_PDFTK_STAMP 
+		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 17  PDF_PDFPAGES_FREE 
 	}
 
 	// choose one common task (need to calculate the combobox index)
 	int index = m_cbTask->findText(lasttext);
 	if ( lastindex==-1 || index==-1 ) {
-		index = ( (m_pdftk && !m_pdfpages) || m_encrypted ) ? 5+offset : PDF_SELECT+offset;
+		index = m_cbTask->findText(m_tasklist[PDF_SELECT]);
+		if ( index == -1 )
+			index = 0;
 	}
 	
 	m_cbTask->setCurrentIndex(index);
@@ -781,7 +808,15 @@ void PdfDialog::slotTaskChanged(int)
 		m_PdfDialog.m_edStamp->hide();
 	}
 
-	if ( isOverlayTask(taskindex) || isFreeTask(taskindex) ) {
+	if ( isBackgroundColor(taskindex) ) {
+		m_PdfDialog.m_lbBackgroundColor->show();
+		m_PdfDialog.m_pbBackgroundColor->show();
+	} else {
+		m_PdfDialog.m_lbBackgroundColor->hide();
+		m_PdfDialog.m_pbBackgroundColor->hide();
+	}
+
+	if ( isOverlayTask(taskindex) || isBackgroundColor(taskindex) || isFreeTask(taskindex) ) {
 		setButtonText(User1, i18n("&Apply"));
 	} else {
 		setButtonText(User1, i18n("Re&arrange"));
@@ -859,6 +894,7 @@ void PdfDialog::executeAction()
 	              + i18n("***** input file:  ") + from.fileName()+ '\n'
 	              + i18n("***** output file: ") + to.fileName()+ '\n'
 	              + i18n("***** param:       ") + m_param + '\n'
+	              + i18n("***** command:     ") + command + '\n'
 	              + i18n("***** viewer:      ") + ((m_PdfDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
 	              + "*****\n";
 	emit( output(s) );
@@ -1092,6 +1128,8 @@ QString PdfDialog::buildActionCommand()
 	m_inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	m_outputfile = m_PdfDialog.m_edOutfile->lineEdit()->text().trimmed();
 	
+	QColor bgcolor;
+	QString bgfile;
 	int taskindex = taskIndex();
 	switch (taskindex) {
 		case PDF_PAGE_EMPTY:     
@@ -1168,6 +1206,11 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
+		case PDF_DECRYPT:   
+			m_param = QString::null;
+			m_execLatex = false;
+		break;
+			
 		case PDF_SELECT:         
 		case PDF_DELETE:         
 			m_param = ( taskindex == PDF_SELECT ) ? buildSelectPageList() : buildDeletePageList();
@@ -1180,23 +1223,30 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
-		case PDF_PDFPAGES_FREE:  
-			m_param = m_PdfDialog.m_edParameter->text().trimmed();                         
+		case PDF_PDFTK_BACKGROUND:     
+			m_param = "background \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
+			m_execLatex = false;                        
 		break;
 
+		case PDF_PDFTK_BGCOLOR:
+ 			bgcolor = m_PdfDialog.m_pbBackgroundColor->color();
+ 			bgfile = buildPdfBackgroundFile(&bgcolor);
+			m_param = "background " + bgfile;
+			m_execLatex = false;      
+		break;
+
+		case PDF_PDFTK_STAMP:     
+			m_param = "stamp \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
+			m_execLatex = false;                        
+		break;
+		
 		case PDF_PDFTK_FREE:     
 			m_param = m_PdfDialog.m_edParameter->text().trimmed();
 			m_execLatex = false;                        
 		break;
 		
-		case PDF_PDFTK_BACKGROUND:     
-			m_param = "background \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
-			m_execLatex = false;                        
-		break;
-		
-		case PDF_PDFTK_STAMP:     
-			m_param = "stamp \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
-			m_execLatex = false;                        
+		case PDF_PDFPAGES_FREE:  
+			m_param = m_PdfDialog.m_edParameter->text().trimmed();                         
 		break;
 	}
 
@@ -1264,6 +1314,111 @@ QString PdfDialog::buildLatexFile(const QString &param)
 	// everything is prepared to do the job
 	temp.close();
 	return(tempname.left(tempname.length()-4));
+}
+
+// create a temporary pdf file to set a background color
+QString PdfDialog::buildPdfBackgroundFile(QColor *color)
+{
+	KTemporaryFile temp;
+	temp.setPrefix(m_tempdir->name());
+	temp.setSuffix(".pdf");
+	temp.setAutoRemove(false);
+
+	if(!temp.open()) {
+		KILE_DEBUG() << "Could not create tempfile in PdfDialog::buildPdfBackgroundFile()" ;
+		return QString();
+	}
+	QString tempname = temp.fileName();
+	
+	QTextStream stream(&temp);
+	stream << "%PDF-1.4\n";
+	stream << '%' << '\0' << '\0' << '\0' << '\0' << '\r';
+	stream << "5 0 obj \n"
+	          "<<\n"
+	          "/Type /ExtGState\n"
+	          "/OPM 1\n"
+	          ">>\n"
+	          "endobj \n"
+	          "4 0 obj \n"
+	          "<<\n"
+	          "/R7 5 0 R\n"
+	          ">>\n"
+	          "endobj \n"
+	          "6 0 obj \n"
+	          "<<\n"
+	          "/Length 83\n"
+	          ">>\n"
+	          "stream\n"
+	          "q 0.1 0 0 0.1 0 0 cm\n"
+	          "/R7 gs\n";
+	stream << color->redF() << " " << color->greenF() << " " << color->blueF() << " rg\n";
+	stream << "0 0 " << 10*m_pagesize.width() << " " << 10*m_pagesize.height() << " re\n";
+	stream << "f\n"
+	          "0 g\n"
+	          "Q\n"
+	          "\n"
+	          "endstream \n"
+	          "endobj \n"
+	          "3 0 obj \n"
+	          "<<\n"
+	          "/Parent 1 0 R\n";
+	stream << "/MediaBox [0 0 " << m_pagesize.width() << " " << m_pagesize.height() << "]\n";
+	stream << "/Resources \n"
+	          "<<\n"
+	          "/ExtGState 4 0 R\n"
+	          "/ProcSet [/PDF]\n"
+	          ">>\n"
+	          "/pdftk_PageNum 1\n"
+	          "/Type /Page\n"
+	          "/Contents 6 0 R\n"
+	          ">>\n"
+	          "endobj \n"
+	          "1 0 obj \n"
+	          "<<\n"
+	          "/Kids [3 0 R]\n"
+	          "/Count 1\n"
+	          "/Type /Pages\n"
+	          ">>\n"
+	          "endobj \n"
+	          "7 0 obj \n"
+	          "<<\n"
+	          "/Pages 1 0 R\n"
+	          "/Type /Catalog\n"
+	          ">>\n"
+	          "endobj \n"
+	          "8 0 obj \n"
+	          "<<\n"
+	          "/Creator ()\n"
+	          "/Producer ())\n"
+	          "/ModDate ()\n"
+	          "/CreationDate ()\n"
+	          ">>\n"
+	          "endobj xref\n"
+	          "0 9\n"
+	          "0000000000 65535 f \n"
+	          "0000000388 00000 n \n"
+	          "0000000000 65536 n \n"
+	          "0000000231 00000 n \n"
+	          "0000000062 00000 n \n"
+	          "0000000015 00000 n \n"
+	          "0000000095 00000 n \n"
+	          "0000000447 00000 n \n"
+	          "0000000498 00000 n \n"
+	          "trailer\n"
+	          "\n"
+	          "<<\n"
+	          "/Info 8 0 R\n"
+	          "/Root 7 0 R\n"
+	          "/Size 9\n"
+	          "/ID [<4a7c31ef3aeb884b18f59c2037a752f5><54079f85d95a11f3400fe5fc3cfc832b>]\n"
+	          ">>\n"
+	          "startxref\n"
+	          "721\n"
+	          "%%EOF\n";
+
+	// everything is prepared to do the job
+	temp.close();
+	return tempname;
 }
 
 QString PdfDialog::buildPageRange(int type)
@@ -1509,11 +1664,15 @@ bool PdfDialog::isOverlayTask(int task)
 	return ( task==PDF_PDFTK_BACKGROUND || task==PDF_PDFTK_STAMP );
 }
 
+bool PdfDialog::isBackgroundColor(int task)
+{
+	return ( task == PDF_PDFTK_BGCOLOR ) ? true : false;
+}
+
 bool PdfDialog::isFreeTask(int task)
 {
 	return ( task==PDF_PDFPAGES_FREE || task==PDF_PDFTK_FREE );
 }
-
 
 }
 

@@ -25,6 +25,7 @@
 #include <QVector>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QBitArray>
 
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
@@ -89,10 +90,13 @@ class PdfDialog : public KDialog
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
 	private:
-		enum PDF_Action { PDF_PAGE_EMPTY=0,     PDF_PAGE_DUPLICATE=1, PDF_2UP=2,               PDF_2UP_LANDSCAPE=3,
-		                  PDF_4UP=4,            PDF_4UP_LANDSCAPE=5,  PDF_EVEN=6,              PDF_ODD=7,
-		                  PDF_EVEN_REV=8,       PDF_ODD_REV=9,        PDF_REVERSE=10,          PDF_SELECT=11,
-		                  PDF_PDFPAGES_FREE=12,  PDF_PDFTK_FREE=13,   PDF_PDFTK_BACKGROUND=14, PDF_PDFTK_STAMP=15 };
+		enum PDF_Action { PDF_PAGE_EMPTY=0,        PDF_PAGE_DUPLICATE=1, PDF_2UP=2,               PDF_2UP_LANDSCAPE=3,
+		                  PDF_4UP=4,               PDF_4UP_LANDSCAPE=5,  PDF_EVEN=6,              PDF_ODD=7,
+		                  PDF_EVEN_REV=8,          PDF_ODD_REV=9,        PDF_REVERSE=10,          
+		                  PDF_SELECT=11,           PDF_DELETE=12,
+		                  PDF_PDFPAGES_FREE=13,    PDF_PDFTK_FREE=14,   
+		                  PDF_PDFTK_BACKGROUND=15, PDF_PDFTK_STAMP=16 
+		                };
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
 		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3, 
@@ -117,11 +121,19 @@ class PdfDialog : public KDialog
 		bool checkInputFile();
 		bool checkPassword();
 
+		bool isParameterTask(int task);
+		bool isOverlayTask(int task);
+		bool isFreeTask(int task);
+
 		QString buildActionCommand();
 		QString buildLatexFile(const QString &param);
 		QString buildPageRange(int type);
 		QString buildPageList(bool even);
 		QString buildReversPageList(bool even);
+		QString buildSelectPageList();
+		QString buildDeletePageList();
+
+		int searchPages(QBitArray *arr, int page, int lastpage, bool value);
 		QString getOutfileName(const QString &infile);
 		void showError(const QString &text);
 

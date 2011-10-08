@@ -131,10 +131,11 @@ PdfDialog::PdfDialog(QWidget *parent,
 	           << i18n("Select Odd Pages (reverse order)")      // 9   PDF_ODD_REV
 	           << i18n("Reverse All Pages")                     // 10  PDF_REVERSE
 	           << i18n("Select Pages")                          // 11  PDF_SELECT
-	           << i18n("pdfpages: Choose Parameter")            // 12  PDF_PDFPAGES_FREE 
-	           << i18n("pdftk: Choose Parameter")               // 13  PDF_PDFTK_FREE 
-	           << i18n("Apply a background watermark")          // 14  PDF_PDFTK_BACKGROUND
-	           << i18n("Apply a foreground stamp")              // 15  PDF_PDFTK_STAMP 
+	           << i18n("Delete Pages")                          // 12  PDF_DELETE
+	           << i18n("pdfpages: Choose Parameter")            // 13  PDF_PDFPAGES_FREE 
+	           << i18n("pdftk: Choose Parameter")               // 14  PDF_PDFTK_FREE 
+	           << i18n("Apply a background watermark")          // 15  PDF_PDFTK_BACKGROUND
+	           << i18n("Apply a foreground stamp")              // 16  PDF_PDFTK_STAMP 
 	           ;
 	
 	// set data for properties: key/widget
@@ -595,30 +596,32 @@ void PdfDialog::updateTasks()
 	if ( (m_pdfpages && !m_encrypted) || m_pdftk ){
 		if ( group > 0 ) {
 			m_cbTask->addCategoryItem("");
-			offset = 1;
+			offset = 2;
 		}
 		m_cbTask->addItem( m_tasklist[PDF_EVEN] );                   // 6   PDF_EVEN
 		m_cbTask->addItem( m_tasklist[PDF_ODD] );                    // 7   PDF_ODD
 		m_cbTask->addItem( m_tasklist[PDF_EVEN_REV] );               // 8   PDF_EVEN_REV
 		m_cbTask->addItem( m_tasklist[PDF_ODD_REV] );                // 9   PDF_ODD_REV
 		m_cbTask->addItem( m_tasklist[PDF_REVERSE] );                // 10  PDF_REVERSE
+		m_cbTask->addCategoryItem("");
 		m_cbTask->addItem( m_tasklist[PDF_SELECT] );                 // 11  PDF_SELECT
+		m_cbTask->addItem( m_tasklist[PDF_DELETE] );                 // 12  PDF_DELETE
 		group = 2;
 	}
 
 	if (m_pdfpages && !m_encrypted) {  
 		if ( group > 0 )
 			m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 12  PDF_PDFPAGES_FREE 
+		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 13  PDF_PDFPAGES_FREE 
 		group = 3;
 	}
 	if (m_pdftk) {
 		if ( group==1 || group==2 )
 			m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 13  PDF_PDFTK_FREE 
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 14  PDF_PDFTK_FREE 
 		m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 14  PDF_PDFTK_BACKGROUND
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 15  PDF_PDFTK_STAMP 
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 15  PDF_PDFTK_BACKGROUND
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 16  PDF_PDFTK_STAMP 
 	}
 
 	// choose one common task (need to calculate the combobox index)
@@ -728,10 +731,9 @@ void PdfDialog::slotTaskChanged(int)
 		return;
 
 	int taskindex = taskIndex();
-	bool state = (taskindex == PDF_SELECT || taskindex == PDF_PDFPAGES_FREE || taskindex == PDF_PDFTK_FREE );
-	if ( state ) {
+	if ( isParameterTask(taskindex) ) {
 		QString s,labeltext;
-		if (taskindex==PDF_SELECT) {
+		if ( taskindex==PDF_SELECT || taskindex==PDF_DELETE ) {
 			labeltext = i18n("Pages:");
 			s = i18n("Comma separated page list: 1,4-7,9");
 			QRegExp re("((\\d+(-\\d+)?),)*\\d+(-\\d+)?");
@@ -760,27 +762,26 @@ void PdfDialog::slotTaskChanged(int)
 		m_PdfDialog.m_lbParamInfo->hide();
 	}
 	
-	if ( taskindex==PDF_PDFTK_BACKGROUND || taskindex==PDF_PDFTK_STAMP ) {
+	if ( isOverlayTask(taskindex) ) {
 		m_PdfDialog.m_lbStamp->show();
 		m_PdfDialog.m_edStamp->show();
-	}
-	else {
+		
+		if ( taskindex == PDF_PDFTK_BACKGROUND ) {
+			m_PdfDialog.m_edStamp->setWhatsThis(i18n("Applies a PDF watermark to the background of a single input PDF. "
+			                                         "Pdftk uses only the first page from the background PDF and applies it to every page of the input PDF. "
+			                                         "This page is scaled and rotated as needed to fit the input page.") );
+		} else if ( taskindex == PDF_PDFTK_STAMP ) {
+			m_PdfDialog.m_edStamp->setWhatsThis( i18n("Applies a foreground stamp on top of the input PDF document's pages. "
+			                                          "Pdftk uses only the first page from the stamp PDF and applies it to every page of the input PDF. "
+			                                          "This page is scaled and rotated as needed to fit the input page. "
+			                                          "This works best if the stamp PDF page has a transparent background.") );
+		}
+	} else {
 		m_PdfDialog.m_lbStamp->hide();
 		m_PdfDialog.m_edStamp->hide();
 	}
 
-	if ( taskindex == PDF_PDFTK_BACKGROUND )
-		m_PdfDialog.m_edStamp->setWhatsThis(i18n("Applies a PDF watermark to the background of a single input PDF. "
-		                                         "Pdftk uses only the first page from the background PDF and applies it to every page of the input PDF. "
-		                                         "This page is scaled and rotated as needed to fit the input page.") );
-	else if ( taskindex == PDF_PDFTK_STAMP )
-		m_PdfDialog.m_edStamp->setWhatsThis( i18n("Applies a foreground stamp on top of the input PDF document's pages. "
-		                                          "Pdftk uses only the first page from the stamp PDF and applies it to every page of the input PDF. "
-		                                          "This page is scaled and rotated as needed to fit the input page. "
-		                                          "This works best if the stamp PDF page has a transparent background.") );
-
-	if ( taskindex==PDF_PDFTK_BACKGROUND || taskindex==PDF_PDFTK_STAMP ||
-		  taskindex==PDF_PDFPAGES_FREE || taskindex==PDF_PDFTK_FREE ) {
+	if ( isOverlayTask(taskindex) || isFreeTask(taskindex) ) {
 		setButtonText(User1, i18n("&Apply"));
 	} else {
 		setButtonText(User1, i18n("Re&arrange"));
@@ -1091,7 +1092,8 @@ QString PdfDialog::buildActionCommand()
 	m_inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	m_outputfile = m_PdfDialog.m_edOutfile->lineEdit()->text().trimmed();
 	
-	switch (taskIndex()) {
+	int taskindex = taskIndex();
+	switch (taskindex) {
 		case PDF_PAGE_EMPTY:     
 			m_param = "nup=1x2,landscape,pages=" + buildPageRange(PDF_PAGE_EMPTY);                     
 		break;
@@ -1167,7 +1169,8 @@ QString PdfDialog::buildActionCommand()
 		break;
 
 		case PDF_SELECT:         
-			m_param = m_PdfDialog.m_edParameter->text().trimmed();
+		case PDF_DELETE:         
+			m_param = ( taskindex == PDF_SELECT ) ? buildSelectPageList() : buildDeletePageList();
 			if ( m_pdftk ) {
 				m_param = "cat " + m_param.replace(","," ");
 				m_execLatex = false;
@@ -1311,6 +1314,63 @@ QString PdfDialog::buildReversPageList(bool even)
 	return "{" + s + "}";    
 }
 
+QString PdfDialog::buildSelectPageList()
+{
+	return m_PdfDialog.m_edParameter->text().trimmed();
+}
+
+QString PdfDialog::buildDeletePageList()
+{
+	// m_numpages is known
+	QString param = m_PdfDialog.m_edParameter->text().trimmed();
+	QRegExp re("(\\d+)-(\\d+)");
+	
+	// analyze delete list
+	bool ok;
+	QBitArray arr(m_numpages+1,false);	
+	QStringList pagelist = param.split(',');
+	foreach (const QString &s, pagelist) {
+		if ( s.contains('-') && re.indexIn(s)>=0 ) {
+			int from = re.cap(1).toInt(&ok);
+			int to = re.cap(2).toInt(&ok);
+			for (int i=from; i<=to; ++i) {
+				arr.setBit(i);
+			}
+		} else {
+			arr.setBit(s.toInt(&ok));
+		}
+	}
+
+	// build select list
+	QString result;
+	int page = 1;
+	while ( page <= m_numpages ) {
+		int from = searchPages(&arr,page,m_numpages,true);
+		if ( from > m_numpages )
+			break;
+		int to = searchPages(&arr,from+1,m_numpages,false) - 1;
+		if ( !result.isEmpty() )
+			result += ",";
+		if ( from < to ) 
+			result += QString::number(from) + "-" + QString::number(to);
+		else 
+			result += QString::number(from); 
+		page = to + 1;
+	}
+	
+	return result;
+}
+
+int PdfDialog::searchPages(QBitArray *arr, int page, int lastpage, bool value)
+{
+	while ( page <= lastpage ) {
+		if ( arr->at(page) != value ) 
+			return page;
+		page++;
+	}
+	return lastpage + 1;
+}
+
 bool PdfDialog::checkParameter()
 {
 	if ( !checkInputFile() )
@@ -1323,13 +1383,13 @@ bool PdfDialog::checkParameter()
 
 	// check parameter
 	int taskindex = taskIndex();
-	if ( taskindex>=PDF_SELECT && taskindex<=PDF_PDFTK_FREE && m_PdfDialog.m_edParameter->text().trimmed().isEmpty() ) {
+	if ( isParameterTask(taskindex) && m_PdfDialog.m_edParameter->text().trimmed().isEmpty() ) {
 		showError( i18n("The utility needs some parameters in this mode.") );
 		return false;
 	}
 
 	// check background/stamp parameter
-	if ( taskindex==PDF_PDFTK_BACKGROUND || taskindex==PDF_PDFTK_STAMP ) {
+	if ( isOverlayTask(taskindex) ) {
 		QString stampfile = m_PdfDialog.m_edStamp->text().trimmed();
 		
 		if ( stampfile.isEmpty() ) {
@@ -1437,6 +1497,23 @@ void PdfDialog::showError(const QString &text)
 {
 	KMessageBox::error(this, i18n("<center>") + text + i18n("</center>"), i18n("PDF Tools"));
 }
+
+// check tasks
+bool PdfDialog::isParameterTask(int task)
+{
+	return ( task==PDF_SELECT || task==PDF_DELETE || task==PDF_PDFPAGES_FREE || task==PDF_PDFTK_FREE );
+}
+
+bool PdfDialog::isOverlayTask(int task)
+{
+	return ( task==PDF_PDFTK_BACKGROUND || task==PDF_PDFTK_STAMP );
+}
+
+bool PdfDialog::isFreeTask(int task)
+{
+	return ( task==PDF_PDFPAGES_FREE || task==PDF_PDFTK_FREE );
+}
+
 
 }
 

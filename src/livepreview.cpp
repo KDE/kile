@@ -707,7 +707,7 @@ void LivePreviewManager::createLivePreviewPart()
 	}
 	else {
 		QVariantList argList;
-		argList << "ViewerWidget";
+		argList << "ViewerWidget" << "ConfigFileName=kile-livepreview-okularpartrc";
 		m_livePreviewPart = factory->create<KParts::ReadOnlyPart>(this, argList);
 		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
 		if(!viewerInterface) {

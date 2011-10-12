@@ -230,10 +230,20 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		sizes << m_verticalSplitter->width() / 2 << m_verticalSplitter->width() / 2;
 		textViewHorizontalSplitter->setSizes(sizes);
 		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
+
+		m_paPrintCompiledDocument = createAction(KStandardAction::Print, "print_compiled_document", m_livePreviewManager->livePreviewPart(), SLOT(slotPrint()));
+		m_paPrintCompiledDocument->setText(i18n("Print Compiled Document..."));
+		m_paPrintCompiledDocument->setShortcut(QKeySequence());
+		connect(m_livePreviewManager->livePreviewPart(), SIGNAL(enablePrintAction(bool)), m_paPrintCompiledDocument, SLOT(setEnabled(bool)));
+		QAction *printPreviewAction = m_livePreviewManager->livePreviewPart()->actionCollection()->action("file_print_preview");
+		if(printPreviewAction) {
+			printPreviewAction->setText(i18n("Print Preview For Compiled Document..."));
+		}
 	}
 	else { // live preview part couldn't be created
 		delete m_livePreviewManager;
 		m_livePreviewManager = NULL;
+		m_paPrintCompiledDocument = NULL;
 	}
 #else
 	m_livePreviewManager = NULL;
@@ -269,6 +279,30 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
 	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
+
+	// we can only do this here after the main GUI has been set up
+	if(m_livePreviewManager && m_livePreviewManager->livePreviewPart()) {
+		guiFactory()->addClient(m_livePreviewManager->livePreviewPart());
+
+		QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container("menu_document_viewer", this));
+		QMenu *popup = static_cast<QMenu*>(guiFactory()->container("menu_okular_part_viewer", m_livePreviewManager->livePreviewPart()));
+		if(documentViewerMenu && popup) {
+			// we populate our menu with the actions from the part's menu
+			documentViewerMenu->addActions(popup->actions());
+		}
+		else {
+			if(documentViewerMenu) {
+				documentViewerMenu->setVisible(false);
+			}
+			delete popup;
+		}
+	}
+	else { // we hide the special document viewer menu
+		QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container("menu_document_viewer", this));
+		if(documentViewerMenu) {
+			documentViewerMenu->setVisible(false);
+		}
+	}
 
 	restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!
 
@@ -326,6 +360,9 @@ Kile::~Kile()
 {
 	KILE_DEBUG() << "cleaning up..." << endl;
 
+	if(m_livePreviewManager && m_livePreviewManager->livePreviewPart()) {
+		guiFactory()->removeClient(m_livePreviewManager->livePreviewPart());
+	}
 	delete m_livePreviewManager;
 	delete m_toolFactory;
 	delete m_manager;

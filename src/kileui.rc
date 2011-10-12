@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="40">
+<kpartgui name="kile" version="41">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -23,7 +23,11 @@
 	<Action name="template_create"/>
 	<Action name="template_remove"/>
 	<Separator/>
+	<DefineGroup name="okular_print_merge" append="okular_print_merge"/>
+	<Action name="print_compiled_document"/>
+	<Separator/>
 	<DefineGroup name="print_merge"/>
+	<Separator/>
 	<Merge/>
 	<Menu name="convert"><text>Con&amp;vert To</text>
 		<Action name="file_export_ascii"/>
@@ -116,13 +120,17 @@
 	<Action name="RefreshStructure"/>
 </Menu>
 
-<Menu name="view"><text>&amp;View</text>
+<Menu name="view" noMerge="1"><text>&amp;View</text>
 <Action name="return_to_editor"/>
-<Merge/>
+<DefineGroup name="view_operations" append="view_operations"/>
 <Separator/>
 <Action name="gotoPrevDocument"/>
 <Action name="gotoNextDocument"/>
+<Separator/>
+<Menu name="menu_document_viewer"><text>Document Viewer</text>
 </Menu>
+</Menu>
+
 <Menu name="menu_build"><text>B&amp;uild</text>
 	<Menu name="quickpreview"><text>QuickPreview</text>
 		<Action name="quickpreview_selection"/>
@@ -481,6 +489,7 @@
 	<Separator/>
 	<Action name="StructureView" append="show_merge"/>
 	<Action name="MessageView" append="show_merge"/>
+	<DefineGroup name="configure_merge" append="configure_merge"/>
 </Menu>
 
 <Menu name="help"><text>&amp;Help</text>
@@ -501,6 +510,7 @@
 	<Action name="help_userhelp" append="help_whats_this_merge"/>
 	<Separator/>
 	<Action name="help_about_editor" append="about_merge"/>
+	<DefineGroup name="about_merge" append="about_merge"/>
 </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1" hidden="false"><text>Main</text>

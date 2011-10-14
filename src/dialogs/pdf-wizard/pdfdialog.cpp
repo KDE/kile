@@ -14,10 +14,6 @@
 
 #include "pdfdialog.h"
 
-#ifdef OKULARPARSER_AVAILABLE
-#include <okular/core/document.h>
-#endif
-
 #include <QLabel>
 #include <QCheckBox>
 #include <QGridLayout>
@@ -120,8 +116,6 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdfpages = false;
 	m_scriptrunning = false;
 	m_pagesize = QSize(0,0);
-	m_okularconfigchanged = false;
-	m_okularconfig = 0L;
 
 	// setup tasks
 	m_tasklist << i18n("1 Page + Empty Page --> 2up")           // 0   PDF_PAGE_EMPTY
@@ -146,25 +140,18 @@ PdfDialog::PdfDialog(QWidget *parent,
 	           ;
 	
 	// set data for properties: key/widget
-	m_pdfInfoKeys << "title" << "subject" << "author" << "creator" << "producer" << "keywords";
+	m_pdfInfoKeys << "Title" << "Subject" << "Author" << "Creator" << "Producer" << "Keywords";
 
-	m_pdfInfoWidget["title"] = m_PdfDialog.m_leTitle;
-	m_pdfInfoWidget["subject"] = m_PdfDialog.m_leSubject;
-	m_pdfInfoWidget["keywords"] = m_PdfDialog.m_leKeywords;
-	m_pdfInfoWidget["author"] = m_PdfDialog.m_leAuthor;
-	m_pdfInfoWidget["creator"] = m_PdfDialog.m_leCreator;
-	m_pdfInfoWidget["producer"] = m_PdfDialog.m_leProducer;
-
-	m_pdfInfoPdftk["title"] = "Title";
-	m_pdfInfoPdftk["subject"] = "Subject";
-	m_pdfInfoPdftk["keywords"] = "Keywords";
-	m_pdfInfoPdftk["author"] = "Author";
-	m_pdfInfoPdftk["creator"] = "Creator";
-	m_pdfInfoPdftk["producer"] = "Producer";
+	m_pdfInfoWidget["Title"] = m_PdfDialog.m_leTitle;
+	m_pdfInfoWidget["Subject"] = m_PdfDialog.m_leSubject;
+	m_pdfInfoWidget["Keywords"] = m_PdfDialog.m_leKeywords;
+	m_pdfInfoWidget["Author"] = m_PdfDialog.m_leAuthor;
+	m_pdfInfoWidget["Creator"] = m_PdfDialog.m_leCreator;
+	m_pdfInfoWidget["Producer"] = m_PdfDialog.m_leProducer;
 
 	// set data for  permissions: key/widget
-	m_pdfPermissionKeys    << Okular::AllowModify << Okular::AllowCopy << Okular::AllowPrint
-	                       << Okular::AllowNotes << Okular::AllowFillForms;
+	m_pdfPermissionKeys    << AllowModify << AllowCopy << AllowPrint
+	                       << AllowNotes  << AllowFillForms;
 
 	m_pdfPermissionWidgets << m_PdfDialog.m_cbModify << m_PdfDialog.m_cbCopy << m_PdfDialog.m_cbPrinting 
 	                       << m_PdfDialog.m_cbAnnotations << m_PdfDialog.m_cbFormFeeds;
@@ -175,15 +162,15 @@ PdfDialog::PdfDialog(QWidget *parent,
 	// default permissions
 	m_pdfPermissionState << false << false  << false  << false  << false;
  
-	// check for okular pdf parser
-#ifndef OKULARPARSER_AVAILABLE
-	m_okular = false;
-	KILE_DEBUG() << "working without okular pdf parser";
+	// check for libpoppler pdf library
+#ifndef LIBPOPPLER_QT4_AVAILABLE
+	m_poppler = false;
+	KILE_DEBUG() << "working without libpoppler pdf library";
 	m_PdfDialog.tabWidget->removeTab(2);
 	m_PdfDialog.tabWidget->removeTab(1);
 #else
-	m_okular = true;
-	KILE_DEBUG() << "working with okular pdf parser";
+	m_poppler = true;
+	KILE_DEBUG() << "working with libpoppler pdf library";
 #endif
 
 	// init Dialog
@@ -198,7 +185,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
 	
-#ifdef OKULARPARSER_AVAILABLE
+#ifdef LIBPOPPLER_QT4_AVAILABLE
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
 	connect(m_PdfDialog.m_pbPrinting, SIGNAL(clicked()), this, SLOT(slotPrintingClicked()));
 	connect(m_PdfDialog.m_pbAll, SIGNAL(clicked()), this, SLOT(slotAllClicked()));
@@ -210,18 +197,6 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 PdfDialog::~PdfDialog()
 {
-#ifdef OKULARPARSER_AVAILABLE
-	if ( m_okularconfig ) {
-		// restore modified config file?
-		if ( m_okularconfigchanged ) {
-			KConfigGroup generalGroup(m_okularconfig,"General");
-			generalGroup.writeEntry("ObeyDRM",false);
-			generalGroup.config()->sync();
-		}
-		delete m_okularconfig;
-	}
-#endif
-
 	delete m_tempdir;
 	delete m_proc;
 }
@@ -239,25 +214,10 @@ void PdfDialog::initUtilities()
 
 	KILE_DEBUG() << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
 
-#ifdef OKULARPARSER_AVAILABLE
-	// ensure that okular configuration option 'ObeyDRM' is set to true
-	QString okularconffile = KStandardDirs::locateLocal( "config", "okularpartrc" );
-	m_okularconfig = new KConfig(okularconffile);
-	KConfigGroup generalGroup(m_okularconfig,"General");
-	
-	m_okularconfigchanged = false;
-	bool drm = generalGroup.readEntry("ObeyDRM",true);
-	if ( ! drm ) {
-	   generalGroup.writeEntry("ObeyDRM",true);
-		generalGroup.config()->sync();
-	   m_okularconfigchanged = true;
-	}
-#endif
-
-#ifndef OKULARPARSER_AVAILABLE
+#ifndef LIBPOPPLER_QT4_AVAILABLE
 	m_imagemagick = KileConfig::imagemagick();
 
-	// we can't use okular pdf parser and need to find another method to determine the number of pdf pages
+	// we can't use libpoppler pdf library and need to find another method to determine the number of pdf pages
 	// Kile will use three options before giving up
 	if ( m_pdftk )
 		m_numpagesMode = PDF_SCRIPTMODE_NUMPAGES_PDFTK;
@@ -273,8 +233,8 @@ void PdfDialog::initUtilities()
 		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 			m_pdfInfoWidget[*it]->setReadOnly(true);
 		}
-#ifdef OKULARPARSER_AVAILABLE
-		//readonly checkboxes
+#ifdef LIBPOPPLER_QT4_AVAILABLE
+		// connect permission widgets
 		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 			connect(m_pdfPermissionWidgets.at(i), SIGNAL(clicked(bool)), this, SLOT(slotPermissionClicked(bool)));
 		}
@@ -295,65 +255,53 @@ void PdfDialog::initUtilities()
 // read properties and permissions from the PDF document
 void PdfDialog::pdfparser(const QString &filename)
 {
-#ifdef OKULARPARSER_AVAILABLE
-
-	KUrl url;
-	url.setPath(filename);
-	KMimeType::Ptr pMime = KMimeType::findByUrl(url);
-
-	Okular::Document *okular = new Okular::Document(this);
-	bool open = okular->openDocument(filename,url,pMime); //);
-	KILE_DEBUG() << "Parse pdf document: " << filename << " ---> " << open;
-	if ( !open )
+#ifdef LIBPOPPLER_QT4_AVAILABLE
+	Poppler::Document *doc = Poppler::Document::load(filename);
+	if ( !doc || doc->isLocked() ) {
+		KILE_DEBUG() << "Error: could not open pdf document '" << filename << "'";
 		return;
+	}
+	KILE_DEBUG() << "Parse pdf document: " << filename;
+	
+	// read encryption
+	m_encrypted = doc->isEncrypted();
+	m_PdfDialog.m_lbEncryption->setText( (m_encrypted) ? i18n("yes") : i18n("no") );
 
-	const Okular::DocumentInfo *docinfo = okular->documentInfo ();
-	if ( docinfo )  {
-		// read encryption
-		m_PdfDialog.m_lbFormat->setText( docinfo->get("format") );
-		m_encrypted = ( docinfo->get("encryption") == i18n("Encrypted") ) ? true : false;
-		m_PdfDialog.m_lbEncryption->setText( (m_encrypted) ? i18n("yes") : i18n("no") );
+	// read properties
+	for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
+		QString value = doc->info(*it);
+		m_pdfInfo[*it] = value;
+		m_pdfInfoWidget[*it]->setText(value);
+	}
+	
+	// read creation date and modification date
+	m_PdfDialog.m_lbCreationDate->setText( KGlobal::locale()->formatDateTime( doc->date("CreationDate"), KLocale::LongDate, true) );
+	m_PdfDialog.m_lbModDate->setText( KGlobal::locale()->formatDateTime( doc->date("ModDate"), KLocale::LongDate, true) );
 
-		// read properties
-		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
-			QString value = docinfo->get(*it);
-			m_pdfInfo[*it] = value;
-			m_pdfInfoWidget[*it]->setText(value);
-		}
-		m_PdfDialog.m_lbCreationDate->setText( docinfo->get("creationDate") );
-		m_PdfDialog.m_lbModDate->setText( docinfo->get("modificationDate") );
+	// read PDF version
+	int major,minor;
+	doc->getPdfVersion(&major,&minor);
+	m_PdfDialog.m_lbFormat->setText( QString("PDF version %1.%2").arg(major).arg(minor) );
+	
+	// read permissions
+	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
+		bool value = isAllowed( doc, (PDF_Permission)m_pdfPermissionKeys.at(i) );
+		m_pdfPermissionWidgets.at(i)->setChecked(value);
 
-		// read permissions
-		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
-			bool value = okular->isAllowed( (Okular::Permission)m_pdfPermissionKeys.at(i) );
-			m_pdfPermissionWidgets.at(i)->setChecked(value);
-
-			if ( !m_pdftk ) {
-				m_pdfPermissionState[i] = value;
-			}
+		if ( !m_pdftk ) {
+			m_pdfPermissionState[i] = value;
 		}
 	}
-	else
-		KILE_DEBUG() << "No document info for pdf file available.";
 
-	// determine number of pages
-	setNumberOfPages( okular->pages() );
+	// determine and set number of pages
+	setNumberOfPages( doc->numPages() );
 	
 	// look if all pages have the same size
-	QSizeF pagesizes = okular->allPagesSize();
-	if ( !pagesizes.isEmpty() ) {
-		m_pagesize = pagesizes.toSize();
-		KILE_DEBUG() << "Document has equal page sizes: w=" << m_pagesize.width() << " h=" << m_pagesize.height();
-	} else {
-		m_pagesize = QSize(0,0);
-		KILE_DEBUG() << "Document has different page sizes";
-	}
+	m_pagesize = allPagesSize(doc);
 
-	okular->closeDocument();
-	delete okular;
-	
+	delete doc;
 #else
-	/* Okular pdf parser ist not available:
+	/* libpoppler pdf library is not available:
 	 * - we use a brute force method to determine, if this file is encrypted
 	 * - then we try to determine the number of pages with 
 	 *   - pdftk (always first choice, if installed)
@@ -374,7 +322,61 @@ void PdfDialog::pdfparser(const QString &filename)
 	m_pagesize = QSize(0,0);
 #endif
 	
+
 }
+
+#ifdef LIBPOPPLER_QT4_AVAILABLE
+bool PdfDialog::isAllowed(Poppler::Document *doc, PDF_Permission permission) const
+{
+    bool b = true;
+    switch ( permission )
+    {
+        case AllowModify:
+            b = doc->okToChange();
+            break;
+        case AllowCopy:
+            b = doc->okToCopy();
+            break;
+        case AllowPrint:
+            b = doc->okToPrint();
+            break;
+        case AllowNotes:
+            b = doc->okToAddNotes();
+            break;
+        case AllowFillForms:
+            b = doc->okToFillForm();
+            break;
+        default: ;
+    }
+    return b;
+}
+
+QSize PdfDialog::allPagesSize(Poppler::Document *doc) 
+{
+	QSize commonsize = QSize(0,0);
+
+	// Access all pages of the PDF file (m_numpages is known)
+	for ( int i=0; i<m_numpages; ++i ) {
+		Poppler::Page *pdfpage = doc->page(i);
+		if ( pdfpage == 0 ) {
+			KILE_DEBUG() << "Cannot parse all pages of the PDF file";
+			delete pdfpage;
+			return QSize(0,0);
+		}
+
+		if ( i == 0 ) {
+			commonsize = pdfpage->pageSize();
+		} else if ( commonsize != pdfpage->pageSize() ) {
+			delete pdfpage;
+			return QSize(0,0);
+		}
+		// documentation says: after the usage, the page must be deleted
+		delete pdfpage;
+	}
+
+	return commonsize;
+}
+#endif
 
 void PdfDialog::setNumberOfPages(int numpages)
 {
@@ -396,7 +398,7 @@ void PdfDialog::setNumberOfPages(int numpages)
 	}
 }
 
-#ifndef OKULARPARSER_AVAILABLE
+#ifndef LIBPOPPLER_QT4_AVAILABLE
 void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassword)
 {
 	// determine the number of pages of the pdf file (delegate this task)
@@ -553,41 +555,39 @@ void PdfDialog::updateToolsInfo()
 
 	int tabindex = m_PdfDialog.tabWidget->currentIndex();
 	if (tabindex == 2 ) {
-		info = ( m_pdftk ) ? i18n("The permissions of this document can be changed with 'pdftk'.") + newline 
-		                     + password + newline
-		                     + i18n("<i>(Okular configuration 'Obey DRM limitations' should be set.)</i>")
-		                   : i18n("'pdftk' is not available, so no permission can be changed.");
+		info = ( m_pdftk ) ? i18n("The permissions of this document can be changed with <i>pdftk</i>.") + newline + password
+		                   : i18n("<i>pdftk</i> is not available, so no permission can be changed.");
 	}
 	else if ( tabindex == 1 ) {
 		if ( ! m_pdftk ) {
-			info = i18n("'pdftk' is not available, so no property can be changed.");
+			info = i18n("<i>pdftk</i> is not available, so no property can be changed.");
 		}
 		else {
-			info = i18n("The properties of this document can be changed with 'pdftk'.");
+			info = i18n("The properties of this document can be changed with <i>pdftk</i>.");
 			if ( m_encrypted )
 				info += newline + password;
 		}
 	}
 	else { // if ( tabindex == 0 )
 		if ( m_encrypted ) {
-			info = ( m_pdftk ) ? i18n("This input file is encrypted, so only 'pdftk' works.") + newline
+			info = ( m_pdftk ) ? i18n("This input file is encrypted, so only <i>pdftk</i> works.") + newline
 			                       + i18n("A password is necessary to rearrange pages.") 
-			                   : i18n("This input file is encrypted, but 'pdftk' is not installed.");
+			                   : i18n("This input file is encrypted, but <i>pdftk</i> is not installed.");
 		}
 		else {
 			if ( m_pdftk ) { // not encrypted and pdftk
-				info = ( m_pdfpages ) ? i18n("This wizard will use 'pdftk' and the LaTeX package 'pdfpages'.")
-				                      : i18n("This wizard will only use 'pdftk' ('pdfpages.sty' is not installed).");
+				info = ( m_pdfpages ) ? i18n("This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>.")
+				                      : i18n("This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not installed).");
 			}
 			else {           // not encrypted and not pdftk
-				info = ( m_pdfpages ) ? i18n("This wizard will only use the LaTeX package 'pdfpages' ('pdftk' was not found).")
+				info = ( m_pdfpages ) ? i18n("This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> was not found).")
 				                      : i18n("This wizard can't work, because no tool was found (see help section).");
 			}
 		}
 	}
 	
-	QString okularinfo = (m_okular ) ? QString::null : newline + i18n("<i>(Compiled without Okular PDF parser. Not all tasks are available.)</i>");
-	info += okularinfo;
+	QString popplerinfo = (m_poppler ) ? QString::null : newline + i18n("<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</i>");
+	info += popplerinfo;
 
 	// set info text
 	m_PdfDialog.m_lbParameterInfo->setText(info);
@@ -780,6 +780,7 @@ void PdfDialog::slotTaskChanged(int)
 
 		m_PdfDialog.m_lbParameter->setText(labeltext);
 		m_PdfDialog.m_lbParameter->show();
+		m_PdfDialog.m_edParameter->setText(QString::null);
 		m_PdfDialog.m_edParameter->show();
 		m_PdfDialog.m_lbParamInfo->show();
 	}
@@ -860,8 +861,8 @@ void PdfDialog::slotButtonClicked(int button)
 		"is encrypted, but the key is known. You should see it more as a polite but firm request "
 		"to respect the author's wishes.</p>");
 
-#ifndef OKULARPARSER_AVAILABLE
-	message += i18n("<p><i>Information: </i>This version of Kile wasn't compiled with Okular PDF parser."
+#ifndef LIBPOPPLER_QT4_AVAILABLE
+	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library."
 	                "Setting, changing and removing of properties and permissions is not possible.</p>");
 #endif
 	
@@ -875,6 +876,8 @@ void PdfDialog::slotButtonClicked(int button)
 void PdfDialog::executeAction()
 {
 	QString command = buildActionCommand();
+	if ( command.isEmpty() )
+		return;
 
 	m_log->clear();
 	QFileInfo from(m_inputfile);
@@ -919,7 +922,7 @@ void PdfDialog::executeProperties()
 	// create a text file with key/value pairs for pdftk
 	QTextStream infostream(&infotemp);
 	for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
-		infostream << "InfoKey: " << m_pdfInfoPdftk[*it] << "\n";
+		infostream << "InfoKey: " << (*it) << "\n";
 		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed() << "\n";
 	}
 	// add modification Date
@@ -1053,7 +1056,7 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 		bool state = ( exitCode == 0 );
 		if ( m_scriptmode == PDF_SCRIPTMODE_TOOLS ) 
 			initUtilities();
-#ifndef OKULARPARSER_AVAILABLE
+#ifndef LIBPOPPLER_QT4_AVAILABLE
 		else if ( m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK 
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK 
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT ) {
@@ -1543,18 +1546,57 @@ bool PdfDialog::checkParameter()
 		return false;
 	}
 
+	// check select/delete page list (m_numpages is known)
+	if ( taskindex==PDF_SELECT || taskindex==PDF_DELETE ) {
+		// m_numpages is known
+		QString param = m_PdfDialog.m_edParameter->text().trimmed();
+		QRegExp re("(\\d+)-(\\d+)");
+	
+		// analyze page list
+		bool ok;
+		QStringList pagelist = param.split(',');
+		foreach (const QString &s, pagelist) {
+			if ( s.contains('-') && re.indexIn(s)>=0 ) {
+				int from = re.cap(1).toInt(&ok); 
+				int to = re.cap(2).toInt(&ok);
+				if ( from > to ) {
+					showError(i18n("Illegal page list 'from-to': %1 is bigger than %2.",from,to));
+					return false;
+				}
+				if ( to > m_numpages ) {
+					showError(i18n("Illegal pagenumber: %1.",to));
+					return false;
+				}
+			} else {
+				int page = s.toInt(&ok);
+				if ( page > m_numpages ) {
+					showError(i18n("Illegal pagenumber: %1.",page));
+					return false;
+				}
+			}
+		}
+	}
+
 	// check background/stamp parameter
 	if ( isOverlayTask(taskindex) ) {
-		QString stampfile = m_PdfDialog.m_edStamp->text().trimmed();
+		QString filename = m_PdfDialog.m_edStamp->text().trimmed();
 		
-		if ( stampfile.isEmpty() ) {
-			showError(i18n("You need to define an PDF file as image in this mode."));
+		if ( filename.isEmpty() ) {
+			QString message = ( taskindex == PDF_PDFTK_STAMP )
+			                ? i18n("You need to define a PDF file as foreground stamp.")
+					        : i18n("You need to define a PDF file as background watermark.");
+			showError(message);
 			return false;
 		}
 	
-		QFileInfo fs(stampfile);
+		QFileInfo fs(filename);
 		if (fs.completeSuffix() != "pdf") {
 			showError(i18n("Unknown file format: only '.pdf' is accepted as image file in this mode."));
+			return false;
+		}
+		
+		if ( !QFile::exists(filename) ) {
+			showError(i18n("The given file doesn't exist."));
 			return false;
 		}
 	}

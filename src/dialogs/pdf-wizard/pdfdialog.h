@@ -17,6 +17,11 @@
 
 #include "config.h"
 
+#ifdef LIBPOPPLER_QT4_AVAILABLE
+#include <poppler/qt4/poppler-qt4.h>
+#endif
+
+
 #include <KDialog>
 #include <KTempDir>
 
@@ -38,24 +43,6 @@
 
 
 class KProcess;
-
-#ifndef OKULARPARSER_AVAILABLE
-namespace Okular {
-	
-/**
- * Describes the DRM capabilities.
- */
-enum Permission
-{
-    AllowModify = 1,  ///< Allows to modify the document
-    AllowCopy = 2,    ///< Allows to copy the document
-    AllowPrint = 4,   ///< Allows to print the document
-    AllowNotes = 8,   ///< Allows to add annotations to the document
-    AllowFillForms = 16     ///< Allows to fill the forms in the document
-};
-
-}
-#endif
 
 namespace KileDialog
 {
@@ -90,6 +77,13 @@ class PdfDialog : public KDialog
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
 	private:
+		enum PDF_Permission { AllowModify = 1,        // Allows to modify the document
+		                      AllowCopy = 2,          // Allows to copy the document
+		                      AllowPrint = 4,         // Allows to print the document
+		                      AllowNotes = 8,         // Allows to add annotations to the document
+		                      AllowFillForms = 16     // Allows to fill the forms in the document
+		                    };
+
 		enum PDF_Action { PDF_PAGE_EMPTY=0,        PDF_PAGE_DUPLICATE=1, PDF_2UP=2,          PDF_2UP_LANDSCAPE=3,
 		                  PDF_4UP=4,               PDF_4UP_LANDSCAPE=5,  PDF_EVEN=6,         PDF_ODD=7,
 		                  PDF_EVEN_REV=8,          PDF_ODD_REV=9,        PDF_REVERSE=10,     PDF_DECRYPT=11,         
@@ -100,7 +94,7 @@ class PdfDialog : public KDialog
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
 		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3, 
-#ifndef OKULARPARSER_AVAILABLE
+#ifndef LIBPOPPLER_QT4_AVAILABLE
 		                      PDF_SCRIPTMODE_NUMPAGES_PDFTK=4,
 		                      PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK=5,
 		                      PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT=6
@@ -154,7 +148,12 @@ class PdfDialog : public KDialog
 		void setPermissions(bool print,bool other);
 		QString readPermissions();
 		void setNumberOfPages(int numpages);
-
+		
+#ifdef LIBPOPPLER_QT4_AVAILABLE
+		QSize allPagesSize(Poppler::Document *doc); 
+		bool isAllowed(Poppler::Document *doc, PDF_Permission permission) const;
+#endif
+		
 		void pdfparser(const QString &filename);
 
 		QString m_startdir;
@@ -172,15 +171,10 @@ class PdfDialog : public KDialog
 		KTempDir *m_tempdir;
 		QStringList m_move_filelist;
 		
-		bool m_okular;
+		bool m_poppler;
 		bool m_pdftk;
 		bool m_pdfpages;
 		
-#ifdef OKULARPARSER_AVAILABLE
-		KConfig *m_okularconfig;
-		bool m_okularconfigchanged;
-#endif
-
 		int  m_numpages;
 		bool  m_encrypted;
 		QSize m_pagesize;
@@ -199,7 +193,7 @@ class PdfDialog : public KDialog
 
 		Ui::PdfDialog m_PdfDialog;
 		
-#ifndef OKULARPARSER_AVAILABLE
+#ifndef LIBPOPPLER_QT4_AVAILABLE
 		int m_imagemagick;
 		int m_numpagesMode;
 		void determineNumberOfPages(const QString &filename, bool askForPasswor);

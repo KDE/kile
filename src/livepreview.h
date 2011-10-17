@@ -51,7 +51,6 @@ public:
 	bool run(const QString &text,const QString &textfilename,int startrow);
 	bool isRunning();
 
-	void cursorPositionUpdated(KileDocument::LaTeXInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition);
 	void compilePreview(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
 	void showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
 
@@ -106,6 +105,8 @@ private Q_SLOTS:
 	void synchronizeViewWithCursorActionToggled(bool b);
 	void previewForCurrentDocumentActionToggled(bool b);
 
+	void handleCursorPositionChangedTimeout();
+
 private:
 	class PreviewInformation;
 
@@ -113,7 +114,7 @@ private:
 	QPointer<KToolBar> m_controlToolBar;
 	QPointer<KLed> m_previewStatusLed;
 	KToggleAction *m_synchronizeViewWithCursorAction, *m_previewForCurrentDocumentAction;
-	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer;
+	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer, *m_cursorPositionChangedTimer;
 
 	QPointer<KParts::ReadOnlyPart> m_livePreviewPart;
 

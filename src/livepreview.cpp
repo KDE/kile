@@ -120,6 +120,10 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	m_documentChangedTimer->setSingleShot(true);
 	connect(m_documentChangedTimer, SIGNAL(timeout()), this, SLOT(handleDocumentModificationTimerTimeout()));
 
+	m_cursorPositionChangedTimer = new QTimer(this);
+	m_cursorPositionChangedTimer->setSingleShot(true);
+	connect(m_cursorPositionChangedTimer, SIGNAL(timeout()), this, SLOT(handleCursorPositionChangedTimeout()));
+
 	showPreviewDisabled();
 	createLivePreviewPart();
 }
@@ -277,11 +281,9 @@ void LivePreviewManager::handleMasterDocumentChanged()
 
 void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos)
 {
-	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
-	if(!latexInfo) {
-		return;
-	}
-	cursorPositionUpdated(latexInfo, view, pos);
+	Q_UNUSED(view);
+	Q_UNUSED(pos);
+	m_cursorPositionChangedTimer->start(100);
 }
 
 void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
@@ -393,23 +395,22 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 	}
 }
 
-void LivePreviewManager::cursorPositionUpdated(KileDocument::LaTeXInfo *latexInfo, KTextEditor::View *view, const KTextEditor::Cursor& newPosition)
+void LivePreviewManager::handleCursorPositionChangedTimeout()
 {
-	KILE_DEBUG() << "new position " << newPosition;
-	if(!m_synchronizeViewWithCursorAction->isChecked()) {
+	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
+	if(!view) {
 		return;
 	}
-
+	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
 	if(!latexInfo) {
 		return;
 	}
-
 	PreviewInformation *previewInformation = findPreviewInformation(latexInfo);
 	if(!previewInformation || !previewInformation->isPreviewEnabled()) {
 		return;
 	}
 
-	synchronizeViewWithCursor(latexInfo, view, newPosition);
+	synchronizeViewWithCursor(latexInfo, view, view->cursorPosition());
 }
 
 void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition)
@@ -717,6 +718,7 @@ void LivePreviewManager::createLivePreviewPart()
 			return;
 		}
 		viewerInterface->setWatchFileModeEnabled(false);
+		viewerInterface->setShowSourceLocationsGraphically(true);
 		connect(m_livePreviewPart, SIGNAL(openSourceReference(const QString&, int, int)), this, SLOT(handleActivatedSourceReference(const QString&, int, int)));
 	}
 }
@@ -790,6 +792,8 @@ void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasA
 {
 	Q_UNUSED(view);
 	Q_UNUSED(wasActiveView);
+
+	m_cursorPositionChangedTimer->stop();
 
 	// check if there is still an open editor tab
 	if(!m_ki->viewManager()->activeView()) {

@@ -435,28 +435,33 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info
 	}
 	KILE_DEBUG() << "filePath" << filePath;
 
-
-	if(m_livePreviewPart) {
-		KILE_DEBUG() << "url" << m_livePreviewPart->url();
-	}
-	KILE_DEBUG() << "currentFileShown" << previewInformation->previewFile;
-
-	KUrl previewUrl(KUrl(previewInformation->previewFile));
+	KILE_DEBUG() << "previewFile" << previewInformation->previewFile;
 
 	if(!m_livePreviewPart || !QFile::exists(previewInformation->previewFile)) {
 		return;
 	}
 
+	KILE_DEBUG() << "url" << m_livePreviewPart->url();
+
+	KUrl previewUrl(KUrl(previewInformation->previewFile));
+
+	bool fileOpened = true;
 	if(m_livePreviewPart->url().isEmpty() || m_livePreviewPart->url() != previewUrl) {
 		KILE_DEBUG() << "loading again";
-// 		m_livePreviewPart->openUrl(KUrl(absoluteTarget));
-		m_livePreviewPart->openUrl(previewUrl);
-		// don't forget this
-		m_shownPreviewInformation = previewInformation;
+		if(m_livePreviewPart->openUrl(previewUrl)) {
+			// don't forget this
+			m_shownPreviewInformation = previewInformation;
+		}
+		else {
+			fileOpened = false;
+			clearLivePreview();
+			// must happen after the call to 'clearLivePreview' only
+			showPreviewFailed();
+		}
 	}
 
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
-	if(v) {
+	if(fileOpened && v) {
 		v->showSourceLocation(filePath, newPosition.line(), newPosition.column());
 	}
 }
@@ -976,9 +981,15 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 	m_shownPreviewInformation->previewFile = m_runningPreviewFile;
 	m_shownPreviewInformation->setPreviewEnabled(true);
 	if(m_livePreviewPart && QFile::exists(m_shownPreviewInformation->previewFile)) {
-		showPreviewSuccessful();
-		m_livePreviewPart->openUrl(KUrl(m_shownPreviewInformation->previewFile));
-		synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
+		if(m_livePreviewPart->openUrl(KUrl(m_shownPreviewInformation->previewFile))) {
+			synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
+			showPreviewSuccessful();
+		}
+		else {
+			clearLivePreview();
+			// must happen after the call to 'clearLivePreview' only
+			showPreviewFailed();
+		}
 	}
 }
 

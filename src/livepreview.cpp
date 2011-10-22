@@ -756,7 +756,11 @@ void LivePreviewManager::handleActivatedSourceReference(const QString& absFileNa
 	KILE_DEBUG() << "fileName:" << fileName;
 	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(fileName);
 	if(!textInfo) {
-		return;
+		m_ki->docManager()->fileOpen(fileName);
+		textInfo = m_ki->docManager()->textInfoFor(fileName);
+		if(!textInfo) {
+			return;
+		}
 	}
 	KTextEditor::View *view = m_ki->viewManager()->textView(textInfo);
 	if(!view) {

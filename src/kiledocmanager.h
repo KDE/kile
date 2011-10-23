@@ -164,6 +164,7 @@ Q_SIGNALS:
 	void addToProjectView(KileProjectItem *item);
 	void addToProjectView(const KileProject*);
 
+	void documentSavedAs(KTextEditor::View*, KileDocument::TextInfo*);
 public:
 	/**
 	 * Autosave is not allowed whenever the documents are opened, closed, etc.

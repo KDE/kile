@@ -108,6 +108,8 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	        this, SLOT(handleTextViewClosed(KTextEditor::View*,bool)));
 	connect(m_ki->toolManager(), SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
 	        this, SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
+	connect(m_ki->docManager(), SIGNAL(documentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)),
+	        this, SLOT(handleDocumentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)));
 	createActions(ac);
 	createControlToolBar();
 
@@ -466,10 +468,14 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info
 	}
 }
 
-static QByteArray computeHashOfText(const QString& string)
+static QByteArray computeHashOfDocument(KTextEditor::Document *doc)
 {
 	QCryptographicHash cryptographicHash(QCryptographicHash::Sha1);
-	cryptographicHash.addData(string.toUtf8());
+	cryptographicHash.addData(doc->text().toUtf8());
+	// allows to catch situations when the URL of the document has changed,
+	// e.g. after a save-as operation, which breaks the handling of source
+	// references for the displayed document
+	cryptographicHash.addData(doc->url().toEncoded());
 
 	return cryptographicHash.result();
 }
@@ -488,7 +494,7 @@ static void fillTextHashForProject(KileProject *project, QHash<KileDocument::Tex
 		if(!document) {
 			continue;
 		}
-		textHash[textInfo] = computeHashOfText(document->text());
+		textHash[textInfo] = computeHashOfDocument(document);
 	}
 }
 
@@ -505,7 +511,7 @@ void LivePreviewManager::fillTextHashForMasterDocument(QHash<KileDocument::TextI
 		if(!document) {
 			continue;
 		}
-		textHash[textInfo] = computeHashOfText(document->text());
+		textHash[textInfo] = computeHashOfDocument(document);
 	}
 }
 
@@ -543,7 +549,7 @@ void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *
 			fillTextHashForProject(project, newHash);
 		}
 		else {
-			newHash[latexInfo] = computeHashOfText(view->document()->text());
+			newHash[latexInfo] = computeHashOfDocument(view->document());
 		}
 
 		if(newHash != previewInformation->textHash || !QFile::exists(previewInformation->previewFile)) {
@@ -693,7 +699,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 		fillTextHashForProject(project, m_runningTextHash);
 	}
 	else {
-		m_runningTextHash[info] = computeHashOfText(info->getDoc()->text());
+		m_runningTextHash[info] = computeHashOfDocument(info->getDoc());
 	}
 	m_runningPreviewInformation = previewInformation;
 	showPreviewRunning();
@@ -930,6 +936,18 @@ void LivePreviewManager::handleProjectItemRemoved(KileProject *project, KileProj
 {
 	KILE_DEBUG();
 	handleProjectItemAdditionOrRemoval(project, item);
+}
+
+void LivePreviewManager::handleDocumentSavedAs(KTextEditor::View *view, KileDocument::TextInfo *info)
+{
+	Q_UNUSED(info);
+	KTextEditor::View *currentTextView = m_ki->viewManager()->currentTextView();
+	if(view != currentTextView) { // might maybe happen at some point...
+		// preview will be refreshed the next time that view is activated as the hashes don't
+		// match anymore
+		return;
+	}
+	refreshLivePreview();
 }
 
 void LivePreviewManager::toolDestroyed()

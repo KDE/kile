@@ -1060,6 +1060,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 		emit addToRecentFiles(saveURL);
 		emit addToProjectView(doc->url());
 	}
+	emit(documentSavedAs(view, info));
 	return true;
 }
 

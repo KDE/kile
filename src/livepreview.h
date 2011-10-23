@@ -100,6 +100,8 @@ private Q_SLOTS:
 	void handleProjectItemAdded(KileProject *project, KileProjectItem *item);
 	void handleProjectItemRemoved(KileProject *project, KileProjectItem *item);
 
+	void handleDocumentSavedAs(KTextEditor::View*, KileDocument::TextInfo*);
+
 	void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);
 
 	void synchronizeViewWithCursorActionToggled(bool b);

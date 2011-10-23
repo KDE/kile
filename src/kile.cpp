@@ -234,6 +234,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		m_paPrintCompiledDocument = createAction(KStandardAction::Print, "print_compiled_document", m_livePreviewManager->livePreviewPart(), SLOT(slotPrint()));
 		m_paPrintCompiledDocument->setText(i18n("Print Compiled Document..."));
 		m_paPrintCompiledDocument->setShortcut(QKeySequence());
+		m_paPrintCompiledDocument->setEnabled(false);
 		connect(m_livePreviewManager->livePreviewPart(), SIGNAL(enablePrintAction(bool)), m_paPrintCompiledDocument, SLOT(setEnabled(bool)));
 		QAction *printPreviewAction = m_livePreviewManager->livePreviewPart()->actionCollection()->action("file_print_preview");
 		if(printPreviewAction) {
@@ -289,6 +290,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		if(documentViewerMenu && popup) {
 			// we populate our menu with the actions from the part's menu
 			documentViewerMenu->addActions(popup->actions());
+			documentViewerMenu->setEnabled(false);
+			connect(m_livePreviewManager->livePreviewPart(), SIGNAL(viewerMenuStateChange(bool)), documentViewerMenu, SLOT(setEnabled(bool)));
 		}
 		else {
 			if(documentViewerMenu) {

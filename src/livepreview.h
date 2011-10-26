@@ -153,6 +153,7 @@ private:
 	void showPreviewRunning();
 	void showPreviewFailed();
 	void showPreviewSuccessful();
+	void showPreviewOutOfDate();
 
 	void stopLivePreview();
 	void clearLivePreview();

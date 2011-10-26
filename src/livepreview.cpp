@@ -292,6 +292,9 @@ void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 {
 	KILE_DEBUG();
 	Q_UNUSED(doc);
+	stopLivePreview();
+	showPreviewOutOfDate();
+
 	m_documentChangedTimer->start(500);
 }
 
@@ -362,6 +365,17 @@ void LivePreviewManager::showPreviewSuccessful()
 		m_previewStatusLed->on();
 		m_previewStatusLed->setColor(QColor(Qt::green));
 	}
+}
+
+void LivePreviewManager::showPreviewOutOfDate()
+{
+	KILE_DEBUG();
+	m_ledBlinkingTimer->stop();
+	if(m_previewStatusLed) {
+		m_previewStatusLed->on();
+		m_previewStatusLed->setColor(QColor(Qt::yellow));
+	}
+
 }
 
 LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformation(KileDocument::LaTeXInfo *latexInfo,

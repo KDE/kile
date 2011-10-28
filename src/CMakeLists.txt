@@ -2,8 +2,21 @@ ADD_SUBDIRECTORY( data )
 ADD_SUBDIRECTORY( test )
 
 INCLUDE( FindPerl )
+INCLUDE( CheckIncludeFileCXX )
 
-INCLUDE_DIRECTORIES( ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} ${QT_INCLUDES} )
+INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} ${QT_INCLUDES} )
+
+GET_DIRECTORY_PROPERTY(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
+CHECK_INCLUDE_FILE_CXX( "poppler/qt4/poppler-qt4.h" HAVE_POPPLER_QT4_H )
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+
+IF( HAVE_POPPLER_QT4_H )
+	MESSAGE( STATUS "Building with libpoppler" )
+	SET(LIBPOPPLER_QT4_AVAILABLE 1)
+ELSE( HAVE_POPPLER_QT4_H )
+	MESSAGE( STATUS "Building without libpoppler" )
+	SET(LIBPOPPLER_QT4_AVAILABLE 0)
+ENDIF( HAVE_POPPLER_QT4_H )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
@@ -18,6 +31,7 @@ SET(kile_SRCS
 	dialogs/floatdialog.cpp
 	dialogs/mathenvironmentdialog.cpp
 	dialogs/postscriptdialog.cpp
+	dialogs/pdf-wizard/pdfdialog.cpp
 	widgets/previewconfigwidget.cpp
 	quickpreview.cpp
 	dialogs/includegraphicsdialog.cpp
@@ -124,6 +138,7 @@ SET( kile_UI
 	dialogs/tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
 	dialogs/postscriptdialog_base.ui
+	dialogs/pdf-wizard/pdfdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
 )
@@ -198,8 +213,13 @@ KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
 
 KDE4_ADD_EXECUTABLE(kile ${kile_SRCS})
 
-TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS} 
-${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+IF( HAVE_POPPLER_QT4_H )
+TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS}
+                           ${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS} poppler-qt4)
+ELSE( HAVE_POPPLER_QT4_H )
+TARGET_LINK_LIBRARIES(kile ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS}
+                           ${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+ENDIF( HAVE_POPPLER_QT4_H )
 
 INSTALL( TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

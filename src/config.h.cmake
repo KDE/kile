@@ -1,0 +1,7 @@
+#cmakedefine HAVE_POPPLER_QT4_H
+
+#ifdef HAVE_POPPLER_QT4_H
+	#define LIBPOPPLER_QT4_AVAILABLE
+#else
+	#undef LIBPOPPLER_QT4_AVAILABLE
+#endif

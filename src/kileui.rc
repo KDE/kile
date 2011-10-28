@@ -470,6 +470,7 @@
 	<Action name="wizard_mathenv"/>
 	<Separator/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 </Menu>
 
 <Merge/>

@@ -44,7 +44,7 @@
 #include "kiledebug.h"
 
 
-namespace KileDialog 
+namespace KileDialog
 {
 
 PdfDialog::PdfDialog(QWidget *parent,
@@ -87,7 +87,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	page->setMinimumWidth(500);
 	m_PdfDialog.m_pbPrinting->setIcon(KIcon("printer"));
 	m_PdfDialog.m_pbAll->setIcon(KIcon("list-add"));
-	m_PdfDialog.m_pbBackgroundColor->setColor(QColor(255,255,224));
+	m_PdfDialog.m_pbBackgroundColor->setColor(QColor(255, 255, 224));
 
 	// insert KileWidget::CategoryComboBox
 	m_cbTask = new KileWidget::CategoryComboBox(m_PdfDialog.m_gbParameter);
@@ -134,11 +134,11 @@ PdfDialog::PdfDialog(QWidget *parent,
 	           << i18n("Delete Pages")                          // 13  PDF_DELETE
 	           << i18n("Apply a background watermark")          // 14  PDF_PDFTK_BACKGROUND
 	           << i18n("Apply a background color")              // 15  PDF_PDFTK_BGCOLOR
-	           << i18n("Apply a foreground stamp")              // 16  PDF_PDFTK_STAMP 
-	           << i18n("pdftk: Choose Parameter")               // 17  PDF_PDFTK_FREE 
-	           << i18n("pdfpages: Choose Parameter")            // 18  PDF_PDFPAGES_FREE 
+	           << i18n("Apply a foreground stamp")              // 16  PDF_PDFTK_STAMP
+	           << i18n("pdftk: Choose Parameter")               // 17  PDF_PDFTK_FREE
+	           << i18n("pdfpages: Choose Parameter")            // 18  PDF_PDFPAGES_FREE
 	           ;
-	
+
 	// set data for properties: key/widget
 	m_pdfInfoKeys << "Title" << "Subject" << "Author" << "Creator" << "Producer" << "Keywords";
 
@@ -153,7 +153,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdfPermissionKeys    << AllowModify << AllowCopy << AllowPrint
 	                       << AllowNotes  << AllowFillForms;
 
-	m_pdfPermissionWidgets << m_PdfDialog.m_cbModify << m_PdfDialog.m_cbCopy << m_PdfDialog.m_cbPrinting 
+	m_pdfPermissionWidgets << m_PdfDialog.m_cbModify << m_PdfDialog.m_cbCopy << m_PdfDialog.m_cbPrinting
 	                       << m_PdfDialog.m_cbAnnotations << m_PdfDialog.m_cbFormFeeds;
 
 	m_pdfPermissionPdftk   << "ModifyContents" << "CopyContents" << "Printing"
@@ -161,7 +161,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 	// default permissions
 	m_pdfPermissionState << false << false  << false  << false  << false;
- 
+
 	// check for libpoppler pdf library
 #ifndef LIBPOPPLER_QT4_AVAILABLE
 	m_poppler = false;
@@ -184,7 +184,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
-	
+
 #ifdef LIBPOPPLER_QT4_AVAILABLE
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
 	connect(m_PdfDialog.m_pbPrinting, SIGNAL(clicked()), this, SLOT(slotPrintingClicked()));
@@ -203,10 +203,10 @@ PdfDialog::~PdfDialog()
 
 void PdfDialog::initUtilities()
 {
-	// find pdfpages.sty?  
+	// find pdfpages.sty?
 	m_pdfpages = m_outputtext.contains("pdfpages.sty");
 
-	// additionally look for pdftk 
+	// additionally look for pdftk
 	m_pdftk = !KStandardDirs::findExe("pdftk").isEmpty();
 
 //m_pdfpages = false;            // <----------- only for testing  HACK
@@ -226,9 +226,9 @@ void PdfDialog::initUtilities()
 	else
 		m_numpagesMode = PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT;
 #endif
-	
+
 	// no pdftk, so properties and permissions are readonly
-	if ( ! m_pdftk ) {
+	if ( !m_pdftk ) {
 		// set readonly properties
 		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 			m_pdfInfoWidget[*it]->setReadOnly(true);
@@ -253,7 +253,7 @@ void PdfDialog::initUtilities()
 }
 
 // read properties and permissions from the PDF document
-void PdfDialog::pdfparser(const QString &filename)
+void PdfDialog::pdfParser(const QString &filename)
 {
 #ifdef LIBPOPPLER_QT4_AVAILABLE
 	Poppler::Document *doc = Poppler::Document::load(filename);
@@ -262,7 +262,7 @@ void PdfDialog::pdfparser(const QString &filename)
 		return;
 	}
 	KILE_DEBUG() << "Parse pdf document: " << filename;
-	
+
 	// read encryption
 	m_encrypted = doc->isEncrypted();
 	m_PdfDialog.m_lbEncryption->setText( (m_encrypted) ? i18n("yes") : i18n("no") );
@@ -273,7 +273,7 @@ void PdfDialog::pdfparser(const QString &filename)
 		m_pdfInfo[*it] = value;
 		m_pdfInfoWidget[*it]->setText(value);
 	}
-	
+
 	// read creation date and modification date
 	m_PdfDialog.m_lbCreationDate->setText( KGlobal::locale()->formatDateTime( doc->date("CreationDate"), KLocale::LongDate, true) );
 	m_PdfDialog.m_lbModDate->setText( KGlobal::locale()->formatDateTime( doc->date("ModDate"), KLocale::LongDate, true) );
@@ -282,7 +282,7 @@ void PdfDialog::pdfparser(const QString &filename)
 	int major,minor;
 	doc->getPdfVersion(&major,&minor);
 	m_PdfDialog.m_lbFormat->setText( QString("PDF version %1.%2").arg(major).arg(minor) );
-	
+
 	// read permissions
 	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 		bool value = isAllowed( doc, (PDF_Permission)m_pdfPermissionKeys.at(i) );
@@ -295,7 +295,7 @@ void PdfDialog::pdfparser(const QString &filename)
 
 	// determine and set number of pages
 	setNumberOfPages( doc->numPages() );
-	
+
 	// look if all pages have the same size
 	m_pagesize = allPagesSize(doc);
 
@@ -303,25 +303,25 @@ void PdfDialog::pdfparser(const QString &filename)
 #else
 	/* libpoppler pdf library is not available:
 	 * - we use a brute force method to determine, if this file is encrypted
-	 * - then we try to determine the number of pages with 
+	 * - then we try to determine the number of pages with
 	 *   - pdftk (always first choice, if installed)
 	 *   - imagemagick (second choice)
 	 *   - gs (third and last choice)
 	 * - if the pdf file is encrypted, pdftk will ask for a password
 	 */
-	
+
 	// look if the pdf file is encrypted (brute force)
 	m_encrypted = readEncryption(filename);
 	KILE_DEBUG() << "PDF encryption: " << m_encrypted;
-	
-	// determine the number of pages of the pdf file 
+
+	// determine the number of pages of the pdf file
 	determineNumberOfPages(filename,m_encrypted);
 	KILE_DEBUG() << "PDF number of pages: " << m_numpages;
-	
+
 	// clear pagesize
 	m_pagesize = QSize(0,0);
 #endif
-	
+
 
 }
 
@@ -351,7 +351,7 @@ bool PdfDialog::isAllowed(Poppler::Document *doc, PDF_Permission permission) con
     return b;
 }
 
-QSize PdfDialog::allPagesSize(Poppler::Document *doc) 
+QSize PdfDialog::allPagesSize(Poppler::Document *doc)
 {
 	QSize commonsize = QSize(0,0);
 
@@ -384,7 +384,7 @@ void PdfDialog::setNumberOfPages(int numpages)
 	if (m_numpages > 0) {
 		// show all, if the number of pages is known
 		m_PdfDialog.tabWidget->widget(0)->setEnabled(true);
-		
+
 		QString pages;
 		if ( m_encrypted )
 			m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages)+"   "+i18n("(encrypted)"));
@@ -411,7 +411,7 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
 		                                          i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
 		                                               "Please enter the password for this PDF file\n or leave it blank to try another method: "),
-		                                         QString::null, &ok, this ).trimmed();
+		                                          QString::null, &ok, this ).trimmed();
 		if ( ! password.isEmpty() ) {
 			passwordparam = " input_pw " + password;
 		}
@@ -419,15 +419,18 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 			scriptmode = ( m_imagemagick ) ? PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK : PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT;
 		}
 	}
-		
+
 	// now take the original or changed mode
-	if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_PDFTK )
+	if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_PDFTK ) {
 		command = "pdftk \"" + filename + "\"" + passwordparam + " dump_data | grep NumberOfPages";
-	else if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK )
+	}
+	else if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK ) {
 		command = "identify -format \"%n\" \"" + filename + "\"";
-	else
+	}
+	else {
 		command = "gs -q -c \"(" + filename + ") (r) file runpdfbegin pdfpagecount = quit\"";
-	
+	}
+
 	// run Process
 	KILE_DEBUG() << "execute for NumberOfPages: " << command;
 	executeScript(command, m_tempdir->name(), scriptmode);
@@ -451,19 +454,21 @@ void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
 					}
 			}
 
-	} else {
+	}
+	else {
 		QString s = output;
 		numpages = s.remove("\n").toInt(&ok);
 	}
-	
+
 	setNumberOfPages(numpages);
 }
 
 bool PdfDialog::readEncryption(const QString &filename)
 {
 	QFile file(filename);
-	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-		return false;     
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		return false;
+	}
 
 	KILE_DEBUG() << "search for encryption ";
 	QRegExp re("/Encrypt(\\W|\\s|$)");
@@ -520,7 +525,7 @@ void PdfDialog::updateDialog()
 
 	updateOwnerPassword(infile_exists);
 	updateTasks();
-	updateToolsInfo(); 
+	updateToolsInfo();
 
 	bool pstate = ( m_encrypted ) ? infile_exists && m_pdftk : infile_exists && (m_pdftk || m_pdfpages);
 	m_PdfDialog.m_gbParameter->setEnabled(pstate);
@@ -549,7 +554,7 @@ void PdfDialog::updateDialog()
 // update tools information
 void PdfDialog::updateToolsInfo()
 {
-	QString info; 
+	QString info;
 	QString newline = "<br>";
 	QString password = i18n("A password is necessary to set or change the current settings.");
 
@@ -564,14 +569,15 @@ void PdfDialog::updateToolsInfo()
 		}
 		else {
 			info = i18n("The properties of this document can be changed with <i>pdftk</i>.");
-			if ( m_encrypted )
+			if ( m_encrypted ) {
 				info += newline + password;
+			}
 		}
 	}
 	else { // if ( tabindex == 0 )
 		if ( m_encrypted ) {
 			info = ( m_pdftk ) ? i18n("This input file is encrypted, so only <i>pdftk</i> works.") + newline
-			                       + i18n("A password is necessary to rearrange pages.") 
+			                       + i18n("A password is necessary to rearrange pages.")
 			                   : i18n("This input file is encrypted, but <i>pdftk</i> is not installed.");
 		}
 		else {
@@ -585,7 +591,7 @@ void PdfDialog::updateToolsInfo()
 			}
 		}
 	}
-	
+
 	QString popplerinfo = (m_poppler ) ? QString::null : newline + i18n("<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</i>");
 	info += popplerinfo;
 
@@ -594,7 +600,7 @@ void PdfDialog::updateToolsInfo()
 }
 
 // it is important to calculate the task index from the combobox index,
-// as not all tasks are available, when an utility was not found 
+// as not all tasks are available, when an utility was not found
 void PdfDialog::updateTasks()
 {
 	// according to QT 4.4 docu the index of QComboBox might change if adding or removing items
@@ -635,28 +641,31 @@ void PdfDialog::updateTasks()
 	if (m_pdftk) {
 		m_cbTask->addCategoryItem("");
 		m_cbTask->addItem( m_tasklist[PDF_PDFTK_BACKGROUND] );       // 14  PDF_PDFTK_BACKGROUND
-		if ( ! m_pagesize.isNull() )
-			m_cbTask->addItem( m_tasklist[PDF_PDFTK_BGCOLOR] );       // 15  PDF_PDFTK_BGCOLOR 
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 16  PDF_PDFTK_STAMP 
+		if ( ! m_pagesize.isNull() ) {
+			m_cbTask->addItem( m_tasklist[PDF_PDFTK_BGCOLOR] );       // 15  PDF_PDFTK_BGCOLOR
+		}
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_STAMP] );            // 16  PDF_PDFTK_STAMP
 		m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 17  PDF_PDFTK_FREE 
+		m_cbTask->addItem( m_tasklist[PDF_PDFTK_FREE] );             // 17  PDF_PDFTK_FREE
 		group = 3;
 	}
 
-	if (m_pdfpages && !m_encrypted) {  
-		if ( group < 3 )
+	if (m_pdfpages && !m_encrypted) {
+		if ( group < 3 ) {
 			m_cbTask->addCategoryItem("");
-		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 17  PDF_PDFPAGES_FREE 
+		}
+		m_cbTask->addItem( m_tasklist[PDF_PDFPAGES_FREE] );          // 17  PDF_PDFPAGES_FREE
 	}
 
 	// choose one common task (need to calculate the combobox index)
 	int index = m_cbTask->findText(lasttext);
 	if ( lastindex==-1 || index==-1 ) {
 		index = m_cbTask->findText(m_tasklist[PDF_SELECT]);
-		if ( index == -1 )
+		if ( index == -1 ) {
 			index = 0;
+		}
 	}
-	
+
 	m_cbTask->setCurrentIndex(index);
 	slotTaskChanged(index);
 
@@ -669,7 +678,7 @@ QString PdfDialog::getOutfileName(const QString &infile)
 	return ( infile.isEmpty() ) ? QString::null : infile.left(infile.length()-4) + "-out" + ".pdf";
 }
 
-// calculate task index from comboxbox index 
+// calculate task index from comboxbox index
 int PdfDialog::taskIndex()
 {
 	return m_tasklist.indexOf( m_cbTask->currentText() );
@@ -688,9 +697,10 @@ void PdfDialog::setPermissions(bool print, bool other)
 QString PdfDialog::readPermissions()
 {
 	QString permissions;
-	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
-		if ( m_pdfPermissionWidgets.at(i)->isChecked() )
+	for (int i = 0; i < m_pdfPermissionKeys.size(); ++i) {
+		if ( m_pdfPermissionWidgets.at(i)->isChecked() ) {
 			permissions += m_pdfPermissionPdftk.at(i) + " ";
+		}
 	}
 	return permissions;
 }
@@ -719,7 +729,7 @@ void PdfDialog::slotAllClicked()
 
 void PdfDialog::slotPermissionClicked(bool)
 {
-	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
+	for (int i = 0; i < m_pdfPermissionKeys.size(); ++i) {
 		QCheckBox *box = m_pdfPermissionWidgets.at(i);
 		if ( box->isChecked() != m_pdfPermissionState[i] ) {
 			box->setChecked( m_pdfPermissionState[i] );
@@ -730,9 +740,9 @@ void PdfDialog::slotPermissionClicked(bool)
 void PdfDialog::slotInputfileChanged(const QString &text)
 {
 	clearDocumentInfo();
-	if ( QFile(text).exists() ) { 
+	if ( QFile(text).exists() ) {
 		m_PdfDialog.m_edOutfile->lineEdit()->setText( getOutfileName(text) );
-		pdfparser(text);
+		pdfParser(text);
 	}
 
 	updateDialog();
@@ -754,8 +764,9 @@ void PdfDialog::slotOutputfileChanged(const QString &)
 
 void PdfDialog::slotTaskChanged(int)
 {
-	if ( m_PdfDialog.tabWidget->currentIndex() > 0 )
+	if ( m_PdfDialog.tabWidget->currentIndex() > 0 ) {
 		return;
+	}
 
 	int taskindex = taskIndex();
 	if ( isParameterTask(taskindex) ) {
@@ -789,22 +800,24 @@ void PdfDialog::slotTaskChanged(int)
 		m_PdfDialog.m_edParameter->hide();
 		m_PdfDialog.m_lbParamInfo->hide();
 	}
-	
+
 	if ( isOverlayTask(taskindex) ) {
 		m_PdfDialog.m_lbStamp->show();
 		m_PdfDialog.m_edStamp->show();
-		
+
 		if ( taskindex == PDF_PDFTK_BACKGROUND ) {
 			m_PdfDialog.m_edStamp->setWhatsThis(i18n("Applies a PDF watermark to the background of a single input PDF. "
 			                                         "Pdftk uses only the first page from the background PDF and applies it to every page of the input PDF. "
 			                                         "This page is scaled and rotated as needed to fit the input page.") );
-		} else if ( taskindex == PDF_PDFTK_STAMP ) {
+		}
+		else if ( taskindex == PDF_PDFTK_STAMP ) {
 			m_PdfDialog.m_edStamp->setWhatsThis( i18n("Applies a foreground stamp on top of the input PDF document's pages. "
 			                                          "Pdftk uses only the first page from the stamp PDF and applies it to every page of the input PDF. "
 			                                          "This page is scaled and rotated as needed to fit the input page. "
 			                                          "This works best if the stamp PDF page has a transparent background.") );
 		}
-	} else {
+	}
+	else {
 		m_PdfDialog.m_lbStamp->hide();
 		m_PdfDialog.m_edStamp->hide();
 	}
@@ -812,14 +825,16 @@ void PdfDialog::slotTaskChanged(int)
 	if ( isBackgroundColor(taskindex) ) {
 		m_PdfDialog.m_lbBackgroundColor->show();
 		m_PdfDialog.m_pbBackgroundColor->show();
-	} else {
+	}
+	else {
 		m_PdfDialog.m_lbBackgroundColor->hide();
 		m_PdfDialog.m_pbBackgroundColor->hide();
 	}
 
 	if ( isOverlayTask(taskindex) || isBackgroundColor(taskindex) || isFreeTask(taskindex) ) {
 		setButtonText(User1, i18n("&Apply"));
-	} else {
+	}
+	else {
 		setButtonText(User1, i18n("Re&arrange"));
 	}
 
@@ -833,15 +848,18 @@ void PdfDialog::slotButtonClicked(int button)
 
 	if ( button == User1 ) {
 		switch (tabindex) {
-			case 0: if (checkParameter()) 
-				        executeAction();
-				     break;
-			case 1: if (checkProperties())
-				        executeProperties();
-				     break;
-			case 2: if (checkPermissions()) 
-				        executePermissions();
-				     break;
+			case 0: if (checkParameter()) {
+					executeAction();
+				}
+				break;
+			case 1: if (checkProperties()) {
+					executeProperties();
+				}
+				break;
+			case 2: if (checkPermissions()) {
+					executePermissions();
+				}
+				break;
 		}
 	}
 	else if (button == Help) {
@@ -854,7 +872,7 @@ void PdfDialog::slotButtonClicked(int button)
 		"A password is necessary to set or change this document settings. "
 		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
 		"</ul>"
-		"<p>The package 'pdfpages' will only work with non encrypted documents. "
+		"<p>The package 'pdfpages' will only work with non-encrypted documents. "
 		"'pdftk' can handle both kind of documents, but a password is needed for encrypted files. "
 		"If one of 'pdftk' or 'pdfpages' is not available, the possible rearrangements are reduced.</p>"
 		"<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content "
@@ -865,7 +883,7 @@ void PdfDialog::slotButtonClicked(int button)
 	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library."
 	                "Setting, changing and removing of properties and permissions is not possible.</p>");
 #endif
-	
+
 		KMessageBox::information(this,message,i18n("PDF Tools"));
 	}
 	else {
@@ -876,8 +894,9 @@ void PdfDialog::slotButtonClicked(int button)
 void PdfDialog::executeAction()
 {
 	QString command = buildActionCommand();
-	if ( command.isEmpty() )
+	if ( command.isEmpty() ) {
 		return;
+	}
 
 	m_log->clear();
 	QFileInfo from(m_inputfile);
@@ -890,7 +909,7 @@ void PdfDialog::executeAction()
 		msg += " ---> " + to.fileName();
 	m_log->printMessage(KileTool::Info, msg, program);
 
-	// some output logs 
+	// some output logs
 	m_output->clear();
 	QString s = QString("*****\n")
 	              + i18n("***** tool:        ") + program + '\n'
@@ -901,7 +920,7 @@ void PdfDialog::executeAction()
 	              + i18n("***** viewer:      ") + ((m_PdfDialog.m_cbView->isChecked()) ? i18n("yes") : i18n("no")) + '\n'
 	              + "*****\n";
 	emit( output(s) );
-	
+
 	// run Process
 	executeScript(command, m_tempdir->name(), PDF_SCRIPTMODE_ACTION);
 }
@@ -942,8 +961,10 @@ void PdfDialog::executeProperties()
 
 	// build param
 	QString param = "\"" + inputfile + "\"";
-	if ( m_encrypted )
+	if ( m_encrypted ) {
 		param += " input_pw " + password;
+	}
+
 	param += " update_info " + infofile + " output \"" + pdffile+ "\"";
 	if ( m_encrypted ) {
 		param += " encrypt_128bit";
@@ -956,7 +977,7 @@ void PdfDialog::executeProperties()
 	// move destination file
 	m_move_filelist.clear();
 	m_move_filelist << pdffile << inputfile;
-	
+
 	// execute script
 	showLogs("Updating properties", inputfile, param);
 	executeScript(command, QString::null, PDF_SCRIPTMODE_PROPERTIES);
@@ -974,11 +995,13 @@ void PdfDialog::executePermissions()
 	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-perms.pdf";
 
 	QString param = "\"" + inputfile + "\"";
-	if ( m_encrypted )
+	if ( m_encrypted ) {
 		param += " input_pw " + password;
+	}
 	param += " output \"" + pdffile + "\" encrypt_128bit";
-	if ( !permissions.isEmpty() )
+	if ( !permissions.isEmpty() ) {
 		param += " allow " + permissions;
+	}
 	param += " owner_pw " + password;
 	QString command = "pdftk " + param;
 
@@ -994,11 +1017,11 @@ void PdfDialog::executePermissions()
 
 void PdfDialog::showLogs(const QString &title, const QString &inputfile, const QString &param)
 {
-	// some info for log widget 
+	// some info for log widget
 	m_log->clear();
-	m_log->printMessage(KileTool::Info,title,"pdftk" );
+	m_log->printMessage(KileTool::Info, title, "pdftk" );
 
-	// some info for output widget 
+	// some info for output widget
 	QFileInfo input(inputfile);
 	m_output->clear();
 	QString s = QString("*****\n")
@@ -1012,15 +1035,17 @@ void PdfDialog::showLogs(const QString &title, const QString &inputfile, const Q
 void PdfDialog::executeScript(const QString &command, const QString &dir, int scriptmode)
 {
 	// delete old KProcess
-	if (m_proc)
+	if (m_proc) {
 		delete m_proc;
+	}
 
 	m_scriptmode = scriptmode;
 	m_outputtext = "";
 
 	m_proc = new KProcess();
-	if (!dir.isEmpty())
+	if (!dir.isEmpty()) {
 		m_proc->setWorkingDirectory(dir);
+	}
 	m_proc->setShellCommand(command);
 	m_proc->setOutputChannelMode(KProcess::MergedChannels);
 	m_proc->setReadChannel(QProcess::StandardOutput);
@@ -1054,19 +1079,21 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 	}
 	else {
 		bool state = ( exitCode == 0 );
-		if ( m_scriptmode == PDF_SCRIPTMODE_TOOLS ) 
+		if ( m_scriptmode == PDF_SCRIPTMODE_TOOLS ) {
 			initUtilities();
+		}
 #ifndef LIBPOPPLER_QT4_AVAILABLE
-		else if ( m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK 
-			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK 
+		else if ( m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK
+			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT ) {
 				readNumberOfPages(m_scriptmode,m_outputtext);
 		}
 #endif
-		else
+		else {
 			finishPdfAction(state);
-	} 
-   
+		}
+	}
+
 	m_scriptrunning = false;
 	enableButton(Close,true);
 	updateDialog();
@@ -1089,15 +1116,17 @@ void PdfDialog::finishPdfAction(bool state)
 				QFile::rename( m_move_filelist[0], m_move_filelist[1] );
 				KILE_DEBUG() << "move file: " << m_move_filelist[0] << " --->  " << m_move_filelist[1];
 			}
-			
+
 			// run viewer
-			if ( m_PdfDialog.m_cbView->isChecked() && m_scriptmode==PDF_SCRIPTMODE_ACTION )
+			if ( m_PdfDialog.m_cbView->isChecked() && m_scriptmode==PDF_SCRIPTMODE_ACTION ) {
 				runViewer();
-			
-			// file properties/permissions could be changed changed 
-			if ( (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_PdfDialog.m_cbOverwrite->isChecked()) 
-				   || m_scriptmode==PDF_SCRIPTMODE_PROPERTIES || m_scriptmode==PDF_SCRIPTMODE_PERMISSIONS )
+			}
+
+			// file properties/permissions could be changed changed
+			if ( (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_PdfDialog.m_cbOverwrite->isChecked())
+				   || m_scriptmode==PDF_SCRIPTMODE_PROPERTIES || m_scriptmode==PDF_SCRIPTMODE_PERMISSIONS ) {
 				slotInputfileChanged( m_PdfDialog.m_edInfile->lineEdit()->text().trimmed() );
+			}
 	}
 	else {
 		QString msg;
@@ -1114,14 +1143,13 @@ void PdfDialog::finishPdfAction(bool state)
 void PdfDialog::runViewer()
 {
 	m_log->printMessage(KileTool::Info, "Running viewer", "ViewPDF");
-	
+
 	// call ViewPDF
 	QString cfg = KileTool::configName("ViewPDF", m_manager->config());
 	KileTool::View *tool = new KileTool::View("ViewPDF", m_manager, false);
 	tool->setFlags(0);
 	tool->setSource(m_outputfile);
 	m_manager->run(tool,cfg);
-	
 }
 
 QString PdfDialog::buildActionCommand()
@@ -1130,46 +1158,46 @@ QString PdfDialog::buildActionCommand()
 	m_execLatex = true;           // default
 	m_inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	m_outputfile = m_PdfDialog.m_edOutfile->lineEdit()->text().trimmed();
-	
+
 	QColor bgcolor;
 	QString bgfile;
 	int taskindex = taskIndex();
 	switch (taskindex) {
-		case PDF_PAGE_EMPTY:     
-			m_param = "nup=1x2,landscape,pages=" + buildPageRange(PDF_PAGE_EMPTY);                     
+		case PDF_PAGE_EMPTY:
+			m_param = "nup=1x2,landscape,pages=" + buildPageRange(PDF_PAGE_EMPTY);
 		break;
 
-		case PDF_PAGE_DUPLICATE: 
-			m_param = "nup=1x2,landscape,pages=" + buildPageRange(PDF_PAGE_DUPLICATE);                 
+		case PDF_PAGE_DUPLICATE:
+			m_param = "nup=1x2,landscape,pages=" + buildPageRange(PDF_PAGE_DUPLICATE);
 		break;
 
-		case PDF_2UP:            
-			m_param = "nup=1x2,landscape,pages=1-";                   
+		case PDF_2UP:
+			m_param = "nup=1x2,landscape,pages=1-";
 		break;
 
-		case PDF_2UP_LANDSCAPE:  
-			m_param = "nup=1x2,pages=1-";                         
+		case PDF_2UP_LANDSCAPE:
+			m_param = "nup=1x2,pages=1-";
 		break;
 
-		case PDF_4UP:            
-			m_param = "nup=2x2,pages=1-";                       
+		case PDF_4UP:
+			m_param = "nup=2x2,pages=1-";
 		break;
 
-		case PDF_4UP_LANDSCAPE:  
-			m_param = "nup=2x2,landscape,pages=1-";                    
+		case PDF_4UP_LANDSCAPE:
+			m_param = "nup=2x2,landscape,pages=1-";
 		break;
 
-		case PDF_EVEN:           
+		case PDF_EVEN:
 			if ( m_pdftk ) {
 				m_param = "cat 1-endeven";
-				m_execLatex = false;                        
-			}                         
+				m_execLatex = false;
+			}
 			else {
-				m_param = buildPageList(true);                         
-			}                         
+				m_param = buildPageList(true);
+			}
 		break;
 
-		case PDF_ODD:            
+		case PDF_ODD:
 			if ( m_pdftk ) {
 				m_param = "cat 1-endodd";
 				m_execLatex = false;
@@ -1179,7 +1207,7 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
-		case PDF_EVEN_REV:       
+		case PDF_EVEN_REV:
 			if ( m_pdftk ) {
 				m_param = "cat end-1even";
 				m_execLatex = false;
@@ -1189,7 +1217,7 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
-		case PDF_ODD_REV:        
+		case PDF_ODD_REV:
 			if ( m_pdftk ) {
 				m_param = "cat end-1odd";
 				m_execLatex = false;
@@ -1199,7 +1227,7 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
-		case PDF_REVERSE:        
+		case PDF_REVERSE:
 			if ( m_pdftk ) {
 				m_param = "cat end-1";
 				m_execLatex = false;
@@ -1209,13 +1237,13 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
-		case PDF_DECRYPT:   
+		case PDF_DECRYPT:
 			m_param = QString::null;
 			m_execLatex = false;
 		break;
-			
-		case PDF_SELECT:         
-		case PDF_DELETE:         
+
+		case PDF_SELECT:
+		case PDF_DELETE:
 			m_param = ( taskindex == PDF_SELECT ) ? buildSelectPageList() : buildDeletePageList();
 			if ( m_pdftk ) {
 				m_param = "cat " + m_param.replace(","," ");
@@ -1226,30 +1254,30 @@ QString PdfDialog::buildActionCommand()
 			}
 		break;
 
-		case PDF_PDFTK_BACKGROUND:     
+		case PDF_PDFTK_BACKGROUND:
 			m_param = "background \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
-			m_execLatex = false;                        
+			m_execLatex = false;
 		break;
 
 		case PDF_PDFTK_BGCOLOR:
- 			bgcolor = m_PdfDialog.m_pbBackgroundColor->color();
- 			bgfile = buildPdfBackgroundFile(&bgcolor);
+			bgcolor = m_PdfDialog.m_pbBackgroundColor->color();
+			bgfile = buildPdfBackgroundFile(&bgcolor);
 			m_param = "background " + bgfile;
-			m_execLatex = false;      
+			m_execLatex = false;
 		break;
 
-		case PDF_PDFTK_STAMP:     
+		case PDF_PDFTK_STAMP:
 			m_param = "stamp \"" + m_PdfDialog.m_edStamp->text().trimmed() + "\"";
-			m_execLatex = false;                        
+			m_execLatex = false;
 		break;
-		
-		case PDF_PDFTK_FREE:     
+
+		case PDF_PDFTK_FREE:
 			m_param = m_PdfDialog.m_edParameter->text().trimmed();
-			m_execLatex = false;                        
+			m_execLatex = false;
 		break;
-		
-		case PDF_PDFPAGES_FREE:  
-			m_param = m_PdfDialog.m_edParameter->text().trimmed();                         
+
+		case PDF_PDFPAGES_FREE:
+			m_param = m_PdfDialog.m_edParameter->text().trimmed();
 		break;
 	}
 
@@ -1272,10 +1300,11 @@ QString PdfDialog::buildActionCommand()
 
 	// additional actions
 	bool viewer = m_PdfDialog.m_cbView->isChecked();
- 
+
 	bool equalfiles = (m_PdfDialog.m_cbOverwrite->isChecked() || m_inputfile==m_outputfile);
-	if (equalfiles)
+	if (equalfiles) {
 		 m_outputfile = m_inputfile;
+	}
 
 	// move destination file
 	m_move_filelist.clear();
@@ -1287,8 +1316,9 @@ QString PdfDialog::buildActionCommand()
 	}
 
 	// viewer
-	if ( viewer && m_outputfile.isEmpty() )
+	if ( viewer && m_outputfile.isEmpty() ) {
 		m_outputfile = pdffile;
+	}
 
 	return command;
 }
@@ -1306,7 +1336,7 @@ QString PdfDialog::buildLatexFile(const QString &param)
 		return QString();
 	}
 	QString tempname = temp.fileName();
-	
+
 	QTextStream stream(&temp);
 	stream << "\\documentclass[a4paper,12pt]{article}";
 	stream << "\\usepackage[final]{pdfpages}";
@@ -1316,7 +1346,7 @@ QString PdfDialog::buildLatexFile(const QString &param)
 
 	// everything is prepared to do the job
 	temp.close();
-	return(tempname.left(tempname.length()-4));
+	return(tempname.left(tempname.length() - 4));
 }
 
 // create a temporary pdf file to set a background color
@@ -1332,7 +1362,7 @@ QString PdfDialog::buildPdfBackgroundFile(QColor *color)
 		return QString();
 	}
 	QString tempname = temp.fileName();
-	
+
 	QTextStream stream(&temp);
 	stream << "%PDF-1.4\n";
 	stream << '%' << '\0' << '\0' << '\0' << '\0' << '\r';
@@ -1428,26 +1458,30 @@ QString PdfDialog::buildPageRange(int type)
 {
 	QString s;
 	for (int i = 1; i <= m_numpages; ++i) {
-		if (type == PDF_PAGE_EMPTY)
+		if (type == PDF_PAGE_EMPTY) {
 			s += QString("%1,{},").arg(i);
-		else
+		}
+		else {
 			s += QString("%1,%2,").arg(i).arg(i);
+		}
 	}
 
-	return "{" + s.left(s.length()-1) + "}";    
+	return "{" + s.left(s.length()-1) + "}";
 }
 
 QString PdfDialog::buildPageList(bool even)
 {
-	QString s,number;
+	QString s, number;
 
 	int start = ( even ) ? 2 : 1;
-	for (int i=start; i<=m_numpages; i+=2 )
+	for (int i=start; i<=m_numpages; i+=2 ) {
 		s += number.setNum(i) + ",";
+	}
 
-	if ( !s.isEmpty() )
+	if ( !s.isEmpty() ) {
 		s.truncate(s.length()-1);
-	return "{" + s + "}";    
+	}
+	return "{" + s + "}";
 }
 
 QString PdfDialog::buildReversPageList(bool even)
@@ -1456,20 +1490,24 @@ QString PdfDialog::buildReversPageList(bool even)
 
 	int last = m_numpages;
 	if ( even ) {
-		if ( (last & 1) == 1 )
+		if ( (last & 1) == 1 ) {
 			last--;
+		}
 	}
 	else {
-		if ( (last & 1) == 0 )
-			last--;		
+		if ( (last & 1) == 0 ) {
+			last--;
+		}
 	}
 
-	for (int i=last; i>=1; i-=2 )
+	for (int i=last; i>=1; i-=2 ) {
 		s += number.setNum(i) + ",";
+	}
 
-	if ( !s.isEmpty() )
+	if ( !s.isEmpty() ) {
 		s.truncate(s.length()-1);
-	return "{" + s + "}";    
+	}
+	return "{" + s + "}";
 }
 
 QString PdfDialog::buildSelectPageList()
@@ -1482,19 +1520,20 @@ QString PdfDialog::buildDeletePageList()
 	// m_numpages is known
 	QString param = m_PdfDialog.m_edParameter->text().trimmed();
 	QRegExp re("(\\d+)-(\\d+)");
-	
+
 	// analyze delete list
 	bool ok;
-	QBitArray arr(m_numpages+1,false);	
+	QBitArray arr(m_numpages + 1,false);
 	QStringList pagelist = param.split(',');
 	foreach (const QString &s, pagelist) {
-		if ( s.contains('-') && re.indexIn(s)>=0 ) {
+		if ( s.contains('-') && re.indexIn(s) >= 0 ) {
 			int from = re.cap(1).toInt(&ok);
 			int to = re.cap(2).toInt(&ok);
 			for (int i=from; i<=to; ++i) {
 				arr.setBit(i);
 			}
-		} else {
+		}
+		else {
 			arr.setBit(s.toInt(&ok));
 		}
 	}
@@ -1504,26 +1543,31 @@ QString PdfDialog::buildDeletePageList()
 	int page = 1;
 	while ( page <= m_numpages ) {
 		int from = searchPages(&arr,page,m_numpages,true);
-		if ( from > m_numpages )
+		if ( from > m_numpages ) {
 			break;
+		}
 		int to = searchPages(&arr,from+1,m_numpages,false) - 1;
-		if ( !result.isEmpty() )
+		if ( !result.isEmpty() ) {
 			result += ",";
-		if ( from < to ) 
+		}
+		if ( from < to ) {
 			result += QString::number(from) + "-" + QString::number(to);
-		else 
-			result += QString::number(from); 
+		}
+		else {
+			result += QString::number(from);
+		}
 		page = to + 1;
 	}
-	
+
 	return result;
 }
 
 int PdfDialog::searchPages(QBitArray *arr, int page, int lastpage, bool value)
 {
 	while ( page <= lastpage ) {
-		if ( arr->at(page) != value ) 
+		if ( arr->at(page) != value ) {
 			return page;
+		}
 		page++;
 	}
 	return lastpage + 1;
@@ -1531,12 +1575,14 @@ int PdfDialog::searchPages(QBitArray *arr, int page, int lastpage, bool value)
 
 bool PdfDialog::checkParameter()
 {
-	if ( !checkInputFile() )
+	if ( !checkInputFile() ) {
 		return false;
+	}
 
 	if ( m_encrypted ) {
-		if ( !checkPassword() )
+		if ( !checkPassword() ) {
 			return false;
+		}
 	}
 
 	// check parameter
@@ -1551,13 +1597,13 @@ bool PdfDialog::checkParameter()
 		// m_numpages is known
 		QString param = m_PdfDialog.m_edParameter->text().trimmed();
 		QRegExp re("(\\d+)-(\\d+)");
-	
+
 		// analyze page list
 		bool ok;
 		QStringList pagelist = param.split(',');
 		foreach (const QString &s, pagelist) {
 			if ( s.contains('-') && re.indexIn(s)>=0 ) {
-				int from = re.cap(1).toInt(&ok); 
+				int from = re.cap(1).toInt(&ok);
 				int to = re.cap(2).toInt(&ok);
 				if ( from > to ) {
 					showError(i18n("Illegal page list 'from-to': %1 is bigger than %2.",from,to));
@@ -1567,7 +1613,8 @@ bool PdfDialog::checkParameter()
 					showError(i18n("Illegal pagenumber: %1.",to));
 					return false;
 				}
-			} else {
+			}
+			else {
 				int page = s.toInt(&ok);
 				if ( page > m_numpages ) {
 					showError(i18n("Illegal pagenumber: %1.",page));
@@ -1580,7 +1627,7 @@ bool PdfDialog::checkParameter()
 	// check background/stamp parameter
 	if ( isOverlayTask(taskindex) ) {
 		QString filename = m_PdfDialog.m_edStamp->text().trimmed();
-		
+
 		if ( filename.isEmpty() ) {
 			QString message = ( taskindex == PDF_PDFTK_STAMP )
 			                ? i18n("You need to define a PDF file as foreground stamp.")
@@ -1588,22 +1635,23 @@ bool PdfDialog::checkParameter()
 			showError(message);
 			return false;
 		}
-	
+
 		QFileInfo fs(filename);
 		if (fs.completeSuffix() != "pdf") {
 			showError(i18n("Unknown file format: only '.pdf' is accepted as image file in this mode."));
 			return false;
 		}
-		
+
 		if ( !QFile::exists(filename) ) {
 			showError(i18n("The given file doesn't exist."));
 			return false;
 		}
 	}
-	
+
 	// overwrite mode: no output file is needed
-	if ( m_PdfDialog.m_cbOverwrite->isChecked() )
-		return true;  
+	if ( m_PdfDialog.m_cbOverwrite->isChecked() ) {
+		return true;
+	}
 
 	// create a different output file
 	QString outfile = m_PdfDialog.m_edOutfile->lineEdit()->text().trimmed();
@@ -1612,13 +1660,13 @@ bool PdfDialog::checkParameter()
 		return false;
 	}
 
-	// outfile file must have extension pdf 
+	// outfile file must have extension pdf
 	QFileInfo fo(outfile);
 	if (fo.completeSuffix() != "pdf") {
 		showError(i18n("Unknown file format: only '.pdf' is accepted as output file."));
 		return false;
 	}
-	
+
 	// check, if this output file already exists
 	if ( fo.exists() ) {
 		QString s = i18n("A file named \"%1\" already exists. Are you sure you want to overwrite it?", fo.fileName());
@@ -1681,7 +1729,7 @@ bool PdfDialog::checkPassword()
 		showError(i18n("No password is given."));
 		return false;
 	}
-	
+
 	if (password.length() < 6) {
 		showError(i18n("The password should be at least 6 characters long."));
 		return false;

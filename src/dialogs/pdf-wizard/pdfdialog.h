@@ -86,14 +86,14 @@ class PdfDialog : public KDialog
 
 		enum PDF_Action { PDF_PAGE_EMPTY=0,        PDF_PAGE_DUPLICATE=1, PDF_2UP=2,          PDF_2UP_LANDSCAPE=3,
 		                  PDF_4UP=4,               PDF_4UP_LANDSCAPE=5,  PDF_EVEN=6,         PDF_ODD=7,
-		                  PDF_EVEN_REV=8,          PDF_ODD_REV=9,        PDF_REVERSE=10,     PDF_DECRYPT=11,         
+		                  PDF_EVEN_REV=8,          PDF_ODD_REV=9,        PDF_REVERSE=10,     PDF_DECRYPT=11,
 		                  PDF_SELECT=12,           PDF_DELETE=13,
-		                  PDF_PDFTK_BACKGROUND=14, PDF_PDFTK_BGCOLOR=15, PDF_PDFTK_STAMP=16, 
-		                  PDF_PDFTK_FREE=17,       PDF_PDFPAGES_FREE=18 
+		                  PDF_PDFTK_BACKGROUND=14, PDF_PDFTK_BGCOLOR=15, PDF_PDFTK_STAMP=16,
+		                  PDF_PDFTK_FREE=17,       PDF_PDFPAGES_FREE=18
 		                };
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
-		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3, 
+		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3,
 #ifndef LIBPOPPLER_QT4_AVAILABLE
 		                      PDF_SCRIPTMODE_NUMPAGES_PDFTK=4,
 		                      PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK=5,
@@ -148,20 +148,20 @@ class PdfDialog : public KDialog
 		void setPermissions(bool print,bool other);
 		QString readPermissions();
 		void setNumberOfPages(int numpages);
-		
+
 #ifdef LIBPOPPLER_QT4_AVAILABLE
-		QSize allPagesSize(Poppler::Document *doc); 
+		QSize allPagesSize(Poppler::Document *doc);
 		bool isAllowed(Poppler::Document *doc, PDF_Permission permission) const;
 #endif
-		
-		void pdfparser(const QString &filename);
+
+		void pdfParser(const QString &filename);
 
 		QString m_startdir;
 		KileTool::Manager *m_manager;
 		KileWidget::LogWidget *m_log;
 		KileWidget::OutputView *m_output;
 		KileWidget::CategoryComboBox *m_cbTask;
-		
+
 		int m_scriptmode;
 		QString m_outputtext;
 		bool m_execLatex;
@@ -170,11 +170,11 @@ class PdfDialog : public KDialog
 
 		KTempDir *m_tempdir;
 		QStringList m_move_filelist;
-		
+
 		bool m_poppler;
 		bool m_pdftk;
 		bool m_pdfpages;
-		
+
 		int  m_numpages;
 		bool  m_encrypted;
 		QSize m_pagesize;
@@ -192,7 +192,7 @@ class PdfDialog : public KDialog
 		KProcess* m_proc;
 
 		Ui::PdfDialog m_PdfDialog;
-		
+
 #ifndef LIBPOPPLER_QT4_AVAILABLE
 		int m_imagemagick;
 		int m_numpagesMode;

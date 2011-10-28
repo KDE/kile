@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="40">
+<kpartgui name="kile" version="41">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -638,6 +638,7 @@
 	<Action name="wizard_float"/>
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -914,6 +915,7 @@
 	<Action name="wizard_float"/>
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1184,6 +1186,7 @@
 	<Action name="wizard_float"/>
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>

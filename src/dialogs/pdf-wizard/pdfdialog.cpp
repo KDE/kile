@@ -880,7 +880,7 @@ void PdfDialog::slotButtonClicked(int button)
 		"to respect the author's wishes.</p>");
 
 #ifndef LIBPOPPLER_QT4_AVAILABLE
-	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library."
+	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library. "
 	                "Setting, changing and removing of properties and permissions is not possible.</p>");
 #endif
 

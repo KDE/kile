@@ -868,7 +868,7 @@ void PdfDialog::slotButtonClicked(int button)
 		"<ul>"
 		"<li>rearrange pages of an existing PDF document</li>"
 		"<li>read and update documentinfo of a PDF document (only pdftk)</li>"
-		"<li>read, set or change some permissions of a PDF document (only pdftk)."
+		"<li>read, set or change some permissions of a PDF document (only pdftk). "
 		"A password is necessary to set or change this document settings. "
 		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
 		"</ul>"

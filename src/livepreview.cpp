@@ -148,7 +148,7 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 	m_previewForCurrentDocumentAction = new KToggleAction(KIcon("document-preview"), i18n("Toggle Live Preview for Current Document or Project"), this);
 	m_previewForCurrentDocumentAction->setChecked(true);
 	connect(m_previewForCurrentDocumentAction, SIGNAL(toggled(bool)), this, SLOT(previewForCurrentDocumentActionToggled(bool)));
-	ac->addAction("preview_current_document", m_synchronizeViewWithCursorAction);
+	ac->addAction("preview_current_document", m_previewForCurrentDocumentAction);
 }
 
 void LivePreviewManager::synchronizeViewWithCursorActionToggled(bool b)

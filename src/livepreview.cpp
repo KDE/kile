@@ -285,6 +285,9 @@ void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, co
 {
 	Q_UNUSED(view);
 	Q_UNUSED(pos);
+	if(!m_synchronizeViewWithCursorAction->isChecked()) {
+		return;
+	}
 	m_cursorPositionChangedTimer->start(100);
 }
 

@@ -155,6 +155,10 @@ void LivePreviewManager::synchronizeViewWithCursorActionToggled(bool b)
 {
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	if(!b || !view) {
+		Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
+		if(v) {
+			v->clearLastShownSourceLocation();
+		}
 		return;
 	}
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
@@ -481,7 +485,7 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info
 
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
 	if(fileOpened && v) {
-		v->showSourceLocation(filePath, newPosition.line(), newPosition.column());
+		v->showSourceLocation(filePath, newPosition.line(), newPosition.column(), m_synchronizeViewWithCursorAction->isChecked());
 	}
 }
 

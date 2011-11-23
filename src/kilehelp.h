@@ -26,7 +26,6 @@
 #include <KTextEditor/View>
 
 #include "dialogs/texdocumentationdialog.h"
-#include "dialogs/usertagsdialog.h"
 #include "editorextension.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"

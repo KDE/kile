@@ -204,7 +204,7 @@ void LatexmenuDialog::slotButtonClicked(int button)
 		QString message = i18n("<p>You can create, change and install a user defined menu, which will appear as a part of Kile's menu. "
 			"To create or change this menu, use the six buttons on the left side. "
 			"Even more possible actions are available in the context menu of already existing menu items.</p>"
-			"<p>Like a standard menu, three different kind of menu items are available:</p>"
+			"<p>Like a standard menu, three different kinds of menu items are available:</p>"
 			"<ul>"
 			"<li><i>standard entries</i>, which are assigned to an action</li>"
 			"<li><i>submenus</i>, which contain more menu items</li>"
@@ -212,18 +212,14 @@ void LatexmenuDialog::slotButtonClicked(int button)
 			"</ul>"
 			"<p>Each standard menu item is assigned to one of three action types:</p>"
 			"<ul>"
-			"<li><i>insert text</i>: this action will insert text at the current cursor position. "
-			"Two metachars are available: <tt>%S</tt> will denote selected text and <tt>%C</tt> the new cursor position after insertion.</li>"
+			"<li><i>insert text</i>: this action will insert your text at the current cursor position. "
+			"Two metachars are available: <tt>%S</tt> will denote the selected text and <tt>%C</tt> the new cursor position after insertion.</li>"
 			"<li><i>file content</i>: inserts the complete contents of a given file (metachars <tt>%S</tt> and <tt>%C</tt> and more are also available)</li>"
 			"<li><i>run an external program</i>: The output of this program can be inserted into the opened document. "
 			"Metachar <tt>%S</tt> is also possible in the commandline of this program, as the selected text will be saved in a temporary file. "
 			"Use <tt>%S</tt> for the filename of this temporary file.</li>"
 			"</ul>"
-			"<p>More information is available with the <i>What's this</i> feature of most widgets.</p>");
-		
-		// If some  important information for an action is missing, menu items are colored red.
-		
-		// More informationis available using the 'What's this' feature of most widgets.
+			"<p>If some  important information for an action is missing, menu items are colored red. More information is available using the <i>What's this</i> feature of most widgets.</p>");
 		
 		KMessageBox::information(this,message,i18n("Latexmenu Dialog"));
 	}

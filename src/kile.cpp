@@ -24,6 +24,7 @@
 #include <QPointer>
 #include <QShowEvent>
 #include <QSplashScreen>
+#include <QXmlStreamWriter>
 
 #include <KAboutApplicationDialog>
 #include <KAction>
@@ -53,7 +54,6 @@
 #include "kileactions.h"
 #include "kiledebug.h"
 #include "kilestdactions.h"
-#include "dialogs/usertagsdialog.h"
 #include "dialogs/configurationdialog.h"
 #include "kileproject.h"
 #include "widgets/projectview.h"
@@ -91,6 +91,10 @@
 #include "scriptmanager.h"
 #include "widgets/previewwidget.h"
 #include "symbolviewclasses.h"
+
+#include "dialogs/latexmenu/latexmenudialog.h"
+#include "latexmenu/latexmenudata.h"
+#include "latexmenu/latexmenu.h"
 
 #define LOG_TAB     0
 #define OUTPUT_TAB  1
@@ -145,6 +149,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_errorHandler = new KileErrorHandler(this, this);
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
+	m_latexUserMenu = NULL;
 
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
 
@@ -234,13 +239,12 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(docManager(), SIGNAL(updateReferences(KileDocument::Info *)), m_kwStructure, SLOT(updateReferences(KileDocument::Info *)));
 
 	transformOldUserSettings();
-	readUserTagActions();
+	transformOldUserTags(); 
 	readGUISettings();
 	readRecentFileSettings();
 	readConfig();
 
 	createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
-	createUserTagActions();
 
 	m_mainWindow->setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
 	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
@@ -276,6 +280,10 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	KTipDialog::showTip(m_mainWindow, "kile/tips");
 
+	// lazy creation: last possible place to insert this user defined menu
+	m_latexUserMenu  = new KileMenu::LatexUserMenu(this,this);
+	connect(m_latexUserMenu, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
+
 	restoreFilesAndProjects(allowRestore);
 	m_mainWindow->slotStateChanged("Editor");
 	initMenu();
@@ -294,6 +302,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_mainWindow->setUpdatesEnabled(false);
 	m_mainWindow->setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	m_mainWindow->guiFactory()->refreshActionProperties();
+	m_latexUserMenu->refreshActionProperties();
 	m_mainWindow->setUpdatesEnabled(true);
 }
 
@@ -303,6 +312,7 @@ Kile::~Kile()
 	// m_mainWindow is deleted automatically after it has been closed
 	delete m_extensions;
 	delete m_latexCommands;
+	delete m_latexUserMenu;
 	delete m_quickPreview;
 	delete m_edit;
 	delete m_help;
@@ -844,6 +854,9 @@ void Kile::setupActions()
 	createAction(i18n("Postscript Tools"), "wizard_postscript", "wizard_pstools", this, SLOT(quickPostscript()));
 	createAction(i18n("PDF Tools"), "wizard_pdf", "wizard_pdftools", this, SLOT(quickPdf()));
 
+	createAction(i18n("Usermenu"), "wizard_usermenu", "wizard_usermenu", this, SLOT(quickLatexmenuDialog()));
+	createAction(i18n("Install Usermenu..."), "install_usermenu", "latexmenu-install", this, SLOT(installXmlLatexmenu()));
+	
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
 	ModeAction->setIcon(KIcon("master"));
@@ -1168,50 +1181,6 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 			}
 		}
 	}
-}
-
-void Kile::createUserTagActions()
-{
-	foreach(QAction *act, m_listUserTagsActions){
-		actionCollection()->removeAction(act);
-	}
-	m_listUserTagsActions.clear();
-
-	QString name, number;
-	KILE_DEBUG() << "# user tags is " << m_listUserTags.size();
-
-	for(int i = 0; i < m_listUserTags.size(); ++i) {
-		QString number = QString::number(i + 1);
-		QString name = number + ": " + m_listUserTags[i].text;
-		KileAction::Tag *tag = new KileAction::Tag(name, QString(), KShortcut(), this, SLOT(insertTag(const KileAction::TagData &)),
-		                                           actionCollection(), "tag_user_" + number,
-		                                           m_listUserTags[i]);
-		m_listUserTagsActions.append(tag);
-	}
-}
-
-void Kile::updateUserTagMenu()
-{
-	if(!m_userTagMenu){
-		KILE_DEBUG() << "no menu for userTags";
-		return;
-	}
-
-	m_userTagMenu->clear();
-	QAction *act = createAction(i18n("Edit User Tags..."), "EditUserMenu", this, SLOT(editUserMenu()));
-
-	m_userTagMenu->addAction(act);
-	m_userTagMenu->addSeparator();
-
-	QString name, number;
-	KILE_DEBUG() << "# user tags is " << m_listUserTags.size();
-
-	for(QList<QAction*>::iterator i = m_listUserTagsActions.begin(); i != m_listUserTagsActions.end(); ++i) {
-		m_userTagMenu->addAction(*i);
-	}
-	m_mainWindow->setUpdatesEnabled(false);
-	m_mainWindow->guiFactory()->refreshActionProperties();
-	m_mainWindow->setUpdatesEnabled(true);
 }
 
 void Kile::restoreFilesAndProjects(bool allowRestore)
@@ -1758,9 +1727,11 @@ void Kile::updateUserDefinedMenus()
 	m_buildMenuViewer  = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_viewer", m_mainWindow));
 	m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_other", m_mainWindow));
 	m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
-	m_userTagMenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_user_tags", m_mainWindow));
-
-	updateUserTagMenu();
+	
+	if ( m_latexUserMenu ) {
+		m_latexUserMenu->updateGui();
+	}
+	
 	setupTools();
 }
 
@@ -1823,12 +1794,19 @@ void Kile::enableKileGUI(bool enable)
 		}
 	}
 
+	// update latex usermenu actions
+	if ( m_latexUserMenu ) {
+		QList<KAction *> useractions = m_latexUserMenu->menuActions();
+		foreach ( KAction *action, useractions ) {
+			action->setEnabled(enable);
+		}
+	}
+	
 	// enable or disable userhelp entries
 	m_help->enableUserhelpEntries(enable);
 
 	QList<QAction*> actionList;
-	actionList << m_listUserTagsActions
-	           << m_listQuickActions
+	actionList << m_listQuickActions
 	           << m_listCompilerActions
 	           << m_listConverterActions
 	           << m_listViewerActions
@@ -1844,7 +1822,7 @@ void Kile::enableKileGUI(bool enable)
 		(*it)->setEnabled(enable);
 	}
 	QStringList menuList;
-	menuList << "file" << "edit" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
+	menuList << "file" << "edit" << "view" << "menu_build" << "menu_project" << "menu_latex" << "menu_userlatex" << "wizard" << "tools";
 	for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
 		QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(*it, m_mainWindow));
 		if(menu) {
@@ -1945,10 +1923,9 @@ void Kile::initMenu()
 	   << "tag_hspace" << "tag_hspace*" << "tag_vspace" << "tag_vspace*"
 	   << "tag_hfill" << "tag_hrulefill" << "tag_dotfill" << "tag_vfill"
 	   << "tag_includegraphics" << "tag_include" << "tag_input"
-	   << "menu_user_tags"
 	   // wizard
 	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
-	   << "wizard_float" << "wizard_mathenv"
+	   << "wizard_float" << "wizard_mathenv" << "wizard_usermenu"
 	   // settings
 	   << "Mode"
 	   // help
@@ -1980,9 +1957,8 @@ void Kile::initMenu()
 	   << "file_export_ascii" << "file_export_latin1" << "file_export_latin2" << "file_export_latin3"
 	   << "file_export_latin4" << "file_export_latin5" << "file_export_latin9" << "file_export_cp1250"
 	   << "file_export_cp1252"
-
-	   << "EditUserMenu"
 	   ;
+
 	setMenuItems(projectlist,m_dictMenuProject);
 	setMenuItems(filelist,m_dictMenuFile);
 	setMenuItems(actionlist,m_dictMenuAction);
@@ -2030,6 +2006,20 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 {
 	bool enabled = false;
 	QList<QAction*> actionList = menu->actions();
+	if ( menu->objectName()=="menu_userlatex" ) {
+		if ( actionList.size() == 0 ) {
+			if ( !m_latexUserMenu ) {
+				enabled = true;
+			}
+		}
+		else if ( viewManager()->currentTextView() ) {
+			enabled = true;
+		}
+		
+		menu->setEnabled(enabled);
+		return enabled;
+	}
+
 	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
 		QAction *action = *it;
 		QMenu *subMenu = action->menu();
@@ -2313,6 +2303,31 @@ void Kile::quickPdf()
 	delete dlg;
 }
 
+void Kile::quickLatexmenuDialog()
+{
+	m_latexUserMenu->removeShortcuts();
+	KileMenu::LatexmenuDialog *dlg = new KileMenu::LatexmenuDialog(m_config.data(), this, m_latexUserMenu, m_latexUserMenu->xmlFile(), m_mainWindow);
+	dlg->exec();
+	delete dlg;
+	
+	// tell all the documents and views to update their action shortcuts (bug 247646)
+ 	docManager()->reloadXMLOnAllDocumentsAndViews();
+	
+	// a new latexmenu could have been installed, even if the return value is QDialog::Rejected
+	m_latexUserMenu->refreshActionProperties();
+
+}
+
+void Kile::installXmlLatexmenu()
+{
+	m_latexUserMenu->installXmlMenufile();
+	
+	QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_userlatex", m_mainWindow));
+	if ( menu ) {
+			updateMenuActivationStatus(menu);
+	}
+}
+
 void Kile::helpLaTex()
 {
 	QString loc = KGlobal::dirs()->findResource("appdata","help/latexhelp.html");
@@ -2324,19 +2339,6 @@ void Kile::helpLaTex()
 	m_manager->run(tool);
 }
 
-void Kile::editUserMenu()
-{
-	KileDialog::UserTags *dlg = new KileDialog::UserTags(m_listUserTags, m_mainWindow, "Edit User Tags", i18n("Edit User Tags"));
-
-	if(dlg->exec()) {
-		m_listUserTags = dlg->result();
-		createUserTagActions();
-		updateUserTagMenu();
-	}
-
-	delete dlg;
-}
-
 void Kile::readGUISettings()
 {
 	m_horSplitLeft = KileConfig::horizontalSplitterLeft();
@@ -2345,24 +2347,56 @@ void Kile::readGUISettings()
 	m_verSplitBottom = KileConfig::verticalSplitterBottom();
 }
 
-void Kile::readUserTagActions()
+// transform old user tags to xml file
+void Kile::transformOldUserTags()
 {
+	KILE_DEBUG() << "Convert old user tags";
+	QString xmldir = KStandardDirs::locateLocal("appdata", "latexmenu/", true);
+
 	KConfigGroup userGroup = m_config->group("User");
 	int len = userGroup.readEntry("nUserTags", 0);
-	for (int i = 0; i < len; ++i) {
-		m_listUserTags.append(KileDialog::UserTags::splitTag(userGroup.readEntry("userTagName" + QString::number(i), i18n("no name")) , userGroup.readEntry("userTag" + QString::number(i), "")));
-	}
-}
 
-void Kile::writeUserTagActions()
-{
-	KConfigGroup userGroup = m_config->group("User");
-	userGroup.writeEntry("nUserTags", static_cast<int>(m_listUserTags.size()));
-	for (int i = 0; i < m_listUserTags.size(); ++i) {
-		KileAction::TagData td( m_listUserTags[i]);
-		userGroup.writeEntry( "userTagName"+QString::number(i),  td.text );
-		userGroup.writeEntry( "userTag"+QString::number(i), KileDialog::UserTags::completeTag(td) );
+	if ( len > 0) {
+		QString usertagfile = "usertags.xml";
+		QString  filename = xmldir + usertagfile;   
+		KILE_DEBUG() << "-convert user tags " << filename;
+
+		QFile file(filename);
+		if ( !file.open(QFile::WriteOnly | QFile::Text) ) {
+			KILE_DEBUG() << "-Error - could not open file to write: " << filename;
+			return;
+		}
+
+		KILE_DEBUG() << "Write xml: " << filename;
+		QXmlStreamWriter xml(&file);
+		xml.setAutoFormatting(true);
+		xml.setAutoFormattingIndent(2) ;
+
+		xml.writeStartDocument();
+		xml.writeStartElement("Latexmenu");
+	
+		for (int i = 0; i < len; ++i) {
+			QString tagname = userGroup.readEntry("userTagName" + QString::number(i), i18n("no name"));
+			QString tag = userGroup.readEntry("userTag" + QString::number(i), "");
+			tag = tag.replace('\n',"\\n");
+
+			xml.writeStartElement("menu");
+			xml.writeAttribute("type", "text");
+			xml.writeTextElement(KileMenu::LatexmenuData::xmlMenuTagName(KileMenu::LatexmenuData::XML_TITLE), tagname);
+			xml.writeTextElement(KileMenu::LatexmenuData::xmlMenuTagName(KileMenu::LatexmenuData::XML_PLAINTEXT), tag);
+			xml.writeTextElement(KileMenu::LatexmenuData::xmlMenuTagName(KileMenu::LatexmenuData::XML_SHORTCUT), QString("Ctrl+Shift+%1").arg(i+1));
+			xml.writeEndElement();
+		
+		}
+		xml.writeEndDocument();
+		file.close();
+
+		// save current xml file
+		KileConfig::setMenuFile(usertagfile);
 	}
+	
+	// delete old config group
+	m_config->deleteGroup("User");
 }
 
 void Kile::transformOldUserSettings()
@@ -2484,7 +2518,6 @@ void Kile::saveSettings()
 		}
 	}
 
-	writeUserTagActions();
 	m_mainWindow->saveMainWindowSettings(m_config->group("KileMainWindow"));
 
 	scriptManager()->writeConfig();
@@ -2662,6 +2695,9 @@ void Kile::configureKeys()
 
 	// tell all the documents and views to update their action shortcuts (bug 247646)
 	docManager()->reloadXMLOnAllDocumentsAndViews();
+	
+	// tell m_latexUserMenu that key bindings may have been changed
+	m_latexUserMenu->updateKeyBindings();
 }
 
 void Kile::configureToolbars()

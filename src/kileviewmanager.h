@@ -85,6 +85,8 @@ public:
 	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
 	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 
+	void installContextMenu(KTextEditor::View *view);
+	
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
 	void prepareForPart(const QString&);

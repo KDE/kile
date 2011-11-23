@@ -142,6 +142,7 @@ public Q_SLOTS:
 	int runTool(const QString& tool);
 	int runToolWithConfig(const QString &tool, const QString &config);
 	void insertText(const QString &text);
+	void insertTag(const KileAction::TagData& td);
 
 protected:
 	virtual bool queryExit();
@@ -156,7 +157,7 @@ private:
 	ToolbarSelectAction			*m_compilerActions, *m_viewActions, *m_convertActions, *m_quickActions;
 	QList<KileAction::TagData>		m_listUserTags;
 	QList<userItem>				m_listUserTools;
-	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
+	QList<QAction*> 			m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KActionMenu 				*m_bibTagActionMenu;
 	KAction 				*m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
@@ -175,7 +176,7 @@ private:
 	KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 	KileWidget::CommandView *m_commandView;
 	KToolBar			*m_latexOutputErrorToolBar;
-    QMenu               *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview, *m_userTagMenu;
+	QMenu  *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview; 
 
 	//parts
 	KParts::PartManager 		*m_partManager;
@@ -221,10 +222,7 @@ private:
 	void restoreLastSelectedAction();
 	void saveLastSelectedAction();
 
-	void createUserTagActions();
-	void updateUserTagMenu();
-	void readUserTagActions();
-	void writeUserTagActions();
+	void transformOldUserTags();
 
 	void initMenu();
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
@@ -297,13 +295,6 @@ private Q_SLOTS:
 	void findInProjects();
 	void grepItemSelected(const QString &abs_filename, int line);
 
-	/* insert tags */
-	/**
-	 * @param td Inserts the TagData td into the current editor.
-	 *
-	 * It can wrap a tag around selected text.
-	 **/
-	void insertTag(const KileAction::TagData& td);
 	/**
 	* @param td Inserts the TagData td into the current editor
 	* @param pkgs list of packages needed for this command
@@ -332,7 +323,8 @@ private Q_SLOTS:
 	void quickPdf();
 	void quickTabulardialog(bool tabularenv);
 
-	void editUserMenu();
+	void quickLatexmenuDialog();
+	void installXmlLatexmenu();
 
 	void includeGraphics();
 

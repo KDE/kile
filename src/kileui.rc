@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="41">
+<kpartgui name="kile" version="42">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -454,9 +454,10 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Separator/>
-	<Menu name="menu_user_tags"><text>User Tags</text>
-	</Menu>
+</Menu>
+
+<Menu name="menu_userlatex">
+	<text>Usermenu</text>
 </Menu>
 
 <Menu name="wizard"><text>&amp;Wizard</text>
@@ -471,12 +472,16 @@
 	<Separator/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
+	<Separator/>
+	<Action name="wizard_usermenu"/>
 </Menu>
 
 <Merge/>
 
 <Menu name="settings" ><text>&amp;Settings</text>
 	<Action name="Mode"/>
+	<Separator/>
+	<Action name="install_usermenu"/>
 	<Separator/>
 	<Action name="settings_perform_check" />
 	<Separator/>
@@ -639,6 +644,8 @@
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
+	<Action name="wizard_usermenu"/>
+	<Action name="install_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -811,12 +818,10 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Action name="menu_User_tags"/>
 	<Action name="quickpreview_selection"/>
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
 	<Action name="quickpreview_math" />
-	<Action name="EditUserMenu" />
 </Disable>
 <Enable>
 	<Action name="file_print"/>
@@ -916,6 +921,8 @@
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
+	<Action name="wizard_usermenu"/>
+	<Action name="install_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1088,7 +1095,6 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Action name="menu_user_tags"/>
 	<Action name="quickpreview_selection"/>
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
@@ -1187,6 +1193,8 @@
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
+	<Action name="wizard_usermenu"/>
+	<Action name="install_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1359,7 +1367,6 @@
 	<Action name="tag_includegraphics"/>
 	<Action name="tag_include"/>
 	<Action name="tag_input"/>
-	<Action name="menu_user_tags"/>
 	<Action name="quickpreview_selection"/>
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
@@ -1382,15 +1389,5 @@
   <Action shortcut="Alt+9" name="tool_DVItoPDF" />
   <Action shortcut="Alt+-" name="tool_BibTeX" />
   <Action shortcut="Alt+=" name="tool_MakeIndex" />
-  <Action shortcut="CTRL+SHIFT+1" name="tag_user_1" />
-  <Action shortcut="CTRL+SHIFT+2" name="tag_user_2" />
-  <Action shortcut="CTRL+SHIFT+3" name="tag_user_3" />
-  <Action shortcut="CTRL+SHIFT+4" name="tag_user_4" />
-  <Action shortcut="CTRL+SHIFT+5" name="tag_user_5" />
-  <Action shortcut="CTRL+SHIFT+6" name="tag_user_6" />
-  <Action shortcut="CTRL+SHIFT+7" name="tag_user_7" />
-  <Action shortcut="CTRL+SHIFT+8" name="tag_user_8" />
-  <Action shortcut="CTRL+SHIFT+9" name="tag_user_9" />
-  <Action shortcut="CTRL+SHIFT+0" name="tag_user_10" />
 </ActionProperties>
 </kpartgui>

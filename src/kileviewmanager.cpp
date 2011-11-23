@@ -51,6 +51,8 @@
 #include "quickpreview.h"
 #include "codecompletion.h"
 
+#include "latexmenu/latexmenu.h"
+
 namespace KileView
 {
 
@@ -185,19 +187,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	}
 
 	// install a working text editor part popup dialog thingy
-	QMenu *popupMenu = view->defaultContextMenu();
-
-	if(popupMenu) {
-		connect(popupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
-
-		// install some more actions on it
-		popupMenu->addSeparator();
-		popupMenu->addAction(m_pasteAsLaTeXAction);
-		popupMenu->addAction(m_convertToLaTeXAction);
-		popupMenu->addSeparator();
-		popupMenu->addAction(m_quickPreviewAction);
-		view->setContextMenu(popupMenu);
-	}
+	installContextMenu(view);
 
 	// delete the 'Configure Editor...' action
 	delete view->actionCollection()->action("set_confdlg");
@@ -231,6 +221,39 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	emit(prepareForPart("Editor"));
 
 	return view;
+}
+
+void Manager::installContextMenu(KTextEditor::View *view)
+{
+	QMenu *popupMenu = view->defaultContextMenu();
+
+	if(popupMenu) {
+		connect(popupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
+
+		// install some more actions on it
+		popupMenu->addSeparator();
+		popupMenu->addAction(m_pasteAsLaTeXAction);
+		popupMenu->addAction(m_convertToLaTeXAction);
+		popupMenu->addSeparator();
+		popupMenu->addAction(m_quickPreviewAction);
+		
+		// insert actions from user defined latex menu
+		KileMenu::LatexUserMenu *latexusermenu = m_ki->latexUserMenu();
+		if ( latexusermenu ) {
+			KILE_DEBUG() << "Insert actions from user defined latex menu";
+			popupMenu->addSeparator();
+			foreach ( KAction *action, latexusermenu->contextMenuActions() ) {
+				if ( action ) {
+					popupMenu->addAction(action);
+				}
+				else {
+					popupMenu->addSeparator();
+				}
+			}
+		}
+		
+		view->setContextMenu(popupMenu);
+	}
 }
 
 void Manager::clearActionDataFromTabContextMenu()

@@ -204,10 +204,10 @@ void InputTag::emitData()
 
 		// if a filename was given for a \input- or \include-command,
 		// the cursor is moved out of the braces
-		if((m_options & KileAction::ShowBrowseButton) && !dlg->tag().isEmpty()) {
+		if ( (m_options & (KileAction::ShowBrowseButton | KileAction::FromLabelList | KileAction::FromBibItemList)) && !dlg->tag().isEmpty() ) {
 			td.dx += dlg->tag().length() + 1;
 		}
-
+		
 		// insert tag
 		emit(triggered(td));
 		// refresh document structure and project tree when a file was inserted

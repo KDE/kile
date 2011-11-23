@@ -38,7 +38,6 @@ SET(kile_SRCS
 	dialogs/newfilewizard.cpp
 	dialogs/managetemplatesdialog.cpp
 	templates.cpp
-	dialogs/usertagsdialog.cpp
 	dialogs/configurationdialog.cpp
 	dialogs/tabbingdialog.cpp
 	widgets/symbolview.cpp
@@ -114,6 +113,11 @@ SET(kile_SRCS
 	utilities.cpp
 	abbreviationmanager.cpp
 	editorcommands.cpp
+	dialogs/latexmenu/latexmenudialog.cpp
+	dialogs/latexmenu/latexmenuitem.cpp
+	dialogs/latexmenu/latexmenutree.cpp
+	latexmenu/latexmenudata.cpp
+	latexmenu/latexmenu.cpp
 )
 
 SET( kile_UI
@@ -141,6 +145,7 @@ SET( kile_UI
 	dialogs/pdf-wizard/pdfdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
+	dialogs/latexmenu/latexmenudialog_base.ui
 )
 
 SET( kile_UI_SRCS

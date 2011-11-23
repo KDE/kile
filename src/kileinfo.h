@@ -54,6 +54,8 @@ namespace KileTemplate { class Manager; }
 namespace KileCodeCompletion { class Manager; }
 namespace KileAbbreviation { class Manager; }
 
+namespace KileMenu { class LatexUserMenu; }
+
 class EditorCommands;
 
 class KileMainWindow : public KParts::MainWindow
@@ -158,7 +160,8 @@ public:
 	KileTemplate::Manager *templateManager() const { return m_templateManager; }
 	KileCodeCompletion::Manager *codeCompletionManager() const { return m_codeCompletionManager; }
 	KileAbbreviation::Manager* abbreviationManager() const { return m_abbreviationManager; }
-
+	KileMenu::LatexUserMenu *latexUserMenu() const { return m_latexUserMenu; }
+	
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
 
@@ -195,6 +198,7 @@ protected:
 	KileDocument::LatexCommands *m_latexCommands;
 	KileDocument::Extensions *m_extensions;
 	KileTool::QuickPreview *m_quickPreview;
+	KileMenu::LatexUserMenu *m_latexUserMenu;
 
 	bool 		m_singlemode;
 	QString	m_masterName;

@@ -573,4 +573,10 @@
 		<default>false</default>
 		</entry>
 	</group>
+	<group name="LatexUserMenu">
+		<entry name="menuFile" type="String">
+			<label>XML file for the latexusermenu.</label>
+			<default></default>
+		</entry>
+	</group>
 </kcfg>

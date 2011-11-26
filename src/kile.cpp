@@ -1826,7 +1826,12 @@ void Kile::enableKileGUI(bool enable)
 	for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
 		QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(*it, m_mainWindow));
 		if(menu) {
-			updateMenuActivationStatus(menu);
+			if ( *it == "menu_userlatex" ) {
+				updateLatexenuActivationStatus(menu,enable);
+			}
+			else {
+				updateMenuActivationStatus(menu);
+			}
 		}
 	}
 }
@@ -2006,19 +2011,6 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 {
 	bool enabled = false;
 	QList<QAction*> actionList = menu->actions();
-	if ( menu->objectName()=="menu_userlatex" ) {
-		if ( actionList.size() == 0 ) {
-			if ( !m_latexUserMenu ) {
-				enabled = true;
-			}
-		}
-		else if ( viewManager()->currentTextView() ) {
-			enabled = true;
-		}
-		
-		menu->setEnabled(enabled);
-		return enabled;
-	}
 
 	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
 		QAction *action = *it;
@@ -2034,6 +2026,14 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 	}
 	menu->setEnabled(enabled);
 	return enabled;
+}
+
+void Kile::updateLatexenuActivationStatus(QMenu *menu, bool state)
+{
+	if ( menu->actions().size()==0 || !viewManager()->currentTextView() ) {
+		state = false;
+	}
+	menu->menuAction()->setVisible(state);
 }
 
 //TODO: move to KileView::Manager
@@ -2324,7 +2324,7 @@ void Kile::slotUpdateLatexmenuStatus()
 	
 	QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_userlatex", m_mainWindow));
 	if ( menu ) {
-			updateMenuActivationStatus(menu);
+			updateLatexenuActivationStatus(menu,true);
 	}
 }
 

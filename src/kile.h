@@ -228,6 +228,7 @@ private:
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
 	bool updateMenuActivationStatus(QMenu *menu);
+	void updateLatexenuActivationStatus(QMenu *menu, bool state);
 
 	void setViewerToolBars();
 

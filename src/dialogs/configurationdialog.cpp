@@ -49,6 +49,7 @@
 #include "widgets/previewconfigwidget.h"
 #include "widgets/scriptingconfigwidget.h"
 #include "widgets/toolconfigwidget.h"
+#include "widgets/usermenuconfigwidget.h"
 
 #include "kileconfig.h"
 #include "kileinfo.h"
@@ -77,7 +78,7 @@ namespace KileDialog
 		m_manager = new KConfigDialogManager(this,KileConfig::self());
 
 		KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
-		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "text-x-tex");
+		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "latex-config");
 		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "system-run");
 		KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "accessories-text-editor");
 
@@ -86,6 +87,7 @@ namespace KileDialog
 		setupCodeCompletion(kilePageWidgetItem);   // complete configuration (dani)
 		setupHelp(kilePageWidgetItem);
 		setupScripting(kilePageWidgetItem);
+		setupUsermenu(kilePageWidgetItem);
 
 		setupLatex(latexPageWidgetItem);
 		setupEnvironment(latexPageWidgetItem);
@@ -182,6 +184,16 @@ namespace KileDialog
 		// we hide this now as the feature is not implemented currently
 		scriptingPage->executionTimeLimitGroupBox->setHidden(true);
 		addConfigPage(parent, scriptingPage, i18n("Scripting"), "application-x-executable-script", i18n("Scripting Support"));
+	}
+
+	//////////////////// Usermenu  ////////////////////
+
+	void Config::setupUsermenu(KPageWidgetItem *parent)
+	{
+		usermenuPage = new KileWidgetUsermenuConfig(m_ki->latexUserMenu(),this);
+		usermenuPage->setObjectName("Usermenu");
+		addConfigPage(parent, usermenuPage, i18n("Usermenu"), "latexmenu-install", i18n("Usermenu"));
+		
 	}
 
 	//////////////////// LaTeX specific editing options ////////////////////

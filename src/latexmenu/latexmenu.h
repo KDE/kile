@@ -39,6 +39,7 @@ class LatexUserMenu : public QObject
 		~LatexUserMenu();
 
 		void installXmlMenufile();
+		void removeXmlMenufile();
 		QString xmlFile() const { return m_currentXmlFile; }
 		
 		bool installXml(const QString &filename);
@@ -55,6 +56,7 @@ class LatexUserMenu : public QObject
 
 	public Q_SLOTS:
 		void slotInstallXmlFile(const QString &filename);
+		void slotRemoveXmlFile();
 
 	private Q_SLOTS:
 		void slotLatexmenuAction();
@@ -64,6 +66,7 @@ class LatexUserMenu : public QObject
 	Q_SIGNALS:
 		void sendText(const QString&);
 		void triggered();
+		void updateStatus();
 
 	private:
 		KileInfo *m_ki;

@@ -237,7 +237,7 @@ void LatexUserMenu::removeShortcuts()
 	}
 }
 
-///////////////////////////// install xml //////////////////////////////
+///////////////////////////// install/remove xml //////////////////////////////
 
 // call from the menu: no xml file given
 void LatexUserMenu::installXmlMenufile()
@@ -284,6 +284,7 @@ void LatexUserMenu::slotInstallXmlFile(const QString &filename)
 			}
 		}		
 		KileConfig::setMenuFile(xmlfile);
+		emit (updateStatus());
 		
 		// add changed context menu to all existing views
 	   KileView::Manager* viewManager = m_ki->viewManager();
@@ -292,6 +293,17 @@ void LatexUserMenu::slotInstallXmlFile(const QString &filename)
 			viewManager->installContextMenu( viewManager->textView(i) );
 		}
 	}
+}
+
+void LatexUserMenu::slotRemoveXmlFile()
+{
+	KILE_DEBUG() << "remove xml file";
+	
+	clear();
+	m_currentXmlFile = QString::null;
+	
+	KileConfig::setMenuFile(m_currentXmlFile);
+	emit (updateStatus());
 }
 
 ///////////////////////////// install latexusermenu from XML //////////////////////////////
@@ -359,7 +371,6 @@ bool LatexUserMenu::installXml(const QString &filename)
 // install a submenu item
 void LatexUserMenu::installXmlSubmenu(const QDomElement &element, QMenu *parentmenu, int &actionnumber) 
 {
-	KILE_DEBUG() << element.tagName(); 
 	QMenu *submenu = parentmenu->addMenu(QString::null);
 
 	QString title = QString::null;

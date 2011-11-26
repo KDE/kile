@@ -324,7 +324,7 @@ private Q_SLOTS:
 	void quickTabulardialog(bool tabularenv);
 
 	void quickLatexmenuDialog();
-	void installXmlLatexmenu();
+	void slotUpdateLatexmenuStatus();
 
 	void includeGraphics();
 

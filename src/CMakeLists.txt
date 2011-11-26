@@ -139,6 +139,7 @@ SET( kile_UI
 	widgets/scriptingconfigwidget.ui
 	widgets/graphicsconfigwidget.ui
 	widgets/newdocumentwidget.ui
+	widgets/usermenuconfigwidget.ui
 	dialogs/tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
 	dialogs/postscriptdialog_base.ui
@@ -165,6 +166,7 @@ SET( kile_UI_SRCS
 	widgets/structureviewconfigwidget.cpp
 	widgets/symbolviewconfigwidget.cpp
 	widgets/maintoolconfigwidget.cpp
+	widgets/usermenuconfigwidget.cpp
 )
 
 # Special handling of code completion due to the removal of 'KTextEditor::SmartRange' from

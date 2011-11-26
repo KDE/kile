@@ -37,6 +37,7 @@ class KileWidgetEnvironmentConfig;
 class KileWidgetGraphicsConfig;
 class KileWidgetStructureViewConfig;
 class KileWidgetScriptingConfig;
+class KileWidgetUsermenuConfig;
 
 namespace KileTool { class Manager; }
 
@@ -86,6 +87,7 @@ namespace KileDialog
 		KileWidgetStructureViewConfig *structurePage;
 		KileWidgetSymbolViewConfig *symbolViewPage;
 		KileWidgetScriptingConfig *scriptingPage;
+		KileWidgetUsermenuConfig *usermenuPage;
 
 
 		// setup configuration
@@ -111,6 +113,7 @@ namespace KileDialog
 		void setupStructure(KPageWidgetItem* parent);
 		void setupSymbolView(KPageWidgetItem* parent);
 		void setupScripting(KPageWidgetItem* parent);
+		void setupUsermenu(KPageWidgetItem* parent);
 
 		// write configuration
 		void writeGeneralOptionsConfig();

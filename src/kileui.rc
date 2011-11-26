@@ -481,8 +481,6 @@
 <Menu name="settings" ><text>&amp;Settings</text>
 	<Action name="Mode"/>
 	<Separator/>
-	<Action name="install_usermenu"/>
-	<Separator/>
 	<Action name="settings_perform_check" />
 	<Separator/>
 	<Action name="StructureView" append="show_merge"/>
@@ -645,7 +643,6 @@
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
 	<Action name="wizard_usermenu"/>
-	<Action name="install_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -922,7 +919,6 @@
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
 	<Action name="wizard_usermenu"/>
-	<Action name="install_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1194,7 +1190,6 @@
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
 	<Action name="wizard_usermenu"/>
-	<Action name="install_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>

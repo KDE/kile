@@ -283,6 +283,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	// lazy creation: last possible place to insert this user defined menu
 	m_latexUserMenu  = new KileMenu::LatexUserMenu(this,this);
 	connect(m_latexUserMenu, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
+	connect(m_latexUserMenu, SIGNAL(updateStatus()), this, SLOT(slotUpdateLatexmenuStatus()));
 
 	restoreFilesAndProjects(allowRestore);
 	m_mainWindow->slotStateChanged("Editor");
@@ -855,7 +856,6 @@ void Kile::setupActions()
 	createAction(i18n("PDF Tools"), "wizard_pdf", "wizard_pdftools", this, SLOT(quickPdf()));
 
 	createAction(i18n("Usermenu"), "wizard_usermenu", "wizard_usermenu", this, SLOT(quickLatexmenuDialog()));
-	createAction(i18n("Install Usermenu..."), "install_usermenu", "latexmenu-install", this, SLOT(installXmlLatexmenu()));
 	
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
@@ -2318,9 +2318,9 @@ void Kile::quickLatexmenuDialog()
 
 }
 
-void Kile::installXmlLatexmenu()
+void Kile::slotUpdateLatexmenuStatus()
 {
-	m_latexUserMenu->installXmlMenufile();
+	KILE_DEBUG() << "update latexmenu status";
 	
 	QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_userlatex", m_mainWindow));
 	if ( menu ) {

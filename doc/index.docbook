@@ -401,6 +401,7 @@
 			<listitem><para><guibutton>New</guibutton>: begin a new document.</para></listitem>
 			<listitem><para><guibutton>Open</guibutton>: open a new document.</para></listitem>
 			<listitem><para><guibutton>Close</guibutton>: close your document.</para></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
 			<listitem><para><guibutton>Define document as master</guibutton>: this is used when working with multiple files.
 			Having a master document will let you work more easily with other <literal role="extension">.tex</literal> files included 
 			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project-></guimenu><guisubmenu>Project
@@ -448,7 +449,7 @@
 			<listitem><para><guilabel>subparagraph</guilabel>: create a new subparagraph.</para></listitem>
 		</itemizedlist>
 
-		<para>The drop down box named <guilabel>label</guilabel> is used to insert items to your document such as
+		<para>The drop down box named <guilabel>Other</guilabel> is used to insert items to your document such as
 		indexes, footnotes, and references; the available commands are:</para>
 
 		<itemizedlist>
@@ -467,15 +468,15 @@
 		</itemizedlist>
 
 		<screenshot>
-			<screeninfo>The <guilabel>Label</guilabel> drop-down menu</screeninfo>
+			<screeninfo>The <guilabel>Other</guilabel> drop-down menu</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="snap_ref_choose.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>The <guilabel>Label</guilabel> drop-down menu</phrase>
+			<phrase>The <guilabel>Other</guilabel> drop-down menu</phrase>
 			</textobject>
-			<caption><para>The <guilabel>Label</guilabel> drop-down menu</para></caption>
+			<caption><para>The <guilabel>Other</guilabel> drop-down menu</para></caption>
 			</mediaobject>
 		</screenshot>
 
@@ -1739,9 +1740,9 @@
 		<step><para>Choose a graphics file. This can be a JPEG, PNG, PDF, EPS
 		or even a zipped or gzipped EPS file. If you have installed 
 		<ulink url="http://www.imagemagick.org/">&imagemagick;</ulink>
-		and also configured &kile; to use it 
+		and also configured &kile; to use it
 		(<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
-		<guimenuitem>LaTeX</guimenuitem><guilabel>General</guilabel></menuchoice>), 
+		<guimenuitem>LaTeX</guimenuitem><guilabel>Graphics</guilabel></menuchoice>),
 		the width and the height of the graphic is automatically shown. 
 		If &imagemagick; can determine a resolution, the size of the graphics 
 		is also shown in centimeters.</para></step>
@@ -2114,7 +2115,7 @@
 		<listitem><para>Combine one A4 page together with one empty page 
 		on one A4 page. Whenever two A4 pages are combined together on one 
 		resulting A4 page, they have to be scaled with factor 0.7 and will 
-		be arranged in portrait mode.</para>
+		be arranged in landscape mode.</para>
 		<screenshot>
 			<screeninfo>1 A4 page + empty page --> A4</screeninfo>
 			<mediaobject>
@@ -3266,7 +3267,7 @@
 
 		<itemizedlist>
 			<listitem><para>You need not set a master document, &kile; does this automatically.</para></listitem>
-			<listitem><para>Project files can easily be archived together by going to <menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice></para></listitem>
+			<listitem><para>Project files can easily be archived together by going to <menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice></para></listitem>
 			<listitem><para>The <guilabel>Files and Projects</guilabel> view shows which files are included
 			in the project.</para></listitem>
 			<listitem><para>After opening a project, any file that was previously opened will be
@@ -3334,11 +3335,11 @@
 		<guilabel>Files and Projects</guilabel> view, and select <guilabel>Add to
 		Project</guilabel>. If you have opened multiple projects, a dialog box will pop up in which
 		you can specify to which project the file should be added.</para>
-
+		<!-- duplicated see next para
 		<para>If you have multiple files to be added to a project, you can select the
 		project from the <guilabel>Files and Projects</guilabel> view and right-click then select
 		<guilabel>Add Files...</guilabel>; you will then be able to select your files in a dialog box.</para>
-		
+		-->
 		<para>You can also right-click on the project's name in the <guilabel>Files and
 		Projects</guilabel> view, and select <guilabel>Add Files...</guilabel> to bring
 		up a file selection dialog.</para>
@@ -3367,7 +3368,7 @@
 			<para>&kile; allows you to easily backup your project by storing all its files
 			into a single archive (often known as <emphasis>tarball</emphasis>). To archive your project,
 			right-click on its name in the <guilabel>Files and Projects</guilabel> view, or select
-			<menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
+			<menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
 
 			<para>By default, all files in a project are added to the archive. If you do not want to include
 			a certain file in the archive, right-click on it in the <guilabel>Files and Projects</guilabel>

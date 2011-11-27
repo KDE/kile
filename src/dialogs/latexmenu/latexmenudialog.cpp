@@ -164,8 +164,6 @@ void LatexmenuDialog::setModified()
 	m_LatexmenuDialog.m_pbSave->setEnabled(state && !m_currentXmlFile.isEmpty());
 	m_LatexmenuDialog.m_pbSaveAs->setEnabled(state);
 	m_LatexmenuDialog.m_pbNew->setEnabled(true);
-	
-	enableButtonOk(!m_modified);
 }
 
 void LatexmenuDialog::setXmlFile(const QString &filename)
@@ -187,8 +185,6 @@ void LatexmenuDialog::updateDialogState(bool modified, bool install, bool save)
 	save = save && !m_menutree->isEmpty();
 	m_LatexmenuDialog.m_pbSave->setEnabled(save && !m_currentXmlFile.isEmpty());
 	m_LatexmenuDialog.m_pbSaveAs->setEnabled(save);
-	
-	enableButtonOk(!m_modified);
 }
 
 ///////////////////////////// dialog button slots (//////////////////////////////
@@ -196,10 +192,16 @@ void LatexmenuDialog::updateDialogState(bool modified, bool install, bool save)
 
 void LatexmenuDialog::slotButtonClicked(int button)
 {
-	if (button==Ok || button==Cancel) {
+	if ( button == Ok ) {
+		if ( m_modified && KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard these changes?"))==KMessageBox::No ) {
+			return;
+		}
 		accept();
 	}
-	else if (button == Help) {
+	else if ( button == Cancel ) {
+		accept();
+	}
+	else if ( button == Help ) {
 		QString message = i18n("<p>You can create, change and install a user defined menu, which will appear as a part of Kile's menu. "
 			"To create or change this menu, use the six buttons on the left side. "
 			"Even more possible actions are available in the context menu of already existing menu items.</p>"

@@ -52,11 +52,11 @@ void LatexmenuItem::initItem(LatexmenuData::MenuType type, const QString &menuti
 }
 
 // check for possible errors and save for use with model data
-void LatexmenuItem::setModelData()
+void LatexmenuItem::setModelData(bool executable)
 {
 	int modelerror = MODEL_ERROR_NONE;
 	
-	if ( m_data.menutitle.isEmpty() ) {
+	if ( m_data.menutitle.isEmpty() && m_data.menutype!=LatexmenuData::Separator ) {
 		modelerror |= LatexmenuItem::MODEL_ERROR_EMPTY;
 	} 
 
@@ -66,20 +66,16 @@ void LatexmenuItem::setModelData()
 	else if ( m_data.menutype==LatexmenuData::Text && m_data.text.isEmpty() ) {
 		modelerror |= LatexmenuItem::MODEL_ERROR_TEXT;
 	}
-	else if ( (m_data.menutype==LatexmenuData::FileContent || m_data.menutype==LatexmenuData::Program) ) {
+	else if ( m_data.menutype == LatexmenuData::FileContent ) {
 		if ( m_data.filename.isEmpty() ) {
 			modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EMPTY;
 		}
 		else if ( !QFile::exists(m_data.filename) ) {
 			modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EXIST;
 		}
-		
-		if (  m_data.menutype == LatexmenuData::Program ) {
-			QFileInfo fi(m_data.filename);
-			if ( !fi.isExecutable() ) {
-				modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EXECUTABLE;
-			}
-		}
+	}
+	else if ( m_data.menutype == LatexmenuData::Program && !executable ) {
+		modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EXECUTABLE;
 	}
 	
 	setData(0,Qt::UserRole+2,modelerror);

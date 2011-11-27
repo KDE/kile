@@ -61,9 +61,10 @@
   </menu>
   <menu type="program">
     <title>Execute Program (with selection)</title>
-    <filename>/usr/bin/perl</filename>
+    <filename>perl</filename>
     <parameter>-p -e 's/(.)/\($1\)/g' %S</parameter>
     <needsSelection>true</needsSelection>
+    <replaceSelection>true</replaceSelection>
     <insertOutput>true</insertOutput>
   </menu>
 </Latexmenu>

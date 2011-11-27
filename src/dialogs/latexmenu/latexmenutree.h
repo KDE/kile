@@ -52,6 +52,7 @@ class LatexmenuTree : public QTreeWidget
 		bool readXml(const QString &filename);
 		bool writeXml(const QString &filename);
 		bool errorCheck();
+		bool isItemExecutable(const QString &filename);
 		
 		bool isEmpty();
 
@@ -73,6 +74,9 @@ class LatexmenuTree : public QTreeWidget
 		
 		void setErrorCodes();
 		bool checkSubmenuError(LatexmenuItem *item);
+
+		QStringList m_envPathlist;
+		void initEnvPathlist();
 
 		void insertMenuItemAbove(QTreeWidgetItem *current, LatexmenuData::MenuType type, const QString &menulabel);
 		void insertMenuItemBelow(QTreeWidgetItem *current, LatexmenuData::MenuType type, const QString &menulabel);

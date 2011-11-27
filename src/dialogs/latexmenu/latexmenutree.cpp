@@ -14,16 +14,22 @@
 
 
 #include <QFile>
+#include <QFileInfo>
 #include <QHeaderView>
 #include <QDomDocument>
 #include <QSignalMapper>
 
+#if QT_VERSION >= 0x040600
+#include <QProcessEnvironment>
+#endif
+	
 #include <KIcon>
 #include <KIconLoader>
 #include <KMenu>
 #include <KLocale>
 #include <KInputDialog>
 #include <KMessageBox>
+
 
 #include "dialogs/latexmenu/latexmenuitem.h"
 #include "dialogs/latexmenu/latexmenutree.h"
@@ -86,12 +92,69 @@ LatexmenuTree::LatexmenuTree(QWidget *parent)
 	setDropIndicatorShown(true);
 	//setAcceptDrops(true);
 	setDragDropMode(QAbstractItemView::InternalMove);
-	setDragDropOverwriteMode(false);	
+	setDragDropOverwriteMode(false);
+	
+	initEnvPathlist();
 }
 
 bool LatexmenuTree::isEmpty()
 {
 	return ( topLevelItemCount() == 0 );
+}
+
+///////////////////////////// PATH environment variable //////////////////////////////
+
+// save PATH to search for executable files
+void LatexmenuTree::initEnvPathlist()
+{
+	QString envpath;
+#if QT_VERSION >= 0x040600
+	QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+	if ( env.contains("PATH") ) {
+		envpath = env.value("PATH");
+	}
+#else
+	// Returns the environment of the calling process as a list of key=value pairs.
+	QStringList environment = QProcess::systemEnvironment();
+	foreach ( const QString &s, environment ) {
+		if ( s.startsWith("PATH=") ) {
+			envpath = s.mid(5);
+			break;
+		}
+	}
+#endif
+	
+#ifdef Q_WS_WIN
+	m_envPathlist = envpath.split(';');
+#else
+	m_envPathlist = envpath.split(':');
+#endif
+	m_envPathlist.append(".");
+}
+
+bool LatexmenuTree::isItemExecutable(const QString &filename)
+{
+	// absolute paths can be checked immediately
+	QFileInfo fi(filename);
+	if ( fi.isAbsolute() ) {
+		return fi.isExecutable();
+	}
+
+	// search in all paths
+	for (int i=0; i<m_envPathlist.size(); ++i ) {
+		bool executable = QFileInfo(m_envPathlist[i]+"/"+filename).isExecutable();
+		if ( executable ) {
+			// move to front
+			if ( i > 0 ) {
+				QString temp = m_envPathlist[0];
+				m_envPathlist[0] = m_envPathlist[i];
+				m_envPathlist[i] = temp;				
+			}
+			return true;
+		}
+	}
+	
+	return false;
 }
 
 ///////////////////////////// context menu event //////////////////////////////
@@ -540,9 +603,11 @@ void LatexmenuTree::setErrorCodes()
 	
 	for (int i = 0; i < topLevelItemCount(); ++i) {
 		LatexmenuItem *item = dynamic_cast<LatexmenuItem *>(topLevelItem(i));
-		item->setModelData();
-		
 		LatexmenuData::MenuType type = item->menutype();
+
+		bool executable = ( type==LatexmenuData::Program && isItemExecutable(item->filename()) ); 
+		item->setModelData(executable);                         
+		
 		if ( type != LatexmenuData::Separator ) {        
 			checkMenuTitle(item);
 		}

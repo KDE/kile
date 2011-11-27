@@ -112,7 +112,7 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	setFocusProxy(m_menutree);
 	setModal(false);
 	setButtons(Help | Cancel | Ok);
-
+	
 	KILE_DEBUG() << "start dialog with xmfile " << xmlfile;
 	
 	if ( !xmlfile.isEmpty() && QFile::exists(xmlfile) ) {
@@ -123,7 +123,6 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 		startDialog();
 	}
 }
-
 
 void LatexmenuDialog::startDialog()
 {
@@ -588,10 +587,14 @@ void LatexmenuDialog::slotUrlTextChanged(const QString &)
 	QString color = "black";
 	int type = current->menutype();
 	if ( type == LatexmenuData::FileContent ) {
-		color = ( file.isEmpty() || QFile::exists(file) ) ? "black" : "red";
+		if ( !QFile::exists(file) || file.isEmpty() ) {
+			color = "red";
+		}
 	} 
 	else if ( type == LatexmenuData::Program ) {
-		color = ( QFileInfo(file).isExecutable() ) ? "black" : "red";
+		if ( !m_menutree->isItemExecutable(file) ) {
+			color= "red";
+		}
 	}
 	
 	m_LatexmenuDialog.m_urlRequester->setStyleSheet( "QLineEdit { color: " + color + "; }" );
@@ -720,7 +723,9 @@ void LatexmenuDialog::readMenuentryData(LatexmenuItem *item)
 	item->setSelectInsertion( m_LatexmenuDialog.m_cbSelectInsertion->checkState() );
 	item->setInsertOutput( m_LatexmenuDialog.m_cbInsertOutput->checkState() );
 
-	item->setModelData();
+	bool executable = ( type==LatexmenuData::Program && m_menutree->isItemExecutable(item->filename()) ); 
+	item->setModelData(executable);
+
 	item->setText(0, item->updateMenutitle());
 }
 

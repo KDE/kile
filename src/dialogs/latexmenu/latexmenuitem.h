@@ -30,7 +30,7 @@
 
 namespace KileMenu {
 
-//-------------------- LatexmenuItem --------------------
+////////////////////////////// LatexmenuItem //////////////////////////////
 
 class LatexmenuItem : public QTreeWidgetItem {
 
@@ -53,7 +53,7 @@ class LatexmenuItem : public QTreeWidgetItem {
 		                      MODEL_ERROR_FILE_EXECUTABLE=0x20, 
 		                    };
 
-		void setModelData();
+		void setModelData(bool executable=false);
 		QString updateMenutitle();
 
 		void setMenutype(LatexmenuData::MenuType type) { m_data.menutype = type; }

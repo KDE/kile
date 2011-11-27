@@ -236,6 +236,7 @@ void LatexmenuDialog::slotInstallClicked()
 	if ( !m_modified && !m_currentXmlFile.isEmpty() ) {
 		emit ( installXmlFile(m_currentXmlFile) );
 		m_currentXmlInstalled = true;
+		setXmlFile(m_currentXmlFile);
 		
 		// disable modified/install/save buttons
 		updateDialogState(false,false,false);
@@ -330,6 +331,7 @@ void LatexmenuDialog::slotSaveClicked()
 	// save file
 	m_menutree->writeXml(m_currentXmlFile);
 	m_currentXmlInstalled = false;
+	setXmlFile(m_currentXmlFile);
 	updateDialogState(false,true,false);
 }
 
@@ -364,9 +366,9 @@ void LatexmenuDialog::slotSaveAsClicked()
 	
 	m_menutree->writeXml(filename);
 	m_currentXmlInstalled = false;
+	setXmlFile(filename);
 	
 	updateDialogState(false,true,false);
-	setXmlFile(filename);
 }
 
 bool LatexmenuDialog::saveCheck()

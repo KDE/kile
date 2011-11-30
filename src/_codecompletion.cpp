@@ -927,17 +927,38 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 			return;
 		}
 	}
-	
+
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	QString line = view->document()->line(cursor.line()).left(cursor.column());
-	
+
 	QRegExp regexp("\\\\b|\\\\be|\\\\beg|\\\\begi|\\\\begin|\\\\begin\\{|\\\\begin\\{([a-zA-z]*)");
 	int pos = regexp.lastIndexIn(line);
-	if (pos>=0)
-		view->document()->replaceText(KTextEditor::Range(cursor.line(),pos,cursor.line(),cursor.column()), "\\begin{"+regexp.cap(1));	  
-	else 
-		view->document()->insertText(cursor, "\\begin{");
-	
+	if(pos >= 0) {
+		view->document()->replaceText(KTextEditor::Range(cursor.line(), pos, cursor.line(), cursor.column()), "\\begin{"+regexp.cap(1));
+	}
+	else {
+		// environment completion will start with "\begin{en" when the cursor is placed
+		// after the following strings:
+		// en
+		// x=en
+		// it en
+		// =en
+		// it=en
+		//  en
+		// but it will start with "\begin{" in the following situations:
+		// \en
+		// it\en
+		// \aen
+		QRegExp re("(^|[^\\\\A-Za-z])([a-zA-Z]+)$");
+		pos = re.lastIndexIn(line);
+		if(pos >= 0) {
+			view->document()->replaceText(KTextEditor::Range(cursor.line(), re.pos(2), cursor.line(), cursor.column()), "\\begin{" + re.cap(2));
+		}
+		else {
+			view->document()->insertText(cursor, "\\begin{");
+		}
+	}
+
 	startLaTeXCompletion(view);
 }
 

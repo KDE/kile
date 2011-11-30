@@ -28,6 +28,8 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 		KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *latexmenu, QWidget *parent = 0);
 		~KileWidgetUsermenuConfig();
 		
+		void writeConfig();
+		
 	private Q_SLOTS:
 		void slotInstallClicked();
 		void slotRemoveClicked();
@@ -35,10 +37,14 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	Q_SIGNALS:
 		void installXmlFile(const QString &);
 		void removeXmlFile();
+		void changeMenuPosition(int);
 
 	private:
 		KileMenu::LatexUserMenu *m_latexmenu;
+		bool m_menuPosition;
+		
 		void setXmlFile(const QString &file);
+
 };
 
 #endif

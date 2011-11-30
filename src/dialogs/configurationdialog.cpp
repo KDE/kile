@@ -313,6 +313,7 @@ namespace KileDialog
 		toolPage->writeConfig();      // config all tools
 		completePage->writeConfig();  // Complete configuration (dani)
 		previewPage->writeConfig();   // Quick Preview (dani)
+		usermenuPage->writeConfig();
 
 		m_config->sync();
 

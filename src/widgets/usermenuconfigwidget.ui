@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>631</width>
-    <height>144</height>
+    <width>701</width>
+    <height>265</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -19,143 +19,204 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QGroupBox" name="groupBox">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>0</y>
-     <width>611</width>
-     <height>141</height>
-    </rect>
-   </property>
-   <property name="sizePolicy">
-    <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-     <horstretch>0</horstretch>
-     <verstretch>0</verstretch>
-    </sizepolicy>
-   </property>
-   <property name="title">
-    <string/>
-   </property>
-   <property name="flat">
-    <bool>true</bool>
-   </property>
-   <widget class="QWidget" name="horizontalLayoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>10</y>
-      <width>581</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,0,1">
-     <item>
-      <widget class="QLabel" name="label">
-       <property name="text">
-        <string>Installed menu file:</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>16</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="m_usermenuFile">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>File</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QWidget" name="horizontalLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>50</y>
-      <width>581</width>
-      <height>31</height>
-     </rect>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="KPushButton" name="m_pbInstall">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Install</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeType">
-        <enum>QSizePolicy::Fixed</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="KPushButton" name="m_pbRemove">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Remove</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </widget>
-  </widget>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Menu File</string>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Installed menu file:</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>16</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="m_usermenuFile">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>File </string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="KPushButton" name="m_pbInstall">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Install</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Fixed</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="KPushButton" name="m_pbRemove">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>Remove</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeType">
+           <enum>QSizePolicy::Expanding</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Position</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QRadioButton" name="m_rbMenuPositionDani">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Show the Usermenu in the main menubar</string>
+        </property>
+        <property name="checked">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="m_rbMenuPositionLatex">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="text">
+         <string>Show the Usermenu in the LaTeX menu</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::MinimumExpanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
  </widget>
  <customwidgets>
   <customwidget>

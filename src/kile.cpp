@@ -855,8 +855,6 @@ void Kile::setupActions()
 	createAction(i18n("Postscript Tools"), "wizard_postscript", "wizard_pstools", this, SLOT(quickPostscript()));
 	createAction(i18n("PDF Tools"), "wizard_pdf", "wizard_pdftools", this, SLOT(quickPdf()));
 
-	createAction(i18n("Usermenu"), "wizard_usermenu", "wizard_usermenu", this, SLOT(quickLatexmenuDialog()));
-	
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
 	ModeAction->setIcon(KIcon("master"));
@@ -1731,6 +1729,13 @@ void Kile::updateUserDefinedMenus()
 	if ( m_latexUserMenu ) {
 		m_latexUserMenu->updateGui();
 	}
+	else {
+		QMenu *usermenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_userlatex", m_mainWindow));
+		if ( usermenu ) {
+			usermenu->menuAction()->setVisible(false);
+		}
+		
+	}
 	
 	setupTools();
 }
@@ -1821,19 +1826,17 @@ void Kile::enableKileGUI(bool enable)
 	for(QList<QAction*>::iterator it = actionList.begin(); it != actionList.end(); ++it) {
 		(*it)->setEnabled(enable);
 	}
+	
 	QStringList menuList;
-	menuList << "file" << "edit" << "view" << "menu_build" << "menu_project" << "menu_latex" << "menu_userlatex" << "wizard" << "tools";
+	menuList << "file" << "edit" << "view" << "menu_build" << "menu_project" << "menu_latex" << "wizard" << "tools";
 	for(QStringList::iterator it = menuList.begin(); it != menuList.end(); ++it) {
 		QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container(*it, m_mainWindow));
 		if(menu) {
-			if ( *it == "menu_userlatex" ) {
-				updateLatexenuActivationStatus(menu,enable);
-			}
-			else {
-				updateMenuActivationStatus(menu);
-			}
+			updateMenuActivationStatus(menu);
 		}
 	}
+	
+	updateLatexmenuStatus(enable);
 }
 
 // adds action names to their lists
@@ -1930,7 +1933,8 @@ void Kile::initMenu()
 	   << "tag_includegraphics" << "tag_include" << "tag_input"
 	   // wizard
 	   << "wizard_tabular" << "wizard_array" << "wizard_tabbing"
-	   << "wizard_float" << "wizard_mathenv" << "wizard_usermenu"
+	   << "wizard_float" << "wizard_mathenv" 
+	   << "wizard_usermenu" << "wizard_usermenu2"
 	   // settings
 	   << "Mode"
 	   // help
@@ -2009,6 +2013,11 @@ void Kile::updateMenu()
 
 bool Kile::updateMenuActivationStatus(QMenu *menu)
 {
+	if ( menu->objectName() == "latexusermenu-submenu" ) {
+		menu->setEnabled(true);
+		return true;
+	}
+	
 	bool enabled = false;
 	QList<QAction*> actionList = menu->actions();
 
@@ -2030,7 +2039,7 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 
 void Kile::updateLatexenuActivationStatus(QMenu *menu, bool state)
 {
-	if ( menu->actions().size()==0 || !viewManager()->currentTextView() ) {
+	if ( menu->isEmpty() || !viewManager()->currentTextView() ) {
 		state = false;
 	}
 	menu->menuAction()->setVisible(state);
@@ -2320,11 +2329,19 @@ void Kile::quickLatexmenuDialog()
 
 void Kile::slotUpdateLatexmenuStatus()
 {
+	KILE_DEBUG() << "slot update latexmenu status";
+	updateLatexmenuStatus(true);
+}
+
+void Kile::updateLatexmenuStatus(bool state)
+{
 	KILE_DEBUG() << "update latexmenu status";
 	
-	QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_userlatex", m_mainWindow));
-	if ( menu ) {
-			updateLatexenuActivationStatus(menu,true);
+	if ( m_latexUserMenu ) {
+		QMenu *menu = m_latexUserMenu->getMenuItem();
+		if ( menu ) {
+				updateLatexenuActivationStatus(menu,state);
+		}
 	}
 }
 

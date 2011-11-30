@@ -578,5 +578,9 @@
 			<label>XML file for the latexusermenu.</label>
 			<default></default>
 		</entry>
+		<entry name="menuPosition" type="Int">
+			<label>Use the main menubar for the usermenu.</label>
+			<default>0</default>
+		</entry>
 	</group>
 </kcfg>

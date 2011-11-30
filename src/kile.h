@@ -147,7 +147,7 @@ public Q_SLOTS:
 protected:
 	virtual bool queryExit();
 	virtual bool queryClose();
-
+	
 private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 
@@ -229,6 +229,7 @@ private:
 	void updateMenu();
 	bool updateMenuActivationStatus(QMenu *menu);
 	void updateLatexenuActivationStatus(QMenu *menu, bool state);
+	void updateLatexmenuStatus(bool state);
 
 	void setViewerToolBars();
 

@@ -472,8 +472,6 @@
 	<Separator/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
-	<Separator/>
-	<Action name="wizard_usermenu"/>
 </Menu>
 
 <Merge/>
@@ -642,7 +640,6 @@
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
-	<Action name="wizard_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -918,7 +915,6 @@
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
-	<Action name="wizard_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1095,7 +1091,6 @@
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
 	<Action name="quickpreview_math" />
-	<Action name="EditUserMenu" />
 </Disable>
 <Enable>
 	<Action name="file_print"/>
@@ -1189,7 +1184,6 @@
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
 	<Action name="wizard_pdf"/>
-	<Action name="wizard_usermenu"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1366,7 +1360,6 @@
 	<Action name="quickpreview_environment"/>
 	<Action name="quickpreview_subdocument"/>
 	<Action name="quickpreview_math" />
-	<Action name="EditUserMenu" />
 </Enable>
 <Disable>
 	<Action name="return_to_editor"/>

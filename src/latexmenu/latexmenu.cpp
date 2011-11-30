@@ -51,15 +51,33 @@ namespace KileMenu {
 //
 //  - a menu is defined with a xml file, which is placed in KGlobal::dirs()->findResource("appdata","latexmenu/")
 
-
 LatexUserMenu::LatexUserMenu(KileInfo *ki, QObject *receiver)
 	: m_ki(ki), m_receiver(receiver), m_proc(0L)
 {
 	KileMainWindow *mainwindow = m_ki->mainWindow();
-	m_latexmenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow)); 
-
 	m_actioncollection = mainwindow->actionCollection();
-
+	
+	// add actions and menu entries
+	QMenu *wizard_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("wizard", mainwindow));
+	m_wizardAction1 = wizard_menu->addSeparator();
+	m_wizardAction2 = createAction("wizard_usermenu");
+	wizard_menu->addAction(m_wizardAction2);
+	
+	QMenu *latex_menu  = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
+	m_latexAction1 = latex_menu->addSeparator();
+	m_latexAction2 = createAction("wizard_usermenu2");
+	latex_menu->addAction(m_latexAction2);
+	
+	m_latexMenuEntry = new QMenu("Usermenu");
+	m_latexMenuEntry->setObjectName("latexusermenu-submenu");
+	latex_menu->addMenu(m_latexMenuEntry);
+	
+	// prepare menu position
+	m_menuPosition = KileConfig::menuPosition(); 
+	m_latexmenu = ( m_menuPosition == DaniMenuPosition ) 
+	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow))
+	            : m_latexMenuEntry;
+	
 	// look for an existing menufile:
 	// if filename matches 'basename.ext' then the file is placed in 'KILE-LOCAL-DIR/latexmenu' directory
 	m_currentXmlFile = KileConfig::menuFile();
@@ -76,8 +94,9 @@ LatexUserMenu::LatexUserMenu(KileInfo *ki, QObject *receiver)
 			m_currentXmlFile = QString::null;
 		}
 	}
+	
+	updateUsermenuPosition();
 }
-
 
 LatexUserMenu::~LatexUserMenu()
 {
@@ -86,13 +105,72 @@ LatexUserMenu::~LatexUserMenu()
 	}
 }
 
+bool LatexUserMenu::isEmpty()
+{
+	return ( m_latexmenu->actions().size() == 0 );
+}
+/////////////////////// install usermenu//////////////////////////////
+
+KAction *LatexUserMenu::createAction(const QString &name)
+{
+	KAction *action = m_actioncollection->addAction(name, m_receiver, SLOT(quickLatexmenuDialog()));
+	action->setText(i18n("Edit Usermenu"));
+	action->setIcon(KIcon("wizard_usermenu"));
+	return action;
+}
+
+void LatexUserMenu::updateUsermenuPosition()
+{
+	KileMainWindow *mainwindow = m_ki->mainWindow();
+	QMenu *dani_menu   = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow));
+
+	// and set the new one
+	bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
+	if ( m_menuPosition == DaniMenuPosition ) {
+		setVisibleDaniMenu(true,show);
+		dani_menu->menuAction()->setVisible(true && show);
+	}
+	else {
+		setVisibleDaniMenu(false,show);
+		dani_menu->menuAction()->setVisible(false);
+	}
+}
+
+void LatexUserMenu::slotChangeMenuPosition(int newPosition)
+{
+	// clear old usermenu, whereever it is
+	clear();
+	
+	// set new usermenu position
+	KileMainWindow *mainwindow = m_ki->mainWindow();
+	m_menuPosition = newPosition;
+	m_latexmenu = ( m_menuPosition == DaniMenuPosition ) 
+	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow))
+	            : m_latexMenuEntry;
+
+	slotInstallXmlFile(m_currentXmlFile);
+	updateUsermenuPosition();
+}
+
+void LatexUserMenu::setVisibleDaniMenu(bool state, bool show)
+{
+	m_wizardAction1->setVisible(state);
+	m_wizardAction2->setVisible(state);
+
+	m_latexAction1->setVisible(!state);
+	m_latexAction2->setVisible(!state);
+	m_latexMenuEntry->menuAction()->setVisible(!state && show);
+}
+
 ///////////////////////////// clear all data //////////////////////////////
 
 // clear all lists and data for an existing latexmenu
 void LatexUserMenu::clear()
 {
 	// clear latexmenu and menudata 
-	m_latexmenu->clear(); 
+	if ( m_latexmenu ) {
+		m_latexmenu->clear();
+	}
 	m_menudata.clear();
 	
 	// remove all actions from actioncollection
@@ -112,8 +190,10 @@ void LatexUserMenu::updateGui()
 {
 	KILE_DEBUG() << "update latexmenu ..."; 
 	
-	KileMainWindow *mainwindow = m_ki->mainWindow();
-	m_latexmenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow)); 
+	if ( m_menuPosition == DaniMenuPosition ) {
+		KileMainWindow *mainwindow = m_ki->mainWindow();
+		m_latexmenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow)); 
+	}
 	
 	// like slotInstallXmlFile(), but without updating KileConfig::menuFile
 	// first clear old latexmenu, menudata, actions and actionlists
@@ -301,6 +381,14 @@ void LatexUserMenu::slotRemoveXmlFile()
 	
 	clear();
 	m_currentXmlFile = QString::null;
+
+// 	KileMainWindow *mainwindow = m_ki->mainWindow();
+// 	QMenu *dani_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
+// 	dani_menu->removeAction(m_usermenuAction1);
+// 	dani_menu->removeAction(m_usermenuAction2);
+// 	
+// 	return;
+// 	
 	
 	KileConfig::setMenuFile(m_currentXmlFile);
 	emit (updateStatus());
@@ -507,7 +595,6 @@ void LatexUserMenu::updateXmlFile(const QString &filename)
 bool LatexUserMenu::updateXmlSubmenu(QDomDocument &doc, QDomElement &element, int &actionnumber) 
 {
 	bool changed = false;
-	KILE_DEBUG() << element.tagName(); 
 
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
@@ -548,8 +635,6 @@ bool LatexUserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, 
 		
 		// keybindings dialog has already updated all actions 
 		QString currentShortcut = m_actionlist[actionnumber]->shortcut().toString(QKeySequence::PortableText);
-		KILE_DEBUG() << "found changed action: id=" << actionnumber  << " old=" << m_menudata[actionnumber].shortcut << " new=" << currentShortcut;
-		
 		if ( currentShortcut != m_menudata[actionnumber].shortcut ) {
 			// an existing shortcut always needs a new QDomElement
 			if ( !currentShortcut.isEmpty() ) {

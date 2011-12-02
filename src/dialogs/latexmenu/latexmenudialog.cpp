@@ -116,8 +116,8 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	KILE_DEBUG() << "start dialog with xmfile " << xmlfile;
 	
 	if ( !xmlfile.isEmpty() && QFile::exists(xmlfile) ) {
-		m_currentXmlInstalled = true;
-		loadXmlFile(xmlfile,false);
+		m_modified = false;
+		loadXmlFile(xmlfile,true);
 	}
 	else {
 		startDialog();
@@ -128,11 +128,10 @@ void LatexmenuDialog::startDialog()
 {
 	initDialog();
 
-	// disable modified/install/save button
+	m_modified = false;
+	setXmlFile(QString::null,false);
+	updateDialogButtons();
 	m_LatexmenuDialog.m_pbNew->setEnabled(false);
-	updateDialogState(false,false,false);
-	m_currentXmlInstalled = false;
-	setXmlFile(QString::null);
 }
 
 void LatexmenuDialog::initDialog()
@@ -153,21 +152,9 @@ void LatexmenuDialog::initDialog()
 	
 }
 
-void LatexmenuDialog::setModified()
+void LatexmenuDialog::setXmlFile(const QString &filename, bool installed)
 {
-	if ( !m_modified ) {
-		m_modified = true;
-		m_LatexmenuDialog.m_pbInstall->setEnabled(false);
-	}
-
-	bool state = !m_menutree->isEmpty();
-	m_LatexmenuDialog.m_pbSave->setEnabled(state && !m_currentXmlFile.isEmpty());
-	m_LatexmenuDialog.m_pbSaveAs->setEnabled(state);
-	m_LatexmenuDialog.m_pbNew->setEnabled(true);
-}
-
-void LatexmenuDialog::setXmlFile(const QString &filename)
-{
+	m_currentXmlInstalled = installed;
 	m_currentXmlFile = filename;
 	m_LatexmenuDialog.m_lbXmlFile->setText( i18n("File:") + "   " + QFileInfo(m_currentXmlFile).fileName() );
 	if ( m_currentXmlInstalled ) {
@@ -177,23 +164,55 @@ void LatexmenuDialog::setXmlFile(const QString &filename)
 	}
 }
 
-void LatexmenuDialog::updateDialogState(bool modified, bool install, bool save)
+void LatexmenuDialog::setModified()
 {
-	m_modified = modified;
-	m_LatexmenuDialog.m_pbInstall->setEnabled(install);
-	
-	save = save && !m_menutree->isEmpty();
-	m_LatexmenuDialog.m_pbSave->setEnabled(save && !m_currentXmlFile.isEmpty());
-	m_LatexmenuDialog.m_pbSaveAs->setEnabled(save);
+	if ( !m_modified ) {
+		m_modified = true;
+	}
+
+	updateDialogButtons();
 }
 
-///////////////////////////// dialog button slots (//////////////////////////////
+void LatexmenuDialog::updateDialogButtons()
+{
+	bool installedFile = (!m_currentXmlFile.isEmpty());
+	bool menutreeState = !m_menutree->isEmpty();
+	
+	bool installState = !m_modified && installedFile && !m_currentXmlInstalled;
+	bool saveState = m_modified && installedFile;
+	bool saveAsState = m_modified || (!m_modified && installedFile && m_currentXmlInstalled);
+	
+	m_LatexmenuDialog.m_pbInstall->setEnabled(installState && menutreeState);
+	m_LatexmenuDialog.m_pbSave->setEnabled(saveState && menutreeState);
+	m_LatexmenuDialog.m_pbSaveAs->setEnabled(saveAsState && menutreeState);
+	m_LatexmenuDialog.m_pbNew->setEnabled(true);
+}
 
+///////////////////////////// ok button //////////////////////////////
+
+bool LatexmenuDialog::okClicked()
+{
+	if ( m_currentXmlFile.isEmpty() ) {
+		return !saveAsClicked().isEmpty();
+	}
+	
+	if ( ! saveClicked() ) {
+		return false;
+	}
+	
+	if ( m_currentXmlInstalled ) {
+		m_modified = false;
+		slotInstallClicked();
+	}
+	return true;
+}
+
+///////////////////////////// dialog button slots //////////////////////////////
 
 void LatexmenuDialog::slotButtonClicked(int button)
 {
 	if ( button == Ok ) {
-		if ( m_modified && KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard these changes?"))==KMessageBox::No ) {
+		if ( !okClicked() ) {
 			return;
 		}
 		accept();
@@ -237,11 +256,8 @@ void LatexmenuDialog::slotInstallClicked()
 
 	if ( !m_modified && !m_currentXmlFile.isEmpty() ) {
 		emit ( installXmlFile(m_currentXmlFile) );
-		m_currentXmlInstalled = true;
-		setXmlFile(m_currentXmlFile);
-		
-		// disable modified/install/save buttons
-		updateDialogState(false,false,false);
+		setXmlFile(m_currentXmlFile,true);
+		updateDialogButtons();
 	}
 }
 
@@ -256,11 +272,12 @@ void LatexmenuDialog::slotNewClicked()
 	}
 	
 	m_menutree->clear();
-	startDialog();
+	m_modified = false;
+	startDialog();   // includes buttons update
 }
 
 
-///////////////////////////// Button slots (Load/Save) //////////////////////////////
+///////////////////////////// Button slots (Load) //////////////////////////////
 
 void LatexmenuDialog::slotLoadClicked()
 {
@@ -280,33 +297,45 @@ void LatexmenuDialog::slotLoadClicked()
 		return;
 	}
 
-	if( !QFile::exists(filename) ) {
-		KMessageBox::error(this, i18n("File '%1' does not exist.", filename));
+	if( QFile::exists(filename) ) {
+		loadXmlFile(filename,false);   // includes buttons update
 	}
 	else {
-		m_currentXmlInstalled = false;
-		loadXmlFile(filename,true);
+		KMessageBox::error(this, i18n("File '%1' does not exist.", filename));
 	}
 }
 
-void LatexmenuDialog::loadXmlFile(const QString &filename, bool install)
+void LatexmenuDialog::loadXmlFile(const QString &filename, bool installed)
 {
 	KILE_DEBUG() << "load xml started ...";
 	m_menutree->readXml(filename);
 	initDialog();
-	updateDialogState(false,install,false);
-	setXmlFile(filename);
-	if ( m_menutree->errorCheck() == false ) {
-		KILE_DEBUG() << "STOP: found errors in xml file!";
-		m_LatexmenuDialog.m_pbInstall->setEnabled(false);
-	}
+	m_modified = false;
+	setXmlFile(filename,installed);
+	updateDialogButtons();
 	KILE_DEBUG() << "load xml finished ...";
 }
 
+///////////////////////////// Button slots (Save) //////////////////////////////
+
 void LatexmenuDialog::slotSaveClicked()
 {
+	if ( saveClicked() ) {
+		m_modified = false;
+		if ( m_currentXmlInstalled ) {
+			slotInstallClicked();   // includes all updates
+		}
+		else {
+			setXmlFile(m_currentXmlFile,false);
+		}
+		updateDialogButtons();
+	}
+}
+
+bool LatexmenuDialog::saveClicked()
+{
 	if ( m_currentXmlFile.isEmpty() ) {
-		return;
+		return false;
 	}
 	KILE_DEBUG() << "save menutree: " << m_currentXmlFile;
 	
@@ -318,7 +347,7 @@ void LatexmenuDialog::slotSaveClicked()
 	}
 	
 	if ( saveCheck() == false ) {
-		return;
+		return false;
 	}
 	
 	// force to save file in local directory
@@ -332,14 +361,23 @@ void LatexmenuDialog::slotSaveClicked()
 	
 	// save file
 	m_menutree->writeXml(m_currentXmlFile);
-	m_currentXmlInstalled = false;
-	setXmlFile(m_currentXmlFile);
-	updateDialogState(false,true,false);
+	return true;
 }
 
 void LatexmenuDialog::slotSaveAsClicked()
 {
-	KILE_DEBUG() << "menutree should be save as ...";
+	QString filename = saveAsClicked();
+	if ( !filename.isEmpty() ) {
+		// set new state: current file is not installed anymore
+		m_modified = false;
+		setXmlFile(filename,false);
+		updateDialogButtons();
+	}
+}
+
+QString LatexmenuDialog::saveAsClicked()
+{
+	KILE_DEBUG() << "menutree should be saved as ...";
 
 	// read current entry
 	QTreeWidgetItem *current = m_menutree->currentItem();
@@ -349,7 +387,7 @@ void LatexmenuDialog::slotSaveAsClicked()
 	}
 
 	if ( saveCheck() == false ) {
-		return;
+		return QString::null;
 	}
 
 	QString directory = KStandardDirs::locateLocal("appdata", "latexmenu/");
@@ -357,20 +395,18 @@ void LatexmenuDialog::slotSaveAsClicked()
 
 	QString filename = KFileDialog::getSaveFileName(directory, filter, this, i18n("Save Menu File"));
 	if(filename.isEmpty()) {
-		return;
+		return QString::null;
 	}
 
 	if( QFile::exists(filename) ) {
 		if ( KMessageBox::questionYesNo(this, i18n("File '%1' does already exist.\nOverwrite this file?", filename)) == KMessageBox::No ) {
-			return;
+			return QString::null;
 		}
 	}
 	
+	// save file
 	m_menutree->writeXml(filename);
-	m_currentXmlInstalled = false;
-	setXmlFile(filename);
-	
-	updateDialogState(false,true,false);
+	return filename;
 }
 
 bool LatexmenuDialog::saveCheck()
@@ -480,16 +516,14 @@ void LatexmenuDialog::updateAfterDelete()
 {
 	if ( m_menutree->isEmpty() ) {
 		initDialog();
-		// disable modified/install/save button
-		updateDialogState(false,false,false);
 	}
-	else {
-		updateTreeButtons();
-		setModified();
-	}
+	
+	updateTreeButtons();
+	setModified();
+
 }
 
-////////////////////////////// TreeWidget slots T(left widget)  //////////////////////////////
+////////////////////////////// TreeWidget slots (left widget)  //////////////////////////////
 
 void LatexmenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *previous)
 {
@@ -500,6 +534,7 @@ void LatexmenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidge
 	bool modifiedState = m_modified;
 	bool installState = m_LatexmenuDialog.m_pbInstall->isEnabled();
 	bool saveState = m_LatexmenuDialog.m_pbSave->isEnabled();
+	bool saveAsState = m_LatexmenuDialog.m_pbSaveAs->isEnabled();
 
 	// read old data
 	readMenuentryData( dynamic_cast<LatexmenuItem *>(previous) );
@@ -511,7 +546,10 @@ void LatexmenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidge
 	updateTreeButtons();
 	
 	// restore saved states
-	updateDialogState(modifiedState,installState,saveState);
+	m_modified = modifiedState;
+	m_LatexmenuDialog.m_pbInstall->setEnabled(installState);
+	m_LatexmenuDialog.m_pbSave->setEnabled(saveState);
+	m_LatexmenuDialog.m_pbSaveAs->setEnabled(saveAsState);
 }
 
 //////////////////////////////  MenuentryType slots (right widget) //////////////////////////////

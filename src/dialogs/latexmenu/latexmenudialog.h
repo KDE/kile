@@ -83,7 +83,7 @@ class LatexmenuDialog : public KileDialog::Wizard
 		bool m_modified;
 		bool m_currentXmlInstalled;
 		QString m_currentXmlFile;
-		void setXmlFile(const QString &filename);
+		void setXmlFile(const QString &filename, bool installed);
 		
 		QString m_currentIcon;
 		QStringList m_listMenutypes;
@@ -92,6 +92,10 @@ class LatexmenuDialog : public KileDialog::Wizard
 		void initDialog();
 		void setModified();
 
+		bool okClicked();
+		bool saveClicked();
+		QString saveAsClicked();
+		
 		void readMenuentryData(LatexmenuItem *tem);
 		void showMenuentryData(LatexmenuItem *item);
 		void clearMenuEntryData();
@@ -116,10 +120,10 @@ class LatexmenuDialog : public KileDialog::Wizard
 
 		void setMenuentryIcon(const QString &icon);	
 		void updateTreeButtons();
-		void updateDialogState(bool modified, bool install, bool save);
+		void updateDialogButtons();
 		void updateAfterDelete();
 
-		void loadXmlFile(const QString &filename, bool install);
+		void loadXmlFile(const QString &filename, bool installed);
 		bool saveCheck();
 };
 

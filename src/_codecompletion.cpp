@@ -950,7 +950,7 @@ void Manager::startLaTeXEnvironment(KTextEditor::View *view)
 		// it\en
 		// \aen
 		QRegExp re("(^|[^\\\\A-Za-z])([a-zA-Z]+)$");
-		pos = re.lastIndexIn(line);
+		pos = re.indexIn(line);
 		if(pos >= 0) {
 			view->document()->replaceText(KTextEditor::Range(cursor.line(), re.pos(2), cursor.line(), cursor.column()), "\\begin{" + re.cap(2));
 		}

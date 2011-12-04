@@ -429,7 +429,8 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 			case Text:
 				KILE_DEBUG() << "CREATING TextInfo for " << url.url();
 				docinfo = new TextInfo(NULL, m_ki->extensions(),
-				                             m_ki->abbreviationManager());
+				                             m_ki->abbreviationManager(),
+				                             m_ki->parserManager());
 				break;
 			case LaTeX:
 				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url();
@@ -439,18 +440,21 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
                                                               m_ki->editorExtension(),
                                                               m_ki->configurationManager(),
                                                               m_ki->codeCompletionManager(),
-                                                              m_ki->livePreviewManager());
+                                                              m_ki->livePreviewManager(),
+				                              m_ki->parserManager());
 				break;
 			case BibTeX:
 				KILE_DEBUG() << "CREATING BibInfo for " << url.url();
 				docinfo = new BibInfo(NULL, m_ki->extensions(),
 				                            m_ki->abbreviationManager(),
+				                            m_ki->parserManager(),
 				                            m_ki->latexCommands());
 				break;
 			case Script:
 				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url();
 				docinfo = new ScriptInfo(NULL, m_ki->extensions(),
-				                               m_ki->abbreviationManager());
+				                               m_ki->abbreviationManager(),
+				                               m_ki->parserManager());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);
@@ -1938,6 +1942,22 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 			(*viewIt)->reloadXML();
 		}
 	}
+}
+
+
+void Manager::handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output)
+{
+	KILE_DEBUG();
+	KileDocument::TextInfo *textInfo = textInfoForURL(url);
+	if(!textInfo) {
+		// this can happen for instance when the document is closed
+		// while the parser is still running
+		KILE_DEBUG() << "no TextInfo object found for" << url << "found";
+		return;
+	}
+	textInfo->installParserOutput(output);
+	m_ki->structureWidget()->updateAfterParsing(textInfo, output->structureViewItems);
+	delete(output);
 }
 
 // Show all opened projects and switch to another one, if you want

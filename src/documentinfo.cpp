@@ -2,7 +2,7 @@
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -85,6 +85,9 @@
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "kileviewmanager.h"
+#include "parser/bibtexparser.h"
+#include "parser/latexparser.h"
+#include "parser/parsermanager.h"
 #include "livepreview.h"
 
 namespace KileDocument
@@ -246,8 +249,12 @@ bool Info::isDirty() const
 
 void Info::setDirty(bool b)
 {
-KILE_DEBUG() << b;
 	m_dirty = b;
+}
+
+void Info::installParserOutput(KileParser::ParserOutput *parserOutput)
+{
+	Q_UNUSED(parserOutput);
 }
 
 KUrl Info::url()
@@ -417,10 +424,12 @@ void Info::slotCompleted()
 TextInfo::TextInfo(KTextEditor::Document *doc,
                    Extensions *extensions,
                    KileAbbreviation::Manager *abbreviationManager,
+                   KileParser::Manager *parserManager,
                    const QString& defaultMode)
 : m_doc(NULL),
   m_defaultMode(defaultMode),
-  m_abbreviationManager(abbreviationManager)
+  m_abbreviationManager(abbreviationManager),
+  m_parserManager(parserManager)
 {
 	setDoc(doc);
 	if(m_doc) {
@@ -852,9 +861,10 @@ LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
                      KileDocument::EditorExtension *editorExtension,
                      KileConfiguration::Manager* manager,
                      KileCodeCompletion::Manager *codeCompletionManager,
-                     KileTool::LivePreviewManager *livePreviewManager
+                     KileTool::LivePreviewManager *livePreviewManager,
+                     KileParser::Manager *parserManager
                     )
-: TextInfo(doc, extensions, abbreviationManager, "LaTeX"),
+: TextInfo(doc, extensions, abbreviationManager, parserManager, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
@@ -1074,313 +1084,7 @@ void LaTeXInfo::updateStruct()
 	}
 
 	Info::updateStruct();
-
-	QMap<QString,KileStructData>::const_iterator it;
-	static QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
-	static QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
-	static QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
-	static QRegExp reReNewCommand("\\\\renewcommand.*$");
-	static QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
-	static QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
-
-	int teller=0, tagStart, bd = 0;
-	int tagEnd, tagLine = 0, tagCol = 0;
-	int tagStartLine = 0, tagStartCol = 0;
-	BracketResult result;
-	QString m, s, shorthand;
-	bool foundBD = false; // found \begin { document }
-	bool fire = true; //whether or not we should emit a foundItem signal
-	bool fireSuspended; // found an item, but it should not be fired (this time)
-	TodoResult todo;
-
-	emit(parsingStarted(m_doc->lines()));
-	for(int i = 0; i < m_doc->lines(); ++i) {
-		emit(parsingUpdate(i));
-		if (teller > 100) {
-			teller = 0;
-			kapp->processEvents(QEventLoop::ExcludeUserInputEvents);
-		}
-		else {
-			++teller;
-		}
-
-		tagStart = tagEnd = 0;
-		fire = true;
-		s = getTextline(i,todo);
-		if(todo.type!=-1 && m_showStructureTodo) {
-			QString folder = (todo.type == KileStruct::ToDo) ? "todo" : "fixme";
-			emit( foundItem(todo.comment, i+1, todo.colComment, todo.type, KileStruct::Object, i+1, todo.colTag, QString(), folder) );
-		}
-
-
-		if(s.isEmpty()) {
-			continue;
-		}
-
-		//ignore renewcommands
-		s.remove(reReNewCommand);
-
-		//find all commands in this line
-		while(tagStart != -1) {
-			if((!foundBD) && ((bd = s.indexOf(reBD, tagEnd)) != -1)) {
-				KILE_DEBUG() << "\tfound \\begin{document}";
-				foundBD = true;
-				if(bd == 0) {
-					m_preamble = m_doc->text(KTextEditor::Range(0, 0, i - 1, m_doc->line(i - 1).length()));
-				}
-				else {
-					m_preamble = m_doc->text(KTextEditor::Range(0, 0, i, bd));
-				}
-			}
-
-			if((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1)) {
-				KILE_DEBUG() << "\tsetting m_bIsRoot to true";
-				tagEnd += reRoot.cap(0).length();
-				m_bIsRoot = true;
-			}
-
-			tagStart = reCommand.indexIn(s, tagEnd);
-			m.clear();
-			shorthand.clear();
-
-			if(tagStart != -1) {
-				tagEnd = tagStart + reCommand.cap(0).length()-1;
-
-				//look up the command in the dictionary
-				it = m_dictStructLevel.constFind(reCommand.cap(1));
-
-				//if it is was a structure element, find the title (or label)
-				if(it != m_dictStructLevel.constEnd()) {
-					tagLine = i+1;
-					tagCol = tagEnd+1;
-					tagStartLine = tagLine;
-					tagStartCol = tagStart+1;
-					if(reCommand.cap(1) != "\\frame") {
-						result = matchBracket(i, tagEnd);
-						m = result.value.trimmed();
-						shorthand = result.option.trimmed();
-						if(i >= tagLine) { //matching brackets spanned multiple lines
-							s = m_doc->line(i);
-						}
-						if(result.line > 0 || result.col > 0) {
-							tagLine = result.line + 1;
-							tagCol = result.col + 1;
-						}
-					//KILE_DEBUG() << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}";
-					}
-					else {
-						m = i18n("Frame");
-					}
-				}
-
-				//title (or label) found, add the element to the listview
-				if(!m.isNull()) {
-					// no problems so far ...
-					fireSuspended = false;
-
-					// remove trailing ./
-					if((*it).type & (KileStruct::Input | KileStruct::Graphics)) {
-						if(m.left(2) == "./") {
-							m = m.mid(2, m.length() - 2);
-						}
-					}
-					// update parameter for environments, because only
-					// floating environments and beamer frames are passed
-					if ( (*it).type == KileStruct::BeginEnv )
-					{
-						if ( m=="figure" || m=="figure*" || m=="table" || m=="table*" )
-						{
-							it = m_dictStructLevel.constFind("\\begin{" + m +'}');
-						}
-						else if(m == "asy") {
-							it = m_dictStructLevel.constFind("\\begin{" + m +'}');
-							m_asyFigures.append(m);
-						}
-						else if(m == "frame") {
-							it = m_dictStructLevel.constFind("\\begin{frame}");
-							m = i18n("Frame");
-						}
-						else if(m=="block" || m=="exampleblock" || m=="alertblock") {
-							const QString untitledBlockDisplayName = i18n("Untitled Block");
-							it = m_dictStructLevel.constFind("\\begin{block}");
-							if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
-								tagEnd++;
-								result = matchBracket(i, tagEnd);
-								m = result.value.trimmed();
-								if(m.isEmpty()) {
-									m = untitledBlockDisplayName;
-								}
-							}
-							else {
-								m = untitledBlockDisplayName;
-							}
-						}
-						else {
-							fireSuspended = true;    // only floats and beamer frames, no other environments
-						}
-					}
-
-					// tell structure view that a floating environment or a beamer frame must be closed
-					else if ( (*it).type == KileStruct::EndEnv )
-					{
-						if ( m=="figure" || m== "figure*" || m=="table" || m=="table*" || m=="asy")
-						{
-							it = m_dictStructLevel.constFind("\\end{float}");
-						}
-						else if(m == "frame") {
-							it = m_dictStructLevel.constFind("\\end{frame}");
-						}
-						else {
-							fireSuspended = true;          // only floats, no other environments
-						}
-					}
-					// sectioning commands
-					else if((*it).type == KileStruct::Sect) {
-						if(!shorthand.isEmpty()) {
-							m = shorthand;
-						}
-					}
-
-					// update the label list
-					else if((*it).type == KileStruct::Label) {
-						m_labels.append(m);
-						// label entry as child of sectioning
-						if(m_showSectioningLabels) {
-							emit(foundItem(m, tagLine, tagCol, KileStruct::Label, KileStruct::Object, tagStartLine, tagStartCol, "label", "root") );
-							fireSuspended = true;
-						}
-					}
-
-					// update the references list
-					else if((*it).type == KileStruct::Reference) {
-						// m_references.append(m);
-						//fireSuspended = true;          // don't emit references
-					}
-
-					// update the dependencies
-					else if((*it).type == KileStruct::Input) {
-						// \input- or \include-commands can be used without extension. So we check
-						// if an extension exists. If not the default extension is added
-						// ( LaTeX reference says that this is '.tex'). This assures that
-						// all files, which are listed in the structure view, have an extension.
-						QString ext = QFileInfo(m).completeSuffix();
-						if(ext.isEmpty()) {
-							m += m_extensions->latexDocumentDefault();
-						}
-						m_deps.append(m);
-					}
-
-					// update the referenced Bib files
-					else  if((*it).type == KileStruct::Bibliography) {
-						KILE_DEBUG() << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
-
-						QStringList bibs = m.split(',');
-						QString biblio;
-
-						// assure that all files have an extension
-						QString bibext = m_extensions->bibtexDefault();
-						int bibextlen = bibext.length();
-
-						uint cumlen = 0;
-						int nextbib = 0; // length to add to jump to the next bibliography
-						for(int b = 0; b < bibs.count(); ++b) {
-							nextbib = 0;
-							biblio=bibs[b];
-							m_bibliography.append(biblio);
-							if(biblio.left(2) == "./") {
-								nextbib += 2;
-								biblio = biblio.mid(2, biblio.length() - 2);
-							}
-							if(biblio.right(bibextlen) != bibext) {
-								biblio += bibext;
-								nextbib -= bibextlen;
-							}
-							m_deps.append(biblio);
-							emit( foundItem(biblio, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
-							cumlen += biblio.length() + 1 + nextbib;
-						}
-						fire = false;
-					}
-
-					// update the bibitem list
-					else if((*it).type == KileStruct::BibItem) {
-						//KILE_DEBUG() << "\tappending bibitem " << m;
-						m_bibItems.append(m);
-					}
-
-					// update the package list
-					else if((*it).type == KileStruct::Package) {
-						QStringList pckgs = m.split(',');
-						uint cumlen = 0;
-						for(int p = 0; p < pckgs.count(); ++p) {
-							QString package = pckgs[p].trimmed();
-							if(!package.isEmpty()) {
-								m_packages.append(package);
-								// hidden, so emit is useless
-								// emit( foundItem(package, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
-								cumlen += package.length() + 1;
-							}
-						}
-						fire = false;
-					}
-
-					// newcommand found, add it to the newCommands list
-					else if((*it).type & (KileStruct::NewCommand | KileStruct::NewEnvironment)) {
-						QString optArg, mandArgs;
-
-						//find how many parameters this command takes
-						if(s.indexOf(reNumOfParams, tagEnd + 1) != -1) {
-							bool ok;
-							int noo = reNumOfParams.cap(1).toInt(&ok);
-
-							if(ok) {
-								if(s.indexOf(reNumOfOptParams, tagEnd + 1) != -1) {
-									KILE_DEBUG() << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL";
-									noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-									optArg = '[' + reNumOfOptParams.cap(2) + ']';
-								}
-
-								for(int noo_index = 0; noo_index < noo; ++noo_index) {
-									mandArgs +=  '{' + s_bullet + '}';
-								}
-
-							}
-							if(!optArg.isEmpty()) {
-								if((*it).type == KileStruct::NewEnvironment) {
-									m_newCommands.append(QString("\\begin{%1}%2%3").arg(m).arg(optArg).arg(mandArgs));
-								}
-								else {
-									m_newCommands.append(m + optArg + mandArgs);
-								}
-							}
-						}
-						if((*it).type == KileStruct::NewEnvironment) {
-							m_newCommands.append(QString("\\begin{%1}%3").arg(m).arg(mandArgs));
-							m_newCommands.append(QString("\\end{%1}").arg(m));
-						}
-						else {
-							m_newCommands.append(m + mandArgs);
-						}
-						//FIXME  set tagEnd to the end of the command definition
-						break;
-					}
-					// and some other commands, which don't need special actions:
-					// \caption, ...
-
-					// KILE_DEBUG() << "\t\temitting: " << m;
-					if(fire && !fireSuspended) {
-						emit( foundItem(m, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
-					}
-				} //if m
-			} // if tagStart
-		} // while tagStart
-	} //for
-
-	checkChangedDeps();
-	emit(doneUpdating());
-	emit(isrootChanged(isLaTeXRoot()));
-	emit(parsingCompleted());
-	setDirty(false);
+	m_parserManager->parseDocument(this);
 }
 
 void LaTeXInfo::checkChangedDeps()
@@ -1392,11 +1096,38 @@ void LaTeXInfo::checkChangedDeps()
 	}
 }
 
+void LaTeXInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
+{
+	KILE_DEBUG();
+	KileParser::LaTeXParserOutput *latexParserOutput = dynamic_cast<KileParser::LaTeXParserOutput*>(parserOutput);
+	Q_ASSERT(latexParserOutput);
+	if(!latexParserOutput) {
+		KILE_DEBUG() << "wrong type given";
+		return;
+	}
+
+	m_labels = latexParserOutput->labels;
+	m_bibItems = latexParserOutput->bibItems;
+	m_deps = latexParserOutput->deps;
+	m_bibliography = latexParserOutput->bibliography;
+	m_packages = latexParserOutput->packages;
+	m_newCommands = latexParserOutput->newCommands;
+	m_asyFigures = latexParserOutput->asyFigures;
+	m_preamble = latexParserOutput->preamble;
+	m_bIsRoot = latexParserOutput->bIsRoot;
+
+	checkChangedDeps();
+	emit(isrootChanged(isLaTeXRoot()));
+	setDirty(false);
+	emit(parsingComplete());
+}
+
 BibInfo::BibInfo (KTextEditor::Document *doc,
                   Extensions *extensions,
                   KileAbbreviation::Manager *abbreviationManager,
+                  KileParser::Manager *parserManager,
                   LatexCommands* /* commands */)
-: TextInfo(doc, extensions, abbreviationManager, "BibTeX")
+: TextInfo(doc, extensions, abbreviationManager, parserManager, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1418,80 +1149,23 @@ void BibInfo::updateStruct()
 
 	Info::updateStruct();
 
-	KILE_DEBUG() << "==void BibInfo::updateStruct()========";
+	m_parserManager->parseDocument(this);
+}
 
-	static QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
-	static QRegExp reSpecial("string|preamble|comment");
-
-	QString s, key;
-	int col = 0, startcol, startline = 0;
-	int teller = 0;
-
-	emit(parsingStarted(m_doc->lines()));
-	for(int i = 0; i < m_doc->lines(); ++i) {
-		emit(parsingUpdate(i));
-		if (teller > 200) {
-			teller = 0;
-			kapp->processEvents(QEventLoop::ExcludeUserInputEvents);
-		}
-		else {
-			++teller;
-		}
-		s = m_doc->line(i);
-		if((s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower())) {
-			KILE_DEBUG() << "found: " << reItem.cap(2);
-			//start looking for key
-			key = "";
-			bool keystarted = false;
-			int state = 0;
-			startcol = reItem.cap(1).length();
-			col  = startcol + reItem.cap(2).length();
-
-			while(col < static_cast<int>(s.length())) {
-				++col;
-				if(col == static_cast<int>(s.length())) {
-					do {
-						++i;
-						s = m_doc->line(i);
-					}
-					while((s.length() == 0) && (i < m_doc->lines()));
-
-					if(i == m_doc->lines()) {
-						break;
-					}
-					col = 0;
-				}
-
-				if(state == 0) {
-					if(s[col] == '{') {
-						state = 1;
-					}
-					else if(!s[col].isSpace()) {
-						break;
-					}
-				}
-				else if(state == 1) {
-					if(s[col] == ',') {
-						key = key.trimmed();
-						KILE_DEBUG() << "found: " << key;
-						m_bibItems.append(key);
-						emit(foundItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).toLower()) );
-						break;
-					}
-					else {
-						key += s[col];
-						if(!keystarted) {
-							startcol = col; startline = i;
-						}
-						keystarted=true;
-					}
-				}
-			}
-		}
+void BibInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
+{
+	KILE_DEBUG();
+	KileParser::BibTeXParserOutput *bibtexParserOutput = dynamic_cast<KileParser::BibTeXParserOutput*>(parserOutput);
+	Q_ASSERT(bibtexParserOutput);
+	if(!bibtexParserOutput) {
+		KILE_DEBUG() << "wrong type given";
+		return;
 	}
-	emit(parsingCompleted());
-	emit(doneUpdating());
+
+	m_bibItems = bibtexParserOutput->bibItems;
+
 	setDirty(false);
+	emit(parsingComplete());
 }
 
 Type BibInfo::getType()
@@ -1506,8 +1180,9 @@ QString BibInfo::getFileFilter() const
 
 ScriptInfo::ScriptInfo(KTextEditor::Document *doc,
                        Extensions *extensions,
-                       KileAbbreviation::Manager *abbreviationManager)
-: TextInfo(doc, extensions, abbreviationManager, "JavaScript")
+                       KileAbbreviation::Manager *abbreviationManager,
+                       KileParser::Manager *parserManager)
+: TextInfo(doc, extensions, abbreviationManager, parserManager, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }

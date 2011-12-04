@@ -57,6 +57,7 @@
 #define ID_LINE_COLUMN      302
 #define ID_VIEW_MODE        303
 #define ID_SELECTION_MODE   304
+#define ID_PARSER_STATUS    305
 
 #define KILERC_VERSION 7
 
@@ -127,8 +128,8 @@ public Q_SLOTS:
 	 **/
 	void setLine(const QString &line);
 	void openProject(const QString& proj);
-	int runTool(const QString& tool);
-	int runToolWithConfig(const QString &tool, const QString &config);
+	void runTool(const QString& tool);
+	void runToolWithConfig(const QString &tool, const QString &config);
 	void insertText(const QString &text);
 
 Q_SIGNALS:
@@ -184,9 +185,6 @@ private:
 
 	KileLyxServer		*m_lyxserver;
 	KileErrorHandler 	*m_errorHandler;
-
-	QProgressBar		*m_parserProgressBar;
-	QTimer			*m_parserProgressBarShowTimer;
 
 	/* actions */
 	void initSelectActions();
@@ -347,9 +345,8 @@ private Q_SLOTS:
 	void updateStatusBarInformationMessage(KTextEditor::View *view, const QString &message);
 	void updateStatusBarSelection(KTextEditor::View *view);
 
-	void connectDocumentInfoWithParserProgressBar(KileDocument::Info *info);
-	void parsingStarted(int maxValue);
-	void parsingCompleted();
+	void handleParsingStarted();
+	void handleParsingComplete();
 };
 
 #endif

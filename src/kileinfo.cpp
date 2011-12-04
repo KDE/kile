@@ -27,6 +27,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+#include "parser/parsermanager.h"
 #include "widgets/structurewidget.h"
 #include "configurationmanager.h"
 #include "editorcommands.h"
@@ -65,7 +66,7 @@ KileInfo::KileInfo(KParts::MainWindow *parent) :
 	                 m_viewManager,
 	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
-	
+	m_parserManager = new KileParser::Manager(this, parent);
 	m_editorCommands = new EditorCommands(this);
 }
 

@@ -212,9 +212,8 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 	connect(pngConverter, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
 
 	// Now we are ready to start the process...
-	if(m_info->toolManager()->run(pngConverter) == KileTool::Running) {
-		m_running = true;
-	}
+	m_info->toolManager()->run(pngConverter);
+	m_running = true;
 }
 
 void PreviewWidget::clear()

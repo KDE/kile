@@ -2,7 +2,7 @@
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                                2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 #include <KService>
 
 #include "documentinfo.h"
+#include "parser/latexparser.h"
 
 //2007-02-15: dani
 // - class StructureViewItem not only saves the cursor position of the parameter,
@@ -175,6 +176,8 @@ private:
 			                    int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
 			void updateUrl(KileDocument::Info *docinfo);
 
+			void updateAfterParsing(KileDocument::Info *info, const QLinkedList<KileParser::StructureViewItem*>& items);
+
 		enum { SectioningCut = 10, SectioningCopy = 11, SectioningPaste = 12, 
 		       SectioningSelect = 13, SectioningDelete = 14, 
 		       SectioningComment = 15,
@@ -190,7 +193,7 @@ private:
 			void addDocumentInfo(KileDocument::Info *);
 			void closeDocumentInfo(KileDocument::Info *);
 			void update(KileDocument::Info *);
-			void update(KileDocument::Info *, bool, bool activate = true);
+			void update(KileDocument::Info *, bool);
 			void clean(KileDocument::Info *);
 			void updateReferences(KileDocument::Info *);
 
@@ -211,6 +214,15 @@ private:
 			void viewContextMenuEvent(StructureView *view, QContextMenuEvent *event);
 
 		private:
+			KileInfo							*m_ki;
+			KileDocument::Info						*m_docinfo;
+			QMap<KileDocument::Info *, StructureView*>			m_map;
+			StructureView							*m_default;
+			StructureViewItem *m_popupItem;
+			KMenu *m_showingContextMenu;
+			QString m_popupInfo;
+			KService::List m_offerList;
+
 			StructureView* viewFor(KileDocument::Info *info);
 			bool viewExistsFor(KileDocument::Info *info);
 
@@ -218,16 +230,9 @@ private:
 			void slotPopupSectioning(int id);
 			void slotPopupGraphics(int id);
 
-		private:
-			KileInfo							*m_ki;
-			KileDocument::Info						*m_docinfo;
-			QMap<KileDocument::Info *, StructureView*>			m_map;
-			StructureView							*m_default;
-
-			StructureViewItem *m_popupItem;
-			QString m_popupInfo;
-			
-			KService::List m_offerList;
+		private Q_SLOTS:
+			void handleParsingStarted();
+			void handleParsingCompleted();
 	};
 }
 

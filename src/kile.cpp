@@ -97,6 +97,7 @@
 #include "widgets/previewwidget.h"
 #include "symbolviewclasses.h"
 #include "livepreview.h"
+#include "parser/parsermanager.h"
 
 #define LOG_TAB     0
 #define OUTPUT_TAB  1
@@ -110,9 +111,7 @@
 Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 :	KParts::MainWindow(),
 	KileInfo(this),
-	m_paPrint(NULL),
-	m_parserProgressBar(NULL),
-	m_parserProgressBarShowTimer(NULL)
+	m_paPrint(NULL)
 {
 	setObjectName(name);
 	// publish the D-Bus interfaces
@@ -201,6 +200,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
+	connect(parserManager(), SIGNAL(parsingStarted()), this, SLOT(handleParsingStarted()));
+	connect(parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingComplete()));
+
 	m_signalMapper = new QSignalMapper(this);
 	connect(m_signalMapper, SIGNAL(mapped(const QString &)),
              this, SLOT(runTool(const QString &)));
@@ -214,6 +216,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	setupPreviewTools();
 	setupActions(); // sets up m_paStop
 
+	// Parser manager must be created before the tool manager!
 	m_manager = new KileTool::Manager(this, m_config.data(), m_logWidget, m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
@@ -266,7 +269,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
 	connect(docManager(), SIGNAL(closingDocument(KileDocument::Info* )), m_kwStructure, SLOT(closeDocumentInfo(KileDocument::Info *)));
 	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), m_kwStructure, SLOT(addDocumentInfo(KileDocument::Info* )));
-	connect(docManager(), SIGNAL(documentInfoCreated(KileDocument::Info* )), this, SLOT(connectDocumentInfoWithParserProgressBar(KileDocument::Info*)));
 	connect(docManager(), SIGNAL(updateReferences(KileDocument::Info *)), m_kwStructure, SLOT(updateReferences(KileDocument::Info *)));
 
 	transformOldUserSettings();
@@ -393,23 +395,6 @@ Kile::~Kile()
 
 void Kile::setupStatusBar()
 {
-	// please keep in mind that this method can be called several times during an execution
-	// of Kile (due to KParts switching)
-	if(!m_parserProgressBar) {
-		m_parserProgressBar = new QProgressBar(this);
-		m_parserProgressBar->setMaximumHeight(kapp->fontMetrics().height());
-		m_parserProgressBar->setVisible(false);
-	}
-	else {
-		statusBar()->removeWidget(m_parserProgressBar);
-	}
-
-	if(!m_parserProgressBarShowTimer) {
-		m_parserProgressBarShowTimer = new QTimer(this);
-		m_parserProgressBarShowTimer->setSingleShot(true);
-		connect(m_parserProgressBarShowTimer, SIGNAL(timeout()), m_parserProgressBar, SLOT(show()));
-	}
-
 	if(statusBar()->hasItem(ID_HINTTEXT)) {
 		statusBar()->removeItem(ID_HINTTEXT);
 	}
@@ -422,16 +407,20 @@ void Kile::setupStatusBar()
 	if(statusBar()->hasItem(ID_SELECTION_MODE)) {
 		statusBar()->removeItem(ID_SELECTION_MODE);
 	}
+	if(statusBar()->hasItem(ID_PARSER_STATUS)) {
+		statusBar()->removeItem(ID_PARSER_STATUS);
+	}
 
 	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT, 10);
 	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
+	statusBar()->insertPermanentItem(QString(), ID_PARSER_STATUS, 0);
+	statusBar()->setItemAlignment(ID_PARSER_STATUS, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_LINE_COLUMN, 0);
 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_VIEW_MODE, 0);
 	statusBar()->setItemAlignment(ID_VIEW_MODE, Qt::AlignLeft | Qt::AlignVCenter);
 	statusBar()->insertPermanentItem(QString(), ID_SELECTION_MODE, 0);
 	statusBar()->setItemAlignment(ID_SELECTION_MODE, Qt::AlignLeft | Qt::AlignVCenter);
-	statusBar()->insertWidget(4, m_parserProgressBar, 1);
 }
 
 void Kile::setupSideBar()
@@ -2105,12 +2094,12 @@ void Kile::prepareForPart(const QString & state)
 	}
 }
 
-int Kile::runTool(const QString& tool)
+void Kile::runTool(const QString& tool)
 {
-	return runToolWithConfig(tool, QString());
+	runToolWithConfig(tool, QString());
 }
 
-int Kile::runToolWithConfig(const QString &toolName, const QString &config)
+void Kile::runToolWithConfig(const QString &toolName, const QString &config)
 {
 	KILE_DEBUG() << toolName << config;
 
@@ -2119,7 +2108,7 @@ int Kile::runToolWithConfig(const QString &toolName, const QString &config)
 
 	if(!tool || (tool->requestSaveAll() && !m_docManager->fileSaveAll())) {
 		delete tool;
-		return KileTool::ConfigureFailed;
+		return;
 	}
 
 	return m_manager->run(tool);
@@ -2955,27 +2944,15 @@ void Kile::updateStatusBarSelection(KTextEditor::View *view)
 	}
 }
 
-void Kile::connectDocumentInfoWithParserProgressBar(KileDocument::Info *info)
+void Kile::handleParsingStarted()
 {
-	connect(info, SIGNAL(parsingStarted(int)), this, SLOT(parsingStarted(int)));
-	connect(info, SIGNAL(parsingCompleted()), this, SLOT(parsingCompleted()));
-	connect(info, SIGNAL(parsingUpdate(int)), m_parserProgressBar, SLOT(setValue(int)));
+	statusBar()->changeItem(i18n("Refreshing structure..."), ID_PARSER_STATUS);
 }
 
-void Kile::parsingStarted(int maxValue)
+void Kile::handleParsingComplete()
 {
-	kapp->setOverrideCursor(QCursor(Qt::WaitCursor));
-	m_parserProgressBar->reset();
-	m_parserProgressBar->setRange(0, maxValue);
-	m_parserProgressBar->setValue(0);
-	m_parserProgressBarShowTimer->start(50);
-}
-
-void Kile::parsingCompleted()
-{
-	m_parserProgressBarShowTimer->stop();
-	m_parserProgressBar->hide();
-	kapp->restoreOverrideCursor();
+kDebug();
+	statusBar()->changeItem(QString(), ID_PARSER_STATUS);
 }
 
 #include "kile.moc"

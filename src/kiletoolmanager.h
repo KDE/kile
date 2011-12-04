@@ -106,9 +106,7 @@ namespace KileTool
 		int lastResult() { return m_nLastResult; }
 
 	public Q_SLOTS:
-		int run(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = NULL);
-
-		int runNext(Base *tool, bool block = false);
+		void run(Base *tool);
 
 		void stopLivePreview();
 
@@ -117,6 +115,7 @@ namespace KileTool
 		void initTool(Base*);
 
 	private Q_SLOTS:
+		int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = NULL);
 		int runNextInQueue();
 		void enableClear();
 
@@ -129,6 +128,9 @@ namespace KileTool
 		// must be used when a child tool is launched from within another tool!
 		int runChildNext(Base *parent, Base *tool, bool block = false);
 
+		void toolScheduledAfterParsingDestroyed(KileTool::Base *tool);
+		void handleParsingComplete();
+
 	Q_SIGNALS:
 		void requestGUIState(const QString &);
 		void jumpToFirstError();
@@ -138,21 +140,23 @@ namespace KileTool
 		void childToolSpawned(KileTool::Base*,KileTool::Base*);
 
 	private:
-		KileInfo		*m_ki;
-		KConfig		*m_config;
+		KileInfo			*m_ki;
+		KConfig				*m_config;
 		KileWidget::LogWidget		*m_log;
 		KileWidget::OutputView		*m_output;
-		KParts::PartManager	*m_pm;
-		QStackedWidget				*m_stack;
+		KParts::PartManager		*m_pm;
+		QStackedWidget			*m_stack;
 		KAction				*m_stop;
 		Factory				*m_factory;
 		Queue				m_queue;
 		QTimer				*m_timer;
-		bool					m_bClear;
-		int					m_nLastResult;
-		uint					m_nTimeout;
+		bool				m_bClear;
+		int				m_nLastResult;
+		uint				m_nTimeout;
+		QQueue<Base*>		m_toolsScheduledAfterParsingList;
 
 		void deleteLivePreviewToolsFromQueue();
+		void deleteLivePreviewToolsFromRunningAfterParsingQueue();
 	};
 
 	QStringList toolList(KConfig *config, bool menuOnly = false);

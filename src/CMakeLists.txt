@@ -113,6 +113,11 @@ SET(kile_SRCS
 	utilities.cpp
 	abbreviationmanager.cpp
 	editorcommands.cpp
+	parser/parsermanager.cpp
+	parser/parserthread.cpp
+	parser/parser.cpp
+	parser/latexparser.cpp
+	parser/bibtexparser.cpp
 )
 
 IF( LIVEPREVIEW_POSSIBLE )

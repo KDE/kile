@@ -66,6 +66,7 @@ namespace KileTool
 	Base::~Base()
 	{
 		KILE_DEBUG() << "DELETING TOOL: " << name() << this;
+		emit(aboutToBeDestroyed(this));
 		delete m_launcher;
 	}
 
@@ -183,7 +184,7 @@ namespace KileTool
 		}
 
 		emit(start(this));
-		
+
 		if (!m_launcher || !m_launcher->launch()) {
 			KILE_DEBUG() << "\tlaunching failed";
 			if(!m_launcher) {

@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -35,6 +35,8 @@ namespace KTextEditor {class Document; class View;}
 class TemplateItem;
 class KileInfo;
 class KileProjectItem;
+
+namespace KileParser { class ParserOutput; }
 
 namespace KileDocument
 {
@@ -137,6 +139,8 @@ public Q_SLOTS:
 	void openDroppedURLs(QDropEvent *e);
 
 	void reloadXMLOnAllDocumentsAndViews();
+
+	void handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output);
 
 Q_SIGNALS:
 	void projectTreeChanged(const KileProject*);

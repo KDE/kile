@@ -53,6 +53,7 @@ namespace KileEditorKeySequence { class Manager; }
 namespace KileTemplate { class Manager; }
 namespace KileCodeCompletion { class Manager; }
 namespace KileAbbreviation { class Manager; }
+namespace KileParser { class Manager; }
 
 class EditorCommands;
 
@@ -144,6 +145,7 @@ public:
 	KileTemplate::Manager *templateManager() const { return m_templateManager; }
 	KileCodeCompletion::Manager *codeCompletionManager() const { return m_codeCompletionManager; }
 	KileAbbreviation::Manager* abbreviationManager() const { return m_abbreviationManager; }
+	KileParser::Manager* parserManager() const { return m_parserManager; }
 
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
@@ -177,6 +179,7 @@ protected:
 	KileWidget::ExtendedScrollArea	*m_previewScrollArea;
 	KileCodeCompletion::Manager	*m_codeCompletionManager;
 	KileAbbreviation::Manager	*m_abbreviationManager;
+	KileParser::Manager		*m_parserManager;
 
 	EditorCommands				*m_editorCommands;
 

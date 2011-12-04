@@ -314,8 +314,6 @@ namespace KileTool
 			  configureAsymptote(tool, targetDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
 			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			  tool->copyPaths(this);
-			  KILE_DEBUG();
-			  KILE_DEBUG() << "calling manager()->runNext(";
 			  runChildNext(tool);
 			}
 		}

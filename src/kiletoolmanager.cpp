@@ -31,6 +31,7 @@
 #include "kileproject.h"
 #include "kilestdtools.h"
 #include "kiletool_enums.h"
+#include "parser/parsermanager.h"
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
 #include "widgets/sidebar.h"
@@ -98,6 +99,8 @@ namespace KileTool
 		m_nLastResult(Success),
 		m_nTimeout(to)
 	{
+		connect(m_ki->parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingComplete()));
+
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
 		connect(stop, SIGNAL(triggered()), this, SLOT(stop()));
@@ -141,9 +144,40 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
-	int Manager::run(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	void Manager::run(Base *tool)
 	{
-		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
+		// if the tool requests a save-all operation, we wait for the parsing to
+		// be finished before launching it
+		if(!tool->requestSaveAll() || m_ki->parserManager()->isParsingComplete()) {
+			// parsing done, we can start the tool immediately
+			runImmediately(tool);
+			return;
+		}
+		connect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
+		        this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)), Qt::UniqueConnection);
+		if(!m_toolsScheduledAfterParsingList.contains(tool)) {
+			m_toolsScheduledAfterParsingList.push_back(tool);
+		}
+	}
+
+	void Manager::toolScheduledAfterParsingDestroyed(KileTool::Base *tool)
+	{
+		m_toolsScheduledAfterParsingList.removeAll(tool);
+	}
+
+	void Manager::handleParsingComplete()
+	{
+		Q_FOREACH(Base *tool, m_toolsScheduledAfterParsingList) {
+			disconnect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
+		                   this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)));
+			runImmediately(tool);
+		}
+		m_toolsScheduledAfterParsingList.clear();
+	}
+
+	int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	{
+		KILE_DEBUG() << "==KileTool::Manager::runImmediately(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
 			m_log->clear();
 			m_ki->setLogPresent(false);
@@ -182,14 +216,9 @@ namespace KileTool
 		}
 	}
 
-	int Manager::runNext(Base *tool, bool block /*= false*/)
-	{
-		return run(tool, true, block);
-	}
-
 	int Manager::runChildNext(Base *parent, Base *tool, bool block /*= false*/)
 	{
-		return run(tool, true, block, parent);
+		return runImmediately(tool, true, block, parent);
 	}
 
 	int Manager::runNextInQueue()
@@ -278,11 +307,14 @@ namespace KileTool
 		KILE_DEBUG();
 
 		Base *tool = m_queue.tool();
+
 		if(tool && tool->isPartOfLivePreview()) {
 			setEnabledStopButton(false);
 			tool->stop();
 		}
+
 		deleteLivePreviewToolsFromQueue();
+		deleteLivePreviewToolsFromRunningAfterParsingQueue();
 	}
 
 	void Manager::stopActionDestroyed()
@@ -336,6 +368,20 @@ namespace KileTool
 				i = m_queue.erase(i);
 				item->tool()->deleteLater();
 				delete item;
+			}
+			else {
+				++i;
+			}
+		}
+	}
+
+	void Manager::deleteLivePreviewToolsFromRunningAfterParsingQueue()
+	{
+		for(QQueue<Base*>::iterator i = m_toolsScheduledAfterParsingList.begin(); i != m_toolsScheduledAfterParsingList.end();) {
+			Base *tool = *i;
+			if(tool->isPartOfLivePreview()) {
+				i = m_toolsScheduledAfterParsingList.erase(i);
+				delete tool;
 			}
 			else {
 				++i;

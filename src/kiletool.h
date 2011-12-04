@@ -218,6 +218,8 @@ namespace KileTool
 		void start(KileTool::Base*);
 		void done(KileTool::Base*, int, bool childToolSpawned);
 
+		void aboutToBeDestroyed(KileTool::Base*);
+
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }
 		const QString readEntry(const QString& key) const { return m_entryMap[key]; }

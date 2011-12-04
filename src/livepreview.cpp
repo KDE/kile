@@ -202,6 +202,7 @@ void LivePreviewManager::stopAndClearPreview()
 
 void LivePreviewManager::clearLivePreview()
 {
+	KILE_DEBUG();
 	showPreviewDisabled();
 	if(m_livePreviewPart) {
 		m_livePreviewPart->closeUrl();

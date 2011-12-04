@@ -260,21 +260,18 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	latex->setSource(m_tempFile);
 	latex->prepareToRun();
 	latex->setQuickie();
-	if(m_ki->toolManager()->run(latex) != KileTool::Running) {
-		return false;
-	}
-
 	connect(latex, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+	m_ki->toolManager()->run(latex);
+
 	m_running++;
 
 	// dvips
 	if(dvips) {
 		dvips->setSource( filepath + "dvi" );
 		dvips->setQuickie();
-		if ( m_ki->toolManager()->run(dvips)  != KileTool::Running )
-			return false;
-
 		connect(dvips, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+		m_ki->toolManager()->run(dvips);
+
 		m_running++;
 	}
 
@@ -283,8 +280,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		connect(viewer, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
 		viewer->setSource( filepath + previewlist[pvExtension] );
 		viewer->setQuickie();
-		if ( m_ki->toolManager()->run(viewer) != KileTool::Running )
-			return false;
+		m_ki->toolManager()->run(viewer);
 	}
 
 	return true;

@@ -2118,6 +2118,7 @@ int Kile::runToolWithConfig(const QString &toolName, const QString &config)
 	KileTool::Base *tool = m_manager->createTool(toolName, config);
 
 	if(!tool || (tool->requestSaveAll() && !m_docManager->fileSaveAll())) {
+		delete tool;
 		return KileTool::ConfigureFailed;
 	}
 

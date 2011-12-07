@@ -555,6 +555,12 @@
 			<default>5</default>
 		</entry>
 	</group>
+	<group name="PdfWizard">
+		<entry name="pdfTask" type="Int">
+			<label>Last used task of the PdfWizard.</label>
+			<default>12</default>
+		</entry>
+	</group>
 	<group name="MostUsedSymbols">
 		<entry name="numSymbolsMFUS" type="UInt">
 			<label>Number of symbols to store in the Most Frequently Used Symbols view.</label>

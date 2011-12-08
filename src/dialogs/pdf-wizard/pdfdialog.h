@@ -167,7 +167,6 @@ class PdfDialog : public KDialog
 		bool m_execLatex;
 		QString m_param;
 		bool m_scriptrunning;
-		int m_lastPdfTask;
 
 		KTempDir *m_tempdir;
 		QStringList m_move_filelist;

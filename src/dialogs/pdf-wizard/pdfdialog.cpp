@@ -116,7 +116,6 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdfpages = false;
 	m_scriptrunning = false;
 	m_pagesize = QSize(0,0);
-	m_lastPdfTask = KileConfig::pdfTask();
 
 	// setup tasks
 	m_tasklist << i18n("1 Page + Empty Page --> 2up")           // 0   PDF_PAGE_EMPTY
@@ -199,7 +198,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 PdfDialog::~PdfDialog()
 {
 	if ( m_cbTask->currentIndex() != -1 ) {
-		KileConfig::setPdfTask(m_cbTask->currentIndex());
+		KileConfig::setPdfWizardLastTask(m_cbTask->currentIndex());
 	}
 	delete m_tempdir;
 	delete m_proc;
@@ -664,7 +663,8 @@ void PdfDialog::updateTasks()
 	// choose one common task (need to calculate the combobox index)
 	int index = m_cbTask->findText(lasttext);
 	if ( lastindex==-1 || index==-1 ) {
-		int task = ( m_lastPdfTask < m_cbTask->count() ) ? m_lastPdfTask : PDF_SELECT;
+		int lastTask = KileConfig::pdfWizardLastTask();
+		int task = ( lastTask < m_cbTask->count() ) ? lastTask : PDF_SELECT;
 		index = m_cbTask->findText(m_tasklist[task]);
 		if ( index == -1 ) {
 			index = 0;

@@ -556,8 +556,8 @@
 		</entry>
 	</group>
 	<group name="PdfWizard">
-		<entry name="pdfTask" type="Int">
-			<label>Last used task of the PdfWizard.</label>
+		<entry name="pdfWizardLastTask" type="Int">
+			<label>Last task used by the PdfWizard.</label>
 			<default>12</default>
 		</entry>
 	</group>

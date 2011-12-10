@@ -280,6 +280,7 @@ KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions) 
 KileProject::~KileProject()
 {
 	KILE_DEBUG() << "DELETING KILEPROJECT " <<  m_projecturl.url();
+	emit(aboutToBeDestroyed(this));
 	delete m_config;
 
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {

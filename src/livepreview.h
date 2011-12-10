@@ -31,7 +31,7 @@
 #include <KToggleAction>
 #include <KTempDir>
 
-namespace KileDocument { class LaTeXInfo; }
+namespace KileDocument { class TextInfo; }
 
 namespace KileTool
 {
@@ -51,8 +51,8 @@ public:
 	bool run(const QString &text,const QString &textfilename,int startrow);
 	bool isRunning();
 
-	void compilePreview(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
-	void showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
+	void compilePreview(KileDocument::TextInfo *info, KTextEditor::View *view);
+	void showPreviewCompileIfNecessary(KileDocument::TextInfo *info, KTextEditor::View *view);
 
 	KParts::ReadOnlyPart* livePreviewPart() const { return m_livePreviewPart; }
 
@@ -87,6 +87,9 @@ public Q_SLOTS:
 private Q_SLOTS:
 	void handleDocumentModificationTimerTimeout();
 
+	void removeTextInfo(KileDocument::TextInfo *info);
+	void removeProject(KileProject *project);
+
 	void toolDestroyed();
 	void toolDone(KileTool::Base *base, int i, bool childToolSpawned);
 	void childToolDone(KileTool::Base *base, int i, bool childToolSpawned);
@@ -94,8 +97,6 @@ private Q_SLOTS:
 	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 	void handleTextViewActivated(KTextEditor::View *view);
 	void handleTextViewClosed(KTextEditor::View *view, bool wasActiveView);
-	void handleTextInfoDestroyed(QObject *obj);
-	void handleProjectDestroyed(QObject *obj);
 
 	void handleProjectItemAdded(KileProject *project, KileProjectItem *item);
 	void handleProjectItemRemoved(KileProject *project, KileProjectItem *item);
@@ -123,7 +124,7 @@ private:
 	QHash<QString, QString> m_runningPathToPreviewPathHash;
 	QHash<QString, QString> m_runningPreviewPathToPathHash;
 	QString m_runningPreviewFile;
-	KileDocument::LaTeXInfo *m_runningLaTeXInfo;
+	KileDocument::TextInfo *m_runningTextInfo;
 	KTextEditor::View *m_runningTextView;
 	KileProject *m_runningProject;
 	PreviewInformation *m_runningPreviewInformation;
@@ -137,7 +138,7 @@ private:
 
 	void createLivePreviewPart();
 
-	PreviewInformation* findPreviewInformation(KileDocument::LaTeXInfo *latexInfo, KileProject* *locatedProject = NULL);
+	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL);
 
 	void updatePreviewInformationAfterCompilationFinished();
 
@@ -145,7 +146,7 @@ private:
 
 	void createActions(KActionCollection *ac);
 	void createControlToolBar();
-	void synchronizeViewWithCursor(KileDocument::LaTeXInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition);
+	void synchronizeViewWithCursor(KileDocument::TextInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition);
 
 	void stopAndClearPreview();
 
@@ -160,8 +161,6 @@ private:
 
 	void deleteAllLivePreviewInformation();
 
-	void removeTextInfo(KileDocument::TextInfo *info);
-	void removeProject(KileProject *project);
 	void handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item);
 
 	void fillTextHashForMasterDocument(QHash<KileDocument::TextInfo*, QByteArray> &textHash);

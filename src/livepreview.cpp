@@ -44,6 +44,7 @@
 #include "kileviewmanager.h"
 #include "widgets/logwidget.h"
 
+//TODO: it still has to be checked whether it is necessary to use LaTeXInfo objects
 
 namespace KileTool
 {
@@ -99,7 +100,7 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
    m_controlToolBar(NULL),
    m_previewStatusLed(NULL),
    m_previewForCurrentDocumentAction(NULL),
-   m_runningLaTeXInfo(NULL), m_runningTextView(NULL), m_runningProject(NULL),
+   m_runningTextInfo(NULL), m_runningTextView(NULL), m_runningProject(NULL),
    m_runningPreviewInformation(NULL), m_shownPreviewInformation(NULL), m_masterDocumentPreviewInformation(NULL)
 {
 	connect(m_ki->viewManager(), SIGNAL(textViewActivated(KTextEditor::View*)),
@@ -217,7 +218,7 @@ void LivePreviewManager::stopLivePreview()
 	m_runningPathToPreviewPathHash.clear();
 	m_runningPreviewPathToPathHash.clear();
 	m_runningPreviewFile.clear();
-	m_runningLaTeXInfo = NULL;
+	m_runningTextInfo = NULL;
 	m_runningProject = NULL;
 	m_runningTextView = NULL;
 	m_runningPreviewInformation = NULL;
@@ -385,7 +386,7 @@ void LivePreviewManager::showPreviewOutOfDate()
 
 }
 
-LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformation(KileDocument::LaTeXInfo *latexInfo,
+LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformation(KileDocument::TextInfo *textInfo,
                                                                                    KileProject* *locatedProject)
 {
 	const QString masterDocumentFileName = m_ki->getMasterDocumentFileName();
@@ -393,7 +394,7 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 		KILE_DEBUG() << "master document defined";
 		return m_masterDocumentPreviewInformation;
 	}
-	KileProject *project = m_ki->docManager()->projectForMember(latexInfo->url());
+	KileProject *project = m_ki->docManager()->projectForMember(textInfo->url());
 	if(project) {
 		KILE_DEBUG() << "part of a project";
 		if(locatedProject) {
@@ -408,9 +409,9 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 			return NULL;
 		}
 	}
-	else if(m_textInfoToPreviewInformationHash.contains(latexInfo)) {
+	else if(m_textInfoToPreviewInformationHash.contains(textInfo)) {
 		KILE_DEBUG() << "not part of a project";
-		return m_textInfoToPreviewInformationHash[latexInfo];
+		return m_textInfoToPreviewInformationHash[textInfo];
 	}
 	else {
 		KILE_DEBUG() << "not found";
@@ -436,7 +437,7 @@ void LivePreviewManager::handleCursorPositionChangedTimeout()
 	synchronizeViewWithCursor(latexInfo, view, view->cursorPosition());
 }
 
-void LivePreviewManager::synchronizeViewWithCursor(KileDocument::LaTeXInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition)
+void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition)
 {
 	KILE_DEBUG() << "new position " << newPosition;
 
@@ -536,17 +537,17 @@ void LivePreviewManager::fillTextHashForMasterDocument(QHash<KileDocument::TextI
 	}
 }
 
-void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *latexInfo, KTextEditor::View *view)
+void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::TextInfo *textInfo, KTextEditor::View *view)
 {
 	KILE_DEBUG();
 	// first, stop any running live preview
 	stopLivePreview();
 
 	KileProject *project = NULL;
-	PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project);
+	PreviewInformation *previewInformation = findPreviewInformation(textInfo, &project);
 	if(!previewInformation) {
 		KILE_DEBUG() << "not found";
-		compilePreview(latexInfo, view);
+		compilePreview(textInfo, view);
 	}
 	else {
 		QHash<KileDocument::TextInfo*, QByteArray> newHash;
@@ -570,22 +571,22 @@ void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *
 			fillTextHashForProject(project, newHash);
 		}
 		else {
-			newHash[latexInfo] = computeHashOfDocument(view->document());
+			newHash[textInfo] = computeHashOfDocument(view->document());
 		}
 
 		if(newHash != previewInformation->textHash || !QFile::exists(previewInformation->previewFile)) {
 			KILE_DEBUG() << "hashes don't match";
-			compilePreview(latexInfo, view);
+			compilePreview(textInfo, view);
 		}
 		else {
 			KILE_DEBUG() << "hashes match";
 			showPreviewSuccessful();
-			synchronizeViewWithCursor(latexInfo, view, view->cursorPosition());
+			synchronizeViewWithCursor(textInfo, view, view->cursorPosition());
 		}
 	}
 }
 
-void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEditor::View *view)
+void LivePreviewManager::compilePreview(KileDocument::TextInfo *info, KTextEditor::View *view)
 {
 	KILE_DEBUG() << "updating preview";
 	m_runningPathToPreviewPathHash.clear();
@@ -626,13 +627,13 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 		}
 	}
 
-	connect(info, SIGNAL(destroyed(QObject*)),
-	        this, SLOT(handleTextInfoDestroyed(QObject*)),
+	connect(info, SIGNAL(aboutToBeDestroyed(KileDocument::TextInfo*)),
+	        this, SLOT(removeTextInfo(KileDocument::TextInfo*)),
 	        Qt::UniqueConnection);
 
 	if(project) {
-		connect(info, SIGNAL(destroyed(QObject*)),
-		        this, SLOT(handleProjectDestroyed(QObject*)),
+		connect(info, SIGNAL(aboutToBeDestroyed(KileProject*)),
+		        this, SLOT(removeProject(KileProject*)),
 		        Qt::UniqueConnection);
 		connect(project, SIGNAL(projectItemAdded(KileProject*,KileProjectItem*)),
 		        this, SLOT(handleProjectItemAdded(KileProject*,KileProjectItem*)),
@@ -709,7 +710,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *info, KTextEdit
 	KILE_DEBUG() << "dir:" << previewInformation->getTempDir();
 
 	m_runningTextView = view;
-	m_runningLaTeXInfo = info;
+	m_runningTextInfo = info;
 	m_runningProject = project;
 	m_runningPreviewFile = previewInformation->getTempDir() + '/' + latex->target();
 	m_runningTextHash.clear();
@@ -847,24 +848,6 @@ void LivePreviewManager::refreshLivePreview()
 	handleTextViewActivated(textView);
 }
 
-void LivePreviewManager::handleTextInfoDestroyed(QObject *obj)
-{
-	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(obj);
-	if(!latexInfo) {
-		return;
-	}
-	removeTextInfo(latexInfo);
-}
-
-void LivePreviewManager::handleProjectDestroyed(QObject *obj)
-{
-	KileProject *project = dynamic_cast<KileProject*>(obj);
-	if(!project) {
-		return;
-	}
-	removeProject(project);
-}
-
 void LivePreviewManager::removeTextInfo(KileDocument::TextInfo *info)
 {
 	if(!m_textInfoToPreviewInformationHash.contains(info)) {
@@ -873,7 +856,7 @@ void LivePreviewManager::removeTextInfo(KileDocument::TextInfo *info)
 
 	PreviewInformation *previewInformation = m_textInfoToPreviewInformationHash[info];
 
-	if(m_runningLaTeXInfo == info) {
+	if(m_runningTextInfo == info) {
 		stopLivePreview();
 	}
 
@@ -1025,7 +1008,7 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 	m_shownPreviewInformation->setPreviewEnabled(true);
 	if(m_livePreviewPart && QFile::exists(m_shownPreviewInformation->previewFile)) {
 		if(m_livePreviewPart->openUrl(KUrl(m_shownPreviewInformation->previewFile))) {
-			synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
+			synchronizeViewWithCursor(m_runningTextInfo, m_runningTextView, m_runningTextView->cursorPosition());
 			showPreviewSuccessful();
 		}
 		else {

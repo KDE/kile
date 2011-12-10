@@ -205,6 +205,7 @@ Q_SIGNALS:
 	void projectTreeChanged(const KileProject *);
 	void projectItemAdded(KileProject *project, KileProjectItem *item);
 	void projectItemRemoved(KileProject *project, KileProjectItem *item);
+	void aboutToBeDestroyed(KileProject*);
 
 public Q_SLOTS:
 	bool load();

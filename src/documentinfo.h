@@ -292,6 +292,7 @@ public:
 
 Q_SIGNALS:
 	void documentDetached(KTextEditor::Document*);
+	void aboutToBeDestroyed(KileDocument::TextInfo*);
 
 protected Q_SLOTS:
 	void slotFileNameChanged();

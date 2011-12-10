@@ -435,6 +435,7 @@ TextInfo::TextInfo(KTextEditor::Document *doc,
 
 TextInfo::~TextInfo()
 {
+	emit(aboutToBeDestroyed(this));
 	detach();
 	delete [] m_arStatistics;
 }

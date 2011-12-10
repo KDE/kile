@@ -277,9 +277,9 @@ namespace KileTool
 	{
 		KILE_DEBUG();
 
-		setEnabledStopButton(false);
 		Base *tool = m_queue.tool();
 		if(tool && tool->isPartOfLivePreview()) {
+			setEnabledStopButton(false);
 			tool->stop();
 		}
 		deleteLivePreviewToolsFromQueue();
@@ -333,9 +333,9 @@ namespace KileTool
 		for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end();) {
 			QueueItem *item = *i;
 			if(item->tool()->isPartOfLivePreview()) {
+				i = m_queue.erase(i);
 				item->tool()->deleteLater();
 				delete item;
-				i = m_queue.erase(i);
 			}
 			else {
 				++i;

@@ -142,6 +142,8 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_AutosaveTimer = new QTimer();
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
+	m_viewManager= new KileView::Manager(this, actionCollection(), parent, "KileView::Manager");
+
 	m_latexCommands = new KileDocument::LatexCommands(m_config.data(), this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
 	m_help = new KileHelp::Help(m_edit, this);
@@ -185,7 +187,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
 	m_horizontalSplitter = new QSplitter(Qt::Horizontal, this);
-	QSplitter *textViewHorizontalSplitter = new QSplitter(Qt::Horizontal, this);
 
 	setupSideBar();
 	m_horizontalSplitter->addWidget(m_sideBar);
@@ -193,8 +194,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_verticalSplitter = new QSplitter(Qt::Vertical);
 	m_horizontalSplitter->addWidget(m_verticalSplitter);
 	QWidget *tabWidget = viewManager()->createTabs(m_verticalSplitter);
-	m_verticalSplitter->addWidget(textViewHorizontalSplitter);
-	textViewHorizontalSplitter->addWidget(tabWidget);
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
@@ -227,27 +226,13 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection());
 	connect(this, SIGNAL(masterDocumentChanged()), m_livePreviewManager, SLOT(handleMasterDocumentChanged()));
 
-	if(m_livePreviewManager->livePreviewPart()) {
-		textViewHorizontalSplitter->addWidget(m_livePreviewManager->livePreviewPart()->widget());
-		QList<int> sizes;
-		sizes << m_verticalSplitter->width() / 2 << m_verticalSplitter->width() / 2;
-		textViewHorizontalSplitter->setSizes(sizes);
+	if(viewManager()->viewerPart()) {
+		m_horizontalSplitter->addWidget(viewManager()->viewerPart()->widget());
 		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
-
-		m_paPrintCompiledDocument = createAction(KStandardAction::Print, "print_compiled_document", m_livePreviewManager->livePreviewPart(), SLOT(slotPrint()));
-		m_paPrintCompiledDocument->setText(i18n("Print Compiled Document..."));
-		m_paPrintCompiledDocument->setShortcut(QKeySequence());
-		m_paPrintCompiledDocument->setEnabled(false);
-		connect(m_livePreviewManager->livePreviewPart(), SIGNAL(enablePrintAction(bool)), m_paPrintCompiledDocument, SLOT(setEnabled(bool)));
-		QAction *printPreviewAction = m_livePreviewManager->livePreviewPart()->actionCollection()->action("file_print_preview");
-		if(printPreviewAction) {
-			printPreviewAction->setText(i18n("Print Preview For Compiled Document..."));
-		}
 	}
 	else { // live preview part couldn't be created
 		delete m_livePreviewManager;
 		m_livePreviewManager = NULL;
-		m_paPrintCompiledDocument = NULL;
 	}
 #else
 	m_livePreviewManager = NULL;
@@ -284,16 +269,16 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
 
 	// we can only do this here after the main GUI has been set up
-	if(m_livePreviewManager && m_livePreviewManager->livePreviewPart()) {
-		guiFactory()->addClient(m_livePreviewManager->livePreviewPart());
+	if(m_livePreviewManager && viewManager()->viewerPart()) {
+		guiFactory()->addClient(viewManager()->viewerPart());
 
 		QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container("menu_document_viewer", this));
-		QMenu *popup = static_cast<QMenu*>(guiFactory()->container("menu_okular_part_viewer", m_livePreviewManager->livePreviewPart()));
+		QMenu *popup = static_cast<QMenu*>(guiFactory()->container("menu_okular_part_viewer", viewManager()->viewerPart()));
 		if(documentViewerMenu && popup) {
 			// we populate our menu with the actions from the part's menu
 			documentViewerMenu->addActions(popup->actions());
 			documentViewerMenu->setEnabled(false);
-			connect(m_livePreviewManager->livePreviewPart(), SIGNAL(viewerMenuStateChange(bool)), documentViewerMenu, SLOT(setEnabled(bool)));
+			connect(viewManager()->viewerPart(), SIGNAL(viewerMenuStateChange(bool)), documentViewerMenu, SLOT(setEnabled(bool)));
 		}
 		else {
 			if(documentViewerMenu) {
@@ -312,10 +297,18 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!
 
 	QList<int> sizes;
-	sizes << m_verSplitTop << m_verSplitBottom;
+	int verSplitTop = KileConfig::verticalSplitterTop();
+	int verSplitBottom = KileConfig::verticalSplitterBottom();
+	sizes << verSplitTop << verSplitBottom;
 	m_verticalSplitter->setSizes(sizes);
 	sizes.clear();
-	sizes << m_horSplitLeft << m_horSplitRight;
+	int horSplitLeft = KileConfig::horizontalSplitterLeft();
+	int horSplitRight = KileConfig::horizontalSplitterRight();
+	if(horSplitLeft <= 0 && horSplitRight <= 0) { // compute default values
+		horSplitLeft = width() / 4;
+		horSplitRight = width() / 2; // leave some room for the viewer part
+	}
+	sizes << horSplitLeft << horSplitRight << width() - (horSplitLeft + horSplitRight);
 	m_horizontalSplitter->setSizes(sizes);
 
 	applyMainWindowSettings(m_config->group("KileMainWindow"));
@@ -365,8 +358,8 @@ Kile::~Kile()
 {
 	KILE_DEBUG() << "cleaning up..." << endl;
 
-	if(m_livePreviewManager && m_livePreviewManager->livePreviewPart()) {
-		guiFactory()->removeClient(m_livePreviewManager->livePreviewPart());
+	if(m_livePreviewManager && viewManager()->viewerPart()) {
+		guiFactory()->removeClient(viewManager()->viewerPart());
 	}
 	delete m_livePreviewManager;
 	delete m_toolFactory;
@@ -2360,10 +2353,6 @@ void Kile::editUserMenu()
 
 void Kile::readGUISettings()
 {
-	m_horSplitLeft = KileConfig::horizontalSplitterLeft();
-	m_horSplitRight = KileConfig::horizontalSplitterRight();
-	m_verSplitTop = KileConfig::verticalSplitterTop();
-	m_verSplitBottom = KileConfig::verticalSplitterBottom();
 }
 
 void Kile::readUserTagActions()
@@ -2528,16 +2517,15 @@ void Kile::saveSettings()
 	QList<int>::Iterator it;
 	sizes = m_horizontalSplitter->sizes();
 	it = sizes.begin();
-	m_horSplitLeft=*it;
+	KileConfig::setHorizontalSplitterLeft(*it);
 	++it;
-	m_horSplitRight=*it;
+	KileConfig::setHorizontalSplitterRight(*it);
 	sizes.clear();
 	sizes = m_verticalSplitter->sizes();
 	it = sizes.begin();
-	m_verSplitTop=*it;
+	KileConfig::setVerticalSplitterTop(*it);
 	++it;
-	m_verSplitBottom=*it;
-
+	KileConfig::setVerticalSplitterBottom(*it);
 #ifdef __GNUC__
 #warning Restoring the side bar's sizes from minimized after start up doesn't work perfectly yet!
 #endif
@@ -2549,12 +2537,6 @@ void Kile::saveSettings()
 // 	else {
 // 		m_verSplitBottom = sizeBottomBar;
 // 	}
-
-	KileConfig::setHorizontalSplitterLeft(m_horSplitLeft);
-	KileConfig::setHorizontalSplitterRight(m_horSplitRight);
-	KileConfig::setVerticalSplitterTop(m_verSplitTop);
-	KileConfig::setVerticalSplitterBottom(m_verSplitBottom);
-
 	KileConfig::setSideBar(!m_sideBar->isHidden()); // do not use 'isVisible()'!
 	KileConfig::setSideBarSize(m_sideBar->directionalSize());
 	KileConfig::setBottomBar(!m_bottomBar->isHidden()); // do not use 'isVisible()'!

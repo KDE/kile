@@ -20,6 +20,7 @@
 #include <QList>
 #include <QObject>
 #include <QPixmap>
+#include <QPointer>
 #include <QStackedWidget>
 
 #include <KAction>
@@ -30,10 +31,15 @@
 
 class QPixmap;
 
+class KActionCollection;
 class KUrl;
 class KXMLGUIClient;
 
 class KileInfo;
+
+namespace KParts {
+	class ReadOnlyPart;
+}
 
 namespace KileWidget {
 	class ProjectView;
@@ -61,7 +67,7 @@ class Manager
 	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
-	explicit Manager(KileInfo *ki, QObject *parent = 0, const char *name = 0);
+	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
 
 	~Manager();
 
@@ -84,6 +90,8 @@ public:
 
 	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
 	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
+
+	KParts::ReadOnlyPart* viewerPart() const { return m_viewerPart; }
 
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
@@ -142,6 +150,8 @@ public:
 protected:
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 
+	void createViewerPart(KActionCollection *actionCollection);
+
 protected Q_SLOTS:
 	void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
 	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
@@ -158,6 +168,8 @@ protected Q_SLOTS:
 
 	void currentViewChanged(int index);
 
+	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
+
 private:
 	KileInfo			*m_ki;
 	KTabWidget 			*m_tabs;
@@ -167,6 +179,7 @@ private:
 	QWidget				*m_emptyDropWidget;
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
+	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
 };
 
 /**

@@ -128,7 +128,6 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	connect(m_cursorPositionChangedTimer, SIGNAL(timeout()), this, SLOT(handleCursorPositionChangedTimeout()));
 
 	showPreviewDisabled();
-	createLivePreviewPart();
 }
 
 LivePreviewManager::~LivePreviewManager()
@@ -136,7 +135,6 @@ LivePreviewManager::~LivePreviewManager()
 	KILE_DEBUG();
 
 	deleteAllLivePreviewInformation();
-	delete m_livePreviewPart;
 }
 
 void LivePreviewManager::createActions(KActionCollection *ac)
@@ -156,7 +154,7 @@ void LivePreviewManager::synchronizeViewWithCursorActionToggled(bool b)
 {
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	if(!b || !view) {
-		Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
+		Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_ki->viewManager()->viewerPart());
 		if(v) {
 			v->clearLastShownSourceLocation();
 		}
@@ -204,9 +202,9 @@ void LivePreviewManager::clearLivePreview()
 {
 	KILE_DEBUG();
 	showPreviewDisabled();
-	if(m_livePreviewPart) {
-		m_livePreviewPart->closeUrl();
-		KILE_DEBUG() << "url shown: " << m_livePreviewPart->url();
+	if(m_ki->viewManager()->viewerPart()) {
+		m_ki->viewManager()->viewerPart()->closeUrl();
+		KILE_DEBUG() << "url shown: " << m_ki->viewManager()->viewerPart()->url();
 	}
 	m_shownPreviewInformation = NULL;
 }
@@ -462,18 +460,18 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *info,
 
 	KILE_DEBUG() << "previewFile" << previewInformation->previewFile;
 
-	if(!m_livePreviewPart || !QFile::exists(previewInformation->previewFile)) {
+	if(!m_ki->viewManager()->viewerPart() || !QFile::exists(previewInformation->previewFile)) {
 		return;
 	}
 
-	KILE_DEBUG() << "url" << m_livePreviewPart->url();
+	KILE_DEBUG() << "url" << m_ki->viewManager()->viewerPart()->url();
 
 	KUrl previewUrl(KUrl(previewInformation->previewFile));
 
 	bool fileOpened = true;
-	if(m_livePreviewPart->url().isEmpty() || m_livePreviewPart->url() != previewUrl) {
+	if(m_ki->viewManager()->viewerPart()->url().isEmpty() || m_ki->viewManager()->viewerPart()->url() != previewUrl) {
 		KILE_DEBUG() << "loading again";
-		if(m_livePreviewPart->openUrl(previewUrl)) {
+		if(m_ki->viewManager()->viewerPart()->openUrl(previewUrl)) {
 			// don't forget this
 			m_shownPreviewInformation = previewInformation;
 		}
@@ -485,7 +483,7 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *info,
 		}
 	}
 
-	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
+	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_ki->viewManager()->viewerPart());
 	if(fileOpened && v) {
 		v->showSourceLocation(filePath, newPosition.line(), newPosition.column(), m_synchronizeViewWithCursorAction->isChecked());
 	}
@@ -731,32 +729,6 @@ void LivePreviewManager::compilePreview(KileDocument::TextInfo *info, KTextEdito
 	m_ki->toolManager()->run(latex);
 }
 
-void LivePreviewManager::createLivePreviewPart()
-{
-	KPluginLoader pluginLoader("okularpart");
-	KPluginFactory *factory = pluginLoader.factory();
-	if (!factory) {
-		KILE_DEBUG() << i18n("Could not find the Okular library.");
-		m_livePreviewPart = NULL;
-		return;
-	}
-	else {
-		QVariantList argList;
-		argList << "ViewerWidget" << "ConfigFileName=kile-livepreview-okularpartrc";
-		m_livePreviewPart = factory->create<KParts::ReadOnlyPart>(this, argList);
-		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_livePreviewPart.data());
-		if(!viewerInterface) {
-			// Okular doesn't provide the ViewerInterface
-			delete m_livePreviewPart;
-			m_livePreviewPart = NULL;
-			return;
-		}
-		viewerInterface->setWatchFileModeEnabled(false);
-		viewerInterface->setShowSourceLocationsGraphically(true);
-		connect(m_livePreviewPart, SIGNAL(openSourceReference(const QString&, int, int)), this, SLOT(handleActivatedSourceReference(const QString&, int, int)));
-	}
-}
-
 bool LivePreviewManager::isLivePreviewPossible() const
 {
 #ifdef LIVEPREVIEW_POSSIBLE
@@ -764,39 +736,6 @@ bool LivePreviewManager::isLivePreviewPossible() const
 #else
 	return false;
 #endif
-}
-
-void LivePreviewManager::handleActivatedSourceReference(const QString& absFileName, int line, int col)
-{
-	KILE_DEBUG() << "absFileName:" << absFileName << "line:" << line << "column:" << col;
-	QString fileName;
-	if(!m_shownPreviewInformation) {
-		return;
-	}
-	KILE_DEBUG() << m_shownPreviewInformation->previewPathToPathHash;
-	if(m_shownPreviewInformation->previewPathToPathHash.contains(absFileName)) {
-		KILE_DEBUG() << "found";
-		fileName = m_shownPreviewInformation->previewPathToPathHash[absFileName];
-	}
-	else {
-		KILE_DEBUG() << "not found";
-		fileName = absFileName;
-	}
-	KILE_DEBUG() << "fileName:" << fileName;
-	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(fileName);
-	if(!textInfo) {
-		m_ki->docManager()->fileOpen(fileName);
-		textInfo = m_ki->docManager()->textInfoFor(fileName);
-		if(!textInfo) {
-			return;
-		}
-	}
-	KTextEditor::View *view = m_ki->viewManager()->textView(textInfo);
-	if(!view) {
-		return;
-	}
-	view->setCursorPosition(KTextEditor::Cursor(line, col));
-	m_ki->viewManager()->switchToTextView(view, true);
 }
 
 void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view)
@@ -986,7 +925,7 @@ void LivePreviewManager::childToolDone(KileTool::Base *base, int i, bool childTo
 	KILE_DEBUG() << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << endl;
 	KILE_DEBUG() << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << endl;
 	KILE_DEBUG() << "\tLivePreviewManager: child tool done" << base->name() << i << childToolSpawned << endl;
-	if(!m_livePreviewPart) {
+	if(!m_ki->viewManager()->viewerPart()) {
 		return;
 	}
 	if(i != Success) {
@@ -1007,8 +946,8 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 	m_shownPreviewInformation->textHash = m_runningTextHash;
 	m_shownPreviewInformation->previewFile = m_runningPreviewFile;
 	m_shownPreviewInformation->setPreviewEnabled(true);
-	if(m_livePreviewPart && QFile::exists(m_shownPreviewInformation->previewFile)) {
-		if(m_livePreviewPart->openUrl(KUrl(m_shownPreviewInformation->previewFile))) {
+	if(m_ki->viewManager()->viewerPart() && QFile::exists(m_shownPreviewInformation->previewFile)) {
+		if(m_ki->viewManager()->viewerPart()->openUrl(KUrl(m_shownPreviewInformation->previewFile))) {
 			synchronizeViewWithCursor(m_runningTextInfo, m_runningTextView, m_runningTextView->cursorPosition());
 			showPreviewSuccessful();
 		}

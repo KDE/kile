@@ -20,11 +20,11 @@
 	<group name="Geometries">
 		<entry name="horizontalSplitterLeft" type="Int">
 			<label></label>
-			<default>100</default>
+			<default>-1</default>
 		</entry>
 		<entry name="horizontalSplitterRight" type="Int">
 			<label></label>
-			<default>350</default>
+			<default>-1</default>
 		</entry>
 		<entry name="verticalSplitterTop" type="Int">
 			<label></label>

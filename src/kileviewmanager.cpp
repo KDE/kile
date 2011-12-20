@@ -37,6 +37,9 @@
 #include <KXMLGUIFactory>
 #include <KMenu>
 #include <KAcceleratorManager>
+
+#include "config.h"
+
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"
 #include "kileconstants.h"
@@ -51,10 +54,14 @@
 #include "quickpreview.h"
 #include "codecompletion.h"
 
+#ifdef HAVE_VIEWERINTERFACE_H
+#include <okular/interfaces/viewerinterface.h>
+#endif
+
 namespace KileView
 {
 
-Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
+Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *parent, const char *name) :
 	QObject(parent),
 	KTextEditor::MdiContainer(),
 	m_ki(info),
@@ -68,12 +75,14 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 {
 	setObjectName(name);
 	registerMdiContainer();
+	createViewerPart(actionCollection);
 }
 
 
 Manager::~Manager()
 {
-	KILE_DEBUG() << "destroyed";
+	KILE_DEBUG() << "destroying";
+	delete m_viewerPart;
 }
 
 static inline bool isTextView(QWidget* /*w*/)
@@ -803,6 +812,70 @@ void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
 		view->removeEventFilter(eventFilter);
 	}
 }
+
+//BEGIN ViewerPart methods
+
+void Manager::createViewerPart(KActionCollection *actionCollection)
+{
+	m_viewerPart = NULL;
+#ifdef HAVE_VIEWERINTERFACE_H
+	KPluginLoader pluginLoader("okularpart");
+	KPluginFactory *factory = pluginLoader.factory();
+	if (!factory) {
+		KILE_DEBUG() << "Could not find the Okular library.";
+		m_viewerPart = NULL;
+		return;
+	}
+	else {
+		QVariantList argList;
+		argList << "ViewerWidget" << "ConfigFileName=kile-livepreview-okularpartrc";
+		m_viewerPart = factory->create<KParts::ReadOnlyPart>(this, argList);
+		Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+		if(!viewerInterface) {
+			// OkularPart doesn't provide the ViewerInterface
+			delete m_viewerPart;
+			m_viewerPart = NULL;
+			return;
+		}
+		viewerInterface->setWatchFileModeEnabled(false);
+		viewerInterface->setShowSourceLocationsGraphically(true);
+		connect(m_viewerPart, SIGNAL(openSourceReference(const QString&, int, int)), this, SLOT(handleActivatedSourceReference(const QString&, int, int)));
+
+		KAction *paPrintCompiledDocument = actionCollection->addAction(KStandardAction::Print, "print_compiled_document", m_viewerPart, SLOT(slotPrint()));
+		paPrintCompiledDocument->setText(i18n("Print Compiled Document..."));
+		paPrintCompiledDocument->setShortcut(QKeySequence());
+		paPrintCompiledDocument->setEnabled(false);
+		connect(m_viewerPart, SIGNAL(enablePrintAction(bool)), paPrintCompiledDocument, SLOT(setEnabled(bool)));
+		QAction *printPreviewAction = m_viewerPart->actionCollection()->action("file_print_preview");
+		if(printPreviewAction) {
+			printPreviewAction->setText(i18n("Print Preview For Compiled Document..."));
+		}
+	}
+#endif
+}
+
+void Manager::handleActivatedSourceReference(const QString& absFileName, int line, int col)
+{
+	KILE_DEBUG() << "absFileName:" << absFileName << "line:" << line << "column:" << col;
+	QString fileName;
+	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(absFileName);
+	if(!textInfo) {
+		m_ki->docManager()->fileOpen(absFileName);
+		textInfo = m_ki->docManager()->textInfoFor(absFileName);
+		if(!textInfo) {
+			return;
+		}
+	}
+	KTextEditor::View *view = textView(textInfo);
+	if(!view) {
+		return;
+	}
+	view->setCursorPosition(KTextEditor::Cursor(line, col));
+	switchToTextView(view, true);
+}
+
+//END ViewerPart methods
+
 
 //BEGIN KTextEditor::MdiContainer
 void Manager::registerMdiContainer()

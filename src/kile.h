@@ -150,7 +150,7 @@ private:
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KActionMenu 				*m_bibTagActionMenu;
-	KAction 				*m_paStop, *m_paPrint, *m_paPrintCompiledDocument;
+	KAction 				*m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
 	KToggleAction 				*m_actionMessageView;
 	KRecentFilesAction			*m_actRecentFiles;
@@ -176,7 +176,6 @@ private:
 
 	/* config */
 	KSharedConfigPtr	m_config;
-	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
 	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
 	KRecentFilesAction *m_actRecentProjects;

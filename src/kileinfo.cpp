@@ -51,6 +51,7 @@
 KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_mainWindow(parent),
 	m_manager(NULL),
+	m_viewManager(NULL),
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),
 	m_texKonsole(NULL),
@@ -58,7 +59,6 @@ KileInfo::KileInfo(KParts::MainWindow *parent) :
 {
 	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
-	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
 	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
 	QObject::connect(m_docManager,

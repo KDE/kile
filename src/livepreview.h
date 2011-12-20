@@ -54,8 +54,6 @@ public:
 	void compilePreview(KileDocument::TextInfo *info, KTextEditor::View *view);
 	void showPreviewCompileIfNecessary(KileDocument::TextInfo *info, KTextEditor::View *view);
 
-	KParts::ReadOnlyPart* livePreviewPart() const { return m_livePreviewPart; }
-
 	bool isLivePreviewPossible() const;
   /**
    * run (text, textfilename, startrow) works with the 
@@ -94,7 +92,6 @@ private Q_SLOTS:
 	void toolDone(KileTool::Base *base, int i, bool childToolSpawned);
 	void childToolDone(KileTool::Base *base, int i, bool childToolSpawned);
 
-	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 	void handleTextViewActivated(KTextEditor::View *view);
 	void handleTextViewClosed(KTextEditor::View *view, bool wasActiveView);
 
@@ -119,8 +116,6 @@ private:
 	KToggleAction *m_synchronizeViewWithCursorAction, *m_previewForCurrentDocumentAction;
 	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer, *m_cursorPositionChangedTimer;
 
-	QPointer<KParts::ReadOnlyPart> m_livePreviewPart;
-
 	QHash<QString, QString> m_runningPathToPreviewPathHash;
 	QHash<QString, QString> m_runningPreviewPathToPathHash;
 	QString m_runningPreviewFile;
@@ -135,8 +130,6 @@ private:
 	QHash<KileDocument::TextInfo*, PreviewInformation*> m_textInfoToPreviewInformationHash;
 	QHash<KileProject*, PreviewInformation*> m_projectToPreviewInformationHash;
 	PreviewInformation *m_masterDocumentPreviewInformation;
-
-	void createLivePreviewPart();
 
 	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL);
 

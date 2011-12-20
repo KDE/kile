@@ -1738,8 +1738,8 @@ bool Manager::projectCloseAll()
 	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectCloseAll==========================";
 
-	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-		if(!projectClose((*it)->url())) {
+	while(m_projects.size() > 0) {
+		if(!projectClose(m_projects.first()->url())) {
 			return false;
 		}
 	}

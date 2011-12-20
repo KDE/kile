@@ -578,8 +578,8 @@
 		<default>false</default>
 		</entry>
 	</group>
-	<group name="Preview">
-		<entry name="livePreview" type="Bool">
+	<group name="LivePreview">
+		<entry name="livePreviewEnabled" type="Bool">
 			<label>Activate live preview functionality.</label>
 			<default>true</default>
 		</entry>
@@ -590,6 +590,11 @@
 		<entry name="previewEnabledForFreshlyOpenedDocuments" type="Bool">
 			<label>Enable preview for freshly opened documents.</label>
 			<default>true</default>
+		</entry>
+		<entry name="livePreviewCompilationDelay" type="UInt">
+			<label>Number of milliseconds after which the compilation is started when a change
+			       has occurred.</label>
+			<default>500</default>
 		</entry>
 	</group>
 </kcfg>

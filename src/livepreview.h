@@ -92,7 +92,7 @@ private Q_SLOTS:
 	void toolDone(KileTool::Base *base, int i, bool childToolSpawned);
 	void childToolDone(KileTool::Base *base, int i, bool childToolSpawned);
 
-	void handleTextViewActivated(KTextEditor::View *view);
+	void handleTextViewActivated(KTextEditor::View *view, bool clearPreview = true);
 	void handleTextViewClosed(KTextEditor::View *view, bool wasActiveView);
 
 	void handleProjectItemAdded(KileProject *project, KileProjectItem *item);

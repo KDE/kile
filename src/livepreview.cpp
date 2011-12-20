@@ -250,6 +250,15 @@ void LivePreviewManager::deleteAllLivePreviewInformation()
 void LivePreviewManager::readConfig(KConfig *config)
 {
 	m_synchronizeViewWithCursorAction->setChecked(KileConfig::synchronizeCursorWithView());
+
+	m_controlToolBar->setVisible(KileConfig::livePreviewEnabled());
+	if(KileConfig::livePreviewEnabled()) {
+		refreshLivePreview(); // in case the live preview was disabled and no preview is
+		                      // currently shown
+	}
+	else {
+		deleteAllLivePreviewInformation();
+	}
 }
 
 void LivePreviewManager::writeConfig()
@@ -281,6 +290,10 @@ void LivePreviewManager::createControlToolBar()
 
 void LivePreviewManager::handleMasterDocumentChanged()
 {
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	deleteAllLivePreviewInformation();
 	refreshLivePreview();
 }
@@ -289,6 +302,10 @@ void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, co
 {
 	Q_UNUSED(view);
 	Q_UNUSED(pos);
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	if(!m_synchronizeViewWithCursorAction->isChecked()) {
 		return;
 	}
@@ -297,12 +314,16 @@ void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, co
 
 void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 {
-	KILE_DEBUG();
 	Q_UNUSED(doc);
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
+	KILE_DEBUG();
 	stopLivePreview();
 	showPreviewOutOfDate();
 
-	m_documentChangedTimer->start(500);
+	m_documentChangedTimer->start(KileConfig::livePreviewCompilationDelay());
 }
 
 void LivePreviewManager::handleDocumentModificationTimerTimeout()
@@ -738,9 +759,17 @@ bool LivePreviewManager::isLivePreviewPossible() const
 #endif
 }
 
-void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view)
+void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view, bool clearPreview)
 {
-	stopAndClearPreview();
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+	if(clearPreview) {
+		stopAndClearPreview();
+	}
+	else {
+		stopLivePreview();
+	}
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
 	if(!latexInfo) {
 		return;
@@ -769,6 +798,9 @@ void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasA
 {
 	Q_UNUSED(view);
 	Q_UNUSED(wasActiveView);
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
 
 	m_cursorPositionChangedTimer->stop();
 
@@ -785,7 +817,7 @@ void LivePreviewManager::refreshLivePreview()
 		KILE_DEBUG() << "no text view is shown; hence, no preview can be shown";
 		return;
 	}
-	handleTextViewActivated(textView);
+	handleTextViewActivated(textView, false); // don't automatically clear the preview
 }
 
 void LivePreviewManager::removeTextInfo(KileDocument::TextInfo *info)
@@ -831,6 +863,10 @@ void LivePreviewManager::removeProject(KileProject *project)
 
 void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item)
 {
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG();
 	bool previewNeedsToBeRefreshed = false;
 
@@ -872,18 +908,30 @@ void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project
 
 void LivePreviewManager::handleProjectItemAdded(KileProject *project, KileProjectItem *item)
 {
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG();
 	handleProjectItemAdditionOrRemoval(project, item);
 }
 
 void LivePreviewManager::handleProjectItemRemoved(KileProject *project, KileProjectItem *item)
 {
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG();
 	handleProjectItemAdditionOrRemoval(project, item);
 }
 
 void LivePreviewManager::handleDocumentSavedAs(KTextEditor::View *view, KileDocument::TextInfo *info)
 {
+	if(!KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	Q_UNUSED(info);
 	KTextEditor::View *currentTextView = m_ki->viewManager()->currentTextView();
 	if(view != currentTextView) { // might maybe happen at some point...

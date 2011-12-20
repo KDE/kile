@@ -46,6 +46,7 @@
 #include "widgets/generalconfigwidget.h"
 #include "widgets/helpconfigwidget.h"
 #include "widgets/latexconfigwidget.h"
+#include "widgets/livepreviewconfigwidget.h"
 #include "widgets/previewconfigwidget.h"
 #include "widgets/scriptingconfigwidget.h"
 #include "widgets/toolconfigwidget.h"
@@ -86,6 +87,7 @@ namespace KileDialog
 		setupCodeCompletion(kilePageWidgetItem);   // complete configuration (dani)
 		setupHelp(kilePageWidgetItem);
 		setupScripting(kilePageWidgetItem);
+		setupLivePreview(kilePageWidgetItem);
 
 		setupLatex(latexPageWidgetItem);
 		setupEnvironment(latexPageWidgetItem);
@@ -214,6 +216,13 @@ namespace KileDialog
 		addConfigPage(parent, helpPage, i18n("Help"),"help-browser");
 	}
 
+	void Config::setupLivePreview(KPageWidgetItem* parent)
+	{
+		livePreviewPage = new KileWidgetLivePreviewConfig(m_config, this);
+		livePreviewPage->readConfig();
+
+		addConfigPage(parent, livePreviewPage, i18n("Live Preview"), "preview", i18n("Live Preview"));
+	}
 	//////////////////// LaTeX environments ////////////////////
 
 	void Config::setupLatex(KPageWidgetItem* parent)

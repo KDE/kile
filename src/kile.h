@@ -316,6 +316,7 @@ private Q_SLOTS:
 	void quickFloat();
 	void quickMathenv();
 	void quickPostscript();
+	void quickPdf();
 	void quickTabulardialog(bool tabularenv);
 
 	void editUserMenu();

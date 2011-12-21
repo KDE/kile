@@ -89,6 +89,7 @@
 #include "dialogs/mathenvironmentdialog.h"
 #include "dialogs/tabular/newtabulardialog.h"
 #include "dialogs/postscriptdialog.h"
+#include "dialogs/pdf-wizard/pdfdialog.h"
 #include "latexcmd.h"
 #include "mainadaptor.h"
 #include "dialogs/statisticsdialog.h"
@@ -867,6 +868,7 @@ void Kile::setupActions()
 	createAction(i18n("Floats"), "wizard_float", "wizard_float", this, SLOT(quickFloat()));
 	createAction(i18n("Math"), "wizard_mathenv", "wizard_math", this, SLOT(quickMathenv()));
 	createAction(i18n("Postscript Tools"), "wizard_postscript", "wizard_pstools", this, SLOT(quickPostscript()));
+	createAction(i18n("PDF Tools"), "wizard_pdf", "wizard_pdftools", this, SLOT(quickPdf()));
 
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
@@ -2323,6 +2325,22 @@ void Kile::quickPostscript()
 	}
 
 	KileDialog::PostscriptDialog *dlg = new KileDialog::PostscriptDialog(this, texfilename, startdir, m_extensions->latexDocuments(), m_logWidget, m_outputWidget);
+	dlg->exec();
+	delete dlg;
+}
+
+void Kile::quickPdf()
+{
+	QString startDir = QDir::homePath();
+	QString texFileName;
+
+	KTextEditor::View *view = viewManager()->currentTextView();
+	if(view) {
+		startDir = QFileInfo(view->document()->url().toLocalFile()).path();
+		texFileName = getCompileName();
+	}
+
+	KileDialog::PdfDialog *dlg = new KileDialog::PdfDialog(m_mainWindow, texFileName, startDir, m_extensions->latexDocuments(), m_manager, m_logWidget, m_outputWidget);
 	dlg->exec();
 	delete dlg;
 }

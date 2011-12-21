@@ -478,6 +478,7 @@
 	<Action name="wizard_mathenv"/>
 	<Separator/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 </Menu>
 
 <Merge/>
@@ -647,6 +648,7 @@
 	<Action name="wizard_float"/>
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -923,6 +925,7 @@
 	<Action name="wizard_float"/>
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>
@@ -1193,6 +1196,7 @@
 	<Action name="wizard_float"/>
 	<Action name="wizard_mathenv"/>
 	<Action name="wizard_postscript"/>
+	<Action name="wizard_pdf"/>
 	<Action name="project_new"/>
 	<Action name="project_open"/>
 	<Action name="project_openrecent"/>

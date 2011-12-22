@@ -133,7 +133,7 @@
 		</entry>
 		<entry name="PreviewBibInputPaths" type="String">
 			<label>Holds the BIBINPUTS environment variable for QuickPreview tools.</label>
-			<whatsthis>Set the BIBINPUTS environment variable for QuickPreview tools here. BIBINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$TEXINPUTS at the end.</whatsthis>
+			<whatsthis>Set the BIBINPUTS environment variable for QuickPreview tools here. BIBINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$BIBIINPUTS at the end.</whatsthis>
 			<default></default>
 		</entry>
 		<entry name="BstInputPaths" type="String">
@@ -598,8 +598,7 @@
 			<default>true</default>
 		</entry>
 		<entry name="livePreviewCompilationDelay" type="UInt">
-			<label>Number of milliseconds after which the compilation is started when a change
-			       has occurred.</label>
+			<label>Number of milliseconds after which the compilation is started when a change has occurred.</label>
 			<default>500</default>
 		</entry>
 	</group>

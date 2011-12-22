@@ -11,28 +11,26 @@
 *                                                                         *
 ***************************************************************************/
 
-#ifndef LIVEPREVIEWCONFIGWIDGET_H
-#define LIVEPREVIEWCONFIGWIDGET_H
+#include "appearanceconfigwidget.h"
 
-#include <QWidget>
-
-#include <KConfig>
-
-#include "ui_livepreviewconfigwidget.h"
-
-class KileWidgetLivePreviewConfig : public QWidget, public Ui::KileWidgetLivePreviewConfig
+KileWidgetAppearanceConfig::KileWidgetAppearanceConfig(KConfig *config, QWidget *parent)
+ : QWidget(parent),
+   m_config(config)
 {
-	Q_OBJECT
+	setupUi(this);
+}
 
-	public:
-		KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent = NULL);
-		~KileWidgetLivePreviewConfig();
+KileWidgetAppearanceConfig::~KileWidgetAppearanceConfig()
+{
+}
 
-		void readConfig();
-		void writeConfig();
+void KileWidgetAppearanceConfig::readConfig()
+{
+}
 
-	protected:
-		KConfig *m_config;
-};
+void KileWidgetAppearanceConfig::writeConfig()
+{
+}
 
-#endif
+
+#include "appearanceconfigwidget.moc"

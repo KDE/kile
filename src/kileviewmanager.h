@@ -28,8 +28,10 @@
 #include <KTextEditor/ContainerInterface>
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
+#include <KXmlGuiWindow>
 
 class QPixmap;
+class QSplitter;
 
 class KActionCollection;
 class KUrl;
@@ -58,10 +60,26 @@ namespace KileDocument {
 namespace KileView
 {
 
+class DocumentViewerWindow : public KMainWindow
+{
+	Q_OBJECT
+
+public:
+	DocumentViewerWindow(QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+	virtual ~DocumentViewerWindow();
+
+Q_SIGNALS:
+	void visibilityChanged(bool shown);
+
+protected:
+	virtual void showEvent(QShowEvent *event);
+	virtual void closeEvent(QCloseEvent *event);
+};
+
 //TODO inherit from KParts::Manager
 class Manager
-	: public QObject
-	, public KTextEditor::MdiContainer
+	: public QObject,
+	  public KTextEditor::MdiContainer
 {
 	Q_OBJECT
 	Q_INTERFACES(KTextEditor::MdiContainer)
@@ -93,6 +111,12 @@ public:
 
 	KParts::ReadOnlyPart* viewerPart() const { return m_viewerPart; }
 
+	void readConfig(QSplitter *splitter);
+	void writeConfig();
+
+	bool isViewerPartShown() const;
+	void setupViewerPart(QSplitter *splitter);
+
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
 	void prepareForPart(const QString&);
@@ -107,6 +131,8 @@ Q_SIGNALS:
 	void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
 	void viewModeChanged(KTextEditor::View *view);
 	void selectionChanged(KTextEditor::View *view);
+
+	void documentViewerWindowVisibilityChanged(bool shown);
 
 public Q_SLOTS:
 	KTextEditor::View* switchToTextView(const KUrl& url, bool requestFocus = false);
@@ -132,6 +158,8 @@ public Q_SLOTS:
 	void moveTabLeft(QWidget *widget = NULL);
 	void moveTabRight(QWidget *widget = NULL);
 
+	void setDocumentViewerVisible(bool b);
+
 private Q_SLOTS:
 	void tabContext(QWidget* widget,const QPoint & pos);
   
@@ -151,6 +179,7 @@ protected:
 	void setTabIcon(QWidget *view, const QPixmap& icon);
 
 	void createViewerPart(KActionCollection *actionCollection);
+	void destroyDocumentViewerWindow();
 
 protected Q_SLOTS:
 	void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
@@ -175,6 +204,7 @@ private:
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient			*m_client;
+	DocumentViewerWindow		*m_viewerPartWindow;
 	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,

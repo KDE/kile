@@ -228,7 +228,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(this, SIGNAL(masterDocumentChanged()), m_livePreviewManager, SLOT(handleMasterDocumentChanged()));
 
 	if(viewManager()->viewerPart()) {
-		m_horizontalSplitter->addWidget(viewManager()->viewerPart()->widget());
 		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
 	}
 	else { // live preview part couldn't be created
@@ -374,6 +373,7 @@ Kile::~Kile()
 	delete m_outputFilter;
 	delete m_latexCommands;
 	delete m_extensions;
+	delete m_viewManager;
 }
 
 // currently not usable due to https://bugs.kde.org/show_bug.cgi?id=194732
@@ -874,6 +874,15 @@ void Kile::setupActions()
 	actionCollection()->addAction("Mode", ModeAction);
 	ModeAction->setIcon(KIcon("master"));
 	connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMasterDocumentMode()));
+
+	if(viewManager()->viewerPart()) {
+		KToggleAction *showDocumentViewer = new KToggleAction(i18n("Show Document Viewer"), actionCollection());
+		actionCollection()->addAction("ShowDocumentViewer", showDocumentViewer);
+		showDocumentViewer->setChecked(KileConfig::showDocumentViewer());
+		connect(showDocumentViewer, SIGNAL(toggled(bool)), viewManager(), SLOT(setDocumentViewerVisible(bool)));
+		connect(viewManager(), SIGNAL(documentViewerWindowVisibilityChanged(bool)),
+		        showDocumentViewer, SLOT(setChecked(bool)));
+	}
 
 	KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
 	actionCollection()->addAction("StructureView", tact);
@@ -1508,10 +1517,10 @@ void Kile::sideOrBottomBarChanged(bool visible)
 
 bool Kile::queryExit()
 {
-	saveSettings();
 	return true;
 }
 
+//FIXME: documents probably shouldn't be closed in this method yet (also see API doc of 'queryClose')
 bool Kile::queryClose()
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
@@ -1554,6 +1563,7 @@ bool Kile::queryClose()
 		// auto save has to be disabled because it might still be triggered when the main
 		// window (and all the widgets) have already been destroyed, causing a crash
 		enableAutosave(false);
+		saveSettings();
 	}
 
 	return close;
@@ -2474,6 +2484,7 @@ void Kile::readConfig()
 	m_edit->readConfig();
 	docManager()->updateInfos();
 	m_jScriptManager->readConfig();
+	viewManager()->readConfig(m_horizontalSplitter);
 
 	// set visible views in sidebar
 	m_sideBar->setPageVisible(m_scriptsManagementWidget, KileConfig::scriptingEnabled());
@@ -2524,6 +2535,8 @@ void Kile::saveSettings()
 
 	writeUserTagActions();
 	saveMainWindowSettings(m_config->group("KileMainWindow"));
+
+	viewManager()->writeConfig();
 
 	scriptManager()->writeConfig();
 

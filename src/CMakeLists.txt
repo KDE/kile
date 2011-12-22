@@ -163,6 +163,7 @@ SET( kile_UI
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
 	widgets/livepreviewconfigwidget.ui
+	widgets/appearanceconfigwidget.ui
 )
 
 SET( kile_UI_SRCS
@@ -183,6 +184,7 @@ SET( kile_UI_SRCS
 	widgets/symbolviewconfigwidget.cpp
 	widgets/maintoolconfigwidget.cpp
 	widgets/livepreviewconfigwidget.cpp
+	widgets/appearanceconfigwidget.cpp
 )
 
 # Special handling of code completion due to the removal of 'KTextEditor::SmartRange' from

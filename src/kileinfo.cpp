@@ -50,8 +50,8 @@
 
 KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_mainWindow(parent),
-	m_manager(NULL),
 	m_viewManager(NULL),
+	m_manager(NULL),
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),
 	m_texKonsole(NULL),

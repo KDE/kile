@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="41">
+<kpartgui name="kile" version="42">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -488,8 +488,9 @@
 	<Separator/>
 	<Action name="settings_perform_check" />
 	<Separator/>
-	<Action name="StructureView" append="show_merge"/>
+	<Action name="ShowDocumentViewer" append="show_merge"/>
 	<Action name="MessageView" append="show_merge"/>
+	<Action name="StructureView" append="show_merge"/>
 	<DefineGroup name="configure_merge" append="configure_merge"/>
 </Menu>
 

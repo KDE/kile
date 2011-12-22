@@ -43,6 +43,7 @@
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 
+#include "widgets/appearanceconfigwidget.h"
 #include "widgets/generalconfigwidget.h"
 #include "widgets/helpconfigwidget.h"
 #include "widgets/latexconfigwidget.h"
@@ -84,6 +85,7 @@ namespace KileDialog
 
 		// setup all configuration pages
 		setupGeneralOptions(kilePageWidgetItem);
+		setupAppearance(kilePageWidgetItem);
 		setupCodeCompletion(kilePageWidgetItem);   // complete configuration (dani)
 		setupHelp(kilePageWidgetItem);
 		setupScripting(kilePageWidgetItem);
@@ -223,6 +225,15 @@ namespace KileDialog
 
 		addConfigPage(parent, livePreviewPage, i18n("Live Preview"), "preview", i18n("Live Preview"));
 	}
+
+	void Config::setupAppearance(KPageWidgetItem* parent)
+	{
+		appearancePage = new KileWidgetAppearanceConfig(m_config, this);
+		appearancePage->readConfig();
+
+		addConfigPage(parent, appearancePage, i18n("Appearance"), "preview", i18n("Appearance"));
+	}
+
 	//////////////////// LaTeX environments ////////////////////
 
 	void Config::setupLatex(KPageWidgetItem* parent)

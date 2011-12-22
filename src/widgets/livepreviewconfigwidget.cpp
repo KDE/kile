@@ -13,8 +13,6 @@
 
 #include "livepreviewconfigwidget.h"
 
-#include "dialogs/latexcommanddialog.h"
-
 KileWidgetLivePreviewConfig::KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent)
  : QWidget(parent),
    m_config(config)

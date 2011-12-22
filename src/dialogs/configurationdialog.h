@@ -38,6 +38,7 @@ class KileWidgetGraphicsConfig;
 class KileWidgetStructureViewConfig;
 class KileWidgetScriptingConfig;
 class KileWidgetLivePreviewConfig;
+class KileWidgetAppearanceConfig;
 
 namespace KileTool { class Manager; }
 
@@ -88,6 +89,7 @@ namespace KileDialog
 		KileWidgetSymbolViewConfig *symbolViewPage;
 		KileWidgetScriptingConfig *scriptingPage;
 		KileWidgetLivePreviewConfig *livePreviewPage;
+		KileWidgetAppearanceConfig *appearancePage;
 
 		// setup configuration
 		KPageWidgetItem* addConfigFolder(const QString &section,const QString &icon);
@@ -113,6 +115,7 @@ namespace KileDialog
 		void setupSymbolView(KPageWidgetItem* parent);
 		void setupScripting(KPageWidgetItem* parent);
 		void setupLivePreview(KPageWidgetItem* parent);
+		void setupAppearance(KPageWidgetItem* parent);
 
 		// write configuration
 		void writeGeneralOptionsConfig();

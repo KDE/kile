@@ -19,6 +19,7 @@
 #include <QDropEvent>
 #include <QLayout>
 #include <QPixmap>
+#include <QSplitter>
 #include <QTimer> //for QTimer::singleShot trick
 
 #include <KApplication>
@@ -61,12 +62,38 @@
 namespace KileView
 {
 
+//BEGIN DocumentViewerWindow
+
+DocumentViewerWindow::DocumentViewerWindow(QWidget *parent, Qt::WindowFlags f)
+: KMainWindow(parent, f)
+{
+}
+
+DocumentViewerWindow::~DocumentViewerWindow()
+{
+}
+
+void DocumentViewerWindow::showEvent(QShowEvent *event)
+{
+	KMainWindow::showEvent(event);
+	emit visibilityChanged(true);
+}
+
+void DocumentViewerWindow::closeEvent(QCloseEvent *event)
+{
+	KMainWindow::closeEvent(event);
+	emit visibilityChanged(false);
+}
+
+//END DocumentViewerWindow
+
 Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *parent, const char *name) :
 	QObject(parent),
 	KTextEditor::MdiContainer(),
 	m_ki(info),
 // 	m_projectview(NULL),
 	m_tabs(NULL),
+	m_viewerPartWindow(NULL),
 	m_widgetStack(NULL),
 	m_emptyDropWidget(NULL),
 	m_pasteAsLaTeXAction(NULL),
@@ -81,8 +108,13 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 
 Manager::~Manager()
 {
-	KILE_DEBUG() << "destroying";
+	KILE_DEBUG();
+
+	// the parent of the widget might be NULL; see 'destroyDocumentViewerWindow()'
+	delete m_viewerPart->widget();
 	delete m_viewerPart;
+
+	destroyDocumentViewerWindow();
 }
 
 static inline bool isTextView(QWidget* /*w*/)
@@ -109,6 +141,24 @@ void Manager::setClient(KXMLGUIClient *client)
 	if(NULL == m_client->actionCollection()->action("popup_quickpreview")) {
 		m_quickPreviewAction = new KAction(this);
 		connect(m_quickPreviewAction, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
+	}
+}
+
+void Manager::readConfig(QSplitter *splitter)
+{
+	// we might have to change the location of the viewer part
+	setupViewerPart(splitter);
+
+	setDocumentViewerVisible(KileConfig::showDocumentViewer());
+}
+
+void Manager::writeConfig()
+{
+	if(m_viewerPart) {
+		KileConfig::setShowDocumentViewer(isViewerPartShown());
+	}
+	if(m_viewerPartWindow) {
+		m_viewerPartWindow->saveMainWindowSettings(KGlobal::config()->group("KileDocumentViewerWindow"));
 	}
 }
 
@@ -854,6 +904,50 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 #endif
 }
 
+void Manager::setupViewerPart(QSplitter *splitter)
+{
+	if(!m_viewerPart) {
+		return;
+	}
+	if(KileConfig::showDocumentViewerInExternalWindow()) {
+		if(m_viewerPartWindow && m_viewerPart->widget()->window() == m_viewerPartWindow) { // nothing to be done
+			return;
+		}
+		m_viewerPartWindow = new DocumentViewerWindow();
+		m_viewerPartWindow->setObjectName("KileDocumentViewerWindow");
+		m_viewerPartWindow->setCentralWidget(m_viewerPart->widget());
+		m_viewerPartWindow->setAttribute(Qt::WA_DeleteOnClose, false);
+		m_viewerPartWindow->setAttribute(Qt::WA_QuitOnClose, false);
+		connect(m_viewerPartWindow, SIGNAL(visibilityChanged(bool)),
+		        this, SIGNAL(documentViewerWindowVisibilityChanged(bool)));
+
+		m_viewerPartWindow->setCaption(i18n("Document Viewer"));
+		m_viewerPartWindow->applyMainWindowSettings(KGlobal::config()->group("KileDocumentViewerWindow"));
+	}
+	else {
+		if(m_viewerPart->widget()->parent() && m_viewerPart->widget()->parent() != m_viewerPartWindow) { // nothing to be done
+			return;
+		}
+		splitter->addWidget(m_viewerPart->widget()); // remove it from the window first!
+		destroyDocumentViewerWindow();
+	}
+}
+
+void Manager::destroyDocumentViewerWindow()
+{
+	if(!m_viewerPartWindow) {
+		return;
+	}
+	m_viewerPartWindow->saveMainWindowSettings(KGlobal::config()->group("KileDocumentViewerWindow"));
+	// we don't want it to influence the document viewer visibility setting as
+	// this is a forced close
+	disconnect(m_viewerPartWindow, SIGNAL(visibilityChanged(bool)),
+	           this, SIGNAL(documentViewerWindowVisibilityChanged(bool)));
+	m_viewerPartWindow->hide();
+	delete m_viewerPartWindow;
+	m_viewerPartWindow = NULL;
+}
+
 void Manager::handleActivatedSourceReference(const QString& absFileName, int line, int col)
 {
 	KILE_DEBUG() << "absFileName:" << absFileName << "line:" << line << "column:" << col;
@@ -872,6 +966,32 @@ void Manager::handleActivatedSourceReference(const QString& absFileName, int lin
 	}
 	view->setCursorPosition(KTextEditor::Cursor(line, col));
 	switchToTextView(view, true);
+}
+
+void Manager::setDocumentViewerVisible(bool b)
+{
+	if(!m_viewerPart) {
+		return;
+	}
+	KileConfig::setShowDocumentViewer(b);
+	if(m_viewerPartWindow) {
+		m_viewerPartWindow->setVisible(b);
+	}
+	m_viewerPart->widget()->setVisible(b);
+}
+
+bool Manager::isViewerPartShown() const
+{
+	if(!m_viewerPart) {
+		return false;
+	}
+
+	if(m_viewerPartWindow) {
+		return !m_viewerPartWindow->isHidden();
+	}
+	else {
+		return !m_viewerPart->widget()->isHidden();
+	}
 }
 
 //END ViewerPart methods

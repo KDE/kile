@@ -163,6 +163,14 @@
 			<label>Whether to show the side bar.</label>
 			<default>true</default>
 		</entry>
+		<entry name="ShowDocumentViewer" type="Bool">
+			<label>Whether to show the document viewer.</label>
+			<default>true</default>
+		</entry>
+		<entry name="ShowDocumentViewerInExternalWindow" type="Bool">
+			<label>Whether to show the document viewer in a separate external window.</label>
+			<default>false</default>
+		</entry>
 		<entry name="HideProblemBadBox" type="Bool">
 			<label>Whether to show Bad Box warnings in the LogMsg view.</label>
 			<default>false</default>

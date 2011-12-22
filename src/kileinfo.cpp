@@ -61,10 +61,6 @@ KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
 	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
-	QObject::connect(m_docManager,
-	                 SIGNAL(documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
-	                 m_viewManager,
-	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
 	m_parserManager = new KileParser::Manager(this, parent);
 	m_editorCommands = new EditorCommands(this);

@@ -652,7 +652,7 @@ void LivePreviewManager::compilePreview(KileDocument::TextInfo *info, KTextEdito
 	        Qt::UniqueConnection);
 
 	if(project) {
-		connect(info, SIGNAL(aboutToBeDestroyed(KileProject*)),
+		connect(project, SIGNAL(aboutToBeDestroyed(KileProject*)),
 		        this, SLOT(removeProject(KileProject*)),
 		        Qt::UniqueConnection);
 		connect(project, SIGNAL(projectItemAdded(KileProject*,KileProjectItem*)),

@@ -296,8 +296,10 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		}
 	}
 
-	restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!
+	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
+	applyMainWindowSettings(m_config->group("KileMainWindow"));
 
+	restoreLastSelectedAction(); // don't call this inside 'setupTools' as it is not compatible with KParts switching!
 	QList<int> sizes;
 	int verSplitTop = KileConfig::verticalSplitterTop();
 	int verSplitBottom = KileConfig::verticalSplitterBottom();
@@ -310,11 +312,10 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		horSplitLeft = width() / 4;
 		horSplitRight = width() / 2; // leave some room for the viewer part
 	}
+	// the size of the third widget is computed from the sizes of the two other widgets
 	sizes << horSplitLeft << horSplitRight << width() - (horSplitLeft + horSplitRight);
 	m_horizontalSplitter->setSizes(sizes);
 
-	applyMainWindowSettings(m_config->group("KileMainWindow"));
-	resize(KileConfig::mainwindowWidth(), KileConfig::mainwindowHeight());
 	show();
 	if(KileConfig::showSplashScreen()) {
 		splashScreen.finish(this);

@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Sat 3-1 20:40:00 CEST 2004
     copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -36,6 +36,7 @@
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 
+#include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "widgets/maintoolconfigwidget.h"
@@ -115,6 +116,12 @@ namespace KileWidget
 		m_configWidget->m_cbType->addItem(i18n("Run Sequence of Tools"));
 		connect(m_configWidget->m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
 		connect(m_configWidget->m_ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
+		m_configWidget->m_useDocumentViewer->setEnabled(false);
+		connect(m_ltcw->m_library, SIGNAL(textChanged(const QString&)),
+		        this, SLOT(handleLibraryNameChanged(const QString&)));
+		connect(m_configWidget->m_useDocumentViewer, SIGNAL(toggled(bool)), this, SLOT(setUseDocumentViewer(bool)));
+		connect(m_configWidget->m_useDocumentViewer, SIGNAL(toggled(bool)),
+		        this, SLOT(handleDocumentViewerToggled(bool)));
 
 		m_classes << "Compile" << "Convert" << "Archive" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
 		m_configWidget->m_cbClass->addItems(m_classes);
@@ -176,6 +183,7 @@ namespace KileWidget
 		m_configWidget->m_leTarget->setText(m_map["to"]);
 		m_configWidget->m_leFile->setText(m_map["target"]);
 		m_configWidget->m_leRelDir->setText(m_map["relDir"]);
+		m_configWidget->m_useDocumentViewer->setChecked((m_map["libName"].trimmed() == OKULAR_LIBRARY_NAME) && (m_map["useDocumentViewer"] == "yes"));
 	}
 
 	void ToolConfig::setupGeneral()
@@ -542,10 +550,22 @@ namespace KileWidget
 		emit(changed());
 	}
 
+	void ToolConfig::handleLibraryNameChanged(const QString& s)
+	{
+		m_configWidget->m_useDocumentViewer->setEnabled(s.trimmed() == OKULAR_LIBRARY_NAME);
+	}
+
+	void ToolConfig::handleDocumentViewerToggled(bool b)
+	{
+		m_configWidget->m_cbState->setEnabled(!b);
+		m_configWidget->m_leRelDir->setEnabled(!b);
+	}
+
 	void ToolConfig::setCommand(const QString & command) { m_map["command"] = command.trimmed(); }
 	void ToolConfig::setOptions() { m_map["options"] = m_ptcw->m_options->toPlainText().trimmed(); }
 	void ToolConfig::setLibrary(const QString & lib) { m_map["libName"] = lib.trimmed(); }
 	void ToolConfig::setLibOptions(const QString & options) { m_map["libOptions"] = options.trimmed(); }
+	void ToolConfig::setUseDocumentViewer(bool ck) { m_map["useDocumentViewer"] = ck ? "yes" : "no"; };
 	void ToolConfig::setClassName(const QString & name) { m_map["className"] = name.trimmed(); }
 	void ToolConfig::setState(const QString & state)
 	{

@@ -466,10 +466,20 @@ namespace KileTool
 		QString filepath = doc->url().toLocalFile();
 
 		QString texfile = KUrl::relativePath(baseDir(),filepath);
-		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
-		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + filepath;
-		addDict("%dir_target", QString());
-		addDict("%target", relativeTarget);
+		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + ' ' + texfile; // space added, for files starting with numbers
+		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + filepath;
+
+		if(readEntry("useDocumentViewer") == "yes") {
+			addDict("%dir_target", targetDir());
+			addDict("%target", target());
+			addDict("%sourceFileName", filepath);
+			addDict("%sourceLine", QString::number(para + 1));
+		}
+		else {
+			addDict("%dir_target", QString());
+			addDict("%target", relativeTarget);
+		}
+
 		addDict("%absolute_target", absoluteTarget);
 		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n";
 		KILE_DEBUG() << "\tusing  (absolute)" << absoluteTarget;

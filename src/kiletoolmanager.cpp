@@ -476,6 +476,16 @@ namespace KileTool
 		emit(requestGUIState(state));
 	}
 
+	KileView::Manager* Manager::viewManager()
+	{
+		return m_ki->viewManager();
+	}
+
+	KileTool::LivePreviewManager* Manager::livePreviewManager()
+	{
+		return m_ki->livePreviewManager();
+	}
+
 	QStringList toolList(KConfig *config, bool menuOnly)
 	{
 		KILE_DEBUG() << "==KileTool::toolList()==================" << endl;

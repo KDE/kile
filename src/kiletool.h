@@ -166,7 +166,7 @@ namespace KileTool
 		%dir_target -> path of the target file without filename, same as %dir_base if no relative path has been set <-> /home/thomas/latex
 		%target -> target filename without path <-> without filename 
 
-		And these are special variables
+		And these are special variables:
 		%res <-> resolution of the quickpreview action set in configure kile->tools->preview
 
 		%AFL <-> List of all files in a project marked for archiving. You can set the archive flag in the "Files and projects" sidebar using the context menu.
@@ -174,6 +174,8 @@ namespace KileTool
 		%absolute_target -> Used in conjunction with Okular to inform it about the cursor position for
 		                    the ForwardDVI/PDF feature
 
+		%sourceFileName <-> Source file name (for synchronizing the cursor location with the viewer)
+		%sourceLine <-> Line in the source file on which the cursor is located (for synchronizing the cursor location with the viewer)
 		*/
 		QHash<QString,QString>& paramDict() { return m_dictParams; }
 

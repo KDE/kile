@@ -47,6 +47,7 @@
 #include "kileproject.h"
 #include "kiledocmanager.h"
 #include "kileextensions.h"
+#include "kiletool_enums.h"
 #include "widgets/projectview.h"
 #include "widgets/structurewidget.h"
 #include "editorextension.h"
@@ -869,7 +870,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 {
 	m_viewerPart = NULL;
 #ifdef HAVE_VIEWERINTERFACE_H
-	KPluginLoader pluginLoader("okularpart");
+	KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
 	KPluginFactory *factory = pluginLoader.factory();
 	if (!factory) {
 		KILE_DEBUG() << "Could not find the Okular library.";
@@ -991,6 +992,25 @@ bool Manager::isViewerPartShown() const
 	}
 	else {
 		return !m_viewerPart->widget()->isHidden();
+	}
+}
+
+bool Manager::openInDocumentViewer(const KUrl& url)
+{
+	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+	if(!v) {
+		return false;
+	}
+	bool r = m_viewerPart->openUrl(url);
+	v->clearLastShownSourceLocation();
+	return r;
+}
+
+void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int line, int column)
+{
+	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+	if(v) {
+		v->showSourceLocation(fileName, line, column, true);
 	}
 }
 

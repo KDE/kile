@@ -54,6 +54,7 @@ public:
 	void compilePreview(KileDocument::TextInfo *info, KTextEditor::View *view);
 	void showPreviewCompileIfNecessary(KileDocument::TextInfo *info, KTextEditor::View *view);
 
+	bool isLivePreviewActive() const;
 	bool isLivePreviewPossible() const;
   /**
    * run (text, textfilename, startrow) works with the 

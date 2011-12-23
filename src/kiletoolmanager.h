@@ -44,11 +44,13 @@ class KAction;
 namespace KParts { class PartManager; }
 
 class KileInfo;
+namespace KileView { class Manager; }
 namespace KileWidget { class LogWidget; class OutputView; }
 
 namespace KileTool
 {
 	class Factory;
+	class LivePreviewManager;
 
 	class QueueItem
 	{
@@ -93,7 +95,9 @@ namespace KileTool
 		
 		KParts::PartManager * partManager() { return m_pm; }
 		QStackedWidget* widgetStack() { return m_stack; }
-		
+		KileView::Manager* viewManager();
+		KileTool::LivePreviewManager* livePreviewManager();
+
 		KileInfo * info() { return m_ki; }
 		KConfig * config() { return m_config; }
 		

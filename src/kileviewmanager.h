@@ -116,6 +116,8 @@ public:
 
 	bool isViewerPartShown() const;
 	void setupViewerPart(QSplitter *splitter);
+	bool openInDocumentViewer(const KUrl& url);
+	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
 
 Q_SIGNALS:
 	void activateView(QWidget*, bool);

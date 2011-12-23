@@ -15,12 +15,14 @@
 
 #include "kilelauncher.h"
 
+#include "docpart.h"
+#include "livepreview.h"
+#include "kileconfig.h"
 #include "kileinfo.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
-#include "docpart.h"
-#include "kileconfig.h"
+#include "kileviewmanager.h"
 
 #include <QStackedWidget>
 #include <QFileInfo>
@@ -378,6 +380,30 @@ namespace KileTool {
 		m_className = tool()->readEntry("className");
 		m_options = tool()->readEntry("libOptions");
 		m_state = tool()->readEntry("state");
+
+		// check if should use the document viewer
+		if(tool()->readEntry("useDocumentViewer") == "yes") {
+			// and whether it's available
+			if(!tool()->manager()->viewManager()->viewerPart()) {
+				emit(message(Error, i18n("The document viewer is not available")));
+				return false;
+			}
+			if(tool()->manager()->livePreviewManager()->isLivePreviewActive()) {
+				emit(message(Error, i18n("Please disable the live preview before launching this tool")));
+				return false;
+			}
+			const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
+			tool()->manager()->viewManager()->openInDocumentViewer(KUrl(fileName));
+			if(tool()->paramDict().contains("%sourceFileName")
+			    && tool()->paramDict().contains("%sourceLine")) {
+				const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
+				const QString lineString = tool()->paramDict()["%sourceLine"];
+				tool()->manager()->viewManager()->showSourceLocationInDocumentViewer(sourceFileName, lineString.toInt(), 0);
+			}
+			emit(done(Success));
+
+			return true;
+		}
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 		

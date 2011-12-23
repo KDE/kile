@@ -504,9 +504,8 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *info,
 		}
 	}
 
-	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_ki->viewManager()->viewerPart());
-	if(fileOpened && v) {
-		v->showSourceLocation(filePath, newPosition.line(), newPosition.column(), m_synchronizeViewWithCursorAction->isChecked());
+	if(fileOpened) {
+		m_ki->viewManager()->showSourceLocationInDocumentViewer(filePath, newPosition.line(), newPosition.column());
 	}
 }
 
@@ -748,6 +747,11 @@ void LivePreviewManager::compilePreview(KileDocument::TextInfo *info, KTextEdito
 
 	// finally, run the tool
 	m_ki->toolManager()->run(latex);
+}
+
+bool LivePreviewManager::isLivePreviewActive() const
+{
+	return m_shownPreviewInformation || m_runningPreviewInformation;
 }
 
 bool LivePreviewManager::isLivePreviewPossible() const

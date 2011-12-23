@@ -506,7 +506,7 @@ namespace KileTool
 			lr = new KonsoleLauncher();
 		}
 		else if ( type == "Part" )
-		{	
+		{
 			lr = new PartLauncher();
 		}
 		else if ( type == "DocPart" )

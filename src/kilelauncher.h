@@ -28,7 +28,7 @@ namespace KParts { class ReadOnlyPart; class PartManager; }
 namespace KileTool
 {
 	class Base;
-	
+
 	/**
 	 * This class represents a way to launch a tool. This could be a commandline tool
 	 * running in a Konsole, running as a separate process, it could even be responsible
@@ -46,7 +46,7 @@ namespace KileTool
 
 	public Q_SLOTS:
 		virtual bool launch() = 0;
-		virtual void kill() = 0;
+		virtual void kill(bool emitSignals = true) = 0;
 		virtual bool selfCheck() = 0;
 
 	public:
@@ -54,7 +54,7 @@ namespace KileTool
 
 		void setTool(Base *tool) { m_tool = tool; }
 		Base* tool() { return m_tool; }
-		
+
 	Q_SIGNALS:
 		void message(int, const QString&);
 		void output(const QString&);
@@ -85,7 +85,7 @@ namespace KileTool
 
 	public Q_SLOTS:
 		bool launch();
-		void kill();
+		void kill(bool emitSignals = true);
 		bool selfCheck();
 
 	private Q_SLOTS:
@@ -125,7 +125,7 @@ namespace KileTool
 
 	public Q_SLOTS:
 		bool launch();
-		void kill();
+		void kill(bool emitSignals = true);
 		bool selfCheck();
 
 		KParts::ReadOnlyPart* part();
@@ -144,7 +144,7 @@ namespace KileTool
 
 	public:
 		DocPartLauncher();
-		
+
 	public Q_SLOTS:
 		bool launch();
 	};

@@ -53,7 +53,7 @@ namespace KileTool {
 		m_tool(NULL)
 	{
 	}
-	
+
 	Launcher::~ Launcher()
 	{
 		KILE_DEBUG() << "DELETING launcher";
@@ -81,7 +81,7 @@ namespace KileTool {
 		if(m_proc) {
 			// we don't want it to emit any signals as we are being deleted
 			m_proc->disconnect();
-			kill();
+			kill(false);
 			delete m_proc;
 		}
 	}
@@ -95,7 +95,7 @@ namespace KileTool {
 	{
 		m_changeTo = change;
 	}
-	
+
 	void ProcessLauncher::setCommand(const QString& cmd)
 	{
 		m_cmd = cmd;
@@ -158,7 +158,7 @@ namespace KileTool {
 		// want to use that directory)
 		// BUG: 204397
 		m_proc->setProgram(m_cmd, arguments);
-		
+
 		KILE_DEBUG() << "sent " << m_cmd << ' ' << arguments;
 
 		out += QString("*****     ") + m_cmd + ' ' + arguments.join(" ") + '\n';
@@ -218,7 +218,7 @@ namespace KileTool {
 		return true;
 	}
 
-	void ProcessLauncher::kill()
+	void ProcessLauncher::kill(bool emitSignals)
 	{
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::kill()==============";
 		if(m_proc && m_proc->state() == QProcess::Running) {
@@ -228,6 +228,10 @@ namespace KileTool {
 		}
 		else {
 			KILE_DEBUG() << "\tno process or process not running";
+			if(emitSignals) {
+				emit(message(Error, i18n("terminated")));
+				emit(done(AbnormalExit));
+			}
 		}
 	}
 
@@ -246,7 +250,7 @@ namespace KileTool {
 			emit(message(Error, i18n("Shell meta characters that cannot be handled are present in the options given to the tool.")));
 			return false;
 		}
-		
+
 
 		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
 		QString path = KGlobal::dirs()->findExe(exe, QString(), KStandardDirs::IgnoreExecBit);
@@ -350,7 +354,7 @@ namespace KileTool {
 
 	PartLauncher::~PartLauncher()
 	{
-		// the created part will be deleted in 'Kile::resetPart' 
+		// the created part will be deleted in 'Kile::resetPart'
 		KILE_DEBUG () << "DELETING PartLauncher";
 	}
 
@@ -406,7 +410,7 @@ namespace KileTool {
 		}
 
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
-		
+
 		QString name, shrt;
 
 		// FIXME: this should be made user configurable
@@ -470,8 +474,9 @@ namespace KileTool {
 		return true;
 	}
 
-	void PartLauncher::kill()
+	void PartLauncher::kill(bool emitSignals)
 	{
+		Q_UNUSED(emitSignals);
 	}
 
 	KParts::ReadOnlyPart* PartLauncher::part()
@@ -517,7 +522,7 @@ namespace KileTool {
 		pm->setActivePart( htmlpart);
 
 		emit(done(Success));
-		
+
 		return true;
 	}
 

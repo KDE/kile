@@ -81,6 +81,7 @@
 #include "documentinfo.h"
 #include "kileproject.h"
 #include "kiletool_enums.h"
+#include "widgets/logwidget.h"
 
 namespace KileWidget
 {

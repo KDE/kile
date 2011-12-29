@@ -162,7 +162,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	// do initializations first
 	m_currentState = "Editor";
 	m_wantState = "Editor";
-	m_bWatchFile = m_logPresent = false;
+	m_bWatchFile = false;
 
 	viewManager()->setClient(this);
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(newCaption()));
@@ -372,8 +372,6 @@ Kile::~Kile()
 	delete m_help;
 	delete m_AutosaveTimer;
 	delete m_lyxserver; //QObject without parent, have to delete it ourselves
-	delete m_outputInfo;
-	delete m_outputFilter;
 	delete m_latexCommands;
 	delete m_extensions;
 	delete m_viewManager;
@@ -625,12 +623,6 @@ void Kile::setupBottomBar()
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
 	m_bottomBar->addPage(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
-
-	m_outputInfo=new LatexOutputInfoArray();
-	m_outputFilter=new LatexOutputFilter(m_outputInfo,m_extensions);
-	connect(m_outputFilter, SIGNAL(problem(int, const QString&, const OutputInfo&)), m_logWidget, SLOT(printProblem(int, const QString&, const OutputInfo&)));
-	connect(m_outputFilter, SIGNAL(problems(const QList<KileWidget::LogWidget::ProblemInformation>&)),
-	        m_logWidget, SLOT(printProblems(const QList<KileWidget::LogWidget::ProblemInformation>&)));
 
 	m_texKonsole = new KileWidget::Konsole(this, this);
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
@@ -2152,7 +2144,6 @@ void Kile::insertTag(const KileAction::TagData& data)
 
 	if(data.description.length() > 0) {
 		focusLog();
-		setLogPresent(false);
 		logWidget()->printMessage(data.description);
 	}
 
@@ -2606,7 +2597,6 @@ void Kile::clearMasterDocument()
 {
 	ModeAction->setText(i18n("Define Current Document as 'Master Document'"));
 	ModeAction->setChecked(false);
-	m_logPresent = false;
 	m_singlemode = true;
 	m_masterDocumentFileName.clear();
 	emit masterDocumentChanged();

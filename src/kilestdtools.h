@@ -66,9 +66,9 @@ namespace KileTool
 			bool finish(int);
 	
 		protected:
-			bool filterLogfile();
-			void checkErrors(int &nErrors, int &nWarnings);
-			void checkAutoRun(int nErrors, int nWarnings);
+			void checkErrors();
+			void checkAutoRun();
+			void latexOutputParserResultInstalled();
 
 			virtual bool updateBibs();
 			virtual bool updateIndex();

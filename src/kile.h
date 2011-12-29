@@ -45,7 +45,6 @@
 #include "widgets/commandview.h"
 
 #include "outputinfo.h"
-#include "latexoutputfilter.h"
 
 #include "codecompletion.h"        // code completion (dani)
 #include "editorextension.h"              // advanced editor (dani)
@@ -78,7 +77,6 @@ class KileProject;
 class KileProjectItem;
 class TemplateItem;
 class KileAutoSaveJob;
-class KileErrorHandler;
 
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
@@ -183,7 +181,6 @@ private:
 	QTimer *m_AutosaveTimer;
 
 	KileLyxServer		*m_lyxserver;
-	KileErrorHandler 	*m_errorHandler;
 
 	/* actions */
 	void initSelectActions();

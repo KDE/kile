@@ -34,6 +34,7 @@
 #include "editorextension.h"
 #include "kileactions.h"
 #include "kiletool_enums.h"
+#include "widgets/logwidget.h"
 
 namespace KileDialog
 {
@@ -66,7 +67,7 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	#else
 		m_widget.edit_file->setUrl(KUrl::fromPath(m_startdir));
 	#endif
-	
+
 	setFocusProxy(m_widget.edit_file);
 	m_widget.edit_file->setFocus();
 
@@ -157,7 +158,7 @@ QString IncludeGraphics::getTemplate()
 		bool page 	= m_widget.cb_Page->isChecked();
 		bool force 	= m_widget.cb_Force->isChecked();
 		bool custom 	= m_widget.cb_custom->isChecked();
-	
+
 		// build position string
 		if (here||top||bottom||page||custom) { // Don't check for force -- if it is the only selection, just skip the position tag
 			p += '[';
@@ -169,7 +170,7 @@ QString IncludeGraphics::getTemplate()
 			if (custom)	p+= m_widget.edit_custom->text();
 			p += ']';
 		}
-	
+
 
 		// add start of figure environment
 		s += "\\begin{figure}" + p + '\n';
@@ -214,13 +215,13 @@ QString IncludeGraphics::getTemplate()
 		if (!m_widget.edit_wrapwidth->text().isEmpty()) {
 			s += '{' + m_widget.edit_wrapwidth->text() + '}';
 		}
-		
+
 		// end of wrapfigure options
 		s += '\n';
-		
+
 		// Include warning in comment if wrapfig is not loaded.
 		// Sending a warning to the log here would be good, but
-		// the log seems to get cleared before user could catch 
+		// the log seems to get cleared before user could catch
 		// the warning.
 		QStringList packagelist = m_ki->allPackages();
 		if (!packagelist.contains("wrapfig")) {

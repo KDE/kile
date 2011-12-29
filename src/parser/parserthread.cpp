@@ -17,20 +17,16 @@
 #include "kileinfo.h"
 #include "bibtexparser.h"
 #include "latexparser.h"
+#include "latexoutputparser.h"
 
 namespace KileParser {
 
-ParserQueueItem::ParserQueueItem()
-: dictStructLevel(NULL)
-{
-}
-
-ParserQueueItem::ParserQueueItem(const KUrl& url, QStringList lines,
+DocumentParserInput::DocumentParserInput(const KUrl& url, QStringList lines,
                                                   ParserType parserType,
                                                   const QMap<QString, KileStructData>* dictStructLevel,
                                                   bool showSectioningLabels,
                                                   bool showStructureTodo)
-: url(url),
+: ParserInput(url),
   lines(lines),
   parserType(parserType),
   dictStructLevel(dictStructLevel),
@@ -56,49 +52,36 @@ ParserThread::~ParserThread()
 	wait();
 }
 
-void ParserThread::addDocument(KileDocument::TextInfo *textInfo)
+void ParserThread::addParserInput(ParserInput *input)
 {
-	KILE_DEBUG() << textInfo;
-	KTextEditor::Document *document = textInfo->getDoc();
-	const KUrl& url = document->url();
-	if(!document) {
-		KILE_DEBUG() << "KileDocument::TextInfo without document given!";
-		return;
-	}
+	KILE_DEBUG() << input;
 	KILE_DEBUG() << "trying to obtain m_parserMutex";
 
 	m_parserMutex.lock();
 	// first, check whether the document is queued already
-	QQueue<ParserQueueItem>::iterator it = m_parserQueue.begin();
+	QQueue<ParserInput*>::iterator it = m_parserQueue.begin();
 	for(; it != m_parserQueue.end(); ++it) {
-		if(it->url == url) {
+		if((*it)->url == input->url) {
 			break;
 		}
 	}
-	ParserType parserType = (dynamic_cast<KileDocument::BibInfo*>(textInfo) ? BibTeX : LaTeX);
-	ParserQueueItem newItem(url, document->textLines(document->documentRange()),
-	                             parserType,
-	                             &(textInfo->dictStructLevel()),
-	                             KileConfig::svShowSectioningLabels(),
-	                             KileConfig::svShowTodo());
 
 	if(it != m_parserQueue.end()) {
 		KILE_DEBUG() << "document in queue already";
-		*it = newItem;
+		*it = input;
 	}
 	else {
-		if(m_currentlyParsedUrl == url) {
+		if(m_currentlyParsedUrl == input->url) {
 			KILE_DEBUG() << "re-parsing document";
 			// stop the parsing of the document
 			m_keepParsingDocument = false;
 			// and add it as first element to the queue
-			m_parserQueue.push_front(newItem);
+			m_parserQueue.push_front(input);
 		}
 		else {
 			KILE_DEBUG() << "adding to the end";
-			m_parserQueue.push_back(newItem);
+			m_parserQueue.push_back(input);
 		}
-		connect(document, SIGNAL(aboutToClose(KTextEditor::Document*)), this, SLOT(handleDocumentClosed(KTextEditor::Document*)));
 	}
 	m_parserMutex.unlock();
 
@@ -106,18 +89,7 @@ void ParserThread::addDocument(KileDocument::TextInfo *textInfo)
 	m_queueEmptyWaitCondition.wakeAll();
 }
 
-void ParserThread::removeDocument(KileDocument::TextInfo *textInfo)
-{
-	KILE_DEBUG();
-	KTextEditor::Document *document = textInfo->getDoc();
-	if(!document) {
-		KILE_DEBUG() << "KileDocument::TextInfo without document given!";
-		return;
-	}
-	removeParsingForURL(document->url());
-}
-
-void ParserThread::removeParsingForURL(const KUrl& url)
+void ParserThread::removeParserInput(const KUrl& url)
 {
 	KILE_DEBUG() << url;
 	m_parserMutex.lock();
@@ -127,10 +99,11 @@ void ParserThread::removeParsingForURL(const KUrl& url)
 		m_keepParsingDocument = false;
 	}
 	// nevertheless, we remove all traces of the document from the queue
-	for(QQueue<ParserQueueItem>::iterator it = m_parserQueue.begin(); it != m_parserQueue.end();) {
-		if(it->url == url) {
+	for(QQueue<ParserInput*>::iterator it = m_parserQueue.begin(); it != m_parserQueue.end();) {
+		if((*it)->url == url) {
 			KILE_DEBUG() << "found it";
 			it = m_parserQueue.erase(it);
+			delete (*it);
 		}
 		else {
 			++it;
@@ -139,17 +112,11 @@ void ParserThread::removeParsingForURL(const KUrl& url)
 	m_parserMutex.unlock();
 }
 
-void ParserThread::handleDocumentClosed(KTextEditor::Document *document)
-{
-	KILE_DEBUG();
-	disconnect(document, SIGNAL(aboutToClose(KTextEditor::Document*)), this, SLOT(handleDocumentClosed(KTextEditor::Document*)));
-	removeParsingForURL(document->url());
-}
-
 void ParserThread::stopParsing()
 {
+	KILE_DEBUG();
 	m_parserMutex.lock();
-KILE_DEBUG();
+
 	m_keepParserThreadAlive = false;
 	m_keepParsingDocument = false;
 	m_parserMutex.unlock();
@@ -172,7 +139,7 @@ bool ParserThread::isParsingComplete()
 // the document that is currently parsed is always the head of the queue
 void ParserThread::run()
 {
-	ParserQueueItem currentParsedItem;
+	ParserInput* currentParsedItem;
 	KILE_DEBUG() << "starting up...";
 	while(true) {
 		// first, try to extract the head of the queue
@@ -203,29 +170,122 @@ void ParserThread::run()
 		currentParsedItem = m_parserQueue.dequeue();
 
 		m_keepParsingDocument = true;
-		m_currentlyParsedUrl = currentParsedItem.url;
+		m_currentlyParsedUrl = currentParsedItem->url;
 		emit(parsingStarted());
 		m_parserMutex.unlock();
 
-		Parser *parser = NULL;
-		if(currentParsedItem.parserType == LaTeX) {
-			parser = new LaTeXParser(this, m_ki->extensions(), *(currentParsedItem.dictStructLevel),
-			                                                   currentParsedItem.showSectioningLabels,
-			                                                   currentParsedItem.showStructureTodo);
-		}
-		else if(currentParsedItem.parserType == BibTeX) {
-			parser = new BibTeXParser(this);
-		}
+		Parser *parser = createParser(currentParsedItem);
 
+		ParserOutput *parserOutput = NULL;
 		if(parser) {
-			ParserOutput *parserOutput = parser->parse(currentParsedItem.lines);
-			delete parser;
-
-			if(parserOutput) {
-				emit(parsingComplete(currentParsedItem.url, parserOutput));
-			}
+			parserOutput = parser->parse();
 		}
+
+		delete currentParsedItem;
+		delete parser;
+
+		// we also emit when 'parserOutput == NULL' as this will be used to indicate
+		// that some error has occurred
+		emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
 	}
+}
+
+DocumentParserThread::DocumentParserThread(KileInfo *info, QObject *parent)
+: ParserThread(info, parent)
+{
+}
+
+DocumentParserThread::~DocumentParserThread()
+{
+}
+
+Parser* DocumentParserThread::createParser(ParserInput *input)
+{
+	if(dynamic_cast<LaTeXParserInput*>(input)) {
+		return new LaTeXParser(this, dynamic_cast<LaTeXParserInput*>(input));
+	}
+	else if(dynamic_cast<BibTeXParserInput*>(input)) {
+		return new BibTeXParser(this, dynamic_cast<BibTeXParserInput*>(input));
+	}
+
+	return NULL;
+}
+
+void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
+{
+	KILE_DEBUG() << textInfo;
+	KTextEditor::Document *document = textInfo->getDoc();
+	const KUrl& url = document->url();
+	if(!document) {
+		KILE_DEBUG() << "KileDocument::TextInfo without document given!";
+		return;
+	}
+	ParserInput* newItem = NULL;
+	if(dynamic_cast<KileDocument::BibInfo*>(textInfo)) {
+		newItem = new BibTeXParserInput(url, document->textLines(document->documentRange()));
+	}
+	else {
+		newItem = new LaTeXParserInput(url, document->textLines(document->documentRange()),
+		                                    m_ki->extensions(),
+	                                            (textInfo->dictStructLevel()),
+	                                            KileConfig::svShowSectioningLabels(),
+	                                            KileConfig::svShowTodo());
+	}
+	addParserInput(newItem);
+
+	connect(document, SIGNAL(aboutToClose(KTextEditor::Document*)),
+	        this, SLOT(handleDocumentClosed(KTextEditor::Document*)),
+	        Qt::UniqueConnection);
+}
+
+void DocumentParserThread::removeDocument(KileDocument::TextInfo *textInfo)
+{
+	KILE_DEBUG();
+	KTextEditor::Document *document = textInfo->getDoc();
+	if(!document) {
+		return;
+	}
+	removeParserInput(document->url());
+}
+
+void DocumentParserThread::handleDocumentClosed(KTextEditor::Document *document)
+{
+	KILE_DEBUG();
+	disconnect(document, SIGNAL(aboutToClose(KTextEditor::Document*)), this, SLOT(handleDocumentClosed(KTextEditor::Document*)));
+	removeParserInput(document->url());
+}
+
+OutputParserThread::OutputParserThread(KileInfo *info, QObject *parent)
+: ParserThread(info, parent)
+{
+}
+
+OutputParserThread::~OutputParserThread()
+{
+}
+
+Parser* OutputParserThread::createParser(ParserInput *input)
+{
+    if(dynamic_cast<LaTeXOutputParserInput*>(input)) {
+	    return new LaTeXOutputParser(this, dynamic_cast<LaTeXOutputParserInput*>(input));
+    }
+    return NULL;
+}
+
+void OutputParserThread::addLaTeXLogFile(const QString& logFile, const QString& sourceFile,
+                                         const QString& texFileName, int selrow, int docrow)
+{
+	KILE_DEBUG() << logFile << sourceFile;
+
+	ParserInput* newItem = new LaTeXOutputParserInput(KUrl::fromPath(logFile), m_ki->extensions(),
+	                                                                           sourceFile,
+	                                                                           texFileName, selrow, docrow);
+	addParserInput(newItem);
+}
+
+void OutputParserThread::removeFile(const QString& fileName)
+{
+	removeParserInput(KUrl::fromPath(fileName));
 }
 
 }

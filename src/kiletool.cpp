@@ -46,7 +46,8 @@ namespace KileTool
 		m_texInputs(KileConfig::teXPaths()),
 		m_bibInputs(KileConfig::bibInputPaths()),
 		m_bstInputs(KileConfig::bstInputPaths()),
-		m_childToolSpawned(false)
+		m_childToolSpawned(false),
+		m_toolResult(-1)
 	{
 		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | NeedSaveAll;
 
@@ -472,6 +473,21 @@ namespace KileTool
 		else {
 			return false;
 		}
+	}
+
+	void Base::installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList)
+	{
+		m_nErrors = nErrors;
+		m_nWarnings = nWarnings;
+		m_nBadBoxes = nBadBoxes;
+		m_latexOutputInfoList = outputList;
+
+		latexOutputParserResultInstalled();
+	}
+
+	void Base::latexOutputParserResultInstalled()
+	{
+		finish(Success);
 	}
 
 	void Base::installLauncher(Launcher *lr)

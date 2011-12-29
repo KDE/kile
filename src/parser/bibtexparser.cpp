@@ -25,6 +25,12 @@
 
 namespace KileParser {
 
+BibTeXParserInput::BibTeXParserInput(const KUrl& url, QStringList textLines)
+: ParserInput(url),
+  textLines(textLines)
+{
+}
+
 BibTeXParserOutput::BibTeXParserOutput()
 {
 }
@@ -34,8 +40,9 @@ BibTeXParserOutput::~BibTeXParserOutput()
     KILE_DEBUG();
 }
 
-BibTeXParser::BibTeXParser(ParserThread *parserThread, QObject *parent) :
-	Parser(parserThread, parent)
+BibTeXParser::BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent)
+: Parser(parserThread, parent),
+  m_textLines(input->textLines)
 {
 }
 
@@ -44,7 +51,7 @@ BibTeXParser::~BibTeXParser()
     KILE_DEBUG();
 }
 
-ParserOutput* BibTeXParser::parse(const QStringList& textLines)
+ParserOutput* BibTeXParser::parse()
 {
 	BibTeXParserOutput *parserOutput = new BibTeXParserOutput();
 
@@ -57,14 +64,14 @@ ParserOutput* BibTeXParser::parse(const QStringList& textLines)
 	int col = 0, startcol, startline = 0;
 
 // 	emit(parsingStarted(m_doc->lines()));
-	for(int i = 0; i < textLines.size(); ++i) {
+	for(int i = 0; i < m_textLines.size(); ++i) {
 		if(!m_parserThread->shouldContinueDocumentParsing()) {
 			KILE_DEBUG() << "stopping...";
 			delete(parserOutput);
 			return NULL;
 		}
 // 		emit(parsingUpdate(i));
-		s = getTextLine(textLines, i);
+		s = getTextLine(m_textLines, i);
 		if((s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower())) {
 			KILE_DEBUG() << "found: " << reItem.cap(2);
 			//start looking for key
@@ -79,11 +86,11 @@ ParserOutput* BibTeXParser::parse(const QStringList& textLines)
 				if(col == static_cast<int>(s.length())) {
 					do {
 						++i;
-						s = getTextLine(textLines, i);
+						s = getTextLine(m_textLines, i);
 					}
-					while((s.length() == 0) && (i < textLines.size()));
+					while((s.length() == 0) && (i < m_textLines.size()));
 
-					if(i == textLines.size()) {
+					if(i == m_textLines.size()) {
 						break;
 					}
 					col = 0;

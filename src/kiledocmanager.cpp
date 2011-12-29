@@ -1948,6 +1948,10 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 void Manager::handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output)
 {
 	KILE_DEBUG();
+	if(!output) {
+		KILE_DEBUG() << "NULL output given";
+		return;
+	}
 	KileDocument::TextInfo *textInfo = textInfoForURL(url);
 	if(!textInfo) {
 		// this can happen for instance when the document is closed

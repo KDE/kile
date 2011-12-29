@@ -106,7 +106,7 @@ namespace KileTool
 		connect(stop, SIGNAL(triggered()), this, SLOT(stop()));
 		connect(stop, SIGNAL(destroyed(QObject*)), this, SLOT(stopActionDestroyed()));
 	}
-	
+
 	Manager::~Manager()
 	{
 		KILE_DEBUG();
@@ -128,7 +128,7 @@ namespace KileTool
 
 	// in some cases the pointer m_stop might not be valid, therefore this helper function comes in handy
 	void Manager::setEnabledStopButton(bool state){
-	
+
 		if(m_stop){
 			m_stop->setEnabled(state);
 		}
@@ -148,7 +148,7 @@ namespace KileTool
 	{
 		// if the tool requests a save-all operation, we wait for the parsing to
 		// be finished before launching it
-		if(!tool->requestSaveAll() || m_ki->parserManager()->isParsingComplete()) {
+		if(!tool->requestSaveAll() || m_ki->parserManager()->isDocumentParsingComplete()) {
 			// parsing done, we can start the tool immediately
 			runImmediately(tool);
 			return;
@@ -180,7 +180,6 @@ namespace KileTool
 		KILE_DEBUG() << "==KileTool::Manager::runImmediately(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
 			m_log->clear();
-			m_ki->setLogPresent(false);
 			m_output->clear();
 		}
 
@@ -399,7 +398,7 @@ namespace KileTool
 					return groupFor(name, cfg);
 				}
 			}
-		} 
+		}
 		if(usequeue && !m_queue.isEmpty() && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.tool()->toolConfig().isEmpty())) {
 			return groupFor(name, m_queue.tool()->toolConfig());
 		}
@@ -484,6 +483,11 @@ namespace KileTool
 	KileTool::LivePreviewManager* Manager::livePreviewManager()
 	{
 		return m_ki->livePreviewManager();
+	}
+
+	KileParser::Manager* Manager::parserManager()
+	{
+		return m_ki->parserManager();
 	}
 
 	QStringList toolList(KConfig *config, bool menuOnly)

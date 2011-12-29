@@ -44,6 +44,7 @@ class KAction;
 namespace KParts { class PartManager; }
 
 class KileInfo;
+namespace KileParser { class Manager; }
 namespace KileView { class Manager; }
 namespace KileWidget { class LogWidget; class OutputView; }
 
@@ -97,6 +98,7 @@ namespace KileTool
 		QStackedWidget* widgetStack() { return m_stack; }
 		KileView::Manager* viewManager();
 		KileTool::LivePreviewManager* livePreviewManager();
+		KileParser::Manager* parserManager();
 
 		KileInfo * info() { return m_ki; }
 		KConfig * config() { return m_config; }

@@ -34,6 +34,7 @@
 #include "kiledocmanager.h"
 #include "documentinfo.h"
 #include "outputinfo.h"
+#include "parser/parsermanager.h"
 
 namespace KileTool
 {
@@ -160,7 +161,7 @@ namespace KileTool
 
 		return false;
 	}
-	
+
 	bool LaTeX::updateAsy()
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
@@ -179,45 +180,43 @@ namespace KileTool
 	{
 		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====";
 
+		m_toolResult = r;
+
 		if(r != Success) {
 			return Compile::finish(r);
 		}
 
-		int nErrors = 0, nWarnings = 0;
-		if(filterLogfile()) {
-			checkErrors(nErrors,nWarnings);
-		}
-		
-		if(readEntry("autoRun") == "yes") {
-			checkAutoRun(nErrors, nWarnings);
-		}
-
-		return Compile::finish(r);
-	}
-
-	bool LaTeX::filterLogfile()
-	{
-		manager()->info()->outputFilter()->setSource(source());
 		QString log = targetDir() + '/' + S() + ".log";
-		return manager()->info()->outputFilter()->Run(log);
+		manager()->parserManager()->parseOutput(this, log, source());
+
+		return true;
 	}
 
-	void LaTeX::checkErrors(int &nErrors, int &nWarnings)
+	void LaTeX::latexOutputParserResultInstalled()
 	{
-		int nBadBoxes = 0;
-		
-		manager()->info()->outputFilter()->sendProblems();
-		manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
+		KILE_DEBUG();
+
+		checkErrors();
+
+		if(readEntry("autoRun") == "yes") {
+			checkAutoRun();
+		}
+
+		Compile::finish(m_toolResult);
+	}
+
+	void LaTeX::checkErrors()
+	{
 		// work around the 0 cases as the i18np call can cause some confusion when 0 is passed to it (#275700)
-		QString es = (nErrors == 0 ? i18n("0 errors") : i18np("1 error", "%1 errors", nErrors));
-		QString ws = (nWarnings == 0 ? i18n("0 warnings") : i18np("1 warning", "%1 warnings", nWarnings));
-		QString bs = (nBadBoxes == 0 ? i18n("0 badboxes") : i18np("1 badbox", "%1 badboxes", nBadBoxes));
+		QString es = (m_nErrors == 0 ? i18n("0 errors") : i18np("1 error", "%1 errors", m_nErrors));
+		QString ws = (m_nWarnings == 0 ? i18n("0 warnings") : i18np("1 warning", "%1 warnings", m_nWarnings));
+		QString bs = (m_nBadBoxes == 0 ? i18n("0 badboxes") : i18np("1 badbox", "%1 badboxes", m_nBadBoxes));
 
 		sendMessage(Info, i18nc("String displayed in the log panel showing the number of errors/warnings/badboxes",
 		                        "%1, %2, %3", es, ws, bs));
 
 		//jump to first error
-		if(!isPartOfLivePreview() && nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
+		if(!isPartOfLivePreview() && m_nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
 			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
 			emit(jumpToFirstError());
 		}
@@ -243,7 +242,7 @@ namespace KileTool
 		tool->setSource(source, workingDir());
 	}
 
-	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
+	void LaTeX::checkAutoRun()
 	{
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
 		if(m_reRun >= 2) {
@@ -251,18 +250,18 @@ namespace KileTool
 			m_reRun = 0;
 			return;
 		}
-		if(nErrors > 0) {
+		if(m_nErrors > 0) {
 			KILE_DEBUG() << "Errors found, not running again.";
 			m_reRun = 0;
 			return;
 		}
 		bool reRunWarningFound = false;
 		//check for "rerun LaTeX" warnings
-		if(nWarnings > 0) {
-			int sz =  manager()->info()->outputInfo()->size();
+		if(m_nWarnings > 0) {
+			int sz = m_latexOutputInfoList.size();
 			for(int i = 0; i < sz; ++i) {
-				if ((*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
-				&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun")) {
+				if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
+				&&  m_latexOutputInfoList[i].message().contains("Rerun")) {
 					reRunWarningFound = true;
 					break;
 				}
@@ -325,8 +324,8 @@ namespace KileTool
 			m_reRun = 0;
 		}
 	}
-	
-	
+
+
 	/////////////// PreviewLaTeX (dani) ////////////////
 
 	PreviewLaTeX::PreviewLaTeX(const QString& tool, Manager *mngr, bool prepare) : LaTeX(tool, mngr, prepare)
@@ -336,18 +335,21 @@ namespace KileTool
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
 	// - updateInfoLists(): change entries of temporary file into normal tex file
-	// - checkErrors()    : count errors and warnings and emit signals   
+	// - checkErrors()    : count errors and warnings and emit signals
 	bool PreviewLaTeX::finish(int r)
 	{
-		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
-		
-		int nErrors = 0, nWarnings = 0;
-		if(filterLogfile()) {
-			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
-			checkErrors(nErrors,nWarnings);
+		KILE_DEBUG() << r;
+
+		m_toolResult = r;
+
+		if(r != Success) {
+			return Compile::finish(r);
 		}
-		
-		return Compile::finish(r);
+
+		QString log = targetDir() + '/' + S() + ".log";
+		manager()->parserManager()->parseOutput(this, log, source(), m_filename, m_selrow, m_docrow);
+
+		return true;
 	}
 
 	void PreviewLaTeX::setPreviewInfo(const QString &filename, int selrow,int docrow)
@@ -392,20 +394,20 @@ namespace KileTool
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
 	// - updateInfoLists(): change entries of temporary file into normal tex file
-	// - checkErrors()    : count errors and warnings and emit signals   
+	// - checkErrors()    : count errors and warnings and emit signals
 // 	bool LivePreviewLaTeX::finish(int r)
 // 	{
 // 		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
-// 		
+//
 // 		int nErrors = 0, nWarnings = 0;
 // 		if(filterLogfile()) {
 // 			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
 // 			checkErrors(nErrors,nWarnings);
 // 		}
-// 		
+//
 // 		return Compile::finish(r);
 // 	}
-// 
+//
 // 	void LivePreviewLaTeX::setPreviewInfo(const QString &filename, int selrow,int docrow)
 // 	{
 // 		m_filename = filename;
@@ -424,7 +426,7 @@ namespace KileTool
 	  okularVersionTester.setOutputChannelMode(KProcess::MergedChannels);
 	  okularVersionTester.setProgram("okular", QStringList("--version"));
 	  okularVersionTester.start();
-	  
+
 	  if (okularVersionTester.waitForFinished()){
 	    QString output = okularVersionTester.readAll();
 	    QRegExp regExp = QRegExp("Okular: (\\d+).(\\d+).(\\d+)");
@@ -433,7 +435,7 @@ namespace KileTool
      	      int majorVersion = regExp.cap(1).toInt();
       	      int minorVersion = regExp.cap(2).toInt();
 	      int veryMinorVersion = regExp.cap(3).toInt();
-		      
+
 	      //  see http://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
 	      // 	the required okular version is > 0.8.5
 	      if(  majorVersion > 0  ||
@@ -517,14 +519,14 @@ namespace KileTool
 					KILE_DEBUG() << "Bibliography selected : " << bib;
 				}
 				delete dlg;
-				
+
 				if(!bib_selected) {
 					sendMessage(Warning, i18n("No bibliography selected."));
 					return false;
 				}
 			}
 			KILE_DEBUG() << "filename before: " << info.path();
-			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));	
+			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));
 		}
 		else if(info.exists()) { //active doc is a bib file
 			KILE_DEBUG() << "filename before: " << info.path();

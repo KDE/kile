@@ -15,8 +15,6 @@
 #ifndef KILETOOL_H
 #define KILETOOL_H
 
-#include "kilelauncher.h"
-
 #include <QHash>
 #include <QMap>
 #include <QObject>
@@ -24,6 +22,9 @@
 #include <QStringList>
 
 #include <KLocalizedString>
+
+#include "kilelauncher.h"
+#include "outputinfo.h"
 
 class KConfig;
 class KileInfo;
@@ -212,6 +213,7 @@ namespace KileTool
 		 **/
 		virtual bool finish(int);
 
+		void installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList);
 
 	Q_SIGNALS:
 		void message(int, const QString &, const QString &);
@@ -265,6 +267,8 @@ namespace KileTool
 
 		void setToolConfig(const QString& config) { m_toolConfig = config; }
 
+		virtual void latexOutputParserResultInstalled();
+
 	private:
 		Manager			*m_manager;
 		KileInfo		*m_ki;
@@ -295,6 +299,9 @@ namespace KileTool
 
 	protected:
 		bool			m_childToolSpawned;
+		int			m_nErrors, m_nWarnings, m_nBadBoxes;
+		LatexOutputInfoArray	m_latexOutputInfoList;
+		int			m_toolResult;
 	};
 
 	/**

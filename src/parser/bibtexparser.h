@@ -23,6 +23,14 @@
 
 namespace KileParser {
 
+class BibTeXParserInput : public ParserInput
+{
+public:
+	BibTeXParserInput(const KUrl& url, QStringList textLines);
+
+	QStringList textLines;
+};
+
 class BibTeXParserOutput : public ParserOutput {
 public:
 	BibTeXParserOutput();
@@ -37,10 +45,13 @@ class BibTeXParser : public Parser
 	Q_OBJECT
 
 public:
-	BibTeXParser(ParserThread *parserThread, QObject *parent = NULL);
+	BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = NULL);
 	virtual ~BibTeXParser();
 
-	ParserOutput* parse(const QStringList& textLines);
+	ParserOutput* parse();
+
+protected:
+	QStringList m_textLines;
 };
 
 }

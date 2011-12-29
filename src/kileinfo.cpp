@@ -55,7 +55,8 @@ KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),
 	m_texKonsole(NULL),
-	m_edit(NULL)
+	m_edit(NULL),
+	m_errorHandler(NULL)
 {
 	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
@@ -145,7 +146,7 @@ QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt)
 	}
 }
 
-QString KileInfo::getFullFromPrettyName(const QString& name)
+QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& name)
 {
 	if(name.isEmpty()) {
 		return name;
@@ -154,11 +155,11 @@ QString KileInfo::getFullFromPrettyName(const QString& name)
 	QString file = name;
 
 	if(file.left(2) == "./") {
-		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file.mid(2);
+		file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file.mid(2);
 	}
 
 	if(QDir::isRelativePath(file)) {
-		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file;
+		file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file;
 	}
 
 	QFileInfo fi(file);

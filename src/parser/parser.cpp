@@ -39,6 +39,15 @@ StructureViewItem::~StructureViewItem()
 {
 }
 
+ParserInput::ParserInput(const KUrl& url)
+: url(url)
+{
+}
+
+ParserInput::~ParserInput()
+{
+}
+
 ParserOutput::~ParserOutput()
 {
 	Q_FOREACH(StructureViewItem *item, structureViewItems) {

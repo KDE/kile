@@ -293,9 +293,11 @@ namespace KileWidget
 
 	void LogWidget::printProblems(const QList<KileWidget::LogWidget::ProblemInformation>& list)
 	{
+		setUpdatesEnabled(false);
 		for(QList<ProblemInformation>::const_iterator i = list.begin(); i != list.end(); ++i) {
 			printMessage((*i).type, (*i).message, QString(), (*i).outputInfo, false, false);
 		}
+		setUpdatesEnabled(true);
 		scrollToBottom();
 	}
 

@@ -55,6 +55,14 @@ public:
 	QString folder;
 };
 
+class ParserInput {
+public:
+	explicit ParserInput(const KUrl& url);
+	virtual ~ParserInput();
+
+	KUrl url;
+};
+
 class ParserOutput {
 public:
 	virtual ~ParserOutput();
@@ -67,10 +75,10 @@ class Parser : public QObject
 	Q_OBJECT
 
 public:
-	explicit Parser(ParserThread *parserThread, QObject *parent = 0);
+	explicit Parser(ParserThread *parserThread, QObject *parent = NULL);
 	virtual ~Parser();
 
-	virtual ParserOutput* parse(const QStringList& textLines) = 0;
+	virtual ParserOutput* parse() = 0;
 
 protected:
 	ParserThread *m_parserThread;

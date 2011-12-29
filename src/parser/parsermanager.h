@@ -15,8 +15,11 @@
 #define PARSERMANAGER_H
 
 #include <QList>
+#include <QMultiHash>
 #include <QObject>
 #include <QQueue>
+
+#include <KUrl>
 
 class KileInfo;
 
@@ -25,9 +28,15 @@ namespace KileDocument {
 	class TextInfo;
 }
 
+namespace KileTool {
+	class Base;
+}
+
 namespace KileParser {
 
-class ParserThread;
+class ParserOutput;
+class DocumentParserThread;
+class OutputParserThread;
 
 class Manager : public QObject
 {
@@ -39,15 +48,26 @@ public:
 
 	void parseDocument(KileDocument::TextInfo* textInfo);
 
-	bool isParsingComplete();
+	void parseOutput(KileTool::Base *tool, const QString& fileName, const QString& sourceFile,
+                                               // for QuickPreview
+	                                       const QString& texFileName = "", int selrow = -1, int docrow = -1);
+
+	bool isDocumentParsingComplete();
 
 Q_SIGNALS:
 	void parsingComplete();
 	void parsingStarted();
 
+protected Q_SLOTS:
+	void handleOutputParsingComplete(const KUrl& url, KileParser::ParserOutput *output);
+
+	void removeToolFromUrlHash(KileTool::Base *tool);
+
 private:
 	KileInfo *m_ki;
-	ParserThread *m_parserThread;
+	DocumentParserThread *m_documentParserThread;
+	OutputParserThread *m_outputParserThread;
+	QMultiHash<QString, KileTool::Base*> m_urlToToolHash;
 };
 
 }

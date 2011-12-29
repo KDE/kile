@@ -28,7 +28,6 @@
 #include "kileextensions.h"
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
-#include "latexoutputfilter.h"
 #include "outputinfo.h"
 #include "latexcmd.h"
 #include "kileconfig.h"
@@ -36,6 +35,8 @@
 class QWidget;
 
 namespace KileDocument { class Info; }
+
+class KileErrorHandler;
 class KileProject;
 class KileProjectItem;
 class KileProjectItemList;
@@ -71,7 +72,7 @@ public:
 	QString getShortName(KTextEditor::Document *doc = NULL) { return getName(doc, true); }
 	QString getCompileNameForProject(KileProject *project, bool shrt = false);
 	QString getCompileName(bool shrt = false);
-	QString getFullFromPrettyName(const QString & name);
+	QString getFullFromPrettyName(const OutputInfo& info, const QString& name);
 	KUrl::List getParentsFor(KileDocument::Info *);
 	bool getSinglemode() { return m_singlemode; }
 
@@ -114,14 +115,9 @@ public:
 	bool projectIsOpen(const KUrl & );
 
 	bool watchFile() { return m_bWatchFile; }
-	bool logPresent() { return m_logPresent; }
-	void setLogPresent(bool pr) { m_logPresent = pr; }
 
-	LatexOutputFilter * outputFilter() { return m_outputFilter; }
-	LatexOutputInfoArray * outputInfo() { return m_outputInfo; }
-	
 	virtual int lineNumber() = 0;
-	
+
 	KileWidget::StructureWidget *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::OutputView *outputWidget() { return m_outputWidget; }
@@ -146,6 +142,7 @@ public:
 	KileCodeCompletion::Manager *codeCompletionManager() const { return m_codeCompletionManager; }
 	KileAbbreviation::Manager* abbreviationManager() const { return m_abbreviationManager; }
 	KileParser::Manager* parserManager() const { return m_parserManager; }
+	KileErrorHandler* errorHandler() const { return m_errorHandler; }
 
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
@@ -175,11 +172,12 @@ protected:
 	KileWidget::LogWidget		*m_logWidget;
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileWidget::BottomBar		*m_bottomBar;
-	KileWidget::PreviewWidget	*m_previewWidget; 
+	KileWidget::PreviewWidget	*m_previewWidget;
 	KileWidget::ExtendedScrollArea	*m_previewScrollArea;
 	KileCodeCompletion::Manager	*m_codeCompletionManager;
 	KileAbbreviation::Manager	*m_abbreviationManager;
 	KileParser::Manager		*m_parserManager;
+	KileErrorHandler 		*m_errorHandler;
 
 	EditorCommands				*m_editorCommands;
 
@@ -194,11 +192,8 @@ protected:
 	QString		m_masterDocumentFileName;
 
 	QString	m_currentTarget;
-	
-	bool m_bWatchFile, m_logPresent;
 
-	LatexOutputFilter		*m_outputFilter;
-	LatexOutputInfoArray	*m_outputInfo;
+	bool m_bWatchFile;
 
 	KileWidget::StructureWidget	*m_kwStructure;
 	KileWidget::FileBrowserWidget 			*m_fileBrowserWidget;

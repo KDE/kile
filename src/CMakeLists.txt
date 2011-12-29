@@ -70,9 +70,7 @@ SET(kile_SRCS
 	widgets/projectview.cpp
 	kilelistselector.cpp
 	kilelyxserver.cpp
-	latexoutputfilter.cpp
 	outputinfo.cpp
-	outputfilter.cpp
 	dialogs/findfilesdialog.cpp
 	kiletool.cpp
 	kilelauncher.cpp
@@ -131,6 +129,7 @@ SET(kile_SRCS
 	parser/parser.cpp
 	parser/latexparser.cpp
 	parser/bibtexparser.cpp
+	parser/latexoutputparser.cpp
 )
 
 IF( LIVEPREVIEW_POSSIBLE )
@@ -259,12 +258,12 @@ INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
 kileui.rc docpartui.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
 
 IF(CMAKE_SYSTEM_NAME MATCHES Windows)
-  INSTALL (FILES data/kilestdtools-win.rc 
-           DESTINATION ${DATA_INSTALL_DIR}/kile 
+  INSTALL (FILES data/kilestdtools-win.rc
+           DESTINATION ${DATA_INSTALL_DIR}/kile
            RENAME kilestdtools.rc)
 
 ELSE(CMAKE_SYSTEM_NAME MATCHES Windows)
-  INSTALL (FILES data/kilestdtools.rc 
+  INSTALL (FILES data/kilestdtools.rc
            DESTINATION ${DATA_INSTALL_DIR}/kile)
 
 ENDIF(CMAKE_SYSTEM_NAME MATCHES Windows)

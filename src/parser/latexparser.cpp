@@ -25,6 +25,20 @@
 
 namespace KileParser {
 
+LaTeXParserInput::LaTeXParserInput(const KUrl& url, QStringList textLines,
+                                                    KileDocument::Extensions *extensions,
+	                                            const QMap<QString, KileStructData>& dictStructLevel,
+	                                            bool showSectioningLabels,
+                                                    bool showStructureTodo)
+: ParserInput(url),
+  textLines(textLines),
+  extensions(extensions),
+  dictStructLevel(dictStructLevel),
+  showSectioningLabels(showSectioningLabels),
+  showStructureTodo(showStructureTodo)
+{
+}
+
 LaTeXParserOutput::LaTeXParserOutput()
 {
 }
@@ -34,16 +48,14 @@ LaTeXParserOutput::~LaTeXParserOutput()
     KILE_DEBUG();
 }
 
-LaTeXParser::LaTeXParser(ParserThread *parserThread, KileDocument::Extensions *extensions,
-                                                     const QMap<QString, KileStructData>& dictStructLevel,
-                                                     bool showSectioningLabels,
-                                                     bool showStructureTodo,
-                                                     QObject *parent) :
-	Parser(parserThread, parent),
-	m_extensions(extensions),
-	m_dictStructLevel(dictStructLevel),
-	m_showSectioningLabels(showSectioningLabels),
-	m_showStructureTodo(showStructureTodo)
+LaTeXParser::LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
+                                                     QObject *parent)
+: Parser(parserThread, parent),
+  m_extensions(input->extensions),
+  m_textLines(input->textLines),
+  m_dictStructLevel(input->dictStructLevel),
+  m_showSectioningLabels(input->showSectioningLabels),
+  m_showStructureTodo(input->showStructureTodo)
 {
 }
 
@@ -82,11 +94,11 @@ BracketResult LaTeXParser::matchBracket(const QStringList& textLines, int &l, in
 }
 
 //FIXME: this has to be completely rewritten!
-ParserOutput* LaTeXParser::parse(const QStringList& textLines)
+ParserOutput* LaTeXParser::parse()
 {
 	LaTeXParserOutput *parserOutput = new LaTeXParserOutput();
 
-	KILE_DEBUG() << textLines;
+	KILE_DEBUG() << m_textLines;
 
 	QMap<QString,KileStructData>::const_iterator it;
 	static QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
@@ -107,7 +119,7 @@ ParserOutput* LaTeXParser::parse(const QStringList& textLines)
 	TodoResult todo;
 
 // 	emit(parsingStarted(m_doc->lines()));
-	for(int i = 0; i < textLines.size(); ++i) {
+	for(int i = 0; i < m_textLines.size(); ++i) {
 		if(!m_parserThread->shouldContinueDocumentParsing()) {
 			KILE_DEBUG() << "stopping...";
 			delete(parserOutput);
@@ -118,7 +130,7 @@ ParserOutput* LaTeXParser::parse(const QStringList& textLines)
 
 		tagStart = tagEnd = 0;
 		fire = true;
-		s = processTextline(getTextLine(textLines, i), todo);
+		s = processTextline(getTextLine(m_textLines, i), todo);
 		if(todo.type != -1 && m_showStructureTodo) {
 			QString folder = (todo.type == KileStruct::ToDo) ? "todo" : "fixme";
 			parserOutput->structureViewItems.push_back(new StructureViewItem(todo.comment, i+1, todo.colComment, todo.type, KileStruct::Object, i+1, todo.colTag, QString(), folder));
@@ -126,7 +138,6 @@ ParserOutput* LaTeXParser::parse(const QStringList& textLines)
 
 
 		if(s.isEmpty()) {
-		    KILE_DEBUG() << "continuing";
 			continue;
 		}
 
@@ -143,17 +154,17 @@ ParserOutput* LaTeXParser::parse(const QStringList& textLines)
 				if(bd == 0) {
 					if(i - 1 >= 0) {
 						for(int j = 0; j <= i - 1; ++j) {
-							parserOutput->preamble += getTextLine(textLines, j) + '\n';
+							parserOutput->preamble += getTextLine(m_textLines, j) + '\n';
 						}
 					}
 				}
 				else {
 					if(i - 1 >= 0) {
 						for(int j = 0; j <= i - 1; ++j) {
-							parserOutput->preamble += getTextLine(textLines, j) + '\n';
+							parserOutput->preamble += getTextLine(m_textLines, j) + '\n';
 						}
 					}
-					parserOutput->preamble += getTextLine(textLines, i).left(bd) + '\n';
+					parserOutput->preamble += getTextLine(m_textLines, i).left(bd) + '\n';
 				}
 			}
 
@@ -181,11 +192,11 @@ ParserOutput* LaTeXParser::parse(const QStringList& textLines)
 					tagStartCol = tagStart+1;
 
 					if(reCommand.cap(1) != "\\frame") {
-						result = matchBracket(textLines, i, tagEnd);
+						result = matchBracket(m_textLines, i, tagEnd);
 						m = result.value.trimmed();
 						shorthand = result.option.trimmed();
 						if(i >= tagLine) { //matching brackets spanned multiple lines
-							s = getTextLine(textLines, i);
+							s = getTextLine(m_textLines, i);
 						}
 						if(result.line > 0 || result.col > 0) {
 							tagLine = result.line + 1;
@@ -230,7 +241,7 @@ ParserOutput* LaTeXParser::parse(const QStringList& textLines)
 							it = m_dictStructLevel.constFind("\\begin{block}");
 							if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
 								tagEnd++;
-								result = matchBracket(textLines, i, tagEnd);
+								result = matchBracket(m_textLines, i, tagEnd);
 								m = result.value.trimmed();
 								if(m.isEmpty()) {
 									m = untitledBlockDisplayName;

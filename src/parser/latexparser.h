@@ -30,6 +30,22 @@ struct BracketResult
 	int line, col;
 };
 
+class LaTeXParserInput : public ParserInput
+{
+public:
+	LaTeXParserInput(const KUrl& url, QStringList textLines,
+	                                  KileDocument::Extensions *extensions,
+	                                  const QMap<QString, KileStructData>& dictStructLevel,
+	                                  bool showSectioningLabels,
+                                          bool showStructureTodo);
+
+	QStringList textLines;
+	KileDocument::Extensions *extensions;
+	const QMap<QString, KileStructData>& dictStructLevel;
+	bool showSectioningLabels;
+	bool showStructureTodo;
+};
+
 class LaTeXParserOutput : public ParserOutput {
 public:
 	LaTeXParserOutput();
@@ -52,17 +68,15 @@ class LaTeXParser : public Parser
 	Q_OBJECT
 
 public:
-	LaTeXParser(ParserThread *parserThread, KileDocument::Extensions *extensions,
-	                                        const QMap<QString, KileStructData>& dictStructLevel,
-	                                        bool showSectioningLabels,
-	                                        bool showStructureTodo,
-	                                        QObject *parent = 0);
+	LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
+	                                        QObject *parent = NULL);
 	virtual ~LaTeXParser();
 
-	ParserOutput* parse(const QStringList& textLines);
+	ParserOutput* parse();
 
 protected:
 	KileDocument::Extensions *m_extensions;
+	QStringList m_textLines;
 	const QMap<QString, KileStructData>& m_dictStructLevel;
 	bool m_showSectioningLabels;
 	bool m_showStructureTodo;

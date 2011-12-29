@@ -1,7 +1,7 @@
 /************************************************************************************
     begin                : Die Sep 16 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************/
 
 /***************************************************************************
@@ -21,8 +21,9 @@ OutputInfo::OutputInfo()
 }
 
 
-OutputInfo::OutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine,
+OutputInfo::OutputInfo(const QString& mainSourceFile, const QString& strSrcFile, int nSrcLine, int nOutputLine,
                        const QString& strError, int nErrorID /*=-1*/) :
+    m_mainSourceFile(mainSourceFile),
     m_strSrcFile(strSrcFile),
     m_nSrcLine(nSrcLine),
     m_strError(strError),
@@ -33,6 +34,7 @@ OutputInfo::OutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine,
 
 void OutputInfo::clear()
 {
+	m_mainSourceFile.clear();
 	m_strSrcFile.clear();
 	m_nSrcLine = -1;
 	m_nOutputLine = -1;
@@ -42,7 +44,8 @@ void OutputInfo::clear()
 
 bool OutputInfo::operator==(const OutputInfo& info) const
 {
-	return (m_strSrcFile == info.m_strSrcFile
+	return (m_mainSourceFile == info.m_mainSourceFile
+	     && m_strSrcFile == info.m_strSrcFile
 	     && m_nSrcLine == info.m_nSrcLine
 	     && m_strError == info.m_strError
 	     && m_nOutputLine == info.m_nOutputLine
@@ -51,8 +54,8 @@ bool OutputInfo::operator==(const OutputInfo& info) const
 
 bool OutputInfo::isValid() const
 {
-	return !(m_strSrcFile.isEmpty() && m_nSrcLine == -1 && m_nOutputLine == -1
-	                                && m_strError.isEmpty() && m_nErrorID == -1);
+	return !(m_mainSourceFile.isEmpty() && m_strSrcFile.isEmpty() && m_nSrcLine == -1 && m_nOutputLine == -1
+	                                    && m_strError.isEmpty() && m_nErrorID == -1);
 }
 
 LatexOutputInfo::LatexOutputInfo() : OutputInfo()
@@ -60,8 +63,8 @@ LatexOutputInfo::LatexOutputInfo() : OutputInfo()
 }
 
 
-LatexOutputInfo::LatexOutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine,
+LatexOutputInfo::LatexOutputInfo(const QString& mainSourceFile, const QString& strSrcFile, int nSrcLine, int nOutputLine,
                                  const QString& strError, int nErrorID)
-: OutputInfo(strSrcFile, nSrcLine, nOutputLine, strError, nErrorID)
+: OutputInfo(mainSourceFile, strSrcFile, nSrcLine, nOutputLine, strError, nErrorID)
 {
 }

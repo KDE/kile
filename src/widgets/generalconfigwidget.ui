@@ -226,6 +226,13 @@
     </widget>
    </item>
    <item>
+    <widget class="QCheckBox" name="kcfg_SyncConsoleDirWithTabs">
+     <property name="text">
+      <string>Synchronize the directory shown in the console with the document tabs</string>
+     </property>
+    </widget>
+   </item>
+   <item>
     <spacer>
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -243,14 +250,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
    <class>KIntNumInput</class>

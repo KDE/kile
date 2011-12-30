@@ -225,11 +225,11 @@
 	<group name="IncludeGraphics">
 		<entry name="igCenter" type="Bool">
 			<label>Center the graphics.</label>
-			<default>true</default> 
+			<default>true</default>
 		</entry>
 		<entry name="igBoundingBox" type="Bool">
 			<label>Insert the bounding box as an option for the includegraphics command.</label>
-			<default>false</default> 
+			<default>false</default>
 		</entry>
 		<entry name="igGraphicspath" type="Bool">
 			<label>Filename is relative to a path given in graphicspath command.</label>
@@ -370,6 +370,10 @@
 			<default code="true">
 				QDir::home().absolutePath()
 			</default>
+		</entry>
+		<entry name="SyncConsoleDirWithTabs" type="Bool">
+			<label>Whether the current directory shown in the console is kept synchronized with the open tabs</label>
+			<default>true</default>
 		</entry>
 	</group>
 	<group name="Complete">

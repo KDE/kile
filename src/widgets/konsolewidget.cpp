@@ -85,6 +85,10 @@ namespace KileWidget
 
 	void Konsole::sync()
 	{
+		if(!KileConfig::syncConsoleDirWithTabs()) {
+			return;
+		}
+
 		KTextEditor::Document *doc = m_ki->activeTextDocument();
 		KTextEditor::View *view = NULL;
 
@@ -109,7 +113,8 @@ namespace KileWidget
 
 	void Konsole::setDirectory(const QString &directory)
 	{
-//		KILE_DEBUG() << "void Konsole::setDirectory(const QString &" << dirname << ")";
+		//FIXME: KonsolePart should be extended in such a way that it isn't necessary
+		//       anymore to send 'cd' commands
 		if(m_term && !directory.isEmpty() && directory != m_currentDir) {
 			m_term->sendInput("cd " + KShell::quoteArg(directory) + '\n');
 			m_term->sendInput("clear\n");

@@ -57,7 +57,7 @@ public:
 	bool isLivePreviewActive() const;
 	bool isLivePreviewPossible() const;
   /**
-   * run (text, textfilename, startrow) works with the 
+   * run (text, textfilename, startrow) works with the
    * default configuration for QuickPreview. This method
    * supports a forth parameter to choose the configuration as
    * comma - separated string as you can see them in run (text, textfilename, startrow)
@@ -72,7 +72,7 @@ public:
    * @return             true if method succeeds, else false
    */
 // 	bool run (const QString &text, const QString &textfilename, int startrow, const QString &spreviewlist);
-  
+
 	QWidget* getControlToolBar();
 
 public Q_SLOTS:
@@ -136,7 +136,7 @@ private:
 
 	void updatePreviewInformationAfterCompilationFinished();
 
-	void displayErrorMessage(const QString &text);
+	void displayErrorMessage(const QString &text, bool clearFirst = false);
 
 	void createActions(KActionCollection *ac);
 	void createControlToolBar();
@@ -158,6 +158,8 @@ private:
 	void handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item);
 
 	void fillTextHashForMasterDocument(QHash<KileDocument::TextInfo*, QByteArray> &textHash);
+
+	void disablePreview(PreviewInformation *previewInformation);
 };
 
 }

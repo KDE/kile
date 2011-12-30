@@ -78,6 +78,38 @@ public:
 		return m_previewEnabled;
 	}
 
+	bool createSubDirectoriesForProject(KileProject *project, bool *containsInvalidRelativeItem = NULL) {
+		if(containsInvalidRelativeItem) {
+			*containsInvalidRelativeItem = false;
+		}
+		QList<KileProjectItem*> items = project->items();
+		const QString tempCanonicalDir = QDir(m_tempDir->name()).canonicalPath();
+		if(tempCanonicalDir.isEmpty()) {
+			return false;
+		}
+		Q_FOREACH(KileProjectItem *item, items) {
+			bool successful = true;
+			const QString itemRelativeDir = QFileInfo(tempCanonicalDir + '/' + item->path()).path();
+			const QString itemAbsolutePath = QDir(itemRelativeDir).absolutePath();
+			if(itemAbsolutePath.isEmpty()) {
+				successful = false;
+			}
+			else if(!itemAbsolutePath.startsWith(tempCanonicalDir)) {
+				if(containsInvalidRelativeItem) {
+					*containsInvalidRelativeItem = true;
+				}
+				successful = false; // we don't want to create directories below 'm_tempDir->name()'
+			}
+			else {
+				successful = QDir().mkpath(itemAbsolutePath);
+			}
+			if(!successful) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 private:
 	KTempDir *m_tempDir;
 	bool m_previewEnabled;
@@ -191,6 +223,15 @@ void LivePreviewManager::previewForCurrentDocumentActionToggled(bool b)
 	}
 }
 
+void LivePreviewManager::disablePreview(PreviewInformation *previewInformation)
+{
+	if(previewInformation) {
+		previewInformation->setPreviewEnabled(false);
+	}
+	stopAndClearPreview();
+	m_previewForCurrentDocumentAction->setChecked(false);
+}
+
 void LivePreviewManager::stopAndClearPreview()
 {
 	KILE_DEBUG();
@@ -249,6 +290,8 @@ void LivePreviewManager::deleteAllLivePreviewInformation()
 
 void LivePreviewManager::readConfig(KConfig *config)
 {
+	Q_UNUSED(config);
+
 	m_synchronizeViewWithCursorAction->setChecked(KileConfig::synchronizeCursorWithView());
 
 	m_controlToolBar->setVisible(KileConfig::livePreviewEnabled());
@@ -459,6 +502,7 @@ void LivePreviewManager::handleCursorPositionChangedTimeout()
 
 void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition)
 {
+	Q_UNUSED(view);
 	KILE_DEBUG() << "new position " << newPosition;
 
 	PreviewInformation *previewInformation = findPreviewInformation(info);
@@ -639,6 +683,22 @@ void LivePreviewManager::compilePreview(KileDocument::TextInfo *info, KTextEdito
 			m_masterDocumentPreviewInformation = previewInformation;
 		}
 		else if(project) {
+			bool containsInvalidRelativeItem = false;
+			// in the case of a project, we might have to create a similar subdirectory
+			// structure as it is present in the real project in order for LaTeX
+			// to work correctly
+			if(!previewInformation->createSubDirectoriesForProject(project, &containsInvalidRelativeItem)) {
+				disablePreview(previewInformation);
+				if(containsInvalidRelativeItem) {
+					displayErrorMessage(i18n("The location of one project item is not relative to the project's base directory\n"
+					                         "Live preview for this project has been disabled"), true);
+				}
+				else {
+					displayErrorMessage(i18n("Failed to create the subdirectory structure"));
+				}
+				delete previewInformation;
+				return;
+			}
 			m_projectToPreviewInformationHash[project] = previewInformation;
 		}
 		else {
@@ -867,10 +927,6 @@ void LivePreviewManager::removeProject(KileProject *project)
 
 void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item)
 {
-	if(!KileConfig::livePreviewEnabled()) {
-		return;
-	}
-
 	KILE_DEBUG();
 	bool previewNeedsToBeRefreshed = false;
 
@@ -915,8 +971,11 @@ void LivePreviewManager::handleProjectItemAdded(KileProject *project, KileProjec
 	if(!KileConfig::livePreviewEnabled()) {
 		return;
 	}
-
 	KILE_DEBUG();
+
+	// the directory structure in the temporary directory will be updated when
+	// 'compilePreview' is called; 'handleProjectItemAdditionOrRemoval' will delete
+	// PreviewInformation objects
 	handleProjectItemAdditionOrRemoval(project, item);
 }
 
@@ -953,6 +1012,7 @@ void LivePreviewManager::toolDestroyed()
 
 void LivePreviewManager::handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child)
 {
+	Q_UNUSED(parent);
 	KILE_DEBUG();
 	connect(child, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(childToolDone(KileTool::Base*,int,bool)));
 }
@@ -1011,9 +1071,12 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 	}
 }
 
-void LivePreviewManager::displayErrorMessage(const QString &text)
+void LivePreviewManager::displayErrorMessage(const QString &text, bool clearFirst)
 {
-	m_ki->logWidget()->printMessage(KileTool::Error, text, i18n("LivePreviewManager"));
+	if(clearFirst) {
+		m_ki->logWidget()->clear();
+	}
+	m_ki->logWidget()->printMessage(KileTool::Error, text, i18n("LivePreview"));
 }
 
 }

@@ -100,10 +100,11 @@ void ParserThread::removeParserInput(const KUrl& url)
 	}
 	// nevertheless, we remove all traces of the document from the queue
 	for(QQueue<ParserInput*>::iterator it = m_parserQueue.begin(); it != m_parserQueue.end();) {
-		if((*it)->url == url) {
+		ParserInput *input = *it;
+		if(input->url == url) {
 			KILE_DEBUG() << "found it";
 			it = m_parserQueue.erase(it);
-			delete (*it);
+			delete input;
 		}
 		else {
 			++it;
@@ -188,6 +189,7 @@ void ParserThread::run()
 		// that some error has occurred
 		emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
 	}
+	KILE_DEBUG() << "leaving...";
 }
 
 DocumentParserThread::DocumentParserThread(KileInfo *info, QObject *parent)

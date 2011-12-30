@@ -104,7 +104,8 @@ void KileErrorHandler::ViewLog()
 	KileWidget::LogWidget *logWidget = m_ki->logWidget();
 	m_ki->focusLog();
 
-	if(!m_mostRecentLogFile.isEmpty()) {
+	QFile logFile(m_mostRecentLogFile);
+	if(!m_mostRecentLogFile.isEmpty() && logFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QHash<int, OutputInfo> hash;
 
 		for(QList<LatexOutputInfo>::iterator i = m_mostRecentLaTeXOutputInfoList.begin();
@@ -113,11 +114,11 @@ void KileErrorHandler::ViewLog()
 			hash[info.outputLine()] = info;
 		}
 
-		QTextStream textStream(&m_mostRecentLogFile, QIODevice::ReadOnly);
+		QTextStream textStream(&logFile);
 
 		for(int lineNumber = 0; !textStream.atEnd(); ++lineNumber) {
 			int type = -1;
-			QString line = textStream.readLine();
+			const QString line = textStream.readLine();
 			if(hash.find(lineNumber) != hash.end()) {
 				switch(hash[lineNumber].type()) {
 					case LatexOutputInfo::itmError:

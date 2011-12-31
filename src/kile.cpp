@@ -194,7 +194,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	m_verticalSplitter = new QSplitter(Qt::Vertical);
 	m_horizontalSplitter->addWidget(m_verticalSplitter);
-	QWidget *tabWidget = viewManager()->createTabs(m_verticalSplitter);
+	viewManager()->createTabs(m_verticalSplitter);
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));

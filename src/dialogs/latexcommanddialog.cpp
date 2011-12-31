@@ -296,24 +296,24 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
 void NewLatexCommand::slotButtonClicked(int button)
 {
 	if(button == KDialog::Ok){
-	
+
 		// check for an empty string
 		if(m_edName->text().isEmpty()) {
 			KMessageBox::error(this, i18n("An empty string is not allowed."));
 			return;
 		}
-	
+
 		QString name = m_edName->text();
 		if (m_envmode == false && name.at(0) != '\\') {
 			name.prepend('\\');
 		}
-	
+
 		if (m_addmode && m_dict->contains(name)) {
 			QString msg = (m_envmode) ? i18n("This environment already exists.")
 										: i18n("This command already exists.");
 			KMessageBox::error(this, msg);
 			return;
-		}	
+		}
 		accept();
 	}
 	else{
@@ -605,36 +605,28 @@ void LatexCommandsDialog::slotAddClicked()
 {
 	QTreeWidget *listview;
 	QString caption;
-	bool envmode;
 
-	if (getListviewMode() == lvEnvMode)
-	{
+	if (getListviewMode() == lvEnvMode) {
 		listview = m_widget.environments;
 		caption  = i18n("LaTeX Environments");
-		envmode  = true;
 	}
-	else
-	{
+	else {
 		listview = m_widget.commands;
 		caption  = i18n("LaTeX Commands");
-		envmode  = false;
 	}
 
 	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
-	if (item && isParentItem(item))
-	{
+	if (item && isParentItem(item)) {
 		// get current command type
 		KileDocument::CmdAttribute type = getCommandMode(item);
-		if (type == KileDocument::CmdAttrNone)
-		{
+		if (type == KileDocument::CmdAttrNone) {
 			KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 			return;
 		}
 
 		// add a new environment or command
-		NewLatexCommand *dialog = new NewLatexCommand(this, caption, item->text(0), 0L, type, &m_dictCommands);
-		if (dialog->exec() == QDialog::Accepted)
-		{
+		NewLatexCommand *dialog = new NewLatexCommand(this, caption, item->text(0), NULL, type, &m_dictCommands);
+		if (dialog->exec() == QDialog::Accepted) {
 			m_commandChanged = true;
 
 			// insert new item with attributes
@@ -643,8 +635,7 @@ void LatexCommandsDialog::slotAddClicked()
 			dialog->getParameter(name, attr);
 			setEntry((QTreeWidgetItem *)item, name, attr);
 			// open this parent item
-			if (!item->isExpanded())
-			{
+			if (!item->isExpanded()) {
 				item->setExpanded(true);
 			}
 			slotEnableButtons();

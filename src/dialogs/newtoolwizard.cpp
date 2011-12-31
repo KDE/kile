@@ -62,7 +62,7 @@ void NewToolWizard::nameChanged(const QString &name)
 	bool ok = true;
 
 	if(m_toolList.contains(name)) {
-		m_lbWarning->setText(i18n( "Error: A tool by this name already exists." ));
+		m_lbWarning->setText(i18n( "Error: A tool by this name exists already." ));
 		ok = false;
 	}
 	else if(name.indexOf("/") != -1) {
@@ -70,13 +70,13 @@ void NewToolWizard::nameChanged(const QString &name)
 		ok = false;
 	}
 	else if(name.indexOf(reBracket) != -1) {
-		m_lbWarning->setText(i18n("Error: The name may not contain a (,),[ or ]."));
+		m_lbWarning->setText(i18n("Error: The name may not contain a (, ), [, or ]."));
 		ok = false;
 	}
 	else {
 		m_lbWarning->setText("");
 	}
-	setValid(toolNamePage, true);
+	setValid(toolNamePage, ok);
 }
 
 void NewToolWizard::slotCurrentPageChanged(KPageWidgetItem* current, KPageWidgetItem* /* before */)

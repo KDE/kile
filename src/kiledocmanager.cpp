@@ -73,7 +73,7 @@
 /*
  * Newly created text documents have an empty URL and a non-empty document name.
  */
- 
+
 /*
  * WARNING: Several methods in the document manager can open dialogs and consequently
  *          launch a new event loop. It is therefore possible that the auto save feature
@@ -894,18 +894,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 					KUrl backupUrl = KUrl(url.toLocalFile()+ ".backup");
 
-				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
-
-					// get the right permissions, start with safe default
-					mode_t  perms = 0600;
-					KIO::UDSEntry fentry;
-					if (KIO::NetAccess::stat (url, fentry, m_ki->mainWindow())) {
-						KILE_DEBUG () << "stating successful: " << url.prettyUrl();
-						KFileItem item (fentry, url);
-						perms = item.permissions();
-					}
-
-					// first del existing file if any, than copy over the file we have
+					// first del existing file if any, then copy over the file we have
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
 					if((!KIO::NetAccess::exists( backupUrl, false, m_ki->mainWindow())
 					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
@@ -1937,7 +1926,7 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 			continue;
 		}
 		doc->reloadXML();
-		QList<KTextEditor::View*> views = doc->views(); 
+		QList<KTextEditor::View*> views = doc->views();
 		for(QList<KTextEditor::View*>::iterator viewIt = views.begin(); viewIt != views.end(); ++viewIt) {
 			(*viewIt)->reloadXML();
 		}

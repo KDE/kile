@@ -55,8 +55,8 @@ KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),
 	m_texKonsole(NULL),
-	m_edit(NULL),
-	m_errorHandler(NULL)
+	m_errorHandler(NULL),
+	m_edit(NULL)
 {
 	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");

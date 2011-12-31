@@ -40,7 +40,7 @@
 #include "kileextensions.h"
 #include "quickpreview.h"
 
-/* 
+/*
  * FIXME: The code in this file should be reworked completely. Once we've got a better parser
  *        most of the code in here should also be superfluous.
  */
@@ -54,9 +54,9 @@ EditorExtension::EditorExtension(KileInfo *info) : m_ki(info)
 
 	// init regexp
 	m_reg.setPattern("(\\\\(begin|end)\\s*\\{([A-Za-z]+\\*?)\\})|(\\\\\\[|\\\\\\])");
-	//                1    2                 3                   4         
+	//                1    2                 3                   4
 	m_regexpEnter.setPattern("^(.*)((\\\\begin\\s*\\{([^\\{\\}]*)\\})|(\\\\\\[))");
-	//                         1   23                 4               5 
+	//                         1   23                 4               5
 
 	// init double quotes
 	m_quoteListI18N // this is shown in the configuration dialog
@@ -95,10 +95,10 @@ void EditorExtension::readConfig(void)
 {
 	// init insertion of double quotes
 	initDoubleQuotes();
-	
+
 	// allow special chars?
 	m_specialCharacters = KileConfig::insertSpecialCharacters();
-	
+
 	// calculate indent for autoindent of environments
 	m_envAutoIndent.clear();
 	if(KileConfig::envIndentation()) {
@@ -165,7 +165,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 	if(wrap) {
 		QString sel = view->selectionText();
 		view->removeSelectionText();
-		
+
 		// no autoindentation of environments, when text is selected
 		if(envtag) {
 			ins.remove("%E");
@@ -180,7 +180,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 
 		// now add the selection
 		ins += sel;
-		
+
 		// place the cursor behind this tag, if there is no other wish
 		if(!before && !after) {
 			trailing = "%C";
@@ -202,7 +202,7 @@ void EditorExtension::insertTag(const KileAction::TagData& data, KTextEditor::Vi
 	QFileInfo fi( doc->url().toLocalFile());
 	ins.replace("%S", fi.completeBaseName());
 	ins.replace("%B", s_bullet);
-	
+
 	//insert first part of tag at cursor position
 	doc->insertText(KTextEditor::Cursor(para, index), ins);
 
@@ -266,25 +266,25 @@ void EditorExtension::gotoEnvironment(bool backwards, KTextEditor::View *view)
 	uint row,col;
 	EnvData env;
 	bool found;
-	
+
 	// get current position
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
 	col = cursor.column();
 
-	
+
 	// start searching
 	if(backwards) {
 		found = findBeginEnvironment(doc,row,col,env);
 		//KILE_DEBUG() << "   goto begin env:  " << env.row << "/" << env.col;
-	
+
 	}
 	else {
 		found = findEndEnvironment(doc,row,col,env);
 		env.col += env.len;
 	}
-	
+
 	if(found) {
 		view->setCursorPosition(KTextEditor::Cursor(env.row, env.col));
 	}
@@ -301,7 +301,7 @@ void EditorExtension::matchEnvironment(KTextEditor::View *view)
 
 	uint row,col;
 	EnvData env;
-	
+
 	// get current position
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
@@ -312,7 +312,7 @@ void EditorExtension::matchEnvironment(KTextEditor::View *view)
 	if(!isEnvironmentPosition(doc, row, col, env)) {
 		return;
 	}
-	
+
 	gotoEnvironment(env.tag != EnvBegin, view);
 }
 
@@ -329,7 +329,7 @@ void EditorExtension::closeEnvironment(KTextEditor::View *view)
 
 	int row, col, currentRow, currentCol;
 	QString name;
-	
+
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	currentRow = cursor.line();
 	currentCol = cursor.column();
@@ -371,7 +371,7 @@ void EditorExtension::closeAllEnvironments(KTextEditor::View *view)
 		currentRow++;
 		currentCol = 0;
 	}
-		
+
 	bool ok1,ok2;
 	for(QStringList::Iterator it = envlist.begin(); it != envlist.end(); ++it) {
 		QStringList entry = (*it).split(',');
@@ -530,7 +530,7 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 	}
 
 	// now let's search for all other math tags:
-	// if a mathgroup tag starts in the current column, we save this 
+	// if a mathgroup tag starts in the current column, we save this
 	// position and move the cursor one column to the right
 	bool openingtag = isOpeningMathTagPosition(doc, row, col, begin);
 	if(openingtag) {
@@ -554,7 +554,7 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
 			return false;
 		}
 	}
-		
+
 	// now try to search to opening tag of the math group
 	if(!findOpenMathTag(doc, r, c, begin)) {
 		return false;
@@ -687,9 +687,6 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 
 	bool foundDollar = false;
 	uint numDollar = 0;
-	
-	KTextEditor::SearchInterface *iface;
-	iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
 
 	QString textline = getTextLineReal(doc, row);
 	int column = col;
@@ -703,14 +700,14 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 			mathdata.col = col;
 			mathdata.len = reg.cap(0).length();
 			mathname = reg.cap(0).left(2);
-		
+
 			// should be better called 'isValidChar()', because it checks for comments
 			// and escaped chars like backslash and dollar in '\\' and '\$'
 			if(mathname == "$") {
 				// count and continue search
 				++numDollar;
 
-				// but remember the first dollar found backwards 
+				// but remember the first dollar found backwards
 				if(!foundDollar) {
 					lastrow = row;
 					lastcol = col;
@@ -812,15 +809,15 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
 			break;
 		}
 	}
-	
+
 	// nothing else found, so math mode starts a the last dollar (the first one found backwards)
 	mathdata.row = lastrow;
 	mathdata.col = lastcol;
 	mathdata.len = 1;
 	mathdata.numdollar = numDollar;
-	
+
 	mathdata.tag = (numDollar > 0) ? mmMathDollar : mmNoMathMode;
-	
+
 	return true;
 }
 
@@ -851,7 +848,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 		//KILE_DEBUG() << "number of ranges " << foundRanges.count();
 		if(foundRanges.size() < 3) {
 			break;
-		}	
+		}
 
 		KTextEditor::Range range = foundRanges.first();
 		//KILE_DEBUG() << "found math tag: " << doc->text(range);
@@ -872,7 +869,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 			mathdata.row = rowFound;
 			mathdata.col = colFound;
 			mathdata.len = textFound.length();
-		
+
 			if(mathname=="$") {
 				mathdata.tag = mmMathDollar;
 				return true;
@@ -925,7 +922,7 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 				// else continue search
 			}
 		}
-		
+
 		// go ahead
 		searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
 	}
@@ -945,15 +942,15 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 {
 	KILE_DEBUG() << view;
-	
+
 	view = determineView(view);
-	
+
 	if(!view) {
 		return;
 	}
 
 	KTextEditor::Document* doc = view->document();
-	
+
 	if(!doc) {
 		return;
 	}
@@ -964,7 +961,7 @@ void EditorExtension::insertIntelligentNewline(KTextEditor::View *view)
 	int col = cursor.column();
 
 	QString newLineAndIndentationString = '\n' + extractIndentationString(view, row);
-	
+
 	if(isCommentPosition(doc, row, col)) {
 		KILE_DEBUG() << "found comment";
 		view->insertText(newLineAndIndentationString + "% ");
@@ -1012,7 +1009,7 @@ bool EditorExtension::findOpenedEnvironment(int &row, int &col, QString &envname
 	EnvData env;
 	int startrow = row;
 	int startcol = col;
-	
+
 	//KILE_DEBUG() << "   close - start ";
 	// accept a starting place outside an environment
 	bool env_position = isEnvironmentPosition(doc, row, col, env);
@@ -1025,7 +1022,7 @@ bool EditorExtension::findOpenedEnvironment(int &row, int &col, QString &envname
 		}
 		env_position = false;
 	}
-	
+
 	if(!env_position && findEnvironmentTag(doc, startrow, startcol, env, true)) {
 		//KILE_DEBUG() << "   close - found begin env at:  " << env.row << "/" << env.col << " " << env.name;
 		row = env.row;
@@ -1069,7 +1066,7 @@ QStringList EditorExtension::findOpenedEnvironmentList(KTextEditor::View *view, 
 				}
 			}
 		}
-	
+
 		while (findEnvironmentTag(doc, row, col, env, true)) {
 			row = env.row;
 			col = env.col;
@@ -1092,7 +1089,7 @@ QStringList EditorExtension::findOpenedEnvironmentList(KTextEditor::View *view, 
 		// reset cursor original position
 		view->setCursorPosition(KTextEditor::Cursor(currentRow, currentCol));
 	}
-	
+
 	return envlist;
 }
 
@@ -1106,7 +1103,7 @@ void EditorExtension::selectEnvironment(bool inside, KTextEditor::View *view)
 	}
 
 	EnvData envbegin,envend;
-	
+
 	if (!view->selection() || !expandSelectionEnvironment(inside,view)) {
 		if ( getEnvironment(inside,envbegin,envend,view) )
 			view->setSelection(KTextEditor::Range(envbegin.row, envbegin.col, envend.row, envend.col));
@@ -1121,7 +1118,7 @@ void EditorExtension::deleteEnvironment(bool inside, KTextEditor::View *view)
 	}
 
 	EnvData envbegin,envend;
-	
+
 	if(getEnvironment(inside, envbegin, envend, view)) {
 		KTextEditor::Document *doc = view->document();
 		view->removeSelection();
@@ -1140,7 +1137,7 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 	}
 
 	int row, col;
-	
+
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
@@ -1151,14 +1148,14 @@ bool EditorExtension::getEnvironment(bool inside, EnvData &envbegin, EnvData &en
 	if(!findEndEnvironment(doc, row, col, envend)) {
 		return false;
 	}
-	
+
 	if(inside) {
 		envbegin.col += envbegin.len;
 	}
 	else {
 		envend.col += envend.len;
 	}
-	
+
 	return true;
 }
 
@@ -1172,7 +1169,7 @@ QString EditorExtension::getEnvironmentText(int &row, int &col, QString &name, K
 	}
 
 	EnvData envbegin, envend;
-	
+
 	if(getEnvironment(false, envbegin, envend, view) && envbegin.name != "document") {
 		row = envbegin.row;
 		col = envbegin.col;
@@ -1195,7 +1192,7 @@ bool EditorExtension::hasEnvironment(KTextEditor::View *view)
 	return (getEnvironment(false, envbegin, envend, view) && envbegin.name != "document");
 }
 
-// when an environment is selected (inside or outside), 
+// when an environment is selected (inside or outside),
 // the selection is expanded to the surrounding environment
 
 bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View *view)
@@ -1210,7 +1207,7 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
 	col = cursor.column();
-	
+
 	// get current selection
 	KTextEditor::Range selectionRange = view->selectionRange();
 	int row1 = selectionRange.start().line();
@@ -1218,12 +1215,12 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 	int row2 = selectionRange.end().line();
 	int col2 = selectionRange.end().column();
 
-	// determine current environment outside 
+	// determine current environment outside
 	EnvData oenvbegin,oenvend;
 	if(!getEnvironment(false, oenvbegin, oenvend, view)) {
 		return false;
 	}
-	
+
 	bool newselection = false;
 	// first look, if this environment is selected outside
 	if(row1 == oenvbegin.row && col1 == oenvbegin.col && row2 == oenvend.row && col2 == oenvend.col) {
@@ -1240,7 +1237,7 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 		}
 	}
 	else {
-	// then determine current environment inside 
+	// then determine current environment inside
 		EnvData ienvbegin, ienvend;
 		getEnvironment(true, ienvbegin, ienvend, view);
 		// and look, if this environment is selected inside
@@ -1256,7 +1253,7 @@ bool EditorExtension::expandSelectionEnvironment(bool inside, KTextEditor::View 
 			}
 
 		}
-	} 
+	}
 
 	// restore old cursor position
 	view->setCursorPosition(KTextEditor::Cursor(row, col));
@@ -1279,7 +1276,7 @@ bool EditorExtension::findBeginEnvironment(KTextEditor::Document *doc, int row, 
 		//KILE_DEBUG() << "   is begin env at:  " << env.row << "/" << env.col << " " << env.name;
 			return true;
 		}
-	
+
 		// go one position back
 		//KILE_DEBUG() << "   is end env at:  " << env.row << "/" << env.col << " " << env.name;
 		row = env.row;
@@ -1288,7 +1285,7 @@ bool EditorExtension::findBeginEnvironment(KTextEditor::Document *doc, int row, 
 			return false;
 		}
 	}
-	
+
 	// looking back for last environment
 	//KILE_DEBUG() << "   looking back from pos:  " << row << "/" << col << " " << env.name;
 	return findEnvironmentTag(doc, row, col, env, true);
@@ -1335,7 +1332,7 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 	else {
 		searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
 	}
-	
+
 	KTextEditor::Search::SearchOptions searchOptions = (backwards) ? KTextEditor::Search::Regex | KTextEditor::Search::Backwards : KTextEditor::Search::Regex;
 
 	while(true) {
@@ -1421,17 +1418,17 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 {
 	// get real textline without comments, quoted characters and pairs of backslashes
 	QString textline = getTextLineReal(doc, row);
-	
+
 	if(col > textline.length()) {
 		return false;
 	}
-	
+
 	bool left = false;
-	
+
    KILE_DEBUG() << "col=" << col;
 	//KTextEditor::SearchInterface *iface;
 	//iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
-	
+
 	// check if there is a match in this line from the current position to the left
 	int startcol = (textline[col] == '\\') ? col - 1 : col;
 	if(startcol >= 1) {
@@ -1463,7 +1460,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 			KILE_DEBUG() << "search to the left: left=true, but also look to the right";
 		}
 	}
-	
+
 	// check if there is a match in this line from the current position to the right
 	KILE_DEBUG() << "search to the right " ;
 	if (textline[col] == '\\' && col == textline.indexOf(m_reg, col)) {
@@ -1483,7 +1480,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 		KILE_DEBUG() << "search to the right: stop";
 		return true;
 	}
-	
+
 	return left;
 }
 
@@ -1494,7 +1491,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 bool EditorExtension::isCommentPosition(KTextEditor::Document *doc, int row, int col)
 {
 	QString textline = doc->line(row);
-	
+
 	bool backslash = false;
 	for(int i = 0; i < col; ++i) {
 		if(textline[i] == '%') {
@@ -1512,7 +1509,7 @@ bool EditorExtension::isCommentPosition(KTextEditor::Document *doc, int row, int
 			backslash = false;               // no backslash
 		}
 	}
-	
+
 	return false;
 }
 
@@ -1523,7 +1520,7 @@ bool EditorExtension::isCommentPosition(KTextEditor::Document *doc, int row, int
 bool EditorExtension::isValidBackslash(KTextEditor::Document *doc, int row, int col)
 {
 	QString textline = doc->line(row);
-	
+
 	bool backslash = false;
 	for(int i = 0; i < col; ++i) {
 		if(textline[i] == '%') {
@@ -1541,7 +1538,7 @@ bool EditorExtension::isValidBackslash(KTextEditor::Document *doc, int row, int 
 			backslash = false;               // no backslash
 		}
 	}
-	
+
 	return !backslash;
 }
 
@@ -1595,7 +1592,7 @@ void EditorExtension::gotoBullet(bool backwards, KTextEditor::View *view)
 bool EditorExtension::increaseCursorPosition(KTextEditor::Document *doc, int &row, int &col)
 {
 	bool ok = true;
-	
+
 	if(col < doc->lineLength(row) - 1) {
 		++col;
 	}
@@ -1613,7 +1610,7 @@ bool EditorExtension::increaseCursorPosition(KTextEditor::Document *doc, int &ro
 bool EditorExtension::decreaseCursorPosition(KTextEditor::Document *doc, int &row, int &col)
 {
 	bool ok = true;
-	
+
 	if(col > 0) {
 		--col;
 	}
@@ -1636,18 +1633,18 @@ void EditorExtension::gotoTexgroup(bool backwards, KTextEditor::View *view)
 {
 	view = determineView(view);
 	if ( !view ) return;
-	
+
 	uint row,col;
 	bool found;
 	BracketData bracket;
-	
+
 	// get current position
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
 	col = cursor.column();
 	m_overwritemode = (view->viewEditMode() == KTextEditor::View::EditOverwrite);
-	
+
 	// start searching
 	if ( backwards )
 		found = findOpenBracket(doc,row,col,bracket);
@@ -1658,7 +1655,7 @@ void EditorExtension::gotoTexgroup(bool backwards, KTextEditor::View *view)
 		if ( ! m_overwritemode )
 		++bracket.col;
 	}
-	
+
 	if ( found )
 		view->setCursorPosition(KTextEditor::Cursor(bracket.row, bracket.col));
 }
@@ -1674,19 +1671,19 @@ void EditorExtension::matchTexgroup(KTextEditor::View *view)
 
 	int row, col;
 	BracketData bracket;
-	
+
 	// get current position
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
 	col = cursor.column();
 	m_overwritemode = (view->viewEditMode() == KTextEditor::View::EditOverwrite);
-	
+
 	// this operation is only allowed at a bracket position
 	if(!isBracketPosition(doc, row, col, bracket)) {
 		return;
 	}
-	
+
 	// start searching
 	bool found = false;
 	if(bracket.open) {
@@ -1702,7 +1699,7 @@ void EditorExtension::matchTexgroup(KTextEditor::View *view)
 		}
 		found = findOpenBracketTag(doc, bracket.row, bracket.col, bracket);
 	}
-	
+
 	if(found) {
 		view->setCursorPosition(KTextEditor::Cursor(bracket.row, bracket.col));
 	}
@@ -1721,18 +1718,18 @@ void EditorExtension::closeTexgroup(KTextEditor::View *view)
 
 	int row, col;
 	BracketData bracket;
-	
+
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
 	col = cursor.column();
-	
+
 	int rowtemp = row;
 	int coltemp = col;
 	if(!decreaseCursorPosition(doc, rowtemp, coltemp)) {
 		return;
 	}
-	
+
 	if(findOpenBracketTag(doc, rowtemp, coltemp, bracket)) {
 		doc->insertText(KTextEditor::Cursor(row, col), "}");
 		view->setCursorPosition(KTextEditor::Cursor(row, col + 1));
@@ -1749,7 +1746,7 @@ void EditorExtension::selectTexgroup(bool inside, KTextEditor::View *view)
 	}
 
 	BracketData open, close;
-	
+
 	if(getTexgroup(inside, open, close, view)) {
 		view->setSelection(KTextEditor::Range(open.row, open.col, close.row, close.col));
 	}
@@ -1782,21 +1779,21 @@ bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &c
 	}
 
 	int row, col;
-	
+
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
 	col = cursor.column();
-	
+
 	if(!findOpenBracket(doc, row, col, open))  {
-		//KILE_DEBUG() << "no open bracket"; 
+		//KILE_DEBUG() << "no open bracket";
 		return false;
 	}
 	if(!findCloseBracket(doc, row, col, close)) {
-		//KILE_DEBUG() << "no close bracket"; 
+		//KILE_DEBUG() << "no close bracket";
 		return false;
 	}
-	
+
 	if(inside) {
 		++open.col;
 	}
@@ -1820,7 +1817,7 @@ bool EditorExtension::findOpenBracket(KTextEditor::Document *doc, int row, int c
 		if(bracket.open) {
 			return true;
 		}
-		
+
 		// go one position back
 		row = bracket.row;
 		col = bracket.col;
@@ -1828,7 +1825,7 @@ bool EditorExtension::findOpenBracket(KTextEditor::Document *doc, int row, int c
 			return false;
 		}
 	}
-	
+
 	// looking back for last bracket
 	return findOpenBracketTag(doc, row, col, bracket);
 }
@@ -1849,7 +1846,7 @@ bool EditorExtension::findCloseBracket(KTextEditor::Document *doc, int row, int 
 		row = bracket.row;
 		col = bracket.col + 1;
 	}
-	
+
 	// looking forward for next bracket
 	return findCloseBracketTag(doc, row, col, bracket);
 }
@@ -1873,11 +1870,11 @@ bool EditorExtension::isBracketPosition(KTextEditor::Document *doc, int row, int
 	// default results
 	bracket.row = row;
 	bracket.col = col;
-	
+
 	QString textline = getTextLineReal(doc, row);
 	QChar right = textline[col];
 	QChar left  = (col > 0) ? textline[col-1] : QChar(' ');
-	
+
 	if (m_overwritemode) {
 		if(right == '{') {
 			bracket.open = true;
@@ -1935,7 +1932,7 @@ bool EditorExtension::findCloseBracketTag(KTextEditor::Document *doc, int row, i
 			}
 		}
 	}
-	
+
 	return false;
 }
 
@@ -1965,7 +1962,7 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
 			}
 		}
 	}
-	
+
 	//KILE_DEBUG() << "nothting found";
 	return false;
 }
@@ -2021,7 +2018,7 @@ QString EditorExtension::getTextLineReal(KTextEditor::Document *doc, int row)
 			backslash = false;
 		}
 	}
-	
+
 	// return real text
 	return textline.left(len);
 }
@@ -2042,7 +2039,7 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
 	if (col > textline.length()) {
 		return false;
 	}
-	
+
 	QRegExp reg;
 	QString pattern1, pattern2;
 	switch(mode) {
@@ -2064,7 +2061,7 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
 		break;
 	}
 	x1 = x2 = col;
-	
+
 	int pos;
 	// search to the left side
 	if(col > 0) {
@@ -2083,14 +2080,14 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
 			x1 = 0;               // pattern matches from beginning of line
 		}
 	}
-	
+
 	// search at the current position
 	reg.setPattern(pattern2);
 	pos = textline.indexOf(reg, col);
 	if(pos != -1 && pos == col) {
 		x2 = pos + reg.matchedLength();
 	}
-	
+
 	// get all characters
 	if(x1 != x2) {
 		word = textline.mid(x1, x2 - x1);
@@ -2112,7 +2109,7 @@ void EditorExtension::selectParagraph(KTextEditor::View *view)
 	}
 
 	int startline, endline;
-	
+
 	if(findCurrentTexParagraph(startline, endline, view)) {
 		view->setSelection(KTextEditor::Range(startline, 0, endline + 1, 0));
 	}
@@ -2125,7 +2122,7 @@ void EditorExtension::deleteParagraph(KTextEditor::View *view)
 		return;
 	}
 	int startline, endline;
-	
+
 	if(findCurrentTexParagraph(startline, endline, view)) {
 		KTextEditor::Document *doc = view->document();
 		view->removeSelection();
@@ -2149,23 +2146,22 @@ bool EditorExtension::findCurrentTexParagraph(int &startline, int &endline, KTex
 		return false;
 	}
 
-	int row, col;
-	
+	int row;
+
 	// get current position
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
-	col = cursor.column();
-	
+
 	// don't accept an empty line as part of a paragraph
 	if(doc->line(row).trimmed().isEmpty()) {
 		return false;
 	}
-	
+
 	// settings default results
 	startline = row;
 	endline = row;
-	
+
 	// find the previous empty line
 	for(int line = row - 1; line >= 0; --line) {
 		if(doc->line(line).trimmed().isEmpty()) {
@@ -2173,7 +2169,7 @@ bool EditorExtension::findCurrentTexParagraph(int &startline, int &endline, KTex
 		}
 		startline = line;
 	}
-	
+
 	// find the next empty line
 	for(int line = row + 1; line < doc->lines(); ++line) {
 		if(doc->line(line).trimmed().isEmpty()) {
@@ -2181,7 +2177,7 @@ bool EditorExtension::findCurrentTexParagraph(int &startline, int &endline, KTex
 		}
 		endline = line;
 	}
-	
+
 	// settings result
 	return true;
 }
@@ -2275,13 +2271,12 @@ void EditorExtension::selectLine(KTextEditor::View *view)
 	}
 
 	// get current position
-	int row, col;
+	int row;
 	QString word;
 	KTextEditor::Document *doc = view->document();
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
-	col = cursor.column();
-	
+
 	if(doc->lineLength(row) > 0) {
 		view->setSelection(KTextEditor::Range(row, 0, row + 1, 0));
 	}
@@ -2440,7 +2435,7 @@ void EditorExtension::initDoubleQuotes()
 
 bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 {
-	// don't insert double quotes, if konsole has focus 
+	// don't insert double quotes, if konsole has focus
 	// return false, because if this is called from an event
 	// handler, because this event has to be passed on
 	if(m_ki->texKonsole()->hasFocus()) {
@@ -2461,7 +2456,7 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 	}
 
 	view->removeSelectionText();
-	
+
 	int row, col;
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
@@ -2505,12 +2500,12 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 		int columnFound = range.start().column();
 		openFound = (doc->line(lineFound).indexOf(m_leftDblQuote, columnFound) == columnFound);
 	}
-	
+
 	QString textline = doc->line(row);
 	//KILE_DEBUG() << "text=" << textline << " open=" << openfound;
 	if(openFound) {
-		// If we last inserted a language specific doublequote open,  
-		// we have to change it to a normal doublequote. If not we 
+		// If we last inserted a language specific doublequote open,
+		// we have to change it to a normal doublequote. If not we
 		// insert a language specific doublequote close
 		int startcol = col - m_leftDblQuote.length();
 		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col ;
@@ -2523,8 +2518,8 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 		}
 	}
 	else {
-		// If we last inserted a language specific doublequote close,  
-		// we have to change it to a normal doublequote. If not we 
+		// If we last inserted a language specific doublequote close,
+		// we have to change it to a normal doublequote. If not we
 		// insert a language specific doublequote open
 		int startcol = col - m_rightDblQuote.length();
 		//KILE_DEBUG() << "startcol=" << startcol << " col=" << col ;
@@ -2543,7 +2538,7 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 // insert the proper LaTeX sequence and warn user of any dependencies.
 bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view)
 {
-	switch(rep) 
+	switch(rep)
 		{ // Find the unicode decimal representation
 		case 160:	return insertSpecialCharacter("~", view);
 		case 161:	return insertSpecialCharacter("!`", view);
@@ -2748,7 +2743,7 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 }
 
 // If allowed, inserts texString at current cursor postition. Startlingly similar to insertDoubleQuotes.
-bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEditor::View *view, const QString& dep) 
+bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEditor::View *view, const QString& dep)
 {
 	// stop if special character replacement is disabled
 	if (!m_specialCharacters) {
@@ -2767,7 +2762,7 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 	}
 
 	KTextEditor::Document *doc = view->document();
-	
+
 	// Only change if we have a tex document
 	if(!doc || !m_ki->extensions()->isTexFile(doc->url())) {
 		return false;
@@ -2775,7 +2770,7 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 
 	// In case of replace
 	view->removeSelectionText();
-	
+
 	int row, col;
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	row = cursor.line();
@@ -2786,8 +2781,8 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 
 	KILE_DEBUG() << "Replacing with "<<texString;
 
-	// Check dependency 
-	if (!dep.isEmpty()) { 
+	// Check dependency
+	if (!dep.isEmpty()) {
 		QStringList packagelist = m_ki->allPackages();
 		if(!packagelist.contains(dep)) {
 			m_ki->logWidget()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
@@ -2799,7 +2794,7 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 }
 
 //////////////////// insert tabulator ////////////////////
-	
+
 void EditorExtension::insertIntelligentTabulator()
 {
 	KTextEditor::View *view = determineView(NULL);
@@ -2810,14 +2805,14 @@ void EditorExtension::insertIntelligentTabulator()
 	int row, col, currentRow, currentCol;
 	QString envname,tab;
 	QString prefix = " ";
-	
+
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	currentRow = cursor.line();
 	currentCol = cursor.column();
 	if(findOpenedEnvironment(row, col, envname, view)) {
 		// look if this is an environment with tabs
 		tab = m_latexCommands->getTabulator(envname);
-		
+
 		// try to align tabulator with textline above
 		if(currentRow >= 1) {
 			int tabpos = view->document()->line(currentRow - 1).indexOf('&', currentCol);
@@ -2827,12 +2822,12 @@ void EditorExtension::insertIntelligentTabulator()
 			}
 		}
 	}
-	
+
 	if(tab.isEmpty()) {
 		tab = '&';
 	}
 	tab = prefix + tab + ' ';
-	
+
 	view->document()->insertText(KTextEditor::Cursor(currentRow, currentCol), tab);
 	view->setCursorPosition(KTextEditor::Cursor(currentRow, currentCol + tab.length()));
 }
@@ -2877,7 +2872,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 			envname = m_regexpEnter.cap(4);
 			endenv = m_regexpEnter.cap(2).replace("\\begin","\\end") + '\n';
 		}
-		
+
 		if(shouldCompleteEnv(envname, view)) {
 			QString item =  m_latexCommands->isListEnv(envname) ? "\\item " : QString();
 			view->document()->insertText(KTextEditor::Cursor(row, col), '\n' + line + m_envAutoIndent + item + '\n' + line + endenv);
@@ -2894,7 +2889,7 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *v
 	QRegExp reTestBegin,reTestEnd;
 	if(env == "\\[") {
 		KILE_DEBUG() << "display style";
-		reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\["); 
+		reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\[");
 		// the first part is a non-capturing bracket (?:...) and we check if we don't have a backslash in front,
 		//  or that we are at the begin of the line
 		reTestEnd.setPattern("(?:[^\\\\]|^)\\\\\\]");
@@ -2907,10 +2902,9 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *v
 	int num = view->document()->lines();
 	int numBeginsFound = 0;
 	int numEndsFound = 0;
-	uint realLine, realColumn;
+	uint realLine;
 	KTextEditor::Cursor cursor = view->cursorPosition();
 	realLine = cursor.line();
-	realColumn = cursor.column();
 
 	for(int i = realLine; i < num; ++i) {
 		numBeginsFound += view->document()->line(i).count(reTestBegin);
@@ -3034,7 +3028,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	col = col1 = item->startcol() - 1;
 
         // FIXME tbraun make this more clever, introdoce in kiledocinfo a flag which can be easily queried for that, so that we don'
-	// check, if the document was changed in the meantime 
+	// check, if the document was changed in the meantime
 	QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
 	QString textline = getTextLineReal(doc,row1);
 	if(reg.indexIn(textline, col1) != col1) {
@@ -3072,7 +3066,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 		case KileWidget::StructureWidget::SectioningCopy:
 			KApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
 		break;
-		case KileWidget::StructureWidget::SectioningPaste: 
+		case KileWidget::StructureWidget::SectioningPaste:
 			text = KApplication::clipboard()->text();                              // clipboard -> text
 			if(!text.isEmpty()) {
 				view->setCursorPosition(KTextEditor::Cursor(row2, col2));                             // insert
@@ -3088,7 +3082,7 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 		case KileWidget::StructureWidget::SectioningComment:
 			commentLaTeX(doc, KTextEditor::Range(row1, col1, row2, col2));
 		break;
-		case KileWidget::StructureWidget::SectioningPreview: 
+		case KileWidget::StructureWidget::SectioningPreview:
 			view->setSelection(KTextEditor::Range(row1, col1, row2, col2));                               // quick preview
 			m_ki->quickPreview()->previewSelection(view, false);
 			view->removeSelection();

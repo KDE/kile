@@ -50,6 +50,9 @@ ParserThread::~ParserThread()
 	// the end of this destructor
 	KILE_DEBUG() << "waiting for parser thread to finish...";
 	wait();
+	// and delete remaining queue items (no mutex is required
+	// as the thread's execution has stopped)
+	qDeleteAll(m_parserQueue);
 }
 
 void ParserThread::addParserInput(ParserInput *input)
@@ -150,10 +153,14 @@ void ParserThread::run()
 		// check if we should still be running before going to sleep
 		if(!m_keepParserThreadAlive) {
 			m_parserMutex.unlock();
+			// remaining queue elements are deleted in the destructor
 			return;
 		}
-		// but if there are no items to be parsed, we go to sleep
-		if(m_parserQueue.size() == 0) {
+		// but if there are no items to be parsed, we go to sleep.
+		// However, we have to be careful and use a 'while' loop here
+		// as it can happen that an item is added to the queue but this
+		// thread is woken up only after it has been removed again.
+		while(m_parserQueue.size() == 0 && m_keepParserThreadAlive) {
 			KILE_DEBUG() << "going to sleep...";
 			emit(parsingQueueEmpty());
 			m_queueEmptyWaitCondition.wait(&m_parserMutex);
@@ -163,6 +170,7 @@ void ParserThread::run()
 		// that case the queue might still be empty
 		if(!m_keepParserThreadAlive) {
 			m_parserMutex.unlock();
+			// remaining queue elements are deleted in the destructor
 			return;
 		}
 		Q_ASSERT(m_parserQueue.size() > 0);
@@ -190,6 +198,7 @@ void ParserThread::run()
 		emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
 	}
 	KILE_DEBUG() << "leaving...";
+	// remaining queue elements are deleted in the destructor
 }
 
 DocumentParserThread::DocumentParserThread(KileInfo *info, QObject *parent)

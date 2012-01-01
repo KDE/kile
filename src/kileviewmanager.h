@@ -118,6 +118,8 @@ public:
 	void setupViewerPart(QSplitter *splitter);
 	bool openInDocumentViewer(const KUrl& url);
 	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
+	void setLivePreviewModeForDocumentViewer(bool b);
+	bool livePreviewModeForDocumentViewer() const;
 
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
@@ -164,7 +166,7 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 	void tabContext(QWidget* widget,const QPoint & pos);
-  
+
 // KTextEditor::MdiContainer
 public:
 	void registerMdiContainer();
@@ -212,6 +214,7 @@ private:
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
 	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
+	bool				m_livePreviewModeForViewerPart;
 };
 
 /**

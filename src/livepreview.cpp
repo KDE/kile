@@ -220,6 +220,7 @@ void LivePreviewManager::previewForCurrentDocumentActionToggled(bool b)
 	}
 	else {
 		stopAndClearPreview();
+		m_ki->viewManager()->setLivePreviewModeForDocumentViewer(false);
 	}
 }
 
@@ -230,6 +231,7 @@ void LivePreviewManager::disablePreview(PreviewInformation *previewInformation)
 	}
 	stopAndClearPreview();
 	m_previewForCurrentDocumentAction->setChecked(false);
+	m_ki->viewManager()->setLivePreviewModeForDocumentViewer(false);
 }
 
 void LivePreviewManager::stopAndClearPreview()
@@ -652,6 +654,7 @@ void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::TextInfo *t
 void LivePreviewManager::compilePreview(KileDocument::TextInfo *info, KTextEditor::View *view)
 {
 	KILE_DEBUG() << "updating preview";
+	m_ki->viewManager()->setLivePreviewModeForDocumentViewer(true);
 	m_runningPathToPreviewPathHash.clear();
 	m_runningPreviewPathToPathHash.clear();
 

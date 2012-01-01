@@ -375,6 +375,10 @@
 			<label>Whether the current directory shown in the console is kept synchronized with the open tabs</label>
 			<default>true</default>
 		</entry>
+		<entry name="WatchFileForDocumentViewer" type="Bool">
+			<label>Whether the watch-file mode is enabled for the document viewer</label>
+			<default>true</default>
+		</entry>
 	</group>
 	<group name="Complete">
 		<entry name="CompleteCursor" type="Bool">

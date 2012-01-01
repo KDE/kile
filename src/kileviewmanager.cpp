@@ -48,6 +48,7 @@
 #include "kiledocmanager.h"
 #include "kileextensions.h"
 #include "kiletool_enums.h"
+#include "livepreview.h"
 #include "widgets/projectview.h"
 #include "widgets/structurewidget.h"
 #include "editorextension.h"
@@ -99,7 +100,8 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	m_emptyDropWidget(NULL),
 	m_pasteAsLaTeXAction(NULL),
 	m_convertToLaTeXAction(NULL),
-	m_quickPreviewAction(NULL)
+	m_quickPreviewAction(NULL),
+	m_livePreviewModeForViewerPart(false)
 {
 	setObjectName(name);
 	registerMdiContainer();
@@ -151,6 +153,11 @@ void Manager::readConfig(QSplitter *splitter)
 	setupViewerPart(splitter);
 
 	setDocumentViewerVisible(KileConfig::showDocumentViewer());
+
+	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+	if(viewerInterface && !livePreviewModeForDocumentViewer()) {
+		viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
+	}
 }
 
 void Manager::writeConfig()
@@ -1012,6 +1019,29 @@ void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int li
 	if(v) {
 		v->showSourceLocation(fileName, line, column, true);
 	}
+}
+
+bool Manager::livePreviewModeForDocumentViewer() const
+{
+	return m_livePreviewModeForViewerPart;
+}
+
+void Manager::setLivePreviewModeForDocumentViewer(bool b)
+{
+	if(m_livePreviewModeForViewerPart == b) {
+		return;
+	}
+	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+	if(viewerInterface) {
+		if(b) {
+			viewerInterface->setWatchFileModeEnabled(false);
+		}
+		else {
+			viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
+
+		}
+	}
+	m_livePreviewModeForViewerPart = b;
 }
 
 //END ViewerPart methods

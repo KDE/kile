@@ -130,6 +130,7 @@ SET(kile_SRCS
 	parser/latexparser.cpp
 	parser/bibtexparser.cpp
 	parser/latexoutputparser.cpp
+	livepreview_utils.cpp
 )
 
 IF( LIVEPREVIEW_POSSIBLE )

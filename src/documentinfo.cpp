@@ -2,7 +2,7 @@
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -301,7 +301,7 @@ void Info::count(const QString& line, long *stat)
 					}
 				}
 			break;
-	
+
 			case stControlSequence :
 				if(c.isLetter()) {
 				// "\begin{[a-zA-z]+}" is an environment, and you can't define a command like \begin
@@ -328,7 +328,7 @@ void Info::count(const QString& line, long *stat)
 					state = stStandard;
 				}
 			break;
-	
+
 			case stCommand :
 				if(c.isLetter()) {
 					++stat[1];
@@ -345,7 +345,7 @@ void Info::count(const QString& line, long *stat)
 					state = stStandard;
 				}
 			break;
-	
+
 			case stEnvironment :
 				if(c == TEX_CAT2) { // until we find a closing } we have an environment
 					++stat[1];
@@ -358,7 +358,7 @@ void Info::count(const QString& line, long *stat)
 					++stat[1];
 				}
 			break;
-	
+
 			case stComment : // if we get a selection the line possibly contains \n and so the comment is only valid till \n and not necessarily till line.length()
 				if(c == '\n') {
 					++stat[2]; // \n was counted as punctuation in the old implementation
@@ -366,7 +366,7 @@ void Info::count(const QString& line, long *stat)
 					word = false;
 				}
 			break;
-	
+
 			default :
 				kWarning() << "Unhandled state in getStatistics " << state;
 			break;

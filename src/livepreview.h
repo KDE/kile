@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -51,8 +51,8 @@ public:
 	bool run(const QString &text,const QString &textfilename,int startrow);
 	bool isRunning();
 
-	void compilePreview(KileDocument::TextInfo *info, KTextEditor::View *view);
-	void showPreviewCompileIfNecessary(KileDocument::TextInfo *info, KTextEditor::View *view);
+	void compilePreview(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
+	void showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
 
 	bool isLivePreviewActive() const;
 	bool isLivePreviewPossible() const;
@@ -86,7 +86,7 @@ public Q_SLOTS:
 private Q_SLOTS:
 	void handleDocumentModificationTimerTimeout();
 
-	void removeTextInfo(KileDocument::TextInfo *info);
+	void removeLaTeXInfo(KileDocument::LaTeXInfo *info);
 	void removeProject(KileProject *project);
 
 	void toolDestroyed();
@@ -103,8 +103,8 @@ private Q_SLOTS:
 
 	void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);
 
-	void synchronizeViewWithCursorActionToggled(bool b);
-	void previewForCurrentDocumentActionToggled(bool b);
+	void synchronizeViewWithCursorActionTriggered(bool b);
+	void previewForCurrentDocumentActionTriggered(bool b);
 
 	void handleCursorPositionChangedTimeout();
 
@@ -120,7 +120,7 @@ private:
 	QHash<QString, QString> m_runningPathToPreviewPathHash;
 	QHash<QString, QString> m_runningPreviewPathToPathHash;
 	QString m_runningPreviewFile;
-	KileDocument::TextInfo *m_runningTextInfo;
+	KileDocument::LaTeXInfo *m_runningLaTeXInfo;
 	KTextEditor::View *m_runningTextView;
 	KileProject *m_runningProject;
 	PreviewInformation *m_runningPreviewInformation;
@@ -128,11 +128,12 @@ private:
 
 	PreviewInformation *m_shownPreviewInformation;
 
-	QHash<KileDocument::TextInfo*, PreviewInformation*> m_textInfoToPreviewInformationHash;
+	QHash<KileDocument::LaTeXInfo*, PreviewInformation*> m_latexInfoToPreviewInformationHash;
 	QHash<KileProject*, PreviewInformation*> m_projectToPreviewInformationHash;
 	PreviewInformation *m_masterDocumentPreviewInformation;
 
-	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL);
+	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL,
+	                                                                               LivePreviewUserStatusHandler* *userStatusHandler = NULL);
 
 	void updatePreviewInformationAfterCompilationFinished();
 
@@ -159,7 +160,7 @@ private:
 
 	void fillTextHashForMasterDocument(QHash<KileDocument::TextInfo*, QByteArray> &textHash);
 
-	void disablePreview(PreviewInformation *previewInformation);
+	void disablePreview();
 };
 
 }

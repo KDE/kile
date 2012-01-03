@@ -392,7 +392,7 @@ namespace KileTool {
 				emit(message(Error, i18n("The document viewer is not available")));
 				return false;
 			}
-			if(tool()->manager()->viewManager()->livePreviewModeForDocumentViewer()) {
+			if(tool()->manager()->livePreviewManager()->isLivePreviewActive()) {
 				emit(message(Error, i18n("Please disable the live preview before launching this tool")));
 				return false;
 			}

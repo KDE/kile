@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2009-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 #include <QRegExp>
 
 #include "kiledebug.h"
+#include "livepreview_utils.h"
 
 #include <KConfig>
 #include <KUrl>
@@ -118,7 +119,7 @@ public:
 public Q_SLOTS:
 	/**
 	 * @warning Does nothing if "url" is empty !
-	 **/ 
+	 **/
 	void changeURL(const KUrl &url);
 	void changePath(const QString& path) { m_path = path;}
 
@@ -146,7 +147,7 @@ private:
 /**
  * KileProject
  **/
-class KileProject : public QObject
+class KileProject : public QObject, public KileTool::LivePreviewUserStatusHandler
 {
 	Q_OBJECT
 	friend class KileProjectItem;

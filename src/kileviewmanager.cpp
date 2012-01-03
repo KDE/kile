@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -100,8 +100,7 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	m_emptyDropWidget(NULL),
 	m_pasteAsLaTeXAction(NULL),
 	m_convertToLaTeXAction(NULL),
-	m_quickPreviewAction(NULL),
-	m_livePreviewModeForViewerPart(false)
+	m_quickPreviewAction(NULL)
 {
 	setObjectName(name);
 	registerMdiContainer();
@@ -155,8 +154,13 @@ void Manager::readConfig(QSplitter *splitter)
 	setDocumentViewerVisible(KileConfig::showDocumentViewer());
 
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
-	if(viewerInterface && !livePreviewModeForDocumentViewer()) {
+	if(viewerInterface && !m_ki->livePreviewManager()->isLivePreviewActive()) {
 		viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
+		// also reload the document; this is necessary for switching back on watch-file mode as otherwise
+		// it would only enabled after the document has been reloaded anyway
+		if(m_viewerPart->url().isValid()) {
+			m_viewerPart->openUrl(m_viewerPart->url());
+		}
 	}
 }
 
@@ -1021,16 +1025,8 @@ void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int li
 	}
 }
 
-bool Manager::livePreviewModeForDocumentViewer() const
-{
-	return m_livePreviewModeForViewerPart;
-}
-
 void Manager::setLivePreviewModeForDocumentViewer(bool b)
 {
-	if(m_livePreviewModeForViewerPart == b) {
-		return;
-	}
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface) {
 		if(b) {
@@ -1041,7 +1037,6 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 
 		}
 	}
-	m_livePreviewModeForViewerPart = b;
 }
 
 //END ViewerPart methods

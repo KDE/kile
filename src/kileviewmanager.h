@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -119,7 +119,6 @@ public:
 	bool openInDocumentViewer(const KUrl& url);
 	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
 	void setLivePreviewModeForDocumentViewer(bool b);
-	bool livePreviewModeForDocumentViewer() const;
 
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
@@ -214,7 +213,6 @@ private:
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
 	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
-	bool				m_livePreviewModeForViewerPart;
 };
 
 /**

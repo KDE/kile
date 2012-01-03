@@ -894,8 +894,13 @@ void LivePreviewManager::refreshLivePreview()
 	handleTextViewActivated(textView, false); // don't automatically clear the preview
 }
 
-void LivePreviewManager::removeLaTeXInfo(KileDocument::LaTeXInfo *latexInfo)
+void LivePreviewManager::removeLaTeXInfo(KileDocument::TextInfo *textInfo)
 {
+	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(textInfo);
+	if(!latexInfo) {
+		return;
+	}
+
 	if(!m_latexInfoToPreviewInformationHash.contains(latexInfo)) {
 		return; // nothing to be done
 	}

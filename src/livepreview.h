@@ -86,7 +86,8 @@ public Q_SLOTS:
 private Q_SLOTS:
 	void handleDocumentModificationTimerTimeout();
 
-	void removeLaTeXInfo(KileDocument::LaTeXInfo *info);
+	// TextInfo* object due to the signal 'aboutToBeDestroyed(KileDocument::TextInfo*)'
+	void removeLaTeXInfo(KileDocument::TextInfo *info);
 	void removeProject(KileProject *project);
 
 	void toolDestroyed();

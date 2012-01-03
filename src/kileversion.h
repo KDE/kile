@@ -1,7 +1,7 @@
 /****************************************************************************************
     begin                : Wednesday Jan 25 2006
     copyright            : (C) 2006 by Thomas Braun (thomas.braun@virtuell-zuhause.de)
-                               2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -20,7 +20,7 @@
 #include <QString>
 
 const QString kileVersion="2.1";
-const QString kileFullVersion="2.1.0"; // only use numbers and '.'
+const QString kileFullVersion="2.1.1"; // only use numbers and '.'
 const QString kilePrVersion="2";
 
 /**

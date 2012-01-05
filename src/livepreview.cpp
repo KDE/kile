@@ -174,6 +174,7 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 
 void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
 {
+#ifdef HAVE_VIEWERINTERFACE_H
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	if(!b || !view) {
 		Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_ki->viewManager()->viewerPart());
@@ -187,6 +188,9 @@ void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
 		// showPreviewCompileIfNecessary synchronizes the view with the cursor
 		showPreviewCompileIfNecessary(latexInfo, view);
 	}
+#else
+	Q_UNUSED(b);
+#endif
 }
 
 void LivePreviewManager::previewForCurrentDocumentActionTriggered(bool b)

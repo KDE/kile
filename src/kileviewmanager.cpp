@@ -113,8 +113,10 @@ Manager::~Manager()
 	KILE_DEBUG();
 
 	// the parent of the widget might be NULL; see 'destroyDocumentViewerWindow()'
-	delete m_viewerPart->widget();
-	delete m_viewerPart;
+	if(m_viewerPart) {
+		delete m_viewerPart->widget();
+		delete m_viewerPart;
+	}
 
 	destroyDocumentViewerWindow();
 }
@@ -153,6 +155,7 @@ void Manager::readConfig(QSplitter *splitter)
 
 	setDocumentViewerVisible(KileConfig::showDocumentViewer());
 
+#ifdef HAVE_VIEWERINTERFACE_H
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface && !m_ki->livePreviewManager()->isLivePreviewActive()) {
 		viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
@@ -162,6 +165,7 @@ void Manager::readConfig(QSplitter *splitter)
 			m_viewerPart->openUrl(m_viewerPart->url());
 		}
 	}
+#endif
 }
 
 void Manager::writeConfig()
@@ -913,11 +917,14 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 			printPreviewAction->setText(i18n("Print Preview For Compiled Document..."));
 		}
 	}
+#else
+	Q_UNUSED(actionCollection);
 #endif
 }
 
 void Manager::setupViewerPart(QSplitter *splitter)
 {
+#ifdef HAVE_VIEWERINTERFACE_H
 	if(!m_viewerPart) {
 		return;
 	}
@@ -943,6 +950,9 @@ void Manager::setupViewerPart(QSplitter *splitter)
 		splitter->addWidget(m_viewerPart->widget()); // remove it from the window first!
 		destroyDocumentViewerWindow();
 	}
+#else
+	Q_UNUSED(splitter);
+#endif
 }
 
 void Manager::destroyDocumentViewerWindow()
@@ -1008,6 +1018,7 @@ bool Manager::isViewerPartShown() const
 
 bool Manager::openInDocumentViewer(const KUrl& url)
 {
+#ifdef HAVE_VIEWERINTERFACE_H
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(!v) {
 		return false;
@@ -1015,18 +1026,29 @@ bool Manager::openInDocumentViewer(const KUrl& url)
 	bool r = m_viewerPart->openUrl(url);
 	v->clearLastShownSourceLocation();
 	return r;
+#else
+	Q_UNUSED(url);
+	return false;
+#endif
 }
 
 void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int line, int column)
 {
+#ifdef HAVE_VIEWERINTERFACE_H
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(v) {
 		v->showSourceLocation(fileName, line, column, true);
 	}
+#else
+	Q_UNUSED(fileName);
+	Q_UNUSED(line);
+	Q_UNUSED(column);
+#endif
 }
 
 void Manager::setLivePreviewModeForDocumentViewer(bool b)
 {
+#ifdef HAVE_VIEWERINTERFACE_H
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface) {
 		if(b) {
@@ -1037,6 +1059,9 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 
 		}
 	}
+#else
+	Q_UNUSED(b);
+#endif
 }
 
 //END ViewerPart methods

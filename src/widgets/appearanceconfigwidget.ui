@@ -34,7 +34,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="documentViewerGroupBox">
      <property name="enabled">
       <bool>true</bool>
      </property>

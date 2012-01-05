@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -13,11 +13,17 @@
 
 #include "appearanceconfigwidget.h"
 
+#include "config.h"
+
 KileWidgetAppearanceConfig::KileWidgetAppearanceConfig(KConfig *config, QWidget *parent)
  : QWidget(parent),
    m_config(config)
 {
 	setupUi(this);
+
+#ifndef HAVE_VIEWERINTERFACE_H
+	documentViewerGroupBox->setEnabled(false);
+#endif
 }
 
 KileWidgetAppearanceConfig::~KileWidgetAppearanceConfig()

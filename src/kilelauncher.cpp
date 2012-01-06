@@ -15,8 +15,12 @@
 
 #include "kilelauncher.h"
 
+#include "config.h"
+
 #include "docpart.h"
-#include "livepreview.h"
+#ifdef HAVE_VIEWERINTERFACE_H
+  #include "livepreview.h"
+#endif
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kiletool.h"
@@ -384,7 +388,7 @@ namespace KileTool {
 		m_className = tool()->readEntry("className");
 		m_options = tool()->readEntry("libOptions");
 		m_state = tool()->readEntry("state");
-
+#ifdef HAVE_VIEWERINTERFACE_H
 		// check if should use the document viewer
 		if(tool()->readEntry("useDocumentViewer") == "yes") {
 			// and whether it's available
@@ -408,7 +412,7 @@ namespace KileTool {
 
 			return true;
 		}
-
+#endif
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
 		QString name, shrt;

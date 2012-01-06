@@ -2352,7 +2352,11 @@ void Kile::quickPdf()
 void Kile::helpLaTex()
 {
 	QString loc = KGlobal::dirs()->findResource("appdata","help/latexhelp.html");
-	KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager, false);
+	KileTool::Base *tool = toolManager()->createTool("ViewHTML", QString(), false);
+	if(!tool) {
+		m_logWidget->printMessage(KileTool::Error, i18n("Could not create the \"ViewHTML\" tool. Please reset the tools."));
+		return;
+	}
 	tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
 	tool->setSource(loc);
 	tool->setTargetPath(loc);

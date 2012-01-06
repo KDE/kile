@@ -61,10 +61,10 @@ namespace KileTool
 
 		Q_SIGNALS:
 			void jumpToFirstError();
-	
+
 		public Q_SLOTS:
 			bool finish(int);
-	
+
 		protected:
 			void checkErrors();
 			void checkAutoRun();
@@ -96,7 +96,7 @@ namespace KileTool
 
 		public Q_SLOTS:
 			bool finish(int);
-			
+
 		private:
 			QString m_filename;
 			int m_selrow;
@@ -134,10 +134,10 @@ namespace KileTool
 	class ForwardDVI : public View
 	{
 		friend class KileTool::Factory;
-		public:
-			ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
 
 		protected:
+			ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
+
 			bool determineTarget();
 			bool checkPrereqs();
 	};
@@ -145,10 +145,10 @@ namespace KileTool
 	class ViewBib : public View
 	{
 		friend class KileTool::Factory;
-		public:
-			ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
-	
+
 		protected:
+			ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
+
 			bool determineSource();
 	};
 
@@ -157,12 +157,11 @@ namespace KileTool
 		Q_OBJECT
 		friend class KileTool::Factory;
 
-		public:
-			ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);
-	
 		protected:
+			ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);
+
 			bool determineTarget();
-	
+
 		Q_SIGNALS:
 			void updateStatus(bool, bool);
 	};

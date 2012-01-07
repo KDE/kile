@@ -182,10 +182,8 @@ namespace KileTool
 
 		m_toolResult = r;
 
-		if(r != Success) {
-			return Compile::finish(r);
-		}
-
+		// we always try to parse the log file in order to detect
+		// errors reported by LaTeX
 		QString log = targetDir() + '/' + S() + ".log";
 		manager()->parserManager()->parseOutput(this, log, source());
 

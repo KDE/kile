@@ -33,7 +33,7 @@
 namespace KileHelp
 {
 
-UserHelp::UserHelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu, QWidget* mainWindow) 
+UserHelp::UserHelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu, QWidget* mainWindow)
 	: m_manager(manager), m_userHelpActionMenu(userHelpActionMenu), m_mainWindow(mainWindow)
 {
 	setupUserHelpMenu();
@@ -56,7 +56,7 @@ void UserHelp::readConfig(QStringList& menuList, QList<KUrl>& fileList)
 {
 	menuList.clear();
 	fileList.clear();
-	
+
 	// first read all entries
 	KConfig *config = m_manager->config();
 	KConfigGroup configGroup = config->group("UserHelp");
@@ -77,11 +77,11 @@ void UserHelp::writeConfig(const QStringList& menuList, const QList<KUrl>& fileL
 {
 	//KILE_DEBUG() << "\tuserhelp: write config";
 	int entries = menuList.count();
-	
+
 	// first delete old entries
 	KConfig *config = m_manager->config();
 	config->deleteGroup("UserHelp");
-	
+
 	// then write new entries
 	KConfigGroup configGroup = config->group("UserHelp");
 	configGroup.writeEntry("entries", entries);
@@ -176,7 +176,10 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 		}
 	}
 
-	KileTool::Base *tool = m_manager->createTool(type, cfg, false);
+	KileTool::Base *tool = NULL;
+	if(!type.isEmpty() && type != "ViewHTML") {
+		tool = m_manager->createTool(type, cfg, false);
+	}
 	if(tool) {
 		tool->setFlags(0);
 		tool->setSource(url.toLocalFile());

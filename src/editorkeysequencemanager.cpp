@@ -15,6 +15,7 @@
 
 #include "kileinfo.h"
 #include "scriptmanager.h"
+#include "scripting/script.h"
 
 #include <QEvent>
 #include <QKeyEvent>

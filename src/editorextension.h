@@ -1,8 +1,7 @@
 /*********************************************************************************************
-    date                 : Feb 20 2007
-    version              : 0.45
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
                                2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2012      by Holger Danielsson (holger.danielsson@versanet.de)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -51,6 +50,8 @@ public:
 
 	QString getTextLineReal(KTextEditor::Document *doc, int row);
 	void gotoBullet(bool backwards, KTextEditor::View *view = NULL);
+	void selectLine(int line,KTextEditor::View *view = NULL);
+	bool replaceLine(int line, const QString &s, KTextEditor::View *view = NULL);
 
 	void gotoEnvironment(bool backwards, KTextEditor::View *view = NULL);
 	void matchEnvironment(KTextEditor::View *view = NULL);
@@ -60,26 +61,48 @@ public:
 	void deleteEnvironment(bool inside, KTextEditor::View *view = NULL);
 	QString autoIndentEnvironment() { return m_envAutoIndent; }
 
+	bool hasTexgroup(KTextEditor::View *view = NULL);
 	void gotoTexgroup(bool backwards, KTextEditor::View *view = NULL);
 	void selectTexgroup(bool inside, KTextEditor::View *view = NULL);
 	void deleteTexgroup(bool inside, KTextEditor::View *view = NULL);
+	KTextEditor::Range texgroupRange(bool inside=true, KTextEditor::View *view = NULL);
+	QString getTexgroupText(bool inside=true, KTextEditor::View *view = NULL);
 
 	/**
 	 * Returns a (potentially) translated list of options for inserting double quotes
 	 */
 	const QStringList doubleQuotesListI18N() { return m_quoteListI18N; }
-	
+
 	// get current word
 	bool getCurrentWord(KTextEditor::Document *doc, int row, int col, SelectMode mode, QString &word, int &x1, int &x2);
 	QString getEnvironmentText(int &row, int &col, QString &name, KTextEditor::View *view = NULL);
 	bool hasEnvironment(KTextEditor::View *view = NULL);
+
+	KTextEditor::Range environmentRange(bool inside=false, KTextEditor::View *view = NULL);
+	QString environmentName(KTextEditor::View *view = NULL);
+	QString environmentText(bool inside=false, KTextEditor::View *view = NULL);
+
+	KTextEditor::Range wordRange(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = NULL);
+	QString word(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = NULL);
+
+	KTextEditor::Range findCurrentParagraphRange(KTextEditor::View *view);
+	QString getParagraphText(KTextEditor::View *view);
+	int prevNonEmptyLine(int line, KTextEditor::View *view = NULL);
+	int nextNonEmptyLine(int line, KTextEditor::View *view = NULL);
 
 	// complete environment
 	bool eventInsertEnvironment(KTextEditor::View *view);
 
 	// mathgroup
 	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = NULL);
+	QString getMathgroupText(KTextEditor::View *view = NULL);
 	bool hasMathgroup(KTextEditor::View *view = NULL);
+	KTextEditor::Range  mathgroupRange(KTextEditor::View *view = NULL);
+
+	bool moveCursorRight(KTextEditor::View *view = NULL);
+	bool moveCursorLeft(KTextEditor::View *view = NULL);
+	bool moveCursorUp(KTextEditor::View *view = NULL);
+	bool moveCursorDown(KTextEditor::View *view = NULL);
 
 public Q_SLOTS:
 	void insertIntelligentNewline(KTextEditor::View *view = NULL);
@@ -93,7 +116,7 @@ public Q_SLOTS:
 	void matchEnv() { matchEnvironment(); }
 	void closeEnv() {closeEnvironment(); }
 	void closeAllEnv() {closeAllEnvironments(); }
-	
+
 	void selectTexgroupInside() { selectTexgroup(true); }
 	void selectTexgroupOutside() { selectTexgroup(false); }
 	void deleteTexgroupInside() { deleteTexgroup(true); }
@@ -105,6 +128,7 @@ public Q_SLOTS:
 
 	void selectParagraph(KTextEditor::View *view = NULL);
 	void selectLine(KTextEditor::View *view = NULL);
+	void selectLines(int from, int to, KTextEditor::View *view = NULL);
 	void selectWord(SelectMode mode = smTex, KTextEditor::View *view = NULL);
 	void deleteParagraph(KTextEditor::View *view = NULL);
 	void deleteEndOfLine(KTextEditor::View *view = NULL);
@@ -122,15 +146,16 @@ public Q_SLOTS:
 
 	void gotoNextSectioning();
 	void gotoPrevSectioning();
+	void gotoSectioning(bool backwards, KTextEditor::View *view = NULL);
 	void sectioningCommand(KileWidget::StructureViewItem *item, int id);
 
 	bool insertDoubleQuotes(KTextEditor::View *view = NULL);
 	void initDoubleQuotes();
-	
+
 	bool insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view);
 	bool insertSpecialCharacter(const QString& texString, KTextEditor::View *view = NULL, const QString& dep = "");
 
-	void insertIntelligentTabulator();
+	void insertIntelligentTabulator(KTextEditor::View *view = NULL);
 
 	void moveCursorToLastPositionInCurrentLine(KTextEditor::View *view = NULL);
 	void keyReturn(KTextEditor::View *view = NULL);
@@ -145,6 +170,8 @@ private:
 	enum EnvPos {EnvLeft, EnvInside, EnvRight};
 
 	enum MathTag {mmNoMathMode, mmMathDollar, mmMathParen, mmDisplaymathParen, mmMathEnv, mmDisplaymathEnv};
+
+	enum CursorMove {MoveCursorLeft, MoveCursorRight, MoveCursorUp, MoveCursorDown};
 
 	struct EnvData {
 		int row;
@@ -188,10 +215,11 @@ private:
 
 	// special chars
 	bool m_specialCharacters;
-	
+
 	// change cursor position
 	bool increaseCursorPosition(KTextEditor::Document *doc, int &row, int &col);
 	bool decreaseCursorPosition(KTextEditor::Document *doc, int &row, int &col);
+	bool moveCursor(KTextEditor::View *view, CursorMove direction);
 
 	// check position
 	bool isValidBackslash(KTextEditor::Document *doc, int row, int col);
@@ -233,23 +261,23 @@ private:
 	bool findCurrentTexParagraph(int &startline, int &endline, KTextEditor::View *view);
 
 	// sectioning commands
-	void gotoSectioning(bool backwards, KTextEditor::View *view = NULL);
 	bool findEndOfDocument(KTextEditor::Document *doc, int row, int col, int &rowFound, int &colFound);
 
 	// check environment type
-	KileDocument::LatexCommands *m_latexCommands;	
+	KileDocument::LatexCommands *m_latexCommands;
 	bool shouldCompleteEnv(const QString &envname, KTextEditor::View *view);
 	QString getWhiteSpace(const QString &s);
 
 	// verbatim text
 	bool insideVerb(KTextEditor::View *view);
 	bool insideVerbatim(KTextEditor::View *view);
-	
+
 	// help
 	void readHelpList(QString const &filename);
 
 	KTextEditor::View *determineView(KTextEditor::View *view);
-	
+	void deleteRange(KTextEditor::Range &range, KTextEditor::View *view);
+
 	QString extractIndentationString(KTextEditor::View *view, int line);
 };
 

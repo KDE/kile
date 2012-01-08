@@ -12,6 +12,7 @@
 ***************************************************************************/
 
 #include "widgets/scriptsmanagementwidget.h"
+#include "dialogs/scriptshortcutdialog.h"
 
 #include <QLayout>
 #include <QList>
@@ -28,6 +29,7 @@
 #include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "scriptmanager.h"
+#include "scripting/script.h"
 
 /*
  * We do not use the 'watchedKeySequencesChanged' signal as it creates lots of problems with the setKeySequences... methods.
@@ -166,12 +168,18 @@ void ScriptsManagement::configureSelectedKeySequence() {
 	if(selectedItems.isEmpty()) {
 		return;
 	}
+
 	KileScript::Script *script = static_cast<ScriptListItem*>(selectedItems.first())->getScript();
 	// better not use the QTreeWidgetItem as it can be destroyed as a side effect of the setEditorKeySequence method.
 	QString oldSequence = script->getKeySequence();
-	bool ok;
-	QString value = KInputDialog::getText(i18n("New Key Sequence"), i18n("Please enter a new key sequence:"), oldSequence, &ok, m_kileInfo->mainWindow());
-	if(!ok) {
+
+	// execute ScriptShortcutDialog
+	KileDialog::ScriptShortcutDialog *dialog = new KileDialog::ScriptShortcutDialog(this, m_kileInfo, oldSequence);
+	int result = dialog->exec();
+	QString value = dialog->keySequence();
+	delete dialog;
+
+	if ( result == QDialog::Rejected ) {
 		return;
 	}
 
@@ -185,23 +193,31 @@ void ScriptsManagement::configureSelectedKeySequence() {
 		QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(value, oldSequence);
 		if(pair.first == 0) {
 			m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
-		}
-		KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
-		QString description = (!action) ? QString() : action->getDescription();
-		switch(pair.first) {
-			case 1:
-				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is already assigned to the action \"%2\"", value, description), i18n("Sequence Already Assigned"));
-				return;
-			case 2:
-				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", value, pair.second, description), i18n("Sequence Already Assigned"));
-				return;
-			case 3:
-				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
-				return;
+		} else {
+			// TODO is this still necessary as KKeySequenceWidget should reject these cases?
+			KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
+			QString description = (!action) ? QString() : action->getDescription();
+
+			KILE_DEBUG() << "-------------------------------------------------------------------------------> reject selected shortcut: " << pair.first;
+			switch(pair.first) {
+				case 1:
+					KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is already assigned to the action \"%2\"", value, description), i18n("Sequence Already Assigned"));
+					return;
+				case 2:
+					KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", value, pair.second, description), i18n("Sequence Already Assigned"));
+					return;
+				case 3:
+					KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description), i18n("Sequence Already Assigned"));
+					return;
+			}
 		}
 		m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
 	}
-	QTimer::singleShot(0, this, SLOT(update()));
+
+	// TODO any problems with a changed QTreeWidgetItem?
+	updateCurrentScript(script->getID(),value);
+	//	QTimer::singleShot(0, this, SLOT(update()));
+
 }
 
 void ScriptsManagement::removeSelectedKeySequence()
@@ -210,10 +226,14 @@ void ScriptsManagement::removeSelectedKeySequence()
 	if(selectedItems.isEmpty()) {
 		return;
 	}
+
 	KileScript::Script *script = static_cast<ScriptListItem*>(selectedItems.first())->getScript();
 	// better not use the QTreeWidgetItem as it can be destroyed as a side effect of the removeEditorKeySequence method.
 	m_kileInfo->scriptManager()->removeEditorKeySequence(script);
-	QTimer::singleShot(0, this, SLOT(update()));
+
+	// TODO any problems with a changed QTreeWidgetItem?
+	updateCurrentScript(script->getID(),QString());
+	//QTimer::singleShot(0, this, SLOT(update()));
 }
 
 void ScriptsManagement::updateButtonPanel() {
@@ -223,6 +243,20 @@ void ScriptsManagement::updateButtonPanel() {
 	m_configureKeySequenceAction->setEnabled(b);
 	m_removeKeySequenceAction->setEnabled(b);
 }
+
+void ScriptsManagement::updateCurrentScript(unsigned int scriptID, const QString &seq)
+{
+	for ( int i=0; i<m_treeWidget->topLevelItemCount(); ++i ) {
+		ScriptListItem *item = static_cast<ScriptListItem *>(m_treeWidget->topLevelItem(i));
+		if ( item ) {
+			KileScript::Script *script = item->getScript();
+			if ( script && script->getID()==scriptID ) {
+				item->setText(1,seq);
+			}
+		}
+	}
+}
+
 
 }
 

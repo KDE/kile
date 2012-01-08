@@ -132,8 +132,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	m_config = KGlobal::config();
 
-	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
-
 	m_codeCompletionManager = new KileCodeCompletion::Manager(this, parent);
 
 	setStandardToolBarMenuEnabled(true);
@@ -152,6 +150,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	m_errorHandler = new KileErrorHandler(this, this);
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
+	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
 
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
 
@@ -350,6 +349,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 		actionCollection()->readSettings(&shortcutGroup);
 		m_config->deleteGroup("Shortcuts");
 	}
+
+	// finally init all actions for the ScriptManager
+	m_jScriptManager->initScriptActions();
 
 	setUpdatesEnabled(false);
 	setAutoSaveSettings(QLatin1String("KileMainWindow"),true);

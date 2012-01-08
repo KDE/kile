@@ -14,6 +14,7 @@
 #ifndef SCRIPTMANAGER_H
 #define SCRIPTMANAGER_H
 
+#include <QList>
 #include <QMap>
 #include <QObject>
 
@@ -22,70 +23,18 @@
 #include <KConfig>
 #include <KDirWatch>
 
-#include <QList>
+#include <KTextEditor/Range>
+#include <KTextEditor/Cursor>
+
+#include "scripting/kilescriptobject.h"
+#include "scripting/kilescriptview.h"
+#include "scripting/kilescriptdocument.h"
 
 class KileInfo;
 
 namespace KileScript {
 
-/**
- * This class represents a script.
- **/
-class Script {
-	public:
-		/**
-		 * Constructs a new JavaScript script.
-		 * @param file the file that contains the script
-		 **/
-		Script(unsigned int id, const QString& file);
-
-		/**
-		 * Returns the code of this script, i.e. the file is read and its contents are
-		 * returned.
-		 **/
-		QString getCode() const;
-	
-		/**
-		 * Returns the name of the script (the base name of the file).
-		 **/
-		QString getName() const;
-
-		/**
-		 * Returns the file of the script (the full path, including the base name).
-		 **/
-		QString getFileName() const;
-
-		/**
-		 * Returns the unique identifier of this script.
-		 **/
-		unsigned int getID() const;
-
-		/**
-		 * Sets the unique identifier of this script.
-		 **/
-		void setID(unsigned int id);
-
-
-		/**
-		 *
-		 **/
-		void setActionObject(KAction* action);
-
-		const KAction* getActionObject() const;
-
-		KAction* getActionObject();
-
-		void setKeySequence(const QString& str);
-		QString getKeySequence() const;
-
-	protected:
-		unsigned int m_id;
-		QString m_code;
-		QString m_file;
-		QString m_name;
-		KAction *m_action;
-		QString m_keySequence;
-};
+class Script;
 
 /**
  * This class handles the scripting functionality in Kile.
@@ -118,7 +67,7 @@ class Manager : public QObject {
 		QList<Script*> getScripts();
 
 		/**
-		 * Writes the key sequence-to-script bindings to the KConfig object that has 
+		 * Writes the key sequence-to-script bindings to the KConfig object that has
 		 * passed in the constructor.
 		 **/
 		void writeConfig();
@@ -128,7 +77,7 @@ class Manager : public QObject {
 		 * then nothing is done.
 		 * @param script the script that is considered
 		 * @param keySequence the key sequence that is assigned
-		 **/	
+		 **/
 		void setEditorKeySequence(Script* script, const QString& keySequence);
 
 		/**
@@ -148,6 +97,8 @@ class Manager : public QObject {
 		 * @param id the id of the script
 		 **/
 		const Script* getScript(unsigned int id);
+
+		void initScriptActions();
 
 	Q_SIGNALS:
 		/**
@@ -198,7 +149,7 @@ class Manager : public QObject {
 		void deleteScripts();
 
 		/**
-		 * Finds the next free ID. 
+		 * Finds the next free ID.
 		 * @param takenIDMap map describing which IDs are already in use
 		 * @param maxID the maximum ID that is currently in use (if there is no ID assigned, then
 		 *              any value can be passed here, but typically '0')
@@ -211,12 +162,24 @@ class Manager : public QObject {
 		 **/
 		void writeIDs();
 
+		/**
+		 * read the plugin to initialize Cursor and Range objects
+		 **/
+		void readEnginePlugin();
+
 	private:
 		/**
 		 * Recursively adds a directory to a KDirWatch object.
 		 * @param dir the directory that should be added
 		 **/
 		void addDirectoryToDirWatch(const QString& dir);
+
+		KileScriptObject *m_kileScriptObject;
+		KileScriptView *m_kileScriptView;
+		KileScriptDocument *m_kileScriptDocument;
+
+		QString m_enginePlugin;
+		QMap<QString,QAction *> *m_scriptActionMap;
 };
 
 class ScriptExecutionAction : public KAction {
@@ -235,8 +198,10 @@ class ScriptExecutionAction : public KAction {
 		unsigned int m_id;
 };
 
-
 }
+
+
+
 
 #endif
 

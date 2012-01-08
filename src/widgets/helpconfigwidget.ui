@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>649</width>
-    <height>358</height>
+    <height>385</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -42,9 +42,61 @@
       <widget class="KLineEdit" name="kcfg_location"/>
      </item>
      <item>
-         <widget class="KPushButton" name="m_helpLocationButton"/>
-        </item>
+      <widget class="KPushButton" name="m_helpLocationButton"/>
+     </item>
     </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item>
+      <widget class="QPushButton" name="m_pbInformation">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Information</string>
+       </property>
+       <attribute name="buttonGroup">
+        <string>buttonGroup</string>
+       </attribute>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Fixed</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item>
     <widget class="QGroupBox" name="m_gbContextHelp">
@@ -69,20 +121,37 @@
         <property name="checked">
          <bool>true</bool>
         </property>
-        <property name="buttonGroupId" stdset="0">
-         <number>0</number>
+       </widget>
+      </item>
+      <item>
+       <widget class="QRadioButton" name="kcfg_latex2erefs">
+        <property name="text">
+         <string>Use your system's TeX&amp;Live documentation</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="kcfg_texrefs">
         <property name="text">
-         <string>Use your system's &amp;TeX documentation</string>
-        </property>
-        <property name="buttonGroupId" stdset="0">
-         <number>1</number>
+         <string>Use your system's &amp;TeX documentation   (older version)</string>
         </property>
        </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeType">
+         <enum>QSizePolicy::Fixed</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -162,12 +231,16 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
   </customwidget>
  </customwidgets>
  <includes>
@@ -175,4 +248,7 @@
  </includes>
  <resources/>
  <connections/>
+ <buttongroups>
+  <buttongroup name="buttonGroup"/>
+ </buttongroups>
 </ui>

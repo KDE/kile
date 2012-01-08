@@ -303,10 +303,14 @@
 		</entry>
 		<entry name="kilerefs" type="Bool">
 			<label>Use the Kile LaTeX reference for the contextual help.</label>
+			<default>false</default>
+		</entry>
+		<entry name="latex2erefs" type="Bool">
+			<label>Use the system's TexLive LaTeX2e reference for the contextual help.</label>
 			<default>true</default>
 		</entry>
 		<entry name="texrefs" type="Bool">
-			<label>Use the system's TeX reference for the contextual help.</label>
+			<label>Use the system's TeX reference for the contextual help (older version).</label>
 			<default>false</default>
 		</entry>
 		<entry name="embedded" type="Bool">

@@ -952,10 +952,10 @@ void LaTeXInfo::updateStructLevelInfo() {
 		m_dictStructLevel["\\end"] = KileStructData(KileStruct::Hidden,KileStruct::EndEnv);
 
 		// some entries, which could never be found (but they are set manually)
-		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
-		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
-		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "tabular");
-		m_dictStructLevel["\\begin{table*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "tabular");
+		m_dictStructLevel["\\begin{figure}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "figure-env");
+		m_dictStructLevel["\\begin{figure*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "figure-env");
+		m_dictStructLevel["\\begin{table}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "table-env");
+		m_dictStructLevel["\\begin{table*}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "table-env");
 		m_dictStructLevel["\\begin{asy}"]=KileStructData(KileStruct::Object,KileStruct::BeginFloat, "image-x-generic");
 		m_dictStructLevel["\\end{float}"]=KileStructData(KileStruct::Hidden,KileStruct::EndFloat);
 	}
@@ -982,7 +982,7 @@ void LaTeXInfo::updateStructLevelInfo() {
 	if(m_showStructureInputFiles) {
 		m_commands->commandList(list, KileDocument::CmdAttrIncludes, false);
 		for(it = list.constBegin(); it != list.constEnd(); ++it) {
-			m_dictStructLevel[*it] = KileStructData(KileStruct::File, KileStruct::Input, "include");
+			m_dictStructLevel[*it] = KileStructData(KileStruct::File, KileStruct::Input, "input-file");
 		}
 	}
 

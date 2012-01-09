@@ -27,6 +27,7 @@
 
 #include "kileconfig.h"
 #include "kileinfo.h"
+#include "kileversion.h"
 #include "kileviewmanager.h"
 #include "editorkeysequencemanager.h"
 #include "scripting/script.h"
@@ -77,6 +78,20 @@ namespace KileScript {
 	void Manager::executeScript(const Script *script)
 	{
 		KILE_DEBUG() << "----------------------------------> execute script " << script->getName();
+
+		// compatibility check
+		QString code = script->getCode();
+		QRegExp endOfLineExp("(\r\n)|\n|\r");
+		int i = code.indexOf(endOfLineExp);
+		QString firstLine = (i >= 0 ? code.left(i) : code);
+		QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
+		if(requiredVersionTagExp.indexIn(firstLine) != -1) {
+			QString requiredKileVersion = requiredVersionTagExp.cap(2);
+			if(compareVersionStrings(requiredKileVersion, kileFullVersion) > 0) {
+				KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.", requiredKileVersion, script->getName()), i18n("Version Error"));
+				return;
+			}
+		}
 
 		// TODO only scripts with a current view can be started at this moment
 		KTextEditor::View *view = m_kileInfo->viewManager()->currentTextView();

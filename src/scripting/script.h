@@ -16,6 +16,7 @@
 #define SCRIPT_H
 
 #include <QScriptEngine>
+#include <QScriptContext>
 #include <QMap>
 
 #include <KAction>
@@ -128,6 +129,10 @@ class ScriptEnvironment {
 		void scriptError(const QString &name);
 
 };
+
+////////////////////////////// ScriptHelpers //////////////////////////////
+
+QScriptValue debug(QScriptContext *context, QScriptEngine *engine);
 
 }
 

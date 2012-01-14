@@ -15,11 +15,11 @@ var len = arr.length;
 
 // ------ word wordAt ------
 print();
-print( "Test: environment...");
+debug( "Test: environment...");
 for ( var i=0; i<len; ++i ) {
 	envTest(arr[i]);
 }
-print("finished");
+debug("finished");
 print();
 
 

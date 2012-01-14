@@ -24,6 +24,8 @@
 #include <KLocale>
 #include <KMessageBox>
 
+#include <iostream>
+
 #include "kileinfo.h"
 #include "kiledebug.h"
 #include "scripting/script.h"
@@ -244,6 +246,9 @@ void ScriptEnvironment::execute(const Script *script)
 	}
 	m_engine->globalObject().setProperty("kile", m_engine->newQObject(m_kileScriptObject));
 
+  // export debug function
+  m_engine->globalObject().setProperty("debug", m_engine->newFunction(KileScript::debug));
+
 	// start engine
 	m_engine->evaluate(script->getCode());
 
@@ -282,6 +287,19 @@ void ScriptEnvironment::scriptError(const QString &name)
 	QString errormessage = ( exception.isError() ) ? exception.toString() : QString();
 	QString message = i18n("An error has occurred at line %1 during the execution of the script \"%2\":\n%3", errorline, name, errormessage);
 	KMessageBox::sorry(m_kileInfo->mainWindow(), message, i18n("Error"));
+}
+
+////////////////////////////// ScriptHelpers //////////////////////////////
+
+QScriptValue debug(QScriptContext *context, QScriptEngine *engine)
+{
+	QStringList message;
+	for(int i = 0; i < context->argumentCount(); ++i) {
+		message << context->argument(i).toString();
+	}
+	// debug in blue to distance from other debug output if necessary
+	std::cerr << "\033[31m" << qPrintable(message.join(" ")) << "\033[0m\n";
+	return engine->nullValue();
 }
 
 }

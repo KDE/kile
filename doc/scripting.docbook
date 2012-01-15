@@ -1732,7 +1732,7 @@ Returns a string, which can be used as captions of alert boxes. It looks like <u
 <para>Some examples may help to understand, how to use the scripting API. These examples and some more are found in the scrpting directory of &kile;: <filename>KILE_APP_DIR/scripts/</filename>. Each script contains a tiny description.</para>
 
 <sect2 id="id_scripting_example1">
-<title>Example 1: environment</title>
+<title>Example 1: replace environment name</title>
 
 <para>Replace a surrounding &latex; environment with another, where the relative cursor position will not be changed. <userinput>\begin{abc}...\end{abc}</userinput> for example can be changed to <userinput>\begin{xyz}...\end{xyz}</userinput>.</para>
 
@@ -1745,13 +1745,12 @@ if ( range.isValid() ) {
 	}
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No surrounding LaTeX environment found.");
+	kile.alert.sorry("No surrounding LaTeX environment found.");
 }
 
 function replaceEnvCommand(newEnv,r)
 {
 	var c = view.cursorPosition();
-//	print( "c = " + c.toString() );
 
 	var envname = document.environmentName();
 
@@ -1769,7 +1768,7 @@ function replaceEnvCommand(newEnv,r)
 </sect2>
 
 <sect2 id="id_scripting_example2">
-<title>Example 2: replace a &latex; command</title>
+<title>Example 2: replace a &latex; font command</title>
 
 <para>Replace a surrounding &latex; font command with another font command, when the cursor is placed inside the texgroup. The relative cursor position will not be changed. <userinput>\textbf{abc}</userinput> for example can be changed to <userinput>\textit{abc}</userinput>.</para>
 
@@ -1782,7 +1781,7 @@ if ( range.isValid() ) {
 	replaceFontCommand(range);
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No surrounding TeX group found.");
+	kile.alert.sorry("No surrounding TeX group found.");
 }
 
 function replaceFontCommand(r)
@@ -1803,10 +1802,10 @@ function replaceFontCommand(r)
 				c.column = c.column - (cmd.length - newcommand.length);
 			}
 		}
-		view.setCursorPosition(c);
+/		view.setCursorPosition(c);
 	}
 	else {
-		kile.alert.sorry(kile.script.caption(),"No surrounding font command found.");
+		kile.alert.sorry("No surrounding font command found.");
 	}
 	document.editEnd();
 }
@@ -1832,7 +1831,6 @@ function buildCmdList(current)
 
 <programlisting>
 var range = view.selectionRange();
-//print( "range = " + range.toString() );
 
 if ( range.isValid() ) {
 	var cmd = kile.input.getLatexCommand("Choose","Choose surrounding LaTeX command:");
@@ -1841,7 +1839,7 @@ if ( range.isValid() ) {
 	}
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No selection found.");
+	kile.alert.sorry("No selection found.");
 }
 
 function surroundTexCommand(cmd,r)

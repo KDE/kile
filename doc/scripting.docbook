@@ -1098,7 +1098,7 @@ Returns the range of the surrounding &latex; paragraph.
 void document.removeParagraph();
 </synopsis></term>
 <listitem><para>
-Removes the text of the scurrent &latex; paragraph.
+Removes the text of the current &latex; paragraph.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1634,7 +1634,7 @@ Function to get an integer from the user. <parameter>>caption</parameter> is the
 int kile.input.getPosInteger(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>int <replaceable>min = 1</replaceable></parameter>, <parameter>int <replaceable>max = INT_MAX</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to get a positve integer from the user. <parameter>>caption</parameter> is the text that is displayed in the title bar. <parameter>>label</parameter> is the text that appears as the label for the spin box. <parameter>>min</parameter> and <parameter>>max</parameter> are the minimum and maximum allowable values the user may choose. Default values are <literal>1</literal> and <literal>INT_MAX</literal>.
+Function to get a positive integer from the user. <parameter>>caption</parameter> is the text that is displayed in the title bar. <parameter>>label</parameter> is the text that appears as the label for the spin box. <parameter>>min</parameter> and <parameter>>max</parameter> are the minimum and maximum allowable values the user may choose. Default values are <literal>1</literal> and <literal>INT_MAX</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 </sect3>
@@ -1729,7 +1729,7 @@ Returns a string, which can be used as captions of alert boxes. It looks like <u
 <sect1 id="id_scripting_examples">
 <title>Examples</title>
 
-<para>Some examples may help to understand, how to use the scripting API. These examples and some more are found in the scrpting directory of &kile;: <filename>KILE_APP_DIR/scripts/</filename>. Each script contains a tiny description.</para>
+<para>Some examples may help to understand, how to use the scripting API. These examples and some more are found in the scripting directory of &kile;: <filename>KILE_APP_DIR/scripts/</filename>. Each script contains a tiny description.</para>
 
 <sect2 id="id_scripting_example1">
 <title>Example 1: replace environment name</title>

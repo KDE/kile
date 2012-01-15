@@ -11,7 +11,7 @@ if ( range.isValid() ) {
 	replaceFontCommand(range);
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No surrounding TeX group found.");
+	kile.alert.sorry("No surrounding TeX group found.");
 }
 
 function replaceFontCommand(r)
@@ -39,7 +39,7 @@ function replaceFontCommand(r)
 		view.setCursorPosition(c);
 	}
 	else {
-		kile.alert.sorry(kile.script.caption(),"No surrounding font command found.");
+		kile.alert.sorry("No surrounding font command found.");
 	}
 	document.editEnd();
 }

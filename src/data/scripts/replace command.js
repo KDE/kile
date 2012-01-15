@@ -13,7 +13,7 @@ if ( range.isValid() ) {
 	}
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No surrounding TeX group found.");
+	kile.alert.sorry("No surrounding TeX group found.");
 }
 
 function replaceTexCommand(newcommand,r)

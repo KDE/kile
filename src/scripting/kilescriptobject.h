@@ -37,11 +37,11 @@ class KileAlert : public QObject
 		KileAlert(QObject *parent, KParts::MainWindow *mainWindow);
 		virtual ~KileAlert() {}
 
-		Q_INVOKABLE void information(const QString &caption, const QString &text);
-		Q_INVOKABLE void sorry(const QString &caption, const QString &text);
-		Q_INVOKABLE void error(const QString &caption, const QString &text);
-		Q_INVOKABLE QString question(const QString &caption, const QString &text);
-		Q_INVOKABLE QString warning(const QString &caption, const QString &text);
+		Q_INVOKABLE void information(const QString &text, const QString &caption = QString());
+		Q_INVOKABLE void sorry(const QString &text, const QString &caption = QString());
+		Q_INVOKABLE void error(const QString &text, const QString &caption = QString());
+		Q_INVOKABLE QString question(const QString &text, const QString &caption = QString());
+		Q_INVOKABLE QString warning(const QString &text, const QString &caption = QString());
 
 	private:
 		KParts::MainWindow *m_mainWindow;

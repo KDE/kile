@@ -14,7 +14,7 @@ if ( range.isValid() ) {
 	}
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No selection found.");
+	kile.alert.sorry("No selection found.");
 }
 
 function surroundTexCommand(cmd,r)

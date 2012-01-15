@@ -12,7 +12,7 @@ if ( range.isValid() ) {
 	}
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No surrounding LaTeX environment found.");
+	kile.alert.sorry("No surrounding LaTeX environment found.");
 }
 
 function replaceEnvCommand(newEnv,r)

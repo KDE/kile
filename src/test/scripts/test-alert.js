@@ -1,12 +1,12 @@
 // alert tests
 
-kile.alert.information("Alert","Information alert.");
-kile.alert.sorry("Alert","Sorry alert.");
-kile.alert.error("Alert","Error alert.");
+kile.alert.information("Information alert.");
+kile.alert.sorry("Sorry alert.");
+kile.alert.error("Error alert.");
 
-var result1 = kile.alert.question("Alert","Question alert.");
-print("Question alert: "+result1);
+var result1 = kile.alert.question("Question alert.","Alert");
+debug("Question alert: "+result1);
 
-var result2 = kile.alert.warning("Alert","Warning alert.");
-print("Warning alert: "+result2);
+var result2 = kile.alert.warning("Warning alert.","Alert");
+debug("Warning alert: "+result2);
 

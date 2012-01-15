@@ -9,7 +9,7 @@ if ( range.isValid() ) {
 	removeTexCommand(range);
 }
 else {
-	kile.alert.sorry(kile.script.caption(),"No surrounding TeX group found.");
+	kile.alert.sorry("No surrounding TeX group found.");
 }
 
 function removeTexCommand(r)

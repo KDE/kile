@@ -30,29 +30,34 @@ KileAlert::KileAlert(QObject *parent, KParts::MainWindow *mainWindow)
 	KILE_DEBUG() << "----------------------------------> create KileAlert ... ";
 }
 
-void KileAlert::information(const QString &caption, const QString &text)
+void KileAlert::information(const QString &text, const QString &caption)
 {
-	KMessageBox::information(m_mainWindow,text,caption);
+	QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: information") : caption;
+	KMessageBox::information(m_mainWindow,text,msgCaption);
 }
 
-void KileAlert::sorry(const QString &caption, const QString &text)
+void KileAlert::sorry(const QString &text, const QString &caption)
 {
-	KMessageBox::sorry(m_mainWindow,text,caption);
+	QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: sorry") : caption;
+	KMessageBox::sorry(m_mainWindow,text,msgCaption);
 }
 
-void KileAlert::error(const QString &caption, const QString &text)
+void KileAlert::error(const QString &text, const QString &caption)
 {
-	KMessageBox::error(m_mainWindow,text,caption);
+	QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: error") : caption;
+	KMessageBox::error(m_mainWindow,text,msgCaption);
 }
 
-QString KileAlert::question(const QString &caption, const QString &text)
+QString KileAlert::question(const QString &text, const QString &caption)
 {
-	return ( KMessageBox::questionYesNo(m_mainWindow,text,caption) == KMessageBox::No ) ? "no" : "yes";
+	QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: question") : caption;
+	return ( KMessageBox::questionYesNo(m_mainWindow,text,msgCaption) == KMessageBox::No ) ? "no" : "yes";
 }
 
-QString KileAlert::warning(const QString &caption, const QString &text)
+QString KileAlert::warning(const QString &text, const QString &caption)
 {
-	return ( KMessageBox::warningContinueCancel(m_mainWindow,text,caption) == KMessageBox::Continue ) ? "continue" : "cancel";
+	QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: warning") : caption;
+	return ( KMessageBox::warningContinueCancel(m_mainWindow,text,msgCaption) == KMessageBox::Continue ) ? "continue" : "cancel";
 }
 
 ////////////////////////////////// KileInput object //////////////////////////////////////

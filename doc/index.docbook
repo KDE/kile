@@ -20,6 +20,10 @@
   <!ENTITY package "extragear">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE">
+  <!ENTITY kate "<application>Kate</application>">
+  <!ENTITY javascript "<application>JavaScript</application>">
+  
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook"> 
 ]>
 
 <book lang="&language;">
@@ -52,7 +56,7 @@
 </copyright>
 
 <copyright>
-<year>2005</year><year>2006</year>
+<year>2005</year><year>2006</year><year>2012</year>
 <holder>Holger Danielsson</holder>
 </copyright>
 
@@ -3661,158 +3665,11 @@
 
 </chapter>
 
-<chapter id="scripting">
+<chapter id="id_scripting">
 
 	<title>Scripting</title>
 
-	<sect1 id="scripting_test">
-
-		<title>Scripting in &kile;</title>
-
-		<para>
-			&kile;'s scripting feature allows for the execution of ECMAScript code. Scripts can be managed through the
-			scripting panel in the sidebar.
-		</para>
-
-	</sect1>
-
-	<sect1 id="scripting_api">
-
-		<title>API Reference</title>
-
-		<para>In this section we describe &kile;'s scripting programming interface.</para>
-
-		<important>
-			<para>
-				Please note that the scripting API has not been finalized yet. The API described below might change in
-				future versions of &kile;.
-			</para>
-		</important>
-
-		<para>
-			First of all, &kile;'s script execution environment provides a global object called "kile", which owns the following
-			methods:
-		</para>
-
-		<variablelist>
-			<varlistentry>
-				<term>(kile).<function>currentTextDocument()</function></term>
-				<listitem>
-					<para>
-						Returns a <classname>KileTextDocument</classname> object which reflects the currently active 
-						text document. Returns <constant>null</constant> if no text document is active.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(kile).<function>getInputValue(<parameter>caption</parameter>, <parameter>label</parameter>)</function></term>
-				<listitem>
-					<para>
-						Opens a dialog with the given caption and label. Returns the value that user has entered.
-					</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
-
-		<para>
-			Objects of the type <classname>KileTextDocument</classname> represent text documents in &kile;. They have the following
-			properties:
-		</para>
-
-		<variablelist>
-			<varlistentry>
-				<term>(KileTextDocument).<function>backspace()</function></term>
-				<listitem>
-					<para>
-						Deletes the character that is located immediately before the current cursor position and moves the cursor
-						one position backward in the text.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>cursorLeft()</function></term>
-				<listitem>
-					<para>Moves the cursor one position backward in the text.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>cursorRight()</function></term>
-				<listitem>
-					<para>Moves the cursor one position forward in the text.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>insertText(<parameter>text</parameter>)</function></term>
-				<listitem>
-					<para>
-						Inserts the text contained in the variable <parameter>text</parameter> into the document at the current
-						cursor location.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>insertBullet()</function></term>
-				<listitem>
-					<para>Inserts a bullet into the document at the current cursor position.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>nextBullet()</function></term>
-				<listitem>
-					<para>
-						Selects the first bullet located in the document immediately after the
-						current cursor location.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>previousBullet()</function></term>
-				<listitem>
-					<para>
-						Selects the first bullet located in the document immediately before the
-						current cursor location.
-					</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>up()</function></term>
-				<listitem>
-					<para>Moves the cursor one line up in the document.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>down()</function></term>
-				<listitem>
-					<para>Moves the cursor one line down in the document.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>cursorLine()</function></term>
-				<listitem>
-					<para>Returns the line which the cursor is currently located at.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>cursorColumn()</function></term>
-				<listitem>
-					<para>Returns the column which the cursor is currently located at.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>setCursorLine(<parameter>line</parameter>)</function></term>
-				<listitem>
-					<para>Moves the cursor to the line denoted by <parameter>line</parameter>.</para>
-				</listitem>
-			</varlistentry>
-			<varlistentry>
-				<term>(KileTextDocument).<function>setCursorColumn(<parameter>column</parameter>)</function></term>
-				<listitem>
-					<para>Moves the cursor to the column denoted by <parameter>column</parameter>.</para>
-				</listitem>
-			</varlistentry>
-		</variablelist>
-
-	</sect1>
+	&include-section-scripting;
 	
 </chapter>
 

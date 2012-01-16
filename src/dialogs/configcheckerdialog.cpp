@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Fri Jun 4 2004
-    copyright            : (C) 2004 by Jeroen Wijnout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+/*************************************************************************************
+  Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -61,41 +60,46 @@ class ResultItemDelegate : public QItemDelegate {
 		}
 };
 
-ResultItem::ResultItem(QListWidget *listWidget, const QString &tool, int status, const QList<ConfigTest> &tests) : QListWidgetItem(listWidget)
+ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests)
+: QListWidgetItem(listWidget)
 {
 	QString rt = "<hr /><b><font color=\"%1\">%2</font></b> (%3)<br /><ul>";
 	for (int i = 0; i < tests.count(); ++i) {
 		QString itemcolor = "black";
-		if (tests[i].status() == ConfigTest::Failure)
-			itemcolor = "#FFA201";
-		else
-			if (tests[i].status() == ConfigTest::Critical)
+		if (tests[i]->status() == ConfigTest::Failure) {
+			if (tests[i]->isCritical()) {
 				itemcolor = "#AA0000";
-		rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor).arg(tests[i].name()).arg(tests[i].resultText());
+			}
+			else {
+				itemcolor = "#FFA201";
+			}
+		}
+		rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor).arg(tests[i]->name()).arg(tests[i]->resultText());
 	}
 	rt += "</ul>";
 
 	QString color = "#00AA00", statustr = i18n("Passed");
-	if (status == ConfigTest::Failure)
-	{
-		color = "#FFA201";
-		statustr = i18n("Failed, but not critical");
-	}
-	else
-		if (status == ConfigTest::Critical)
-		{
+	if(status == ConfigTest::Failure) {
+		if(isCritical) {
 			color = "#AA0000";
 			statustr = i18n("Critical failure, Kile will not function properly");
 		}
+		else {
+			color = "#FFA201";
+			statustr = i18n("Failed, but not critical");
+		}
+	}
 
-	setData(Qt::UserRole, rt.arg(color).arg(tool).arg(statustr));
+	setData(Qt::UserRole, rt.arg(color).arg(toolGroup).arg(statustr));
 
 	//this is for sorting only
-	setText(QString::number(status) + ':' + tool);
+	setText(QString::number(status) + ':' + toolGroup);
 }
 
-ConfigChecker::ConfigChecker(QWidget* parent) :
-		KDialog(parent), m_tester(0L)
+ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
+: KDialog(parent),
+  m_ki(kileInfo),
+  m_tester(NULL)
 {
 	setCaption(i18n("System Check"));
 	setModal(true);
@@ -138,7 +142,7 @@ QListWidget* ConfigChecker::listWidget()
 
 void ConfigChecker::run()
 {
-	m_tester = new Tester(this);
+	m_tester = new Tester(m_ki, this);
 
 	connect(m_tester, SIGNAL(started()), this, SLOT(started()));
 	connect(m_tester, SIGNAL(percentageDone(int)), this, SLOT(setPercentageDone(int)));
@@ -150,8 +154,6 @@ void ConfigChecker::run()
 
 void ConfigChecker::slotCancel()
 {
-	if (m_tester)
-		m_tester->stop();
 	finished(false);
 	reject();
 }
@@ -159,8 +161,9 @@ void ConfigChecker::slotCancel()
 void ConfigChecker::saveResults()
 {
 	KUrl url = KFileDialog::getSaveUrl();
-	if (!url.isEmpty())
-		m_tester->saveResults(url);
+	if (!url.isEmpty()) {
+//FIXME
+	}
 }
 
 void ConfigChecker::started()
@@ -174,35 +177,48 @@ void ConfigChecker::finished(bool ok)
 	setCursor(Qt::ArrowCursor);
 	enableButton(Cancel, false);
 
-	if (ok)
-	{
-		label()->setText(i18n("Finished testing your system..."));
+	if(ok) {
+		label()->setText(i18n("Finished testing your system."));
 
 		QStringList tools = m_tester->testedTools();
 		QStringList critical, failure;
 		for (int i = 0; i < tools.count(); ++i) {
-			int status = m_tester->statusForTool(tools[i]);
-			if (status == ConfigTest::Critical)
-				critical.append(tools[i]);
-			else
-				if (status == ConfigTest::Failure)
+			bool isCritical = false;
+			int status = m_tester->statusForTool(tools[i], &isCritical);
+			if (status == ConfigTest::Failure) {
+				if(isCritical) {
+					critical.append(tools[i]);
+				}
+				else {
 					failure.append(tools[i]);
-			new ResultItem(listWidget(), tools[i], status, m_tester->resultForTool(tools[i]));
+				}
+			}
+			new ResultItem(listWidget(), tools[i], status, isCritical, m_tester->resultForTool(tools[i]));
 		}
 
 		listWidget()->sortItems();
 
 		QString cap = i18n("Test Results");
-		if (critical.count() > 0)
-			KMessageBox::error(this, i18n("<qt>The following tools did not pass all <b>critical</b> tests:<br>%1<br>Your system is not ready to use. Please consult the results to find out what to fix.</qt>", critical.join(", ")), cap);
-		else
-			if (failure.count() > 0)
-				KMessageBox::information(this, i18n("The following tools did not pass all tests:\n %1\nYou will still be able to use Kile; however, not all features are guaranteed to work.", failure.join(", ")), cap);
-			else
-				KMessageBox::information(this, i18n("No problems detected, your system is ready to use."), cap);
+		if (critical.count() > 0) {
+			KMessageBox::error(this, i18n("<qt>The following <b>critical</b> tests did not succeed:"
+			                              "<br/><br/>%1<br/><br/>Kile cannot function correctly on your system. Please consult the"
+			                              "<br/>test results to determine which programs have to be fixed.</qt>", critical.join(", ")), cap);
+		}
+		else {
+			if (failure.count() > 0) {
+				KMessageBox::information(this, i18n("The following tests did not succeed:\n\n%1\n\nYou will still "
+				                                    "be able to use Kile; however, not all features\n are guaranteed "
+				                                    "to work.", failure.join(", ")), cap);
+			}
+			else {
+				KMessageBox::information(this, i18n("No problems detected. Kile will work correctly on your system."), cap);
+			}
+		}
 	}
-	else
+	else {
 		label()->setText(i18n("Tests finished abruptly..."));
+		KMessageBox::error(this, i18n("The tests could not be finished correctly. Please check the available disk space."));
+	}
 
 	enableButton(Ok, true);
 	enableButton(User1, true);

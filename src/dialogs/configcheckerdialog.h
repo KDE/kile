@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Fri Jun 4 2004
-    copyright            : (C) 2004 by Jeroen Wijnout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+/*************************************************************************************
+  Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -30,6 +29,8 @@ class QPainter;
 
 class KProgress;
 
+class KileInfo;
+
 class ConfigCheckerWidget;
 
 namespace KileDialog
@@ -37,7 +38,7 @@ namespace KileDialog
 class ResultItem : public QListWidgetItem
 {
 	public:
-		ResultItem(QListWidget *listWidget, const QString &tool, int status, const QList<ConfigTest> &tests);
+		ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests);
 };
 
 class ConfigChecker : public KDialog
@@ -45,7 +46,7 @@ class ConfigChecker : public KDialog
 		Q_OBJECT
 
 	public:
-		ConfigChecker(QWidget* parent = 0);
+		ConfigChecker(KileInfo *kileInfo, QWidget* parent = 0);
 		~ConfigChecker();
 
 	public Q_SLOTS:
@@ -62,6 +63,7 @@ class ConfigChecker : public KDialog
 		QListWidget* listWidget();
 
 	private:
+		KileInfo *m_ki;
 		ConfigCheckerWidget *m_widget;
 		Tester    *m_tester;
 };

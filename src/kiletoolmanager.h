@@ -75,12 +75,12 @@ namespace KileTool
 
 		void enqueueNext(QueueItem *);
 	};
-	
+
 	class Manager : public QObject
 	{
 		friend class Base;
 		Q_OBJECT
-		
+
 	public:
 		Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::OutputView *output, KParts::PartManager *, QStackedWidget* stack, KAction *, uint to);
 		~Manager();
@@ -93,7 +93,7 @@ namespace KileTool
 		QString currentGroup(const QString &name, bool usequeue = true, bool useproject = true);
 
 		void wantGUIState(const QString &);
-		
+
 		KParts::PartManager * partManager() { return m_pm; }
 		QStackedWidget* widgetStack() { return m_stack; }
 		KileView::Manager* viewManager();
@@ -102,7 +102,7 @@ namespace KileTool
 
 		KileInfo * info() { return m_ki; }
 		KConfig * config() { return m_config; }
-		
+
 		void setFactory(Factory* fac) { m_factory = fac; }
 		Factory* factory() { return m_factory; }
 
@@ -112,7 +112,7 @@ namespace KileTool
 		int lastResult() { return m_nLastResult; }
 
 	public Q_SLOTS:
-		void run(Base *tool);
+		void run(KileTool::Base *tool);
 
 		void stopLivePreview();
 

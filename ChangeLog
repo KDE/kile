@@ -1,3 +1,23 @@
+version 2.1 -> 2.1.1
+
+Fixes:
+- Restore the behaviour of LaTeX environment completion to what it was in
+  version 2.0 (Patch by Holger Danielsson)
+- Ensure that Kile can be offered as application to open LaTeX documents in
+  Nautilus, for instance (#275438)
+- Avoid crashes when closing Kile with two (or more) opened projects (Patch by
+  Eugene Shalygin, #289458)
+- Ensure that the correct number of errors/warnings/badboxes is reported in
+  translated versions of Kile, which notably affected the French version
+  (#275700)
+
+Features:
+- Add tool tip which explains the available placeholders in the user tag dialog
+  (Patch by Felix Mauch)
+- Allow to configure whether the directory shown in the console is kept
+  synchronized with the document tabs (#265165)
+
+
 version 2.1 beta 5 -> 2.1
 
 Fixes:

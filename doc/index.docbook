@@ -52,7 +52,7 @@
 </copyright>
 
 <copyright>
-<year>2005</year><year>2006</year>
+<year>2005</year><year>2006</year><year>2012</year>
 <holder>Holger Danielsson</holder>
 </copyright>
 
@@ -2251,6 +2251,319 @@
 		
 		</variablelist>
 		
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title>PDF Utilities</title>
+
+		<para>Many people think of PDFs as frozen files, which cannot be modified. But this is not true, as there exist excellent tools</para>
+
+		<itemizedlist>
+		<listitem><para>for manipulations and rearrangements of pages</para></listitem>
+		<listitem><para>to read and update document info</para></listitem>
+		<listitem><para>to read, set or change some permissions</para></listitem>
+		</itemizedlist>
+
+		<para>of an existing PDF document.</para>
+
+		<para>Kile's <emphasis>PDF wizard</emphasis> under <menuchoice><guimenu>Wizard</guimenu><guimenuitem>PDF Tools</guimenuitem></menuchoice> uses two different methods to manipulate and rearrange PDF documents:</para>
+
+		<itemizedlist>
+		<listitem><para>&latex; package <command>pdfpages</command>, which is part of each &latex; distribution. <command>pdfpages</command> doesn't work with encrypted pages.</para></listitem>
+		<listitem><para><command>pdftk</command>, which is an excellent command-line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Tollkit</ulink>).</para></listitem>
+		</itemizedlist>
+
+		<para>If one of theses helpers, <command>pdfpages</command> or <command>pdftk</command>, is not present in your system, the corresponding items will not be visible. Furthermore, remember that only <command>pdftk</command> can work with encrypted files.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title>Rearrangements</title>
+
+			<para>If &kile;'s PDF wizard is called, it starts with the <userinput>Rearrangements</userinput> register card.</para>
+
+			<screenshot>
+				<screeninfo>Dialog PDF Tools</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>Dialog PDF Tools</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>First choose your input file. If &kile; finds a PDF file corresponding to your current master document, it will already be filled in as input file, but you are also free to choose another file. Then choose an output file or overwrite the existing PDF file, and select one of the tasks. Finally, you have to decide whether you want to do the conversion only, or also invoke the viewer (f.e. &okular;) to show the resulting document.</para>
+
+			<para>If the PDF file is encrypted, only <command>pdftk</command> will work and you have to set the password of this document to execute tasks.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term>1 page + empty page --> A4</term>
+			<listitem><para>Combine one page together with an empty page on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>A5 + empty page</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>A5 + empty page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>A4 + empty page --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>A4 + empty page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>1 page + duplicate --> A4</term>
+			<listitem><para>Put one page and a duplicate together on one A4 page.</para>
+			<screenshot>
+				<screeninfo>Duplicate a page</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Duplicate a page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>If the page to be duplicated has A4 size, it will scaled to fit on the page.</para>
+			<screenshot>
+				<screeninfo>Duplicate a page</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Duplicate a page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>2 pages --> A4</term>
+			<listitem><para>Combine two consecutive pages together on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>Combine two A5 pages</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine two A5 pages</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>Combine two A4 pages</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine two A4 pages</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>2 pages (landscape) --> A4</term>
+			<listitem><para>Put two consecutive pages in landscape mode together on one A4 page.</para>
+			<screenshot>
+				<screeninfo>Combine two pages (in landscape mode)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine two pages (in landscape mode)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>4 pages --> A4</term>
+			<listitem><para>Combine four consecutive pages together on one
+			A4 page. The pages have to be scaled to fit on the page.</para>
+			<screenshot>
+				<screeninfo>4 pages --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>4 pages --> A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>4 pages (landscape) --> A4</term>
+			<listitem><para>Combine four consecutive pages in landscape mode together on one A4 page. The pages have to be scaled to fit on the page.</para>
+			<screenshot>
+				<screeninfo>Combine four pages (in landscape mode)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine four pages (in landscape mode)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select even pages</term>
+			<listitem><para>Select all even pages of a document.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select odd pages</term>
+			<listitem><para>Select all odd pages of a document.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select even pages (reverse order)</term>
+			<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select odd pages (reverse order)</term>
+			<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>reverse all pages</term>
+			<listitem><para>Reverse all pages of a document.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>decrypt a file</term>
+			<listitem><para>If the PDF file is encrypted, you can decrypt this file.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select pages</term>
+			<listitem><para>Add a comma separated list of pages or page ranges, f.e. 1,4-7,9. Only these pages will appear in the resultig PDF file.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>delete pages</term>
+			<listitem><para>Add a comma separated list of pages or page ranges, which should be removed from the chosen PDF file.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>apply a background watermark</term>
+			<listitem><para>Applies a PDF watermark to the background of a single input PDF. The wizard only uses the first page from the background PDF and applies it to every page of the input PDF. This page is scaled and rotated as needed to fit the input page.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>apply a background color</term>
+			<listitem><para>Applies a background color to all pages of the current document. This can only be done once, as the second color will be put behind the first color and will not be visible then.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>apply a foreground stamp</term>
+			<listitem><para>Applies a foreground stamp on top of the input PDF document's pages. The wizard  uses only the first page from the stamp PDF and applies it to every page of the input PDF. This page is scaled and rotated as needed to fit the input page. This works best if the stamp PDF page has a transparent background.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>pdftk: choose parameter</term>
+			<listitem><para>You can invoke <command>pdftk</command> with an option of your choice. Please read the manual for all possible options.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>pdfpages: choose parameter</term>
+			<listitem><para>You can invoke <command>pdfpages</command> with an option of your choice. Please read the manual for all possible options.</para></listitem>
+			</varlistentry>
+
+			</variablelist>
+				
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title>Properties</title>
+
+			<para>Setting, changing and removing of properties will only be possible, if <command>pdftk</command> is installed and if additionally &kile; was compiled with the <userinput>libpoppler</userinput> library.</para>
+
+			<screenshot>
+				<screeninfo>Dialog PDF Properties</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>Dialog PDF Properties</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>Traditional PDF metadata includes document's title, author, subject, keywords, creator, producer and the dates of creation and last modification.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title>Permissions</title>
+
+			<para>Also, setting, changing and removing of permissions will be only possible, if <command>pdftk</command> is installed.</para>
+
+			<screenshot>
+				<screeninfo>Dialog PDF Permissions</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>Dialog PDF Permissions</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>A password is necessary to set or change these document settings. Additionally, PDF encryption is done to lock the file's content behind this password or to enforce lighter restrictions imposed by the author. So the author can allow or restrict to</para>
+
+			<itemizedlist>
+			<listitem><para>print pages</para></listitem>
+			<listitem><para>modify pages</para></listitem>
+			<listitem><para>copy text and graphics from pages</para></listitem>
+			<listitem><para>change or add annotations</para></listitem>
+			<listitem><para>fill form feeds with data</para></listitem>
+			</itemizedlist>
+
+			<para>Changing permissions always forces encryption associated with 128-bit security of <userinput>Acrobat</userinput> 5 and 6 and also needs a password.</para>
+
+			<para>But always remember: encryption and a password do not provide any real PDF security. The content is encrypted, but the key is known. You should see it more as a polite but firm request to respect the author's wishes.</para>
+
+		</sect2>
+
 	</sect1>
 
 	<sect1 id="statistics">	

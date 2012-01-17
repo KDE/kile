@@ -1595,7 +1595,7 @@
 		on demand by longer text strings. Look at 
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
-		to configure one or more of theses lists. For the example given here, the 
+		to configure one or more of these lists. For the example given here, the 
 		abbreviation list in <filename>example.cwl</filename> must be chosen. 
 		In this file you will find for example the entry <userinput>L=\LaTeX</userinput> for example.</para>
 
@@ -2274,7 +2274,7 @@
 		<listitem><para><command>pdftk</command>, which is an excellent command-line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Tollkit</ulink>).</para></listitem>
 		</itemizedlist>
 
-		<para>If one of theses helpers, <command>pdfpages</command> or <command>pdftk</command>, is not present in your system, the corresponding items will not be visible. Furthermore, remember that only <command>pdftk</command> can work with encrypted files.</para>
+		<para>If one of these helpers, <command>pdfpages</command> or <command>pdftk</command>, is not present in your system, the corresponding items will not be visible. Furthermore, remember that only <command>pdftk</command> can work with encrypted files.</para>
 
 		<sect2 id="pdf_rearrangements">
 
@@ -2294,7 +2294,7 @@
 				</mediaobject>
 			</screenshot>
 
-			<para>First choose your input file. If &kile; finds a PDF file corresponding to your current master document, it will already be filled in as input file, but you are also free to choose another file. Then choose an output file or overwrite the existing PDF file, and select one of the tasks. Finally, you have to decide whether you want to do the conversion only, or also invoke the viewer (f.e. &okular;) to show the resulting document.</para>
+			<para>First choose your input file. If &kile; finds a PDF file corresponding to your current master document, it will already be filled in as input file, but you are also free to choose another file. Then choose an output file or overwrite the existing PDF file, and select one of the tasks. Finally, you have to decide whether you want to do the conversion only, or also invoke the viewer (&eg; &okular;) to show the resulting document.</para>
 
 			<para>If the PDF file is encrypted, only <command>pdftk</command> will work and you have to set the password of this document to execute tasks.</para>
 
@@ -2471,7 +2471,7 @@
 
 			<varlistentry>
 			<term>select pages</term>
-			<listitem><para>Add a comma separated list of pages or page ranges, f.e. 1,4-7,9. Only these pages will appear in the resultig PDF file.</para></listitem>
+			<listitem><para>Add a comma separated list of pages or page ranges, f.e. 1,4-7,9. Only these pages will appear in the resulting PDF file.</para></listitem>
 			</varlistentry>
 
 			<varlistentry>

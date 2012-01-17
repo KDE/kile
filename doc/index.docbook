@@ -2471,7 +2471,7 @@
 
 			<varlistentry>
 			<term>select pages</term>
-			<listitem><para>Add a comma separated list of pages or page ranges, f.e. 1,4-7,9. Only these pages will appear in the resulting PDF file.</para></listitem>
+			<listitem><para>Add a comma separated list of pages or page ranges, &eg; 1,4-7,9. Only these pages will appear in the resulting PDF file.</para></listitem>
 			</varlistentry>
 
 			<varlistentry>

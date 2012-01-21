@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -137,7 +137,9 @@ bool ParserThread::shouldContinueDocumentParsing()
 bool ParserThread::isParsingComplete()
 {
 	QMutexLocker locker(&m_parserMutex);
-	return m_parserQueue.isEmpty();
+	// as the parser queue might be empty but a document is still being parsed,
+	// we additionally have to check whether 'm_currentlyParsedUrl' is empty or not
+	return m_parserQueue.isEmpty() && m_currentlyParsedUrl.isEmpty();
 }
 
 // the document that is currently parsed is always the head of the queue
@@ -194,7 +196,8 @@ void ParserThread::run()
 		delete parser;
 
 		// we also emit when 'parserOutput == NULL' as this will be used to indicate
-		// that some error has occurred
+		// that some error has occurred;
+		// as this call will be blocking, one has to make sure that no mutex is held
 		emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
 	}
 	KILE_DEBUG() << "leaving...";

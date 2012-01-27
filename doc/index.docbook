@@ -2555,7 +2555,7 @@
 			<listitem><para>modify pages</para></listitem>
 			<listitem><para>copy text and graphics from pages</para></listitem>
 			<listitem><para>change or add annotations</para></listitem>
-			<listitem><para>fill form feeds with data</para></listitem>
+			<listitem><para>fill form fields with data</para></listitem>
 			</itemizedlist>
 
 			<para>Changing permissions always forces encryption associated with 128-bit security of <userinput>Acrobat</userinput> 5 and 6 and also needs a password.</para>

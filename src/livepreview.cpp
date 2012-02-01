@@ -1031,7 +1031,10 @@ void LivePreviewManager::handleSpawnedChildTool(KileTool::Base *parent, KileTool
 {
 	Q_UNUSED(parent);
 	KILE_DEBUG();
-	connect(child, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(childToolDone(KileTool::Base*,int,bool)));
+	// only connect the signal for tools that are part of live preview!
+	if(parent->isPartOfLivePreview()) {
+		connect(child, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(childToolDone(KileTool::Base*,int,bool)));
+	}
 }
 
 void LivePreviewManager::toolDone(KileTool::Base *base, int i, bool childToolSpawned)

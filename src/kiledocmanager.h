@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -50,6 +50,9 @@ class Manager : public QObject
 public:
 	explicit Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
 	~Manager();
+
+	void readConfig();
+	void writeConfig();
 
 public Q_SLOTS:
 	KTextEditor::View* createNewJScript();

@@ -132,6 +132,20 @@ Manager::~Manager()
 	}
 }
 
+void Manager::readConfig()
+{
+	if(m_editor) {
+		m_editor->readConfig(KGlobal::config().data());
+	}
+}
+
+void Manager::writeConfig()
+{
+	if(m_editor) {
+		m_editor->writeConfig(KGlobal::config().data());
+	}
+}
+
 void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= NULL */ )
 {
 	KILE_DEBUG() << "==void Manager::trashDoc(" << docinfo->url().toLocalFile() << ")=====";

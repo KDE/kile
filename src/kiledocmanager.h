@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -11,7 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef KILEDOCUMENTKILEDOCMANAGER_H
 #define KILEDOCUMENTKILEDOCMANAGER_H
 
@@ -48,6 +48,9 @@ class Manager : public QObject
 public:
 	explicit Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
 	~Manager();
+
+	void readConfig();
+	void writeConfig();
 
 public Q_SLOTS:
 	KTextEditor::View* createNewJScript();
@@ -92,7 +95,7 @@ public Q_SLOTS:
 //projects
 	void projectNew();
 	KileProject* projectOpen();
-	
+
 	/**
 	 * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.
 	 **/
@@ -182,7 +185,7 @@ public:
 	KTextEditor::Document* docFor(const KUrl &url);
 
 	Info* getInfo() const;
-	// FIXME: "path" should be changed to a URL, i.e. only the next but one function 
+	// FIXME: "path" should be changed to a URL, i.e. only the next but one function
 	//        should be used
 	TextInfo* textInfoFor(const QString &path) const;
 	TextInfo* textInfoForURL(const KUrl& url);
@@ -231,7 +234,7 @@ protected:
 
 	/**
 	 *  Creates a document with the specified text.
-	 * 
+	 *
 	 *  @param extension The extension of the file that should be created without leading "."
 	 **/
 	KTextEditor::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString(), const KUrl& baseDirectory = KUrl());

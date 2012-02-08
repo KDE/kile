@@ -689,7 +689,7 @@ fi
 	latexForBibTeX->addDependency(latexProgramTest);
 	latexForBibTeX->setSilent(true);
 	m_testList << latexForBibTeX;
-	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtexw", m_tempDir->name(), "test_bib",  "", "", false);
+	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtex", m_tempDir->name(), "test_bib",  "", "", false);
 	bibtexProgramTest->addDependency(latexForBibTeX);
 	m_testList << bibtexProgramTest;
 	TestToolInKileTest *bibtexKileTest = new TestToolInKileTest("BibTeX", m_ki, "BibTeX", m_tempDir->name() + '/' + "test_bib.tex", false);
@@ -719,7 +719,7 @@ fi
 	latexForMakeIndex->addDependency(latexProgramTest);
 	latexForMakeIndex->setSilent(true);
 	m_testList << latexForMakeIndex;
-	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindexs", m_tempDir->name(), "test_index",  "", "", false);
+	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindex", m_tempDir->name(), "test_index",  "", "", false);
 	makeIndexProgramTest->addDependency(latexProgramTest);
 	m_testList << makeIndexProgramTest;
 	TestToolInKileTest *makeindexKileTest = new TestToolInKileTest("MakeIndex", m_ki, "MakeIndex", m_tempDir->name() + '/' + "test_index.tex", false);

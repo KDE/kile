@@ -15,8 +15,9 @@
 #ifndef CONFIGCHECKERDIALOG_H
 #define CONFIGCHECKERDIALOG_H
 
-#include <KDialog>
+#include <KAssistantDialog>
 
+#include <QCheckBox>
 #include <QLabel>
 #include <QList>
 #include <QListWidget>
@@ -24,14 +25,7 @@
 
 #include "configtester.h"
 
-class QLabel;
-class QPainter;
-
-class KProgress;
-
 class KileInfo;
-
-class ConfigCheckerWidget;
 
 namespace KileDialog
 {
@@ -41,12 +35,12 @@ class ResultItem : public QListWidgetItem
 		ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests);
 };
 
-class ConfigChecker : public KDialog
+class ConfigChecker : public KAssistantDialog
 {
 		Q_OBJECT
 
 	public:
-		ConfigChecker(KileInfo *kileInfo, QWidget* parent = 0);
+		ConfigChecker(KileInfo *kileInfo, QWidget* parent = NULL);
 		~ConfigChecker();
 
 	public Q_SLOTS:
@@ -54,18 +48,21 @@ class ConfigChecker : public KDialog
 		void started();
 		void finished(bool);
 		void setPercentageDone(int);
-		void saveResults();
 		void slotCancel();
 
-	private:
-		QProgressBar* progressBar();
-		QLabel* label();
-		QListWidget* listWidget();
+		void next();
+
+	protected Q_SLOTS:
+		void assistantFinished();
 
 	private:
 		KileInfo *m_ki;
-		ConfigCheckerWidget *m_widget;
 		Tester    *m_tester;
+		QProgressBar *m_progressBar;
+		QListWidget *m_listWidget;
+		QLabel *m_overallResultLabel;
+		KPageWidgetItem *m_introPageWidgetItem, *m_runningTestsPageWidgetItem, *m_testResultsPageWidgetItem;
+		QCheckBox *m_useEmbeddedViewerCheckBox, *m_useModernConfigurationForLaTeXCheckBox, *m_useModernConfigurationForPDFLaTeX;
 };
 }
 #endif

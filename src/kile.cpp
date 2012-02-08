@@ -2596,7 +2596,9 @@ void Kile::setMasterDocumentFileName(const QString& fileName)
 	ModeAction->setText(i18n("Normal mode (current master document: %1)", shortName));
 	ModeAction->setChecked(true);
 	m_singlemode = false;
+	updateModeStatus();
 	emit masterDocumentChanged();
+	KILE_DEBUG() << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << endl;
 }
 
 void Kile::clearMasterDocument()
@@ -2605,7 +2607,9 @@ void Kile::clearMasterDocument()
 	ModeAction->setChecked(false);
 	m_singlemode = true;
 	m_masterDocumentFileName.clear();
+	updateModeStatus();
 	emit masterDocumentChanged();
+	KILE_DEBUG() << "CLEARING master document";
 }
 
 void Kile::toggleMasterDocumentMode()
@@ -2624,10 +2628,8 @@ void Kile::toggleMasterDocumentMode()
 	}
 	else {
 		ModeAction->setChecked(false);
+		updateModeStatus();
 	}
-
-	updateModeStatus();
-	KILE_DEBUG() << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << endl;
 }
 
 void Kile::toggleWatchFile()
@@ -2671,13 +2673,27 @@ void Kile::generalOptions()
 
 void Kile::slotPerformCheck()
 {
+	// first we have to disable the live preview that may be running, and clear the master document
+	const bool livePreviewEnabledForFreshlyOpenedDocuments = KileConfig::previewEnabledForFreshlyOpenedDocuments();
+	const bool livePreviewEnabledForCurrentDocument = livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
+	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
+	livePreviewManager()->setLivePreviewEnabledForCurrentDocument(false);
+	QString currentMasterDocument = m_masterDocumentFileName;
 	if(!m_singlemode) {
-		m_logWidget->printMessage(KileTool::Error, i18n("Please turn off the \'Master Document\' mode before performing the System Check."), i18n("System Check"));
-		return;
+		clearMasterDocument();
 	}
+	// now, we can run the tests
 	KileDialog::ConfigChecker *dlg = new KileDialog::ConfigChecker(this);
 	dlg->exec();
 	delete dlg;
+	// finally, we restore the rest to what it was before launching the tests
+	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
+	if(!currentMasterDocument.isEmpty()) {
+		setMasterDocumentFileName(currentMasterDocument);
+	}
+	if(livePreviewEnabledForCurrentDocument) {
+		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);
+	}
 }
 
 void Kile::aboutEditorComponent()

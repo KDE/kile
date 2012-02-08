@@ -227,6 +227,7 @@ namespace KileTool
 
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }
+		void setEntry(const QString& key, const QString& value);
 		const QString readEntry(const QString& key) const { return m_entryMap[key]; }
 
 		virtual void prepareToRun();

@@ -100,22 +100,6 @@ void ConfigTest::setName(const QString& name)
 {
 	m_name = name;
 }
-/*
-QString ConfigTest::prettyName(const QString &test)
-{
-	if ( s_prettyName.contains(test) )
-		return s_prettyName[test];
-	else
-		return test;
-}*/
-
-// QString ConfigTest::criticalMessage(const QString &test)
-// {
-// 	if ( s_msgCritical.contains(test) )
-// 		return s_msgCritical[test];
-// 	else
-// 		return i18n("Critical failure");
-// }
 
 Tester::Tester(KileInfo *kileInfo, QObject *parent)
 : QObject(parent),
@@ -127,18 +111,6 @@ Tester::Tester(KileInfo *kileInfo, QObject *parent)
 
 	setupTests();
 	m_nextTestIterator = m_testList.begin();
-#if 0
-	// add some special messages, when programs are not installed,
-	// which are not needed, but probably useful for the work with kile
-FIXME: not finished yet:
-	ConfigTest::addFailureMessage("dvipng", i18n("You cannot use the png preview for mathgroups in the bottom bar."));
-	ConfigTest::addFailureMessage("convert", i18n("You cannot use the png previews with conversions 'dvi->ps->png' and 'pdf->png'."));
-#ifdef Q_WS_WIN
-	ConfigTest::addFailureMessage("acrord32", i18n("You cannot open pdf documents with Adobe Reader because acroread could not be found in your path.  <br>If Adobe Reader is your default pdf viewer, try setting ViewPDF to System Default.  Alternatively, you could use Okular."));
-#else
-	ConfigTest::addFailureMessage("acroread", i18n("You cannot open pdf documents with Adobe Reader, but you could use Okular."));
-#endif
-#endif
 }
 
 Tester::~Tester()
@@ -172,18 +144,18 @@ void Tester::addResult(const QString &tool, ConfigTest* testResult)
 	m_results[tool].push_back(testResult);
 }
 
-QStringList Tester::testedTools()
+QStringList Tester::testGroups()
 {
 	return m_results.keys();
 }
 
-QList<ConfigTest*> Tester::resultForTool(const QString & tool)
+QList<ConfigTest*> Tester::resultForGroup(const QString & tool)
 {
 	return m_results[tool];
 }
 
 // 'isCritical' is set to true iff one tool that failed was critical
-int Tester::statusForTool(const QString &testGroup, bool *isCritical)
+int Tester::statusForGroup(const QString &testGroup, bool *isCritical)
 {
 	if(isCritical) {
 		*isCritical = false;
@@ -267,13 +239,20 @@ void TestToolInKileTest::call()
 		emit(testComplete(this));
 		return;
 	}
-
-	connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(handleToolExit(KileTool::Base*,int)), Qt::UniqueConnection);
+	// We don't want the tool to spawn subtools (especially, for LaTeX-style tools).
+	// If we did, we might come into the situation that a subtool is launched before the
+	// parsing is complete, which could trigger a "root document not found" error message.
+	tool->setEntry("autoRun", "no");
+	connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(handleToolExit(KileTool::Base*,int,bool)), Qt::UniqueConnection);
+	connect(tool, SIGNAL(failedToRun(KileTool::Base*, int)), this, SLOT(reportFailure()));
 	m_ki->toolManager()->run(tool);
 }
 
 void TestToolInKileTest::reportSuccess()
 {
+	m_ki->docManager()->fileClose(m_documentUrl);
+	m_documentUrl.clear();
+
 	m_status = Success;
 	m_resultText = i18n("Passed");
 	emit(testComplete(this));
@@ -281,16 +260,19 @@ void TestToolInKileTest::reportSuccess()
 
 void TestToolInKileTest::reportFailure()
 {
+	m_ki->docManager()->fileClose(m_documentUrl);
+	m_documentUrl.clear();
+
 	m_status = Failure;
 	m_resultText = i18n("Failed");
 	emit(testComplete(this));
 }
 
-void TestToolInKileTest::handleToolExit(KileTool::Base *tool, int status)
+
+void TestToolInKileTest::handleToolExit(KileTool::Base *tool, int status, bool childToolSpawned)
 {
 	Q_UNUSED(tool);
-
-	m_ki->docManager()->fileClose(m_documentUrl);
+	Q_UNUSED(childToolSpawned);
 
 	if(status == KileTool::Success) {
 		reportSuccess();
@@ -362,11 +344,23 @@ void FindProgramTest::call()
 	const QString execPath = KStandardDirs::findExe(m_programName);
 	if(execPath.isEmpty()) {
 		m_status = Failure;
-		if(isCritical()) {
-			m_resultText = i18n("Could not find the binary for this essential tool");
+		if(!m_additionalFailureMessage.isEmpty()) {
+			if(isCritical()) {
+				m_resultText = i18nc("additional failure message given as argument",
+				                     "Could not find the binary for this essential tool. %1", m_additionalFailureMessage);
+			}
+			else {
+				m_resultText = i18nc("additional failure message given as argument",
+				                     "No executable '%1' found. %2", m_programName, m_additionalFailureMessage);
+			}
 		}
 		else {
-			m_resultText = i18n("No executable '%1' found").arg(m_programName);
+			if(isCritical()) {
+				m_resultText = i18n("Could not find the binary for this essential tool");
+			}
+			else {
+				m_resultText = i18n("No executable '%1' found", m_programName);
+			}
 		}
 	}
 	else {
@@ -374,6 +368,11 @@ void FindProgramTest::call()
 		m_resultText = i18nc("executable => path", "Found (%1 => %2)", m_programName, execPath);
 	}
 	emit(testComplete(this));
+}
+
+void FindProgramTest::setAdditionalFailureMessage(const QString& s)
+{
+	m_additionalFailureMessage = s;
 }
 
 ProgramTest::ProgramTest(const QString& testGroup, const QString& programName, const QString& workingDir,
@@ -556,6 +555,29 @@ void SyncTeXSupportTest::processFinishedSuccessfully()
 	reportSuccess();
 }
 
+void Tester::installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2, ConfigTest *t3, ConfigTest *t4)
+{
+	if(!t1) {
+		return;
+	}
+	m_testList << t1;
+	if(!t2) {
+		return;
+	}
+	t2->addDependency(t1);
+	m_testList << t2;
+	if(!t3) {
+		return;
+	}
+	t3->addDependency(t2);
+	m_testList << t3;
+	if(!t4) {
+		return;
+	}
+	t4->addDependency(t3);
+	m_testList << t4;
+}
+
 void Tester::setupTests()
 {
 
@@ -574,10 +596,10 @@ setKey version `getTeXVersion tex`
 performTest basic "$tool test_plain.tex"
 performKileTest kile "run TeX"
 */
-	m_testList
-	<< new FindProgramTest("TeX", "tex", true)
-	<< new ProgramTest("TeX", "tex", m_tempDir->name(), "--interaction=nonstopmode",  "test_plain.tex", "", true)
-	<< new TestToolInKileTest("TeX", m_ki, "TeX", m_tempDir->name() + '/' + "test_plain.tex", true);
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("TeX", "tex", true),
+	    new ProgramTest("TeX", "tex", m_tempDir->name(), "--interaction=nonstopmode",  "test_plain.tex", "", true),
+	    new TestToolInKileTest("TeX", m_ki, "TeX", m_tempDir->name() + '/' + "test_plain.tex", true));
 /*
 echo "starting test: PDFTeX"
 setTool PDFTeX
@@ -589,10 +611,10 @@ performTest basic "$tool test_plain.tex"
 performKileTest kile "run PDFTeX"
 $closeDoc
 */
-	m_testList
-	<< new FindProgramTest("PDFTeX", "pdftex", false)
-	<< new ProgramTest("PDFTeX", "pdftex", m_tempDir->name(), "--interaction=nonstopmode",  "test_plain.tex", "", false)
-	<< new TestToolInKileTest("PDFTeX", m_ki, "PDFTeX", m_tempDir->name() + '/' + "test_plain.tex", false);
+	installConsecutivelyDependentTests(
+	   new FindProgramTest("PDFTeX", "pdftex", false),
+	   new ProgramTest("PDFTeX", "pdftex", m_tempDir->name(), "--interaction=nonstopmode",  "test_plain.tex", "", false),
+	   new TestToolInKileTest("PDFTeX", m_ki, "PDFTeX", m_tempDir->name() + '/' + "test_plain.tex", false));
 /*
 testFileBase="test"
 testFile=$testFileBase.tex
@@ -608,13 +630,13 @@ performTest basic "$tool $testFile"
 performKileTest kile "run LaTeX"
 performTest src "$tool -src $testFile"
 */
-	m_testList
-	<< new FindProgramTest("LaTeX", "latex", true);
 	ProgramTest *latexProgramTest = new ProgramTest("LaTeX", "latex", m_tempDir->name(), "--interaction=nonstopmode",  "test.tex", "", true);
-	m_testList
-	<< latexProgramTest
-	<< new TestToolInKileTest("LaTeX", m_ki, "LaTeX", m_tempDir->name() + '/' + "test.tex", true)
-	<< new LaTeXSrcSpecialsSupportTest("LaTeX", m_tempDir->name(), "test");
+	m_laTeXSrcSpecialsSupportTest = new LaTeXSrcSpecialsSupportTest("LaTeX", m_tempDir->name(), "test");
+	installConsecutivelyDependentTests(
+	   new FindProgramTest("LaTeX", "latex", true),
+	   latexProgramTest,
+	   new TestToolInKileTest("LaTeX", m_ki, "LaTeX", m_tempDir->name() + '/' + "test.tex", true),
+	   m_laTeXSrcSpecialsSupportTest);
 /*
 echo "starting test: PDFLaTeX"
 setTool PDFLaTeX
@@ -624,12 +646,12 @@ setKey where `which pdflatex`
 performTest basic "pdflatex $testFile"
 performKileTest kile "run PDFLaTeX"
 */
-	m_testList
-	<< new FindProgramTest("PDFLaTeX", "pdflatex", false)
-	<< new ProgramTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "--interaction=nonstopmode",  "test.tex", "", false)
-	<< new TestToolInKileTest("PDFLaTeX", m_ki, "PDFLaTeX", m_tempDir->name() + '/' + "test.tex", false);
 	m_pdfLaTeXSyncTeXSupportTest = new SyncTeXSupportTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "test");
-	m_testList << m_pdfLaTeXSyncTeXSupportTest;
+	installConsecutivelyDependentTests(
+	   new FindProgramTest("PDFLaTeX", "pdflatex", false),
+	   new ProgramTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "--interaction=nonstopmode",  "test.tex", "", false),
+	   new TestToolInKileTest("PDFLaTeX", m_ki, "PDFLaTeX", m_tempDir->name() + '/' + "test.tex", false),
+	   m_pdfLaTeXSyncTeXSupportTest);
 /*
 echo "starting test: DVItoPS"
 setTool DVItoPS
@@ -638,10 +660,11 @@ setKey executable dvips
 setKey where `which dvips`
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPS"; fi
 */
-	m_testList << new FindProgramTest("DVItoPS", "dvips", false);
 	TestToolInKileTest *dvipsKileTest = new TestToolInKileTest("DVItoPS", m_ki, "DVItoPS", m_tempDir->name() + '/' + "test.tex", false);
 	dvipsKileTest->addDependency(latexProgramTest);
-	m_testList << dvipsKileTest;
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("DVItoPS", "dvips", false),
+	    dvipsKileTest);
 /*
 echo "starting test: DVItoPDF"
 setTool DVItoPDF
@@ -650,10 +673,11 @@ setKey executable dvipdfmx
 setKey where `which dvipdfmx`
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPDF"; fi
 */
-	m_testList << new FindProgramTest("DVItoPDF", "dvipdfmx", false);
 	TestToolInKileTest *dvipdfmxKileTest = new TestToolInKileTest("DVItoPDF", m_ki, "DVItoPDF", m_tempDir->name() + '/' + "test.tex", false);
 	dvipdfmxKileTest->addDependency(latexProgramTest);
-	m_testList << dvipdfmxKileTest;
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("DVItoPDF", "dvipdfmx", false),
+	    dvipdfmxKileTest);
 /*
 echo "starting test: PStoPDF"
 setTool PStoPDF
@@ -663,10 +687,11 @@ setKey where `which ps2pdf`
 if [ -r $testFileBase.ps ]; then performKileTest kile "run PStoPDF"; fi
 $closeDoc
 */
-	m_testList << new FindProgramTest("PStoPDF", "ps2pdf", false);
 	TestToolInKileTest *ps2pdfKileTest = new TestToolInKileTest("PStoPDF", m_ki, "PStoPDF", m_tempDir->name() + '/' + "test.tex", false);
 	ps2pdfKileTest->addDependency(dvipsKileTest);
-	m_testList << ps2pdfKileTest;
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("PStoPDF", "ps2pdf", false),
+	    ps2pdfKileTest);
 /*
 echo "starting test: BibTeX"
 setTool BibTeX
@@ -684,18 +709,18 @@ then
 	$closeDoc
 fi
 */
-	m_testList << new FindProgramTest("BibTeX", "bibtex", false);
 	TestToolInKileTest *latexForBibTeX = new TestToolInKileTest("BibTeX", m_ki, "LaTeX", m_tempDir->name() + '/' + "test_bib.tex", false);
 	latexForBibTeX->addDependency(latexProgramTest);
 	latexForBibTeX->setSilent(true);
-	m_testList << latexForBibTeX;
 	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtex", m_tempDir->name(), "test_bib",  "", "", false);
 	bibtexProgramTest->addDependency(latexForBibTeX);
-	m_testList << bibtexProgramTest;
 	TestToolInKileTest *bibtexKileTest = new TestToolInKileTest("BibTeX", m_ki, "BibTeX", m_tempDir->name() + '/' + "test_bib.tex", false);
 	bibtexKileTest->addDependency(latexProgramTest);
-	m_testList << bibtexKileTest;
-
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("BibTeX", "bibtex", false),
+	    latexForBibTeX,
+	    bibtexProgramTest,
+	    bibtexKileTest);
 /*
 echo "starting test: MakeIndex"
 setTool MakeIndex
@@ -714,18 +739,18 @@ then
 	$closeDoc
 fi
 */
-	m_testList << new FindProgramTest("MakeIndex", "makeindex", false);
 	TestToolInKileTest *latexForMakeIndex = new TestToolInKileTest("MakeIndex", m_ki, "LaTeX", m_tempDir->name() + '/' + "test_index.tex", false);
 	latexForMakeIndex->addDependency(latexProgramTest);
 	latexForMakeIndex->setSilent(true);
-	m_testList << latexForMakeIndex;
 	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindex", m_tempDir->name(), "test_index",  "", "", false);
 	makeIndexProgramTest->addDependency(latexProgramTest);
-	m_testList << makeIndexProgramTest;
 	TestToolInKileTest *makeindexKileTest = new TestToolInKileTest("MakeIndex", m_ki, "MakeIndex", m_tempDir->name() + '/' + "test_index.tex", false);
 	makeindexKileTest->addDependency(latexProgramTest);
-	m_testList << makeindexKileTest;
-
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("MakeIndex", "makeindex", false),
+	    latexForMakeIndex,
+	    makeIndexProgramTest,
+	    makeindexKileTest);
 /*
 echo "starting test: Okular"
 setTool Okular
@@ -735,9 +760,10 @@ setKey version `getOkularVersion okular`
 performTest okular "isTheOkularVersionRecentEnough"
 setKey where `which okular`
 */
-	m_testList << new FindProgramTest("Okular", "okular", false);
 	m_okularVersionTest = new OkularVersionTest("Okular", false);
-	m_testList << m_okularVersionTest;
+	installConsecutivelyDependentTests(
+	    new FindProgramTest("Okular", "okular", false),
+	    m_okularVersionTest);
 /*
 echo "starting test: Acroread"
 setTool Acroread
@@ -753,7 +779,9 @@ setKey mustpass ""
 setKey executable dvipng
 setKey where `which dvipng`
 */
-	m_testList << new FindProgramTest("DVItoPNG", "dvipng", false);
+	FindProgramTest *dvipngProgramTest = new FindProgramTest("DVItoPNG", "dvipng", false);
+	dvipngProgramTest->setAdditionalFailureMessage(i18n("PNG previews cannot be used for mathgroups in the bottom preview pane"));
+	m_testList << dvipngProgramTest;
 /*
 echo "starting test: Convert"
 setTool Convert
@@ -761,7 +789,9 @@ setKey mustpass ""
 setKey executable convert
 setKey where `which convert`
 */
-	m_testList << new FindProgramTest("Convert", "convert", false);
+	FindProgramTest *convertProgramTest = new FindProgramTest("Convert", "convert", false);
+	convertProgramTest->setAdditionalFailureMessage(i18n("PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' in the bottom preview pane"));
+	m_testList << convertProgramTest;
 }
 
 bool Tester::isSyncTeXSupportedForPDFLaTeX()
@@ -772,6 +802,11 @@ bool Tester::isSyncTeXSupportedForPDFLaTeX()
 bool Tester::isViewerModeSupportedInOkular()
 {
 	return m_okularVersionTest->isViewerModeSupported();
+}
+
+bool Tester::areSrcSpecialsSupportedForLaTeX()
+{
+	return (m_laTeXSrcSpecialsSupportTest->status() == ConfigTest::Success);
 }
 
 #include "configtester.moc"

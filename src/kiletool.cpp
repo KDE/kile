@@ -114,6 +114,11 @@ namespace KileTool
 		return (flags() & NeedSaveAll);
 	}
 
+	void Base::setEntry(const QString& key, const QString& value)
+	{
+		m_entryMap[key] = value;
+	}
+
 	void Base::prepareToRun()
 	{
 		KILE_DEBUG() << "==Base::prepareToRun()=======";
@@ -620,7 +625,9 @@ namespace KileTool
 
 		bool isRoot = true;
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
-		if (docinfo) isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
+		if (docinfo) {
+			isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
+		}
 
 		if (!isRoot)
 		{

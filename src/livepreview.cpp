@@ -217,6 +217,17 @@ void LivePreviewManager::previewForCurrentDocumentActionTriggered(bool b)
 	}
 }
 
+bool LivePreviewManager::isLivePreviewEnabledForCurrentDocument()
+{
+	return m_previewForCurrentDocumentAction->isChecked();
+}
+
+void LivePreviewManager::setLivePreviewEnabledForCurrentDocument(bool b)
+{
+	m_previewForCurrentDocumentAction->setChecked(b);
+	previewForCurrentDocumentActionTriggered(b);
+}
+
 void LivePreviewManager::disablePreview()
 {
 	stopAndClearPreview();

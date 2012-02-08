@@ -103,8 +103,11 @@ class FindProgramTest : public ConfigTest
 
 		virtual void call();
 
+		void setAdditionalFailureMessage(const QString& s);
+
 	protected:
 		QString m_programName;
+		QString m_additionalFailureMessage;
 };
 
 class TestToolInKileTest : public ConfigTest
@@ -116,12 +119,11 @@ class TestToolInKileTest : public ConfigTest
 
 		virtual void call();
 
-	protected:
+	protected Q_SLOTS:
+		void handleToolExit(KileTool::Base *tool, int status, bool childToolSpawned);
+
 		void reportSuccess();
 		void reportFailure();
-
-	protected Q_SLOTS:
-		void handleToolExit(KileTool::Base *tool, int status);
 
 	protected:
 		KileInfo *m_ki;
@@ -143,13 +145,12 @@ class ProgramTest : public ConfigTest
 
 		virtual void call();
 
-	protected:
-		virtual void reportSuccess();
-		virtual void reportFailure();
-
 	protected Q_SLOTS:
 		virtual void handleTestProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 		virtual void handleTestProcessError(QProcess::ProcessError error);
+
+		virtual void reportSuccess();
+		virtual void reportFailure();
 
 	protected:
 		KProcess *m_testProcess;
@@ -200,12 +201,13 @@ public:
 	Tester(KileInfo *kileInfo, QObject *parent = 0);
 	~Tester();
 
-	QStringList testedTools();
-	QList<ConfigTest*> resultForTool(const QString &);
-	int statusForTool(const QString &testGroup, bool *isCritical = NULL);
+	QStringList testGroups();
+	QList<ConfigTest*> resultForGroup(const QString &);
+	int statusForGroup(const QString &testGroup, bool *isCritical = NULL);
 
 	bool isSyncTeXSupportedForPDFLaTeX();
 	bool isViewerModeSupportedInOkular();
+	bool areSrcSpecialsSupportedForLaTeX();
 
 public Q_SLOTS:
 	void runTests();
@@ -231,7 +233,7 @@ private:
 	QLinkedList<ConfigTest*> m_testList;
 	QLinkedList<ConfigTest*>::iterator m_nextTestIterator;
 	int					m_testsDone;
-	ConfigTest *m_pdfLaTeXSyncTeXSupportTest;
+	ConfigTest *m_pdfLaTeXSyncTeXSupportTest, *m_laTeXSrcSpecialsSupportTest;
 	OkularVersionTest *m_okularVersionTest;
 
 	QString m_runningTestGroup;
@@ -239,6 +241,9 @@ private:
 	bool m_runningTestCritical;
 
 	void setupTests();
+	void installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2 = NULL,
+	                                                        ConfigTest *t3 = NULL,
+	                                                        ConfigTest *t4 = NULL);
 };
 
 #endif

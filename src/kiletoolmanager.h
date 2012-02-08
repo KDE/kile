@@ -1,6 +1,6 @@
 /**************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -111,6 +111,9 @@ namespace KileTool
 		bool shouldBlock();
 		int lastResult() { return m_nLastResult; }
 
+		// convenience method; also see the static method of the same name below
+		void setConfigName(const QString &tool, const QString &name);
+
 	public Q_SLOTS:
 		void run(KileTool::Base *tool);
 
@@ -168,8 +171,9 @@ namespace KileTool
 	QStringList toolList(KConfig *config, bool menuOnly = false);
 	QStringList configNames(const QString &tool, KConfig *config);
 
-	QString configName(const QString & tool, KConfig *);
-	void setConfigName(const QString & tool, const QString & name, KConfig *);
+	// configuration names must be in English, i.e. not translated!
+	QString configName(const QString &tool, KConfig *config);
+	void setConfigName(const QString &tool, const QString &name, KConfig *config);
 
 	QString groupFor(const QString & tool, KConfig *);
 	QString groupFor(const QString & tool, const QString & cfg = "Default" );

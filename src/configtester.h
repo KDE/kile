@@ -87,6 +87,11 @@ class OkularVersionTest : public ConfigTest
 		~OkularVersionTest();
 
 		virtual void call();
+
+		bool isViewerModeSupported() const;
+
+	private:
+		bool m_isViewerModeSupported;
 };
 
 class FindProgramTest : public ConfigTest
@@ -171,6 +176,22 @@ class LaTeXSrcSpecialsSupportTest : public ProgramTest
 		virtual void processFinishedSuccessfully();
 };
 
+class SyncTeXSupportTest : public ProgramTest
+{
+	Q_OBJECT
+	public:
+		SyncTeXSupportTest(const QString& testGroup, const QString& toolName, const QString& workingDir,
+		                                                                      const QString& fileBaseName);
+		~SyncTeXSupportTest();
+
+	protected:
+		QString m_fileBaseName;
+
+		virtual void reportSuccess();
+		virtual void reportFailure();
+		virtual void processFinishedSuccessfully();
+};
+
 class Tester : public QObject
 {
 	Q_OBJECT
@@ -182,6 +203,9 @@ public:
 	QStringList testedTools();
 	QList<ConfigTest*> resultForTool(const QString &);
 	int statusForTool(const QString &testGroup, bool *isCritical = NULL);
+
+	bool isSyncTeXSupportedForPDFLaTeX();
+	bool isViewerModeSupportedInOkular();
 
 public Q_SLOTS:
 	void runTests();
@@ -198,6 +222,7 @@ private Q_SLOTS:
 
 	void handleFileCopyResult(KJob* job);
 	void handleTestComplete(ConfigTest *test);
+
 private:
 	KileInfo *m_ki;
 	QMap<QString, QList<ConfigTest*> >	m_results;
@@ -206,6 +231,8 @@ private:
 	QLinkedList<ConfigTest*> m_testList;
 	QLinkedList<ConfigTest*>::iterator m_nextTestIterator;
 	int					m_testsDone;
+	ConfigTest *m_pdfLaTeXSyncTeXSupportTest;
+	OkularVersionTest *m_okularVersionTest;
 
 	QString m_runningTestGroup;
 	KUrl m_runningToolTestUrl;

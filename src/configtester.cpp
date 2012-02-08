@@ -323,17 +323,28 @@ void OkularVersionTest::call()
 		version = factory->componentData().aboutData()->version();
 	}
 
-	if(compareVersionStrings(version, "0.8.6") >= 0) {
+	m_isViewerModeSupported = false;
+	if(compareVersionStrings(version, "0.14.80") >= 0) {
 		m_status = Success;
-		m_resultText = i18n("%1 - Forward Search is supported",version);
+		m_isViewerModeSupported = true;
+		m_resultText = i18n("%1 - Forward Search and Embedded Viewer Mode are supported",version);
+	}
+	else if(compareVersionStrings(version, "0.8.6") >= 0) {
+		m_status = Failure;
+		m_resultText = i18n("%1 - Forward Search is supported, but not Embedded Viewer mode",version);
 	}
 	else {
 		m_status = Failure;
-		m_resultText = i18n("%1 - The installed version is too old for Forward Search; "
-		                    "you must use at least version 0.8.6", version);
+		m_resultText = i18n("%1 - The installed version is too old for Forward Search and Embedded Viewer mode; "
+		                    "you must use at least version 0.8.6 for Forward Search, and 0.14.80 for Embedded Viewer Mode", version);
 	}
 
 	emit(testComplete(this));
+}
+
+bool OkularVersionTest::isViewerModeSupported() const
+{
+	return m_isViewerModeSupported;
 }
 
 FindProgramTest::FindProgramTest(const QString& testGroup, const QString& programName, bool isCritical)
@@ -494,7 +505,7 @@ void LaTeXSrcSpecialsSupportTest::processFinishedSuccessfully()
 
 void LaTeXSrcSpecialsSupportTest::reportSuccess()
 {
-	m_resultText = i18n("Supported, use the 'Modern' configuration for (La)TeX and PDF(La)TeX to auto-enable inverse and forward search capabilities.");
+	m_resultText = i18n("Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse and forward search capabilities.");
 	m_status = Success;
 	emit(testComplete(this));
 }
@@ -504,6 +515,45 @@ void LaTeXSrcSpecialsSupportTest::reportFailure()
 	m_resultText = i18n("Not supported, use the srcltx package to enable the inverse and forward search capabilities.");
 	m_status = Failure;
 	emit(testComplete(this));
+}
+
+
+SyncTeXSupportTest::SyncTeXSupportTest(const QString& testGroup, const QString& toolName, const QString& workingDir,
+                                        const QString& fileBaseName)
+: ProgramTest(testGroup, toolName, workingDir, "-synctex=1", "--interaction=nonstopmode", fileBaseName + ".tex", false),
+  m_fileBaseName(fileBaseName)
+{
+	setName(i18n("SyncTeX Support"));
+}
+
+SyncTeXSupportTest::~SyncTeXSupportTest()
+{
+}
+
+void SyncTeXSupportTest::reportSuccess()
+{
+	m_resultText = i18n("Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-enable inverse and forward search capabilities.");
+	m_status = Success;
+	emit(testComplete(this));
+}
+
+void SyncTeXSupportTest::reportFailure()
+{
+	m_resultText = i18n("Not supported");
+	m_status = Failure;
+	emit(testComplete(this));
+}
+
+void SyncTeXSupportTest::processFinishedSuccessfully()
+{
+	// before we can report success, we still have to check
+	// whether a .synctex.gz file has been generated
+	QFile file(m_workingDir + '/' + m_fileBaseName + ".synctex.gz");
+	if (!file.exists()) {
+		reportFailure();
+		return;
+	}
+	reportSuccess();
 }
 
 void Tester::setupTests()
@@ -578,6 +628,8 @@ performKileTest kile "run PDFLaTeX"
 	<< new FindProgramTest("PDFLaTeX", "pdflatex", false)
 	<< new ProgramTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "--interaction=nonstopmode",  "test.tex", "", false)
 	<< new TestToolInKileTest("PDFLaTeX", m_ki, "PDFLaTeX", m_tempDir->name() + '/' + "test.tex", false);
+	m_pdfLaTeXSyncTeXSupportTest = new SyncTeXSupportTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "test");
+	m_testList << m_pdfLaTeXSyncTeXSupportTest;
 /*
 echo "starting test: DVItoPS"
 setTool DVItoPS
@@ -637,7 +689,7 @@ fi
 	latexForBibTeX->addDependency(latexProgramTest);
 	latexForBibTeX->setSilent(true);
 	m_testList << latexForBibTeX;
-	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtex", m_tempDir->name(), "test_bib",  "", "", false);
+	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtexw", m_tempDir->name(), "test_bib",  "", "", false);
 	bibtexProgramTest->addDependency(latexForBibTeX);
 	m_testList << bibtexProgramTest;
 	TestToolInKileTest *bibtexKileTest = new TestToolInKileTest("BibTeX", m_ki, "BibTeX", m_tempDir->name() + '/' + "test_bib.tex", false);
@@ -667,7 +719,7 @@ fi
 	latexForMakeIndex->addDependency(latexProgramTest);
 	latexForMakeIndex->setSilent(true);
 	m_testList << latexForMakeIndex;
-	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindex", m_tempDir->name(), "test_index",  "", "", false);
+	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindexs", m_tempDir->name(), "test_index",  "", "", false);
 	makeIndexProgramTest->addDependency(latexProgramTest);
 	m_testList << makeIndexProgramTest;
 	TestToolInKileTest *makeindexKileTest = new TestToolInKileTest("MakeIndex", m_ki, "MakeIndex", m_tempDir->name() + '/' + "test_index.tex", false);
@@ -683,8 +735,9 @@ setKey version `getOkularVersion okular`
 performTest okular "isTheOkularVersionRecentEnough"
 setKey where `which okular`
 */
-	m_testList << new FindProgramTest("Okular", "okular", false)
-	           << new OkularVersionTest("Okular", false);
+	m_testList << new FindProgramTest("Okular", "okular", false);
+	m_okularVersionTest = new OkularVersionTest("Okular", false);
+	m_testList << m_okularVersionTest;
 /*
 echo "starting test: Acroread"
 setTool Acroread
@@ -709,6 +762,16 @@ setKey executable convert
 setKey where `which convert`
 */
 	m_testList << new FindProgramTest("Convert", "convert", false);
+}
+
+bool Tester::isSyncTeXSupportedForPDFLaTeX()
+{
+	return (m_pdfLaTeXSyncTeXSupportTest->status() == ConfigTest::Success);
+}
+
+bool Tester::isViewerModeSupportedInOkular()
+{
+	return m_okularVersionTest->isViewerModeSupported();
 }
 
 #include "configtester.moc"

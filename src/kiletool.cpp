@@ -84,7 +84,7 @@ namespace KileTool
 
 		return src;
 	}
-	
+
 	void Base::setMsg(long n, const KLocalizedString& msg)
 	{
 		m_messages[n] = msg;
@@ -100,7 +100,7 @@ namespace KileTool
 		//Windows doesn't like single quotes on command line '*.tex'
 		#ifdef Q_WS_WIN
 			str.replace('\'', '\"');
-		#endif 
+		#endif
 	}
 
 	void Base::removeFlag(uint flag)
@@ -125,21 +125,21 @@ namespace KileTool
 			m_bPrepared = false;
 			return;
 		}
-		
+
 		if (!determineSource())
 		{
 			m_nPreparationResult = NoValidSource;
 			m_bPrepared = false;
 			return;
 		}
-			
+
 		if (!determineTarget())
 		{
 			m_nPreparationResult = NoValidTarget;
 			m_bPrepared = false;
 			return;
 		}
-			
+
 		if ( m_launcher == 0 )
 		{
 			m_nPreparationResult = NoLauncherInstalled;
@@ -167,20 +167,24 @@ namespace KileTool
 	int Base::run()
 	{
 		KILE_DEBUG() << "==KileTool::Base::run()=================";
-	
+
 		if(m_nPreparationResult != 0) {
+			emit(failedToRun(this, m_nPreparationResult));
 			return m_nPreparationResult;
 		}
 
 		if(!checkSource()) {
+			emit(failedToRun(this, NoValidSource));
 			return NoValidSource;
 		}
 
 		if(!checkTarget()) {
+			emit(failedToRun(this, TargetHasWrongPermissions));
 			return TargetHasWrongPermissions;
 		}
 
 		if (!checkPrereqs()) {
+			emit(failedToRun(this, NoValidPrereqs));
 			return NoValidPrereqs;
 		}
 
@@ -189,12 +193,15 @@ namespace KileTool
 		if (!m_launcher || !m_launcher->launch()) {
 			KILE_DEBUG() << "\tlaunching failed";
 			if(!m_launcher) {
+				emit(failedToRun(this, CouldNotLaunch));
 				return CouldNotLaunch;
 			}
 			if(!m_launcher->selfCheck()) {
+				emit(failedToRun(this, SelfCheckFailed));
 				return SelfCheckFailed;
 			}
 			else {
+				emit(failedToRun(this, CouldNotLaunch));
 				return CouldNotLaunch;
 			}
 		}
@@ -223,7 +230,7 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	bool Base::checkSource()
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
@@ -294,7 +301,7 @@ namespace KileTool
 		addDict("%dir_base", m_basedir);
 		addDict("%source", m_source);
 		addDict("%S",m_S);
-		
+
 		KILE_DEBUG() << "===KileTool::Base::setSource()==============";
 		KILE_DEBUG() << "using " << source;
 		KILE_DEBUG() << "source="<<m_source;
@@ -307,7 +314,7 @@ namespace KileTool
 	{
 		m_texInputs = s;
 	}
-	
+
 	QString Base::teXInputPaths() const
 	{
 		return m_texInputs;
@@ -383,7 +390,7 @@ namespace KileTool
 		KILE_DEBUG() << "==KileTool::Base::determineTarget()=========";
 		KILE_DEBUG() << "\tm_targetdir=" << m_targetdir;
 		KILE_DEBUG() << "\tm_target=" << m_target;
-		
+
 		return true;
 	}
 
@@ -391,7 +398,7 @@ namespace KileTool
 	{
 		//check if the target directory is accessible
 		QFileInfo info(m_targetdir);
-		
+
 		if((flags() & NeedTargetDirExec ) && (!info.isExecutable())) {
 			sendMessage(Error, msg(NeedTargetDirExec).subs(m_targetdir).toString());
 			return false;
@@ -416,13 +423,13 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	void Base::setTarget(const QString &target)
 	{
 		m_target = target;
 		addDict("%target", m_target);
 	}
-	
+
 	void Base::setTargetDir(const QString &target)
 	{
 		m_targetdir = target;
@@ -435,7 +442,7 @@ namespace KileTool
 		setTarget(fi.fileName());
 		setTargetDir(fi.absolutePath());
 	}
-	
+
 	bool Base::checkPrereqs()
 	{
 		return true;
@@ -459,13 +466,13 @@ namespace KileTool
 
 		if ( result == Aborted )
 			sendMessage(Error, "Aborted");
-		
+
 		if ( result == Success )
 			sendMessage(Info,"Done!");
 
 		KILE_DEBUG() << "\temitting done(KileTool::Base*, int) " << name();
 		emit(done(this, result, m_childToolSpawned));
-	
+
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
 		if (result == Success) {
 			return true;
@@ -498,7 +505,7 @@ namespace KileTool
 		m_launcher = lr;
 		//lr->setParamDict(paramDict());
 		lr->setTool(this);
-		
+
 		connect(lr, SIGNAL(message(int, const QString &)), this, SLOT(sendMessage(int, const QString &)));
 		connect(lr, SIGNAL(output(const QString &)), this, SLOT(filterOutput(const QString &)));
 		connect(lr, SIGNAL(done(int)), this, SLOT(finish(int)));
@@ -529,8 +536,8 @@ namespace KileTool
 		{
 			lr = new DocPartLauncher();
 		}
-		
-		if (lr) 
+
+		if (lr)
 		{
 			installLauncher(lr);
 			return true;
@@ -541,7 +548,7 @@ namespace KileTool
 			return false;
 		}
 	}
-	
+
 	void Base::sendMessage(int type, const QString &msg)
 	{
 		emit(message(type, msg, name()));
@@ -584,7 +591,7 @@ namespace KileTool
 
 		KILE_DEBUG() << "\ttarget: " << targetinfo.lastModified().toString();
 		KILE_DEBUG() << "\tsource: " << sourceinfo.lastModified().toString();
-		
+
 		if(targetinfo.lastModified() > currDateTime) {
 			KILE_DEBUG() << "targetinfo.lastModifiedTime() is in the future";
 			return false;
@@ -593,7 +600,7 @@ namespace KileTool
 			KILE_DEBUG() << "sourceinfo.lastModifiedTime() is in the future";
 			return false;
 		}
-		
+
 		KILE_DEBUG() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified());
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
@@ -606,7 +613,7 @@ namespace KileTool
 
 	Compile::~Compile()
 	{}
-	
+
 	bool Compile::checkSource()
 	{
 		if ( !Base::checkSource() ) return false;
@@ -622,12 +629,12 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	View::View(const QString &name, Manager * manager, bool prepare /*= true*/)
 		: Base(name, manager, prepare)
 	{
 		setFlags(NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
-		
+
 		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists);
 		setMsg(NeedTargetExists, ki18n("The file %1/%2 does not exist; did you compile the source file?"));
 	}
@@ -642,7 +649,7 @@ namespace KileTool
 	{
 		setFlags( NeedTargetDirExec | NeedTargetDirWrite );
 	}
-	
+
 	Archive::~Archive()
 	{}
 
@@ -679,23 +686,23 @@ namespace KileTool
 		manager()->info()->docManager()->projectSave(m_project);
 		Base::setSource(m_project->url().toLocalFile());
 		m_fileList = m_project->archiveFileList();
-		
+
 		addDict("%AFL", m_fileList);
-		
+
 		KILE_DEBUG() << "===KileTool::Archive::setSource("<< source << ")==============";
 		KILE_DEBUG() << "m_fileList="<<m_fileList<<endl;
 	}
-	
+
 	Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)
 		: Base(name, manager,prepare)
 	{
 		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite );
 	}
-	
+
 	Convert::~Convert()
 	{
 	}
-	
+
 	bool Convert::determineSource()
 	{
 		bool  br = Base::determineSource();

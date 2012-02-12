@@ -344,6 +344,8 @@ namespace KileTool
 		if(result != Success && result != Silent) { //abort execution, delete all remaining tools
 			if(tool->isPartOfLivePreview()) { // live preview was stopped / aborted
 				deleteLivePreviewToolsFromQueue();
+				// don't forget to run non-live preview tools that are pending
+				runNextInQueue();
 			}
 			else {
 				for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {

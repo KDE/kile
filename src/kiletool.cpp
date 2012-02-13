@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
-                2010-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -720,17 +720,38 @@ namespace KileTool
 	Sequence::Sequence(const QString &name, Manager *manager, bool prepare /*= true*/)
 	 : Base(name, manager, prepare)
 	{
-		QStringList tools = readEntry("sequence").split(',');
+	}
+
+	Sequence::~Sequence() {
+		qDeleteAll(m_tools);
+	}
+
+	bool Sequence::requestSaveAll()
+	{
+		// if one of the tools in the sequence requests save-all, then we also
+		// request it
+		for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+			if((*i)->requestSaveAll()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	void Sequence::setupSequenceTools()
+	{
+		QStringList toolNameList = readEntry("sequence").split(',');
 		QString tl, cfg;
 		Base *tool;
-		for(QStringList::iterator i = tools.begin(); i != tools.end(); ++i) {
+		for(QStringList::iterator i = toolNameList.begin(); i != toolNameList.end(); ++i) {
 			QString fullToolSpec = (*i).trimmed();
 			extract(fullToolSpec, tl, cfg);
 
-			tool = manager->createTool(tl, cfg, false); // create tool with delayed preparation
+			tool = manager()->createTool(tl, cfg, false); // create tool with delayed preparation
 			if (tool) {
 				KILE_DEBUG() << "===tool created with name " << tool->name();
-				if(!(manager->info()->watchFile() && tool->isViewer())) { // FIXME: why this?
+				if(!(manager()->info()->watchFile() && tool->isViewer())) { // FIXME: why this?
 					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
 					m_tools << tool;
 				}
@@ -740,28 +761,11 @@ namespace KileTool
 			}
 			else {
 				m_unknownToolSpec = fullToolSpec;
-				break;
+				qDeleteAll(m_tools);
+				m_tools.clear();
+				return;
 			}
 		}
-	}
-
-	Sequence::~Sequence() {
-		for(QList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
-			delete *i;
-		}
-	}
-
-	bool Sequence::requestSaveAll()
-	{
-		// if one of the tools in the sequence requests save-all, then we also
-		// request it
-		for(QList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
-			if((*i)->requestSaveAll()) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	int Sequence::run()
@@ -770,21 +774,24 @@ namespace KileTool
 
 		determineSource();
 		if (!checkSource()) {
+			// tools in 'm_tools' will be deleted in the destructor
 			return NoValidSource;
 		}
 
 		if(!m_unknownToolSpec.isEmpty()) {
+			// 'm_tools' is empty
 			sendMessage(Error, i18n("Unknown tool %1.", m_unknownToolSpec));
 			emit(done(this, Failed, m_childToolSpawned));
 			return ConfigureFailed;
 		}
 
-		for(QList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+		for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
 			Base *tool = *i;
 			tool->setSource(source());
 			manager()->run(tool);
 		}
 
+		m_tools.clear(); // the tools will be deleted by the tool manager from now on
 		emit(done(this, Silent, m_childToolSpawned));
 
 		return Success;

@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -16,6 +16,7 @@
 #define KILETOOL_H
 
 #include <QHash>
+#include <QLinkedList>
 #include <QMap>
 #include <QObject>
 #include <QString>
@@ -375,16 +376,17 @@ namespace KileTool
 
 		bool requestSaveAll();
 
-	protected:
-		Sequence(const QString &name, Manager * manager, bool prepare = true);
-		~Sequence();
+		void setupSequenceTools();
 
 	public Q_SLOTS:
 		int run();
 
-	private:
+	protected:
+		Sequence(const QString &name, Manager *manager, bool prepare = true);
+		~Sequence();
+
+		QLinkedList<Base*> m_tools;
 		QString m_unknownToolSpec;
-		QList<Base*> m_tools;
 	};
 }
 

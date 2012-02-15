@@ -44,34 +44,11 @@
 #include <QString>
 
 /*
- * Class KileMainWindow.
- */
-
-KileMainWindow::KileMainWindow(KileInfo *ki, QWidget *parent, Qt::WindowFlags f)
-: KParts::MainWindow(parent, f), m_ki(ki)
-{
-}
-
-KileMainWindow::~KileMainWindow()
-{
-}
-
-bool KileMainWindow::queryExit()
-{
-	return m_ki->queryExit();
-}
-
-bool KileMainWindow::queryClose()
-{
-	return m_ki->queryClose();
-}
-
-/*
  * Class KileInfo.
  */
 
-KileInfo::KileInfo(QObject *parent) :
-	m_mainWindow(NULL),
+KileInfo::KileInfo(KParts::MainWindow *parent) :
+	m_mainWindow(parent),
 	m_manager(NULL),
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),
@@ -88,7 +65,7 @@ KileInfo::KileInfo(QObject *parent) :
 	                 m_viewManager,
 	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
-	
+
 	m_editorCommands = new EditorCommands(this);
 }
 

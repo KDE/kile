@@ -27,7 +27,6 @@
 #include <QWidget>
 #include <QSignalMapper>
 
-#include <KApplication>
 #include <kdeversion.h>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
@@ -93,7 +92,7 @@ struct userItem
 /**
  * The Kile main class. It acts as information manager and DBUS interface. It also manages the main window.
  **/
-class Kile : public KApplication, public KileInfo
+class Kile : public KParts::MainWindow, public KileInfo
 {
 	Q_OBJECT
 
@@ -102,16 +101,6 @@ public:
 	~Kile();
 
 	int lineNumber();
-
-	// these functions provide convenient access to the corresponding functions of KMainWindow
-	KActionCollection* actionCollection();
-	KMenuBar* menuBar();
-	KToolBar* toolBar(const QString &name=QString());
-	KStatusBar* statusBar();
-
-	QAction* action(const QString& name) const;
-// 	void plugActionList(const QString& name, const QList<QAction*>& actionList);
-// 	void unplugActionList(const QString& name);
 
 public Q_SLOTS:
 	void setCursor(const KUrl &, int, int);

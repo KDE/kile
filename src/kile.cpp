@@ -28,6 +28,7 @@
 #include <KAboutApplicationDialog>
 #include <KAction>
 #include <KActionMenu>
+#include <KApplication>
 #include <KConfigGroup>
 #include <KEditToolBar>
 #include <KHelpMenu>
@@ -101,7 +102,7 @@
  */
 
 Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
-:	KApplication(),
+:	 KParts::MainWindow(),
 	KileInfo(this),
 	m_paPrint(NULL),
 	m_parserProgressBar(NULL),
@@ -114,10 +115,9 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	dbus.registerObject("/main", this);
 	dbus.registerService("net.sourceforge.kile"); // register under a constant names
 
-	m_mainWindow = new KileMainWindow(this);
 	// BUG 220343: Under some circumstances (Qt 4.5.3 or KDE 4.3 issues (?)) Kile doesn't terminate when the
 	//             main window is closed. So, we force this here. Everything seems to work fine with Qt 4.6.
-	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
+// 	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
 
 	QSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {
@@ -312,42 +312,6 @@ Kile::~Kile()
 	delete m_latexCommands;
 	delete m_extensions;
 }
-
-KActionCollection* Kile::actionCollection()
-{
-	return m_mainWindow->actionCollection();
-}
-
-KMenuBar* Kile::menuBar()
-{
-	return m_mainWindow->menuBar();
-}
-
-KToolBar* Kile::toolBar(const QString &name)
-{
-	return m_mainWindow->toolBar(name);
-}
-
-KStatusBar* Kile::statusBar()
-{
-	return m_mainWindow->statusBar();
-}
-
-QAction* Kile::action(const QString& name) const
-{
-	return m_mainWindow->actionCollection()->action(name);
-}
-
-// currently not usable due to https://bugs.kde.org/show_bug.cgi?id=194732
-// void Kile::plugActionList(const QString& name, const QList<QAction*>& actionList)
-// {
-// 	m_mainWindow->plugActionList(name, actionList);
-// }
-//
-// void Kile::unplugActionList(const QString& name)
-// {
-// 	m_mainWindow->unplugActionList(name);
-// }
 
 void Kile::setupStatusBar()
 {
@@ -953,7 +917,7 @@ void Kile::createToolActions()
 	QStringList tools = KileTool::toolList(m_config.data());
 	for (QStringList::iterator i = tools.begin(); i != tools.end(); ++i) {
 		QString toolName = *i;
-		if(!action("tool_" + toolName)) {
+		if(!actionCollection()->action("tool_" + toolName)) {
 			KILE_DEBUG() << "Creating action for tool" << toolName;
 			QAction *act = createToolAction(toolName);
 			m_signalMapper->removeMappings(act);
@@ -1035,7 +999,7 @@ void Kile::setupTools()
 
 		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
-		act = action("tool_" + tools[i]);
+		act = actionCollection()->action("tool_" + tools[i]);
 		if(!act) {
 			KILE_DEBUG() << "no tool for " << tools[i];
 			act = createToolAction(tools[i]);
@@ -1045,7 +1009,7 @@ void Kile::setupTools()
 		pl->append(act);
 
 		if(pSelectAction){
-			pSelectAction->addAction(action("tool_" + tools[i]));
+			pSelectAction->addAction(actionCollection()->action("tool_" + tools[i]));
 		}
 	}
 
@@ -1740,7 +1704,7 @@ void Kile::activePartGUI(KParts::Part *part)
 		m_paPrint->setEnabled(false);
 	}
 
-	m_mainWindow->createGUI(part);
+	createGUI(part);
 	updateUserDefinedMenus();
 
 	// finally update the GUI regarding the current state

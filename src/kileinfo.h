@@ -56,28 +56,10 @@ namespace KileAbbreviation { class Manager; }
 
 class EditorCommands;
 
-class KileMainWindow : public KParts::MainWindow
-{
-	friend class Kile;
-
-	public:
-		KileMainWindow(KileInfo *kileInfo, QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
-		virtual ~KileMainWindow();
-
-	protected:
-		virtual bool queryExit();
-		virtual bool queryClose();
-
-	private:
-		KileInfo *m_ki;
-};
-
 class KileInfo
 {
-	friend class KileMainWindow;
-
 public:
-	KileInfo(QObject *parent);
+	KileInfo(KParts::MainWindow *mainWindow);
 	virtual ~KileInfo();
 
 public:
@@ -133,9 +115,9 @@ public:
 
 	LatexOutputFilter * outputFilter() { return m_outputFilter; }
 	LatexOutputInfoArray * outputInfo() { return m_outputInfo; }
-	
+
 	virtual int lineNumber() = 0;
-	
+
 	KileWidget::StructureWidget *structureWidget() { return m_kwStructure; }
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::OutputView *outputWidget() { return m_outputWidget; }
@@ -162,7 +144,7 @@ public:
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
 
-	KileMainWindow* mainWindow() const { return m_mainWindow; }
+	KParts::MainWindow* mainWindow() const { return m_mainWindow; }
 
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
@@ -170,7 +152,7 @@ public:
 
 protected:
 	KileConfiguration::Manager	*m_configurationManager;
-	KileMainWindow			*m_mainWindow;
+	KParts::MainWindow		*m_mainWindow;
 	KileDocument::Manager		*m_docManager;
 	KileView::Manager		*m_viewManager;
 	KileTool::Manager		*m_manager;
@@ -183,7 +165,7 @@ protected:
 	KileWidget::LogWidget		*m_logWidget;
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileWidget::BottomBar		*m_bottomBar;
-	KileWidget::PreviewWidget	*m_previewWidget; 
+	KileWidget::PreviewWidget	*m_previewWidget;
 	KileWidget::ExtendedScrollArea	*m_previewScrollArea;
 	KileCodeCompletion::Manager	*m_codeCompletionManager;
 	KileAbbreviation::Manager	*m_abbreviationManager;
@@ -200,7 +182,7 @@ protected:
 	QString	m_masterName;
 
 	QString	m_currentTarget;
-	
+
 	bool m_bWatchFile, m_logPresent;
 
 	LatexOutputFilter		*m_outputFilter;

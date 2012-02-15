@@ -2,6 +2,7 @@
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 - 2005 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -20,6 +21,7 @@
 #include <QTextCodec>
 
 #include <KAboutData>
+#include <KApplication>
 #include <KCmdLineArgs>
 #include <KGlobal>
 #include <KLocale>
@@ -136,29 +138,32 @@ int main( int argc, char ** argv )
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
+	// this has to go before the DBus connection
+	KApplication app;
+
 	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
 	if(!running  || args->isSet("new")) {
 		bool restore = (args->count() == 0);
-		Kile app(restore);
+		Kile *kile = new Kile(restore);
 
 		for(int i = 0; i < args->count(); ++i) {
 			//FIXME: check whether this can be used to open Urls
 			if(isProject(args->arg(i))) {
-				app.openProject(completePath(args->arg(i)));
+				kile->openProject(completePath(args->arg(i)));
 			}
 			else if(args->arg(i) == "-"){
-				app.openDocument(readDataFromStdin());
+				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				app.openDocument(completePath(args->arg(i)));
+				kile->openDocument(completePath(args->arg(i)));
 			}
 		}
 
 		if(args->isSet("line")){
 			QString line = args->getOption("line");
-			app.setLine(line);
+			kile->setLine(line);
 		}
 
 		args->clear();

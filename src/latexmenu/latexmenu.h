@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -36,7 +35,7 @@ class LatexUserMenu : public QObject
 
 	public:
 		enum MenuPosition { DaniMenuPosition=0x00, LatexMenuPosition=0x01 };
-		
+
 		LatexUserMenu(KileInfo *ki, QObject *receiver);
 		~LatexUserMenu();
 
@@ -44,26 +43,26 @@ class LatexUserMenu : public QObject
 		void removeXmlMenufile();
 		QString xmlFile() const { return m_currentXmlFile; }
 		bool isEmpty();
-		
+
 		bool installXml(const QString &filename);
 		void refreshActionProperties();
 		void removeShortcuts();
 
 		void updateGui();
 		void updateKeyBindings();
-		
+
 		QMenu *getMenuItem() const { return m_latexmenu; }
-		
+
 		QList<KAction *> contextMenuActions() const { return m_actionlistContextMenu; }
 		QList<KAction *> menuActions() const { return m_actionlist; }
-		
+
 		static QString selectLatexmenuDir();
 
 	public Q_SLOTS:
 		void slotInstallXmlFile(const QString &filename);
 		void slotRemoveXmlFile();
 		void slotChangeMenuPosition(int newPosition);
-		
+
 	private Q_SLOTS:
 		void slotLatexmenuAction();
 		void slotProcessOutput();
@@ -78,7 +77,7 @@ class LatexUserMenu : public QObject
 		KileInfo *m_ki;
 		QObject * m_receiver;
 		QString m_currentXmlFile;
-		
+
 		int m_menuPosition;
 		QAction *m_wizardAction1, *m_latexAction1;
 		KAction *m_wizardAction2, *m_latexAction2;
@@ -88,7 +87,7 @@ class LatexUserMenu : public QObject
 		QList<KAction *> m_actionlistContextMenu;
 		QList<KAction *> m_actionlist;
 		QList<LatexmenuData> m_menudata;
-		
+
 		QMenu *m_latexmenu;
 		KActionCollection *m_actioncollection;
 
@@ -96,7 +95,7 @@ class LatexUserMenu : public QObject
 		QString m_procOutput;
 		KTextEditor::View *m_procView;
 		const LatexmenuData *m_procMenudata;
-		
+
 		void updateUsermenuPosition();
 		void setVisibleDaniMenu(bool state, bool show);
 		KAction *createAction(const QString &name);
@@ -108,7 +107,7 @@ class LatexUserMenu : public QObject
 		void removeActionProperties();
 		void updateXmlFile(const QString &filename);
 		bool updateXmlSubmenu(QDomDocument &doc, QDomElement &element, int &actionnumber);
-		bool updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &actionnumber); 
+		bool updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &actionnumber);
 
 		void execActionText(KTextEditor::View *view, const LatexmenuData &menudata);
 		void execActionFileContent(KTextEditor::View *view, const LatexmenuData &menudata);

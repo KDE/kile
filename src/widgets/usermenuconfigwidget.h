@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Nov 27 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /**************************************************************************
 *                                                                         *
@@ -27,9 +26,9 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	public:
 		KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *latexmenu, QWidget *parent = 0);
 		~KileWidgetUsermenuConfig();
-		
+
 		void writeConfig();
-		
+
 	private Q_SLOTS:
 		void slotInstallClicked();
 		void slotRemoveClicked();
@@ -42,7 +41,7 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	private:
 		KileMenu::LatexUserMenu *m_latexmenu;
 		bool m_menuPosition;
-		
+
 		void setXmlFile(const QString &file);
 
 };

@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -49,7 +48,7 @@ class LatexmenuDialog : public KileDialog::Wizard
 		void slotDelete();
 		void slotUp();
 		void slotDown();
-		
+
 		void slotMenuentryTypeClicked();
 		void slotMenuentryTextChanged(const QString &text);
 		void slotUrlSelected(const KUrl &url);
@@ -70,7 +69,7 @@ class LatexmenuDialog : public KileDialog::Wizard
 		void slotSaveAsClicked();
 
 		void slotCustomContextMenuRequested(const QPoint &pos);
-		
+
 	Q_SIGNALS:
 		void installXmlFile(const QString &);
 
@@ -84,7 +83,7 @@ class LatexmenuDialog : public KileDialog::Wizard
 		bool m_currentXmlInstalled;
 		QString m_currentXmlFile;
 		void setXmlFile(const QString &filename, bool installed);
-		
+
 		QString m_currentIcon;
 		QStringList m_listMenutypes;
 
@@ -95,7 +94,7 @@ class LatexmenuDialog : public KileDialog::Wizard
 		bool okClicked();
 		bool saveClicked();
 		QString saveAsClicked();
-		
+
 		void readMenuentryData(LatexmenuItem *tem);
 		void showMenuentryData(LatexmenuItem *item);
 		void clearMenuEntryData();
@@ -118,7 +117,7 @@ class LatexmenuDialog : public KileDialog::Wizard
 		void setParameterGroupbox(bool state);
 		void setMenuentryCheckboxes(LatexmenuItem *item, bool useInsertOutput);
 
-		void setMenuentryIcon(const QString &icon);	
+		void setMenuentryIcon(const QString &icon);
 		void updateTreeButtons();
 		void updateDialogButtons();
 		void updateAfterDelete();

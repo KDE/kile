@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -20,7 +19,7 @@
 
 
 namespace KileMenu {
- 
+
 LatexmenuItem::LatexmenuItem(LatexmenuData::MenuType type, const QString &menutitle)
 	: QTreeWidgetItem()
 {
@@ -43,10 +42,10 @@ void LatexmenuItem::initItem(LatexmenuData::MenuType type, const QString &menuti
 {
 	clear();
 	setText(0,menutitle);
-	
+
 	m_data.menutitle = menutitle;
 	m_data.menutype = type;
-			
+
 	setData(0, Qt::UserRole+1, LatexmenuData::xmlMenuTypeName(type));
 	setData(0, Qt::UserRole+2, MODEL_ERROR_NONE);
 }
@@ -55,10 +54,10 @@ void LatexmenuItem::initItem(LatexmenuData::MenuType type, const QString &menuti
 void LatexmenuItem::setModelData(bool executable)
 {
 	int modelerror = MODEL_ERROR_NONE;
-	
+
 	if ( m_data.menutitle.isEmpty() && m_data.menutype!=LatexmenuData::Separator ) {
 		modelerror |= LatexmenuItem::MODEL_ERROR_EMPTY;
-	} 
+	}
 
 	if ( m_data.menutype==LatexmenuData::Submenu && childCount()==0 ) {
 		modelerror |= LatexmenuItem::MODEL_ERROR_SUBMENU;
@@ -77,7 +76,7 @@ void LatexmenuItem::setModelData(bool executable)
 	else if ( m_data.menutype == LatexmenuData::Program && !executable ) {
 		modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EXECUTABLE;
 	}
-	
+
 	setData(0,Qt::UserRole+2,modelerror);
 }
 
@@ -89,7 +88,7 @@ QString LatexmenuItem::updateMenutitle()
 	QString menutitle = m_data.menutitle;
 	if ( menutitle.isEmpty() ) {
 		menutitle = EMPTY_MENUENTRY;
-	} 
+	}
 	else if ( m_data.menutype==LatexmenuData::Submenu && childCount()==0 ) {
 		menutitle += EMPTY_SUBMENU;
 	}

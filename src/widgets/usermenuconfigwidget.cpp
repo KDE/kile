@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Nov 27 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /**************************************************************************
 *                                                                         *
@@ -20,7 +19,7 @@
 #include "kileconfig.h"
 #include "kiledebug.h"
 
-KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *latexmenu, QWidget *parent) 
+KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *latexmenu, QWidget *parent)
    : QWidget(parent), m_latexmenu(latexmenu)
 {
 	setupUi(this);
@@ -33,7 +32,7 @@ KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *late
 	else {
 		m_rbMenuPositionLatex->setChecked(true);
 	}
-	
+
 	// connect dialog with latexmenu to install xml file
 	connect(this, SIGNAL(installXmlFile(const QString &)), m_latexmenu, SLOT(slotInstallXmlFile(const QString &)));
 	connect(this, SIGNAL(removeXmlFile()), m_latexmenu, SLOT(slotRemoveXmlFile()));
@@ -41,7 +40,7 @@ KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *late
 
 	connect(m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
 	connect(m_pbRemove,  SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
-	
+
 }
 
 KileWidgetUsermenuConfig::~KileWidgetUsermenuConfig()
@@ -62,7 +61,7 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 {
 	KILE_DEBUG() << "install clicked";
 
-	QString directory = KileMenu::LatexUserMenu::selectLatexmenuDir();   
+	QString directory = KileMenu::LatexUserMenu::selectLatexmenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString xmlfile = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));
@@ -82,7 +81,7 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 void KileWidgetUsermenuConfig::slotRemoveClicked()
 {
 	KILE_DEBUG() << "remove clicked";
-	
+
 	emit (removeXmlFile());
 	setXmlFile(QString::null);
 }

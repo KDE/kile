@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -39,10 +38,10 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
 	m_LatexmenuDialog.setupUi(page);
-	
+
 	m_menutree = m_LatexmenuDialog.m_twLatexMenu;
 	m_menutree->setHeaderLabels( QStringList() << i18n("Menu Entry") << i18n("Shortcut") );
-	
+
 	// Indexes must be identical to MenuType. Only the first three of them are choosable (see CHOOSABLE_MENUTYPES)
 	m_listMenutypes << i18n("Text") << i18n("Insert file contents") << i18n("Execute program") << i18n("Separator") << i18n("Submenu");
 
@@ -54,13 +53,13 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	}
 	m_LatexmenuDialog.m_keyChooser->setCheckActionCollections(allCollections);
 	KILE_DEBUG() << "total collections: " << allCollections.count();
-	
-	m_LatexmenuDialog.m_pbInsertBelow->setIcon(KIcon("latexmenu-insert-below.png")); 
-	m_LatexmenuDialog.m_pbInsertSubmenu->setIcon(KIcon("latexmenu-submenu-below.png")); 
-	m_LatexmenuDialog.m_pbInsertSeparator->setIcon(KIcon("latexmenu-separator-below.png")); 
-	m_LatexmenuDialog.m_pbDelete->setIcon(KIcon("latexmenu-delete.png")); 
-	m_LatexmenuDialog.m_pbUp->setIcon(KIcon("latexmenu-up.png")); 
-	m_LatexmenuDialog.m_pbDown->setIcon(KIcon("latexmenu-down.png")); 
+
+	m_LatexmenuDialog.m_pbInsertBelow->setIcon(KIcon("latexmenu-insert-below.png"));
+	m_LatexmenuDialog.m_pbInsertSubmenu->setIcon(KIcon("latexmenu-submenu-below.png"));
+	m_LatexmenuDialog.m_pbInsertSeparator->setIcon(KIcon("latexmenu-separator-below.png"));
+	m_LatexmenuDialog.m_pbDelete->setIcon(KIcon("latexmenu-delete.png"));
+	m_LatexmenuDialog.m_pbUp->setIcon(KIcon("latexmenu-up.png"));
+	m_LatexmenuDialog.m_pbDown->setIcon(KIcon("latexmenu-down.png"));
 	m_LatexmenuDialog.m_pbIconDelete->setIcon(KIcon("edit-clear-locationbar-rtl.png"));
 
 	connect(m_LatexmenuDialog.m_pbInsertBelow, SIGNAL(clicked()), this, SLOT(slotInsertMenuItem()));
@@ -70,9 +69,9 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	connect(m_LatexmenuDialog.m_pbDown, SIGNAL(clicked()), this, SLOT(slotDown()));
 	connect(m_LatexmenuDialog.m_pbDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
 
-	connect(m_menutree, SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)), 
+	connect(m_menutree, SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),
 	        this, SLOT(slotCurrentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
-	
+
 	connect(m_LatexmenuDialog.m_pbMenuentryType, SIGNAL(clicked()), this, SLOT(slotMenuentryTypeClicked()));
 	connect(m_LatexmenuDialog.m_leMenuEntry, SIGNAL(textEdited (const QString &)), this, SLOT(slotMenuentryTextChanged(const QString &)));
 	connect(m_LatexmenuDialog.m_urlRequester, SIGNAL(textChanged (const QString &)), this, SLOT(slotUrlTextChanged(const QString &)));
@@ -91,7 +90,7 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 
 	connect(m_LatexmenuDialog.m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
 	connect(m_LatexmenuDialog.m_pbNew,     SIGNAL(clicked()), this, SLOT(slotNewClicked()));
-	
+
 	connect(m_LatexmenuDialog.m_pbLoad,   SIGNAL(clicked()), this, SLOT(slotLoadClicked()));
 	connect(m_LatexmenuDialog.m_pbSave,   SIGNAL(clicked()), this, SLOT(slotSaveClicked()));
 	connect(m_LatexmenuDialog.m_pbSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAsClicked()));
@@ -102,19 +101,19 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	// set context menu handler for the menutree
 	m_menutree->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(m_menutree, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotCustomContextMenuRequested(const QPoint &)));
-	
+
 	// adjust some widths
 	int w = m_LatexmenuDialog.m_pbInsertBelow->sizeHint().width();
 	m_LatexmenuDialog.m_pbUp->setMinimumWidth(w);
 	m_LatexmenuDialog.m_pbDown->setMinimumWidth(w);
 	m_LatexmenuDialog.m_lbIconChosen->setMinimumWidth( m_LatexmenuDialog.m_pbIcon->sizeHint().width() );
-	
+
 	setFocusProxy(m_menutree);
 	setModal(false);
 	setButtons(Help | Cancel | Ok);
-	
+
 	KILE_DEBUG() << "start dialog with xmfile " << xmlfile;
-	
+
 	if ( !xmlfile.isEmpty() && QFile::exists(xmlfile) ) {
 		m_modified = false;
 		loadXmlFile(xmlfile,true);
@@ -142,14 +141,14 @@ void LatexmenuDialog::initDialog()
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		m_menutree->setCurrentItem(current);
-	} 
+	}
 	else {
 	}
-		
+
 	// init first entry
 	m_currentIcon = QString::null;
 	showMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
-	
+
 }
 
 void LatexmenuDialog::setXmlFile(const QString &filename, bool installed)
@@ -177,11 +176,11 @@ void LatexmenuDialog::updateDialogButtons()
 {
 	bool installedFile = (!m_currentXmlFile.isEmpty());
 	bool menutreeState = !m_menutree->isEmpty();
-	
+
 	bool installState = !m_modified && installedFile && !m_currentXmlInstalled;
 	bool saveState = m_modified && installedFile;
 	bool saveAsState = m_modified || (!m_modified && installedFile && m_currentXmlInstalled);
-	
+
 	m_LatexmenuDialog.m_pbInstall->setEnabled(installState && menutreeState);
 	m_LatexmenuDialog.m_pbSave->setEnabled(saveState && menutreeState);
 	m_LatexmenuDialog.m_pbSaveAs->setEnabled(saveAsState && menutreeState);
@@ -195,11 +194,11 @@ bool LatexmenuDialog::okClicked()
 	if ( m_currentXmlFile.isEmpty() ) {
 		return !saveAsClicked().isEmpty();
 	}
-	
+
 	if ( ! saveClicked() ) {
 		return false;
 	}
-	
+
 	if ( m_currentXmlInstalled ) {
 		m_modified = false;
 		slotInstallClicked();
@@ -240,7 +239,7 @@ void LatexmenuDialog::slotButtonClicked(int button)
 			"Use <tt>%S</tt> for the filename of this temporary file.</li>"
 			"</ul>"
 			"<p>If some  important information for an action is missing, menu items are colored red. More information is available using the <i>What's this</i> feature of most widgets.</p>");
-		
+
 		KMessageBox::information(this,message,i18n("Latexmenu Dialog"));
 	}
 	else {
@@ -270,7 +269,7 @@ void LatexmenuDialog::slotNewClicked()
 			return;
 		}
 	}
-	
+
 	m_menutree->clear();
 	m_modified = false;
 	startDialog();   // includes buttons update
@@ -282,14 +281,14 @@ void LatexmenuDialog::slotNewClicked()
 void LatexmenuDialog::slotLoadClicked()
 {
 	KILE_DEBUG() << "load xml file ";
-    
+
 	if ( !m_menutree->isEmpty() && m_modified ) {
 		if ( KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?")) == KMessageBox::No ) {
 			return;
 		}
 	}
-	
-	QString directory = LatexUserMenu::selectLatexmenuDir();   
+
+	QString directory = LatexUserMenu::selectLatexmenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString filename = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));
@@ -338,18 +337,18 @@ bool LatexmenuDialog::saveClicked()
 		return false;
 	}
 	KILE_DEBUG() << "save menutree: " << m_currentXmlFile;
-	
+
 	// read current entry
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		kdDebug() << "read current item ...";
 		readMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
 	}
-	
+
 	if ( saveCheck() == false ) {
 		return false;
 	}
-	
+
 	// force to save file in local directory
 	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "latexmenu/");
 	if ( dirs.size() > 1 ) {
@@ -358,7 +357,7 @@ bool LatexmenuDialog::saveClicked()
 			KILE_DEBUG() << "change filename to local directory: " << m_currentXmlFile;
 		}
 	}
-	
+
 	// save file
 	m_menutree->writeXml(m_currentXmlFile);
 	return true;
@@ -403,7 +402,7 @@ QString LatexmenuDialog::saveAsClicked()
 			return QString::null;
 		}
 	}
-	
+
 	// save file
 	m_menutree->writeXml(filename);
 	return filename;
@@ -416,7 +415,7 @@ bool LatexmenuDialog::saveCheck()
 			return false;
 		}
 	}
-	
+
 	return true;
 }
 
@@ -436,11 +435,11 @@ void LatexmenuDialog::slotInsertMenuItem()
 	}
 }
 
-void LatexmenuDialog::slotInsertSubmenu() 
+void LatexmenuDialog::slotInsertSubmenu()
 {
-	QTreeWidgetItem *current = m_menutree->currentItem(); 
+	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
-		if ( m_menutree->insertSubmenu(current) ) { 
+		if ( m_menutree->insertSubmenu(current) ) {
 			updateTreeButtons();
 			setModified();
 		}
@@ -449,9 +448,9 @@ void LatexmenuDialog::slotInsertSubmenu()
 
 void LatexmenuDialog::slotInsertSeparator()
 {
-	QTreeWidgetItem *current = m_menutree->currentItem(); 
+	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
-		if ( m_menutree->insertSeparator(current) ) { 
+		if ( m_menutree->insertSeparator(current) ) {
 			updateTreeButtons();
 			setModified();
 		}
@@ -460,7 +459,7 @@ void LatexmenuDialog::slotInsertSeparator()
 
 void LatexmenuDialog::slotDelete()
 {
-	QTreeWidgetItem *current = m_menutree->currentItem(); 
+	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		m_menutree->itemDelete(current);
 		updateAfterDelete();
@@ -469,7 +468,7 @@ void LatexmenuDialog::slotDelete()
 
 void LatexmenuDialog::slotUp()
 {
-	QTreeWidgetItem *current = m_menutree->currentItem(); 
+	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		m_menutree->itemUp();
 		updateTreeButtons();
@@ -479,7 +478,7 @@ void LatexmenuDialog::slotUp()
 
 void LatexmenuDialog::slotDown()
 {
-	QTreeWidgetItem *current = m_menutree->currentItem(); 
+	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		m_menutree->itemDown();
 		updateTreeButtons();
@@ -494,22 +493,22 @@ void LatexmenuDialog::updateTreeButtons()
 		bool state = ( current->menutype() == LatexmenuData::Separator ) ? false : true;
 		m_LatexmenuDialog.m_pbInsertSeparator->setEnabled(state);
 		m_LatexmenuDialog.m_pbDelete->setEnabled(true);
-		
+
 		bool upstate = ( m_menutree->indexOfTopLevelItem(current) == 0 ) ? false : true;
 		m_LatexmenuDialog.m_pbUp->setEnabled(upstate);
-		
+
 		bool downstate = ( m_menutree->itemBelow(current) ) ? true : false;
 		if ( !downstate && current->parent() ) {
 			downstate = true;
 		}
 		m_LatexmenuDialog.m_pbDown->setEnabled(downstate);
-	} 
+	}
 	else {
 		m_LatexmenuDialog.m_pbInsertSeparator->setEnabled(false);
 		m_LatexmenuDialog.m_pbDelete->setEnabled(false);
 		m_LatexmenuDialog.m_pbUp->setEnabled(false);
 		m_LatexmenuDialog.m_pbDown->setEnabled(false);
-	} 
+	}
 }
 
 void LatexmenuDialog::updateAfterDelete()
@@ -517,7 +516,7 @@ void LatexmenuDialog::updateAfterDelete()
 	if ( m_menutree->isEmpty() ) {
 		initDialog();
 	}
-	
+
 	updateTreeButtons();
 	setModified();
 
@@ -540,11 +539,11 @@ void LatexmenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidge
 	readMenuentryData( dynamic_cast<LatexmenuItem *>(previous) );
 
 	// set new data
-	showMenuentryData( dynamic_cast<LatexmenuItem *>(current) );	
+	showMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
 
-	// update buttons for treewidget 
+	// update buttons for treewidget
 	updateTreeButtons();
-	
+
 	// restore saved states
 	m_modified = modifiedState;
 	m_LatexmenuDialog.m_pbInstall->setEnabled(installState);
@@ -556,11 +555,11 @@ void LatexmenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidge
 
 void LatexmenuDialog::slotMenuentryTypeClicked()
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());   
+	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());
 	if ( !current ) {
 		return;
 	}
-	
+
 	KILE_DEBUG() << "change menu item type of current item: " << current->text(0);
 	QStringList typelist;
 	for (int i=0; i<CHOOSABLE_MENUTYPES; i++ ) {
@@ -570,18 +569,18 @@ void LatexmenuDialog::slotMenuentryTypeClicked()
 	int oldtype = current->menutype();
 	QStringList sellist;
 	sellist <<  m_listMenutypes[oldtype];
-	
+
 	QStringList list = KInputDialog::getItemList(i18n("Menutype"), i18n("Please choose a menutype"),
 	                                                  typelist,sellist,false);
 	if ( list.isEmpty() ) {
 		return;
 	}
-	
+
 	int newtype = m_listMenutypes.indexOf(list[0]);
 	if ( newtype==-1 || newtype==oldtype )  {
 		return;
 	}
-	
+
 	// set new values
 	current->setMenutype( LatexmenuData::MenuType(newtype) );
 	m_LatexmenuDialog.m_lbMenuentryType->setText(list[0]);
@@ -589,18 +588,18 @@ void LatexmenuDialog::slotMenuentryTypeClicked()
 		setMenuentryFileChooser(current,false);
 		setMenuentryFileParameter(current,false);
 		setMenuentryTextEdit(current,true);
-	} 
+	}
 	else if ( newtype == LatexmenuData::FileContent ) {
 		setMenuentryFileChooser(current,true);
 		setMenuentryFileParameter(current,false);
 		setMenuentryTextEdit(current,false);
-	} 
+	}
 	else /* if ( newtype == LatexmenuData::Program ) */ {
 		setMenuentryFileChooser(current,true);
 		setMenuentryFileParameter(current,true);
 		setMenuentryTextEdit(current,false);
 	}
-	
+
 	setModified();
 }
 
@@ -619,26 +618,26 @@ void LatexmenuDialog::slotMenuentryTextChanged(const QString &text)
 
 void LatexmenuDialog::slotUrlTextChanged(const QString &)
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());   
+	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());
 	if ( !current ) {
 		return;
 	}
-	
+
 	QString file = m_LatexmenuDialog.m_urlRequester->text().trimmed();
-	
+
 	QString color = "black";
 	int type = current->menutype();
 	if ( type == LatexmenuData::FileContent ) {
 		if ( !QFile::exists(file) || file.isEmpty() ) {
 			color = "red";
 		}
-	} 
+	}
 	else if ( type == LatexmenuData::Program ) {
 		if ( !m_menutree->isItemExecutable(file) ) {
 			color= "red";
 		}
 	}
-	
+
 	m_LatexmenuDialog.m_urlRequester->setStyleSheet( "QLineEdit { color: " + color + "; }" );
 	setModified();
 }
@@ -689,12 +688,12 @@ void LatexmenuDialog::setMenuentryIcon(const QString &icon)
 	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
 		if ( icon.isEmpty() ) {
-			current->setIcon(0,KIcon());  
+			current->setIcon(0,KIcon());
 		} else {
 			current->setIcon(0,KIcon(icon));
 		}
 		current->setMenuicon(icon);
-	
+
 		// update icon widgets
 		setMenuentryIcon(current,true,icon);
 		setModified();
@@ -705,13 +704,13 @@ void LatexmenuDialog::setMenuentryIcon(const QString &icon)
 
 void LatexmenuDialog::slotKeySequenceChanged(const QKeySequence &seq)
 {
-	QString shortcut = seq.toString(QKeySequence::NativeText);	
+	QString shortcut = seq.toString(QKeySequence::NativeText);
 	KILE_DEBUG() << "key sequence changed: " << shortcut;
-		
+
 	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
 		current->setText(1,shortcut);
-		current->setShortcut(shortcut); 
+		current->setShortcut(shortcut);
 
 		m_LatexmenuDialog.m_keyChooser->applyStealShortcut();
 		setModified();
@@ -742,30 +741,30 @@ void LatexmenuDialog::readMenuentryData(LatexmenuItem *item)
 {
 	KILE_DEBUG() << "read current menu item ...";
 	if ( !item ) {
-		return; 
+		return;
 	}
-	
+
 	LatexmenuData::MenuType type = LatexmenuData::MenuType( m_listMenutypes.indexOf(m_LatexmenuDialog.m_lbMenuentryType->text()) );
-	item->setMenutype(type); 
+	item->setMenutype(type);
 	if ( type == LatexmenuData::Separator ) {
 		return;
 	}
-	
+
 	item->setMenutitle( m_LatexmenuDialog.m_leMenuEntry->text().trimmed() );
-	item->setFilename( m_LatexmenuDialog.m_urlRequester->text().trimmed() ); 
-	item->setParameter( m_LatexmenuDialog.m_leParameter->text().trimmed() ); 
-	item->setPlaintext( m_LatexmenuDialog.m_teText->toPlainText() ); 
+	item->setFilename( m_LatexmenuDialog.m_urlRequester->text().trimmed() );
+	item->setParameter( m_LatexmenuDialog.m_leParameter->text().trimmed() );
+	item->setPlaintext( m_LatexmenuDialog.m_teText->toPlainText() );
 
 	item->setMenuicon( m_currentIcon );
-	item->setShortcut(m_LatexmenuDialog.m_keyChooser->keySequence().toString(QKeySequence::NativeText) );	
-	
+	item->setShortcut(m_LatexmenuDialog.m_keyChooser->keySequence().toString(QKeySequence::NativeText) );
+
 	item->setNeedsSelection( m_LatexmenuDialog.m_cbNeedsSelection->checkState() );
 	item->setUseContextMenu( m_LatexmenuDialog.m_cbContextMenu->checkState() );
 	item->setReplaceSelection( m_LatexmenuDialog.m_cbReplaceSelection->checkState() );
 	item->setSelectInsertion( m_LatexmenuDialog.m_cbSelectInsertion->checkState() );
 	item->setInsertOutput( m_LatexmenuDialog.m_cbInsertOutput->checkState() );
 
-	bool executable = ( type==LatexmenuData::Program && m_menutree->isItemExecutable(item->filename()) ); 
+	bool executable = ( type==LatexmenuData::Program && m_menutree->isItemExecutable(item->filename()) );
 	item->setModelData(executable);
 
 	item->setText(0, item->updateMenutitle());
@@ -774,23 +773,23 @@ void LatexmenuDialog::readMenuentryData(LatexmenuItem *item)
 ////////////////////////////// show menu item data //////////////////////////////
 
 void LatexmenuDialog::showMenuentryData(LatexmenuItem *item)
-{ 
+{
 	KILE_DEBUG() << "show new menu item ...";
 	if ( !item ) {
 		disableMenuEntryData();
 		return;
 	}
-	
-	LatexmenuData::MenuType type = item->menutype();   
-	
+
+	LatexmenuData::MenuType type = item->menutype();
+
 	blockSignals(true);
 	switch ( type ) {
-		case LatexmenuData::Text:        setTextEntry(item);        break; 
-		case LatexmenuData::FileContent: setFileContentEntry(item); break; 
-		case LatexmenuData::Program:     setProgramEntry(item);     break; 
-		case LatexmenuData::Separator:   setSeparatorEntry(item);   break; 
-		case LatexmenuData::Submenu:     setSubmenuEntry(item);     break; 
-		default:                         disableMenuEntryData();    // should not happen  
+		case LatexmenuData::Text:        setTextEntry(item);        break;
+		case LatexmenuData::FileContent: setFileContentEntry(item); break;
+		case LatexmenuData::Program:     setProgramEntry(item);     break;
+		case LatexmenuData::Separator:   setSeparatorEntry(item);   break;
+		case LatexmenuData::Submenu:     setSubmenuEntry(item);     break;
+		default:                         disableMenuEntryData();    // should not happen
 	}
 	blockSignals(false);
 }
@@ -850,7 +849,7 @@ void LatexmenuDialog::setSubmenuEntry(LatexmenuItem *item)
 	setMenuentryIcon(0L,false);
 	setMenuentryShortcut(0L,false);
 	setParameterGroupbox(false);
-	setMenuentryCheckboxes(0L,false); 
+	setMenuentryCheckboxes(0L,false);
 }
 
 ////////////////////////////// update data widgets//////////////////////////////
@@ -867,7 +866,7 @@ void LatexmenuDialog::setMenuentryText(LatexmenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->menutitle() : QString::null;
 	m_LatexmenuDialog.m_leMenuEntry->setText(s);
-	
+
 	m_LatexmenuDialog.m_lbMenuEntry->setEnabled(state);
 	m_LatexmenuDialog.m_leMenuEntry->setEnabled(state);
 }
@@ -876,7 +875,7 @@ void LatexmenuDialog::setMenuentryFileChooser(LatexmenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->filename() : QString::null;
 	m_LatexmenuDialog.m_urlRequester->setText(s);
-	
+
 	m_LatexmenuDialog.m_lbFile->setEnabled(state);
 	m_LatexmenuDialog.m_urlRequester->setEnabled(state);
 }
@@ -885,26 +884,26 @@ void LatexmenuDialog::setMenuentryFileParameter(LatexmenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->parameter() : QString::null;
 	m_LatexmenuDialog.m_leParameter->setText(s);
-	
+
 	m_LatexmenuDialog.m_lbParameter->setEnabled(state);
 	m_LatexmenuDialog.m_leParameter->setEnabled(state);
-		
+
 }
 
 void LatexmenuDialog::setMenuentryTextEdit(LatexmenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->plaintext() : QString::null;
 	m_LatexmenuDialog.m_teText->setPlainText(s);
-	
+
 	m_LatexmenuDialog.m_lbText->setEnabled(state);
 	m_LatexmenuDialog.m_teText->setEnabled(state);
 }
 
-void LatexmenuDialog::setMenuentryIcon(LatexmenuItem *item, bool state, const QString &icon) 
+void LatexmenuDialog::setMenuentryIcon(LatexmenuItem *item, bool state, const QString &icon)
 {
-	if ( item && state ) { 
+	if ( item && state ) {
 		m_currentIcon = ( icon.isEmpty() ) ? item->menuicon() : icon;
-	} 
+	}
 	else {
 		m_currentIcon = QString::null;
 	}
@@ -912,26 +911,26 @@ void LatexmenuDialog::setMenuentryIcon(LatexmenuItem *item, bool state, const QS
 	// update widgets
 	if ( m_currentIcon.isEmpty() ) {
 		m_LatexmenuDialog.m_lbIconChosen->setText(m_currentIcon);
-		m_LatexmenuDialog.m_lbIconChosen->hide(); 
+		m_LatexmenuDialog.m_lbIconChosen->hide();
 		m_LatexmenuDialog.m_pbIcon->show();
-	} 
+	}
 	else {
 		QString iconpath = KIconLoader::global()->iconPath(m_currentIcon,KIconLoader::Small);
 		m_LatexmenuDialog.m_lbIconChosen->setText("<img src=\"" +  iconpath +"\" />");
-		m_LatexmenuDialog.m_lbIconChosen->show(); 
-		m_LatexmenuDialog.m_pbIcon->hide(); 
+		m_LatexmenuDialog.m_lbIconChosen->show();
+		m_LatexmenuDialog.m_pbIcon->hide();
 	}
-	
+
 	m_LatexmenuDialog.m_lbIcon->setEnabled(state);
 	m_LatexmenuDialog.m_pbIcon->setEnabled(state);
 	m_LatexmenuDialog.m_lbIconChosen->setEnabled(state);
-	bool deleteIconState = ( state && !m_currentIcon.isEmpty() ); 
-	m_LatexmenuDialog.m_pbIconDelete->setEnabled(deleteIconState); 
+	bool deleteIconState = ( state && !m_currentIcon.isEmpty() );
+	m_LatexmenuDialog.m_pbIconDelete->setEnabled(deleteIconState);
 }
 
-void LatexmenuDialog::setMenuentryShortcut(LatexmenuItem *item, bool state) 
+void LatexmenuDialog::setMenuentryShortcut(LatexmenuItem *item, bool state)
 {
-	if ( item && state ) { 
+	if ( item && state ) {
 		QString shortcut = item->shortcut();
 		if ( shortcut.isEmpty() ) {
 			m_LatexmenuDialog.m_keyChooser->clearKeySequence();
@@ -940,11 +939,11 @@ void LatexmenuDialog::setMenuentryShortcut(LatexmenuItem *item, bool state)
 			m_LatexmenuDialog.m_keyChooser->setKeySequence( QKeySequence(shortcut) );
 		}
 		item->setText(1,shortcut);
-	} 
+	}
 	else {
 		m_LatexmenuDialog.m_keyChooser->clearKeySequence();
 	}
- 
+
 	m_LatexmenuDialog.m_lbShortcut->setEnabled(state);
 	m_LatexmenuDialog.m_keyChooser->setEnabled(state);
 }
@@ -957,13 +956,13 @@ void LatexmenuDialog::setParameterGroupbox(bool state)
 void LatexmenuDialog::setMenuentryCheckboxes(LatexmenuItem *item, bool useInsertOutput)
 {
 	bool selectionState, insertionState, outputState, replaceState, contextState;
-	if ( item) { 
+	if ( item) {
 		selectionState = item->needsSelection();
 		replaceState   = (selectionState) ? item->replaceSelection() : false;
 		insertionState = item->selectInsertion();
 		outputState    = (useInsertOutput) ? item->insertOutput() : false;
 		contextState   = (selectionState) ? item->useContextMenu() : false;
-	} 
+	}
 	else {
 		selectionState = false;
 		replaceState   = false;
@@ -978,7 +977,7 @@ void LatexmenuDialog::setMenuentryCheckboxes(LatexmenuItem *item, bool useInsert
 	m_LatexmenuDialog.m_cbReplaceSelection->setChecked(replaceState);
 	m_LatexmenuDialog.m_cbSelectInsertion->setChecked(insertionState);
 	m_LatexmenuDialog.m_cbInsertOutput->setChecked(outputState);
-	
+
 	m_LatexmenuDialog.m_cbInsertOutput->setEnabled(useInsertOutput);
 }
 
@@ -994,8 +993,8 @@ void LatexmenuDialog::clearMenuEntryData()
 	m_LatexmenuDialog.m_cbNeedsSelection->setChecked(false);
 	m_LatexmenuDialog.m_cbReplaceSelection->setChecked(false);
 	m_LatexmenuDialog.m_cbContextMenu->setChecked(false);
-	m_LatexmenuDialog.m_cbSelectInsertion->setChecked(false);	
-	m_LatexmenuDialog.m_cbInsertOutput->setChecked(false);	
+	m_LatexmenuDialog.m_cbSelectInsertion->setChecked(false);
+	m_LatexmenuDialog.m_cbInsertOutput->setChecked(false);
 }
 
 void LatexmenuDialog::disableMenuEntryData()
@@ -1008,7 +1007,7 @@ void LatexmenuDialog::disableMenuEntryData()
 	setMenuentryIcon(0L,false);
 	setMenuentryShortcut(0L,false);
 	setParameterGroupbox(false);
-	setMenuentryCheckboxes(0L,false); 
+	setMenuentryCheckboxes(0L,false);
 }
 
 

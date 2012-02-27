@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin               : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -39,11 +38,11 @@ class LatexmenuTree : public QTreeWidget
 	public:
 		LatexmenuTree(QWidget *parent);
 		~LatexmenuTree() {}
-		
+
 		bool insertMenuItem(QTreeWidgetItem *current, bool below=true);
 		bool insertSubmenu(QTreeWidgetItem *current, bool below=true);
 		bool insertSeparator(QTreeWidgetItem *current, bool below=true);
-		
+
 		void itemDelete(QTreeWidgetItem *current);
 		void itemUp();
 		void itemDown();
@@ -53,25 +52,25 @@ class LatexmenuTree : public QTreeWidget
 		bool writeXml(const QString &filename);
 		bool errorCheck();
 		bool isItemExecutable(const QString &filename);
-		
+
 		bool isEmpty();
 
 	private Q_SLOTS:
 		void slotPopupActivated(int id);
 
 	private:
-		enum PopupType { POPUP_INSERT_ABOVE=0x00,    POPUP_INSERT_BELOW=0x01, 
-		                 POPUP_SEPARATOR_ABOVE=0x02, POPUP_SEPARATOR_BELOW=0x03, 
-		                 POPUP_SUBMENU_ABOVE=0x04,   POPUP_SUBMENU_BELOW=0x05, 
-		                 POPUP_INTO_SUBMENU=0x06,    POPUP_SEPARATOR_INTO_SUBMENU=0x07, POPUP_SUBMENU_INTO_SUBMENU=0x08, 
-		                 POPUP_DELETE_ITEM=0x09,     POPUP_DELETE_TREE=0x0A, 
-		                 POPUP_COLLAPSE_ITEM=0x0B,   POPUP_EXPAND_ITEM=0x0C, 
-		                 POPUP_COLLAPSE_TREE=0x0D,   POPUP_EXPAND_TREE=0x0E, 
+		enum PopupType { POPUP_INSERT_ABOVE=0x00,    POPUP_INSERT_BELOW=0x01,
+		                 POPUP_SEPARATOR_ABOVE=0x02, POPUP_SEPARATOR_BELOW=0x03,
+		                 POPUP_SUBMENU_ABOVE=0x04,   POPUP_SUBMENU_BELOW=0x05,
+		                 POPUP_INTO_SUBMENU=0x06,    POPUP_SEPARATOR_INTO_SUBMENU=0x07, POPUP_SUBMENU_INTO_SUBMENU=0x08,
+		                 POPUP_DELETE_ITEM=0x09,     POPUP_DELETE_TREE=0x0A,
+		                 POPUP_COLLAPSE_ITEM=0x0B,   POPUP_EXPAND_ITEM=0x0C,
+		                 POPUP_COLLAPSE_TREE=0x0D,   POPUP_EXPAND_TREE=0x0E,
 		                 POPUP_ITEM_INFO=0x0F
 		               };
 
 		LatexmenuItem *m_popupItem;
-		
+
 		void setErrorCodes();
 		bool checkSubmenuError(LatexmenuItem *item);
 
@@ -108,7 +107,7 @@ class LatexmenuTree : public QTreeWidget
 		void itemInfo(LatexmenuItem *item);
 };
 
-	
+
 }
 
 #endif

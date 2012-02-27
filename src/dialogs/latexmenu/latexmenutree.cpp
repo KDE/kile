@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -22,7 +21,7 @@
 #if QT_VERSION >= 0x040600
 #include <QProcessEnvironment>
 #endif
-	
+
 #include <KIcon>
 #include <KIconLoader>
 #include <KMenu>
@@ -48,29 +47,29 @@ void MenuentryDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
 {
 	QString menutitle = index.data(Qt::DisplayRole).toString();
 	int error = index.data(Qt::UserRole+2).toInt();
-	
+
 	// any errors?
 	if (index.column()==0 && error!=LatexmenuItem::MODEL_ERROR_NONE ) {
 		QStyleOptionViewItem optionCustom = option;
 		optionCustom.palette.setColor(QPalette::Text, Qt::red);
 		QStyledItemDelegate::paint( painter, optionCustom, index );
-	} 
+	}
 	else {
-		QStyledItemDelegate::paint( painter, option, index ); 
+		QStyledItemDelegate::paint( painter, option, index );
 	}
 
 	// display separators
 	QString itemtype = index.data(Qt::UserRole+1).toString();
 	if ( itemtype == "separator" ) {
-		QRect r = option.rect;     
-		int y =  ( r.bottom() + r.top() ) / 2;  
+		QRect r = option.rect;
+		int y =  ( r.bottom() + r.top() ) / 2;
 
 		painter->save();
 		QPen pen = QPen(Qt::gray);
 		painter->setPen(pen);
 		painter->drawLine(r.left()+3,y, r.right()-20,y);
-		painter->restore();	     
-	} 
+		painter->restore();
+	}
 
 }
 ///////////////////////////// LatexmenuTree //////////////////////////////
@@ -79,21 +78,21 @@ LatexmenuTree::LatexmenuTree(QWidget *parent)
 	: QTreeWidget(parent)
 {
 	setColumnCount(2);
-	
+
 	header()->setResizeMode(0,QHeaderView::Stretch);
 	header()->setResizeMode(1,QHeaderView::Fixed);
 	header()->setMovable(false);
 	header()->setStretchLastSection(false);
 	setColumnWidth(1,140);
 	setItemDelegateForColumn(0, new MenuentryDelegate(parent));
-	
+
 	// drag and drop
 	setDragEnabled(true);
 	setDropIndicatorShown(true);
 	//setAcceptDrops(true);
 	setDragDropMode(QAbstractItemView::InternalMove);
 	setDragDropOverwriteMode(false);
-	
+
 	initEnvPathlist();
 }
 
@@ -123,7 +122,7 @@ void LatexmenuTree::initEnvPathlist()
 		}
 	}
 #endif
-	
+
 #ifdef Q_WS_WIN
 	m_envPathlist = envpath.split(';');
 #else
@@ -148,12 +147,12 @@ bool LatexmenuTree::isItemExecutable(const QString &filename)
 			if ( i > 0 ) {
 				QString temp = m_envPathlist[0];
 				m_envPathlist[0] = m_envPathlist[i];
-				m_envPathlist[i] = temp;				
+				m_envPathlist[i] = temp;
 			}
 			return true;
 		}
 	}
-	
+
 	return false;
 }
 
@@ -163,22 +162,22 @@ bool LatexmenuTree::isItemExecutable(const QString &filename)
 void LatexmenuTree::contextMenuRequested(const QPoint &pos)
 {
 	KILE_DEBUG() << "context menu requested ..." ;
-	
+
 	m_popupItem = dynamic_cast<LatexmenuItem*>(itemAt(pos));
 	if ( !m_popupItem ) {
 		KILE_DEBUG() << "... no item found";
 		return;
-	} 
-	
+	}
+
 	KILE_DEBUG() << "... popup item found: " << m_popupItem->text(0);
 	bool submenu = ( m_popupItem->menutype() ==  LatexmenuData::Submenu );
 	bool separator = ( m_popupItem->menutype() ==  LatexmenuData::Separator );
-	
+
 	KMenu popup;
 	QAction *action = NULL;
 	QSignalMapper signalMapper;
 	connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
-	
+
 	// insert standard menu items
 	action = popup.addAction(KIcon("latexmenu-insert-above.png"),i18n("Insert above"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_INSERT_ABOVE);
@@ -194,7 +193,7 @@ void LatexmenuTree::contextMenuRequested(const QPoint &pos)
 		signalMapper.setMapping(action, POPUP_SEPARATOR_BELOW);
 		popup.addSeparator();
 	}
-	
+
 	// insert submenus
 	action = popup.addAction(KIcon("latexmenu-submenu-above.png"),i18n("Insert a submenu above"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_SUBMENU_ABOVE);
@@ -219,7 +218,7 @@ void LatexmenuTree::contextMenuRequested(const QPoint &pos)
 	popup.addSeparator();
 	action = popup.addAction(KIcon("latexmenu-clear.png"),i18n("Delete the complete tree"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_DELETE_TREE);
-	
+
 	// expand/collapse tree
 	if ( submenu ) {
 		popup.addSeparator();
@@ -237,7 +236,7 @@ void LatexmenuTree::contextMenuRequested(const QPoint &pos)
 		action = popup.addAction(i18n("Expand complete tree"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action,POPUP_EXPAND_TREE);
 	}
-	
+
 	// if there are any errors with this item, some info is available
 	int error = m_popupItem->data(0,Qt::UserRole+2).toInt();
 	if ( error != LatexmenuItem::MODEL_ERROR_NONE ) {
@@ -245,8 +244,8 @@ void LatexmenuTree::contextMenuRequested(const QPoint &pos)
 		action = popup.addAction(KIcon("help-about.png"),i18n("Info"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, POPUP_ITEM_INFO);
 	}
-	
-	// const QPoint& pos parameter in the customContextMenuRequested() signal is normally in widget coordinates. 
+
+	// const QPoint& pos parameter in the customContextMenuRequested() signal is normally in widget coordinates.
 	// But classes like QTreeWidget, which inherit from QAbstractScrollArea1 instead use the coordinates of their viewport()
 	if ( !popup.isEmpty() ) {
 		popup.exec( viewport()->mapToGlobal(pos) );
@@ -295,10 +294,10 @@ bool LatexmenuTree::readXml(const QString &filename)
 		return false;
 	}
 	file.close();
-   
+
 	KILE_DEBUG() << "parse xml ...";
 	blockSignals(true);
-  
+
 	// clear menutree
 	clear();
 
@@ -307,7 +306,7 @@ bool LatexmenuTree::readXml(const QString &filename)
 	QDomElement e = root.firstChildElement();
 	while ( !e.isNull()) {
 		QString tag = e.tagName();
-     
+
 		LatexmenuItem *item = 0L;
 		if ( tag == "submenu" ) {
 			item = readXmlSubmenu(e);
@@ -318,14 +317,14 @@ bool LatexmenuTree::readXml(const QString &filename)
 		else /* if ( tag == "menu" ) */ {
 			item = readXmlMenuentry(e);
 		}
-  
+
 		if ( item ) {
 			addTopLevelItem(item);
 		}
 		e = e.nextSiblingElement();
 	}
 
-	// the xml menu is build, now check for errors 
+	// the xml menu is build, now check for errors
 	setErrorCodes();
 
 	// polish menutree
@@ -334,18 +333,18 @@ bool LatexmenuTree::readXml(const QString &filename)
 		setCurrentItem( topLevelItem(0) );
 	}
 	blockSignals(false);
-	
+
 	return true;
 }
 
 // a separator tag was found
-LatexmenuItem *LatexmenuTree::readXmlSeparator() 
+LatexmenuItem *LatexmenuTree::readXmlSeparator()
 {
-	return new LatexmenuItem(LatexmenuData::Separator,QString::null);  
+	return new LatexmenuItem(LatexmenuData::Separator,QString::null);
 }
 
 // read tags for a submenu
-LatexmenuItem *LatexmenuTree::readXmlSubmenu(const QDomElement &element) 
+LatexmenuItem *LatexmenuTree::readXmlSubmenu(const QDomElement &element)
 {
 	LatexmenuItem *submenuitem = new LatexmenuItem(LatexmenuData::Submenu,QString::null) ;
 
@@ -354,8 +353,8 @@ LatexmenuItem *LatexmenuTree::readXmlSubmenu(const QDomElement &element)
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
 			LatexmenuItem *item = 0L;
-	  
-			QString tag = e.tagName();  
+
+			QString tag = e.tagName();
 			if ( tag == "title" ) {
 				title = e.text();
 			}
@@ -368,28 +367,28 @@ LatexmenuItem *LatexmenuTree::readXmlSubmenu(const QDomElement &element)
 			else /* if ( tag == "menu" ) */ {
 				item = readXmlMenuentry(e);
 			}
-	  
+
 			submenuitem->setMenutitle(title);
 			submenuitem->setText(0,title);
-	  
+
 			if ( item ) {
 				submenuitem->addChild(item);
 			}
 			e = e.nextSiblingElement();
-		} 
+		}
 	}
-    
+
 	return submenuitem;
 }
 
 // read tags for a standard menu item
-LatexmenuItem *LatexmenuTree::readXmlMenuentry(const QDomElement &element) 
+LatexmenuItem *LatexmenuTree::readXmlMenuentry(const QDomElement &element)
 {
 	QString menutypename = element.attribute("type");
 	LatexmenuData::MenuType menutype = LatexmenuData::xmlMenuType(menutypename);
-   
+
 	LatexmenuItem *menuentryitem = new LatexmenuItem(menutype,QString::null) ;
-    
+
 	// default values
 	QString title = QString::null;
 	QString plaintext = QString::null;
@@ -402,41 +401,41 @@ LatexmenuItem *LatexmenuTree::readXmlMenuentry(const QDomElement &element)
 	bool replaceSelection = false;
 	bool selectInsertion = false;
 	bool insertOutput = false;
-    
+
 	// read values
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
 			QString tag = e.tagName();
 			QString text = e.text();
-	  
-			int index = LatexmenuData::xmlMenuTag(tag);  
+
+			int index = LatexmenuData::xmlMenuTag(tag);
 			switch (index) {
 				case  LatexmenuData::XML_TITLE:            title = text;                       break;
-				case  LatexmenuData::XML_PLAINTEXT:        plaintext = text;                   break;      
-				case  LatexmenuData::XML_FILENAME:         filename = text;                    break;      
-				case  LatexmenuData::XML_PARAMETER:        parameter = text;                   break;      
-				case  LatexmenuData::XML_ICON:             icon = text;                        break;         
-				case  LatexmenuData::XML_SHORTCUT:         shortcut = text;                    break;    
-				case  LatexmenuData::XML_NEEDSSELECTION:   needsSelection   = str2bool(text);  break;    
-				case  LatexmenuData::XML_USECONTEXTMENU:   useContextMenu   = str2bool(text);  break;      
-				case  LatexmenuData::XML_REPLACESELECTION: replaceSelection = str2bool(text);  break;    
-				case  LatexmenuData::XML_SELECTINSERTION:  selectInsertion  = str2bool(text);  break;    
-				case  LatexmenuData::XML_INSERTOUTPUT:     insertOutput     = str2bool(text);  break;     
+				case  LatexmenuData::XML_PLAINTEXT:        plaintext = text;                   break;
+				case  LatexmenuData::XML_FILENAME:         filename = text;                    break;
+				case  LatexmenuData::XML_PARAMETER:        parameter = text;                   break;
+				case  LatexmenuData::XML_ICON:             icon = text;                        break;
+				case  LatexmenuData::XML_SHORTCUT:         shortcut = text;                    break;
+				case  LatexmenuData::XML_NEEDSSELECTION:   needsSelection   = str2bool(text);  break;
+				case  LatexmenuData::XML_USECONTEXTMENU:   useContextMenu   = str2bool(text);  break;
+				case  LatexmenuData::XML_REPLACESELECTION: replaceSelection = str2bool(text);  break;
+				case  LatexmenuData::XML_SELECTINSERTION:  selectInsertion  = str2bool(text);  break;
+				case  LatexmenuData::XML_INSERTOUTPUT:     insertOutput     = str2bool(text);  break;
 			}
-	  
+
 			e = e.nextSiblingElement();
 		}
-       
+
 		// save values
 		menuentryitem->setMenutitle(title);
-	
-		// add code newline 
+
+		// add code newline
 		plaintext.replace("\\n","\n");
 		menuentryitem->setPlaintext(plaintext);
 
-		menuentryitem->setFilename(filename);  
-		menuentryitem->setParameter(parameter);  
+		menuentryitem->setFilename(filename);
+		menuentryitem->setParameter(parameter);
 		if ( !icon.isEmpty() ) {
 			menuentryitem->setMenuicon(icon);
 			menuentryitem->setIcon(0,KIcon(icon));
@@ -445,18 +444,18 @@ LatexmenuItem *LatexmenuTree::readXmlMenuentry(const QDomElement &element)
 			QKeySequence seq = QKeySequence::fromString(shortcut,QKeySequence::PortableText);
 			shortcut = seq.toString(QKeySequence::NativeText);
 
-			menuentryitem->setShortcut(shortcut); 
+			menuentryitem->setShortcut(shortcut);
 			menuentryitem->setText(1,shortcut);
 		}
-		menuentryitem->setNeedsSelection(needsSelection);  
-		menuentryitem->setUseContextMenu(useContextMenu);  
-		menuentryitem->setReplaceSelection(replaceSelection);  
-		menuentryitem->setSelectInsertion(selectInsertion);  
-		menuentryitem->setInsertOutput(insertOutput);  
-       
+		menuentryitem->setNeedsSelection(needsSelection);
+		menuentryitem->setUseContextMenu(useContextMenu);
+		menuentryitem->setReplaceSelection(replaceSelection);
+		menuentryitem->setSelectInsertion(selectInsertion);
+		menuentryitem->setInsertOutput(insertOutput);
+
 		menuentryitem->setText(0,title);
 	}
-    
+
 	return menuentryitem;
 }
 
@@ -479,7 +478,7 @@ bool LatexmenuTree::writeXml(const QString &filename)
 
 	xmlWriter.writeStartDocument();
 	xmlWriter.writeStartElement("Latexmenu");
-	
+
 	for (int i = 0; i < topLevelItemCount(); ++i) {
 		writeXmlItem(&xmlWriter, dynamic_cast<LatexmenuItem *>(topLevelItem(i)) );
 	}
@@ -503,10 +502,10 @@ void LatexmenuTree::writeXmlMenuentry(QXmlStreamWriter *xml, LatexmenuItem *item
 {
 	int menutype = item->menutype();
 	QString menutypename = LatexmenuData::xmlMenuTypeName(menutype);
-	
+
 	xml->writeStartElement("menu");
 	xml->writeAttribute("type", menutypename);
-	
+
 	QString menutitle = ( item->text(0) == EMPTY_MENUENTRY ) ? QString::null : item->text(0);
 	xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_TITLE),menutitle);
 
@@ -517,33 +516,33 @@ void LatexmenuTree::writeXmlMenuentry(QXmlStreamWriter *xml, LatexmenuItem *item
 			plaintext.replace('\n',"\\n");
 			xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_PLAINTEXT), plaintext);
 		}
-	} 
+	}
 	else /* if ( menutype!=LatexmenuData::FileContent || menutype==LatexmenuData:Program) */ {
 		// both types use a filename
 		QString filename = item->filename();
 		if ( !filename.isEmpty() ) {
 			xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_FILENAME), filename);
- 
+
 			// but LatexmenuItem::Program may have an additional parameter
 			if ( menutype == LatexmenuData::Program) {
-				QString parameter = item->parameter();  
+				QString parameter = item->parameter();
 				if ( !parameter.isEmpty() ) {
 					xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_PARAMETER), parameter);
 				}
 			}
 		}
 	}
-  
+
 	QString icon = item->menuicon();
 	if ( !icon.isEmpty() ) {
 		xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_ICON),icon);
 	}
-  
+
 	QKeySequence seq = QKeySequence::fromString( item->shortcut(), QKeySequence::NativeText );
 	if ( !seq.isEmpty() ) {
 		xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_SHORTCUT), seq.toString(QKeySequence::PortableText));
 	}
-     
+
 	if ( item->needsSelection() ) {
 		xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_NEEDSSELECTION), "true");
 	}
@@ -559,7 +558,7 @@ void LatexmenuTree::writeXmlMenuentry(QXmlStreamWriter *xml, LatexmenuItem *item
 	if ( item->insertOutput() ) {
 		xml->writeTextElement(LatexmenuData::xmlMenuTagName(LatexmenuData::XML_INSERTOUTPUT), "true");
 	}
-   
+
 	xml->writeEndElement();
 }
 
@@ -567,7 +566,7 @@ void LatexmenuTree::writeXmlMenuentry(QXmlStreamWriter *xml, LatexmenuItem *item
 void LatexmenuTree::writeXmlSubmenu(QXmlStreamWriter *xml, LatexmenuItem *item)
 {
 	xml->writeStartElement("submenu");
-	
+
 	QString menutitle = item->text(0);
 	if ( menutitle == EMPTY_MENUENTRY ) {
 		menutitle = QString::null;
@@ -600,19 +599,19 @@ void LatexmenuTree::writeXmlSeparator(QXmlStreamWriter *xml)
 void LatexmenuTree::setErrorCodes()
 {
 	KILE_DEBUG() << "check menutree for errors and set error codes ...";
-	
+
 	for (int i = 0; i < topLevelItemCount(); ++i) {
 		LatexmenuItem *item = dynamic_cast<LatexmenuItem *>(topLevelItem(i));
 		LatexmenuData::MenuType type = item->menutype();
 
-		bool executable = ( type==LatexmenuData::Program && isItemExecutable(item->filename()) ); 
-		item->setModelData(executable);                         
-		
-		if ( type != LatexmenuData::Separator ) {        
+		bool executable = ( type==LatexmenuData::Program && isItemExecutable(item->filename()) );
+		item->setModelData(executable);
+
+		if ( type != LatexmenuData::Separator ) {
 			checkMenuTitle(item);
 		}
 		if ( type == LatexmenuData::Submenu ) {
-			checkSubmenu(item); 
+			checkSubmenu(item);
 		}
 	}
 }
@@ -629,25 +628,25 @@ void LatexmenuTree::checkSubmenu(LatexmenuItem *item)
 {
 	QString menutitle = item->menutitle();
 	int children = item->childCount();
-		
+
 	if ( menutitle.isEmpty() ) {
 		menutitle = EMPTY_MENUENTRY;
-	} 
+	}
 	else if ( children == 0 ) {
 		menutitle += EMPTY_SUBMENU;
 	}
 	item->setText(0,menutitle);
-		
+
 	for ( int i=0; i<children; ++i ) {
 		LatexmenuItem *child = dynamic_cast<LatexmenuItem *>(item->child(i));
 		child->setModelData();
 		LatexmenuData::MenuType type = child->menutype();
-	
-		if ( type != LatexmenuData::Separator ) {        
+
+		if ( type != LatexmenuData::Separator ) {
 			checkMenuTitle(child);
 		}
 		if ( type == LatexmenuData::Submenu ) {
-			checkSubmenu(child); 
+			checkSubmenu(child);
 		}
 	}
 }
@@ -658,24 +657,24 @@ void LatexmenuTree::checkSubmenu(LatexmenuItem *item)
 bool LatexmenuTree::errorCheck()
 {
 	KILE_DEBUG() << "check menutree for errors ...";
-	
+
 	for (int i = 0; i < topLevelItemCount(); ++i) {
 		LatexmenuItem *item = dynamic_cast<LatexmenuItem *>(topLevelItem(i));
 		LatexmenuData::MenuType type = item->menutype();
-		
-		if ( type != LatexmenuData::Separator ) {        
+
+		if ( type != LatexmenuData::Separator ) {
 			if ( item->data(0,Qt::UserRole+2).toInt() != LatexmenuItem::MODEL_ERROR_NONE ) {
 				return false;
 			}
 		}
-		
+
 		if ( type == LatexmenuData::Submenu ) {
 			if ( checkSubmenuError(item) == false ) {
 				return false;
 			}
 		}
 	}
-	
+
 	return true;
 }
 
@@ -685,8 +684,8 @@ bool LatexmenuTree::checkSubmenuError(LatexmenuItem *item)
 	for ( int i=0; i<children; ++i ) {
 		LatexmenuItem *child = dynamic_cast<LatexmenuItem *>(item->child(i));
 		LatexmenuData::MenuType type = child->menutype();
-		
-		if ( type != LatexmenuData::Separator ) {        
+
+		if ( type != LatexmenuData::Separator ) {
 			if ( child->data(0,Qt::UserRole+2).toInt() != LatexmenuItem::MODEL_ERROR_NONE ) {
 				return false;
 			}
@@ -698,7 +697,7 @@ bool LatexmenuTree::checkSubmenuError(LatexmenuItem *item)
 			}
 		}
 	}
-	
+
 	return true;
 }
 
@@ -711,7 +710,7 @@ bool LatexmenuTree::insertMenuItem(QTreeWidgetItem *current, bool below)
 	if ( menulabel.isEmpty() )  {
 		return false;
 	}
-	
+
 	if ( below ) {
 		insertMenuItemBelow(current,LatexmenuData::Text,menulabel);
 	}
@@ -728,7 +727,7 @@ bool LatexmenuTree::insertSubmenu(QTreeWidgetItem *current, bool below)
 	if ( menulabel.isEmpty() )  {
 		return false;
 	}
-	
+
 	if ( below ) {
 		insertMenuItemBelow(current,LatexmenuData::Submenu,menulabel);
 	}
@@ -754,11 +753,11 @@ void LatexmenuTree::insertMenuItemAbove(QTreeWidgetItem *current, LatexmenuData:
 {
 	QTreeWidgetItem *parent = ( current ) ? current->parent() : 0L;
 	int index = itemIndex(parent,current);
-	
+
 	LatexmenuItem *item = new LatexmenuItem(type,menulabel);
 	insertItem(parent,index,item);
-	
-	item->setText(0,menulabel);	  
+
+	item->setText(0,menulabel);
 	setCurrentItem(item);
 }
 
@@ -766,15 +765,15 @@ void LatexmenuTree::insertMenuItemBelow(QTreeWidgetItem *current, LatexmenuData:
 {
 	LatexmenuItem *item;
 	QTreeWidgetItem *parent = ( current ) ? current->parent() : 0L;
-	
+
 	if ( parent == 0L ) {
 		item = new LatexmenuItem(this,current,type,menulabel);
 	}
 	else {
 		item = new LatexmenuItem(parent,current,type,menulabel);
 	}
-	
-	item->setText(0,menulabel);	  
+
+	item->setText(0,menulabel);
 	setCurrentItem(item);
 }
 
@@ -800,8 +799,8 @@ void LatexmenuTree::itemDelete(QTreeWidgetItem *current)
 	QTreeWidgetItem *item, *selectitem;
 	QTreeWidgetItem *parent = current->parent();
 	if ( parent == 0L ) {
-		children = topLevelItemCount(); 
-		index = indexOfTopLevelItem(current);  
+		children = topLevelItemCount();
+		index = indexOfTopLevelItem(current);
 		if ( index < children-1 ) {
 			selectitem = topLevelItem(index+1);
 		}
@@ -811,12 +810,12 @@ void LatexmenuTree::itemDelete(QTreeWidgetItem *current)
 		else {
 			selectitem = 0L;
 		}
-		
+
 		item = takeTopLevelItem(index);
-	} 
+	}
 	else {
-		children = parent->childCount(); 
-		index = parent->indexOfChild(current);  
+		children = parent->childCount();
+		index = parent->indexOfChild(current);
 		if ( index < children-1 ) {
 			selectitem = parent->child(index+1);
 		}
@@ -826,12 +825,12 @@ void LatexmenuTree::itemDelete(QTreeWidgetItem *current)
 		else
 			selectitem = parent; {
 		}
-		
-		item = parent->takeChild(index); 
+
+		item = parent->takeChild(index);
 	}
-	
+
 	delete item;
-	
+
 	if ( selectitem != 0L ) {
 		setCurrentItem(selectitem);
 	}
@@ -840,22 +839,22 @@ void LatexmenuTree::itemDelete(QTreeWidgetItem *current)
 // move an item one position up
 void LatexmenuTree::itemUp()
 {
-	QTreeWidgetItem *current = currentItem(); 
+	QTreeWidgetItem *current = currentItem();
 	LatexmenuItem *aboveitem = dynamic_cast<LatexmenuItem *>(itemAbove(current));
 	if ( aboveitem == 0L ) {
 		return;
 	}
-	
+
 	bool expanded = current->isExpanded();
 	blockSignals(true);
-	
+
 	QTreeWidgetItem *aboveparent = aboveitem->parent();
 	int aboveindex = itemIndex(aboveparent,aboveitem);
-		
+
 	LatexmenuItem *parent = dynamic_cast<LatexmenuItem *>(current->parent());
-	int index = itemIndex(parent,current);  
+	int index = itemIndex(parent,current);
 	takeItem(parent,current);
-	  
+
 	if ( parent!=aboveparent && index!=0 ) {
 		aboveindex++;
 	}
@@ -866,7 +865,7 @@ void LatexmenuTree::itemUp()
 	else {
 		insertItem(aboveparent,aboveindex,current);
 	}
-		
+
 	// update model data of old and new parent, if it has changed
 	LatexmenuItem *newparent = dynamic_cast<LatexmenuItem *>(current->parent());
 	if ( parent != newparent ) {
@@ -879,7 +878,7 @@ void LatexmenuTree::itemUp()
 			newparent->setText(0, newparent->updateMenutitle());
 		}
 	}
-	
+
 	current->setExpanded(expanded);
 	setCurrentItem(current);
 	blockSignals(false);
@@ -888,15 +887,15 @@ void LatexmenuTree::itemUp()
 // move an item one position down
 void LatexmenuTree::itemDown()
 {
-	QTreeWidgetItem *current = currentItem(); 
+	QTreeWidgetItem *current = currentItem();
 	bool expanded = current->isExpanded();
 	blockSignals(true);
-	
+
 	// get all necessary parameter
 	LatexmenuItem *parent = dynamic_cast<LatexmenuItem *>(current->parent());
-	int index = itemIndex(parent,current);  
+	int index = itemIndex(parent,current);
 	int children = numChildren(parent);
-	
+
 	// successor exists?
 	if ( index < children-1 ) {
 		LatexmenuItem *successor = dynamic_cast<LatexmenuItem *>( itemAtIndex(parent,index+1) );
@@ -907,10 +906,10 @@ void LatexmenuTree::itemDown()
 		else {
 			insertItem(parent,index+1,current);
 		}
-	} 
+	}
 	else if ( parent ) {
 			QTreeWidgetItem *grandparent = parent->parent();
-			int parentindex = itemIndex(grandparent,parent);  
+			int parentindex = itemIndex(grandparent,parent);
 			takeItem(parent,current);
 			insertItem(grandparent,parentindex+1,current);
 	}
@@ -951,12 +950,12 @@ void  LatexmenuTree::deleteMenuTree()
 void  LatexmenuTree::itemInfo(LatexmenuItem *item)
 {
 	int error = item->data(0,Qt::UserRole+2).toInt();
-	
+
 	QStringList list;
 	if ( error & LatexmenuItem::MODEL_ERROR_EMPTY ) {
 		list << i18n("This menuitem has no title.");
 	}
-	
+
 	if ( error & LatexmenuItem::MODEL_ERROR_SUBMENU ) {
 		list << i18n("This submenu item is useless without children.");
 	}
@@ -988,7 +987,7 @@ void  LatexmenuTree::itemInfo(LatexmenuItem *item)
 		}
 		msg += "</ul></p>";
 	}
-	
+
    KMessageBox::information(this, msg, i18n("Menutree Error"));
 }
 
@@ -998,7 +997,7 @@ int LatexmenuTree::itemIndex(QTreeWidgetItem *parent, QTreeWidgetItem *item)
 {
 	return ( parent ) ? parent->indexOfChild(item) : indexOfTopLevelItem(item);
 }
-  
+
 QTreeWidgetItem *LatexmenuTree::itemAtIndex(QTreeWidgetItem *parent, int index)
 {
 	return ( parent ) ? parent->child(index) : topLevelItem(index);
@@ -1008,12 +1007,12 @@ int LatexmenuTree::numChildren(QTreeWidgetItem *parent)
 {
 	return ( parent ) ? parent->childCount() : topLevelItemCount();
 }
-  
+
 void LatexmenuTree::insertItem(QTreeWidgetItem *parent, int index, QTreeWidgetItem *item)
 {
 	if ( parent ) {
 		parent->insertChild(index,item);
-	} 
+	}
 	else {
 		insertTopLevelItem(index,item);
 	}
@@ -1024,7 +1023,7 @@ void LatexmenuTree::takeItem(QTreeWidgetItem *parent, QTreeWidgetItem *item)
 	if ( parent ) {
 		int index = parent->indexOfChild(item);
 		parent->takeChild(index);
-	} 
+	}
 	else {
 		int index = indexOfTopLevelItem(item);
 		takeTopLevelItem(index);
@@ -1033,7 +1032,7 @@ void LatexmenuTree::takeItem(QTreeWidgetItem *parent, QTreeWidgetItem *item)
 
 bool LatexmenuTree::str2bool(const QString &value)
 {
-	return ( value == "true" );  
+	return ( value == "true" );
 }
 
 
@@ -1041,8 +1040,8 @@ QString LatexmenuTree::getMenuTitle(const QString &title)
 {
 	bool ok;
 	QString value = KInputDialog::getText(i18n("Name"), title, QString::null, &ok, this);
-	return ( ok ) ? value : QString::null; 
-		
+	return ( ok ) ? value : QString::null;
+
 }
 
 

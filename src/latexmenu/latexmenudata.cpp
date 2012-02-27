@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -19,7 +18,7 @@
 
 
 namespace KileMenu {
- 
+
 LatexmenuData::LatexmenuData()
 {
 	clear();
@@ -42,16 +41,16 @@ void LatexmenuData::clear()
 	selectInsertion  = false;
 }
 
-// static list for xml menu attributes 
+// static list for xml menu attributes
 QStringList LatexmenuData::xmlMenuAttrList = QStringList() << "text" << "file" << "program" << "separator" << "submenu";
 
-// static list for xml menu tags 
-QStringList LatexmenuData::xmlMenuTagList = QStringList() << "text" << "filename" << "parameter"      
+// static list for xml menu tags
+QStringList LatexmenuData::xmlMenuTagList = QStringList() << "text" << "filename" << "parameter"
 	                                                       << "icon" << "shortcut"
 	                                                       << "needsSelection"     << "useContextMenu" << "replaceSelection"
 	                                                       << "selectInsertion"    << "insertOutput"   << "title";
 
-// static methods  for xml menu attributes 
+// static methods  for xml menu attributes
 LatexmenuData::MenuType LatexmenuData::xmlMenuType(const QString &name)
 {
 	int index = xmlMenuAttrList.indexOf(name);
@@ -63,7 +62,7 @@ QString LatexmenuData::xmlMenuTypeName(int index)
 	return xmlMenuAttrList[index];
 }
 
-// static methods  for xml menu tags 
+// static methods  for xml menu tags
 int LatexmenuData::xmlMenuTag(const QString &tag)
 {
 	return xmlMenuTagList.indexOf(tag);

@@ -1,7 +1,6 @@
-/***************************************************************************
-    begin                : Oct 03 2011
-    author               : dani
- ***************************************************************************/
+/***********************************************************************************
+  Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+ ***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -35,22 +34,22 @@ namespace KileMenu {
 class LatexmenuItem : public QTreeWidgetItem {
 
 	public:
-	  
+
 		LatexmenuItem(LatexmenuData::MenuType type, const QString &menutitle = QString::null);
-		LatexmenuItem(QTreeWidget *parent, QTreeWidgetItem *preceding, 
+		LatexmenuItem(QTreeWidget *parent, QTreeWidgetItem *preceding,
 		              LatexmenuData::MenuType type, const QString &menutitle = QString::null);
-		LatexmenuItem(QTreeWidgetItem *parent, QTreeWidgetItem *preceding, 
+		LatexmenuItem(QTreeWidgetItem *parent, QTreeWidgetItem *preceding,
 		             LatexmenuData::MenuType type, const QString &menutitle = QString::null);
 
-		virtual ~LatexmenuItem() {} 
+		virtual ~LatexmenuItem() {}
 
-		enum ModelUserError { MODEL_ERROR_NONE=0x00,    
-		                      MODEL_ERROR_EMPTY=0x01, 
+		enum ModelUserError { MODEL_ERROR_NONE=0x00,
+		                      MODEL_ERROR_EMPTY=0x01,
 		                      MODEL_ERROR_SUBMENU=0x02,
-		                      MODEL_ERROR_TEXT=0x04, 
-		                      MODEL_ERROR_FILE_EMPTY=0x08, 
-		                      MODEL_ERROR_FILE_EXIST=0x10, 
-		                      MODEL_ERROR_FILE_EXECUTABLE=0x20, 
+		                      MODEL_ERROR_TEXT=0x04,
+		                      MODEL_ERROR_FILE_EMPTY=0x08,
+		                      MODEL_ERROR_FILE_EXIST=0x10,
+		                      MODEL_ERROR_FILE_EXECUTABLE=0x20,
 		                    };
 
 		void setModelData(bool executable=false);
@@ -92,7 +91,7 @@ class LatexmenuItem : public QTreeWidgetItem {
 
 		void setInsertOutput(bool state) { m_data.insertOutput = state; }
 		bool insertOutput() { return m_data.insertOutput; }
-		
+
 	private:
 		LatexmenuData  m_data;
 

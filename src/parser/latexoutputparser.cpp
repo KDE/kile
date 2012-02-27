@@ -1,7 +1,7 @@
-/************************************************************************************
-    begin                : Die Sep 16 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
- ************************************************************************************/
+/**********************************************************************************
+*   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)           *
+*                 2011 by Michel Ludwig (michel.ludwig@kdemail.net)               *
+***********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -12,48 +12,61 @@
  *                                                                         *
  ***************************************************************************/
 
-// 2007-03-12 dani
-//  - use KileDocument::Extensions
+#include "latexoutputparser.h"
 
-#include "latexoutputfilter.h"
-
- #include <QDir>
-#include <QFile>
-#include <QRegExp>
+#include <QDir>
 #include <QFileInfo>
 
-#include "kiledebug.h"
-#include <ktextedit.h>
-#include <klocale.h>
+#include <KLocale>
 
 #include "kiletool_enums.h"
+#include "parserthread.h"
+#include "widgets/logwidget.h"
 
-using namespace std;
+namespace KileParser {
 
-LatexOutputFilter::LatexOutputFilter(LatexOutputInfoArray* LatexOutputInfoArray, KileDocument::Extensions *extensions) :
-	m_nErrors(0),
-	m_nWarnings(0),
-	m_nBadBoxes(0),
-	m_infoList(LatexOutputInfoArray),
-	m_extensions(extensions)
+LaTeXOutputParserInput::LaTeXOutputParserInput(const KUrl& url, KileDocument::Extensions *extensions,
+                                                                const QString& sourceFile,
+                                                                const QString &texfilename, int selrow, int docrow)
+: ParserInput(url),
+  extensions(extensions),
+  sourceFile(sourceFile),
+  texfilename(texfilename),
+  selrow(selrow),
+  docrow(docrow)
 {
 }
 
-LatexOutputFilter::~ LatexOutputFilter()
+LaTeXOutputParserOutput::LaTeXOutputParserOutput()
 {
 }
 
-bool LatexOutputFilter::OnPreCreate()
+LaTeXOutputParserOutput::~LaTeXOutputParserOutput()
+{
+    KILE_DEBUG();
+}
+
+LaTeXOutputParser::LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent)
+: Parser(parserThread, parent),
+  m_extensions(input->extensions),
+  m_infoList(NULL),
+  m_logFile(input->url.toLocalFile()),
+  texfilename(input->texfilename),
+  selrow(input->selrow),
+  docrow(input->docrow)
 {
 	m_nErrors = 0;
 	m_nWarnings = 0;
 	m_nBadBoxes = 0;
-
-	return true;
+	setSource(input->sourceFile);
 }
 
+LaTeXOutputParser::~LaTeXOutputParser()
+{
+    KILE_DEBUG();
+}
 
-bool LatexOutputFilter::fileExists(const QString & name)
+bool LaTeXOutputParser::fileExists(const QString & name)
 {
 	static QFileInfo fi;
 
@@ -91,22 +104,22 @@ bool LatexOutputFilter::fileExists(const QString & name)
 
 // There are basically two ways to detect the current file TeX is processing:
 //	1) Use \Input (i.c.w. srctex.sty or srcltx.sty) and \include exclusively. This will
-//	cause (La)TeX to print the line ":<+ filename"  in the log file when opening a file, 
+//	cause (La)TeX to print the line ":<+ filename"  in the log file when opening a file,
 //	":<-" when closing a file. Filenames pushed on the stack in this mode are marked
 //	as reliable.
 //
 //	2) Since people will probably also use the \input command, we also have to be
 //	to detect the old-fashioned way. TeX prints '(filename' when opening a file and a ')'
 //	when closing one. It is impossible to detect this with 100% certainty (TeX prints many messages
-//	and even text (a context) from the TeX source file, there could be unbalanced parentheses), 
-//	so we use a heuristic algorithm. In heuristic mode a ')' will only be considered as a signal that 
-//	TeX is closing a file if the top of the stack is not marked as "reliable". 
+//	and even text (a context) from the TeX source file, there could be unbalanced parentheses),
+//	so we use a heuristic algorithm. In heuristic mode a ')' will only be considered as a signal that
+//	TeX is closing a file if the top of the stack is not marked as "reliable".
 //	Also, when scanning for a TeX error linenumber (which sometimes causes a context to be printed
 //	to the log-file), updateFileStack is not called, helping not to pick up unbalanced parentheses
 //	from the context.
-void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
+void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStack()================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::updateFileStack()================" << endl;
 	static QString strPartialFileName;
 
 	switch (dwCookie) {
@@ -172,9 +185,9 @@ void LatexOutputFilter::updateFileStack(const QString &strLine, short& dwCookie)
 	}
 }
 
-void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
+void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short & dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::updateFileStackHeuristic()================";
+	//KILE_DEBUG() << "==LaTeXOutputParser::updateFileStackHeuristic()================";
 	//KILE_DEBUG() << strLine << dwCookie;
 	static QString strPartialFileName;
 	bool expectFileName = (dwCookie == FileNameHeuristic);
@@ -201,11 +214,11 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 
 		bool isLastChar = (i+1 == strLine.length());
 		bool nextIsTerminator = isLastChar ? false : (strLine[i+1].isSpace() || strLine[i+1] == ')');
-		
+
 		if(expectFileName && (isLastChar || nextIsTerminator)) {
 			KILE_DEBUG() << "Update the partial filename " << strPartialFileName;
 			strPartialFileName =  strPartialFileName + strLine.mid(index, i-index + 1);
-			
+
 			if(strPartialFileName.isEmpty()){ // nothing left to do here
 			  continue;
 			}
@@ -246,7 +259,7 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 
 			//this is were the filename is supposed to start
 			index = i + 1;
-        	}
+		}
 		//TeX is closing a file
 		else if(strLine[i] == ')') {
 			//KILE_DEBUG() << "\tpopping : " << m_stackFile.top().file();
@@ -264,9 +277,9 @@ void LatexOutputFilter::updateFileStackHeuristic(const QString &strLine, short &
 }
 
 
-void LatexOutputFilter::flushCurrentItem()
+void LaTeXOutputParser::flushCurrentItem()
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::flushCurrentItem()================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::flushCurrentItem()================" << endl;
 	int nItemType = m_currentItem.type();
 
 	while( m_stackFile.count() > 0 && !fileExists(m_stackFile.top().file()) ) {
@@ -275,6 +288,7 @@ void LatexOutputFilter::flushCurrentItem()
 
 	QString sourceFile = (m_stackFile.isEmpty()) ? QFileInfo(source()).fileName() : m_stackFile.top().file();
 	m_currentItem.setSource(sourceFile);
+	m_currentItem.setMainSourceFile(source());
 
 	switch (nItemType) {
 		case itmError:
@@ -300,9 +314,9 @@ void LatexOutputFilter::flushCurrentItem()
 	m_currentItem.clear();
 }
 
-bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
+bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::detectError(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::detectError(" << strLine.length() << ")================" << endl;
 
 	bool found = false, flush = false;
 
@@ -379,7 +393,7 @@ bool LatexOutputFilter::detectError(const QString & strLine, short &dwCookie)
 	return found;
 }
 
-bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
+bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
 {
 	//KILE_DEBUG() << strLine << strLine.length();
 
@@ -395,7 +409,7 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 		case Start :
 			if(reLaTeXWarning.indexIn(strLine) != -1) {
 				warning = reLaTeXWarning.cap(5);
- 				//KILE_DEBUG() << "\tWarning found: " << warning << endl;
+				//KILE_DEBUG() << "\tWarning found: " << warning << endl;
 
 				found = true;
 				dwCookie = Start;
@@ -447,9 +461,9 @@ bool LatexOutputFilter::detectWarning(const QString & strLine, short &dwCookie)
 	return found;
 }
 
-bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCookie, int len)
+bool LaTeXOutputParser::detectLaTeXLineNumber(QString & warning, short & dwCookie, int len)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
 
 	static QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", Qt::CaseInsensitive);
 	static QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", Qt::CaseInsensitive);
@@ -481,9 +495,9 @@ bool LatexOutputFilter::detectLaTeXLineNumber(QString & warning, short & dwCooki
 	}
 }
 
-bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
+bool LaTeXOutputParser::detectBadBox(const QString & strLine, short & dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::detectBadBox(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::detectBadBox(" << strLine.length() << ")================" << endl;
 
 	bool found = false, flush = false;
 	QString badbox;
@@ -523,9 +537,9 @@ bool LatexOutputFilter::detectBadBox(const QString & strLine, short & dwCookie)
 	return found;
 }
 
-bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCookie, int len)
+bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCookie, int len)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
 
 	static QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", Qt::CaseInsensitive);
 	static QRegExp reBadBoxLine("(.*) at line ([0-9]+)", Qt::CaseInsensitive);
@@ -567,9 +581,9 @@ bool LatexOutputFilter::detectBadBoxLineNumber(QString & strLine, short & dwCook
 	return false;
 }
 
-short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
+short LaTeXOutputParser::parseLine(const QString & strLine, short dwCookie)
 {
-	//KILE_DEBUG() << "==LatexOutputFilter::parseLine(" << strLine << dwCookie << strLine.length() << ")================" << endl;
+	//KILE_DEBUG() << "==LaTeXOutputParser::parseLine(" << strLine << dwCookie << strLine.length() << ")================" << endl;
 
 	switch (dwCookie) {
 		case Start :
@@ -602,81 +616,99 @@ short LatexOutputFilter::parseLine(const QString & strLine, short dwCookie)
 	return dwCookie;
 }
 
-// split old Run() into three parts
-// - Run()             : parse the logfile
-// - updateInfoLists() : needed by QuickPreview
-// - sendProblems()    : emit signals
-//
-// dani 18.02.2005
-
-bool LatexOutputFilter::Run(const QString& logfile)
+ParserOutput* LaTeXOutputParser::parse()
 {
-	m_infoList->clear();
+	LaTeXOutputParserOutput *parserOutput = new LaTeXOutputParserOutput();
+
+	KILE_DEBUG();
+
+	m_infoList = &(parserOutput->infoList);
 	m_nErrors = m_nWarnings = m_nBadBoxes = m_nParens = 0;
 	m_stackFile.clear();
 	m_stackFile.push(LOFStackItem(QFileInfo(source()).fileName(), true));
 
-	return OutputFilter::Run(logfile);
+	short sCookie = 0;
+	QString s;
+	QFile f(m_logFile);
+
+	m_log.clear();
+	m_nOutputLines = 0;
+
+	if(!f.open(QIODevice::ReadOnly)) {
+		parserOutput->problem = i18n("Cannot open log file; did you run LaTeX?");
+		return parserOutput;
+	}
+	m_infoList = &parserOutput->infoList;
+	QTextStream t(&f);
+	while(!t.atEnd()) {
+		if(!m_parserThread->shouldContinueDocumentParsing()) {
+			KILE_DEBUG() << "stopping...";
+			delete(parserOutput);
+			f.close();
+			return NULL;
+		}
+		s = t.readLine();
+		sCookie = parseLine(s.trimmed(), sCookie);
+		++m_nOutputLines;
+
+		m_log += s + '\n';
+	}
+	f.close();
+
+	parserOutput->nWarnings = m_nWarnings;
+	parserOutput->nErrors = m_nErrors;
+	parserOutput->nBadBoxes = m_nBadBoxes;
+	parserOutput->logFile = m_logFile;
+
+	// for quick preview
+	if(!texfilename.isEmpty() && selrow >= 0 && docrow >= 0) {
+		updateInfoLists(texfilename, selrow, docrow);
+	}
+
+	return parserOutput;
 }
 
-void LatexOutputFilter::updateInfoLists(const QString &texfilename, int selrow, int docrow)
+void LaTeXOutputParser::updateInfoLists(const QString &texfilename, int selrow, int docrow)
 {
 	// get a short name for the original tex file
 	QString filename = "./" + QFileInfo(texfilename).fileName();
-	setSource(texfilename);
-	
+// 	setSource(texfilename);
+
 	//print detailed error info
 	for(int i = 0; i < m_infoList->count(); ++i) {
 		// perhaps correct filename and line number in OutputInfo
-		OutputInfo *info = &(*m_infoList)[i];
-		info->setSource(filename);
-		
-		int linenumber = selrow + info->sourceLine() - docrow;
+		OutputInfo &info = (*m_infoList)[i];
+		info.setSource(filename);
+
+		int linenumber = selrow + info.sourceLine() - docrow;
 		if(linenumber < 0) {
 			linenumber = 0;
 		}
-		info->setSourceLine(linenumber);
+		info.setSourceLine(linenumber);
 	}
 }
 
-void LatexOutputFilter::sendProblems()
-{
-	QString message;
-	int type;
-	QList<KileWidget::LogWidget::ProblemInformation> problemList;
 
-	//print detailed error info
-	for(QList<LatexOutputInfo>::iterator i = m_infoList->begin();
-	                                     i != m_infoList->end(); ++i) {
-		LatexOutputInfo info = *i;
-		message = info.source() + ':' + QString::number(info.sourceLine()) + ':' + info.message();
-		switch(info.type()) {
-			case LatexOutputInfo::itmBadBox:
-				type = KileTool::ProblemBadBox;
-				break;
-			case LatexOutputInfo::itmError:
-				type = KileTool::ProblemError;
-				break;
-			case LatexOutputInfo::itmWarning:
-				type = KileTool::ProblemWarning;
-				break;
-			default:
-				type = KileTool::Info;
-				break;
-		}
-		KileWidget::LogWidget::ProblemInformation problem;
-		problem.type = type;
-		problem.message = message;
-		problem.outputInfo = info;
-		problemList.push_back(problem);
-	}
-	emit(problems(problemList));
-}
 
 /** Return number of errors etc. found in log-file. */
-void LatexOutputFilter::getErrorCount(int *errors, int *warnings, int *badboxes)
+void LaTeXOutputParser::getErrorCount(int *errors, int *warnings, int *badboxes)
 {
     *errors = m_nErrors;
     *warnings = m_nWarnings;
     *badboxes = m_nBadBoxes;
 }
+
+int LaTeXOutputParser::GetCurrentOutputLine() const
+{
+    return m_nOutputLines;
+}
+
+void LaTeXOutputParser::setSource(const QString &src)
+{
+	m_source = src;
+	m_srcPath = QFileInfo(src).path();
+}
+
+}
+
+#include "latexoutputparser.moc"

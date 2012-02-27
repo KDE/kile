@@ -15,12 +15,18 @@
 
 #include "kilelauncher.h"
 
+#include "config.h"
+
+#include "docpart.h"
+#ifdef HAVE_VIEWERINTERFACE_H
+  #include "livepreview.h"
+#endif
+#include "kileconfig.h"
 #include "kileinfo.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
-#include "docpart.h"
-#include "kileconfig.h"
+#include "kileviewmanager.h"
 
 #include <QStackedWidget>
 #include <QFileInfo>
@@ -51,16 +57,13 @@ namespace KileTool {
 		m_tool(NULL)
 	{
 	}
-	
+
 	Launcher::~ Launcher()
 	{
 		KILE_DEBUG() << "DELETING launcher";
 	}
 
 	ProcessLauncher::ProcessLauncher() :
-		m_texinputs(KileConfig::teXPaths()),
-		m_bibinputs(KileConfig::bibInputPaths()),
- 		m_bstinputs(KileConfig::bstInputPaths()),
 		m_changeTo(true)
 	{
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::ProcessLauncher()==============";
@@ -78,6 +81,13 @@ namespace KileTool {
 	ProcessLauncher::~ProcessLauncher()
 	{
 		KILE_DEBUG() << "DELETING ProcessLauncher";
+
+		if(m_proc) {
+			// we don't want it to emit any signals as we are being deleted
+			m_proc->disconnect();
+			kill(false);
+			delete m_proc;
+		}
 	}
 
 	void ProcessLauncher::setWorkingDirectory(const QString &wd)
@@ -89,7 +99,7 @@ namespace KileTool {
 	{
 		m_changeTo = change;
 	}
-	
+
 	void ProcessLauncher::setCommand(const QString& cmd)
 	{
 		m_cmd = cmd;
@@ -152,7 +162,7 @@ namespace KileTool {
 		// want to use that directory)
 		// BUG: 204397
 		m_proc->setProgram(m_cmd, arguments);
-		
+
 		KILE_DEBUG() << "sent " << m_cmd << ' ' << arguments;
 
 		out += QString("*****     ") + m_cmd + ' ' + arguments.join(" ") + '\n';
@@ -170,27 +180,32 @@ namespace KileTool {
 
 		emit(message(Info, msg));
 
+		QString teXInputPaths = tool()->teXInputPaths();
+		QString bibInputPaths = tool()->bibInputPaths();
+		QString bstInputPaths = tool()->bstInputPaths();
+
 		// QuickView tools need a special TEXINPUTS environment variable
 		if(tool()->isQuickie()) {
-			m_texinputs = KileConfig::previewTeXPaths();
+			teXInputPaths = KileConfig::previewTeXPaths();
+			bibInputPaths = KileConfig::previewBibInputPaths();
 		}
 
 		KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS");
-		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS");
-		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS");
+		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + ":$TEXINPUTS");
+		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + ":$BIBINPUTS");
+		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + ":$BSTINPUTS");
 		KILE_DEBUG() << "Tool name is "<< tool()->name();
 
 		m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
-		if(!m_texinputs.isEmpty()) {
-			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_texinputs + ":$TEXINPUTS"));
+		if(!teXInputPaths.isEmpty()) {
+			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + ":$TEXINPUTS"));
 		}
-		if(!m_bibinputs.isEmpty()) {
-			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bibinputs + ":$BIBINPUTS"));
+		if(!bibInputPaths.isEmpty()) {
+			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + ":$BIBINPUTS"));
 		}
-		if(!m_bstinputs.isEmpty()) {
-			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(m_bstinputs + ":$BSTINPUTS"));
+		if(!bstInputPaths.isEmpty()) {
+			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + ":$BSTINPUTS"));
 		}
 
 		out += "*****\n";
@@ -207,15 +222,20 @@ namespace KileTool {
 		return true;
 	}
 
-	void ProcessLauncher::kill()
+	void ProcessLauncher::kill(bool emitSignals)
 	{
 		KILE_DEBUG() << "==KileTool::ProcessLauncher::kill()==============";
 		if(m_proc && m_proc->state() == QProcess::Running) {
 			KILE_DEBUG() << "\tkilling";
 			m_proc->kill();
+			m_proc->waitForFinished(-1);
 		}
 		else {
 			KILE_DEBUG() << "\tno process or process not running";
+			if(emitSignals) {
+				emit(message(Error, i18n("terminated")));
+				emit(done(AbnormalExit));
+			}
 		}
 	}
 
@@ -234,7 +254,7 @@ namespace KileTool {
 			emit(message(Error, i18n("Shell meta characters that cannot be handled are present in the options given to the tool.")));
 			return false;
 		}
-		
+
 
 		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
 		QString path = KGlobal::dirs()->findExe(exe, QString(), KStandardDirs::IgnoreExecBit);
@@ -338,7 +358,7 @@ namespace KileTool {
 
 	PartLauncher::~PartLauncher()
 	{
-		// the created part will be deleted in 'Kile::resetPart' 
+		// the created part will be deleted in 'Kile::resetPart'
 		KILE_DEBUG () << "DELETING PartLauncher";
 	}
 
@@ -368,9 +388,33 @@ namespace KileTool {
 		m_className = tool()->readEntry("className");
 		m_options = tool()->readEntry("libOptions");
 		m_state = tool()->readEntry("state");
+#ifdef HAVE_VIEWERINTERFACE_H
+		// check if should use the document viewer
+		if(tool()->readEntry("useDocumentViewer") == "yes") {
+			// and whether it's available
+			if(!tool()->manager()->viewManager()->viewerPart()) {
+				emit(message(Error, i18n("The document viewer is not available")));
+				return false;
+			}
+			if(tool()->manager()->livePreviewManager()->isLivePreviewActive()) {
+				emit(message(Error, i18n("Please disable the live preview before launching this tool")));
+				return false;
+			}
+			const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
+			tool()->manager()->viewManager()->openInDocumentViewer(KUrl(fileName));
+			if(tool()->paramDict().contains("%sourceFileName")
+			    && tool()->paramDict().contains("%sourceLine")) {
+				const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
+				const QString lineString = tool()->paramDict()["%sourceLine"];
+				tool()->manager()->viewManager()->showSourceLocationInDocumentViewer(sourceFileName, lineString.toInt(), 0);
+			}
+			emit(done(Success));
 
+			return true;
+		}
+#endif
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
-		
+
 		QString name, shrt;
 
 		// FIXME: this should be made user configurable
@@ -434,8 +478,9 @@ namespace KileTool {
 		return true;
 	}
 
-	void PartLauncher::kill()
+	void PartLauncher::kill(bool emitSignals)
 	{
+		Q_UNUSED(emitSignals);
 	}
 
 	KParts::ReadOnlyPart* PartLauncher::part()
@@ -481,7 +526,7 @@ namespace KileTool {
 		pm->setActivePart( htmlpart);
 
 		emit(done(Success));
-		
+
 		return true;
 	}
 

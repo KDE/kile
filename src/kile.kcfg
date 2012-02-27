@@ -20,11 +20,11 @@
 	<group name="Geometries">
 		<entry name="horizontalSplitterLeft" type="Int">
 			<label></label>
-			<default>100</default>
+			<default>-1</default>
 		</entry>
 		<entry name="horizontalSplitterRight" type="Int">
 			<label></label>
-			<default>350</default>
+			<default>-1</default>
 		</entry>
 		<entry name="verticalSplitterTop" type="Int">
 			<label></label>
@@ -131,6 +131,11 @@
 			<whatsthis>Set the BIBINPUTS environment variable here. BIBINPUTS should be a colon-separated list of all paths bibtex should look for additional .bib files. You do not have to add :$BIBINPUTS at the end.</whatsthis>
 			<default></default>
 		</entry>
+		<entry name="PreviewBibInputPaths" type="String">
+			<label>Holds the BIBINPUTS environment variable for QuickPreview tools.</label>
+			<whatsthis>Set the BIBINPUTS environment variable for QuickPreview tools here. BIBINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$BIBINPUTS at the end.</whatsthis>
+			<default></default>
+		</entry>
 		<entry name="BstInputPaths" type="String">
 			<label>Holds the BSTINPUTS environment variable.</label>
 			<whatsthis>Set the BSTINPUTS environment variable here. BSTINPUTS should be a colon-separated list of all paths bibtex should look for additional .bst files. You do not have to add :$BSTINPUTS at the end.</whatsthis>
@@ -157,6 +162,14 @@
 		<entry name="SideBar" type="Bool">
 			<label>Whether to show the side bar.</label>
 			<default>true</default>
+		</entry>
+		<entry name="ShowDocumentViewer" type="Bool">
+			<label>Whether to show the document viewer.</label>
+			<default>true</default>
+		</entry>
+		<entry name="ShowDocumentViewerInExternalWindow" type="Bool">
+			<label>Whether to show the document viewer in a separate external window.</label>
+			<default>false</default>
 		</entry>
 		<entry name="HideProblemBadBox" type="Bool">
 			<label>Whether to show Bad Box warnings in the LogMsg view.</label>
@@ -212,11 +225,11 @@
 	<group name="IncludeGraphics">
 		<entry name="igCenter" type="Bool">
 			<label>Center the graphics.</label>
-			<default>true</default> 
+			<default>true</default>
 		</entry>
 		<entry name="igBoundingBox" type="Bool">
 			<label>Insert the bounding box as an option for the includegraphics command.</label>
-			<default>false</default> 
+			<default>false</default>
 		</entry>
 		<entry name="igGraphicspath" type="Bool">
 			<label>Filename is relative to a path given in graphicspath command.</label>
@@ -357,6 +370,14 @@
 			<default code="true">
 				QDir::home().absolutePath()
 			</default>
+		</entry>
+		<entry name="SyncConsoleDirWithTabs" type="Bool">
+			<label>Whether the current directory shown in the console is kept synchronized with the open tabs</label>
+			<default>true</default>
+		</entry>
+		<entry name="WatchFileForDocumentViewer" type="Bool">
+			<label>Whether the watch-file mode is enabled for the document viewer</label>
+			<default>true</default>
 		</entry>
 	</group>
 	<group name="Complete">
@@ -555,6 +576,12 @@
 			<default>5</default>
 		</entry>
 	</group>
+	<group name="PdfWizard">
+		<entry name="pdfWizardLastTask" type="Int">
+			<label>Last task used by the PdfWizard.</label>
+			<default>12</default>
+		</entry>
+	</group>
 	<group name="MostUsedSymbols">
 		<entry name="numSymbolsMFUS" type="UInt">
 			<label>Number of symbols to store in the Most Frequently Used Symbols view.</label>
@@ -581,6 +608,24 @@
 		<entry name="menuPosition" type="Int">
 			<label>Use the main menubar for the usermenu.</label>
 			<default>0</default>
+		</entry>
+	</group>
+	<group name="LivePreview">
+		<entry name="livePreviewEnabled" type="Bool">
+			<label>Activate live preview functionality.</label>
+			<default>true</default>
+		</entry>
+		<entry name="synchronizeCursorWithView" type="Bool">
+			<label>Synchronize the cursor position with the view.</label>
+			<default>true</default>
+		</entry>
+		<entry name="previewEnabledForFreshlyOpenedDocuments" type="Bool">
+			<label>Enable preview for freshly opened documents.</label>
+			<default>true</default>
+		</entry>
+		<entry name="livePreviewCompilationDelay" type="UInt">
+			<label>Number of milliseconds after which the compilation is started when a change has occurred.</label>
+			<default>500</default>
 		</entry>
 	</group>
 </kcfg>

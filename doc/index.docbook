@@ -52,7 +52,7 @@
 </copyright>
 
 <copyright>
-<year>2005</year><year>2006</year>
+<year>2005</year><year>2006</year><year>2012</year>
 <holder>Holger Danielsson</holder>
 </copyright>
 
@@ -401,6 +401,7 @@
 			<listitem><para><guibutton>New</guibutton>: begin a new document.</para></listitem>
 			<listitem><para><guibutton>Open</guibutton>: open a new document.</para></listitem>
 			<listitem><para><guibutton>Close</guibutton>: close your document.</para></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
 			<listitem><para><guibutton>Define document as master</guibutton>: this is used when working with multiple files.
 			Having a master document will let you work more easily with other <literal role="extension">.tex</literal> files included 
 			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project-></guimenu><guisubmenu>Project
@@ -448,7 +449,7 @@
 			<listitem><para><guilabel>subparagraph</guilabel>: create a new subparagraph.</para></listitem>
 		</itemizedlist>
 
-		<para>The drop down box named <guilabel>label</guilabel> is used to insert items to your document such as
+		<para>The drop down box named <guilabel>Other</guilabel> is used to insert items to your document such as
 		indexes, footnotes, and references; the available commands are:</para>
 
 		<itemizedlist>
@@ -467,15 +468,15 @@
 		</itemizedlist>
 
 		<screenshot>
-			<screeninfo>The <guilabel>Label</guilabel> drop-down menu</screeninfo>
+			<screeninfo>The <guilabel>Other</guilabel> drop-down menu</screeninfo>
 			<mediaobject>
 			<imageobject>
 			<imagedata fileref="snap_ref_choose.png" format="PNG" />
 			</imageobject>
 			<textobject>
-			<phrase>The <guilabel>Label</guilabel> drop-down menu</phrase>
+			<phrase>The <guilabel>Other</guilabel> drop-down menu</phrase>
 			</textobject>
-			<caption><para>The <guilabel>Label</guilabel> drop-down menu</para></caption>
+			<caption><para>The <guilabel>Other</guilabel> drop-down menu</para></caption>
 			</mediaobject>
 		</screenshot>
 
@@ -1594,7 +1595,7 @@
 		on demand by longer text strings. Look at 
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
-		to configure one or more of theses lists. For the example given here, the 
+		to configure one or more of these lists. For the example given here, the 
 		abbreviation list in <filename>example.cwl</filename> must be chosen. 
 		In this file you will find for example the entry <userinput>L=\LaTeX</userinput> for example.</para>
 
@@ -1739,9 +1740,9 @@
 		<step><para>Choose a graphics file. This can be a JPEG, PNG, PDF, EPS
 		or even a zipped or gzipped EPS file. If you have installed 
 		<ulink url="http://www.imagemagick.org/">&imagemagick;</ulink>
-		and also configured &kile; to use it 
+		and also configured &kile; to use it
 		(<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
-		<guimenuitem>LaTeX</guimenuitem><guilabel>General</guilabel></menuchoice>), 
+		<guimenuitem>LaTeX</guimenuitem><guilabel>Graphics</guilabel></menuchoice>),
 		the width and the height of the graphic is automatically shown. 
 		If &imagemagick; can determine a resolution, the size of the graphics 
 		is also shown in centimeters.</para></step>
@@ -2114,7 +2115,7 @@
 		<listitem><para>Combine one A4 page together with one empty page 
 		on one A4 page. Whenever two A4 pages are combined together on one 
 		resulting A4 page, they have to be scaled with factor 0.7 and will 
-		be arranged in portrait mode.</para>
+		be arranged in landscape mode.</para>
 		<screenshot>
 			<screeninfo>1 A4 page + empty page --> A4</screeninfo>
 			<mediaobject>
@@ -2250,6 +2251,319 @@
 		
 		</variablelist>
 		
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title>PDF Utilities</title>
+
+		<para>Many people think of PDFs as frozen files, which cannot be modified. But this is not true, as there exist excellent tools</para>
+
+		<itemizedlist>
+		<listitem><para>for manipulations and rearrangements of pages</para></listitem>
+		<listitem><para>to read and update document info</para></listitem>
+		<listitem><para>to read, set or change some permissions</para></listitem>
+		</itemizedlist>
+
+		<para>of an existing PDF document.</para>
+
+		<para>Kile's <emphasis>PDF wizard</emphasis> under <menuchoice><guimenu>Wizard</guimenu><guimenuitem>PDF Tools</guimenuitem></menuchoice> uses two different methods to manipulate and rearrange PDF documents:</para>
+
+		<itemizedlist>
+		<listitem><para>&latex; package <command>pdfpages</command>, which is part of each &latex; distribution. <command>pdfpages</command> doesn't work with encrypted pages.</para></listitem>
+		<listitem><para><command>pdftk</command>, which is an excellent command-line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Tollkit</ulink>).</para></listitem>
+		</itemizedlist>
+
+		<para>If one of these helpers, <command>pdfpages</command> or <command>pdftk</command>, is not present in your system, the corresponding items will not be visible. Furthermore, remember that only <command>pdftk</command> can work with encrypted files.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title>Rearrangements</title>
+
+			<para>If &kile;'s PDF wizard is called, it starts with the <userinput>Rearrangements</userinput> register card.</para>
+
+			<screenshot>
+				<screeninfo>Dialog PDF Tools</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>Dialog PDF Tools</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>First choose your input file. If &kile; finds a PDF file corresponding to your current master document, it will already be filled in as input file, but you are also free to choose another file. Then choose an output file or overwrite the existing PDF file, and select one of the tasks. Finally, you have to decide whether you want to do the conversion only, or also invoke the viewer (&eg; &okular;) to show the resulting document.</para>
+
+			<para>If the PDF file is encrypted, only <command>pdftk</command> will work and you have to set the password of this document to execute tasks.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term>1 page + empty page --> A4</term>
+			<listitem><para>Combine one page together with an empty page on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>A5 + empty page</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>A5 + empty page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>A4 + empty page --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>A4 + empty page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>1 page + duplicate --> A4</term>
+			<listitem><para>Put one page and a duplicate together on one A4 page.</para>
+			<screenshot>
+				<screeninfo>Duplicate a page</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Duplicate a page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>If the page to be duplicated has A4 size, it will scaled to fit on the page.</para>
+			<screenshot>
+				<screeninfo>Duplicate a page</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Duplicate a page</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>2 pages --> A4</term>
+			<listitem><para>Combine two consecutive pages together on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>Combine two A5 pages</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine two A5 pages</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<screenshot>
+				<screeninfo>Combine two A4 pages</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine two A4 pages</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>2 pages (landscape) --> A4</term>
+			<listitem><para>Put two consecutive pages in landscape mode together on one A4 page.</para>
+			<screenshot>
+				<screeninfo>Combine two pages (in landscape mode)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine two pages (in landscape mode)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>4 pages --> A4</term>
+			<listitem><para>Combine four consecutive pages together on one
+			A4 page. The pages have to be scaled to fit on the page.</para>
+			<screenshot>
+				<screeninfo>4 pages --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>4 pages --> A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>4 pages (landscape) --> A4</term>
+			<listitem><para>Combine four consecutive pages in landscape mode together on one A4 page. The pages have to be scaled to fit on the page.</para>
+			<screenshot>
+				<screeninfo>Combine four pages (in landscape mode)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+				<phrase>Combine four pages (in landscape mode)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select even pages</term>
+			<listitem><para>Select all even pages of a document.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select odd pages</term>
+			<listitem><para>Select all odd pages of a document.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select even pages (reverse order)</term>
+			<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select odd pages (reverse order)</term>
+			<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>reverse all pages</term>
+			<listitem><para>Reverse all pages of a document.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>decrypt a file</term>
+			<listitem><para>If the PDF file is encrypted, you can decrypt this file.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>select pages</term>
+			<listitem><para>Add a comma separated list of pages or page ranges, &eg; 1,4-7,9. Only these pages will appear in the resulting PDF file.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>delete pages</term>
+			<listitem><para>Add a comma separated list of pages or page ranges, which should be removed from the chosen PDF file.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>apply a background watermark</term>
+			<listitem><para>Applies a PDF watermark to the background of a single input PDF. The wizard only uses the first page from the background PDF and applies it to every page of the input PDF. This page is scaled and rotated as needed to fit the input page.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>apply a background color</term>
+			<listitem><para>Applies a background color to all pages of the current document. This can only be done once, as the second color will be put behind the first color and will not be visible then.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>apply a foreground stamp</term>
+			<listitem><para>Applies a foreground stamp on top of the input PDF document's pages. The wizard  uses only the first page from the stamp PDF and applies it to every page of the input PDF. This page is scaled and rotated as needed to fit the input page. This works best if the stamp PDF page has a transparent background.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>pdftk: choose parameter</term>
+			<listitem><para>You can invoke <command>pdftk</command> with an option of your choice. Please read the manual for all possible options.</para></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term>pdfpages: choose parameter</term>
+			<listitem><para>You can invoke <command>pdfpages</command> with an option of your choice. Please read the manual for all possible options.</para></listitem>
+			</varlistentry>
+
+			</variablelist>
+				
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title>Properties</title>
+
+			<para>Setting, changing and removing of properties will only be possible, if <command>pdftk</command> is installed and if additionally &kile; was compiled with the <userinput>libpoppler</userinput> library.</para>
+
+			<screenshot>
+				<screeninfo>Dialog PDF Properties</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>Dialog PDF Properties</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>Traditional PDF metadata includes document's title, author, subject, keywords, creator, producer and the dates of creation and last modification.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title>Permissions</title>
+
+			<para>Also, setting, changing and removing of permissions will be only possible, if <command>pdftk</command> is installed.</para>
+
+			<screenshot>
+				<screeninfo>Dialog PDF Permissions</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG" />
+				</imageobject>
+				<textobject>
+					<phrase>Dialog PDF Permissions</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para>A password is necessary to set or change these document settings. Additionally, PDF encryption is done to lock the file's content behind this password or to enforce lighter restrictions imposed by the author. So the author can allow or restrict to</para>
+
+			<itemizedlist>
+			<listitem><para>print pages</para></listitem>
+			<listitem><para>modify pages</para></listitem>
+			<listitem><para>copy text and graphics from pages</para></listitem>
+			<listitem><para>change or add annotations</para></listitem>
+			<listitem><para>fill form fields with data</para></listitem>
+			</itemizedlist>
+
+			<para>Changing permissions always forces encryption associated with 128-bit security of <userinput>Acrobat</userinput> 5 and 6 and also needs a password.</para>
+
+			<para>But always remember: encryption and a password do not provide any real PDF security. The content is encrypted, but the key is known. You should see it more as a polite but firm request to respect the author's wishes.</para>
+
+		</sect2>
+
 	</sect1>
 
 	<sect1 id="statistics">	
@@ -3266,7 +3580,7 @@
 
 		<itemizedlist>
 			<listitem><para>You need not set a master document, &kile; does this automatically.</para></listitem>
-			<listitem><para>Project files can easily be archived together by going to <menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice></para></listitem>
+			<listitem><para>Project files can easily be archived together by going to <menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice></para></listitem>
 			<listitem><para>The <guilabel>Files and Projects</guilabel> view shows which files are included
 			in the project.</para></listitem>
 			<listitem><para>After opening a project, any file that was previously opened will be
@@ -3334,11 +3648,11 @@
 		<guilabel>Files and Projects</guilabel> view, and select <guilabel>Add to
 		Project</guilabel>. If you have opened multiple projects, a dialog box will pop up in which
 		you can specify to which project the file should be added.</para>
-
+		<!-- duplicated see next para
 		<para>If you have multiple files to be added to a project, you can select the
 		project from the <guilabel>Files and Projects</guilabel> view and right-click then select
 		<guilabel>Add Files...</guilabel>; you will then be able to select your files in a dialog box.</para>
-		
+		-->
 		<para>You can also right-click on the project's name in the <guilabel>Files and
 		Projects</guilabel> view, and select <guilabel>Add Files...</guilabel> to bring
 		up a file selection dialog.</para>
@@ -3367,7 +3681,7 @@
 			<para>&kile; allows you to easily backup your project by storing all its files
 			into a single archive (often known as <emphasis>tarball</emphasis>). To archive your project,
 			right-click on its name in the <guilabel>Files and Projects</guilabel> view, or select
-			<menuchoice><guimenu>Build</guimenu><guisubmenu>Other</guisubmenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
+			<menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
 
 			<para>By default, all files in a project are added to the archive. If you do not want to include
 			a certain file in the archive, right-click on it in the <guilabel>Files and Projects</guilabel>

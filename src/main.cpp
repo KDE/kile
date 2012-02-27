@@ -2,6 +2,7 @@
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 - 2005 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                               2011 - 2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -108,12 +109,12 @@ int main( int argc, char ** argv )
 	KAboutData aboutData( "kile", QByteArray(), ki18n("Kile"), kileFullVersion.toAscii(),
 				ki18n("KDE Integrated LaTeX Environment"),
 				KAboutData::License_GPL,
-				ki18n("by the Kile Team (2003 - 2011)"),
+				ki18n("by the Kile Team (2003 - 2012)"),
 				KLocalizedString(),
 				"http://kile.sourceforge.net");
 	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
-        aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
-	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("Former Developer"), "holger.danielsson@versanet.de");
+	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("Developer"), "holger.danielsson@versanet.de");
+	aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
 	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
 	aboutData.addAuthor(ki18n("Brachet Pascal"));
 
@@ -136,29 +137,33 @@ int main( int argc, char ** argv )
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
+	// this has to go before the DBus connection
+	KApplication app;
+
 	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
 	if(!running  || args->isSet("new")) {
 		bool restore = (args->count() == 0);
-		Kile app(restore);
+
+		Kile *kile = new Kile(restore);
 
 		for(int i = 0; i < args->count(); ++i) {
 			//FIXME: check whether this can be used to open Urls
 			if(isProject(args->arg(i))) {
-				app.openProject(completePath(args->arg(i)));
+				kile->openProject(completePath(args->arg(i)));
 			}
 			else if(args->arg(i) == "-"){
-				app.openDocument(readDataFromStdin());
+				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				app.openDocument(completePath(args->arg(i)));
+				kile->openDocument(completePath(args->arg(i)));
 			}
 		}
 
 		if(args->isSet("line")){
 			QString line = args->getOption("line");
-			app.setLine(line);
+			kile->setLine(line);
 		}
 
 		args->clear();
@@ -192,5 +197,6 @@ int main( int argc, char ** argv )
 		interface->call("setActive");
 		delete interface;
 	}
-	return 0;
+
+	return EXIT_SUCCESS;
 }

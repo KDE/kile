@@ -1,7 +1,7 @@
 /***************************************************************************
-    begin                : Sat 3-1 20:40:00 CEST 2004
-    copyright            : (C) 2004 by Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
+    Begin : Sat 3-1 20:40:00 CEST 2004
+    Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                  2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -72,6 +72,7 @@ namespace KileWidget
 		void setOptions();
 		void setLibrary(const QString &);
 		void setLibOptions(const QString &);
+		void setUseDocumentViewer(bool);
 		void setClassName(const QString &);
 		void setState(const QString &);
 		void setSequence(const QString &);
@@ -87,6 +88,9 @@ namespace KileWidget
 		void setClass(const QString &);
 		void switchClass(const QString &);
 		void switchType(int);
+
+		void handleLibraryNameChanged(const QString& s);
+		void handleDocumentViewerToggled(bool b);
 
 	Q_SIGNALS:
 		void changed();

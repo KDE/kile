@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
-                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -35,16 +35,21 @@
 
 namespace KileTool
 {
-	Base::Base(const QString &name, Manager * manager, bool prepare /* = true */) :
+	Base::Base(const QString &name, Manager *manager, bool prepare /* = true */) :
+		QObject(manager), // ensure that they are deleted whenever the tool manager gets deleted
 		m_launcher(NULL),
 		m_quickie(false),
+		m_isPartOfLivePreview(false),
 		m_manager(manager),
 		m_name(name),
-		m_bPrepareToRun(prepare)
+		m_bPrepareToRun(prepare),
+		m_texInputs(KileConfig::teXPaths()),
+		m_bibInputs(KileConfig::bibInputPaths()),
+		m_bstInputs(KileConfig::bstInputPaths()),
+		m_childToolSpawned(false),
+		m_toolResult(-1)
 	{
-		m_manager->initTool(this);
-		
-		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | EmitSaveAllSignal;
+		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | NeedSaveAll;
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));
 		setMsg(NeedTargetDirWrite, ki18n("The folder %1 is not writable, therefore %2 will not be able to save its results."));
@@ -61,7 +66,8 @@ namespace KileTool
 
 	Base::~Base()
 	{
-		KILE_DEBUG() << "DELETING TOOL: " << name();
+		KILE_DEBUG() << "DELETING TOOL: " << name() << this;
+		emit(aboutToBeDestroyed(this));
 		delete m_launcher;
 	}
 
@@ -78,7 +84,7 @@ namespace KileTool
 
 		return src;
 	}
-	
+
 	void Base::setMsg(long n, const KLocalizedString& msg)
 	{
 		m_messages[n] = msg;
@@ -94,7 +100,7 @@ namespace KileTool
 		//Windows doesn't like single quotes on command line '*.tex'
 		#ifdef Q_WS_WIN
 			str.replace('\'', '\"');
-		#endif 
+		#endif
 	}
 
 	void Base::removeFlag(uint flag)
@@ -102,21 +108,21 @@ namespace KileTool
 		m_flags &= ~flag;
 	}
 
-	void Base::prepareToRun(const QString &cfg)
+
+	bool Base::requestSaveAll()
+	{
+		return (flags() & NeedSaveAll);
+	}
+
+	void Base::setEntry(const QString& key, const QString& value)
+	{
+		m_entryMap[key] = value;
+	}
+
+	void Base::prepareToRun()
 	{
 		KILE_DEBUG() << "==Base::prepareToRun()=======";
-		
-		m_bPrepared = true;		
-		m_nPreparationResult = Running;
 
-		//configure me
-		if (!configure(cfg))
-		{
-			m_nPreparationResult = ConfigureFailed;
-			m_bPrepared = false;
-			return;
-		}
-		
 		//install a launcher
 		if (!installLauncher())
 		{
@@ -124,21 +130,21 @@ namespace KileTool
 			m_bPrepared = false;
 			return;
 		}
-		
+
 		if (!determineSource())
 		{
 			m_nPreparationResult = NoValidSource;
 			m_bPrepared = false;
 			return;
 		}
-			
+
 		if (!determineTarget())
 		{
 			m_nPreparationResult = NoValidTarget;
 			m_bPrepared = false;
 			return;
 		}
-			
+
 		if ( m_launcher == 0 )
 		{
 			m_nPreparationResult = NoLauncherInstalled;
@@ -146,50 +152,61 @@ namespace KileTool
 			return;
 		}
 
-		m_launcher->setWorkingDirectory(workingDir());
+		if(!workingDir().isEmpty()) {
+			m_launcher->setWorkingDirectory(workingDir());
+		}
+		else {
+			m_launcher->setWorkingDirectory(baseDir());
+		}
 
 		//fill in the dictionary
 		addDict("%options", m_options);
 
 		m_resolution = KileConfig::dvipngResolution() ;
 		addDict("%res",m_resolution);
+
+		m_bPrepared = true;
+		m_nPreparationResult = Running;
 	}
 
 	int Base::run()
 	{
 		KILE_DEBUG() << "==KileTool::Base::run()=================";
-	
+
 		if(m_nPreparationResult != 0) {
+			emit(failedToRun(this, m_nPreparationResult));
 			return m_nPreparationResult;
 		}
 
 		if(!checkSource()) {
+			emit(failedToRun(this, NoValidSource));
 			return NoValidSource;
 		}
 
 		if(!checkTarget()) {
+			emit(failedToRun(this, TargetHasWrongPermissions));
 			return TargetHasWrongPermissions;
 		}
 
 		if (!checkPrereqs()) {
+			emit(failedToRun(this, NoValidPrereqs));
 			return NoValidPrereqs;
 		}
 
-		//everything ok so far
-		if(flags() & EmitSaveAllSignal) {
-			emit(requestSaveAll(false, true));
-		}
 		emit(start(this));
-		
+
 		if (!m_launcher || !m_launcher->launch()) {
 			KILE_DEBUG() << "\tlaunching failed";
 			if(!m_launcher) {
+				emit(failedToRun(this, CouldNotLaunch));
 				return CouldNotLaunch;
 			}
 			if(!m_launcher->selfCheck()) {
+				emit(failedToRun(this, SelfCheckFailed));
 				return SelfCheckFailed;
 			}
 			else {
+				emit(failedToRun(this, CouldNotLaunch));
 				return CouldNotLaunch;
 			}
 		}
@@ -204,6 +221,11 @@ namespace KileTool
 	{
 		QString src = source();
 
+		// check whether the source has been set already
+		if(!src.isEmpty()) {
+			return true;
+		}
+
 		//the basedir is determined from the current compile target
 		//determined by getCompileName()
 		if(src.isEmpty()) {
@@ -213,7 +235,7 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	bool Base::checkSource()
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
@@ -227,7 +249,6 @@ namespace KileTool
 			if(m_manager->info()->activeTextDocument()->url().isEmpty()
 			   && (flags() & NoUntitledDoc)) {
 				sendMessage(Error, msg(NoUntitledDoc).toString());
-				emit(requestSaveAll());
 				return false;
 			}
 			else {
@@ -253,41 +274,88 @@ namespace KileTool
 		return true;
 	}
 
-	void Base::setSource(const QString &source)
+	void Base::runChildNext(Base *tool, bool block /*= false*/)
 	{
-		m_from = readEntry("from");
+		m_childToolSpawned = true;
+		if(isPartOfLivePreview()) {
+			tool->setPartOfLivePreview();
+		}
+		manager()->runChildNext(this, tool, block);
+	}
 
+	void Base::setSource(const QString &source, const QString& workingDir)
+	{
 		QFileInfo info(source);
-		
-		if(!m_from.isEmpty()) {
+
+		if(!from().isEmpty()) {
 			QString src = source;
-			if((m_from.length() > 0) && (info.suffix().length() > 0)) {
-				src.replace(QRegExp(info.suffix() + '$'), m_from);
+			if(info.suffix().length() > 0) {
+				src.replace(QRegExp(info.suffix() + '$'), from());
 			}
  			info.setFile(src);
+		}
+
+		if(!workingDir.isEmpty()) {
+			setWorkingDir(workingDir);
 		}
 
 		m_basedir = info.absolutePath();
 		m_source = info.fileName();
 		m_S = info.completeBaseName();
-		
+
 		addDict("%dir_base", m_basedir);
 		addDict("%source", m_source);
 		addDict("%S",m_S);
-		
+
 		KILE_DEBUG() << "===KileTool::Base::setSource()==============";
 		KILE_DEBUG() << "using " << source;
 		KILE_DEBUG() << "source="<<m_source;
 		KILE_DEBUG() << "S=" << m_S;
 		KILE_DEBUG() << "basedir=" << m_basedir;
+		KILE_DEBUG() << "workingDir=" << m_workingDir;
 	}
-	
+
+	void Base::setTeXInputPaths(const QString& s)
+	{
+		m_texInputs = s;
+	}
+
+	QString Base::teXInputPaths() const
+	{
+		return m_texInputs;
+	}
+
+	void Base::setBibInputPaths(const QString& s)
+	{
+		m_bibInputs = s;
+	}
+
+	QString Base::bibInputPaths() const
+	{
+		return m_bibInputs;
+	}
+
+	void Base::setBstInputPaths(const QString& s)
+	{
+		m_bstInputs = s;
+	}
+
+	QString Base::bstInputPaths() const
+	{
+		return m_bstInputs;
+	}
+
+	void Base::copyPaths(Base* tool)
+	{
+		setTeXInputPaths(tool->teXInputPaths());
+		setBibInputPaths(tool->bibInputPaths());
+		setBstInputPaths(tool->bstInputPaths());
+	}
+
 	bool Base::determineTarget()
 	{
 		QFileInfo info(source());
 
-		m_to = readEntry("to");
-		
 		//if the target is not set previously, use the source filename
 		if(m_target.isEmpty()) {
 			//test for explicit override
@@ -307,18 +375,27 @@ namespace KileTool
 			m_relativedir = readEntry("relDir");
 		}
 
-		KUrl url = KUrl::fromPathOrUrl(m_basedir);
+		KUrl url;
+		if(!m_targetdir.isEmpty()) {
+			url = KUrl::fromPathOrUrl(m_targetdir);
+		}
+		else if(!m_workingDir.isEmpty()) {
+			url = KUrl::fromPathOrUrl(m_workingDir);
+		}
+		else {
+			url = KUrl::fromPathOrUrl(m_basedir);
+		}
 		url.addPath(m_relativedir);
 		url.cleanPath();
 		m_targetdir = url.toLocalFile();
-		
+
 		setTarget(m_target);
-		setTargetDir(m_targetdir);		
-		
+		setTargetDir(m_targetdir);
+
 		KILE_DEBUG() << "==KileTool::Base::determineTarget()=========";
 		KILE_DEBUG() << "\tm_targetdir=" << m_targetdir;
 		KILE_DEBUG() << "\tm_target=" << m_target;
-		
+
 		return true;
 	}
 
@@ -326,7 +403,7 @@ namespace KileTool
 	{
 		//check if the target directory is accessible
 		QFileInfo info(m_targetdir);
-		
+
 		if((flags() & NeedTargetDirExec ) && (!info.isExecutable())) {
 			sendMessage(Error, msg(NeedTargetDirExec).subs(m_targetdir).toString());
 			return false;
@@ -351,13 +428,13 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	void Base::setTarget(const QString &target)
 	{
 		m_target = target;
 		addDict("%target", m_target);
 	}
-	
+
 	void Base::setTargetDir(const QString &target)
 	{
 		m_targetdir = target;
@@ -370,17 +447,12 @@ namespace KileTool
 		setTarget(fi.fileName());
 		setTargetDir(fi.absolutePath());
 	}
-	
+
 	bool Base::checkPrereqs()
 	{
 		return true;
 	}
 
-	bool Base::configure(const QString &cfg)
-	{
-		return m_manager->configure(this, cfg);
-	}
-	
 	void Base::stop()
 	{
 		if (m_launcher)
@@ -396,16 +468,16 @@ namespace KileTool
 		{
 			KILE_DEBUG() << "\tcalled by " << sender()->objectName() << " " << sender()->metaObject()->className();
 		}
-		
+
 		if ( result == Aborted )
 			sendMessage(Error, "Aborted");
-		
+
 		if ( result == Success )
 			sendMessage(Info,"Done!");
 
 		KILE_DEBUG() << "\temitting done(KileTool::Base*, int) " << name();
-		emit(done(this, result));
-	
+		emit(done(this, result, m_childToolSpawned));
+
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
 		if (result == Success) {
 			return true;
@@ -413,6 +485,21 @@ namespace KileTool
 		else {
 			return false;
 		}
+	}
+
+	void Base::installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList)
+	{
+		m_nErrors = nErrors;
+		m_nWarnings = nWarnings;
+		m_nBadBoxes = nBadBoxes;
+		m_latexOutputInfoList = outputList;
+
+		latexOutputParserResultInstalled();
+	}
+
+	void Base::latexOutputParserResultInstalled()
+	{
+		finish(Success);
 	}
 
 	void Base::installLauncher(Launcher *lr)
@@ -423,7 +510,7 @@ namespace KileTool
 		m_launcher = lr;
 		//lr->setParamDict(paramDict());
 		lr->setTool(this);
-		
+
 		connect(lr, SIGNAL(message(int, const QString &)), this, SLOT(sendMessage(int, const QString &)));
 		connect(lr, SIGNAL(output(const QString &)), this, SLOT(filterOutput(const QString &)));
 		connect(lr, SIGNAL(done(int)), this, SLOT(finish(int)));
@@ -447,15 +534,15 @@ namespace KileTool
 			lr = new KonsoleLauncher();
 		}
 		else if ( type == "Part" )
-		{	
+		{
 			lr = new PartLauncher();
 		}
 		else if ( type == "DocPart" )
 		{
 			lr = new DocPartLauncher();
 		}
-		
-		if (lr) 
+
+		if (lr)
 		{
 			installLauncher(lr);
 			return true;
@@ -466,7 +553,7 @@ namespace KileTool
 			return false;
 		}
 	}
-	
+
 	void Base::sendMessage(int type, const QString &msg)
 	{
 		emit(message(type, msg, name()));
@@ -509,7 +596,7 @@ namespace KileTool
 
 		KILE_DEBUG() << "\ttarget: " << targetinfo.lastModified().toString();
 		KILE_DEBUG() << "\tsource: " << sourceinfo.lastModified().toString();
-		
+
 		if(targetinfo.lastModified() > currDateTime) {
 			KILE_DEBUG() << "targetinfo.lastModifiedTime() is in the future";
 			return false;
@@ -518,7 +605,7 @@ namespace KileTool
 			KILE_DEBUG() << "sourceinfo.lastModifiedTime() is in the future";
 			return false;
 		}
-		
+
 		KILE_DEBUG() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified());
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
@@ -531,14 +618,16 @@ namespace KileTool
 
 	Compile::~Compile()
 	{}
-	
+
 	bool Compile::checkSource()
 	{
 		if ( !Base::checkSource() ) return false;
 
 		bool isRoot = true;
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
-		if (docinfo) isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
+		if (docinfo) {
+			isRoot = (readEntry("checkForRoot") == "yes") ? docinfo->isLaTeXRoot() : true;
+		}
 
 		if (!isRoot)
 		{
@@ -547,12 +636,12 @@ namespace KileTool
 
 		return true;
 	}
-	
+
 	View::View(const QString &name, Manager * manager, bool prepare /*= true*/)
 		: Base(name, manager, prepare)
 	{
 		setFlags(NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
-		
+
 		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists);
 		setMsg(NeedTargetExists, ki18n("The file %1/%2 does not exist; did you compile the source file?"));
 	}
@@ -567,7 +656,7 @@ namespace KileTool
 	{
 		setFlags( NeedTargetDirExec | NeedTargetDirWrite );
 	}
-	
+
 	Archive::~Archive()
 	{}
 
@@ -586,8 +675,9 @@ namespace KileTool
 		}
 	}
 
-	void Archive::setSource(const QString &source)
-	{	
+	void Archive::setSource(const QString &source, const QString& workingDir)
+	{
+		Q_UNUSED(workingDir);
 		KUrl url = KUrl::fromPathOrUrl(source);
 		m_project = manager()->info()->docManager()->projectFor(url);
 		if ( !m_project )
@@ -603,23 +693,23 @@ namespace KileTool
 		manager()->info()->docManager()->projectSave(m_project);
 		Base::setSource(m_project->url().toLocalFile());
 		m_fileList = m_project->archiveFileList();
-		
+
 		addDict("%AFL", m_fileList);
-		
+
 		KILE_DEBUG() << "===KileTool::Archive::setSource("<< source << ")==============";
 		KILE_DEBUG() << "m_fileList="<<m_fileList<<endl;
 	}
-	
+
 	Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)
 		: Base(name, manager,prepare)
 	{
 		setFlags( flags() | NeedTargetDirExec | NeedTargetDirWrite );
 	}
-	
+
 	Convert::~Convert()
 	{
 	}
-	
+
 	bool Convert::determineSource()
 	{
 		bool  br = Base::determineSource();
@@ -627,45 +717,82 @@ namespace KileTool
 		return br;
 	}
 
-	Sequence::Sequence(const QString &name, Manager * manager, bool prepare /*= true*/) : 
-		Base(name, manager, prepare)
+	Sequence::Sequence(const QString &name, Manager *manager, bool prepare /*= true*/)
+	 : Base(name, manager, prepare)
 	{
+	}
+
+	Sequence::~Sequence() {
+		qDeleteAll(m_tools);
+	}
+
+	bool Sequence::requestSaveAll()
+	{
+		// if one of the tools in the sequence requests save-all, then we also
+		// request it
+		for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+			if((*i)->requestSaveAll()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	void Sequence::setupSequenceTools()
+	{
+		QStringList toolNameList = readEntry("sequence").split(',');
+		QString tl, cfg;
+		Base *tool;
+		for(QStringList::iterator i = toolNameList.begin(); i != toolNameList.end(); ++i) {
+			QString fullToolSpec = (*i).trimmed();
+			extract(fullToolSpec, tl, cfg);
+
+			tool = manager()->createTool(tl, cfg, false); // create tool with delayed preparation
+			if (tool) {
+				KILE_DEBUG() << "===tool created with name " << tool->name();
+				if(!(manager()->info()->watchFile() && tool->isViewer())) { // FIXME: why this?
+					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
+					m_tools << tool;
+				}
+				else {
+					delete tool;
+				}
+			}
+			else {
+				m_unknownToolSpec = fullToolSpec;
+				qDeleteAll(m_tools);
+				m_tools.clear();
+				return;
+			}
+		}
 	}
 
 	int Sequence::run()
 	{
 		KILE_DEBUG() << "==KileTool::Sequence::run()==================";
 
-		configure();
 		determineSource();
 		if (!checkSource()) {
+			// tools in 'm_tools' will be deleted in the destructor
 			return NoValidSource;
 		}
 
-		QStringList tools = readEntry("sequence").split(',');
-		QString tl, cfg;
-		Base *tool;
-		for(int i=0; i < tools.count(); ++i) {
-			tools[i] = tools[i].trimmed();
-			extract(tools[i], tl, cfg);
-
-			tool = manager()->factory()->create(tl, false); //create tool with delayed preparation
-			if (tool) {
-				KILE_DEBUG() << "===tool created with name " << tool->name();
-				if(!(manager()->info()->watchFile() && tool->isViewer())) {
-					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
-					tool->setSource(source());
-					manager()->run(tool, cfg);
-				}
-			}
-			else {
-				sendMessage(Error, i18n("Unknown tool %1.", tools[i]));
-				emit(done(this, Failed));
-				return ConfigureFailed;
-			}
+		if(!m_unknownToolSpec.isEmpty()) {
+			// 'm_tools' is empty
+			sendMessage(Error, i18n("Unknown tool %1.", m_unknownToolSpec));
+			emit(done(this, Failed, m_childToolSpawned));
+			return ConfigureFailed;
 		}
 
-		emit(done(this, Silent));
+		for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
+			Base *tool = *i;
+			tool->setSource(source());
+			manager()->run(tool);
+		}
+
+		m_tools.clear(); // the tools will be deleted by the tool manager from now on
+		emit(done(this, Silent, m_childToolSpawned));
 
 		return Success;
 	}

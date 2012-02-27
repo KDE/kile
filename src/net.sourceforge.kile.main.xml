@@ -18,11 +18,9 @@
     <method name="setActive">
     </method>
     <method name="runTool">
-      <arg type="i" direction="out"/>
       <arg name="tool" type="s" direction="in"/>
     </method>
     <method name="runToolWithConfig">
-      <arg type="i" direction="out"/>
       <arg name="tool" type="s" direction="in"/>
       <arg name="config" type="s" direction="in"/>
     </method>

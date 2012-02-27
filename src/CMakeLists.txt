@@ -7,6 +7,18 @@ INCLUDE( CheckIncludeFileCXX )
 INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
 GET_DIRECTORY_PROPERTY(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
+
+CHECK_INCLUDE_FILE_CXX( "okular/interfaces/viewerinterface.h" HAVE_VIEWERINTERFACE_H )
+CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+
+IF( HAVE_VIEWERINTERFACE_H )
+	MESSAGE( STATUS "Building with live preview" )
+	SET(LIVEPREVIEW_POSSIBLE 1)
+ELSE( HAVE_VIEWERINTERFACE_H )
+	MESSAGE( STATUS "Not building with live preview" )
+	SET(LIVEPREVIEW_POSSIBLE 0)
+ENDIF( HAVE_VIEWERINTERFACE_H )
+
 CHECK_INCLUDE_FILE_CXX( "poppler/qt4/poppler-qt4.h" HAVE_POPPLER_QT4_H )
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
@@ -57,9 +69,7 @@ SET(kile_SRCS
 	widgets/projectview.cpp
 	kilelistselector.cpp
 	kilelyxserver.cpp
-	latexoutputfilter.cpp
 	outputinfo.cpp
-	outputfilter.cpp
 	dialogs/findfilesdialog.cpp
 	kiletool.cpp
 	kilelauncher.cpp
@@ -118,7 +128,18 @@ SET(kile_SRCS
 	dialogs/latexmenu/latexmenutree.cpp
 	latexmenu/latexmenudata.cpp
 	latexmenu/latexmenu.cpp
+	parser/parsermanager.cpp
+	parser/parserthread.cpp
+	parser/parser.cpp
+	parser/latexparser.cpp
+	parser/bibtexparser.cpp
+	parser/latexoutputparser.cpp
+	livepreview_utils.cpp
 )
+
+IF( LIVEPREVIEW_POSSIBLE )
+	SET(kile_SRCS ${kile_SRCS} livepreview.cpp)
+ENDIF( LIVEPREVIEW_POSSIBLE )
 
 SET( kile_UI
 	widgets/codecompletionconfigwidget.ui
@@ -147,6 +168,8 @@ SET( kile_UI
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
 	dialogs/latexmenu/latexmenudialog_base.ui
+	widgets/livepreviewconfigwidget.ui
+	widgets/appearanceconfigwidget.ui
 )
 
 SET( kile_UI_SRCS
@@ -167,6 +190,8 @@ SET( kile_UI_SRCS
 	widgets/symbolviewconfigwidget.cpp
 	widgets/maintoolconfigwidget.cpp
 	widgets/usermenuconfigwidget.cpp
+	widgets/livepreviewconfigwidget.cpp
+	widgets/appearanceconfigwidget.cpp
 )
 
 # Special handling of code completion due to the removal of 'KTextEditor::SmartRange' from
@@ -241,12 +266,12 @@ INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
 kileui.rc docpartui.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
 
 IF(CMAKE_SYSTEM_NAME MATCHES Windows)
-  INSTALL (FILES data/kilestdtools-win.rc 
-           DESTINATION ${DATA_INSTALL_DIR}/kile 
+  INSTALL (FILES data/kilestdtools-win.rc
+           DESTINATION ${DATA_INSTALL_DIR}/kile
            RENAME kilestdtools.rc)
 
 ELSE(CMAKE_SYSTEM_NAME MATCHES Windows)
-  INSTALL (FILES data/kilestdtools.rc 
+  INSTALL (FILES data/kilestdtools.rc
            DESTINATION ${DATA_INSTALL_DIR}/kile)
 
 ENDIF(CMAKE_SYSTEM_NAME MATCHES Windows)

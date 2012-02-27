@@ -73,7 +73,7 @@
 /*
  * Newly created text documents have an empty URL and a non-empty document name.
  */
- 
+
 /*
  * WARNING: Several methods in the document manager can open dialogs and consequently
  *          launch a new event loop. It is therefore possible that the auto save feature
@@ -129,6 +129,20 @@ Manager::~Manager()
 	KILE_DEBUG() << "==KileDocument::Manager::~Manager()=========";
 	if(m_progressDialog.isNull()) {
 		delete m_progressDialog.data();
+	}
+}
+
+void Manager::readConfig()
+{
+	if(m_editor) {
+		m_editor->readConfig(KGlobal::config().data());
+	}
+}
+
+void Manager::writeConfig()
+{
+	if(m_editor) {
+		m_editor->writeConfig(KGlobal::config().data());
 	}
 }
 
@@ -271,6 +285,18 @@ void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
 	item->setInfo(docinfo);
 }
 
+KileProject* Manager::projectForMember(const KUrl &memberUrl)
+{
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProject *project = *it;
+
+		if(project->contains(memberUrl)) {
+			return project;
+		}
+	}
+	return NULL;
+}
+
 KileProject* Manager::projectFor(const KUrl &projecturl)
 {
 	//find project with url = projecturl
@@ -374,16 +400,11 @@ KileProject* Manager::activeProject()
 	KTextEditor::Document *doc = m_ki->activeTextDocument();
 
 	if (doc) {
-		for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-			KileProject *project = *it;
-
-			if(project->contains(doc->url())) {
-				return project;
-			}
-		}
+		return projectForMember(doc->url());
 	}
-
-	return NULL;
+	else {
+		return NULL;
+	}
 }
 
 KileProjectItem* Manager::activeProjectItem()
@@ -422,7 +443,8 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
 			case Text:
 				KILE_DEBUG() << "CREATING TextInfo for " << url.url();
 				docinfo = new TextInfo(NULL, m_ki->extensions(),
-				                             m_ki->abbreviationManager());
+				                             m_ki->abbreviationManager(),
+				                             m_ki->parserManager());
 				break;
 			case LaTeX:
 				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url();
@@ -431,18 +453,22 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & 
                                                               m_ki->latexCommands(),
                                                               m_ki->editorExtension(),
                                                               m_ki->configurationManager(),
-                                                              m_ki->codeCompletionManager());
+                                                              m_ki->codeCompletionManager(),
+                                                              m_ki->livePreviewManager(),
+				                              m_ki->parserManager());
 				break;
 			case BibTeX:
 				KILE_DEBUG() << "CREATING BibInfo for " << url.url();
 				docinfo = new BibInfo(NULL, m_ki->extensions(),
 				                            m_ki->abbreviationManager(),
+				                            m_ki->parserManager(),
 				                            m_ki->latexCommands());
 				break;
 			case Script:
 				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url();
 				docinfo = new ScriptInfo(NULL, m_ki->extensions(),
-				                               m_ki->abbreviationManager());
+				                               m_ki->abbreviationManager(),
+				                               m_ki->parserManager());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);
@@ -882,18 +908,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
 					KUrl backupUrl = KUrl(url.toLocalFile()+ ".backup");
 
-				 	// patch for secure permissions, slightly modified for kile by Thomas Braun, taken from #103331
-
-					// get the right permissions, start with safe default
-					mode_t  perms = 0600;
-					KIO::UDSEntry fentry;
-					if (KIO::NetAccess::stat (url, fentry, m_ki->mainWindow())) {
-						KILE_DEBUG () << "stating successful: " << url.prettyUrl();
-						KFileItem item (fentry, url);
-						perms = item.permissions();
-					}
-
-					// first del existing file if any, than copy over the file we have
+					// first del existing file if any, then copy over the file we have
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
 					if((!KIO::NetAccess::exists( backupUrl, false, m_ki->mainWindow())
 					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
@@ -931,7 +946,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 	return !oneSaveFailed;
 }
 
-void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
+TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 {
 	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::fileOpen==========================";
@@ -943,7 +958,7 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	bool isopen = m_ki->isOpen(realurl);
 	if(isopen) {
 		m_ki->viewManager()->switchToTextView(realurl);
-		return;
+		return textInfoForURL(realurl);
 	}
 
 	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
@@ -968,6 +983,7 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	emit(updateModeStatus());
 	// update undefined references in this file
 	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
+	return textInfo;
 }
 
 bool Manager::fileSave(KTextEditor::View *view)
@@ -1052,6 +1068,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 		emit addToRecentFiles(saveURL);
 		emit addToProjectView(doc->url());
 	}
+	emit(documentSavedAs(view, info));
 	return true;
 }
 
@@ -1738,8 +1755,8 @@ bool Manager::projectCloseAll()
 	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectCloseAll==========================";
 
-	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-		if(!projectClose((*it)->url())) {
+	while(m_projects.size() > 0) {
+		if(!projectClose(m_projects.first()->url())) {
 			return false;
 		}
 	}
@@ -1924,11 +1941,31 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 			continue;
 		}
 		doc->reloadXML();
-		QList<KTextEditor::View*> views = doc->views(); 
+		QList<KTextEditor::View*> views = doc->views();
 		for(QList<KTextEditor::View*>::iterator viewIt = views.begin(); viewIt != views.end(); ++viewIt) {
 			(*viewIt)->reloadXML();
 		}
 	}
+}
+
+
+void Manager::handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output)
+{
+	KILE_DEBUG();
+	if(!output) {
+		KILE_DEBUG() << "NULL output given";
+		return;
+	}
+	KileDocument::TextInfo *textInfo = textInfoForURL(url);
+	if(!textInfo) {
+		// this can happen for instance when the document is closed
+		// while the parser is still running
+		KILE_DEBUG() << "no TextInfo object found for" << url << "found";
+		return;
+	}
+	textInfo->installParserOutput(output);
+	m_ki->structureWidget()->updateAfterParsing(textInfo, output->structureViewItems);
+	delete(output);
 }
 
 // Show all opened projects and switch to another one, if you want

@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 #include <QList>
 #include <QObject>
 #include <QPixmap>
+#include <QPointer>
 #include <QStackedWidget>
 
 #include <KAction>
@@ -27,13 +28,20 @@
 #include <KTextEditor/ContainerInterface>
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
+#include <KXmlGuiWindow>
 
 class QPixmap;
+class QSplitter;
 
+class KActionCollection;
 class KUrl;
 class KXMLGUIClient;
 
 class KileInfo;
+
+namespace KParts {
+	class ReadOnlyPart;
+}
 
 namespace KileWidget {
 	class ProjectView;
@@ -52,16 +60,32 @@ namespace KileDocument {
 namespace KileView
 {
 
+class DocumentViewerWindow : public KMainWindow
+{
+	Q_OBJECT
+
+public:
+	DocumentViewerWindow(QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+	virtual ~DocumentViewerWindow();
+
+Q_SIGNALS:
+	void visibilityChanged(bool shown);
+
+protected:
+	virtual void showEvent(QShowEvent *event);
+	virtual void closeEvent(QCloseEvent *event);
+};
+
 //TODO inherit from KParts::Manager
 class Manager
-	: public QObject
-	, public KTextEditor::MdiContainer
+	: public QObject,
+	  public KTextEditor::MdiContainer
 {
 	Q_OBJECT
 	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
-	explicit Manager(KileInfo *ki, QObject *parent = 0, const char *name = 0);
+	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
 
 	~Manager();
 
@@ -86,12 +110,25 @@ public:
 	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 
 	void installContextMenu(KTextEditor::View *view);
-	
+
+	KParts::ReadOnlyPart* viewerPart() const { return m_viewerPart; }
+
+	void readConfig(QSplitter *splitter);
+	void writeConfig();
+
+	bool isViewerPartShown() const;
+	void setupViewerPart(QSplitter *splitter);
+	bool openInDocumentViewer(const KUrl& url);
+	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
+	void setLivePreviewModeForDocumentViewer(bool b);
+
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
 	void prepareForPart(const QString&);
 	void startQuickPreview(int);
 	void currentViewChanged(QWidget*);
+	void textViewActivated(KTextEditor::View *view);
+	void textViewClosed(KTextEditor::View *view, bool wasActiveView);
 	void updateModeStatus();
 	void updateCaption();
 
@@ -99,6 +136,8 @@ Q_SIGNALS:
 	void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
 	void viewModeChanged(KTextEditor::View *view);
 	void selectionChanged(KTextEditor::View *view);
+
+	void documentViewerWindowVisibilityChanged(bool shown);
 
 public Q_SLOTS:
 	KTextEditor::View* switchToTextView(const KUrl& url, bool requestFocus = false);
@@ -124,9 +163,11 @@ public Q_SLOTS:
 	void moveTabLeft(QWidget *widget = NULL);
 	void moveTabRight(QWidget *widget = NULL);
 
+	void setDocumentViewerVisible(bool b);
+
 private Q_SLOTS:
 	void tabContext(QWidget* widget,const QPoint & pos);
-  
+
 // KTextEditor::MdiContainer
 public:
 	void registerMdiContainer();
@@ -141,6 +182,9 @@ public:
 
 protected:
 	void setTabIcon(QWidget *view, const QPixmap& icon);
+
+	void createViewerPart(KActionCollection *actionCollection);
+	void destroyDocumentViewerWindow();
 
 protected Q_SLOTS:
 	void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
@@ -158,15 +202,19 @@ protected Q_SLOTS:
 
 	void currentViewChanged(int index);
 
+	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
+
 private:
 	KileInfo			*m_ki;
 	KTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient			*m_client;
+	DocumentViewerWindow		*m_viewerPartWindow;
 	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
+	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
 };
 
 /**

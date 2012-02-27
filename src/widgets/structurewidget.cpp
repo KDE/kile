@@ -2,7 +2,7 @@
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net
                                2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -72,6 +72,8 @@
 #include <KRun>
 #include <KUrl>
 
+#include "parser/parsermanager.h"
+
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "kiledocmanager.h"
@@ -79,6 +81,7 @@
 #include "documentinfo.h"
 #include "kileproject.h"
 #include "kiletool_enums.h"
+#include "widgets/logwidget.h"
 
 namespace KileWidget
 {
@@ -161,7 +164,6 @@ void StructureViewItem::setLabel(const QString &label)
 			m_root->setIcon(0, KIcon("contents"));
 			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)),
 			        this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
-// 			connect(m_docinfo, SIGNAL(doneUpdating()), this, SLOT(insertInMasterList()));
 		}
 
 		m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[6]=m_root;
@@ -216,7 +218,7 @@ void StructureViewItem::setLabel(const QString &label)
 			return;
 		}
 		cleanUp(false);
- 		m_stack->update(m_docinfo, true, true);
+		m_stack->update(m_docinfo, true);
 	}
 
 	void StructureView::contextMenuEvent(QContextMenuEvent *event)
@@ -585,7 +587,8 @@ void StructureViewItem::setLabel(const QString &label)
 	StructureWidget::StructureWidget(KileInfo *ki, QWidget * parent, const char* name) :
 		QStackedWidget(parent),
 		m_ki(ki),
-		m_docinfo(NULL)
+		m_docinfo(NULL),
+		m_showingContextMenu(NULL)
 	{
 		setObjectName(name);
 		KILE_DEBUG() << "==KileWidget::StructureWidget::StructureWidget()===========";
@@ -596,6 +599,9 @@ void StructureViewItem::setLabel(const QString &label)
 
 		m_default = new StructureView(this, NULL);
 		m_default->activate();
+
+		connect(m_ki->parserManager(), SIGNAL(parsingStarted()), this, SLOT(handleParsingStarted()));
+		connect(m_ki->parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingCompleted()));
 	}
 
 	StructureWidget::~StructureWidget()
@@ -746,6 +752,7 @@ void StructureViewItem::setLabel(const QString &label)
 		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
 		KMenu popup;
 		QAction *action = NULL;
+		m_showingContextMenu = NULL;
 
 		m_popupItem = dynamic_cast<StructureViewItem*>(view->itemAt(event->pos()));
 		if(!m_popupItem) {
@@ -821,7 +828,9 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		if(!popup.isEmpty()) {
+			m_showingContextMenu = &popup;
 			popup.exec(event->globalPos());
+			m_showingContextMenu = NULL;
 		}
 	}
 
@@ -951,7 +960,7 @@ void StructureViewItem::setLabel(const QString &label)
 		update(docinfo, false);
 	}
 
-	void StructureWidget::update(KileDocument::Info *docinfo, bool forceParsing, bool activate /* =true */)
+	void StructureWidget::update(KileDocument::Info *docinfo, bool forceParsing)
 	{
 		KILE_DEBUG() << "==KileWidget::StructureWidget::update(" << docinfo << ")=============";
 
@@ -971,23 +980,34 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		if(needParsing) { //need to reparse the doc
-			int xtop = view->horizontalScrollBar()->value();
-			int ytop = view->verticalScrollBar()->value();
-			//KILE_DEBUG() << "\tStructure::update parsing doc";
-			// avoid flickering when parsing
-			view->setUpdatesEnabled(false);
-			view->cleanUp();
 			m_docinfo->updateStruct();
-			view->setUpdatesEnabled(true);
-			view->showReferences(m_ki);
-			view->horizontalScrollBar()->setValue(xtop);
-			view->verticalScrollBar()->setValue(ytop);
 		}
 
-		if(activate) {
-			KILE_DEBUG() << "===StructureWidget::update() activating view";
-			view->activate();
+		KILE_DEBUG() << "activating view";
+		view->activate();
+	}
+
+	void StructureWidget::updateAfterParsing(KileDocument::Info *info, const QLinkedList<KileParser::StructureViewItem*>& items)
+	{
+		KILE_DEBUG();
+		StructureView *view = viewFor(info);
+		if(!view) {
+			m_default->activate();
+			return;
 		}
+
+		int xtop = view->horizontalScrollBar()->value();
+		int ytop = view->verticalScrollBar()->value();
+		// avoid flickering when parsing
+		view->setUpdatesEnabled(false);
+		view->cleanUp();
+		Q_FOREACH( KileParser::StructureViewItem *item, items) {
+			view->addItem(item->title, item->line, item->column, item->type, item->level, item->startline, item->startcol, item->pix, item->folder);
+		}
+		view->setUpdatesEnabled(true);
+		view->showReferences(m_ki);
+		view->horizontalScrollBar()->setValue(xtop);
+		view->verticalScrollBar()->setValue(ytop);
 	}
 
 	void StructureWidget::clean(KileDocument::Info *docinfo)
@@ -1053,6 +1073,20 @@ void StructureViewItem::setLabel(const QString &label)
 		return found;
 	}
 
+	void StructureWidget::handleParsingStarted()
+	{
+		setEnabled(false);
+		// if a context menu is showing, we better close it
+		// as the StructureViewItems it operates on will be deleted
+		if(m_showingContextMenu) {
+			m_showingContextMenu->close();
+		}
+	}
+
+	void StructureWidget::handleParsingCompleted()
+	{
+		setEnabled(true);
+	}
 }
 
 #include "structurewidget.moc"

@@ -1,6 +1,6 @@
 /**************************************************************************************
-    begin                : Tue Nov 25 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -31,13 +31,14 @@
 #include "kileproject.h"
 #include "kilestdtools.h"
 #include "kiletool_enums.h"
+#include "parser/parsermanager.h"
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
 #include "widgets/sidebar.h"
 
 namespace KileTool
 {
-	QueueItem::QueueItem(Base *tool, const QString &cfg, bool block) : m_tool(tool), m_cfg(cfg), m_bBlock(block)
+	QueueItem::QueueItem(Base *tool, bool block) : m_tool(tool), m_bBlock(block)
 	{
 	}
 
@@ -52,16 +53,6 @@ namespace KileTool
 		}
 		else {
 			return 0;
-		}
-	}
-
-	const QString Queue::cfg() const
-	{
-		if(count() > 0 && head()) {
-			return head()->cfg();
-		}
-		else {
-			return QString();
 		}
 	}
 
@@ -108,13 +99,27 @@ namespace KileTool
 		m_nLastResult(Success),
 		m_nTimeout(to)
 	{
+		connect(m_ki->parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingComplete()));
+
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
 		connect(stop, SIGNAL(triggered()), this, SLOT(stop()));
 		connect(stop, SIGNAL(destroyed(QObject*)), this, SLOT(stopActionDestroyed()));
 	}
-	
-	Manager::~Manager() {}
+
+	Manager::~Manager()
+	{
+		KILE_DEBUG();
+
+		for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+			// this will also stop any running processes
+			delete (*i)->tool();
+			delete (*i);
+		}
+		// tools have the tool manager as parent; so, all remaining tools will be deleted
+		// after this, i.e. those that were scheduled for deletion via 'deleteLater' but
+		// are no longer member of the queue
+	}
 
 	bool Manager::shouldBlock()
 	{
@@ -123,7 +128,7 @@ namespace KileTool
 
 	// in some cases the pointer m_stop might not be valid, therefore this helper function comes in handy
 	void Manager::setEnabledStopButton(bool state){
-	
+
 		if(m_stop){
 			m_stop->setEnabled(state);
 		}
@@ -139,48 +144,63 @@ namespace KileTool
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
 
-	int Manager::run(const QString &tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
+	void Manager::run(Base *tool)
 	{
-		if (!m_factory) {
-			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
-			return ConfigureFailed;
+		// if the tool requests a save-all operation, we wait for the parsing to
+		// be finished before launching it
+		if(!tool->requestSaveAll() || m_ki->parserManager()->isDocumentParsingComplete()) {
+			// parsing done, we can start the tool immediately
+			runImmediately(tool);
+			return;
 		}
-	
-		Base* pTool = m_factory->create(tool);
-		if (!pTool) {
-			m_log->printMessage(Error, i18n("Unknown tool %1.", tool));
-			return ConfigureFailed;
+		connect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
+		        this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)), Qt::UniqueConnection);
+		if(!m_toolsScheduledAfterParsingList.contains(tool)) {
+			m_toolsScheduledAfterParsingList.push_back(tool);
 		}
-		
-		return run(pTool, cfg, insertNext, block);
 	}
 
-	int Manager::run(Base *tool, const QString & cfg, bool insertNext /*= false*/, bool block /*= false*/)
+	void Manager::toolScheduledAfterParsingDestroyed(KileTool::Base *tool)
 	{
-		KILE_DEBUG() << "==KileTool::Manager::run(Base *)============" << endl;
+		m_toolsScheduledAfterParsingList.removeAll(tool);
+	}
+
+	void Manager::handleParsingComplete()
+	{
+		Q_FOREACH(Base *tool, m_toolsScheduledAfterParsingList) {
+			disconnect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
+		                   this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)));
+			runImmediately(tool);
+		}
+		m_toolsScheduledAfterParsingList.clear();
+	}
+
+	int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	{
+		KILE_DEBUG() << "==KileTool::Manager::runImmediately(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
 			m_log->clear();
-			m_ki->setLogPresent(false);
 			m_output->clear();
 		}
 
 		if(tool->needsToBePrepared()) {
-			tool->prepareToRun(cfg);
-		}
-		else { 
-			tool->configure(cfg);
+			tool->prepareToRun();
 		}
 
 		//FIXME: shouldn't restart timer if a Sequence command takes longer than the 10 secs
 		//restart timer, so we only clear the logs if a tool is started after 10 sec.
-		m_bClear=false;
+		m_bClear = false;
 		m_timer->start(m_nTimeout);
 
 		if(insertNext) {
-			m_queue.enqueueNext(new QueueItem(tool, cfg, block));
+			m_queue.enqueueNext(new QueueItem(tool, block));
 		}
 		else {
-			m_queue.enqueue(new QueueItem(tool, cfg, block));
+			m_queue.enqueue(new QueueItem(tool, block));
+		}
+
+		if(parent) {
+			emit(childToolSpawned(parent,tool));
 		}
 
 		KILE_DEBUG() << "\tin queue: " << m_queue.count() << endl;
@@ -195,29 +215,9 @@ namespace KileTool
 		}
 	}
 
-	int Manager::runNext(const QString &tool , const QString &config, bool block /*= false*/) 
+	int Manager::runChildNext(Base *parent, Base *tool, bool block /*= false*/)
 	{
-		return run(tool, config, true, block);
-	}
-
-	int Manager::runNext(Base *tool, const QString &config, bool block /*= false*/) 
-	{
-		return run(tool, config, true, block); 
-	}
-
-	int Manager::runBlocking(const QString &tool, const QString &config /*= QString::null*/, bool insertAtTop /*= false*/)
-	{
-		if(run(tool, config, insertAtTop, true) == Running) {
-			return lastResult();
-		}
-		else {
-			return Failed;
-		}
-	}
-
-	int Manager::runNextBlocking(const QString &tool, const QString &config)
-	{
-		return runBlocking(tool, config, true);
+		return runImmediately(tool, true, block, parent);
 	}
 
 	int Manager::runNextInQueue()
@@ -252,6 +252,22 @@ namespace KileTool
 		return ConfigureFailed;
 	}
 
+	Base* Manager::createTool(const QString& name, const QString &cfg, bool prepare)
+	{
+		if (!m_factory) {
+			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
+			return NULL;
+		}
+
+		Base* pTool = m_factory->create(name, cfg, prepare);
+		if (!pTool) {
+			m_log->printMessage(Error, i18n("Unknown tool %1.", name));
+			return NULL;
+		}
+		initTool(pTool);
+		return pTool;
+	}
+
 	void Manager::initTool(Base *tool)
 	{
 		tool->setInfo(m_ki);
@@ -259,9 +275,8 @@ namespace KileTool
 
 		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMessage(int, const QString &, const QString &)));
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
-		connect(tool, SIGNAL(done(KileTool::Base*,int)), this, SLOT(done(KileTool::Base*, int)));
+		connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(done(KileTool::Base*, int)));
 		connect(tool, SIGNAL(start(KileTool::Base*)), this, SLOT(started(KileTool::Base*)));
-		connect(tool, SIGNAL(requestSaveAll(bool, bool)), this, SIGNAL(requestSaveAll(bool, bool)));
 	}
 
 	void Manager::started(Base *tool)
@@ -284,6 +299,21 @@ namespace KileTool
 		if(m_queue.tool()) {
 			m_queue.tool()->stop();
 		}
+	}
+
+	void Manager::stopLivePreview()
+	{
+		KILE_DEBUG();
+
+		Base *tool = m_queue.tool();
+
+		if(tool && tool->isPartOfLivePreview()) {
+			setEnabledStopButton(false);
+			tool->stop();
+		}
+
+		deleteLivePreviewToolsFromQueue();
+		deleteLivePreviewToolsFromRunningAfterParsingQueue();
 	}
 
 	void Manager::stopActionDestroyed()
@@ -312,15 +342,51 @@ namespace KileTool
 		}
 
 		if(result != Success && result != Silent) { //abort execution, delete all remaining tools
-			for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
-				(*i)->tool()->deleteLater();
-				delete (*i);
+			if(tool->isPartOfLivePreview()) { // live preview was stopped / aborted
+				deleteLivePreviewToolsFromQueue();
+				// don't forget to run non-live preview tools that are pending
+				runNextInQueue();
 			}
-			m_queue.clear();
-			m_ki->focusLog();
+			else {
+				for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
+					(*i)->tool()->deleteLater();
+					delete (*i);
+				}
+				m_queue.clear();
+				m_ki->focusLog();
+			}
 		}
 		else { //continue
 			runNextInQueue();
+		}
+	}
+
+	void Manager::deleteLivePreviewToolsFromQueue()
+	{
+		for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end();) {
+			QueueItem *item = *i;
+			if(item->tool()->isPartOfLivePreview()) {
+				i = m_queue.erase(i);
+				item->tool()->deleteLater();
+				delete item;
+			}
+			else {
+				++i;
+			}
+		}
+	}
+
+	void Manager::deleteLivePreviewToolsFromRunningAfterParsingQueue()
+	{
+		for(QQueue<Base*>::iterator i = m_toolsScheduledAfterParsingList.begin(); i != m_toolsScheduledAfterParsingList.end();) {
+			Base *tool = *i;
+			if(tool->isPartOfLivePreview()) {
+				i = m_toolsScheduledAfterParsingList.erase(i);
+				delete tool;
+			}
+			else {
+				++i;
+			}
 		}
 	}
 
@@ -334,9 +400,9 @@ namespace KileTool
 					return groupFor(name, cfg);
 				}
 			}
-		} 
-		if(usequeue && !m_queue.isEmpty() && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.cfg().isEmpty())) {
-			return groupFor(name, m_queue.cfg());
+		}
+		if(usequeue && !m_queue.isEmpty() && m_queue.tool() && (m_queue.tool()->name() == name) && (!m_queue.tool()->toolConfig().isEmpty())) {
+			return groupFor(name, m_queue.tool()->toolConfig());
 		}
 		else {
 			return groupFor(name, m_config);
@@ -387,7 +453,7 @@ namespace KileTool
 		}
 	}
 
-	bool Manager::configure(Base *tool, const QString & cfg /*=QString::null*/)
+	bool Manager::configure(Base *tool, const QString& cfg /* = QString() */)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::configure()===============" << endl;
 		//configure the tool
@@ -409,6 +475,21 @@ namespace KileTool
 	{
 		KILE_DEBUG() << "REQUESTED state: " << state << endl;
 		emit(requestGUIState(state));
+	}
+
+	KileView::Manager* Manager::viewManager()
+	{
+		return m_ki->viewManager();
+	}
+
+	KileTool::LivePreviewManager* Manager::livePreviewManager()
+	{
+		return m_ki->livePreviewManager();
+	}
+
+	KileParser::Manager* Manager::parserManager()
+	{
+		return m_ki->parserManager();
 	}
 
 	QStringList toolList(KConfig *config, bool menuOnly)
@@ -444,7 +525,12 @@ namespace KileTool
 		return config->group("Tools").readEntry(tool, QString());
 	}
 
-	void setConfigName(const QString & tool, const QString & name, KConfig *config)
+	void Manager::setConfigName(const QString &tool, const QString &name)
+	{
+		KileTool::setConfigName(tool, name, m_config);
+	}
+
+	void setConfigName(const QString &tool, const QString &name, KConfig *config)
 	{
 		KILE_DEBUG() << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << endl;
 		config->group("Tools").writeEntry(tool, name);
@@ -455,7 +541,7 @@ namespace KileTool
 		return groupFor(tool, configName(tool, config));
 	}
 
-	QString groupFor(const QString & tool, const QString & cfg /* = Default */ )
+	QString groupFor(const QString& tool, const QString& cfg /* = Default */ )
 	{
 		QString group = "Tool/" + tool + '/' + cfg;
 		KILE_DEBUG() << "groupFor(const QString &" << tool << ", const QString & " << cfg << " ) = " << group;

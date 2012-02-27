@@ -176,7 +176,7 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 		return;
 	}
 
-	KileTool::Base *pngConverter = m_info->toolFactory()->create(tool);
+	KileTool::Base *pngConverter = m_info->toolManager()->createTool(tool, toolcfg);
 	if(!pngConverter) {
 		showError(i18n("Could not run '%1' for QuickPreview.", tool));
 		return;
@@ -186,14 +186,14 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 	// First, we have to disconnect the old done() signal, because this is 
 	// passed immediately to the toolmanager, whichs destroys the tool. This
 	// means, that all connections, which are done later, will never been called.
-	disconnect(pngConverter, SIGNAL(done(KileTool::Base*,int)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
+	disconnect(pngConverter, SIGNAL(done(KileTool::Base*,int,bool)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
 
 	// Now we make some new connections, which are called in this sequence:
 	// 1) when the tool is finished, the preview will be shown
 	// 2) then the done() signal can be passed to the toolmanager,
 	//    which destroys the tool
-	connect(pngConverter, SIGNAL(done(KileTool::Base*,int)), this, SLOT(drawImage()));
-	connect(pngConverter, SIGNAL(done(KileTool::Base*,int)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
+	connect(pngConverter, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(drawImage()));
+	connect(pngConverter, SIGNAL(done(KileTool::Base*,int,bool)), m_info->toolManager(), SLOT(done(KileTool::Base*,int)));
 
 	// Finally we will send a signal, which will pass the focus from the log window
 	// to the formula preview (dvipng --> toolmanager --> kile)
@@ -212,9 +212,8 @@ void PreviewWidget::showActivePreview(const QString &text,const QString &textfil
 	connect(pngConverter, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
 
 	// Now we are ready to start the process...
-	if(m_info->toolManager()->run(pngConverter,toolcfg) == KileTool::Running) {
-		m_running = true;
-	}
+	m_info->toolManager()->run(pngConverter);
+	m_running = true;
 }
 
 void PreviewWidget::clear()

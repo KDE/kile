@@ -45,7 +45,6 @@
 #include "widgets/commandview.h"
 
 #include "outputinfo.h"
-#include "latexoutputfilter.h"
 
 #include "codecompletion.h"        // code completion (dani)
 #include "editorextension.h"              // advanced editor (dani)
@@ -57,6 +56,7 @@
 #define ID_LINE_COLUMN      302
 #define ID_VIEW_MODE        303
 #define ID_SELECTION_MODE   304
+#define ID_PARSER_STATUS    305
 
 #define KILERC_VERSION 7
 
@@ -77,7 +77,6 @@ class KileProject;
 class KileProjectItem;
 class TemplateItem;
 class KileAutoSaveJob;
-class KileErrorHandler;
 
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
@@ -91,9 +90,9 @@ struct userItem
 };
 
 /**
- * The Kile main class. It acts as information manager and DBUS interface. It also manages the main window.
+ * The Kile main class. It acts as information manager and DBUS interface.
  **/
-class Kile : public KApplication, public KileInfo
+class Kile : public KParts::MainWindow, public KileInfo
 {
 	Q_OBJECT
 
@@ -103,21 +102,9 @@ public:
 
 	int lineNumber();
 
-	// these functions provide convenient access to the corresponding functions of KMainWindow
-	KActionCollection* actionCollection();
-	KMenuBar* menuBar();
-	KToolBar* toolBar(const QString &name=QString());
-	KStatusBar* statusBar();
-
-	QAction* action(const QString& name) const;
-// 	void plugActionList(const QString& name, const QList<QAction*>& actionList);
-// 	void unplugActionList(const QString& name);
-
 public Q_SLOTS:
 	void setCursor(const KUrl &, int, int);
 
-	int run(const QString &);
-	int runWith(const QString &, const QString &);
 	void runArchiveTool();
 	void runArchiveTool(const KUrl&);
 	void showTip();
@@ -139,10 +126,13 @@ public Q_SLOTS:
 	 **/
 	void setLine(const QString &line);
 	void openProject(const QString& proj);
-	int runTool(const QString& tool);
-	int runToolWithConfig(const QString &tool, const QString &config);
+	void runTool(const QString& tool);
+	void runToolWithConfig(const QString &tool, const QString &config);
 	void insertText(const QString &text);
 	void insertTag(const KileAction::TagData& td);
+
+Q_SIGNALS:
+	void masterDocumentChanged();
 
 protected:
 	virtual bool queryExit();
@@ -185,7 +175,6 @@ private:
 
 	/* config */
 	KSharedConfigPtr	m_config;
-	int 			m_horSplitRight, m_horSplitLeft, m_verSplitTop, m_verSplitBottom;
 	QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listProjectsOpenOnStart;
 
 	KRecentFilesAction *m_actRecentProjects;
@@ -193,10 +182,6 @@ private:
 	QTimer *m_AutosaveTimer;
 
 	KileLyxServer		*m_lyxserver;
-	KileErrorHandler 	*m_errorHandler;
-
-	QProgressBar		*m_parserProgressBar;
-	QTimer			*m_parserProgressBarShowTimer;
 
 	/* actions */
 	void initSelectActions();
@@ -239,8 +224,7 @@ private:
 	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = NULL, const char *member = NULL);
 	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
 
-	QString getMasterDocument() const;
-	void setMasterDocument(const QString& fileName);
+	void setMasterDocumentFileName(const QString& fileName);
 	void clearMasterDocument();
 
 private Q_SLOTS:
@@ -352,9 +336,8 @@ private Q_SLOTS:
 	void updateStatusBarInformationMessage(KTextEditor::View *view, const QString &message);
 	void updateStatusBarSelection(KTextEditor::View *view);
 
-	void connectDocumentInfoWithParserProgressBar(KileDocument::Info *info);
-	void parsingStarted(int maxValue);
-	void parsingCompleted();
+	void handleParsingStarted();
+	void handleParsingComplete();
 };
 
 #endif

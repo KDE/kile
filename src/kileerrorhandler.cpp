@@ -1,8 +1,8 @@
-/**************************************************************************************
+/*************************************************************************
     begin                : Tue May 25 2004
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
- **************************************************************************************/
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                  2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -29,7 +29,6 @@
 #include "widgets/logwidget.h"
 #include "widgets/outputview.h"
 #include "kileinfo.h"
-#include "latexoutputfilter.h"
 #include "outputinfo.h"
 #include "kiledocmanager.h"
 #include "widgets/sidebar.h"
@@ -48,40 +47,78 @@ KileErrorHandler::~KileErrorHandler()
 
 void KileErrorHandler::reset()
 {
-	m_ki->setLogPresent(false);
 	m_nCurrentError = -1;
+	m_mostRecentLogFile.clear();
+	m_mostRecentLaTeXOutputInfoList.clear();
+}
+
+void KileErrorHandler::setMostRecentLogInformation(const QString& logFile, const LatexOutputInfoArray& outputInfoList)
+{
+	m_mostRecentLogFile = logFile;
+	m_mostRecentLaTeXOutputInfoList = outputInfoList;
+	// and add them to the log widget
+	displayProblemsInLogWidget(outputInfoList);
+}
+
+void KileErrorHandler::displayProblemsInLogWidget(const LatexOutputInfoArray& infoList)
+{
+	QString message;
+	int type;
+
+	//print detailed error info
+	m_ki->logWidget()->setUpdatesEnabled(false);
+
+	for(QList<LatexOutputInfo>::const_iterator i = infoList.begin();
+	                                           i != infoList.end(); ++i) {
+
+		const LatexOutputInfo& info = *i;
+		message = info.source() + ':' + QString::number(info.sourceLine()) + ':' + info.message();
+		switch(info.type()) {
+			case LatexOutputInfo::itmBadBox:
+				type = KileTool::ProblemBadBox;
+				break;
+			case LatexOutputInfo::itmError:
+				type = KileTool::ProblemError;
+				break;
+			case LatexOutputInfo::itmWarning:
+				type = KileTool::ProblemWarning;
+				break;
+			default:
+				type = KileTool::Info;
+				break;
+		}
+		KileWidget::LogWidget::ProblemInformation problem;
+		problem.type = type;
+		problem.message = message;
+		problem.outputInfo = info;
+		m_ki->logWidget()->printMessage(type, message, QString(), info, false, false);
+	}
+
+		m_ki->logWidget()->setUpdatesEnabled(true);
+		m_ki->logWidget()->scrollToBottom();
+
 }
 
 void KileErrorHandler::ViewLog()
 {
 	KileWidget::LogWidget *logWidget = m_ki->logWidget();
 	m_ki->focusLog();
-	m_ki->setLogPresent(false);
 
-	QString cn = m_ki->getCompileName();
-	if(m_ki->outputFilter()->source() != cn) {
-		m_ki->outputFilter()->setSource(cn);
-		m_ki->outputFilter()->Run(cn.replace(QRegExp("\\..*$"), ".log"));
-	}
-
-	QString log = m_ki->outputFilter()->log();
-
-	if(!log.isEmpty()) {
+	QFile logFile(m_mostRecentLogFile);
+	if(!m_mostRecentLogFile.isEmpty() && logFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
 		QHash<int, OutputInfo> hash;
 
-		LatexOutputInfoArray outputList = *m_ki->outputInfo();
-
-		for(QList<LatexOutputInfo>::iterator i = outputList.begin();
-		                                     i != outputList.end(); ++i) {
+		for(QList<LatexOutputInfo>::iterator i = m_mostRecentLaTeXOutputInfoList.begin();
+		                                     i != m_mostRecentLaTeXOutputInfoList.end(); ++i) {
 			LatexOutputInfo info = *i;
 			hash[info.outputLine()] = info;
 		}
 
-		QTextStream textStream(&log, QIODevice::ReadOnly);
+		QTextStream textStream(&logFile);
 
 		for(int lineNumber = 0; !textStream.atEnd(); ++lineNumber) {
 			int type = -1;
-			QString line = textStream.readLine();
+			const QString line = textStream.readLine();
 			if(hash.find(lineNumber) != hash.end()) {
 				switch(hash[lineNumber].type()) {
 					case LatexOutputInfo::itmError:
@@ -100,7 +137,6 @@ void KileErrorHandler::ViewLog()
 		}
 
 		logWidget->scrollToBottom();
-		m_ki->setLogPresent(true);
 	}
 	else {
 		logWidget->printProblem(KileTool::Error, i18n("Cannot open log file; did you run LaTeX?"));
@@ -109,10 +145,10 @@ void KileErrorHandler::ViewLog()
 
 void KileErrorHandler::jumpToFirstError()
 {
-	int sz = m_ki->outputInfo()->size();
+	int sz = m_mostRecentLaTeXOutputInfoList.size();
 	for(int i = 0; i < sz; ++i) {
-		if((*m_ki->outputInfo())[i].type() == LatexOutputInfo::itmError) {
-			jumpToProblem((*m_ki->outputInfo())[i]);
+		if(m_mostRecentLaTeXOutputInfoList[i].type() == LatexOutputInfo::itmError) {
+			jumpToProblem(m_mostRecentLaTeXOutputInfoList[i]);
 			m_nCurrentError = i;
 			break;
 		}
@@ -121,7 +157,7 @@ void KileErrorHandler::jumpToFirstError()
 
 void KileErrorHandler::jumpToProblem(const OutputInfo& info)
 {
-	QString file = m_ki->getFullFromPrettyName(info.source());
+	QString file = m_ki->getFullFromPrettyName(info, info.source());
 
 	if(!file.isEmpty()) {
 		m_ki->docManager()->fileOpen(KUrl(file));
@@ -137,37 +173,14 @@ void KileErrorHandler::jumpToProblem(const OutputInfo& info)
 	}
 }
 
-void KileErrorHandler::showLogResults(const QString &src)
-{
-	m_ki->logWidget()->clear();
-	m_ki->setLogPresent(false);
-	m_ki->outputFilter()->setSource(src);
-	QFileInfo fi(src);
-	QString lf = fi.absolutePath() + '/' + fi.completeBaseName() + ".log";
-	m_ki->logWidget()->printMessage(KileTool::Info, i18n("Detecting errors (%1), please wait ...", lf), i18n("Log"));
-	if(!m_ki->outputFilter()->Run(lf)) {
-		m_ki->outputFilter()->setSource(QString());
-		return;
-	}
-	else {
-		m_ki->logWidget()->printMessage(KileTool::Info, i18n("Done."), i18n("Log"));
-	}
-}
-
 void KileErrorHandler::jumpToProblem(int type, bool forward)
 {
-	static LatexOutputInfoArray::iterator it;
+	// 'm_mostRecentLogFile' is only nonempty when output information has been
+	// provided
+	const bool outputInformationPresent = !m_mostRecentLogFile.isEmpty();
 
-	//if the current log file does not belong to the files the user is viewing
-	//reparse the correct log file
-	QString cn = m_ki->getCompileName();
-	bool correctlogfile = (cn == m_ki->outputFilter()->source());
-	if(!correctlogfile) {
-		showLogResults(cn);
-	}
-
-	if (!m_ki->outputInfo()->isEmpty()) {
-		int sz = m_ki->outputInfo()->size();
+	if (!m_mostRecentLaTeXOutputInfoList.isEmpty()) {
+		int sz = m_mostRecentLaTeXOutputInfoList.size();
 		int pl = forward ? 1 : -1;
 		bool found = false;
 
@@ -182,7 +195,7 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 				index += sz;
 			}
 
-			if((*m_ki->outputInfo())[index].type() == type) {
+			if(m_mostRecentLaTeXOutputInfoList[index].type() == type) {
 				m_nCurrentError = index;
 				found = true;
 				break;
@@ -195,13 +208,13 @@ void KileErrorHandler::jumpToProblem(int type, bool forward)
 
 		//If the log file is being viewed, use this to jump to the errors,
 		//otherwise, use the error summary display
-		m_ki->logWidget()->highlight((*m_ki->outputInfo())[m_nCurrentError]);
+		m_ki->logWidget()->highlight(m_mostRecentLaTeXOutputInfoList[m_nCurrentError]);
 
-		jumpToProblem((*m_ki->outputInfo())[m_nCurrentError]);
+		jumpToProblem(m_mostRecentLaTeXOutputInfoList[m_nCurrentError]);
 	}
 
-	if(m_ki->outputInfo()->isEmpty() && correctlogfile) {
-		m_ki->logWidget()->printMessage(i18n("No LaTeX errors detected."));
+	if(m_mostRecentLaTeXOutputInfoList.isEmpty() && outputInformationPresent) {
+		m_ki->logWidget()->printMessage(i18n("No LaTeX warnings/errors detected."));
 	}
 }
 

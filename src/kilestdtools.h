@@ -31,12 +31,12 @@ namespace KileTool
 
 	class Factory
 	{
+		friend class Manager;
+
 		public:
 			Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection);
 			~Factory();
-	
-			Base* create(const QString & tool, bool prepare = true);
-	
+
 			void readStandardToolConfig();
 
 		private:
@@ -44,30 +44,40 @@ namespace KileTool
 			KConfig            *m_config;
 			KActionCollection  *m_actionCollection;
 			QString             m_standardToolConfigurationFileName;
+
+			// only the 'Manager' is allowed to call this
+			Base* create(const QString& tool, const QString& config, bool prepare = true);
 	};
 
 	class LaTeX : public Compile
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-		public:
+		protected:
 			LaTeX(const QString& tool, Manager *mngr, bool prepare);
+		public:
+			virtual ~LaTeX();
 
 		Q_SIGNALS:
 			void jumpToFirstError();
-	
+
 		public Q_SLOTS:
 			bool finish(int);
-	
+
 		protected:
-			bool filterLogfile();
-			void checkErrors(int &nErrors, int &nWarnings);
-			void checkAutoRun(int nErrors, int nWarnings);
-			
-		private:
-			bool updateBibs();
-			bool updateIndex();
-			bool updateAsy();
+			void checkErrors();
+			void checkAutoRun();
+			void latexOutputParserResultInstalled();
+
+			virtual bool updateBibs();
+			virtual bool updateIndex();
+			virtual bool updateAsy();
+
+			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
+			virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
 
 			//FIXME: this is a little 'hackish'
 			static int m_reRun;
@@ -76,50 +86,82 @@ namespace KileTool
 	class PreviewLaTeX : public LaTeX
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-		public:
+		protected:
 			PreviewLaTeX(const QString& tool, Manager *mngr, bool prepare);
 
+		public:
 			void setPreviewInfo(const QString &filename, int selrow, int docrow);
 
 		public Q_SLOTS:
 			bool finish(int);
-			
+
 		private:
 			QString m_filename;
 			int m_selrow;
 			int m_docrow;
 	};
-	
-	class ForwardDVI : public View
+
+	class LivePreviewLaTeX : public LaTeX
 	{
-		public:
-			ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
+		Q_OBJECT
+		friend class KileTool::Factory;
 
 		protected:
+			LivePreviewLaTeX(const QString& tool, Manager *mngr, bool prepare);
+
+		public:
+// 			void setPreviewInfo(const QString &filename, int selrow, int docrow);
+
+		public Q_SLOTS:
+// 			bool finish(int);
+
+		protected:
+			virtual bool updateBibs();
+
+			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
+			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
+			virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
+
+		private:
+			QString m_filename;
+			int m_selrow;
+			int m_docrow;
+	};
+
+	class ForwardDVI : public View
+	{
+		friend class KileTool::Factory;
+
+		protected:
+			ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
+
 			bool determineTarget();
 			bool checkPrereqs();
 	};
 
 	class ViewBib : public View
 	{
-		public:
-			ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
-	
+		friend class KileTool::Factory;
+
 		protected:
+			ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
+
 			bool determineSource();
 	};
 
 	class ViewHTML : public View
 	{
 		Q_OBJECT
+		friend class KileTool::Factory;
 
-		public:
-			ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);
-	
 		protected:
+			ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);
+
 			bool determineTarget();
-	
+
 		Q_SIGNALS:
 			void updateStatus(bool, bool);
 	};

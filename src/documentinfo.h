@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Sun Jul 20 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 
 #include "kileconstants.h"
 #include "kileextensions.h"
+#include "livepreview_utils.h"
 
 #define TEX_CAT0 '\\'
 #define TEX_CAT1 '{'
@@ -45,6 +46,9 @@ namespace KileDocument { class EditorExtension; }
 namespace KileConfiguration { class Manager; }
 namespace KileCodeCompletion { class LaTeXCompletionModel; class AbbreviationCompletionModel; class Manager; }
 namespace KileAbbreviation { class Manager; }
+namespace KileTool { class LivePreviewManager; }
+namespace KileParser { class ParserOutput; class Manager; }
+
 namespace KileStruct
 {
 	//Different types of elements in the structure view
@@ -137,6 +141,7 @@ public:
 
 	bool showStructureLabels() { return m_showStructureLabels; }
 
+	const QMap<QString, KileStructData>& dictStructLevel() { return m_dictStructLevel; }
 
 	const QString & preamble() const { return m_preamble; }
 
@@ -166,6 +171,8 @@ public:
 	bool isDirty() const;
 	void setDirty(bool b);
 
+	virtual void installParserOutput(KileParser::ParserOutput *parserOutput);
+
 public Q_SLOTS:
 	/**
 	 * Never call this function directly, use KileWidget::Structure::update(KileDocument::Info *, bool) instead
@@ -179,11 +186,10 @@ Q_SIGNALS:
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
 	               const QString & pix, const QString & folder);
-	void doneUpdating();
 	void depChanged();
 	void completed(KileDocument::Info* info);
 	void parsingStarted(int maxValue);
-	void parsingCompleted();
+	void parsingComplete();
 	void parsingUpdate(int value);
 
 protected Q_SLOTS:
@@ -241,6 +247,7 @@ public:
 	TextInfo(KTextEditor::Document *doc,
 	         Extensions *extensions,
 	         KileAbbreviation::Manager *abbreviationManager,
+	         KileParser::Manager *parserManager,
 	         const QString& defaultMode = QString());
 	virtual ~TextInfo();
 
@@ -281,7 +288,7 @@ public:
 	/**
 	 * "Overridden" method that installs custom event filters by using the "installEventFilters"
 	 * method. It also installs signal connections by using the "installSignalConnections"
-	 * method. 
+	 * method.
 	 * @warning Only this method should be used to create new views for text documents !
 	 * @return NULL if no document is set (m_doc == NULL)
 	 **/
@@ -291,6 +298,7 @@ public:
 
 Q_SIGNALS:
 	void documentDetached(KTextEditor::Document*);
+	void aboutToBeDestroyed(KileDocument::TextInfo*);
 
 protected Q_SLOTS:
 	void slotFileNameChanged();
@@ -307,6 +315,7 @@ protected:
 	QHash<KTextEditor::View*, QList<QObject*> >	m_eventFilterHash;
 	KileAbbreviation::Manager			*m_abbreviationManager;
 	KileCodeCompletion::AbbreviationCompletionModel *m_abbreviationCodeCompletionModel;
+	KileParser::Manager 			*m_parserManager;
 
 	QString matchBracket(QChar c, int &, int &);
 	QString getTextline(uint line, TodoResult &todo);
@@ -355,7 +364,7 @@ protected:
 	virtual void installSignalConnections(KTextEditor::View *view);
 
 	/**
-	 * Disconnects the signals that were previously connected with the 
+	 * Disconnects the signals that were previously connected with the
 	 * "installSignalConnections" function.
 	 */
 	virtual void removeSignalConnections(KTextEditor::View *view);
@@ -379,7 +388,7 @@ protected:
 	virtual void registerCodeCompletionModels(KTextEditor::View *view);
 
 	/**
-	 * Unregisters the code completion models that were previously registered by the 
+	 * Unregisters the code completion models that were previously registered by the
 	 * "registerCodeCompletionModels" method.
 	 */
 	virtual void unregisterCodeCompletionModels(KTextEditor::View *view);
@@ -400,7 +409,7 @@ protected:
 
 
 
-class LaTeXInfo : public TextInfo
+class LaTeXInfo : public TextInfo, public KileTool::LivePreviewUserStatusHandler
 {
 	Q_OBJECT
 
@@ -414,7 +423,10 @@ public:
 	          LatexCommands *commands,
 	          KileDocument::EditorExtension *editorExtension,
 	          KileConfiguration::Manager *manager,
-	          KileCodeCompletion::Manager *codeCompletionManager);
+	          KileCodeCompletion::Manager *codeCompletionManager,
+	          KileTool::LivePreviewManager *livePreviewManager,
+	          KileParser::Manager *parserManager);
+
 	virtual ~LaTeXInfo();
 
 	virtual Type getType();
@@ -422,6 +434,8 @@ public:
 	virtual QString getFileFilter() const;
 
 	void startLaTeXCompletion(KTextEditor::View *view);
+
+	void installParserOutput(KileParser::ParserOutput *parserOutput);
 
 public Q_SLOTS:
 	virtual void updateStruct();
@@ -432,6 +446,7 @@ protected:
 	KileConfiguration::Manager *m_configurationManager;
 	QObject *m_eventFilter;
 	KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
+	KileTool::LivePreviewManager *m_livePreviewManager;
 
 	virtual void updateStructLevelInfo();
 	virtual void checkChangedDeps();
@@ -461,6 +476,7 @@ public:
 	BibInfo (KTextEditor::Document *doc,
                  Extensions *extensions,
                  KileAbbreviation::Manager *abbreviationManager,
+                 KileParser::Manager *parserManager,
                  LatexCommands* commands);
 	virtual ~BibInfo();
 
@@ -469,6 +485,8 @@ public:
 	virtual Type getType();
 
 	virtual QString getFileFilter() const;
+
+	void installParserOutput(KileParser::ParserOutput *parserOutput);
 
 public Q_SLOTS:
 	virtual void updateStruct();
@@ -481,7 +499,8 @@ class ScriptInfo : public TextInfo
 public:
 	ScriptInfo(KTextEditor::Document *doc,
 	           Extensions *extensions,
-                   KileAbbreviation::Manager *abbreviationManager);
+                   KileAbbreviation::Manager *abbreviationManager,
+                   KileParser::Manager *parserManager);
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();

@@ -1,8 +1,8 @@
-/**********************************************************************************
+/**************************************************************************************
     begin                : Die Sep 16 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
- **********************************************************************************/
+                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+ **************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -35,7 +35,7 @@ class OutputInfo
 		 **/
 		OutputInfo();
 
-		OutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine, const QString& strError = QString(), int nErrorID = -1);
+		OutputInfo(const QString& mainSourceFile, const QString& strSrcFile, int nSrcLine, int nOutputLine, const QString& strError = QString(), int nErrorID = -1);
 
 	public:
 		/**
@@ -43,6 +43,10 @@ class OutputInfo
 		 * information.
 		 **/
 		bool isValid() const;
+
+		/** File that was compiled. */
+		QString mainSourceFile() const { return m_mainSourceFile; }
+		void setMainSourceFile(const QString& src) { m_mainSourceFile = src; }
 
 		/** Source file where error occurred. */
 		QString source() const { return m_strSrcFile; }
@@ -81,6 +85,7 @@ class OutputInfo
 		bool operator==(const OutputInfo& info) const;
 
 private:
+	QString m_mainSourceFile;
 	QString m_strSrcFile;
 	int m_nSrcLine;
 	QString m_strError;
@@ -100,8 +105,8 @@ class LatexOutputInfo : public OutputInfo
 {
 	public:
 		LatexOutputInfo();
-		LatexOutputInfo(const QString& strSrcFile, int nSrcLine, int nOutputLine, const QString& strError = QString(), int nErrorID = -1);
-	
+		LatexOutputInfo(const QString& mainSourceFile, const QString& strSrcFile, int nSrcLine, int nOutputLine, const QString& strError = QString(), int nErrorID = -1);
+
 	public:
 		/**
 		 * These constants are describing, which item types is currently

@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Wed Jun 6 2001
     copyright            : (C) 2003 by Jeroen Wijnout (Jeroen.Wijnhout@kdemail.net)
-                               2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -30,8 +30,10 @@
 class KConfig;
 
 namespace KileWidget { class ToolConfig; }
+class KileWidgetAppearanceConfig;
 class KileWidgetHelpConfig;
 class KileWidgetLatexConfig;
+class KileWidgetLivePreviewConfig;
 class KileWidgetGeneralConfig;
 class KileWidgetEnvironmentConfig;
 class KileWidgetGraphicsConfig;
@@ -88,7 +90,8 @@ namespace KileDialog
 		KileWidgetSymbolViewConfig *symbolViewPage;
 		KileWidgetScriptingConfig *scriptingPage;
 		KileWidgetUsermenuConfig *usermenuPage;
-
+		KileWidgetLivePreviewConfig *livePreviewPage;
+		KileWidgetAppearanceConfig *appearancePage;
 
 		// setup configuration
 		KPageWidgetItem* addConfigFolder(const QString &section,const QString &icon);
@@ -114,6 +117,8 @@ namespace KileDialog
 		void setupSymbolView(KPageWidgetItem* parent);
 		void setupScripting(KPageWidgetItem* parent);
 		void setupUsermenu(KPageWidgetItem* parent);
+		void setupLivePreview(KPageWidgetItem* parent);
+		void setupAppearance(KPageWidgetItem* parent);
 
 		// write configuration
 		void writeGeneralOptionsConfig();

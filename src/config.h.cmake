@@ -1,3 +1,11 @@
+#cmakedefine HAVE_VIEWERINTERFACE_H
+
+#ifdef HAVE_VIEWERINTERFACE_H
+	#define LIVEPREVIEW_POSSIBLE
+#else
+	#undef LIVEPREVIEW_POSSIBLE
+#endif
+
 #cmakedefine HAVE_POPPLER_QT4_H
 
 #ifdef HAVE_POPPLER_QT4_H

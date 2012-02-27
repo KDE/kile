@@ -47,17 +47,17 @@ namespace KileHelp
 		readHelpList("latex-kile.lst", m_dictHelpKile);
 		initTexDocumentation();
 	}
-	
+
 	Help::~Help()
 	{
 		delete m_userhelp;
 	}
-	
+
 	void Help::initTexDocumentation()
 	{
 		// use documentation for teTeX v2.x, v3.x or TexLive2005
 		m_texdocPath = KileConfig::location();
-		
+
 		// first check for TexLive2005
 		QString texref = m_texdocPath + "/english/tex-refs";
 		QDir dir(texref);
@@ -74,7 +74,7 @@ namespace KileHelp
 				m_texVersion = TETEX3;
 				// check if this is buggy tetex3.0 or an updated version with subdirectory 'html'
 				dir.setPath(m_texdocPath + "/latex/tex-refs/html");
-				m_texReference = ( dir.exists() ) 
+				m_texReference = ( dir.exists() )
 				               ? "/latex/tex-refs/html/" : "/latex/tex-refs/";
 				readHelpList("latex-tetex3.lst",m_dictHelpTex);
 			}
@@ -97,27 +97,30 @@ namespace KileHelp
 	}
 
 	////////////////////// set parameter/initialize user help //////////////////////
-	
+
 	void Help::setUserhelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu)
 	{
 		m_manager = manager;
 		m_userhelp = new UserHelp(manager, userHelpActionMenu, m_mainWindow);
 	}
-	
+
 	void Help::enableUserhelpEntries(bool state)
-	{ 
+	{
 		if(m_userhelp) {
 			m_userhelp->enableUserHelpEntries(state);
 		}
 	}
 	////////////////////// show help //////////////////////
-	
+
 	void Help::showHelpFile(const QString &parameter)
 	{
-		KileTool::ViewHTML *tool = new KileTool::ViewHTML("ViewHTML", m_manager, false);
+		KileTool::Base *tool = m_manager->createTool("ViewHTML", QString(), false);
+		if(!tool) {
+			return;
+		}
 		tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
 		//FIXME strip the #label part of the source (not the target),
-		//somehow this is already done somewhere (by accident), 
+		//somehow this is already done somewhere (by accident),
 		//bad to rely on it
 		tool->setMsg(KileTool::NeedSourceExists, ki18n("Could not find the teTeX documentation at %1; set the correct path in Settings->Configure Kile->Help."));
 		tool->setSource(parameter);
@@ -133,7 +136,7 @@ namespace KileHelp
 	}
 
 ////////////////////// Help: TexDoc //////////////////////
-	
+
 	void Help::helpDocBrowser()
 	{
 		KileDialog::TexDocDialog *dlg = new KileDialog::TexDocDialog();
@@ -169,7 +172,7 @@ namespace KileHelp
 	void Help::helpLatex(Type type)
 	{
 		QString link;
-		
+
 		if(m_texVersion == TEXLIVE2005) {
 			switch(type) {
 				case HelpLatexIndex:
@@ -223,8 +226,8 @@ namespace KileHelp
 				default:
 					return;
 			}
-		} 
-		
+		}
+
 		// show help file
 		QString texversion;
 		if(m_texVersion == TEXLIVE2005) {
@@ -233,7 +236,7 @@ namespace KileHelp
 		else if(m_texVersion == TETEX3) {
 			texversion = "teTeX v3.x";
 		}
-		else { 
+		else {
 			texversion = "teTeX v2.x";
 		}
 		KILE_DEBUG() << "TeX Version: "<< texversion << " link=" << link << endl;
@@ -289,7 +292,7 @@ namespace KileHelp
 	{
 		m_manager->info()->logWidget()->printMessage(KileTool::Error, i18n("No help available for %1.", word), i18n("Help"));
 	}
-	
+
 	QString Help::getKeyword(KTextEditor::View *view)
 	{
 		if(!view) {

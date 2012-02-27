@@ -15,6 +15,8 @@
 #ifndef KILETOOL_ENUMS_H
 #define KILETOOL_ENUMS_H
 
+#define OKULAR_LIBRARY_NAME "okularpart"
+
 namespace KileTool
 {
 	/**
@@ -26,7 +28,7 @@ namespace KileTool
 	enum { Error = 0, Warning, Info, ProblemError, ProblemWarning, ProblemBadBox };
 
 	enum { NeedTargetDirExec = 0x01, NeedTargetDirWrite = 0x02, NeedTargetExists = 0x04, NeedTargetRead = 0x08,
-	NeedActiveDoc = 0x10, NeedMasterDoc = 0x20, NoUntitledDoc = 0x40, NeedSourceExists = 0x80, NeedSourceRead = 0x100, EmitSaveAllSignal = 0x200 };
+	NeedActiveDoc = 0x10, NeedMasterDoc = 0x20, NoUntitledDoc = 0x40, NeedSourceExists = 0x80, NeedSourceRead = 0x100, NeedSaveAll = 0x200 };
 
 	enum { Running = 0, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
 	

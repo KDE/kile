@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Thu Nov 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -34,6 +34,7 @@
 #include "kiledocmanager.h"
 #include "documentinfo.h"
 #include "outputinfo.h"
+#include "parser/parsermanager.h"
 
 namespace KileTool
 {
@@ -49,60 +50,68 @@ namespace KileTool
 
 	static const QString shortcutGroupName = "Shortcuts";
 
-	Base* Factory::create(const QString& tool, bool prepare /* = true */)
+	Base* Factory::create(const QString& toolName, const QString& config, bool prepare /* = true */)
 	{
+		KILE_DEBUG() << toolName << config << prepare;
+		KileTool::Base *tool = NULL;
 		//perhaps we can find the tool in the config file
-		if (m_config->hasGroup(groupFor(tool, m_config))) {
-			KConfigGroup configGroup = m_config->group(groupFor(tool, m_config));
+		if (m_config->hasGroup(groupFor(toolName, m_config))) {
+			KConfigGroup configGroup = m_config->group(groupFor(toolName, m_config));
 			QString toolClass = configGroup.readEntry("class", QString());
 
 			if(toolClass == "LaTeX") {
-				return new LaTeX(tool, m_manager, prepare);
+				tool = new LaTeX(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "LaTeXpreview") {
-				return new PreviewLaTeX(tool, m_manager, prepare);
+			else if(toolClass == "LaTeXpreview") {
+				tool = new PreviewLaTeX(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "ForwardDVI") {
-				return new ForwardDVI(tool, m_manager, prepare);
+			else if(toolClass == "LaTeXLivePreview") {
+				tool = new LivePreviewLaTeX(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "ViewHTML") {
-				return new ViewHTML(tool, m_manager, prepare);
+			else if(toolClass == "ForwardDVI") {
+				tool = new ForwardDVI(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "ViewBib") {
-				return new ViewBib(tool, m_manager, prepare);
+			else if(toolClass == "ViewHTML") {
+				tool = new ViewHTML(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Base") {
-				return new Base(tool, m_manager, prepare);
+			else if(toolClass == "ViewBib") {
+				tool = new ViewBib(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Compile") {
-				return new Compile(tool, m_manager, prepare);
+			else if(toolClass == "Base") {
+				tool = new Base(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Convert") {
-				return new Convert(tool, m_manager, prepare);
+			else if(toolClass == "Compile") {
+				tool = new Compile(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Archive") {
-				return new Archive(tool, m_manager, prepare);
+			else if(toolClass == "Convert") {
+				tool = new Convert(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "View") {
-				return new View(tool, m_manager, prepare);
+			else if(toolClass == "Archive") {
+				tool = new Archive(toolName, m_manager, prepare);
 			}
-
-			if(toolClass == "Sequence") {
-				return new Sequence(tool, m_manager, prepare);
+			else if(toolClass == "View") {
+				tool = new View(toolName, m_manager, prepare);
+			}
+			else if(toolClass == "Sequence") {
+				tool = new Sequence(toolName, m_manager, prepare);
 			}
 		}
+		if(!tool) {
+			return NULL;
+		}
 
-		//unknown tool, return 0
-		return NULL;
+		if(!m_manager->configure(tool, config)) {
+			delete tool;
+			return NULL;
+		}
+		tool->setToolConfig(config);
+
+		// this has to be done after the configuration step only!
+		if(dynamic_cast<KileTool::Sequence*>(tool)) {
+			dynamic_cast<KileTool::Sequence*>(tool)->setupSequenceTools();
+		}
+
+		return tool;
 	}
 
 	void Factory::readStandardToolConfig()
@@ -126,6 +135,10 @@ namespace KileTool
 	{
 	}
 
+	LaTeX::~LaTeX()
+	{
+	}
+
 	int LaTeX::m_reRun = 0;
 
 	// FIXME don't hardcode bbl and ind suffix here.
@@ -133,8 +146,8 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			if(manager()->info()->allBibliographies().count() > 0) {
-				return needsUpdate ( baseDir() + '/' + S() + ".bbl" , manager()->info()->lastModifiedFile(docinfo) );
+			if(manager()->info()->allBibliographies(docinfo).count() > 0) {
+				return needsUpdate(targetDir() + '/' + S() + ".bbl", manager()->info()->lastModifiedFile(docinfo));
 			}
 		}
 
@@ -145,20 +158,20 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			QStringList pckgs = manager()->info()->allPackages();
+			QStringList pckgs = manager()->info()->allPackages(docinfo);
 			if(pckgs.contains("makeidx")) {
-				return needsUpdate ( baseDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo) );
+				return needsUpdate(targetDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo));
 			}
 		}
 
 		return false;
 	}
-	
+
 	bool LaTeX::updateAsy()
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			QStringList pckgs = manager()->info()->allPackages();
+			QStringList pckgs = manager()->info()->allPackages(docinfo);
 			// As asymptote doesn't properly notify the user when it needs to be rerun, we run
 			// it every time LaTeX is run (but only for m_reRun == 0 if LaTeX has to be rerun).
 			if(pckgs.contains("asymptote")) {
@@ -171,49 +184,68 @@ namespace KileTool
 	bool LaTeX::finish(int r)
 	{
 		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====";
-		
-		int nErrors = 0, nWarnings = 0;
-		if(filterLogfile()) {
-			checkErrors(nErrors,nWarnings);
-		}
-		
+
+		m_toolResult = r;
+
+		// we always try to parse the log file in order to detect
+		// errors reported by LaTeX
+		QString log = targetDir() + '/' + S() + ".log";
+		manager()->parserManager()->parseOutput(this, log, source());
+
+		return true;
+	}
+
+	void LaTeX::latexOutputParserResultInstalled()
+	{
+		KILE_DEBUG();
+
+		checkErrors();
+
 		if(readEntry("autoRun") == "yes") {
-			checkAutoRun(nErrors, nWarnings);
+			checkAutoRun();
 		}
 
-		return Compile::finish(r);
+		Compile::finish(m_toolResult);
 	}
 
-	bool LaTeX::filterLogfile()
+	void LaTeX::checkErrors()
 	{
-		manager()->info()->outputFilter()->setSource(source());
-		QString log = baseDir() + '/' + S() + ".log";
-
-		return manager()->info()->outputFilter()->Run(log);
-	}
-
-	void LaTeX::checkErrors(int &nErrors, int &nWarnings)
-	{
-		int nBadBoxes = 0;
-		
-		manager()->info()->outputFilter()->sendProblems();
-		manager()->info()->outputFilter()->getErrorCount(&nErrors, &nWarnings, &nBadBoxes);
 		// work around the 0 cases as the i18np call can cause some confusion when 0 is passed to it (#275700)
-		QString es = (nErrors == 0 ? i18n("0 errors") : i18np("1 error", "%1 errors", nErrors));
-		QString ws = (nWarnings == 0 ? i18n("0 warnings") : i18np("1 warning", "%1 warnings", nWarnings));
-		QString bs = (nBadBoxes == 0 ? i18n("0 badboxes") : i18np("1 badbox", "%1 badboxes", nBadBoxes));
+		QString es = (m_nErrors == 0 ? i18n("0 errors") : i18np("1 error", "%1 errors", m_nErrors));
+		QString ws = (m_nWarnings == 0 ? i18n("0 warnings") : i18np("1 warning", "%1 warnings", m_nWarnings));
+		QString bs = (m_nBadBoxes == 0 ? i18n("0 badboxes") : i18np("1 badbox", "%1 badboxes", m_nBadBoxes));
 
 		sendMessage(Info, i18nc("String displayed in the log panel showing the number of errors/warnings/badboxes",
 		                        "%1, %2, %3", es, ws, bs));
 
 		//jump to first error
-		if(nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
+		if(!isPartOfLivePreview() && m_nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
 			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
 			emit(jumpToFirstError());
 		}
 	}
-	
-	void LaTeX::checkAutoRun(int nErrors, int nWarnings)
+
+	void LaTeX::configureLaTeX(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
+	void LaTeX::configureBibTeX(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
+	void LaTeX::configureMakeIndex(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
+	void LaTeX::configureAsymptote(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, workingDir());
+	}
+
+	void LaTeX::checkAutoRun()
 	{
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
 		if(m_reRun >= 2) {
@@ -221,18 +253,18 @@ namespace KileTool
 			m_reRun = 0;
 			return;
 		}
-		if(nErrors > 0) {
+		if(m_nErrors > 0) {
 			KILE_DEBUG() << "Errors found, not running again.";
 			m_reRun = 0;
 			return;
 		}
 		bool reRunWarningFound = false;
 		//check for "rerun LaTeX" warnings
-		if(nWarnings > 0) {
-			int sz =  manager()->info()->outputInfo()->size();
+		if(m_nWarnings > 0) {
+			int sz = m_latexOutputInfoList.size();
 			for(int i = 0; i < sz; ++i) {
-				if ((*manager()->info()->outputInfo())[i].type() == LatexOutputInfo::itmWarning
-				&&  (*manager()->info()->outputInfo())[i].message().contains("Rerun")) {
+				if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
+				&&  m_latexOutputInfoList[i].message().contains("Rerun")) {
 					reRunWarningFound = true;
 					break;
 				}
@@ -250,34 +282,41 @@ namespace KileTool
 
 		if(reRun) {
 			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
-			Base *tool = manager()->factory()->create(name());
-			tool->setSource(source());
-			manager()->runNext(tool);
+			Base *tool = manager()->createTool(name(), toolConfig());
+			configureLaTeX(tool, source());
+			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			tool->copyPaths(this);
+			runChildNext(tool);
 		}
 
 		if(bibs) {
 			KILE_DEBUG() << "need to run BibTeX";
-			Base *tool = manager()->factory()->create("BibTeX");
-			tool->setSource(source());
-			manager()->runNext(tool);
+			Base *tool = manager()->createTool("BibTeX", QString());
+			configureBibTeX(tool, targetDir() + '/' + S() + '.' + tool->from());
+			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			tool->copyPaths(this);
+			runChildNext(tool);
 		}
 
 		if(index) {
 			KILE_DEBUG() << "need to run MakeIndex";
-			Base *tool = manager()->factory()->create("MakeIndex");
-			tool->setSource(source());
-			manager()->runNext(tool);
+			Base *tool = manager()->createTool("MakeIndex", QString());
+			KILE_DEBUG() << targetDir() << S() << tool->from();
+			configureMakeIndex(tool, targetDir() + '/' + S() + '.' + tool->from());
+			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			tool->copyPaths(this);
+			runChildNext(tool);
 		}
 
 		if(asy) {
 			KILE_DEBUG() << "need to run asymptote";
 			int sz = manager()->info()->allAsyFigures().size();
 			for(int i = sz -1; i >= 0; --i) {
-			  Base *tool = manager()->factory()->create("Asymptote");
-			  tool->setSource(baseDir() + '/' + S() + "-" + QString::number(i + 1) + ".asy");
-			  KILE_DEBUG();
-			  KILE_DEBUG() << "calling manager()->runNext(";
-			  manager()->runNext(tool);
+			  Base *tool = manager()->createTool("Asymptote", QString());
+			  configureAsymptote(tool, targetDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
+			  // e.g. for LivePreview, it is necessary that the paths are copied to child processes
+			  tool->copyPaths(this);
+			  runChildNext(tool);
 			}
 		}
 
@@ -288,8 +327,8 @@ namespace KileTool
 			m_reRun = 0;
 		}
 	}
-	
-	
+
+
 	/////////////// PreviewLaTeX (dani) ////////////////
 
 	PreviewLaTeX::PreviewLaTeX(const QString& tool, Manager *mngr, bool prepare) : LaTeX(tool, mngr, prepare)
@@ -299,18 +338,21 @@ namespace KileTool
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
 	// - updateInfoLists(): change entries of temporary file into normal tex file
-	// - checkErrors()    : count errors and warnings and emit signals   
+	// - checkErrors()    : count errors and warnings and emit signals
 	bool PreviewLaTeX::finish(int r)
 	{
-		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
-		
-		int nErrors = 0, nWarnings = 0;
-		if(filterLogfile()) {
-			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
-			checkErrors(nErrors,nWarnings);
+		KILE_DEBUG() << r;
+
+		m_toolResult = r;
+
+		if(r != Success) {
+			return Compile::finish(r);
 		}
-		
-		return Compile::finish(r);
+
+		QString log = targetDir() + '/' + S() + ".log";
+		manager()->parserManager()->parseOutput(this, log, source(), m_filename, m_selrow, m_docrow);
+
+		return true;
 	}
 
 	void PreviewLaTeX::setPreviewInfo(const QString &filename, int selrow,int docrow)
@@ -319,6 +361,63 @@ namespace KileTool
 		m_selrow = selrow;
 		m_docrow = docrow;
 	}
+
+	/////////////// LivePreviewLaTeX ////////////////
+
+	LivePreviewLaTeX::LivePreviewLaTeX(const QString& tool, Manager *mngr, bool prepare)
+	: LaTeX(tool, mngr, prepare)
+	{
+	}
+
+	bool LivePreviewLaTeX::updateBibs()
+	{
+		return LaTeX::updateBibs();
+	}
+
+	void LivePreviewLaTeX::configureLaTeX(KileTool::Base *tool, const QString& source)
+	{
+		LaTeX::configureLaTeX(tool, source);
+		tool->setTargetDir(targetDir());
+	}
+
+	void LivePreviewLaTeX::configureBibTeX(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, targetDir());
+	}
+
+	void LivePreviewLaTeX::configureMakeIndex(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, targetDir());
+	}
+
+	void LivePreviewLaTeX::configureAsymptote(KileTool::Base *tool, const QString& source)
+	{
+		tool->setSource(source, targetDir());
+	}
+	// PreviewLatex makes three steps:
+	// - filterLogfile()  : parse logfile and read info into InfoLists
+	// - updateInfoLists(): change entries of temporary file into normal tex file
+	// - checkErrors()    : count errors and warnings and emit signals
+// 	bool LivePreviewLaTeX::finish(int r)
+// 	{
+// 		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
+//
+// 		int nErrors = 0, nWarnings = 0;
+// 		if(filterLogfile()) {
+// 			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
+// 			checkErrors(nErrors,nWarnings);
+// 		}
+//
+// 		return Compile::finish(r);
+// 	}
+//
+// 	void LivePreviewLaTeX::setPreviewInfo(const QString &filename, int selrow,int docrow)
+// 	{
+// 		m_filename = filename;
+// 		m_selrow = selrow;
+// 		m_docrow = docrow;
+// 	}
+
 
 	ForwardDVI::ForwardDVI(const QString& tool, Manager *mngr, bool prepare) : View(tool, mngr, prepare)
 	{
@@ -330,7 +429,7 @@ namespace KileTool
 	  okularVersionTester.setOutputChannelMode(KProcess::MergedChannels);
 	  okularVersionTester.setProgram("okular", QStringList("--version"));
 	  okularVersionTester.start();
-	  
+
 	  if (okularVersionTester.waitForFinished()){
 	    QString output = okularVersionTester.readAll();
 	    QRegExp regExp = QRegExp("Okular: (\\d+).(\\d+).(\\d+)");
@@ -339,7 +438,7 @@ namespace KileTool
      	      int majorVersion = regExp.cap(1).toInt();
       	      int minorVersion = regExp.cap(2).toInt();
 	      int veryMinorVersion = regExp.cap(3).toInt();
-		      
+
 	      //  see http://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
 	      // 	the required okular version is > 0.8.5
 	      if(  majorVersion > 0  ||
@@ -372,10 +471,20 @@ namespace KileTool
 		QString filepath = doc->url().toLocalFile();
 
 		QString texfile = KUrl::relativePath(baseDir(),filepath);
-		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + ' ' + texfile; // space added, for files starting with numbers
-		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para+1) + filepath;
-		addDict("%dir_target", QString());
-		addDict("%target", relativeTarget);
+		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + ' ' + texfile; // space added, for files starting with numbers
+		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + filepath;
+
+		if(readEntry("useDocumentViewer") == "yes") {
+			addDict("%dir_target", targetDir());
+			addDict("%target", target());
+			addDict("%sourceFileName", filepath);
+			addDict("%sourceLine", QString::number(para + 1));
+		}
+		else {
+			addDict("%dir_target", QString());
+			addDict("%target", relativeTarget);
+		}
+
 		addDict("%absolute_target", absoluteTarget);
 		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n";
 		KILE_DEBUG() << "\tusing  (absolute)" << absoluteTarget;
@@ -413,14 +522,14 @@ namespace KileTool
 					KILE_DEBUG() << "Bibliography selected : " << bib;
 				}
 				delete dlg;
-				
+
 				if(!bib_selected) {
 					sendMessage(Warning, i18n("No bibliography selected."));
 					return false;
 				}
 			}
 			KILE_DEBUG() << "filename before: " << info.path();
-			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));	
+			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));
 		}
 		else if(info.exists()) { //active doc is a bib file
 			KILE_DEBUG() << "filename before: " << info.path();

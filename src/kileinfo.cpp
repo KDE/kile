@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Thu Jul 17 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 
+#include "parser/parsermanager.h"
 #include "widgets/structurewidget.h"
 #include "configurationmanager.h"
 #include "editorcommands.h"
@@ -44,51 +45,25 @@
 #include <QString>
 
 /*
- * Class KileMainWindow.
- */
-
-KileMainWindow::KileMainWindow(KileInfo *ki, QWidget *parent, Qt::WindowFlags f)
-: KParts::MainWindow(parent, f), m_ki(ki)
-{
-}
-
-KileMainWindow::~KileMainWindow()
-{
-}
-
-bool KileMainWindow::queryExit()
-{
-	return m_ki->queryExit();
-}
-
-bool KileMainWindow::queryClose()
-{
-	return m_ki->queryClose();
-}
-
-/*
  * Class KileInfo.
  */
 
-KileInfo::KileInfo(QObject *parent) :
-	m_mainWindow(NULL),
+KileInfo::KileInfo(KParts::MainWindow *parent) :
+	m_mainWindow(parent),
+	m_viewManager(NULL),
 	m_manager(NULL),
 	m_jScriptManager(NULL),
 	m_toolFactory(NULL),
 	m_texKonsole(NULL),
+	m_errorHandler(NULL),
 	m_edit(NULL)
 {
 	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
-	m_viewManager= new KileView::Manager(this, parent, "KileView::Manager");
 	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
-	QObject::connect(m_docManager,
-	                 SIGNAL(documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
-	                 m_viewManager,
-	                 SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
-	
+	m_parserManager = new KileParser::Manager(this, parent);
 	m_editorCommands = new EditorCommands(this);
 }
 
@@ -126,47 +101,52 @@ QString KileInfo::getCompileName(bool shrt /* = false */)
 
 	if (m_singlemode) {
 		if (project) {
-			if (!project->masterDocument().isEmpty()) {
-				KUrl master(project->masterDocument());
-				if(shrt) {
-					return master.fileName();
-				}
-				else {
-					return master.toLocalFile();
-				}
-			}
-			else {
-				KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
-				if (item) {
-					KUrl url = item->url();
-					if(shrt) {
-						return url.fileName();
-					}
-					else {
-						return url.toLocalFile();
-					}
-				}
-				else {
-					return QString();
-				}
-			}
+			return getCompileNameForProject(project, shrt);
 		}
 		else {
 			return getName(activeTextDocument(), shrt);
 		}
 	}
 	else {
-		QFileInfo fi(m_masterName);
+		QFileInfo fi(m_masterDocumentFileName);
 		if(shrt) {
 			return fi.fileName();
 		}
 		else {
-			return m_masterName;
+			return m_masterDocumentFileName;
 		}
 	}
 }
 
-QString KileInfo::getFullFromPrettyName(const QString& name)
+QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt)
+{
+	if (!project->masterDocument().isEmpty()) {
+		KUrl master(project->masterDocument());
+		if(shrt) {
+			return master.fileName();
+		}
+		else {
+			return master.toLocalFile();
+		}
+	}
+	else {
+		KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
+		if (item) {
+			KUrl url = item->url();
+			if(shrt) {
+				return url.fileName();
+			}
+			else {
+				return url.toLocalFile();
+			}
+		}
+		else {
+			return QString();
+		}
+	}
+}
+
+QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& name)
 {
 	if(name.isEmpty()) {
 		return name;
@@ -175,11 +155,11 @@ QString KileInfo::getFullFromPrettyName(const QString& name)
 	QString file = name;
 
 	if(file.left(2) == "./") {
-		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file.mid(2);
+		file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file.mid(2);
 	}
 
 	if(QDir::isRelativePath(file)) {
-		file = QFileInfo(outputFilter()->source()).absolutePath() + '/' + file;
+		file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file;
 	}
 
 	QFileInfo fi(file);

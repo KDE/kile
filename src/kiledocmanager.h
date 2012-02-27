@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -11,7 +11,7 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef KILEDOCUMENTKILEDOCMANAGER_H
 #define KILEDOCUMENTKILEDOCMANAGER_H
 
@@ -36,6 +36,8 @@ class TemplateItem;
 class KileInfo;
 class KileProjectItem;
 
+namespace KileParser { class ParserOutput; }
+
 namespace KileDocument
 {
 
@@ -48,6 +50,9 @@ class Manager : public QObject
 public:
 	explicit Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
 	~Manager();
+
+	void readConfig();
+	void writeConfig();
 
 public Q_SLOTS:
 	KTextEditor::View* createNewJScript();
@@ -68,7 +73,7 @@ public Q_SLOTS:
 	void fileSelected(const KFileItem& file);
 
 	void fileOpen();
-	void fileOpen(const KUrl& url, const QString& encoding = QString(), int index = -1);
+	TextInfo* fileOpen(const KUrl& url, const QString& encoding = QString(), int index = -1);
 
 	bool fileSave(KTextEditor::View* = NULL);
 	bool fileSaveAs(KTextEditor::View* = NULL);
@@ -92,7 +97,7 @@ public Q_SLOTS:
 //projects
 	void projectNew();
 	KileProject* projectOpen();
-	
+
 	/**
 	 * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.
 	 **/
@@ -138,6 +143,8 @@ public Q_SLOTS:
 
 	void reloadXMLOnAllDocumentsAndViews();
 
+	void handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output);
+
 Q_SIGNALS:
 	void projectTreeChanged(const KileProject*);
 	void closingDocument(KileDocument::Info*);
@@ -164,6 +171,7 @@ Q_SIGNALS:
 	void addToProjectView(KileProjectItem *item);
 	void addToProjectView(const KileProject*);
 
+	void documentSavedAs(KTextEditor::View*, KileDocument::TextInfo*);
 public:
 	/**
 	 * Autosave is not allowed whenever the documents are opened, closed, etc.
@@ -182,13 +190,14 @@ public:
 	KTextEditor::Document* docFor(const KUrl &url);
 
 	Info* getInfo() const;
-	// FIXME: "path" should be changed to a URL, i.e. only the next but one function 
+	// FIXME: "path" should be changed to a URL, i.e. only the next but one function
 	//        should be used
 	TextInfo* textInfoFor(const QString &path) const;
 	TextInfo* textInfoForURL(const KUrl& url);
 	TextInfo* textInfoFor(KTextEditor::Document* doc) const;
 	void updateInfos();
 
+	KileProject* projectForMember(const KUrl &memberUrl);
 	KileProject* projectFor(const KUrl &projecturl);
 	KileProject* projectFor(const QString & name);
 	KileProject* activeProject();
@@ -231,7 +240,7 @@ protected:
 
 	/**
 	 *  Creates a document with the specified text.
-	 * 
+	 *
 	 *  @param extension The extension of the file that should be created without leading "."
 	 **/
 	KTextEditor::View* createDocumentWithText(const QString& text, KileDocument::Type type = KileDocument::Text, const QString& extension = QString(), const KUrl& baseDirectory = KUrl());

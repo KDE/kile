@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 *                 2011 by Felix Mauch (felix_mauch@web.de)                *
 ***************************************************************************/
 
@@ -13,6 +13,8 @@
 ***************************************************************************/
 
 #include "widgets/generalconfigwidget.h"
+
+#include "config.h"
 
 #include <KFileDialog>
 #include <KUrlCompletion>
@@ -29,6 +31,10 @@ KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(pare
 	dirCompletion->setMode(KUrlCompletion::DirCompletion);
 	kcfg_DefaultProjectLocation->setCompletionObject(dirCompletion);
 	kcfg_DefaultProjectLocation->setAutoDeleteCompletionObject(true);
+
+#ifndef HAVE_VIEWERINTERFACE_H
+	documentViewerGroupBox->setEnabled(false);
+#endif
 }
 
 KileWidgetGeneralConfig::~KileWidgetGeneralConfig()

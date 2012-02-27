@@ -1,6 +1,6 @@
 /**************************************************************************************
-    begin                : Tue Nov 25 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -15,12 +15,26 @@
 #ifndef KILETOOLMANAGER_H
 #define KILETOOLMANAGER_H
 
-#include <QStackedWidget>
-#include <QStringList>
+#include <QLinkedList>
 #include <QObject>
 #include <QQueue>
+#include <QStackedWidget>
+#include <QStringList>
 
 #include "kiletool.h"
+
+/***********************************************************************************************************
+ * CAUTION!!
+ * It must be ensured that no event loop is started whenever some tool operation
+ * is running. This includes running code inside the tool classes!
+ *
+ * The reason for that is that an event loop might trigger the deletion a tool object for which code
+ * is currently executed, for instance with the 'stopLivePreview' method.
+ * An event loop is executed, for example, within the 'documentSave' method of KatePart. Although the event
+ * loop doesn't process user events, the document modification timer might still be triggered in such
+ * an event loop and 'stopLivePreview' will be called. Now, no document saving is performed inside tool
+ * classes anymore (including the tool manager).
+ ***********************************************************************************************************/
 
 class QTimer;
 
@@ -30,61 +44,65 @@ class KAction;
 namespace KParts { class PartManager; }
 
 class KileInfo;
+namespace KileParser { class Manager; }
+namespace KileView { class Manager; }
 namespace KileWidget { class LogWidget; class OutputView; }
 
 namespace KileTool
 {
 	class Factory;
+	class LivePreviewManager;
 
 	class QueueItem
 	{
 	public:
-		explicit QueueItem(Base *tool, const QString & cfg = QString(), bool block = false);
+		explicit QueueItem(Base *tool, bool block = false);
 		~QueueItem();
 
 		Base* tool() const { return m_tool; }
-		const QString cfg() const { return m_cfg; }
 		bool shouldBlock() { return m_bBlock; }
 
 	private:
-		Base	*m_tool;
-		QString	m_cfg;
-		bool		m_bBlock;
+		Base *m_tool;
+		bool m_bBlock;
 	};
 
 	class Queue : public QQueue<QueueItem*>
 	{
 	public:
 		Base* tool() const;
-		const QString cfg() const;
 		bool shouldBlock() const;
 
 		void enqueueNext(QueueItem *);
 	};
-	
+
 	class Manager : public QObject
 	{
+		friend class Base;
 		Q_OBJECT
-		
+
 	public:
 		Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::OutputView *output, KParts::PartManager *, QStackedWidget* stack, KAction *, uint to);
 		~Manager();
 
 	public:
-		void initTool(Base*);
-		bool configure(Base*, const QString & cfg = QString());
+		Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
+		bool configure(Base*, const QString &cfg = QString());
 		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString());
 		void saveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
 		QString currentGroup(const QString &name, bool usequeue = true, bool useproject = true);
 
 		void wantGUIState(const QString &);
-		
+
 		KParts::PartManager * partManager() { return m_pm; }
 		QStackedWidget* widgetStack() { return m_stack; }
-		
+		KileView::Manager* viewManager();
+		KileTool::LivePreviewManager* livePreviewManager();
+		KileParser::Manager* parserManager();
+
 		KileInfo * info() { return m_ki; }
 		KConfig * config() { return m_config; }
-		
+
 		void setFactory(Factory* fac) { m_factory = fac; }
 		Factory* factory() { return m_factory; }
 
@@ -93,20 +111,20 @@ namespace KileTool
 		bool shouldBlock();
 		int lastResult() { return m_nLastResult; }
 
+		// convenience method; also see the static method of the same name below
+		void setConfigName(const QString &tool, const QString &name);
+
 	public Q_SLOTS:
-		int run(const QString&, const QString& = QString(), bool insertAtTop = false, bool block = false);
-		int run(Base *, const QString& = QString(), bool insertAtTop = false, bool block = false);
+		void run(KileTool::Base *tool);
 
-		int runNext(const QString&, const QString& = QString(), bool block = false);
-		int runNext(Base *, const QString& = QString(), bool block = false);
-
-		int runBlocking(const QString&, const QString& = QString(), bool = false);
-		int runNextBlocking(const QString&, const QString& = QString());
+		void stopLivePreview();
 
 	private:
 		void setEnabledStopButton(bool state);
+		void initTool(Base*);
 
 	private Q_SLOTS:
+		int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = NULL);
 		int runNextInQueue();
 		void enableClear();
 
@@ -116,34 +134,46 @@ namespace KileTool
 		void stop(); //should be a slot that stops the active tool and clears the queue
 		void stopActionDestroyed();
 
+		// must be used when a child tool is launched from within another tool!
+		int runChildNext(Base *parent, Base *tool, bool block = false);
+
+		void toolScheduledAfterParsingDestroyed(KileTool::Base *tool);
+		void handleParsingComplete();
+
 	Q_SIGNALS:
 		void requestGUIState(const QString &);
-		void requestSaveAll(bool, bool);
 		void jumpToFirstError();
 		void toolStarted();
 		void previewDone();
+		// emitted when a tool spawns another tool (parent, child).
+		void childToolSpawned(KileTool::Base*,KileTool::Base*);
 
 	private:
-		KileInfo		*m_ki;
-		KConfig		*m_config;
+		KileInfo			*m_ki;
+		KConfig				*m_config;
 		KileWidget::LogWidget		*m_log;
 		KileWidget::OutputView		*m_output;
-		KParts::PartManager	*m_pm;
-		QStackedWidget				*m_stack;
+		KParts::PartManager		*m_pm;
+		QStackedWidget			*m_stack;
 		KAction				*m_stop;
 		Factory				*m_factory;
 		Queue				m_queue;
 		QTimer				*m_timer;
-		bool					m_bClear;
-		int					m_nLastResult;
-		uint					m_nTimeout;
+		bool				m_bClear;
+		int				m_nLastResult;
+		uint				m_nTimeout;
+		QQueue<Base*>		m_toolsScheduledAfterParsingList;
+
+		void deleteLivePreviewToolsFromQueue();
+		void deleteLivePreviewToolsFromRunningAfterParsingQueue();
 	};
 
 	QStringList toolList(KConfig *config, bool menuOnly = false);
 	QStringList configNames(const QString &tool, KConfig *config);
 
-	QString configName(const QString & tool, KConfig *);
-	void setConfigName(const QString & tool, const QString & name, KConfig *);
+	// configuration names must be in English, i.e. not translated!
+	QString configName(const QString &tool, KConfig *config);
+	void setConfigName(const QString &tool, const QString &name, KConfig *config);
 
 	QString groupFor(const QString & tool, KConfig *);
 	QString groupFor(const QString & tool, const QString & cfg = "Default" );

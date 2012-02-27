@@ -197,6 +197,9 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 PdfDialog::~PdfDialog()
 {
+	if ( m_cbTask->currentIndex() != -1 ) {
+		KileConfig::setPdfWizardLastTask(m_cbTask->currentIndex());
+	}
 	delete m_tempdir;
 	delete m_proc;
 }
@@ -660,7 +663,9 @@ void PdfDialog::updateTasks()
 	// choose one common task (need to calculate the combobox index)
 	int index = m_cbTask->findText(lasttext);
 	if ( lastindex==-1 || index==-1 ) {
-		index = m_cbTask->findText(m_tasklist[PDF_SELECT]);
+		int lastTask = KileConfig::pdfWizardLastTask();
+		int task = ( lastTask < m_cbTask->count() ) ? lastTask : PDF_SELECT;
+		index = m_cbTask->findText(m_tasklist[task]);
 		if ( index == -1 ) {
 			index = 0;
 		}
@@ -1146,10 +1151,14 @@ void PdfDialog::runViewer()
 
 	// call ViewPDF
 	QString cfg = KileTool::configName("ViewPDF", m_manager->config());
-	KileTool::View *tool = new KileTool::View("ViewPDF", m_manager, false);
+	KileTool::View *tool = dynamic_cast<KileTool::View*>(m_manager->createTool("ViewPDF", cfg, false));
+	if(!tool) {
+		m_log->printMessage(KileTool::Error, i18n("Could not create the ViewPDF tool"), i18n("ViewPDF"));
+		return;
+	}
 	tool->setFlags(0);
 	tool->setSource(m_outputfile);
-	m_manager->run(tool,cfg);
+	m_manager->run(tool);
 }
 
 QString PdfDialog::buildActionCommand()

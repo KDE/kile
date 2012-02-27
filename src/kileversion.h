@@ -19,8 +19,8 @@
 
 #include <QString>
 
-const QString kileVersion="2.2 alpha";
-const QString kileFullVersion="2.1.60"; // only use numbers and '.'
+const QString kileVersion="3.0 alpha 1";
+const QString kileFullVersion="2.9.60"; // only use numbers and '.'
 const QString kilePrVersion="2";
 
 /**

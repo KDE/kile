@@ -24,12 +24,18 @@ class LatexmenuData {
 
 		enum MenuType { Text=0x00, FileContent=0x01, Program=0x02, Separator=0x03, Submenu=0x04 };
 
-	 	enum XmlMenuTag {  XML_PLAINTEXT=0x00,       XML_FILENAME=0x01,       XML_PARAMETER=0x02,
-	                      XML_ICON=0x03,            XML_SHORTCUT=0x04,
-	                      XML_NEEDSSELECTION=0x05,  XML_USECONTEXTMENU=0x06, XML_REPLACESELECTION=0x07,
-	                      XML_SELECTINSERTION=0x08, XML_INSERTOUTPUT=0x09,
-	                      XML_TITLE=0x0a
-	                   };
+		enum XmlMenuTag {  XML_PLAINTEXT        = 0x00,
+		                   XML_FILENAME         = 0x01,
+		                   XML_PARAMETER        = 0x02,
+		                   XML_ICON             = 0x03,
+		                   XML_SHORTCUT         = 0x04,
+		                   XML_NEEDSSELECTION   = 0x05,
+		                   XML_USECONTEXTMENU   = 0x06,
+		                   XML_REPLACESELECTION = 0x07,
+		                   XML_SELECTINSERTION  = 0x08,
+		                   XML_INSERTOUTPUT     = 0x09,
+		                   XML_TITLE            = 0x0a
+		                };
 
 		LatexmenuData();
 		virtual ~LatexmenuData() {}

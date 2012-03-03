@@ -2356,7 +2356,7 @@ void Kile::quickLatexmenuDialog()
 	delete dlg;
 
 	// tell all the documents and views to update their action shortcuts (bug 247646)
- 	docManager()->reloadXMLOnAllDocumentsAndViews();
+	docManager()->reloadXMLOnAllDocumentsAndViews();
 
 	// a new latexmenu could have been installed, even if the return value is QDialog::Rejected
 	m_latexUserMenu->refreshActionProperties();

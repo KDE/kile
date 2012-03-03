@@ -137,7 +137,7 @@ Q_SIGNALS:
 protected:
 	virtual bool queryExit();
 	virtual bool queryClose();
-	
+
 private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 
@@ -166,7 +166,7 @@ private:
 	KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 	KileWidget::CommandView *m_commandView;
 	KToolBar			*m_latexOutputErrorToolBar;
-	QMenu  *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview; 
+	QMenu  *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview;
 
 	//parts
 	KParts::PartManager 		*m_partManager;

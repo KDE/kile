@@ -37,8 +37,8 @@ class LatexmenuDialog : public KileDialog::Wizard
 		LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexusermenu, const QString & xmlfile, QWidget *parent);
 		~LatexmenuDialog() {}
 
- 	protected Q_SLOTS:
- 		virtual void slotButtonClicked(int button);
+	protected Q_SLOTS:
+		virtual void slotButtonClicked(int button);
 
 	private Q_SLOTS:
 		void slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *previous);

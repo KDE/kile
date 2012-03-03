@@ -221,11 +221,10 @@ void LatexUserMenu::updateKeyBindings()
 
 	// new key bindings are found in kileui.rc (ActionProperties)
 	// remove them, as they will be written into latexmenu xml file
-  	removeActionProperties();
+	removeActionProperties();
 
 	// update xml file of current latexmenu
 	updateXmlFile(m_currentXmlFile);
-
 }
 
 void LatexUserMenu::removeActionProperties()
@@ -252,9 +251,9 @@ void LatexUserMenu::removeActionProperties()
 	bool changed = false;
 	QRegExp re("latexuseraction-(\\d+)$");
 	QDomElement e = actionPropElement.firstChildElement();
-	while ( !e.isNull()) {
+	while(!e.isNull()) {
 		QString tag = e.tagName();
- 		if ( tag != "Action" ) {
+		if(tag != "Action") {
 			continue;
 		}
 

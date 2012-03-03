@@ -11,14 +11,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LATEXMENUDATA_H
-#define LATEXMENUDATA_H
+#ifndef USERMENUDATA_H
+#define USERMENUDATA_H
 
 #include <QStringList>
 
 namespace KileMenu {
 
-class LatexmenuData {
+class UserMenuData {
 
 	public:
 
@@ -37,8 +37,8 @@ class LatexmenuData {
 		                   XML_TITLE            = 0x0a
 		                };
 
-		LatexmenuData();
-		virtual ~LatexmenuData() {}
+		UserMenuData();
+		virtual ~UserMenuData() {}
 
 		void clear();
 
@@ -60,12 +60,11 @@ class LatexmenuData {
 		static QStringList xmlMenuAttrList;
 		static QStringList xmlMenuTagList;
 
-		static LatexmenuData::MenuType xmlMenuType(const QString &name);
+		static UserMenuData::MenuType xmlMenuType(const QString &name);
 		static QString xmlMenuTypeName(int index);
 
 		static int xmlMenuTag(const QString &tag);
 		static QString xmlMenuTagName(int index);
-
 
 };
 

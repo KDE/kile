@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>LatexmenuDialog</class>
- <widget class="QWidget" name="LatexmenuDialog">
+ <class>UserMenuDialog</class>
+ <widget class="QWidget" name="UserMenuDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -34,7 +34,7 @@
      <property name="childrenCollapsible">
       <bool>false</bool>
      </property>
-     <widget class="QGroupBox" name="m_gbLatexMenu">
+     <widget class="QGroupBox" name="m_gbUserMenu">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -46,7 +46,7 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="KileMenu::LatexmenuTree" name="m_twLatexMenu">
+        <widget class="KileMenu::UserMenuTree" name="m_twUserMenu">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
            <horstretch>0</horstretch>
@@ -802,13 +802,13 @@
    <header>kurlrequester.h</header>
   </customwidget>
   <customwidget>
-   <class>KileMenu::LatexmenuTree</class>
+   <class>KileMenu::UserMenuTree</class>
    <extends>QTreeWidget</extends>
-   <header>dialogs/latexmenu/latexmenutree.h</header>
+   <header>dialogs/usermenu/usermenutree.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>m_twLatexMenu</tabstop>
+  <tabstop>m_twUserMenu</tabstop>
   <tabstop>m_pbInsertBelow</tabstop>
   <tabstop>m_pbInsertSubmenu</tabstop>
   <tabstop>m_pbUp</tabstop>

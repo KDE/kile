@@ -123,11 +123,11 @@ SET(kile_SRCS
 	utilities.cpp
 	abbreviationmanager.cpp
 	editorcommands.cpp
-	dialogs/latexmenu/latexmenudialog.cpp
-	dialogs/latexmenu/latexmenuitem.cpp
-	dialogs/latexmenu/latexmenutree.cpp
-	latexmenu/latexmenudata.cpp
-	latexmenu/latexmenu.cpp
+	dialogs/usermenu/usermenudialog.cpp
+	dialogs/usermenu/usermenuitem.cpp
+	dialogs/usermenu/usermenutree.cpp
+	usermenu/usermenudata.cpp
+	usermenu/usermenu.cpp
 	parser/parsermanager.cpp
 	parser/parserthread.cpp
 	parser/parser.cpp
@@ -167,7 +167,7 @@ SET( kile_UI
 	dialogs/pdf-wizard/pdfdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
-	dialogs/latexmenu/latexmenudialog_base.ui
+	dialogs/usermenu/usermenudialog_base.ui
 	widgets/livepreviewconfigwidget.ui
 	widgets/appearanceconfigwidget.ui
 )

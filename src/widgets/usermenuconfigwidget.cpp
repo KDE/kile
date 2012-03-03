@@ -19,24 +19,24 @@
 #include "kileconfig.h"
 #include "kiledebug.h"
 
-KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *latexmenu, QWidget *parent)
-   : QWidget(parent), m_latexmenu(latexmenu)
+KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent)
+   : QWidget(parent), m_usermenu(usermenu)
 {
 	setupUi(this);
-	setXmlFile( m_latexmenu->xmlFile() );
+	setXmlFile( m_usermenu->xmlFile() );
 
 	m_menuPosition = KileConfig::menuPosition();
-	if ( m_menuPosition == KileMenu::LatexUserMenu::DaniMenuPosition ) {
+	if ( m_menuPosition == KileMenu::UserMenu::DaniMenuPosition ) {
 		m_rbMenuPositionDani->setChecked(true);
 	}
 	else {
 		m_rbMenuPositionLatex->setChecked(true);
 	}
 
-	// connect dialog with latexmenu to install xml file
-	connect(this, SIGNAL(installXmlFile(const QString &)), m_latexmenu, SLOT(slotInstallXmlFile(const QString &)));
-	connect(this, SIGNAL(removeXmlFile()), m_latexmenu, SLOT(slotRemoveXmlFile()));
-	connect(this, SIGNAL(changeMenuPosition(int)), m_latexmenu, SLOT(slotChangeMenuPosition(int)));
+	// connect dialog with usermenu to install xml file
+	connect(this, SIGNAL(installXmlFile(const QString &)), m_usermenu, SLOT(slotInstallXmlFile(const QString &)));
+	connect(this, SIGNAL(removeXmlFile()), m_usermenu, SLOT(slotRemoveXmlFile()));
+	connect(this, SIGNAL(changeMenuPosition(int)), m_usermenu, SLOT(slotChangeMenuPosition(int)));
 
 	connect(m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
 	connect(m_pbRemove,  SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
@@ -49,7 +49,7 @@ KileWidgetUsermenuConfig::~KileWidgetUsermenuConfig()
 
 void KileWidgetUsermenuConfig::writeConfig()
 {
-	int position = ( m_rbMenuPositionDani->isChecked() ) ? KileMenu::LatexUserMenu::DaniMenuPosition : KileMenu::LatexUserMenu::LatexMenuPosition;
+	int position = ( m_rbMenuPositionDani->isChecked() ) ? KileMenu::UserMenu::DaniMenuPosition : KileMenu::UserMenu::UserMenuPosition;
 	if ( m_menuPosition != position ) {
 		KILE_DEBUG() << "menu position changed";
 		KileConfig::setMenuPosition(position);
@@ -61,7 +61,7 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 {
 	KILE_DEBUG() << "install clicked";
 
-	QString directory = KileMenu::LatexUserMenu::selectLatexmenuDir();
+	QString directory = KileMenu::UserMenu::selectUserMenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString xmlfile = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));

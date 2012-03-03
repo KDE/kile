@@ -177,7 +177,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Show the Usermenu in the main menubar</string>
+         <string>Show the user menu in the menu bar</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -193,7 +193,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Show the Usermenu in the LaTeX menu</string>
+         <string>Show the user menu in the LaTeX menu</string>
         </property>
        </widget>
       </item>

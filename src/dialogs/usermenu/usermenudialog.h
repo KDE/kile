@@ -20,22 +20,22 @@
 #include "kilewizard.h"
 #include "kileinfo.h"
 
-#include "dialogs/latexmenu/latexmenuitem.h"
+#include "dialogs/usermenu/usermenuitem.h"
 
-#include "ui_latexmenudialog_base.h"
+#include "ui_usermenudialog_base.h"
 
 
 namespace KileMenu {
 
-class LatexUserMenu;
+class UserMenu;
 
-class LatexmenuDialog : public KileDialog::Wizard
+class UserMenuDialog : public KileDialog::Wizard
 {
 	Q_OBJECT
 
 	public:
-		LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexusermenu, const QString & xmlfile, QWidget *parent);
-		~LatexmenuDialog() {}
+		UserMenuDialog(KConfig *config, KileInfo *ki, QObject *usermenu, const QString & xmlfile, QWidget *parent);
+		~UserMenuDialog() {}
 
 	protected Q_SLOTS:
 		virtual void slotButtonClicked(int button);
@@ -74,8 +74,8 @@ class LatexmenuDialog : public KileDialog::Wizard
 		void installXmlFile(const QString &);
 
 	private:
-		Ui::LatexmenuDialog m_LatexmenuDialog;
-		LatexmenuTree *m_menutree;
+		Ui::UserMenuDialog m_UserMenuDialog;
+		UserMenuTree *m_menutree;
 
 		KileInfo *m_ki;
 
@@ -95,27 +95,27 @@ class LatexmenuDialog : public KileDialog::Wizard
 		bool saveClicked();
 		QString saveAsClicked();
 
-		void readMenuentryData(LatexmenuItem *tem);
-		void showMenuentryData(LatexmenuItem *item);
+		void readMenuentryData(UserMenuItem *tem);
+		void showMenuentryData(UserMenuItem *item);
 		void clearMenuEntryData();
 		void disableMenuEntryData();
 
-		void setTextEntry(LatexmenuItem *item);
-		void setFileContentEntry(LatexmenuItem *item);
-		void setProgramEntry(LatexmenuItem *item);
-		void setSeparatorEntry(LatexmenuItem *item);
-		void setSubmenuEntry(LatexmenuItem *item);
+		void setTextEntry(UserMenuItem *item);
+		void setFileContentEntry(UserMenuItem *item);
+		void setProgramEntry(UserMenuItem *item);
+		void setSeparatorEntry(UserMenuItem *item);
+		void setSubmenuEntry(UserMenuItem *item);
 
-		void setMenuentryText(LatexmenuItem *item, bool state);
-		void setMenuentryType(LatexmenuItem *item, bool state1, bool state2);
-		void setMenuentryFileChooser(LatexmenuItem *item, bool state);
-		void setMenuentryFileParameter(LatexmenuItem *item, bool state);
-		void setMenuentryTextEdit(LatexmenuItem *item, bool state);
-		void setMenuentryIcon(LatexmenuItem *item, bool state, const QString &icon=QString::null);
-		void setMenuentryShortcut(LatexmenuItem *item, bool state);
+		void setMenuentryText(UserMenuItem *item, bool state);
+		void setMenuentryType(UserMenuItem *item, bool state1, bool state2);
+		void setMenuentryFileChooser(UserMenuItem *item, bool state);
+		void setMenuentryFileParameter(UserMenuItem *item, bool state);
+		void setMenuentryTextEdit(UserMenuItem *item, bool state);
+		void setMenuentryIcon(UserMenuItem *item, bool state, const QString &icon=QString::null);
+		void setMenuentryShortcut(UserMenuItem *item, bool state);
 
 		void setParameterGroupbox(bool state);
-		void setMenuentryCheckboxes(LatexmenuItem *item, bool useInsertOutput);
+		void setMenuentryCheckboxes(UserMenuItem *item, bool useInsertOutput);
 
 		void setMenuentryIcon(const QString &icon);
 		void updateTreeButtons();

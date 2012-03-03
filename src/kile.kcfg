@@ -600,9 +600,9 @@
 		<default>false</default>
 		</entry>
 	</group>
-	<group name="LatexUserMenu">
+	<group name="UserMenu">
 		<entry name="menuFile" type="String">
-			<label>XML file for the latexusermenu.</label>
+			<label>XML file for the usermenu.</label>
 			<default></default>
 		</entry>
 		<entry name="menuPosition" type="Int">

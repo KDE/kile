@@ -21,7 +21,7 @@
 #include <KLocale>
 #include <KShortcut>
 
-#include "latexmenu/latexmenudata.h"
+#include "usermenu/usermenudata.h"
 
 #define EMPTY_MENUENTRY    i18n("???")
 #define EMPTY_SUBMENU      i18n("  >")
@@ -29,19 +29,19 @@
 
 namespace KileMenu {
 
-////////////////////////////// LatexmenuItem //////////////////////////////
+////////////////////////////// UserMenuItem //////////////////////////////
 
-class LatexmenuItem : public QTreeWidgetItem {
+class UserMenuItem : public QTreeWidgetItem {
 
 	public:
 
-		LatexmenuItem(LatexmenuData::MenuType type, const QString &menutitle = QString::null);
-		LatexmenuItem(QTreeWidget *parent, QTreeWidgetItem *preceding,
-		              LatexmenuData::MenuType type, const QString &menutitle = QString::null);
-		LatexmenuItem(QTreeWidgetItem *parent, QTreeWidgetItem *preceding,
-		             LatexmenuData::MenuType type, const QString &menutitle = QString::null);
+		UserMenuItem(UserMenuData::MenuType type, const QString &menutitle = QString::null);
+		UserMenuItem(QTreeWidget *parent, QTreeWidgetItem *preceding,
+		              UserMenuData::MenuType type, const QString &menutitle = QString::null);
+		UserMenuItem(QTreeWidgetItem *parent, QTreeWidgetItem *preceding,
+		             UserMenuData::MenuType type, const QString &menutitle = QString::null);
 
-		virtual ~LatexmenuItem() {}
+		virtual ~UserMenuItem() {}
 
 		enum ModelUserError { MODEL_ERROR_NONE=0x00,
 		                      MODEL_ERROR_EMPTY=0x01,
@@ -55,8 +55,8 @@ class LatexmenuItem : public QTreeWidgetItem {
 		void setModelData(bool executable=false);
 		QString updateMenutitle();
 
-		void setMenutype(LatexmenuData::MenuType type) { m_data.menutype = type; }
-		LatexmenuData::MenuType menutype() { return m_data.menutype; }
+		void setMenutype(UserMenuData::MenuType type) { m_data.menutype = type; }
+		UserMenuData::MenuType menutype() { return m_data.menutype; }
 
 		void setMenutitle(const QString &s) { m_data.menutitle = s; }
 		const QString &menutitle() { return m_data.menutitle; }
@@ -93,10 +93,10 @@ class LatexmenuItem : public QTreeWidgetItem {
 		bool insertOutput() { return m_data.insertOutput; }
 
 	private:
-		LatexmenuData  m_data;
+		UserMenuData  m_data;
 
 		void clear();
-		void initItem(LatexmenuData::MenuType type, const QString &menutitle);
+		void initItem(UserMenuData::MenuType type, const QString &menutitle);
 
 };
 

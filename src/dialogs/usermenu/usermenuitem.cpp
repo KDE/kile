@@ -15,30 +15,30 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include "dialogs/latexmenu/latexmenuitem.h"
+#include "dialogs/usermenu/usermenuitem.h"
 
 
 namespace KileMenu {
 
-LatexmenuItem::LatexmenuItem(LatexmenuData::MenuType type, const QString &menutitle)
+UserMenuItem::UserMenuItem(UserMenuData::MenuType type, const QString &menutitle)
 	: QTreeWidgetItem()
 {
 	initItem(type,menutitle);
 }
 
-LatexmenuItem::LatexmenuItem( QTreeWidget *parent, QTreeWidgetItem *preceding, LatexmenuData::MenuType type, const QString &menutitle)
+UserMenuItem::UserMenuItem( QTreeWidget *parent, QTreeWidgetItem *preceding, UserMenuData::MenuType type, const QString &menutitle)
 	: QTreeWidgetItem(parent,preceding)
 {
 	initItem(type,menutitle);
 }
 
-LatexmenuItem::LatexmenuItem( QTreeWidgetItem *parent, QTreeWidgetItem *preceding, LatexmenuData::MenuType type, const QString &menutitle)
+UserMenuItem::UserMenuItem( QTreeWidgetItem *parent, QTreeWidgetItem *preceding, UserMenuData::MenuType type, const QString &menutitle)
 	: QTreeWidgetItem(parent,preceding)
 {
 	initItem(type,menutitle);
 }
 
-void LatexmenuItem::initItem(LatexmenuData::MenuType type, const QString &menutitle)
+void UserMenuItem::initItem(UserMenuData::MenuType type, const QString &menutitle)
 {
 	clear();
 	setText(0,menutitle);
@@ -46,35 +46,35 @@ void LatexmenuItem::initItem(LatexmenuData::MenuType type, const QString &menuti
 	m_data.menutitle = menutitle;
 	m_data.menutype = type;
 
-	setData(0, Qt::UserRole+1, LatexmenuData::xmlMenuTypeName(type));
+	setData(0, Qt::UserRole+1, UserMenuData::xmlMenuTypeName(type));
 	setData(0, Qt::UserRole+2, MODEL_ERROR_NONE);
 }
 
 // check for possible errors and save for use with model data
-void LatexmenuItem::setModelData(bool executable)
+void UserMenuItem::setModelData(bool executable)
 {
 	int modelerror = MODEL_ERROR_NONE;
 
-	if ( m_data.menutitle.isEmpty() && m_data.menutype!=LatexmenuData::Separator ) {
-		modelerror |= LatexmenuItem::MODEL_ERROR_EMPTY;
+	if ( m_data.menutitle.isEmpty() && m_data.menutype!=UserMenuData::Separator ) {
+		modelerror |= UserMenuItem::MODEL_ERROR_EMPTY;
 	}
 
-	if ( m_data.menutype==LatexmenuData::Submenu && childCount()==0 ) {
-		modelerror |= LatexmenuItem::MODEL_ERROR_SUBMENU;
+	if ( m_data.menutype==UserMenuData::Submenu && childCount()==0 ) {
+		modelerror |= UserMenuItem::MODEL_ERROR_SUBMENU;
 	}
-	else if ( m_data.menutype==LatexmenuData::Text && m_data.text.isEmpty() ) {
-		modelerror |= LatexmenuItem::MODEL_ERROR_TEXT;
+	else if ( m_data.menutype==UserMenuData::Text && m_data.text.isEmpty() ) {
+		modelerror |= UserMenuItem::MODEL_ERROR_TEXT;
 	}
-	else if ( m_data.menutype == LatexmenuData::FileContent ) {
+	else if ( m_data.menutype == UserMenuData::FileContent ) {
 		if ( m_data.filename.isEmpty() ) {
-			modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EMPTY;
+			modelerror |= UserMenuItem::MODEL_ERROR_FILE_EMPTY;
 		}
 		else if ( !QFile::exists(m_data.filename) ) {
-			modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EXIST;
+			modelerror |= UserMenuItem::MODEL_ERROR_FILE_EXIST;
 		}
 	}
-	else if ( m_data.menutype == LatexmenuData::Program && !executable ) {
-		modelerror |= LatexmenuItem::MODEL_ERROR_FILE_EXECUTABLE;
+	else if ( m_data.menutype == UserMenuData::Program && !executable ) {
+		modelerror |= UserMenuItem::MODEL_ERROR_FILE_EXECUTABLE;
 	}
 
 	setData(0,Qt::UserRole+2,modelerror);
@@ -83,20 +83,20 @@ void LatexmenuItem::setModelData(bool executable)
 // two possible errors in the menutree are made visible for the user
 //  - if no menutitle is given, it is changed to '???'
 //  - if a (useless) submenu with no children is given, the menutitle 'title' is changed to 'title >'
-QString LatexmenuItem::updateMenutitle()
+QString UserMenuItem::updateMenutitle()
 {
 	QString menutitle = m_data.menutitle;
 	if ( menutitle.isEmpty() ) {
 		menutitle = EMPTY_MENUENTRY;
 	}
-	else if ( m_data.menutype==LatexmenuData::Submenu && childCount()==0 ) {
+	else if ( m_data.menutype==UserMenuData::Submenu && childCount()==0 ) {
 		menutitle += EMPTY_SUBMENU;
 	}
 	return menutitle;
 }
 
 
-void LatexmenuItem::clear()
+void UserMenuItem::clear()
 {
 	m_data.clear();
 }

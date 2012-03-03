@@ -21,10 +21,10 @@
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 
-#include "dialogs/latexmenu/latexmenudialog.h"
-#include "dialogs/latexmenu/latexmenutree.h"
-#include "dialogs/latexmenu/latexmenuitem.h"
-#include "latexmenu/latexmenu.h"
+#include "dialogs/usermenu/usermenudialog.h"
+#include "dialogs/usermenu/usermenutree.h"
+#include "dialogs/usermenu/usermenuitem.h"
+#include "usermenu/usermenu.h"
 
 #include "kiledebug.h"
 
@@ -32,14 +32,14 @@ namespace KileMenu {
 
 #define CHOOSABLE_MENUTYPES   3
 
-LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexusermenu, const QString &xmlfile, QWidget *parent)
+UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, QObject *usermenu, const QString &xmlfile, QWidget *parent)
 	: KileDialog::Wizard(config, parent), m_ki(ki)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
-	m_LatexmenuDialog.setupUi(page);
+	m_UserMenuDialog.setupUi(page);
 
-	m_menutree = m_LatexmenuDialog.m_twLatexMenu;
+	m_menutree = m_UserMenuDialog.m_twUserMenu;
 	m_menutree->setHeaderLabels( QStringList() << i18n("Menu Entry") << i18n("Shortcut") );
 
 	// Indexes must be identical to MenuType. Only the first three of them are choosable (see CHOOSABLE_MENUTYPES)
@@ -51,62 +51,62 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 		KILE_DEBUG() << "collection count: " << client->actionCollection()->count() ;
 		allCollections += client->actionCollection();
 	}
-	m_LatexmenuDialog.m_keyChooser->setCheckActionCollections(allCollections);
+	m_UserMenuDialog.m_keyChooser->setCheckActionCollections(allCollections);
 	KILE_DEBUG() << "total collections: " << allCollections.count();
 
-	m_LatexmenuDialog.m_pbInsertBelow->setIcon(KIcon("latexmenu-insert-below.png"));
-	m_LatexmenuDialog.m_pbInsertSubmenu->setIcon(KIcon("latexmenu-submenu-below.png"));
-	m_LatexmenuDialog.m_pbInsertSeparator->setIcon(KIcon("latexmenu-separator-below.png"));
-	m_LatexmenuDialog.m_pbDelete->setIcon(KIcon("latexmenu-delete.png"));
-	m_LatexmenuDialog.m_pbUp->setIcon(KIcon("latexmenu-up.png"));
-	m_LatexmenuDialog.m_pbDown->setIcon(KIcon("latexmenu-down.png"));
-	m_LatexmenuDialog.m_pbIconDelete->setIcon(KIcon("edit-clear-locationbar-rtl.png"));
+	m_UserMenuDialog.m_pbInsertBelow->setIcon(KIcon("usermenu-insert-below.png"));
+	m_UserMenuDialog.m_pbInsertSubmenu->setIcon(KIcon("usermenu-submenu-below.png"));
+	m_UserMenuDialog.m_pbInsertSeparator->setIcon(KIcon("usermenu-separator-below.png"));
+	m_UserMenuDialog.m_pbDelete->setIcon(KIcon("usermenu-delete.png"));
+	m_UserMenuDialog.m_pbUp->setIcon(KIcon("usermenu-up.png"));
+	m_UserMenuDialog.m_pbDown->setIcon(KIcon("usermenu-down.png"));
+	m_UserMenuDialog.m_pbIconDelete->setIcon(KIcon("edit-clear-locationbar-rtl.png"));
 
-	connect(m_LatexmenuDialog.m_pbInsertBelow, SIGNAL(clicked()), this, SLOT(slotInsertMenuItem()));
-	connect(m_LatexmenuDialog.m_pbInsertSubmenu, SIGNAL(clicked()), this, SLOT(slotInsertSubmenu()));
-	connect(m_LatexmenuDialog.m_pbInsertSeparator, SIGNAL(clicked()), this, SLOT(slotInsertSeparator()));
-	connect(m_LatexmenuDialog.m_pbUp, SIGNAL(clicked()), this, SLOT(slotUp()));
-	connect(m_LatexmenuDialog.m_pbDown, SIGNAL(clicked()), this, SLOT(slotDown()));
-	connect(m_LatexmenuDialog.m_pbDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
+	connect(m_UserMenuDialog.m_pbInsertBelow, SIGNAL(clicked()), this, SLOT(slotInsertMenuItem()));
+	connect(m_UserMenuDialog.m_pbInsertSubmenu, SIGNAL(clicked()), this, SLOT(slotInsertSubmenu()));
+	connect(m_UserMenuDialog.m_pbInsertSeparator, SIGNAL(clicked()), this, SLOT(slotInsertSeparator()));
+	connect(m_UserMenuDialog.m_pbUp, SIGNAL(clicked()), this, SLOT(slotUp()));
+	connect(m_UserMenuDialog.m_pbDown, SIGNAL(clicked()), this, SLOT(slotDown()));
+	connect(m_UserMenuDialog.m_pbDelete, SIGNAL(clicked()), this, SLOT(slotDelete()));
 
 	connect(m_menutree, SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),
 	        this, SLOT(slotCurrentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
 
-	connect(m_LatexmenuDialog.m_pbMenuentryType, SIGNAL(clicked()), this, SLOT(slotMenuentryTypeClicked()));
-	connect(m_LatexmenuDialog.m_leMenuEntry, SIGNAL(textEdited (const QString &)), this, SLOT(slotMenuentryTextChanged(const QString &)));
-	connect(m_LatexmenuDialog.m_urlRequester, SIGNAL(textChanged (const QString &)), this, SLOT(slotUrlTextChanged(const QString &)));
-	connect(m_LatexmenuDialog.m_urlRequester, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotUrlSelected(const KUrl&)));
-	connect(m_LatexmenuDialog.m_leParameter, SIGNAL(textEdited (const QString &)), this, SLOT(slotParameterTextChanged(const QString &)));
-	connect(m_LatexmenuDialog.m_teText, SIGNAL(textChanged()), this, SLOT(slotPlainTextChanged()));
-	connect(m_LatexmenuDialog.m_pbIcon, SIGNAL(clicked()), this, SLOT(slotIconClicked()));
-	connect(m_LatexmenuDialog.m_pbIconDelete, SIGNAL(clicked()), this, SLOT(slotIconDeleteClicked()));
-	connect(m_LatexmenuDialog.m_keyChooser,SIGNAL(keySequenceChanged(const QKeySequence &)), this,SLOT(slotKeySequenceChanged(const QKeySequence &)));
+	connect(m_UserMenuDialog.m_pbMenuentryType, SIGNAL(clicked()), this, SLOT(slotMenuentryTypeClicked()));
+	connect(m_UserMenuDialog.m_leMenuEntry, SIGNAL(textEdited (const QString &)), this, SLOT(slotMenuentryTextChanged(const QString &)));
+	connect(m_UserMenuDialog.m_urlRequester, SIGNAL(textChanged (const QString &)), this, SLOT(slotUrlTextChanged(const QString &)));
+	connect(m_UserMenuDialog.m_urlRequester, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotUrlSelected(const KUrl&)));
+	connect(m_UserMenuDialog.m_leParameter, SIGNAL(textEdited (const QString &)), this, SLOT(slotParameterTextChanged(const QString &)));
+	connect(m_UserMenuDialog.m_teText, SIGNAL(textChanged()), this, SLOT(slotPlainTextChanged()));
+	connect(m_UserMenuDialog.m_pbIcon, SIGNAL(clicked()), this, SLOT(slotIconClicked()));
+	connect(m_UserMenuDialog.m_pbIconDelete, SIGNAL(clicked()), this, SLOT(slotIconDeleteClicked()));
+	connect(m_UserMenuDialog.m_keyChooser,SIGNAL(keySequenceChanged(const QKeySequence &)), this,SLOT(slotKeySequenceChanged(const QKeySequence &)));
 
-	connect(m_LatexmenuDialog.m_cbNeedsSelection,   SIGNAL(stateChanged(int)), this, SLOT(slotSelectionStateChanged(int)));
-	connect(m_LatexmenuDialog.m_cbContextMenu,      SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
-	connect(m_LatexmenuDialog.m_cbReplaceSelection, SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
-	connect(m_LatexmenuDialog.m_cbSelectInsertion,  SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
-	connect(m_LatexmenuDialog.m_cbInsertOutput,     SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
+	connect(m_UserMenuDialog.m_cbNeedsSelection,   SIGNAL(stateChanged(int)), this, SLOT(slotSelectionStateChanged(int)));
+	connect(m_UserMenuDialog.m_cbContextMenu,      SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
+	connect(m_UserMenuDialog.m_cbReplaceSelection, SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
+	connect(m_UserMenuDialog.m_cbSelectInsertion,  SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
+	connect(m_UserMenuDialog.m_cbInsertOutput,     SIGNAL(stateChanged(int)), this, SLOT(slotCheckboxStateChanged(int)));
 
-	connect(m_LatexmenuDialog.m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
-	connect(m_LatexmenuDialog.m_pbNew,     SIGNAL(clicked()), this, SLOT(slotNewClicked()));
+	connect(m_UserMenuDialog.m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
+	connect(m_UserMenuDialog.m_pbNew,     SIGNAL(clicked()), this, SLOT(slotNewClicked()));
 
-	connect(m_LatexmenuDialog.m_pbLoad,   SIGNAL(clicked()), this, SLOT(slotLoadClicked()));
-	connect(m_LatexmenuDialog.m_pbSave,   SIGNAL(clicked()), this, SLOT(slotSaveClicked()));
-	connect(m_LatexmenuDialog.m_pbSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAsClicked()));
+	connect(m_UserMenuDialog.m_pbLoad,   SIGNAL(clicked()), this, SLOT(slotLoadClicked()));
+	connect(m_UserMenuDialog.m_pbSave,   SIGNAL(clicked()), this, SLOT(slotSaveClicked()));
+	connect(m_UserMenuDialog.m_pbSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAsClicked()));
 
-	// connect dialog with latexmenu to install xml file
-	connect(this, SIGNAL(installXmlFile(const QString &)), latexusermenu, SLOT(slotInstallXmlFile(const QString &)));
+	// connect dialog with usermenu to install xml file
+	connect(this, SIGNAL(installXmlFile(const QString &)), usermenu, SLOT(slotInstallXmlFile(const QString &)));
 
 	// set context menu handler for the menutree
 	m_menutree->setContextMenuPolicy(Qt::CustomContextMenu);
 	connect(m_menutree, SIGNAL(customContextMenuRequested(const QPoint &)), this, SLOT(slotCustomContextMenuRequested(const QPoint &)));
 
 	// adjust some widths
-	int w = m_LatexmenuDialog.m_pbInsertBelow->sizeHint().width();
-	m_LatexmenuDialog.m_pbUp->setMinimumWidth(w);
-	m_LatexmenuDialog.m_pbDown->setMinimumWidth(w);
-	m_LatexmenuDialog.m_lbIconChosen->setMinimumWidth( m_LatexmenuDialog.m_pbIcon->sizeHint().width() );
+	int w = m_UserMenuDialog.m_pbInsertBelow->sizeHint().width();
+	m_UserMenuDialog.m_pbUp->setMinimumWidth(w);
+	m_UserMenuDialog.m_pbDown->setMinimumWidth(w);
+	m_UserMenuDialog.m_lbIconChosen->setMinimumWidth( m_UserMenuDialog.m_pbIcon->sizeHint().width() );
 
 	setFocusProxy(m_menutree);
 	setModal(false);
@@ -123,17 +123,17 @@ LatexmenuDialog::LatexmenuDialog(KConfig *config, KileInfo *ki, QObject *latexus
 	}
 }
 
-void LatexmenuDialog::startDialog()
+void UserMenuDialog::startDialog()
 {
 	initDialog();
 
 	m_modified = false;
 	setXmlFile(QString::null,false);
 	updateDialogButtons();
-	m_LatexmenuDialog.m_pbNew->setEnabled(false);
+	m_UserMenuDialog.m_pbNew->setEnabled(false);
 }
 
-void LatexmenuDialog::initDialog()
+void UserMenuDialog::initDialog()
 {
 	updateTreeButtons();
 
@@ -147,23 +147,23 @@ void LatexmenuDialog::initDialog()
 
 	// init first entry
 	m_currentIcon = QString::null;
-	showMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
+	showMenuentryData( dynamic_cast<UserMenuItem *>(current) );
 
 }
 
-void LatexmenuDialog::setXmlFile(const QString &filename, bool installed)
+void UserMenuDialog::setXmlFile(const QString &filename, bool installed)
 {
 	m_currentXmlInstalled = installed;
 	m_currentXmlFile = filename;
-	m_LatexmenuDialog.m_lbXmlFile->setText( i18n("File:") + "   " + QFileInfo(m_currentXmlFile).fileName() );
+	m_UserMenuDialog.m_lbXmlFile->setText( i18n("File:") + "   " + QFileInfo(m_currentXmlFile).fileName() );
 	if ( m_currentXmlInstalled ) {
-		m_LatexmenuDialog.m_lbXmlInstalled->show();
+		m_UserMenuDialog.m_lbXmlInstalled->show();
 	} else {
-		m_LatexmenuDialog.m_lbXmlInstalled->hide();
+		m_UserMenuDialog.m_lbXmlInstalled->hide();
 	}
 }
 
-void LatexmenuDialog::setModified()
+void UserMenuDialog::setModified()
 {
 	if ( !m_modified ) {
 		m_modified = true;
@@ -172,7 +172,7 @@ void LatexmenuDialog::setModified()
 	updateDialogButtons();
 }
 
-void LatexmenuDialog::updateDialogButtons()
+void UserMenuDialog::updateDialogButtons()
 {
 	bool installedFile = (!m_currentXmlFile.isEmpty());
 	bool menutreeState = !m_menutree->isEmpty();
@@ -181,15 +181,15 @@ void LatexmenuDialog::updateDialogButtons()
 	bool saveState = m_modified && installedFile;
 	bool saveAsState = m_modified || (!m_modified && installedFile && m_currentXmlInstalled);
 
-	m_LatexmenuDialog.m_pbInstall->setEnabled(installState && menutreeState);
-	m_LatexmenuDialog.m_pbSave->setEnabled(saveState && menutreeState);
-	m_LatexmenuDialog.m_pbSaveAs->setEnabled(saveAsState && menutreeState);
-	m_LatexmenuDialog.m_pbNew->setEnabled(true);
+	m_UserMenuDialog.m_pbInstall->setEnabled(installState && menutreeState);
+	m_UserMenuDialog.m_pbSave->setEnabled(saveState && menutreeState);
+	m_UserMenuDialog.m_pbSaveAs->setEnabled(saveAsState && menutreeState);
+	m_UserMenuDialog.m_pbNew->setEnabled(true);
 }
 
 ///////////////////////////// ok button //////////////////////////////
 
-bool LatexmenuDialog::okClicked()
+bool UserMenuDialog::okClicked()
 {
 	if ( m_currentXmlFile.isEmpty() ) {
 		return !saveAsClicked().isEmpty();
@@ -208,7 +208,7 @@ bool LatexmenuDialog::okClicked()
 
 ///////////////////////////// dialog button slots //////////////////////////////
 
-void LatexmenuDialog::slotButtonClicked(int button)
+void UserMenuDialog::slotButtonClicked(int button)
 {
 	if ( button == Ok ) {
 		if ( !okClicked() ) {
@@ -240,7 +240,7 @@ void LatexmenuDialog::slotButtonClicked(int button)
 			"</ul>"
 			"<p>If some  important information for an action is missing, menu items are colored red. More information is available using the <i>What's this</i> feature of most widgets.</p>");
 
-		KMessageBox::information(this,message,i18n("Latexmenu Dialog"));
+		KMessageBox::information(this,message,i18n("UserMenu Dialog"));
 	}
 	else {
 		Wizard::slotButtonClicked(button);
@@ -249,7 +249,7 @@ void LatexmenuDialog::slotButtonClicked(int button)
 
 ///////////////////////////// Button slots (Install/New) //////////////////////////////
 
-void LatexmenuDialog::slotInstallClicked()
+void UserMenuDialog::slotInstallClicked()
 {
 	KILE_DEBUG() << "install " << m_currentXmlFile << "...";
 
@@ -260,7 +260,7 @@ void LatexmenuDialog::slotInstallClicked()
 	}
 }
 
-void LatexmenuDialog::slotNewClicked()
+void UserMenuDialog::slotNewClicked()
 {
 	KILE_DEBUG() << "start new menutree ... ";
 
@@ -278,7 +278,7 @@ void LatexmenuDialog::slotNewClicked()
 
 ///////////////////////////// Button slots (Load) //////////////////////////////
 
-void LatexmenuDialog::slotLoadClicked()
+void UserMenuDialog::slotLoadClicked()
 {
 	KILE_DEBUG() << "load xml file ";
 
@@ -288,7 +288,7 @@ void LatexmenuDialog::slotLoadClicked()
 		}
 	}
 
-	QString directory = LatexUserMenu::selectLatexmenuDir();
+	QString directory = UserMenu::selectUserMenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString filename = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));
@@ -304,7 +304,7 @@ void LatexmenuDialog::slotLoadClicked()
 	}
 }
 
-void LatexmenuDialog::loadXmlFile(const QString &filename, bool installed)
+void UserMenuDialog::loadXmlFile(const QString &filename, bool installed)
 {
 	KILE_DEBUG() << "load xml started ...";
 	m_menutree->readXml(filename);
@@ -317,7 +317,7 @@ void LatexmenuDialog::loadXmlFile(const QString &filename, bool installed)
 
 ///////////////////////////// Button slots (Save) //////////////////////////////
 
-void LatexmenuDialog::slotSaveClicked()
+void UserMenuDialog::slotSaveClicked()
 {
 	if ( saveClicked() ) {
 		m_modified = false;
@@ -331,7 +331,7 @@ void LatexmenuDialog::slotSaveClicked()
 	}
 }
 
-bool LatexmenuDialog::saveClicked()
+bool UserMenuDialog::saveClicked()
 {
 	if ( m_currentXmlFile.isEmpty() ) {
 		return false;
@@ -342,7 +342,7 @@ bool LatexmenuDialog::saveClicked()
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		kdDebug() << "read current item ...";
-		readMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
+		readMenuentryData( dynamic_cast<UserMenuItem *>(current) );
 	}
 
 	if ( saveCheck() == false ) {
@@ -350,7 +350,7 @@ bool LatexmenuDialog::saveClicked()
 	}
 
 	// force to save file in local directory
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "latexmenu/");
+	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "usermenu/");
 	if ( dirs.size() > 1 ) {
 		if ( m_currentXmlFile.startsWith(dirs[1]) ) {
 			m_currentXmlFile.replace(dirs[1],dirs[0]);
@@ -363,7 +363,7 @@ bool LatexmenuDialog::saveClicked()
 	return true;
 }
 
-void LatexmenuDialog::slotSaveAsClicked()
+void UserMenuDialog::slotSaveAsClicked()
 {
 	QString filename = saveAsClicked();
 	if ( !filename.isEmpty() ) {
@@ -374,7 +374,7 @@ void LatexmenuDialog::slotSaveAsClicked()
 	}
 }
 
-QString LatexmenuDialog::saveAsClicked()
+QString UserMenuDialog::saveAsClicked()
 {
 	KILE_DEBUG() << "menutree should be saved as ...";
 
@@ -382,14 +382,14 @@ QString LatexmenuDialog::saveAsClicked()
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		KILE_DEBUG() << "read current item ...";
-		readMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
+		readMenuentryData( dynamic_cast<UserMenuItem *>(current) );
 	}
 
 	if ( saveCheck() == false ) {
 		return QString::null;
 	}
 
-	QString directory = KStandardDirs::locateLocal("appdata", "latexmenu/");
+	QString directory = KStandardDirs::locateLocal("appdata", "usermenu/");
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString filename = KFileDialog::getSaveFileName(directory, filter, this, i18n("Save Menu File"));
@@ -408,7 +408,7 @@ QString LatexmenuDialog::saveAsClicked()
 	return filename;
 }
 
-bool LatexmenuDialog::saveCheck()
+bool UserMenuDialog::saveCheck()
 {
 	if ( m_menutree->errorCheck() == false ) {
 		if ( KMessageBox::questionYesNo(this, i18n("The menu tree contains some errors and installing this file may lead to unpredictable results.\nDo you really want to save this file?")) == KMessageBox::No ) {
@@ -421,13 +421,13 @@ bool LatexmenuDialog::saveCheck()
 
 ///////////////////////////// Button slots (left widget) //////////////////////////////
 
-void LatexmenuDialog::slotCustomContextMenuRequested(const QPoint &pos)
+void UserMenuDialog::slotCustomContextMenuRequested(const QPoint &pos)
 {
 	m_menutree->contextMenuRequested(pos);
 	updateAfterDelete();
 }
 
-void LatexmenuDialog::slotInsertMenuItem()
+void UserMenuDialog::slotInsertMenuItem()
 {
 	if ( m_menutree->insertMenuItem(m_menutree->currentItem()) ) {
 		updateTreeButtons();
@@ -435,7 +435,7 @@ void LatexmenuDialog::slotInsertMenuItem()
 	}
 }
 
-void LatexmenuDialog::slotInsertSubmenu()
+void UserMenuDialog::slotInsertSubmenu()
 {
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
@@ -446,7 +446,7 @@ void LatexmenuDialog::slotInsertSubmenu()
 	}
 }
 
-void LatexmenuDialog::slotInsertSeparator()
+void UserMenuDialog::slotInsertSeparator()
 {
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
@@ -457,7 +457,7 @@ void LatexmenuDialog::slotInsertSeparator()
 	}
 }
 
-void LatexmenuDialog::slotDelete()
+void UserMenuDialog::slotDelete()
 {
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
@@ -466,7 +466,7 @@ void LatexmenuDialog::slotDelete()
 	}
 }
 
-void LatexmenuDialog::slotUp()
+void UserMenuDialog::slotUp()
 {
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
@@ -476,7 +476,7 @@ void LatexmenuDialog::slotUp()
 	}
 }
 
-void LatexmenuDialog::slotDown()
+void UserMenuDialog::slotDown()
 {
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
@@ -486,32 +486,32 @@ void LatexmenuDialog::slotDown()
 	}
 }
 
-void LatexmenuDialog::updateTreeButtons()
+void UserMenuDialog::updateTreeButtons()
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());
+	UserMenuItem *current = dynamic_cast<UserMenuItem *>(m_menutree->currentItem());
 	if ( current ) {
-		bool state = ( current->menutype() == LatexmenuData::Separator ) ? false : true;
-		m_LatexmenuDialog.m_pbInsertSeparator->setEnabled(state);
-		m_LatexmenuDialog.m_pbDelete->setEnabled(true);
+		bool state = ( current->menutype() == UserMenuData::Separator ) ? false : true;
+		m_UserMenuDialog.m_pbInsertSeparator->setEnabled(state);
+		m_UserMenuDialog.m_pbDelete->setEnabled(true);
 
 		bool upstate = ( m_menutree->indexOfTopLevelItem(current) == 0 ) ? false : true;
-		m_LatexmenuDialog.m_pbUp->setEnabled(upstate);
+		m_UserMenuDialog.m_pbUp->setEnabled(upstate);
 
 		bool downstate = ( m_menutree->itemBelow(current) ) ? true : false;
 		if ( !downstate && current->parent() ) {
 			downstate = true;
 		}
-		m_LatexmenuDialog.m_pbDown->setEnabled(downstate);
+		m_UserMenuDialog.m_pbDown->setEnabled(downstate);
 	}
 	else {
-		m_LatexmenuDialog.m_pbInsertSeparator->setEnabled(false);
-		m_LatexmenuDialog.m_pbDelete->setEnabled(false);
-		m_LatexmenuDialog.m_pbUp->setEnabled(false);
-		m_LatexmenuDialog.m_pbDown->setEnabled(false);
+		m_UserMenuDialog.m_pbInsertSeparator->setEnabled(false);
+		m_UserMenuDialog.m_pbDelete->setEnabled(false);
+		m_UserMenuDialog.m_pbUp->setEnabled(false);
+		m_UserMenuDialog.m_pbDown->setEnabled(false);
 	}
 }
 
-void LatexmenuDialog::updateAfterDelete()
+void UserMenuDialog::updateAfterDelete()
 {
 	if ( m_menutree->isEmpty() ) {
 		initDialog();
@@ -524,38 +524,38 @@ void LatexmenuDialog::updateAfterDelete()
 
 ////////////////////////////// TreeWidget slots (left widget)  //////////////////////////////
 
-void LatexmenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *previous)
+void UserMenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *previous)
 {
 	QString from = ( previous ) ? previous->text(0) : "---";
 	QString to   = ( current )  ? current->text(0)  : "---";
 
 	KILE_DEBUG() << "currentItemChanged: from=" << from << "  to=" << to;
 	bool modifiedState = m_modified;
-	bool installState = m_LatexmenuDialog.m_pbInstall->isEnabled();
-	bool saveState = m_LatexmenuDialog.m_pbSave->isEnabled();
-	bool saveAsState = m_LatexmenuDialog.m_pbSaveAs->isEnabled();
+	bool installState = m_UserMenuDialog.m_pbInstall->isEnabled();
+	bool saveState = m_UserMenuDialog.m_pbSave->isEnabled();
+	bool saveAsState = m_UserMenuDialog.m_pbSaveAs->isEnabled();
 
 	// read old data
-	readMenuentryData( dynamic_cast<LatexmenuItem *>(previous) );
+	readMenuentryData( dynamic_cast<UserMenuItem *>(previous) );
 
 	// set new data
-	showMenuentryData( dynamic_cast<LatexmenuItem *>(current) );
+	showMenuentryData( dynamic_cast<UserMenuItem *>(current) );
 
 	// update buttons for treewidget
 	updateTreeButtons();
 
 	// restore saved states
 	m_modified = modifiedState;
-	m_LatexmenuDialog.m_pbInstall->setEnabled(installState);
-	m_LatexmenuDialog.m_pbSave->setEnabled(saveState);
-	m_LatexmenuDialog.m_pbSaveAs->setEnabled(saveAsState);
+	m_UserMenuDialog.m_pbInstall->setEnabled(installState);
+	m_UserMenuDialog.m_pbSave->setEnabled(saveState);
+	m_UserMenuDialog.m_pbSaveAs->setEnabled(saveAsState);
 }
 
 //////////////////////////////  MenuentryType slots (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotMenuentryTypeClicked()
+void UserMenuDialog::slotMenuentryTypeClicked()
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());
+	UserMenuItem *current = dynamic_cast<UserMenuItem *>(m_menutree->currentItem());
 	if ( !current ) {
 		return;
 	}
@@ -582,19 +582,19 @@ void LatexmenuDialog::slotMenuentryTypeClicked()
 	}
 
 	// set new values
-	current->setMenutype( LatexmenuData::MenuType(newtype) );
-	m_LatexmenuDialog.m_lbMenuentryType->setText(list[0]);
-	if ( newtype == LatexmenuData::Text ) {
+	current->setMenutype( UserMenuData::MenuType(newtype) );
+	m_UserMenuDialog.m_lbMenuentryType->setText(list[0]);
+	if ( newtype == UserMenuData::Text ) {
 		setMenuentryFileChooser(current,false);
 		setMenuentryFileParameter(current,false);
 		setMenuentryTextEdit(current,true);
 	}
-	else if ( newtype == LatexmenuData::FileContent ) {
+	else if ( newtype == UserMenuData::FileContent ) {
 		setMenuentryFileChooser(current,true);
 		setMenuentryFileParameter(current,false);
 		setMenuentryTextEdit(current,false);
 	}
-	else /* if ( newtype == LatexmenuData::Program ) */ {
+	else /* if ( newtype == UserMenuData::Program ) */ {
 		setMenuentryFileChooser(current,true);
 		setMenuentryFileParameter(current,true);
 		setMenuentryTextEdit(current,false);
@@ -605,9 +605,9 @@ void LatexmenuDialog::slotMenuentryTypeClicked()
 
 ////////////////////////////// Menuentry slot (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotMenuentryTextChanged(const QString &text)
+void UserMenuDialog::slotMenuentryTextChanged(const QString &text)
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>( m_menutree->currentItem() );
+	UserMenuItem *current = dynamic_cast<UserMenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
 		current->setText(0,text);
 	}
@@ -616,40 +616,40 @@ void LatexmenuDialog::slotMenuentryTextChanged(const QString &text)
 
 ////////////////////////////// KUrlRequester slots (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotUrlTextChanged(const QString &)
+void UserMenuDialog::slotUrlTextChanged(const QString &)
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>(m_menutree->currentItem());
+	UserMenuItem *current = dynamic_cast<UserMenuItem *>(m_menutree->currentItem());
 	if ( !current ) {
 		return;
 	}
 
-	QString file = m_LatexmenuDialog.m_urlRequester->text().trimmed();
+	QString file = m_UserMenuDialog.m_urlRequester->text().trimmed();
 
 	QString color = "black";
 	int type = current->menutype();
-	if ( type == LatexmenuData::FileContent ) {
+	if ( type == UserMenuData::FileContent ) {
 		if ( !QFile::exists(file) || file.isEmpty() ) {
 			color = "red";
 		}
 	}
-	else if ( type == LatexmenuData::Program ) {
+	else if ( type == UserMenuData::Program ) {
 		if ( !m_menutree->isItemExecutable(file) ) {
 			color= "red";
 		}
 	}
 
-	m_LatexmenuDialog.m_urlRequester->setStyleSheet( "QLineEdit { color: " + color + "; }" );
+	m_UserMenuDialog.m_urlRequester->setStyleSheet( "QLineEdit { color: " + color + "; }" );
 	setModified();
 }
 
-void LatexmenuDialog::slotUrlSelected(const KUrl &)
+void UserMenuDialog::slotUrlSelected(const KUrl &)
 {
 	setModified();
 }
 
 ////////////////////////////// Parameter slot (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotParameterTextChanged(const QString &)
+void UserMenuDialog::slotParameterTextChanged(const QString &)
 {
 	setModified();
 }
@@ -657,14 +657,14 @@ void LatexmenuDialog::slotParameterTextChanged(const QString &)
 
 ////////////////////////////// Text slot (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotPlainTextChanged()
+void UserMenuDialog::slotPlainTextChanged()
 {
 	setModified();
 }
 
 ////////////////////////////// Icon slots (right widget) //////////////////////////////
 
-void  LatexmenuDialog::slotIconClicked()
+void  UserMenuDialog::slotIconClicked()
 {
 	QString iconname = KIconDialog::getIcon(KIconLoader::Small, KIconLoader::Any,true);
 	if ( iconname!=m_currentIcon && !iconname.isEmpty() ) {
@@ -676,16 +676,16 @@ void  LatexmenuDialog::slotIconClicked()
 	}
 }
 
-void  LatexmenuDialog::slotIconDeleteClicked()
+void  UserMenuDialog::slotIconDeleteClicked()
 {
 	m_currentIcon = QString::null;
 	setMenuentryIcon(m_currentIcon);
 	setModified();
 }
 
-void LatexmenuDialog::setMenuentryIcon(const QString &icon)
+void UserMenuDialog::setMenuentryIcon(const QString &icon)
 {
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>( m_menutree->currentItem() );
+	UserMenuItem *current = dynamic_cast<UserMenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
 		if ( icon.isEmpty() ) {
 			current->setIcon(0,KIcon());
@@ -702,69 +702,69 @@ void LatexmenuDialog::setMenuentryIcon(const QString &icon)
 
 ////////////////////////////// Shortcut slots (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotKeySequenceChanged(const QKeySequence &seq)
+void UserMenuDialog::slotKeySequenceChanged(const QKeySequence &seq)
 {
 	QString shortcut = seq.toString(QKeySequence::NativeText);
 	KILE_DEBUG() << "key sequence changed: " << shortcut;
 
-	LatexmenuItem *current = dynamic_cast<LatexmenuItem *>( m_menutree->currentItem() );
+	UserMenuItem *current = dynamic_cast<UserMenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
 		current->setText(1,shortcut);
 		current->setShortcut(shortcut);
 
-		m_LatexmenuDialog.m_keyChooser->applyStealShortcut();
+		m_UserMenuDialog.m_keyChooser->applyStealShortcut();
 		setModified();
 	}
 }
 
 //////////////////////////////  Selection checkbox slots (right widget) //////////////////////////////
 
-void LatexmenuDialog::slotSelectionStateChanged(int state)
+void UserMenuDialog::slotSelectionStateChanged(int state)
 {
-	m_LatexmenuDialog.m_cbReplaceSelection->setEnabled(state);
-	m_LatexmenuDialog.m_cbContextMenu->setEnabled(state);
+	m_UserMenuDialog.m_cbReplaceSelection->setEnabled(state);
+	m_UserMenuDialog.m_cbContextMenu->setEnabled(state);
 	if ( !state ) {
-		m_LatexmenuDialog.m_cbReplaceSelection->setChecked(state);
-		m_LatexmenuDialog.m_cbContextMenu->setChecked(state);
+		m_UserMenuDialog.m_cbReplaceSelection->setChecked(state);
+		m_UserMenuDialog.m_cbContextMenu->setChecked(state);
 	}
 	setModified();
 }
 
-void LatexmenuDialog::slotCheckboxStateChanged(int)
+void UserMenuDialog::slotCheckboxStateChanged(int)
 {
 	setModified();
 }
 
 ////////////////////////////// read menu item data //////////////////////////////
 
-void LatexmenuDialog::readMenuentryData(LatexmenuItem *item)
+void UserMenuDialog::readMenuentryData(UserMenuItem *item)
 {
 	KILE_DEBUG() << "read current menu item ...";
 	if ( !item ) {
 		return;
 	}
 
-	LatexmenuData::MenuType type = LatexmenuData::MenuType( m_listMenutypes.indexOf(m_LatexmenuDialog.m_lbMenuentryType->text()) );
+	UserMenuData::MenuType type = UserMenuData::MenuType( m_listMenutypes.indexOf(m_UserMenuDialog.m_lbMenuentryType->text()) );
 	item->setMenutype(type);
-	if ( type == LatexmenuData::Separator ) {
+	if ( type == UserMenuData::Separator ) {
 		return;
 	}
 
-	item->setMenutitle( m_LatexmenuDialog.m_leMenuEntry->text().trimmed() );
-	item->setFilename( m_LatexmenuDialog.m_urlRequester->text().trimmed() );
-	item->setParameter( m_LatexmenuDialog.m_leParameter->text().trimmed() );
-	item->setPlaintext( m_LatexmenuDialog.m_teText->toPlainText() );
+	item->setMenutitle( m_UserMenuDialog.m_leMenuEntry->text().trimmed() );
+	item->setFilename( m_UserMenuDialog.m_urlRequester->text().trimmed() );
+	item->setParameter( m_UserMenuDialog.m_leParameter->text().trimmed() );
+	item->setPlaintext( m_UserMenuDialog.m_teText->toPlainText() );
 
 	item->setMenuicon( m_currentIcon );
-	item->setShortcut(m_LatexmenuDialog.m_keyChooser->keySequence().toString(QKeySequence::NativeText) );
+	item->setShortcut(m_UserMenuDialog.m_keyChooser->keySequence().toString(QKeySequence::NativeText) );
 
-	item->setNeedsSelection( m_LatexmenuDialog.m_cbNeedsSelection->checkState() );
-	item->setUseContextMenu( m_LatexmenuDialog.m_cbContextMenu->checkState() );
-	item->setReplaceSelection( m_LatexmenuDialog.m_cbReplaceSelection->checkState() );
-	item->setSelectInsertion( m_LatexmenuDialog.m_cbSelectInsertion->checkState() );
-	item->setInsertOutput( m_LatexmenuDialog.m_cbInsertOutput->checkState() );
+	item->setNeedsSelection( m_UserMenuDialog.m_cbNeedsSelection->checkState() );
+	item->setUseContextMenu( m_UserMenuDialog.m_cbContextMenu->checkState() );
+	item->setReplaceSelection( m_UserMenuDialog.m_cbReplaceSelection->checkState() );
+	item->setSelectInsertion( m_UserMenuDialog.m_cbSelectInsertion->checkState() );
+	item->setInsertOutput( m_UserMenuDialog.m_cbInsertOutput->checkState() );
 
-	bool executable = ( type==LatexmenuData::Program && m_menutree->isItemExecutable(item->filename()) );
+	bool executable = ( type==UserMenuData::Program && m_menutree->isItemExecutable(item->filename()) );
 	item->setModelData(executable);
 
 	item->setText(0, item->updateMenutitle());
@@ -772,7 +772,7 @@ void LatexmenuDialog::readMenuentryData(LatexmenuItem *item)
 
 ////////////////////////////// show menu item data //////////////////////////////
 
-void LatexmenuDialog::showMenuentryData(LatexmenuItem *item)
+void UserMenuDialog::showMenuentryData(UserMenuItem *item)
 {
 	KILE_DEBUG() << "show new menu item ...";
 	if ( !item ) {
@@ -780,21 +780,21 @@ void LatexmenuDialog::showMenuentryData(LatexmenuItem *item)
 		return;
 	}
 
-	LatexmenuData::MenuType type = item->menutype();
+	UserMenuData::MenuType type = item->menutype();
 
 	blockSignals(true);
 	switch ( type ) {
-		case LatexmenuData::Text:        setTextEntry(item);        break;
-		case LatexmenuData::FileContent: setFileContentEntry(item); break;
-		case LatexmenuData::Program:     setProgramEntry(item);     break;
-		case LatexmenuData::Separator:   setSeparatorEntry(item);   break;
-		case LatexmenuData::Submenu:     setSubmenuEntry(item);     break;
+		case UserMenuData::Text:        setTextEntry(item);        break;
+		case UserMenuData::FileContent: setFileContentEntry(item); break;
+		case UserMenuData::Program:     setProgramEntry(item);     break;
+		case UserMenuData::Separator:   setSeparatorEntry(item);   break;
+		case UserMenuData::Submenu:     setSubmenuEntry(item);     break;
 		default:                         disableMenuEntryData();    // should not happen
 	}
 	blockSignals(false);
 }
 
-void LatexmenuDialog::setTextEntry(LatexmenuItem *item)
+void UserMenuDialog::setTextEntry(UserMenuItem *item)
 {
 	setMenuentryText(item,true);
 	setMenuentryType(item,true,true);
@@ -807,7 +807,7 @@ void LatexmenuDialog::setTextEntry(LatexmenuItem *item)
 	setMenuentryCheckboxes(item,false);
 }
 
-void LatexmenuDialog::setFileContentEntry(LatexmenuItem *item)
+void UserMenuDialog::setFileContentEntry(UserMenuItem *item)
 {
 	setMenuentryText(item,true);
 	setMenuentryType(item,true,true);
@@ -820,7 +820,7 @@ void LatexmenuDialog::setFileContentEntry(LatexmenuItem *item)
 	setMenuentryCheckboxes(item,false);
 }
 
-void LatexmenuDialog::setProgramEntry(LatexmenuItem *item)
+void UserMenuDialog::setProgramEntry(UserMenuItem *item)
 {
 	setMenuentryText(item,true);
 	setMenuentryType(item,true,true);
@@ -833,13 +833,13 @@ void LatexmenuDialog::setProgramEntry(LatexmenuItem *item)
 	setMenuentryCheckboxes(item,true);
 }
 
-void LatexmenuDialog::setSeparatorEntry(LatexmenuItem *item)
+void UserMenuDialog::setSeparatorEntry(UserMenuItem *item)
 {
 	disableMenuEntryData();
 	setMenuentryType(item,true,false);
 }
 
-void LatexmenuDialog::setSubmenuEntry(LatexmenuItem *item)
+void UserMenuDialog::setSubmenuEntry(UserMenuItem *item)
 {
 	setMenuentryText(item,true);
 	setMenuentryType(item,true,false);
@@ -854,52 +854,52 @@ void LatexmenuDialog::setSubmenuEntry(LatexmenuItem *item)
 
 ////////////////////////////// update data widgets//////////////////////////////
 
-void LatexmenuDialog::setMenuentryType(LatexmenuItem *item, bool state1, bool state2)
+void UserMenuDialog::setMenuentryType(UserMenuItem *item, bool state1, bool state2)
 {
 	QString s = ( item && state1 ) ? m_listMenutypes[item->menutype()] : QString::null;
-	m_LatexmenuDialog.m_lbMenuentryType->setText(s);
-	m_LatexmenuDialog.m_lbMenuentryType->setEnabled(state1);
-	m_LatexmenuDialog.m_pbMenuentryType->setEnabled(state2);
+	m_UserMenuDialog.m_lbMenuentryType->setText(s);
+	m_UserMenuDialog.m_lbMenuentryType->setEnabled(state1);
+	m_UserMenuDialog.m_pbMenuentryType->setEnabled(state2);
 }
 
-void LatexmenuDialog::setMenuentryText(LatexmenuItem *item, bool state)
+void UserMenuDialog::setMenuentryText(UserMenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->menutitle() : QString::null;
-	m_LatexmenuDialog.m_leMenuEntry->setText(s);
+	m_UserMenuDialog.m_leMenuEntry->setText(s);
 
-	m_LatexmenuDialog.m_lbMenuEntry->setEnabled(state);
-	m_LatexmenuDialog.m_leMenuEntry->setEnabled(state);
+	m_UserMenuDialog.m_lbMenuEntry->setEnabled(state);
+	m_UserMenuDialog.m_leMenuEntry->setEnabled(state);
 }
 
-void LatexmenuDialog::setMenuentryFileChooser(LatexmenuItem *item, bool state)
+void UserMenuDialog::setMenuentryFileChooser(UserMenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->filename() : QString::null;
-	m_LatexmenuDialog.m_urlRequester->setText(s);
+	m_UserMenuDialog.m_urlRequester->setText(s);
 
-	m_LatexmenuDialog.m_lbFile->setEnabled(state);
-	m_LatexmenuDialog.m_urlRequester->setEnabled(state);
+	m_UserMenuDialog.m_lbFile->setEnabled(state);
+	m_UserMenuDialog.m_urlRequester->setEnabled(state);
 }
 
-void LatexmenuDialog::setMenuentryFileParameter(LatexmenuItem *item, bool state)
+void UserMenuDialog::setMenuentryFileParameter(UserMenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->parameter() : QString::null;
-	m_LatexmenuDialog.m_leParameter->setText(s);
+	m_UserMenuDialog.m_leParameter->setText(s);
 
-	m_LatexmenuDialog.m_lbParameter->setEnabled(state);
-	m_LatexmenuDialog.m_leParameter->setEnabled(state);
+	m_UserMenuDialog.m_lbParameter->setEnabled(state);
+	m_UserMenuDialog.m_leParameter->setEnabled(state);
 
 }
 
-void LatexmenuDialog::setMenuentryTextEdit(LatexmenuItem *item, bool state)
+void UserMenuDialog::setMenuentryTextEdit(UserMenuItem *item, bool state)
 {
 	QString s = ( item && state ) ? item->plaintext() : QString::null;
-	m_LatexmenuDialog.m_teText->setPlainText(s);
+	m_UserMenuDialog.m_teText->setPlainText(s);
 
-	m_LatexmenuDialog.m_lbText->setEnabled(state);
-	m_LatexmenuDialog.m_teText->setEnabled(state);
+	m_UserMenuDialog.m_lbText->setEnabled(state);
+	m_UserMenuDialog.m_teText->setEnabled(state);
 }
 
-void LatexmenuDialog::setMenuentryIcon(LatexmenuItem *item, bool state, const QString &icon)
+void UserMenuDialog::setMenuentryIcon(UserMenuItem *item, bool state, const QString &icon)
 {
 	if ( item && state ) {
 		m_currentIcon = ( icon.isEmpty() ) ? item->menuicon() : icon;
@@ -910,50 +910,50 @@ void LatexmenuDialog::setMenuentryIcon(LatexmenuItem *item, bool state, const QS
 
 	// update widgets
 	if ( m_currentIcon.isEmpty() ) {
-		m_LatexmenuDialog.m_lbIconChosen->setText(m_currentIcon);
-		m_LatexmenuDialog.m_lbIconChosen->hide();
-		m_LatexmenuDialog.m_pbIcon->show();
+		m_UserMenuDialog.m_lbIconChosen->setText(m_currentIcon);
+		m_UserMenuDialog.m_lbIconChosen->hide();
+		m_UserMenuDialog.m_pbIcon->show();
 	}
 	else {
 		QString iconpath = KIconLoader::global()->iconPath(m_currentIcon,KIconLoader::Small);
-		m_LatexmenuDialog.m_lbIconChosen->setText("<img src=\"" +  iconpath +"\" />");
-		m_LatexmenuDialog.m_lbIconChosen->show();
-		m_LatexmenuDialog.m_pbIcon->hide();
+		m_UserMenuDialog.m_lbIconChosen->setText("<img src=\"" +  iconpath +"\" />");
+		m_UserMenuDialog.m_lbIconChosen->show();
+		m_UserMenuDialog.m_pbIcon->hide();
 	}
 
-	m_LatexmenuDialog.m_lbIcon->setEnabled(state);
-	m_LatexmenuDialog.m_pbIcon->setEnabled(state);
-	m_LatexmenuDialog.m_lbIconChosen->setEnabled(state);
+	m_UserMenuDialog.m_lbIcon->setEnabled(state);
+	m_UserMenuDialog.m_pbIcon->setEnabled(state);
+	m_UserMenuDialog.m_lbIconChosen->setEnabled(state);
 	bool deleteIconState = ( state && !m_currentIcon.isEmpty() );
-	m_LatexmenuDialog.m_pbIconDelete->setEnabled(deleteIconState);
+	m_UserMenuDialog.m_pbIconDelete->setEnabled(deleteIconState);
 }
 
-void LatexmenuDialog::setMenuentryShortcut(LatexmenuItem *item, bool state)
+void UserMenuDialog::setMenuentryShortcut(UserMenuItem *item, bool state)
 {
 	if ( item && state ) {
 		QString shortcut = item->shortcut();
 		if ( shortcut.isEmpty() ) {
-			m_LatexmenuDialog.m_keyChooser->clearKeySequence();
+			m_UserMenuDialog.m_keyChooser->clearKeySequence();
 		}
 		else {
-			m_LatexmenuDialog.m_keyChooser->setKeySequence( QKeySequence(shortcut) );
+			m_UserMenuDialog.m_keyChooser->setKeySequence( QKeySequence(shortcut) );
 		}
 		item->setText(1,shortcut);
 	}
 	else {
-		m_LatexmenuDialog.m_keyChooser->clearKeySequence();
+		m_UserMenuDialog.m_keyChooser->clearKeySequence();
 	}
 
-	m_LatexmenuDialog.m_lbShortcut->setEnabled(state);
-	m_LatexmenuDialog.m_keyChooser->setEnabled(state);
+	m_UserMenuDialog.m_lbShortcut->setEnabled(state);
+	m_UserMenuDialog.m_keyChooser->setEnabled(state);
 }
 
-void LatexmenuDialog::setParameterGroupbox(bool state)
+void UserMenuDialog::setParameterGroupbox(bool state)
 {
-	m_LatexmenuDialog.m_gbParameter->setEnabled(state);
+	m_UserMenuDialog.m_gbParameter->setEnabled(state);
 }
 
-void LatexmenuDialog::setMenuentryCheckboxes(LatexmenuItem *item, bool useInsertOutput)
+void UserMenuDialog::setMenuentryCheckboxes(UserMenuItem *item, bool useInsertOutput)
 {
 	bool selectionState, insertionState, outputState, replaceState, contextState;
 	if ( item) {
@@ -972,32 +972,32 @@ void LatexmenuDialog::setMenuentryCheckboxes(LatexmenuItem *item, bool useInsert
 	}
 
 	// m_cbNeedsSelection and m_cbSelectInsertion are always enabled
-	m_LatexmenuDialog.m_cbNeedsSelection->setChecked(selectionState);
-	m_LatexmenuDialog.m_cbContextMenu->setChecked(contextState);
-	m_LatexmenuDialog.m_cbReplaceSelection->setChecked(replaceState);
-	m_LatexmenuDialog.m_cbSelectInsertion->setChecked(insertionState);
-	m_LatexmenuDialog.m_cbInsertOutput->setChecked(outputState);
+	m_UserMenuDialog.m_cbNeedsSelection->setChecked(selectionState);
+	m_UserMenuDialog.m_cbContextMenu->setChecked(contextState);
+	m_UserMenuDialog.m_cbReplaceSelection->setChecked(replaceState);
+	m_UserMenuDialog.m_cbSelectInsertion->setChecked(insertionState);
+	m_UserMenuDialog.m_cbInsertOutput->setChecked(outputState);
 
-	m_LatexmenuDialog.m_cbInsertOutput->setEnabled(useInsertOutput);
+	m_UserMenuDialog.m_cbInsertOutput->setEnabled(useInsertOutput);
 }
 
-void LatexmenuDialog::clearMenuEntryData()
+void UserMenuDialog::clearMenuEntryData()
 {
-	m_LatexmenuDialog.m_leMenuEntry->setText(QString::null);
-	m_LatexmenuDialog.m_lbMenuentryType->setText(QString::null);
-	m_LatexmenuDialog.m_urlRequester->setText(QString::null);
-	m_LatexmenuDialog.m_teText->setPlainText(QString::null);
-	m_LatexmenuDialog.m_pbIcon->setIcon(KIcon(i18n("Choose")));
-	m_LatexmenuDialog.m_keyChooser->clearKeySequence();
+	m_UserMenuDialog.m_leMenuEntry->setText(QString::null);
+	m_UserMenuDialog.m_lbMenuentryType->setText(QString::null);
+	m_UserMenuDialog.m_urlRequester->setText(QString::null);
+	m_UserMenuDialog.m_teText->setPlainText(QString::null);
+	m_UserMenuDialog.m_pbIcon->setIcon(KIcon(i18n("Choose")));
+	m_UserMenuDialog.m_keyChooser->clearKeySequence();
 
-	m_LatexmenuDialog.m_cbNeedsSelection->setChecked(false);
-	m_LatexmenuDialog.m_cbReplaceSelection->setChecked(false);
-	m_LatexmenuDialog.m_cbContextMenu->setChecked(false);
-	m_LatexmenuDialog.m_cbSelectInsertion->setChecked(false);
-	m_LatexmenuDialog.m_cbInsertOutput->setChecked(false);
+	m_UserMenuDialog.m_cbNeedsSelection->setChecked(false);
+	m_UserMenuDialog.m_cbReplaceSelection->setChecked(false);
+	m_UserMenuDialog.m_cbContextMenu->setChecked(false);
+	m_UserMenuDialog.m_cbSelectInsertion->setChecked(false);
+	m_UserMenuDialog.m_cbInsertOutput->setChecked(false);
 }
 
-void LatexmenuDialog::disableMenuEntryData()
+void UserMenuDialog::disableMenuEntryData()
 {
 	setMenuentryText(0L,false);
 	setMenuentryType(0L,false,false);
@@ -1013,4 +1013,4 @@ void LatexmenuDialog::disableMenuEntryData()
 
 }
 
-#include "latexmenudialog.moc"
+#include "usermenudialog.moc"

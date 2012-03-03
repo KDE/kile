@@ -464,8 +464,8 @@
 	<Action name="tag_input"/>
 </Menu>
 
-<Menu name="menu_userlatex">
-	<text>Usermenu</text>
+<Menu name="menu_usermenu">
+	<text>User Menu</text>
 </Menu>
 
 <Menu name="wizard"><text>&amp;Wizard</text>

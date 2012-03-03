@@ -11,8 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LATEXMENU_H
-#define LATEXMENU_H
+#ifndef USERMENU_H
+#define USERMENU_H
 
 #include <QList>
 #include <QDomDocument>
@@ -24,20 +24,20 @@
 
 #include "kileinfo.h"
 
-#include "latexmenu/latexmenudata.h"
+#include "usermenu/usermenudata.h"
 
 
 namespace KileMenu {
 
-class LatexUserMenu : public QObject
+class UserMenu : public QObject
 {
 	Q_OBJECT
 
 	public:
-		enum MenuPosition { DaniMenuPosition=0x00, LatexMenuPosition=0x01 };
+		enum MenuPosition { DaniMenuPosition=0x00, UserMenuPosition=0x01 };
 
-		LatexUserMenu(KileInfo *ki, QObject *receiver);
-		~LatexUserMenu();
+		UserMenu(KileInfo *ki, QObject *receiver);
+		~UserMenu();
 
 		void installXmlMenufile();
 		void removeXmlMenufile();
@@ -51,12 +51,12 @@ class LatexUserMenu : public QObject
 		void updateGui();
 		void updateKeyBindings();
 
-		QMenu *getMenuItem() const { return m_latexmenu; }
+		QMenu *getMenuItem() const { return m_usermenu; }
 
 		QList<KAction *> contextMenuActions() const { return m_actionlistContextMenu; }
 		QList<KAction *> menuActions() const { return m_actionlist; }
 
-		static QString selectLatexmenuDir();
+		static QString selectUserMenuDir();
 
 	public Q_SLOTS:
 		void slotInstallXmlFile(const QString &filename);
@@ -64,7 +64,7 @@ class LatexUserMenu : public QObject
 		void slotChangeMenuPosition(int newPosition);
 
 	private Q_SLOTS:
-		void slotLatexmenuAction();
+		void slotUserMenuAction();
 		void slotProcessOutput();
 		void slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus);
 
@@ -86,15 +86,15 @@ class LatexUserMenu : public QObject
 		int m_actionsContextMenu;
 		QList<KAction *> m_actionlistContextMenu;
 		QList<KAction *> m_actionlist;
-		QList<LatexmenuData> m_menudata;
+		QList<UserMenuData> m_menudata;
 
-		QMenu *m_latexmenu;
+		QMenu *m_usermenu;
 		KActionCollection *m_actioncollection;
 
 		KProcess *m_proc;
 		QString m_procOutput;
 		KTextEditor::View *m_procView;
-		const LatexmenuData *m_procMenudata;
+		const UserMenuData *m_procMenudata;
 
 		void updateUsermenuPosition();
 		void setVisibleDaniMenu(bool state, bool show);
@@ -109,9 +109,9 @@ class LatexUserMenu : public QObject
 		bool updateXmlSubmenu(QDomDocument &doc, QDomElement &element, int &actionnumber);
 		bool updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &actionnumber);
 
-		void execActionText(KTextEditor::View *view, const LatexmenuData &menudata);
-		void execActionFileContent(KTextEditor::View *view, const LatexmenuData &menudata);
-		void execActionProgramOutput(KTextEditor::View *view, const LatexmenuData &menudata);
+		void execActionText(KTextEditor::View *view, const UserMenuData &menudata);
+		void execActionFileContent(KTextEditor::View *view, const UserMenuData &menudata);
+		void execActionProgramOutput(KTextEditor::View *view, const UserMenuData &menudata);
 
 		void insertText(KTextEditor::View *view, const QString &text, bool replaceSelection, bool selectInsertion);
 		bool str2bool(const QString &value);

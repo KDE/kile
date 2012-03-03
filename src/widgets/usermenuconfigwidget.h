@@ -16,7 +16,7 @@
 
 #include <QWidget>
 
-#include "latexmenu/latexmenu.h"
+#include "usermenu/usermenu.h"
 #include "ui_usermenuconfigwidget.h"
 
 class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuConfig
@@ -24,7 +24,7 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	Q_OBJECT
 
 	public:
-		KileWidgetUsermenuConfig(KileMenu::LatexUserMenu *latexmenu, QWidget *parent = 0);
+		KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent = 0);
 		~KileWidgetUsermenuConfig();
 
 		void writeConfig();
@@ -39,7 +39,7 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 		void changeMenuPosition(int);
 
 	private:
-		KileMenu::LatexUserMenu *m_latexmenu;
+		KileMenu::UserMenu *m_usermenu;
 		bool m_menuPosition;
 
 		void setXmlFile(const QString &file);

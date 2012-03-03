@@ -12,19 +12,19 @@
  ***************************************************************************/
 
 
-#include "latexmenu/latexmenudata.h"
+#include "usermenu/usermenudata.h"
 
 #include "kiledebug.h"
 
 
 namespace KileMenu {
 
-LatexmenuData::LatexmenuData()
+UserMenuData::UserMenuData()
 {
 	clear();
 }
 
-void LatexmenuData::clear()
+void UserMenuData::clear()
 {
 	menutype  = Text;
 	menutitle = QString::null;
@@ -42,33 +42,33 @@ void LatexmenuData::clear()
 }
 
 // static list for xml menu attributes
-QStringList LatexmenuData::xmlMenuAttrList = QStringList() << "text" << "file" << "program" << "separator" << "submenu";
+QStringList UserMenuData::xmlMenuAttrList = QStringList() << "text" << "file" << "program" << "separator" << "submenu";
 
 // static list for xml menu tags
-QStringList LatexmenuData::xmlMenuTagList = QStringList() << "text" << "filename" << "parameter"
+QStringList UserMenuData::xmlMenuTagList = QStringList() << "text" << "filename" << "parameter"
 	                                                       << "icon" << "shortcut"
 	                                                       << "needsSelection"     << "useContextMenu" << "replaceSelection"
 	                                                       << "selectInsertion"    << "insertOutput"   << "title";
 
 // static methods  for xml menu attributes
-LatexmenuData::MenuType LatexmenuData::xmlMenuType(const QString &name)
+UserMenuData::MenuType UserMenuData::xmlMenuType(const QString &name)
 {
 	int index = xmlMenuAttrList.indexOf(name);
-	return ( index >= 0 ) ? (LatexmenuData::MenuType)index : LatexmenuData::Text;
+	return ( index >= 0 ) ? (UserMenuData::MenuType)index : UserMenuData::Text;
 }
 
-QString LatexmenuData::xmlMenuTypeName(int index)
+QString UserMenuData::xmlMenuTypeName(int index)
 {
 	return xmlMenuAttrList[index];
 }
 
 // static methods  for xml menu tags
-int LatexmenuData::xmlMenuTag(const QString &tag)
+int UserMenuData::xmlMenuTag(const QString &tag)
 {
 	return xmlMenuTagList.indexOf(tag);
 }
 
-QString LatexmenuData::xmlMenuTagName(int index)
+QString UserMenuData::xmlMenuTagName(int index)
 {
 	return xmlMenuTagList[index];
 }

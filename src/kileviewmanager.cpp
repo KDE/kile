@@ -48,7 +48,7 @@
 #include "kiledocmanager.h"
 #include "kileextensions.h"
 #include "kiletool_enums.h"
-#include "latexmenu/latexmenu.h"
+#include "usermenu/usermenu.h"
 #include "livepreview.h"
 #include "widgets/projectview.h"
 #include "widgets/structurewidget.h"
@@ -312,11 +312,11 @@ void Manager::installContextMenu(KTextEditor::View *view)
 		popupMenu->addAction(m_quickPreviewAction);
 
 		// insert actions from user defined latex menu
-		KileMenu::LatexUserMenu *latexusermenu = m_ki->latexUserMenu();
-		if ( latexusermenu ) {
+		KileMenu::UserMenu *usermenu = m_ki->userMenu();
+		if ( usermenu ) {
 			KILE_DEBUG() << "Insert actions from user defined latex menu";
 			popupMenu->addSeparator();
-			foreach ( KAction *action, latexusermenu->contextMenuActions() ) {
+			foreach ( KAction *action, usermenu->contextMenuActions() ) {
 				if ( action ) {
 					popupMenu->addAction(action);
 				}

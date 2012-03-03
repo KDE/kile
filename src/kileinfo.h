@@ -56,7 +56,7 @@ namespace KileCodeCompletion { class Manager; }
 namespace KileAbbreviation { class Manager; }
 namespace KileParser { class Manager; }
 
-namespace KileMenu { class LatexUserMenu; }
+namespace KileMenu { class UserMenu; }
 
 class EditorCommands;
 
@@ -145,7 +145,7 @@ public:
 	KileAbbreviation::Manager* abbreviationManager() const { return m_abbreviationManager; }
 	KileParser::Manager* parserManager() const { return m_parserManager; }
 	KileErrorHandler* errorHandler() const { return m_errorHandler; }
-	KileMenu::LatexUserMenu *latexUserMenu() const { return m_latexUserMenu; }
+	KileMenu::UserMenu *userMenu() const { return m_userMenu; }
 
 	//FIXME:refactor
 	KileWidget::FileBrowserWidget* fileSelector() const { return m_fileBrowserWidget; }
@@ -189,7 +189,7 @@ protected:
 	KileDocument::LatexCommands *m_latexCommands;
 	KileDocument::Extensions *m_extensions;
 	KileTool::QuickPreview *m_quickPreview;
-	KileMenu::LatexUserMenu *m_latexUserMenu;
+	KileMenu::UserMenu *m_userMenu;
 	KileTool::LivePreviewManager *m_livePreviewManager;
 
 	bool 		m_singlemode;

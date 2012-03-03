@@ -31,13 +31,13 @@ class MenuentryDelegate : public QStyledItemDelegate {
 };
 
 
-class LatexmenuTree : public QTreeWidget
+class UserMenuTree : public QTreeWidget
 {
 		Q_OBJECT
 
 	public:
-		LatexmenuTree(QWidget *parent);
-		~LatexmenuTree() {}
+		UserMenuTree(QWidget *parent);
+		~UserMenuTree() {}
 
 		bool insertMenuItem(QTreeWidgetItem *current, bool below=true);
 		bool insertSubmenu(QTreeWidgetItem *current, bool below=true);
@@ -69,17 +69,17 @@ class LatexmenuTree : public QTreeWidget
 		                 POPUP_ITEM_INFO=0x0F
 		               };
 
-		LatexmenuItem *m_popupItem;
+		UserMenuItem *m_popupItem;
 
 		void setErrorCodes();
-		bool checkSubmenuError(LatexmenuItem *item);
+		bool checkSubmenuError(UserMenuItem *item);
 
 		QStringList m_envPathlist;
 		void initEnvPathlist();
 
-		void insertMenuItemAbove(QTreeWidgetItem *current, LatexmenuData::MenuType type, const QString &menulabel);
-		void insertMenuItemBelow(QTreeWidgetItem *current, LatexmenuData::MenuType type, const QString &menulabel);
-		void insertIntoSubmenu(QTreeWidgetItem *current, LatexmenuData::MenuType type);
+		void insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel);
+		void insertMenuItemBelow(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel);
+		void insertIntoSubmenu(QTreeWidgetItem *current, UserMenuData::MenuType type);
 
 		void deleteMenuTree();
 
@@ -90,21 +90,21 @@ class LatexmenuTree : public QTreeWidget
 		void insertItem(QTreeWidgetItem *parent, int index, QTreeWidgetItem *item);
 		void takeItem(QTreeWidgetItem *parent, QTreeWidgetItem *item);
 
-		LatexmenuItem *readXmlSeparator();
-		LatexmenuItem *readXmlSubmenu(const QDomElement &element);
-		LatexmenuItem *readXmlMenuentry(const QDomElement &element);
+		UserMenuItem *readXmlSeparator();
+		UserMenuItem *readXmlSubmenu(const QDomElement &element);
+		UserMenuItem *readXmlMenuentry(const QDomElement &element);
 
-		void writeXmlItem(QXmlStreamWriter *xml, LatexmenuItem *item);
-		void writeXmlMenuentry(QXmlStreamWriter *xml, LatexmenuItem *item);
-		void writeXmlSubmenu(QXmlStreamWriter *xml, LatexmenuItem *item);
+		void writeXmlItem(QXmlStreamWriter *xml, UserMenuItem *item);
+		void writeXmlMenuentry(QXmlStreamWriter *xml, UserMenuItem *item);
+		void writeXmlSubmenu(QXmlStreamWriter *xml, UserMenuItem *item);
 		void writeXmlSeparator(QXmlStreamWriter *xml);
 
-		void checkMenuTitle(LatexmenuItem *item);
-		void checkSubmenu(LatexmenuItem *item);
+		void checkMenuTitle(UserMenuItem *item);
+		void checkSubmenu(UserMenuItem *item);
 
 		bool str2bool(const QString &value);
 		QString getMenuTitle(const QString &title);
-		void itemInfo(LatexmenuItem *item);
+		void itemInfo(UserMenuItem *item);
 };
 
 

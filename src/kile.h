@@ -214,7 +214,7 @@ private:
 	void updateMenu();
 	bool updateMenuActivationStatus(QMenu *menu);
 	void updateLatexenuActivationStatus(QMenu *menu, bool state);
-	void updateLatexmenuStatus(bool state);
+	void updateUserMenuStatus(bool state);
 
 	void setViewerToolBars();
 
@@ -309,8 +309,8 @@ private Q_SLOTS:
 	void quickPdf();
 	void quickTabulardialog(bool tabularenv);
 
-	void quickLatexmenuDialog();
-	void slotUpdateLatexmenuStatus();
+	void quickUserMenuDialog();
+	void slotUpdateUserMenuStatus();
 
 	void includeGraphics();
 

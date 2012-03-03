@@ -26,7 +26,7 @@
 #include "kileactions.h"
 #include "editorextension.h"
 #include "kileviewmanager.h"
-#include "latexmenu/latexmenu.h"
+#include "usermenu/usermenu.h"
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -34,13 +34,13 @@
 
 namespace KileMenu {
 
-// The LatexUserMenu uses six values/data structures:
+// The UserMenu uses six values/data structures:
 //
-//  - m_latexmenu: the menu with its entries/actions itself (QMenu *)
-//    (actions for menu items are named 'latexuseraction-n', where n is a
+//  - m_usermenu: the menu with its entries/actions itself (QMenu *)
+//    (actions for menu items are named 'useraction-n', where n is a
 //     number starting at 0. It is also used as index for the m_menudata list.)
 //
-//  - m_menudata: a list, containing all info for menu item (QList<LatexmenuData>)
+//  - m_menudata: a list, containing all info for menu item (QList<UserMenuData>)
 //
 //  - m_actioncollection: KActionCollection of KileMainWindow (KActionCollection *)
 //
@@ -48,9 +48,9 @@ namespace KileMenu {
 //
 //  - m_actionlistContextMenu: a list with all actions of the context menu for selected text (QList<KAction *>)
 //
-//  - a menu is defined with a xml file, which is placed in KGlobal::dirs()->findResource("appdata","latexmenu/")
+//  - a menu is defined with a xml file, which is placed in KGlobal::dirs()->findResource("appdata","usermenu/")
 
-LatexUserMenu::LatexUserMenu(KileInfo *ki, QObject *receiver)
+UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 	: m_ki(ki), m_receiver(receiver), m_proc(NULL)
 {
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
@@ -67,22 +67,22 @@ LatexUserMenu::LatexUserMenu(KileInfo *ki, QObject *receiver)
 	m_latexAction2 = createAction("wizard_usermenu2");
 	latex_menu->addAction(m_latexAction2);
 
-	m_latexMenuEntry = new QMenu("Usermenu");
-	m_latexMenuEntry->setObjectName("latexusermenu-submenu");
+	m_latexMenuEntry = new QMenu("User Menu");
+	m_latexMenuEntry->setObjectName("usermenu-submenu");
 	latex_menu->addMenu(m_latexMenuEntry);
 
 	// prepare menu position
 	m_menuPosition = KileConfig::menuPosition();
-	m_latexmenu = ( m_menuPosition == DaniMenuPosition )
-	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow))
+	m_usermenu = ( m_menuPosition == DaniMenuPosition )
+	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
 	// look for an existing menufile:
-	// if filename matches 'basename.ext' then the file is placed in 'KILE-LOCAL-DIR/latexmenu' directory
+	// if filename matches 'basename.ext' then the file is placed in 'KILE-LOCAL-DIR/usermenu' directory
 	m_currentXmlFile = KileConfig::menuFile();
 	if ( !m_currentXmlFile.isEmpty() ) {
 		if ( !m_currentXmlFile.contains("/") ) {
-			m_currentXmlFile = KGlobal::dirs()->findResource("appdata","latexmenu/") + m_currentXmlFile;
+			m_currentXmlFile = KGlobal::dirs()->findResource("appdata","usermenu/") + m_currentXmlFile;
 		}
 
 		if ( QFile(m_currentXmlFile).exists() ) {
@@ -97,31 +97,31 @@ LatexUserMenu::LatexUserMenu(KileInfo *ki, QObject *receiver)
 	updateUsermenuPosition();
 }
 
-LatexUserMenu::~LatexUserMenu()
+UserMenu::~UserMenu()
 {
 	if (m_proc) {
 		delete m_proc;
 	}
 }
 
-bool LatexUserMenu::isEmpty()
+bool UserMenu::isEmpty()
 {
-	return ( m_latexmenu->actions().size() == 0 );
+	return ( m_usermenu->actions().size() == 0 );
 }
 /////////////////////// install usermenu//////////////////////////////
 
-KAction *LatexUserMenu::createAction(const QString &name)
+KAction *UserMenu::createAction(const QString &name)
 {
-	KAction *action = m_actioncollection->addAction(name, m_receiver, SLOT(quickLatexmenuDialog()));
-	action->setText(i18n("Edit Usermenu"));
+	KAction *action = m_actioncollection->addAction(name, m_receiver, SLOT(quickUserMenuDialog()));
+	action->setText(i18n("Edit User Menu"));
 	action->setIcon(KIcon("wizard_usermenu"));
 	return action;
 }
 
-void LatexUserMenu::updateUsermenuPosition()
+void UserMenu::updateUsermenuPosition()
 {
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-	QMenu *dani_menu   = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow));
+	QMenu *dani_menu   = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
 
 	// and set the new one
 	bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
@@ -135,7 +135,7 @@ void LatexUserMenu::updateUsermenuPosition()
 	}
 }
 
-void LatexUserMenu::slotChangeMenuPosition(int newPosition)
+void UserMenu::slotChangeMenuPosition(int newPosition)
 {
 	// clear old usermenu, whereever it is
 	clear();
@@ -143,15 +143,15 @@ void LatexUserMenu::slotChangeMenuPosition(int newPosition)
 	// set new usermenu position
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 	m_menuPosition = newPosition;
-	m_latexmenu = ( m_menuPosition == DaniMenuPosition )
-	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow))
+	m_usermenu = ( m_menuPosition == DaniMenuPosition )
+	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
 	slotInstallXmlFile(m_currentXmlFile);
 	updateUsermenuPosition();
 }
 
-void LatexUserMenu::setVisibleDaniMenu(bool state, bool show)
+void UserMenu::setVisibleDaniMenu(bool state, bool show)
 {
 	m_wizardAction1->setVisible(state);
 	m_wizardAction2->setVisible(state);
@@ -163,12 +163,12 @@ void LatexUserMenu::setVisibleDaniMenu(bool state, bool show)
 
 ///////////////////////////// clear all data //////////////////////////////
 
-// clear all lists and data for an existing latexmenu
-void LatexUserMenu::clear()
+// clear all lists and data for an existing usermenu
+void UserMenu::clear()
 {
-	// clear latexmenu and menudata
-	if ( m_latexmenu ) {
-		m_latexmenu->clear();
+	// clear usermenu and menudata
+	if ( m_usermenu ) {
+		m_usermenu->clear();
 	}
 	m_menudata.clear();
 
@@ -185,17 +185,17 @@ void LatexUserMenu::clear()
 ///////////////////////////// update GUI //////////////////////////////
 
 // GUI was updated and all menu items disappeared
-void LatexUserMenu::updateGui()
+void UserMenu::updateGui()
 {
-	KILE_DEBUG() << "update latexmenu ...";
+	KILE_DEBUG() << "update usermenu ...";
 
 	if ( m_menuPosition == DaniMenuPosition ) {
 		KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-		m_latexmenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_userlatex", mainwindow));
+		m_usermenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
 	}
 
 	// like slotInstallXmlFile(), but without updating KileConfig::menuFile
-	// first clear old latexmenu, menudata, actions and actionlists
+	// first clear old usermenu, menudata, actions and actionlists
 	clear();
 
 	// then install
@@ -213,21 +213,21 @@ void LatexUserMenu::updateGui()
 ///////////////////////////// update key bindings //////////////////////////////
 
 // shortcut dialog was called, so key bindings may have been changed
-void LatexUserMenu::updateKeyBindings()
+void UserMenu::updateKeyBindings()
 {
 	if ( m_currentXmlFile.isEmpty() && !QFile(m_currentXmlFile).exists() ) {
 		return;
 	}
 
 	// new key bindings are found in kileui.rc (ActionProperties)
-	// remove them, as they will be written into latexmenu xml file
+	// remove them, as they will be written into usermenu xml file
 	removeActionProperties();
 
-	// update xml file of current latexmenu
+	// update xml file of current usermenu
 	updateXmlFile(m_currentXmlFile);
 }
 
-void LatexUserMenu::removeActionProperties()
+void UserMenu::removeActionProperties()
 {
 	QString xmlfile = "kileui.rc";
 	QString xml(KXMLGUIFactory::readConfigFile(xmlfile));
@@ -246,10 +246,10 @@ void LatexUserMenu::removeActionProperties()
 		return;
 	}
 
-	// search for all actions of the user defined Latexmenu
+	// search for all actions of the user defined UserMenu
 	KILE_DEBUG() << "QDomElement actionPropertiesElement found ";
 	bool changed = false;
-	QRegExp re("latexuseraction-(\\d+)$");
+	QRegExp re("useraction-(\\d+)$");
 	QDomElement e = actionPropElement.firstChildElement();
 	while(!e.isNull()) {
 		QString tag = e.tagName();
@@ -287,11 +287,11 @@ void LatexUserMenu::removeActionProperties()
 
 // Calling m_mainWindow->guiFactory()->refreshActionProperties() in kile.cpp removes all
 // user defined action shortcuts and icons. Here they will be refreshed again.
-void LatexUserMenu::refreshActionProperties()
+void UserMenu::refreshActionProperties()
 {
 	KILE_DEBUG() << "refresh action properties";
 
-	QRegExp re("latexuseraction-(\\d+)$");
+	QRegExp re("useraction-(\\d+)$");
 	foreach ( KAction *action, m_actionlist ) {
 		if ( re.indexIn(action->objectName()) == 0 ) {
 			int actionIndex = re.cap(1).toInt();
@@ -305,10 +305,10 @@ void LatexUserMenu::refreshActionProperties()
 	}
 }
 
-// Before calling latexmenu dialog, all user defined action shortcuts must be removed,
-// or the dialog will give a lot of warnings. All shortcuts (even if changed) in the latexmenu
+// Before calling usermenu dialog, all user defined action shortcuts must be removed,
+// or the dialog will give a lot of warnings. All shortcuts (even if changed) in the usermenu
 // will be refreshed again, when the dialog is finished
-void LatexUserMenu::removeShortcuts()
+void UserMenu::removeShortcuts()
 {
 	foreach ( KAction *action, m_actionlist ) {
 		action->setShortcut( KShortcut() );
@@ -318,11 +318,11 @@ void LatexUserMenu::removeShortcuts()
 ///////////////////////////// install/remove xml //////////////////////////////
 
 // call from the menu: no xml file given
-void LatexUserMenu::installXmlMenufile()
+void UserMenu::installXmlMenufile()
 {
 	KILE_DEBUG() << "install xml file with KFileDialog::getOpenFileName";
 
-	QString directory = selectLatexmenuDir();
+	QString directory = selectUserMenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString filename = KFileDialog::getOpenFileName(directory, filter, m_ki->mainWindow(), i18n("Select Menu File"));
@@ -338,14 +338,14 @@ void LatexUserMenu::installXmlMenufile()
 	}
 }
 
-// SIGNAL from latexmenu dialog: install new latexmenu (xml file given)
+// SIGNAL from usermenu dialog: install new usermenu (xml file given)
 //
-// use 'basename.ext' if the file is placed in 'KILE-LOCAL-DIR/latexmenu' directory and full filepath else
-void LatexUserMenu::slotInstallXmlFile(const QString &filename)
+// use 'basename.ext' if the file is placed in 'KILE-LOCAL-DIR/usermenu' directory and full filepath else
+void UserMenu::slotInstallXmlFile(const QString &filename)
 {
 	KILE_DEBUG() << "install xml file" << filename;
 
-	// clear old latexmenu, menudata, actions and actionlists
+	// clear old usermenu, menudata, actions and actionlists
 	clear();
 
 	if ( installXml(filename) ) {
@@ -354,7 +354,7 @@ void LatexUserMenu::slotInstallXmlFile(const QString &filename)
 
 		// save xml file in config (with or without path)
 		QString xmlfile = filename;
-		QString dir = KGlobal::dirs()->findResource("appdata","latexmenu/");
+		QString dir = KGlobal::dirs()->findResource("appdata","usermenu/");
 		if ( filename.startsWith(dir) ) {
 			QString basename = filename.right( filename.length()-dir.length() );
 			if ( !basename.isEmpty() && !basename.contains("/") )  {
@@ -373,7 +373,7 @@ void LatexUserMenu::slotInstallXmlFile(const QString &filename)
 	}
 }
 
-void LatexUserMenu::slotRemoveXmlFile()
+void UserMenu::slotRemoveXmlFile()
 {
 	KILE_DEBUG() << "remove xml file";
 
@@ -392,20 +392,20 @@ void LatexUserMenu::slotRemoveXmlFile()
 	emit (updateStatus());
 }
 
-///////////////////////////// install latexusermenu from XML //////////////////////////////
+///////////////////////////// install usermenu from XML //////////////////////////////
 
-// pre: latexmenu is already cleared
-bool LatexUserMenu::installXml(const QString &filename)
+// pre: usermenu is already cleared
+bool UserMenu::installXml(const QString &filename)
 {
 	KILE_DEBUG() << "install: start";
 
-	if ( !m_latexmenu ) {
-		KILE_DEBUG() << "Hmmmm: found no latexmenu";
+	if ( !m_usermenu ) {
+		KILE_DEBUG() << "Hmmmm: found no usermenu";
 		return false;
 	}
 
 	// read content of xml file
-	QDomDocument doc("Latexmenu");
+	QDomDocument doc("UserMenu");
 	QFile file(filename);
 	if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
 		// TODO KMessageBox
@@ -431,10 +431,10 @@ bool LatexUserMenu::installXml(const QString &filename)
 
 		if ( tag=="submenu" || tag=="separator") {
 			if ( tag == "submenu" ) {
-				installXmlSubmenu(e,m_latexmenu,actionnumber);
+				installXmlSubmenu(e,m_usermenu,actionnumber);
 			}
 			else /* tag=="separator" */ {
-				m_latexmenu->addSeparator();
+				m_usermenu->addSeparator();
 			}
 
 			// try to get some structure into to the context menu
@@ -444,7 +444,7 @@ bool LatexUserMenu::installXml(const QString &filename)
 			}
 		}
 		else /* if ( tag == "menu" ) */ {
-			installXmlMenuentry(e,m_latexmenu,actionnumber);
+			installXmlMenuentry(e,m_usermenu,actionnumber);
 		}
 
 		e = e.nextSiblingElement();
@@ -455,7 +455,7 @@ bool LatexUserMenu::installXml(const QString &filename)
 }
 
 // install a submenu item
-void LatexUserMenu::installXmlSubmenu(const QDomElement &element, QMenu *parentmenu, int &actionnumber)
+void UserMenu::installXmlSubmenu(const QDomElement &element, QMenu *parentmenu, int &actionnumber)
 {
 	QMenu *submenu = parentmenu->addMenu(QString::null);
 
@@ -485,11 +485,11 @@ void LatexUserMenu::installXmlSubmenu(const QDomElement &element, QMenu *parentm
 }
 
 // install a standard menu item
-void LatexUserMenu::installXmlMenuentry(const QDomElement &element, QMenu *parentmenu, int &actionnumber)
+void UserMenu::installXmlMenuentry(const QDomElement &element, QMenu *parentmenu, int &actionnumber)
 {
-	LatexmenuData menudata;
+	UserMenuData menudata;
 
-	menudata.menutype  = LatexmenuData::xmlMenuType( element.attribute("type") );
+	menudata.menutype  = UserMenuData::xmlMenuType( element.attribute("type") );
 
 	// read values
 	if ( element.hasChildNodes() ) {
@@ -498,19 +498,19 @@ void LatexUserMenu::installXmlMenuentry(const QDomElement &element, QMenu *paren
 			QString tag = e.tagName();
 			QString text = e.text();
 
-			int index = LatexmenuData::xmlMenuTag(tag);
+			int index = UserMenuData::xmlMenuTag(tag);
 			switch (index) {
-				case  LatexmenuData::XML_TITLE:            menudata.menutitle = text;                   break;
-				case  LatexmenuData::XML_PLAINTEXT:        menudata.text = text.replace("\\n","\n");    break;
-				case  LatexmenuData::XML_FILENAME:         menudata.filename = text;                    break;
-				case  LatexmenuData::XML_PARAMETER:        menudata.parameter = text;                   break;
-				case  LatexmenuData::XML_ICON:             menudata.icon = text;                        break;
-				case  LatexmenuData::XML_SHORTCUT:         menudata.shortcut = text;                    break;
-				case  LatexmenuData::XML_NEEDSSELECTION:   menudata.needsSelection   = str2bool(text);  break;
-				case  LatexmenuData::XML_USECONTEXTMENU:   menudata.useContextMenu   = str2bool(text);  break;
-				case  LatexmenuData::XML_REPLACESELECTION: menudata.replaceSelection = str2bool(text);  break;
-				case  LatexmenuData::XML_SELECTINSERTION:  menudata.selectInsertion  = str2bool(text);  break;
-				case  LatexmenuData::XML_INSERTOUTPUT:     menudata.insertOutput     = str2bool(text);  break;
+				case  UserMenuData::XML_TITLE:            menudata.menutitle = text;                   break;
+				case  UserMenuData::XML_PLAINTEXT:        menudata.text = text.replace("\\n","\n");    break;
+				case  UserMenuData::XML_FILENAME:         menudata.filename = text;                    break;
+				case  UserMenuData::XML_PARAMETER:        menudata.parameter = text;                   break;
+				case  UserMenuData::XML_ICON:             menudata.icon = text;                        break;
+				case  UserMenuData::XML_SHORTCUT:         menudata.shortcut = text;                    break;
+				case  UserMenuData::XML_NEEDSSELECTION:   menudata.needsSelection   = str2bool(text);  break;
+				case  UserMenuData::XML_USECONTEXTMENU:   menudata.useContextMenu   = str2bool(text);  break;
+				case  UserMenuData::XML_REPLACESELECTION: menudata.replaceSelection = str2bool(text);  break;
+				case  UserMenuData::XML_SELECTINSERTION:  menudata.selectInsertion  = str2bool(text);  break;
+				case  UserMenuData::XML_INSERTOUTPUT:     menudata.insertOutput     = str2bool(text);  break;
 			}
 
 			e = e.nextSiblingElement();
@@ -520,7 +520,7 @@ void LatexUserMenu::installXmlMenuentry(const QDomElement &element, QMenu *paren
 	// add menu item, if its title is not empty
 	if ( !menudata.menutitle.isEmpty() ) {
 
-		KAction *action = m_actioncollection->addAction(QString("latexuseraction-%1").arg(actionnumber), this, SLOT(slotLatexmenuAction()) );
+		KAction *action = m_actioncollection->addAction(QString("useraction-%1").arg(actionnumber), this, SLOT(slotUserMenuAction()) );
 		if ( action ) {
 			 action->setText(menudata.menutitle);
 
@@ -547,14 +547,14 @@ void LatexUserMenu::installXmlMenuentry(const QDomElement &element, QMenu *paren
 
 ///////////////////////////// update XML file //////////////////////////////
 
-// key bindings dialog was called, so the latexmenu xml file must be updated, if one of these actions was changed
+// key bindings dialog was called, so the usermenu xml file must be updated, if one of these actions was changed
 // pre: xml file exists
-void LatexUserMenu::updateXmlFile(const QString &filename)
+void UserMenu::updateXmlFile(const QString &filename)
 {
 	KILE_DEBUG() << "update xml file: " << filename;
 
 	// read content of xml file
-	QDomDocument doc("Latexmenu");
+	QDomDocument doc("UserMenu");
 	QFile file(filename);
 	file.open(QFile::ReadOnly | QFile::Text);
 	doc.setContent(&file);
@@ -590,7 +590,7 @@ void LatexUserMenu::updateXmlFile(const QString &filename)
 }
 
 // install a submenu item
-bool LatexUserMenu::updateXmlSubmenu(QDomDocument &doc, QDomElement &element, int &actionnumber)
+bool UserMenu::updateXmlSubmenu(QDomDocument &doc, QDomElement &element, int &actionnumber)
 {
 	bool changed = false;
 
@@ -612,7 +612,7 @@ bool LatexUserMenu::updateXmlSubmenu(QDomDocument &doc, QDomElement &element, in
 }
 
 // install a standard menu item
-bool LatexUserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &actionnumber)
+bool UserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &actionnumber)
 {
 	bool changed = false;
 
@@ -623,7 +623,7 @@ bool LatexUserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, 
 		while ( !e.isNull()) {
 			QString tag = e.tagName();
 
-			if ( LatexmenuData::xmlMenuTag(tag) == LatexmenuData::XML_SHORTCUT) {
+			if ( UserMenuData::xmlMenuTag(tag) == UserMenuData::XML_SHORTCUT) {
 				oldElement = e;
 				//oldText = e.text();    value not needed, is also in m_menudata[]
 			}
@@ -637,7 +637,7 @@ bool LatexUserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, 
 			// an existing shortcut always needs a new QDomElement
 			if ( !currentShortcut.isEmpty() ) {
 				// create element with new shortcut
-				QDomElement newElement = doc.createElement( LatexmenuData::xmlMenuTagName(LatexmenuData::XML_SHORTCUT) );
+				QDomElement newElement = doc.createElement( UserMenuData::xmlMenuTagName(UserMenuData::XML_SHORTCUT) );
 				QDomText newText = doc.createTextNode(currentShortcut);
 				newElement.appendChild(newText);
 
@@ -668,9 +668,9 @@ bool LatexUserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, 
 // - if no files are present, but in global directory, start with global
 // - if not a single file was found: back to local directory
 
-QString LatexUserMenu::selectLatexmenuDir()
+QString UserMenu::selectUserMenuDir()
 {
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "latexmenu/");
+	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "usermenu/");
 	if ( dirs.size() < 2 ) {
 		return dirs.at(0);
 	}
@@ -688,15 +688,15 @@ QString LatexUserMenu::selectLatexmenuDir()
 	return ( globalList.size() > 0 ) ? dirs.at(1) : localDirName;
 }
 
-////////////////////////////// execLatexmenuAction //////////////////////////////
+////////////////////////////// execUserMenuAction //////////////////////////////
 
-// an action was called from the latexmenu:
+// an action was called from the usermenu:
 //  - identify action
 //  - find textview
 //  - execute action
-void LatexUserMenu::slotLatexmenuAction()
+void UserMenu::slotUserMenuAction()
 {
-	KILE_DEBUG() << "want to start an action from latexmenu ...";
+	KILE_DEBUG() << "want to start an action from usermenu ...";
 
 	KAction *action = dynamic_cast<KAction *>(sender());
 	if ( !action ) {
@@ -706,7 +706,7 @@ void LatexUserMenu::slotLatexmenuAction()
 	QString actionName = action->objectName();
 	KILE_DEBUG() << "action name: " << actionName << "classname=" << action->metaObject()->className();
 
-	QRegExp re("latexuseraction-(\\d+)$");
+	QRegExp re("useraction-(\\d+)$");
 	if ( re.indexIn(actionName) != 0) {
 			KILE_DEBUG() << "STOP: found wrong action name: " << actionName;
 		return;
@@ -730,15 +730,15 @@ void LatexUserMenu::slotLatexmenuAction()
 		return;
 	}
 
-	LatexmenuData::MenuType type = m_menudata[actionIndex].menutype;
+	UserMenuData::MenuType type = m_menudata[actionIndex].menutype;
 
-	if ( type == LatexmenuData::Text ) {
+	if ( type == UserMenuData::Text ) {
 		execActionText(view,m_menudata[actionIndex]);
 	}
-	else if ( type == LatexmenuData::FileContent ) {
+	else if ( type == UserMenuData::FileContent ) {
 		execActionFileContent(view,m_menudata[actionIndex]);
 	}
-	else if ( type == LatexmenuData::Program ) {
+	else if ( type == UserMenuData::Program ) {
 		execActionProgramOutput(view,m_menudata[actionIndex]);
 	}
 	else {
@@ -749,7 +749,7 @@ void LatexUserMenu::slotLatexmenuAction()
 ////////////////////////////// execActionText //////////////////////////////
 
 // execute an action: insert text
-void LatexUserMenu::execActionText(KTextEditor::View *view, const LatexmenuData &menudata)
+void UserMenu::execActionText(KTextEditor::View *view, const UserMenuData &menudata)
 {
 	KILE_DEBUG() << "want to insert text ... ";
 	insertText(view, menudata.text, menudata.replaceSelection, menudata.selectInsertion);
@@ -758,7 +758,7 @@ void LatexUserMenu::execActionText(KTextEditor::View *view, const LatexmenuData 
 ////////////////////////////// execActionFileContent //////////////////////////////
 
 // execute an action: insert file contents
-void LatexUserMenu::execActionFileContent(KTextEditor::View *view, const LatexmenuData &menudata)
+void UserMenu::execActionFileContent(KTextEditor::View *view, const UserMenuData &menudata)
 {
 	KILE_DEBUG() << "want to insert contents of a file: " << menudata.filename;
 
@@ -782,7 +782,7 @@ void LatexUserMenu::execActionFileContent(KTextEditor::View *view, const Latexme
 // TODO metachar %F
 
 // execute an action: run a program
-void LatexUserMenu::execActionProgramOutput(KTextEditor::View *view, const LatexmenuData &menudata)
+void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuData &menudata)
 {
 	KILE_DEBUG() << "want to start a program ... ";
 
@@ -833,12 +833,12 @@ void LatexUserMenu::execActionProgramOutput(KTextEditor::View *view, const Latex
 	m_proc->start();
 }
 
-void LatexUserMenu::slotProcessOutput()
+void UserMenu::slotProcessOutput()
 {
 	m_procOutput += m_proc->readAll();
 }
 
-void LatexUserMenu::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
+void UserMenu::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
 	KILE_DEBUG() << "... finish proc ";
 	KILE_DEBUG() << "output:  " << m_procOutput;
@@ -851,7 +851,7 @@ void LatexUserMenu::slotProcessExited(int /* exitCode */, QProcess::ExitStatus e
 ////////////////////////////// auxiliary //////////////////////////////
 
 // action is finished, now insert some text
-void LatexUserMenu::insertText(KTextEditor::View *view, const QString &text, bool replaceSelection, bool selectInsertion)
+void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool replaceSelection, bool selectInsertion)
 {
 	KILE_DEBUG() << "insert text from action: " << text;
 	// metachars: %R - references (like \ref{%R}, \pageref{%R} ...)
@@ -926,7 +926,7 @@ void LatexUserMenu::insertText(KTextEditor::View *view, const QString &text, boo
 
 ////////////////////////////// auxiliary //////////////////////////////
 
-bool LatexUserMenu::str2bool(const QString &value)
+bool UserMenu::str2bool(const QString &value)
 {
 	return ( value == "true" );
 }
@@ -934,4 +934,4 @@ bool LatexUserMenu::str2bool(const QString &value)
 
 }
 
-#include "latexmenu.moc"
+#include "usermenu.moc"

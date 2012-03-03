@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Latexmenu>
+<UserMenu>
   <submenu>
     <title>Text</title>
     <menu type="text">
@@ -67,4 +67,4 @@
     <replaceSelection>true</replaceSelection>
     <insertOutput>true</insertOutput>
   </menu>
-</Latexmenu>
+</UserMenu>

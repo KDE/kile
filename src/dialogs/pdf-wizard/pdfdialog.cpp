@@ -192,7 +192,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 #endif
 
 	// find available utilities for this dialog
-	executeScript("kpsewhich pdfpages.sty", QString::null, PDF_SCRIPTMODE_TOOLS);
+	executeScript("kpsewhich pdfpages.sty", QString(), PDF_SCRIPTMODE_TOOLS);
 }
 
 PdfDialog::~PdfDialog()
@@ -405,8 +405,8 @@ void PdfDialog::setNumberOfPages(int numpages)
 void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassword)
 {
 	// determine the number of pages of the pdf file (delegate this task)
-	QString command = QString::null;
-	QString passwordparam = QString::null;
+	QString command;
+	QString passwordparam;
 	int scriptmode = m_numpagesMode;
 
 	if ( scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK && askForPassword ) {
@@ -414,7 +414,7 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
 		                                          i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
 		                                               "Please enter the password for this PDF file\n or leave it blank to try another method: "),
-		                                          QString::null, &ok, this ).trimmed();
+		                                          QString(), &ok, this ).trimmed();
 		if ( ! password.isEmpty() ) {
 			passwordparam = " input_pw " + password;
 		}
@@ -494,22 +494,22 @@ void PdfDialog::clearDocumentInfo()
 	m_encrypted = false;
 	m_PdfDialog.m_lbPassword->setEnabled(false);
 	m_PdfDialog.m_edPassword->setEnabled(false);
-	m_PdfDialog.m_edPassword->setText(QString::null);
+	m_PdfDialog.m_edPassword->clear();
 
 	for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
-		m_pdfInfoWidget[*it]->setText(QString::null);
+		m_pdfInfoWidget[*it]->clear();
 	}
 
-	m_PdfDialog.m_lbCreationDate->setText(QString::null);
-	m_PdfDialog.m_lbModDate->setText(QString::null);
+	m_PdfDialog.m_lbCreationDate->clear();
+	m_PdfDialog.m_lbModDate->clear();
 
 	for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 		m_pdfPermissionWidgets.at(i)->setChecked(false);
 	}
 
-	m_PdfDialog.m_lbPages->setText(QString::null);
-	m_PdfDialog.m_lbFormat->setText(QString::null);
-	m_PdfDialog.m_lbEncryption->setText(QString::null);
+	m_PdfDialog.m_lbPages->clear();
+	m_PdfDialog.m_lbFormat->clear();
+	m_PdfDialog.m_lbEncryption->clear();
 }
 
 void PdfDialog::updateOwnerPassword(bool infile_exists)
@@ -595,7 +595,7 @@ void PdfDialog::updateToolsInfo()
 		}
 	}
 
-	QString popplerinfo = (m_poppler ) ? QString::null : newline + i18n("<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</i>");
+	QString popplerinfo = (m_poppler ) ? QString() : newline + i18n("<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</i>");
 	info += popplerinfo;
 
 	// set info text
@@ -680,7 +680,7 @@ void PdfDialog::updateTasks()
 
 QString PdfDialog::getOutfileName(const QString &infile)
 {
-	return ( infile.isEmpty() ) ? QString::null : infile.left(infile.length()-4) + "-out" + ".pdf";
+	return ( infile.isEmpty() ) ? QString() : infile.left(infile.length()-4) + "-out" + ".pdf";
 }
 
 // calculate task index from comboxbox index
@@ -796,7 +796,7 @@ void PdfDialog::slotTaskChanged(int)
 
 		m_PdfDialog.m_lbParameter->setText(labeltext);
 		m_PdfDialog.m_lbParameter->show();
-		m_PdfDialog.m_edParameter->setText(QString::null);
+		m_PdfDialog.m_edParameter->clear();
 		m_PdfDialog.m_edParameter->show();
 		m_PdfDialog.m_lbParamInfo->show();
 	}
@@ -985,7 +985,7 @@ void PdfDialog::executeProperties()
 
 	// execute script
 	showLogs("Updating properties", inputfile, param);
-	executeScript(command, QString::null, PDF_SCRIPTMODE_PROPERTIES);
+	executeScript(command, QString(), PDF_SCRIPTMODE_PROPERTIES);
 
 }
 
@@ -1016,7 +1016,7 @@ void PdfDialog::executePermissions()
 
 	// execute script
 	showLogs("Updating permissions", inputfile, param);
-	executeScript(command, QString::null, PDF_SCRIPTMODE_PERMISSIONS);
+	executeScript(command, QString(), PDF_SCRIPTMODE_PERMISSIONS);
 
 }
 
@@ -1247,7 +1247,7 @@ QString PdfDialog::buildActionCommand()
 		break;
 
 		case PDF_DECRYPT:
-			m_param = QString::null;
+			m_param.clear();
 			m_execLatex = false;
 		break;
 

@@ -139,7 +139,7 @@ namespace KileTool
 		m_bClear = true;
 	}
 
-	bool Manager::queryContinue(const QString & question, const QString & caption /*= QString::null*/)
+	bool Manager::queryContinue(const QString & question, const QString & caption /*= QString()*/)
 	{
 		return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 	}
@@ -409,7 +409,7 @@ namespace KileTool
 		}
 	}
 
-	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject, const QString & cfg /*= QString::null*/)
+	bool Manager::retrieveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject, const QString & cfg /*= QString()*/)
 	{
 		QString group = (cfg.isEmpty()) ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
 

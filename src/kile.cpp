@@ -2903,7 +2903,7 @@ void Kile::citeViewBib()
 			}
 			else
 			{
-				insertTag(KileAction::TagData(i18n("ViewBib Citation"), result, QString::null, result.length()));
+				insertTag(KileAction::TagData(i18n("ViewBib Citation"), result, QString(), result.length()));
 
 			}
 		}

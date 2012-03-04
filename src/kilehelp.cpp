@@ -42,7 +42,7 @@ namespace KileHelp
 
 		m_kileReference = m_helpDir + "latexhelp.html";
 		m_latex2eReference =  m_helpDir + "latex2e-texlive.html";
-		
+
 		m_contextHelpType = contextHelpType();
 		initTexDocumentation();
 		initContextHelp();
@@ -297,7 +297,7 @@ namespace KileHelp
 	////////////////////// Help: Keyword //////////////////////
 
 	// Context help: user either current TexLive's Latex2e help, TexLive's older tex-refs help or Kile LaTeX help
-	void Help::helpKeyword(KTextEditor::View *view) 
+	void Help::helpKeyword(KTextEditor::View *view)
 	{
 		QString word = getKeyword(view);
 		KILE_DEBUG() << "keyword: " << word;
@@ -373,7 +373,7 @@ namespace KileHelp
 	{
 		// clear old map
 		m_dictHelpTex.clear();
-		
+
 		QString file = m_helpDir + filename;
 		if(file.isEmpty()) {
 			KILE_DEBUG() << "   file not found: " << filename << endl;

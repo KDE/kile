@@ -80,16 +80,16 @@ namespace KileHelp
 		KileDocument::EditorExtension *m_edit;
 		UserHelp *m_userhelp;
 		QString m_helpDir;
-		
+
 		TexVersion m_texVersion;
 		QString m_texVersionText;
 		QString m_texlivePath;
 		QString m_texdocPath;
-		
+
 		QString m_latex2eReference;
 		QString m_texrefsReference;
 		QString m_kileReference;
-		
+
 		HelpType m_contextHelpType;
 		QMap<QString, QString> m_dictHelpTex;
 

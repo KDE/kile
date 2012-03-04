@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 *                 2011 by Felix Mauch (felix_mauch@web.de)                *
 ***************************************************************************/
 
@@ -59,22 +59,23 @@ void KileWidgetHelpConfig::selectHelpLocation()
 
 void KileWidgetHelpConfig::slotHelpInformation()
 {
-		QString message = i18n("<p>LaTeX distributions use very different locations for the base directory of documentation.<br>"
-			"Here are some suggestions, which may help.</p>"
+		QString message = i18n("<p>(La)TeX distributions use various locations for the base directory of the documentation files that they provide.<br/>"
+			"Here are some suggestions:</p>"
 			"<ul>"
-			"<li><i>Debian:&nbsp;</i> /usr/share/doc/texlive-doc</li>"
-			"<li><i>Ubuntu:&nbsp;</i> /usr/share/doc/texlive-doc</li>"
-			"<li><i>OpenSuse:&nbsp;</i> /usr/share/texmf/doc</li>"
-			"<li><i>TexLive 2009:&nbsp;</i> /usr/share/doc/texlive-doc</li>"
-			"<li><i>TexLive 2010 (TUG):&nbsp;</i> /usr/local/texlive/2010/texmf-dist/doc</li>"
-			"<li><i>TexLive 2011 (TUG):&nbsp;</i> /usr/local/texlive/2011/texmf-dist/doc</li>"
+			"<li><i>Debian: </i> /usr/share/doc/texlive-doc</li>"
+			"<li><i>Ubuntu: </i> /usr/share/doc/texlive-doc</li>"
+			"<li><i>OpenSuse: </i> /usr/share/texmf/doc</li>"
+			"<li><i>TexLive 2009: </i> /usr/share/doc/texlive-doc</li>"
+			"<li><i>TexLive 2010 (TUG): </i> /usr/local/texlive/2010/texmf-dist/doc</li>"
+			"<li><i>TexLive 2011 (TUG): </i> /usr/local/texlive/2011/texmf-dist/doc</li>"
 			"</ul>"
-			"<p>For documentation, the comprehensive links in the top-level file <code>doc.html</code> may be helpful,<br>"
-			"if you use TeXLive 2010 or above (<code>/usr/local/texlive/2011/doc.html</code> or similar).<br>"
-			"Consider to place it in the <it>User Help</it> section of the help menu.</p>"
+			"<p>Additionally, if you use TeXLive 2010 or above, the comprehensive collection of links to documentation topics<br/>"
+			"that can be found in the top-level file <code>doc.html</code> may be helpful "
+			"(<code>/usr/local/texlive/2011/doc.html</code> or similar).<br/>"
+			"You may want to consider placing it in the <i>User Help</i> section of the help menu.</p>"
 		);
 
-		KMessageBox::information(this,message,i18n("Latexmenu Dialog"));
+		KMessageBox::information(this, message, i18n("Location of Documentation Files"));
 }
 
 #include "helpconfigwidget.moc"

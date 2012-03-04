@@ -307,7 +307,7 @@ bool UserMenuTree::readXml(const QString &filename)
 	while ( !e.isNull()) {
 		QString tag = e.tagName();
 
-		UserMenuItem *item = 0L;
+		UserMenuItem *item = NULL;
 		if ( tag == "submenu" ) {
 			item = readXmlSubmenu(e);
 		}
@@ -352,7 +352,7 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
-			UserMenuItem *item = 0L;
+			UserMenuItem *item = NULL;
 
 			QString tag = e.tagName();
 			if ( tag == "title" ) {
@@ -751,7 +751,7 @@ bool UserMenuTree::insertSeparator(QTreeWidgetItem *current, bool below)
 
 void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
-	QTreeWidgetItem *parent = ( current ) ? current->parent() : 0L;
+	QTreeWidgetItem *parent = ( current ) ? current->parent() : NULL;
 	int index = itemIndex(parent,current);
 
 	UserMenuItem *item = new UserMenuItem(type,menulabel);
@@ -764,9 +764,9 @@ void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::M
 void UserMenuTree::insertMenuItemBelow(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
 	UserMenuItem *item;
-	QTreeWidgetItem *parent = ( current ) ? current->parent() : 0L;
+	QTreeWidgetItem *parent = ( current ) ? current->parent() : NULL;
 
-	if ( parent == 0L ) {
+	if(!parent) {
 		item = new UserMenuItem(this,current,type,menulabel);
 	}
 	else {
@@ -798,7 +798,7 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
 	int children,index;
 	QTreeWidgetItem *item, *selectitem;
 	QTreeWidgetItem *parent = current->parent();
-	if ( parent == 0L ) {
+	if(!parent) {
 		children = topLevelItemCount();
 		index = indexOfTopLevelItem(current);
 		if ( index < children-1 ) {
@@ -808,7 +808,7 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
 			selectitem = topLevelItem(index-1);
 		}
 		else {
-			selectitem = 0L;
+			selectitem = NULL;
 		}
 
 		item = takeTopLevelItem(index);
@@ -831,7 +831,7 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
 
 	delete item;
 
-	if ( selectitem != 0L ) {
+	if(selectitem) {
 		setCurrentItem(selectitem);
 	}
 }
@@ -841,7 +841,7 @@ void UserMenuTree::itemUp()
 {
 	QTreeWidgetItem *current = currentItem();
 	UserMenuItem *aboveitem = dynamic_cast<UserMenuItem *>(itemAbove(current));
-	if ( aboveitem == 0L ) {
+	if (!aboveitem) {
 		return;
 	}
 

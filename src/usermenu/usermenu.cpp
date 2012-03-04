@@ -439,7 +439,7 @@ bool UserMenu::installXml(const QString &filename)
 
 			// try to get some structure into to the context menu
 			if ( m_actionsContextMenu > 0 ) {
-				m_actionlistContextMenu.append(0L);
+				m_actionlistContextMenu.append(NULL);
 				m_actionsContextMenu = 0;
 			}
 		}

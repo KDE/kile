@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Fri Jun 4 2004
-    copyright            : (C) 2004 by Jeroen Wijnout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+/*************************************************************************************
+  Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -16,8 +15,9 @@
 #ifndef CONFIGCHECKERDIALOG_H
 #define CONFIGCHECKERDIALOG_H
 
-#include <KDialog>
+#include <KAssistantDialog>
 
+#include <QCheckBox>
 #include <QLabel>
 #include <QList>
 #include <QListWidget>
@@ -25,27 +25,22 @@
 
 #include "configtester.h"
 
-class QLabel;
-class QPainter;
-
-class KProgress;
-
-class ConfigCheckerWidget;
+class KileInfo;
 
 namespace KileDialog
 {
 class ResultItem : public QListWidgetItem
 {
 	public:
-		ResultItem(QListWidget *listWidget, const QString &tool, int status, const QList<ConfigTest> &tests);
+		ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests);
 };
 
-class ConfigChecker : public KDialog
+class ConfigChecker : public KAssistantDialog
 {
 		Q_OBJECT
 
 	public:
-		ConfigChecker(QWidget* parent = 0);
+		ConfigChecker(KileInfo *kileInfo, QWidget* parent = NULL);
 		~ConfigChecker();
 
 	public Q_SLOTS:
@@ -53,17 +48,21 @@ class ConfigChecker : public KDialog
 		void started();
 		void finished(bool);
 		void setPercentageDone(int);
-		void saveResults();
 		void slotCancel();
 
-	private:
-		QProgressBar* progressBar();
-		QLabel* label();
-		QListWidget* listWidget();
+		void next();
+
+	protected Q_SLOTS:
+		void assistantFinished();
 
 	private:
-		ConfigCheckerWidget *m_widget;
+		KileInfo *m_ki;
 		Tester    *m_tester;
+		QProgressBar *m_progressBar;
+		QListWidget *m_listWidget;
+		QLabel *m_overallResultLabel;
+		KPageWidgetItem *m_introPageWidgetItem, *m_runningTestsPageWidgetItem, *m_testResultsPageWidgetItem;
+		QCheckBox *m_useEmbeddedViewerCheckBox, *m_useModernConfigurationForLaTeXCheckBox, *m_useModernConfigurationForPDFLaTeX;
 };
 }
 #endif

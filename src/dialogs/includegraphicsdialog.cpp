@@ -146,7 +146,7 @@ QString IncludeGraphics::getTemplate()
 	bool figure = m_widget.cb_figure->isChecked();
 	bool wrapfigure = m_widget.cb_wrapfigure->isChecked();
 	bool center = m_widget.cb_center->isChecked();
-	QString indent = (figure || center) ? m_ki->editorExtension()->autoIndentEnvironment() : QString::null;
+	const QString indent = (figure || center) ? m_ki->editorExtension()->autoIndentEnvironment() : QString();
 
 	// build tags for start of figure environment
 	if (figure) {

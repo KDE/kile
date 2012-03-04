@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Thu Nov 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -105,6 +105,11 @@ namespace KileTool
 			return NULL;
 		}
 		tool->setToolConfig(config);
+
+		// this has to be done after the configuration step only!
+		if(dynamic_cast<KileTool::Sequence*>(tool)) {
+			dynamic_cast<KileTool::Sequence*>(tool)->setupSequenceTools();
+		}
 
 		return tool;
 	}

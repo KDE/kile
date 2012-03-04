@@ -56,6 +56,9 @@ public:
 
 	bool isLivePreviewActive() const;
 	bool isLivePreviewPossible() const;
+
+	bool isLivePreviewEnabledForCurrentDocument();
+	void setLivePreviewEnabledForCurrentDocument(bool b);
   /**
    * run (text, textfilename, startrow) works with the
    * default configuration for QuickPreview. This method

@@ -35,11 +35,11 @@ class UserMenuItem : public QTreeWidgetItem {
 
 	public:
 
-		UserMenuItem(UserMenuData::MenuType type, const QString &menutitle = QString::null);
+		UserMenuItem(UserMenuData::MenuType type, const QString &menutitle = QString());
 		UserMenuItem(QTreeWidget *parent, QTreeWidgetItem *preceding,
-		              UserMenuData::MenuType type, const QString &menutitle = QString::null);
+		              UserMenuData::MenuType type, const QString &menutitle = QString());
 		UserMenuItem(QTreeWidgetItem *parent, QTreeWidgetItem *preceding,
-		             UserMenuData::MenuType type, const QString &menutitle = QString::null);
+		             UserMenuData::MenuType type, const QString &menutitle = QString());
 
 		virtual ~UserMenuItem() {}
 

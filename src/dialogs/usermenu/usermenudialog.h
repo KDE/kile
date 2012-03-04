@@ -111,7 +111,7 @@ class UserMenuDialog : public KileDialog::Wizard
 		void setMenuentryFileChooser(UserMenuItem *item, bool state);
 		void setMenuentryFileParameter(UserMenuItem *item, bool state);
 		void setMenuentryTextEdit(UserMenuItem *item, bool state);
-		void setMenuentryIcon(UserMenuItem *item, bool state, const QString &icon=QString::null);
+		void setMenuentryIcon(UserMenuItem *item, bool state, const QString &icon = QString());
 		void setMenuentryShortcut(UserMenuItem *item, bool state);
 
 		void setParameterGroupbox(bool state);

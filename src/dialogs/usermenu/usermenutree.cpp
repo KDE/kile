@@ -340,15 +340,15 @@ bool UserMenuTree::readXml(const QString &filename)
 // a separator tag was found
 UserMenuItem *UserMenuTree::readXmlSeparator()
 {
-	return new UserMenuItem(UserMenuData::Separator,QString::null);
+	return new UserMenuItem(UserMenuData::Separator, QString());
 }
 
 // read tags for a submenu
 UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 {
-	UserMenuItem *submenuitem = new UserMenuItem(UserMenuData::Submenu,QString::null) ;
+	UserMenuItem *submenuitem = new UserMenuItem(UserMenuData::Submenu, QString()) ;
 
-	QString title = QString::null;
+	QString title;
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
@@ -387,15 +387,15 @@ UserMenuItem *UserMenuTree::readXmlMenuentry(const QDomElement &element)
 	QString menutypename = element.attribute("type");
 	UserMenuData::MenuType menutype = UserMenuData::xmlMenuType(menutypename);
 
-	UserMenuItem *menuentryitem = new UserMenuItem(menutype,QString::null) ;
+	UserMenuItem *menuentryitem = new UserMenuItem(menutype, QString()) ;
 
 	// default values
-	QString title = QString::null;
-	QString plaintext = QString::null;
-	QString filename = QString::null;
-	QString parameter = QString::null;
-	QString icon = QString::null;
-	QString shortcut = QString::null;
+	QString title;
+	QString plaintext;
+	QString filename;
+	QString parameter;
+	QString icon;
+	QString shortcut;
 	bool needsSelection = false;
 	bool useContextMenu = false;
 	bool replaceSelection = false;
@@ -506,7 +506,7 @@ void UserMenuTree::writeXmlMenuentry(QXmlStreamWriter *xml, UserMenuItem *item)
 	xml->writeStartElement("menu");
 	xml->writeAttribute("type", menutypename);
 
-	QString menutitle = ( item->text(0) == EMPTY_MENUENTRY ) ? QString::null : item->text(0);
+	QString menutitle = ( item->text(0) == EMPTY_MENUENTRY ) ? QString() : item->text(0);
 	xml->writeTextElement(UserMenuData::xmlMenuTagName(UserMenuData::XML_TITLE),menutitle);
 
 	if ( menutype == UserMenuData::Text ) {
@@ -569,7 +569,7 @@ void UserMenuTree::writeXmlSubmenu(QXmlStreamWriter *xml, UserMenuItem *item)
 
 	QString menutitle = item->text(0);
 	if ( menutitle == EMPTY_MENUENTRY ) {
-		menutitle = QString::null;
+		menutitle.clear();
 	}
 	else if ( menutitle.right(LENGTH_SUBSTITUTE) == EMPTY_SUBMENU ) {
 		menutitle = menutitle.left(menutitle.length()-LENGTH_SUBSTITUTE);
@@ -740,11 +740,11 @@ bool UserMenuTree::insertSubmenu(QTreeWidgetItem *current, bool below)
 // insert a separator item
 bool UserMenuTree::insertSeparator(QTreeWidgetItem *current, bool below)
 {
-	if ( below ) {
-		insertMenuItemBelow(current,UserMenuData::Separator,QString::null);
+	if(below) {
+		insertMenuItemBelow(current,UserMenuData::Separator, QString());
 	}
 	else {
-		insertMenuItemAbove(current,UserMenuData::Separator,QString::null);
+		insertMenuItemAbove(current,UserMenuData::Separator, QString());
 	}
 	return true;
 }
@@ -779,8 +779,8 @@ void UserMenuTree::insertMenuItemBelow(QTreeWidgetItem *current, UserMenuData::M
 
 void UserMenuTree::insertIntoSubmenu(QTreeWidgetItem *current, UserMenuData::MenuType type)
 {
-	QString menulabel = QString::null;
-	if ( type==UserMenuData::Text || type==UserMenuData::Submenu ) {
+	QString menulabel;
+	if ( type == UserMenuData::Text || type == UserMenuData::Submenu ) {
 		menulabel = getMenuTitle(i18n("Please enter a label for this entry:"));
 		if ( menulabel.isEmpty() ) {
 			return;
@@ -1039,8 +1039,8 @@ bool UserMenuTree::str2bool(const QString &value)
 QString UserMenuTree::getMenuTitle(const QString &title)
 {
 	bool ok;
-	QString value = KInputDialog::getText(i18n("Name"), title, QString::null, &ok, this);
-	return ( ok ) ? value : QString::null;
+	QString value = KInputDialog::getText(i18n("Name"), title, QString(), &ok, this);
+	return ( ok ) ? value : QString();
 
 }
 

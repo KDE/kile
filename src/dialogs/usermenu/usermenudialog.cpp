@@ -128,7 +128,7 @@ void UserMenuDialog::startDialog()
 	initDialog();
 
 	m_modified = false;
-	setXmlFile(QString::null,false);
+	setXmlFile(QString(), false);
 	updateDialogButtons();
 	m_UserMenuDialog.m_pbNew->setEnabled(false);
 }
@@ -137,16 +137,13 @@ void UserMenuDialog::initDialog()
 {
 	updateTreeButtons();
 
-	// zur Kontrolle
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
 		m_menutree->setCurrentItem(current);
 	}
-	else {
-	}
 
 	// init first entry
-	m_currentIcon = QString::null;
+	m_currentIcon.clear();
 	showMenuentryData( dynamic_cast<UserMenuItem *>(current) );
 
 }
@@ -386,7 +383,7 @@ QString UserMenuDialog::saveAsClicked()
 	}
 
 	if ( saveCheck() == false ) {
-		return QString::null;
+		return QString();
 	}
 
 	QString directory = KStandardDirs::locateLocal("appdata", "usermenu/");
@@ -394,12 +391,12 @@ QString UserMenuDialog::saveAsClicked()
 
 	QString filename = KFileDialog::getSaveFileName(directory, filter, this, i18n("Save Menu File"));
 	if(filename.isEmpty()) {
-		return QString::null;
+		return QString();
 	}
 
 	if( QFile::exists(filename) ) {
 		if ( KMessageBox::questionYesNo(this, i18n("File '%1' does already exist.\nOverwrite this file?", filename)) == KMessageBox::No ) {
-			return QString::null;
+			return QString();
 		}
 	}
 
@@ -678,7 +675,7 @@ void  UserMenuDialog::slotIconClicked()
 
 void  UserMenuDialog::slotIconDeleteClicked()
 {
-	m_currentIcon = QString::null;
+	m_currentIcon.clear();
 	setMenuentryIcon(m_currentIcon);
 	setModified();
 }
@@ -856,7 +853,7 @@ void UserMenuDialog::setSubmenuEntry(UserMenuItem *item)
 
 void UserMenuDialog::setMenuentryType(UserMenuItem *item, bool state1, bool state2)
 {
-	QString s = ( item && state1 ) ? m_listMenutypes[item->menutype()] : QString::null;
+	const QString s = ( item && state1 ) ? m_listMenutypes[item->menutype()] : QString();
 	m_UserMenuDialog.m_lbMenuentryType->setText(s);
 	m_UserMenuDialog.m_lbMenuentryType->setEnabled(state1);
 	m_UserMenuDialog.m_pbMenuentryType->setEnabled(state2);
@@ -864,7 +861,7 @@ void UserMenuDialog::setMenuentryType(UserMenuItem *item, bool state1, bool stat
 
 void UserMenuDialog::setMenuentryText(UserMenuItem *item, bool state)
 {
-	QString s = ( item && state ) ? item->menutitle() : QString::null;
+	const QString s = ( item && state ) ? item->menutitle() : QString();
 	m_UserMenuDialog.m_leMenuEntry->setText(s);
 
 	m_UserMenuDialog.m_lbMenuEntry->setEnabled(state);
@@ -873,7 +870,7 @@ void UserMenuDialog::setMenuentryText(UserMenuItem *item, bool state)
 
 void UserMenuDialog::setMenuentryFileChooser(UserMenuItem *item, bool state)
 {
-	QString s = ( item && state ) ? item->filename() : QString::null;
+	const QString s = ( item && state ) ? item->filename() : QString();
 	m_UserMenuDialog.m_urlRequester->setText(s);
 
 	m_UserMenuDialog.m_lbFile->setEnabled(state);
@@ -882,7 +879,7 @@ void UserMenuDialog::setMenuentryFileChooser(UserMenuItem *item, bool state)
 
 void UserMenuDialog::setMenuentryFileParameter(UserMenuItem *item, bool state)
 {
-	QString s = ( item && state ) ? item->parameter() : QString::null;
+	const QString s = ( item && state ) ? item->parameter() : QString();
 	m_UserMenuDialog.m_leParameter->setText(s);
 
 	m_UserMenuDialog.m_lbParameter->setEnabled(state);
@@ -892,7 +889,7 @@ void UserMenuDialog::setMenuentryFileParameter(UserMenuItem *item, bool state)
 
 void UserMenuDialog::setMenuentryTextEdit(UserMenuItem *item, bool state)
 {
-	QString s = ( item && state ) ? item->plaintext() : QString::null;
+	const QString s = ( item && state ) ? item->plaintext() : QString();
 	m_UserMenuDialog.m_teText->setPlainText(s);
 
 	m_UserMenuDialog.m_lbText->setEnabled(state);
@@ -905,7 +902,7 @@ void UserMenuDialog::setMenuentryIcon(UserMenuItem *item, bool state, const QStr
 		m_currentIcon = ( icon.isEmpty() ) ? item->menuicon() : icon;
 	}
 	else {
-		m_currentIcon = QString::null;
+		m_currentIcon.clear();
 	}
 
 	// update widgets
@@ -983,10 +980,10 @@ void UserMenuDialog::setMenuentryCheckboxes(UserMenuItem *item, bool useInsertOu
 
 void UserMenuDialog::clearMenuEntryData()
 {
-	m_UserMenuDialog.m_leMenuEntry->setText(QString::null);
-	m_UserMenuDialog.m_lbMenuentryType->setText(QString::null);
-	m_UserMenuDialog.m_urlRequester->setText(QString::null);
-	m_UserMenuDialog.m_teText->setPlainText(QString::null);
+	m_UserMenuDialog.m_leMenuEntry->clear();
+	m_UserMenuDialog.m_lbMenuentryType->clear();
+	m_UserMenuDialog.m_urlRequester->clear();
+	m_UserMenuDialog.m_teText->clear();
 	m_UserMenuDialog.m_pbIcon->setIcon(KIcon(i18n("Choose")));
 	m_UserMenuDialog.m_keyChooser->clearKeySequence();
 

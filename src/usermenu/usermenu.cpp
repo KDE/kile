@@ -90,7 +90,7 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 			installXml(m_currentXmlFile);
 		}
 		else {
-			m_currentXmlFile = QString::null;
+			m_currentXmlFile.clear();
 		}
 	}
 
@@ -378,7 +378,7 @@ void UserMenu::slotRemoveXmlFile()
 	KILE_DEBUG() << "remove xml file";
 
 	clear();
-	m_currentXmlFile = QString::null;
+	m_currentXmlFile.clear();
 
 // 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 // 	QMenu *dani_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
@@ -457,9 +457,9 @@ bool UserMenu::installXml(const QString &filename)
 // install a submenu item
 void UserMenu::installXmlSubmenu(const QDomElement &element, QMenu *parentmenu, int &actionnumber)
 {
-	QMenu *submenu = parentmenu->addMenu(QString::null);
+	QMenu *submenu = parentmenu->addMenu(QString());
 
-	QString title = QString::null;
+	QString title;
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
@@ -826,7 +826,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 
 	KILE_DEBUG() << "... start proc: " << cmdline;
 	// init and/or save important data
-	m_procOutput = QString::null;
+	m_procOutput.clear();
 	m_procView = view;;
 	m_procMenudata = &menudata;
 
@@ -903,7 +903,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 		}
 	}
 	else {
-		ins.replace("%S",QString::null);
+		ins.replace("%S", QString());
 	}
 	KILE_DEBUG() << " ---> " << ins;
 

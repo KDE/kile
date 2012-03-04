@@ -27,12 +27,12 @@ UserMenuData::UserMenuData()
 void UserMenuData::clear()
 {
 	menutype  = Text;
-	menutitle = QString::null;
-	filename  = QString::null;
-	parameter = QString::null;
-	text      = QString::null;
-	icon      = QString::null;
-	shortcut  = QString::null;
+	menutitle.clear();
+	filename.clear();
+	parameter.clear();
+	text.clear();
+	icon.clear();
+	shortcut.clear();
 
 	needsSelection   = false;
 	useContextMenu   = false;

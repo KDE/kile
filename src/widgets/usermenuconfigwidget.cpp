@@ -82,8 +82,8 @@ void KileWidgetUsermenuConfig::slotRemoveClicked()
 {
 	KILE_DEBUG() << "remove clicked";
 
-	emit (removeXmlFile());
-	setXmlFile(QString::null);
+	emit(removeXmlFile());
+	setXmlFile(QString());
 }
 
 void KileWidgetUsermenuConfig::setXmlFile(const QString &file)

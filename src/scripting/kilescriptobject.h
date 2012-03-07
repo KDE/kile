@@ -118,6 +118,41 @@ class KileJavaScript : public QObject
 
 };
 
+////////////////////////////////// KileFile object //////////////////////////////////////
+
+class KileFile : public QObject
+{
+	Q_OBJECT
+
+	public:
+
+		enum AccessResult {
+			ACCESS_OK = 0,
+			ACCESS_FAILED,
+			ACCESS_DENIED
+		};
+
+		KileFile(QObject *parent, KileInfo *kileInfo);
+		virtual ~KileFile() {}
+
+		// Read the contents of a file. If no filename is given, getOpenFileName() is called first
+		Q_INVOKABLE QMap<QString, QVariant> read(const QString& filename) const;
+		Q_INVOKABLE QMap<QString, QVariant> read() const;
+
+		// Write text into a file. If no filename is given, getSaveFileName() is called first
+		Q_INVOKABLE QMap<QString, QVariant> write(const QString& filename, const QString& text) const;
+		Q_INVOKABLE QMap<QString, QVariant> write(const QString& text) const;
+
+		// Open/Save dialogs from KFileDialog
+		Q_INVOKABLE QString getOpenFileName(const KUrl& url = KUrl(), const QString& filter = QString());
+		Q_INVOKABLE QString getSaveFileName(const KUrl& url = KUrl(), const QString& filter = QString());
+
+	private:
+		KileInfo *m_kileInfo;
+
+		QMap<QString, QVariant> actionCancelled() const;
+};
+
 ////////////////////////////////// KileScript object //////////////////////////////////////
 
 class KileScriptObject : public QObject
@@ -128,6 +163,7 @@ class KileScriptObject : public QObject
 	Q_PROPERTY(QObject* input READ getInput);
 	Q_PROPERTY(QObject* wizard READ getWizard);
 	Q_PROPERTY(QObject* script READ getScript);
+	Q_PROPERTY(QObject* file READ getFile);
 
 	public:
 		KileScriptObject(QObject *parent, KileInfo *kileInfo, const QMap<QString,QAction *> *scriptActions);
@@ -137,6 +173,7 @@ class KileScriptObject : public QObject
 		QObject* getInput()  { return m_kileInput;  }
 		QObject* getWizard() { return m_kileWizard; }
 		QObject* getScript() { return m_kileScript; }
+		QObject* getFile()   { return m_kileFile;   }
 
 		void setScriptname(const QString &name);
 
@@ -147,6 +184,7 @@ class KileScriptObject : public QObject
 		KileInput  *m_kileInput;
 		KileWizard *m_kileWizard;
 		KileJavaScript *m_kileScript;
+		KileFile *m_kileFile;
 };
 
 }

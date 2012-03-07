@@ -22,7 +22,6 @@ namespace KileScript {
 KileScriptDocument::KileScriptDocument(QObject *parent, KileInfo* kileInfo, KileDocument::EditorExtension *editor, const QMap<QString,QAction *> *scriptActions)
    : QObject(parent), m_kileInfo(kileInfo), m_view(0), m_document(0), m_editor(editor), m_scriptActions(scriptActions)
 {
-	KILE_DEBUG() << "----------------------------------> create KileScriptDocument ...";
 }
 
 ////////////////////////////////// view/document //////////////////////////////////////

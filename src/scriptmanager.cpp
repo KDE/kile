@@ -77,7 +77,7 @@ namespace KileScript {
 
 	void Manager::executeScript(const Script *script)
 	{
-		KILE_DEBUG() << "----------------------------------> execute script " << script->getName();
+		KILE_DEBUG() << "execute script: " << script->getName();
 
 		// compatibility check
 		QString code = script->getCode();
@@ -101,7 +101,6 @@ namespace KileScript {
 		}
 
 		// TODO setup script objects (with existing views at this moment)
-		KILE_DEBUG() << "----------------------------------> init script objects " << view;
 		m_kileScriptView->setView(view);
 		m_kileScriptDocument->setView(view);
 		m_kileScriptObject->setScriptname(script->getName());

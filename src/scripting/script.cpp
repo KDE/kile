@@ -212,7 +212,7 @@ ScriptEnvironment::ScriptEnvironment(KileInfo *kileInfo,
      m_kileScriptObject(scriptObject), m_enginePluginCode(pluginCode)
 {
 
-	KILE_DEBUG() << "----------------------------------> create ScriptEnvironment";
+	KILE_DEBUG() << "create ScriptEnvironment";
 	m_engine = new QScriptEngine();
 	qScriptRegisterMetaType(m_engine, cursorToScriptValue, cursorFromScriptValue);
 	qScriptRegisterMetaType(m_engine, rangeToScriptValue, rangeFromScriptValue);
@@ -226,8 +226,6 @@ ScriptEnvironment::~ScriptEnvironment()
 // Executes script code in this environment.
 void ScriptEnvironment::execute(const Script *script)
 {
-	KILE_DEBUG() << "----------------------------------> execute " << script->getName();
-
 	// initialize engine to work with Cursor and Range objects
 	m_engine->evaluate(m_enginePluginCode,i18n("Cursor/Range plugin"));
 
@@ -236,7 +234,7 @@ void ScriptEnvironment::execute(const Script *script)
 		return;
 	}
 	else {
-		KILE_DEBUG() << "----------------------------------> Cursor/Range plugin successfully installed ";
+		KILE_DEBUG() << "Cursor/Range plugin successfully installed ";
 	}
 
 	// set global objects
@@ -257,7 +255,7 @@ void ScriptEnvironment::execute(const Script *script)
 		scriptError(script->getName());
 	}
 	else {
-		KILE_DEBUG() << "----------------------------------> script finished without errors";
+		KILE_DEBUG() << "script finished without errors";
 	}
 
  //FIXME: add time execution limit once it becomes available

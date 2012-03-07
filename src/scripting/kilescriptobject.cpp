@@ -12,7 +12,13 @@
 ***************************************************************************/
 
 #include <QRegExpValidator>
+#include <QVariant>
+#include <QMap>
+#include <QFile>
+#include <QFileInfo>
+
 #include <KMessageBox>
+#include <KFileDialog>
 #include <KInputDialog>
 #include <KTextEditor/View>
 
@@ -27,7 +33,6 @@ namespace KileScript {
 KileAlert::KileAlert(QObject *parent, KParts::MainWindow *mainWindow)
    : QObject(parent), m_mainWindow(mainWindow)
 {
-	KILE_DEBUG() << "----------------------------------> create KileAlert ... ";
 }
 
 void KileAlert::information(const QString &text, const QString &caption)
@@ -65,7 +70,6 @@ QString KileAlert::warning(const QString &text, const QString &caption)
 KileInput::KileInput(QObject *parent)
    : QObject(parent)
 {
-	KILE_DEBUG() << "----------------------------------> create KileInput ... ";
 }
 
 QString KileInput::getListboxItem(const QString &caption, const QString &label, const QStringList &list)
@@ -126,7 +130,6 @@ QStringList KileInput::checkCaptionAndLabel(const QString &caption, const QStrin
 KileWizard::KileWizard(QObject *parent, KileInfo *kileInfo, const QMap<QString,QAction *> *scriptActions)
    : QObject(parent), m_kileInfo(kileInfo), m_scriptActions(scriptActions)
 {
-	KILE_DEBUG() << "----------------------------------> create KileWizard ...";
 }
 
 void KileWizard::tabular()
@@ -187,7 +190,6 @@ bool KileWizard::triggerAction(const QString &name)
 KileJavaScript::KileJavaScript(QObject *parent)
    : QObject(parent)
 {
-	KILE_DEBUG() << "----------------------------------> create KileJavaScript ...";
 }
 
 QString KileJavaScript::caption()
@@ -195,17 +197,121 @@ QString KileJavaScript::caption()
 	return i18n("Script '") + m_scriptname + ".js'";
 }
 
+////////////////////////////////// KileFile object //////////////////////////////////////
+
+KileFile::KileFile(QObject *parent, KileInfo *kileInfo)
+   : QObject(parent),  m_kileInfo(kileInfo)
+{
+}
+
+QMap<QString, QVariant> KileFile::read(const QString& filename) const
+{
+	QMap<QString,QVariant> result;
+//	result["status"] = QVariant();
+	result["message"] = QString();
+	result["text"] = QString();
+
+	QFile file(filename);
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+		result["message"] = i18n("File Handling Error: Unable to find the file '%1'", filename);
+		result["status"] = KileFile::ACCESS_FAILED;
+		return result;
+	}
+
+	// read data
+	QTextStream stream(&file);
+	stream.setCodec("UTF-8");
+	result["text"] = stream.readAll();
+	file.close();
+
+	result["status"] = KileFile::ACCESS_OK;
+
+	return result;
+}
+
+QMap<QString, QVariant> KileFile::read() const
+{
+	QString openedFile = m_kileInfo->getName();
+	const QString filepath = (!openedFile.isEmpty()) ? QFileInfo(m_kileInfo->getName()).absolutePath() : QString();
+	QString filename = KFileDialog::getOpenFileName(filepath, QString(), m_kileInfo->mainWindow(), i18n("Select File to Read"));
+	if(!filename.isEmpty()) {
+		return read(filename);
+	}
+	else {
+		return actionCancelled();
+	}
+}
+
+QMap<QString, QVariant> KileFile::write(const QString& filename, const QString& text) const
+{
+	QMap<QString, QVariant> result;
+
+	QFile file(filename);
+	if(!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+		result["status"] = KileFile::ACCESS_FAILED;
+		result["message"] = i18n("File Handling Error: Unable to create the output file '%1'", filename);
+		return result;
+	}
+
+	// write data
+	qint64 numBytes = file.write(text.toUtf8());
+	file.close();
+
+	if(numBytes < 0) {
+		result["status"] = KileFile::ACCESS_FAILED;
+		result["message"] = i18n("File Handling Error: Unable to write to the output file '%1'", filename);
+	}
+	else {
+		result["status"] = KileFile::ACCESS_OK;
+		result["message"] = QString();
+	}
+	return result;
+}
+
+QMap<QString, QVariant> KileFile::write(const QString& text) const
+{
+	QString openedFile = m_kileInfo->getName();
+	const QString filepath = (!openedFile.isEmpty()) ? QFileInfo(m_kileInfo->getName()).absolutePath() : QString();
+	QString filename = KFileDialog::getSaveFileName(filepath, QString(), m_kileInfo->mainWindow(), i18n("Save As"));
+	if(!filename.isEmpty()) {
+		return write(filename, text);
+	}
+	else {
+		return actionCancelled();
+	}
+}
+
+QString KileFile::getOpenFileName(const KUrl& url, const QString& filter)
+{
+	KUrl startdir = (url.isEmpty()) ? KUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	return KFileDialog::getOpenFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Select File to Read"));
+}
+
+QString KileFile::getSaveFileName(const KUrl& url, const QString& filter)
+{
+	KUrl startdir = (url.isEmpty()) ? KUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	return KFileDialog::getSaveFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Save As"));
+}
+
+QMap<QString,QVariant> KileFile::actionCancelled() const
+{
+	QMap<QString,QVariant> result;
+	result["status"] = KileFile::ACCESS_FAILED;
+	result["message"] = i18n("This action was cancelled by the user.");
+	result["text"] = QString();
+	return result;
+}
+
 ////////////////////////////////// KileScript object //////////////////////////////////////
 
 KileScriptObject::KileScriptObject(QObject *parent, KileInfo* kileInfo, const QMap<QString,QAction *> *scriptActions)
    : QObject(parent), m_kileInfo(kileInfo)
 {
-	KILE_DEBUG() << "----------------------------------> create KileScriptObject ...";
-
 	m_kileAlert = new KileAlert(this,m_kileInfo->mainWindow());
 	m_kileInput = new KileInput(this);
 	m_kileWizard = new KileWizard(this,m_kileInfo,scriptActions);
 	m_kileScript = new KileJavaScript(this);
+	m_kileFile = new KileFile(this,m_kileInfo);
 }
 
 void KileScriptObject::setScriptname(const QString &name)

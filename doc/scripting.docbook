@@ -1523,10 +1523,11 @@ Refresh the structure view (see <xref linkend="navigating" role="select: title p
 
 <para>The global object (variable) <userinput>kile</userinput> is used to handle top level interactions with the outside world, input message and dialog interfaces. These API calls are divided into subobjects to structure this part of the scripting API. Conceptually <userinput>kile</userinput> is a bit like <userinput>window</userinput> in a browser API.
 <itemizedlist>
-<listitem><para><literal>kile.alert</literal>: &nbsp; - &nbsp; message boxes</para></listitem>
-<listitem><para><literal>kile.input</literal>: &nbsp; - &nbsp; get user input</para></listitem>
-<listitem><para><literal>kile.wizard</literal>: &nbsp; - &nbsp; call one of &kile;'s wizards</para></listitem>
-<listitem><para><literal>kile.script</literal>: &nbsp; - &nbsp; get info about a running script</para></listitem>
+<listitem><para><literal>kile.alert</literal>: &nbsp; message boxes</para></listitem>
+<listitem><para><literal>kile.input</literal>: &nbsp; get user input</para></listitem>
+<listitem><para><literal>kile.wizard</literal>: &nbsp; call one of &kile;'s wizards</para></listitem>
+<listitem><para><literal>kile.script</literal>: &nbsp; get info about a running script</para></listitem>
+<listitem><para><literal>kile.file</literal>: &nbsp; file operations like read and write</para></listitem>
 </itemizedlist>
 </para>
 
@@ -1719,6 +1720,90 @@ String kile.script.caption();
 Returns a string, which can be used as captions of alert boxes. It looks like <userinput>Script: scriptname.js</userinput>.
 </para></listitem>
 </varlistentry></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title>File</title>
+
+<variablelist><varlistentry>
+<term><synopsis>
+Object kile.file.read(<parameter>String <replaceable>filename</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Read the contents of a textfile. It is used like
+</para><para>
+Example: <function>var res = kile.file.read("path/to/file.txt");</function>
+</para><para>
+The return value <userinput>res</userinput> is an object( better: a map) with three properties:
+</para><para>
+<itemizedlist>
+<listitem><para><guilabel>status:</guilabel>&nbsp; Gives the status code of the operation, which can be 0 (no error), 1 (access failed) or 2 (access denied). So, if no error oocured, the value of <userinput>res.status</userinput> or <userinput>res["status"]</userinput> will be 0.</para></listitem>
+<listitem><para><guilabel>result:</guilabel>&nbsp; Contains the text of the given file.</para></listitem>
+<listitem><para><guilabel>message:</guilabel>&nbsp; Contains an error message, if an error occured.</para></listitem>
+</itemizedlist>
+</para></listitem>
+</varlistentry></variablelist>
+
+<variablelist><varlistentry>
+<term><synopsis>
+Object kile.file.read();
+</synopsis></term>
+<listitem><para>
+Like <literal>read(filename)</literal>, but no filename is given. A dialog will appear to select the file to read.
+</para></listitem>
+</varlistentry></variablelist>
+
+<variablelist><varlistentry>
+<term><synopsis>
+Object kile.file.write(<parameter>String <replaceable>filename</replaceable></parameter>, <parameter>String <replaceable>text</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Write the given text into a file. It is used like
+</para><para>
+Example: <function>var res = kile.file.write("path/to/file.txt","Some text...");</function>
+</para><para>
+The return value <userinput>res</userinput> is an object( better: a map) with two properties: <literal>status</literal> and <literal>message</literal> (see <literal>read()</literal> for more information).
+</para></listitem>
+</varlistentry></variablelist>
+
+<variablelist><varlistentry>
+<term><synopsis>
+Object kile.file.write(<parameter>String <replaceable>text</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Like <literal>write(filename,text)</literal>, but no filename is given. A dialog will appear to choose a filename.
+</para></listitem>
+</varlistentry></variablelist>
+
+<variablelist><varlistentry>
+<term><synopsis>
+String kile.file.getOpenFileName(<parameter>String <replaceable>startDir</replaceable></parameter>, <parameter>String <replaceable>filter</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Creates a modal file dialog and return the selected filename or an empty string if none was chosen. Note that with this method the user must select an existing filename.
+</para><para>
+Parameters:
+</para><para>
+<itemizedlist>
+<listitem><para><guilabel>startDir:</guilabel>&nbsp; Starting directory of the open dialog.</para></listitem>
+<listitem><para><guilabel>filter:</guilabel>&nbsp; A shell glob or a mime-type-filter that specifies which files to display. Refer to the KFileDialog documentation for more information on this parameter.</para></listitem>
+</itemizedlist>
+</para><para>
+Both parameters are optional. If you omit <literal>filter</literal>, all files will be displayed. If additionally <literal>startDir</literal> is omitted, the dialog will take the current document directory as starting point.
+</para></listitem>
+</varlistentry></variablelist>
+
+<variablelist><varlistentry>
+<term><synopsis>
+String kile.file.getSaveFileName(<parameter>String <replaceable>startDir</replaceable></parameter>, <parameter>String <replaceable>filter</replaceable></parameter>);
+</synopsis></term>
+<listitem><para>
+Creates a modal file dialog and returns the selected filename or an empty string if none was chosen. Note that with this method the user need not select an existing filename.
+See <literal>getOpenFileName()</literal> for an explanation of the parameters.
+</para></listitem>
+</varlistentry></variablelist>
+
 </sect3>
 
 </sect2>

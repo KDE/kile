@@ -45,6 +45,10 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, QObject *usermenu,
 	// Indexes must be identical to MenuType. Only the first three of them are choosable (see CHOOSABLE_MENUTYPES)
 	m_listMenutypes << i18n("Text") << i18n("Insert file contents") << i18n("Execute program") << i18n("Separator") << i18n("Submenu");
 
+	// some text
+	m_UserMenuDialog.m_teText->setWhatsThis(i18n("Text, which will be inserted, if the action is executed. Some placeholders are available: <ul><li>%M - selected (marked) text</li><li>%C - cursor position</li><li>%B - bullet</li><li>%E - indentation in environments</li><li>%R - select label from list</li><li>%T - select citation key from list</li></ul>"));
+	m_UserMenuDialog.m_teText->setToolTip(i18n("Available placeholders:\n%M: Selected (marked) text\n%C: Cursor position\n%B: Bullet\n%E - Indentation in environments\n%R: Select label from list\n%T: Select citation key from list\n%S: Source file name without extension"));
+
 	// search for all action collections (needed for shortcut conflicts)
 	QList<KActionCollection *> allCollections;
 	foreach ( KXMLGUIClient *client, m_ki->mainWindow()->guiFactory()->clients() ) {
@@ -229,13 +233,15 @@ void UserMenuDialog::slotButtonClicked(int button)
 			"<p>Each standard menu item is assigned to one of three action types:</p>"
 			"<ul>"
 			"<li><i>insert text</i>: this action will insert your text at the current cursor position. "
-			"Two metachars are available: <tt>%S</tt> will denote the selected text and <tt>%C</tt> the new cursor position after insertion.</li>"
-			"<li><i>file content</i>: inserts the complete contents of a given file (metachars <tt>%S</tt> and <tt>%C</tt> and more are also available)</li>"
+			"Some metachars are available: <tt>%M</tt>, <tt>%C</tt>, <tt>%B</tt>, <tt>%E</tt>, <tt>%R</tt>, <tt>%T</tt>, <tt>%S</tt>: "
+			"see the <i>What's This</i> or <i>Tool Tip</i> feature of this widget to get more information.</li>"
+			"<li><i>file content</i>: inserts the complete contents of a given file (metachars are also available)</li>"
 			"<li><i>run an external program</i>: The output of this program can be inserted into the opened document. "
-			"Metachar <tt>%S</tt> is also possible in the commandline of this program, as the selected text will be saved in a temporary file. "
-			"Use <tt>%S</tt> for the filename of this temporary file.</li>"
+			"Metachar <tt>%M</tt> is also possible in the commandline of this program, as the selected text will be saved in a temporary file. "
+			"Use <tt>%M</tt> for the filename of this temporary file.</li>"
 			"</ul>"
-			"<p>If some  important information for an action is missing, menu items are colored red. More information is available using the <i>What's this</i> feature of most widgets.</p>");
+			"<p>If some  important information for an action is missing, menu items are colored red. "
+			"More information is available using the <i>What's this</i> feature of most widgets.</p>");
 
 		KMessageBox::information(this,message,i18n("UserMenu Dialog"));
 	}

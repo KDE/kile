@@ -779,8 +779,6 @@ void UserMenu::execActionFileContent(KTextEditor::View *view, const UserMenuData
 
 ////////////////////////////// execActionFileContent //////////////////////////////
 
-// TODO metachar %F
-
 // execute an action: run a program
 void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuData &menudata)
 {
@@ -789,32 +787,57 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 	// delete old process
 	if (m_proc) {
 		delete m_proc;
+		m_proc = NULL;
 	}
 
-	// create temporary file
-	KTemporaryFile tempfile;
-	tempfile.setSuffix(".txt");
-	tempfile.setAutoRemove(false);
+	// build commandline
+	QString cmdline = menudata.filename + " " + menudata.parameter;
+	bool useTemporaryFile = cmdline.contains("%M");
+	
+	bool needsSelection = menudata.needsSelection;
+	bool hasSelection = view->selection();
 
-	if ( !tempfile.open() ) {
-		KILE_DEBUG() << "STOP: could not create tempfile for selection text" ;
+	// check parameter
+	if ( needsSelection && !hasSelection ) {
+		KILE_DEBUG() << "STOP: this program needs selected text";
 		return;
 	}
+	
+	// do we need a temporary file for the selected text?
+	if ( hasSelection && useTemporaryFile ) {
+		KILE_DEBUG() << "selection and 'placeholder' %M found --> create temporary file";
+		
+		// create temporary file
+		KTemporaryFile tempfile;
+		tempfile.setSuffix(".txt");
+		tempfile.setAutoRemove(false);
 
-	// get filename
-	QString selfile = tempfile.fileName();
+		if ( !tempfile.open() ) {
+			KILE_DEBUG() << "STOP: could not create tempfile for selected text" ;
+			return;
+		}
 
-	// write selection
-	QTextStream stream( &tempfile );
-	stream << view->selectionText() << "\n";
-	tempfile.close();
+		// get filename
+		QString selfile = tempfile.fileName();
 
-	// update comamndline with temporary filename of selection
-	QString cmdline = menudata.filename + " " + menudata.parameter;
-	if ( cmdline.contains("%S") ) {
-		cmdline.replace("%S",selfile);
+		// write selection
+		QTextStream stream( &tempfile );
+		stream << view->selectionText() << "\n";
+		tempfile.close();
+
+		// update comamndline with temporary filename of selection
+		cmdline.replace("%M",selfile);
 	}
 
+	// replace %F with the complete base name of the file without the path.
+	// The complete base name consists of all characters in the file up to
+	// (but not including) the last '.' character.
+	if (  cmdline.contains("%S") ) {
+		QFileInfo fi(view->document()->url().toLocalFile());
+		QString basename = fi.completeBaseName();
+		cmdline.replace("%S",basename);
+	}
+	
 	m_proc = new KProcess(this);
 	m_proc->setShellCommand(cmdline);
 	m_proc->setOutputChannelMode(KProcess::MergedChannels);
@@ -879,7 +902,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 	}
 
 	// metachars: %B - bullet
-	//            %S - selected text (replaced by %C, if no selection is present)
+	//            %M - selected text (replaced by %C, if no selection is present)
 	//            %C - place cursor
 	//            %E - indent in environment
 	QString ins = text;
@@ -887,12 +910,12 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 
 	// deselect and/or remove current selection
 	if ( view->selection() ) {
-		if ( ins.contains("%S") )  {
-			if ( ins.contains("%S%C") ) {
-				ins.replace("%S%C",view->selectionText());
+		if ( ins.contains("%M") )  {
+			if ( ins.contains("%M%C") ) {
+				ins.replace("%M%C",view->selectionText());
 			}
 			else {
-				ins.replace("%S",view->selectionText());
+				ins.replace("%M",view->selectionText());
 			}
 		}
 		if ( replaceSelection ) {
@@ -903,7 +926,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 		}
 	}
 	else {
-		ins.replace("%S", QString());
+		ins.replace("%M", QString());
 	}
 	KILE_DEBUG() << " ---> " << ins;
 

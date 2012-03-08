@@ -457,9 +457,6 @@
                 <family>Monospace</family>
                </font>
               </property>
-              <property name="whatsThis">
-               <string>Text, which will be inserted, if the action is executed. Some metachars are available: &lt;ul&gt;&lt;li&gt;%S - selected text&lt;/li&gt;&lt;li&gt;%C - cursor position&lt;/li&gt;&lt;li&gt;%B - bullet&lt;/li&gt;&lt;li&gt;%E - indent in environment&lt;/li&gt;&lt;li&gt;%R - select label from list&lt;/li&gt;&lt;li&gt;%T - select reference from list&lt;/li&gt;&lt;/ul&gt;</string>
-              </property>
              </widget>
             </item>
             <item row="6" column="0">

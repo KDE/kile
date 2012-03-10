@@ -169,7 +169,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
-       <widget class="QRadioButton" name="m_rbLaTeXMenuPosition">
+       <widget class="QRadioButton" name="m_rbLaTeXMenuLocation">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -185,7 +185,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="m_rbStandAloneMenuPosition">
+       <widget class="QRadioButton" name="m_rbStandAloneMenuLocation">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>

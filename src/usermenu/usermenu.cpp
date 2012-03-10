@@ -72,8 +72,8 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 	latex_menu->addMenu(m_latexMenuEntry);
 
 	// prepare menu position
-	m_menuPosition = KileConfig::menuPosition();
-	m_usermenu = ( m_menuPosition == StandAlonePosition )
+	m_menuLocation = KileConfig::menuLocation();
+	m_usermenu = (m_menuLocation == StandAloneLocation)
 	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
@@ -125,25 +125,25 @@ void UserMenu::updateUsermenuPosition()
 
 	// and set the new one
 	bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
-	if ( m_menuPosition == StandAlonePosition ) {
-		setVisibleDaniMenu(true,show);
+	if(m_menuLocation == StandAloneLocation) {
+		setVisibleDaniMenu(true, show);
 		dani_menu->menuAction()->setVisible(true && show);
 	}
 	else {
-		setVisibleDaniMenu(false,show);
+		setVisibleDaniMenu(false, show);
 		dani_menu->menuAction()->setVisible(false);
 	}
 }
 
-void UserMenu::slotChangeMenuPosition(int newPosition)
+void UserMenu::slotChangeMenuLocation(int newPosition)
 {
-	// clear old usermenu, whereever it is
+	// clear old usermenu, wherever it is
 	clear();
 
 	// set new usermenu position
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-	m_menuPosition = newPosition;
-	m_usermenu = ( m_menuPosition == StandAlonePosition )
+	m_menuLocation = newPosition;
+	m_usermenu = (m_menuLocation == StandAloneLocation)
 	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
@@ -189,7 +189,7 @@ void UserMenu::updateGui()
 {
 	KILE_DEBUG() << "update usermenu ...";
 
-	if ( m_menuPosition == StandAlonePosition ) {
+	if(m_menuLocation == StandAloneLocation) {
 		KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 		m_usermenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
 	}

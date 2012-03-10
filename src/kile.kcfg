@@ -606,12 +606,12 @@
 	</group>
 	<group name="UserMenu">
 		<entry name="menuFile" type="String">
-			<label>XML file for the usermenu.</label>
+			<label>XML file for the user menu</label>
 			<default></default>
 		</entry>
-		<entry name="menuPosition" type="Int">
-			<label>Use the main menubar for the usermenu.</label>
-			<default>0</default>
+		<entry name="menuLocation" type="Int">
+			<label>Use the main menubar (value 0) or the LaTeX menu (value 1) for the location of the user menu</label>
+			<default>1</default>
 		</entry>
 	</group>
 	<group name="LivePreview">

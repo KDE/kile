@@ -34,7 +34,7 @@ class UserMenu : public QObject
 	Q_OBJECT
 
 	public:
-		enum MenuPosition { StandAlonePosition = 0x00, LaTeXMenuPosition = 0x01 };
+		enum MenuLocation { StandAloneLocation = 0x00, LaTeXMenuLocation = 0x01 };
 
 		UserMenu(KileInfo *ki, QObject *receiver);
 		~UserMenu();
@@ -61,7 +61,7 @@ class UserMenu : public QObject
 	public Q_SLOTS:
 		void slotInstallXmlFile(const QString &filename);
 		void slotRemoveXmlFile();
-		void slotChangeMenuPosition(int newPosition);
+		void slotChangeMenuLocation(int newPosition);
 
 	private Q_SLOTS:
 		void slotUserMenuAction();
@@ -78,7 +78,7 @@ class UserMenu : public QObject
 		QObject * m_receiver;
 		QString m_currentXmlFile;
 
-		int m_menuPosition;
+		int m_menuLocation;
 		QAction *m_wizardAction1, *m_latexAction1;
 		KAction *m_wizardAction2, *m_latexAction2;
 		QMenu *m_latexMenuEntry;

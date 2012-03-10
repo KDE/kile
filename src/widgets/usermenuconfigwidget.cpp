@@ -25,18 +25,17 @@ KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu,
 	setupUi(this);
 	setXmlFile(m_usermenu->xmlFile());
 
-	m_menuPosition = KileConfig::menuPosition();
-	if(m_menuPosition == KileMenu::UserMenu::StandAlonePosition) {
-		m_rbStandAloneMenuPosition->setChecked(true);
+	if(KileConfig::menuLocation() == KileMenu::UserMenu::StandAloneLocation) {
+		m_rbStandAloneMenuLocation->setChecked(true);
 	}
 	else {
-		m_rbLaTeXMenuPosition->setChecked(true);
+		m_rbLaTeXMenuLocation->setChecked(true);
 	}
 
 	// connect dialog with usermenu to install xml file
 	connect(this, SIGNAL(installXmlFile(const QString &)), m_usermenu, SLOT(slotInstallXmlFile(const QString &)));
 	connect(this, SIGNAL(removeXmlFile()), m_usermenu, SLOT(slotRemoveXmlFile()));
-	connect(this, SIGNAL(changeMenuPosition(int)), m_usermenu, SLOT(slotChangeMenuPosition(int)));
+	connect(this, SIGNAL(changeMenuLocation(int)), m_usermenu, SLOT(slotChangeMenuLocation(int)));
 
 	connect(m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
 	connect(m_pbRemove,  SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
@@ -49,11 +48,12 @@ KileWidgetUsermenuConfig::~KileWidgetUsermenuConfig()
 
 void KileWidgetUsermenuConfig::writeConfig()
 {
-	int position = (m_rbStandAloneMenuPosition->isChecked()) ? KileMenu::UserMenu::StandAlonePosition : KileMenu::UserMenu::LaTeXMenuPosition;
-	if(m_menuPosition != position) {
+	const int location = (m_rbStandAloneMenuLocation->isChecked())
+	                     ? KileMenu::UserMenu::StandAloneLocation : KileMenu::UserMenu::LaTeXMenuLocation;
+	if(KileConfig::menuLocation() != location) {
 		KILE_DEBUG() << "menu position changed";
-		KileConfig::setMenuPosition(position);
-		emit(changeMenuPosition(position));
+		KileConfig::setMenuLocation(location);
+		emit(changeMenuLocation(location));
 	}
 }
 

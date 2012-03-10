@@ -36,11 +36,10 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	Q_SIGNALS:
 		void installXmlFile(const QString &);
 		void removeXmlFile();
-		void changeMenuPosition(int);
+		void changeMenuLocation(int);
 
 	private:
 		KileMenu::UserMenu *m_usermenu;
-		bool m_menuPosition;
 
 		void setXmlFile(const QString &file);
 

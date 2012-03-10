@@ -34,7 +34,7 @@ class UserMenu : public QObject
 	Q_OBJECT
 
 	public:
-		enum MenuPosition { DaniMenuPosition=0x00, UserMenuPosition=0x01 };
+		enum MenuPosition { StandAlonePosition = 0x00, LaTeXMenuPosition = 0x01 };
 
 		UserMenu(KileInfo *ki, QObject *receiver);
 		~UserMenu();

@@ -26,7 +26,7 @@ KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu,
 	setXmlFile( m_usermenu->xmlFile() );
 
 	m_menuPosition = KileConfig::menuPosition();
-	if ( m_menuPosition == KileMenu::UserMenu::DaniMenuPosition ) {
+	if ( m_menuPosition == KileMenu::UserMenu::StandAlonePosition ) {
 		m_rbMenuPositionDani->setChecked(true);
 	}
 	else {
@@ -49,7 +49,7 @@ KileWidgetUsermenuConfig::~KileWidgetUsermenuConfig()
 
 void KileWidgetUsermenuConfig::writeConfig()
 {
-	int position = ( m_rbMenuPositionDani->isChecked() ) ? KileMenu::UserMenu::DaniMenuPosition : KileMenu::UserMenu::UserMenuPosition;
+	int position = ( m_rbMenuPositionDani->isChecked() ) ? KileMenu::UserMenu::StandAlonePosition : KileMenu::UserMenu::LaTeXMenuPosition;
 	if ( m_menuPosition != position ) {
 		KILE_DEBUG() << "menu position changed";
 		KileConfig::setMenuPosition(position);

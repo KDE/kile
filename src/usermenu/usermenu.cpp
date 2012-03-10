@@ -73,7 +73,7 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 
 	// prepare menu position
 	m_menuPosition = KileConfig::menuPosition();
-	m_usermenu = ( m_menuPosition == DaniMenuPosition )
+	m_usermenu = ( m_menuPosition == StandAlonePosition )
 	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
@@ -125,7 +125,7 @@ void UserMenu::updateUsermenuPosition()
 
 	// and set the new one
 	bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
-	if ( m_menuPosition == DaniMenuPosition ) {
+	if ( m_menuPosition == StandAlonePosition ) {
 		setVisibleDaniMenu(true,show);
 		dani_menu->menuAction()->setVisible(true && show);
 	}
@@ -143,7 +143,7 @@ void UserMenu::slotChangeMenuPosition(int newPosition)
 	// set new usermenu position
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 	m_menuPosition = newPosition;
-	m_usermenu = ( m_menuPosition == DaniMenuPosition )
+	m_usermenu = ( m_menuPosition == StandAlonePosition )
 	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
@@ -189,7 +189,7 @@ void UserMenu::updateGui()
 {
 	KILE_DEBUG() << "update usermenu ...";
 
-	if ( m_menuPosition == DaniMenuPosition ) {
+	if ( m_menuPosition == StandAlonePosition ) {
 		KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 		m_usermenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
 	}
@@ -793,7 +793,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 	// build commandline
 	QString cmdline = menudata.filename + " " + menudata.parameter;
 	bool useTemporaryFile = cmdline.contains("%M");
-	
+
 	bool needsSelection = menudata.needsSelection;
 	bool hasSelection = view->selection();
 
@@ -802,11 +802,11 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 		KILE_DEBUG() << "STOP: this program needs selected text";
 		return;
 	}
-	
+
 	// do we need a temporary file for the selected text?
 	if ( hasSelection && useTemporaryFile ) {
 		KILE_DEBUG() << "selection and 'placeholder' %M found --> create temporary file";
-		
+
 		// create temporary file
 		KTemporaryFile tempfile;
 		tempfile.setSuffix(".txt");
@@ -837,7 +837,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 		QString basename = fi.completeBaseName();
 		cmdline.replace("%S",basename);
 	}
-	
+
 	m_proc = new KProcess(this);
 	m_proc->setShellCommand(cmdline);
 	m_proc->setOutputChannelMode(KProcess::MergedChannels);

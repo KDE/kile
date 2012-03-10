@@ -763,7 +763,7 @@ void Kile::setupActions()
 	createAction(i18n("Refresh Project &Tree"), "project_buildtree", "project_rebuild", docManager(), SLOT(buildProjectTree()));
  	createAction(i18n("&Archive"), "project_archive", "project_archive", this, SLOT(runArchiveTool()));
 	createAction(i18n("Project &Options"), "project_options", "configure_project", docManager(), SLOT(projectOptions()));
-	createAction(i18n("&Close Project"), "project_close", "window-close", docManager(), SLOT(projectClose()));
+	createAction(i18n("&Close Project"), "project_close", "project-development-close", docManager(), SLOT(projectClose()));
 
 	// new project actions (dani)
 	createAction(i18n("&Show Projects..."), "project_show", docManager(), SLOT(projectShow()));
@@ -794,8 +794,8 @@ void Kile::setupActions()
 	m_latexOutputErrorToolBar->addAction(act);
 
 	createAction(i18n("Return to Editor"), "return_to_editor", "document-edit", KShortcut("CTRL+E"), this, SLOT(showEditorWidget()));
-	createAction(i18n("Next Document"), "gotoNextDocument", "arrow-right", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
-	createAction(i18n("Previous Document"), "gotoPrevDocument", "arrow-left", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
+	createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
+	createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
 	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut("CTRL+Alt+M"), this, SLOT(focusLog()));
 	createAction(i18n("Focus Output View"), "focus_output", KShortcut("CTRL+Alt+O"), this, SLOT(focusOutput()));
 	createAction(i18n("Focus Konsole View"), "focus_konsole", KShortcut("CTRL+Alt+K"), this, SLOT(focusKonsole()));
@@ -933,7 +933,7 @@ void Kile::setupActions()
 	createAction(i18n("Context Help"), "help_context", KShortcut("CTRL+Alt+H, K"), m_help, SLOT(helpKeyword()));
 	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H, B"), m_help, SLOT(helpDocBrowser()));
 
-	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-contents", this, SLOT(helpLaTex()));
+	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-latex", this, SLOT(helpLaTex()));
 	actionCollection()->addAction(KStandardAction::HelpContents, help_menu, SLOT(appHelpActivated()));
 	actionCollection()->addAction(KStandardAction::ReportBug, help_menu, SLOT(reportBug()));
 	actionCollection()->addAction(KStandardAction::AboutApp, help_menu, SLOT(aboutApplication()));
@@ -2956,7 +2956,7 @@ void Kile::citeViewBib()
 			}
 			else
 			{
-				insertTag(KileAction::TagData(i18n("ViewBib Citation"), result, QString::null, result.length()));
+				insertTag(KileAction::TagData(i18n("ViewBib Citation"), result, QString(), result.length()));
 
 			}
 		}

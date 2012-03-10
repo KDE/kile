@@ -34,6 +34,7 @@ class KileWidgetHelpConfig : public QWidget, public Ui::KileWidgetHelpConfig
 	protected Q_SLOTS:
 		void slotConfigure();
 		void selectHelpLocation();
+		void slotHelpInformation();
 
 	protected:
 		KileHelp::Help *m_help;

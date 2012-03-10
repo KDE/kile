@@ -23,14 +23,14 @@ KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu,
    : QWidget(parent), m_usermenu(usermenu)
 {
 	setupUi(this);
-	setXmlFile( m_usermenu->xmlFile() );
+	setXmlFile(m_usermenu->xmlFile());
 
 	m_menuPosition = KileConfig::menuPosition();
-	if ( m_menuPosition == KileMenu::UserMenu::StandAlonePosition ) {
-		m_rbMenuPositionDani->setChecked(true);
+	if(m_menuPosition == KileMenu::UserMenu::StandAlonePosition) {
+		m_rbStandAloneMenuPosition->setChecked(true);
 	}
 	else {
-		m_rbMenuPositionLatex->setChecked(true);
+		m_rbLaTeXMenuPosition->setChecked(true);
 	}
 
 	// connect dialog with usermenu to install xml file
@@ -49,8 +49,8 @@ KileWidgetUsermenuConfig::~KileWidgetUsermenuConfig()
 
 void KileWidgetUsermenuConfig::writeConfig()
 {
-	int position = ( m_rbMenuPositionDani->isChecked() ) ? KileMenu::UserMenu::StandAlonePosition : KileMenu::UserMenu::LaTeXMenuPosition;
-	if ( m_menuPosition != position ) {
+	int position = (m_rbStandAloneMenuPosition->isChecked()) ? KileMenu::UserMenu::StandAlonePosition : KileMenu::UserMenu::LaTeXMenuPosition;
+	if(m_menuPosition != position) {
 		KILE_DEBUG() << "menu position changed";
 		KileConfig::setMenuPosition(position);
 		emit(changeMenuPosition(position));
@@ -65,11 +65,11 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 	QString filter = i18n("*.xml|Latex Menu Files");
 
 	QString xmlfile = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));
-	if ( xmlfile.isEmpty() ) {
+	if(xmlfile.isEmpty()) {
 		return;
 	}
 
-	if( QFile::exists(xmlfile) ) {
+	if(QFile::exists(xmlfile)) {
 		emit (installXmlFile(xmlfile));
 		setXmlFile(xmlfile);
 	}
@@ -88,7 +88,7 @@ void KileWidgetUsermenuConfig::slotRemoveClicked()
 
 void KileWidgetUsermenuConfig::setXmlFile(const QString &file)
 {
-	if ( file.isEmpty() ) {
+	if(file.isEmpty()) {
 		m_usermenuFile->setText(i18n("no file installed"));
 		m_pbRemove->setEnabled(false);
 	}

@@ -34,7 +34,7 @@ class UserMenuDialog : public KileDialog::Wizard
 	Q_OBJECT
 
 	public:
-		UserMenuDialog(KConfig *config, KileInfo *ki, QObject *usermenu, const QString & xmlfile, QWidget *parent);
+		UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu *userMenu, const QString & xmlfile, QWidget *parent);
 		~UserMenuDialog() {}
 
 	protected Q_SLOTS:
@@ -70,14 +70,12 @@ class UserMenuDialog : public KileDialog::Wizard
 
 		void slotCustomContextMenuRequested(const QPoint &pos);
 
-	Q_SIGNALS:
-		void installXmlFile(const QString &);
-
 	private:
 		Ui::UserMenuDialog m_UserMenuDialog;
 		UserMenuTree *m_menutree;
 
 		KileInfo *m_ki;
+		KileMenu::UserMenu *m_userMenu;
 
 		bool m_modified;
 		bool m_currentXmlInstalled;

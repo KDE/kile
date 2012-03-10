@@ -24,7 +24,7 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	Q_OBJECT
 
 	public:
-		KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent = 0);
+		KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent = NULL);
 		~KileWidgetUsermenuConfig();
 
 		void writeConfig();
@@ -32,11 +32,6 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
 	private Q_SLOTS:
 		void slotInstallClicked();
 		void slotRemoveClicked();
-
-	Q_SIGNALS:
-		void installXmlFile(const QString &);
-		void removeXmlFile();
-		void changeMenuLocation(int);
 
 	private:
 		KileMenu::UserMenu *m_usermenu;

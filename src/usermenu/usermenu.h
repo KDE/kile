@@ -59,9 +59,9 @@ class UserMenu : public QObject
 		static QString selectUserMenuDir();
 
 	public Q_SLOTS:
-		void slotInstallXmlFile(const QString &filename);
-		void slotRemoveXmlFile();
-		void slotChangeMenuLocation(int newPosition);
+		void installXmlFile(const QString &filename);
+		void removeXmlFile();
+		void changeMenuLocation(int newPosition);
 
 	private Q_SLOTS:
 		void slotUserMenuAction();

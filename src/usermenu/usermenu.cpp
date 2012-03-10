@@ -135,7 +135,7 @@ void UserMenu::updateUsermenuPosition()
 	}
 }
 
-void UserMenu::slotChangeMenuLocation(int newPosition)
+void UserMenu::changeMenuLocation(int newPosition)
 {
 	// clear old usermenu, wherever it is
 	clear();
@@ -147,7 +147,7 @@ void UserMenu::slotChangeMenuLocation(int newPosition)
 	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
 	            : m_latexMenuEntry;
 
-	slotInstallXmlFile(m_currentXmlFile);
+	installXmlFile(m_currentXmlFile);
 	updateUsermenuPosition();
 }
 
@@ -194,7 +194,7 @@ void UserMenu::updateGui()
 		m_usermenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
 	}
 
-	// like slotInstallXmlFile(), but without updating KileConfig::menuFile
+	// like installXmlFile(), but without updating KileConfig::menuFile
 	// first clear old usermenu, menudata, actions and actionlists
 	clear();
 
@@ -334,14 +334,14 @@ void UserMenu::installXmlMenufile()
 		KMessageBox::error(m_ki->mainWindow(), i18n("File '%1' does not exist.", filename));
 	}
 	else {
-		slotInstallXmlFile(filename);
+		installXmlFile(filename);
 	}
 }
 
 // SIGNAL from usermenu dialog: install new usermenu (xml file given)
 //
 // use 'basename.ext' if the file is placed in 'KILE-LOCAL-DIR/usermenu' directory and full filepath else
-void UserMenu::slotInstallXmlFile(const QString &filename)
+void UserMenu::installXmlFile(const QString &filename)
 {
 	KILE_DEBUG() << "install xml file" << filename;
 
@@ -373,20 +373,12 @@ void UserMenu::slotInstallXmlFile(const QString &filename)
 	}
 }
 
-void UserMenu::slotRemoveXmlFile()
+void UserMenu::removeXmlFile()
 {
 	KILE_DEBUG() << "remove xml file";
 
 	clear();
 	m_currentXmlFile.clear();
-
-// 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-// 	QMenu *dani_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
-// 	dani_menu->removeAction(m_usermenuAction1);
-// 	dani_menu->removeAction(m_usermenuAction2);
-//
-// 	return;
-//
 
 	KileConfig::setMenuFile(m_currentXmlFile);
 	emit (updateStatus());

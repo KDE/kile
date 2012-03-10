@@ -32,11 +32,6 @@ KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu,
 		m_rbLaTeXMenuLocation->setChecked(true);
 	}
 
-	// connect dialog with usermenu to install xml file
-	connect(this, SIGNAL(installXmlFile(const QString &)), m_usermenu, SLOT(slotInstallXmlFile(const QString &)));
-	connect(this, SIGNAL(removeXmlFile()), m_usermenu, SLOT(slotRemoveXmlFile()));
-	connect(this, SIGNAL(changeMenuLocation(int)), m_usermenu, SLOT(slotChangeMenuLocation(int)));
-
 	connect(m_pbInstall, SIGNAL(clicked()), this, SLOT(slotInstallClicked()));
 	connect(m_pbRemove,  SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
 
@@ -53,7 +48,7 @@ void KileWidgetUsermenuConfig::writeConfig()
 	if(KileConfig::menuLocation() != location) {
 		KILE_DEBUG() << "menu position changed";
 		KileConfig::setMenuLocation(location);
-		emit(changeMenuLocation(location));
+		m_usermenu->changeMenuLocation(location);
 	}
 }
 
@@ -70,7 +65,7 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 	}
 
 	if(QFile::exists(xmlfile)) {
-		emit (installXmlFile(xmlfile));
+		m_usermenu->installXmlFile(xmlfile);
 		setXmlFile(xmlfile);
 	}
 	else {
@@ -82,7 +77,7 @@ void KileWidgetUsermenuConfig::slotRemoveClicked()
 {
 	KILE_DEBUG() << "remove clicked";
 
-	emit(removeXmlFile());
+	m_usermenu->removeXmlFile();
 	setXmlFile(QString());
 }
 

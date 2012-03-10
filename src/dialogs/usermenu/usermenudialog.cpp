@@ -32,8 +32,8 @@ namespace KileMenu {
 
 #define CHOOSABLE_MENUTYPES   3
 
-UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, QObject *usermenu, const QString &xmlfile, QWidget *parent)
-	: KileDialog::Wizard(config, parent), m_ki(ki)
+UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu *userMenu, const QString &xmlfile, QWidget *parent)
+	: KileDialog::Wizard(config, parent), m_ki(ki), m_userMenu(userMenu)
 {
 	QWidget *page = new QWidget(this);
 	setMainWidget(page);
@@ -98,9 +98,6 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, QObject *usermenu,
 	connect(m_UserMenuDialog.m_pbLoad,   SIGNAL(clicked()), this, SLOT(slotLoadClicked()));
 	connect(m_UserMenuDialog.m_pbSave,   SIGNAL(clicked()), this, SLOT(slotSaveClicked()));
 	connect(m_UserMenuDialog.m_pbSaveAs, SIGNAL(clicked()), this, SLOT(slotSaveAsClicked()));
-
-	// connect dialog with usermenu to install xml file
-	connect(this, SIGNAL(installXmlFile(const QString &)), usermenu, SLOT(slotInstallXmlFile(const QString &)));
 
 	// set context menu handler for the menutree
 	m_menutree->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -257,7 +254,7 @@ void UserMenuDialog::slotInstallClicked()
 	KILE_DEBUG() << "install " << m_currentXmlFile << "...";
 
 	if ( !m_modified && !m_currentXmlFile.isEmpty() ) {
-		emit ( installXmlFile(m_currentXmlFile) );
+		m_userMenu->installXmlFile(m_currentXmlFile);
 		setXmlFile(m_currentXmlFile,true);
 		updateDialogButtons();
 	}

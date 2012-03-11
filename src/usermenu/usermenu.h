@@ -97,7 +97,7 @@ class UserMenu : public QObject
 		const UserMenuData *m_procMenudata;
 
 		void updateUsermenuPosition();
-		void setVisibleDaniMenu(bool state, bool show);
+		void setStandAloneMenuVisible(bool state, bool show);
 		KAction *createAction(const QString &name);
 		void clear();
 

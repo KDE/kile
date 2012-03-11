@@ -48,7 +48,7 @@ namespace KileMenu {
 //
 //  - m_actionlistContextMenu: a list with all actions of the context menu for selected text (QList<KAction *>)
 //
-//  - a menu is defined with a xml file, which is placed in KGlobal::dirs()->findResource("appdata","usermenu/")
+//  - a menu is defined in an xml file, which is placed in KGlobal::dirs()->findResource("appdata","usermenu/")
 
 UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 	: m_ki(ki), m_receiver(receiver), m_proc(NULL)
@@ -67,7 +67,7 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 	m_latexAction2 = createAction("wizard_usermenu2");
 	latex_menu->addAction(m_latexAction2);
 
-	m_latexMenuEntry = new QMenu("User Menu");
+	m_latexMenuEntry = new QMenu(i18n("User Menu"));
 	m_latexMenuEntry->setObjectName("usermenu-submenu");
 	latex_menu->addMenu(m_latexMenuEntry);
 
@@ -99,14 +99,12 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 
 UserMenu::~UserMenu()
 {
-	if (m_proc) {
-		delete m_proc;
-	}
+	delete m_proc;
 }
 
 bool UserMenu::isEmpty()
 {
-	return ( m_usermenu->actions().size() == 0 );
+	return (m_usermenu->actions().size() == 0);
 }
 /////////////////////// install usermenu//////////////////////////////
 
@@ -120,18 +118,13 @@ KAction *UserMenu::createAction(const QString &name)
 
 void UserMenu::updateUsermenuPosition()
 {
-	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-	QMenu *dani_menu   = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
-
 	// and set the new one
-	bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
+	const bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
 	if(m_menuLocation == StandAloneLocation) {
-		setVisibleDaniMenu(true, show);
-		dani_menu->menuAction()->setVisible(true && show);
+		setStandAloneMenuVisible(true, show);
 	}
 	else {
-		setVisibleDaniMenu(false, show);
-		dani_menu->menuAction()->setVisible(false);
+		setStandAloneMenuVisible(false, show);
 	}
 }
 
@@ -151,7 +144,7 @@ void UserMenu::changeMenuLocation(int newPosition)
 	updateUsermenuPosition();
 }
 
-void UserMenu::setVisibleDaniMenu(bool state, bool show)
+void UserMenu::setStandAloneMenuVisible(bool state, bool show)
 {
 	m_wizardAction1->setVisible(state);
 	m_wizardAction2->setVisible(state);
@@ -159,6 +152,12 @@ void UserMenu::setVisibleDaniMenu(bool state, bool show)
 	m_latexAction1->setVisible(!state);
 	m_latexAction2->setVisible(!state);
 	m_latexMenuEntry->menuAction()->setVisible(!state && show);
+
+	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
+	QMenu *standAloneMenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
+	if(standAloneMenu) {
+		standAloneMenu->menuAction()->setVisible(state && show);
+	}
 }
 
 ///////////////////////////// clear all data //////////////////////////////
@@ -239,7 +238,7 @@ void UserMenu::removeActionProperties()
 	QDomDocument doc;
 	doc.setContent( xml );
 
-    // process XML data in section 'ActionProperties'
+	// process XML data in section 'ActionProperties'
 	QDomElement actionPropElement = KXMLGUIFactory::actionPropertiesElement( doc );
 	if ( actionPropElement.isNull() ) {
 		KILE_DEBUG() << "QDomElement actionPropertiesElement not found ";
@@ -706,7 +705,7 @@ void UserMenu::slotUserMenuAction()
 
 	bool ok;
 	int actionIndex = re.cap(1).toInt(&ok);
-	if ( actionIndex<0 || actionIndex>=m_menudata.size() ) {
+	if ( actionIndex < 0 || actionIndex >= m_menudata.size() ) {
 		KILE_DEBUG() << "STOP: invalid action (range error): " << actionIndex << "  list size: " << m_menudata.size();
 		return;
 	}
@@ -842,7 +841,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 	KILE_DEBUG() << "... start proc: " << cmdline;
 	// init and/or save important data
 	m_procOutput.clear();
-	m_procView = view;;
+	m_procView = view;
 	m_procMenudata = &menudata;
 
 	m_proc->start();

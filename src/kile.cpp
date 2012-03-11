@@ -80,6 +80,7 @@
 #include "convert.h"
 #include "dialogs/includegraphicsdialog.h"
 #include "kiledocmanager.h"
+#include "kileversion.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
 #include "kileerrorhandler.h"
@@ -355,6 +356,14 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	guiFactory()->refreshActionProperties();
 	setUpdatesEnabled(true);
+
+	// finally, we check whether the system check assistant should be run, which is important for
+	// version 3.0 regarding the newly introduced live preview feature
+	const QString& lastVersionRunFor = KileConfig::systemCheckLastVersionRunForAtStartUp();
+	if(lastVersionRunFor.isEmpty() || compareVersionStrings(lastVersionRunFor, "2.9.60") < 0) {
+		slotPerformCheck();
+		KileConfig::setSystemCheckLastVersionRunForAtStartUp(kileFullVersion);
+	}
 }
 
 Kile::~Kile()

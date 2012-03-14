@@ -20,6 +20,8 @@
   <!ENTITY package "extragear">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE">
+
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
 ]>
 
 <book lang="&language;">
@@ -2774,76 +2776,13 @@
 
 	</sect1>
 
-	<sect1 id="latex_usertags">
+</chapter>
 
-		<title>User-Defined Tags</title>
+<chapter id="id_usermenu">
 
-		<para>&kile; gives you the ability to make your own tags. A tag is similar
-		to a shortcut that launches some command or writes frequently-used text.
-		For example, Joe Sixpack uses often the sentences <userinput>I prefer \LaTeX\ 
-		to \TeX\</userinput> and <userinput>What would I do without &Linux;?</userinput>. 
-		To create user-defined tags to write these sentences, he would access 
-		<menuchoice><guimenu>LaTeX</guimenu><guisubmenu>User Tags</guisubmenu><guimenuitem>Edit 
-		User Tags...</guimenuitem></menuchoice>; this will present him a dialog where he can create 
-		his own user-defined tags.</para>
-		<screenshot>
-			<screeninfo>The Edit User Tags Dialog</screeninfo>
-			<mediaobject>
-			<imageobject>
-			<imagedata fileref="snap_editusertag.png" format="PNG" />
-			</imageobject>
-			<textobject>
-			<phrase>The Edit User Tags Dialog</phrase>
-			</textobject>
-			<caption><para>The Edit User Tags Dialog</para></caption>
-			</mediaobject>
-		</screenshot>
+	<title>User-Configurable Menu</title>
 
-		<screenshot>
-			<screeninfo>Invoking a User-Defined Tag</screeninfo>
-			<mediaobject>
-			<imageobject>
-			<imagedata fileref="snap_usertag.png" format="PNG" />
-			</imageobject>
-			<textobject>
-			<phrase>Invoking a User Defined Tag</phrase>
-			</textobject>
-			<caption><para>Invoking a User Defined Tag</para></caption>
-			</mediaobject>
-		</screenshot>
-
-		<para>He would probably give each tag a name that can clearly identify it. The name you give your tag 
-		is entered in the section marked <guilabel>Menu item</guilabel>, and the text of frequently-used command 
-		should be entered into the section labeled <guilabel>Value</guilabel>. Once the commands are entered, 
-		he can use them quickly using the shortcut <keycombo>&Ctrl;&Shift;<keycap>1</keycap></keycombo> for 
-		the first tag to enter <userinput>I prefer \LaTeX\ to \TeX\</userinput> and <keycombo>&Ctrl;&Shift;
-		<keycap>2</keycap></keycombo> to enter <userinput>What would I do without &Linux;?</userinput>.</para>
-
-		<sect2 id="latex_usertags_uc">
-
-			<title>Placeholders in User-Defined Tags</title>
-
-			<para>There are some placeholders you can use in user-defined tags: 
-			they are <userinput>%B</userinput>, <userinput>%C</userinput>, <userinput>%M</userinput> and
-			<userinput>%S</userinput>.</para>
-
-			<itemizedlist>
-				<listitem><para><userinput>%B</userinput>: will be replaced by a bullet.</para></listitem>
-				<listitem><para><userinput>%C</userinput>: this is where the cursor will be placed after the insertion of a
-				user-defined tag.</para></listitem>
-				<listitem><para><userinput>%M</userinput>: this stands for marked text; the selected text is
-				inserted in its place when inserting user-defined tags.</para></listitem>
-				<listitem><para><userinput>%S</userinput>: will be replaced by the source file's name without file extension.</para></listitem>
-			</itemizedlist>
-
-			<para>Let's consider the example you can see in the screenshots. First, we select a number in our text, let's say <userinput>2</userinput>.
-			Now we press <keycombo>&Ctrl;&Shift;<keycap>1</keycap></keycombo> or choose <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>User Tags</guisubmenu><guimenuitem>
-			Frac</guimenuitem></menuchoice>, and we obtain <userinput>\frac{2}{}</userinput> with the cursor begin located within the second
-			pair of brackets.</para>
-
-		</sect2>
-
-	</sect1>
+	&include-section-usermenu;
 
 </chapter>
 

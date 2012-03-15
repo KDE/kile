@@ -48,6 +48,7 @@
 #include "kiledocmanager.h"
 #include "kileextensions.h"
 #include "kiletool_enums.h"
+#include "usermenu/usermenu.h"
 #include "livepreview.h"
 #include "widgets/projectview.h"
 #include "widgets/structurewidget.h"
@@ -260,19 +261,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	}
 
 	// install a working text editor part popup dialog thingy
-	QMenu *popupMenu = view->defaultContextMenu();
-
-	if(popupMenu) {
-		connect(popupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
-
-		// install some more actions on it
-		popupMenu->addSeparator();
-		popupMenu->addAction(m_pasteAsLaTeXAction);
-		popupMenu->addAction(m_convertToLaTeXAction);
-		popupMenu->addSeparator();
-		popupMenu->addAction(m_quickPreviewAction);
-		view->setContextMenu(popupMenu);
-	}
+	installContextMenu(view);
 
 	// delete the 'Configure Editor...' action
 	delete view->actionCollection()->action("set_confdlg");
@@ -306,6 +295,39 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	emit(prepareForPart("Editor"));
 
 	return view;
+}
+
+void Manager::installContextMenu(KTextEditor::View *view)
+{
+	QMenu *popupMenu = view->defaultContextMenu();
+
+	if(popupMenu) {
+		connect(popupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
+
+		// install some more actions on it
+		popupMenu->addSeparator();
+		popupMenu->addAction(m_pasteAsLaTeXAction);
+		popupMenu->addAction(m_convertToLaTeXAction);
+		popupMenu->addSeparator();
+		popupMenu->addAction(m_quickPreviewAction);
+
+		// insert actions from user defined latex menu
+		KileMenu::UserMenu *usermenu = m_ki->userMenu();
+		if ( usermenu ) {
+			KILE_DEBUG() << "Insert actions from user defined latex menu";
+			popupMenu->addSeparator();
+			foreach ( KAction *action, usermenu->contextMenuActions() ) {
+				if ( action ) {
+					popupMenu->addAction(action);
+				}
+				else {
+					popupMenu->addSeparator();
+				}
+			}
+		}
+
+		view->setContextMenu(popupMenu);
+	}
 }
 
 void Manager::clearActionDataFromTabContextMenu()

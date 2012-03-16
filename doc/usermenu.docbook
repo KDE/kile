@@ -2,7 +2,7 @@
 <sect1 id="id_usermenu_configuration">
 <title>Configuration</title>
 
-<para>&kile; supports a user-configurable menu, which will appear as a part of &kile;'s menu. Using &kile;'s configuration dialog with <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>User Menu</guimenuitem></menuchoice>,</para> 
+<para>&kile; supports a user-configurable menu, which will appear as a part of &kile;'s menu. This menu can be configured using &kile;'s configuration dialog with <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>User Menu</guimenuitem></menuchoice>.</para>
 
 	<screenshot>
 		<screeninfo>Configure the user menu</screeninfo>
@@ -53,10 +53,10 @@
 </itemizedlist>
 
 
-<para>Already existing user-defined tags from older versions of &kile; are automatically transformed into the new user-configurable menu. The tags are saved in a file called <filename>usertags.xml</filename> and like all menu definition files, they can be found in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>, f.e. <filename>/home/user/.kde/share/apps/kile/usermenu/</filename>.</para>
+<para>Already existing user-defined tags from older versions of &kile; are automatically transformed into the new user-configurable menu. The tags are saved in a file called <filename>usertags.xml</filename> and like all menu definition files, they can be found in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>, &eg; <filename>/home/user/.kde/share/apps/kile/usermenu/</filename>.</para>
 
 <para>You can use different menu definition files for different tasks. Call the user menu wizard <menuchoice><guimenu>Wizard</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> or <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> to install or edit a menu definition file.</para>
- 
+
 </sect1>
 
 
@@ -152,7 +152,7 @@
 	</screenshot>
 
 <para>or a missing title for the menuentry, which will be shown with questionmarks like <userinput>???</userinput>.</para>
-  
+
 	<screenshot>
 		<screeninfo>Missing title of a menuentry</screeninfo>
 		<mediaobject>

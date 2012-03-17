@@ -2,7 +2,7 @@
     date                 : Mar 12 2007
     version              : 0.46
     copyright            : (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -2536,6 +2536,8 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 
 // Takes an unicode unsigned short and calls insertSpecialCharacter to
 // insert the proper LaTeX sequence and warn user of any dependencies.
+//FIXME: there should be one central place to convert unicode chars to LaTeX;
+//       also see 'LaTeXEventFilter::eventFilter'.
 bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view)
 {
 	switch(rep)
@@ -2573,7 +2575,7 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 		case 196:	return insertSpecialCharacter("\\\"A", view);
 		case 197:	return insertSpecialCharacter("\\AA", view);
 		case 198:	return insertSpecialCharacter("\\AE", view);
-		case 199:	return insertSpecialCharacter("\\cC", view);
+		case 199:	return insertSpecialCharacter("\\c{C}", view);
 		case 200:	return insertSpecialCharacter("\\`E", view);
 		case 201:	return insertSpecialCharacter("\\'E", view);
 		case 202:	return insertSpecialCharacter("\\^E", view);
@@ -2603,7 +2605,7 @@ bool EditorExtension::insertLatexFromUnicode(unsigned short rep, KTextEditor::Vi
 		case 228:	return insertSpecialCharacter("\\\"a", view);
 		case 229:	return insertSpecialCharacter("\\aa", view);
 		case 230:	return insertSpecialCharacter("\\ae", view);
-		case 231:	return insertSpecialCharacter("\\cc", view);
+		case 231:	return insertSpecialCharacter("\\c{c}", view);
 		case 232:	return insertSpecialCharacter("\\`e", view);
 		case 233:	return insertSpecialCharacter("\\'e", view);
 		case 234:	return insertSpecialCharacter("\\^e", view);

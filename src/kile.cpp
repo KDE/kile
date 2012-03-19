@@ -162,7 +162,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
 
 	// needed for Symbolview
-	KGlobal::dirs()->addResourceType("app_symbols", KStandardDirs::kde_default("data") + "kile/mathsymbols/");
+	KGlobal::dirs()->addResourceType("app_symbols", "data", "kile/mathsymbols/");
 	KILE_DEBUG() << "Symbol path: " << KGlobal::dirs()->resourceDirs("app_symbols").join(" , ");
 
 	// do initializations first

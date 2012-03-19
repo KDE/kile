@@ -137,9 +137,7 @@ SET(kile_SRCS
 	livepreview_utils.cpp
 )
 
-IF( LIVEPREVIEW_POSSIBLE )
-	SET(kile_SRCS ${kile_SRCS} livepreview.cpp)
-ENDIF( LIVEPREVIEW_POSSIBLE )
+SET(kile_SRCS ${kile_SRCS} livepreview.cpp)
 
 SET( kile_UI
 	widgets/codecompletionconfigwidget.ui

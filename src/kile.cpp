@@ -2733,10 +2733,12 @@ void Kile::generalOptions()
 void Kile::slotPerformCheck()
 {
 	// first we have to disable the live preview that may be running, and clear the master document
+#ifdef LIVEPREVIEW_POSSIBLE
 	const bool livePreviewEnabledForFreshlyOpenedDocuments = KileConfig::previewEnabledForFreshlyOpenedDocuments();
 	const bool livePreviewEnabledForCurrentDocument = livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
 	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
 	livePreviewManager()->setLivePreviewEnabledForCurrentDocument(false);
+#endif
 	QString currentMasterDocument = m_masterDocumentFileName;
 	if(!m_singlemode) {
 		clearMasterDocument();
@@ -2746,13 +2748,15 @@ void Kile::slotPerformCheck()
 	dlg->exec();
 	delete dlg;
 	// finally, we restore the rest to what it was before launching the tests
-	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
 	if(!currentMasterDocument.isEmpty()) {
 		setMasterDocumentFileName(currentMasterDocument);
 	}
+#ifdef LIVEPREVIEW_POSSIBLE
+	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
 	if(livePreviewEnabledForCurrentDocument) {
 		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);
 	}
+#endif
 }
 
 void Kile::aboutEditorComponent()

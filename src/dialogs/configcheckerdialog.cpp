@@ -28,6 +28,7 @@
 #include <KMessageBox>
 #include <KProgressDialog>
 
+#include "config.h"
 #include "kiledebug.h"
 #include "kileinfo.h"
 
@@ -245,6 +246,7 @@ void ConfigChecker::finished(bool ok)
 		m_useModernConfigurationForLaTeXCheckBox->setChecked(m_tester->areSrcSpecialsSupportedForLaTeX());
 		m_useModernConfigurationForPDFLaTeX->setChecked(m_tester->isSyncTeXSupportedForPDFLaTeX());
 
+#ifdef HAVE_VIEWERINTERFACE_H
 		if(m_tester->isViewerModeSupportedInOkular()) {
 			m_useEmbeddedViewerCheckBox->setVisible(true);
 			m_useEmbeddedViewerCheckBox->setChecked(true);
@@ -252,16 +254,24 @@ void ConfigChecker::finished(bool ok)
 				testResultText += i18n("The embedded viewer is available and live preview is supported.");
 			}
 			else {
-				testResultText += i18n("The embedded viewer is available, but "
-				                       "the installed version of PDFLaTeX is<br/><b>not compatible</b> with live preview.");
+				testResultText += i18n("The embedded viewer is available, but the installed version of PDFLaTeX is<br/>"
+				                       "<b>not compatible</b> with live preview.");
 			}
 		}
 		else {
 			m_useEmbeddedViewerCheckBox->setVisible(false);
 			m_useEmbeddedViewerCheckBox->setChecked(false);
+
 			testResultText += i18n("The embedded viewer is <b>not available</b> (as Okular is either not available or the installed<br/>version is too old). "
-			                       "Live preview is hence <b>not supported</b>.");
+			                       "Live preview is hence not supported.");
 		}
+#else
+		m_useEmbeddedViewerCheckBox->setVisible(false);
+		m_useEmbeddedViewerCheckBox->setChecked(false);
+
+		testResultText += i18n("The embedded viewer is <b>not available</b> (as Kile was compiled without support for the<br/>embedded viewer). "
+		                       "Live preview is hence not supported.");
+#endif
 		testResultText += "<br/><br/>";
 
 		m_overallResultLabel->setText(testResultText);

@@ -371,7 +371,7 @@
 		</entry>
 		<entry name="TemplateEncoding" type="String">
 			<label>The Input encoding template variable.</label>
-			<default>utf8x</default>
+			<default>utf8</default>
 		</entry>
 		<entry name="DefaultProjectLocation" type="String">
 			<label>The default location where the projects must be created.</label>
@@ -507,7 +507,7 @@
 		</entry>
 		<entry name="encoding" type="String">
 			<label></label>
-			<default>utf8x</default>
+			<default>utf8</default>
 		</entry>
 		<entry name="optionsArticle" type="String">
 			<label></label>

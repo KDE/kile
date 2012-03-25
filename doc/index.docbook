@@ -265,7 +265,7 @@
 				<listitem><para><guilabel>Paper Size</guilabel>: choose the size or style of sheets.</para></listitem>
 				<listitem><para><guilabel>Encoding</guilabel>: In general it is a good idea to use your system's standard
 						encoding. Modern systems now move more and more to UTF-8 as the standard encoding.
-						If you can, use utf8x (which is indeed the correct spelling for &latex; documents).
+						If you can, use utf8 or utf8x (which is indeed the correct spelling for &latex; documents).
 					</para></listitem>
 				<listitem><para><guilabel>Other options</guilabel>: this allows you to set further options such as printing,
 				draft, and others.</para></listitem>
@@ -3712,7 +3712,7 @@
 	such as for example <userinput>\"e</userinput> for <computeroutput>ë</computeroutput>.
 	The <application>inputenc</application> package is available to help you with this. It is included
 	in the preamble using <userinput>\usepackage[latin1]{inputenc}</userinput>, where the optional argument
-	specifies the encoding you would like to use (nowadays in most cases <userinput>utf8x</userinput>). This tells &latex;
+	specifies the encoding you would like to use (nowadays in most cases <userinput>utf8</userinput>). This tells &latex;
 	to translate all of the <userinput>ë</userinput>'s you wrote to <userinput>\"e</userinput>'s before
 	compiling. Please refer to the <application>inputenc</application> documentation directly for more
 	information. Last but not least: remember to make sure that your file is <emphasis>actually</emphasis> saved
@@ -3726,7 +3726,7 @@
 	successful in &Linux;; &Windows;&reg; relies instead on the more cumbersome and
 	less flexible <abbrev>UCS-2</abbrev>. Most distributions have already
 	begun setting their default encoding to <abbrev>UTF-8</abbrev>, and therefore you
-	may be very interested in using of the <userinput>utf8x</userinput> argument to the
+	may be very interested in using of the <userinput>utf8</userinput> argument to the
 	<userinput>inputenc</userinput> package.</para>
 
 	<sect1 id="ucs">
@@ -3744,7 +3744,7 @@
 		</itemizedlist>
 
 <programlisting>\usepackage{ucs}
-\usepackage[utf8x]{inputenc}</programlisting>
+\usepackage[utf8]{inputenc}</programlisting>
 
 	</sect1>
 

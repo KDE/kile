@@ -1,6 +1,6 @@
 /***********************************************************************************************
     Copyright (C) 2004 by Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
-                  2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -18,6 +18,10 @@
 #include <QEvent>
 #include <QObject>
 #include <QRegExp>
+
+#include <kdeversion.h>
+
+class KModifierKeyInfo;
 
 namespace KTextEditor {class View; }
 namespace KileDocument { class EditorExtension; }
@@ -38,11 +42,16 @@ public Q_SLOTS:
 
 protected:
 	bool eventFilter(QObject *o, QEvent *e);
+	bool isCapsLockEnabled();
 
 private:
 	bool m_bCompleteEnvironment;
 	KTextEditor::View *m_view;
 	KileDocument::EditorExtension *m_edit;
+#if KDE_IS_VERSION(4,3,0)
+	KModifierKeyInfo *m_modifierKeyInfo;
+#endif
+
 };
 
 #endif

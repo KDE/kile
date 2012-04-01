@@ -254,17 +254,23 @@ QMap<QString, QVariant> KileFile::write(const QString& filename, const QString& 
 	}
 
 	// write data
-	qint64 numBytes = file.write(text.toUtf8());
+	qint64 bytesWritten = 0;
+	const QByteArray dataToWrite = text.toUtf8();
+	while(bytesWritten < dataToWrite.size()) {
+		qint64 bytesWrittenNow = file.write(dataToWrite.constData() + bytesWritten, dataToWrite.size() - bytesWritten);
+		if(bytesWrittenNow < 0) {
+			result["status"] = KileFile::ACCESS_FAILED;
+			result["message"] = i18n("File Handling Error: Unable to write to the output file '%1'", filename);
+			file.close();
+			return result;
+		}
+		bytesWritten += bytesWrittenNow;
+	}
 	file.close();
 
-	if(numBytes < 0) {
-		result["status"] = KileFile::ACCESS_FAILED;
-		result["message"] = i18n("File Handling Error: Unable to write to the output file '%1'", filename);
-	}
-	else {
-		result["status"] = KileFile::ACCESS_OK;
-		result["message"] = QString();
-	}
+	result["status"] = KileFile::ACCESS_OK;
+	result["message"] = QString();
+
 	return result;
 }
 

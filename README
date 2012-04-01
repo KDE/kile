@@ -6,7 +6,7 @@ If you have created a package, please drop us a note ( kile-devel@lists.sourcefo
 1.) Checking dependencies
 ============================
 
-- KDE 4.x with x >= 2 and corresponding Qt development packages (ForwardDVI only works with KDE 4.3)
+- KDE 4.x with x >= 3 and corresponding Qt development packages
   KDE 4.4 is required for enabling additional functionality in Kile.
 - CMake 2.6.2 or greater
 - GCC 4.x

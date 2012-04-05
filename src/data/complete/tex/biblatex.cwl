@@ -1,9 +1,19 @@
 # biblatex package, available from ctan
 # commands for biblatex users
 # tbraun, 19.08.2009
+# dbitouze, 14.02.2012
 
 \ExecuteBibliographyOptions{key=value, ...}
+
 \bibliography{bib ﬁles}
+
+\addbibresource{bibliographic resource}
+\addbibresource[options]{bibliographic resource}
+\addglobalbib{resource}
+\addglobalbib[options]{resource}
+\addsectionbib{resource}
+\addsectionbib[options]{resource}
+
 \printbibliography
 \printbibliography[key=value, ...]
 \bibbysection
@@ -105,6 +115,24 @@
 \Parencites[pre][post]{key}[pre][post]{key}
 \Parencites(pre)(post)[pre][post]{key}[pre][post]{key}
 
+\textcites{key}{key}
+\textcites(post){key}{key}
+\textcites(pre)(post){key}{key}
+\textcites(pre)(post)[post]{key}[post]{key}
+\textcites(pre)(post)[pre][post]{key}[pre][post]{key}
+\textcites[post]{key}[post]{key}
+\textcites[pre][post]{key}[pre][post]{key}
+\textcites(pre)(post)[pre][post]{key}[pre][post]{key}
+
+\Textcites{key}{key}
+\Textcites(post){key}{key}
+\Textcites(pre)(post){key}{key}
+\Textcites(pre)(post)[post]{key}[post]{key}
+\Textcites(pre)(post)[pre][post]{key}[pre][post]{key}
+\Textcites[post]{key}[post]{key}
+\Textcites[pre][post]{key}[pre][post]{key}
+\Textcites(pre)(post)[pre][post]{key}[pre][post]{key}
+
 \footcites{key}{key}
 \footcites(post){key}{key}
 \footcites(pre)(post){key}{key}
@@ -166,9 +194,94 @@
 \Autocites[pre][post]{key}[pre][post]{key}
 \Autocites(pre)(post)[pre][post]{key}[pre][post]{key}
 
+\smartcite[prenote][postnote]{key}
+\smartcite[postnote]{key}
+\smartcite{key}
+
+\Smartcite[prenote][postnote]{key}
+\Smartcite[postnote]{key}
+\Smartcite{key}
+
+\smartcites{key}{key}
+\smartcites(post){key}{key}
+\smartcites(pre)(post){key}{key}
+\smartcites(pre)(post)[post]{key}[post]{key}
+\smartcites(pre)(post)[pre][post]{key}[pre][post]{key}
+\smartcites[post]{key}[post]{key}
+\smartcites[pre][post]{key}[pre][post]{key}
+\smartcites(pre)(post)[pre][post]{key}[pre][post]{key}
+
+\Smartcites{key}{key}
+\Smartcites(post){key}{key}
+\Smartcites(pre)(post){key}{key}
+\Smartcites(pre)(post)[post]{key}[post]{key}
+\Smartcites(pre)(post)[pre][post]{key}[pre][post]{key}
+\Smartcites[post]{key}[post]{key}
+\Smartcites[pre][post]{key}[pre][post]{key}
+\Smartcites(pre)(post)[pre][post]{key}[pre][post]{key}
+
+\svolcite{volume}{key}
+\svolcite[prenote]{volume}{key}
+\svolcite{volume}[page]{key}
+\svolcite[prenote]{volume}[page]{key}
+
+\Svolcite{volume}{key}
+\Svolcite[prenote]{volume}{key}
+\Svolcite{volume}[page]{key}
+\Svolcite[prenote]{volume}[page]{key}
+
+\tvolcite{volume}{key}
+\tvolcite[prenote]{volume}{key}
+\tvolcite{volume}[page]{key}
+\tvolcite[prenote]{volume}[page]{key}
+
+\Tvolcite{volume}{key}
+\Tvolcite[prenote]{volume}{key}
+\Tvolcite{volume}[page]{key}
+\Tvolcite[prenote]{volume}[page]{key}
+
+\avolcite{volume}{key}
+\avolcite[prenote]{volume}{key}
+\avolcite{volume}[page]{key}
+\avolcite[prenote]{volume}[page]{key}
+
+\Avolcite{volume}{key}
+\Avolcite[prenote]{volume}{key}
+\Avolcite{volume}[page]{key}
+\Avolcite[prenote]{volume}[page]{key}
+
+\notecite{volume}{key}
+\notecite[prenote]{volume}{key}
+\notecite{volume}[postnote]{key}
+\notecite[prenote]{volume}[postnote]{key}
+
+\Notecite{volume}{key}
+\Notecite[prenote]{volume}{key}
+\Notecite{volume}[postnote]{key}
+\Notecite[prenote]{volume}[postnote]{key}
+
+\pnotecite{volume}{key}
+\pnotecite[prenote]{volume}{key}
+\pnotecite{volume}[postnote]{key}
+\pnotecite[prenote]{volume}[postnote]{key}
+
+\Pnotecite{volume}{key}
+\Pnotecite[prenote]{volume}{key}
+\Pnotecite{volume}[postnote]{key}
+\Pnotecite[prenote]{volume}[postnote]{key}
+
+\fnotecite{volume}{key}
+\fnotecite[prenote]{volume}{key}
+\fnotecite{volume}[postnote]{key}
+\fnotecite[prenote]{volume}[postnote]{key}
+
 \citeauthor[prenote][postnote]{key}
 \citeauthor[postnote]{key}
 \citeauthor{key}
+
+\citedate[prenote][postnote]{key}
+\citedate[postnote]{key}
+\citedate{key}
 
 \Citeauthor[prenote][postnote]{key}
 \Citeauthor[postnote]{key}

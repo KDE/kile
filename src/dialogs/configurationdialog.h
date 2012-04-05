@@ -30,15 +30,16 @@
 class KConfig;
 
 namespace KileWidget { class ToolConfig; }
+class KileWidgetAppearanceConfig;
 class KileWidgetHelpConfig;
 class KileWidgetLatexConfig;
+class KileWidgetLivePreviewConfig;
 class KileWidgetGeneralConfig;
 class KileWidgetEnvironmentConfig;
 class KileWidgetGraphicsConfig;
 class KileWidgetStructureViewConfig;
 class KileWidgetScriptingConfig;
-class KileWidgetLivePreviewConfig;
-class KileWidgetAppearanceConfig;
+class KileWidgetUsermenuConfig;
 
 namespace KileTool { class Manager; }
 
@@ -88,6 +89,7 @@ namespace KileDialog
 		KileWidgetStructureViewConfig *structurePage;
 		KileWidgetSymbolViewConfig *symbolViewPage;
 		KileWidgetScriptingConfig *scriptingPage;
+		KileWidgetUsermenuConfig *usermenuPage;
 		KileWidgetLivePreviewConfig *livePreviewPage;
 		KileWidgetAppearanceConfig *appearancePage;
 
@@ -114,6 +116,7 @@ namespace KileDialog
 		void setupStructure(KPageWidgetItem* parent);
 		void setupSymbolView(KPageWidgetItem* parent);
 		void setupScripting(KPageWidgetItem* parent);
+		void setupUsermenu(KPageWidgetItem* parent);
 		void setupLivePreview(KPageWidgetItem* parent);
 		void setupAppearance(KPageWidgetItem* parent);
 

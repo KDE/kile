@@ -50,7 +50,6 @@ SET(kile_SRCS
 	dialogs/newfilewizard.cpp
 	dialogs/managetemplatesdialog.cpp
 	templates.cpp
-	dialogs/usertagsdialog.cpp
 	dialogs/configurationdialog.cpp
 	dialogs/tabbingdialog.cpp
 	widgets/symbolview.cpp
@@ -128,6 +127,11 @@ SET(kile_SRCS
 	utilities.cpp
 	abbreviationmanager.cpp
 	editorcommands.cpp
+	dialogs/usermenu/usermenudialog.cpp
+	dialogs/usermenu/usermenuitem.cpp
+	dialogs/usermenu/usermenutree.cpp
+	usermenu/usermenudata.cpp
+	usermenu/usermenu.cpp
 	parser/parsermanager.cpp
 	parser/parserthread.cpp
 	parser/parser.cpp
@@ -137,9 +141,7 @@ SET(kile_SRCS
 	livepreview_utils.cpp
 )
 
-IF( LIVEPREVIEW_POSSIBLE )
-	SET(kile_SRCS ${kile_SRCS} livepreview.cpp)
-ENDIF( LIVEPREVIEW_POSSIBLE )
+SET(kile_SRCS ${kile_SRCS} livepreview.cpp)
 
 SET( kile_UI
 	widgets/codecompletionconfigwidget.ui
@@ -160,12 +162,14 @@ SET( kile_UI
 	widgets/scriptingconfigwidget.ui
 	widgets/graphicsconfigwidget.ui
 	widgets/newdocumentwidget.ui
+	widgets/usermenuconfigwidget.ui
 	dialogs/tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
 	dialogs/postscriptdialog_base.ui
 	dialogs/pdf-wizard/pdfdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
+	dialogs/usermenu/usermenudialog_base.ui
 	widgets/livepreviewconfigwidget.ui
 	widgets/appearanceconfigwidget.ui
 	dialogs/scriptshortcutdialog_base.ui
@@ -188,6 +192,7 @@ SET( kile_UI_SRCS
 	widgets/structureviewconfigwidget.cpp
 	widgets/symbolviewconfigwidget.cpp
 	widgets/maintoolconfigwidget.cpp
+	widgets/usermenuconfigwidget.cpp
 	widgets/livepreviewconfigwidget.cpp
 	widgets/appearanceconfigwidget.cpp
 )

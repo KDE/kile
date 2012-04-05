@@ -1,8 +1,6 @@
 /***************************************************************************
-    date                 : Feb 12 2007
-    version              : 0.30
-    copyright            : (C) 2004-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
+    begin     : 2004
+    copyright : (C) 2004-2012 by Holger Danielsson (holger.danielsson@versanet.de)
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,19 +15,12 @@
 #ifndef KILEHELP_H
 #define KILEHELP_H
 
-#include <QObject>
 #include <QMap>
-#include <QString>
 
-#include <KConfig>
 #include <KActionMenu>
 #include <KTextEditor/View>
 
-#include "dialogs/texdocumentationdialog.h"
-#include "dialogs/usertagsdialog.h"
 #include "editorextension.h"
-#include "kiletool.h"
-#include "kiletoolmanager.h"
 #include "userhelp.h"
 
 namespace KileDocument { class EditorExtension; }
@@ -37,10 +28,11 @@ namespace KileDocument { class EditorExtension; }
 namespace KileHelp
 {
 
-	enum Type 
+	enum HelpType
 	{
 		HelpKileRefs,
 		HelpTexRefs,
+		HelpLatex2eRefs,
 		HelpLatexIndex,
 		HelpLatexCommand,
 		HelpLatexSubject,
@@ -49,9 +41,11 @@ namespace KileHelp
 
 	enum TexVersion
 	{
-		TETEX2,
+		TEXLIVE_201x_TUG,
+		TEXLIVE2009,
+		TEXLIVE2005,
 		TETEX3,
-		TEXLIVE2005
+		TEX_UNKNOWN
 	};
 
 	class Help : public QObject
@@ -61,7 +55,7 @@ namespace KileHelp
 	public:
 		Help(KileDocument::EditorExtension *edit, QWidget *mainWindow);
 		~Help();
-		
+
 		void setUserhelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu);
 		void update();
 
@@ -85,22 +79,32 @@ namespace KileHelp
 		KileTool::Manager *m_manager;
 		KileDocument::EditorExtension *m_edit;
 		UserHelp *m_userhelp;
-		
+		QString m_helpDir;
+
 		TexVersion m_texVersion;
-		QString m_texReference;
+		QString m_texVersionText;
+		QString m_texlivePath;
 		QString m_texdocPath;
 
-		QMap<QString, QString> m_dictHelpKile;
+		QString m_latex2eReference;
+		QString m_texrefsReference;
+		QString m_kileReference;
+
+		HelpType m_contextHelpType;
 		QMap<QString, QString> m_dictHelpTex;
 
 		void initTexDocumentation();
-		void readHelpList(const QString &filename,QMap<QString,QString> &map);
+		void initContextHelp();
+		QString locateTexLivePath(const QStringList &paths);
+		QString locateTexLive201x();
+
+		void readHelpList(const QString &filename);
 		void showHelpFile(const QString &parameter);
 
-		void helpLatex(KileHelp::Type type);
-		void helpTexRefsKeyword(KTextEditor::View *view);
-		void helpKileRefsKeyword(KTextEditor::View *view);
+		void helpLatex(HelpType type);
 		QString getKeyword(KTextEditor::View *view);
+		HelpType contextHelpType();
+
 	};
 }
 

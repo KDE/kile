@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -16,6 +16,7 @@
 #define KILETOOL_H
 
 #include <QHash>
+#include <QLinkedList>
 #include <QMap>
 #include <QObject>
 #include <QString>
@@ -36,7 +37,7 @@ namespace KileTool
 
 	class Factory;
 	class Manager;
-	
+
 	/**
  	* A class that defines a general tool (latex, dvips etc.) to be launched from
 	* within Kile.
@@ -59,27 +60,27 @@ namespace KileTool
 		 * Sets the KileInfo object, this is already taken care of by the Manager.
 		 **/
 		void setInfo(KileInfo *ki) { m_ki = ki; }
-		
+
 		/**
 		 * Sets the KConfig object, this is already taken care of by the Manager.
 		 **/
 		void setConfig(KConfig *config) { m_config = config; }
-		
+
 		/**
 		 * @returns the Manager object for this tool.
 		 **/
 		Manager* manager() const { return m_manager; }
-		
+
 		/**
 		 * @returns a short descriptive name for this tool.
 		 **/
 		const QString& name() const { return m_name; }
-		
+
 		/**
 		 * Allows you to set the source file and working directory explicitly (absolute path).
 		 **/
 		virtual void setSource(const QString& source, const QString& workingDir = "");
-		
+
 		/**
 		 * @returns the source file that is used to run the tool on.
 		 **/
@@ -137,7 +138,7 @@ namespace KileTool
 		 * about the specifics of the launcher.
 		 **/
 		void installLauncher(Launcher *lr );
-		
+
 		/**
 		 * Installs a launcher as indicated by the tool type. This creates a launcher object.
 		 **/
@@ -165,7 +166,7 @@ namespace KileTool
 		%S ->  filename without suffix but without path <-> myBestBook
 		%dir_base  -> path of the source file without filename  <-> /home/thomas/latex
 		%dir_target -> path of the target file without filename, same as %dir_base if no relative path has been set <-> /home/thomas/latex
-		%target -> target filename without path <-> without filename 
+		%target -> target filename without path <-> without filename
 
 		And these are special variables:
 		%res <-> resolution of the quickpreview action set in configure kile->tools->preview
@@ -221,11 +222,13 @@ namespace KileTool
 
 		void start(KileTool::Base*);
 		void done(KileTool::Base*, int, bool childToolSpawned);
+		void failedToRun(KileTool::Base*, int);
 
 		void aboutToBeDestroyed(KileTool::Base*);
 
 	public:
 		void setEntryMap(Config map) { m_entryMap = map; }
+		void setEntry(const QString& key, const QString& value);
 		const QString readEntry(const QString& key) const { return m_entryMap[key]; }
 
 		virtual void prepareToRun();
@@ -249,7 +252,7 @@ namespace KileTool
 		 * Determines on which file to run the tool.
 		 **/
 		virtual bool determineSource();
-		
+
 		/**
 		 * Determines the target of the tool (i.e. a DVI for latex, PS for dvips) and
 		 * checks if the target file can be written to the specified location.
@@ -260,7 +263,7 @@ namespace KileTool
 		 * Check if the target dir and file have the correct permissions (according to the flags set).
 		 **/
 		virtual bool checkTarget();
-		
+
 		virtual bool checkSource();
 
 		void runChildNext(Base *tool, bool block = false);
@@ -314,7 +317,7 @@ namespace KileTool
 		Compile(const QString &name, Manager * manager, bool prepare = true);
 	public:
 		~Compile();
-		
+
 	protected:
 		bool checkSource();
 	};
@@ -343,7 +346,7 @@ namespace KileTool
 		Convert(const QString &name, Manager * manager, bool prepare = true);
 	public:
 		~Convert();
-		
+
 		bool determineSource();
 	};
 
@@ -365,7 +368,7 @@ namespace KileTool
 		KileProject *m_project;
 		QString m_fileList;
 	};
-	
+
 	class Sequence : public Base
 	{
 		Q_OBJECT
@@ -373,16 +376,17 @@ namespace KileTool
 
 		bool requestSaveAll();
 
-	protected:
-		Sequence(const QString &name, Manager * manager, bool prepare = true);
-		~Sequence();
+		void setupSequenceTools();
 
 	public Q_SLOTS:
 		int run();
 
-	private:
+	protected:
+		Sequence(const QString &name, Manager *manager, bool prepare = true);
+		~Sequence();
+
+		QLinkedList<Base*> m_tools;
 		QString m_unknownToolSpec;
-		QList<Base*> m_tools;
 	};
 }
 

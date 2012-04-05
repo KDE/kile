@@ -77,7 +77,7 @@ SideBar::~SideBar()
 {
 }
 
-int SideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &text /* = QString::null*/)
+int SideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &text /* = QString()*/)
 {
 	int index = m_tabStack->addWidget(widget);
 	m_tabBar->appendTab(pic, index, text);
@@ -88,7 +88,7 @@ int SideBar::addPage(QWidget *widget, const QPixmap &pic, const QString &text /*
 	return index;
 }
 
-void SideBar::removePage(QWidget *w) 
+void SideBar::removePage(QWidget *w)
 {
 	int nTabs = m_tabStack->count();
 	int index = m_tabStack->indexOf(w);
@@ -183,7 +183,7 @@ void SideBar::expand()
 void SideBar::tabClicked(int i)
 {
 	int currentIndex = currentTab();
-	
+
 	if(i == currentIndex && !isMinimized()) {
 		shrink();
 	}

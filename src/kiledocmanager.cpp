@@ -132,6 +132,20 @@ Manager::~Manager()
 	}
 }
 
+void Manager::readConfig()
+{
+	if(m_editor) {
+		m_editor->readConfig(KGlobal::config().data());
+	}
+}
+
+void Manager::writeConfig()
+{
+	if(m_editor) {
+		m_editor->writeConfig(KGlobal::config().data());
+	}
+}
+
 void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= NULL */ )
 {
 	KILE_DEBUG() << "==void Manager::trashDoc(" << docinfo->url().toLocalFile() << ")=====";
@@ -932,7 +946,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 	return !oneSaveFailed;
 }
 
-void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
+TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 {
 	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::fileOpen==========================";
@@ -944,7 +958,7 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	bool isopen = m_ki->isOpen(realurl);
 	if(isopen) {
 		m_ki->viewManager()->switchToTextView(realurl);
-		return;
+		return textInfoForURL(realurl);
 	}
 
 	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
@@ -969,6 +983,7 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	emit(updateModeStatus());
 	// update undefined references in this file
 	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
+	return textInfo;
 }
 
 bool Manager::fileSave(KTextEditor::View *view)

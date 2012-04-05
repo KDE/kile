@@ -1,6 +1,6 @@
 /***********************************************************************************************
     Copyright (C) 2004 by Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
-                  2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -22,6 +22,7 @@
 #include <QMouseEvent>
 #include <QKeyEvent>
 
+#include <KModifierKeyInfo>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
@@ -31,6 +32,7 @@
 
 LaTeXEventFilter::LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit) : QObject(view), m_view(view), m_edit(edit)
 {
+	m_modifierKeyInfo = new KModifierKeyInfo(this);
 	readConfig();
 }
 
@@ -39,7 +41,15 @@ void LaTeXEventFilter::readConfig()
 	m_bCompleteEnvironment = KileConfig::completeEnvironment();
 }
 
-//FIXME: port for KDE4
+// querying the caps lock state directly is currrently not supported by Qt
+bool LaTeXEventFilter::isCapsLockEnabled()
+{
+	return m_modifierKeyInfo->isKeyLatched(Qt::Key_CapsLock)
+	       || m_modifierKeyInfo->isKeyLocked(Qt::Key_CapsLock);
+}
+
+//FIXME: there should be one central place to convert unicode chars to LaTeX;
+//       also see 'EditorExtension::insertLatexFromUnicode'.
 // KateViewInternal as a child of KTextEditor::View has the focus
 // This was set with KTextEditor::View::setFocusProxy(viewInternal)
 bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
@@ -57,10 +67,10 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 	}
 
 	if (e->type() == QEvent::KeyPress) {
-		QKeyEvent *ke = (QKeyEvent*) e;
-		switch(ke->key()) 
+		QKeyEvent *ke = static_cast<QKeyEvent*>(e);
+		switch(ke->key())
 			{
-			case Qt::Key_QuoteDbl:		return m_edit->insertDoubleQuotes(m_view);			
+			case Qt::Key_QuoteDbl:		return m_edit->insertDoubleQuotes(m_view);
 			case Qt::Key_exclamdown:	return m_edit->insertSpecialCharacter("!`", m_view);
 			case Qt::Key_cent:		return m_edit->insertSpecialCharacter("\\textcent", m_view, "textcomp");
 			case Qt::Key_sterling:		return m_edit->insertSpecialCharacter("\\pounds", m_view);
@@ -82,149 +92,149 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 			case Qt::Key_questiondown:	return m_edit->insertSpecialCharacter("?`", m_view);
 			case Qt::Key_multiply:		return m_edit->insertSpecialCharacter("\\times", m_view);
 			case Qt::Key_ssharp:		return m_edit->insertSpecialCharacter("\\ss{}", m_view);
-			case Qt::Key_Agrave:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Agrave:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\`A", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\`a", m_view);
-			case Qt::Key_Aacute:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Aacute:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\'A", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\'a", m_view);
-			case Qt::Key_Acircumflex:      	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Acircumflex:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\^A", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\^a", m_view);
-			case Qt::Key_Atilde:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Atilde:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\~A", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\~a", m_view);
-			case Qt::Key_Adiaeresis:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Adiaeresis:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\\"A", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\\"a", m_view);
-			case Qt::Key_Aring:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Aring:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\AA", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\aa", m_view);
-			case Qt::Key_AE:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_AE:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\AE", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\ae", m_view);
-			case Qt::Key_Ccedilla:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
-					return m_edit->insertSpecialCharacter("\\cC", m_view);
+			case Qt::Key_Ccedilla:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
+					return m_edit->insertSpecialCharacter("\\c{C}", m_view);
 				}
-				else return m_edit->insertSpecialCharacter("\\cc", m_view);
-			case Qt::Key_Egrave:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+				else return m_edit->insertSpecialCharacter("\\c{c}", m_view);
+			case Qt::Key_Egrave:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\`E", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\`e", m_view);
-			case Qt::Key_Eacute:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Eacute:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\'E", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\'e", m_view);
-			case Qt::Key_Ecircumflex:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ecircumflex:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\^E", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\^e", m_view);
-			case Qt::Key_Ediaeresis:       	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ediaeresis:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\\"E", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\\"e", m_view);
-			case Qt::Key_Igrave:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Igrave:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\`I", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\`i", m_view);
-			case Qt::Key_Iacute:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Iacute:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\'I", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\'i", m_view);
-			case Qt::Key_Icircumflex:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Icircumflex:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\^I", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\^i", m_view);
-			case Qt::Key_Idiaeresis:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Idiaeresis:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\\"I", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\\"i", m_view);
-			case Qt::Key_Ntilde:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ntilde:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\~N", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\~n", m_view);
-			case Qt::Key_Ograve:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ograve:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\`O", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\`o", m_view);
-			case Qt::Key_Oacute:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Oacute:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\'O", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\'o", m_view);
-			case Qt::Key_Ocircumflex:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ocircumflex:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\^O", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\^o", m_view);
-			case Qt::Key_Otilde:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Otilde:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\~O", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\~o", m_view);
-			case Qt::Key_Odiaeresis:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Odiaeresis:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\\"O", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\\"o", m_view);
-			case Qt::Key_Ugrave:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ugrave:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\`U", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\`u", m_view);
-			case Qt::Key_Uacute:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Uacute:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\'U", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\'u", m_view);
-			case Qt::Key_Ucircumflex:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Ucircumflex:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\^U", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\^u", m_view);
-			case Qt::Key_Udiaeresis:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Udiaeresis:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\\"U", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\\"u", m_view);
-			case Qt::Key_Yacute:		
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_Yacute:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\'Y", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\'y", m_view);
-			case Qt::Key_ydiaeresis:	
-				if (ke->modifiers() == Qt::ShiftModifier) {
+			case Qt::Key_ydiaeresis:
+				if (ke->modifiers() == Qt::ShiftModifier || isCapsLockEnabled()) {
 					return m_edit->insertSpecialCharacter("\\\"Y", m_view);
 				}
 				else return m_edit->insertSpecialCharacter("\\\"y", m_view);
 			default:	break;
 			}
-		
+
 		if(m_bCompleteEnvironment && ke->key() == Qt::Key_Return && ke->modifiers() == 0) {
 			return m_edit->eventInsertEnvironment(m_view);
 		}

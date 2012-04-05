@@ -187,6 +187,10 @@
 			<label>Whether to show the splash screen on startup.</label>
 			<default>true</default>
 		</entry>
+		<entry name="SystemCheckLastVersionRunForAtStartUp" type="String">
+			<label>Last version of Kile for which the system check was run at start up</label>
+			<default></default>
+		</entry>
 	</group>
 	<group name="Editor Ext">
 		<entry name="CompleteEnvironment" type="Bool">
@@ -303,10 +307,14 @@
 		</entry>
 		<entry name="kilerefs" type="Bool">
 			<label>Use the Kile LaTeX reference for the contextual help.</label>
+			<default>false</default>
+		</entry>
+		<entry name="latex2erefs" type="Bool">
+			<label>Use the system's TexLive LaTeX2e reference for the contextual help.</label>
 			<default>true</default>
 		</entry>
 		<entry name="texrefs" type="Bool">
-			<label>Use the system's TeX reference for the contextual help.</label>
+			<label>Use the system's TeX reference for the contextual help (older version).</label>
 			<default>false</default>
 		</entry>
 		<entry name="embedded" type="Bool">
@@ -363,7 +371,7 @@
 		</entry>
 		<entry name="TemplateEncoding" type="String">
 			<label>The Input encoding template variable.</label>
-			<default>utf8x</default>
+			<default>utf8</default>
 		</entry>
 		<entry name="DefaultProjectLocation" type="String">
 			<label>The default location where the projects must be created.</label>
@@ -499,7 +507,7 @@
 		</entry>
 		<entry name="encoding" type="String">
 			<label></label>
-			<default>utf8x</default>
+			<default>utf8</default>
 		</entry>
 		<entry name="optionsArticle" type="String">
 			<label></label>
@@ -598,6 +606,16 @@
 		<entry name="symbolViewUTF8" type="Bool">
 		<label>Should UTF-8 characters instead of commands be inserted</label>
 		<default>false</default>
+		</entry>
+	</group>
+	<group name="UserMenu">
+		<entry name="menuFile" type="String">
+			<label>XML file for the user menu</label>
+			<default></default>
+		</entry>
+		<entry name="menuLocation" type="Int">
+			<label>Use the main menubar (value 0) or the LaTeX menu (value 1) for the location of the user menu</label>
+			<default>1</default>
 		</entry>
 	</group>
 	<group name="LivePreview">

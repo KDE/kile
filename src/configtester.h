@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Fri Jun 4 2004
-    copyright            : (C) 2004 by Jeroen Wijnout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+/*************************************************************************************
+  Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+ *************************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -12,50 +11,186 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef CONFIGTESTER_H
 #define CONFIGTESTER_H
 
 #include <QObject>
-#include <QList>
+#include <QLinkedList>
 #include <QMap>
 #include <QProcess>
 
+#include <KUrl>
+
+class KJob;
 class KTempDir;
-class KConfig;
 class KProcess;
-class KUrl;
 
-class ConfigTest
+class KileInfo;
+
+namespace KileDocument
 {
-	public:
-		enum Status { Success = 3, Failure = 2, Critical = 1 };
+	class TextInfo;
+}
 
-		ConfigTest();
-		ConfigTest(const QString &name, bool mustpass, const QString &arg, const QString &altarg = QString());
+namespace KileTool
+{
+	class Base;
+}
+
+class ConfigTest : public QObject
+{
+	Q_OBJECT
+
+	public:
+		enum Status { Success = 2, Failure = 1, NotRun = 0 };
+
+		ConfigTest(const QString& testGroup, const QString &name, bool isCritical);
+		virtual ~ConfigTest();
 
 		int status() const;
 
+		virtual void call() = 0;
+
 		QString resultText() const;
 		QString name() const;
+		QString testGroup() const;
+
+		void addDependency(ConfigTest *test);
+		bool allDependenciesSucceeded() const;
+
+		bool isCritical() const;
+
+		bool isSilent() const;
+		void setSilent(bool b);
+
+	Q_SIGNALS:
+		void testComplete(ConfigTest *test);
 
 	private:
-		QString	m_name, m_arg, m_altArg;
-		bool 		m_mustPass;
+		QString				m_testGroup, m_name;
+		bool				m_isCritical, m_isSilent;
+		QLinkedList<ConfigTest*>	m_dependencyTestList;
 
+	protected:
+		Status		m_status;
+		QString		m_resultText;
+
+		void setName(const QString& name);
+};
+
+class OkularVersionTest : public ConfigTest
+{
+	Q_OBJECT
 	public:
-		static void addPrettyName(const QString &test, const QString &prettyName);
-		static void addSuccessMessage(const QString &test, const QString &msg);
-		static void addFailureMessage(const QString &test, const QString &msg);
-		static void addCriticalMessage(const QString &test, const QString &msg);
+		OkularVersionTest(const QString& testGroup, bool isCritical);
+		~OkularVersionTest();
 
-		static QString prettyName(const QString &test);
-		static QString successMessage(const QString &test);
-		static QString failureMessage(const QString &test);
-		static QString criticalMessage(const QString &test);
+		virtual void call();
+
+		bool isViewerModeSupported() const;
 
 	private:
-		static QMap<QString,QString> s_prettyName, s_msgSuccess, s_msgFailure, s_msgCritical;
+		bool m_isViewerModeSupported;
+};
+
+class FindProgramTest : public ConfigTest
+{
+	Q_OBJECT
+	public:
+		FindProgramTest(const QString& testGroup, const QString& programName, bool isCritical);
+		~FindProgramTest();
+
+		virtual void call();
+
+		void setAdditionalFailureMessage(const QString& s);
+
+	protected:
+		QString m_programName;
+		QString m_additionalFailureMessage;
+};
+
+class TestToolInKileTest : public ConfigTest
+{
+	Q_OBJECT
+	public:
+		TestToolInKileTest(const QString& testGroup, KileInfo *kileInfo, const QString& toolName, const QString& filePath, bool isCritical);
+		~TestToolInKileTest();
+
+		virtual void call();
+
+	protected Q_SLOTS:
+		void handleToolExit(KileTool::Base *tool, int status, bool childToolSpawned);
+
+		void reportSuccess();
+		void reportFailure();
+
+	protected:
+		KileInfo *m_ki;
+		QString m_toolName;
+		QString m_filePath;
+		KUrl m_documentUrl;
+};
+
+class ProgramTest : public ConfigTest
+{
+	Q_OBJECT
+	public:
+		ProgramTest(const QString& testGroup, const QString& programName, const QString& workingDir,
+		                                                                  const QString& arg0,
+		                                                                  const QString& arg1,
+		                                                                  const QString& arg2 = "",
+		                                                                  bool isCritical = false);
+		~ProgramTest();
+
+		virtual void call();
+
+	protected Q_SLOTS:
+		virtual void handleTestProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+		virtual void handleTestProcessError(QProcess::ProcessError error);
+
+		virtual void reportSuccess();
+		virtual void reportFailure();
+
+	protected:
+		KProcess *m_testProcess;
+		QString m_programName;
+		QString m_workingDir;
+		QString m_arg0, m_arg1, m_arg2;
+
+		virtual void processFinishedSuccessfully();
+};
+
+class LaTeXSrcSpecialsSupportTest : public ProgramTest
+{
+	Q_OBJECT
+	public:
+		LaTeXSrcSpecialsSupportTest(const QString& testGroup, const QString& workingDir,
+		                                                      const QString& fileBaseName);
+		~LaTeXSrcSpecialsSupportTest();
+
+	protected:
+		QString m_fileBaseName;
+
+		virtual void reportSuccess();
+		virtual void reportFailure();
+		virtual void processFinishedSuccessfully();
+};
+
+class SyncTeXSupportTest : public ProgramTest
+{
+	Q_OBJECT
+	public:
+		SyncTeXSupportTest(const QString& testGroup, const QString& toolName, const QString& workingDir,
+		                                                                      const QString& fileBaseName);
+		~SyncTeXSupportTest();
+
+	protected:
+		QString m_fileBaseName;
+
+		virtual void reportSuccess();
+		virtual void reportFailure();
+		virtual void processFinishedSuccessfully();
 };
 
 class Tester : public QObject
@@ -63,17 +198,19 @@ class Tester : public QObject
 	Q_OBJECT
 
 public:
-	Tester(QObject *parent = 0);
+	Tester(KileInfo *kileInfo, QObject *parent = 0);
 	~Tester();
 
-	QStringList testedTools();
-	QList<ConfigTest> resultForTool(const QString &);
-	int statusForTool(const QString &);
+	QStringList testGroups();
+	QList<ConfigTest*> resultForGroup(const QString &);
+	int statusForGroup(const QString &testGroup, bool *isCritical = NULL);
+
+	bool isSyncTeXSupportedForPDFLaTeX();
+	bool isViewerModeSupportedInOkular();
+	bool areSrcSpecialsSupportedForLaTeX();
 
 public Q_SLOTS:
 	void runTests();
-	void saveResults(const KUrl &);
-	void stop();
 
 Q_SIGNALS:
 	void started();
@@ -81,17 +218,32 @@ Q_SIGNALS:
 	void finished(bool);
 
 private Q_SLOTS:
-	void determineProgress();
-	void processTestResults(int exitCode, QProcess::ExitStatus exitStatus);
-	void processTool(KConfig *, const QString &);
+	void addResult(const QString &tool, ConfigTest* testResult);
 
-	void addResult(const QString &tool, const QList<ConfigTest> &tests);
+	void startNextTest();
+
+	void handleFileCopyResult(KJob* job);
+	void handleTestComplete(ConfigTest *test);
 
 private:
-	QMap<QString,QList<ConfigTest> >	m_results;
-	QString					m_resultsFile;
+	KileInfo *m_ki;
+	QMap<QString, QList<ConfigTest*> >	m_results;
 	KTempDir				*m_tempDir;
-	KProcess				*m_process;
+	ConfigTest				*m_currentTest;
+	QLinkedList<ConfigTest*> m_testList;
+	QLinkedList<ConfigTest*>::iterator m_nextTestIterator;
+	int					m_testsDone;
+	ConfigTest *m_pdfLaTeXSyncTeXSupportTest, *m_laTeXSrcSpecialsSupportTest;
+	OkularVersionTest *m_okularVersionTest;
+
+	QString m_runningTestGroup;
+	KUrl m_runningToolTestUrl;
+	bool m_runningTestCritical;
+
+	void setupTests();
+	void installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2 = NULL,
+	                                                        ConfigTest *t3 = NULL,
+	                                                        ConfigTest *t4 = NULL);
 };
 
 #endif

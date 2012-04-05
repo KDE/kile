@@ -17,7 +17,7 @@
 // 2005-12-02 dani
 //  - put configuration of Kile and Kate together in one dialog
 //  - items are shown as a tree list
-//  - encoding config page and spelling page are removed, 
+//  - encoding config page and spelling page are removed,
 //    because settings are also avaiblable with Kate
 //  - geometry of the dialog are saved and restored, because
 //    the initial values may be bad in some languages
@@ -51,6 +51,7 @@
 #include "widgets/previewconfigwidget.h"
 #include "widgets/scriptingconfigwidget.h"
 #include "widgets/toolconfigwidget.h"
+#include "widgets/usermenuconfigwidget.h"
 
 #include "kileconfig.h"
 #include "kileinfo.h"
@@ -79,7 +80,7 @@ namespace KileDialog
 		m_manager = new KConfigDialogManager(this,KileConfig::self());
 
 		KPageWidgetItem* kilePageWidgetItem = addConfigFolder(i18n("Kile"), "kile");
-		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "text-x-tex");
+		KPageWidgetItem* latexPageWidgetItem = addConfigFolder(i18n("LaTeX"), "latex-config");
 		KPageWidgetItem* toolsPageWidgetItem = addConfigFolder(i18n("Tools"), "system-run");
 		KPageWidgetItem* editorPageWidgetItem = addConfigFolder(i18n("Editor"), "accessories-text-editor");
 
@@ -89,6 +90,7 @@ namespace KileDialog
 		setupCodeCompletion(kilePageWidgetItem);   // complete configuration (dani)
 		setupHelp(kilePageWidgetItem);
 		setupScripting(kilePageWidgetItem);
+		setupUsermenu(kilePageWidgetItem);
 		setupLivePreview(kilePageWidgetItem);
 
 		setupLatex(latexPageWidgetItem);
@@ -168,7 +170,7 @@ namespace KileDialog
 		generalPage->setObjectName("LaTeX");
 		addConfigPage(parent, generalPage, i18n("General"), "configure", i18n("General Settings"));
 	}
-	
+
 	//////////////////// Tools Configuration ////////////////////
 
 	void Config::setupTools(KPageWidgetItem* parent)
@@ -186,6 +188,16 @@ namespace KileDialog
 		// we hide this now as the feature is not implemented currently
 		scriptingPage->executionTimeLimitGroupBox->setHidden(true);
 		addConfigPage(parent, scriptingPage, i18n("Scripting"), "application-x-executable-script", i18n("Scripting Support"));
+	}
+
+	//////////////////// Usermenu  ////////////////////
+
+	void Config::setupUsermenu(KPageWidgetItem *parent)
+	{
+		usermenuPage = new KileWidgetUsermenuConfig(m_ki->userMenu(),this);
+		usermenuPage->setObjectName("Usermenu");
+		addConfigPage(parent, usermenuPage, i18n("User Menu"), "usermenu-install", i18n("User Menu"));
+
 	}
 
 	//////////////////// LaTeX specific editing options ////////////////////
@@ -257,7 +269,7 @@ namespace KileDialog
 	{
 		graphicsPage = new KileWidgetGraphicsConfig(this);
 		graphicsPage->setObjectName("Graphics");
-		graphicsPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") ); 
+		graphicsPage->m_lbImagemagick->setText( ( KileConfig::imagemagick() ) ? i18n("installed") : i18n("not installed") );
 		addConfigPage(parent, graphicsPage, i18n("Graphics"), "graphicspage");
 	}
 
@@ -321,6 +333,7 @@ namespace KileDialog
 		toolPage->writeConfig();      // config all tools
 		completePage->writeConfig();  // Complete configuration (dani)
 		previewPage->writeConfig();   // Quick Preview (dani)
+		usermenuPage->writeConfig();
 
 		m_config->sync();
 

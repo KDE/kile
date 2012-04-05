@@ -137,13 +137,15 @@ int main( int argc, char ** argv )
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
+	// this has to go before the DBus connection
+	KApplication app;
+
 	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
 	if(!running  || args->isSet("new")) {
 		bool restore = (args->count() == 0);
 
-		KApplication app;
 		Kile *kile = new Kile(restore);
 
 		for(int i = 0; i < args->count(); ++i) {

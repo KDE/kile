@@ -1,0 +1,389 @@
+
+<sect1 id="id_usermenu_configuration">
+<title>Configuration</title>
+
+<para>&kile; supports a user-configurable menu, which will appear as a part of &kile;'s menu. This menu can be configured using &kile;'s configuration dialog with <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>User Menu</guimenuitem></menuchoice>.</para>
+
+	<screenshot>
+		<screeninfo>Configure the user menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Configure the user menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>You have two options to place this menu:</para>
+
+<itemizedlist>
+<listitem>
+<para>either the menuentry <guilabel>User Menu</guilabel> will appear in the main menu between menu entries <guilabel>LaTeX</guilabel> and <guilabel>Wizard</guilabel> and the configuration wizard <guilabel>Edit User Menu</guilabel> in the <guilabel>Wizard</guilabel> menu</para>
+
+	<screenshot>
+		<screeninfo>User Menu is placed in the main menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>User Menu is placed in the main menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para>or both entries will appear at the bottom of the <guilabel>LaTeX</guilabel> menu entry.</para>
+
+	<screenshot>
+		<screeninfo>User Menu as a part of the LaTeX menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>User Menu as a part of the LaTeX menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para>Already existing user-defined tags from older versions of &kile; are automatically transformed into the new user-configurable menu. The tags are saved in a file called <filename>usertags.xml</filename> and like all menu definition files, they can be found in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>, &eg; <filename>/home/user/.kde/share/apps/kile/usermenu/</filename>.</para>
+
+<para>You can use different menu definition files for different tasks. Call the user menu wizard <menuchoice><guimenu>Wizard</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> or <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> to install or edit a menu definition file.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title>Wizard</title>
+
+<para>You can create new or change existing menus with a comfortable user menu configuration wizard found at <menuchoice><guimenu>Wizard</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice>.</para>
+
+	<screenshot>
+		<screeninfo>User Menu Wizard</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>User Menu Wizard</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>On the left side you will see an existing menu-tree. Like a standard menu, three different kinds of menu items are available:</para>
+
+<itemizedlist>
+<listitem><para>standard menuentries, which are assigned to an action</para></listitem>
+<listitem><para>submenus, which contain more menu items</para></listitem>
+<listitem><para>separators, to get a visible structure of all entries</para></listitem>
+</itemizedlist>
+
+<para>To modify this menu, use the six buttons on the left side. Even more possible actions are available in the context menu of already existing menuitems.</para>
+
+	<screenshot>
+		<screeninfo>User-Defined Menutree</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>User-Defined Menutree</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>Each standard menu item is assigned to one of three action types, where each of them has different attributes, which could be set:</para>
+
+<itemizedlist>
+<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; Gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, f.e. Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action will be called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem><para><guilabel>Insert file contents:</guilabel>&nbsp; Inserts the complete contents of a given file.</para>
+
+	<screenshot>
+		<screeninfo>Insert file contents</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Insert file contents</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem><para><guilabel>Execute an external program:</guilabel>&nbsp; The output of this program can be inserted into the opened document. Metachar <userinput>%M</userinput> is also possible in the commandline of this program, as the selected text will be saved in a temporary file. Use <userinput>%M</userinput> for the filename of this temporary file.</para>
+
+	<screenshot>
+		<screeninfo>Execute an external program</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Execute an external program</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para>If some important information for an action is missing, menu items are colored red. This may be a non existing file</para>
+
+	<screenshot>
+		<screeninfo>Non existing file</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Non existing file</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>or a missing title for the menuentry, which will be shown with questionmarks like <userinput>???</userinput>.</para>
+
+	<screenshot>
+		<screeninfo>Missing title of a menuentry</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Missing title of a menuentry</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>If you open the context menu of such a red colored menuitem, you will get an additional info option for more information concerning this error.</para>
+
+	<screenshot>
+		<screeninfo>Additional info</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Additional info</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>More information may also be available using the <guilabel>What's this</guilabel> feature of most widgets.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title>Placeholders</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title>Insert Text</title>
+
+<para>There are some placeholders you can use in your user-defined tags: <userinput>%C</userinput>, <userinput>%B</userinput>, <userinput>%M</userinput>, <userinput>%E</userinput>, <userinput>%R</userinput> and <userinput>%T</userinput>.</para>
+
+<itemizedlist>
+<listitem>
+<para><userinput>%C</userinput>:&nbsp; this is where the cursor will be placed after the insertion of a user-defined tag.</para>
+
+	<screenshot>
+		<screeninfo>Cursor Position (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Cursor Position (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para><userinput>%B</userinput>:&nbsp; will be replaced by a bullet (see <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo>Bullet (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Bullet (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para><userinput>%M</userinput>:&nbsp; will be replaced by the selected text.</para>
+
+	<screenshot>
+		<screeninfo>Selected Text (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Selected Text (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para><userinput>%E</userinput>:&nbsp; denotes the indentation depth of text inside an environment.</para>
+
+	<screenshot>
+		<screeninfo>Indentation of environment text (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Indentation of environment text (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para><userinput>%R</userinput>:&nbsp; will call a reference-dialog to choose a label which has already been defined . This can be used to refer to a predefined label, which you can choose from a drop-down list (see also <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Ref</guimenuitem></menuchoice> or
+<menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Pageref</guimenuitem></menuchoice>).</para>
+
+	<screenshot>
+		<screeninfo>References (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>References (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para><userinput>%T</userinput>:&nbsp; will call a citation-dialog to choose an already defined cite. Like using <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Cite</guimenuitem></menuchoice> a list with all the citation keys pops up.</para>
+
+	<screenshot>
+		<screeninfo>Citation Keys (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Citation Keys (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para>Let's consider another example, with a macro like <userinput>\frac{%M}{%C}</userinput>. First, we select a number in our text, let's say <userinput>42</userinput>.
+Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the cursor located within the second pair of brackets.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title>Insert File Contents</title>
+
+<para>If you want to insert the contents of a text file, you could use the same placeholders.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title>Execute A Programm</title>
+
+<para>If you want to execute an external program, only the <userinput>%M</userinput> for selected text ist recognized in the commandline. The selection will be saved in a temporary file and the placeholder <userinput>%M</userinput> is replaced with this filename.</para>
+
+	<screenshot>
+		<screeninfo>Execute an external program (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Execute an external program (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>Another placeholder is <userinput>%S</userinput>, which is replaced by the complete base name of the current document without the path. This base name consists of all characters in the file up to (but not including) the last '.' character.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title>Parameter</title>
+
+<para>Most menu entries may have additional self-explaining parameters, which may be checked. If some of these parameters are not available for some kind of action, they are disabled.</para>
+
+	<screenshot>
+		<screeninfo>User Menu Parameter</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>User Menu Parameter</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>Here is one example for executing an external program:</para>
+
+	<screenshot>
+		<screeninfo>Parameter example</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Parameter example</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <userinput>Needs selected text</userinput> parameter is checked to assure a selection. The output of this script shall be inserted (<userinput>Insert the ouput of the chosen program</userinput>) and replace the current  selection (<userinput>Replace selected text</userinput>), but not selected itself.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title>Menu Definition Files</title>
+
+<para>You can install different menus at runtime for different tasks. When you call the usermenu wizard, the current menu definition file is loaded. If you modify it and close the dialog with <userinput>OK</userinput>, your changes will be saved and installed as new usermenu. Closing the dialog with <userinput>Cancel</userinput> will discard all changes.</para>
+
+	<screenshot>
+		<screeninfo>Menu Definition Files</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Menu Definition Files</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para>But you are also free to save the modified file in the usermenu directory or to load another menu definition file and install it. All usermenu definition files must be saved in the local usermenu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>.</para>
+
+<para>Look at the example menu definition file <userinput>example.xml</userinput> to see more menuentries with their parameters.</para>
+
+</sect1>
+

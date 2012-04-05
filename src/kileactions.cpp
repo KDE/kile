@@ -204,7 +204,7 @@ void InputTag::emitData()
 
 		// if a filename was given for a \input- or \include-command,
 		// the cursor is moved out of the braces
-		if((m_options & KileAction::ShowBrowseButton) && !dlg->tag().isEmpty()) {
+		if ( (m_options & (KileAction::ShowBrowseButton | KileAction::FromLabelList | KileAction::FromBibItemList)) && !dlg->tag().isEmpty() ) {
 			td.dx += dlg->tag().length() + 1;
 		}
 
@@ -234,7 +234,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	setCaption(newcaption.remove('&'));
 
 	m_labelprefix = ( newcaption == "chapter" ) ? "chap:" : "sec:";
-	
+
 	m_usedSelection = false;
 
 	QWidget *page = new QWidget(this);
@@ -312,7 +312,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		pbutton->setIcon(KIcon("document-open"));
 		gbox->addWidget(pbutton, 1, 2);
 		gbox->setColumnMinimumWidth(1, 8);
-		gbox->setColumnMinimumWidth(2, pbutton->sizeHint().width() + 5); 
+		gbox->setColumnMinimumWidth(2, pbutton->sizeHint().width() + 5);
 		connect(pbutton, SIGNAL(clicked()), this, SLOT(slotBrowse()));
 	}
 
@@ -338,10 +338,10 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	}
 
 	m_useAddProjectFile = (options & KileAction::AddProjectFile);
-	
+
 	gbox->setRowStretch(5, 1);
 	gbox->setColumnStretch(0, 1);
-	
+
 	focus->setFocus();
 }
 
@@ -391,7 +391,7 @@ QString InputDialog::label()
 			return "\\label{" + label + "}\n";
 		}
 	}
-	
+
 	return QString();
 }
 

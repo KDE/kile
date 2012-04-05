@@ -109,6 +109,8 @@ public:
 	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
 	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 
+	void installContextMenu(KTextEditor::View *view);
+
 	KParts::ReadOnlyPart* viewerPart() const { return m_viewerPart; }
 
 	void readConfig(QSplitter *splitter);

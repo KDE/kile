@@ -56,7 +56,7 @@ This widget contains six icons, which offer different tasks:
 <para>&kile; scripts differ slightly from <ulink url="http://kate-editor.org">&kate;</ulink> scripts, which use another design, as they also can be started from the command-line. But all functions of the &kate; scripting API are also available in &kile;'s scripting API, so porting &javascript; code from &kate; to &kile; should be very easy. But as &kile; is a very rich featured &latex; editor, its own scripting API offers much more possibilities than &kate;'s one.</para>
 
 <para><emphasis>Remark: </emphasis>Description of API calls, which are also available in &kate; scripting, have been taken from &kate; documentation.</para>
-  
+
 
 <sect2 id="id_scripting_api_global">
 <title>Global Functions</title>

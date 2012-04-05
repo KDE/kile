@@ -407,14 +407,9 @@ void EditorExtension::selectMathgroup(KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = mathgroupRange(view);
-	if ( range.isValid() ) {
+	if(range.isValid()) {
 		view->setSelection(range);
 	}
-
-// 	int row1, col1, row2, col2;
-// 	if(getMathgroup(view, row1, col1, row2, col2)) {
-// 		view->setSelection(KTextEditor::Range(row1, col1, row2, col2));
-// 	}
 }
 
 void EditorExtension::deleteMathgroup(KTextEditor::View *view)
@@ -425,31 +420,16 @@ void EditorExtension::deleteMathgroup(KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = mathgroupRange(view);
-	if ( range.isValid() ) {
+	if(range.isValid()) {
 		deleteRange(range,view);
 	}
-
-// 	int row1, col1, row2, col2;
-// 	if(getMathgroup(view, row1, col1, row2, col2)) {
-// 		view->removeSelection();
-// 		view->document()->removeText(KTextEditor::Range(row1, col1, row2, col2));
-// 		view->setCursorPosition(KTextEditor::Cursor(row1, 0));
-// 	}
 }
 
 bool EditorExtension::hasMathgroup(KTextEditor::View *view)
 {
 	// view will be checked in mathgroupRange()
 	KTextEditor::Range range = mathgroupRange(view);
-	return ( range.isValid() ) ? true : false;
-
-// 	view = determineView(view);
-// 	if(!view) {
-// 		return false;
-// 	}
-//
-// 	int row1, col1, row2, col2;
-// 	return getMathgroup(view, row1, col1, row2, col2);
+	return (range.isValid()) ? true : false;
 }
 
 QString EditorExtension::getMathgroupText(KTextEditor::View *view)
@@ -460,7 +440,7 @@ QString EditorExtension::getMathgroupText(KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = mathgroupRange(view);
-	return ( range.isValid() ) ? view->document()->text(range) : QString();
+	return (range.isValid()) ? view->document()->text(range) : QString();
 }
 
 QString EditorExtension::getMathgroupText(uint &row, uint &col, KTextEditor::View *view)
@@ -486,7 +466,7 @@ KTextEditor::Range  EditorExtension::mathgroupRange(KTextEditor::View *view)
 	}
 
 	int row1, col1, row2, col2;
-	if ( getMathgroup(view, row1, col1, row2, col2) ) {
+	if(getMathgroup(view, row1, col1, row2, col2)) {
 		return KTextEditor::Range(row1, col1, row2, col2);
 	}
 	else {
@@ -1144,17 +1124,10 @@ void EditorExtension::selectEnvironment(bool inside, KTextEditor::View *view)
 
 	if (!view->selection() || !expandSelectionEnvironment(inside,view)) {
 		KTextEditor::Range range = environmentRange(inside,view);
-		if ( range.isValid() ) {
+		if(range.isValid()) {
 			view->setSelection(range);
 		}
 	}
-
-// 	EnvData envbegin,envend;
-//
-// 	if (!view->selection() || !expandSelectionEnvironment(inside,view)) {
-// 		if ( getEnvironment(inside,envbegin,envend,view) )
-// 			view->setSelection(KTextEditor::Range(envbegin.row, envbegin.col, envend.row, envend.col));
-// 	}
 }
 
 void EditorExtension::deleteEnvironment(bool inside, KTextEditor::View *view)
@@ -1165,18 +1138,9 @@ void EditorExtension::deleteEnvironment(bool inside, KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = environmentRange(inside,view);
-	if ( range.isValid() ) {
+	if(range.isValid()) {
 		deleteRange(range,view);
 	}
-
-// 	EnvData envbegin,envend;
-//
-// 	if(getEnvironment(inside, envbegin, envend, view)) {
-// 		KTextEditor::Document *doc = view->document();
-// 		view->removeSelection();
-// 		doc->removeText(KTextEditor::Range(envbegin.row, envbegin.col, envend.row, envend.col));
-// 		view->setCursorPosition(KTextEditor::Cursor(envbegin.row, 0));
-// 	}
 }
 
 void EditorExtension::deleteRange(KTextEditor::Range &range, KTextEditor::View *view)
@@ -1222,7 +1186,7 @@ KTextEditor::Range EditorExtension::environmentRange(bool inside, KTextEditor::V
 {
 	// view will be checked in getEnvironment()
 	EnvData envbegin, envend;
-	return ( getEnvironment(inside, envbegin, envend, view) )
+	return (getEnvironment(inside, envbegin, envend, view))
 	         ? KTextEditor::Range(envbegin.row, envbegin.col, envend.row, envend.col)
 	         : KTextEditor::Range::invalid();
 }
@@ -1235,14 +1199,14 @@ QString EditorExtension::environmentText(bool inside, KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = environmentRange(inside,view);
-	return ( range.isValid() ) ? view->document()->text(range) : QString();
+	return (range.isValid()) ? view->document()->text(range) : QString();
 }
 
 QString EditorExtension::environmentName(KTextEditor::View *view)
 {
 	// view will be checked in getEnvironment()
 	EnvData envbegin, envend;
-	return ( getEnvironment(false, envbegin, envend, view) ) ? envbegin.name : QString();
+	return (getEnvironment(false, envbegin, envend, view)) ? envbegin.name : QString();
 }
 
 // determine text, startrow and startcol of current environment
@@ -1441,9 +1405,6 @@ bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, in
 			//KILE_DEBUG() << "invalid range found";
 			break;
 		}
-// 		else {
-// 			KILE_DEBUG() << "range:" << range << "text:" << doc->text(range);
-// 		}
 		env.row = range.start().line();
 		env.col = range.start().column();
 		env.len = doc->text(range).length();
@@ -1677,22 +1638,22 @@ void EditorExtension::gotoBullet(bool backwards, KTextEditor::View *view)
 
 bool EditorExtension::moveCursorRight(KTextEditor::View *view)
 {
-	return moveCursor(view,MoveCursorRight);
+	return moveCursor(view, MoveCursorRight);
 }
 
 bool EditorExtension::moveCursorLeft(KTextEditor::View *view)
 {
-	return moveCursor(view,MoveCursorLeft);
+	return moveCursor(view, MoveCursorLeft);
 }
 
 bool EditorExtension::moveCursorUp(KTextEditor::View *view)
 {
-	return moveCursor(view,MoveCursorUp);
+	return moveCursor(view, MoveCursorUp);
 }
 
 bool EditorExtension::moveCursorDown(KTextEditor::View *view)
 {
-	return moveCursor(view,MoveCursorDown);
+	return moveCursor(view, MoveCursorDown);
 }
 
 bool EditorExtension::moveCursor(KTextEditor::View *view, CursorMove direction)
@@ -1714,19 +1675,19 @@ bool EditorExtension::moveCursor(KTextEditor::View *view, CursorMove direction)
 		                      break;
 		case MoveCursorRight: ok = increaseCursorPosition(doc,row,col);
 		                      break;
-		case MoveCursorUp:    if ( row > 0 ) {
+		case MoveCursorUp:    if(row > 0) {
 		                         row--;
 		                         ok = true;
 		                      }
 		                      break;
-		case MoveCursorDown:  if ( row < doc->lines()-1 ) {
+		case MoveCursorDown:  if(row < doc->lines() - 1) {
 		                          row++;
 		                          ok = true;
 		                      }
 		                      break;
 	}
 
-	if ( ok ) {
+	if(ok) {
 		return view->setCursorPosition(KTextEditor::Cursor(row,col));
 	}
 	else {
@@ -1777,7 +1738,7 @@ bool EditorExtension::decreaseCursorPosition(KTextEditor::Document *doc, int &ro
 void EditorExtension::gotoTexgroup(bool backwards, KTextEditor::View *view)
 {
 	view = determineView(view);
-	if ( !view ) return;
+	if(!view) return;
 
 	uint row,col;
 	bool found;
@@ -1791,18 +1752,20 @@ void EditorExtension::gotoTexgroup(bool backwards, KTextEditor::View *view)
 	m_overwritemode = (view->viewEditMode() == KTextEditor::View::EditOverwrite);
 
 	// start searching
-	if ( backwards )
-		found = findOpenBracket(doc,row,col,bracket);
-	else
-	{
-		found = findCloseBracket(doc,row,col,bracket);
+	if(backwards) {
+		found = findOpenBracket(doc, row, col, bracket);
+	}
+	else {
+		found = findCloseBracket(doc, row, col, bracket);
 		// go behind the bracket
-		if ( ! m_overwritemode )
-		++bracket.col;
+		if(!m_overwritemode) {
+			++bracket.col;
+		}
 	}
 
-	if ( found )
+	if(found) {
 		view->setCursorPosition(KTextEditor::Cursor(bracket.row, bracket.col));
+	}
 }
 
 // match the opposite bracket
@@ -1891,15 +1854,9 @@ void EditorExtension::selectTexgroup(bool inside, KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = texgroupRange(inside,view);
-	if ( range.isValid() ) {
+	if(range.isValid()) {
 		view->setSelection(range);
 	}
-
-// 	BracketData open, close;
-//
-// 	if(getTexgroup(inside, open, close, view)) {
-// 		view->setSelection(KTextEditor::Range(open.row, open.col, close.row, close.col));
-// 	}
 }
 
 void EditorExtension::deleteTexgroup(bool inside, KTextEditor::View *view)
@@ -1910,18 +1867,9 @@ void EditorExtension::deleteTexgroup(bool inside, KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range =texgroupRange(inside,view);
-	if ( range.isValid() ) {
-		deleteRange(range,view);
+	if(range.isValid()) {
+		deleteRange(range, view);
 	}
-
-// 	BracketData open, close;
-//
-// 	if(getTexgroup(inside, open, close, view)) {
-// 		KTextEditor::Document *doc = view->document();
-// 		view->removeSelection();
-// 		doc->removeText(KTextEditor::Range(open.row, open.col, close.row, close.col));
-// 		view->setCursorPosition(KTextEditor::Cursor(open.row, open.col + 1));
-// 	}
 }
 
 // calculate start and end of a Texgroup
@@ -1934,7 +1882,7 @@ KTextEditor::Range EditorExtension::texgroupRange(bool inside, KTextEditor::View
 	}
 
 	BracketData open, close;
-	if ( getTexgroup(inside, open, close, view) ) {
+	if(getTexgroup(inside, open, close, view)) {
 		return KTextEditor::Range(open.row, open.col, close.row, close.col);
 	}
 	else {
@@ -1945,8 +1893,8 @@ KTextEditor::Range EditorExtension::texgroupRange(bool inside, KTextEditor::View
 bool EditorExtension::hasTexgroup(KTextEditor::View *view)
 {
 	// view will be checked in texgroupRange()
-	KTextEditor::Range range =texgroupRange(true,view);
-	return ( range.isValid() ) ? true : false;
+	KTextEditor::Range range = texgroupRange(true, view);
+	return (range.isValid()) ? true : false;
 }
 
 QString EditorExtension::getTexgroupText(bool inside, KTextEditor::View *view)
@@ -1957,7 +1905,7 @@ QString EditorExtension::getTexgroupText(bool inside, KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = texgroupRange(inside,view);
-	return ( range.isValid() ) ? view->document()->text(range) : QString();
+	return (range.isValid()) ? view->document()->text(range) : QString();
 }
 
 bool EditorExtension::getTexgroup(bool inside, BracketData &open, BracketData &close, KTextEditor::View *view)
@@ -2299,7 +2247,7 @@ KTextEditor::Range EditorExtension::wordRange(const KTextEditor::Cursor &cursor,
 	EditorExtension::SelectMode mode = ( latexCommand ) ? EditorExtension::smTex : EditorExtension::smLetter;
 	int line = cursor.line();
 
-	return ( getCurrentWord(view->document(), line, cursor.column(), mode, word, col1, col2) )
+	return (getCurrentWord(view->document(), line, cursor.column(), mode, word, col1, col2))
 	       ? KTextEditor::Range(line,col1,line,col2)
 	       : KTextEditor::Range::invalid();
 }
@@ -2323,12 +2271,6 @@ void EditorExtension::selectParagraph(KTextEditor::View *view)
 	if ( range.isValid() ) {
 		view->setSelection(range);
 	}
-
-// 	int startline, endline;
-//
-// 	if(findCurrentTexParagraph(startline, endline, view)) {
-// 		view->setSelection(KTextEditor::Range(startline, 0, endline + 1, 0));
-// 	}
 }
 
 void EditorExtension::deleteParagraph(KTextEditor::View *view)
@@ -2362,7 +2304,7 @@ KTextEditor::Range EditorExtension::findCurrentParagraphRange(KTextEditor::View 
 	}
 
 	int startline, endline;
-	return ( findCurrentTexParagraph(startline, endline, view) )
+	return (findCurrentTexParagraph(startline, endline, view))
 	       ? KTextEditor::Range(startline, 0, endline + 1, 0)
 	       : KTextEditor::Range::invalid();
 }
@@ -2375,7 +2317,7 @@ QString  EditorExtension::getParagraphText(KTextEditor::View *view)
 	}
 
 	KTextEditor::Range range = findCurrentParagraphRange(view);
-	return ( range.isValid() ) ? view->document()->text(range) : QString();
+	return (range.isValid()) ? view->document()->text(range) : QString();
 }
 
 bool EditorExtension::findCurrentTexParagraph(int &startline, int &endline, KTextEditor::View *view)
@@ -2508,8 +2450,8 @@ int EditorExtension::prevNonEmptyLine(int line, KTextEditor::View *view)
 	}
 
 	KTextEditor::Document *doc = view->document();
-	for ( int i=line-1; i>=0; --i ) {
-		if ( !doc->line(i).trimmed().isEmpty() ) {
+	for(int i = line - 1; i >= 0; --i) {
+		if(!doc->line(i).trimmed().isEmpty()) {
 			return i;
 		}
 	}
@@ -2525,8 +2467,8 @@ int EditorExtension::nextNonEmptyLine(int line, KTextEditor::View *view)
 
 	KTextEditor::Document *doc = view->document();
 	int lines = doc->lines();
-	for ( int i=line+1; i<lines; ++i ) {
-		if ( !doc->line(i).trimmed().isEmpty() ) {
+	for(int i = line + 1; i < lines; ++i) {
+		if(!doc->line(i).trimmed().isEmpty()) {
 			return i;
 		}
 	}
@@ -2561,7 +2503,7 @@ void EditorExtension::selectLine(int line, KTextEditor::View *view)
 		return;
 	}
 
-	if ( view->document()->lineLength(line) > 0 ) {
+	if(view->document()->lineLength(line) > 0) {
 		view->setSelection(KTextEditor::Range(line, 0, line + 1, 0));
 	}
 }
@@ -2569,8 +2511,8 @@ void EditorExtension::selectLine(int line, KTextEditor::View *view)
 void EditorExtension::selectLines(int from, int to, KTextEditor::View *view)
 {
 	view = determineView(view);
-	if ( view && from<=to ) {
-		view->setSelection(KTextEditor::Range(from,0,to+1,0));
+	if(view && from <= to) {
+		view->setSelection(KTextEditor::Range(from, 0, to + 1, 0));
 	}
 }
 
@@ -2584,7 +2526,7 @@ bool EditorExtension::replaceLine(int line, const QString &s, KTextEditor::View 
 	KTextEditor::Document *doc = view->document();
 	doc->startEditing();
 	doc->removeLine(line);
-	bool result = doc->insertLine(line,s);
+	bool result = doc->insertLine(line, s);
 	doc->endEditing();
 	return result;
 }
@@ -2619,18 +2561,6 @@ void EditorExtension::selectWord(EditorExtension::SelectMode mode, KTextEditor::
 	if ( range.isValid() ) {
 		view->setSelection(range);
 	}
-
-// 	// get current position
-// 	int row, col, col1, col2;
-// 	QString word;
-// 	KTextEditor::Document *doc = view->document();
-// 	KTextEditor::Cursor cursor = view->cursorPosition();
-// 	row = cursor.line();
-// 	col = cursor.column();
-//
-// 	if(getCurrentWord(doc, row, col, mode, word, col1, col2)) {
-// 		view->setSelection(KTextEditor::Range(row, col1, row, col2));
-// 	}
 }
 
 void EditorExtension::deleteWord(EditorExtension::SelectMode mode, KTextEditor::View *view)
@@ -2641,21 +2571,9 @@ void EditorExtension::deleteWord(EditorExtension::SelectMode mode, KTextEditor::
 	}
 
 	KTextEditor::Range range = wordRange(view->cursorPosition(),mode,view);
-	if ( range.isValid() ) {
+	if(range.isValid()) {
 		deleteRange(range,view);
 	}
-
-// 	// get current position
-// 	int row, col, col1, col2;
-// 	QString word;
-// 	KTextEditor::Document *doc = view->document();
-// 	KTextEditor::Cursor cursor = view->cursorPosition();
-// 	row = cursor.line();
-// 	col = cursor.column();
-//
-// 	if(getCurrentWord(doc, row, col, mode, word, col1, col2)) {
-// 		doc->removeText(KTextEditor::Range(row, col1, row, col2));
-// 	}
 }
 
 void EditorExtension::nextBullet(KTextEditor::View* view)
@@ -3222,18 +3140,21 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *v
 	int numBeginsFound = 0;
 	int numEndsFound = 0;
 	KTextEditor::Cursor cursor = view->cursorPosition();
-	uint realLine = cursor.line();
+	int realLine = cursor.line();
 
 	for(int i = realLine; i < num; ++i) {
 		numBeginsFound += view->document()->line(i).count(reTestBegin);
 		numEndsFound += view->document()->line(i).count(reTestEnd);
 		KILE_DEBUG() << "line is " << i <<  " numBeginsFound = " << numBeginsFound <<  " , " << "numEndsFound = " << numEndsFound;
-		if ( numEndsFound >= numBeginsFound )
+		if(numEndsFound >= numBeginsFound) {
 			return false;
-		else if ( numEndsFound == 0 && numBeginsFound > 1 )
+		}
+		else if(numEndsFound == 0 && numBeginsFound > 1) {
 			return true;
-		else if ( numBeginsFound > 2 || numEndsFound > 1 )
+		}
+		else if(numBeginsFound > 2 || numEndsFound > 1) {
 			return true; // terminate the search
+		}
 	}
 
 	return true;

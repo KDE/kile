@@ -193,7 +193,8 @@ void ScriptsManagement::configureSelectedKeySequence() {
 		QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(value, oldSequence);
 		if(pair.first == 0) {
 			m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
-		} else {
+		}
+		else {
 			// TODO is this still necessary as KKeySequenceWidget should reject these cases?
 			KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
 			QString description = (!action) ? QString() : action->getDescription();
@@ -246,11 +247,11 @@ void ScriptsManagement::updateButtonPanel() {
 
 void ScriptsManagement::updateCurrentScript(unsigned int scriptID, const QString &seq)
 {
-	for ( int i=0; i<m_treeWidget->topLevelItemCount(); ++i ) {
+	for(int i = 0; i < m_treeWidget->topLevelItemCount(); ++i) {
 		ScriptListItem *item = static_cast<ScriptListItem *>(m_treeWidget->topLevelItem(i));
-		if ( item ) {
+		if(item) {
 			KileScript::Script *script = item->getScript();
-			if ( script && script->getID()==scriptID ) {
+			if(script && script->getID()==scriptID) {
 				item->setText(1,seq);
 			}
 		}

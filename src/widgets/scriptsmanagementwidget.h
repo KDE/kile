@@ -68,8 +68,6 @@ namespace KileWidget {
 		private:
 			KAction *m_runAction, *m_scriptOpenAction, *m_configureKeySequenceAction, *m_removeKeySequenceAction; 
 			KToolBar *m_toolBar;
-
-			void updateCurrentScript(unsigned int scriptID, const QString &seq);
 	};
 
 }

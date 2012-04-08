@@ -108,7 +108,6 @@ SET(kile_SRCS
 	widgets/categorycombobox.cpp
 	widgets/progressdialog.h
 	widgets/progressdialog.cpp
-	dialogs/scriptshortcutdialog.cpp
 	scripting/script.cpp
 	scripting/kilescriptview.cpp
 	scripting/kilescriptdocument.cpp
@@ -172,7 +171,6 @@ SET( kile_UI
 	dialogs/usermenu/usermenudialog_base.ui
 	widgets/livepreviewconfigwidget.ui
 	widgets/appearanceconfigwidget.ui
-	dialogs/scriptshortcutdialog_base.ui
 )
 
 SET( kile_UI_SRCS

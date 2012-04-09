@@ -207,18 +207,39 @@ namespace KileScript {
 
 		// start with setting up the key sequence
 		KConfigGroup configGroup = m_config->group("Scripts");
-		QString editorKeySequence = configGroup.readEntry("Script" + QString::number(id) + "KeySequence");
 
+		int sequenceType = 0;
+		QString editorKeySequence = QString();
+		QString seq = configGroup.readEntry("Script" + QString::number(id) + "KeySequence");
+		if ( !seq.isEmpty() ) {
+			QRegExp re("(\\d+)-(.*)");
+			if ( re.exactMatch(seq) )  {
+				sequenceType = re.cap(1).toInt();
+				if ( sequenceType<Script::KEY_SEQUENCE || sequenceType>Script::KEY_SHORTCUT ) {
+					sequenceType = Script::KEY_SEQUENCE;
+				}
+				editorKeySequence = re.cap(2);
+			}
+			else {
+				sequenceType = Script::KEY_SEQUENCE;
+				editorKeySequence = re.cap(1);
+			}
+		}
+		KILE_DEBUG() << "script type=" << sequenceType << " seq=" << editorKeySequence;
+		
 		// now set up a regular action object
 		ScriptExecutionAction *action = new ScriptExecutionAction(id, this, m_actionCollection);
 
 		// action with shortcut?
 		if(!editorKeySequence.isEmpty()) {
+			script->setSequenceType(sequenceType);
 			script->setKeySequence(editorKeySequence);
-			m_kileInfo->editorKeySequenceManager()->addAction(editorKeySequence, new KileEditorKeySequence::ExecuteScriptAction(script, this));
-
-			// also add shortcut
-			action->setShortcut(editorKeySequence);
+			if ( sequenceType == Script::KEY_SEQUENCE )  {
+				m_kileInfo->editorKeySequenceManager()->addAction(editorKeySequence, new KileEditorKeySequence::ExecuteScriptAction(script, this));
+			}
+			else {
+				action->setShortcut(editorKeySequence);
+			}
 		}
 
 		// add to action collection
@@ -234,30 +255,44 @@ namespace KileScript {
 		}
 		m_config->deleteGroup("Scripts");
 		writeIDs();
+		
 		// write the key sequences
 		KConfigGroup configGroup = m_config->group("Scripts");
 		for(QList<Script*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
-			configGroup.writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", (*i)->getKeySequence());
+			QString seq = (*i)->getKeySequence();
+			QString sequenceEntry = ( seq.isEmpty() ) ? seq : QString("%1-%2").arg(QString::number((*i)->getSequenceType())).arg(seq);
+			configGroup.writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", sequenceEntry);
 		}
 	}
 
-	void Manager::setEditorKeySequence(Script* script, const QString& keySequence)
+	void Manager::setEditorKeySequence(Script* script, int type, const QString& keySequence)
 	{
 		if(keySequence.isEmpty()) {
 			return;
 		}
 		if(script) {
+			int oldType = script->getSequenceType();
 			QString oldSequence = script->getKeySequence();
-			if(oldSequence == keySequence) {
+			if( oldType==type && oldSequence==keySequence) {
 				return;
 			}
-			m_kileInfo->editorKeySequenceManager()->removeKeySequence(oldSequence);
-			script->setKeySequence(keySequence);
-			m_kileInfo->editorKeySequenceManager()->addAction(keySequence, new KileEditorKeySequence::ExecuteScriptAction(script, this));
-			writeConfig();
 
-			// also add shortcut
-			script->getActionObject()->setShortcut(keySequence);
+			if ( oldType == KileScript::Script::KEY_SEQUENCE ) {
+				m_kileInfo->editorKeySequenceManager()->removeKeySequence(oldSequence);
+			}
+			else {
+				script->getActionObject()->setShortcut(QString());
+			}
+			script->setSequenceType(type);
+			script->setKeySequence(keySequence);
+			if ( type == KileScript::Script::KEY_SEQUENCE ) {
+				m_kileInfo->editorKeySequenceManager()->addAction(keySequence, new KileEditorKeySequence::ExecuteScriptAction(script, this));
+			}
+			else {
+				script->getActionObject()->setShortcut(keySequence);
+			}
+			
+			writeConfig();
 		}
 	}
 
@@ -269,11 +304,16 @@ namespace KileScript {
 				return;
 			}
 			script->setKeySequence(QString());
-			m_kileInfo->editorKeySequenceManager()->removeKeySequence(keySequence);
-			writeConfig();
+	
+			int sequenceType = script->getSequenceType();
+			if ( sequenceType == Script::KEY_SEQUENCE ) {
+				m_kileInfo->editorKeySequenceManager()->removeKeySequence(keySequence);
+			}
+			else {
+				script->getActionObject()->setShortcut(QString());
+			}
 
-			// also remove shortcut
-			script->getActionObject()->setShortcut(QString());
+			writeConfig();
 		}
 	}
 

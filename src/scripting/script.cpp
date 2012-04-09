@@ -128,7 +128,7 @@ static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &ra
  */
 
 Script::Script(unsigned int id, const QString& file)
-   : m_id(id), m_file(file), m_action(NULL)
+   : m_id(id), m_file(file), m_action(NULL), m_sequencetype(KEY_SEQUENCE)
 {
 	m_name = KGlobal::dirs()->relativeLocation("appdata", file);
 	if(m_name.startsWith("scripts")) {
@@ -169,12 +169,12 @@ void Script::setActionObject(KAction* action)
 	m_action = action;
 }
 
-const KAction* Script::getActionObject() const
-{
-	return m_action;
-}
+// const KAction* Script::getActionObject() const
+// {
+// 	return m_action;
+// }
 
-KAction* Script::getActionObject()
+KAction* Script::getActionObject() const
 {
 	return m_action;
 }
@@ -187,6 +187,17 @@ void Script::setKeySequence(const QString& str)
 QString Script::getKeySequence() const
 {
 	return m_keySequence;
+}
+
+
+int Script::getSequenceType() const
+{
+	return m_sequencetype;
+}
+
+void Script::setSequenceType(int type)
+{
+	m_sequencetype = type;
 }
 
 QString Script::readFile(const QString &filename) {

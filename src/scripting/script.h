@@ -38,6 +38,11 @@ class KileScriptDocument;
  **/
 class Script {
 	public:
+		enum SequenceType {
+			KEY_SEQUENCE = 0,
+			KEY_SHORTCUT
+		};
+
 		/**
 		 * Constructs a new JavaScript script.
 		 * @param file the file that contains the script
@@ -76,22 +81,26 @@ class Script {
 		 *
 		 **/
 		void setActionObject(KAction* action);
-
-		const KAction* getActionObject() const;
-
-		KAction* getActionObject();
+//		const KAction* getActionObject() const;
+		KAction* getActionObject() const;
 
 		void setKeySequence(const QString& str);
 		QString getKeySequence() const;
 
+		int getSequenceType() const;
+		void setSequenceType(int type);
+
+		static QString readFile(const QString &filename);
+
+private:
 		unsigned int m_id;
 		QString m_code;
 		QString m_file;
 		QString m_name;
 		KAction *m_action;
 		QString m_keySequence;
-
-		static QString readFile(const QString &filename);
+		int m_sequencetype;
+		
 
 };
 

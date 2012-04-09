@@ -78,7 +78,7 @@ class Manager : public QObject {
 		 * @param script the script that is considered
 		 * @param keySequence the key sequence that is assigned
 		 **/
-		void setEditorKeySequence(Script* script, const QString& keySequence);
+		void setEditorKeySequence(Script* script, int type, const QString& keySequence);
 
 		/**
 		 * Removes an assigned key sequence from a script.

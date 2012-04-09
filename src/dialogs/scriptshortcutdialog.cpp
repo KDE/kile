@@ -28,6 +28,9 @@ ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int ty
 	setMainWidget(page);
 	m_scriptShortcutDialog.setupUi(page);
 
+	m_scriptShortcutDialog.m_rbKeySequence->setWhatsThis(i18n("Use an key sequence written in the editor to execute a script."));
+	m_scriptShortcutDialog.m_rbShortcut->setWhatsThis(i18n("Use a shortcut to execute a script."));
+
 	if ( type == KileScript::Script::KEY_SHORTCUT ) {
 		m_scriptShortcutDialog.m_rbShortcut->setChecked(true);
 		if ( sequence.isEmpty() ) {
@@ -42,7 +45,7 @@ ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int ty
 		m_scriptShortcutDialog.m_leKeySequence->setText(sequence);
 	}
 	slotUpdate();
-
+	
 	// search for all action collections (needed for shortcut conflicts)
 	QList<KActionCollection *> allCollections;
 	foreach ( KXMLGUIClient *client, ki->mainWindow()->guiFactory()->clients() ) {
@@ -74,6 +77,13 @@ void ScriptShortcutDialog::slotUpdate()
 	m_scriptShortcutDialog.m_leKeySequence->setEnabled(state);
 	m_scriptShortcutDialog.m_lbShortcut->setEnabled(!state);
 	m_scriptShortcutDialog.m_keyChooser->setEnabled(!state);
+
+	if ( state ) {
+		m_scriptShortcutDialog.m_leKeySequence->setFocus();
+	}
+	else {
+		m_scriptShortcutDialog.m_keyChooser->setFocus();
+	}
 }
 
 

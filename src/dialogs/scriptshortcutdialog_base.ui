@@ -132,6 +132,19 @@
     </spacer>
    </item>
    <item>
+    <widget class="QLabel" name="m_lbKeySequence">
+     <property name="text">
+      <string>Please enter a key sequence for this script:</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="m_leKeySequence"/>
+   </item>
+   <item>
     <widget class="QLabel" name="m_lbShortcut">
      <property name="layoutDirection">
       <enum>Qt::LeftToRight</enum>
@@ -153,19 +166,6 @@
       </sizepolicy>
      </property>
     </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="m_lbKeySequence">
-     <property name="text">
-      <string>Please enter a key sequence for this script:</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLineEdit" name="m_leKeySequence"/>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -195,7 +195,6 @@
  <tabstops>
   <tabstop>m_rbKeySequence</tabstop>
   <tabstop>m_rbShortcut</tabstop>
-  <tabstop>m_leKeySequence</tabstop>
  </tabstops>
  <resources/>
  <connections/>

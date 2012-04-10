@@ -161,18 +161,6 @@ LivePreviewManager::~LivePreviewManager()
 
 void LivePreviewManager::createActions(KActionCollection *ac)
 {
-
-	QActionGroup *livePreviewTypeGroup = new QActionGroup(ac);
-	livePreviewTypeGroup->setExclusive(true);
-
-	KAction *latexLivePreview = new KToggleAction(i18n("LaTeX"), this);
-	livePreviewTypeGroup->addAction(latexLivePreview);
-	ac->addAction("live_preview_latex_mode", latexLivePreview);
-
-	KAction *xelatexLivePreview = new KToggleAction(i18n("XeLaTeX"), this);
-	livePreviewTypeGroup->addAction(xelatexLivePreview);
-	ac->addAction("live_preview_xelatex_mode", xelatexLivePreview);
-
 	m_synchronizeViewWithCursorAction = new KToggleAction(KIcon("document-swap"), i18n("Synchronize Cursor Position with Preview Document"), this);
 	// just to get synchronization back when the sync feature is activated (again)
 	connect(m_synchronizeViewWithCursorAction, SIGNAL(triggered(bool)), this, SLOT(synchronizeViewWithCursorActionTriggered(bool)));

@@ -48,6 +48,10 @@ namespace KileParser { class Manager; }
 namespace KileView { class Manager; }
 namespace KileWidget { class LogWidget; class OutputView; }
 
+typedef QPair<QString, QString> ToolConfigPair;
+
+#define DEFAULT_TOOL_CONFIGURATION "Default"
+
 namespace KileTool
 {
 	class Factory;
@@ -171,15 +175,17 @@ namespace KileTool
 	QStringList toolList(KConfig *config, bool menuOnly = false);
 	QStringList configNames(const QString &tool, KConfig *config);
 
+	QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const QString& className);
+
 	// configuration names must be in English, i.e. not translated!
 	QString configName(const QString &tool, KConfig *config);
 	void setConfigName(const QString &tool, const QString &name, KConfig *config);
 
-	QString groupFor(const QString & tool, KConfig *);
-	QString groupFor(const QString & tool, const QString & cfg = "Default" );
+	QString groupFor(const QString& tool, KConfig *config);
+	QString groupFor(const QString& tool, const QString& cfg = "Default");
 
-	void extract(const QString &str, QString &tool, QString &cfg);
-	QString format(const QString & tool, const QString &cfg);
+	void extract(const QString& str, QString &tool, QString &cfg);
+	QString format(const QString& tool, const QString &cfg);
 
 	QString menuFor(const QString &tool, KConfig *config);
 	QString iconFor(const QString &tool, KConfig *config);

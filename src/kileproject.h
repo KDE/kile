@@ -251,8 +251,8 @@ private:
 	QString		m_extensions[3];
 	QRegExp		m_reExtensions[3];
 
-	QString		m_masterDocument, m_makeIndexOptions;
-	bool			m_useMakeIndexOptions;
+	QString				m_masterDocument, m_makeIndexOptions;
+	bool				m_useMakeIndexOptions;
 
 	KConfig	*m_config;
 	KileDocument::Extensions *m_extmanager;

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="42">
+<kpartgui name="kile" version="43">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -132,7 +132,11 @@
 </Menu>
 
 <Menu name="menu_build"><text>B&amp;uild</text>
-	<Menu name="quickpreview"><text>QuickPreview</text>
+	<Menu name="menu_livepreview">
+		<text>Live Preview</text>
+	</Menu>
+	<Separator/>
+	<Menu name="quickpreview"><text>Quick Preview</text>
 		<Action name="quickpreview_selection"/>
 		<Action name="quickpreview_environment"/>
 		<Action name="quickpreview_subdocument"/>

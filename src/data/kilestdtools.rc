@@ -403,22 +403,33 @@ options=-interaction=nonstopmode '%source'
 to=pdf
 type=Process
 
-[Tool/LivePreviewLaTeX/Default]
-autoRun=yes
-checkForRoot=no
-class=LaTeXLivePreview
-command=latex
-from=
-jumpToFirstError=yes
-options=-synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
-to=dvi
-type=Process
-
-[Tool/LivePreviewPDFLaTeX/Default]
+[Tool/LivePreview-PDFLaTeX/Default]
 autoRun=yes
 checkForRoot=no
 class=LaTeXLivePreview
 command=pdflatex
+from=
+jumpToFirstError=yes
+options=-synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
+to=pdf
+type=Process
+
+[Tool/LivePreview-PDFLaTeX/PSTricks]
+autoRun=yes
+checkForRoot=no
+class=LaTeXLivePreview
+command=pdflatex
+from=
+jumpToFirstError=yes
+options=-shell-escape -synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
+to=pdf
+type=Process
+
+[Tool/LivePreview-XeLaTeX/Default]
+autoRun=yes
+checkForRoot=no
+class=LaTeXLivePreview
+command=xelatex
 from=
 jumpToFirstError=yes
 options=-synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
@@ -888,8 +899,8 @@ PDFLaTeX=Default
 PreviewLaTeX=Default
 PreviewPDFLaTeX=Default
 PreviewXeLaTeX=Default
-LivePreviewLaTeX=Default
-LivePreviewPDFLaTeX=Default
+LivePreview-PDFLaTeX=Default
+LivePreview-XeLaTeX=Default
 PStoPDF=Default
 QuickBuild=PDFLaTeX+ViewPDF
 TeX=Default
@@ -920,8 +931,8 @@ MetaPost=Compile,mpost
 PreviewLaTeX=none,application-x-executable
 PreviewPDFLaTeX=none,application-x-executable
 PreviewXeLaTeX=none,application-x-executable
-LivePreviewLaTeX=none,application-x-executable
-LivePreviewPDFLaTeX=none,application-x-executable
+LivePreview-PDFLaTeX=none,application-x-executable
+LivePreview-XeLaTeX=none,application-x-executable
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 LaTeX=Compile,latex

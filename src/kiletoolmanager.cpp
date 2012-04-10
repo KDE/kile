@@ -520,6 +520,32 @@ namespace KileTool
 		return tools;
 	}
 
+	QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const QString& className)
+	{
+		QStringList groups = config->groupList(), tools;
+		QRegExp re = QRegExp("Tool/(.+)/(.+)");
+		QList<ToolConfigPair> toReturn;
+
+		for(int i = 0; i < groups.count(); ++i) {
+			if(re.exactMatch(groups[i])) {
+				const QString toolName = re.cap(1);
+				const QString configName = re.cap(2);
+
+				if(toolName.isEmpty()) {
+					continue;
+				}
+
+				if(config->group(groups[i]).readEntry("class", "") == className) {
+					toReturn.push_back(ToolConfigPair(toolName, configName));
+				}
+			}
+		}
+
+		qSort(toReturn);
+
+		return toReturn;
+	}
+
 	QString configName(const QString & tool, KConfig *config)
 	{
 		return config->group("Tools").readEntry(tool, QString());

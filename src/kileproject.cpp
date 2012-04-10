@@ -265,13 +265,15 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const KUrl &url)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions) : QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions)
+: QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
 	setObjectName(name);
 	init(name, url, extensions);
 }
 
-KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions) : QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions)
+: QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
 	setObjectName(url.fileName());
 	init(url.fileName(), url, extensions);
@@ -487,13 +489,11 @@ bool KileProject::load()
 
 	m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
 
-	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt())
-	{
+	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt()) {
 		if(KMessageBox::warningYesNo(NULL, i18n("The project file of %1 was created by a newer version of kile. "
 				"Opening it can lead to unexpected results.\n"
 				"Do you really want to continue (not recommended)?", m_name),
-				 QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No)
-		{
+				 QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No) {
 			m_invalid=true;
 			return false;
 		}
@@ -545,10 +545,15 @@ bool KileProject::load()
 		}
 	}
 
-    // only call this after all items are created, otherwise setLastDocument doesn't accept the url
-    generalGroup = m_config->group("General");
-    setLastDocument(KUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
+	// only call this after all items are created, otherwise setLastDocument doesn't accept the url
+	generalGroup = m_config->group("General");
+	setLastDocument(KUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
+	setLivePreviewTool(generalGroup.readEntry("livePreviewToolName", LIVEPREVIEW_DEFAULT_TOOL_NAME),
+	                   generalGroup.readEntry("livePreviewToolConfigName", LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME));
+	if(generalGroup.readEntry("livePreviewStatusUserSet", false)) {
+		setLivePreviewEnabled(generalGroup.readEntry("livePreviewEnabled", true));
+	}
 // 	dump();
 
 	return true;
@@ -567,7 +572,13 @@ bool KileProject::save()
 	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));
 	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
+	generalGroup.writeEntry("livePreviewToolName", livePreviewToolName());
+	generalGroup.writeEntry("livePreviewToolConfigName", livePreviewToolConfigName());
 
+	if(userSpecifiedLivePreviewStatus()) {
+		generalGroup.writeEntry("livePreviewStatusUserSet", true);
+		generalGroup.writeEntry("livePreviewEnabled", isLivePreviewEnabled());
+	}
 
 	writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
 	writeConfigEntry("pkg_extensions",m_extmanager->latexPackages(),KileProjectItem::Package);

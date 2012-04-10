@@ -47,6 +47,87 @@ This widget contains six icons, which offer different tasks:
 
 </sect1>
 
+<sect1 id="id_execute_script">
+<title>Executing a Script</title>
+
+<para>You can execute a script in three different ways:</para>
+
+<procedure>
+<step><para>Select the desired script and click on the <guilabel>Execute</guilabel> button on the left side of the script management widget.</para>
+<screenshot>
+	<screeninfo>Scripting: execute button</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG" />
+	</imageobject>
+	<textobject>
+		<phrase>Scripting: execute button</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step><para>Use a keyboard shortcut.</para>
+<screenshot>
+	<screeninfo>Scripting: keyboard shortcut</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG" />
+	</imageobject>
+	<textobject>
+		<phrase>Scripting: keyboard shortcut</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para>You can assign a keyboard shortcut to a script using the <guilabel>Configure</guilabel> button in the script management widget.</para>
+<screenshot>
+	<screeninfo>Scripting: configure sequence dialog</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG" />
+	</imageobject>
+	<textobject>
+		<phrase>Scripting: configure sequence dialog</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step><para>Use an editor key sequence. The script will be executed, if you type the assigned key sequence in the editor.</para>
+<screenshot>
+	<screeninfo>Scripting: editor key sequence</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG" />
+	</imageobject>
+	<textobject>
+		<phrase>Scripting: editor key sequence</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para>This method can be extended to a rather sophisticated kind of code completion. Let us assume that you have a written a script, which simply inserts the &latex; command <userinput>\textbf{}</userinput> into the current document.</para>
+
+<programlisting>
+document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para>If you now type the assigned key sequence <userinput>bfx</userinput> in your text document, this key sequence will be removed and the script will be executed. It will insert <userinput>\textbf{}</userinput> and the cursor is placed between the braces.</para>
+<screenshot>
+	<screeninfo>Scripting: typing an editor key sequence</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG" />
+	</imageobject>
+	<textobject>
+		<phrase>Scripting: typing an editor key sequence</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para>What a comfortable and powerful method of code completion.</para>
+</step>
+</procedure>
+
+</sect1>
 
 <sect1 id="id_scripting_api">
 <title>API Reference</title>

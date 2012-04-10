@@ -29,7 +29,7 @@
 #            + doc
 #        + de (etc.)
 
-COPYRIGHT="2009-2010 Michel Ludwig <michel.ludwig@kdemail.net>
+COPYRIGHT="2009-2012 Michel Ludwig <michel.ludwig@kdemail.net>
           2005 Michael Buesch <mbuesch@freenet.de>
           2004-2005 Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
           2003-2004 Sebastian Trueg
@@ -235,7 +235,7 @@ function findRootWorkingDirectory
 # This is our work-horse. getResource retrieves all
 # data needed to assemble a working package.
 # Available resources:
-# topleveldir, admindir, source, documentation,
+# admindir, source, documentation,
 # languagelist, guitranslation, doctranslation
 #
 function getResource
@@ -244,9 +244,6 @@ function getResource
     SINGLEFILEHACK="no"
     DIR=$BUILDDIR
     case $1 in
-        topleveldir)
-            COMMAND="svn export -N $SVN_CHECKOUT_OPTIONS $SVNROOT/$APPBASE $DESTINATION"
-        ;;
         admindir)
 #            COMMAND="svn export $SVN_CHECKOUT_OPTIONS $SVNROOT/$ADMINDIR $DESTINATION"
         ;;
@@ -451,19 +448,10 @@ function getLanguageList
 #
 function setupI18NDir
 {
-    if [ $SPLIT = "yes" ]; then
-        I18NDIR="$APPNAME-i18n-$APPVERSION"
 
-        getResource "topleveldir" $I18NDIR
-#        getResource "admindir" $I18NDIR/admin
-        moveGNUFiles $I18NDIR
-
-        TRANSDIR=$I18NDIR
-    else
-        I18NDIR=$APPDIR
-        TRANSDIR="$I18NDIR/translations"
-        makeDir $TRANSDIR
-    fi
+  I18NDIR=$APPDIR
+  TRANSDIR="$I18NDIR/translations"
+  makeDir $TRANSDIR
 }
 
 function createTranslationDirMakefile
@@ -664,14 +652,11 @@ function initBasic
         echo "$SCRIPTNAME revision $SCRIPTVERSION  `date`" > $LOGFILE
     fi
 
-    if [ -z "$APPBASE" ]; then
-        print "You need to specify an application base path (--app-base). See $SCRIPTNAME --help for more info."
-        exit 1
-    fi
     if [ -t "$APPNAME" ]; then
         print "You need to specify an application name (--app). See $SCRIPTNAME --help for more info."
         exit 1
     fi
+
     if [ "$GETI18N" = "yes" ] && [ -z "$I18NSUB" ]; then
         print "You need to specify the i18n subdir or disable i18n checkout (--i18n-sub or --noi18n). See $SCRIPTNAME --help for more info."
         exit 1
@@ -693,7 +678,6 @@ function initVars
 {
     LOGFILE="$PWD/$SCRIPTNAME.log"
 
-    APPBASE=""
     APPNAME=""
     SVNROOT="svn://anonsvn.kde.org/home/kde"
     I18NBASE="trunk/l10n"
@@ -747,11 +731,6 @@ fi
 while [ "$#" -gt 0 ]
 do
     case $1 in
-        -ab|--app-base)
-            testParameter $1 $2
-            APPBASE="$2"
-            shift
-        ;;
         -a|--app)
             testParameter $1 $2
             APPNAME="$2"

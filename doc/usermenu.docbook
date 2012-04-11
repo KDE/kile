@@ -1,3 +1,5 @@
+<chapter id="id_usermenu">
+<title>User-Configurable Menu</title>
 
 <sect1 id="id_usermenu_configuration">
 <title>Configuration</title>
@@ -387,3 +389,4 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 
 </sect1>
 
+</chapter>

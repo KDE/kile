@@ -1,3 +1,5 @@
+<chapter id="id_scripting">
+<title>Scripting</title>
 
 <sect1 id="id_scripting_kile">
 <title>Scripting in Kile</title>
@@ -2026,3 +2028,4 @@ function surroundTexCommand(cmd,r)
 
 </sect1>
 
+</chapter>

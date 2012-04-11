@@ -2781,13 +2781,7 @@
 
 </chapter>
 
-<chapter id="id_usermenu">
-
-	<title>User-Configurable Menu</title>
-
-	&include-section-usermenu;
-
-</chapter>
+&include-section-usermenu;
 
 <chapter id="build">
 
@@ -3916,13 +3910,7 @@
 
 </chapter>
 
-<chapter id="id_scripting">
-
-	<title>Scripting</title>
-
-	&include-section-scripting;
-
-</chapter>
+&include-section-scripting;
 
 <chapter id="help">
 

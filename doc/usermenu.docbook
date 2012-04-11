@@ -22,7 +22,7 @@
 
 <itemizedlist>
 <listitem>
-<para>either the menuentry <guilabel>User Menu</guilabel> will appear in the main menu between menu entries <guilabel>LaTeX</guilabel> and <guilabel>Wizard</guilabel> and the configuration wizard <guilabel>Edit User Menu</guilabel> in the <guilabel>Wizard</guilabel> menu</para>
+<para>either the menu entry <guilabel>User Menu</guilabel> will appear in the main menu between menu entries <guilabel>LaTeX</guilabel> and <guilabel>Wizard</guilabel> and the configuration wizard <guilabel>Edit User Menu</guilabel> in the <guilabel>Wizard</guilabel> menu</para>
 
 	<screenshot>
 		<screeninfo>User Menu is placed in the main menu</screeninfo>
@@ -82,7 +82,7 @@
 <para>On the left side you will see an existing menu-tree. Like a standard menu, three different kinds of menu items are available:</para>
 
 <itemizedlist>
-<listitem><para>standard menuentries, which are assigned to an action</para></listitem>
+<listitem><para>standard menu entries, which are assigned to an action</para></listitem>
 <listitem><para>submenus, which contain more menu items</para></listitem>
 <listitem><para>separators, to get a visible structure of all entries</para></listitem>
 </itemizedlist>
@@ -104,7 +104,7 @@
 <para>Each standard menu item is assigned to one of three action types, where each of them has different attributes, which could be set:</para>
 
 <itemizedlist>
-<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; Gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, f.e. Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action will be called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; Gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, &eg; Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action will be called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
 </listitem>
 
 <listitem><para><guilabel>Insert file contents:</guilabel>&nbsp; Inserts the complete contents of a given file.</para>
@@ -153,16 +153,16 @@
 		</mediaobject>
 	</screenshot>
 
-<para>or a missing title for the menuentry, which will be shown with questionmarks like <userinput>???</userinput>.</para>
+<para>or a missing title for the menu entry, which will be shown with questionmarks like <userinput>???</userinput>.</para>
 
 	<screenshot>
-		<screeninfo>Missing title of a menuentry</screeninfo>
+		<screeninfo>Missing title of a menu entry</screeninfo>
 		<mediaobject>
 		<imageobject>
 		<imagedata fileref="usermenu_07b.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase>Missing title of a menuentry</phrase>
+		<phrase>Missing title of a menu entry</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
@@ -306,9 +306,9 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 </sect2>
 
 <sect2 id="id_usermenu_placeholders_program">
-<title>Execute A Programm</title>
+<title>Execute A Program</title>
 
-<para>If you want to execute an external program, only the <userinput>%M</userinput> for selected text ist recognized in the commandline. The selection will be saved in a temporary file and the placeholder <userinput>%M</userinput> is replaced with this filename.</para>
+<para>If you want to execute an external program, only the <userinput>%M</userinput> for selected text is recognized in the command line. The selection will be saved in a temporary file and the placeholder <userinput>%M</userinput> is replaced with this filename.</para>
 
 	<screenshot>
 		<screeninfo>Execute an external program (%M)</screeninfo>
@@ -360,7 +360,7 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 		</mediaobject>
 	</screenshot>
 
-<para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <userinput>Needs selected text</userinput> parameter is checked to assure a selection. The output of this script shall be inserted (<userinput>Insert the ouput of the chosen program</userinput>) and replace the current  selection (<userinput>Replace selected text</userinput>), but not selected itself.</para>
+<para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <userinput>Needs selected text</userinput> parameter is checked to assure a selection. The output of this script will be inserted (<userinput>Insert the output of the chosen program</userinput>) and replace the current  selection (<userinput>Replace selected text</userinput>), but not selected itself.</para>
 
 </sect1>
 
@@ -385,7 +385,7 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 
 <para>But you are also free to save the modified file in the usermenu directory or to load another menu definition file and install it. All usermenu definition files must be saved in the local usermenu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>.</para>
 
-<para>Look at the example menu definition file <userinput>example.xml</userinput> to see more menuentries with their parameters.</para>
+<para>Look at the example menu definition file <userinput>example.xml</userinput> to see more menu entries with their parameters.</para>
 
 </sect1>
 

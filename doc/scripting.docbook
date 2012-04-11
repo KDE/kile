@@ -1821,9 +1821,9 @@ Example: <function>var res = kile.file.read("path/to/file.txt");</function>
 The return value <userinput>res</userinput> is an object( better: a map) with three properties:
 </para><para>
 <itemizedlist>
-<listitem><para><guilabel>status:</guilabel>&nbsp; Gives the status code of the operation, which can be 0 (no error), 1 (access failed) or 2 (access denied). So, if no error oocured, the value of <userinput>res.status</userinput> or <userinput>res["status"]</userinput> will be 0.</para></listitem>
+<listitem><para><guilabel>status:</guilabel>&nbsp; Gives the status code of the operation, which can be 0 (no error), 1 (access failed) or 2 (access denied). So, if no error occurred, the value of <userinput>res.status</userinput> or <userinput>res["status"]</userinput> will be 0.</para></listitem>
 <listitem><para><guilabel>result:</guilabel>&nbsp; Contains the text of the given file.</para></listitem>
-<listitem><para><guilabel>message:</guilabel>&nbsp; Contains an error message, if an error occured.</para></listitem>
+<listitem><para><guilabel>message:</guilabel>&nbsp; Contains an error message, if an error occurred.</para></listitem>
 </itemizedlist>
 </para></listitem>
 </varlistentry></variablelist>

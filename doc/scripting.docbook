@@ -1673,7 +1673,7 @@ Display a simple <emphasis>warning</emphasis> dialog. <parameter>text</parameter
 String kile.input.getListboxItem(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>StringList <replaceable>list</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to let the user select an item from a list, which is shown as listbox. <parameter>>caption</parameter> is the text that is displayed in the title bar, <parameter>>label</parameter> is the text that appears as the label for the list and <parameter>>list</parameter> is the string list which is inserted into the list.
+Function to let the user select an item from a list, which is shown as listbox. <parameter>caption</parameter> is the text that is displayed in the title bar, <parameter>label</parameter> is the text that appears as the label for the list and <parameter>list</parameter> is the string list which is inserted into the list.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1682,7 +1682,7 @@ Function to let the user select an item from a list, which is shown as listbox. 
 String kile.input.getComboboxItem(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>StringList <replaceable>list</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to let the user select an item from a list, which is shown as combobox. <parameter>>caption</parameter> is the text that is displayed in the title bar, <parameter>>label</parameter> is the text that appears as the label for the list and <parameter>>list</parameter> is the string list which is inserted into the list.
+Function to let the user select an item from a list, which is shown as combobox. <parameter>caption</parameter> is the text that is displayed in the title bar, <parameter>label</parameter> is the text that appears as the label for the list and <parameter>list</parameter> is the string list which is inserted into the list.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1691,7 +1691,7 @@ Function to let the user select an item from a list, which is shown as combobox.
 String kile.input.getText(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to get a string from the user. <parameter>>caption</parameter> is the text that is displayed in the title bar and <parameter>>label</parameter> the text that appears as a label for the line edit.
+Function to get a string from the user. <parameter>caption</parameter> is the text that is displayed in the title bar and <parameter>label</parameter> the text that appears as a label for the line edit.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1700,7 +1700,7 @@ Function to get a string from the user. <parameter>>caption</parameter> is the t
 String kile.input.getLatexCommand(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to get a &latex; command from the user. This means that only lower- and uppercase letters are allowed. <parameter>>caption</parameter> is the text that is displayed in the title bar and <parameter>>label</parameter> the text that appears as a label for the line edit.
+Function to get a &latex; command from the user. This means that only lower- and uppercase letters are allowed. <parameter>caption</parameter> is the text that is displayed in the title bar and <parameter>label</parameter> the text that appears as a label for the line edit.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1709,7 +1709,7 @@ Function to get a &latex; command from the user. This means that only lower- and
 int kile.input.getInteger(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>int <replaceable>min = INT_MIN</replaceable></parameter>, <parameter>int <replaceable>max = INT_MAX</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to get an integer from the user. <parameter>>caption</parameter> is the text that is displayed in the title bar. <parameter>>label</parameter> is the text that appears as the label for the spin box. <parameter>>min</parameter> and <parameter>>max</parameter> are the minimum and maximum allowable values the user may choose. Default values are <literal>INT_MIN</literal> and <literal>INT_MAX</literal>.
+Function to get an integer from the user. <parameter>caption</parameter> is the text that is displayed in the title bar. <parameter>label</parameter> is the text that appears as the label for the spin box. <parameter>min</parameter> and <parameter>max</parameter> are the minimum and maximum allowable values the user may choose. Default values are <literal>INT_MIN</literal> and <literal>INT_MAX</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1718,7 +1718,7 @@ Function to get an integer from the user. <parameter>>caption</parameter> is the
 int kile.input.getPosInteger(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>int <replaceable>min = 1</replaceable></parameter>, <parameter>int <replaceable>max = INT_MAX</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to get a positive integer from the user. <parameter>>caption</parameter> is the text that is displayed in the title bar. <parameter>>label</parameter> is the text that appears as the label for the spin box. <parameter>>min</parameter> and <parameter>>max</parameter> are the minimum and maximum allowable values the user may choose. Default values are <literal>1</literal> and <literal>INT_MAX</literal>.
+Function to get a positive integer from the user. <parameter>caption</parameter> is the text that is displayed in the title bar. <parameter>label</parameter> is the text that appears as the label for the spin box. <parameter>min</parameter> and <parameter>max</parameter> are the minimum and maximum allowable values the user may choose. Default values are <literal>1</literal> and <literal>INT_MAX</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 </sect3>

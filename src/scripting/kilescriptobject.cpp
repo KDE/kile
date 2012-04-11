@@ -194,7 +194,7 @@ KileJavaScript::KileJavaScript(QObject *parent)
 
 QString KileJavaScript::caption()
 {
-	return i18n("Script '") + m_scriptname + ".js'";
+	return i18n("Script '%1.js'", m_scriptname);
 }
 
 ////////////////////////////////// KileFile object //////////////////////////////////////
@@ -303,7 +303,7 @@ QMap<QString,QVariant> KileFile::actionCancelled() const
 {
 	QMap<QString,QVariant> result;
 	result["status"] = KileFile::ACCESS_FAILED;
-	result["message"] = i18n("This action was cancelled by the user.");
+	result["message"] = i18n("This action was canceled by the user.");
 	result["text"] = QString();
 	return result;
 }

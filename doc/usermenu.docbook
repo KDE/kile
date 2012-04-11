@@ -57,7 +57,7 @@
 
 <para>Already existing user-defined tags from older versions of &kile; are automatically transformed into the new user-configurable menu. The tags are saved in a file called <filename>usertags.xml</filename> and like all menu definition files, they can be found in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>, &eg; <filename>/home/user/.kde/share/apps/kile/usermenu/</filename>.</para>
 
-<para>You can use different menu definition files for different tasks. Call the user menu wizard <menuchoice><guimenu>Wizard</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> or <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> to install or edit a menu definition file.</para>
+<para>You can use different menu definition files for different tasks. Call the user menu wizard <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> or <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> to install or edit a menu definition file.</para>
 
 </sect1>
 
@@ -104,7 +104,7 @@
 <para>Each standard menu item is assigned to one of three action types, where each of them has different attributes, which could be set:</para>
 
 <itemizedlist>
-<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; Gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, &eg; Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action will be called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, &eg; Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action will be called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
 </listitem>
 
 <listitem><para><guilabel>Insert file contents:</guilabel>&nbsp; Inserts the complete contents of a given file.</para>
@@ -153,7 +153,7 @@
 		</mediaobject>
 	</screenshot>
 
-<para>or a missing title for the menu entry, which will be shown with questionmarks like <userinput>???</userinput>.</para>
+<para>or a missing title for the menu entry, which will be shown with question marks like <userinput>???</userinput>.</para>
 
 	<screenshot>
 		<screeninfo>Missing title of a menu entry</screeninfo>
@@ -260,8 +260,8 @@
 </listitem>
 
 <listitem>
-<para><userinput>%R</userinput>:&nbsp; will call a reference-dialog to choose a label which has already been defined . This can be used to refer to a predefined label, which you can choose from a drop-down list (see also <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Ref</guimenuitem></menuchoice> or
-<menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Pageref</guimenuitem></menuchoice>).</para>
+<para><userinput>%R</userinput>:&nbsp; will call a reference-dialog to choose a label which has already been defined. This can be used to refer to a predefined label, which you can choose from a drop-down list (see also <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>ref</guimenuitem></menuchoice> or
+<menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>pageref</guimenuitem></menuchoice>).</para>
 
 	<screenshot>
 		<screeninfo>References (%R)</screeninfo>
@@ -277,7 +277,7 @@
 </listitem>
 
 <listitem>
-<para><userinput>%T</userinput>:&nbsp; will call a citation-dialog to choose an already defined cite. Like using <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>Cite</guimenuitem></menuchoice> a list with all the citation keys pops up.</para>
+<para><userinput>%T</userinput>:&nbsp; will call a citation-dialog to choose an already defined cite. Like using <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>cite</guimenuitem></menuchoice> a list with all the citation keys pops up.</para>
 
 	<screenshot>
 		<screeninfo>Citation Keys (%T)</screeninfo>
@@ -360,7 +360,7 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 		</mediaobject>
 	</screenshot>
 
-<para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <userinput>Needs selected text</userinput> parameter is checked to assure a selection. The output of this script will be inserted (<userinput>Insert the output of the chosen program</userinput>) and replace the current  selection (<userinput>Replace selected text</userinput>), but not selected itself.</para>
+<para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <guilabel>Needs selected text</guilabel> parameter is checked to assure a selection. The output of this script will be inserted (<guilabel>Insert the output of the chosen program</guilabel>) and replace the current  selection (<guilabel>Replace selected text</guilabel>), but not selected itself.</para>
 
 </sect1>
 
@@ -368,7 +368,7 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 <sect1 id="id_usermenu_files">
 <title>Menu Definition Files</title>
 
-<para>You can install different menus at runtime for different tasks. When you call the usermenu wizard, the current menu definition file is loaded. If you modify it and close the dialog with <userinput>OK</userinput>, your changes will be saved and installed as new usermenu. Closing the dialog with <userinput>Cancel</userinput> will discard all changes.</para>
+<para>You can install different menus at runtime for different tasks. When you call the usermenu wizard, the current menu definition file is loaded. If you modify it and close the dialog with <guibutton>OK</guibutton>, your changes will be saved and installed as new usermenu. Closing the dialog with <guibutton>Cancel</guibutton> will discard all changes.</para>
 
 	<screenshot>
 		<screeninfo>Menu Definition Files</screeninfo>

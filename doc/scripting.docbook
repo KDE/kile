@@ -1037,7 +1037,7 @@ Returns  <literal>true</literal> if a surrounding &latex; environment was found,
 String document.environment(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the entire text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>true</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without this tags. If no parameter is give, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, the returned string is empty.
+Returns the entire text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>true</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without this tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1082,7 +1082,7 @@ Insert a closing environment tag, if an opened &latex; environment was found at 
 void document.closeAllEnvironments();
 </synopsis></term>
 <listitem><para>
-Insert closing environment tags for all opened &latex; environment, which were found at the current cursor position.
+Insert closing environment tags for all opened &latex; environments, which were found at the current cursor position.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1768,7 +1768,7 @@ Calls the <emphasis>Floats wizard</emphasis>, which helps to insert floating ele
 void kile.wizard.mathEnvironment();
 </synopsis></term>
 <listitem><para>
-Calls the <emphasis>Math wizard</emphasis>, which helps to insert math environments. (see <xref linkend="wizard_math" role="select: title pageabbrv"/>).
+Calls the <emphasis>Math wizard</emphasis>, which helps to insert math environments (see <xref linkend="wizard_math" role="select: title pageabbrv"/>).
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1777,7 +1777,7 @@ Calls the <emphasis>Math wizard</emphasis>, which helps to insert math environme
 void kile.wizard.postscript();
 </synopsis></term>
 <listitem><para>
-Calls the <emphasis>Postscript Tools wizard</emphasis>, which may help to manipulate or rearrange Postscript documents. (see <xref linkend="wizard_postscript" role="select: title pageabbrv"/>).
+Calls the <emphasis>Postscript Tools wizard</emphasis>, which may help to manipulate or rearrange Postscript documents (see <xref linkend="wizard_postscript" role="select: title pageabbrv"/>).
 </para></listitem>
 </varlistentry></variablelist>
 </sect3>
@@ -1818,7 +1818,7 @@ Read the contents of a textfile. It is used like
 </para><para>
 Example: <function>var res = kile.file.read("path/to/file.txt");</function>
 </para><para>
-The return value <userinput>res</userinput> is an object( better: a map) with three properties:
+The return value <userinput>res</userinput> is an object (better: a map) with three properties:
 </para><para>
 <itemizedlist>
 <listitem><para><guilabel>status:</guilabel>&nbsp; Gives the status code of the operation, which can be 0 (no error), 1 (access failed) or 2 (access denied). So, if no error occurred, the value of <userinput>res.status</userinput> or <userinput>res["status"]</userinput> will be 0.</para></listitem>
@@ -1846,7 +1846,7 @@ Write the given text into a file. It is used like
 </para><para>
 Example: <function>var res = kile.file.write("path/to/file.txt","Some text...");</function>
 </para><para>
-The return value <userinput>res</userinput> is an object( better: a map) with two properties: <literal>status</literal> and <literal>message</literal> (see <literal>read()</literal> for more information).
+The return value <userinput>res</userinput> is an object (better: a map) with two properties: <literal>status</literal> and <literal>message</literal> (see <literal>read()</literal> for more information).
 </para></listitem>
 </varlistentry></variablelist>
 

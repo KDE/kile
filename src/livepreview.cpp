@@ -532,16 +532,46 @@ void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, co
 
 void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 {
-	Q_UNUSED(doc);
 	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
 		return;
 	}
-
 	KILE_DEBUG();
+	if(!isCurrentDocumentOrProject(doc)) {
+		return;
+	}
+
 	stopLivePreview();
 	showPreviewOutOfDate();
 
-	m_documentChangedTimer->start(KileConfig::livePreviewCompilationDelay());
+	if(!KileConfig::livePreviewCompileOnlyAfterSaving()) {
+		m_documentChangedTimer->start(KileConfig::livePreviewCompilationDelay());
+	}
+}
+
+void LivePreviewManager::handleDocumentSavedOrUploaded(KTextEditor::Document *doc, bool savedAs)
+{
+	Q_UNUSED(savedAs);
+	KILE_DEBUG();
+
+	if(!KileConfig::livePreviewCompileOnlyAfterSaving()) {
+		return;
+	}
+
+	if(!isCurrentDocumentOrProject(doc)) {
+		return;
+	}
+	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
+	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
+	if(!latexInfo) {
+		return;
+	}
+
+	LivePreviewUserStatusHandler *userStatusHandler;
+	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	Q_ASSERT(userStatusHandler);
+	if(userStatusHandler->isLivePreviewEnabled()) {
+		showPreviewCompileIfNecessary(latexInfo, view);
+	}
 }
 
 void LivePreviewManager::handleDocumentModificationTimerTimeout()
@@ -668,6 +698,21 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 		KILE_DEBUG() << "not found";
 		return NULL;
 	}
+}
+
+bool LivePreviewManager::isCurrentDocumentOrProject(KTextEditor::Document *doc)
+{
+	const KTextEditor::View *currentView = m_ki->viewManager()->currentTextView();
+
+	if(currentView->document() != doc) {
+		const KileProject *project = m_ki->docManager()->projectForMember(doc->url());
+		const KileProject *currentProject = m_ki->docManager()->activeProject();
+		if(!currentProject || (project != currentProject)) {
+			return false;
+		}
+	}
+
+	return true;
 }
 
 void LivePreviewManager::handleCursorPositionChangedTimeout()

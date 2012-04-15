@@ -635,5 +635,9 @@
 			<label>Number of milliseconds after which the compilation is started when a change has occurred.</label>
 			<default>500</default>
 		</entry>
+		<entry name="livePreviewCompileOnlyAfterSaving" type="Bool">
+			<label>Only compile documents after saving.</label>
+			<default>false</default>
+		</entry>
 	</group>
 </kcfg>

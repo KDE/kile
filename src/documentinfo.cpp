@@ -1011,6 +1011,8 @@ void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
 	        m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
 	connect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
 	        m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)), Qt::UniqueConnection);
+	connect(view->document(), SIGNAL(documentSavedOrUploaded(KTextEditor::Document*,bool)),
+	        m_livePreviewManager, SLOT(handleDocumentSavedOrUploaded(KTextEditor::Document*,bool)), Qt::UniqueConnection);
 #endif
 }
 
@@ -1021,6 +1023,8 @@ void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
 	           m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
 	disconnect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
 	           m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)));
+	disconnect(view->document(), SIGNAL(documentSavedOrUploaded(KTextEditor::Document*,bool)),
+	           m_livePreviewManager, SLOT(handleDocumentSavedOrUploaded(KTextEditor::Document*,bool)));
 #endif
 }
 

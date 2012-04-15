@@ -334,6 +334,7 @@ namespace KileDialog
 		completePage->writeConfig();  // Complete configuration (dani)
 		previewPage->writeConfig();   // Quick Preview (dani)
 		usermenuPage->writeConfig();
+		livePreviewPage->writeConfig();
 
 		m_config->sync();
 

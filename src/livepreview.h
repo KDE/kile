@@ -70,6 +70,7 @@ public:
 public Q_SLOTS:
 	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
 	void handleTextChanged(KTextEditor::Document *doc);
+	void handleDocumentSavedOrUploaded(KTextEditor::Document *doc, bool savedAs);
 
 	void handleMasterDocumentChanged();
 
@@ -138,6 +139,7 @@ private:
 
 	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL,
 	                                                                               LivePreviewUserStatusHandler* *userStatusHandler = NULL);
+	bool isCurrentDocumentOrProject(KTextEditor::Document *doc);
 
 	void updatePreviewInformationAfterCompilationFinished();
 

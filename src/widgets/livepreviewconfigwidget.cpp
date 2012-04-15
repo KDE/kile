@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -12,6 +12,8 @@
 ***************************************************************************/
 
 #include "livepreviewconfigwidget.h"
+
+#include "kileconfig.h"
 
 KileWidgetLivePreviewConfig::KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent)
  : QWidget(parent),
@@ -26,10 +28,18 @@ KileWidgetLivePreviewConfig::~KileWidgetLivePreviewConfig()
 
 void KileWidgetLivePreviewConfig::readConfig()
 {
+	if(KileConfig::livePreviewCompileOnlyAfterSaving()) {
+		m_compileDocumentOnSaveRadioButton->setChecked(true);
+	}
+	else {
+		m_compileDocumentOnChangesRadioButton->setChecked(true);
+	}
+
 }
 
 void KileWidgetLivePreviewConfig::writeConfig()
 {
+	KileConfig::setLivePreviewCompileOnlyAfterSaving(m_compileDocumentOnSaveRadioButton->isChecked());
 }
 
 

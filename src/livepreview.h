@@ -74,11 +74,10 @@ public Q_SLOTS:
 
 	void handleMasterDocumentChanged();
 
+	void recompileLivePreview();
 	void refreshLivePreview();
 
 private Q_SLOTS:
-	void recompileLivePreview();
-
 	void handleDocumentModificationTimerTimeout();
 
 	// TextInfo* object due to the signal 'aboutToBeDestroyed(KileDocument::TextInfo*)'
@@ -114,6 +113,7 @@ private:
 	QPointer<KToolBar> m_controlToolBar;
 	QPointer<KLed> m_previewStatusLed;
 	KToggleAction *m_synchronizeViewWithCursorAction, *m_previewForCurrentDocumentAction;
+	KAction *m_recompileLivePreviewAction;
 	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer, *m_cursorPositionChangedTimer;
 
 	QHash<QString, QString> m_runningPathToPreviewPathHash;

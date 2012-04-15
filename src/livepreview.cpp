@@ -124,7 +124,9 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
    m_bootUpMode(true),
    m_controlToolBar(NULL),
    m_previewStatusLed(NULL),
+   m_synchronizeViewWithCursorAction(NULL),
    m_previewForCurrentDocumentAction(NULL),
+   m_recompileLivePreviewAction(NULL),
    m_runningLaTeXInfo(NULL), m_runningTextView(NULL), m_runningProject(NULL),
    m_runningPreviewInformation(NULL), m_shownPreviewInformation(NULL), m_masterDocumentPreviewInformation(NULL)
 {
@@ -185,6 +187,10 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 	m_previewForCurrentDocumentAction->setChecked(true);
 	connect(m_previewForCurrentDocumentAction, SIGNAL(triggered(bool)), this, SLOT(previewForCurrentDocumentActionTriggered(bool)));
 	ac->addAction("live_preview_for_current_document", m_previewForCurrentDocumentAction);
+
+	m_recompileLivePreviewAction = new KAction(i18n("Recompile Live Preview"), this);
+	connect(m_recompileLivePreviewAction, SIGNAL(triggered()), this, SLOT(recompileLivePreview()));
+	ac->addAction("live_preview_recompile", m_recompileLivePreviewAction);
 }
 
 void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
@@ -323,6 +329,8 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
 		m_actionToLivePreviewToolHash[action] = *i;
 		menu->addAction(action);
 	}
+	menu->addSeparator();
+	menu->addAction(m_recompileLivePreviewAction);
 }
 
 bool LivePreviewManager::isLivePreviewEnabledForCurrentDocument()

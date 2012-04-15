@@ -272,6 +272,17 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
+[Tool/PDFLaTeX/PSTricks]
+class=LaTeX
+command=pdflatex
+options=-shell-escape -synctex=1 -interaction=nonstopmode "%source"
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
 [Tool/ConTeXt/PDF]
 class=Compile
 command=texexec

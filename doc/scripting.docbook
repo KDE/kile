@@ -43,7 +43,7 @@ This widget contains six icons, which offer different tasks:
 <listitem><para>Open the selected script in the editor.</para></listitem>
 <listitem><para>Configure a key sequence for the selected script.</para></listitem>
 <listitem><para>Remove an assigned key sequence.</para></listitem>
-<listitem><para>Refresh the list of available scripts, which are all found in <filename>KILEAPP/scripts/</filename>.</para></listitem>
+<listitem><para>Refresh the list of available scripts, which are all found in <filename>$<envar>KDEDIR</envar>/share/apps/kile/scripts/</filename>.</para></listitem>
 </itemizedlist>
 </para>
 

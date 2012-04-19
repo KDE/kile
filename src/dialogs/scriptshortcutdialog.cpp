@@ -28,7 +28,7 @@ ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int ty
 	setMainWidget(page);
 	m_scriptShortcutDialog.setupUi(page);
 
-	m_scriptShortcutDialog.m_rbKeySequence->setWhatsThis(i18n("Use an key sequence written in the editor to execute a script."));
+	m_scriptShortcutDialog.m_rbKeySequence->setWhatsThis(i18n("Use a key sequence written in the editor to execute a script."));
 	m_scriptShortcutDialog.m_rbShortcut->setWhatsThis(i18n("Use a shortcut to execute a script."));
 
 	if ( type == KileScript::Script::KEY_SHORTCUT ) {

@@ -1,3 +1,22 @@
+version 2.1.1 -> 2.1.2
+
+Fixes:
+
+- Correctly convert special characters that were typed with caps lock enabled
+  into LaTeX. This fix works from KDE 4.3 upwards. (#296123)
+- Use 'utf8' instead of 'utf8x' as default encoding (in document templates). It
+  should be sufficient in most cases and it is installed by default in LaTeX
+  distributions.
+- Correctly insert '\c{c}' for the cedilla character (#296006, #289529)
+- Use the correct name for some icons. In this way, they can be used even if the
+  current icon theme is not Oxygen. (Patch by Pino Toscano)
+- Correctly restore VI input mode key settings (#293262)
+
+Features:
+
+- Update 'biblatex.cwl'. Thanks to Denis Bitouzé!
+
+
 version 2.1 -> 2.1.1
 
 Fixes:

@@ -137,7 +137,7 @@ void LatexCommands::resetCommands()
 }
 
 
-// add user defined environments/commands 
+// add user-defined environments/commands 
 
 //FIXME: the code for reading and writing these configuration entries should be regrouped
 //       within a single class (currently, the code for writing the values can be found
@@ -372,7 +372,7 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 			}
 		}
 		
-		// second check, if we need only user defined environments or commands
+		// second check, if we need only user-defined environments or commands
 		if(!userdefined) {
 			list.append(it.key());
 		}

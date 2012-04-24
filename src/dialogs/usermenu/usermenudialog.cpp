@@ -218,7 +218,7 @@ void UserMenuDialog::slotButtonClicked(int button)
 		accept();
 	}
 	else if ( button == Help ) {
-		QString message = i18n("<p>You can create, change and install a user defined menu, which will appear as a part of Kile's menu. "
+		QString message = i18n("<p>You can create, change and install a user-defined menu, which will appear as a part of Kile's menu. "
 			"To create or change this menu, use the six buttons on the left side. "
 			"Even more possible actions are available in the context menu of already existing menu items.</p>"
 			"<p>Like a standard menu, three different kinds of menu items are available:</p>"

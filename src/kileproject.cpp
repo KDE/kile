@@ -342,7 +342,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 		standardExtList = (m_extmanager->images()).split(' ');
 	}
 
-	// now we scan user defined list and accept all extension,
+	// now we scan user-defined list and accept all extension,
 	// except standard extensions of course
 	QString userExt;
 	if(!ext.isEmpty()) {
@@ -384,7 +384,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 	// and save it
 	m_reExtensions[type-1].setPattern(pattern);
 
-	// if the list of user defined extensions has changed
+	// if the list of user-defined extensions has changed
 	// we save the new value and (re)build the project tree
 	if (m_extensions[type-1] != userExt) {
 		m_extensions[type-1] = userExt;

@@ -311,10 +311,10 @@ void Manager::installContextMenu(KTextEditor::View *view)
 		popupMenu->addSeparator();
 		popupMenu->addAction(m_quickPreviewAction);
 
-		// insert actions from user defined latex menu
+		// insert actions from user-defined latex menu
 		KileMenu::UserMenu *usermenu = m_ki->userMenu();
 		if ( usermenu ) {
-			KILE_DEBUG() << "Insert actions from user defined latex menu";
+			KILE_DEBUG() << "Insert actions from user-defined latex menu";
 			popupMenu->addSeparator();
 			foreach ( KAction *action, usermenu->contextMenuActions() ) {
 				if ( action ) {

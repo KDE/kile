@@ -155,7 +155,7 @@ bool KileProjectDlgBase::acceptUserExtensions()
 			QStringList list = m_val_extensions[i-1].split(' ');
 			for (it = list.constBegin(); it != list.constEnd(); ++it) {
 				if (! reg.exactMatch(*it)) {
-					KMessageBox::error(this, i18n("Error in extension") + " '" + (*it) + "':\n" + i18n("All user defined extensions should look like '.xyz'"), i18n("Invalid extension"));
+					KMessageBox::error(this, i18n("Error in extension") + " '" + (*it) + "':\n" + i18n("All user-defined extensions should look like '.xyz'"), i18n("Invalid extension"));
 					return false;
 				}
 			}

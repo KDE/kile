@@ -369,7 +369,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		
 	
 		KileTemplate::TemplateList templateList = m_templateManager->getTemplates(KileDocument::LaTeX);
-		// insert all standard templates, all user defined templates 
+		// insert all standard templates, all user-defined templates 
 		// and those templates, which have a present class 
 		for (KileTemplate::TemplateListIterator i=templateList.begin(); i != templateList.end(); ++i) {
 			KileTemplate::Info info = *i;

@@ -6,7 +6,7 @@
 
 // dani/2006:
 //  - signal/slot communication
-//  - user defined resolution of the png image
+//  - user-defined resolution of the png image
 //  - add '%res' to the dictionary of KileTools
 //  - install three possible conversion methods: dvipng, dvips/convert for documents
 //    with postscript source and convert for source, which needs the pdftex driver

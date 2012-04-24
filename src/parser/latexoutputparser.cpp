@@ -204,7 +204,7 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
 	for(int i = 0; i < strLine.length(); ++i) {
 		/*
 		We're expecting a filename. If a filename really ends at this position one of the following must be true:
-			1) Next character is a space (indicating the end of a filename (yes, there can't spaces in the
+			1) Next character is a space (indicating the end of a filename (yes, there can't be spaces in the
 			path, this is a TeX limitation).
 		comment by tbraun: there is a workround \include{{"file name"}} according to http://groups.google.com/group/comp.text.tex/browse_thread/thread/af873534f0644e4f/cd7e0cdb61a8b837?lnk=st&q=include+space+tex#cd7e0cdb61a8b837,
 		but this is currently not supported by kile.

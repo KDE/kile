@@ -60,7 +60,7 @@ public:
    * @param text         Text to preview
    * @param textfilename Filename of the document
    * @param startrow     Position of preview text in the document
-   * @param spreviewlist user defined configuration, e.g. "PreviewLaTeX,DVItoPS,,,ps" (with no preview)
+   * @param spreviewlist user-defined configuration, e.g. "PreviewLaTeX,DVItoPS,,,ps" (with no preview)
    * @return             true if method succeeds, else false
    */
 	bool run (const QString &text, const QString &textfilename, int startrow, const QString &spreviewlist);

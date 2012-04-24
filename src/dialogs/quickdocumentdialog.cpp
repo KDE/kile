@@ -461,7 +461,7 @@ void QuickDocument::readDocumentClassConfig()
 		list.append(configGroup.readEntry("pagesizesList"));
 		list.append(configGroup.readEntry("defaultOptions"));
 		list.append(configGroup.readEntry("selectedOptions"));
-		// now read all user defined options
+		// now read all user-defined options
 		QStringList options = (configGroup.readEntry("options")).split(',');
 		for (int j = 0; j < options.count(); ++j) {
 			list.append(options[j] + " => " + configGroup.readEntry(options[j]));
@@ -471,7 +471,7 @@ void QuickDocument::readDocumentClassConfig()
 		m_dictDocumentClasses[ m_userClasslist[i] ] = list;
 	}
 
-	// set classes combobox (standard and user defined classes)
+	// set classes combobox (standard and user-defined classes)
 	fillDocumentClassCombobox();
 
 	// set encoding combobox
@@ -486,7 +486,7 @@ void QuickDocument::fillDocumentClassCombobox()
 	QString stdClasses = "article,book,letter,report,-,scrartcl,scrbook,scrreprt,-";
 	QString stdUserClasses = "beamer,prosper";
 
-	// set classes combobox (standard and user defined classes)
+	// set classes combobox (standard and user-defined classes)
 	QStringList classlist = stdUserClasses.split(',');
 	for (int i = 0; i < m_userClasslist.count(); ++i) {
 		classlist.append(m_userClasslist[i]);
@@ -542,7 +542,7 @@ void QuickDocument::writeDocumentClassConfig()
 		configGroup.writeEntry("defaultOptions", list[qd_DefaultOptions]);
 		configGroup.writeEntry("selectedOptions", list[qd_SelectedOptions]);
 
-		// write user defined options
+		// write user-defined options
 		QString options;
 		for (int j = qd_OptionsStart; j < list.count(); ++j) {
 			int pos = reg.indexIn(list[j]);

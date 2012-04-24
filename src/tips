@@ -80,7 +80,7 @@
 
 <tip category="Kile|General">
 <html>
-<p>...that Kile can show user defined help files?</p>
+<p>...that Kile can show user-defined help files?</p>
 
 <p>Go to <b>Settings->Configure Kile->Help</b> and configure your help files, which are integrated into the help menu.</p>
 </html>

@@ -245,7 +245,7 @@ void UserMenu::removeActionProperties()
 		return;
 	}
 
-	// search for all actions of the user defined UserMenu
+	// search for all actions of the user-defined UserMenu
 	KILE_DEBUG() << "QDomElement actionPropertiesElement found ";
 	bool changed = false;
 	QRegExp re("useraction-(\\d+)$");
@@ -285,7 +285,7 @@ void UserMenu::removeActionProperties()
 ///////////////////////////// update action properties (shortcuts) //////////////////////////////
 
 // Calling m_mainWindow->guiFactory()->refreshActionProperties() in kile.cpp removes all
-// user defined action shortcuts and icons. Here they will be refreshed again.
+// user-defined action shortcuts and icons. Here they will be refreshed again.
 void UserMenu::refreshActionProperties()
 {
 	KILE_DEBUG() << "refresh action properties";
@@ -304,7 +304,7 @@ void UserMenu::refreshActionProperties()
 	}
 }
 
-// Before calling usermenu dialog, all user defined action shortcuts must be removed,
+// Before calling usermenu dialog, all user-defined action shortcuts must be removed,
 // or the dialog will give a lot of warnings. All shortcuts (even if changed) in the usermenu
 // will be refreshed again, when the dialog is finished
 void UserMenu::removeShortcuts()

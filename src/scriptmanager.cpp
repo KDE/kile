@@ -96,7 +96,7 @@ namespace KileScript {
 		// TODO only scripts with a current view can be started at this moment
 		KTextEditor::View *view = m_kileInfo->viewManager()->currentTextView();
 		if(!view) {
-			KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("Can't start the script: no view available"), i18n("Script Error"));
+			KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("Cannot start the script: no view available"), i18n("Script Error"));
 			return;
 		}
 

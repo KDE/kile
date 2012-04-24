@@ -875,7 +875,7 @@ QString FindFilesDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 	QStringList cmdlist;
 	QStringList::ConstIterator it;
 
-	// get info about user defined references
+	// get info about user-defined references
 	KileDocument::LatexCommands *cmd = m_ki->latexCommands();
 	cmd->commandList(cmdlist, attrtype, true);
 

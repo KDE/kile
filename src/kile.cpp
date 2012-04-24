@@ -340,7 +340,7 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	KTipDialog::showTip(this, "kile/tips");
 
-	// lazy creation: last possible place to insert this user defined menu
+	// lazy creation: last possible place to insert this user-defined menu
 	m_userMenu  = new KileMenu::UserMenu(this, this);
 	connect(m_userMenu, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
 	connect(m_userMenu, SIGNAL(updateStatus()), this, SLOT(slotUpdateUserMenuStatus()));

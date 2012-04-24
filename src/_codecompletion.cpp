@@ -998,7 +998,7 @@ QString Manager::getCommandsString(KileDocument::CmdAttribute attrtype)
 	QStringList cmdlist;
 	QStringList::ConstIterator it;
 
-	// get info about user defined references
+	// get info about user-defined references
 	KileDocument::LatexCommands *cmd = m_ki->latexCommands();
 	cmd->commandList(cmdlist, attrtype, false);
 
@@ -1019,7 +1019,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 	QStringList::ConstIterator it;
 	KileDocument::LatexCmdAttributes attr;
 
-	// get info about user defined commands and environments
+	// get info about user-defined commands and environments
 	KileDocument::LatexCommands *cmd = m_ki->latexCommands();
 	cmd->commandList(cmdlist, KileDocument::CmdAttrNone, true);
 

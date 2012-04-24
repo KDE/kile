@@ -555,7 +555,7 @@ bool LatexCommandsDialog::isUserDefined(const QString &name)
 	return (m_dictCommands.contains(name) && m_dictCommands[name] == false);
 }
 
-// look for user defined environment or commands in this listview
+// look for user-defined environment or commands in this listview
 
 bool LatexCommandsDialog::hasUserDefined(QTreeWidget *listview)
 {
@@ -748,9 +748,9 @@ void LatexCommandsDialog::slotButtonClicked(int button)
 		}
 	} else
 		if (button == Ok) {
-			// OK-Button clicked, we have to look for user defined environments/commands
+			// OK-Button clicked, we have to look for user-defined environments/commands
 
-			// save checkbox for user defined commands
+			// save checkbox for user-defined commands
 			KileConfig::setShowUserCommands(m_widget.showOnlyUserDefined->isChecked());
 
 			// write config entries for environments and commands
@@ -761,7 +761,7 @@ void LatexCommandsDialog::slotButtonClicked(int button)
 			// reset known LaTeX environments and commands
 			m_commands->resetCommands();
 
-			// save if there is a change in user defined commands and environments
+			// save if there is a change in user-defined commands and environments
 			KileConfig::setCompleteChangedCommands(m_commandChanged);
 
 			accept();
@@ -773,7 +773,7 @@ void LatexCommandsDialog::slotButtonClicked(int button)
 
 void LatexCommandsDialog::readConfig()
 {
-	// read checkbox for user defined commands
+	// read checkbox for user-defined commands
 	m_widget.showOnlyUserDefined->setChecked(KileConfig::showUserCommands());
 }
 
@@ -828,7 +828,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 
 ////////////////////////////// reset environments and commands //////////////////////////////
 
-// delete all user defined environments
+// delete all user-defined environments
 
 void LatexCommandsDialog::resetEnvironments()
 {
@@ -836,7 +836,7 @@ void LatexCommandsDialog::resetEnvironments()
 	bool states[9];
 	getListviewStates(states);
 
-	// delete user defined commands ands re-read the list
+	// delete user-defined commands and re-read the list
 	if (m_config->hasGroup(m_commands->envGroupName()))
 		m_config->deleteGroup(m_commands->envGroupName());
 	m_commands->resetCommands();
@@ -846,7 +846,7 @@ void LatexCommandsDialog::resetEnvironments()
 	setListviewStates(states);
 }
 
-// delete all user defined commands
+// delete all user-defined commands
 
 void LatexCommandsDialog::resetCommands()
 {
@@ -854,7 +854,7 @@ void LatexCommandsDialog::resetCommands()
 	bool states[9];
 	getListviewStates(states);
 
-	// delete user defined commands ands re-read the list
+	// delete user-defined commands and re-read the list
 	if (m_config->hasGroup(m_commands->cmdGroupName()))
 		m_config->deleteGroup(m_commands->cmdGroupName());
 	m_commands->resetCommands();

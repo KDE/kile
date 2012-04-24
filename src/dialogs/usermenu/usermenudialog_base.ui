@@ -63,7 +63,7 @@
           <enum>Qt::NoContextMenu</enum>
          </property>
          <property name="whatsThis">
-          <string>The user defined menu tree, which can be modified with the six buttons below the tree (and their shortcuts). More actions are available in the context menu of selected items. You can also rearranged items with drag and drop.</string>
+          <string>The user-defined menu tree, which can be modified with the six buttons below the tree (and their shortcuts). More actions are available in the context menu of selected items. You can also rearranged items with drag and drop.</string>
          </property>
          <property name="verticalScrollBarPolicy">
           <enum>Qt::ScrollBarAsNeeded</enum>
@@ -209,7 +209,7 @@
             <item>
              <widget class="KPushButton" name="m_pbInstall">
               <property name="whatsThis">
-               <string>Install an unmodified and saved menu tree as user defined menu.</string>
+               <string>Install an unmodified and saved menu tree as user-defined menu.</string>
               </property>
               <property name="text">
                <string>Install</string>
@@ -235,7 +235,7 @@
             <item>
              <widget class="KPushButton" name="m_pbLoad">
               <property name="whatsThis">
-               <string>Load a xml file, which describes the user defined menu.</string>
+               <string>Load an xml file, which describes the user-defined menu.</string>
               </property>
               <property name="text">
                <string>Load</string>
@@ -261,7 +261,7 @@
             <item>
              <widget class="KPushButton" name="m_pbSave">
               <property name="whatsThis">
-               <string>Save a modified menu tree, which describes the user defined menu, to a xml file into the local directory of Kile.</string>
+               <string>Save a modified menu tree, which describes the user-defined menu, to an xml file into the local directory of Kile.</string>
               </property>
               <property name="text">
                <string>Save</string>
@@ -271,7 +271,7 @@
             <item>
              <widget class="KPushButton" name="m_pbSaveAs">
               <property name="whatsThis">
-               <string>Save a modified menu tree, which describes the user defined menu. to a xml file into the local directory of Kile and choose a new name for this file.</string>
+               <string>Save a modified menu tree, which describes the user-defined menu, to an xml file into the local directory of Kile and choose a new name for this file.</string>
               </property>
               <property name="text">
                <string>Save as</string>

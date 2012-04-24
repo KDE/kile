@@ -278,7 +278,7 @@ void UserMenuTree::slotPopupActivated(int id)
 
 ///////////////////////////// read XML //////////////////////////////
 
-// read a xml  file and check for errors
+// read an xml file and check for errors
 bool UserMenuTree::readXml(const QString &filename)
 {
 	KILE_DEBUG() << "read xml file " << filename;

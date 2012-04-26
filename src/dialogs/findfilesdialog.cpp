@@ -290,7 +290,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 				 "You may give several patterns separated by commas."));
 	template_combo->setWhatsThis(
 		i18n("Choose one search mode. For the first modes, the search pattern is "
-				 "build from the editable template, where '%s' is replaced by the given pattern.<br><br>"
+				 "built from the editable template, where '%s' is replaced by the given pattern.<br><br>"
 				 "There are additional fixed predefined modes for environments, graphics, labels, references "
 				 "and input files. If the pattern is empty, Kile will search for all commands of this mode. "
 				 "If a pattern is given, it will be inserted as a parameter. For example, in environment mode with "

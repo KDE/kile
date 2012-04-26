@@ -324,7 +324,7 @@ bool UserMenuTree::readXml(const QString &filename)
 		e = e.nextSiblingElement();
 	}
 
-	// the xml menu is build, now check for errors
+	// the xml menu is built, now check for errors
 	setErrorCodes();
 
 	// polish menutree

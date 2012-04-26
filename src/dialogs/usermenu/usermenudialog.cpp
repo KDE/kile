@@ -47,7 +47,7 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 
 	// some text
 	m_UserMenuDialog.m_teText->setWhatsThis(i18n("Text, which will be inserted, if the action is executed. Some placeholders are available: <ul><li>%M - selected (marked) text</li><li>%C - cursor position</li><li>%B - bullet</li><li>%E - indentation in environments</li><li>%R - select label from list</li><li>%T - select citation key from list</li></ul>"));
-	m_UserMenuDialog.m_teText->setToolTip(i18n("Available placeholders:\n%M: Selected (marked) text\n%C: Cursor position\n%B: Bullet\n%E - Indentation in environments\n%R: Select label from list\n%T: Select citation key from list\n%S: Source file name without extension"));
+	m_UserMenuDialog.m_teText->setToolTip(i18n("Available placeholders:\n%M: Selected (marked) text\n%C: Cursor position\n%B: Bullet\n%E: Indentation in environments\n%R: Select label from list\n%T: Select citation key from list\n%S: Source file name without extension"));
 
 	// search for all action collections (needed for shortcut conflicts)
 	QList<KActionCollection *> allCollections;

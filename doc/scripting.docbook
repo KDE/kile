@@ -1585,7 +1585,7 @@ Returns all defined labels as a <literal>StringList</literal>, which can be used
 StringList document.bibitemList();
 </synopsis></term>
 <listitem><para>
-Returns all defined bibitems as a <literal>StringList</literal>, which can be used &javascript; as an array of strings.
+Returns all defined bibitems as a <literal>StringList</literal>, which can be used in &javascript; as an array of strings.
 </para></listitem>
 </varlistentry></variablelist>
 

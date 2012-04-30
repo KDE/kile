@@ -640,7 +640,7 @@ Selects the current &latex; command. If no command was found at the current curs
 void view.selectEnvironment(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Selects the entire text of the current &latex; environment. If <parameter>inside</parameter> is <literal>true</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be selected, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>.
+Selects the entire text of the current &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be selected, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1037,7 +1037,7 @@ Returns  <literal>true</literal> if a surrounding &latex; environment was found,
 String document.environment(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the entire text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>true</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without this tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, the returned string is empty.
+Returns the entire text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1046,7 +1046,7 @@ Returns the entire text of the surrounding &latex; environment. If <parameter>in
 Range document.environmentRange(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the range of the surrounding &latex; environment. If no environment was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the range including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1064,7 +1064,7 @@ Returns the name of the surrounding &latex; environment or an empty string.
 void document.removeEnvironment(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Removes the text of the surrounding &latex; environment.
+Removes the text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be removed, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1100,7 +1100,7 @@ Returns  <literal>true</literal> if a surrounding &latex; group was found at the
 String document.texgroup(<parameter>bool <replaceable>inside = true</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the text of the surrounding &latex; group. The returned string is empty, if no surrounding &latex; group was found at the current cursor position.
+Returns the text of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the text of this &latex; group including the surrounding braces <userinput>{...}</userinput> will be returned, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. The returned string is empty, if no surrounding &latex; group was found at the current cursor position.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1109,7 +1109,7 @@ Returns the text of the surrounding &latex; group. The returned string is empty,
 Range document.texgroupRange(<parameter>bool <replaceable>inside = true</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the range of the surrounding &latex; group. If no group was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the range including the surrounding braces <userinput>{...}</userinput> will be returned, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no group was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1118,7 +1118,7 @@ Returns the range of the surrounding &latex; group. If no group was found, <lite
 void document.removeTexgroup(<parameter>bool <replaceable>inside = true</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Removes the text of the surrounding &latex; group.
+Removes the text of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the text of this &latex; group including the surrounding braces <userinput>{...}</userinput> will be removed, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 

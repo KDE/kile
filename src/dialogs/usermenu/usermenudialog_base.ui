@@ -63,7 +63,7 @@
           <enum>Qt::NoContextMenu</enum>
          </property>
          <property name="whatsThis">
-          <string>The user-defined menu tree, which can be modified with the six buttons below the tree (and their shortcuts). More actions are available in the context menu of selected items. You can also rearranged items with drag and drop.</string>
+          <string>The user-defined menu tree, which can be modified with the six buttons below the tree (and their shortcuts). More actions are available in the context menu of selected items. You can also rearrange items with drag and drop.</string>
          </property>
          <property name="verticalScrollBarPolicy">
           <enum>Qt::ScrollBarAsNeeded</enum>

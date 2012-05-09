@@ -126,9 +126,10 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 	dbus.registerObject("/main", this);
 	dbus.registerService("net.sourceforge.kile"); // register under a constant names
 
-	// BUG 220343: Under some circumstances (Qt 4.5.3 or KDE 4.3 issues (?)) Kile doesn't terminate when the
-	//             main window is closed. So, we force this here. Everything seems to work fine with Qt 4.6.
-// 	connect(this, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
+	// Under some circumstances (Qt or KDE issues like a KIO process still running (?)), Kile doesn't terminate
+	// when the main window is closed (bugs 220343 and 299569). So, we force this here.
+	// This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
+	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
 
 	QSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {

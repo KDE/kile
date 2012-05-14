@@ -1,7 +1,6 @@
 /********************************************************************************************
-    begin                : Sunday Jun 27 2008
-    copyright            : (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
-    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+    Copyright (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
+              (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -33,16 +32,16 @@ bool TabularProperties::useMultiColumn() const
 
 void TabularProperties::addRowColor(int row, const QColor &color)
 {
-	if(!color.isValid() || color == Qt::white) {
+	if(!color.isValid()) {
 		return;
 	}
-	
+
 	m_RowColors.insert(row, color);
 }
 
 void TabularProperties::addColor(const QColor &color)
 {
-	if(!color.isValid() || color == Qt::white) {
+	if(!color.isValid()) {
 		return;
 	}
 
@@ -70,16 +69,18 @@ QColor TabularProperties::rowColor(int row) const
 {
 	if(m_RowColors.contains(row)) {
 		return m_RowColors[row];
-	} else {
+	}
+	else {
 		return QColor();
 	}
 }
 
 QString TabularProperties::colorName(const QColor &color) const
 {
-	if(color.isValid() && color != Qt::white && m_ColorNames.contains(color.name())) {
+	if(color.isValid() && m_ColorNames.contains(color.name())) {
 		return m_ColorNames[color.name()];
-	} else {
+	}
+	else {
 		return QString();
 	}
 }

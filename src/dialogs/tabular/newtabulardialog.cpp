@@ -1,7 +1,7 @@
 /********************************************************************************************
-    begin                : Sunday Jun 27 2008
-    copyright            : (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
-    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+  Copyright (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
+            (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+            (C) 2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -243,7 +243,7 @@ void NewTabularDialog::initEnvironments()
 	QStringList::ConstIterator it;
 	m_latexCommands->commandList(list, KileDocument::CmdAttrTabular, false);
 	m_cmbName->addItems(list);
-	
+
 	// set default environment
 	int index = m_cmbName->findText(m_defaultEnvironment);
 	if(index != -1) {
@@ -369,12 +369,17 @@ void NewTabularDialog::slotButtonClicked(int button)
 		TabularProperties properties;
 
 		//BEGIN preprocessing colors and border
-		QColor firstColor, currentColor;
+		QColor firstColor;
 		bool topBorder = true;
 		for(int row = 0; row < rows; ++row) {
 			bool sameColor = true;
 			bool borderUnderRow = true;
-			firstColor = m_Table->item(row, 0)->backgroundColor();
+			{
+				const QBrush backgroundBrush = m_Table->item(row, 0)->background();
+				if(backgroundBrush.style() != Qt::NoBrush) {
+					firstColor = backgroundBrush.color();
+				}
+			}
 			for(int column = 0; column < columns; ++column) {
 				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
 
@@ -392,11 +397,20 @@ void NewTabularDialog::slotButtonClicked(int button)
 					}
 				}
 
-				currentColor = m_Table->item(row, column)->backgroundColor();
-				properties.addColor(currentColor);
-				if(currentColor != firstColor) {
-					sameColor = false;
+				const QBrush backgroundBrush = m_Table->item(row, column)->background();
+				if(backgroundBrush.style() != Qt::NoBrush) {
+					QColor currentColor = backgroundBrush.color();
+					properties.addColor(currentColor);
+					if(currentColor != firstColor) {
+						sameColor = false;
+					}
 				}
+
+				const QBrush foregroundBrush = m_Table->item(row, column)->foreground();
+				if(foregroundBrush.style() != Qt::NoBrush) {
+					properties.addColor(foregroundBrush.color());
+				}
+
 				if(!(cell->border() & TabularCell::Bottom)) {
 					borderUnderRow = false;
 				}
@@ -411,7 +425,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 				properties.addBorderUnderRow(row);
 			}
 		}
-		
+
 		if(topBorder) {
 			properties.setHasTopBorder();
 		}
@@ -433,7 +447,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 				properties.addBorderBesideColumn(column);
 			}
 		}
-		
+
 		if(leftBorder) {
 			properties.setHasLeftBorder();
 		}
@@ -535,7 +549,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 			topBorderStr = topBorderHelper.toLaTeX();
 		}
 
-    if(m_cbCenter->isChecked()) {
+		if(m_cbCenter->isChecked()) {
 			m_td.tagBegin += "\\begin{center}\n";
 		}
 
@@ -605,7 +619,7 @@ void NewTabularDialog::slotButtonClicked(int button)
 
 		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
 
-    if(m_cbCenter->isChecked()) {
+		if(m_cbCenter->isChecked()) {
 			m_td.tagEnd += "\\end{center}\n";
 		}
 
@@ -985,8 +999,8 @@ void NewTabularDialog::slotClearAttributes()
 		font.setItalic(false);
 		font.setUnderline(false);
 		item->setFont(font);
-		item->setBackground(Qt::white);
-		item->setForeground(Qt::black);
+		item->setBackground(QBrush());
+		item->setForeground(QBrush());
 	}
 }
 

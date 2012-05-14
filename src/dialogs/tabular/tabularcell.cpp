@@ -1,7 +1,7 @@
 /********************************************************************************************
-    begin                : Sunday Jun 27 2008
-    copyright            : (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
-    copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+  Copyright (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
+            (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
+            (C) 2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -53,10 +53,9 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 	TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(tableWidget()->horizontalHeaderItem(column()));
 
 	QString colorCommand;
-	if(backgroundColor().isValid()
-	    && backgroundColor() != Qt::white
+	if(background().style() != Qt::NoBrush
 	    && !properties.rowColor(row()).isValid()) {
-		colorCommand = ">{\\columncolor{" + properties.colorName(backgroundColor()) + "}}";
+		colorCommand = ">{\\columncolor{" + properties.colorName(background().color()) + "}}";
 	}
 
 	QString leftBorder, rightBorder;
@@ -125,6 +124,12 @@ QString TabularCell::toLaTeX( TabularProperties &properties ) const
 	/* prefix */
 	if (font().underline()) {
 		prefix += "\\underline{";
+		suffix = '}' + suffix;
+	}
+
+	/* foreground color */
+	if(foreground().style() != Qt::NoBrush) {
+		prefix += "\\textcolor{" + properties.colorName(foreground().color()) + "}{";
 		suffix = '}' + suffix;
 	}
 

@@ -1,7 +1,5 @@
 /***************************************************************************
-    begin                : Sunday Jun 27 2008
-    copyright            : (C) 2008 by Mathias Soeken
-    email                : msoeken@informatik.uni-bremen.de
+  Copyright (C) 2008 by Mathias Soeken (msoeken@informatik.uni-bremen.de)
  ***************************************************************************/
 
 /***************************************************************************

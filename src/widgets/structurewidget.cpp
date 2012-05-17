@@ -682,9 +682,10 @@ void StructureViewItem::setLabel(const QString &label)
 					}
 
 					m_ki->logWidget()->printMessage(KileTool::Info,
-						i18n("No extension specified for graphic file.  Using .") + extToAdd +
-							(fromProject ? i18n(" from Project settings") : i18n(" from global Structure View settings.")),
-						i18n("File extension not specified") );
+						(fromProject ?
+						i18n("No extension specified for graphic file.  Using .%1 from Project settings.", extToAdd) :
+						i18n("No extension specified for graphic file.  Using .%1 from global Structure View settings.", extToAdd)),
+						i18n("File extension not specified"));
 
 					fname += '.' + extToAdd;
 

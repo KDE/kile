@@ -23,9 +23,10 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include <KLibLoader>
 #include <KLocale>
 #include <KPluginFactory>
+#include <KPluginLoader>
+#include <KService>
 #include <KUrl>
 
 #include <kshell.h>
@@ -55,8 +56,11 @@ namespace KileWidget
 	void Konsole::spawn()
 	{
 		KILE_DEBUG() << "void Konsole::spawn()";
-		// FIXME we got a complaint about unused lib prefix but without it does not work
-		KPluginFactory *factory = KLibLoader::self()->factory("libkonsolepart");
+                KPluginFactory* factory = 0;
+                KService::Ptr service = KService::serviceByDesktopName("konsolepart");
+                if (service) {
+                    factory = KPluginLoader(service->library()).factory();
+                }
 
 		if(!factory) {
 			KILE_DEBUG() << "No factory for konsolepart";

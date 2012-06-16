@@ -1,7 +1,7 @@
 /**********************************************************************
  Copyright (C) 2001 - 2003 by Brachet Pascal
                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-               2007-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+               2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************/
 
 /***************************************************************************
@@ -15,8 +15,6 @@
 
 #ifndef KONSOLEWIDGET_H
 #define KONSOLEWIDGET_H
-
-#include <kde_terminal_interface.h>
 
 #include <QFrame>
 #include <QShowEvent>
@@ -49,7 +47,6 @@ namespace KileWidget
 
 		private:
 			KParts::ReadOnlyPart	*m_part;
-			TerminalInterface       *m_term;
 			bool			m_bPresent;
 			KileInfo		*m_ki;
 			QString 		m_currentDir;

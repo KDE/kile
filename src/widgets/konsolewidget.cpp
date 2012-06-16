@@ -26,9 +26,9 @@
 #include <KLibLoader>
 #include <KLocale>
 #include <KPluginFactory>
-#include <KUrl>
-
+#include <KService>
 #include <KShell>
+#include <KUrl>
 
 #include <KParts/Part>
 #include <KTextEditor/Document>
@@ -59,9 +59,15 @@ namespace KileWidget
 	void Konsole::spawn()
 	{
 		KILE_DEBUG() << "void Konsole::spawn()";
-		// FIXME we got a complaint about unused lib prefix but without it does not work
-		KPluginFactory *factory = KLibLoader::self()->factory("libkonsolepart");
 
+		KPluginFactory *factory = NULL;
+		KService::Ptr service = KService::serviceByDesktopName("konsolepart");
+		if(!service) {
+			KILE_DEBUG() << "No service for konsolepart";
+			return;
+		}
+
+		factory = KPluginLoader(service->library()).factory();
 		if(!factory) {
 			KILE_DEBUG() << "No factory for konsolepart";
 			return;

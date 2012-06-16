@@ -24,12 +24,10 @@
 #include <QVBoxLayout>
 
 #include <KLocale>
-#include <KPluginFactory>
 #include <KPluginLoader>
 #include <KService>
-#include <KUrl>
-
 #include <KShell>
+#include <KUrl>
 
 #include <KParts/Part>
 #include <KTextEditor/Document>
@@ -59,12 +57,15 @@ namespace KileWidget
 	void Konsole::spawn()
 	{
 		KILE_DEBUG() << "void Konsole::spawn()";
-                KPluginFactory* factory = 0;
-                KService::Ptr service = KService::serviceByDesktopName("konsolepart");
-                if (service) {
-                    factory = KPluginLoader(service->library()).factory();
-                }
 
+		KPluginFactory *factory = NULL;
+		KService::Ptr service = KService::serviceByDesktopName("konsolepart");
+		if(!service) {
+			KILE_DEBUG() << "No service for konsolepart";
+			return;
+		}
+
+		factory = KPluginLoader(service->library()).factory();
 		if(!factory) {
 			KILE_DEBUG() << "No factory for konsolepart";
 			return;

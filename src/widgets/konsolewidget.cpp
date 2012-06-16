@@ -2,7 +2,7 @@
     begin                : Mon Dec 22 2003
     copyright            : (C) 2001 - 2003 by Brachet Pascal
                                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************************/
 
 /***************************************************************************
@@ -28,18 +28,22 @@
 #include <KPluginFactory>
 #include <KUrl>
 
-#include <kshell.h>
+#include <KShell>
 
-#include <kparts/part.h>
-#include <ktexteditor/document.h>
-#include <ktexteditor/view.h>
+#include <KParts/Part>
+#include <KTextEditor/Document>
+#include <KTextEditor/View>
+
+#include <kde_terminal_interface.h>
+#if KDE_IS_VERSION(4,3,0)
+#include <kde_terminal_interface_v2.h>
+#endif
 
 namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent) :
 		QFrame(parent),
 		m_part(NULL),
-		m_term(NULL),
 		m_ki(info)
 	{
 		setLayout(new QVBoxLayout(this));
@@ -69,9 +73,10 @@ namespace KileWidget
 			return;
 		}
 
-		m_term = qobject_cast<TerminalInterface*>(m_part);
-		if(!m_term){
-			KILE_DEBUG() << "Found no TerminalInterface";
+		if(!qobject_cast<TerminalInterface*>(m_part)){
+			KILE_DEBUG() << "Did not find the TerminalInterface";
+			delete m_part;
+			m_part = NULL;
 			return;
 		}
 
@@ -79,7 +84,7 @@ namespace KileWidget
 		setFocusProxy(m_part->widget());
 		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
 
-		m_term->showShellInDir(QString());
+		qobject_cast<TerminalInterface*>(m_part)->showShellInDir(QString());
 	}
 
 
@@ -113,9 +118,24 @@ namespace KileWidget
 
 	void Konsole::setDirectory(const QString &directory)
 	{
+#if KDE_IS_VERSION(4,3,0)
+		{
+			TerminalInterfaceV2 *m_term2 = qobject_cast<TerminalInterfaceV2*>(m_part);
+			if(m_term2 && m_term2->foregroundProcessId() >= 0) { // check if a foreground process is running
+				return;
+			}
+		}
+#endif
+		TerminalInterface *m_term = qobject_cast<TerminalInterface*>(m_part);
+		if(!m_term) {
+			return;
+		}
+
 		//FIXME: KonsolePart should be extended in such a way that it isn't necessary
 		//       anymore to send 'cd' commands
 		if(m_term && !directory.isEmpty() && directory != m_currentDir) {
+			m_term->sendInput(QChar(0x05)); // clear the shell command prompt by sending Ctrl+E and
+			m_term->sendInput(QChar(0x15)); // Ctrl+U (#301653)
 			m_term->sendInput("cd " + KShell::quoteArg(directory) + '\n');
 			m_term->sendInput("clear\n");
 			m_currentDir = directory;
@@ -141,7 +161,6 @@ namespace KileWidget
 		// there is no need to remove the widget from the layout as this is done
 		// automatically when the widget is destroyed
 		m_part = NULL;
-		m_term = NULL;
 		spawn();
 	}
 }

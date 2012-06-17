@@ -539,7 +539,7 @@ type=Process
 type=Process
 class=ViewBib
 command=jabref
-options='%source'
+options='%dir_base/%source'
 from=bib
 to=bib
 
@@ -547,7 +547,7 @@ to=bib
 type=Process
 class=ViewBib
 command=pybliographic
-options='%source'
+options='%dir_base/%source'
 from=bib
 to=bib
 
@@ -555,14 +555,14 @@ to=bib
 type=Process
 class=ViewBib
 command=gbib
-options='%source'
+options='%dir_base/%source'
 from=bib
 to=bib
 
 [Tool/ViewBib/KBib]
 class=ViewBib
 command=kbib
-options='%source'
+options='%dir_base/%source'
 from=bib
 to=bib
 type=Process
@@ -571,7 +571,7 @@ type=Process
 type=Process
 class=ViewBib
 command=kbibtex
-options='%source'
+options='%dir_base/%source'
 from=bib
 to=bib
 
@@ -580,7 +580,7 @@ type=Part
 class=ViewBib
 libName=kbibtexpart
 className=KBibTeXPart
-liboptions='%source'
+liboptions='%dir_base/%source'
 state=Viewer
 from=bib
 to=bib

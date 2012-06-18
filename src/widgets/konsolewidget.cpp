@@ -89,8 +89,6 @@ namespace KileWidget
 		layout()->addWidget(m_part->widget());
 		setFocusProxy(m_part->widget());
 		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
-
-		qobject_cast<TerminalInterface*>(m_part)->showShellInDir(QString());
 	}
 
 

@@ -42,19 +42,19 @@ bool isProject(const QString &path)
  * Complete a relative paths to absolute ones.
  * Also accepts URLs of the form file:relativepath.
 */
-QString completePath(const QString &path)
+QString completePath(const QString &path, const QString& currentPath)
 {
 	QString fullpath(path);
 
 	KILE_DEBUG() << "==complete path is " << path;
-	if( QDir::isRelativePath(path) ) {
+	if(QDir::isRelativePath(path)) {
 		if(path.startsWith("file:")) {
 			KUrl url(path);
-			url.setFileName(completePath(url.toLocalFile()));
+			url.setFileName(completePath(url.toLocalFile(), currentPath));
 			fullpath = url.url();
 		}
 		else if(path.indexOf(QRegExp("^[a-z]+:")) == -1) {
-			fullpath = QDir::currentPath() + QDir::separator() + path;
+			fullpath = currentPath + QDir::separator() + path;
 		}
 	}
 
@@ -137,6 +137,10 @@ int main( int argc, char ** argv )
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
 
+	// we save the current path here to avoid problems when it's (erroneously) changed later
+	// (for instance, when a new KonsoleWidget is created, see #301808)
+	const QString currentPath = QDir::currentPath();
+
 	// this has to go before the DBus connection
 	KApplication app;
 
@@ -151,13 +155,13 @@ int main( int argc, char ** argv )
 		for(int i = 0; i < args->count(); ++i) {
 			//FIXME: check whether this can be used to open Urls
 			if(isProject(args->arg(i))) {
-				kile->openProject(completePath(args->arg(i)));
+				kile->openProject(completePath(args->arg(i), currentPath));
 			}
 			else if(args->arg(i) == "-"){
 				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				kile->openDocument(completePath(args->arg(i)));
+				kile->openDocument(completePath(args->arg(i), currentPath));
 			}
 		}
 
@@ -175,16 +179,16 @@ int main( int argc, char ** argv )
 
 		for ( int i = 0; i < args->count(); ++i ) {
 			QString path = args->arg(i);
-			path = completePath(path);
+			path = completePath(path, currentPath);
 
-			if ( isProject(args->arg(i)) ){
-                         	interface->call("openProject",path);
+			if (isProject(args->arg(i))) {
+				interface->call("openProject", path);
 			}
-			else if(args->arg(i) == "-"){
-				interface->call("openDocument",readDataFromStdin());
+			else if(args->arg(i) == "-") {
+				interface->call("openDocument", readDataFromStdin());
 			}
 			else {
-				interface->call("openDocument",path);
+				interface->call("openDocument", path);
 			}
 		}
 

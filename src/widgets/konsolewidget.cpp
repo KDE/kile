@@ -89,6 +89,9 @@ namespace KileWidget
 		layout()->addWidget(m_part->widget());
 		setFocusProxy(m_part->widget());
 		connect(m_part, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
+
+		// necessary as older versions of Konsole (4.5) might not show a proper prompt otherwise
+		qobject_cast<TerminalInterface*>(m_part)->showShellInDir(QDir::currentPath());
 	}
 
 

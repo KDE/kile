@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Sun Dec 21 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -24,6 +24,7 @@ namespace KileWidget {
 OutputView::OutputView(QWidget *parent) : KTextEdit(parent)
 {
 	setReadOnly(true);
+	setAcceptRichText(false);
 }
 
 OutputView::~OutputView()
@@ -40,8 +41,6 @@ void OutputView::receive(const QString& str)
 	int newLineAt = str.lastIndexOf('\n');
 	if(newLineAt != -1) {
 		line += str.left(newLineAt); //don't copy the newline char
-		line.replace('<', "&lt;");
-		line.replace('>', "&gt;");
 		append(line);
 		line = str.mid(newLineAt + 1);
 	}

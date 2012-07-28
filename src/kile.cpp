@@ -860,9 +860,12 @@ void Kile::setupActions()
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-contents", this, SLOT(helpLaTex()));
 	actionCollection()->addAction(KStandardAction::HelpContents, help_menu, SLOT(appHelpActivated()));
 	actionCollection()->addAction(KStandardAction::ReportBug, help_menu, SLOT(reportBug()));
-	actionCollection()->addAction(KStandardAction::AboutApp, help_menu, SLOT(aboutApplication()));
-	actionCollection()->addAction(KStandardAction::AboutKDE, help_menu, SLOT(aboutKDE()));
-	createAction(i18n("&About Editor Component"), "help_about_editor", this, SLOT(aboutEditorComponent()));
+	act = actionCollection()->addAction(KStandardAction::AboutApp, help_menu, SLOT(aboutApplication()));
+	act->setMenuRole(QAction::AboutRole); // for Mac OS X, to get the right about menu in the application menu
+	act = actionCollection()->addAction(KStandardAction::AboutKDE, help_menu, SLOT(aboutKDE()));
+	act->setMenuRole(QAction::NoRole);
+	act = createAction(i18n("&About Editor Component"), "help_about_editor", this, SLOT(aboutEditorComponent()));
+	act->setMenuRole(QAction::NoRole);
 
 	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection());
 	kileconfig->setIcon(KIcon("configure-kile"));

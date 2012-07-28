@@ -203,8 +203,8 @@ QString SymbolView::getToolTip(const QString &key)
 	Command cmd;
 	extract(key, cmd);
 
-	QString label = "<p style='white-space:pre'><b>";
-	label += i18n("Command: %1", Qt::escape(cmd.latexCommand)) + "</b>";
+	QString label = "<p style='white-space:pre'>";
+	label += "<b>" + i18n("Command: %1", Qt::escape(cmd.latexCommand)) + "</b>";
 	if(!cmd.unicodeCommand.isEmpty()) {
 		label += i18n("<br/>Unicode: %1", Qt::escape(cmd.unicodeCommand));
 	}

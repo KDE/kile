@@ -2,6 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                                2006 - 2009 by Thomas Braun
+                               2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -37,13 +38,16 @@ tbraun 2007-06-13
 #include <QPainter>
 #include <QRegExp>
 #include <QStringList>
+#include <QTextDocument>
 
+#include <KColorScheme>
 #include <KConfig>
 #include <KLocale>
 #include <KStandardDirs>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
+#include "kileinfo.h"
 #include "../symbolviewclasses.h"
 
 #define MFUS_GROUP "MostFrequentlyUsedSymbols"
@@ -52,8 +56,8 @@ tbraun 2007-06-13
 
 namespace KileWidget {
 
-SymbolView::SymbolView(QWidget *parent, int type, const char *name)
-		: QListWidget(parent)
+SymbolView::SymbolView(KileInfo *kileInfo, QWidget *parent, int type, const char *name)
+		: QListWidget(parent), m_ki(kileInfo)
 {
 	setObjectName(name);
 	setViewMode(IconMode);
@@ -86,36 +90,40 @@ new symbol
 
 void SymbolView::extract(const QString& key, int& refCnt)
 {
-   if (!key.isEmpty()) {
-	refCnt = key.section('%', 0, 0).toInt();
-   }
+	if (!key.isEmpty()) {
+		refCnt = key.section('%', 0, 0).toInt();
+	}
 }
 
-void SymbolView::extractPackageString(const QString&string, QList<Package> &packages){
+void SymbolView::extractPackageString(const QString&string, QList<Package> &packages)
+{
+	QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
+	QStringList args,pkgs;
+	Package pkg;
 
-  QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
-  QStringList args,pkgs;
-  Package pkg;
+	if(string.isEmpty()) {
+		return;
+	}
 
-  if(string.isEmpty()){
-      return;
-   }
+	packages.clear();
 
-   packages.clear();
+	if(rePkgs.exactMatch(string)) {
+		args = rePkgs.cap(1).split(',');
+		pkgs = rePkgs.cap(2).split(',');
+	}
+	else {
+		return;
+	}
 
-   if ( rePkgs.exactMatch(string) ){
-      args = rePkgs.cap(1).split(',');
-      pkgs = rePkgs.cap(2).split(',');
-   }
-   else{
-      return;
-   }
-
-   for(int i = 0 ; i <  pkgs.count() && i < args.count() ; i++){
-      pkg.name = pkgs.at(i);
-      pkg.arguments = args.at(i);
-      packages.append(pkg);
-   }
+	for(int i = 0 ; i < pkgs.count() && i < args.count() ; i++) {
+		const QString packageName = pkgs.at(i);
+		if(packageName.isEmpty()) {
+			continue;
+		}
+		pkg.name = packageName;
+		pkg.arguments = args.at(i);
+		packages.append(pkg);
+	}
 
 }
 
@@ -124,7 +132,6 @@ void SymbolView::extract(const QString& key, Command &cmd)
 	if (key.isEmpty()) {
 		return;
 	}
-
 	QStringList contents = key.split('%');
 	QString packages;
 
@@ -132,8 +139,8 @@ void SymbolView::extract(const QString& key, Command &cmd)
 	cmd.latexCommand = contents.at(1);
 	cmd.unicodeCommand = contents.at(2);
 
-	extractPackageString(contents.at(3),cmd.unicodePackages);
-	extractPackageString(contents.at(4),cmd.packages);
+	extractPackageString(contents.at(3), cmd.unicodePackages);
+	extractPackageString(contents.at(4), cmd.packages);
 	cmd.comment = contents.at(5);
 	cmd.path = contents.at(6);
 }
@@ -193,44 +200,48 @@ void SymbolView::initPage(int page)
 
 QString SymbolView::getToolTip(const QString &key)
 {
-	QString label;
-	QStringList pkgs, args;
 	Command cmd;
-	Package pkg;
-
 	extract(key, cmd);
 
-	 label = "<b>" + i18n("Command: ") + cmd.latexCommand + "</b><br>";
-	 if(!cmd.unicodeCommand.isEmpty()) {
-	    label += i18n("Unicode command: ") + cmd.unicodeCommand + "<br>";
-	 }
+	QString label = "<p style='white-space:pre'><b>";
+	label += i18n("Command: %1", Qt::escape(cmd.latexCommand)) + "</b>";
+	if(!cmd.unicodeCommand.isEmpty()) {
+		label += i18n("<br/>Unicode: %1", Qt::escape(cmd.unicodeCommand));
+	}
 
 	if(cmd.packages.count() > 0) {
-	        if(cmd.packages.count() == 1) {
-			label += i18n("Package: ");
+		QString packageString;
+
+		if(cmd.packages.count() == 1) {
+			Package pkg = cmd.packages.at(0);
+			if(!pkg.arguments.isEmpty()) {
+				packageString += '[' + pkg.arguments + ']' + pkg.name;
+			}
+			else {
+				packageString += pkg.name;
+			}
 		}
 		else {
-			label += i18n("Packages: ");
+			packageString = "<ul>";
+			for (int i = 0; i < cmd.packages.count() ; ++i) {
+				Package pkg = cmd.packages.at(i);
+				if(!pkg.arguments.isEmpty()) {
+					packageString += "<li>[" + pkg.arguments + ']' + pkg.name + "</li>";
+				}
+				else {
+					packageString += "<li>" + pkg.name + "</li>";
+				}
+			}
+			packageString += "</ul>";
 		}
-
-		for (int i = 0; i < cmd.packages.count() ; i++) {
-		     pkg = cmd.packages.at(i);
-		     if(!pkg.arguments.isEmpty()) {
-			label += '[' + pkg.arguments + ']' + pkg.name;
-		     }
-		     else {
-			label += pkg.name;
-		     }
-		     if( i != ( cmd.packages.count() - 1 ) ){
-			label += "<br>";
-		     }
-		}
+		label += "<br/>" + i18np("Required Package: %2", "Required Packages: %2", cmd.packages.count(), packageString);
 	}
 
 	if(!cmd.comment.isEmpty()) {
-	   label += "<i>" + i18n("Comment: ") + cmd.comment + "</i>";
+		label += "<br/><i>" + i18n("Comment: %1", Qt::escape(cmd.comment))  + "</i>";
 	}
 
+	label += "</p>";
 	return label;
 }
 
@@ -247,13 +258,16 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 		math = event->modifiers() & Qt::ShiftModifier;
 
 		extract(item->data(Qt::UserRole).toString(), cmd);
-		if(KileConfig::symbolViewUTF8()){
-		  code_symbol = cmd.unicodeCommand;
-		  packages = cmd.unicodePackages;
+		if(KileConfig::symbolViewUTF8()) {
+			code_symbol = cmd.unicodeCommand;
+			if(code_symbol.isEmpty()) {
+				code_symbol = cmd.latexCommand;
+			}
+			packages = cmd.unicodePackages;
 		}
-		else{
-		   code_symbol = cmd.latexCommand;
-		   packages = cmd.packages;
+		else {
+			code_symbol = cmd.latexCommand;
+			packages = cmd.packages;
 		}
 
 		if(math != bracket) {
@@ -262,39 +276,40 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 			}
 			else if(bracket) {
 					code_symbol = '{' + code_symbol + '}';
-				}
+			}
 		}
 		emit(insertText(code_symbol, packages));
 		emit(addToList(item));
+		m_ki->focusEditor();
 	}
 
 	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
 }
 
-QString convertLatin1StringtoUTF8(const QString &string ){
+QString convertLatin1StringtoUTF8(const QString &string)
+{
+	if(string.isEmpty()){
+		return QString();
+	}
 
-   if(string.isEmpty()){
-      return QString();
-   }
+	QVector<uint> stringAsIntVector;
+	QStringList stringList = string.split(',', QString::SkipEmptyParts);
 
-   QVector<uint> stringAsIntVector;
-   QStringList stringList = string.split(',', QString::SkipEmptyParts);
+	QStringList::const_iterator it;
+	QString str;
+	bool ok;
+	int stringAsInt;
+	for(it = stringList.constBegin(); it != stringList.constEnd(); it++) {
+		str = *it;
+		str.remove("U+");
+		stringAsInt = str.toInt(&ok);
+		if(!ok) {
+			return QString();
+		}
+		stringAsIntVector.append(stringAsInt);
+	}
 
-   QStringList::const_iterator it;
-   QString str;
-   bool ok;
-   int stringAsInt;
-   for(it = stringList.constBegin(); it != stringList.constEnd(); it++) {
-	 str = *it;
-	 str.remove("U+");
-	 stringAsInt = str.toInt(&ok);
-	 if(!ok) {
-	    return QString();
-	 }
-	 stringAsIntVector.append(stringAsInt);
-   }
-   return QString::fromUcs4(stringAsIntVector.data(),stringAsIntVector.count());
-
+	return QString::fromUcs4(stringAsIntVector.data(),stringAsIntVector.count());
 }
 
 void SymbolView::fillWidget(const QString& prefix)

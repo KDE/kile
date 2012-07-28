@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE KileSymbolSources>
-<symbols> 
+<symbols>
 
    <formatVersion major="0" minor ="22" />
 
@@ -15,7 +15,14 @@
 		  \usepackage[T1]{fontenc}
       </additional>
    </preamble>
-   
+
+   <unicodeCommandPackages>
+      <package>
+         <name>inputenc</name>
+         <arguments>utf8</arguments>
+      </package>
+   </unicodeCommandPackages>
+
    <!-- insert stuff here    -->
 <symbolGroupName>delimiters</symbolGroupName>
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -30,6 +37,7 @@
 <!-- arg math \downarrow  -->
 <commandDefinition>
    <latexCommand>\downarrow</latexCommand>
+   <unicodeCommand>↓</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -37,6 +45,7 @@
 <!-- arg math \Downarrow  -->
 <commandDefinition>
    <latexCommand>\Downarrow</latexCommand>
+   <unicodeCommand>⇓</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -44,6 +53,7 @@
 <!-- arg math [  -->
 <commandDefinition>
    <latexCommand>[</latexCommand>
+   <unicodeCommand>[</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -51,6 +61,7 @@
 <!-- arg math ]  -->
 <commandDefinition>
    <latexCommand>]</latexCommand>
+   <unicodeCommand>]</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -58,6 +69,7 @@
 <!-- arg math \langle  -->
 <commandDefinition>
    <latexCommand>\langle</latexCommand>
+   <unicodeCommand>⟨</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -65,6 +77,7 @@
 <!-- arg math \rangle  -->
 <commandDefinition>
    <latexCommand>\rangle</latexCommand>
+   <unicodeCommand>⟩</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -72,6 +85,7 @@
 <!-- arg math |  -->
 <commandDefinition>
    <latexCommand>|</latexCommand>
+   <unicodeCommand>|</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -79,6 +93,7 @@
 <!-- arg math \|  -->
 <commandDefinition>
    <latexCommand>\|</latexCommand>
+   <unicodeCommand>‖</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -86,6 +101,7 @@
 <!-- arg math \lceil  -->
 <commandDefinition>
    <latexCommand>\lceil</latexCommand>
+   <unicodeCommand>⌈</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -93,6 +109,7 @@
 <!-- arg math \rceil  -->
 <commandDefinition>
    <latexCommand>\rceil</latexCommand>
+   <unicodeCommand>⌉</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -100,6 +117,7 @@
 <!-- arg math \uparrow  -->
 <commandDefinition>
    <latexCommand>\uparrow</latexCommand>
+   <unicodeCommand>↑</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -107,6 +125,7 @@
 <!-- arg math \Uparrow  -->
 <commandDefinition>
    <latexCommand>\Uparrow</latexCommand>
+   <unicodeCommand>⇑</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -114,6 +133,7 @@
 <!-- arg math \lfloor  -->
 <commandDefinition>
    <latexCommand>\lfloor</latexCommand>
+   <unicodeCommand>⌊</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -121,6 +141,7 @@
 <!-- arg math \rfloor  -->
 <commandDefinition>
    <latexCommand>\rfloor</latexCommand>
+   <unicodeCommand>⌋</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -128,6 +149,7 @@
 <!-- arg math \updownarrow  -->
 <commandDefinition>
    <latexCommand>\updownarrow</latexCommand>
+   <unicodeCommand>↕</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -135,6 +157,7 @@
 <!-- arg math \Updownarrow  -->
 <commandDefinition>
    <latexCommand>\Updownarrow</latexCommand>
+   <unicodeCommand>⇕</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -142,6 +165,7 @@
 <!-- arg math (  -->
 <commandDefinition>
    <latexCommand>(</latexCommand>
+   <unicodeCommand>(</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -149,6 +173,7 @@
 <!-- arg math )  -->
 <commandDefinition>
    <latexCommand>)</latexCommand>
+   <unicodeCommand>)</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -156,6 +181,7 @@
 <!-- arg math \{  -->
 <commandDefinition>
    <latexCommand>\{</latexCommand>
+   <unicodeCommand>\{</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -163,6 +189,7 @@
 <!-- arg math \}  -->
 <commandDefinition>
    <latexCommand>\}</latexCommand>
+   <unicodeCommand>\}</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -170,6 +197,7 @@
 <!-- arg math /  -->
 <commandDefinition>
    <latexCommand>/</latexCommand>
+   <unicodeCommand>/</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -177,6 +205,7 @@
 <!-- arg math \backslash  -->
 <commandDefinition>
    <latexCommand>\backslash</latexCommand>
+   <unicodeCommand>\</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -185,6 +214,7 @@
 <!-- optarg math \lmoustache \left \lmoustache \right. -->
 <commandDefinition>
    <latexCommand>\lmoustache</latexCommand>
+   <unicodeCommand>⎰</unicodeCommand>
    <imageCommand>\left \lmoustache \right.</imageCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
@@ -193,6 +223,7 @@
 <!-- optarg math \rmoustache \left \rmoustache \right. -->
 <commandDefinition>
    <latexCommand>\rmoustache</latexCommand>
+   <unicodeCommand>⎱</unicodeCommand>
    <imageCommand>\left \rmoustache \right.</imageCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
@@ -201,6 +232,7 @@
 <!-- optarg math \lgroup \left \lgroup \right. -->
 <commandDefinition>
    <latexCommand>\lgroup</latexCommand>
+   <unicodeCommand>⟮</unicodeCommand>
    <imageCommand>\left \lgroup \right.</imageCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
@@ -209,6 +241,7 @@
 <!-- optarg math \rgroup \left \rgroup \right. -->
 <commandDefinition>
    <latexCommand>\rgroup</latexCommand>
+   <unicodeCommand>⟯</unicodeCommand>
    <imageCommand>\left \rgroup \right.</imageCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
@@ -286,6 +319,7 @@
 <!-- arg math \ulcorner  -->
 <commandDefinition>
    <latexCommand>\ulcorner</latexCommand>
+   <unicodeCommand>⌜</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -296,6 +330,7 @@
 <!-- arg math \urcorner  -->
 <commandDefinition>
    <latexCommand>\urcorner</latexCommand>
+   <unicodeCommand>⌝</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -306,6 +341,7 @@
 <!-- arg math \llcorner  -->
 <commandDefinition>
    <latexCommand>\llcorner</latexCommand>
+   <unicodeCommand>⌞</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -316,6 +352,7 @@
 <!-- arg math \lrcorner  -->
 <commandDefinition>
    <latexCommand>\lrcorner</latexCommand>
+   <unicodeCommand>⌟</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>

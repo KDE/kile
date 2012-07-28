@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE KileSymbolSources>
-<symbols> 
+<symbols>
 
    <formatVersion major="0" minor ="22" />
 
@@ -15,7 +15,14 @@
 		  \usepackage[T1]{fontenc}
       </additional>
    </preamble>
-   
+
+   <unicodeCommandPackages>
+      <package>
+         <name>inputenc</name>
+         <arguments>utf8</arguments>
+      </package>
+   </unicodeCommandPackages>
+
    <!-- insert stuff here    -->
 <symbolGroupName>arrows</symbolGroupName>
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -36,6 +43,7 @@
 <!-- arg math \leftarrow  -->
 <commandDefinition>
    <latexCommand>\leftarrow</latexCommand>
+   <unicodeCommand>←</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -43,6 +51,7 @@
 <!-- arg math \leftrightarrow  -->
 <commandDefinition>
    <latexCommand>\leftrightarrow</latexCommand>
+   <unicodeCommand>↔</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -50,6 +59,7 @@
 <!-- arg math \rightarrow  -->
 <commandDefinition>
    <latexCommand>\rightarrow</latexCommand>
+   <unicodeCommand>→</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -57,6 +67,7 @@
 <!-- arg math \mapsto  -->
 <commandDefinition>
    <latexCommand>\mapsto</latexCommand>
+   <unicodeCommand>↦</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -64,6 +75,7 @@
 <!-- arg math \longleftarrow  -->
 <commandDefinition>
    <latexCommand>\longleftarrow</latexCommand>
+   <unicodeCommand>⟵</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -71,6 +83,7 @@
 <!-- arg math \longleftrightarrow  -->
 <commandDefinition>
    <latexCommand>\longleftrightarrow</latexCommand>
+   <unicodeCommand>⟷</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -78,6 +91,7 @@
 <!-- arg math \longrightarrow  -->
 <commandDefinition>
    <latexCommand>\longrightarrow</latexCommand>
+   <unicodeCommand>⟶</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -85,6 +99,7 @@
 <!-- arg math \longmapsto  -->
 <commandDefinition>
    <latexCommand>\longmapsto</latexCommand>
+   <unicodeCommand>⟼</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -93,6 +108,7 @@
 <!-- arg math \downarrow  -->
 <commandDefinition>
    <latexCommand>\downarrow</latexCommand>
+   <unicodeCommand>↓</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -100,6 +116,7 @@
 <!-- arg math \updownarrow  -->
 <commandDefinition>
    <latexCommand>\updownarrow</latexCommand>
+   <unicodeCommand>↕</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -107,6 +124,7 @@
 <!-- arg math \uparrow  -->
 <commandDefinition>
    <latexCommand>\uparrow</latexCommand>
+   <unicodeCommand>↑</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -114,6 +132,7 @@
 <!-- arg math \nwarrow  -->
 <commandDefinition>
    <latexCommand>\nwarrow</latexCommand>
+   <unicodeCommand>↖</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -121,6 +140,7 @@
 <!-- arg math \searrow  -->
 <commandDefinition>
    <latexCommand>\searrow</latexCommand>
+   <unicodeCommand>↘</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -128,6 +148,7 @@
 <!-- arg math \nearrow  -->
 <commandDefinition>
    <latexCommand>\nearrow</latexCommand>
+   <unicodeCommand>↗</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -135,6 +156,7 @@
 <!-- arg math \swarrow  -->
 <commandDefinition>
    <latexCommand>\swarrow</latexCommand>
+   <unicodeCommand>↙</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -182,6 +204,7 @@
 <!-- arg math \nleftarrow  -->
 <commandDefinition>
    <latexCommand>\nleftarrow</latexCommand>
+   <unicodeCommand>↚</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -192,6 +215,7 @@
 <!-- arg math \nleftrightarrow  -->
 <commandDefinition>
    <latexCommand>\nleftrightarrow</latexCommand>
+   <unicodeCommand>↮</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -202,6 +226,7 @@
 <!-- arg math \nrightarrow  -->
 <commandDefinition>
    <latexCommand>\nrightarrow</latexCommand>
+   <unicodeCommand>↛</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -216,6 +241,7 @@
 <!-- arg math \hookleftarrow  -->
 <commandDefinition>
    <latexCommand>\hookleftarrow</latexCommand>
+   <unicodeCommand>↩</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -223,6 +249,7 @@
 <!-- arg math \hookrightarrow  -->
 <commandDefinition>
    <latexCommand>\hookrightarrow</latexCommand>
+   <unicodeCommand>↪</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -231,6 +258,7 @@
 <!-- arg math \twoheadleftarrow  -->
 <commandDefinition>
    <latexCommand>\twoheadleftarrow</latexCommand>
+   <unicodeCommand>↞</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -241,6 +269,7 @@
 <!-- arg math \twoheadrightarrow  -->
 <commandDefinition>
    <latexCommand>\twoheadrightarrow</latexCommand>
+   <unicodeCommand>↠</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -251,6 +280,7 @@
 <!-- arg math \leftarrowtail  -->
 <commandDefinition>
    <latexCommand>\leftarrowtail</latexCommand>
+   <unicodeCommand>↢</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -261,6 +291,7 @@
 <!-- arg math \rightarrowtail  -->
 <commandDefinition>
    <latexCommand>\rightarrowtail</latexCommand>
+   <unicodeCommand>↣</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -275,6 +306,7 @@
 <!-- arg math \Leftarrow  -->
 <commandDefinition>
    <latexCommand>\Leftarrow</latexCommand>
+   <unicodeCommand>⇐</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -282,6 +314,7 @@
 <!-- arg math \Leftrightarrow  -->
 <commandDefinition>
    <latexCommand>\Leftrightarrow</latexCommand>
+   <unicodeCommand>⇔</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -289,6 +322,7 @@
 <!-- arg math \Rightarrow  -->
 <commandDefinition>
    <latexCommand>\Rightarrow</latexCommand>
+   <unicodeCommand>⇒</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -296,6 +330,7 @@
 <!-- arg math \Longleftarrow  -->
 <commandDefinition>
    <latexCommand>\Longleftarrow</latexCommand>
+   <unicodeCommand>⟸</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -303,6 +338,7 @@
 <!-- arg math \Longleftrightarrow  -->
 <commandDefinition>
    <latexCommand>\Longleftrightarrow</latexCommand>
+   <unicodeCommand>⟺</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -310,6 +346,7 @@
 <!-- arg math \Longrightarrow  -->
 <commandDefinition>
    <latexCommand>\Longrightarrow</latexCommand>
+   <unicodeCommand>⟹</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -317,6 +354,7 @@
 <!-- arg math \Updownarrow  -->
 <commandDefinition>
    <latexCommand>\Updownarrow</latexCommand>
+   <unicodeCommand>⇕</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -324,6 +362,7 @@
 <!-- arg math \Uparrow  -->
 <commandDefinition>
    <latexCommand>\Uparrow</latexCommand>
+   <unicodeCommand>⇑</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -331,6 +370,7 @@
 <!-- arg math \Downarrow  -->
 <commandDefinition>
    <latexCommand>\Downarrow</latexCommand>
+   <unicodeCommand>⇓</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -339,6 +379,7 @@
 <!-- arg math \nLeftarrow  -->
 <commandDefinition>
    <latexCommand>\nLeftarrow</latexCommand>
+   <unicodeCommand>⇍</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -349,6 +390,7 @@
 <!-- arg math \nLeftrightarrow  -->
 <commandDefinition>
    <latexCommand>\nLeftrightarrow</latexCommand>
+   <unicodeCommand>⇎</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -359,6 +401,7 @@
 <!-- arg math \nRightarrow  -->
 <commandDefinition>
    <latexCommand>\nRightarrow</latexCommand>
+   <unicodeCommand>⇏</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -374,6 +417,7 @@
 <!-- arg math \leftleftarrows  -->
 <commandDefinition>
    <latexCommand>\leftleftarrows</latexCommand>
+   <unicodeCommand>⇇</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -384,6 +428,7 @@
 <!-- arg math \leftrightarrows  -->
 <commandDefinition>
    <latexCommand>\leftrightarrows</latexCommand>
+   <unicodeCommand>⇆</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -394,6 +439,7 @@
 <!-- arg math \rightleftarrows  -->
 <commandDefinition>
    <latexCommand>\rightleftarrows</latexCommand>
+   <unicodeCommand>⇄</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -404,6 +450,7 @@
 <!-- arg math \rightrightarrows  -->
 <commandDefinition>
    <latexCommand>\rightrightarrows</latexCommand>
+   <unicodeCommand>⇉</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -414,6 +461,7 @@
 <!-- arg math \downdownarrows  -->
 <commandDefinition>
    <latexCommand>\downdownarrows</latexCommand>
+   <unicodeCommand>⇊</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -424,6 +472,7 @@
 <!-- arg math \upuparrows  -->
 <commandDefinition>
    <latexCommand>\upuparrows</latexCommand>
+   <unicodeCommand>⇈</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -439,6 +488,7 @@
 <!-- arg math \circlearrowleft  -->
 <commandDefinition>
    <latexCommand>\circlearrowleft</latexCommand>
+   <unicodeCommand>↺</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -449,6 +499,7 @@
 <!-- arg math \circlearrowright  -->
 <commandDefinition>
    <latexCommand>\circlearrowright</latexCommand>
+   <unicodeCommand>↻</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -459,6 +510,7 @@
 <!-- arg math \curvearrowleft  -->
 <commandDefinition>
    <latexCommand>\curvearrowleft</latexCommand>
+   <unicodeCommand>↶</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -469,6 +521,7 @@
 <!-- arg math \curvearrowright  -->
 <commandDefinition>
    <latexCommand>\curvearrowright</latexCommand>
+   <unicodeCommand>↷</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -479,6 +532,7 @@
 <!-- arg math \Lsh  -->
 <commandDefinition>
    <latexCommand>\Lsh</latexCommand>
+   <unicodeCommand>↰</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -489,6 +543,7 @@
 <!-- arg math \Rsh  -->
 <commandDefinition>
    <latexCommand>\Rsh</latexCommand>
+   <unicodeCommand>↱</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -499,6 +554,7 @@
 <!-- arg math \looparrowleft  -->
 <commandDefinition>
    <latexCommand>\looparrowleft</latexCommand>
+   <unicodeCommand>↫</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -509,6 +565,7 @@
 <!-- arg math \looparrowright  -->
 <commandDefinition>
    <latexCommand>\looparrowright</latexCommand>
+   <unicodeCommand>↬</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -524,6 +581,7 @@
 <!-- arg math \dashleftarrow  -->
 <commandDefinition>
    <latexCommand>\dashleftarrow</latexCommand>
+   <unicodeCommand>⇠</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -534,6 +592,7 @@
 <!-- arg math \dashrightarrow  -->
 <commandDefinition>
    <latexCommand>\dashrightarrow</latexCommand>
+   <unicodeCommand>⇢</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -544,6 +603,7 @@
 <!-- arg math \leftrightsquigarrow  -->
 <commandDefinition>
    <latexCommand>\leftrightsquigarrow</latexCommand>
+   <unicodeCommand>↭</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -554,6 +614,7 @@
 <!-- arg math \rightsquigarrow  -->
 <commandDefinition>
    <latexCommand>\rightsquigarrow</latexCommand>
+   <unicodeCommand>⇝</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -564,6 +625,7 @@
 <!-- arg math \Lleftarrow  -->
 <commandDefinition>
    <latexCommand>\Lleftarrow</latexCommand>
+   <unicodeCommand>⇚</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -578,6 +640,7 @@
 <!-- arg math \leftharpoondown  -->
 <commandDefinition>
    <latexCommand>\leftharpoondown</latexCommand>
+   <unicodeCommand>↽</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -585,6 +648,7 @@
 <!-- arg math \rightharpoondown  -->
 <commandDefinition>
    <latexCommand>\rightharpoondown</latexCommand>
+   <unicodeCommand>⇁</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -592,6 +656,7 @@
 <!-- arg math \leftharpoonup  -->
 <commandDefinition>
    <latexCommand>\leftharpoonup</latexCommand>
+   <unicodeCommand>↼</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -599,6 +664,7 @@
 <!-- arg math \rightharpoonup  -->
 <commandDefinition>
    <latexCommand>\rightharpoonup</latexCommand>
+   <unicodeCommand>⇀</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -606,6 +672,7 @@
 <!-- arg math \rightleftharpoons  -->
 <commandDefinition>
    <latexCommand>\rightleftharpoons</latexCommand>
+   <unicodeCommand>⇌</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -614,6 +681,7 @@
 <!-- arg math \leftrightharpoons  -->
 <commandDefinition>
    <latexCommand>\leftrightharpoons</latexCommand>
+   <unicodeCommand>⇋</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -624,6 +692,7 @@
 <!-- arg math \downharpoonleft  -->
 <commandDefinition>
    <latexCommand>\downharpoonleft</latexCommand>
+   <unicodeCommand>⇃</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -634,6 +703,7 @@
 <!-- arg math \upharpoonleft  -->
 <commandDefinition>
    <latexCommand>\upharpoonleft</latexCommand>
+   <unicodeCommand>↿</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -644,6 +714,7 @@
 <!-- arg math \downharpoonright  -->
 <commandDefinition>
    <latexCommand>\downharpoonright</latexCommand>
+   <unicodeCommand>⇂</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -654,6 +725,7 @@
 <!-- arg math \upharpoonright  -->
 <commandDefinition>
    <latexCommand>\upharpoonright</latexCommand>
+   <unicodeCommand>↾</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>

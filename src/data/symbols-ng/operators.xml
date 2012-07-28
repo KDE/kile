@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE KileSymbolSources>
-<symbols> 
+<symbols>
 
    <formatVersion major="0" minor ="22" />
 
@@ -15,7 +15,14 @@
 		  \usepackage[T1]{fontenc}
       </additional>
    </preamble>
-   
+
+   <unicodeCommandPackages>
+      <package>
+         <name>inputenc</name>
+         <arguments>utf8</arguments>
+      </package>
+   </unicodeCommandPackages>
+
    <!-- insert stuff here    -->
 <symbolGroupName>operators</symbolGroupName>
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -38,6 +45,7 @@
 <!-- arg math \pm  -->
 <commandDefinition>
    <latexCommand>\pm</latexCommand>
+   <unicodeCommand>±</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -45,6 +53,7 @@
 <!-- arg math \mp  -->
 <commandDefinition>
    <latexCommand>\mp</latexCommand>
+   <unicodeCommand>∓</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -52,6 +61,7 @@
 <!-- arg math \times  -->
 <commandDefinition>
    <latexCommand>\times</latexCommand>
+   <unicodeCommand>×</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -59,6 +69,7 @@
 <!-- arg math \div  -->
 <commandDefinition>
    <latexCommand>\div</latexCommand>
+   <unicodeCommand>÷</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -66,6 +77,7 @@
 <!-- arg math \ast  -->
 <commandDefinition>
    <latexCommand>\ast</latexCommand>
+   <unicodeCommand>*</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -73,6 +85,7 @@
 <!-- arg math \star  -->
 <commandDefinition>
    <latexCommand>\star</latexCommand>
+   <unicodeCommand>⋆</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -80,6 +93,7 @@
 <!-- arg math \circ  -->
 <commandDefinition>
    <latexCommand>\circ</latexCommand>
+   <unicodeCommand>∘</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -87,6 +101,7 @@
 <!-- arg math \bullet  -->
 <commandDefinition>
    <latexCommand>\bullet</latexCommand>
+   <unicodeCommand>∙</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -95,6 +110,7 @@
 <!-- arg math \divideontimes  -->
 <commandDefinition>
    <latexCommand>\divideontimes</latexCommand>
+   <unicodeCommand>⋇</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -105,6 +121,7 @@
 <!-- arg math \ltimes  -->
 <commandDefinition>
    <latexCommand>\ltimes</latexCommand>
+   <unicodeCommand>⋉</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -115,6 +132,7 @@
 <!-- arg math \rtimes  -->
 <commandDefinition>
    <latexCommand>\rtimes</latexCommand>
+   <unicodeCommand>⋊</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -126,6 +144,7 @@
 <!-- arg math \cdot  -->
 <commandDefinition>
    <latexCommand>\cdot</latexCommand>
+   <unicodeCommand>⋅</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -134,6 +153,7 @@
 <!-- arg math \dotplus  -->
 <commandDefinition>
    <latexCommand>\dotplus</latexCommand>
+   <unicodeCommand>∔</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -144,6 +164,7 @@
 <!-- arg math \leftthreetimes  -->
 <commandDefinition>
    <latexCommand>\leftthreetimes</latexCommand>
+   <unicodeCommand>⋋</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -154,6 +175,7 @@
 <!-- arg math \rightthreetimes  -->
 <commandDefinition>
    <latexCommand>\rightthreetimes</latexCommand>
+   <unicodeCommand>⋌</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -165,6 +187,7 @@
 <!-- arg math \amalg  -->
 <commandDefinition>
    <latexCommand>\amalg</latexCommand>
+   <unicodeCommand>⨿</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -172,6 +195,7 @@
 <!-- arg math \otimes  -->
 <commandDefinition>
    <latexCommand>\otimes</latexCommand>
+   <unicodeCommand>⊗</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -179,6 +203,7 @@
 <!-- arg math \oplus  -->
 <commandDefinition>
    <latexCommand>\oplus</latexCommand>
+   <unicodeCommand>⊕</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -186,6 +211,7 @@
 <!-- arg math \ominus  -->
 <commandDefinition>
    <latexCommand>\ominus</latexCommand>
+   <unicodeCommand>⊖</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -193,6 +219,7 @@
 <!-- arg math \oslash  -->
 <commandDefinition>
    <latexCommand>\oslash</latexCommand>
+   <unicodeCommand>⊘</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -200,6 +227,7 @@
 <!-- arg math \odot  -->
 <commandDefinition>
    <latexCommand>\odot</latexCommand>
+   <unicodeCommand>⊙</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -208,6 +236,7 @@
 <!-- arg math \circledcirc  -->
 <commandDefinition>
    <latexCommand>\circledcirc</latexCommand>
+   <unicodeCommand>⊚</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -218,6 +247,7 @@
 <!-- arg math \circleddash  -->
 <commandDefinition>
    <latexCommand>\circleddash</latexCommand>
+   <unicodeCommand>⊝</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -228,6 +258,7 @@
 <!-- arg math \circledast  -->
 <commandDefinition>
    <latexCommand>\circledast</latexCommand>
+   <unicodeCommand>⊛</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -239,6 +270,7 @@
 <!-- arg math \bigcirc  -->
 <commandDefinition>
    <latexCommand>\bigcirc</latexCommand>
+   <unicodeCommand>◯</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -247,6 +279,7 @@
 <!-- arg math \boxdot  -->
 <commandDefinition>
    <latexCommand>\boxdot</latexCommand>
+   <unicodeCommand>⊡</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -257,6 +290,7 @@
 <!-- arg math \boxminus  -->
 <commandDefinition>
    <latexCommand>\boxminus</latexCommand>
+   <unicodeCommand>⊟</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -267,6 +301,7 @@
 <!-- arg math \boxplus  -->
 <commandDefinition>
    <latexCommand>\boxplus</latexCommand>
+   <unicodeCommand>⊞</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -277,6 +312,7 @@
 <!-- arg math \boxtimes  -->
 <commandDefinition>
    <latexCommand>\boxtimes</latexCommand>
+   <unicodeCommand>⊠</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -288,6 +324,7 @@
 <!-- arg math \diamond  -->
 <commandDefinition>
    <latexCommand>\diamond</latexCommand>
+   <unicodeCommand>⋄</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -295,6 +332,7 @@
 <!-- arg math \bigtriangleup  -->
 <commandDefinition>
    <latexCommand>\bigtriangleup</latexCommand>
+   <unicodeCommand>△</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -302,6 +340,7 @@
 <!-- arg math \bigtriangledown  -->
 <commandDefinition>
    <latexCommand>\bigtriangledown</latexCommand>
+   <unicodeCommand>▽</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -309,6 +348,7 @@
 <!-- arg math \triangleleft  -->
 <commandDefinition>
    <latexCommand>\triangleleft</latexCommand>
+   <unicodeCommand>◃</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -316,6 +356,7 @@
 <!-- arg math \triangleright  -->
 <commandDefinition>
    <latexCommand>\triangleright</latexCommand>
+   <unicodeCommand>▹</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -324,6 +365,7 @@
 <!-- arg math \lhd  -->
 <commandDefinition>
    <latexCommand>\lhd</latexCommand>
+   <unicodeCommand>◁</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -334,6 +376,7 @@
 <!-- arg math \rhd  -->
 <commandDefinition>
    <latexCommand>\rhd</latexCommand>
+   <unicodeCommand>▷</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -344,6 +387,7 @@
 <!-- arg math \unlhd  -->
 <commandDefinition>
    <latexCommand>\unlhd</latexCommand>
+   <unicodeCommand>⊴</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -354,6 +398,7 @@
 <!-- arg math \unrhd  -->
 <commandDefinition>
    <latexCommand>\unrhd</latexCommand>
+   <unicodeCommand>⊵</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -365,6 +410,7 @@
 <!-- arg math \cup  -->
 <commandDefinition>
    <latexCommand>\cup</latexCommand>
+   <unicodeCommand>∪</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -372,6 +418,7 @@
 <!-- arg math \cap  -->
 <commandDefinition>
    <latexCommand>\cap</latexCommand>
+   <unicodeCommand>∩</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -379,6 +426,7 @@
 <!-- arg math \uplus  -->
 <commandDefinition>
    <latexCommand>\uplus</latexCommand>
+   <unicodeCommand>⊎</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -387,6 +435,7 @@
 <!-- arg math \Cup  -->
 <commandDefinition>
    <latexCommand>\Cup</latexCommand>
+   <unicodeCommand>⋓</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -397,6 +446,7 @@
 <!-- arg math \Cap  -->
 <commandDefinition>
    <latexCommand>\Cap</latexCommand>
+   <unicodeCommand>⋒</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -408,6 +458,7 @@
 <!-- arg math \wr  -->
 <commandDefinition>
    <latexCommand>\wr</latexCommand>
+   <unicodeCommand>≀</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -415,6 +466,7 @@
 <!-- arg math \setminus  -->
 <commandDefinition>
    <latexCommand>\setminus</latexCommand>
+   <unicodeCommand>⧵</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -422,6 +474,7 @@
 <!-- arg math \smallsetminus  -->
 <commandDefinition>
    <latexCommand>\smallsetminus</latexCommand>
+   <unicodeCommand>∖</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -432,6 +485,7 @@
 <!-- arg math \sqcap  -->
 <commandDefinition>
    <latexCommand>\sqcap</latexCommand>
+   <unicodeCommand>⊓</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -439,6 +493,7 @@
 <!-- arg math \sqcup  -->
 <commandDefinition>
    <latexCommand>\sqcup</latexCommand>
+   <unicodeCommand>⊔</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -446,6 +501,7 @@
 <!-- arg math \wedge  -->
 <commandDefinition>
    <latexCommand>\wedge</latexCommand>
+   <unicodeCommand>∧</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -453,6 +509,7 @@
 <!-- arg math \vee  -->
 <commandDefinition>
    <latexCommand>\vee</latexCommand>
+   <unicodeCommand>∨</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -461,6 +518,7 @@
 <!-- arg math \barwedge  -->
 <commandDefinition>
    <latexCommand>\barwedge</latexCommand>
+   <unicodeCommand>⊼</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -471,6 +529,7 @@
 <!-- arg math \veebar  -->
 <commandDefinition>
    <latexCommand>\veebar</latexCommand>
+   <unicodeCommand>⊻</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -481,6 +540,7 @@
 <!-- arg math \doublebarwedge  -->
 <commandDefinition>
    <latexCommand>\doublebarwedge</latexCommand>
+   <unicodeCommand>⌆</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -491,6 +551,7 @@
 <!-- arg math \curlywedge  -->
 <commandDefinition>
    <latexCommand>\curlywedge</latexCommand>
+   <unicodeCommand>⋏</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -501,6 +562,7 @@
 <!-- arg math \curlyvee  -->
 <commandDefinition>
    <latexCommand>\curlyvee</latexCommand>
+   <unicodeCommand>⋎</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -511,6 +573,7 @@
 <!-- arg math \dagger  -->
 <commandDefinition>
    <latexCommand>\dagger</latexCommand>
+   <unicodeCommand>†</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -521,6 +584,7 @@
 <!-- arg math \ddagger  -->
 <commandDefinition>
    <latexCommand>\ddagger</latexCommand>
+   <unicodeCommand>‡</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -531,6 +595,7 @@
 <!-- arg math \intercal  -->
 <commandDefinition>
    <latexCommand>\intercal</latexCommand>
+   <unicodeCommand>⊺</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -542,6 +607,7 @@
 <!-- arg math \bigcap  -->
 <commandDefinition>
    <latexCommand>\bigcap</latexCommand>
+   <unicodeCommand>⋂</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -549,6 +615,7 @@
 <!-- arg math \bigcup  -->
 <commandDefinition>
    <latexCommand>\bigcup</latexCommand>
+   <unicodeCommand>⋃</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -556,6 +623,7 @@
 <!-- arg math \biguplus  -->
 <commandDefinition>
    <latexCommand>\biguplus</latexCommand>
+   <unicodeCommand>⨄</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -563,6 +631,7 @@
 <!-- arg math \bigsqcup  -->
 <commandDefinition>
    <latexCommand>\bigsqcup</latexCommand>
+   <unicodeCommand>⨆</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -570,6 +639,7 @@
 <!-- arg math \prod  -->
 <commandDefinition>
    <latexCommand>\prod</latexCommand>
+   <unicodeCommand>∏</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -577,6 +647,7 @@
 <!-- arg math \coprod  -->
 <commandDefinition>
    <latexCommand>\coprod</latexCommand>
+   <unicodeCommand>∐</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -584,6 +655,7 @@
 <!-- arg math \bigwedge  -->
 <commandDefinition>
    <latexCommand>\bigwedge</latexCommand>
+   <unicodeCommand>⋀</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -591,6 +663,7 @@
 <!-- arg math \bigvee  -->
 <commandDefinition>
    <latexCommand>\bigvee</latexCommand>
+   <unicodeCommand>⋁</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -598,6 +671,7 @@
 <!-- arg math \bigodot  -->
 <commandDefinition>
    <latexCommand>\bigodot</latexCommand>
+   <unicodeCommand>⨀</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -605,6 +679,7 @@
 <!-- arg math \bigoplus  -->
 <commandDefinition>
    <latexCommand>\bigoplus</latexCommand>
+   <unicodeCommand>⨁</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -612,6 +687,7 @@
 <!-- arg math \bigotimes  -->
 <commandDefinition>
    <latexCommand>\bigotimes</latexCommand>
+   <unicodeCommand>⨂</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -619,6 +695,7 @@
 <!-- arg math \sum  -->
 <commandDefinition>
    <latexCommand>\sum</latexCommand>
+   <unicodeCommand>∑</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -626,6 +703,7 @@
 <!-- arg math \int  -->
 <commandDefinition>
    <latexCommand>\int</latexCommand>
+   <unicodeCommand>∫</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -633,6 +711,7 @@
 <!-- arg math \oint  -->
 <commandDefinition>
    <latexCommand>\oint</latexCommand>
+   <unicodeCommand>∮</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -641,6 +720,7 @@
 <!-- arg math \iint  -->
 <commandDefinition>
    <latexCommand>\iint</latexCommand>
+   <unicodeCommand>∬</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amsmath</name>
@@ -651,6 +731,7 @@
 <!-- arg math \iiint  -->
 <commandDefinition>
    <latexCommand>\iiint</latexCommand>
+   <unicodeCommand>∭</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amsmath</name>
@@ -661,6 +742,7 @@
 <!-- arg math \iiiint  -->
 <commandDefinition>
    <latexCommand>\iiiint</latexCommand>
+   <unicodeCommand>⨌</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amsmath</name>

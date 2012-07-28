@@ -100,7 +100,7 @@
         <item>
          <widget class="QCheckBox" name="kcfg_symbolViewUTF8">
           <property name="text">
-           <string>Insert UTF-8 characters instead of the command</string>
+           <string>Insert Unicode representation of the selected symbol (when available)</string>
           </property>
          </widget>
         </item>

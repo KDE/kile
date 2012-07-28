@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE KileSymbolSources>
-<symbols> 
+<symbols>
 
    <formatVersion major="0" minor ="22" />
 
@@ -15,7 +15,14 @@
 		  \usepackage[T1]{fontenc}
       </additional>
    </preamble>
-   
+
+   <unicodeCommandPackages>
+      <package>
+         <name>inputenc</name>
+         <arguments>utf8</arguments>
+      </package>
+   </unicodeCommandPackages>
+
    <!-- insert stuff here    -->
 <symbolGroupName>misc-text</symbolGroupName>
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -40,12 +47,14 @@
 <!-- arg  \dots  -->
 <commandDefinition>
    <latexCommand>\dots</latexCommand>
+   <unicodeCommand>…</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \texttildelow  -->
 <commandDefinition>
    <latexCommand>\texttildelow</latexCommand>
+   <unicodeCommand>̰</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -55,12 +64,14 @@
 <!-- arg  \textasciicircum  -->
 <commandDefinition>
    <latexCommand>\textasciicircum</latexCommand>
+   <unicodeCommand>̂</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textasciimacron  -->
 <commandDefinition>
    <latexCommand>\textasciimacron</latexCommand>
+   <unicodeCommand>̄</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -70,6 +81,7 @@
 <!-- arg  \textasciiacute  -->
 <commandDefinition>
    <latexCommand>\textasciiacute</latexCommand>
+   <unicodeCommand>́</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -79,6 +91,7 @@
 <!-- arg  \textasciidieresis  -->
 <commandDefinition>
    <latexCommand>\textasciidieresis</latexCommand>
+   <unicodeCommand>̈</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -88,12 +101,14 @@
 <!-- arg  \textasciitilde  -->
 <commandDefinition>
    <latexCommand>\textasciitilde</latexCommand>
+   <unicodeCommand>̃</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textasciigrave  -->
 <commandDefinition>
    <latexCommand>\textasciigrave</latexCommand>
+   <unicodeCommand>̀</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -103,6 +118,7 @@
 <!-- arg  \textasciibreve  -->
 <commandDefinition>
    <latexCommand>\textasciibreve</latexCommand>
+   <unicodeCommand>̆</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -112,6 +128,7 @@
 <!-- arg  \textasciicaron  -->
 <commandDefinition>
    <latexCommand>\textasciicaron</latexCommand>
+   <unicodeCommand>̌</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -121,6 +138,7 @@
 <!-- arg  \textacutedbl  -->
 <commandDefinition>
    <latexCommand>\textacutedbl</latexCommand>
+   <unicodeCommand>̋</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -130,6 +148,7 @@
 <!-- arg  \textgravedbl  -->
 <commandDefinition>
    <latexCommand>\textgravedbl</latexCommand>
+   <unicodeCommand>̏</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -139,30 +158,35 @@
 <!-- arg  \textquotedblleft  -->
 <commandDefinition>
    <latexCommand>\textquotedblleft</latexCommand>
+   <unicodeCommand>“</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textquotedblright  -->
 <commandDefinition>
    <latexCommand>\textquotedblright</latexCommand>
+   <unicodeCommand>”</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textquoteleft  -->
 <commandDefinition>
    <latexCommand>\textquoteleft</latexCommand>
+   <unicodeCommand>‘</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textquoteright  -->
 <commandDefinition>
    <latexCommand>\textquoteright</latexCommand>
+   <unicodeCommand>’</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textquotestraightbase  -->
 <commandDefinition>
    <latexCommand>\textquotestraightbase</latexCommand>
+   <unicodeCommand>‚</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -172,6 +196,7 @@
 <!-- arg  \textquotestraightdblbase  -->
 <commandDefinition>
    <latexCommand>\textquotestraightdblbase</latexCommand>
+   <unicodeCommand>„</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -181,6 +206,7 @@
 <!-- arg  \textquotesingle  -->
 <commandDefinition>
    <latexCommand>\textquotesingle</latexCommand>
+   <unicodeCommand>‛</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -208,24 +234,28 @@
 <!-- arg  \textasteriskcentered  -->
 <commandDefinition>
    <latexCommand>\textasteriskcentered</latexCommand>
+   <unicodeCommand>∗</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textperiodcentered  -->
 <commandDefinition>
    <latexCommand>\textperiodcentered</latexCommand>
+   <unicodeCommand>·</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textquestiondown  -->
 <commandDefinition>
    <latexCommand>\textquestiondown</latexCommand>
+   <unicodeCommand>¿</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textinterrobang  -->
 <commandDefinition>
    <latexCommand>\textinterrobang</latexCommand>
+   <unicodeCommand>‽</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -244,6 +274,7 @@
 <!-- arg  \textexclamdown  -->
 <commandDefinition>
    <latexCommand>\textexclamdown</latexCommand>
+   <unicodeCommand>¡</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -251,6 +282,7 @@
 <!-- arg  \texttwelveudash  -->
 <commandDefinition>
    <latexCommand>\texttwelveudash</latexCommand>
+   <unicodeCommand>—</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -260,18 +292,21 @@
 <!-- arg  \textemdash  -->
 <commandDefinition>
    <latexCommand>\textemdash</latexCommand>
+   <unicodeCommand>—</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textendash  -->
 <commandDefinition>
    <latexCommand>\textendash</latexCommand>
+   <unicodeCommand>–</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textthreequartersemdash  -->
 <commandDefinition>
    <latexCommand>\textthreequartersemdash</latexCommand>
+   <unicodeCommand>—</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -281,12 +316,14 @@
 <!-- arg  \textvisiblespace  -->
 <commandDefinition>
    <latexCommand>\textvisiblespace</latexCommand>
+   <unicodeCommand>␣</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \_  -->
 <commandDefinition>
    <latexCommand>\_</latexCommand>
+   <unicodeCommand>_</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -294,6 +331,7 @@
 <!-- arg  \textcurrency  -->
 <commandDefinition>
    <latexCommand>\textcurrency</latexCommand>
+   <unicodeCommand>¤</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -303,6 +341,7 @@
 <!-- arg  \textbaht  -->
 <commandDefinition>
    <latexCommand>\textbaht</latexCommand>
+   <unicodeCommand>฿</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -312,6 +351,7 @@
 <!-- arg  \textguarani  -->
 <commandDefinition>
    <latexCommand>\textguarani</latexCommand>
+   <unicodeCommand>₲</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -321,6 +361,7 @@
 <!-- arg  \textwon  -->
 <commandDefinition>
    <latexCommand>\textwon</latexCommand>
+   <unicodeCommand>₩</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -330,6 +371,7 @@
 <!-- arg  \textcent  -->
 <commandDefinition>
    <latexCommand>\textcent</latexCommand>
+   <unicodeCommand>¢</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -348,6 +390,7 @@
 <!-- arg  \textdollar  -->
 <commandDefinition>
    <latexCommand>\textdollar</latexCommand>
+   <unicodeCommand>\$</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -363,6 +406,7 @@
 <!-- arg  \textlira  -->
 <commandDefinition>
    <latexCommand>\textlira</latexCommand>
+   <unicodeCommand>₤</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -372,6 +416,7 @@
 <!-- arg  \textyen  -->
 <commandDefinition>
    <latexCommand>\textyen</latexCommand>
+   <unicodeCommand>¥</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -381,6 +426,7 @@
 <!-- arg  \textdong  -->
 <commandDefinition>
    <latexCommand>\textdong</latexCommand>
+   <unicodeCommand>₫</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -390,6 +436,7 @@
 <!-- arg  \textnaira  -->
 <commandDefinition>
    <latexCommand>\textnaira</latexCommand>
+   <unicodeCommand>₦</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -399,6 +446,7 @@
 <!-- arg  \textcolonmonetary  -->
 <commandDefinition>
    <latexCommand>\textcolonmonetary</latexCommand>
+   <unicodeCommand>₡</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -408,6 +456,7 @@
 <!-- arg  \textpeso  -->
 <commandDefinition>
    <latexCommand>\textpeso</latexCommand>
+   <unicodeCommand>₱</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -417,12 +466,14 @@
 <!-- arg  \pounds  -->
 <commandDefinition>
    <latexCommand>\pounds</latexCommand>
+   <unicodeCommand>£</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textflorin  -->
 <commandDefinition>
    <latexCommand>\textflorin</latexCommand>
+   <unicodeCommand>ƒ</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -432,6 +483,7 @@
 <!-- arg  \texteuro  -->
 <commandDefinition>
    <latexCommand>\texteuro</latexCommand>
+   <unicodeCommand>€</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -443,6 +495,7 @@
 <!-- arg  \geneuro  -->
 <commandDefinition>
    <latexCommand>\geneuro</latexCommand>
+   <unicodeCommand>€</unicodeCommand>
    <package>
       <name>eurosym</name>
    </package>
@@ -452,6 +505,7 @@
 <!-- arg  \geneuronarrow  -->
 <commandDefinition>
    <latexCommand>\geneuronarrow</latexCommand>
+   <unicodeCommand>€</unicodeCommand>
    <package>
       <name>eurosym</name>
    </package>
@@ -461,6 +515,7 @@
 <!-- arg  \geneurowide  -->
 <commandDefinition>
    <latexCommand>\geneurowide</latexCommand>
+   <unicodeCommand>€</unicodeCommand>
    <package>
       <name>eurosym</name>
    </package>
@@ -470,6 +525,7 @@
 <!-- arg  \officialeuro  -->
 <commandDefinition>
    <latexCommand>\officialeuro</latexCommand>
+   <unicodeCommand>€</unicodeCommand>
    <package>
       <name>eurosym</name>
    </package>
@@ -481,12 +537,14 @@
 <!-- arg  \textcircled{a}  -->
 <commandDefinition>
    <latexCommand>\textcircled{a}</latexCommand>
+   <unicodeCommand>ⓐ</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textcopyright  -->
 <commandDefinition>
    <latexCommand>\textcopyright</latexCommand>
+   <unicodeCommand>©</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -502,18 +560,21 @@
 <!-- arg  \textregistered  -->
 <commandDefinition>
    <latexCommand>\textregistered</latexCommand>
+   <unicodeCommand>®</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \texttrademark  -->
 <commandDefinition>
    <latexCommand>\texttrademark</latexCommand>
+   <unicodeCommand>™</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textservicemark  -->
 <commandDefinition>
    <latexCommand>\textservicemark</latexCommand>
+   <unicodeCommand>℠</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -585,6 +646,7 @@
 <!-- arg  \textonehalf  -->
 <commandDefinition>
    <latexCommand>\textonehalf</latexCommand>
+   <unicodeCommand>½</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -594,6 +656,7 @@
 <!-- arg  \textonequarter  -->
 <commandDefinition>
    <latexCommand>\textonequarter</latexCommand>
+   <unicodeCommand>¼</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -603,6 +666,7 @@
 <!-- arg  \textthreequarters  -->
 <commandDefinition>
    <latexCommand>\textthreequarters</latexCommand>
+   <unicodeCommand>¾</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -612,6 +676,7 @@
 <!-- arg  \textonesuperior  -->
 <commandDefinition>
    <latexCommand>\textonesuperior</latexCommand>
+   <unicodeCommand>¹</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -621,6 +686,7 @@
 <!-- arg  \texttwosuperior  -->
 <commandDefinition>
    <latexCommand>\texttwosuperior</latexCommand>
+   <unicodeCommand>²</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -630,6 +696,7 @@
 <!-- arg  \textthreesuperior  -->
 <commandDefinition>
    <latexCommand>\textthreesuperior</latexCommand>
+   <unicodeCommand>³</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -639,6 +706,7 @@
 <!-- arg  \textnumero  -->
 <commandDefinition>
    <latexCommand>\textnumero</latexCommand>
+   <unicodeCommand>№</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -648,6 +716,7 @@
 <!-- arg  \textpertenthousand  -->
 <commandDefinition>
    <latexCommand>\textpertenthousand</latexCommand>
+   <unicodeCommand>‱</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -657,6 +726,7 @@
 <!-- arg  \textperthousand  -->
 <commandDefinition>
    <latexCommand>\textperthousand</latexCommand>
+   <unicodeCommand>‰</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -666,6 +736,7 @@
 <!-- arg  \textdiscount  -->
 <commandDefinition>
    <latexCommand>\textdiscount</latexCommand>
+   <unicodeCommand>⁒</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -675,6 +746,7 @@
 <!-- arg  \textblank  -->
 <commandDefinition>
    <latexCommand>\textblank</latexCommand>
+   <unicodeCommand>␢</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -684,6 +756,7 @@
 <!-- arg  \textrecipe  -->
 <commandDefinition>
    <latexCommand>\textrecipe</latexCommand>
+   <unicodeCommand>℞</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -693,6 +766,7 @@
 <!-- arg  \textestimated  -->
 <commandDefinition>
    <latexCommand>\textestimated</latexCommand>
+   <unicodeCommand>℮</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -702,6 +776,7 @@
 <!-- arg  \textreferencemark  -->
 <commandDefinition>
    <latexCommand>\textreferencemark</latexCommand>
+   <unicodeCommand>※</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -711,6 +786,7 @@
 <!-- arg  \textmusicalnote  -->
 <commandDefinition>
    <latexCommand>\textmusicalnote</latexCommand>
+   <unicodeCommand>♪</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -721,30 +797,35 @@
 <!-- arg  \dag  -->
 <commandDefinition>
    <latexCommand>\dag</latexCommand>
+   <unicodeCommand>†</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \ddag  -->
 <commandDefinition>
    <latexCommand>\ddag</latexCommand>
+   <unicodeCommand>‡</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \S  -->
 <commandDefinition>
    <latexCommand>\S</latexCommand>
+   <unicodeCommand>§</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \$  -->
 <commandDefinition>
    <latexCommand>\$</latexCommand>
+   <unicodeCommand>\$</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textpilcrow  -->
 <commandDefinition>
    <latexCommand>\textpilcrow</latexCommand>
+   <unicodeCommand>¶</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -764,6 +845,7 @@
 <!-- arg  \Cutright  -->
 <commandDefinition>
    <latexCommand>\Cutright</latexCommand>
+   <unicodeCommand>✁</unicodeCommand>
    <package>
       <name>marvosym</name>
    </package>
@@ -800,6 +882,7 @@
 <!-- arg  \Rightscissors  -->
 <commandDefinition>
    <latexCommand>\Rightscissors</latexCommand>
+   <unicodeCommand>✂</unicodeCommand>
    <package>
       <name>marvosym</name>
    </package>
@@ -811,6 +894,7 @@
 <!-- arg  \CheckedBox  -->
 <commandDefinition>
    <latexCommand>\CheckedBox</latexCommand>
+   <unicodeCommand>☑</unicodeCommand>
    <package>
       <name>wasysym</name>
    </package>
@@ -820,6 +904,7 @@
 <!-- arg  \Square  -->
 <commandDefinition>
    <latexCommand>\Square</latexCommand>
+   <unicodeCommand>☐</unicodeCommand>
    <package>
       <name>wasysym</name>
    </package>
@@ -829,6 +914,7 @@
 <!-- arg  \XBox  -->
 <commandDefinition>
    <latexCommand>\XBox</latexCommand>
+   <unicodeCommand>☒</unicodeCommand>
    <package>
       <name>wasysym</name>
    </package>
@@ -839,6 +925,7 @@
 <!-- arg  \textbigcircle  -->
 <commandDefinition>
    <latexCommand>\textbigcircle</latexCommand>
+   <unicodeCommand>○</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -848,6 +935,7 @@
 <!-- arg  \textopenbullet  -->
 <commandDefinition>
    <latexCommand>\textopenbullet</latexCommand>
+   <unicodeCommand>◦</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -857,12 +945,14 @@
 <!-- arg  \textbullet  -->
 <commandDefinition>
    <latexCommand>\textbullet</latexCommand>
+   <unicodeCommand>•</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=amssymb ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \checkmark  -->
 <commandDefinition>
    <latexCommand>\checkmark</latexCommand>
+   <unicodeCommand>✓</unicodeCommand>
    <package>
       <name>amssymb</name>
    </package>
@@ -872,6 +962,7 @@
 <!-- arg  \maltese  -->
 <commandDefinition>
    <latexCommand>\maltese</latexCommand>
+   <unicodeCommand>✠</unicodeCommand>
    <package>
       <name>amssymb</name>
    </package>
@@ -883,6 +974,7 @@
 <!-- arg  \textordmasculine  -->
 <commandDefinition>
    <latexCommand>\textordmasculine</latexCommand>
+   <unicodeCommand>º</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -892,6 +984,7 @@
 <!-- arg  \textordfeminine  -->
 <commandDefinition>
    <latexCommand>\textordfeminine</latexCommand>
+   <unicodeCommand>ª</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -901,6 +994,7 @@
 <!-- arg  \textborn  -->
 <commandDefinition>
    <latexCommand>\textborn</latexCommand>
+   <unicodeCommand>★</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -910,6 +1004,7 @@
 <!-- arg  \textdivorced  -->
 <commandDefinition>
    <latexCommand>\textdivorced</latexCommand>
+   <unicodeCommand>⚮</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -919,6 +1014,7 @@
 <!-- arg  \textdied  -->
 <commandDefinition>
    <latexCommand>\textdied</latexCommand>
+   <unicodeCommand>✝</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -928,6 +1024,7 @@
 <!-- arg  \textmarried  -->
 <commandDefinition>
    <latexCommand>\textmarried</latexCommand>
+   <unicodeCommand>⚭</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -947,6 +1044,7 @@
 <!-- arg  \textcelsius  -->
 <commandDefinition>
    <latexCommand>\textcelsius</latexCommand>
+   <unicodeCommand>℃</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -956,6 +1054,7 @@
 <!-- arg  \textdegree  -->
 <commandDefinition>
    <latexCommand>\textdegree</latexCommand>
+   <unicodeCommand>°</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -965,6 +1064,7 @@
 <!-- arg  \textmho  -->
 <commandDefinition>
    <latexCommand>\textmho</latexCommand>
+   <unicodeCommand>℧</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -974,6 +1074,7 @@
 <!-- arg  \textohm  -->
 <commandDefinition>
    <latexCommand>\textohm</latexCommand>
+   <unicodeCommand>Ω</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -985,18 +1086,21 @@
 <!-- arg  \textbackslash  -->
 <commandDefinition>
    <latexCommand>\textbackslash</latexCommand>
+   <unicodeCommand>\</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textbar  -->
 <commandDefinition>
    <latexCommand>\textbar</latexCommand>
+   <unicodeCommand>|</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textbrokenbar  -->
 <commandDefinition>
    <latexCommand>\textbrokenbar</latexCommand>
+   <unicodeCommand>¦</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1006,6 +1110,7 @@
 <!-- arg  \textbardbl  -->
 <commandDefinition>
    <latexCommand>\textbardbl</latexCommand>
+   <unicodeCommand>‖</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs=textcomp ,savepkgsarg=-->
@@ -1013,6 +1118,7 @@
 <!-- arg  \textfractionsolidus  -->
 <commandDefinition>
    <latexCommand>\textfractionsolidus</latexCommand>
+   <unicodeCommand>⁄</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1022,6 +1128,7 @@
 <!-- arg  \textlangle  -->
 <commandDefinition>
    <latexCommand>\textlangle</latexCommand>
+   <unicodeCommand>〈</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1031,6 +1138,7 @@
 <!-- arg  \textlnot  -->
 <commandDefinition>
    <latexCommand>\textlnot</latexCommand>
+   <unicodeCommand>¬</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1040,6 +1148,7 @@
 <!-- arg  \textminus  -->
 <commandDefinition>
    <latexCommand>\textminus</latexCommand>
+   <unicodeCommand>−</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1049,6 +1158,7 @@
 <!-- arg  \textrangle  -->
 <commandDefinition>
    <latexCommand>\textrangle</latexCommand>
+   <unicodeCommand>〉</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1058,6 +1168,7 @@
 <!-- arg  \textlbrackdbl  -->
 <commandDefinition>
    <latexCommand>\textlbrackdbl</latexCommand>
+   <unicodeCommand>〚</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1067,6 +1178,7 @@
 <!-- arg  \textrbrackdbl  -->
 <commandDefinition>
    <latexCommand>\textrbrackdbl</latexCommand>
+   <unicodeCommand>〛</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1076,6 +1188,7 @@
 <!-- arg  \textmu  -->
 <commandDefinition>
    <latexCommand>\textmu</latexCommand>
+   <unicodeCommand>μ</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1085,6 +1198,7 @@
 <!-- arg  \textpm  -->
 <commandDefinition>
    <latexCommand>\textpm</latexCommand>
+   <unicodeCommand>±</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1094,6 +1208,7 @@
 <!-- arg  \textlquill  -->
 <commandDefinition>
    <latexCommand>\textlquill</latexCommand>
+   <unicodeCommand>⁅</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1103,6 +1218,7 @@
 <!-- arg  \textrquill  -->
 <commandDefinition>
    <latexCommand>\textrquill</latexCommand>
+   <unicodeCommand>⁆</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1113,12 +1229,14 @@
 <!-- arg  \textless  -->
 <commandDefinition>
    <latexCommand>\textless</latexCommand>
+   <unicodeCommand>&lt;</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
 <!-- arg  \textgreater  -->
 <commandDefinition>
    <latexCommand>\textgreater</latexCommand>
+   <unicodeCommand>&gt;</unicodeCommand>
 </commandDefinition>
 
 <!-- pkgs=textcomp ,pkgsarg= ,savepkgs=textcomp ,savepkgsarg=-->
@@ -1126,6 +1244,7 @@
 <!-- arg  \textsurd  -->
 <commandDefinition>
    <latexCommand>\textsurd</latexCommand>
+   <unicodeCommand>√</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1135,6 +1254,7 @@
 <!-- arg  \texttimes  -->
 <commandDefinition>
    <latexCommand>\texttimes</latexCommand>
+   <unicodeCommand>×</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>
@@ -1144,6 +1264,7 @@
 <!-- arg  \textdiv  -->
 <commandDefinition>
    <latexCommand>\textdiv</latexCommand>
+   <unicodeCommand>÷</unicodeCommand>
    <package>
       <name>textcomp</name>
    </package>

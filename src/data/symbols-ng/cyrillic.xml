@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE KileSymbolSources>
-<symbols> 
+<symbols>
 
    <formatVersion major="0" minor ="22" />
 
@@ -15,7 +15,14 @@
 		  \usepackage[T1]{fontenc}
       </additional>
    </preamble>
-   
+
+   <unicodeCommandPackages>
+      <package>
+         <name>inputenc</name>
+         <arguments>utf8</arguments>
+      </package>
+   </unicodeCommandPackages>
+
    <!-- insert stuff here    -->
 <symbolGroupName>cyrillic</symbolGroupName>
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -43,6 +50,7 @@
 <!-- arg  \CYRA  -->
 <commandDefinition>
    <latexCommand>\CYRA</latexCommand>
+   <unicodeCommand>А</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -64,6 +72,7 @@
 <!-- arg  \CYRB  -->
 <commandDefinition>
    <latexCommand>\CYRB</latexCommand>
+   <unicodeCommand>Б</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -85,6 +94,7 @@
 <!-- arg  \CYRV  -->
 <commandDefinition>
    <latexCommand>\CYRV</latexCommand>
+   <unicodeCommand>В</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -106,6 +116,7 @@
 <!-- arg  \CYRG  -->
 <commandDefinition>
    <latexCommand>\CYRG</latexCommand>
+   <unicodeCommand>Г</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -127,6 +138,7 @@
 <!-- arg  \CYRD  -->
 <commandDefinition>
    <latexCommand>\CYRD</latexCommand>
+   <unicodeCommand>Д</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -148,6 +160,7 @@
 <!-- arg  \CYRE  -->
 <commandDefinition>
    <latexCommand>\CYRE</latexCommand>
+   <unicodeCommand>Е</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -169,6 +182,7 @@
 <!-- arg  \CYRYO  -->
 <commandDefinition>
    <latexCommand>\CYRYO</latexCommand>
+   <unicodeCommand>Ё</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -190,6 +204,7 @@
 <!-- arg  \CYRZH  -->
 <commandDefinition>
    <latexCommand>\CYRZH</latexCommand>
+   <unicodeCommand>Ж</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -211,6 +226,7 @@
 <!-- arg  \CYRZ  -->
 <commandDefinition>
    <latexCommand>\CYRZ</latexCommand>
+   <unicodeCommand>З</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -232,6 +248,7 @@
 <!-- arg  \CYRI  -->
 <commandDefinition>
    <latexCommand>\CYRI</latexCommand>
+   <unicodeCommand>И</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -253,6 +270,7 @@
 <!-- arg  \CYRISHRT  -->
 <commandDefinition>
    <latexCommand>\CYRISHRT</latexCommand>
+   <unicodeCommand>Й</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -274,6 +292,7 @@
 <!-- arg  \CYRK  -->
 <commandDefinition>
    <latexCommand>\CYRK</latexCommand>
+   <unicodeCommand>К</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -295,6 +314,7 @@
 <!-- arg  \CYRL  -->
 <commandDefinition>
    <latexCommand>\CYRL</latexCommand>
+   <unicodeCommand>Л</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -316,6 +336,7 @@
 <!-- arg  \CYRM  -->
 <commandDefinition>
    <latexCommand>\CYRM</latexCommand>
+   <unicodeCommand>М</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -337,6 +358,7 @@
 <!-- arg  \CYRN  -->
 <commandDefinition>
    <latexCommand>\CYRN</latexCommand>
+   <unicodeCommand>Н</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -358,6 +380,7 @@
 <!-- arg  \CYRO  -->
 <commandDefinition>
    <latexCommand>\CYRO</latexCommand>
+   <unicodeCommand>О</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -379,6 +402,7 @@
 <!-- arg  \CYRP  -->
 <commandDefinition>
    <latexCommand>\CYRP</latexCommand>
+   <unicodeCommand>П</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -400,6 +424,7 @@
 <!-- arg  \CYRR  -->
 <commandDefinition>
    <latexCommand>\CYRR</latexCommand>
+   <unicodeCommand>Р</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -421,6 +446,7 @@
 <!-- arg  \CYRS  -->
 <commandDefinition>
    <latexCommand>\CYRS</latexCommand>
+   <unicodeCommand>С</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -442,6 +468,7 @@
 <!-- arg  \CYRT  -->
 <commandDefinition>
    <latexCommand>\CYRT</latexCommand>
+   <unicodeCommand>Т</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -463,6 +490,7 @@
 <!-- arg  \CYRU  -->
 <commandDefinition>
    <latexCommand>\CYRU</latexCommand>
+   <unicodeCommand>У</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -484,6 +512,7 @@
 <!-- arg  \CYRF  -->
 <commandDefinition>
    <latexCommand>\CYRF</latexCommand>
+   <unicodeCommand>Ф</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -505,6 +534,7 @@
 <!-- arg  \CYRH  -->
 <commandDefinition>
    <latexCommand>\CYRH</latexCommand>
+   <unicodeCommand>Х</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -526,6 +556,7 @@
 <!-- arg  \CYRC  -->
 <commandDefinition>
    <latexCommand>\CYRC</latexCommand>
+   <unicodeCommand>Ц</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -547,6 +578,7 @@
 <!-- arg  \CYRCH  -->
 <commandDefinition>
    <latexCommand>\CYRCH</latexCommand>
+   <unicodeCommand>Ч</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -568,6 +600,7 @@
 <!-- arg  \CYRSH  -->
 <commandDefinition>
    <latexCommand>\CYRSH</latexCommand>
+   <unicodeCommand>Ш</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -589,6 +622,7 @@
 <!-- arg  \CYRSHCH  -->
 <commandDefinition>
    <latexCommand>\CYRSHCH</latexCommand>
+   <unicodeCommand>Щ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -610,6 +644,7 @@
 <!-- arg  \CYRHRDSN  -->
 <commandDefinition>
    <latexCommand>\CYRHRDSN</latexCommand>
+   <unicodeCommand>Ъ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -631,6 +666,7 @@
 <!-- arg  \CYRERY  -->
 <commandDefinition>
    <latexCommand>\CYRERY</latexCommand>
+   <unicodeCommand>Ы</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -652,6 +688,7 @@
 <!-- arg  \CYRSFTSN  -->
 <commandDefinition>
    <latexCommand>\CYRSFTSN</latexCommand>
+   <unicodeCommand>Ь</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -673,6 +710,7 @@
 <!-- arg  \CYREREV  -->
 <commandDefinition>
    <latexCommand>\CYREREV</latexCommand>
+   <unicodeCommand>Э</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -694,6 +732,7 @@
 <!-- arg  \CYRYU  -->
 <commandDefinition>
    <latexCommand>\CYRYU</latexCommand>
+   <unicodeCommand>Ю</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -715,6 +754,7 @@
 <!-- arg  \CYRYA  -->
 <commandDefinition>
    <latexCommand>\CYRYA</latexCommand>
+   <unicodeCommand>Я</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -737,6 +777,7 @@
 <!-- arg  \cyra  -->
 <commandDefinition>
    <latexCommand>\cyra</latexCommand>
+   <unicodeCommand>а</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -758,6 +799,7 @@
 <!-- arg  \cyrb  -->
 <commandDefinition>
    <latexCommand>\cyrb</latexCommand>
+   <unicodeCommand>б</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -779,6 +821,7 @@
 <!-- arg  \cyrv  -->
 <commandDefinition>
    <latexCommand>\cyrv</latexCommand>
+   <unicodeCommand>в</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -800,6 +843,7 @@
 <!-- arg  \cyrg  -->
 <commandDefinition>
    <latexCommand>\cyrg</latexCommand>
+   <unicodeCommand>г</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -821,6 +865,7 @@
 <!-- arg  \cyrd  -->
 <commandDefinition>
    <latexCommand>\cyrd</latexCommand>
+   <unicodeCommand>д</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -842,6 +887,7 @@
 <!-- arg  \cyre  -->
 <commandDefinition>
    <latexCommand>\cyre</latexCommand>
+   <unicodeCommand>е</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -863,6 +909,7 @@
 <!-- arg  \cyryo  -->
 <commandDefinition>
    <latexCommand>\cyryo</latexCommand>
+   <unicodeCommand>ё</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -884,6 +931,7 @@
 <!-- arg  \cyrzh  -->
 <commandDefinition>
    <latexCommand>\cyrzh</latexCommand>
+   <unicodeCommand>ж</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -905,6 +953,7 @@
 <!-- arg  \cyrz  -->
 <commandDefinition>
    <latexCommand>\cyrz</latexCommand>
+   <unicodeCommand>з</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -926,6 +975,7 @@
 <!-- arg  \cyri  -->
 <commandDefinition>
    <latexCommand>\cyri</latexCommand>
+   <unicodeCommand>и</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -947,6 +997,7 @@
 <!-- arg  \cyrishrt  -->
 <commandDefinition>
    <latexCommand>\cyrishrt</latexCommand>
+   <unicodeCommand>й</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -968,6 +1019,7 @@
 <!-- arg  \cyrk  -->
 <commandDefinition>
    <latexCommand>\cyrk</latexCommand>
+   <unicodeCommand>к</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -989,6 +1041,7 @@
 <!-- arg  \cyrl  -->
 <commandDefinition>
    <latexCommand>\cyrl</latexCommand>
+   <unicodeCommand>л</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1010,6 +1063,7 @@
 <!-- arg  \cyrm  -->
 <commandDefinition>
    <latexCommand>\cyrm</latexCommand>
+   <unicodeCommand>м</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1031,6 +1085,7 @@
 <!-- arg  \cyrn  -->
 <commandDefinition>
    <latexCommand>\cyrn</latexCommand>
+   <unicodeCommand>н</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1052,6 +1107,7 @@
 <!-- arg  \cyro  -->
 <commandDefinition>
    <latexCommand>\cyro</latexCommand>
+   <unicodeCommand>о</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1073,6 +1129,7 @@
 <!-- arg  \cyrp  -->
 <commandDefinition>
    <latexCommand>\cyrp</latexCommand>
+   <unicodeCommand>п</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1094,6 +1151,7 @@
 <!-- arg  \cyrr  -->
 <commandDefinition>
    <latexCommand>\cyrr</latexCommand>
+   <unicodeCommand>р</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1115,6 +1173,7 @@
 <!-- arg  \cyrs  -->
 <commandDefinition>
    <latexCommand>\cyrs</latexCommand>
+   <unicodeCommand>с</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1136,6 +1195,7 @@
 <!-- arg  \cyrt  -->
 <commandDefinition>
    <latexCommand>\cyrt</latexCommand>
+   <unicodeCommand>т</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1157,6 +1217,7 @@
 <!-- arg  \cyru  -->
 <commandDefinition>
    <latexCommand>\cyru</latexCommand>
+   <unicodeCommand>у</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1178,6 +1239,7 @@
 <!-- arg  \cyrf  -->
 <commandDefinition>
    <latexCommand>\cyrf</latexCommand>
+   <unicodeCommand>ф</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1199,6 +1261,7 @@
 <!-- arg  \cyrh  -->
 <commandDefinition>
    <latexCommand>\cyrh</latexCommand>
+   <unicodeCommand>х</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1220,6 +1283,7 @@
 <!-- arg  \cyrc  -->
 <commandDefinition>
    <latexCommand>\cyrc</latexCommand>
+   <unicodeCommand>ц</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1241,6 +1305,7 @@
 <!-- arg  \cyrch  -->
 <commandDefinition>
    <latexCommand>\cyrch</latexCommand>
+   <unicodeCommand>ч</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1262,6 +1327,7 @@
 <!-- arg  \cyrsh  -->
 <commandDefinition>
    <latexCommand>\cyrsh</latexCommand>
+   <unicodeCommand>ш</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1283,6 +1349,7 @@
 <!-- arg  \cyrshch  -->
 <commandDefinition>
    <latexCommand>\cyrshch</latexCommand>
+   <unicodeCommand>щ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1304,6 +1371,7 @@
 <!-- arg  \cyrhrdsn  -->
 <commandDefinition>
    <latexCommand>\cyrhrdsn</latexCommand>
+   <unicodeCommand>ъ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1325,6 +1393,7 @@
 <!-- arg  \cyrery  -->
 <commandDefinition>
    <latexCommand>\cyrery</latexCommand>
+   <unicodeCommand>ы</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1346,6 +1415,7 @@
 <!-- arg  \cyrsftsn  -->
 <commandDefinition>
    <latexCommand>\cyrsftsn</latexCommand>
+   <unicodeCommand>ь</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1367,6 +1437,7 @@
 <!-- arg  \cyrerev  -->
 <commandDefinition>
    <latexCommand>\cyrerev</latexCommand>
+   <unicodeCommand>э</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1388,6 +1459,7 @@
 <!-- arg  \cyryu  -->
 <commandDefinition>
    <latexCommand>\cyryu</latexCommand>
+   <unicodeCommand>ю</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1409,6 +1481,7 @@
 <!-- arg  \cyrya  -->
 <commandDefinition>
    <latexCommand>\cyrya</latexCommand>
+   <unicodeCommand>я</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1431,6 +1504,7 @@
 <!-- arg  \CYRABHCH  -->
 <commandDefinition>
    <latexCommand>\CYRABHCH</latexCommand>
+   <unicodeCommand>Ҽ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1452,6 +1526,7 @@
 <!-- arg  \CYRABHCHDSC  -->
 <commandDefinition>
    <latexCommand>\CYRABHCHDSC</latexCommand>
+   <unicodeCommand>Ҿ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1476,6 +1551,7 @@
 <!-- arg  \CYRZHDSC  -->
 <commandDefinition>
    <latexCommand>\CYRZHDSC</latexCommand>
+   <unicodeCommand>Җ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1499,6 +1575,7 @@
 <!-- arg  \CYRABHDZE  -->
 <commandDefinition>
    <latexCommand>\CYRABHDZE</latexCommand>
+   <unicodeCommand>Ӡ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1522,6 +1599,7 @@
 <!-- arg  \CYRZDSC  -->
 <commandDefinition>
    <latexCommand>\CYRZDSC</latexCommand>
+   <unicodeCommand>Ҙ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1547,6 +1625,7 @@
 <!-- arg  \CYRKHK  -->
 <commandDefinition>
    <latexCommand>\CYRKHK</latexCommand>
+   <unicodeCommand>Ӄ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1566,6 +1645,7 @@
 <!-- arg  \CYRKHCRS  -->
 <commandDefinition>
    <latexCommand>\CYRKHCRS</latexCommand>
+   <unicodeCommand>Ҟ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1587,6 +1667,7 @@
 <!-- arg  \CYRKDSC  -->
 <commandDefinition>
    <latexCommand>\CYRKDSC</latexCommand>
+   <unicodeCommand>Қ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1610,6 +1691,7 @@
 <!-- arg  \CYRKVCRS  -->
 <commandDefinition>
    <latexCommand>\CYRKVCRS</latexCommand>
+   <unicodeCommand>Ҝ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1631,6 +1713,7 @@
 <!-- arg  \CYRLJE  -->
 <commandDefinition>
    <latexCommand>\CYRLJE</latexCommand>
+   <unicodeCommand>Љ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1656,6 +1739,7 @@
 <!-- arg  \CYRLDSC  -->
 <commandDefinition>
    <latexCommand>\CYRLDSC</latexCommand>
+   <unicodeCommand>Ӆ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1675,6 +1759,7 @@
 <!-- arg  \CYRMDSC  -->
 <commandDefinition>
    <latexCommand>\CYRMDSC</latexCommand>
+   <unicodeCommand>Ӎ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1696,6 +1781,7 @@
 <!-- arg  \CYRNDSC  -->
 <commandDefinition>
    <latexCommand>\CYRNDSC</latexCommand>
+   <unicodeCommand>Ң</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1719,6 +1805,7 @@
 <!-- arg  \CYRNG  -->
 <commandDefinition>
    <latexCommand>\CYRNG</latexCommand>
+   <unicodeCommand>Ҥ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1740,6 +1827,7 @@
 <!-- arg  \CYRNJE  -->
 <commandDefinition>
    <latexCommand>\CYRNJE</latexCommand>
+   <unicodeCommand>Њ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1765,6 +1853,7 @@
 <!-- arg  \CYRNHK  -->
 <commandDefinition>
    <latexCommand>\CYRNHK</latexCommand>
+   <unicodeCommand>Ӈ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1785,6 +1874,7 @@
 <!-- arg  \CYROTLD  -->
 <commandDefinition>
    <latexCommand>\CYROTLD</latexCommand>
+   <unicodeCommand>Ө</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1806,6 +1896,7 @@
 <!-- arg  \CYRPHK  -->
 <commandDefinition>
    <latexCommand>\CYRPHK</latexCommand>
+   <unicodeCommand>Ҧ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1827,6 +1918,7 @@
 <!-- arg  \CYRRTICK  -->
 <commandDefinition>
    <latexCommand>\CYRRTICK</latexCommand>
+   <unicodeCommand>Ҏ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1851,6 +1943,7 @@
 <!-- arg  \CYRSDSC  -->
 <commandDefinition>
    <latexCommand>\CYRSDSC</latexCommand>
+   <unicodeCommand>Ҫ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1874,6 +1967,7 @@
 <!-- arg  \CYRTDSC  -->
 <commandDefinition>
    <latexCommand>\CYRTDSC</latexCommand>
+   <unicodeCommand>Ҭ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1897,6 +1991,7 @@
 <!-- arg  \CYRTSHE  -->
 <commandDefinition>
    <latexCommand>\CYRTSHE</latexCommand>
+   <unicodeCommand>Ћ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1918,6 +2013,7 @@
 <!-- arg  \CYRDJE  -->
 <commandDefinition>
    <latexCommand>\CYRDJE</latexCommand>
+   <unicodeCommand>Ђ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1939,6 +2035,7 @@
 <!-- arg  \CYRUSHRT  -->
 <commandDefinition>
    <latexCommand>\CYRUSHRT</latexCommand>
+   <unicodeCommand>Ў</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1962,6 +2059,7 @@
 <!-- arg  \CYRSHHA  -->
 <commandDefinition>
    <latexCommand>\CYRSHHA</latexCommand>
+   <unicodeCommand>Һ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -1983,6 +2081,7 @@
 <!-- arg  \CYRGHK  -->
 <commandDefinition>
    <latexCommand>\CYRGHK</latexCommand>
+   <unicodeCommand>Ҕ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2006,6 +2105,7 @@
 <!-- arg  \CYRGUP  -->
 <commandDefinition>
    <latexCommand>\CYRGUP</latexCommand>
+   <unicodeCommand>Ґ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2027,6 +2127,7 @@
 <!-- arg  \CYRGHCRS  -->
 <commandDefinition>
    <latexCommand>\CYRGHCRS</latexCommand>
+   <unicodeCommand>Ғ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2051,6 +2152,7 @@
 <!-- arg  \CYRHDSC  -->
 <commandDefinition>
    <latexCommand>\CYRHDSC</latexCommand>
+   <unicodeCommand>Ҳ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2072,6 +2174,7 @@
 <!-- arg  \CYRDZHE  -->
 <commandDefinition>
    <latexCommand>\CYRDZHE</latexCommand>
+   <unicodeCommand>Џ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2093,6 +2196,7 @@
 <!-- arg  \CYRDZE  -->
 <commandDefinition>
    <latexCommand>\CYRDZE</latexCommand>
+   <unicodeCommand>Ѕ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2114,6 +2218,7 @@
 <!-- arg  \CYRTETSE  -->
 <commandDefinition>
    <latexCommand>\CYRTETSE</latexCommand>
+   <unicodeCommand>Ҵ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2138,6 +2243,7 @@
 <!-- arg  \CYRCHLDSC  -->
 <commandDefinition>
    <latexCommand>\CYRCHLDSC</latexCommand>
+   <unicodeCommand>Ӌ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2159,6 +2265,7 @@
 <!-- arg  \CYRCHVCRS  -->
 <commandDefinition>
    <latexCommand>\CYRCHVCRS</latexCommand>
+   <unicodeCommand>Ҹ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2182,6 +2289,7 @@
 <!-- arg  \CYRCHRDSC  -->
 <commandDefinition>
    <latexCommand>\CYRCHRDSC</latexCommand>
+   <unicodeCommand>Ҷ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2203,6 +2311,7 @@
 <!-- arg  \CYRSEMISFTSN  -->
 <commandDefinition>
    <latexCommand>\CYRSEMISFTSN</latexCommand>
+   <unicodeCommand>Ҍ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2226,6 +2335,7 @@
 <!-- arg  \CYRIE  -->
 <commandDefinition>
    <latexCommand>\CYRIE</latexCommand>
+   <unicodeCommand>Є</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2250,6 +2360,7 @@
 <!-- arg  \CYRSCHWA  -->
 <commandDefinition>
    <latexCommand>\CYRSCHWA</latexCommand>
+   <unicodeCommand>Ә</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2271,6 +2382,7 @@
 <!-- arg  \CYRII  -->
 <commandDefinition>
    <latexCommand>\CYRII</latexCommand>
+   <unicodeCommand>І</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2292,6 +2404,7 @@
 <!-- arg  \CYRJE  -->
 <commandDefinition>
    <latexCommand>\CYRJE</latexCommand>
+   <unicodeCommand>Ј</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2316,6 +2429,7 @@
 <!-- arg  \CYRYI  -->
 <commandDefinition>
    <latexCommand>\CYRYI</latexCommand>
+   <unicodeCommand>Ї</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2337,6 +2451,7 @@
 <!-- arg  \CYRY  -->
 <commandDefinition>
    <latexCommand>\CYRY</latexCommand>
+   <unicodeCommand>Ү</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2358,6 +2473,7 @@
 <!-- arg  \CYRYHCRS  -->
 <commandDefinition>
    <latexCommand>\CYRYHCRS</latexCommand>
+   <unicodeCommand>Ұ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2379,6 +2495,7 @@
 <!-- arg  \CYRAE  -->
 <commandDefinition>
    <latexCommand>\CYRAE</latexCommand>
+   <unicodeCommand>Ӕ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2403,6 +2520,7 @@
 <!-- arg  \CYRABHHA  -->
 <commandDefinition>
    <latexCommand>\CYRABHHA</latexCommand>
+   <unicodeCommand>Ҩ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2424,6 +2542,7 @@
 <!-- arg  \CYRpalochka  -->
 <commandDefinition>
    <latexCommand>\CYRpalochka</latexCommand>
+   <unicodeCommand>Ӏ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2445,6 +2564,7 @@
 <!-- arg  \cyrabhch  -->
 <commandDefinition>
    <latexCommand>\cyrabhch</latexCommand>
+   <unicodeCommand>ҽ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2466,6 +2586,7 @@
 <!-- arg  \cyrabhchdsc  -->
 <commandDefinition>
    <latexCommand>\cyrabhchdsc</latexCommand>
+   <unicodeCommand>ҿ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2490,6 +2611,7 @@
 <!-- arg  \cyrzhdsc  -->
 <commandDefinition>
    <latexCommand>\cyrzhdsc</latexCommand>
+   <unicodeCommand>җ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2513,6 +2635,7 @@
 <!-- arg  \cyrabhdze  -->
 <commandDefinition>
    <latexCommand>\cyrabhdze</latexCommand>
+   <unicodeCommand>ӡ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2536,6 +2659,7 @@
 <!-- arg  \cyrzdsc  -->
 <commandDefinition>
    <latexCommand>\cyrzdsc</latexCommand>
+   <unicodeCommand>ҙ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2561,6 +2685,7 @@
 <!-- arg  \cyrkhk  -->
 <commandDefinition>
    <latexCommand>\cyrkhk</latexCommand>
+   <unicodeCommand>ӄ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2580,6 +2705,7 @@
 <!-- arg  \cyrkhcrs  -->
 <commandDefinition>
    <latexCommand>\cyrkhcrs</latexCommand>
+   <unicodeCommand>ҟ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2601,6 +2727,7 @@
 <!-- arg  \cyrkdsc  -->
 <commandDefinition>
    <latexCommand>\cyrkdsc</latexCommand>
+   <unicodeCommand>қ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2624,6 +2751,7 @@
 <!-- arg  \cyrkvcrs  -->
 <commandDefinition>
    <latexCommand>\cyrkvcrs</latexCommand>
+   <unicodeCommand>ҝ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2645,6 +2773,7 @@
 <!-- arg  \cyrlje  -->
 <commandDefinition>
    <latexCommand>\cyrlje</latexCommand>
+   <unicodeCommand>љ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2670,6 +2799,7 @@
 <!-- arg  \cyrldsc  -->
 <commandDefinition>
    <latexCommand>\cyrldsc</latexCommand>
+   <unicodeCommand>ӆ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2689,6 +2819,7 @@
 <!-- arg  \cyrmdsc  -->
 <commandDefinition>
    <latexCommand>\cyrmdsc</latexCommand>
+   <unicodeCommand>ӎ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2710,6 +2841,7 @@
 <!-- arg  \cyrndsc  -->
 <commandDefinition>
    <latexCommand>\cyrndsc</latexCommand>
+   <unicodeCommand>ӊ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2733,6 +2865,7 @@
 <!-- arg  \cyrng  -->
 <commandDefinition>
    <latexCommand>\cyrng</latexCommand>
+   <unicodeCommand>ҥ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2754,6 +2887,7 @@
 <!-- arg  \cyrnje  -->
 <commandDefinition>
    <latexCommand>\cyrnje</latexCommand>
+   <unicodeCommand>њ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2779,6 +2913,7 @@
 <!-- arg  \cyrnhk  -->
 <commandDefinition>
    <latexCommand>\cyrnhk</latexCommand>
+   <unicodeCommand>ӈ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2799,6 +2934,7 @@
 <!-- arg  \cyrotld  -->
 <commandDefinition>
    <latexCommand>\cyrotld</latexCommand>
+   <unicodeCommand>ө</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2820,6 +2956,7 @@
 <!-- arg  \cyrphk  -->
 <commandDefinition>
    <latexCommand>\cyrphk</latexCommand>
+   <unicodeCommand>ҧ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2841,6 +2978,7 @@
 <!-- arg  \cyrrtick  -->
 <commandDefinition>
    <latexCommand>\cyrrtick</latexCommand>
+   <unicodeCommand>ҏ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2865,6 +3003,7 @@
 <!-- arg  \cyrsdsc  -->
 <commandDefinition>
    <latexCommand>\cyrsdsc</latexCommand>
+   <unicodeCommand>ҫ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2888,6 +3027,7 @@
 <!-- arg  \cyrtdsc  -->
 <commandDefinition>
    <latexCommand>\cyrtdsc</latexCommand>
+   <unicodeCommand>ҭ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2911,6 +3051,7 @@
 <!-- arg  \cyrtshe  -->
 <commandDefinition>
    <latexCommand>\cyrtshe</latexCommand>
+   <unicodeCommand>ћ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2932,6 +3073,7 @@
 <!-- arg  \cyrdje  -->
 <commandDefinition>
    <latexCommand>\cyrdje</latexCommand>
+   <unicodeCommand>ђ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2953,6 +3095,7 @@
 <!-- arg  \cyrushrt  -->
 <commandDefinition>
    <latexCommand>\cyrushrt</latexCommand>
+   <unicodeCommand>ў</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2976,6 +3119,7 @@
 <!-- arg  \cyrshha  -->
 <commandDefinition>
    <latexCommand>\cyrshha</latexCommand>
+   <unicodeCommand>һ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -2997,6 +3141,7 @@
 <!-- arg  \cyrghk  -->
 <commandDefinition>
    <latexCommand>\cyrghk</latexCommand>
+   <unicodeCommand>ҕ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3020,6 +3165,7 @@
 <!-- arg  \cyrgup  -->
 <commandDefinition>
    <latexCommand>\cyrgup</latexCommand>
+   <unicodeCommand>ґ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3041,6 +3187,7 @@
 <!-- arg  \cyrghcrs  -->
 <commandDefinition>
    <latexCommand>\cyrghcrs</latexCommand>
+   <unicodeCommand>ғ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3065,6 +3212,7 @@
 <!-- arg  \cyrhdsc  -->
 <commandDefinition>
    <latexCommand>\cyrhdsc</latexCommand>
+   <unicodeCommand>ҳ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3086,6 +3234,7 @@
 <!-- arg  \cyrdzhe  -->
 <commandDefinition>
    <latexCommand>\cyrdzhe</latexCommand>
+   <unicodeCommand>џ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3107,6 +3256,7 @@
 <!-- arg  \cyrdze  -->
 <commandDefinition>
    <latexCommand>\cyrdze</latexCommand>
+   <unicodeCommand>ѕ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3128,6 +3278,7 @@
 <!-- arg  \cyrtetse  -->
 <commandDefinition>
    <latexCommand>\cyrtetse</latexCommand>
+   <unicodeCommand>ҵ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3152,6 +3303,7 @@
 <!-- arg  \cyrchldsc  -->
 <commandDefinition>
    <latexCommand>\cyrchldsc</latexCommand>
+   <unicodeCommand>ӌ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3173,6 +3325,7 @@
 <!-- arg  \cyrchvcrs  -->
 <commandDefinition>
    <latexCommand>\cyrchvcrs</latexCommand>
+   <unicodeCommand>ҹ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3197,6 +3350,7 @@
 <!-- arg  \cyrchrdsc  -->
 <commandDefinition>
    <latexCommand>\cyrchrdsc</latexCommand>
+   <unicodeCommand>ҷ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3218,6 +3372,7 @@
 <!-- arg  \cyrsemisftsn  -->
 <commandDefinition>
    <latexCommand>\cyrsemisftsn</latexCommand>
+   <unicodeCommand>ҍ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3242,6 +3397,7 @@
 <!-- arg  \cyrie  -->
 <commandDefinition>
    <latexCommand>\cyrie</latexCommand>
+   <unicodeCommand>є</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3266,6 +3422,7 @@
 <!-- arg  \cyrschwa  -->
 <commandDefinition>
    <latexCommand>\cyrschwa</latexCommand>
+   <unicodeCommand>ә</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3287,6 +3444,7 @@
 <!-- arg  \cyrii  -->
 <commandDefinition>
    <latexCommand>\cyrii</latexCommand>
+   <unicodeCommand>і</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3308,6 +3466,7 @@
 <!-- arg  \cyrje  -->
 <commandDefinition>
    <latexCommand>\cyrje</latexCommand>
+   <unicodeCommand>ј</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3332,6 +3491,7 @@
 <!-- arg  \cyryi  -->
 <commandDefinition>
    <latexCommand>\cyryi</latexCommand>
+   <unicodeCommand>ї</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3353,6 +3513,7 @@
 <!-- arg  \cyry  -->
 <commandDefinition>
    <latexCommand>\cyry</latexCommand>
+   <unicodeCommand>ү</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3374,6 +3535,7 @@
 <!-- arg  \cyryhcrs  -->
 <commandDefinition>
    <latexCommand>\cyryhcrs</latexCommand>
+   <unicodeCommand>ұ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3395,6 +3557,7 @@
 <!-- arg  \cyrae  -->
 <commandDefinition>
    <latexCommand>\cyrae</latexCommand>
+   <unicodeCommand>ӕ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>
@@ -3418,6 +3581,7 @@
 <!-- arg  \cyrabhha  -->
 <commandDefinition>
    <latexCommand>\cyrabhha</latexCommand>
+   <unicodeCommand>ҩ</unicodeCommand>
    <package>
       <name>inputenc</name>
       <arguments>koi8-r</arguments>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 
 <!DOCTYPE KileSymbolSources>
-<symbols> 
+<symbols>
 
    <formatVersion major="0" minor ="22" />
 
@@ -15,7 +15,14 @@
 		  \usepackage[T1]{fontenc}
       </additional>
    </preamble>
-   
+
+   <unicodeCommandPackages>
+      <package>
+         <name>inputenc</name>
+         <arguments>utf8</arguments>
+      </package>
+   </unicodeCommandPackages>
+
    <!-- insert stuff here    -->
 <symbolGroupName>relation</symbolGroupName>
 <!-- pkgs= ,pkgsarg= ,savepkgs= ,savepkgsarg=-->
@@ -35,6 +42,7 @@
 <!-- arg math \bowtie  -->
 <commandDefinition>
    <latexCommand>\bowtie</latexCommand>
+   <unicodeCommand>⋈</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -42,6 +50,7 @@
 <!-- arg math \Join  -->
 <commandDefinition>
    <latexCommand>\Join</latexCommand>
+   <unicodeCommand>⨝</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -52,6 +61,7 @@
 <!-- arg math \propto  -->
 <commandDefinition>
    <latexCommand>\propto</latexCommand>
+   <unicodeCommand>∝</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -60,6 +70,7 @@
 <!-- arg math \varpropto  -->
 <commandDefinition>
    <latexCommand>\varpropto</latexCommand>
+   <unicodeCommand>∝</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -70,6 +81,7 @@
 <!-- arg math \multimap  -->
 <commandDefinition>
    <latexCommand>\multimap</latexCommand>
+   <unicodeCommand>⊸</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -80,6 +92,7 @@
 <!-- arg math \pitchfork  -->
 <commandDefinition>
    <latexCommand>\pitchfork</latexCommand>
+   <unicodeCommand>⋔</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -90,6 +103,7 @@
 <!-- arg math \therefore  -->
 <commandDefinition>
    <latexCommand>\therefore</latexCommand>
+   <unicodeCommand>∴</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -100,6 +114,7 @@
 <!-- arg math \because  -->
 <commandDefinition>
    <latexCommand>\because</latexCommand>
+   <unicodeCommand>∵</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -112,6 +127,7 @@
 <!-- arg math =  -->
 <commandDefinition>
    <latexCommand>=</latexCommand>
+   <unicodeCommand>=</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -119,6 +135,7 @@
 <!-- arg math \neq  -->
 <commandDefinition>
    <latexCommand>\neq</latexCommand>
+   <unicodeCommand>≠</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -126,6 +143,7 @@
 <!-- arg math \equiv  -->
 <commandDefinition>
    <latexCommand>\equiv</latexCommand>
+   <unicodeCommand>≡</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -135,6 +153,7 @@
 <!-- arg math \approx  -->
 <commandDefinition>
    <latexCommand>\approx</latexCommand>
+   <unicodeCommand>≈</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -142,6 +161,7 @@
 <!-- arg math \sim  -->
 <commandDefinition>
    <latexCommand>\sim</latexCommand>
+   <unicodeCommand>∼</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -151,6 +171,7 @@
 <!-- arg math \simeq  -->
 <commandDefinition>
    <latexCommand>\simeq</latexCommand>
+   <unicodeCommand>≃</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -158,6 +179,7 @@
 <!-- arg math \backsimeq  -->
 <commandDefinition>
    <latexCommand>\backsimeq</latexCommand>
+   <unicodeCommand>⋍</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -168,6 +190,7 @@
 <!-- arg math \approxeq  -->
 <commandDefinition>
    <latexCommand>\approxeq</latexCommand>
+   <unicodeCommand>≊</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -178,6 +201,7 @@
 <!-- arg math \cong  -->
 <commandDefinition>
    <latexCommand>\cong</latexCommand>
+   <unicodeCommand>≅</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -185,6 +209,7 @@
 <!-- arg math \ncong  -->
 <commandDefinition>
    <latexCommand>\ncong</latexCommand>
+   <unicodeCommand>≇</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -196,6 +221,7 @@
 <!-- arg math \smile  -->
 <commandDefinition>
    <latexCommand>\smile</latexCommand>
+   <unicodeCommand>⌣</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -203,6 +229,7 @@
 <!-- arg math \frown  -->
 <commandDefinition>
    <latexCommand>\frown</latexCommand>
+   <unicodeCommand>⌢</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -210,6 +237,7 @@
 <!-- arg math \asymp  -->
 <commandDefinition>
    <latexCommand>\asymp</latexCommand>
+   <unicodeCommand>≍</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -238,6 +266,7 @@
 <!-- arg math \between  -->
 <commandDefinition>
    <latexCommand>\between</latexCommand>
+   <unicodeCommand>≬</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -249,6 +278,7 @@
 <!-- arg math \prec  -->
 <commandDefinition>
    <latexCommand>\prec</latexCommand>
+   <unicodeCommand>≺</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -256,6 +286,7 @@
 <!-- arg math \succ  -->
 <commandDefinition>
    <latexCommand>\succ</latexCommand>
+   <unicodeCommand>≻</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -263,6 +294,7 @@
 <!-- arg math \nprec  -->
 <commandDefinition>
    <latexCommand>\nprec</latexCommand>
+   <unicodeCommand>⊀</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -273,6 +305,7 @@
 <!-- arg math \nsucc  -->
 <commandDefinition>
    <latexCommand>\nsucc</latexCommand>
+   <unicodeCommand>⊁</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -283,6 +316,7 @@
 <!-- arg math \preceq  -->
 <commandDefinition>
    <latexCommand>\preceq</latexCommand>
+   <unicodeCommand>⪯</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -290,6 +324,7 @@
 <!-- arg math \succeq  -->
 <commandDefinition>
    <latexCommand>\succeq</latexCommand>
+   <unicodeCommand>⪰</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -298,6 +333,7 @@
 <!-- arg math \npreceq  -->
 <commandDefinition>
    <latexCommand>\npreceq</latexCommand>
+   <unicodeCommand>⋠</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -308,6 +344,7 @@
 <!-- arg math \nsucceq  -->
 <commandDefinition>
    <latexCommand>\nsucceq</latexCommand>
+   <unicodeCommand>⋡</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -319,6 +356,7 @@
 <!-- arg math \preccurlyeq  -->
 <commandDefinition>
    <latexCommand>\preccurlyeq</latexCommand>
+   <unicodeCommand>≼</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -329,6 +367,7 @@
 <!-- arg math \succcurlyeq  -->
 <commandDefinition>
    <latexCommand>\succcurlyeq</latexCommand>
+   <unicodeCommand>≽</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -339,6 +378,7 @@
 <!-- arg math \curlyeqprec  -->
 <commandDefinition>
    <latexCommand>\curlyeqprec</latexCommand>
+   <unicodeCommand>⋞</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -349,6 +389,7 @@
 <!-- arg math \curlyeqsucc  -->
 <commandDefinition>
    <latexCommand>\curlyeqsucc</latexCommand>
+   <unicodeCommand>⋟</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -359,6 +400,7 @@
 <!-- arg math \precsim  -->
 <commandDefinition>
    <latexCommand>\precsim</latexCommand>
+   <unicodeCommand>≾</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -369,6 +411,7 @@
 <!-- arg math \succsim  -->
 <commandDefinition>
    <latexCommand>\succsim</latexCommand>
+   <unicodeCommand>≿</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -379,6 +422,7 @@
 <!-- arg math \precnsim  -->
 <commandDefinition>
    <latexCommand>\precnsim</latexCommand>
+   <unicodeCommand>⋨</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -389,6 +433,7 @@
 <!-- arg math \succnsim  -->
 <commandDefinition>
    <latexCommand>\succnsim</latexCommand>
+   <unicodeCommand>⋩</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -399,6 +444,7 @@
 <!-- arg math \precapprox  -->
 <commandDefinition>
    <latexCommand>\precapprox</latexCommand>
+   <unicodeCommand>⪷</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -409,6 +455,7 @@
 <!-- arg math \succapprox  -->
 <commandDefinition>
    <latexCommand>\succapprox</latexCommand>
+   <unicodeCommand>⪸</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -419,6 +466,7 @@
 <!-- arg math \precnapprox  -->
 <commandDefinition>
    <latexCommand>\precnapprox</latexCommand>
+   <unicodeCommand>⪹</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -429,6 +477,7 @@
 <!-- arg math \succnapprox  -->
 <commandDefinition>
    <latexCommand>\succnapprox</latexCommand>
+   <unicodeCommand>⪺</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -441,6 +490,7 @@
 <!-- arg math \perp  -->
 <commandDefinition>
    <latexCommand>\perp</latexCommand>
+   <unicodeCommand>⟂</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -448,6 +498,7 @@
 <!-- arg math \vdash  -->
 <commandDefinition>
    <latexCommand>\vdash</latexCommand>
+   <unicodeCommand>⊢</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -455,6 +506,7 @@
 <!-- arg math \dashv  -->
 <commandDefinition>
    <latexCommand>\dashv</latexCommand>
+   <unicodeCommand>⊣</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -463,6 +515,7 @@
 <!-- arg math \nvdash  -->
 <commandDefinition>
    <latexCommand>\nvdash</latexCommand>
+   <unicodeCommand>⊬</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -473,6 +526,7 @@
 <!-- arg math \Vdash  -->
 <commandDefinition>
    <latexCommand>\Vdash</latexCommand>
+   <unicodeCommand>⊩</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -483,6 +537,7 @@
 <!-- arg math \Vvdash  -->
 <commandDefinition>
    <latexCommand>\Vvdash</latexCommand>
+   <unicodeCommand>⊪</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -494,6 +549,7 @@
 <!-- arg math \models  -->
 <commandDefinition>
    <latexCommand>\models</latexCommand>
+   <unicodeCommand>⊧</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -502,6 +558,7 @@
 <!-- arg math \vDash  -->
 <commandDefinition>
    <latexCommand>\vDash</latexCommand>
+   <unicodeCommand>⊨</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -512,6 +569,7 @@
 <!-- arg math \nvDash  -->
 <commandDefinition>
    <latexCommand>\nvDash</latexCommand>
+   <unicodeCommand>⊭</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -522,6 +580,7 @@
 <!-- arg math \nVDash  -->
 <commandDefinition>
    <latexCommand>\nVDash</latexCommand>
+   <unicodeCommand>⊯</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -534,6 +593,7 @@
 <!-- arg math \mid  -->
 <commandDefinition>
    <latexCommand>\mid</latexCommand>
+   <unicodeCommand>∣</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -541,6 +601,7 @@
 <!-- arg math \nmid  -->
 <commandDefinition>
    <latexCommand>\nmid</latexCommand>
+   <unicodeCommand>∤</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -551,6 +612,7 @@
 <!-- arg math \parallel  -->
 <commandDefinition>
    <latexCommand>\parallel</latexCommand>
+   <unicodeCommand>∥</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -559,6 +621,7 @@
 <!-- arg math \nparallel  -->
 <commandDefinition>
    <latexCommand>\nparallel</latexCommand>
+   <unicodeCommand>∦</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -626,6 +689,7 @@
 <!-- arg math \nless  -->
 <commandDefinition>
    <latexCommand>\nless</latexCommand>
+   <unicodeCommand>≮</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -636,6 +700,7 @@
 <!-- arg math \ngtr  -->
 <commandDefinition>
    <latexCommand>\ngtr</latexCommand>
+   <unicodeCommand>≯</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -646,6 +711,7 @@
 <!-- arg math \lessdot  -->
 <commandDefinition>
    <latexCommand>\lessdot</latexCommand>
+   <unicodeCommand>⋖</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -656,6 +722,7 @@
 <!-- arg math \gtrdot  -->
 <commandDefinition>
    <latexCommand>\gtrdot</latexCommand>
+   <unicodeCommand>⋗</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -668,6 +735,7 @@
 <!-- arg math \ll  -->
 <commandDefinition>
    <latexCommand>\ll</latexCommand>
+   <unicodeCommand>≪</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -675,6 +743,7 @@
 <!-- arg math \gg  -->
 <commandDefinition>
    <latexCommand>\gg</latexCommand>
+   <unicodeCommand>≫</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -682,6 +751,7 @@
 <!-- arg math \lll  -->
 <commandDefinition>
    <latexCommand>\lll</latexCommand>
+   <unicodeCommand>⋘</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -692,6 +762,7 @@
 <!-- arg math \ggg  -->
 <commandDefinition>
    <latexCommand>\ggg</latexCommand>
+   <unicodeCommand>⋙</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -703,6 +774,7 @@
 <!-- arg math \leq  -->
 <commandDefinition>
    <latexCommand>\leq</latexCommand>
+   <unicodeCommand>≤</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -710,6 +782,7 @@
 <!-- arg math \geq  -->
 <commandDefinition>
    <latexCommand>\geq</latexCommand>
+   <unicodeCommand>≥</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -718,6 +791,7 @@
 <!-- arg math \lneq  -->
 <commandDefinition>
    <latexCommand>\lneq</latexCommand>
+   <unicodeCommand>⪇</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -728,6 +802,7 @@
 <!-- arg math \gneq  -->
 <commandDefinition>
    <latexCommand>\gneq</latexCommand>
+   <unicodeCommand>⪈</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -738,6 +813,7 @@
 <!-- arg math \nleq  -->
 <commandDefinition>
    <latexCommand>\nleq</latexCommand>
+   <unicodeCommand>≰</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -748,6 +824,7 @@
 <!-- arg math \ngeq  -->
 <commandDefinition>
    <latexCommand>\ngeq</latexCommand>
+   <unicodeCommand>≱</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -758,6 +835,7 @@
 <!-- arg math \leqq  -->
 <commandDefinition>
    <latexCommand>\leqq</latexCommand>
+   <unicodeCommand>≦</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -768,6 +846,7 @@
 <!-- arg math \geqq  -->
 <commandDefinition>
    <latexCommand>\geqq</latexCommand>
+   <unicodeCommand>≧</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -778,6 +857,7 @@
 <!-- arg math \lneqq  -->
 <commandDefinition>
    <latexCommand>\lneqq</latexCommand>
+   <unicodeCommand>≨</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -788,6 +868,7 @@
 <!-- arg math \gneqq  -->
 <commandDefinition>
    <latexCommand>\gneqq</latexCommand>
+   <unicodeCommand>≩</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -839,6 +920,7 @@
 <!-- arg math \leqslant  -->
 <commandDefinition>
    <latexCommand>\leqslant</latexCommand>
+   <unicodeCommand>⩽</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -849,6 +931,7 @@
 <!-- arg math \geqslant  -->
 <commandDefinition>
    <latexCommand>\geqslant</latexCommand>
+   <unicodeCommand>⩾</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -879,6 +962,7 @@
 <!-- arg math \eqslantless  -->
 <commandDefinition>
    <latexCommand>\eqslantless</latexCommand>
+   <unicodeCommand>⪕</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -889,6 +973,7 @@
 <!-- arg math \eqslantgtr  -->
 <commandDefinition>
    <latexCommand>\eqslantgtr</latexCommand>
+   <unicodeCommand>⪖</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -900,6 +985,7 @@
 <!-- arg math \lessgtr  -->
 <commandDefinition>
    <latexCommand>\lessgtr</latexCommand>
+   <unicodeCommand>≶</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -910,6 +996,7 @@
 <!-- arg math \gtrless  -->
 <commandDefinition>
    <latexCommand>\gtrless</latexCommand>
+   <unicodeCommand>≷</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -920,6 +1007,7 @@
 <!-- arg math \lesseqgtr  -->
 <commandDefinition>
    <latexCommand>\lesseqgtr</latexCommand>
+   <unicodeCommand>⋚</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -930,6 +1018,7 @@
 <!-- arg math \gtreqless  -->
 <commandDefinition>
    <latexCommand>\gtreqless</latexCommand>
+   <unicodeCommand>⋛</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -940,6 +1029,7 @@
 <!-- arg math \lesseqqgtr  -->
 <commandDefinition>
    <latexCommand>\lesseqqgtr</latexCommand>
+   <unicodeCommand>⪋</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -950,6 +1040,7 @@
 <!-- arg math \gtreqqless  -->
 <commandDefinition>
    <latexCommand>\gtreqqless</latexCommand>
+   <unicodeCommand>⪌</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -961,6 +1052,7 @@
 <!-- arg math \lesssim  -->
 <commandDefinition>
    <latexCommand>\lesssim</latexCommand>
+   <unicodeCommand>≲</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -971,6 +1063,7 @@
 <!-- arg math \gtrsim  -->
 <commandDefinition>
    <latexCommand>\gtrsim</latexCommand>
+   <unicodeCommand>≳</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -981,6 +1074,7 @@
 <!-- arg math \lnsim  -->
 <commandDefinition>
    <latexCommand>\lnsim</latexCommand>
+   <unicodeCommand>⋦</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -991,6 +1085,7 @@
 <!-- arg math \gnsim  -->
 <commandDefinition>
    <latexCommand>\gnsim</latexCommand>
+   <unicodeCommand>⋧</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1001,6 +1096,7 @@
 <!-- arg math \lessapprox  -->
 <commandDefinition>
    <latexCommand>\lessapprox</latexCommand>
+   <unicodeCommand>⪅</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1011,6 +1107,7 @@
 <!-- arg math \gtrapprox  -->
 <commandDefinition>
    <latexCommand>\gtrapprox</latexCommand>
+   <unicodeCommand>⪆</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1021,6 +1118,7 @@
 <!-- arg math \lnapprox  -->
 <commandDefinition>
    <latexCommand>\lnapprox</latexCommand>
+   <unicodeCommand>⪉</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1031,6 +1129,7 @@
 <!-- arg math \gnapprox  -->
 <commandDefinition>
    <latexCommand>\gnapprox</latexCommand>
+   <unicodeCommand>⪊</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1043,6 +1142,7 @@
 <!-- arg math \vartriangleleft  -->
 <commandDefinition>
    <latexCommand>\vartriangleleft</latexCommand>
+   <unicodeCommand>⊲</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1053,6 +1153,7 @@
 <!-- arg math \vartriangleright  -->
 <commandDefinition>
    <latexCommand>\vartriangleright</latexCommand>
+   <unicodeCommand>⊳</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1063,6 +1164,7 @@
 <!-- arg math \ntriangleleft  -->
 <commandDefinition>
    <latexCommand>\ntriangleleft</latexCommand>
+   <unicodeCommand>⋪</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1073,6 +1175,7 @@
 <!-- arg math \ntriangleright  -->
 <commandDefinition>
    <latexCommand>\ntriangleright</latexCommand>
+   <unicodeCommand>⋫</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1083,6 +1186,7 @@
 <!-- arg math \trianglelefteq  -->
 <commandDefinition>
    <latexCommand>\trianglelefteq</latexCommand>
+   <unicodeCommand>⊴</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1093,6 +1197,7 @@
 <!-- arg math \trianglerighteq  -->
 <commandDefinition>
    <latexCommand>\trianglerighteq</latexCommand>
+   <unicodeCommand>⊵</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1103,6 +1208,7 @@
 <!-- arg math \ntrianglelefteq  -->
 <commandDefinition>
    <latexCommand>\ntrianglelefteq</latexCommand>
+   <unicodeCommand>⋬</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1113,6 +1219,7 @@
 <!-- arg math \ntrianglerighteq  -->
 <commandDefinition>
    <latexCommand>\ntrianglerighteq</latexCommand>
+   <unicodeCommand>⋭</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1123,6 +1230,7 @@
 <!-- arg math \blacktriangleleft  -->
 <commandDefinition>
    <latexCommand>\blacktriangleleft</latexCommand>
+   <unicodeCommand>◂</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1133,6 +1241,7 @@
 <!-- arg math \blacktriangleright  -->
 <commandDefinition>
    <latexCommand>\blacktriangleright</latexCommand>
+   <unicodeCommand>▸</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1145,6 +1254,7 @@
 <!-- arg math \subset  -->
 <commandDefinition>
    <latexCommand>\subset</latexCommand>
+   <unicodeCommand>⊂</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -1152,6 +1262,7 @@
 <!-- arg math \supset  -->
 <commandDefinition>
    <latexCommand>\supset</latexCommand>
+   <unicodeCommand>⊃</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -1159,6 +1270,7 @@
 <!-- arg math \subseteq  -->
 <commandDefinition>
    <latexCommand>\subseteq</latexCommand>
+   <unicodeCommand>⊆</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -1166,6 +1278,7 @@
 <!-- arg math \supseteq  -->
 <commandDefinition>
    <latexCommand>\supseteq</latexCommand>
+   <unicodeCommand>⊇</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -1174,6 +1287,7 @@
 <!-- arg math \subsetneq  -->
 <commandDefinition>
    <latexCommand>\subsetneq</latexCommand>
+   <unicodeCommand>⊊</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1184,6 +1298,7 @@
 <!-- arg math \supsetneq  -->
 <commandDefinition>
    <latexCommand>\supsetneq</latexCommand>
+   <unicodeCommand>⊋</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1214,6 +1329,7 @@
 <!-- arg math \nsubseteq  -->
 <commandDefinition>
    <latexCommand>\nsubseteq</latexCommand>
+   <unicodeCommand>⊈</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1224,6 +1340,7 @@
 <!-- arg math \nsupseteq  -->
 <commandDefinition>
    <latexCommand>\nsupseteq</latexCommand>
+   <unicodeCommand>⊉</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1234,6 +1351,7 @@
 <!-- arg math \subseteqq  -->
 <commandDefinition>
    <latexCommand>\subseteqq</latexCommand>
+   <unicodeCommand>⫅</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1244,6 +1362,7 @@
 <!-- arg math \supseteqq  -->
 <commandDefinition>
    <latexCommand>\supseteqq</latexCommand>
+   <unicodeCommand>⫆</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1254,6 +1373,7 @@
 <!-- arg math \subsetneqq  -->
 <commandDefinition>
    <latexCommand>\subsetneqq</latexCommand>
+   <unicodeCommand>⫋</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1264,6 +1384,7 @@
 <!-- arg math \supsetneqq  -->
 <commandDefinition>
    <latexCommand>\supsetneqq</latexCommand>
+   <unicodeCommand>⫌</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1294,6 +1415,7 @@
 <!-- arg math \backepsilon  -->
 <commandDefinition>
    <latexCommand>\backepsilon</latexCommand>
+   <unicodeCommand>϶</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1305,6 +1427,7 @@
 <!-- arg math \Subset  -->
 <commandDefinition>
    <latexCommand>\Subset</latexCommand>
+   <unicodeCommand>⋐</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1315,6 +1438,7 @@
 <!-- arg math \Supset  -->
 <commandDefinition>
    <latexCommand>\Supset</latexCommand>
+   <unicodeCommand>⋑</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1325,6 +1449,7 @@
 <!-- arg math \sqsubset  -->
 <commandDefinition>
    <latexCommand>\sqsubset</latexCommand>
+   <unicodeCommand>⊏</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1335,6 +1460,7 @@
 <!-- arg math \sqsupset  -->
 <commandDefinition>
    <latexCommand>\sqsupset</latexCommand>
+   <unicodeCommand>⊐</unicodeCommand>
    <mathMode>true</mathMode>
    <package>
       <name>amssymb</name>
@@ -1346,6 +1472,7 @@
 <!-- arg math \sqsubseteq  -->
 <commandDefinition>
    <latexCommand>\sqsubseteq</latexCommand>
+   <unicodeCommand>⊑</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 
@@ -1353,6 +1480,7 @@
 <!-- arg math \sqsupseteq  -->
 <commandDefinition>
    <latexCommand>\sqsupseteq</latexCommand>
+   <unicodeCommand>⊒</unicodeCommand>
    <mathMode>true</mathMode>
 </commandDefinition>
 

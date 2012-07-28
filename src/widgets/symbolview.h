@@ -19,10 +19,13 @@
 
 #include <QListWidget>
 
-#include <kcolorscheme.h>
+#include <KColorScheme>
 
 #include "../symbolviewclasses.h"
+
 class QMouseEvent;
+
+class KileInfo;
 
 namespace KileWidget {
 
@@ -31,7 +34,7 @@ class SymbolView : public QListWidget
 	Q_OBJECT
 
 	public:
-		explicit SymbolView(QWidget *parent = 0, int type = -1, const char *name = NULL);
+		explicit SymbolView(KileInfo *kileInfo, QWidget *parent = 0, int type = -1, const char *name = NULL);
 		~SymbolView();
 		enum { MFUS = 0, Relation, Operator, Arrow, MiscMath, MiscText, Delimiters, Greek, Special, Cyrillic, User };
 		void writeConfig();
@@ -45,7 +48,9 @@ class SymbolView : public QListWidget
 		QString getToolTip(const QString &key);
 
 	protected:
+		KileInfo *m_ki;
 		KStatefulBrush m_brush;
+
 
 		virtual void mousePressEvent(QMouseEvent *event);
 

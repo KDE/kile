@@ -1246,7 +1246,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	}
 
 	for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
-		docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]));
+		docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]), m_listEncodingsOfDocsOpenOnStart[i]);
 	}
 
 	if (ModeAction) {
@@ -1256,6 +1256,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
+	m_listEncodingsOfDocsOpenOnStart.clear();
 
         KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
 	KTextEditor::Document *doc = docManager()->docFor(KUrl::fromPathOrUrl(KileConfig::lastDocument()));
@@ -1529,9 +1530,12 @@ bool Kile::queryClose()
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
+	m_listEncodingsOfDocsOpenOnStart.clear();
 
 	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
-		m_listDocsOpenOnStart.append(viewManager()->textView(i)->document()->url().toLocalFile());
+		KTextEditor::Document *doc = viewManager()->textView(i)->document();
+		m_listDocsOpenOnStart.append(doc->url().toLocalFile());
+		m_listEncodingsOfDocsOpenOnStart.append(doc->encoding());
 	}
 
 	KILE_DEBUG() << "#projects = " << docManager()->projects().count() << endl;
@@ -2539,6 +2543,7 @@ void Kile::readRecentFileSettings()
 	int n = group.readEntry("NoDOOS", 0);
 	for (int i = 0; i < n; ++i) {
 		m_listDocsOpenOnStart.append(group.readPathEntry("DocsOpenOnStart" + QString::number(i), ""));
+		m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), ""));
 	}
 
 	n = group.readEntry("NoPOOS", 0);
@@ -2601,7 +2606,8 @@ void Kile::saveSettings()
 		KileConfig::setSingleFileMasterDocument(getMasterDocumentFileName());
 		configGroup.writeEntry("NoDOOS", m_listDocsOpenOnStart.count());
 		for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
-			configGroup.writePathEntry("DocsOpenOnStart"+QString::number(i), m_listDocsOpenOnStart[i]);
+			configGroup.writePathEntry("DocsOpenOnStart" + QString::number(i), m_listDocsOpenOnStart[i]);
+			configGroup.writePathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), m_listEncodingsOfDocsOpenOnStart[i]);
 		}
 
 		configGroup.writeEntry("NoPOOS", m_listProjectsOpenOnStart.count());

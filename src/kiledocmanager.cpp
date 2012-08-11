@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -2313,7 +2313,8 @@ void Manager::loadDocumentAndViewSettings(KTextEditor::Document *document)
 	if(!interface) {
 		return;
 	}
-	interface->readParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
+	interface->readParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipEncoding
+	                                                       | KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
 
 	QList<KTextEditor::View*> viewList = document->views();
 	int i = 0;
@@ -2342,7 +2343,8 @@ void Manager::saveDocumentAndViewSettings(KTextEditor::Document *document)
 	if(!interface) {
 		return;
 	}
-	interface->writeParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
+	interface->writeParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipEncoding
+	                                                        | KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
 
 	QList<KTextEditor::View*> viewList = document->views();
 	int i = 0;

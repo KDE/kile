@@ -2796,7 +2796,7 @@ void Kile::aboutEditorComponent()
 /////////////// KEYS - TOOLBARS CONFIGURATION ////////////////
 void Kile::configureKeys()
 {
-	KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsDisallowed, this);
+	KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, this);
 	QList<KXMLGUIClient*> clients = guiFactory()->clients();
 	for(QList<KXMLGUIClient*>::iterator it = clients.begin(); it != clients.end(); ++it) {
 		dlg.addCollection((*it)->actionCollection());

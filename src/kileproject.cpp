@@ -42,6 +42,7 @@
 #include "kiletoolmanager.h"
 #include "kileinfo.h"
 #include "kileextensions.h"
+#include "livepreview.h"
 
 /*
  01/24/06 tbraun
@@ -549,11 +550,8 @@ bool KileProject::load()
 	generalGroup = m_config->group("General");
 	setLastDocument(KUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
-	setLivePreviewTool(generalGroup.readEntry("livePreviewToolName", LIVEPREVIEW_DEFAULT_TOOL_NAME),
-	                   generalGroup.readEntry("livePreviewToolConfigName", LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME));
-	if(generalGroup.readEntry("livePreviewStatusUserSet", false)) {
-		setLivePreviewEnabled(generalGroup.readEntry("livePreviewEnabled", true));
-	}
+	KileTool::LivePreviewManager::readLivePreviewStatusSettings(generalGroup, this);
+
 // 	dump();
 
 	return true;
@@ -572,13 +570,8 @@ bool KileProject::save()
 	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));
 	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
-	generalGroup.writeEntry("livePreviewToolName", livePreviewToolName());
-	generalGroup.writeEntry("livePreviewToolConfigName", livePreviewToolConfigName());
 
-	if(userSpecifiedLivePreviewStatus()) {
-		generalGroup.writeEntry("livePreviewStatusUserSet", true);
-		generalGroup.writeEntry("livePreviewEnabled", isLivePreviewEnabled());
-	}
+	KileTool::LivePreviewManager::writeLivePreviewStatusSettings(generalGroup, this);
 
 	writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
 	writeConfigEntry("pkg_extensions",m_extmanager->latexPackages(),KileProjectItem::Package);

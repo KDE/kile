@@ -138,6 +138,9 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	        this, SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
 	connect(m_ki->docManager(), SIGNAL(documentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)),
 	        this, SLOT(handleDocumentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)));
+	connect(m_ki->docManager(), SIGNAL(documentOpened(KileDocument::TextInfo*)),
+	        this, SLOT(handleDocumentOpened(KileDocument::TextInfo*)));
+
 	createActions(ac);
 	createControlToolBar();
 
@@ -435,61 +438,24 @@ void LivePreviewManager::writeConfig()
 	KileConfig::setSynchronizeCursorWithView(m_synchronizeViewWithCursorAction->isChecked());
 }
 
-void LivePreviewManager::readLivePreviewStatusSettings(KConfig *config)
+void LivePreviewManager::readLivePreviewStatusSettings(KConfigGroup &configGroup, LivePreviewUserStatusHandler *handler)
 {
-	KConfigGroup livePreviewStatusGroup = config->group("Live Preview Status");
-	const int lastEntry = livePreviewStatusGroup.readEntry("lastEntry", -1);
-	if(lastEntry < 0) {
-		return;
+	// the prefix 'kile_' is necessary as these settings might be written into a config group that is also modified
+	// by KatePart
+	if(configGroup.readEntry("kile_livePreviewStatusUserSpecified", false)) {
+		handler->setLivePreviewEnabled(configGroup.readEntry("kile_livePreviewEnabled", true));
 	}
-	for(int i = 0; i <= lastEntry; ++i) {
-		const KUrl url = livePreviewStatusGroup.readEntry("documentURL" + QString::number(i), KUrl());
-		if(!url.isValid()) {
-			continue;
-		}
-		KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoForURL(url));
-		if(!latexInfo) {
-			continue;
-		}
-		if(livePreviewStatusGroup.readEntry("livePreviewStatusUserSpecified" + QString::number(i), false)) {
-			latexInfo->setLivePreviewEnabled(livePreviewStatusGroup.readEntry("livePreviewEnabled" + QString::number(i),
-			                                                                  true));
-		}
 
-		latexInfo->setLivePreviewTool(livePreviewStatusGroup.readEntry("livePreviewToolName" + QString::number(i), LIVEPREVIEW_DEFAULT_TOOL_NAME),
-		                              livePreviewStatusGroup.readEntry("livePreviewToolConfigName" + QString::number(i), LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME));
-	}
+	handler->setLivePreviewTool(configGroup.readEntry("kile_livePreviewToolName", LIVEPREVIEW_DEFAULT_TOOL_NAME),
+	                            configGroup.readEntry("kile_livePreviewToolConfigName", LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME));
 }
 
-void LivePreviewManager::writeLivePreviewStatusSettings(KConfig *config)
+void LivePreviewManager::writeLivePreviewStatusSettings(KConfigGroup &configGroup, LivePreviewUserStatusHandler *handler)
 {
-	config->deleteGroup("Live Preview Status");
-	KConfigGroup livePreviewStatusGroup = config->group("Live Preview Status");
-
-	int lastEntry = -1;
-	for(int i = 0; i < m_ki->viewManager()->textViewCount(); ++i) {
-		KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(m_ki->viewManager()->textView(i)->document());
-		// we don't save settings for project members
-		if(m_ki->docManager()->itemFor(textInfo)) {
-			continue;
-		}
-		KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(textInfo);
-		if(!latexInfo) {
-			continue;
-		}
-		++lastEntry;
-		livePreviewStatusGroup.writeEntry("documentURL" + QString::number(lastEntry),
-		                                  latexInfo->url());
-		livePreviewStatusGroup.writeEntry("livePreviewToolName" + QString::number(lastEntry),
-		                                  latexInfo->livePreviewToolName());
-		livePreviewStatusGroup.writeEntry("livePreviewToolConfigName" + QString::number(lastEntry),
-		                                  latexInfo->livePreviewToolConfigName());
-		livePreviewStatusGroup.writeEntry("livePreviewEnabled" + QString::number(lastEntry),
-		                                  latexInfo->isLivePreviewEnabled());
-		livePreviewStatusGroup.writeEntry("livePreviewStatusUserSpecified" + QString::number(lastEntry),
-		                                  latexInfo->userSpecifiedLivePreviewStatus());
-	}
-	livePreviewStatusGroup.writeEntry("lastEntry", lastEntry);
+	configGroup.writeEntry("kile_livePreviewToolName", handler->livePreviewToolName());
+	configGroup.writeEntry("kile_livePreviewToolConfigName", handler->livePreviewToolConfigName());
+	configGroup.writeEntry("kile_livePreviewEnabled", handler->isLivePreviewEnabled());
+	configGroup.writeEntry("kile_livePreviewStatusUserSpecified", handler->userSpecifiedLivePreviewStatus());
 }
 
 QWidget* LivePreviewManager::getControlToolBar()
@@ -1080,9 +1046,19 @@ bool LivePreviewManager::isLivePreviewPossible() const
 #endif
 }
 
+void LivePreviewManager::handleDocumentOpened(KileDocument::TextInfo *info)
+{
+	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
+	if(view && view->document() == info->getDoc()) {
+		handleTextViewActivated(view);
+	}
+}
+
 void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view, bool clearPreview, bool forceCompilation)
 {
-	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+	// when a file is currently being opened, we don't react to the view activation signal as the correct live preview
+	// tools might not be loaded yet for the document that belongs to 'view'
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled() || m_ki->docManager()->isOpeningFile()) {
 		return;
 	}
 	if(clearPreview) {
@@ -1101,6 +1077,7 @@ void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view, bool c
 	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
 	Q_ASSERT(userStatusHandler);
 	const bool livePreviewActive = userStatusHandler->isLivePreviewEnabled();
+	updateLivePreviewToolActions(userStatusHandler);
 	// update the state of the live preview control button
 	m_previewForCurrentDocumentAction->setChecked(livePreviewActive);
 

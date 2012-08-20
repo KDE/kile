@@ -51,8 +51,8 @@ public:
 
 	void readConfig(KConfig *config);
 	void writeConfig();
-	void readLivePreviewStatusSettings(KConfig *config);
-	void writeLivePreviewStatusSettings(KConfig *config);
+	static void readLivePreviewStatusSettings(KConfigGroup &configGroup, LivePreviewUserStatusHandler *handler);
+	static void writeLivePreviewStatusSettings(KConfigGroup &configGroup, LivePreviewUserStatusHandler *handler);
 
 	void compilePreview(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
 	void showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *info, KTextEditor::View *view);
@@ -90,6 +90,8 @@ private Q_SLOTS:
 
 	void handleTextViewActivated(KTextEditor::View *view, bool clearPreview = true, bool forceCompilation = false);
 	void handleTextViewClosed(KTextEditor::View *view, bool wasActiveView);
+
+	void handleDocumentOpened(KileDocument::TextInfo *info);
 
 	void handleProjectItemAdded(KileProject *project, KileProjectItem *item);
 	void handleProjectItemRemoved(KileProject *project, KileProjectItem *item);

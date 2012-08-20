@@ -69,6 +69,7 @@
 #include "widgets/logwidget.h"
 #include "widgets/progressdialog.h"
 #include "dialogs/cleandialog.h"
+#include "livepreview.h"
 
 /*
  * Newly created text documents have an empty URL and a non-empty document name.
@@ -114,7 +115,8 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_ki(info),
 	m_progressDialog(NULL),
 	m_autoSaveLock(0),
-	m_currentlySavingAll(false)
+	m_currentlySavingAll(false),
+	m_currentlyOpeningFile(false)
 {
 	setObjectName(name);
 	m_editor = KTextEditor::EditorChooser::editor();
@@ -197,6 +199,11 @@ void Manager::updateInfos()
 bool Manager::isAutoSaveAllowed()
 {
 	return (m_autoSaveLock == 0);
+}
+
+bool Manager::isOpeningFile()
+{
+	return m_currentlyOpeningFile;
 }
 
 KTextEditor::Editor* Manager::getEditor()
@@ -949,6 +956,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 {
 	Locker lock(&m_autoSaveLock);
+	m_currentlyOpeningFile = true;
 	KILE_DEBUG() << "==Kile::fileOpen==========================";
 
 	KILE_DEBUG() << "url is " << url.url();
@@ -957,6 +965,8 @@ TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 
 	bool isopen = m_ki->isOpen(realurl);
 	if(isopen) {
+		m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
+		                                // it emits signals that are handled by the live preview manager
 		m_ki->viewManager()->switchToTextView(realurl);
 		return textInfoForURL(realurl);
 	}
@@ -971,7 +981,7 @@ TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 
 	if(itemList.isEmpty()) {
 		emit addToProjectView(realurl);
-		loadDocumentAndViewSettings(view->document());
+		loadDocumentAndViewSettings(textInfo);
 	}
 	else if(view) {
 		KileProjectItem *item = itemList.first();
@@ -983,6 +993,8 @@ TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	emit(updateModeStatus());
 	// update undefined references in this file
 	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
+	m_currentlyOpeningFile = false;
+	emit documentOpened(textInfo);
 	return textInfo;
 }
 
@@ -1223,7 +1235,7 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 
 	if(!inProject) {
 	KILE_DEBUG() << "not in project";
-		saveDocumentAndViewSettings(doc);
+		saveDocumentAndViewSettings(docinfo);
 	}
 
 	if(doc->closeUrl()) {
@@ -2302,8 +2314,13 @@ void Manager::createProgressDialog()
 	m_progressDialog->hide();
 }
 
-void Manager::loadDocumentAndViewSettings(KTextEditor::Document *document)
+void Manager::loadDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 {
+	KTextEditor::Document *document = textInfo->getDoc();
+	if(!document) {
+		return;
+	}
+
 	KConfigGroup configGroup = configGroupForDocumentSettings(document);
 	if(!configGroup.exists()) {
 		return;
@@ -2315,6 +2332,13 @@ void Manager::loadDocumentAndViewSettings(KTextEditor::Document *document)
 	}
 	interface->readParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipEncoding
 	                                                       | KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
+#endif
+	{
+		LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
+		if(latexInfo) {
+			KileTool::LivePreviewManager::readLivePreviewStatusSettings(configGroup, latexInfo);
+		}
+	}
 
 	QList<KTextEditor::View*> viewList = document->views();
 	int i = 0;
@@ -2328,23 +2352,37 @@ void Manager::loadDocumentAndViewSettings(KTextEditor::Document *document)
 		viewConfigInterface->readSessionConfig(configGroup);
 		++i;
 	}
-#endif
+
 }
 
-void Manager::saveDocumentAndViewSettings(KTextEditor::Document *document)
+void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 {
+	KTextEditor::Document *document = textInfo->getDoc();
+	if(!document) {
+		return;
+	}
+
 	KConfigGroup configGroup = configGroupForDocumentSettings(document);
-#if KDE_IS_VERSION(4,3,75)
+
 	KUrl url = document->url();
 	url.setPassword(""); // we don't want the password to appear in the configuration file
 	deleteDocumentAndViewSettingsGroups(url);
 
+#if KDE_IS_VERSION(4,3,75)
 	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
 	if(!interface) {
 		return;
 	}
 	interface->writeParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipEncoding
 	                                                        | KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
+#endif
+
+	{
+		LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
+		if(latexInfo) {
+			KileTool::LivePreviewManager::writeLivePreviewStatusSettings(configGroup, latexInfo);
+		}
+	}
 
 	QList<KTextEditor::View*> viewList = document->views();
 	int i = 0;
@@ -2373,7 +2411,6 @@ void Manager::saveDocumentAndViewSettings(KTextEditor::Document *document)
 	}
 	configGroup.writeEntry("Documents", url);
 	configGroup.writeEntry("Saved Documents", urlList.toStringList());
-#endif
 }
 
 KConfigGroup Manager::configGroupForDocumentSettings(KTextEditor::Document *doc) const

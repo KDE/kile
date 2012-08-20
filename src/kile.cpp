@@ -380,8 +380,6 @@ Kile::Kile(bool allowRestore, QWidget *parent, const char *name)
 
 	if(m_livePreviewManager) {
 		m_livePreviewManager->buildLivePreviewMenu(m_config.data());
-		// we can only read the live preview settings after all the documents have been re-opened
-		m_livePreviewManager->readLivePreviewStatusSettings(m_config.data());
 		m_livePreviewManager->disableBootUpMode();
 	}
 }
@@ -1508,11 +1506,6 @@ bool Kile::queryExit()
 //FIXME: documents probably shouldn't be closed in this method yet (also see API doc of 'queryClose')
 bool Kile::queryClose()
 {
-	// we have to save the live preview status settings before closing the documents!
-	if(m_livePreviewManager) {
-		m_livePreviewManager->writeLivePreviewStatusSettings(m_config.data());
-	}
-
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
 		KileConfig::setLastDocument(view->document()->url().toLocalFile());

@@ -214,6 +214,7 @@ private:
 	QWidget				*m_emptyDropWidget;
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
+	QList<QPointer<QAction> >	m_contextTabActionList;
 	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
 };
 

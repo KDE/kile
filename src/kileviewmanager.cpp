@@ -332,14 +332,14 @@ void Manager::installContextMenu(KTextEditor::View *view)
 
 void Manager::clearActionDataFromTabContextMenu()
 {
-	QAction *action = m_ki->mainWindow()->action("move_view_tab_left");
-	action->setData(QVariant());
-	action = m_ki->mainWindow()->action("move_view_tab_right");
-	action->setData(QVariant());
-	action = m_ki->mainWindow()->action("file_close");
-	action->setData(QVariant());
-	action = m_ki->mainWindow()->action("file_close_all_others");
-	action->setData(QVariant());
+	Q_FOREACH(QPointer<QAction> action, m_contextTabActionList) {
+		if(action.isNull()) { // 'action' can be NULL if it belongs to a view that has been
+			              // closed, for example
+			continue;
+		}
+		action->setData(QVariant());
+	}
+	m_contextTabActionList.clear();
 }
 
 void Manager::tabContext(QWidget* widget,const QPoint & pos)
@@ -355,24 +355,41 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 	KMenu tabMenu;
 
 	tabMenu.addTitle(m_ki->getShortName(view->document()));
-	if(view->document()->isModified()) {
-		tabMenu.addAction(view->actionCollection()->action(KStandardAction::name(KStandardAction::Save)));
-		tabMenu.addSeparator();
-	}
 
 	QAction *action = m_ki->mainWindow()->action("move_view_tab_left");
 	action->setData(qVariantFromValue(widget));
 	tabMenu.addAction(action);
+	m_contextTabActionList.append(QPointer<QAction>(action));
 	action = m_ki->mainWindow()->action("move_view_tab_right");
 	action->setData(qVariantFromValue(widget));
 	tabMenu.addAction(action);
+	m_contextTabActionList.append(QPointer<QAction>(action));
 	tabMenu.addSeparator();
+
+	if(view->document()->isModified()) {
+		action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
+		action->setData(qVariantFromValue(view));
+		tabMenu.addAction(action);
+		m_contextTabActionList.append(QPointer<QAction>(action));
+	}
+	action = view->actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs));
+	action->setData(qVariantFromValue(view));
+	tabMenu.addAction(action);
+	m_contextTabActionList.append(QPointer<QAction>(action));
+	action = m_ki->mainWindow()->action("file_save_copy_as");
+	action->setData(qVariantFromValue(view));
+	tabMenu.addAction(action);
+	m_contextTabActionList.append(QPointer<QAction>(action));
+	tabMenu.addSeparator();
+
 	action = m_ki->mainWindow()->action("file_close");
 	action->setData(qVariantFromValue(view));
 	tabMenu.addAction(action);
+	m_contextTabActionList.append(QPointer<QAction>(action));
 	action = m_ki->mainWindow()->action("file_close_all_others");
 	action->setData(qVariantFromValue(view));
 	tabMenu.addAction(action);
+	m_contextTabActionList.append(QPointer<QAction>(action));
 
 	connect(&tabMenu, SIGNAL(destroyed(QObject*)), this, SLOT(clearActionDataFromTabContextMenu()));
 /*
@@ -544,13 +561,15 @@ void Manager::moveTabLeft(QWidget *widget)
 		return;
 	}
 
-	QAction *action = m_ki->mainWindow()->action("move_view_tab_left");
 	// the 'data' property can be set by 'tabContext'
-	QVariant var = action->data();
-	if(!widget && var.isValid()) {
-		// the action's 'data' property is cleared
-		// when the context menu is destroyed
-		widget = var.value<QWidget*>();
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(!widget && var.isValid()) {
+			// the action's 'data' property is cleared
+			// when the context menu is destroyed
+			widget = var.value<QWidget*>();
+		}
 	}
 	if(!widget) {
 		widget = currentTextView();
@@ -569,13 +588,15 @@ void Manager::moveTabRight(QWidget *widget)
 		return;
 	}
 
-	QAction *action = m_ki->mainWindow()->action("move_view_tab_right");
 	// the 'data' property can be set by 'tabContext'
-	QVariant var = action->data();
-	if(!widget && var.isValid()) {
-		// the action's 'data' property is cleared
-		// when the context menu is destroyed
-		widget = var.value<QWidget*>();
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(!widget && var.isValid()) {
+			// the action's 'data' property is cleared
+			// when the context menu is destroyed
+			widget = var.value<QWidget*>();
+		}
 	}
 	if(!widget) {
 		widget = currentTextView();

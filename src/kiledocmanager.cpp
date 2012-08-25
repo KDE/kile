@@ -976,6 +976,16 @@ void Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 bool Manager::fileSave(KTextEditor::View *view)
 {
 	Locker lock(&m_autoSaveLock);
+	// the 'data' property can be set by the view manager
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(!view && var.isValid()) {
+			view = var.value<KTextEditor::View*>();
+			// the 'data' property for the relevant actions is cleared
+			// inside the view manager
+		}
+	}
 	if(!view) {
 		view = m_ki->viewManager()->currentTextView();
 	}
@@ -996,6 +1006,16 @@ bool Manager::fileSave(KTextEditor::View *view)
 bool Manager::fileSaveAs(KTextEditor::View* view)
 {
 	Locker lock(&m_autoSaveLock);
+	// the 'data' property can be set by the view manager
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(!view && var.isValid()) {
+			view = var.value<KTextEditor::View*>();
+			// the 'data' property for the relevant actions is cleared
+			// inside the view manager
+		}
+	}
 	if(!view) {
 		view = m_ki->viewManager()->currentTextView();
 	}
@@ -1061,45 +1081,67 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 void Manager::fileSaveCopyAs()
 {
 	Locker lock(&m_autoSaveLock);
-	KTextEditor::Document *doc= m_ki->activeTextDocument();
 	KTextEditor::View *view = NULL;
-	if(doc) {
-		KileDocument::TextInfo *originalInfo = textInfoFor(doc);
-
-		if(!originalInfo) {
-			return;
+	// the 'data' property can be set by the view manager
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(var.isValid()) {
+			view = var.value<KTextEditor::View*>();
+			// the 'data' property for the relevant actions is cleared
+			// inside the view manager
 		}
+	}
+	if(!view) {
+		view = m_ki->viewManager()->currentTextView();
+	}
+	if(!view) {
+		return;
+	}
 
-		view = createDocumentWithText(doc->text(),originalInfo->getType());
+	KTextEditor::Document *doc = view->document();
 
-		KileDocument::TextInfo *newInfo = textInfoFor(view->document());
+	if(!doc) {
+		return;
+	}
 
-		if(originalInfo->url().isEmpty()) { // untitled doc
-			newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl().toLocalFile());
-		}
-		else {
-			newInfo->setBaseDirectory(originalInfo->url().toLocalFile());
-		}
+	KileDocument::TextInfo *originalInfo = textInfoFor(doc);
 
-		fileSaveAs(view);
+	if(!originalInfo) {
+		return;
+	}
 
-		doc = view->document();
-		if(doc && !doc->isModified()) { // fileSaveAs was successful
-			fileClose(doc);
-		}
+	view = createDocumentWithText(doc->text(),originalInfo->getType());
+
+	KileDocument::TextInfo *newInfo = textInfoFor(view->document());
+
+	if(originalInfo->url().isEmpty()) { // untitled doc
+		newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl().toLocalFile());
+	}
+	else {
+		newInfo->setBaseDirectory(originalInfo->url().toLocalFile());
+	}
+
+	fileSaveAs(view);
+
+	doc = view->document();
+	if(doc && !doc->isModified()) { // fileSaveAs was successful
+		fileClose(doc);
 	}
 }
 
 bool Manager::fileCloseAllOthers(KTextEditor::View *currentView)
 {
 	Locker lock(&m_autoSaveLock);
-	QAction *action = m_ki->mainWindow()->action("file_close_all_others");
 	// the 'data' property can be set by the view manager
-	QVariant var = action->data();
-	if(!currentView && var.isValid()) {
-		// the 'data' property for the relevant actions is cleared
-		// inside the view manager
-		currentView = var.value<KTextEditor::View*>();
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(!currentView && var.isValid()) {
+			// the 'data' property for the relevant actions is cleared
+			// inside the view manager
+			currentView = var.value<KTextEditor::View*>();
+		}
 	}
 	if(!currentView) {
 		currentView = m_ki->viewManager()->currentTextView();
@@ -1154,13 +1196,15 @@ bool Manager::fileClose(const KUrl & url)
 
 bool Manager::fileClose(KTextEditor::View *view)
 {
-	QAction *action = m_ki->mainWindow()->action("file_close");
 	// the 'data' property can be set by the view manager
-	QVariant var = action->data();
-	if(!view && var.isValid()) {
-		view = var.value<KTextEditor::View*>();
-		// the 'data' property for the relevant actions is cleared
-		// inside the view manager
+	QAction *action = dynamic_cast<QAction*>(QObject::sender());
+	if(action) {
+		QVariant var = action->data();
+		if(!view && var.isValid()) {
+			view = var.value<KTextEditor::View*>();
+			// the 'data' property for the relevant actions is cleared
+			// inside the view manager
+		}
 	}
 	if(!view) {
 		view = m_ki->viewManager()->currentTextView();

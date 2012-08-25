@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2010 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -20,6 +20,7 @@
 #include <QList>
 #include <QObject>
 #include <QPixmap>
+#include <QPointer>
 #include <QStackedWidget>
 
 #include <KAction>
@@ -163,6 +164,7 @@ private:
 	QWidget				*m_emptyDropWidget;
 	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
+	QList<QPointer<QAction> >	m_contextTabActionList;
 };
 
 /**

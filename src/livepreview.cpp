@@ -140,6 +140,8 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	        this, SLOT(handleDocumentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)));
 	connect(m_ki->docManager(), SIGNAL(documentOpened(KileDocument::TextInfo*)),
 	        this, SLOT(handleDocumentOpened(KileDocument::TextInfo*)));
+	connect(m_ki->docManager(), SIGNAL(projectOpened(KileProject*)),
+	        this, SLOT(handleProjectOpened(KileProject*)));
 
 	createActions(ac);
 	createControlToolBar();
@@ -926,15 +928,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 	        Qt::UniqueConnection);
 
 	if(project) {
-		connect(project, SIGNAL(aboutToBeDestroyed(KileProject*)),
-		        this, SLOT(removeProject(KileProject*)),
-		        Qt::UniqueConnection);
-		connect(project, SIGNAL(projectItemAdded(KileProject*,KileProjectItem*)),
-		        this, SLOT(handleProjectItemAdded(KileProject*,KileProjectItem*)),
-		        Qt::UniqueConnection);
-		connect(project, SIGNAL(projectItemRemoved(KileProject*,KileProjectItem*)),
-		        this, SLOT(handleProjectItemRemoved(KileProject*,KileProjectItem*)),
-		        Qt::UniqueConnection);
+		handleProjectOpened(project); // create the necessary signal-slot connections
 	}
 
 	updateLivePreviewToolActions(userStatusHandler);
@@ -1175,6 +1169,18 @@ void LivePreviewManager::removeProject(KileProject *project)
 	delete previewInformation;
 }
 
+void LivePreviewManager::handleProjectOpened(KileProject *project)
+{
+	connect(project, SIGNAL(aboutToBeDestroyed(KileProject*)),
+	        this, SLOT(removeProject(KileProject*)),
+	        Qt::UniqueConnection);
+	connect(project, SIGNAL(projectItemAdded(KileProject*,KileProjectItem*)),
+	        this, SLOT(handleProjectItemAdded(KileProject*,KileProjectItem*)),
+	        Qt::UniqueConnection);
+	connect(project, SIGNAL(projectItemRemoved(KileProject*,KileProjectItem*)),
+	        this, SLOT(handleProjectItemRemoved(KileProject*,KileProjectItem*)),
+	        Qt::UniqueConnection);
+}
 
 void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item)
 {

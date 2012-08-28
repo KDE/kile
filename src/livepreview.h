@@ -93,6 +93,7 @@ private Q_SLOTS:
 
 	void handleDocumentOpened(KileDocument::TextInfo *info);
 
+	void handleProjectOpened(KileProject *project);
 	void handleProjectItemAdded(KileProject *project, KileProjectItem *item);
 	void handleProjectItemRemoved(KileProject *project, KileProjectItem *item);
 

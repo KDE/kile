@@ -173,6 +173,7 @@ Q_SIGNALS:
 
 	void documentSavedAs(KTextEditor::View*, KileDocument::TextInfo*);
 
+	void projectOpened(KileProject *project);
 	void documentOpened(KileDocument::TextInfo *textInfo);
 
 public:

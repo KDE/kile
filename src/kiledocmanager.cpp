@@ -1625,6 +1625,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 
 	m_ki->viewManager()->switchToTextView(kp->lastDocument());
 
+	emit(projectOpened(kp));
 	return kp;
 }
 

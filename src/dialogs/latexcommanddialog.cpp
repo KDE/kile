@@ -379,6 +379,7 @@ void LatexCommandsDialog::resetListviews()
 
 	m_lviLabels     = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Labels")));
 	m_lviReferences = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("References")));
+	m_lviBibliographies = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Bibliographies")));
 	m_lviCitations  = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Citations")));
 	m_lviInputs     = new QTreeWidgetItem(m_widget.commands, QStringList(i18n("Includes")));
 
@@ -420,6 +421,9 @@ void LatexCommandsDialog::resetListviews()
 			case KileDocument::CmdAttrIncludes:
 				parent = m_lviInputs;
 				break;
+			case KileDocument::CmdAttrBibliographies:
+				parent = m_lviBibliographies;
+				break;
 			default:
 				continue;
 			}
@@ -435,38 +439,38 @@ LatexCommandsDialog::LVmode LatexCommandsDialog::getListviewMode()
 
 KileDocument::CmdAttribute LatexCommandsDialog::getCommandMode(QTreeWidgetItem *item)
 {
-	KileDocument::CmdAttribute type;
+	if (item == m_lviAmsmath) {
+		return KileDocument::CmdAttrAmsmath;
+	}
+	if (item == m_lviMath) {
+		return KileDocument::CmdAttrMath;
+	}
+	if (item == m_lviList) {
+		return KileDocument::CmdAttrList;
+	}
+	if (item == m_lviTabular) {
+		return KileDocument::CmdAttrTabular;
+	}
+	if (item == m_lviVerbatim) {
+		return KileDocument::CmdAttrVerbatim;
+	}
+	if (item == m_lviLabels) {
+		return KileDocument::CmdAttrLabel;
+	}
+	if (item == m_lviReferences) {
+		return KileDocument::CmdAttrReference;
+	}
+	if (item == m_lviCitations) {
+		return KileDocument::CmdAttrCitations;
+	}
+	if (item == m_lviInputs) {
+		return KileDocument::CmdAttrIncludes;
+	}
+	if (item == m_lviBibliographies) {
+		return KileDocument::CmdAttrBibliographies;
+	}
 
-	if (item == m_lviAmsmath)
-		type = KileDocument::CmdAttrAmsmath;
-	else
-		if (item == m_lviMath)
-			type = KileDocument::CmdAttrMath;
-		else
-			if (item == m_lviList)
-				type = KileDocument::CmdAttrList;
-			else
-				if (item == m_lviTabular)
-					type = KileDocument::CmdAttrTabular;
-				else
-					if (item == m_lviVerbatim)
-						type = KileDocument::CmdAttrVerbatim;
-					else
-						if (item == m_lviLabels)
-							type = KileDocument::CmdAttrLabel;
-						else
-							if (item == m_lviReferences)
-								type = KileDocument::CmdAttrReference;
-							else
-								if (item == m_lviCitations)
-									type = KileDocument::CmdAttrCitations;
-								else
-									if (item == m_lviInputs)
-										type = KileDocument::CmdAttrIncludes;
-									else
-										type =  KileDocument::CmdAttrNone;
-
-	return type;
+	return KileDocument::CmdAttrNone;
 }
 
 bool LatexCommandsDialog::isParentItem(QTreeWidgetItem *item)
@@ -478,7 +482,8 @@ bool LatexCommandsDialog::isParentItem(QTreeWidgetItem *item)
 					item == m_lviLabels     ||
 					item == m_lviReferences ||
 					item == m_lviCitations  ||
-					item == m_lviInputs
+					item == m_lviInputs     ||
+					item == m_lviBibliographies
 				 );
 }
 

@@ -79,6 +79,8 @@ namespace KileTool
 			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
 			virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
 
+			QString selectBibTool(const QString& requestedTool);
+
 			//FIXME: this is a little 'hackish'
 			static int m_reRun;
 	};

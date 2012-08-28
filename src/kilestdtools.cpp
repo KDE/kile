@@ -218,7 +218,7 @@ namespace KileTool
 		sendMessage(Info, i18nc("String displayed in the log panel showing the number of errors/warnings/badboxes",
 		                        "%1, %2, %3", es, ws, bs));
 
-		//jump to first error
+		// jump to first error
 		if(!isPartOfLivePreview() && m_nErrors > 0 && (readEntry("jumpToFirstError") == "yes")) {
 			connect(this, SIGNAL(jumpToFirstError()), manager(), SIGNAL(jumpToFirstError()));
 			emit(jumpToFirstError());
@@ -245,6 +245,22 @@ namespace KileTool
 		tool->setSource(source, workingDir());
 	}
 
+	QString LaTeX::selectBibTool(const QString& requestedTool)
+	{
+		static const QString BibtexToolName = "BibTeX";
+		static const QString BiberToolName = "Biber";
+
+		if(QString::compare(requestedTool, "bibtex", Qt::CaseInsensitive) == 0) {
+			return BibtexToolName;
+		}
+		if(QString::compare(requestedTool, "biber", Qt::CaseInsensitive) == 0) {
+			return BiberToolName;
+		}
+		// default is bibtex
+		return BibtexToolName;
+	}
+
+
 	void LaTeX::checkAutoRun()
 	{
 		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
@@ -259,13 +275,28 @@ namespace KileTool
 			return;
 		}
 		bool reRunWarningFound = false;
-		//check for "rerun LaTeX" warnings
+		QString bibToolInLaTexOutput;
+		// check for "rerun" LaTeX and other tools warnings
 		if(m_nWarnings > 0) {
 			int sz = m_latexOutputInfoList.size();
-			for(int i = 0; i < sz; ++i) {
+			// the messages we are looking for are the last ones (most likely the very last one), so go from end to beginning
+			for(int i = sz-1; i >= 0; --i) {
 				if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
-				&&  m_latexOutputInfoList[i].message().contains("Rerun")) {
+				    && m_latexOutputInfoList[i].message().contains("Rerun", Qt::CaseInsensitive)) {
 					reRunWarningFound = true;
+					break;
+				}
+			}
+			// Now look for messages from Biblatex like the following:
+			// Please (re)run Biber on the file:
+			// or
+			// Please (re)run Bibtex on the file:
+			QRegExp biblatexBackendMessage = QRegExp(".*Please \\(re\\)run ([A-Za-z]+) on the file", Qt::CaseInsensitive);
+			for(int i = sz-1; i >= 0; --i) { // same here, start from the end
+				if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
+				    && biblatexBackendMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
+					bibToolInLaTexOutput = biblatexBackendMessage.cap(1);
+					KILE_DEBUG() << "Captured Bib tool: " << bibToolInLaTexOutput;
 					break;
 				}
 			}
@@ -290,8 +321,15 @@ namespace KileTool
 		}
 
 		if(bibs) {
-			KILE_DEBUG() << "need to run BibTeX";
-			Base *tool = manager()->createTool("BibTeX", QString());
+			KILE_DEBUG() << "need to run the bibliography tool " << bibToolInLaTexOutput;
+			// if we need to run Bibtex, use configuration "Default"
+			QString bibTool = selectBibTool(bibToolInLaTexOutput);
+			//first try to create tool with specified configuration
+			Base *tool = manager()->createTool(bibTool);
+			if(!tool) {//and use default one if there is no such configuration
+				KILE_DEBUG() << "Failed to setup the configuration " << bibTool << " for the bibliography tool";
+				tool = manager()->createTool("BibTeX", QString());
+			}
 			configureBibTeX(tool, targetDir() + '/' + S() + '.' + tool->from());
 			// e.g. for LivePreview, it is necessary that the paths are copied to child processes
 			tool->copyPaths(this);

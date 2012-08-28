@@ -925,7 +925,6 @@ void LaTeXInfo::updateStructLevelInfo() {
 	m_dictStructLevel["\\subsubsection"] = KileStructData(5, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\paragraph"] = KileStructData(6, KileStruct::Sect, "subsubsection");
 	m_dictStructLevel["\\subparagraph"] = KileStructData(7, KileStruct::Sect, "subsubsection");
-	m_dictStructLevel["\\bibliography"] = KileStructData(0,KileStruct::Bibliography, "viewbib");
 
 	// hidden commands
 	m_dictStructLevel["\\usepackage"] = KileStructData(KileStruct::Hidden, KileStruct::Package);
@@ -992,6 +991,12 @@ void LaTeXInfo::updateStructLevelInfo() {
 		for(it=list.constBegin(); it != list.constEnd(); ++it ) {
 			m_dictStructLevel[*it] = KileStructData(KileStruct::Hidden, KileStruct::Reference);
 		}
+	}
+
+	//bibliography commands
+	m_commands->commandList(list,KileDocument::CmdAttrBibliographies, false);
+	for(it=list.constBegin(); it != list.constEnd(); ++it) {
+		m_dictStructLevel[*it] = KileStructData(0, KileStruct::Bibliography, "viewbib");
 	}
 }
 

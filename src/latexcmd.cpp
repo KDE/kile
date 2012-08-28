@@ -28,7 +28,7 @@ LatexCommands::LatexCommands(KConfig *config, KileInfo *info) : m_config(config)
 {
 	m_envGroupName = "Latex Environments";
 	m_cmdGroupName = "Latex Commands";
-	
+
 	LatexCommands::resetCommands();
 }
 
@@ -42,54 +42,54 @@ void LatexCommands::resetCommands()
 	//  4: need mathmode ($) or displaymathmode ($$)
 	//  5: standard tabulator (tabulator string, f.e. &=& or &=)
 	//  6: optional parameter
-	//  7: parameter group(s) 
-	
+	//  7: parameter group(s)
+
 	QStringList envlist;
 	envlist
 	   // list environments
-	   << "itemize,+,l,*,,,,,"  
-	   << "enumerate,+,l,*,,,,,"  
+	   << "itemize,+,l,*,,,,,"
+	   << "enumerate,+,l,*,,,,,"
 	   << "description,+,l,*,,,,,"
-	   << "Bitemize,+,l,,,,,,"   
-	   << "Benumerate,+,l,,,,,,"  
+	   << "Bitemize,+,l,,,,,,"
+	   << "Benumerate,+,l,,,,,,"
 	   << "Bdescription,+,l,,,,,,"
 	   << "labeling,+,l,,,,,[ ],{ }"
 	   // tabular environments
-	   << "tabular,+,t,*,\\\\,,&,[tcb],"  
+	   << "tabular,+,t,*,\\\\,,&,[tcb],"
 	   << "tabularx,+,t,,\\\\,,&,,{w}"
-	   << "tabbing,+,t,,\\\\,,\\>,," 
-	   << "longtable,+,t,,\\\\,,&,[tcb],"  
+	   << "tabbing,+,t,,\\\\,,\\>,,"
+	   << "longtable,+,t,,\\\\,,&,[tcb],"
 	   << "ltxtable,+,t,,\\\\,,&,[tcb],{w}"
-	   << "supertabular,+,t,*,\\\\,,&,,"  
-	   << "mpsupertabular,+,t,*,\\\\,,&,,"  
-	   << "xtabular,+,t,*,\\\\,,&,," 
+	   << "supertabular,+,t,*,\\\\,,&,,"
+	   << "mpsupertabular,+,t,*,\\\\,,&,,"
+	   << "xtabular,+,t,*,\\\\,,&,,"
 	   << "mpxtabular,+,t,*,\\\\,,&,,"
 	   // math environments
 	   << "displaymath,+,m,,,,,,"
-	   << "equation,+,m,*,,,,," 
+	   << "equation,+,m,*,,,,,"
 	   << "eqnarray,+,m,*,\\\\,,&=&,,"
 	   << "array,+,m,,\\\\,$,&,[tcb],"
-	   << "matrix,+,m,,\\\\,$,&,,"         
-	   << "pmatrix,+,m,,\\\\,$,&,,"        
-	   << "bmatrix,+,m,,\\\\,$,&,,"       
-	   << "Bmatrix,+,m,,\\\\,$,&,,"       
-	   << "vmatrix,+,m,,\\\\,$,&,,"        
-	   << "Vmatrix,+,m,,\\\\,$,&,,"        
+	   << "matrix,+,m,,\\\\,$,&,,"
+	   << "pmatrix,+,m,,\\\\,$,&,,"
+	   << "bmatrix,+,m,,\\\\,$,&,,"
+	   << "Bmatrix,+,m,,\\\\,$,&,,"
+	   << "vmatrix,+,m,,\\\\,$,&,,"
+	   << "Vmatrix,+,m,,\\\\,$,&,,"
 	   // amsmath environments
-	   << "multline,+,a,*,\\\\,,,," 
+	   << "multline,+,a,*,\\\\,,,,"
 	   << "gather,+,a,*,\\\\,,,,"
 	   << "split,+,a,,\\\\,$$,,,"          // needs surrounding environment
-	   << "align,+,a,*,\\\\,,&=,,"           
-	   << "flalign,+,a,*,\\\\,,&=,,"         
-	   << "alignat,+,a,*,\\\\,,&=,,{n}"    
-	   << "aligned,+,a,,\\\\,$,&=,[tcb],"  
-	   << "gathered,+,a,,\\\\,$,,[tcb],"   
-	   << "alignedat,+,a,,\\\\,$,&=,[tcb],{n}" 
+	   << "align,+,a,*,\\\\,,&=,,"
+	   << "flalign,+,a,*,\\\\,,&=,,"
+	   << "alignat,+,a,*,\\\\,,&=,,{n}"
+	   << "aligned,+,a,,\\\\,$,&=,[tcb],"
+	   << "gathered,+,a,,\\\\,$,,[tcb],"
+	   << "alignedat,+,a,,\\\\,$,&=,[tcb],{n}"
 	   //<< "xalignat,+,a,*,\\\\,,&=,,{n}"   // obsolet
 	   //<< "xxalignat,+,a,*,\\\\,,&=,,{n}"  // obsolet
-	   << "cases,+,a,,\\\\,$,&,,"           
+	   << "cases,+,a,,\\\\,$,&,,"
 	   // verbatim environments
-	   << "verbatim,+,v,*,,,,," 
+	   << "verbatim,+,v,*,,,,,"
 	   << "boxedverbatim,+,v,,,,,,"
 	   << "Bverbatim,+,v,,,,,[ ],"
 	   << "Lverbatim,+,v,,,,,[ ],"
@@ -101,8 +101,8 @@ void LatexCommands::resetCommands()
 	//  1: command type (L,R,C,I)
 	//  2: including starred version (*)
 	//  3: optional parameter
-	//  4: parameter 
-	
+	//  4: parameter
+
 	QStringList cmdlist;
 	cmdlist
 		// Labels
@@ -116,6 +116,11 @@ void LatexCommands::resetCommands()
 	   << "\\Fref,+,R,,,{ }"
 	   << "\\eqref,+,R,,,{ }"
 	   << "\\autoref,+,R,,,{ }"
+	   // Bibliographies
+	   << "\\bibliography,+,B,,,{ }"
+	   << "\\addbibresource,+,B,*,[ ],{ }"
+	   << "\\addglobalbib,+,B,*,[ ],{ }"
+	   << "\\addsectionbib,+,B,*,[ ],{ }"
 		// Citations
 	   << "\\cite,+,C,,,{ }"
 		// Includes
@@ -123,21 +128,21 @@ void LatexCommands::resetCommands()
 	   << "\\input,+,I,,,{ }"
 	   << "\\Input,+,I,,,{ }"
 	   ;
-	
+
 	// first clear the dictionary
 	m_latexCommands.clear();
-	
+
 	// insert environments
 	addUserCommands(m_envGroupName,envlist);
 	insert(envlist);
-	
+
 	// insert commands
 	addUserCommands(m_cmdGroupName,cmdlist);
 	insert(cmdlist);
 }
 
 
-// add user-defined environments/commands 
+// add user-defined environments/commands
 
 //FIXME: the code for reading and writing these configuration entries should be regrouped
 //       within a single class (currently, the code for writing the values can be found
@@ -177,7 +182,7 @@ void LatexCommands::insert(const QStringList &list)
 		int pos = (*it).indexOf(',');
 		if(pos >= 0)  {
 			QString key = (*it).left(pos);
-			QString value = (*it).right( (*it).length()-pos-1 ); 
+			QString value = (*it).right( (*it).length()-pos-1 );
 			QStringList valuelist = value.split(',', QString::KeepEmptyParts);
 			int attributes = ( key.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
 			if(valuelist.count() == attributes) {
@@ -217,7 +222,7 @@ QString LatexCommands::getAttrAt(const QString &name, int index)
 	return (index < attributes && list.count() == attributes) ? list[index] : QString();
 }
 
-// check for a standard environment 
+// check for a standard environment
 
 bool LatexCommands::isUserDefined(const QString &name)
 {
@@ -256,11 +261,12 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
 		case CmdAttrReference: ch = 'R'; break;
 		case CmdAttrCitations: ch = 'C'; break;
 		case CmdAttrIncludes:  ch = 'I'; break;
+		case CmdAttrBibliographies: ch = 'B'; break;
 		default:
 		     KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: code " << attr;
 			  return '?';
 	}
-	
+
 	return ch;
 }
 
@@ -296,13 +302,16 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 		case 'I':
 			attr = CmdAttrIncludes;
 		break;
+		case 'B':
+			attr = CmdAttrBibliographies;
+		break;
 		default:
 			KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch.unicode());
 			return CmdAttrNone;
 	}
-	
+
 	return attr;
-}	
+}
 
 //////////////////// public attributes  ////////////////////
 
@@ -360,7 +369,7 @@ QString LatexCommands::getTabulator(const QString &name)
 void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 {
 	list.clear();
-	
+
 	QMapIterator<QString,QString> it(m_latexCommands);
 	while(it.hasNext()) {
 		it.next();
@@ -371,7 +380,7 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 				continue;
 			}
 		}
-		
+
 		// second check, if we need only user-defined environments or commands
 		if(!userdefined) {
 			list.append(it.key());
@@ -387,10 +396,10 @@ void LatexCommands::commandList(QStringList &list, uint attr, bool userdefined)
 bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &attr)
 {
 	int attributes = (name.at(0) == '\\') ? MaxCmdAttr : MaxEnvAttr;
-	
+
 	// split attribute list
 	QStringList list = getValue(name).split(',', QString::KeepEmptyParts);
-	
+
 	// check number of attributes
 	if(list.count() != attributes) {
 		return false;
@@ -405,9 +414,9 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
 		return false;
 	}
 
-	// all environments/commands have starred attribute 
+	// all environments/commands have starred attribute
 	attr.starred = (list[2] == "*");
-	
+
 	// next attributes differ for environments and commands
 	if(attributes == MaxEnvAttr) {
 		attr.cr = (list[3] == "\\\\");
@@ -425,7 +434,7 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
 		attr.option = list[3];
 		attr.parameter = list[4];
 	}
-	
+
 	return true;
 }
 
@@ -439,8 +448,8 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 		return QString();
 	}
 	QString s = ch + QString(',');
-	
-	// all environments/commands have starred attribute 
+
+	// all environments/commands have starred attribute
 	if(attr.starred) {
 		s += "*,";
 	}
@@ -467,14 +476,14 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 		}
 		s += attr.tabulator + ',';
 	}
-	
+
 	// option and parameter are for both types again
 	s += attr.option + ',';
 	s += attr.parameter;
-	
+
 	return s;    // s.left(s.length()-1);
 }
- 
+
 // END LatexCommands
 
 }

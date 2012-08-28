@@ -30,6 +30,14 @@ from=kilepr
 to=zip
 type=Process
 
+[Tool/Biber/Default]
+class=Compile
+command=biber
+options='%S'
+from=aux
+to=bbl
+type=Process
+
 [Tool/BibTeX/Default]
 class=Compile
 command=bibtex
@@ -895,6 +903,7 @@ type=Process
 [Tools]
 Archive=Tar + gzip
 Asymptote=Default
+Biber=Default
 BibTeX=Default
 Convert=pdf2png
 ConTeXt=PDF
@@ -930,6 +939,7 @@ XeLaTeX=PDF
 Lilypond=Compile,lilypond
 Archive=Archive,archive-insert
 Asymptote=Compile,application-x-executable
+Biber=Compile,bibtex
 BibTeX=Compile,bibtex
 Convert=Convert,convert
 DVItoPDF=Convert,dvipdf

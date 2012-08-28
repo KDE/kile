@@ -87,7 +87,7 @@ class LatexCommandsDialog : public KDialog
 
 		//QTreeWidget *m_lvEnvironments, *m_lvCommands;
 		QTreeWidgetItem *m_lviList, *m_lviTabular, *m_lviMath, *m_lviAmsmath, *m_lviVerbatim;
-		QTreeWidgetItem *m_lviLabels, *m_lviReferences, *m_lviCitations;
+		QTreeWidgetItem *m_lviLabels, *m_lviReferences, *m_lviBibliographies, *m_lviCitations;
 		QTreeWidgetItem *m_lviInputs;
 		/*KTabWidget *m_tab;
 		KPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;

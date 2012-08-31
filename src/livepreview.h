@@ -141,7 +141,8 @@ private:
 	QLinkedList<KAction*> m_livePreviewToolActionList;
 
 	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL,
-	                                                                               LivePreviewUserStatusHandler* *userStatusHandler = NULL);
+	                                                                             LivePreviewUserStatusHandler* *userStatusHandler = NULL,
+	                                                                             LaTeXOutputHandler* *latexOutputHandler = NULL);
 	bool isCurrentDocumentOrProject(KTextEditor::Document *doc);
 
 	void updatePreviewInformationAfterCompilationFinished();

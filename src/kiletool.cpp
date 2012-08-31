@@ -487,12 +487,14 @@ namespace KileTool
 		}
 	}
 
-	void Base::installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList)
+	void Base::installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList,
+                                                                                             const QString& logFile)
 	{
 		m_nErrors = nErrors;
 		m_nWarnings = nWarnings;
 		m_nBadBoxes = nBadBoxes;
 		m_latexOutputInfoList = outputList;
+		m_logFile = logFile;
 
 		latexOutputParserResultInstalled();
 	}
@@ -518,40 +520,40 @@ namespace KileTool
 
 	bool Base::installLauncher()
 	{
-		if (m_launcher)
+		if (m_launcher) {
 			return true;
+		}
 
 		QString type = readEntry("type");
 		KILE_DEBUG() << "installing launcher of type " << type;
-		Launcher *lr = 0;
+		Launcher *lr = NULL;
 
-		if ( type == "Process" )
-		{
+		if ( type == "Process" ) {
 			lr = new ProcessLauncher();
 		}
-		else if ( type == "Konsole" )
-		{
+		else if ( type == "Konsole" ) {
 			lr = new KonsoleLauncher();
 		}
-		else if ( type == "Part" )
-		{
+		else if ( type == "Part" ) {
 			lr = new PartLauncher();
 		}
-		else if ( type == "DocPart" )
-		{
+		else if ( type == "DocPart" ) {
 			lr = new DocPartLauncher();
 		}
 
-		if (lr)
-		{
+		if (lr) {
 			installLauncher(lr);
 			return true;
 		}
-		else
-		{
-			m_launcher = 0;
+		else {
+			m_launcher = NULL;
 			return false;
 		}
+	}
+
+	void Base::setupAsChildTool(KileTool::Base *child)
+	{
+		Q_UNUSED(child);
 	}
 
 	void Base::sendMessage(int type, const QString &msg)

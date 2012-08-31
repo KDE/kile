@@ -39,6 +39,7 @@
 #include <KUrlRequester>
 #include <KInputDialog>
 
+#include "errorhandler.h"
 #include "kdatetime.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -51,11 +52,11 @@ PdfDialog::PdfDialog(QWidget *parent,
                      const QString &texfilename,const QString &startdir,
                      const QString &latexextensions,
                      KileTool::Manager *manager,
-                     KileWidget::LogWidget *log, KileWidget::OutputView *output) :
+                     KileErrorHandler *errorHandler, KileWidget::OutputView *output) :
 	KDialog(parent),
 	m_startdir(startdir),
 	m_manager(manager),
-	m_log(log),
+	m_errorHandler(errorHandler),
 	m_output(output),
 	m_proc(NULL)
 {
@@ -903,7 +904,7 @@ void PdfDialog::executeAction()
 		return;
 	}
 
-	m_log->clear();
+	m_errorHandler->clearMessages();
 	QFileInfo from(m_inputfile);
 	QFileInfo to(m_outputfile);
 
@@ -912,7 +913,7 @@ void PdfDialog::executeAction()
 	QString msg = i18n("Rearranging PDF file: ") + from.fileName();
 	if (!to.fileName().isEmpty())
 		msg += " ---> " + to.fileName();
-	m_log->printMessage(KileTool::Info, msg, program);
+	m_errorHandler->printMessage(KileTool::Info, msg, program);
 
 	// some output logs
 	m_output->clear();
@@ -1023,8 +1024,8 @@ void PdfDialog::executePermissions()
 void PdfDialog::showLogs(const QString &title, const QString &inputfile, const QString &param)
 {
 	// some info for log widget
-	m_log->clear();
-	m_log->printMessage(KileTool::Info, title, "pdftk" );
+	m_errorHandler->clearMessages();
+	m_errorHandler->printMessage(KileTool::Info, title, "pdftk" );
 
 	// some info for output widget
 	QFileInfo input(inputfile);
@@ -1113,7 +1114,7 @@ void PdfDialog::finishPdfAction(bool state)
 	QString program = (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_execLatex) ? "LaTeX with 'pdfpages' package" : "pdftk";
 
 	if ( state ) {
-			m_log->printMessage(KileTool::Info, "finished", program);
+			m_errorHandler->printMessage(KileTool::Info, "finished", program);
 
 			// should we move the temporary pdf file
 			if ( ! m_move_filelist.isEmpty() ) {
@@ -1141,19 +1142,19 @@ void PdfDialog::finishPdfAction(bool state)
 		else {
 			msg = i18n("Finished with an error");
 		}
-		m_log->printMessage(KileTool::Error, msg, program);
+		m_errorHandler->printMessage(KileTool::Error, msg, program);
 	}
 }
 
 void PdfDialog::runViewer()
 {
-	m_log->printMessage(KileTool::Info, "Running viewer", "ViewPDF");
+	m_errorHandler->printMessage(KileTool::Info, "Running viewer", "ViewPDF");
 
 	// call ViewPDF
 	QString cfg = KileTool::configName("ViewPDF", m_manager->config());
 	KileTool::View *tool = dynamic_cast<KileTool::View*>(m_manager->createTool("ViewPDF", cfg, false));
 	if(!tool) {
-		m_log->printMessage(KileTool::Error, i18n("Could not create the ViewPDF tool"), i18n("ViewPDF"));
+		m_errorHandler->printMessage(KileTool::Error, i18n("Could not create the ViewPDF tool"), i18n("ViewPDF"));
 		return;
 	}
 	tool->setFlags(0);

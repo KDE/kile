@@ -1,7 +1,6 @@
 /**************************************************************************************
-    begin                : Sat Dec 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                  2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -97,9 +96,8 @@ namespace KileWidget
 		return textDocument;
 	}
 
-	LogWidget::LogWidget(KileInfo *info, QWidget *parent, const char *name) :
-		KListWidget(parent),
-		m_info(info)
+	LogWidget::LogWidget(PopupType popupType, QWidget *parent, const char *name) :
+		KListWidget(parent), m_popupType(popupType)
 	{
 		setObjectName(name);
 		connect(this, SIGNAL(itemClicked(QListWidgetItem*)),
@@ -360,19 +358,22 @@ namespace KileWidget
 		}
 		popup.addAction(action);
 
-		popup.addSeparator();
 
-		action = new QAction(i18n("Hide &Bad Boxes"), &popup);
-		action->setCheckable(true);
-		action->setChecked(KileConfig::hideProblemBadBox());
-		connect(action, SIGNAL(triggered()), this, SLOT(toggleBadBoxHiding()));
-		popup.addAction(action);
+		if(!(m_popupType & NoHideActions)) {
+			popup.addSeparator();
 
-		action = new QAction(i18n("Hide (La)TeX &Warnings"), &popup);
-		action->setCheckable(true);
-		action->setChecked(KileConfig::hideProblemWarning());
-		connect(action, SIGNAL(triggered()), this, SLOT(toggleWarningsHiding()));
-		popup.addAction(action);
+			action = new QAction(i18n("Hide &Bad Boxes"), &popup);
+			action->setCheckable(true);
+			action->setChecked(KileConfig::hideProblemBadBox());
+			connect(action, SIGNAL(triggered()), this, SLOT(toggleBadBoxHiding()));
+			popup.addAction(action);
+
+			action = new QAction(i18n("Hide (La)TeX &Warnings"), &popup);
+			action->setCheckable(true);
+			action->setChecked(KileConfig::hideProblemWarning());
+			connect(action, SIGNAL(triggered()), this, SLOT(toggleWarningsHiding()));
+			popup.addAction(action);
+		}
 
 		popup.exec(event->globalPos());
 	}

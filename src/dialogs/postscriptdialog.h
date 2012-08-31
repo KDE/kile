@@ -1,9 +1,6 @@
-/***************************************************************************
-    date                 : Mar 12 2007
-    version              : 0.20
-    copyright            : (C) 2005-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+/**********************************************************************************
+    Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ **********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -21,7 +18,6 @@
 
 #include <QProcess>
 
-#include "widgets/logwidget.h"
 #include "widgets/outputview.h"
 
 #include "ui_postscriptdialog_base.h"
@@ -47,6 +43,8 @@
 
 class KProcess;
 
+class KileErrorHandler;
+
 namespace KileDialog
 {
 
@@ -58,7 +56,7 @@ class PostscriptDialog : public KDialog
 		PostscriptDialog(QWidget *parent,
 		                 const QString &texfilename, const QString &startdir,
 		                 const QString &latexextensions,
-		                 KileWidget::LogWidget *log, KileWidget::OutputView *output);
+		                 KileErrorHandler *errorHandler, KileWidget::OutputView *output);
 		~PostscriptDialog();
 
 	Q_SIGNALS:
@@ -78,7 +76,7 @@ class PostscriptDialog : public KDialog
 		void execute();
 
 		QString m_startdir;
-		KileWidget::LogWidget *m_log;
+		KileErrorHandler *m_errorHandler;
 		KileWidget::OutputView *m_output;
 
 		QString m_tempfile;

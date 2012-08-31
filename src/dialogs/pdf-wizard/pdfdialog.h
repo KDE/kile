@@ -32,7 +32,6 @@
 #include <QLineEdit>
 #include <QBitArray>
 
-#include "widgets/logwidget.h"
 #include "widgets/outputview.h"
 #include "widgets/categorycombobox.h"
 
@@ -43,6 +42,8 @@
 
 
 class KProcess;
+
+class KileErrorHandler;
 
 namespace KileDialog
 {
@@ -56,7 +57,7 @@ class PdfDialog : public KDialog
 		          const QString &texfilename, const QString &startdir,
 		          const QString &latexextensions,
 		          KileTool::Manager *manager,
-		          KileWidget::LogWidget *log, KileWidget::OutputView *output);
+		          KileErrorHandler *errorHandler, KileWidget::OutputView *output);
 		~PdfDialog();
 
 	Q_SIGNALS:
@@ -158,7 +159,7 @@ class PdfDialog : public KDialog
 
 		QString m_startdir;
 		KileTool::Manager *m_manager;
-		KileWidget::LogWidget *m_log;
+		KileErrorHandler *m_errorHandler;
 		KileWidget::OutputView *m_output;
 		KileWidget::CategoryComboBox *m_cbTask;
 

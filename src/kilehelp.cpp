@@ -1,6 +1,5 @@
 /**********************************************************************************************
-    begin     : 2004
-    copyright : (C) 2004-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+    Copyright (C) 2004-2012 by Holger Danielsson (holger.danielsson@versanet.de)
  **********************************************************************************************/
 
 /***************************************************************************
@@ -19,13 +18,14 @@
 #include <KGlobal>
 #include <KStandardDirs>
 
+#include "editorextension.h"
+#include "errorhandler.h"
 #include "kilehelp.h"
 #include "kiledebug.h"
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 #include "kileinfo.h"
-#include "widgets/logwidget.h"
 #include "dialogs/texdocumentationdialog.h"
 #include "kileconfig.h"
 
@@ -322,7 +322,7 @@ namespace KileHelp
 
 	void Help::noHelpAvailableFor(const QString &word)
 	{
-		m_manager->info()->logWidget()->printMessage(KileTool::Error, i18n("No help available for %1.", word), i18n("Help"));
+		m_manager->info()->errorHandler()->printMessage(KileTool::Error, i18n("No help available for %1.", word), i18n("Help"));
 	}
 
 	QString Help::getKeyword(KTextEditor::View *view)

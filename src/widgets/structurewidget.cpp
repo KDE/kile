@@ -1,8 +1,7 @@
 /*************************************************************************************************
-    begin                : Sun Dec 28 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net
-                               2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net
+                 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+                 2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -72,15 +71,15 @@
 #include <KRun>
 #include <KUrl>
 
-#include "parser/parsermanager.h"
-
+#include "documentinfo.h"
+#include "errorhandler.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "kiledocmanager.h"
 #include "kileinfo.h"
-#include "documentinfo.h"
 #include "kileproject.h"
 #include "kiletool_enums.h"
+#include "parser/parsermanager.h"
 #include "widgets/logwidget.h"
 
 namespace KileWidget
@@ -681,7 +680,7 @@ void StructureViewItem::setLabel(const QString &label)
 						fromProject = false;
 					}
 
-					m_ki->logWidget()->printMessage(KileTool::Info,
+					m_ki->errorHandler()->printMessage(KileTool::Info,
 						(fromProject ?
 						i18n("No extension specified for graphic file.  Using .%1 from Project settings.", extToAdd) :
 						i18n("No extension specified for graphic file.  Using .%1 from global Structure View settings.", extToAdd)),

@@ -89,7 +89,7 @@ SET(kile_SRCS
 	kiledocmanager.cpp
 	kileviewmanager.cpp
 	eventfilter.cpp
-	kileerrorhandler.cpp
+	errorhandler.cpp
 	dialogs/configcheckerdialog.cpp
 	configtester.cpp
 	widgets/sidebar.cpp

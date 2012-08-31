@@ -24,6 +24,7 @@
 #include <KMessageBox>
 #include <KParts/PartManager>
 
+#include "errorhandler.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "kiledocmanager.h"
@@ -87,10 +88,9 @@ namespace KileTool
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::LogWidget *log, KileWidget::OutputView *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to) :
 		m_ki(ki),
 		m_config(config),
-		m_log(log),
 		m_output(output),
 		m_pm(manager),
 		m_stack(stack),
@@ -100,6 +100,9 @@ namespace KileTool
 		m_nTimeout(to)
 	{
 		connect(m_ki->parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingComplete()));
+
+		connect(this, SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
+		        m_ki->errorHandler(), SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
 
 		m_timer = new QTimer(this);
 		connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
@@ -179,8 +182,13 @@ namespace KileTool
 	{
 		KILE_DEBUG() << "==KileTool::Manager::runImmediately(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
-			m_log->clear();
+			m_ki->errorHandler()->clearMessages();
 			m_output->clear();
+		}
+
+		if(dynamic_cast<KileTool::LaTeX*>(tool)) {
+			connect(tool, SIGNAL(done(KileTool::Base*, int, bool)),
+			        m_ki->errorHandler(), SLOT(handleLaTeXToolDone(KileTool::Base*, int, bool)));
 		}
 
 		if(tool->needsToBePrepared()) {
@@ -217,6 +225,8 @@ namespace KileTool
 
 	int Manager::runChildNext(Base *parent, Base *tool, bool block /*= false*/)
 	{
+		parent->setupAsChildTool(tool);
+
 		return runImmediately(tool, true, block, parent);
 	}
 
@@ -224,8 +234,8 @@ namespace KileTool
 	{
 		Base *head = m_queue.tool();
 		if(head) {
-			if (m_log->isShowingOutput()) {
-				m_log->addEmptyLine();
+			if (m_ki->errorHandler()->areMessagesShown()) {
+				m_ki->errorHandler()->addEmptyLineToMessages();
 			}
 
 			if(!head->isPrepared()) {
@@ -243,7 +253,7 @@ namespace KileTool
 				return status;
 			}
 
-			m_log->startToolLogOutput();
+			m_ki->errorHandler()->startToolLogOutput();
 			emit(toolStarted());
 
 			return Running;
@@ -254,14 +264,14 @@ namespace KileTool
 
 	Base* Manager::createTool(const QString& name, const QString &cfg, bool prepare)
 	{
-		if (!m_factory) {
-			m_log->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
+		if(!m_factory) {
+			m_ki->errorHandler()->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
 			return NULL;
 		}
 
 		Base* pTool = m_factory->create(name, cfg, prepare);
-		if (!pTool) {
-			m_log->printMessage(Error, i18n("Unknown tool %1.", name));
+		if(!pTool) {
+			m_ki->errorHandler()->printMessage(Error, i18n("Unknown tool %1.", name));
 			return NULL;
 		}
 		initTool(pTool);
@@ -273,7 +283,7 @@ namespace KileTool
 		tool->setInfo(m_ki);
 		tool->setConfig(m_config);
 
-		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_log, SLOT(printMessage(int, const QString &, const QString &)));
+		connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_ki->errorHandler(), SLOT(printMessage(int, const QString &, const QString &)));
 		connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 		connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(done(KileTool::Base*, int)));
 		connect(tool, SIGNAL(start(KileTool::Base*)), this, SLOT(started(KileTool::Base*)));
@@ -326,7 +336,7 @@ namespace KileTool
 		setEnabledStopButton(false);
 		m_nLastResult = result;
 
-		m_log->endToolLogOutput();
+		m_ki->errorHandler()->endToolLogOutput();
 
 		if(tool != m_queue.tool()) { //oops, tool finished async, could happen with view tools
 			tool->deleteLater();
@@ -462,7 +472,7 @@ namespace KileTool
 
 		if(!retrieveEntryMap(tool->name(), map, true, true, cfg)) {
 		QString group = (cfg.isEmpty()) ? currentGroup(tool->name(), true, true) : groupFor(tool->name(), cfg);
-			m_log->printMessage(Error, i18n("Cannot find the tool \"%1\" in the configuration database.", group));
+			m_ki->errorHandler()->printMessage(Error, i18n("Cannot find the tool \"%1\" in the configuration database.", group));
 			return false;
 		}
 

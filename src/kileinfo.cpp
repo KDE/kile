@@ -95,20 +95,30 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 	return title;
 }
 
-QString KileInfo::getCompileName(bool shrt /* = false */)
+QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = NULL */)
 {
 	KileProject *project = docManager()->activeProject();
 
 	if (m_singlemode) {
 		if (project) {
+			if(h) {
+				*h = project;
+			}
 			return getCompileNameForProject(project, shrt);
 		}
 		else {
-			return getName(activeTextDocument(), shrt);
+			KTextEditor::Document *doc = activeTextDocument();
+			if(h) {
+				*h = dynamic_cast<KileDocument::LaTeXInfo*>(m_docManager->textInfoFor(doc));
+			}
+			return getName(doc, shrt);
 		}
 	}
 	else {
 		QFileInfo fi(m_masterDocumentFileName);
+		if(h) {
+			*h = dynamic_cast<KileDocument::LaTeXInfo*>(m_docManager->textInfoFor(m_masterDocumentFileName));
+		}
 		if(shrt) {
 			return fi.fileName();
 		}

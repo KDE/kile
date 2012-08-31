@@ -131,12 +131,51 @@ namespace KileTool
 
 	/////////////// LaTeX ////////////////
 
-	LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare) : Compile(tool, mngr, prepare)
+	LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare)
+	: Compile(tool, mngr, prepare), m_latexOutputHandler(NULL)
 	{
 	}
 
 	LaTeX::~LaTeX()
 	{
+	}
+
+	void LaTeX::setupAsChildTool(KileTool::Base *child)
+	{
+		KileTool::LaTeX *latexChild = dynamic_cast<KileTool::LaTeX*>(child);
+		if(latexChild) {
+			latexChild->setLaTeXOutputHandler(latexOutputHandler());
+		}
+	}
+
+	LaTeXOutputHandler* LaTeX::latexOutputHandler()
+	{
+		return m_latexOutputHandler;
+	}
+
+	void LaTeX::setLaTeXOutputHandler(LaTeXOutputHandler *h)
+	{
+		m_latexOutputHandler = h;
+	}
+
+	bool LaTeX::determineSource()
+	{
+		QString src = source();
+
+		// check whether the source has been set already
+		if(!src.isEmpty()) {
+			return true;
+		}
+
+		//the basedir is determined from the current compile target
+		//determined by getCompileName()
+		LaTeXOutputHandler *h = NULL;
+		src = m_ki->getCompileName(false, &h);
+
+		setSource(src);
+		setLaTeXOutputHandler(h);
+
+		return true;
 	}
 
 	int LaTeX::m_reRun = 0;
@@ -198,6 +237,11 @@ namespace KileTool
 	void LaTeX::latexOutputParserResultInstalled()
 	{
 		KILE_DEBUG();
+
+		if(m_latexOutputHandler) {
+			m_latexOutputHandler->storeLaTeXOutputParserResult(m_nErrors, m_nWarnings, m_nBadBoxes, m_latexOutputInfoList,
+			                                                                                        m_logFile);
+		}
 
 		checkErrors();
 

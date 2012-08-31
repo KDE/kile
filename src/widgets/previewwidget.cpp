@@ -32,11 +32,11 @@
 
 #include <KLocale>
 
-#include "kileconfig.h"
 #include "editorextension.h"
+#include "errorhandler.h"
+#include "kileconfig.h"
 #include "kileinfo.h"
 #include "kileviewmanager.h"
-#include "widgets/logwidget.h"
 #include "kiletool.h"
 #include "kiletool_enums.h"
 #include "quickpreview.h"
@@ -124,7 +124,7 @@ PreviewWidget::~PreviewWidget()
 void PreviewWidget::showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype)
 {
 	KILE_DEBUG() << "==PreviewWidget::showActivePreview()==========================";
-	m_info->logWidget()->clear();
+	m_info->errorHandler()->clearMessages();
 	if(m_running || m_info->quickPreview()->isRunning()) {
 		showError( i18n("There is already a preview running that has to be finished to run this one.") );
 		return;
@@ -235,7 +235,7 @@ void PreviewWidget::toolDestroyed()
 
 void PreviewWidget::showError(const QString &text)
 {
-	m_info->logWidget()->printMessage(KileTool::Error, text, i18n("QuickPreview"));
+	m_info->errorHandler()->printMessage(KileTool::Error, text, i18n("QuickPreview"));
 }
 
 }

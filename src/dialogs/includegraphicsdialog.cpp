@@ -1,8 +1,6 @@
 /**************************************************************************************************
-    date                 : Dec 06 2005
-    version              : 0.24
-    copyright            : (C) 2004-2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                              2004 by Jeroen Wijnhout
+   Copyright (C) 2004-2005 by Holger Danielsson (holger.danielsson@t-online.de)
+                 2004 by Jeroen Wijnhout
  **************************************************************************************************/
 
 /***************************************************************************
@@ -28,13 +26,13 @@
 #include <KProcess>
 #include <KPushButton>
 
+#include "errorhandler.h"
 #include "kiledebug.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "editorextension.h"
 #include "kileactions.h"
 #include "kiletool_enums.h"
-#include "widgets/logwidget.h"
 
 namespace KileDialog
 {
@@ -593,7 +591,7 @@ void IncludeGraphics::slotWrapFigureSelected(bool state) {
 	// Adds warning to log if wrapfig isn't in the preamble
 	QStringList packagelist = m_ki->allPackages();
 	if (!packagelist.contains("wrapfig")) {
-		m_ki->logWidget()->printMessage(KileTool::Error, i18n("You must include the wrapfig package to use the text wrapping options"), i18n("Missing Package"));
+		m_ki->errorHandler()->printMessage(KileTool::Error, i18n("You must include the wrapfig package to use the text wrapping options"), i18n("Missing Package"));
 	}
 }
 

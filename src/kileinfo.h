@@ -73,7 +73,7 @@ public:
 	QString getName(KTextEditor::Document *doc = NULL, bool shrt = false);
 	QString getShortName(KTextEditor::Document *doc = NULL) { return getName(doc, true); }
 	QString getCompileNameForProject(KileProject *project, bool shrt = false);
-	QString getCompileName(bool shrt = false);
+	QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = NULL);
 	QString getFullFromPrettyName(const OutputInfo& info, const QString& name);
 	KUrl::List getParentsFor(KileDocument::Info *);
 	bool getSinglemode() { return m_singlemode; }
@@ -124,7 +124,6 @@ public:
 	KileWidget::Konsole *texKonsole() { return m_texKonsole; }
 	KileWidget::OutputView *outputWidget() { return m_outputWidget; }
 	KileWidget::BottomBar *outputView() { return m_bottomBar; }
-	KileWidget::LogWidget *logWidget() { return m_logWidget; }
 	KileWidget::PreviewWidget *previewWidget () { return m_previewWidget; }
 
 	KileConfiguration::Manager* configurationManager() const { return m_configurationManager; }
@@ -172,7 +171,6 @@ protected:
 	KileTool::Factory		*m_toolFactory;
 	KileWidget::Konsole		*m_texKonsole;
 	KileWidget::OutputView		*m_outputWidget;
-	KileWidget::LogWidget		*m_logWidget;
 	KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
 	KileWidget::BottomBar		*m_bottomBar;
 	KileWidget::PreviewWidget	*m_previewWidget;

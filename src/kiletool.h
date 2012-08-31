@@ -192,6 +192,8 @@ namespace KileTool
 		void setMsg(long n, const KLocalizedString& msg);
 		KLocalizedString msg(long n) const { return m_messages[n]; }
 
+		virtual void setupAsChildTool(KileTool::Base *child);
+
 	public Q_SLOTS:
 		void sendMessage(int, const QString &);
 		virtual void filterOutput(const QString &);
@@ -214,7 +216,8 @@ namespace KileTool
 		 **/
 		virtual bool finish(int);
 
-		void installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList);
+		void installLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes, const LatexOutputInfoArray& outputList,
+		                                                                               const QString& logFile);
 
 	Q_SIGNALS:
 		void message(int, const QString &, const QString &);
@@ -272,11 +275,12 @@ namespace KileTool
 
 		virtual void latexOutputParserResultInstalled();
 
-	private:
+	protected:
 		Manager			*m_manager;
 		KileInfo		*m_ki;
 		KConfig			*m_config;
 
+	private:
 		QString			m_name;
 		QString			m_target, m_basedir, m_relativedir, m_targetdir, m_source, m_S, m_workingDir;
 		QString			m_options;
@@ -301,9 +305,10 @@ namespace KileTool
 		QMap<long, KLocalizedString>	m_messages;
 
 	protected:
-		bool			m_childToolSpawned;
 		int			m_nErrors, m_nWarnings, m_nBadBoxes;
 		LatexOutputInfoArray	m_latexOutputInfoList;
+		QString			m_logFile;
+		bool			m_childToolSpawned;
 		int			m_toolResult;
 	};
 

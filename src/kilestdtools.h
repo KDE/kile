@@ -59,6 +59,11 @@ namespace KileTool
 		public:
 			virtual ~LaTeX();
 
+			void setupAsChildTool(KileTool::Base *child);
+
+			LaTeXOutputHandler* latexOutputHandler();
+			void setLaTeXOutputHandler(LaTeXOutputHandler *h);
+
 		Q_SIGNALS:
 			void jumpToFirstError();
 
@@ -66,6 +71,10 @@ namespace KileTool
 			bool finish(int);
 
 		protected:
+			LaTeXOutputHandler *m_latexOutputHandler;
+
+			virtual bool determineSource();
+
 			void checkErrors();
 			void checkAutoRun();
 			void latexOutputParserResultInstalled();

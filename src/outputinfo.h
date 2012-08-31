@@ -1,7 +1,6 @@
 /**************************************************************************************
-    begin                : Die Sep 16 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -126,5 +125,28 @@ class LatexOutputInfo : public OutputInfo
  * @author Thorsten Lck
  **/
 typedef QList<LatexOutputInfo> LatexOutputInfoArray;
+
+class LaTeXOutputHandler
+{
+	public:
+		LaTeXOutputHandler();
+
+		void storeLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes,
+		                                                              const LatexOutputInfoArray& outputList,
+		                                                              const QString& logFile);
+
+		int numberOfWarnings() const;
+		int numberOfErrors() const;
+		int numberOfBadBoxes() const;
+		LatexOutputInfoArray outputList() const;
+		QString logFile() const;
+		int currentError() const;
+		void setCurrentError(int i);
+
+	protected:
+		int			m_nErrors, m_nWarnings, m_nBadBoxes, m_currentError;
+		LatexOutputInfoArray	m_latexOutputInfoList;
+		QString			m_logFile;
+};
 
 #endif

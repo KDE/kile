@@ -38,14 +38,14 @@
 #include <KTabWidget>
 
 #include "codecompletion.h"
+#include "errorhandler.h"
 #include "kilelistselector.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
-#include "widgets/logwidget.h"
 #include "kiletool_enums.h"
 
-CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent, const char *name)
-		: QWidget(parent), m_config(config), m_logwidget(logwidget), m_configChanged(false)
+CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileErrorHandler *errorHandler, QWidget *parent, const char *name)
+		: QWidget(parent), m_config(config), m_errorHandler(errorHandler), m_configChanged(false)
 {
 	setObjectName(name);
 	setupUi(this);
@@ -279,7 +279,7 @@ QTreeWidgetItem* CodeCompletionConfigWidget::getListviewEntry(QTreeWidget *listv
 	}
 	else {
 		if (items.count() > 1) {
-			m_logwidget->printMessage(KileTool::Info, i18n("Wordlist '%1' contains duplicate entries.", filename), i18n("Completion"));
+			m_errorHandler->printMessage(KileTool::Info, i18n("Wordlist '%1' contains duplicate entries.", filename), i18n("Completion"));
 		}
 		return items.first();
 	}

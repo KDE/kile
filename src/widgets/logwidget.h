@@ -1,7 +1,6 @@
 /*************************************************************************************
-    begin                : Sat Dec 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                  2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -58,8 +57,10 @@ namespace KileWidget {
 			QString message;
 			OutputInfo outputInfo;
 		};
-		
-		LogWidget(KileInfo *info, QWidget *parent, const char *name = NULL);
+
+		enum PopupType { AllPopupActions = 0, NoHideActions = 1};
+
+		LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = NULL, const char *name = NULL);
 		~LogWidget();
 
 		bool isShowingOutput() const;
@@ -107,7 +108,7 @@ namespace KileWidget {
 		void toggleWarningsHiding();
 
 	private:
-		KileInfo		*m_info;
+		int 			m_popupType;
 		int			m_idWarning, m_idBadBox;
 		LogWidgetItemDelegate	*m_itemDelegate;
 		OutputInfo 		m_firstErrorMessgeInToolLog;

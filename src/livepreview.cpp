@@ -40,11 +40,11 @@
 #include <okular/interfaces/viewerinterface.h>
 #endif
 
+#include "errorhandler.h"
 #include "kiledebug.h"
 #include "kiletool_enums.h"
 #include "kiledocmanager.h"
 #include "kileviewmanager.h"
-#include "widgets/logwidget.h"
 
 //TODO: it still has to be checked whether it is necessary to use LaTeXInfo objects
 
@@ -629,7 +629,8 @@ void LivePreviewManager::showPreviewOutOfDate()
 // If a LaTeXInfo* pointer is passed as first argument, it is guaranteed that '*userStatusHandler' won't be NULL.
 LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformation(KileDocument::TextInfo *textInfo,
                                                                                    KileProject* *locatedProject,
-                                                                                   LivePreviewUserStatusHandler* *userStatusHandler)
+                                                                                   LivePreviewUserStatusHandler* *userStatusHandler,
+                                                                                   LaTeXOutputHandler* *latexOutputHandler)
 {
 	const QString masterDocumentFileName = m_ki->getMasterDocumentFileName();
 	if(locatedProject) {
@@ -637,12 +638,10 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 	}
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(textInfo);
 	if(userStatusHandler) {
-		if(latexInfo) {
-			*userStatusHandler = latexInfo;
-		}
-		else {
-			*userStatusHandler = NULL;
-		}
+		*userStatusHandler = latexInfo;
+	}
+	if(latexOutputHandler) {
+		*latexOutputHandler = latexInfo;
 	}
 	if(!masterDocumentFileName.isEmpty()) {
 		KILE_DEBUG() << "master document defined";
@@ -656,6 +655,9 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 		}
 		if(userStatusHandler) {
 			*userStatusHandler = project;
+		}
+		if(latexOutputHandler) {
+			*latexOutputHandler = project;
 		}
 		if(m_projectToPreviewInformationHash.contains(project)) {
 			KILE_DEBUG() << "project found";
@@ -891,8 +893,10 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
 	KileProject *project = NULL;
 	LivePreviewUserStatusHandler *userStatusHandler;
-	PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project, &userStatusHandler);
+	LaTeXOutputHandler *latexOutputHandler;
+	PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project, &userStatusHandler, &latexOutputHandler);
 	Q_ASSERT(userStatusHandler);
+	Q_ASSERT(latexOutputHandler);
 	if(!previewInformation) {
 		previewInformation = new PreviewInformation();
 		if(!m_ki->getMasterDocumentFileName().isEmpty()) {
@@ -995,7 +999,8 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
 	latex->setTargetDir(previewInformation->getTempDir());
 	latex->setSource(fileInfo.absoluteFilePath(), fileInfo.absolutePath());
-// 	latex->setTargetDir(previewInformation->getTempDir());
+	latex->setLaTeXOutputHandler(latexOutputHandler);
+
 	latex->prepareToRun();
 // 	latex->launcher()->setWorkingDirectory(previewInformation->getTempDir());
 	KILE_DEBUG() << "dir:" << previewInformation->getTempDir();
@@ -1331,9 +1336,9 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 void LivePreviewManager::displayErrorMessage(const QString &text, bool clearFirst)
 {
 	if(clearFirst) {
-		m_ki->logWidget()->clear();
+		m_ki->errorHandler()->clearMessages();
 	}
-	m_ki->logWidget()->printMessage(KileTool::Error, text, i18n("LivePreview"));
+	m_ki->errorHandler()->printMessage(KileTool::Error, text, i18n("LivePreview"));
 }
 
 }

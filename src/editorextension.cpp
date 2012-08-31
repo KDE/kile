@@ -27,18 +27,18 @@
 #include <KLocale>
 #include <KStandardDirs>
 
-#include "widgets/konsolewidget.h"
+#include "errorhandler.h"
 #include "codecompletion.h"
-#include "kileinfo.h"
-#include "kileviewmanager.h"
-#include "kileconfig.h"
-#include "kileactions.h"
+#include "errorhandler.h"
 #include "kile.h"
-
-#include "kiletool_enums.h"
-#include "widgets/logwidget.h"
+#include "kileactions.h"
+#include "kileconfig.h"
 #include "kileextensions.h"
+#include "kileinfo.h"
+#include "kiletool_enums.h"
+#include "kileviewmanager.h"
 #include "quickpreview.h"
+#include "widgets/konsolewidget.h"
 
 /*
  * FIXME: The code in this file should be reworked completely. Once we've got a better parser
@@ -3022,7 +3022,7 @@ bool EditorExtension::insertSpecialCharacter(const QString& texString, KTextEdit
 	if (!dep.isEmpty()) {
 		QStringList packagelist = m_ki->allPackages();
 		if(!packagelist.contains(dep)) {
-			m_ki->logWidget()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
+			m_ki->errorHandler()->printMessage(KileTool::Error, i18n("You have to include the package %1 to use %2.", dep, texString), i18n("Missing Package"));
 			KILE_DEBUG() << "Need package "<< dep;
 		}
 	}
@@ -3271,8 +3271,8 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	QRegExp reg( "\\\\(part|chapter|section|subsection|subsubsection|paragraph|subparagraph)\\*?\\s*(\\{|\\[)" );
 	QString textline = getTextLineReal(doc,row1);
 	if(reg.indexIn(textline, col1) != col1) {
-		m_ki->logWidget()->clear();
-		m_ki->logWidget()->printMessage(KileTool::Error,
+		m_ki->errorHandler()->clearMessages();
+		m_ki->errorHandler()->printMessage(KileTool::Error,
 		       i18n("The document was modified and the structure view should be updated, before starting such an operation."),
 		       i18n("Structure View Error") );
 		return;

@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,8 @@
 #include "parsermanager.h"
 
 #include "documentinfo.h"
+#include "errorhandler.h"
 #include "kiledocmanager.h"
-#include "kileerrorhandler.h"
 #include "kileinfo.h"
 #include "kiletool_enums.h"
 #include "latexoutputparser.h"
@@ -95,7 +95,7 @@ void Manager::handleOutputParsingComplete(const KUrl& url, KileParser::ParserOut
 		return;          // have been killed and we do nothing
 	}
 	if(!latexOutput->problem.isEmpty()) {
-		m_ki->logWidget()->printProblem(KileTool::Warning, latexOutput->problem);
+		m_ki->errorHandler()->printProblem(KileTool::Warning, latexOutput->problem);
 		return;
 	}
 	// use the returned list as the new global error information list
@@ -104,7 +104,8 @@ void Manager::handleOutputParsingComplete(const KUrl& url, KileParser::ParserOut
 	Q_FOREACH(KileTool::Base *tool, toolList) {
 		tool->installLaTeXOutputParserResult(latexOutput->nErrors, latexOutput->nWarnings,
 		                                                           latexOutput->nBadBoxes,
-		                                                           latexOutput->infoList);
+		                                                           latexOutput->infoList,
+		                                                           latexOutput->logFile);
 	}
 }
 

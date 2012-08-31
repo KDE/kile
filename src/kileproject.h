@@ -19,12 +19,13 @@
 #include <QList>
 #include <QRegExp>
 
-#include "kiledebug.h"
-#include "livepreview_utils.h"
-
 #include <KConfig>
 #include <KUrl>
 #include <KTextEditor/View>
+
+#include "kiledebug.h"
+#include "livepreview_utils.h"
+#include "outputinfo.h"
 
 class QString;
 class QStringList;
@@ -147,7 +148,7 @@ private:
 /**
  * KileProject
  **/
-class KileProject : public QObject, public KileTool::LivePreviewUserStatusHandler
+class KileProject : public QObject, public KileTool::LivePreviewUserStatusHandler, public LaTeXOutputHandler
 {
 	Q_OBJECT
 	friend class KileProjectItem;

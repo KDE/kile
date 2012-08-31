@@ -47,6 +47,7 @@
 #include <kurl.h>
 #include <kfileitem.h>
 
+#include "errorhandler.h"
 #include "templates.h"
 #include "dialogs/newfilewizard.h"
 #include "dialogs/managetemplatesdialog.h"
@@ -66,7 +67,6 @@
 #include "kiletoolmanager.h"
 #include "widgets/konsolewidget.h"
 #include "kileconfig.h"
-#include "widgets/logwidget.h"
 #include "widgets/progressdialog.h"
 #include "dialogs/cleandialog.h"
 #include "livepreview.h"
@@ -924,9 +924,9 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 					}
 					else {
 						KILE_DEBUG() << "backing up failed (" << url.prettyUrl() << " -> " << backupUrl.prettyUrl() << ")";
-						m_ki->logWidget()->printMessage(KileTool::Error,
-						                                i18n("The file %1 could not be saved, check the permissions and free disk space.", backupUrl.prettyUrl()),
-						                                i18n("Autosave"));
+						m_ki->errorHandler()->printMessage(KileTool::Error,
+						                                   i18n("The file %1 could not be saved, check the permissions and free disk space.", backupUrl.prettyUrl()),
+						                                   i18n("Autosave"));
 					}
 				}
 
@@ -936,9 +936,9 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 
 				if(!saveResult) {
 					oneSaveFailed = true;
-					m_ki->logWidget()->printMessage(KileTool::Error,
-					                                i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()),
-					                                i18n("Saving"));
+					m_ki->errorHandler()->printMessage(KileTool::Error,
+					                                   i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()),
+					                                   i18n("Saving"));
 				}
 			}
 		}
@@ -1448,16 +1448,16 @@ void Manager::addToProject(KileProject* project, const KUrl & url)
 	QFileInfo fi(realurl.toLocalFile());
 
 	if (project->contains(realurl)) {
-		m_ki->logWidget()->printMessage(KileTool::Info,
-		                                i18n("The file %1 is already member of the project %2", realurl.fileName(), project->name()),
-		                                i18n("Add to Project"));
+		m_ki->errorHandler()->printMessage(KileTool::Info,
+		                                   i18n("The file %1 is already member of the project %2", realurl.fileName(), project->name()),
+		                                   i18n("Add to Project"));
 		return;
 	}
 	else if(!fi.exists() || !fi.isReadable())
 	{
-		m_ki->logWidget()->printMessage(KileTool::Info,
-		                                i18n("The file %1 can not be added because it does not exist or is not readable", realurl.fileName()),
-		                                i18n("Add to Project"));
+		m_ki->errorHandler()->printMessage(KileTool::Info,
+		                                   i18n("The file %1 can not be added because it does not exist or is not readable", realurl.fileName()),
+		                                   i18n("Add to Project"));
 		return;
 	}
 
@@ -1955,8 +1955,8 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	}
 
 	if(extlist.count() == 0) {
-		m_ki->logWidget()->printMessage(KileTool::Warning, i18n("Nothing to clean for %1", fileName),
-		                                i18n("Clean"));
+		m_ki->errorHandler()->printMessage(KileTool::Warning, i18n("Nothing to clean for %1", fileName),
+		                                                           i18n("Clean"));
 	}
 	else {
 		for(int i = 0; i < extlist.count(); ++i) {
@@ -1964,9 +1964,9 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 			KILE_DEBUG() << "About to remove file = " << file.fileName();
 			file.remove();
 		}
-		m_ki->logWidget()->printMessage(KileTool::Info,
-		                                i18n("Cleaning %1: %2", fileName, extlist.join(" ")),
-		                                i18n("Clean"));
+		m_ki->errorHandler()->printMessage(KileTool::Info,
+		                                   i18n("Cleaning %1: %2", fileName, extlist.join(" ")),
+		                                   i18n("Clean"));
 	}
 }
 
@@ -2194,9 +2194,9 @@ QStringList Manager::getProjectFiles()
 
 void Manager::dontOpenWarning(KileProjectItem *item, const QString &action, const QString &filetype)
 {
-	m_ki->logWidget()->printMessage(KileTool::Info,
-	                                i18n("not opened: %1 (%2)", item->url().toLocalFile(), filetype),
-	                                action);
+	m_ki->errorHandler()->printMessage(KileTool::Info,
+	                                   i18n("not opened: %1 (%2)", item->url().toLocalFile(), filetype),
+	                                   action);
 }
 
 KileProjectItem* Manager::selectProjectFileItem(const QString &label)

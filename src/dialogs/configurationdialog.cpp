@@ -39,6 +39,7 @@
 #include <KTextEditor/ConfigPage>
 #include <KTextEditor/EditorChooser>
 
+#include "errorhandler.h"
 #include "kiledocmanager.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
@@ -206,7 +207,7 @@ namespace KileDialog
 
 	void Config::setupCodeCompletion(KPageWidgetItem* parent)
 	{
-		completePage = new CodeCompletionConfigWidget(m_config, m_ki->logWidget());
+		completePage = new CodeCompletionConfigWidget(m_config, m_ki->errorHandler());
 		completePage->readConfig();
 
 		addConfigPage(parent, completePage, i18n("Complete"), "text-x-tex", i18n("Code Completion"));

@@ -1,7 +1,6 @@
 /************************************************************************************
-    begin                : Die Sep 16 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
+                2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************/
 
 /***************************************************************************
@@ -67,4 +66,56 @@ LatexOutputInfo::LatexOutputInfo(const QString& mainSourceFile, const QString& s
                                  const QString& strError, int nErrorID)
 : OutputInfo(mainSourceFile, strSrcFile, nSrcLine, nOutputLine, strError, nErrorID)
 {
+}
+
+LaTeXOutputHandler::LaTeXOutputHandler()
+: m_nErrors(-1), m_nWarnings(-1), m_nBadBoxes(-1), m_currentError(-1)
+{
+}
+
+void LaTeXOutputHandler::storeLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes,
+                                                                                  const LatexOutputInfoArray& outputList,
+                                                                                  const QString& logFile)
+{
+	m_nErrors = nErrors;
+	m_nWarnings = nWarnings;
+	m_nBadBoxes = nBadBoxes;
+	m_latexOutputInfoList = outputList;
+	m_logFile = logFile;
+	m_currentError = -1;
+}
+
+int LaTeXOutputHandler::numberOfWarnings() const
+{
+	return m_nWarnings;
+}
+
+int LaTeXOutputHandler::numberOfErrors() const
+{
+	return m_nErrors;
+}
+
+int LaTeXOutputHandler::numberOfBadBoxes() const
+{
+	return m_nBadBoxes;
+}
+
+LatexOutputInfoArray LaTeXOutputHandler::outputList() const
+{
+	return m_latexOutputInfoList;
+}
+
+QString LaTeXOutputHandler::logFile() const
+{
+	return m_logFile;
+}
+
+int LaTeXOutputHandler::currentError() const
+{
+	return m_currentError;
+}
+
+void LaTeXOutputHandler::setCurrentError(int i)
+{
+	m_currentError = i;
 }

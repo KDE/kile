@@ -31,16 +31,13 @@ class KPushButton;
 class KTabWidget;
 class KDirWatch;
 
-
-namespace KileWidget {
-class LogWidget;
-}
+class KileErrorHandler;
 
 class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeCompletionConfig
 {
 		Q_OBJECT
 	public:
-		CodeCompletionConfigWidget(KConfig *config, KileWidget::LogWidget *logwidget, QWidget *parent = NULL, const char *name = NULL);
+		CodeCompletionConfigWidget(KConfig *config, KileErrorHandler *errorHandler, QWidget *parent = NULL, const char *name = NULL);
 		~CodeCompletionConfigWidget();
 
 		void readConfig(void);
@@ -50,7 +47,7 @@ class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeComp
 		enum CompletionPage { TexPage = 0, DictionaryPage = 1, AbbreviationPage = 2, NumPages = 3 };
 
 		KConfig *m_config;
-		KileWidget::LogWidget *m_logwidget;
+		KileErrorHandler *m_errorHandler;
 
 		// tabs, views, pages, wordlists
 		QTreeWidget *m_listview[NumPages];

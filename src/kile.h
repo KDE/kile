@@ -97,7 +97,7 @@ class Kile : public KParts::MainWindow, public KileInfo
 	Q_OBJECT
 
 public:
-	explicit Kile(bool allowRestore = true, QWidget *parent = 0, const char *name = 0);
+	explicit Kile(bool allowRestore = true, QWidget *parent = NULL);
 	~Kile();
 
 	int lineNumber();

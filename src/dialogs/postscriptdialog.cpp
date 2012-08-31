@@ -1,9 +1,6 @@
-/***************************************************************************
-    date                 : Mar 12 2007
-    version              : 0.20
-    copyright            : (C) 2005-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+/**********************************************************************************
+    Ccopyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+ **********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -39,6 +36,7 @@
 #include <KTemporaryFile>
 #include <KUrlRequester>
 
+#include "errorhandler.h"
 #include "kiledebug.h"
 #include "kiletool_enums.h"
 
@@ -48,12 +46,12 @@ namespace KileDialog
 PostscriptDialog::PostscriptDialog(QWidget *parent,
                                    const QString &texfilename,const QString &startdir,
                                    const QString &latexextensions,
-                                   KileWidget::LogWidget *log,KileWidget::OutputView *output) :
+                                   KileErrorHandler *errorHandler, KileWidget::OutputView *output) :
 	KDialog(parent),
 	m_startdir(startdir),
-	m_log(log),
+	m_errorHandler(errorHandler),
 	m_output(output),
-	m_proc(0)
+	m_proc(NULL)
 {	
 	setCaption(i18n("Rearrange Postscript File"));
 	setModal(true);
@@ -176,11 +174,11 @@ void PostscriptDialog::execute()
 	m_tempfile = buildTempfile();
 	
 	if(m_tempfile.isEmpty()) {
-		m_log->printMessage(KileTool::Error, i18n("Could not create a temporary file."));
+		m_errorHandler->printMessage(KileTool::Error, i18n("Could not create a temporary file."));
 		return;
 	}
 	else {
-		m_log->clear();
+		m_errorHandler->clearMessages();
 		QFileInfo from(m_PostscriptDialog.m_edInfile->lineEdit()->text());
 		QFileInfo to(m_PostscriptDialog.m_edOutfile->lineEdit()->text());
 
@@ -188,7 +186,7 @@ void PostscriptDialog::execute()
 		QString msg = i18n("rearrange ps file: ") + from.fileName();
 		if (!to.fileName().isEmpty())
 			msg += " ---> " + to.fileName();
-		m_log->printMessage(KileTool::Info, msg, m_program);
+		m_errorHandler->printMessage(KileTool::Info, msg, m_program);
 
 		// some output logs 
 		m_output->clear();

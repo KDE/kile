@@ -112,7 +112,8 @@ void StructureViewItem::setTitle(const QString &title)
 
 void StructureViewItem::setItemEntry()
 {
-	setText(0, m_title + " (" + i18n("line") + ' ' + QString::number(m_line) + ')');
+	setText(0, i18nc("structure view entry: title (line)", "%1 (line %2)", m_title, QString::number(m_line)));
+	setToolTip(0, text(0));
 }
 
 void StructureViewItem::setLabel(const QString &label)

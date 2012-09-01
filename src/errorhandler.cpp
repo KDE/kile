@@ -300,17 +300,17 @@ void KileErrorHandler::updateForCompilationResult()
 	QString errorString, warningString, badBoxString;
 
 	if(nErrors >= 0) {
-		errorString = i18n("Errors: %1").arg(nErrors);
+		errorString = i18n("Errors: %1", nErrors);
 	}
 	if(nWarnings >= 0) {
-		warningString = i18n("Warnings: %1").arg(nWarnings);
+		warningString = i18n("Warnings: %1", nWarnings);
 	}
 	if(nBadBoxes >= 0) {
-		badBoxString = i18n("BadBoxes: %1").arg(nBadBoxes);
+		badBoxString = i18n("BadBoxes: %1", nBadBoxes);
 	}
 
 	m_compilationResultLabel->setText(i18nc("Result of the compilation w.r.t. number of errors/warnings/badboxes",
-	                                        "%1  %2  %3").arg(errorString).arg(warningString).arg(badBoxString));
+	                                        "%1  %2  %3", errorString, warningString, badBoxString));
 }
 
 void KileErrorHandler::clearErrorOutput()

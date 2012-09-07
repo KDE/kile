@@ -455,8 +455,9 @@ void KileErrorHandler::jumpToFirstError()
 	int sz = outputInfoList.size();
 	for(int i = 0; i < sz; ++i) {
 		if(outputInfoList[i].type() == LatexOutputInfo::itmError) {
-			jumpToProblem(outputInfoList[i]);
+			// this has to be before calling 'jumpToProblem' as this might change 'm_currentLaTeXOutputHandler'
 			m_currentLaTeXOutputHandler->setCurrentError(i);
+			jumpToProblem(outputInfoList[i]);
 			break;
 		}
 	}

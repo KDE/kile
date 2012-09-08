@@ -65,6 +65,7 @@ public:
 
 Q_SIGNALS:
 	void showingErrorMessage(QWidget *w);
+	void currentLaTeXOutputHandlerChanged(LaTeXOutputHandler *outputHandler);
 
 public Q_SLOTS:
 	void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);

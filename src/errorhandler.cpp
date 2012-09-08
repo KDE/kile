@@ -280,6 +280,7 @@ void KileErrorHandler::updateCurrentLaTeXOutputHandler()
 		setOutputActionsEnabled(true);
 		updateForCompilationResult();
 	}
+	emit(currentLaTeXOutputHandlerChanged(m_currentLaTeXOutputHandler));
 }
 
 void KileErrorHandler::updateForCompilationResult()

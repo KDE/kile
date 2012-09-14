@@ -46,6 +46,8 @@ QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_running(0), m_tempDir(NUL
 	           << i18n("PDFLaTeX ---> PDF (Okular)")
 	           << i18n("XeLaTeX ---> PDF")
 	           << i18n("XeLaTeX ---> PDF (Okular)")
+	           << i18n("LuaLaTeX ---> PDF")
+	           << i18n("LuaLaTeX ---> PDF (Okular)")
 	           ;
 }
 
@@ -156,6 +158,8 @@ void QuickPreview::getTaskList(QStringList &tasklist)
 	         << "Tool/ViewPDF/Okular="      + m_taskList[5]
 	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[6]
 	         << "Tool/ViewPDF/Okular="      + m_taskList[7]
+	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[8]
+	         << "Tool/ViewPDF/Okular="      + m_taskList[9]
 	         ;
 }
 
@@ -176,6 +180,8 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	map[m_taskList[5]] = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
 	map[m_taskList[6]] = "PreviewXeLaTeX,,,ViewPDF,Embedded Viewer,pdf"; 
 	map[m_taskList[7]] = "PreviewXeLaTeX,,,ViewPDF,Okular,pdf";
+	map[m_taskList[8]] = "PreviewLuaLaTeX,,,ViewPDF,Embedded Viewer,pdf";
+	map[m_taskList[9]] = "PreviewLuaLaTeX,,,ViewPDF,Okular,pdf";
 
 	QString previewtask = KileConfig::previewTask();
 	if(!map.contains(previewtask)) {

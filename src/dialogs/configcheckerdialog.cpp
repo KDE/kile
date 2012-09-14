@@ -147,7 +147,7 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
 	vboxLayout->addWidget(m_useEmbeddedViewerCheckBox);
 	m_useModernConfigurationForLaTeXCheckBox = new QCheckBox(i18n("Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"));
 	vboxLayout->addWidget(m_useModernConfigurationForLaTeXCheckBox);
-	m_useModernConfigurationForPDFLaTeX = new QCheckBox(i18n("Use the 'modern' configuration for the PDFLaTeX and XeLaTeX tools"));
+	m_useModernConfigurationForPDFLaTeX = new QCheckBox(i18n("Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"));
 	vboxLayout->addWidget(m_useModernConfigurationForPDFLaTeX);
 	vboxLayout->addWidget(new QLabel(i18n("<br/>Please press 'Finish' now to accept the recommended configuration changes.")));
 	vboxLayout->addStretch();
@@ -311,6 +311,7 @@ void ConfigChecker::assistantFinished()
 	if(m_useModernConfigurationForPDFLaTeX->isChecked()) {
 		m_ki->toolManager()->setConfigName("PDFLaTeX", "Modern");
 		m_ki->toolManager()->setConfigName("XeLaTeX", "PDF Modern");
+		m_ki->toolManager()->setConfigName("LuaLaTeX", "PDF Modern");
 	}
 }
 

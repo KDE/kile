@@ -389,6 +389,72 @@ checkForRoot=yes
 jumpToFirstError=yes
 autoRun=yes
 
+[Tool/LuaLaTeX/PDF]
+class=LaTeX
+command=lualatex
+options=--interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LuaLaTeX/XDVI]
+class=LaTeX
+command=lualatex
+options=--output-format=dvi --interaction=nonstopmode '%source'
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LuaLaTeX/PDF Draft]
+class=LaTeX
+command=lualatex
+options=--draftmode --interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LuaLaTeX/XDVI Draft]
+class=LaTeX
+command=lualatex
+options=--output-format=dvi --draftmode --interaction=nonstopmode '%source'
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LuaLaTeX/PDF Modern]
+class=LaTeX
+command=lualatex
+options=--synctex=1 --interaction=nonstopmode '%source'
+from=
+to=pdf
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
+[Tool/LuaLaTeX/XDVI Modern]
+class=LaTeX
+command=lualatex
+options=--output-format=dvi --interaction=nonstopmode '%source'
+from=
+to=xdvi
+type=Process
+checkForRoot=yes
+jumpToFirstError=yes
+autoRun=yes
+
 [Tool/PreviewLaTeX/Default]
 autoRun=no
 checkForRoot=no
@@ -422,6 +488,17 @@ options=-interaction=nonstopmode '%source'
 to=pdf
 type=Process
 
+[Tool/PreviewLuaLaTeX/Default]
+autoRun=no
+checkForRoot=no
+class=LaTeXpreview
+command=lualatex
+from=
+jumpToFirstError=yes
+options=--interaction=nonstopmode '%source'
+to=pdf
+type=Process
+
 [Tool/LivePreview-PDFLaTeX/Default]
 autoRun=yes
 checkForRoot=no
@@ -452,6 +529,17 @@ command=xelatex
 from=
 jumpToFirstError=yes
 options=-synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
+to=pdf
+type=Process
+
+[Tool/LivePreview-LuaLaTeX/Default]
+autoRun=yes
+checkForRoot=no
+class=LaTeXLivePreview
+command=lualatex
+from=
+jumpToFirstError=yes
+options=--synctex=1 --interaction=nonstopmode --output-directory='%dir_target' '%source'
 to=pdf
 type=Process
 
@@ -502,6 +590,16 @@ sequence=PDFLaTeX,ForwardPDF
 class=Sequence
 sequence=LaTeX,DVItoPS,PStoPDF,ViewPDF
 type=Sequence
+
+[Tool/QuickBuild/LuaLaTeX+ViewPDF]
+class=Sequence
+type=Sequence
+sequence=LuaLaTeX,ViewPDF
+
+[Tool/QuickBuild/LuaLaTeX+ForwardPDF]
+class=Sequence
+type=Sequence
+sequence=LuaLaTeX,ForwardPDF
 
 [Tool/TeX/Default]
 class=Compile
@@ -919,8 +1017,10 @@ PDFLaTeX=Default
 PreviewLaTeX=Default
 PreviewPDFLaTeX=Default
 PreviewXeLaTeX=Default
+PreviewLuaLaTeX=Default
 LivePreview-PDFLaTeX=Default
 LivePreview-XeLaTeX=Default
+LivePreview-LuaLaTeX=Default
 PStoPDF=Default
 QuickBuild=PDFLaTeX+ViewPDF
 TeX=Default
@@ -934,6 +1034,7 @@ ForwardDVI=Document Viewer
 ForwardPDF=Document Viewer
 Lilypond=PDF
 XeLaTeX=PDF
+LuaLaTeX=PDF
 
 [ToolsGUI]
 Lilypond=Compile,lilypond
@@ -952,8 +1053,10 @@ MetaPost=Compile,mpost
 PreviewLaTeX=none,application-x-executable
 PreviewPDFLaTeX=none,application-x-executable
 PreviewXeLaTeX=none,application-x-executable
+PreviewLuaLaTeX=none,application-x-executable
 LivePreview-PDFLaTeX=none,application-x-executable
 LivePreview-XeLaTeX=none,application-x-executable
+LivePreview-LuaLaTeX=none,application-x-executable
 PStoPDF=Convert,ps2pdf
 QuickBuild=Quick,quick
 LaTeX=Compile,latex
@@ -962,6 +1065,7 @@ PDFTeX=Compile,pdftex
 PDFLaTeX=Compile,pdflatex
 ConTeXt=Compile,latex
 XeLaTeX=Compile,latex
+LuaLaTeX=Compile,latex
 ViewBib=View,viewbib
 ViewDVI=View,okular
 ViewPDF=View,okular

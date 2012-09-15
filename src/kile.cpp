@@ -24,7 +24,6 @@
 #include <QHideEvent>
 #include <QPointer>
 #include <QShowEvent>
-#include <QSplashScreen>
 #include <QXmlStreamWriter>
 
 #include <KAboutApplicationDialog>
@@ -40,6 +39,7 @@
 #include <KRecentFilesAction>
 #include <KRun>
 #include <KShortcutsDialog>
+#include <KSplashScreen>
 #include <KStandardDirs>
 #include <KStatusBar>
 #include <KTipDialog>
@@ -118,20 +118,16 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_paPrint(NULL)
 {
 	setObjectName("Kile");
-	// publish the D-Bus interfaces
-	new MainAdaptor(this);
-	QDBusConnection dbus = QDBusConnection::sessionBus();
-	dbus.registerObject("/main", this);
-	dbus.registerService("net.sourceforge.kile"); // register under a constant names
 
 	// Under some circumstances (Qt or KDE issues like a KIO process still running (?)), Kile doesn't terminate
 	// when the main window is closed (bugs 220343 and 299569). So, we force this here.
 	// This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
 	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
 
-	QSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+	KSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {
 		splashScreen.show();
+		kapp->processEvents();
 	}
 
 	m_config = KGlobal::config();
@@ -146,6 +142,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
 
 	m_viewManager= new KileView::Manager(this, actionCollection(), parent, "KileView::Manager");
+	viewManager()->setClient(this);
+
+	// process events for correctly displaying the splash screen
+	kapp->processEvents();
 
 	m_latexCommands = new KileDocument::LatexCommands(m_config.data(), this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
@@ -168,7 +168,9 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_wantState = "Editor";
 	m_bWatchFile = false;
 
-	viewManager()->setClient(this);
+	// process events for correctly displaying the splash screen
+	kapp->processEvents();
+
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(newCaption()));
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(activateView(QWidget*)));
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(updateModeStatus()));
@@ -211,6 +213,9 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(m_signalMapper, SIGNAL(mapped(const QString &)),
              this, SLOT(runTool(const QString &)));
 
+	// process events for correctly displaying the splash screen
+	kapp->processEvents();
+
 	setupBottomBar();
 	m_verticalSplitter->addWidget(m_bottomBar);
 	m_topWidgetStack->addWidget(m_horizontalSplitter);
@@ -248,10 +253,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	newCaption();
 
-	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
-	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
-
 	m_help->setUserhelp(m_manager, m_userHelpActionMenu);     // kile user help (dani)
+
+	// process events for correctly displaying the splash screen
+	kapp->processEvents();
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
@@ -322,6 +327,17 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	if(KileConfig::showSplashScreen()) {
 		splashScreen.finish(this);
 	}
+
+	// Due to 'processEvents' being called earlier we only create the DBUS adaptor and
+	// the LyX server when all of Kile's structures have been set up.
+	// publish the D-Bus interfaces
+	new MainAdaptor(this);
+	QDBusConnection dbus = QDBusConnection::sessionBus();
+	dbus.registerObject("/main", this);
+	dbus.registerService("net.sourceforge.kile"); // register under a constant name
+
+	m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
+	connect(m_lyxserver, SIGNAL(insert(const KileAction::TagData &)), this, SLOT(insertTag(const KileAction::TagData &)));
 
 	if(m_listUserTools.count() > 0) {
 		KMessageBox::information(0, i18n("You have defined some tools in the User menu. From now on these tools will be available from the Build->Other menu and can be configured in the configuration dialog (go to the Settings menu and choose Configure Kile). This has some advantages; your own tools can now be used in a QuickBuild command if you wish."), i18n("User Tools Detected"));

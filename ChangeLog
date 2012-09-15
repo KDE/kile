@@ -1,3 +1,24 @@
+version 2.1.2 -> 2.1.3
+
+Fixes:
+
+- Allow letters as shortcuts (#268570)
+- Avoid executing unwanted commands in the console when changing tabs (#301653)
+- Ensure that the ViewBib tool opens the correct bibliography file (#301175)
+- Correctly display output produced by ConTeXt (#303230)
+- Correctly handle text with foreground colour in the tabular wizard (#299410)
+- Correctly save and restore the encodings of previously opened files (#304853)
+- Fix a problem which causes that projects sometimes cannot be opened correctly (#301808)
+- Force termination of Kile when the main window is closed (#299569)
+
+Features:
+
+- Add a completion file for the 'ifplatform' package (Patch by Thomas Braun)
+- Add 'Save', 'Save As' and 'Save Copy As' entries to the tab context menus (#249293)
+- Add tool tips to structure view entries (Patch by Eugene Shalygin)
+- Provide Unicode characters for the symbols in the symbol view (Patch by Olivier Delaune, #159515)
+
+
 version 2.1.1 -> 2.1.2
 
 Fixes:

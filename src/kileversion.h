@@ -20,7 +20,7 @@
 #include <QString>
 
 const QString kileVersion="2.1";
-const QString kileFullVersion="2.1.2"; // only use numbers and '.'
+const QString kileFullVersion="2.1.3"; // only use numbers and '.'
 const QString kilePrVersion="2";
 
 /**

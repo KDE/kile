@@ -324,7 +324,7 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
 	for(QList<ToolConfigPair>::iterator i = toolList.begin(); i != toolList.end(); ++i) {
 		const QString shortToolName = QString((*i).first).remove("LivePreview-");
 		const QString toolName = ((*i).second == DEFAULT_TOOL_CONFIGURATION)
-		                         ? shortToolName : shortToolName + " - " + (*i).second;
+		                         ? shortToolName : i18nc("<tool name> - <configuration>", "%1 - %2", shortToolName, (*i).second);
 		KAction *action = new KToggleAction(toolName, this);
 
 		m_livePreviewToolActionGroup->addAction(action);

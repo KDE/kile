@@ -151,7 +151,9 @@ private:
 
 	void createActions(KActionCollection *ac);
 	void createControlToolBar();
-	void synchronizeViewWithCursor(KileDocument::TextInfo *info, KTextEditor::View *view, const KTextEditor::Cursor& newPosition);
+	void synchronizeViewWithCursor(KileDocument::TextInfo *info, KTextEditor::View *view,
+	                                                             const KTextEditor::Cursor& newPosition,
+	                                                             bool calledFromCursorPositionChange = false);
 
 	void stopAndClearPreview();
 

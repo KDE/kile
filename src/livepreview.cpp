@@ -54,6 +54,7 @@ namespace KileTool
 class LivePreviewManager::PreviewInformation {
 public:
 	PreviewInformation()
+	: lastSynchronizationCursor(-1, -1)
 	{
 		initTemporaryDirectory();
 	}
@@ -103,6 +104,12 @@ public:
 		return true;
 	}
 
+	void setLastSynchronizationCursor(int line, int col)
+	{
+		lastSynchronizationCursor.setLine(line);
+		lastSynchronizationCursor.setColumn(col);
+	}
+
 private:
 	KTempDir *m_tempDir;
 
@@ -117,6 +124,7 @@ public:
 	QHash<QString, QString> previewPathToPathHash;
 	QString previewFile;
 	QHash<KileDocument::TextInfo*, QByteArray> textHash;
+	KTextEditor::Cursor lastSynchronizationCursor;
 };
 
 LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
@@ -709,10 +717,12 @@ void LivePreviewManager::handleCursorPositionChangedTimeout()
 		return;
 	}
 
-	synchronizeViewWithCursor(latexInfo, view, view->cursorPosition());
+	synchronizeViewWithCursor(latexInfo, view, view->cursorPosition(), true); // called from a cursor position change
 }
 
-void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *textInfo, KTextEditor::View *view, const KTextEditor::Cursor& newPosition)
+void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *textInfo, KTextEditor::View *view,
+                                                                                     const KTextEditor::Cursor& newPosition,
+                                                                                     bool calledFromCursorPositionChange)
 {
 	Q_UNUSED(view);
 	KILE_DEBUG() << "new position " << newPosition;
@@ -761,7 +771,14 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *textI
 	}
 
 	if(fileOpened) {
-		m_ki->viewManager()->showSourceLocationInDocumentViewer(filePath, newPosition.line(), newPosition.column());
+		// to increase the performance, if 'calledFromCursorPositionChange' is true, we only synchronize when the cursor line
+		// has changed from the last synchronization
+		// NOTE: the performance of SyncTeX has to be improved if changes in cursor columns should be taken into account as
+		//       well (bug 305254)
+		if(!calledFromCursorPositionChange || (previewInformation->lastSynchronizationCursor.line() != newPosition.line())) {
+			m_ki->viewManager()->showSourceLocationInDocumentViewer(filePath, newPosition.line(), newPosition.column());
+			previewInformation->setLastSynchronizationCursor(newPosition.line(), newPosition.column());
+		}
 	}
 }
 

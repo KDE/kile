@@ -294,6 +294,15 @@ void LivePreviewManager::livePreviewToolActionTriggered()
 
 void LivePreviewManager::updateLivePreviewToolActions(LivePreviewUserStatusHandler *userStatusHandler)
 {
+// 	if(!KileConfig::livePreviewEnabled()) {
+// 		setLivePreviewToolActionsEnabled(true);
+// 	}
+	if(!userStatusHandler) {
+		setLivePreviewMenuEnabled(false);
+		setLivePreviewToolActionsEnabled(false);
+		return;
+	}
+	setLivePreviewMenuEnabled(true);
 	setLivePreviewToolActionsEnabled(true);
 	const ToolConfigPair p = userStatusHandler->livePreviewTool();
 	if(!m_livePreviewToolToActionHash.contains(p)) {
@@ -307,6 +316,7 @@ void LivePreviewManager::setLivePreviewToolActionsEnabled(bool b)
 	Q_FOREACH(KAction *action, m_livePreviewToolActionList) {
 		action->setEnabled(b);
 	}
+	m_recompileLivePreviewAction->setEnabled(b);
 }
 
 void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
@@ -343,6 +353,15 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
 	}
 	menu->addSeparator();
 	menu->addAction(m_recompileLivePreviewAction);
+}
+
+void LivePreviewManager::setLivePreviewMenuEnabled(bool b)
+{
+	QMenu *menu = dynamic_cast<QMenu*>(m_ki->mainWindow()->guiFactory()->container("menu_livepreview", m_ki->mainWindow()));
+	if(!menu) {
+		return;
+	}
+	menu->setEnabled(b);
 }
 
 bool LivePreviewManager::isLivePreviewEnabledForCurrentDocument()
@@ -1122,10 +1141,22 @@ void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasA
 
 	m_cursorPositionChangedTimer->stop();
 
+	KTextEditor::View *activeView = m_ki->viewManager()->activeView();
 	// check if there is still an open editor tab
-	if(!m_ki->viewManager()->activeView()) {
+	if(!activeView) {
 		stopAndClearPreview();
+		updateLivePreviewToolActions(NULL);
+		return;
 	}
+	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(activeView->document()));
+	if(!latexInfo) {
+		updateLivePreviewToolActions(NULL);
+		return;
+	}
+	LivePreviewUserStatusHandler *userStatusHandler = NULL;
+	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	Q_ASSERT(userStatusHandler);
+	updateLivePreviewToolActions(userStatusHandler);
 }
 
 void LivePreviewManager::refreshLivePreview()

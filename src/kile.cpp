@@ -2632,9 +2632,16 @@ void Kile::aboutEditorComponent()
 void Kile::configureKeys()
 {
 	KShortcutsDialog dlg(KShortcutsEditor::AllActions, KShortcutsEditor::LetterShortcutsAllowed, m_mainWindow);
-	QList<KXMLGUIClient*> clients = m_mainWindow->guiFactory()->clients();
-	for(QList<KXMLGUIClient*>::iterator it = clients.begin(); it != clients.end(); ++it) {
-		dlg.addCollection((*it)->actionCollection());
+
+// due to bug 280988, we can't add all the clients...
+// 	QList<KXMLGUIClient*> clients = m_mainWindow->guiFactory()->clients();
+// 	for(QList<KXMLGUIClient*>::iterator it = clients.begin(); it != clients.end(); ++it) {
+// 		dlg.addCollection((*it)->actionCollection());
+// 	}
+	dlg.addCollection(mainWindow()->actionCollection());
+	KTextEditor::View *view = m_viewManager->currentTextView();
+	if(view) {
+		dlg.addCollection(view->actionCollection());
 	}
 	dlg.configure();
 

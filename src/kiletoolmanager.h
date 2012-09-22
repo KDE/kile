@@ -90,6 +90,10 @@ namespace KileTool
 		~Manager();
 	public:
 		Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
+		inline Base* createTool(const ToolConfigPair& p, bool prepare = false)
+		{
+			return createTool(p.first, p.second, prepare);
+		}
 		bool configure(Base*, const QString &cfg = QString());
 		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString());
 		void saveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);

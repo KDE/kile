@@ -16,8 +16,9 @@
 
 #include <QString>
 
+#include "tool_utils.h"
+
 #define LIVEPREVIEW_DEFAULT_TOOL_NAME        "LivePreview-PDFLaTeX"
-#define LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME "Default"
 
 namespace KileTool {
 
@@ -30,16 +31,14 @@ public:
 	bool isLivePreviewEnabled() const;
 	void setLivePreviewEnabled(bool b);
 
-	QString livePreviewToolName() const;
-	QString livePreviewToolConfigName() const;
+	ToolConfigPair livePreviewTool() const;
 	// returns 'true' iff the live preview type has changed
-	bool setLivePreviewTool(const QString& toolName, const QString& configName);
+	bool setLivePreviewTool(const ToolConfigPair& p);
 
 private:
 	bool m_userSpecifiedLivePreviewStatus;
 	bool m_livePreviewEnabled;
-	QString m_livePreviewToolName;
-	QString m_livePreviewToolConfigName;
+	ToolConfigPair m_livePreviewTool;
 };
 
 }

@@ -20,8 +20,7 @@ namespace KileTool {
 LivePreviewUserStatusHandler::LivePreviewUserStatusHandler()
 : m_userSpecifiedLivePreviewStatus(false),
   m_livePreviewEnabled(true),
-  m_livePreviewToolName(LIVEPREVIEW_DEFAULT_TOOL_NAME),
-  m_livePreviewToolConfigName(LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME)
+  m_livePreviewTool(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION)
 {
 }
 
@@ -41,23 +40,17 @@ void LivePreviewUserStatusHandler::setLivePreviewEnabled(bool b)
 	m_livePreviewEnabled = b;
 }
 
-QString LivePreviewUserStatusHandler::livePreviewToolName() const
+ToolConfigPair LivePreviewUserStatusHandler::livePreviewTool() const
 {
-	return m_livePreviewToolName;
+	return m_livePreviewTool;
 }
 
-QString LivePreviewUserStatusHandler::livePreviewToolConfigName() const
+bool LivePreviewUserStatusHandler::setLivePreviewTool(const ToolConfigPair& p)
 {
-	return m_livePreviewToolConfigName;
-}
-
-bool LivePreviewUserStatusHandler::setLivePreviewTool(const QString& toolName, const QString& configName)
-{
-	if(toolName == m_livePreviewToolName && configName == m_livePreviewToolConfigName) {
+	if(m_livePreviewTool == p) {
 		return false;
 	}
-	m_livePreviewToolName = toolName;
-	m_livePreviewToolConfigName = configName;
+	m_livePreviewTool = p;
 	return true;
 }
 

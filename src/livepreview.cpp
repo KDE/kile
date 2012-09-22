@@ -286,7 +286,7 @@ void LivePreviewManager::livePreviewToolActionTriggered()
 		KILE_DEBUG() << "no preview information found!";
 		return;
 	}
-	const bool changed = userStatusHandler->setLivePreviewTool(p.first, p.second);
+	const bool changed = userStatusHandler->setLivePreviewTool(p);
 	if(changed) {
 		recompileLivePreview();
 	}
@@ -295,7 +295,7 @@ void LivePreviewManager::livePreviewToolActionTriggered()
 void LivePreviewManager::updateLivePreviewToolActions(LivePreviewUserStatusHandler *userStatusHandler)
 {
 	setLivePreviewToolActionsEnabled(true);
-	const ToolConfigPair p(userStatusHandler->livePreviewToolName(), userStatusHandler->livePreviewToolConfigName());
+	const ToolConfigPair p = userStatusHandler->livePreviewTool();
 	if(!m_livePreviewToolToActionHash.contains(p)) {
 		return;
 	}
@@ -455,14 +455,18 @@ void LivePreviewManager::readLivePreviewStatusSettings(KConfigGroup &configGroup
 		handler->setLivePreviewEnabled(configGroup.readEntry("kile_livePreviewEnabled", true));
 	}
 
-	handler->setLivePreviewTool(configGroup.readEntry("kile_livePreviewToolName", LIVEPREVIEW_DEFAULT_TOOL_NAME),
-	                            configGroup.readEntry("kile_livePreviewToolConfigName", LIVEPREVIEW_DEFAULT_TOOL_CONFIG_NAME));
+	const QString livePreviewToolConfigString = configGroup.readEntry("kile_livePreviewTool", "");
+	if(livePreviewToolConfigString.isEmpty()) {
+		handler->setLivePreviewTool(ToolConfigPair(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION));
+	}
+	else {
+		handler->setLivePreviewTool(ToolConfigPair::fromConfigStringRepresentation(livePreviewToolConfigString));
+	}
 }
 
 void LivePreviewManager::writeLivePreviewStatusSettings(KConfigGroup &configGroup, LivePreviewUserStatusHandler *handler)
 {
-	configGroup.writeEntry("kile_livePreviewToolName", handler->livePreviewToolName());
-	configGroup.writeEntry("kile_livePreviewToolConfigName", handler->livePreviewToolConfigName());
+	configGroup.writeEntry("kile_livePreviewTool", handler->livePreviewTool().configStringRepresentation());
 	configGroup.writeEntry("kile_livePreviewEnabled", handler->isLivePreviewEnabled());
 	configGroup.writeEntry("kile_livePreviewStatusUserSpecified", handler->userSpecifiedLivePreviewStatus());
 }
@@ -952,8 +956,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 	}
 
 	updateLivePreviewToolActions(userStatusHandler);
-	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolManager()->createTool(userStatusHandler->livePreviewToolName(),
-	                                                                                                               userStatusHandler->livePreviewToolConfigName(),
+	KileTool::LivePreviewLaTeX *latex = dynamic_cast<KileTool::LivePreviewLaTeX *>(m_ki->toolManager()->createTool(userStatusHandler->livePreviewTool(),
 	                                                                                                               false));
 	if(!latex) {
 		KILE_DEBUG()<< "couldn't create the live preview tool";

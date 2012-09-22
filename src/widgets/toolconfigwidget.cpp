@@ -123,7 +123,7 @@ namespace KileWidget
 		connect(m_configWidget->m_useDocumentViewer, SIGNAL(toggled(bool)),
 		        this, SLOT(handleDocumentViewerToggled(bool)));
 
-		m_classes << "Compile" << "Convert" << "Archive" << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
+		m_classes << "Compile" << "Convert" << "Archive" << KileTool::BibliographyCompile::ToolClass << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
 		m_configWidget->m_cbClass->addItems(m_classes);
 		connect(m_configWidget->m_cbClass, SIGNAL(activated(const QString &)), this, SLOT(switchClass(const QString &)));
 

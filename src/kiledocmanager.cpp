@@ -2385,6 +2385,13 @@ void Manager::loadDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 		}
 	}
 
+	{
+		LaTeXOutputHandler *h = dynamic_cast<LaTeXOutputHandler*>(textInfo);
+		if(h) {
+			h->readBibliographyBackendSettings(configGroup);
+		}
+	}
+
 	QList<KTextEditor::View*> viewList = document->views();
 	int i = 0;
 	for(QList<KTextEditor::View*>::iterator it = viewList.begin(); it != viewList.end(); ++it) {
@@ -2426,6 +2433,13 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 		LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
 		if(latexInfo) {
 			KileTool::LivePreviewManager::writeLivePreviewStatusSettings(configGroup, latexInfo);
+		}
+	}
+
+	{
+		LaTeXOutputHandler *h = dynamic_cast<LaTeXOutputHandler*>(textInfo);
+		if(h) {
+			h->writeBibliographyBackendSettings(configGroup);
 		}
 	}
 

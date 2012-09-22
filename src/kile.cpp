@@ -226,7 +226,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	setupActions(); // sets up m_paStop
 
 	// Parser manager and view manager must be created before the tool manager!
-	m_manager = new KileTool::Manager(this, m_config.data(), m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000); //FIXME make timeout configurable
+	m_manager = new KileTool::Manager(this, m_config.data(), m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000, actionCollection()); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));

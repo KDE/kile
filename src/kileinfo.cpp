@@ -79,7 +79,7 @@ KTextEditor::Document * KileInfo::activeTextDocument() const
 	if (view) return view->document(); else return NULL;
 }
 
-QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
+QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
 {
 	KILE_DEBUG() << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << endl;
 	QString title;
@@ -95,7 +95,15 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt)
 	return title;
 }
 
-QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = NULL */)
+LaTeXOutputHandler* KileInfo::findCurrentLaTeXOutputHandler() const
+{
+	LaTeXOutputHandler *h = NULL;
+
+	getCompileName(false, &h);
+	return h;
+}
+
+QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = NULL */) const
 {
 	KileProject *project = docManager()->activeProject();
 
@@ -128,7 +136,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h
 	}
 }
 
-QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt)
+QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt) const
 {
 	if (!project->masterDocument().isEmpty()) {
 		KUrl master(project->masterDocument());
@@ -156,7 +164,7 @@ QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt)
 	}
 }
 
-QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& name)
+QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& name) const
 {
 	if(name.isEmpty()) {
 		return name;

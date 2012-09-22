@@ -550,6 +550,8 @@ bool KileProject::load()
 	generalGroup = m_config->group("General");
 	setLastDocument(KUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
+	readBibliographyBackendSettings(generalGroup);
+
 	KileTool::LivePreviewManager::readLivePreviewStatusSettings(generalGroup, this);
 
 // 	dump();
@@ -570,6 +572,8 @@ bool KileProject::save()
 	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));
 	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
+
+	writeBibliographyBackendSettings(generalGroup);
 
 	KileTool::LivePreviewManager::writeLivePreviewStatusSettings(generalGroup, this);
 

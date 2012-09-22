@@ -329,11 +329,10 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
 	menu->addSeparator();
 
 	QList<ToolConfigPair> toolList = toolsWithConfigurationsBasedOnClass(config, "LaTeXLivePreview");
+	qSort(toolList);
 	for(QList<ToolConfigPair>::iterator i = toolList.begin(); i != toolList.end(); ++i) {
 		const QString shortToolName = QString((*i).first).remove("LivePreview-");
-		const QString toolName = ((*i).second == DEFAULT_TOOL_CONFIGURATION)
-		                         ? shortToolName : i18nc("<tool name> - <configuration>", "%1 - %2", shortToolName, (*i).second);
-		KAction *action = new KToggleAction(toolName, this);
+		KAction *action = new KToggleAction(ToolConfigPair::userStringRepresentation(shortToolName, (*i).second), this);
 
 		m_livePreviewToolActionGroup->addAction(action);
 		connect(action, SIGNAL(triggered()), this, SLOT(livePreviewToolActionTriggered()));

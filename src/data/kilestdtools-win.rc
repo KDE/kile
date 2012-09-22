@@ -31,7 +31,7 @@ to=zip
 type=Process
 
 [Tool/Biber/Default]
-class=Compile
+class=Bibliography
 command=biber
 options='%S'
 from=aux
@@ -39,7 +39,7 @@ to=bbl
 type=Process
 
 [Tool/BibTeX/Default]
-class=Compile
+class=Bibliography
 command=bibtex
 options="%S"
 from=aux
@@ -47,7 +47,7 @@ to=bbl
 type=Process
 
 [Tool/BibTeX/8bit Version]
-class=Compile
+class=Bibliography
 command=bibtex8
 options="%S"
 from=aux

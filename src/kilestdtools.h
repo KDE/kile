@@ -1,6 +1,5 @@
 /*************************************************************************************
-    begin                : Thu Nov 27 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -19,6 +18,7 @@
 
 #include "kiledebug.h"
 #include "kiletool.h"
+#include "tool_utils.h"
 
 class KConfig;
 class KActionCollection;
@@ -88,7 +88,16 @@ namespace KileTool
 			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
 			virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
 
-			QString selectBibTool(const QString& requestedTool);
+			/**
+			 * @brief Determine the tool name and configuration for the bibliography backend
+			 *
+			 * If a backend has been set by the user, that one is returned. Otherwise,
+			 * an automatic detection of the backend is attempted. If an automatic detection
+			 * is not possible and no backend has been previously auto-detected, the
+			 * default tool (BibTex) is returned.
+			 * @returns Tool name that can be provided to @ref KileTool::Manager::create
+			 **/
+			ToolConfigPair determineBibliographyBackend(const QString& hint);
 
 			//FIXME: this is a little 'hackish'
 			static int m_reRun;
@@ -175,6 +184,16 @@ namespace KileTool
 
 		Q_SIGNALS:
 			void updateStatus(bool, bool);
+	};
+
+	class BibliographyCompile : public Compile
+	{
+		friend class KileTool::Factory;
+
+	protected:
+		BibliographyCompile(const QString& name, Manager* manager, bool prepare = true);
+	public:
+		static const QString ToolClass;
 	};
 }
 

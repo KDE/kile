@@ -19,6 +19,10 @@
 #include <QMetaType>
 #include <QString>
 
+#include <KConfigGroup>
+
+#include "tool_utils.h"
+
 /**
  * Class for output-information of third program (e.g. Latex-Output, C-Compiler output)
  *
@@ -126,10 +130,12 @@ class LatexOutputInfo : public OutputInfo
  **/
 typedef QList<LatexOutputInfo> LatexOutputInfoArray;
 
+
 class LaTeXOutputHandler
 {
 	public:
 		LaTeXOutputHandler();
+		virtual ~LaTeXOutputHandler();
 
 		void storeLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes,
 		                                                              const LatexOutputInfoArray& outputList,
@@ -143,10 +149,20 @@ class LaTeXOutputHandler
 		int currentError() const;
 		void setCurrentError(int i);
 
+		void setBibliographyBackendToolUserOverride(const KileTool::ToolConfigPair& p);
+		const KileTool::ToolConfigPair& bibliographyBackendToolUserOverride() const;
+
+		void setBibliographyBackendToolAutoDetected(const KileTool::ToolConfigPair& p);
+		const KileTool::ToolConfigPair& bibliographyBackendToolAutoDetected() const;
+
+		void readBibliographyBackendSettings(const KConfigGroup& group);
+		void writeBibliographyBackendSettings(KConfigGroup& group);
+
 	protected:
-		int			m_nErrors, m_nWarnings, m_nBadBoxes, m_currentError;
-		LatexOutputInfoArray	m_latexOutputInfoList;
-		QString			m_logFile;
+		int				m_nErrors, m_nWarnings, m_nBadBoxes, m_currentError;
+		LatexOutputInfoArray		m_latexOutputInfoList;
+		QString				m_logFile;
+		KileTool::ToolConfigPair	m_userOverrideBibBackendToolConfigPair, m_autodetectBibBackendToolConfigPair;
 };
 
 #endif

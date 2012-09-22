@@ -72,6 +72,7 @@ SET(kile_SRCS
 	outputinfo.cpp
 	dialogs/findfilesdialog.cpp
 	kiletool.cpp
+	tool_utils.cpp
 	kilelauncher.cpp
 	kiletoolmanager.cpp
 	kilestdtools.cpp

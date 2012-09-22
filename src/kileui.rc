@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="43">
+<kpartgui name="kile" version="44">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -152,6 +152,9 @@
 	</Menu>
 	<Menu name="menu_other"><text>O&amp;ther</text>
 	</Menu>
+	<Separator/>
+	<Action name="bibbackend_select"/>
+	<Separator/>
 	<Action name="WatchFile"/>
 	<Separator/>
 	<Action name="ViewLog"/>

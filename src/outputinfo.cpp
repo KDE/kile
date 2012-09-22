@@ -68,9 +68,18 @@ LatexOutputInfo::LatexOutputInfo(const QString& mainSourceFile, const QString& s
 {
 }
 
+/**
+ * LatexOutputHandler
+ */
+
 LaTeXOutputHandler::LaTeXOutputHandler()
 : m_nErrors(-1), m_nWarnings(-1), m_nBadBoxes(-1), m_currentError(-1)
 {
+}
+
+LaTeXOutputHandler::~LaTeXOutputHandler()
+{
+
 }
 
 void LaTeXOutputHandler::storeLaTeXOutputParserResult(int nErrors, int nWarnings, int nBadBoxes,
@@ -118,4 +127,39 @@ int LaTeXOutputHandler::currentError() const
 void LaTeXOutputHandler::setCurrentError(int i)
 {
 	m_currentError = i;
+}
+
+const KileTool::ToolConfigPair& LaTeXOutputHandler::bibliographyBackendToolUserOverride() const
+{
+	return m_userOverrideBibBackendToolConfigPair;
+}
+
+void LaTeXOutputHandler::setBibliographyBackendToolUserOverride(const KileTool::ToolConfigPair& p)
+{
+	m_userOverrideBibBackendToolConfigPair = p;
+}
+
+const KileTool::ToolConfigPair& LaTeXOutputHandler::bibliographyBackendToolAutoDetected() const
+{
+	return m_autodetectBibBackendToolConfigPair;
+}
+
+void LaTeXOutputHandler::setBibliographyBackendToolAutoDetected(const KileTool::ToolConfigPair& p)
+{
+	m_autodetectBibBackendToolConfigPair = p;
+}
+
+void LaTeXOutputHandler::readBibliographyBackendSettings(const KConfigGroup& group)
+{
+	const QString& bibBackendUserOverride = group.readEntry("bibliographyBackendUserOverride", QString());
+	m_userOverrideBibBackendToolConfigPair = KileTool::ToolConfigPair::fromConfigStringRepresentation(bibBackendUserOverride);
+
+	const QString& bibBackendAutoDetected = group.readEntry("bibliographyBackendAutoDetected", QString());
+	m_autodetectBibBackendToolConfigPair = KileTool::ToolConfigPair::fromConfigStringRepresentation(bibBackendAutoDetected);
+}
+
+void LaTeXOutputHandler::writeBibliographyBackendSettings(KConfigGroup& group)
+{
+	group.writeEntry("bibliographyBackendUserOverride", m_userOverrideBibBackendToolConfigPair.configStringRepresentation());
+	group.writeEntry("bibliographyBackendAutoDetected", m_autodetectBibBackendToolConfigPair.configStringRepresentation());
 }

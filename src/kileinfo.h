@@ -70,11 +70,12 @@ public:
 
 public:
 	enum {bibinputs = 0,bstinputs, texinputs};
-	QString getName(KTextEditor::Document *doc = NULL, bool shrt = false);
-	QString getShortName(KTextEditor::Document *doc = NULL) { return getName(doc, true); }
-	QString getCompileNameForProject(KileProject *project, bool shrt = false);
-	QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = NULL);
-	QString getFullFromPrettyName(const OutputInfo& info, const QString& name);
+	QString getName(KTextEditor::Document *doc = NULL, bool shrt = false) const;
+	QString getShortName(KTextEditor::Document *doc = NULL) const { return getName(doc, true); }
+	LaTeXOutputHandler* findCurrentLaTeXOutputHandler() const;
+	QString getCompileNameForProject(KileProject *project, bool shrt = false) const;
+	QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = NULL) const;
+	QString getFullFromPrettyName(const OutputInfo& info, const QString& name) const;
 	KUrl::List getParentsFor(KileDocument::Info *);
 	bool getSinglemode() { return m_singlemode; }
 

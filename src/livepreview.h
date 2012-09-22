@@ -108,8 +108,6 @@ private Q_SLOTS:
 
 	void handleCursorPositionChangedTimeout();
 
-	void setLivePreviewMenuEnabled(bool b);
-
 private:
 	class PreviewInformation;
 

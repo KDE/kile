@@ -184,12 +184,14 @@ namespace KileTool
 	int LaTeX::m_reRun = 0;
 
 	// FIXME don't hardcode bbl and ind suffix here.
-	bool LaTeX::updateBibs()
+	bool LaTeX::updateBibs(bool checkOnlyBibDependencies)
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			if(manager()->info()->allBibliographies(docinfo).count() > 0) {
-				return needsUpdate(targetDir() + '/' + S() + ".bbl", manager()->info()->lastModifiedFile(docinfo));
+			const QStringList dependencies = checkOnlyBibDependencies ? manager()->info()->allBibliographies(docinfo)
+			                                                          : manager()->info()->allDependencies(docinfo);
+			if (!dependencies.empty()) {
+				return needsUpdate(targetDir() + '/' + S() + ".bbl", docinfo->lastModifiedFile(dependencies));
 			}
 		}
 
@@ -348,6 +350,7 @@ namespace KileTool
 		}
 		bool reRunWarningFound = false;
 		QString bibToolInLaTexOutput;
+		bool haveUndefinedCitations = false;
 		// check for "rerun" LaTeX and other tools warnings
 		if(m_nWarnings > 0) {
 			int sz = m_latexOutputInfoList.size();
@@ -355,8 +358,19 @@ namespace KileTool
 			for(int i = sz-1; i >= 0; --i) {
 				if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
 				    && m_latexOutputInfoList[i].message().contains("Rerun", Qt::CaseInsensitive)) {
-					reRunWarningFound = true;
-					break;
+					// the message could be a message from Biblatex like this:
+					// Package biblatex Warning: The following entry could not be found
+					// (biblatex)                in the database:
+					// (biblatex)                <entry_name>
+					// (biblatex)                Please verify the spelling and rerun
+					// (biblatex)                LaTeX afterwards.
+					//
+					// our strategy: if the warning message contains "(biblatex)", Biblatex only
+					// suggests to check the source files first, but not to recompile yet
+					if (!m_latexOutputInfoList[i].message().contains("(biblatex)", Qt::CaseInsensitive)) {
+						reRunWarningFound = true;
+						break;
+					}
 				}
 			}
 			// Now look for messages from Biblatex like the following:
@@ -372,10 +386,32 @@ namespace KileTool
 					break;
 				}
 			}
+			// If we did not get a message from Biblatex about bibtool (re)run, then
+			// we look for messages like "LaTeX Warning: Citation `A' on page 234 undefined on input line 12345."
+			// In that case we probably need to (re)run the bibtool.
+			if (bibToolInLaTexOutput.isEmpty()) {
+				QRegExp citationUndefinedMessage = QRegExp("Citation `(.+)' on page (\\d+) undefined on input line (\\d+)",
+					                                   Qt::CaseInsensitive);
+				for(int i = 0; i < sz; ++i) {
+					if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
+						&& citationUndefinedMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
+						haveUndefinedCitations = true;
+						KILE_DEBUG() << "Detected undefined citations";
+						break;
+					}
+				}
+			}
 		}
 
 		bool asy = (m_reRun == 0) && updateAsy();
-		bool bibs = !bibToolInLaTexOutput.isEmpty() || updateBibs();
+		// We run bibtool in the following cases:
+		// 1. Biblatex said that we have to (in this case bibToolInLaTexOutput is not empty), OR
+		// 2. There are no undefined citations and at least one of the .bib files has a younger modification
+		//    date than the .bbl file, OR
+		// 3. We have undefined citations and at least one of the source files (including .bib and .tex) is
+		//    younger than .bbl.
+		//    (If the .bbl file is younger than all of them, the next rerun will not change anything)
+		bool bibs = !bibToolInLaTexOutput.isEmpty() || updateBibs(!haveUndefinedCitations);
 		bool index = updateIndex();
 		KILE_DEBUG() << "asy:" << asy << "bibs:" << bibs << "index:" << index << "reRunWarningFound:" << reRunWarningFound;
 		// Currently, we don't properly detect yet whether asymptote has to be run.
@@ -477,11 +513,6 @@ namespace KileTool
 	LivePreviewLaTeX::LivePreviewLaTeX(const QString& tool, Manager *mngr, bool prepare)
 	: LaTeX(tool, mngr, prepare)
 	{
-	}
-
-	bool LivePreviewLaTeX::updateBibs()
-	{
-		return LaTeX::updateBibs();
 	}
 
 	void LivePreviewLaTeX::configureLaTeX(KileTool::Base *tool, const QString& source)

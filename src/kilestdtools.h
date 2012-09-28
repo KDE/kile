@@ -79,7 +79,7 @@ namespace KileTool
 			void checkAutoRun();
 			void latexOutputParserResultInstalled();
 
-			virtual bool updateBibs();
+			virtual bool updateBibs(bool checkOnlyBibDependencies);
 			virtual bool updateIndex();
 			virtual bool updateAsy();
 
@@ -138,8 +138,6 @@ namespace KileTool
 // 			bool finish(int);
 
 		protected:
-			virtual bool updateBibs();
-
 			virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
 			virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
 			virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);

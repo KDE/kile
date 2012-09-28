@@ -392,7 +392,7 @@ QString Info::lastModifiedFile(const QStringList& list)
 		}
 	}
 
-	KILE_DEBUG() << "\treturning " << fileinfo.absoluteFilePath();
+	KILE_DEBUG() << "\treturning " << last;
 	return last;
 }
 

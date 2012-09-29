@@ -148,7 +148,7 @@ namespace KileTool
 		int runChildNext(Base *parent, Base *tool, bool block = false);
 
 		void toolScheduledAfterParsingDestroyed(KileTool::Base *tool);
-		void handleParsingComplete();
+		void handleDocumentParsingComplete();
 
 		void currentLaTeXOutputHandlerChanged(LaTeXOutputHandler* handler);
 

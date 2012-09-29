@@ -102,7 +102,7 @@ namespace KileTool
 		m_nTimeout(to),
 		m_bibliographyBackendSelectAction(NULL)
 	{
-		connect(m_ki->parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingComplete()));
+		connect(m_ki->parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingComplete()));
 
 		connect(this, SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
 		        m_ki->errorHandler(), SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
@@ -179,7 +179,7 @@ namespace KileTool
 		m_toolsScheduledAfterParsingList.removeAll(tool);
 	}
 
-	void Manager::handleParsingComplete()
+	void Manager::handleDocumentParsingComplete()
 	{
 		Q_FOREACH(Base *tool, m_toolsScheduledAfterParsingList) {
 			disconnect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),

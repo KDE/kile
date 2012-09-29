@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -76,7 +76,7 @@ public:
 
 Q_SIGNALS:
 	/**
-	 * The ownership of the 'output' object is tranferred to the slot(s)
+	 * The ownership of the 'output' object is transferred to the slot(s)
 	 * connected to this signal.
 	 **/
 	void parsingComplete(const KUrl& url, KileParser::ParserOutput* output);

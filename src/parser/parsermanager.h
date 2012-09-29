@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -55,8 +55,8 @@ public:
 	bool isDocumentParsingComplete();
 
 Q_SIGNALS:
-	void parsingComplete();
-	void parsingStarted();
+	void documentParsingComplete();
+	void documentParsingStarted();
 
 protected Q_SLOTS:
 	void handleOutputParsingComplete(const KUrl& url, KileParser::ParserOutput *output);

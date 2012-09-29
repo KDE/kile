@@ -206,8 +206,8 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
-	connect(parserManager(), SIGNAL(parsingStarted()), this, SLOT(handleParsingStarted()));
-	connect(parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingComplete()));
+	connect(parserManager(), SIGNAL(documentParsingStarted()), this, SLOT(handleDocumentParsingStarted()));
+	connect(parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingComplete()));
 
 	m_signalMapper = new QSignalMapper(this);
 	connect(m_signalMapper, SIGNAL(mapped(const QString &)),
@@ -3061,14 +3061,13 @@ void Kile::updateStatusBarSelection(KTextEditor::View *view)
 	}
 }
 
-void Kile::handleParsingStarted()
+void Kile::handleDocumentParsingStarted()
 {
 	statusBar()->changeItem(i18n("Refreshing structure..."), ID_PARSER_STATUS);
 }
 
-void Kile::handleParsingComplete()
+void Kile::handleDocumentParsingComplete()
 {
-kDebug();
 	statusBar()->changeItem(QString(), ID_PARSER_STATUS);
 }
 

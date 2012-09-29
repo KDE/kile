@@ -600,8 +600,8 @@ void StructureViewItem::setLabel(const QString &label)
 		m_default = new StructureView(this, NULL);
 		m_default->activate();
 
-		connect(m_ki->parserManager(), SIGNAL(parsingStarted()), this, SLOT(handleParsingStarted()));
-		connect(m_ki->parserManager(), SIGNAL(parsingComplete()), this, SLOT(handleParsingCompleted()));
+		connect(m_ki->parserManager(), SIGNAL(documentParsingStarted()), this, SLOT(handleDocumentParsingStarted()));
+		connect(m_ki->parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingCompleted()));
 	}
 
 	StructureWidget::~StructureWidget()
@@ -1074,7 +1074,7 @@ void StructureViewItem::setLabel(const QString &label)
 		return found;
 	}
 
-	void StructureWidget::handleParsingStarted()
+	void StructureWidget::handleDocumentParsingStarted()
 	{
 		setEnabled(false);
 		// if a context menu is showing, we better close it
@@ -1084,7 +1084,7 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 	}
 
-	void StructureWidget::handleParsingCompleted()
+	void StructureWidget::handleDocumentParsingCompleted()
 	{
 		setEnabled(true);
 	}

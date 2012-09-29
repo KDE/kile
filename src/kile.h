@@ -336,8 +336,8 @@ private Q_SLOTS:
 	void updateStatusBarInformationMessage(KTextEditor::View *view, const QString &message);
 	void updateStatusBarSelection(KTextEditor::View *view);
 
-	void handleParsingStarted();
-	void handleParsingComplete();
+	void handleDocumentParsingStarted();
+	void handleDocumentParsingComplete();
 };
 
 #endif

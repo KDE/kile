@@ -40,6 +40,7 @@ LaTeXParserInput::LaTeXParserInput(const KUrl& url, QStringList textLines,
 }
 
 LaTeXParserOutput::LaTeXParserOutput()
+: bIsRoot(false)
 {
 }
 

@@ -201,6 +201,9 @@ public:
 	TextInfo* textInfoFor(const QString &path) const;
 	TextInfo* textInfoForURL(const KUrl& url);
 	TextInfo* textInfoFor(KTextEditor::Document* doc) const;
+
+	KUrl urlFor(TextInfo* textInfo);
+
 	void updateInfos();
 
 	KileProject* projectForMember(const KUrl &memberUrl);

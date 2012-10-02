@@ -78,6 +78,11 @@ bool Manager::isDocumentParsingComplete()
 	return m_documentParserThread->isParsingComplete();
 }
 
+void Manager::stopDocumentParsing(const KUrl& url)
+{
+	m_documentParserThread->removeDocument(url);
+}
+
 void Manager::handleOutputParsingComplete(const KUrl& url, KileParser::ParserOutput *output)
 {
 	KILE_DEBUG();

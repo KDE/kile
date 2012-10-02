@@ -70,6 +70,7 @@
 #include "widgets/progressdialog.h"
 #include "dialogs/cleandialog.h"
 #include "livepreview.h"
+#include "parser/parsermanager.h"
 
 /*
  * Newly created text documents have an empty URL and a non-empty document name.
@@ -285,6 +286,23 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 	}
 
 	return NULL;
+}
+
+KUrl Manager::urlFor(TextInfo* textInfo)
+{
+	KileProjectItem *item = itemFor(textInfo);
+
+	KUrl url;
+	if(item) {
+		url = item->url(); // all items with 'textInfo' share the same URL
+	}
+	else {
+		KTextEditor::Document *document = textInfo->getDoc();
+		if(document) {
+			url = document->url();
+		}
+	}
+	return url;
 }
 
 void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
@@ -515,6 +533,13 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 
 	if(itms.count() == 0 || ( closingproject && oneItem )) {
 		KILE_DEBUG() << "\tremoving " << docinfo <<  " count = " << m_textInfoList.count();
+
+		// we still have to stop parsing for 'docinfo'
+		KUrl url = urlFor(docinfo);
+		if(url.isValid()) {
+			m_ki->parserManager()->stopDocumentParsing(url);
+		}
+
 		m_textInfoList.removeAll(docinfo);
 
 		emit(closingDocument(docinfo));

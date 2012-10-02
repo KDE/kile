@@ -54,6 +54,8 @@ public:
 
 	bool isDocumentParsingComplete();
 
+	void stopDocumentParsing(const KUrl& url);
+
 Q_SIGNALS:
 	void documentParsingComplete();
 	void documentParsingStarted();

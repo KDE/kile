@@ -115,9 +115,7 @@ public:
 public Q_SLOTS:
 	void addDocument(KileDocument::TextInfo *textInfo);
 	void removeDocument(KileDocument::TextInfo *textInfo);
-
-private Q_SLOTS:
-	void handleDocumentClosed(KTextEditor::Document *doc);
+	void removeDocument(const KUrl& url);
 
 protected:
 	virtual Parser* createParser(ParserInput *input);

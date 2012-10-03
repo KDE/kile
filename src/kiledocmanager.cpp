@@ -234,26 +234,7 @@ Info* Manager::getInfo() const
 		return 0L;
 }
 
-TextInfo* Manager::textInfoFor(const QString & path) const
-{
-	if(path.isEmpty()) {
-		return NULL;
-	}
-
-	KILE_DEBUG() << "==KileInfo::textInfoFor(" << path << ")==========================";
-	for(QList<TextInfo*>::const_iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
-		TextInfo *info = *it;
-
-		if(info->url().toLocalFile() == path) {
-			return info;
-		}
-	}
-
-	KILE_DEBUG() << "\tCOULD NOT find info for " << path;
-	return NULL;
-}
-
-TextInfo* Manager::textInfoForURL(const KUrl& url)
+TextInfo* Manager::textInfoFor(const KUrl& url)
 {
 	if(url.isEmpty()) {
 		return NULL;
@@ -269,6 +250,21 @@ TextInfo* Manager::textInfoForURL(const KUrl& url)
 		}
 	}
 
+	// the URL might belong to a TextInfo* which currently doesn't have a KTextEditor::Document*
+	// associated with it, i.e. a project item which isn't open in the editor
+	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+		KileProjectItem *item = (*it)->item(url);
+
+		// all project items (across different projects) that share a URL have the same TextInfo*;
+		// so, the first one we find is good enough
+		if(item) {
+			KileDocument::TextInfo *info = item->getInfo();
+			if(info) {
+				return info;
+			}
+		}
+	}
+
 	KILE_DEBUG() << "\tCOULD NOT find info for " << url;
 	return NULL;
 }
@@ -279,12 +275,15 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 		return NULL;
 	}
 
+	// TextInfo* objects that contain KTextEditor::Document* pointers must be open in the editor, i.e.
+	// we don't have to look through the project items
 	for(QList<TextInfo*>::const_iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
 		if((*it)->getDoc() == doc) {
 			return (*it);
 		}
 	}
 
+	KILE_DEBUG() << "\tCOULD NOT find info for" << doc->url() << "by searching via a KTextEditor::Document*";
 	return NULL;
 }
 
@@ -303,11 +302,6 @@ KUrl Manager::urlFor(TextInfo* textInfo)
 		}
 	}
 	return url;
-}
-
-void Manager::mapItem(TextInfo *docinfo, KileProjectItem *item)
-{
-	item->setInfo(docinfo);
 }
 
 KileProject* Manager::projectForMember(const KUrl &memberUrl)
@@ -452,48 +446,46 @@ KileProjectItem* Manager::activeProjectItem()
 	return NULL;
 }
 
-TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl & url, const KUrl& baseDirectory)
+TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl& url, const KUrl& baseDirectory)
 {
-	TextInfo *docinfo = 0L;
+	TextInfo *docinfo = NULL;
 
-	//see if this file belongs to an opened project
-	KileProjectItem *item = itemFor(url);
-	if ( item != 0L ) docinfo = item->getInfo();
+	// check whether this URL belongs to an opened project and a TextInfo* object has already
+	// been created for that URL
+	docinfo = textInfoFor(url);
 
-	if ( docinfo == 0L )
-	{
-		switch(type)
-		{
+	if(!docinfo) {
+		switch(type) {
 			case Undefined: // fall through
 			case Text:
 				KILE_DEBUG() << "CREATING TextInfo for " << url.url();
-				docinfo = new TextInfo(NULL, m_ki->extensions(),
-				                             m_ki->abbreviationManager(),
-				                             m_ki->parserManager());
+				docinfo = new TextInfo(m_ki->extensions(),
+				                       m_ki->abbreviationManager(),
+				                       m_ki->parserManager());
 				break;
 			case LaTeX:
 				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url();
-				docinfo = new LaTeXInfo(NULL, m_ki->extensions(),
-				                              m_ki->abbreviationManager(),
-                                                              m_ki->latexCommands(),
-                                                              m_ki->editorExtension(),
-                                                              m_ki->configurationManager(),
-                                                              m_ki->codeCompletionManager(),
-                                                              m_ki->livePreviewManager(),
-				                              m_ki->parserManager());
+				docinfo = new LaTeXInfo(m_ki->extensions(),
+				                        m_ki->abbreviationManager(),
+				                        m_ki->latexCommands(),
+				                        m_ki->editorExtension(),
+				                        m_ki->configurationManager(),
+				                        m_ki->codeCompletionManager(),
+				                        m_ki->livePreviewManager(),
+				                        m_ki->parserManager());
 				break;
 			case BibTeX:
 				KILE_DEBUG() << "CREATING BibInfo for " << url.url();
-				docinfo = new BibInfo(NULL, m_ki->extensions(),
-				                            m_ki->abbreviationManager(),
-				                            m_ki->parserManager(),
-				                            m_ki->latexCommands());
+				docinfo = new BibInfo(m_ki->extensions(),
+				                      m_ki->abbreviationManager(),
+				                      m_ki->parserManager(),
+				                      m_ki->latexCommands());
 				break;
 			case Script:
 				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url();
-				docinfo = new ScriptInfo(NULL, m_ki->extensions(),
-				                               m_ki->abbreviationManager(),
-				                               m_ki->parserManager());
+				docinfo = new ScriptInfo(m_ki->extensions(),
+				                         m_ki->abbreviationManager(),
+				                         m_ki->parserManager());
 				break;
 		}
 		docinfo->setBaseDirectory(baseDirectory);
@@ -624,7 +616,7 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 		view = loadText(type, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->mode(), item->highlight(), text);
 		KILE_DEBUG() << "\tloadItem: docfor = " << docFor(item->url().toLocalFile());
 
-		TextInfo *docinfo = textInfoFor(item->url().toLocalFile());
+		TextInfo *docinfo = textInfoFor(item->url());
 		item->setInfo(docinfo);
 
 		KILE_DEBUG() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
@@ -667,7 +659,6 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url, c
 		doc->setText(text);
 	}
 
-	//FIXME: use signal/slot
 	if (doc && create) {
 		return m_ki->viewManager()->createTextView(docinfo, index);
 	}
@@ -993,12 +984,12 @@ TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 		m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
 		                                // it emits signals that are handled by the live preview manager
 		m_ki->viewManager()->switchToTextView(realurl);
-		return textInfoForURL(realurl);
+		return textInfoFor(realurl);
 	}
 
 	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
 	QList<KileProjectItem*> itemList = itemsFor(realurl);
-	TextInfo *textInfo = textInfoForURL(realurl);
+	TextInfo *textInfo = textInfoFor(realurl);
 
 	for(QList<KileProjectItem*>::iterator it = itemList.begin(); it != itemList.end(); ++it) {
 		(*it)->setInfo(textInfo);
@@ -1017,7 +1008,7 @@ TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
 	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
 	// update undefined references in this file
-	emit(updateReferences(textInfoFor(realurl.toLocalFile())));
+	emit(updateReferences(textInfoFor(realurl)));
 	m_currentlyOpeningFile = false;
 	emit documentOpened(textInfo);
 	return textInfo;
@@ -1400,7 +1391,7 @@ void Manager::projectNew()
 				//add this file to the project
 				item = new KileProjectItem(project, url);
 				//project->add(item);
-				mapItem(docinfo, item);
+				item->setInfo(docinfo);
 
 				//docinfo->updateStruct(m_kwStructure->level());
 				emit(updateStructure(false, docinfo));
@@ -1525,27 +1516,43 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 		emit removeFromProjectView(item->url());
 	}
 
-	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
-	if(item->getInfo()) { // make sure that the item has been parsed, even if it isn't shown
-	                      // this is necessary to identify the correct LaTeX root document (bug 233667)
-		m_ki->structureWidget()->update(item->getInfo());
+	KileDocument::TextInfo* itemInfo = item->getInfo();
+	if (!itemInfo) {
+		// for the parsing to work correctly, all ProjectItems need to have TextInfo* objects, but
+		// the URL of 'item' might already be associated with a TextInfo* object; for example, through
+		// a stand-alone document currently being open already, or through a project item that belongs to
+		// a different project
+		// => 'createTextDocumentInfo' will take care of that situation as well
+		itemInfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(item->url()),
+		                                  item->url(), item->project()->baseURL());
+		item->setInfo(itemInfo);
 	}
 
-	if((!item->isOpen()) && !view && item->getInfo()) { //doc shouldn't be displayed, trash the doc
-		trashDoc(item->getInfo());
+	// FIXME: theoretically speaking it wouldn't be necessary to create a KTextEditor::Document* here; just loading
+	//        the contents of the document would be enough for parsing. Unfortunately, KatePart can auto-detect the
+	//        encoding of files, which means that for the loading to work reliably, we would need to use KatePart's
+	//        file-load function.
+	KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
+
+	// make sure that the item has been parsed, even if it isn't shown;
+	// this is necessary to identify the correct LaTeX root document (bug 233667)
+	m_ki->structureWidget()->update(itemInfo, true);
+
+	if((!item->isOpen()) && !view && itemInfo) { // doc shouldn't be displayed, trash the doc (if present)
+		trashDoc(itemInfo);
 	}
 	else if(view) {
 		view->setCursorPosition(KTextEditor::Cursor(item->lineNumber(), item->columnNumber()));
 		item->loadDocumentAndViewSettings();
 	}
 
-	//oops, doc apparently was open while the project settings wants it closed, don't trash it the doc, update openstate instead
+	//oops, doc apparently was open while the project settings wants it closed, don't trash it, update openState instead
 	if ((!item->isOpen()) && view) {
 		item->setOpenState(true);
 	}
 }
 
-KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool openProjectItemViews)
+void Manager::projectOpen(const KUrl& url, int step, int max, bool openProjectItemViews)
 {
 	Locker lock(&m_autoSaveLock);
 	KILE_DEBUG() << "==Kile::projectOpen==========================";
@@ -1559,7 +1566,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 		}
 
 		KMessageBox::information(m_ki->mainWindow(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
-		return NULL;
+		return;
 	}
 
 	QFileInfo fi(realurl.toLocalFile());
@@ -1571,7 +1578,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for the project \"%1\" does not exist or is not readable. Remove this project from the recent projects list?", url.prettyUrl()), i18n("Could Not Load Project File"))  == KMessageBox::Yes) {
 			emit(removeFromRecentProjects(realurl));
 		}
-		return NULL;
+		return;
 	}
 
 	if(!m_progressDialog) {
@@ -1587,7 +1594,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 			m_progressDialog->hide();
 		}
 		delete kp;
-		return NULL;
+		return;
 	}
 
 	emit(addToRecentProjects(realurl));
@@ -1628,6 +1635,8 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 		orderedList.push_back(*i);
 	}
 
+	addProject(kp);
+
 	unsigned int counter = 0;
 	for (QList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
@@ -1637,10 +1646,10 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	}
 
 	kp->buildProjectTree();
-	addProject(kp);
 
 	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
+
 	// update undefined references in all project files
 	updateProjectReferences(kp);
 
@@ -1651,7 +1660,7 @@ KileProject* Manager::projectOpen(const KUrl & url, int step, int max, bool open
 	m_ki->viewManager()->switchToTextView(kp->lastDocument());
 
 	emit(projectOpened(kp));
-	return kp;
+
 }
 
 // as all labels are gathered in the project, we can check for unsolved references
@@ -1663,16 +1672,13 @@ void Manager::updateProjectReferences(KileProject *project)
 	}
 }
 
-KileProject* Manager::projectOpen()
+void Manager::projectOpen()
 {
 	KILE_DEBUG() << "==Kile::projectOpen==========================";
 	KUrl url = KFileDialog::getOpenUrl( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->mainWindow(), i18n("Open Project") );
 
 	if(!url.isEmpty()) {
-		return projectOpen(url);
-	}
-	else {
-		return NULL;
+		projectOpen(url);
 	}
 }
 
@@ -2033,17 +2039,23 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 
 void Manager::handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output)
 {
-	KILE_DEBUG();
+	KILE_DEBUG() << url << output;
 	if(!output) {
 		KILE_DEBUG() << "NULL output given";
 		return;
 	}
-	KileDocument::TextInfo *textInfo = textInfoForURL(url);
+	KileDocument::TextInfo *textInfo = textInfoFor(url);
 	if(!textInfo) {
-		// this can happen for instance when the document is closed
-		// while the parser is still running
-		KILE_DEBUG() << "no TextInfo object found for" << url << "found";
-		return;
+		KileProjectItem* item = itemFor(url);
+		if(item) {
+			textInfo = item->getInfo();
+		}
+		if(!textInfo) {
+			// this can happen for instance when the document is closed
+			// while the parser is still running
+			KILE_DEBUG() << "no TextInfo object found for" << url << "found";
+			return;
+		}
 	}
 	textInfo->installParserOutput(output);
 	m_ki->structureWidget()->updateAfterParsing(textInfo, output->structureViewItems);

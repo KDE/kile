@@ -1,7 +1,6 @@
 /*************************************************************************************
-    begin                : Sun Jul 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+              (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -245,8 +244,7 @@ public:
 	 * @param defaultMode the mode that will be set automatically
 	 *                    once a new document is installed
 	 **/
-	TextInfo(KTextEditor::Document *doc,
-	         Extensions *extensions,
+	TextInfo(Extensions *extensions,
 	         KileAbbreviation::Manager *abbreviationManager,
 	         KileParser::Manager *parserManager,
 	         const QString& defaultMode = QString());
@@ -272,7 +270,7 @@ public:
 	virtual const long* getStatistics(KTextEditor::View *view = NULL);
 
 	/**
-	 * @returns the URL of the KTextEditor::Document.
+	 * @returns the URL of the KTextEditor::Document if not null, an empty KUrl otherwise
 	 **/
 	virtual KUrl url();
 
@@ -418,8 +416,7 @@ public:
 	/**
 	 * @param eventFilter the event filter that will be installed on managed documents
 	 **/
-	LaTeXInfo(KTextEditor::Document *doc,
-	          Extensions *extensions,
+	LaTeXInfo(Extensions *extensions,
 	          KileAbbreviation::Manager *abbreviationManager,
 	          LatexCommands *commands,
 	          KileDocument::EditorExtension *editorExtension,
@@ -474,11 +471,10 @@ class BibInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	BibInfo (KTextEditor::Document *doc,
-                 Extensions *extensions,
-                 KileAbbreviation::Manager *abbreviationManager,
-                 KileParser::Manager *parserManager,
-                 LatexCommands* commands);
+	BibInfo (Extensions *extensions,
+	         KileAbbreviation::Manager *abbreviationManager,
+	         KileParser::Manager *parserManager,
+	         LatexCommands* commands);
 	virtual ~BibInfo();
 
 	virtual bool isLaTeXRoot();
@@ -498,10 +494,10 @@ class ScriptInfo : public TextInfo
 	Q_OBJECT
 
 public:
-	ScriptInfo(KTextEditor::Document *doc,
-	           Extensions *extensions,
-                   KileAbbreviation::Manager *abbreviationManager,
-                   KileParser::Manager *parserManager);
+	ScriptInfo(Extensions *extensions,
+	           KileAbbreviation::Manager *abbreviationManager,
+	           KileParser::Manager *parserManager);
+
 	virtual ~ScriptInfo();
 
 	virtual bool isLaTeXRoot();

@@ -1,8 +1,7 @@
 /*********************************************************************************************
-    begin                : Sun Jul 20 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+              (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
+              (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -420,23 +419,16 @@ void Info::slotCompleted()
 	emit completed(this);
 }
 
-
-TextInfo::TextInfo(KTextEditor::Document *doc,
-                   Extensions *extensions,
-                   KileAbbreviation::Manager *abbreviationManager,
-                   KileParser::Manager *parserManager,
+TextInfo::TextInfo(Extensions* extensions,
+                   KileAbbreviation::Manager* abbreviationManager,
+                   KileParser::Manager* parserManager,
                    const QString& defaultMode)
 : m_doc(NULL),
   m_defaultMode(defaultMode),
   m_abbreviationManager(abbreviationManager),
   m_parserManager(parserManager)
 {
-	setDoc(doc);
-	if(m_doc) {
-		KILE_DEBUG() << "TextInfo created for " << m_doc->url();
-	}
-
- 	m_arStatistics = new long[SIZE_STAT_ARRAY];
+	m_arStatistics = new long[SIZE_STAT_ARRAY];
 
 	m_extensions = extensions;
 	m_abbreviationCodeCompletionModel = new KileCodeCompletion::AbbreviationCompletionModel(this, m_abbreviationManager);
@@ -854,17 +846,15 @@ void TextInfo::activateDefaultMode()
 	}
 }
 
-LaTeXInfo::LaTeXInfo(KTextEditor::Document *doc,
-                     Extensions *extensions,
-                     KileAbbreviation::Manager *abbreviationManager,
-                     LatexCommands *commands,
-                     KileDocument::EditorExtension *editorExtension,
+LaTeXInfo::LaTeXInfo(Extensions* extensions,
+                     KileAbbreviation::Manager* abbreviationManager,
+                     LatexCommands* commands,
+                     EditorExtension* editorExtension,
                      KileConfiguration::Manager* manager,
-                     KileCodeCompletion::Manager *codeCompletionManager,
-                     KileTool::LivePreviewManager *livePreviewManager,
-                     KileParser::Manager *parserManager
-                    )
-: TextInfo(doc, extensions, abbreviationManager, parserManager, "LaTeX"),
+                     KileCodeCompletion::Manager* codeCompletionManager,
+                     KileTool::LivePreviewManager* livePreviewManager,
+                     KileParser::Manager* parserManager)
+: TextInfo(extensions, abbreviationManager, parserManager, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
@@ -1088,10 +1078,6 @@ void LaTeXInfo::updateStruct()
 {
 	KILE_DEBUG() << "==void TeXInfo::updateStruct: (" << url() << ")=========";
 
-	if(!getDoc()) {
-		return;
-	}
-
 	Info::updateStruct();
 	m_parserManager->parseDocument(this);
 }
@@ -1131,12 +1117,11 @@ void LaTeXInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
 	emit(parsingComplete());
 }
 
-BibInfo::BibInfo (KTextEditor::Document *doc,
-                  Extensions *extensions,
-                  KileAbbreviation::Manager *abbreviationManager,
-                  KileParser::Manager *parserManager,
-                  LatexCommands* /* commands */)
-: TextInfo(doc, extensions, abbreviationManager, parserManager, "BibTeX")
+BibInfo::BibInfo(Extensions* extensions,
+                 KileAbbreviation::Manager* abbreviationManager,
+                 KileParser::Manager* parserManager,
+                 LatexCommands* /* commands */)
+: TextInfo(extensions, abbreviationManager, parserManager, "BibTeX")
 {
 	documentTypePromotionAllowed = false;
 }
@@ -1152,10 +1137,6 @@ bool BibInfo::isLaTeXRoot()
 
 void BibInfo::updateStruct()
 {
-	if(!getDoc()) {
-		return;
-	}
-
 	Info::updateStruct();
 
 	m_parserManager->parseDocument(this);
@@ -1187,11 +1168,10 @@ QString BibInfo::getFileFilter() const
 	return m_extensions->bibtexFileFilter();
 }
 
-ScriptInfo::ScriptInfo(KTextEditor::Document *doc,
-                       Extensions *extensions,
-                       KileAbbreviation::Manager *abbreviationManager,
-                       KileParser::Manager *parserManager)
-: TextInfo(doc, extensions, abbreviationManager, parserManager, "JavaScript")
+ScriptInfo::ScriptInfo(Extensions* extensions,
+                       KileAbbreviation::Manager* abbreviationManager,
+                       KileParser::Manager* parserManager)
+: TextInfo(extensions, abbreviationManager, parserManager, "JavaScript")
 {
 	documentTypePromotionAllowed = false;
 }

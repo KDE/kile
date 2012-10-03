@@ -49,6 +49,9 @@ namespace KileTool
 		m_childToolSpawned(false),
 		m_toolResult(-1)
 	{
+		// WARNING: 'NeedSaveAll' is currently needed to indicate to the tool manager that parsing has to be finished
+		//          before it launches this tool! This is important to ensure that the right master document is used
+		//          in the case of projects, for example.
 		m_flags = NeedTargetDirExec | NeedTargetDirWrite | NeedActiveDoc | NeedMasterDoc | NoUntitledDoc | NeedSourceExists | NeedSourceRead | NeedSaveAll;
 
 		setMsg(NeedTargetDirExec, ki18n("Could not change to the folder %1."));

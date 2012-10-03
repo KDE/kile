@@ -35,6 +35,9 @@
  * loop doesn't process user events, the document modification timer might still be triggered in such
  * an event loop and 'stopLivePreview' will be called. Now, no document saving is performed inside tool
  * classes anymore (including the tool manager).
+ ***********************************************************************************************************
+ * Also, it is important that parsing has to be finished before any tool is processed; for example, when
+ * a project is being opened and the right master document still has to be determined through parsing.
  ***********************************************************************************************************/
 
 class QTimer;

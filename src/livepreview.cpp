@@ -1212,7 +1212,7 @@ void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project
 	bool previewNeedsToBeRefreshed = false;
 
 	// we can't use TextInfo pointers here as they might not be set in 'item' yet
-	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoForURL(item->url()));
+	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(item->url()));
 	if(latexInfo && m_latexInfoToPreviewInformationHash.contains(latexInfo)) {
 		PreviewInformation *previewInformation = m_latexInfoToPreviewInformationHash[latexInfo];
 		if(previewInformation == m_shownPreviewInformation) {

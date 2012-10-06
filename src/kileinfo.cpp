@@ -239,9 +239,13 @@ QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() co
 
 			QStringList toReturn;
 			for(QList<KileProjectItem*>::iterator it = children.begin(); it != children.end(); ++it) {
-				KILE_DEBUG() << "\t" << (*it)->url().fileName();
+				const KileProjectItem *item = *it;
+				KileDocument::TextInfo *textInfo = item->getInfo();
+				KILE_DEBUG() << "\t" << item->url();
 
-				toReturn << ((*it)->getInfo()->*getit)();
+				if(textInfo) {
+					toReturn << (textInfo->*getit)();
+				}
 			}
 			return toReturn;
 		}

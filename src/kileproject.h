@@ -54,7 +54,7 @@ public:
 	void setArchive(bool ar) { m_archive = ar; }
 
 	void setInfo(KileDocument::TextInfo * docinfo);
-	KileDocument::TextInfo* getInfo() { return m_docinfo; }
+	KileDocument::TextInfo* getInfo() const { return m_docinfo; }
 
 	KileProject* project() const { return m_project;}
 

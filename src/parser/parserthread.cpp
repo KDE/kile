@@ -14,6 +14,7 @@
 #include "parserthread.h"
 
 #include "documentinfo.h"
+#include "kiledocmanager.h"
 #include "kileinfo.h"
 #include "bibtexparser.h"
 #include "latexparser.h"
@@ -228,20 +229,16 @@ Parser* DocumentParserThread::createParser(ParserInput *input)
 void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
 {
 	KILE_DEBUG() << textInfo;
-	KTextEditor::Document *document = textInfo->getDoc();
-	const KUrl& url = document->url();
-	if(!document) {
-		KILE_DEBUG() << "KileDocument::TextInfo without document given!";
-		return;
-	}
+	const KUrl url = m_ki->docManager()->urlFor(textInfo);
+	Q_ASSERT(!url.isEmpty());
 	ParserInput* newItem = NULL;
 	if(dynamic_cast<KileDocument::BibInfo*>(textInfo)) {
-		newItem = new BibTeXParserInput(url, document->textLines(document->documentRange()));
+		newItem = new BibTeXParserInput(url, textInfo->documentContents());
 	}
 	else {
-		newItem = new LaTeXParserInput(url, document->textLines(document->documentRange()),
+		newItem = new LaTeXParserInput(url, textInfo->documentContents(),
 		                                    m_ki->extensions(),
-	                                            (textInfo->dictStructLevel()),
+	                                            textInfo->dictStructLevel(),
 	                                            KileConfig::svShowSectioningLabels(),
 	                                            KileConfig::svShowTodo());
 	}

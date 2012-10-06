@@ -468,6 +468,7 @@ void TextInfo::setDocument(KTextEditor::Document *doc)
 	detach();
 	if(doc) {
 		m_doc = doc;
+		m_documentContents.clear();
 		connect(m_doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(slotFileNameChanged()));
 		connect(m_doc, SIGNAL(completed()), this, SLOT(slotCompleted()));
@@ -834,6 +835,21 @@ void TextInfo::activateDefaultMode()
 	if(m_doc && !m_defaultMode.isEmpty()) {
 		m_doc->setMode(m_defaultMode);
 	}
+}
+
+const QStringList TextInfo::documentContents() const
+{
+	if (m_doc) {
+		return m_doc->textLines(m_doc->documentRange());
+	}
+	else {
+		return m_documentContents;
+	}
+}
+
+void TextInfo::setDocumentContents(const QStringList& contents)
+{
+	m_documentContents = contents;
 }
 
 LaTeXInfo::LaTeXInfo(Extensions* extensions,

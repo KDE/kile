@@ -295,6 +295,13 @@ public:
 
 	void startAbbreviationCompletion(KTextEditor::View *view);
 
+	/**
+	 * Returns the contents of the document if a KTextEditor::Document is present. Otherwise,
+	 * the contents supplied via @ref setDocumentContents is returned.
+	 **/
+	const QStringList documentContents() const;
+	void setDocumentContents(const QStringList& contents);
+
 Q_SIGNALS:
 	void documentDetached(KTextEditor::Document*);
 	void aboutToBeDestroyed(KileDocument::TextInfo*);
@@ -404,6 +411,9 @@ protected:
 	 * managed document object.
 	 **/
 	void unregisterCodeCompletionModels();
+
+private:
+	QStringList m_documentContents;
 };
 
 
@@ -509,4 +519,3 @@ public:
 
 }
 #endif
-

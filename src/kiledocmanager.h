@@ -112,11 +112,6 @@ public Q_SLOTS:
 	void projectOpen(const KUrl&, int step = 0, int max = 1, bool openProjectItemViews = true);
 
 	/**
-	 * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.
-	 **/
-	void projectOpenItem(KileProjectItem *item, bool openProjectItemViews = true);
-
-	/**
 	 * Saves the state of the project, if @param project is zero, the active project is saved.
 	 **/
 	void projectSave(KileProject* project = NULL);
@@ -240,6 +235,12 @@ public:
 	static const KUrl symlinkFreeURL(const KUrl& url);
 
 protected:
+	/**
+	 * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.
+	 **/
+	void projectOpenItem(KileProjectItem *item, bool openProjectItemViews = true);
+	void createTextInfoForProjectItem(KileProjectItem *item);
+
 	void trashDoc(TextInfo *docinfo, KTextEditor::Document *doc = NULL);
 
 	TextInfo* createTextDocumentInfo(KileDocument::Type type, const KUrl &url, const KUrl& baseDirectory = KUrl());
@@ -265,6 +266,7 @@ protected:
 	KTextEditor::View* loadText(KileDocument::Type type, const KUrl& url, const QString& encoding = QString(), bool create = true, const QString& mode = QString(), const QString& highlight = QString(), const QString &text = QString(), int index = -1, const KUrl& baseDirectory = KUrl());
 	KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString& text = QString(), bool openProjectItemViews = true);
 
+	QStringList loadTextURLContents(const KUrl& url, const QString& encoding);
 private:
 	KTextEditor::Editor			*m_editor;
 	QList<TextInfo*>			m_textInfoList;

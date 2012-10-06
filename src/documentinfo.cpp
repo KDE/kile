@@ -397,16 +397,6 @@ QString Info::lastModifiedFile(const QStringList& list)
 
 void Info::updateStruct()
 {
-	KILE_DEBUG() << "==Info::updateStruct()=======";
-	m_labels.clear();
-	m_bibItems.clear();
-	m_deps.clear();
-	m_bibliography.clear();
-	m_packages.clear();
-	m_newCommands.clear();
-	m_asyFigures.clear();
-	m_bIsRoot = false;
-	m_preamble.clear();
 }
 
 void Info::updateBibItems()
@@ -1073,12 +1063,10 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
 	return result;
 }
 
-//FIXME refactor, clean this mess up
 void LaTeXInfo::updateStruct()
 {
 	KILE_DEBUG() << "==void TeXInfo::updateStruct: (" << url() << ")=========";
 
-	Info::updateStruct();
 	m_parserManager->parseDocument(this);
 }
 
@@ -1137,8 +1125,6 @@ bool BibInfo::isLaTeXRoot()
 
 void BibInfo::updateStruct()
 {
-	Info::updateStruct();
-
 	m_parserManager->parseDocument(this);
 }
 

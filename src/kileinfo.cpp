@@ -219,7 +219,7 @@ KUrl::List KileInfo::getParentsFor(KileDocument::Info *info)
 	return list;
 }
 
-QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::Info *docinfo)
+QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo)
 {
 	if(!docinfo) {
 		docinfo = docManager()->getInfo();
@@ -257,49 +257,49 @@ QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() co
 	}
 }
 
-QStringList KileInfo::allLabels(KileDocument::Info *info)
+QStringList KileInfo::allLabels(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::allLabels()" << endl;
 	return retrieveList(&KileDocument::Info::labels, info);
 }
 
-QStringList KileInfo::allBibItems(KileDocument::Info *info)
+QStringList KileInfo::allBibItems(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::allBibItems()" << endl;
 	return retrieveList(&KileDocument::Info::bibItems, info);
 }
 
-QStringList KileInfo::allBibliographies(KileDocument::Info *info)
+QStringList KileInfo::allBibliographies(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::bibliographies()" << endl;
 	return retrieveList(&KileDocument::Info::bibliographies, info);
 }
 
-QStringList KileInfo::allDependencies(KileDocument::Info *info)
+QStringList KileInfo::allDependencies(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::dependencies()" << endl;
 	return retrieveList(&KileDocument::Info::dependencies, info);
 }
 
-QStringList KileInfo::allNewCommands(KileDocument::Info *info)
+QStringList KileInfo::allNewCommands(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::newCommands()" << endl;
 	return retrieveList(&KileDocument::Info::newCommands, info);
 }
 
-QStringList KileInfo::allAsyFigures(KileDocument::Info *info)
+QStringList KileInfo::allAsyFigures(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::asyFigures()" << endl;
 	return retrieveList(&KileDocument::Info::asyFigures, info);
 }
 
-QStringList KileInfo::allPackages(KileDocument::Info *info)
+QStringList KileInfo::allPackages(KileDocument::TextInfo *info)
 {
 	KILE_DEBUG() << "Kile::allPackages()" << endl;
 	return retrieveList(&KileDocument::Info::packages, info);
 }
 
-QString KileInfo::lastModifiedFile(KileDocument::Info *info)
+QString KileInfo::lastModifiedFile(KileDocument::TextInfo *info)
 {
 	if(!info) {
 		info = docManager()->getInfo();

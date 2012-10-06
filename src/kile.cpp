@@ -2208,7 +2208,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 	KILE_DEBUG() << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
 	insertTag(data);
 
-	KileDocument::Info *docinfo = docManager()->textInfoFor(getCompileName());
+	KileDocument::TextInfo *docinfo = docManager()->textInfoFor(getCompileName());
 	if(docinfo) {
 		QStringList packagelist = allPackages(docinfo);
 		QStringList::const_iterator it;

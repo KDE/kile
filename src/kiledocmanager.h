@@ -203,7 +203,7 @@ public:
 
 	KTextEditor::Document* docFor(const KUrl &url);
 
-	Info* getInfo() const;
+	TextInfo* getInfo() const;
 
 	TextInfo* textInfoFor(const KUrl& url);
 	TextInfo* textInfoFor(KTextEditor::Document* doc) const;
@@ -226,7 +226,7 @@ public:
 	 * @returns a pointer to the project item, 0 if this file does not belong to a project
 	 **/
 	KileProjectItem* itemFor(const KUrl &url, KileProject *project = NULL) const;
-	KileProjectItem* itemFor(Info *docinfo, KileProject *project = NULL) const;
+	KileProjectItem* itemFor(TextInfo *docinfo, KileProject *project = NULL) const;
 	KileProjectItem* selectProjectFileItem(const QString &label);
 	QList<KileProjectItem*> selectProjectFileItems(const QString &label);
 

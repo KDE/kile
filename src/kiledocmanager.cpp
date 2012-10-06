@@ -225,13 +225,15 @@ KTextEditor::Document* Manager::docFor(const KUrl & url)
 	return NULL;
 }
 
-Info* Manager::getInfo() const
+TextInfo* Manager::getInfo() const
 {
 	KTextEditor::Document *doc = m_ki->activeTextDocument();
-	if ( doc != 0L )
+	if(doc) {
 		return textInfoFor(doc);
-	else
-		return 0L;
+	}
+	else {
+		return NULL;
+	}
 }
 
 TextInfo* Manager::textInfoFor(const KUrl& url)
@@ -349,29 +351,34 @@ KileProjectItem* Manager::itemFor(const KUrl &url, KileProject *project /*=0L*/)
 		for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
 			KileProject *project = *it;
 
-			KILE_DEBUG() << "looking in project " << project->name();
-			if (project->contains(url)) {
-				KILE_DEBUG() << "\t\tfound!";
-				return project->item(url);
+			KileProjectItem *item = project->item(url);
+			if(item) {
+				return item;
 			}
 		}
-		KILE_DEBUG() << "\t nothing found";
+		return NULL;
 	}
 	else {
-		if(project->contains(url)) {
-			return project->item(url);
-		}
+		return project->item(url);
 	}
-
-	return NULL;
 }
 
-KileProjectItem* Manager::itemFor(Info *docinfo, KileProject *project /*=0*/) const
+KileProjectItem* Manager::itemFor(TextInfo *docinfo, KileProject *project /*=0*/) const
 {
-	if(docinfo)
-		return itemFor(docinfo->url(), project);
-	else
+	if (!project) {
+		for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
+			KileProject *project = *it;
+
+			KileProjectItem *item = project->item(docinfo);
+			if(item) {
+				return item;
+			}
+		}
 		return NULL;
+	}
+	else {
+		return project->item(docinfo);
+	}
 }
 
 QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const

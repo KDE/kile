@@ -34,7 +34,7 @@
 
 class QWidget;
 
-namespace KileDocument { class Info; }
+namespace KileDocument { class Info; class TextInfo; }
 
 class KileErrorHandler;
 class KileProject;
@@ -87,15 +87,15 @@ public:
 	QString getSelection() const;
 	void clearSelection() const;
 
-	virtual QStringList allLabels(KileDocument::Info *info = NULL);
-	virtual QStringList allBibItems(KileDocument::Info *info = NULL);
-	virtual QStringList allBibliographies(KileDocument::Info *info = NULL);
-	virtual QStringList allDependencies(KileDocument::Info *info = NULL);
-	virtual QStringList allNewCommands(KileDocument::Info *info = NULL);
-	virtual QStringList allAsyFigures(KileDocument::Info *info = NULL);
-	virtual QStringList allPackages(KileDocument::Info *info = NULL);
+	virtual QStringList allLabels(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allBibItems(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allBibliographies(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allDependencies(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allNewCommands(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allAsyFigures(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allPackages(KileDocument::TextInfo *info = NULL);
 
-	QString lastModifiedFile(KileDocument::Info * info = NULL);
+	QString lastModifiedFile(KileDocument::TextInfo *info = NULL);
 
 	static QString documentTypeToString(KileDocument::Type type);
 
@@ -110,7 +110,7 @@ protected:
 	virtual bool queryClose() = 0;
 
 private:
-	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::Info *docinfo = NULL);
+	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = NULL);
 
 public:
 	bool similarOrEqualURL(const KUrl &validurl, const KUrl &testurl);

@@ -2563,9 +2563,11 @@ void Manager::deleteDocumentAndViewSettingsGroups(const KUrl& url)
 
 QStringList Manager::loadTextURLContents(const KUrl& url, const QString& encoding)
 {
-	// if 'url' is not a local file, it's contents are copied into a temporary local file
 	QString localFileName;
 	QStringList res;
+	// if 'url' is not a local file, its contents are copied into a temporary local file
+	// whose name will be stored in 'localFile'; otherwise, the file name specified in
+	// 'url' will be set in 'localFile'
 	if (!KIO::NetAccess::download(url, localFileName, m_ki->mainWindow())) {
 		KILE_DEBUG() << "Can not download resource: " << url;
 		KIO::NetAccess::removeTempFile(localFileName);

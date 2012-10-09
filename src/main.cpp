@@ -33,33 +33,9 @@
 #include "kileversion.h"
 #include "kiledebug.h"
 
-bool isProject(const QString &path)
+bool isProject(const KUrl url)
 {
-	return path.endsWith(".kilepr");
-}
-
-/*
- * Complete a relative paths to absolute ones.
- * Also accepts URLs of the form file:relativepath.
-*/
-QString completePath(const QString &path, const QString& currentPath)
-{
-	QString fullpath(path);
-
-	KILE_DEBUG() << "==complete path is " << path;
-	if(QDir::isRelativePath(path)) {
-		if(path.startsWith("file:")) {
-			KUrl url(path);
-			url.setFileName(completePath(url.toLocalFile(), currentPath));
-			fullpath = url.url();
-		}
-		else if(path.indexOf(QRegExp("^[a-z]+:")) == -1) {
-			fullpath = currentPath + QDir::separator() + path;
-		}
-	}
-
-	KILE_DEBUG() << "==fullpath=" << fullpath;
-	return fullpath;
+	return url.fileName().endsWith(".kilepr");
 }
 
 QString readDataFromStdin()
@@ -126,7 +102,7 @@ int main( int argc, char ** argv )
 	aboutData.addCredit(ki18n("Jonathan Pechta"), ki18n("Documentation"));
 	aboutData.addCredit(ki18n("Federico Zenith"), ki18n("Documentation"));
 
-	KCmdLineArgs::init( argc, argv, &aboutData );
+	KCmdLineArgs::init(argc, argv, &aboutData);
 	KCmdLineOptions options;
 	options.add("line <line>", ki18n("Jump to line"));
 	options.add("new", ki18n("Start a new Kile mainwindow"));
@@ -136,10 +112,6 @@ int main( int argc, char ** argv )
 	KCmdLineArgs::addCmdLineOptions(options);
 	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
 	bool running = false;
-
-	// we save the current path here to avoid problems when it's (erroneously) changed later
-	// (for instance, when a new KonsoleWidget is created, see #301808)
-	const QString currentPath = QDir::currentPath();
 
 	// this has to go before the DBus connection
 	KApplication app;
@@ -153,15 +125,18 @@ int main( int argc, char ** argv )
 		Kile *kile = new Kile(restore);
 
 		for(int i = 0; i < args->count(); ++i) {
-			//FIXME: check whether this can be used to open Urls
-			if(isProject(args->arg(i))) {
-				kile->openProject(completePath(args->arg(i), currentPath));
-			}
-			else if(args->arg(i) == "-"){
+			if(args->arg(i) == "-") {
 				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				kile->openDocument(completePath(args->arg(i), currentPath));
+				const KUrl url = args->url(i);
+
+				if(isProject(url)) {
+					kile->openProject(url);
+				}
+				else {
+					kile->openDocument(url);
+				}
 			}
 		}
 
@@ -178,17 +153,18 @@ int main( int argc, char ** argv )
 		QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
 
 		for ( int i = 0; i < args->count(); ++i ) {
-			QString path = args->arg(i);
-			path = completePath(path, currentPath);
-
-			if (isProject(args->arg(i))) {
-				interface->call("openProject", path);
-			}
-			else if(args->arg(i) == "-") {
+			if(args->arg(i) == "-") {
 				interface->call("openDocument", readDataFromStdin());
 			}
 			else {
-				interface->call("openDocument", path);
+				const KUrl url = args->url(i);
+
+				if(isProject(url)) {
+					interface->call("openProject", url.url());
+				}
+				else {
+					interface->call("openDocument", url.url());
+				}
 			}
 		}
 

@@ -1419,10 +1419,14 @@ void Kile::updateModeStatus()
 	updateStatusBarSelection(view);
 }
 
-void Kile::openDocument(const QString & url)
+void Kile::openDocument(const KUrl& url)
 {
-	KILE_DEBUG() << "==Kile::openDocument(" << url << ")==========" << endl;
-	docManager()->fileSelected(KUrl::fromPathOrUrl(url));
+	docManager()->fileSelected(url);
+}
+
+void Kile::openDocument(const QString& s)
+{
+	openDocument(KUrl::fromPathOrUrl(s));
 }
 
 void Kile::closeDocument()
@@ -1454,9 +1458,14 @@ void Kile::enableAutosave(bool as)
 	}
 }
 
+void Kile::openProject(const KUrl& url)
+{
+	docManager()->projectOpen(url);
+}
+
 void Kile::openProject(const QString& proj)
 {
-	docManager()->projectOpen(KUrl::fromPathOrUrl(proj));
+	openProject(KUrl::fromPathOrUrl(proj));
 }
 
 void Kile::focusPreview()

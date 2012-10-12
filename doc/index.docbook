@@ -27,9 +27,9 @@
   <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
 ]>
 
-<book lang="&language;">
+<book id="kile" lang="&language;">
 
-<bookinfo>
+<book id="kile"info>
 <title>The &kile; Handbook</title>
 
 <authorgroup>

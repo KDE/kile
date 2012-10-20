@@ -40,14 +40,19 @@ QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_running(0), m_tempDir(NUL
 {
 	m_taskList << i18n("LaTeX ---> DVI")
 	           << i18n("LaTeX ---> DVI (Okular)")
+	           << i18n("LaTeX ---> DVI (Document Viewer)")
 	           << i18n("LaTeX ---> PS")
 	           << i18n("LaTeX ---> PS (Okular)")
+	           << i18n("LaTeX ---> PS (Document Viewer)")
 	           << i18n("PDFLaTeX ---> PDF")
 	           << i18n("PDFLaTeX ---> PDF (Okular)")
+	           << i18n("PDFLaTeX ---> PDF (Document Viewer)")
 	           << i18n("XeLaTeX ---> PDF")
 	           << i18n("XeLaTeX ---> PDF (Okular)")
+	           << i18n("XeLaTeX ---> PDF (Document Viewer)")
 	           << i18n("LuaLaTeX ---> PDF")
 	           << i18n("LuaLaTeX ---> PDF (Okular)")
+	           << i18n("LuaLaTeX ---> PDF (Document Viewer)")
 	           ;
 }
 
@@ -151,15 +156,20 @@ void QuickPreview::getTaskList(QStringList &tasklist)
 {
 	tasklist.clear();
 	tasklist << "Tool/ViewDVI/Embedded Viewer=" + m_taskList[0]
-	         << "Tool/ViewDVI/Okular="     + m_taskList[1]
-	         << "Tool/ViewPS/Embedded Viewer="  + m_taskList[2]
-	         << "Tool/ViewPS/Okular="       + m_taskList[3]
-	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[4]
-	         << "Tool/ViewPDF/Okular="      + m_taskList[5]
+	         << "Tool/ViewDVI/Okular="          + m_taskList[1]
+	         << "Tool/ViewDVI/Document Viewer=" + m_taskList[2]
+	         << "Tool/ViewPS/Embedded Viewer="  + m_taskList[3]
+	         << "Tool/ViewPS/Okular="           + m_taskList[4]
+	         << "Tool/ViewPS/Document Viewer="  + m_taskList[5]
 	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[6]
-	         << "Tool/ViewPDF/Okular="      + m_taskList[7]
-	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[8]
-	         << "Tool/ViewPDF/Okular="      + m_taskList[9]
+	         << "Tool/ViewPDF/Okular="          + m_taskList[7]
+	         << "Tool/ViewPDF/Document Viewer=" + m_taskList[8]
+	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[9]
+	         << "Tool/ViewPDF/Okular="          + m_taskList[10]
+	         << "Tool/ViewPDF/Document Viewer=" + m_taskList[11]
+	         << "Tool/ViewPDF/Embedded Viewer=" + m_taskList[12]
+	         << "Tool/ViewPDF/Okular="          + m_taskList[13]
+	         << "Tool/ViewPDF/Document Viewer=" + m_taskList[14]
 	         ;
 }
 
@@ -172,16 +182,21 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 {
 	// define possible tools
 	QMap <QString,QString> map;
-	map[m_taskList[0]] = "PreviewLaTeX,,,ViewDVI,Embedded Viewer,dvi"; 
-	map[m_taskList[1]] = "PreviewLaTeX,,,ViewDVI,Okular,dvi"; 
-	map[m_taskList[2]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,Embedded Viewer,ps";
-	map[m_taskList[3]] = "PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps";
-	map[m_taskList[4]] = "PreviewPDFLaTeX,,,ViewPDF,Embedded Viewer,pdf"; 
-	map[m_taskList[5]] = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
-	map[m_taskList[6]] = "PreviewXeLaTeX,,,ViewPDF,Embedded Viewer,pdf"; 
-	map[m_taskList[7]] = "PreviewXeLaTeX,,,ViewPDF,Okular,pdf";
-	map[m_taskList[8]] = "PreviewLuaLaTeX,,,ViewPDF,Embedded Viewer,pdf";
-	map[m_taskList[9]] = "PreviewLuaLaTeX,,,ViewPDF,Okular,pdf";
+	map[m_taskList[0]]  = "PreviewLaTeX,,,ViewDVI,Embedded Viewer,dvi";
+	map[m_taskList[1]]  = "PreviewLaTeX,,,ViewDVI,Okular,dvi";
+	map[m_taskList[2]]  = "PreviewLaTeX,,,ViewDVI,Document Viewer,dvi";
+	map[m_taskList[3]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Embedded Viewer,ps";
+	map[m_taskList[4]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps";
+	map[m_taskList[5]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Document Viewer,ps";
+	map[m_taskList[6]]  = "PreviewPDFLaTeX,,,ViewPDF,Embedded Viewer,pdf";
+	map[m_taskList[7]]  = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
+	map[m_taskList[8]]  = "PreviewPDFLaTeX,,,ViewPDF,Document Viewer,pdf";
+	map[m_taskList[9]]  = "PreviewXeLaTeX,,,ViewPDF,Embedded Viewer,pdf";
+	map[m_taskList[10]] = "PreviewXeLaTeX,,,ViewPDF,Okular,pdf";
+	map[m_taskList[11]] = "PreviewXeLaTeX,,,ViewPDF,Document Viewer,pdf";
+	map[m_taskList[12]] = "PreviewLuaLaTeX,,,ViewPDF,Embedded Viewer,pdf";
+	map[m_taskList[13]] = "PreviewLuaLaTeX,,,ViewPDF,Okular,pdf";
+	map[m_taskList[14]] = "PreviewLuaLaTeX,,,ViewPDF,Document Viewer,pdf";
 
 	QString previewtask = KileConfig::previewTask();
 	if(!map.contains(previewtask)) {

@@ -315,16 +315,18 @@ namespace KileTool
 		// we will now try to detect the bib tool by using the given command hint
 		ToolConfigPair bibTool = manager()->findFirstBibliographyToolForCommand(hint);
 
-		// if we managed to detect a backend, store (or update) it for future runs
-		if(bibTool.isValid()) {
-			latexOutputHandler()->setBibliographyBackendToolAutoDetected(bibTool);
-		}
-		else {
-			// perhaps we have it stored from a previous run?
-			bibTool = latexOutputHandler()->bibliographyBackendToolAutoDetected();
-			// perhaps the bib tools have changed from the previous run?
-			if (!manager()->containsBibliographyTool(bibTool)) {
-				bibTool = ToolConfigPair();
+		if(m_latexOutputHandler) {
+			// if we managed to detect a backend, store (or update) it for future runs
+			if(bibTool.isValid()) {
+				m_latexOutputHandler->setBibliographyBackendToolAutoDetected(bibTool);
+			}
+			else {
+				// perhaps we have it stored from a previous run?
+				bibTool = m_latexOutputHandler->bibliographyBackendToolAutoDetected();
+				// perhaps the bib tools have changed from the previous run?
+				if (!manager()->containsBibliographyTool(bibTool)) {
+					bibTool = ToolConfigPair();
+				}
 			}
 		}
 

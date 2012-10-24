@@ -383,6 +383,9 @@ namespace KileTool
 
 		void setupSequenceTools();
 
+		LaTeXOutputHandler* latexOutputHandler();
+		void setLaTeXOutputHandler(LaTeXOutputHandler *h);
+
 	public Q_SLOTS:
 		int run();
 
@@ -390,8 +393,12 @@ namespace KileTool
 		Sequence(const QString &name, Manager *manager, bool prepare = true);
 		~Sequence();
 
+		// will also determine the current LaTeXOutputHandler
+		bool determineSource();
+
 		QLinkedList<Base*> m_tools;
 		QString m_unknownToolSpec;
+		LaTeXOutputHandler *m_latexOutputHandler;
 	};
 }
 

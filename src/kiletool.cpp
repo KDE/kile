@@ -723,12 +723,42 @@ namespace KileTool
 	}
 
 	Sequence::Sequence(const QString &name, Manager *manager, bool prepare /*= true*/)
-	 : Base(name, manager, prepare)
+	 : Base(name, manager, prepare), m_latexOutputHandler(NULL)
 	{
 	}
 
 	Sequence::~Sequence() {
 		qDeleteAll(m_tools);
+	}
+
+	LaTeXOutputHandler* Sequence::latexOutputHandler()
+	{
+		return m_latexOutputHandler;
+	}
+
+	void Sequence::setLaTeXOutputHandler(LaTeXOutputHandler *h)
+	{
+		m_latexOutputHandler = h;
+	}
+
+	bool Sequence::determineSource()
+	{
+		QString src = source();
+
+		// check whether the source has been set already
+		if(!src.isEmpty()) {
+			return true;
+		}
+
+		// the basedir is determined from the current compile target,
+		// determined by getCompileName()
+		LaTeXOutputHandler *h = NULL;
+		src = m_ki->getCompileName(false, &h);
+
+		setSource(src);
+		setLaTeXOutputHandler(h);
+
+		return true;
 	}
 
 	bool Sequence::requestSaveAll()
@@ -793,6 +823,16 @@ namespace KileTool
 		for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
 			Base *tool = *i;
 			tool->setSource(source());
+
+			// if we are running a 'LaTeX' tool here, we still have to set the
+			// appropriate LaTeXOutputHandler
+			{
+				LaTeX *latex = dynamic_cast<LaTeX*>(tool);
+				if(latex && m_latexOutputHandler) {
+					latex->setLaTeXOutputHandler(m_latexOutputHandler);
+				}
+			}
+
 			manager()->run(tool);
 		}
 

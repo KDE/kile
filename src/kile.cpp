@@ -2458,8 +2458,10 @@ void Kile::transformOldUserTags()
 		xml.writeStartElement("UserMenu");
 
 		for (int i = 0; i < len; ++i) {
-			QString tagname = userGroup.readEntry("userTagName" + QString::number(i), i18n("no name"));
-			QString tag = userGroup.readEntry("userTag" + QString::number(i), "");
+			const QString tagNameConfigKey = "userTagName" + QString::number(i);
+			const QString tagname = userGroup.readEntry(tagNameConfigKey, i18n("No Name"));
+			const QString tagConfigKey = "userTag" + QString::number(i);
+			QString tag = userGroup.readEntry(tagConfigKey, "");
 			tag = tag.replace('\n',"\\n");
 
 			xml.writeStartElement("menu");
@@ -2469,6 +2471,8 @@ void Kile::transformOldUserTags()
 			xml.writeTextElement(KileMenu::UserMenuData::xmlMenuTagName(KileMenu::UserMenuData::XML_SHORTCUT), QString("Ctrl+Shift+%1").arg(i+1));
 			xml.writeEndElement();
 
+			userGroup.deleteEntry(tagNameConfigKey);
+			userGroup.deleteEntry(tagConfigKey);
 		}
 		xml.writeEndDocument();
 		file.close();
@@ -2476,9 +2480,7 @@ void Kile::transformOldUserTags()
 		// save current xml file
 		KileConfig::setMenuFile(usertagfile);
 	}
-
-	// delete old config group
-	m_config->deleteGroup("User");
+	userGroup.deleteEntry("nUserTags");
 }
 
 void Kile::transformOldUserSettings()

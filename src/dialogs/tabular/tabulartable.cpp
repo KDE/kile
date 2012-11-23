@@ -215,20 +215,19 @@ void KileDialog::TabularTable::paste()
 
 	//Clipboard->QStringlist
 	QString selectedText = qApp->clipboard()->text();
-	selectedText = selectedText.remove("\\r");
+	selectedText = selectedText.remove('\r');
 	if(selectedText.isEmpty()) {
 		KMessageBox::information(this, i18n("There is no content to insert into the table as the clipboard is empty."), i18n("Empty Clipboard"));
 		return;
+	}
+	if(!selectedText.endsWith('\n')) {
+		selectedText += '\n';
 	}
 	QStringList cells = selectedText.split(QRegExp(QLatin1String("\\n|\\t")));
 	while(!cells.empty() && cells.back().size() == 0) {
 		cells.pop_back(); // strip empty trailing tokens
 	}
 	int rows = selectedText.count(QLatin1Char('\n'));
-	// When there's no '\n':
-	if(rows == 0) {
-		rows = 1;
-	}
 	int cols = cells.size() / rows;
 
 	// Fill everything in the tableWidget

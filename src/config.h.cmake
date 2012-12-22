@@ -6,7 +6,7 @@
 	#undef LIVEPREVIEW_POSSIBLE
 #endif
 
-#cmakedefine HAVE_POPPLER_QT4_H
+#cmakedefine HAVE_POPPLER_QT4
 
 #ifdef HAVE_POPPLER_QT4_H
 	#define LIBPOPPLER_QT4_AVAILABLE

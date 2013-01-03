@@ -15,6 +15,7 @@
 #include "kiletoolmanager.h"
 
 #include <QFileInfo>
+#include <QMenu>
 #include <QRegExp>
 #include <QTimer>
 
@@ -696,11 +697,15 @@ KileTool::ToolConfigPair KileTool::Manager::findFirstBibliographyToolForCommand(
 
 void KileTool::Manager::buildBibliographyBackendSelection()
 {
+	m_bibliographyBackendSelectAction->removeAllActions();
+	m_bibliographyBackendSelectAction->menu()->clear();
 	for(QMap<ToolConfigPair, KAction*>::iterator i = m_bibliographyBackendActionMap.begin(); i != m_bibliographyBackendActionMap.end(); ++i) {
-		delete m_bibliographyBackendSelectAction->removeAction(i.value());
+		delete i.value();
 	}
 	m_bibliographyBackendActionMap.clear();
 	m_bibliographyToolsList.clear();
+
+	m_bibliographyBackendSelectAction->addAction(m_bibliographyBackendAutodetectAction);
 
 	m_bibliographyToolsList = toolsWithConfigurationsBasedOnClass(m_config, BibliographyCompile::ToolClass);
 	qSort(m_bibliographyToolsList); // necessary for the user-visible actions in the menu bar
@@ -712,6 +717,9 @@ void KileTool::Manager::buildBibliographyBackendSelection()
 		m_bibliographyBackendActionMap[tool] = action;
 	}
 
+	m_bibliographyBackendSelectAction->menu()->addSeparator();
+	m_bibliographyBackendSelectAction->menu()->addAction(m_bibliographyBackendResetAutodetectedAction);
+
 	currentLaTeXOutputHandlerChanged(m_ki->findCurrentLaTeXOutputHandler());
 }
 
@@ -722,10 +730,17 @@ void KileTool::Manager::createActions(KActionCollection *ac)
 	m_bibliographyBackendSelectAction = new KSelectAction(i18n("Bibliography Back End"), this);
 	m_bibliographyBackendAutodetectAction = m_bibliographyBackendSelectAction->addAction(i18n("Auto-Detect"));
 	m_bibliographyBackendAutodetectAction->setStatusTip(i18n("Auto-detect the bibliography back end from LaTeX output"));
+	m_bibliographyBackendSelectAction->setChecked(false);
 
 	ac->addAction("bibbackend_select", m_bibliographyBackendSelectAction);
 
+	m_bibliographyBackendResetAutodetectedAction = new KAction(i18n("Reset Auto-Detected Back End"), this);
+	m_bibliographyBackendResetAutodetectedAction->setEnabled(false);
+
 	connect(m_bibliographyBackendSelectAction, SIGNAL(triggered(QAction*)), SLOT(bibliographyBackendSelectedByUser()));
+	connect(m_bibliographyBackendResetAutodetectedAction, SIGNAL(triggered(bool)), SLOT(resetAutodetectedBibliographyBackend()));
+	connect(m_bibliographyBackendAutodetectAction, SIGNAL(toggled(bool)),
+	        m_bibliographyBackendResetAutodetectedAction, SLOT(setEnabled(bool)));
 }
 
 
@@ -740,6 +755,7 @@ void KileTool::Manager::bibliographyBackendSelectedByUser()
 	else {
 		//here we do not need to check existence of tool
 		h->setBibliographyBackendToolUserOverride(currentBackendAction->data().value<KileTool::ToolConfigPair>());
+		h->setBibliographyBackendToolAutoDetected(ToolConfigPair());
 	}
 }
 
@@ -772,6 +788,14 @@ void KileTool::Manager::currentLaTeXOutputHandlerChanged(LaTeXOutputHandler* han
 	}
 	else {
 		m_bibliographyBackendAutodetectAction->setChecked(true);
+	}
+}
+
+void KileTool::Manager::resetAutodetectedBibliographyBackend()
+{
+	LaTeXOutputHandler* h = m_ki->findCurrentLaTeXOutputHandler();
+	if (h) {
+		h->setBibliographyBackendToolAutoDetected(ToolConfigPair());
 	}
 }
 

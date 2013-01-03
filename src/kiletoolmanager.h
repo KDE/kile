@@ -157,6 +157,7 @@ namespace KileTool
 
 		void bibliographyBackendSelectedByUser();
 		void buildBibliographyBackendSelection();
+		void resetAutodetectedBibliographyBackend();
 
 	Q_SIGNALS:
 		void requestGUIState(const QString &);
@@ -182,6 +183,7 @@ namespace KileTool
 		QQueue<Base*>			m_toolsScheduledAfterParsingList;
 		KSelectAction			*m_bibliographyBackendSelectAction;
 		QAction				*m_bibliographyBackendAutodetectAction;
+		KAction				*m_bibliographyBackendResetAutodetectedAction;
 		QMap<ToolConfigPair, KAction*>	m_bibliographyBackendActionMap;
 		QList<ToolConfigPair> 		m_bibliographyToolsList;
 

@@ -308,7 +308,7 @@ namespace KileTool
 				else {
 					KILE_DEBUG() << "Cannot find the following bibtool set by the user:" << userBibTool;
 					KILE_DEBUG() << "trying to auto-detect it now!";
-					sendMessage(Warning, i18n("Manually selected bibliography tool does not exist: trying to"
+					sendMessage(Warning, i18n("Manually selected bibliography tool does not exist: trying to "
 					                          "auto-detect it now."));
 				}
 			}

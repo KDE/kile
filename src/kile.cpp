@@ -1533,14 +1533,22 @@ bool Kile::queryClose()
 
 	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
 		KTextEditor::Document *doc = viewManager()->textView(i)->document();
-		m_listDocsOpenOnStart.append(doc->url().toLocalFile());
+		const KUrl url = doc->url();
+		if(url.isEmpty()) {
+			continue;
+		}
+		m_listDocsOpenOnStart.append(url.toLocalFile());
 		m_listEncodingsOfDocsOpenOnStart.append(doc->encoding());
 	}
 
 	KILE_DEBUG() << "#projects = " << docManager()->projects().count() << endl;
 	QList<KileProject*> projectList = docManager()->projects();
 	for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
-		m_listProjectsOpenOnStart.append((*i)->url().toLocalFile());
+		const KUrl url = (*i)->url();
+		if(url.isEmpty()) { // shouldn't happen, but just in case...
+			continue;
+		}
+		m_listProjectsOpenOnStart.append(url.toLocalFile());
 	}
 
 	bool stage1 = docManager()->projectCloseAll();
@@ -2542,13 +2550,21 @@ void Kile::readRecentFileSettings()
 	KConfigGroup group = m_config->group("FilesOpenOnStart");
 	int n = group.readEntry("NoDOOS", 0);
 	for (int i = 0; i < n; ++i) {
-		m_listDocsOpenOnStart.append(group.readPathEntry("DocsOpenOnStart" + QString::number(i), ""));
+		const QString urlString = group.readPathEntry("DocsOpenOnStart" + QString::number(i), "");
+		if(urlString.isEmpty()) {
+			continue;
+		}
+		m_listDocsOpenOnStart.append(urlString);
 		m_listEncodingsOfDocsOpenOnStart.append(group.readPathEntry("EncodingsOfDocsOpenOnStart" + QString::number(i), ""));
 	}
 
 	n = group.readEntry("NoPOOS", 0);
 	for(int i = 0; i < n; ++i) {
-		m_listProjectsOpenOnStart.append(group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), ""));
+		const QString urlString = group.readPathEntry("ProjectsOpenOnStart" + QString::number(i), "");
+		if(urlString.isEmpty()) {
+			continue;
+		}
+		m_listProjectsOpenOnStart.append(urlString);
 	}
 }
 

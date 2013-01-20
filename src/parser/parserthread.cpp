@@ -230,7 +230,10 @@ void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
 {
 	KILE_DEBUG() << textInfo;
 	const KUrl url = m_ki->docManager()->urlFor(textInfo);
-	Q_ASSERT(!url.isEmpty());
+	if(url.isEmpty()) { // if the url is empty (which can happen with new documents),
+		return;     // we can't do anything as not even the results of the parsing can be displayed
+	}
+
 	ParserInput* newItem = NULL;
 	if(dynamic_cast<KileDocument::BibInfo*>(textInfo)) {
 		newItem = new BibTeXParserInput(url, textInfo->documentContents());

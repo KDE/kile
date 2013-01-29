@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -187,6 +187,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	connect(docManager(), SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 	connect(docManager(), SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
+	connect(docManager(), SIGNAL(documentReadWriteStateChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 
 	setupStatusBar();
 
@@ -1650,7 +1651,11 @@ void Kile::newCaption()
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
-		setCaption(getShortName( view->document()));
+		KTextEditor::Document *doc = view->document();
+		const QString caption = (doc->isReadWrite() ? getShortName(doc)
+		                                            : i18nc("Window caption in read-only mode: <file name> [Read-Only]",
+		                                                    "%1 [Read-Only]", getShortName(doc)));
+		setCaption(caption);
 		if (m_bottomBar->currentPage() && m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) {
 			m_texKonsole->sync();
 		}

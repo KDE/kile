@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2013 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -160,6 +160,7 @@ Q_SIGNALS:
 	void documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
 	void documentUrlChanged(KTextEditor::Document*);
 	void documentNameChanged(KTextEditor::Document*);
+	void documentReadWriteStateChanged(KTextEditor::Document*);
 
 	void addToRecentFiles(const KUrl&);
 	void addToRecentProjects(const KUrl&);

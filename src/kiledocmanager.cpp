@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2013 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -547,6 +547,12 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 	//handle changes of the document
 	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SIGNAL(documentNameChanged(KTextEditor::Document*)));
 	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SIGNAL(documentUrlChanged(KTextEditor::Document*)));
+	if(doc->metaObject()->indexOfSignal(QMetaObject::normalizedSignature("readWriteChanged(KTextEditor::Document*)")) >= 0) {
+		// signal available in KDE 4.10
+		connect(doc, SIGNAL(readWriteChanged(KTextEditor::Document*)),
+		        this, SIGNAL(documentReadWriteStateChanged(KTextEditor::Document*)));
+	}
+
 	connect(doc, SIGNAL(modifiedChanged(KTextEditor::Document*)), this, SLOT(newDocumentStatus(KTextEditor::Document*)));
 	KTextEditor::ModificationInterface *modificationInterface = qobject_cast<KTextEditor::ModificationInterface*>(doc);
 	if(modificationInterface) {

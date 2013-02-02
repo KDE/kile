@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
-                2010-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,6 +22,7 @@
 
 #include <KConfig>
 #include <KLocale>
+#include <KShell>
 #include <KUrl>
 
 #include "kileconfig.h"
@@ -93,17 +94,21 @@ namespace KileTool
 		m_messages[n] = msg;
 	}
 
-	void Base::translate(QString &str)
+	void Base::translate(QString &str, bool quoteForShell)
 	{
 		QHashIterator<QString,QString> it(paramDict());
 		while(it.hasNext()) {
 			it.next();
-			str.replace(it.key(), it.value());
+			QString value;
+			// the file names in %AFL are quoted already
+			if(quoteForShell && it.key() != "%AFL") {
+				value = KShell::quoteArg(it.value());
+			}
+			else {
+				value = it.value();
+			}
+			str.replace(it.key(), value);
 		}
-		//Windows doesn't like single quotes on command line '*.tex'
-		#ifdef Q_WS_WIN
-			str.replace('\'', '\"');
-		#endif
 	}
 
 	void Base::removeFlag(uint flag)

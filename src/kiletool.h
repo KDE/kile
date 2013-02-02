@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2011-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -183,7 +183,7 @@ namespace KileTool
 
 		bool addDict(const QString& key, const QString& value);
 
-		void translate(QString &str);
+		void translate(QString &str, bool quoteForShell = false);
 
 		void setFlags(uint flags) { m_flags = flags; }
 		uint flags() { return m_flags; }

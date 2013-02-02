@@ -1,7 +1,7 @@
 [Tool/Archive/Tar]
 class=Archive
 command=tar
-options=cvf '%S.tar' %AFL
+options=cvf %S.tar %AFL
 from=kilepr
 to=tar
 type=Process
@@ -9,7 +9,7 @@ type=Process
 [Tool/Archive/Tar + gzip]
 class=Archive
 command=tar
-options=zcvf '%S.tar.gz' %AFL
+options=zcvf %S.tar.gz %AFL
 from=kilepr
 to=tar.gz
 type=Process
@@ -17,7 +17,7 @@ type=Process
 [Tool/Archive/Tar + bzip2]
 class=Archive
 command=tar
-options=jcvf '%S.tar.bz2' %AFL
+options=jcvf %S.tar.bz2 %AFL
 from=kilepr
 to=tar.bz2
 type=Process
@@ -25,7 +25,7 @@ type=Process
 [Tool/Archive/Zip]
 class=Archive
 command=zip
-options='%S.zip' %AFL
+options=%S.zip %AFL
 from=kilepr
 to=zip
 type=Process
@@ -33,7 +33,7 @@ type=Process
 [Tool/Biber/Default]
 class=Bibliography
 command=biber
-options='%S'
+options=%S
 from=aux
 to=bbl
 type=Process
@@ -41,7 +41,7 @@ type=Process
 [Tool/BibTeX/Default]
 class=Bibliography
 command=bibtex
-options='%S'
+options=%S
 from=aux
 to=bbl
 type=Process
@@ -49,7 +49,7 @@ type=Process
 [Tool/BibTeX/8bit Version]
 class=Bibliography
 command=bibtex8
-options='%S'
+options=%S
 from=aux
 to=bbl
 type=Process
@@ -57,7 +57,7 @@ type=Process
 [Tool/Convert/eps2png]
 class=Convert
 command=convert
-options=+adjoin -antialias -trim -transparent white -density %res '%S.eps' '%S.png'
+options=+adjoin -antialias -trim -transparent white -density %res %S.eps %S.png
 from=eps
 to=png
 type=Process
@@ -65,7 +65,7 @@ type=Process
 [Tool/Convert/pdf2png]
 class=Convert
 command=convert
-options=+adjoin -antialias -trim -transparent white -density %res '%S.pdf' '%S.png'
+options=+adjoin -antialias -trim -transparent white -density %res %S.pdf %S.png
 from=pdf
 to=png
 type=Process
@@ -73,7 +73,7 @@ type=Process
 [Tool/DBLaTeX/Convert to DVI]
 class=Compile
 command=dblatex
-options=-tdvi '%S.xml'
+options=-tdvi %S.xml
 from=xml
 to=dvi
 type=Process
@@ -83,7 +83,7 @@ class=Compile
 command=dblatex
 from=xml
 to=pdf
-options=-tpdf '%S.xml'
+options=-tpdf %S.xml
 type=Process
 
 [Tool/DBLaTeX/Convert to LaTeX]
@@ -91,7 +91,7 @@ class=Compile
 command=dblatex
 from=xml
 to=tex
-options=-ttex '%S.xml'
+options=-ttex %S.xml
 type=Process
 
 [Tool/DBLaTeX/Convert to Postscript]
@@ -99,13 +99,13 @@ class=Compile
 command=dblatex
 from=xml
 to=ps
-options=-tps '%S.xml'
+options=-tps %S.xml
 type=Process
 
 [Tool/DVItoPDF/Default]
 class=Convert
 command=dvipdfmx
-options='%S.dvi'
+options=%S.dvi
 from=dvi
 to=pdf
 type=Process
@@ -113,7 +113,7 @@ type=Process
 [Tool/DVItoPDF/Black and White]
 class=Convert
 command=dvipdfmx
-options=-c '%S.dvi'
+options=-c %S.dvi
 from=dvi
 to=pdf
 type=Process
@@ -121,7 +121,7 @@ type=Process
 [Tool/DVItoPDF/Landscape]
 class=Convert
 command=dvipdfmx
-options=-l '%S.dvi'
+options=-l %S.dvi
 from=dvi
 to=pdf
 type=Process
@@ -129,7 +129,7 @@ type=Process
 [Tool/DVItoPNG/Default]
 class=Convert
 command=dvipng
-options=-T tight -D %res -o '%S.png' '%S.dvi'
+options=-T tight -D %res -o %S.png %S.dvi
 from=dvi
 to=png
 type=Process
@@ -137,7 +137,7 @@ type=Process
 [Tool/DVItoPS/Default]
 class=Convert
 command=dvips
-options=-o '%S.ps' '%S.dvi'
+options=-o %S.ps %S.dvi
 from=dvi
 to=ps
 type=Process
@@ -145,7 +145,7 @@ type=Process
 [Tool/DVItoPS/dvi2eps]
 class=Convert
 command=dvips
-options=-o '%S.eps' '%S.dvi'
+options=-o %S.eps %S.dvi
 from=dvi
 to=eps
 type=Process
@@ -153,7 +153,7 @@ type=Process
 [Tool/LaTeX/Default]
 class=LaTeX
 command=latex
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -164,7 +164,7 @@ autoRun=yes
 [Tool/LaTeX/Draft]
 class=LaTeX
 command=latex
-options=-draftmode -interaction=nonstopmode '%source'
+options=-draftmode -interaction=nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -175,7 +175,7 @@ autoRun=yes
 [Tool/LaTeX/Modern]
 class=LaTeX
 command=latex
-options=-src-specials -interaction=nonstopmode '%source'
+options=-src-specials -interaction=nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -188,7 +188,7 @@ class=Compile
 command=mk4ht
 from=tex
 to=html
-options=htlatex '%source'
+options=htlatex %source
 type=Process
 
 [Tool/LaTeX to Web/TeX4ht (LaTeX to MathML)]
@@ -196,7 +196,7 @@ class=Compile
 command=mk4ht
 from=tex
 to=xml
-options=xhmlatex '%source'
+options=xhmlatex %source
 type=Process
 
 [Tool/LaTeX to Web/TeX4ht (LaTeX to XML)]
@@ -204,13 +204,13 @@ class=Compile
 command=mk4ht
 from=tex
 to=xml
-options=xhlatex '%source'
+options=xhlatex %source
 type=Process
 
 [Tool/LaTeX to Web/latex2html]
 class=Compile
 command=latex2html
-options='%source'
+options=%source
 from=tex
 to=html
 type=Process
@@ -218,7 +218,7 @@ type=Process
 [Tool/MakeIndex/Default]
 class=Compile
 command=makeindex
-options='%S.idx'
+options=%S.idx
 from=idx
 to=idx
 type=Process
@@ -226,7 +226,7 @@ type=Process
 [Tool/MakeIndex/xindy]
 class=Compile
 command=xindy
-options='%S.idx'
+options=%S.idx
 from=idx
 to=idx
 type=Process
@@ -234,7 +234,7 @@ type=Process
 [Tool/MetaPost/Default]
 class=Compile
 command=mpost
-options=-tex=latex -interaction=nonstopmode '%source'
+options=-tex=latex -interaction=nonstopmode %source
 from=
 to=
 type=Process
@@ -242,7 +242,7 @@ type=Process
 [Tool/Asymptote/Default]
 class=Compile
 command=asy
-options='%S'
+options=%S
 from=asy
 to=
 type=Process
@@ -250,7 +250,7 @@ type=Process
 [Tool/PDFLaTeX/Default]
 class=LaTeX
 command=pdflatex
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -261,7 +261,7 @@ autoRun=yes
 [Tool/PDFLaTeX/Draft]
 class=LaTeX
 command=pdflatex
-options=-draftmode -interaction=nonstopmode '%source'
+options=-draftmode -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -272,7 +272,7 @@ autoRun=yes
 [Tool/PDFLaTeX/Modern]
 class=LaTeX
 command=pdflatex
-options=-synctex=1 -interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -283,7 +283,7 @@ autoRun=yes
 [Tool/PDFLaTeX/PSTricks]
 class=LaTeX
 command=pdflatex
-options=-shell-escape -synctex=1 -interaction=nonstopmode '%source'
+options=-shell-escape -synctex=1 -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -294,7 +294,7 @@ autoRun=yes
 [Tool/ConTeXt/PDF]
 class=Compile
 command=texexec
-options=--pdf --nonstopmode '%source'
+options=--pdf --nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -302,7 +302,7 @@ type=Process
 [Tool/ConTeXt/PDF Draft]
 class=Compile
 command=texexec
-options=--pdf --draft --nonstopmode '%source'
+options=--pdf --draft --nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -310,7 +310,7 @@ type=Process
 [Tool/ConTeXt/DVI and PS]
 class=Compile
 command=texexec
-options=--dvi --nonstopmode '%source'
+options=--dvi --nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -318,7 +318,7 @@ type=Process
 [Tool/ConTeXt/DVI and PS Draft]
 class=Compile
 command=texexec
-options=--dvi --draft --nonstopmode '%source'
+options=--dvi --draft --nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -326,7 +326,7 @@ type=Process
 [Tool/XeLaTeX/PDF]
 class=LaTeX
 command=xelatex
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -337,7 +337,7 @@ autoRun=yes
 [Tool/XeLaTeX/XDVI]
 class=LaTeX
 command=xelatex
-options=-no-pdf -interaction=nonstopmode '%source'
+options=-no-pdf -interaction=nonstopmode %source
 from=
 to=xdvi
 type=Process
@@ -348,7 +348,7 @@ autoRun=yes
 [Tool/XeLaTeX/PDF Draft]
 class=LaTeX
 command=xelatex
-options=-draftmode -interaction=nonstopmode '%source'
+options=-draftmode -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -359,7 +359,7 @@ autoRun=yes
 [Tool/XeLaTeX/XDVI Draft]
 class=LaTeX
 command=xelatex
-options=-no-pdf -draftmode -interaction=nonstopmode '%source'
+options=-no-pdf -draftmode -interaction=nonstopmode %source
 from=
 to=xdvi
 type=Process
@@ -370,7 +370,7 @@ autoRun=yes
 [Tool/XeLaTeX/PDF Modern]
 class=LaTeX
 command=xelatex
-options=-synctex=1 -interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -381,7 +381,7 @@ autoRun=yes
 [Tool/XeLaTeX/XDVI Modern]
 class=LaTeX
 command=xelatex
-options=-no-pdf -src-specials -interaction=nonstopmode '%source'
+options=-no-pdf -src-specials -interaction=nonstopmode %source
 from=
 to=xdvi
 type=Process
@@ -392,7 +392,7 @@ autoRun=yes
 [Tool/LuaLaTeX/PDF]
 class=LaTeX
 command=lualatex
-options=--interaction=nonstopmode '%source'
+options=--interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -403,7 +403,7 @@ autoRun=yes
 [Tool/LuaLaTeX/XDVI]
 class=LaTeX
 command=lualatex
-options=--output-format=dvi --interaction=nonstopmode '%source'
+options=--output-format=dvi --interaction=nonstopmode %source
 from=
 to=xdvi
 type=Process
@@ -414,7 +414,7 @@ autoRun=yes
 [Tool/LuaLaTeX/PDF Draft]
 class=LaTeX
 command=lualatex
-options=--draftmode --interaction=nonstopmode '%source'
+options=--draftmode --interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -425,7 +425,7 @@ autoRun=yes
 [Tool/LuaLaTeX/XDVI Draft]
 class=LaTeX
 command=lualatex
-options=--output-format=dvi --draftmode --interaction=nonstopmode '%source'
+options=--output-format=dvi --draftmode --interaction=nonstopmode %source
 from=
 to=xdvi
 type=Process
@@ -436,7 +436,7 @@ autoRun=yes
 [Tool/LuaLaTeX/PDF Modern]
 class=LaTeX
 command=lualatex
-options=--synctex=1 --interaction=nonstopmode '%source'
+options=--synctex=1 --interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -447,7 +447,7 @@ autoRun=yes
 [Tool/LuaLaTeX/XDVI Modern]
 class=LaTeX
 command=lualatex
-options=--output-format=dvi --interaction=nonstopmode '%source'
+options=--output-format=dvi --interaction=nonstopmode %source
 from=
 to=xdvi
 type=Process
@@ -462,7 +462,7 @@ class=LaTeXpreview
 command=latex
 from=
 jumpToFirstError=yes
-options=-synctex=1 -interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode %source
 to=dvi
 type=Process
 
@@ -473,7 +473,7 @@ class=LaTeXpreview
 command=pdflatex
 from=
 jumpToFirstError=yes
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 to=pdf
 type=Process
 
@@ -484,7 +484,7 @@ class=LaTeXpreview
 command=xelatex
 from=
 jumpToFirstError=yes
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 to=pdf
 type=Process
 
@@ -495,7 +495,7 @@ class=LaTeXpreview
 command=lualatex
 from=
 jumpToFirstError=yes
-options=--interaction=nonstopmode '%source'
+options=--interaction=nonstopmode %source
 to=pdf
 type=Process
 
@@ -506,7 +506,7 @@ class=LaTeXLivePreview
 command=pdflatex
 from=
 jumpToFirstError=yes
-options=-synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
+options=-synctex=1 -interaction=nonstopmode -output-directory=%dir_target %source
 to=pdf
 type=Process
 
@@ -517,7 +517,7 @@ class=LaTeXLivePreview
 command=pdflatex
 from=
 jumpToFirstError=yes
-options=-shell-escape -synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
+options=-shell-escape -synctex=1 -interaction=nonstopmode -output-directory=%dir_target %source
 to=pdf
 type=Process
 
@@ -528,7 +528,7 @@ class=LaTeXLivePreview
 command=xelatex
 from=
 jumpToFirstError=yes
-options=-synctex=1 -interaction=nonstopmode -output-directory='%dir_target' '%source'
+options=-synctex=1 -interaction=nonstopmode -output-directory=%dir_target %source
 to=pdf
 type=Process
 
@@ -539,14 +539,14 @@ class=LaTeXLivePreview
 command=lualatex
 from=
 jumpToFirstError=yes
-options=--synctex=1 --interaction=nonstopmode --output-directory='%dir_target' '%source'
+options=--synctex=1 --interaction=nonstopmode --output-directory=%dir_target %source
 to=pdf
 type=Process
 
 [Tool/PStoPDF/Default]
 class=Convert
 command=ps2pdf
-options='%S.ps' '%S.pdf'
+options=%S.ps %S.pdf
 from=ps
 to=pdf
 type=Process
@@ -604,7 +604,7 @@ sequence=LuaLaTeX,ForwardPDF
 [Tool/TeX/Default]
 class=Compile
 command=tex
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -612,7 +612,7 @@ type=Process
 [Tool/TeX/Modern]
 class=Compile
 command=tex
-options=-src-specials -interaction=nonstopmode '%source'
+options=-src-specials -interaction=nonstopmode %source
 from=
 to=dvi
 type=Process
@@ -620,7 +620,7 @@ type=Process
 [Tool/PDFTeX/Default]
 class=Compile
 command=pdftex
-options=-interaction=nonstopmode '%source'
+options=-interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -628,7 +628,7 @@ type=Process
 [Tool/PDFTeX/Draft]
 class=Compile
 command=pdftex
-options=-draftmode -interaction=nonstopmode '%source'
+options=-draftmode -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -636,7 +636,7 @@ type=Process
 [Tool/PDFTeX/Modern]
 class=Compile
 command=pdftex
-options=-synctex=1 -interaction=nonstopmode '%source'
+options=-synctex=1 -interaction=nonstopmode %source
 from=
 to=pdf
 type=Process
@@ -645,7 +645,7 @@ type=Process
 type=Process
 class=ViewBib
 command=jabref
-options='%dir_base/%source'
+options=%dir_base/%source
 from=bib
 to=bib
 
@@ -653,7 +653,7 @@ to=bib
 type=Process
 class=ViewBib
 command=pybliographic
-options='%dir_base/%source'
+options=%dir_base/%source
 from=bib
 to=bib
 
@@ -661,14 +661,14 @@ to=bib
 type=Process
 class=ViewBib
 command=gbib
-options='%dir_base/%source'
+options=%dir_base/%source
 from=bib
 to=bib
 
 [Tool/ViewBib/KBib]
 class=ViewBib
 command=kbib
-options='%dir_base/%source'
+options=%dir_base/%source
 from=bib
 to=bib
 type=Process
@@ -677,7 +677,7 @@ type=Process
 type=Process
 class=ViewBib
 command=kbibtex
-options='%dir_base/%source'
+options=%dir_base/%source
 from=bib
 to=bib
 
@@ -686,7 +686,7 @@ type=Part
 class=ViewBib
 libName=kbibtexpart
 className=KBibTeXPart
-liboptions='%dir_base/%source'
+liboptions=%dir_base/%source
 state=Viewer
 from=bib
 to=bib
@@ -706,7 +706,7 @@ class=ViewHTML
 state=Editor
 relDir=
 command=konqueror
-options='file:%dir_target/%target'
+options=file:%dir_target/%target
 target=
 from=html
 to=html
@@ -717,7 +717,7 @@ class=ViewHTML
 state=Editor
 relDir=
 command=mozilla
-options='file:%dir_target/%target'
+options=file:%dir_target/%target
 target=
 from=html
 to=html
@@ -728,7 +728,7 @@ class=ViewHTML
 state=Editor
 relDir=
 command=firefox
-options='file:%dir_target/%target'
+options=file:%dir_target/%target
 target=
 from=html
 to=html
@@ -739,7 +739,7 @@ class=ViewHTML
 state=Editor
 relDir=
 command=seamonkey
-options="file:%dir_target/%target"
+options=file:%dir_target/%target
 target=
 from=html
 to=html
@@ -769,7 +769,7 @@ useDocumentViewer=yes
 class=ForwardDVI
 type=Process
 command=okular
-options=--unique '%target'
+options=--unique %target
 from=dvi
 to=dvi
 
@@ -777,7 +777,7 @@ to=dvi
 class=ForwardDVI
 type=Process
 command=okular
-options=--unique '%absolute_target'
+options=--unique %absolute_target
 from=pdf
 to=pdf
 
@@ -790,7 +790,6 @@ from=pdf
 to=pdf
 state=Viewer
 libOptions=
-useDocumentViewer=yes
 
 [Tool/ForwardPDF/Document Viewer]
 type=Part
@@ -801,6 +800,7 @@ from=pdf
 to=pdf
 state=Viewer
 libOptions=
+useDocumentViewer=yes
 
 [Tool/ViewDVI/Embedded Viewer]
 class=View
@@ -824,7 +824,7 @@ useDocumentViewer=yes
 [Tool/ViewDVI/Okular]
 class=View
 command=okular
-options='%target'
+options=%target
 from=dvi
 to=dvi
 state=Viewer
@@ -833,7 +833,7 @@ type=Process
 [Tool/ViewDVI/Evince]
 class=View
 command=evince
-options='%target'
+options=%target
 from=dvi
 to=dvi
 state=Viewer
@@ -842,7 +842,7 @@ type=Process
 [Tool/ViewDVI/Okular Unique]
 class=View
 command=okular
-options=--unique '%target'
+options=--unique %target
 from=dvi
 to=dvi
 state=Viewer
@@ -851,7 +851,7 @@ type=Process
 [Tool/ViewPS/GV]
 class=View
 command=gv
-options='%target'
+options=%target
 state=Viewer
 from=ps
 to=ps
@@ -860,7 +860,7 @@ type=Process
 [Tool/ViewPS/Okular]
 class=View
 command=okular
-options='%target'
+options=%target
 from=ps
 to=ps
 state=Viewer
@@ -869,7 +869,7 @@ type=Process
 [Tool/ViewPS/Evince]
 class=View
 command=evince
-options='%target'
+options=%target
 from=ps
 to=ps
 state=Viewer
@@ -878,7 +878,7 @@ type=Process
 [Tool/ViewPS/Okular Unique]
 class=View
 command=okular
-options=--unique '%target'
+options=--unique %target
 from=ps
 to=ps
 state=Viewer
@@ -906,7 +906,7 @@ useDocumentViewer=yes
 [Tool/ViewPDF/Okular]
 class=View
 command=okular
-options='%target'
+options=%target
 from=pdf
 to=pdf
 state=Viewer
@@ -915,7 +915,7 @@ type=Process
 [Tool/ViewPDF/Evince]
 class=View
 command=evince
-options='%target'
+options=%target
 from=pdf
 to=pdf
 state=Viewer
@@ -924,7 +924,7 @@ type=Process
 [Tool/ViewPDF/Okular Unique]
 class=View
 command=okular
-options=--unique '%target'
+options=--unique %target
 from=pdf
 to=pdf
 state=Viewer
@@ -952,7 +952,7 @@ useDocumentViewer=yes
 [Tool/ViewPDF/Acroread]
 class=View
 command=acroread
-options='%target'
+options=%target
 state=Viewer
 from=pdf
 to=pdf
@@ -961,7 +961,7 @@ type=Process
 [Tool/Lilypond/PDF]
 class=Compile
 command=lilypond
-options=--pdf '%source'
+options=--pdf %source
 from=ly
 to=pdf
 type=Process
@@ -969,7 +969,7 @@ type=Process
 [Tool/Lilypond/DVI]
 class=Compile
 command=lilypond
-options=--dvi '%source'
+options=--dvi %source
 from=ly
 to=dvi
 type=Process
@@ -977,7 +977,7 @@ type=Process
 [Tool/Lilypond/TeX]
 class=Compile
 command=lilypond
-options=--tex '%source'
+options=--tex %source
 from=ly
 to=tex
 type=Process
@@ -985,7 +985,7 @@ type=Process
 [Tool/Lilypond/PS]
 class=Compile
 command=lilypond
-options=--ps '%source'
+options=--ps %source
 from=ly
 to=ps
 type=Process
@@ -993,7 +993,7 @@ type=Process
 [Tool/Lilypond/PNG]
 class=Compile
 command=lilypond
-options=--png '%source'
+options=--png %source
 from=ly
 to=png
 type=Process

@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -29,7 +29,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KMessageBox>
-#include <KRun>
+#include <KShell>
 #include <KTextEditor/SessionConfigInterface>
 #if KDE_IS_VERSION(4,3,75)
 #include <KTextEditor/ParameterizedSessionConfigInterface>
@@ -870,9 +870,7 @@ QString KileProject::archiveFileList() const
 	QString path, list;
 	for(QList<KileProjectItem*>::const_iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
 		if ((*it)->archive()) {
-			path = (*it)->path();
-			KRun::shellQuote(path);
-			list.append(path + ' ');
+			list.append(KShell::quoteArg((*it)->path()) + ' ');
 		}
 	}
 	return list;

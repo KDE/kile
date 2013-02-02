@@ -1,7 +1,6 @@
 /****************************************************************************************
-    begin                : mon 3-11 20:40:00 CEST 2003
-    copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+                  2008-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -142,8 +141,8 @@ namespace KileTool {
 
 		QString str;
 		tool()->translate(m_cmd);
-		tool()->translate(m_options);
-
+		tool()->translate(m_options, true); // quote the substituted strings using 'KShell::quoteArg'
+		                                    // (see bug 314109)
 		KILE_DEBUG() << "after translate: m_cmd=" << m_cmd << ", m_options=" << m_options;
 
 		if(m_cmd.isEmpty()) {

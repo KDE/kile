@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -222,8 +222,13 @@ void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
 	}
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
 	if(latexInfo) {
-		// showPreviewCompileIfNecessary synchronizes the view with the cursor
-		showPreviewCompileIfNecessary(latexInfo, view);
+		LivePreviewUserStatusHandler *userStatusHandler;
+		findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+		Q_ASSERT(userStatusHandler);
+		if(userStatusHandler->isLivePreviewEnabled()) { // only do something if live preview is enabled
+			// showPreviewCompileIfNecessary synchronizes the view with the cursor
+			showPreviewCompileIfNecessary(latexInfo, view);
+		}
 	}
 #else
 	Q_UNUSED(b);

@@ -3040,7 +3040,7 @@
 			<listitem><para><anchor id="build_graphics_epstopdf"></anchor>A preferred way
 			is to convert EPS graphics to PDF graphics with
 			<command>epstopdf</command>, which comes with every &tex; distribution
-			distribution and then use &pdflatex;. It produces high quality graphics,
+			and then use &pdflatex;. It produces high quality graphics,
 			and you can even control the result with some of the following options:
 
 <programlisting>

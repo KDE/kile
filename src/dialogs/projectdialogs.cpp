@@ -1,6 +1,7 @@
 /*******************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
+            (C) 2013 by Michel Ludwig (michel.ludwig@kdemail.net)
 ********************************************************************************************/
 
 /***************************************************************************
@@ -237,7 +238,7 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	m_pgrid->addWidget(m_title, 0, 1);
 
 	m_folder = new KUrlRequester(m_pgroup);
-	m_folder->setMode(KFile::Directory);
+	m_folder->setMode(KFile::Directory | KFile::LocalOnly);
 
 	const QString whatsthisPath = i18n("Insert the path to your project here.");
 
@@ -354,11 +355,10 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 		}
 	
 		QDir dir = QDir(folder().trimmed());
-		QFileInfo fi(dir.absolutePath() + QDir::separator());
 	
-		KILE_DEBUG() << "project location is " << folder() << endl;
+		KILE_DEBUG() << "project location is " << dir.absolutePath() << endl;
 		
-		if( !dir.exists() ){
+		if(!dir.exists()){
 			dir.mkpath(dir.absolutePath());
 		}
 		
@@ -366,11 +366,14 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 			KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
 			return;
 		}
-		if (!fi.isWritable()){
+
+		QFileInfo fi(dir.absolutePath());
+		if (!fi.isDir() || !fi.isWritable()){
 			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
 			return;
 		}
-		if(QFileInfo(folder() + QDir::separator() + cleanProjectFile()).exists()){
+		const QString projectFilePath = dir.filePath(cleanProjectFile());
+		if(QFileInfo(projectFilePath).exists()){
                        KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
 			return;
 		}
@@ -395,9 +398,9 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 				}
 			}
 		}
-		
-		m_projectFileWithPath = KUrl::fromPathOrUrl(folder() + QDir::separator() + cleanProjectFile() );
-	
+
+		m_projectFileWithPath = KUrl::fromPath(projectFilePath);
+
 		accept();
 	}
 	else{

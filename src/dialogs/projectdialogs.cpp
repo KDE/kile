@@ -353,9 +353,14 @@ void KileNewProjectDlg::slotButtonClicked(int button)
 			KMessageBox::error(this, i18n("Please enter the folder where the project file should be saved to."), i18n("Empty Location"));
 			return;
 		}
-	
-		QDir dir = QDir(folder().trimmed());
-	
+
+		const QString dirString = folder().trimmed();
+		if(!QDir::isAbsolutePath(dirString)) {
+			KMessageBox::error(this, i18n("Please enter an absolute (local) path to the project folder."), i18n("Invalid Location"));
+			return;
+		}
+
+		QDir dir = QDir(dirString);
 		KILE_DEBUG() << "project location is " << dir.absolutePath() << endl;
 		
 		if(!dir.exists()){

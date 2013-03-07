@@ -1,6 +1,6 @@
 /***********************************************************************************************
   Copyright (C) 2004-2012 by Holger Danielsson (holger.danielsson@versanet.de)
-                2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -1598,8 +1598,6 @@ void EditorExtension::gotoBullet(bool backwards, KTextEditor::View *view)
 		return;
 	}
 
-	int row, col;
-
 	// get current position
 	KTextEditor::Document *doc = view->document();
 
@@ -1609,17 +1607,21 @@ void EditorExtension::gotoBullet(bool backwards, KTextEditor::View *view)
 	}
 
 	KTextEditor::Cursor cursor = view->cursorPosition();
-	row = cursor.line();
-	col = cursor.column();
 
 	KTextEditor::Search::SearchOptions searchOptions = (backwards) ? KTextEditor::Search::Backwards : KTextEditor::Search::Default;
 
 	KTextEditor::Range searchRange;
 	if(backwards) {
-		searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
+		searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), cursor);
 	}
 	else {
-		searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
+		const KTextEditor::Cursor nextCursorPosition(cursor.line(), cursor.column() + 1);
+		if((doc->character(cursor) == s_bullet_char)                                      // we are already at a bullet
+		   && view->selection()
+		   && view->selectionRange() == KTextEditor::Range(cursor, nextCursorPosition)) { // which has been 'highlighted'
+			cursor = nextCursorPosition; // search for the next bullet
+		}
+		searchRange = KTextEditor::Range(cursor, doc->documentEnd());
 	}
 
 	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, s_bullet, searchOptions);

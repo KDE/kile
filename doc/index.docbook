@@ -2276,7 +2276,7 @@
 
 		<itemizedlist>
 		<listitem><para>&latex; package <command>pdfpages</command>, which is part of each &latex; distribution. <command>pdfpages</command> doesn't work with encrypted pages.</para></listitem>
-		<listitem><para><command>pdftk</command>, which is an excellent command-line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Tollkit</ulink>).</para></listitem>
+		<listitem><para><command>pdftk</command>, which is an excellent command-line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Toolkit</ulink>).</para></listitem>
 		</itemizedlist>
 
 		<para>If one of these helpers, <command>pdfpages</command> or <command>pdftk</command>, is not present in your system, the corresponding items will not be visible. Furthermore, remember that only <command>pdftk</command> can work with encrypted files.</para>

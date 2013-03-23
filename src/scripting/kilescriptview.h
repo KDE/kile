@@ -87,7 +87,7 @@ class KileScriptView : public QObject, protected QScriptable
 		Q_INVOKABLE void selectMathgroup();
 
 		// paragraph
-		Q_INVOKABLE void selectParagraph();
+		Q_INVOKABLE void selectParagraph(bool wholeLines = true);
 
 	private:
 		KTextEditor::View *m_view;

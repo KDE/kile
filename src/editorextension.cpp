@@ -2262,14 +2262,14 @@ QString EditorExtension::word(const KTextEditor::Cursor &cursor, bool latexComma
 
 //////////////////// paragraph ////////////////////
 
-void EditorExtension::selectParagraph(KTextEditor::View *view)
+void EditorExtension::selectParagraph(KTextEditor::View* view, bool wholeLines)
 {
 	view = determineView(view);
 	if(!view) {
 		return;
 	}
 
-	KTextEditor::Range range = findCurrentParagraphRange(view);
+	KTextEditor::Range range = findCurrentParagraphRange(view, wholeLines);
 	if ( range.isValid() ) {
 		view->setSelection(range);
 	}
@@ -2298,17 +2298,23 @@ void EditorExtension::deleteParagraph(KTextEditor::View *view)
 }
 
 // get the range of the current paragraph
-KTextEditor::Range EditorExtension::findCurrentParagraphRange(KTextEditor::View *view)
+KTextEditor::Range EditorExtension::findCurrentParagraphRange(KTextEditor::View* view, bool wholeLines)
 {
 	view = determineView(view);
 	if(!view) {
 		return KTextEditor::Range::invalid();
 	}
 
-	int startline, endline;
-	return (findCurrentTexParagraph(startline, endline, view))
-	       ? KTextEditor::Range(startline, 0, endline + 1, 0)
-	       : KTextEditor::Range::invalid();
+	int startline, endline, startcolumn, endcolumn;
+
+	if (findCurrentTexParagraph(startline, startcolumn, endline, endcolumn, view)) {
+		return wholeLines ?
+			KTextEditor::Range(startline, 0, endline + 1, 0) :
+			KTextEditor::Range(startline, startcolumn, endline, endcolumn);
+	}
+	else {
+		 return KTextEditor::Range::invalid();
+	}
 }
 
 QString  EditorExtension::getParagraphText(KTextEditor::View *view)
@@ -2322,7 +2328,13 @@ QString  EditorExtension::getParagraphText(KTextEditor::View *view)
 	return (range.isValid()) ? view->document()->text(range) : QString();
 }
 
-bool EditorExtension::findCurrentTexParagraph(int &startline, int &endline, KTextEditor::View *view)
+bool EditorExtension::findCurrentTexParagraph(int& startline, int& endline, KTextEditor::View* view)
+{
+	int dummy;
+	return findCurrentTexParagraph(startline, dummy, endline, dummy, view);
+}
+
+bool EditorExtension::findCurrentTexParagraph(int& startline, int& startcolumn, int& endline, int& endcolumn, KTextEditor::View* view)
 {
 	view = determineView(view);
 	if(!view) {
@@ -2353,12 +2365,32 @@ bool EditorExtension::findCurrentTexParagraph(int &startline, int &endline, KTex
 		startline = line;
 	}
 
+	// it is guaranteed that 'startline.trimmed()' won't be empty
+	startcolumn = 0;
+	QString line = doc->line(startline);
+	for(int i = 0; i < line.size(); ++i) {
+		if(!line[i].isSpace()) {
+			startcolumn = i;
+			break;
+		}
+	}
+
 	// find the next empty line
 	for(int line = row + 1; line < doc->lines(); ++line) {
 		if(doc->line(line).trimmed().isEmpty()) {
 			break;
 		}
 		endline = line;
+	}
+
+	// it is guaranteed that 'endline.trimmed()' won't be empty
+	line = doc->line(endline);
+	endcolumn = line.size();
+	for(int i = line.size() - 1; i >= 0; --i) {
+		if(!line[i].isSpace()) {
+			endcolumn = i+1;
+			break;
+		}
 	}
 
 	// settings result

@@ -85,7 +85,7 @@ public:
 	KTextEditor::Range wordRange(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = NULL);
 	QString word(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = NULL);
 
-	KTextEditor::Range findCurrentParagraphRange(KTextEditor::View *view);
+	KTextEditor::Range findCurrentParagraphRange(KTextEditor::View *view, bool wholeLines = true);
 	QString getParagraphText(KTextEditor::View *view);
 	int prevNonEmptyLine(int line, KTextEditor::View *view = NULL);
 	int nextNonEmptyLine(int line, KTextEditor::View *view = NULL);
@@ -126,7 +126,7 @@ public Q_SLOTS:
 	void matchTexgroup(KTextEditor::View *view = NULL);
 	void closeTexgroup(KTextEditor::View *view = NULL);
 
-	void selectParagraph(KTextEditor::View *view = NULL);
+	void selectParagraph(KTextEditor::View *view = NULL, bool wholeLines = true);
 	void selectLine(KTextEditor::View *view = NULL);
 	void selectLines(int from, int to, KTextEditor::View *view = NULL);
 	void selectWord(SelectMode mode = smTex, KTextEditor::View *view = NULL);
@@ -259,6 +259,7 @@ private:
 
 	// find current paragraph
 	bool findCurrentTexParagraph(int &startline, int &endline, KTextEditor::View *view);
+	bool findCurrentTexParagraph(int &startline, int& startcolumn, int &endline, int& endcolumn, KTextEditor::View *view);
 
 	// sectioning commands
 	bool findEndOfDocument(KTextEditor::Document *doc, int row, int col, int &rowFound, int &colFound);

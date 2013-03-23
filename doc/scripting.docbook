@@ -664,10 +664,10 @@ Selects the text of the current math group.
 
 <variablelist><varlistentry>
 <term><synopsis>
-void view.selectParagraph();
+void view.selectParagraph(bool wholeLines = true);
 </synopsis></term>
 <listitem><para>
-Selects the entire text of the current &latex; paragraph.
+Selects the entire text of the current &latex; paragraph. If <parameter>wholeLines</parameter> is <literal>true</literal>, the first and the last lines of the paragraph will be included in the selection entirely (including the end-of-line character); otherwise, the selection will only contain non-whitespace characters.
 </para></listitem>
 </varlistentry></variablelist>
 

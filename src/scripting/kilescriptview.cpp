@@ -193,11 +193,10 @@ void KileScriptView::selectMathgroup()
 
 ////////////////////////////////// Paragraph //////////////////////////////////////
 
-void KileScriptView::selectParagraph()
+void KileScriptView::selectParagraph(bool wholeLines)
 {
-	m_editor->selectParagraph(m_view);
+	m_editor->selectParagraph(m_view, wholeLines);
 }
-
 
 }
 

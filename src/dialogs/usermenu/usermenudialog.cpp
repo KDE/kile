@@ -588,16 +588,19 @@ void UserMenuDialog::slotMenuentryTypeClicked()
 		setMenuentryFileChooser(current,false);
 		setMenuentryFileParameter(current,false);
 		setMenuentryTextEdit(current,true);
+		setMenuentryCheckboxes(current,false);
 	}
 	else if ( newtype == UserMenuData::FileContent ) {
 		setMenuentryFileChooser(current,true);
 		setMenuentryFileParameter(current,false);
 		setMenuentryTextEdit(current,false);
+		setMenuentryCheckboxes(current,false);
 	}
 	else /* if ( newtype == UserMenuData::Program ) */ {
 		setMenuentryFileChooser(current,true);
 		setMenuentryFileParameter(current,true);
 		setMenuentryTextEdit(current,false);
+		setMenuentryCheckboxes(current,true);
 	}
 
 	setModified();
@@ -628,12 +631,12 @@ void UserMenuDialog::slotUrlTextChanged(const QString &)
 	QString color = "black";
 	int type = current->menutype();
 	if ( type == UserMenuData::FileContent ) {
-		if ( !QFile::exists(file) || file.isEmpty() ) {
+		if ( file.isEmpty() || !QFile::exists(file) ) {
 			color = "red";
 		}
 	}
 	else if ( type == UserMenuData::Program ) {
-		if ( !m_menutree->isItemExecutable(file) ) {
+		if ( file.isEmpty() || !m_menutree->isItemExecutable(file) ) {
 			color= "red";
 		}
 	}

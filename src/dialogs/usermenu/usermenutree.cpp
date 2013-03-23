@@ -133,6 +133,10 @@ void UserMenuTree::initEnvPathlist()
 
 bool UserMenuTree::isItemExecutable(const QString &filename)
 {
+	if ( filename.isEmpty() ) {
+		return false;
+	}
+
 	// absolute paths can be checked immediately
 	QFileInfo fi(filename);
 	if ( fi.isAbsolute() ) {

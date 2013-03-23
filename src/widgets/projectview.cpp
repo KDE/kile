@@ -162,12 +162,12 @@ bool ProjectViewItem::operator<(const QTreeWidgetItem& other) const
 {
 	try {
 		const ProjectViewItem& otherItem = dynamic_cast<const ProjectViewItem&>(other);
-	
+
 		// sort:
 		//  - first:  container items in fixed order (projectfile, packages, images, other)
 		//  - second: root items without container (sorted in ascending order)
 		if(otherItem.type() == KileType::Folder) {
-			if(otherItem.type() != KileType::Folder) {
+			if(type() != KileType::Folder) {
 				return true;
 			}
 			else {

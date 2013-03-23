@@ -163,15 +163,33 @@ bool ProjectViewItem::operator<(const QTreeWidgetItem& other) const
 	try {
 		const ProjectViewItem& otherItem = dynamic_cast<const ProjectViewItem&>(other);
 
-		// sort:
-		//  - first:  container items in fixed order (projectfile, packages, images, other)
-		//  - second: root items without container (sorted in ascending order)
+		// order in the tree:
+		// - first, root items without container (sorted in ascending order)
+		// - then, container items in fixed order (images, packages, other, projectfile)
 		if(otherItem.type() == KileType::Folder) {
 			if(type() != KileType::Folder) {
 				return true;
 			}
 			else {
-				return (m_folder < otherItem.folder()) ? false : true;
+				// 'm_folder' is set to a type from 'KileProject::Type'
+				// we want: Image < Package < Other < ProjectFile
+				switch(m_folder) {
+				    case KileProjectItem::Image:
+				      return true;
+
+				    case KileProjectItem::Package:
+				      return (otherItem.m_folder == KileProjectItem::Image) ? false : true;
+
+				    case KileProjectItem::Other:
+				      return (otherItem.m_folder == KileProjectItem::Image
+				              || otherItem.m_folder == KileProjectItem::Package) ? false : true;
+
+				    case KileProjectItem::ProjectFile:
+				      return false;
+
+				    default: // dummy
+				      return false;
+				}
 			}
 		}
 		else if(type() == KileType::Folder) {

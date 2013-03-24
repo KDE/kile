@@ -64,7 +64,7 @@
 #include "kileproject.h"
 #include "widgets/projectview.h"
 #include "dialogs/projectdialogs.h"
-#include "kilelistselector.h"
+#include "dialogs/listselector.h"
 #include "kilelyxserver.h"
 #include "dialogs/findfilesdialog.h"
 #include "kiletool_enums.h"

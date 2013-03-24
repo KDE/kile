@@ -75,7 +75,7 @@ SET(kile_SRCS
 	kileproject.cpp
 	dialogs/projectdialogs.cpp
 	widgets/projectview.cpp
-	kilelistselector.cpp
+	dialogs/listselector.cpp
 	kilelyxserver.cpp
 	outputinfo.cpp
 	dialogs/findfilesdialog.cpp

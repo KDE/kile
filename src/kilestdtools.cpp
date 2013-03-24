@@ -25,12 +25,12 @@
 #include <KStandardDirs>
 #include <KProcess>
 
+#include "dialogs/listselector.h"
 #include "kileconfig.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
 #include "kileinfo.h"
-#include "kilelistselector.h"
 #include "kiledocmanager.h"
 #include "documentinfo.h"
 #include "outputinfo.h"
@@ -661,8 +661,8 @@ namespace KileTool
 				//show dialog
 				bool bib_selected = false;
 				KileListSelector *dlg = new KileListSelector(bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
-				if (dlg->exec()) {
-					bib = bibs[dlg->currentItem()];
+				if (dlg->exec() && dlg->hasSelection()) {
+					bib = dlg->selected();
 					bib_selected = true;
 					KILE_DEBUG() << "Bibliography selected : " << bib;
 				}

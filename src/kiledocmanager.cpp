@@ -48,6 +48,7 @@
 #include <kfileitem.h>
 
 #include "errorhandler.h"
+#include "dialogs/listselector.h"
 #include "templates.h"
 #include "dialogs/newfilewizard.h"
 #include "dialogs/managetemplatesdialog.h"
@@ -63,7 +64,6 @@
 #include "kiletool.h"
 #include "kiletool_enums.h"
 #include "kilestdtools.h"
-#include "kilelistselector.h"
 #include "kiletoolmanager.h"
 #include "widgets/konsolewidget.h"
 #include "kileconfig.h"
@@ -1439,10 +1439,12 @@ KileProject* Manager::selectProject(const QString& caption)
 	KileProject *project = NULL;
 	QString name;
 	if (list.count() > 1) {
-		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), m_ki->mainWindow());
-		if (dlg->exec())
-		{
-			name = list[dlg->currentItem()];
+		KileListSelector *dlg  = new KileListSelector(list, caption, i18n("Select Project"), true, m_ki->mainWindow());
+		if (dlg->exec()) {
+			if(!dlg->hasSelection()) {
+				return NULL;
+			}
+			name = dlg->selected();
 		}
 		delete dlg;
 	}
@@ -2275,10 +2277,10 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 
 	// select one of these files
 	KileProjectItem *item = NULL;
-	KileListSelector *dlg  = new KileListSelector(filelist,i18n("Project Files"),label, m_ki->mainWindow());
+	KileListSelector *dlg  = new KileListSelector(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
 	if(dlg->exec()) {
-		if(dlg->currentItem() >= 0) {
-			QString name = filelist[dlg->currentItem()];
+		if(dlg->hasSelection()) {
+			QString name = dlg->selected();
 			if(map.contains(name)) {
 				item = map[name];
 			}
@@ -2312,9 +2314,9 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 
 	QList<KileProjectItem*> itemsList;
 
-	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, m_ki->mainWindow());
+	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
 	if(dlg->exec()) {
-		if(dlg->currentItem() >= 0) {
+		if(dlg->hasSelection()) {
 			QStringList selectedfiles = dlg->selected();
 			for(QStringList::Iterator it = selectedfiles.begin(); it != selectedfiles.end(); ++it ){
 				if(map.contains(*it)) {

@@ -37,9 +37,9 @@
 #include <KStandardDirs>
 #include <KTabWidget>
 
+#include "dialogs/listselector.h"
 #include "codecompletion.h"
 #include "errorhandler.h"
-#include "kilelistselector.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
 #include "kiletool_enums.h"

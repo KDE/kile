@@ -3,6 +3,7 @@
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
                            (C) 2011 by Libor Bukata (lbukata@gmail.com)
+                           (C) 2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  *****************************************************************************************/
 
 /***************************************************************************
@@ -13,9 +14,10 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#ifndef KILELISTSELECTOR_H
-#define KILELISTSELECTOR_H
+#ifndef LISTSELECTOR_H
+#define LISTSELECTOR_H
 
+#include <QItemSelection>
 #include <QSet>
 
 #include <KDialog>
@@ -26,11 +28,16 @@ class KDirWatch;
 
 class KileListSelectorBase : public KDialog
 {
-	public:
-		KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent = 0, const char *name = 0);
-		~KileListSelectorBase() {}
+	Q_OBJECT
 
-		int currentItem();
+	public:
+		KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
+		                     QWidget *parent = NULL, const char *name = NULL);
+
+		bool hasSelection();
+
+	protected Q_SLOTS:
+		void handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 	protected:
 		QTreeWidget *m_listView;
@@ -40,20 +47,19 @@ class KileListSelectorBase : public KDialog
 class KileListSelector : public KileListSelectorBase
 {
 	public:
-		KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent = 0, const char *name = 0);
-		~KileListSelector() {}
+		KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
+		                 QWidget *parent = NULL, const char *name = NULL);
+
+		QString selected();
 };
 
 class KileListSelectorMultiple : public KileListSelectorBase
 {
 	public:
-		KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, QWidget *parent = 0, const char *name = 0);
-		~KileListSelectorMultiple() {}
+		KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, bool sort = true,
+		                         QWidget *parent = NULL, const char *name = NULL);
 
-		const QStringList &selected();
-
-	protected:
-		QStringList m_selectedfiles;
+	QStringList selected();
 };
 
 class ManageCompletionFilesDialog : public KDialog
@@ -62,7 +68,8 @@ class ManageCompletionFilesDialog : public KDialog
 
 	public:
 		ManageCompletionFilesDialog(const QString &caption,
-		                            const QString &localCompletionDir, const QString &globalCompletionDir, QWidget* parent = NULL, const char *name = NULL);
+		                            const QString &localCompletionDir, const QString &globalCompletionDir,
+		                            QWidget* parent = NULL, const char *name = NULL);
 		~ManageCompletionFilesDialog();
 
 		const QSet<QString> selected() const;

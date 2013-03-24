@@ -3,6 +3,7 @@
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
                            (C) 2011 by Libor Bukata (lbukata@gmail.com)
+                           (C) 2013 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -14,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "kilelistselector.h"
+#include "listselector.h"
 
 #include <QDir>
 #include <QFile>
@@ -40,8 +41,9 @@
 
 //////////////////// KileListSelectorBase ////////////////////
 
-KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) :
-		KDialog(parent)
+KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, bool sort,
+                                           QWidget *parent, const char *name)
+: KDialog(parent)
 {
 	setObjectName(name);
 	setCaption(caption);
@@ -67,58 +69,100 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 	m_listView->setRootIsDecorated(false);
 
 	layout->addWidget(m_listView);
-	
+
+	layout->addWidget(new QLabel(i18np("1 item found.", "%1 items found.", list.size())));
+
+	m_listView->setSortingEnabled(sort);
+	if(sort) {
+		m_listView->sortByColumn(0, Qt::AscendingOrder);
+	}
+
 	insertStringList(list);
 
+	m_listView->clearSelection();
 	connect(m_listView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)), this, SLOT(accept()));
+	QItemSelectionModel *selectionModel = m_listView->selectionModel();
+	if(selectionModel) { // checking just to be safe
+		connect(selectionModel, SIGNAL(selectionChanged(const QItemSelection&,const QItemSelection&)),
+		        this, SLOT(handleSelectionChanged(const QItemSelection&,const QItemSelection&)));
+	}
+
+	enableButtonOk(false);
 }
 
-int KileListSelectorBase::currentItem()
+void KileListSelectorBase::handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-	QTreeWidgetItem *item = m_listView->currentItem();
-	return m_listView->indexOfTopLevelItem(item);
+	Q_UNUSED(selected);
+	Q_UNUSED(deselected);
+	QItemSelectionModel *selectionModel = m_listView->selectionModel();
+	if(selectionModel) { // checking just to be safe
+		enableButtonOk(selectionModel->hasSelection());
+	}
+}
+
+bool KileListSelectorBase::hasSelection()
+{
+	QTreeWidgetItemIterator it(m_listView, QTreeWidgetItemIterator::Selected);
+
+	return (*it);
 }
 
 void KileListSelectorBase::insertStringList(const QStringList &list)
 {
 	QStringList::ConstIterator it;
-	for (it = list.begin(); it != list.end(); ++it)
-	{
+	for (it = list.begin(); it != list.end(); ++it) {
 		QTreeWidgetItem *item = new QTreeWidgetItem(m_listView, QStringList(*it));
 		
-		if(it == list.begin())
+		if(it == list.begin()) {
 			m_listView->setCurrentItem(item);
+		}
 	}
 }
 
 //////////////////// with single selection ////////////////////
 
-KileListSelector::KileListSelector(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list, caption, select, parent, name)
+KileListSelector::KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort, QWidget *parent, const char *name)
+: KileListSelectorBase(list, caption, select, sort, parent, name)
 {
 	m_listView->setSelectionMode(QAbstractItemView::SingleSelection);
 
-	if (list.count() > 0)
+	if (list.count() > 0) {
 		m_listView->topLevelItem(0)->setSelected(true);
+	}
+}
+
+QString KileListSelector::selected()
+{
+	QTreeWidgetItemIterator it(m_listView, QTreeWidgetItemIterator::Selected);
+
+	if(*it) {
+		return (*it)->text(0);
+	}
+	else {
+		return "";
+	}
 }
 
 //////////////////// with multi selection ////////////////////
 
-KileListSelectorMultiple::KileListSelectorMultiple(const QStringList &list, const QString &caption, const QString &select, QWidget *parent, const char *name) : KileListSelectorBase(list, caption, select, parent, name)
+KileListSelectorMultiple::KileListSelectorMultiple(const QStringList &list, const QString &caption, const QString &select, bool sort, QWidget *parent, const char *name)
+: KileListSelectorBase(list, caption, select, sort, parent, name)
 {
 	m_listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
-const QStringList& KileListSelectorMultiple::selected()
+
+QStringList KileListSelectorMultiple::selected()
 {
-	m_selectedfiles.clear();
+	QStringList toReturn;
 
 	QTreeWidgetItemIterator it(m_listView, QTreeWidgetItemIterator::Selected);
 	while (*it) {
-		m_selectedfiles.append((*it)->text(0));
+		toReturn.append((*it)->text(0));
 		++it;
 	}
 
-	return m_selectedfiles;
+	return toReturn;
 }
 
 //////////////////// ManageCompletionFilesDialog ////////////////////
@@ -269,3 +313,5 @@ const QSet<QString> ManageCompletionFilesDialog::selected() const
 
 	return checked_files;
 }
+
+#include "listselector.moc"

@@ -44,6 +44,8 @@ class KileScriptView : public QObject, protected QScriptable
 		Q_INVOKABLE void setCursorPosition(int line, int column);
 		Q_INVOKABLE void setCursorPosition(const KTextEditor::Cursor& cursor);
 
+		Q_INVOKABLE void backspace();
+
 		Q_INVOKABLE void cursorLeft();
 		Q_INVOKABLE void cursorRight();
 		Q_INVOKABLE void cursorUp();

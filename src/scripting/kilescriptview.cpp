@@ -38,6 +38,14 @@ KTextEditor::View *KileScriptView::view() const
 
 ////////////////////////////////// cursor //////////////////////////////////////
 
+void KileScriptView::backspace()
+{
+	QAction *action = m_view->action("backspace");
+	if(action) {
+		action->trigger();
+	}
+}
+
 KTextEditor::Cursor KileScriptView::cursorPosition()
 {
 	return m_view->cursorPosition();

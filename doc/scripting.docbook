@@ -429,6 +429,15 @@ Returns the range as a string of the form <literal>Range(Cursor(line,column) - C
 
 <variablelist><varlistentry>
 <term><synopsis>
+void view.backspace();
+</synopsis></term>
+<listitem><para>
+Programmatically Performs the equivalent of pressing the backspace key.
+</para></listitem>
+</varlistentry></variablelist>
+
+<variablelist><varlistentry>
+<term><synopsis>
 Cursor view.cursorPosition();
 </synopsis></term>
 <listitem><para>

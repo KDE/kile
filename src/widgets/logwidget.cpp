@@ -248,7 +248,13 @@ namespace KileWidget
 				if (KileConfig::hideProblemBadBox()) {
 					return;
 				}
-				fontColor = "<font color='" + KColorScheme::shade(KStatefulBrush(KColorScheme::View, KColorScheme::NeutralText).brush(this).color(), KColorScheme::DarkShade).name() + "'>";
+				{
+					// 'KColorScheme::scheme' doesn't take the background colour into account, so we have to do it manually
+					const QColor color = (KStatefulBrush(KColorScheme::View, KColorScheme::NormalBackground).brush(this).color().lightnessF() > 0.5)
+						              ? KColorScheme::shade(KStatefulBrush(KColorScheme::View, KColorScheme::NeutralText).brush(this).color(), KColorScheme::DarkShade)
+						              : KColorScheme::shade(KStatefulBrush(KColorScheme::View, KColorScheme::NeutralText).brush(this).color(), KColorScheme::LightShade);
+					fontColor = "<font color='" + color.name() + "'>";
+				}
 				break;
 			default:
 				fontColor = "<font color='" + KStatefulBrush(KColorScheme::View, KColorScheme::NormalText).brush(this).color().name() + "'>";

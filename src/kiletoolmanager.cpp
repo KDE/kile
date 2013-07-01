@@ -775,8 +775,8 @@ void KileTool::Manager::currentLaTeXOutputHandlerChanged(LaTeXOutputHandler* han
 		}
 		else {
 			// here we have to check whether the action exists
-			QMap<ToolConfigPair, KAction*>::const_iterator i = m_bibliographyBackendActionMap.find(userOverrideBibBackend);
-			if (i != m_bibliographyBackendActionMap.end()) {
+			QMap<ToolConfigPair, KAction*>::const_iterator i = m_bibliographyBackendActionMap.constFind(userOverrideBibBackend);
+			if (i != m_bibliographyBackendActionMap.constEnd()) {
 				i.value()->setChecked(true);
 			}
 			else {

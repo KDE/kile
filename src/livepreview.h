@@ -176,6 +176,10 @@ private:
 
 	void updateLivePreviewToolActions(LivePreviewUserStatusHandler *statusHandler);
 	void setLivePreviewToolActionsEnabled(bool b);
+
+	bool ensureDocumentIsOpenInViewer(PreviewInformation *previewInformation, bool *hadToOpen = NULL);
+	void reloadDocumentInViewer();
+
 };
 
 }

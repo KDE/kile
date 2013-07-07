@@ -728,6 +728,34 @@ void LivePreviewManager::handleCursorPositionChangedTimeout()
 	synchronizeViewWithCursor(latexInfo, view, view->cursorPosition(), true); // called from a cursor position change
 }
 
+// Note: this method won't open a document again if it's opened already
+bool LivePreviewManager::ensureDocumentIsOpenInViewer(PreviewInformation *previewInformation, bool *hadToOpen)
+{
+	if(hadToOpen) {
+		*hadToOpen = false;
+	}
+	if(!m_ki->viewManager()->viewerPart() || !QFile::exists(previewInformation->previewFile)) {
+		return false;
+	}
+	const KUrl previewUrl(KUrl::fromPath(previewInformation->previewFile));
+	if(m_ki->viewManager()->viewerPart()->url().isEmpty() || m_ki->viewManager()->viewerPart()->url() != previewUrl) {
+		KILE_DEBUG() << "loading again";
+		if(m_ki->viewManager()->viewerPart()->openUrl(previewUrl)) {
+			if(hadToOpen) {
+				*hadToOpen = true;
+			}
+			// don't forget this
+			m_shownPreviewInformation = previewInformation;
+			return true;
+		}
+		else {
+			m_shownPreviewInformation = NULL;
+			return false;
+		}
+	}
+	return true;
+}
+
 void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *textInfo, KTextEditor::View *view,
                                                                                      const KTextEditor::Cursor& newPosition,
                                                                                      bool calledFromCursorPositionChange)
@@ -761,34 +789,34 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *textI
 
 	KILE_DEBUG() << "url" << m_ki->viewManager()->viewerPart()->url();
 
-	KUrl previewUrl(KUrl::fromPath(previewInformation->previewFile));
-
-	bool fileOpened = true;
-	if(m_ki->viewManager()->viewerPart()->url().isEmpty() || m_ki->viewManager()->viewerPart()->url() != previewUrl) {
-		KILE_DEBUG() << "loading again";
-		if(m_ki->viewManager()->viewerPart()->openUrl(previewUrl)) {
-			// don't forget this
-			m_shownPreviewInformation = previewInformation;
-		}
-		else {
-			fileOpened = false;
-			clearLivePreview();
-			// must happen after the call to 'clearLivePreview' only
-			showPreviewFailed();
-		}
+	if(!ensureDocumentIsOpenInViewer(previewInformation)) {
+		clearLivePreview();
+		// must happen after the call to 'clearLivePreview' only
+		showPreviewFailed();
+		return;
 	}
 
-	if(fileOpened) {
-		// to increase the performance, if 'calledFromCursorPositionChange' is true, we only synchronize when the cursor line
-		// has changed from the last synchronization
-		// NOTE: the performance of SyncTeX has to be improved if changes in cursor columns should be taken into account as
-		//       well (bug 305254)
-		if(!calledFromCursorPositionChange || (previewInformation->lastSynchronizationCursor.line() != newPosition.line())) {
-			m_ki->viewManager()->showSourceLocationInDocumentViewer(filePath, newPosition.line(), newPosition.column());
-			previewInformation->setLastSynchronizationCursor(newPosition.line(), newPosition.column());
-		}
+
+	// to increase the performance, if 'calledFromCursorPositionChange' is true, we only synchronize when the cursor line
+	// has changed from the last synchronization
+	// NOTE: the performance of SyncTeX has to be improved if changes in cursor columns should be taken into account as
+	//       well (bug 305254)
+	if(!calledFromCursorPositionChange || (previewInformation->lastSynchronizationCursor.line() != newPosition.line())) {
+		m_ki->viewManager()->showSourceLocationInDocumentViewer(filePath, newPosition.line(), newPosition.column());
+		previewInformation->setLastSynchronizationCursor(newPosition.line(), newPosition.column());
 	}
 }
+
+void LivePreviewManager::reloadDocumentInViewer()
+{
+	if(!m_ki->viewManager()->viewerPart()) {
+		return;
+	}
+
+	//FIXME ideally, this method should be integrated in an interface extending Okular...
+	QMetaObject::invokeMethod(m_ki->viewManager()->viewerPart(), "reload");
+}
+
 
 static QByteArray computeHashOfDocument(KTextEditor::Document *doc)
 {
@@ -1344,17 +1372,23 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 	m_shownPreviewInformation->previewPathToPathHash = m_runningPreviewPathToPathHash;
 	m_shownPreviewInformation->textHash = m_runningTextHash;
 	m_shownPreviewInformation->previewFile = m_runningPreviewFile;
-	if(m_ki->viewManager()->viewerPart() && QFile::exists(m_shownPreviewInformation->previewFile)) {
-		if(m_ki->viewManager()->viewerPart()->openUrl(KUrl::fromPath(m_shownPreviewInformation->previewFile))) {
-			synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
-			showPreviewSuccessful();
-		}
-		else {
-			clearLivePreview();
-			// must happen after the call to 'clearLivePreview' only
-			showPreviewFailed();
+
+	bool hadToOpen = false;
+	if(!ensureDocumentIsOpenInViewer(m_shownPreviewInformation, &hadToOpen)) {
+		clearLivePreview();
+		// must happen after the call to 'clearLivePreview' only
+		showPreviewFailed();
+	}
+
+	if(!m_synchronizeViewWithCursorAction->isChecked()) {
+		if(!hadToOpen) {
+			reloadDocumentInViewer();
 		}
 	}
+	else {
+		synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
+	}
+	showPreviewSuccessful();
 }
 
 void LivePreviewManager::displayErrorMessage(const QString &text, bool clearFirst)

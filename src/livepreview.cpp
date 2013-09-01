@@ -728,7 +728,7 @@ void LivePreviewManager::handleCursorPositionChangedTimeout()
 	synchronizeViewWithCursor(latexInfo, view, view->cursorPosition(), true); // called from a cursor position change
 }
 
-// Note: this method won't open a document again if it's opened already
+// Note: this method won't open a document again if it's open already
 bool LivePreviewManager::ensureDocumentIsOpenInViewer(PreviewInformation *previewInformation, bool *hadToOpen)
 {
 	if(hadToOpen) {
@@ -1380,14 +1380,16 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 		showPreviewFailed();
 	}
 
-	if(!m_synchronizeViewWithCursorAction->isChecked()) {
-		if(!hadToOpen) {
-			reloadDocumentInViewer();
-		}
+	// as 'ensureDocumentIsOpenInViewer' won't reload when the document is open
+	// already, we have to do it here
+	if(!hadToOpen) {
+		reloadDocumentInViewer();
 	}
-	else {
+
+	if(m_synchronizeViewWithCursorAction->isChecked()) {
 		synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
 	}
+
 	showPreviewSuccessful();
 }
 

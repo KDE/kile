@@ -463,10 +463,11 @@ namespace KileTool
 
 	void Base::stop()
 	{
-		if (m_launcher)
+		if (m_launcher) {
 			m_launcher->kill();
+		}
 
-		//emit(done(this, Aborted));
+		emit(done(this, Aborted, m_childToolSpawned));
 	}
 
 	bool Base::finish(int result)

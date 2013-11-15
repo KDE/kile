@@ -129,6 +129,15 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 ScriptsManagement::~ScriptsManagement() {
 }
 
+int ScriptsManagement::scriptNameColumnWidth() {
+	return m_treeWidget->columnWidth(0);
+}
+
+void ScriptsManagement::setScriptNameColumnWidth(int width) {
+	if(width > 0) {
+		m_treeWidget->setColumnWidth(0, width);
+	}
+}
 
 void ScriptsManagement::update() {
 	m_treeWidget->clear();

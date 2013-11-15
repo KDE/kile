@@ -2451,6 +2451,8 @@ void Kile::readConfig()
 	m_sideBar->setPageVisible(m_commandViewToolBox, KileConfig::showCwlCommands());
 	m_sideBar->setPageVisible(m_kileAbbrevView, KileConfig::completeShowAbbrev());
 
+	m_scriptsManagementWidget->setScriptNameColumnWidth(KileConfig::scriptNameColumnWidth());
+
 	if(KileConfig::displayMFUS()) {
 		enableSymbolViewMFUS();
 	}
@@ -2495,6 +2497,7 @@ void Kile::saveSettings()
 
 	docManager()->writeConfig();
 	scriptManager()->writeConfig();
+	KileConfig::setScriptNameColumnWidth(m_scriptsManagementWidget->scriptNameColumnWidth());
 
 	KileConfig::setRCVersion(KILERC_VERSION);
 	KileConfig::setMainwindowWidth(m_mainWindow->width());

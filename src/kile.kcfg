@@ -583,6 +583,10 @@
 			<label>Time limit for the execution of scripts.</label>
 			<default>5</default>
 		</entry>
+		<entry name="ScriptNameColumnWidth" type="Int">
+			<label>Width of the column containing the script name in the scripts management widget.</label>
+			<default>0</default>
+		</entry>
 	</group>
 	<group name="PdfWizard">
 		<entry name="pdfWizardLastTask" type="Int">

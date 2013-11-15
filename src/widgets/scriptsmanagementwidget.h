@@ -38,6 +38,10 @@ namespace KileWidget {
 			ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0);
 			~ScriptsManagement();
 
+		public:
+			int scriptNameColumnWidth();
+			void setScriptNameColumnWidth(int width);
+
 		public Q_SLOTS:
 			/**
 			 * Rebuilds the view.

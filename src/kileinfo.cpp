@@ -404,13 +404,13 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 	switch(type)
 	{
 		case bibinputs:
-			configpaths = KileConfig::bibInputPaths() + ":$BIBINPUTS";
+			configpaths = KileConfig::bibInputPaths() + PATH_SEPARATOR + "$BIBINPUTS";
 			break;
 		case texinputs:
-			configpaths = KileConfig::teXPaths() + ":$TEXINPUTS";
+			configpaths = KileConfig::teXPaths() + PATH_SEPARATOR + "$TEXINPUTS";
 			break;
 		case bstinputs:
-			configpaths = KileConfig::bstInputPaths() + ":$BSTINPUTS";
+			configpaths = KileConfig::bstInputPaths() + PATH_SEPARATOR + "$BSTINPUTS";
 			break;
 		default:
 			KILE_DEBUG() << "Unknown type in checkOtherPaths" << endl;
@@ -418,7 +418,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
 			break;
 	}
 
-	inputpaths = expandEnvironmentVars(configpaths).split(':');
+	inputpaths = expandEnvironmentVars(configpaths).split(PATH_SEPARATOR);
 	inputpaths.prepend(path);
 
 		// the first match is supposed to be the correct one

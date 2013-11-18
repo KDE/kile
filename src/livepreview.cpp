@@ -1013,12 +1013,12 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 		fileInfo = QFileInfo(m_ki->getCompileName());
 	}
 
-	const QString inputDir = previewInformation->getTempDir() + ':' + fileInfo.absolutePath();
+	const QString inputDir = previewInformation->getTempDir() + PATH_SEPARATOR + fileInfo.absolutePath();
 
 	// set value of texinput path (only for LivePreviewManager tools)
 	QString texInputPath = KileConfig::teXPaths();
 	if(!texInputPath.isEmpty()) {
-		texInputPath = inputDir + ':' + texInputPath;
+		texInputPath = inputDir + PATH_SEPARATOR + texInputPath;
 	}
 	else {
 		texInputPath = inputDir;
@@ -1027,7 +1027,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
 	QString bibInputPath = KileConfig::bibInputPaths();
 	if(!bibInputPath.isEmpty()) {
-		bibInputPath = inputDir + ':' + bibInputPath;
+		bibInputPath = inputDir + PATH_SEPARATOR + bibInputPath;
 	}
 	else {
 		bibInputPath = inputDir;
@@ -1036,7 +1036,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
 	QString bstInputPath = KileConfig::bstInputPaths();
 	if(!bstInputPath.isEmpty()) {
-		bstInputPath = inputDir + ':' + bstInputPath;
+		bstInputPath = inputDir + PATH_SEPARATOR + bstInputPath;
 	}
 	else {
 		bstInputPath = inputDir;

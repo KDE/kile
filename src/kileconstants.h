@@ -19,5 +19,10 @@ namespace KileDocument {
 
 }
 
+#ifdef Q_WS_WIN
+ #define PATH_SEPARATOR ';'
+#else
+ #define PATH_SEPARATOR ':'
+#endif
 
 #endif

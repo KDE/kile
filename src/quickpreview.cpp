@@ -30,6 +30,7 @@
 #include <KTextEditor/View>
 
 #include "errorhandler.h"
+#include "kileconstants.h"
 #include "kiledebug.h"
 
 
@@ -270,9 +271,9 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	QString texinputpath = KileConfig::teXPaths();
 	QString inputdir = QFileInfo(m_ki->getCompileName()).absolutePath();
 	if(!texinputpath.isEmpty()) {
-		inputdir += ':' + texinputpath;
+		inputdir += PATH_SEPARATOR + texinputpath;
 	}
- 	KileConfig::setPreviewTeXPaths(inputdir);
+	KileConfig::setPreviewTeXPaths(inputdir);
 	KILE_DEBUG() << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
 	
 	// prepare tools: previewlatex

@@ -45,6 +45,7 @@
 #include <KTemporaryFile>
 #include <KUrl>
 
+#include "kileconstants.h"
 #include "kiledebug.h"
 
 namespace KileDialog
@@ -254,7 +255,7 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 
 QString TexDocDialog::searchFile(const QString &docfilename, const QString &listofpaths, const QString &subdir)
 {
-	QStringList pathlist  = listofpaths.split(':');
+	QStringList pathlist  = listofpaths.split(PATH_SEPARATOR);
 	QStringList extlist   = QString(",.gz,.bz2").split(',', QString::KeepEmptyParts);
 
 	QString filename;

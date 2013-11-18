@@ -190,21 +190,21 @@ namespace KileTool {
 		}
 
 		KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + ":$TEXINPUTS");
-		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + ":$BIBINPUTS");
-		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + ":$BSTINPUTS");
+		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + PATH_SEPARATOR + "$TEXINPUTS");
+		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + PATH_SEPARATOR + "$BIBINPUTS");
+		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + PATH_SEPARATOR + "$BSTINPUTS");
 		KILE_DEBUG() << "Tool name is "<< tool()->name();
 
 		m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
 		if(!teXInputPaths.isEmpty()) {
-			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + ":$TEXINPUTS"));
+			m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + PATH_SEPARATOR + "$TEXINPUTS"));
 		}
 		if(!bibInputPaths.isEmpty()) {
-			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + ":$BIBINPUTS"));
+			m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + PATH_SEPARATOR + "$BIBINPUTS"));
 		}
 		if(!bstInputPaths.isEmpty()) {
-			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + ":$BSTINPUTS"));
+			m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + PATH_SEPARATOR + "$BSTINPUTS"));
 		}
 
 		out += "*****\n";

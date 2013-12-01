@@ -132,8 +132,6 @@ public:
 	QStringList newCommands() const { return m_newCommands; }
 	QStringList asyFigures() const {return m_asyFigures; }
 
-	QString lastModifiedFile(const QStringList& list);
-
 	bool openStructureLabels() { return m_openStructureLabels; }
 	bool openStructureReferences() { return m_openStructureReferences; }
 	bool openStructureBibitems() { return m_openStructureBibitems; }

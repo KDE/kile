@@ -13,7 +13,13 @@
 
 #include "utilities.h"
 
+
+#include <QDateTime>
+#include <QDir>
+
 #include <KRun>
+
+#include "kiledebug.h"
 
 ServiceRunAction::ServiceRunAction(const KService& service,
 		                   const KUrl::List& urls,
@@ -43,6 +49,44 @@ void ServiceRunAction::runService()
 	                                m_tempFiles,
 	                                m_suggestedFileName,
 	                                m_asn);
+}
+
+QString KileUtilities::lastModifiedFile(const QStringList& files, const QString& baseDir)
+{
+	KILE_DEBUG() << "==KileUtilities::lastModifiedFile()=====";
+
+	if(files.empty()) {
+		return QString();
+	}
+
+	QStringList absoluteFileNames;
+	if(baseDir.isEmpty()) {
+		absoluteFileNames = files;
+	}
+	else {
+		QDir basePath(baseDir);
+		Q_FOREACH(const QString& file, files) {
+			absoluteFileNames.append(basePath.absoluteFilePath(file));
+		}
+	}
+
+	QDateTime lastModifiedTime;
+	const QString* lastModifiedFile = NULL;
+
+	Q_FOREACH(const QString& file, absoluteFileNames) {
+		QDateTime modificationTime = QFileInfo(file).lastModified();
+		if(!lastModifiedTime.isValid() || modificationTime > lastModifiedTime) {
+		   lastModifiedFile = &file;
+		   lastModifiedTime = modificationTime;
+		}
+	}
+
+	if(lastModifiedFile) {
+		return *lastModifiedFile;
+	}
+	else {
+		return QString();
+	}
 }
 
 #include "utilities.moc"

@@ -88,6 +88,7 @@
 #include "parser/latexparser.h"
 #include "parser/parsermanager.h"
 #include "livepreview.h"
+#include "utilities.h"
 
 namespace KileDocument
 {
@@ -371,28 +372,6 @@ void Info::count(const QString& line, long *stat)
 			break;
 		}
 	}
-}
-
-QString Info::lastModifiedFile(const QStringList& list)
-{
-	KILE_DEBUG() << "==QString Info::lastModifiedFile()=====";
-	QFileInfo fileinfo(url().toLocalFile());
-	QString basepath = fileinfo.absolutePath(), last = fileinfo.absoluteFilePath();
-	QDateTime time(fileinfo.lastModified());
-
-	KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << time.toString();
-	for(int i = 0; i < list.count(); ++i) {
-		fileinfo.setFile(basepath + '/' + list[i]);
-		KILE_DEBUG() << "\t" << fileinfo.absoluteFilePath() << " : " << fileinfo.lastModified().toString();
-		if(fileinfo.lastModified() >  time) {
-			time = fileinfo.lastModified();
-			last = fileinfo.absoluteFilePath();
-			KILE_DEBUG() << "\t\tlater";
-		}
-	}
-
-	KILE_DEBUG() << "\treturning " << last;
-	return last;
 }
 
 void Info::updateStruct()

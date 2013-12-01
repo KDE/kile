@@ -35,6 +35,7 @@
 #include "documentinfo.h"
 #include "outputinfo.h"
 #include "parser/parsermanager.h"
+#include "utilities.h"
 
 namespace KileTool
 {
@@ -188,10 +189,19 @@ namespace KileTool
 	{
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
-			const QStringList dependencies = checkOnlyBibDependencies ? manager()->info()->allBibliographies(docinfo)
-			                                                          : manager()->info()->allDependencies(docinfo);
+			QFileInfo fileinfo(docinfo->url().toLocalFile());
+			QStringList dependencies;
+
+			if (checkOnlyBibDependencies) {
+				dependencies = manager()->info()->allBibliographies(docinfo);
+			}
+			else {
+				dependencies = manager()->info()->allDependencies(docinfo);
+				dependencies.append(fileinfo.fileName());
+			}
 			if (!dependencies.empty()) {
-				return needsUpdate(targetDir() + '/' + S() + ".bbl", docinfo->lastModifiedFile(dependencies));
+				return needsUpdate(targetDir() + '/' + S() + ".bbl",
+				                   KileUtilities::lastModifiedFile(dependencies, fileinfo.absolutePath()));
 			}
 		}
 

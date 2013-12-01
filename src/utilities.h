@@ -43,5 +43,18 @@ class ServiceRunAction : public KAction {
 		QByteArray m_asn;
 };
 
+namespace KileUtilities {
+
+	/**
+	 * @brief Finds the file whith the most recent modification time from a list
+	 *
+	 * Checks last modification time for files and returns absolute (see @ref baseDir description) file name of
+	 * file with the latest modification time
+	 * @param files List of filenames, relative to @ref baseDir
+	 * @param baseDir Path to base directory. If empty, @ref files are used as they are
+	 * @return Absolute path of the file with the latest modification time or empty string if @ref files is empty
+	 **/
+	QString lastModifiedFile(const QStringList& files, const QString& baseDir = QString());
+}
 
 #endif

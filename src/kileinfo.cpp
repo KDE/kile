@@ -39,6 +39,7 @@
 #include "abbreviationmanager.h"
 #include "editorkeysequencemanager.h"
 #include "templates.h"
+#include "utilities.h"
 
 #include <kstandarddirs.h>
 #include <QStringList>
@@ -303,13 +304,16 @@ QStringList KileInfo::allPackages(KileDocument::TextInfo *info)
 	return retrieveList(&KileDocument::Info::packages, info);
 }
 
-QString KileInfo::lastModifiedFile(KileDocument::TextInfo *info)
+QString KileInfo::lastModifiedFile(KileDocument::TextInfo* info)
 {
 	if(!info) {
 		info = docManager()->getInfo();
 	}
 	QStringList list = allDependencies(info);
-	return info->lastModifiedFile(list);
+	QFileInfo fileinfo(info->url().toLocalFile());
+	list.append(fileinfo.fileName());
+
+	return KileUtilities::lastModifiedFile(list, fileinfo.absolutePath());
 }
 
 QString KileInfo::documentTypeToString(KileDocument::Type type)

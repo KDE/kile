@@ -48,7 +48,7 @@ bool OutputInfo::operator==(const OutputInfo& info) const
 	     && m_nSrcLine == info.m_nSrcLine
 	     && m_strError == info.m_strError
 	     && m_nOutputLine == info.m_nOutputLine
-	     && m_nErrorID == m_nErrorID);
+	     && m_nErrorID == info.m_nErrorID);
 }
 
 bool OutputInfo::isValid() const

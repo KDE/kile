@@ -172,7 +172,7 @@
 
 			<title>&kile; and the &kate; Editor Component</title>
 
-			<para>&kile; is based on the &kate; editor component, i.e. a lot of its editing capabilities stem from the &kate;
+			<para>&kile; is based on the &kate; editor component, &ie; a lot of its editing capabilities stem from the &kate;
 			editor component itself. &kile; extends these capabilities with features to edit &latex; documents. To learn more
 			about the &kate; editor component and its capabilities, see the <ulink url="http://kate-editor.org">&kate;
 			webpage</ulink>.</para>
@@ -409,7 +409,7 @@
 			<!-- following toolbar items are different in default master/2.1-->
 			<listitem><para><guibutton>Define document as master</guibutton>: this is used when working with multiple files.
 			Having a master document will let you work more easily with other <literal role="extension">.tex</literal> files included
-			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project-></guimenu><guisubmenu>Project
+			in your document. If you are using projects, you can also set in  <menuchoice><guimenu>Project</guimenu><guisubmenu>Project
 			Options</guisubmenu></menuchoice> a project-wide master document.</para></listitem>
 			<listitem><para><guibutton>Quickbuild</guibutton>: compiles your &latex; source code and displays the results
 			automatically unless there are errors contained in the document.</para></listitem>
@@ -503,7 +503,7 @@
 		belongs to a Project. For editing &bibtex; files the usage of specialised editors is recommended.
 		The author has made good experience with &kbibtex; and &kbib;. Of course you can also write the &bibtex; files by hand inside &kile;.</para>
 
-		<para>The last drop-down box labeled <guilabel>tiny</guilabel> is used to set the size of the text. You can
+		<para>The last drop down box labeled <guilabel>tiny</guilabel> is used to set the size of the text. You can
 		set the size of the main text, of footnotes, and so on. The available commands are:</para>
 
 		<itemizedlist>
@@ -2272,7 +2272,7 @@
 
 		<para>of an existing PDF document.</para>
 
-		<para>Kile's <emphasis>PDF wizard</emphasis> under <menuchoice><guimenu>Wizard</guimenu><guimenuitem>PDF Tools</guimenuitem></menuchoice> uses two different methods to manipulate and rearrange PDF documents:</para>
+		<para>&kile;'s <emphasis>PDF wizard</emphasis> under <menuchoice><guimenu>Wizard</guimenu><guimenuitem>PDF Tools</guimenuitem></menuchoice> uses two different methods to manipulate and rearrange PDF documents:</para>
 
 		<itemizedlist>
 		<listitem><para>&latex; package <command>pdfpages</command>, which is part of each &latex; distribution. <command>pdfpages</command> doesn't work with encrypted pages.</para></listitem>
@@ -3537,18 +3537,55 @@
 		<title>Creating a Project</title>
 
 		<para>To create a project, select <menuchoice><guimenu>Project</guimenu>
-		<guimenuitem>New Project...</guimenuitem></menuchoice>. You will be
+		    <guimenuitem>New Project...</guimenuitem></menuchoice>.</para>
+		<screenshot>
+		  <screeninfo>Project creation window</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG" />
+		    </imageobject>
+		    <textobject>
+		      <phrase>Project creation window</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para>You will be
 		asked to give the following information to create your project:</para>
 		<itemizedlist>
-			<listitem><para>Title of your project.</para></listitem>
-			<listitem><para>Name of the project file with <literal role="extension">.kilepr</literal> extension.</para></listitem>
-			<listitem><para>Filename.</para></listitem>
-			<listitem><para>Type of file creating: Empty Document, Article, Book, Letter, Report, ....</para></listitem>
+		  <listitem>
+		    <para>
+		      Title of your project (<guilabel>Project title</guilabel> text field).
+		    </para>
+		    <para>
+		      The title of the project will be used to create a name of the project file by transforming to lowercase and adding <filename role="extension">.kilepr</filename> extension.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      A folder where the project file will be stored (<guilabel>Project folder</guilabel> text field).
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      If you want to create a new main file of the project check the <guilabel>Create a new file and add it to this project</guilabel> item.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      When you fill out the <guilabel>Filename</guilabel> box, you have to include a relative path from where the <filename role="extension">.kilepr</filename> project file is stored (see the <guilabel>Project folder</guilabel> item).
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Type of the created file, <guilabel>Empty File</guilabel>, <guilabel>Article</guilabel>, <guilabel>Book</guilabel>, <guilabel>Letter</guilabel>, <guilabel>Report</guilabel>, &etc; can be chosen from a visual list at the bottom of the <guilabel>File</guilabel> panel.
+		    </para>
+		  </listitem>
+		  <listitem>
+		    <para>
+		      Extensions for the default files in the project can be selected using the <guilabel>Extensions</guilabel>. Your choice will be used to define the files that should be opened when you choose <menuchoice><guimenu>Project</guimenu><guimenuitem>Open All Project Files</guimenuitem></menuchoice> menu item and in the &kile; wizards. The extensions in the text filed should be separated with spaces.
+		    </para>
+		  </listitem>
 		</itemizedlist>
-
-		<para>When you fill out the <guilabel>filename</guilabel> box, you have to include a relative
-		path from where the <literal role="extension">.kilepr</literal> project file is stored to the file.</para>
-
 	</sect1>
 
 	<sect1 id="projects_view">

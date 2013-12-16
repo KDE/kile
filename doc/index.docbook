@@ -3582,7 +3582,7 @@
 		  </listitem>
 		  <listitem>
 		    <para>
-		      Extensions for the default files in the project can be selected using the <guilabel>Extensions</guilabel>. Your choice will be used to define the files that should be opened when you choose <menuchoice><guimenu>Project</guimenu><guimenuitem>Open All Project Files</guimenuitem></menuchoice> menu item and in the &kile; wizards. The extensions in the text filed should be separated with spaces.
+		      Extensions for the default files in the project can be selected using the <guilabel>Extensions</guilabel> panel. Your choice will be used to define the files that should be opened when you choose <menuchoice><guimenu>Project</guimenu><guimenuitem>Open All Project Files</guimenuitem></menuchoice> menu item and in the &kile; wizards. The extensions in the text field should be separated with spaces.
 		    </para>
 		  </listitem>
 		</itemizedlist>

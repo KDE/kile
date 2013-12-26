@@ -1180,8 +1180,19 @@ void LaTeXInfo::updateStruct()
 							m_asyFigures.append(m);
 						}
 						else if(m == "frame") {
+							const QString untitledFrameDisplayName = i18n("Frame");
 							it = m_dictStructLevel.constFind("\\begin{frame}");
-							m = i18n("Frame");
+							if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
+									tagEnd++;
+									result = matchBracket(i, tagEnd);
+									m = result.value.trimmed();
+									if(m.isEmpty()) {
+										m = untitledFrameDisplayName;
+									}
+							}
+							else {
+								m = untitledFrameDisplayName;
+							}
 						}
 						else if(m=="block" || m=="exampleblock" || m=="alertblock") {
 							const QString untitledBlockDisplayName = i18n("Untitled Block");

@@ -734,7 +734,8 @@ bool LivePreviewManager::ensureDocumentIsOpenInViewer(PreviewInformation *previe
 	if(hadToOpen) {
 		*hadToOpen = false;
 	}
-	if(!m_ki->viewManager()->viewerPart() || !QFile::exists(previewInformation->previewFile)) {
+	const QFile previewFileInfo(previewInformation->previewFile);
+	if(!m_ki->viewManager()->viewerPart() || !previewFileInfo.exists() || previewFileInfo.size() == 0) {
 		return false;
 	}
 	const KUrl previewUrl(KUrl::fromPath(previewInformation->previewFile));

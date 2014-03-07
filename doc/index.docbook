@@ -117,7 +117,7 @@
 			 &GUI; and network library needed to compile &kile;.</para></listitem>
 			<listitem><para><ulink url="http://www.ctan.org/">&latex;</ulink>: high-quality document
 			typesetting program. Most likely you want the &texlive; (or on older systems the &tetex;) package, if you are on a
-			Unix-like system.</para></listitem>
+			&UNIX;-like system.</para></listitem>
 		</itemizedlist>
 
 		<para>Most of these items might be included in your &Linux; distribution; please refer to your
@@ -161,10 +161,10 @@
 			<title>About &kile;</title>
 
 			<para>&kile; is an integrated &latex; environment for the &kde; desktop. &kile; gives you the
-			ability to use all the functionalities of &latex; in a graphical interface, giving you easy,
+			ability to use all the functionality of &latex; in a graphical interface, giving you easy,
 			immediate, and customized access to all programs for &latex; code-completion, compiling, postprocessing,
 			debugging, conversion and viewing tools; you also get very handy wizards, a &latex;
-			reference and a powerful project management.</para>
+			reference and a powerful project manager.</para>
 
 		</sect2>
 
@@ -185,7 +185,7 @@
 
 			<para>&latex; is a text-processing system derived from &tex;, a program developed originally in
 			1977 by Donald Knuth to help layout text in a professional way and obtain a layout quality that
-			is on par with the work of a professional typesetter.
+			is on a par with the work of a professional typesetter.
 			&latex; was created by Leslie Lamport to give authors an automatic typesetter, especially to ease
 			the expensive and painstaking process of typesetting of mathematical formulas and expressions,
 			which are enclosed within dollar signs in &latex; <emphasis>for a reason</emphasis>.
@@ -229,17 +229,17 @@
 		many types of documents (including the one you are reading), or &HTML;, which is used for web
 		pages. The general idea behind markup languages is to have special keywords, called <emphasis>
 		tags</emphasis>, that tell a program (a word processor, a web browser, or the &latex;
-		compiler) how to the text enclosed within the tags is to be interpreted. &kile; offers a number of such tags in the
+		compiler) how the text enclosed within the tags is to be interpreted. &kile; offers a number of such tags in the
 		<guimenu>LaTeX</guimenu> menu in the menu bar.</para>
 
 		<para>While we will try to give you a good idea of what &latex; is, this document is, of course, not The Definitive
 		Book on &latex;. If you want to learn &latex; in depth, you may want to borrow a specialized book from your local library.</para>
 
-		<para>As any other markup language, &latex; documents contain a <emphasis>preamble</emphasis>, which
+		<para>As with any other markup language, &latex; documents contain a <emphasis>preamble</emphasis>, which
 		defines global properties, such as paper size, page numbering, dimensions of the text on the page,
 		and a document <emphasis>body</emphasis>, which contains the text of the document. The preamble is composed
 		at least of the <userinput>\documentclass</userinput> command. It precedes the document body, which
-		starts with the command <userinput>\begin{document}</userinput> is concluded with the command
+		starts with the command <userinput>\begin{document}</userinput> and is concluded with the command
 		<userinput>\end{document}</userinput>.</para>
 
 	</sect1>
@@ -277,7 +277,7 @@
 			<para>Packages</para>
 			<para>This lists some of the most common additional packages used in &latex;. Select the check box to include it.</para>
 
-			<para>Document Properties</para>
+			<para>Document Properties:</para>
 			<itemizedlist>
 				<listitem><para><guilabel>Author</guilabel>: put your name here.</para></listitem>
 				<listitem><para><guilabel>Title</guilabel>: add the document title here.</para></listitem>
@@ -309,7 +309,7 @@
 				<listitem><para>Scrartcl, Scrbook, Scrreprt, Scrlttr2: the KOMA-Script document classes,
 						especially adapted to German typography. Use them whenever you write German
 						texts.</para></listitem>
-				<listitem><para>Xelatex: an modified <userinput>Article</userinput> template to use with
+				<listitem><para>Xelatex: a modified <userinput>Article</userinput> template to use with
 				<userinput>XeLaTeX</userinput>.</para></listitem>
 			</itemizedlist>
 
@@ -327,7 +327,7 @@
 			<para>&kile; is similar to other programs that deal with source code and editing, and will
 			automatically highlight commands, options and items that are used (and abused).
 			&kile; makes it possible to easily spot problematic areas: for example, if you see major
-			areas of text turn green, it is likely that you forgot closing a math environment somewhere.</para>
+			areas of text turn green, it is likely that you forgot to close a math environment somewhere.</para>
 
 		</sect2>
 
@@ -420,7 +420,7 @@
 			<listitem><para><guibutton>Previous error</guibutton>: jumps backward through the
 					<literal role="extension">.log</literal> file
 					and highlights errors in the source.</para></listitem>
-			<listitem><para><guibutton>Next error</guibutton>: jumps forward through
+			<listitem><para><guibutton>Next error</guibutton>: jumps forward through the
 					<literal role="extension">.log</literal> file and
 			highlights errors in the source.</para></listitem>
 			<listitem><para><guibutton>Stop</guibutton>: halts current tool.</para></listitem>
@@ -433,8 +433,8 @@
 			<listitem><para><guibutton>DVItoPDF</guibutton>: converts a &DVI; to a PDF.</para></listitem>
 			<listitem><para><guibutton>PStoPDF</guibutton>: converts a PS to a PDF.</para></listitem>
 			<listitem><para><guibutton>ViewHTML</guibutton>: views &HTML; created.</para></listitem>
-			<listitem><para><guibutton>ForwardDVI</guibutton>: jump to page of the &DVI; file that corresponds to the current line in the editor.</para></listitem>
-			<listitem><para><guibutton>ForwardPDF</guibutton>: jump to page of the PDF file that corresponds to the current line in the editor.</para></listitem>
+			<listitem><para><guibutton>ForwardDVI</guibutton>: jump to the page of the &DVI; file that corresponds to the current line in the editor.</para></listitem>
+			<listitem><para><guibutton>ForwardPDF</guibutton>: jump to the page of the PDF file that corresponds to the current line in the editor.</para></listitem>
 		</itemizedlist>
 
 		<para>If you look at the <guilabel>Edit</guilabel> toolbar, you will notice three large
@@ -454,7 +454,7 @@
 			<listitem><para><guilabel>subparagraph</guilabel>: create a new subparagraph.</para></listitem>
 		</itemizedlist>
 
-		<para>The drop down box named <guilabel>Other</guilabel> is used to insert items to your document such as
+		<para>The drop down box named <guilabel>Other</guilabel> is used to insert items into your document such as
 		indexes, footnotes, and references; the available commands are:</para>
 
 		<itemizedlist>
@@ -500,8 +500,8 @@
 
 		<para>When using <guilabel>cite</guilabel>, you are presented with a drop-down
 		list of bibitems, but if you are using &bibtex; this will only work if the file
-		belongs to a Project. For editing &bibtex; files the usage of specialised editors is recommended.
-		The author has made good experience with &kbibtex; and &kbib;. Of course you can also write the &bibtex; files by hand inside &kile;.</para>
+		belongs to a Project. For editing &bibtex; files the usage of specialized editors is recommended.
+		The author has had good results with &kbibtex;. Of course you can also write the &bibtex; files by hand inside &kile;.</para>
 
 		<para>The last drop down box labeled <guilabel>tiny</guilabel> is used to set the size of the text. You can
 		set the size of the main text, of footnotes, and so on. The available commands are:</para>
@@ -581,14 +581,14 @@
 		<title>Environments</title>
 
 		<para>An environment is a segment of text that is managed differently
-		than the rest of the document. For example, you create a report with font size 12,
+		from the rest of the document. For example, you create a report with font size 12,
 		but you need to change your font size for a few sentences. The commands
 		<userinput>\begin{environment}</userinput>, <userinput>\huge</userinput> and
 		<userinput>\end{environment}</userinput> will let you temporarily alter the text inside
 		the environment commands to be size huge.</para>
 
 		<para>Changes are only effective from <userinput>\begin{environment}</userinput> to
-		<userinput>\end{environment}</userinput>. There are no limits as how many changes
+		<userinput>\end{environment}</userinput>. There are no limits as to how many changes
 		you can make inside an environment.</para>
 
 		<para>There are many features you can add to your document that will make it more
@@ -691,7 +691,7 @@
 		<title>Forward Search between &kile; and &okular;</title>
 
 		<para>The forward search functions allow you to jump from your
-		editor directly into the associated position of the &DVI; or PDF
+		editor directly to the associated position of the &DVI; or PDF
 		file. </para>
 		<para>&kile; offers a configuration with this option for all &latex; binaries.
 		Go to <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
@@ -751,7 +751,7 @@
 		editor, you can use the buttons in the toolbar labeled <guibutton>Previous LaTeX Error</guibutton>
 		and <guibutton>Next LaTeX Error</guibutton> to jump to and from errors. The log file always states
 		in which line the error occurred. To view the line where an error occurred, click on the error
-		in the log window, and &kile; will take you to error's line.</para>
+		in the log window, and &kile; will take you to the error's line.</para>
 
 	</sect1>
 
@@ -810,11 +810,11 @@
 			<para>When creating a new document by selecting a template from
 			<menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice>,
 			certain character combinations will be replaced by data such as your name,
-			or the character encoding your are using. These variables can be configured in
+			or the character encoding you are using. These variables can be configured in
 			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 			<guimenuitem>Settings</guimenuitem><guilabel>General</guilabel></menuchoice>.</para>
 
-			<para>When designing your own template, it is useful to known which character
+			<para>When designing your own template, it is useful to know which character
 			combinations are replaced by which template variables:</para>
 
 			<itemizedlist>
@@ -861,10 +861,10 @@
 			listed in <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para>For instance, you may want to create a full-fledged A0 poster. These posters are usually seen
-			at scientific conferences, and &latex; will help you making an attractive, catchy poster. You can get a
+			at scientific conferences, and &latex; will help you make an attractive, catchy poster. You can get a
 			template for A0 posters at <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html">Jonathan Marchini's
 			home page</ulink>, but many more are available. Remember that you will need the <filename>a0poster</filename>
-			package, which is normally not in standard tex distributions included. Download it from
+			package, which is normally not included in standard &tex; distributions. Download it from
 			<ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/">here</ulink> and place it in the same folder as your &latex; file.</para>
 		</sect2>
 
@@ -921,7 +921,7 @@
 			<listitem><para>Hold left mouse button, and drag mouse to highlight text.</para></listitem>
 			<listitem><para>Click once on a word to move the cursor to a new area.</para></listitem>
 			<listitem><para>Click twice on a word to select the whole word.</para></listitem>
-			<listitem><para>Click twice on a word and pressing <keycombo>&Ctrl;</keycombo> to select the whole tex word.
+			<listitem><para>Click twice on a word and pressing <keycombo>&Ctrl;</keycombo> to select the whole &tex; word.
       This means clicking in this way on <userinput>\par</userinput> from <userinput>\par\bigskip</userinput> only select \par.</para></listitem>
 			<listitem><para>Click three times to select the whole sentence.</para></listitem>
 		</itemizedlist>
@@ -938,7 +938,7 @@
 
 		<title>Brackets</title>
 
-		<para>Bracket completion is a visual tool that the editor view uses to indicate you
+		<para>Bracket completion is a visual tool that the editor view uses to indicate to you
 		which bracket matches which. If you open any <literal role="extension">.tex</literal> file,
 		and select any bracket, whether it be a parenthesis (), square brackets [] or braces {}, the
 		editor will highlight the bracket and its match in yellow (this default color can be changed).
@@ -954,7 +954,7 @@
 		<title>Highlighting</title>
 
 		<para>&kile; has the ability to look for and highlight different types of code. For example, &latex; commands
-			are distinguished from normal text, and math formulas are highlighted also in a different color.</para>
+			are distinguished from normal text, and math formulas are also highlighted in a different color.</para>
 
 	</sect1>
 
@@ -962,9 +962,9 @@
 
 		<title>Bullets</title>
 
-		<para>Many wizards can insert optional bullets, a special kind of bookmarks within the text. The
+		<para>Many wizards can insert optional bullets, a special kind of bookmark within the text. The
 		menu entries <menuchoice><guimenu>Edit</guimenu><guisubmenu>Bullets</guisubmenu></menuchoice> or
-		the corresponding keyboards shortcuts will allow you to jump to the next or last bullet.
+		the corresponding keyboard shortcuts will allow you to jump to the next or last bullet.
 		This will also highlight this bullet so that it will be deleted automatically,
 		when you enter your first letter.</para>
 
@@ -1045,7 +1045,7 @@
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
 		<keycap>,T</keycap></shortcut>
 		<guimenuitem>TeX Group (inside)</guimenuitem></menuchoice></term>
-		<listitem><para>Select a TeX group
+		<listitem><para>Select a &tex; group
 		inside the surrounding braces.</para></listitem>
 		</varlistentry>
 
@@ -1053,7 +1053,7 @@
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>S</keycap></keycombo>
 		<keycap>,U</keycap></shortcut>
 		<guimenuitem>TeX Group (outside)</guimenuitem></menuchoice></term>
-		<listitem><para>Select a TeX group
+		<listitem><para>Select a &tex; group
 		including the surrounding braces.</para></listitem>
 		</varlistentry>
 
@@ -1073,7 +1073,7 @@
 		A paragraph does not mean just continuous lines of text, as it is
 		in other text editors. This extended meaning also includes tables, &latex;
 		commands and all other lines of source. The only important thing for &kile;
-		is that kind of paragraph is separated by two empty lines.</para></listitem>
+		is that this kind of paragraph is separated by two empty lines.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
@@ -1124,7 +1124,7 @@
 		<keycombo>&Ctrl;<keycap>K</keycap></keycombo> which deletes the whole line. But &kile; offers a
 		faster way with its own delete commands.
 		Under <menuchoice><guimenu>Edit</guimenu><guisubmenu>Delete</guisubmenu></menuchoice>
-		you will find following commands to delete text.</para>
+		you will find the following commands to delete text.</para>
 
 		<screenshot>
 			<screeninfo>Edit->Delete items</screeninfo>
@@ -1157,14 +1157,14 @@
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
 		<keycap>,T</keycap></shortcut>
 		<guimenuitem>TeX Group (inside)</guimenuitem></menuchoice></term>
-		<listitem><para>Delete a TeX group inside the surrounding braces.</para></listitem>
+		<listitem><para>Delete a &tex; group inside the surrounding braces.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
 		<shortcut><keycombo action="simul">&Ctrl;&Alt;<keycap>T</keycap></keycombo>
 		<keycap>,U</keycap></shortcut>
 		<guimenuitem>TeX Group (outside)</guimenuitem></menuchoice></term>
-		<listitem><para>Delete a TeX group including the surrounding braces.</para></listitem>
+		<listitem><para>Delete a &tex; group including the surrounding braces.</para></listitem>
 		</varlistentry>
 
 		<varlistentry><term><menuchoice>
@@ -1209,7 +1209,7 @@
 
 		<title>Environment</title>
 
-		<para>It was already mentioned that environments are a central point in &latex;.
+		<para>It has already been mentioned that environments are a central point in &latex;.
 		So &kile; offers five other commands to make the work with &latex; as easy as possible
 		under submenus <menuchoice><guimenu>Edit</guimenu><guisubmenu>Environment</guisubmenu></menuchoice>.</para>
 
@@ -1322,7 +1322,7 @@
 		<keycap>,M</keycap></shortcut>
 		<guimenuitem>Match</guimenuitem></menuchoice></term>
 		<listitem><para>When your cursor is placed in front of or behind an
-		opening brace of a &tex; group, he will be moved to the opposite end of
+		opening brace of a &tex; group, it will be moved to the opposite end of
 		the group and vice versa.</para></listitem>
 		</varlistentry>
 
@@ -1348,7 +1348,7 @@
 		<keycap>"</keycap> to insert two opening
 		single quotes. Furthermore, if you want to close a quotation, you also
 		have to press <keycap>"</keycap>. &kile; will
-		be smart enough to recognize this case and inserts two closing quotes
+		be smart enough to recognize this situation and inserts two closing quotes
 		for &latex;.</para>
 
 		<para>To get a literal double quote on the other side, press
@@ -1395,7 +1395,7 @@
     <userinput>%</userinput>.</para>
 
 		<para>Even better, &kile; is smart enough to support predefined &latex;
-		and user defined environment, which can be added in section
+		and user defined environments, which can be added in section
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure
 		Kile...</guisubmenu><guimenuitem>LaTeX</guimenuitem></menuchoice>.</para>
 
@@ -1408,7 +1408,7 @@
 		<para>Some users like to arrange columns in tabular environments and
 		put all ampersand characters <keycap>&amp;</keycap> beneath each other. &kile; tries
 		to support this. If you press <keycombo>&Alt;&Shift;<keycap>&amp;</keycap></keycombo>,
-		&kile; will look for the next tab in the row above. Although this tab may not the
+		&kile; will look for the next tab in the row above. Although this tab may not be the
 		corresponding tab, &kile; will add some spaces to adjust the column position with
 		the current tab.</para>
 
@@ -1420,7 +1420,7 @@
 
 	<title>Code Completion</title>
 
-	<para>Although &kate; already offers a good completion mode, &kile; extended
+	<para>Although &kate; already offers a good completion mode, &kile; extends
 	code completion to support some special methods especially for &latex;. Five different
 	modes are integrated. Three of them work on demand, the other two are autocompletion
 	modes. All modes can be configured to work very differently at
@@ -1483,7 +1483,7 @@
 
 		<para>When you push the &Backspace; key, the last letter of your
 		pattern will be deleted, and the completion list may grow. On the other hand, if
-		you type another letter will expand the pattern and the
+		you type another letter it will expand the pattern and the
 		visible word list may shrink.</para>
 
 		<para>If you decide not to select any of the suggestions, you can leave this
@@ -1514,12 +1514,12 @@
 		for &tex; and &latex; commands and dictionary mode for normal words.</para>
 
 		<para>If you choose the option <guimenuitem>Show Latex commands</guimenuitem>,
-		the entries of all chosen cwl files for &latex; command completion are shown in a
-		separate view of &kile;'s sidebar. So you will have a good survey,
+		the entries of all chosen compressed word list (cwl) files for &latex; command completion are shown in a
+		separate view of &kile;'s sidebar. You will see
 		which commands are available and what parameters and options must or can be
 		given for a completion. You can also simply select one entry with a mouse click
-		and it will be inserted into the document, where all named parameters and
-		options are stripped.</para>
+		and it will be inserted into the document, with all named parameters and
+		options stripped.</para>
 
 		<screenshot>
 			<screeninfo>LaTeX commands in the sidebar</screeninfo>
@@ -1533,11 +1533,11 @@
 			</mediaobject>
 		</screenshot>
 
-		<para>As each chosen wordlist will be shown in a separate view for its own,
-		there could be too much views, so that &kile;'s main window may be greater
-		than small screens. As this looks very ugly, &kile; works with a maximum
-		number of allowed views, which is set to 10. If this value is too big
-		for your screen, you should reduce this number.</para>
+		<para>As each chosen word list will be shown in a separate view of its own,
+		there could be too many views, so that &kile;'s main window may be larger
+		than a small screen allows. As this looks very ugly, &kile; works with a maximum
+		number of allowed views, which by default is set to 10. If this value is too big
+		for your screen, you should reduce it.</para>
 
 	</sect1>
 
@@ -1545,15 +1545,15 @@
 
 		<title>Environments</title>
 
-		<para>The <emphasis>command mode</emphasis> is not useful to complete environments.
+		<para>The <emphasis>command mode</emphasis> is not useful for code completion of environments.
 		You always have to type some letters of <userinput>\begin</userinput>, and invoking
-		the completion mode will result in a huge list of environments tags. On the other
-		hand, environments are so often used that &kile; offers a special mode to complete
-		environments. Forget the opening tag and write, for example, <userinput>eq</userinput>.</para>
+		the completion mode will result in a huge list of environment tags. On the other
+		hand, environments are so often used that &kile; offers a special mode for code completion of
+		environments. Forget the opening tag and write, for example, <userinput>al</userinput>.</para>
 
 		<para>When you call the completion mode with
 		<menuchoice><guimenu>Edit</guimenu><guisubmenu>Complete</guisubmenu><guimenuitem>Environment</guimenuitem></menuchoice> or keyboard shortcut <keycombo>&Alt;&Shift;<keycap>Space</keycap></keycombo>,
-		the opening tag is automatically added and you will see <userinput>\begin{eq}</userinput>.
+		the opening tag is automatically added and you will see <userinput>\begin{al}</userinput>.
 		After this change, the completion list is much less cluttered.</para>
 
 		<screenshot>
@@ -1602,7 +1602,7 @@
 		<guimenuitem>Kile</guimenuitem><guilabel>Complete</guilabel></menuchoice>
 		to configure one or more of these lists. For the example given here, the
 		abbreviation list in <filename>example.cwl</filename> must be chosen.
-		In this file you will find for example the entry <userinput>L=\LaTeX</userinput> for example.</para>
+		In this file you will find, for example, the entry <userinput>L=\LaTeX</userinput>.</para>
 
 		<para>For example, type only the letter <userinput>L</userinput>. Now invoke
 		the abbreviation mode of word completion with
@@ -1617,7 +1617,7 @@
 		<programlisting>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
 
 		<para>in the completion file, and invoke the abbreviation completion,
-		the expansion looks like below, where <userinput>x</userinput> shows the final cursor position.</para>
+		the expansion looks as below, where <userinput>x</userinput> shows the final cursor position.</para>
 
 <programlisting>\begin{enumerate}
 	\item x
@@ -1674,15 +1674,15 @@
 
 			<para>Large dictionaries are not useful in autocompletion mode. But, we have seen
 			that a lot of words in a document are typed more than once. So &kile; offers a
-			completion for all words from the document that the user has already typed before.
+			completion for all words from the document that the user has already typed.
 			You can manually invoke this completion, if you press
 			<keycombo>&Ctrl;<keycap>Space</keycap></keycombo>. Note that
-			this mode is different from completion mode of &latex; commands.</para>
+			this mode is different from the completion mode for &latex; commands.</para>
 
 			<para>If you want to turn this mode on or off, go to
 			<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 			<guimenuitem>Editor</guimenuitem><guimenuitem>Editing</guimenuitem><guilabel>Auto Completion</guilabel></menuchoice>.
-			In this configuration dialog you can configure, if completion mode for
+			In this dialog you can configure if completion mode for
 			document words should be enabled. There is also an additional autocompletion mode,
 			where a completion box pops up, when a certain threshold is reached.</para>
 
@@ -1783,7 +1783,7 @@
 		will be proportionally scaled. If you set two values for width and height
 		at the same time, width and height may be scaled with different factors,
 		and this could not be what you want. See also the information near the top
-		of dialog to know the original size of the graphics.</para></step>
+		of the dialog to know the original size of the graphics.</para></step>
 
 		<step><para>Insert an angle by which to rotate the graphics counterclockwise.</para></step>
 
@@ -1794,15 +1794,15 @@
 		</para>
 
 		<para>If &latex; needs a bounding box and you do not want to generate a bb file,
-		&kile; supports this option. On the other side, &pdflatex; will give a warning,
+		&kile; supports this option. On the other hand, &pdflatex; will give a warning
 		when you want to include a png or jpg graphics with this option. This checkbox
-		enables or disables the bounding box option.</para></step>
+		enables or disables the bounding-box option.</para></step>
 
 		<step><para>Scale the image by the desired scale factor. &eg;, 0.5 to reduce by half,
 		or 2 to double. When you use this option, you do not have to set a width or height for
 		the image.</para></step>
 
-		<step><para>In the <guilabel>Trim Image</guilabel>-tab you can crop your
+		<step><para>In the <guilabel>Trim Image</guilabel> tab you can crop your
 		image in all four directions.</para></step>
 
 		<step>
@@ -1818,25 +1818,25 @@
 		  </para>
 		</step>
 
-		<step><para>If you pick the figure environment, you can choose where &latex; should position the figure
-		preferably.</para></step>
+		<step><para>If you pick the figure environment, you can choose where &latex; should preferably position the figure.
+		</para></step>
 		<step>
-		  <para>In the wrapfigure environment you can</para>
+		  <para>In the wrapfigure environment you can:</para>
 		  <substeps>
 		    <step><para>
 		      Pick a placement rule for the figure and decide whether the figure should float or not.
-		      In a two-sided document you can define whether the figure should be on the inside of the page or on the outside.
+		      In a two-sided document you can define whether the figure should be on the inside or outside edge of the page.
 		    </para></step>
 		    <step><para>
-		      Define how many lines the wrapping text should be broken. If you leave this empty, &latex; will determine this itself as
-		      good as possible.
+		      Define how many shortened lines of the text are set alongside the figure. If you leave this empty, &latex; will determine this itself as
+		      well as is possible.
 		    </para></step>
 		    <step><para>
 		      Define an overhang to the chosen side. This is especially useful when you have columns in your document and you want
-		      a figure span over more than just one column or you want it being wrapped by two columns.
+		      a figure to span over more than just one column or you want shortened text on both sides of the figure.
 		    </para></step>
 		    <step><para>
-		      Choose a width for the figure. This should be a bit bigger than your actual image width, so there will be some empty
+		      Choose a width for the figure. This should be a bit bigger than the actual image width, so there will be some empty
 		      space between the figure and the text.
 		    </para></step>
 		  </substeps>
@@ -1855,7 +1855,7 @@
 		but there is a simpler way: using &kile;'s <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Array</guimenuitem></menuchoice>
 		or
 		<menuchoice><guimenu>Wizard</guimenu><guimenuitem>Tabular</guimenuitem></menuchoice> menu entries.
-		You will then have a matrix-formed input form that you can easily fill in with your entries. This dialog also
+		You will then have a matrix-style input form that you can easily fill in with your entries. This dialog also
 		offers some options to typeset the tabular material.</para>
 
 		<screenshot>
@@ -1874,12 +1874,12 @@
 			Using the toolbar on top of the dialog you can set the <userinput>align</userinput> of a cell, define a certain <userinput>font style</userinput>,
 			<userinput>join</userinput> and <userinput>split</userinput> cells, choose a <userinput>border</userinput>, and specify background and font
 			<userinput>colors</userinput>.
-			On the very right there is a <guilabel>Paste</guilabel> button. With this button you can insert a table
+			On the extreme right there is a <guilabel>Paste</guilabel> button. With this button you can insert a table
 			from the clipboard into the dialog, which allows you to copy and paste tables from a spreadsheet program, for example.
 		</para>
 
 		<para>
-			At the bottom you can choose how many rows and columns you want, and you can tweak some more things about your array:
+			Below you can choose how many rows and columns you want, and you can tweak some more details about your array:
 		</para>
 
 		<itemizedlist>
@@ -1916,7 +1916,7 @@
 
 	  <para>&kile; helps you with inserting your floating elements. With the
 	    <menuchoice><guimenu>Wizard</guimenu><guimenuitem>Floats</guimenuitem></menuchoice> wizard it is very simple to create
-	    a new figure or table-environment.
+	    a new figure or table environment.
 	  </para>
 
 	  <screenshot>
@@ -1991,7 +1991,7 @@
 				<listitem><para><guilabel>Standard tabulator:</guilabel> Select the tabulator which should be used.
 					&kile; should automatically pick the right one for you here.</para></listitem>
 				<listitem><para><guilabel>Displaymath mode:</guilabel> For environments like matrices or arrays you can
-					choose with which math environment your mathematical text should be displayed with. </para></listitem>
+					choose which math environment your mathematical text should be displayed with. </para></listitem>
 				<listitem><para><guilabel>Use bullets:</guilabel> With this option checked, &kile; will insert bullet
 					placeholders for each element of your mathematical text.</para></listitem>
 			</itemizedlist>
@@ -2027,7 +2027,7 @@
 		</screenshot>
 
 		<para>First choose your input file. If &kile; finds a PS file corresponding to your
-		current master document, it is already filled in as input file, but you are also free
+		current master document, it is already filled in as the input file, but you are also free
 		to choose another file. Then choose an output file, and select one of the tasks.
 		Finally, you have to decide whether you want to do the conversion only, or also invoke
 		&okular; to view the result.</para>
@@ -2276,7 +2276,7 @@
 
 		<itemizedlist>
 		<listitem><para>&latex; package <command>pdfpages</command>, which is part of each &latex; distribution. <command>pdfpages</command> doesn't work with encrypted pages.</para></listitem>
-		<listitem><para><command>pdftk</command>, which is an excellent command-line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Toolkit</ulink>).</para></listitem>
+		<listitem><para><command>pdftk</command>, which is an excellent command line tool for doing everyday things with PDF documents (see <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit">The PDF Toolkit</ulink>).</para></listitem>
 		</itemizedlist>
 
 		<para>If one of these helpers, <command>pdfpages</command> or <command>pdftk</command>, is not present in your system, the corresponding items will not be visible. Furthermore, remember that only <command>pdftk</command> can work with encrypted files.</para>
@@ -2299,15 +2299,15 @@
 				</mediaobject>
 			</screenshot>
 
-			<para>First choose your input file. If &kile; finds a PDF file corresponding to your current master document, it will already be filled in as input file, but you are also free to choose another file. Then choose an output file or overwrite the existing PDF file, and select one of the tasks. Finally, you have to decide whether you want to do the conversion only, or also invoke the viewer (&eg; &okular;) to show the resulting document.</para>
+			<para>First choose your input file. If &kile; finds a PDF file corresponding to your current master document, it will already be filled in as the input file, but you are also free to choose another file. Then choose an output file or overwrite the existing PDF file, and select one of the tasks. Finally, you have to decide whether you want to do the conversion only, or also invoke the viewer (&eg; &okular;) to show the resulting document.</para>
 
-			<para>If the PDF file is encrypted, only <command>pdftk</command> will work and you have to set the password of this document to execute tasks.</para>
+			<para>If the PDF file is encrypted, only <command>pdftk</command> will work and you have to give the password of this document to execute tasks.</para>
 
 			<variablelist>
 
 			<varlistentry>
 			<term>1 page + empty page --> A4</term>
-			<listitem><para>Combine one page together with an empty page on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<listitem><para>Combine one page together with an empty page on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and arranged on an A4 page in landscape mode.</para>
 			<screenshot>
 				<screeninfo>A5 + empty page</screeninfo>
 				<mediaobject>
@@ -2319,7 +2319,7 @@
 				</textobject>
 				</mediaobject>
 			</screenshot>
-			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and arranged on an A4 page in landscape mode.</para>
 			<screenshot>
 				<screeninfo>A4 + empty page --> A4</screeninfo>
 				<mediaobject>
@@ -2348,7 +2348,7 @@
 				</textobject>
 				</mediaobject>
 			</screenshot>
-			<para>If the page to be duplicated has A4 size, it will scaled to fit on the page.</para>
+			<para>If the page to be duplicated has A4 size, it will be scaled to fit on the page.</para>
 			<screenshot>
 				<screeninfo>Duplicate a page</screeninfo>
 				<mediaobject>
@@ -2365,7 +2365,7 @@
 
 			<varlistentry>
 			<term>2 pages --> A4</term>
-			<listitem><para>Combine two consecutive pages together on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<listitem><para>Combine two consecutive pages together on one A4 page. Whenever two A5 pages are combined together, they are rotated by 90 degrees and arranged on an A4 page in landscape mode.</para>
 			<screenshot>
 				<screeninfo>Combine two A5 pages</screeninfo>
 				<mediaobject>
@@ -2377,7 +2377,7 @@
 				</textobject>
 				</mediaobject>
 			</screenshot>
-			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and will be arranged on an A4 page in landscape mode.</para>
+			<para>Whenever two A4 pages are combined together, they are scaled, rotated by 90 degrees and arranged on an A4 page in landscape mode.</para>
 			<screenshot>
 				<screeninfo>Combine two A4 pages</screeninfo>
 				<mediaobject>
@@ -2461,7 +2461,7 @@
 
 			<varlistentry>
 			<term>select odd pages (reverse order)</term>
-			<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+			<listitem><para>Select all odd pages of a document and reverse the order.</para></listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -2471,7 +2471,7 @@
 
 			<varlistentry>
 			<term>decrypt a file</term>
-			<listitem><para>If the PDF file is encrypted, you can decrypt this file.</para></listitem>
+			<listitem><para>If the PDF file is encrypted, you can decrypt it.</para></listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -2491,7 +2491,7 @@
 
 			<varlistentry>
 			<term>apply a background color</term>
-			<listitem><para>Applies a background color to all pages of the current document. This can only be done once, as the second color will be put behind the first color and will not be visible then.</para></listitem>
+			<listitem><para>Applies a background color to all pages of the current document. This can only be done once, as the second color will be put behind the first color and will not then be visible.</para></listitem>
 			</varlistentry>
 
 			<varlistentry>
@@ -2517,7 +2517,7 @@
 
 			<title>Properties</title>
 
-			<para>Setting, changing and removing of properties will only be possible, if <command>pdftk</command> is installed and if additionally &kile; was compiled with the <userinput>libpoppler</userinput> library.</para>
+			<para>The setting, changing and removing of properties will only be possible if <command>pdftk</command> is installed and if additionally &kile; was compiled with the <userinput>libpoppler</userinput> library.</para>
 
 			<screenshot>
 				<screeninfo>Dialog PDF Properties</screeninfo>
@@ -2531,7 +2531,7 @@
 				</mediaobject>
 			</screenshot>
 
-			<para>Traditional PDF metadata includes document's title, author, subject, keywords, creator, producer and the dates of creation and last modification.</para>
+			<para>Traditional PDF metadata includes the document's title, author, subject, keywords, creator, producer and the dates of creation and last modification.</para>
 
 		</sect2>
 
@@ -2539,7 +2539,7 @@
 
 			<title>Permissions</title>
 
-			<para>Also, setting, changing and removing of permissions will be only possible, if <command>pdftk</command> is installed.</para>
+			<para>Also, the setting, changing and removing of permissions will be only possible if <command>pdftk</command> is installed.</para>
 
 			<screenshot>
 				<screeninfo>Dialog PDF Permissions</screeninfo>
@@ -2553,17 +2553,17 @@
 				</mediaobject>
 			</screenshot>
 
-			<para>A password is necessary to set or change these document settings. Additionally, PDF encryption is done to lock the file's content behind this password or to enforce lighter restrictions imposed by the author. So the author can allow or restrict to</para>
+			<para>A password is necessary to set or change these document settings. Additionally, PDF encryption is done to lock the file's content behind this password or to enforce lighter restrictions imposed by the author. So the author can allow or restrict:</para>
 
 			<itemizedlist>
-			<listitem><para>print pages</para></listitem>
-			<listitem><para>modify pages</para></listitem>
-			<listitem><para>copy text and graphics from pages</para></listitem>
-			<listitem><para>change or add annotations</para></listitem>
-			<listitem><para>fill form fields with data</para></listitem>
+			<listitem><para>printing pages</para></listitem>
+			<listitem><para>modifying pages</para></listitem>
+			<listitem><para>copying text and graphics from pages</para></listitem>
+			<listitem><para>changing or adding annotations</para></listitem>
+			<listitem><para>filling form fields with data.</para></listitem>
 			</itemizedlist>
 
-			<para>Changing permissions always forces encryption associated with 128-bit security of <userinput>Acrobat</userinput> 5 and 6 and also needs a password.</para>
+			<para>Changing permissions always forces encryption associated with 128-bit security of <userinput>Acrobat</userinput> 5 and 6, and also needs a password.</para>
 
 			<para>But always remember: encryption and a password do not provide any real PDF security. The content is encrypted, but the key is known. You should see it more as a polite but firm request to respect the author's wishes.</para>
 
@@ -2575,8 +2575,8 @@
 		<title>Document Statistics</title>
 
 		<para>The statistics dialog in <menuchoice><guimenu>File</guimenu><guimenuitem>Statistics</guimenuitem></menuchoice> gives you
-		an statistical overview for a selection,
-		a document or an whole project. It includes the number of words, &latex;
+		a statistical overview for a selection,
+		a document or a whole project. It includes the number of words, &latex;
 		commands/environments and also includes the number of characters for each type.</para>
 
 		<para>The statistics obtained can be copied as text or as a nicely formatted &latex; table
@@ -2589,7 +2589,7 @@
 
 		<para>A note of caution has to be sounded about the accuracy of the numbers.
 		We have included some logic to get a good estimate, &eg; K\"uhler gives one word and one command,
-		with six resp. two characters. But there are other combinations in which parts of commands
+		with six and two characters respectively. But there are other combinations in which parts of commands
 		are counted as words and vice versa. Please note that the algorithm
 		was developed and tested for languages similar to English or German.
 		So don't take the numbers for granted. If you write a report whose length has to be of a certain
@@ -2608,7 +2608,7 @@
 
 		<para>&latex; has thousands of tags for symbols and special characters.
 		The easiest way to insert these tags is to use the sidebar menu,
-		left of the editor window.</para>
+		to the left of the editor window.</para>
 
 		<screenshot>
 			<screeninfo>The Sidebar Menu</screeninfo>
@@ -2639,25 +2639,25 @@
 		</itemizedlist>
 		<para>The tooltips of the icons show the &latex; commands and additionally needed packages.</para>
 		<para>Pressing <keycombo>&Shift;</keycombo> and clicking a symbol will result in
-		<userinput>$\symbolcmd$</userinput> being inserted. Similar pressing <keycombo>&Ctrl;</keycombo>
+		<userinput>$\symbolcmd$</userinput> being inserted. Similarly, pressing <keycombo>&Ctrl;</keycombo>
 		inserts it in curly brackets.</para>
 		<para>If you insert a command which requires a package which is not included in your &latex; document,
 		you will see a warning message in the logview window.</para>
 		<para>The first list of symbols holds the <guilabel>Most Frequently Used</guilabel> symbols. Inserted symbols will be
 			added to this list, for quick and easy reference. The ordering of the symbols will not be changed
 			upon addition of new symbols, instead a reference counter is incremented. If the number of items
-			would exceed 30 items, the item with the lowest count will get removed.</para>
+			exceeds 30 items, the item with the lowest count is removed.</para>
 		<para>The <guilabel>User Defined</guilabel> symbol list can hold your own symbols.
-		To create your own symbols you need the program gesymb and the file definitions.tex from the kile source package.
-		Additionaly you need a &latex; compiler (what a surprise) and
+		To create your own symbols you need the program gesymb and the file <filename>definitions.tex</filename> from the kile source package.
+		Additionally you need a &latex; compiler (what a surprise) and
 		<ulink url="http://www.dvipng.sourceforge.net">&dvipng;</ulink> (version 1.7 or later).
-		The procedure is so that you create a &latex; file with <userinput>\input{definitions}</userinput>,
+		The procedure is that you create a &latex; file with <userinput>\input{definitions}</userinput>,
 		which makes the commands listed below available, and let <userinput>gesymb mysymbols.tex user</userinput>
 		(which calls &latex; and &dvipng;) create the icons. After copying them to
 		<userinput>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput> and restarting kile you can use your own symbols.
 		</para>
 		<para>
-		The following commands are defined in definitions.tex:
+		The following commands are defined in <filename>definitions.tex</filename>:
 		<itemizedlist>
 			<listitem>
 				<para>
@@ -2775,7 +2775,7 @@
 
 		<para>&kile; can also work together with &bibtex; editors,
 		such as &kbibtex; to make it easier to enter citations. When a &bibtex; file is added to the project,
-		&kile; will help you complete citation commands, just as described above</para>
+		&kile; will help you complete citation commands, just as described above.</para>
 
 	</sect1>
 
@@ -2847,14 +2847,14 @@
 			<para>There is also another way to compile your document, if you want a PDF: you can run
 			&pdflatex;, that will compile the source directly into a PDF file, with
 			<keycombo>&Alt;<keycap>6</keycap></keycombo>: you can then view the compiled
-			file pressing <keycombo>&Alt;<keycap>7</keycap></keycombo>.</para>
+			file by pressing <keycombo>&Alt;<keycap>7</keycap></keycombo>.</para>
 
 			<para>Alternatively, you can convert a PS into a PDF with
-			<keycombo>&Alt;<keycap>8</keycap></keycombo>, or directly a
-			&DVI; into a PDF with <keycombo>&Alt;<keycap>9</keycap></keycombo>.</para>
+			<keycombo>&Alt;<keycap>8</keycap></keycombo>, or a
+			&DVI; directly into a PDF with <keycombo>&Alt;<keycap>9</keycap></keycombo>.</para>
 
 			<para>Using &pdflatex; instead of &latex; may be just a matter of simplicity or habit,
-			but sometimes the behavior of the two program can differ.</para>
+			but sometimes the behavior of the two programs can differ.</para>
 
 		</sect2>
 
@@ -2874,9 +2874,9 @@
 
 		<sect2 id="build_cl">
 
-			<title>Passing Command-Line Parameters</title>
+			<title>Passing Command Line Parameters</title>
 
-			<para>If you want to pass some specific command-line parameters to the compile, convert
+			<para>If you want to pass some specific command line parameters to the compile, convert
 			or view tools, you can configure their call in <menuchoice><guimenu>Settings</guimenu>
 			<guisubmenu>Configure Kile...</guisubmenu><guisubmenu>Tools</guisubmenu><guilabel>Build</guilabel></menuchoice>.</para>
 
@@ -2939,7 +2939,7 @@
 			<listitem><para><application>LaTeX+PS (&okular;)</application></para></listitem>
 			<listitem><para><application>PDFLaTeX+PDF (embedded viewer)</application></para></listitem>
 			<listitem><para><application>PDFLaTeX+PDF (&okular;)</application></para></listitem>
-			<listitem><para><application>XeLaTeX+PS (embedded viewer)</application></para></listitem>
+			<listitem><para><application>XeLaTeX+PDF (embedded viewer)</application></para></listitem>
 			<listitem><para><application>XeLaTeX+PDF (&okular;)</application></para></listitem>
 			</itemizedlist>
 
@@ -2951,9 +2951,9 @@
 
 			<title>Environment Mode</title>
 
-			<para>Very often you want to preview the current environment, and especially mathematic
+			<para>Very often you want to preview the current environment, and especially mathematical
 			environments, which sometimes may be difficult to write. &kile; offers a very fast way
-			to do this. No selection is needed, only choose
+			to do this. No selection is needed, just choose
 			<menuchoice><guimenu>Build</guimenu><guisubmenu>QuickPreview</guisubmenu><guimenuitem>Environment</guimenuitem></menuchoice>
 			or the keyboard shortcut <keycombo action="simul">&Ctrl;&Alt;<keycap>P</keycap></keycombo>,<keycap>E</keycap>
 			 and the current environment will be compiled and shown.</para>
@@ -3004,12 +3004,12 @@
 		<title>&latex; and &pdflatex;</title>
 
 		<para>&pdflatex;, when used with <userinput>graphics</userinput> or
-		<userinput>graphicx</userinput> packages, can compile correctly PNG and JPG files into
+		<userinput>graphicx</userinput> packages, can correctly compile PNG and JPG files into
 		&DVI; or PDF, but is not able to handle EPS files. Conversely, the process of compiling
 		with &latex; to &DVI; and converting to PS and eventually PDF does support EPS, but does
 		not support PNG and JPG.</para>
 
-		<para>A lot of users want to create PDF documents, but also want to use of the excellent
+		<para>A lot of users want to create PDF documents, but also want to use the excellent
 		<application>Pstricks</application> package to create &PostScript; graphics, or they want
 		to use the &PostScript; output of mathematical and scientific software like
 		<application>Mathematica</application>, <application>Maple</application> or <application>MuPAD</application>.
@@ -3023,7 +3023,7 @@
 
 		<title>Graphics Conversion</title>
 
-		<para>To overcome this frustrating loop, in case you want to include both &PostScript; code and PNG or JPG files,
+		<para>To overcome this frustrating loop, when you want to include both &PostScript; code and PNG or JPG files,
 		you have a number of workarounds:</para>
 
 		<itemizedlist>
@@ -3055,8 +3055,8 @@
 
 			<para>Even better: if your system allows <userinput>shell-escape</userinput>, conversion
 			can be done on the fly. All you have to do is to include the <application>epstopdf</application> package,
-			which is part of all &tex; distributions, with command <userinput>\usepackage{epstopdf}</userinput>.
-			Assuming that your code is
+			which is part of all &tex; distributions, with the command <userinput>\usepackage{epstopdf}</userinput>.
+			Assuming that your code is:
 
 <programlisting>
 	\includegraphics[width=5cm]{test.eps}
@@ -3073,7 +3073,7 @@
 </programlisting>
 
 			<application>epstopdf</application> checks whether <filename>test.pdf</filename> is already
-			available, so that conversion step can be skipped.</para></listitem>
+			available, so that the conversion step can be skipped.</para></listitem>
 
 			<listitem><para>You can convert the other way around, and use &latex; and PS-PDF conversion.
 			This is not always a good idea, since EPS encapsulation of JPG or PNG can yield larger
@@ -3087,7 +3087,7 @@
 			<ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"><application>jpg2ps</application></ulink>.
 			</para></listitem>
 
-			<listitem><para>You can also use an automatic conversion. All graphic files are
+			<listitem><para>You can also use an automatic conversion. All graphics files are
 			converted on the fly to EPS, and inserted into the PS document. This is a comfortable
 			way, but you have to set up your system properly. This is discussed in the section
 			<link linkend="build_epsgraphics">EPS Graphics</link>.</para></listitem>
@@ -3102,8 +3102,8 @@
 
 	 	<itemizedlist>
 			<listitem><para>EPS is sort of a graphic vector scripting language, describing
-			all the lines and dots the graph is made of; it looks good even when magnified beyond its
-			default size, and suits best diagrams and vectorial graphic natively produced in EPS,
+			all the lines and dots the graphic is made of; it looks good even when magnified beyond its
+			default size, and suits best diagrams and vectorial graphics natively produced in EPS,
 			which look very clear and sharp while maintaining a very small byte size.</para></listitem>
 			<listitem><para>PNG (or the deprecated &GIF;) is a <emphasis>non-lossy</emphasis> file format,
 			with good compression and quality. It is very good for diagrams, scans of drawings,
@@ -3136,7 +3136,7 @@
 
 		<para>If you decided to use the traditional &latex; to produce
 		PS or PDF output, you will probably run into some problems
-		with graphics. You have to use EPS graphics (Encapsulated &PostScript;),
+		with graphics. You have to use EPS graphics (Encapsulated &PostScript;);
 		no JPEG or PNG files. This should be no problem, as there are a lot of
 		<link linkend="build_graphics_conversion">converters</link> like
 		<command>convert</command> from the excellent
@@ -3146,7 +3146,7 @@
 		<para>The EPS files are used by both &latex; and the &DVI;-PS converter:</para>
 
 		<itemizedlist>
-		<listitem><para>&latex; scans the EPS file for the bounding box
+		<listitem><para>&latex; scans the EPS file for the bounding-box
 		line, which tells &latex; how much space to reserve for the
 		graphics.</para></listitem>
 
@@ -3158,7 +3158,7 @@
 
 		<itemizedlist>
 		<listitem><para>&latex; never reads the EPS file if the bounding-box
-		parameters are specified in the graphics-insertion command.</para></listitem>
+		parameters are specified in the graphics insertion command.</para></listitem>
 
 		<listitem><para>Since &latex; cannot read non-ASCII files,
 		it cannot read the bounding-box information from compressed or non-EPS
@@ -3166,7 +3166,7 @@
 
 		<listitem><para>The EPS graphics are not included in the &DVI; file. Since the
 		EPS files must be present when the &DVI; file is converted to
-		PS, the EPS files must accompany &DVI; files whenever they are
+		PS, the EPS files must accompany the &DVI; files whenever they are
 		moved.</para></listitem>
 		</itemizedlist>
 
@@ -3185,19 +3185,19 @@
 		<ulink url="http://www.imagemagick.org/">&imagemagick;</ulink>
 		package, &kile; will extract this information from the EPS file and insert it as an
 		option. This is done automatically when you select the graphics file.
-		There are two advantages to proceed like this:</para>
+		There are two advantages to proceeding like this:</para>
 
 		<itemizedlist>
 		<listitem><para>The information is already scanned in the dialog, and
 		need not to be done by &latex; later on.</para></listitem>
 		<listitem><para>Even more important is that the width and height of the picture
-		can be calculated, when the its resolution is known. This information will be shown
+		can be calculated, when the resolution is known. This information will be shown
 		near the top of the dialog, and may serve as a clue when you want to scale the
 		graphics.</para></listitem>
 		<listitem><para>&kile; can also support zipped or gzipped EPS files,
 		which are much smaller than uncompressed EPS files. But, this feature can only be used
 		with a special system setup and a change of your local graphics configuration,
-		like it is described in the <link linkend="build_graphics_bitmap">Bitmap Graphics</link>
+		as it is described in the <link linkend="build_graphics_bitmap">Bitmap Graphics</link>
 		section.</para></listitem>
 		</itemizedlist>
 	<!-- FIXME I don't understand the following sentence, tbraun
@@ -3248,7 +3248,7 @@
 
 		<para>You will find this file, for example in Debian, at
 		<filename>/etc/texmf/latex/graphics.cfg</filename>. The best way to proceed is to copy this
-		file to your local texpath and then change this file. See the yours &tex; distribution manual
+		file to your local texpath and then change this copy. See your &tex; distribution manual
 		to learn how to get a list of your &tex; folders.</para>
 
 		<para>With this configuration file you are able to insert bitmap graphics and
@@ -3282,7 +3282,7 @@
 		<para>Now you can already include EPS graphics, if you run <command>pdflatex</command>
 		with option <option>--shell-escape</option>, but we can make it even better
 		and also handle zipped or gzipped EPS files. Again we have to change
-		the graphics configuration file <filename>graphics.cfg</filename> like above.
+		the graphics configuration file <filename>graphics.cfg</filename> as above.
 		This time we search for:</para>
 
 <programlisting>
@@ -3290,7 +3290,7 @@
    \ExecuteOptions{pdftex}%
 </programlisting>
 
-		<para>and simply add some lines.</para>
+		<para>and simply add some lines:</para>
 
 <programlisting>
    % pdfTeX is running in pdf mode
@@ -3313,7 +3313,7 @@
 
 		<title>Master Document</title>
 
-		<para>Defining your document as a master allows you to work with separated files,
+		<para>Defining your document as a master allows you to work with separate files,
 		which gives you a parent document (or Master document), and child documents that
 		make up a complete work. After having defined your Master document, with the
 		corresponding command in the <guimenu>Settings</guimenu>
@@ -3393,10 +3393,10 @@
 
 		<para>If you included a separate &latex; file in your source using
 		the <userinput>\input</userinput> or <userinput>\include</userinput> tags, these files will
-		be referred to in the <guilabel>Structure</guilabel> view; double-clicking on their names in
-		it will make &kile; bring up the included file in the editor window.</para>
+		be referred to in the <guilabel>Structure</guilabel> view; double-clicking on their names
+		will make &kile; bring up the included file in the editor window.</para>
 
-		<para>The hierarchy tree has also a separate branch for labels used in the text.</para>
+		<para>The hierarchy tree also has a separate branch for labels used in the text.</para>
 
 <!--		<screenshot>
 			<screeninfo>Using the Structure View</screeninfo>
@@ -3520,7 +3520,7 @@
 			<listitem><para>The <guilabel>Files and Projects</guilabel> view shows which files are included
 			in the project.</para></listitem>
 			<listitem><para>After opening a project, any file that was previously opened will be
-			restored with the original encoding and highlightning.</para></listitem>
+			restored with the original encoding and highlighting.</para></listitem>
       <listitem><para> Code completion works across all project files.</para></listitem>
       <listitem><para> Reference completion works across all project files.</para></listitem>
       <listitem><para> Citation completion works across all project files.</para></listitem>
@@ -3652,7 +3652,7 @@
 			<title>Archiving your Project</title>
 
 			<para>&kile; allows you to easily backup your project by storing all its files
-			into a single archive (often known as <emphasis>tarball</emphasis>). To archive your project,
+			into a single archive (often known as a <emphasis>tarball</emphasis>). To archive your project,
 			right-click on its name in the <guilabel>Files and Projects</guilabel> view, or select
 			<menuchoice><guimenu>Project</guimenu><guimenuitem>Archive</guimenuitem></menuchoice>.</para>
 
@@ -3716,8 +3716,8 @@
 	<title>Document Encoding</title>
 
 	<para>The &kile; editor allows you to read, convert and save text in the character encoding
-	your document needs. With this it is possible, for example, to use accented characters such
-	as they are commonly used in Italian or French directly in &latex; documents.
+	your document needs. With this it is possible, for example, to use accented characters, such
+	as are commonly used in Italian or French, directly in &latex; documents.
 	Selecting the encoding for your document can be done in two ways:</para>
 
 	<itemizedlist>
@@ -3760,7 +3760,7 @@
 	successful in &Linux;; &Windows;&reg; relies instead on the more cumbersome and
 	less flexible <abbrev>UCS-2</abbrev>. Most distributions have already
 	begun setting their default encoding to <abbrev>UTF-8</abbrev>, and therefore you
-	may be very interested in using of the <userinput>utf8</userinput> argument to the
+	may be very interested in using the <userinput>utf8</userinput> argument to the
 	<userinput>inputenc</userinput> package.</para>
 
 	<sect1 id="ucs">
@@ -3773,7 +3773,7 @@
 		</para></listitem>
 		<listitem>
 		<para>To install it, unpack the downloaded file and place it in a folder listed
-		 in your $<envar>TEXINPUTS</envar> environment variable. This can also be set inside kile.</para>
+		 in your $<envar>TEXINPUTS</envar> environment variable. This can also be set inside &kile;.</para>
 		</listitem>
 		</itemizedlist>
 
@@ -3817,7 +3817,7 @@
 		<listitem><para>Download the <ulink
 		url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html">&cjk;</ulink>
 		package. Copy its unpacked files to an appropriate subfolder of
-		$<envar>TEXMF</envar>, just like you did with the &ucs; package
+		$<envar>TEXMF</envar>, just as you did with the &ucs; package
 		before (see <xref linkend="ucs" role="select: title pageabbrv"/>). The files will be unpacked in a
 		<filename>CJK/X_Y.Z</filename> folder; it is not important that you
 		take them out, though it will probably be tidier and easier for you to
@@ -3834,8 +3834,8 @@
 		and generate the <literal role="extension">*.tfm</literal> and
 		<literal role="extension">*.enc</literal> files with the command
 		<userinput><command>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command></userinput>.
-		For some reasons, sometimes this does not produce the hundreds
-		of files it should. Should that be your case, you can download both
+		For some reason, sometimes this does not produce the hundreds
+		of files it should. Should that happen in your case, you can download both
 		<ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"><literal
 		role="extension">*.tfm</literal></ulink> and
 		<ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"><literal
@@ -3858,7 +3858,7 @@
 		<listitem><para>The last file we have to generate is a &PostScript; Type 1
 		font, necessary to read &DVI; files generated with &latex;. Run the command
 		<userinput><command>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command></userinput>, and copy the
-		resulting <filename>cyberbit.pfb</filename> in a folder like
+		resulting <filename>cyberbit.pfb</filename> to a folder such as
 		<filename>$<envar>TEXMF</envar>/fonts/type1/cyberbit/</filename>.</para></listitem>
 
 		<listitem><para>Let's now place <filename>cyberbit.ttf</filename> among the fonts
@@ -3871,7 +3871,7 @@
 		the folder where you saved <filename>cyberbit.ttf</filename>.</para></listitem>
 
 		<listitem><para>To make it possible for &pdflatex; to use your &cjk;
-		fonts, it is necessary that you add a line in configuration file
+		fonts, it is necessary that you add a line in the configuration file
 		<filename>$<envar>TEXMF</envar>/pdftex/config/pdftex.cfg</filename>. Add
 		<userinput>map +cyberbit.map</userinput> in the file to complete the
 		configuration for &pdflatex;.</para></listitem>
@@ -3895,7 +3895,7 @@
 		<sect2>
 			<title>&cjk; Troubleshooting</title>
 
-			<para>There are many things that can go wrong when setting &cjk;
+			<para>There are many things that can go wrong when adding &cjk;
 			support manually. If something seems not to work, the following
 			checklist might help you.</para>
 
@@ -3919,7 +3919,7 @@
 			<userinput><command>ttf2pk</command> <option>--version</option></userinput>
 			will make no mention of <application>kpathsea</application>. As support for
 			these libraries is necessary, you might have to find a new package, or
-			recompile <application>FreeType 1</application> by yourself.</para></listitem>
+			recompile <application>FreeType 1</application> yourself.</para></listitem>
 
 			</itemizedlist>
 
@@ -4012,7 +4012,7 @@
 
 		<title>Context Sensitive Help</title>
 
-		<para>&kile; also support a context sensitive help, which is called
+		<para>&kile; also supports a context sensitive help, which is called
 		with <keycombo action="simul">&Ctrl;&Alt;<keycap>H</keycap></keycombo>,<keycap>K</keycap>.
 		In <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
@@ -4088,12 +4088,12 @@
 		menu &kile; has a special <guimenu>User help</guimenu>
 		submenu, where the user can add documents of his or her own choice.
 		These can be the most important documents of the &tetex;/&texlive; documentation, or even
-		self-written documents. It is also possible to enter URLs</para>
+		self-written documents. It is also possible to enter URLs.</para>
 
 		<para>Go to
 		<menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 		<guimenuitem>Kile</guimenuitem><guilabel>Help</guilabel></menuchoice>
-		and choose <guibutton>Configure</guibutton> button
+		and choose the <guibutton>Configure</guibutton> button
 		to configure this <guimenu>User help</guimenu> menu. You can add,
 		remove or move menu entries around, and insert separators to optimize
 		the structure of the menu.</para>
@@ -4112,7 +4112,7 @@
 
 		<para>Pressing the <guibutton>Add</guibutton> button will open
 		another dialog, where you can edit the name of the menu entry,
-		and choose the corresponding file or &URL;. The second button right of text field launches
+		and choose the corresponding file or &URL;. The second button to the right of the text field launches
 		&konqueror;, which can be used to determine the correct &URL;.</para>
 
 		<screenshot>

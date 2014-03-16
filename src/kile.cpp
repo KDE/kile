@@ -547,7 +547,7 @@ void Kile::disableSymbolViewMFUS()
 {
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
 	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),QString());
-	disconnect(m_symbolViewMFUS,SIGNAL(addtoList(const Q3IconViewItem *)));
+	disconnect(m_symbolViewMFUS,SIGNAL(addToList(const QListWidgetItem *));
 }
 
 void Kile::setupSymbolViews()

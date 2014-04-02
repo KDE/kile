@@ -2,9 +2,9 @@
 <title>Scripting</title>
 
 <sect1 id="id_scripting_kile">
-<title>Scripting in Kile</title>
+<title>Scripting in &kile;</title>
 
-<para>Kile's scripting feature allows the execution of <ulink url="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</ulink> code, widely known as &javascript;. You will find a lot of tutorials, which provide information about objects (variables), functions and properties supported by &javascript;.</para>
+<para>&kile;'s scripting feature allows the execution of <ulink url="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</ulink> code, widely known as &javascript;. You will find a lot of tutorials, which provide information about objects (variables), functions and properties supported by &javascript;.</para>
 
 <para>Scripting support can be enabled in the configuration dialog of &kile;: <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile...</guisubmenu>
 <guimenuitem>Kile</guimenuitem><guilabel>Scripting</guilabel></menuchoice>.
@@ -136,9 +136,9 @@ document.insertText("\\textbf{%C}");
 
 <para>The scripting API presented here is available in all scripts. Before the contents of a script is loaded, &kile; first adds several prototypes and functions to the scripting context. This convenience API contains prototypes like text cursors and text ranges and is located in the folder <filename>KILE_APP_DIR/script-plugins/</filename>.</para>
 
-<para>&kile; scripts differ slightly from <ulink url="http://kate-editor.org">&kate;</ulink> scripts, which use another design, as they also can be started from the command-line. But all functions of the &kate; scripting API are also available in &kile;'s scripting API, so porting &javascript; code from &kate; to &kile; should be very easy. But as &kile; is a very rich featured &latex; editor, its own scripting API offers much more possibilities than &kate;'s one.</para>
+<para>&kile; scripts differ slightly from <ulink url="http://kate-editor.org">&kate;</ulink> scripts, which use another design, as they also can be started from the command line. But all functions of the &kate; scripting API are also available in &kile;'s scripting API, so porting &javascript; code from &kate; to &kile; should be very easy. But as &kile; is a very rich featured &latex; editor, its own scripting API offers many more possibilities than &kate;'s one.</para>
 
-<para><emphasis>Remark: </emphasis>Description of API calls, which are also available in &kate; scripting, have been taken from &kate; documentation.</para>
+<para><emphasis>Remark: </emphasis>Description of API calls, which are also available in &kate; scripting, have been taken from &kate;'s documentation.</para>
 
 
 <sect2 id="id_scripting_api_global">
@@ -151,7 +151,7 @@ document.insertText("\\textbf{%C}");
 void debug(<parameter>String <replaceable>text</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Prints <parameter>text</parameter> to <literal>stdout</literal> in the console. The printed text is colored to distance it from other debug output.
+Prints <parameter>text</parameter> to <literal>stdout</literal> in the console. The printed text is colored to distinguish it from other debug output.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -212,7 +212,7 @@ Returns a clone of the cursor.
 bool Cursor.isValid();
 </synopsis></term>
 <listitem><para>
-Check whether the cursor is valid. The cursor is invalid, if line and/or
+Check whether the cursor is valid. The cursor is invalid if line and/or
 column are set to <literal>-1</literal>.
 </para><para>
 Example: <function>var valid = cursor.isValid();</function>
@@ -224,7 +224,7 @@ Example: <function>var valid = cursor.isValid();</function>
 Cursor Cursor.invalid();
 </synopsis></term>
 <listitem><para>
-Returns an new invalid cursor located at <literal>(-1,-1)</literal>.
+Returns a new invalid cursor located at <literal>(-1,-1)</literal>.
 </para><para>
 Example: <function>var invalidCursor = cursor.invalid();</function>
 </para></listitem>
@@ -361,7 +361,7 @@ Returns <literal>true</literal>, if this range contains the Range <parameter>oth
 bool Range.containsColumn(<parameter>int <replaceable>column</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns <literal>true</literal>, if <parameter>column</parameter> is in the half open interval <literal>[start.column, end.column)</literal>, otherwise <literal>false</literal>.
+Returns <literal>true</literal>, if <parameter>column</parameter> is in the half open interval <literal>[start.column, end.column]</literal>, otherwise <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -370,7 +370,7 @@ Returns <literal>true</literal>, if <parameter>column</parameter> is in the half
 bool Range.containsLine(<parameter>int <replaceable>line</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns <literal>true</literal>, if <parameter>line</parameter> is in the half open interval <literal>[start.line, end.line)</literal>, otherwise <literal>false</literal>.
+Returns <literal>true</literal>, if <parameter>line</parameter> is in the half open interval <literal>[start.line, end.line]</literal>, otherwise <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -432,7 +432,7 @@ Returns the range as a string of the form <literal>Range(Cursor(line,column) - C
 void view.backspace();
 </synopsis></term>
 <listitem><para>
-Programmatically Performs the equivalent of pressing the backspace key.
+Programmatically performs the equivalent of pressing the backspace key.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -631,7 +631,7 @@ Selects the entire text from line <parameter>from</parameter> to line <parameter
 void view.selectWord();
 </synopsis></term>
 <listitem><para>
-Selects the current word. If no word was found at the current cursor position, nothing is done.
+Selects the current word. If no word is found at the current cursor position, nothing is done.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -640,7 +640,7 @@ Selects the current word. If no word was found at the current cursor position, n
 void view.selectLatexCommand();
 </synopsis></term>
 <listitem><para>
-Selects the current &latex; command. If no command was found at the current cursor position, nothing is done.
+Selects the current &latex; command. If no command is found at the current cursor position, nothing is done.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -732,7 +732,7 @@ Replace the text of the given range with the specified text.
 int document.lines();
 </synopsis></term>
 <listitem><para>
-Returns the amount of lines in the document.
+Returns the number of lines in the document.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -916,7 +916,7 @@ Truncate the given line at the given column or cursor position. Returns <literal
 String document.word();
 </synopsis></term>
 <listitem><para>
-Returns the word at the current cursor position. If no word at this cursor position is found, the returned string is empty.
+Returns the word at the current cursor position. If no word is found at this cursor position, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -926,7 +926,7 @@ String document.wordAt(<parameter>int <replaceable>line</replaceable></parameter
 String document.wordAt(<parameter>Cursor <replaceable>cursor</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the word at the given cursor position. If no word at this cursor position is found, the returned string is empty.
+Returns the word at the given cursor position. If no word is found at this cursor position, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -935,7 +935,7 @@ Returns the word at the given cursor position. If no word at this cursor positio
 Range document.wordRange();
 </synopsis></term>
 <listitem><para>
-Returns the range of the word at the given cursor position. If no word was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the word at the given cursor position. If no word is found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -944,7 +944,7 @@ Returns the range of the word at the given cursor position. If no word was found
 String document.latexCommand();
 </synopsis></term>
 <listitem><para>
-Returns the &latex; command at the current cursor position. If no command at this cursor position is found, the returned string is empty.
+Returns the &latex; command at the current cursor position. If no command is found at this cursor position, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -954,7 +954,7 @@ String document.latexCommandAt(<parameter>int <replaceable>line</replaceable></p
 String document.latexCommandAt(<parameter>Cursor <replaceable>cursor</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the &latex; command at the given cursor position. If no command at this cursor position is found, the returned string is empty.
+Returns the &latex; command at the given cursor position. If no command is found at this cursor position, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -963,7 +963,7 @@ Returns the &latex; command at the given cursor position. If no command at this 
 Range document.latexCommandRange();
 </synopsis></term>
 <listitem><para>
-Returns the range of the &latex; command at the given cursor position. If no &latex; command was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the &latex; command at the given cursor position. If no &latex; command is found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1037,7 +1037,7 @@ Jump to the previous bullet in the text if there is one.
 bool document.hasEnvironment();
 </synopsis></term>
 <listitem><para>
-Returns  <literal>true</literal> if a surrounding &latex; environment was found, else <literal>false</literal>.
+Returns  <literal>true</literal> if a surrounding &latex; environment is found, else <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1046,7 +1046,7 @@ Returns  <literal>true</literal> if a surrounding &latex; environment was found,
 String document.environment(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the entire text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, the returned string is empty.
+Returns the entire text of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the environment text including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment is found, the returned string is empty.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1055,7 +1055,7 @@ Returns the entire text of the surrounding &latex; environment. If <parameter>in
 Range document.environmentRange(<parameter>bool <replaceable>inside = false</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the range of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the range including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the surrounding &latex; environment. If <parameter>inside</parameter> is <literal>false</literal>, the range including the surrounding &latex; tags <userinput>\begin{...}...\end{...}</userinput> will be returned, else without these tags. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no environment is found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1082,7 +1082,7 @@ Removes the text of the surrounding &latex; environment. If <parameter>inside</p
 void document.closeEnvironment();
 </synopsis></term>
 <listitem><para>
-Insert a closing environment tag, if an opened &latex; environment was found at the current cursor position.
+Insert a closing environment tag, if an opened &latex; environment is found at the current cursor position.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1100,7 +1100,7 @@ Insert closing environment tags for all opened &latex; environments, which were 
 bool document.hasTexgroup();
 </synopsis></term>
 <listitem><para>
-Returns  <literal>true</literal> if a surrounding &latex; group was found at the current cursor position, else <literal>false</literal>.
+Returns  <literal>true</literal> if a surrounding &latex; group is found at the current cursor position, else <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1109,7 +1109,7 @@ Returns  <literal>true</literal> if a surrounding &latex; group was found at the
 String document.texgroup(<parameter>bool <replaceable>inside = true</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the text of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the text of this &latex; group including the surrounding braces <userinput>{...}</userinput> will be returned, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. The returned string is empty, if no surrounding &latex; group was found at the current cursor position.
+Returns the text of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the text of this &latex; group including the surrounding braces <userinput>{...}</userinput> will be returned, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. The returned string is empty, if no surrounding &latex; group is found at the current cursor position.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1118,7 +1118,7 @@ Returns the text of the surrounding &latex; group. If <parameter>inside</paramet
 Range document.texgroupRange(<parameter>bool <replaceable>inside = true</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the range of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the range including the surrounding braces <userinput>{...}</userinput> will be returned, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no group was found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the surrounding &latex; group. If <parameter>inside</parameter> is <literal>false</literal>, the range including the surrounding braces <userinput>{...}</userinput> will be returned, else without them. If no parameter is given, <parameter>inside</parameter> is set to <literal>false</literal>. If no group is found, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1136,7 +1136,7 @@ Removes the text of the surrounding &latex; group. If <parameter>inside</paramet
 bool document.hasMathgroup();
 </synopsis></term>
 <listitem><para>
-Returns  <literal>true</literal> if a surrounding &latex; mathgroup was found at the current cursor position, else <literal>false</literal>.
+Returns  <literal>true</literal> if a surrounding &latex; mathgroup is found at the current cursor position, else <literal>false</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1145,7 +1145,7 @@ Returns  <literal>true</literal> if a surrounding &latex; mathgroup was found at
 String document.mathgroup();
 </synopsis></term>
 <listitem><para>
-Returns the text of the surrounding &latex; mathgroup. The returned string is empty, if no surrounding &latex; mathgroup was found at the current cursor position.
+Returns the text of the surrounding &latex; mathgroup. The returned string is empty, if no surrounding &latex; mathgroup is found at the current cursor position.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1154,7 +1154,7 @@ Returns the text of the surrounding &latex; mathgroup. The returned string is em
 Range document.mathgroupRange();
 </synopsis></term>
 <listitem><para>
-Returns the range of the surrounding &latex; mathgroup. If no group was mathgroup, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
+Returns the range of the surrounding &latex; mathgroup. If there is no surrounding mathgroup, <literal>Range.invalid()</literal> is returned, which can be tested with <literal>Range.isValid()</literal>.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1246,7 +1246,7 @@ int document.prevNonSpaceColumn(<parameter>int <replaceable>line</replaceable></
 int document.prevNonSpaceColumn(<parameter>Cursor <replaceable>cursor</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the column with a non-whitespace characters starting at the given cursor position and searching backwards.
+Returns the column with a non-whitespace character starting at the given cursor position and searching backwards.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1256,7 +1256,7 @@ int document.nextNonSpaceColumn(<parameter>int <replaceable>line</replaceable></
 int document.nextNonSpaceColumn(<parameter>Cursor <replaceable>cursor</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Returns the column with a non-whitespace characters starting at the given cursor position and searching forwards.
+Returns the column with a non-whitespace character starting at the given cursor position and searching forwards.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1319,7 +1319,7 @@ Go to the end of a surrounding &latex; group.
 void document.gotoNextParagraph();
 </synopsis></term>
 <listitem><para>
-Go to the next &latex; Paragraph.
+Go to the next &latex; paragraph.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1328,7 +1328,7 @@ Go to the next &latex; Paragraph.
 void document.gotoPrevParagraph();
 </synopsis></term>
 <listitem><para>
-Go to the previous &latex; Paragraph.
+Go to the previous &latex; paragraph.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1373,7 +1373,7 @@ Insert a <userinput>\chapter</userinput> command (see also <literal>document.ins
 void document.insertSection();
 </synopsis></term>
 <listitem><para>
-Insert a <userinput>\section</userinput> command. Like choosing the menu entry <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Sectioning</guisubmenu><guimenuitem>section</guimenuitem></menuchoice> a dialog will appear, where you can choose the title and an optional label for this sectioning command.
+Insert a <userinput>\section</userinput> command. As with choosing the menu entry <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Sectioning</guisubmenu><guimenuitem>section</guimenuitem></menuchoice> a dialog will appear, where you can choose the title and an optional label for this sectioning command.
 <screenshot>
 	<screeninfo>Dialog: insert chapter command</screeninfo>
 	<mediaobject>
@@ -1438,7 +1438,7 @@ Insert a <userinput>\label</userinput> command.
 void document.insertReference();
 </synopsis></term>
 <listitem><para>
-Insert a <userinput>\ref</userinput> command.  Like choosing the menu entry <menuchoice><guimenu>&latex;</guimenu><guisubmenu>References</guisubmenu><guimenuitem>ref</guimenuitem></menuchoice> a dialog will appear, where you can choose from already defined labels, which are listed in a combobox.
+Insert a <userinput>\ref</userinput> command. As with choosing the menu entry <menuchoice><guimenu>&latex;</guimenu><guisubmenu>References</guisubmenu><guimenuitem>ref</guimenuitem></menuchoice> a dialog will appear, where you can choose from already defined labels, which are listed in a combobox.
 <screenshot>
 	<screeninfo>Dialog: insert a reference command</screeninfo>
 	<mediaobject>
@@ -1611,7 +1611,7 @@ Refresh the structure view (see <xref linkend="navigating" role="select: title p
 
 
 <sect2 id="id_scripting_api_kile">
-<title>The Kile API</title>
+<title>The &kile; API</title>
 
 <para>The global object (variable) <userinput>kile</userinput> is used to handle top level interactions with the outside world, input message and dialog interfaces. These API calls are divided into subobjects to structure this part of the scripting API. Conceptually <userinput>kile</userinput> is a bit like <userinput>window</userinput> in a browser API.
 <itemizedlist>
@@ -1619,7 +1619,7 @@ Refresh the structure view (see <xref linkend="navigating" role="select: title p
 <listitem><para><literal>kile.input</literal>: &nbsp; get user input</para></listitem>
 <listitem><para><literal>kile.wizard</literal>: &nbsp; call one of &kile;'s wizards</para></listitem>
 <listitem><para><literal>kile.script</literal>: &nbsp; get info about a running script</para></listitem>
-<listitem><para><literal>kile.file</literal>: &nbsp; file operations like read and write</para></listitem>
+<listitem><para><literal>kile.file</literal>: &nbsp; file operations like read and write.</para></listitem>
 </itemizedlist>
 </para>
 
@@ -1682,7 +1682,7 @@ Display a simple <emphasis>warning</emphasis> dialog. <parameter>text</parameter
 String kile.input.getListboxItem(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>StringList <replaceable>list</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to let the user select an item from a list, which is shown as listbox. <parameter>caption</parameter> is the text that is displayed in the title bar, <parameter>label</parameter> is the text that appears as the label for the list and <parameter>list</parameter> is the string list which is inserted into the list.
+Function to let the user select an item from a list, which is shown as a listbox. <parameter>caption</parameter> is the text that is displayed in the title bar, <parameter>label</parameter> is the text that appears as the label for the list and <parameter>list</parameter> is the string list which is inserted into the list.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1691,7 +1691,7 @@ Function to let the user select an item from a list, which is shown as listbox. 
 String kile.input.getComboboxItem(<parameter>String <replaceable>caption</replaceable></parameter>, <parameter>String <replaceable>label</replaceable></parameter>, <parameter>StringList <replaceable>list</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Function to let the user select an item from a list, which is shown as combobox. <parameter>caption</parameter> is the text that is displayed in the title bar, <parameter>label</parameter> is the text that appears as the label for the list and <parameter>list</parameter> is the string list which is inserted into the list.
+Function to let the user select an item from a list, which is shown as a combobox. <parameter>caption</parameter> is the text that is displayed in the title bar, <parameter>label</parameter> is the text that appears as the label for the list and <parameter>list</parameter> is the string list which is inserted into the list.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1809,7 +1809,7 @@ Returns the basename of a running script (without path and extension).
 String kile.script.caption();
 </synopsis></term>
 <listitem><para>
-Returns a string, which can be used as captions of alert boxes. It looks like <userinput>Script: scriptname.js</userinput>.
+Returns a string, which can be used as a caption of alert boxes. It looks like <userinput>Script: scriptname.js</userinput>.
 </para></listitem>
 </varlistentry></variablelist>
 </sect3>
@@ -1823,7 +1823,7 @@ Returns a string, which can be used as captions of alert boxes. It looks like <u
 Object kile.file.read(<parameter>String <replaceable>filename</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Read the contents of a textfile. It is used like
+Read the contents of a text file. It is used like
 </para><para>
 Example: <function>var res = kile.file.read("path/to/file.txt");</function>
 </para><para>
@@ -1842,7 +1842,7 @@ The return value <userinput>res</userinput> is an object (better: a map) with th
 Object kile.file.read();
 </synopsis></term>
 <listitem><para>
-Like <literal>read(filename)</literal>, but no filename is given. A dialog will appear to select the file to read.
+The same as <literal>read(filename)</literal>, but no filename is given. A dialog will appear to select the file to read.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1864,7 +1864,7 @@ The return value <userinput>res</userinput> is an object (better: a map) with tw
 Object kile.file.write(<parameter>String <replaceable>text</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Like <literal>write(filename,text)</literal>, but no filename is given. A dialog will appear to choose a filename.
+The same as <literal>write(filename,text)</literal>, but no filename is given. A dialog will appear to choose a filename.
 </para></listitem>
 </varlistentry></variablelist>
 
@@ -1873,7 +1873,7 @@ Like <literal>write(filename,text)</literal>, but no filename is given. A dialog
 String kile.file.getOpenFileName(<parameter>String <replaceable>startDir</replaceable></parameter>, <parameter>String <replaceable>filter</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Creates a modal file dialog and return the selected filename or an empty string if none was chosen. Note that with this method the user must select an existing filename.
+Creates a modal file dialog and return the selected filename or an empty string if none is chosen. Note that with this method the user must select an existing filename.
 </para><para>
 Parameters:
 </para><para>
@@ -1891,7 +1891,7 @@ Both parameters are optional. If you omit <literal>filter</literal>, all files w
 String kile.file.getSaveFileName(<parameter>String <replaceable>startDir</replaceable></parameter>, <parameter>String <replaceable>filter</replaceable></parameter>);
 </synopsis></term>
 <listitem><para>
-Creates a modal file dialog and returns the selected filename or an empty string if none was chosen. Note that with this method the user need not select an existing filename.
+Creates a modal file dialog and returns the selected filename or an empty string if none is chosen. Note that with this method the user need not select an existing filename.
 See <literal>getOpenFileName()</literal> for an explanation of the parameters.
 </para></listitem>
 </varlistentry></variablelist>
@@ -1906,7 +1906,7 @@ See <literal>getOpenFileName()</literal> for an explanation of the parameters.
 <sect1 id="id_scripting_examples">
 <title>Examples</title>
 
-<para>Some examples may help to understand, how to use the scripting API. These examples and some more are found in the scripting directory of &kile;: <filename>KILE_APP_DIR/scripts/</filename>. Each script contains a tiny description.</para>
+<para>Some examples may help you to understand how to use the scripting API. These examples and some more are found in the scripting directory of &kile;: <filename>KILE_APP_DIR/scripts/</filename>. Each script contains a short description.</para>
 
 <sect2 id="id_scripting_example1">
 <title>Example 1: replace environment name</title>

@@ -18,11 +18,11 @@
 		</mediaobject>
 	</screenshot>
 
-<para>You have two options to place this menu:</para>
+<para>You have two options where to place this menu:</para>
 
 <itemizedlist>
 <listitem>
-<para>either the menu entry <guilabel>User Menu</guilabel> will appear in the main menu between menu entries <guilabel>LaTeX</guilabel> and <guilabel>Wizard</guilabel> and the configuration wizard <guilabel>Edit User Menu</guilabel> in the <guilabel>Wizard</guilabel> menu</para>
+<para>either the menu <guimenu>User Menu</guimenu> will appear in the main menu bar between the menus <guimenu>LaTeX</guimenu> and <guimenu>Wizard</guimenu> and the configuration wizard <guimenuitem>Edit User Menu</guimenuitem> in the <guimenu>Wizard</guimenu> menu</para>
 
 	<screenshot>
 		<screeninfo>User Menu is placed in the main menu</screeninfo>
@@ -38,7 +38,7 @@
 </listitem>
 
 <listitem>
-<para>or both entries will appear at the bottom of the <guilabel>LaTeX</guilabel> menu entry.</para>
+<para>or both items will appear at the bottom of the <guimenu>LaTeX</guimenu> menu.</para>
 
 	<screenshot>
 		<screeninfo>User Menu as a part of the LaTeX menu</screeninfo>
@@ -84,10 +84,10 @@
 <itemizedlist>
 <listitem><para>standard menu entries, which are assigned to an action</para></listitem>
 <listitem><para>submenus, which contain more menu items</para></listitem>
-<listitem><para>separators, to get a visible structure of all entries</para></listitem>
+<listitem><para>separators, to get a visible structure of all entries.</para></listitem>
 </itemizedlist>
 
-<para>To modify this menu, use the six buttons on the left side. Even more possible actions are available in the context menu of already existing menuitems.</para>
+<para>To modify this menu, use the six buttons on the left side. More possible actions are available in the context menu of already existing menu items.</para>
 
 	<screenshot>
 		<screeninfo>User-Defined Menutree</screeninfo>
@@ -104,7 +104,7 @@
 <para>Each standard menu item is assigned to one of three action types, where each of them has different attributes, which could be set:</para>
 
 <itemizedlist>
-<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, &eg; Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action will be called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, &eg; Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action is called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
 </listitem>
 
 <listitem><para><guilabel>Insert file contents:</guilabel>&nbsp; Inserts the complete contents of a given file.</para>
@@ -122,7 +122,7 @@
 	</screenshot>
 </listitem>
 
-  <listitem><para><guilabel>Execute an external program:</guilabel>&nbsp; The output of this program can be inserted into the opened document. Metachar <userinput>%M</userinput> is also possible in the commandline of this program, as the selected text will be saved in a temporary file. Use <userinput>%M</userinput> for the filename of this temporary file.</para>
+  <listitem><para><guilabel>Execute an external program:</guilabel>&nbsp; The output of this program can be inserted into the opened document. Metachar <userinput>%M</userinput> is also possible in the command line of this program, as the selected text will be saved in a temporary file. Use <userinput>%M</userinput> for the filename of this temporary file.</para>
 
 	<screenshot>
 		<screeninfo>Execute an external program</screeninfo>
@@ -139,21 +139,21 @@
 
 </itemizedlist>
 
-<para>If some important information for an action is missing, menu items are colored red. This may be a non existing file</para>
+<para>If some important information for an action is missing, menu items are colored red. This may be a nonexisting file</para>
 
 	<screenshot>
-		<screeninfo>Non existing file</screeninfo>
+		<screeninfo>Nonexisting file</screeninfo>
 		<mediaobject>
 		<imageobject>
 		<imagedata fileref="usermenu_07a.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase>Non existing file</phrase>
+		<phrase>Nonexisting file</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para>or a missing title for the menu entry, which will be shown with question marks like <userinput>???</userinput>.</para>
+<para>or a missing title for the menu entry, which will be shown with question marks as <userinput>???</userinput>.</para>
 
 	<screenshot>
 		<screeninfo>Missing title of a menu entry</screeninfo>
@@ -167,7 +167,7 @@
 		</mediaobject>
 	</screenshot>
 
-<para>If you open the context menu of such a red colored menuitem, you will get an additional info option for more information concerning this error.</para>
+<para>If you open the context menu of such a red colored menu item, you will get an additional option for more information concerning this error.</para>
 
 	<screenshot>
 		<screeninfo>Additional info</screeninfo>
@@ -277,7 +277,7 @@
 </listitem>
 
 <listitem>
-<para><userinput>%T</userinput>:&nbsp; will call a citation-dialog to choose an already defined cite. Like using <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>cite</guimenuitem></menuchoice> a list with all the citation keys pops up.</para>
+<para><userinput>%T</userinput>:&nbsp; will call a citation-dialog to choose an already defined citation. The same as using <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>cite</guimenuitem></menuchoice> a list with all the citation keys pops up.</para>
 
 	<screenshot>
 		<screeninfo>Citation Keys (%T)</screeninfo>
@@ -293,7 +293,7 @@
 </listitem>
 </itemizedlist>
 
-<para>Let's consider another example, with a macro like <userinput>\frac{%M}{%C}</userinput>. First, we select a number in our text, let's say <userinput>42</userinput>.
+<para>Let's consider another example, with the following macro <userinput>\frac{%M}{%C}</userinput>. First, we select a number in our text, let's say <userinput>42</userinput>.
 Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the cursor located within the second pair of brackets.</para>
 
 </sect2>
@@ -368,7 +368,7 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 <sect1 id="id_usermenu_files">
 <title>Menu Definition Files</title>
 
-<para>You can install different menus at runtime for different tasks. When you call the usermenu wizard, the current menu definition file is loaded. If you modify it and close the dialog with <guibutton>OK</guibutton>, your changes will be saved and installed as new usermenu. Closing the dialog with <guibutton>Cancel</guibutton> will discard all changes.</para>
+<para>You can install different menus at runtime for different tasks. When you call the user menu wizard, the current menu definition file is loaded. If you modify it and close the dialog with <guibutton>OK</guibutton>, your changes will be saved and installed as the new user menu. Closing the dialog with <guibutton>Cancel</guibutton> will discard all changes.</para>
 
 	<screenshot>
 		<screeninfo>Menu Definition Files</screeninfo>
@@ -383,7 +383,7 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 	</screenshot>
 
 
-<para>But you are also free to save the modified file in the usermenu directory or to load another menu definition file and install it. All usermenu definition files must be saved in the local usermenu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>.</para>
+<para>You are also free to save the modified file in the user menu directory or to load another menu definition file and install it. All user menu definition files must be saved in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>.</para>
 
 <para>Look at the example menu definition file <userinput>example.xml</userinput> to see more menu entries with their parameters.</para>
 

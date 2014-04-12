@@ -1505,11 +1505,6 @@ void Kile::sideOrBottomBarChanged(bool visible)
     }
 }
 
-bool Kile::queryExit()
-{
-	return true;
-}
-
 //FIXME: documents probably shouldn't be closed in this method yet (also see API doc of 'queryClose')
 bool Kile::queryClose()
 {

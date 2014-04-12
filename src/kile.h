@@ -138,7 +138,6 @@ Q_SIGNALS:
 	void masterDocumentChanged();
 
 protected:
-	virtual bool queryExit();
 	virtual bool queryClose();
 
 private:

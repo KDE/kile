@@ -105,10 +105,6 @@ public:
 	virtual void focusEditor() = 0;
 	virtual void focusPreview() = 0;
 
-protected:
-	virtual bool queryExit() = 0;
-	virtual bool queryClose() = 0;
-
 private:
 	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = NULL);
 

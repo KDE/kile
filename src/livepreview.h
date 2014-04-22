@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -173,6 +173,8 @@ private:
 	void fillTextHashForMasterDocument(QHash<KileDocument::TextInfo*, QByteArray> &textHash);
 
 	void disablePreview();
+
+	void clearRunningLivePreviewInformation();
 
 	void updateLivePreviewToolActions(LivePreviewUserStatusHandler *statusHandler);
 	void setLivePreviewToolActionsEnabled(bool b);

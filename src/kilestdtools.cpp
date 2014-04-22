@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Thu Nov 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -241,7 +241,11 @@ namespace KileTool
 
 		m_toolResult = r;
 
-		// we always try to parse the log file in order to detect
+		if(m_toolResult == AbnormalExit || m_toolResult == Aborted) {
+			return false;
+		}
+
+		// in case the compilation failed, we try to parse the log file in order to detect
 		// errors reported by LaTeX
 		QString log = targetDir() + '/' + S() + ".log";
 		manager()->parserManager()->parseOutput(this, log, source());

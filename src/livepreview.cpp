@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -393,6 +393,11 @@ void LivePreviewManager::stopLivePreview()
 	m_documentChangedTimer->stop();
 	m_ki->toolManager()->stopLivePreview();
 
+	clearRunningLivePreviewInformation();
+}
+
+void LivePreviewManager::clearRunningLivePreviewInformation()
+{
 	m_runningPathToPreviewPathHash.clear();
 	m_runningPreviewPathToPathHash.clear();
 	m_runningPreviewFile.clear();
@@ -1341,10 +1346,12 @@ void LivePreviewManager::toolDone(KileTool::Base *base, int i, bool childToolSpa
 	if(i != Success) {
 		KILE_DEBUG() << "tool didn't return successfully, doing nothing";
 		showPreviewFailed();
+		clearRunningLivePreviewInformation();
 	}
 	// a LaTeX variant must have finished for the preview to be complete
 	else if(!childToolSpawned && dynamic_cast<KileTool::LaTeX*>(base)) {
 		updatePreviewInformationAfterCompilationFinished();
+		clearRunningLivePreviewInformation();
 	}
 }
 
@@ -1359,15 +1366,21 @@ void LivePreviewManager::childToolDone(KileTool::Base *base, int i, bool childTo
 	if(i != Success) {
 		KILE_DEBUG() << "tool didn't return successfully, doing nothing";
 		showPreviewFailed();
+		clearRunningLivePreviewInformation();
 	}
 	// a LaTeX variant must have finished for the preview to be complete
 	else if(!childToolSpawned && dynamic_cast<KileTool::LaTeX*>(base)) {
 		updatePreviewInformationAfterCompilationFinished();
+		clearRunningLivePreviewInformation();
 	}
 }
 
 void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 {
+	if(!m_runningPreviewInformation) { // LivePreview has been stopped in the meantime
+		return;
+	}
+
 	m_shownPreviewInformation = m_runningPreviewInformation;
 	m_shownPreviewInformation->pathToPreviewPathHash = m_runningPathToPreviewPathHash;
 	m_shownPreviewInformation->previewPathToPathHash = m_runningPreviewPathToPathHash;
@@ -1379,6 +1392,7 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 		clearLivePreview();
 		// must happen after the call to 'clearLivePreview' only
 		showPreviewFailed();
+		return;
 	}
 
 	// as 'ensureDocumentIsOpenInViewer' won't reload when the document is open

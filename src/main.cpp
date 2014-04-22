@@ -94,7 +94,7 @@ int main( int argc, char ** argv )
 	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
 	aboutData.addAuthor(ki18n("Brachet Pascal"));
 
-	aboutData.addCredit(ki18n("Andrius Štikonas"), ki18n("Migration from Subversion to Git"), "stikonas@gmail.com");
+	aboutData.addCredit(ki18n("Andrius Štikonas"), ki18n("Migration from Subversion to Git"), "andrius@stikonas.eu");
 	aboutData.addCredit(ki18n("Simon Martin"), ki18n("KConfig XT, Various Improvements and Bug-Fixing"));
 	aboutData.addCredit(ki18n("Roland Schulz"), ki18n("KatePart Integration"));
 	aboutData.addCredit(ki18n("Thorsten Lück"), ki18n("Log Parsing"));

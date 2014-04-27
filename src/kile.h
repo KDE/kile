@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
 
  ***************************************************************************************/
@@ -65,7 +65,6 @@ class QSignalMapper;
 
 class KToolBar;
 class KAction;
-class KActionMenu;
 class KRecentFilesAction;
 class KToggleFullScreenAction;
 class KToggleToolBarAction;
@@ -143,13 +142,11 @@ private:
 	QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
 
 	KToolBar				*m_toolsToolBar;
-	KActionMenu				*m_userHelpActionMenu;
 	KSelectAction				*m_bibTagSettings;
 	ToolbarSelectAction			*m_compilerActions, *m_viewActions, *m_convertActions, *m_quickActions;
 	QList<KileAction::TagData>		m_listUserTags;
 	QList<userItem>				m_listUserTools;
-	QList<QAction*> 			m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-	KActionMenu 				*m_bibTagActionMenu;
+	QList<QAction*> 			m_bibliographyActions, m_listUserTagsActions, m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KAction 				*m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
 	KToggleAction 				*m_actionMessageView;
@@ -167,7 +164,6 @@ private:
 	KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
 	KileWidget::CommandView *m_commandView;
 	KToolBar			*m_latexOutputErrorToolBar;
-    QMenu               *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview, *m_userTagMenu;
 
 	//parts
 	KParts::PartManager 		*m_partManager;
@@ -205,7 +201,7 @@ private:
 	void setupGraphicTools();
 	void setupPreviewTools();
 	void setupActions();
-	QAction* createToolAction(QString toolName);
+	KAction* createToolAction(QString toolName);
 	void createToolActions();
 	void setupTools();
 	void updateUserDefinedMenus();

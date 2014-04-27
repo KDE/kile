@@ -4,7 +4,7 @@
     date                 : Aug 17 2006
     version              : 0.25
     copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************************************/
 
 /***************************************************************************
@@ -27,17 +27,19 @@
 #include <KMimeType>
 #include <KUrl>
 #include <KRun>
+#include <KXMLGUIFactory>
 
 #include "kileactions.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
+#include "kilestdactions.h"
 #include "dialogs/userhelpdialog.h"
 
 namespace KileHelp
 {
 
-UserHelp::UserHelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu, QWidget* mainWindow) 
-	: m_manager(manager), m_userHelpActionMenu(userHelpActionMenu), m_mainWindow(mainWindow)
+UserHelp::UserHelp(KileTool::Manager *manager, KXmlGuiWindow* mainWindow) 
+	: m_manager(manager), m_mainWindow(mainWindow)
 {
 	setupUserHelpMenu();
 }
@@ -97,6 +99,11 @@ void UserHelp::writeConfig(const QStringList& menuList, const QList<KUrl>& fileL
 	}
 }
 
+void UserHelp::rebuildMenu()
+{
+	setupUserHelpMenu();
+}
+
 void UserHelp::setupUserHelpMenu()
 {
 	QStringList menuList;
@@ -105,15 +112,13 @@ void UserHelp::setupUserHelpMenu()
 
 	clearActionList();
 
-	m_userHelpActionMenu->setEnabled(menuList.count() > 0);
 	QList<KUrl>::iterator j = urlList.begin();
 
 	for(QStringList::iterator i = menuList.begin(); i != menuList.end(); ++i) {
 		QString menu = *i;
 		// first look, if this entry is a separator
 		if(menu == "-" ) {
-			QAction *action = m_userHelpActionMenu->addSeparator();
-			m_actionList.append(action);
+			m_actionList.append(KileStdActions::createSeparatorAction(this));
 		}
 		else {
 			KUrl url = *j;
@@ -130,19 +135,25 @@ void UserHelp::setupUserHelpMenu()
 				action->setIcon(KIcon(icon));
 			}
 			connect(action, SIGNAL(triggered(const KUrl&)), this, SLOT(slotUserHelpActivated(const KUrl&)));
-			m_userHelpActionMenu->addAction(action);
 			m_actionList.append(action);
 		}
 		++j;
 	}
+
+	m_mainWindow->unplugActionList("user_help_actionlist");
+	m_mainWindow->plugActionList("user_help_actionlist", m_actionList);
+	enableUserHelpEntries(true);
 }
 
 void UserHelp::enableUserHelpEntries(bool state)
 {
-	QStringList menuList;
-	QList<KUrl> urlList;
-	readConfig(menuList, urlList);
-	m_userHelpActionMenu->setEnabled(state && (menuList.size() > 0));
+	QMenu *menu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_userhelp", m_mainWindow));
+	if(menu) {
+		Q_FOREACH(QAction *act, menu->actions()) {
+			act->setEnabled(state);
+		}
+		menu->setEnabled(state && (menu->actions().size() > 0));
+	}
 }
 
 void UserHelp::slotUserHelpActivated(const KUrl& url)

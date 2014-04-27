@@ -19,10 +19,10 @@
 
 #include <KAction>
 #include <KActionCollection>
-#include <KActionMenu>
 #include <KSelectAction>
 #include <KDialog>
 #include <KLineEdit>
+#include <KMenu>
 
 class QCheckBox;
 class QLineEdit;

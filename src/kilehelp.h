@@ -22,7 +22,7 @@
 #include <QString>
 
 #include <KConfig>
-#include <KActionMenu>
+#include <KXmlGuiWindow>
 #include <KTextEditor/View>
 
 #include "dialogs/texdocumentationdialog.h"
@@ -59,10 +59,11 @@ namespace KileHelp
 		Q_OBJECT
 
 	public:
-		Help(KileDocument::EditorExtension *edit, QWidget *mainWindow);
+		Help(KileDocument::EditorExtension *edit, KXmlGuiWindow *mainWindow);
 		~Help();
 		
-		void setUserhelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu);
+		void setUserhelp(KileTool::Manager *manager);
+		void rebuildUserHelp();
 		void update();
 
 		// calls for help
@@ -81,7 +82,7 @@ namespace KileHelp
 		void helpDocBrowser();
 
 	private:
-		QWidget *m_mainWindow;
+		KXmlGuiWindow *m_mainWindow;
 		KileTool::Manager *m_manager;
 		KileDocument::EditorExtension *m_edit;
 		UserHelp *m_userhelp;

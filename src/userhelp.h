@@ -4,7 +4,7 @@
     date                 : Aug 17 2006
     version              : 0.15
     copyright            : (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -23,8 +23,8 @@
 #include <QStringList>
 #include <QWidget>
 
-#include <KActionMenu>
 #include <KConfig>
+#include <KXmlGuiWindow>
 #include <KMenuBar>
 #include <KLocale>
 #include <KUrl>
@@ -39,10 +39,11 @@ class UserHelp: public QObject
 	Q_OBJECT
 
 public:
-	UserHelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu, QWidget *mainWindow);
+	UserHelp(KileTool::Manager *manager, KXmlGuiWindow *mainWindow);
 	~UserHelp();
 	void userHelpDialog();
 	void enableUserHelpEntries(bool state);
+	void rebuildMenu();
 
 private Q_SLOTS:
 	void slotUserHelpActivated(const KUrl& url);
@@ -56,8 +57,7 @@ private:
 	void setupUserHelpMenu();
 
 	KileTool::Manager *m_manager;
-	KActionMenu *m_userHelpActionMenu;
-	QWidget *m_mainWindow;
+	KXmlGuiWindow *m_mainWindow;
 
 	QList<QAction*> m_actionList;
 };

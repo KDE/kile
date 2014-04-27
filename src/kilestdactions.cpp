@@ -1,5 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
+*                 2014 by Michel Ludwig (michel.ludwig@kdemail.net)       *
 ***************************************************************************/
 
 /***************************************************************************
@@ -13,7 +14,6 @@
 
 #include "kilestdactions.h"
 
-#include <KActionMenu>
 #include <KConfig>
 #include <KLocale>
 #include <KMainWindow>
@@ -215,28 +215,27 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 }
 
-void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, KActionMenu * menu)
+QList<QAction*> setupBibTags(const QObject *receiver, KActionCollection *actionCollection)
 {
+	QList<QAction*> toReturn;
 	KILE_DEBUG() << "void setupBibTags(const QObject *receiver, KActionCollection *actionCollection)";
 
 	QString filename;
 
 	if(KileConfig::bibliographyType().isEmpty() || KileConfig::bibliographyType() == QString("bibtex") ) {
+		toReturn.append(new KileAction::Tag(i18n("Bibliography Style Selection - \\bibliographystyle{}"), i18n("Bibliography Style Selection"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels.")));
+		toReturn.append(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), i18n("Bibliography Generation"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
+		toReturn.append(createSeparatorAction(actionCollection));
 
-		menu->addAction(new KileAction::Tag(i18n("Bibliography Style Selection - \\bibliographystyle{}"), i18n("Bibliography Style Selection"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographystyle", "\\bibliographystyle{","} ",19,0,i18n("The argument to \\bibliographystyle refers to a file style.bst, which defines how your citations will look\nThe standard styles distributed with BibTeX are:\nalpha : sorted alphabetically. Labels are formed from name of author and year of publication.\nplain  : sorted alphabetically. Labels are numeric.\nunsrt : like plain, but entries are in order of citation.\nabbrv  : like plain, but more compact labels.")));
-		menu->addAction(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), i18n("Bibliography Generation"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
-		menu->addSeparator();	
-	
 		filename = KGlobal::dirs()->findResource("appdata", "bibtexentries.rc");
 	}
 	else if(KileConfig::bibliographyType() == QString("biblatex")){
-
-		menu->addAction(new KileAction::Tag(i18n("Load Biblatex Package - \\usepackage{biblatex}"), i18n("Load Biblatex Package"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyPackage", "\\usepackage{biblatex}\n",QString(),21,0,i18n("This includes the package biblatex")));
-		menu->addAction(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), i18n("Bibliography Generation"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
-		menu->addAction(new KileAction::Tag(i18n("Print Bibliography"), QString(), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_printbibliography", "\\printbibliography",QString(),18,0,i18n("Prints the complete bibliography")));
-		menu->addAction(new KileAction::Tag(i18n("Print Bibliography by Section"), QString(), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyBySection", "\\bibbysection[","]",14,0,i18n("Print the bibliography for each section")));
-		menu->addAction(new KileAction::Tag(i18n("Print List of Shorthands"), QString(), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyShortHands", "\\printshorthands",QString(),16,0,QString()));
-		menu->addSeparator();	
+		toReturn.append(new KileAction::Tag(i18n("Load Biblatex Package - \\usepackage{biblatex}"), i18n("Load Biblatex Package"), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyPackage", "\\usepackage{biblatex}\n",QString(),21,0,i18n("This includes the package biblatex")));
+		toReturn.append(new KileAction::Tag(i18n("Bibliography Generation - \\bibliography{}"), i18n("Bibliography Generation"), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliography","\\bibliography{%S", "}\n",14, 0,i18n("The argument to \\bibliography refers to the bib file (without extension)\nwhich should contain your database in BibTeX format.\nKile inserts automatically the base name of the TeX file")));
+		toReturn.append(new KileAction::Tag(i18n("Print Bibliography"), QString(), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_printbibliography", "\\printbibliography",QString(),18,0,i18n("Prints the complete bibliography")));
+		toReturn.append(new KileAction::Tag(i18n("Print Bibliography by Section"), QString(), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyBySection", "\\bibbysection[","]",14,0,i18n("Print the bibliography for each section")));
+		toReturn.append(new KileAction::Tag(i18n("Print List of Shorthands"), QString(), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_bibliographyShortHands", "\\printshorthands",QString(),16,0,QString()));
+		toReturn.append(createSeparatorAction(actionCollection));
 /* use this to insert more
 		menu->addAction(new KileAction::Tag(i18n(""), KShortcut(), receiver,SLOT(insertTag(const KileAction::TagData&)), actionCollection,"tag_", "\\",QString(),,0,i18n("")));
 Load Biblatex-Package - \usepackage{biblatex}
@@ -253,18 +252,20 @@ Print List of Shorthands - \printshorthands
 
 	if(filename.isEmpty()){
 		KILE_DEBUG() << "found no filename" << endl;
-		return;
+		return toReturn;
 	}
 
 	KConfig *bibCfg = new KConfig(filename, KConfig::SimpleConfig);
 
-	if(bibCfg == NULL )
-		return;
+	if(!bibCfg) {
+		return toReturn;
+	}
 
 	QStringList groupList = bibCfg->groupList();
 
-	if( groupList.count() == 0 )
-		return;
+	if(groupList.count() == 0) {
+		return toReturn;
+	}
 
 	QString name, tag, internalName, keys, key;
 	QStringList keyList, optKeyList, altKeyList;
@@ -330,8 +331,10 @@ Print List of Shorthands - \printshorthands
 			compText.append(optText);
 		}
 	
-		menu->addAction(new KileAction::Tag(name, QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,internalName,keys,QString(),length,0,compText));
+		toReturn.append(new KileAction::Tag(name, QString(), KShortcut(), receiver, SLOT(insertTag(const KileAction::TagData&)), actionCollection,internalName,keys,QString(),length,0,compText));
 	}
+
+	return toReturn;
 }
 	
 void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
@@ -475,6 +478,13 @@ void setupMathTags(const QObject *receiver, KActionCollection *actionCollection)
 	(void) new KileAction::Tag(i18n("bmatrix - \\begin{bmatrix}"), i18n("bmatrix"), "bmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_bmatrix","\\begin{bmatrix}\n","%E\n\\end{bmatrix}\n", 0,1);
 	(void) new KileAction::Tag(i18n("Bmatrix - \\begin{Bmatrix}"), i18n("Bmatrix"), "BBmatrix", KShortcut(), receiver, SLOT(insertAmsTag(const KileAction::TagData&)),ac,"tag_env_BBmatrix","\\begin{Bmatrix}\n","%E\n\\end{Bmatrix}\n", 0,1);
 
+}
+
+QAction* createSeparatorAction(QObject *parent)
+{
+	QAction *act = new QAction(parent);
+	act->setSeparator(true);
+	return act;
 }
 
 }

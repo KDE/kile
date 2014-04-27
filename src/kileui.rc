@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="40">
-<Menu name="ktexteditor_popup" noMerge="1">
+<kpartgui name="kile" version="41">
+<Menu name="ktexteditor_popup">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
 	<Action name="popup_converttolatex"/>
@@ -9,7 +9,7 @@
 	<Action name="popup_quickpreview"/>
 </Menu>
 <MenuBar>
-<Menu name="file" noMerge="1"><text>&amp;File</text>
+<Menu name="file" ><text>&amp;File</text>
 	<Action name="file_new"/>
 	<Separator/>
 	<Action name="file_open"/>
@@ -125,6 +125,8 @@
 </Menu>
 <Menu name="menu_build"><text>B&amp;uild</text>
 	<Menu name="quickpreview"><text>QuickPreview</text>
+		<ActionList name="tools_quick_actionlist" />
+		<Separator/>
 		<Action name="quickpreview_selection"/>
 		<Action name="quickpreview_environment"/>
 		<Action name="quickpreview_subdocument"/>
@@ -133,12 +135,16 @@
 	</Menu>
 	<Separator/>
 	<Menu name="menu_compile"><text>&amp;Compile</text>
+		<ActionList name="tools_compile_actionlist" />
 	</Menu>
 	<Menu name="menu_convert"><text>C&amp;onvert</text>
+		<ActionList name="tools_convert_actionlist" />
 	</Menu>
 	<Menu name="menu_viewer"><text>&amp;View</text>
+		<ActionList name="tools_view_actionlist" />
 	</Menu>
 	<Menu name="menu_other"><text>O&amp;ther</text>
+		<ActionList name="tools_other_actionlist" />
 	</Menu>
 	<Action name="WatchFile"/>
 	<Separator/>
@@ -395,7 +401,9 @@
 		<Action name="tag_env_cases"/>
 	</Menu>
 	<Separator/>
-	<Action name="menu_bibliography"/>
+	<Menu name="menu_bibliography"><text>&amp;Bibliography</text>
+		<ActionList name="bibliography_actionlist" />
+	</Menu>
 	<Separator/>
 	<Menu name="menu_fontstyles"><text>&amp;Font Styles</text>
 		<Action name="tag_textit"/>
@@ -456,6 +464,9 @@
 	<Action name="tag_input"/>
 	<Separator/>
 	<Menu name="menu_user_tags"><text>User Tags</text>
+		<Action name="edit_user_tags"/>
+		<Separator/>
+		<ActionList name="user_tags_actionlist" />
 	</Menu>
 </Menu>
 
@@ -498,12 +509,14 @@
 		<Action name="help_latex_env" />
 	</Menu>
 	<Separator append="help_whats_this_merge" />
-	<Action name="help_userhelp" append="help_whats_this_merge"/>
-	<Separator/>
+	<Menu name="menu_userhelp" append="help_whats_this_merge"><text>User Help</text>
+	  <ActionList name="user_help_actionlist" />
+	</Menu>
+	<Separator append="help_whats_this_merge" />
 	<Action name="help_about_editor" append="about_merge"/>
 </Menu>
 </MenuBar>
-<ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1" hidden="false"><text>Main</text>
+<ToolBar name="mainToolBar" fullWidth="false" index="1" hidden="false"><text>Main</text>
 	<Action name="file_new"/>
 	<Action name="file_open"/>
 	<Action name="file_close"/>
@@ -617,6 +630,7 @@
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
 	<Action name="edit_close_group"/>
+	<Action name="edit_user_tags"/>
 	<Action name="help_latex_reference"/>
 	<Action name="help_handbook"/>
 	<Action name="help_tipofday"/>
@@ -774,7 +788,6 @@
 	<Action name="tag_env_gathered"/>
 	<Action name="tag_env_alignedat"/>
 	<Action name="tag_env_cases"/>
-	<Action name="menu_bibliography"/>
 	<Action name="tag_textit"/>
 	<Action name="tag_textsl"/>
 	<Action name="tag_textbf"/>
@@ -888,6 +901,7 @@
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
 	<Action name="edit_close_group"/>
+	<Action name="edit_user_tags"/>
 	<Action name="help_latex_reference"/>
 	<Action name="help_handbook"/>
 	<Action name="help_tipofday"/>
@@ -1050,7 +1064,6 @@
 	<Action name="tag_env_gathered"/>
 	<Action name="tag_env_alignedat"/>
 	<Action name="tag_env_cases"/>
-	<Action name="menu_bibliography"/>
 	<Action name="tag_textit"/>
 	<Action name="tag_textsl"/>
 	<Action name="tag_textbf"/>
@@ -1161,6 +1174,7 @@
 	<Action name="edit_end_group"/>
 	<Action name="edit_match_group"/>
 	<Action name="edit_close_group"/>
+	<Action name="edit_user_tags"/>
 	<Action name="help_latex_reference"/>
 	<Action name="help_handbook"/>
 	<Action name="help_tipofday"/>
@@ -1320,7 +1334,6 @@
 	<Action name="tag_env_gathered"/>
 	<Action name="tag_env_alignedat"/>
 	<Action name="tag_env_cases"/>
-	<Action name="menu_bibliography"/>
 	<Action name="tag_textit"/>
 	<Action name="tag_textsl"/>
 	<Action name="tag_textbf"/>
@@ -1366,27 +1379,4 @@
 	<Action name="return_to_editor"/>
 </Disable>
 </State>
-<ActionProperties scheme="Default" version="1">
-  <Action shortcut="Alt+1" name="tool_QuickBuild" />
-  <Action shortcut="Alt+2" name="tool_LaTeX" />
-  <Action shortcut="Alt+3" name="tool_ViewDVI" />
-  <Action shortcut="Alt+4" name="tool_DVItoPS" />
-  <Action shortcut="Alt+5" name="tool_ViewPS" />
-  <Action shortcut="Alt+6" name="tool_PDFLaTeX" />
-  <Action shortcut="Alt+7" name="tool_ViewPDF" />
-  <Action shortcut="Alt+8" name="tool_PStoPDF" />
-  <Action shortcut="Alt+9" name="tool_DVItoPDF" />
-  <Action shortcut="Alt+-" name="tool_BibTeX" />
-  <Action shortcut="Alt+=" name="tool_MakeIndex" />
-  <Action shortcut="CTRL+SHIFT+1" name="tag_user_1" />
-  <Action shortcut="CTRL+SHIFT+2" name="tag_user_2" />
-  <Action shortcut="CTRL+SHIFT+3" name="tag_user_3" />
-  <Action shortcut="CTRL+SHIFT+4" name="tag_user_4" />
-  <Action shortcut="CTRL+SHIFT+5" name="tag_user_5" />
-  <Action shortcut="CTRL+SHIFT+6" name="tag_user_6" />
-  <Action shortcut="CTRL+SHIFT+7" name="tag_user_7" />
-  <Action shortcut="CTRL+SHIFT+8" name="tag_user_8" />
-  <Action shortcut="CTRL+SHIFT+9" name="tag_user_9" />
-  <Action shortcut="CTRL+SHIFT+0" name="tag_user_10" />
-</ActionProperties>
 </kpartgui>

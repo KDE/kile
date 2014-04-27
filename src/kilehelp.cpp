@@ -42,7 +42,7 @@
 namespace KileHelp
 {
 
-	Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(NULL)
+	Help::Help(KileDocument::EditorExtension *edit, KXmlGuiWindow *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(NULL)
 	{
 		readHelpList("latex-kile.lst", m_dictHelpKile);
 		initTexDocumentation();
@@ -98,16 +98,23 @@ namespace KileHelp
 
 	////////////////////// set parameter/initialize user help //////////////////////
 	
-	void Help::setUserhelp(KileTool::Manager *manager, KActionMenu *userHelpActionMenu)
+	void Help::setUserhelp(KileTool::Manager *manager)
 	{
 		m_manager = manager;
-		m_userhelp = new UserHelp(manager, userHelpActionMenu, m_mainWindow);
+		m_userhelp = new UserHelp(manager, m_mainWindow);
 	}
 	
 	void Help::enableUserhelpEntries(bool state)
 	{ 
 		if(m_userhelp) {
 			m_userhelp->enableUserHelpEntries(state);
+		}
+	}
+
+	void Help::rebuildUserHelp()
+	{
+		if(m_userhelp) {
+			m_userhelp->rebuildMenu();
 		}
 	}
 	////////////////////// show help //////////////////////

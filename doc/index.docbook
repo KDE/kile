@@ -2189,7 +2189,7 @@
 			
 		<varlistentry>
 		<term>select odd pages (reverse order)</term>
-		<listitem><para>Select all even pages of a document and reverse the order.</para></listitem>
+		<listitem><para>Select all odd pages of a document and reverse the order.</para></listitem>
 		</varlistentry>
 			
 		<varlistentry>

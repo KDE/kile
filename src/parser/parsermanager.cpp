@@ -28,12 +28,12 @@ Manager::Manager(KileInfo *info, QObject *parent) :
 	QObject(parent),
 	m_ki(info)
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	m_documentParserThread = new DocumentParserThread(m_ki, this);
 	// we have to make this connection 'blocking' to ensure that when 'ParserThread::isDocumentParsingComplete()'
 	// returns true, all document info objects have been passed the information obtained from parsing already
-	connect(m_documentParserThread, SIGNAL(parsingComplete(const KUrl&, KileParser::ParserOutput*)),
-	        m_ki->docManager(), SLOT(handleParsingComplete(const KUrl&, KileParser::ParserOutput*)), Qt::BlockingQueuedConnection);
+	connect(m_documentParserThread, SIGNAL(parsingComplete(const QUrl&, KileParser::ParserOutput*)),
+	        m_ki->docManager(), SLOT(handleParsingComplete(const QUrl&, KileParser::ParserOutput*)), Qt::BlockingQueuedConnection);
 	// the next two can't be made 'blocking' as they are emitted when a mutex is held
 	connect(m_documentParserThread, SIGNAL(parsingQueueEmpty()),
 	        this, SIGNAL(documentParsingComplete()), Qt::QueuedConnection);
@@ -42,29 +42,29 @@ Manager::Manager(KileInfo *info, QObject *parent) :
 	m_documentParserThread->start();
 
 	m_outputParserThread = new OutputParserThread(m_ki, this);
-	connect(m_outputParserThread, SIGNAL(parsingComplete(const KUrl&, KileParser::ParserOutput*)),
-	        this, SLOT(handleOutputParsingComplete(const KUrl&, KileParser::ParserOutput*)), Qt::QueuedConnection);
+	connect(m_outputParserThread, SIGNAL(parsingComplete(const QUrl&, KileParser::ParserOutput*)),
+	        this, SLOT(handleOutputParsingComplete(const QUrl&, KileParser::ParserOutput*)), Qt::QueuedConnection);
 	m_outputParserThread->start();
 }
 
 
 Manager::~Manager()
 {
-	KILE_DEBUG() << "destroying...";
+	KILE_DEBUG_MAIN << "destroying...";
 	m_documentParserThread->stopParsing();
 	m_outputParserThread->stopParsing();
 }
 
 void Manager::parseDocument(KileDocument::TextInfo* textInfo)
 {
-	KILE_DEBUG() << textInfo;
+	KILE_DEBUG_MAIN << textInfo;
 	m_documentParserThread->addDocument(textInfo);
 }
 
 void Manager::parseOutput(KileTool::Base *tool, const QString& fileName, const QString& sourceFile,
                                                 const QString& texFileName, int selrow, int docrow)
 {
-	KILE_DEBUG() << fileName << sourceFile;
+	KILE_DEBUG_MAIN << fileName << sourceFile;
 	m_outputParserThread->addLaTeXLogFile(fileName, sourceFile, texFileName, selrow, docrow);
 	connect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
 	        this, SLOT(removeToolFromUrlHash(KileTool::Base*)), Qt::UniqueConnection);
@@ -78,14 +78,14 @@ bool Manager::isDocumentParsingComplete()
 	return m_documentParserThread->isParsingComplete();
 }
 
-void Manager::stopDocumentParsing(const KUrl& url)
+void Manager::stopDocumentParsing(const QUrl &url)
 {
 	m_documentParserThread->removeDocument(url);
 }
 
-void Manager::handleOutputParsingComplete(const KUrl& url, KileParser::ParserOutput *output)
+void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOutput *output)
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	const QString fileName = url.toLocalFile();
 
 	QList<KileTool::Base*> toolList = m_urlToToolHash.values(fileName);
@@ -93,7 +93,7 @@ void Manager::handleOutputParsingComplete(const KUrl& url, KileParser::ParserOut
 
 	LaTeXOutputParserOutput *latexOutput = dynamic_cast<LaTeXOutputParserOutput*>(output);
 	if(!latexOutput) {
-		KILE_DEBUG() << "NULL output given";
+		KILE_DEBUG_MAIN << "NULL output given";
 		return;
 	}
 	if(toolList.isEmpty()) { // no tool was found, which means that all the tools for 'url'
@@ -116,7 +116,7 @@ void Manager::handleOutputParsingComplete(const KUrl& url, KileParser::ParserOut
 
 void Manager::removeToolFromUrlHash(KileTool::Base *tool)
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	QMultiHash<QString, KileTool::Base*>::iterator i = m_urlToToolHash.begin();
 	while(i != m_urlToToolHash.end()) {
 		const QString fileName = i.key();

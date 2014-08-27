@@ -19,7 +19,7 @@
 #include <QObject>
 #include <QQueue>
 
-#include <KUrl>
+#include <QUrl>
 
 class KileInfo;
 
@@ -54,14 +54,14 @@ public:
 
 	bool isDocumentParsingComplete();
 
-	void stopDocumentParsing(const KUrl& url);
+	void stopDocumentParsing(const QUrl &url);
 
 Q_SIGNALS:
 	void documentParsingComplete();
 	void documentParsingStarted();
 
 protected Q_SLOTS:
-	void handleOutputParsingComplete(const KUrl& url, KileParser::ParserOutput *output);
+	void handleOutputParsingComplete(const QUrl &url, KileParser::ParserOutput *output);
 
 	void removeToolFromUrlHash(KileTool::Base *tool);
 

@@ -23,18 +23,18 @@
 #include <QPointer>
 #include <QStackedWidget>
 
-#include <KAction>
-#include <KTabWidget>
-#include <KTextEditor/ContainerInterface>
+#include <QAction>
+#include <QTabWidget>
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
+#include <KTextEditor/View>
 #include <KXmlGuiWindow>
 
 class QPixmap;
 class QSplitter;
 
 class KActionCollection;
-class KUrl;
+class QUrl;
 class KXMLGUIClient;
 
 class KileInfo;
@@ -78,11 +78,10 @@ protected:
 
 //TODO inherit from KParts::Manager
 class Manager
-	: public QObject,
-	  public KTextEditor::MdiContainer
+	: public QObject
 {
 	Q_OBJECT
-	Q_INTERFACES(KTextEditor::MdiContainer)
+// 	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
 	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
@@ -101,7 +100,7 @@ public:
 
 	QWidget* createTabs(QWidget *parent);
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
-	KTabWidget* tabs() { return m_tabs; }
+	QTabWidget* tabs() { return m_tabs; }
 
 // 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
 // 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
@@ -118,7 +117,7 @@ public:
 
 	bool isViewerPartShown() const;
 	void setupViewerPart(QSplitter *splitter);
-	bool openInDocumentViewer(const KUrl& url);
+	bool openInDocumentViewer(const QUrl &url);
 	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
 	void setLivePreviewModeForDocumentViewer(bool b);
 
@@ -140,7 +139,7 @@ Q_SIGNALS:
 	void documentViewerWindowVisibilityChanged(bool shown);
 
 public Q_SLOTS:
-	KTextEditor::View* switchToTextView(const KUrl& url, bool requestFocus = false);
+	KTextEditor::View* switchToTextView(const QUrl &url, bool requestFocus = false);
 	KTextEditor::View* switchToTextView(KTextEditor::Document *doc, bool requestFocus = false);
 	void switchToTextView(KTextEditor::View *view, bool requestFocus = false);
 
@@ -204,20 +203,20 @@ protected Q_SLOTS:
 
 private:
 	KileInfo			*m_ki;
-	KTabWidget 			*m_tabs;
+	QTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient			*m_client;
 	DocumentViewerWindow		*m_viewerPartWindow;
 	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
-	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
+	QAction *m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
 	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
 };
 
 /**
- * Little helper widget to overcome the limitation that KTabWidget doesn't honour drop events when
- * there are no tabs: the DropWidget is shown instead of KTabWidget when there are no tabs.
+ * Little helper widget to overcome the limitation that QTabWidget doesn't honour drop events when
+ * there are no tabs: the DropWidget is shown instead of QTabWidget when there are no tabs.
  */
 class DropWidget : public QWidget {
 	Q_OBJECT
@@ -241,6 +240,6 @@ class DropWidget : public QWidget {
 
 void focusTextView(KTextEditor::View *view);
 
-Q_DECLARE_METATYPE(KTextEditor::View*)
+// Q_DECLARE_METATYPE(KTextEditor::View*)
 
 #endif

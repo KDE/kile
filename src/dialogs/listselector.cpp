@@ -31,9 +31,12 @@
 #include <KApplication>
 #include <KDirWatch>
 #include <KFileDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 
 #include "kiledebug.h"
@@ -43,26 +46,37 @@
 
 KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, bool sort,
                                            QWidget *parent, const char *name)
-: KDialog(parent)
+: QDialog(parent)
 {
 	setObjectName(name);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 
 	QVBoxLayout *layout = new QVBoxLayout();
 	layout->setMargin(0);
-	layout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	layout->setSpacing(QDialog::spacingHint());
 	page->setLayout(layout);
 
 	layout->addWidget(new QLabel(select, page));
 
 	m_listView = new QTreeWidget(page);
+	mainLayout->addWidget(m_listView);
 	m_listView->setHeaderLabel(i18n("Files"));
 	m_listView->setSortingEnabled(false);
 	m_listView->setAllColumnsShowFocus(true);
@@ -87,7 +101,7 @@ KileListSelectorBase::KileListSelectorBase(const QStringList &list, const QStrin
 		        this, SLOT(handleSelectionChanged(const QItemSelection&,const QItemSelection&)));
 	}
 
-	enableButtonOk(false);
+	okButton->setEnabled(false);
 }
 
 void KileListSelectorBase::handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
@@ -96,7 +110,8 @@ void KileListSelectorBase::handleSelectionChanged(const QItemSelection& selected
 	Q_UNUSED(deselected);
 	QItemSelectionModel *selectionModel = m_listView->selectionModel();
 	if(selectionModel) { // checking just to be safe
-		enableButtonOk(selectionModel->hasSelection());
+//TODO KF5
+//okButton->setEnabled(selectionModel->hasSelection());
 	}
 }
 
@@ -169,21 +184,35 @@ QStringList KileListSelectorMultiple::selected()
 
 ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QString& caption,
   const QString &localCompletionDir, const QString &globalCompletionDir, QWidget* parent, const char* name)
-  : KDialog(parent), m_localCompletionDirectory(localCompletionDir), m_globalCompletionDirectory(globalCompletionDir)
+  : QDialog(parent), m_localCompletionDirectory(localCompletionDir), m_globalCompletionDirectory(globalCompletionDir)
 {
 	setObjectName(name);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | User1 | User2 | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	QPushButton *user1Button = new QPushButton;
+	buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
+	QPushButton *user2Button = new QPushButton;
+	buttonBox->addButton(user2Button, QDialogButtonBox::ActionRole);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+//TODO KF5
+// 	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
-	setButtonText(Ok, i18n("Add selected files"));
-	setButtonToolTip(Ok, i18n("Add all the selected files"));
-	setButtonText(User1, i18n("Install custom files..."));
-	setButtonToolTip(User1, i18n("Install your own completion files"));
-	setButtonText(User2, i18n("Manage custom files..."));
-	setButtonToolTip(User2, i18n("Manage the local completion files in the file manager"));
+	okButton->setText(i18n("Add selected files"));
+//TODO KF5
+// 	setButtonToolTip(Ok, i18n("Add all the selected files"));
+	user1Button->setText(i18n("Install custom files..."));
+//TODO KF5
+// 	setButtonToolTip(User1, i18n("Install your own completion files"));
+	user2Button->setText(i18n("Manage custom files..."));
+//TODO KF5
+// 	setButtonToolTip(User2, i18n("Manage the local completion files in the file manager"));
 
 	m_listView = new QTreeWidget(this);
 	m_listView->setHeaderLabels(QStringList() << i18n("File Name") << i18n("Local File") << i18n("Add File?"));
@@ -198,11 +227,12 @@ ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QString& caption,
 		connect(m_dirWatcher, SIGNAL(deleted(QString)), this, SLOT(fillTreeView()));
 	}
 
-	connect(this, SIGNAL(user1Clicked()), this, SLOT(addCustomCompletionFiles()));
-	connect(this, SIGNAL(user2Clicked()), this, SLOT(openLocalCompletionDirectoryInFileManager()));
+	connect(user1Button, SIGNAL(clicked()), this, SLOT(addCustomCompletionFiles()));
+	connect(user2Button, SIGNAL(clicked()), this, SLOT(openLocalCompletionDirectoryInFileManager()));
 
 	fillTreeView();
-	setMainWidget(m_listView);
+//TODO KF5
+//	mainLayout->addWidget(m_listView);
 }
 
 ManageCompletionFilesDialog::~ManageCompletionFilesDialog()
@@ -227,7 +257,7 @@ void ManageCompletionFilesDialog::fillTreeView() {
 			item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
 		}
 		else {
-			KILE_DEBUG() << "Cannot load file" << filename << "!";
+			KILE_DEBUG_MAIN << "Cannot load file" << filename << "!";
 		}
 	}
 	m_listView->resizeColumnToContents(0);
@@ -238,7 +268,7 @@ void ManageCompletionFilesDialog::fillTreeView() {
 void ManageCompletionFilesDialog::addCustomCompletionFiles()
 {
 	bool someFileAdded = false;
-	QStringList files = KFileDialog::getOpenFileNames(KUrl(), i18n("*.cwl|Completion files (*.cwl)"), this, i18n("Select Completion Files to Install Locally"));
+	QStringList files = KFileDialog::getOpenFileNames(QUrl(), i18n("*.cwl|Completion files (*.cwl)"), this, i18n("Select Completion Files to Install Locally"));
 
 	if(files.isEmpty()) {
 		return;
@@ -298,7 +328,7 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 
 void ManageCompletionFilesDialog::openLocalCompletionDirectoryInFileManager()
 {
-	new KRun(KUrl(m_localCompletionDirectory), QApplication::activeWindow());
+	new KRun(QUrl(m_localCompletionDirectory), QApplication::activeWindow());
 }
 
 const QSet<QString> ManageCompletionFilesDialog::selected() const

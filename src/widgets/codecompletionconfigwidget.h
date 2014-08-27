@@ -27,8 +27,8 @@ class QTreeWidget;
 class QTreeWidgetItem;
 
 class KConfig;
-class KPushButton;
-class KTabWidget;
+class QPushButton;
+class QTabWidget;
 class KDirWatch;
 
 class KileErrorHandler;

@@ -17,7 +17,7 @@
 #ifndef INCLUDEGRAPHICSDIALOG_H
 #define INCLUDEGRAPHICSDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QProcess>
 
@@ -34,7 +34,7 @@ class KileInfo;
 namespace KileDialog
 {
 
-class IncludeGraphics : public KDialog
+class IncludeGraphics : public QDialog
 {
 		Q_OBJECT
 
@@ -47,7 +47,7 @@ class IncludeGraphics : public KDialog
 
 	private Q_SLOTS:
 		void slotChooseFilter();
-		void slotUrlSelected(const KUrl& url);
+		void slotUrlSelected(const QUrl &url);
 		void slotTextChanged(const QString& string);
 		void slotProcessOutput();
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);

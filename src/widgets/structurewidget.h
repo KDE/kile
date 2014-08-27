@@ -22,7 +22,7 @@
 #include <QToolTip>
 #include <QTreeWidget>
 
-#include <KMenu>
+#include <QMenu>
 #include <KMimeTypeTrader>
 #include <KService>
 
@@ -45,7 +45,7 @@ namespace KileWidget
 class StructureViewItem : public QTreeWidgetItem
 {
 public:
-	StructureViewItem(QTreeWidgetItem *parent, const QString &title, const KUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
+	StructureViewItem(QTreeWidgetItem *parent, const QString &title, const QUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
 	StructureViewItem(QTreeWidget *parent, const QString &label);
 	explicit StructureViewItem(const QString &label, QTreeWidgetItem *parent = NULL);
 
@@ -60,8 +60,8 @@ public:
 	uint startline() const { return m_startline; }
 	uint startcol() const { return m_startcol; }
 	/**@returns the file in which this item was found*/
-	const KUrl & url() const { return m_url; }
-	void setURL(const KUrl & url) { m_url = url; }
+	const QUrl &url() const { return m_url; }
+	void setURL(const QUrl &url) { m_url = url; }
 
 	int level() const { return m_level; }
 	const QString &label() const { return m_label; }
@@ -71,7 +71,7 @@ public:
 
 private:
 	QString  m_title;
-	KUrl     m_url;
+	QUrl     m_url;
 	uint     m_line;
 	uint     m_column;
 	int      m_type, m_level;
@@ -113,7 +113,7 @@ private:
 		void cleanUp(bool preserveState = true);
 		void showReferences(KileInfo *ki);
 		
-		KUrl url() const { return m_docinfo->url(); }
+		QUrl url() const { return m_docinfo->url(); }
 		void updateRoot();
 
 	public Q_SLOTS:
@@ -204,9 +204,9 @@ private:
 
 		Q_SIGNALS:
 			void sendText(const QString&);
-			void setCursor(const KUrl&, int, int);
-			void fileOpen(const KUrl&, const QString&);
-			void fileNew(const KUrl&);
+			void setCursor(const QUrl&, int, int);
+			void fileOpen(const QUrl&, const QString&);
+			void fileNew(const QUrl&);
 			void configChanged();
 			void sectioningPopup(KileWidget::StructureViewItem *item, int id);
 
@@ -219,7 +219,7 @@ private:
 			QMap<KileDocument::Info *, StructureView*>			m_map;
 			StructureView							*m_default;
 			StructureViewItem *m_popupItem;
-			KMenu *m_showingContextMenu;
+			QMenu *m_showingContextMenu;
 			QString m_popupInfo;
 			KService::List m_offerList;
 

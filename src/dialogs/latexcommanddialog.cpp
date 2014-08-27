@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -28,12 +28,14 @@
 
 #include <KComboBox>
 #include <KConfig>
-#include <KIcon>
+#include <QIcon>
 #include <KLineEdit>
-#include <KLocale>
 #include <KMessageBox>
-#include <KPushButton>
-#include <KTabWidget>
+#include <QPushButton>
+#include <QTabWidget>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -48,13 +50,23 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 																 const QString &groupname, QTreeWidgetItem *lvitem,
 																 KileDocument::CmdAttribute cmdtype,
 																 QMap<QString, bool> *dict)
-		: KDialog(parent), m_dict(dict)
+		: QDialog(parent), m_dict(dict)
 {
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	// 'add' is only allowed, if the QTreeWidgetItem is defined
 	m_addmode = (lvitem == 0);
@@ -79,20 +91,22 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	}
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 
 	// layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	page->setLayout(vbox);
 
 	QLabel *label1 = new QLabel(page);
+	mainLayout->addWidget(label1);
 
 	QGroupBox* group = new QGroupBox(i18n("Attributes"), page);
+	mainLayout->addWidget(group);
 	QGridLayout *grid = new QGridLayout();
-	grid->setMargin(marginHint());
-	grid->setSpacing(spacingHint());
+//TODO PORT QT5 	grid->setMargin(marginHint());
+//TODO PORT QT5 	grid->setSpacing(spacingHint());
 	group->setLayout(grid);
 
 	QLabel *label2 = new QLabel(i18n("Group:"), group);
@@ -293,32 +307,36 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
 	attr.parameter = (m_useParameter) ? m_coParameter->currentText() : QString();
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void NewLatexCommand::slotButtonClicked(int button)
 {
-	if(button == KDialog::Ok){
-
-		// check for an empty string
-		if(m_edName->text().isEmpty()) {
-			KMessageBox::error(this, i18n("An empty string is not allowed."));
-			return;
-		}
-
-		QString name = m_edName->text();
-		if (m_envmode == false && name.at(0) != '\\') {
-			name.prepend('\\');
-		}
-
-		if (m_addmode && m_dict->contains(name)) {
-			QString msg = (m_envmode) ? i18n("This environment already exists.")
-										: i18n("This command already exists.");
-			KMessageBox::error(this, msg);
-			return;
-		}
-		accept();
-	}
-	else{
-		KDialog::slotButtonClicked(button);
-	}
+// 	if(button == QDialog::Ok){
+// 
+// 		// check for an empty string
+// 		if(m_edName->text().isEmpty()) {
+// 			KMessageBox::error(this, i18n("An empty string is not allowed."));
+// 			return;
+// 		}
+// 
+// 		QString name = m_edName->text();
+// 		if (m_envmode == false && name.at(0) != '\\') {
+// 			name.prepend('\\');
+// 		}
+// 
+// 		if (m_addmode && m_dict->contains(name)) {
+// 			QString msg = (m_envmode) ? i18n("This environment already exists.")
+// 										: i18n("This command already exists.");
+// 			KMessageBox::error(this, msg);
+// 			return;
+// 		}
+// 		accept();
+// 	}
+// 	else{
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 		QDialog::slotButtonClicked(button);
+// 	}
 }
 //END NewLatexCommand
 
@@ -327,17 +345,23 @@ void NewLatexCommand::slotButtonClicked(int button)
 //BEGIN LatexCommandsDialog
 
 LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent)
-		: KDialog(parent), m_config(config), m_commands(commands)
+		: QDialog(parent), m_config(config), m_commands(commands)
 {
-	setCaption(i18n("LaTeX Configuration"));
+	setWindowTitle(i18n("LaTeX Configuration"));
 	setModal(true);
-	setButtons(Ok | Cancel | Default);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::RestoreDefaults);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+// 	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	m_widget.setupUi(page);
-	setMainWidget(page);
+// 	mainLayout->addWidget(page);
 
 	slotEnableButtons();
 
@@ -603,7 +627,7 @@ void LatexCommandsDialog::slotEnableButtons()
 	m_widget.addButton->setEnabled(addState);
 	m_widget.deleteButton->setEnabled(deleteState);
 	m_widget.editButton->setEnabled(editState);
-	enableButton(Default, resetState);
+// 	buttonBox->button(QDialogButtonBox::RestoreDefaults)->setEnabled(resetState);
 }
 
 void LatexCommandsDialog::slotAddClicked()
@@ -625,7 +649,7 @@ void LatexCommandsDialog::slotAddClicked()
 		// get current command type
 		KileDocument::CmdAttribute type = getCommandMode(item);
 		if (type == KileDocument::CmdAttrNone) {
-			KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+			KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 			return;
 		}
 
@@ -706,7 +730,7 @@ void LatexCommandsDialog::slotEditClicked()
 			KileDocument::CmdAttribute type = getCommandMode(parentitem);
 			if (type == KileDocument::CmdAttrNone)
 			{
-				KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+				KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 				return;
 			}
 
@@ -738,40 +762,44 @@ void LatexCommandsDialog::slotUserDefinedClicked()
 	setListviewStates(states);
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void LatexCommandsDialog::slotButtonClicked(int button)
 {
-	if (button == Default) {
-		QString mode = (getListviewMode() == lvEnvMode) ? i18n("'environment'") : i18n("'command'");
-		if (KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {
-			if (getListviewMode() == lvEnvMode) {
-				resetEnvironments();
-			}
-			else {
-				resetCommands();
-			}
-			slotEnableButtons();
-		}
-	} else
-		if (button == Ok) {
-			// OK-Button clicked, we have to look for user-defined environments/commands
-
-			// save checkbox for user-defined commands
-			KileConfig::setShowUserCommands(m_widget.showOnlyUserDefined->isChecked());
-
-			// write config entries for environments and commands
-			writeConfig(m_widget.environments, m_commands->envGroupName(), true);
-			writeConfig(m_widget.commands, m_commands->cmdGroupName(), false);
-			m_config->sync();
-
-			// reset known LaTeX environments and commands
-			m_commands->resetCommands();
-
-			// save if there is a change in user-defined commands and environments
-			KileConfig::setCompleteChangedCommands(m_commandChanged);
-
-			accept();
-		}
-	KDialog::slotButtonClicked(button);
+// 	if (button == Default) {
+// 		QString mode = (getListviewMode() == lvEnvMode) ? i18n("'environment'") : i18n("'command'");
+// 		if (KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {
+// 			if (getListviewMode() == lvEnvMode) {
+// 				resetEnvironments();
+// 			}
+// 			else {
+// 				resetCommands();
+// 			}
+// 			slotEnableButtons();
+// 		}
+// 	} else
+// 		if (button == Ok) {
+// 			// OK-Button clicked, we have to look for user-defined environments/commands
+// 
+// 			// save checkbox for user-defined commands
+// 			KileConfig::setShowUserCommands(m_widget.showOnlyUserDefined->isChecked());
+// 
+// 			// write config entries for environments and commands
+// 			writeConfig(m_widget.environments, m_commands->envGroupName(), true);
+// 			writeConfig(m_widget.commands, m_commands->cmdGroupName(), false);
+// 			m_config->sync();
+// 
+// 			// reset known LaTeX environments and commands
+// 			m_commands->resetCommands();
+// 
+// 			// save if there is a change in user-defined commands and environments
+// 			KileConfig::setCompleteChangedCommands(m_commandChanged);
+// 
+// 			accept();
+// 		}
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 	QDialog::slotButtonClicked(button);
 }
 
 ////////////////////////////// read/write config //////////////////////////////
@@ -805,7 +833,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 		attr.type = getCommandMode(cur);
 		if (attr.type == KileDocument::CmdAttrNone)
 		{
-			KILE_DEBUG() << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
+			KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
 			continue;
 		}
 
@@ -817,7 +845,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 			{
 				getEntry(curchild, attr);
 				QString value = m_commands->configString(attr, env);
-				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
+				KILE_DEBUG_MAIN << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
 				if (!value.isEmpty()) {
 					group.writeEntry("Command" + QString::number(nrOfdefinedCommands), key);
 					group.writeEntry("Parameters" + QString::number(nrOfdefinedCommands), value);

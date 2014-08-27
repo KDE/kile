@@ -21,7 +21,7 @@
 class QToolBar;
 class QToolButton;
 
-class KPushButton;
+class QPushButton;
 
 namespace KileDialog {
 
@@ -39,7 +39,7 @@ class SelectFrameAction : public KToolBarPopupAction {
 	private:
 		QToolButton *m_pbNone, *m_pbLeftRight, *m_pbTopBottom, *m_pbAll;
 		TabularFrameWidget *m_FrameWidget;
-		KPushButton *m_pbDone;
+		QPushButton *m_pbDone;
 		QToolBar *m_Parent;
 		int m_CurrentBorder;
 

@@ -51,7 +51,7 @@ class UserMenuDialog : public KileDialog::Wizard
 
 		void slotMenuentryTypeClicked();
 		void slotMenuentryTextChanged(const QString &text);
-		void slotUrlSelected(const KUrl &url);
+		void slotUrlSelected(const QUrl &url);
 		void slotUrlTextChanged(const QString &text);
 		void slotParameterTextChanged(const QString &);
 		void slotPlainTextChanged();
@@ -89,7 +89,7 @@ class UserMenuDialog : public KileDialog::Wizard
 		void initDialog();
 		void setModified();
 
-		bool okClicked();
+		bool clicked();
 		bool saveClicked();
 		QString saveAsClicked();
 

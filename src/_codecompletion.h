@@ -20,8 +20,7 @@
 
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/CodeCompletionModel>
-// mainly needed for CodeCompletionModelControllerInferface3
-#include <ktexteditor/codecompletionmodelcontrollerinterface.h>
+#include <KTextEditor/CodeCompletionModelControllerInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <kconfig.h>
@@ -44,16 +43,17 @@ namespace KileCodeCompletion
 	class Manager;
 
 	class LaTeXCompletionModel : public KTextEditor::CodeCompletionModel,
-	                             public KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME} {
+	                             public KTextEditor::CodeCompletionModelControllerInterface {
 		Q_OBJECT
-		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
+// 		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
 		
 		public:
 			LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
 			                                      KileDocument::EditorExtension *editorExtension);
 			virtual ~LaTeXCompletionModel();
 
-			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
+			//TODO KF5
+// 			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
@@ -97,15 +97,15 @@ namespace KileCodeCompletion
 			                                                      const KTextEditor::Cursor& cursorPosition) const;
 	};
 
-	class AbbreviationCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME} {
+	class AbbreviationCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::CodeCompletionModelControllerInterface {
 		Q_OBJECT
-		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
+// 		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
 
 		public:
 			AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager);
 			virtual ~AbbreviationCompletionModel();
 
-			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
+// 			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 

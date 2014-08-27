@@ -22,18 +22,21 @@
 #include <QLabel>
 #include <QTreeWidget>
 
-#include <KApplication>
-#include <KGlobal>
 #include <KIconDialog>
 #include <KIconLoader>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KPushButton>
-#include <KStandardDirs>
-#include <KUrl>
+#include <QPushButton>
 
-#include <kio/netaccess.h>
+#include <QUrl>
+
+#include <KIO/NetAccess>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStandardPaths>
 
 #include "kiledebug.h"
 #include "kileextensions.h"
@@ -60,25 +63,35 @@ class TemplateListViewItem : public QTreeWidgetItem {
 };
 
 // dialog to create a template
-ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption, QWidget *parent, const char *name)
-		: KDialog(parent),
+ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent, const char *name)
+		: QDialog(parent),
 		m_templateManager(templateManager), m_sourceURL(sourceURL)
 {
 	setObjectName(name);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	m_templateType = KileDocument::Extensions().determineDocumentType(sourceURL);
 
 	QWidget *page = new QWidget(this);
 	page->setObjectName("managetemplates_mainwidget");
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 	QGridLayout *topLayout = new QGridLayout();
 	topLayout->setMargin(0);
-	topLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	topLayout->setSpacing(QDialog::spacingHint());
 	page->setLayout(topLayout);
 
 	topLayout->addWidget(new QLabel(i18n("Name:"), page), 0, 0);
@@ -90,18 +103,22 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 		fileName = fileName.mid(0, dotPos);
 	}
 	m_nameEdit = new KLineEdit(fileName, page);
+	mainLayout->addWidget(m_nameEdit);
 	topLayout->addWidget(m_nameEdit, 0, 1);
 
 	topLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page), 0, 2);
 	topLayout->addWidget(new QLabel(i18n("Icon:"), page), 1, 0);
 
-	m_iconEdit = new KLineEdit(KGlobal::dirs()->findResource("appdata", "pics/type_Default.png"), page);
+	m_iconEdit = new KLineEdit(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_Default.png"), page);
+	mainLayout->addWidget(m_iconEdit);
 	topLayout->addWidget(m_iconEdit, 1, 1);
 
-	KPushButton *iconbut = new KPushButton(i18n("Select..."), page);
+	QPushButton *iconbut = new QPushButton(i18n("Select..."), page);
+	mainLayout->addWidget(iconbut);
 	topLayout->addWidget(iconbut, 1, 2);
 
 	m_templateList = new QTreeWidget(page);
+	mainLayout->addWidget(m_templateList);
 	m_templateList->setSortingEnabled(false);
 	m_templateList->setHeaderLabels(QStringList() << i18nc("marked", "M")
 																	<< i18n("Existing Templates")
@@ -114,12 +131,14 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	topLayout->addWidget(m_templateList, 2, 0, 1, 3);
 
 	m_showAllTypesCheckBox = new QCheckBox(i18n("Show all the templates"), page);
+	mainLayout->addWidget(m_showAllTypesCheckBox);
 	m_showAllTypesCheckBox->setChecked(false);
 	connect(m_showAllTypesCheckBox, SIGNAL(toggled(bool)), this, SLOT(updateTemplateListView(bool)));
 	topLayout->addWidget(m_showAllTypesCheckBox, 3, 0, 1, 2);
 
-	KPushButton *clearSelectionButton = new KPushButton(page);
-	clearSelectionButton->setIcon(KIcon("edit-clear-locationbar"));
+	QPushButton *clearSelectionButton = new QPushButton(page);
+	mainLayout->addWidget(clearSelectionButton);
+	clearSelectionButton->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
 	int buttonSize = clearSelectionButton->sizeHint().height();
 	clearSelectionButton->setFixedSize(buttonSize, buttonSize);
 	clearSelectionButton->setToolTip(i18n("Clear Selection"));
@@ -135,25 +154,34 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 // dialog to remove a template
 ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent, const char *name)
-		: KDialog(parent),
+		: QDialog(parent),
 		m_templateManager(templateManager), m_templateType(KileDocument::Undefined), m_showAllTypesCheckBox(NULL)
 {
 	setObjectName(name);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+// 	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	page->setObjectName("managetemplates_mainwidget");
-	setMainWidget(page);
+//TODO KF5
+// 	mainLayout->addWidget(page);
 	QVBoxLayout *topLayout = new QVBoxLayout();
 	topLayout->setMargin(0);
-	topLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	topLayout->setSpacing(QDialog::spacingHint());
 	page->setLayout(topLayout);
 
 	m_templateList = new QTreeWidget(page);
+//TODO KF5
+// 	mainLayout->addWidget(m_templateList);
 	m_templateList->setSortingEnabled(false);
 	m_templateList->setHeaderLabels(QStringList() << i18nc("marked", "M")
 	                                              << i18n("Existing Templates")
@@ -180,12 +208,16 @@ void ManageTemplatesDialog::clearSelection() {
 	m_templateList->clearSelection();
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void ManageTemplatesDialog::slotButtonClicked(int button)
 {
-	if (button == Ok) {
-		emit aboutToClose();
-	}
-	KDialog::slotButtonClicked(button);
+// 	if (button == Ok) {
+// 		emit aboutToClose();
+// 	}
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 	QDialog::slotButtonClicked(button);
 }
 
 void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type) {
@@ -238,7 +270,7 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	QString icon = (m_iconEdit->text()).trimmed();
-	KUrl iconURL = KUrl::fromPathOrUrl(icon);
+	QUrl iconURL = QUrl::fromUserInput(icon);
 
 	if (icon.isEmpty()) {
 		KMessageBox::error(this, i18n("Please choose an icon first."));
@@ -251,7 +283,7 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	if (!KIO::NetAccess::exists(m_sourceURL, true, this)) {
-		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.prettyUrl()));
+		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.toString()));
 		return;
 	}
 
@@ -297,7 +329,7 @@ bool ManageTemplatesDialog::removeTemplate()
 
 	KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-	if (!(KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.path), false, this) && (KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.icon), false, this)|| !QFileInfo(templateInfo.icon).exists()))) {
+	if (!(KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.path), false, this) && (KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.icon), false, this)|| !QFileInfo(templateInfo.icon).exists()))) {
 		KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
 		return false;
 	}

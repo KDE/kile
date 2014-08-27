@@ -21,6 +21,7 @@
 #include <KFileDialog>
 #include <KInputDialog>
 #include <KTextEditor/View>
+#include <QFileDialog>
 
 #include "scripting/kilescriptobject.h"
 #include "kileviewmanager.h"
@@ -233,7 +234,7 @@ QMap<QString, QVariant> KileFile::read() const
 {
 	QString openedFile = m_kileInfo->getName();
 	const QString filepath = (!openedFile.isEmpty()) ? QFileInfo(m_kileInfo->getName()).absolutePath() : QString();
-	QString filename = KFileDialog::getOpenFileName(filepath, QString(), m_kileInfo->mainWindow(), i18n("Select File to Read"));
+	QString filename = QFileDialog::getOpenFileName(m_kileInfo->mainWindow(), i18n("Select File to Read"), filepath, QString());
 	if(!filename.isEmpty()) {
 		return read(filename);
 	}
@@ -278,7 +279,7 @@ QMap<QString, QVariant> KileFile::write(const QString& text) const
 {
 	QString openedFile = m_kileInfo->getName();
 	const QString filepath = (!openedFile.isEmpty()) ? QFileInfo(m_kileInfo->getName()).absolutePath() : QString();
-	QString filename = KFileDialog::getSaveFileName(filepath, QString(), m_kileInfo->mainWindow(), i18n("Save As"));
+	QString filename = QFileDialog::getSaveFileName(m_kileInfo->mainWindow(), i18n("Save As"), filepath, QString());
 	if(!filename.isEmpty()) {
 		return write(filename, text);
 	}
@@ -287,15 +288,15 @@ QMap<QString, QVariant> KileFile::write(const QString& text) const
 	}
 }
 
-QString KileFile::getOpenFileName(const KUrl& url, const QString& filter)
+QString KileFile::getOpenFileName(const QUrl &url, const QString& filter)
 {
-	KUrl startdir = (url.isEmpty()) ? KUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	QUrl startdir = (url.isEmpty()) ? QUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
 	return KFileDialog::getOpenFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Select File to Read"));
 }
 
-QString KileFile::getSaveFileName(const KUrl& url, const QString& filter)
+QString KileFile::getSaveFileName(const QUrl &url, const QString& filter)
 {
-	KUrl startdir = (url.isEmpty()) ? KUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	QUrl startdir = (url.isEmpty()) ? QUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
 	return KFileDialog::getSaveFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Save As"));
 }
 

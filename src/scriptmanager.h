@@ -18,7 +18,7 @@
 #include <QMap>
 #include <QObject>
 
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KConfig>
 #include <KDirWatch>
@@ -182,7 +182,7 @@ class Manager : public QObject {
 		QMap<QString,QAction *> *m_scriptActionMap;
 };
 
-class ScriptExecutionAction : public KAction {
+class ScriptExecutionAction : public QAction {
 	Q_OBJECT
 
 	public:

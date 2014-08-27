@@ -19,7 +19,7 @@
 #include <QScriptContext>
 #include <QMap>
 
-#include <KAction>
+#include <QAction>
 #include <KTextEditor/View>
 
 
@@ -80,9 +80,9 @@ class Script {
 		/**
 		 *
 		 **/
-		void setActionObject(KAction* action);
-//		const KAction* getActionObject() const;
-		KAction* getActionObject() const;
+		void setActionObject(QAction * action);
+//		const QAction * getActionObject() const;
+		QAction * getActionObject() const;
 
 		void setKeySequence(const QString& str);
 		QString getKeySequence() const;
@@ -97,7 +97,7 @@ private:
 		QString m_code;
 		QString m_file;
 		QString m_name;
-		KAction *m_action;
+		QAction *m_action;
 		QString m_keySequence;
 		int m_sequencetype;
 		

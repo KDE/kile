@@ -17,13 +17,14 @@
 #include <KFileDialog>
 #include <KUrlCompletion>
 #include <KMessageBox>
+#include <QFileDialog>
 
 KileWidgetHelpConfig::KileWidgetHelpConfig(QWidget *parent) : QWidget(parent)
 {
 	setupUi(this);
 
-	m_helpLocationButton->setIcon(KIcon("folder-open"));
-	m_pbInformation->setIcon(KIcon("help-about"));
+	m_helpLocationButton->setIcon(QIcon::fromTheme("folder-open"));
+	m_pbInformation->setIcon(QIcon::fromTheme("help-about"));
 
 	connect(m_pbConfigure, SIGNAL(clicked()), this, SLOT(slotConfigure()));
 	connect(m_helpLocationButton, SIGNAL(clicked()), this, SLOT(selectHelpLocation()));
@@ -51,7 +52,7 @@ void KileWidgetHelpConfig::setHelp(KileHelp::Help *help)
 
 void KileWidgetHelpConfig::selectHelpLocation()
 {
-	QString newLocation = KFileDialog::getExistingDirectory(kcfg_location->text(), this);
+	QString newLocation = QFileDialog::getExistingDirectory(this, QString(), kcfg_location->text());
 	if (!newLocation.isEmpty()) {
 		kcfg_location->setText(newLocation);
 	}

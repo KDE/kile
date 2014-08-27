@@ -20,8 +20,8 @@
 #include <QLabel>
 #include <QTextStream>
 
-#include <KLocale>
-#include <KMenu>
+#include <KLocalizedString>
+#include <QMenu>
 #include <KMessageBox>
 
 #include "abbreviationmanager.h"
@@ -56,7 +56,7 @@ AbbreviationView::~AbbreviationView()
 
 void AbbreviationView::updateAbbreviations()
 {
-KILE_DEBUG();
+KILE_DEBUG_MAIN;
 	setUpdatesEnabled(false);
 	clear();
 	const QMap<QString, QPair<QString, bool> >& abbreviationMap = m_abbreviationManager->getAbbreviationMap();
@@ -107,7 +107,7 @@ void AbbreviationView::slotItemClicked(QTreeWidgetItem *item, int /* column */)
 
 void AbbreviationView::slotCustomContextMenuRequested(const QPoint& p)
 {
-	KMenu popupMenu;
+	QMenu popupMenu;
 	QAction *action = new QAction(i18n("&Add"), &popupMenu);
 	connect(action, SIGNAL(triggered()), this, SLOT(slotAddAbbreviation()));
 	popupMenu.addAction(action);

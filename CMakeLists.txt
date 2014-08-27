@@ -1,11 +1,48 @@
-cmake_minimum_required(VERSION 2.6.2)
+cmake_minimum_required(VERSION 3.0.0)
 
 PROJECT( kile )
 
-find_package(KDE4 4.3.0 REQUIRED)
-include (KDE4Defaults)
+find_package (ECM 0.0.9 REQUIRED NO_MODULE)
+set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+include(ECMOptionalAddSubdirectory)
+include(ECMInstallIcons)
+include(ECMSetupVersion)
+include(ECMMarkNonGuiExecutable)
+include(ECMGenerateHeaders)
+include(GenerateExportHeader)
 
-find_package( SharedMimeInfo REQUIRED )
+include(CMakePackageConfigHelpers)
+include(FeatureSummary)
+include(WriteBasicConfigVersionFile)
+include (CheckFunctionExists)
+
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings)
+
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Script Sql Test)
+
+# Load the frameworks we need
+find_package(KF5 REQUIRED COMPONENTS
+  Config
+  DocTools
+  GuiAddons
+  I18n
+  Init
+  JobWidgets
+  KIO
+  KHtml
+  Parts
+  TextEditor
+  WindowSystem
+  XmlGui
+  KDELibs4Support
+)
+
+# find_package(KF5 REQUIRED COMPONENTS DBusAddons)
+# include (KDE4Defaults)
+
+# find_package( SharedMimeInfo REQUIRED )
 
 
 SET( KILE_VERSION CACHE STRING "Kile's version; can be used to install special documentation files in share/doc/kile-$KILE_VERSION/" )
@@ -128,13 +165,13 @@ IF( kile_TRANSLATION_SOURCES )
 	ADD_CUSTOM_TARGET(translations ALL DEPENDS ${kile_TRANSLATION_SOURCES})
 ENDIF( kile_TRANSLATION_SOURCES)
 
-ADD_SUBDIRECTORY( doc )
+# ADD_SUBDIRECTORY( doc )
 ADD_SUBDIRECTORY( src )
 
 ########### install files ###############
 
 install( FILES kile.xml DESTINATION ${XDG_MIME_INSTALL_DIR} )
-update_xdg_mimetypes( ${XDG_MIME_INSTALL_DIR} )
+# update_xdg_mimetypes( ${XDG_MIME_INSTALL_DIR} )
 
 INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl
 kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl
@@ -148,4 +185,4 @@ ENDIF( KILE_VERSION )
 
 INSTALL( FILES AUTHORS ChangeLog README README.cwl kile-remote-control.txt README.MacOSX DESTINATION ${_KILE_SPECIAL_DOC_DIR})
 
-MACRO_DISPLAY_FEATURE_LOG()
+# MACRO_DISPLAY_FEATURE_LOG()

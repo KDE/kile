@@ -14,16 +14,16 @@
 #ifndef UTILITIES_H
 #define UTILITIES_H
 
-#include <KAction>
+#include <QAction>
 #include <KService>
-#include <KUrl>
+#include <QUrl>
 
-class ServiceRunAction : public KAction {
+class ServiceRunAction : public QAction {
 	Q_OBJECT
 
 	public:
 		ServiceRunAction(const KService& service,
-		                 const KUrl::List& urls,
+		                 const QList<QUrl>& urls,
 		                 QWidget* window,
 		                 bool tempFiles = false,
 		                 const QString& suggestedFileName = QString(),
@@ -36,7 +36,7 @@ class ServiceRunAction : public KAction {
 
 	protected:
 		const KService& m_service;
-		KUrl::List m_urlList;
+		QList<QUrl> m_urlList;
 		QWidget* m_window;
 		bool m_tempFiles;
 		QString m_suggestedFileName;

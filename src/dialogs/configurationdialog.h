@@ -101,7 +101,7 @@ namespace KileDialog
 		                    const QString &header = QString());
 
 		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
-		                    const QString &itemName, const KIcon& icon,
+		                    const QString &itemName, const QIcon& icon,
 		                    const QString &header = QString());
 
 		void setupGeneralOptions(KPageWidgetItem* parent);

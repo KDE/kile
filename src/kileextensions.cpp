@@ -19,7 +19,7 @@
 #include <QStringList>
 #include <QFileInfo>
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include "kiledebug.h"
 
 namespace KileDocument 
@@ -123,7 +123,7 @@ bool Extensions::validExtension(const QString &ext, const QString &extensions) c
 	return false;
 }
 
-Type Extensions::determineDocumentType(const KUrl& url) const
+Type Extensions::determineDocumentType(const QUrl &url) const
 {
 	if ( isTexFile(url) )
 	{

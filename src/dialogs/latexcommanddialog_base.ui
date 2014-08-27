@@ -1,82 +1,101 @@
-<ui version="4.0" >
- <author>Mathias Soeken &lt;msoeken@informatik.uni-bremen.de></author>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Mathias Soeken &lt;msoeken@informatik.uni-bremen.de&gt;</author>
  <class>LatexCommandWidget</class>
- <widget class="QWidget" name="LatexCommandWidget" >
-  <property name="geometry" >
+ <widget class="QWidget" name="LatexCommandWidget">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>464</width>
     <height>286</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout" >
-   <property name="margin" >
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
-    <widget class="QLabel" name="label" >
-     <property name="text" >
+    <widget class="QLabel" name="label">
+     <property name="text">
       <string>Define LaTeX Environments and Commands for Kile</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="KTabWidget" name="tab" >
-     <property name="currentIndex" >
+    <widget class="QTabWidget" name="tab">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="pageEnvironments" >
-      <attribute name="title" >
+     <widget class="QWidget" name="pageEnvironments">
+      <attribute name="title">
        <string>Environments</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_2" >
-       <property name="spacing" >
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
         <number>0</number>
        </property>
-       <property name="margin" >
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
-        <widget class="QTreeWidget" name="environments" >
-         <property name="whatsThis" >
+        <widget class="QTreeWidget" name="environments">
+         <property name="whatsThis">
           <string>List of known environments with a lot of additional information that Kile can potentially use. You can add your own environments, which will then be recognized by autocompletion of environments; 'Smart Newline' and 'Smart Tabulator', for example. Note that you can only edit and delete user-defined environments.</string>
          </property>
-         <property name="allColumnsShowFocus" >
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Environment</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Starred</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>EOL</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Math</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Tab</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Option</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Parameter</string>
           </property>
          </column>
@@ -84,39 +103,48 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="pageCommands" >
-      <attribute name="title" >
+     <widget class="QWidget" name="pageCommands">
+      <attribute name="title">
        <string>Commands</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout_2" >
-       <property name="spacing" >
+      <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <property name="spacing">
         <number>0</number>
        </property>
-       <property name="margin" >
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
-        <widget class="QTreeWidget" name="commands" >
-         <property name="allColumnsShowFocus" >
+        <widget class="QTreeWidget" name="commands">
+         <property name="allColumnsShowFocus">
           <bool>true</bool>
          </property>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Command</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Starred</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Option</string>
           </property>
          </column>
          <column>
-          <property name="text" >
+          <property name="text">
            <string>Parameter</string>
           </property>
          </column>
@@ -127,14 +155,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QWidget" native="1" name="widget" >
-     <layout class="QHBoxLayout" name="horizontalLayout" >
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <spacer name="horizontalSpacer" >
-        <property name="orientation" >
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -143,50 +171,41 @@
        </spacer>
       </item>
       <item>
-       <widget class="KPushButton" name="addButton" >
-        <property name="whatsThis" >
+       <widget class="QPushButton" name="addButton">
+        <property name="whatsThis">
          <string>Add a new environment.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>&amp;Add...</string>
         </property>
-        <property name="icon" >
-         <pixmap>list-add</pixmap>
-        </property>
        </widget>
       </item>
       <item>
-       <widget class="KPushButton" name="deleteButton" >
-        <property name="whatsThis" >
+       <widget class="QPushButton" name="deleteButton">
+        <property name="whatsThis">
          <string>Delete a user-defined environment.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>De&amp;lete</string>
         </property>
-        <property name="icon" >
-         <pixmap>list-remove</pixmap>
-        </property>
        </widget>
       </item>
       <item>
-       <widget class="KPushButton" name="editButton" >
-        <property name="whatsThis" >
+       <widget class="QPushButton" name="editButton">
+        <property name="whatsThis">
          <string>Edit a user-defined environment.</string>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>&amp;Edit...</string>
-        </property>
-        <property name="icon" >
-         <pixmap>document-properties</pixmap>
         </property>
        </widget>
       </item>
       <item>
-       <spacer name="horizontalSpacer_2" >
-        <property name="orientation" >
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>
-        <property name="sizeHint" stdset="0" >
+        <property name="sizeHint" stdset="0">
          <size>
           <width>40</width>
           <height>20</height>
@@ -198,30 +217,14 @@
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="showOnlyUserDefined" >
-     <property name="text" >
+    <widget class="QCheckBox" name="showOnlyUserDefined">
+     <property name="text">
       <string>Show only user-defined environments and commands</string>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
- <pixmapfunction>SmallIcon</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
- <includes/>
  <resources/>
  <connections/>
 </ui>

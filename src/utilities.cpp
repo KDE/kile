@@ -22,13 +22,13 @@
 #include "kiledebug.h"
 
 ServiceRunAction::ServiceRunAction(const KService& service,
-		                   const KUrl::List& urls,
+		                   const QList<QUrl>& urls,
 		                   QWidget* window,
 		                   bool tempFiles,
 		                   const QString& suggestedFileName,
 		                   const QByteArray& asn,
 		                   QObject *parent)
-: KAction(KIcon(service.icon()), service.genericName(), parent),
+: QAction(QIcon::fromTheme(service.icon()), service.genericName(), parent),
 m_service(service),
 m_urlList(urls),
 m_window(window),
@@ -53,7 +53,7 @@ void ServiceRunAction::runService()
 
 QString KileUtilities::lastModifiedFile(const QStringList& files, const QString& baseDir)
 {
-	KILE_DEBUG() << "==KileUtilities::lastModifiedFile()=====";
+	KILE_DEBUG_MAIN << "==KileUtilities::lastModifiedFile()=====";
 
 	if(files.empty()) {
 		return QString();

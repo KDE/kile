@@ -42,7 +42,8 @@ tbraun 2007-06-13
 
 #include <KColorScheme>
 #include <KConfig>
-#include <KLocale>
+#include <KGlobal>
+#include <KLocalizedString>
 #include <KStandardDirs>
 
 #include "kileconfig.h"
@@ -193,7 +194,7 @@ void SymbolView::initPage(int page)
 			break;
 
 		default:
-			kWarning() << "wrong argument in initPage()";
+			qWarning() << "wrong argument in initPage()";
 			break;
 	}
 }
@@ -283,7 +284,7 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 		m_ki->focusEditor();
 	}
 
-	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
+	KILE_DEBUG_MAIN << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
 }
 
 QString convertLatin1StringtoUTF8(const QString &string)
@@ -314,21 +315,21 @@ QString convertLatin1StringtoUTF8(const QString &string)
 
 void SymbolView::fillWidget(const QString& prefix)
 {
-	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
+	KILE_DEBUG_MAIN << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
 	QImage image;
 	QListWidgetItem* item;
 	QStringList refCnts, paths, unicodeValues;
 	QString key;
 
 	if (prefix == MFUS_PREFIX) {
-		KConfigGroup config = KGlobal::config()->group(MFUS_GROUP);
+		KConfigGroup config = KSharedConfig::openConfig()->group(MFUS_GROUP);
 		QString configPaths = config.readEntry("paths");
 		QString configrefCnts = config.readEntry("counts");
 		paths = configPaths.split(',', QString::SkipEmptyParts);
 		refCnts = configrefCnts.split(',', QString::SkipEmptyParts);
-		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
+		KILE_DEBUG_MAIN << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
 		if(paths.count() != refCnts.count()) {
-			KILE_DEBUG() << "error in saved LRU list";
+			KILE_DEBUG_MAIN << "error in saved LRU list";
 			paths.clear();
 			refCnts.clear();
 		}
@@ -342,7 +343,7 @@ void SymbolView::fillWidget(const QString& prefix)
 	}
 	for(int i = 0; i < paths.count(); i++) {
 		if(image.load(paths[i])) {
-//      		KILE_DEBUG() << "path is " << paths[i];
+//      		KILE_DEBUG_MAIN << "path is " << paths[i];
 			item = new QListWidgetItem(this);
 
 			key = refCnts[i] + '%' + image.text("Command");
@@ -352,7 +353,7 @@ void SymbolView::fillWidget(const QString& prefix)
 			key += '%' + convertLatin1StringtoUTF8(image.text("Comment"));
 			key += '%' + paths[i];
 
-// 			KILE_DEBUG() << "key is " << key;
+// 			KILE_DEBUG_MAIN << "key is " << key;
 
 			item->setData(Qt::UserRole, key);
 			item->setToolTip(getToolTip(key));
@@ -373,7 +374,7 @@ void SymbolView::fillWidget(const QString& prefix)
 
 		}
 		else {
-			KILE_DEBUG() << "Loading file " << paths[i] << " failed";
+			KILE_DEBUG_MAIN << "Loading file " << paths[i] << " failed";
 		}
 	}
 }
@@ -385,7 +386,7 @@ void SymbolView::writeConfig()
 	QList<int> refCnts;
 	Command cmd;
 
-	KConfigGroup grp = KGlobal::config()->group(MFUS_GROUP);
+	KConfigGroup grp = KSharedConfig::openConfig()->group(MFUS_GROUP);
 
 	if (KileConfig::clearMFUS()) {
 		grp.deleteEntry("paths");
@@ -397,7 +398,7 @@ void SymbolView::writeConfig()
 			extract(item->data(Qt::UserRole).toString(),cmd);
 			refCnts.append(cmd.referenceCount);
 			paths.append(cmd.path);
-			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last();
+			KILE_DEBUG_MAIN << "path=" << paths.last() << ", count is " << refCnts.last();
 		}
 		grp.writeEntry("paths", paths);
 		grp.writeEntry("counts", refCnts);
@@ -414,7 +415,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 	bool found = false;
 	const QRegExp reCnt("^\\d+");
 
-	KILE_DEBUG() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
+	KILE_DEBUG_MAIN << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
 
 	for(int i = 0; i < count(); ++i) {
 		tmpItem = this->item(i);
@@ -429,7 +430,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 		int refCnt, minRefCnt = 10000;
 		QListWidgetItem *unpopularItem = NULL;
 
-		KILE_DEBUG() << "Removing most unpopular item";
+		KILE_DEBUG_MAIN << "Removing most unpopular item";
 
 		for (int i = 0; i < count(); ++i) {
 			tmpItem = this->item(i);
@@ -440,12 +441,12 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 				unpopularItem = tmpItem;
 			}
 		}
-		KILE_DEBUG() << " minRefCnt is " << minRefCnt;
+		KILE_DEBUG_MAIN << " minRefCnt is " << minRefCnt;
 		delete unpopularItem;
 	}
 
 	if(found) {
-		KILE_DEBUG() << "item is already in the iconview";
+		KILE_DEBUG_MAIN << "item is already in the iconview";
 
 		int refCnt;
 		extract(tmpItem->data(Qt::UserRole).toString(), refCnt);

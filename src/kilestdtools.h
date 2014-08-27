@@ -75,7 +75,7 @@ namespace KileTool
 
 			virtual bool determineSource();
 
-			void checkErrors();
+			void checqCriticals();
 			void checkAutoRun();
 			void latexOutputParserResultInstalled();
 

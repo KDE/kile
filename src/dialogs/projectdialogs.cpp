@@ -37,9 +37,12 @@
 #include <KFileDialog>
 #include <KGlobal>
 #include <KIconLoader>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlCompletion>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 #include "kiledebug.h"
 #include "kileproject.h"
@@ -50,24 +53,36 @@
 #include "templates.h"
 
 KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent, const char * name)
-		: KDialog(parent),
+		: QDialog(parent),
 		m_extmanager(extensions), m_project(0)
 {
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
 
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 	setObjectName(name);
 
 	// properties groupbox
 	m_pgroup = new QGroupBox(i18n("Project"), page);
+	mainLayout->addWidget(m_pgroup);
 	m_pgrid = new QGridLayout(m_pgroup);
-	m_pgrid->setMargin(KDialog::marginHint());
-	m_pgrid->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	m_pgrid->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	m_pgrid->setSpacing(QDialog::spacingHint());
 	m_pgrid->setAlignment(Qt::AlignTop);
 	m_pgroup->setLayout(m_pgrid);
 
@@ -83,9 +98,10 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 
 	// extensions groupbox
 	m_egroup = new QGroupBox(i18n("Extensions"), page);
+	mainLayout->addWidget(m_egroup);
 	m_egrid = new QGridLayout();
-	m_egrid->setMargin(KDialog::marginHint());
-	m_egrid->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	m_egrid->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	m_egrid->setSpacing(QDialog::spacingHint());
 	m_egrid->setAlignment(Qt::AlignTop);
 	m_egroup->setLayout(m_egrid);
 
@@ -225,12 +241,13 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 		: KileProjectDlgBase(i18n("Create New Project"), extensions, parent, name), m_templateManager(templateManager)
 {
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+//TODO KF5
+// 	mainLayout->addWidget(page);
 
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	page->setLayout(vbox);
 
 	// first groupbox
@@ -252,9 +269,11 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 
 	// second groupbox
 	QGroupBox *group2 = new QGroupBox(i18n("File"), page);
+//TODO KF5
+// 	mainLayout->addWidget(group2);
 	QGridLayout *grid2 = new QGridLayout();
-	grid2->setMargin(KDialog::marginHint());
-	grid2->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	grid2->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	grid2->setSpacing(QDialog::spacingHint());
 	group2->setLayout(grid2);
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"), group2);
 	m_cb->setChecked(true);
@@ -332,85 +351,90 @@ QString KileNewProjectDlg::cleanProjectFile()
 	return projectTitle().toLower().trimmed().remove(QRegExp("\\s*")) + ".kilepr";
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void KileNewProjectDlg::slotButtonClicked(int button)
 {
-	if(button == KDialog::Ok) {
-		if (! acceptUserExtensions()) {
-			return;
-		}
-
-		if (projectTitle().trimmed().isEmpty()) {
-			if (KMessageBox::warningYesNo(this, i18n("You have not entered a project name. If you decide to proceed, the project name will be set to \"Untitled\".\n"
-			                                         "Do you want to create the project nevertheless?"), i18n("No Project Name Given")) == KMessageBox::Yes) {
-				m_title->setText(i18n("Untitled"));
-			}
-			else {
-				return;
-			}
-		}
-	
-		if (folder().trimmed().isEmpty()){
-			KMessageBox::error(this, i18n("Please enter the folder where the project file should be saved to."), i18n("Empty Location"));
-			return;
-		}
-
-		const QString dirString = folder().trimmed();
-		if(!QDir::isAbsolutePath(dirString)) {
-			KMessageBox::error(this, i18n("Please enter an absolute (local) path to the project folder."), i18n("Invalid Location"));
-			return;
-		}
-
-		QDir dir = QDir(dirString);
-		KILE_DEBUG() << "project location is " << dir.absolutePath() << endl;
-		
-		if(!dir.exists()){
-			dir.mkpath(dir.absolutePath());
-		}
-		
-		if(!dir.exists()){
-			KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
-			return;
-		}
-
-		QFileInfo fi(dir.absolutePath());
-		if (!fi.isDir() || !fi.isWritable()){
-			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
-			return;
-		}
-		const QString projectFilePath = dir.filePath(cleanProjectFile());
-		if(QFileInfo(projectFilePath).exists()){
-                       KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
-			return;
-		}
-
-		if (createNewFile()) {
-			if (file().trimmed().isEmpty()){
-				KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
-				return;
-			}
-	
-			//check for validity of name first, then check for existence (fixed by tbraun)
-			KUrl fileURL;
-			fileURL.setFileName(file());
-			KUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, this, m_extmanager->isTexFile(fileURL), true);
-			if(validURL != fileURL) {
-				m_file->setText(validURL.fileName());
-			}
-	
-			if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()){
-				if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
-					return;
-				}
-			}
-		}
-
-		m_projectFileWithPath = KUrl::fromPath(projectFilePath);
-
-		accept();
-	}
-	else{
-		KDialog::slotButtonClicked(button);
-	}
+// 	if(button == QDialog::Ok) {
+// 		if (! acceptUserExtensions()) {
+// 			return;
+// 		}
+// 
+// 		if (projectTitle().trimmed().isEmpty()) {
+// 			if (KMessageBox::warningYesNo(this, i18n("You have not entered a project name. If you decide to proceed, the project name will be set to \"Untitled\".\n"
+// 			                                         "Do you want to create the project nevertheless?"), i18n("No Project Name Given")) == KMessageBox::Yes) {
+// 				m_title->setText(i18n("Untitled"));
+// 			}
+// 			else {
+// 				return;
+// 			}
+// 		}
+// 	
+// 		if (folder().trimmed().isEmpty()){
+// 			KMessageBox::error(this, i18n("Please enter the folder where the project file should be saved to."), i18n("Empty Location"));
+// 			return;
+// 		}
+// 
+// 		const QString dirString = folder().trimmed();
+// 		if(!QDir::isAbsolutePath(dirString)) {
+// 			KMessageBox::error(this, i18n("Please enter an absolute (local) path to the project folder."), i18n("Invalid Location"));
+// 			return;
+// 		}
+// 
+// 		QDir dir = QDir(dirString);
+// 		KILE_DEBUG_MAIN << "project location is " << dir.absolutePath() << endl;
+// 		
+// 		if(!dir.exists()){
+// 			dir.mkpath(dir.absolutePath());
+// 		}
+// 		
+// 		if(!dir.exists()){
+// 			KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
+// 			return;
+// 		}
+// 
+// 		QFileInfo fi(dir.absolutePath());
+// 		if (!fi.isDir() || !fi.isWritable()){
+// 			KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
+// 			return;
+// 		}
+// 		const QString projectFilePath = dir.filePath(cleanProjectFile());
+// 		if(QFileInfo(projectFilePath).exists()){
+//                        KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
+// 			return;
+// 		}
+// 
+// 		if (createNewFile()) {
+// 			if (file().trimmed().isEmpty()){
+// 				KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
+// 				return;
+// 			}
+// 	
+// 			//check for validity of name first, then check for existence (fixed by tbraun)
+// 			QUrl fileURL;
+// 			fileURL = fileURL.adjusted(QUrl::RemoveFilename);
+// 			fileURL.setPath(fileURL.path() + file());
+// 			QUrl validURL = KileDocument::Info::makeValidTeXURL(fileURL, this, m_extmanager->isTexFile(fileURL), true);
+// 			if(validURL != fileURL) {
+// 				m_file->setText(validURL.fileName());
+// 			}
+// 	
+// 			if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()){
+// 				if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
+// 					return;
+// 				}
+// 			}
+// 		}
+// 
+// 		m_projectFileWithPath = QUrl::fromLocalFile(projectFilePath);
+// 
+// 		accept();
+// 	}
+// 	else{
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 		QDialog::slotButtonClicked(button);
+// 	}
 }
 
 void KileNewProjectDlg::fillProjectDefaults()
@@ -433,12 +457,13 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 		m_toolDefaultString(i18n("(use global setting)"))
 {
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+//TODO KF5
+// 	mainLayout->addWidget(page);
 
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	page->setLayout(vbox);
 
 	m_pgrid->addWidget(m_plabel, 0, 0);
@@ -454,9 +479,11 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 
 	// third groupbox
 	QGroupBox *group3 = new QGroupBox(i18n("Properties"), page);
+//TODO KF5
+// 	mainLayout->addWidget(group3);
 	QGridLayout *grid3 = new QGridLayout();
-	grid3->setMargin(KDialog::marginHint());
-	grid3->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	grid3->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	grid3->setSpacing(QDialog::spacingHint());
 	grid3->setAlignment(Qt::AlignTop);
 	group3->setLayout(grid3);
 
@@ -492,7 +519,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 	m_cbQuick = new KComboBox(group3);
 	lb2->setBuddy(m_cbQuick);
 	m_cbQuick->addItem(m_toolDefaultString);
-	m_cbQuick->addItems(KileTool::configNames("QuickBuild", KGlobal::config().data()));
+	m_cbQuick->addItems(KileTool::configNames("QuickBuild", KSharedConfig::openConfig().data()));
 	QString itemToSelect = project->quickBuildConfig().length() > 0 ? project->quickBuildConfig() : m_toolDefaultString;
 	int selectIndex = m_cbQuick->findText(itemToSelect);
 	if(selectIndex >= 0) {
@@ -533,7 +560,7 @@ KileProjectOptionsDlg::~KileProjectOptionsDlg()
 
 void KileProjectOptionsDlg::toggleMakeIndex(bool on)
 {
-	KILE_DEBUG() << "TOGGLED!" << endl;
+	KILE_DEBUG_MAIN << "TOGGLED!" << endl;
 	m_leMakeIndex->setEnabled(on);
 	m_project->setUseMakeIndexOptions(on);
 	m_project->writeUseMakeIndexOptions();
@@ -541,52 +568,56 @@ void KileProjectOptionsDlg::toggleMakeIndex(bool on)
 	m_leMakeIndex->setText(m_project->makeIndexOptions());
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void KileProjectOptionsDlg::slotButtonClicked(int button)
 {
-	if( button == KDialog::Ok ){
-		if(!acceptUserExtensions()) {
-			return;
-		}
-		
-		this->m_project->setName(m_title->text());
-	
-		QList<KileProjectItem*> rootItemList = m_project->rootItems();
-		for (QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
-			if ((*it)->url().fileName() == m_master->currentText()) {
-				m_project->setMasterDocument((*it)->url().toLocalFile());
-			}
-		}
-		if (m_master->currentIndex() == 0) {
-			m_project->setMasterDocument(QString());
-		}
-	
-		m_val_extensions[m_sel_extensions->currentIndex()] = m_extensions->text();
-	
-		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
-			m_project->setExtensions((KileProjectItem::Type) i, m_val_extensions[i-1]);
-		}
-	
-		if (m_cbQuick->currentText() == m_toolDefaultString) {
-			m_project->setQuickBuildConfig("");
-		}
-		else {
-			m_project->setQuickBuildConfig(m_cbQuick->currentText());
-		}
-		
-		m_project->setUseMakeIndexOptions(m_ckMakeIndex->isChecked());
-		if (m_project->useMakeIndexOptions()) {
-			m_project->setMakeIndexOptions(m_leMakeIndex->text());
-		}
-	
-		m_project->setDefaultGraphicExt(m_sel_defGraphicExt->itemData(m_sel_defGraphicExt->currentIndex()).toString());
-
-		m_project->save();
-	
-		accept();
-	}
-	else{
-		KDialog::slotButtonClicked(button);
-	}
+// 	if( button == QDialog::Ok ){
+// 		if(!acceptUserExtensions()) {
+// 			return;
+// 		}
+// 		
+// 		this->m_project->setName(m_title->text());
+// 	
+// 		QList<KileProjectItem*> rootItemList = m_project->rootItems();
+// 		for (QList<KileProjectItem*>::iterator it = rootItemList.begin(); it != rootItemList.end(); ++it) {
+// 			if ((*it)->url().fileName() == m_master->currentText()) {
+// 				m_project->setMasterDocument((*it)->url().toLocalFile());
+// 			}
+// 		}
+// 		if (m_master->currentIndex() == 0) {
+// 			m_project->setMasterDocument(QString());
+// 		}
+// 	
+// 		m_val_extensions[m_sel_extensions->currentIndex()] = m_extensions->text();
+// 	
+// 		for (int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
+// 			m_project->setExtensions((KileProjectItem::Type) i, m_val_extensions[i-1]);
+// 		}
+// 	
+// 		if (m_cbQuick->currentText() == m_toolDefaultString) {
+// 			m_project->setQuickBuildConfig("");
+// 		}
+// 		else {
+// 			m_project->setQuickBuildConfig(m_cbQuick->currentText());
+// 		}
+// 		
+// 		m_project->setUseMakeIndexOptions(m_ckMakeIndex->isChecked());
+// 		if (m_project->useMakeIndexOptions()) {
+// 			m_project->setMakeIndexOptions(m_leMakeIndex->text());
+// 		}
+// 	
+// 		m_project->setDefaultGraphicExt(m_sel_defGraphicExt->itemData(m_sel_defGraphicExt->currentIndex()).toString());
+// 
+// 		m_project->save();
+// 	
+// 		accept();
+// 	}
+// 	else{
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 		QDialog::slotButtonClicked(button);
+// 	}
 }
 
 

@@ -28,19 +28,21 @@
 #include <QRegExp>
 
 #include <KComboBox>
-#include <KFileDialog>
 #include <KIconLoader>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-#include <KStandardDirs>
-#include <KTemporaryFile>
+
+#include <QTemporaryFile>
 #include <KUrlRequester>
-#include <KInputDialog>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStandardPaths>
 
 #include "errorhandler.h"
-#include "kdatetime.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
 
@@ -53,18 +55,27 @@ PdfDialog::PdfDialog(QWidget *parent,
                      const QString &latexextensions,
                      KileTool::Manager *manager,
                      KileErrorHandler *errorHandler, KileWidget::OutputView *output) :
-	KDialog(parent),
+	QDialog(parent),
 	m_startdir(startdir),
 	m_manager(manager),
 	m_errorHandler(errorHandler),
 	m_output(output),
 	m_proc(NULL)
 {
-	setCaption(i18n("PDF Wizard"));
+	setWindowTitle(i18n("PDF Wizard"));
 	setModal(true);
-	setButtons(Help | Close | User1);
-	setDefaultButton(User1);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Close);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *user1Button = new QPushButton;
+	buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	user1Button->setDefault(true);
 
 	// determine if a pdffile already exists
 	QString pdffilename;
@@ -83,11 +94,11 @@ PdfDialog::PdfDialog(QWidget *parent,
 
 	// prepare dialog
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 	m_PdfDialog.setupUi(page);
 	page->setMinimumWidth(500);
-	m_PdfDialog.m_pbPrinting->setIcon(KIcon("printer"));
-	m_PdfDialog.m_pbAll->setIcon(KIcon("list-add"));
+	m_PdfDialog.m_pbPrinting->setIcon(QIcon::fromTheme("printer"));
+	m_PdfDialog.m_pbAll->setIcon(QIcon::fromTheme("list-add"));
 	m_PdfDialog.m_pbBackgroundColor->setColor(QColor(255, 255, 224));
 
 	// insert KileWidget::CategoryComboBox
@@ -106,8 +117,8 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_PdfDialog.m_edPassword->setMaxLength(32);
 
 	// set an user button to execute the task and icon for help button
-	setButtonText(User1, i18n("Re&arrange"));
-	setButtonIcon(User1, KIcon("system-run"));
+	user1Button->setText(i18n("Re&arrange"));
+	user1Button->setIcon(QIcon::fromTheme("system-run"));
 	m_PdfDialog.m_lbParameterIcon->setPixmap(KIconLoader::global()->loadIcon("help-about", KIconLoader::NoGroup, KIconLoader::SizeSmallMedium));
 
 	// init important variables
@@ -166,12 +177,12 @@ PdfDialog::PdfDialog(QWidget *parent,
 	// check for libpoppler pdf library
 #ifndef LIBPOPPLER_QT4_AVAILABLE
 	m_poppler = false;
-	KILE_DEBUG() << "working without libpoppler pdf library";
+	KILE_DEBUG_MAIN << "working without libpoppler pdf library";
 	m_PdfDialog.tabWidget->removeTab(2);
 	m_PdfDialog.tabWidget->removeTab(1);
 #else
 	m_poppler = true;
-	KILE_DEBUG() << "working with libpoppler pdf library";
+	KILE_DEBUG_MAIN << "working with libpoppler pdf library";
 #endif
 
 	// init Dialog
@@ -180,8 +191,8 @@ PdfDialog::PdfDialog(QWidget *parent,
 	updateDialog();
 
 	// create tempdir
-	m_tempdir = new KTempDir(KStandardDirs::locateLocal("tmp", "pdfwizard/pdf-"));
-	KILE_DEBUG() << "tempdir: " << m_tempdir->name() ;
+	m_tempdir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "pdfwizard/pdf-");
+	KILE_DEBUG_MAIN << "tempdir: " << m_tempdir->path() ;
 
 	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
 	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
@@ -211,12 +222,12 @@ void PdfDialog::initUtilities()
 	m_pdfpages = m_outputtext.contains("pdfpages.sty");
 
 	// additionally look for pdftk
-	m_pdftk = !KStandardDirs::findExe("pdftk").isEmpty();
+	m_pdftk = !QStandardPaths::findExecutable("pdftk").isEmpty();
 
 //m_pdfpages = false;            // <----------- only for testing  HACK
 //m_pdftk = false;               // <----------- only for testing  HACK
 
-	KILE_DEBUG() << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
+	KILE_DEBUG_MAIN << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
 
 #ifndef LIBPOPPLER_QT4_AVAILABLE
 	m_imagemagick = KileConfig::imagemagick();
@@ -262,10 +273,10 @@ void PdfDialog::pdfParser(const QString &filename)
 #ifdef LIBPOPPLER_QT4_AVAILABLE
 	Poppler::Document *doc = Poppler::Document::load(filename);
 	if ( !doc || doc->isLocked() ) {
-		KILE_DEBUG() << "Error: could not open pdf document '" << filename << "'";
+		KILE_DEBUG_MAIN << "Error: could not open pdf document '" << filename << "'";
 		return;
 	}
-	KILE_DEBUG() << "Parse pdf document: " << filename;
+	KILE_DEBUG_MAIN << "Parse pdf document: " << filename;
 
 	// read encryption
 	m_encrypted = doc->isEncrypted();
@@ -279,8 +290,8 @@ void PdfDialog::pdfParser(const QString &filename)
 	}
 
 	// read creation date and modification date
-	m_PdfDialog.m_lbCreationDate->setText( KGlobal::locale()->formatDateTime( doc->date("CreationDate"), KLocale::LongDate, true) );
-	m_PdfDialog.m_lbModDate->setText( KGlobal::locale()->formatDateTime( doc->date("ModDate"), KLocale::LongDate, true) );
+	m_PdfDialog.m_lbCreationDate->setText( KGlobal::locale()->formatDateTime( doc->date("CreationDate"), KLocalizedString::LongDate, true) );
+	m_PdfDialog.m_lbModDate->setText( KGlobal::locale()->formatDateTime( doc->date("ModDate"), KLocalizedString::LongDate, true) );
 
 	// read PDF version
 	int major,minor;
@@ -316,11 +327,11 @@ void PdfDialog::pdfParser(const QString &filename)
 
 	// look if the pdf file is encrypted (brute force)
 	m_encrypted = readEncryption(filename);
-	KILE_DEBUG() << "PDF encryption: " << m_encrypted;
+	KILE_DEBUG_MAIN << "PDF encryption: " << m_encrypted;
 
 	// determine the number of pages of the pdf file
 	determineNumberOfPages(filename,m_encrypted);
-	KILE_DEBUG() << "PDF number of pages: " << m_numpages;
+	KILE_DEBUG_MAIN << "PDF number of pages: " << m_numpages;
 
 	// clear pagesize
 	m_pagesize = QSize(0,0);
@@ -363,7 +374,7 @@ QSize PdfDialog::allPagesSize(Poppler::Document *doc)
 	for ( int i=0; i<m_numpages; ++i ) {
 		Poppler::Page *pdfpage = doc->page(i);
 		if ( pdfpage == 0 ) {
-			KILE_DEBUG() << "Cannot parse all pages of the PDF file";
+			KILE_DEBUG_MAIN << "Cannot parse all pages of the PDF file";
 			delete pdfpage;
 			return QSize(0,0);
 		}
@@ -412,10 +423,12 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 
 	if ( scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK && askForPassword ) {
 		bool ok;
-		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
-		                                          i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
-		                                               "Please enter the password for this PDF file\n or leave it blank to try another method: "),
-		                                          QString(), &ok, this ).trimmed();
+//TODO KF5
+		QString password = "";
+// 		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
+// 		                                          i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
+// 		                                               "Please enter the password for this PDF file\n or leave it blank to try another method: "),
+// 		                                          QString(), &ok, this ).trimmed();
 		if ( ! password.isEmpty() ) {
 			passwordparam = " input_pw " + password;
 		}
@@ -436,8 +449,8 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 	}
 
 	// run Process
-	KILE_DEBUG() << "execute for NumberOfPages: " << command;
-	executeScript(command, m_tempdir->name(), scriptmode);
+	KILE_DEBUG_MAIN << "execute for NumberOfPages: " << command;
+	executeScript(command, m_tempdir->path(), scriptmode);
 }
 
 void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
@@ -446,7 +459,7 @@ void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
 
 	bool ok;
 	if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_PDFTK ) {
-			KILE_DEBUG() << "pdftk output for NumberOfPages: " << output;
+			KILE_DEBUG_MAIN << "pdftk output for NumberOfPages: " << output;
 			if ( output.contains("OWNER PASSWORD REQUIRED") ) {
 				QString filename = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 				determineNumberOfPages(m_PdfDialog.m_edInfile->lineEdit()->text().trimmed(),true);
@@ -474,13 +487,13 @@ bool PdfDialog::readEncryption(const QString &filename)
 		return false;
 	}
 
-	KILE_DEBUG() << "search for encryption ";
+	KILE_DEBUG_MAIN << "search for encryption ";
 	QRegExp re("/Encrypt(\\W|\\s|$)");
 	QTextStream in(&file);
 	QString line = in.readLine();
 	while ( !line.isNull() ) {
 		if ( re.indexIn(line) >= 0 ) {
-			KILE_DEBUG() << "pdf file is encrypted !!!";
+			KILE_DEBUG_MAIN << "pdf file is encrypted !!!";
 			return  true;
 		}
 		line = in.readLine();
@@ -552,7 +565,8 @@ void PdfDialog::updateDialog()
 	else {
 		state = state && m_pdftk;
 	}
-	enableButton(User1,state && !m_scriptrunning);
+//TODO KF5
+// 	user1Button->setEnabled(state&&!m_scriptrunning);
 }
 
 // update tools information
@@ -715,7 +729,8 @@ QString PdfDialog::readPermissions()
 
 void PdfDialog::slotTabwidgetChanged(int index)
 {
-	setButtonText(User1, (index == 0) ? i18n("Re&arrange") : i18n("&Update") );
+// TODO KF5
+// 	user1Button->setText((index == 0 ? i18n("Re&arrange") : i18n("&Update"));
 	updateDialog();
 }
 
@@ -836,65 +851,69 @@ void PdfDialog::slotTaskChanged(int)
 		m_PdfDialog.m_lbBackgroundColor->hide();
 		m_PdfDialog.m_pbBackgroundColor->hide();
 	}
-
-	if ( isOverlayTask(taskindex) || isBackgroundColor(taskindex) || isFreeTask(taskindex) ) {
-		setButtonText(User1, i18n("&Apply"));
-	}
-	else {
-		setButtonText(User1, i18n("Re&arrange"));
-	}
+//TODO KF5
+// 	if ( isOverlayTask(taskindex) || isBackgroundColor(taskindex) || isFreeTask(taskindex) ) {
+// 		user1Button->setText(i18n("&Apply"));
+// 	}
+// 	else {
+// 		user1Button->setText(i18n("Re&arrange"));
+// 	}
 
 
 }
 
 // execute commands
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void PdfDialog::slotButtonClicked(int button)
 {
-	int tabindex = m_PdfDialog.tabWidget->currentIndex();
-
-	if ( button == User1 ) {
-		switch (tabindex) {
-			case 0: if (checkParameter()) {
-					executeAction();
-				}
-				break;
-			case 1: if (checkProperties()) {
-					executeProperties();
-				}
-				break;
-			case 2: if (checkPermissions()) {
-					executePermissions();
-				}
-				break;
-		}
-	}
-	else if (button == Help) {
-		QString message = i18n("<center>PDF-Wizard</center><br>"
-		"This wizard uses 'pdftk' and the LaTeX package 'pdfpages' to"
-		"<ul>"
-		"<li>rearrange pages of an existing PDF document</li>"
-		"<li>read and update documentinfo of a PDF document (only pdftk)</li>"
-		"<li>read, set or change some permissions of a PDF document (only pdftk). "
-		"A password is necessary to set or change this document settings. "
-		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
-		"</ul>"
-		"<p>The package 'pdfpages' will only work with non-encrypted documents. "
-		"'pdftk' can handle both kind of documents, but a password is needed for encrypted files. "
-		"If one of 'pdftk' or 'pdfpages' is not available, the possible rearrangements are reduced.</p>"
-		"<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content "
-		"is encrypted, but the key is known. You should see it more as a polite but firm request "
-		"to respect the author's wishes.</p>");
-
-#ifndef LIBPOPPLER_QT4_AVAILABLE
-	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library. "
-	                "Setting, changing and removing of properties and permissions is not possible.</p>");
-#endif
-
-		KMessageBox::information(this,message,i18n("PDF Tools"));
-	}
-	else {
-		KDialog::slotButtonClicked(button);
-	}
+// 	int tabindex = m_PdfDialog.tabWidget->currentIndex();
+// 
+// 	if ( button == User1 ) {
+// 		switch (tabindex) {
+// 			case 0: if (checkParameter()) {
+// 					executeAction();
+// 				}
+// 				break;
+// 			case 1: if (checkProperties()) {
+// 					executeProperties();
+// 				}
+// 				break;
+// 			case 2: if (checkPermissions()) {
+// 					executePermissions();
+// 				}
+// 				break;
+// 		}
+// 	}
+// 	else if (button == Help) {
+// 		QString message = i18n("<center>PDF-Wizard</center><br>"
+// 		"This wizard uses 'pdftk' and the LaTeX package 'pdfpages' to"
+// 		"<ul>"
+// 		"<li>rearrange pages of an existing PDF document</li>"
+// 		"<li>read and update documentinfo of a PDF document (only pdftk)</li>"
+// 		"<li>read, set or change some permissions of a PDF document (only pdftk). "
+// 		"A password is necessary to set or change this document settings. "
+// 		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
+// 		"</ul>"
+// 		"<p>The package 'pdfpages' will only work with non-encrypted documents. "
+// 		"'pdftk' can handle both kind of documents, but a password is needed for encrypted files. "
+// 		"If one of 'pdftk' or 'pdfpages' is not available, the possible rearrangements are reduced.</p>"
+// 		"<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content "
+// 		"is encrypted, but the key is known. You should see it more as a polite but firm request "
+// 		"to respect the author's wishes.</p>");
+// 
+// #ifndef LIBPOPPLER_QT4_AVAILABLE
+// 	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library. "
+// 	                "Setting, changing and removing of properties and permissions is not possible.</p>");
+// #endif
+// 
+// 		KMessageBox::information(this,message,i18n("PDF Tools"));
+// 	}
+// 	else {
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// // 		QDialog::slotButtonClicked(button);
+// 	}
 }
 
 void PdfDialog::executeAction()
@@ -928,18 +947,19 @@ void PdfDialog::executeAction()
 	emit( output(s) );
 
 	// run Process
-	executeScript(command, m_tempdir->name(), PDF_SCRIPTMODE_ACTION);
+	executeScript(command, m_tempdir->path(), PDF_SCRIPTMODE_ACTION);
 }
 
 void PdfDialog::executeProperties()
 {
 	// create temporary file
-	KTemporaryFile infotemp;
-	infotemp.setSuffix(".txt");
+	QTemporaryFile infotemp;
+//code was 	infotemp.setSuffix(".txt");
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".txt") 
 	infotemp.setAutoRemove(false);
 
 	if(!infotemp.open()) {
-		KILE_DEBUG() << "Could not create tempfile for key/value pairs in QString PdfDialog::executeProperties()" ;
+		KILE_DEBUG_MAIN << "Could not create tempfile for key/value pairs in QString PdfDialog::executeProperties()" ;
 		return;
 	}
 	QString infofile = infotemp.fileName();
@@ -951,7 +971,9 @@ void PdfDialog::executeProperties()
 		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed() << "\n";
 	}
 	// add modification Date
-	QString datetime = KDateTime::currentUtcDateTime().toString("%Y%m%d%H%M%S%:z");
+//TODO KF5
+// 	QString datetime = KDateTime::currentUtcDateTime().toString("%Y%m%d%H%M%S%:z");
+	QString datetime = "";
 	datetime = datetime.replace(":","'");
 	infostream << "InfoKey: " << "ModDate" << "\n";
 	infostream << "InfoValue: " << "D:" << datetime << "'\n";
@@ -960,7 +982,7 @@ void PdfDialog::executeProperties()
 	// build command
 	QString inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	QString password =  m_PdfDialog.m_edPassword->text().trimmed();
-	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-props.pdf";
+	QString pdffile = m_tempdir->path() + QFileInfo(m_inputfile).baseName() + "-props.pdf";
 
 	// read permissions
 	QString permissions = readPermissions();
@@ -998,7 +1020,7 @@ void PdfDialog::executePermissions()
 	// build command
 	QString inputfile = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
 	QString password =  m_PdfDialog.m_edPassword->text().trimmed();
-	QString pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-perms.pdf";
+	QString pdffile = m_tempdir->path() + QFileInfo(m_inputfile).baseName() + "-perms.pdf";
 
 	QString param = "\"" + inputfile + "\"";
 	if ( m_encrypted ) {
@@ -1063,11 +1085,12 @@ void PdfDialog::executeScript(const QString &command, const QString &dir, int sc
 	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
 	        this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
-	KILE_DEBUG() << "=== PdfDialog::runPdfutils() ====================";
-	KILE_DEBUG() << "execute '" << command << "'";
+	KILE_DEBUG_MAIN << "=== PdfDialog::runPdfutils() ====================";
+	KILE_DEBUG_MAIN << "execute '" << command << "'";
 	m_scriptrunning = true;
-	enableButton(User1,false);
-	enableButton(Close,false);
+//TODO KF5
+// 	user1Button->setEnabled(false);
+// 	buttonBox->button(QDialogButtonBox::Close)->setEnabled(false);
 	m_proc->start();
 }
 
@@ -1101,7 +1124,8 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 	}
 
 	m_scriptrunning = false;
-	enableButton(Close,true);
+//TODO KF5
+// 	buttonBox->button(QDialogButtonBox::Close)->setEnabled(true);
 	updateDialog();
 }
 
@@ -1120,7 +1144,7 @@ void PdfDialog::finishPdfAction(bool state)
 			if ( ! m_move_filelist.isEmpty() ) {
 				QFile::remove( m_move_filelist[1] );
 				QFile::rename( m_move_filelist[0], m_move_filelist[1] );
-				KILE_DEBUG() << "move file: " << m_move_filelist[0] << " --->  " << m_move_filelist[1];
+				KILE_DEBUG_MAIN << "move file: " << m_move_filelist[0] << " --->  " << m_move_filelist[1];
 			}
 
 			// run viewer
@@ -1299,7 +1323,7 @@ QString PdfDialog::buildActionCommand()
 		command = "pdflatex " + latexfile + ".tex";
 	}
 	else {
-		pdffile = m_tempdir->name() + QFileInfo(m_inputfile).baseName() + "-temp.pdf";
+		pdffile = m_tempdir->path() + QFileInfo(m_inputfile).baseName() + "-temp.pdf";
 		command = "pdftk \"" + m_inputfile + "\"";
 		if ( m_encrypted ) {
 			QString password =  m_PdfDialog.m_edPassword->text().trimmed();
@@ -1336,13 +1360,15 @@ QString PdfDialog::buildActionCommand()
 // create a temporary file to run latex with package pdfpages.sty
 QString PdfDialog::buildLatexFile(const QString &param)
 {
-	KTemporaryFile temp;
-	temp.setPrefix(m_tempdir->name());
-	temp.setSuffix(".tex");
+	QTemporaryFile temp;
+//code was 	temp.setPrefix(m_tempdir->path());
+//Add to constructor and adapt if necessay: m_tempdir->path()QLatin1String("/myapp_XXXXXX.txt") 
+//code was 	temp.setSuffix(".tex");
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".tex") 
 	temp.setAutoRemove(false);
 
 	if(!temp.open()) {
-		KILE_DEBUG() << "Could not create tempfile in PdfDialog::buildLatexFile()" ;
+		KILE_DEBUG_MAIN << "Could not create tempfile in PdfDialog::buildLatexFile()" ;
 		return QString();
 	}
 	QString tempname = temp.fileName();
@@ -1362,13 +1388,15 @@ QString PdfDialog::buildLatexFile(const QString &param)
 // create a temporary pdf file to set a background color
 QString PdfDialog::buildPdfBackgroundFile(QColor *color)
 {
-	KTemporaryFile temp;
-	temp.setPrefix(m_tempdir->name());
-	temp.setSuffix(".pdf");
+	QTemporaryFile temp;
+//code was 	temp.setPrefix(m_tempdir->path());
+//Add to constructor and adapt if necessay: m_tempdir->path()QLatin1String("/myapp_XXXXXX.txt") 
+//code was 	temp.setSuffix(".pdf");
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".pdf") 
 	temp.setAutoRemove(false);
 
 	if(!temp.open()) {
-		KILE_DEBUG() << "Could not create tempfile in PdfDialog::buildPdfBackgroundFile()" ;
+		KILE_DEBUG_MAIN << "Could not create tempfile in PdfDialog::buildPdfBackgroundFile()" ;
 		return QString();
 	}
 	QString tempname = temp.fileName();

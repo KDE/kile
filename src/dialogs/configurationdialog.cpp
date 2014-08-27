@@ -32,12 +32,14 @@
 #include <QTextCodec>
 
 #include <kdeversion.h>
-#include <KLocale>
-#include <KIconLoader>
+#include <KLocalizedString>
 #include <KVBox>
 
 #include <KTextEditor/ConfigPage>
-#include <KTextEditor/EditorChooser>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 #include "errorhandler.h"
 #include "kiledocmanager.h"
@@ -67,11 +69,21 @@ namespace KileDialog
 		  m_config(config),
 		  m_ki(ki)
 	{
-		setCaption(i18n("Configure"));
+		setWindowTitle(i18n("Configure"));
 		setModal(true);
-		setButtons(Ok | Cancel);
-		setDefaultButton(Ok);
-		showButtonSeparator(true);
+		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+		QWidget *mainWidget = new QWidget(this);
+		QVBoxLayout *mainLayout = new QVBoxLayout;
+		setLayout(mainLayout);
+		mainLayout->addWidget(mainWidget);
+		QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+		okButton->setDefault(true);
+		okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+		connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+		//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+		mainLayout->addWidget(buttonBox);
+		okButton->setDefault(true);
 		setObjectName("kileconfiguration");
 		setFaceType(Tree);
 
@@ -104,28 +116,29 @@ namespace KileDialog
 		setupQuickPreview(toolsPageWidgetItem);     // QuickPreview (dani)
 
 		setupEditor(editorPageWidgetItem);
-		showButtonSeparator(true);
 
 		m_configDialogSize = m_config->group("KileConfigDialog");
-		restoreDialogSize(m_configDialogSize);
+// TODO KF5
+// 		restoreDialogSize(m_configDialogSize);
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
-		connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-		connect(this, SIGNAL(cancelClicked()), this, SLOT(slotCancel()));
-		connect(this, SIGNAL(okClicked()), m_manager, SLOT(updateSettings()));
+		connect(okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
+		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(slotCancel()));
+		connect(okButton, SIGNAL(clicked()), m_manager, SLOT(updateSettings()));
 	}
 
 	Config::~Config()
 	{
-		saveDialogSize(m_configDialogSize);
+//TODO KF5
+// 		saveDialogSize(m_configDialogSize);
 		delete m_manager;
 	}
 
 	void Config::show()
 	{
 		m_manager->updateWidgets();
-		KDialog::show();
+		QDialog::show();
 	}
 
 	//////////////////// add a new folder ////////////////////
@@ -133,7 +146,7 @@ namespace KileDialog
 	KPageWidgetItem* Config::addConfigFolder(const QString &section, const QString &icon)
 	{
 		KPageWidgetItem *toReturn = addPage(0, section);
-		toReturn->setIcon(KIcon(icon));
+		toReturn->setIcon(QIcon::fromTheme(icon));
 
 		return toReturn;
 	}
@@ -143,14 +156,14 @@ namespace KileDialog
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page, const QString &itemName,
                                    const QString &pixmapName, const QString &header)
 	{
-		return addConfigPage(parent, page, itemName, KIcon(pixmapName), header);
+		return addConfigPage(parent, page, itemName, QIcon::fromTheme(pixmapName), header);
 	}
 
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page,
-                                               const QString &itemName, const KIcon& icon,
+                                               const QString &itemName, const QIcon& icon,
                                                const QString &header)
 	{
-		KILE_DEBUG() << "slot: add config page item=" << itemName;
+		KILE_DEBUG_MAIN << "slot: add config page item=" << itemName;
 
 		// add page
 		KPageWidgetItem *pageWidgetItem = addSubPage(parent, page, itemName);
@@ -304,7 +317,9 @@ namespace KileDialog
 			KVBox *configPageParent = new KVBox(this);
 			KTextEditor::ConfigPage *configPage = editor->configPage(i, configPageParent);
 
-			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, editor->configPageName(i), editor->configPageIcon(i), editor->configPageFullName(i));
+			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, configPage->name(),
+			                                                                          configPage->icon(),
+			                                                                          configPage->fullName());
 			connect(configPage, SIGNAL(changed()), this, SLOT(slotChanged()));
 			m_editorPages.insert(pageWidgetItem, configPage);
 		}
@@ -314,7 +329,7 @@ namespace KileDialog
 
 	void Config::slotOk()
 	{
-		KILE_DEBUG() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
+		KILE_DEBUG_MAIN << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
 
 		// editor settings are only available, when at least one document is opened
 		if(m_editorSettingsChanged) {
@@ -322,11 +337,6 @@ namespace KileDialog
 			while (i.hasNext()) {
 				i.next();
 				i.value()->apply();
-			}
-
-			KTextEditor::Editor *editor = KTextEditor::EditorChooser::editor();
-			if(editor) {
-				editor->writeConfig(m_config);
 			}
 		}
 
@@ -345,14 +355,14 @@ namespace KileDialog
 
 	void Config::slotCancel()
 	{
-		KILE_DEBUG() << "   slot cancel";
+		KILE_DEBUG_MAIN << "   slot cancel";
 		m_config->markAsClean();
 		accept();
 	}
 
 	void Config::slotChanged()
 	{
-		KILE_DEBUG() << "   slot changed";
+		KILE_DEBUG_MAIN << "   slot changed";
 		m_editorSettingsChanged = true;
 	}
 

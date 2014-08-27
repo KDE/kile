@@ -23,10 +23,10 @@
 
 #include <KConfig>
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStandardDirs>
-#include <KTextEditor/SearchInterface>
 #include <KTextEditor/Cursor>
+#include <QStandardPaths>
 
 #include "abbreviationmanager.h"
 #include "documentinfo.h"
@@ -60,23 +60,19 @@ void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTex
 	}
 	Q_UNUSED(invocationType);
 	m_currentView = view;
-	KILE_DEBUG() << "building model...";
+	KILE_DEBUG_MAIN << "building model...";
 	buildModel(view, range);
 }
 
 ${CODECOMPLETION_RANGE_RETURN} LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view,
                                                                            ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range)
 {
-	KILE_DEBUG() << "updating model..." << view << range;
+	KILE_DEBUG_MAIN << "updating model..." << view << range;
 	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
 	if(newRange.isValid()) {
 		buildModel(view, newRange);
 	}
-	#if KDE_IS_VERSION(4,5,0)
 		return newRange;
-	#else
-		range = newRange;
-	#endif
 }
 
 static inline bool isSpecialLaTeXCommandCharacter(const QChar& c) {
@@ -142,7 +138,7 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 {
 	KTextEditor::Cursor startCursor = range.start();
 	QString completionString = view->document()->text(range);
-	KILE_DEBUG() << "Text in completion range: " << completionString;
+	KILE_DEBUG_MAIN << "Text in completion range: " << completionString;
 	m_completionList.clear();
 
 	if(completionString.startsWith('\\')) {
@@ -185,7 +181,7 @@ KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor
 	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,.=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
 	completionStartRegExp.setMinimal(true);
 	QString leftSubstring = line.left(position.column());
-	KILE_DEBUG() << "leftSubstring: " << leftSubstring;
+	KILE_DEBUG_MAIN << "leftSubstring: " << leftSubstring;
 	int startPos = completionStartRegExp.lastIndexIn(leftSubstring);
 	if(startPos >= 0) {
 		return KTextEditor::Cursor(position.line(), startPos);
@@ -224,35 +220,35 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	int cursorPos = position.column();
 
 	KTextEditor::Cursor latexCommandStart = determineLaTeXCommandStart(view->document(), position);
-	KILE_DEBUG() << "LaTeX command start " << latexCommandStart;
+	KILE_DEBUG_MAIN << "LaTeX command start " << latexCommandStart;
 	if(!latexCommandStart.isValid() || !isWithinLaTeXCommand(view->document(), latexCommandStart, position)) {
 		return KTextEditor::Range::invalid();
 	}
 	QString completionString = view->document()->text(KTextEditor::Range(latexCommandStart,
 	                                                                     position));
-	KILE_DEBUG() << "completionString " << completionString;
+	KILE_DEBUG_MAIN << "completionString " << completionString;
 	//check whether we are completing a citation of reference
 	if(completionString.indexOf(m_codeCompletionManager->m_citeRegExp) != -1
 		|| completionString.indexOf(m_codeCompletionManager->m_referencesRegExp) != -1) {
-		KILE_DEBUG() << "found citation or reference!";
+		KILE_DEBUG_MAIN << "found citation or reference!";
 		int openBracketIndex = completionString.indexOf('{');
 		if(openBracketIndex != -1) {
 			// TeX allows '.' characters inside citation labels (bug 266670)
 			QRegExp labelListRegExp("\\s*(([:.\\w]+)|([:.\\w]+(\\s*,\\s*[:.\\w]*)+))");
 			labelListRegExp.setMinimal(false);
 			int column = openBracketIndex + 1;
-			KILE_DEBUG() << "open bracket column + 1: " << column;
-			KILE_DEBUG() << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
+			KILE_DEBUG_MAIN << "open bracket column + 1: " << column;
+			KILE_DEBUG_MAIN << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
 			if(labelListRegExp.indexIn(completionString, openBracketIndex + 1) == openBracketIndex + 1
 			      && labelListRegExp.matchedLength() + openBracketIndex + 1 == completionString.length()) {
 				QRegExp lastCommaRegExp(",\\s*");
 				int lastCommaIndex = lastCommaRegExp.lastIndexIn(completionString);
 				if(lastCommaIndex >= 0) {
-					KILE_DEBUG() << "last comma found at: " << lastCommaIndex;
+					KILE_DEBUG_MAIN << "last comma found at: " << lastCommaIndex;
 					column =  lastCommaIndex + lastCommaRegExp.matchedLength();
 				}
 			}
-			KILE_DEBUG() << labelListRegExp.errorString();
+			KILE_DEBUG_MAIN << labelListRegExp.errorString();
 			startCursor.setColumn(latexCommandStart.column() + column);
 			latexCompletion = false;
 		}
@@ -265,7 +261,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	}
 
 	int endPos = line.indexOf(completionEndRegExp, cursorPos);
-	KILE_DEBUG() << "endPos" << endPos;
+	KILE_DEBUG_MAIN << "endPos" << endPos;
 	if(endPos >= 0) {
 		endCursor.setColumn(endPos);
 	}
@@ -273,10 +269,10 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	int rangeLength = endCursor.column() - startCursor.column();
 
 	if(latexCompletion && KileConfig::completeAuto() && rangeLength < KileConfig::completeAutoThreshold() + 1) { // + 1 for the command backslash
-		KILE_DEBUG() << "not reached the completion threshold yet";
+		KILE_DEBUG_MAIN << "not reached the completion threshold yet";
 		return KTextEditor::Range::invalid();
 	}
-	KILE_DEBUG() << "returning completion range: " << completionRange;
+	KILE_DEBUG_MAIN << "returning completion range: " << completionRange;
 	return completionRange;
 }
 
@@ -299,6 +295,8 @@ bool LaTeXCompletionModel::shouldStartCompletion(KTextEditor::View *view, const 
 	else {
 		return ${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME}::shouldStartCompletion(view, insertedText, userInsertion, position);
 	}
+//TODO KF5
+return false;
 }
 
 bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
@@ -316,8 +314,8 @@ QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextE
                                                                     const KTextEditor::Cursor &position)
 {
 	Q_UNUSED(position);
-	KILE_DEBUG() << "range: " << range;
-	KILE_DEBUG() << "text: " << (range.isValid() ? view->document()->text(range)
+	KILE_DEBUG_MAIN << "range: " << range;
+	KILE_DEBUG_MAIN << "text: " << (range.isValid() ? view->document()->text(range)
 	                                             : "(invalid range)");
 
 	return "";
@@ -338,14 +336,15 @@ QVariant LaTeXCompletionModel::data(const QModelIndex& index, int role) const
 	return QVariant();
 }
 
-QModelIndex LaTeXCompletionModel::index(int row, int column, const QModelIndex &parent) const
-{
-	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
-		return QModelIndex();
-	}
-
-	return createIndex(row, column, 0);
-}
+//TODO KF5
+// QModelIndex LaTeXCompletionModel::index(int row, int column, const QModelIndex &parent) const
+// {
+// 	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+// 		return QModelIndex();
+// 	}
+// 
+// 	return createIndex(row, column, 0);
+// }
 
 int LaTeXCompletionModel::rowCount(const QModelIndex &parent) const
 {
@@ -381,7 +380,7 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::Document *document
 		prefix = document->text(KTextEditor::Range(startCursor.line(), 0,
 		                                           startCursor.line(), word.start().column()));
 		textToInsert = buildEnvironmentCompletedText(completionText, prefix, cursorYPos, cursorXPos);
-		KILE_DEBUG() << cursorYPos << ", " << cursorXPos;
+		KILE_DEBUG_MAIN << cursorYPos << ", " << cursorXPos;
 	}
 	else {
 		textToInsert = buildRegularCompletedText(stripParameters(completionText), cursorYPos, cursorXPos, true);
@@ -664,14 +663,15 @@ AbbreviationCompletionModel::~AbbreviationCompletionModel()
 {
 }
 
-QModelIndex AbbreviationCompletionModel::index(int row, int column, const QModelIndex &parent) const
-{
-	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
-		return QModelIndex();
-	}
-
-	return createIndex(row, column, 0);
-}
+//TODO KF5
+// QModelIndex AbbreviationCompletionModel::index(int row, int column, const QModelIndex &parent) const
+// {
+// 	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+// 		return QModelIndex();
+// 	}
+// 
+// 	return createIndex(row, column, 0);
+// }
 
 QVariant AbbreviationCompletionModel::data(const QModelIndex& index, int role) const
 {
@@ -731,7 +731,7 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 		reset();
 		return;
 	}
-	KILE_DEBUG() << "building model...";
+	KILE_DEBUG_MAIN << "building model...";
 	buildModel(view, range, (invocationType == UserInvocation || invocationType == ManualInvocation));
 }
 
@@ -741,23 +741,15 @@ ${CODECOMPLETION_RANGE_RETURN} AbbreviationCompletionModel::updateCompletionRang
 	if(!range.isValid()) {
 		m_completionList.clear();
 		reset();
-		#if KDE_IS_VERSION(4,5,0)
-			return range;
-		#else
-			return;
-		#endif
+		return range;
 	}
 	
-	KILE_DEBUG() << "updating model...";
+	KILE_DEBUG_MAIN << "updating model...";
 	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
 	if(newRange.isValid()) {
 		buildModel(view, newRange);
 	}
-	#if KDE_IS_VERSION(4,5,0)
-		return newRange;
-	#else
-		range = newRange;
-	#endif
+	return newRange;
 }
 
 KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::View *view,
@@ -788,26 +780,27 @@ QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
 void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
                                                         int row) const
 {
-	// replace abbreviation and take care of newlines  
-	QString completionText = data(index(row, KTextEditor::CodeCompletionModel::Name, QModelIndex()), Qt::DisplayRole).toString();
-	completionText.replace("%n","\n");
-	document->replaceText(word, completionText);
-	
-	// look if there is a %C-wish to place the cursor
-	if(completionText.indexOf("%C")>=0) {
-		KTextEditor::SearchInterface *iface = qobject_cast<KTextEditor::SearchInterface*>( document );
-		if( iface ) {
-			KTextEditor::Range searchrange = KTextEditor::Range(word.start(),document->lines()+1,0);
-			QVector<KTextEditor::Range> rangevec = iface->searchText(searchrange,"%C");
-			if ( rangevec.size() >= 1 ) {
-				KTextEditor::Range range = rangevec.at(0);
-				document->removeText(range);
-				KTextEditor::View *view = document->activeView(); 
-				if ( view )
-					view->setCursorPosition(range.start());
-			}
-		}
-	}
+//TOOD KF5
+// 	// replace abbreviation and take care of newlines  
+// 	QString completionText = data(index(row, KTextEditor::CodeCompletionModel::Name, QModelIndex()), Qt::DisplayRole).toString();
+// 	completionText.replace("%n","\n");
+// 	document->replaceText(word, completionText);
+// 	
+// 	// look if there is a %C-wish to place the cursor
+// 	if(completionText.indexOf("%C")>=0) {
+// 		KTextEditor::SearchInterface *iface = qobject_cast<KTextEditor::SearchInterface*>( document );
+// 		if( iface ) {
+// 			KTextEditor::Range searchrange = KTextEditor::Range(word.start(),document->lines()+1,0);
+// 			QVector<KTextEditor::Range> rangevec = iface->searchText(searchrange,"%C");
+// 			if ( rangevec.size() >= 1 ) {
+// 				KTextEditor::Range range = rangevec.at(0);
+// 				document->removeText(range);
+// 				KTextEditor::View *view = document->activeView(); 
+// 				if ( view )
+// 					view->setCursorPosition(range.start());
+// 			}
+// 		}
+// 	}
 }
 
 void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range,
@@ -816,7 +809,7 @@ void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTex
 	reset();
 	m_completionList.clear();
 	QString text = view->document()->text(range);
-	KILE_DEBUG() << text;
+	KILE_DEBUG_MAIN << text;
 	if(text.isEmpty()) {
 		return;
 	}
@@ -862,15 +855,15 @@ QStringList Manager::getLocallyDefinedLaTeXCommands(KTextEditor::View *view) con
 void Manager::readConfig(KConfig *config)
 {
 	Q_UNUSED(config);
-	KILE_DEBUG() << "======================";
+	KILE_DEBUG_MAIN << "======================";
 
 	// reading the wordlists is only necessary at the first start
 	// and when the list of files changes
 	if(m_firstConfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
-		KILE_DEBUG() << "   setting regexp for references...";
+		KILE_DEBUG_MAIN << "   setting regexp for references...";
 		buildReferenceCitationRegularExpressions();
 
-		KILE_DEBUG() << "   read wordlists...";
+		KILE_DEBUG_MAIN << "   read wordlists...";
 		// wordlists for Tex/Latex mode
 		QStringList files = KileConfig::completeTex();
 		m_texWordList = readCWLFiles(files, "tex");
@@ -1068,7 +1061,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 QStringList Manager::readCWLFile(const QString &filename, bool fullPathGiven)
 {
 	QStringList toReturn;
-	QString file = fullPathGiven ? filename : KGlobal::dirs()->findResource("appdata", "complete/" + filename);
+	QString file = fullPathGiven ? filename : QStandardPaths::locate(QStandardPaths::DataLocation, "complete/" + filename);
 	if(file.isEmpty()) {
 		return toReturn;
 	}
@@ -1134,10 +1127,10 @@ QMap<QString, QString> Manager::getAllCwlFiles(const QString &localCwlPath, cons
 
 QPair<QString, QString> Manager::getCwlBaseDirs()
 {
-	QString localDir = KStandardDirs::locateLocal("appdata", "complete/");
+	QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "complete/";
 	QString globalDir;
 
-	const QStringList dirs = KGlobal::dirs()->findDirs("appdata", "complete/");
+	const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "complete", QStandardPaths::LocateDirectory);
 	for(QStringList::ConstIterator it = dirs.constBegin(); it != dirs.constEnd(); ++it) {
 		if((*it) != localDir) {
 			globalDir = (*it);

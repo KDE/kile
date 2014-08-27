@@ -15,8 +15,6 @@
 
 #include <QTimer>
 
-#include <KTextEditor/CommandInterface>
-
 #include "kiledocmanager.h"
 #include "kileinfo.h"
 
@@ -24,22 +22,23 @@ EditorCommands::EditorCommands(KileInfo *info)
  : m_ki(info)
 {
 	m_commandList << "w" << "wa" << "wq" << "q" << "wqa";
-	KTextEditor::CommandInterface *commandInterface
-	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
-
-	if(commandInterface) {
-		commandInterface->registerCommand(this);
-	}
+//TODO KF5
+// 	KTextEditor::CommandInterface *commandInterface
+// 	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
+// 
+// 	if(commandInterface) {
+// 		commandInterface->registerCommand(this);
+// 	}
 }
 
 EditorCommands::~EditorCommands()
 {
-	KTextEditor::CommandInterface *commandInterface
-	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
-
-	if(commandInterface) {
-		commandInterface->unregisterCommand(this);
-	}
+// 	KTextEditor::CommandInterface *commandInterface
+// 	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
+// 
+// 	if(commandInterface) {
+// 		commandInterface->unregisterCommand(this);
+// 	}
 }
 
 const QStringList& EditorCommands::cmds()

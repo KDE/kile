@@ -23,8 +23,9 @@
 #include <QVariant>
 #include <QVBoxLayout>
 
-#include <KDialog>
-#include <KLocale>
+#include <QDialog>
+#include <KLocalizedString>
+#include <KConfigGroup>
 
 #include "kiledebug.h"
 
@@ -36,14 +37,14 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char *name, Qt::WFlags
 	setObjectName(name);
 	QVBoxLayout *vbox = new QVBoxLayout;
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	setLayout(vbox);
 
 	// characters groupbox
 	m_charactersGroup = new QGroupBox(i18n("Characters"), this);
 	chargrouplayout = new QGridLayout();
-	chargrouplayout->setMargin(KDialog::marginHint());
-	chargrouplayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	chargrouplayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	chargrouplayout->setSpacing(QDialog::spacingHint());
 	chargrouplayout->setAlignment(Qt::AlignTop);
 	m_charactersGroup->setLayout(chargrouplayout);
 
@@ -81,8 +82,8 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char *name, Qt::WFlags
 	// string groupbox
 	m_stringsGroup = new QGroupBox(i18n("Strings"), this);
 	stringgrouplayout = new QGridLayout();
-	stringgrouplayout->setMargin(KDialog::marginHint());
-	stringgrouplayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	stringgrouplayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	stringgrouplayout->setSpacing(QDialog::spacingHint());
 	stringgrouplayout->setAlignment(Qt::AlignTop);
 	m_stringsGroup->setLayout(stringgrouplayout);
 

@@ -18,12 +18,16 @@
 #include <QLabel>
 
 #include <KApplication>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "kileproject.h"
 #include "widgets/statisticswidget.h"
 
 #include <KTextEditor/View>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 // A dialog that displays statistical information about the active project/file
 
@@ -35,15 +39,27 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 {
 	setObjectName(name);
 	setFaceType(Tabbed);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Help | Close | User1 | User2);
-	setDefaultButton(Close);
-	showButtonSeparator(false);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Close);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *user1Button = new QPushButton;
+	buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
+	QPushButton *user2Button = new QPushButton;
+	buttonBox->addButton(user2Button, QDialogButtonBox::ActionRole);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	buttonBox->button(QDialogButtonBox::Close)->setDefault(true);
 
-	setButtonText(User1, i18n("Copy"));
-	setButtonText(User2, i18n("Copy as LaTeX"));
-	setHelp("statistics");
+//TODO KF5
+// 	user1Button->setText(i18n("Copy"));
+// 	user2Button->setText(i18n("Copy as LaTeX"));
+// 	setHelp("statistics");
 
 	m_summarystats = new long[SIZE_STAT_ARRAY];
 	m_summarystats[0] = m_summarystats[1] = m_summarystats[2] = m_summarystats[3] = m_summarystats[4] = m_summarystats[5] = 0;
@@ -55,7 +71,7 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 	KileDocument::TextInfo* tempDocinfo;
 
 	m_hasSelection = false; // class variable, if the user has selected text,
-	summary = new KileWidget::StatisticsWidget(mainWidget());
+	summary = new KileWidget::StatisticsWidget(mainWidget);
 	KPageWidgetItem *itemSummary = new KPageWidgetItem(summary, i18n("Summary"));
 	addPage(itemSummary);
 	summary->m_commentAboutHelp->setText(i18n("For information about the accuracy see the Help."));
@@ -64,18 +80,19 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 	m_pagetowidget[itemSummary] = summary;
 	m_pagetoname[itemSummary] = i18n("Summary");
 
-	if (m_docinfo->getDoc()->activeView()->selection()) { // the user should really have that doc as active in which the selection is
-		m_hasSelection = true;
-	}
+//TODO KF5
+// 	if (m_docinfo->getDoc()->activeView()->selection()) { // the user should really have that doc as active in which the selection is
+// 		m_hasSelection = true;
+// 	}
 
 	if (!m_project) { // the active doc doesn't belong to a project
-		setCaption(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));
+		setWindowTitle(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));
 		stats = m_docinfo->getStatistics(m_view);
 		fillWidget(stats, summary);
 	}
 	else { // active doc belongs to a project
-		setCaption(i18n("Statistics for the Project %1", m_project->name()));
-		KILE_DEBUG() << "Project file is " << project->baseURL() << endl;
+		setWindowTitle(i18n("Statistics for the Project %1", m_project->name()));
+		KILE_DEBUG_MAIN << "Project file is " << project->baseURL() << endl;
 
 		QList<KileProjectItem*> items = project->items();
 
@@ -103,7 +120,7 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 					tempWidget = new KileWidget::StatisticsWidget();
 					KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
 					addPage(itemTemp);
-					KILE_DEBUG() << "TempName is " << tempName << endl;
+					KILE_DEBUG_MAIN << "TempName is " << tempName << endl;
 					m_pagetowidget[itemTemp] = tempWidget;
 					m_pagetoname[itemTemp] = tempName;
 					fillWidget(stats, tempWidget);
@@ -118,11 +135,11 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 				summary->m_warning->setText(i18n("To get statistics for all project files, you have to open them all."));
 			}
 
-			KILE_DEBUG() << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
-			KILE_DEBUG() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+			KILE_DEBUG_MAIN << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+			KILE_DEBUG_MAIN << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
 		}
 	}
-//  setInitialSize( QSize(550,560), true);
+//  resize( QSize(550,560), true);
 }
 
 StatisticsDialog::~StatisticsDialog()
@@ -155,17 +172,21 @@ void StatisticsDialog::fillWidget(const long* stats, KileWidget::StatisticsWidge
 	widget->updateColumns();
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void StatisticsDialog::slotButtonClicked(int button)
 {
-	if (button == User1 || button == User2) {
-		KILE_DEBUG() << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
-
-		QClipboard *clip = KApplication::clipboard();
-		QString text;
-		convertText(&text, button == User2);
-		clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
-	}
-	KDialog::slotButtonClicked(button);
+// 	if (button == User1 || button == User2) {
+// 		KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
+// 
+// 		QClipboard *clip = KApplication::clipboard();
+// 		QString text;
+// 		convertText(&text, button == User2);
+// 		clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
+// 	}
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 	QDialog::slotButtonClicked(button);
 }
 
 void StatisticsDialog::convertText(QString* text, bool forLaTeX) // the bool determines if we want plainText or LaTeXCode

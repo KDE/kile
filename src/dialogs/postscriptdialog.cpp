@@ -26,15 +26,19 @@
 #include <QStringList>
 
 #include <KComboBox>
-#include <KFileDialog>
 #include <KIconLoader>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-#include <KStandardDirs>
-#include <KTemporaryFile>
+
+#include <QTemporaryFile>
 #include <KUrlRequester>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStandardPaths>
 
 #include "errorhandler.h"
 #include "kiledebug.h"
@@ -47,17 +51,26 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
                                    const QString &texfilename,const QString &startdir,
                                    const QString &latexextensions,
                                    KileErrorHandler *errorHandler, KileWidget::OutputView *output) :
-	KDialog(parent),
+	QDialog(parent),
 	m_startdir(startdir),
 	m_errorHandler(errorHandler),
 	m_output(output),
 	m_proc(NULL)
 {	
-	setCaption(i18n("Rearrange Postscript File"));
+	setWindowTitle(i18n("Rearrange Postscript File"));
 	setModal(true);
-	setButtons(Close | User1);
-	setDefaultButton(User1);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *user1Button = new QPushButton;
+	buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	user1Button->setDefault(true);
 
 	// determine if a psfile already exists
 	QString psfilename,psoutfilename;
@@ -78,12 +91,12 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 
 	// prepare dialog
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 	m_PostscriptDialog.setupUi(page);
 
 	// line 0: QLabel
-	bool pstops = !KStandardDirs::findExe("pstops").isEmpty();
-	bool psselect = !KStandardDirs::findExe("psselect").isEmpty();
+	bool pstops = !QStandardPaths::findExecutable("pstops").isEmpty();
+	bool psselect = !QStandardPaths::findExecutable("psselect").isEmpty();
 
 	if (!pstops || !psselect) {
 		QString msg;
@@ -139,11 +152,11 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	comboboxChanged(PS_2xA4);
 
 	// set an user button to execute the task
-	setButtonText(Close, i18n("Done"));
-	setButtonText(User1, i18n("Execute"));
-	setButtonIcon(User1, KIcon("system-run"));
+	buttonBox->button(QDialogButtonBox::Close)->setText(i18n("Done"));
+	user1Button->setText(i18n("Execute"));
+	user1Button->setIcon(QIcon::fromTheme("system-run"));
 	if (!pstops && !psselect)
-		enableButton(User1, false);
+		user1Button->setEnabled(false);
 
 	// some connections
 	connect(m_PostscriptDialog.m_cbTask, SIGNAL(activated(int)), this, SLOT(comboboxChanged(int)));
@@ -159,14 +172,18 @@ PostscriptDialog::~PostscriptDialog()
 		delete m_proc;
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void PostscriptDialog::slotButtonClicked(int button)
 {
-	if (button == User1) {
-		if (checkParameter()) {
-			execute();
-		}
-	}
-	KDialog::slotButtonClicked(button);
+// 	if (button == User1) {
+// 		if (checkParameter()) {
+// 			execute();
+// 		}
+// 	}
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 	QDialog::slotButtonClicked(button);
 }
 
 void PostscriptDialog::execute()
@@ -214,8 +231,8 @@ void PostscriptDialog::execute()
 		connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
 		        this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
-		KILE_DEBUG() << "=== PostscriptDialog::runPsutils() ====================";
-		KILE_DEBUG() << "   execute '" << m_tempfile << "'";
+		KILE_DEBUG_MAIN << "=== PostscriptDialog::runPsutils() ====================";
+		KILE_DEBUG_MAIN << "   execute '" << m_tempfile << "'";
 		m_proc->start();
 	}
 }
@@ -291,11 +308,12 @@ QString PostscriptDialog::buildTempfile()
 	}
 
 	// create a temporary file
-	KTemporaryFile temp;
-	temp.setSuffix(".sh");
+	QTemporaryFile temp;
+//code was 	temp.setSuffix(".sh");
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".sh") 
 	temp.setAutoRemove(false);
 	if(!temp.open()) {
-		KILE_DEBUG() << "Could not create tempfile in QString PostscriptDialog::buildTempfile()" ;
+		KILE_DEBUG_MAIN << "Could not create tempfile in QString PostscriptDialog::buildTempfile()" ;
 		return QString();
 	}
 	QString tempname = temp.fileName();
@@ -447,7 +465,7 @@ bool PostscriptDialog::checkParameter()
 
 void PostscriptDialog::comboboxChanged(int index)
 {
-	KILE_DEBUG() << index << endl;
+	KILE_DEBUG_MAIN << index << endl;
 	if (index == PS_COPY_SORTED || index == PS_COPY_UNSORTED) {
 		m_PostscriptDialog.m_lbParameter->setEnabled(true);
 		m_PostscriptDialog.m_lbParameter->setText(i18n("Copies:"));

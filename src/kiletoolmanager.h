@@ -42,7 +42,7 @@
 
 class QTimer;
 
-class KAction;
+class QAction;
 class KActionCollection;
 class KConfig;
 class KSelectAction;
@@ -89,7 +89,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *, QStackedWidget* stack, KAction *, uint to, KActionCollection *);
+		Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *, QStackedWidget* stack, QAction *, uint to, KActionCollection *);
 		~Manager();
 	public:
 		Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
@@ -173,7 +173,7 @@ namespace KileTool
 		KileWidget::OutputView		*m_output;
 		KParts::PartManager		*m_pm;
 		QStackedWidget			*m_stack;
-		KAction				*m_stop;
+		QAction *m_stop;
 		Factory				*m_factory;
 		Queue				m_queue;
 		QTimer				*m_timer;
@@ -183,8 +183,8 @@ namespace KileTool
 		QQueue<Base*>			m_toolsScheduledAfterParsingList;
 		KSelectAction			*m_bibliographyBackendSelectAction;
 		QAction				*m_bibliographyBackendAutodetectAction;
-		KAction				*m_bibliographyBackendResetAutodetectedAction;
-		QMap<ToolConfigPair, KAction*>	m_bibliographyBackendActionMap;
+		QAction *m_bibliographyBackendResetAutodetectedAction;
+		QMap<ToolConfigPair, QAction *>	m_bibliographyBackendActionMap;
 		QList<ToolConfigPair> 		m_bibliographyToolsList;
 
 		void createActions(KActionCollection *ac);

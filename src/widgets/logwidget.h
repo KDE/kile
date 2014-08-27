@@ -18,7 +18,7 @@
 #include <QItemDelegate>
 #include <QTextDocument>
 
-#include <KListWidget>
+#include <QListWidget>
 
 #include "outputinfo.h"
 
@@ -26,7 +26,7 @@ class QString;
 class QPoint;
 
 class KileInfo;
-class KUrl;
+class QUrl;
 
 namespace KileWidget {
 	class LogWidgetItemDelegate : public QItemDelegate
@@ -47,7 +47,7 @@ namespace KileWidget {
 			QTextDocument* constructTextDocument(const QModelIndex& index) const;
 	};
 
-	class LogWidget : public KListWidget
+	class LogWidget : public QListWidget
 	{
 		Q_OBJECT
 

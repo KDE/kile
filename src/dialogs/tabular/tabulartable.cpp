@@ -25,7 +25,7 @@
 #include <QPaintEvent>
 
 #include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include "tabularcell.h"

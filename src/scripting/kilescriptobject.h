@@ -18,6 +18,7 @@
 #include <QAction>
 #include <QMap>
 #include <QStringList>
+#include <QUrl>
 
 #include <KParts/MainWindow>
 
@@ -144,8 +145,8 @@ class KileFile : public QObject
 		Q_INVOKABLE QMap<QString, QVariant> write(const QString& text) const;
 
 		// Open/Save dialogs from KFileDialog
-		Q_INVOKABLE QString getOpenFileName(const KUrl& url = KUrl(), const QString& filter = QString());
-		Q_INVOKABLE QString getSaveFileName(const KUrl& url = KUrl(), const QString& filter = QString());
+		Q_INVOKABLE QString getOpenFileName(const QUrl &url = QUrl(), const QString& filter = QString());
+		Q_INVOKABLE QString getSaveFileName(const QUrl &url = QUrl(), const QString& filter = QString());
 
 	private:
 		KileInfo *m_kileInfo;

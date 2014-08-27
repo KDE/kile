@@ -20,10 +20,10 @@
 
 #include <KColorCells>
 #include <KColorDialog>
-#include <KIcon>
-#include <KLocale>
-#include <KMenu>
-#include <KPushButton>
+#include <QIcon>
+#include <KLocalizedString>
+#include <QMenu>
+#include <QPushButton>
 
 namespace KileDialog {
 
@@ -55,7 +55,7 @@ SelectColorAction::SelectColorAction(const KIcon &icon, const QString &text, QWi
 	m_ccColors->setColor(14, Qt::gray);
 	m_ccColors->setColor(15, Qt::darkGray);
 
-	m_pbCustom = new KPushButton(KIcon("kcolorchooser"), i18n("Select custom color..."), page);
+	m_pbCustom = new QPushButton(QIcon::fromTheme("kcolorchooser"), i18n("Select custom color..."), page);
 
 	layout->addWidget(m_ccColors);
 	layout->addWidget(m_pbCustom);

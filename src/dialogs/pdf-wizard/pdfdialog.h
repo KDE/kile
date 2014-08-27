@@ -22,8 +22,8 @@
 #endif
 
 
-#include <KDialog>
-#include <KTempDir>
+#include <QDialog>
+#include <QTemporaryDir>
 
 #include <QProcess>
 #include <QMap>
@@ -48,7 +48,7 @@ class KileErrorHandler;
 namespace KileDialog
 {
 
-class PdfDialog : public KDialog
+class PdfDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -169,7 +169,7 @@ class PdfDialog : public KDialog
 		QString m_param;
 		bool m_scriptrunning;
 
-		KTempDir *m_tempdir;
+		QTemporaryDir *m_tempdir;
 		QStringList m_move_filelist;
 
 		bool m_poppler;

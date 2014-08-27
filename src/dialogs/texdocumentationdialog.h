@@ -19,7 +19,7 @@
 #ifndef TEXDOCUMENTATIONDIALOG_H
 #define TEXDOCUMENTATIONDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QMap>
 #include <QProcess>
@@ -29,13 +29,13 @@ class QTreeWidgetItem;
 
 class KProcess;
 class KLineEdit;
-class KPushButton;
-class KTemporaryFile;
+class QPushButton;
+class QTemporaryFile;
 
 namespace KileDialog
 {
 
-class TexDocDialog : public KDialog
+class TexDocDialog : public QDialog
 {
 		Q_OBJECT
 
@@ -46,7 +46,7 @@ class TexDocDialog : public KDialog
 	private:
 		QTreeWidget *m_texdocs;
 		KLineEdit *m_leKeywords;
-		KPushButton *m_pbSearch;
+		QPushButton *m_pbSearch;
 
 		QString m_texmfPath, m_texmfdocPath, m_texdoctkPath;
 
@@ -60,7 +60,7 @@ class TexDocDialog : public KDialog
 		QString m_filename;
 		QString m_output;
 
-		KTemporaryFile *m_tempfile;
+		QTemporaryFile *m_tempfile;
 		KProcess *m_proc;
 
 		void callSearch();

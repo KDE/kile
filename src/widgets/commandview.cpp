@@ -15,7 +15,7 @@
 
 #include "commandview.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KTextEditor/View>
 
 #include "kileconfig.h"
@@ -39,12 +39,12 @@ CommandView::CommandView(QWidget *parent, const QString &title, const char *name
 
 	m_title = title;
 	connect(this, SIGNAL(itemActivated(QListWidgetItem*)), parent, SLOT(slotItemActivated(QListWidgetItem*)));
-	KILE_DEBUG() << "connect view: " << m_title;
+	KILE_DEBUG_MAIN << "connect view: " << m_title;
 }
 
 CommandView::~CommandView()
 {
-	KILE_DEBUG() << "disconnect view: " << m_title;
+	KILE_DEBUG_MAIN << "disconnect view: " << m_title;
 }
 
 //-------------------- CommandViewToolBox --------------------
@@ -95,7 +95,7 @@ void CommandViewToolBox::readCommandViewFiles()
 	m_activeMaps = m_viewmap->size();
 	
 	if ( m_activeMaps == 0 ) {
-		KILE_DEBUG() << "no completion files or view not visible";
+		KILE_DEBUG_MAIN << "no completion files or view not visible";
 		QString title = i18n("LaTeX commands");
 		CommandView *view = new CommandView(this,title);
 		addItem(view,title);

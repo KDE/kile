@@ -18,7 +18,8 @@
 
 #include <QRegExp>
 
-#include <KLocale>
+#include <KLocalizedString>
+#include <KConfigGroup>
 
 #include "kiledebug.h"
 #include "editorextension.h"
@@ -31,7 +32,9 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki,
 	: Wizard(config, parent), m_ki(ki)
 {
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
 
 	m_FloatDialog.setupUi(page);
 
@@ -50,56 +53,60 @@ FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki,
 
 ////////////////////////////// determine the whole tag //////////////////////////////
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void FloatEnvironmentDialog::slotButtonClicked(int button)
 {
-	if (button == Ok) {
-		QString envname = (m_FloatDialog.m_rbFigure->isChecked()) ? "figure" : "table";
-		QString indent = m_ki->editorExtension()->autoIndentEnvironment();
-
-		QString position;
-		if (m_FloatDialog.m_cbHere->isChecked())
-			position += 'h';
-		if (m_FloatDialog.m_cbTop->isChecked())
-			position += 't';
-		if (m_FloatDialog.m_cbBottom->isChecked())
-			position += 'b';
-		if (m_FloatDialog.m_cbPage->isChecked())
-			position += 'p';
-
-		m_td.tagBegin = "\\begin{" + envname + '}';
-		if (!position.isEmpty())
-			m_td.tagBegin += '[' + position + ']';
-		m_td.tagBegin += '\n';
-
-		int row = 1;
-		if (m_FloatDialog.m_cbCenter->isChecked()) {
-			m_td.tagBegin += indent + "\\centering\n";
-			row = 2;
-		}
-
-		m_td.tagEnd = indent + '\n';
-
-		QString caption = m_FloatDialog.m_edCaption->text();
-		if (! caption.isEmpty())
-			m_td.tagEnd += indent  + "\\caption{" + caption + "}\n";
-
-		QString label = m_FloatDialog.m_edLabel->text();
-		if (!label.isEmpty() && label != m_prefix)
-			m_td.tagEnd += indent + "\\label{" + label + "}\n";
-
-		m_td.tagEnd += "\\end{" + envname + "}\n";
-
-		m_td.dy = row;
-		m_td.dx = indent.length();
-
-		accept();
-	}
-	KDialog::slotButtonClicked(button);
+// 	if (button == Ok) {
+// 		QString envname = (m_FloatDialog.m_rbFigure->isChecked()) ? "figure" : "table";
+// 		QString indent = m_ki->editorExtension()->autoIndentEnvironment();
+// 
+// 		QString position;
+// 		if (m_FloatDialog.m_cbHere->isChecked())
+// 			position += 'h';
+// 		if (m_FloatDialog.m_cbTop->isChecked())
+// 			position += 't';
+// 		if (m_FloatDialog.m_cbBottom->isChecked())
+// 			position += 'b';
+// 		if (m_FloatDialog.m_cbPage->isChecked())
+// 			position += 'p';
+// 
+// 		m_td.tagBegin = "\\begin{" + envname + '}';
+// 		if (!position.isEmpty())
+// 			m_td.tagBegin += '[' + position + ']';
+// 		m_td.tagBegin += '\n';
+// 
+// 		int row = 1;
+// 		if (m_FloatDialog.m_cbCenter->isChecked()) {
+// 			m_td.tagBegin += indent + "\\centering\n";
+// 			row = 2;
+// 		}
+// 
+// 		m_td.tagEnd = indent + '\n';
+// 
+// 		QString caption = m_FloatDialog.m_edCaption->text();
+// 		if (! caption.isEmpty())
+// 			m_td.tagEnd += indent  + "\\caption{" + caption + "}\n";
+// 
+// 		QString label = m_FloatDialog.m_edLabel->text();
+// 		if (!label.isEmpty() && label != m_prefix)
+// 			m_td.tagEnd += indent + "\\label{" + label + "}\n";
+// 
+// 		m_td.tagEnd += "\\end{" + envname + "}\n";
+// 
+// 		m_td.dy = row;
+// 		m_td.dx = indent.length();
+// 
+// 		accept();
+// 	}
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 	QDialog::slotButtonClicked(button);
 }
 
 void FloatEnvironmentDialog::slotEnvironmentClicked()
 {
-	KILE_DEBUG() << "entering";
+	KILE_DEBUG_MAIN << "entering";
 	QString caption, oldprefix;
 
 	if (m_FloatDialog.m_rbFigure->isChecked()) {
@@ -112,7 +119,7 @@ void FloatEnvironmentDialog::slotEnvironmentClicked()
 		m_prefix = "tab:";
 	}
 
-	setCaption(caption);
+	setWindowTitle(caption);
 	QString s = m_FloatDialog.m_edLabel->text();
 	s.replace(QRegExp(oldprefix), m_prefix);
 	m_FloatDialog.m_edLabel->setText(s);

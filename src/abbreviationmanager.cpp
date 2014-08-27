@@ -15,7 +15,7 @@
 #include "abbreviationmanager.h"
 
 #include <KMessageBox>
-#include <KStandardDirs>
+
 
 #include "codecompletion.h"
 #include "kileinfo.h"
@@ -25,7 +25,8 @@ namespace KileAbbreviation {
 Manager::Manager(KileInfo* kileInfo, QObject *parent) : QObject(parent), m_kileInfo(kileInfo), m_abbreviationsDirty(false)
 {
 	setObjectName("KileAbbreviation::Manager");
-	m_localAbbreviationFile = KStandardDirs::locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
+//TODO KF5
+// 	m_localAbbreviationFile = KStandardDirs::locateLocal("appdata", "complete/abbreviation/", true) + "kile-abbrevs.cwl";
 }
 
 Manager::~Manager()
@@ -91,7 +92,7 @@ void Manager::saveLocalAbbreviations()
 		return;
 	}
 
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	// create the file 
 	QFile abbreviationFile(m_localAbbreviationFile);
 	if(!abbreviationFile.open(QIODevice::WriteOnly)) {

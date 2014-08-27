@@ -37,7 +37,8 @@
 #include <ktogglefullscreenaction.h>
 #include <KXmlGuiWindow>
 
-#include "docpart.h"
+//TODO KF5
+//include "docpart.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
 #include "kileactions.h"
@@ -65,7 +66,7 @@ class QTimer;
 class QSignalMapper;
 
 class KToolBar;
-class KAction;
+class QAction;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleFullScreenAction;
@@ -103,10 +104,10 @@ public:
 	int lineNumber();
 
 public Q_SLOTS:
-	void setCursor(const KUrl &, int, int);
+	void setCursor(const QUrl &, int, int);
 
 	void runArchiveTool();
-	void runArchiveTool(const KUrl&);
+	void runArchiveTool(const QUrl&);
 	void showTip();
 
 	void prepareForPart(const QString &);
@@ -117,8 +118,8 @@ public Q_SLOTS:
 
 	void rebuildBibliographyMenu();
 
-	void openDocument(const KUrl& url);
-	void openProject(const KUrl& url);
+	void openDocument(const QUrl &url);
+	void openProject(const QUrl &url);
 
 	// D-Bus Interface
 	void openDocument(const QString & url);
@@ -151,7 +152,7 @@ private:
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KActionMenu 				*m_bibTagActionMenu;
-	KAction 				*m_paStop, *m_paPrint;
+	QAction *m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
 	KToggleAction 				*m_actionMessageView;
 	KRecentFilesAction			*m_actRecentFiles;
@@ -220,11 +221,11 @@ private:
 
 	void setViewerToolBars();
 
-	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(const QString &text, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QKeySequence& shortcut = QKeySequence(), const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
 
 	void setMasterDocumentFileName(const QString& fileName);
 	void clearMasterDocument();
@@ -328,10 +329,10 @@ private Q_SLOTS:
 	void quickPreviewSubdocument() { slotQuickPreview(KileTool::qpSubdocument); }
 	void quickPreviewMathgroup()   { slotQuickPreview(KileTool::qpMathgroup);   }
 
-	void addRecentFile(const KUrl& url);
-	void removeRecentFile(const KUrl& url);
-	void addRecentProject(const KUrl& url);
-	void removeRecentProject(const KUrl& url);
+	void addRecentFile(const QUrl &url);
+	void removeRecentFile(const QUrl &url);
+	void addRecentProject(const QUrl &url);
+	void removeRecentProject(const QUrl &url);
 
 	void updateStatusBarCursorPosition(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
 	void updateStatusBarViewMode(KTextEditor::View *view);

@@ -19,7 +19,7 @@
 #include <KToolBarPopupAction>
 
 class KColorCells;
-class KPushButton;
+class QPushButton;
 
 namespace KileDialog {
 
@@ -39,7 +39,7 @@ class SelectColorAction : public KToolBarPopupAction {
 
 	private:
 		KColorCells *m_ccColors;
-		KPushButton *m_pbCustom;
+		QPushButton *m_pbCustom;
 };
 
 }

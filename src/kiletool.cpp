@@ -21,9 +21,9 @@
 #include <QTimer>
 
 #include <KConfig>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KShell>
-#include <KUrl>
+#include <QUrl>
 
 #include "kileconfig.h"
 #include "kiletool_enums.h"
@@ -70,7 +70,7 @@ namespace KileTool
 
 	Base::~Base()
 	{
-		KILE_DEBUG() << "DELETING TOOL: " << name() << this;
+		KILE_DEBUG_MAIN << "DELETING TOOL: " << name() << this;
 		emit(aboutToBeDestroyed(this));
 		delete m_launcher;
 	}
@@ -129,7 +129,7 @@ namespace KileTool
 
 	void Base::prepareToRun()
 	{
-		KILE_DEBUG() << "==Base::prepareToRun()=======";
+		KILE_DEBUG_MAIN << "==Base::prepareToRun()=======";
 
 		//install a launcher
 		if (!installLauncher())
@@ -179,7 +179,7 @@ namespace KileTool
 
 	int Base::run()
 	{
-		KILE_DEBUG() << "==KileTool::Base::run()=================";
+		KILE_DEBUG_MAIN << "==KileTool::Base::run()=================";
 
 		if(m_nPreparationResult != 0) {
 			emit(failedToRun(this, m_nPreparationResult));
@@ -204,7 +204,7 @@ namespace KileTool
 		emit(start(this));
 
 		if (!m_launcher || !m_launcher->launch()) {
-			KILE_DEBUG() << "\tlaunching failed";
+			KILE_DEBUG_MAIN << "\tlaunching failed";
 			if(!m_launcher) {
 				emit(failedToRun(this, CouldNotLaunch));
 				return CouldNotLaunch;
@@ -219,7 +219,7 @@ namespace KileTool
 			}
 		}
 
-		KILE_DEBUG() << "\trunning...";
+		KILE_DEBUG_MAIN << "\trunning...";
 
 		return Running;
 
@@ -315,12 +315,12 @@ namespace KileTool
 		addDict("%source", m_source);
 		addDict("%S",m_S);
 
-		KILE_DEBUG() << "===KileTool::Base::setSource()==============";
-		KILE_DEBUG() << "using " << source;
-		KILE_DEBUG() << "source="<<m_source;
-		KILE_DEBUG() << "S=" << m_S;
-		KILE_DEBUG() << "basedir=" << m_basedir;
-		KILE_DEBUG() << "workingDir=" << m_workingDir;
+		KILE_DEBUG_MAIN << "===KileTool::Base::setSource()==============";
+		KILE_DEBUG_MAIN << "using " << source;
+		KILE_DEBUG_MAIN << "source="<<m_source;
+		KILE_DEBUG_MAIN << "S=" << m_S;
+		KILE_DEBUG_MAIN << "basedir=" << m_basedir;
+		KILE_DEBUG_MAIN << "workingDir=" << m_workingDir;
 	}
 
 	void Base::setTeXInputPaths(const QString& s)
@@ -368,7 +368,7 @@ namespace KileTool
 		if(m_target.isEmpty()) {
 			//test for explicit override
 			if (!readEntry("target").isEmpty()) {
-				KILE_DEBUG() << "USING target SETTING";
+				KILE_DEBUG_MAIN << "USING target SETTING";
 				m_target = readEntry("target");
 			}
 			else if ( to().length() > 0) {
@@ -383,26 +383,28 @@ namespace KileTool
 			m_relativedir = readEntry("relDir");
 		}
 
-		KUrl url;
+		QUrl url;
 		if(!m_targetdir.isEmpty()) {
-			url = KUrl::fromPathOrUrl(m_targetdir);
+			url = QUrl::fromLocalFile(m_targetdir);
 		}
 		else if(!m_workingDir.isEmpty()) {
-			url = KUrl::fromPathOrUrl(m_workingDir);
+			url = QUrl::fromLocalFile(m_workingDir);
 		}
 		else {
-			url = KUrl::fromPathOrUrl(m_basedir);
+			url = QUrl::fromLocalFile(m_basedir);
 		}
-		url.addPath(m_relativedir);
-		url.cleanPath();
+		url = url.adjusted(QUrl::StripTrailingSlash);
+		url.setPath(url.path() + '/' + m_relativedir);
+//TODO KF5
+//		url.cleanPath();
 		m_targetdir = url.toLocalFile();
 
 		setTarget(m_target);
 		setTargetDir(m_targetdir);
 
-		KILE_DEBUG() << "==KileTool::Base::determineTarget()=========";
-		KILE_DEBUG() << "\tm_targetdir=" << m_targetdir;
-		KILE_DEBUG() << "\tm_target=" << m_target;
+		KILE_DEBUG_MAIN << "==KileTool::Base::determineTarget()=========";
+		KILE_DEBUG_MAIN << "\tm_targetdir=" << m_targetdir;
+		KILE_DEBUG_MAIN << "\tm_target=" << m_target;
 
 		return true;
 	}
@@ -472,10 +474,10 @@ namespace KileTool
 
 	bool Base::finish(int result)
 	{
-		KILE_DEBUG() << "==KileTool::Base::finish()==============";
+		KILE_DEBUG_MAIN << "==KileTool::Base::finish()==============";
 		if (sender())
 		{
-			KILE_DEBUG() << "\tcalled by " << sender()->objectName() << " " << sender()->metaObject()->className();
+			KILE_DEBUG_MAIN << "\tcalled by " << sender()->objectName() << " " << sender()->metaObject()->className();
 		}
 
 		if ( result == Aborted )
@@ -484,7 +486,7 @@ namespace KileTool
 		if ( result == Success )
 			sendMessage(Info,"Done!");
 
-		KILE_DEBUG() << "\temitting done(KileTool::Base*, int) " << name();
+		KILE_DEBUG_MAIN << "\temitting done(KileTool::Base*, int) " << name();
 		emit(done(this, result, m_childToolSpawned));
 
 		//we will only get here if the done() signal is not connected to the manager (who will destroy this object)
@@ -534,7 +536,7 @@ namespace KileTool
 		}
 
 		QString type = readEntry("type");
-		KILE_DEBUG() << "installing launcher of type " << type;
+		KILE_DEBUG_MAIN << "installing launcher of type " << type;
 		Launcher *lr = NULL;
 
 		if ( type == "Process" ) {
@@ -590,34 +592,34 @@ namespace KileTool
 
 	bool Base::needsUpdate(const QString &target, const QString &source)
 	{
-		KILE_DEBUG() << "==Base::needsUpdate(" << target << "," << source;
+		KILE_DEBUG_MAIN << "==Base::needsUpdate(" << target << "," << source;
 		QFileInfo targetinfo(target);
 		QFileInfo sourceinfo(source);
 		QDateTime currDateTime = QDateTime::currentDateTime();
 
 		if(!(sourceinfo.exists() && sourceinfo.isReadable())) {
-			KILE_DEBUG() << "\treturning false: source does not exist";
+			KILE_DEBUG_MAIN << "\treturning false: source does not exist";
 			return false;
 		}
 
 		if(!targetinfo.exists()) {
-			KILE_DEBUG() << "\treturning true: target does not exist";
+			KILE_DEBUG_MAIN << "\treturning true: target does not exist";
 			return true;
 		}
 
-		KILE_DEBUG() << "\ttarget: " << targetinfo.lastModified().toString();
-		KILE_DEBUG() << "\tsource: " << sourceinfo.lastModified().toString();
+		KILE_DEBUG_MAIN << "\ttarget: " << targetinfo.lastModified().toString();
+		KILE_DEBUG_MAIN << "\tsource: " << sourceinfo.lastModified().toString();
 
 		if(targetinfo.lastModified() > currDateTime) {
-			KILE_DEBUG() << "targetinfo.lastModifiedTime() is in the future";
+			KILE_DEBUG_MAIN << "targetinfo.lastModifiedTime() is in the future";
 			return false;
 		}
 		else if(sourceinfo.lastModified() > currDateTime) {
-			KILE_DEBUG() << "sourceinfo.lastModifiedTime() is in the future";
+			KILE_DEBUG_MAIN << "sourceinfo.lastModifiedTime() is in the future";
 			return false;
 		}
 
-		KILE_DEBUG() << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified());
+		KILE_DEBUG_MAIN << "\treturning " << (targetinfo.lastModified() < sourceinfo.lastModified());
 		return targetinfo.lastModified() < sourceinfo.lastModified();
 	}
 
@@ -653,7 +655,7 @@ namespace KileTool
 	{
 		setFlags(NeedTargetDirExec | NeedTargetExists | NeedTargetRead);
 
-		KILE_DEBUG() << "View: flag " << (flags() & NeedTargetExists);
+		KILE_DEBUG_MAIN << "View: flag " << (flags() & NeedTargetExists);
 		setMsg(NeedTargetExists, ki18n("The file %1/%2 does not exist; did you compile the source file?"));
 	}
 
@@ -689,7 +691,7 @@ namespace KileTool
 	void Archive::setSource(const QString &source, const QString& workingDir)
 	{
 		Q_UNUSED(workingDir);
-		KUrl url = KUrl::fromPathOrUrl(source);
+		QUrl url = QUrl::fromLocalFile(source);
 		m_project = manager()->info()->docManager()->projectFor(url);
 		if ( !m_project )
 			m_project = manager()->info()->docManager()->activeProject();
@@ -707,8 +709,8 @@ namespace KileTool
 
 		addDict("%AFL", m_fileList);
 
-		KILE_DEBUG() << "===KileTool::Archive::setSource("<< source << ")==============";
-		KILE_DEBUG() << "m_fileList="<<m_fileList<<endl;
+		KILE_DEBUG_MAIN << "===KileTool::Archive::setSource("<< source << ")==============";
+		KILE_DEBUG_MAIN << "m_fileList="<<m_fileList<<endl;
 	}
 
 	Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)
@@ -791,9 +793,9 @@ namespace KileTool
 
 			tool = manager()->createTool(tl, cfg, false); // create tool with delayed preparation
 			if (tool) {
-				KILE_DEBUG() << "===tool created with name " << tool->name();
+				KILE_DEBUG_MAIN << "===tool created with name " << tool->name();
 				if(!(manager()->info()->watchFile() && tool->isViewer())) { // FIXME: why this?
-					KILE_DEBUG() << "\tqueueing " << tl << "(" << cfg << ") with " << source();
+					KILE_DEBUG_MAIN << "\tqueueing " << tl << "(" << cfg << ") with " << source();
 					m_tools << tool;
 				}
 				else {
@@ -811,7 +813,7 @@ namespace KileTool
 
 	int Sequence::run()
 	{
-		KILE_DEBUG() << "==KileTool::Sequence::run()==================";
+		KILE_DEBUG_MAIN << "==KileTool::Sequence::run()==================";
 
 		determineSource();
 		if (!checkSource()) {

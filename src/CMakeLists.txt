@@ -1,4 +1,4 @@
-ADD_SUBDIRECTORY( data )
+# ADD_SUBDIRECTORY( data )
 ADD_SUBDIRECTORY( test )
 
 INCLUDE( FindPerl )
@@ -8,7 +8,7 @@ INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_C
 GET_DIRECTORY_PROPERTY(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
 
 # we now look for Okular with "viewerinterface.h"
-MACRO_OPTIONAL_FIND_PACKAGE(Okular)
+# MACRO_OPTIONAL_FIND_PACKAGE(Okular)
 IF( OKULAR_FOUND )
 	FIND_FILE(HAVE_VIEWERINTERFACE_H okular/interfaces/viewerinterface.h PATHS ${OKULAR_INCLUDE_DIR} NO_DEFAULT_PATH)
 	IF( NOT HAVE_VIEWERINTERFACE_H )
@@ -25,17 +25,17 @@ ELSE( OKULAR_FOUND )
 	SET(LIVEPREVIEW_POSSIBLE 0)
 	MESSAGE( STATUS "Not building with live preview" )
 ENDIF( OKULAR_FOUND )
-MACRO_LOG_FEATURE(OKULAR_FOUND "Okular" "okularcore library, with viewerinterface.h" "http://okular.kde.org" FALSE "0.14 (KDE 4.8)" "Support for live preview.")
+# MACRO_LOG_FEATURE(OKULAR_FOUND "Okular" "okularcore library, with viewerinterface.h" "http://okular.kde.org" FALSE "0.14 (KDE 4.8)" "Support for live preview.")
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-MACRO_OPTIONAL_FIND_PACKAGE(PopplerQt4)
+# MACRO_OPTIONAL_FIND_PACKAGE(PopplerQt4)
 IF( POPPLER_QT4_FOUND )
 	SET(HAVE_POPPLER_QT4 TRUE)
 	INCLUDE_DIRECTORIES(${POPPLER_QT4_INCLUDE_DIR})
 ELSE( POPPLER_QT4_FOUND )
 	SET(LIBPOPPLER_QT4_AVAILABLE 0)
 ENDIF( POPPLER_QT4_FOUND )
-MACRO_LOG_FEATURE(POPPLER_QT4_FOUND "Poppler-Qt4" "A PDF rendering library" "http://poppler.freedesktop.org" FALSE "" ".")
+# MACRO_LOG_FEATURE(POPPLER_QT4_FOUND "Poppler-Qt4" "A PDF rendering library" "http://poppler.freedesktop.org" FALSE "" ".")
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
@@ -64,7 +64,7 @@ SET(kile_SRCS
 	widgets/commandview.cpp
 	dialogs/quickdocumentdialog.cpp
 	widgets/filebrowserwidget.cpp
-	docpart.cpp
+# 	docpart.cpp
 	symbolviewclasses.h
 	kile.cpp
 	main.cpp
@@ -86,7 +86,7 @@ SET(kile_SRCS
 	kilestdtools.cpp
 	widgets/logwidget.cpp
 	widgets/outputview.cpp
-	widgets/konsolewidget.cpp
+# 	widgets/konsolewidget.cpp
 	kilewizard.cpp
 	widgets/structurewidget.cpp
 	widgets/codecompletionconfigwidget.cpp
@@ -123,22 +123,22 @@ SET(kile_SRCS
 	scripting/kilescriptdocument.cpp
 	scripting/kilescriptobject.cpp
 	scriptmanager.cpp
-	dialogs/tabular/multicolumnborderhelper.cpp
-	dialogs/tabular/newtabulardialog.cpp
-	dialogs/tabular/selectcoloraction.cpp
-	dialogs/tabular/selectframeaction.cpp
-	dialogs/tabular/tabularcell.cpp
-	dialogs/tabular/tabularcelldelegate.cpp
-	dialogs/tabular/tabularheaderitem.cpp
-	dialogs/tabular/tabularproperties.cpp
-	dialogs/tabular/tabulartable.cpp
+# 	dialogs/tabular/multicolumnborderhelper.cpp
+# 	dialogs/tabular/newtabulardialog.cpp
+# 	dialogs/tabular/selectcoloraction.cpp
+# 	dialogs/tabular/selectframeaction.cpp
+# 	dialogs/tabular/tabularcell.cpp
+# 	dialogs/tabular/tabularcelldelegate.cpp
+# 	dialogs/tabular/tabularheaderitem.cpp
+# 	dialogs/tabular/tabularproperties.cpp
+# 	dialogs/tabular/tabulartable.cpp
 	configurationmanager.cpp
 	utilities.cpp
 	abbreviationmanager.cpp
 	editorcommands.cpp
-	dialogs/usermenu/usermenudialog.cpp
+# 	dialogs/usermenu/usermenudialog.cpp
 	dialogs/usermenu/usermenuitem.cpp
-	dialogs/usermenu/usermenutree.cpp
+# 	dialogs/usermenu/usermenutree.cpp
 	usermenu/usermenudata.cpp
 	usermenu/usermenu.cpp
 	parser/parsermanager.cpp
@@ -212,21 +212,21 @@ SET( kile_UI_SRCS
 # SET(kile_SRCS ${kile_SRCS} ${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.h
 #                            ${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.cpp)
 
-if( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
-  MESSAGE( STATUS "Configuring code completion for KDE SC >= 4.5" )
+# if( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
+#   MESSAGE( STATUS "Configuring code completion for KDE SC >= 4.5" )
 
-  SET(CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME CodeCompletionModelControllerInterface3)
+  SET(CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME CodeCompletionModelControllerInterface)
   SET(CODECOMPLETION_RANGE_CLASSNAME "Range")
   SET(CODECOMPLETION_RANGE_EXTRA "const")
   SET(CODECOMPLETION_RANGE_RETURN "KTextEditor::Range")
-else( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
-  MESSAGE( STATUS "Configuring code completion for KDE SC < 4.5")
+# else( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
+#   MESSAGE( STATUS "Configuring code completion for KDE SC < 4.5")
 
-  SET(CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME CodeCompletionModelControllerInterface)
-  SET(CODECOMPLETION_RANGE_CLASSNAME "SmartRange")
-  SET(CODECOMPLETION_RANGE_EXTRA "")
-  SET(CODECOMPLETION_RANGE_RETURN "void")
-ENDIF( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
+#   SET(CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME CodeCompletionModelControllerInterface)
+#   SET(CODECOMPLETION_RANGE_CLASSNAME "SmartRange")
+#   SET(CODECOMPLETION_RANGE_EXTRA "")
+#   SET(CODECOMPLETION_RANGE_RETURN "void")
+# ENDIF( ${KDE_VERSION} VERSION_EQUAL "4.5" OR  ${KDE_VERSION} VERSION_GREATER "4.5" )
 
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/_codecompletion.h
                ${CMAKE_CURRENT_BINARY_DIR}/codecompletion.h)
@@ -244,16 +244,16 @@ SET(kile_SRCS
 
 SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 
-KDE4_ADD_UI_FILES(kile_SRCS ${kile_UI})
+ki18n_wrap_ui(kile_SRCS ${kile_UI})
 
 SET(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
-QT4_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
+QT5_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
 
 SET( kile_KCFG_SRCS kileconfig.kcfgc)
 
-KDE4_ADD_KCFG_FILES(kile_SRCS ${kile_KCFG_SRCS})
+kconfig_add_kcfg_files (kile_SRCS ${kile_KCFG_SRCS})
 
-KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
+# KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
   SET(PROGNAME Kile)
@@ -261,7 +261,8 @@ ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   SET(PROGNAME kile)
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-KDE4_ADD_EXECUTABLE(${PROGNAME} ${kile_SRCS})
+# KDE4_ADD_EXECUTABLE(${PROGNAME} ${kile_SRCS})
+kf5_add_kdeinit_executable(kile ${kile_SRCS})
 
 IF( POPPLER_QT4_FOUND )
 TARGET_LINK_LIBRARIES(${PROGNAME} ${POPPLER_QT4_LIBRARIES})
@@ -271,8 +272,20 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
   SET_TARGET_PROPERTIES(${PROGNAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Kile")
 ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-TARGET_LINK_LIBRARIES(${PROGNAME} ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS}
-                      ${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+# TARGET_LINK_LIBRARIES(${PROGNAME} ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS}
+#                       ${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+
+target_link_libraries(kdeinit_kile
+PUBLIC
+    Qt5::Script
+    KF5::TextEditor
+    KF5::I18n
+    KF5::KIOFileWidgets
+    KF5::IconThemes
+    KF5::WindowSystem
+    KF5::GuiAddons
+    KF5::DBusAddons
+    KF5::KDELibs4Support)
 
 INSTALL( TARGETS ${PROGNAME} ${INSTALL_TARGETS_DEFAULT_ARGS} )
 

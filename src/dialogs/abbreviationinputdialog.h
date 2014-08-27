@@ -19,7 +19,7 @@
 #include <QString>
 #include <QTreeWidgetItem>
 
-#include <KDialog>
+#include <QDialog>
 #include <KLineEdit>
 
 #include "widgets/abbreviationview.h"
@@ -28,7 +28,7 @@
 
 namespace KileDialog {
 
-class AbbreviationInputDialog : public KDialog
+class AbbreviationInputDialog : public QDialog
 {
    Q_OBJECT
 

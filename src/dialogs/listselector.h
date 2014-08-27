@@ -20,13 +20,13 @@
 #include <QItemSelection>
 #include <QSet>
 
-#include <KDialog>
+#include <QDialog>
 
 class QTreeWidget;
 class QStringList;
 class KDirWatch;
 
-class KileListSelectorBase : public KDialog
+class KileListSelectorBase : public QDialog
 {
 	Q_OBJECT
 
@@ -62,7 +62,7 @@ class KileListSelectorMultiple : public KileListSelectorBase
 	QStringList selected();
 };
 
-class ManageCompletionFilesDialog : public KDialog
+class ManageCompletionFilesDialog : public QDialog
 {
 	Q_OBJECT;
 

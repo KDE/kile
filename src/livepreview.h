@@ -30,7 +30,7 @@
 
 #include <KLed>
 #include <KToggleAction>
-#include <KTempDir>
+#include <QTemporaryDir>
 
 namespace KileDocument { class TextInfo; }
 
@@ -116,7 +116,7 @@ private:
 	QPointer<KToolBar> m_controlToolBar;
 	QPointer<KLed> m_previewStatusLed;
 	KToggleAction *m_synchronizeViewWithCursorAction, *m_previewForCurrentDocumentAction;
-	KAction *m_recompileLivePreviewAction;
+	QAction *m_recompileLivePreviewAction;
 	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer, *m_cursorPositionChangedTimer;
 
 	QHash<QString, QString> m_runningPathToPreviewPathHash;
@@ -135,10 +135,10 @@ private:
 	PreviewInformation *m_masterDocumentPreviewInformation;
 
 	// all the members required to handle tool actions for live preview
-	QHash<ToolConfigPair, KAction*> m_livePreviewToolToActionHash;
-	QHash<KAction*, ToolConfigPair> m_actionToLivePreviewToolHash;
+	QHash<ToolConfigPair, QAction *> m_livePreviewToolToActionHash;
+	QHash<QAction *, ToolConfigPair> m_actionToLivePreviewToolHash;
 	QActionGroup *m_livePreviewToolActionGroup;
-	QLinkedList<KAction*> m_livePreviewToolActionList;
+	QLinkedList<QAction *> m_livePreviewToolActionList;
 
 	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL,
 	                                                                             LivePreviewUserStatusHandler* *userStatusHandler = NULL,

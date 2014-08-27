@@ -36,7 +36,7 @@ namespace KileWidget
 		public Q_SLOTS:
 			void setDirectory(const QString& dir);
 			void activate();
-			void sync();
+// 			void sync();
 
 		private Q_SLOTS:
 			void slotDestroyed();

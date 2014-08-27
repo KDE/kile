@@ -20,7 +20,7 @@
 #ifndef LATEXCOMMANDDIALOG_H
 #define LATEXCOMMANDDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QMap>
 
@@ -35,13 +35,12 @@ class QTreeWidgetItem;
 class KComboBox;
 class KConfig;
 class KLineEdit;
-class KPushButton;
-class KTabWidget;
+class QTabWidget;
 
 namespace KileDialog
 {
 
-class NewLatexCommand : public KDialog
+class NewLatexCommand : public QDialog
 {
 		Q_OBJECT
 
@@ -67,7 +66,7 @@ class NewLatexCommand : public KDialog
 };
 
 
-class LatexCommandsDialog : public KDialog
+class LatexCommandsDialog : public QDialog
 {
 		Q_OBJECT
 
@@ -89,8 +88,8 @@ class LatexCommandsDialog : public KDialog
 		QTreeWidgetItem *m_lviList, *m_lviTabular, *m_lviMath, *m_lviAmsmath, *m_lviVerbatim;
 		QTreeWidgetItem *m_lviLabels, *m_lviReferences, *m_lviBibliographies, *m_lviCitations;
 		QTreeWidgetItem *m_lviInputs;
-		/*KTabWidget *m_tab;
-		KPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
+		/*QTabWidget *m_tab;
+		QPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
 		QCheckBox *m_cbUserDefined;*/
     Ui::LatexCommandWidget m_widget;
 

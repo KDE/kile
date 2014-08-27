@@ -24,8 +24,8 @@
 #include <QTextCodec>
 #include <QTextStream>
 
-#include <KLocale>
-#include <KStandardDirs>
+#include <KLocalizedString>
+
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
@@ -210,7 +210,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
 bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist) 
 {
-	KILE_DEBUG() << "==QuickPreview::run()=========================="  << endl;
+	KILE_DEBUG_MAIN << "==QuickPreview::run()=========================="  << endl;
 	m_ki->errorHandler()->clearMessages();
 	if(m_running > 0) {
 		showError( i18n("There is already a preview running that has to be finished to run this one.") );
@@ -224,10 +224,10 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	}
 	
 	delete m_tempDir;
-	m_tempDir = new KTempDir(KStandardDirs::locateLocal("tmp", "kile-preview"));
+	m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "kile-preview");
 	m_tempDir->setAutoRemove(true);
-	m_tempFile = QFileInfo(m_tempDir->name(), "preview.tex").absoluteFilePath();
-	KILE_DEBUG() << "\tdefine tempfile: " << m_tempFile << endl;
+	m_tempFile = QFileInfo(m_tempDir->path(), "preview.tex").absoluteFilePath();
+	KILE_DEBUG_MAIN << "\tdefine tempfile: " << m_tempFile << endl;
 
 	// create the temporary file with preamble and text
 	int preamblelines = createTempfile(text);
@@ -238,7 +238,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	QStringList previewlist = spreviewlist.split(',', QString::KeepEmptyParts);
 	
 	// create preview tools
-	KILE_DEBUG() << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
+	KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
 	KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolManager()->createTool(previewlist[pvLatex], QString(), false));
 	if(!latex) {
 		showError(i18n("Could not run '%1' for QuickPreview.", QString("LaTeX")));
@@ -248,7 +248,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KileTool::Base *dvips = NULL;
 	if(!previewlist[1].isEmpty()) {
 		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
-		KILE_DEBUG() << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
+		KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
 		dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
 		if(!dvips) {
 			showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
@@ -259,7 +259,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 	KileTool::Base *viewer = NULL;
 	if(!previewlist[pvViewer].isEmpty()) {
 		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
-		KILE_DEBUG() << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
+		KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
 		viewer = m_ki->toolManager()->createTool(previewlist[pvViewer], previewlist[pvViewerCfg], false);
 		if(!viewer) {
 			showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
@@ -274,7 +274,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		inputdir += PATH_SEPARATOR + texinputpath;
 	}
 	KileConfig::setPreviewTeXPaths(inputdir);
-	KILE_DEBUG() << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
+	KILE_DEBUG_MAIN << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
 	
 	// prepare tools: previewlatex
 	QString filepath = m_tempFile.left(m_tempFile.length() - 3);
@@ -310,7 +310,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 
 void QuickPreview::toolDestroyed()
 {
-	KILE_DEBUG() << "\tQuickPreview: tool destroyed" << endl;
+	KILE_DEBUG_MAIN << "\tQuickPreview: tool destroyed" << endl;
 	if(m_running > 0) {
 		--m_running;
 	}
@@ -343,7 +343,7 @@ int QuickPreview::createTempfile(const QString &text)
 		showError(i18n("Could not read the preamble."));
 		return 0;
 	}
-	KILE_DEBUG() << "\tcreate a temporary file: "  << m_tempFile << endl;
+	KILE_DEBUG_MAIN << "\tcreate a temporary file: "  << m_tempFile << endl;
 	
 	// use a textstream
 	QTextStream preamble(&fin);
@@ -358,7 +358,7 @@ int QuickPreview::createTempfile(const QString &text)
 	
 	// set the encoding according to the original file (tbraun)
 	if(m_ki->activeTextDocument()) {
-		QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().toAscii());
+		QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().toLatin1());
 		if(codec) {
 			stream.setCodec(codec);
 		}

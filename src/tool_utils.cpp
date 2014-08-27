@@ -13,7 +13,7 @@
 
 #include "tool_utils.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 
 namespace KileTool {
 

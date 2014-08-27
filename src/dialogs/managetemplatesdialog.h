@@ -16,14 +16,14 @@
 #ifndef MANAGETEMPLATESDIALOG_H
 #define MANAGETEMPLATESDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
+#include <QUrl>
 
 class QCheckBox;
 class QTreeWidget;
 class QTreeWidgetItem;
 
 class KLineEdit;
-class KUrl;
 
 #include "kileconstants.h"
 
@@ -38,10 +38,10 @@ struct Info;
 
 
 
-class ManageTemplatesDialog : public KDialog  {
+class ManageTemplatesDialog : public QDialog  {
 		Q_OBJECT
 	public:
-		ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption, QWidget *parent = 0, const char *name = 0);
+		ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent = 0, const char *name = 0);
 		ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent = 0, const char *name = 0);
 		virtual ~ManageTemplatesDialog();
 
@@ -65,7 +65,7 @@ class ManageTemplatesDialog : public KDialog  {
 		QTreeWidget *m_templateList;
 		KileDocument::Type m_templateType;
 		QCheckBox *m_showAllTypesCheckBox;
-		KUrl m_sourceURL;
+		QUrl m_sourceURL;
 
 		/**
 		 * Fills the template list view with template entries.

@@ -39,7 +39,7 @@ StructureViewItem::~StructureViewItem()
 {
 }
 
-ParserInput::ParserInput(const KUrl& url)
+ParserInput::ParserInput(const QUrl &url)
 : url(url)
 {
 }

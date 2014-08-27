@@ -14,7 +14,7 @@
 #ifndef POSTSCRIPTDIALOG_H
 #define POSTSCRIPTDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QProcess>
 
@@ -48,7 +48,7 @@ class KileErrorHandler;
 namespace KileDialog
 {
 
-class PostscriptDialog : public KDialog
+class PostscriptDialog : public QDialog
 {
 		Q_OBJECT
 

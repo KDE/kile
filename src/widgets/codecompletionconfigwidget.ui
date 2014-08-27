@@ -94,7 +94,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
-       <widget class="KTabWidget" name="m_tabWidget"/>
+       <widget class="QTabWidget" name="m_tabWidget"/>
       </item>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -112,14 +112,14 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="m_addFileButton">
+         <widget class="QPushButton" name="m_addFileButton">
           <property name="text">
            <string>Add...</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="KPushButton" name="m_removeFileButton">
+         <widget class="QPushButton" name="m_removeFileButton">
           <property name="text">
            <string>Remove</string>
           </property>
@@ -253,12 +253,12 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

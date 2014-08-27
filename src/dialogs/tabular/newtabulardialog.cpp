@@ -31,15 +31,16 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include <KAction>
+#include <QAction>
 #include <KColorCells>
 #include <KColorDialog>
 #include <KComboBox>
-#include <KIcon>
-#include <KLocale>
-#include <KMenu>
+#include <QIcon>
+#include <KLocalizedString>
+#include <QMenu>
 #include <KMessageBox>
-#include <KPushButton>
+#include <QPushButton>
+#include <KConfigGroup>
 
 #include "codecompletion.h"
 #include "kiledebug.h"
@@ -63,12 +64,12 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	  m_clCurrentForeground(Qt::black),
 	  m_defaultEnvironment(environment)
 {
-	setCaption(i18n("Tabular Environments"));
+	setWindowTitle(i18n("Tabular Environments"));
 
 	QWidget *page = new QWidget(this);
 	QVBoxLayout *pageLayout = new QVBoxLayout();
 	pageLayout->setMargin(0);
-	pageLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	pageLayout->setSpacing(QDialog::spacingHint());
 	page->setLayout(pageLayout);
 
 	m_Table = new TabularTable(page);
@@ -78,39 +79,39 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_tbFormat->setFloatable(false);
 	m_tbFormat->setOrientation(Qt::Horizontal);
 
-	m_acLeft = addAction(KIcon("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
-	m_acCenter = addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
-	m_acRight = addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
+	m_acLeft = addAction(QIcon::fromTheme("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
+	m_acCenter = addAction(QIcon::fromTheme("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
+	m_acRight = addAction(QIcon::fromTheme("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
 	m_tbFormat->addSeparator();
-	m_acBold = addAction(KIcon("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
-	m_acItalic = addAction(KIcon("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
-	m_acUnderline = addAction(KIcon("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
+	m_acBold = addAction(QIcon::fromTheme("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
+	m_acItalic = addAction(QIcon::fromTheme("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
+	m_acUnderline = addAction(QIcon::fromTheme("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
 	m_tbFormat->addSeparator();
-	m_acJoin = addAction(KIcon("joincells"), i18n("Join Cells"), SLOT(slotJoinCells()), page);
-	m_acSplit = addAction(KIcon("splitcells"), i18n("Split Cells"), SLOT(slotSplitCells()), page);
+	m_acJoin = addAction(QIcon::fromTheme("joincells"), i18n("Join Cells"), SLOT(slotJoinCells()), page);
+	m_acSplit = addAction(QIcon::fromTheme("splitcells"), i18n("Split Cells"), SLOT(slotSplitCells()), page);
 	m_acSplit->setEnabled(false);
 	m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
 	connect(m_acFrame, SIGNAL(borderSelected(int)), this, SLOT(slotFrame(int)));
 	m_tbFormat->addAction(m_acFrame);
 	m_tbFormat->addSeparator();
 
-	m_acBackground = new SelectColorAction(KIcon("format-fill-color"), i18n("Background Color"), page);
+	m_acBackground = new SelectColorAction(QIcon::fromTheme("format-fill-color"), i18n("Background Color"), page);
 	m_acBackground->setIcon(generateColorIcon(true));
 	connect(m_acBackground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
 	connect(m_acBackground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
 	m_tbFormat->addAction(m_acBackground);
-	m_acForeground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Text Color"), page);
+	m_acForeground = new SelectColorAction(QIcon::fromTheme("format-stroke-color"), i18n("Text Color"), page);
 	m_acForeground->setIcon(generateColorIcon(false));
 	connect(m_acForeground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
 	connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
 	m_tbFormat->addAction(m_acForeground);
 
 	m_tbFormat->addSeparator();
-	m_acClearText = addAction(KIcon("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
-	m_acClearAttributes = addAction(KIcon("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
-	m_acClearAll = addAction(KIcon("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
+	m_acClearText = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
+	m_acClearAttributes = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
+	m_acClearAll = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
 	m_tbFormat->addSeparator();
-	m_acPaste = addAction(KIcon("edit-paste"), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
+	m_acPaste = addAction(QIcon::fromTheme("edit-paste"), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);
@@ -122,8 +123,8 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
-	configPageLayout->setMargin(KDialog::marginHint());
-	configPageLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	configPageLayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	configPageLayout->setSpacing(QDialog::spacingHint());
 	configPage->setLayout(configPageLayout);
 
 	QLabel *label = new QLabel(i18n("Name:"), configPage);
@@ -201,7 +202,9 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acClearAll->setWhatsThis(i18n("Clears the text of the selected cells and resets the attributes."));
 	m_acPaste->setWhatsThis(i18n("Pastes a table stored in the clipboard into this wizard."));
 
-	setMainWidget(page);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
 	initEnvironments();
 	updateColsAndRows();
 	m_Table->item(0, 0)->setSelected(true);
@@ -259,14 +262,14 @@ void NewTabularDialog::initEnvironments()
 	slotEnvironmentChanged(m_cmbName->currentText());
 }
 
-KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)
+QAction * NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)
 {
 	return addAction(icon, text, this, method, parent);
 }
 
-KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent)
+QAction * NewTabularDialog::addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent)
 {
-	KAction *action = new KAction(icon, text, parent);
+	QAction *action = new QAction(icon, text, parent);
 	connect(action, SIGNAL(triggered(bool)), receiver, method);
 	m_tbFormat->addAction(action);
 
@@ -325,7 +328,7 @@ bool NewTabularDialog::canJoin() const
 {
 	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
 	if(selectedItems.count() < 2) {
-		KILE_DEBUG() << "cannot join cells, because selectedItems.count() < 2";
+		KILE_DEBUG_MAIN << "cannot join cells, because selectedItems.count() < 2";
 		return false;
 	}
 
@@ -333,7 +336,7 @@ bool NewTabularDialog::canJoin() const
 	int row = selectedItems[0]->row();
 	for(int i = 1; i < selectedItems.count(); ++i) {
 		if(selectedItems[i]->row() != row) {
-			KILE_DEBUG() << "cannot join cells, because of different rows";
+			KILE_DEBUG_MAIN << "cannot join cells, because of different rows";
 			return false;
 		}
 	}
@@ -345,7 +348,7 @@ bool NewTabularDialog::canJoin() const
 	}
 	qSort(columns);
 	if((columns.last() - columns.first()) != (columns.size() - 1)) {
-		KILE_DEBUG() << "cannot join cells, because not all cells are adjacent";
+		KILE_DEBUG_MAIN << "cannot join cells, because not all cells are adjacent";
 		return false;
 	}
 
@@ -356,14 +359,16 @@ int NewTabularDialog::exec()
 {
 	/* all toolbar items should be visible when showing the dialog */
 	show();
-	mainWidget()->setMinimumWidth(m_tbFormat->width() + 2 * KDialog::marginHint());
+//TODO PORT QT5 	mainWidget()->setMinimumWidth(m_tbFormat->width() + 2 * QDialog::marginHint());
 
 	return Wizard::exec();
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void NewTabularDialog::slotButtonClicked(int button)
 {
-	if(button == KDialog::Ok) {
+	if(button == QDialog::Ok) {
 		int rows = m_Table->rowCount();
 		int columns = m_Table->columnCount();
 		TabularProperties properties;
@@ -647,6 +652,8 @@ void NewTabularDialog::slotButtonClicked(int button)
 		}
 	}
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 	Wizard::slotButtonClicked(button);
 }
 

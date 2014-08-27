@@ -14,7 +14,7 @@
 #ifndef PROJECTDIALOGS_H
 #define PROJECTDIALOGS_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QCheckBox>
 
@@ -42,7 +42,7 @@ namespace KileTemplate {
 class Manager;
 }
 
-class KileProjectDlgBase : public KDialog
+class KileProjectDlgBase : public QDialog
 {
 		Q_OBJECT
 
@@ -130,7 +130,7 @@ class KileNewProjectDlg : public KileProjectDlgBase
 		TemplateIconView *m_templateIconView;
 		QCheckBox  *m_cb;
 		QLabel    *m_lb;
-		KUrl m_projectFileWithPath;
+		QUrl m_projectFileWithPath;
 };
 
 class KileProjectOptionsDlg : public KileProjectDlgBase

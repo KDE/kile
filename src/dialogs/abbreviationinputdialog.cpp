@@ -16,7 +16,7 @@
 
 #include "kiledebug.h"
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <QFile>
@@ -26,38 +26,56 @@
 #include <QTextStream>
 #include <QValidator>
 #include <QVBoxLayout>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 namespace KileDialog {
 
 //////////////////// add/edit abbreviation ////////////////////
 
 AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name)
-	: KDialog(listview), m_listview(listview), m_abbrevItem(item), m_mode(mode)
+	: QDialog(listview), m_listview(listview), m_abbrevItem(item), m_mode(mode)
 {
-	setCaption(i18n("Add Abbreviation"));
+	setWindowTitle(i18n("Add Abbreviation"));
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 	setObjectName(name);
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 	QVBoxLayout *vl = new QVBoxLayout();
 	vl->setMargin(0);
-	vl->setSpacing(spacingHint());
+//TODO KF5
+// 	vl->setSpacing(spacingHint());
 	page->setLayout(vl);
 
 	if(m_mode == KileWidget::AbbreviationView::ALVedit) {
-		setCaption( i18n("Edit Abbreviation") );
+		setWindowTitle( i18n("Edit Abbreviation") );
 		m_abbrev = m_abbrevItem->text(KileWidget::AbbreviationView::ALVabbrev);
 		m_expansion = m_abbrevItem->text(KileWidget::AbbreviationView::ALVexpansion);
 	}
 	
 	QLabel *abbrev = new QLabel(i18n("&Abbreviation:"), page);
+	mainLayout->addWidget(abbrev);
 	QLabel *expansion = new QLabel(i18n("&Expanded Text:"), page);
+	mainLayout->addWidget(expansion);
 	m_leAbbrev = new KLineEdit(m_abbrev, page);
+	mainLayout->addWidget(m_leAbbrev);
 	m_leExpansion = new KLineEdit(m_expansion, page);
+	mainLayout->addWidget(m_leExpansion);
 
 	vl->addWidget(abbrev);
 	vl->addWidget(m_leAbbrev);
@@ -97,32 +115,35 @@ void AbbreviationInputDialog::slotTextChanged(const QString &)
 	bool state = (m_mode == KileWidget::AbbreviationView::ALVadd)
 	           ? !m_listview->findAbbreviation( m_leAbbrev->text()) : true;
  	state = state && !m_leAbbrev->text().isEmpty() && !m_leExpansion->text().isEmpty();
-
-	enableButton(Ok,state);
+//TODO KF5
+// 	okButton->setEnabled(state);
 }
 
-void AbbreviationInputDialog::slotButtonClicked(int button){
-
-	if(button == KDialog::Ok){
-	
-		QString abbrev = m_leAbbrev->text();
-		QString expansion = m_leExpansion->text().trimmed();
-	
-		if(abbrev.isEmpty() || expansion.isEmpty()) {
-			KMessageBox::error(this, i18n("Empty strings are not allowed."));
-			return;
-		}
-	
-		if(abbrev!=m_abbrev || expansion!=m_expansion) {
-			accept();
-		}
-		else {
-			reject();
-		}
-	}
-	else{
-                 KDialog::slotButtonClicked(button);
-	}
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+void AbbreviationInputDialog::slotButtonClicked(int button) {
+// 	if(button == QDialog::Ok){
+// 	
+// 		QString abbrev = m_leAbbrev->text();
+// 		QString expansion = m_leExpansion->text().trimmed();
+// 	
+// 		if(abbrev.isEmpty() || expansion.isEmpty()) {
+// 			KMessageBox::error(this, i18n("Empty strings are not allowed."));
+// 			return;
+// 		}
+// 	
+// 		if(abbrev!=m_abbrev || expansion!=m_expansion) {
+// 			accept();
+// 		}
+// 		else {
+// 			reject();
+// 		}
+// 	}
+// 	else{
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//                  QDialog::slotButtonClicked(button);
+// 	}
 }
 
 }

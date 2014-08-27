@@ -17,7 +17,7 @@
 #include "dialogs/cleandialog.h"
 
 #include <KIconLoader>
-#include <KLocale>
+#include <KLocalizedString>
 
 #include <QFileInfo>
 #include <QHBoxLayout>
@@ -26,35 +26,49 @@
 #include <QPixmap>
 #include <QTreeWidget>
 #include <QVBoxLayout>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 #include "kiledebug.h"
 
 namespace KileDialog
 {
 Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlist) :
-		KDialog(parent),
+		QDialog(parent),
 		m_extlist(extlist)
 {
-	setCaption(i18n("Delete Files"));
+	setWindowTitle(i18n("Delete Files"));
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	page->setLayout(vbox);
 
 	// label widgets
 	QWidget *labelwidget = new QWidget(page);
+	mainLayout->addWidget(labelwidget);
 	QHBoxLayout *labellayout = new QHBoxLayout();
 	labellayout->setMargin(0);
-	labellayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	labellayout->setSpacing(QDialog::spacingHint());
 	labelwidget->setLayout(labellayout);
 
 	// line 1: picture and label
@@ -67,6 +81,7 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 
 	// line 2: m_listview
 	m_listview = new QTreeWidget(page);
+	mainLayout->addWidget(m_listview);
 	m_listview->setHeaderLabel(i18n("Files"));
 	m_listview->setSortingEnabled(false);
 	m_listview->setAllColumnsShowFocus(true);

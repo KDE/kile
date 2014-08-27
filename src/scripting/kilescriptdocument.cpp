@@ -260,7 +260,7 @@ QString KileScriptDocument::charAt(int line, int column)
 
 QString KileScriptDocument::charAt(const KTextEditor::Cursor& cursor)
 {
-	return QString(m_document->character(cursor));
+	return QString(m_document->characterAt(cursor));
 }
 
 QString KileScriptDocument::firstChar(int line)
@@ -284,7 +284,7 @@ bool KileScriptDocument::isSpace(int line, int column)
 
 bool KileScriptDocument::isSpace(const KTextEditor::Cursor& cursor)
 {
-	return m_document->character(cursor).isSpace();
+	return m_document->characterAt(cursor).isSpace();
 }
 
 /////////////////////////////// bullet //////////////////////////////
@@ -680,11 +680,13 @@ void KileScriptDocument::insertIntelligentTabulator()
 
 void KileScriptDocument::editBegin()
 {
-	m_document->startEditing();
+//TODO KF5
+// 	m_document->startEditing();
 }
 void KileScriptDocument::editEnd()
 {
-	m_document->endEditing();
+//TODO KF5
+// 	m_document->endEditing();
 }
 
 ////////////////////////////////// Kile specific actions //////////////////////////////////////

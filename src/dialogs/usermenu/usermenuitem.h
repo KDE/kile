@@ -18,8 +18,8 @@
 #include <QTreeWidgetItem>
 #include <QIcon>
 
-#include <KLocale>
-#include <KShortcut>
+#include <KLocalizedString>
+#include <QKeySequence>
 
 #include "usermenu/usermenudata.h"
 

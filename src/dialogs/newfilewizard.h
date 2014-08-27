@@ -19,16 +19,16 @@
 #include <QString>
 #include <QCheckBox>
 
-#include <KStandardDirs>
-#include <KDialog>
-#include <KLocale>
+
+#include <QDialog>
+#include <KLocalizedString>
 
 #include "kileconstants.h"
 #include "templates.h"
 
 class NewDocumentWidget;
 
-class NewFileWizard : public KDialog
+class NewFileWizard : public QDialog
 {
 	Q_OBJECT
 public:

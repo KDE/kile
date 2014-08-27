@@ -89,14 +89,14 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="m_pshbNewTool">
+          <widget class="QPushButton" name="m_pshbNewTool">
            <property name="text">
             <string>New...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="m_pshbRemoveTool">
+          <widget class="QPushButton" name="m_pshbRemoveTool">
            <property name="text">
             <string>Remove</string>
            </property>
@@ -192,7 +192,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="m_pshbNewConfig">
+               <widget class="QPushButton" name="m_pshbNewConfig">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -205,7 +205,7 @@
                </widget>
               </item>
               <item>
-               <widget class="KPushButton" name="m_pshbRemoveConfig">
+               <widget class="QPushButton" name="m_pshbRemoveConfig">
                 <property name="sizePolicy">
                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                   <horstretch>0</horstretch>
@@ -244,7 +244,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KTabWidget" name="m_tab">
+        <widget class="QTabWidget" name="m_tab">
          <property name="sizePolicy">
           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -597,7 +597,7 @@
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="KPushButton" name="m_pshbIcon">
+              <widget class="QPushButton" name="m_pshbIcon">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -631,7 +631,7 @@
           </spacer>
          </item>
          <item>
-          <widget class="KPushButton" name="m_pshbDefault">
+          <widget class="QPushButton" name="m_pshbDefault">
            <property name="sizePolicy">
             <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -686,7 +686,6 @@
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <customwidgets>
   <customwidget>
    <class>KComboBox</class>
@@ -699,12 +698,12 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KTabWidget</class>
+   <class>QTabWidget</class>
    <extends>QTabWidget</extends>
    <header>ktabwidget.h</header>
    <container>1</container>

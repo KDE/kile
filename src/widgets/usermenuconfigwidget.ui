@@ -75,7 +75,7 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
-         <widget class="KPushButton" name="m_pbInstall">
+         <widget class="QPushButton" name="m_pbInstall">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -104,7 +104,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="m_pbRemove">
+         <widget class="QPushButton" name="m_pbRemove">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -220,7 +220,7 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

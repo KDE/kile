@@ -11,8 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KShortcut>
-#include <KLocale>
+#include <QKeySequence>
+#include <KLocalizedString>
 #include <KIconDialog>
 #include <KInputDialog>
 #include <KFileDialog>
@@ -20,6 +20,12 @@
 #include <KMessageBox>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 #include "dialogs/usermenu/usermenudialog.h"
 #include "dialogs/usermenu/usermenutree.h"
@@ -36,7 +42,9 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 	: KileDialog::Wizard(config, parent), m_ki(ki), m_userMenu(userMenu)
 {
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
 	m_UserMenuDialog.setupUi(page);
 
 	m_menutree = m_UserMenuDialog.m_twUserMenu;
@@ -52,19 +60,19 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 	// search for all action collections (needed for shortcut conflicts)
 	QList<KActionCollection *> allCollections;
 	foreach ( KXMLGUIClient *client, m_ki->mainWindow()->guiFactory()->clients() ) {
-		KILE_DEBUG() << "collection count: " << client->actionCollection()->count() ;
+		KILE_DEBUG_MAIN << "collection count: " << client->actionCollection()->count() ;
 		allCollections += client->actionCollection();
 	}
 	m_UserMenuDialog.m_keyChooser->setCheckActionCollections(allCollections);
-	KILE_DEBUG() << "total collections: " << allCollections.count();
+	KILE_DEBUG_MAIN << "total collections: " << allCollections.count();
 
-	m_UserMenuDialog.m_pbInsertBelow->setIcon(KIcon("usermenu-insert-below.png"));
-	m_UserMenuDialog.m_pbInsertSubmenu->setIcon(KIcon("usermenu-submenu-below.png"));
-	m_UserMenuDialog.m_pbInsertSeparator->setIcon(KIcon("usermenu-separator-below.png"));
-	m_UserMenuDialog.m_pbDelete->setIcon(KIcon("usermenu-delete.png"));
-	m_UserMenuDialog.m_pbUp->setIcon(KIcon("usermenu-up.png"));
-	m_UserMenuDialog.m_pbDown->setIcon(KIcon("usermenu-down.png"));
-	m_UserMenuDialog.m_pbIconDelete->setIcon(KIcon("edit-clear-locationbar-rtl.png"));
+	m_UserMenuDialog.m_pbInsertBelow->setIcon(QIcon::fromTheme("usermenu-insert-below.png"));
+	m_UserMenuDialog.m_pbInsertSubmenu->setIcon(QIcon::fromTheme("usermenu-submenu-below.png"));
+	m_UserMenuDialog.m_pbInsertSeparator->setIcon(QIcon::fromTheme("usermenu-separator-below.png"));
+	m_UserMenuDialog.m_pbDelete->setIcon(QIcon::fromTheme("usermenu-delete.png"));
+	m_UserMenuDialog.m_pbUp->setIcon(QIcon::fromTheme("usermenu-up.png"));
+	m_UserMenuDialog.m_pbDown->setIcon(QIcon::fromTheme("usermenu-down.png"));
+	m_UserMenuDialog.m_pbIconDelete->setIcon(QIcon::fromTheme("edit-clear-locationbar-rtl.png"));
 
 	connect(m_UserMenuDialog.m_pbInsertBelow, SIGNAL(clicked()), this, SLOT(slotInsertMenuItem()));
 	connect(m_UserMenuDialog.m_pbInsertSubmenu, SIGNAL(clicked()), this, SLOT(slotInsertSubmenu()));
@@ -79,7 +87,7 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 	connect(m_UserMenuDialog.m_pbMenuentryType, SIGNAL(clicked()), this, SLOT(slotMenuentryTypeClicked()));
 	connect(m_UserMenuDialog.m_leMenuEntry, SIGNAL(textEdited (const QString &)), this, SLOT(slotMenuentryTextChanged(const QString &)));
 	connect(m_UserMenuDialog.m_urlRequester, SIGNAL(textChanged (const QString &)), this, SLOT(slotUrlTextChanged(const QString &)));
-	connect(m_UserMenuDialog.m_urlRequester, SIGNAL(urlSelected(const KUrl&)), this, SLOT(slotUrlSelected(const KUrl&)));
+	connect(m_UserMenuDialog.m_urlRequester, SIGNAL(urlSelected(const QUrl&)), this, SLOT(slotUrlSelected(const QUrl&)));
 	connect(m_UserMenuDialog.m_leParameter, SIGNAL(textEdited (const QString &)), this, SLOT(slotParameterTextChanged(const QString &)));
 	connect(m_UserMenuDialog.m_teText, SIGNAL(textChanged()), this, SLOT(slotPlainTextChanged()));
 	connect(m_UserMenuDialog.m_pbIcon, SIGNAL(clicked()), this, SLOT(slotIconClicked()));
@@ -111,9 +119,20 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 
 	setFocusProxy(m_menutree);
 	setModal(false);
-	setButtons(Help | Cancel | Ok);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::Help);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
 
-	KILE_DEBUG() << "start dialog with xmfile " << xmlfile;
+	KILE_DEBUG_MAIN << "start dialog with xmfile " << xmlfile;
 
 	if ( !xmlfile.isEmpty() && QFile::exists(xmlfile) ) {
 		m_modified = false;
@@ -187,7 +206,7 @@ void UserMenuDialog::updateDialogButtons()
 
 ///////////////////////////// ok button //////////////////////////////
 
-bool UserMenuDialog::okClicked()
+bool UserMenuDialog::clicked()
 {
 	if ( m_currentXmlFile.isEmpty() ) {
 		return !saveAsClicked().isEmpty();
@@ -206,10 +225,12 @@ bool UserMenuDialog::okClicked()
 
 ///////////////////////////// dialog button slots //////////////////////////////
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void UserMenuDialog::slotButtonClicked(int button)
 {
 	if ( button == Ok ) {
-		if ( !okClicked() ) {
+		if ( !clicked() ) {
 			return;
 		}
 		accept();
@@ -243,6 +264,8 @@ void UserMenuDialog::slotButtonClicked(int button)
 		KMessageBox::information(this,message,i18n("UserMenu Dialog"));
 	}
 	else {
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 		Wizard::slotButtonClicked(button);
 	}
 }
@@ -251,7 +274,7 @@ void UserMenuDialog::slotButtonClicked(int button)
 
 void UserMenuDialog::slotInstallClicked()
 {
-	KILE_DEBUG() << "install " << m_currentXmlFile << "...";
+	KILE_DEBUG_MAIN << "install " << m_currentXmlFile << "...";
 
 	if ( !m_modified && !m_currentXmlFile.isEmpty() ) {
 		m_userMenu->installXmlFile(m_currentXmlFile);
@@ -262,7 +285,7 @@ void UserMenuDialog::slotInstallClicked()
 
 void UserMenuDialog::slotNewClicked()
 {
-	KILE_DEBUG() << "start new menutree ... ";
+	KILE_DEBUG_MAIN << "start new menutree ... ";
 
 	if ( !m_menutree->isEmpty() && m_modified  ) {
 		if ( KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?")) == KMessageBox::No ) {
@@ -280,7 +303,7 @@ void UserMenuDialog::slotNewClicked()
 
 void UserMenuDialog::slotLoadClicked()
 {
-	KILE_DEBUG() << "load xml file ";
+	KILE_DEBUG_MAIN << "load xml file ";
 
 	if ( !m_menutree->isEmpty() && m_modified ) {
 		if ( KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?")) == KMessageBox::No ) {
@@ -291,7 +314,7 @@ void UserMenuDialog::slotLoadClicked()
 	QString directory = UserMenu::selectUserMenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
-	QString filename = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));
+	QString filename = QFileDialog::getOpenFileName(this, i18n("Select Menu File"), directory, filter);
 	if(filename.isEmpty()) {
 		return;
 	}
@@ -306,13 +329,13 @@ void UserMenuDialog::slotLoadClicked()
 
 void UserMenuDialog::loadXmlFile(const QString &filename, bool installed)
 {
-	KILE_DEBUG() << "load xml started ...";
+	KILE_DEBUG_MAIN << "load xml started ...";
 	m_menutree->readXml(filename);
 	initDialog();
 	m_modified = false;
 	setXmlFile(filename,installed);
 	updateDialogButtons();
-	KILE_DEBUG() << "load xml finished ...";
+	KILE_DEBUG_MAIN << "load xml finished ...";
 }
 
 ///////////////////////////// Button slots (Save) //////////////////////////////
@@ -336,7 +359,7 @@ bool UserMenuDialog::saveClicked()
 	if ( m_currentXmlFile.isEmpty() ) {
 		return false;
 	}
-	KILE_DEBUG() << "save menutree: " << m_currentXmlFile;
+	KILE_DEBUG_MAIN << "save menutree: " << m_currentXmlFile;
 
 	// read current entry
 	QTreeWidgetItem *current = m_menutree->currentItem();
@@ -350,11 +373,11 @@ bool UserMenuDialog::saveClicked()
 	}
 
 	// force to save file in local directory
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "usermenu/");
+	QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory);
 	if ( dirs.size() > 1 ) {
 		if ( m_currentXmlFile.startsWith(dirs[1]) ) {
 			m_currentXmlFile.replace(dirs[1],dirs[0]);
-			KILE_DEBUG() << "change filename to local directory: " << m_currentXmlFile;
+			KILE_DEBUG_MAIN << "change filename to local directory: " << m_currentXmlFile;
 		}
 	}
 
@@ -376,12 +399,12 @@ void UserMenuDialog::slotSaveAsClicked()
 
 QString UserMenuDialog::saveAsClicked()
 {
-	KILE_DEBUG() << "menutree should be saved as ...";
+	KILE_DEBUG_MAIN << "menutree should be saved as ...";
 
 	// read current entry
 	QTreeWidgetItem *current = m_menutree->currentItem();
 	if ( current ) {
-		KILE_DEBUG() << "read current item ...";
+		KILE_DEBUG_MAIN << "read current item ...";
 		readMenuentryData( dynamic_cast<UserMenuItem *>(current) );
 	}
 
@@ -389,10 +412,10 @@ QString UserMenuDialog::saveAsClicked()
 		return QString();
 	}
 
-	QString directory = KStandardDirs::locateLocal("appdata", "usermenu/");
+	QString directory = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "usermenu/";
 	QString filter = i18n("*.xml|Latex Menu Files");
 
-	QString filename = KFileDialog::getSaveFileName(directory, filter, this, i18n("Save Menu File"));
+	QString filename = QFileDialog::getSaveFileName(this, i18n("Save Menu File"), directory, filter);
 	if(filename.isEmpty()) {
 		return QString();
 	}
@@ -529,7 +552,7 @@ void UserMenuDialog::slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidget
 	QString from = ( previous ) ? previous->text(0) : "---";
 	QString to   = ( current )  ? current->text(0)  : "---";
 
-	KILE_DEBUG() << "currentItemChanged: from=" << from << "  to=" << to;
+	KILE_DEBUG_MAIN << "currentItemChanged: from=" << from << "  to=" << to;
 	bool modifiedState = m_modified;
 	bool installState = m_UserMenuDialog.m_pbInstall->isEnabled();
 	bool saveState = m_UserMenuDialog.m_pbSave->isEnabled();
@@ -560,7 +583,7 @@ void UserMenuDialog::slotMenuentryTypeClicked()
 		return;
 	}
 
-	KILE_DEBUG() << "change menu item type of current item: " << current->text(0);
+	KILE_DEBUG_MAIN << "change menu item type of current item: " << current->text(0);
 	QStringList typelist;
 	for (int i=0; i<CHOOSABLE_MENUTYPES; i++ ) {
 		typelist << m_listMenutypes[i];
@@ -645,7 +668,7 @@ void UserMenuDialog::slotUrlTextChanged(const QString &)
 	setModified();
 }
 
-void UserMenuDialog::slotUrlSelected(const KUrl &)
+void UserMenuDialog::slotUrlSelected(const QUrl &)
 {
 	setModified();
 }
@@ -672,7 +695,7 @@ void  UserMenuDialog::slotIconClicked()
 	QString iconname = KIconDialog::getIcon(KIconLoader::Small, KIconLoader::Any,true);
 	if ( iconname!=m_currentIcon && !iconname.isEmpty() ) {
 		QString iconpath = KIconLoader::global()->iconPath(iconname,KIconLoader::Small);
-		KILE_DEBUG() << "icon changed: " << iconname << " path=" << iconpath;
+		KILE_DEBUG_MAIN << "icon changed: " << iconname << " path=" << iconpath;
 		m_currentIcon = iconpath;
 		setMenuentryIcon(m_currentIcon);
 		setModified();
@@ -691,9 +714,9 @@ void UserMenuDialog::setMenuentryIcon(const QString &icon)
 	UserMenuItem *current = dynamic_cast<UserMenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
 		if ( icon.isEmpty() ) {
-			current->setIcon(0,KIcon());
+			current->setIcon(0,QIcon::fromTheme());
 		} else {
-			current->setIcon(0,KIcon(icon));
+			current->setIcon(0,QIcon::fromTheme(icon));
 		}
 		current->setMenuicon(icon);
 
@@ -708,7 +731,7 @@ void UserMenuDialog::setMenuentryIcon(const QString &icon)
 void UserMenuDialog::slotKeySequenceChanged(const QKeySequence &seq)
 {
 	QString shortcut = seq.toString(QKeySequence::NativeText);
-	KILE_DEBUG() << "key sequence changed: " << shortcut;
+	KILE_DEBUG_MAIN << "key sequence changed: " << shortcut;
 
 	UserMenuItem *current = dynamic_cast<UserMenuItem *>( m_menutree->currentItem() );
 	if ( current ) {
@@ -742,7 +765,7 @@ void UserMenuDialog::slotCheckboxStateChanged(int)
 
 void UserMenuDialog::readMenuentryData(UserMenuItem *item)
 {
-	KILE_DEBUG() << "read current menu item ...";
+	KILE_DEBUG_MAIN << "read current menu item ...";
 	if ( !item ) {
 		return;
 	}
@@ -777,7 +800,7 @@ void UserMenuDialog::readMenuentryData(UserMenuItem *item)
 
 void UserMenuDialog::showMenuentryData(UserMenuItem *item)
 {
-	KILE_DEBUG() << "show new menu item ...";
+	KILE_DEBUG_MAIN << "show new menu item ...";
 	if ( !item ) {
 		disableMenuEntryData();
 		return;
@@ -990,7 +1013,7 @@ void UserMenuDialog::clearMenuEntryData()
 	m_UserMenuDialog.m_lbMenuentryType->clear();
 	m_UserMenuDialog.m_urlRequester->clear();
 	m_UserMenuDialog.m_teText->clear();
-	m_UserMenuDialog.m_pbIcon->setIcon(KIcon(i18n("Choose")));
+	m_UserMenuDialog.m_pbIcon->setIcon(QIcon::fromTheme(i18n("Choose")));
 	m_UserMenuDialog.m_keyChooser->clearKeySequence();
 
 	m_UserMenuDialog.m_cbNeedsSelection->setChecked(false);

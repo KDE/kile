@@ -1,10 +1,7 @@
-/************************************************************************************************
-                         texdocdialog.cpp
-                         ----------------
-    date                 : Feb 15 2007
-    version              : 0.14
-    copyright            : (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
- ************************************************************************************************/
+/***************************************************************************
+  Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@t-online.de)
+                2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -31,19 +28,24 @@
 #include <QTextStream>
 #include <QTreeWidget>
 
-#include <KApplication>
 #include <KIconLoader>
 #include <KLineEdit>
-#include <KLocale>
 #include <KMessageBox>
-#include <KMimeType>
+
+#include <KLocalizedString>
 #include <KMimeTypeTrader>
 #include <KProcess>
-#include <KPushButton>
+#include <QPushButton>
 #include <KRun>
 #include <KService>
-#include <KTemporaryFile>
-#include <KUrl>
+#include <QTemporaryFile>
+#include <QUrl>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 #include "kileconstants.h"
 #include "kiledebug.h"
@@ -52,36 +54,47 @@ namespace KileDialog
 {
 
 TexDocDialog::TexDocDialog(QWidget *parent)
-		: KDialog(parent), m_tempfile(NULL), m_proc(NULL)
+		: QDialog(parent), m_tempfile(NULL), m_proc(NULL)
 {
-	setCaption(i18n("Documentation Browser"));
+	setWindowTitle(i18n("Documentation Browser"));
 	setModal(true);
-	setButtons(Close | Default);
-	setDefaultButton(NoDefault);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::RestoreDefaults|QDialogButtonBox::Close);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+// 	setDefaultButton(NoDefault);
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 
 	QBoxLayout *vbox = new QBoxLayout(QBoxLayout::TopToBottom, page);
+// TODO KF5
+// 	mainLayout->addWidget(vbox);
 
 	// listview
 	m_texdocs = new QTreeWidget(page);
+	mainLayout->addWidget(m_texdocs);
 	m_texdocs->setRootIsDecorated(true);
 	m_texdocs->setHeaderLabel(i18n("Table of Contents"));
 
 	// groupbox
 	QGroupBox *groupbox = new QGroupBox(i18n("Search"), page);
+	mainLayout->addWidget(groupbox);
 	QHBoxLayout *groupboxLayout = new QHBoxLayout();
 	groupboxLayout->setAlignment(Qt::AlignTop);
-	groupboxLayout->setMargin(KDialog::marginHint());
-	groupboxLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	groupboxLayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	groupboxLayout->setSpacing(QDialog::spacingHint());
 	groupbox->setLayout(groupboxLayout);
 
 	m_leKeywords = new KLineEdit("", groupbox);
 	m_leKeywords->setClickMessage("Keyword");
 	m_leKeywords->setClearButtonShown(true);
-	m_pbSearch = new KPushButton(i18n("&Search"), groupbox);
+	m_pbSearch = new QPushButton(i18n("&Search"), groupbox);
 
 	groupboxLayout->addWidget(m_leKeywords);
 	groupboxLayout->addWidget(m_pbSearch);
@@ -89,11 +102,11 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 	m_texdocs->setWhatsThis(i18n("A list of available documents, which are listed in 'texdoctk.dat', that come with TexLive/teTeX. Double clicking with the mouse or pressing the space key will open a viewer to show this file."));
 	m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files that are related to this keyword."));
 	m_pbSearch->setWhatsThis(i18n("Start the search for the chosen keyword."));
-	button(Default)->setWhatsThis(i18n("Reset TOC to show all available files."));
+	buttonBox->button(QDialogButtonBox::RestoreDefaults)->setWhatsThis(i18n("Reset TOC to show all available files."));
 
-	setButtonText(Default, i18n("Reset &TOC"));
+	buttonBox->button(QDialogButtonBox::RestoreDefaults)->setText(i18n("Reset &TOC"));
 	m_pbSearch->setEnabled(false);
-	enableButton(Default, false);
+	buttonBox->button(QDialogButtonBox::RestoreDefaults)->setEnabled(false);
 
 	// catch some Return/Enter events
 	m_texdocs->installEventFilter(this);
@@ -212,7 +225,8 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 	if(toc) {
 		m_pbSearch->setEnabled(false);
 	}
-	enableButton(Default, !toc);
+// TODO KF5
+// 	buttonBox->button(QDialogButtonBox::RestoreDefaults)->setEnabled(!toc);
 	m_texdocs->setFocus();
 	
 	if( m_texdocs->topLevelItemCount() == 1 )
@@ -263,7 +277,7 @@ QString TexDocDialog::searchFile(const QString &docfilename, const QString &list
 		for (QStringList::Iterator ite = extlist.begin(); ite != extlist.end(); ++ite) {
 			filename = (subdir.isEmpty()) ? (*itp) + '/' + docfilename + (*ite)
 			           : (*itp) + '/' + subdir + '/' + docfilename + (*ite);
-			KILE_DEBUG() << "search file: "  << filename << endl;
+			KILE_DEBUG_MAIN << "search file: "  << filename << endl;
 			if(QFile::exists(filename)) {
 				return filename;
 			}
@@ -283,8 +297,9 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 	if(m_tempfile) {
 		delete m_tempfile;
 	}
-	m_tempfile = new KTemporaryFile();
-	m_tempfile->setSuffix('.' + ext);
+	m_tempfile = new QTemporaryFile();
+//code was 	m_tempfile->setSuffix('.' + ext);
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String('.' + ext) 
 	m_tempfile->setAutoRemove(true);
 
 	if(!m_tempfile->open()) {
@@ -295,14 +310,14 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 	m_filename = m_tempfile->fileName(); // the unique file name of the temporary file should be kept
 	m_tempfile->close(); 
 
-	KILE_DEBUG() << "\tdecompress file: "  << command + " > " + m_filename << endl;
+	KILE_DEBUG_MAIN << "\tdecompress file: "  << command + " > " + m_filename << endl;
 	connect(this, SIGNAL(processFinished()), this, SLOT(slotShowFile()));
 	executeScript(command + " > " + m_filename);
 }
 
 void TexDocDialog::showStyleFile(const QString &filename, const QString &stylecode)
 {
-	KILE_DEBUG() << "\tshow style file: " << filename << endl;
+	KILE_DEBUG_MAIN << "\tshow style file: " << filename << endl;
 	if(! QFile::exists(filename)) {
 		return;
 	}
@@ -317,9 +332,10 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 	if(m_tempfile) {
 		delete m_tempfile;
 	}
-	m_tempfile = new KTemporaryFile();
+	m_tempfile = new QTemporaryFile();
 	m_tempfile->setAutoRemove(true);
-	m_tempfile->setSuffix(".txt");
+//code was 	m_tempfile->setSuffix(".txt");
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".txt") 
 
 	// use a textstream to write to the temporary file
 	if(!m_tempfile->open()) {
@@ -385,9 +401,9 @@ void TexDocDialog::showStyleFile(const QString &filename, const QString &styleco
 
 void TexDocDialog::showFile(const QString &filename)
 {
-	KILE_DEBUG() << "\tshow file: " << filename << endl;
+	KILE_DEBUG_MAIN << "\tshow file: " << filename << endl;
 	if(QFile::exists(filename)) {
-		KUrl url;
+		QUrl url;
 		url.setPath(filename);
 
 		KService::List offers = KMimeTypeTrader::self()->query(getMimeType(filename), "Application");
@@ -395,7 +411,7 @@ void TexDocDialog::showFile(const QString &filename)
 			KMessageBox::error(this, i18n("No KDE service found for this file."));
 			return;
 		}
-		KUrl::List lst;
+		QList<QUrl> lst;
 		lst.append(url);
 		KRun::run(*(offers.first()), lst, this, true);
 	}
@@ -411,14 +427,14 @@ void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
 	}
 
 	QString package = item->text(1);
-	KILE_DEBUG() << "\tselect child: "  << item->text(0) << endl
+	KILE_DEBUG_MAIN << "\tselect child: "  << item->text(0) << endl
 	<< "\tis package: " << package << endl;
 	if(! m_dictDocuments.contains(package)) {
 		return;
 	}
 
 	QString texdocfile = m_dictDocuments[package];
-	KILE_DEBUG() << "\tis texdocfile: " << texdocfile << endl;
+	KILE_DEBUG_MAIN << "\tis texdocfile: " << texdocfile << endl;
 
 	// search for the file in the documentation directories
 	QString filename = searchFile(texdocfile, m_texmfdocPath);
@@ -430,7 +446,7 @@ void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
 			return;
 		}
 	}
-	KILE_DEBUG() << "\tfound file: " << filename << endl;
+	KILE_DEBUG_MAIN << "\tfound file: " << filename << endl;
 
 	QString ext = QFileInfo(filename).suffix().toLower();
 	m_filename.clear();
@@ -492,14 +508,18 @@ void TexDocDialog::slotSearchClicked()
 	}
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void TexDocDialog::slotButtonClicked(int button)
 {
-	if(button == Default) {
-		m_leKeywords->setText(QString());
-		m_texdocs->clear();
-		showToc(i18n("Table of Contents"), m_tocList, true);
-	}
-	KDialog::slotButtonClicked(button);
+// 	if(button == Default) {
+// 		m_leKeywords->setText(QString());
+// 		m_texdocs->clear();
+// 		showToc(i18n("Table of Contents"), m_tocList, true);
+// 	}
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 	QDialog::slotButtonClicked(button);
 }
 
 void TexDocDialog::callSearch()
@@ -530,8 +550,8 @@ void TexDocDialog::executeScript(const QString &command)
 	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
 	        this,   SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
-	KILE_DEBUG() << "=== TexDocDialog::runShellSkript() ====================" << endl;
-	KILE_DEBUG() << "   execute: " << command << endl;
+	KILE_DEBUG_MAIN << "=== TexDocDialog::runShellSkript() ====================" << endl;
+	KILE_DEBUG_MAIN << "   execute: " << command << endl;
 	m_proc->start();
 }
 
@@ -570,9 +590,9 @@ void TexDocDialog::slotInitToc()
 	m_texmfdocPath = results[1];
 	m_texmfPath = results[2];
 
-	KILE_DEBUG() << "\ttexdoctk path: " << m_texdoctkPath << endl;
-	KILE_DEBUG() << "\ttexmfdoc path: " << m_texmfdocPath << endl;
-	KILE_DEBUG() << "\ttexmf path: " << m_texmfPath << endl;
+	KILE_DEBUG_MAIN << "\ttexdoctk path: " << m_texdoctkPath << endl;
+	KILE_DEBUG_MAIN << "\ttexmfdoc path: " << m_texmfdocPath << endl;
+	KILE_DEBUG_MAIN << "\ttexmf path: " << m_texmfPath << endl;
 
 	if(m_texdoctkPath.indexOf('\n', -1) > -1) {
 		m_texdoctkPath.truncate(m_texdoctkPath.length() - 1);
@@ -580,7 +600,8 @@ void TexDocDialog::slotInitToc()
 
 	// read data and initialize listview
 	readToc();
-	slotButtonClicked(Default);
+// TODO KF5:
+// 	slotButtonClicked(Default);
 }
 
 void TexDocDialog::slotShowFile()
@@ -602,13 +623,14 @@ QString TexDocDialog::getMimeType(const QString &filename)
 		mimetype = "text/plain";
 	}
 	else {
-		KUrl mimeurl;
+		QUrl mimeurl;
 		mimeurl.setPath(filename);
-		KMimeType::Ptr pMime = KMimeType::findByUrl(mimeurl);
-		mimetype = pMime->name();
+QMimeDatabase db;
+		QMimeType pMime = db.mimeTypeForUrl(mimeurl);
+		mimetype = pMime.name();
 	}
 
-	KILE_DEBUG() << "\tmime = "  << mimetype << " " << endl;
+	KILE_DEBUG_MAIN << "\tmime = "  << mimetype << " " << endl;
 	return mimetype;
 }
 

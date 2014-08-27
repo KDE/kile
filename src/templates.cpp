@@ -20,15 +20,13 @@
 #include <QFileInfo>
 #include <QStringList>
 
-#include <KApplication>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
 #include <KShell>
-#include <KStandardDirs>
 #include <KIO/Job>
 #include <KIO/NetAccess>
+#include <QStandardPaths>
 
 #include "kileinfo.h"
 #include "kiledebug.h"
@@ -65,13 +63,14 @@ Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObjec
 Manager::~Manager() {
 }
 
-bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString& fileName) {
+bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString& fileName) {
 	QString dir;
 	//let saveLocation find and create the appropriate place to
 	//store the templates (usually $HOME/.kde/share/apps/kile/templates)
-	dir = KGlobal::dirs()->saveLocation("appdata", subdir, true);
-	KUrl targetURL = KUrl::fromPathOrUrl(dir);
-	targetURL.addPath(fileName);
+	dir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + '/' + subdir;
+	QUrl targetURL = QUrl::fromUserInput(dir);
+	targetURL = targetURL.adjusted(QUrl::StripTrailingSlash);
+	targetURL.setPath(targetURL.path() + '/' + fileName);
 
 	//if a directory is found
 	if (!dir.isNull()) {
@@ -86,7 +85,7 @@ bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString&
 bool Manager::removeAppData(const QString &file) {
 	QFileInfo fileInfo(file);
 	if(fileInfo.exists()) {
-		return KIO::NetAccess::del(KUrl::fromPathOrUrl(file), m_kileInfo->mainWindow());
+		return KIO::NetAccess::del(QUrl::fromUserInput(file), m_kileInfo->mainWindow());
 	}
 	return true;
 }
@@ -102,13 +101,13 @@ bool Manager::searchForTemplate(const QString& name, KileDocument::Type& type) c
 	return false;
 }
 
-bool Manager::add(const KUrl& templateSourceURL, const QString& name, const KUrl& icon) {
+bool Manager::add(const QUrl &templateSourceURL, const QString& name, const QUrl& icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	KileDocument::Type type = extensions->determineDocumentType(templateSourceURL);
 	return add(templateSourceURL, type, name, icon);
 }
 
-bool Manager::add(const KUrl& templateSourceURL, KileDocument::Type type, const QString& name, const KUrl& icon) {
+bool Manager::add(const QUrl &templateSourceURL, KileDocument::Type type, const QString& name, const QUrl& icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	QString extension = extensions->defaultExtensionForDocumentType(type);
 
@@ -119,7 +118,7 @@ bool Manager::remove(Info ti) {
 	return removeAppData(ti.path) && removeAppData(ti.icon);
 }
 
-bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTemplateSourceURL, const QString& newName, const KUrl& newIcon) {
+bool Manager::replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon) {
 	KileDocument::Type type = m_kileInfo->extensions()->determineDocumentType(newTemplateSourceURL);
 
 	//start by copying the files that belong to the new template to a safe place
@@ -140,7 +139,7 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTem
 	}
 
 	//finally, create the new template
-	if(!add(KUrl::fromPathOrUrl(templateTempFile), type, newName, KUrl::fromPathOrUrl(iconTempFile))) {
+	if(!add(QUrl::fromUserInput(templateTempFile), type, newName, QUrl::fromUserInput(iconTempFile))) {
 		KIO::NetAccess::removeTempFile(templateTempFile);
 		KIO::NetAccess::removeTempFile(iconTempFile);
 		return false;
@@ -153,8 +152,8 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTem
 }
 
 void Manager::scanForTemplates() {
-	KILE_DEBUG() << "===scanForTemplates()===================";
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "templates");
+	KILE_DEBUG_MAIN << "===scanForTemplates()===================";
+	QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "templates");
 	QDir templates;
 	KileTemplate::Info ti;
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
@@ -166,14 +165,14 @@ void Manager::scanForTemplates() {
 			ti.path = templates.path() + '/' + templates[j];
 			QFileInfo fileInfo(ti.path);
 			ti.name = fileInfo.completeBaseName().mid(9); //remove "template_", do it this way to avoid problems with user input!
-			ti.type = extensions->determineDocumentType(KUrl::fromPathOrUrl(ti.path));
-			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
+			ti.type = extensions->determineDocumentType(QUrl::fromUserInput(ti.path));
+			ti.icon = QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
 			if (m_TemplateList.contains(ti)) {
-				KILE_DEBUG() << "\tignoring: " << ti.path;
+				KILE_DEBUG_MAIN << "\tignoring: " << ti.path;
 			}
 			else {
 				m_TemplateList.append(ti);
-				KILE_DEBUG() << "\tadding: " << ti.name << " " << ti.path;
+				KILE_DEBUG_MAIN << "\tadding: " << ti.name << " " << ti.path;
 			}
 		}
 	}
@@ -293,8 +292,8 @@ void TemplateIconView::searchLaTeXClassFiles()
 	connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
 	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 	connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError()));
-	KILE_DEBUG() << "=== NewFileWidget::searchClassFiles() ====================";
-	KILE_DEBUG() << "\texecute: " << command;
+	KILE_DEBUG_MAIN << "=== NewFileWidget::searchClassFiles() ====================";
+	KILE_DEBUG_MAIN << "\texecute: " << command;
 	m_proc->start();
 }
 
@@ -326,7 +325,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		return;
 	}
 
-	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
+	QString emptyIcon = QStandardPaths::locate(QStandardPaths::DataLocation, "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
 
 	KileTemplate::Info emptyDocumentInfo;
 	emptyDocumentInfo.name = KileTemplate::Manager::defaultEmptyTemplateCaption();

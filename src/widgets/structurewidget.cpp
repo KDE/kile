@@ -64,12 +64,14 @@
 #include <QScrollBar>
 #include <QSignalMapper>
 
-#include <KIcon>
-#include <KLocale>
+#include <QIcon>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KMimeType>
+
 #include <KRun>
-#include <KUrl>
+#include <QUrl>
+#include <QMimeDatabase>
+#include <QMimeType>
 
 #include "documentinfo.h"
 #include "errorhandler.h"
@@ -86,7 +88,7 @@ namespace KileWidget
 {
 ////////////////////// StructureViewItem with all info //////////////////////
 
-StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &title, const KUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) :
+StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &title, const QUrl &url, uint line, uint column, int type, int level, uint startline, uint startcol) :
 	QTreeWidgetItem(parent),
 	m_title(title), m_url(url), m_line(line), m_column(column), m_type(type), m_level(level),
 	m_startline(startline), m_startcol(startcol)
@@ -96,14 +98,14 @@ StructureViewItem::StructureViewItem(QTreeWidgetItem* parent, const QString &tit
 
 StructureViewItem::StructureViewItem(QTreeWidget* parent, const QString& label) :
 	QTreeWidgetItem(parent, QStringList(label)),
-	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0)
+	m_title(label), m_url(QUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0)
 {
 	setToolTip(0, i18n("Click left to jump to the line. A double click will open\n a text file or a graphics file. When a label is assigned\nto this item, it will be shown when the mouse is over\nthis item. Items for a graphics file or an assigned label\nalso offer a context menu (right mouse button)."));
 }
 
 StructureViewItem::StructureViewItem(const QString& label, QTreeWidgetItem* parent) :
 	QTreeWidgetItem(parent, QStringList(label)),
-	m_title(label), m_url(KUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0)
+	m_title(label), m_url(QUrl()), m_line(0),  m_column(0), m_type(KileStruct::None), m_level(0)
 {}
 
 void StructureViewItem::setTitle(const QString &title)
@@ -161,7 +163,7 @@ void StructureViewItem::setLabel(const QString &label)
 		if(m_docinfo) {
 			m_root->setURL(m_docinfo->url());
 			m_root->setExpanded(true);
-			m_root->setIcon(0, KIcon("contents"));
+			m_root->setIcon(0, QIcon::fromTheme("contents"));
 			connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)),
 			        this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
 		}
@@ -201,7 +203,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureView::cleanUp(bool preserveState/* = true */)
 	{
-        	KILE_DEBUG() << "==void StructureView::cleanUp()========";
+        	KILE_DEBUG_MAIN << "==void StructureView::cleanUp()========";
 		if(preserveState) {
 			saveState();
 		}
@@ -228,7 +230,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureView::saveState()
 	{
-		KILE_DEBUG() << "===void StructureView::saveState()";
+		KILE_DEBUG_MAIN << "===void StructureView::saveState()";
 		m_openByTitle.clear();
 		m_openByLine.clear();
 		m_openByFolders.clear();
@@ -326,23 +328,23 @@ void StructureViewItem::setLabel(const QString &label)
 		fldr->setExpanded(false);
 		if(folder == "labels") {
 			fldr->setText(0, i18n("Labels"));
-			fldr->setIcon(0, KIcon("label"));
+			fldr->setIcon(0, QIcon::fromTheme("label"));
 		}
 		else if(folder == "bibs") {
 			fldr->setText(0, i18n("BibTeX References"));
-			fldr->setIcon(0, KIcon("viewbib"));
+			fldr->setIcon(0, QIcon::fromTheme("viewbib"));
 		}
 		else if(folder == "refs") {
 			fldr->setText(0, i18n("Undefined References"));
-			fldr->setIcon(0, KIcon("dialog-error"));
+			fldr->setIcon(0, QIcon::fromTheme("dialog-error"));
 		}
 		else if(folder == "todo") {
 			fldr->setText(0, i18n("TODO"));
-			fldr->setIcon(0, KIcon("bookmarks"));
+			fldr->setIcon(0, QIcon::fromTheme("bookmarks"));
 		}
 		else if(folder == "fixme") {
 			fldr->setText(0, i18n("FIXME"));
-			fldr->setIcon(0, KIcon("bookmarks"));
+			fldr->setIcon(0, QIcon::fromTheme("bookmarks"));
 		}
 
 		m_folders[folder] = fldr;
@@ -437,7 +439,7 @@ void StructureViewItem::setLabel(const QString &label)
 	                            uint startline, uint startcol,
 	                            const QString &pix, const QString &fldr /* = "root" */)
 	{
-//  		KILE_DEBUG() << "\t\taddItem: " << title << ", with type " <<  type;
+//  		KILE_DEBUG_MAIN << "\t\taddItem: " << title << ", with type " <<  type;
 		if(m_stop) {
 			return;
 		}
@@ -470,11 +472,11 @@ void StructureViewItem::setLabel(const QString &label)
 
 		// that's all for hidden types: we must immediately return
 		if(lev == KileStruct::Hidden) {
-			//KILE_DEBUG() << "\t\thidden item: not created";
+			//KILE_DEBUG_MAIN << "\t\thidden item: not created";
 			return;
 		}
 
-		//KILE_DEBUG() << "\t\tcreate new item";
+		//KILE_DEBUG_MAIN << "\t\tcreate new item";
 		// check if we have to update a label before loosing this item
 		if(type==KileStruct::Label) {
 			if(m_lastFloat) {
@@ -509,7 +511,7 @@ void StructureViewItem::setLabel(const QString &label)
 		// create a new item
 		StructureViewItem *newChild = new StructureViewItem(parentItem, title, m_docinfo->url(), line, column, type, lev, startline, startcol);
 		if(!pix.isEmpty()) {
-			newChild->setIcon(0, KIcon(pix));
+			newChild->setIcon(0, QIcon::fromTheme(pix));
 		}
 		//m_stop = true;
 
@@ -558,15 +560,15 @@ void StructureViewItem::setLabel(const QString &label)
 			m_folders.remove("refs");
 		}
 
-		//KILE_DEBUG() << "==void StructureView::showReferences()========";
-		//KILE_DEBUG() << "\tfound " << m_references.count() << " references";
+		//KILE_DEBUG_MAIN << "==void StructureView::showReferences()========";
+		//KILE_DEBUG_MAIN << "\tfound " << m_references.count() << " references";
 		if(m_references.count() == 0) {
 			return;
 		}
 
 		// read list with all labels
 		QStringList list = ki->allLabels();
-		//KILE_DEBUG() << "\tfound " << list.count() << " labels";
+		//KILE_DEBUG_MAIN << "\tfound " << list.count() << " labels";
 		QMap<QString,bool> labelmap;
 		for (QStringList::const_iterator itmap = list.constBegin(); itmap != list.constEnd(); ++itmap) {
 			labelmap[(*itmap)] = true;
@@ -591,7 +593,7 @@ void StructureViewItem::setLabel(const QString &label)
 		m_showingContextMenu(NULL)
 	{
 		setObjectName(name);
-		KILE_DEBUG() << "==KileWidget::StructureWidget::StructureWidget()===========";
+		KILE_DEBUG_MAIN << "==KileWidget::StructureWidget::StructureWidget()===========";
 		setLineWidth(0);
 		setMidLineWidth(0);
 		setContentsMargins(0, 0, 0, 0);
@@ -622,7 +624,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::slotClicked(QTreeWidgetItem * itm)
 	{
-		KILE_DEBUG() << "\tStructureWidget::slotClicked";
+		KILE_DEBUG_MAIN << "\tStructureWidget::slotClicked";
 
 		StructureViewItem *item = dynamic_cast<StructureViewItem*>(itm);
 		//return if user didn't click on an item
@@ -640,7 +642,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
 	{
-		KILE_DEBUG() << "\tStructureWidget::slotDoubleClicked";
+		KILE_DEBUG_MAIN << "\tStructureWidget::slotDoubleClicked";
 		StructureViewItem *item = dynamic_cast<StructureViewItem*>(itm);
 		static QRegExp suffix("\\.[\\d\\w]*$");
 
@@ -648,14 +650,14 @@ void StructureViewItem::setLabel(const QString &label)
 			return;
 		}
 
-		KILE_DEBUG() <<"item->url() is " << item->url() << ", item->title() is " << item->title();
+		KILE_DEBUG_MAIN <<"item->url() is " << item->url() << ", item->title() is " << item->title();
 
 		if(item->type() & (KileStruct::Input | KileStruct::Bibliography | KileStruct::Graphics)) {
 			QString fname = item->title();
 
 
 			if(fname.indexOf(suffix) != -1) { // check if we have a suffix, if not add standard suffixes
-				KILE_DEBUG() << "Suffix found: " << suffix.cap(0);
+				KILE_DEBUG_MAIN << "Suffix found: " << suffix.cap(0);
 			}
 			else {
 				// filename in structureview entry has no extension: this shouldn't happen anymore,
@@ -691,7 +693,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 				}
 				else{
-					KILE_DEBUG() << "Suffixless item with unknown type found";
+					KILE_DEBUG_MAIN << "Suffixless item with unknown type found";
 				}
 
 			}
@@ -702,13 +704,14 @@ void StructureViewItem::setLabel(const QString &label)
 			}
 
 			QFileInfo fi(fname);
-			KUrl url;
+			QUrl url;
 			url.setPath(fname);
 
 			if (fi.isReadable()) {
 				if( item->type() == KileStruct::Graphics) {
-					KMimeType::Ptr pMime = KMimeType::findByUrl(url);
-					KRun::runUrl(url, pMime->name(), this);
+QMimeDatabase db;
+					QMimeType pMime = db.mimeTypeForUrl(url);
+					KRun::runUrl(url, pMime.name(), this);
 				}
 				else {
 					emit(fileOpen(url, QString()));
@@ -747,17 +750,17 @@ void StructureViewItem::setLabel(const QString &label)
 	//  - graphics:   100ff
 	void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEvent *event)
 	{
-		KILE_DEBUG() << "\tcalled";
+		KILE_DEBUG_MAIN << "\tcalled";
 
 		QSignalMapper signalMapper;
 		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
-		KMenu popup;
+		QMenu popup;
 		QAction *action = NULL;
 		m_showingContextMenu = NULL;
 
 		m_popupItem = dynamic_cast<StructureViewItem*>(view->itemAt(event->pos()));
 		if(!m_popupItem) {
-			KILE_DEBUG() << "not a pointer to a StructureViewItem object.";
+			KILE_DEBUG_MAIN << "not a pointer to a StructureViewItem object.";
 			return;
 		}
 
@@ -765,7 +768,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 		if(m_popupItem->type() == KileStruct::Sect) {
 			if(hasLabel) {
-				popup.addTitle(i18n("Sectioning"));
+				popup.addSection(i18n("Sectioning"));
 			}
 			action = popup.addAction(i18n("Cu&t"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, SectioningCut);
@@ -795,12 +798,15 @@ void StructureViewItem::setLabel(const QString &label)
 
 			QFileInfo fi(m_popupInfo);
 			if(fi.isReadable()) {
-				KUrl url;
+				QUrl url;
 				url.setPath(m_popupInfo);
 
-				m_offerList = KMimeTypeTrader::self()->query(KMimeType::findByUrl(url)->name(), "Application");
+				QMimeDatabase db;
+				m_offerList = KMimeTypeTrader::self()->query(db.mimeTypeForUrl(url).name(), "Application");
 				for(int i = 0; i < m_offerList.count(); ++i) {
-					action = popup.addAction(SmallIcon(m_offerList[i]->icon()), m_offerList[i]->name(),
+//TODO KF5 SmallIcon(m_offerList[i]->icon())
+// const QIcon & icon, const QString & text, const QObject * receiver, const char * member, const QKeySequence & shortcut = 0)
+					action = popup.addAction(QIcon::fromTheme(m_offerList[i]->icon()), m_offerList[i]->name(),
 					                         &signalMapper, SLOT(map()));
 					signalMapper.setMapping(action, i + SectioningGraphicsOfferlist);
 				}
@@ -811,7 +817,7 @@ void StructureViewItem::setLabel(const QString &label)
 		}
 
 		if(hasLabel) {
-			popup.addTitle(i18n("Insert Label"));
+			popup.addSection(i18n("Insert Label"));
 			action = popup.addAction(i18n("As &reference"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, 1);
 			action = popup.addAction(i18n("As &page reference"), &signalMapper, SLOT(map()));
@@ -819,7 +825,7 @@ void StructureViewItem::setLabel(const QString &label)
 			action = popup.addAction(i18n("Only the &label"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, 3);
 			popup.addSeparator();
-			popup.addTitle(i18n("Copy Label to Clipboard"));
+			popup.addSection(i18n("Copy Label to Clipboard"));
 			action = popup.addAction(i18n("As reference"), &signalMapper, SLOT(map()));
 			signalMapper.setMapping(action, 4);
 			action = popup.addAction(i18n("As page reference"), &signalMapper, SLOT(map()));
@@ -837,7 +843,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::slotPopupActivated(int id)
 	{
-		KILE_DEBUG() << "id: " << id;
+		KILE_DEBUG_MAIN << "id: " << id;
 		if(id >= 1 && id <= 6) {
 			slotPopupLabel(id);
 		}
@@ -852,7 +858,7 @@ void StructureViewItem::setLabel(const QString &label)
 	// id's 1..6 (already checked)
 	void StructureWidget::slotPopupLabel(int id)
 	{
-		KILE_DEBUG() << "\tStructureWidget::slotPopupLabel (" << id << ")"<< endl;
+		KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupLabel (" << id << ")"<< endl;
 
 		QString s = m_popupItem->label();
 		if(id == 1 || id == 4) {
@@ -873,7 +879,7 @@ void StructureViewItem::setLabel(const QString &label)
 	// id's 10..16 (already checked)
 	void StructureWidget::slotPopupSectioning(int id)
 	{
-		KILE_DEBUG() << "\tStructureWidget::slotPopupSectioning (" << id << ")"<< endl;
+		KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupSectioning (" << id << ")"<< endl;
 		if(m_popupItem->level() >= 1 && m_popupItem->level() <= 7) {
 			emit(sectioningPopup(m_popupItem, id));
 		}
@@ -882,16 +888,16 @@ void StructureViewItem::setLabel(const QString &label)
 	// id's 100ff (already checked)
 	void StructureWidget::slotPopupGraphics(int id)
 	{
-		KILE_DEBUG() << "\tStructureWidget::slotPopupGraphics (" << id << ")"<< endl;
+		KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupGraphics (" << id << ")"<< endl;
 
-		KUrl url;
+		QUrl url;
 		url.setPath(m_popupInfo);
 
 		if(id == SectioningGraphicsOther) {
-			KRun::displayOpenWithDialog(url, this);
+			KRun::displayOpenWithDialog(QList<QUrl>() << url, this);
 		}
 		else {
-			KRun::run(*m_offerList[id-SectioningGraphicsOfferlist], url, this);
+			KRun::run(*m_offerList[id-SectioningGraphicsOfferlist], QList<QUrl>() << url, this);
 		}
 	}
 
@@ -963,7 +969,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::update(KileDocument::Info *docinfo, bool forceParsing)
 	{
-		KILE_DEBUG() << "==KileWidget::StructureWidget::update(" << docinfo << ")=============";
+		KILE_DEBUG_MAIN << "==KileWidget::StructureWidget::update(" << docinfo << ")=============";
 
 		if(!docinfo) {
 			m_default->activate();
@@ -984,13 +990,13 @@ void StructureViewItem::setLabel(const QString &label)
 			m_docinfo->updateStruct();
 		}
 
-		KILE_DEBUG() << "activating view";
+		KILE_DEBUG_MAIN << "activating view";
 		view->activate();
 	}
 
 	void StructureWidget::updateAfterParsing(KileDocument::Info *info, const QLinkedList<KileParser::StructureViewItem*>& items)
 	{
-		KILE_DEBUG();
+		KILE_DEBUG_MAIN;
 		StructureView *view = viewFor(info);
 		if(!view) {
 			m_default->activate();
@@ -1013,7 +1019,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::clean(KileDocument::Info *docinfo)
 	{
-		KILE_DEBUG() << "==void StructureWidget::clean()========";
+		KILE_DEBUG_MAIN << "==void StructureWidget::clean()========";
 		StructureView *view = viewFor(docinfo);
 		if(view) {
 			view->cleanUp();
@@ -1022,7 +1028,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	void StructureWidget::updateReferences(KileDocument::Info *docinfo)
 	{
-		KILE_DEBUG() << "==void StructureView::updateReferences()========";
+		KILE_DEBUG_MAIN << "==void StructureView::updateReferences()========";
 		StructureView *view = viewFor(docinfo);
 		if(view) {
 			view->showReferences(m_ki);

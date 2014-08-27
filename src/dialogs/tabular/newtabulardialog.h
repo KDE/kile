@@ -26,11 +26,11 @@ class QSpinBox;
 class QTableWidget;
 class QToolBar;
 
-class KAction;
+class QAction;
 class KColorCells;
 class KComboBox;
 class KIcon;
-class KPushButton;
+class QPushButton;
 
 namespace KileDocument {
 	class LatexCommands;
@@ -56,8 +56,8 @@ class NewTabularDialog : public Wizard {
 
 	private:
 		void initEnvironments();
-		KAction* addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = NULL);
-		KAction* addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = NULL);
+		QAction * addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = NULL);
+		QAction * addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = NULL);
 		void alignItems(int alignment);
 		bool checkForColumnAlignment(int column);
 		QIcon generateColorIcon(bool background) const;
@@ -96,7 +96,7 @@ class NewTabularDialog : public Wizard {
 	private:
 		KileDocument::LatexCommands *m_latexCommands;
 
-		KAction *m_acLeft, *m_acCenter, *m_acRight,
+		QAction *m_acLeft, *m_acCenter, *m_acRight,
 		        *m_acBold, *m_acItalic, *m_acUnderline,
 		        *m_acJoin, *m_acSplit,
 		        *m_acClearText, *m_acClearAttributes, *m_acClearAll,

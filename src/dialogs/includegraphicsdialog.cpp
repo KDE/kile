@@ -18,13 +18,16 @@
 #include <QFileInfo>
 #include <QPixmap>
 
-#include <KFileDialog>
 #include <KIconLoader>
 #include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-#include <KPushButton>
+#include <QPushButton>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 #include "errorhandler.h"
 #include "kiledebug.h"
@@ -38,41 +41,52 @@ namespace KileDialog
 {
 
 IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki) :
-		KDialog(parent),
+		QDialog(parent),
 		m_startdir(startdir),
 		m_width(0),
 		m_height(0),
 		m_ki(ki),
 		m_proc(NULL)
 {
-	setCaption(i18n("Include Graphics"));
+	setWindowTitle(i18n("Include Graphics"));
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	m_widget.setupUi(page);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 
 	// read configuration
 	readConfig();
 
 	slotChooseFilter();
 
-	#if KDE_IS_VERSION(4,2,90)
-		m_widget.edit_file->setStartDir(KUrl::fromPath(m_startdir));
-	#else
-		m_widget.edit_file->setUrl(KUrl::fromPath(m_startdir));
-	#endif
+//TODO KF5
+// 	#if KDE_IS_VERSION(4,2,90)
+// 		m_widget.edit_file->setStartDir(QUrl::fromLocalFile(m_startdir));
+// 	#else
+// 		m_widget.edit_file->setUrl(QUrl::fromLocalFile(m_startdir));
+// 	#endif
 
 	setFocusProxy(m_widget.edit_file);
 	m_widget.edit_file->setFocus();
 
 	connect(m_widget.cb_bb, SIGNAL(toggled(bool)),
 	        this, SLOT(slotChooseFilter()));
-	connect(m_widget.edit_file, SIGNAL(urlSelected(const KUrl&)),
-	        this, SLOT(slotUrlSelected(const KUrl&)));
+	connect(m_widget.edit_file, SIGNAL(urlSelected(const QUrl&)),
+	        this, SLOT(slotUrlSelected(const QUrl&)));
 	connect(m_widget.edit_file, SIGNAL(textChanged(const QString&)),
 	        this, SLOT(slotTextChanged(const QString&)));
 	connect(m_widget.cb_figure, SIGNAL(toggled(bool)),
@@ -249,12 +263,13 @@ QString IncludeGraphics::getTemplate()
 		s += '[' + options + ']';
 	}
 
-	// add name of picture
-	// either take the filename or try to take the relative part of the name
-	QString filename = (m_widget.cb_graphicspath->isChecked())
-			 ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
-			 : KUrl::relativePath(QFileInfo(m_ki->getCompileName()).path(), m_widget.edit_file->lineEdit()->text());
-	s += '{' + filename + "}\n";
+//TODO KF5
+// 	// add name of picture
+// 	// either take the filename or try to take the relative part of the name
+// 	QString filename = (m_widget.cb_graphicspath->isChecked())
+// 			 ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
+// 			 : QUrl::relativePath(QFileInfo(m_ki->getCompileName()).path(), m_widget.edit_file->lineEdit()->text());
+// 	s += '{' + filename + "}\n";
 
 	// add some comments (depending of given resolution, this may be wrong!)
 	QString info = getInfo();
@@ -433,7 +448,7 @@ void IncludeGraphics::slotChooseFilter()
 	m_widget.edit_file->setFilter(filter);
 }
 
-void IncludeGraphics::slotUrlSelected(const KUrl& url)
+void IncludeGraphics::slotUrlSelected(const QUrl &url)
 {
 	QFileInfo fi(url.toLocalFile());
 
@@ -455,8 +470,8 @@ void IncludeGraphics::slotUrlSelected(const KUrl& url)
 			execute("identify -format \"w=%w h=%h dpi=%x\" \"" + url.toLocalFile() + "\"");
 		}
 	} else {
-		KILE_DEBUG() << "=== IncludeGraphics::error ====================";
-		KILE_DEBUG() << "   filename: '" << url.toLocalFile() << "'";
+		KILE_DEBUG_MAIN << "=== IncludeGraphics::error ====================";
+		KILE_DEBUG_MAIN << "   filename: '" << url.toLocalFile() << "'";
 
 		m_widget.infolabel->setText("---");
 		m_widget.edit_bb->setText("");
@@ -465,7 +480,7 @@ void IncludeGraphics::slotUrlSelected(const KUrl& url)
 
 void IncludeGraphics::slotTextChanged(const QString& string)
 {
-	slotUrlSelected(KUrl(string));
+	slotUrlSelected(QUrl(string));
 }
 
 void IncludeGraphics::execute(const QString &command)
@@ -489,8 +504,8 @@ void IncludeGraphics::execute(const QString &command)
 					this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
 	m_output = "";
-	KILE_DEBUG() << "=== IncludeGraphics::execute ====================";
-	KILE_DEBUG() << "   execute '" << command << "'";
+	KILE_DEBUG_MAIN << "=== IncludeGraphics::execute ====================";
+	KILE_DEBUG_MAIN << "   execute '" << command << "'";
 
 	m_proc->start();
 }
@@ -507,7 +522,7 @@ void IncludeGraphics::slotProcessOutput()
 void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
 	if (exitStatus == QProcess::NormalExit) {
-		KILE_DEBUG() << "   result: " << m_output;
+		KILE_DEBUG_MAIN << "   result: " << m_output;
 
 		// set the default resolution
 		m_resolution = m_defaultresolution;
@@ -571,17 +586,21 @@ void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus
 	}
 }
 
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
 void IncludeGraphics::slotButtonClicked(int button)
 {
-	if(button == KDialog::Ok){
-		if(checkParameter()){
-			writeConfig();
-			accept();
-		}
-	}
-	else{
-		KDialog::slotButtonClicked(button);
-	}
+// 	if(button == QDialog::Ok){
+// 		if(checkParameter()){
+// 			writeConfig();
+// 			accept();
+// 		}
+// 	}
+// 	else{
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
+// 		QDialog::slotButtonClicked(button);
+// 	}
 }
 
 void IncludeGraphics::slotWrapFigureSelected(bool state) {

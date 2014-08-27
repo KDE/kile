@@ -17,11 +17,9 @@
 #include <QFileInfo>
 #include <QMenu>
 
-#include <KGlobal>
 #include <KIconLoader>
 #include <KMessageBox>
-#include <KMimeType>
-#include <KUrl>
+#include <QUrl>
 #include <KRun>
 
 #include "kileactions.h"
@@ -52,7 +50,7 @@ void UserHelp::clearActionList()
 	m_actionList.clear();
 }
 
-void UserHelp::readConfig(QStringList& menuList, QList<KUrl>& fileList)
+void UserHelp::readConfig(QStringList& menuList, QList<QUrl>& fileList)
 {
 	menuList.clear();
 	fileList.clear();
@@ -68,14 +66,14 @@ void UserHelp::readConfig(QStringList& menuList, QList<KUrl>& fileList)
 			fileList <<  configGroup.readEntry(QString("file%1").arg(i));
 		}
 		else {
-			fileList << KUrl();
+			fileList << QUrl();
 		}
 	}
 }
 
-void UserHelp::writeConfig(const QStringList& menuList, const QList<KUrl>& fileList)
+void UserHelp::writeConfig(const QStringList& menuList, const QList<QUrl>& fileList)
 {
-	//KILE_DEBUG() << "\tuserhelp: write config";
+	//KILE_DEBUG_MAIN << "\tuserhelp: write config";
 	int entries = menuList.count();
 
 	// first delete old entries
@@ -97,13 +95,13 @@ void UserHelp::writeConfig(const QStringList& menuList, const QList<KUrl>& fileL
 void UserHelp::setupUserHelpMenu()
 {
 	QStringList menuList;
-	QList<KUrl> urlList;
+	QList<QUrl> urlList;
 	readConfig(menuList, urlList);
 
 	clearActionList();
 
 	m_userHelpActionMenu->setEnabled(menuList.count() > 0);
-	QList<KUrl>::iterator j = urlList.begin();
+	QList<QUrl>::iterator j = urlList.begin();
 
 	for(QStringList::iterator i = menuList.begin(); i != menuList.end(); ++i) {
 		QString menu = *i;
@@ -113,7 +111,7 @@ void UserHelp::setupUserHelpMenu()
 			m_actionList.append(action);
 		}
 		else {
-			KUrl url = *j;
+			QUrl url = *j;
 
 			// some file types have an icon
 			QFileInfo fi(url.fileName());
@@ -124,9 +122,9 @@ void UserHelp::setupUserHelpMenu()
 			KileAction::VariantSelection *action = new KileAction::VariantSelection(menu, QVariant::fromValue(url), this);
 			if(!url.isLocalFile() ||  ext == "html" || ext == "dvi" || ext == "ps" || ext == "pdf") {
 				QString icon = (!url.isLocalFile()) ? "viewhtml" : "view" + ext;
-				action->setIcon(KIcon(icon));
+				action->setIcon(QIcon::fromTheme(icon));
 			}
-			connect(action, SIGNAL(triggered(const KUrl&)), this, SLOT(slotUserHelpActivated(const KUrl&)));
+			connect(action, SIGNAL(triggered(const QUrl&)), this, SLOT(slotUserHelpActivated(const QUrl&)));
 			m_userHelpActionMenu->addAction(action);
 			m_actionList.append(action);
 		}
@@ -137,25 +135,25 @@ void UserHelp::setupUserHelpMenu()
 void UserHelp::enableUserHelpEntries(bool state)
 {
 	QStringList menuList;
-	QList<KUrl> urlList;
+	QList<QUrl> urlList;
 	readConfig(menuList, urlList);
 	m_userHelpActionMenu->setEnabled(state && (menuList.size() > 0));
 }
 
-void UserHelp::slotUserHelpActivated(const KUrl& url)
+void UserHelp::slotUserHelpActivated(const QUrl &url)
 {
-	KILE_DEBUG() << "==slotUserHelpActivated(" << url << ")============";
+	KILE_DEBUG_MAIN << "==slotUserHelpActivated(" << url << ")============";
 
 	// does the files exist?
 	QFileInfo fi(url.toLocalFile());
 	bool local = url.isLocalFile();
 	if(local && !fi.exists()) {
-		KMessageBox::error(m_mainWindow, i18n("The file '%1' does not exist.", url.prettyUrl()));
+		KMessageBox::error(m_mainWindow, i18n("The file '%1' does not exist.", url.toDisplayString()));
 		return;
 	}
 
 	// show help file
-	KILE_DEBUG() << "\tshow userhelpfile (" << url << ")";
+	KILE_DEBUG_MAIN << "\tshow userhelpfile (" << url << ")";
 
 	// determine, how to show the file
 	QString type;
@@ -193,13 +191,13 @@ void UserHelp::slotUserHelpActivated(const KUrl& url)
 void UserHelp::userHelpDialog()
 {
 	QStringList menuList;
-	QList<KUrl> fileList;
+	QList<QUrl> fileList;
 	readConfig(menuList, fileList);
 
 	KileDialog::UserHelpDialog *dialog = new KileDialog::UserHelpDialog();
 	dialog->setParameter(menuList, fileList);
 	if(dialog->exec()) {
-		//KILE_DEBUG() << "\t new userhelp entries accepted";
+		//KILE_DEBUG_MAIN << "\t new userhelp entries accepted";
 		dialog->getParameter(menuList, fileList);
 		writeConfig(menuList, fileList);
 		setupUserHelpMenu();

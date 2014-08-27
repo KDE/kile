@@ -20,7 +20,7 @@
 #include <QMap>
 
 #include "kiledebug.h"
-#include <kurl.h>
+#include <QUrl>
 
 #include <KParts/MainWindow>
 
@@ -76,7 +76,7 @@ public:
 	QString getCompileNameForProject(KileProject *project, bool shrt = false) const;
 	QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = NULL) const;
 	QString getFullFromPrettyName(const OutputInfo& info, const QString& name) const;
-	KUrl::List getParentsFor(KileDocument::Info *);
+	QList<QUrl> getParentsFor(KileDocument::Info *);
 	bool getSinglemode() { return m_singlemode; }
 
 	QString getCurrentTarget() const { return m_currentTarget; }
@@ -109,9 +109,9 @@ private:
 	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = NULL);
 
 public:
-	bool similarOrEqualURL(const KUrl &validurl, const KUrl &testurl);
-	bool isOpen(const KUrl & url);
-	bool projectIsOpen(const KUrl & );
+	bool similarOrEqualURL(const QUrl &validurl, const QUrl &testurl);
+	bool isOpen(const QUrl &url);
+	bool projectIsOpen(const QUrl & );
 
 	bool watchFile() { return m_bWatchFile; }
 
@@ -150,7 +150,7 @@ public:
 
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
-	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.toLocalFile(),file, type); }
+	static QString checkOtherPaths(const QUrl &url,const QString &file, int type){ return checkOtherPaths(url.toLocalFile(),file, type); }
 
 	virtual void setLine(const QString &line) = 0;
 

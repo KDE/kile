@@ -20,27 +20,29 @@
 #include <QFileInfo>
 #include <QTextCodec>
 
-#include <KAboutData>
+#include <K4AboutData>
 #include <KCmdLineArgs>
 #include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KStartupInfo>
-#include <KUrl>
-#include <KStandardDirs>
+#include <QUrl>
+
 #include <KEncodingProber>
 
 #include "kile.h"
 #include "kileversion.h"
 #include "kiledebug.h"
 
-bool isProject(const KUrl url)
+Q_LOGGING_CATEGORY(LOG_KILE_MAIN, "kile.main")
+
+bool isProject(const QUrl url)
 {
 	return url.fileName().endsWith(".kilepr");
 }
 
 QString readDataFromStdin()
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 
 	QByteArray fileData;
 	QFile qstdin;
@@ -50,9 +52,9 @@ QString readDataFromStdin()
 	fileData = qstdin.readAll();
 	qstdin.close();
 
-	KTempDir *tempDir = new KTempDir(KStandardDirs::locateLocal("tmp", "kile-stdin"));
-	QString tempFileName = QFileInfo(tempDir->name(), i18n("StandardInput.tex")).absoluteFilePath();
-	KILE_DEBUG() << "tempFile is " << tempFileName;
+	QTemporaryDir *tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') +  "kile-stdin");
+	QString tempFileName = QFileInfo(tempDir->path(), i18n("StandardInput.tex")).absoluteFilePath();
+	KILE_DEBUG_MAIN << "tempFile is " << tempFileName;
 
 	QFile tempFile(tempFileName);
 	if(!tempFile.open(QIODevice::WriteOnly)) {
@@ -63,11 +65,11 @@ QString readDataFromStdin()
 
 	KEncodingProber prober(KEncodingProber::Universal);
  	KEncodingProber::ProberState state = prober.feed(fileData);
-	KILE_DEBUG() << "KEncodingProber::state " << state;
-	KILE_DEBUG() << "KEncodingProber::prober.confidence() " << prober.confidence();
-	KILE_DEBUG() << "KEncodingProber::encoding " << prober.encodingName();
+	KILE_DEBUG_MAIN << "KEncodingProber::state " << state;
+	KILE_DEBUG_MAIN << "KEncodingProber::prober.confidence() " << prober.confidence();
+	KILE_DEBUG_MAIN << "KEncodingProber::encoding " << prober.encoding();
 
-	codec = QTextCodec::codecForName(prober.encodingName());
+	codec = QTextCodec::codecForName(prober.encoding());
 	if(codec){
 		stream.setCodec(codec);
 	}
@@ -80,11 +82,12 @@ QString readDataFromStdin()
 
 
 
-int main( int argc, char ** argv )
+// int main( int argc, char ** argv )
+extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
-	KAboutData aboutData( "kile", QByteArray(), ki18n("Kile"), kileFullVersion.toAscii(),
+	K4AboutData aboutData( "kile", QByteArray(), ki18n("Kile"), kileFullVersion.toAscii(),
 				ki18n("KDE Integrated LaTeX Environment"),
-				KAboutData::License_GPL,
+				K4AboutData::License_GPL,
 				ki18n("by the Kile Team (2003 - 2014)"),
 				KLocalizedString(),
 				"http://kile.sourceforge.net");
@@ -129,7 +132,7 @@ int main( int argc, char ** argv )
 				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				const KUrl url = args->url(i);
+				const QUrl url = args->url(i);
 
 				if(isProject(url)) {
 					kile->openProject(url);
@@ -157,7 +160,7 @@ int main( int argc, char ** argv )
 				interface->call("openDocument", readDataFromStdin());
 			}
 			else {
-				const KUrl url = args->url(i);
+				const QUrl url = args->url(i);
 
 				if(isProject(url)) {
 					interface->call("openProject", url.url());

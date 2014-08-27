@@ -31,7 +31,7 @@ from Kate (C) 2001 by Matt Newell
 #include <KActionMenu>
 #include <KCharsets>
 #include <KFilePlacesModel>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KToolBar>
 #include <KConfig>
 
@@ -42,7 +42,7 @@ namespace KileWidget {
 
 FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent) : QWidget(parent)
 {
-	m_configGroup = KConfigGroup(KGlobal::config(),"FileBrowserWidget");
+	m_configGroup = KConfigGroup(KSharedConfig::openConfig(),"FileBrowserWidget");
 
 	QVBoxLayout* layout = new QVBoxLayout(this);
 	layout->setMargin(0);
@@ -56,20 +56,20 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	layout->addWidget(m_toolbar);
 
 	KFilePlacesModel* model = new KFilePlacesModel(this);
-	m_urlNavigator = new KUrlNavigator(model, KUrl(QDir::homePath()), this);
+	m_urlNavigator = new KUrlNavigator(model, QUrl(QDir::homePath()), this);
 	layout->addWidget(m_urlNavigator);
-	connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)), SLOT(setDir(const KUrl&)));
+	connect(m_urlNavigator, SIGNAL(urlChanged(const QUrl&)), SLOT(setDir(const QUrl&)));
 
-	m_dirOperator = new KDirOperator(KUrl(), this);
+	m_dirOperator = new KDirOperator(QUrl(), this);
 	m_dirOperator->setViewConfig(m_configGroup);
 	m_dirOperator->readConfig(m_configGroup);
 	m_dirOperator->setView(KFile::Default);
 	m_dirOperator->setMode(KFile::Files);
 	setFocusProxy(m_dirOperator);
 
-	connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)), m_dirOperator, SLOT(setFocus()));
+	connect(m_urlNavigator, SIGNAL(urlChanged(const QUrl&)), m_dirOperator, SLOT(setFocus()));
 	connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
-	connect(m_dirOperator, SIGNAL(urlEntered(const KUrl&)), this, SLOT(dirUrlEntered(const KUrl&)));
+	connect(m_dirOperator, SIGNAL(urlEntered(const QUrl&)), this, SLOT(dirUrlEntered(const QUrl&)));
 
 	// FileBrowserWidget filter for sidebar
 	QString filter =  extensions->latexDocuments()
@@ -95,11 +95,11 @@ void FileBrowserWidget::readConfig()
 	QString lastDir = KileConfig::lastDir();
 	QFileInfo ldi(lastDir);
 	if (!ldi.isReadable()) {
-		KILE_DEBUG() << "lastDir is not readable";
+		KILE_DEBUG_MAIN << "lastDir is not readable";
 		m_dirOperator->home();
 	}
 	else {
-		setDir(KUrl(lastDir));
+		setDir(QUrl(lastDir));
 	}
 }
 
@@ -115,15 +115,15 @@ void FileBrowserWidget::setupToolbar()
 	m_toolbar->addAction(coll->action("back"));
 	m_toolbar->addAction(coll->action("forward"));
 
-	KAction *action = new KAction(this);
-	action->setIcon(SmallIcon("document-open"));
+	QAction *action = new QAction(this);
+	action->setIcon(QIcon::fromTheme("document-open"));
 	action->setText(i18n("Open selected"));
 	connect(action, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
 	m_toolbar->addAction(action);
 
 
 	// section for settings menu
-	KActionMenu *optionsMenu = new KActionMenu(KIcon("configure"), i18n("Options"), this);
+	KActionMenu *optionsMenu = new KActionMenu(QIcon::fromTheme("configure"), i18n("Options"), this);
 	optionsMenu->setDelayed(false);
 	optionsMenu->addAction(m_dirOperator->actionCollection()->action("short view"));
 	optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed view"));
@@ -136,17 +136,17 @@ void FileBrowserWidget::setupToolbar()
 	m_toolbar->addAction(optionsMenu);
 }
 
-KUrl FileBrowserWidget::currentUrl() const
+QUrl FileBrowserWidget::currentUrl() const
 {
 	return m_dirOperator->url();
 }
 
-void FileBrowserWidget::dirUrlEntered(const KUrl& u)
+void FileBrowserWidget::dirUrlEntered(const QUrl &u)
 {
 	m_urlNavigator->setUrl(u);
 }
 
-void FileBrowserWidget::setDir(const KUrl& url)
+void FileBrowserWidget::setDir(const QUrl &url)
 {
 	m_dirOperator->setUrl(url, true);
 }

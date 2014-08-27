@@ -42,7 +42,7 @@
       <widget class="KLineEdit" name="kcfg_location"/>
      </item>
      <item>
-      <widget class="KPushButton" name="m_helpLocationButton"/>
+      <widget class="QPushButton" name="m_helpLocationButton"/>
      </item>
     </layout>
    </item>
@@ -238,7 +238,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

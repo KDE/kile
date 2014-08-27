@@ -20,10 +20,10 @@
 #include <QMap>
 #include <QProcess>
 
-#include <KUrl>
+#include <QUrl>
 
 class KJob;
-class KTempDir;
+class QTemporaryDir;
 class KProcess;
 
 class KileInfo;
@@ -129,7 +129,7 @@ class TestToolInKileTest : public ConfigTest
 		KileInfo *m_ki;
 		QString m_toolName;
 		QString m_filePath;
-		KUrl m_documentUrl;
+		QUrl m_documentUrl;
 };
 
 class ProgramTest : public ConfigTest
@@ -228,7 +228,7 @@ private Q_SLOTS:
 private:
 	KileInfo *m_ki;
 	QMap<QString, QList<ConfigTest*> >	m_results;
-	KTempDir				*m_tempDir;
+	QTemporaryDir				*m_tempDir;
 	ConfigTest				*m_currentTest;
 	QLinkedList<ConfigTest*> m_testList;
 	QLinkedList<ConfigTest*>::iterator m_nextTestIterator;
@@ -237,7 +237,7 @@ private:
 	OkularVersionTest *m_okularVersionTest;
 
 	QString m_runningTestGroup;
-	KUrl m_runningToolTestUrl;
+	QUrl m_runningToolTestUrl;
 	bool m_runningTestCritical;
 
 	void setupTests();

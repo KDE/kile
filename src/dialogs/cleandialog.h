@@ -17,7 +17,7 @@
 #ifndef CLEANDIALOG_H
 #define CLEANDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QStringList>
 
@@ -29,7 +29,7 @@ class QTreeWidget;
 
 namespace KileDialog
 {
-class Clean : public KDialog
+class Clean : public QDialog
 {
 		Q_OBJECT
 

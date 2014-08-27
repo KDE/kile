@@ -34,7 +34,7 @@ class CategoryComboBox;
 
 class KComboBox;
 class KLineEdit;
-class KPushButton;
+class QPushButton;
 
 namespace KileDialog
 {
@@ -94,23 +94,23 @@ class QuickDocument : public Wizard
 		QMap<QString, QString> m_dictPackagesDefaultvalues;
 		QMap<QString, bool> m_dictHyperrefDriver;
 
-		KPushButton *m_btnDocumentClassAdd;
-		KPushButton *m_btnDocumentClassDelete;
-		KPushButton *m_btnTypefaceSizeAdd;
-		KPushButton *m_btnTypefaceSizeDelete;
-		KPushButton *m_btnPaperSizeAdd;
-		KPushButton *m_btnPaperSizeDelete;
-		KPushButton *m_btnEncodingAdd;
-		KPushButton *m_btnEncodingDelete;
+		QPushButton *m_btnDocumentClassAdd;
+		QPushButton *m_btnDocumentClassDelete;
+		QPushButton *m_btnTypefaceSizeAdd;
+		QPushButton *m_btnTypefaceSizeDelete;
+		QPushButton *m_btnPaperSizeAdd;
+		QPushButton *m_btnPaperSizeDelete;
+		QPushButton *m_btnEncodingAdd;
+		QPushButton *m_btnEncodingDelete;
 
-		KPushButton *m_btnClassOptionsAdd;
-		KPushButton *m_btnClassOptionsEdit;
-		KPushButton *m_btnClassOptionsDelete;
-		KPushButton *m_btnPackagesAdd;
-		KPushButton *m_btnPackagesAddOption;
-		KPushButton *m_btnPackagesEdit;
-		KPushButton *m_btnPackagesDelete;
-		KPushButton *m_btnPackagesReset;
+		QPushButton *m_btnClassOptionsAdd;
+		QPushButton *m_btnClassOptionsEdit;
+		QPushButton *m_btnClassOptionsDelete;
+		QPushButton *m_btnPackagesAdd;
+		QPushButton *m_btnPackagesAddOption;
+		QPushButton *m_btnPackagesEdit;
+		QPushButton *m_btnPackagesDelete;
+		QPushButton *m_btnPackagesReset;
 
 		// GUI
 		QWidget *setupClassOptions(QTabWidget *tab);
@@ -205,7 +205,7 @@ class QuickDocument : public Wizard
 	virtual void slotButtonClicked(int button);
 };
 
-class QuickDocumentInputDialog : public KDialog {
+class QuickDocumentInputDialog : public QDialog {
 		Q_OBJECT
 	public:
 		QuickDocumentInputDialog(const QStringList &list, int check = 0,

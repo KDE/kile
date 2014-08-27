@@ -16,7 +16,7 @@
 
 #include <QCloseEvent>
 
-#include <KProgressDialog>
+#include <QProgressDialog>
 
 namespace KileWidget {
 
@@ -24,13 +24,13 @@ namespace KileWidget {
  * Our version of the progress dialog ignores close events from the window manager if the user
  * is not allowed to cancel the progress dialog.
  **/
-class ProgressDialog : public KProgressDialog
+class ProgressDialog : public QProgressDialog
 {
 	Q_OBJECT
 
 public:
 	explicit ProgressDialog(QWidget* parent = NULL, const QString& caption = QString(),
-	                        const QString& text = QString(), Qt::WFlags flags = 0);
+	                        const QString& text = QString(), Qt::WindowFlags flags = 0);
 	virtual ~ProgressDialog();
 
 	virtual void closeEvent(QCloseEvent *event);

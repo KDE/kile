@@ -19,33 +19,32 @@
 #include "kiledocmanager.h"
 
 #include <QAbstractItemView>
-
-#include <QTextCodec>
-#include <QFile>
 #include <QDir>
-
-#include <QList>
 #include <QDropEvent>
+#include <QFile>
+#include <QList>
+#include <QMimeData>
+#include <QTextCodec>
 
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
-#include <KTextEditor/EditorChooser>
 #include <KTextEditor/SessionConfigInterface>
 #include <KTextEditor/View>
 #include <kapplication.h>
 #include "kiledebug.h"
 #include <KEncodingFileDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMimeType>
 #include <kmessagebox.h>
-#include <KProgressDialog>
+#include <QProgressDialog>
 #include <kfile.h>
 #include <krun.h>
-#include <kstandarddirs.h>
+
 #include <kio/netaccess.h>
-#include <kpushbutton.h>
-#include <kurl.h>
+#include <QPushButton>
+#include <QUrl>
 #include <kfileitem.h>
+#include <KConfigGroup>
 
 #include "errorhandler.h"
 #include "dialogs/listselector.h"
@@ -120,7 +119,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 	m_currentlyOpeningFile(false)
 {
 	setObjectName(name);
-	m_editor = KTextEditor::EditorChooser::editor();
+	m_editor = KTextEditor::Editor::instance();
 	if(!m_editor) {
 		KMessageBox::error(m_ki->mainWindow(), i18n("No editor component found. Please check your KDE installation."),
 		                                       i18n("No editor component found."));
@@ -129,7 +128,7 @@ Manager::Manager(KileInfo *info, QObject *parent, const char *name) :
 
 Manager::~Manager()
 {
-	KILE_DEBUG() << "==KileDocument::Manager::~Manager()=========";
+	KILE_DEBUG_MAIN << "==KileDocument::Manager::~Manager()=========";
 	if(m_progressDialog.isNull()) {
 		delete m_progressDialog.data();
 	}
@@ -137,21 +136,15 @@ Manager::~Manager()
 
 void Manager::readConfig()
 {
-	if(m_editor) {
-		m_editor->readConfig(KGlobal::config().data());
-	}
 }
 
 void Manager::writeConfig()
 {
-	if(m_editor) {
-		m_editor->writeConfig(KGlobal::config().data());
-	}
 }
 
 void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= NULL */ )
 {
-	KILE_DEBUG() << "==void Manager::trashDoc(" << docinfo->url().toLocalFile() << ")=====";
+	KILE_DEBUG_MAIN << "==void Manager::trashDoc(" << docinfo->url().toLocalFile() << ")=====";
 
 	if(m_ki->isOpen(docinfo->url())) {
 		return;
@@ -167,25 +160,25 @@ void Manager::trashDoc(TextInfo *docinfo, KTextEditor::Document *doc /*= NULL */
 		doc = docFor(docinfo->url());
 	}
 
-	KILE_DEBUG() << "DETACHING " << docinfo;
+	KILE_DEBUG_MAIN << "DETACHING " << docinfo;
 	docinfo->detach();
 
-	KILE_DEBUG() << "\tTRASHING " <<  doc;
+	KILE_DEBUG_MAIN << "\tTRASHING " <<  doc;
 	if(!doc) {
 		return;
 	}
 
-	KILE_DEBUG() << "just checking: docinfo->getDoc() =  " << docinfo->getDoc();
-	KILE_DEBUG() << "just checking: docFor(docinfo->url()) = " << docFor(docinfo->url());
+	KILE_DEBUG_MAIN << "just checking: docinfo->getDoc() =  " << docinfo->getDoc();
+	KILE_DEBUG_MAIN << "just checking: docFor(docinfo->url()) = " << docFor(docinfo->url());
 
 	for (int i = 0; i < m_textInfoList.count(); ++i) {
 		if((m_textInfoList.at(i) != docinfo) && (m_textInfoList.at(i)->getDoc() == doc)) {
 			KMessageBox::information(0, i18n("The internal structure of Kile is corrupted (probably due to a bug in Kile). Please select Save All from the File menu and close Kile.\nThe Kile team apologizes for any inconvenience and would appreciate a bug report."));
-			kWarning() << "docinfo " << m_textInfoList.at(i) << " url " << m_textInfoList.at(i)->url().fileName() << " has a wild pointer!!!";
+			qWarning() << "docinfo " << m_textInfoList.at(i) << " url " << m_textInfoList.at(i)->url().fileName() << " has a wild pointer!!!";
 		}
 	}
 
-	KILE_DEBUG() << "DELETING doc";
+	KILE_DEBUG_MAIN << "DELETING doc";
 	delete doc;
 }
 
@@ -212,7 +205,7 @@ KTextEditor::Editor* Manager::getEditor()
 	return m_editor;
 }
 
-KTextEditor::Document* Manager::docFor(const KUrl & url)
+KTextEditor::Document* Manager::docFor(const QUrl &url)
 {
 	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
 		TextInfo *info = *it;
@@ -236,13 +229,13 @@ TextInfo* Manager::getInfo() const
 	}
 }
 
-TextInfo* Manager::textInfoFor(const KUrl& url)
+TextInfo* Manager::textInfoFor(const QUrl &url)
 {
 	if(url.isEmpty()) {
 		return NULL;
 	}
 
-	KILE_DEBUG() << "==KileInfo::textInfoFor(" << url << ")==========================";
+	KILE_DEBUG_MAIN << "==KileInfo::textInfoFor(" << url << ")==========================";
 
 	for(QList<TextInfo*>::iterator it = m_textInfoList.begin(); it != m_textInfoList.end(); ++it) {
 		TextInfo *info = *it;
@@ -267,7 +260,7 @@ TextInfo* Manager::textInfoFor(const KUrl& url)
 		}
 	}
 
-	KILE_DEBUG() << "\tCOULD NOT find info for " << url;
+	KILE_DEBUG_MAIN << "\tCOULD NOT find info for " << url;
 	return NULL;
 }
 
@@ -285,15 +278,15 @@ TextInfo* Manager::textInfoFor(KTextEditor::Document* doc) const
 		}
 	}
 
-	KILE_DEBUG() << "\tCOULD NOT find info for" << doc->url() << "by searching via a KTextEditor::Document*";
+	KILE_DEBUG_MAIN << "\tCOULD NOT find info for" << doc->url() << "by searching via a KTextEditor::Document*";
 	return NULL;
 }
 
-KUrl Manager::urlFor(TextInfo* textInfo)
+QUrl Manager::urlFor(TextInfo* textInfo)
 {
 	KileProjectItem *item = itemFor(textInfo);
 
-	KUrl url;
+	QUrl url;
 	if(item) {
 		url = item->url(); // all items with 'textInfo' share the same URL
 	}
@@ -306,7 +299,7 @@ KUrl Manager::urlFor(TextInfo* textInfo)
 	return url;
 }
 
-KileProject* Manager::projectForMember(const KUrl &memberUrl)
+KileProject* Manager::projectForMember(const QUrl &memberUrl)
 {
 	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
 		KileProject *project = *it;
@@ -318,7 +311,7 @@ KileProject* Manager::projectForMember(const KUrl &memberUrl)
 	return NULL;
 }
 
-KileProject* Manager::projectFor(const KUrl &projecturl)
+KileProject* Manager::projectFor(const QUrl &projecturl)
 {
 	//find project with url = projecturl
 	for(QList<KileProject*>::iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
@@ -345,7 +338,7 @@ KileProject* Manager::projectFor(const QString &name)
 	return NULL;
 }
 
-KileProjectItem* Manager::itemFor(const KUrl &url, KileProject *project /*=0L*/) const
+KileProjectItem* Manager::itemFor(const QUrl &url, KileProject *project /*=0L*/) const
 {
 	if (!project) {
 		for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
@@ -387,14 +380,14 @@ QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const
 		return QList<KileProjectItem*>();
 	}
 
-	KILE_DEBUG() << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============";
+	KILE_DEBUG_MAIN << "==KileInfo::itemsFor(" << docinfo->url().fileName() << ")============";
 	QList<KileProjectItem*> list;
 	for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
 		KileProject *project = *it;
 
-		KILE_DEBUG() << "\tproject: " << (*it)->name();
+		KILE_DEBUG_MAIN << "\tproject: " << (*it)->name();
 		if(project->contains(docinfo)) {
-			KILE_DEBUG() << "\t\tcontains";
+			KILE_DEBUG_MAIN << "\t\tcontains";
 			list.append(project->item(docinfo));
 		}
 	}
@@ -402,7 +395,7 @@ QList<KileProjectItem*> Manager::itemsFor(Info *docinfo) const
 	return list;
 }
 
-QList<KileProjectItem*> Manager::itemsFor(const KUrl& url) const
+QList<KileProjectItem*> Manager::itemsFor(const QUrl &url) const
 {
 	QList<KileProjectItem*> list;
 	for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
@@ -453,7 +446,7 @@ KileProjectItem* Manager::activeProjectItem()
 	return NULL;
 }
 
-TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl& url, const KUrl& baseDirectory)
+TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &url, const QUrl& baseDirectory)
 {
 	TextInfo *docinfo = NULL;
 
@@ -465,13 +458,13 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl& u
 		switch(type) {
 			case Undefined: // fall through
 			case Text:
-				KILE_DEBUG() << "CREATING TextInfo for " << url.url();
+				KILE_DEBUG_MAIN << "CREATING TextInfo for " << url.url();
 				docinfo = new TextInfo(m_ki->extensions(),
 				                       m_ki->abbreviationManager(),
 				                       m_ki->parserManager());
 				break;
 			case LaTeX:
-				KILE_DEBUG() << "CREATING LaTeXInfo for " << url.url();
+				KILE_DEBUG_MAIN << "CREATING LaTeXInfo for " << url.url();
 				docinfo = new LaTeXInfo(m_ki->extensions(),
 				                        m_ki->abbreviationManager(),
 				                        m_ki->latexCommands(),
@@ -482,14 +475,14 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl& u
 				                        m_ki->parserManager());
 				break;
 			case BibTeX:
-				KILE_DEBUG() << "CREATING BibInfo for " << url.url();
+				KILE_DEBUG_MAIN << "CREATING BibInfo for " << url.url();
 				docinfo = new BibInfo(m_ki->extensions(),
 				                      m_ki->abbreviationManager(),
 				                      m_ki->parserManager(),
 				                      m_ki->latexCommands());
 				break;
 			case Script:
-				KILE_DEBUG() << "CREATING ScriptInfo for " << url.url();
+				KILE_DEBUG_MAIN << "CREATING ScriptInfo for " << url.url();
 				docinfo = new ScriptInfo(m_ki->extensions(),
 				                         m_ki->abbreviationManager(),
 				                         m_ki->parserManager());
@@ -500,14 +493,14 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const KUrl& u
 		m_textInfoList.append(docinfo);
 	}
 
-	KILE_DEBUG() << "DOCINFO: returning " << docinfo << " " << docinfo->url().fileName();
+	KILE_DEBUG_MAIN << "DOCINFO: returning " << docinfo << " " << docinfo->url().fileName();
 	return docinfo;
 }
 
 void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 {
 	QList<KileProjectItem*> list = itemsFor(oldinfo);
-	KUrl url = oldinfo->url();
+	QUrl url = oldinfo->url();
 	TextInfo *newinfo = createTextDocumentInfo(m_ki->extensions()->determineDocumentType(url), url, oldinfo->getBaseDirectory());
 
 	newinfo->setDoc(oldinfo->getDoc());
@@ -523,7 +516,7 @@ void Manager::recreateTextDocumentInfo(TextInfo *oldinfo)
 
 bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* = false */)
 {
-	KILE_DEBUG() << "==Manager::removeTextDocumentInfo(Info *docinfo)=====";
+	KILE_DEBUG_MAIN << "==Manager::removeTextDocumentInfo(Info *docinfo)=====";
 	QList<KileProjectItem*> itms = itemsFor(docinfo);
 	bool oneItem = false;
 	if(itms.count() == 1) {
@@ -531,10 +524,10 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 	}
 
 	if(itms.count() == 0 || ( closingproject && oneItem )) {
-		KILE_DEBUG() << "\tremoving " << docinfo <<  " count = " << m_textInfoList.count();
+		KILE_DEBUG_MAIN << "\tremoving " << docinfo <<  " count = " << m_textInfoList.count();
 
 		// we still have to stop parsing for 'docinfo'
-		KUrl url = urlFor(docinfo);
+		QUrl url = urlFor(docinfo);
 		if(url.isValid()) {
 			m_ki->parserManager()->stopDocumentParsing(url);
 		}
@@ -549,16 +542,16 @@ bool Manager::removeTextDocumentInfo(TextInfo *docinfo, bool closingproject /* =
 		return true;
 	}
 
-	KILE_DEBUG() << "\tnot removing " << docinfo;
+	KILE_DEBUG_MAIN << "\tnot removing " << docinfo;
 	return false;
 }
 
 
-KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinfo, const QString& encoding,
+KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinfo, const QString& encoding,
                                                                                    const QString& mode,
                                                                                    const QString& highlight)
 {
-	KILE_DEBUG() << "==KTextEditor::Document* Manager::createDocument()===========";
+	KILE_DEBUG_MAIN << "==KTextEditor::Document* Manager::createDocument()===========";
 
 	KTextEditor::Document *doc = NULL;
 
@@ -568,16 +561,16 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 
 	doc = docFor(url);
 	if (doc) {
-		kWarning() << url << " already has a document!";
+		qWarning() << url << " already has a document!";
 		return doc;
 	}
 	doc = m_editor->createDocument(NULL);
-	KILE_DEBUG() << "appending document " <<  doc;
+	KILE_DEBUG_MAIN << "appending document " <<  doc;
 
 	docinfo->setDoc(doc); // do this here to set up all the signals correctly in 'TextInfo'
 	doc->setEncoding(encoding);
 
-	KILE_DEBUG() << "url is = " << docinfo->url();
+	KILE_DEBUG_MAIN << "url is = " << docinfo->url();
 
 	if(!url.isEmpty()) {
 		bool r = doc->openUrl(url);
@@ -614,8 +607,8 @@ KTextEditor::Document* Manager::createDocument(const KUrl& url, TextInfo *docinf
 	//        the docinfo only, i.e. the structure view should just react to changes!
 	connect(docinfo, SIGNAL(completed(KileDocument::Info*)), m_ki->structureWidget(), SLOT(update(KileDocument::Info*)));
 
-	KILE_DEBUG() << "createDocument: url " << doc->url();
-	KILE_DEBUG() << "createDocument: SANITY check: " << (docinfo->getDoc() == docFor(docinfo->url()));
+	KILE_DEBUG_MAIN << "createDocument: url " << doc->url();
+	KILE_DEBUG_MAIN << "createDocument: SANITY check: " << (docinfo->getDoc() == docFor(docinfo->url()));
 	return doc;
 }
 
@@ -624,39 +617,39 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 {
 	KTextEditor::View *view = NULL;
 
-	KILE_DEBUG() << "==loadItem(" << item->url().toLocalFile() << ")======";
+	KILE_DEBUG_MAIN << "==loadItem(" << item->url().toLocalFile() << ")======";
 
 	if(item->type() != KileProjectItem::Image) {
 		view = loadText(type, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->mode(), item->highlight(), text);
-		KILE_DEBUG() << "\tloadItem: docfor = " << docFor(item->url().toLocalFile());
+		KILE_DEBUG_MAIN << "\tloadItem: docfor = " << docFor(item->url().toLocalFile());
 
 		TextInfo *docinfo = item->getInfo();
 
-		KILE_DEBUG() << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
-		if ( docinfo->getDoc() != docFor(docinfo->url().toLocalFile()) ) kWarning() << "docinfo->getDoc() != docFor()";
+		KILE_DEBUG_MAIN << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
+		if ( docinfo->getDoc() != docFor(docinfo->url().toLocalFile()) ) qWarning() << "docinfo->getDoc() != docFor()";
 	}
 	else {
-		KILE_DEBUG() << "\tloadItem: no document generated";
+		KILE_DEBUG_MAIN << "\tloadItem: no document generated";
 		TextInfo *docinfo = item->getInfo();
 
 		if(!docFor(item->url())) {
 			docinfo->detach();
-			KILE_DEBUG() << "\t\t\tdetached";
+			KILE_DEBUG_MAIN << "\t\t\tdetached";
 		}
 	}
 
 	return view;
 }
 
-KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url, const QString& encoding,
+KTextEditor::View* Manager::loadText(KileDocument::Type type, const QUrl &url, const QString& encoding,
                                                                                bool create,
                                                                                const QString& mode,
                                                                                const QString& highlight,
                                                                                const QString& text,
                                                                                int index,
-                                                                               const KUrl& baseDirectory)
+                                                                               const QUrl &baseDirectory)
 {
-	KILE_DEBUG() << "==loadText(" << url.url() << ")=================";
+	KILE_DEBUG_MAIN << "==loadText(" << url.url() << ")=================";
 	//if doc already opened, update the structure view and return the view
 	if(!url.isEmpty() && m_ki->isOpen(url)) {
 		return m_ki->viewManager()->switchToTextView(url);
@@ -675,8 +668,8 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url, c
 		return m_ki->viewManager()->createTextView(docinfo, index);
 	}
 
-	KILE_DEBUG() << "just after createView()";
-	KILE_DEBUG() << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
+	KILE_DEBUG_MAIN << "just after createView()";
+	KILE_DEBUG_MAIN << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
 
 	return NULL;
 }
@@ -684,7 +677,7 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const KUrl& url, c
 //FIXME: template stuff should be in own class
 KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 {
-	KILE_DEBUG() << "templateitem *sel = " << sel;
+	KILE_DEBUG_MAIN << "templateitem *sel = " << sel;
 	QString text;
 
 	if(!sel) {
@@ -701,7 +694,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		//create a new document to open the template in
 		KTextEditor::Document *tempdoc = m_editor->createDocument(NULL);
 
-		if (!tempdoc->openUrl(KUrl(sel->path()))) {
+		if (!tempdoc->openUrl(QUrl(sel->path()))) {
 			KMessageBox::error(m_ki->mainWindow(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));
 		}
 		else {
@@ -717,9 +710,9 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalScriptDirectory() : QString()));
 }
 
-KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& /* extension */, const KUrl& baseDirectory)
+KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& /* extension */, const QUrl &baseDirectory)
 {
-	KTextEditor::View *view = loadText(type, KUrl(), QString(), true, QString(), QString(), text, -1, baseDirectory);
+	KTextEditor::View *view = loadText(type, QUrl(), QString(), true, QString(), QString(), text, -1, baseDirectory);
 	if(view) {
 		//FIXME this shouldn't be necessary!!!
 		view->document()->setModified(true);
@@ -769,7 +762,7 @@ void Manager::createTemplate()
 		return;
 	}
 
-	KUrl url = view->document()->url();
+	QUrl url = view->document()->url();
 	KileDocument::Type type = m_ki->extensions()->determineDocumentType(url);
 
 	if(type == KileDocument::Undefined || type == KileDocument::Text) {
@@ -810,7 +803,7 @@ void Manager::fileNewScript()
 	fileNew(KileDocument::Script);
 }
 
-void Manager::fileNew(const KUrl& url)
+void Manager::fileNew(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
 	//create an empty file
@@ -849,8 +842,8 @@ void Manager::fileOpen()
 
 	Locker lock(&m_autoSaveLock);
 	//open them
-	KUrl::List urls = result.URLs;
-	for (KUrl::List::Iterator i=urls.begin(); i != urls.end(); ++i) {
+	QList<QUrl> urls = result.URLs;
+	for (QList<QUrl>::Iterator i=urls.begin(); i != urls.end(); ++i) {
 		fileOpen(*i, result.encoding);
 	}
 }
@@ -867,13 +860,13 @@ void Manager::fileSelected(const KileProjectItem * item)
 	fileOpen(item->url(), item->encoding());
 }
 
-void Manager::fileSelected(const KUrl& url)
+void Manager::fileSelected(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
 	fileOpen(url, QString());
 }
 
-void Manager::saveURL(const KUrl & url)
+void Manager::saveURL(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
 	KTextEditor::Document *doc = docFor(url);
@@ -884,13 +877,14 @@ void Manager::saveURL(const KUrl & url)
 
 void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
-	KILE_DEBUG() << "void Manager::newDocumentStatus(Kate::Document)" << endl;
+	KILE_DEBUG_MAIN << "void Manager::newDocumentStatus(Kate::Document)" << endl;
 	if(!doc) {
 		return;
 	}
 
+//TODO KF5
 	//sync terminal
-	m_ki->texKonsole()->sync();
+// 	m_ki->texKonsole()->sync();
 
 	emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
 }
@@ -906,9 +900,9 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 	KTextEditor::View *view = NULL;
 	QFileInfo fi;
 	bool oneSaveFailed = false;
-	KUrl url, backupUrl;
+	QUrl url, backupUrl;
 
-	KILE_DEBUG() << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")";
+	KILE_DEBUG_MAIN << "===Kile::fileSaveAll(amAutoSaving = " <<  amAutoSaving << ",disUntitled = " << disUntitled <<")";
 
 	for(int i = 0; i < m_ki->viewManager()->textViewCount(); ++i) {
 		view = m_ki->viewManager()->textView(i);
@@ -923,17 +917,17 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 			  )
 			{
 
-				KILE_DEBUG() << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings";
+				KILE_DEBUG_MAIN << "The files _" << autosaveWarnings.join(", ") <<  "_ have autosaveWarnings";
 
 				if(amAutoSaving) {
 					if(!fi.isWritable()) {
 						if(autosaveWarnings.contains(url.toLocalFile())) {
-							KILE_DEBUG() << "File " << url.prettyUrl() << " is not writeable (again), trying next file";
+							KILE_DEBUG_MAIN << "File " << url.toDisplayString() << " is not writeable (again), trying next file";
 							continue;
 						}
 						else {
 							autosaveWarnings.append(url.toLocalFile());
-							KILE_DEBUG() << "File " << url.prettyUrl() << " is not writeable (first time)";
+							KILE_DEBUG_MAIN << "File " << url.toDisplayString() << " is not writeable (first time)";
 						}
 					}
 					else {
@@ -941,31 +935,31 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 					}
 				}
 				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
-					KUrl backupUrl = KUrl(url.toLocalFile()+ ".backup");
+					QUrl backupUrl = QUrl(url.toLocalFile()+ ".backup");
 
 					// first del existing file if any, then copy over the file we have
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
 					if((!KIO::NetAccess::exists( backupUrl, false, m_ki->mainWindow())
 					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
 					   && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
-						KILE_DEBUG() << "backing up successful (" << url.prettyUrl() << " -> "<<backupUrl.prettyUrl() << ")";
+						KILE_DEBUG_MAIN << "backing up successful (" << url.toDisplayString() << " -> "<<backupUrl << ")";
 					}
 					else {
-						KILE_DEBUG() << "backing up failed (" << url.prettyUrl() << " -> " << backupUrl.prettyUrl() << ")";
+						KILE_DEBUG_MAIN << "backing up failed (" << url.toDisplayString() << " -> " << backupUrl << ")";
 						m_ki->errorHandler()->printMessage(KileTool::Error,
-						                                   i18n("The file %1 could not be saved, check the permissions and free disk space.", backupUrl.prettyUrl()),
+						                                   i18n("The file %1 could not be saved, check the permissions and free disk space.", backupUrl.toDisplayString()),
 						                                   i18n("Autosave"));
 					}
 				}
 
-				KILE_DEBUG() << "trying to save: " << url.toLocalFile();
+				KILE_DEBUG_MAIN << "trying to save: " << url.toLocalFile();
 				bool saveResult = view->document()->documentSave();
 				fi.refresh();
 
 				if(!saveResult) {
 					oneSaveFailed = true;
 					m_ki->errorHandler()->printMessage(KileTool::Error,
-					                                   i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.prettyUrl()),
+					                                   i18n("Kile encountered problems while saving the file %1. Do you have enough free disk space left?", url.toDisplayString()),
 					                                   i18n("Saving"));
 				}
 			}
@@ -981,15 +975,15 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 	return !oneSaveFailed;
 }
 
-TextInfo* Manager::fileOpen(const KUrl& url, const QString& encoding, int index)
+TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
 {
 	Locker lock(&m_autoSaveLock);
 	m_currentlyOpeningFile = true;
-	KILE_DEBUG() << "==Kile::fileOpen==========================";
+	KILE_DEBUG_MAIN << "==Kile::fileOpen==========================";
 
-	KILE_DEBUG() << "url is " << url.url();
-	const KUrl realurl = symlinkFreeURL(url);
-	KILE_DEBUG() << "symlink free url is " << realurl.url();
+	KILE_DEBUG_MAIN << "url is " << url.url();
+	const QUrl realurl = symlinkFreeURL(url);
+	KILE_DEBUG_MAIN << "symlink free url is " << realurl.url();
 
 	bool isopen = m_ki->isOpen(realurl);
 	if(isopen) {
@@ -1045,7 +1039,7 @@ bool Manager::fileSave(KTextEditor::View *view)
 	if(!view) {
 		return false;
 	}
-	KUrl url = view->document()->url();
+	QUrl url = view->document()->url();
 	if(url.isEmpty()) { // newly created document
 		return fileSaveAs(view);
 	}
@@ -1081,9 +1075,9 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 	KileDocument::TextInfo* info = textInfoFor(doc);
 	Q_ASSERT(info);
 	QString startDir = info->url().url();
-	KUrl oldURL = info->url();
+	QUrl oldURL = info->url();
 	if(startDir.isEmpty()) {
-		KUrl baseDirectory = info->getBaseDirectory();
+		QUrl baseDirectory = info->getBaseDirectory();
 		if(baseDirectory.isEmpty()) {
 			startDir = "kfiledialog:///KILE_LATEX_SAVE_DIR";
 		}
@@ -1092,10 +1086,10 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 		}
 	}
 
-	KILE_DEBUG() << "startDir is " << startDir;
+	KILE_DEBUG_MAIN << "startDir is " << startDir;
 
 	KEncodingFileDialog::Result result;
-	KUrl saveURL;
+	QUrl saveURL;
 	while(true) {
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
 		result = KEncodingFileDialog::getSaveUrlAndEncoding(doc->encoding(), startDir, filter, m_ki->mainWindow(), i18n("Save File"));
@@ -1237,7 +1231,7 @@ bool Manager::fileCloseAll()
 	return true;
 }
 
-bool Manager::fileClose(const KUrl & url)
+bool Manager::fileClose(const QUrl &url)
 {
 	KTextEditor::Document *doc = docFor(url);
 	if(!doc) {
@@ -1271,7 +1265,7 @@ bool Manager::fileClose(KTextEditor::View *view)
 
 bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingproject /*= false*/)
 {
-	KILE_DEBUG() << "==Kile::fileClose==========================";
+	KILE_DEBUG_MAIN << "==Kile::fileClose==========================";
 
 	if(!doc) {
 		doc = m_ki->activeTextDocument();
@@ -1284,13 +1278,13 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 	Locker lock(&m_autoSaveLock);
 
 	//FIXME: remove from docinfo map, remove from dirwatch
-	KILE_DEBUG() << "doc->url().toLocalFile()=" << doc->url().toLocalFile();
+	KILE_DEBUG_MAIN << "doc->url().toLocalFile()=" << doc->url().toLocalFile();
 
-	const KUrl url = doc->url();
+	const QUrl url = doc->url();
 
 	TextInfo *docinfo= textInfoFor(doc);
 	if(!docinfo) {
-		kWarning() << "no DOCINFO for " << url.url();
+		qWarning() << "no DOCINFO for " << url.url();
 		return true;
 	}
 	bool inProject = false;
@@ -1306,7 +1300,7 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 	}
 
 	if(!inProject) {
-	KILE_DEBUG() << "not in project";
+	KILE_DEBUG_MAIN << "not in project";
 		saveDocumentAndViewSettings(docinfo);
 	}
 
@@ -1340,7 +1334,7 @@ bool Manager::fileClose(KTextEditor::Document *doc /* = 0L*/, bool closingprojec
 	return true;
 }
 
-void Manager::buildProjectTree(const KUrl & url)
+void Manager::buildProjectTree(const QUrl &url)
 {
 	KileProject * project = projectFor(url);
 
@@ -1391,8 +1385,9 @@ void Manager::projectNew()
 
 			if(view) {
 				//derive the URL from the base url of the project
-				KUrl url = project->baseURL();
-				url.addPath(filename);
+				QUrl url = project->baseURL();
+				url = url.adjusted(QUrl::StripTrailingSlash);
+				url.setPath(url.path() + '/' + filename);
 
 				TextInfo *docinfo = textInfoFor(view->document());
 
@@ -1422,9 +1417,9 @@ void Manager::projectNew()
 void Manager::addProject(KileProject *project)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==void Manager::addProject(const KileProject *project)==========";
+	KILE_DEBUG_MAIN << "==void Manager::addProject(const KileProject *project)==========";
 	m_projects.append(project);
-	KILE_DEBUG() << "\tnow " << m_projects.count() << " projects";
+	KILE_DEBUG_MAIN << "\tnow " << m_projects.count() << " projects";
 	emit addToProjectView(project);
 	connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
 }
@@ -1460,10 +1455,10 @@ KileProject* Manager::selectProject(const QString& caption)
 	return project;
 }
 
-void Manager::addToProject(const KUrl & url)
+void Manager::addToProject(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "===Kile::addToProject(const KUrl & url =" << url.url() << ")";
+	KILE_DEBUG_MAIN << "===Kile::addToProject(const QUrl &url =" << url.url() << ")";
 
 	KileProject *project = selectProject(i18n("Add to Project"));
 
@@ -1472,10 +1467,10 @@ void Manager::addToProject(const KUrl & url)
 	}
 }
 
-void Manager::addToProject(KileProject* project, const KUrl & url)
+void Manager::addToProject(KileProject* project, const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
-	const KUrl realurl = symlinkFreeURL(url);
+	const QUrl realurl = symlinkFreeURL(url);
 	QFileInfo fi(realurl.toLocalFile());
 
 	if (project->contains(realurl)) {
@@ -1504,7 +1499,7 @@ void Manager::removeFromProject(KileProjectItem *item)
 {
 	Locker lock(&m_autoSaveLock);
 	if (item && item->project()) {
-		KILE_DEBUG() << "\tprojecturl = " << item->project()->url().toLocalFile() << ", url = " << item->url().toLocalFile();
+		KILE_DEBUG_MAIN << "\tprojecturl = " << item->project()->url().toLocalFile() << ", url = " << item->url().toLocalFile();
 
 		if (item->project()->url() == item->url()) {
 			KMessageBox::error(m_ki->mainWindow(), i18n("This file is the project file, which holds all the information about your project.  As such, it cannot be removed from the project."), i18n("Cannot Remove File From Project"));
@@ -1526,8 +1521,8 @@ void Manager::removeFromProject(KileProjectItem *item)
 void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==Kile::projectOpenItem==========================";
-	KILE_DEBUG() << "\titem:" << item->url().toLocalFile();
+	KILE_DEBUG_MAIN << "==Kile::projectOpenItem==========================";
+	KILE_DEBUG_MAIN << "\titem:" << item->url().toLocalFile();
 
 	if (m_ki->isOpen(item->url())) { //remove item from projectview (this file was opened before as a normal file)
 		emit removeFromProjectView(item->url());
@@ -1563,13 +1558,13 @@ void Manager::createTextInfoForProjectItem(KileProjectItem *item)
 	                                     item->url(), item->project()->baseURL()));
 }
 
-void Manager::projectOpen(const KUrl& url, int step, int max, bool openProjectItemViews)
+void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectItemViews)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==Kile::projectOpen==========================";
-	KILE_DEBUG() << "\tfilename: " << url.fileName();
+	KILE_DEBUG_MAIN << "==Kile::projectOpen==========================";
+	KILE_DEBUG_MAIN << "\tfilename: " << url.fileName();
 
-	const KUrl realurl = symlinkFreeURL(url);
+	const QUrl realurl = symlinkFreeURL(url);
 
 	if(m_ki->projectIsOpen(realurl)) {
 		if(m_progressDialog) {
@@ -1586,7 +1581,7 @@ void Manager::projectOpen(const KUrl& url, int step, int max, bool openProjectIt
 			m_progressDialog->hide();
 		}
 
-		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for the project \"%1\" does not exist or is not readable. Remove this project from the recent projects list?", url.prettyUrl()), i18n("Could Not Load Project File"))  == KMessageBox::Yes) {
+		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for the project \"%1\" does not exist or is not readable. Remove this project from the recent projects list?", url.toDisplayString()), i18n("Could Not Load Project File"))  == KMessageBox::Yes) {
 			emit(removeFromRecentProjects(realurl));
 		}
 		return;
@@ -1613,9 +1608,11 @@ void Manager::projectOpen(const KUrl& url, int step, int max, bool openProjectIt
 	QList<KileProjectItem*> list = kp->items();
 
 	int project_steps = list.count() + 1;
-	m_progressDialog->progressBar()->setMaximum(project_steps * max);
+//TODO KF5
+// 	m_progressDialog->progressBar()->setMaximum(project_steps * max);
 	project_steps *= step;
-	m_progressDialog->progressBar()->setValue(project_steps);
+//TODO KF5
+//	m_progressDialog->progressBar()->setValue(project_steps);
 
 	// open the project files in the correct order
 	QVector<KileProjectItem*> givenPositionVector(list.count(), NULL);
@@ -1660,7 +1657,8 @@ void Manager::projectOpen(const KUrl& url, int step, int max, bool openProjectIt
 	unsigned int counter = 0;
 	for (QList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
-		m_progressDialog->progressBar()->setValue(counter + project_steps);
+//TODO KF5
+//		m_progressDialog->progressBar()->setValue(counter + project_steps);
 		kapp->processEvents();
 		++counter;
 	}
@@ -1694,8 +1692,8 @@ void Manager::updateProjectReferences(KileProject *project)
 
 void Manager::projectOpen()
 {
-	KILE_DEBUG() << "==Kile::projectOpen==========================";
-	KUrl url = KFileDialog::getOpenUrl( KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"), m_ki->mainWindow(), i18n("Open Project") );
+	KILE_DEBUG_MAIN << "==Kile::projectOpen==========================";
+	QUrl url = QFileDialog::getOpenFileUrl(m_ki->mainWindow(),  i18n("Open Project"), KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"));
 
 	if(!url.isEmpty()) {
 		projectOpen(url);
@@ -1706,7 +1704,7 @@ void Manager::projectOpen()
 void Manager::projectSave(KileProject *project /* = 0 */)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==Kile::projectSave==========================";
+	KILE_DEBUG_MAIN << "==Kile::projectSave==========================";
 	if (!project) {
 		//find the project that corresponds to the active doc
 		project= activeProject();
@@ -1747,7 +1745,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 		//update the open-state of the items
 		for (QList<KileProjectItem*>::iterator i = list.begin(); i != list.end(); ++i) {
 			item = *i;
-			KILE_DEBUG() << "\tsetOpenState(" << (*i)->url().toLocalFile() << ") to " << m_ki->isOpen(item->url());
+			KILE_DEBUG_MAIN << "\tsetOpenState(" << (*i)->url().toLocalFile() << ") to " << m_ki->isOpen(item->url());
 			item->setOpenState(m_ki->isOpen(item->url()));
 			docinfo = item->getInfo();
 
@@ -1769,7 +1767,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 	}
 }
 
-void Manager::projectAddFiles(const KUrl & url)
+void Manager::projectAddFiles(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
 	KileProject *project = projectFor(url);
@@ -1779,10 +1777,10 @@ void Manager::projectAddFiles(const KUrl & url)
 	}
 }
 
-void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
+void Manager::projectAddFiles(KileProject *project,const QUrl &fileUrl)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==Kile::projectAddFiles()==========================";
+	KILE_DEBUG_MAIN << "==Kile::projectAddFiles()==========================";
  	if(project == 0) {
 		project = activeProject();
 	}
@@ -1793,21 +1791,23 @@ void Manager::projectAddFiles(KileProject *project,const KUrl & fileUrl)
 
 	if (project) {
 		QString currentDir;
-		if(fileUrl.isEmpty())
-			currentDir=project->url().directory();
-		else
-			currentDir=fileUrl.directory();
+		if(fileUrl.isEmpty()) {
+			currentDir = QFileInfo(project->url().path()).dir().dirName();
+		}
+		else {
+			currentDir = fileUrl.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path();
+		}
 
-		KILE_DEBUG() << "currentDir is " << currentDir;
-		KFileDialog *dlg = new KFileDialog(currentDir, i18n("*|All Files"), m_ki->mainWindow());
+		KILE_DEBUG_MAIN << "currentDir is " << currentDir;
+		QFileDialog *dlg = new QFileDialog(m_ki->mainWindow(), i18n("Add Files"), currentDir, i18n("*|All Files"));
 		dlg->setModal(true);
-		KPushButton* okButton = dlg->okButton();
-		okButton->setText(i18n("Add"));
-		dlg->setCaption(i18n("Add Files"));
-		dlg->setMode(KFile::Files | KFile::ExistingOnly);
+//TODO KF5
+// 		QPushButton* okButton = dlg->okButton();
+// 		okButton->setText(i18n("Add"));
+// 		dlg->setMode(KFile::Files | KFile::ExistingOnly);
 
 		if(dlg->exec()) {
-			KUrl::List urls = dlg->selectedUrls();
+			QList<QUrl> urls = dlg->selectedUrls();
 			for(int i=0; i < urls.count(); ++i) {
 				addToProject(project, urls[i]);
 			}
@@ -1828,7 +1828,7 @@ void Manager::toggleArchive(KileProjectItem *item)
 	item->setArchive(!item->archive());
 }
 
-void Manager::projectOptions(const KUrl & url)
+void Manager::projectOptions(const QUrl &url)
 {
 	KileProject *project = projectFor(url);
 
@@ -1839,7 +1839,7 @@ void Manager::projectOptions(const KUrl & url)
 
 void Manager::projectOptions(KileProject *project /* = 0*/)
 {
-	KILE_DEBUG() << "==Kile::projectOptions==========================";
+	KILE_DEBUG_MAIN << "==Kile::projectOptions==========================";
 	if(!project) {
 		project = activeProject();
 	}
@@ -1849,7 +1849,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 	}
 
 	if (project) {
-		KILE_DEBUG() << "\t" << project->name();
+		KILE_DEBUG_MAIN << "\t" << project->name();
 		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->extensions(), m_ki->mainWindow());
 		dlg->exec();
 	}
@@ -1861,7 +1861,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 bool Manager::projectCloseAll()
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==Kile::projectCloseAll==========================";
+	KILE_DEBUG_MAIN << "==Kile::projectCloseAll==========================";
 
 	while(m_projects.size() > 0) {
 		if(!projectClose(m_projects.first()->url())) {
@@ -1872,10 +1872,10 @@ bool Manager::projectCloseAll()
 	return true;
 }
 
-bool Manager::projectClose(const KUrl & url)
+bool Manager::projectClose(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "==Kile::projectClose==========================";
+	KILE_DEBUG_MAIN << "==Kile::projectClose==========================";
 	KileProject *project = 0;
 
 	if (url.isEmpty()) {
@@ -1890,7 +1890,7 @@ bool Manager::projectClose(const KUrl & url)
 	}
 
 	if(project) {
-		KILE_DEBUG() << "\tclosing:" << project->name();
+		KILE_DEBUG_MAIN << "\tclosing:" << project->name();
 		project->setLastDocument(m_ki->getName());
 
 		projectSave(project);
@@ -1912,7 +1912,7 @@ bool Manager::projectClose(const KUrl & url)
 				continue;
 			}
 			if (doc) {
-				KILE_DEBUG() << "\t\tclosing item " << doc->url().toLocalFile();
+				KILE_DEBUG_MAIN << "\t\tclosing item " << doc->url().toLocalFile();
 				bool r = fileClose(doc, true);
 				close = close && r;
 				if (!close) {
@@ -1944,8 +1944,8 @@ bool Manager::projectClose(const KUrl & url)
 void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "===Kile::storeProjectItem==============";
-	KILE_DEBUG() << "\titem = " << item << ", doc = " << doc;
+	KILE_DEBUG_MAIN << "===Kile::storeProjectItem==============";
+	KILE_DEBUG_MAIN << "\titem = " << item << ", doc = " << doc;
 	item->setEncoding(doc->encoding());
 	item->setMode(doc->mode());
 	item->setHighlight(doc->highlightingMode());
@@ -1965,10 +1965,10 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 	item->saveDocumentAndViewSettings();
 }
 
-void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
+void Manager::cleanUpTempFiles(const QUrl &url, bool silent)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "===void Manager::cleanUpTempFiles(const KUrl " << url.toLocalFile() << ", bool " << silent << ")===";
+	KILE_DEBUG_MAIN << "===void Manager::cleanUpTempFiles(const QUrl " << url.toLocalFile() << ", bool " << silent << ")===";
 
 	if( url.isEmpty() )
 		return;
@@ -1992,7 +1992,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	}
 
 	if (!silent && extlist.count() > 0) {
-		KILE_DEBUG() << "not silent";
+		KILE_DEBUG_MAIN << "not silent";
 		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->mainWindow(), fileName, extlist);
 		if(dialog->exec()) {
 			extlist = dialog->getCleanlist();
@@ -2012,7 +2012,7 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 	else {
 		for(int i = 0; i < extlist.count(); ++i) {
 			QFile file(dirPath + '/' + baseName + extlist[i]);
-			KILE_DEBUG() << "About to remove file = " << file.fileName();
+			KILE_DEBUG_MAIN << "About to remove file = " << file.fileName();
 			file.remove();
 		}
 		m_ki->errorHandler()->printMessage(KileTool::Info,
@@ -2023,11 +2023,11 @@ void Manager::cleanUpTempFiles(const KUrl &url, bool silent)
 
 void Manager::openDroppedURLs(QDropEvent *e) {
 	Locker lock(&m_autoSaveLock);
-	KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
+	QList<QUrl> urls = e->mimeData()->urls();
 	Extensions *extensions = m_ki->extensions();
 
-	for(KUrl::List::iterator i = urls.begin(); i != urls.end(); ++i) {
-		KUrl url = *i;
+	for(QList<QUrl>::iterator i = urls.begin(); i != urls.end(); ++i) {
+		QUrl url = *i;
 		if(extensions->isProjectFile(url)) {
 			projectOpen(url);
 		}
@@ -2057,11 +2057,11 @@ void Manager::reloadXMLOnAllDocumentsAndViews()
 }
 
 
-void Manager::handleParsingComplete(const KUrl& url, KileParser::ParserOutput* output)
+void Manager::handleParsingComplete(const QUrl &url, KileParser::ParserOutput* output)
 {
-	KILE_DEBUG() << url << output;
+	KILE_DEBUG_MAIN << url << output;
 	if(!output) {
-		KILE_DEBUG() << "NULL output given";
+		KILE_DEBUG_MAIN << "NULL output given";
 		return;
 	}
 	KileDocument::TextInfo *textInfo = textInfoFor(url);
@@ -2073,7 +2073,7 @@ void Manager::handleParsingComplete(const KUrl& url, KileParser::ParserOutput* o
 		if(!textInfo) {
 			// this can happen for instance when the document is closed
 			// while the parser is still running
-			KILE_DEBUG() << "no TextInfo object found for" << url << "found";
+			KILE_DEBUG_MAIN << "no TextInfo object found for" << url << "found";
 			return;
 		}
 	}
@@ -2098,7 +2098,7 @@ void Manager::projectShow()
 	}
 
 	// get last opened document
-	const KUrl lastdoc = project->lastDocument();
+	const QUrl lastdoc = project->lastDocument();
 	KileProjectItem *docitem = (!lastdoc.isEmpty()) ? itemFor(lastdoc, project) : NULL;
 
 	// if not, we search for the first opened tex file of this project
@@ -2111,7 +2111,7 @@ void Manager::projectShow()
 
 			QString itempath = item->path();
 
-			// called from KAction 'Show projects...': find the first opened
+			// called from QAction 'Show projects...': find the first opened
 			// LaTeX document or, if that fails, any other opened file
 			QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
 			for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
@@ -2190,7 +2190,7 @@ void Manager::projectOpenAllFiles()
 	}
 }
 
-void Manager::projectOpenAllFiles(const KUrl & url)
+void Manager::projectOpenAllFiles(const QUrl &url)
 {
 	Locker lock(&m_autoSaveLock);
 	KileProject* project;
@@ -2340,7 +2340,7 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 void Manager::projectAddFile(QString filename, bool graphics)
 {
 	Locker lock(&m_autoSaveLock);
-	KILE_DEBUG() << "===Kile::projectAddFile==============";
+	KILE_DEBUG_MAIN << "===Kile::projectAddFile==============";
 	KileProject *project = activeProject();
 	if(!project) {
 		return;
@@ -2365,35 +2365,35 @@ void Manager::projectAddFile(QString filename, bool graphics)
 	}
 
 	//ok, we have a project and an existing file
-	KILE_DEBUG() << "\tadd file: " << filename;
+	KILE_DEBUG_MAIN << "\tadd file: " << filename;
 	m_ki->viewManager()->updateStructure(false);
 
-	KUrl url;
+	QUrl url;
 	url.setPath(filename);
 	addToProject(project, url);
 }
 
-const KUrl Manager::symlinkFreeURL(const KUrl& url)
+const QUrl Manager::symlinkFreeURL(const QUrl &url)
 {
 #ifdef Q_WS_WIN
 	//TODO: maybe actually do something here?  Seems unncecessary given Windows' lack of symlinks though...
 	//Also: the else'd code below fails badly on Windows
 	return url;
 #else
-	KILE_DEBUG() << "===symlinkFreeURL==";
+	KILE_DEBUG_MAIN << "===symlinkFreeURL==";
 
 	if( !url.isLocalFile() )
 		return url;
 
-	QDir dir(url.directory());
+	QDir dir(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
 	QString filename=url.toLocalFile(); // if the directory does not exist we return the old url (just to be sure)
 
 	if(dir.exists())
 		filename= dir.canonicalPath() + '/' + url.fileName();
 	else
-		KILE_DEBUG() << "directory " << url.directory() << "does not exist";
+		KILE_DEBUG_MAIN << "directory " << url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() << "does not exist";
 
-	return KUrl(filename);
+	return QUrl(filename);
 #endif //def Q_WS_WIN
 }
 
@@ -2409,7 +2409,8 @@ void Manager::createProgressDialog()
 {
 	m_progressDialog = new KileWidget::ProgressDialog(m_ki->mainWindow(), i18n("Opening Project..."));
 	m_progressDialog->setModal(true);
-	m_progressDialog->setAllowCancel(false);
+//TODO KF5
+// 	m_progressDialog->setAllowCancel(false);
 	m_progressDialog->setLabelText(i18n("Scanning project files..."));
 	m_progressDialog->setAutoClose(true);
 	m_progressDialog->setMinimumDuration(2000);
@@ -2427,14 +2428,8 @@ void Manager::loadDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 	if(!configGroup.exists()) {
 		return;
 	}
-#if KDE_IS_VERSION(4,3,75)
-	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
-	if(!interface) {
-		return;
-	}
-	interface->readParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipEncoding
-	                                                       | KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
-#endif
+
+	document->readSessionConfig(configGroup, QSet<QString>() << "SkipEncoding" << "SkipUrl");
 	{
 		LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
 		if(latexInfo) {
@@ -2453,12 +2448,8 @@ void Manager::loadDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 	int i = 0;
 	for(QList<KTextEditor::View*>::iterator it = viewList.begin(); it != viewList.end(); ++it) {
 		KTextEditor::View *view = *it;
-		KTextEditor::SessionConfigInterface *viewConfigInterface = qobject_cast<KTextEditor::SessionConfigInterface*>(view);
-		if(!interface) {
-			continue;
-		}
 		configGroup = configGroupForViewSettings(document, i);
-		viewConfigInterface->readSessionConfig(configGroup);
+		view->readSessionConfig(configGroup);
 		++i;
 	}
 
@@ -2473,19 +2464,11 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 
 	KConfigGroup configGroup = configGroupForDocumentSettings(document);
 
-	KUrl url = document->url();
+	QUrl url = document->url();
 	url.setPassword(""); // we don't want the password to appear in the configuration file
 	deleteDocumentAndViewSettingsGroups(url);
 
-#if KDE_IS_VERSION(4,3,75)
-	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
-	if(!interface) {
-		return;
-	}
-	interface->writeParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipEncoding
-	                                                        | KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
-#endif
-
+	document->writeSessionConfig(configGroup, QSet<QString>() << "SkipEncoding" << "SkipUrl");
 	{
 		LaTeXInfo *latexInfo = dynamic_cast<LaTeXInfo*>(textInfo);
 		if(latexInfo) {
@@ -2503,73 +2486,68 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
 	QList<KTextEditor::View*> viewList = document->views();
 	int i = 0;
 	for(QList<KTextEditor::View*>::iterator it = viewList.begin(); it != viewList.end(); ++it) {
-		KTextEditor::View *view = *it;
-		KTextEditor::SessionConfigInterface *viewConfigInterface = qobject_cast<KTextEditor::SessionConfigInterface*>(view);
-		if(!interface) {
-			continue;
-		}
 		configGroup = configGroupForViewSettings(document, i);
-		viewConfigInterface->writeSessionConfig(configGroup);
+		(*it)->writeSessionConfig(configGroup);
 		++i;
 	}
 	// finally remove the config groups for the oldest documents that exceed MAX_NUMBER_OF_STORED_SETTINGS
-	configGroup = KGlobal::config()->group("Session Settings");
-	KUrl::List urlList(configGroup.readEntry("Saved Documents", QStringList()));
+	configGroup = KSharedConfig::openConfig()->group("Session Settings");
+	QList<QUrl> urlList = QUrl::fromStringList(configGroup.readEntry("Saved Documents", QStringList()));
 	urlList.removeAll(url);
 	urlList.push_front(url);
 	// remove excess elements
 	if(urlList.length() > MAX_NUMBER_OF_STORED_SETTINGS) {
 		int excessNumber = urlList.length() - MAX_NUMBER_OF_STORED_SETTINGS;
 		for(; excessNumber > 0; --excessNumber) {
-			KUrl url = urlList.takeLast();
+			QUrl url = urlList.takeLast();
 			deleteDocumentAndViewSettingsGroups(url);
 		}
 	}
 	configGroup.writeEntry("Documents", url);
-	configGroup.writeEntry("Saved Documents", urlList.toStringList());
+	configGroup.writeEntry("Saved Documents", QUrl::toStringList(urlList));
 }
 
 KConfigGroup Manager::configGroupForDocumentSettings(KTextEditor::Document *doc) const
 {
-	return KGlobal::config()->group(configGroupNameForDocumentSettings(doc->url()));
+	return KSharedConfig::openConfig()->group(configGroupNameForDocumentSettings(doc->url()));
 }
 
-QString Manager::configGroupNameForDocumentSettings(const KUrl& url) const
+QString Manager::configGroupNameForDocumentSettings(const QUrl &url) const
 {
-	KUrl url2 = url;
+	QUrl url2 = url;
 	url2.setPassword("");
 	return "Document-Settings,URL=" + url2.url();
 }
 
 KConfigGroup Manager::configGroupForViewSettings(KTextEditor::Document *doc, int viewIndex) const
 {
-	return KGlobal::config()->group(configGroupNameForViewSettings(doc->url(), viewIndex));
+	return KSharedConfig::openConfig()->group(configGroupNameForViewSettings(doc->url(), viewIndex));
 }
 
-QString Manager::configGroupNameForViewSettings(const KUrl& url, int viewIndex) const
+QString Manager::configGroupNameForViewSettings(const QUrl &url, int viewIndex) const
 {
-	KUrl url2 = url;
+	QUrl url2 = url;
 	url2.setPassword("");
 	return "View-Settings,View=" + QString::number(viewIndex) + ",URL=" + url2.url();
 }
 
-void Manager::deleteDocumentAndViewSettingsGroups(const KUrl& url)
+void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 {
 	QString urlString = url.url();
-	QStringList groupList = KGlobal::config()->groupList();
+	QStringList groupList = KSharedConfig::openConfig()->groupList();
 	for(QStringList::iterator i = groupList.begin(); i != groupList.end(); ++i) {
 		QString groupName = *i;
 		if(groupName.startsWith("Document-Settings")
 		|| groupName.startsWith("View-Settings")) {
 			int urlIndex = groupName.indexOf("URL=");
 			if(urlIndex >= 0 && groupName.mid(urlIndex + 4) == urlString) {
-				KGlobal::config()->deleteGroup(groupName);
+				KSharedConfig::openConfig()->deleteGroup(groupName);
 			}
 		}
 	}
 }
 
-QStringList Manager::loadTextURLContents(const KUrl& url, const QString& encoding)
+QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encoding)
 {
 	QString localFileName;
 	QStringList res;
@@ -2577,7 +2555,7 @@ QStringList Manager::loadTextURLContents(const KUrl& url, const QString& encodin
 	// whose name will be stored in 'localFile'; otherwise, the file name specified in
 	// 'url' will be set in 'localFile'
 	if (!KIO::NetAccess::download(url, localFileName, m_ki->mainWindow())) {
-		KILE_DEBUG() << "Can not download resource: " << url;
+		KILE_DEBUG_MAIN << "Can not download resource: " << url;
 		KIO::NetAccess::removeTempFile(localFileName);
 		return res;
 	}
@@ -2585,7 +2563,7 @@ QStringList Manager::loadTextURLContents(const KUrl& url, const QString& encodin
 	QFile localFile(localFileName);
 
 	if (!localFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		KILE_DEBUG() << "Can not open source file: " << localFileName;
+		KILE_DEBUG_MAIN << "Can not open source file: " << localFileName;
 		KIO::NetAccess::removeTempFile(localFileName);
 		return res;
 	}

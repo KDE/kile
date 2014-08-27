@@ -30,7 +30,9 @@ QuickToolConfigWidget::~QuickToolConfigWidget()
 
 void QuickToolConfigWidget::updateSequence(const QString &sequence)
 {
-	QStringList toollist = KileTool::toolList(KGlobal::config().data(), true);
+//TODO KF5
+// 	QStringList toollist = KileTool::toolList(KSharedConfig::openConfig().data(), true);
+QStringList toollist;
 	toollist.sort();
 	m_cbTools->clear();
 	m_cbTools->addItems(toollist);
@@ -56,7 +58,9 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
 void QuickToolConfigWidget::updateConfigs(const QString &tool)
 {
 	m_cbConfigs->clear();
-	QString currentConfig = KileTool::configName(tool,KGlobal::config().data());
+//TODO KF5
+// 	QString currentConfig = KileTool::configName(tool,KSharedConfig::openConfig().data());
+	QString currentConfig;
 	if(!currentConfig.isEmpty()){
 		m_currentDefaultConfig = i18n("Current Default (%1)",currentConfig);
 	}
@@ -64,7 +68,8 @@ void QuickToolConfigWidget::updateConfigs(const QString &tool)
 		m_currentDefaultConfig = i18n("Current Default");
 	}
 	m_cbConfigs->addItem(m_currentDefaultConfig);
-	m_cbConfigs->addItems(KileTool::configNames(tool, KGlobal::config().data()));
+//TODO KF5
+// 	m_cbConfigs->addItems(KileTool::configNames(tool, KSharedConfig::openConfig().data()));
 }
 
 void QuickToolConfigWidget::down()

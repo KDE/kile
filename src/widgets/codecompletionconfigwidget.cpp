@@ -29,13 +29,14 @@
 #include <QVBoxLayout>
 
 #include <KConfig>
-#include <KDialog>
+#include <QDialog>
 #include <KDirWatch>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KPushButton>
+#include <QPushButton>
 #include <KStandardDirs>
-#include <KTabWidget>
+#include <QTabWidget>
+#include <KConfigGroup>
 
 #include "dialogs/listselector.h"
 #include "codecompletion.h"
@@ -102,7 +103,7 @@ void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, c
 
 	QGridLayout *grid = new QGridLayout();
 	grid->setMargin(0);
-	grid->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	grid->setSpacing(QDialog::spacingHint());
 	m_page[page]->setLayout(grid);
 	grid->addWidget(m_listview[page], 0, 0);
 
@@ -226,7 +227,7 @@ void CodeCompletionConfigWidget::updateColumnWidth(QTreeWidget *listview)
 
 bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 {
-	KILE_DEBUG() << "===bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage" << page << ")";
+	KILE_DEBUG_MAIN << "===bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage" << page << ")";
 	
 	bool changed = false;
 

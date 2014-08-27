@@ -17,11 +17,11 @@
 #ifndef KILEACTIONS_H
 #define KILEACTIONS_H
 
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KSelectAction>
-#include <KDialog>
+#include <QDialog>
 #include <KLineEdit>
 
 class QCheckBox;
@@ -51,22 +51,22 @@ public:
 	QString		description;
 };
 
-class Tag : public KAction
+class Tag : public QAction
 {
 	Q_OBJECT
 
 public:
 	//constructors
-	Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString());
 
-	Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString());
 
-	Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const TagData& data);
 
-	Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
+	Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name,
 	    const TagData& data);
 
 	~Tag();
@@ -95,16 +95,16 @@ class InputTag : public Tag
 
 public:
 	//constructors
-	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString(), const QString &hint = QString(), const QString &alter = QString());
 
-	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const QString &tagBegin, const QString &tagEnd = QString(), int dx = 0, int dy = 0, const QString &description = QString(), const QString &hint = QString(), const QString &alter = QString());
 
-	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const TagData& data, const QString &hint = QString(), const QString &alter = QString());
 
-	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+	InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
 	         const TagData& data, const QString &hint = QString(), const QString &alter = QString());
 
 	~InputTag();
@@ -135,7 +135,7 @@ private:
 /*
 	InputDialog
 */
-class InputDialog : public KDialog
+class InputDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -176,14 +176,14 @@ class Select : public KSelectAction
 
 public:
 	//constructors
-	Select(const QString &text, const KShortcut &cut, KActionCollection *parent, const char *name);
+	Select(const QString &text, const QKeySequence &cut, KActionCollection *parent, const char *name);
 
 public Q_SLOTS:
-	void setItems(const QList<KAction*> &);
+	void setItems(const QList<QAction *> &);
 
 };
 
-class VariantSelection : public KAction
+class VariantSelection : public QAction
 {
 	Q_OBJECT
 
@@ -192,7 +192,7 @@ class VariantSelection : public KAction
 
 	Q_SIGNALS:
 		void triggered(const QVariant& value);
-		void triggered(const KUrl& url);
+		void triggered(const QUrl &url);
 		void triggered(const QString& string);
 
 	private Q_SLOTS:
@@ -204,7 +204,7 @@ class VariantSelection : public KAction
 
 }
 
-class ToolbarSelectAction : public KAction
+class ToolbarSelectAction : public QAction
 {
 	Q_OBJECT
 
@@ -234,7 +234,7 @@ Q_SIGNALS:
 	void mainButtonWithNoActionPressed();
 
 protected:
-	KMenu* menu();
+	QMenu* menu();
 	QWidget* createWidget(QWidget *parent);
 
 private:

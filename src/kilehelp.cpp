@@ -16,7 +16,8 @@
 #include <QTextStream>
 
 #include <KGlobal>
-#include <KStandardDirs>
+#include <QStandardPaths>
+
 
 #include "editorextension.h"
 #include "errorhandler.h"
@@ -37,8 +38,8 @@ namespace KileHelp
 
 	Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(NULL)
 	{
-		m_helpDir = KGlobal::dirs()->findResource("appdata","help/");
-		KILE_DEBUG() << "help dir: " << m_helpDir;
+		m_helpDir = QStandardPaths::locate(QStandardPaths::DataLocation, "help", QStandardPaths::LocateDirectory);
+		KILE_DEBUG_MAIN << "help dir: " << m_helpDir;
 
 		m_kileReference = m_helpDir + "latexhelp.html";
 		m_latex2eReference =  m_helpDir + "latex2e-texlive.html";
@@ -61,7 +62,7 @@ namespace KileHelp
 		// first check for TexLive 2010-2011 (TUG)
 		m_texlivePath = locateTexLive201x();
 		if ( !m_texlivePath.isEmpty() ) {
-			KILE_DEBUG() << "found TexLive 2010-2011 (TUG): " << m_texlivePath;
+			KILE_DEBUG_MAIN << "found TexLive 2010-2011 (TUG): " << m_texlivePath;
 			m_texVersion = TEXLIVE_201x_TUG;
 			m_texVersionText = "TexLive " + m_texlivePath.right(4) + " (TUG)";
 			m_texrefsReference = "/generic/tex-refs/";
@@ -71,7 +72,7 @@ namespace KileHelp
 		//  then check for TexLive 2009 (as found with Debian, Ubuntu, ...)
 		QDir dir(m_texdocPath + "/generic/tex-refs/");
 		if ( dir.exists() )  {
-			KILE_DEBUG() << "found TexLive 2009: " << m_texdocPath;
+			KILE_DEBUG_MAIN << "found TexLive 2009: " << m_texdocPath;
 			m_texVersion = TEXLIVE2009;
 			m_texVersionText = "TexLive 2009";
 			m_texrefsReference = "/generic/tex-refs/";
@@ -81,7 +82,7 @@ namespace KileHelp
 		// then check for older versions of TexLive 2005-2007
 		dir.setPath(m_texdocPath + "/english/tex-refs");
 		if ( dir.exists() ) {
-			KILE_DEBUG() << "found TexLive 2005-2007: " << m_texdocPath;
+			KILE_DEBUG_MAIN << "found TexLive 2005-2007: " << m_texdocPath;
 			m_texVersion = TEXLIVE2005;
 			m_texVersionText = "TexLive 2005-2007";
 			m_texrefsReference = "/english/tex-refs/";
@@ -182,7 +183,7 @@ namespace KileHelp
 
 	void Help::showHelpFile(const QString &parameter)
 	{
-		KILE_DEBUG() << "--------------------------------------------> help file: " << parameter;
+		KILE_DEBUG_MAIN << "--------------------------------------------> help file: " << parameter;
 		KileTool::Base *tool = m_manager->createTool("ViewHTML", QString(), false);
 		if(!tool) {
 			return;
@@ -237,7 +238,7 @@ namespace KileHelp
 				return;
 		}
 
-		KILE_DEBUG() << "show TeX Guide: " <<  m_texVersionText << " file=" << filename;
+		KILE_DEBUG_MAIN << "show TeX Guide: " <<  m_texVersionText << " file=" << filename;
 		showHelpFile( filename );
 	}
 
@@ -290,7 +291,7 @@ namespace KileHelp
 		}
 
 		// show help file
-		KILE_DEBUG() << "show LaTeX help: " << m_texVersionText << " file=" << filename;
+		KILE_DEBUG_MAIN << "show LaTeX help: " << m_texVersionText << " file=" << filename;
 		showHelpFile( filename );
 	}
 
@@ -300,10 +301,10 @@ namespace KileHelp
 	void Help::helpKeyword(KTextEditor::View *view)
 	{
 		QString word = getKeyword(view);
-		KILE_DEBUG() << "keyword: " << word;
+		KILE_DEBUG_MAIN << "keyword: " << word;
 
 		if ( !m_helpDir.isEmpty() && !word.isEmpty() && m_dictHelpTex.contains(word) ) {
-			KILE_DEBUG() << "about to show help for '" << word << "' (section " << m_dictHelpTex[word] << " )";
+			KILE_DEBUG_MAIN << "about to show help for '" << word << "' (section " << m_dictHelpTex[word] << " )";
 
 			if ( m_contextHelpType == HelpLatex2eRefs ) {
 				showHelpFile( m_latex2eReference + "#" + m_dictHelpTex[word] );
@@ -376,12 +377,12 @@ namespace KileHelp
 
 		QString file = m_helpDir + filename;
 		if(file.isEmpty()) {
-			KILE_DEBUG() << "   file not found: " << filename << endl;
+			KILE_DEBUG_MAIN << "   file not found: " << filename << endl;
 			return;
 		}
 
-//		KILE_DEBUG() << "   read file: " << filename << endl;
-		KILE_DEBUG() << "read keyword file: " << file;
+//		KILE_DEBUG_MAIN << "   read file: " << filename << endl;
+		KILE_DEBUG_MAIN << "read keyword file: " << file;
 		QRegExp reg("\\s*(\\S+)\\s*=>\\s*(\\S+)");
 
 		QFile f(file);

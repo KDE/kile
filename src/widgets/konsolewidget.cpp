@@ -23,11 +23,11 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPluginLoader>
 #include <KService>
 #include <KShell>
-#include <KUrl>
+#include <QUrl>
 
 #include <KParts/Part>
 #include <KTextEditor/Document>
@@ -56,18 +56,18 @@ namespace KileWidget
 
 	void Konsole::spawn()
 	{
-		KILE_DEBUG() << "void Konsole::spawn()";
+		KILE_DEBUG_MAIN << "void Konsole::spawn()";
 
 		KPluginFactory *factory = NULL;
 		KService::Ptr service = KService::serviceByDesktopName("konsolepart");
 		if(!service) {
-			KILE_DEBUG() << "No service for konsolepart";
+			KILE_DEBUG_MAIN << "No service for konsolepart";
 			return;
 		}
 
 		factory = KPluginLoader(service->library()).factory();
 		if(!factory) {
-			KILE_DEBUG() << "No factory for konsolepart";
+			KILE_DEBUG_MAIN << "No factory for konsolepart";
 			return;
 		}
 
@@ -78,7 +78,7 @@ namespace KileWidget
 		}
 
 		if(!qobject_cast<TerminalInterface*>(m_part)){
-			KILE_DEBUG() << "Did not find the TerminalInterface";
+			KILE_DEBUG_MAIN << "Did not find the TerminalInterface";
 			delete m_part;
 			m_part = NULL;
 			return;
@@ -108,15 +108,15 @@ namespace KileWidget
 
 		if(view) {
 			QString finame;
-			KUrl url = view->document()->url();
+			QUrl url = view->document()->url();
 
 			if(url.path().isEmpty()) {
 				return;
 			}
 
-			QFileInfo fic(url.directory());
+			QFileInfo fic(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
 			if(fic.isReadable()) {
-				setDirectory(url.directory());
+				setDirectory(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
 			}
 		}
 	}

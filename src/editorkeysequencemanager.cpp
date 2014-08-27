@@ -21,7 +21,7 @@
 #include <QKeyEvent>
 
 #include <KTextEditor/Document>
-#include <KLocale>
+#include <KLocalizedString>
 
 namespace KileEditorKeySequence {
 

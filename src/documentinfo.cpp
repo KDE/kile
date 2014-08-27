@@ -73,7 +73,7 @@
 #include <KIconLoader>
 #include <KInputDialog>
 #include <KIO/NetAccess>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include "abbreviationmanager.h"
@@ -93,15 +93,15 @@
 namespace KileDocument
 {
 
-bool Info::containsInvalidCharacters(const KUrl& url)
+bool Info::containsInvalidCharacters(const QUrl &url)
 {
 	QString filename = url.fileName();
 	return filename.contains(" ") || filename.contains("~") || filename.contains("$") || filename.contains("#");
 }
 
-KUrl Info::repairInvalidCharacters(const KUrl& url, QWidget* mainWidget, bool checkForFileExistence /* = true */)
+QUrl Info::repairInvalidCharacters(const QUrl &url, QWidget* mainWidget, bool checkForFileExistence /* = true */)
 {
-	KUrl ret(url);
+	QUrl ret(url);
 	do {
 		bool isOK;
 		QString newURL = KInputDialog::getText(
@@ -112,15 +112,16 @@ KUrl Info::repairInvalidCharacters(const KUrl& url, QWidget* mainWidget, bool ch
 			&isOK);
 		if(!isOK)
 			break;
-		ret.setFileName(newURL);
+		ret = ret.adjusted(QUrl::RemoveFilename);
+		ret.setPath(ret.path() + newURL);
 	} while(containsInvalidCharacters(ret));
 
 	return (checkForFileExistence ? renameIfExist(ret, mainWidget) : ret);
 }
 
-KUrl Info::renameIfExist(const KUrl& url, QWidget* mainWidget)
+QUrl Info::renameIfExist(const QUrl &url, QWidget* mainWidget)
 {
-	KUrl ret(url);
+	QUrl ret(url);
 	while(KIO::NetAccess::exists(url, true, mainWidget)) { // check for writing possibility
 		bool isOK;
 		QString newURL = KInputDialog::getText(
@@ -132,14 +133,15 @@ KUrl Info::renameIfExist(const KUrl& url, QWidget* mainWidget)
 		if(!isOK) {
 			break;
 		}
-		ret.setFileName(newURL);
+		ret = ret.adjusted(QUrl::RemoveFilename);
+		ret.setPath(ret.path() + newURL);
 	}
 	return ret;
 }
 
-KUrl Info::repairExtension(const KUrl& url, QWidget *mainWidget, bool checkForFileExistence /* = true */)
+QUrl Info::repairExtension(const QUrl &url, QWidget *mainWidget, bool checkForFileExistence /* = true */)
 {
-	KUrl ret(url);
+	QUrl ret(url);
 
 	QString filename = url.fileName();
 	if(filename.contains(".") && filename[0] != '.') // There already is an extension
@@ -152,14 +154,15 @@ KUrl Info::repairExtension(const KUrl& url, QWidget *mainWidget, bool checkForFi
 		KStandardGuiItem::no(),
 		"AutomaticallyAddExtension"))
 	{
-		ret.setFileName(filename + ".tex");
+		ret = ret.adjusted(QUrl::RemoveFilename);
+		ret.setPath(ret.path() + filename + ".tex");
 	}
 	return (checkForFileExistence ? renameIfExist(ret, mainWidget) : ret);
 }
 
-KUrl Info::makeValidTeXURL(const KUrl& url, QWidget *mainWidget, bool istexfile, bool checkForFileExistence)
+QUrl Info::makeValidTeXURL(const QUrl &url, QWidget *mainWidget, bool istexfile, bool checkForFileExistence)
 {
-	KUrl newURL(url);
+	QUrl newURL(url);
 
 	//add a .tex extension
 	if(!istexfile) {
@@ -177,7 +180,7 @@ KUrl Info::makeValidTeXURL(const KUrl& url, QWidget *mainWidget, bool istexfile,
 Info::Info() :
  m_bIsRoot(false),
  m_dirty(false),
- m_config(KGlobal::config().data()),
+ m_config(KSharedConfig::openConfig().data()),
  documentTypePromotionAllowed(true)
 {
 	updateStructLevelInfo();
@@ -185,12 +188,12 @@ Info::Info() :
 
 Info::~Info(void)
 {
-	KILE_DEBUG() << "DELETING DOCINFO" << this;
+	KILE_DEBUG_MAIN << "DELETING DOCINFO" << this;
 }
 
 void Info::updateStructLevelInfo()
 {
-	KILE_DEBUG() << "===void Info::updateStructLevelInfo()===";
+	KILE_DEBUG_MAIN << "===void Info::updateStructLevelInfo()===";
 	// read config for structureview items
 	m_showStructureLabels = KileConfig::svShowLabels();
 	m_showStructureReferences = KileConfig::svShowReferences();
@@ -206,13 +209,13 @@ void Info::updateStructLevelInfo()
 	m_openStructureTodo = KileConfig::svOpenTodo();
 }
 
-void Info::setBaseDirectory(const KUrl& url)
+void Info::setBaseDirectory(const QUrl &url)
 {
-	KILE_DEBUG() << "===void Info::setBaseDirectory(const KUrl&" << url << ")===";
+	KILE_DEBUG_MAIN << "===void Info::setBaseDirectory(const QUrl&" << url << ")===";
 	m_baseDirectory = url;
 }
 
-const KUrl& Info::getBaseDirectory() const
+const QUrl &Info::getBaseDirectory() const
 {
 	return m_baseDirectory;
 }
@@ -257,9 +260,9 @@ void Info::installParserOutput(KileParser::ParserOutput *parserOutput)
 	Q_UNUSED(parserOutput);
 }
 
-KUrl Info::url()
+QUrl Info::url()
 {
-	return KUrl();
+	return QUrl();
 }
 
 void Info::count(const QString& line, long *stat)
@@ -368,7 +371,7 @@ void Info::count(const QString& line, long *stat)
 			break;
 
 			default :
-				kWarning() << "Unhandled state in getStatistics " << state;
+				qWarning() << "Unhandled state in getStatistics " << state;
 			break;
 		}
 	}
@@ -438,7 +441,7 @@ void TextInfo::setDoc(KTextEditor::Document *doc)
 
 void TextInfo::setDocument(KTextEditor::Document *doc)
 {
-	KILE_DEBUG() << "===void TextInfo::setDoc(KTextEditor::Document *doc)===";
+	KILE_DEBUG_MAIN << "===void TextInfo::setDoc(KTextEditor::Document *doc)===";
 
 	if(m_doc == doc) {
 		return;
@@ -489,13 +492,13 @@ const long* TextInfo::getStatistics(KTextEditor::View *view)
 
 	if(view && view->selection()) {
 		line = view->selectionText();
-		KILE_DEBUG() << "line: " << line;
+		KILE_DEBUG_MAIN << "line: " << line;
 		count(line, m_arStatistics);
 	}
 	else if(m_doc) {
 		for(int l = 0; l < m_doc->lines(); ++l) {
 			line = m_doc->line(l);
-			KILE_DEBUG() << "line : " << line;
+			KILE_DEBUG_MAIN << "line : " << line;
 			count(line, m_arStatistics);
 		}
 	}
@@ -503,13 +506,13 @@ const long* TextInfo::getStatistics(KTextEditor::View *view)
 	return m_arStatistics;
 }
 
-KUrl TextInfo::url()
+QUrl TextInfo::url()
 {
 	if(m_doc) {
 		return m_doc->url();
 	}
 	else {
-		return KUrl();
+		return QUrl();
 	}
 }
 
@@ -525,7 +528,7 @@ bool TextInfo::isTextDocument()
 
 void TextInfo::setMode(const QString &mode)
 {
-	KILE_DEBUG() << "==Kile::setMode(" << m_doc->url() << "," << mode << " )==================";
+	KILE_DEBUG_MAIN << "==Kile::setMode(" << m_doc->url() << "," << mode << " )==================";
 
 	if (m_doc && !mode.isEmpty()) {
 		m_doc->setMode(mode);
@@ -534,7 +537,7 @@ void TextInfo::setMode(const QString &mode)
 
 void TextInfo::setHighlightingMode(const QString& highlight)
 {
-	KILE_DEBUG() << "==Kile::setHighlightingMode(" << m_doc->url() << "," << highlight << " )==================";
+	KILE_DEBUG_MAIN << "==Kile::setHighlightingMode(" << m_doc->url() << "," << highlight << " )==================";
 
 	if (m_doc && !highlight.isEmpty()) {
 		m_doc->setHighlightingMode(highlight);
@@ -809,7 +812,7 @@ void TextInfo::slotViewDestroyed(QObject *object)
 
 void TextInfo::activateDefaultMode()
 {
-	KILE_DEBUG() << "m_defaultMode = " <<  m_defaultMode << endl;
+	KILE_DEBUG_MAIN << "m_defaultMode = " <<  m_defaultMode << endl;
 
 	if(m_doc && !m_defaultMode.isEmpty()) {
 		m_doc->setMode(m_defaultMode);
@@ -882,7 +885,7 @@ void LaTeXInfo::startLaTeXCompletion(KTextEditor::View *view)
 
 void LaTeXInfo::updateStructLevelInfo() {
 
-	KILE_DEBUG() << "===void LaTeXInfo::updateStructLevelInfo()===";
+	KILE_DEBUG_MAIN << "===void LaTeXInfo::updateStructLevelInfo()===";
 
 	// read config stuff
 	Info::updateStructLevelInfo();
@@ -1060,7 +1063,7 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
 
 void LaTeXInfo::updateStruct()
 {
-	KILE_DEBUG() << "==void TeXInfo::updateStruct: (" << url() << ")=========";
+	KILE_DEBUG_MAIN << "==void TeXInfo::updateStruct: (" << url() << ")=========";
 
 	m_parserManager->parseDocument(this);
 }
@@ -1068,7 +1071,7 @@ void LaTeXInfo::updateStruct()
 void LaTeXInfo::checkChangedDeps()
 {
 	if(m_depsPrev != m_deps) {
-		KILE_DEBUG() << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
+		KILE_DEBUG_MAIN << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
 		emit(depChanged());
 		m_depsPrev = m_deps;
 	}
@@ -1076,11 +1079,11 @@ void LaTeXInfo::checkChangedDeps()
 
 void LaTeXInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	KileParser::LaTeXParserOutput *latexParserOutput = dynamic_cast<KileParser::LaTeXParserOutput*>(parserOutput);
 	Q_ASSERT(latexParserOutput);
 	if(!latexParserOutput) {
-		KILE_DEBUG() << "wrong type given";
+		KILE_DEBUG_MAIN << "wrong type given";
 		return;
 	}
 
@@ -1125,11 +1128,11 @@ void BibInfo::updateStruct()
 
 void BibInfo::installParserOutput(KileParser::ParserOutput *parserOutput)
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	KileParser::BibTeXParserOutput *bibtexParserOutput = dynamic_cast<KileParser::BibTeXParserOutput*>(parserOutput);
 	Q_ASSERT(bibtexParserOutput);
 	if(!bibtexParserOutput) {
-		KILE_DEBUG() << "wrong type given";
+		KILE_DEBUG_MAIN << "wrong type given";
 		return;
 	}
 

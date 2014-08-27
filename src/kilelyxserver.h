@@ -26,7 +26,7 @@
 #include <QObject>
 #include <QStringList>
 
-#include <KTempDir>
+#include <QTemporaryDir>
 
 #include <sys/types.h>
 
@@ -68,7 +68,7 @@ Q_SIGNALS:
 
 private:
 	mode_t 				m_perms;
-	KTempDir			*m_tempDir;
+	QTemporaryDir			*m_tempDir;
 	QList<QFile*>			m_pipeIn;
 	QList<QSocketNotifier*>		m_notifier;
 	QHash<int, QFile*>		m_file;

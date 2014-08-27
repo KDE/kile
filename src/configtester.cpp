@@ -16,16 +16,18 @@
 
 #include <QTimer>
 
-#include <KAboutData>
+#include <K4AboutData>
 #include <KConfig>
 #include <KGlobal>
 #include <KIO/CopyJob>
 #include <KJob>
-#include <KLocale>
+#include <KLocalizedString>
+#include <KPluginLoader>
 #include <KParts/Factory>
 #include <KProcess>
-#include <KStandardDirs>
-#include <KTempDir>
+
+#include <QTemporaryDir>
+#include <QStandardPaths>
 
 #include "documentinfo.h"
 #include "kiledebug.h"
@@ -107,7 +109,7 @@ Tester::Tester(KileInfo *kileInfo, QObject *parent)
   m_tempDir(NULL),
   m_testsDone(0)
 {
-	m_tempDir = new KTempDir();
+	m_tempDir = new QTemporaryDir();
 
 	setupTests();
 	m_nextTestIterator = m_testList.begin();
@@ -115,16 +117,16 @@ Tester::Tester(KileInfo *kileInfo, QObject *parent)
 
 Tester::~Tester()
 {
-	if (m_tempDir) m_tempDir->unlink();
+	if (m_tempDir) m_tempDir->remove();
 	delete m_tempDir;
 	qDeleteAll(m_testList);
 }
 
 void Tester::runTests()
 {
-	const QString& destinationDirectory = m_tempDir->name();
-	const QString& testDirectory = KStandardDirs::locate("appdata", "test/");
-	KIO::CopyJob *copyJob = KIO::copyAs(KUrl::fromPath(testDirectory), KUrl::fromPath(destinationDirectory), KIO::HideProgressInfo | KIO::Overwrite);
+	const QString& destinationDirectory = m_tempDir->path();
+	const QString& testDirectory = QStandardPaths::locate(QStandardPaths::DataLocation, "test", QStandardPaths::LocateDirectory);
+	KIO::CopyJob *copyJob = KIO::copyAs(QUrl::fromLocalFile(testDirectory), QUrl::fromLocalFile(destinationDirectory), KIO::HideProgressInfo | KIO::Overwrite);
 	connect(copyJob, SIGNAL(result(KJob*)), this, SLOT(handleFileCopyResult(KJob*)));
 	emit(percentageDone(0));
 }
@@ -175,7 +177,7 @@ int Tester::statusForGroup(const QString &testGroup, bool *isCritical)
 
 void Tester::startNextTest()
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	if(m_nextTestIterator != m_testList.end()) {
 		m_currentTest = *m_nextTestIterator;
 		++m_nextTestIterator;
@@ -195,7 +197,7 @@ void Tester::startNextTest()
 
 void Tester::handleTestComplete(ConfigTest *test)
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	if(!test->isSilent()) {
 		addResult(test->testGroup(), test);
 	}
@@ -221,7 +223,7 @@ TestToolInKileTest::~TestToolInKileTest()
 
 void TestToolInKileTest::call()
 {
-	KileDocument::TextInfo *textInfo = m_ki->docManager()->fileOpen(KUrl::fromPath(m_filePath));
+	KileDocument::TextInfo *textInfo = m_ki->docManager()->fileOpen(QUrl::fromLocalFile(m_filePath));
 	if(!textInfo) {
 		reportFailure();
 		return;
@@ -295,31 +297,32 @@ void OkularVersionTest::call()
 {
 	KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
 	KPluginFactory *factory = pluginLoader.factory();
-	QString version;
+	quint32 version;
 	if(!factory) {
 		m_status = Failure;
 		m_resultText = i18n("Okular could not be found");
 		return;
 	}
 	else {
-		version = factory->componentData().aboutData()->version();
+		version = pluginLoader.pluginVersion();
 	}
 
-	m_isViewerModeSupported = false;
-	if(compareVersionStrings(version, "0.14.80") >= 0) {
-		m_status = Success;
-		m_isViewerModeSupported = true;
-		m_resultText = i18n("%1 - Forward Search and Embedded Viewer Mode are supported",version);
-	}
-	else if(compareVersionStrings(version, "0.8.6") >= 0) {
-		m_status = Failure;
-		m_resultText = i18n("%1 - Forward Search is supported, but not Embedded Viewer mode",version);
-	}
-	else {
-		m_status = Failure;
-		m_resultText = i18n("%1 - The installed version is too old for Forward Search and Embedded Viewer mode; "
-		                    "you must use at least version 0.8.6 for Forward Search, and 0.14.80 for Embedded Viewer Mode", version);
-	}
+//TODO KF5
+// 	m_isViewerModeSupported = false;
+// 	if(compareVersionStrings(version, "0.14.80") >= 0) {
+// 		m_status = Success;
+// 		m_isViewerModeSupported = true;
+// 		m_resultText = i18n("%1 - Forward Search and Embedded Viewer Mode are supported",version);
+// 	}
+// 	else if(compareVersionStrings(version, "0.8.6") >= 0) {
+// 		m_status = Failure;
+// 		m_resultText = i18n("%1 - Forward Search is supported, but not Embedded Viewer mode",version);
+// 	}
+// 	else {
+// 		m_status = Failure;
+// 		m_resultText = i18n("%1 - The installed version is too old for Forward Search and Embedded Viewer mode; "
+// 		                    "you must use at least version 0.8.6 for Forward Search, and 0.14.80 for Embedded Viewer Mode", version);
+// 	}
 
 	emit(testComplete(this));
 }
@@ -341,7 +344,7 @@ FindProgramTest::~FindProgramTest()
 
 void FindProgramTest::call()
 {
-	const QString execPath = KStandardDirs::findExe(m_programName);
+	const QString execPath = QStandardPaths::findExecutable(m_programName);
 	if(execPath.isEmpty()) {
 		m_status = Failure;
 		if(!m_additionalFailureMessage.isEmpty()) {
@@ -598,8 +601,8 @@ performKileTest kile "run TeX"
 */
 	installConsecutivelyDependentTests(
 	    new FindProgramTest("TeX", "tex", true),
-	    new ProgramTest("TeX", "tex", m_tempDir->name(), "--interaction=nonstopmode",  "test_plain.tex", "", true),
-	    new TestToolInKileTest("TeX", m_ki, "TeX", m_tempDir->name() + '/' + "test_plain.tex", true));
+	    new ProgramTest("TeX", "tex", m_tempDir->path(), "--interaction=nonstopmode",  "test_plain.tex", "", true),
+	    new TestToolInKileTest("TeX", m_ki, "TeX", m_tempDir->path() + '/' + "test_plain.tex", true));
 /*
 echo "starting test: PDFTeX"
 setTool PDFTeX
@@ -613,8 +616,8 @@ $closeDoc
 */
 	installConsecutivelyDependentTests(
 	   new FindProgramTest("PDFTeX", "pdftex", false),
-	   new ProgramTest("PDFTeX", "pdftex", m_tempDir->name(), "--interaction=nonstopmode",  "test_plain.tex", "", false),
-	   new TestToolInKileTest("PDFTeX", m_ki, "PDFTeX", m_tempDir->name() + '/' + "test_plain.tex", false));
+	   new ProgramTest("PDFTeX", "pdftex", m_tempDir->path(), "--interaction=nonstopmode",  "test_plain.tex", "", false),
+	   new TestToolInKileTest("PDFTeX", m_ki, "PDFTeX", m_tempDir->path() + '/' + "test_plain.tex", false));
 /*
 testFileBase="test"
 testFile=$testFileBase.tex
@@ -630,12 +633,12 @@ performTest basic "$tool $testFile"
 performKileTest kile "run LaTeX"
 performTest src "$tool -src $testFile"
 */
-	ProgramTest *latexProgramTest = new ProgramTest("LaTeX", "latex", m_tempDir->name(), "--interaction=nonstopmode",  "test.tex", "", true);
-	m_laTeXSrcSpecialsSupportTest = new LaTeXSrcSpecialsSupportTest("LaTeX", m_tempDir->name(), "test");
+	ProgramTest *latexProgramTest = new ProgramTest("LaTeX", "latex", m_tempDir->path(), "--interaction=nonstopmode",  "test.tex", "", true);
+	m_laTeXSrcSpecialsSupportTest = new LaTeXSrcSpecialsSupportTest("LaTeX", m_tempDir->path(), "test");
 	installConsecutivelyDependentTests(
 	   new FindProgramTest("LaTeX", "latex", true),
 	   latexProgramTest,
-	   new TestToolInKileTest("LaTeX", m_ki, "LaTeX", m_tempDir->name() + '/' + "test.tex", true),
+	   new TestToolInKileTest("LaTeX", m_ki, "LaTeX", m_tempDir->path() + '/' + "test.tex", true),
 	   m_laTeXSrcSpecialsSupportTest);
 /*
 echo "starting test: PDFLaTeX"
@@ -646,11 +649,11 @@ setKey where `which pdflatex`
 performTest basic "pdflatex $testFile"
 performKileTest kile "run PDFLaTeX"
 */
-	m_pdfLaTeXSyncTeXSupportTest = new SyncTeXSupportTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "test");
+	m_pdfLaTeXSyncTeXSupportTest = new SyncTeXSupportTest("PDFLaTeX", "pdflatex", m_tempDir->path(), "test");
 	installConsecutivelyDependentTests(
 	   new FindProgramTest("PDFLaTeX", "pdflatex", false),
-	   new ProgramTest("PDFLaTeX", "pdflatex", m_tempDir->name(), "--interaction=nonstopmode",  "test.tex", "", false),
-	   new TestToolInKileTest("PDFLaTeX", m_ki, "PDFLaTeX", m_tempDir->name() + '/' + "test.tex", false),
+	   new ProgramTest("PDFLaTeX", "pdflatex", m_tempDir->path(), "--interaction=nonstopmode",  "test.tex", "", false),
+	   new TestToolInKileTest("PDFLaTeX", m_ki, "PDFLaTeX", m_tempDir->path() + '/' + "test.tex", false),
 	   m_pdfLaTeXSyncTeXSupportTest);
 /*
 echo "starting test: DVItoPS"
@@ -660,7 +663,7 @@ setKey executable dvips
 setKey where `which dvips`
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPS"; fi
 */
-	TestToolInKileTest *dvipsKileTest = new TestToolInKileTest("DVItoPS", m_ki, "DVItoPS", m_tempDir->name() + '/' + "test.tex", false);
+	TestToolInKileTest *dvipsKileTest = new TestToolInKileTest("DVItoPS", m_ki, "DVItoPS", m_tempDir->path() + '/' + "test.tex", false);
 	dvipsKileTest->addDependency(latexProgramTest);
 	installConsecutivelyDependentTests(
 	    new FindProgramTest("DVItoPS", "dvips", false),
@@ -673,7 +676,7 @@ setKey executable dvipdfmx
 setKey where `which dvipdfmx`
 if [ -r $testFileBase.dvi ]; then performKileTest kile "run DVItoPDF"; fi
 */
-	TestToolInKileTest *dvipdfmxKileTest = new TestToolInKileTest("DVItoPDF", m_ki, "DVItoPDF", m_tempDir->name() + '/' + "test.tex", false);
+	TestToolInKileTest *dvipdfmxKileTest = new TestToolInKileTest("DVItoPDF", m_ki, "DVItoPDF", m_tempDir->path() + '/' + "test.tex", false);
 	dvipdfmxKileTest->addDependency(latexProgramTest);
 	installConsecutivelyDependentTests(
 	    new FindProgramTest("DVItoPDF", "dvipdfmx", false),
@@ -687,7 +690,7 @@ setKey where `which ps2pdf`
 if [ -r $testFileBase.ps ]; then performKileTest kile "run PStoPDF"; fi
 $closeDoc
 */
-	TestToolInKileTest *ps2pdfKileTest = new TestToolInKileTest("PStoPDF", m_ki, "PStoPDF", m_tempDir->name() + '/' + "test.tex", false);
+	TestToolInKileTest *ps2pdfKileTest = new TestToolInKileTest("PStoPDF", m_ki, "PStoPDF", m_tempDir->path() + '/' + "test.tex", false);
 	ps2pdfKileTest->addDependency(dvipsKileTest);
 	installConsecutivelyDependentTests(
 	    new FindProgramTest("PStoPDF", "ps2pdf", false),
@@ -709,12 +712,12 @@ then
 	$closeDoc
 fi
 */
-	TestToolInKileTest *latexForBibTeX = new TestToolInKileTest("BibTeX", m_ki, "LaTeX", m_tempDir->name() + '/' + "test_bib.tex", false);
+	TestToolInKileTest *latexForBibTeX = new TestToolInKileTest("BibTeX", m_ki, "LaTeX", m_tempDir->path() + '/' + "test_bib.tex", false);
 	latexForBibTeX->addDependency(latexProgramTest);
 	latexForBibTeX->setSilent(true);
-	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtex", m_tempDir->name(), "test_bib",  "", "", false);
+	ProgramTest *bibtexProgramTest = new ProgramTest("BibTeX", "bibtex", m_tempDir->path(), "test_bib",  "", "", false);
 	bibtexProgramTest->addDependency(latexForBibTeX);
-	TestToolInKileTest *bibtexKileTest = new TestToolInKileTest("BibTeX", m_ki, "BibTeX", m_tempDir->name() + '/' + "test_bib.tex", false);
+	TestToolInKileTest *bibtexKileTest = new TestToolInKileTest("BibTeX", m_ki, "BibTeX", m_tempDir->path() + '/' + "test_bib.tex", false);
 	bibtexKileTest->addDependency(latexProgramTest);
 	installConsecutivelyDependentTests(
 	    new FindProgramTest("BibTeX", "bibtex", false),
@@ -739,12 +742,12 @@ then
 	$closeDoc
 fi
 */
-	TestToolInKileTest *latexForMakeIndex = new TestToolInKileTest("MakeIndex", m_ki, "LaTeX", m_tempDir->name() + '/' + "test_index.tex", false);
+	TestToolInKileTest *latexForMakeIndex = new TestToolInKileTest("MakeIndex", m_ki, "LaTeX", m_tempDir->path() + '/' + "test_index.tex", false);
 	latexForMakeIndex->addDependency(latexProgramTest);
 	latexForMakeIndex->setSilent(true);
-	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindex", m_tempDir->name(), "test_index",  "", "", false);
+	ProgramTest *makeIndexProgramTest = new ProgramTest("MakeIndex", "makeindex", m_tempDir->path(), "test_index",  "", "", false);
 	makeIndexProgramTest->addDependency(latexProgramTest);
-	TestToolInKileTest *makeindexKileTest = new TestToolInKileTest("MakeIndex", m_ki, "MakeIndex", m_tempDir->name() + '/' + "test_index.tex", false);
+	TestToolInKileTest *makeindexKileTest = new TestToolInKileTest("MakeIndex", m_ki, "MakeIndex", m_tempDir->path() + '/' + "test_index.tex", false);
 	makeindexKileTest->addDependency(latexProgramTest);
 	installConsecutivelyDependentTests(
 	    new FindProgramTest("MakeIndex", "makeindex", false),

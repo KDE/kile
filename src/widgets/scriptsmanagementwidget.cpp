@@ -22,7 +22,7 @@
 
 #include <KIconLoader>
 #include <KInputDialog>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include "editorkeysequencemanager.h"
@@ -71,37 +71,37 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	m_toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	m_toolBar->setIconDimensions(KIconLoader::SizeSmall);
 
-	m_runAction = new KAction(this);
+	m_runAction = new QAction(this);
 	m_runAction->setIcon(SmallIcon("run-build"));
 	m_runAction->setText(i18n("Run Selected Script"));
 	connect(m_runAction, SIGNAL(triggered()), this, SLOT(executeSelectedScript()));
 	m_toolBar->addAction(m_runAction);
 
-	KAction *action = new KAction(this);
+	QAction *action = new QAction(this);
 	action->setIcon(SmallIcon("scriptnew"));
 	action->setText(i18n("Create New Script"));
 	connect(action, SIGNAL(triggered()), kileInfo->docManager(), SLOT(fileNewScript()));
 	m_toolBar->addAction(action);
 
-	m_scriptOpenAction = new KAction(this);
+	m_scriptOpenAction = new QAction(this);
 	m_scriptOpenAction->setIcon(SmallIcon("scriptopen"));
 	m_scriptOpenAction->setText(i18n("Open Selected Script in Editor"));
 	connect(m_scriptOpenAction, SIGNAL(triggered()), this, SLOT(openSelectedScript()));
 	m_toolBar->addAction(m_scriptOpenAction);
 
-	m_configureKeySequenceAction = new KAction(this);
+	m_configureKeySequenceAction = new QAction(this);
 	m_configureKeySequenceAction->setIcon(SmallIcon("configure-shortcuts"));
 	m_configureKeySequenceAction->setText(i18n("Configure Key Sequence"));
 	connect(m_configureKeySequenceAction, SIGNAL(triggered()), this, SLOT(configureSelectedKeySequence()));
 	m_toolBar->addAction(m_configureKeySequenceAction);
 
-	m_removeKeySequenceAction = new KAction(this);
+	m_removeKeySequenceAction = new QAction(this);
 	m_removeKeySequenceAction->setIcon(SmallIcon("edit-delete"));
 	m_removeKeySequenceAction->setText(i18n("Remove Key Sequence"));
 	connect(m_removeKeySequenceAction, SIGNAL(triggered()), this, SLOT(removeSelectedKeySequence()));
 	m_toolBar->addAction(m_removeKeySequenceAction);
 
-	action = new KAction(this);
+	action = new QAction(this);
 	action->setIcon(SmallIcon("view-refresh"));
 	action->setText(i18n("Refresh List"));
 	connect(action, SIGNAL(triggered()), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()));
@@ -153,10 +153,10 @@ void ScriptsManagement::update() {
 		item->setText(1, sequence);
 		if ( !sequence.isEmpty() ) {
 			QString icon = ( sequenceType == KileScript::Script::KEY_SHORTCUT ) ? "script-key-shortcut" : "script-key-sequence";
-			item->setIcon(1, KIcon(icon));
+			item->setIcon(1, QIcon::fromTheme(icon));
 		}
 		else {
-			item->setIcon(1, KIcon());
+			item->setIcon(1, QIcon());
 		}
  		childrenList.push_back(item);
 	}

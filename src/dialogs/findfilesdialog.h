@@ -24,7 +24,7 @@
 #ifndef FINDFILESDIALOG_H
 #define FINDFILESDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QStringList>
 
@@ -53,7 +53,7 @@ enum TemplateMode { tmNormal = 0, tmCommand, tmCommandWithOption, tmEnv, tmGraph
 
 namespace KileDialog {
 
-class FindFilesDialog : public KDialog
+class FindFilesDialog : public QDialog
 {
 		Q_OBJECT
 

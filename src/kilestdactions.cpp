@@ -140,7 +140,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 	QAction *action = actionCollection->addAction("tag_newline", ki->editorExtension(), SLOT(insertIntelligentNewline()));
 	action->setText(i18n("Smart New Line"));
-	action->setShortcut(QKeySequence(Qt::CTRL + Qt::Key_Return));
+	actionCollection->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Return));
 	action->setIcon(QIcon::fromTheme("smartnewline"));
 
 	action = actionCollection->addAction("tag_tabulator", ki->editorExtension(), SLOT(insertIntelligentTabulator()));

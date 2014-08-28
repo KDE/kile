@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -727,7 +727,7 @@ QAction * Kile::createAction(const QString &text, const QString &name, const QSt
 	QAction *action = actionCollection()->addAction(name, receiver, member);
 	action->setText(text);
 	if(!shortcut.isEmpty()) {
-		action->setShortcut(shortcut);
+		actionCollection()->setDefaultShortcut(action, shortcut);
 	}
 	if(!iconName.isEmpty()) {
 		action->setIcon(QIcon::fromTheme(iconName));
@@ -2558,7 +2558,7 @@ void Kile::transformOldUserSettings()
 
 			if(i < 10) {
 				QAction *toolAction = static_cast<QAction*>(actionCollection()->action("tool_" + tempItem.name));
-				toolAction->setShortcut("Alt+Shift+" + QString::number(i + 1)); //should be alt+shift+
+				actionCollection()->setDefaultShortcut(toolAction, "Alt+Shift+" + QString::number(i + 1)); //should be alt+shift+
 			}
 		}
 	}

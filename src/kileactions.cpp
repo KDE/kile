@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -57,7 +57,7 @@ namespace KileAction
 ////////////////
 //    Tag     //
 ////////////////
-Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const QString &tagBegin, const QString &tagEnd,
          int dx, int dy, const QString &description)
 	: QAction(text, parent),
@@ -65,13 +65,13 @@ Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &cut, 
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
-	init(receiver,slot);
+	if(!shortcut.isEmpty()) {
+	  parent->setDefaultShortcut(this, shortcut);
+	}
+	init(receiver, slot);
 }
 
-Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const QString &tagBegin, const QString &tagEnd,
          int dx, int dy, const QString &description)
 	: QAction(QIcon::fromTheme(pix), text, parent),
@@ -79,34 +79,34 @@ Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
+	if(!shortcut.isEmpty()) {
+		parent->setDefaultShortcut(this, shortcut);
+	}
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const TagData& data)
 	: QAction(text, parent),
 	  m_data(data)
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
+	if(!shortcut.isEmpty()) {
+	  parent->setDefaultShortcut(this, shortcut);
+	}
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
 	 const QString& name, const TagData& data)
 	: QAction(QIcon::fromTheme(pix), text, parent),
 	  m_data(data)
 {
 	parent->addAction(name, this);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
+	if(!shortcut.isEmpty()) {
+		parent->setDefaultShortcut(this, shortcut);
+	}
 	setIconText(iconText);
 	init(receiver,slot);
 }
@@ -426,11 +426,11 @@ QString InputDialog::label()
 //  SelectTag  //
 /////////////////
 
-Select::Select(const QString &text, const QKeySequence &cut, KActionCollection *parent, const char *name)
+Select::Select(const QString &text, const QKeySequence &shortcut, KActionCollection *parent, const char *name)
 	: KSelectAction(text, parent)
 {
 	parent->addAction(name, this);
-	setShortcut(cut);
+	parent->setDefaultShortcut(this, shortcut);
 }
 
 void Select::setItems(const QList<QAction *>& list)

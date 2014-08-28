@@ -1,4 +1,4 @@
-# ADD_SUBDIRECTORY( data )
+ADD_SUBDIRECTORY( data )
 ADD_SUBDIRECTORY( test )
 
 INCLUDE( FindPerl )
@@ -253,6 +253,7 @@ SET( kile_KCFG_SRCS kileconfig.kcfgc)
 
 kconfig_add_kcfg_files (kile_SRCS ${kile_KCFG_SRCS})
 
+#TODO KF5
 # KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
 
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X

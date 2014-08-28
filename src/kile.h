@@ -274,10 +274,10 @@ private Q_SLOTS:
 	void sideOrBottomBarChanged(bool visible);
 
 	void showDocInfo(KTextEditor::View *view = NULL);
-	void convertToASCII(KTextEditor::Document *doc = 0);
-	void convertToEnc(KTextEditor::Document *doc = 0);
+	void convertToASCII(KTextEditor::Document *doc = NULL);
+	void convertToEnc(KTextEditor::Document *doc = NULL);
 
-	void cleanAll(KileDocument::TextInfo *docinfo = 0);
+	void cleanAll(KileDocument::TextInfo *docinfo = NULL);
 	void cleanBib();
 
 	void findInFiles();

@@ -296,8 +296,9 @@ INSTALL( TARGETS ${PROGNAME} ${INSTALL_TARGETS_DEFAULT_ARGS} )
 INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 INSTALL( PROGRAMS kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
-INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc
-kileui.rc docpartui.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
+INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
+
+INSTALL( FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile )
 
 IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
   INSTALL (FILES data/kilestdtools-win.rc

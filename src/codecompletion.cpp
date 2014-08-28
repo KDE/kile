@@ -64,8 +64,8 @@ void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTex
 	buildModel(view, range);
 }
 
-${CODECOMPLETION_RANGE_RETURN} LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view,
-                                                                           ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range)
+KTextEditor::Range LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view,
+                                                                           const KTextEditor::Range &range)
 {
 	KILE_DEBUG_MAIN << "updating model..." << view << range;
 	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
@@ -293,13 +293,13 @@ bool LaTeXCompletionModel::shouldStartCompletion(KTextEditor::View *view, const 
 		return true;
 	}
 	else {
-		return ${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME}::shouldStartCompletion(view, insertedText, userInsertion, position);
+		return CodeCompletionModelControllerInterface::shouldStartCompletion(view, insertedText, userInsertion, position);
 	}
 //TODO KF5
 return false;
 }
 
-bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
                                                                           const QString &currentCompletion)
 {
 	Q_UNUSED(currentCompletion);
@@ -310,7 +310,7 @@ bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const 
 	return false;
 }
 
-QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextEditor::Range &range,
                                                                     const KTextEditor::Cursor &position)
 {
 	Q_UNUSED(position);
@@ -711,7 +711,7 @@ bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view,
 	return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(searchText));
 }
 
-bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+bool AbbreviationCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
                                                         const QString &currentCompletion)
 {
 	Q_UNUSED(currentCompletion);
@@ -735,8 +735,8 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 	buildModel(view, range, (invocationType == UserInvocation || invocationType == ManualInvocation));
 }
 
-${CODECOMPLETION_RANGE_RETURN} AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view,
-                                                                                  ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range)
+KTextEditor::Range AbbreviationCompletionModel::updateCompletionRange(KTextEditor::View *view,
+                                                                                  const KTextEditor::Range &range)
 {
 	if(!range.isValid()) {
 		m_completionList.clear();
@@ -768,7 +768,7 @@ KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::Vie
 }
 
 QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
-                                                  const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+                                                  const KTextEditor::Range &range,
                                                   const KTextEditor::Cursor &position)
 {
 	Q_UNUSED(view);

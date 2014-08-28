@@ -45,7 +45,7 @@ namespace KileCodeCompletion
 	class LaTeXCompletionModel : public KTextEditor::CodeCompletionModel,
 	                             public KTextEditor::CodeCompletionModelControllerInterface {
 		Q_OBJECT
-// 		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
+		Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
 		
 		public:
 			LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
@@ -59,16 +59,16 @@ namespace KileCodeCompletion
 
 			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
 			                                   bool userInsertion, const KTextEditor::Cursor &position);
-			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
 			                                                            const QString &currentCompletion);
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
 			                                                        InvocationType invocationType);
-			virtual ${CODECOMPLETION_RANGE_RETURN} updateCompletionRange(KTextEditor::View *view,
-			                                                             ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME}& range);
+			virtual KTextEditor::Range updateCompletionRange(KTextEditor::View *view,
+			                                                             const KTextEditor::Range& range);
 			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
 			                                           const KTextEditor::Cursor &position);
 			virtual QString filterString(KTextEditor::View *view,
-			                             const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+			                             const KTextEditor::Range &range,
 			                             const KTextEditor::Cursor &position);
 
 			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
@@ -99,7 +99,7 @@ namespace KileCodeCompletion
 
 	class AbbreviationCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::CodeCompletionModelControllerInterface {
 		Q_OBJECT
-// 		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
+		Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
 
 		public:
 			AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager);
@@ -111,16 +111,16 @@ namespace KileCodeCompletion
 
 			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
 			                                   bool userInsertion, const KTextEditor::Cursor &position);
-			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
 			                                                            const QString &currentCompletion);
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
 			                                                        InvocationType invocationType);
-			virtual ${CODECOMPLETION_RANGE_RETURN} updateCompletionRange(KTextEditor::View *view,
-			                                                             ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME}& range);
+			virtual KTextEditor::Range updateCompletionRange(KTextEditor::View *view,
+			                                                             const KTextEditor::Range& range);
 			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
 			                                           const KTextEditor::Cursor &position);
 			virtual QString filterString(KTextEditor::View *view,
-			                             const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
+			                             const KTextEditor::Range &range,
 			                             const KTextEditor::Cursor &position);
 
 			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,

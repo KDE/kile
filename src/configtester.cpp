@@ -16,7 +16,7 @@
 
 #include <QTimer>
 
-#include <K4AboutData>
+#include <KAboutData>
 #include <KConfig>
 #include <KGlobal>
 #include <KIO/CopyJob>

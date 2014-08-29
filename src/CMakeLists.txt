@@ -253,7 +253,8 @@ PUBLIC
     KF5::DBusAddons
     KF5::KDELibs4Support)
 
-INSTALL( TARGETS ${PROGNAME} ${INSTALL_TARGETS_DEFAULT_ARGS} )
+INSTALL( TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
+INSTALL( TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 ########### install files ###############

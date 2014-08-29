@@ -14,20 +14,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QApplication>
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 #include <QDir>
 #include <QFile>
 #include <QtDBus>
 #include <QFileInfo>
 #include <QTextCodec>
-
-#include <K4AboutData>
-#include <KCmdLineArgs>
-#include <KGlobal>
-#include <KLocalizedString>
-#include <KStartupInfo>
 #include <QUrl>
 
+#include <KAboutData>
 #include <KEncodingProber>
+#include <KLocalizedString>
+#include <KStartupInfo>
 
 #include "kile.h"
 #include "kileversion.h"
@@ -80,59 +80,61 @@ QString readDataFromStdin()
 	return tempFileName;
 }
 
-
-
-// int main( int argc, char ** argv )
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
-	K4AboutData aboutData( "kile", QByteArray(), ki18n("Kile"), kileFullVersion.toAscii(),
-				ki18n("KDE Integrated LaTeX Environment"),
-				K4AboutData::License_GPL,
-				ki18n("by the Kile Team (2003 - 2014)"),
-				KLocalizedString(),
-				"http://kile.sourceforge.net");
-	aboutData.addAuthor(ki18n("Michel Ludwig"), ki18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
-	aboutData.addAuthor(ki18n("Holger Danielsson"), ki18n("Developer"), "holger.danielsson@versanet.de");
-	aboutData.addAuthor(ki18n("Thomas Braun"), ki18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
-	aboutData.addAuthor(ki18n("Jeroen Wijnhout"), ki18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
-	aboutData.addAuthor(ki18n("Brachet Pascal"));
+	QApplication app(argc, argv);
 
-	aboutData.addCredit(ki18n("Andrius Štikonas"), ki18n("Migration from Subversion to Git"), "andrius@stikonas.eu");
-	aboutData.addCredit(ki18n("Simon Martin"), ki18n("KConfig XT, Various Improvements and Bug-Fixing"));
-	aboutData.addCredit(ki18n("Roland Schulz"), ki18n("KatePart Integration"));
-	aboutData.addCredit(ki18n("Thorsten Lück"), ki18n("Log Parsing"));
-	aboutData.addCredit(ki18n("Jan-Marek Glogowski"), ki18n("Find-in-Files Dialog"));
-	aboutData.addCredit(ki18n("Jonathan Pechta"), ki18n("Documentation"));
-	aboutData.addCredit(ki18n("Federico Zenith"), ki18n("Documentation"));
+	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toAscii(),
+	                     i18n("KDE Integrated LaTeX Environment"),
+	                     KAboutLicense::GPL,
+	                     i18n("by the Kile Team (2003 - 2014)"),
+	                     QString(),
+	                     QStringLiteral("http://kile.sourceforge.net"));
+	aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
+	aboutData.addAuthor(i18n("Holger Danielsson"), i18n("Developer"), "holger.danielsson@versanet.de");
+	aboutData.addAuthor(i18n("Thomas Braun"), i18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
+	aboutData.addAuthor(i18n("Jeroen Wijnhout"), i18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
+	aboutData.addAuthor(i18n("Brachet Pascal"));
 
-	KCmdLineArgs::init(argc, argv, &aboutData);
-	KCmdLineOptions options;
-	options.add("line <line>", ki18n("Jump to line"));
-	options.add("new", ki18n("Start a new Kile mainwindow"));
-	options.add("+[files]", ki18n("Files to open"));
-	options.add("+-", ki18n("Read from stdin"));
+	aboutData.addCredit(i18n("Andrius Štikonas"), i18n("Migration from Subversion to Git"), "andrius@stikonas.eu");
+	aboutData.addCredit(i18n("Simon Martin"), i18n("KConfig XT, Various Improvements and Bug-Fixing"));
+	aboutData.addCredit(i18n("Roland Schulz"), i18n("KatePart Integration"));
+	aboutData.addCredit(i18n("Thorsten Lück"), i18n("Log Parsing"));
+	aboutData.addCredit(i18n("Jan-Marek Glogowski"), i18n("Find-in-Files Dialog"));
+	aboutData.addCredit(i18n("Jonathan Pechta"), i18n("Documentation"));
+	aboutData.addCredit(i18n("Federico Zenith"), i18n("Documentation"));
 
-	KCmdLineArgs::addCmdLineOptions(options);
-	KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+	KAboutData::setApplicationData(aboutData);
+
+	QCommandLineParser parser;
+	parser.addVersionOption();
+	parser.addHelpOption();
+	aboutData.setupCommandLine(&parser);
+
+	parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("line"), i18n("Jump to line"), QLatin1String("line")));
+	parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("new"), i18n("Start a new Kile mainwindow")));
+//TODO KF5 VERIFY THAT '-' STILL WORKS
+	parser.addPositionalArgument("urls", i18n("Files to open / specify '-' to read from standard input"), QLatin1String("[urls...]"));
+
+	parser.process(app);
+	aboutData.processCommandLine(&parser);
+
 	bool running = false;
-
-	// this has to go before the DBus connection
-	KApplication app;
 
 	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
-	if(!running  || args->isSet("new")) {
-		bool restore = (args->count() == 0);
+	if(!running  || parser.isSet("new")) {
+		bool restore = (parser.positionalArguments().count() == 0);
 
 		Kile *kile = new Kile(restore);
 
-		for(int i = 0; i < args->count(); ++i) {
-			if(args->arg(i) == "-") {
+		Q_FOREACH(QString argument, parser.positionalArguments()) {
+			if(argument == "-") {
 				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				const QUrl url = args->url(i);
+				const QUrl url = QUrl::fromUserInput(argument);
 
 				if(isProject(url)) {
 					kile->openProject(url);
@@ -143,24 +145,22 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 			}
 		}
 
-		if(args->isSet("line")){
-			QString line = args->getOption("line");
+		if(parser.isSet("line")){
+			QString line = parser.value("line");
 			kile->setLine(line);
 		}
-
-		args->clear();
 
 		return app.exec();
 	}
 	else {
 		QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
 
-		for ( int i = 0; i < args->count(); ++i ) {
-			if(args->arg(i) == "-") {
+		Q_FOREACH(QString argument, parser.positionalArguments()) {
+			if(argument == "-") {
 				interface->call("openDocument", readDataFromStdin());
 			}
 			else {
-				const QUrl url = args->url(i);
+				const QUrl url = QUrl::fromUserInput(argument);
 
 				if(isProject(url)) {
 					interface->call("openProject", url.url());
@@ -171,8 +171,8 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 			}
 		}
 
-		if(args->isSet("line")){
-			QString line = args->getOption("line");
+		if(parser.isSet("line")){
+			QString line = parser.value("line");
 			interface->call("setLine", line);
 		}
 

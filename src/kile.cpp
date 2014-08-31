@@ -956,13 +956,13 @@ void Kile::setupActions()
 	createAction(i18n("Documentation Browser"), "help_docbrowser", QKeySequence("CTRL+Alt+H, B"), m_help, SLOT(helpDocBrowser()));
 
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-latex", this, SLOT(helpLaTex()));
-// TODO KF5
+
 	actionCollection()->addAction(KStandardAction::HelpContents, help_menu, SLOT(appHelpActivated()));
 	actionCollection()->addAction(KStandardAction::ReportBug, help_menu, SLOT(reportBug()));
 	act = actionCollection()->addAction(KStandardAction::AboutApp, help_menu, SLOT(aboutApplication()));
 	act->setMenuRole(QAction::AboutRole); // for Mac OS X, to get the right about menu in the application menu
-// TODO KF5
-// 	act = actionCollection()->addAction(KStandardAction::AboutKDE, help_menu, SLOT(aboutKDE()));
+
+	act = actionCollection()->addAction(KStandardAction::AboutKDE, help_menu, SLOT(aboutKDE()));
 	act->setMenuRole(QAction::NoRole);
 	act = createAction(i18n("&About Editor Component"), "help_about_editor", this, SLOT(aboutEditorComponent()));
 	act->setMenuRole(QAction::NoRole);

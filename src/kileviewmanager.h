@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -165,7 +165,7 @@ public Q_SLOTS:
 	void setDocumentViewerVisible(bool b);
 
 private Q_SLOTS:
-	void tabContext(QWidget* widget,const QPoint & pos);
+	void tabContext(const QPoint& pos);
 
 // KTextEditor::MdiContainer
 public:

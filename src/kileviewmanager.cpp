@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -193,18 +193,20 @@ QWidget* Manager::createTabs(QWidget *parent)
 	KAcceleratorManager::setNoAccel(m_tabs);
 	m_widgetStack->addWidget(m_tabs);
 	m_tabs->setFocusPolicy(Qt::ClickFocus);
-	//TODO KF5
-// 	m_tabs->setTabReorderingEnabled(true);
-// 	m_tabs->setCloseButtonEnabled(true);
+
+	m_tabs->setMovable(true);
+	m_tabs->setTabsClosable(true);
 	m_tabs->setMovable(true);
 	m_tabs->setUsesScrollButtons(true);
 	m_tabs->setFocus();
+	m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
+
 	connect(m_tabs, SIGNAL(currentChanged(int)), this, SLOT(currentViewChanged(int)));
 	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
-	connect(m_tabs, SIGNAL(contextMenu(QWidget*,const QPoint &)), this, SLOT(tabContext(QWidget*,const QPoint &)));
+	connect(m_tabs->tabBar(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(tabContext(const QPoint&)));
 	connect(m_tabs, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
 
 	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
@@ -333,11 +335,16 @@ void Manager::installContextMenu(KTextEditor::View *view)
 	}
 }
 
-void Manager::tabContext(QWidget* widget,const QPoint & pos)
+void Manager::tabContext(const QPoint& pos)
 {
-	KILE_DEBUG_MAIN << "void Manager::tabContext(QWidget* widget,const QPoint & pos)";
+	KILE_DEBUG_MAIN << pos;
+	const int tabUnderPos = m_tabs->tabBar()->tabAt(pos);
+	if(tabUnderPos < 0) {
+		KILE_DEBUG_MAIN << tabUnderPos;
+		return;
+	}
 
-	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(widget);
+	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(m_tabs->widget(tabUnderPos));
 
 	if(!view || !view->document()) {
 		return;
@@ -349,11 +356,11 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 
 	// 'action1' can become NULL if it belongs to a view that has been closed, for example
 	QPointer<QAction> action1 = m_ki->mainWindow()->action("move_view_tab_left");
-	action1->setData(qVariantFromValue(widget));
+	action1->setData(qVariantFromValue(view));
 	tabMenu.addAction(action1);
 
 	QPointer<QAction> action2 = m_ki->mainWindow()->action("move_view_tab_right");
-	action2->setData(qVariantFromValue(widget));
+	action2->setData(qVariantFromValue(view));
 	tabMenu.addAction(action2);
 
 	tabMenu.addSeparator();
@@ -391,7 +398,7 @@ void Manager::tabContext(QWidget* widget,const QPoint & pos)
 	tabMenu.addAction(addAction);
 	tabMenu.addAction(removeAction);*/
 
-	tabMenu.exec(pos);
+	tabMenu.exec(m_tabs->tabBar()->mapToGlobal(pos));
 
 	if(action1) {
 		action1->setData(QVariant());
@@ -591,8 +598,7 @@ void Manager::moveTabLeft(QWidget *widget)
 	}
 	int currentIndex = m_tabs->indexOf(widget);
 	int newIndex = (currentIndex == 0 ? m_tabs->count() - 1 : currentIndex - 1);
-//TODO KF5
-// 	m_tabs->moveTab(currentIndex, newIndex);
+	m_tabs->tabBar()->moveTab(currentIndex, newIndex);
 }
 
 void Manager::moveTabRight(QWidget *widget)
@@ -619,8 +625,7 @@ void Manager::moveTabRight(QWidget *widget)
 	}
 	int currentIndex = m_tabs->indexOf(widget);
 	int newIndex = (currentIndex == m_tabs->count() - 1 ? 0 : currentIndex + 1);
-//TODO KF5
-// 	m_tabs->moveTab(currentIndex, newIndex);
+	m_tabs->tabBar()->moveTab(currentIndex, newIndex);
 }
 
 void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,

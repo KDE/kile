@@ -1,6 +1,6 @@
 /************************************************************************************************
   Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************************/
 
 /***************************************************************************
@@ -53,7 +53,7 @@ namespace KileCodeCompletion
 			virtual ~LaTeXCompletionModel();
 
 			//TODO KF5
-// 			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
+			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
@@ -71,8 +71,8 @@ namespace KileCodeCompletion
 			                             const KTextEditor::Range &range,
 			                             const KTextEditor::Cursor &position);
 
-			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
-			                                                                    int row) const;
+			virtual void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
+			                                                            const QModelIndex &index) const;
 			QString filterLatexCommand(const QString &text, int &cursorYPos, int &cursorXPos);
 
 
@@ -105,7 +105,7 @@ namespace KileCodeCompletion
 			AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager);
 			virtual ~AbbreviationCompletionModel();
 
-// 			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
+			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
 			virtual QVariant data(const QModelIndex& index, int role) const;
 			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
@@ -123,8 +123,8 @@ namespace KileCodeCompletion
 			                             const KTextEditor::Range &range,
 			                             const KTextEditor::Cursor &position);
 
-			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
-			                                                                    int row) const;
+			virtual void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
+			                                                            const QModelIndex &index) const;
 
 		protected:
 			KileAbbreviation::Manager *m_abbreviationManager;

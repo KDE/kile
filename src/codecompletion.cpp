@@ -1,6 +1,6 @@
 /**********************************************************************************************
   Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
 ***********************************************************************************************/
 
 /***************************************************************************
@@ -336,15 +336,14 @@ QVariant LaTeXCompletionModel::data(const QModelIndex& index, int role) const
 	return QVariant();
 }
 
-//TODO KF5
-// QModelIndex LaTeXCompletionModel::index(int row, int column, const QModelIndex &parent) const
-// {
-// 	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
-// 		return QModelIndex();
-// 	}
-// 
-// 	return createIndex(row, column, 0);
-// }
+QModelIndex LaTeXCompletionModel::index(int row, int column, const QModelIndex &parent) const
+{
+	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+		return QModelIndex();
+	}
+
+	return createIndex(row, column);
+}
 
 int LaTeXCompletionModel::rowCount(const QModelIndex &parent) const
 {
@@ -365,14 +364,15 @@ void LaTeXCompletionModel::filterModel(const QString& text)
 	}
 }
 
-void LaTeXCompletionModel::executeCompletionItem(KTextEditor::Document *document,
-                                                 const KTextEditor::Range& word, int row) const
+void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,
+                                                 const KTextEditor::Range& word, const QModelIndex &index) const
 {
+	KTextEditor::Document *document = view->document();
 	KTextEditor::Cursor startCursor = word.start();
 	const static QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 
 	int cursorXPos = -1, cursorYPos = -1;
-	QString completionText = data(index(row, KTextEditor::CodeCompletionModel::Name, QModelIndex()), Qt::DisplayRole).toString();
+	QString completionText = index.data(Qt::DisplayRole).toString();
 	QString textToInsert;
 	int envIndex = reEnv.indexIn(completionText);
 	if(completionText != "\\begin{}" && envIndex != -1) { // we are completing an environment
@@ -663,15 +663,14 @@ AbbreviationCompletionModel::~AbbreviationCompletionModel()
 {
 }
 
-//TODO KF5
-// QModelIndex AbbreviationCompletionModel::index(int row, int column, const QModelIndex &parent) const
-// {
-// 	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
-// 		return QModelIndex();
-// 	}
-// 
-// 	return createIndex(row, column, 0);
-// }
+QModelIndex AbbreviationCompletionModel::index(int row, int column, const QModelIndex &parent) const
+{
+	if (row < 0 || row >= m_completionList.count() || column < 0 || column >= ColumnCount || parent.isValid()) {
+		return QModelIndex();
+	}
+
+	return createIndex(row, column);
+}
 
 QVariant AbbreviationCompletionModel::data(const QModelIndex& index, int role) const
 {
@@ -777,8 +776,8 @@ QString AbbreviationCompletionModel::filterString(KTextEditor::View *view,
 	return "";
 }
 
-void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
-                                                        int row) const
+void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
+                                                        const QModelIndex &index) const
 {
 //TOOD KF5
 // 	// replace abbreviation and take care of newlines  
@@ -815,14 +814,14 @@ void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTex
 	}
 	if(singleMatchMode && m_abbreviationManager->isAbbreviationDefined(text)) {
 		m_completionList << m_abbreviationManager->getAbbreviationTextMatch(text);
-		executeCompletionItem(view->document(), range, 0);
+		executeCompletionItem(view, range, index(0, 0));
 	}
 	else {
 		m_completionList = m_abbreviationManager->getAbbreviationTextMatches(text);
 		m_completionList.sort();
 		if(m_completionList.size() == 1
 		  && m_abbreviationManager->isAbbreviationDefined(text)) {
-			executeCompletionItem(view->document(), range, 0);
+			executeCompletionItem(view, range, index(0, 0));
 		}
 	}
 }

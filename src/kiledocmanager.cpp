@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2013 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -2382,18 +2382,21 @@ const QUrl Manager::symlinkFreeURL(const QUrl &url)
 #else
 	KILE_DEBUG_MAIN << "===symlinkFreeURL==";
 
-	if( !url.isLocalFile() )
+	if(!url.isLocalFile()) {
 		return url;
+	}
 
-	QDir dir(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
-	QString filename=url.toLocalFile(); // if the directory does not exist we return the old url (just to be sure)
+	QDir dir(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path());
+	QString filename = url.toLocalFile(); // if the directory does not exist we return the old url (just to be sure)
 
-	if(dir.exists())
+	if(dir.exists()) {
 		filename= dir.canonicalPath() + '/' + url.fileName();
-	else
+	}
+	else {
 		KILE_DEBUG_MAIN << "directory " << url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() << "does not exist";
+	}
 
-	return QUrl(filename);
+	return QUrl::fromLocalFile(filename);
 #endif //def Q_WS_WIN
 }
 

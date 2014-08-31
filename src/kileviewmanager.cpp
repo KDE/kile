@@ -245,13 +245,14 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	        this, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
-	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*)),
-	        this, SIGNAL(viewModeChanged(KTextEditor::View*)));
+	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)),
+	        this, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)));
 	connect(view, SIGNAL(selectionChanged(KTextEditor::View*)),
 	        this, SIGNAL(selectionChanged(KTextEditor::View*)));
-	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
-	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*)), this, SIGNAL(updateCaption()));
-	connect(view, SIGNAL(viewEditModeChanged(KTextEditor::View*, enum KTextEditor::View::EditMode)), this, SIGNAL(updateModeStatus()));
+//TODO KF5
+// 	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
+	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)), this, SIGNAL(updateCaption()));
+	connect(view, SIGNAL(viewInputModeChanged(KTextEditor::View*, enum KTextEditor::View::InputMode)), this, SIGNAL(updateModeStatus()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
 	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
 	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));

@@ -133,7 +133,7 @@ Q_SIGNALS:
 
 	void informationMessage(KTextEditor::View*, const QString&);
 	void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
-	void viewModeChanged(KTextEditor::View *view);
+	void viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode);
 	void selectionChanged(KTextEditor::View *view);
 
 	void documentViewerWindowVisibilityChanged(bool shown);

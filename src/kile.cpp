@@ -180,7 +180,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(viewManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(viewManager(), SIGNAL(cursorPositionChanged(KTextEditor::View*,const KTextEditor::Cursor&)),
 	        this, SLOT(updateStatusBarCursorPosition(KTextEditor::View*,const KTextEditor::Cursor&)));
-	connect(viewManager(), SIGNAL(viewModeChanged(KTextEditor::View*)),
+	connect(viewManager(), SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)),
 	        this, SLOT(updateStatusBarViewMode(KTextEditor::View*)));
 	connect(viewManager(), SIGNAL(informationMessage(KTextEditor::View*,const QString&)),
 	        this, SLOT(updateStatusBarInformationMessage(KTextEditor::View*,const QString&)));

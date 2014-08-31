@@ -100,7 +100,7 @@ void KileErrorHandler::createActions(KActionCollection *ac)
 {
 	m_viewLogAction = ac->addAction("ViewLog", this, SLOT(ViewLog()));
 	m_viewLogAction->setText(i18n("View Log File"));
-	m_viewLogAction->setShortcut(QKeySequence(Qt::ALT + Qt::Key_0));
+	ac->setDefaultShortcut(m_viewLogAction, QKeySequence(Qt::ALT + Qt::Key_0));
 	m_viewLogAction->setIcon(QIcon::fromTheme("viewlog"));
 
 	m_previousErrorAction = ac->addAction("PreviousError", this, SLOT(PreviousError()));

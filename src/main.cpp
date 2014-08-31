@@ -25,6 +25,7 @@
 #include <QUrl>
 
 #include <KAboutData>
+#include <KDBusService>
 #include <KEncodingProber>
 #include <KLocalizedString>
 #include <KStartupInfo>
@@ -104,7 +105,16 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 	aboutData.addCredit(i18n("Jonathan Pechta"), i18n("Documentation"));
 	aboutData.addCredit(i18n("Federico Zenith"), i18n("Documentation"));
 
+	aboutData.setOrganizationDomain(QByteArray("sourceforge.net"));
+
+	aboutData.setProductName(QByteArray("kile"));
+
 	KAboutData::setApplicationData(aboutData);
+
+	app.setApplicationName(aboutData.componentName());
+	app.setApplicationDisplayName(aboutData.displayName());
+	app.setOrganizationDomain(aboutData.organizationDomain());
+	app.setApplicationVersion(aboutData.version());
 
 	QCommandLineParser parser;
 	parser.addVersionOption();
@@ -119,7 +129,15 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 	parser.process(app);
 	aboutData.processCommandLine(&parser);
 
+	app.setApplicationName(aboutData.componentName());
+	app.setApplicationDisplayName(aboutData.displayName());
+	app.setOrganizationDomain(aboutData.organizationDomain());
+	app.setApplicationVersion(aboutData.version());
+
+
 	bool running = false;
+
+	const KDBusService dbusService(KDBusService::Multiple);
 
 	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");

@@ -41,8 +41,7 @@ public:
 	bool useWizard();
 
 protected Q_SLOTS:
-	virtual void slotButtonClicked(int button);
-	void slotClickOKButton();
+	void okButtonClicked();
 
 	void slotActivated(int index);
 

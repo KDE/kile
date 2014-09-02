@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
 ******************************************************************************************/
 
 /***************************************************************************
@@ -47,19 +47,9 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	setObjectName(name);
 	setWindowTitle(i18n("New File"));
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-	QWidget *mainWidget = new QWidget(this);
+
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
-	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-	okButton->setDefault(true);
-	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	okButton->setDefault(true);
 
 	// first read config
 	KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
@@ -74,7 +64,7 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	}
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
-	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotClickOKButton()));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(okButtonClicked()));
 	m_templateManager->scanForTemplates();
 	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
 
@@ -86,6 +76,15 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	m_newDocumentWidget->documentTypeComboBox->insertItem(LATEX_TYPE, i18n("LaTeX Document"));
 	m_newDocumentWidget->documentTypeComboBox->insertItem(BIBTEX_TYPE, i18n("BibTeX Document"));
 	m_newDocumentWidget->documentTypeComboBox->insertItem(SCRIPT_TYPE, i18n("Kile Script"));
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(okButtonClicked()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	mainLayout->addWidget(buttonBox);
 
 	// set config entries
 	m_newDocumentWidget->quickStartWizardCheckBox->setChecked(wizard);
@@ -175,32 +174,16 @@ void NewFileWizard::restoreSelectedIcon()
 	}
 }
 
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void NewFileWizard::slotButtonClicked(int button)
+void NewFileWizard::okButtonClicked()
 {
-// 	if(button == QDialog::Ok){
-// 	
-// 		KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
-// 	
-// 		newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
-// 		newFileWizardGroup.writeEntry("width", width());
-// 		newFileWizardGroup.writeEntry("height", height());
-// 		
-// 		storeSelectedIcon();
-// 		accept();
-// 	}
-// 	else{
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//                  QDialog::slotButtonClicked(button);
-// 	}
-}
+	KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
 
-void NewFileWizard::slotClickOKButton()
-{
-//TODO KF5
-// 	slotButtonClicked(QDialog::Ok);
+	newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
+	newFileWizardGroup.writeEntry("width", width());
+	newFileWizardGroup.writeEntry("height", height());
+
+	storeSelectedIcon();
+	accept();
 }
 
 void NewFileWizard::slotActivated(int index)

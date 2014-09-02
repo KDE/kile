@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  *******************************************************************************************/
 
 /***************************************************************************
@@ -153,7 +153,7 @@ bool Manager::replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTem
 
 void Manager::scanForTemplates() {
 	KILE_DEBUG_MAIN << "===scanForTemplates()===================";
-	QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "templates");
+	QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "templates", QStandardPaths::LocateDirectory);
 	QDir templates;
 	KileTemplate::Info ti;
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
@@ -325,7 +325,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		return;
 	}
 
-	QString emptyIcon = QStandardPaths::locate(QStandardPaths::DataLocation, "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
+	QString emptyIcon = QStandardPaths::locate(QStandardPaths::DataLocation, "pics/" + QString(DEFAULT_EMPTY_ICON) + ".png" );
 
 	KileTemplate::Info emptyDocumentInfo;
 	emptyDocumentInfo.name = KileTemplate::Manager::defaultEmptyTemplateCaption();

@@ -2375,7 +2375,7 @@ void Manager::projectAddFile(QString filename, bool graphics)
 
 const QUrl Manager::symlinkFreeURL(const QUrl &url)
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 	//TODO: maybe actually do something here?  Seems unncecessary given Windows' lack of symlinks though...
 	//Also: the else'd code below fails badly on Windows
 	return url;
@@ -2397,7 +2397,7 @@ const QUrl Manager::symlinkFreeURL(const QUrl &url)
 	}
 
 	return QUrl::fromLocalFile(filename);
-#endif //def Q_WS_WIN
+#endif //def Q_OS_WIN
 }
 
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)

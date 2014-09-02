@@ -193,10 +193,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	setupStatusBar();
 
-	m_topWidgetStack = new QStackedWidget(this);
+	m_topWidgetStack = new QStackedWidget();
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
-	m_horizontalSplitter = new QSplitter(Qt::Horizontal, this);
+	m_horizontalSplitter = new QSplitter(Qt::Horizontal);
 
 	setupSideBar();
 	m_horizontalSplitter->addWidget(m_sideBar);

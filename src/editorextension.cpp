@@ -849,6 +849,12 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 		 "|\\\\end\\s*\\{([A-Za-z]+\\*?)\\}"
 		 "|\\\\\\[|\\\\\\]"
 		 "|\\\\\\(|\\\\\\)";
+
+// +       int rowFound, colFound;
+// +       QRegExp reg(regExpString);
+// +       reg.setCaseSensitivity(Qt::CaseInsensitive);
+// +       int lastMatch = 0;
+
 //TODO KF5
 // 	KTextEditor::SearchInterface *iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
 // 	if(!iface) {

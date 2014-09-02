@@ -176,8 +176,8 @@ void Manager::writeConfig()
 		KileConfig::setShowDocumentViewer(isViewerPartShown());
 	}
 	if(m_viewerPartWindow) {
-// TODO KF5
-// 		m_viewerPartWindow->saveMainWindowSettings(KSharedConfig::openConfig()->group("KileDocumentViewerWindow"));
+		KConfigGroup group(KSharedConfig::openConfig(), "KileDocumentViewerWindow");
+		m_viewerPartWindow->saveMainWindowSettings(group);
 	}
 }
 
@@ -196,7 +196,6 @@ QWidget* Manager::createTabs(QWidget *parent)
 
 	m_tabs->setMovable(true);
 	m_tabs->setTabsClosable(true);
-	m_tabs->setMovable(true);
 	m_tabs->setUsesScrollButtons(true);
 	m_tabs->setFocus();
 	m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -873,8 +872,7 @@ void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 		}
 		const int viewIndex = m_tabs->indexOf(*i);
 		m_tabs->setTabText(viewIndex, documentName);
-		//TODO KF5
-// 		m_tabs->setTabToolTip(viewIndex, changedDoc->url());
+		m_tabs->setTabToolTip(viewIndex, changedDoc->url().toString());
 	}
 }
 
@@ -1024,8 +1022,9 @@ void Manager::destroyDocumentViewerWindow()
 	if(!m_viewerPartWindow) {
 		return;
 	}
-//TODO KF5
-// 	m_viewerPartWindow->saveMainWindowSettings(KSharedConfig::openConfig()->group("KileDocumentViewerWindow"));
+
+	KConfigGroup group(KSharedConfig::openConfig(), "KileDocumentViewerWindow");
+	m_viewerPartWindow->saveMainWindowSettings(group);
 	// we don't want it to influence the document viewer visibility setting as
 	// this is a forced close
 	disconnect(m_viewerPartWindow, SIGNAL(visibilityChanged(bool)),

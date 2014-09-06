@@ -201,7 +201,7 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
 
 	connect(m_tabs, SIGNAL(currentChanged(int)), this, SLOT(currentViewChanged(int)));
-	connect(m_tabs, SIGNAL(closeRequest(QWidget*)), this, SLOT(closeWidget(QWidget*)));
+	connect(m_tabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
 	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
@@ -213,10 +213,10 @@ QWidget* Manager::createTabs(QWidget *parent)
 	return m_widgetStack;
 }
 
-void Manager::closeWidget(QWidget *widget)
+void Manager::closeTab(int index)
 {
-	if (widget->inherits( "KTextEditor::View" ))
-	{
+	QWidget *widget = m_tabs->widget(index);
+	if(widget->inherits("KTextEditor::View")) {
 		KTextEditor::View *view = static_cast<KTextEditor::View*>(widget);
 		m_ki->docManager()->fileClose(view->document());
 	}
@@ -837,6 +837,7 @@ void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
 	accept = e->mimeData()->hasUrls(); // only accept URL drops
 }
 
+//TODO KF5
 void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 {
 	QList<QUrl> urls = e->mimeData()->urls();
@@ -852,7 +853,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 			m_ki->docManager()->projectOpen(url);
 		}
 		else if(!hasReplacedTab) {
-			closeWidget(w);
+			closeTab(index);
 			m_ki->docManager()->fileOpen(url, QString(), index);
 			hasReplacedTab = true;
 		}

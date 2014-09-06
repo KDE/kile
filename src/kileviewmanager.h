@@ -143,7 +143,6 @@ public Q_SLOTS:
 	KTextEditor::View* switchToTextView(KTextEditor::Document *doc, bool requestFocus = false);
 	void switchToTextView(KTextEditor::View *view, bool requestFocus = false);
 
-	void closeWidget(QWidget *);
 	void removeView(KTextEditor::View *view);
 
 	void updateStructure(bool parse = false, KileDocument::Info *docinfo = NULL);
@@ -166,6 +165,8 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 	void tabContext(const QPoint& pos);
+
+	void closeTab(int index);
 
 // KTextEditor::MdiContainer
 public:

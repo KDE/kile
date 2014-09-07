@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
 
  *************************************************************************************/
@@ -204,7 +204,7 @@ class VariantSelection : public QAction
 
 }
 
-class ToolbarSelectAction : public QAction
+class ToolbarSelectAction : public QWidgetAction
 {
 	Q_OBJECT
 

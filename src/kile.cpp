@@ -1149,6 +1149,11 @@ void Kile::initSelectActions(){
 	m_convertActions = new ToolbarSelectAction(i18n("Convert"), this);
 	m_quickActions = new ToolbarSelectAction(i18n("Quick"), this);
 
+	actionCollection()->setShortcutsConfigurable(m_compilerActions, false);
+	actionCollection()->setShortcutsConfigurable(m_viewActions, false);
+	actionCollection()->setShortcutsConfigurable(m_convertActions, false);
+	actionCollection()->setShortcutsConfigurable(m_quickActions, false);
+
 	actionCollection()->addAction("list_compiler_select", m_compilerActions);
 	actionCollection()->addAction("list_convert_select", m_convertActions);
 	actionCollection()->addAction("list_view_select", m_viewActions);

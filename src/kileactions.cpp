@@ -482,13 +482,12 @@ void VariantSelection::slotTriggered()
 
 ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject* parent,
                                          bool changeMainActionOnTriggering /*= true */)
-	: QAction(text, parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(NULL)
+	: QWidgetAction(parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(NULL)
 {
+	setText(text);
 	if(changeMainActionOnTriggering) {
 		connect(menu(), SIGNAL(triggered(QAction*)), this, SLOT(slotTriggered(QAction*)));
 	}
-//TODO KF5
-// 	setShortcutConfigurable(false);
 }
 
 int ToolbarSelectAction::actionIndex(QAction *action)
@@ -606,9 +605,7 @@ QWidget* ToolbarSelectAction::createWidget(QWidget *parent)
 {
 	QToolBar *parentToolBar = qobject_cast<QToolBar*>(parent);
 	if (!parentToolBar) {
-//TODO KF5
-// 		return QAction::createWidget(parent);
-return NULL;
+		return QWidgetAction::createWidget(parent);
 	}
 	QToolButton* button = new QToolButton(parent);
 	button->setAutoRaise(true);
@@ -621,7 +618,7 @@ return NULL;
 	connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
                 button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
 	button->setDefaultAction(this);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotMainActionTriggered()));
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(slotMainActionTriggered()));
 	connect(button, SIGNAL(pressed()), this, SLOT(slotMainButtonPressed()));
 	connect(this, SIGNAL(mainButtonWithNoActionPressed()), button, SLOT(showMenu()));
 	return button;

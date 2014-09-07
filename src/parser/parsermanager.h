@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -69,7 +69,7 @@ private:
 	KileInfo *m_ki;
 	DocumentParserThread *m_documentParserThread;
 	OutputParserThread *m_outputParserThread;
-	QMultiHash<QString, KileTool::Base*> m_urlToToolHash;
+	QMultiHash<QUrl, KileTool::Base*> m_urlToToolHash;
 };
 
 }

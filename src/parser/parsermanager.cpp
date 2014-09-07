@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -68,8 +68,13 @@ void Manager::parseOutput(KileTool::Base *tool, const QString& fileName, const Q
 	m_outputParserThread->addLaTeXLogFile(fileName, sourceFile, texFileName, selrow, docrow);
 	connect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
 	        this, SLOT(removeToolFromUrlHash(KileTool::Base*)), Qt::UniqueConnection);
-	if(!m_urlToToolHash.contains(fileName, tool)) {
-		m_urlToToolHash.insert(fileName, tool);
+
+	// using 'fileName' directly is tricky as it might contain occurrences of '//' which are filtered out
+	// by QUrl (given as argument in 'handleOutputParsingComplete') and the matching won't work anymore;
+	// so we use QUrl already here
+	const QUrl url = QUrl::fromLocalFile(fileName);
+	if(!m_urlToToolHash.contains(url, tool)) {
+		m_urlToToolHash.insert(url, tool);
 	}
 }
 
@@ -85,11 +90,9 @@ void Manager::stopDocumentParsing(const QUrl &url)
 
 void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOutput *output)
 {
-	KILE_DEBUG_MAIN;
-	const QString fileName = url.toLocalFile();
-
-	QList<KileTool::Base*> toolList = m_urlToToolHash.values(fileName);
-	m_urlToToolHash.remove(fileName);
+	KILE_DEBUG_MAIN << url;
+	QList<KileTool::Base*> toolList = m_urlToToolHash.values(url);
+	m_urlToToolHash.remove(url);
 
 	LaTeXOutputParserOutput *latexOutput = dynamic_cast<LaTeXOutputParserOutput*>(output);
 	if(!latexOutput) {
@@ -116,14 +119,14 @@ void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOut
 
 void Manager::removeToolFromUrlHash(KileTool::Base *tool)
 {
-	KILE_DEBUG_MAIN;
-	QMultiHash<QString, KileTool::Base*>::iterator i = m_urlToToolHash.begin();
+	QMultiHash<QUrl, KileTool::Base*>::iterator i = m_urlToToolHash.begin();
 	while(i != m_urlToToolHash.end()) {
-		const QString fileName = i.key();
+		const QUrl url = i.key();
 		if(i.value() == tool) {
 			i = m_urlToToolHash.erase(i);
-			if(!m_urlToToolHash.contains(fileName)) {
-				m_outputParserThread->removeFile(fileName);
+			// any more mappings for 'url' -> 'tool' left?
+			if(!m_urlToToolHash.contains(url)) {
+				m_outputParserThread->removeFile(url.toLocalFile());
 			}
 		}
 		else {

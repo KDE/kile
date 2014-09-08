@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
-                2010-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -394,9 +394,7 @@ namespace KileTool
 			url = QUrl::fromLocalFile(m_basedir);
 		}
 		url = url.adjusted(QUrl::StripTrailingSlash);
-		url.setPath(url.path() + '/' + m_relativedir);
-//TODO KF5
-//		url.cleanPath();
+		url.setPath(QDir::cleanPath(url.path() + '/' + m_relativedir));
 		m_targetdir = url.toLocalFile();
 
 		setTarget(m_target);

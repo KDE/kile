@@ -24,11 +24,12 @@
 #include <QTextCodec>
 #include <QTextStream>
 #include <QTimer>
+#include <QTemporaryDir>
+
 
 #include <KActionCollection>
+#include <KIconLoader>
 #include <KLocalizedString>
-
-#include <QTemporaryDir>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
@@ -78,7 +79,6 @@ public:
 			*containsInvalidRelativeItem = false;
 		}
 		QList<KileProjectItem*> items = project->items();
-//TODO KF5 CHECK NEXT LINE
 		const QString tempCanonicalDir = QDir(m_tempDir->path()).canonicalPath();
 		if(tempCanonicalDir.isEmpty()) {
 			return false;
@@ -118,7 +118,7 @@ private:
 	void initTemporaryDirectory() {
 		// work around bug in the SyncTeX implementation of PDFTeX (can't rename file)
 		// should be: QDir::tempPath() + QLatin1Char('/') +  "kile-livepreview")
-		m_tempDir = new QTemporaryDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "livepreview/preview-");
+		m_tempDir = new QTemporaryDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "livepreview");
 	}
 
 public:
@@ -494,8 +494,7 @@ void LivePreviewManager::createControlToolBar()
 	m_controlToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	m_controlToolBar->setFloatable(false);
 	m_controlToolBar->setMovable(false);
-//TODO KF5
-// 	m_controlToolBar->setIconDimensions(KIconLoader::SizeSmall);
+	m_controlToolBar->setIconDimensions(KIconLoader::SizeSmall);
 
 	m_controlToolBar->addAction(m_previewForCurrentDocumentAction);
 	m_controlToolBar->addAction(m_synchronizeViewWithCursorAction);

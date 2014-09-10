@@ -20,7 +20,7 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Script Sql Test)
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Script Test)
 
 # Load the frameworks we need
 find_package(KF5 REQUIRED COMPONENTS
@@ -185,4 +185,4 @@ ENDIF( KILE_VERSION )
 
 INSTALL( FILES AUTHORS ChangeLog README README.cwl kile-remote-control.txt README.MacOSX DESTINATION ${_KILE_SPECIAL_DOC_DIR})
 
-# MACRO_DISPLAY_FEATURE_LOG()
+FEATURE_SUMMARY(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

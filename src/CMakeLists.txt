@@ -9,6 +9,12 @@ GET_DIRECTORY_PROPERTY(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
 
 # we now look for Okular with "viewerinterface.h"
 FIND_PACKAGE( Okular )
+SET_PACKAGE_PROPERTIES("Okular" PROPERTIES
+  DESCRIPTION "okularcore library, with viewerinterface.h"
+  URL "http://okular.kde.org"
+  TYPE RECOMMENDED
+  PURPOSE "Live preview support")
+
 IF( OKULAR_FOUND )
 	FIND_FILE(HAVE_VIEWERINTERFACE_H okular/interfaces/viewerinterface.h PATHS ${OKULAR_INCLUDE_DIR} NO_DEFAULT_PATH)
 	IF( NOT HAVE_VIEWERINTERFACE_H )

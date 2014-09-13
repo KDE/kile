@@ -51,7 +51,7 @@
            </widget>
           </item>
           <item>
-           <widget class="KIntNumInput" name="kcfg_numSymbolsMFUS">
+           <widget class="QSpinBox" name="kcfg_numSymbolsMFUS">
             <property name="value">
              <number>30</number>
             </property>
@@ -127,7 +127,7 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>KIntNumInput</class>
+   <class>QSpinBox</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
   </customwidget>

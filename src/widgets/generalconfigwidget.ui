@@ -106,7 +106,7 @@
          </widget>
         </item>
         <item>
-         <widget class="KIntNumInput" name="kcfg_AutosaveInterval">
+         <widget class="QSpinBox" name="kcfg_AutosaveInterval">
           <property name="value">
            <number>10</number>
           </property>
@@ -272,7 +272,7 @@
    <header>kpushbutton.h</header>
   </customwidget>
   <customwidget>
-   <class>KIntNumInput</class>
+   <class>QSpinBox</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
   </customwidget>

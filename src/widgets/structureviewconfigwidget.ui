@@ -75,7 +75,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KIntNumInput" name="kcfg_DefaultLevel" >
+         <widget class="QSpinBox" name="kcfg_DefaultLevel" >
           <property name="minValue" stdset="0" >
            <number>1</number>
           </property>
@@ -288,7 +288,7 @@
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KIntNumInput</class>
+   <class>QSpinBox</class>
    <extends>QWidget</extends>
    <header>knuminput.h</header>
   </customwidget>

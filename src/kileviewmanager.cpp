@@ -272,13 +272,13 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	delete view->actionCollection()->action("set_confdlg");
 
 	// use Kile's save and save-as functions instead of the text editor's
-	QAction *action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::Save));
+	QAction *action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
 	if(action) {
 		KILE_DEBUG_MAIN << "   reconnect action 'file_save'...";
 		action->disconnect(SIGNAL(triggered(bool)));
 		connect(action, SIGNAL(triggered()), m_ki->docManager(), SLOT(fileSave()));
 	}
-	action = view->actionCollection()->action(KStandardAction::stdName(KStandardAction::SaveAs));
+	action = view->actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs));
 	if(action) {
 		KILE_DEBUG_MAIN << "   reconnect action 'file_save_as'...";
 		action->disconnect(SIGNAL(triggered(bool)));

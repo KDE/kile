@@ -32,11 +32,10 @@
 #include <QTextCodec>
 
 #include <kdeversion.h>
-#include <KLocalizedString>
-#include <KVBox>
-
-#include <KTextEditor/ConfigPage>
 #include <KConfigGroup>
+#include <KLocalizedString>
+#include <KTextEditor/ConfigPage>
+
 #include <QDialogButtonBox>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -316,7 +315,10 @@ usermenuPage = NULL;
 			return;
 		}
 		for(int i = 0; i < editor->configPages(); ++i) {
-			KVBox *configPageParent = new KVBox(this);
+			QWidget *configPageParent = new QWidget(this);
+			QVBoxLayout *configPageParentVBoxLayout = new QVBoxLayout(configPageParent);
+			configPageParentVBoxLayout->setMargin(0);
+
 			KTextEditor::ConfigPage *configPage = editor->configPage(i, configPageParent);
 
 			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, configPage->name(),

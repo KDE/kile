@@ -63,7 +63,7 @@ void UserHelp::readConfig(QStringList& menuList, QList<QUrl>& fileList)
 		QString menu = configGroup.readEntry(QString("menu%1").arg(i));
 		menuList << menu;
 		if(!menu.isEmpty() && menu != "-") {
-			fileList <<  configGroup.readEntry(QString("file%1").arg(i));
+			fileList << QUrl::fromLocalFile(configGroup.readEntry(QString("file%1").arg(i)));
 		}
 		else {
 			fileList << QUrl();

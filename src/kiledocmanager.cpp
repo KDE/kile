@@ -617,16 +617,16 @@ KTextEditor::View* Manager::loadItem(KileDocument::Type type, KileProjectItem *i
 {
 	KTextEditor::View *view = NULL;
 
-	KILE_DEBUG_MAIN << "==loadItem(" << item->url().toLocalFile() << ")======";
+	KILE_DEBUG_MAIN << "==loadItem(" << item->url() << ")======";
 
 	if(item->type() != KileProjectItem::Image) {
 		view = loadText(type, item->url(), item->encoding(), openProjectItemViews && item->isOpen(), item->mode(), item->highlight(), text);
-		KILE_DEBUG_MAIN << "\tloadItem: docfor = " << docFor(item->url().toLocalFile());
+		KILE_DEBUG_MAIN << "\tloadItem: docfor = " << docFor(item->url());
 
 		TextInfo *docinfo = item->getInfo();
 
-		KILE_DEBUG_MAIN << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
-		if ( docinfo->getDoc() != docFor(docinfo->url().toLocalFile()) ) qWarning() << "docinfo->getDoc() != docFor()";
+		KILE_DEBUG_MAIN << "\tloadItem: docinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url());
+		if ( docinfo->getDoc() != docFor(docinfo->url()) ) qWarning() << "docinfo->getDoc() != docFor()";
 	}
 	else {
 		KILE_DEBUG_MAIN << "\tloadItem: no document generated";
@@ -669,7 +669,7 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const QUrl &url, c
 	}
 
 	KILE_DEBUG_MAIN << "just after createView()";
-	KILE_DEBUG_MAIN << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url().toLocalFile());
+	KILE_DEBUG_MAIN << "\tdocinfo = " << docinfo << " doc = " << docinfo->getDoc() << " docfor = " << docFor(docinfo->url());
 
 	return NULL;
 }
@@ -707,7 +707,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 
 	KileDocument::Type type = sel->type();
 	//always set the base directory for scripts
-	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? m_ki->scriptManager()->getLocalScriptDirectory() : QString()));
+	return createDocumentWithText(text, type, QString(), (type == KileDocument::Script ? QUrl::fromLocalFile(m_ki->scriptManager()->getLocalScriptDirectory()) : QUrl()));
 }
 
 KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocument::Type type /* = KileDocument::Undefined */, const QString& /* extension */, const QUrl &baseDirectory)
@@ -724,7 +724,7 @@ KTextEditor::View* Manager::createDocumentWithText(const QString& text, KileDocu
 
 KTextEditor::View* Manager::createNewJScript()
 {
-	KTextEditor::View *view = createDocumentWithText(QString(), Script, "js", m_ki->scriptManager()->getLocalScriptDirectory());
+	KTextEditor::View *view = createDocumentWithText(QString(), Script, "js", QUrl::fromLocalFile(m_ki->scriptManager()->getLocalScriptDirectory()));
 	emit(updateStructure(false, NULL));
 	emit(updateModeStatus());
 	return view;
@@ -838,7 +838,7 @@ void Manager::fileOpen()
 	QString encoding = m_ki->toolManager()->config()->group("Kate Document Defaults").readEntry("Encoding","");
 
 	//get the URLs
-	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, currentDir, filter, m_ki->mainWindow(), i18n("Open Files"));
+	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, QUrl::fromLocalFile(currentDir), filter, m_ki->mainWindow(), i18n("Open Files"));
 
 	Locker lock(&m_autoSaveLock);
 	//open them
@@ -1092,7 +1092,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 	QUrl saveURL;
 	while(true) {
 		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
-		result = KEncodingFileDialog::getSaveUrlAndEncoding(doc->encoding(), startDir, filter, m_ki->mainWindow(), i18n("Save File"));
+		result = KEncodingFileDialog::getSaveUrlAndEncoding(doc->encoding(), QUrl::fromLocalFile(startDir), filter, m_ki->mainWindow(), i18n("Save File"));
 		if(result.URLs.isEmpty() || result.URLs.first().isEmpty()) {
 			return false;
 		}
@@ -1164,10 +1164,10 @@ void Manager::fileSaveCopyAs()
 	KileDocument::TextInfo *newInfo = textInfoFor(view->document());
 
 	if(originalInfo->url().isEmpty()) { // untitled doc
-		newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl().toLocalFile());
+		newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl());
 	}
 	else {
-		newInfo->setBaseDirectory(originalInfo->url().toLocalFile());
+		newInfo->setBaseDirectory(originalInfo->url());
 	}
 
 	fileSaveAs(view);
@@ -1693,7 +1693,7 @@ void Manager::updateProjectReferences(KileProject *project)
 void Manager::projectOpen()
 {
 	KILE_DEBUG_MAIN << "==Kile::projectOpen==========================";
-	QUrl url = QFileDialog::getOpenFileUrl(m_ki->mainWindow(),  i18n("Open Project"), KileConfig::defaultProjectLocation(), i18n("*.kilepr|Kile Project Files\n*|All Files"));
+	QUrl url = QFileDialog::getOpenFileUrl(m_ki->mainWindow(),  i18n("Open Project"), QUrl::fromLocalFile(KileConfig::defaultProjectLocation()), i18n("*.kilepr|Kile Project Files\n*|All Files"));
 
 	if(!url.isEmpty()) {
 		projectOpen(url);
@@ -1891,7 +1891,8 @@ bool Manager::projectClose(const QUrl &url)
 
 	if(project) {
 		KILE_DEBUG_MAIN << "\tclosing:" << project->name();
-		project->setLastDocument(m_ki->getName());
+		//TODO KF5 CHECK THIS!
+		project->setLastDocument(QUrl::fromLocalFile(m_ki->getName()));
 
 		projectSave(project);
 

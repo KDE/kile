@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -687,10 +687,10 @@ void KileProject::buildProjectTree()
 				dep = deps[i];
 
 				if(m_extmanager->isTexFile(dep)) {
-					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs);
+					url = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs));
 				}
 				else if(m_extmanager->isBibFile(dep)) {
-					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs);
+					url = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs));
 				}
 				itm = item(url);
 				if(itm && (itm->parent() == 0)

@@ -81,6 +81,10 @@ public Q_SLOTS:
 	void fileSelected(const KFileItem& file);
 
 	void fileOpen();
+	inline TextInfo* fileOpen(const QString& localFile, const QString& encoding = QString(), int index = -1)
+	{
+		return fileOpen(QUrl::fromLocalFile(localFile), encoding, index);
+	}
 	TextInfo* fileOpen(const QUrl &url, const QString& encoding = QString(), int index = -1);
 
 	bool fileSave(KTextEditor::View* = NULL);
@@ -200,6 +204,11 @@ public:
 	KTextEditor::Document* docFor(const QUrl &url);
 
 	TextInfo* getInfo() const;
+
+	inline TextInfo* textInfoFor(const QString& localFile)
+	{
+		return textInfoFor(QUrl::fromLocalFile(localFile));
+	}
 
 	TextInfo* textInfoFor(const QUrl &url);
 	TextInfo* textInfoFor(KTextEditor::Document* doc) const;

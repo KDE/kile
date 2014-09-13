@@ -190,7 +190,7 @@ void UserHelpDialog::getParameter(QStringList &userhelpmenulist, QList<QUrl> &us
 		else {
 			if(!separator) {
 				userhelpmenulist << m_menulistbox->item(i)->text();
-				userhelpfilelist << QString();
+				userhelpfilelist << QUrl();
 				separator = true;
 			}
 		}
@@ -215,7 +215,7 @@ void UserHelpDialog::slotAdd()
 	if(dialog->exec()) {
 		// with corresponding filename
 		QString helpfile = dialog->getHelpfile();
-		m_filelist.append(helpfile);
+		m_filelist.append(QUrl::fromLocalFile(helpfile));
 		m_fileedit->setText(helpfile);
 
 		// insert into listbox
@@ -262,7 +262,7 @@ void UserHelpDialog::slotAddSep()
 
 	// insert separator
 	m_menulistbox->insertItem(index, "-");
-	m_filelist.insert(index, QString());
+	m_filelist.insert(index, QUrl());
 
 	updateButton();
 }

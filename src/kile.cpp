@@ -24,6 +24,7 @@
 #include <QHideEvent>
 #include <QPointer>
 #include <QShowEvent>
+#include <QSplashScreen>
 #include <QXmlStreamWriter>
 
 #include <KAboutApplicationDialog>
@@ -40,7 +41,6 @@
 #include <KRecentFilesAction>
 #include <KRun>
 #include <KShortcutsDialog>
-#include <KSplashScreen>
 #include <KStandardDirs>
 #include <KStatusBar>
 #include <KTipDialog>
@@ -126,10 +126,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	// This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
 	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
 
-	KSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+	QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {
 		splashScreen.show();
-		kapp->processEvents();
+		qApp->processEvents();
 	}
 
 	m_config = KSharedConfig::openConfig();
@@ -147,7 +147,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	viewManager()->setClient(this);
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	m_latexCommands = new KileDocument::LatexCommands(m_config.data(), this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
@@ -171,7 +171,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_bWatchFile = false;
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(newCaption()));
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(activateView(QWidget*)));
@@ -217,7 +217,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
              this, SLOT(runTool(const QString &)));
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	setupBottomBar();
 	m_verticalSplitter->addWidget(m_bottomBar);
@@ -259,7 +259,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_help->setUserhelp(m_manager, m_userHelpActionMenu);     // kile user help (dani)
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));

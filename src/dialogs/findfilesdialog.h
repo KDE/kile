@@ -134,7 +134,6 @@ class FindFilesDialog : public QDialog
 		void slotSearch();
 		void slotClear();
 		void slotClose();
-		void slotFinished();
 		void slotPatternTextChanged(const QString &);
 		void slotTemplateActivated(int index);
 };

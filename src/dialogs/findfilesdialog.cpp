@@ -4,7 +4,7 @@
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
    Copyright (C) 2005 Holger Danielsson <holger.danielsson@versanet.de>
-   Copyright (C) 2008-2010 Michel Ludwig <michel.ludwig@kdemail.net>
+   Copyright (C) 2008-2014 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -45,6 +45,7 @@
 
 #include <QCheckBox>
 #include <QCursor>
+#include <QDialogButtonBox>
 #include <QEvent>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -62,7 +63,6 @@
 #include <KAcceleratorManager>
 #include <KApplication>
 #include <KComboBox>
-#include <KDialogButtonBox>
 #include <KFileDialog>
 #include <KIconLoader>
 #include <KLineEdit>
@@ -238,17 +238,21 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	resultbox->setMinimumHeight(150);
 
 	// button box
-	KDialogButtonBox *actionbox = new KDialogButtonBox(page);
+	QDialogButtonBox *actionbox = new QDialogButtonBox(page);
 	mainLayout->addWidget(actionbox);
-	search_button = actionbox->addButton(i18n("&Search"), QDialogButtonBox::ActionRole, this, SLOT(slotSearch()));
+	search_button = new QPushButton(i18n("&Search"));
 	search_button->setDefault(true);
 	search_button->setEnabled(false);
 	search_button->setIcon(QIcon::fromTheme("edit-find"));
-	clear_button = actionbox->addButton(i18n("&Clear"), QDialogButtonBox::ActionRole, this, SLOT(slotClear()));
+	connect(search_button, SIGNAL(clicked()), this, SLOT(slotSearch()));
+	actionbox->addButton(search_button, QDialogButtonBox::ActionRole);
+	clear_button = new QPushButton(i18n("&Clear"));
 	clear_button->setEnabled(false);
 	clear_button->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
-//TODO KF5
-// 	close_button = actionbox->addButton(KStandardGuiItem::close(), QDialogButtonBox::DestructiveRole, this, SLOT(slotClose()));
+	connect(clear_button, SIGNAL(clicked()), this, SLOT(slotClear()));
+	actionbox->addButton(clear_button, QDialogButtonBox::ActionRole);
+	close_button = actionbox->addButton(QDialogButtonBox::Close);
+	connect(close_button, SIGNAL(clicked()), this, SLOT(slotClose()));
 
 	// adjust labels
 	project_label->setFixedWidth(labelwidth);
@@ -347,8 +351,6 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 					SLOT(slotTemplateActivated(int)));
 	connect(resultbox, SIGNAL(currentTextChanged(const QString&)),
 					SLOT(slotItemSelected(const QString&)));
-
-	connect(this, SIGNAL(finished()), SLOT(slotFinished()));
 
 	resize(450, sizeHint().height());
 	KILE_DEBUG_MAIN << "==FindFilesDialog (create dialog)=============================";
@@ -669,7 +671,7 @@ QString FindFilesDialog::buildFilesCommand()
 
 	QString shell_command;
 	shell_command += "find ";
-	shell_command += KShell::quoteArg(dir_combo->url().toString());
+	shell_command += KShell::quoteArg(dir_combo->url().path());
 	shell_command += " \\( -name ";
 	shell_command += files;
 	shell_command += " \\)";
@@ -677,7 +679,7 @@ QString FindFilesDialog::buildFilesCommand()
 		shell_command += " -maxdepth 1";
 	}
 	shell_command += " -exec grep -n -E -I -H -e " + getShellPattern() + " {} \\;";
-
+KILE_DEBUG_MAIN << "shell command" << shell_command;
 	return shell_command;
 }
 
@@ -740,17 +742,8 @@ void FindFilesDialog::slotClose()
 	KILE_DEBUG_MAIN << "\tgrep: slot close";
 	clearGrepJobs();
 	finish();
-//TODO KF5
-// 	delayedDestruct();
-}
-
-void FindFilesDialog::slotFinished()
-{
-	KILE_DEBUG_MAIN << "\tgrep: slot finished";
-	clearGrepJobs();
-	finish();
-//TODO KF5
-// 	delayedDestruct();
+	hide();
+	deleteLater();
 }
 
 ///////////////////// templates /////////////////////

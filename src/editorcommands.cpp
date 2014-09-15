@@ -19,35 +19,20 @@
 #include "kileinfo.h"
 
 EditorCommands::EditorCommands(KileInfo *info)
- : m_ki(info)
+ : KTextEditor::Command(QStringList() << "w" << "wa" << "wq" << "q" << "wqa")
+ , m_ki(info)
 {
-	m_commandList << "w" << "wa" << "wq" << "q" << "wqa";
-//TODO KF5
-// 	KTextEditor::CommandInterface *commandInterface
-// 	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
-// 
-// 	if(commandInterface) {
-// 		commandInterface->registerCommand(this);
-// 	}
 }
 
 EditorCommands::~EditorCommands()
 {
-// 	KTextEditor::CommandInterface *commandInterface
-// 	                      = qobject_cast<KTextEditor::CommandInterface*>(m_ki->docManager()->getEditor());
-// 
-// 	if(commandInterface) {
-// 		commandInterface->unregisterCommand(this);
-// 	}
 }
 
-const QStringList& EditorCommands::cmds()
+bool EditorCommands::exec(KTextEditor::View *view, const QString &cmd, QString &msg,
+                          const KTextEditor::Range &range)
 {
-	return m_commandList;
-}
+	Q_UNUSED(range)
 
-bool EditorCommands::exec(KTextEditor::View *view, const QString &cmd, QString &msg)
-{
 	if(cmd == "w" || cmd == "wa") {
 		if(cmd == "wa") {
 			bool result = m_ki->docManager()->fileSaveAll();

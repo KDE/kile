@@ -65,9 +65,7 @@ KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
 	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
 	m_parserManager = new KileParser::Manager(this, parent);
-// TODO KF5
-// 	m_editorCommands = new EditorCommands(this);
-m_editorCommands = NULL;
+	m_editorCommands = new EditorCommands(this);
 }
 
 KileInfo::~KileInfo()

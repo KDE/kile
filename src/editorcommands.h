@@ -16,7 +16,7 @@
 
 #include <QStringList>
 
-// include <KTextEditor/Command>
+#include <KTextEditor/Command>
 #include <KTextEditor/Editor>
 #include <KTextEditor/View>
 
@@ -25,16 +25,14 @@ class KileInfo;
 /**
  * Implements bindings for commands like 'w', 'q', etc. for the VI input mode of KatePart.
  **/
-//TODO KF5
-// class EditorCommands : public KTextEditor::Command {
-class EditorCommands {
+class EditorCommands : public KTextEditor::Command {
 	public:
 		EditorCommands(KileInfo *info);
 		virtual ~EditorCommands();
 
-		virtual const QStringList& cmds();
-		virtual bool exec(KTextEditor::View *view, const QString &cmd, QString &msg);
-		virtual bool help(KTextEditor::View *view, const QString &cmd, QString &msg);
+		virtual bool exec(KTextEditor::View *view, const QString &cmd, QString &msg,
+		                  const KTextEditor::Range &range = KTextEditor::Range::invalid()) Q_DECL_OVERRIDE;
+		virtual bool help(KTextEditor::View *view, const QString &cmd, QString &msg) Q_DECL_OVERRIDE;
 
 	private:
 		KileInfo *m_ki;

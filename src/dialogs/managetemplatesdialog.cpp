@@ -277,12 +277,12 @@ void ManageTemplatesDialog::addTemplate() {
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(iconURL, true, this)) {
+	if (!KIO::NetAccess::exists(iconURL, KIO::NetAccess::SourceSide, this)) {
 		KMessageBox::error(this, i18n("The icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(m_sourceURL, true, this)) {
+	if (!KIO::NetAccess::exists(m_sourceURL, KIO::NetAccess::SourceSide, this)) {
 		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.toString()));
 		return;
 	}
@@ -329,7 +329,7 @@ bool ManageTemplatesDialog::removeTemplate()
 
 	KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-	if (!(KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.path), false, this) && (KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.icon), false, this)|| !QFileInfo(templateInfo.icon).exists()))) {
+	if (!(KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.path), KIO::NetAccess::DestinationSide, this) && (KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.icon), KIO::NetAccess::DestinationSide, this) || !QFileInfo(templateInfo.icon).exists()))) {
 		KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
 		return false;
 	}

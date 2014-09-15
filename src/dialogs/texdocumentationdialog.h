@@ -28,7 +28,7 @@ class QTreeWidget;
 class QTreeWidgetItem;
 
 class KProcess;
-class KLineEdit;
+class QLineEdit;
 class QPushButton;
 class QTemporaryFile;
 
@@ -45,7 +45,7 @@ class TexDocDialog : public QDialog
 
 	private:
 		QTreeWidget *m_texdocs;
-		KLineEdit *m_leKeywords;
+		QLineEdit *m_leKeywords;
 		QPushButton *m_pbSearch;
 
 		QString m_texmfPath, m_texmfdocPath, m_texdoctkPath;

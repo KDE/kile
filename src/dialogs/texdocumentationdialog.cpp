@@ -29,7 +29,6 @@
 #include <QTreeWidget>
 
 #include <KIconLoader>
-#include <KLineEdit>
 #include <KMessageBox>
 
 #include <KLocalizedString>
@@ -46,6 +45,7 @@
 #include <QVBoxLayout>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include <QLineEdit>
 
 #include "kileconstants.h"
 #include "kiledebug.h"
@@ -91,9 +91,9 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 //TODO PORT QT5 	groupboxLayout->setSpacing(QDialog::spacingHint());
 	groupbox->setLayout(groupboxLayout);
 
-	m_leKeywords = new KLineEdit("", groupbox);
-	m_leKeywords->setClickMessage("Keyword");
-	m_leKeywords->setClearButtonShown(true);
+	m_leKeywords = new QLineEdit(groupbox);
+	m_leKeywords->setPlaceholderText("Keyword");
+	m_leKeywords->setClearButtonEnabled(true);
 	m_pbSearch = new QPushButton(i18n("&Search"), groupbox);
 
 	groupboxLayout->addWidget(m_leKeywords);

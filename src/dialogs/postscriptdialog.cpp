@@ -21,13 +21,17 @@
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLayout>
+#include <QLineEdit>
 #include <QProcess>
 #include <QSpinBox>
 #include <QStringList>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QStandardPaths>
 
 #include <KComboBox>
 #include <KIconLoader>
-#include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
@@ -35,10 +39,7 @@
 #include <QTemporaryFile>
 #include <KUrlRequester>
 #include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QStandardPaths>
+#include <KLineEdit>
 
 #include "errorhandler.h"
 #include "kiledebug.h"

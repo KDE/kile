@@ -28,7 +28,7 @@
 #include <KColorButton>
 #include <KComboBox>
 #include <QDialog>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KConfigGroup>
 
@@ -74,7 +74,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	gbResolution->setLayout(resLayout);
 
 	QLabel *resLabel = new QLabel(i18n("&Resolution:"), gbResolution);
-	m_leDvipngResolution = new KLineEdit(gbResolution);
+	m_leDvipngResolution = new QLineEdit(gbResolution);
 	QLabel *resDpi = new QLabel(i18n("dpi"), gbResolution);
 	QLabel *resAllowed = new QLabel(i18n("(allowed values: 30-1000 dpi)"), gbResolution);
 

@@ -20,17 +20,18 @@
 
 #include "kilewizard.h"
 
+class QAction;
 class QCheckBox;
+class QLineEdit;
 class QMenu;
+class QPushButton;
 class QSpinBox;
 class QTableWidget;
 class QToolBar;
 
-class QAction;
 class KColorCells;
 class KComboBox;
 class KIcon;
-class QPushButton;
 
 namespace KileDocument {
 	class LatexCommands;
@@ -108,7 +109,7 @@ class NewTabularDialog : public Wizard {
 		KComboBox *m_cmbName, *m_cmbParameter;
 		QSpinBox *m_sbRows, *m_sbCols;
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
-		KLineEdit *m_leTableWidth;
+		QLineEdit *m_leTableWidth;
 		QColor m_clCurrentBackground, m_clCurrentForeground;
 		QString m_defaultEnvironment;
 		QStringList m_requiredPackages;

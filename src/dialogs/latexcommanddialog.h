@@ -34,7 +34,7 @@ class QTreeWidgetItem;
 
 class KComboBox;
 class KConfig;
-class KLineEdit;
+class QLineEdit;
 class QTabWidget;
 
 namespace KileDialog
@@ -52,7 +52,7 @@ class NewLatexCommand : public QDialog
 		void getParameter(QString &name, KileDocument::LatexCmdAttributes &attr);
 
 	private:
-		KLineEdit *m_edName;
+		QLineEdit *m_edName;
 		QCheckBox *m_chStarred, *m_chEndofline, *m_chMath;
 		KComboBox *m_coTab, *m_coOption, *m_coParameter;
 

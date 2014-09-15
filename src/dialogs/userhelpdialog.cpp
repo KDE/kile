@@ -140,7 +140,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
 	// file
 	QLabel *label2 = new QLabel(i18n("File:"), group);
 	grid->addWidget(label2, 2, 0);
-	m_fileedit = new KLineEdit("", group);
+	m_fileedit = new QLineEdit(group);
 	m_fileedit->setReadOnly(true);
 	grid->addWidget(m_fileedit, 3, 0, 1, 2);
 
@@ -407,17 +407,17 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
 	// menu entry
 	QLabel *label1 = new QLabel(i18n("&Menu entry:"), group);
 	grid->addWidget(label1, 0, 0);
-	m_leMenuEntry = new KLineEdit("", group);
-	m_leMenuEntry->setClearButtonShown(true);
+	m_leMenuEntry = new QLineEdit(group);
+	m_leMenuEntry->setClearButtonEnabled(true);
 	grid->addWidget(m_leMenuEntry, 0, 1, 1, 3);
 	label1->setBuddy(m_leMenuEntry);
 
 	// help file
 	QLabel *label2 = new QLabel(i18n("&Help file:"), group);
 	grid->addWidget(label2, 1, 0);
-	m_leHelpFile = new KLineEdit("", group);
+	m_leHelpFile = new QLineEdit(group);
 	m_leHelpFile->setReadOnly(false);
-	m_leHelpFile->setClearButtonShown(true);
+	m_leHelpFile->setClearButtonEnabled(true);
 	grid->addWidget(m_leHelpFile, 1, 1);
 	m_pbChooseFile = new QPushButton("", group);
 	m_pbChooseFile->setObjectName("filechooser_button");

@@ -29,7 +29,7 @@
 #include <KComboBox>
 #include <KConfig>
 #include <QIcon>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KMessageBox>
 #include <QPushButton>
 #include <QTabWidget>
@@ -113,7 +113,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	QLabel *label3 = new QLabel(i18n("&Name:"), group);
 	QLabel *grouplabel = new QLabel(groupname, group);
 	QLabel *label4 = new QLabel(i18n("Include *-&version:"), group);
-	m_edName = new KLineEdit(group);
+	m_edName = new QLineEdit(group);
 	m_chStarred =  new QCheckBox(group);
 
 	grid->addWidget(label2, 0, 0);

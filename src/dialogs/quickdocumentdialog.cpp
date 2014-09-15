@@ -36,7 +36,7 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 #include <KConfig>
 #include <KIconLoader>
 #include <KGlobal>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QPushButton>
@@ -349,19 +349,19 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 // 	gl->setSpacing(spacingHint());
 	personalInfo->setLayout(gl);
 
-	m_leAuthor = new KLineEdit(personalInfo);
+	m_leAuthor = new QLineEdit(personalInfo);
 	gl->addWidget(m_leAuthor, 0, 1);
 	label = new QLabel(i18n("&Author:"), personalInfo);
 	gl->addWidget(label, 0, 0);
 	label->setBuddy(m_leAuthor);
 
-	m_leTitle = new KLineEdit(personalInfo);
+	m_leTitle = new QLineEdit(personalInfo);
 	gl->addWidget(m_leTitle, 1, 1);
 	label = new QLabel(i18n("&Title:"), personalInfo);
 	gl->addWidget(label, 1, 0);
 	label->setBuddy(m_leTitle);
 
-	m_leDate = new KLineEdit(personalInfo);
+	m_leDate = new QLineEdit(personalInfo);
 	gl->addWidget(m_leDate, 2, 1);
 	label = new QLabel(i18n("Dat&e:"), personalInfo);
 	gl->addWidget(label, 2, 0);
@@ -2267,9 +2267,9 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int 
 					m_objectlist.append(combobox);
 				}
 				else {
-					m_objectlist.append(new KLineEdit(list[i+2], page));
+					m_objectlist.append(new QLineEdit(list[i+2], page));
 					if (m_description[i] == "edit-r") {
-						((KLineEdit *)m_objectlist[i])->setReadOnly(true);
+						((QLineEdit *)m_objectlist[i])->setReadOnly(true);
 					}
 					else
 						if (firstlinedit == -1) {
@@ -2308,7 +2308,7 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 					list[i+2] = ((KComboBox *)m_objectlist[i])->currentText();
 				}
 				else  {
-					list[i+2] = ((KLineEdit *)m_objectlist[i])->text().simplified();
+					list[i+2] = ((QLineEdit *)m_objectlist[i])->text().simplified();
 				}
 	}
 }
@@ -2348,7 +2348,7 @@ void QuickDocumentInputDialog::slotButtonClicked(int button)
 // 		if (m_check) {
 // 			// get the label and main input string from the first label/linedit
 // 			QString inputlabel = ((QLabel *)m_objectlist[0])->text();
-// 			QString input = ((KLineEdit *)m_objectlist[1])->text().simplified();
+// 			QString input = ((QLineEdit *)m_objectlist[1])->text().simplified();
 // 
 // 			// should we check for an empty string
 // 			if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {

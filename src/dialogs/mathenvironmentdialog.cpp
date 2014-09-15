@@ -23,6 +23,7 @@
 #include <QGroupBox>
 #include <QLabel>
 #include <QLayout>
+#include <QLineEdit>
 #include <QSpinBox>
 #include <QStringList>
 #include <QVBoxLayout>
@@ -81,7 +82,7 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_spCols->setMaximum(49);
 	m_spCols->setSingleStep(1);
 	m_spCols->setValue(3);
-	m_edSpace = new KLineEdit("", envgroup);
+	m_edSpace = new QLineEdit(envgroup);
 	m_coTabulator = new KComboBox(envgroup);
 	m_coDisplaymath = new KComboBox(envgroup);
 	m_cbBullets = new QCheckBox(envgroup);

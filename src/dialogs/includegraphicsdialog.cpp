@@ -18,16 +18,18 @@
 #include <QFileInfo>
 #include <QPixmap>
 
+#include <QLineEdit>
+#include <QPushButton>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+
+#include <KConfigGroup>
 #include <KIconLoader>
 #include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-#include <QPushButton>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
 
 #include "errorhandler.h"
 #include "kiledebug.h"

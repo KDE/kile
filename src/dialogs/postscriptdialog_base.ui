@@ -134,7 +134,7 @@ hyperref package (if needed) with option 'a4paper'.</string>
           <number>0</number>
          </property>
          <item>
-          <widget class="KLineEdit" name="m_edParameter" >
+          <widget class="QLineEdit" name="m_edParameter" >
            <property name="whatsThis" >
             <string>'Select pages' and 'Free Parameter' need some specific parameter, which you can enter here</string>
            </property>
@@ -176,11 +176,6 @@ hyperref package (if needed) with option 'a4paper'.</string>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
    <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>KUrlRequester</class>

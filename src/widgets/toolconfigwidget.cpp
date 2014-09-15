@@ -32,7 +32,6 @@
 #include <kcombobox.h>
 #include <QPushButton>
 #include <kconfig.h>
-#include <klineedit.h>
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 #include <KConfigGroup>

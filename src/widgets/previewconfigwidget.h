@@ -21,11 +21,11 @@
 class QCheckBox;
 class QGroupBox;
 class QLabel;
+class QLineEdit;
 
 class KColorButton;
 class KComboBox;
 class KConfig;
-class KLineEdit;
 
 /**
   *@author Holger Danielsson
@@ -45,7 +45,7 @@ class KileWidgetPreviewConfig : public QWidget
 		KConfig *m_config;
 		KComboBox *m_combobox;
 		KileTool::QuickPreview *m_preview;
-		KLineEdit *m_leDvipngResolution;
+		QLineEdit *m_leDvipngResolution;
 		QLabel *m_lbDvipng, *m_lbConvert;
 		QCheckBox *m_cbEnvironment, *m_cbSelection, *m_cbMathgroup;
 		KComboBox *m_coSelection, *m_coEnvironment, *m_coMathgroup;

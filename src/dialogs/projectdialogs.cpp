@@ -90,7 +90,7 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	const QString whatsthisExt = i18n("Insert a list (separated by spaces) of file extensions which should be treated also as files of the corresponding type in this project.");
 	const QString whatsthisDefGraphicExt = i18n("Default graphic extension to open when none specified by file name.");
 
-	m_title = new KLineEdit(m_pgroup);
+	m_title = new QLineEdit(m_pgroup);
 	m_title->setWhatsThis(whatsthisName);
 	m_plabel = new QLabel(i18n("Project &title:"), m_pgroup);
 	m_plabel->setBuddy(m_title);
@@ -114,7 +114,7 @@ KileProjectDlgBase::KileProjectDlgBase(const QString &caption, KileDocument::Ext
 	m_sel_defGraphicExt->addItem(i18n("(use global settings)"),"");
 	m_lbDefGraphicExt = new QLabel(i18n("Default Graphics Extension:"), m_egroup);
 
-	m_extensions = new KLineEdit(m_egroup);
+	m_extensions = new QLineEdit(m_egroup);
 	QRegExp reg("[\\. a-zA-Z0-9]+");
 	QRegExpValidator *extValidator = new QRegExpValidator(reg, m_egroup);
 	m_extensions->setValidator(extValidator);
@@ -278,7 +278,7 @@ KileNewProjectDlg::KileNewProjectDlg(KileTemplate::Manager *templateManager, Kil
 	m_cb = new QCheckBox(i18n("Create a new file and add it to this project"), group2);
 	m_cb->setChecked(true);
 	m_lb  = new QLabel(i18n("File&name (relative to where the project file is):"), group2);
-	m_file = new KLineEdit(group2);
+	m_file = new QLineEdit(group2);
 	m_lb->setBuddy(m_file);
 	m_templateIconView = new TemplateIconView(group2);
 	m_templateIconView->setTemplateManager(m_templateManager);
@@ -535,7 +535,7 @@ KileProjectOptionsDlg::KileProjectOptionsDlg(KileProject *project, KileDocument:
 
 	m_ckMakeIndex = new QCheckBox(i18n("&MakeIndex options"), group3);
 	connect(m_ckMakeIndex, SIGNAL(toggled(bool)), this, SLOT(toggleMakeIndex(bool)));
-	m_leMakeIndex = new KLineEdit(group3);
+	m_leMakeIndex = new QLineEdit(group3);
 	m_ckMakeIndex->setChecked(project->useMakeIndexOptions());
 	toggleMakeIndex(m_ckMakeIndex->isChecked());
 

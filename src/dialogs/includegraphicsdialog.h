@@ -23,14 +23,12 @@
 
 #include "ui_includegraphicsdialog_base.h"
 
+class KProcess;
+class KileInfo;
+
 /**
   *@author dani
   */
-
-class KProcess;
-
-class KileInfo;
-
 namespace KileDialog
 {
 

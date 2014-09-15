@@ -24,7 +24,7 @@
 
 #include <KIconDialog>
 #include <KIconLoader>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QPushButton>
@@ -102,14 +102,14 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	if (dotPos >= 0) {
 		fileName = fileName.mid(0, dotPos);
 	}
-	m_nameEdit = new KLineEdit(fileName, page);
+	m_nameEdit = new QLineEdit(fileName, page);
 	mainLayout->addWidget(m_nameEdit);
 	topLayout->addWidget(m_nameEdit, 0, 1);
 
 	topLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page), 0, 2);
 	topLayout->addWidget(new QLabel(i18n("Icon:"), page), 1, 0);
 
-	m_iconEdit = new KLineEdit(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_Default.png"), page);
+	m_iconEdit = new QLineEdit(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_Default.png"), page);
 	mainLayout->addWidget(m_iconEdit);
 	topLayout->addWidget(m_iconEdit, 1, 1);
 

@@ -65,7 +65,6 @@
 #include <KComboBox>
 #include <KFileDialog>
 #include <KIconLoader>
-#include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>
@@ -182,7 +181,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	template_layout->addWidget(template_combo);
 	m_lastTemplateIndex = 0;
 
-	template_edit = new KLineEdit(searchgroup);
+	template_edit = new QLineEdit(searchgroup);
 	template_edit->setText("%s");
 	template_edit->setMinimumSize(template_edit->sizeHint());
 	template_label->setBuddy(template_edit);

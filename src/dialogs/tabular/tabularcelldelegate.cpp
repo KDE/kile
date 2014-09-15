@@ -16,10 +16,9 @@
 #include "tabularcelldelegate.h"
 
 #include <QApplication>
+#include <QLineEdit>
 #include <QPainter>
 #include <QStyleOptionViewItem>
-
-#include <KLineEdit>
 
 #include "tabularcell.h"
 
@@ -85,7 +84,7 @@ QWidget* TabularCellDelegate::createEditor(QWidget *parent,
 	Q_UNUSED(option);
 	Q_UNUSED(index);
 
-	KLineEdit *editor = new KLineEdit(parent);
+	QLineEdit *editor = new QLineEdit(parent);
 	editor->setFrame(false);
 	return editor;
 }
@@ -98,7 +97,7 @@ void TabularCellDelegate::setEditorData(QWidget *editor,
 	QBrush fgBrush = qvariant_cast<QBrush>(index.model()->data(index, Qt::ForegroundRole));
 	QFont font = qvariant_cast<QFont>(index.model()->data(index, Qt::FontRole));
 	int alignment = index.model()->data(index, Qt::TextAlignmentRole).toInt();
-	KLineEdit *edit = static_cast<KLineEdit*>(editor);
+	QLineEdit *edit = static_cast<QLineEdit*>(editor);
 	QString styleSheet;
 	if(bgBrush.style() != Qt::NoBrush) {
 		styleSheet += "background-color:" + bgBrush.color().name() + ';';
@@ -116,7 +115,7 @@ void TabularCellDelegate::setModelData(QWidget *editor,
 		QAbstractItemModel *model,
 		const QModelIndex &index) const
 {
-	KLineEdit *edit = static_cast<KLineEdit*>(editor);
+	QLineEdit *edit = static_cast<QLineEdit*>(editor);
 	QString value = edit->text();
 	model->setData(index, value, Qt::EditRole);
 }

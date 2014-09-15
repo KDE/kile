@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QLabel>
 #include <QLayout>
+#include <QLineEdit>
 #include <QRegExp>
 #include <QTextStream>
 #include <QValidator>
@@ -72,9 +73,9 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
 	mainLayout->addWidget(abbrev);
 	QLabel *expansion = new QLabel(i18n("&Expanded Text:"), page);
 	mainLayout->addWidget(expansion);
-	m_leAbbrev = new KLineEdit(m_abbrev, page);
+	m_leAbbrev = new QLineEdit(m_abbrev, page);
 	mainLayout->addWidget(m_leAbbrev);
-	m_leExpansion = new KLineEdit(m_expansion, page);
+	m_leExpansion = new QLineEdit(m_expansion, page);
 	mainLayout->addWidget(m_leExpansion);
 
 	vl->addWidget(abbrev);

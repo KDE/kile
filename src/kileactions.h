@@ -22,10 +22,9 @@
 #include <KActionMenu>
 #include <KSelectAction>
 #include <QDialog>
-#include <KLineEdit>
+#include <QLineEdit>
 
 class QCheckBox;
-class QLineEdit;
 
 class KileInfo;
 
@@ -161,7 +160,7 @@ public:
 	QString label();
 	bool usedSelection() { return m_usedSelection; }
 	
-	KLineEdit *m_edLabel;
+	QLineEdit *m_edLabel;
 
 private:
 	QString	m_tag;

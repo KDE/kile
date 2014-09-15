@@ -155,7 +155,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 
 	m_cbStarred = new QCheckBox(i18n("Use starred version"), configPage);
 	label = new QLabel(i18n("Table width:"), configPage);
-	m_leTableWidth = new KLineEdit(configPage);
+	m_leTableWidth = new QLineEdit(configPage);
 	m_leTableWidth->setEnabled(false);
 	connect(m_cbStarred, SIGNAL(stateChanged(int)), this, SLOT(slotStarredChanged()));
 	label->setBuddy(m_leTableWidth);

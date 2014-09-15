@@ -18,8 +18,9 @@
 
 #include <QCheckBox>
 
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KUrlRequester>
+#include <KLineEdit>
 
 #include "kileextensions.h"
 #include "kileproject.h"
@@ -80,7 +81,7 @@ class KileProjectDlgBase : public QDialog
 		QGridLayout *m_pgrid, *m_egrid;
 		QLabel *m_plabel;
 
-		KLineEdit *m_title, *m_extensions;
+		QLineEdit *m_title, *m_extensions;
 		QLabel *m_lbPredefinedExtensions, *m_lbStandardExtensions, *m_lbDefGraphicExt;
 		KileProject *m_project;
 		KComboBox *m_sel_extensions;
@@ -125,7 +126,7 @@ class KileNewProjectDlg : public KileProjectDlgBase
 
 	private:
 		KileTemplate::Manager *m_templateManager;
-		KLineEdit *m_file, *m_name;
+		QLineEdit *m_file, *m_name;
 		KUrlRequester *m_folder;
 		TemplateIconView *m_templateIconView;
 		QCheckBox  *m_cb;
@@ -149,7 +150,7 @@ class KileProjectOptionsDlg : public KileProjectDlgBase
 
 	private:
 		KComboBox *m_master, *m_cbQuick;
-		KLineEdit *m_leMakeIndex;
+		QLineEdit *m_leMakeIndex;
 		QCheckBox *m_ckMakeIndex;
 		QString m_toolDefaultString;
 };

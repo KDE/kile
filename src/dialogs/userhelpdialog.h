@@ -23,11 +23,9 @@
 #include <QStringList>
 
 #include <QDialog>
-#include <KLineEdit>
+#include <QLineEdit>
 
 class QListWidget;
-
-class KLineEdit;
 class QPushButton;
 
 namespace KileDialog
@@ -45,7 +43,7 @@ class UserHelpDialog : public QDialog
 		void getParameter(QStringList &userhelpmenulist, QList<QUrl> &userhelpfilelist);
 	private:
 		QListWidget *m_menulistbox;
-		KLineEdit *m_fileedit;
+		QLineEdit *m_fileedit;
 		QPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
 
 		QList<QUrl> m_filelist;
@@ -70,7 +68,7 @@ class UserHelpAddDialog : public QDialog
 		~UserHelpAddDialog() {}
 
 	private:
-		KLineEdit *m_leMenuEntry, *m_leHelpFile;
+		QLineEdit *m_leMenuEntry, *m_leHelpFile;
 		QPushButton *m_pbChooseFile, *m_pbChooseHtml;
 		QListWidget *m_menulistbox;
 

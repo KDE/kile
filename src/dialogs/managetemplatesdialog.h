@@ -20,10 +20,9 @@
 #include <QUrl>
 
 class QCheckBox;
+class QLineEdit;
 class QTreeWidget;
 class QTreeWidgetItem;
-
-class KLineEdit;
 
 #include "kileconstants.h"
 
@@ -35,9 +34,6 @@ struct Info;
 /**
   *@author Jeroen Wijnhout
   */
-
-
-
 class ManageTemplatesDialog : public QDialog  {
 		Q_OBJECT
 	public:
@@ -61,7 +57,7 @@ class ManageTemplatesDialog : public QDialog  {
 
 	protected:
 		KileTemplate::Manager* m_templateManager;
-		KLineEdit *m_nameEdit, *m_iconEdit;
+		QLineEdit *m_nameEdit, *m_iconEdit;
 		QTreeWidget *m_templateList;
 		KileDocument::Type m_templateType;
 		QCheckBox *m_showAllTypesCheckBox;

@@ -29,7 +29,6 @@
 #include <QMap>
 #include <QVector>
 #include <QCheckBox>
-#include <QLineEdit>
 #include <QBitArray>
 
 #include "widgets/outputview.h"
@@ -41,8 +40,8 @@
 #include "ui_pdfdialog_base.h"
 
 
+class QLineEdit;
 class KProcess;
-
 class KileErrorHandler;
 
 namespace KileDialog

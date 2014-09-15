@@ -24,6 +24,8 @@ copyright            : Thomas Fischer (t-fisch@users.sourceforge.net)
 #include <QMap>
 
 class QLabel;
+class QLineEdit;
+class QPushButton;
 class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -33,8 +35,6 @@ class CategoryComboBox;
 }
 
 class KComboBox;
-class KLineEdit;
-class QPushButton;
 
 namespace KileDialog
 {
@@ -71,9 +71,9 @@ class QuickDocument : public Wizard
 		KileWidget::CategoryComboBox *m_cbEncoding;
 		QTreeWidget *m_lvClassOptions;
 		QTreeWidget *m_lvPackages;
-		KLineEdit *m_leAuthor;
-		KLineEdit *m_leTitle;
-		KLineEdit *m_leDate;
+		QLineEdit *m_leAuthor;
+		QLineEdit *m_leTitle;
+		QLineEdit *m_leDate;
 		QLabel    *m_lbPaperSize;
 
 		QString m_currentClass;

@@ -33,7 +33,7 @@
 
 #include <QMenu>
 
-#include <klineedit.h>
+#include <QLineEdit>
 #include <kglobal.h>
 #include <kcombobox.h>
 #include <QPushButton>
@@ -306,7 +306,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		}
 	}
 	else {
-		KLineEdit *input = new KLineEdit(page);
+		QLineEdit *input = new QLineEdit(page);
 		mainLayout->addWidget(input);
 		input->setMinimumWidth(300);
 		focus = input;
@@ -353,7 +353,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		// Label
 		QLabel *label = new QLabel(i18n("&Label:"),page);
 		mainLayout->addWidget(label);
-		m_edLabel = new KLineEdit("", page);
+		m_edLabel = new QLineEdit(page);
 		mainLayout->addWidget(m_edLabel);
 		m_edLabel->setMinimumWidth(300);
 		m_edLabel->setText(m_labelprefix);

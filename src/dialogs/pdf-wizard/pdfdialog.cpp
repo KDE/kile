@@ -29,7 +29,7 @@
 
 #include <KComboBox>
 #include <KIconLoader>
-#include <KLineEdit>
+#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>

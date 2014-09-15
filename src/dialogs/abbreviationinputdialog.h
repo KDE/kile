@@ -16,13 +16,13 @@
 #define ABBREVIATIONINPUTDIALOG_H
 
 #include <QLabel>
+#include <QDialog>
 #include <QString>
 #include <QTreeWidgetItem>
 
-#include <QDialog>
-#include <KLineEdit>
-
 #include "widgets/abbreviationview.h"
+
+class QLineEdit;
 
 //////////////////// add/edit dialog for abbreviations ////////////////////
 
@@ -41,8 +41,8 @@ public:
 private:
 	KileWidget::AbbreviationView *m_listview;
 	QTreeWidgetItem *m_abbrevItem;
-	KLineEdit *m_leAbbrev;
-	KLineEdit *m_leExpansion;
+	QLineEdit *m_leAbbrev;
+	QLineEdit *m_leExpansion;
 
 	int m_mode;
 	QString m_abbrev, m_expansion;

@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Wed Aug 14 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
 
 from Kate (C) 2001 by Matt Newell
 
@@ -143,7 +143,7 @@ QUrl FileBrowserWidget::currentUrl() const
 
 void FileBrowserWidget::dirUrlEntered(const QUrl &u)
 {
-	m_urlNavigator->setUrl(u);
+	m_urlNavigator->setLocationUrl(u);
 }
 
 void FileBrowserWidget::setDir(const QUrl &url)

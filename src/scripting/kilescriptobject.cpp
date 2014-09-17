@@ -11,17 +11,17 @@
 *                                                                         *
 ***************************************************************************/
 
+#include <QFile>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QInputDialog>
+#include <QMap>
 #include <QRegExpValidator>
 #include <QVariant>
-#include <QMap>
-#include <QFile>
-#include <QFileInfo>
 
 #include <KMessageBox>
 #include <KFileDialog>
-#include <KInputDialog>
 #include <KTextEditor/View>
-#include <QFileDialog>
 
 #include "scripting/kilescriptobject.h"
 #include "kileviewmanager.h"
@@ -75,31 +75,28 @@ KileInput::KileInput(QObject *parent)
 
 QString KileInput::getListboxItem(const QString &caption, const QString &label, const QStringList &list)
 {
-	return getItem(caption,label,list,false);
-}
-
-QString KileInput::getComboboxItem(const QString &caption, const QString &label, const QStringList &list)
-{
-	return getItem(caption,label,list,true);
+	return getItem(caption,label,list);
 }
 
 QString KileInput::getText(const QString &caption, const QString &label)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getText(list[0], list[1], QString(), NULL, NULL);
+	return QInputDialog::getText(NULL, list[0], list[1]);
 }
 
 QString KileInput::getLatexCommand(const QString &caption, const QString &label)
 {
 	QRegExpValidator validator(QRegExp("[A-Za-z]+"),this);
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getText(list[0], list[1], QString(), NULL, NULL, &validator);
+//TODO KF5
+// 	return QInputDialog::getText(list[0], list[1], QString(), NULL, NULL, &validator);
+	return QInputDialog::getText(NULL, list[0], list[1]);
 }
 
 int KileInput::getInteger(const QString &caption, const QString &label, int min, int max)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getInteger(list[0], list[1], 0, min, max, 1, 10, NULL, NULL);
+	return QInputDialog::getInt(NULL, list[0], list[1], 0, min, max, 1);
 }
 
 int KileInput::getPosInteger(const QString &caption, const QString &label, int min, int max)
@@ -107,10 +104,10 @@ int KileInput::getPosInteger(const QString &caption, const QString &label, int m
 	return getInteger(caption,label,min,max);
 }
 
-QString KileInput::getItem(const QString &caption, const QString &label, const QStringList &itemlist, bool combobox)
+QString KileInput::getItem(const QString &caption, const QString &label, const QStringList &itemlist)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getItem(list[0], list[1], itemlist, 0, combobox, NULL, NULL);
+	return QInputDialog::getItem(NULL, list[0], list[1], itemlist, 0);
 }
 
 QStringList KileInput::checkCaptionAndLabel(const QString &caption, const QString &label)

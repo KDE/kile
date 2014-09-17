@@ -1,7 +1,7 @@
 /*********************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
               (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-              (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -65,13 +65,13 @@
 
 #include <QDateTime>
 #include <QFileInfo>
+#include <QInputDialog>
 #include <QRegExp>
 
 #include <KApplication>
 #include <KConfig>
 #include <KGlobal>
 #include <KIconLoader>
-#include <KInputDialog>
 #include <KIO/NetAccess>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -104,14 +104,17 @@ QUrl Info::repairInvalidCharacters(const QUrl &url, QWidget* mainWidget, bool ch
 	QUrl ret(url);
 	do {
 		bool isOK;
-		QString newURL = KInputDialog::getText(
+		QString newURL = QInputDialog::getText(
+			mainWidget,
 			i18n("Invalid Characters"),
 			i18n("The filename contains invalid characters ($~ #).<br>Please provide "
 			     "another one, or click \"Cancel\" to save anyway."),
+			QLineEdit::Normal,
 			ret.fileName(),
 			&isOK);
-		if(!isOK)
+		if(!isOK) {
 			break;
+		}
 		ret = ret.adjusted(QUrl::RemoveFilename);
 		ret.setPath(ret.path() + newURL);
 	} while(containsInvalidCharacters(ret));
@@ -124,10 +127,12 @@ QUrl Info::renameIfExist(const QUrl &url, QWidget* mainWidget)
 	QUrl ret(url);
 	while(KIO::NetAccess::exists(url, true, mainWidget)) { // check for writing possibility
 		bool isOK;
-		QString newURL = KInputDialog::getText(
+		QString newURL = QInputDialog::getText(
+			mainWidget,
 			i18n("File Already Exists"),
 			i18n("A file with filename '%1' already exists.<br>Please provide "
 			     "another one, or click \"Cancel\" to overwrite it.", ret.fileName()),
+			QLineEdit::Normal,
 			ret.fileName(),
 			&isOK);
 		if(!isOK) {

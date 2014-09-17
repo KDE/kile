@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Sat 3-1 20:40:00 CEST 2004
     copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -16,6 +16,7 @@
 #include "widgets/toolconfigwidget.h"
 
 #include <QCheckBox>
+#include <QInputDialog>
 #include <QLabel>
 #include <QLayout>
 #include <QRegExp>
@@ -33,7 +34,6 @@
 #include <QPushButton>
 #include <kconfig.h>
 #include <kmessagebox.h>
-#include <kinputdialog.h>
 #include <KConfigGroup>
 
 #include "kiletool_enums.h"
@@ -453,7 +453,7 @@ namespace KileWidget
 		//KILE_DEBUG_MAIN << "==ToolConfig::newConfig()=====================";
 		writeConfig();
 		bool ok;
-		QString cfg = KInputDialog::getText(i18n("New Configuration"), i18n("Enter new configuration name:"), "", &ok, this);
+		QString cfg = QInputDialog::getText(this, i18n("New Configuration"), i18n("Enter new configuration name:"), QLineEdit::Normal, "", &ok);
 		if (ok && (!cfg.isEmpty())) {
 			//copy config
 			KConfigGroup toolGroup = m_config->group(KileTool::groupFor(m_current, cfg));

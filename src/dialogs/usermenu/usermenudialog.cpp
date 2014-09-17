@@ -11,21 +11,22 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <QDialogButtonBox>
+#include <QFileDialog>
+#include <QInputDialog>
 #include <QKeySequence>
+#include <QPushButton>
+#include <QStandardPaths>
+#include <QVBoxLayout>
+
 #include <KLocalizedString>
 #include <KIconDialog>
-#include <KInputDialog>
 #include <KFileDialog>
 #include <KStandardDirs>
 #include <KMessageBox>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 #include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QFileDialog>
-#include <QStandardPaths>
 
 #include "dialogs/usermenu/usermenudialog.h"
 #include "dialogs/usermenu/usermenutree.h"
@@ -590,23 +591,22 @@ void UserMenuDialog::slotMenuentryTypeClicked()
 	}
 
 	int oldtype = current->menutype();
-	QStringList sellist;
-	sellist <<  m_listMenutypes[oldtype];
+	bool ok = false;
 
-	QStringList list = KInputDialog::getItemList(i18n("Menutype"), i18n("Please choose a menutype"),
-	                                                  typelist,sellist,false);
-	if ( list.isEmpty() ) {
+	QString item = QInputDialog::getItem(this, i18n("Menutype"), i18n("Please choose a menutype"),
+	                                           typelist, m_listMenutypes[oldtype], false, &ok);
+	if(!ok) {
 		return;
 	}
 
-	int newtype = m_listMenutypes.indexOf(list[0]);
+	int newtype = m_listMenutypes.indexOf(item);
 	if ( newtype==-1 || newtype==oldtype )  {
 		return;
 	}
 
 	// set new values
 	current->setMenutype( UserMenuData::MenuType(newtype) );
-	m_UserMenuDialog.m_lbMenuentryType->setText(list[0]);
+	m_UserMenuDialog.m_lbMenuentryType->setText(item);
 	if ( newtype == UserMenuData::Text ) {
 		setMenuentryFileChooser(current,false);
 		setMenuentryFileParameter(current,false);

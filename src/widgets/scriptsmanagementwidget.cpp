@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -21,7 +21,6 @@
 #include <QVBoxLayout>
 
 #include <KIconLoader>
-#include <KInputDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
 

@@ -14,33 +14,33 @@
 
 #include "pdfdialog.h"
 
-#include <QLabel>
 #include <QCheckBox>
+#include <QDialogButtonBox>
+#include <QFile>
 #include <QGridLayout>
 #include <QGroupBox>
+#include <QInputDialog>
+#include <QLabel>
 #include <QLayout>
+#include <QLineEdit>
 #include <QProcess>
-#include <QStringList>
-#include <QValidator>
-
-#include <QFile>
-#include <QTextStream>
+#include <QPushButton>
 #include <QRegExp>
+#include <QStandardPaths>
+#include <QStringList>
+#include <QTemporaryFile>
+#include <QTextStream>
+#include <QValidator>
+#include <QVBoxLayout>
 
 #include <KComboBox>
+#include <KConfigGroup>
 #include <KIconLoader>
-#include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
-
-#include <QTemporaryFile>
 #include <KUrlRequester>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QStandardPaths>
+
 
 #include "errorhandler.h"
 #include "kileconfig.h"
@@ -422,14 +422,11 @@ void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassw
 	int scriptmode = m_numpagesMode;
 
 	if ( scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK && askForPassword ) {
-		bool ok;
-//TODO KF5
-		QString password = "";
-// 		QString password = KInputDialog::getText( i18n("PDFTK-Password"),
-// 		                                          i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
-// 		                                               "Please enter the password for this PDF file\n or leave it blank to try another method: "),
-// 		                                          QString(), &ok, this ).trimmed();
-		if ( ! password.isEmpty() ) {
+		QString password = QInputDialog::getText(this, i18n("PDFTK-Password"),
+		                                               i18n("This PDF file is encrypted and 'pdftk' cannot open it.\n"
+		                                                    "Please enter the password for this PDF file\n or leave it blank to try another method: "),
+		                                               QLineEdit::Normal, QString()).trimmed();
+		if(!password.isEmpty()) {
 			passwordparam = " input_pw " + password;
 		}
 		else {

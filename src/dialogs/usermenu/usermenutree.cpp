@@ -12,21 +12,18 @@
  ***************************************************************************/
 
 
+#include <QIcon>
+#include <QInputDialog>
 #include <QFile>
 #include <QFileInfo>
 #include <QHeaderView>
 #include <QDomDocument>
+#include <QProcessEnvironment>
 #include <QSignalMapper>
 
-#if QT_VERSION >= 0x040600
-#include <QProcessEnvironment>
-#endif
-
-#include <QIcon>
 #include <KIconLoader>
 #include <QMenu>
 #include <KLocalizedString>
-#include <KInputDialog>
 #include <KMessageBox>
 
 
@@ -1043,7 +1040,7 @@ bool UserMenuTree::str2bool(const QString &value)
 QString UserMenuTree::getMenuTitle(const QString &title)
 {
 	bool ok;
-	QString value = KInputDialog::getText(i18n("Name"), title, QString(), &ok, this);
+	QString value = QInputDialog::getText(this, i18n("Name"), title, QLineEdit::Normal, QString(), &ok);
 	return ( ok ) ? value : QString();
 
 }

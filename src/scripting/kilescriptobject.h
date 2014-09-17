@@ -60,7 +60,6 @@ class KileInput : public QObject
 
 		// get input values
 		Q_INVOKABLE QString getListboxItem(const QString &caption, const QString &label, const QStringList &list);
-		Q_INVOKABLE QString getComboboxItem(const QString &caption, const QString &label, const QStringList &list);
 		Q_INVOKABLE QString getText(const QString &caption, const QString &label);
 		Q_INVOKABLE QString getLatexCommand(const QString &caption, const QString &label);
 		Q_INVOKABLE int getInteger(const QString &caption, const QString &label, int min = INT_MIN, int max = INT_MAX);
@@ -68,7 +67,7 @@ class KileInput : public QObject
 
 	private:
 		KileMainWindow *m_mainWindow;
-		QString getItem(const QString& caption, const QString& label, const QStringList &itemlist, bool combobox);
+		QString getItem(const QString& caption, const QString& label, const QStringList &itemlist);
 		QStringList checkCaptionAndLabel(const QString& caption, const QString& label);
 };
 

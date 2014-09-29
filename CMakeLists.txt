@@ -176,7 +176,7 @@ IF( kile_TRANSLATION_SOURCES )
 	ADD_CUSTOM_TARGET(translations ALL DEPENDS ${kile_TRANSLATION_SOURCES})
 ENDIF( kile_TRANSLATION_SOURCES)
 
-# ADD_SUBDIRECTORY( doc )
+ADD_SUBDIRECTORY( doc )
 ADD_SUBDIRECTORY( src )
 
 ########### install files ###############

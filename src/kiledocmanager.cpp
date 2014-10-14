@@ -939,7 +939,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 
 					// first del existing file if any, then copy over the file we have
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
-					if((!KIO::NetAccess::exists( backupUrl, false, m_ki->mainWindow())
+					if((!KIO::NetAccess::exists( backupUrl, KIO::NetAccess::DestinationSide, m_ki->mainWindow())
 					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
 					   && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
 						KILE_DEBUG_MAIN << "backing up successful (" << url.toDisplayString() << " -> "<<backupUrl << ")";
@@ -1101,7 +1101,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 			saveURL = Info::makeValidTeXURL(saveURL, m_ki->mainWindow(),
 			                                m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
-		if(KIO::NetAccess::exists(saveURL, true, m_ki->mainWindow())) { // check for writing possibility
+		if(KIO::NetAccess::exists(saveURL, KIO::NetAccess::SourceSide, m_ki->mainWindow())) { // check for writing possibility
 			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?", saveURL.fileName()), i18n("Overwrite File?"), KGuiItem(i18n("&Overwrite")));
 			if(r != KMessageBox::Continue) {
 				continue;

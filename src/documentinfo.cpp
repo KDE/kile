@@ -125,7 +125,7 @@ QUrl Info::repairInvalidCharacters(const QUrl &url, QWidget* mainWidget, bool ch
 QUrl Info::renameIfExist(const QUrl &url, QWidget* mainWidget)
 {
 	QUrl ret(url);
-	while(KIO::NetAccess::exists(url, true, mainWidget)) { // check for writing possibility
+	while(KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, mainWidget)) { // check for writing possibility
 		bool isOK;
 		QString newURL = QInputDialog::getText(
 			mainWidget,

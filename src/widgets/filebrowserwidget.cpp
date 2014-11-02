@@ -40,7 +40,8 @@ from Kate (C) 2001 by Matt Newell
 
 namespace KileWidget {
 
-FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent) : QWidget(parent)
+FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent)
+: QWidget(parent), m_extensions(extensions)
 {
 	m_configGroup = KConfigGroup(KSharedConfig::openConfig(),"FileBrowserWidget");
 
@@ -71,13 +72,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
 	connect(m_dirOperator, SIGNAL(urlEntered(const QUrl&)), this, SLOT(dirUrlEntered(const QUrl&)));
 
-	// FileBrowserWidget filter for sidebar
-	QString filter =  extensions->latexDocuments()
-	                    + ' ' + extensions->latexPackages()
-	                    + ' ' + extensions->bibtex()
-	                    + ' ' +  extensions->metapost();
-	filter.replace('.', "*.");
-	m_dirOperator->setNameFilter(filter);
+
 
 	setupToolbar();
 
@@ -101,6 +96,9 @@ void FileBrowserWidget::readConfig()
 	else {
 		setDir(QUrl(lastDir));
 	}
+
+	bool filterLatex = KileConfig::showLaTeXFilesOnly();
+	toggleShowLaTeXFilesOnly(filterLatex);
 }
 
 void FileBrowserWidget::writeConfig()
@@ -121,6 +119,17 @@ void FileBrowserWidget::setupToolbar()
 	connect(action, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
 	m_toolbar->addAction(action);
 
+	QAction *openAction = new KAction(this);
+	openAction->setIcon(SmallIcon("document-open"));
+	openAction->setText(i18n("Open selected"));
+	connect(openAction, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
+	m_toolbar->addAction(openAction);
+
+	KAction *showOnlyLaTexFilesAction = new KAction(this);
+	showOnlyLaTexFilesAction->setText(i18n("Show LaTeX Files Only"));
+	showOnlyLaTexFilesAction->setCheckable(true);
+	showOnlyLaTexFilesAction->setChecked(KileConfig::showLaTeXFilesOnly());
+	connect(showOnlyLaTexFilesAction, SIGNAL(triggered(bool)), this, SLOT(toggleShowLaTeXFilesOnly(bool)));
 
 	// section for settings menu
 	KActionMenu *optionsMenu = new KActionMenu(QIcon::fromTheme("configure"), i18n("Options"), this);
@@ -130,10 +139,30 @@ void FileBrowserWidget::setupToolbar()
 	optionsMenu->addAction(m_dirOperator->actionCollection()->action("tree view"));
 	optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed tree view"));
 	optionsMenu->addSeparator();
+	optionsMenu->addAction(showOnlyLaTexFilesAction);
 	optionsMenu->addAction(m_dirOperator->actionCollection()->action("show hidden"));
 
 	m_toolbar->addSeparator();
 	m_toolbar->addAction(optionsMenu);
+}
+
+void FileBrowserWidget::toggleShowLaTeXFilesOnly(bool filter)
+{
+	KileConfig::setShowLaTeXFilesOnly(filter);
+
+	if(filter) {
+		// FileBrowserWidget filter for sidebar
+		QString filter =  m_extensions->latexDocuments()
+			  + ' ' + m_extensions->latexPackages()
+			  + ' ' + m_extensions->bibtex()
+			  + ' ' +  m_extensions->metapost();
+		filter.replace('.', "*.");
+		m_dirOperator->setNameFilter(filter);
+	}
+	else{
+		m_dirOperator->clearFilter();
+	}
+	m_dirOperator->rereadDir();
 }
 
 QUrl FileBrowserWidget::currentUrl() const

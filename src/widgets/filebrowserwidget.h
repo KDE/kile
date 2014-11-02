@@ -49,6 +49,7 @@ public Q_SLOTS:
 	void writeConfig();
 
 private Q_SLOTS:
+	void toggleShowLaTeXFilesOnly(bool filter);
 	void dirUrlEntered(const QUrl &u);
 	void emitFileSelectedSignal();
 
@@ -65,6 +66,7 @@ private:
 	KDirOperator	*m_dirOperator;
 	KConfig		*m_config;
 	KConfigGroup 	m_configGroup;
+	KileDocument::Extensions *m_extensions;
 };
 
 }

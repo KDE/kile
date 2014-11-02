@@ -436,12 +436,13 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &
 void IncludeGraphics::slotChooseFilter()
 {
 	QString filter = (!m_widget.cb_bb->isChecked())
-			? i18n("*.png *.jpg *.pdf|Graphics\n")              // dani  31.7.2004
+			? i18n("*.png *.jpg *.pdf *.ps *.eps|Graphics\n")
 			+ "*.png|PNG Files\n"
 			+ "*.jpg|JPG Files\n"
 			+ "*.pdf|PDF Files\n"
+			+ "*.eps *ps|Postscript Files\n"
 			+ "*|All Files"
-	: i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")     // dani  31.7.2004
+	: i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")
 			+ "*.png|PNG Files\n"
 			+ "*.jpg|JPG Files\n"
 			+ "*.eps.gz|Zipped EPS Files\n"

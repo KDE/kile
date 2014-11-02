@@ -355,6 +355,10 @@
 			<label></label>
 			<default></default>
 		</entry>
+		<entry name="showLaTeXFilesOnly" type="Bool">
+			<label>Only show LaTeX files in the file browser widget</label>
+			<default>true</default>
+		</entry>
 		<entry name="SingleFileMasterDocument" type="Path">
 			<label></label>
 			<default></default>

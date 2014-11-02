@@ -119,13 +119,7 @@ void FileBrowserWidget::setupToolbar()
 	connect(action, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
 	m_toolbar->addAction(action);
 
-	QAction *openAction = new KAction(this);
-	openAction->setIcon(SmallIcon("document-open"));
-	openAction->setText(i18n("Open selected"));
-	connect(openAction, SIGNAL(triggered()), this, SLOT(emitFileSelectedSignal()));
-	m_toolbar->addAction(openAction);
-
-	KAction *showOnlyLaTexFilesAction = new KAction(this);
+	QAction *showOnlyLaTexFilesAction = new QAction(this);
 	showOnlyLaTexFilesAction->setText(i18n("Show LaTeX Files Only"));
 	showOnlyLaTexFilesAction->setCheckable(true);
 	showOnlyLaTexFilesAction->setChecked(KileConfig::showLaTeXFilesOnly());

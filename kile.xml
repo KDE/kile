@@ -13,6 +13,7 @@
     <comment xml:lang="pt">Projecto do Kile</comment>
     <comment xml:lang="pt_BR">Projeto do Kile</comment>
     <comment xml:lang="sk">Projekt Kile</comment>
+    <comment xml:lang="sv">Kile projekt</comment>
     <comment xml:lang="uk">проект Kile</comment>
     <comment xml:lang="zh_CN">Kile 工程</comment>
     <glob pattern="*.kilepr"/>

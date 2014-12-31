@@ -14,6 +14,7 @@
     <comment xml:lang="pt">Projecto do Kile</comment>
     <comment xml:lang="pt_BR">Projeto do Kile</comment>
     <comment xml:lang="sk">Projekt Kile</comment>
+    <comment xml:lang="sv">Kile projektfiler</comment>
     <comment xml:lang="uk">проект Kile</comment>
     <glob pattern="*.kilepr"/>
   </mime-type>

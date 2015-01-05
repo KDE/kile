@@ -13,7 +13,7 @@
 
 #include "livepreview.h"
 
-#include "config.h"
+#include <config.h>
 
 #include <QCryptographicHash>
 #include <QDir>

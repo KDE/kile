@@ -13,7 +13,7 @@
 
 #include "appearanceconfigwidget.h"
 
-#include "config.h"
+#include <config.h>
 
 KileWidgetAppearanceConfig::KileWidgetAppearanceConfig(KConfig *config, QWidget *parent)
  : QWidget(parent),

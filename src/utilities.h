@@ -46,7 +46,7 @@ class ServiceRunAction : public QAction {
 namespace KileUtilities {
 
 	/**
-	 * @brief Finds the file whith the most recent modification time from a list
+	 * @brief Finds the file with the most recent modification time from a list
 	 *
 	 * Checks last modification time for files and returns absolute (see @ref baseDir description) file name of
 	 * file with the latest modification time

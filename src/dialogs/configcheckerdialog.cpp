@@ -29,7 +29,7 @@
 #include <QProgressDialog>
 #include <KConfigGroup>
 
-#include "config.h"
+#include <config.h>
 #include "kiledebug.h"
 #include "kileinfo.h"
 

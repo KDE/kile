@@ -21,7 +21,6 @@
 #include <QPainter>
 #include <QTextDocument>
 #include <QTextStream>
-#include <QTextDocument> 
 
 #include <QAction>
 #include <KLocalizedString>

@@ -30,7 +30,6 @@
 
 #include "errorhandler.h"
 #include "codecompletion.h"
-#include "errorhandler.h"
 #include "kile.h"
 #include "kileactions.h"
 #include "kileconfig.h"
@@ -2004,7 +2003,7 @@ bool EditorExtension::findCloseBracket(KTextEditor::Document *doc, int row, int 
       match it.
    3) Otherwise if the character to the right of the cursor is a
       starting bracket, match it.
-   4) Otherwise, if the the character to the left of the cursor is an
+   4) Otherwise, if the character to the left of the cursor is a
       starting bracket, match it.
    5) Otherwise, if the character to the right of the cursor is an
       ending bracket, match it.

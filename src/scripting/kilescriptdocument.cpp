@@ -433,7 +433,7 @@ bool KileScriptDocument::endsWith (int line, const QString &pattern, bool skipWh
 	return  textline.endsWith(pattern);
 }
 
-////////////////////////////////// colums/lines //////////////////////////////////////
+////////////////////////////////// columns/lines //////////////////////////////////////
 
 int KileScriptDocument::firstColumn(int line)
 {

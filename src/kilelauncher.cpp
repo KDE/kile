@@ -14,7 +14,7 @@
 
 #include "kilelauncher.h"
 
-#include "config.h"
+#include <config.h>
 
 //TODO KF5
 // include "docpart.h"

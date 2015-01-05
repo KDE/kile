@@ -61,7 +61,7 @@
 
 #include "documentinfo.h"
 
-#include "config.h"
+#include <config.h>
 
 #include <QDateTime>
 #include <QFileInfo>

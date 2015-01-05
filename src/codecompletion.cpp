@@ -1117,7 +1117,7 @@ static void getCwlFiles(QMap<QString, QString> &map, const QString &dir)
 QMap<QString, QString> Manager::getAllCwlFiles(const QString &localCwlPath, const QString &globalCwlPath)
 {
 	// get a sorted list of all cwl files from both directories
-	// Local files are prefered over global ones.
+	// Local files are preferred over global ones.
 	QMap<QString, QString> fileMap;
 	getCwlFiles(fileMap, localCwlPath);
 	getCwlFiles(fileMap, globalCwlPath);

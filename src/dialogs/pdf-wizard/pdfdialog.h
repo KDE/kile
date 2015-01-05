@@ -15,7 +15,7 @@
 #ifndef PDFDIALOG_H
 #define PDFDIALOG_H
 
-#include "config.h"
+#include <config.h>
 
 #ifdef LIBPOPPLER_QT4_AVAILABLE
 #include <poppler-qt4.h>

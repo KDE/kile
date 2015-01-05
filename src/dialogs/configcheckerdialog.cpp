@@ -28,7 +28,7 @@
 #include <KMessageBox>
 #include <KProgressDialog>
 
-#include "config.h"
+#include <config.h>
 #include "kiledebug.h"
 #include "kileinfo.h"
 

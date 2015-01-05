@@ -19,7 +19,7 @@
 
 #include "kile.h"
 
-#include "config.h"
+#include <config.h>
 
 #include <QHideEvent>
 #include <QPointer>

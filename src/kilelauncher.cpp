@@ -14,7 +14,7 @@
 
 #include "kilelauncher.h"
 
-#include "config.h"
+#include <config.h>
 
 #include "docpart.h"
 #ifdef HAVE_VIEWERINTERFACE_H

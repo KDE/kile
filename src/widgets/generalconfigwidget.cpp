@@ -14,7 +14,7 @@
 
 #include "widgets/generalconfigwidget.h"
 
-#include "config.h"
+#include <config.h>
 
 #include <KFileDialog>
 #include <KUrlCompletion>

@@ -71,7 +71,7 @@ namespace KileWidget
 			return;
 		}
 
-		// the catalogue for translations is added by the Konsole part constructor already
+		// the catalog for translations is added by the Konsole part constructor already
 		m_part = static_cast<KParts::ReadOnlyPart*>(factory->create<QObject>(this, this));
 		if(!m_part) {
 			return;

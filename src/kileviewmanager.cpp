@@ -39,7 +39,7 @@
 #include <KMenu>
 #include <KAcceleratorManager>
 
-#include "config.h"
+#include <config.h>
 
 #include "editorkeysequencemanager.h"
 #include "kileinfo.h"

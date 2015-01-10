@@ -144,7 +144,7 @@ namespace KileDialog
 
 	KPageWidgetItem* Config::addConfigFolder(const QString &section, const QString &icon)
 	{
-		KPageWidgetItem *toReturn = addPage(0, section);
+		KPageWidgetItem *toReturn = addPage(new QWidget(this), section);
 		toReturn->setIcon(QIcon::fromTheme(icon));
 
 		return toReturn;

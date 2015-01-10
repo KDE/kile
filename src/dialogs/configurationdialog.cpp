@@ -70,19 +70,11 @@ namespace KileDialog
 	{
 		setWindowTitle(i18n("Configure"));
 		setModal(true);
-		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+
 		QWidget *mainWidget = new QWidget(this);
 		QVBoxLayout *mainLayout = new QVBoxLayout;
 		setLayout(mainLayout);
 		mainLayout->addWidget(mainWidget);
-		QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-		okButton->setDefault(true);
-		okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-		connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-		//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-		mainLayout->addWidget(buttonBox);
-		okButton->setDefault(true);
 		setObjectName("kileconfiguration");
 		setFaceType(Tree);
 
@@ -122,9 +114,11 @@ namespace KileDialog
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
-		connect(okButton, SIGNAL(clicked()), this, SLOT(slotOk()));
-		connect(buttonBox->button(QDialogButtonBox::Cancel), SIGNAL(clicked()), this, SLOT(slotCancel()));
-		connect(okButton, SIGNAL(clicked()), m_manager, SLOT(updateSettings()));
+		connect(this, &KPageDialog::accepted, this, &Config::slotAcceptChanges);
+		connect(this, &KPageDialog::accepted, m_manager, &KConfigDialogManager::updateSettings);
+		connect(this, &KPageDialog::rejected, this, [=] () {
+			m_config->markAsClean();
+		});
 	}
 
 	Config::~Config()
@@ -331,9 +325,9 @@ usermenuPage = NULL;
 
 	//////////////////// slots ////////////////////
 
-	void Config::slotOk()
+	void Config::slotAcceptChanges()
 	{
-		KILE_DEBUG_MAIN << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
+		KILE_DEBUG_MAIN << "   slot acceptChanges (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
 
 		// editor settings are only available, when at least one document is opened
 		if(m_editorSettingsChanged) {
@@ -348,20 +342,10 @@ usermenuPage = NULL;
 		toolPage->writeConfig();      // config all tools
 		completePage->writeConfig();  // Complete configuration (dani)
 		previewPage->writeConfig();   // Quick Preview (dani)
-		usermenuPage->writeConfig();
+//  		usermenuPage->writeConfig(); //TODO KF5: uncomment once menu is enabled again
 		livePreviewPage->writeConfig();
 
 		m_config->sync();
-
-		// oder m_manager->updateSettings();
-		accept();
-	}
-
-	void Config::slotCancel()
-	{
-		KILE_DEBUG_MAIN << "   slot cancel";
-		m_config->markAsClean();
-		accept();
 	}
 
 	void Config::slotChanged()

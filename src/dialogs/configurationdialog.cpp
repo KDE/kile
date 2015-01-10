@@ -301,7 +301,6 @@ usermenuPage = NULL;
 	void Config::setupEditor(KPageWidgetItem* parent)
 	{
 		m_editorSettingsChanged = false;
-
 		m_editorPages.clear();
 
 		KTextEditor::Editor* editor = m_ki->docManager()->getEditor();
@@ -309,16 +308,13 @@ usermenuPage = NULL;
 			return;
 		}
 		for(int i = 0; i < editor->configPages(); ++i) {
-			QWidget *configPageParent = new QWidget(this);
-			QVBoxLayout *configPageParentVBoxLayout = new QVBoxLayout(configPageParent);
-			configPageParentVBoxLayout->setMargin(0);
-
-			KTextEditor::ConfigPage *configPage = editor->configPage(i, configPageParent);
-
-			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, configPage->name(),
+			KTextEditor::ConfigPage *configPage = editor->configPage(i, parent->widget());
+			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPage, configPage->name(),
 			                                                                          configPage->icon(),
 			                                                                          configPage->fullName());
-			connect(configPage, SIGNAL(changed()), this, SLOT(slotChanged()));
+			connect(configPage, &KTextEditor::ConfigPage::changed, this, [=] {
+				m_editorSettingsChanged = true;
+			});
 			m_editorPages.insert(pageWidgetItem, configPage);
 		}
 	}
@@ -347,13 +343,6 @@ usermenuPage = NULL;
 
 		m_config->sync();
 	}
-
-	void Config::slotChanged()
-	{
-		KILE_DEBUG_MAIN << "   slot changed";
-		m_editorSettingsChanged = true;
-	}
-
 }
 
 #include "configurationdialog.moc"

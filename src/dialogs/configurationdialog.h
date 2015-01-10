@@ -62,7 +62,6 @@ namespace KileDialog
 
 	private Q_SLOTS:
 		void slotAcceptChanges();
-		void slotChanged();
 
 	private:
 		// dialog manager

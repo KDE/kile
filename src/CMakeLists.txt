@@ -92,7 +92,7 @@ SET(kile_SRCS
 	kilestdtools.cpp
 	widgets/logwidget.cpp
 	widgets/outputview.cpp
-# 	widgets/konsolewidget.cpp
+	widgets/konsolewidget.cpp
 	kilewizard.cpp
 	widgets/structurewidget.cpp
 	widgets/codecompletionconfigwidget.cpp

@@ -74,7 +74,7 @@
 #include "kiletoolmanager.h"
 #include "kilestdtools.h"
 #include "widgets/outputview.h"
-//include "widgets/konsolewidget.h"
+#include "widgets/konsolewidget.h"
 #include "dialogs/quickdocumentdialog.h"
 #include "dialogs/tabbingdialog.h"
 #include "widgets/structurewidget.h"
@@ -668,10 +668,10 @@ void Kile::setupBottomBar()
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
 	m_bottomBar->addPage(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
-//TODO KF5
-// 	m_texKonsole = new KileWidget::Konsole(this, this);
-// 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
-// 	connect(viewManager()->tabs(), SIGNAL(currentChanged(int)), m_texKonsole, SLOT(sync()));
+
+	m_texKonsole = new KileWidget::Konsole(this, this);
+	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
+	connect(viewManager()->tabs(), SIGNAL(currentChanged(int)), m_texKonsole, SLOT(sync()));
 
 	m_previewWidget = new KileWidget::PreviewWidget(this, m_bottomBar);
 	m_bottomBar->addPage(m_previewWidget, SmallIcon ("document-preview"), i18n ("Preview"));

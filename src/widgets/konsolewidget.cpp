@@ -34,8 +34,6 @@
 #include <KTextEditor/View>
 
 #include <kde_terminal_interface.h>
-// available in KDE 4.3
-#include <kde_terminal_interface_v2.h>
 
 namespace KileWidget
 {
@@ -123,15 +121,8 @@ namespace KileWidget
 
 	void Konsole::setDirectory(const QString &directory)
 	{
-		{
-			TerminalInterfaceV2 *m_term2 = qobject_cast<TerminalInterfaceV2*>(m_part);
-			if(m_term2 && m_term2->foregroundProcessId() >= 0) { // check if a foreground process is running
-				return;
-			}
-		}
-
 		TerminalInterface *m_term = qobject_cast<TerminalInterface*>(m_part);
-		if(!m_term) {
+		if(!m_term || m_term->foregroundProcessId() >= 0) { // check if a foreground process is running
 			return;
 		}
 

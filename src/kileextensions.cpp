@@ -47,7 +47,7 @@ Extensions::Extensions()
 
 //////////////////// file filter ////////////////////
 
-QString Extensions::fileFilter(uint type)
+QString Extensions::fileFilter(uint type) const
 {
 	QString ext,text;
 	switch ( type )

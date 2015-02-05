@@ -1,5 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+            (C) 2015 by Andreas Cord-Landwehr (cordlandwehr@kde.org)
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,9 +16,7 @@
 #define PROJECTDIALOGS_H
 
 #include <QDialog>
-
 #include <QCheckBox>
-
 #include <QLineEdit>
 #include <KUrlRequester>
 #include <KLineEdit>
@@ -26,11 +25,10 @@
 #include "kileproject.h"
 #include "templates.h"
 
-class QLabel;
+class QComboBox;
 class QGridLayout;
 class QGroupBox;
-
-class KComboBox;
+class QLabel;
 
 class KileProject;
 class TemplateItem;
@@ -43,116 +41,111 @@ namespace KileTemplate {
 class Manager;
 }
 
-class KileProjectDlgBase : public QDialog
+class KileProjectDialogBase : public QDialog
 {
-		Q_OBJECT
+	Q_OBJECT
 
-	public:
-		KileProjectDlgBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent = 0, const char * name = 0);
-		virtual ~KileProjectDlgBase();
+public:
+	KileProjectDialogBase(const QString &caption, KileDocument::Extensions *extensions, QWidget *parent = Q_NULLPTR, const char * name = Q_NULLPTR);
+	virtual ~KileProjectDialogBase();
 
-		void setProject(KileProject *project, bool override);
-		virtual KileProject* project();
+	void setProject(KileProject *project, bool override);
+	virtual KileProject * project();
 
-		void setProjectTitle(const QString &title) {
-			m_title->setText(title);
-		}
-		const QString projectTitle() {
-			return m_title->text();
-		}
+	void setProjectTitle(const QString &title)
+	{
+		m_title->setText(title);
+	}
+	QString projectTitle() const
+	{
+		return m_title->text();
+	}
 
-		void setExtensions(KileProjectItem::Type type, const QString & ext);
-		const QString extensions(KileProjectItem::Type type)
-		{
-			return m_val_extensions[type-1];
-		}
+	void setExtensions(KileProjectItem::Type type, const QString &ext);
+	QString extensions(KileProjectItem::Type type) const
+	{
+		return m_val_extensions[type-1];
+	}
 
-	protected Q_SLOTS:
-		virtual void fillProjectDefaults();
+protected Q_SLOTS:
+	virtual void fillProjectDefaults();
+	virtual void onExtensionsHighlighted(int index);
+	virtual void onExtensionsTextEdited(const QString &text);
 
-	private Q_SLOTS:
-		void slotExtensionsHighlighted(int index);
-		void slotExtensionsTextChanged(const QString &text);
+protected:
+	KileDocument::Extensions *m_extmanager;
+	KileProject *m_project;
 
-	protected:
-		KileDocument::Extensions *m_extmanager;
+	QGroupBox *m_projectGroup;
+	QGroupBox *m_extensionGroup;
+	KUrlRequester *m_projectFolder;
 
-		QGroupBox *m_pgroup, *m_egroup;
-		QGridLayout *m_pgrid, *m_egrid;
-		QLabel *m_plabel;
+	QLineEdit *m_title, *m_userFileExtensions;
+	QLabel *m_defaultLatexFileExtensions;
 
-		QLineEdit *m_title, *m_extensions;
-		QLabel *m_lbPredefinedExtensions, *m_lbStandardExtensions, *m_lbDefGraphicExt;
-		KileProject *m_project;
-		KComboBox *m_sel_extensions;
-		KComboBox *m_sel_defGraphicExt;
+	QComboBox *m_defaultLatexFileExtensionsCombo;
+	QComboBox *m_defaultGraphicsExtensionCombo;
 
-		QString  m_val_extensions[KileProjectItem::Other - 1];
-		QString   m_val_standardExtensions[KileProjectItem::Other - 1];
+	QString m_val_extensions[KileProjectItem::Other - 1];
+	QString m_val_standardExtensions[KileProjectItem::Other - 1];
 
-		bool acceptUserExtensions();
-
+	bool acceptUserExtensions();
 };
 
-class KileNewProjectDlg : public KileProjectDlgBase
+class KileNewProjectDialog : public KileProjectDialogBase
 {
-		Q_OBJECT
+	Q_OBJECT
 
-	public:
-		KileNewProjectDlg(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = 0, const char* name = 0);
-		~KileNewProjectDlg();
+public:
+	KileNewProjectDialog(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = Q_NULLPTR, const char* name = Q_NULLPTR);
+	~KileNewProjectDialog();
 
-		KileProject* project();
+	KileProject * project() Q_DECL_OVERRIDE;
 
-		QString cleanProjectFile();
-		QString folder() {
-			return m_folder->lineEdit()->text();
-		}
+	QString cleanProjectFile();
+	QString folder() const {
+		return m_projectFolder->lineEdit()->text();
+	}
 
-		TemplateItem* getSelection() const;
-		QString file() {
-			return m_file->text();
-		}
-		bool createNewFile() {
-			return m_cb->isChecked();
-		}
+	TemplateItem* getSelection() const;
+	QString file() const {
+		return m_file->text();
+	}
+	bool createNewFile() const {
+		return m_createNewFileCheckbox->isChecked();
+	}
 
-	private Q_SLOTS:
-		void clickedCreateNewFileCb();
-		void fillProjectDefaults();
+private Q_SLOTS:
+	void clickedCreateNewFileCb();
+	void fillProjectDefaults();
+	void onAccepted();
 
-	protected Q_SLOTS:
-		virtual void slotButtonClicked(int button);
-
-	private:
-		KileTemplate::Manager *m_templateManager;
-		QLineEdit *m_file, *m_name;
-		KUrlRequester *m_folder;
-		TemplateIconView *m_templateIconView;
-		QCheckBox  *m_cb;
-		QLabel    *m_lb;
-		QUrl m_projectFileWithPath;
+private:
+	KileTemplate::Manager *m_templateManager;
+	QLineEdit *m_file, *m_name;
+	TemplateIconView *m_templateIconView;
+	QCheckBox *m_createNewFileCheckbox;
+	QLabel *m_filenameLabel;
+	QUrl m_projectFileWithPath;
 };
 
-class KileProjectOptionsDlg : public KileProjectDlgBase
+class KileProjectOptionsDialog : public KileProjectDialogBase
 {
-		Q_OBJECT
+	Q_OBJECT
 
-	public:
-		KileProjectOptionsDlg(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = 0, const char * name = 0);
-		~KileProjectOptionsDlg();
+public:
+	KileProjectOptionsDialog(KileProject *project, KileDocument::Extensions *extensions, QWidget *parent = Q_NULLPTR, const char * name = Q_NULLPTR);
+	~KileProjectOptionsDialog();
 
-	private Q_SLOTS:
-		void toggleMakeIndex(bool);
+private Q_SLOTS:
+	void toggleMakeIndex(bool);
+	void onAccepted();
 
-	protected Q_SLOTS:
-		virtual void slotButtonClicked(int button);
-
-	private:
-		KComboBox *m_master, *m_cbQuick;
-		QLineEdit *m_leMakeIndex;
-		QCheckBox *m_ckMakeIndex;
-		QString m_toolDefaultString;
+private:
+	KComboBox *m_selectMasterDocumentCombo, *m_QuickBuildCheckbox;
+	QLineEdit *m_leMakeIndex;
+	QCheckBox *m_ckMakeIndex;
+	QString m_toolDefaultString;
 };
 
 #endif

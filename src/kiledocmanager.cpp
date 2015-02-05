@@ -1364,7 +1364,7 @@ void Manager::buildProjectTree(KileProject *project)
 
 void Manager::projectNew()
 {
-	KileNewProjectDlg *dlg = new KileNewProjectDlg(m_ki->templateManager(), m_ki->extensions(), m_ki->mainWindow());
+	KileNewProjectDialog *dlg = new KileNewProjectDialog(m_ki->templateManager(), m_ki->extensions(), m_ki->mainWindow());
 
 	if (dlg->exec())
 	{
@@ -1850,7 +1850,7 @@ void Manager::projectOptions(KileProject *project /* = 0*/)
 
 	if (project) {
 		KILE_DEBUG_MAIN << "\t" << project->name();
-		KileProjectOptionsDlg *dlg = new KileProjectOptionsDlg(project, m_ki->extensions(), m_ki->mainWindow());
+		KileProjectOptionsDialog *dlg = new KileProjectOptionsDialog(project, m_ki->extensions(), m_ki->mainWindow());
 		dlg->exec();
 	}
 	else if (m_projects.count() == 0) {

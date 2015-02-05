@@ -284,10 +284,7 @@ void KileProject::init(const QString& name, const QUrl &url, KileDocument::Exten
 	m_config = new KConfig(m_projecturl.toLocalFile(), KConfig::SimpleConfig);
 	m_extmanager = extensions;
 
-//TODO KF5
-//	m_baseurl = m_projecturl.directory();
-//TODO KF5
-// 	m_baseurl.cleanPath(QUrl::SimplifyDirSeparators);
+	m_baseurl = m_projecturl.adjusted(QUrl::RemoveFilename);
 
 	KILE_DEBUG_MAIN << "KileProject m_baseurl = " << m_baseurl.toLocalFile();
 
@@ -445,12 +442,10 @@ QString KileProject::addBaseURL(const QString &path)
 	}
 
 	else if(QDir::isAbsolutePath(path)) {
-		return KileDocument::Manager::symlinkFreeURL(QUrl(path)).toLocalFile();
+		return KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(path)).toLocalFile();
 	}
 	else {
-//TODO KF5
-// 		return  KileDocument::Manager::symlinkFreeURL(QUrl(m_baseurl.toLocalFile(QUrl::AddTrailingSlash) +path)).toLocalFile();
-		return  KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(m_baseurl.toLocalFile() + '/' + path)).toLocalFile();
+		return  KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
 	}
 }
 
@@ -517,15 +512,11 @@ bool KileProject::load()
 		if (groups[i].left(5) == "item:") {
 			QString path = groups[i].mid(5);
 			if (QDir::isAbsolutePath(path)) {
-				url = QUrl(path);
+				url = QUrl::fromLocalFile(path);
 			}
 			else {
-				url = m_baseurl;
-//TODO KF5
-// 				url = url.adjusted(QUrl::StripTrailingSlash);
+				url = m_baseurl.adjusted(QUrl::StripTrailingSlash);
 				url.setPath(url.path() + '/' + path);
-//TODO KF5
-// 				url.cleanPath(QUrl::SimplifyDirSeparators);
 			}
 			item = new KileProjectItem(this, KileDocument::Manager::symlinkFreeURL(url));
 			setType(item);
@@ -540,7 +531,7 @@ bool KileProject::load()
 
 	// only call this after all items are created, otherwise setLastDocument doesn't accept the url
 	generalGroup = m_config->group("General");
-	setLastDocument(QUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
+	setLastDocument(QUrl::fromLocalFile(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
 	readBibliographyBackendSettings(generalGroup);
 
@@ -775,7 +766,7 @@ void KileProject::itemRenamed(KileProjectItem *item)
 
 QString KileProject::findRelativePath(const QString &path)
 {
-	return this->findRelativePath(QUrl(path));
+	return this->findRelativePath(QUrl::fromLocalFile(path));
 }
 
 QString KileProject::findRelativePath(const QUrl &url)

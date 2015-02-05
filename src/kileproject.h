@@ -184,9 +184,9 @@ public:
 	void writeUseMakeIndexOptions();
 	bool useMakeIndexOptions() { return m_useMakeIndexOptions; }
 
-	const QUrl &url() const { return m_projecturl; }
+	QUrl url() const { return m_projecturl; }
 	void setURL(const QUrl &url ) { m_projecturl = url; }
-	const QUrl &baseURL() const { return m_baseurl; }
+	QUrl baseURL() const { return m_baseurl; }
 
 	KileProjectItem* item(const QUrl &);
 	KileProjectItem* item(const KileDocument::Info *info);

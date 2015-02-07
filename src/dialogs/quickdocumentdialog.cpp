@@ -468,7 +468,7 @@ void QuickDocument::readDocumentClassConfig()
 		KILE_DEBUG_MAIN << "\tinit user class: " << m_userClasslist[i];
 		QStringList list;
 		// read dour default entries for this user class
-		KConfigGroup configGroup = m_config->group(QString("QuickDocument/") + m_userClasslist[i]);
+		KConfigGroup configGroup = config()->group(QString("QuickDocument/") + m_userClasslist[i]);
 		list.append(configGroup.readEntry("fontsizesList"));
 		list.append(configGroup.readEntry("pagesizesList"));
 		list.append(configGroup.readEntry("defaultOptions"));
@@ -514,7 +514,7 @@ void QuickDocument::writeDocumentClassConfig()
 	// first delete all marked document classes
 	for (int i = 0; i < m_deleteDocumentClasses.count(); ++i) {
 		KILE_DEBUG_MAIN << "\tdelete class: " << m_deleteDocumentClasses[i];
-		m_config->deleteGroup(QString("QuickDocument/") + m_deleteDocumentClasses[i]);
+		config()->deleteGroup(QString("QuickDocument/") + m_deleteDocumentClasses[i]);
 	}
 
 	// write document classes and encoding
@@ -548,7 +548,7 @@ void QuickDocument::writeDocumentClassConfig()
 		QStringList list = m_dictDocumentClasses[userclasses[i]];
 
 		// write the config group and the default entries
-		KConfigGroup configGroup = m_config->group(QString("QuickDocument/") + userclasses[i]);
+		KConfigGroup configGroup = config()->group(QString("QuickDocument/") + userclasses[i]);
 		configGroup.writeEntry("fontsizesList", list[qd_Fontsizes]);
 		configGroup.writeEntry("pagesizesList", list[qd_Papersizes]);
 		configGroup.writeEntry("defaultOptions", list[qd_DefaultOptions]);
@@ -1208,7 +1208,7 @@ bool QuickDocument::readPackagesListview()
 	// regular expression to split the string from the config file
 	QRegExp reg("([^,]*),([^,]*),([^,]*),([^,]*),(.*)");
 
-	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
+	KConfigGroup configGroup = config()->group("QuickDocument/Packages");
 	for (QStringList::Iterator it = elements.begin(); it != elements.end(); ++it) {
 		QTreeWidgetItem *item;
 
@@ -1262,7 +1262,7 @@ void QuickDocument::writePackagesConfig()
 
 	QStringList packagesList;
 
-	KConfigGroup configGroup = m_config->group("QuickDocument/Packages");
+	KConfigGroup configGroup = config()->group("QuickDocument/Packages");
 	for (int i = 0; i < m_lvPackages->topLevelItemCount(); ++i) {
 		QTreeWidgetItem *currentItem = m_lvPackages->topLevelItem(i);
 		KILE_DEBUG_MAIN << "\twrite config: " << currentItem->text(0);

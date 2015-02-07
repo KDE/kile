@@ -30,19 +30,19 @@ namespace KileDialog
 
 class QuickTabbing : public Wizard
 {
-		Q_OBJECT
+	Q_OBJECT
 
-	public:
-		QuickTabbing(KConfig *config, KileInfo *ki, QWidget *parent = NULL,
-		             const char *name = NULL, const QString &caption = QString());
-		~QuickTabbing();
+public:
+	QuickTabbing(KConfig *config, KileInfo *info, QWidget *parent = Q_NULLPTR,
+					const char *name = Q_NULLPTR, const QString &caption = QString());
+	~QuickTabbing();
 
-	protected Q_SLOTS:
-		virtual void slotButtonClicked(int button);
+public Q_SLOTS:
+	void onAccepted();
 
-	public:
-		KileInfo *m_ki;
-		Ui::TabbingDialog m_TabbingDialog;
+private:
+	KileInfo *m_info;
+	Ui::TabbingDialog m_tabbingDialog;
 };
 
 }

@@ -15,34 +15,40 @@
 
 #include "kilewizard.h"
 
+#include <QDialogButtonBox>
 #include <QPushButton>
 
 namespace KileDialog
 {
-	Wizard::Wizard(KConfig *config, QWidget *parent, const char *name, const QString &caption) :
-		QDialog(parent),
-		m_td(QString(), QString(), QString(), 0, 0, QString()),
-		m_config(config)
-	{
-		setObjectName(name);
-		setWindowTitle(caption);
-		setModal(true);
-//TODO KF5
-// 		QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-// 		QWidget *mainWidget = new QWidget(this);
-// 		QVBoxLayout *mainLayout = new QVBoxLayout;
-// 		setLayout(mainLayout);
-// 		mainLayout->addWidget(mainWidget);
-// 		QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-// 		okButton->setDefault(true);
-// 		okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-// 		connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-// 		connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-		//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-// 		mainLayout->addWidget(buttonBox);
-// 		okButton->setDefault(true);
-	}
+Wizard::Wizard(KConfig *config, QWidget *parent, const char *name, const QString &caption)
+	: QDialog(parent)
+	, m_td(QString(), QString(), QString(), 0, 0, QString())
+	, m_config(config)
+	, m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel))
+{
+	setObjectName(name);
+	setWindowTitle(caption);
+	setModal(true);
 
-	Wizard::~Wizard()
-	{}
+	// add buttons
+	QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	okButton->setDefault(true);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+}
+
+Wizard::~Wizard()
+{}
+
+KConfig * Wizard::config() const
+{
+	return m_config;
+}
+
+QDialogButtonBox * Wizard::buttonBox() const
+{
+	return m_buttonBox;
+}
 }

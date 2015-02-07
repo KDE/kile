@@ -36,7 +36,7 @@ class Clean : public QDialog
 	public:
 		Clean(QWidget *parent, const QString &filename, const QStringList &extlist);
 		~Clean();
-		const QStringList& getCleanlist();
+		QStringList cleanList();
 
 	private:
 		QTreeWidget *m_listview;

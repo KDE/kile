@@ -15,44 +15,31 @@
  ***************************************************************************/
 
 #include "dialogs/cleandialog.h"
+#include "kiledebug.h"
 
+#include <KConfigGroup>
 #include <KIconLoader>
 #include <KLocalizedString>
-
+#include <QDialogButtonBox>
 #include <QFileInfo>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLayout>
 #include <QPixmap>
+#include <QPushButton>
 #include <QTreeWidget>
 #include <QVBoxLayout>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-
-#include "kiledebug.h"
 
 namespace KileDialog
 {
-Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlist) :
-		QDialog(parent),
-		m_extlist(extlist)
+Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlist)
+	: QDialog(parent)
+	, m_extlist(extlist)
 {
 	setWindowTitle(i18n("Delete Files"));
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-	QWidget *mainWidget = new QWidget(this);
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
-	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-	okButton->setDefault(true);
-	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	mainLayout->addWidget(page);
@@ -60,7 +47,6 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	page->setLayout(vbox);
 
 	// label widgets
@@ -68,7 +54,6 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 	mainLayout->addWidget(labelwidget);
 	QHBoxLayout *labellayout = new QHBoxLayout();
 	labellayout->setMargin(0);
-//TODO PORT QT5 	labellayout->setSpacing(QDialog::spacingHint());
 	labelwidget->setLayout(labellayout);
 
 	// line 1: picture and label
@@ -98,6 +83,16 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 
 	vbox->addWidget(labelwidget, 0, Qt::AlignHCenter);
 	vbox->addWidget(m_listview);
+
+	// add buttons
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	okButton->setDefault(true);
+	mainLayout->addWidget(buttonBox);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
 Clean::~Clean()
@@ -105,7 +100,7 @@ Clean::~Clean()
 
 // get all selected items
 
-const QStringList& Clean::getCleanlist()
+QStringList Clean::cleanList()
 {
 	QStringList templist;
 
@@ -123,6 +118,3 @@ const QStringList& Clean::getCleanlist()
 	return m_extlist;
 }
 }
-
-#include "cleandialog.moc"
-

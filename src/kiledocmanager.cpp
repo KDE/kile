@@ -1995,8 +1995,8 @@ void Manager::cleanUpTempFiles(const QUrl &url, bool silent)
 	if (!silent && extlist.count() > 0) {
 		KILE_DEBUG_MAIN << "not silent";
 		KileDialog::Clean *dialog = new KileDialog::Clean(m_ki->mainWindow(), fileName, extlist);
-		if(dialog->exec()) {
-			extlist = dialog->getCleanlist();
+		if (dialog->exec() == QDialog::Accepted) {
+			extlist = dialog->cleanList();
 		}
 		else {
 			delete dialog;

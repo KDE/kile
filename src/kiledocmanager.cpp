@@ -2397,6 +2397,11 @@ const QUrl Manager::symlinkFreeURL(const QUrl &url)
 		KILE_DEBUG_MAIN << "directory " << url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() << "does not exist";
 	}
 
+	QFileInfo fi(filename);
+	if (fi.isSymLink()) {
+		filename = fi.symLinkTarget();
+	}
+
 	return QUrl::fromLocalFile(filename);
 #endif //def Q_OS_WIN
 }

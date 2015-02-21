@@ -22,6 +22,7 @@
 
 #include "widgets/abbreviationview.h"
 
+class QDialogButtonBox;
 class QLineEdit;
 
 //////////////////// add/edit dialog for abbreviations ////////////////////
@@ -35,24 +36,19 @@ class AbbreviationInputDialog : public QDialog
 public:
 	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name = NULL);
 	~AbbreviationInputDialog();
-
 	void abbreviation(QString &abbrev, QString &expansion);
+
+private Q_SLOTS:
+	void onTextChanged(const QString &text);
 
 private:
 	KileWidget::AbbreviationView *m_listview;
+	QDialogButtonBox *m_buttonBox;
 	QTreeWidgetItem *m_abbrevItem;
 	QLineEdit *m_leAbbrev;
 	QLineEdit *m_leExpansion;
-
 	int m_mode;
 	QString m_abbrev, m_expansion;
-
-protected Q_SLOTS:
-	void slotButtonClicked(int button);
-
-private Q_SLOTS:
-	void slotTextChanged(const QString &text);
-
 };
 
 }

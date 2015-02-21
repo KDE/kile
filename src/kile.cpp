@@ -2099,7 +2099,17 @@ void Kile::updateMenu()
 
 bool Kile::updateMenuActivationStatus(QMenu *menu)
 {
-	if ( menu->objectName() == "usermenu-submenu" ) {
+  return updateMenuActivationStatus(menu, QSet<QMenu*>());
+}
+
+
+bool Kile::updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited)
+{
+	if(visited.contains(menu)) {
+		qWarning() << "Recursive menu structure detected - aborting!";
+		return true;
+	}
+	if(menu->objectName() == "usermenu-submenu") {
 		menu->setEnabled(true);
 		return true;
 	}
@@ -2111,7 +2121,9 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 		QAction *action = *it;
 		QMenu *subMenu = action->menu();
 		if(subMenu) {
-			if(updateMenuActivationStatus(subMenu)) {
+			QSet<QMenu*> newVisited(visited);
+			newVisited.insert(menu);
+			if(updateMenuActivationStatus(subMenu, newVisited)) {
 				enabled = true;
 			}
 		}

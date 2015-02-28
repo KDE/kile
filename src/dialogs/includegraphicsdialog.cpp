@@ -1,6 +1,7 @@
 /**************************************************************************************************
-   Copyright (C) 2004-2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                 2004 by Jeroen Wijnhout
+   Copyright (C) 2004-2005  Holger Danielsson <holger.danielsson@t-online.de>
+                 2004       Jeroen Wijnhout
+                 2015       Andreas Cord-Landwehr <cordlandwehr@kde.org>
  **************************************************************************************************/
 
 /***************************************************************************
@@ -13,58 +14,44 @@
  ***************************************************************************/
 
 #include "dialogs/includegraphicsdialog.h"
-
-#include <QRegExp>
-#include <QFileInfo>
-#include <QPixmap>
-
-#include <QLineEdit>
-#include <QPushButton>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
+#include "editorextension.h"
+#include "errorhandler.h"
+#include "kileactions.h"
+#include "kileconfig.h"
+#include "kiledebug.h"
+#include "kileinfo.h"
+#include "kiletool_enums.h"
 
 #include <KConfigGroup>
-#include <KIconLoader>
 #include <KLineEdit>
 #include <KLocalizedString>
-#include <KMessageBox>
 #include <KProcess>
 
-#include "errorhandler.h"
-#include "kiledebug.h"
-#include "kileconfig.h"
-#include "kileinfo.h"
-#include "editorextension.h"
-#include "kileactions.h"
-#include "kiletool_enums.h"
+#include <QDialogButtonBox>
+#include <QFileInfo>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRegExp>
+#include <QVBoxLayout>
 
 namespace KileDialog
 {
 
-IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki) :
-		QDialog(parent),
-		m_startdir(startdir),
-		m_width(0),
-		m_height(0),
-		m_ki(ki),
-		m_proc(NULL)
+IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki)
+	: QDialog(parent)
+	, m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel))
+	, m_startdir(startdir)
+	, m_width(0)
+	, m_height(0)
+	, m_ki(ki)
+	, m_proc(Q_NULLPTR)
 {
 	setWindowTitle(i18n("Include Graphics"));
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
 	QWidget *mainWidget = new QWidget(this);
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
 	mainLayout->addWidget(mainWidget);
-	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-	okButton->setDefault(true);
-	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	m_widget.setupUi(page);
@@ -72,29 +59,27 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 
 	// read configuration
 	readConfig();
-
-	slotChooseFilter();
-
-//TODO KF5
-// 	#if KDE_IS_VERSION(4,2,90)
-// 		m_widget.edit_file->setStartDir(QUrl::fromLocalFile(m_startdir));
-// 	#else
-// 		m_widget.edit_file->setUrl(QUrl::fromLocalFile(m_startdir));
-// 	#endif
+	onChooseFilter();
 
 	setFocusProxy(m_widget.edit_file);
+	m_widget.edit_file->setUrl(QUrl::fromLocalFile(m_startdir));
 	m_widget.edit_file->setFocus();
 
-	connect(m_widget.cb_bb, SIGNAL(toggled(bool)),
-	        this, SLOT(slotChooseFilter()));
-	connect(m_widget.edit_file, SIGNAL(urlSelected(const QUrl&)),
-	        this, SLOT(slotUrlSelected(const QUrl&)));
-	connect(m_widget.edit_file, SIGNAL(textChanged(const QString&)),
-	        this, SLOT(slotTextChanged(const QString&)));
-	connect(m_widget.cb_figure, SIGNAL(toggled(bool)),
-		this, SLOT(slotFigureSelected(bool)));
-	connect(m_widget.cb_wrapfigure, SIGNAL(toggled(bool)),
-		this, SLOT(slotWrapFigureSelected(bool)));
+	connect(m_widget.cb_bb, &QCheckBox::toggled, this, &IncludeGraphics::onChooseFilter);
+	connect(m_widget.edit_file, &KUrlRequester::urlSelected, this, &IncludeGraphics::onUrlSelected);
+	connect(m_widget.edit_file, &KUrlRequester::textChanged, this, &IncludeGraphics::onTextChanged);
+	connect(m_widget.cb_figure, &QGroupBox::toggled, this, &IncludeGraphics::onFigureSelected);
+	connect(m_widget.cb_wrapfigure, &QGroupBox::toggled, this, &IncludeGraphics::onWrapFigureSelected);
+
+	QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	okButton->setEnabled(false);
+	mainLayout->addWidget(m_buttonBox);
+
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &IncludeGraphics::onAccepted);
 }
 
 IncludeGraphics::~IncludeGraphics()
@@ -185,14 +170,12 @@ QString IncludeGraphics::getTemplate()
 			p += ']';
 		}
 
-
 		// add start of figure environment
 		s += "\\begin{figure}" + p + '\n';
 	}
 
 	// build tags for start of wrapfigure environment
 	if (wrapfigure) {
-
 		s += "\\begin{wrapfigure}";
 
 		// number of lines in length
@@ -202,20 +185,20 @@ QString IncludeGraphics::getTemplate()
 
 		// positioning for wrapfigure environment
 		bool wrapfloat;
- 		wrapfloat = m_widget.cb_wrapfloat->isChecked();
- 		if (m_widget.cb_wrapright->isChecked()){
+		wrapfloat = m_widget.cb_wrapfloat->isChecked();
+ 		if (m_widget.cb_wrapright->isChecked()) {
 			if (wrapfloat) 	s += "{R}";
 			else		s += "{r}";
 		}
-		if (m_widget.cb_wrapleft->isChecked()){
+		if (m_widget.cb_wrapleft->isChecked()) {
 			if (wrapfloat) 	s += "{L}";
 			else		s += "{l}";
 		}
-		if (m_widget.cb_wrapinside->isChecked()){
+		if (m_widget.cb_wrapinside->isChecked()) {
 			if (wrapfloat) 	s += "{I}";
 			else		s += "{i}";
 		}
-		if (m_widget.cb_wrapoutside->isChecked()){
+		if (m_widget.cb_wrapoutside->isChecked()) {
 			if (wrapfloat) 	s += "{O}";
 			else		s += "{i}";
 		}
@@ -250,8 +233,7 @@ QString IncludeGraphics::getTemplate()
 	if (center) {
 		if (figure || wrapfigure) {
 			s += indent + "\\centering\n";
-		}
-		else {
+		} else {
 			s += "\\begin{center}\n";
 		}
 	}
@@ -265,13 +247,13 @@ QString IncludeGraphics::getTemplate()
 		s += '[' + options + ']';
 	}
 
-//TODO KF5
-// 	// add name of picture
-// 	// either take the filename or try to take the relative part of the name
-// 	QString filename = (m_widget.cb_graphicspath->isChecked())
-// 			 ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
-// 			 : QUrl::relativePath(QFileInfo(m_ki->getCompileName()).path(), m_widget.edit_file->lineEdit()->text());
-// 	s += '{' + filename + "}\n";
+	// add name of picture
+	// either take the filename or try to take the relative part of the name
+	const QString relativeUrl = QDir(QFileInfo(m_ki->getCompileName()).path()).relativeFilePath(m_widget.edit_file->lineEdit()->text());
+	QString filename = (m_widget.cb_graphicspath->isChecked())
+			 ? QFileInfo(m_widget.edit_file->lineEdit()->text()).fileName()
+			 : relativeUrl;
+	s += '{' + filename + "}\n";
 
 	// add some comments (depending of given resolution, this may be wrong!)
 	QString info = getInfo();
@@ -285,8 +267,7 @@ QString IncludeGraphics::getTemplate()
 	}
 
 	// close figure environment ?
-	if (figure)
-	{
+	if (figure) {
 		QString caption = m_widget.edit_caption->text().trimmed();
 		if (!caption.isEmpty()) {
 			s +=  indent + "\\caption{" + caption + "}\n";
@@ -298,8 +279,7 @@ QString IncludeGraphics::getTemplate()
 		s += "\\end{figure}\n";
 	}
 
-	if (wrapfigure)
-	{
+	if (wrapfigure) {
 		QString caption = m_widget.edit_wrapcaption->text().trimmed();
 		if (!caption.isEmpty()) {
 			s +=  indent + "\\caption{" + caption + "}\n";
@@ -323,17 +303,17 @@ QString IncludeGraphics::getFilename()
 
 QString IncludeGraphics::getOptions()
 {
-	QString s = "";
+	QString s = QString();
 
-	if (! m_widget.edit_width->text().isEmpty()) {
+	if (!m_widget.edit_width->text().isEmpty()) {
 		s += ",width=" + m_widget.edit_width->text();
 	}
 
-	if (! m_widget.edit_height->text().isEmpty()) {
+	if (!m_widget.edit_height->text().isEmpty()) {
 		s += ",height=" + m_widget.edit_height->text();
 	}
 
-	if (! m_widget.edit_angle->text().isEmpty()) {
+	if (!m_widget.edit_angle->text().isEmpty()) {
 		s += ",angle=" + m_widget.edit_angle->text();
 	}
 
@@ -370,8 +350,7 @@ QString IncludeGraphics::getOptions()
 
 	if (s.left(1) == ",") {
 		return s.right(s.length() - 1);
-	}
-	else {
+	} else {
 		return s;
 	}
 }
@@ -380,14 +359,13 @@ QString IncludeGraphics::getOptions()
 
 QString IncludeGraphics::getInfo()
 {
-	QString wcm,hcm,dpi;
-	int wpx=0,hpx=0;
+	QString wcm, hcm, dpi;
+	int wpx = 0, hpx = 0;
 
 	bool ok = getPictureSize(wpx, hpx, dpi, wcm, hcm);
-	if (! ok)
-		return "";
-	else
-	{
+	if (!ok) {
+		return QString();
+	} else {
 		QFileInfo fi(m_widget.edit_file->lineEdit()->text());
 
 		return "% " + fi.baseName() + '.' + fi.completeSuffix()
@@ -404,16 +382,15 @@ void IncludeGraphics::setInfo()
 	QString wcm, hcm, dpi;
 	int wpx, hpx;
 
-	if (!m_widget.edit_file->lineEdit()->text().isEmpty() && getPictureSize(wpx, hpx, dpi, wcm, hcm))
-	{
+	if (!m_widget.edit_file->lineEdit()->text().isEmpty() && getPictureSize(wpx, hpx, dpi, wcm, hcm)) {
 		text = QString("%1x%2 pixel").arg(wpx).arg(hpx)
 					 + " / " + wcm + 'x' + hcm + " cm"
 					 + "  (" + dpi + "dpi)";
-	}
-	else
+	} else {
 		text = "---";
+	}
 
-// insert text
+	// insert text
 	m_widget.infolabel->setText(text);
 }
 
@@ -433,7 +410,7 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &
 	return true;
 }
 
-void IncludeGraphics::slotChooseFilter()
+void IncludeGraphics::onChooseFilter()
 {
 	QString filter = (!m_widget.cb_bb->isChecked())
 			? i18n("*.png *.jpg *.pdf *.ps *.eps|Graphics\n")
@@ -451,62 +428,62 @@ void IncludeGraphics::slotChooseFilter()
 	m_widget.edit_file->setFilter(filter);
 }
 
-void IncludeGraphics::slotUrlSelected(const QUrl &url)
+void IncludeGraphics::onUrlSelected(const QUrl &url)
 {
 	QFileInfo fi(url.toLocalFile());
 
 	// could we accept the picture?
-	if (!url.toLocalFile().isEmpty() && fi.exists() && fi.isReadable())
-	{
+	if (!url.toLocalFile().isEmpty() && fi.exists() && fi.isReadable()) {
 		// execute the command and filter the result:
 		// eps|eps.gz --> %%BoundingBox: 0 0 123 456
 		// bitmaps    --> w=123 h=456 dpi=789
 		QString grep = " | grep -m1 \"^%%BoundingBox:\"";
 		QString ext = fi.completeSuffix();
-		if (ext == "eps"){
+		if (ext == "eps") {
 			execute("cat " + url.toLocalFile() + grep);
 		}
-		else if (ext == "eps.gz"){
+		else if (ext == "eps.gz") {
 				execute("gunzip -c " + url.toLocalFile() + grep);
 		}
-		else{
+		else {
 			execute("identify -format \"w=%w h=%h dpi=%x\" \"" + url.toLocalFile() + "\"");
 		}
+		m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 	} else {
 		KILE_DEBUG_MAIN << "=== IncludeGraphics::error ====================";
 		KILE_DEBUG_MAIN << "   filename: '" << url.toLocalFile() << "'";
 
 		m_widget.infolabel->setText("---");
 		m_widget.edit_bb->setText("");
+		m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(false);
 	}
 }
 
-void IncludeGraphics::slotTextChanged(const QString& string)
+void IncludeGraphics::onTextChanged(const QString &string)
 {
-	slotUrlSelected(QUrl(string));
+	onUrlSelected(QUrl::fromLocalFile(string.trimmed()));
 }
 
 void IncludeGraphics::execute(const QString &command)
 {
-	if (!m_boundingbox || (!m_imagemagick && command.left(8) == "identify"))
+	if (!m_boundingbox || (!m_imagemagick && command.left(8) == "identify")) {
 		return;
+	}
 
-	if (m_proc)
+	if (m_proc) {
 		delete m_proc;
+	}
 
 	m_proc = new KProcess(this);
 	m_proc->setShellCommand(command);
 	m_proc->setOutputChannelMode(KProcess::MergedChannels);
 	m_proc->setReadChannel(QProcess::StandardOutput);
 
-	connect(m_proc, SIGNAL(readyReadStandardOutput()),
-					this, SLOT(slotProcessOutput()));
-	connect(m_proc, SIGNAL(readyReadStandardError()),
-					this, SLOT(slotProcessOutput()));
-	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
-					this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+	connect(m_proc, &KProcess::readyReadStandardOutput, this, &IncludeGraphics::onProcessOutput);
+	connect(m_proc, &KProcess::readyReadStandardError, this, &IncludeGraphics::onProcessOutput);
+	connect(m_proc, static_cast<void (KProcess::*)(int, QProcess::ExitStatus)>(&KProcess::finished), this, &IncludeGraphics::onProcessExited);
 
-	m_output = "";
+	m_output = QString();
 	KILE_DEBUG_MAIN << "=== IncludeGraphics::execute ====================";
 	KILE_DEBUG_MAIN << "   execute '" << command << "'";
 
@@ -515,14 +492,14 @@ void IncludeGraphics::execute(const QString &command)
 
 // get all output of identify
 
-void IncludeGraphics::slotProcessOutput()
+void IncludeGraphics::onProcessOutput()
 {
 	m_output += m_proc->readAll();
 }
 
 // identify was called
 
-void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
+void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
 	if (exitStatus == QProcess::NormalExit) {
 		KILE_DEBUG_MAIN << "   result: " << m_output;
@@ -589,24 +566,12 @@ void IncludeGraphics::slotProcessExited(int /* exitCode */, QProcess::ExitStatus
 	}
 }
 
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void IncludeGraphics::slotButtonClicked(int button)
+void IncludeGraphics::onAccepted()
 {
-// 	if(button == QDialog::Ok){
-// 		if(checkParameter()){
-// 			writeConfig();
-// 			accept();
-// 		}
-// 	}
-// 	else{
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// 		QDialog::slotButtonClicked(button);
-// 	}
+	writeConfig();
 }
 
-void IncludeGraphics::slotWrapFigureSelected(bool state) {
+void IncludeGraphics::onWrapFigureSelected(bool state) {
 	if (m_widget.cb_figure->isChecked() && state) {
 		m_widget.cb_figure->setChecked(false);
 	}
@@ -617,35 +582,9 @@ void IncludeGraphics::slotWrapFigureSelected(bool state) {
 	}
 }
 
-void IncludeGraphics::slotFigureSelected(bool state) {
+void IncludeGraphics::onFigureSelected(bool state) {
 	if (m_widget.cb_wrapfigure->isChecked() && state) {
 		m_widget.cb_wrapfigure->setChecked(false);
 	}
 }
-
-bool IncludeGraphics::checkParameter()
-{
-	QString filename = m_widget.edit_file->lineEdit()->text().trimmed();
-	m_widget.edit_file->lineEdit()->setText(filename);
-
-	if (filename.isEmpty())
-	{
-		if (KMessageBox::warningYesNo(this, i18n("No graphics file was given. Proceed any way?")) == KMessageBox::No)
-			return false;
-	}
-	else
-	{
-		QFileInfo fi(filename);
-		if (! fi.exists())
-		{
-			if (KMessageBox::warningYesNo(this, i18n("The graphics file does not exist. Proceed any way?")) == KMessageBox::No)
-				return false;
-		}
-	}
-
-	return true;
 }
-
-}
-
-#include "includegraphicsdialog.moc"

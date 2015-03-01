@@ -935,7 +935,7 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 					}
 				}
 				if(amAutoSaving && fi.size() > 0) { // the size check ensures that we don't save empty files (to prevent something like #125809 in the future).
-					QUrl backupUrl = QUrl(url.toLocalFile()+ ".backup");
+					QUrl backupUrl = QUrl::fromLocalFile(url.toLocalFile() + ".backup");
 
 					// first del existing file if any, then copy over the file we have
 					// failure if a: the existing file could not be deleted, b: the file could not be copied

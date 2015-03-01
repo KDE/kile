@@ -33,8 +33,9 @@ find_package(KF5 5.4 REQUIRED COMPONENTS
 	Config
 	DocTools
 	GuiAddons
-	I18n#
+	I18n
 	KIO
+	Parts
 	TextEditor
 	XmlGui
 	KDELibs4Support

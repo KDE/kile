@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0.0)
 
 PROJECT( kile )
 
-find_package (ECM 0.0.9 REQUIRED NO_MODULE)
+find_package (ECM 1.0.0 REQUIRED NO_MODULE)
 set (CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 include(ECMOptionalAddSubdirectory)
 include(ECMInstallIcons)
@@ -14,7 +14,7 @@ include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
-include (CheckFunctionExists)
+include(CheckFunctionExists)
 
 include(KDEInstallDirs)
 include(KDECMakeSettings)
@@ -29,24 +29,16 @@ find_package(Qt5 5.3 CONFIG REQUIRED
 )
 
 # Load the frameworks we need
-find_package(KF5 REQUIRED COMPONENTS
-  Config
-  DocTools
-  GuiAddons
-  I18n
-  Init
-  JobWidgets
-  KIO
-  KHtml
-  Parts
-  TextEditor
-  WindowSystem
-  XmlGui
-  KDELibs4Support
+find_package(KF5 5.4 REQUIRED COMPONENTS
+	Config
+	DocTools
+	GuiAddons
+	I18n#
+	KIO
+	TextEditor
+	XmlGui
+	KDELibs4Support
 )
-
-# find_package(KF5 REQUIRED COMPONENTS DBusAddons)
-# include (KDE4Defaults)
 
 # find_package( SharedMimeInfo REQUIRED )
 

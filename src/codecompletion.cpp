@@ -72,7 +72,7 @@ KTextEditor::Range LaTeXCompletionModel::updateCompletionRange(KTextEditor::View
 	if(newRange.isValid()) {
 		buildModel(view, newRange);
 	}
-		return newRange;
+	return newRange;
 }
 
 static inline bool isSpecialLaTeXCommandCharacter(const QChar& c) {
@@ -136,7 +136,6 @@ static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
 
 void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
-	KTextEditor::Cursor startCursor = range.start();
 	QString completionString = view->document()->text(range);
 	KILE_DEBUG_MAIN << "Text in completion range: " << completionString;
 	m_completionList.clear();
@@ -295,8 +294,6 @@ bool LaTeXCompletionModel::shouldStartCompletion(KTextEditor::View *view, const 
 	else {
 		return CodeCompletionModelControllerInterface::shouldStartCompletion(view, insertedText, userInsertion, position);
 	}
-//TODO KF5
-return false;
 }
 
 bool LaTeXCompletionModel::shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
@@ -372,7 +369,8 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,
 	const static QRegExp reEnv = QRegExp("^\\\\(begin|end)[^a-zA-Z]+");
 
 	int cursorXPos = -1, cursorYPos = -1;
-	QString completionText = index.data(Qt::DisplayRole).toString();
+	QString completionText = data(index.sibling(index.row(), Name), Qt::DisplayRole).toString();
+
 	QString textToInsert;
 	int envIndex = reEnv.indexIn(completionText);
 	if(completionText != "\\begin{}" && envIndex != -1) { // we are completing an environment
@@ -410,6 +408,7 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,
 			document->removeText(bracketRange);
 		}
 	}
+
 	// now do the real completion
 	document->replaceText(word, textToInsert);
 	//HACK, but it's impossible to do this otherwise

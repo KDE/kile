@@ -82,40 +82,22 @@
 namespace KileDialog {
 
 FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name)
-		: QDialog(parent),
-		m_ki(ki), m_mode(mode), m_proc(NULL), m_grepJobs(0)
+	: QDialog(parent)
+	, m_ki(ki)
+	, m_mode(mode)
+	, m_proc(Q_NULLPTR)
+	, m_grepJobs(0)
 {
 	setObjectName(name);
 	setWindowTitle(QString());
 	setModal(false);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox();
-	QWidget *mainWidget = new QWidget(this);
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-//TODO KF5
-// 	setDefaultButton(NoDefault);
-
-	QWidget *page = new QWidget(this);
-	mainLayout->addWidget(page);
-	//setWFlags( Qt::WStyle_StaysOnTop );
-
-	// build dialog
-	QVBoxLayout *vbox = new QVBoxLayout();
-	vbox->setMargin(0);
-//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
-	page->setLayout(vbox);
 
 	// project groupbox
-	QGroupBox *projectgroup = new QGroupBox(i18n("Project"), page);
+	QGroupBox *projectgroup = new QGroupBox(i18n("Project"), this);
 	mainLayout->addWidget(projectgroup);
 	QGridLayout *projectgrouplayout = new QGridLayout();
-//TODO PORT QT5 	projectgrouplayout->setMargin(QDialog::marginHint());
-//TODO PORT QT5 	projectgrouplayout->setSpacing(QDialog::spacingHint());
 	projectgrouplayout->setAlignment(Qt::AlignTop);
 	projectgroup->setLayout(projectgrouplayout);
 
@@ -137,11 +119,9 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	projectgrouplayout->setColumnStretch(1, 1);
 
 	// search groupbox
-	QGroupBox *searchgroup = new QGroupBox(i18n("Search"), page);
+	QGroupBox *searchgroup = new QGroupBox(i18n("Search"), this);
 	mainLayout->addWidget(searchgroup);
 	QGridLayout *searchgrouplayout = new QGridLayout();
-//TODO PORT QT5 	searchgrouplayout->setMargin(QDialog::marginHint());
-//TODO PORT QT5 	searchgrouplayout->setSpacing(QDialog::spacingHint());
 	searchgrouplayout->setAlignment(Qt::AlignTop);
 	searchgroup->setLayout(searchgrouplayout);
 
@@ -173,7 +153,6 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 
 	QHBoxLayout *template_layout = new QHBoxLayout();
 	template_layout->setMargin(0);
-//TODO PORT QT5 	template_layout->setSpacing(QDialog::spacingHint());
 	template_combo = new KComboBox(false, searchgroup);
 	template_combo->addItems(templatemode_list);
 	template_combo->adjustSize();
@@ -193,11 +172,9 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	searchgrouplayout->addLayout(template_layout, 1, 1);
 
 	// filter groupbox
-	QGroupBox *filtergroup = new QGroupBox(i18n("Directory Options"), page);
+	QGroupBox *filtergroup = new QGroupBox(i18n("Directory Options"), this);
 	mainLayout->addWidget(filtergroup);
 	QGridLayout *filtergrouplayout = new QGridLayout();
-//TODO PORT QT5 	filtergrouplayout->setMargin(QDialog::marginHint());
-//TODO PORT QT5 	filtergrouplayout->setSpacing(QDialog::spacingHint());
 	filtergrouplayout->setAlignment(Qt::AlignTop);
 	filtergroup->setLayout(filtergrouplayout);
 
@@ -232,26 +209,26 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	filtergrouplayout->setColumnStretch(1, 1);
 
 	// result box
-	resultbox = new QListWidget(page);
+	resultbox = new QListWidget(this);
 	mainLayout->addWidget(resultbox);
 	resultbox->setMinimumHeight(150);
 
 	// button box
-	QDialogButtonBox *actionbox = new QDialogButtonBox(page);
+	QDialogButtonBox *actionbox = new QDialogButtonBox(this);
 	mainLayout->addWidget(actionbox);
 	search_button = new QPushButton(i18n("&Search"));
 	search_button->setDefault(true);
 	search_button->setEnabled(false);
 	search_button->setIcon(QIcon::fromTheme("edit-find"));
-	connect(search_button, SIGNAL(clicked()), this, SLOT(slotSearch()));
+	connect(search_button, &QPushButton::clicked, this, &FindFilesDialog::slotSearch);
 	actionbox->addButton(search_button, QDialogButtonBox::ActionRole);
 	clear_button = new QPushButton(i18n("&Clear"));
 	clear_button->setEnabled(false);
 	clear_button->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
-	connect(clear_button, SIGNAL(clicked()), this, SLOT(slotClear()));
+	connect(clear_button, &QPushButton::clicked, this, &FindFilesDialog::slotClear);
 	actionbox->addButton(clear_button, QDialogButtonBox::ActionRole);
 	close_button = actionbox->addButton(QDialogButtonBox::Close);
-	connect(close_button, SIGNAL(clicked()), this, SLOT(slotClose()));
+	connect(close_button, &QPushButton::clicked, this, &FindFilesDialog::slotClose);
 
 	// adjust labels
 	project_label->setFixedWidth(labelwidth);
@@ -263,16 +240,16 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 
 	if (m_mode == KileGrep::Project) {
 		filtergroup->hide();
-		vbox->addWidget(projectgroup);
-		vbox->addWidget(searchgroup);
+		mainLayout->addWidget(projectgroup);
+		mainLayout->addWidget(searchgroup);
 	}
 	else {
 		projectgroup->hide();
-		vbox->addWidget(searchgroup);
-		vbox->addWidget(filtergroup);
+		mainLayout->addWidget(searchgroup);
+		mainLayout->addWidget(filtergroup);
 	}
-	vbox->addWidget(resultbox);
-	vbox->addWidget(actionbox);
+	mainLayout->addWidget(resultbox);
+	mainLayout->addWidget(actionbox);
 
 	// Produces error messages like
 	// QListBox::property( "text" ) failed:
@@ -344,12 +321,19 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	template_edit->setText(m_TemplateList[0]);
 	slotPatternTextChanged(QString());
 
-	connect(pattern_combo->lineEdit(), SIGNAL(textChanged(const QString &)),
-					SLOT(slotPatternTextChanged(const QString &)));
-	connect(template_combo, SIGNAL(activated(int)),
-					SLOT(slotTemplateActivated(int)));
-	connect(resultbox, SIGNAL(currentTextChanged(const QString&)),
-					SLOT(slotItemSelected(const QString&)));
+	connect(pattern_combo->lineEdit(), &QLineEdit::textChanged,
+		this, &FindFilesDialog::slotPatternTextChanged);
+	connect(template_combo, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated),
+		this, &FindFilesDialog::slotTemplateActivated);
+	connect(resultbox, &QListWidget::currentTextChanged,
+		this, &FindFilesDialog::slotItemSelected);
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox();
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &FindFilesDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &FindFilesDialog::reject);
+	mainLayout->addWidget(buttonBox);
+
+	connect(this, &FindFilesDialog::finished, this, &FindFilesDialog::slotClose);
 
 	resize(450, sizeHint().height());
 	KILE_DEBUG_MAIN << "==FindFilesDialog (create dialog)=============================";
@@ -517,9 +501,12 @@ void FindFilesDialog::startGrep()
 
 	m_grepJobs--;
 
-	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processExited(int, QProcess::ExitStatus)));
-	connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(processStandardOutputReady()));
-	connect(m_proc, SIGNAL(readyReadStandardError()), this, SLOT(processErrorOutputReady()));
+	connect(m_proc, static_cast<void (KProcess::*)(int, QProcess::ExitStatus)>(&KProcess::finished),
+		this, &FindFilesDialog::processExited);
+	connect(m_proc, &KProcess::readyReadStandardOutput,
+		this, &FindFilesDialog::processStandardOutputReady);
+	connect(m_proc, &KProcess::readyReadStandardError,
+		this, &FindFilesDialog::processErrorOutputReady);
 
 	m_proc->start();
 }
@@ -896,5 +883,3 @@ QString FindFilesDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 }
 
 }
-
-#include "findfilesdialog.moc"

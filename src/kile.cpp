@@ -2426,10 +2426,10 @@ void Kile::quickUserMenuDialog()
 // 	KileMenu::UserMenuDialog *dlg = new KileMenu::UserMenuDialog(m_config.data(), this, m_userMenu, m_userMenu->xmlFile(), m_mainWindow);
 // 	dlg->exec();
 // 	delete dlg;
-// 
+//
 // 	// tell all the documents and views to update their action shortcuts (bug 247646)
 // 	docManager()->reloadXMLOnAllDocumentsAndViews();
-// 
+//
 // 	// a new usermenu could have been installed, even if the return value is QDialog::Rejected
 // 	m_userMenu->refreshActionProperties();
 

@@ -36,7 +36,7 @@ class UserHelpDialog : public QDialog
 		Q_OBJECT
 
 	public:
-		explicit UserHelpDialog(QWidget *parent = 0, const char *name = 0);
+		explicit UserHelpDialog(QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 		~UserHelpDialog() {}
 
 		void setParameter(const QStringList &menuentries, const QList<QUrl> &helpfiles);
@@ -64,12 +64,12 @@ class UserHelpAddDialog : public QDialog
 		Q_OBJECT
 
 	public:
-		explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = NULL);
+		explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = Q_NULLPTR);
 		~UserHelpAddDialog() {}
 
 	private:
 		QLineEdit *m_leMenuEntry, *m_leHelpFile;
-		QPushButton *m_pbChooseFile, *m_pbChooseHtml;
+		QPushButton *m_pbChooseFile;
 		QListWidget *m_menulistbox;
 
 	public:
@@ -81,9 +81,8 @@ class UserHelpAddDialog : public QDialog
 		}
 
 	private Q_SLOTS:
-		void slotChooseFile();
-		void slotChooseHtml();
-		void slotButtonClicked(int button);
+		void onShowLocalFileSelection();
+		void onAccepted();
 };
 
 }

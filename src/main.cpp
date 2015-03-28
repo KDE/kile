@@ -83,6 +83,8 @@ QString readDataFromStdin()
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
+	KLocalizedString::setApplicationDomain("kile");
+
 	QApplication app(argc, argv);
 
 	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toAscii(),

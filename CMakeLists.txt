@@ -21,6 +21,8 @@ include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
+
 find_package(Qt5 5.3 CONFIG REQUIRED
 	Core
 	DBus
@@ -40,6 +42,17 @@ find_package(KF5 5.4 REQUIRED COMPONENTS
 	XmlGui
 	KDELibs4Support
 )
+
+find_package(Poppler)
+set_package_properties("Poppler-Qt5" PROPERTIES
+        DESCRIPTION "A PDF rendering library"
+        URL "http://poppler.freedesktop.org"
+        TYPE RECOMMENDED
+        PURPOSE "Support for PDF file operations in Kile.")
+if(POPPLER_FOUND)
+	set(HAVE_POPPLER TRUE)
+endif()
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)
 
 # find_package(SharedMimeInfo REQUIRED)
 

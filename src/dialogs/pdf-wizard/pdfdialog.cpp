@@ -37,6 +37,7 @@
 #include <KComboBox>
 #include <KConfigGroup>
 #include <KIconLoader>
+#include <KLocale>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
@@ -168,7 +169,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_pdfPermissionState << false << false  << false  << false  << false;
 
 	// check for libpoppler pdf library
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#ifndef LIBPOPPLER_AVAILABLE
 	m_poppler = false;
 	KILE_DEBUG_MAIN << "working without libpoppler pdf library";
 	m_PdfDialog.tabWidget->removeTab(2);
@@ -190,7 +191,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 	connect(this, &PdfDialog::output, m_output, &KileWidget::OutputView::receive);
 	connect(m_PdfDialog.m_edInfile->lineEdit(), &QLineEdit::textChanged, this, &PdfDialog::slotInputfileChanged);
 
-#ifdef LIBPOPPLER_QT4_AVAILABLE
+#ifdef LIBPOPPLER_AVAILABLE
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
 	connect(m_PdfDialog.m_pbPrinting, SIGNAL(clicked()), this, SLOT(slotPrintingClicked()));
 	connect(m_PdfDialog.m_pbAll, SIGNAL(clicked()), this, SLOT(slotAllClicked()));
@@ -229,7 +230,7 @@ void PdfDialog::initUtilities()
 
 	KILE_DEBUG_MAIN << "Looking for pdf tools: pdftk=" << m_pdftk << " pdfpages.sty=" << m_pdfpages;
 
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#ifndef LIBPOPPLER_AVAILABLE
 	m_imagemagick = KileConfig::imagemagick();
 
 	// we can't use libpoppler pdf library and need to find another method to determine the number of pdf pages
@@ -248,7 +249,7 @@ void PdfDialog::initUtilities()
 		for (QStringList::const_iterator it = m_pdfInfoKeys.constBegin(); it != m_pdfInfoKeys.constEnd(); ++it) {
 			m_pdfInfoWidget[*it]->setReadOnly(true);
 		}
-#ifdef LIBPOPPLER_QT4_AVAILABLE
+#ifdef LIBPOPPLER_AVAILABLE
 		// connect permission widgets
 		for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {
 			connect(m_pdfPermissionWidgets.at(i), SIGNAL(clicked(bool)), this, SLOT(slotPermissionClicked(bool)));
@@ -270,7 +271,7 @@ void PdfDialog::initUtilities()
 // read properties and permissions from the PDF document
 void PdfDialog::pdfParser(const QString &filename)
 {
-#ifdef LIBPOPPLER_QT4_AVAILABLE
+#ifdef LIBPOPPLER_AVAILABLE
 	Poppler::Document *doc = Poppler::Document::load(filename);
 	if ( !doc || doc->isLocked() ) {
 		KILE_DEBUG_MAIN << "Error: could not open pdf document '" << filename << "'";
@@ -290,8 +291,8 @@ void PdfDialog::pdfParser(const QString &filename)
 	}
 
 	// read creation date and modification date
-	m_PdfDialog.m_lbCreationDate->setText( KGlobal::locale()->formatDateTime( doc->date("CreationDate"), KLocalizedString::LongDate, true) );
-	m_PdfDialog.m_lbModDate->setText( KGlobal::locale()->formatDateTime( doc->date("ModDate"), KLocalizedString::LongDate, true) );
+	m_PdfDialog.m_lbCreationDate->setText(KLocale::global()->formatDateTime(doc->date("CreationDate"), KLocale::LongDate, true));
+	m_PdfDialog.m_lbModDate->setText(KLocale::global()->formatDateTime(doc->date("ModDate"), KLocale::LongDate, true));
 
 	// read PDF version
 	int major,minor;
@@ -340,7 +341,7 @@ void PdfDialog::pdfParser(const QString &filename)
 
 }
 
-#ifdef LIBPOPPLER_QT4_AVAILABLE
+#ifdef LIBPOPPLER_AVAILABLE
 bool PdfDialog::isAllowed(Poppler::Document *doc, PDF_Permission permission) const
 {
     bool b = true;
@@ -413,7 +414,7 @@ void PdfDialog::setNumberOfPages(int numpages)
 	}
 }
 
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#ifndef LIBPOPPLER_AVAILABLE
 void PdfDialog::determineNumberOfPages(const QString &filename, bool askForPassword)
 {
 	// determine the number of pages of the pdf file (delegate this task)
@@ -896,7 +897,7 @@ void PdfDialog::slotShowHelp()
 		"is encrypted, but the key is known. You should see it more as a polite but firm request "
 		"to respect the author's wishes.</p>");
 
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#ifndef LIBPOPPLER_AVAILABLE
 	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library. "
 	                "Setting, changing and removing of properties and permissions is not possible.</p>");
 #endif
@@ -1096,7 +1097,7 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 		if ( m_scriptmode == PDF_SCRIPTMODE_TOOLS ) {
 			initUtilities();
 		}
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#ifndef LIBPOPPLER_AVAILABLE
 		else if ( m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_PDFTK
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK
 			      || m_scriptmode==PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT ) {

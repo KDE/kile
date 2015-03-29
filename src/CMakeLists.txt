@@ -3,13 +3,18 @@ add_subdirectory(test)
 
 include(FindPerl)
 
-include_directories(${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
+include_directories(
+	${CMAKE_INCLUDE_PATH}
+	${CMAKE_CURRENT_SOURCE_DIR}
+	${CMAKE_CURRENT_BINARY_DIR}
+	${POPPLER_INCLUDE_DIR} # only set if Poppler is found
+)
 
 get_directory_property(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
 
 # we now look for Okular with "viewerinterface.h"
 find_package(Okular)
-set_PACKAGE_PROPERTIES("Okular" PROPERTIES
+set_package_properties("Okular" PROPERTIES
   DESCRIPTION "okularcore library, with viewerinterface.h"
   URL "http://okular.kde.org"
   TYPE RECOMMENDED
@@ -32,16 +37,7 @@ ELSE(OKULAR_FOUND)
 	message(STATUS "Not building with live preview")
 endif(OKULAR_FOUND)
 # MACRO_LOG_FEATURE(OKULAR_FOUND "Okular" "okularcore library, with viewerinterface.h" "http://okular.kde.org" FALSE "0.14 (KDE 4.8)" "Support for live preview.")
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
-# MACRO_OPTIONAL_FIND_PACKAGE(PopplerQt4)
-if(POPPLER_QT4_FOUND)
-	set(HAVE_POPPLER_QT4 TRUE)
-	INCLUDE_DIRECTORIES(${POPPLER_QT4_INCLUDE_DIR})
-ELSE(POPPLER_QT4_FOUND)
-	set(LIBPOPPLER_QT4_AVAILABLE 0)
-endif(POPPLER_QT4_FOUND)
-# MACRO_LOG_FEATURE(POPPLER_QT4_FOUND "Poppler-Qt4" "A PDF rendering library" "http://poppler.freedesktop.org" FALSE "" ".")
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
@@ -236,10 +232,6 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 # KDE4_ADD_EXECUTABLE(${PROGNAME} ${kile_SRCS})
 kf5_add_kdeinit_executable(kile ${kile_SRCS})
 
-if(POPPLER_QT4_FOUND)
-	target_link_libraries(${PROGNAME} ${POPPLER_QT4_LIBRARIES})
-endif(POPPLER_QT4_FOUND)
-
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
 	set_target_properties(${PROGNAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Kile")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -254,7 +246,9 @@ PUBLIC
     KF5::WindowSystem
     KF5::GuiAddons
     KF5::DBusAddons
-    KF5::KDELibs4Support)
+    KF5::KDELibs4Support
+    ${POPPLER_LIBRARY} # only set if Poppler is found
+)
 
 install(TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -48,10 +48,26 @@ set_package_properties("Poppler-Qt5" PROPERTIES
         DESCRIPTION "A PDF rendering library"
         URL "http://poppler.freedesktop.org"
         TYPE RECOMMENDED
-        PURPOSE "Support for PDF file operations in Kile.")
+        PURPOSE "Support for PDF file operations.")
 if(POPPLER_FOUND)
 	set(HAVE_POPPLER TRUE)
+	include_directories(${POPPLER_INCLUDE_DIR})
 endif()
+
+find_package(Okular)
+set_package_properties("Okular" PROPERTIES
+  DESCRIPTION "Okular core library"
+  URL "http://okular.kde.org"
+  TYPE RECOMMENDED
+  PURPOSE "Live preview support.")
+if(Okular_FOUND)
+	set(HAVE_OKULAR TRUE)
+	include_directories(
+		${OKULAR_INCLUDE_DIR}/okular/interfaces/
+		${OKULAR_INCLUDE_DIR}/okular/core/
+	)
+endif()
+
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)
 
 # find_package(SharedMimeInfo REQUIRED)

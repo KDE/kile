@@ -994,7 +994,7 @@ QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 
 void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
 {
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	        m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
 	connect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
@@ -1006,7 +1006,7 @@ void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
 
 void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
 {
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	disconnect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	           m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
 	disconnect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),

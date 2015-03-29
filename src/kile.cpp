@@ -26,6 +26,7 @@
 #include <QShowEvent>
 #include <QSplashScreen>
 #include <QXmlStreamWriter>
+#include <QStandardPaths>
 
 #include <KAboutApplicationDialog>
 #include <QAction>
@@ -51,8 +52,7 @@
 #include <KWindowSystem>
 
 #ifdef HAVE_VIEWERINTERFACE_H
-#include <okular/interfaces/viewerinterface.h>
-#include <QStandardPaths>
+#include <viewerinterface.h>
 #endif
 
 #include "abbreviationmanager.h"
@@ -234,19 +234,19 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection());
-	connect(this, SIGNAL(masterDocumentChanged()), m_livePreviewManager, SLOT(handleMasterDocumentChanged()));
+	connect(this, &Kile::masterDocumentChanged, m_livePreviewManager, &KileTool::LivePreviewManager::handleMasterDocumentChanged);
 
 	if(viewManager()->viewerPart()) {
 		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
 	}
 	else { // live preview part couldn't be created
 		delete m_livePreviewManager;
-		m_livePreviewManager = NULL;
+		m_livePreviewManager = Q_NULLPTR;
 	}
 #else
-	m_livePreviewManager = NULL;
+	m_livePreviewManager = Q_NULLPTR;
 #endif
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config.data(), actionCollection());
@@ -2607,7 +2607,7 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_codeCompletionManager->readConfig(m_config.data());
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	if(m_livePreviewManager) {
 		m_livePreviewManager->readConfig(m_config.data());
 	}
@@ -2641,7 +2641,7 @@ void Kile::saveSettings()
 	showEditorWidget();
 
 	m_fileBrowserWidget->writeConfig();
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	if(m_livePreviewManager) {
 		m_livePreviewManager->writeConfig();
 	}
@@ -2812,7 +2812,7 @@ void Kile::generalOptions()
 void Kile::slotPerformCheck()
 {
 	// first we have to disable the live preview that may be running, and clear the master document
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	const bool livePreviewEnabledForFreshlyOpenedDocuments = KileConfig::previewEnabledForFreshlyOpenedDocuments();
 	const bool livePreviewEnabledForCurrentDocument = livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
 	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
@@ -2830,7 +2830,7 @@ void Kile::slotPerformCheck()
 	if(!currentMasterDocument.isEmpty()) {
 		setMasterDocumentFileName(currentMasterDocument);
 	}
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
 	if(livePreviewEnabledForCurrentDocument) {
 		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);

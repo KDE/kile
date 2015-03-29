@@ -7,38 +7,9 @@ include_directories(
 	${CMAKE_INCLUDE_PATH}
 	${CMAKE_CURRENT_SOURCE_DIR}
 	${CMAKE_CURRENT_BINARY_DIR}
-	${POPPLER_INCLUDE_DIR} # only set if Poppler is found
 )
 
 get_directory_property(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
-
-# we now look for Okular with "viewerinterface.h"
-find_package(Okular)
-set_package_properties("Okular" PROPERTIES
-  DESCRIPTION "okularcore library, with viewerinterface.h"
-  URL "http://okular.kde.org"
-  TYPE RECOMMENDED
-  PURPOSE "Live preview support")
-
-if(OKULAR_FOUND)
-	find_file(HAVE_VIEWERINTERFACE_H okular/interfaces/viewerinterface.h PATHS ${OKULAR_INCLUDE_DIR} NO_DEFAULT_PATH)
-	if(NOT HAVE_VIEWERINTERFACE_H)
-		set(OKULAR_FOUND 0)
-	endif(NOT HAVE_VIEWERINTERFACE_H)
-endif(OKULAR_FOUND)
-if(OKULAR_FOUND)
-	set(HAVE_VIEWERINTERFACE_H 1)
-	set(LIVEPREVIEW_POSSIBLE 1)
-	INCLUDE_DIRECTORIES(${OKULAR_INCLUDE_DIR})
-	message(STATUS "Building with live preview")
-ELSE(OKULAR_FOUND)
-	set(HAVE_VIEWERINTERFACE_H 0)
-	set(LIVEPREVIEW_POSSIBLE 0)
-	message(STATUS "Not building with live preview")
-endif(OKULAR_FOUND)
-# MACRO_LOG_FEATURE(OKULAR_FOUND "Okular" "okularcore library, with viewerinterface.h" "http://okular.kde.org" FALSE "0.14 (KDE 4.8)" "Support for live preview.")
-
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
@@ -101,6 +72,7 @@ set(kile_SRCS
 	kileviewmanager.cpp
 	eventfilter.cpp
 	errorhandler.cpp
+	livepreview.cpp
 	dialogs/configcheckerdialog.cpp
 	configtester.cpp
 	widgets/sidebar.cpp
@@ -152,8 +124,6 @@ set(kile_SRCS
 	livepreview_utils.cpp
 	codecompletion.cpp
 )
-
-set(kile_SRCS ${kile_SRCS} livepreview.cpp)
 
 set(kile_UI
 	widgets/codecompletionconfigwidget.ui
@@ -229,7 +199,6 @@ else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   set(PROGNAME kile)
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-# KDE4_ADD_EXECUTABLE(${PROGNAME} ${kile_SRCS})
 kf5_add_kdeinit_executable(kile ${kile_SRCS})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
@@ -247,8 +216,11 @@ PUBLIC
     KF5::GuiAddons
     KF5::DBusAddons
     KF5::KDELibs4Support
-    ${POPPLER_LIBRARY} # only set if Poppler is found
 )
+# optional dependencies
+if(POPPLER_FOUND)
+	target_link_libraries(kdeinit_kile PUBLIC ${POPPLER_LIBRARY})
+endif()
 
 install(TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS})
@@ -259,7 +231,6 @@ install(FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTAL
 install(PROGRAMS kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile)
-
 install(FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile)
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")

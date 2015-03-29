@@ -21,11 +21,11 @@
 #include <QMap>
 #include <QFile>
 #include <QFileInfo>
+#include <QStandardPaths>
 #include <QTextCodec>
 #include <QTextStream>
 #include <QTimer>
 #include <QTemporaryDir>
-
 
 #include <KActionCollection>
 #include <KIconLoader>
@@ -37,9 +37,8 @@
 #include <KParts/MainWindow>
 #include <KXMLGUIFactory>
 
-#ifdef HAVE_VIEWERINTERFACE_H
-#include <okular/interfaces/viewerinterface.h>
-#include <QStandardPaths>
+#ifdef LIVEPREVIEW_AVAILABLE
+#include <viewerinterface.h>
 #endif
 
 #include "errorhandler.h"
@@ -1098,7 +1097,7 @@ bool LivePreviewManager::isLivePreviewActive() const
 
 bool LivePreviewManager::isLivePreviewPossible() const
 {
-#ifdef LIVEPREVIEW_POSSIBLE
+#ifdef LIVEPREVIEW_AVAILABLE
 	return true;
 #else
 	return false;

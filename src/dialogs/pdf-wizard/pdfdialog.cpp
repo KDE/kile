@@ -15,6 +15,7 @@
 #include "pdfdialog.h"
 
 #include <QCheckBox>
+#include <QDateTime>
 #include <QDialogButtonBox>
 #include <QFile>
 #include <QGridLayout>
@@ -41,7 +42,6 @@
 #include <KProcess>
 #include <KUrlRequester>
 
-
 #include "errorhandler.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -54,28 +54,21 @@ PdfDialog::PdfDialog(QWidget *parent,
                      const QString &texfilename,const QString &startdir,
                      const QString &latexextensions,
                      KileTool::Manager *manager,
-                     KileErrorHandler *errorHandler, KileWidget::OutputView *output) :
-	QDialog(parent),
-	m_startdir(startdir),
-	m_manager(manager),
-	m_errorHandler(errorHandler),
-	m_output(output),
-	m_proc(NULL)
+                     KileErrorHandler *errorHandler, KileWidget::OutputView *output)
+	: QDialog(parent)
+	, m_startdir(startdir)
+	, m_manager(manager)
+	, m_errorHandler(errorHandler)
+	, m_output(output)
+	, m_proc(Q_NULLPTR)
+	, m_rearrangeButton(new QPushButton)
+	, m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Close))
 {
 	setWindowTitle(i18n("PDF Wizard"));
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Help|QDialogButtonBox::Close);
-	QWidget *mainWidget = new QWidget(this);
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
-	QPushButton *user1Button = new QPushButton;
-	buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	user1Button->setDefault(true);
+	m_rearrangeButton->setDefault(true);
 
 	// determine if a pdffile already exists
 	QString pdffilename;
@@ -117,8 +110,8 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_PdfDialog.m_edPassword->setMaxLength(32);
 
 	// set an user button to execute the task and icon for help button
-	user1Button->setText(i18n("Re&arrange"));
-	user1Button->setIcon(QIcon::fromTheme("system-run"));
+	m_rearrangeButton->setText(i18n("Re&arrange"));
+	m_rearrangeButton->setIcon(QIcon::fromTheme("system-run"));
 	m_PdfDialog.m_lbParameterIcon->setPixmap(KIconLoader::global()->loadIcon("help-about", KIconLoader::NoGroup, KIconLoader::SizeSmallMedium));
 
 	// init important variables
@@ -194,8 +187,8 @@ PdfDialog::PdfDialog(QWidget *parent,
 	m_tempdir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "pdfwizard/pdf-");
 	KILE_DEBUG_MAIN << "tempdir: " << m_tempdir->path() ;
 
-	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
-	connect(m_PdfDialog.m_edInfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotInputfileChanged(const QString &)));
+	connect(this, &PdfDialog::output, m_output, &KileWidget::OutputView::receive);
+	connect(m_PdfDialog.m_edInfile->lineEdit(), &QLineEdit::textChanged, this, &PdfDialog::slotInputfileChanged);
 
 #ifdef LIBPOPPLER_QT4_AVAILABLE
 	connect(m_PdfDialog.tabWidget, SIGNAL(currentChanged(int)), this, SLOT(slotTabwidgetChanged(int)));
@@ -203,13 +196,20 @@ PdfDialog::PdfDialog(QWidget *parent,
 	connect(m_PdfDialog.m_pbAll, SIGNAL(clicked()), this, SLOT(slotAllClicked()));
 #endif
 
+	m_buttonBox->addButton(m_rearrangeButton, QDialogButtonBox::ActionRole);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(m_buttonBox, &QDialogButtonBox::helpRequested, this, &PdfDialog::slotShowHelp);
+	connect(m_rearrangeButton, &QPushButton::clicked, this, &PdfDialog::slotExecute);
+	mainLayout->addWidget(m_buttonBox);
+
 	// find available utilities for this dialog
 	executeScript("kpsewhich pdfpages.sty", QString(), PDF_SCRIPTMODE_TOOLS);
 }
 
 PdfDialog::~PdfDialog()
 {
-	if ( m_cbTask->currentIndex() != -1 ) {
+	if (m_cbTask->currentIndex() != -1) {
 		KileConfig::setPdfWizardLastTask(m_cbTask->currentIndex());
 	}
 	delete m_tempdir;
@@ -562,8 +562,7 @@ void PdfDialog::updateDialog()
 	else {
 		state = state && m_pdftk;
 	}
-//TODO KF5
-// 	user1Button->setEnabled(state&&!m_scriptrunning);
+	m_rearrangeButton->setEnabled(state&&!m_scriptrunning);
 }
 
 // update tools information
@@ -726,8 +725,7 @@ QString PdfDialog::readPermissions()
 
 void PdfDialog::slotTabwidgetChanged(int index)
 {
-// TODO KF5
-// 	user1Button->setText((index == 0 ? i18n("Re&arrange") : i18n("&Update"));
+	m_rearrangeButton->setText(index == 0 ? i18n("Re&arrange") : i18n("&Update"));
 	updateDialog();
 }
 
@@ -840,7 +838,7 @@ void PdfDialog::slotTaskChanged(int)
 		m_PdfDialog.m_edStamp->hide();
 	}
 
-	if ( isBackgroundColor(taskindex) ) {
+	if (isBackgroundColor(taskindex)) {
 		m_PdfDialog.m_lbBackgroundColor->show();
 		m_PdfDialog.m_pbBackgroundColor->show();
 	}
@@ -848,69 +846,62 @@ void PdfDialog::slotTaskChanged(int)
 		m_PdfDialog.m_lbBackgroundColor->hide();
 		m_PdfDialog.m_pbBackgroundColor->hide();
 	}
-//TODO KF5
-// 	if ( isOverlayTask(taskindex) || isBackgroundColor(taskindex) || isFreeTask(taskindex) ) {
-// 		user1Button->setText(i18n("&Apply"));
-// 	}
-// 	else {
-// 		user1Button->setText(i18n("Re&arrange"));
-// 	}
-
-
+	if (isOverlayTask(taskindex) || isBackgroundColor(taskindex) || isFreeTask(taskindex)) {
+		m_rearrangeButton->setText(i18n("&Apply"));
+	}
+	else {
+		m_rearrangeButton->setText(i18n("Re&arrange"));
+	}
 }
 
 // execute commands
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void PdfDialog::slotButtonClicked(int button)
+void PdfDialog::slotExecute()
 {
-// 	int tabindex = m_PdfDialog.tabWidget->currentIndex();
-// 
-// 	if ( button == User1 ) {
-// 		switch (tabindex) {
-// 			case 0: if (checkParameter()) {
-// 					executeAction();
-// 				}
-// 				break;
-// 			case 1: if (checkProperties()) {
-// 					executeProperties();
-// 				}
-// 				break;
-// 			case 2: if (checkPermissions()) {
-// 					executePermissions();
-// 				}
-// 				break;
-// 		}
-// 	}
-// 	else if (button == Help) {
-// 		QString message = i18n("<center>PDF-Wizard</center><br>"
-// 		"This wizard uses 'pdftk' and the LaTeX package 'pdfpages' to"
-// 		"<ul>"
-// 		"<li>rearrange pages of an existing PDF document</li>"
-// 		"<li>read and update documentinfo of a PDF document (only pdftk)</li>"
-// 		"<li>read, set or change some permissions of a PDF document (only pdftk). "
-// 		"A password is necessary to set or change this document settings. "
-// 		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
-// 		"</ul>"
-// 		"<p>The package 'pdfpages' will only work with non-encrypted documents. "
-// 		"'pdftk' can handle both kind of documents, but a password is needed for encrypted files. "
-// 		"If one of 'pdftk' or 'pdfpages' is not available, the possible rearrangements are reduced.</p>"
-// 		"<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content "
-// 		"is encrypted, but the key is known. You should see it more as a polite but firm request "
-// 		"to respect the author's wishes.</p>");
-// 
-// #ifndef LIBPOPPLER_QT4_AVAILABLE
-// 	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library. "
-// 	                "Setting, changing and removing of properties and permissions is not possible.</p>");
-// #endif
-// 
-// 		KMessageBox::information(this,message,i18n("PDF Tools"));
-// 	}
-// 	else {
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// // 		QDialog::slotButtonClicked(button);
-// 	}
+	int tabindex = m_PdfDialog.tabWidget->currentIndex();
+
+	switch (tabindex) {
+	case 0:
+		if (checkParameter()) {
+			executeAction();
+		}
+		break;
+	case 1:
+		if (checkProperties()) {
+			executeProperties();
+		}
+		break;
+	case 2:
+		if (checkPermissions()) {
+			executePermissions();
+		}
+		break;
+	}
+}
+
+void PdfDialog::slotShowHelp()
+{
+	QString message = i18n("<center>PDF-Wizard</center><br>"
+		"This wizard uses 'pdftk' and the LaTeX package 'pdfpages' to"
+		"<ul>"
+		"<li>rearrange pages of an existing PDF document</li>"
+		"<li>read and update documentinfo of a PDF document (only pdftk)</li>"
+		"<li>read, set or change some permissions of a PDF document (only pdftk). "
+		"A password is necessary to set or change this document settings. "
+		"Additionally PDF encryption is done to lock the file's content behind this password.</li>"
+		"</ul>"
+		"<p>The package 'pdfpages' will only work with non-encrypted documents. "
+		"'pdftk' can handle both kind of documents, but a password is needed for encrypted files. "
+		"If one of 'pdftk' or 'pdfpages' is not available, the possible rearrangements are reduced.</p>"
+		"<p><i>Warning:</i> Encryption and a password does not provide any real PDF security. The content "
+		"is encrypted, but the key is known. You should see it more as a polite but firm request "
+		"to respect the author's wishes.</p>");
+
+#ifndef LIBPOPPLER_QT4_AVAILABLE
+	message += i18n("<p><i>Information: </i>This version of Kile was compiled without libpoppler library. "
+	                "Setting, changing and removing of properties and permissions is not possible.</p>");
+#endif
+
+	KMessageBox::information(this, message, i18n("PDF Tools"));
 }
 
 void PdfDialog::executeAction()
@@ -968,9 +959,7 @@ void PdfDialog::executeProperties()
 		infostream << "InfoValue: " << m_pdfInfoWidget[*it]->text().trimmed() << "\n";
 	}
 	// add modification Date
-//TODO KF5
-// 	QString datetime = KDateTime::currentUtcDateTime().toString("%Y%m%d%H%M%S%:z");
-	QString datetime = "";
+	QString datetime = QDateTime::currentDateTimeUtc().toString("%Y%m%d%H%M%S%:z");
 	datetime = datetime.replace(":","'");
 	infostream << "InfoKey: " << "ModDate" << "\n";
 	infostream << "InfoValue: " << "D:" << datetime << "'\n";
@@ -1085,9 +1074,8 @@ void PdfDialog::executeScript(const QString &command, const QString &dir, int sc
 	KILE_DEBUG_MAIN << "=== PdfDialog::runPdfutils() ====================";
 	KILE_DEBUG_MAIN << "execute '" << command << "'";
 	m_scriptrunning = true;
-//TODO KF5
-// 	user1Button->setEnabled(false);
-// 	buttonBox->button(QDialogButtonBox::Close)->setEnabled(false);
+	m_rearrangeButton->setEnabled(false);
+	m_buttonBox->button(QDialogButtonBox::Close)->setEnabled(false);
 	m_proc->start();
 }
 
@@ -1121,8 +1109,7 @@ void PdfDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 	}
 
 	m_scriptrunning = false;
-//TODO KF5
-// 	buttonBox->button(QDialogButtonBox::Close)->setEnabled(true);
+	m_buttonBox->button(QDialogButtonBox::Close)->setEnabled(true);
 	updateDialog();
 }
 
@@ -1800,5 +1787,3 @@ bool PdfDialog::isFreeTask(int task)
 }
 
 }
-
-#include "pdfdialog.moc"

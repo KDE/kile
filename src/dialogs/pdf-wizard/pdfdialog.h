@@ -21,25 +21,22 @@
 #include <poppler-qt4.h>
 #endif
 
-
-#include <QDialog>
-#include <QTemporaryDir>
-
-#include <QProcess>
-#include <QMap>
-#include <QVector>
-#include <QCheckBox>
 #include <QBitArray>
+#include <QCheckBox>
+#include <QDialog>
+#include <QMap>
+#include <QProcess>
+#include <QTemporaryDir>
+#include <QVector>
 
 #include "widgets/outputview.h"
 #include "widgets/categorycombobox.h"
-
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 
 #include "ui_pdfdialog_base.h"
 
-
+class QDialogButtonBox;
 class QLineEdit;
 class KProcess;
 class KileErrorHandler;
@@ -67,7 +64,8 @@ class PdfDialog : public QDialog
 		void slotOutputfileChanged(const QString &text);
 		void slotTaskChanged(int index);
 		void slotOverwriteChanged(int state);
-		void slotButtonClicked(int button);
+		void slotExecute();
+		void slotShowHelp();
 		void slotTabwidgetChanged(int index);
 		void slotPrintingClicked();
 		void slotAllClicked();
@@ -191,6 +189,8 @@ class PdfDialog : public QDialog
 
 		KProcess* m_proc;
 
+		QPushButton *m_rearrangeButton;
+		QDialogButtonBox *m_buttonBox;
 		Ui::PdfDialog m_PdfDialog;
 
 #ifndef LIBPOPPLER_QT4_AVAILABLE

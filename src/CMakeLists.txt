@@ -1,54 +1,54 @@
-ADD_SUBDIRECTORY( data )
-ADD_SUBDIRECTORY( test )
+add_subdirectory(data)
+add_subdirectory(test)
 
-INCLUDE( FindPerl )
+include(FindPerl)
 
-INCLUDE_DIRECTORIES( ${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} ${KDE4_INCLUDES} ${QT_INCLUDES} )
+include_directories(${CMAKE_INCLUDE_PATH} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR})
 
-GET_DIRECTORY_PROPERTY(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
+get_directory_property(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
 
 # we now look for Okular with "viewerinterface.h"
-FIND_PACKAGE( Okular )
-SET_PACKAGE_PROPERTIES("Okular" PROPERTIES
+find_package(Okular)
+set_PACKAGE_PROPERTIES("Okular" PROPERTIES
   DESCRIPTION "okularcore library, with viewerinterface.h"
   URL "http://okular.kde.org"
   TYPE RECOMMENDED
   PURPOSE "Live preview support")
 
-IF( OKULAR_FOUND )
-	FIND_FILE(HAVE_VIEWERINTERFACE_H okular/interfaces/viewerinterface.h PATHS ${OKULAR_INCLUDE_DIR} NO_DEFAULT_PATH)
-	IF( NOT HAVE_VIEWERINTERFACE_H )
-		SET(OKULAR_FOUND 0)
-	ENDIF( NOT HAVE_VIEWERINTERFACE_H )
-ENDIF( OKULAR_FOUND )
-IF( OKULAR_FOUND )
-	SET(HAVE_VIEWERINTERFACE_H 1)
-	SET(LIVEPREVIEW_POSSIBLE 1)
+if(OKULAR_FOUND)
+	find_file(HAVE_VIEWERINTERFACE_H okular/interfaces/viewerinterface.h PATHS ${OKULAR_INCLUDE_DIR} NO_DEFAULT_PATH)
+	if(NOT HAVE_VIEWERINTERFACE_H)
+		set(OKULAR_FOUND 0)
+	endif(NOT HAVE_VIEWERINTERFACE_H)
+endif(OKULAR_FOUND)
+if(OKULAR_FOUND)
+	set(HAVE_VIEWERINTERFACE_H 1)
+	set(LIVEPREVIEW_POSSIBLE 1)
 	INCLUDE_DIRECTORIES(${OKULAR_INCLUDE_DIR})
-	MESSAGE( STATUS "Building with live preview" )
-ELSE( OKULAR_FOUND )
-	SET(HAVE_VIEWERINTERFACE_H 0)
-	SET(LIVEPREVIEW_POSSIBLE 0)
-	MESSAGE( STATUS "Not building with live preview" )
-ENDIF( OKULAR_FOUND )
+	message(STATUS "Building with live preview")
+ELSE(OKULAR_FOUND)
+	set(HAVE_VIEWERINTERFACE_H 0)
+	set(LIVEPREVIEW_POSSIBLE 0)
+	message(STATUS "Not building with live preview")
+endif(OKULAR_FOUND)
 # MACRO_LOG_FEATURE(OKULAR_FOUND "Okular" "okularcore library, with viewerinterface.h" "http://okular.kde.org" FALSE "0.14 (KDE 4.8)" "Support for live preview.")
 CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 # MACRO_OPTIONAL_FIND_PACKAGE(PopplerQt4)
-IF( POPPLER_QT4_FOUND )
-	SET(HAVE_POPPLER_QT4 TRUE)
+if(POPPLER_QT4_FOUND)
+	set(HAVE_POPPLER_QT4 TRUE)
 	INCLUDE_DIRECTORIES(${POPPLER_QT4_INCLUDE_DIR})
-ELSE( POPPLER_QT4_FOUND )
-	SET(LIBPOPPLER_QT4_AVAILABLE 0)
-ENDIF( POPPLER_QT4_FOUND )
+ELSE(POPPLER_QT4_FOUND)
+	set(LIBPOPPLER_QT4_AVAILABLE 0)
+endif(POPPLER_QT4_FOUND)
 # MACRO_LOG_FEATURE(POPPLER_QT4_FOUND "Poppler-Qt4" "A PDF rendering library" "http://poppler.freedesktop.org" FALSE "" ".")
-CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 
 ########### next target ###############
 
-SET(kile_SRCS
+set(kile_SRCS
 	latexcmd.cpp
 	dialogs/latexcommanddialog.cpp
 	dialogs/texdocumentationdialog.cpp
@@ -157,9 +157,9 @@ SET(kile_SRCS
 	codecompletion.cpp
 )
 
-SET(kile_SRCS ${kile_SRCS} livepreview.cpp)
+set(kile_SRCS ${kile_SRCS} livepreview.cpp)
 
-SET( kile_UI
+set(kile_UI
 	widgets/codecompletionconfigwidget.ui
 	widgets/helpconfigwidget.ui
 	widgets/latexconfigwidget.ui
@@ -191,7 +191,7 @@ SET( kile_UI
 	dialogs/scriptshortcutdialog_base.ui
 )
 
-SET( kile_UI_SRCS
+set(kile_UI_SRCS
 	widgets/configcheckerwidget.cpp
 	widgets/environmentconfigwidget.cpp
 	widgets/graphicsconfigwidget.cpp
@@ -213,39 +213,36 @@ SET( kile_UI_SRCS
 	widgets/appearanceconfigwidget.cpp
 )
 
-SET(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
+set(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 
 ki18n_wrap_ui(kile_SRCS ${kile_UI})
 
-SET(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
+set(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
 QT5_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
 
-SET( kile_KCFG_SRCS kileconfig.kcfgc)
+set(kile_KCFG_SRCS kileconfig.kcfgc)
 
 kconfig_add_kcfg_files (kile_SRCS ${kile_KCFG_SRCS})
 
 #TODO KF5
 # KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
-  SET(PROGNAME Kile)
-ELSE(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  SET(PROGNAME kile)
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
+  set(PROGNAME Kile)
+else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  set(PROGNAME kile)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 # KDE4_ADD_EXECUTABLE(${PROGNAME} ${kile_SRCS})
 kf5_add_kdeinit_executable(kile ${kile_SRCS})
 
-IF( POPPLER_QT4_FOUND )
-TARGET_LINK_LIBRARIES(${PROGNAME} ${POPPLER_QT4_LIBRARIES})
-ENDIF( POPPLER_QT4_FOUND )
+if(POPPLER_QT4_FOUND)
+	target_link_libraries(${PROGNAME} ${POPPLER_QT4_LIBRARIES})
+endif(POPPLER_QT4_FOUND)
 
-IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
-  SET_TARGET_PROPERTIES(${PROGNAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Kile")
-ENDIF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
-# TARGET_LINK_LIBRARIES(${PROGNAME} ${KDE4_KHTML_LIBS} ${KDE4_KROSSCORE_LIBS}
-#                       ${KDE4_KFILE_LIBS} ${KDE4_KTEXTEDITOR_LIBS})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
+	set_target_properties(${PROGNAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Kile")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 target_link_libraries(kdeinit_kile
 PUBLIC
@@ -259,26 +256,23 @@ PUBLIC
     KF5::DBusAddons
     KF5::KDELibs4Support)
 
-INSTALL( TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
-INSTALL( TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS} )
-
+install(TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-INSTALL( FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
-INSTALL( PROGRAMS kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-INSTALL( FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
-INSTALL( FILES data/bibtexentries.rc data/biblatexentries.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile )
+install(FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
+install(PROGRAMS kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
+install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES data/bibtexentries.rc data/biblatexentries.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile)
 
-INSTALL( FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile )
+install(FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile)
 
-IF(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  INSTALL (FILES data/kilestdtools-win.rc
+if(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	install(FILES data/kilestdtools-win.rc
            DESTINATION ${DATA_INSTALL_DIR}/kile
            RENAME kilestdtools.rc)
-
-ELSE(CMAKE_SYSTEM_NAME MATCHES "Windows")
-  INSTALL (FILES data/kilestdtools.rc
+else(CMAKE_SYSTEM_NAME MATCHES "Windows")
+	install (FILES data/kilestdtools.rc
            DESTINATION ${DATA_INSTALL_DIR}/kile)
-
-ENDIF(CMAKE_SYSTEM_NAME MATCHES "Windows")
+endif(CMAKE_SYSTEM_NAME MATCHES "Windows")

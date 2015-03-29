@@ -1,3 +1,3 @@
 file(GLOB symbols *.png)
-SET(symbolType "special")
-INSTALL( FILES ${symbols} DESTINATION ${DATA_INSTALL_DIR}/kile/mathsymbols/${symbolType} )
+set(symbolType "special")
+install(FILES ${symbols} DESTINATION ${DATA_INSTALL_DIR}/kile/mathsymbols/${symbolType})

@@ -1,16 +1,15 @@
 
-ADD_SUBDIRECTORY(relation)
-ADD_SUBDIRECTORY(arrows)
-ADD_SUBDIRECTORY(delimiters)
-ADD_SUBDIRECTORY(greek)
-ADD_SUBDIRECTORY(misc-math)
-ADD_SUBDIRECTORY(misc-text)
-ADD_SUBDIRECTORY(operators)
-ADD_SUBDIRECTORY(special)
-ADD_SUBDIRECTORY(cyrillic)
+add_subdirectory(relation)
+add_subdirectory(arrows)
+add_subdirectory(delimiters)
+add_subdirectory(greek)
+add_subdirectory(misc-math)
+add_subdirectory(misc-text)
+add_subdirectory(operators)
+add_subdirectory(special)
+add_subdirectory(cyrillic)
 
-# find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core DBus Widgets Script Test)
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core )
+find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core)
 
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR})
 
@@ -21,4 +20,3 @@ target_link_libraries(gesymb-ng ${QT_QTCORE_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QT
 set(convertOldSymbolFormat_SRCS convertOldSymbolFormat.cpp convertOldSymbolFormat.h)
 add_executable(convertOldSymbolFormat EXCLUDE_FROM_ALL ${convertOldSymbolFormat_SRCS})
 target_link_libraries(convertOldSymbolFormat ${QT_QTCORE_LIBRARY} ${QT_QTXML_LIBRARY} ${QT_QTGUI_LIBRARY})
-

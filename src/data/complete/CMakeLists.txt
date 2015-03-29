@@ -1,3 +1,3 @@
-ADD_SUBDIRECTORY( abbreviation )
-ADD_SUBDIRECTORY( tex )
-ADD_SUBDIRECTORY( dictionary )
+add_subdirectory(abbreviation)
+add_subdirectory(tex)
+add_subdirectory(dictionary)

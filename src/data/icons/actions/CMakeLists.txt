@@ -1,6 +1,4 @@
-#KDE4_INSTALL_ICONS( ${DATA_INSTALL_DIR}/kile/icons  )
-
-SET(kile_action_ICONS
+set(kile_action_ICONS
     hi128-actions-nroot.png
     hi128-actions-sqrt.png
     hi16-actions-acute.png

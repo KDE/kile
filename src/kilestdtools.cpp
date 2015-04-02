@@ -679,7 +679,7 @@ namespace KileTool
 				bool bib_selected = false;
 				KileListSelector *dlg = new KileListSelector(bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
 				if (dlg->exec() && dlg->hasSelection()) {
-					bib = dlg->selected();
+					bib = dlg->selectedItems().first();
 					bib_selected = true;
 					KILE_DEBUG_MAIN << "Bibliography selected : " << bib;
 				}

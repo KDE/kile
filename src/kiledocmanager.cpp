@@ -1439,7 +1439,7 @@ KileProject* Manager::selectProject(const QString& caption)
 			if(!dlg->hasSelection()) {
 				return NULL;
 			}
-			name = dlg->selected();
+			name = dlg->selectedItems().first();
 		}
 		delete dlg;
 	}
@@ -2281,7 +2281,7 @@ KileProjectItem* Manager::selectProjectFileItem(const QString &label)
 	KileListSelector *dlg  = new KileListSelector(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
 	if(dlg->exec()) {
 		if(dlg->hasSelection()) {
-			QString name = dlg->selected();
+			QString name = dlg->selectedItems().first();
 			if(map.contains(name)) {
 				item = map[name];
 			}
@@ -2315,10 +2315,11 @@ QList<KileProjectItem*> Manager::selectProjectFileItems(const QString &label)
 
 	QList<KileProjectItem*> itemsList;
 
-	KileListSelectorMultiple *dlg  = new KileListSelectorMultiple(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
+	KileListSelector *dlg  = new KileListSelector(filelist, i18n("Project Files"), label, true, m_ki->mainWindow());
+	dlg->setSelectionMode(QAbstractItemView::ExtendedSelection);
 	if(dlg->exec()) {
 		if(dlg->hasSelection()) {
-			QStringList selectedfiles = dlg->selected();
+			QStringList selectedfiles = dlg->selectedItems();
 			for(QStringList::Iterator it = selectedfiles.begin(); it != selectedfiles.end(); ++it ){
 				if(map.contains(*it)) {
 					itemsList.append(map[(*it)]);

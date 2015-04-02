@@ -18,71 +18,58 @@
 #define LISTSELECTOR_H
 
 #include <QItemSelection>
+#include <QAbstractItemView>
 #include <QSet>
-
 #include <QDialog>
 
+class QDialogButtonBox;
 class QTreeWidget;
 class QStringList;
 class KDirWatch;
 
-class KileListSelectorBase : public QDialog
+class KileListSelector : public QDialog
 {
 	Q_OBJECT
 
-	public:
-		KileListSelectorBase(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
-		                     QWidget *parent = NULL, const char *name = NULL);
+public:
+	KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
+							QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 
-		bool hasSelection();
+	bool hasSelection() const;
+	void setSelectionMode(QAbstractItemView::SelectionMode mode);
+	QStringList selectedItems() const;
 
-	protected Q_SLOTS:
-		void handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+protected Q_SLOTS:
+	void handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
-	protected:
-		QTreeWidget *m_listView;
-		void insertStringList(const QStringList &list);
+protected:
+	QTreeWidget *m_listView;
+	QDialogButtonBox *m_buttonBox;
+	void insertStringList(const QStringList &list);
 };
 
-class KileListSelector : public KileListSelectorBase
-{
-	public:
-		KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
-		                 QWidget *parent = NULL, const char *name = NULL);
-
-		QString selected();
-};
-
-class KileListSelectorMultiple : public KileListSelectorBase
-{
-	public:
-		KileListSelectorMultiple(const QStringList & list, const QString &caption, const QString &select, bool sort = true,
-		                         QWidget *parent = NULL, const char *name = NULL);
-
-	QStringList selected();
-};
 
 class ManageCompletionFilesDialog : public QDialog
 {
 	Q_OBJECT;
 
-	public:
-		ManageCompletionFilesDialog(const QString &caption,
-		                            const QString &localCompletionDir, const QString &globalCompletionDir,
-		                            QWidget* parent = NULL, const char *name = NULL);
-		~ManageCompletionFilesDialog();
+public:
+	ManageCompletionFilesDialog(const QString &caption,
+								const QString &localCompletionDir, const QString &globalCompletionDir,
+								QWidget* parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+	~ManageCompletionFilesDialog();
 
-		const QSet<QString> selected() const;
+	const QSet<QString> selected() const;
 
-	protected Q_SLOTS:
-		void addCustomCompletionFiles();
-		void openLocalCompletionDirectoryInFileManager();
-		void fillTreeView();
+protected Q_SLOTS:
+	void addCustomCompletionFiles();
+	void openLocalCompletionDirectoryInFileManager();
+	void fillTreeView();
 
-	private:
-		KDirWatch *m_dirWatcher;
-		QTreeWidget *m_listView;
-		QString m_localCompletionDirectory, m_globalCompletionDirectory;
+private:
+	KDirWatch *m_dirWatcher;
+	QTreeWidget *m_listView;
+	QString m_localCompletionDirectory, m_globalCompletionDirectory;
 };
 
 #endif

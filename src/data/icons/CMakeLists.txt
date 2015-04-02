@@ -1,14 +1,16 @@
 add_subdirectory(actions)
 
 set(kile_ICONS
-    hi128-apps-kile.png
-    hi16-apps-kile.png
-    hi22-apps-kile.png
-    hi32-apps-kile.png
-    hi48-apps-kile.png
-    hi64-apps-kile.png
-    hisc-apps-kile.svgz
+	128-apps-kile.png
+	16-apps-kile.png
+	22-apps-kile.png
+	32-apps-kile.png
+	48-apps-kile.png
+	64-apps-kile.png
+	sc-apps-kile.svgz
 )
 
-ecm_install_icons(ICONS ${kile_ICONS}
-                  DESTINATION ${ICON_INSTALL_DIR})
+ecm_install_icons(
+	ICONS ${kile_ICONS}
+	DESTINATION ${ICON_INSTALL_DIR}
+)

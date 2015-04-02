@@ -44,11 +44,11 @@ find_package(KF5 5.4 REQUIRED COMPONENTS
 )
 
 find_package(Poppler)
-set_package_properties("Poppler-Qt5" PROPERTIES
-        DESCRIPTION "A PDF rendering library"
-        URL "http://poppler.freedesktop.org"
-        TYPE RECOMMENDED
-        PURPOSE "Support for PDF file operations.")
+set_package_properties("Poppler" PROPERTIES
+	DESCRIPTION "A PDF rendering library"
+	URL "http://poppler.freedesktop.org"
+	TYPE RECOMMENDED
+	PURPOSE "Support for PDF file operations.")
 if(POPPLER_FOUND)
 	set(HAVE_POPPLER TRUE)
 	include_directories(${POPPLER_INCLUDE_DIR})
@@ -56,10 +56,10 @@ endif()
 
 find_package(Okular)
 set_package_properties("Okular" PROPERTIES
-  DESCRIPTION "Okular core library"
-  URL "http://okular.kde.org"
-  TYPE RECOMMENDED
-  PURPOSE "Live preview support.")
+	DESCRIPTION "Okular core library"
+	URL "http://okular.kde.org"
+	TYPE RECOMMENDED
+	PURPOSE "Live preview support.")
 if(Okular_FOUND)
 	set(HAVE_OKULAR TRUE)
 	include_directories(

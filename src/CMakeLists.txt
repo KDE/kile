@@ -188,10 +188,18 @@ QT5_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
 
 set(kile_KCFG_SRCS kileconfig.kcfgc)
 
-kconfig_add_kcfg_files (kile_SRCS ${kile_KCFG_SRCS})
+kconfig_add_kcfg_files(kile_SRCS ${kile_KCFG_SRCS})
 
-#TODO KF5
-# KDE4_ADD_APP_ICON(kile_SRCS "data/icons/hi*-app-kile.png")
+# add icon to executable on windows and mac
+ecm_add_app_icon(kile_SRCS
+	ICONS
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/16-apps-kile.png
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/22-apps-kile.png
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/32-apps-kile.png
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/48-apps-kile.png
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64-apps-kile.png
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/128-apps-kile.png
+)
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
   set(PROGNAME Kile)

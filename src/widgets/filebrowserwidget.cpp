@@ -57,7 +57,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
 	layout->addWidget(m_toolbar);
 
 	KFilePlacesModel* model = new KFilePlacesModel(this);
-	m_urlNavigator = new KUrlNavigator(model, QUrl(QDir::homePath()), this);
+	m_urlNavigator = new KUrlNavigator(model, QUrl::fromLocalFile(QDir::homePath()), this);
 	layout->addWidget(m_urlNavigator);
 	connect(m_urlNavigator, SIGNAL(urlChanged(const QUrl&)), SLOT(setDir(const QUrl&)));
 
@@ -94,7 +94,7 @@ void FileBrowserWidget::readConfig()
 		m_dirOperator->home();
 	}
 	else {
-		setDir(QUrl(lastDir));
+		setDir(QUrl::fromLocalFile(lastDir));
 	}
 
 	bool filterLatex = KileConfig::showLaTeXFilesOnly();

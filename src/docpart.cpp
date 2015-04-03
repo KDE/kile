@@ -74,7 +74,7 @@ QMimeDatabase db;
 void DocumentationViewer::home()
 {
 	if(!m_history.isEmpty()) {
-		openUrl(QUrl(m_history.first()));
+		openUrl(QUrl::fromLocalFile(m_history.first()));
 	}
 }
 
@@ -82,7 +82,7 @@ void DocumentationViewer::forward()
 {
 	if(forwardEnable()) {
 		++m_hpos;
-		openUrl(QUrl(m_history[m_hpos]));
+		openUrl(QUrl::fromLocalFile(m_history[m_hpos]));
 		emit updateStatus(backEnable(), forwardEnable());
 	}
 }
@@ -92,7 +92,7 @@ void DocumentationViewer::back()
 {
 	if(backEnable()) {
 		--m_hpos;
-		openUrl(QUrl(m_history[m_hpos]));
+		openUrl(QUrl::fromLocalFile(m_history[m_hpos]));
 		emit updateStatus(backEnable() , forwardEnable());
 	}
 }

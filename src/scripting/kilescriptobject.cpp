@@ -287,13 +287,13 @@ QMap<QString, QVariant> KileFile::write(const QString& text) const
 
 QString KileFile::getOpenFileName(const QUrl &url, const QString& filter)
 {
-	QUrl startdir = (url.isEmpty()) ? QUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	QUrl startdir = (url.isEmpty()) ? QUrl::fromLocalFile(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
 	return KFileDialog::getOpenFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Select File to Read"));
 }
 
 QString KileFile::getSaveFileName(const QUrl &url, const QString& filter)
 {
-	QUrl startdir = (url.isEmpty()) ? QUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	QUrl startdir = (url.isEmpty()) ? QUrl::fromLocalFile(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
 	return KFileDialog::getSaveFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Save As"));
 }
 

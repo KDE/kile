@@ -694,7 +694,7 @@ KTextEditor::View* Manager::loadTemplate(TemplateItem *sel)
 		//create a new document to open the template in
 		KTextEditor::Document *tempdoc = m_editor->createDocument(NULL);
 
-		if (!tempdoc->openUrl(QUrl(sel->path()))) {
+		if (!tempdoc->openUrl(QUrl::fromLocalFile(sel->path()))) {
 			KMessageBox::error(m_ki->mainWindow(), i18n("Could not find template: %1", sel->name()), i18n("File Not Found"));
 		}
 		else {

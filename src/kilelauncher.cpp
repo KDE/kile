@@ -401,7 +401,7 @@ namespace KileTool {
 				return false;
 			}
 			const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
-			tool()->manager()->viewManager()->openInDocumentViewer(QUrl(fileName));
+			tool()->manager()->viewManager()->openInDocumentViewer(QUrl::fromLocalFile(fileName));
 			if(tool()->paramDict().contains("%sourceFileName")
 			    && tool()->paramDict().contains("%sourceLine")) {
 				const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
@@ -469,7 +469,7 @@ namespace KileTool {
 		stack->insertWidget(1, m_part->widget());
 		stack->setCurrentIndex(1);
 
-		m_part->openUrl(QUrl(name));
+		m_part->openUrl(QUrl::fromLocalFile(name));
 		pm->addPart(m_part, true);
 		pm->setActivePart(m_part);
 
@@ -518,7 +518,7 @@ namespace KileTool {
 // 
 // 		tool()->manager()->wantGUIState(m_state);
 // 
-// 		htmlpart->openUrl(QUrl(name));
+// 		htmlpart->openUrl(QUrl::fromLocalFile(name));
 // 		htmlpart->addToHistory(name);
 // 		stack->insertWidget(1, htmlpart->widget());
 // 		stack->setCurrentIndex(1);

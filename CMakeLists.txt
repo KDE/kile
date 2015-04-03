@@ -32,7 +32,7 @@ find_package(Qt5 5.3 CONFIG REQUIRED
 	Test
 )
 
-find_package(KF5 5.4 REQUIRED COMPONENTS
+find_package(KF5 5.6 REQUIRED COMPONENTS
 	Config
 	DocTools
 	GuiAddons

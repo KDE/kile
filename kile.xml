@@ -2,6 +2,7 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="text/x-kilepr">
     <comment>Kile project</comment>
+    <comment xml:lang="ast">Proyeutu Kile</comment>
     <comment xml:lang="bs">Kile project</comment>
     <comment xml:lang="ca">projecte del Kile</comment>
     <comment xml:lang="cs">Projekt Kile</comment>

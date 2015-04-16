@@ -17,7 +17,7 @@
 
 #include <config.h>
 
-#ifdef LIBPOPPLER_AVAILABLE
+#if LIBPOPPLER_AVAILABLE
 #include <poppler-qt5.h>
 #endif
 
@@ -92,7 +92,7 @@ class PdfDialog : public QDialog
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
 		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3,
-#ifndef LIBPOPPLER_AVAILABLE
+#if !LIBPOPPLER_AVAILABLE
 		                      PDF_SCRIPTMODE_NUMPAGES_PDFTK=4,
 		                      PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK=5,
 		                      PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT=6
@@ -147,7 +147,7 @@ class PdfDialog : public QDialog
 		QString readPermissions();
 		void setNumberOfPages(int numpages);
 
-#ifdef LIBPOPPLER_AVAILABLE
+#if LIBPOPPLER_AVAILABLE
 		QSize allPagesSize(Poppler::Document *doc);
 		bool isAllowed(Poppler::Document *doc, PDF_Permission permission) const;
 #endif
@@ -193,7 +193,7 @@ class PdfDialog : public QDialog
 		QDialogButtonBox *m_buttonBox;
 		Ui::PdfDialog m_PdfDialog;
 
-#ifndef LIBPOPPLER_AVAILABLE
+#if !LIBPOPPLER_AVAILABLE
 		int m_imagemagick;
 		int m_numpagesMode;
 		void determineNumberOfPages(const QString &filename, bool askForPasswor);

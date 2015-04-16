@@ -64,23 +64,30 @@ Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObjec
 Manager::~Manager() {
 }
 
-bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString& fileName) {
-	QString dir;
+bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString& fileName)
+{
 	//let saveLocation find and create the appropriate place to
 	//store the templates (usually $HOME/.kde/share/apps/kile/templates)
-	dir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + '/' + subdir;
+	QString dir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + '/' + subdir;
+
 	QUrl targetURL = QUrl::fromUserInput(dir);
 	targetURL = targetURL.adjusted(QUrl::StripTrailingSlash);
 	targetURL.setPath(targetURL.path() + '/' + fileName);
 
 	//if a directory is found
 	if (!dir.isNull()) {
+		// create dir if not existing, needed for copyjob
+		QDir testDir(dir);
+		if (!testDir.exists()){
+			testDir.mkpath(dir);
+		}
+		// copy file
 		KIO::FileCopyJob* copyJob = KIO::file_copy(src, targetURL);
 		KJobWidgets::setWindow(copyJob, m_kileInfo->mainWindow());
 		return copyJob->exec();
 	}
 	else {
-		KMessageBox::error(NULL, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
+		KMessageBox::error(Q_NULLPTR, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
 		return false;
 	}
 }
@@ -106,13 +113,13 @@ bool Manager::searchForTemplate(const QString& name, KileDocument::Type& type) c
 	return false;
 }
 
-bool Manager::add(const QUrl &templateSourceURL, const QString& name, const QUrl& icon) {
+bool Manager::add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	KileDocument::Type type = extensions->determineDocumentType(templateSourceURL);
 	return add(templateSourceURL, type, name, icon);
 }
 
-bool Manager::add(const QUrl &templateSourceURL, KileDocument::Type type, const QString& name, const QUrl& icon) {
+bool Manager::add(const QUrl &templateSourceURL, KileDocument::Type type, const QString &name, const QUrl &icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	QString extension = extensions->defaultExtensionForDocumentType(type);
 

@@ -80,7 +80,7 @@ class Manager : public QObject {
 		bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
 
 		// add a template in $HOME/kile/templates/
-		bool add(const QUrl &templateSourceURL, const QString& name, const QUrl& icon);
+		bool add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon);
 		
 		// remove a template from $HOME/kile/templates/
 		bool remove(KileTemplate::Info ti);

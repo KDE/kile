@@ -17,8 +17,7 @@
 #define TOOLCONFIGWIDGET_H
 
 #include <QStringList>
-
-#include <keditlistbox.h>
+#include <QWidget>
 
 #include "kiletool.h"
 

@@ -24,7 +24,6 @@
 
 #include "dialogs/projectdialogs.h"
 
-#include <QComboBox>
 #include <QDialogButtonBox>
 #include <QFileInfo>
 #include <QGridLayout>
@@ -37,10 +36,7 @@
 #include <QVBoxLayout>
 #include <QFormLayout>
 
-#include <KApplication>
 #include <KComboBox>
-#include <KFileDialog>
-#include <KGlobal>
 #include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -91,7 +87,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
 	projectGoupLayout->addRow(projectFolderLabel, m_projectFolder);
 
 	// combo box for default graphics extension
-	m_defaultGraphicsExtensionCombo = new QComboBox(this);
+	m_defaultGraphicsExtensionCombo = new KComboBox(this);
 	KileDocument::Extensions extManager;
 	QStringList imageExtensions = extManager.images().split(" ");
 	foreach (const QString &extension, imageExtensions) {

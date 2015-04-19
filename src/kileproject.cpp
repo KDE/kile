@@ -26,7 +26,6 @@
 #include <QDir>
 
 #include <kdeversion.h>
-#include <KGlobal>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>

@@ -24,6 +24,7 @@
 #include <QLabel>
 #include <QLayout>
 #include <QLineEdit>
+#include <QLocale>
 #include <QProcess>
 #include <QPushButton>
 #include <QRegExp>
@@ -37,7 +38,6 @@
 #include <KComboBox>
 #include <KConfigGroup>
 #include <KIconLoader>
-#include <KLocale>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
@@ -291,8 +291,8 @@ void PdfDialog::pdfParser(const QString &filename)
 	}
 
 	// read creation date and modification date
-	m_PdfDialog.m_lbCreationDate->setText(KLocale::global()->formatDateTime(doc->date("CreationDate"), KLocale::LongDate, true));
-	m_PdfDialog.m_lbModDate->setText(KLocale::global()->formatDateTime(doc->date("ModDate"), KLocale::LongDate, true));
+	m_PdfDialog.m_lbCreationDate->setText(QLocale().toString(doc->date("CreationDate")));
+	m_PdfDialog.m_lbModDate->setText(QLocale().toString(doc->date("ModDate")));
 
 	// read PDF version
 	int major,minor;

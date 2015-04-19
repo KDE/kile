@@ -161,16 +161,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction></pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>QSpinBox</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local" >knuminput.h</include>
- </includes>
  <resources/>
  <connections>
   <connection>

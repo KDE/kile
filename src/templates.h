@@ -109,6 +109,7 @@ class Manager : public QObject {
 
 	private:
 		TemplateList m_TemplateList;
+		QString m_TempFilePath;
 };
 
 }

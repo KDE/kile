@@ -31,7 +31,7 @@
 
 namespace KileWidget {
 
-StatisticsWidget::StatisticsWidget(QWidget* parent, const char *name, Qt::WFlags fl)
+StatisticsWidget::StatisticsWidget(QWidget* parent, const char *name, Qt::WindowFlags fl)
 		: QWidget(parent, fl)
 {
 	setObjectName(name);

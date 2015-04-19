@@ -21,35 +21,38 @@
 
 #include <config.h>
 
+#include <QAction>
 #include <QHideEvent>
+#include <QMenuBar>
 #include <QPointer>
 #include <QShowEvent>
 #include <QSplashScreen>
-#include <QXmlStreamWriter>
 #include <QStandardPaths>
+#include <QXmlStreamWriter>
 
 #include <KAboutApplicationDialog>
-#include <QAction>
+#include <KAboutData>
 #include <KActionMenu>
 #include <KConfigGroup>
 #include <KEditToolBar>
 #include <KHelpMenu>
 #include <KIconLoader>
-#include <KGlobal>
 #include <KLocalizedString>
-#include <QMenuBar>
 #include <KMessageBox>
 #include <KRecentFilesAction>
 #include <KRun>
 #include <KShortcutsDialog>
-#include <KStandardDirs>
-#include <KStatusBar>
 #include <KTipDialog>
 #include <KToggleAction>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 #include <KWindowSystem>
+
+// FIXME: port away from KDELibs4Support
+#include <KApplication>
+#include <KGlobal>
+#include <KStandardDirs>
 
 #ifdef HAVE_VIEWERINTERFACE_H
 #include <viewerinterface.h>
@@ -123,7 +126,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	// Under some circumstances (Qt or KDE issues like a KIO process still running (?)), Kile doesn't terminate
 	// when the main window is closed (bugs 220343 and 299569). So, we force this here.
 	// This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
-	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
+	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit())); //FIXME: KF5 is this still necessary?
 
 	QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {
@@ -883,7 +886,7 @@ void Kile::setupActions()
 	act = createAction(i18n("Settings for Biblatex"), "setting_biblatex", this, SLOT(rebuildBibliographyMenu()));
 	act->setCheckable(true);
 	m_bibTagSettings->addAction(act);
-	m_bibTagSettings->setCurrentAction(action((QString("setting_") + KileConfig::bibliographyType()).toAscii()));
+	m_bibTagSettings->setCurrentAction(action((QString("setting_") + KileConfig::bibliographyType()).toLatin1()));
 
 	rebuildBibliographyMenu();
 

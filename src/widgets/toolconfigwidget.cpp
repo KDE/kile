@@ -26,7 +26,6 @@
 #include <QVBoxLayout>
 
 #include "kiledebug.h"
-#include <keditlistbox.h>
 #include <KLocalizedString>
 #include <kicondialog.h>
 #include <kiconloader.h>

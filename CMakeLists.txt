@@ -21,6 +21,7 @@ include(CheckFunctionExists)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
@@ -34,12 +35,17 @@ find_package(Qt5 5.3 CONFIG REQUIRED
 
 find_package(KF5 5.6 REQUIRED COMPONENTS
 	Config
+	CoreAddons
+	DBusAddons
 	DocTools
 	GuiAddons
 	I18n
+	IconThemes
+	Init
 	KIO
 	Parts
 	TextEditor
+	WindowSystem
 	XmlGui
 	KDELibs4Support
 )

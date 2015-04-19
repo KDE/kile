@@ -25,21 +25,19 @@
 #include <QCheckBox>
 #include <QFileInfo>
 #include <QGridLayout>
-#include <QLayout>
 #include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QString>
 #include <QStringList>
 #include <QToolBar>
 
 #include <QMenu>
 
-#include <QLineEdit>
-#include <kglobal.h>
-#include <kcombobox.h>
-#include <QPushButton>
+#include <KComboBox>
 #include <KLocalizedString>
-#include <kfiledialog.h>
-#include <kiconloader.h>
+#include <KIconLoader>
 #include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QPushButton>

@@ -16,27 +16,25 @@
 #include "dialogs/managetemplatesdialog.h"
 
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QFileInfo>
 #include <QGridLayout>
-#include <QLayout>
 #include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QStandardPaths>
 #include <QTreeWidget>
+#include <QUrl>
+#include <QVBoxLayout>
 
+#include <KConfigGroup>
 #include <KIconDialog>
 #include <KIconLoader>
-#include <QLineEdit>
+#include <KIO/Job>
+#include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <QPushButton>
-
-#include <QUrl>
-
-#include <KIO/NetAccess>
-#include <KConfigGroup>
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-#include <QStandardPaths>
 
 #include "kiledebug.h"
 #include "kileextensions.h"
@@ -277,12 +275,18 @@ void ManageTemplatesDialog::addTemplate() {
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(iconURL, KIO::NetAccess::SourceSide, this)) {
+	KIO::StatJob* statJob = KIO::stat(iconURL, KIO::StatJob::SourceSide, 0);
+	KJobWidgets::setWindow(statJob, this);
+	statJob->exec();
+	if (statJob->error()) {
 		KMessageBox::error(this, i18n("The icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(m_sourceURL, KIO::NetAccess::SourceSide, this)) {
+	statJob = KIO::stat(m_sourceURL, KIO::StatJob::SourceSide, 0);
+	KJobWidgets::setWindow(statJob, this);
+	statJob->exec();
+	if (statJob->error()) {
 		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.toString()));
 		return;
 	}
@@ -329,7 +333,13 @@ bool ManageTemplatesDialog::removeTemplate()
 
 	KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-	if (!(KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.path), KIO::NetAccess::DestinationSide, this) && (KIO::NetAccess::exists(QUrl::fromUserInput(templateInfo.icon), KIO::NetAccess::DestinationSide, this) || !QFileInfo(templateInfo.icon).exists()))) {
+	KIO::StatJob* statJob = KIO::stat(QUrl::fromUserInput(templateInfo.path), KIO::StatJob::DestinationSide, 0);
+	KIO::StatJob* statJob2 = KIO::stat(QUrl::fromUserInput(templateInfo.icon), KIO::StatJob::DestinationSide, 0);
+	KJobWidgets::setWindow(statJob, this);
+	KJobWidgets::setWindow(statJob2, this);
+	statJob->exec();
+	statJob2->exec();
+	if ((statJob->error() && statJob2->error()) || !QFileInfo(templateInfo.icon).exists()) {
 		KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
 		return false;
 	}

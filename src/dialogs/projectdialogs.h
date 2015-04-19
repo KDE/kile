@@ -83,8 +83,8 @@ protected:
 	QLineEdit *m_title, *m_userFileExtensions;
 	QLabel *m_defaultLatexFileExtensions;
 
-	QComboBox *m_defaultLatexFileExtensionsCombo;
-	QComboBox *m_defaultGraphicsExtensionCombo;
+	KComboBox *m_defaultLatexFileExtensionsCombo;
+	KComboBox *m_defaultGraphicsExtensionCombo;
 
 	QString m_val_extensions[KileProjectItem::Other - 1];
 	QString m_val_standardExtensions[KileProjectItem::Other - 1];

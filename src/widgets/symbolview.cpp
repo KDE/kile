@@ -42,8 +42,10 @@ tbraun 2007-06-13
 
 #include <KColorScheme>
 #include <KConfig>
-#include <KGlobal>
 #include <KLocalizedString>
+
+// FIXME: port away from KDELibs4Support
+#include <KGlobal>
 #include <KStandardDirs>
 
 #include "kileconfig.h"
@@ -205,9 +207,9 @@ QString SymbolView::getToolTip(const QString &key)
 	extract(key, cmd);
 
 	QString label = "<p style='white-space:pre'>";
-	label += "<b>" + i18n("Command: %1", Qt::escape(cmd.latexCommand)) + "</b>";
+	label += "<b>" + i18n("Command: %1", cmd.latexCommand.toHtmlEscaped()) + "</b>";
 	if(!cmd.unicodeCommand.isEmpty()) {
-		label += i18n("<br/>Unicode: %1", Qt::escape(cmd.unicodeCommand));
+		label += i18n("<br/>Unicode: %1", cmd.unicodeCommand.toHtmlEscaped());
 	}
 
 	if(cmd.packages.count() > 0) {
@@ -239,7 +241,7 @@ QString SymbolView::getToolTip(const QString &key)
 	}
 
 	if(!cmd.comment.isEmpty()) {
-		label += "<br/><i>" + i18n("Comment: %1", Qt::escape(cmd.comment))  + "</i>";
+		label += "<br/><i>" + i18n("Comment: %1", cmd.comment.toHtmlEscaped())  + "</i>";
 	}
 
 	label += "</p>";

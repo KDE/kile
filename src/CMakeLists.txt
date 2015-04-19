@@ -216,13 +216,15 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 target_link_libraries(kdeinit_kile
 PUBLIC
     Qt5::Script
-    KF5::TextEditor
-    KF5::I18n
-    KF5::KIOFileWidgets
-    KF5::IconThemes
-    KF5::WindowSystem
-    KF5::GuiAddons
+    KF5::CoreAddons
     KF5::DBusAddons
+    KF5::GuiAddons
+    KF5::I18n
+    KF5::IconThemes
+    KF5::KIOCore
+    KF5::KIOFileWidgets
+    KF5::TextEditor
+    KF5::WindowSystem
     KF5::KDELibs4Support
 )
 # optional dependencies

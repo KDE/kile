@@ -87,7 +87,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
 	QApplication app(argc, argv);
 
-	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toAscii(),
+	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
 	                     i18n("KDE Integrated LaTeX Environment"),
 	                     KAboutLicense::GPL,
 	                     i18n("by the Kile Team (2003 - 2014)"),

@@ -61,9 +61,7 @@
 
 #include <KProcess>
 #include <KAcceleratorManager>
-#include <KApplication>
 #include <KComboBox>
-#include <KFileDialog>
 #include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>

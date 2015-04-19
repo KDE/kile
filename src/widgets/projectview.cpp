@@ -245,7 +245,7 @@ ProjectView::ProjectView(QWidget *parent, KileInfo *ki) : QTreeWidget(parent), m
 
 	setFocusPolicy(Qt::ClickFocus);
 	header()->hide();
-	header()->setResizeMode(QHeaderView::ResizeToContents);
+	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 	setRootIsDecorated(true);
 	setAllColumnsShowFocus(true);
 	setSelectionMode(QTreeWidget::SingleSelection);

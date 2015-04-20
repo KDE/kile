@@ -87,7 +87,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
 	projectGoupLayout->addRow(projectFolderLabel, m_projectFolder);
 
 	// combo box for default graphics extension
-	m_defaultGraphicsExtensionCombo = new KComboBox(this);
+	m_defaultGraphicsExtensionCombo = new QComboBox(this);
 	KileDocument::Extensions extManager;
 	QStringList imageExtensions = extManager.images().split(" ");
 	foreach (const QString &extension, imageExtensions) {

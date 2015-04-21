@@ -33,7 +33,7 @@ KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(pare
 	kcfg_DefaultProjectLocation->setCompletionObject(dirCompletion);
 	kcfg_DefaultProjectLocation->setAutoDeleteCompletionObject(true);
 
-#ifndef HAVE_VIEWERINTERFACE_H
+#ifndef LIVEPREVIEW_AVAILABLE
 	documentViewerGroupBox->setEnabled(false);
 #endif
 }

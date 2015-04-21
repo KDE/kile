@@ -58,7 +58,7 @@
 #include "quickpreview.h"
 #include "codecompletion.h"
 
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
 #include <KConfigGroup>
 #endif
@@ -157,7 +157,7 @@ void Manager::readConfig(QSplitter *splitter)
 
 	setDocumentViewerVisible(KileConfig::showDocumentViewer());
 
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface && !m_ki->livePreviewManager()->isLivePreviewActive()) {
 		viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
@@ -947,7 +947,7 @@ void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
 void Manager::createViewerPart(KActionCollection *actionCollection)
 {
 	m_viewerPart = NULL;
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 	KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
 	KPluginFactory *factory = pluginLoader.factory();
 	if (!factory) {
@@ -987,7 +987,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 
 void Manager::setupViewerPart(QSplitter *splitter)
 {
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 	if(!m_viewerPart) {
 		return;
 	}
@@ -1083,7 +1083,7 @@ bool Manager::isViewerPartShown() const
 
 bool Manager::openInDocumentViewer(const QUrl &url)
 {
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(!v) {
 		return false;
@@ -1099,7 +1099,7 @@ bool Manager::openInDocumentViewer(const QUrl &url)
 
 void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int line, int column)
 {
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(v) {
 		v->showSourceLocation(fileName, line, column, true);
@@ -1113,7 +1113,7 @@ void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int li
 
 void Manager::setLivePreviewModeForDocumentViewer(bool b)
 {
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface) {
 		if(b) {

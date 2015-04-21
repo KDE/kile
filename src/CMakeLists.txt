@@ -232,6 +232,10 @@ if(POPPLER_FOUND)
 	target_link_libraries(kdeinit_kile PUBLIC ${POPPLER_LIBRARY})
 endif()
 
+if(Okular_FOUND)
+  target_link_libraries(kdeinit_kile PRIVATE Okular::okularcore)
+endif()
+
 install(TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS})
 

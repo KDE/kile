@@ -18,7 +18,7 @@
 
 //TODO KF5
 // include "docpart.h"
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
   #include "livepreview.h"
 #endif
 #include "kileconfig.h"
@@ -388,7 +388,7 @@ namespace KileTool {
 		m_className = tool()->readEntry("className");
 		m_options = tool()->readEntry("libOptions");
 		m_state = tool()->readEntry("state");
-#ifdef HAVE_VIEWERINTERFACE_H
+#ifdef LIVEPREVIEW_AVAILABLE
 		// check if should use the document viewer
 		if(tool()->readEntry("useDocumentViewer") == "yes") {
 			// and whether it's available

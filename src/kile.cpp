@@ -54,8 +54,8 @@
 #include <KGlobal>
 #include <KStandardDirs>
 
-#ifdef HAVE_VIEWERINTERFACE_H
-#include <viewerinterface.h>
+#ifdef LIVEPREVIEW_AVAILABLE
+#include <okular/interfaces/viewerinterface.h>
 #endif
 
 #include "abbreviationmanager.h"

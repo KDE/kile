@@ -69,10 +69,6 @@ set_package_properties("Okular" PROPERTIES
 	PURPOSE "Live preview support.")
 if(Okular_FOUND)
 	set(HAVE_OKULAR TRUE)
-	include_directories(
-		${OKULAR_INCLUDE_DIR}/okular/interfaces/
-		${OKULAR_INCLUDE_DIR}/okular/core/
-	)
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)

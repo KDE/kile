@@ -1,10 +1,6 @@
-#cmakedefine HAVE_OKULAR
+#cmakedefine01 HAVE_OKULAR
 
-#ifdef HAVE_OKULAR
-	#define LIVEPREVIEW_AVAILABLE
-#else
-	#undef LIVEPREVIEW_AVAILABLE
-#endif
+#define LIVEPREVIEW_AVAILABLE HAVE_OKULAR
 
 #cmakedefine HAVE_POPPLER
 

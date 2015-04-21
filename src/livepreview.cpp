@@ -37,7 +37,7 @@
 #include <KParts/MainWindow>
 #include <KXMLGUIFactory>
 
-#ifdef LIVEPREVIEW_AVAILABLE
+#if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
 #endif
 
@@ -209,7 +209,7 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 
 void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
 {
-#ifdef LIVEPREVIEW_AVAILABLE
+#if LIVEPREVIEW_AVAILABLE
 	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
 		return;
 	}
@@ -1097,7 +1097,7 @@ bool LivePreviewManager::isLivePreviewActive() const
 
 bool LivePreviewManager::isLivePreviewPossible() const
 {
-#ifdef LIVEPREVIEW_AVAILABLE
+#if LIVEPREVIEW_AVAILABLE
 	return true;
 #else
 	return false;

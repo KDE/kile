@@ -21,7 +21,7 @@ KileWidgetAppearanceConfig::KileWidgetAppearanceConfig(KConfig *config, QWidget 
 {
 	setupUi(this);
 
-#ifndef LIVEPREVIEW_AVAILABLE
+#if !LIVEPREVIEW_AVAILABLE
 	documentViewerGroupBox->setEnabled(false);
 #endif
 }

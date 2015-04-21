@@ -250,7 +250,7 @@ void ConfigChecker::finished(bool ok)
 		m_useModernConfigurationForLaTeXCheckBox->setChecked(m_tester->areSrcSpecialsSupportedForLaTeX());
 		m_useModernConfigurationForPDFLaTeX->setChecked(m_tester->isSyncTeXSupportedForPDFLaTeX());
 
-#ifdef LIVEPREVIEW_AVAILABLE
+#if LIVEPREVIEW_AVAILABLE
 		if(m_tester->isViewerModeSupportedInOkular()) {
 			m_useEmbeddedViewerCheckBox->setVisible(true);
 			m_useEmbeddedViewerCheckBox->setChecked(true);

@@ -23,8 +23,6 @@
 #include <KTextEditor/View>
 #include <KTextEditor/Range>
 #include <KTextEditor/Cursor>
-//TODO KF5
-//include <KTextEditor/SearchInterface>
 #include <KLocalizedString>
 
 
@@ -854,104 +852,98 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 // +       reg.setCaseSensitivity(Qt::CaseInsensitive);
 // +       int lastMatch = 0;
 
-//TODO KF5
-// 	KTextEditor::SearchInterface *iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
-// 	if(!iface) {
-// 		return false;
-// 	}
-// 
-// 	int rowFound, colFound;
-// 	QRegExp reg(regExpString);
-// 
-// 	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
-// 
-// 	while(true) {
-// 		QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, regExpString, KTextEditor::Search::Regex | KTextEditor::Search::CaseInsensitive);
-// 		if(foundRanges.isEmpty() || (foundRanges.size() == 1 && !foundRanges.first().isValid())) {
-// 			break;
-// 		}
-// 
-// 		//KILE_DEBUG_MAIN << "number of ranges " << foundRanges.count();
-// 		if(foundRanges.size() < 3) {
-// 			break;
-// 		}
-// 
-// 		KTextEditor::Range range = foundRanges.first();
-// 		//KILE_DEBUG_MAIN << "found math tag: " << doc->text(range);
-// 		if(!range.isValid()) {
-// 			break;
-// 		}
-// 
-// 		rowFound = range.start().line();
-// 		colFound = range.start().column();
-// 		QString textFound = doc->text(range);
-// 
-// 		// should be better called 'isValidChar()', because it checks for comments
-// 		// and escaped chars like backslash and dollar in '\\' and '\$'
-// 		if(isValidBackslash(doc, rowFound, colFound)) {
-// 			QString mathname = textFound.left(2);
-// 
-// 			// always remember behind the last match
-// 			mathdata.row = rowFound;
-// 			mathdata.col = colFound;
-// 			mathdata.len = textFound.length();
-// 
-// 			if(mathname=="$") {
-// 				mathdata.tag = mmMathDollar;
-// 				return true;
-// 			}
-// 			else if(mathname=="\\]") {
-// 				mathdata.tag = mmDisplaymathParen;
-// 				return true;
-// 			}
-// 			else if(mathname=="\\)") {
-// 				mathdata.tag = mmMathParen;
-// 				return true;
-// 			}
-// 			else if(mathname=="\\[" || mathname=="\\(") {
-// 				//KILE_DEBUG_MAIN << "error: current mathgroup was not closed";
-// 				return false;
-// 			}
-// 			else if(mathname=="\\b") {
-// 				QString envname = doc->text(foundRanges[1]);
-// 				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
-// 					//KILE_DEBUG_MAIN << "error: only math env are allowed in mathmode (found begin tag)";
-// 					return false;
-// 				}
-// 
-// 				if(!m_latexCommands->needsMathMode(envname) || envname=="math") {
-// 					//KILE_DEBUG_MAIN << "error: mathenv with its own mathmode are not allowed in mathmode ";
-// 					return false;
-// 				}
-// 
-// 				// else continue search
-// 			}
-// 			else if(mathname == "\\e") {
-// 				QString envname = doc->text(foundRanges[2]);
-// 				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
-// 					//KILE_DEBUG_MAIN << "error: only math env are allowed in mathmode (found end tag)";
-// 					return false;
-// 				}
-// 
-// 				if(envname == "math") {
-// 					mathdata.tag = mmMathEnv;
-// 					mathdata.envname = envname;
-// 					return true;
-// 				}
-// 
-// 				if(!m_latexCommands->needsMathMode(envname)) {
-// 					mathdata.tag = mmDisplaymathEnv;
-// 					mathdata.envname = envname;
-// 					return true;
-// 				}
-// 
-// 				// else continue search
-// 			}
-// 		}
-// 
-// 		// go ahead
-// 		searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
-// 	}
+	int rowFound, colFound;
+	QRegExp reg(regExpString);
+
+	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
+
+	while(true) {
+		QVector<KTextEditor::Range> foundRanges = doc->searchText(searchRange, regExpString, KTextEditor::Regex | KTextEditor::CaseInsensitive);
+		if(foundRanges.isEmpty() || (foundRanges.size() == 1 && !foundRanges.first().isValid())) {
+			break;
+		}
+
+		//KILE_DEBUG_MAIN << "number of ranges " << foundRanges.count();
+		if(foundRanges.size() < 3) {
+			break;
+		}
+
+		KTextEditor::Range range = foundRanges.first();
+		//KILE_DEBUG_MAIN << "found math tag: " << doc->text(range);
+		if(!range.isValid()) {
+			break;
+		}
+
+		rowFound = range.start().line();
+		colFound = range.start().column();
+		QString textFound = doc->text(range);
+
+		// should be better called 'isValidChar()', because it checks for comments
+		// and escaped chars like backslash and dollar in '\\' and '\$'
+		if(isValidBackslash(doc, rowFound, colFound)) {
+			QString mathname = textFound.left(2);
+
+			// always remember behind the last match
+			mathdata.row = rowFound;
+			mathdata.col = colFound;
+			mathdata.len = textFound.length();
+
+			if(mathname=="$") {
+				mathdata.tag = mmMathDollar;
+				return true;
+			}
+			else if(mathname=="\\]") {
+				mathdata.tag = mmDisplaymathParen;
+				return true;
+			}
+			else if(mathname=="\\)") {
+				mathdata.tag = mmMathParen;
+				return true;
+			}
+			else if(mathname=="\\[" || mathname=="\\(") {
+				//KILE_DEBUG_MAIN << "error: current mathgroup was not closed";
+				return false;
+			}
+			else if(mathname=="\\b") {
+				QString envname = doc->text(foundRanges[1]);
+				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
+					//KILE_DEBUG_MAIN << "error: only math env are allowed in mathmode (found begin tag)";
+					return false;
+				}
+
+				if(!m_latexCommands->needsMathMode(envname) || envname=="math") {
+					//KILE_DEBUG_MAIN << "error: mathenv with its own mathmode are not allowed in mathmode ";
+					return false;
+				}
+
+				// else continue search
+			}
+			else if(mathname == "\\e") {
+				QString envname = doc->text(foundRanges[2]);
+				if(!(m_latexCommands->isMathEnv(envname) || envname=="math")) {
+					//KILE_DEBUG_MAIN << "error: only math env are allowed in mathmode (found end tag)";
+					return false;
+				}
+
+				if(envname == "math") {
+					mathdata.tag = mmMathEnv;
+					mathdata.envname = envname;
+					return true;
+				}
+
+				if(!m_latexCommands->needsMathMode(envname)) {
+					mathdata.tag = mmDisplaymathEnv;
+					mathdata.envname = envname;
+					return true;
+				}
+
+				// else continue search
+			}
+		}
+
+		// go ahead
+		searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
+	}
 
 	//KILE_DEBUG_MAIN << "not found anything";
 	return false;
@@ -1374,83 +1366,77 @@ bool EditorExtension::findEndEnvironment(KTextEditor::Document *doc, int row, in
 // find the last/next non-nested environment tag
 bool EditorExtension::findEnvironmentTag(KTextEditor::Document *doc, int row, int col, EnvData &env, bool backwards)
 {
-//TODO KF5
-// 	KTextEditor::SearchInterface *iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
-// 	if(!iface) {
-// 		return false;
-// 	}
-// 
-// 	unsigned int envcount = 0;
-// 
-// 	KTextEditor::Range searchRange;
-// 	if(backwards) {
-// 		searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
-// 	}
-// 	else {
-// 		searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
-// 	}
-// 
-// 	KTextEditor::Search::SearchOptions searchOptions = (backwards) ? KTextEditor::Search::Regex | KTextEditor::Search::Backwards : KTextEditor::Search::Regex;
-// 
-// 	while(true) {
-// 		QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, m_reg.pattern(), searchOptions);
-// 		if(foundRanges.isEmpty() || (foundRanges.size() == 1 && !foundRanges.first().isValid())) {
-// 			break;
-// 		}
-// 
-// 		//KILE_DEBUG_MAIN << "number of ranges " << foundRanges.count();
-// 
-// 		EnvTag wrong_env = (backwards) ? EnvEnd : EnvBegin;
-// 
-// 		if(foundRanges.size() < 5) {
-// 			break;
-// 		}
-// 
-// 		KTextEditor::Range range = foundRanges.first();
-// 
-// 		if(!range.isValid()) {
-// 			//KILE_DEBUG_MAIN << "invalid range found";
-// 			break;
-// 		}
-// 		env.row = range.start().line();
-// 		env.col = range.start().column();
-// 		env.len = doc->text(range).length();
-// 
-// 		if(isValidBackslash(doc, env.row, env.col)) {
-// 			// index 0 is the fullmatch, 1 first cap and so on
-// 			QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : "");
-// 			QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : "");
-// 			QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : "");
-// 			EnvTag found_env = (cap2 == "begin" || cap4 == "\\[") ? EnvBegin : EnvEnd;
-// 			if(found_env == wrong_env) {
-// 				++envcount;
-// 			}
-// 			else {
-// 				if(envcount > 0) {
-// 					--envcount;
-// 				}
-// 				else {
-// 					if(found_env == EnvBegin) {
-// 						env.name = (cap2 == "begin") ? cap3 : "\\[";
-// 					}
-// 					else {
-// 						env.name = (cap2 == "end") ? cap3 : "\\]";
-// 					}
-// 					env.tag = found_env;
-// 					//KILE_DEBUG_MAIN << "found " << env.name;
-// 					return true;
-// 				}
-// 			}
-// 		}
-// 
-// 		// finally, prepare the range for the next search
-// 		if(backwards) {
-// 			searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), foundRanges.first().start());
-// 		}
-// 		else {
-// 			searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
-// 		}
-// 	}
+	unsigned int envcount = 0;
+
+	KTextEditor::Range searchRange;
+	if(backwards) {
+		searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
+	}
+	else {
+		searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
+	}
+
+	KTextEditor::SearchOptions searchOptions = (backwards) ? KTextEditor::Regex | KTextEditor::Backwards : KTextEditor::Regex;
+
+	while(true) {
+		QVector<KTextEditor::Range> foundRanges = doc->searchText(searchRange, m_reg.pattern(), searchOptions);
+		if(foundRanges.isEmpty() || (foundRanges.size() == 1 && !foundRanges.first().isValid())) {
+			break;
+		}
+
+		//KILE_DEBUG_MAIN << "number of ranges " << foundRanges.count();
+
+		EnvTag wrong_env = (backwards) ? EnvEnd : EnvBegin;
+
+		if(foundRanges.size() < 5) {
+			break;
+		}
+
+		KTextEditor::Range range = foundRanges.first();
+
+		if(!range.isValid()) {
+			//KILE_DEBUG_MAIN << "invalid range found";
+			break;
+		}
+		env.row = range.start().line();
+		env.col = range.start().column();
+		env.len = doc->text(range).length();
+
+		if(isValidBackslash(doc, env.row, env.col)) {
+			// index 0 is the fullmatch, 1 first cap and so on
+			QString cap2 = (foundRanges[2].isValid() ? doc->text(foundRanges[2]) : "");
+			QString cap3 = (foundRanges[3].isValid() ? doc->text(foundRanges[3]) : "");
+			QString cap4 = (foundRanges[4].isValid() ? doc->text(foundRanges[4]) : "");
+			EnvTag found_env = (cap2 == "begin" || cap4 == "\\[") ? EnvBegin : EnvEnd;
+			if(found_env == wrong_env) {
+				++envcount;
+			}
+			else {
+				if(envcount > 0) {
+					--envcount;
+				}
+				else {
+					if(found_env == EnvBegin) {
+						env.name = (cap2 == "begin") ? cap3 : "\\[";
+					}
+					else {
+						env.name = (cap2 == "end") ? cap3 : "\\]";
+					}
+					env.tag = found_env;
+					//KILE_DEBUG_MAIN << "found " << env.name;
+					return true;
+				}
+			}
+		}
+
+		// finally, prepare the range for the next search
+		if(backwards) {
+			searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), foundRanges.first().start());
+		}
+		else {
+			searchRange = KTextEditor::Range(foundRanges.first().end(), doc->documentEnd());
+		}
+	}
 
 	//KILE_DEBUG_MAIN << "not found anything";
 	return false;
@@ -1598,48 +1584,42 @@ bool EditorExtension::isValidBackslash(KTextEditor::Document *doc, int row, int 
 
 void EditorExtension::gotoBullet(bool backwards, KTextEditor::View *view)
 {
-//TODO KF5
-// 	view = determineView(view);
-// 	if(!view) {
-// 		return;
-// 	}
-// 
-// 	// get current position
-// 	KTextEditor::Document *doc = view->document();
-// 
-// 	KTextEditor::SearchInterface *iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
-// 	if(!iface) {
-// 		return;
-// 	}
-// 
-// 	KTextEditor::Cursor cursor = view->cursorPosition();
-// 
-// 	KTextEditor::Search::SearchOptions searchOptions = (backwards) ? KTextEditor::Search::Backwards : KTextEditor::Search::Default;
-// 
-// 	KTextEditor::Range searchRange;
-// 	if(backwards) {
-// 		searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), cursor);
-// 	}
-// 	else {
-// 		const KTextEditor::Cursor nextCursorPosition(cursor.line(), cursor.column() + 1);
-// 		if((doc->character(cursor) == s_bullet_char)                                      // we are already at a bullet
-// 		   && view->selection()
-// 		   && view->selectionRange() == KTextEditor::Range(cursor, nextCursorPosition)) { // which has been 'highlighted'
-// 			cursor = nextCursorPosition; // search for the next bullet
-// 		}
-// 		searchRange = KTextEditor::Range(cursor, doc->documentEnd());
-// 	}
-// 
-// 	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, s_bullet, searchOptions);
-// 	if(foundRanges.size() >= 1) {
-// 		KTextEditor::Range range = foundRanges.first();
-// 		if(range.isValid()) {
-// 			int line = range.start().line();
-// 			int column = range.start().column();
-// 			view->setCursorPosition(KTextEditor::Cursor(line, column));
-// 			view->setSelection(KTextEditor::Range(line, column, line, column + 1));
-// 		}
-// 	}
+	view = determineView(view);
+	if(!view) {
+		return;
+	}
+
+	// get current position
+	KTextEditor::Document *doc = view->document();
+
+	KTextEditor::Cursor cursor = view->cursorPosition();
+
+	KTextEditor::SearchOptions searchOptions = (backwards) ? KTextEditor::Backwards : KTextEditor::Default;
+
+	KTextEditor::Range searchRange;
+	if(backwards) {
+		searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), cursor);
+	}
+	else {
+		const KTextEditor::Cursor nextCursorPosition(cursor.line(), cursor.column() + 1);
+		if((doc->characterAt(cursor) == s_bullet_char)                                      // we are already at a bullet
+		   && view->selection()
+		   && view->selectionRange() == KTextEditor::Range(cursor, nextCursorPosition)) { // which has been 'highlighted'
+			cursor = nextCursorPosition; // search for the next bullet
+		}
+		searchRange = KTextEditor::Range(cursor, doc->documentEnd());
+	}
+
+	QVector<KTextEditor::Range> foundRanges = doc->searchText(searchRange, s_bullet, searchOptions);
+	if(foundRanges.size() >= 1) {
+		KTextEditor::Range range = foundRanges.first();
+		if(range.isValid()) {
+			int line = range.start().line();
+			int column = range.start().column();
+			view->setCursorPosition(KTextEditor::Cursor(line, column));
+			view->setSelection(KTextEditor::Range(line, column, line, column + 1));
+		}
+	}
 }
 
 //////////////////// increase/decrease cursor position ////////////////////
@@ -2709,103 +2689,96 @@ void EditorExtension::initDoubleQuotes()
 
 bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
 {
-//TODO KF5
-// 	// don't insert double quotes, if konsole has focus
-// 	// return false, because if this is called from an event
-// 	// handler, because this event has to be passed on
-// 	if(m_ki->texKonsole()->hasFocus()) {
-// 		return false;
-// 	}
-// 
-// 	// insert double quotes, normal mode or autocompletion mode
-// 	// always return true for event handler
-// 	view = determineView(view);
-// 	if(!view) {
-// 		return true;
-// 	}
-// 
-// 	KTextEditor::Document *doc = view->document();
-// 
-// 	if(!doc) {
-// 		return false;
-// 	}
-// 
-// 	view->removeSelectionText();
-// 
-// 	int row, col;
-// 	KTextEditor::Cursor cursor = view->cursorPosition();
-// 	row = cursor.line();
-// 	col = cursor.column();
-// 
-// 	// simply insert, if we are inside a verb command
-// 	if(insideVerb(view) || insideVerbatim(view)) {
-// 		return false;
-// 	}
-// 
-// 	// simply insert, if autoinsert mode is not active or the char bevor is \ (typically for \"a useful)
-// 	if (!m_dblQuotes || (col > 0 && doc->text(KTextEditor::Range(row, col - 1, row, col)) == "\\")) {
-// 		return false;
-// 	}
-// 
-// 	// insert with auto mode
-// 	KTextEditor::SearchInterface *iface;
-// 	iface = dynamic_cast<KTextEditor::SearchInterface *>(doc);
-// 	if(!iface) {
-// 		return false;
-// 	}
-// 
-// 	QString pattern1 = QRegExp::escape(m_leftDblQuote);
-// 	if(m_leftDblQuote.at(m_leftDblQuote.length()-1).isLetter()) {
-// 		pattern1 += "(\\b|(\\{\\}))";
-// 	}
-// 	QString pattern2 = QRegExp::escape(m_rightDblQuote);
-// 	if(m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter()) {
-// 		pattern2 += "(\\b|(\\{\\}))";
-// 	}
-// 
-// 	bool openFound = false;
-// 	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
-// 	QVector<KTextEditor::Range> foundRanges = iface->searchText(searchRange, '(' + pattern1 + ")|(" + pattern2 + ')',
-// 		KTextEditor::Search::Regex | KTextEditor::Search::Backwards);
-// 	// KTextEditor::SearchInterface#searchText always returns at least one range, even
-// 	// if no occurrences have been found. Thus, we have to check if the range is valid.
-// 	KTextEditor::Range range = foundRanges.first();
-// 	if(range.isValid()) {
-// 		int lineFound = range.start().line();
-// 		int columnFound = range.start().column();
-// 		openFound = (doc->line(lineFound).indexOf(m_leftDblQuote, columnFound) == columnFound);
-// 	}
-// 
-// 	QString textline = doc->line(row);
-// 	//KILE_DEBUG_MAIN << "text=" << textline << " open=" << openfound;
-// 	if(openFound) {
-// 		// If we last inserted a language specific doublequote open,
-// 		// we have to change it to a normal doublequote. If not we
-// 		// insert a language specific doublequote close
-// 		int startcol = col - m_leftDblQuote.length();
-// 		//KILE_DEBUG_MAIN << "startcol=" << startcol << " col=" << col ;
-// 		if (startcol>=0 && textline.indexOf(m_leftDblQuote, startcol) == startcol) {
-// 				doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_leftDblQuote.length()));
-// 				doc->insertText(KTextEditor::Cursor(row, startcol), "\"");
-// 		}
-// 		else {
-// 			doc->insertText(KTextEditor::Cursor(row, col), m_rightDblQuote);
-// 		}
-// 	}
-// 	else {
-// 		// If we last inserted a language specific doublequote close,
-// 		// we have to change it to a normal doublequote. If not we
-// 		// insert a language specific doublequote open
-// 		int startcol = col - m_rightDblQuote.length();
-// 		//KILE_DEBUG_MAIN << "startcol=" << startcol << " col=" << col ;
-// 		if (startcol >= 0 && textline.indexOf(m_rightDblQuote, startcol) == startcol) {
-// 			doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_rightDblQuote.length()));
-// 			doc->insertText(KTextEditor::Cursor(row,startcol), "\"");
-// 		}
-// 		else {
-// 			doc->insertText(KTextEditor::Cursor(row, col), m_leftDblQuote);
-// 		}
-// 	}
+	// don't insert double quotes, if konsole has focus
+	// return false, because if this is called from an event
+	// handler, because this event has to be passed on
+	if(m_ki->texKonsole()->hasFocus()) {
+		return false;
+	}
+
+	// insert double quotes, normal mode or autocompletion mode
+	// always return true for event handler
+	view = determineView(view);
+	if(!view) {
+		return true;
+	}
+
+	KTextEditor::Document *doc = view->document();
+
+	if(!doc) {
+		return false;
+	}
+
+	view->removeSelectionText();
+
+	int row, col;
+	KTextEditor::Cursor cursor = view->cursorPosition();
+	row = cursor.line();
+	col = cursor.column();
+
+	// simply insert, if we are inside a verb command
+	if(insideVerb(view) || insideVerbatim(view)) {
+		return false;
+	}
+
+	// simply insert, if autoinsert mode is not active or the char bevor is \ (typically for \"a useful)
+	if (!m_dblQuotes || (col > 0 && doc->text(KTextEditor::Range(row, col - 1, row, col)) == "\\")) {
+		return false;
+	}
+
+	// insert with auto mode
+	QString pattern1 = QRegExp::escape(m_leftDblQuote);
+	if(m_leftDblQuote.at(m_leftDblQuote.length()-1).isLetter()) {
+		pattern1 += "(\\b|(\\{\\}))";
+	}
+	QString pattern2 = QRegExp::escape(m_rightDblQuote);
+	if(m_rightDblQuote.at(m_rightDblQuote.length()-1).isLetter()) {
+		pattern2 += "(\\b|(\\{\\}))";
+	}
+
+	bool openFound = false;
+	KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(0, 0), KTextEditor::Cursor(row, col));
+	QVector<KTextEditor::Range> foundRanges = doc->searchText(searchRange, '(' + pattern1 + ")|(" + pattern2 + ')',
+		KTextEditor::Regex | KTextEditor::Backwards);
+	// KTextEditor::Document#searchText always returns at least one range, even
+	// if no occurrences have been found. Thus, we have to check if the range is valid.
+	KTextEditor::Range range = foundRanges.first();
+	if(range.isValid()) {
+		int lineFound = range.start().line();
+		int columnFound = range.start().column();
+		openFound = (doc->line(lineFound).indexOf(m_leftDblQuote, columnFound) == columnFound);
+	}
+
+	QString textline = doc->line(row);
+	//KILE_DEBUG_MAIN << "text=" << textline << " open=" << openfound;
+	if(openFound) {
+		// If we last inserted a language specific doublequote open,
+		// we have to change it to a normal doublequote. If not we
+		// insert a language specific doublequote close
+		int startcol = col - m_leftDblQuote.length();
+		//KILE_DEBUG_MAIN << "startcol=" << startcol << " col=" << col ;
+		if (startcol>=0 && textline.indexOf(m_leftDblQuote, startcol) == startcol) {
+				doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_leftDblQuote.length()));
+				doc->insertText(KTextEditor::Cursor(row, startcol), "\"");
+		}
+		else {
+			doc->insertText(KTextEditor::Cursor(row, col), m_rightDblQuote);
+		}
+	}
+	else {
+		// If we last inserted a language specific doublequote close,
+		// we have to change it to a normal doublequote. If not we
+		// insert a language specific doublequote open
+		int startcol = col - m_rightDblQuote.length();
+		//KILE_DEBUG_MAIN << "startcol=" << startcol << " col=" << col ;
+		if (startcol >= 0 && textline.indexOf(m_rightDblQuote, startcol) == startcol) {
+			doc->removeText(KTextEditor::Range(row, startcol, row, startcol + m_rightDblQuote.length()));
+			doc->insertText(KTextEditor::Cursor(row,startcol), "\"");
+		}
+		else {
+			doc->insertText(KTextEditor::Cursor(row, col), m_leftDblQuote);
+		}
+	}
 	return true;
 }
 
@@ -3378,24 +3351,17 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 
 bool EditorExtension::findEndOfDocument(KTextEditor::Document *doc, int row, int col, int &rowFound, int &colFound)
 {
-//TODO KF5
-// 	KTextEditor::SearchInterface *iface;
-// 	iface = dynamic_cast<KTextEditor::SearchInterface*>(doc);
-// 	if(!iface) {
-// 		return false;
-// 	}
-// 
-// 	KTextEditor::Range documentRange(KTextEditor::Cursor(row, col), doc->documentEnd());
-// 	QVector<KTextEditor::Range> foundRanges = iface->searchText(documentRange, "\\end{document}");
-// 
-// 	if(foundRanges.size() >= 1) {
-// 		KTextEditor::Range range = foundRanges.first();
-// 		if(range.isValid()) {
-// 			rowFound = range.start().line();
-// 			colFound = range.start().column();
-// 			return true;
-// 		}
-// 	}
+	KTextEditor::Range documentRange(KTextEditor::Cursor(row, col), doc->documentEnd());
+	QVector<KTextEditor::Range> foundRanges = doc->searchText(documentRange, "\\end{document}");
+
+	if(foundRanges.size() >= 1) {
+		KTextEditor::Range range = foundRanges.first();
+		if(range.isValid()) {
+			rowFound = range.start().line();
+			colFound = range.start().column();
+			return true;
+		}
+	}
 
 	return false;
 }

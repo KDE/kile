@@ -2,7 +2,7 @@ project(kile)
 
 cmake_minimum_required(VERSION 3.0.0)
 
-find_package(ECM 1.7.0 REQUIRED NO_MODULE)
+find_package(ECM 5.10.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(ECMAddAppIcon)
@@ -21,8 +21,8 @@ include(CheckFunctionExists)
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 include(KDECompilerSettings)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
 find_package(Qt5 5.3 CONFIG REQUIRED
@@ -33,7 +33,7 @@ find_package(Qt5 5.3 CONFIG REQUIRED
 	Test
 )
 
-find_package(KF5 5.6 REQUIRED COMPONENTS
+find_package(KF5 5.11 REQUIRED COMPONENTS
 	Config
 	CoreAddons
 	DBusAddons

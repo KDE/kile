@@ -2718,7 +2718,7 @@ void Kile::saveSettings()
 
 	abbreviationManager()->saveLocalAbbreviations();
 
-	KileConfig::self()->writeConfig();
+	KileConfig::self()->save();
 	m_config->sync();
 }
 

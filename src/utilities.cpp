@@ -45,7 +45,7 @@ ServiceRunAction::~ServiceRunAction()
 
 void ServiceRunAction::runService()
 {
-	KRun::run(m_service, m_urlList, m_window,
+	KRun::runService(m_service, m_urlList, m_window,
 	                                m_tempFiles,
 	                                m_suggestedFileName,
 	                                m_asn);

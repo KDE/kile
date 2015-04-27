@@ -897,7 +897,7 @@ QMimeDatabase db;
 			KRun::displayOpenWithDialog(QList<QUrl>() << url, this);
 		}
 		else {
-			KRun::run(*m_offerList[id-SectioningGraphicsOfferlist], QList<QUrl>() << url, this);
+			KRun::runService(*m_offerList[id-SectioningGraphicsOfferlist], QList<QUrl>() << url, this);
 		}
 	}
 

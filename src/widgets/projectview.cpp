@@ -391,7 +391,7 @@ void ProjectView::slotRun(int id)
 		KRun::displayOpenWithDialog(QList<QUrl>() << itm->url(), this);
 	}
 	else {
-		KRun::run(*m_offerList[id-1], QList<QUrl>() << itm->url(), this);
+		KRun::runService(*m_offerList[id-1], QList<QUrl>() << itm->url(), this);
 	}
 
 	itm->setSelected(false);

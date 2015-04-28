@@ -253,4 +253,3 @@ void ScriptsManagement::updateButtonPanel() {
 
 }
 
-#include "scriptsmanagementwidget.moc"

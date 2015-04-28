@@ -137,4 +137,3 @@ void Manager::removeToolFromUrlHash(KileTool::Base *tool)
 
 }
 
-#include "parsermanager.moc"

@@ -431,4 +431,3 @@ ParserOutput* LaTeXParser::parse()
 
 }
 
-#include "latexparser.moc"

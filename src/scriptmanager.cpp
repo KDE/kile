@@ -454,4 +454,3 @@ namespace KileScript {
 
 }
 
-#include "scriptmanager.moc"

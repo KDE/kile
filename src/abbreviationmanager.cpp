@@ -175,4 +175,3 @@ bool Manager::isAbbreviationDefined(const QString& text) const
 
 }
 
-#include "abbreviationmanager.moc"

@@ -849,4 +849,3 @@ namespace KileTool
 	}
 }
 
-#include "kiletool.moc"

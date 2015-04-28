@@ -95,4 +95,3 @@ void KileWidgetUsermenuConfig::setXmlFile(const QString &file)
 }
 
 
-#include "usermenuconfigwidget.moc"

@@ -79,4 +79,3 @@ void KileWidgetHelpConfig::slotHelpInformation()
 		KMessageBox::information(this, message, i18n("Location of Documentation Files"));
 }
 
-#include "helpconfigwidget.moc"

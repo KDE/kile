@@ -406,4 +406,3 @@ namespace KileWidget
 
 }
 
-#include "logwidget.moc"

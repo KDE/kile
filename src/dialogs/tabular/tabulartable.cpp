@@ -247,4 +247,3 @@ void KileDialog::TabularTable::paste()
 }
 
 
-#include "tabulartable.moc"

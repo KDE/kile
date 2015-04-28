@@ -91,4 +91,3 @@ void NewToolWizard::slotCurrentPageChanged(KPageWidgetItem* current, KPageWidget
 	}
 }
 
-#include "newtoolwizard.moc"

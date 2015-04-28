@@ -22,4 +22,3 @@ NewDocumentWidget::~NewDocumentWidget()
 {
 }
 
-#include "newdocumentwidget.moc"

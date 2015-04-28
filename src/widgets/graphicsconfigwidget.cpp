@@ -22,4 +22,3 @@ KileWidgetGraphicsConfig::~KileWidgetGraphicsConfig()
 {
 }
 
-#include "graphicsconfigwidget.moc"

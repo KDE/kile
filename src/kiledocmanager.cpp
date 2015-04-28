@@ -2591,4 +2591,3 @@ QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encodin
 
 }
 
-#include "kiledocmanager.moc"

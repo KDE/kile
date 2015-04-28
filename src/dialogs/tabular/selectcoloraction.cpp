@@ -97,4 +97,3 @@ void SelectColorAction::slotCustomClicked()
 
 }
 
-#include "selectcoloraction.moc"

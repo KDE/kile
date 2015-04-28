@@ -290,4 +290,3 @@ BottomBar::BottomBar(QWidget *parent) : SideBar(parent, Qt::Horizontal)
 
 }
 
-#include "sidebar.moc"

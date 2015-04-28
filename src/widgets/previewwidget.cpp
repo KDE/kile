@@ -240,4 +240,3 @@ void PreviewWidget::showError(const QString &text)
 
 }
 
-#include "previewwidget.moc"

@@ -896,4 +896,3 @@ void ProjectView::dropEvent(QDropEvent *event)
 
 }
 
-#include "projectview.moc"

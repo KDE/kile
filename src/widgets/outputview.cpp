@@ -60,4 +60,3 @@ void OutputView::paintEvent(QPaintEvent *ev)
 
 }
 
-#include "outputview.moc"

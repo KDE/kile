@@ -89,5 +89,4 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 	}
 }
 
-#include "utilities.moc"
 

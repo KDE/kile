@@ -349,4 +349,3 @@ void KileWidgetPreviewConfig::updateConversionTools()
 	m_coMathgroup->setEnabled(m_cbMathgroup->isChecked());
 }
 
-#include "previewconfigwidget.moc"

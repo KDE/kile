@@ -127,4 +127,3 @@ void FloatEnvironmentDialog::slotEnvironmentClicked()
 
 }
 
-#include "floatdialog.moc"

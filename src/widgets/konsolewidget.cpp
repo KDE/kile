@@ -160,4 +160,3 @@ namespace KileWidget
 	}
 }
 
-#include "konsolewidget.moc"

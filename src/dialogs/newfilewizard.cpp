@@ -214,4 +214,3 @@ void NewFileWizard::displayType(int index)
 	restoreSelectedIcon();
 }
 
-#include "newfilewizard.moc"

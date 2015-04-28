@@ -50,4 +50,3 @@ void KileWidgetGeneralConfig::selectDefaultProjectLocation()
 	}
 }
 
-#include "generalconfigwidget.moc"

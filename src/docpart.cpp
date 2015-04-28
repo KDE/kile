@@ -128,4 +128,3 @@ bool DocumentationViewer::forwardEnable()
 	return (m_hpos < m_history.count() - 1);
 }
 
-#include "docpart.moc"

@@ -3149,4 +3149,3 @@ void Kile::handleDocumentParsingComplete()
 // 	statusBar()->changeItem(QString(), ID_PARSER_STATUS);
 }
 
-#include "kile.moc"

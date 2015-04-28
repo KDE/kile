@@ -22,4 +22,3 @@ KileWidgetSymbolViewConfig::~KileWidgetSymbolViewConfig()
 {
 }
 
-#include "symbolviewconfigwidget.moc"

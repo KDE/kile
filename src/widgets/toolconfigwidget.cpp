@@ -589,4 +589,3 @@ namespace KileWidget
 	void ToolConfig::setClass(const QString & cls) { m_map["class"] = cls.trimmed(); }
 }
 
-#include "toolconfigwidget.moc"

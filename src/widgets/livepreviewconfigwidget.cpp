@@ -43,4 +43,3 @@ void KileWidgetLivePreviewConfig::writeConfig()
 }
 
 
-#include "livepreviewconfigwidget.moc"

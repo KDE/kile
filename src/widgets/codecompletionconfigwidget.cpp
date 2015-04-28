@@ -405,4 +405,3 @@ void CodeCompletionConfigWidget::updateCompletionFilesTab(const QString& path)
 }
 
 
-#include "codecompletionconfigwidget.moc"

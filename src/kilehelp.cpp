@@ -403,4 +403,3 @@ namespace KileHelp
 
 }
 
-#include "kilehelp.moc"

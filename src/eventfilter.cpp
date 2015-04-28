@@ -253,4 +253,3 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 }
 
 
-#include "eventfilter.moc"

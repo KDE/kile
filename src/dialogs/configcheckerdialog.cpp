@@ -328,4 +328,3 @@ void ConfigChecker::setPercentageDone(int p)
 
 }
 
-#include "configcheckerdialog.moc"

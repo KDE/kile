@@ -882,4 +882,3 @@ void KileProject::setMasterDocument(const QString & master){
 	emit (masterDocumentChanged(m_masterDocument));
 }
 
-#include "kileproject.moc"

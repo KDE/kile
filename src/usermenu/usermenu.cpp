@@ -951,4 +951,3 @@ bool UserMenu::str2bool(const QString &value)
 
 }
 
-#include "usermenu.moc"

@@ -208,6 +208,5 @@ void KileScriptView::selectParagraph(bool wholeLines)
 
 }
 
-#include "kilescriptview.moc"
 
 

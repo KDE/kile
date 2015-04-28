@@ -1419,4 +1419,3 @@ void LivePreviewManager::displayErrorMessage(const QString &text, bool clearFirs
 
 }
 
-#include "livepreview.moc"

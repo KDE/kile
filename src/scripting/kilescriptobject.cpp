@@ -327,4 +327,3 @@ void KileScriptObject::setScriptname(const QString &name)
 
 }
 
-#include "kilescriptobject.moc"

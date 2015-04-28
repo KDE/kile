@@ -22,4 +22,3 @@ LaTeXToolConfigWidget::~LaTeXToolConfigWidget()
 {
 }
 
-#include "latextoolconfigwidget.moc"

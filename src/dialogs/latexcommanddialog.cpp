@@ -931,4 +931,3 @@ void LatexCommandsDialog::setListviewStates(bool states[])
 
 
 }
-#include "latexcommanddialog.moc"

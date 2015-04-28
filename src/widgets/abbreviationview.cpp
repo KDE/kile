@@ -182,4 +182,3 @@ void AbbreviationView::slotDeleteAbbreviation()
 
 }
 
-#include "abbreviationview.moc"

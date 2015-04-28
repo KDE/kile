@@ -1186,4 +1186,3 @@ QString ScriptInfo::getFileFilter() const
 
 }
 
-#include "documentinfo.moc"

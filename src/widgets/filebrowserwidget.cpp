@@ -186,4 +186,3 @@ void FileBrowserWidget::emitFileSelectedSignal()
 
 }
 
-#include "filebrowserwidget.moc"

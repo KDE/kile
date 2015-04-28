@@ -469,4 +469,3 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 
 }
 
-#include "symbolview.moc"

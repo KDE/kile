@@ -1048,4 +1048,3 @@ QString UserMenuTree::getMenuTitle(const QString &title)
 
 }
 
-#include "usermenutree.moc"

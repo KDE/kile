@@ -103,4 +103,3 @@ void ScriptShortcutDialog::slotUpdate()
 
 }
 
-#include "scriptshortcutdialog.moc"

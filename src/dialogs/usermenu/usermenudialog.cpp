@@ -1039,4 +1039,3 @@ void UserMenuDialog::disableMenuEntryData()
 
 }
 
-#include "usermenudialog.moc"

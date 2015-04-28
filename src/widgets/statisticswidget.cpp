@@ -152,4 +152,3 @@ void StatisticsWidget::updateColumns()
 
 }
 
-#include "statisticswidget.moc"

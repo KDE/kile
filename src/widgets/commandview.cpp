@@ -140,4 +140,3 @@ void CommandViewToolBox::slotItemActivated(QListWidgetItem *item)
 
 }
 
-#include "commandview.moc"

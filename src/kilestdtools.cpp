@@ -773,5 +773,4 @@ KileTool::BibliographyCompile::BibliographyCompile(const QString& name, KileTool
 }
 
 
-#include "kilestdtools.moc"
 

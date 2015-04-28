@@ -130,4 +130,3 @@ ParserOutput* BibTeXParser::parse()
 
 }
 
-#include "bibtexparser.moc"

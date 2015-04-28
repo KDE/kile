@@ -533,4 +533,3 @@ namespace KileTool {
 
 }
 
-#include "kilelauncher.moc"

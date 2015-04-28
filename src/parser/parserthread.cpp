@@ -303,4 +303,3 @@ void OutputParserThread::removeFile(const QString& fileName)
 
 }
 
-#include "parserthread.moc"

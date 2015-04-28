@@ -1096,4 +1096,3 @@ QMimeDatabase db;
 	}
 }
 
-#include "structurewidget.moc"

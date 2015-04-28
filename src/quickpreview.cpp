@@ -403,4 +403,3 @@ void QuickPreview::showError(const QString &text)
 
 }
 
-#include "quickpreview.moc"

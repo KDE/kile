@@ -377,4 +377,3 @@ void SelectFrameAction::slotDoneClicked()
 
 }
 
-#include "selectframeaction.moc"

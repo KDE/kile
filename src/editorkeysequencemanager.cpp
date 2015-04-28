@@ -257,4 +257,3 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 
 }
 
-#include "editorkeysequencemanager.moc"

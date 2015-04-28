@@ -812,4 +812,3 @@ bool Tester::areSrcSpecialsSupportedForLaTeX()
 	return (m_laTeXSrcSpecialsSupportTest->status() == ConfigTest::Success);
 }
 
-#include "configtester.moc"

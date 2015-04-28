@@ -1147,4 +1147,3 @@ QPair<QString, QString> Manager::getCwlBaseDirs()
 
 }
 
-#include "codecompletion.moc"

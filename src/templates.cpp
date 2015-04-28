@@ -439,4 +439,3 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	sortItems();
 }
 
-#include "templates.moc"

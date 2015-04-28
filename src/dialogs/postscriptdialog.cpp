@@ -495,4 +495,3 @@ void PostscriptDialog::showError(const QString &text)
 
 }
 
-#include "postscriptdialog.moc"

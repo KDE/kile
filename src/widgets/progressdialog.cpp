@@ -45,4 +45,3 @@ void ProgressDialog::closeEvent(QCloseEvent *event)
 }
 
 }
-#include "progressdialog.moc"

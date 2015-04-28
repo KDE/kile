@@ -1038,4 +1038,3 @@ void KileDialog::NewTabularDialog::slotStarredChanged()
 	m_leTableWidth->setEnabled(m_cbStarred->isChecked() && m_cbStarred->isEnabled());
 }
 
-#include "newtabulardialog.moc"

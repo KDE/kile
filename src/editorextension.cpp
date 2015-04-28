@@ -3422,4 +3422,3 @@ QString EditorExtension::extractIndentationString(KTextEditor::View *view, int l
 
 }
 
-#include "editorextension.moc"

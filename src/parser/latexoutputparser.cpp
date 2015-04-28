@@ -711,4 +711,3 @@ void LaTeXOutputParser::setSource(const QString &src)
 
 }
 
-#include "latexoutputparser.moc"

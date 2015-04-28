@@ -39,4 +39,3 @@ void KileWidgetAppearanceConfig::writeConfig()
 }
 
 
-#include "appearanceconfigwidget.moc"

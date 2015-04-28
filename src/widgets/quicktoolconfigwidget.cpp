@@ -145,4 +145,3 @@ void QuickToolConfigWidget::changed()
 	emit sequenceChanged(m_sequence);
 }
 
-#include "quicktoolconfigwidget.moc"

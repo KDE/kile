@@ -22,4 +22,3 @@ ToolConfigWidget::~ToolConfigWidget()
 {
 }
 
-#include "maintoolconfigwidget.moc"

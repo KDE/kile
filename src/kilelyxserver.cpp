@@ -254,4 +254,3 @@ void KileLyxServer::receive(int fd)
 	}
 }
 
-#include "kilelyxserver.moc"

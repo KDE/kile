@@ -560,4 +560,3 @@ void KileErrorHandler::PreviousBadBox()
 	jumpToProblem(LatexOutputInfo::itmBadBox, false);
 }
 
-#include "errorhandler.moc"

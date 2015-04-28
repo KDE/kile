@@ -799,4 +799,3 @@ void KileTool::Manager::resetAutodetectedBibliographyBackend()
 	}
 }
 
-#include "kiletoolmanager.moc"

@@ -636,4 +636,3 @@ void ToolbarSelectAction::restoreCurrentAction()
 	m_savedCurrentAction = NULL;
 }
 
-#include "kileactions.moc"

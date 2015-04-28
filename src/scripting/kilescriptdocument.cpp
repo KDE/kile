@@ -714,4 +714,3 @@ QStringList KileScriptDocument::bibitemList() const
 
 }
 
-#include "kilescriptdocument.moc"

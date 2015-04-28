@@ -401,4 +401,3 @@ void MathEnvironmentDialog::slotButtonClicked(int button)
 
 }
 
-#include "mathenvironmentdialog.moc"

@@ -1216,4 +1216,3 @@ void focusTextView(KTextEditor::View *view)
 	QTimer::singleShot(0, view, SLOT(setFocus()));
 }
 
-#include "kileviewmanager.moc"

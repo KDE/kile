@@ -22,4 +22,3 @@ KileWidgetStructureViewConfig::~KileWidgetStructureViewConfig()
 {
 }
 
-#include "structureviewconfigwidget.moc"

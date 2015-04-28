@@ -208,4 +208,3 @@ void UserHelp::userHelpDialog()
 
 }
 
-#include "userhelp.moc"

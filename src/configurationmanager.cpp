@@ -34,5 +34,4 @@ namespace KileConfiguration {
 	}
 }
 
-#include "configurationmanager.moc"
 

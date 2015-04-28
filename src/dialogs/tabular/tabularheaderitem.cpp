@@ -239,4 +239,3 @@ void TabularHeaderItem::slotDeclBang()
 
 }
 
-#include "tabularheaderitem.moc"

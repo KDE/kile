@@ -160,4 +160,3 @@ QString Parser::getTextLine(const QStringList& textLines, int line)
 
 }
 
-#include "parser.moc"

@@ -345,4 +345,3 @@ usermenuPage = NULL;
 	}
 }
 
-#include "configurationdialog.moc"

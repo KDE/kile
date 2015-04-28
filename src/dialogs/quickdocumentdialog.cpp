@@ -2415,4 +2415,3 @@ void QuickDocumentInputDialog::slotButtonClicked(int button)
 
 } // namespace
 
-#include "quickdocumentdialog.moc"

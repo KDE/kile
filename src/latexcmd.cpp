@@ -487,4 +487,3 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 // END LatexCommands
 
 }
-#include "latexcmd.moc"

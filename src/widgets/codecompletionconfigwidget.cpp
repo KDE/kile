@@ -34,7 +34,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QPushButton>
-#include <KStandardDirs>
 #include <QTabWidget>
 #include <KConfigGroup>
 

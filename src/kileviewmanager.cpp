@@ -21,11 +21,11 @@
 #include <QPixmap>
 #include <QSplitter>
 #include <QTimer> //for QTimer::singleShot trick
+#include <QMimeData>
 
 #include <KApplication>
 #include <QAction>
 #include <KActionCollection>
-#include <KGlobal>
 #include <KIconLoader>
 #include <kio/pixmaploader.h>
 #include <KLocalizedString>

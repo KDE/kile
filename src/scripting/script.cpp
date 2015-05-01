@@ -20,7 +20,6 @@
 #include <KActionCollection>
 #include <KTextEditor/Range>
 #include <KTextEditor/Cursor>
-#include <KStandardDirs>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -130,8 +129,15 @@ static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &ra
 Script::Script(unsigned int id, const QString& file)
    : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
 {
-//TODO KF5
-// 	m_name = KGlobal::dirs()->relativeLocation("appdata", file);
+	// compute relative data location for file
+	const QString canonical = QFileInfo(file).canonicalFilePath();
+	Q_FOREACH(const QString &base, QStandardPaths::standardLocations(QStandardPaths::DataLocation)) {
+		if (canonical.startsWith(base)) {
+			m_name = canonical.mid(base.length()+1);
+			break;
+		}
+	}
+
 	if(m_name.startsWith("scripts")) {
 		m_name = m_name.mid(8); // remove "scripts" + path separator
 	}

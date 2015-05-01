@@ -19,7 +19,6 @@
 #include <KXMLGUIFactory>
 #include <QMenuBar>
 #include <QAction>
-#include <KStandardDirs>
 #include <KFileDialog>
 #include <KMessageBox>
 #include <QFileDialog>

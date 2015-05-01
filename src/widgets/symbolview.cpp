@@ -37,16 +37,13 @@ tbraun 2007-06-13
 #include <QPixmap>
 #include <QPainter>
 #include <QRegExp>
+#include <QStandardPaths>
 #include <QStringList>
 #include <QTextDocument>
 
 #include <KColorScheme>
 #include <KConfig>
 #include <KLocalizedString>
-
-// FIXME: port away from KDELibs4Support
-#include <KGlobal>
-#include <KStandardDirs>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -337,7 +334,16 @@ void SymbolView::fillWidget(const QString& prefix)
 		}
 	}
 	else {
-		paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png", KStandardDirs::NoDuplicates);
+		QStringList paths;
+		const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kile/mathsymbols/" + prefix, QStandardPaths::LocateDirectory);
+		Q_FOREACH (const QString &dir, dirs) {
+			const QStringList fileNames = QDir(dir).entryList(QStringList() << QStringLiteral("*.png"));
+			Q_FOREACH (const QString &file, fileNames) {
+				if (!paths.contains(file)) {
+					paths.append(file);
+				}
+			}
+		}
 		paths.sort();
 		for(int i = 0 ; i < paths.count() ; i++) {
 			refCnts.append("1");

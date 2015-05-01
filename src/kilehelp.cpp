@@ -14,10 +14,7 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QTextStream>
-
-#include <KGlobal>
 #include <QStandardPaths>
-
 
 #include "editorextension.h"
 #include "errorhandler.h"

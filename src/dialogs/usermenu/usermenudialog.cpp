@@ -22,7 +22,6 @@
 #include <KLocalizedString>
 #include <KIconDialog>
 #include <KFileDialog>
-#include <KStandardDirs>
 #include <KMessageBox>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>

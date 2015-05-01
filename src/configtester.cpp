@@ -18,7 +18,6 @@
 
 #include <KAboutData>
 #include <KConfig>
-#include <KGlobal>
 #include <KIO/CopyJob>
 #include <KJob>
 #include <KLocalizedString>

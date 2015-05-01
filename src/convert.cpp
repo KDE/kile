@@ -16,14 +16,12 @@
 
 #include <QFile>
 #include <QRegExp>
+#include <QStandardPaths>
 #include <QTextCodec>
 #include <QTextStream>
 
-#include <KGlobal>
 #include <KMessageBox>
-
 #include <KTextEditor/Document>
-#include <QStandardPaths>
 
 #include "kiledebug.h"
 

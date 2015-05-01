@@ -51,8 +51,6 @@
 
 // FIXME: port away from KDELibs4Support
 #include <KApplication>
-#include <KGlobal>
-#include <KStandardDirs>
 
 #if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
@@ -162,10 +160,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_userMenu = Q_NULLPTR;
 
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
-
-	// needed for Symbolview
-	KGlobal::dirs()->addResourceType("app_symbols", "data", "kile/mathsymbols/");
-	KILE_DEBUG_MAIN << "Symbol path: " << KGlobal::dirs()->resourceDirs("app_symbols").join(" , ");
 
 	// do initializations first
 	m_currentState = "Editor";
@@ -2478,7 +2472,12 @@ void Kile::readGUISettings()
 void Kile::transformOldUserTags()
 {
 	KILE_DEBUG_MAIN << "Convert old user tags";
-	QString xmldir = KStandardDirs::locateLocal("appdata", "usermenu/", true);
+	QString xmldir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/usermenu/";
+	// create dir if not existing
+	QDir testDir(xmldir);
+	if (!testDir.exists()) {
+		testDir.mkpath(xmldir);
+	}
 
 	KConfigGroup userGroup = m_config->group("User");
 	int len = userGroup.readEntry("nUserTags", 0);

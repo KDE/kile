@@ -23,7 +23,6 @@
 
 #include <KCursor>
 #include <KFileDialog>
-#include <KGlobal>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QProgressDialog>

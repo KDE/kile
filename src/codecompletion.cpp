@@ -17,17 +17,14 @@
 #include <QFile>
 #include <QList>
 #include <QRegExp>
+#include <QStandardPaths>
 #include <QTimer>
 
-#include "kiledebug.h"
-
 #include <KConfig>
-#include <KGlobal>
 #include <KLocalizedString>
-#include <KStandardDirs>
 #include <KTextEditor/Cursor>
-#include <QStandardPaths>
 
+#include "kiledebug.h"
 #include "abbreviationmanager.h"
 #include "documentinfo.h"
 #include "editorextension.h"

@@ -70,7 +70,6 @@
 
 #include <KApplication>
 #include <KConfig>
-#include <KGlobal>
 #include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KLocalizedString>

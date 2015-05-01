@@ -14,18 +14,18 @@
 #include "scriptmanager.h"
 
 #include <KConfig>
-#include "kiledebug.h"
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 
 #include <QEvent>
 #include <QDir>
+#include <QDirIterator>
 #include <QMap>
 #include <QStandardPaths>
 
+#include "kiledebug.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kileversion.h"
@@ -43,7 +43,12 @@ namespace KileScript {
 		setObjectName(name);
 
 		// create a local scripts directory if it doesn't exist yet
-		m_localScriptDir = KStandardDirs::locateLocal("appdata", "scripts/", true);
+		m_localScriptDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/scripts/";
+		QDir testDir(m_localScriptDir);
+		if (!testDir.exists()) {
+			testDir.mkpath(m_localScriptDir);
+		}
+
 		m_jScriptDirWatch = new KDirWatch(this);
 		m_jScriptDirWatch->setObjectName("KileScript::Manager::ScriptDirWatch");
 		connect(m_jScriptDirWatch, SIGNAL(dirty(const QString&)), this, SLOT(scanScriptDirectories()));
@@ -150,9 +155,17 @@ namespace KileScript {
 		}
 
 		// scan *.js files
-//TODO KF5
-// 		QStringList scriptFileNamesList = KGlobal::dirs()->findAllResources("appdata", "scripts/*.js", KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
 		QStringList scriptFileNamesList;
+		const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "script/", QStandardPaths::LocateDirectory);
+		Q_FOREACH (const QString &dir, dirs) {
+			QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Filters(), QDirIterator::Subdirectories);
+			while (it.hasNext()) {
+				if (!scriptFileNamesList.contains(it.next())) {
+					scriptFileNamesList.append(it.next());
+				}
+			}
+		}
+
 		for(QStringList::iterator i = scriptFileNamesList.begin(); i != scriptFileNamesList.end(); ++i) {
 			registerScript(*i, pathIDMap, takenIDMap, maxID);
 		}

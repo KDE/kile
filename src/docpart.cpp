@@ -17,13 +17,11 @@
 #include "docpart.h"
 
 #include <KConfig>
-#include <KGlobal>
 #include <KMessageBox>
-
 #include <KMimeTypeTrader>
 #include <KStandardAction>
-
 #include <KRun>
+
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QStandardPaths>

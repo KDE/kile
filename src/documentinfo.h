@@ -265,7 +265,7 @@ public:
 	 * The array is filled as follows: [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments **/
 
-	virtual const long* getStatistics(KTextEditor::View *view = NULL);
+	virtual const long* getStatistics(KTextEditor::View *view = Q_NULLPTR);
 
 	/**
 	 * @returns the URL of the KTextEditor::Document if not null, an empty QUrl otherwise
@@ -287,9 +287,9 @@ public:
 	 * method. It also installs signal connections by using the "installSignalConnections"
 	 * method.
 	 * @warning Only this method should be used to create new views for text documents !
-	 * @return NULL if no document is set (m_doc == NULL)
+	 * @return Q_NULLPTR if no document is set (m_doc == NULL)
 	 **/
-	KTextEditor::View* createView(QWidget *parent, const char *name = NULL);
+	KTextEditor::View* createView(QWidget *parent, const char *name = Q_NULLPTR);
 
 	void startAbbreviationCompletion(KTextEditor::View *view);
 

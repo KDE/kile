@@ -54,7 +54,7 @@ static QVariantList toVariantList(const QStringList& list)
 namespace KileTool {
 
 	Launcher::Launcher() :
-		m_tool(NULL)
+		m_tool(Q_NULLPTR)
 	{
 	}
 
@@ -112,12 +112,12 @@ namespace KileTool {
 
 	bool ProcessLauncher::launch()
 	{
-		if(tool() == NULL){
-		  qWarning() << "tool() is NULL which is a BUG";
+		if(tool() == Q_NULLPTR){
+		  qWarning() << "tool() is Q_NULLPTR which is a BUG";
 		  return false;
 		}
-		if(m_proc == NULL){
-		  qWarning() << "m_proc is NULL which is a BUG";
+		if(m_proc == Q_NULLPTR){
+		  qWarning() << "m_proc is Q_NULLPTR which is a BUG";
 		  return false;
 		}
 
@@ -351,7 +351,7 @@ namespace KileTool {
 	}
 
 	PartLauncher::PartLauncher() :
-		m_part(NULL),
+		m_part(Q_NULLPTR),
 		m_state("Viewer")
 	{
 	}

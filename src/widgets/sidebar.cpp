@@ -29,7 +29,7 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	m_minimized(true),
 	m_directionalSize(0)
 {
-	QBoxLayout *layout = NULL, *extraLayout = NULL;
+	QBoxLayout *layout = Q_NULLPTR, *extraLayout = Q_NULLPTR;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
 	m_extraWidget = new QWidget(this);
 
@@ -104,7 +104,7 @@ void SideBar::removePage(QWidget *w)
 QWidget* SideBar::currentPage()
 {
 	if(isMinimized()) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 
 	return m_tabStack->currentWidget();

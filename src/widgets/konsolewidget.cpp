@@ -39,7 +39,7 @@ namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent) :
 		QFrame(parent),
-		m_part(NULL),
+		m_part(Q_NULLPTR),
 		m_ki(info)
 	{
 		setLayout(new QVBoxLayout(this));
@@ -56,7 +56,7 @@ namespace KileWidget
 	{
 		KILE_DEBUG_MAIN << "void Konsole::spawn()";
 
-		KPluginFactory *factory = NULL;
+		KPluginFactory *factory = Q_NULLPTR;
 		KService::Ptr service = KService::serviceByDesktopName("konsolepart");
 		if(!service) {
 			KILE_DEBUG_MAIN << "No service for konsolepart";
@@ -78,7 +78,7 @@ namespace KileWidget
 		if(!qobject_cast<TerminalInterface*>(m_part)){
 			KILE_DEBUG_MAIN << "Did not find the TerminalInterface";
 			delete m_part;
-			m_part = NULL;
+			m_part = Q_NULLPTR;
 			return;
 		}
 
@@ -98,7 +98,7 @@ namespace KileWidget
 		}
 
 		KTextEditor::Document *doc = m_ki->activeTextDocument();
-		KTextEditor::View *view = NULL;
+		KTextEditor::View *view = Q_NULLPTR;
 
 		if(doc) {
 			view = doc->views().first();
@@ -155,7 +155,7 @@ namespace KileWidget
 	{
 		// there is no need to remove the widget from the layout as this is done
 		// automatically when the widget is destroyed
-		m_part = NULL;
+		m_part = Q_NULLPTR;
 		spawn();
 	}
 }

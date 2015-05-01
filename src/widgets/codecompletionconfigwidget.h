@@ -37,7 +37,7 @@ class CodeCompletionConfigWidget : public QWidget, public Ui::KileWidgetCodeComp
 {
 		Q_OBJECT
 	public:
-		CodeCompletionConfigWidget(KConfig *config, KileErrorHandler *errorHandler, QWidget *parent = NULL, const char *name = NULL);
+		CodeCompletionConfigWidget(KConfig *config, KileErrorHandler *errorHandler, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 		~CodeCompletionConfigWidget();
 
 		void readConfig(void);

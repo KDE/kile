@@ -71,7 +71,7 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 	}
 
 	QDateTime lastModifiedTime;
-	const QString* lastModifiedFile = NULL;
+	const QString* lastModifiedFile = Q_NULLPTR;
 
 	Q_FOREACH(const QString& file, absoluteFileNames) {
 		QDateTime modificationTime = QFileInfo(file).lastModified();

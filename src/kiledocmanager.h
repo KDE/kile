@@ -56,7 +56,7 @@ class Manager : public QObject
 {
 	Q_OBJECT
 public:
-	explicit Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
+	explicit Manager(KileInfo *info, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 	~Manager();
 
 	void readConfig();
@@ -87,17 +87,17 @@ public Q_SLOTS:
 	}
 	TextInfo* fileOpen(const QUrl &url, const QString& encoding = QString(), int index = -1);
 
-	bool fileSave(KTextEditor::View* = NULL);
-	bool fileSaveAs(KTextEditor::View* = NULL);
+	bool fileSave(KTextEditor::View* = Q_NULLPTR);
+	bool fileSaveAs(KTextEditor::View* = Q_NULLPTR);
 	void fileSaveCopyAs();
 
 	void saveURL(const QUrl&);
 	bool fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
 
-	bool fileCloseAllOthers(KTextEditor::View *view = NULL);
+	bool fileCloseAllOthers(KTextEditor::View *view = Q_NULLPTR);
 	bool fileCloseAll();
 	bool fileClose(const QUrl &url);
-	bool fileClose(KTextEditor::View *view = NULL);
+	bool fileClose(KTextEditor::View *view = Q_NULLPTR);
 	bool fileClose(KTextEditor::Document *doc, bool closingproject = false);
 
 //templates
@@ -118,14 +118,14 @@ public Q_SLOTS:
 	/**
 	 * Saves the state of the project, if @param project is zero, the active project is saved.
 	 **/
-	void projectSave(KileProject* project = NULL);
+	void projectSave(KileProject* project = Q_NULLPTR);
 	void projectAddFiles(const QUrl&);
-	void projectAddFiles(KileProject* project = NULL,const QUrl &url = QUrl());
+	void projectAddFiles(KileProject* project = Q_NULLPTR,const QUrl &url = QUrl());
 	void toggleArchive(KileProjectItem *);
-	void buildProjectTree(KileProject *project = NULL);
+	void buildProjectTree(KileProject *project = Q_NULLPTR);
 	void buildProjectTree(const QUrl&);
 	void projectOptions(const QUrl&);
-	void projectOptions(KileProject *project = NULL);
+	void projectOptions(KileProject *project = Q_NULLPTR);
 	bool projectClose(const QUrl &url = QUrl());
 	bool projectCloseAll();
 
@@ -230,8 +230,8 @@ public:
 	 * Finds the project item for the file with URL @param url.
 	 * @returns a pointer to the project item, 0 if this file does not belong to a project
 	 **/
-	KileProjectItem* itemFor(const QUrl &url, KileProject *project = NULL) const;
-	KileProjectItem* itemFor(TextInfo *docinfo, KileProject *project = NULL) const;
+	KileProjectItem* itemFor(const QUrl &url, KileProject *project = Q_NULLPTR) const;
+	KileProjectItem* itemFor(TextInfo *docinfo, KileProject *project = Q_NULLPTR) const;
 	KileProjectItem* selectProjectFileItem(const QString &label);
 	QList<KileProjectItem*> selectProjectFileItems(const QString &label);
 
@@ -251,7 +251,7 @@ protected:
 	void projectOpenItem(KileProjectItem *item, bool openProjectItemViews = true);
 	void createTextInfoForProjectItem(KileProjectItem *item);
 
-	void trashDoc(TextInfo *docinfo, KTextEditor::Document *doc = NULL);
+	void trashDoc(TextInfo *docinfo, KTextEditor::Document *doc = Q_NULLPTR);
 
 	TextInfo* createTextDocumentInfo(KileDocument::Type type, const QUrl &url, const QUrl& baseDirectory = QUrl());
 	void recreateTextDocumentInfo(TextInfo *oldinfo);

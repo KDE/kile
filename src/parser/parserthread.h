@@ -109,7 +109,7 @@ class DocumentParserThread : public ParserThread
 	Q_OBJECT
 
 public:
-	DocumentParserThread(KileInfo *info, QObject *parent = NULL);
+	DocumentParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
 	virtual ~DocumentParserThread();
 
 public Q_SLOTS:
@@ -128,7 +128,7 @@ class OutputParserThread: public ParserThread
 	Q_OBJECT
 
 public:
-	OutputParserThread(KileInfo *info, QObject *parent = NULL);
+	OutputParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
 	virtual ~OutputParserThread();
 
 public Q_SLOTS:

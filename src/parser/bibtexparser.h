@@ -45,7 +45,7 @@ class BibTeXParser : public Parser
 	Q_OBJECT
 
 public:
-	BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = NULL);
+	BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = Q_NULLPTR);
 	virtual ~BibTeXParser();
 
 	ParserOutput* parse();

@@ -71,7 +71,7 @@ public:
 	~Tag();
 
 private:
-	void init(const QObject *receiver = NULL, const char *slot = NULL);
+	void init(const QObject *receiver = Q_NULLPTR, const char *slot = Q_NULLPTR);
 
 Q_SIGNALS:
 	//sends along tagdata so that receiver knows what to insert
@@ -187,7 +187,7 @@ class VariantSelection : public QAction
 	Q_OBJECT
 
 	public:
-		VariantSelection(const QString &text, const QVariant& value, QObject *parent = NULL);
+		VariantSelection(const QString &text, const QVariant& value, QObject *parent = Q_NULLPTR);
 
 	Q_SIGNALS:
 		void triggered(const QVariant& value);

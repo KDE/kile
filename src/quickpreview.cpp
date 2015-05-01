@@ -37,7 +37,7 @@
 namespace KileTool
 {
 
-QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_running(0), m_tempDir(NULL)
+QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_running(0), m_tempDir(Q_NULLPTR)
 {
 	m_taskList << i18n("LaTeX ---> DVI")
 	           << i18n("LaTeX ---> DVI (Okular)")
@@ -245,7 +245,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		return false;
 	}
 	
-	KileTool::Base *dvips = NULL;
+	KileTool::Base *dvips = Q_NULLPTR;
 	if(!previewlist[1].isEmpty()) {
 		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
 		KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
@@ -256,7 +256,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
 		}
 	} 
 
-	KileTool::Base *viewer = NULL;
+	KileTool::Base *viewer = Q_NULLPTR;
 	if(!previewlist[pvViewer].isEmpty()) {
 		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
 		KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool << endl;

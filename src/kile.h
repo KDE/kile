@@ -97,7 +97,7 @@ class Kile : public KParts::MainWindow, public KileInfo
 	Q_OBJECT
 
 public:
-	explicit Kile(bool allowRestore = true, QWidget *parent = NULL);
+	explicit Kile(bool allowRestore = true, QWidget *parent = Q_NULLPTR);
 	~Kile();
 
 	int lineNumber();
@@ -221,11 +221,11 @@ private:
 
 	void setViewerToolBars();
 
-	QAction * createAction(const QString &text, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
-	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = NULL, const char *member = NULL);
-	QAction * createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver = NULL, const char *member = NULL);
-	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QKeySequence& shortcut = QKeySequence(), const QObject *receiver = NULL, const char *member = NULL);
-	QAction * createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(const QString &text, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QKeySequence& shortcut = QKeySequence(), const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
 
 	void setMasterDocumentFileName(const QString& fileName);
 	void clearMasterDocument();
@@ -273,11 +273,11 @@ private Q_SLOTS:
 
 	void sideOrBottomBarChanged(bool visible);
 
-	void showDocInfo(KTextEditor::View *view = NULL);
-	void convertToASCII(KTextEditor::Document *doc = NULL);
-	void convertToEnc(KTextEditor::Document *doc = NULL);
+	void showDocInfo(KTextEditor::View *view = Q_NULLPTR);
+	void convertToASCII(KTextEditor::Document *doc = Q_NULLPTR);
+	void convertToEnc(KTextEditor::Document *doc = Q_NULLPTR);
 
-	void cleanAll(KileDocument::TextInfo *docinfo = NULL);
+	void cleanAll(KileDocument::TextInfo *docinfo = Q_NULLPTR);
 	void cleanBib();
 
 	void findInFiles();

@@ -42,12 +42,12 @@ bool ConvertMap::create(const QString & encoding)
 		}
 		else {
 				delete map;
-				map = NULL;
+				map = Q_NULLPTR;
 		}
 		map = g_maps[encoding];
 	}
 
-	return (map != NULL);
+	return (map != Q_NULLPTR);
 }
 
 QString ConvertMap::encodingNameFor(const QString & name)
@@ -198,7 +198,7 @@ void ConvertIOFile::writeText()
 ConvertBase::ConvertBase(const QString & encoding, ConvertIO * io) :
 	m_io(io),
 	m_encoding(encoding),
-	m_map(NULL)
+	m_map(Q_NULLPTR)
 {
 }
 
@@ -240,10 +240,10 @@ bool ConvertBase::setMap()
 		m_map = ConvertMap::mapFor(m_encoding);
 	}
 	else {
-		m_map = NULL;
+		m_map = Q_NULLPTR;
 	}
 
-	return (m_map != NULL);
+	return (m_map != Q_NULLPTR);
 }
 //END ConvertBase
 

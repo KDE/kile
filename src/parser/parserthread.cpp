@@ -188,7 +188,7 @@ void ParserThread::run()
 
 		Parser *parser = createParser(currentParsedItem);
 
-		ParserOutput *parserOutput = NULL;
+		ParserOutput *parserOutput = Q_NULLPTR;
 		if(parser) {
 			parserOutput = parser->parse();
 		}
@@ -196,7 +196,7 @@ void ParserThread::run()
 		delete currentParsedItem;
 		delete parser;
 
-		// we also emit when 'parserOutput == NULL' as this will be used to indicate
+		// we also emit when 'parserOutput == Q_NULLPTR' as this will be used to indicate
 		// that some error has occurred;
 		// as this call will be blocking, one has to make sure that no mutex is held
 		emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
@@ -223,7 +223,7 @@ Parser* DocumentParserThread::createParser(ParserInput *input)
 		return new BibTeXParser(this, dynamic_cast<BibTeXParserInput*>(input));
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
@@ -234,7 +234,7 @@ void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
 		return;     // we can't do anything as not even the results of the parsing can be displayed
 	}
 
-	ParserInput* newItem = NULL;
+	ParserInput* newItem = Q_NULLPTR;
 	if(dynamic_cast<KileDocument::BibInfo*>(textInfo)) {
 		newItem = new BibTeXParserInput(url, textInfo->documentContents());
 	}
@@ -282,7 +282,7 @@ Parser* OutputParserThread::createParser(ParserInput *input)
     if(dynamic_cast<LaTeXOutputParserInput*>(input)) {
 	    return new LaTeXOutputParser(this, dynamic_cast<LaTeXOutputParserInput*>(input));
     }
-    return NULL;
+    return Q_NULLPTR;
 }
 
 void OutputParserThread::addLaTeXLogFile(const QString& logFile, const QString& sourceFile,

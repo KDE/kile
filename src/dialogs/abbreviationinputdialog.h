@@ -34,7 +34,7 @@ class AbbreviationInputDialog : public QDialog
    Q_OBJECT
 
 public:
-	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name = NULL);
+	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name = Q_NULLPTR);
 	~AbbreviationInputDialog();
 	void abbreviation(QString &abbrev, QString &expansion);
 

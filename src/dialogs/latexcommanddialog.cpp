@@ -654,7 +654,7 @@ void LatexCommandsDialog::slotAddClicked()
 		}
 
 		// add a new environment or command
-		NewLatexCommand *dialog = new NewLatexCommand(this, caption, item->text(0), NULL, type, &m_dictCommands);
+		NewLatexCommand *dialog = new NewLatexCommand(this, caption, item->text(0), Q_NULLPTR, type, &m_dictCommands);
 		if (dialog->exec() == QDialog::Accepted) {
 			m_commandChanged = true;
 

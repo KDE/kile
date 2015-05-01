@@ -49,24 +49,24 @@ public:
 	void insertTag(const KileAction::TagData& data, KTextEditor::View *view);
 
 	QString getTextLineReal(KTextEditor::Document *doc, int row);
-	void gotoBullet(bool backwards, KTextEditor::View *view = NULL);
-	void selectLine(int line,KTextEditor::View *view = NULL);
-	bool replaceLine(int line, const QString &s, KTextEditor::View *view = NULL);
+	void gotoBullet(bool backwards, KTextEditor::View *view = Q_NULLPTR);
+	void selectLine(int line,KTextEditor::View *view = Q_NULLPTR);
+	bool replaceLine(int line, const QString &s, KTextEditor::View *view = Q_NULLPTR);
 
-	void gotoEnvironment(bool backwards, KTextEditor::View *view = NULL);
-	void matchEnvironment(KTextEditor::View *view = NULL);
-	void closeEnvironment(KTextEditor::View *view = NULL);
-	void closeAllEnvironments(KTextEditor::View *view = NULL);
-	void selectEnvironment(bool inside, KTextEditor::View *view = NULL);
-	void deleteEnvironment(bool inside, KTextEditor::View *view = NULL);
+	void gotoEnvironment(bool backwards, KTextEditor::View *view = Q_NULLPTR);
+	void matchEnvironment(KTextEditor::View *view = Q_NULLPTR);
+	void closeEnvironment(KTextEditor::View *view = Q_NULLPTR);
+	void closeAllEnvironments(KTextEditor::View *view = Q_NULLPTR);
+	void selectEnvironment(bool inside, KTextEditor::View *view = Q_NULLPTR);
+	void deleteEnvironment(bool inside, KTextEditor::View *view = Q_NULLPTR);
 	QString autoIndentEnvironment() { return m_envAutoIndent; }
 
-	bool hasTexgroup(KTextEditor::View *view = NULL);
-	void gotoTexgroup(bool backwards, KTextEditor::View *view = NULL);
-	void selectTexgroup(bool inside, KTextEditor::View *view = NULL);
-	void deleteTexgroup(bool inside, KTextEditor::View *view = NULL);
-	KTextEditor::Range texgroupRange(bool inside=true, KTextEditor::View *view = NULL);
-	QString getTexgroupText(bool inside=true, KTextEditor::View *view = NULL);
+	bool hasTexgroup(KTextEditor::View *view = Q_NULLPTR);
+	void gotoTexgroup(bool backwards, KTextEditor::View *view = Q_NULLPTR);
+	void selectTexgroup(bool inside, KTextEditor::View *view = Q_NULLPTR);
+	void deleteTexgroup(bool inside, KTextEditor::View *view = Q_NULLPTR);
+	KTextEditor::Range texgroupRange(bool inside=true, KTextEditor::View *view = Q_NULLPTR);
+	QString getTexgroupText(bool inside=true, KTextEditor::View *view = Q_NULLPTR);
 
 	/**
 	 * Returns a (potentially) translated list of options for inserting double quotes
@@ -75,37 +75,37 @@ public:
 
 	// get current word
 	bool getCurrentWord(KTextEditor::Document *doc, int row, int col, SelectMode mode, QString &word, int &x1, int &x2);
-	QString getEnvironmentText(int &row, int &col, QString &name, KTextEditor::View *view = NULL);
-	bool hasEnvironment(KTextEditor::View *view = NULL);
+	QString getEnvironmentText(int &row, int &col, QString &name, KTextEditor::View *view = Q_NULLPTR);
+	bool hasEnvironment(KTextEditor::View *view = Q_NULLPTR);
 
-	KTextEditor::Range environmentRange(bool inside=false, KTextEditor::View *view = NULL);
-	QString environmentName(KTextEditor::View *view = NULL);
-	QString environmentText(bool inside=false, KTextEditor::View *view = NULL);
+	KTextEditor::Range environmentRange(bool inside=false, KTextEditor::View *view = Q_NULLPTR);
+	QString environmentName(KTextEditor::View *view = Q_NULLPTR);
+	QString environmentText(bool inside=false, KTextEditor::View *view = Q_NULLPTR);
 
-	KTextEditor::Range wordRange(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = NULL);
-	QString word(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = NULL);
+	KTextEditor::Range wordRange(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = Q_NULLPTR);
+	QString word(const KTextEditor::Cursor &cursor, bool latexCommand=false, KTextEditor::View *view = Q_NULLPTR);
 
 	KTextEditor::Range findCurrentParagraphRange(KTextEditor::View *view, bool wholeLines = true);
 	QString getParagraphText(KTextEditor::View *view);
-	int prevNonEmptyLine(int line, KTextEditor::View *view = NULL);
-	int nextNonEmptyLine(int line, KTextEditor::View *view = NULL);
+	int prevNonEmptyLine(int line, KTextEditor::View *view = Q_NULLPTR);
+	int nextNonEmptyLine(int line, KTextEditor::View *view = Q_NULLPTR);
 
 	// complete environment
 	bool eventInsertEnvironment(KTextEditor::View *view);
 
 	// mathgroup
-	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = NULL);
-	QString getMathgroupText(KTextEditor::View *view = NULL);
-	bool hasMathgroup(KTextEditor::View *view = NULL);
-	KTextEditor::Range  mathgroupRange(KTextEditor::View *view = NULL);
+	QString getMathgroupText(uint &row, uint &col, KTextEditor::View *view = Q_NULLPTR);
+	QString getMathgroupText(KTextEditor::View *view = Q_NULLPTR);
+	bool hasMathgroup(KTextEditor::View *view = Q_NULLPTR);
+	KTextEditor::Range  mathgroupRange(KTextEditor::View *view = Q_NULLPTR);
 
-	bool moveCursorRight(KTextEditor::View *view = NULL);
-	bool moveCursorLeft(KTextEditor::View *view = NULL);
-	bool moveCursorUp(KTextEditor::View *view = NULL);
-	bool moveCursorDown(KTextEditor::View *view = NULL);
+	bool moveCursorRight(KTextEditor::View *view = Q_NULLPTR);
+	bool moveCursorLeft(KTextEditor::View *view = Q_NULLPTR);
+	bool moveCursorUp(KTextEditor::View *view = Q_NULLPTR);
+	bool moveCursorDown(KTextEditor::View *view = Q_NULLPTR);
 
 public Q_SLOTS:
-	void insertIntelligentNewline(KTextEditor::View *view = NULL);
+	void insertIntelligentNewline(KTextEditor::View *view = Q_NULLPTR);
 
 	void selectEnvInside() { selectEnvironment(true); }
 	void selectEnvOutside() { selectEnvironment(false); }
@@ -123,45 +123,45 @@ public Q_SLOTS:
 	void deleteTexgroupOutside() { deleteTexgroup(false); }
 	void gotoBeginTexgroup() { gotoTexgroup(true); }
 	void gotoEndTexgroup() { gotoTexgroup(false); }
-	void matchTexgroup(KTextEditor::View *view = NULL);
-	void closeTexgroup(KTextEditor::View *view = NULL);
+	void matchTexgroup(KTextEditor::View *view = Q_NULLPTR);
+	void closeTexgroup(KTextEditor::View *view = Q_NULLPTR);
 
-	void selectParagraph(KTextEditor::View *view = NULL, bool wholeLines = true);
-	void selectLine(KTextEditor::View *view = NULL);
-	void selectLines(int from, int to, KTextEditor::View *view = NULL);
-	void selectWord(SelectMode mode = smTex, KTextEditor::View *view = NULL);
-	void deleteParagraph(KTextEditor::View *view = NULL);
-	void deleteEndOfLine(KTextEditor::View *view = NULL);
-	void deleteWord(SelectMode mode = smTex, KTextEditor::View *view = NULL);
+	void selectParagraph(KTextEditor::View *view = Q_NULLPTR, bool wholeLines = true);
+	void selectLine(KTextEditor::View *view = Q_NULLPTR);
+	void selectLines(int from, int to, KTextEditor::View *view = Q_NULLPTR);
+	void selectWord(SelectMode mode = smTex, KTextEditor::View *view = Q_NULLPTR);
+	void deleteParagraph(KTextEditor::View *view = Q_NULLPTR);
+	void deleteEndOfLine(KTextEditor::View *view = Q_NULLPTR);
+	void deleteWord(SelectMode mode = smTex, KTextEditor::View *view = Q_NULLPTR);
 
-	void selectMathgroup(KTextEditor::View *view = NULL);
-	void deleteMathgroup(KTextEditor::View *view = NULL);
+	void selectMathgroup(KTextEditor::View *view = Q_NULLPTR);
+	void deleteMathgroup(KTextEditor::View *view = Q_NULLPTR);
 
-	void nextBullet(KTextEditor::View* view = NULL);
-	void prevBullet(KTextEditor::View* view = NULL);
-	void insertBullet(KTextEditor::View* view = NULL);
+	void nextBullet(KTextEditor::View* view = Q_NULLPTR);
+	void prevBullet(KTextEditor::View* view = Q_NULLPTR);
+	void insertBullet(KTextEditor::View* view = Q_NULLPTR);
 
-	void gotoNextParagraph(KTextEditor::View *view = NULL);
-	void gotoPrevParagraph(KTextEditor::View *view = NULL);
+	void gotoNextParagraph(KTextEditor::View *view = Q_NULLPTR);
+	void gotoPrevParagraph(KTextEditor::View *view = Q_NULLPTR);
 
 	void gotoNextSectioning();
 	void gotoPrevSectioning();
-	void gotoSectioning(bool backwards, KTextEditor::View *view = NULL);
+	void gotoSectioning(bool backwards, KTextEditor::View *view = Q_NULLPTR);
 	void sectioningCommand(KileWidget::StructureViewItem *item, int id);
 
-	bool insertDoubleQuotes(KTextEditor::View *view = NULL);
+	bool insertDoubleQuotes(KTextEditor::View *view = Q_NULLPTR);
 	void initDoubleQuotes();
 
 	bool insertLatexFromUnicode(unsigned short rep, KTextEditor::View *view);
-	bool insertSpecialCharacter(const QString& texString, KTextEditor::View *view = NULL, const QString& dep = "");
+	bool insertSpecialCharacter(const QString& texString, KTextEditor::View *view = Q_NULLPTR, const QString& dep = "");
 
-	void insertIntelligentTabulator(KTextEditor::View *view = NULL);
+	void insertIntelligentTabulator(KTextEditor::View *view = Q_NULLPTR);
 
-	void moveCursorToLastPositionInCurrentLine(KTextEditor::View *view = NULL);
-	void keyReturn(KTextEditor::View *view = NULL);
+	void moveCursorToLastPositionInCurrentLine(KTextEditor::View *view = Q_NULLPTR);
+	void keyReturn(KTextEditor::View *view = Q_NULLPTR);
 	void commentLaTeX(KTextEditor::Document* document, const KTextEditor::Range &range);
 
-	void goToLine(int line, KTextEditor::View *view = NULL);
+	void goToLine(int line, KTextEditor::View *view = Q_NULLPTR);
 
 private:
 

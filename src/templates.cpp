@@ -289,7 +289,7 @@ bool TemplateItem::operator<(const QListWidgetItem &other) const
 ////////////////////// TemplateIconView //////////////////////
 
 TemplateIconView::TemplateIconView(QWidget *parent)
-	: QListWidget(parent), m_templateManager(NULL), m_proc(NULL) {
+	: QListWidget(parent), m_templateManager(Q_NULLPTR), m_proc(Q_NULLPTR) {
 	setViewMode(QListView::IconMode);
 	setMovement(QListView::Static);
 	setResizeMode(QListView::Adjust);

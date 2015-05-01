@@ -101,7 +101,7 @@ namespace KileTool
 		m_bClear(true),
 		m_nLastResult(Success),
 		m_nTimeout(to),
-		m_bibliographyBackendSelectAction(NULL)
+		m_bibliographyBackendSelectAction(Q_NULLPTR)
 	{
 		connect(m_ki->parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingComplete()));
 
@@ -190,7 +190,7 @@ namespace KileTool
 		m_toolsScheduledAfterParsingList.clear();
 	}
 
-	int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= Q_NULLPTR*/)
 	{
 		KILE_DEBUG_MAIN << "==KileTool::Manager::runImmediately(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
@@ -278,13 +278,13 @@ namespace KileTool
 	{
 		if(!m_factory) {
 			m_ki->errorHandler()->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
-			return NULL;
+			return Q_NULLPTR;
 		}
 
 		Base* pTool = m_factory->create(name, cfg, prepare);
 		if(!pTool) {
 			m_ki->errorHandler()->printMessage(Error, i18n("Unknown tool %1.", name));
-			return NULL;
+			return Q_NULLPTR;
 		}
 		initTool(pTool);
 		return pTool;
@@ -340,7 +340,7 @@ namespace KileTool
 
 	void Manager::stopActionDestroyed()
 	{
-		m_stop = NULL;
+		m_stop = Q_NULLPTR;
 	}
 
 	void Manager::done(KileTool::Base *tool, int result)

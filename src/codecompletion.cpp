@@ -40,7 +40,7 @@ namespace KileCodeCompletion {
 
 LaTeXCompletionModel::LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
                                                             KileDocument::EditorExtension *editorExtension)
-: KTextEditor::CodeCompletionModel(parent), m_codeCompletionManager(manager), m_editorExtension(editorExtension), m_currentView(NULL)
+: KTextEditor::CodeCompletionModel(parent), m_codeCompletionManager(manager), m_editorExtension(editorExtension), m_currentView(Q_NULLPTR)
 {
 	setHasGroups(false);
 }

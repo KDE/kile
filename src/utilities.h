@@ -28,7 +28,7 @@ class ServiceRunAction : public QAction {
 		                 bool tempFiles = false,
 		                 const QString& suggestedFileName = QString(),
 		                 const QByteArray& asn = "",
-		                 QObject *parent = NULL);
+		                 QObject *parent = Q_NULLPTR);
 		~ServiceRunAction();
 
 	protected Q_SLOTS:

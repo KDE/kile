@@ -121,7 +121,7 @@ static const char* const no_border_xpm[] = {
 class TabularFrameWidget : public QFrame
 {
 	public:
-		TabularFrameWidget(QWidget* parent = NULL);
+		TabularFrameWidget(QWidget* parent = Q_NULLPTR);
 		void setBorder(int value);
 		int border() const { return m_border; }
 

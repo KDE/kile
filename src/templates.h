@@ -54,7 +54,7 @@ class Manager : public QObject {
 	Q_OBJECT
 	
 	public:
-		explicit Manager(KileInfo *info, QObject* parent = NULL, const char* name = NULL);
+		explicit Manager(KileInfo *info, QObject* parent = Q_NULLPTR, const char* name = NULL);
 		virtual ~Manager();
 
 		void scanForTemplates();
@@ -136,7 +136,7 @@ class TemplateIconView : public QListWidget {
 	Q_OBJECT
 	
 	public:
-		TemplateIconView(QWidget *parent = NULL);
+		TemplateIconView(QWidget *parent = Q_NULLPTR);
 		virtual ~TemplateIconView();
 
 		void setTemplateManager(KileTemplate::Manager *templateManager);

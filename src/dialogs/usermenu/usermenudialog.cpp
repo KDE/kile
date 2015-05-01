@@ -869,13 +869,13 @@ void UserMenuDialog::setSubmenuEntry(UserMenuItem *item)
 {
 	setMenuentryText(item, true);
 	setMenuentryType(item, true, false);
-	setMenuentryFileChooser(NULL, false);
-	setMenuentryFileParameter(NULL, false);
-	setMenuentryTextEdit(NULL, false);
-	setMenuentryIcon(NULL, false);
-	setMenuentryShortcut(NULL, false);
+	setMenuentryFileChooser(Q_NULLPTR, false);
+	setMenuentryFileParameter(Q_NULLPTR, false);
+	setMenuentryTextEdit(Q_NULLPTR, false);
+	setMenuentryIcon(Q_NULLPTR, false);
+	setMenuentryShortcut(Q_NULLPTR, false);
 	setParameterGroupbox(false);
-	setMenuentryCheckboxes(NULL, false);
+	setMenuentryCheckboxes(Q_NULLPTR, false);
 }
 
 ////////////////////////////// update data widgets//////////////////////////////
@@ -1025,15 +1025,15 @@ void UserMenuDialog::clearMenuEntryData()
 
 void UserMenuDialog::disableMenuEntryData()
 {
-	setMenuentryText(NULL, false);
-	setMenuentryType(NULL, false, false);
-	setMenuentryFileChooser(NULL, false);
-	setMenuentryFileParameter(NULL, false);
-	setMenuentryTextEdit(NULL, false);
-	setMenuentryIcon(NULL, false);
-	setMenuentryShortcut(NULL, false);
+	setMenuentryText(Q_NULLPTR, false);
+	setMenuentryType(Q_NULLPTR, false, false);
+	setMenuentryFileChooser(Q_NULLPTR, false);
+	setMenuentryFileParameter(Q_NULLPTR, false);
+	setMenuentryTextEdit(Q_NULLPTR, false);
+	setMenuentryIcon(Q_NULLPTR, false);
+	setMenuentryShortcut(Q_NULLPTR, false);
 	setParameterGroupbox(false);
-	setMenuentryCheckboxes(NULL, false);
+	setMenuentryCheckboxes(Q_NULLPTR, false);
 }
 
 

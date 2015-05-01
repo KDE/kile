@@ -30,7 +30,7 @@ class CommandView : public QListWidget
 	Q_OBJECT
 
 	public:
-		explicit CommandView(QWidget *parent, const QString &title, const char *name = NULL);
+		explicit CommandView(QWidget *parent, const QString &title, const char *name = Q_NULLPTR);
 		~CommandView();
 
 	public:
@@ -43,7 +43,7 @@ class CommandViewToolBox : public QToolBox
 	Q_OBJECT
 
 	public:
-		explicit CommandViewToolBox(KileInfo *ki, QWidget *parent, const char *name = NULL);
+		explicit CommandViewToolBox(KileInfo *ki, QWidget *parent, const char *name = Q_NULLPTR);
 		~CommandViewToolBox();
 
 		void readCommandViewFiles();

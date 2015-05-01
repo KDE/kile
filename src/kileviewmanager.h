@@ -65,7 +65,7 @@ class DocumentViewerWindow : public KMainWindow
 	Q_OBJECT
 
 public:
-	DocumentViewerWindow(QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+	DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
 	virtual ~DocumentViewerWindow();
 
 Q_SIGNALS:
@@ -145,7 +145,7 @@ public Q_SLOTS:
 
 	void removeView(KTextEditor::View *view);
 
-	void updateStructure(bool parse = false, KileDocument::Info *docinfo = NULL);
+	void updateStructure(bool parse = false, KileDocument::Info *docinfo = Q_NULLPTR);
 
 	void gotoNextView();
 	void gotoPrevView();
@@ -158,8 +158,8 @@ public Q_SLOTS:
 	void pasteAsLaTeX(void);
 	void quickPreviewPopup();
 
-	void moveTabLeft(QWidget *widget = NULL);
-	void moveTabRight(QWidget *widget = NULL);
+	void moveTabLeft(QWidget *widget = Q_NULLPTR);
+	void moveTabRight(QWidget *widget = Q_NULLPTR);
 
 	void setDocumentViewerVisible(bool b);
 

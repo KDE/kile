@@ -133,7 +133,7 @@ void AbbreviationView::slotCustomContextMenuRequested(const QPoint& p)
 
 void AbbreviationView::slotAddAbbreviation()
 {
-	KileDialog::AbbreviationInputDialog dialog(this, NULL, ALVadd);
+	KileDialog::AbbreviationInputDialog dialog(this, Q_NULLPTR, ALVadd);
 	if(dialog.exec() == QDialog::Accepted) {
 		QString abbrev, expansion;
 		dialog.abbreviation(abbrev, expansion);

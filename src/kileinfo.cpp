@@ -51,13 +51,13 @@
 
 KileInfo::KileInfo(KParts::MainWindow *parent) :
 	m_mainWindow(parent),
-	m_viewManager(NULL),
-	m_manager(NULL),
-	m_jScriptManager(NULL),
-	m_toolFactory(NULL),
-	m_texKonsole(NULL),
-	m_errorHandler(NULL),
-	m_edit(NULL)
+	m_viewManager(Q_NULLPTR),
+	m_manager(Q_NULLPTR),
+	m_jScriptManager(Q_NULLPTR),
+	m_toolFactory(Q_NULLPTR),
+	m_texKonsole(Q_NULLPTR),
+	m_errorHandler(Q_NULLPTR),
+	m_edit(Q_NULLPTR)
 {
 	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
@@ -77,7 +77,7 @@ KileInfo::~KileInfo()
 KTextEditor::Document * KileInfo::activeTextDocument() const
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view) return view->document(); else return NULL;
+	if (view) return view->document(); else return Q_NULLPTR;
 }
 
 QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
@@ -98,13 +98,13 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
 
 LaTeXOutputHandler* KileInfo::findCurrentLaTeXOutputHandler() const
 {
-	LaTeXOutputHandler *h = NULL;
+	LaTeXOutputHandler *h = Q_NULLPTR;
 
 	getCompileName(false, &h);
 	return h;
 }
 
-QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = NULL */) const
+QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = Q_NULLPTR */) const
 {
 	KileProject *project = docManager()->activeProject();
 

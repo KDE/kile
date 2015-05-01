@@ -95,14 +95,14 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	QObject(parent),
 // 	KTextEditor::MdiContainer(),
 	m_ki(info),
-// 	m_projectview(NULL),
-	m_tabs(NULL),
-	m_viewerPartWindow(NULL),
-	m_widgetStack(NULL),
-	m_emptyDropWidget(NULL),
-	m_pasteAsLaTeXAction(NULL),
-	m_convertToLaTeXAction(NULL),
-	m_quickPreviewAction(NULL)
+// 	m_projectview(Q_NULLPTR),
+	m_tabs(Q_NULLPTR),
+	m_viewerPartWindow(Q_NULLPTR),
+	m_widgetStack(Q_NULLPTR),
+	m_emptyDropWidget(Q_NULLPTR),
+	m_pasteAsLaTeXAction(Q_NULLPTR),
+	m_convertToLaTeXAction(Q_NULLPTR),
+	m_quickPreviewAction(Q_NULLPTR)
 {
 	setObjectName(name);
 	registerMdiContainer();
@@ -114,7 +114,7 @@ Manager::~Manager()
 {
 	KILE_DEBUG_MAIN;
 
-	// the parent of the widget might be NULL; see 'destroyDocumentViewerWindow()'
+	// the parent of the widget might be Q_NULLPTR; see 'destroyDocumentViewerWindow()'
 	if(m_viewerPart) {
 		delete m_viewerPart->widget();
 		delete m_viewerPart;
@@ -136,15 +136,15 @@ static inline KTextEditor::View* toTextView(QWidget* w)
 void Manager::setClient(KXMLGUIClient *client)
 {
 	m_client = client;
-	if(NULL == m_client->actionCollection()->action("popup_pasteaslatex")) {
+	if(Q_NULLPTR == m_client->actionCollection()->action("popup_pasteaslatex")) {
 		m_pasteAsLaTeXAction = new QAction(i18n("Paste as LaTe&X"), this);
 		connect(m_pasteAsLaTeXAction, SIGNAL(triggered()), this, SLOT(pasteAsLaTeX()));
 	}
-	if(NULL == m_client->actionCollection()->action("popup_converttolatex")) {
+	if(Q_NULLPTR == m_client->actionCollection()->action("popup_converttolatex")) {
 		m_convertToLaTeXAction = new QAction(i18n("Convert Selection to &LaTeX"), this);
 		connect(m_convertToLaTeXAction, SIGNAL(triggered()), this, SLOT(convertSelectionToLaTeX()));
 	}
-	if(NULL == m_client->actionCollection()->action("popup_quickpreview")) {
+	if(Q_NULLPTR == m_client->actionCollection()->action("popup_quickpreview")) {
 		m_quickPreviewAction = new QAction(this);
 		connect(m_quickPreviewAction, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
 	}
@@ -225,7 +225,7 @@ void Manager::closeTab(int index)
 KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
 	KTextEditor::Document *doc = info->getDoc();
-	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView(m_tabs, NULL));
+	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView(m_tabs, Q_NULLPTR));
 
 	if(!view) {
 		KMessageBox::error(m_ki->mainWindow(), i18n("Could not create an editor view."), i18n("Fatal Error"));
@@ -354,7 +354,7 @@ void Manager::tabContext(const QPoint& pos)
 
 	tabMenu.addSection(m_ki->getShortName(view->document()));
 
-	// 'action1' can become NULL if it belongs to a view that has been closed, for example
+	// 'action1' can become Q_NULLPTR if it belongs to a view that has been closed, for example
 	QPointer<QAction> action1 = m_ki->mainWindow()->action("move_view_tab_left");
 	action1->setData(qVariantFromValue(view));
 	tabMenu.addAction(action1);
@@ -442,7 +442,7 @@ void Manager::removeView(KTextEditor::View *view)
 		delete view;
 	}
 	else{
-		KILE_DEBUG_MAIN << "View should be removed but is NULL";
+		KILE_DEBUG_MAIN << "View should be removed but is Q_NULLPTR";
 	}
 
 }
@@ -463,7 +463,7 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 {
 	KTextEditor::Document *doc = info->getDoc();
 	if(!doc) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 	for(int i = 0; i < m_tabs->count(); ++i) {
 		KTextEditor::View *view = toTextView(m_tabs->widget(i));
@@ -476,7 +476,7 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 		}
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 int Manager::textViewCount() const
@@ -500,7 +500,7 @@ KTextEditor::View* Manager::switchToTextView(const QUrl &url, bool requestFocus)
 
 KTextEditor::View* Manager::switchToTextView(KTextEditor::Document *doc, bool requestFocus)
 {
-	KTextEditor::View *view = NULL;
+	KTextEditor::View *view = Q_NULLPTR;
 	if(doc) {
 		if (doc->views().count() > 0) {
 			view = doc->views().first();
@@ -529,7 +529,7 @@ void Manager::setTabIcon(QWidget *view, const QPixmap& icon)
 	m_tabs->setTabIcon(m_tabs->indexOf(view), QIcon(icon));
 }
 
-void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = NULL */)
+void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = Q_NULLPTR */)
 {
 	if (!docinfo) {
 		docinfo = m_ki->docManager()->getInfo();
@@ -707,12 +707,12 @@ void Manager::convertSelectionToLaTeX(void)
 {
 	KTextEditor::View *view = currentTextView();
 
-	if(NULL == view)
+	if(Q_NULLPTR == view)
 		return;
 
 	KTextEditor::Document *doc = view->document();
 
-	if(NULL == doc)
+	if(Q_NULLPTR == doc)
 		return;
 
 	// Getting the selection
@@ -946,13 +946,13 @@ void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
 
 void Manager::createViewerPart(KActionCollection *actionCollection)
 {
-	m_viewerPart = NULL;
+	m_viewerPart = Q_NULLPTR;
 #if LIVEPREVIEW_AVAILABLE
 	KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
 	KPluginFactory *factory = pluginLoader.factory();
 	if (!factory) {
 		KILE_DEBUG_MAIN << "Could not find the Okular library.";
-		m_viewerPart = NULL;
+		m_viewerPart = Q_NULLPTR;
 		return;
 	}
 	else {
@@ -963,7 +963,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 		if(!viewerInterface) {
 			// OkularPart doesn't provide the ViewerInterface
 			delete m_viewerPart;
-			m_viewerPart = NULL;
+			m_viewerPart = Q_NULLPTR;
 			return;
 		}
 		viewerInterface->setWatchFileModeEnabled(false);
@@ -1032,7 +1032,7 @@ void Manager::destroyDocumentViewerWindow()
 	           this, SIGNAL(documentViewerWindowVisibilityChanged(bool)));
 	m_viewerPartWindow->hide();
 	delete m_viewerPartWindow;
-	m_viewerPartWindow = NULL;
+	m_viewerPartWindow = Q_NULLPTR;
 }
 
 void Manager::handleActivatedSourceReference(const QString& absFileName, int line, int col)
@@ -1157,7 +1157,7 @@ KTextEditor::View *Manager::activeView()
 // 		return doc->activeView();
 // 	}
 // 	return 0;
-return NULL;
+return Q_NULLPTR;
 }
 
 KTextEditor::Document *Manager::createDocument()

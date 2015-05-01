@@ -75,7 +75,7 @@ class Parser : public QObject
 	Q_OBJECT
 
 public:
-	explicit Parser(ParserThread *parserThread, QObject *parent = NULL);
+	explicit Parser(ParserThread *parserThread, QObject *parent = Q_NULLPTR);
 	virtual ~Parser();
 
 	virtual ParserOutput* parse() = 0;

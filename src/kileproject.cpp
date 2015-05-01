@@ -54,10 +54,10 @@ KileProjectItem::KileProjectItem(KileProject *project, const QUrl &url, int type
 	m_project(project),
 	m_url(url),
 	m_type(type),
-	m_docinfo(NULL),
-	m_parent(NULL),
-	m_child(NULL),
-	m_sibling(NULL),
+	m_docinfo(Q_NULLPTR),
+	m_parent(Q_NULLPTR),
+	m_child(Q_NULLPTR),
+	m_sibling(Q_NULLPTR),
 	m_nLine(0),
 	m_order(-1)
 {
@@ -214,7 +214,7 @@ void KileProjectItem::allChildren(QList<KileProjectItem*> *list) const
 	KileProjectItem *item = firstChild();
 
 // 	KILE_DEBUG_MAIN << "\tKileProjectItem::allChildren(" << list->count() << ")";
-	while(item != NULL) {
+	while(item != Q_NULLPTR) {
 		list->append(item);
 // 		KILE_DEBUG_MAIN << "\t\tappending " << item->url().fileName();
 		item->allChildren(list);
@@ -251,14 +251,14 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const QUrl &url)
  * KileProject
  */
 KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Extensions *extensions)
-: QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
 	setObjectName(name);
 	init(name, url, extensions);
 }
 
 KileProject::KileProject(const QUrl &url, KileDocument::Extensions *extensions)
-: QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
 	setObjectName(url.fileName());
 	init(url.fileName(), url, extensions);
@@ -474,7 +474,7 @@ bool KileProject::load()
 	m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
 
 	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt()) {
-		if(KMessageBox::warningYesNo(NULL, i18n("The project file of %1 was created by a newer version of kile. "
+		if(KMessageBox::warningYesNo(Q_NULLPTR, i18n("The project file of %1 was created by a newer version of kile. "
 				"Opening it can lead to unexpected results.\n"
 				"Do you really want to continue (not recommended)?", m_name),
 				 QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No) {
@@ -632,7 +632,7 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
 static bool isAncestorOf(KileProjectItem *toBeChecked, KileProjectItem *parent)
 {
 	KileProjectItem *item = parent;
-	while(item != NULL) {
+	while(item != Q_NULLPTR) {
 		if(item == toBeChecked) {
 			return true;
 		}
@@ -695,7 +695,7 @@ void KileProject::buildProjectTree()
 	//make a list of all the root items (items with parent == 0)
 	m_rootItems.clear();
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
-		if((*it)->parent() == NULL) {
+		if((*it)->parent() == Q_NULLPTR) {
 			m_rootItems.append(*it);
 		}
 	}
@@ -711,7 +711,7 @@ KileProjectItem* KileProject::item(const QUrl &url)
 		}
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 KileProjectItem* KileProject::item(const KileDocument::Info *info)
@@ -724,7 +724,7 @@ KileProjectItem* KileProject::item(const KileDocument::Info *info)
 		}
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 void KileProject::add(KileProjectItem* item)
@@ -811,7 +811,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 {
 	//find the root item (i.e. the eldest parent)
 	KileProjectItem *root = item;
-	while(root->parent() != NULL) {
+	while(root->parent() != Q_NULLPTR) {
 		root = root->parent();
 	}
 
@@ -871,7 +871,7 @@ void KileProject::setMasterDocument(const QString & master){
 			m_masterDocument = master;
 		else {
 			m_masterDocument.clear();
-			KILE_DEBUG_MAIN << "setMasterDocument: masterDoc=NULL";
+			KILE_DEBUG_MAIN << "setMasterDocument: masterDoc=Q_NULLPTR";
 		}
 
 	}

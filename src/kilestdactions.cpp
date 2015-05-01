@@ -259,7 +259,7 @@ Print List of Shorthands - \printshorthands
 
 	KConfig *bibCfg = new KConfig(filename, KConfig::SimpleConfig);
 
-	if(bibCfg == NULL )
+	if(bibCfg == Q_NULLPTR )
 		return;
 
 	QStringList groupList = bibCfg->groupList();

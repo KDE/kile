@@ -69,7 +69,7 @@ class LaTeXParser : public Parser
 
 public:
 	LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
-	                                        QObject *parent = NULL);
+	                                        QObject *parent = Q_NULLPTR);
 	virtual ~LaTeXParser();
 
 	ParserOutput* parse();

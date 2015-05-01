@@ -69,7 +69,7 @@ void KJSCPUGuard::start(unsigned int ms, unsigned int i_ms)
 
 void KJSCPUGuard::stop()
 {
-  setitimer(ITIMER_VIRTUAL, &oldtv, NULL);
+  setitimer(ITIMER_VIRTUAL, &oldtv, Q_NULLPTR);
   signal(SIGVTALRM, oldAlarmHandler);
 }
 
@@ -128,7 +128,7 @@ static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &ra
  */
 
 Script::Script(unsigned int id, const QString& file)
-   : m_id(id), m_file(file), m_action(NULL), m_sequencetype(KEY_SEQUENCE)
+   : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
 {
 //TODO KF5
 // 	m_name = KGlobal::dirs()->relativeLocation("appdata", file);

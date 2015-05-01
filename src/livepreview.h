@@ -140,9 +140,9 @@ private:
 	QActionGroup *m_livePreviewToolActionGroup;
 	QLinkedList<QAction *> m_livePreviewToolActionList;
 
-	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = NULL,
-	                                                                             LivePreviewUserStatusHandler* *userStatusHandler = NULL,
-	                                                                             LaTeXOutputHandler* *latexOutputHandler = NULL);
+	PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = Q_NULLPTR,
+	                                                                             LivePreviewUserStatusHandler* *userStatusHandler = Q_NULLPTR,
+	                                                                             LaTeXOutputHandler* *latexOutputHandler = Q_NULLPTR);
 	bool isCurrentDocumentOrProject(KTextEditor::Document *doc);
 
 	void updatePreviewInformationAfterCompilationFinished();
@@ -179,7 +179,7 @@ private:
 	void updateLivePreviewToolActions(LivePreviewUserStatusHandler *statusHandler);
 	void setLivePreviewToolActionsEnabled(bool b);
 
-	bool ensureDocumentIsOpenInViewer(PreviewInformation *previewInformation, bool *hadToOpen = NULL);
+	bool ensureDocumentIsOpenInViewer(PreviewInformation *previewInformation, bool *hadToOpen = Q_NULLPTR);
 	void reloadDocumentInViewer();
 
 };

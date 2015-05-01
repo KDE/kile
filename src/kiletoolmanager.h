@@ -137,7 +137,7 @@ namespace KileTool
 		void initTool(Base*);
 
 	private Q_SLOTS:
-		int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = NULL);
+		int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = Q_NULLPTR);
 		int runNextInQueue();
 		void enableClear();
 

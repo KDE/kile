@@ -74,7 +74,7 @@ class LaTeXOutputParser : public Parser
 	Q_OBJECT
 
 public:
-	LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = NULL);
+	LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = Q_NULLPTR);
 	virtual ~LaTeXOutputParser();
 
 	ParserOutput* parse();

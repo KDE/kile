@@ -100,7 +100,7 @@ ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int st
 ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
 : KAssistantDialog(parent),
   m_ki(kileInfo),
-  m_tester(NULL)
+  m_tester(Q_NULLPTR)
 {
 	// don't show the 'help' button in the title bar
 	setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);

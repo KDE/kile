@@ -29,7 +29,7 @@ class ProgressDialog : public QProgressDialog
 	Q_OBJECT
 
 public:
-	explicit ProgressDialog(QWidget* parent = NULL, const QString& caption = QString(),
+	explicit ProgressDialog(QWidget* parent = Q_NULLPTR, const QString& caption = QString(),
 	                        const QString& text = QString(), Qt::WindowFlags flags = 0);
 	virtual ~ProgressDialog();
 

@@ -38,7 +38,7 @@ namespace KileTool
 {
 	Base::Base(const QString &name, Manager *manager, bool prepare /* = true */) :
 		QObject(manager), // ensure that they are deleted whenever the tool manager gets deleted
-		m_launcher(NULL),
+		m_launcher(Q_NULLPTR),
 		m_quickie(false),
 		m_isPartOfLivePreview(false),
 		m_manager(manager),
@@ -248,12 +248,12 @@ namespace KileTool
 	{
 		//FIXME deal with tools that do not need a source or target (yes they exist)
 		//Is there an active document? Only check if the source file is not explicitly set.
-		if((m_source.isEmpty()) && (m_manager->info()->activeTextDocument() == NULL)) {
+		if((m_source.isEmpty()) && (m_manager->info()->activeTextDocument() == Q_NULLPTR)) {
 			sendMessage(Error, msg(NeedActiveDoc).subs(name()).toString());
 			return false;
 		}
 
-		if(m_source.isEmpty() && m_manager->info()->activeTextDocument() != NULL) {
+		if(m_source.isEmpty() && m_manager->info()->activeTextDocument() != Q_NULLPTR) {
 			if(m_manager->info()->activeTextDocument()->url().isEmpty()
 			   && (flags() & NoUntitledDoc)) {
 				sendMessage(Error, msg(NoUntitledDoc).toString());
@@ -535,7 +535,7 @@ namespace KileTool
 
 		QString type = readEntry("type");
 		KILE_DEBUG_MAIN << "installing launcher of type " << type;
-		Launcher *lr = NULL;
+		Launcher *lr = Q_NULLPTR;
 
 		if ( type == "Process" ) {
 			lr = new ProcessLauncher();
@@ -555,7 +555,7 @@ namespace KileTool
 			return true;
 		}
 		else {
-			m_launcher = NULL;
+			m_launcher = Q_NULLPTR;
 			return false;
 		}
 	}
@@ -729,7 +729,7 @@ namespace KileTool
 	}
 
 	Sequence::Sequence(const QString &name, Manager *manager, bool prepare /*= true*/)
-	 : Base(name, manager, prepare), m_latexOutputHandler(NULL)
+	 : Base(name, manager, prepare), m_latexOutputHandler(Q_NULLPTR)
 	{
 	}
 
@@ -758,7 +758,7 @@ namespace KileTool
 
 		// the basedir is determined from the current compile target,
 		// determined by getCompileName()
-		LaTeXOutputHandler *h = NULL;
+		LaTeXOutputHandler *h = Q_NULLPTR;
 		src = m_ki->getCompileName(false, &h);
 
 		setSource(src);

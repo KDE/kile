@@ -34,7 +34,7 @@ class SymbolView : public QListWidget
 	Q_OBJECT
 
 	public:
-		explicit SymbolView(KileInfo *kileInfo, QWidget *parent = 0, int type = -1, const char *name = NULL);
+		explicit SymbolView(KileInfo *kileInfo, QWidget *parent = 0, int type = -1, const char *name = Q_NULLPTR);
 		~SymbolView();
 		enum { MFUS = 0, Relation, Operator, Arrow, MiscMath, MiscText, Delimiters, Greek, Special, Cyrillic, User };
 		void writeConfig();

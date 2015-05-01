@@ -68,7 +68,7 @@ ParserOutput* BibTeXParser::parse()
 		if(!m_parserThread->shouldContinueDocumentParsing()) {
 			KILE_DEBUG_MAIN << "stopping...";
 			delete(parserOutput);
-			return NULL;
+			return Q_NULLPTR;
 		}
 // 		emit(parsingUpdate(i));
 		s = getTextLine(m_textLines, i);

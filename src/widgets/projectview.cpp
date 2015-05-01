@@ -48,38 +48,38 @@ namespace KileWidget {
  * ProjectViewItem
  */
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, KileProjectItem *item, bool ar)
-: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_docinfo(NULL), m_folder(-1), m_projectItem(item)
+: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_docinfo(Q_NULLPTR), m_folder(-1), m_projectItem(item)
 {
 	setArchiveState(ar);
 }
 
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, QTreeWidgetItem *after, KileProjectItem *item, bool ar)
-: QTreeWidgetItem(parent, after), m_docinfo(NULL), m_folder(-1), m_projectItem(item)
+: QTreeWidgetItem(parent, after), m_docinfo(Q_NULLPTR), m_folder(-1), m_projectItem(item)
 {
 	setText(0, item->url().fileName());
 	setArchiveState(ar);
 }
 
 ProjectViewItem::ProjectViewItem(QTreeWidgetItem *parent, KileProjectItem *item, bool ar)
-: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_docinfo(NULL), m_folder(-1), m_projectItem(item)
+: QTreeWidgetItem(parent, QStringList(item->url().fileName())), m_docinfo(Q_NULLPTR), m_folder(-1), m_projectItem(item)
 {
 	setArchiveState(ar);
 }
 
 //use this to create folders
 ProjectViewItem::ProjectViewItem(QTreeWidgetItem *parent, const QString& name)
-: QTreeWidgetItem(parent, QStringList(name)), m_docinfo(NULL), m_folder(-1), m_projectItem(NULL)
+: QTreeWidgetItem(parent, QStringList(name)), m_docinfo(Q_NULLPTR), m_folder(-1), m_projectItem(Q_NULLPTR)
 {
 }
 
 //use this to create non-project files
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, const QString& name)
-: QTreeWidgetItem(parent, QStringList(name)), m_docinfo(NULL), m_folder(-1), m_projectItem(NULL)
+: QTreeWidgetItem(parent, QStringList(name)), m_docinfo(Q_NULLPTR), m_folder(-1), m_projectItem(Q_NULLPTR)
 {
 }
 
 ProjectViewItem::ProjectViewItem(QTreeWidget *parent, const KileProject *project)
-: QTreeWidgetItem(parent, QStringList(project->name())), m_docinfo(NULL), m_folder(-1), m_projectItem(NULL)
+: QTreeWidgetItem(parent, QStringList(project->name())), m_docinfo(Q_NULLPTR), m_folder(-1), m_projectItem(Q_NULLPTR)
 {
 }
 
@@ -432,7 +432,7 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 
 	if(!parent) {
 		qCritical() << "no parent for " << pi->url().toLocalFile();
-		return NULL;
+		return Q_NULLPTR;
 	}
 
 	// we have already found the parent folder
@@ -507,7 +507,7 @@ void ProjectView::add(const KileProject *project)
 
 ProjectViewItem* ProjectView::projectViewItemFor(const QUrl &url)
 {
-	ProjectViewItem *item = NULL;
+	ProjectViewItem *item = Q_NULLPTR;
 
 	//find project view item
 	QTreeWidgetItemIterator it(this);
@@ -524,7 +524,7 @@ ProjectViewItem* ProjectView::projectViewItemFor(const QUrl &url)
 
 ProjectViewItem* ProjectView::itemFor(const QUrl &url)
 {
-	ProjectViewItem *item = NULL;
+	ProjectViewItem *item = Q_NULLPTR;
 
 	QTreeWidgetItemIterator it(this);
 	while(*it) {
@@ -579,7 +579,7 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
 	return (!parpvi) ? projvi : parpvi;
 }
 
-ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *projvi /* = NULL */)
+ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *projvi /* = Q_NULLPTR */)
 {
 	KILE_DEBUG_MAIN << "\tprojectitem=" << projitem->path()
 	             << " projvi=" << projvi;
@@ -591,7 +591,7 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *pr
 
 	KILE_DEBUG_MAIN << "\tparent projectviewitem " << projvi->url().fileName();
 
-	ProjectViewItem *item = NULL, *parent = NULL;
+	ProjectViewItem *item = Q_NULLPTR, *parent = Q_NULLPTR;
 
 	switch (projitem->type()) {
 	case (KileProjectItem::Source):
@@ -703,7 +703,7 @@ void ProjectView::remove(const KileProject *project)
 		ProjectViewItem *item = static_cast<ProjectViewItem*>(topLevelItem(i));
 
 		if(item->url() == project->url()) {
-			item->setParent(NULL);
+			item->setParent(Q_NULLPTR);
 			delete item;
 			--m_nProjects;
 			break;
@@ -720,7 +720,7 @@ void ProjectView::remove(const QUrl &url)
 		ProjectViewItem *item = dynamic_cast<ProjectViewItem*>(topLevelItem(i));
 
 		if(item && (item->type() == KileType::File) && (item->url() == url)) {
-			item->setParent(NULL);
+			item->setParent(Q_NULLPTR);
 			delete item;
 			break;
 		}
@@ -754,7 +754,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 {
 	QSignalMapper signalMapper, serviceSignalMapper;
 	QMenu popup;
-	QAction *action = NULL;
+	QAction *action = Q_NULLPTR;
 
 	QTreeWidgetItem* treeWidgetItem = itemAt(event->pos());
 	if(!treeWidgetItem) {

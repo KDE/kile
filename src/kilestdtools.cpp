@@ -55,7 +55,7 @@ namespace KileTool
 	Base* Factory::create(const QString& toolName, const QString& config, bool prepare /* = true */)
 	{
 		KILE_DEBUG_MAIN << toolName << config << prepare;
-		KileTool::Base *tool = NULL;
+		KileTool::Base *tool = Q_NULLPTR;
 		//perhaps we can find the tool in the config file
 		if (m_config->hasGroup(groupFor(toolName, m_config))) {
 			KConfigGroup configGroup = m_config->group(groupFor(toolName, m_config));
@@ -102,12 +102,12 @@ namespace KileTool
 			}
 		}
 		if(!tool) {
-			return NULL;
+			return Q_NULLPTR;
 		}
 
 		if(!m_manager->configure(tool, config)) {
 			delete tool;
-			return NULL;
+			return Q_NULLPTR;
 		}
 		tool->setToolConfig(config);
 
@@ -137,7 +137,7 @@ namespace KileTool
 	/////////////// LaTeX ////////////////
 
 	LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare)
-	: Compile(tool, mngr, prepare), m_latexOutputHandler(NULL)
+	: Compile(tool, mngr, prepare), m_latexOutputHandler(Q_NULLPTR)
 	{
 	}
 
@@ -174,7 +174,7 @@ namespace KileTool
 
 		//the basedir is determined from the current compile target
 		//determined by getCompileName()
-		LaTeXOutputHandler *h = NULL;
+		LaTeXOutputHandler *h = Q_NULLPTR;
 		src = m_ki->getCompileName(false, &h);
 
 		setSource(src);

@@ -174,7 +174,7 @@ void UserHelp::slotUserHelpActivated(const QUrl &url)
 		}
 	}
 
-	KileTool::Base *tool = NULL;
+	KileTool::Base *tool = Q_NULLPTR;
 	if(!type.isEmpty() && type != "ViewHTML") {
 		tool = m_manager->createTool(type, cfg, false);
 	}

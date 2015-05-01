@@ -276,7 +276,7 @@ QTreeWidgetItem* CodeCompletionConfigWidget::getListviewEntry(QTreeWidget *listv
 {
 	QList<QTreeWidgetItem*> items = listview->findItems(filename, Qt::MatchExactly);
 	if (items.empty()) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 	else {
 		if (items.count() > 1) {
@@ -349,8 +349,8 @@ void CodeCompletionConfigWidget::addClicked()
 					QString basename = filename.left(filename.length() - 4);
 
 					// Check if this entry already exists.
-					QTreeWidgetItem* entry = NULL;
-					if ((entry = getListviewEntry(listview, basename)) == NULL) {
+					QTreeWidgetItem* entry = Q_NULLPTR;
+					if ((entry = getListviewEntry(listview, basename)) == Q_NULLPTR) {
 						// A new entry has to be created
 						entry = new QTreeWidgetItem(listview, QStringList(basename));
 					}

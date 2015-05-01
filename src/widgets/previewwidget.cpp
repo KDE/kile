@@ -65,7 +65,7 @@ class ImageDisplayWidget : public QWidget
 
 ImageDisplayWidget::ImageDisplayWidget(QWidget *parent)
   : QWidget(parent),
-    m_image(NULL)
+    m_image(Q_NULLPTR)
 {
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
@@ -89,7 +89,7 @@ void ImageDisplayWidget::paintEvent(QPaintEvent * /* event */)
 void ImageDisplayWidget::clear()
 {
 	delete m_image;
-	m_image = NULL;
+	m_image = Q_NULLPTR;
 	setMinimumSize(0, 0);
 	repaint();
 }

@@ -34,7 +34,7 @@ namespace KileWidget {
 		Q_OBJECT
 
 		public:
-			LogWidgetItemDelegate(QObject* parent = NULL);
+			LogWidgetItemDelegate(QObject* parent = Q_NULLPTR);
 
 			virtual QSize sizeHint(const QStyleOptionViewItem& option,
 			                       const QModelIndex& index) const;
@@ -60,7 +60,7 @@ namespace KileWidget {
 
 		enum PopupType { AllPopupActions = 0, NoHideActions = 1};
 
-		LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = NULL, const char *name = NULL);
+		LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 		~LogWidget();
 
 		bool isShowingOutput() const;

@@ -53,7 +53,7 @@ namespace KileMenu {
 //  - a menu is defined in an xml file, which is placed in QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory)
 
 UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
-	: m_ki(ki), m_receiver(receiver), m_proc(NULL)
+	: m_ki(ki), m_receiver(receiver), m_proc(Q_NULLPTR)
 {
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 	m_actioncollection = mainwindow->actionCollection();
@@ -432,7 +432,7 @@ bool UserMenu::installXml(const QString &filename)
 
 			// try to get some structure into to the context menu
 			if ( m_actionsContextMenu > 0 ) {
-				m_actionlistContextMenu.append(NULL);
+				m_actionlistContextMenu.append(Q_NULLPTR);
 				m_actionsContextMenu = 0;
 			}
 		}
@@ -780,7 +780,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 	// delete old process
 	if (m_proc) {
 		delete m_proc;
-		m_proc = NULL;
+		m_proc = Q_NULLPTR;
 	}
 
 	// build commandline

@@ -33,7 +33,7 @@ class Manager : public QObject {
 		/**
 		 * Constructs a new Manager object.
 		 **/
-		explicit Manager(KileInfo *info, QObject *parent = NULL, const char *name = NULL);
+		explicit Manager(KileInfo *info, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 		virtual ~Manager();
 
 	Q_SIGNALS:

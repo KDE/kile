@@ -170,10 +170,10 @@ void StructureViewItem::setLabel(const QString &label)
 
 		m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[6]=m_root;
 		m_lastType = KileStruct::None;
-		m_lastSectioning = NULL;
-		m_lastFloat = NULL;
-		m_lastFrame = NULL;
-		m_lastFrameEnv = NULL;
+		m_lastSectioning = Q_NULLPTR;
+		m_lastFloat = Q_NULLPTR;
+		m_lastFrame = Q_NULLPTR;
+		m_lastFrameEnv = Q_NULLPTR;
 		m_stop = false;
 
 		m_folders.clear();
@@ -236,7 +236,7 @@ void StructureViewItem::setLabel(const QString &label)
 		m_openByFolders.clear();
 
 		QTreeWidgetItemIterator it(this);
-		StructureViewItem *item = NULL;
+		StructureViewItem *item = Q_NULLPTR;
 		while(*it) {
 			item = dynamic_cast<StructureViewItem*>(*it);
 			if(item && item->child(0)) {
@@ -370,7 +370,7 @@ void StructureViewItem::setLabel(const QString &label)
 
 	StructureViewItem *StructureView::parentFor(int lev, const QString & fldr)
 	{
-		StructureViewItem *par = NULL;
+		StructureViewItem *par = Q_NULLPTR;
 
 		if(fldr == "root") {
 			switch(lev) {
@@ -410,7 +410,7 @@ void StructureViewItem::setLabel(const QString &label)
 		      the floating environment is closed, it is inserted into the title of this item.
 		      If a \label command follows, it is assigned to this float item.
 		- KileStruct::EndFloat
-		      Reset m_lastFloat to NULL to close this environment. No more \caption or \label
+		      Reset m_lastFloat to Q_NULLPTR to close this environment. No more \caption or \label
 		      commands are assigned to this float after this.
 		- KileStruct::Caption
 		      If a float environment is opened, the caption is assigned to the float item.
@@ -426,7 +426,7 @@ void StructureViewItem::setLabel(const QString &label)
 		      the frame environment is closed, it is inserted into the title of this item.
 		      If a \label command follows, it is assigned to this float item.
 		- KileStruct::BeamerEndFrame
-		      Reset m_lastFloatEnv to NULL to close this environment. No more \frametitle
+		      Reset m_lastFloatEnv to Q_NULLPTR to close this environment. No more \frametitle
 		      or \label commands are assigned to this frame after this.
 		- KileStruct::BeamerBeginBlock
 		      Inside a beamer frame this environment is taken as child of this frame
@@ -455,7 +455,7 @@ void StructureViewItem::setLabel(const QString &label)
 			}
 		}
 		else if(type == KileStruct::EndFloat) {
-			m_lastFloat = NULL;
+			m_lastFloat = Q_NULLPTR;
 		}
 		else if(type == KileStruct::BeamerFrametitle) {
 			if(m_lastFrameEnv) {
@@ -466,9 +466,9 @@ void StructureViewItem::setLabel(const QString &label)
 			}
 		}
 		else if(type == KileStruct::BeamerEndFrame) {
-			m_lastFrameEnv = NULL;
+			m_lastFrameEnv = Q_NULLPTR;
 		}
-		m_lastFrame = NULL;
+		m_lastFrame = Q_NULLPTR;
 
 		// that's all for hidden types: we must immediately return
 		if(lev == KileStruct::Hidden) {
@@ -528,7 +528,7 @@ void StructureViewItem::setLabel(const QString &label)
 			}
 		}
 		else if(lev == 0) {
-			m_lastSectioning = NULL;
+			m_lastSectioning = Q_NULLPTR;
 			for(int l = 0; l < 7; ++l) {
 				m_parent[l] = m_root;
 			}
@@ -589,8 +589,8 @@ void StructureViewItem::setLabel(const QString &label)
 	StructureWidget::StructureWidget(KileInfo *ki, QWidget * parent, const char* name) :
 		QStackedWidget(parent),
 		m_ki(ki),
-		m_docinfo(NULL),
-		m_showingContextMenu(NULL)
+		m_docinfo(Q_NULLPTR),
+		m_showingContextMenu(Q_NULLPTR)
 	{
 		setObjectName(name);
 		KILE_DEBUG_MAIN << "==KileWidget::StructureWidget::StructureWidget()===========";
@@ -599,7 +599,7 @@ void StructureViewItem::setLabel(const QString &label)
 		setContentsMargins(0, 0, 0, 0);
 		setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-		m_default = new StructureView(this, NULL);
+		m_default = new StructureView(this, Q_NULLPTR);
 		m_default->activate();
 
 		connect(m_ki->parserManager(), SIGNAL(documentParsingStarted()), this, SLOT(handleDocumentParsingStarted()));
@@ -755,8 +755,8 @@ QMimeDatabase db;
 		QSignalMapper signalMapper;
 		connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
 		QMenu popup;
-		QAction *action = NULL;
-		m_showingContextMenu = NULL;
+		QAction *action = Q_NULLPTR;
+		m_showingContextMenu = Q_NULLPTR;
 
 		m_popupItem = dynamic_cast<StructureViewItem*>(view->itemAt(event->pos()));
 		if(!m_popupItem) {
@@ -837,7 +837,7 @@ QMimeDatabase db;
 		if(!popup.isEmpty()) {
 			m_showingContextMenu = &popup;
 			popup.exec(event->globalPos());
-			m_showingContextMenu = NULL;
+			m_showingContextMenu = Q_NULLPTR;
 		}
 	}
 
@@ -904,7 +904,7 @@ QMimeDatabase db;
 	StructureView* StructureWidget::viewFor(KileDocument::Info *info)
 	{
 		if(!info) {
-			return NULL;
+			return Q_NULLPTR;
 		}
 
 		if(!viewExistsFor(info)) {
@@ -926,7 +926,7 @@ QMimeDatabase db;
 
 	void StructureWidget::closeDocumentInfo(KileDocument::Info *docinfo)
 	{
-		m_docinfo = NULL;
+		m_docinfo = Q_NULLPTR;
 		if(m_map.contains(docinfo)) {
 			StructureView *data = m_map[docinfo];
 			m_map.remove(docinfo);
@@ -949,7 +949,7 @@ QMimeDatabase db;
 		}
 
 		m_map.clear();
-		m_docinfo = NULL;
+		m_docinfo = Q_NULLPTR;
 
 		m_default->activate();
 	}
@@ -1044,7 +1044,7 @@ QMimeDatabase db;
 			return false;
 		}
 
-		if( checkLevel && !refItem ){ // only allow a refItem == NULL if checkLevel is false
+		if( checkLevel && !refItem ){ // only allow a refItem == Q_NULLPTR if checkLevel is false
 			return false;
 		}
 

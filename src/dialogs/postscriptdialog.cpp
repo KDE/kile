@@ -56,7 +56,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	m_startdir(startdir),
 	m_errorHandler(errorHandler),
 	m_output(output),
-	m_proc(NULL)
+	m_proc(Q_NULLPTR)
 {	
 	setWindowTitle(i18n("Rearrange Postscript File"));
 	setModal(true);

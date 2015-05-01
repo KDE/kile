@@ -253,7 +253,7 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 	Command cmd;
 	QString code_symbol;
 	QList<Package> packages;
-	QListWidgetItem *item = NULL;
+	QListWidgetItem *item = Q_NULLPTR;
 	bool math = false, bracket = false;
 
 	if(event->button() == Qt::LeftButton && (item = itemAt(event->pos()))) {
@@ -413,7 +413,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 		return;
 	}
 
-	QListWidgetItem *tmpItem = NULL;
+	QListWidgetItem *tmpItem = Q_NULLPTR;
 	bool found = false;
 	const QRegExp reCnt("^\\d+");
 
@@ -430,7 +430,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 	if(!found
 	   && static_cast<unsigned int>(this->count() + 1) > KileConfig::numSymbolsMFUS()) {   // we check before adding the symbol
 		int refCnt, minRefCnt = 10000;
-		QListWidgetItem *unpopularItem = NULL;
+		QListWidgetItem *unpopularItem = Q_NULLPTR;
 
 		KILE_DEBUG_MAIN << "Removing most unpopular item";
 

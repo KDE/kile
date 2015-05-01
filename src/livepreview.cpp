@@ -73,7 +73,7 @@ public:
 		previewPathToPathHash.clear();
 	}
 
-	bool createSubDirectoriesForProject(KileProject *project, bool *containsInvalidRelativeItem = NULL) {
+	bool createSubDirectoriesForProject(KileProject *project, bool *containsInvalidRelativeItem = Q_NULLPTR) {
 		if(containsInvalidRelativeItem) {
 			*containsInvalidRelativeItem = false;
 		}
@@ -131,13 +131,13 @@ public:
 LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
  : m_ki(ki),
    m_bootUpMode(true),
-   m_controlToolBar(NULL),
-   m_previewStatusLed(NULL),
-   m_synchronizeViewWithCursorAction(NULL),
-   m_previewForCurrentDocumentAction(NULL),
-   m_recompileLivePreviewAction(NULL),
-   m_runningLaTeXInfo(NULL), m_runningTextView(NULL), m_runningProject(NULL),
-   m_runningPreviewInformation(NULL), m_shownPreviewInformation(NULL), m_masterDocumentPreviewInformation(NULL)
+   m_controlToolBar(Q_NULLPTR),
+   m_previewStatusLed(Q_NULLPTR),
+   m_synchronizeViewWithCursorAction(Q_NULLPTR),
+   m_previewForCurrentDocumentAction(Q_NULLPTR),
+   m_recompileLivePreviewAction(Q_NULLPTR),
+   m_runningLaTeXInfo(Q_NULLPTR), m_runningTextView(Q_NULLPTR), m_runningProject(Q_NULLPTR),
+   m_runningPreviewInformation(Q_NULLPTR), m_shownPreviewInformation(Q_NULLPTR), m_masterDocumentPreviewInformation(Q_NULLPTR)
 {
 	connect(m_ki->viewManager(), SIGNAL(textViewActivated(KTextEditor::View*)),
 	        this, SLOT(handleTextViewActivated(KTextEditor::View*)));
@@ -224,7 +224,7 @@ void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
 	if(latexInfo) {
 		LivePreviewUserStatusHandler *userStatusHandler;
-		findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+		findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 		Q_ASSERT(userStatusHandler);
 		if(userStatusHandler->isLivePreviewEnabled()) { // only do something if live preview is enabled
 			// showPreviewCompileIfNecessary synchronizes the view with the cursor
@@ -250,7 +250,7 @@ void LivePreviewManager::previewForCurrentDocumentActionTriggered(bool b)
 		return;
 	}
 	LivePreviewUserStatusHandler *userStatusHandler;
-	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 	Q_ASSERT(userStatusHandler);
 
 	userStatusHandler->setLivePreviewEnabled(b);
@@ -287,7 +287,7 @@ void LivePreviewManager::livePreviewToolActionTriggered()
 	}
 
 	LivePreviewUserStatusHandler *userStatusHandler;
-	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 	if(!userStatusHandler) {
 		KILE_DEBUG_MAIN << "no preview information found!";
 		return;
@@ -386,7 +386,7 @@ void LivePreviewManager::clearLivePreview()
 	if(m_shownPreviewInformation && viewerPart->url() == QUrl::fromLocalFile(m_shownPreviewInformation->previewFile)) {
 		viewerPart->closeUrl();
 	}
-	m_shownPreviewInformation = NULL;
+	m_shownPreviewInformation = Q_NULLPTR;
 }
 
 void LivePreviewManager::stopLivePreview()
@@ -402,10 +402,10 @@ void LivePreviewManager::clearRunningLivePreviewInformation()
 	m_runningPathToPreviewPathHash.clear();
 	m_runningPreviewPathToPathHash.clear();
 	m_runningPreviewFile.clear();
-	m_runningLaTeXInfo = NULL;
-	m_runningProject = NULL;
-	m_runningTextView = NULL;
-	m_runningPreviewInformation = NULL;
+	m_runningLaTeXInfo = Q_NULLPTR;
+	m_runningProject = Q_NULLPTR;
+	m_runningTextView = Q_NULLPTR;
+	m_runningPreviewInformation = Q_NULLPTR;
 	m_runningTextHash.clear();
 }
 
@@ -419,7 +419,7 @@ void LivePreviewManager::deleteAllLivePreviewInformation()
 
 	// and now we can delete all the 'PreviewInformation' objects
 	delete m_masterDocumentPreviewInformation;
-	m_masterDocumentPreviewInformation = NULL;
+	m_masterDocumentPreviewInformation = Q_NULLPTR;
 
 	for(QHash<KileDocument::LaTeXInfo*, PreviewInformation*>::iterator i = m_latexInfoToPreviewInformationHash.begin();
 	    i != m_latexInfoToPreviewInformationHash.end(); ++i) {
@@ -489,7 +489,7 @@ QWidget* LivePreviewManager::getControlToolBar()
 
 void LivePreviewManager::createControlToolBar()
 {
-	m_controlToolBar = new KToolBar(NULL, false, false);
+	m_controlToolBar = new KToolBar(Q_NULLPTR, false, false);
 	m_controlToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
 	m_controlToolBar->setFloatable(false);
 	m_controlToolBar->setMovable(false);
@@ -565,7 +565,7 @@ void LivePreviewManager::handleDocumentSavedOrUploaded(KTextEditor::Document *do
 	}
 
 	LivePreviewUserStatusHandler *userStatusHandler;
-	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 	Q_ASSERT(userStatusHandler);
 	if(userStatusHandler->isLivePreviewEnabled()) {
 		showPreviewCompileIfNecessary(latexInfo, view);
@@ -591,7 +591,7 @@ void LivePreviewManager::handleDocumentModificationTimerTimeout()
 	}
 
 	LivePreviewUserStatusHandler *userStatusHandler;
-	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 	Q_ASSERT(userStatusHandler);
 	if(userStatusHandler->isLivePreviewEnabled()) {
 		compilePreview(latexInfo, view);
@@ -648,7 +648,7 @@ void LivePreviewManager::showPreviewOutOfDate()
 
 }
 
-// If a LaTeXInfo* pointer is passed as first argument, it is guaranteed that '*userStatusHandler' won't be NULL.
+// If a LaTeXInfo* pointer is passed as first argument, it is guaranteed that '*userStatusHandler' won't be Q_NULLPTR.
 LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformation(KileDocument::TextInfo *textInfo,
                                                                                    KileProject* *locatedProject,
                                                                                    LivePreviewUserStatusHandler* *userStatusHandler,
@@ -656,7 +656,7 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 {
 	const QString masterDocumentFileName = m_ki->getMasterDocumentFileName();
 	if(locatedProject) {
-		*locatedProject = NULL;
+		*locatedProject = Q_NULLPTR;
 	}
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(textInfo);
 	if(userStatusHandler) {
@@ -687,7 +687,7 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 		}
 		else {
 			KILE_DEBUG_MAIN << "project not found";
-			return NULL;
+			return Q_NULLPTR;
 		}
 	}
 	else if(latexInfo && m_latexInfoToPreviewInformationHash.contains(latexInfo)) {
@@ -696,7 +696,7 @@ LivePreviewManager::PreviewInformation* LivePreviewManager::findPreviewInformati
 	}
 	else {
 		KILE_DEBUG_MAIN << "not found";
-		return NULL;
+		return Q_NULLPTR;
 	}
 }
 
@@ -725,8 +725,8 @@ void LivePreviewManager::handleCursorPositionChangedTimeout()
 	if(!latexInfo) {
 		return;
 	}
-	LivePreviewUserStatusHandler *userStatusHandler = NULL;
-	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	LivePreviewUserStatusHandler *userStatusHandler = Q_NULLPTR;
+	findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 	if(!userStatusHandler->isLivePreviewEnabled()) {
 		return;
 	}
@@ -756,7 +756,7 @@ bool LivePreviewManager::ensureDocumentIsOpenInViewer(PreviewInformation *previe
 			return true;
 		}
 		else {
-			m_shownPreviewInformation = NULL;
+			m_shownPreviewInformation = Q_NULLPTR;
 			return false;
 		}
 	}
@@ -878,8 +878,8 @@ void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *
 	// first, stop any running live preview
 	stopLivePreview();
 
-	KileProject *project = NULL;
-	LivePreviewUserStatusHandler *userStatusHandler = NULL;
+	KileProject *project = Q_NULLPTR;
+	LivePreviewUserStatusHandler *userStatusHandler = Q_NULLPTR;
 	PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project, &userStatusHandler);
 	if(!previewInformation) {
 		KILE_DEBUG_MAIN << "not found";
@@ -951,7 +951,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 	// first, stop any running live preview
 	stopLivePreview();
 
-	KileProject *project = NULL;
+	KileProject *project = Q_NULLPTR;
 	LivePreviewUserStatusHandler *userStatusHandler;
 	LaTeXOutputHandler *latexOutputHandler;
 	PreviewInformation *previewInformation = findPreviewInformation(latexInfo, &project, &userStatusHandler, &latexOutputHandler);
@@ -1131,8 +1131,8 @@ void LivePreviewManager::handleTextViewActivated(KTextEditor::View *view, bool c
 	}
 	m_documentChangedTimer->stop();
 
-	LivePreviewUserStatusHandler *userStatusHandler = NULL;
-	findPreviewInformation(latexInfo, NULL, &userStatusHandler);
+	LivePreviewUserStatusHandler *userStatusHandler = Q_NULLPTR;
+	findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
 	Q_ASSERT(userStatusHandler);
 	const bool livePreviewActive = userStatusHandler->isLivePreviewEnabled();
 	updateLivePreviewToolActions(userStatusHandler);

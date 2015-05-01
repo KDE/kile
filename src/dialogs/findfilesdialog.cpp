@@ -571,7 +571,7 @@ void FindFilesDialog::finish()
 		m_proc->kill();
 		m_proc->disconnect();
 		m_proc->deleteLater();
-		m_proc = NULL;
+		m_proc = Q_NULLPTR;
 	}
 	m_buf += '\n';
 	// we process all the remaining output

@@ -28,7 +28,7 @@ namespace KileDialog
 class Wizard : public QDialog
 {
 public:
-	explicit Wizard(KConfig *, QWidget *parent = NULL, const char *name = NULL, const QString &caption = QString());
+	explicit Wizard(KConfig *, QWidget *parent = Q_NULLPTR, const char *name = NULL, const QString &caption = QString());
 	virtual ~Wizard();
 
 public:

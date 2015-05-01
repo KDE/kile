@@ -152,7 +152,7 @@ QUrl Info::repairExtension(const QUrl &url, QWidget *mainWidget, bool checkForFi
 	if(filename.contains(".") && filename[0] != '.') // There already is an extension
 		return ret;
 
-	if(KMessageBox::Yes == KMessageBox::questionYesNo(NULL,
+	if(KMessageBox::Yes == KMessageBox::questionYesNo(Q_NULLPTR,
 		i18n("The given filename has no extension; do you want one to be automatically added?"),
 		i18n("Missing Extension"),
 		KStandardGuiItem::yes(),
@@ -400,7 +400,7 @@ TextInfo::TextInfo(Extensions* extensions,
                    KileAbbreviation::Manager* abbreviationManager,
                    KileParser::Manager* parserManager,
                    const QString& defaultMode)
-: m_doc(NULL),
+: m_doc(Q_NULLPTR),
   m_defaultMode(defaultMode),
   m_abbreviationManager(abbreviationManager),
   m_parserManager(parserManager)
@@ -477,7 +477,7 @@ void TextInfo::detach()
 		unregisterCodeCompletionModels();
 		emit(documentDetached(m_doc));
 	}
-	m_doc = NULL;
+	m_doc = Q_NULLPTR;
 }
 
 void TextInfo::makeDirtyIfModified()
@@ -643,7 +643,7 @@ void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &to
 KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 {
 	if(!m_doc) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 	KTextEditor::View *view = m_doc->createView(parent);
 	installEventFilters(view);
@@ -851,7 +851,7 @@ LaTeXInfo::LaTeXInfo(Extensions* extensions,
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
-  m_eventFilter(NULL),
+  m_eventFilter(Q_NULLPTR),
   m_livePreviewManager(livePreviewManager)
 {
 	documentTypePromotionAllowed = false;

@@ -201,7 +201,7 @@ namespace KileDialog
 
 	void Config::setupUsermenu(KPageWidgetItem *parent)
 	{
-usermenuPage = NULL;
+usermenuPage = Q_NULLPTR;
 //TODO KF5
 // 		usermenuPage = new KileWidgetUsermenuConfig(m_ki->userMenu(),this);
 // 		usermenuPage->setObjectName("Usermenu");

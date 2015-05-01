@@ -119,7 +119,7 @@
 Kile::Kile(bool allowRestore, QWidget *parent)
 :	KParts::MainWindow(),
 	KileInfo(this),
-	m_paPrint(NULL)
+	m_paPrint(Q_NULLPTR)
 {
 	setObjectName("Kile");
 
@@ -159,7 +159,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
-	m_userMenu = NULL;
+	m_userMenu = Q_NULLPTR;
 
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
 
@@ -280,7 +280,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
 
 	setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
-	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
+	m_partManager->setActivePart(Q_NULLPTR); // 'createGUI' is called in response to this
 
 	// we can only do this here after the main GUI has been set up
 	if(m_livePreviewManager && viewManager()->viewerPart()) {
@@ -364,7 +364,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 // 	m_userMenu  = new KileMenu::UserMenu(this, this);
 // 	connect(m_userMenu, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
 // 	connect(m_userMenu, SIGNAL(updateStatus()), this, SLOT(slotUpdateUserMenuStatus()));
-m_userMenu = NULL;
+m_userMenu = Q_NULLPTR;
 
 	restoreFilesAndProjects(allowRestore);
 	slotStateChanged("Editor");
@@ -745,7 +745,7 @@ void Kile::setupActions()
 {
 	QAction *act;
 
-	m_paPrint = createAction(KStandardAction::Print, "file_print", NULL, NULL);
+	m_paPrint = createAction(KStandardAction::Print, "file_print", Q_NULLPTR, Q_NULLPTR);
 	createAction(KStandardAction::New, "file_new", docManager(), SLOT(fileNew()));
 	createAction(KStandardAction::Open, "file_open", docManager(), SLOT(fileOpen()));
 
@@ -1037,13 +1037,13 @@ void Kile::setupTools()
 	KILE_DEBUG_MAIN << "==Kile::setupTools()===================" << endl;
 
 	if(!m_buildMenuCompile || !m_buildMenuConvert ||  !m_buildMenuTopLevel || !m_buildMenuQuickPreview || !m_buildMenuViewer || !m_buildMenuOther){
-		KILE_DEBUG_MAIN << "BUG, menu pointers are NULL"
-		             << (m_buildMenuCompile == NULL)
-		             << (m_buildMenuConvert == NULL)
-		             << (m_buildMenuTopLevel == NULL)
-		             << (m_buildMenuQuickPreview == NULL)
-		             << (m_buildMenuViewer == NULL)
-		             << (m_buildMenuOther == NULL);
+		KILE_DEBUG_MAIN << "BUG, menu pointers are Q_NULLPTR"
+		             << (m_buildMenuCompile == Q_NULLPTR)
+		             << (m_buildMenuConvert == Q_NULLPTR)
+		             << (m_buildMenuTopLevel == Q_NULLPTR)
+		             << (m_buildMenuQuickPreview == Q_NULLPTR)
+		             << (m_buildMenuViewer == Q_NULLPTR)
+		             << (m_buildMenuOther == Q_NULLPTR);
 		return;
 	}
 
@@ -1051,7 +1051,7 @@ void Kile::setupTools()
 	QString toolMenu, grp;
 	QList<QAction*> *pl;
 	QAction *act;
-	ToolbarSelectAction *pSelectAction = NULL;
+	ToolbarSelectAction *pSelectAction = Q_NULLPTR;
 
 	m_compilerActions->saveCurrentAction();
 	m_viewActions->saveCurrentAction();
@@ -1100,7 +1100,7 @@ void Kile::setupTools()
 		}
 		else{
 			pl = &m_listOtherActions;
-			pSelectAction = NULL;
+			pSelectAction = Q_NULLPTR;
 		}
 
 		KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
@@ -1168,7 +1168,7 @@ void Kile::saveLastSelectedAction(){
 	QStringList list;
 	list << "Compile" << "Convert" << "View" << "Quick";
 
-	ToolbarSelectAction *pSelectAction = NULL ;
+	ToolbarSelectAction *pSelectAction = Q_NULLPTR ;
 
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 
@@ -1197,7 +1197,7 @@ void Kile::restoreLastSelectedAction(){
 	QStringList list;
 	list << "Compile" << "Convert" << "View" << "Quick";
 
-	ToolbarSelectAction *pSelectAction = NULL;
+	ToolbarSelectAction *pSelectAction = Q_NULLPTR;
 	int defaultAction = 0;
 
 	KConfigGroup grp = m_config->group("ToolSelectAction");
@@ -1232,7 +1232,7 @@ void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 	QList<QAction*>::iterator it, testIt;
 	for ( it= list.begin(); it != list.end(); ++it){
 		QAction *act = *it;
-		if ( act != NULL && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
+		if ( act != Q_NULLPTR && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
 			if (act->associatedWidgets().contains(toolBar("toolsToolBar"))) {
 				toolBar("toolsToolBar")->removeAction(act);
 			}
@@ -1434,7 +1434,7 @@ void Kile::updateModeStatus()
 	updateMenu();
 
 	KTextEditor::View *view = viewManager()->currentTextView();
-	// Passing NULL is ok
+	// Passing Q_NULLPTR is ok
 	updateStatusBarCursorPosition(view, (view ? view->cursorPosition() : KTextEditor::Cursor()));
 	updateStatusBarViewMode(view);
 	updateStatusBarSelection(view);
@@ -1602,7 +1602,7 @@ void Kile::showDocInfo(KTextEditor::View *view)
 		                                                                     docinfo,
 		                                                                     this,
 		                                                                     view,
-		                                                                     NULL, "");
+		                                                                     Q_NULLPTR, "");
 		dlg->exec();
 		delete dlg;
 	}
@@ -1709,7 +1709,7 @@ void Kile::findInFiles()
 
 void Kile::findInProjects()
 {
-	static QPointer<KileDialog::FindFilesDialog> project_dlg = NULL;
+	static QPointer<KileDialog::FindFilesDialog> project_dlg = Q_NULLPTR;
 
 	if(!project_dlg) {
 		KILE_DEBUG_MAIN << "grep guard: create findInProjects dlg" << endl;

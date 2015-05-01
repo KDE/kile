@@ -81,7 +81,7 @@ QString KileInput::getListboxItem(const QString &caption, const QString &label, 
 QString KileInput::getText(const QString &caption, const QString &label)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return QInputDialog::getText(NULL, list[0], list[1]);
+	return QInputDialog::getText(Q_NULLPTR, list[0], list[1]);
 }
 
 QString KileInput::getLatexCommand(const QString &caption, const QString &label)
@@ -89,14 +89,14 @@ QString KileInput::getLatexCommand(const QString &caption, const QString &label)
 	QRegExpValidator validator(QRegExp("[A-Za-z]+"),this);
 	QStringList list = checkCaptionAndLabel(caption, label);
 //TODO KF5
-// 	return QInputDialog::getText(list[0], list[1], QString(), NULL, NULL, &validator);
-	return QInputDialog::getText(NULL, list[0], list[1]);
+// 	return QInputDialog::getText(list[0], list[1], QString(), Q_NULLPTR, Q_NULLPTR, &validator);
+	return QInputDialog::getText(Q_NULLPTR, list[0], list[1]);
 }
 
 int KileInput::getInteger(const QString &caption, const QString &label, int min, int max)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return QInputDialog::getInt(NULL, list[0], list[1], 0, min, max, 1);
+	return QInputDialog::getInt(Q_NULLPTR, list[0], list[1], 0, min, max, 1);
 }
 
 int KileInput::getPosInteger(const QString &caption, const QString &label, int min, int max)
@@ -107,7 +107,7 @@ int KileInput::getPosInteger(const QString &caption, const QString &label, int m
 QString KileInput::getItem(const QString &caption, const QString &label, const QStringList &itemlist)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return QInputDialog::getItem(NULL, list[0], list[1], itemlist, 0);
+	return QInputDialog::getItem(Q_NULLPTR, list[0], list[1], itemlist, 0);
 }
 
 QStringList KileInput::checkCaptionAndLabel(const QString &caption, const QString &label)

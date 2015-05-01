@@ -167,9 +167,9 @@ namespace KileCodeCompletion
 			static QPair<QString, QString> getCwlBaseDirs();
 
 		public Q_SLOTS:
-			void startLaTeXCompletion(KTextEditor::View *view = NULL);
-			void startLaTeXEnvironment(KTextEditor::View *view = NULL);
-			void startAbbreviationCompletion(KTextEditor::View *view = NULL);
+			void startLaTeXCompletion(KTextEditor::View *view = Q_NULLPTR);
+			void startLaTeXEnvironment(KTextEditor::View *view = Q_NULLPTR);
+			void startAbbreviationCompletion(KTextEditor::View *view = Q_NULLPTR);
 
 			void textInserted(KTextEditor::View* view, const KTextEditor::Cursor& position, const QString & text);
 

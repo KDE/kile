@@ -47,7 +47,7 @@ QString readDataFromStdin()
 
 	QByteArray fileData;
 	QFile qstdin;
-	QTextCodec *codec = NULL;
+	QTextCodec *codec = Q_NULLPTR;
 
 	qstdin.open( stdin, QIODevice::ReadOnly );
 	fileData = qstdin.readAll();

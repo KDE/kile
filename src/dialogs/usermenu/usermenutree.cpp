@@ -175,7 +175,7 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
 	bool separator = ( m_popupItem->menutype() ==  UserMenuData::Separator );
 
 	QMenu popup;
-	QAction *action = NULL;
+	QAction *action = Q_NULLPTR;
 	QSignalMapper signalMapper;
 	connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
 
@@ -308,7 +308,7 @@ bool UserMenuTree::readXml(const QString &filename)
 	while ( !e.isNull()) {
 		QString tag = e.tagName();
 
-		UserMenuItem *item = NULL;
+		UserMenuItem *item = Q_NULLPTR;
 		if ( tag == "submenu" ) {
 			item = readXmlSubmenu(e);
 		}
@@ -353,7 +353,7 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
-			UserMenuItem *item = NULL;
+			UserMenuItem *item = Q_NULLPTR;
 
 			QString tag = e.tagName();
 			if ( tag == "title" ) {
@@ -752,7 +752,7 @@ bool UserMenuTree::insertSeparator(QTreeWidgetItem *current, bool below)
 
 void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
-	QTreeWidgetItem *parent = ( current ) ? current->parent() : NULL;
+	QTreeWidgetItem *parent = ( current ) ? current->parent() : Q_NULLPTR;
 	int index = itemIndex(parent,current);
 
 	UserMenuItem *item = new UserMenuItem(type,menulabel);
@@ -765,7 +765,7 @@ void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::M
 void UserMenuTree::insertMenuItemBelow(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
 	UserMenuItem *item;
-	QTreeWidgetItem *parent = ( current ) ? current->parent() : NULL;
+	QTreeWidgetItem *parent = ( current ) ? current->parent() : Q_NULLPTR;
 
 	if(!parent) {
 		item = new UserMenuItem(this,current,type,menulabel);
@@ -809,7 +809,7 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
 			selectitem = topLevelItem(index-1);
 		}
 		else {
-			selectitem = NULL;
+			selectitem = Q_NULLPTR;
 		}
 
 		item = takeTopLevelItem(index);

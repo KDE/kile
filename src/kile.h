@@ -27,7 +27,6 @@
 #include <QWidget>
 #include <QSignalMapper>
 
-#include <kdeversion.h>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 #include <kparts/mainwindow.h>

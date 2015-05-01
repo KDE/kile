@@ -49,9 +49,6 @@
 #include <KSelectAction>
 #include <KWindowSystem>
 
-// FIXME: port away from KDELibs4Support
-#include <KApplication>
-
 #if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
 #endif
@@ -124,7 +121,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	// Under some circumstances (Qt or KDE issues like a KIO process still running (?)), Kile doesn't terminate
 	// when the main window is closed (bugs 220343 and 299569). So, we force this here.
 	// This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
-	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit())); //FIXME: KF5 is this still necessary?
+	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), qApp, SLOT(quit())); //FIXME: KF5 is this still necessary?
 
 	QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {

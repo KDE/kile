@@ -31,7 +31,6 @@
 #include <QLayout>
 #include <QTextCodec>
 
-#include <kdeversion.h>
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KTextEditor/ConfigPage>

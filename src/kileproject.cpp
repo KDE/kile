@@ -25,7 +25,6 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include <kdeversion.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>

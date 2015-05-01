@@ -68,7 +68,6 @@
 #include <QInputDialog>
 #include <QRegExp>
 
-#include <KApplication>
 #include <KConfig>
 #include <KIconLoader>
 #include <KIO/NetAccess>

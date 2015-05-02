@@ -70,7 +70,8 @@
 
 #include <KConfig>
 #include <KIconLoader>
-#include <KIO/NetAccess>
+#include <KJobWidgets>
+#include <KIO/StatJob>
 #include <KLocalizedString>
 #include <KMessageBox>
 
@@ -123,7 +124,10 @@ QUrl Info::repairInvalidCharacters(const QUrl &url, QWidget* mainWidget, bool ch
 QUrl Info::renameIfExist(const QUrl &url, QWidget* mainWidget)
 {
 	QUrl ret(url);
-	while(KIO::NetAccess::exists(url, KIO::NetAccess::SourceSide, mainWidget)) { // check for writing possibility
+
+	auto statJob = KIO::stat(url, KIO::StatJob::SourceSide, 0);
+	KJobWidgets::setWindow(statJob, mainWidget);
+	while (statJob->exec()) { // check for writing possibility
 		bool isOK;
 		QString newURL = QInputDialog::getText(
 			mainWidget,
@@ -133,7 +137,7 @@ QUrl Info::renameIfExist(const QUrl &url, QWidget* mainWidget)
 			QLineEdit::Normal,
 			ret.fileName(),
 			&isOK);
-		if(!isOK) {
+		if (!isOK) {
 			break;
 		}
 		ret = ret.adjusted(QUrl::RemoveFilename);

@@ -25,6 +25,7 @@
 #include <QList>
 #include <QMimeData>
 #include <QTextCodec>
+#include <QTemporaryFile>
 
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
@@ -40,7 +41,10 @@
 #include <kfile.h>
 #include <krun.h>
 
-#include <kio/netaccess.h>
+#include <KJobWidgets>
+#include <KIO/StatJob>
+#include <KIO/FileCopyJob>
+#include <KIO/DeleteJob>
 #include <QPushButton>
 #include <QUrl>
 #include <kfileitem.h>
@@ -938,12 +942,19 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 					QUrl backupUrl = QUrl::fromLocalFile(url.toLocalFile() + ".backup");
 
 					// first del existing file if any, then copy over the file we have
-					bool fileExists = KIO::NetAccess::exists(backupUrl, KIO::NetAccess::DestinationSide, m_ki->mainWindow());
+					auto statJob = KIO::stat(backupUrl, KIO::StatJob::DestinationSide, 0);
+					KJobWidgets::setWindow(statJob, m_ki->mainWindow());
+					bool fileExists = statJob->exec();
+
 					if (fileExists) {
-						fileExists = !KIO::NetAccess::del(backupUrl, m_ki->mainWindow());
+						auto deleteJob = KIO::del(backupUrl);
+						KJobWidgets::setWindow(deleteJob, m_ki->mainWindow());
+						fileExists = !deleteJob->exec();
 					}
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
-					if (!fileExists && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
+					auto copyJob = KIO::file_copy(url, backupUrl);
+					KJobWidgets::setWindow(copyJob, m_ki->mainWindow());
+					if (!fileExists && copyJob->exec()) {
 						KILE_DEBUG_MAIN << "backing up successful (" << url.toDisplayString() << " -> "<<backupUrl << ")";
 					}
 					else {
@@ -1103,7 +1114,10 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 			saveURL = Info::makeValidTeXURL(saveURL, m_ki->mainWindow(),
 			                                m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
 		}
-		if(KIO::NetAccess::exists(saveURL, KIO::NetAccess::SourceSide, m_ki->mainWindow())) { // check for writing possibility
+
+		auto statJob = KIO::stat(saveURL, KIO::StatJob::SourceSide, 0);
+		KJobWidgets::setWindow(statJob, m_ki->mainWindow());
+		if (statJob->exec()) { // check for writing possibility
 			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?", saveURL.fileName()), i18n("Overwrite File?"), KGuiItem(i18n("&Overwrite")));
 			if(r != KMessageBox::Continue) {
 				continue;
@@ -2561,25 +2575,25 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 
 QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encoding)
 {
-	QString localFileName;
-	QStringList res;
-	// if 'url' is not a local file, its contents are copied into a temporary local file
-	// whose name will be stored in 'localFile'; otherwise, the file name specified in
-	// 'url' will be set in 'localFile'
-	if (!KIO::NetAccess::download(url, localFileName, m_ki->mainWindow())) {
-		KILE_DEBUG_MAIN << "Can not download resource: " << url;
-		KIO::NetAccess::removeTempFile(localFileName);
-		return res;
+	QTemporaryFile file;
+	file.open();
+	auto downloadJob = KIO::file_copy(url, QUrl::fromLocalFile(file.fileName()), 0);
+	KJobWidgets::setWindow(downloadJob, m_ki->mainWindow());
+	if (!downloadJob->exec()) {
+		KILE_DEBUG_MAIN << "Cannot download resource: " << url;
+		file.close();
+		return QStringList();
 	}
 
-	QFile localFile(localFileName);
+	QFile localFile(file.fileName());
 
 	if (!localFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		KILE_DEBUG_MAIN << "Can not open source file: " << localFileName;
-		KIO::NetAccess::removeTempFile(localFileName);
-		return res;
+		KILE_DEBUG_MAIN << "Cannot open source file: " << file.fileName();
+		file.close();
+		return QStringList();
 	}
 
+	QStringList res;
 	QTextStream stream(&localFile);
 	if(!encoding.isEmpty()) {
 		stream.setCodec(encoding.toLatin1());
@@ -2587,9 +2601,8 @@ QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encodin
 	while(!stream.atEnd()) {
 		res.append(stream.readLine());
 	}
-	KIO::NetAccess::removeTempFile(localFileName);
+	file.close();
 	return res;
 }
 
 }
-

@@ -11,7 +11,6 @@
 *                                                                         *
 ***************************************************************************/
 
-#include <KFileDialog>
 #include <KMessageBox>
 #include <QFileDialog>
 
@@ -93,5 +92,3 @@ void KileWidgetUsermenuConfig::setXmlFile(const QString &file)
 		m_pbRemove->setEnabled(true);
 	}
 }
-
-

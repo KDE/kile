@@ -17,7 +17,7 @@
 #include <QFileInfo>
 #include <QClipboard>
 
-#include <KApplication>
+#include <QApplication>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
@@ -638,7 +638,7 @@ bool EditorExtension::isOpeningMathTagPosition(KTextEditor::Document *doc, uint 
 	mathdata.col = col;
 	mathdata.len = reg.cap(0).length();
 
-	switch(id.toAscii()) {
+	switch(id.unicode()) {
 		case 'b':
 			if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
 				return false;
@@ -674,7 +674,7 @@ bool EditorExtension::isClosingMathTagPosition(KTextEditor::Document *doc, uint 
 	mathdata.col = pos;
 	mathdata.len = reg.cap(0).length();
 
-	switch(id.toAscii()) {
+	switch(id.unicode()) {
 		case 'e':
 			if(!(m_latexCommands->isMathEnv(envname) || envname=="math") || m_latexCommands->needsMathMode(envname)) {
 				return false;
@@ -3339,14 +3339,14 @@ void EditorExtension::sectioningCommand(KileWidget::StructureViewItem *item, int
 	KTextEditor::Document::EditingTransaction transaction(doc);
 	switch (id) {
 		case KileWidget::StructureWidget::SectioningCut:
-			KApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
+			QApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
 			doc->removeText(KTextEditor::Range(row1, col1, row2, col2));                                  // delete
 		break;
 		case KileWidget::StructureWidget::SectioningCopy:
-			KApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
+			QApplication::clipboard()->setText(doc->text(KTextEditor::Range(row1, col1, row2, col2)));  // copy -> clipboard
 		break;
 		case KileWidget::StructureWidget::SectioningPaste:
-			text = KApplication::clipboard()->text();                              // clipboard -> text
+			text = QApplication::clipboard()->text();                              // clipboard -> text
 			if(!text.isEmpty()) {
 				view->setCursorPosition(KTextEditor::Cursor(row2, col2));                             // insert
 				view->insertText(text + '\n');

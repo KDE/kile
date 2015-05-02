@@ -39,7 +39,6 @@
 #include <KShell>
 
 #include <KParts/Part>
-#include <KParts/Factory>
 #include <KParts/PartManager>
 
 static QVariantList toVariantList(const QStringList& list)

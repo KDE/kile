@@ -122,7 +122,7 @@ bool ConvertMap::load()
 
 	if(qf.open(QIODevice::ReadOnly)) {
 		QTextStream stream(&qf);
-		QTextCodec *codec = QTextCodec::codecForName(isoName().toAscii());
+		QTextCodec *codec = QTextCodec::codecForName(isoName().toLatin1());
 		if(codec) {
 			stream.setCodec(codec);
 		}

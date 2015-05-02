@@ -141,7 +141,7 @@ void StructureViewItem::setLabel(const QString &label)
 		setHeaderLabels(labelList);
 
 		header()->hide();
-		header()->setResizeMode(QHeaderView::ResizeToContents);
+		header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 		setAllColumnsShowFocus(true);
 		setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 

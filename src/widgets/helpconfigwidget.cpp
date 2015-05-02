@@ -14,7 +14,6 @@
 
 #include "widgets/helpconfigwidget.h"
 
-#include <KFileDialog>
 #include <KUrlCompletion>
 #include <KMessageBox>
 #include <QFileDialog>

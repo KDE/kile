@@ -16,7 +16,6 @@
 
 #include <config.h>
 
-#include <KFileDialog>
 #include <KUrlCompletion>
 #include <QFileDialog>
 

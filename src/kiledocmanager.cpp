@@ -31,11 +31,11 @@
 #include <KTextEditor/Editor>
 #include <KTextEditor/SessionConfigInterface>
 #include <KTextEditor/View>
-#include <kapplication.h>
+#include <QApplication>
 #include "kiledebug.h"
 #include <KEncodingFileDialog>
 #include <KLocalizedString>
-#include <KMimeType>
+#include <QMimeType>
 #include <kmessagebox.h>
 #include <QProgressDialog>
 #include <kfile.h>
@@ -1675,7 +1675,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 		projectOpenItem(*i, openProjectItemViews);
 //TODO KF5
 //		m_progressDialog->progressBar()->setValue(counter + project_steps);
-		kapp->processEvents();
+		qApp->processEvents();
 		++counter;
 	}
 

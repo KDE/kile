@@ -15,7 +15,7 @@
 
 #include "kiletoolmanager.h"
 
-NewToolWizard::NewToolWizard(QWidget *parent, Qt::WFlags fl) : KAssistantDialog(parent, fl)
+NewToolWizard::NewToolWizard(QWidget *parent, Qt::WindowFlags fl) : KAssistantDialog(parent, fl)
 {
 	QWidget *toolNameWidget = new QWidget(this);
 	Ui::NewToolWizardToolNamePage::setupUi(toolNameWidget);

@@ -51,8 +51,9 @@ void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTex
 {
 	if(!range.isValid()
 	|| (invocationType == AutomaticInvocation && !KileConfig::completeAuto())) {
+		beginResetModel();
 		m_completionList.clear();
-		reset();
+		endResetModel();
 		return;
 	}
 	Q_UNUSED(invocationType);
@@ -160,9 +161,10 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 			m_completionList = m_codeCompletionManager->m_ki->allBibItems();
 		}
 	}
+	beginResetModel();
 	filterModel(completionString);
 	qSort(m_completionList.begin(), m_completionList.end(), laTeXCommandLessThan);
-	reset();
+	endResetModel();
 }
 
 KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor::Document *doc,
@@ -441,7 +443,7 @@ QString LaTeXCompletionModel::stripParameters(const QString &text) const
 
 	for(int i = 0; i < text.length(); ++i) {
 		QChar c = text[i];
-		switch(c.toAscii()) {
+		switch(c.unicode()) {
 			case '[':
 			case '{':
 			case '(':
@@ -479,7 +481,7 @@ QString LaTeXCompletionModel::buildRegularCompletedText(const QString &text, int
 	cursorYPos = -1;
 	for(int i = 0; i < text.length(); ++i) {
 		QChar c = text[i];
-		switch(c.toAscii()) {
+		switch(c.unicode()) {
 			case '<':
 			case '{':
 			case '(':
@@ -545,7 +547,7 @@ QString LaTeXCompletionModel::buildRegularCompletedText(const QString &text, int
 		int pos = 0;
 
 		// search for braces, brackets and parens
-		switch(s[1].toAscii()) {
+		switch(s[1].unicode()) {
 			case 'l':
 				if(s.left(6) == "\\left ") {
 					pos = 5;
@@ -722,8 +724,9 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 {
 	if(!range.isValid()
 	|| (invocationType == AutomaticInvocation && !KileConfig::completeAutoAbbrev())) {
+		beginResetModel();
 		m_completionList.clear();
-		reset();
+		endResetModel();
 		return;
 	}
 	KILE_DEBUG_MAIN << "building model...";
@@ -734,8 +737,9 @@ KTextEditor::Range AbbreviationCompletionModel::updateCompletionRange(KTextEdito
                                                                                   const KTextEditor::Range &range)
 {
 	if(!range.isValid()) {
+		beginResetModel();
 		m_completionList.clear();
-		reset();
+		endResetModel();
 		return range;
 	}
 	
@@ -801,8 +805,9 @@ void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::View *view,
 void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range,
                                              bool singleMatchMode)
 {
-	reset();
+	beginResetModel();
 	m_completionList.clear();
+	endResetModel();
 	QString text = view->document()->text(range);
 	KILE_DEBUG_MAIN << text;
 	if(text.isEmpty()) {

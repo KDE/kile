@@ -226,7 +226,7 @@ namespace KileWidget
 			emit showingErrorMessage(this);
 		}
 
-		QString myMsg = Qt::escape(message);
+		QString myMsg = message.toHtmlEscaped();
 		QString fontColor;
 
 		switch(type) {

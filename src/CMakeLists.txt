@@ -225,7 +225,6 @@ PUBLIC
     KF5::KIOFileWidgets
     KF5::TextEditor
     KF5::WindowSystem
-    KF5::KDELibs4Support
 )
 # optional dependencies
 if(POPPLER_FOUND)

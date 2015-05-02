@@ -22,7 +22,7 @@
 #include <QTextDocument>
 
 #include <KCursor>
-#include <KFileDialog>
+#include <QFileDialog>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QProgressDialog>

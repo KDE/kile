@@ -23,14 +23,13 @@
 #include <QTimer> //for QTimer::singleShot trick
 #include <QMimeData>
 
-#include <KApplication>
+#include <QApplication>
 #include <QAction>
 #include <KActionCollection>
 #include <KIconLoader>
 #include <kio/pixmaploader.h>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMimeType>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
@@ -697,7 +696,7 @@ void Manager::onTextEditorPopupMenuRequest()
 	m_convertToLaTeXAction->setEnabled(view->selection());
 
 	// Setting up the "Paste as LaTeX" entry
-	QClipboard *clipboard = KApplication::clipboard();
+	QClipboard *clipboard = QApplication::clipboard();
 	if(clipboard) {
 		m_pasteAsLaTeXAction->setEnabled(!clipboard->text().isEmpty());
 	}
@@ -802,7 +801,7 @@ void Manager::pasteAsLaTeX(void)
 	}
 
 	PlainToLaTeXConverter cvt;
-	QString toPaste = cvt.ConvertToLaTeX(KApplication::clipboard()->text());
+	QString toPaste = cvt.ConvertToLaTeX(QApplication::clipboard()->text());
 	doc->insertText(KTextEditor::Cursor(cursorLine, cursorCol), toPaste);
 
 	// End of the "atomic edit operation"
@@ -890,7 +889,7 @@ void Manager::currentViewChanged(int index)
 	}
 }
 
-DropWidget::DropWidget(QWidget *parent, const char *name, Qt::WFlags f) : QWidget(parent, f)
+DropWidget::DropWidget(QWidget *parent, const char *name, Qt::WindowFlags f) : QWidget(parent, f)
 {
 	setObjectName(name);
 	setAcceptDrops(true);

@@ -47,7 +47,6 @@ find_package(KF5 5.6 REQUIRED COMPONENTS
 	TextEditor
 	WindowSystem
 	XmlGui
-	KDELibs4Support
 )
 
 find_package(Poppler)

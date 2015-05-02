@@ -39,8 +39,8 @@ AbbreviationView::AbbreviationView(KileAbbreviation::Manager *manager, QWidget *
 	setHeaderLabels(headerLabelList);
 	setAllColumnsShowFocus(true);
 
-	header()->setMovable(false);      // default: true
-	header()->setResizeMode(QHeaderView::ResizeToContents);
+	header()->setSectionsMovable(false);      // default: true
+	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	setContextMenuPolicy(Qt::CustomContextMenu);
 

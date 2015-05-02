@@ -22,7 +22,6 @@
 #include <KJob>
 #include <KLocalizedString>
 #include <KPluginLoader>
-#include <KParts/Factory>
 #include <KProcess>
 
 #include <QTemporaryDir>

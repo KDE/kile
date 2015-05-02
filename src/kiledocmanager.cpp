@@ -938,10 +938,12 @@ bool Manager::fileSaveAll(bool amAutoSaving, bool disUntitled)
 					QUrl backupUrl = QUrl::fromLocalFile(url.toLocalFile() + ".backup");
 
 					// first del existing file if any, then copy over the file we have
+					bool fileExists = KIO::NetAccess::exists(backupUrl, KIO::NetAccess::DestinationSide, m_ki->mainWindow());
+					if (fileExists) {
+						fileExists = !KIO::NetAccess::del(backupUrl, m_ki->mainWindow());
+					}
 					// failure if a: the existing file could not be deleted, b: the file could not be copied
-					if((!KIO::NetAccess::exists( backupUrl, KIO::NetAccess::DestinationSide, m_ki->mainWindow())
-					   || KIO::NetAccess::del( backupUrl, m_ki->mainWindow()))
-					   && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
+					if (!fileExists && KIO::NetAccess::file_copy(url, backupUrl, m_ki->mainWindow())) {
 						KILE_DEBUG_MAIN << "backing up successful (" << url.toDisplayString() << " -> "<<backupUrl << ")";
 					}
 					else {

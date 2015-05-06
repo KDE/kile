@@ -76,9 +76,9 @@ UserMenuTree::UserMenuTree(QWidget *parent)
 {
 	setColumnCount(2);
 
-	header()->setResizeMode(0,QHeaderView::Stretch);
-	header()->setResizeMode(1,QHeaderView::Fixed);
-	header()->setMovable(false);
+	header()->setSectionResizeMode(0, QHeaderView::Stretch);
+	header()->setSectionResizeMode(1, QHeaderView::Fixed);
+	header()->setSectionsMovable(false);
 	header()->setStretchLastSection(false);
 	setColumnWidth(1,140);
 	setItemDelegateForColumn(0, new MenuentryDelegate(parent));

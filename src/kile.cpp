@@ -98,7 +98,7 @@
 #include "livepreview.h"
 #include "parser/parsermanager.h"
 
-// #include "dialogs/usermenu/usermenudialog.h"
+#include "dialogs/usermenu/usermenudialog.h"
 #include "usermenu/usermenudata.h"
 #include "usermenu/usermenu.h"
 
@@ -340,7 +340,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 		m_listUserTools.clear();
 	}
 
-        if(KileConfig::rCVersion() < 7) {
+	if(KileConfig::rCVersion() < 7) {
 		if (KMessageBox::questionYesNo(mainWindow(),
 		    i18n("The standard tool list need to be reloaded because of the switch from KDE3 to KDE4. This will overwrite any changes in the tools you have made. Do you want to reload the list now (recommended)?"),
 			i18n("Tools need to be updated"))  == KMessageBox::Yes){
@@ -350,12 +350,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	KTipDialog::showTip(this, "kile/tips");
 
-//TODO KF5
 	// lazy creation: last possible place to insert this user-defined menu
-// 	m_userMenu  = new KileMenu::UserMenu(this, this);
-// 	connect(m_userMenu, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
-// 	connect(m_userMenu, SIGNAL(updateStatus()), this, SLOT(slotUpdateUserMenuStatus()));
-m_userMenu = Q_NULLPTR;
+	m_userMenu = new KileMenu::UserMenu(this, this);
+	connect(m_userMenu, &KileMenu::UserMenu::sendText, this, static_cast<void (Kile::*)(const QString &)>(&Kile::insertText));
+	connect(m_userMenu, &KileMenu::UserMenu::updateStatus, this, &Kile::slotUpdateUserMenuStatus);
 
 	restoreFilesAndProjects(allowRestore);
 	slotStateChanged("Editor");
@@ -378,8 +376,8 @@ m_userMenu = Q_NULLPTR;
 	setUpdatesEnabled(false);
 	setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	guiFactory()->refreshActionProperties();
-//TODO KF5
-// 	m_userMenu->refreshActionProperties();
+
+	m_userMenu->refreshActionProperties();
 	setUpdatesEnabled(true);
 
 	// finally, we check whether the system check assistant should be run, which is important for
@@ -403,7 +401,7 @@ Kile::~Kile()
 	if(m_livePreviewManager && viewManager()->viewerPart()) {
 		guiFactory()->removeClient(viewManager()->viewerPart());
 	}
-// 	delete m_userMenu;
+	delete m_userMenu;
 	delete m_livePreviewManager;
 	delete m_toolFactory;
 	delete m_manager;
@@ -2423,18 +2421,16 @@ void Kile::quickPdf()
 
 void Kile::quickUserMenuDialog()
 {
-//TODO KF5
-// 	m_userMenu->removeShortcuts();
-// 	KileMenu::UserMenuDialog *dlg = new KileMenu::UserMenuDialog(m_config.data(), this, m_userMenu, m_userMenu->xmlFile(), m_mainWindow);
-// 	dlg->exec();
-// 	delete dlg;
-//
-// 	// tell all the documents and views to update their action shortcuts (bug 247646)
-// 	docManager()->reloadXMLOnAllDocumentsAndViews();
-//
-// 	// a new usermenu could have been installed, even if the return value is QDialog::Rejected
-// 	m_userMenu->refreshActionProperties();
+	m_userMenu->removeShortcuts();
+	KileMenu::UserMenuDialog *dlg = new KileMenu::UserMenuDialog(m_config.data(), this, m_userMenu, m_userMenu->xmlFile(), m_mainWindow);
+	dlg->exec();
+	delete dlg;
 
+	// tell all the documents and views to update their action shortcuts (bug 247646)
+	docManager()->reloadXMLOnAllDocumentsAndViews();
+
+	// a new usermenu could have been installed, even if the return value is QDialog::Rejected
+	m_userMenu->refreshActionProperties();
 }
 
 void Kile::slotUpdateUserMenuStatus()

@@ -20,8 +20,10 @@
 #include "kiledebug.h"
 
 KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent)
-   : QWidget(parent), m_usermenu(usermenu)
+   : QWidget(parent)
+   , m_usermenu(usermenu)
 {
+	Q_ASSERT(m_usermenu);
 	setupUi(this);
 	setXmlFile(m_usermenu->xmlFile());
 

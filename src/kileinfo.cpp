@@ -25,7 +25,7 @@
 #include <ktexteditor/document.h>
 #include <ktexteditor/view.h>
 #include <KLocalizedString>
-#include <kmessagebox.h>
+#include <KMessageBox>
 
 #include "parser/parsermanager.h"
 #include "widgets/structurewidget.h"
@@ -40,7 +40,7 @@
 #include "editorkeysequencemanager.h"
 #include "templates.h"
 #include "utilities.h"
-
+#include "usermenu/usermenu.h"
 
 #include <QStringList>
 #include <QString>
@@ -49,15 +49,16 @@
  * Class KileInfo.
  */
 
-KileInfo::KileInfo(KParts::MainWindow *parent) :
-	m_mainWindow(parent),
-	m_viewManager(Q_NULLPTR),
-	m_manager(Q_NULLPTR),
-	m_jScriptManager(Q_NULLPTR),
-	m_toolFactory(Q_NULLPTR),
-	m_texKonsole(Q_NULLPTR),
-	m_errorHandler(Q_NULLPTR),
-	m_edit(Q_NULLPTR)
+KileInfo::KileInfo(KParts::MainWindow *parent)
+	: m_mainWindow(parent)
+	, m_viewManager(Q_NULLPTR)
+	, m_manager(Q_NULLPTR)
+	, m_jScriptManager(Q_NULLPTR)
+	, m_toolFactory(Q_NULLPTR)
+	, m_texKonsole(Q_NULLPTR)
+	, m_errorHandler(Q_NULLPTR)
+	, m_edit(Q_NULLPTR)
+	, m_userMenu(Q_NULLPTR)
 {
 	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
 	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");

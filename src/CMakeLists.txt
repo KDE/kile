@@ -110,9 +110,9 @@ set(kile_SRCS
 	utilities.cpp
 	abbreviationmanager.cpp
 	editorcommands.cpp
-# 	dialogs/usermenu/usermenudialog.cpp
+	dialogs/usermenu/usermenudialog.cpp
 	dialogs/usermenu/usermenuitem.cpp
-# 	dialogs/usermenu/usermenutree.cpp
+	dialogs/usermenu/usermenutree.cpp
 	usermenu/usermenudata.cpp
 	usermenu/usermenu.cpp
 	parser/parsermanager.cpp

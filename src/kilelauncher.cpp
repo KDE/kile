@@ -35,6 +35,7 @@
 #include <KRun>
 #include <KProcess>
 #include <KLocalizedString>
+#include <KPluginFactory>
 #include <KPluginLoader>
 #include <KShell>
 

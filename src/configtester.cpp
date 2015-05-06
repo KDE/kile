@@ -38,7 +38,11 @@
 #include "kileversion.h"
 
 ConfigTest::ConfigTest(const QString& testGroup, const QString &name, bool isCritical)
-: m_testGroup(testGroup), m_name(name), m_isCritical(isCritical), m_isSilent(false), m_status(NotRun)
+	: m_testGroup(testGroup)
+	, m_name(name)
+	, m_isCritical(isCritical)
+	, m_isSilent(false)
+	, m_status(NotRun)
 {
 }
 
@@ -283,7 +287,7 @@ void TestToolInKileTest::handleToolExit(KileTool::Base *tool, int status, bool c
 }
 
 OkularVersionTest::OkularVersionTest(const QString& testGroup, bool isCritical)
-: ConfigTest(testGroup, i18n("Version"), isCritical)
+	: ConfigTest(testGroup, i18n("Version"), isCritical)
 {
 }
 
@@ -295,40 +299,19 @@ void OkularVersionTest::call()
 {
 	KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
 	KPluginFactory *factory = pluginLoader.factory();
-	quint32 version;
-	if(!factory) {
+	if (!factory) {
 		m_status = Failure;
-		m_resultText = i18n("Okular could not be found");
 		return;
 	}
 	else {
-		version = pluginLoader.pluginVersion();
+		m_status = Success;
+		quint32 version = pluginLoader.pluginVersion();
+		m_resultText = i18n("%1 - Forward Search and Embedded Viewer Mode are supported", version);
 	}
-
-//TODO KF5
-// 	m_isViewerModeSupported = false;
-// 	if(compareVersionStrings(version, "0.14.80") >= 0) {
-// 		m_status = Success;
-// 		m_isViewerModeSupported = true;
-// 		m_resultText = i18n("%1 - Forward Search and Embedded Viewer Mode are supported",version);
-// 	}
-// 	else if(compareVersionStrings(version, "0.8.6") >= 0) {
-// 		m_status = Failure;
-// 		m_resultText = i18n("%1 - Forward Search is supported, but not Embedded Viewer mode",version);
-// 	}
-// 	else {
-// 		m_status = Failure;
-// 		m_resultText = i18n("%1 - The installed version is too old for Forward Search and Embedded Viewer mode; "
-// 		                    "you must use at least version 0.8.6 for Forward Search, and 0.14.80 for Embedded Viewer Mode", version);
-// 	}
 
 	emit(testComplete(this));
 }
 
-bool OkularVersionTest::isViewerModeSupported() const
-{
-	return m_isViewerModeSupported;
-}
 
 FindProgramTest::FindProgramTest(const QString& testGroup, const QString& programName, bool isCritical)
 : ConfigTest(testGroup, i18n("Binary"), isCritical),
@@ -802,7 +785,7 @@ bool Tester::isSyncTeXSupportedForPDFLaTeX()
 
 bool Tester::isViewerModeSupportedInOkular()
 {
-	return m_okularVersionTest->isViewerModeSupported();
+	return (m_okularVersionTest->status() == ConfigTest::Success);
 }
 
 bool Tester::areSrcSpecialsSupportedForLaTeX()

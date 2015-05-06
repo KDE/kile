@@ -33,6 +33,7 @@
 
 #include <KConfigGroup>
 #include <KLocalizedString>
+#include <KWindowConfig>
 #include <KTextEditor/ConfigPage>
 
 #include <QDialogButtonBox>
@@ -108,8 +109,7 @@ namespace KileDialog
 		setupEditor(editorPageWidgetItem);
 
 		m_configDialogSize = m_config->group("KileConfigDialog");
-// TODO KF5
-// 		restoreDialogSize(m_configDialogSize);
+		KWindowConfig::restoreWindowSize(windowHandle(), m_configDialogSize);
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
@@ -122,8 +122,7 @@ namespace KileDialog
 
 	Config::~Config()
 	{
-//TODO KF5
-// 		saveDialogSize(m_configDialogSize);
+		KWindowConfig::saveWindowSize(windowHandle(), m_configDialogSize);
 		delete m_manager;
 	}
 

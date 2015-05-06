@@ -629,10 +629,7 @@ namespace KileTool
 		}
 
 		QString filepath = doc->url().toLocalFile();
-
-//TODO KF5
-// 		QString texfile = QUrl::relativePath(baseDir(),filepath);
-		QString texfile = "";
+		QString texfile = QDir(baseDir()).relativeFilePath(filepath);
 		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + ' ' + texfile; // space added, for files starting with numbers
 		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + filepath;
 

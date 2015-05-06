@@ -384,9 +384,7 @@ void InputDialog::slotBrowse()
 
 	fn = QFileDialog::getOpenFileName(this, i18n("Select File") , fi.absoluteFilePath(), filter);
 	if(!fn.isEmpty()) {
-// TODO KF5
-//		QString path = QUrl::relativePath(fi.path(), fn);
-		QString path = fn;
+		QString path = QDir(fi.path()).relativeFilePath(fn);
 
 		// if the file has no extension, we add the default TeX extension
 		if(QFileInfo(path).completeSuffix().isEmpty()) {

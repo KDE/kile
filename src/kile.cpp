@@ -1663,8 +1663,7 @@ void Kile::newCaption()
 		                                                    "%1 [Read-Only]", getShortName(doc)));
 		setWindowTitle(caption);
 		if (m_bottomBar->currentPage() && m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) {
-//TODO KF5
-// 			m_texKonsole->sync();
+			m_texKonsole->sync();
 		}
 	}
 	else {

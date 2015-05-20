@@ -217,6 +217,7 @@ target_link_libraries(kdeinit_kile
 PUBLIC
     Qt5::Script
     KF5::CoreAddons
+    KF5::Crash
     KF5::DBusAddons
     KF5::GuiAddons
     KF5::I18n

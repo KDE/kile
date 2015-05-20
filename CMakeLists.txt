@@ -36,6 +36,7 @@ find_package(Qt5 5.3 CONFIG REQUIRED
 find_package(KF5 5.11 REQUIRED COMPONENTS
 	Config
 	CoreAddons
+	Crash
 	DBusAddons
 	DocTools
 	GuiAddons

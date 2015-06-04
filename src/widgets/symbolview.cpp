@@ -320,7 +320,8 @@ void SymbolView::fillWidget(const QString& prefix)
 	QStringList refCnts, paths, unicodeValues;
 	QString key;
 
-	if (prefix == MFUS_PREFIX) {
+	// find paths
+	if (prefix == MFUS_PREFIX) { // case: most frequently used symbols
 		KConfigGroup config = KSharedConfig::openConfig()->group(MFUS_GROUP);
 		QString configPaths = config.readEntry("paths");
 		QString configrefCnts = config.readEntry("counts");
@@ -333,25 +334,26 @@ void SymbolView::fillWidget(const QString& prefix)
 			refCnts.clear();
 		}
 	}
-	else {
-		QStringList paths;
+	else { // case: any other group of math symbols
 		const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kile/mathsymbols/" + prefix, QStandardPaths::LocateDirectory);
 		Q_FOREACH (const QString &dir, dirs) {
 			const QStringList fileNames = QDir(dir).entryList(QStringList() << QStringLiteral("*.png"));
 			Q_FOREACH (const QString &file, fileNames) {
-				if (!paths.contains(file)) {
-					paths.append(file);
+				const QString path = dir + '/' + file;
+				if (!paths.contains(path)) {
+					paths.append(path);
 				}
 			}
 		}
 		paths.sort();
-		for(int i = 0 ; i < paths.count() ; i++) {
+		for (int i = 0; i < paths.count(); i++) {
 			refCnts.append("1");
 		}
 	}
-	for(int i = 0; i < paths.count(); i++) {
-		if(image.load(paths[i])) {
-//      		KILE_DEBUG_MAIN << "path is " << paths[i];
+
+	// render symbols
+	for (int i = 0; i < paths.count(); i++) {
+		if (image.load(paths[i])) {
 			item = new QListWidgetItem(this);
 
 			key = refCnts[i] + '%' + image.text("Command");
@@ -361,13 +363,11 @@ void SymbolView::fillWidget(const QString& prefix)
 			key += '%' + convertLatin1StringtoUTF8(image.text("Comment"));
 			key += '%' + paths[i];
 
-// 			KILE_DEBUG_MAIN << "key is " << key;
-
 			item->setData(Qt::UserRole, key);
 			item->setToolTip(getToolTip(key));
 
-			if(prefix != "user"){
-				if(image.format() != QImage::Format_ARGB32_Premultiplied && image.format() != QImage::Format_ARGB32){
+			if (prefix != QLatin1String("user")){
+				if (image.format() != QImage::Format_ARGB32_Premultiplied && image.format() != QImage::Format_ARGB32){
 					image = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 				}
 
@@ -377,9 +377,7 @@ void SymbolView::fillWidget(const QString& prefix)
 				p.fillRect(image.rect(), m_brush.brush(QPalette::Active));
 				p.end();
 			}
-
 			item->setIcon(QPixmap::fromImage(image));
-
 		}
 		else {
 			KILE_DEBUG_MAIN << "Loading file " << paths[i] << " failed";

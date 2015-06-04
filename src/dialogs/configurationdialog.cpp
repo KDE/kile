@@ -333,7 +333,7 @@ namespace KileDialog
 		toolPage->writeConfig();      // config all tools
 		completePage->writeConfig();  // Complete configuration (dani)
 		previewPage->writeConfig();   // Quick Preview (dani)
-//  		usermenuPage->writeConfig(); //TODO KF5: uncomment once menu is enabled again
+		usermenuPage->writeConfig();
 		livePreviewPage->writeConfig();
 
 		m_config->sync();

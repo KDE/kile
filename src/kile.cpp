@@ -28,6 +28,7 @@
 #include <QShowEvent>
 #include <QSplashScreen>
 #include <QStandardPaths>
+#include <QStatusBar>
 #include <QXmlStreamWriter>
 
 #include <KAboutApplicationDialog>
@@ -60,6 +61,7 @@
 #include "kileactions.h"
 #include "kiledebug.h"
 #include "kilestdactions.h"
+#include "widgets/statusbar.h"
 #include "dialogs/configurationdialog.h"
 #include "kileproject.h"
 #include "widgets/projectview.h"
@@ -112,9 +114,9 @@
  */
 
 Kile::Kile(bool allowRestore, QWidget *parent)
-:	KParts::MainWindow(),
-	KileInfo(this),
-	m_paPrint(Q_NULLPTR)
+	: KParts::MainWindow()
+	, KileInfo(this)
+	, m_paPrint(Q_NULLPTR)
 {
 	setObjectName("Kile");
 
@@ -163,6 +165,8 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_wantState = "Editor";
 	m_bWatchFile = false;
 
+	setStatusBar(new KileWidget::StatusBar(m_errorHandler, parent));
+
 	// process events for correctly displaying the splash screen
 	qApp->processEvents();
 
@@ -183,8 +187,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(docManager(), SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 	connect(docManager(), SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 	connect(docManager(), SIGNAL(documentReadWriteStateChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
-
-	setupStatusBar();
 
 	m_topWidgetStack = new QStackedWidget();
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
@@ -425,39 +427,6 @@ Kile::~Kile()
 // {
 // 	unplugActionList(name);
 // }
-
-void Kile::setupStatusBar()
-{
-// TODO KF5
-// 	if(statusBar()->hasItem(ID_HINTTEXT)) {
-// 		statusBar()->removeItem(ID_HINTTEXT);
-// 	}
-// 	if(statusBar()->hasItem(ID_LINE_COLUMN)) {
-// 		statusBar()->removeItem(ID_LINE_COLUMN);
-// 	}
-// 	if(statusBar()->hasItem(ID_VIEW_MODE)) {
-// 		statusBar()->removeItem(ID_VIEW_MODE);
-// 	}
-// 	if(statusBar()->hasItem(ID_SELECTION_MODE)) {
-// 		statusBar()->removeItem(ID_SELECTION_MODE);
-// 	}
-// 	if(statusBar()->hasItem(ID_PARSER_STATUS)) {
-// 		statusBar()->removeItem(ID_PARSER_STATUS);
-// 	}
-
-// TODO KF5
-// 	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT, 10);
-// 	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
-// 	statusBar()->addPermanentWidget(errorHandler()->compilationResultLabel());
-// 	statusBar()->insertPermanentItem(QString(), ID_PARSER_STATUS, 0);
-// 	statusBar()->setItemAlignment(ID_PARSER_STATUS, Qt::AlignLeft | Qt::AlignVCenter);
-// 	statusBar()->insertPermanentItem(QString(), ID_LINE_COLUMN, 0);
-// 	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
-// 	statusBar()->insertPermanentItem(QString(), ID_VIEW_MODE, 0);
-// 	statusBar()->setItemAlignment(ID_VIEW_MODE, Qt::AlignLeft | Qt::AlignVCenter);
-// 	statusBar()->insertPermanentItem(QString(), ID_SELECTION_MODE, 0);
-// 	statusBar()->setItemAlignment(ID_SELECTION_MODE, Qt::AlignLeft | Qt::AlignVCenter);
-}
 
 void Kile::setupSideBar()
 {
@@ -1399,24 +1368,19 @@ void Kile::updateModeStatus()
 	shortName.remove(0, pos + 1);
 
 	if(project) {
-		if(m_singlemode) {
-// TODO KF5
-// 			statusBar()->changeItem(i18n("Project: %1", project->name()), ID_HINTTEXT);
+		if (m_singlemode) {
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Project: %1", project->name()));
 		}
 		else {
-// TODO KF5
-// 			statusBar()->changeItem(i18n("Project: %1 (Master document: %2)", project->name(), shortName), ID_HINTTEXT);
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Project: %1 (Master document: %2)", project->name(), shortName));
 		}
 	}
-	else
-	{
+	else {
 		if (m_singlemode) {
-// TODO KF5
-// 			statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Normal mode"));
 		}
 		else {
-// TODO KF5
-// 			statusBar()->changeItem(i18n("Master document: %1", shortName), ID_HINTTEXT);
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Master document: %1", shortName));
 		}
 	}
 
@@ -1647,6 +1611,11 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 	}
 }
 
+KileWidget::StatusBar * Kile::statusBar()
+{
+	return static_cast<KileWidget::StatusBar *>(KXmlGuiWindow::statusBar());
+}
+
 ////////////////// GENERAL SLOTS //////////////
 int Kile::lineNumber()
 {
@@ -1755,7 +1724,7 @@ bool Kile::resetPart()
 		}
 	}
 
-	setupStatusBar();
+	statusBar()->reset();
 	updateModeStatus();
 	newCaption();
 
@@ -3094,59 +3063,48 @@ void Kile::updateStatusBarCursorPosition(KTextEditor::View *view,
                                          const KTextEditor::Cursor &newPosition)
 {
 	if(!view) {
-// TODO KF5
-// 		statusBar()->changeItem(QString(), ID_LINE_COLUMN);
+		statusBar()->changeItem(KileWidget::StatusBar::LineColumn, QString());
 	}
 	else {
-// TODO KF5
-// 		statusBar()->changeItem(i18n("Line: %1 Col: %2",
-// 		                             newPosition.line() + 1,
-// 		                             newPosition.column() + 1), ID_LINE_COLUMN);
+		statusBar()->changeItem(KileWidget::StatusBar::LineColumn,
+			i18n("Line: %1 Col: %2", newPosition.line() + 1, newPosition.column() + 1));
 	}
 }
 
 void Kile::updateStatusBarViewMode(KTextEditor::View *view)
 {
 	if(!view) {
-// TODO KF5
-// 		statusBar()->changeItem(QString(), ID_VIEW_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::ViewMode, QString());
 	}
 	else {
-// TODO KF5
-// 		statusBar()->changeItem(view->viewMode(), ID_VIEW_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::ViewMode, view->viewModeHuman());
 	}
 }
 
 void Kile::updateStatusBarInformationMessage(KTextEditor::View * /* view */, const QString &message)
 {
-// TODO KF5
-// 	statusBar()->showMessage(message, 5000);
+	statusBar()->showMessage(message, 5000);
 }
 
 void Kile::updateStatusBarSelection(KTextEditor::View *view)
 {
 	if(!view) {
-// TODO KF5
-// 		statusBar()->changeItem(QString(), ID_SELECTION_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::SelectionMode, QString());
 	}
 	else {
 		const QString text = view->blockSelection() ?
 					i18nc("@info:status status bar label for block selection mode", "BLOCK") + ' ' :
 					i18nc("@info:status status bar label for line selection mode", "LINE") + ' ';
-// TODO KF5
-// 		statusBar()->changeItem(text, ID_SELECTION_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::SelectionMode, text);
 	}
 }
 
 void Kile::handleDocumentParsingStarted()
 {
-// TODO KF5
-// 	statusBar()->changeItem(i18n("Refreshing structure..."), ID_PARSER_STATUS);
+	statusBar()->changeItem(KileWidget::StatusBar::ParserStatus, i18n("Refreshing structure..."));
 }
 
 void Kile::handleDocumentParsingComplete()
 {
-// TODO KF5
-// 	statusBar()->changeItem(QString(), ID_PARSER_STATUS);
+	statusBar()->changeItem(KileWidget::StatusBar::ParserStatus, QString());
 }
-

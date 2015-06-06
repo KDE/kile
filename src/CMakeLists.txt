@@ -40,6 +40,7 @@ set(kile_SRCS
 # 	docpart.cpp
 	symbolviewclasses.h
 	kile.cpp
+	widgets/statusbar.cpp
 	main.cpp
 	kileactions.cpp
 	kilestdactions.cpp

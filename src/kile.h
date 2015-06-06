@@ -51,12 +51,6 @@
 #include "quickpreview.h"
 #include "widgets/abbreviationview.h"
 
-#define ID_HINTTEXT         301
-#define ID_LINE_COLUMN      302
-#define ID_VIEW_MODE        303
-#define ID_SELECTION_MODE   304
-#define ID_PARSER_STATUS    305
-
 #define KILERC_VERSION 7
 
 class QFileInfo;
@@ -80,7 +74,15 @@ class KileAutoSaveJob;
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogWidget; class Output; class Konsole; class StructureWidget; class SideBar; class BottomBar; }
+namespace KileWidget {
+	class LogWidget;
+	class Output;
+	class Konsole;
+	class StructureWidget;
+	class SideBar;
+	class BottomBar;
+	class StatusBar;
+}
 
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem
@@ -100,6 +102,7 @@ public:
 	~Kile();
 
 	int lineNumber();
+	KileWidget::StatusBar * statusBar();
 
 public Q_SLOTS:
 	void setCursor(const QUrl &, int, int);
@@ -186,7 +189,6 @@ private:
 
 	/* actions */
 	void initSelectActions();
-	void setupStatusBar();
 	void setupSideBar();
 	void setupProjectView();
 	void setupStructureView();

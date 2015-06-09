@@ -886,9 +886,8 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
 		return;
 	}
 
-//TODO KF5
-	//sync terminal
-// 	m_ki->texKonsole()->sync();
+	// sync terminal
+	m_ki->texKonsole()->sync();
 
 	emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
 }

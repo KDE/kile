@@ -36,6 +36,7 @@
 #include <QMenu>
 
 #include <KComboBox>
+#include <KCompletion>
 #include <KLocalizedString>
 #include <KIconLoader>
 #include <KConfigGroup>
@@ -266,8 +267,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		KComboBox *input = new KComboBox(true, page);
 		mainLayout->addWidget(input);
 		input->setObjectName("input_dialog_input");
-//TODO KF5
-// 		input->setCompletionMode(KGlobalSettings::CompletionAuto);
+		input->setCompletionMode(KCompletion::CompletionAuto);
 		input->setMinimumWidth(300);
 		focus = input;
 

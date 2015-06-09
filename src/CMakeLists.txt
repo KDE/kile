@@ -90,8 +90,6 @@ set(kile_SRCS
 	dialogs/abbreviationinputdialog.cpp
 	kileextensions.cpp
 	widgets/categorycombobox.cpp
-	widgets/progressdialog.h
-	widgets/progressdialog.cpp
 	dialogs/scriptshortcutdialog.cpp
 	scripting/script.cpp
 	scripting/kilescriptview.cpp

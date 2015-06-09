@@ -22,6 +22,7 @@
 #include <QDir>
 #include <QDropEvent>
 #include <QFile>
+#include <QLabel>
 #include <QList>
 #include <QMimeData>
 #include <QTextCodec>
@@ -70,7 +71,6 @@
 #include "kiletoolmanager.h"
 #include "widgets/konsolewidget.h"
 #include "kileconfig.h"
-#include "widgets/progressdialog.h"
 #include "dialogs/cleandialog.h"
 #include "livepreview.h"
 #include "parser/parsermanager.h"
@@ -2433,10 +2433,12 @@ void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 
 void Manager::createProgressDialog()
 {
-	m_progressDialog = new KileWidget::ProgressDialog(m_ki->mainWindow(), i18n("Opening Project..."));
+	m_progressDialog = new QProgressDialog(m_ki->mainWindow());
+	QLabel *label = new QLabel(m_progressDialog);
+	label->setText(i18n("Opening Project..."));
+	m_progressDialog->setLabel(label);
+	m_progressDialog->setCancelButtonText(QString()); // empty string disables cancel button
 	m_progressDialog->setModal(true);
-//TODO KF5
-// 	m_progressDialog->setAllowCancel(false);
 	m_progressDialog->setLabelText(i18n("Scanning project files..."));
 	m_progressDialog->setAutoClose(true);
 	m_progressDialog->setMinimumDuration(2000);

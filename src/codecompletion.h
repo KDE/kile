@@ -51,28 +51,26 @@ namespace KileCodeCompletion
 			LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
 			                                      KileDocument::EditorExtension *editorExtension);
 			virtual ~LaTeXCompletionModel();
-
-			//TODO KF5
-			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
-			virtual QVariant data(const QModelIndex& index, int role) const;
-			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const Q_DECL_OVERRIDE;
+			virtual QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
+			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
 			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
-			                                   bool userInsertion, const KTextEditor::Cursor &position);
+			                                   bool userInsertion, const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
-			                                                            const QString &currentCompletion);
+			                                                            const QString &currentCompletion) Q_DECL_OVERRIDE;
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
-			                                                        InvocationType invocationType);
+			                                                        InvocationType invocationType) Q_DECL_OVERRIDE;
 			virtual KTextEditor::Range updateCompletionRange(KTextEditor::View *view,
-			                                                             const KTextEditor::Range& range);
+			                                                             const KTextEditor::Range& range) Q_DECL_OVERRIDE;
 			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
-			                                           const KTextEditor::Cursor &position);
+			                                           const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 			virtual QString filterString(KTextEditor::View *view,
 			                             const KTextEditor::Range &range,
-			                             const KTextEditor::Cursor &position);
+			                             const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 
 			virtual void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
-			                                                            const QModelIndex &index) const;
+			                                                            const QModelIndex &index) const Q_DECL_OVERRIDE;
 			QString filterLatexCommand(const QString &text, int &cursorYPos, int &cursorXPos);
 
 
@@ -105,26 +103,26 @@ namespace KileCodeCompletion
 			AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager);
 			virtual ~AbbreviationCompletionModel();
 
-			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
-			virtual QVariant data(const QModelIndex& index, int role) const;
-			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const Q_DECL_OVERRIDE;
+			virtual QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
+			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
 			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
-			                                   bool userInsertion, const KTextEditor::Cursor &position);
+			                                   bool userInsertion, const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
-			                                                            const QString &currentCompletion);
+			                                                            const QString &currentCompletion) Q_DECL_OVERRIDE;
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
-			                                                        InvocationType invocationType);
+			                                                        InvocationType invocationType) Q_DECL_OVERRIDE;
 			virtual KTextEditor::Range updateCompletionRange(KTextEditor::View *view,
-			                                                             const KTextEditor::Range& range);
+			                                                             const KTextEditor::Range& range) Q_DECL_OVERRIDE;
 			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
-			                                           const KTextEditor::Cursor &position);
+			                                           const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 			virtual QString filterString(KTextEditor::View *view,
 			                             const KTextEditor::Range &range,
-			                             const KTextEditor::Cursor &position);
+			                             const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 
 			virtual void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
-			                                                            const QModelIndex &index) const;
+			                                                            const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 		protected:
 			KileAbbreviation::Manager *m_abbreviationManager;

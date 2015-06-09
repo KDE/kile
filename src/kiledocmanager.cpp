@@ -1623,11 +1623,9 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 	QList<KileProjectItem*> list = kp->items();
 
 	int project_steps = list.count() + 1;
-//TODO KF5
-// 	m_progressDialog->progressBar()->setMaximum(project_steps * max);
+	m_progressDialog->setMaximum(project_steps * max);
 	project_steps *= step;
-//TODO KF5
-//	m_progressDialog->progressBar()->setValue(project_steps);
+	m_progressDialog->setValue(project_steps);
 
 	// open the project files in the correct order
 	QVector<KileProjectItem*> givenPositionVector(list.count(), Q_NULLPTR);
@@ -1672,8 +1670,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 	unsigned int counter = 0;
 	for (QList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
-//TODO KF5
-//		m_progressDialog->progressBar()->setValue(counter + project_steps);
+		m_progressDialog->setValue(counter + project_steps);
 		qApp->processEvents();
 		++counter;
 	}

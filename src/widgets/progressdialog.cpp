@@ -32,7 +32,7 @@ KileWidget::ProgressDialog::~ProgressDialog()
 void KileWidget::ProgressDialog::closeEvent(QCloseEvent *event)
 {
 	// only allow closing the dialog if progressbar is full
-	if (value() == maximum()) {
+	if (value() >= maximum()) {
 		QProgressDialog::closeEvent(event);
 	}
 	event->ignore();

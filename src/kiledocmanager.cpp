@@ -1617,8 +1617,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 	emit(addToRecentProjects(realurl));
 
 	QList<KileProjectItem*> list = kp->items();
-
-	int project_steps = list.count() + 1;
+	int project_steps = list.count();
 	m_progressDialog->setMaximum(project_steps * max);
 	project_steps *= step;
 	m_progressDialog->setValue(project_steps);
@@ -1663,7 +1662,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 		createTextInfoForProjectItem(*i);
 	}
 
-	unsigned int counter = 0;
+	unsigned int counter = 1;
 	for (QList<KileProjectItem*>::iterator i = orderedList.begin(); i != orderedList.end(); ++i) {
 		projectOpenItem(*i, openProjectItemViews);
 		m_progressDialog->setValue(counter + project_steps);
@@ -1679,14 +1678,9 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 	// update undefined references in all project files
 	updateProjectReferences(kp);
 
-	if (step == (max - 1)) {
-		m_progressDialog->hide();
-	}
-
 	m_ki->viewManager()->switchToTextView(kp->lastDocument());
 
 	emit(projectOpened(kp));
-
 }
 
 // as all labels are gathered in the project, we can check for unsolved references

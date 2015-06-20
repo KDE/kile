@@ -774,15 +774,9 @@ QString KileProject::findRelativePath(const QUrl &url)
 	if ( m_baseurl.toLocalFile() == url.toLocalFile() ) {
 		return "./";
 	}
-
-//TODO KF5
-//m_baseurl.adjustPath(QUrl::AddTrailingSlash);
-//TODO KF5
-// 	QString path = QUrl::relativeUrl(m_baseurl,url);
-// 	KILE_DEBUG_MAIN << "relPath is " << path;
-// 	return path;
-
-return url.path();
+	const QString path = QDir(m_baseurl.path()).relativeFilePath(url.path());
+	KILE_DEBUG_MAIN << "relPath is " << path;
+	return path;
 }
 
 bool KileProject::contains(const QUrl &url)

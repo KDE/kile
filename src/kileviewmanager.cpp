@@ -30,9 +30,12 @@
 #include <kio/pixmaploader.h>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KTextEditor/Application>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
+#include <KTextEditor/Editor>
 #include <KTextEditor/View>
+#include <KTextEditor/MainWindow>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 #include <QMenu>
@@ -1148,15 +1151,9 @@ void Manager::setActiveView(KTextEditor::View *view)
 	// NOTE: not implemented, because KatePart does not use it
 }
 
-KTextEditor::View *Manager::activeView()
+KTextEditor::View * Manager::activeView()
 {
-//TODO KF5
-// 	KTextEditor::Document *doc = m_ki->activeTextDocument();
-// 	if (doc) {
-// 		return doc->activeView();
-// 	}
-// 	return 0;
-return Q_NULLPTR;
+	return KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView();
 }
 
 KTextEditor::Document *Manager::createDocument()

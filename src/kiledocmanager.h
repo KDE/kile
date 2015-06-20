@@ -18,7 +18,6 @@
 #include <QDropEvent>
 #include <QObject>
 #include <QPointer>
-#include <QProgressDialog>
 #include <QStringList>
 
 #include <KTextEditor/Editor>
@@ -26,6 +25,7 @@
 
 #include "kileconstants.h"
 #include "kileproject.h"
+#include "widgets/progressdialog.h"
 
 class QUrl;
 class KFileItem;
@@ -282,7 +282,7 @@ private:
 	QList<TextInfo*>			m_textInfoList;
 	KileInfo				*m_ki;
 	QList<KileProject*>			m_projects;
-	QPointer<QProgressDialog>	m_progressDialog;
+	QPointer<KileWidget::ProgressDialog>	m_progressDialog;
 	unsigned int				m_autoSaveLock;
 	bool					m_currentlySavingAll, m_currentlyOpeningFile;
 

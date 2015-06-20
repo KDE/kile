@@ -2425,11 +2425,14 @@ void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)
 
 void Manager::createProgressDialog()
 {
-	m_progressDialog = new QProgressDialog(m_ki->mainWindow());
+	//TODO this is a dangerous dialog and should be removed in the long-term:
+	// the dialog disables all close events unless all files are loaded,
+	// thus if there is a loading error, the only way to abort loading gracefully is to
+	// terminate the application
+	m_progressDialog = new KileWidget::ProgressDialog(m_ki->mainWindow());
 	QLabel *label = new QLabel(m_progressDialog);
 	label->setText(i18n("Opening Project..."));
 	m_progressDialog->setLabel(label);
-	m_progressDialog->setCancelButtonText(QString()); // empty string disables cancel button
 	m_progressDialog->setModal(true);
 	m_progressDialog->setLabelText(i18n("Scanning project files..."));
 	m_progressDialog->setAutoClose(true);

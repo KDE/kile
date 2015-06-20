@@ -112,6 +112,7 @@ set(kile_SRCS
 	widgets/outputview.cpp
 	widgets/previewconfigwidget.cpp
 	widgets/previewwidget.cpp
+	widgets/progressdialog.cpp
 	widgets/projectview.cpp
 	widgets/scriptsmanagementwidget.cpp
 	widgets/sidebar.cpp

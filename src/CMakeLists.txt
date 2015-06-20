@@ -16,86 +16,30 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
 ########### next target ###############
 
 set(kile_SRCS
-	latexcmd.cpp
-	dialogs/latexcommanddialog.cpp
-	dialogs/texdocumentationdialog.cpp
-	userhelp.cpp
-	dialogs/userhelpdialog.cpp
-	dialogs/floatdialog.cpp
-	dialogs/mathenvironmentdialog.cpp
-	dialogs/postscriptdialog.cpp
-	dialogs/pdf-wizard/pdfdialog.cpp
-	widgets/previewconfigwidget.cpp
-	quickpreview.cpp
-	dialogs/includegraphicsdialog.cpp
-	dialogs/newfilewizard.cpp
-	dialogs/managetemplatesdialog.cpp
-	templates.cpp
-	dialogs/configurationdialog.cpp
-	dialogs/tabbingdialog.cpp
-	widgets/symbolview.cpp
-	widgets/commandview.cpp
-	dialogs/quickdocumentdialog.cpp
-	widgets/filebrowserwidget.cpp
-# 	docpart.cpp
-	symbolviewclasses.h
-	kile.cpp
-	widgets/statusbar.cpp
-	main.cpp
-	kileactions.cpp
-	kilestdactions.cpp
-	kileinfo.cpp
-	documentinfo.cpp
-	kileproject.cpp
-	dialogs/projectdialogs.cpp
-	widgets/projectview.cpp
-	dialogs/listselector.cpp
-	kilelyxserver.cpp
-	outputinfo.cpp
-	dialogs/findfilesdialog.cpp
-	kiletool.cpp
-	tool_utils.cpp
-	kilelauncher.cpp
-	kiletoolmanager.cpp
-	kilestdtools.cpp
-	widgets/logwidget.cpp
-	widgets/outputview.cpp
-	widgets/konsolewidget.cpp
-	kilewizard.cpp
-	widgets/structurewidget.cpp
-	widgets/codecompletionconfigwidget.cpp
-	widgets/toolconfigwidget.cpp
-	editorextension.cpp
-	dialogs/cleandialog.cpp
-	kilehelp.cpp
-	convert.cpp
-	kiledocmanager.cpp
-	kileviewmanager.cpp
-	eventfilter.cpp
-	errorhandler.cpp
-	livepreview.cpp
-	dialogs/configcheckerdialog.cpp
+	abbreviationmanager.cpp
+	codecompletion.cpp
 	configtester.cpp
-	widgets/sidebar.cpp
-	plaintolatexconverter.cpp
-	dialogs/statisticsdialog.cpp
-	widgets/statisticswidget.cpp
-	widgets/previewwidget.cpp
-	widgets/scriptsmanagementwidget.h
-	widgets/scriptsmanagementwidget.cpp
-	editorkeysequencemanager.h
-	editorkeysequencemanager.cpp
-	kileversion.cpp
-	widgets/abbreviationview.cpp
+	configurationmanager.cpp
+	convert.cpp
 	dialogs/abbreviationinputdialog.cpp
-	kileextensions.cpp
-	widgets/categorycombobox.cpp
+	dialogs/cleandialog.cpp
+	dialogs/configcheckerdialog.cpp
+	dialogs/configurationdialog.cpp
+	dialogs/findfilesdialog.cpp
+	dialogs/floatdialog.cpp
+	dialogs/includegraphicsdialog.cpp
+	dialogs/latexcommanddialog.cpp
+	dialogs/listselector.cpp
+	dialogs/managetemplatesdialog.cpp
+	dialogs/mathenvironmentdialog.cpp
+	dialogs/newfilewizard.cpp
+	dialogs/pdf-wizard/pdfdialog.cpp
+	dialogs/postscriptdialog.cpp
+	dialogs/projectdialogs.cpp
+	dialogs/quickdocumentdialog.cpp
 	dialogs/scriptshortcutdialog.cpp
-	scripting/script.cpp
-	scripting/kilescriptview.cpp
-	scripting/kilescriptdocument.cpp
-	scripting/kilescriptobject.cpp
-	scriptmanager.cpp
+	dialogs/statisticsdialog.cpp
+	dialogs/tabbingdialog.cpp
 # 	dialogs/tabular/multicolumnborderhelper.cpp
 # 	dialogs/tabular/newtabulardialog.cpp
 # 	dialogs/tabular/selectcoloraction.cpp
@@ -105,77 +49,131 @@ set(kile_SRCS
 # 	dialogs/tabular/tabularheaderitem.cpp
 # 	dialogs/tabular/tabularproperties.cpp
 # 	dialogs/tabular/tabulartable.cpp
-	configurationmanager.cpp
-	utilities.cpp
-	abbreviationmanager.cpp
-	editorcommands.cpp
+	dialogs/texdocumentationdialog.cpp
+	dialogs/userhelpdialog.cpp
 	dialogs/usermenu/usermenudialog.cpp
 	dialogs/usermenu/usermenuitem.cpp
 	dialogs/usermenu/usermenutree.cpp
-	usermenu/usermenudata.cpp
-	usermenu/usermenu.cpp
-	parser/parsermanager.cpp
-	parser/parserthread.cpp
-	parser/parser.cpp
-	parser/latexparser.cpp
+# 	docpart.cpp
+	documentinfo.cpp
+	editorcommands.cpp
+	editorextension.cpp
+	editorkeysequencemanager.cpp
+	errorhandler.cpp
+	eventfilter.cpp
+	kileactions.cpp
+	kile.cpp
+	kiledocmanager.cpp
+	kileextensions.cpp
+	kilehelp.cpp
+	kileinfo.cpp
+	kilelauncher.cpp
+	kilelyxserver.cpp
+	kileproject.cpp
+	kilestdactions.cpp
+	kilestdtools.cpp
+	kiletool.cpp
+	kiletoolmanager.cpp
+	kileversion.cpp
+	kileviewmanager.cpp
+	kilewizard.cpp
+	latexcmd.cpp
+	livepreview.cpp
+	livepreview_utils.cpp
+	main.cpp
+	outputinfo.cpp
 	parser/bibtexparser.cpp
 	parser/latexoutputparser.cpp
-	livepreview_utils.cpp
-	codecompletion.cpp
+	parser/latexparser.cpp
+	parser/parser.cpp
+	parser/parsermanager.cpp
+	parser/parserthread.cpp
+	plaintolatexconverter.cpp
+	quickpreview.cpp
+	scripting/kilescriptdocument.cpp
+	scripting/kilescriptobject.cpp
+	scripting/kilescriptview.cpp
+	scripting/script.cpp
+	scriptmanager.cpp
+	symbolviewclasses.h
+	templates.cpp
+	tool_utils.cpp
+	userhelp.cpp
+	usermenu/usermenu.cpp
+	usermenu/usermenudata.cpp
+	utilities.cpp
+	widgets/abbreviationview.cpp
+	widgets/categorycombobox.cpp
+	widgets/codecompletionconfigwidget.cpp
+	widgets/commandview.cpp
+	widgets/filebrowserwidget.cpp
+	widgets/konsolewidget.cpp
+	widgets/logwidget.cpp
+	widgets/outputview.cpp
+	widgets/previewconfigwidget.cpp
+	widgets/previewwidget.cpp
+	widgets/projectview.cpp
+	widgets/scriptsmanagementwidget.cpp
+	widgets/sidebar.cpp
+	widgets/statisticswidget.cpp
+	widgets/statusbar.cpp
+	widgets/structurewidget.cpp
+	widgets/symbolview.cpp
+	widgets/toolconfigwidget.cpp
 )
 
 set(kile_UI
-	widgets/codecompletionconfigwidget.ui
-	widgets/helpconfigwidget.ui
-	widgets/latexconfigwidget.ui
-	widgets/generalconfigwidget.ui
-	widgets/configcheckerwidget.ui
-	widgets/maintoolconfigwidget.ui
-	widgets/librarytoolconfigwidget.ui
-	widgets/processtoolconfigwidget.ui
-	widgets/quicktoolconfigwidget.ui
-	widgets/latextoolconfigwidget.ui
-	dialogs/newtoolwizard_class_page.ui
-	dialogs/newtoolwizard_toolname_page.ui
-	widgets/environmentconfigwidget.ui
-	widgets/structureviewconfigwidget.ui
-	widgets/symbolviewconfigwidget.ui
-	widgets/scriptingconfigwidget.ui
-	widgets/graphicsconfigwidget.ui
-	widgets/newdocumentwidget.ui
-	widgets/usermenuconfigwidget.ui
-	dialogs/tabbingdialog_base.ui
 	dialogs/floatdialog_base.ui
-	dialogs/postscriptdialog_base.ui
-	dialogs/pdf-wizard/pdfdialog_base.ui
 	dialogs/includegraphicsdialog_base.ui
 	dialogs/latexcommanddialog_base.ui
-	dialogs/usermenu/usermenudialog_base.ui
-	widgets/livepreviewconfigwidget.ui
-	widgets/appearanceconfigwidget.ui
+	dialogs/newtoolwizard_class_page.ui
+	dialogs/newtoolwizard_toolname_page.ui
+	dialogs/pdf-wizard/pdfdialog_base.ui
+	dialogs/postscriptdialog_base.ui
 	dialogs/scriptshortcutdialog_base.ui
+	dialogs/tabbingdialog_base.ui
+	dialogs/usermenu/usermenudialog_base.ui
+	widgets/appearanceconfigwidget.ui
+	widgets/codecompletionconfigwidget.ui
+	widgets/configcheckerwidget.ui
+	widgets/environmentconfigwidget.ui
+	widgets/generalconfigwidget.ui
+	widgets/graphicsconfigwidget.ui
+	widgets/helpconfigwidget.ui
+	widgets/latexconfigwidget.ui
+	widgets/latextoolconfigwidget.ui
+	widgets/librarytoolconfigwidget.ui
+	widgets/livepreviewconfigwidget.ui
+	widgets/maintoolconfigwidget.ui
+	widgets/newdocumentwidget.ui
+	widgets/processtoolconfigwidget.ui
+	widgets/quicktoolconfigwidget.ui
+	widgets/scriptingconfigwidget.ui
+	widgets/structureviewconfigwidget.ui
+	widgets/symbolviewconfigwidget.ui
+	widgets/usermenuconfigwidget.ui
 )
 
 set(kile_UI_SRCS
+	dialogs/newtoolwizard.cpp
+	widgets/appearanceconfigwidget.cpp
 	widgets/configcheckerwidget.cpp
 	widgets/environmentconfigwidget.cpp
-	widgets/graphicsconfigwidget.cpp
 	widgets/generalconfigwidget.cpp
+	widgets/graphicsconfigwidget.cpp
 	widgets/helpconfigwidget.cpp
 	widgets/latexconfigwidget.cpp
 	widgets/latextoolconfigwidget.cpp
 	widgets/librarytoolconfigwidget.cpp
+	widgets/livepreviewconfigwidget.cpp
+	widgets/maintoolconfigwidget.cpp
 	widgets/newdocumentwidget.cpp
-	dialogs/newtoolwizard.cpp
 	widgets/processtoolconfigwidget.cpp
 	widgets/quicktoolconfigwidget.cpp
 	widgets/scriptingconfigwidget.cpp
 	widgets/structureviewconfigwidget.cpp
 	widgets/symbolviewconfigwidget.cpp
-	widgets/maintoolconfigwidget.cpp
 	widgets/usermenuconfigwidget.cpp
-	widgets/livepreviewconfigwidget.cpp
-	widgets/appearanceconfigwidget.cpp
 )
 
 set(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})

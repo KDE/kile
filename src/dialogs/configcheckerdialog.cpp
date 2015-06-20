@@ -14,19 +14,19 @@
 
 #include "dialogs/configcheckerdialog.h"
 
+#include <QFileDialog>
 #include <QFileInfo>
+#include <QItemDelegate>
 #include <QLabel>
 #include <QLayout>
-#include <QItemDelegate>
 #include <QPainter>
+#include <QProgressDialog>
+#include <QPushButton>
 #include <QTextDocument>
 
-#include <KCursor>
-#include <QFileDialog>
+#include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <QProgressDialog>
-#include <KConfigGroup>
 
 #include <config.h>
 #include "kiledebug.h"
@@ -97,9 +97,9 @@ ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int st
 }
 
 ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
-: KAssistantDialog(parent),
-  m_ki(kileInfo),
-  m_tester(Q_NULLPTR)
+	: KAssistantDialog(parent)
+	, m_ki(kileInfo)
+	, m_tester(Q_NULLPTR)
 {
 	// don't show the 'help' button in the title bar
 	setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
@@ -152,10 +152,10 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
 	vboxLayout->addStretch();
 
 	m_testResultsPageWidgetItem = addPage(testResultsWidget, i18n("Test Results"));
-//TODO KF5
-// 	user1Button->setVisible(false);
-// 	user3Button->setVisible(false);
-// 	buttonBox->button(QDialogButtonBox::Help)->setVisible(false);
+
+	finishButton()->setVisible(false);
+	backButton()->setVisible(false);
+	buttonBox()->button(QDialogButtonBox::Help)->setVisible(false);
 
 	m_listWidget->setAlternatingRowColors(true);
 	m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
@@ -169,8 +169,7 @@ ConfigChecker::~ConfigChecker()
 void ConfigChecker::next()
 {
 	setCurrentPage(m_runningTestsPageWidgetItem);
-//TODO KF5
-// 	user2Button->setEnabled(false);
+	nextButton()->setEnabled(false);
 	run();
 }
 
@@ -181,8 +180,7 @@ void ConfigChecker::run()
 	connect(m_tester, SIGNAL(started()), this, SLOT(started()));
 	connect(m_tester, SIGNAL(percentageDone(int)), this, SLOT(setPercentageDone(int)));
 	connect(m_tester, SIGNAL(finished(bool)), this, SLOT(finished(bool)));
-//TODO KF5
-// 	connect(user1Button, SIGNAL(clicked()), this, SLOT(assistantFinished()));
+	connect(finishButton(), SIGNAL(clicked()), this, SLOT(assistantFinished()));
 
 	m_tester->runTests();
 }
@@ -203,9 +201,9 @@ void ConfigChecker::finished(bool ok)
 {
 	setCurrentPage(m_testResultsPageWidgetItem);
 	setCursor(Qt::ArrowCursor);
-// TODO KF5
-// 	user2Button->setVisible(false);
-// 	user1Button->setVisible(true);
+
+	nextButton()->setVisible(false);
+	finishButton()->setVisible(true);
 	QString testResultText = "<br/>";
 
 	QStringList tools = m_tester->testGroups();
@@ -278,9 +276,8 @@ void ConfigChecker::finished(bool ok)
 		testResultText += "<br/><br/>";
 
 		m_overallResultLabel->setText(testResultText);
-//TODO KF5
-// 		okButton->setEnabled(true);
-// 		user1Button->setEnabled(true);
+
+		finishButton()->setEnabled(true);
 	}
 	else {
 		// start by hiding all the labels
@@ -295,9 +292,7 @@ void ConfigChecker::finished(bool ok)
 
 		m_overallResultLabel->setText(i18n("<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
 		                                   "Please check the available disk space.</b></font>"));
-//TODO KF5
-// 		okButton->setEnabled(true);
-// 		user1Button->setEnabled(false);
+		finishButton()->setEnabled(false);
 	}
 }
 
@@ -326,4 +321,3 @@ void ConfigChecker::setPercentageDone(int p)
 }
 
 }
-

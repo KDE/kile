@@ -23,8 +23,8 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QDebug>
 
-#include <KDebug>
 #include <KLocalizedString>
 #include <KMessageBox>
 

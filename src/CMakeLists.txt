@@ -40,15 +40,15 @@ set(kile_SRCS
 	dialogs/scriptshortcutdialog.cpp
 	dialogs/statisticsdialog.cpp
 	dialogs/tabbingdialog.cpp
-# 	dialogs/tabular/multicolumnborderhelper.cpp
-# 	dialogs/tabular/newtabulardialog.cpp
-# 	dialogs/tabular/selectcoloraction.cpp
-# 	dialogs/tabular/selectframeaction.cpp
-# 	dialogs/tabular/tabularcell.cpp
-# 	dialogs/tabular/tabularcelldelegate.cpp
-# 	dialogs/tabular/tabularheaderitem.cpp
-# 	dialogs/tabular/tabularproperties.cpp
-# 	dialogs/tabular/tabulartable.cpp
+	dialogs/tabular/multicolumnborderhelper.cpp
+	dialogs/tabular/newtabulardialog.cpp
+	dialogs/tabular/selectcoloraction.cpp
+	dialogs/tabular/selectframeaction.cpp
+	dialogs/tabular/tabularcell.cpp
+	dialogs/tabular/tabularcelldelegate.cpp
+	dialogs/tabular/tabularheaderitem.cpp
+	dialogs/tabular/tabularproperties.cpp
+	dialogs/tabular/tabulartable.cpp
 	dialogs/texdocumentationdialog.cpp
 	dialogs/userhelpdialog.cpp
 	dialogs/usermenu/usermenudialog.cpp

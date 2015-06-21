@@ -87,7 +87,7 @@
 #include "widgets/sidebar.h"
 #include "dialogs/floatdialog.h"
 #include "dialogs/mathenvironmentdialog.h"
-//include "dialogs/tabular/newtabulardialog.h"
+#include "dialogs/tabular/newtabulardialog.h"
 #include "dialogs/postscriptdialog.h"
 #include "dialogs/pdf-wizard/pdfdialog.h"
 #include "latexcmd.h"
@@ -2292,30 +2292,29 @@ void Kile::quickTabular()
 	quickTabulardialog(true);
 }
 
-//TODO KF5
 void Kile::quickTabulardialog(bool tabularenv)
 {
-// 	if(!viewManager()->currentTextView()) {
-// 		return;
-// 	}
-// 
-// 	QString env;
-// 	if(tabularenv) {
-// 		KConfigGroup group = m_config->group("Wizard");
-// 		env = group.readEntry("TabularEnvironment", "tabular");
-// 	} else {
-// 		env = "array";
-// 	}
-// 
-// 	KileDialog::NewTabularDialog dlg(env, m_latexCommands, m_config.data(), this);
-// 	if(dlg.exec()) {
-// 		insertTag(dlg.tagData(), dlg.requiredPackages());
-// 		if(tabularenv) {
-// 			KConfigGroup group = m_config->group("Wizard");
-// 			group.writeEntry("TabularEnvironment", dlg.environment());
-// 			m_config->sync();
-// 		}
-// 	}
+	if(!viewManager()->currentTextView()) {
+		return;
+	}
+
+	QString env;
+	if(tabularenv) {
+		KConfigGroup group = m_config->group("Wizard");
+		env = group.readEntry("TabularEnvironment", "tabular");
+	} else {
+		env = "array";
+	}
+
+	KileDialog::NewTabularDialog dlg(env, m_latexCommands, m_config.data(), this);
+	if(dlg.exec()) {
+		insertTag(dlg.tagData(), dlg.requiredPackages());
+		if(tabularenv) {
+			KConfigGroup group = m_config->group("Wizard");
+			group.writeEntry("TabularEnvironment", dlg.environment());
+			m_config->sync();
+		}
+	}
 }
 
 void Kile::quickTabbing()

@@ -16,30 +16,21 @@
 #ifndef SELECTCOLORACTION_H
 #define SELECTCOLORACTION_H
 
-#include <KToolBarPopupAction>
-
-class KColorCells;
-class QPushButton;
+#include <QAction>
 
 namespace KileDialog {
 
-class SelectColorAction : public KToolBarPopupAction {
+class SelectColorAction : public QAction {
 	Q_OBJECT
 
-	public:
-		SelectColorAction(const KIcon &icon, const QString &text, QWidget *parent);
+public:
+	SelectColorAction(const QIcon &icon, const QString &text, QWidget *parent);
 
-	private Q_SLOTS:
-		void slotPopupAboutToShow();
-		void slotColorSelected(int index, const QColor &color);
-		void slotCustomClicked();
+private Q_SLOTS:
+	void showDialog();
 
-	Q_SIGNALS:
-		void colorSelected(const QColor &color);
-
-	private:
-		KColorCells *m_ccColors;
-		QPushButton *m_pbCustom;
+Q_SIGNALS:
+	void colorSelected(const QColor &color);
 };
 
 }

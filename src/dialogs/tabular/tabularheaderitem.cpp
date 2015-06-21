@@ -16,9 +16,9 @@
 #include "tabularheaderitem.h"
 
 #include <QAction>
+#include <QIcon>
 #include <QMenu>
 
-#include <QIcon>
 #include <KLocalizedString>
 
 namespace KileDialog {
@@ -149,7 +149,7 @@ void TabularHeaderItem::format()
 	setText(text);
 }
 
-inline KIcon TabularHeaderItem::iconForAlignment(int alignment) const
+inline QIcon TabularHeaderItem::iconForAlignment(int alignment) const
 {
 	switch(alignment) {
 		case Qt::AlignLeft:
@@ -159,7 +159,7 @@ inline KIcon TabularHeaderItem::iconForAlignment(int alignment) const
 		case Qt::AlignRight:
 			return QIcon::fromTheme("format-justify-right");
 		default:
-			return QIcon::fromTheme();
+			return QIcon();
 	}
 }
 

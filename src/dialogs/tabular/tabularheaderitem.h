@@ -19,9 +19,8 @@
 #include <QTableWidgetItem>
 
 class QAction;
+class QIcon;
 class QMenu;
-
-class KIcon;
 
 namespace KileDialog {
 
@@ -48,7 +47,7 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 
 	private:
 		void format();
-		KIcon iconForAlignment(int alignment) const;
+		QIcon iconForAlignment(int alignment) const;
 
 	private Q_SLOTS:
 		void slotAlignLeft();

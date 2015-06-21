@@ -246,7 +246,7 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
 //END
 
 SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
-	: KToolBarPopupAction(QIcon::fromTheme(), text, parent),
+	: KToolBarPopupAction(QIcon(), text, parent),
 	  m_Parent(parent),
 	  m_CurrentBorder(TabularCell::None)
 {
@@ -261,7 +261,6 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	QWidget *buttonBox = new QWidget(page);
 	QHBoxLayout *buttonBoxLayout = new QHBoxLayout();
 	buttonBoxLayout->setMargin(0);
-//TODO PORT QT5 	buttonBoxLayout->setSpacing(QDialog::spacingHint());
 	buttonBox->setLayout(buttonBoxLayout);
 
 	m_pbNone = new QToolButton(buttonBox);
@@ -284,7 +283,6 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	QWidget *frameWidget = new QWidget(page);
 	QHBoxLayout *frameWidgetLayout = new QHBoxLayout();
 	frameWidgetLayout->setMargin(0);
-//TODO PORT QT5 	frameWidgetLayout->setSpacing(QDialog::spacingHint());
 	frameWidget->setLayout(frameWidgetLayout);
 
 	m_FrameWidget = new TabularFrameWidget(frameWidget);
@@ -301,7 +299,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 
 	QWidgetAction *widgetAction = new QWidgetAction(this);
 	widgetAction->setDefaultWidget(page);
-	popupMenu()->addAction(widgetAction);
+	menu()->addAction(widgetAction);
 
 	connect(this, SIGNAL(triggered(bool)),
 	        this, SLOT(slotTriggered()));
@@ -372,8 +370,7 @@ void SelectFrameAction::slotDoneClicked()
 		setIcon(generateIcon());
 	}
 	emit borderSelected(newBorder);
-	popupMenu()->hide();
+	menu()->hide();
 }
 
 }
-

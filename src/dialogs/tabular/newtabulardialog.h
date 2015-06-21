@@ -22,6 +22,8 @@
 
 class QAction;
 class QCheckBox;
+class QComboBox;
+class QIcon;
 class QLineEdit;
 class QMenu;
 class QPushButton;
@@ -29,9 +31,7 @@ class QSpinBox;
 class QTableWidget;
 class QToolBar;
 
-class KColorCells;
 class KComboBox;
-class KIcon;
 
 namespace KileDocument {
 	class LatexCommands;
@@ -57,8 +57,8 @@ class NewTabularDialog : public Wizard {
 
 	private:
 		void initEnvironments();
-		QAction * addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent = Q_NULLPTR);
-		QAction * addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = Q_NULLPTR);
+		QAction * addAction(const QIcon &icon, const QString &text, const char *method, QObject *parent = Q_NULLPTR);
+		QAction * addAction(const QIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent = Q_NULLPTR);
 		void alignItems(int alignment);
 		bool checkForColumnAlignment(int column);
 		QIcon generateColorIcon(bool background) const;
@@ -66,7 +66,7 @@ class NewTabularDialog : public Wizard {
 
 	public Q_SLOTS:
 		int exec();
-		void slotButtonClicked(int button);
+		void slotAccepted();
 
 	private Q_SLOTS:
 		void updateColsAndRows();
@@ -106,7 +106,7 @@ class NewTabularDialog : public Wizard {
 		SelectColorAction *m_acBackground, *m_acForeground;
 		QToolBar *m_tbFormat;
 		TabularTable *m_Table;
-		KComboBox *m_cmbName, *m_cmbParameter;
+		QComboBox *m_cmbName, *m_cmbParameter;
 		QSpinBox *m_sbRows, *m_sbCols;
 		QCheckBox *m_cbStarred, *m_cbCenter, *m_cbBooktabs, *m_cbBullets;
 		QLineEdit *m_leTableWidth;

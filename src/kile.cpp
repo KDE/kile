@@ -49,6 +49,7 @@
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 #include <KWindowSystem>
+#include <KParts/BrowserExtension>
 
 #if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
@@ -1747,21 +1748,18 @@ void Kile::activePartGUI(KParts::Part *part)
 	//manually plug the print action into the toolbar for
 	//kghostview (which has the print action defined in
 	//a KParts::BrowserExtension)
-// TODO KF5
-// 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-
-// TODO KF5
-// 	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) { //part is a BrowserExtension, connect printAction()
-// 		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
-// 		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
-// 		m_paPrint->setEnabled(true);
-// 	}
-// 	else {
-// 		if (m_paPrint->associatedWidgets().contains(toolBar("mainToolBar"))) {
-// 			toolBar("mainToolBar")->removeAction(m_paPrint);
-// 		}
-// 		m_paPrint->setEnabled(false);
-// 	}
+	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
+	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) { //part is a BrowserExtension, connect printAction()
+		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
+		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
+		m_paPrint->setEnabled(true);
+	}
+	else {
+		if (m_paPrint->associatedWidgets().contains(toolBar("mainToolBar"))) {
+			toolBar("mainToolBar")->removeAction(m_paPrint);
+		}
+		m_paPrint->setEnabled(false);
+	}
 
 	createGUI(part);
 	updateUserDefinedMenus();

@@ -229,43 +229,29 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	: QDialog (parent), m_ki(ki)
 {
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-	QWidget *mainWidget = new QWidget(this);
+
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
-	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-	okButton->setDefault(true);
-	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	okButton->setDefault(true);
 	setObjectName(name);
 
 	QString newcaption = caption;
 	setWindowTitle(newcaption.remove('&'));
 
-	m_labelprefix = ( newcaption == "chapter" ) ? "chap:" : "sec:";
-
+	m_labelprefix = (newcaption == "chapter") ? "chap:" : "sec:";
 	m_usedSelection = false;
 
+	QGridLayout *gbox = new QGridLayout(this);
 	QWidget *page = new QWidget(this);
+	page->setLayout(gbox);
 	mainLayout->addWidget(page);
-	QGridLayout *gbox = new QGridLayout(page);
-//TODO KF5
-// 	mainLayout->addWidget(gbox);
 
-	QLabel *lb = new QLabel(hint, page);
-	mainLayout->addWidget(lb);
+	QLabel *lb = new QLabel(hint, this);
 	gbox->addWidget(lb, 0, 0, 1, 3);
 
 	m_tag.clear();
 	QWidget *focus;
 	if((options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList)) {
-		KComboBox *input = new KComboBox(true, page);
-		mainLayout->addWidget(input);
+		KComboBox *input = new KComboBox(true, this);
 		input->setObjectName("input_dialog_input");
 		input->setCompletionMode(KCompletion::CompletionAuto);
 		input->setMinimumWidth(300);
@@ -304,8 +290,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		}
 	}
 	else {
-		QLineEdit *input = new QLineEdit(page);
-		mainLayout->addWidget(input);
+		QLineEdit *input = new QLineEdit(this);
+		gbox->addWidget(input);
 		input->setMinimumWidth(300);
 		focus = input;
 
@@ -327,7 +313,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	}
 
 	if(options & KileAction::ShowBrowseButton) {
-		QPushButton *pbutton = new QPushButton("", page);
+		QPushButton *pbutton = new QPushButton(QString(), this);
 		mainLayout->addWidget(pbutton);
 		pbutton->setIcon(QIcon::fromTheme("document-open"));
 		gbox->addWidget(pbutton, 1, 2);
@@ -337,7 +323,7 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	}
 
 	if(options & KileAction::ShowAlternative) {
-		QCheckBox *m_checkbox = new QCheckBox(alter, page);
+		QCheckBox *m_checkbox = new QCheckBox(alter, this);
 		mainLayout->addWidget(m_checkbox);
 		m_checkbox->setObjectName("input_dialog_checkbox");
 		connect(m_checkbox, SIGNAL(clicked()), this, SLOT(slotAltClicked()));
@@ -349,9 +335,9 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	m_useLabel = (options & KileAction::ShowLabel);
 	if(m_useLabel) {
 		// Label
-		QLabel *label = new QLabel(i18n("&Label:"),page);
+		QLabel *label = new QLabel(i18n("&Label:"),this);
 		mainLayout->addWidget(label);
-		m_edLabel = new QLineEdit(page);
+		m_edLabel = new QLineEdit(this);
 		mainLayout->addWidget(m_edLabel);
 		m_edLabel->setMinimumWidth(300);
 		m_edLabel->setText(m_labelprefix);
@@ -364,6 +350,15 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 	gbox->setRowStretch(5, 1);
 	gbox->setColumnStretch(0, 1);
+
+	// add buttons
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	mainLayout->addWidget(buttonBox);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
 	focus->setFocus();
 }

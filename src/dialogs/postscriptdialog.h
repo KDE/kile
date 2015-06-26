@@ -64,7 +64,7 @@ class PostscriptDialog : public QDialog
 
 	private Q_SLOTS:
 		void comboboxChanged(int index);
-		void slotButtonClicked(int button);
+		void slotExecuteClicked();
 		void slotProcessOutput();
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 

@@ -60,18 +60,12 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 {	
 	setWindowTitle(i18n("Rearrange Postscript File"));
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+
 	QWidget *mainWidget = new QWidget(this);
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
 	mainLayout->addWidget(mainWidget);
-	QPushButton *user1Button = new QPushButton;
-	buttonBox->addButton(user1Button, QDialogButtonBox::ActionRole);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	user1Button->setDefault(true);
+
 
 	// determine if a psfile already exists
 	QString psfilename,psoutfilename;
@@ -152,39 +146,47 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
 	m_PostscriptDialog.m_cbTask->setCurrentIndex(PS_2xA4);
 	comboboxChanged(PS_2xA4);
 
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Close);
+	QPushButton *executeButton = new QPushButton;
+	buttonBox->addButton(executeButton, QDialogButtonBox::ActionRole);
+
 	// set an user button to execute the task
 	buttonBox->button(QDialogButtonBox::Close)->setText(i18n("Done"));
-	user1Button->setText(i18n("Execute"));
-	user1Button->setIcon(QIcon::fromTheme("system-run"));
+	executeButton->setText(i18n("Execute"));
+	executeButton->setIcon(QIcon::fromTheme("system-run"));
 	if (!pstops && !psselect)
-		user1Button->setEnabled(false);
-
-	// some connections
-	connect(m_PostscriptDialog.m_cbTask, SIGNAL(activated(int)), this, SLOT(comboboxChanged(int)));
-	connect(this, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
+		executeButton->setEnabled(false);
 
 	setFocusProxy(m_PostscriptDialog.m_edInfile);
 	m_PostscriptDialog.m_edInfile->setFocus();
+
+	mainLayout->addWidget(buttonBox);
+	executeButton->setDefault(true);
+	mainLayout->addWidget(buttonBox);
+	connect(buttonBox, &QDialogButtonBox::accepted,
+		this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected,
+		this, &QDialog::reject);
+	connect(executeButton, &QPushButton::clicked,
+		this, &PostscriptDialog::slotExecuteClicked);
+	connect(m_PostscriptDialog.m_cbTask, static_cast<void (QComboBox::*)(int)>(&KComboBox::activated),
+		this, &PostscriptDialog::comboboxChanged);
+	connect(this, &PostscriptDialog::output, m_output,
+		&KileWidget::OutputView::receive);
 }
 
 PostscriptDialog::~PostscriptDialog()
 {
-	if (m_proc)
+	if (m_proc) {
 		delete m_proc;
+	}
 }
 
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void PostscriptDialog::slotButtonClicked(int button)
+void PostscriptDialog::slotExecuteClicked()
 {
-// 	if (button == User1) {
-// 		if (checkParameter()) {
-// 			execute();
-// 		}
-// 	}
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// 	QDialog::slotButtonClicked(button);
+	if (checkParameter()) {
+		execute();
+	}
 }
 
 void PostscriptDialog::execute()
@@ -494,4 +496,3 @@ void PostscriptDialog::showError(const QString &text)
 }
 
 }
-

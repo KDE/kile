@@ -109,6 +109,15 @@ QuickDocument::QuickDocument(KConfig *config, QWidget *parent, const char *name,
 	tabWidget->addTab(setupPackages(tabWidget), i18n("&Packages"));
 	tabWidget->addTab(setupProperties(tabWidget), i18n("&Document Properties"));
 
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &QuickDocument::slotAccepted);
+	mainLayout->addWidget(buttonBox);
+
 	// read config file
 	readConfig();
 	m_lvClassOptions->resizeColumnToContents(0);
@@ -127,16 +136,12 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 
 	QWidget *classOptions = new QWidget(tab);
 	QGridLayout *gl = new QGridLayout();
-//TODO KF5
-// 	gl->setMargin(marginHint());
-// 	gl->setSpacing(spacingHint());
 	classOptions->setLayout(gl);
 
 	// Document classes
 	m_cbDocumentClass = new KileWidget::CategoryComboBox(classOptions);
 	m_cbDocumentClass->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
 	m_cbDocumentClass->setDuplicatesEnabled(false);
-// m_cbDocumentClass->listBox()->setVariableHeight(true);
 	gl->addWidget(m_cbDocumentClass, 0, 1);
 	connect(m_cbDocumentClass, SIGNAL(activated(int)), this, SLOT(slotDocumentClassChanged(int)));
 
@@ -235,8 +240,6 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
 	QWidget *frame = new QWidget(classOptions);
 	QHBoxLayout *hl = new QHBoxLayout();
 	hl->setMargin(0);
-//TODO KF5
-// 	hl->setSpacing(spacingHint());
 	frame->setLayout(hl);
 	gl->addWidget(frame, 5, 1, 1, 3, Qt::AlignCenter);
 
@@ -267,9 +270,6 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 
 	QWidget *packages = new QWidget(tab);
 	QVBoxLayout *vl = new QVBoxLayout();
-//TODO KF5
-// 	vl->setMargin(marginHint());
-// 	vl->setSpacing(spacingHint());
 	packages->setLayout(vl);
 
 	QLabel *label = new QLabel(i18n("LaTe&X packages:"), packages);
@@ -294,8 +294,6 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
 	vl->addWidget(frame);
 	QHBoxLayout *hl = new QHBoxLayout();
 	hl->setMargin(0);
-//TODO KF5
-// 	hl->setSpacing(spacingHint());
 	frame->setLayout(hl);
 	hl->addStretch();
 
@@ -337,15 +335,10 @@ QWidget *QuickDocument::setupProperties(QTabWidget *tab)
 	QWidget *personalInfoPage = new QWidget(tab);
 	QVBoxLayout *vl = new QVBoxLayout();
 	vl->setMargin(0);
-//TODO KF5
-// 	vl->setSpacing(spacingHint());
 	personalInfoPage->setLayout(vl);
 
 	QWidget *personalInfo = new QWidget(personalInfoPage);
 	QGridLayout *gl = new QGridLayout();
-//TODO KF5
-// 	gl->setMargin(marginHint());
-// 	gl->setSpacing(spacingHint());
 	personalInfo->setLayout(gl);
 
 	m_leAuthor = new QLineEdit(personalInfo);
@@ -1654,35 +1647,21 @@ void QuickDocument::printBeamerTheme()
 
 ////////////////////////////// Slots //////////////////////////////
 
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void QuickDocument::slotButtonClicked(int button)
+void QuickDocument::slotAccepted()
 {
-// 	KILE_DEBUG_MAIN << "called";
-// 
-// 	if (button == QDialog::Ok){
-// 
-// 		// get current class options
-// 		m_currentClass = m_cbDocumentClass->currentText();
-// 		KILE_DEBUG_MAIN << "current class: " << m_currentClass;
-// 
-// 		// save the checked options
-// 		m_dictDocumentClasses[m_currentClass][qd_SelectedOptions] = getClassOptions();
-// 		KILE_DEBUG_MAIN << "save options: " << m_dictDocumentClasses[m_currentClass][qd_SelectedOptions];
-// 
-// 		// build template
-// 		printTemplate();
-// 
-// 		// update config file
-// 		writeConfig();
-// 
-// 		accept();
-// 	}
-// 	else{
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//                  QDialog::slotButtonClicked(button);
-// 	}
+	// get current class options
+	m_currentClass = m_cbDocumentClass->currentText();
+	KILE_DEBUG_MAIN << "current class: " << m_currentClass;
+
+	// save the checked options
+	m_dictDocumentClasses[m_currentClass][qd_SelectedOptions] = getClassOptions();
+	KILE_DEBUG_MAIN << "save options: " << m_dictDocumentClasses[m_currentClass][qd_SelectedOptions];
+
+	// build template
+	printTemplate();
+
+	// update config file
+	writeConfig();
 }
 
 ////////////////////////////// slots: document class
@@ -2213,33 +2192,20 @@ bool QuickDocument::inputDialog(QStringList &list, int check)
 }
 
 QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int check,
-    QuickDocument *parent,
-    const char *name)
-		: QDialog(parent), m_parent(parent), m_check(check)
+    QuickDocument *parent, const char *name)
+	: QDialog(parent)
+	, m_parent(parent)
+	, m_check(check)
 {
 	setObjectName(name);
 	setWindowTitle(list[0]);
 	setModal(true);
-	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
-	QWidget *mainWidget = new QWidget(this);
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(mainWidget);
-	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
-	okButton->setDefault(true);
-	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-	mainLayout->addWidget(buttonBox);
-	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
 	mainLayout->addWidget(page);
 	QVBoxLayout *vl = new QVBoxLayout();
-	vl->setMargin(0);
-//TODO KF5
-// 	vl->setSpacing(spacingHint());
 	page->setLayout(vl);
 
 	int firstlinedit = -1;
@@ -2283,9 +2249,20 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int 
 		vl->addWidget(m_objectlist[i]);
 	}
 
-	if (firstlinedit != -1)
+	if (firstlinedit != -1) {
 		m_objectlist[firstlinedit]->setFocus();
+	}
 	vl->addStretch(1);
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &QuickDocumentInputDialog::slotAccepted);
+	mainLayout->addWidget(buttonBox);
+
 	page->setMinimumWidth(350);
 }
 
@@ -2338,79 +2315,69 @@ bool QuickDocumentInputDialog::checkListEntries(const QString &title, const QStr
 }
 
 // check the main result of the input dialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void QuickDocumentInputDialog::slotButtonClicked(int button)
+void QuickDocumentInputDialog::slotAccepted()
 {
-// 	if(button == QDialog::Ok){
-// 
-// 		if (m_check) {
-// 			// get the label and main input string from the first label/linedit
-// 			QString inputlabel = ((QLabel *)m_objectlist[0])->text();
-// 			QString input = ((QLineEdit *)m_objectlist[1])->text().simplified();
-// 
-// 			// should we check for an empty string
-// 			if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {
-// 				KMessageBox::error(this, i18n("An empty string is not allowed."));
-// 				return;
-// 			}
-// 
-// 			// should we check for an existing document class
-// 			if (m_check & qd_CheckDocumentClass) {
-// 				if (m_parent->isDocumentClass(input)) {
-// 					KMessageBox::error(this, i18n("This document class already exists."));
-// 					return;
-// 				}
-// 
-// 				QRegExp reg("\\w+");
-// 				if (!reg.exactMatch(input)) {
-// 					KMessageBox::error(this, i18n("This name is not allowed for a document class."));
-// 					return;
-// 				}
-// 			}
-// 
-// 			// should we check for an existing document class option
-// 			if ((m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input)) {
-// 				KMessageBox::error(this, i18n("This document class option already exists."));
-// 				return;
-// 			}
-// 
-// 			// should we check for an existing package
-// 			if ((m_check & qd_CheckPackage) && m_parent->isPackage(input)) {
-// 				KMessageBox::error(this, i18n("This package already exists."));
-// 				return;
-// 			}
-// 
-// 			// should we check for an existing package option
-// 			if (m_check & qd_CheckPackageOption) {
-// 				QString package = getPackageName(inputlabel);
-// 				if (package.isEmpty()) {
-// 					KMessageBox::error(this, i18n("Could not identify the package name."));
-// 					return;
-// 				}
-// 				if (m_parent->isPackageOption(package, input)) {
-// 					KMessageBox::error(this, i18n("This package option already exists."));
-// 					return;
-// 				}
-// 			}
-// 
-// 			// should we check for a (list of) fontsizes
-// 			if ((m_check & qd_CheckFontsize) && !checkListEntries("Fontsize", input, "\\d+pt")) {
-// 				return;
-// 			}
-// 
-// 			// should we check for a (list of) papersizes
-// 			if ((m_check & qd_CheckPapersize) && !checkListEntries("Papersize", input, "\\w+")) {
-// 				return;
-// 			}
-// 		}
-// 		accept();
-// 	}
-// 	else{
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// 		QDialog::slotButtonClicked(button);
-// 	}
+	if (m_check) {
+		// get the label and main input string from the first label/linedit
+		QString inputlabel = ((QLabel *)m_objectlist[0])->text();
+		QString input = ((QLineEdit *)m_objectlist[1])->text().simplified();
+
+		// should we check for an empty string
+		if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {
+			KMessageBox::error(this, i18n("An empty string is not allowed."));
+			return;
+		}
+
+		// should we check for an existing document class
+		if (m_check & qd_CheckDocumentClass) {
+			if (m_parent->isDocumentClass(input)) {
+				KMessageBox::error(this, i18n("This document class already exists."));
+				return;
+			}
+
+			QRegExp reg("\\w+");
+			if (!reg.exactMatch(input)) {
+				KMessageBox::error(this, i18n("This name is not allowed for a document class."));
+				return;
+			}
+		}
+
+		// should we check for an existing document class option
+		if ((m_check & qd_CheckClassOption) && m_parent->isDocumentClassOption(input)) {
+			KMessageBox::error(this, i18n("This document class option already exists."));
+			return;
+		}
+
+		// should we check for an existing package
+		if ((m_check & qd_CheckPackage) && m_parent->isPackage(input)) {
+			KMessageBox::error(this, i18n("This package already exists."));
+			return;
+		}
+
+		// should we check for an existing package option
+		if (m_check & qd_CheckPackageOption) {
+			QString package = getPackageName(inputlabel);
+			if (package.isEmpty()) {
+				KMessageBox::error(this, i18n("Could not identify the package name."));
+				return;
+			}
+			if (m_parent->isPackageOption(package, input)) {
+				KMessageBox::error(this, i18n("This package option already exists."));
+				return;
+			}
+		}
+
+		// should we check for a (list of) fontsizes
+		if ((m_check & qd_CheckFontsize) && !checkListEntries("Fontsize", input, "\\d+pt")) {
+			return;
+		}
+
+		// should we check for a (list of) papersizes
+		if ((m_check & qd_CheckPapersize) && !checkListEntries("Papersize", input, "\\w+")) {
+			return;
+		}
+	}
+
 }
 
 } // namespace

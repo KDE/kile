@@ -200,9 +200,7 @@ class QuickDocument : public Wizard
 		void slotPackageReset();
 
 		void slotEnableButtons();
-
-	protected Q_SLOTS:
-	virtual void slotButtonClicked(int button);
+		void slotAccepted();
 };
 
 class QuickDocumentInputDialog : public QDialog {
@@ -225,7 +223,7 @@ class QuickDocumentInputDialog : public QDialog {
 		bool checkListEntries(const QString &title, const QString &textlist, const QString &pattern);
 
 	protected Q_SLOTS:
-        	virtual void slotButtonClicked(int button);
+        void slotAccepted();
 };
 
 } // namespace

@@ -1156,11 +1156,11 @@ KTextEditor::View * Manager::activeView()
 	return KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView();
 }
 
-KTextEditor::Document *Manager::createDocument()
+KTextEditor::Document * Manager::createDocument()
 {
 	// NOTE: not implemented, because KatePart does not use it
 	qWarning() << "WARNING: interface call not implemented";
-	return 0;
+	return Q_NULLPTR;
 }
 
 bool Manager::closeDocument(KTextEditor::Document *doc)

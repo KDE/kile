@@ -1893,7 +1893,6 @@ bool Manager::projectClose(const QUrl &url)
 
 	if(project) {
 		KILE_DEBUG_MAIN << "\tclosing:" << project->name();
-		//TODO KF5 CHECK THIS!
 		project->setLastDocument(QUrl::fromLocalFile(m_ki->getName()));
 
 		projectSave(project);

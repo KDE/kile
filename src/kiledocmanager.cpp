@@ -1803,10 +1803,8 @@ void Manager::projectAddFiles(KileProject *project,const QUrl &fileUrl)
 		KILE_DEBUG_MAIN << "currentDir is " << currentDir;
 		QFileDialog *dlg = new QFileDialog(m_ki->mainWindow(), i18n("Add Files"), currentDir, i18n("*|All Files"));
 		dlg->setModal(true);
-//TODO KF5
-// 		QPushButton* okButton = dlg->okButton();
-// 		okButton->setText(i18n("Add"));
-// 		dlg->setMode(KFile::Files | KFile::ExistingOnly);
+		dlg->setFileMode(QFileDialog::ExistingFiles);
+		dlg->setLabelText(QFileDialog::Accept, i18n("Add"));
 
 		if(dlg->exec()) {
 			QList<QUrl> urls = dlg->selectedUrls();

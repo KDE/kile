@@ -95,7 +95,6 @@ void DocumentViewerWindow::closeEvent(QCloseEvent *event)
 
 Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *parent, const char *name) :
 	QObject(parent),
-// 	KTextEditor::MdiContainer(),
 	m_ki(info),
 // 	m_projectview(Q_NULLPTR),
 	m_tabs(Q_NULLPTR),
@@ -107,7 +106,6 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	m_quickPreviewAction(Q_NULLPTR)
 {
 	setObjectName(name);
-	registerMdiContainer();
 	createViewerPart(actionCollection);
 }
 
@@ -430,7 +428,7 @@ void Manager::removeView(KTextEditor::View *view)
 	if (view) {
 		m_client->factory()->removeClient(view);
 
-		const bool isActiveView = (activeView() == view);
+		const bool isActiveView = (KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView() == view);
 		m_tabs->removeTab(m_tabs->indexOf(view));
 
 		emit(updateCaption());  //make sure the caption gets updated
@@ -1132,61 +1130,6 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 }
 
 //END ViewerPart methods
-
-
-//BEGIN KTextEditor::MdiContainer
-void Manager::registerMdiContainer()
-{
-//TODO KF5
-// 	KTextEditor::ContainerInterface *iface =
-// 		qobject_cast<KTextEditor::ContainerInterface*>(m_ki->docManager()->getEditor());
-// 	if (iface) {
-// 		iface->setContainer(this);
-// 	}
-}
-
-void Manager::setActiveView(KTextEditor::View *view)
-{
-	Q_UNUSED(view)
-	// NOTE: not implemented, because KatePart does not use it
-}
-
-KTextEditor::View * Manager::activeView()
-{
-	return KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView();
-}
-
-KTextEditor::Document * Manager::createDocument()
-{
-	// NOTE: not implemented, because KatePart does not use it
-	qWarning() << "WARNING: interface call not implemented";
-	return Q_NULLPTR;
-}
-
-bool Manager::closeDocument(KTextEditor::Document *doc)
-{
-	Q_UNUSED(doc)
-	// NOTE: not implemented, because KatePart does not use it
-	qWarning() << "WARNING: interface call not implemented";
-	return false;
-}
-
-KTextEditor::View *Manager::createView(KTextEditor::Document *doc)
-{
-	Q_UNUSED(doc)
-	// NOTE: not implemented, because KatePart does not use it
-	qWarning() << "WARNING: interface call not implemented";
-	return 0;
-}
-
-bool Manager::closeView(KTextEditor::View *view)
-{
-	Q_UNUSED(view)
-	// NOTE: not implemented, because KatePart does not use it
-	qWarning() << "WARNING: interface call not implemented";
-	return false;
-}
-//END KTextEditor::MdiContainer
 
 bool Manager::viewForLocalFilePresent(const QString& localFileName)
 {

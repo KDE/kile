@@ -81,7 +81,6 @@ class Manager
 	: public QObject
 {
 	Q_OBJECT
-// 	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
 	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
@@ -165,19 +164,9 @@ public Q_SLOTS:
 
 private Q_SLOTS:
 	void tabContext(const QPoint& pos);
-
 	void closeTab(int index);
 
-// KTextEditor::MdiContainer
 public:
-	void registerMdiContainer();
-	virtual void setActiveView( KTextEditor::View * view );
-	virtual KTextEditor::View * activeView();
-	virtual KTextEditor::Document * createDocument();
-	virtual bool closeDocument( KTextEditor::Document * doc );
-	virtual KTextEditor::View * createView( KTextEditor::Document * doc );
-	virtual bool closeView( KTextEditor::View * view );
-
 	bool viewForLocalFilePresent(const QString& localFileName);
 
 protected:

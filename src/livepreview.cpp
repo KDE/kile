@@ -30,8 +30,10 @@
 #include <KActionCollection>
 #include <KIconLoader>
 #include <KLocalizedString>
+#include <KTextEditor/Application>
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
+#include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
 #include <KToolBar>
 #include <KParts/MainWindow>
@@ -1163,7 +1165,7 @@ void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasA
 	m_cursorPositionChangedTimer->stop();
 
 	// check if there is still an open editor tab
-	if(!m_ki->viewManager()->activeView()) {
+	if(!KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView()) {
 		stopAndClearPreview();
 	}
 }

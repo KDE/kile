@@ -27,15 +27,15 @@
 #include "latexcmd.h"
 #include "ui_latexcommanddialog_base.h"
 
-class QCheckBox;
-class QLabel;
-class QTreeWidget;
-class QTreeWidgetItem;
-
 class KComboBox;
 class KConfig;
+class QCheckBox;
+class QDialogButtonBox;
+class QLabel;
 class QLineEdit;
 class QTabWidget;
+class QTreeWidget;
+class QTreeWidgetItem;
 
 namespace KileDialog
 {
@@ -61,14 +61,14 @@ class NewLatexCommand : public QDialog
 		KileDocument::CmdAttribute m_cmdType;
 		QMap<QString, bool> *m_dict;
 
-	protected Q_SLOTS:
-         virtual void slotButtonClicked(int button);
+	private Q_SLOTS:
+         virtual void slotAccepted();
 };
 
 
 class LatexCommandsDialog : public QDialog
 {
-		Q_OBJECT
+	Q_OBJECT
 
 	public:
 		LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent = 0);
@@ -91,7 +91,8 @@ class LatexCommandsDialog : public QDialog
 		/*QTabWidget *m_tab;
 		QPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
 		QCheckBox *m_cbUserDefined;*/
-    Ui::LatexCommandWidget m_widget;
+		QDialogButtonBox *m_buttonBox;
+		Ui::LatexCommandWidget m_widget;
 
 		void resetListviews();
 		LVmode getListviewMode();
@@ -118,7 +119,8 @@ class LatexCommandsDialog : public QDialog
 		void slotDeleteClicked();
 		void slotEditClicked();
 		void slotUserDefinedClicked();
-		void slotButtonClicked(int button);
+		void slotAccepted();
+		void slotSetDefaults();
 };
 
 }

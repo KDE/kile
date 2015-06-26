@@ -804,8 +804,6 @@ QMimeDatabase db;
 				QMimeDatabase db;
 				m_offerList = KMimeTypeTrader::self()->query(db.mimeTypeForUrl(url).name(), "Application");
 				for(int i = 0; i < m_offerList.count(); ++i) {
-//TODO KF5 SmallIcon(m_offerList[i]->icon())
-// const QIcon & icon, const QString & text, const QObject * receiver, const char * member, const QKeySequence & shortcut = 0)
 					action = popup.addAction(QIcon::fromTheme(m_offerList[i]->icon()), m_offerList[i]->name(),
 					                         &signalMapper, SLOT(map()));
 					signalMapper.setMapping(action, i + SectioningGraphicsOfferlist);

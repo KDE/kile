@@ -210,6 +210,7 @@ class KileScriptDocument : public QObject
 		KTextEditor::View *m_view;
 		KTextEditor::Document *m_document;
 		KileDocument::EditorExtension *m_editor;
+		KTextEditor::Document::EditingTransaction *m_editingTransaction;
 		const QMap<QString,QAction *> *m_scriptActions;
 
 		QString getWord(const KTextEditor::Cursor &cursor);

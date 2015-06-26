@@ -20,7 +20,13 @@ namespace KileScript {
 
 
 KileScriptDocument::KileScriptDocument(QObject *parent, KileInfo* kileInfo, KileDocument::EditorExtension *editor, const QMap<QString,QAction *> *scriptActions)
-   : QObject(parent), m_kileInfo(kileInfo), m_view(0), m_document(0), m_editor(editor), m_scriptActions(scriptActions)
+   : QObject(parent)
+   , m_kileInfo(kileInfo)
+   , m_view(Q_NULLPTR)
+   , m_document(Q_NULLPTR)
+   , m_editor(editor)
+   , m_editingTransaction(Q_NULLPTR)
+   , m_scriptActions(scriptActions)
 {
 }
 
@@ -680,13 +686,26 @@ void KileScriptDocument::insertIntelligentTabulator()
 
 void KileScriptDocument::editBegin()
 {
-//TODO KF5
-// 	m_document->startEditing();
+	Q_ASSERT(!m_editingTransaction);
+	if (m_editingTransaction) {
+		KILE_DEBUG_MAIN << "editor editing transaction was active, forcefully closing it";
+		m_editingTransaction->finish();
+	}
+	m_editingTransaction = new KTextEditor::Document::EditingTransaction(m_document);
+	m_editingTransaction->start();
 }
+
 void KileScriptDocument::editEnd()
 {
-//TODO KF5
-// 	m_document->endEditing();
+	Q_ASSERT(m_editingTransaction);
+	if (!m_editingTransaction) {
+		KILE_DEBUG_MAIN << "unexpectedly no editing transaction was active, aborting";
+		return;
+	}
+
+	m_editingTransaction->finish();
+	delete m_editingTransaction;
+	m_editingTransaction = Q_NULLPTR;
 }
 
 ////////////////////////////////// Kile specific actions //////////////////////////////////////

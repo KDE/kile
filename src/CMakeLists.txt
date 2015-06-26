@@ -54,7 +54,7 @@ set(kile_SRCS
 	dialogs/usermenu/usermenudialog.cpp
 	dialogs/usermenu/usermenuitem.cpp
 	dialogs/usermenu/usermenutree.cpp
-# 	docpart.cpp # TODO KF5 KHTML is deprecated, either port to some QtWidget or WebKit
+	docpart.cpp
 	documentinfo.cpp
 	editorcommands.cpp
 	editorextension.cpp
@@ -218,6 +218,7 @@ PUBLIC
     KF5::Crash
     KF5::DBusAddons
     KF5::GuiAddons
+    KF5::KHtml
     KF5::I18n
     KF5::IconThemes
     KF5::KIOCore

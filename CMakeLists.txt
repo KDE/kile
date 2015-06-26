@@ -43,6 +43,7 @@ find_package(KF5 5.11 REQUIRED COMPONENTS
 	I18n
 	IconThemes
 	Init
+	KHtml
 	KIO
 	Parts
 	TextEditor

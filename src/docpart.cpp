@@ -21,6 +21,7 @@
 #include <KMimeTypeTrader>
 #include <KStandardAction>
 #include <KRun>
+#include <KHTMLView>
 
 #include <QMimeDatabase>
 #include <QMimeType>
@@ -45,12 +46,12 @@ DocumentationViewer::~DocumentationViewer()
 bool DocumentationViewer::urlSelected(const QString &url, int button, int state, const QString &_target, const KParts::OpenUrlArguments &args, const KParts::BrowserArguments & /* browserArgs */)
 {
 	QUrl cURL = completeURL(url);
-QMimeDatabase db;
-	QString mime = db.mimeTypeForUrl(cURL).data().name();
+	QMimeDatabase db;
+	QString mime = db.mimeTypeForUrl(cURL).name();
 
 	//load this URL in the embedded viewer if KHTML can handle it, or when mimetype detection failed
 	KService::Ptr service = KService::serviceByDesktopName("khtml");
-	if(( mime == KMimeType::defaultMimeType() ) || (service && service->hasServiceType(mime))) {
+	if (db.mimeTypeForUrl(cURL).isDefault() || (service && service->hasServiceType(mime))) {
 		KHTMLPart::urlSelected(url, button, state, _target, args);
 		openUrl(cURL);
 		addToHistory(cURL.url());
@@ -64,7 +65,7 @@ QMimeDatabase db;
 		}
 		QList<QUrl> lst;
 		lst.append(cURL);
-		KRun::run(*(offers.first()), lst, view());
+		KRun::runService(*(offers.first()), lst, view());
 	}
 	return true;
 }

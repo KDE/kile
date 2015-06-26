@@ -17,7 +17,6 @@
 #define DOCPART_H
 
 #include <QStringList>
-
 #include <KHTMLPart>
 
 class DocumentationViewer : public KHTMLPart

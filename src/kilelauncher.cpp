@@ -16,8 +16,7 @@
 
 #include <config.h>
 
-//TODO KF5
-// include "docpart.h"
+#include "docpart.h"
 #if LIVEPREVIEW_AVAILABLE
   #include "livepreview.h"
 #endif
@@ -494,37 +493,36 @@ namespace KileTool {
 
 	bool DocPartLauncher::launch()
 	{
-// TODO KF5
-// 		m_state=tool()->readEntry("state");
-// 
-// 		QString shrt = "%target";
-// 		tool()->translate(shrt);
-// 		QString name="%dir_target/%target";
-// 		tool()->translate(name);
-// 
-// 		QString out = "*****\n*****     " + tool()->name() + i18n(" output: \n") + "*****     KHTML " + name + "\n*****\n";
-// 		QString msg =  shrt+ " (KHTML)";
-// 		emit(message(Info, msg));
-// 		emit(output(out));
-// 
-// 		QStackedWidget *stack = tool()->manager()->widgetStack();
-// 		KParts::PartManager *pm = tool()->manager()->partManager();
-// 
-// 		DocumentationViewer *htmlpart = new DocumentationViewer(stack);
-// 		htmlpart->setObjectName("help");
-// 		m_part = static_cast<KParts::ReadOnlyPart*>(htmlpart);
-// 
-// 		connect(htmlpart, SIGNAL(updateStatus(bool, bool)), tool(), SIGNAL(updateStatus(bool, bool)));
-// 
-// 		tool()->manager()->wantGUIState(m_state);
-// 
-// 		htmlpart->openUrl(QUrl::fromLocalFile(name));
-// 		htmlpart->addToHistory(name);
-// 		stack->insertWidget(1, htmlpart->widget());
-// 		stack->setCurrentIndex(1);
-// 
-// 		pm->addPart(htmlpart, true);
-// 		pm->setActivePart( htmlpart);
+		m_state=tool()->readEntry("state");
+
+		QString shrt = "%target";
+		tool()->translate(shrt);
+		QString name="%dir_target/%target";
+		tool()->translate(name);
+
+		QString out = "*****\n*****     " + tool()->name() + i18n(" output: \n") + "*****     KHTML " + name + "\n*****\n";
+		QString msg =  shrt+ " (KHTML)";
+		emit(message(Info, msg));
+		emit(output(out));
+
+		QStackedWidget *stack = tool()->manager()->widgetStack();
+		KParts::PartManager *pm = tool()->manager()->partManager();
+
+		DocumentationViewer *htmlpart = new DocumentationViewer(stack);
+		htmlpart->setObjectName("help");
+		m_part = static_cast<KParts::ReadOnlyPart*>(htmlpart);
+
+		connect(htmlpart, SIGNAL(updateStatus(bool, bool)), tool(), SIGNAL(updateStatus(bool, bool)));
+
+		tool()->manager()->wantGUIState(m_state);
+
+		htmlpart->openUrl(QUrl::fromLocalFile(name));
+		htmlpart->addToHistory(name);
+		stack->insertWidget(1, htmlpart->widget());
+		stack->setCurrentIndex(1);
+
+		pm->addPart(htmlpart, true);
+		pm->setActivePart( htmlpart);
 
 		emit(done(Success));
 

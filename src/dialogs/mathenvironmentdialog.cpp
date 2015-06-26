@@ -16,8 +16,12 @@
  ***************************************************************************/
 
 #include "mathenvironmentdialog.h"
+#include "codecompletion.h"
+#include "kiledebug.h"
+#include "editorextension.h"
 
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -31,9 +35,6 @@
 #include <KComboBox>
 #include <KLocalizedString>
 #include <KConfigGroup>
-
-#include "kiledebug.h"
-#include "editorextension.h"
 
 namespace KileDialog
 {
@@ -49,7 +50,6 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	page->setLayout(vbox);
 
 	// environment groupbox
@@ -88,8 +88,6 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_cbBullets = new QCheckBox(envgroup);
 
 	QGridLayout *envlayout = new QGridLayout();
-//TODO PORT QT5 	envlayout->setMargin(QDialog::marginHint());
-//TODO PORT QT5 	envlayout->setSpacing(QDialog::spacingHint());
 	envgroup->setLayout(envlayout);
 	envlayout->setAlignment(Qt::AlignTop);
 	envlayout->addWidget(m_lbEnvironment, 0, 0);
@@ -153,6 +151,11 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_coTabulator->setWhatsThis(i18n("Choose one of some predefined tabulators."));
 	m_coDisplaymath->setWhatsThis(i18n("Some environments are only valid in math mode. You can surround them with one of these display math modes."));
 	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+
+	mainLayout->addWidget(buttonBox());
+	connect(buttonBox(), &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox(), &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &MathEnvironmentDialog::slotAccepted);
 }
 
 void MathEnvironmentDialog::initEnvironments()
@@ -288,115 +291,107 @@ void MathEnvironmentDialog::slotSpinboxValueChanged(int index)
 	m_edSpace->setEnabled(state);
 }
 
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-//Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-void MathEnvironmentDialog::slotButtonClicked(int button)
+void MathEnvironmentDialog::slotAccepted()
 {
-// 	if (button == Ok) {
-// 		// environment
-// 		QString envname = (m_cbStarred->isChecked()) ? m_envname + '*' : m_envname;
-// 		QString indent = m_ki->editorExtension()->autoIndentEnvironment();
-// 
-// 		// use bullets?
-// 		QString bullet = (m_cbBullets->isChecked()) ? s_bullet : QString();
-// 
-// 		// normal tabulator
-// 		QString tab = m_coTabulator->currentText();
-// 		tab.replace("<=", "\\le");
-// 		tab.replace(">=", "\\ge");
-// 		QString tabulator = bullet + ' ' + tab + ' ';
-// 
-// 		// number of rows
-// 		int numrows = m_spRows->value();
-// 
-// 		// get number of groups/columns and tabulator to separate these
-// 		QString grouptabulator;
-// 		int numgroups;
-// 		bool aligngroups;
-// 		if (m_groups) {
-// 			aligngroups = true;
-// 			numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
-// 			if (m_edSpace->isEnabled()) {
-// 				QString spaces;
-// 				grouptabulator = "  &" + m_edSpace->text() + "  ";
-// 			}
-// 			else {
-// 				grouptabulator = "  &  ";
-// 			}
-// 		}
-// 		else {
-// 			aligngroups = false;
-// 			if(!m_fixedcolumns) {
-// 				numgroups = (m_columns) ? m_spCols->value() - 1 : 0;
-// 			}
-// 			else {
-// 				numgroups = 1;
-// 			}
-// 		}
-// 
-// 		// get displaymath mode
-// 		QString displaymathbegin;
-// 		QString displaymathend;
-// 		if(m_coDisplaymath->isEnabled()) {
-// 			QString mathmode = m_coDisplaymath->currentText();
-// 			if(!mathmode.isEmpty()) {
-// 				if(mathmode == "\\[") {
-// 					displaymathbegin = "\\[\n";
-// 					displaymathend   = "\\]\n";
-// 				}
-// 				else {
-// 					displaymathbegin = QString("\\begin{%1}\n").arg(mathmode);
-// 					displaymathend   = QString("\\end{%1}\n").arg(mathmode);
-// 				}
-// 			}
-// 		}
-// 
-// 		// build tag
-// 		m_td.tagBegin = displaymathbegin;
-// 
-// 		QString parameter;
-// 		if (isGroupsParameterEnv()) {
-// 			parameter = QString("{%2}").arg(numgroups);
-// 		}
-// 		else {
-// 			if(isParameterEnv()) {
-// 				parameter = '{' + bullet + '}';
-// 			}
-// 		}
-// 
-// 		// open environment
-// 		m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + '\n';
-// 
-// 		for(int row = 0; row < numrows; ++row) {
-// 			m_td.tagBegin += indent;
-// 			for(int col = 0; col < numgroups; ++col) {
-// 				m_td.tagBegin += tabulator;
-// 				// is there more than one group or column?
-// 				if(aligngroups && col < numgroups - 1) {
-// 						m_td.tagBegin += bullet + grouptabulator;
-// 				}
-// 			}
-// 			// last row without CR
-// 			if(row < numrows - 1) {
-// 				m_td.tagBegin += bullet + " \\\\\n";
-// 			}
-// 			else {
-// 				m_td.tagBegin += bullet;
-// 			}
-// 		}
-// 
-// 		// close environment
-// 		m_td.tagEnd = QString("\n\\end{%1}\n").arg(envname);
-// 		m_td.tagEnd += displaymathend;
-// 
-// 		m_td.dy = (displaymathbegin.isEmpty()) ? 1 : 2;
-// 		m_td.dx = indent.length();
-// 
-// 		accept();
-// 	}
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// //Adapt code and connect okbutton or other to new slot. It doesn't exist in qdialog
-// 	QDialog::slotButtonClicked(button);
+	// environment
+	QString envname = (m_cbStarred->isChecked()) ? m_envname + '*' : m_envname;
+	QString indent = m_ki->editorExtension()->autoIndentEnvironment();
+
+	// use bullets?
+	QString bullet = (m_cbBullets->isChecked()) ? s_bullet : QString();
+
+	// normal tabulator
+	QString tab = m_coTabulator->currentText();
+	tab.replace("<=", "\\le");
+	tab.replace(">=", "\\ge");
+	QString tabulator = bullet + ' ' + tab + ' ';
+
+	// number of rows
+	int numrows = m_spRows->value();
+
+	// get number of groups/columns and tabulator to separate these
+	QString grouptabulator;
+	int numgroups;
+	bool aligngroups;
+	if (m_groups) {
+		aligngroups = true;
+		numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
+		if (m_edSpace->isEnabled()) {
+			QString spaces;
+			grouptabulator = "  &" + m_edSpace->text() + "  ";
+		}
+		else {
+			grouptabulator = "  &  ";
+		}
+	}
+	else {
+		aligngroups = false;
+		if(!m_fixedcolumns) {
+			numgroups = (m_columns) ? m_spCols->value() - 1 : 0;
+		}
+		else {
+			numgroups = 1;
+		}
+	}
+
+	// get displaymath mode
+	QString displaymathbegin;
+	QString displaymathend;
+	if(m_coDisplaymath->isEnabled()) {
+		QString mathmode = m_coDisplaymath->currentText();
+		if(!mathmode.isEmpty()) {
+			if(mathmode == "\\[") {
+				displaymathbegin = "\\[\n";
+				displaymathend   = "\\]\n";
+			}
+			else {
+				displaymathbegin = QString("\\begin{%1}\n").arg(mathmode);
+				displaymathend   = QString("\\end{%1}\n").arg(mathmode);
+			}
+		}
+	}
+
+	// build tag
+	m_td.tagBegin = displaymathbegin;
+
+	QString parameter;
+	if (isGroupsParameterEnv()) {
+		parameter = QString("{%2}").arg(numgroups);
+	}
+	else {
+		if(isParameterEnv()) {
+			parameter = '{' + bullet + '}';
+		}
+	}
+
+	// open environment
+	m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + '\n';
+
+	for(int row = 0; row < numrows; ++row) {
+		m_td.tagBegin += indent;
+		for(int col = 0; col < numgroups; ++col) {
+			m_td.tagBegin += tabulator;
+			// is there more than one group or column?
+			if(aligngroups && col < numgroups - 1) {
+					m_td.tagBegin += bullet + grouptabulator;
+			}
+		}
+		// last row without CR
+		if(row < numrows - 1) {
+			m_td.tagBegin += bullet + " \\\\\n";
+		}
+		else {
+			m_td.tagBegin += bullet;
+		}
+	}
+
+	// close environment
+	m_td.tagEnd = QString("\n\\end{%1}\n").arg(envname);
+	m_td.tagEnd += displaymathend;
+
+	m_td.dy = (displaymathbegin.isEmpty()) ? 1 : 2;
+	m_td.dx = indent.length();
+
 }
 
 }

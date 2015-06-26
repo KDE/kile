@@ -42,7 +42,7 @@ class MathEnvironmentDialog : public Wizard
 		~MathEnvironmentDialog() {}
 
 	public Q_SLOTS:
-		void slotButtonClicked(int button);
+		void slotAccepted();
 
 	private Q_SLOTS:
 		void slotEnvironmentChanged(int index);

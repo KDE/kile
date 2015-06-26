@@ -2638,8 +2638,8 @@ void Kile::saveSettings()
 		}
 	}
 
-// TODO KF5
-// 	saveMainWindowSettings(m_config->group("KileMainWindow"));
+	KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+	saveMainWindowSettings(configGroup);
 
 	docManager()->writeConfig();
 	viewManager()->writeConfig();
@@ -2846,8 +2846,8 @@ void Kile::configureKeys()
 
 void Kile::configureToolbars()
 {
-// TODO KF5
-// 	saveMainWindowSettings(m_config->group("KileMainWindow"));
+	KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+	saveMainWindowSettings(configGroup);
 	KEditToolBar dlg(factory());
 	dlg.exec();
 

@@ -35,8 +35,6 @@
 #include <ktogglefullscreenaction.h>
 #include <KXmlGuiWindow>
 
-//TODO KF5
-//include "docpart.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
 #include "kileactions.h"

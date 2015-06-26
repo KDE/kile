@@ -54,6 +54,7 @@ set(kile_SRCS
 	dialogs/usermenu/usermenudialog.cpp
 	dialogs/usermenu/usermenuitem.cpp
 	dialogs/usermenu/usermenutree.cpp
+	dialogs/validatorinputdialog.cpp
 	docpart.cpp
 	documentinfo.cpp
 	editorcommands.cpp

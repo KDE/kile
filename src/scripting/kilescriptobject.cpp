@@ -25,6 +25,7 @@
 
 #include "scripting/kilescriptobject.h"
 #include "kileviewmanager.h"
+#include "dialogs/validatorinputdialog.h"
 #include "kileinfo.h"
 
 namespace KileScript {
@@ -88,9 +89,7 @@ QString KileInput::getLatexCommand(const QString &caption, const QString &label)
 {
 	QRegExpValidator validator(QRegExp("[A-Za-z]+"),this);
 	QStringList list = checkCaptionAndLabel(caption, label);
-//TODO KF5
-// 	return QInputDialog::getText(list[0], list[1], QString(), Q_NULLPTR, Q_NULLPTR, &validator);
-	return QInputDialog::getText(Q_NULLPTR, list[0], list[1]);
+	return KileDialog::getText(list[0], list[1], QString(), Q_NULLPTR, &validator);
 }
 
 int KileInput::getInteger(const QString &caption, const QString &label, int min, int max)

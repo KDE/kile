@@ -248,8 +248,7 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	        this, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)));
 	connect(view, SIGNAL(selectionChanged(KTextEditor::View*)),
 	        this, SIGNAL(selectionChanged(KTextEditor::View*)));
-//TODO KF5
-// 	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
+	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
 	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)), this, SIGNAL(updateCaption()));
 	connect(view, SIGNAL(viewInputModeChanged(KTextEditor::View*, enum KTextEditor::View::InputMode)), this, SIGNAL(updateModeStatus()));
 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
@@ -837,7 +836,6 @@ void Manager::testCanDecodeURLs(const QDragMoveEvent *e, bool &accept)
 	accept = e->mimeData()->hasUrls(); // only accept URL drops
 }
 
-//TODO KF5
 void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 {
 	QList<QUrl> urls = e->mimeData()->urls();

@@ -29,7 +29,7 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	m_minimized(true),
 	m_directionalSize(0)
 {
-	QBoxLayout *layout = NULL, *extraLayout = NULL;
+	QBoxLayout *layout = Q_NULLPTR, *extraLayout = Q_NULLPTR;
 	KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;
 	m_extraWidget = new QWidget(this);
 
@@ -104,7 +104,7 @@ void SideBar::removePage(QWidget *w)
 QWidget* SideBar::currentPage()
 {
 	if(isMinimized()) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 
 	return m_tabStack->currentWidget();
@@ -131,7 +131,7 @@ int SideBar::count()
 
 void SideBar::shrink()
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	if(isMinimized()) {
 		return;
 	}
@@ -157,12 +157,12 @@ void SideBar::shrink()
 
 void SideBar::expand()
 {
-	KILE_DEBUG();
+	KILE_DEBUG_MAIN;
 	if(!isMinimized()) {
 		return;
 	}
 
-	KILE_DEBUG() << "directional size = " << m_directionalSize;
+	KILE_DEBUG_MAIN << "directional size = " << m_directionalSize;
 	if(m_orientation == Qt::Horizontal) {
 		setMinimumHeight(0);
 		setMaximumHeight(QWIDGETSIZE_MAX);
@@ -223,9 +223,9 @@ void SideBar::setPageVisible(QWidget *w, bool b)
 
 void SideBar::showPage(QWidget *widget)
 {
-	KILE_DEBUG() << "===SideBar::showPage(" << widget << ")";
+	KILE_DEBUG_MAIN << "===SideBar::showPage(" << widget << ")";
 	int i = m_tabStack->indexOf(widget);
-	KILE_DEBUG() << "i is " << i;
+	KILE_DEBUG_MAIN << "i is " << i;
 	if(i >= 0) {
 		switchToTab(i);
 	}
@@ -249,7 +249,7 @@ int SideBar::directionalSize()
 
 void SideBar::setDirectionalSize(int i)
 {
-	KILE_DEBUG() << "size = " << i;
+	KILE_DEBUG_MAIN << "size = " << i;
 	m_directionalSize = i;
 	if(m_orientation == Qt::Horizontal) {
 		m_tabStack->resize(m_tabStack->width(), i);
@@ -266,7 +266,7 @@ void SideBar::addExtraWidget(QWidget *w)
 
 void SideBar::switchToTab(int id)
 {
-	KILE_DEBUG() << "id = " << id;
+	KILE_DEBUG_MAIN << "id = " << id;
 	int nTabs = m_tabStack->count();
 	int currentIndex = currentTab();
 
@@ -290,4 +290,3 @@ BottomBar::BottomBar(QWidget *parent) : SideBar(parent, Qt::Horizontal)
 
 }
 
-#include "sidebar.moc"

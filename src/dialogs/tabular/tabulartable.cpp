@@ -23,9 +23,9 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QDebug>
 
-#include <KDebug>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include "tabularcell.h"
@@ -35,7 +35,7 @@ namespace KileDialog {
 
 TabularTable::TabularTable(QWidget *parent)
 	: QTableWidget(parent), m_ManualBorderPosition(QPoint(-1, -1)),
-	  m_ManualBorderStart(QPoint(-1, -1)),m_LastItem(NULL) {
+	  m_ManualBorderStart(QPoint(-1, -1)),m_LastItem(Q_NULLPTR) {
 	setItemDelegate(new TabularCellDelegate(this));
 	setShowGrid(false);
 	setAttribute(Qt::WA_Hover, true);
@@ -247,4 +247,3 @@ void KileDialog::TabularTable::paste()
 }
 
 
-#include "tabulartable.moc"

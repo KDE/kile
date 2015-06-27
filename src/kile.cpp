@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -21,35 +21,37 @@
 
 #include <config.h>
 
+#include <QAction>
 #include <QHideEvent>
+#include <QMenuBar>
 #include <QPointer>
 #include <QShowEvent>
+#include <QSplashScreen>
+#include <QStandardPaths>
+#include <QStatusBar>
 #include <QXmlStreamWriter>
 
 #include <KAboutApplicationDialog>
-#include <KAction>
+#include <KAboutData>
 #include <KActionMenu>
 #include <KConfigGroup>
 #include <KEditToolBar>
 #include <KHelpMenu>
 #include <KIconLoader>
-#include <KLocale>
-#include <KMenuBar>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentFilesAction>
 #include <KRun>
 #include <KShortcutsDialog>
-#include <KSplashScreen>
-#include <KStandardDirs>
-#include <KStatusBar>
 #include <KTipDialog>
 #include <KToggleAction>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 #include <KWindowSystem>
+#include <KParts/BrowserExtension>
 
-#ifdef HAVE_VIEWERINTERFACE_H
+#if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
 #endif
 
@@ -60,11 +62,11 @@
 #include "kileactions.h"
 #include "kiledebug.h"
 #include "kilestdactions.h"
+#include "widgets/statusbar.h"
 #include "dialogs/configurationdialog.h"
 #include "kileproject.h"
 #include "widgets/projectview.h"
 #include "dialogs/projectdialogs.h"
-#include "dialogs/listselector.h"
 #include "kilelyxserver.h"
 #include "dialogs/findfilesdialog.h"
 #include "kiletool_enums.h"
@@ -113,24 +115,24 @@
  */
 
 Kile::Kile(bool allowRestore, QWidget *parent)
-:	KParts::MainWindow(),
-	KileInfo(this),
-	m_paPrint(NULL)
+	: KParts::MainWindow()
+	, KileInfo(this)
+	, m_paPrint(Q_NULLPTR)
 {
 	setObjectName("Kile");
 
 	// Under some circumstances (Qt or KDE issues like a KIO process still running (?)), Kile doesn't terminate
 	// when the main window is closed (bugs 220343 and 299569). So, we force this here.
 	// This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
-	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), kapp, SLOT(quit()));
+	connect(m_mainWindow, SIGNAL(destroyed(QObject*)), qApp, SLOT(quit())); //FIXME: KF5 is this still necessary?
 
-	KSplashScreen splashScreen(QPixmap(KGlobal::dirs()->findResource("appdata", "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+	QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
 	if(KileConfig::showSplashScreen()) {
 		splashScreen.show();
-		kapp->processEvents();
+		qApp->processEvents();
 	}
 
-	m_config = KGlobal::config();
+	m_config = KSharedConfig::openConfig();
 
 	m_codeCompletionManager = new KileCodeCompletion::Manager(this, parent);
 
@@ -145,7 +147,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	viewManager()->setClient(this);
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	m_latexCommands = new KileDocument::LatexCommands(m_config.data(), this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
@@ -155,21 +157,19 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
-	m_userMenu = NULL;
+	m_userMenu = Q_NULLPTR;
 
 	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
-
-	// needed for Symbolview
-	KGlobal::dirs()->addResourceType("app_symbols", "data", "kile/mathsymbols/");
-	KILE_DEBUG() << "Symbol path: " << KGlobal::dirs()->resourceDirs("app_symbols").join(" , ");
 
 	// do initializations first
 	m_currentState = "Editor";
 	m_wantState = "Editor";
 	m_bWatchFile = false;
 
+	setStatusBar(new KileWidget::StatusBar(m_errorHandler, parent));
+
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(newCaption()));
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(activateView(QWidget*)));
@@ -178,7 +178,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(viewManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(viewManager(), SIGNAL(cursorPositionChanged(KTextEditor::View*,const KTextEditor::Cursor&)),
 	        this, SLOT(updateStatusBarCursorPosition(KTextEditor::View*,const KTextEditor::Cursor&)));
-	connect(viewManager(), SIGNAL(viewModeChanged(KTextEditor::View*)),
+	connect(viewManager(), SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)),
 	        this, SLOT(updateStatusBarViewMode(KTextEditor::View*)));
 	connect(viewManager(), SIGNAL(informationMessage(KTextEditor::View*,const QString&)),
 	        this, SLOT(updateStatusBarInformationMessage(KTextEditor::View*,const QString&)));
@@ -189,12 +189,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(docManager(), SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 	connect(docManager(), SIGNAL(documentReadWriteStateChanged(KTextEditor::Document*)), this, SLOT(newCaption()));
 
-	setupStatusBar();
-
-	m_topWidgetStack = new QStackedWidget(this);
+	m_topWidgetStack = new QStackedWidget();
 	m_topWidgetStack->setFocusPolicy(Qt::NoFocus);
 
-	m_horizontalSplitter = new QSplitter(Qt::Horizontal, this);
+	m_horizontalSplitter = new QSplitter(Qt::Horizontal);
 
 	setupSideBar();
 	m_horizontalSplitter->addWidget(m_sideBar);
@@ -215,7 +213,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
              this, SLOT(runTool(const QString &)));
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	setupBottomBar();
 	m_verticalSplitter->addWidget(m_bottomBar);
@@ -232,19 +230,19 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
-#ifdef LIVEPREVIEW_POSSIBLE
+#if LIVEPREVIEW_AVAILABLE
 	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection());
-	connect(this, SIGNAL(masterDocumentChanged()), m_livePreviewManager, SLOT(handleMasterDocumentChanged()));
+	connect(this, &Kile::masterDocumentChanged, m_livePreviewManager, &KileTool::LivePreviewManager::handleMasterDocumentChanged);
 
 	if(viewManager()->viewerPart()) {
 		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
 	}
 	else { // live preview part couldn't be created
 		delete m_livePreviewManager;
-		m_livePreviewManager = NULL;
+		m_livePreviewManager = Q_NULLPTR;
 	}
 #else
-	m_livePreviewManager = NULL;
+	m_livePreviewManager = Q_NULLPTR;
 #endif
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config.data(), actionCollection());
@@ -257,7 +255,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_help->setUserhelp(m_manager, m_userHelpActionMenu);     // kile user help (dani)
 
 	// process events for correctly displaying the splash screen
-	kapp->processEvents();
+	qApp->processEvents();
 
 	connect(docManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
 	connect(docManager(), SIGNAL(updateStructure(bool, KileDocument::Info*)), viewManager(), SLOT(updateStructure(bool, KileDocument::Info*)));
@@ -276,7 +274,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
 
 	setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
-	m_partManager->setActivePart(NULL); // 'createGUI' is called in response to this
+	m_partManager->setActivePart(Q_NULLPTR); // 'createGUI' is called in response to this
 
 	// we can only do this here after the main GUI has been set up
 	if(m_livePreviewManager && viewManager()->viewerPart()) {
@@ -345,7 +343,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 		m_listUserTools.clear();
 	}
 
-        if(KileConfig::rCVersion() < 7) {
+	if(KileConfig::rCVersion() < 7) {
 		if (KMessageBox::questionYesNo(mainWindow(),
 		    i18n("The standard tool list need to be reloaded because of the switch from KDE3 to KDE4. This will overwrite any changes in the tools you have made. Do you want to reload the list now (recommended)?"),
 			i18n("Tools need to be updated"))  == KMessageBox::Yes){
@@ -356,9 +354,9 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	KTipDialog::showTip(this, "kile/tips");
 
 	// lazy creation: last possible place to insert this user-defined menu
-	m_userMenu  = new KileMenu::UserMenu(this, this);
-	connect(m_userMenu, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
-	connect(m_userMenu, SIGNAL(updateStatus()), this, SLOT(slotUpdateUserMenuStatus()));
+	m_userMenu = new KileMenu::UserMenu(this, this);
+	connect(m_userMenu, &KileMenu::UserMenu::sendText, this, static_cast<void (Kile::*)(const QString &)>(&Kile::insertText));
+	connect(m_userMenu, &KileMenu::UserMenu::updateStatus, this, &Kile::slotUpdateUserMenuStatus);
 
 	restoreFilesAndProjects(allowRestore);
 	slotStateChanged("Editor");
@@ -381,6 +379,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	setUpdatesEnabled(false);
 	setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
 	guiFactory()->refreshActionProperties();
+
 	m_userMenu->refreshActionProperties();
 	setUpdatesEnabled(true);
 
@@ -400,7 +399,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 Kile::~Kile()
 {
-	KILE_DEBUG() << "cleaning up..." << endl;
+	KILE_DEBUG_MAIN << "cleaning up..." << endl;
 
 	if(m_livePreviewManager && viewManager()->viewerPart()) {
 		guiFactory()->removeClient(viewManager()->viewerPart());
@@ -430,37 +429,6 @@ Kile::~Kile()
 // 	unplugActionList(name);
 // }
 
-void Kile::setupStatusBar()
-{
-	if(statusBar()->hasItem(ID_HINTTEXT)) {
-		statusBar()->removeItem(ID_HINTTEXT);
-	}
-	if(statusBar()->hasItem(ID_LINE_COLUMN)) {
-		statusBar()->removeItem(ID_LINE_COLUMN);
-	}
-	if(statusBar()->hasItem(ID_VIEW_MODE)) {
-		statusBar()->removeItem(ID_VIEW_MODE);
-	}
-	if(statusBar()->hasItem(ID_SELECTION_MODE)) {
-		statusBar()->removeItem(ID_SELECTION_MODE);
-	}
-	if(statusBar()->hasItem(ID_PARSER_STATUS)) {
-		statusBar()->removeItem(ID_PARSER_STATUS);
-	}
-
-	statusBar()->insertItem(i18n("Normal Mode"), ID_HINTTEXT, 10);
-	statusBar()->setItemAlignment(ID_HINTTEXT, Qt::AlignLeft | Qt::AlignVCenter);
-	statusBar()->addPermanentWidget(errorHandler()->compilationResultLabel());
-	statusBar()->insertPermanentItem(QString(), ID_PARSER_STATUS, 0);
-	statusBar()->setItemAlignment(ID_PARSER_STATUS, Qt::AlignLeft | Qt::AlignVCenter);
-	statusBar()->insertPermanentItem(QString(), ID_LINE_COLUMN, 0);
-	statusBar()->setItemAlignment(ID_LINE_COLUMN, Qt::AlignLeft | Qt::AlignVCenter);
-	statusBar()->insertPermanentItem(QString(), ID_VIEW_MODE, 0);
-	statusBar()->setItemAlignment(ID_VIEW_MODE, Qt::AlignLeft | Qt::AlignVCenter);
-	statusBar()->insertPermanentItem(QString(), ID_SELECTION_MODE, 0);
-	statusBar()->setItemAlignment(ID_SELECTION_MODE, Qt::AlignLeft | Qt::AlignVCenter);
-}
-
 void Kile::setupSideBar()
 {
 	m_sideBar = new KileWidget::SideBar(m_horizontalSplitter);
@@ -487,22 +455,22 @@ void Kile::setupProjectView()
 // 	viewManager()->setProjectView(projectview);
 	m_sideBar->addPage(projectview, SmallIcon("relation"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
-	connect(projectview, SIGNAL(fileSelected(const KUrl &)), docManager(), SLOT(fileSelected(const KUrl &)));
-	connect(projectview, SIGNAL(closeURL(const KUrl&)), docManager(), SLOT(fileClose(const KUrl&)));
-	connect(projectview, SIGNAL(closeProject(const KUrl&)), docManager(), SLOT(projectClose(const KUrl&)));
-	connect(projectview, SIGNAL(projectOptions(const KUrl&)), docManager(), SLOT(projectOptions(const KUrl&)));
-	connect(projectview, SIGNAL(projectArchive(const KUrl&)), this, SLOT(runArchiveTool(const KUrl&)));
+	connect(projectview, SIGNAL(fileSelected(const QUrl &)), docManager(), SLOT(fileSelected(const QUrl &)));
+	connect(projectview, SIGNAL(closeURL(const QUrl&)), docManager(), SLOT(fileClose(const QUrl&)));
+	connect(projectview, SIGNAL(closeProject(const QUrl&)), docManager(), SLOT(projectClose(const QUrl&)));
+	connect(projectview, SIGNAL(projectOptions(const QUrl&)), docManager(), SLOT(projectOptions(const QUrl&)));
+	connect(projectview, SIGNAL(projectArchive(const QUrl&)), this, SLOT(runArchiveTool(const QUrl&)));
 	connect(projectview, SIGNAL(removeFromProject(KileProjectItem *)), docManager(), SLOT(removeFromProject(KileProjectItem*)));
-	connect(projectview, SIGNAL(addFiles(const KUrl &)), docManager(), SLOT(projectAddFiles(const KUrl &)));
-	connect(projectview, SIGNAL(openAllFiles(const KUrl &)), docManager(), SLOT(projectOpenAllFiles(const KUrl &)));
+	connect(projectview, SIGNAL(addFiles(const QUrl &)), docManager(), SLOT(projectAddFiles(const QUrl &)));
+	connect(projectview, SIGNAL(openAllFiles(const QUrl &)), docManager(), SLOT(projectOpenAllFiles(const QUrl &)));
 	connect(projectview, SIGNAL(toggleArchive(KileProjectItem *)), docManager(), SLOT(toggleArchive(KileProjectItem *)));
-	connect(projectview, SIGNAL(addToProject(const KUrl &)), docManager(), SLOT(addToProject(const KUrl &)));
-	connect(projectview, SIGNAL(saveURL(const KUrl &)), docManager(), SLOT(saveURL(const KUrl &)));
-	connect(projectview, SIGNAL(buildProjectTree(const KUrl &)), docManager(), SLOT(buildProjectTree(const KUrl &)));
+	connect(projectview, SIGNAL(addToProject(const QUrl &)), docManager(), SLOT(addToProject(const QUrl &)));
+	connect(projectview, SIGNAL(saveURL(const QUrl &)), docManager(), SLOT(saveURL(const QUrl &)));
+	connect(projectview, SIGNAL(buildProjectTree(const QUrl &)), docManager(), SLOT(buildProjectTree(const QUrl &)));
 	connect(docManager(), SIGNAL(projectTreeChanged(const KileProject *)), projectview, SLOT(refreshProjectTree(const KileProject *)));
-	connect(docManager(), SIGNAL(removeFromProjectView(const KUrl &)),projectview,SLOT(remove(const KUrl &)));
+	connect(docManager(), SIGNAL(removeFromProjectView(const QUrl &)),projectview,SLOT(remove(const QUrl &)));
 	connect(docManager(), SIGNAL(removeFromProjectView(const KileProject *)),projectview,SLOT(remove(const KileProject *)));
-	connect(docManager(), SIGNAL(addToProjectView(const KUrl &)),projectview,SLOT(add(const KUrl &)));
+	connect(docManager(), SIGNAL(addToProjectView(const QUrl &)),projectview,SLOT(add(const QUrl &)));
 	connect(docManager(), SIGNAL(addToProjectView(const KileProject *)),projectview,SLOT(add(const KileProject *)));
 	connect(docManager(),SIGNAL(removeItemFromProjectView(const KileProjectItem *, bool)),projectview,SLOT(removeItem(const KileProjectItem *, bool)));
 	connect(docManager(),SIGNAL(addToProjectView(KileProjectItem *)),projectview,SLOT(add(KileProjectItem *)));
@@ -514,9 +482,9 @@ void Kile::setupStructureView()
 	m_sideBar->addPage(m_kwStructure, SmallIcon("view-list-tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(configurationManager(), SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
-	connect(m_kwStructure, SIGNAL(setCursor(const KUrl &,int,int)), this, SLOT(setCursor(const KUrl &,int,int)));
-	connect(m_kwStructure, SIGNAL(fileOpen(const KUrl&, const QString & )), docManager(), SLOT(fileOpen(const KUrl&, const QString& )));
-	connect(m_kwStructure, SIGNAL(fileNew(const KUrl&)), docManager(), SLOT(fileNew(const KUrl&)));
+	connect(m_kwStructure, SIGNAL(setCursor(const QUrl &,int,int)), this, SLOT(setCursor(const QUrl &,int,int)));
+	connect(m_kwStructure, SIGNAL(fileOpen(const QUrl&, const QString & )), docManager(), SLOT(fileOpen(const QUrl&, const QString& )));
+	connect(m_kwStructure, SIGNAL(fileNew(const QUrl&)), docManager(), SLOT(fileNew(const QUrl&)));
 	connect(m_kwStructure, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
 	connect(m_kwStructure, SIGNAL(sectioningPopup(KileWidget::StructureViewItem*,int)), m_edit, SLOT(sectioningCommand(KileWidget::StructureViewItem*,int)));
 }
@@ -531,23 +499,33 @@ void Kile::enableSymbolViewMFUS()
 {
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),true);
 
-	connect(m_symbolViewRelation,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewOperators,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewArrows,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewMiscMath,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewMiscText,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewDelimiters,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewGreek,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewSpecial,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewCyrillic,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
-	connect(m_symbolViewUser,SIGNAL(addToList(const QListWidgetItem *)),m_symbolViewMFUS,SLOT(slotAddToList(const QListWidgetItem *)));
+	connect(m_symbolViewRelation, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewOperators, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewArrows, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewMiscMath, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewMiscText, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewDelimiters, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewGreek, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewSpecial, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewCyrillic, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	connect(m_symbolViewUser, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
 }
 
 void Kile::disableSymbolViewMFUS()
 {
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
 	m_toolBox->setItemToolTip(m_toolBox->indexOf(m_symbolViewMFUS),QString());
-	disconnect(m_symbolViewMFUS,SIGNAL(addToList(const QListWidgetItem *)));
+
+	disconnect(m_symbolViewRelation, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewOperators, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewArrows, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewMiscMath, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewMiscText, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewDelimiters, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewGreek, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewSpecial, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewCyrillic, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
+	disconnect(m_symbolViewUser, &KileWidget::SymbolView::addToList ,m_symbolViewMFUS, &KileWidget::SymbolView::slotAddToList);
 }
 
 void Kile::setupSymbolViews()
@@ -558,38 +536,38 @@ void Kile::setupSymbolViews()
 	m_symbolViewMFUS = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MFUS);
 	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
 	m_toolBox->setItemEnabled(m_toolBox->indexOf(m_symbolViewMFUS),false);
-	connect(m_symbolViewMFUS, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewMFUS, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewRelation = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Relation);
 	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
-	connect(m_symbolViewRelation, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewRelation, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewOperators = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Operator);
 	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
-	connect(m_symbolViewOperators, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewOperators, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewArrows = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Arrow);
 	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
-	connect(m_symbolViewArrows, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewArrows, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewMiscMath = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MiscMath);
 	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
-	connect(m_symbolViewMiscMath, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewMiscMath, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewMiscText = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MiscText);
 	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
-	connect(m_symbolViewMiscText, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewMiscText, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewDelimiters= new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Delimiters);
 	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
-	connect(m_symbolViewDelimiters, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewDelimiters, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewGreek = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Greek);
 	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
@@ -598,18 +576,18 @@ void Kile::setupSymbolViews()
 
 	m_symbolViewSpecial = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Special);
 	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
-	connect(m_symbolViewSpecial, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewSpecial, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewCyrillic = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Cyrillic);
 	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
-	connect(m_symbolViewCyrillic, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewCyrillic, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewUser = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::User);
 	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
-	connect(m_symbolViewUser, SIGNAL(insertText(const QString& ,const QList<Package>&)),
-		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
+	connect(m_symbolViewUser, &KileWidget::SymbolView::insertText,
+		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	for(int i = 0; i < m_toolBox->count(); ++i) {
 		m_toolBox->setItemToolTip(i, i18n("<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/>"
@@ -676,14 +654,14 @@ void Kile::setupBottomBar()
 
 void Kile::setupGraphicTools()
 {
-	KileConfig::setImagemagick(!(KStandardDirs::findExe("identify").isNull()));
+	KileConfig::setImagemagick(!(QStandardPaths::findExecutable("identify").isNull()));
 }
 
 void Kile::setupPreviewTools()
 {
 	// search for tools
-	bool dvipng = !(KStandardDirs::findExe("dvipng").isNull());
-	bool convert = !(KStandardDirs::findExe("convert").isNull());
+	bool dvipng = !(QStandardPaths::findExecutable("dvipng").isNull());
+	bool convert = !(QStandardPaths::findExecutable("convert").isNull());
 
 	KileConfig::setDvipng(dvipng);
 	KileConfig::setConvert(convert);
@@ -700,35 +678,35 @@ void Kile::setupPreviewTools()
 	}
 }
 
-KAction* Kile::createAction(const QString &text, const QString &name, const QObject *receiver, const char *member)
+QAction * Kile::createAction(const QString &text, const QString &name, const QObject *receiver, const char *member)
 {
-	return createAction(text, name, QString(), KShortcut(), receiver, member);
+	return createAction(text, name, QString(), QKeySequence(), receiver, member);
 }
 
-KAction* Kile::createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver, const char *member)
+QAction * Kile::createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver, const char *member)
 {
 	return createAction(text, name, QString(), shortcut, receiver, member);
 }
 
-KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver, const char *member)
+QAction * Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver, const char *member)
 {
-	return createAction(text, name, iconName, KShortcut(), receiver, member);
+	return createAction(text, name, iconName, QKeySequence(), receiver, member);
 }
 
-KAction* Kile::createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut, const QObject *receiver, const char *member)
+QAction * Kile::createAction(const QString &text, const QString &name, const QString& iconName, const QKeySequence& shortcut, const QObject *receiver, const char *member)
 {
-	KAction *action = actionCollection()->addAction(name, receiver, member);
+	QAction *action = actionCollection()->addAction(name, receiver, member);
 	action->setText(text);
 	if(!shortcut.isEmpty()) {
-		action->setShortcut(shortcut);
+		actionCollection()->setDefaultShortcut(action, shortcut);
 	}
 	if(!iconName.isEmpty()) {
-		action->setIcon(KIcon(iconName));
+		action->setIcon(QIcon::fromTheme(iconName));
 	}
 	return action;
 }
 
-KAction* Kile::createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver, const char *member)
+QAction * Kile::createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver, const char *member)
 {
 	return actionCollection()->addAction(actionType, name, receiver, member);
 }
@@ -736,12 +714,12 @@ void Kile::setupActions()
 {
 	QAction *act;
 
-	m_paPrint = createAction(KStandardAction::Print, "file_print", NULL, NULL);
+	m_paPrint = createAction(KStandardAction::Print, "file_print", Q_NULLPTR, Q_NULLPTR);
 	createAction(KStandardAction::New, "file_new", docManager(), SLOT(fileNew()));
 	createAction(KStandardAction::Open, "file_open", docManager(), SLOT(fileOpen()));
 
-	m_actRecentFiles = static_cast<KRecentFilesAction*>(actionCollection()->addAction(KStandardAction::OpenRecent, "file_open_recent", docManager(), SLOT(fileOpen(const KUrl&))));
-	connect(docManager(), SIGNAL(addToRecentFiles(const KUrl&)), this, SLOT(addRecentFile(const KUrl&)));
+	m_actRecentFiles = static_cast<KRecentFilesAction*>(actionCollection()->addAction(KStandardAction::OpenRecent, "file_open_recent", docManager(), SLOT(fileOpen(const QUrl&))));
+	connect(docManager(), SIGNAL(addToRecentFiles(const QUrl&)), this, SLOT(addRecentFile(const QUrl&)));
 	m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
 	createAction(i18n("Save All"), "file_save_all", "document-save-all", docManager(), SLOT(fileSaveAll()));
@@ -766,14 +744,14 @@ void Kile::setupActions()
 	createAction(i18n("Move Tab Left"), "move_view_tab_left", "arrow-left", viewManager(), SLOT(moveTabLeft()));
 	createAction(i18n("Move Tab Right"), "move_view_tab_right", "arrow-right", viewManager(), SLOT(moveTabRight()));
 
-	createAction(i18n("Next section"), "edit_next_section", "nextsection", KShortcut(Qt::ALT + Qt::Key_Down), m_edit, SLOT(gotoNextSectioning()));
-	createAction(i18n("Prev section"), "edit_prev_section", "prevsection", KShortcut(Qt::ALT + Qt::Key_Up), m_edit, SLOT(gotoPrevSectioning()));
-	createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Down), m_edit, SLOT(gotoNextParagraph()));
-	createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_Up), m_edit, SLOT(gotoPrevParagraph()));
+	createAction(i18n("Next section"), "edit_next_section", "nextsection", QKeySequence(Qt::ALT + Qt::Key_Down), m_edit, SLOT(gotoNextSectioning()));
+	createAction(i18n("Prev section"), "edit_prev_section", "prevsection", QKeySequence(Qt::ALT + Qt::Key_Up), m_edit, SLOT(gotoPrevSectioning()));
+	createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_Down), m_edit, SLOT(gotoNextParagraph()));
+	createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_Up), m_edit, SLOT(gotoPrevParagraph()));
 
-	createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", KShortcut(Qt::ALT + Qt::SHIFT + Qt::Key_F), this, SLOT(findInFiles()));
+	createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_F), this, SLOT(findInFiles()));
 
-	createAction(i18n("Refresh Str&ucture"), "RefreshStructure", "refreshstructure", KShortcut(Qt::Key_F12), this, SLOT(refreshStructure()));
+	createAction(i18n("Refresh Str&ucture"), "RefreshStructure", "refreshstructure", QKeySequence(Qt::Key_F12), this, SLOT(refreshStructure()));
 
 	//project actions
 	createAction(i18n("&New Project..."), "project_new", "window-new", docManager(), SLOT(projectNew()));
@@ -781,9 +759,9 @@ void Kile::setupActions()
 
 	m_actRecentProjects = new KRecentFilesAction(i18n("Open &Recent Project"), actionCollection());
 	actionCollection()->addAction("project_openrecent", m_actRecentProjects);
-	connect(m_actRecentProjects, SIGNAL(urlSelected(const KUrl&)), docManager(), SLOT(projectOpen(const KUrl&)));
-	connect(docManager(), SIGNAL(removeFromRecentProjects(const KUrl&)), this, SLOT(removeRecentProject(const KUrl&)));
-	connect(docManager(), SIGNAL(addToRecentProjects(const KUrl& )), this, SLOT(addRecentProject(const KUrl&)));
+	connect(m_actRecentProjects, SIGNAL(urlSelected(const QUrl&)), docManager(), SLOT(projectOpen(const QUrl&)));
+	connect(docManager(), SIGNAL(removeFromRecentProjects(const QUrl&)), this, SLOT(removeRecentProject(const QUrl&)));
+	connect(docManager(), SIGNAL(addToRecentProjects(const QUrl& )), this, SLOT(addRecentProject(const QUrl&)));
 	m_actRecentProjects->loadEntries(m_config->group("Projects"));
 
 	createAction(i18n("A&dd Files to Project..."), "project_add", "project_add", docManager(), SLOT(projectAddFiles()));
@@ -802,61 +780,61 @@ void Kile::setupActions()
 
 	//build actions
 	act = createAction(i18n("Clean"),"CleanAll", "user-trash", this, SLOT(cleanAll()));
-	m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", KShortcut(Qt::Key_Escape));
+	m_paStop = createAction(i18n("&Stop"),"Stop", "process-stop", QKeySequence(Qt::Key_Escape));
 	m_paStop->setEnabled(false);
 	m_latexOutputErrorToolBar->addAction(m_paStop);
 
 	errorHandler()->setErrorHandlerToolBar(m_latexOutputErrorToolBar);
 
-	createAction(i18n("Return to Editor"), "return_to_editor", "document-edit", KShortcut("CTRL+E"), this, SLOT(showEditorWidget()));
-	createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page", KShortcut(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
-	createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page", KShortcut(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
-	createAction(i18n("Focus Log/Messages View"), "focus_log", KShortcut("CTRL+Alt+M"), this, SLOT(focusLog()));
-	createAction(i18n("Focus Output View"), "focus_output", KShortcut("CTRL+Alt+O"), this, SLOT(focusOutput()));
-	createAction(i18n("Focus Konsole View"), "focus_konsole", KShortcut("CTRL+Alt+K"), this, SLOT(focusKonsole()));
-	createAction(i18n("Focus Editor View"), "focus_editor", KShortcut("CTRL+Alt+F"), this, SLOT(focusEditor()));
+	createAction(i18n("Return to Editor"), "return_to_editor", "document-edit", QKeySequence("CTRL+E"), this, SLOT(showEditorWidget()));
+	createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page", QKeySequence(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
+	createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page", QKeySequence(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
+	createAction(i18n("Focus Log/Messages View"), "focus_log", QKeySequence("CTRL+Alt+M"), this, SLOT(focusLog()));
+	createAction(i18n("Focus Output View"), "focus_output", QKeySequence("CTRL+Alt+O"), this, SLOT(focusOutput()));
+	createAction(i18n("Focus Konsole View"), "focus_konsole", QKeySequence("CTRL+Alt+K"), this, SLOT(focusKonsole()));
+	createAction(i18n("Focus Editor View"), "focus_editor", QKeySequence("CTRL+Alt+F"), this, SLOT(focusEditor()));
 
-	createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1", KShortcut(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
-	createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), "edit_complete_env", "complete2", KShortcut(Qt::SHIFT + Qt::ALT + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXEnvironment()));
-	createAction(i18nc("@action: Starts the completion of the current abbreviation", "Complete Abbreviation"), "edit_complete_abbrev", "complete3", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Space), codeCompletionManager(), SLOT(startAbbreviationCompletion()));
+	createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1", QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXCompletion()));
+	createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), "edit_complete_env", "complete2", QKeySequence(Qt::SHIFT + Qt::ALT + Qt::Key_Space), codeCompletionManager(), SLOT(startLaTeXEnvironment()));
+	createAction(i18nc("@action: Starts the completion of the current abbreviation", "Complete Abbreviation"), "edit_complete_abbrev", "complete3", QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Space), codeCompletionManager(), SLOT(startAbbreviationCompletion()));
 
-	createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Right), m_edit, SLOT(nextBullet()));
-	createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", KShortcut(Qt::CTRL + Qt::ALT + Qt::Key_Left), m_edit, SLOT(prevBullet()));
+	createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Right), m_edit, SLOT(nextBullet()));
+	createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Left), m_edit, SLOT(prevBullet()));
 
  // advanced editor (dani)
-	createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", KShortcut("CTRL+Alt+S, E"), m_edit, SLOT(selectEnvInside()));
-	createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", KShortcut("CTRL+Alt+S, F"), m_edit, SLOT(selectEnvOutside()));
-	createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", KShortcut("CTRL+Alt+S, T"), m_edit, SLOT(selectTexgroupInside()));
-	createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", KShortcut("CTRL+Alt+S, U"),m_edit, SLOT(selectTexgroupOutside()));
-	createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", KShortcut("CTRL+Alt+S, M"), m_edit, SLOT(selectMathgroup()));
-	createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", KShortcut("CTRL+Alt+S, P"), m_edit, SLOT(selectParagraph()));
-	createAction(i18n("Line"), "edit_select_line", "selline", KShortcut("CTRL+Alt+S, L"), m_edit, SLOT(selectLine()));
-	createAction(i18n("TeX Word"), "edit_select_word", "selword", KShortcut("CTRL+Alt+S, W"), m_edit, SLOT(selectWord()));
+	createAction(i18n("Environment (inside)"), "edit_select_inside_env", "selenv_i", QKeySequence("CTRL+Alt+S, E"), m_edit, SLOT(selectEnvInside()));
+	createAction(i18n("Environment (outside)"), "edit_select_outside_env", "selenv_o", QKeySequence("CTRL+Alt+S, F"), m_edit, SLOT(selectEnvOutside()));
+	createAction(i18n("TeX Group (inside)"), "edit_select_inside_group", "selgroup_i", QKeySequence("CTRL+Alt+S, T"), m_edit, SLOT(selectTexgroupInside()));
+	createAction(i18n("TeX Group (outside)"), "edit_select_outside_group", "selgroup_o", QKeySequence("CTRL+Alt+S, U"),m_edit, SLOT(selectTexgroupOutside()));
+	createAction(i18n("Math Group"), "edit_select_mathgroup", "selmath", QKeySequence("CTRL+Alt+S, M"), m_edit, SLOT(selectMathgroup()));
+	createAction(i18n("Paragraph"), "edit_select_paragraph", "selpar", QKeySequence("CTRL+Alt+S, P"), m_edit, SLOT(selectParagraph()));
+	createAction(i18n("Line"), "edit_select_line", "selline", QKeySequence("CTRL+Alt+S, L"), m_edit, SLOT(selectLine()));
+	createAction(i18n("TeX Word"), "edit_select_word", "selword", QKeySequence("CTRL+Alt+S, W"), m_edit, SLOT(selectWord()));
 
-	createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", KShortcut("CTRL+Alt+T, E"), m_edit, SLOT(deleteEnvInside()));
-	createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", KShortcut("CTRL+Alt+T, F"), m_edit, SLOT(deleteEnvOutside()));
-	createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", KShortcut("CTRL+Alt+T, T"), m_edit, SLOT(deleteTexgroupInside()));
-	createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",KShortcut("CTRL+Alt+T, U"),m_edit, SLOT(deleteTexgroupInside()));
-	createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", KShortcut("CTRL+Alt+T, M"), m_edit, SLOT(deleteMathgroup()));
-	createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", KShortcut("CTRL+Alt+T, P"), m_edit, SLOT(deleteParagraph()));
-	createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", KShortcut("CTRL+Alt+T, L"), m_edit, SLOT(deleteEndOfLine()));
-	createAction(i18n("TeX Word"), "edit_delete_word", "delword", KShortcut("CTRL+Alt+T, W"), m_edit, SLOT(deleteWord()));
+	createAction(i18n("Environment (inside)"), "edit_delete_inside_env", "delenv_i", QKeySequence("CTRL+Alt+T, E"), m_edit, SLOT(deleteEnvInside()));
+	createAction(i18n("Environment (outside)"), "edit_delete_outside_env", "delenv_o", QKeySequence("CTRL+Alt+T, F"), m_edit, SLOT(deleteEnvOutside()));
+	createAction(i18n("TeX Group (inside)"), "edit_delete_inside_group", "delgroup_i", QKeySequence("CTRL+Alt+T, T"), m_edit, SLOT(deleteTexgroupInside()));
+	createAction(i18n("TeX Group (outside)"), "edit_delete_outside_group", "delgroup_o",QKeySequence("CTRL+Alt+T, U"),m_edit, SLOT(deleteTexgroupInside()));
+	createAction(i18n("Math Group"), "edit_delete_mathgroup", "delmath", QKeySequence("CTRL+Alt+T, M"), m_edit, SLOT(deleteMathgroup()));
+	createAction(i18n("Paragraph"), "edit_delete_paragraph", "delpar", QKeySequence("CTRL+Alt+T, P"), m_edit, SLOT(deleteParagraph()));
+	createAction(i18n("To End of Line"), "edit_delete_eol", "deleol", QKeySequence("CTRL+Alt+T, L"), m_edit, SLOT(deleteEndOfLine()));
+	createAction(i18n("TeX Word"), "edit_delete_word", "delword", QKeySequence("CTRL+Alt+T, W"), m_edit, SLOT(deleteWord()));
 
-	createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", KShortcut("CTRL+Alt+E, B"), m_edit, SLOT(gotoBeginEnv()));
-	createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", KShortcut("CTRL+Alt+E, E"), m_edit, SLOT(gotoEndEnv()));
-	createAction(i18n("Match"), "edit_match_env", "matchenv", KShortcut("CTRL+Alt+E, M"), m_edit, SLOT(matchEnv()));
-	createAction(i18n("Close"), "edit_close_env", "closeenv", KShortcut("CTRL+Alt+E, C"), m_edit, SLOT(closeEnv()));
-	createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", KShortcut("CTRL+Alt+E, A"), m_edit, SLOT(closeAllEnv()));
+	createAction(i18n("Go to Begin"), "edit_begin_env", "gotobeginenv", QKeySequence("CTRL+Alt+E, B"), m_edit, SLOT(gotoBeginEnv()));
+	createAction(i18n("Go to End"), "edit_end_env", "gotoendenv", QKeySequence("CTRL+Alt+E, E"), m_edit, SLOT(gotoEndEnv()));
+	createAction(i18n("Match"), "edit_match_env", "matchenv", QKeySequence("CTRL+Alt+E, M"), m_edit, SLOT(matchEnv()));
+	createAction(i18n("Close"), "edit_close_env", "closeenv", QKeySequence("CTRL+Alt+E, C"), m_edit, SLOT(closeEnv()));
+	createAction(i18n("Close All"), "edit_closeall_env", "closeallenv", QKeySequence("CTRL+Alt+E, A"), m_edit, SLOT(closeAllEnv()));
 
-	createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", KShortcut("CTRL+Alt+G, B"), m_edit, SLOT(gotoBeginTexgroup()));
-	createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", KShortcut("CTRL+Alt+G, E"), m_edit, SLOT(gotoEndTexgroup()));
-	createAction(i18n("Match"), "edit_match_group", "matchgroup", KShortcut("CTRL+Alt+G, M"), m_edit, SLOT(matchTexgroup()));
-	createAction(i18n("Close"), "edit_close_group", "closegroup", KShortcut("CTRL+Alt+G, C"), m_edit, SLOT(closeTexgroup()));
+	createAction(i18n("Go to Begin"), "edit_begin_group", "gotobegingroup", QKeySequence("CTRL+Alt+G, B"), m_edit, SLOT(gotoBeginTexgroup()));
+	createAction(i18n("Go to End"), "edit_end_group", "gotoendgroup", QKeySequence("CTRL+Alt+G, E"), m_edit, SLOT(gotoEndTexgroup()));
+	createAction(i18n("Match"), "edit_match_group", "matchgroup", QKeySequence("CTRL+Alt+G, M"), m_edit, SLOT(matchTexgroup()));
+	createAction(i18n("Close"), "edit_close_group", "closegroup", QKeySequence("CTRL+Alt+G, C"), m_edit, SLOT(closeTexgroup()));
 
-	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", KShortcut("CTRL+Alt+P, S"), this, SLOT(quickPreviewSelection()));
-	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",KShortcut("CTRL+Alt+P, E"), this, SLOT(quickPreviewEnvironment()));
-	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",KShortcut("CTRL+Alt+P, D"), this, SLOT(quickPreviewSubdocument()));
-	createAction(i18n("Mathgroup"), "quickpreview_math", "preview_math", KShortcut("CTRL+Alt+P, M"), this, SLOT(quickPreviewMathgroup()));
+	createAction(i18n("Selection"), "quickpreview_selection", "preview_sel", QKeySequence("CTRL+Alt+P, S"), this, SLOT(quickPreviewSelection()));
+	createAction(i18n("Environment"), "quickpreview_environment", "preview_env",QKeySequence("CTRL+Alt+P, E"), this, SLOT(quickPreviewEnvironment()));
+	createAction(i18n("Subdocument"), "quickpreview_subdocument", "preview_subdoc",QKeySequence("CTRL+Alt+P, D"), this, SLOT(quickPreviewSubdocument()));
+	createAction(i18n("Mathgroup"), "quickpreview_math", "preview_math", QKeySequence("CTRL+Alt+P, M"), this, SLOT(quickPreviewMathgroup()));
 
 	KileStdActions::setupStdTags(this, this, actionCollection(), this);
 	KileStdActions::setupMathTags(this, actionCollection());
@@ -877,7 +855,7 @@ void Kile::setupActions()
 	act = createAction(i18n("Settings for Biblatex"), "setting_biblatex", this, SLOT(rebuildBibliographyMenu()));
 	act->setCheckable(true);
 	m_bibTagSettings->addAction(act);
-	m_bibTagSettings->setCurrentAction(action((QString("setting_") + KileConfig::bibliographyType()).toAscii()));
+	m_bibTagSettings->setCurrentAction(action((QString("setting_") + KileConfig::bibliographyType()).toLatin1()));
 
 	rebuildBibliographyMenu();
 
@@ -893,7 +871,7 @@ void Kile::setupActions()
 
 	ModeAction = new KToggleAction(i18n("Define Current Document as '&Master Document'"), actionCollection());
 	actionCollection()->addAction("Mode", ModeAction);
-	ModeAction->setIcon(KIcon("master"));
+	ModeAction->setIcon(QIcon::fromTheme("master"));
 	connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMasterDocumentMode()));
 
 	if(viewManager()->viewerPart()) {
@@ -925,7 +903,7 @@ void Kile::setupActions()
 
 	WatchFileAction = new KToggleAction(i18n("Watch File Mode"), actionCollection());
 	actionCollection()->addAction("WatchFile", WatchFileAction);
-	WatchFileAction->setIcon(KIcon("watchfile"));
+	WatchFileAction->setIcon(QIcon::fromTheme("watchfile"));
 	connect(WatchFileAction, SIGNAL(triggered()), this, SLOT(toggleWatchFile()));
 	if(m_bWatchFile) {
 		WatchFileAction->setChecked(true);
@@ -935,31 +913,33 @@ void Kile::setupActions()
 	}
 
 	setHelpMenuEnabled(false);
-	const KAboutData *aboutData = KGlobal::mainComponent().aboutData();
-	KHelpMenu *help_menu = new KHelpMenu(this, aboutData);
+
+	KHelpMenu *help_menu = new KHelpMenu(this, KAboutData::applicationData());
 
 	actionCollection()->addAction(KStandardAction::TipofDay, this, SLOT(showTip()));
 
-	createAction(i18n("TeX Guide"), "help_tex_guide", KShortcut("CTRL+Alt+H, G"), m_help, SLOT(helpTexGuide()));
-	createAction(i18n("LaTeX"), "help_latex_index", KShortcut("CTRL+Alt+H, L"), m_help, SLOT(helpLatexIndex()));
-	createAction(i18n("LaTeX Command"), "help_latex_command", KShortcut("CTRL+Alt+H, C"), m_help, SLOT(helpLatexCommand()));
-	createAction(i18n("LaTeX Subject"), "help_latex_subject", KShortcut("CTRL+Alt+H, S"), m_help, SLOT(helpLatexSubject()));
-	createAction(i18n("LaTeX Env"), "help_latex_env", KShortcut("CTRL+Alt+H, E"), m_help, SLOT(helpLatexEnvironment()));
-	createAction(i18n("Context Help"), "help_context", KShortcut("CTRL+Alt+H, K"), m_help, SLOT(helpKeyword()));
-	createAction(i18n("Documentation Browser"), "help_docbrowser", KShortcut("CTRL+Alt+H, B"), m_help, SLOT(helpDocBrowser()));
+	createAction(i18n("TeX Guide"), "help_tex_guide", QKeySequence("CTRL+Alt+H, G"), m_help, SLOT(helpTexGuide()));
+	createAction(i18n("LaTeX"), "help_latex_index", QKeySequence("CTRL+Alt+H, L"), m_help, SLOT(helpLatexIndex()));
+	createAction(i18n("LaTeX Command"), "help_latex_command", QKeySequence("CTRL+Alt+H, C"), m_help, SLOT(helpLatexCommand()));
+	createAction(i18n("LaTeX Subject"), "help_latex_subject", QKeySequence("CTRL+Alt+H, S"), m_help, SLOT(helpLatexSubject()));
+	createAction(i18n("LaTeX Env"), "help_latex_env", QKeySequence("CTRL+Alt+H, E"), m_help, SLOT(helpLatexEnvironment()));
+	createAction(i18n("Context Help"), "help_context", QKeySequence("CTRL+Alt+H, K"), m_help, SLOT(helpKeyword()));
+	createAction(i18n("Documentation Browser"), "help_docbrowser", QKeySequence("CTRL+Alt+H, B"), m_help, SLOT(helpDocBrowser()));
 
 	createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-latex", this, SLOT(helpLaTex()));
+
 	actionCollection()->addAction(KStandardAction::HelpContents, help_menu, SLOT(appHelpActivated()));
 	actionCollection()->addAction(KStandardAction::ReportBug, help_menu, SLOT(reportBug()));
 	act = actionCollection()->addAction(KStandardAction::AboutApp, help_menu, SLOT(aboutApplication()));
 	act->setMenuRole(QAction::AboutRole); // for Mac OS X, to get the right about menu in the application menu
+
 	act = actionCollection()->addAction(KStandardAction::AboutKDE, help_menu, SLOT(aboutKDE()));
 	act->setMenuRole(QAction::NoRole);
 	act = createAction(i18n("&About Editor Component"), "help_about_editor", this, SLOT(aboutEditorComponent()));
 	act->setMenuRole(QAction::NoRole);
 
-	KAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection());
-	kileconfig->setIcon(KIcon("configure-kile"));
+	QAction *kileconfig = KStandardAction::preferences(this, SLOT(generalOptions()), actionCollection());
+	kileconfig->setIcon(QIcon::fromTheme("configure-kile"));
 
 	actionCollection()->addAction(KStandardAction::KeyBindings, this, SLOT(configureKeys()));
 	actionCollection()->addAction(KStandardAction::ConfigureToolbars, this, SLOT(configureToolbars()));
@@ -975,7 +955,7 @@ void Kile::setupActions()
 
 void Kile::rebuildBibliographyMenu(){
 
-	KILE_DEBUG() << " current is " << m_bibTagSettings->currentText();
+	KILE_DEBUG_MAIN << " current is " << m_bibTagSettings->currentText();
 
 	QString currentItem = m_bibTagSettings->currentText();
 	QString name;
@@ -987,7 +967,7 @@ void Kile::rebuildBibliographyMenu(){
 		name = QString("biblatex");
 	}
 	else {
-		KILE_DEBUG() << "wrong currentItem in bibliography settings menu";
+		KILE_DEBUG_MAIN << "wrong currentItem in bibliography settings menu";
 		name = QString("bibtex");
 	}
 
@@ -1013,7 +993,7 @@ void Kile::createToolActions()
 	for (QStringList::iterator i = tools.begin(); i != tools.end(); ++i) {
 		QString toolName = *i;
 		if(!actionCollection()->action("tool_" + toolName)) {
-			KILE_DEBUG() << "Creating action for tool" << toolName;
+			KILE_DEBUG_MAIN << "Creating action for tool" << toolName;
 			QAction *act = createToolAction(toolName);
 			m_signalMapper->removeMappings(act);
 			m_signalMapper->setMapping(act, toolName);
@@ -1023,16 +1003,16 @@ void Kile::createToolActions()
 
 void Kile::setupTools()
 {
-	KILE_DEBUG() << "==Kile::setupTools()===================" << endl;
+	KILE_DEBUG_MAIN << "==Kile::setupTools()===================" << endl;
 
 	if(!m_buildMenuCompile || !m_buildMenuConvert ||  !m_buildMenuTopLevel || !m_buildMenuQuickPreview || !m_buildMenuViewer || !m_buildMenuOther){
-		KILE_DEBUG() << "BUG, menu pointers are NULL"
-		             << (m_buildMenuCompile == NULL)
-		             << (m_buildMenuConvert == NULL)
-		             << (m_buildMenuTopLevel == NULL)
-		             << (m_buildMenuQuickPreview == NULL)
-		             << (m_buildMenuViewer == NULL)
-		             << (m_buildMenuOther == NULL);
+		KILE_DEBUG_MAIN << "BUG, menu pointers are Q_NULLPTR"
+		             << (m_buildMenuCompile == Q_NULLPTR)
+		             << (m_buildMenuConvert == Q_NULLPTR)
+		             << (m_buildMenuTopLevel == Q_NULLPTR)
+		             << (m_buildMenuQuickPreview == Q_NULLPTR)
+		             << (m_buildMenuViewer == Q_NULLPTR)
+		             << (m_buildMenuOther == Q_NULLPTR);
 		return;
 	}
 
@@ -1040,7 +1020,7 @@ void Kile::setupTools()
 	QString toolMenu, grp;
 	QList<QAction*> *pl;
 	QAction *act;
-	ToolbarSelectAction *pSelectAction = NULL;
+	ToolbarSelectAction *pSelectAction = Q_NULLPTR;
 
 	m_compilerActions->saveCurrentAction();
 	m_viewActions->saveCurrentAction();
@@ -1066,7 +1046,7 @@ void Kile::setupTools()
 		grp = KileTool::groupFor(tools[i], m_config.data());
 		toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
-		KILE_DEBUG() << tools[i] << " is using group: " << grp << " and menu: "<< toolMenu;
+		KILE_DEBUG_MAIN << tools[i] << " is using group: " << grp << " and menu: "<< toolMenu;
 		if(toolMenu == "none") {
 			continue;
 		}
@@ -1089,14 +1069,14 @@ void Kile::setupTools()
 		}
 		else{
 			pl = &m_listOtherActions;
-			pSelectAction = NULL;
+			pSelectAction = Q_NULLPTR;
 		}
 
-		KILE_DEBUG() << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
+		KILE_DEBUG_MAIN << "\tadding " << tools[i] << " " << toolMenu << " #" << pl->count() << endl;
 
 		act = actionCollection()->action("tool_" + tools[i]);
 		if(!act) {
-			KILE_DEBUG() << "no tool for " << tools[i];
+			KILE_DEBUG_MAIN << "no tool for " << tools[i];
 			act = createToolAction(tools[i]);
 			m_signalMapper->removeMappings(act);
 			m_signalMapper->setMapping(act, tools[i]);
@@ -1140,6 +1120,11 @@ void Kile::initSelectActions(){
 	m_convertActions = new ToolbarSelectAction(i18n("Convert"), this);
 	m_quickActions = new ToolbarSelectAction(i18n("Quick"), this);
 
+	actionCollection()->setShortcutsConfigurable(m_compilerActions, false);
+	actionCollection()->setShortcutsConfigurable(m_viewActions, false);
+	actionCollection()->setShortcutsConfigurable(m_convertActions, false);
+	actionCollection()->setShortcutsConfigurable(m_quickActions, false);
+
 	actionCollection()->addAction("list_compiler_select", m_compilerActions);
 	actionCollection()->addAction("list_convert_select", m_convertActions);
 	actionCollection()->addAction("list_view_select", m_viewActions);
@@ -1148,11 +1133,11 @@ void Kile::initSelectActions(){
 
 void Kile::saveLastSelectedAction(){
 
-	KILE_DEBUG() << "Kile::saveLastSelectedAction()" << endl;
+	KILE_DEBUG_MAIN << "Kile::saveLastSelectedAction()" << endl;
 	QStringList list;
 	list << "Compile" << "Convert" << "View" << "Quick";
 
-	ToolbarSelectAction *pSelectAction = NULL ;
+	ToolbarSelectAction *pSelectAction = Q_NULLPTR ;
 
 	KConfigGroup grp = m_config->group("ToolSelectAction");
 
@@ -1170,7 +1155,7 @@ void Kile::saveLastSelectedAction(){
 			pSelectAction = m_quickActions;
 		}
 
-		KILE_DEBUG() << "current item is " << pSelectAction->currentItem();
+		KILE_DEBUG_MAIN << "current item is " << pSelectAction->currentItem();
 
 		grp.writeEntry(*it, pSelectAction->currentItem());
 	}
@@ -1181,7 +1166,7 @@ void Kile::restoreLastSelectedAction(){
 	QStringList list;
 	list << "Compile" << "Convert" << "View" << "Quick";
 
-	ToolbarSelectAction *pSelectAction = NULL;
+	ToolbarSelectAction *pSelectAction = Q_NULLPTR;
 	int defaultAction = 0;
 
 	KConfigGroup grp = m_config->group("ToolSelectAction");
@@ -1205,22 +1190,22 @@ void Kile::restoreLastSelectedAction(){
 		}
 
 		int actIndex = grp.readEntry(*it, defaultAction);
-		KILE_DEBUG() << "selecting" << actIndex << "for" << *it;
+		KILE_DEBUG_MAIN << "selecting" << actIndex << "for" << *it;
 		pSelectAction->setCurrentItem(actIndex);
 	}
 }
 
 void Kile::cleanUpActionList(QList<QAction*> &list, const QStringList &tools)
 {
-//  	KILE_DEBUG() << "cleanUpActionList tools are" << tools.join("; ");
+//  	KILE_DEBUG_MAIN << "cleanUpActionList tools are" << tools.join("; ");
 	QList<QAction*>::iterator it, testIt;
 	for ( it= list.begin(); it != list.end(); ++it){
 		QAction *act = *it;
-		if ( act != NULL && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
+		if ( act != Q_NULLPTR && !act->objectName().isEmpty() && !tools.contains(act->objectName().mid(5)) ) {
 			if (act->associatedWidgets().contains(toolBar("toolsToolBar"))) {
 				toolBar("toolsToolBar")->removeAction(act);
 			}
-//             KILE_DEBUG() << "about to delete action: " << act->objectName();
+//             KILE_DEBUG_MAIN << "about to delete action: " << act->objectName();
 			testIt = list.erase(it);
 			if( testIt == list.end()){
 				break;
@@ -1235,14 +1220,14 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	  return;
 	}
 
-	KUrl url;
+	QUrl url;
 	for (int i=0; i < m_listProjectsOpenOnStart.count(); ++i) {
 		// don't open project files as they will be opened later in this method
-		docManager()->projectOpen(KUrl::fromPathOrUrl(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
+		docManager()->projectOpen(QUrl::fromUserInput(m_listProjectsOpenOnStart[i]), i, m_listProjectsOpenOnStart.count(), false);
 	}
 
 	for (int i = 0; i < m_listDocsOpenOnStart.count(); ++i) {
-		docManager()->fileOpen(KUrl::fromPathOrUrl(m_listDocsOpenOnStart[i]), m_listEncodingsOfDocsOpenOnStart[i]);
+		docManager()->fileOpen(QUrl::fromUserInput(m_listDocsOpenOnStart[i]), m_listEncodingsOfDocsOpenOnStart[i]);
 	}
 
 	if (ModeAction) {
@@ -1254,8 +1239,8 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 	m_listDocsOpenOnStart.clear();
 	m_listEncodingsOfDocsOpenOnStart.clear();
 
-        KILE_DEBUG() << "lastDocument=" << KileConfig::lastDocument() << endl;
-	KTextEditor::Document *doc = docManager()->docFor(KUrl::fromPathOrUrl(KileConfig::lastDocument()));
+        KILE_DEBUG_MAIN << "lastDocument=" << KileConfig::lastDocument() << endl;
+	KTextEditor::Document *doc = docManager()->docFor(QUrl::fromUserInput(KileConfig::lastDocument()));
 	if (doc) {
 		viewManager()->switchToTextView(doc->url(), true); // request the focus on the view
 	}
@@ -1264,7 +1249,7 @@ void Kile::restoreFilesAndProjects(bool allowRestore)
 
 void Kile::setActive()
 {
-	KILE_DEBUG() << "Activating" << endl;
+	KILE_DEBUG_MAIN << "Activating" << endl;
 	raise();
 	activateWindow();
 	show();
@@ -1293,7 +1278,7 @@ void Kile::setLine(const QString &line)
 	}
 }
 
-void Kile::setCursor(const KUrl &url, int parag, int index)
+void Kile::setCursor(const QUrl &url, int parag, int index)
 {
 	KTextEditor::Document *doc = docManager()->docFor(url);
 	if(doc) {
@@ -1307,10 +1292,10 @@ void Kile::setCursor(const KUrl &url, int parag, int index)
 
 void Kile::runArchiveTool()
 {
-	runArchiveTool(KUrl());
+	runArchiveTool(QUrl());
 }
 
-void Kile::runArchiveTool(const KUrl &url)
+void Kile::runArchiveTool(const QUrl &url)
 {
 	KileTool::Archive *tool = dynamic_cast<KileTool::Archive*>(m_manager->createTool("Archive", QString(), false));
 	if(!tool) {
@@ -1329,7 +1314,7 @@ void Kile::runArchiveTool(const KUrl &url)
 //TODO: move to KileView::Manager
 void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to be QWidget because of QTabWidget::currentChanged
 {
-	//KILE_DEBUG() << "==Kile::activateView==========================" << endl;
+	//KILE_DEBUG_MAIN << "==Kile::activateView==========================" << endl;
 	if (!w || !w->inherits("KTextEditor::View")) {
 		return;
 	}
@@ -1377,27 +1362,26 @@ void Kile::activateView(QWidget* w, bool updateStruct /* = true */ )  //Needs to
 
 void Kile::updateModeStatus()
 {
-	KILE_DEBUG() << "==Kile::updateModeStatus()==========";
+	KILE_DEBUG_MAIN << "==Kile::updateModeStatus()==========";
 	KileProject *project = docManager()->activeProject();
 	QString shortName = m_masterDocumentFileName;
 	int pos = shortName.lastIndexOf('/');
 	shortName.remove(0, pos + 1);
 
 	if(project) {
-		if(m_singlemode) {
-			statusBar()->changeItem(i18n("Project: %1", project->name()), ID_HINTTEXT);
+		if (m_singlemode) {
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Project: %1", project->name()));
 		}
 		else {
-			statusBar()->changeItem(i18n("Project: %1 (Master document: %2)", project->name(), shortName), ID_HINTTEXT);
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Project: %1 (Master document: %2)", project->name(), shortName));
 		}
 	}
-	else
-	{
+	else {
 		if (m_singlemode) {
-			statusBar()->changeItem(i18n("Normal mode"), ID_HINTTEXT);
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Normal mode"));
 		}
 		else {
-			statusBar()->changeItem(i18n("Master document: %1", shortName), ID_HINTTEXT);
+			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Master document: %1", shortName));
 		}
 	}
 
@@ -1414,20 +1398,20 @@ void Kile::updateModeStatus()
 	updateMenu();
 
 	KTextEditor::View *view = viewManager()->currentTextView();
-	// Passing NULL is ok
+	// Passing Q_NULLPTR is ok
 	updateStatusBarCursorPosition(view, (view ? view->cursorPosition() : KTextEditor::Cursor()));
 	updateStatusBarViewMode(view);
 	updateStatusBarSelection(view);
 }
 
-void Kile::openDocument(const KUrl& url)
+void Kile::openDocument(const QUrl &url)
 {
 	docManager()->fileSelected(url);
 }
 
 void Kile::openDocument(const QString& s)
 {
-	openDocument(KUrl::fromPathOrUrl(s));
+	openDocument(QUrl::fromUserInput(s));
 }
 
 void Kile::closeDocument()
@@ -1459,14 +1443,14 @@ void Kile::enableAutosave(bool as)
 	}
 }
 
-void Kile::openProject(const KUrl& url)
+void Kile::openProject(const QUrl &url)
 {
 	docManager()->projectOpen(url);
 }
 
 void Kile::openProject(const QString& proj)
 {
-	openProject(KUrl::fromPathOrUrl(proj));
+	openProject(QUrl::fromUserInput(proj));
 }
 
 void Kile::focusPreview()
@@ -1517,7 +1501,7 @@ bool Kile::queryClose()
 	}
 
 	//don't close Kile if embedded viewers are present
-	KILE_DEBUG() << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
+	KILE_DEBUG_MAIN << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
 	if(m_currentState != "Editor") {
 		resetPart();
 		return false;
@@ -1529,7 +1513,7 @@ bool Kile::queryClose()
 
 	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
 		KTextEditor::Document *doc = viewManager()->textView(i)->document();
-		const KUrl url = doc->url();
+		const QUrl url = doc->url();
 		if(url.isEmpty()) {
 			continue;
 		}
@@ -1537,10 +1521,10 @@ bool Kile::queryClose()
 		m_listEncodingsOfDocsOpenOnStart.append(doc->encoding());
 	}
 
-	KILE_DEBUG() << "#projects = " << docManager()->projects().count() << endl;
+	KILE_DEBUG_MAIN << "#projects = " << docManager()->projects().count() << endl;
 	QList<KileProject*> projectList = docManager()->projects();
 	for(QList<KileProject*>::iterator i = projectList.begin(); i != projectList.end(); ++i) {
-		const KUrl url = (*i)->url();
+		const QUrl url = (*i)->url();
 		if(url.isEmpty()) { // shouldn't happen, but just in case...
 			continue;
 		}
@@ -1582,12 +1566,12 @@ void Kile::showDocInfo(KTextEditor::View *view)
 		                                                                     docinfo,
 		                                                                     this,
 		                                                                     view,
-		                                                                     NULL, "");
+		                                                                     Q_NULLPTR, "");
 		dlg->exec();
 		delete dlg;
 	}
 	else {
-		kWarning() << "There is no KileDocument::Info object belonging to this document!";
+		qWarning() << "There is no KileDocument::Info object belonging to this document!";
 	}
 }
 
@@ -1628,6 +1612,11 @@ void Kile::convertToEnc(KTextEditor::Document *doc)
 	}
 }
 
+KileWidget::StatusBar * Kile::statusBar()
+{
+	return static_cast<KileWidget::StatusBar *>(KXmlGuiWindow::statusBar());
+}
+
 ////////////////// GENERAL SLOTS //////////////
 int Kile::lineNumber()
 {
@@ -1650,21 +1639,21 @@ void Kile::newCaption()
 		const QString caption = (doc->isReadWrite() ? getShortName(doc)
 		                                            : i18nc("Window caption in read-only mode: <file name> [Read-Only]",
 		                                                    "%1 [Read-Only]", getShortName(doc)));
-		setCaption(caption);
+		setWindowTitle(caption);
 		if (m_bottomBar->currentPage() && m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) {
 			m_texKonsole->sync();
 		}
 	}
 	else {
-		setCaption("");
+		setWindowTitle("");
 	}
 }
 
 void Kile::grepItemSelected(const QString &abs_filename, int line)
 {
-	KILE_DEBUG() << "Open file: "
+	KILE_DEBUG_MAIN << "Open file: "
 		<< abs_filename << " (" << line << ")" << endl;
-	docManager()->fileOpen(KUrl::fromPathOrUrl(abs_filename));
+	docManager()->fileOpen(QUrl::fromUserInput(abs_filename));
 	setLine(QString::number(line));
 }
 
@@ -1673,14 +1662,14 @@ void Kile::findInFiles()
 	static QPointer<KileDialog::FindFilesDialog> dlg = 0;
 
 	if (!dlg) {
-		KILE_DEBUG() << "grep guard: create findInFiles dlg" << endl;
+		KILE_DEBUG_MAIN << "grep guard: create findInFiles dlg" << endl;
 		dlg = new KileDialog::FindFilesDialog(mainWindow(), this, KileGrep::Directory);
 		dlg->show();
 		connect(dlg, SIGNAL(itemSelected(const QString &, int)),
 		        this, SLOT(grepItemSelected(const QString &, int)));
 	}
 	else {
-		KILE_DEBUG() << "grep guard: show findInFiles dlg" << endl;
+		KILE_DEBUG_MAIN << "grep guard: show findInFiles dlg" << endl;
 		dlg->activateWindow();
 		dlg->raise();
 	}
@@ -1688,17 +1677,17 @@ void Kile::findInFiles()
 
 void Kile::findInProjects()
 {
-	static QPointer<KileDialog::FindFilesDialog> project_dlg = NULL;
+	static QPointer<KileDialog::FindFilesDialog> project_dlg = Q_NULLPTR;
 
 	if(!project_dlg) {
-		KILE_DEBUG() << "grep guard: create findInProjects dlg" << endl;
+		KILE_DEBUG_MAIN << "grep guard: create findInProjects dlg" << endl;
 		project_dlg = new KileDialog::FindFilesDialog(mainWindow(), this, KileGrep::Project);
 		project_dlg->show();
 		connect(project_dlg, SIGNAL(itemSelected(const QString &, int)),
 		        this, SLOT(grepItemSelected(const QString &, int)));
 	}
 	else {
-		KILE_DEBUG() << "grep guard: show findInProjects dlg" << endl;
+		KILE_DEBUG_MAIN << "grep guard: show findInProjects dlg" << endl;
 		project_dlg->activateWindow();
 		project_dlg->raise();
 	}
@@ -1719,9 +1708,9 @@ void Kile::showEditorWidget()
 
 bool Kile::resetPart()
 {
-	KILE_DEBUG() << "==Kile::resetPart()=============================" << endl;
-	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
-	KILE_DEBUG() << "\twant state " << m_wantState << endl;
+	KILE_DEBUG_MAIN << "==Kile::resetPart()=============================" << endl;
+	KILE_DEBUG_MAIN << "\tcurrent state " << m_currentState << endl;
+	KILE_DEBUG_MAIN << "\twant state " << m_wantState << endl;
 
 	KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart*>(m_partManager->activePart());
 
@@ -1736,7 +1725,7 @@ bool Kile::resetPart()
 		}
 	}
 
-	setupStatusBar();
+	statusBar()->reset();
 	updateModeStatus();
 	newCaption();
 
@@ -1752,15 +1741,14 @@ bool Kile::resetPart()
 
 void Kile::activePartGUI(KParts::Part *part)
 {
-	KILE_DEBUG() << "==Kile::activePartGUI()=============================" << endl;
-	KILE_DEBUG() << "\tcurrent state " << m_currentState << endl;
-	KILE_DEBUG() << "\twant state " << m_wantState << endl;
+	KILE_DEBUG_MAIN << "==Kile::activePartGUI()=============================" << endl;
+	KILE_DEBUG_MAIN << "\tcurrent state " << m_currentState << endl;
+	KILE_DEBUG_MAIN << "\twant state " << m_wantState << endl;
 
 	//manually plug the print action into the toolbar for
 	//kghostview (which has the print action defined in
 	//a KParts::BrowserExtension)
 	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-
 	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) { //part is a BrowserExtension, connect printAction()
 		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
 		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
@@ -1867,8 +1855,8 @@ void Kile::enableKileGUI(bool enable)
 
 	// update latex usermenu actions
 	if ( m_userMenu ) {
-		QList<KAction *> useractions = m_userMenu->menuActions();
-		foreach ( KAction *action, useractions ) {
+		QList<QAction *> useractions = m_userMenu->menuActions();
+		foreach ( QAction *action, useractions ) {
 			action->setEnabled(enable);
 		}
 	}
@@ -2047,7 +2035,7 @@ void Kile::setMenuItems(QStringList &list, QMap<QString,bool> &dict)
 
 void Kile::updateMenu()
 {
-	KILE_DEBUG() << "==Kile::updateMenu()====================" << endl;
+	KILE_DEBUG_MAIN << "==Kile::updateMenu()====================" << endl;
 	QAction *a;
 	QMap<QString,bool>::Iterator it;
 
@@ -2071,14 +2059,24 @@ void Kile::updateMenu()
 	// update file menus
 	m_actRecentFiles->setEnabled( m_actRecentFiles->items().count() > 0 );
 	bool file_open = ( viewManager()->currentTextView() );
-	KILE_DEBUG() << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
+	KILE_DEBUG_MAIN << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
 	enableKileGUI(file_open);
 }
 
 bool Kile::updateMenuActivationStatus(QMenu *menu)
 {
-	if ( menu->objectName() == "usermenu-submenu" ) {
+  return updateMenuActivationStatus(menu, QSet<QMenu*>());
+}
+
+
+bool Kile::updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited)
+{
+	if(visited.contains(menu)) {
+		qWarning() << "Recursive menu structure detected - aborting!";
+		return true;
+	}
+	if(menu->objectName() == "usermenu-submenu") {
 		menu->setEnabled(true);
 		return true;
 	}
@@ -2090,7 +2088,9 @@ bool Kile::updateMenuActivationStatus(QMenu *menu)
 		QAction *action = *it;
 		QMenu *subMenu = action->menu();
 		if(subMenu) {
-			if(updateMenuActivationStatus(subMenu)) {
+			QSet<QMenu*> newVisited(visited);
+			newVisited.insert(menu);
+			if(updateMenuActivationStatus(subMenu, newVisited)) {
 				enabled = true;
 			}
 		}
@@ -2113,7 +2113,7 @@ void Kile::updateLatexenuActivationStatus(QMenu *menu, bool state)
 //TODO: move to KileView::Manager
 void Kile::prepareForPart(const QString & state)
 {
-	KILE_DEBUG() << "==Kile::prepareForPart====================";
+	KILE_DEBUG_MAIN << "==Kile::prepareForPart====================";
 
 	if(m_currentState == "Editor" && state == "Editor") {
 		return;
@@ -2137,7 +2137,7 @@ void Kile::runTool(const QString& tool)
 
 void Kile::runToolWithConfig(const QString &toolName, const QString &config)
 {
-	KILE_DEBUG() << toolName << config;
+	KILE_DEBUG_MAIN << toolName << config;
 
 	focusLog();
 	KileTool::Base *tool = m_manager->createTool(toolName, config);
@@ -2222,7 +2222,7 @@ void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs)
 
 void Kile::insertTag(const KileAction::TagData& data,const QStringList &pkgs)
 {
-	KILE_DEBUG() << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
+	KILE_DEBUG_MAIN << "void Kile::insertTag(const KileAction::TagData& data,const QStringList " << pkgs.join(",") << ")" << endl;
 	insertTag(data);
 
 	KileDocument::TextInfo *docinfo = docManager()->textInfoFor(getCompileName());
@@ -2397,18 +2397,17 @@ void Kile::quickUserMenuDialog()
 
 	// a new usermenu could have been installed, even if the return value is QDialog::Rejected
 	m_userMenu->refreshActionProperties();
-
 }
 
 void Kile::slotUpdateUserMenuStatus()
 {
-	KILE_DEBUG() << "slot update usermenu status";
+	KILE_DEBUG_MAIN << "slot update usermenu status";
 	updateUserMenuStatus(true);
 }
 
 void Kile::updateUserMenuStatus(bool state)
 {
-	KILE_DEBUG() << "update usermenu status";
+	KILE_DEBUG_MAIN << "update usermenu status";
 
 	if(m_userMenu) {
 		QMenu *menu = m_userMenu->getMenuItem();
@@ -2420,7 +2419,7 @@ void Kile::updateUserMenuStatus(bool state)
 
 void Kile::helpLaTex()
 {
-	QString loc = KGlobal::dirs()->findResource("appdata","help/latexhelp.html");
+	QString loc = QStandardPaths::locate(QStandardPaths::DataLocation, "help/latexhelp.html");
 	KileTool::Base *tool = toolManager()->createTool("ViewHTML", QString(), false);
 	if(!tool) {
 		errorHandler()->printMessage(KileTool::Error, i18n("Could not create the \"ViewHTML\" tool. Please reset the tools."));
@@ -2440,8 +2439,13 @@ void Kile::readGUISettings()
 // transform old user tags to xml file
 void Kile::transformOldUserTags()
 {
-	KILE_DEBUG() << "Convert old user tags";
-	QString xmldir = KStandardDirs::locateLocal("appdata", "usermenu/", true);
+	KILE_DEBUG_MAIN << "Convert old user tags";
+	QString xmldir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/usermenu/";
+	// create dir if not existing
+	QDir testDir(xmldir);
+	if (!testDir.exists()) {
+		testDir.mkpath(xmldir);
+	}
 
 	KConfigGroup userGroup = m_config->group("User");
 	int len = userGroup.readEntry("nUserTags", 0);
@@ -2449,15 +2453,15 @@ void Kile::transformOldUserTags()
 	if ( len > 0) {
 		QString usertagfile = "usertags.xml";
 		QString  filename = xmldir + usertagfile;
-		KILE_DEBUG() << "-convert user tags " << filename;
+		KILE_DEBUG_MAIN << "-convert user tags " << filename;
 
 		QFile file(filename);
 		if ( !file.open(QFile::WriteOnly | QFile::Text) ) {
-			KILE_DEBUG() << "-Error - could not open file to write: " << filename;
+			KILE_DEBUG_MAIN << "-Error - could not open file to write: " << filename;
 			return;
 		}
 
-		KILE_DEBUG() << "Write xml: " << filename;
+		KILE_DEBUG_MAIN << "Write xml: " << filename;
 		QXmlStreamWriter xml(&file);
 		xml.setAutoFormatting(true);
 		xml.setAutoFormattingIndent(2) ;
@@ -2500,7 +2504,7 @@ void Kile::transformOldUserSettings()
 	//data must be set by kile, even if the keys are present
 	//in the kilerc file
 	if(version < 4) {
-		KILE_DEBUG() << "READING STD TOOL CONFIG" << endl;
+		KILE_DEBUG_MAIN << "READING STD TOOL CONFIG" << endl;
 		m_toolFactory->readStandardToolConfig();
 	}
 
@@ -2538,8 +2542,8 @@ void Kile::transformOldUserSettings()
 			group.writeEntry("to", "");
 
 			if(i < 10) {
-				KAction *toolAction = static_cast<KAction*>(actionCollection()->action("tool_" + tempItem.name));
-				toolAction->setShortcut("Alt+Shift+" + QString::number(i + 1)); //should be alt+shift+
+				QAction *toolAction = static_cast<QAction*>(actionCollection()->action("tool_" + tempItem.name));
+				actionCollection()->setDefaultShortcut(toolAction, "Alt+Shift+" + QString::number(i + 1)); //should be alt+shift+
 			}
 		}
 	}
@@ -2572,7 +2576,7 @@ void Kile::readConfig()
 {
 	enableAutosave(KileConfig::autosave());
 	m_codeCompletionManager->readConfig(m_config.data());
-#ifdef LIVEPREVIEW_POSSIBLE
+#if LIVEPREVIEW_AVAILABLE
 	if(m_livePreviewManager) {
 		m_livePreviewManager->readConfig(m_config.data());
 	}
@@ -2606,7 +2610,7 @@ void Kile::saveSettings()
 	showEditorWidget();
 
 	m_fileBrowserWidget->writeConfig();
-#ifdef LIVEPREVIEW_POSSIBLE
+#if LIVEPREVIEW_AVAILABLE
 	if(m_livePreviewManager) {
 		m_livePreviewManager->writeConfig();
 	}
@@ -2634,7 +2638,8 @@ void Kile::saveSettings()
 		}
 	}
 
-	saveMainWindowSettings(m_config->group("KileMainWindow"));
+	KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+	saveMainWindowSettings(configGroup);
 
 	docManager()->writeConfig();
 	viewManager()->writeConfig();
@@ -2660,7 +2665,7 @@ void Kile::saveSettings()
 	++it;
 	KileConfig::setVerticalSplitterBottom(*it);
 #ifdef __GNUC__
-#warning Restoring the side bar's sizes from minimized after start up doesn't work perfectly yet!
+#warning Restoring the side bar sizes from minimized after start up does not work perfectly yet!
 #endif
 // 	// sync vertical splitter and size of bottom bar
 // 	int sizeBottomBar = m_bottomBar->directionalSize();
@@ -2680,7 +2685,7 @@ void Kile::saveSettings()
 
 	abbreviationManager()->saveLocalAbbreviations();
 
-	KileConfig::self()->writeConfig();
+	KileConfig::self()->save();
 	m_config->sync();
 }
 
@@ -2700,7 +2705,7 @@ void Kile::setMasterDocumentFileName(const QString& fileName)
 	m_singlemode = false;
 	updateModeStatus();
 	emit masterDocumentChanged();
-	KILE_DEBUG() << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << endl;
+	KILE_DEBUG_MAIN << "SETTING master to " << m_masterDocumentFileName << " singlemode = " << m_singlemode << endl;
 }
 
 void Kile::clearMasterDocument()
@@ -2711,7 +2716,7 @@ void Kile::clearMasterDocument()
 	m_masterDocumentFileName.clear();
 	updateModeStatus();
 	emit masterDocumentChanged();
-	KILE_DEBUG() << "CLEARING master document";
+	KILE_DEBUG_MAIN << "CLEARING master document";
 }
 
 void Kile::toggleMasterDocumentMode()
@@ -2776,7 +2781,7 @@ void Kile::generalOptions()
 void Kile::slotPerformCheck()
 {
 	// first we have to disable the live preview that may be running, and clear the master document
-#ifdef LIVEPREVIEW_POSSIBLE
+#if LIVEPREVIEW_AVAILABLE
 	const bool livePreviewEnabledForFreshlyOpenedDocuments = KileConfig::previewEnabledForFreshlyOpenedDocuments();
 	const bool livePreviewEnabledForCurrentDocument = livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
 	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
@@ -2794,7 +2799,7 @@ void Kile::slotPerformCheck()
 	if(!currentMasterDocument.isEmpty()) {
 		setMasterDocumentFileName(currentMasterDocument);
 	}
-#ifdef LIVEPREVIEW_POSSIBLE
+#if LIVEPREVIEW_AVAILABLE
 	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
 	if(livePreviewEnabledForCurrentDocument) {
 		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);
@@ -2841,7 +2846,8 @@ void Kile::configureKeys()
 
 void Kile::configureToolbars()
 {
-	saveMainWindowSettings(m_config->group("KileMainWindow"));
+	KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+	saveMainWindowSettings(configGroup);
 	KEditToolBar dlg(factory());
 	dlg.exec();
 
@@ -2933,7 +2939,7 @@ void Kile::slotToggleFullScreen()
 
 void Kile::slotQuickPreview(int type)
 {
-	KILE_DEBUG() << "==Kile::slotQuickPreview()=========================="  << endl;
+	KILE_DEBUG_MAIN << "==Kile::slotQuickPreview()=========================="  << endl;
 
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if ( ! view) return;
@@ -2955,7 +2961,7 @@ void Kile::slotQuickPreview(int type)
  Port the citeViewBib function as soon as we got a kbib version for KDE4.
 void Kile::citeViewBib()
 {
-	KILE_DEBUG()  << "===void Kile::citeViewBib()===" << endl;
+	KILE_DEBUG_MAIN  << "===void Kile::citeViewBib()===" << endl;
 
 	DCOPClient *client = kapp->dcopClient();
 	QByteArray params, replyData;
@@ -3004,7 +3010,7 @@ void Kile::citeViewBib()
 	if ( !client->call(viewBibApp, viewBibObj, viewBibFnc, params, replyType, replyData) )
 	{
 		// we should never get here
-		kWarning() << "internal error in viewbib citation" << endl;
+		qWarning() << "internal error in viewbib citation" << endl;
 		return;
 	}
 	else{
@@ -3030,22 +3036,22 @@ void Kile::citeViewBib()
 }
 */
 
-void Kile::addRecentFile(const KUrl& url)
+void Kile::addRecentFile(const QUrl &url)
 {
 	m_actRecentFiles->addUrl(url);
 }
 
-void Kile::removeRecentFile(const KUrl& url)
+void Kile::removeRecentFile(const QUrl &url)
 {
 	m_actRecentFiles->removeUrl(url);
 }
 
-void Kile::addRecentProject(const KUrl& url)
+void Kile::addRecentProject(const QUrl &url)
 {
 	m_actRecentProjects->addUrl(url);
 }
 
-void Kile::removeRecentProject(const KUrl& url)
+void Kile::removeRecentProject(const QUrl &url)
 {
 	m_actRecentProjects->removeUrl(url);
 }
@@ -3054,22 +3060,21 @@ void Kile::updateStatusBarCursorPosition(KTextEditor::View *view,
                                          const KTextEditor::Cursor &newPosition)
 {
 	if(!view) {
-		statusBar()->changeItem(QString(), ID_LINE_COLUMN);
+		statusBar()->changeItem(KileWidget::StatusBar::LineColumn, QString());
 	}
 	else {
-		statusBar()->changeItem(i18n("Line: %1 Col: %2",
-		                             newPosition.line() + 1,
-		                             newPosition.column() + 1), ID_LINE_COLUMN);
+		statusBar()->changeItem(KileWidget::StatusBar::LineColumn,
+			i18n("Line: %1 Col: %2", newPosition.line() + 1, newPosition.column() + 1));
 	}
 }
 
 void Kile::updateStatusBarViewMode(KTextEditor::View *view)
 {
 	if(!view) {
-		statusBar()->changeItem(QString(), ID_VIEW_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::ViewMode, QString());
 	}
 	else {
-		statusBar()->changeItem(view->viewMode(), ID_VIEW_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::ViewMode, view->viewModeHuman());
 	}
 }
 
@@ -3081,24 +3086,22 @@ void Kile::updateStatusBarInformationMessage(KTextEditor::View * /* view */, con
 void Kile::updateStatusBarSelection(KTextEditor::View *view)
 {
 	if(!view) {
-		statusBar()->changeItem(QString(), ID_SELECTION_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::SelectionMode, QString());
 	}
 	else {
 		const QString text = view->blockSelection() ?
 					i18nc("@info:status status bar label for block selection mode", "BLOCK") + ' ' :
 					i18nc("@info:status status bar label for line selection mode", "LINE") + ' ';
-		statusBar()->changeItem(text, ID_SELECTION_MODE);
+		statusBar()->changeItem(KileWidget::StatusBar::SelectionMode, text);
 	}
 }
 
 void Kile::handleDocumentParsingStarted()
 {
-	statusBar()->changeItem(i18n("Refreshing structure..."), ID_PARSER_STATUS);
+	statusBar()->changeItem(KileWidget::StatusBar::ParserStatus, i18n("Refreshing structure..."));
 }
 
 void Kile::handleDocumentParsingComplete()
 {
-	statusBar()->changeItem(QString(), ID_PARSER_STATUS);
+	statusBar()->changeItem(KileWidget::StatusBar::ParserStatus, QString());
 }
-
-#include "kile.moc"

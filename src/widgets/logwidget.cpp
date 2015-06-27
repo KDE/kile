@@ -22,11 +22,11 @@
 #include <QTextDocument>
 #include <QTextStream>
 
-#include <KAction>
-#include <KLocale>
+#include <QAction>
+#include <KLocalizedString>
 #include <KColorScheme>
 #include <KStandardAction>
-#include <KUrl>
+#include <QUrl>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -96,7 +96,7 @@ namespace KileWidget
 	}
 
 	LogWidget::LogWidget(PopupType popupType, QWidget *parent, const char *name) :
-		KListWidget(parent), m_popupType(popupType)
+		QListWidget(parent), m_popupType(popupType)
 	{
 		setObjectName(name);
 		connect(this, SIGNAL(itemClicked(QListWidgetItem*)),
@@ -203,7 +203,7 @@ namespace KileWidget
 
 	void LogWidget::printMessage(const QString& message)
 	{
-		KILE_DEBUG() << "\t" << message;
+		KILE_DEBUG_MAIN << "\t" << message;
 		printMessage(-1, message, QString());
 	}
 
@@ -222,11 +222,11 @@ namespace KileWidget
 	                             bool scroll)
 	{
 		if(type == KileTool::Error) {
-		KILE_DEBUG() << "showing error message emitted";
+		KILE_DEBUG_MAIN << "showing error message emitted";
 			emit showingErrorMessage(this);
 		}
 
-		QString myMsg = Qt::escape(message);
+		QString myMsg = message.toHtmlEscaped();
 		QString fontColor;
 
 		switch(type) {
@@ -290,7 +290,7 @@ namespace KileWidget
 
 	void LogWidget::printProblem(int type, const QString& problem, const OutputInfo& outputInfo)
 	{
-		KILE_DEBUG() << "\t" << problem;
+		KILE_DEBUG_MAIN << "\t" << problem;
 		printMessage(type, problem, QString(), outputInfo);
 	}
 
@@ -406,4 +406,3 @@ namespace KileWidget
 
 }
 
-#include "logwidget.moc"

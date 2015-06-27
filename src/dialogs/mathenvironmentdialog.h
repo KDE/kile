@@ -25,9 +25,9 @@
 class QLabel;
 class QCheckBox;
 class QSpinBox;
+class QLineEdit;
 
 class KComboBox;
-class KLineEdit;
 
 namespace KileDialog
 {
@@ -42,7 +42,7 @@ class MathEnvironmentDialog : public Wizard
 		~MathEnvironmentDialog() {}
 
 	public Q_SLOTS:
-		void slotButtonClicked(int button);
+		void slotAccepted();
 
 	private Q_SLOTS:
 		void slotEnvironmentChanged(int index);
@@ -58,7 +58,7 @@ class MathEnvironmentDialog : public Wizard
 		QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;
 		QLabel *m_lbTabulator, *m_lbDisplaymath, *m_lbStarred;
 		QLabel *m_lbEnvironment, *m_lbBullets;
-		KLineEdit *m_edSpace;
+		QLineEdit *m_edSpace;
 
 		QString m_envname;
 		bool m_starred;

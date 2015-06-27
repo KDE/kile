@@ -1,42 +1,41 @@
-/**************************************************************************************
-    Copyright (C) 2009 by Michel Ludwig (michel.ludwig@kdemail.net)
- **************************************************************************************/
+/*
+ *  Copyright 2015  Andreas Cord-Landwehr <cordlandwehr@kde.org>
+ *
+ *  This program is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU General Public License as
+ *  published by the Free Software Foundation; either version 2 of
+ *  the License, or (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
- 
-#ifndef PROGRESSDIALOG_H
-#define PROGRESSDIALOG_H
+#ifndef KILEPROGRESSDIALOG_H
+#define KILEPROGRESSDIALOG_H
 
-#include <QCloseEvent>
-
-#include <KProgressDialog>
+#include <QMap>
+#include <QProgressDialog>
 
 namespace KileWidget {
 
-/**
- * Our version of the progress dialog ignores close events from the window manager if the user
- * is not allowed to cancel the progress dialog.
- **/
-class ProgressDialog : public KProgressDialog
+class ProgressDialog : public QProgressDialog
 {
 	Q_OBJECT
 
 public:
-	explicit ProgressDialog(QWidget* parent = NULL, const QString& caption = QString(),
-	                        const QString& text = QString(), Qt::WFlags flags = 0);
-	virtual ~ProgressDialog();
+	ProgressDialog(QWidget *parent = Q_NULLPTR);
+	~ProgressDialog();
+	virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
-	virtual void closeEvent(QCloseEvent *event);
+public:
 
+private:
 };
-
 }
 
 #endif

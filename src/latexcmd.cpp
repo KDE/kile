@@ -15,7 +15,7 @@
 #include "latexcmd.h"
 
 #include <KConfigGroup>
-#include <KLocale>
+// #include <KLocalizedString>
 
 #include "kiledebug.h"
 
@@ -149,9 +149,9 @@ void LatexCommands::resetCommands()
 //       in 'latexcommanddialog.cpp').
 void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 {
-	KILE_DEBUG() << name;
+	KILE_DEBUG_MAIN << name;
 	if(!m_config->hasGroup(name)) {
-		KILE_DEBUG() << "\tGroup does not exist.";
+		KILE_DEBUG_MAIN << "\tGroup does not exist.";
 		return;
 	}
 
@@ -163,12 +163,12 @@ void LatexCommands::addUserCommands(const QString &name, QStringList &list)
 		const QString parametersKey = "Parameters" + QString::number(i);
 
 		if(!group.hasKey(commandKey) || !group.hasKey(parametersKey)) {
-			KILE_DEBUG() << "\tEntry" << i << "is invalid!";
+			KILE_DEBUG_MAIN << "\tEntry" << i << "is invalid!";
 		}
 		const QString command = group.readEntry(commandKey);
 		const QString parameters = group.readEntry(parametersKey);
 		list << command + ",-," + parameters;
-		KILE_DEBUG() << "\tAdding: " <<  command + " --> " + parameters;
+		KILE_DEBUG_MAIN << "\tAdding: " <<  command + " --> " + parameters;
 	}
 }
 
@@ -189,11 +189,11 @@ void LatexCommands::insert(const QStringList &list)
 				m_latexCommands[key] = value;
 			}
 			else {
-			   KILE_DEBUG() << "\tLatexCommands error: wrong number of attributes (" << key << " ---> " << value << ")";
+			   KILE_DEBUG_MAIN << "\tLatexCommands error: wrong number of attributes (" << key << " ---> " << value << ")";
 			}
 		}
 		else {
-			KILE_DEBUG() << "\tLatexCommands error: no separator found (" << (*it) << ")" ;
+			KILE_DEBUG_MAIN << "\tLatexCommands error: no separator found (" << (*it) << ")" ;
 		}
 	}
 }
@@ -263,7 +263,7 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
 		case CmdAttrIncludes:  ch = 'I'; break;
 		case CmdAttrBibliographies: ch = 'B'; break;
 		default:
-		     KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: code " << attr;
+		     KILE_DEBUG_MAIN << "\tLatexCommands error: unknown type of env/cmd: code " << attr;
 			  return '?';
 	}
 
@@ -274,7 +274,7 @@ QChar LatexCommands::getAttrChar(CmdAttribute attr)
 CmdAttribute LatexCommands::getCharAttr(QChar ch)
 {
 	CmdAttribute attr;
-	switch(ch.toAscii()) {
+	switch(ch.unicode()) {
 		case 'a':
 			attr = CmdAttrAmsmath;
 		break;
@@ -306,7 +306,7 @@ CmdAttribute LatexCommands::getCharAttr(QChar ch)
 			attr = CmdAttrBibliographies;
 		break;
 		default:
-			KILE_DEBUG() << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch.unicode());
+			KILE_DEBUG_MAIN << "\tLatexCommands error: unknown type of env/cmd: " << static_cast<char>(ch.unicode());
 			return CmdAttrNone;
 	}
 
@@ -487,4 +487,3 @@ QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
 // END LatexCommands
 
 }
-#include "latexcmd.moc"

@@ -1,4 +1,4 @@
 
 ########### install files ###############
-FILE(GLOB kile_jsplug *.js)
-INSTALL( FILES ${kile_jsplug} DESTINATION ${DATA_INSTALL_DIR}/kile/script-plugins )
+file(GLOB kile_jsplug *.js)
+install(FILES ${kile_jsplug} DESTINATION ${DATA_INSTALL_DIR}/kile/script-plugins)

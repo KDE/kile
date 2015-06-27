@@ -22,4 +22,3 @@ KileWidgetEnvironmentConfig::~KileWidgetEnvironmentConfig()
 {
 }
 
-#include "environmentconfigwidget.moc"

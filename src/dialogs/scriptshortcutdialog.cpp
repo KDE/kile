@@ -9,6 +9,10 @@
 #include <KActionCollection>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 #include "kiledebug.h"
 
@@ -16,16 +20,26 @@ namespace KileDialog {
 
 
 ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int type, const QString &sequence)
-	: KDialog(parent)
+	: QDialog(parent)
 {
-	setCaption(i18n("New Key Sequence"));
+	setWindowTitle(i18n("New Key Sequence"));
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	//PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
+	mainLayout->addWidget(buttonBox);
+	okButton->setDefault(true);
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 	m_scriptShortcutDialog.setupUi(page);
 
 	m_scriptShortcutDialog.m_rbKeySequence->setWhatsThis(i18n("Use a key sequence written in the editor to execute a script."));
@@ -89,4 +103,3 @@ void ScriptShortcutDialog::slotUpdate()
 
 }
 
-#include "scriptshortcutdialog.moc"

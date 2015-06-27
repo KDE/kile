@@ -17,38 +17,34 @@
 
 #include <config.h>
 
-#ifdef LIBPOPPLER_QT4_AVAILABLE
-#include <poppler-qt4.h>
+#if LIBPOPPLER_AVAILABLE
+#include <poppler-qt5.h>
 #endif
 
-
-#include <KDialog>
-#include <KTempDir>
-
-#include <QProcess>
-#include <QMap>
-#include <QVector>
-#include <QCheckBox>
-#include <QLineEdit>
 #include <QBitArray>
+#include <QCheckBox>
+#include <QDialog>
+#include <QMap>
+#include <QProcess>
+#include <QTemporaryDir>
+#include <QVector>
 
 #include "widgets/outputview.h"
 #include "widgets/categorycombobox.h"
-
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"
 
 #include "ui_pdfdialog_base.h"
 
-
+class QDialogButtonBox;
+class QLineEdit;
 class KProcess;
-
 class KileErrorHandler;
 
 namespace KileDialog
 {
 
-class PdfDialog : public KDialog
+class PdfDialog : public QDialog
 {
 	Q_OBJECT
 
@@ -68,7 +64,8 @@ class PdfDialog : public KDialog
 		void slotOutputfileChanged(const QString &text);
 		void slotTaskChanged(int index);
 		void slotOverwriteChanged(int state);
-		void slotButtonClicked(int button);
+		void slotExecute();
+		void slotShowHelp();
 		void slotTabwidgetChanged(int index);
 		void slotPrintingClicked();
 		void slotAllClicked();
@@ -95,7 +92,7 @@ class PdfDialog : public KDialog
 
 		enum PDF_ScriptMode { PDF_SCRIPTMODE_TOOLS=0,      PDF_SCRIPTMODE_ACTION=1,
 		                      PDF_SCRIPTMODE_PROPERTIES=2, PDF_SCRIPTMODE_PERMISSIONS=3,
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#if !LIBPOPPLER_AVAILABLE
 		                      PDF_SCRIPTMODE_NUMPAGES_PDFTK=4,
 		                      PDF_SCRIPTMODE_NUMPAGES_IMAGEMAGICK=5,
 		                      PDF_SCRIPTMODE_NUMPAGES_GHOSTSCRIPT=6
@@ -150,7 +147,7 @@ class PdfDialog : public KDialog
 		QString readPermissions();
 		void setNumberOfPages(int numpages);
 
-#ifdef LIBPOPPLER_QT4_AVAILABLE
+#if LIBPOPPLER_AVAILABLE
 		QSize allPagesSize(Poppler::Document *doc);
 		bool isAllowed(Poppler::Document *doc, PDF_Permission permission) const;
 #endif
@@ -169,7 +166,7 @@ class PdfDialog : public KDialog
 		QString m_param;
 		bool m_scriptrunning;
 
-		KTempDir *m_tempdir;
+		QTemporaryDir *m_tempdir;
 		QStringList m_move_filelist;
 
 		bool m_poppler;
@@ -192,9 +189,11 @@ class PdfDialog : public KDialog
 
 		KProcess* m_proc;
 
+		QPushButton *m_rearrangeButton;
+		QDialogButtonBox *m_buttonBox;
 		Ui::PdfDialog m_PdfDialog;
 
-#ifndef LIBPOPPLER_QT4_AVAILABLE
+#if !LIBPOPPLER_AVAILABLE
 		int m_imagemagick;
 		int m_numpagesMode;
 		void determineNumberOfPages(const QString &filename, bool askForPasswor);

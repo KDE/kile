@@ -21,7 +21,7 @@
 
 #include <KActionCollection>
 #include <KConfig>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KParts/PartManager>
 #include <KSelectAction>
@@ -80,18 +80,18 @@ namespace KileTool
 			Queue *oldqueue = new Queue(*this);
 
 			clear();
-			KILE_DEBUG() << "\tenqueueing: " << headitem->tool()->name() << endl;
+			KILE_DEBUG_MAIN << "\tenqueueing: " << headitem->tool()->name() << endl;
 			enqueue(headitem);
-			KILE_DEBUG() << "\tenqueueing: " << item->tool()->name() << endl;
+			KILE_DEBUG_MAIN << "\tenqueueing: " << item->tool()->name() << endl;
 			enqueue(item);
 			while(!oldqueue->isEmpty()) {
-				KILE_DEBUG() << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
+				KILE_DEBUG_MAIN << "\tenqueueing: " << oldqueue->head()->tool()->name() << endl;
 				enqueue(oldqueue->dequeue());
 			}
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *manager, QStackedWidget *stack, KAction *stop, uint to, KActionCollection *ac) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *manager, QStackedWidget *stack, QAction *stop, uint to, KActionCollection *ac) :
 		m_ki(ki),
 		m_config(config),
 		m_output(output),
@@ -101,7 +101,7 @@ namespace KileTool
 		m_bClear(true),
 		m_nLastResult(Success),
 		m_nTimeout(to),
-		m_bibliographyBackendSelectAction(NULL)
+		m_bibliographyBackendSelectAction(Q_NULLPTR)
 	{
 		connect(m_ki->parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingComplete()));
 
@@ -124,7 +124,7 @@ namespace KileTool
 
 	Manager::~Manager()
 	{
-		KILE_DEBUG();
+		KILE_DEBUG_MAIN;
 
 		for(QQueue<QueueItem*>::iterator i = m_queue.begin(); i != m_queue.end(); ++i) {
 			// this will also stop any running processes
@@ -190,9 +190,9 @@ namespace KileTool
 		m_toolsScheduledAfterParsingList.clear();
 	}
 
-	int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= NULL*/)
+	int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block /*= false*/, Base *parent /*= Q_NULLPTR*/)
 	{
-		KILE_DEBUG() << "==KileTool::Manager::runImmediately(Base *)============" << endl;
+		KILE_DEBUG_MAIN << "==KileTool::Manager::runImmediately(Base *)============" << endl;
 		if(m_bClear && (m_queue.count() == 0)) {
 			m_ki->errorHandler()->clearMessages();
 			m_output->clear();
@@ -223,7 +223,7 @@ namespace KileTool
 			emit(childToolSpawned(parent,tool));
 		}
 
-		KILE_DEBUG() << "\tin queue: " << m_queue.count() << endl;
+		KILE_DEBUG_MAIN << "\tin queue: " << m_queue.count() << endl;
 		if(m_queue.count() == 1) {
 			return runNextInQueue();
 		}
@@ -278,13 +278,13 @@ namespace KileTool
 	{
 		if(!m_factory) {
 			m_ki->errorHandler()->printMessage(Error, i18n("No factory installed, contact the author of Kile."));
-			return NULL;
+			return Q_NULLPTR;
 		}
 
 		Base* pTool = m_factory->create(name, cfg, prepare);
 		if(!pTool) {
 			m_ki->errorHandler()->printMessage(Error, i18n("Unknown tool %1.", name));
-			return NULL;
+			return Q_NULLPTR;
 		}
 		initTool(pTool);
 		return pTool;
@@ -303,7 +303,7 @@ namespace KileTool
 
 	void Manager::started(Base *tool)
 	{
-		KILE_DEBUG() << "STARTING tool: " << tool->name() << endl;
+		KILE_DEBUG_MAIN << "STARTING tool: " << tool->name() << endl;
 		setEnabledStopButton(true);
 
 		if (tool->isViewer()) {
@@ -325,7 +325,7 @@ namespace KileTool
 
 	void Manager::stopLivePreview()
 	{
-		KILE_DEBUG();
+		KILE_DEBUG_MAIN;
 
 		Base *tool = m_queue.tool();
 
@@ -340,7 +340,7 @@ namespace KileTool
 
 	void Manager::stopActionDestroyed()
 	{
-		m_stop = NULL;
+		m_stop = Q_NULLPTR;
 	}
 
 	void Manager::done(KileTool::Base *tool, int result)
@@ -435,8 +435,8 @@ namespace KileTool
 	{
 		QString group = (cfg.isEmpty()) ? currentGroup(name, usequeue, useproject) : groupFor(name, cfg);
 
-		KILE_DEBUG() << "==KileTool::Manager::retrieveEntryMap=============" << endl;
-		KILE_DEBUG() << "\t" << name << " => " << group << endl;
+		KILE_DEBUG_MAIN << "==KileTool::Manager::retrieveEntryMap=============" << endl;
+		KILE_DEBUG_MAIN << "\t" << name << " => " << group << endl;
 		if(m_config->hasGroup(group)) {
 			map = m_config->entryMap(group);
 
@@ -462,9 +462,9 @@ namespace KileTool
 
 	void Manager::saveEntryMap(const QString & name, Config & map, bool usequeue, bool useproject)
 	{
-		KILE_DEBUG() << "==KileTool::Manager::saveEntryMap=============" << endl;
+		KILE_DEBUG_MAIN << "==KileTool::Manager::saveEntryMap=============" << endl;
 		QString group = currentGroup(name, usequeue, useproject);
-		KILE_DEBUG() << "\t" << name << " => " << group << endl;
+		KILE_DEBUG_MAIN << "\t" << name << " => " << group << endl;
 		KConfigGroup configGroup = m_config->group(group);
 
 		Config::Iterator it;
@@ -477,7 +477,7 @@ namespace KileTool
 
 	bool Manager::configure(Base *tool, const QString& cfg /* = QString() */)
 	{
-		KILE_DEBUG() << "==KileTool::Manager::configure()===============" << endl;
+		KILE_DEBUG_MAIN << "==KileTool::Manager::configure()===============" << endl;
 		//configure the tool
 
 		Config map;
@@ -495,7 +495,7 @@ namespace KileTool
 
 	void Manager::wantGUIState(const QString & state)
 	{
-		KILE_DEBUG() << "REQUESTED state: " << state << endl;
+		KILE_DEBUG_MAIN << "REQUESTED state: " << state << endl;
 		emit(requestGUIState(state));
 	}
 
@@ -516,7 +516,7 @@ namespace KileTool
 
 	QStringList toolList(KConfig *config, bool menuOnly)
 	{
-		KILE_DEBUG() << "==KileTool::toolList()==================" << endl;
+		KILE_DEBUG_MAIN << "==KileTool::toolList()==================" << endl;
 
 		QStringList groups = config->groupList(), tools;
 		QRegExp re = QRegExp("Tool/(.+)/.+");
@@ -537,7 +537,7 @@ namespace KileTool
 		}
 
 		tools.sort();
-// 		KILE_DEBUG() << "tools " << tools.join(", ");
+// 		KILE_DEBUG_MAIN << "tools " << tools.join(", ");
 
 		return tools;
 	}
@@ -578,7 +578,7 @@ namespace KileTool
 
 	void setConfigName(const QString &tool, const QString &name, KConfig *config)
 	{
-		KILE_DEBUG() << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << endl;
+		KILE_DEBUG_MAIN << "==KileTool::Manager::setConfigName(" << tool << "," << name << ")===============" << endl;
 		config->group("Tools").writeEntry(tool, name);
 	}
 
@@ -590,7 +590,7 @@ namespace KileTool
 	QString groupFor(const QString& tool, const QString& cfg /* = Default */ )
 	{
 		QString group = "Tool/" + tool + '/' + cfg;
-		KILE_DEBUG() << "groupFor(const QString &" << tool << ", const QString & " << cfg << " ) = " << group;
+		KILE_DEBUG_MAIN << "groupFor(const QString &" << tool << ", const QString & " << cfg << " ) = " << group;
 		return group;
 	}
 
@@ -606,7 +606,7 @@ namespace KileTool
 		}
 		else
 			tool = lcl;
-		KILE_DEBUG() << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << endl;
+		KILE_DEBUG_MAIN << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << endl;
 	}
 
 	QString format(const QString & tool, const QString &cfg)
@@ -699,7 +699,7 @@ void KileTool::Manager::buildBibliographyBackendSelection()
 {
 	m_bibliographyBackendSelectAction->removeAllActions();
 	m_bibliographyBackendSelectAction->menu()->clear();
-	for(QMap<ToolConfigPair, KAction*>::iterator i = m_bibliographyBackendActionMap.begin(); i != m_bibliographyBackendActionMap.end(); ++i) {
+	for(QMap<ToolConfigPair, QAction *>::iterator i = m_bibliographyBackendActionMap.begin(); i != m_bibliographyBackendActionMap.end(); ++i) {
 		delete i.value();
 	}
 	m_bibliographyBackendActionMap.clear();
@@ -712,7 +712,7 @@ void KileTool::Manager::buildBibliographyBackendSelection()
 
 	Q_FOREACH(const ToolConfigPair& tool, m_bibliographyToolsList) {
 		// create an action for backend selection
-		KAction* action = m_bibliographyBackendSelectAction->addAction(tool.userStringRepresentation());
+		QAction * action = m_bibliographyBackendSelectAction->addAction(tool.userStringRepresentation());
 		action->setData(qVariantFromValue(tool));
 		m_bibliographyBackendActionMap[tool] = action;
 	}
@@ -734,7 +734,7 @@ void KileTool::Manager::createActions(KActionCollection *ac)
 
 	ac->addAction("bibbackend_select", m_bibliographyBackendSelectAction);
 
-	m_bibliographyBackendResetAutodetectedAction = new KAction(i18n("Reset Auto-Detected Back End"), this);
+	m_bibliographyBackendResetAutodetectedAction = new QAction(i18n("Reset Auto-Detected Back End"), this);
 	m_bibliographyBackendResetAutodetectedAction->setEnabled(false);
 
 	connect(m_bibliographyBackendSelectAction, SIGNAL(triggered(QAction*)), SLOT(bibliographyBackendSelectedByUser()));
@@ -775,7 +775,7 @@ void KileTool::Manager::currentLaTeXOutputHandlerChanged(LaTeXOutputHandler* han
 		}
 		else {
 			// here we have to check whether the action exists
-			QMap<ToolConfigPair, KAction*>::const_iterator i = m_bibliographyBackendActionMap.constFind(userOverrideBibBackend);
+			QMap<ToolConfigPair, QAction *>::const_iterator i = m_bibliographyBackendActionMap.constFind(userOverrideBibBackend);
 			if (i != m_bibliographyBackendActionMap.constEnd()) {
 				i.value()->setChecked(true);
 			}
@@ -799,4 +799,3 @@ void KileTool::Manager::resetAutodetectedBibliographyBackend()
 	}
 }
 
-#include "kiletoolmanager.moc"

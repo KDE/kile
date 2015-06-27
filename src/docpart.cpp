@@ -17,21 +17,22 @@
 #include "docpart.h"
 
 #include <KConfig>
-#include <KGlobal>
-#include <KHTMLView>
 #include <KMessageBox>
-#include <KMimeType>
 #include <KMimeTypeTrader>
 #include <KStandardAction>
-#include <KStandardDirs>
 #include <KRun>
+#include <KHTMLView>
+
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QStandardPaths>
 
 #include "kiledebug.h"
 
 DocumentationViewer::DocumentationViewer(QWidget *parent) : KHTMLPart(parent, parent, BrowserViewGUI)
 {
 	m_hpos = 0;
-	QString rc = KGlobal::dirs()->findResource("appdata", "docpartui.rc");
+	QString rc = QStandardPaths::locate(QStandardPaths::DataLocation, "docpartui.rc");
 	setXMLFile(rc);
 	KStandardAction::back(this, SLOT(back()), (QObject*)actionCollection());
 	KStandardAction::forward(this, SLOT(forward()), (QObject*)actionCollection());
@@ -44,12 +45,13 @@ DocumentationViewer::~DocumentationViewer()
 
 bool DocumentationViewer::urlSelected(const QString &url, int button, int state, const QString &_target, const KParts::OpenUrlArguments &args, const KParts::BrowserArguments & /* browserArgs */)
 {
-	KUrl cURL = completeURL(url);
-	QString mime = KMimeType::findByUrl(cURL).data()->name();
+	QUrl cURL = completeURL(url);
+	QMimeDatabase db;
+	QString mime = db.mimeTypeForUrl(cURL).name();
 
 	//load this URL in the embedded viewer if KHTML can handle it, or when mimetype detection failed
 	KService::Ptr service = KService::serviceByDesktopName("khtml");
-	if(( mime == KMimeType::defaultMimeType() ) || (service && service->hasServiceType(mime))) {
+	if (db.mimeTypeForUrl(cURL).isDefault() || (service && service->hasServiceType(mime))) {
 		KHTMLPart::urlSelected(url, button, state, _target, args);
 		openUrl(cURL);
 		addToHistory(cURL.url());
@@ -61,9 +63,9 @@ bool DocumentationViewer::urlSelected(const QString &url, int button, int state,
 			KMessageBox::error(view(), i18n("No KDE service found for the MIME type \"%1\".", mime));
 			return false;
 		}
-		KUrl::List lst;
+		QList<QUrl> lst;
 		lst.append(cURL);
-		KRun::run(*(offers.first()), lst, view());
+		KRun::runService(*(offers.first()), lst, view());
 	}
 	return true;
 }
@@ -71,7 +73,7 @@ bool DocumentationViewer::urlSelected(const QString &url, int button, int state,
 void DocumentationViewer::home()
 {
 	if(!m_history.isEmpty()) {
-		openUrl(KUrl(m_history.first()));
+		openUrl(QUrl::fromLocalFile(m_history.first()));
 	}
 }
 
@@ -79,7 +81,7 @@ void DocumentationViewer::forward()
 {
 	if(forwardEnable()) {
 		++m_hpos;
-		openUrl(KUrl(m_history[m_hpos]));
+		openUrl(QUrl::fromLocalFile(m_history[m_hpos]));
 		emit updateStatus(backEnable(), forwardEnable());
 	}
 }
@@ -89,7 +91,7 @@ void DocumentationViewer::back()
 {
 	if(backEnable()) {
 		--m_hpos;
-		openUrl(KUrl(m_history[m_hpos]));
+		openUrl(QUrl::fromLocalFile(m_history[m_hpos]));
 		emit updateStatus(backEnable() , forwardEnable());
 	}
 }
@@ -125,4 +127,3 @@ bool DocumentationViewer::forwardEnable()
 	return (m_hpos < m_history.count() - 1);
 }
 
-#include "docpart.moc"

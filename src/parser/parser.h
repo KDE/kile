@@ -17,7 +17,7 @@
 #include <QLinkedList>
 #include <QObject>
 
-#include <KUrl>
+#include <QUrl>
 
 class KileInfo;
 
@@ -57,10 +57,10 @@ public:
 
 class ParserInput {
 public:
-	explicit ParserInput(const KUrl& url);
+	explicit ParserInput(const QUrl &url);
 	virtual ~ParserInput();
 
-	KUrl url;
+	QUrl url;
 };
 
 class ParserOutput {
@@ -75,7 +75,7 @@ class Parser : public QObject
 	Q_OBJECT
 
 public:
-	explicit Parser(ParserThread *parserThread, QObject *parent = NULL);
+	explicit Parser(ParserThread *parserThread, QObject *parent = Q_NULLPTR);
 	virtual ~Parser();
 
 	virtual ParserOutput* parse() = 0;

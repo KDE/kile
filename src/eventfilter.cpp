@@ -61,7 +61,7 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 		if (ime->commitString().size() == 1) {
 			// Extract unicode representation:
 			unsigned short rep = ime->commitString().at(0).unicode();
-			KILE_DEBUG() << "string= "<< ime->commitString().at(0) << " dec= "<< rep;
+			KILE_DEBUG_MAIN << "string= "<< ime->commitString().at(0) << " dec= "<< rep;
 			return m_edit->insertLatexFromUnicode(rep, m_view);
 		}
 	}
@@ -253,4 +253,3 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
 }
 
 
-#include "eventfilter.moc"

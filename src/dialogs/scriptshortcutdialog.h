@@ -6,7 +6,7 @@
 #ifndef SCRIPTSHORTCUTDIALOG_H
 #define SCRIPTSHORTCUTDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include "kileinfo.h"
 #include "scripting/script.h"
@@ -17,7 +17,7 @@ namespace KileDialog
 {
 
 
-class ScriptShortcutDialog : public KDialog
+class ScriptShortcutDialog : public QDialog
 {
 	Q_OBJECT
 

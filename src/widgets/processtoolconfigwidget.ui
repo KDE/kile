@@ -104,7 +104,6 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>

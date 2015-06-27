@@ -4,7 +4,7 @@
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
    Copyright (C) 2005 Holger Danielsson <holger.danielsson@versanet.de>
-   Copyright (C) 2008-2010 Michel Ludwig <michel.ludwig@kdemail.net>
+   Copyright (C) 2008-2014 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -45,6 +45,7 @@
 
 #include <QCheckBox>
 #include <QCursor>
+#include <QDialogButtonBox>
 #include <QEvent>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -60,17 +61,15 @@
 
 #include <KProcess>
 #include <KAcceleratorManager>
-#include <KApplication>
 #include <KComboBox>
-#include <KDialogButtonBox>
-#include <KFileDialog>
 #include <KIconLoader>
-#include <KLineEdit>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>
 #include <KUrlCompletion>
 #include <KUrlRequester>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
 
 #include "kiledebug.h"
 #include "kileconfig.h"
@@ -81,31 +80,22 @@
 namespace KileDialog {
 
 FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name)
-		: KDialog(parent),
-		m_ki(ki), m_mode(mode), m_proc(NULL), m_grepJobs(0)
+	: QDialog(parent)
+	, m_ki(ki)
+	, m_mode(mode)
+	, m_proc(Q_NULLPTR)
+	, m_grepJobs(0)
 {
 	setObjectName(name);
-	setCaption(QString());
+	setWindowTitle(QString());
 	setModal(false);
-	setButtons(0);
-	setDefaultButton(NoDefault);
-	showButtonSeparator(false);
-
-	QWidget *page = new QWidget(this);
-	setMainWidget(page);
-	//setWFlags( Qt::WStyle_StaysOnTop );
-
-	// build dialog
-	QVBoxLayout *vbox = new QVBoxLayout();
-	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
-	page->setLayout(vbox);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
 
 	// project groupbox
-	QGroupBox *projectgroup = new QGroupBox(i18n("Project"), page);
+	QGroupBox *projectgroup = new QGroupBox(i18n("Project"), this);
+	mainLayout->addWidget(projectgroup);
 	QGridLayout *projectgrouplayout = new QGridLayout();
-	projectgrouplayout->setMargin(KDialog::marginHint());
-	projectgrouplayout->setSpacing(KDialog::spacingHint());
 	projectgrouplayout->setAlignment(Qt::AlignTop);
 	projectgroup->setLayout(projectgrouplayout);
 
@@ -127,10 +117,9 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	projectgrouplayout->setColumnStretch(1, 1);
 
 	// search groupbox
-	QGroupBox *searchgroup = new QGroupBox(i18n("Search"), page);
+	QGroupBox *searchgroup = new QGroupBox(i18n("Search"), this);
+	mainLayout->addWidget(searchgroup);
 	QGridLayout *searchgrouplayout = new QGridLayout();
-	searchgrouplayout->setMargin(KDialog::marginHint());
-	searchgrouplayout->setSpacing(KDialog::spacingHint());
 	searchgrouplayout->setAlignment(Qt::AlignTop);
 	searchgroup->setLayout(searchgrouplayout);
 
@@ -162,7 +151,6 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 
 	QHBoxLayout *template_layout = new QHBoxLayout();
 	template_layout->setMargin(0);
-	template_layout->setSpacing(KDialog::spacingHint());
 	template_combo = new KComboBox(false, searchgroup);
 	template_combo->addItems(templatemode_list);
 	template_combo->adjustSize();
@@ -170,7 +158,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	template_layout->addWidget(template_combo);
 	m_lastTemplateIndex = 0;
 
-	template_edit = new KLineEdit(searchgroup);
+	template_edit = new QLineEdit(searchgroup);
 	template_edit->setText("%s");
 	template_edit->setMinimumSize(template_edit->sizeHint());
 	template_label->setBuddy(template_edit);
@@ -182,10 +170,9 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	searchgrouplayout->addLayout(template_layout, 1, 1);
 
 	// filter groupbox
-	QGroupBox *filtergroup = new QGroupBox(i18n("Directory Options"), page);
+	QGroupBox *filtergroup = new QGroupBox(i18n("Directory Options"), this);
+	mainLayout->addWidget(filtergroup);
 	QGridLayout *filtergrouplayout = new QGridLayout();
-	filtergrouplayout->setMargin(KDialog::marginHint());
-	filtergrouplayout->setSpacing(KDialog::spacingHint());
 	filtergrouplayout->setAlignment(Qt::AlignTop);
 	filtergroup->setLayout(filtergrouplayout);
 
@@ -220,19 +207,26 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	filtergrouplayout->setColumnStretch(1, 1);
 
 	// result box
-	resultbox = new QListWidget(page);
+	resultbox = new QListWidget(this);
+	mainLayout->addWidget(resultbox);
 	resultbox->setMinimumHeight(150);
 
 	// button box
-	KDialogButtonBox *actionbox = new KDialogButtonBox(page);
-	search_button = actionbox->addButton(i18n("&Search"), QDialogButtonBox::ActionRole, this, SLOT(slotSearch()));
+	QDialogButtonBox *actionbox = new QDialogButtonBox(this);
+	mainLayout->addWidget(actionbox);
+	search_button = new QPushButton(i18n("&Search"));
 	search_button->setDefault(true);
 	search_button->setEnabled(false);
-	search_button->setIcon(KIcon("edit-find"));
-	clear_button = actionbox->addButton(i18n("&Clear"), QDialogButtonBox::ActionRole, this, SLOT(slotClear()));
+	search_button->setIcon(QIcon::fromTheme("edit-find"));
+	connect(search_button, &QPushButton::clicked, this, &FindFilesDialog::slotSearch);
+	actionbox->addButton(search_button, QDialogButtonBox::ActionRole);
+	clear_button = new QPushButton(i18n("&Clear"));
 	clear_button->setEnabled(false);
-	clear_button->setIcon(KIcon("edit-clear-locationbar"));
-	close_button = actionbox->addButton(KStandardGuiItem::close(), QDialogButtonBox::DestructiveRole, this, SLOT(slotClose()));
+	clear_button->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
+	connect(clear_button, &QPushButton::clicked, this, &FindFilesDialog::slotClear);
+	actionbox->addButton(clear_button, QDialogButtonBox::ActionRole);
+	close_button = actionbox->addButton(QDialogButtonBox::Close);
+	connect(close_button, &QPushButton::clicked, this, &FindFilesDialog::slotClose);
 
 	// adjust labels
 	project_label->setFixedWidth(labelwidth);
@@ -244,16 +238,16 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 
 	if (m_mode == KileGrep::Project) {
 		filtergroup->hide();
-		vbox->addWidget(projectgroup);
-		vbox->addWidget(searchgroup);
+		mainLayout->addWidget(projectgroup);
+		mainLayout->addWidget(searchgroup);
 	}
 	else {
 		projectgroup->hide();
-		vbox->addWidget(searchgroup);
-		vbox->addWidget(filtergroup);
+		mainLayout->addWidget(searchgroup);
+		mainLayout->addWidget(filtergroup);
 	}
-	vbox->addWidget(resultbox);
-	vbox->addWidget(actionbox);
+	mainLayout->addWidget(resultbox);
+	mainLayout->addWidget(actionbox);
 
 	// Produces error messages like
 	// QListBox::property( "text" ) failed:
@@ -313,11 +307,11 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	// read config and setup dialog for both modes
 	readConfig();
 	if (m_mode == KileGrep::Directory) {
-		setCaption(i18n("Find in Files"));
+		setWindowTitle(i18n("Find in Files"));
 		setupDirectory();
 	}
 	else {
-		setCaption(i18n("Find in Project"));
+		setWindowTitle(i18n("Find in Project"));
 		setupProject();
 	}
 
@@ -325,22 +319,27 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
 	template_edit->setText(m_TemplateList[0]);
 	slotPatternTextChanged(QString());
 
-	connect(pattern_combo->lineEdit(), SIGNAL(textChanged(const QString &)),
-					SLOT(slotPatternTextChanged(const QString &)));
-	connect(template_combo, SIGNAL(activated(int)),
-					SLOT(slotTemplateActivated(int)));
-	connect(resultbox, SIGNAL(currentTextChanged(const QString&)),
-					SLOT(slotItemSelected(const QString&)));
+	connect(pattern_combo->lineEdit(), &QLineEdit::textChanged,
+		this, &FindFilesDialog::slotPatternTextChanged);
+	connect(template_combo, static_cast<void (KComboBox::*)(int)>(&KComboBox::activated),
+		this, &FindFilesDialog::slotTemplateActivated);
+	connect(resultbox, &QListWidget::currentTextChanged,
+		this, &FindFilesDialog::slotItemSelected);
 
-	connect(this, SIGNAL(finished()), SLOT(slotFinished()));
+	QDialogButtonBox *buttonBox = new QDialogButtonBox();
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &FindFilesDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &FindFilesDialog::reject);
+	mainLayout->addWidget(buttonBox);
+
+	connect(this, &FindFilesDialog::finished, this, &FindFilesDialog::slotClose);
 
 	resize(450, sizeHint().height());
-	KILE_DEBUG() << "==FindFilesDialog (create dialog)=============================";
+	KILE_DEBUG_MAIN << "==FindFilesDialog (create dialog)=============================";
 }
 
 FindFilesDialog::~FindFilesDialog()
 {
-	KILE_DEBUG() << "==FindFilesDialog (delete dialog)=============================";
+	KILE_DEBUG_MAIN << "==FindFilesDialog (delete dialog)=============================";
 	writeConfig();
 }
 
@@ -455,7 +454,7 @@ QStringList FindFilesDialog::readList(KileGrep::List listtype)
 
 void FindFilesDialog::slotItemSelected(const QString& item)
 {
-	KILE_DEBUG() << "\tgrep: start item selected";
+	KILE_DEBUG_MAIN << "\tgrep: start item selected";
 	int pos;
 	QString filename, linenumber;
 
@@ -495,14 +494,17 @@ void FindFilesDialog::startGrep()
 	else {
 		command = buildFilesCommand();
 	}
-	KILE_DEBUG() << "\tgrep (project): " <<  command;
+	KILE_DEBUG_MAIN << "\tgrep (project): " <<  command;
 	(*m_proc) << KShell::splitArgs(command);
 
 	m_grepJobs--;
 
-	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(processExited(int, QProcess::ExitStatus)));
-	connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(processStandardOutputReady()));
-	connect(m_proc, SIGNAL(readyReadStandardError()), this, SLOT(processErrorOutputReady()));
+	connect(m_proc, static_cast<void (KProcess::*)(int, QProcess::ExitStatus)>(&KProcess::finished),
+		this, &FindFilesDialog::processExited);
+	connect(m_proc, &KProcess::readyReadStandardOutput,
+		this, &FindFilesDialog::processStandardOutputReady);
+	connect(m_proc, &KProcess::readyReadStandardError,
+		this, &FindFilesDialog::processErrorOutputReady);
 
 	m_proc->start();
 }
@@ -543,7 +545,6 @@ void FindFilesDialog::processStandardOutputReady()
 {
 	QByteArray outputBuffer = m_proc->readAllStandardOutput();
 	m_buf += QString::fromLocal8Bit(outputBuffer.data(), outputBuffer.size());
-	kDebug() << "buffer " << m_buf;
 	processOutput();
 }
 
@@ -551,7 +552,6 @@ void FindFilesDialog::processErrorOutputReady()
 {
 	QByteArray outputBuffer = m_proc->readAllStandardError();
 	m_errbuf += QString::fromLocal8Bit(outputBuffer.data(), outputBuffer.size());
-	kDebug() << "err buffer " << m_errbuf;
 }
 
 void FindFilesDialog::processExited(int /*exitCode*/, QProcess::ExitStatus /*exitStatus*/)
@@ -571,7 +571,7 @@ void FindFilesDialog::finish()
 		m_proc->kill();
 		m_proc->disconnect();
 		m_proc->deleteLater();
-		m_proc = NULL;
+		m_proc = Q_NULLPTR;
 	}
 	m_buf += '\n';
 	// we process all the remaining output
@@ -655,7 +655,7 @@ QString FindFilesDialog::buildFilesCommand()
 
 	QString shell_command;
 	shell_command += "find ";
-	shell_command += KShell::quoteArg(dir_combo->url().pathOrUrl());
+	shell_command += KShell::quoteArg(dir_combo->url().path());
 	shell_command += " \\( -name ";
 	shell_command += files;
 	shell_command += " \\)";
@@ -663,7 +663,7 @@ QString FindFilesDialog::buildFilesCommand()
 		shell_command += " -maxdepth 1";
 	}
 	shell_command += " -exec grep -n -E -I -H -e " + getShellPattern() + " {} \\;";
-
+KILE_DEBUG_MAIN << "shell command" << shell_command;
 	return shell_command;
 }
 
@@ -676,7 +676,7 @@ QString FindFilesDialog::buildProjectCommand()
 
 void FindFilesDialog::slotSearch()
 {
-	KILE_DEBUG() << "\tgrep: start slot search" << m_proc;
+	KILE_DEBUG_MAIN << "\tgrep: start slot search" << m_proc;
 
 	if (m_proc) {
 		clearGrepJobs();
@@ -688,7 +688,7 @@ void FindFilesDialog::slotSearch()
 		return;
 	}
 
-	KILE_DEBUG() << "\tgrep: start new search";
+	KILE_DEBUG_MAIN << "\tgrep: start new search";
 	QRegExp re(getPattern());
 	if(!re.isValid()) {
 		KMessageBox::error(m_ki->mainWindow(), i18n("Invalid regular expression: %1", re.errorString()), i18n("Grep Tool Error"));
@@ -715,7 +715,7 @@ void FindFilesDialog::slotSearchFor(const QString &pattern)
 
 void FindFilesDialog::slotClear()
 {
-	KILE_DEBUG() << "\tgrep: slot clear";
+	KILE_DEBUG_MAIN << "\tgrep: slot clear";
 	clearGrepJobs();
 	finish();
 	resultbox->clear();
@@ -723,18 +723,11 @@ void FindFilesDialog::slotClear()
 
 void FindFilesDialog::slotClose()
 {
-	KILE_DEBUG() << "\tgrep: slot close";
+	KILE_DEBUG_MAIN << "\tgrep: slot close";
 	clearGrepJobs();
 	finish();
-	delayedDestruct();
-}
-
-void FindFilesDialog::slotFinished()
-{
-	KILE_DEBUG() << "\tgrep: slot finished";
-	clearGrepJobs();
-	finish();
-	delayedDestruct();
+	hide();
+	deleteLater();
 }
 
 ///////////////////// templates /////////////////////
@@ -888,5 +881,3 @@ QString FindFilesDialog::getCommandList(KileDocument::CmdAttribute attrtype)
 }
 
 }
-
-#include "findfilesdialog.moc"

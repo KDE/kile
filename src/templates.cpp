@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  *******************************************************************************************/
 
 /***************************************************************************
@@ -20,15 +20,14 @@
 #include <QFileInfo>
 #include <QStringList>
 
-#include <KApplication>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>
 #include <KShell>
-#include <KStandardDirs>
 #include <KIO/Job>
-#include <KIO/NetAccess>
+#include <KJobWidgets>
+#include <QStandardPaths>
+#include <QTemporaryFile>
 
 #include "kileinfo.h"
 #include "kiledebug.h"
@@ -65,20 +64,30 @@ Manager::Manager(KileInfo* kileInfo, QObject* parent, const char* name) : QObjec
 Manager::~Manager() {
 }
 
-bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString& fileName) {
-	QString dir;
+bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString& fileName)
+{
 	//let saveLocation find and create the appropriate place to
 	//store the templates (usually $HOME/.kde/share/apps/kile/templates)
-	dir = KGlobal::dirs()->saveLocation("appdata", subdir, true);
-	KUrl targetURL = KUrl::fromPathOrUrl(dir);
-	targetURL.addPath(fileName);
+	QString dir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + '/' + subdir;
+
+	QUrl targetURL = QUrl::fromUserInput(dir);
+	targetURL = targetURL.adjusted(QUrl::StripTrailingSlash);
+	targetURL.setPath(targetURL.path() + '/' + fileName);
 
 	//if a directory is found
 	if (!dir.isNull()) {
-		return KIO::NetAccess::copy(src, targetURL, m_kileInfo->mainWindow());
+		// create dir if not existing, needed for copyjob
+		QDir testDir(dir);
+		if (!testDir.exists()){
+			testDir.mkpath(dir);
+		}
+		// copy file
+		KIO::FileCopyJob* copyJob = KIO::file_copy(src, targetURL);
+		KJobWidgets::setWindow(copyJob, m_kileInfo->mainWindow());
+		return copyJob->exec();
 	}
 	else {
-		KMessageBox::error(NULL, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
+		KMessageBox::error(Q_NULLPTR, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
 		return false;
 	}
 }
@@ -86,7 +95,9 @@ bool Manager::copyAppData(const KUrl& src, const QString& subdir, const QString&
 bool Manager::removeAppData(const QString &file) {
 	QFileInfo fileInfo(file);
 	if(fileInfo.exists()) {
-		return KIO::NetAccess::del(KUrl::fromPathOrUrl(file), m_kileInfo->mainWindow());
+		KIO::SimpleJob* deleteJob = KIO::file_delete(QUrl::fromUserInput(file));
+		KJobWidgets::setWindow(deleteJob, m_kileInfo->mainWindow());
+		return deleteJob->exec();
 	}
 	return true;
 }
@@ -102,13 +113,13 @@ bool Manager::searchForTemplate(const QString& name, KileDocument::Type& type) c
 	return false;
 }
 
-bool Manager::add(const KUrl& templateSourceURL, const QString& name, const KUrl& icon) {
+bool Manager::add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	KileDocument::Type type = extensions->determineDocumentType(templateSourceURL);
 	return add(templateSourceURL, type, name, icon);
 }
 
-bool Manager::add(const KUrl& templateSourceURL, KileDocument::Type type, const QString& name, const KUrl& icon) {
+bool Manager::add(const QUrl &templateSourceURL, KileDocument::Type type, const QString &name, const QUrl &icon) {
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
 	QString extension = extensions->defaultExtensionForDocumentType(type);
 
@@ -119,42 +130,80 @@ bool Manager::remove(Info ti) {
 	return removeAppData(ti.path) && removeAppData(ti.icon);
 }
 
-bool Manager::replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTemplateSourceURL, const QString& newName, const KUrl& newIcon) {
+bool Manager::replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon) {
 	KileDocument::Type type = m_kileInfo->extensions()->determineDocumentType(newTemplateSourceURL);
 
 	//start by copying the files that belong to the new template to a safe place
 	QString templateTempFile, iconTempFile;
 
-	if(!KIO::NetAccess::download(newTemplateSourceURL, templateTempFile, m_kileInfo->mainWindow())) {
-		return false;
+	if( newTemplateSourceURL.isLocalFile() ) {
+		// file protocol. We do not need the network
+		templateTempFile = newTemplateSourceURL.toLocalFile();
 	}
-	if(!KIO::NetAccess::download(newIcon, iconTempFile, m_kileInfo->mainWindow())) {
-		KIO::NetAccess::removeTempFile(templateTempFile);
-		return false;
+	else {
+		QTemporaryFile tmpFile;
+		tmpFile.setAutoRemove( false );
+		tmpFile.open();
+
+		templateTempFile = tmpFile.fileName();
+		m_TempFilePath = tmpFile.fileName();
+		KIO::FileCopyJob* fileCopyJob = KIO::file_copy( newTemplateSourceURL, QUrl::fromLocalFile(templateTempFile), -1, KIO::Overwrite );
+		KJobWidgets::setWindow( fileCopyJob, m_kileInfo->mainWindow() );
+
+		if( ! fileCopyJob->exec() ) {
+			return false;
+		}
+	}
+
+	if( newIcon.isLocalFile() ) {
+		// file protocol. We do not need the network
+		iconTempFile = newIcon.toLocalFile();
+	}
+	else {
+		QTemporaryFile tmpFile;
+		tmpFile.setAutoRemove( false );
+		tmpFile.open();
+
+		iconTempFile = tmpFile.fileName();
+		m_TempFilePath = tmpFile.fileName();
+		KIO::FileCopyJob* fileCopyJob = KIO::file_copy( newIcon, QUrl::fromLocalFile(iconTempFile), -1, KIO::Overwrite );
+		KJobWidgets::setWindow( fileCopyJob, m_kileInfo->mainWindow() );
+
+		if( ! fileCopyJob->exec() ) {
+			if( ! templateTempFile.isEmpty() )
+				QFile::remove( templateTempFile );
+			return false;
+		}
 	}
 
 	//now delete the template that should be replaced
 	if(!remove(toBeReplaced)) {
-		KIO::NetAccess::removeTempFile(templateTempFile);
-		KIO::NetAccess::removeTempFile(iconTempFile);
+		if( ! templateTempFile.isEmpty() )
+			QFile::remove( templateTempFile );
+		if( ! iconTempFile.isEmpty() )
+			QFile::remove( iconTempFile );
 	}
 
 	//finally, create the new template
-	if(!add(KUrl::fromPathOrUrl(templateTempFile), type, newName, KUrl::fromPathOrUrl(iconTempFile))) {
-		KIO::NetAccess::removeTempFile(templateTempFile);
-		KIO::NetAccess::removeTempFile(iconTempFile);
+	if(!add(QUrl::fromUserInput(templateTempFile), type, newName, QUrl::fromUserInput(iconTempFile))) {
+		if( ! templateTempFile.isEmpty() )
+			QFile::remove( templateTempFile );
+		if( ! iconTempFile.isEmpty() )
+			QFile::remove( iconTempFile );
 		return false;
 	}
 
-	KIO::NetAccess::removeTempFile(templateTempFile);
-	KIO::NetAccess::removeTempFile(iconTempFile);
+	if( ! templateTempFile.isEmpty() )
+			QFile::remove( templateTempFile );
+	if( ! iconTempFile.isEmpty() )
+			QFile::remove( iconTempFile );
 
 	return true;
 }
 
 void Manager::scanForTemplates() {
-	KILE_DEBUG() << "===scanForTemplates()===================";
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "templates");
+	KILE_DEBUG_MAIN << "===scanForTemplates()===================";
+	QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "templates", QStandardPaths::LocateDirectory);
 	QDir templates;
 	KileTemplate::Info ti;
 	KileDocument::Extensions *extensions = m_kileInfo->extensions();
@@ -166,14 +215,14 @@ void Manager::scanForTemplates() {
 			ti.path = templates.path() + '/' + templates[j];
 			QFileInfo fileInfo(ti.path);
 			ti.name = fileInfo.completeBaseName().mid(9); //remove "template_", do it this way to avoid problems with user input!
-			ti.type = extensions->determineDocumentType(KUrl::fromPathOrUrl(ti.path));
-			ti.icon = KGlobal::dirs()->findResource("appdata","pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
+			ti.type = extensions->determineDocumentType(QUrl::fromUserInput(ti.path));
+			ti.icon = QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_" + ti.name + extensions->defaultExtensionForDocumentType(ti.type) + ".kileicon");
 			if (m_TemplateList.contains(ti)) {
-				KILE_DEBUG() << "\tignoring: " << ti.path;
+				KILE_DEBUG_MAIN << "\tignoring: " << ti.path;
 			}
 			else {
 				m_TemplateList.append(ti);
-				KILE_DEBUG() << "\tadding: " << ti.name << " " << ti.path;
+				KILE_DEBUG_MAIN << "\tadding: " << ti.name << " " << ti.path;
 			}
 		}
 	}
@@ -240,7 +289,7 @@ bool TemplateItem::operator<(const QListWidgetItem &other) const
 ////////////////////// TemplateIconView //////////////////////
 
 TemplateIconView::TemplateIconView(QWidget *parent)
-	: QListWidget(parent), m_templateManager(NULL), m_proc(NULL) {
+	: QListWidget(parent), m_templateManager(Q_NULLPTR), m_proc(Q_NULLPTR) {
 	setViewMode(QListView::IconMode);
 	setMovement(QListView::Static);
 	setResizeMode(QListView::Adjust);
@@ -293,8 +342,8 @@ void TemplateIconView::searchLaTeXClassFiles()
 	connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
 	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 	connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError()));
-	KILE_DEBUG() << "=== NewFileWidget::searchClassFiles() ====================";
-	KILE_DEBUG() << "\texecute: " << command;
+	KILE_DEBUG_MAIN << "=== NewFileWidget::searchClassFiles() ====================";
+	KILE_DEBUG_MAIN << "\texecute: " << command;
 	m_proc->start();
 }
 
@@ -326,7 +375,7 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 		return;
 	}
 
-	QString emptyIcon = KGlobal::dirs()->findResource("appdata", "pics/"+ QString(DEFAULT_EMPTY_ICON) + ".png" );
+	QString emptyIcon = QStandardPaths::locate(QStandardPaths::DataLocation, "pics/" + QString(DEFAULT_EMPTY_ICON) + ".png" );
 
 	KileTemplate::Info emptyDocumentInfo;
 	emptyDocumentInfo.name = KileTemplate::Manager::defaultEmptyTemplateCaption();
@@ -390,4 +439,3 @@ void TemplateIconView::addTemplateIcons(KileDocument::Type type)
 	sortItems();
 }
 
-#include "templates.moc"

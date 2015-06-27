@@ -24,6 +24,8 @@ copyright            : Thomas Fischer (t-fisch@users.sourceforge.net)
 #include <QMap>
 
 class QLabel;
+class QLineEdit;
+class QPushButton;
 class QTabWidget;
 class QTreeWidget;
 class QTreeWidgetItem;
@@ -33,8 +35,6 @@ class CategoryComboBox;
 }
 
 class KComboBox;
-class KLineEdit;
-class KPushButton;
 
 namespace KileDialog
 {
@@ -71,9 +71,9 @@ class QuickDocument : public Wizard
 		KileWidget::CategoryComboBox *m_cbEncoding;
 		QTreeWidget *m_lvClassOptions;
 		QTreeWidget *m_lvPackages;
-		KLineEdit *m_leAuthor;
-		KLineEdit *m_leTitle;
-		KLineEdit *m_leDate;
+		QLineEdit *m_leAuthor;
+		QLineEdit *m_leTitle;
+		QLineEdit *m_leDate;
 		QLabel    *m_lbPaperSize;
 
 		QString m_currentClass;
@@ -94,23 +94,23 @@ class QuickDocument : public Wizard
 		QMap<QString, QString> m_dictPackagesDefaultvalues;
 		QMap<QString, bool> m_dictHyperrefDriver;
 
-		KPushButton *m_btnDocumentClassAdd;
-		KPushButton *m_btnDocumentClassDelete;
-		KPushButton *m_btnTypefaceSizeAdd;
-		KPushButton *m_btnTypefaceSizeDelete;
-		KPushButton *m_btnPaperSizeAdd;
-		KPushButton *m_btnPaperSizeDelete;
-		KPushButton *m_btnEncodingAdd;
-		KPushButton *m_btnEncodingDelete;
+		QPushButton *m_btnDocumentClassAdd;
+		QPushButton *m_btnDocumentClassDelete;
+		QPushButton *m_btnTypefaceSizeAdd;
+		QPushButton *m_btnTypefaceSizeDelete;
+		QPushButton *m_btnPaperSizeAdd;
+		QPushButton *m_btnPaperSizeDelete;
+		QPushButton *m_btnEncodingAdd;
+		QPushButton *m_btnEncodingDelete;
 
-		KPushButton *m_btnClassOptionsAdd;
-		KPushButton *m_btnClassOptionsEdit;
-		KPushButton *m_btnClassOptionsDelete;
-		KPushButton *m_btnPackagesAdd;
-		KPushButton *m_btnPackagesAddOption;
-		KPushButton *m_btnPackagesEdit;
-		KPushButton *m_btnPackagesDelete;
-		KPushButton *m_btnPackagesReset;
+		QPushButton *m_btnClassOptionsAdd;
+		QPushButton *m_btnClassOptionsEdit;
+		QPushButton *m_btnClassOptionsDelete;
+		QPushButton *m_btnPackagesAdd;
+		QPushButton *m_btnPackagesAddOption;
+		QPushButton *m_btnPackagesEdit;
+		QPushButton *m_btnPackagesDelete;
+		QPushButton *m_btnPackagesReset;
 
 		// GUI
 		QWidget *setupClassOptions(QTabWidget *tab);
@@ -200,12 +200,10 @@ class QuickDocument : public Wizard
 		void slotPackageReset();
 
 		void slotEnableButtons();
-
-	protected Q_SLOTS:
-	virtual void slotButtonClicked(int button);
+		void slotAccepted();
 };
 
-class QuickDocumentInputDialog : public KDialog {
+class QuickDocumentInputDialog : public QDialog {
 		Q_OBJECT
 	public:
 		QuickDocumentInputDialog(const QStringList &list, int check = 0,
@@ -225,7 +223,7 @@ class QuickDocumentInputDialog : public KDialog {
 		bool checkListEntries(const QString &title, const QString &textlist, const QString &pattern);
 
 	protected Q_SLOTS:
-        	virtual void slotButtonClicked(int button);
+        void slotAccepted();
 };
 
 } // namespace

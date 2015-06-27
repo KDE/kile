@@ -39,7 +39,7 @@ StructureViewItem::~StructureViewItem()
 {
 }
 
-ParserInput::ParserInput(const KUrl& url)
+ParserInput::ParserInput(const QUrl &url)
 : url(url)
 {
 }
@@ -160,4 +160,3 @@ QString Parser::getTextLine(const QStringList& textLines, int line)
 
 }
 
-#include "parser.moc"

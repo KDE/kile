@@ -14,7 +14,7 @@
 #ifndef POSTSCRIPTDIALOG_H
 #define POSTSCRIPTDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QProcess>
 
@@ -48,7 +48,7 @@ class KileErrorHandler;
 namespace KileDialog
 {
 
-class PostscriptDialog : public KDialog
+class PostscriptDialog : public QDialog
 {
 		Q_OBJECT
 
@@ -64,7 +64,7 @@ class PostscriptDialog : public KDialog
 
 	private Q_SLOTS:
 		void comboboxChanged(int index);
-		void slotButtonClicked(int button);
+		void slotExecuteClicked();
 		void slotProcessOutput();
 		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 

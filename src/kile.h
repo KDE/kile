@@ -27,8 +27,6 @@
 #include <QWidget>
 #include <QSignalMapper>
 
-#include <KApplication>
-#include <kdeversion.h>
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
 #include <kparts/mainwindow.h>
@@ -37,7 +35,6 @@
 #include <ktogglefullscreenaction.h>
 #include <KXmlGuiWindow>
 
-#include "docpart.h"
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
 #include "kileactions.h"
@@ -52,12 +49,6 @@
 #include "quickpreview.h"
 #include "widgets/abbreviationview.h"
 
-#define ID_HINTTEXT         301
-#define ID_LINE_COLUMN      302
-#define ID_VIEW_MODE        303
-#define ID_SELECTION_MODE   304
-#define ID_PARSER_STATUS    305
-
 #define KILERC_VERSION 7
 
 class QFileInfo;
@@ -65,7 +56,7 @@ class QTimer;
 class QSignalMapper;
 
 class KToolBar;
-class KAction;
+class QAction;
 class KActionMenu;
 class KRecentFilesAction;
 class KToggleFullScreenAction;
@@ -81,7 +72,15 @@ class KileAutoSaveJob;
 namespace KileAction { class TagData; }
 namespace KileDocument { class Info; class TextInfo; class Extensions; }
 namespace KileTool { class Manager; class Factory; }
-namespace KileWidget { class LogWidget; class Output; class Konsole; class StructureWidget; class SideBar; class BottomBar; }
+namespace KileWidget {
+	class LogWidget;
+	class Output;
+	class Konsole;
+	class StructureWidget;
+	class SideBar;
+	class BottomBar;
+	class StatusBar;
+}
 
 //TODO remove once we stop supporting pre 1.7 user tools
 struct userItem
@@ -97,16 +96,17 @@ class Kile : public KParts::MainWindow, public KileInfo
 	Q_OBJECT
 
 public:
-	explicit Kile(bool allowRestore = true, QWidget *parent = NULL);
+	explicit Kile(bool allowRestore = true, QWidget *parent = Q_NULLPTR);
 	~Kile();
 
 	int lineNumber();
+	KileWidget::StatusBar * statusBar();
 
 public Q_SLOTS:
-	void setCursor(const KUrl &, int, int);
+	void setCursor(const QUrl &, int, int);
 
 	void runArchiveTool();
-	void runArchiveTool(const KUrl&);
+	void runArchiveTool(const QUrl&);
 	void showTip();
 
 	void prepareForPart(const QString &);
@@ -117,8 +117,8 @@ public Q_SLOTS:
 
 	void rebuildBibliographyMenu();
 
-	void openDocument(const KUrl& url);
-	void openProject(const KUrl& url);
+	void openDocument(const QUrl &url);
+	void openProject(const QUrl &url);
 
 	// D-Bus Interface
 	void openDocument(const QString & url);
@@ -151,7 +151,7 @@ private:
 	QList<userItem>				m_listUserTools;
 	QList<QAction*> 			m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
 	KActionMenu 				*m_bibTagActionMenu;
-	KAction 				*m_paStop, *m_paPrint;
+	QAction *m_paStop, *m_paPrint;
 	KToggleAction 				*ModeAction, *WatchFileAction;
 	KToggleAction 				*m_actionMessageView;
 	KRecentFilesAction			*m_actRecentFiles;
@@ -187,7 +187,6 @@ private:
 
 	/* actions */
 	void initSelectActions();
-	void setupStatusBar();
 	void setupSideBar();
 	void setupProjectView();
 	void setupStructureView();
@@ -215,16 +214,17 @@ private:
 	void setMenuItems(QStringList &list, QMap<QString,bool> &dict);
 	void updateMenu();
 	bool updateMenuActivationStatus(QMenu *menu);
+	bool updateMenuActivationStatus(QMenu *menu, const QSet<QMenu*>& visited);
 	void updateLatexenuActivationStatus(QMenu *menu, bool state);
 	void updateUserMenuStatus(bool state);
 
 	void setViewerToolBars();
 
-	KAction* createAction(const QString &text, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(const QString &text, const QString &name, const KShortcut& shortcut, const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(const QString &text, const QString &name, const QString& iconName, const KShortcut& shortcut = KShortcut(), const QObject *receiver = NULL, const char *member = NULL);
-	KAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = NULL, const char *member = NULL);
+	QAction * createAction(const QString &text, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QKeySequence& shortcut = QKeySequence(), const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+	QAction * createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
 
 	void setMasterDocumentFileName(const QString& fileName);
 	void clearMasterDocument();
@@ -272,11 +272,11 @@ private Q_SLOTS:
 
 	void sideOrBottomBarChanged(bool visible);
 
-	void showDocInfo(KTextEditor::View *view = NULL);
-	void convertToASCII(KTextEditor::Document *doc = 0);
-	void convertToEnc(KTextEditor::Document *doc = 0);
+	void showDocInfo(KTextEditor::View *view = Q_NULLPTR);
+	void convertToASCII(KTextEditor::Document *doc = Q_NULLPTR);
+	void convertToEnc(KTextEditor::Document *doc = Q_NULLPTR);
 
-	void cleanAll(KileDocument::TextInfo *docinfo = 0);
+	void cleanAll(KileDocument::TextInfo *docinfo = Q_NULLPTR);
 	void cleanBib();
 
 	void findInFiles();
@@ -328,10 +328,10 @@ private Q_SLOTS:
 	void quickPreviewSubdocument() { slotQuickPreview(KileTool::qpSubdocument); }
 	void quickPreviewMathgroup()   { slotQuickPreview(KileTool::qpMathgroup);   }
 
-	void addRecentFile(const KUrl& url);
-	void removeRecentFile(const KUrl& url);
-	void addRecentProject(const KUrl& url);
-	void removeRecentProject(const KUrl& url);
+	void addRecentFile(const QUrl &url);
+	void removeRecentFile(const QUrl &url);
+	void addRecentProject(const QUrl &url);
+	void removeRecentProject(const QUrl &url);
 
 	void updateStatusBarCursorPosition(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
 	void updateStatusBarViewMode(KTextEditor::View *view);

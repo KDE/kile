@@ -18,7 +18,7 @@
 #include <QHash>
 
 #include <KTextEditor/Document>
-#include <KUrl>
+#include <QUrl>
 
 #include "kiledebug.h"
 
@@ -114,11 +114,11 @@ class Info : public QObject
 	Q_OBJECT
 
 public:
-	static bool containsInvalidCharacters(const KUrl&);
-	static KUrl repairInvalidCharacters(const KUrl&, QWidget *mainWidget, bool checkForFileExistence = true);
-	static KUrl repairExtension(const KUrl& url, QWidget *mainWidget, bool checkForFileExistence = true);
-	static KUrl makeValidTeXURL(const KUrl& url, QWidget *mainWidget, bool istexfile, bool checkForFileExistence = true);
-	static KUrl renameIfExist(const KUrl& url, QWidget *mainWidget);
+	static bool containsInvalidCharacters(const QUrl&);
+	static QUrl repairInvalidCharacters(const QUrl&, QWidget *mainWidget, bool checkForFileExistence = true);
+	static QUrl repairExtension(const QUrl &url, QWidget *mainWidget, bool checkForFileExistence = true);
+	static QUrl makeValidTeXURL(const QUrl &url, QWidget *mainWidget, bool istexfile, bool checkForFileExistence = true);
+	static QUrl renameIfExist(const QUrl &url, QWidget *mainWidget);
 
 public:
 	Info();
@@ -145,12 +145,12 @@ public:
 
 	virtual bool isLaTeXRoot() { return m_bIsRoot; }
 
-	virtual KUrl url();
+	virtual QUrl url();
 
 	virtual void updateStructLevelInfo();
 
-	void setBaseDirectory(const KUrl& url);
-	const KUrl& getBaseDirectory() const;
+	void setBaseDirectory(const QUrl &url);
+	const QUrl &getBaseDirectory() const;
 
 	virtual bool isTextDocument();
 	virtual Type getType();
@@ -179,7 +179,7 @@ public Q_SLOTS:
 	virtual void updateBibItems();
 
 Q_SIGNALS:
-	void urlChanged(KileDocument::Info* info, const KUrl& url);
+	void urlChanged(KileDocument::Info* info, const QUrl &url);
 	void isrootChanged(bool);
 
 	void foundItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
@@ -225,7 +225,7 @@ protected:
 	bool m_openStructureReferences;
 	bool m_openStructureBibitems;
 	bool m_openStructureTodo;
-	KUrl						m_baseDirectory;
+	QUrl						m_baseDirectory;
 	bool						documentTypePromotionAllowed;
 	Extensions *m_extensions;
 };
@@ -265,12 +265,12 @@ public:
 	 * The array is filled as follows: [0] = #c in words, [1] = #c in latex commands and environments,
 	   [2] = #c whitespace, [3] = #words, [4] = # latex_commands, [5] = latex_environments **/
 
-	virtual const long* getStatistics(KTextEditor::View *view = NULL);
+	virtual const long* getStatistics(KTextEditor::View *view = Q_NULLPTR);
 
 	/**
-	 * @returns the URL of the KTextEditor::Document if not null, an empty KUrl otherwise
+	 * @returns the URL of the KTextEditor::Document if not null, an empty QUrl otherwise
 	 **/
-	virtual KUrl url();
+	virtual QUrl url();
 
 	virtual Type getType();
 
@@ -287,9 +287,9 @@ public:
 	 * method. It also installs signal connections by using the "installSignalConnections"
 	 * method.
 	 * @warning Only this method should be used to create new views for text documents !
-	 * @return NULL if no document is set (m_doc == NULL)
+	 * @return Q_NULLPTR if no document is set (m_doc == NULL)
 	 **/
-	KTextEditor::View* createView(QWidget *parent, const char *name = NULL);
+	KTextEditor::View* createView(QWidget *parent, const char *name = Q_NULLPTR);
 
 	void startAbbreviationCompletion(KTextEditor::View *view);
 

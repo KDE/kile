@@ -15,12 +15,14 @@
 #ifndef KILEDEBUG_H
 #define KILEDEBUG_H
 
-#include <kdebug.h>
+#include <QLoggingCategory>
+
+Q_DECLARE_LOGGING_CATEGORY(LOG_KILE_MAIN)
 
 #ifdef NDEBUG
-	#define KILE_DEBUG if (true); else kDebug
+	#define KILE_DEBUG_MAIN if (true); else qCDebug(LOG_KILE_MAIN)
 #else
-	#define KILE_DEBUG kDebug
+	#define KILE_DEBUG_MAIN qCDebug(LOG_KILE_MAIN)
 #endif
 
 #endif

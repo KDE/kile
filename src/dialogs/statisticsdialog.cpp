@@ -1,6 +1,7 @@
 /**********************************************************************************
     begin                : Tuesday Nov 1 2005
     copyright            : (C) 2005 by Thomas Braun (thomas.braun@virtuell-zuhause.de)
+                               2015 by Andreas Cord-Landwehr (cordlandwehr@kde.org)
  **********************************************************************************/
 
 /***************************************************************************
@@ -13,17 +14,21 @@
  ***************************************************************************/
 
 #include "dialogs/statisticsdialog.h"
-
-#include <QClipboard>
-#include <QLabel>
-
-#include <KApplication>
-#include <KLocale>
-
 #include "kileproject.h"
 #include "widgets/statisticswidget.h"
 
+#include <KConfigGroup>
+#include <KHelpClient>
+#include <KLocalizedString>
+#include <KTextEditor/Application>
+#include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
+#include <QApplication>
+#include <QClipboard>
+#include <QDialogButtonBox>
+#include <QLabel>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 // A dialog that displays statistical information about the active project/file
 
@@ -35,15 +40,38 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 {
 	setObjectName(name);
 	setFaceType(Tabbed);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Help | Close | User1 | User2);
-	setDefaultButton(Close);
-	showButtonSeparator(false);
+	setStandardButtons(QDialogButtonBox::Help | QDialogButtonBox::Close);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
+	QPushButton *copyButton = new QPushButton;
+	copyButton->setText(i18n("Copy"));
+	buttonBox()->addButton(copyButton, QDialogButtonBox::ActionRole);
+	QPushButton *copyLatexButton = new QPushButton;
+	copyLatexButton->setText(i18n("Copy as LaTeX"));
+	buttonBox()->addButton(copyLatexButton, QDialogButtonBox::ActionRole);
+	buttonBox()->button(QDialogButtonBox::Close)->setDefault(true);
 
-	setButtonText(User1, i18n("Copy"));
-	setButtonText(User2, i18n("Copy as LaTeX"));
-	setHelp("statistics");
+	connect(copyButton, &QPushButton::clicked, this, [=]() {
+		KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
+		QClipboard *clip = QApplication::clipboard();
+		QString text;
+		convertText(&text, false);
+		clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
+	});
+	connect(copyLatexButton, &QPushButton::clicked, this, [=]() {
+		KILE_DEBUG_MAIN << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
+		QClipboard *clip = QApplication::clipboard();
+		QString text;
+		convertText(&text, true);
+		clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
+	});
+	connect(buttonBox(), &QDialogButtonBox::helpRequested, this, [=] () {
+		KHelpClient::invokeHelp("statistics", "kile");
+	});
 
 	m_summarystats = new long[SIZE_STAT_ARRAY];
 	m_summarystats[0] = m_summarystats[1] = m_summarystats[2] = m_summarystats[3] = m_summarystats[4] = m_summarystats[5] = 0;
@@ -55,27 +83,30 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 	KileDocument::TextInfo* tempDocinfo;
 
 	m_hasSelection = false; // class variable, if the user has selected text,
-	summary = new KileWidget::StatisticsWidget(mainWidget());
+	summary = new KileWidget::StatisticsWidget(mainWidget);
 	KPageWidgetItem *itemSummary = new KPageWidgetItem(summary, i18n("Summary"));
 	addPage(itemSummary);
 	summary->m_commentAboutHelp->setText(i18n("For information about the accuracy see the Help."));
-	// we have in every case a summary tab
 
+	// we have in every case a summary tab
 	m_pagetowidget[itemSummary] = summary;
 	m_pagetoname[itemSummary] = i18n("Summary");
 
-	if (m_docinfo->getDoc()->activeView()->selection()) { // the user should really have that doc as active in which the selection is
+	// the user should really have that doc as active in which the selection is
+	if (KTextEditor::Editor::instance()->application()
+		&& KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView()->selection()
+	) {
 		m_hasSelection = true;
 	}
 
 	if (!m_project) { // the active doc doesn't belong to a project
-		setCaption(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));
+		setWindowTitle(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));
 		stats = m_docinfo->getStatistics(m_view);
 		fillWidget(stats, summary);
 	}
 	else { // active doc belongs to a project
-		setCaption(i18n("Statistics for the Project %1", m_project->name()));
-		KILE_DEBUG() << "Project file is " << project->baseURL() << endl;
+		setWindowTitle(i18n("Statistics for the Project %1", m_project->name()));
+		KILE_DEBUG_MAIN << "Project file is " << project->baseURL() << endl;
 
 		QList<KileProjectItem*> items = project->items();
 
@@ -103,7 +134,7 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 					tempWidget = new KileWidget::StatisticsWidget();
 					KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
 					addPage(itemTemp);
-					KILE_DEBUG() << "TempName is " << tempName << endl;
+					KILE_DEBUG_MAIN << "TempName is " << tempName << endl;
 					m_pagetowidget[itemTemp] = tempWidget;
 					m_pagetoname[itemTemp] = tempName;
 					fillWidget(stats, tempWidget);
@@ -118,18 +149,16 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 				summary->m_warning->setText(i18n("To get statistics for all project files, you have to open them all."));
 			}
 
-			KILE_DEBUG() << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
-			KILE_DEBUG() << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+			KILE_DEBUG_MAIN << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+			KILE_DEBUG_MAIN << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
 		}
 	}
-//  setInitialSize( QSize(550,560), true);
 }
 
 StatisticsDialog::~StatisticsDialog()
 {
 	delete [] m_summarystats;
 }
-
 
 void StatisticsDialog::fillWidget(const long* stats, KileWidget::StatisticsWidget* widget)
 {
@@ -153,19 +182,6 @@ void StatisticsDialog::fillWidget(const long* stats, KileWidget::StatisticsWidge
 	widget->m_totalString->setText(QString::number(stats[3] + stats[4] + stats[5]));
 
 	widget->updateColumns();
-}
-
-void StatisticsDialog::slotButtonClicked(int button)
-{
-	if (button == User1 || button == User2) {
-		KILE_DEBUG() << "Open tab is" << currentPage()->name() << ' ' + (m_pagetoname.contains(currentPage()) ?  m_pagetoname[currentPage()] : "No such entry");
-
-		QClipboard *clip = KApplication::clipboard();
-		QString text;
-		convertText(&text, button == User2);
-		clip->setText(text, QClipboard::Selection); // the text will be available with the middle mouse button
-	}
-	KDialog::slotButtonClicked(button);
 }
 
 void StatisticsDialog::convertText(QString* text, bool forLaTeX) // the bool determines if we want plainText or LaTeXCode

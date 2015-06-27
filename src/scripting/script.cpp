@@ -20,8 +20,7 @@
 #include <KActionCollection>
 #include <KTextEditor/Range>
 #include <KTextEditor/Cursor>
-#include <KStandardDirs>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 #include <iostream>
@@ -69,7 +68,7 @@ void KJSCPUGuard::start(unsigned int ms, unsigned int i_ms)
 
 void KJSCPUGuard::stop()
 {
-  setitimer(ITIMER_VIRTUAL, &oldtv, NULL);
+  setitimer(ITIMER_VIRTUAL, &oldtv, Q_NULLPTR);
   signal(SIGVTALRM, oldAlarmHandler);
 }
 
@@ -122,15 +121,23 @@ static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &ra
 
 ////////////////////////////// Script //////////////////////////////
 
-/* The IDs of the scripts are used to maintain correct bindings with KAction objects, i.e. for example, we
+/* The IDs of the scripts are used to maintain correct bindings with QAction objects, i.e. for example, we
  * want to make sure the action script_execution_0 always refers to same script (the script with id 0 !), even
  * after reloading all the scripts.
  */
 
 Script::Script(unsigned int id, const QString& file)
-   : m_id(id), m_file(file), m_action(NULL), m_sequencetype(KEY_SEQUENCE)
+   : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
 {
-	m_name = KGlobal::dirs()->relativeLocation("appdata", file);
+	// compute relative data location for file
+	const QString canonical = QFileInfo(file).canonicalFilePath();
+	Q_FOREACH(const QString &base, QStandardPaths::standardLocations(QStandardPaths::DataLocation)) {
+		if (canonical.startsWith(base)) {
+			m_name = canonical.mid(base.length()+1);
+			break;
+		}
+	}
+
 	if(m_name.startsWith("scripts")) {
 		m_name = m_name.mid(8); // remove "scripts" + path separator
 	}
@@ -164,17 +171,17 @@ void Script::setID(unsigned int id)
 	m_id = id;
 }
 
-void Script::setActionObject(KAction* action)
+void Script::setActionObject(QAction * action)
 {
 	m_action = action;
 }
 
-// const KAction* Script::getActionObject() const
+// const QAction * Script::getActionObject() const
 // {
 // 	return m_action;
 // }
 
-KAction* Script::getActionObject() const
+QAction * Script::getActionObject() const
 {
 	return m_action;
 }
@@ -203,7 +210,7 @@ void Script::setSequenceType(int type)
 QString Script::readFile(const QString &filename) {
 	QFile file(filename);
 	if ( !file.open(QIODevice::ReadOnly) ) {
-		KILE_DEBUG() << i18n("Unable to find '%1'", filename);
+		KILE_DEBUG_MAIN << i18n("Unable to find '%1'", filename);
 		return QString();
 	} else {
 		QTextStream stream(&file);
@@ -223,7 +230,7 @@ ScriptEnvironment::ScriptEnvironment(KileInfo *kileInfo,
      m_kileScriptObject(scriptObject), m_enginePluginCode(pluginCode)
 {
 
-	KILE_DEBUG() << "create ScriptEnvironment";
+	KILE_DEBUG_MAIN << "create ScriptEnvironment";
 	m_engine = new QScriptEngine();
 	qScriptRegisterMetaType(m_engine, cursorToScriptValue, cursorFromScriptValue);
 	qScriptRegisterMetaType(m_engine, rangeToScriptValue, rangeFromScriptValue);
@@ -245,7 +252,7 @@ void ScriptEnvironment::execute(const Script *script)
 		return;
 	}
 	else {
-		KILE_DEBUG() << "Cursor/Range plugin successfully installed ";
+		KILE_DEBUG_MAIN << "Cursor/Range plugin successfully installed ";
 	}
 
 	// set global objects
@@ -266,7 +273,7 @@ void ScriptEnvironment::execute(const Script *script)
 		scriptError(script->getName());
 	}
 	else {
-		KILE_DEBUG() << "script finished without errors";
+		KILE_DEBUG_MAIN << "script finished without errors";
 	}
 
  //FIXME: add time execution limit once it becomes available

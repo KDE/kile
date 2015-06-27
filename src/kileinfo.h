@@ -20,7 +20,7 @@
 #include <QMap>
 
 #include "kiledebug.h"
-#include <kurl.h>
+#include <QUrl>
 
 #include <KParts/MainWindow>
 
@@ -70,13 +70,13 @@ public:
 
 public:
 	enum {bibinputs = 0,bstinputs, texinputs};
-	QString getName(KTextEditor::Document *doc = NULL, bool shrt = false) const;
-	QString getShortName(KTextEditor::Document *doc = NULL) const { return getName(doc, true); }
+	QString getName(KTextEditor::Document *doc = Q_NULLPTR, bool shrt = false) const;
+	QString getShortName(KTextEditor::Document *doc = Q_NULLPTR) const { return getName(doc, true); }
 	LaTeXOutputHandler* findCurrentLaTeXOutputHandler() const;
 	QString getCompileNameForProject(KileProject *project, bool shrt = false) const;
-	QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = NULL) const;
+	QString getCompileName(bool shrt = false, LaTeXOutputHandler** h = Q_NULLPTR) const;
 	QString getFullFromPrettyName(const OutputInfo& info, const QString& name) const;
-	KUrl::List getParentsFor(KileDocument::Info *);
+	QList<QUrl> getParentsFor(KileDocument::Info *);
 	bool getSinglemode() { return m_singlemode; }
 
 	QString getCurrentTarget() const { return m_currentTarget; }
@@ -87,15 +87,15 @@ public:
 	QString getSelection() const;
 	void clearSelection() const;
 
-	virtual QStringList allLabels(KileDocument::TextInfo *info = NULL);
-	virtual QStringList allBibItems(KileDocument::TextInfo *info = NULL);
-	virtual QStringList allBibliographies(KileDocument::TextInfo *info = NULL);
-	virtual QStringList allDependencies(KileDocument::TextInfo *info = NULL);
-	virtual QStringList allNewCommands(KileDocument::TextInfo *info = NULL);
-	virtual QStringList allAsyFigures(KileDocument::TextInfo *info = NULL);
-	virtual QStringList allPackages(KileDocument::TextInfo *info = NULL);
+	virtual QStringList allLabels(KileDocument::TextInfo *info = Q_NULLPTR);
+	virtual QStringList allBibItems(KileDocument::TextInfo *info = Q_NULLPTR);
+	virtual QStringList allBibliographies(KileDocument::TextInfo *info = Q_NULLPTR);
+	virtual QStringList allDependencies(KileDocument::TextInfo *info = Q_NULLPTR);
+	virtual QStringList allNewCommands(KileDocument::TextInfo *info = Q_NULLPTR);
+	virtual QStringList allAsyFigures(KileDocument::TextInfo *info = Q_NULLPTR);
+	virtual QStringList allPackages(KileDocument::TextInfo *info = Q_NULLPTR);
 
-	QString lastModifiedFile(KileDocument::TextInfo *info = NULL);
+	QString lastModifiedFile(KileDocument::TextInfo *info = Q_NULLPTR);
 
 	static QString documentTypeToString(KileDocument::Type type);
 
@@ -106,12 +106,12 @@ public:
 	virtual void focusPreview() = 0;
 
 private:
-	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = NULL);
+	QStringList retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo = Q_NULLPTR);
 
 public:
-	bool similarOrEqualURL(const KUrl &validurl, const KUrl &testurl);
-	bool isOpen(const KUrl & url);
-	bool projectIsOpen(const KUrl & );
+	bool similarOrEqualURL(const QUrl &validurl, const QUrl &testurl);
+	bool isOpen(const QUrl &url);
+	bool projectIsOpen(const QUrl & );
 
 	bool watchFile() { return m_bWatchFile; }
 
@@ -150,7 +150,7 @@ public:
 
 	static QString expandEnvironmentVars(const QString &variable);
 	static QString checkOtherPaths(const QString &path,const QString &file, int type);
-	static QString checkOtherPaths(const KUrl &url,const QString &file, int type){ return checkOtherPaths(url.toLocalFile(),file, type); }
+	static QString checkOtherPaths(const QUrl &url,const QString &file, int type){ return checkOtherPaths(url.toLocalFile(),file, type); }
 
 	virtual void setLine(const QString &line) = 0;
 

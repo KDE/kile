@@ -67,7 +67,6 @@
   <zorder>m_ckRootDoc</zorder>
   <zorder>m_ckAutoRun</zorder>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
  <pixmapfunction></pixmapfunction>
  <resources/>
  <connections/>

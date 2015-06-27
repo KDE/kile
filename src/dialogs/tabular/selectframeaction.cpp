@@ -23,12 +23,13 @@
 #include <QToolButton>
 #include <QVBoxLayout>
 
-#include <KAction>
-#include <KDialog>
-#include <KIcon>
-#include <KLocale>
-#include <KMenu>
-#include <KPushButton>
+#include <QAction>
+#include <QDialog>
+#include <QIcon>
+#include <KLocalizedString>
+#include <QMenu>
+#include <QPushButton>
+#include <KConfigGroup>
 
 #include "tabularcell.h"
 
@@ -120,7 +121,7 @@ static const char* const no_border_xpm[] = {
 class TabularFrameWidget : public QFrame
 {
 	public:
-		TabularFrameWidget(QWidget* parent = NULL);
+		TabularFrameWidget(QWidget* parent = Q_NULLPTR);
 		void setBorder(int value);
 		int border() const { return m_border; }
 
@@ -245,7 +246,7 @@ void TabularFrameWidget::mousePressEvent(QMouseEvent *event)
 //END
 
 SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
-	: KToolBarPopupAction(KIcon(), text, parent),
+	: KToolBarPopupAction(QIcon(), text, parent),
 	  m_Parent(parent),
 	  m_CurrentBorder(TabularCell::None)
 {
@@ -260,7 +261,6 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	QWidget *buttonBox = new QWidget(page);
 	QHBoxLayout *buttonBoxLayout = new QHBoxLayout();
 	buttonBoxLayout->setMargin(0);
-	buttonBoxLayout->setSpacing(KDialog::spacingHint());
 	buttonBox->setLayout(buttonBoxLayout);
 
 	m_pbNone = new QToolButton(buttonBox);
@@ -283,7 +283,6 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	QWidget *frameWidget = new QWidget(page);
 	QHBoxLayout *frameWidgetLayout = new QHBoxLayout();
 	frameWidgetLayout->setMargin(0);
-	frameWidgetLayout->setSpacing(KDialog::spacingHint());
 	frameWidget->setLayout(frameWidgetLayout);
 
 	m_FrameWidget = new TabularFrameWidget(frameWidget);
@@ -292,7 +291,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 	frameWidgetLayout->addWidget(m_FrameWidget);
 	frameWidgetLayout->addStretch();
 
-	m_pbDone = new KPushButton(KIcon("dialog-ok-apply"), i18n("Apply"), page);
+	m_pbDone = new QPushButton(QIcon::fromTheme("dialog-ok-apply"), i18n("Apply"), page);
 
 	layout->addWidget(buttonBox);
 	layout->addWidget(frameWidget);
@@ -300,7 +299,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 
 	QWidgetAction *widgetAction = new QWidgetAction(this);
 	widgetAction->setDefaultWidget(page);
-	popupMenu()->addAction(widgetAction);
+	menu()->addAction(widgetAction);
 
 	connect(this, SIGNAL(triggered(bool)),
 	        this, SLOT(slotTriggered()));
@@ -371,9 +370,7 @@ void SelectFrameAction::slotDoneClicked()
 		setIcon(generateIcon());
 	}
 	emit borderSelected(newBorder);
-	popupMenu()->hide();
+	menu()->hide();
 }
 
 }
-
-#include "selectframeaction.moc"

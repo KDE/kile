@@ -25,7 +25,7 @@
    <item row="0" column="0" >
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>Num of &amp;columns:</string>
+      <string>Number of &amp;columns:</string>
      </property>
      <property name="buddy" >
       <cstring>m_spCols</cstring>
@@ -42,7 +42,7 @@
    <item row="1" column="0" >
     <widget class="QLabel" name="label_2" >
      <property name="text" >
-      <string>Num of &amp;rows:</string>
+      <string>Number of &amp;rows:</string>
      </property>
      <property name="buddy" >
       <cstring>m_spRows</cstring>
@@ -67,18 +67,10 @@
     </widget>
    </item>
    <item row="2" column="1" >
-    <widget class="KLineEdit" name="m_leSpacing" />
+    <widget class="QLineEdit" name="m_leSpacing" />
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint" />
- <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <includes/>
  <resources/>
  <connections/>

@@ -53,8 +53,8 @@ class UserMenu : public QObject
 
 		QMenu *getMenuItem() const { return m_usermenu; }
 
-		QList<KAction *> contextMenuActions() const { return m_actionlistContextMenu; }
-		QList<KAction *> menuActions() const { return m_actionlist; }
+		QList<QAction *> contextMenuActions() const { return m_actionlistContextMenu; }
+		QList<QAction *> menuActions() const { return m_actionlist; }
 
 		static QString selectUserMenuDir();
 
@@ -80,12 +80,12 @@ class UserMenu : public QObject
 
 		int m_menuLocation;
 		QAction *m_wizardAction1, *m_latexAction1;
-		KAction *m_wizardAction2, *m_latexAction2;
+		QAction *m_wizardAction2, *m_latexAction2;
 		QMenu *m_latexMenuEntry;
 
 		int m_actionsContextMenu;
-		QList<KAction *> m_actionlistContextMenu;
-		QList<KAction *> m_actionlist;
+		QList<QAction *> m_actionlistContextMenu;
+		QList<QAction *> m_actionlist;
 		QList<UserMenuData> m_menudata;
 
 		QMenu *m_usermenu;
@@ -98,7 +98,7 @@ class UserMenu : public QObject
 
 		void updateUsermenuPosition();
 		void setStandAloneMenuVisible(bool state, bool show);
-		KAction *createAction(const QString &name);
+		QAction *createAction(const QString &name);
 		void clear();
 
 		void installXmlSubmenu(const QDomElement &element, QMenu *parentmenu, int &actionnumber);

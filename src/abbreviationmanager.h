@@ -38,7 +38,7 @@ namespace KileAbbreviation {
 			/**
 			 * Constructs a new manager object.
 			 **/
-			explicit Manager(KileInfo* kileInfo, QObject *parent = NULL);
+			explicit Manager(KileInfo* kileInfo, QObject *parent = Q_NULLPTR);
 			virtual ~Manager();
 
 			// the boolean value is 'true' iff the abbreviation is global

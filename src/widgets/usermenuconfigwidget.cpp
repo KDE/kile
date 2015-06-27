@@ -11,8 +11,8 @@
 *                                                                         *
 ***************************************************************************/
 
-#include <KFileDialog>
 #include <KMessageBox>
+#include <QFileDialog>
 
 #include "widgets/usermenuconfigwidget.h"
 
@@ -20,8 +20,10 @@
 #include "kiledebug.h"
 
 KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent)
-   : QWidget(parent), m_usermenu(usermenu)
+   : QWidget(parent)
+   , m_usermenu(usermenu)
 {
+	Q_ASSERT(m_usermenu);
 	setupUi(this);
 	setXmlFile(m_usermenu->xmlFile());
 
@@ -46,7 +48,7 @@ void KileWidgetUsermenuConfig::writeConfig()
 	const int location = (m_rbStandAloneMenuLocation->isChecked())
 	                     ? KileMenu::UserMenu::StandAloneLocation : KileMenu::UserMenu::LaTeXMenuLocation;
 	if(KileConfig::menuLocation() != location) {
-		KILE_DEBUG() << "menu position changed";
+		KILE_DEBUG_MAIN << "menu position changed";
 		KileConfig::setMenuLocation(location);
 		m_usermenu->changeMenuLocation(location);
 	}
@@ -54,12 +56,12 @@ void KileWidgetUsermenuConfig::writeConfig()
 
 void KileWidgetUsermenuConfig::slotInstallClicked()
 {
-	KILE_DEBUG() << "install clicked";
+	KILE_DEBUG_MAIN << "install clicked";
 
 	QString directory = KileMenu::UserMenu::selectUserMenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
-	QString xmlfile = KFileDialog::getOpenFileName(directory, filter, this, i18n("Select Menu File"));
+	QString xmlfile = QFileDialog::getOpenFileName(this, i18n("Select Menu File"), directory, filter);
 	if(xmlfile.isEmpty()) {
 		return;
 	}
@@ -75,7 +77,7 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 
 void KileWidgetUsermenuConfig::slotRemoveClicked()
 {
-	KILE_DEBUG() << "remove clicked";
+	KILE_DEBUG_MAIN << "remove clicked";
 
 	m_usermenu->removeXmlFile();
 	setXmlFile(QString());
@@ -92,6 +94,3 @@ void KileWidgetUsermenuConfig::setXmlFile(const QString &file)
 		m_pbRemove->setEnabled(true);
 	}
 }
-
-
-#include "usermenuconfigwidget.moc"

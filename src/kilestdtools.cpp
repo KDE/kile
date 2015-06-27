@@ -18,12 +18,13 @@
 #include <QFileInfo>
 #include <QRegExp>
 
-#include <KAction>
+#include <QAction>
 #include <KActionCollection>
 #include <KConfig>
-#include <KLocale>
-#include <KStandardDirs>
+#include <KLocalizedString>
+
 #include <KProcess>
+#include <QStandardPaths>
 
 #include "dialogs/listselector.h"
 #include "kileconfig.h"
@@ -42,7 +43,7 @@ namespace KileTool
 	Factory::Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection)
 	: m_manager(mngr), m_config(config), m_actionCollection(actionCollection)
 	{
-		m_standardToolConfigurationFileName = KGlobal::dirs()->findResource("appdata", "kilestdtools.rc");
+		m_standardToolConfigurationFileName = QStandardPaths::locate(QStandardPaths::DataLocation, "kilestdtools.rc");
 	}
 
 	Factory::~Factory()
@@ -53,8 +54,8 @@ namespace KileTool
 
 	Base* Factory::create(const QString& toolName, const QString& config, bool prepare /* = true */)
 	{
-		KILE_DEBUG() << toolName << config << prepare;
-		KileTool::Base *tool = NULL;
+		KILE_DEBUG_MAIN << toolName << config << prepare;
+		KileTool::Base *tool = Q_NULLPTR;
 		//perhaps we can find the tool in the config file
 		if (m_config->hasGroup(groupFor(toolName, m_config))) {
 			KConfigGroup configGroup = m_config->group(groupFor(toolName, m_config));
@@ -101,12 +102,12 @@ namespace KileTool
 			}
 		}
 		if(!tool) {
-			return NULL;
+			return Q_NULLPTR;
 		}
 
 		if(!m_manager->configure(tool, config)) {
 			delete tool;
-			return NULL;
+			return Q_NULLPTR;
 		}
 		tool->setToolConfig(config);
 
@@ -136,7 +137,7 @@ namespace KileTool
 	/////////////// LaTeX ////////////////
 
 	LaTeX::LaTeX(const QString& tool, Manager *mngr, bool prepare)
-	: Compile(tool, mngr, prepare), m_latexOutputHandler(NULL)
+	: Compile(tool, mngr, prepare), m_latexOutputHandler(Q_NULLPTR)
 	{
 	}
 
@@ -173,7 +174,7 @@ namespace KileTool
 
 		//the basedir is determined from the current compile target
 		//determined by getCompileName()
-		LaTeXOutputHandler *h = NULL;
+		LaTeXOutputHandler *h = Q_NULLPTR;
 		src = m_ki->getCompileName(false, &h);
 
 		setSource(src);
@@ -237,7 +238,7 @@ namespace KileTool
 
 	bool LaTeX::finish(int r)
 	{
-		KILE_DEBUG() << "==bool LaTeX::finish(" << r << ")=====";
+		KILE_DEBUG_MAIN << "==bool LaTeX::finish(" << r << ")=====";
 
 		m_toolResult = r;
 
@@ -255,14 +256,14 @@ namespace KileTool
 
 	void LaTeX::latexOutputParserResultInstalled()
 	{
-		KILE_DEBUG();
+		KILE_DEBUG_MAIN;
 
 		if(m_latexOutputHandler) {
 			m_latexOutputHandler->storeLaTeXOutputParserResult(m_nErrors, m_nWarnings, m_nBadBoxes, m_latexOutputInfoList,
 			                                                                                        m_logFile);
 		}
 
-		checkErrors();
+		checqCriticals();
 
 		if(readEntry("autoRun") == "yes") {
 			checkAutoRun();
@@ -271,7 +272,7 @@ namespace KileTool
 		Compile::finish(m_toolResult);
 	}
 
-	void LaTeX::checkErrors()
+	void LaTeX::checqCriticals()
 	{
 		// work around the 0 cases as the i18np call can cause some confusion when 0 is passed to it (#275700)
 		QString es = (m_nErrors == 0 ? i18n("0 errors") : i18np("1 error", "%1 errors", m_nErrors));
@@ -320,8 +321,8 @@ namespace KileTool
 					return userBibTool;
 				}
 				else {
-					KILE_DEBUG() << "Cannot find the following bibtool set by the user:" << userBibTool;
-					KILE_DEBUG() << "trying to auto-detect it now!";
+					KILE_DEBUG_MAIN << "Cannot find the following bibtool set by the user:" << userBibTool;
+					KILE_DEBUG_MAIN << "trying to auto-detect it now!";
 					sendMessage(Warning, i18n("Manually selected bibliography tool does not exist: trying to "
 					                          "auto-detect it now."));
 				}
@@ -355,14 +356,14 @@ namespace KileTool
 
 	void LaTeX::checkAutoRun()
 	{
-		KILE_DEBUG() << "check for autorun, m_reRun is " << m_reRun;
+		KILE_DEBUG_MAIN << "check for autorun, m_reRun is " << m_reRun;
 		if(m_reRun >= 2) {
-			KILE_DEBUG() << "Already rerun twice, doing nothing.";
+			KILE_DEBUG_MAIN << "Already rerun twice, doing nothing.";
 			m_reRun = 0;
 			return;
 		}
 		if(m_nErrors > 0) {
-			KILE_DEBUG() << "Errors found, not running again.";
+			KILE_DEBUG_MAIN << "Errors found, not running again.";
 			m_reRun = 0;
 			return;
 		}
@@ -400,7 +401,7 @@ namespace KileTool
 				if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
 				    && biblatexBackendMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
 					bibToolInLaTexOutput = biblatexBackendMessage.cap(1);
-					KILE_DEBUG() << "Captured Bib tool: " << bibToolInLaTexOutput;
+					KILE_DEBUG_MAIN << "Captured Bib tool: " << bibToolInLaTexOutput;
 					break;
 				}
 			}
@@ -414,7 +415,7 @@ namespace KileTool
 					if (m_latexOutputInfoList[i].type() == LatexOutputInfo::itmWarning
 						&& citationUndefinedMessage.indexIn(m_latexOutputInfoList[i].message()) != -1) {
 						haveUndefinedCitations = true;
-						KILE_DEBUG() << "Detected undefined citations";
+						KILE_DEBUG_MAIN << "Detected undefined citations";
 						break;
 					}
 				}
@@ -431,14 +432,14 @@ namespace KileTool
 		//    (If the .bbl file is younger than all of them, the next rerun will not change anything)
 		bool bibs = !bibToolInLaTexOutput.isEmpty() || updateBibs(!haveUndefinedCitations);
 		bool index = updateIndex();
-		KILE_DEBUG() << "asy:" << asy << "bibs:" << bibs << "index:" << index << "reRunWarningFound:" << reRunWarningFound;
+		KILE_DEBUG_MAIN << "asy:" << asy << "bibs:" << bibs << "index:" << index << "reRunWarningFound:" << reRunWarningFound;
 		// Currently, we don't properly detect yet whether asymptote has to be run.
 		// So, if asymtote figures are present, we run it each time after the first LaTeX run.
 		bool reRun = (asy || bibs || index || reRunWarningFound);
-		KILE_DEBUG() << "reRun:" << reRun;
+		KILE_DEBUG_MAIN << "reRun:" << reRun;
 
 		if(reRun) {
-			KILE_DEBUG() << "rerunning LaTeX, m_reRun is now " << m_reRun;
+			KILE_DEBUG_MAIN << "rerunning LaTeX, m_reRun is now " << m_reRun;
 			Base *tool = manager()->createTool(name(), toolConfig());
 			if(tool) {
 				configureLaTeX(tool, source());
@@ -453,7 +454,7 @@ namespace KileTool
 		}
 
 		if(bibs) {
-			KILE_DEBUG() << "need to run the bibliography tool " << bibToolInLaTexOutput;
+			KILE_DEBUG_MAIN << "need to run the bibliography tool " << bibToolInLaTexOutput;
 			ToolConfigPair bibTool = determineBibliographyBackend(bibToolInLaTexOutput);
 			Base *tool = manager()->createTool(bibTool.first, bibTool.second);
 			if(tool) {
@@ -465,9 +466,9 @@ namespace KileTool
 		}
 
 		if(index) {
-			KILE_DEBUG() << "need to run MakeIndex";
+			KILE_DEBUG_MAIN << "need to run MakeIndex";
 			Base *tool = manager()->createTool("MakeIndex", QString());
-			KILE_DEBUG() << targetDir() << S() << tool->from();
+			KILE_DEBUG_MAIN << targetDir() << S() << tool->from();
 			if(tool) {
 				configureMakeIndex(tool, targetDir() + '/' + S() + '.' + tool->from());
 				// e.g. for LivePreview, it is necessary that the paths are copied to child processes
@@ -477,7 +478,7 @@ namespace KileTool
 		}
 
 		if(asy) {
-			KILE_DEBUG() << "need to run asymptote";
+			KILE_DEBUG_MAIN << "need to run asymptote";
 			int sz = manager()->info()->allAsyFigures().size();
 			for(int i = sz -1; i >= 0; --i) {
 				Base *tool = manager()->createTool("Asymptote", QString());
@@ -502,10 +503,10 @@ namespace KileTool
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
 	// - updateInfoLists(): change entries of temporary file into normal tex file
-	// - checkErrors()    : count errors and warnings and emit signals
+	// - checqCriticals()    : count errors and warnings and emit signals
 	bool PreviewLaTeX::finish(int r)
 	{
-		KILE_DEBUG() << r;
+		KILE_DEBUG_MAIN << r;
 
 		m_toolResult = r;
 
@@ -556,15 +557,15 @@ namespace KileTool
 	// PreviewLatex makes three steps:
 	// - filterLogfile()  : parse logfile and read info into InfoLists
 	// - updateInfoLists(): change entries of temporary file into normal tex file
-	// - checkErrors()    : count errors and warnings and emit signals
+	// - checqCriticals()    : count errors and warnings and emit signals
 // 	bool LivePreviewLaTeX::finish(int r)
 // 	{
-// 		KILE_DEBUG() << "==bool PreviewLaTeX::finish(" << r << ")=====";
+// 		KILE_DEBUG_MAIN << "==bool PreviewLaTeX::finish(" << r << ")=====";
 //
 // 		int nErrors = 0, nWarnings = 0;
 // 		if(filterLogfile()) {
 // 			manager()->info()->outputFilter()->updateInfoLists(m_filename,m_selrow,m_docrow);
-// 			checkErrors(nErrors,nWarnings);
+// 			checqCriticals(nErrors,nWarnings);
 // 		}
 //
 // 		return Compile::finish(r);
@@ -628,8 +629,7 @@ namespace KileTool
 		}
 
 		QString filepath = doc->url().toLocalFile();
-
-		QString texfile = KUrl::relativePath(baseDir(),filepath);
+		QString texfile = QDir(baseDir()).relativeFilePath(filepath);
 		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + ' ' + texfile; // space added, for files starting with numbers
 		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + filepath;
 
@@ -645,9 +645,9 @@ namespace KileTool
 		}
 
 		addDict("%absolute_target", absoluteTarget);
-		KILE_DEBUG() << "==KileTool::ForwardDVI::determineTarget()=============\n";
-		KILE_DEBUG() << "\tusing  (absolute)" << absoluteTarget;
-		KILE_DEBUG() << "\tusing  (relative)" << relativeTarget;
+		KILE_DEBUG_MAIN << "==KileTool::ForwardDVI::determineTarget()=============\n";
+		KILE_DEBUG_MAIN << "\tusing  (absolute)" << absoluteTarget;
+		KILE_DEBUG_MAIN << "\tusing  (relative)" << relativeTarget;
 
 		return true;
 	}
@@ -658,7 +658,7 @@ namespace KileTool
 
 	bool ViewBib::determineSource()
 	{
-		KILE_DEBUG() << "==ViewBib::determineSource()=======";
+		KILE_DEBUG_MAIN << "==ViewBib::determineSource()=======";
 		if (!View::determineSource()) {
 			return false;
 		}
@@ -668,7 +668,7 @@ namespace KileTool
 
 		//get the bibliographies for this source
 		QStringList bibs = manager()->info()->allBibliographies(manager()->info()->docManager()->textInfoFor(path));
-		KILE_DEBUG() << "\tfound " << bibs.count() << " bibs";
+		KILE_DEBUG_MAIN << "\tfound " << bibs.count() << " bibs";
 		if(bibs.count() > 0) {
 			QString bib = bibs.front();
 			if (bibs.count() > 1) {
@@ -676,9 +676,9 @@ namespace KileTool
 				bool bib_selected = false;
 				KileListSelector *dlg = new KileListSelector(bibs, i18n("Select Bibliography"),i18n("Select a bibliography"));
 				if (dlg->exec() && dlg->hasSelection()) {
-					bib = dlg->selected();
+					bib = dlg->selectedItems().first();
 					bib_selected = true;
-					KILE_DEBUG() << "Bibliography selected : " << bib;
+					KILE_DEBUG_MAIN << "Bibliography selected : " << bib;
 				}
 				delete dlg;
 
@@ -687,11 +687,11 @@ namespace KileTool
 					return false;
 				}
 			}
-			KILE_DEBUG() << "filename before: " << info.path();
+			KILE_DEBUG_MAIN << "filename before: " << info.path();
 			setSource(manager()->info()->checkOtherPaths(info.path(),bib + ".bib",KileInfo::bibinputs));
 		}
 		else if(info.exists()) { //active doc is a bib file
-			KILE_DEBUG() << "filename before: " << info.path();
+			KILE_DEBUG_MAIN << "filename before: " << info.path();
 			setSource(manager()->info()->checkOtherPaths(info.path(),info.fileName(),KileInfo::bibinputs));
 		}
 		else {
@@ -770,5 +770,4 @@ KileTool::BibliographyCompile::BibliographyCompile(const QString& name, KileTool
 }
 
 
-#include "kilestdtools.moc"
 

@@ -19,21 +19,21 @@
 #include <QString>
 #include <QCheckBox>
 
-#include <KStandardDirs>
-#include <KDialog>
-#include <KLocale>
+
+#include <QDialog>
+#include <KLocalizedString>
 
 #include "kileconstants.h"
 #include "templates.h"
 
 class NewDocumentWidget;
 
-class NewFileWizard : public KDialog
+class NewFileWizard : public QDialog
 {
 	Q_OBJECT
 public:
 	explicit NewFileWizard(KileTemplate::Manager *manager, KileDocument::Type startType = KileDocument::LaTeX,
-	              QWidget *parent = NULL, const char *name = NULL);
+	              QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 	~NewFileWizard();
 
 public:
@@ -41,8 +41,7 @@ public:
 	bool useWizard();
 
 protected Q_SLOTS:
-	virtual void slotButtonClicked(int button);
-	void slotClickOKButton();
+	void okButtonClicked();
 
 	void slotActivated(int index);
 

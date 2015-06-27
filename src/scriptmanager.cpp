@@ -14,17 +14,18 @@
 #include "scriptmanager.h"
 
 #include <KConfig>
-#include "kiledebug.h"
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 
 #include <QEvent>
 #include <QDir>
+#include <QDirIterator>
 #include <QMap>
+#include <QStandardPaths>
 
+#include "kiledebug.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kileversion.h"
@@ -37,12 +38,17 @@ namespace KileScript {
 ////////////////////////////// Manager //////////////////////////////
 
 	Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionCollection, QObject *parent, const char *name)
-	: QObject(parent), m_jScriptDirWatch(NULL), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection)
+	: QObject(parent), m_jScriptDirWatch(Q_NULLPTR), m_kileInfo(kileInfo), m_config(config), m_actionCollection(actionCollection)
 	{
 		setObjectName(name);
 
 		// create a local scripts directory if it doesn't exist yet
-		m_localScriptDir = KStandardDirs::locateLocal("appdata", "scripts/", true);
+		m_localScriptDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/scripts/";
+		QDir testDir(m_localScriptDir);
+		if (!testDir.exists()) {
+			testDir.mkpath(m_localScriptDir);
+		}
+
 		m_jScriptDirWatch = new KDirWatch(this);
 		m_jScriptDirWatch->setObjectName("KileScript::Manager::ScriptDirWatch");
 		connect(m_jScriptDirWatch, SIGNAL(dirty(const QString&)), this, SLOT(scanScriptDirectories()));
@@ -77,7 +83,7 @@ namespace KileScript {
 
 	void Manager::executeScript(const Script *script)
 	{
-		KILE_DEBUG() << "execute script: " << script->getName();
+		KILE_DEBUG_MAIN << "execute script: " << script->getName();
 
 		// compatibility check
 		QString code = script->getCode();
@@ -122,7 +128,7 @@ namespace KileScript {
 	const Script* Manager::getScript(unsigned int id)
 	{
 		QMap<unsigned int, Script*>::iterator i = m_idScriptMap.find(id);
-		return ((i != m_idScriptMap.end()) ? (*i) : NULL);
+		return ((i != m_idScriptMap.end()) ? (*i) : Q_NULLPTR);
 	}
 
 	void Manager::scanScriptDirectories()
@@ -149,7 +155,17 @@ namespace KileScript {
 		}
 
 		// scan *.js files
-		QStringList scriptFileNamesList = KGlobal::dirs()->findAllResources("appdata", "scripts/*.js", KStandardDirs::Recursive | KStandardDirs::NoDuplicates);
+		QStringList scriptFileNamesList;
+		const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "script/", QStandardPaths::LocateDirectory);
+		Q_FOREACH (const QString &dir, dirs) {
+			QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Filters(), QDirIterator::Subdirectories);
+			while (it.hasNext()) {
+				if (!scriptFileNamesList.contains(it.next())) {
+					scriptFileNamesList.append(it.next());
+				}
+			}
+		}
+
 		for(QStringList::iterator i = scriptFileNamesList.begin(); i != scriptFileNamesList.end(); ++i) {
 			registerScript(*i, pathIDMap, takenIDMap, maxID);
 		}
@@ -170,7 +186,7 @@ namespace KileScript {
 		m_idScriptMap.clear();
 		m_kileInfo->editorKeySequenceManager()->removeKeySequence(keySequenceList);
 		for(QList<Script*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
-			KAction *action = (*it)->getActionObject();
+			QAction *action = (*it)->getActionObject();
 			if(action) {
 				foreach(QWidget *w, action->associatedWidgets()) {
 					w->removeAction(action);
@@ -225,7 +241,7 @@ namespace KileScript {
 				editorKeySequence = re.cap(1);
 			}
 		}
-		KILE_DEBUG() << "script type=" << sequenceType << " seq=" << editorKeySequence;
+		KILE_DEBUG_MAIN << "script type=" << sequenceType << " seq=" << editorKeySequence;
 		
 		// now set up a regular action object
 		ScriptExecutionAction *action = new ScriptExecutionAction(id, this, m_actionCollection);
@@ -319,7 +335,7 @@ namespace KileScript {
 
 	void Manager::populateDirWatch()
 	{
-		QStringList jScriptDirectories = KGlobal::dirs()->findDirs("appdata", "scripts");
+		QStringList jScriptDirectories = QStandardPaths::locateAll(QStandardPaths::DataLocation, "scripts");
 		for(QStringList::iterator i = jScriptDirectories.begin(); i != jScriptDirectories.end(); ++i) {
 			// FIXME: future KDE versions could support the recursive
 			//        watching of directories out of the box.
@@ -392,7 +408,7 @@ namespace KileScript {
 	void Manager::readEnginePlugin()
 	{
 		// TODO error message and disable scripting if not found
-		QString pluginUrl = KGlobal::dirs()->findResource("appdata","script-plugins/cursor-range.js");
+		QString pluginUrl = QStandardPaths::locate(QStandardPaths::DataLocation, "script-plugins/cursor-range.js");
 		m_enginePlugin = Script::readFile(pluginUrl);
 	}
 
@@ -415,7 +431,7 @@ namespace KileScript {
 
 
 		foreach ( KXMLGUIClient *client, m_kileInfo->mainWindow()->guiFactory()->clients() ) {
-			KILE_DEBUG() << "collection count: " << client->actionCollection()->count() ;
+			KILE_DEBUG_MAIN << "collection count: " << client->actionCollection()->count() ;
 
 			foreach ( QAction *action, client->actionCollection()->actions() ) {
 				QString objectname = action->objectName();
@@ -430,7 +446,7 @@ namespace KileScript {
 
 ////////////////////////////// ScriptExecutionAction //////////////////////////////
 
-	ScriptExecutionAction::ScriptExecutionAction(unsigned int id, KileScript::Manager *manager, QObject* parent) : KAction(parent), m_manager(manager), m_id(id)
+	ScriptExecutionAction::ScriptExecutionAction(unsigned int id, KileScript::Manager *manager, QObject* parent) : QAction(parent), m_manager(manager), m_id(id)
 	{
 		const KileScript::Script *script = m_manager->getScript(m_id);
 		Q_ASSERT(script);
@@ -451,4 +467,3 @@ namespace KileScript {
 
 }
 
-#include "scriptmanager.moc"

@@ -23,7 +23,7 @@ from Kate (C) 2001 by Matt Newell
 #include <KFile>
 #include <KDirOperator>
 #include <KUrlNavigator>
-#include <KUrl>
+#include <QUrl>
 #include <KConfig>
 #include <KConfigGroup>
 
@@ -42,15 +42,15 @@ public:
 	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent);
 	~FileBrowserWidget();
 
-	KUrl currentUrl() const;
+	QUrl currentUrl() const;
 
 public Q_SLOTS:
-	void setDir(const KUrl& url);
+	void setDir(const QUrl &url);
 	void writeConfig();
 
 private Q_SLOTS:
 	void toggleShowLaTeXFilesOnly(bool filter);
-	void dirUrlEntered(const KUrl& u);
+	void dirUrlEntered(const QUrl &u);
 	void emitFileSelectedSignal();
 
 protected:

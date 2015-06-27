@@ -18,7 +18,7 @@
 #include <QItemDelegate>
 #include <QTextDocument>
 
-#include <KListWidget>
+#include <QListWidget>
 
 #include "outputinfo.h"
 
@@ -26,7 +26,7 @@ class QString;
 class QPoint;
 
 class KileInfo;
-class KUrl;
+class QUrl;
 
 namespace KileWidget {
 	class LogWidgetItemDelegate : public QItemDelegate
@@ -34,7 +34,7 @@ namespace KileWidget {
 		Q_OBJECT
 
 		public:
-			LogWidgetItemDelegate(QObject* parent = NULL);
+			LogWidgetItemDelegate(QObject* parent = Q_NULLPTR);
 
 			virtual QSize sizeHint(const QStyleOptionViewItem& option,
 			                       const QModelIndex& index) const;
@@ -47,7 +47,7 @@ namespace KileWidget {
 			QTextDocument* constructTextDocument(const QModelIndex& index) const;
 	};
 
-	class LogWidget : public KListWidget
+	class LogWidget : public QListWidget
 	{
 		Q_OBJECT
 
@@ -60,7 +60,7 @@ namespace KileWidget {
 
 		enum PopupType { AllPopupActions = 0, NoHideActions = 1};
 
-		LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = NULL, const char *name = NULL);
+		LogWidget(PopupType popupType = AllPopupActions, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 		~LogWidget();
 
 		bool isShowingOutput() const;

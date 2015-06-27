@@ -34,11 +34,8 @@ class UserMenuDialog : public KileDialog::Wizard
 	Q_OBJECT
 
 	public:
-		UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu *userMenu, const QString & xmlfile, QWidget *parent);
+		UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu *userMenu, const QString &xmlfile, QWidget *parent);
 		~UserMenuDialog() {}
-
-	protected Q_SLOTS:
-		virtual void slotButtonClicked(int button);
 
 	private Q_SLOTS:
 		void slotCurrentItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *previous);
@@ -51,10 +48,7 @@ class UserMenuDialog : public KileDialog::Wizard
 
 		void slotMenuentryTypeClicked();
 		void slotMenuentryTextChanged(const QString &text);
-		void slotUrlSelected(const KUrl &url);
 		void slotUrlTextChanged(const QString &text);
-		void slotParameterTextChanged(const QString &);
-		void slotPlainTextChanged();
 		void slotIconClicked();
 		void slotIconDeleteClicked();
 		void slotKeySequenceChanged(const QKeySequence &seq);
@@ -67,6 +61,7 @@ class UserMenuDialog : public KileDialog::Wizard
 		void slotLoadClicked();
 		void slotSaveClicked();
 		void slotSaveAsClicked();
+		void slotShowHelp();
 
 		void slotCustomContextMenuRequested(const QPoint &pos);
 
@@ -89,7 +84,6 @@ class UserMenuDialog : public KileDialog::Wizard
 		void initDialog();
 		void setModified();
 
-		bool okClicked();
 		bool saveClicked();
 		QString saveAsClicked();
 

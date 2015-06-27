@@ -21,7 +21,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <kurl.h>
+#include <QUrl>
 
 namespace KileDocument 
 {
@@ -34,38 +34,38 @@ public:
 
 	enum { LATEX_EXT_DOC=1,  LATEX_EXT_PKG=2,  LATEX_EXT_BIB=4, LATEX_EXT_IMG=8,  LATEX_EXT_MP=16, LATEX_EXT_JS=32, LATEX_EXT_PROJ=64 };
 
-	QString latexDocuments() { return m_documents; }
-	QString latexPackages() { return m_packages; }
-	QString bibtex() { return m_bibtex; }
-	QString images() { return m_images; }
-	QString metapost() { return m_metapost; }
+	QString latexDocuments() const { return m_documents; }
+	QString latexPackages() const { return m_packages; }
+	QString bibtex() const { return m_bibtex; }
+	QString images() const { return m_images; }
+	QString metapost() const { return m_metapost; }
 
-	QString latexDocumentDefault() { return m_latexDefault; }
-	QString bibtexDefault() { return m_bibtexDefault; }
-	QString metapostDefault() { return m_metapostDefault; }
+	QString latexDocumentDefault() const { return m_latexDefault; }
+	QString bibtexDefault() const { return m_bibtexDefault; }
+	QString metapostDefault() const { return m_metapostDefault; }
 
-	QString latexDocumentFileFilter() { return fileFilter(LATEX_EXT_DOC); }
-	QString latexPackageFileFilter() { return fileFilter(LATEX_EXT_PKG); }
-	QString bibtexFileFilter() { return fileFilter(LATEX_EXT_BIB); }
-	QString imageFileFilter() { return fileFilter(LATEX_EXT_IMG); }
-	QString metapostFileFilter() { return fileFilter(LATEX_EXT_MP); }
-	QString scriptFileFilter() { return fileFilter(LATEX_EXT_JS); }
-	QString projectFileFilter() { return fileFilter(LATEX_EXT_PROJ); }
+	QString latexDocumentFileFilter() const { return fileFilter(LATEX_EXT_DOC); }
+	QString latexPackageFileFilter() const { return fileFilter(LATEX_EXT_PKG); }
+	QString bibtexFileFilter() const { return fileFilter(LATEX_EXT_BIB); }
+	QString imageFileFilter() const { return fileFilter(LATEX_EXT_IMG); }
+	QString metapostFileFilter() const { return fileFilter(LATEX_EXT_MP); }
+	QString scriptFileFilter() const { return fileFilter(LATEX_EXT_JS); }
+	QString projectFileFilter() const { return fileFilter(LATEX_EXT_PROJ); }
 	
 	bool isTexFile(const QString &fileName) const;
-	bool isTexFile(const KUrl &url) const { return isTexFile(url.fileName()); }
+	bool isTexFile(const QUrl &url) const { return isTexFile(url.fileName()); }
 	bool isBibFile(const QString &fileName) const;	
-	bool isBibFile(const KUrl &url) const { return isBibFile(url.fileName()); }
+	bool isBibFile(const QUrl &url) const { return isBibFile(url.fileName()); }
 	bool isScriptFile(const QString &fileName) const;
-	bool isScriptFile(const KUrl & url) const { return isScriptFile(url.fileName()); }
+	bool isScriptFile(const QUrl &url) const { return isScriptFile(url.fileName()); }
 	bool isProjectFile(const QString &fileName) const;
-	bool isProjectFile(const KUrl &url) const { return isProjectFile(url.fileName()); }
+	bool isProjectFile(const QUrl &url) const { return isProjectFile(url.fileName()); }
 	
 	bool isLatexDocument(const QString &ext) const { return validExtension(ext,m_documents); }
 	bool isLatexPackage(const QString &ext) const { return validExtension(ext,m_packages); }
 	bool isImage(const QString &ext) const { return validExtension(ext,m_images); }
 
-	KileDocument::Type determineDocumentType(const KUrl &url) const;
+	KileDocument::Type determineDocumentType(const QUrl &url) const;
 	QString defaultExtensionForDocumentType(KileDocument::Type type) const;
 
 private:
@@ -84,7 +84,7 @@ private:
 	bool isProject(const QString &ext) const { return validExtension(ext,m_project); }
 	bool validExtension(const QString &ext, const QString &extensions) const;
 
-	QString fileFilter(uint type);
+	QString fileFilter(uint type) const;
 };
 
 }

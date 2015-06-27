@@ -17,7 +17,7 @@
 #include <config.h>
 
 #include "docpart.h"
-#ifdef HAVE_VIEWERINTERFACE_H
+#if LIVEPREVIEW_AVAILABLE
   #include "livepreview.h"
 #endif
 #include "kileconfig.h"
@@ -33,12 +33,12 @@
 #include "kiledebug.h"
 #include <KRun>
 #include <KProcess>
-#include <KLocale>
+#include <KLocalizedString>
+#include <KPluginFactory>
+#include <KPluginLoader>
 #include <KShell>
-#include <KStandardDirs>
-#include <KParts/ComponentFactory>
+
 #include <KParts/Part>
-#include <KParts/Factory>
 #include <KParts/PartManager>
 
 static QVariantList toVariantList(const QStringList& list)
@@ -53,19 +53,19 @@ static QVariantList toVariantList(const QStringList& list)
 namespace KileTool {
 
 	Launcher::Launcher() :
-		m_tool(NULL)
+		m_tool(Q_NULLPTR)
 	{
 	}
 
 	Launcher::~ Launcher()
 	{
-		KILE_DEBUG() << "DELETING launcher";
+		KILE_DEBUG_MAIN << "DELETING launcher";
 	}
 
 	ProcessLauncher::ProcessLauncher() :
 		m_changeTo(true)
 	{
-		KILE_DEBUG() << "==KileTool::ProcessLauncher::ProcessLauncher()==============";
+		KILE_DEBUG_MAIN << "==KileTool::ProcessLauncher::ProcessLauncher()==============";
 
 		m_proc = new KProcess(this);
 
@@ -79,7 +79,7 @@ namespace KileTool {
 
 	ProcessLauncher::~ProcessLauncher()
 	{
-		KILE_DEBUG() << "DELETING ProcessLauncher";
+		KILE_DEBUG_MAIN << "DELETING ProcessLauncher";
 
 		if(m_proc) {
 			// we don't want it to emit any signals as we are being deleted
@@ -111,12 +111,12 @@ namespace KileTool {
 
 	bool ProcessLauncher::launch()
 	{
-		if(tool() == NULL){
-		  kWarning() << "tool() is NULL which is a BUG";
+		if(tool() == Q_NULLPTR){
+		  qWarning() << "tool() is Q_NULLPTR which is a BUG";
 		  return false;
 		}
-		if(m_proc == NULL){
-		  kWarning() << "m_proc is NULL which is a BUG";
+		if(m_proc == Q_NULLPTR){
+		  qWarning() << "m_proc is Q_NULLPTR which is a BUG";
 		  return false;
 		}
 
@@ -125,17 +125,17 @@ namespace KileTool {
 
 		if(m_cmd.isEmpty()) {
 			m_cmd = tool()->readEntry("command");
-			KILE_DEBUG() << "readEntry('command'): " << m_cmd;
+			KILE_DEBUG_MAIN << "readEntry('command'): " << m_cmd;
 		}
 
 		if(m_options.isEmpty()) {
 			m_options = tool()->readEntry("options");
-			KILE_DEBUG() << "readEntry('option'):" << m_options;
+			KILE_DEBUG_MAIN << "readEntry('option'):" << m_options;
 		}
 
 		if(m_changeTo && (!m_wd.isEmpty())) {
 			m_proc->setWorkingDirectory(m_wd);
-			KILE_DEBUG() << "changed to " << m_wd;
+			KILE_DEBUG_MAIN << "changed to " << m_wd;
 			out += QString("*****     cd \"") + m_wd + QString("\"\n");
 		}
 
@@ -143,7 +143,7 @@ namespace KileTool {
 		tool()->translate(m_cmd);
 		tool()->translate(m_options, true); // quote the substituted strings using 'KShell::quoteArg'
 		                                    // (see bug 314109)
-		KILE_DEBUG() << "after translate: m_cmd=" << m_cmd << ", m_options=" << m_options;
+		KILE_DEBUG_MAIN << "after translate: m_cmd=" << m_cmd << ", m_options=" << m_options;
 
 		if(m_cmd.isEmpty()) {
 			return false;
@@ -162,7 +162,7 @@ namespace KileTool {
 		// BUG: 204397
 		m_proc->setProgram(m_cmd, arguments);
 
-		KILE_DEBUG() << "sent " << m_cmd << ' ' << arguments;
+		KILE_DEBUG_MAIN << "sent " << m_cmd << ' ' << arguments;
 
 		out += QString("*****     ") + m_cmd + ' ' + arguments.join(" ") + '\n';
 
@@ -189,11 +189,11 @@ namespace KileTool {
 			bibInputPaths = KileConfig::previewBibInputPaths();
 		}
 
-		KILE_DEBUG() << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-		KILE_DEBUG() << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + PATH_SEPARATOR + "$TEXINPUTS");
-		KILE_DEBUG() << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + PATH_SEPARATOR + "$BIBINPUTS");
-		KILE_DEBUG() << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + PATH_SEPARATOR + "$BSTINPUTS");
-		KILE_DEBUG() << "Tool name is "<< tool()->name();
+		KILE_DEBUG_MAIN << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
+		KILE_DEBUG_MAIN << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + PATH_SEPARATOR + "$TEXINPUTS");
+		KILE_DEBUG_MAIN << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + PATH_SEPARATOR + "$BIBINPUTS");
+		KILE_DEBUG_MAIN << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + PATH_SEPARATOR + "$BSTINPUTS");
+		KILE_DEBUG_MAIN << "Tool name is "<< tool()->name();
 
 		m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
@@ -211,11 +211,11 @@ namespace KileTool {
 		emit(output(out));
 
 		if(tool()->manager()->shouldBlock()) {
-			KILE_DEBUG() << "About to execute: " << m_proc->program();
+			KILE_DEBUG_MAIN << "About to execute: " << m_proc->program();
 			m_proc->execute();
 		}
 		else {
-			KILE_DEBUG() << "About to start: " << m_proc->program();
+			KILE_DEBUG_MAIN << "About to start: " << m_proc->program();
 			m_proc->start();
 		}
 		return true;
@@ -223,14 +223,14 @@ namespace KileTool {
 
 	void ProcessLauncher::kill(bool emitSignals)
 	{
-		KILE_DEBUG() << "==KileTool::ProcessLauncher::kill()==============";
+		KILE_DEBUG_MAIN << "==KileTool::ProcessLauncher::kill()==============";
 		if(m_proc && m_proc->state() == QProcess::Running) {
-			KILE_DEBUG() << "\tkilling";
+			KILE_DEBUG_MAIN << "\tkilling";
 			m_proc->kill();
 			m_proc->waitForFinished(-1);
 		}
 		else {
-			KILE_DEBUG() << "\tno process or process not running";
+			KILE_DEBUG_MAIN << "\tno process or process not running";
 			if(emitSignals) {
 				emit(message(Error, i18n("terminated")));
 				emit(done(AbnormalExit));
@@ -256,7 +256,7 @@ namespace KileTool {
 
 
 		QString exe = KRun::binaryName(tool()->readEntry("command"), false);
-		QString path = KGlobal::dirs()->findExe(exe, QString(), KStandardDirs::IgnoreExecBit);
+		QString path = QStandardPaths::findExecutable(exe);
 
 		if(path.isEmpty()) {
 			emit(message(Error, i18n("There is no executable named \"%1\" in your path.", exe)));
@@ -282,12 +282,12 @@ namespace KileTool {
 
 	void ProcessLauncher::slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus)
 	{
-		KILE_DEBUG() << "==KileTool::ProcessLauncher::slotProcessExited=============";
-		KILE_DEBUG() << "\t" << tool()->name();
+		KILE_DEBUG_MAIN << "==KileTool::ProcessLauncher::slotProcessExited=============";
+		KILE_DEBUG_MAIN << "\t" << tool()->name();
 
 		if(m_proc) {
 			if(exitStatus == QProcess::NormalExit) {
-				KILE_DEBUG() << "\tnormal exit";
+				KILE_DEBUG_MAIN << "\tnormal exit";
 				int type = Info;
 				if(exitCode != 0) {
 					type = Error;
@@ -302,20 +302,20 @@ namespace KileTool {
 				}
 			}
 			else {
-				KILE_DEBUG() << "\tabnormal exit";
+				KILE_DEBUG_MAIN << "\tabnormal exit";
 				emit(message(Error, i18n("finished abruptly")));
 				emit(done(AbnormalExit));
 			}
 		}
 		else {
-			kWarning() << "\tNO PROCESS, emitting done";
+			qWarning() << "\tNO PROCESS, emitting done";
 			emit(done(Success));
 		}
 	}
 
 	void ProcessLauncher::slotProcessError(QProcess::ProcessError error)
 	{
-		KILE_DEBUG() << "error =" << error << "tool = " << tool()->name();
+		KILE_DEBUG_MAIN << "error =" << error << "tool = " << tool()->name();
 		QString errorString;
 		switch(error) {
 			case QProcess::FailedToStart:
@@ -342,7 +342,7 @@ namespace KileTool {
 		QString noclose = (tool()->readEntry("close") == "no") ? "--noclose" : "";
 		setCommand("konsole");
 		setOptions(noclose + " -e " + cmd + ' ' + tool()->readEntry("options"));
-		if(KGlobal::dirs()->findExe(KRun::binaryName(cmd, false)).isEmpty()) {
+		if(QStandardPaths::findExecutable(KRun::binaryName(cmd, false)).isEmpty()) {
 			return false;
 		}
 
@@ -350,7 +350,7 @@ namespace KileTool {
 	}
 
 	PartLauncher::PartLauncher() :
-		m_part(NULL),
+		m_part(Q_NULLPTR),
 		m_state("Viewer")
 	{
 	}
@@ -358,7 +358,7 @@ namespace KileTool {
 	PartLauncher::~PartLauncher()
 	{
 		// the created part will be deleted in 'Kile::resetPart'
-		KILE_DEBUG () << "DELETING PartLauncher";
+		KILE_DEBUG_MAIN << "DELETING PartLauncher";
 	}
 
 	void PartLauncher::setLibrary(const QString& lib)
@@ -387,7 +387,7 @@ namespace KileTool {
 		m_className = tool()->readEntry("className");
 		m_options = tool()->readEntry("libOptions");
 		m_state = tool()->readEntry("state");
-#ifdef HAVE_VIEWERINTERFACE_H
+#if LIVEPREVIEW_AVAILABLE
 		// check if should use the document viewer
 		if(tool()->readEntry("useDocumentViewer") == "yes") {
 			// and whether it's available
@@ -400,7 +400,7 @@ namespace KileTool {
 				return false;
 			}
 			const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
-			tool()->manager()->viewManager()->openInDocumentViewer(KUrl(fileName));
+			tool()->manager()->viewManager()->openInDocumentViewer(QUrl::fromLocalFile(fileName));
 			if(tool()->paramDict().contains("%sourceFileName")
 			    && tool()->paramDict().contains("%sourceLine")) {
 				const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
@@ -468,7 +468,7 @@ namespace KileTool {
 		stack->insertWidget(1, m_part->widget());
 		stack->setCurrentIndex(1);
 
-		m_part->openUrl(KUrl(name));
+		m_part->openUrl(QUrl::fromLocalFile(name));
 		pm->addPart(m_part, true);
 		pm->setActivePart(m_part);
 
@@ -516,7 +516,7 @@ namespace KileTool {
 
 		tool()->manager()->wantGUIState(m_state);
 
-		htmlpart->openUrl(KUrl(name));
+		htmlpart->openUrl(QUrl::fromLocalFile(name));
 		htmlpart->addToHistory(name);
 		stack->insertWidget(1, htmlpart->widget());
 		stack->setCurrentIndex(1);
@@ -531,4 +531,3 @@ namespace KileTool {
 
 }
 
-#include "kilelauncher.moc"

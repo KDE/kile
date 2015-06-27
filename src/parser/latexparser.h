@@ -33,7 +33,7 @@ struct BracketResult
 class LaTeXParserInput : public ParserInput
 {
 public:
-	LaTeXParserInput(const KUrl& url, QStringList textLines,
+	LaTeXParserInput(const QUrl &url, QStringList textLines,
 	                                  KileDocument::Extensions *extensions,
 	                                  const QMap<QString, KileStructData>& dictStructLevel,
 	                                  bool showSectioningLabels,
@@ -69,7 +69,7 @@ class LaTeXParser : public Parser
 
 public:
 	LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
-	                                        QObject *parent = NULL);
+	                                        QObject *parent = Q_NULLPTR);
 	virtual ~LaTeXParser();
 
 	ParserOutput* parse();

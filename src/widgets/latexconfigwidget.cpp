@@ -39,4 +39,3 @@ void KileWidgetLatexConfig::setLatexCommands(KConfig *config, KileDocument::Late
 	m_commands = commands;
 }
 
-#include "latexconfigwidget.moc"

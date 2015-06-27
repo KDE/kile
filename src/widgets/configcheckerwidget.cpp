@@ -38,4 +38,3 @@ QListWidget* ConfigCheckerWidget::listWidget()
 	return m_lstResults;
 }
 
-#include "configcheckerwidget.moc"

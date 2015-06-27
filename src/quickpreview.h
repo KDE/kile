@@ -26,7 +26,7 @@
 #include <QString>
 #include <QStringList>
 
-#include <KTempDir>
+#include <QTemporaryDir>
 
 namespace KileTool
 {
@@ -89,7 +89,7 @@ private:
 	QString m_tempFile;
 	QStringList m_taskList;
 	int m_running;
-	KTempDir *m_tempDir;
+	QTemporaryDir *m_tempDir;
 
 	int createTempfile(const QString &text);
 	void showError(const QString &text);

@@ -22,8 +22,8 @@
 
 #include "kileproject.h"
 
-class KUrl;
-class KMenu;
+class QUrl;
+class QMenu;
 class KToggleAction;
 class KileInfo;
 
@@ -63,8 +63,8 @@ public:
 
 	virtual bool operator<(const QTreeWidgetItem& other) const;
 
-	void setURL(const KUrl& url);
-	const KUrl& url();
+	void setURL(const QUrl &url);
+	const QUrl &url();
 
 	void setArchiveState(bool ar);
 
@@ -75,19 +75,19 @@ public Q_SLOTS:
 	/**
 	 * @warning Does nothing if "url" is empty !
 	 **/ 
-	void urlChanged(const KUrl& url);
+	void urlChanged(const QUrl &url);
 	void nameChanged(const QString& name);
 	void isrootChanged(bool isroot);
 
 private Q_SLOTS:
 	/**
-	 * Dummy slot, simply forwarding to urlChanged(const KUrl& url).
+	 * Dummy slot, simply forwarding to urlChanged(const QUrl &url).
 	 **/
-	void slotURLChanged(KileDocument::Info*, const KUrl& url);
+	void slotURLChanged(KileDocument::Info*, const QUrl &url);
 
 
 private:
-	KUrl m_url;
+	QUrl m_url;
 	KileType::ProjectView m_type;
 	KileDocument::Info *m_docinfo;
 	int m_folder;
@@ -103,12 +103,12 @@ public:
 
 	void addTree(KileProjectItem *item, ProjectViewItem *projvi);
 
-	ProjectViewItem* projectViewItemFor(const KUrl&);
-	ProjectViewItem* itemFor(const KUrl&);
+	ProjectViewItem* projectViewItemFor(const QUrl&);
+	ProjectViewItem* itemFor(const QUrl&);
 	ProjectViewItem* parentFor(const KileProjectItem *projitem, ProjectViewItem *projvi);
 
 public Q_SLOTS:
-	void slotClicked(QTreeWidgetItem* item = NULL);
+	void slotClicked(QTreeWidgetItem* item = Q_NULLPTR);
 
 	void slotFile(int id);
 	void slotProjectItem(int id);
@@ -117,27 +117,27 @@ public Q_SLOTS:
 	void slotRun(int id);
 
 	void refreshProjectTree(const KileProject *);
-	void add(const KUrl & url);
+	void add(const QUrl &url);
 	void add(const KileProject *project);
-	void remove(const KUrl & url);
+	void remove(const QUrl &url);
 	void remove(const KileProject *project);
 	void removeItem(const KileProjectItem *, bool);
-	ProjectViewItem* add(KileProjectItem *item, ProjectViewItem *projvi = NULL);
+	ProjectViewItem* add(KileProjectItem *item, ProjectViewItem *projvi = Q_NULLPTR);
 
 Q_SIGNALS:
 	void fileSelected(const KileProjectItem *);
-	void fileSelected(const KUrl&);
-	void saveURL(const KUrl&);
-	void closeURL(const KUrl&);
-	void projectOptions(const KUrl&);
-	void projectArchive(const KUrl&);
-	void addFiles(const KUrl&);
-	void openAllFiles(const KUrl&);
+	void fileSelected(const QUrl&);
+	void saveURL(const QUrl&);
+	void closeURL(const QUrl&);
+	void projectOptions(const QUrl&);
+	void projectArchive(const QUrl&);
+	void addFiles(const QUrl&);
+	void openAllFiles(const QUrl&);
 	void toggleArchive(KileProjectItem*);
-	void closeProject(const KUrl&);
-	void addToProject(const KUrl&);
+	void closeProject(const QUrl&);
+	void addToProject(const QUrl&);
 	void removeFromProject(KileProjectItem*);
-	void buildProjectTree(const KUrl&);
+	void buildProjectTree(const QUrl&);
 
 protected:
 	virtual void contextMenuEvent(QContextMenuEvent *event);
@@ -152,7 +152,7 @@ private:
 
 	KService::List m_offerList;
 
-	void makeTheConnection(ProjectViewItem *projectViewItem, KileDocument::TextInfo *textInfo = NULL);
+	void makeTheConnection(ProjectViewItem *projectViewItem, KileDocument::TextInfo *textInfo = Q_NULLPTR);
 	ProjectViewItem* folder(const KileProjectItem *item, ProjectViewItem *);
 
 };

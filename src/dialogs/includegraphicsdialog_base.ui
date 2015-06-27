@@ -120,7 +120,7 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="KLineEdit" name="edit_width"/>
+           <widget class="QLineEdit" name="edit_width"/>
           </item>
           <item row="0" column="2">
            <widget class="QLabel" name="label_7">
@@ -130,7 +130,7 @@
            </widget>
           </item>
           <item row="0" column="3">
-           <widget class="KLineEdit" name="edit_height"/>
+           <widget class="QLineEdit" name="edit_height"/>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_8">
@@ -140,7 +140,7 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="KLineEdit" name="edit_angle"/>
+           <widget class="QLineEdit" name="edit_angle"/>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_24">
@@ -150,7 +150,7 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="KLineEdit" name="edit_bb"/>
+           <widget class="QLineEdit" name="edit_bb"/>
           </item>
           <item row="2" column="2" colspan="2">
            <widget class="QCheckBox" name="cb_bb">
@@ -539,17 +539,11 @@
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

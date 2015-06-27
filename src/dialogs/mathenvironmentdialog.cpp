@@ -16,23 +16,25 @@
  ***************************************************************************/
 
 #include "mathenvironmentdialog.h"
+#include "codecompletion.h"
+#include "kiledebug.h"
+#include "editorextension.h"
 
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QLayout>
+#include <QLineEdit>
 #include <QSpinBox>
 #include <QStringList>
 #include <QVBoxLayout>
 
 #include <KComboBox>
-#include <KLocale>
-
-#include "codecompletion.h"
-#include "kiledebug.h"
-#include "editorextension.h"
+#include <KLocalizedString>
+#include <KConfigGroup>
 
 namespace KileDialog
 {
@@ -41,16 +43,18 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	: Wizard(config, parent), m_ki(ki), m_latexCommands(commands)
 {
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
-	setCaption(i18n("Math Environments"));
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(page);
+	setWindowTitle(i18n("Math Environments"));
 
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
 	page->setLayout(vbox);
 
 	// environment groupbox
 	QGroupBox *envgroup = new QGroupBox(i18n("Environment"), page);
+	mainLayout->addWidget(envgroup);
 
 	m_lbEnvironment = new QLabel(i18n("&Name:"), envgroup);
 	m_lbStarred = new QLabel(i18n("Without n&umbering:"), envgroup);
@@ -78,14 +82,12 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_spCols->setMaximum(49);
 	m_spCols->setSingleStep(1);
 	m_spCols->setValue(3);
-	m_edSpace = new KLineEdit("", envgroup);
+	m_edSpace = new QLineEdit(envgroup);
 	m_coTabulator = new KComboBox(envgroup);
 	m_coDisplaymath = new KComboBox(envgroup);
 	m_cbBullets = new QCheckBox(envgroup);
 
 	QGridLayout *envlayout = new QGridLayout();
-	envlayout->setMargin(KDialog::marginHint());
-	envlayout->setSpacing(KDialog::spacingHint());
 	envgroup->setLayout(envlayout);
 	envlayout->setAlignment(Qt::AlignTop);
 	envlayout->addWidget(m_lbEnvironment, 0, 0);
@@ -149,6 +151,11 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
 	m_coTabulator->setWhatsThis(i18n("Choose one of some predefined tabulators."));
 	m_coDisplaymath->setWhatsThis(i18n("Some environments are only valid in math mode. You can surround them with one of these display math modes."));
 	m_cbBullets->setWhatsThis(i18n("Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very quick from one cell to another."));
+
+	mainLayout->addWidget(buttonBox());
+	connect(buttonBox(), &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox(), &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &MathEnvironmentDialog::slotAccepted);
 }
 
 void MathEnvironmentDialog::initEnvironments()
@@ -176,7 +183,7 @@ bool MathEnvironmentDialog::isParameterEnv()
 
 void MathEnvironmentDialog::slotEnvironmentChanged(int index)
 {
-	KILE_DEBUG() << "environment changed: " << m_coEnvironment->itemText(index) << endl;
+	KILE_DEBUG_MAIN << "environment changed: " << m_coEnvironment->itemText(index) << endl;
 	m_envname = m_coEnvironment->itemText(index);
 
 	// look for environment parameter in dictionary
@@ -284,113 +291,108 @@ void MathEnvironmentDialog::slotSpinboxValueChanged(int index)
 	m_edSpace->setEnabled(state);
 }
 
-void MathEnvironmentDialog::slotButtonClicked(int button)
+void MathEnvironmentDialog::slotAccepted()
 {
-	if (button == Ok) {
-		// environment
-		QString envname = (m_cbStarred->isChecked()) ? m_envname + '*' : m_envname;
-		QString indent = m_ki->editorExtension()->autoIndentEnvironment();
+	// environment
+	QString envname = (m_cbStarred->isChecked()) ? m_envname + '*' : m_envname;
+	QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 
-		// use bullets?
-		QString bullet = (m_cbBullets->isChecked()) ? s_bullet : QString();
+	// use bullets?
+	QString bullet = (m_cbBullets->isChecked()) ? s_bullet : QString();
 
-		// normal tabulator
-		QString tab = m_coTabulator->currentText();
-		tab.replace("<=", "\\le");
-		tab.replace(">=", "\\ge");
-		QString tabulator = bullet + ' ' + tab + ' ';
+	// normal tabulator
+	QString tab = m_coTabulator->currentText();
+	tab.replace("<=", "\\le");
+	tab.replace(">=", "\\ge");
+	QString tabulator = bullet + ' ' + tab + ' ';
 
-		// number of rows
-		int numrows = m_spRows->value();
+	// number of rows
+	int numrows = m_spRows->value();
 
-		// get number of groups/columns and tabulator to separate these
-		QString grouptabulator;
-		int numgroups;
-		bool aligngroups;
-		if (m_groups) {
-			aligngroups = true;
-			numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
-			if (m_edSpace->isEnabled()) {
-				QString spaces;
-				grouptabulator = "  &" + m_edSpace->text() + "  ";
-			}
-			else {
-				grouptabulator = "  &  ";
-			}
+	// get number of groups/columns and tabulator to separate these
+	QString grouptabulator;
+	int numgroups;
+	bool aligngroups;
+	if (m_groups) {
+		aligngroups = true;
+		numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
+		if (m_edSpace->isEnabled()) {
+			QString spaces;
+			grouptabulator = "  &" + m_edSpace->text() + "  ";
 		}
 		else {
-			aligngroups = false;
-			if(!m_fixedcolumns) {
-				numgroups = (m_columns) ? m_spCols->value() - 1 : 0;
-			}
-			else {
-				numgroups = 1;
-			}
+			grouptabulator = "  &  ";
 		}
-
-		// get displaymath mode
-		QString displaymathbegin;
-		QString displaymathend;
-		if(m_coDisplaymath->isEnabled()) {
-			QString mathmode = m_coDisplaymath->currentText();
-			if(!mathmode.isEmpty()) {
-				if(mathmode == "\\[") {
-					displaymathbegin = "\\[\n";
-					displaymathend   = "\\]\n";
-				}
-				else {
-					displaymathbegin = QString("\\begin{%1}\n").arg(mathmode);
-					displaymathend   = QString("\\end{%1}\n").arg(mathmode);
-				}
-			}
-		}
-
-		// build tag
-		m_td.tagBegin = displaymathbegin;
-
-		QString parameter;
-		if (isGroupsParameterEnv()) {
-			parameter = QString("{%2}").arg(numgroups);
-		}
-		else {
-			if(isParameterEnv()) {
-				parameter = '{' + bullet + '}';
-			}
-		}
-
-		// open environment
-		m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + '\n';
-
-		for(int row = 0; row < numrows; ++row) {
-			m_td.tagBegin += indent;
-			for(int col = 0; col < numgroups; ++col) {
-				m_td.tagBegin += tabulator;
-				// is there more than one group or column?
-				if(aligngroups && col < numgroups - 1) {
-						m_td.tagBegin += bullet + grouptabulator;
-				}
-			}
-			// last row without CR
-			if(row < numrows - 1) {
-				m_td.tagBegin += bullet + " \\\\\n";
-			}
-			else {
-				m_td.tagBegin += bullet;
-			}
-		}
-
-		// close environment
-		m_td.tagEnd = QString("\n\\end{%1}\n").arg(envname);
-		m_td.tagEnd += displaymathend;
-
-		m_td.dy = (displaymathbegin.isEmpty()) ? 1 : 2;
-		m_td.dx = indent.length();
-
-		accept();
 	}
-	KDialog::slotButtonClicked(button);
-}
+	else {
+		aligngroups = false;
+		if(!m_fixedcolumns) {
+			numgroups = (m_columns) ? m_spCols->value() - 1 : 0;
+		}
+		else {
+			numgroups = 1;
+		}
+	}
+
+	// get displaymath mode
+	QString displaymathbegin;
+	QString displaymathend;
+	if(m_coDisplaymath->isEnabled()) {
+		QString mathmode = m_coDisplaymath->currentText();
+		if(!mathmode.isEmpty()) {
+			if(mathmode == "\\[") {
+				displaymathbegin = "\\[\n";
+				displaymathend   = "\\]\n";
+			}
+			else {
+				displaymathbegin = QString("\\begin{%1}\n").arg(mathmode);
+				displaymathend   = QString("\\end{%1}\n").arg(mathmode);
+			}
+		}
+	}
+
+	// build tag
+	m_td.tagBegin = displaymathbegin;
+
+	QString parameter;
+	if (isGroupsParameterEnv()) {
+		parameter = QString("{%2}").arg(numgroups);
+	}
+	else {
+		if(isParameterEnv()) {
+			parameter = '{' + bullet + '}';
+		}
+	}
+
+	// open environment
+	m_td.tagBegin += QString("\\begin{%1}").arg(envname) + parameter + '\n';
+
+	for(int row = 0; row < numrows; ++row) {
+		m_td.tagBegin += indent;
+		for(int col = 0; col < numgroups; ++col) {
+			m_td.tagBegin += tabulator;
+			// is there more than one group or column?
+			if(aligngroups && col < numgroups - 1) {
+					m_td.tagBegin += bullet + grouptabulator;
+			}
+		}
+		// last row without CR
+		if(row < numrows - 1) {
+			m_td.tagBegin += bullet + " \\\\\n";
+		}
+		else {
+			m_td.tagBegin += bullet;
+		}
+	}
+
+	// close environment
+	m_td.tagEnd = QString("\n\\end{%1}\n").arg(envname);
+	m_td.tagEnd += displaymathend;
+
+	m_td.dy = (displaymathbegin.isEmpty()) ? 1 : 2;
+	m_td.dx = indent.length();
 
 }
 
-#include "mathenvironmentdialog.moc"
+}
+

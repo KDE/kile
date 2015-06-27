@@ -30,7 +30,7 @@
 #include <QPalette>
 #include <QScrollArea>
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "editorextension.h"
 #include "errorhandler.h"
@@ -65,7 +65,7 @@ class ImageDisplayWidget : public QWidget
 
 ImageDisplayWidget::ImageDisplayWidget(QWidget *parent)
   : QWidget(parent),
-    m_image(NULL)
+    m_image(Q_NULLPTR)
 {
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
@@ -89,7 +89,7 @@ void ImageDisplayWidget::paintEvent(QPaintEvent * /* event */)
 void ImageDisplayWidget::clear()
 {
 	delete m_image;
-	m_image = NULL;
+	m_image = Q_NULLPTR;
 	setMinimumSize(0, 0);
 	repaint();
 }
@@ -123,7 +123,7 @@ PreviewWidget::~PreviewWidget()
 
 void PreviewWidget::showActivePreview(const QString &text,const QString &textfilename,int startrow,int previewtype)
 {
-	KILE_DEBUG() << "==PreviewWidget::showActivePreview()==========================";
+	KILE_DEBUG_MAIN << "==PreviewWidget::showActivePreview()==========================";
 	m_info->errorHandler()->clearMessages();
 	if(m_running || m_info->quickPreview()->isRunning()) {
 		showError( i18n("There is already a preview running that has to be finished to run this one.") );
@@ -223,13 +223,13 @@ void PreviewWidget::clear()
 
 void PreviewWidget::drawImage()
 {
-	KILE_DEBUG() << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)";
+	KILE_DEBUG_MAIN << "\tconversion tool '" << m_conversionTool << "' done, processing file (by dani)";
 	m_imageDisplayWidget->setImageFile(m_info->quickPreview()->getPreviewFile ("png"));
 }
 
 void PreviewWidget::toolDestroyed()
 {
-	KILE_DEBUG() << "\tQuickPreview: tool destroyed";
+	KILE_DEBUG_MAIN << "\tQuickPreview: tool destroyed";
 	m_running = false;
 }
 
@@ -240,4 +240,3 @@ void PreviewWidget::showError(const QString &text)
 
 }
 
-#include "previewwidget.moc"

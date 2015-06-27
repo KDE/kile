@@ -16,24 +16,25 @@
 #include "dialogs/managetemplatesdialog.h"
 
 #include <QCheckBox>
+#include <QDialogButtonBox>
 #include <QFileInfo>
 #include <QGridLayout>
-#include <QLayout>
 #include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QStandardPaths>
 #include <QTreeWidget>
+#include <QUrl>
+#include <QVBoxLayout>
 
-#include <KApplication>
-#include <KGlobal>
+#include <KConfigGroup>
 #include <KIconDialog>
 #include <KIconLoader>
-#include <KLineEdit>
-#include <KLocale>
+#include <KIO/Job>
+#include <KJobWidgets>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KPushButton>
-#include <KStandardDirs>
-#include <KUrl>
-
-#include <kio/netaccess.h>
 
 #include "kiledebug.h"
 #include "kileextensions.h"
@@ -60,25 +61,24 @@ class TemplateListViewItem : public QTreeWidgetItem {
 };
 
 // dialog to create a template
-ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const KUrl& sourceURL, const QString &caption, QWidget *parent, const char *name)
-		: KDialog(parent),
-		m_templateManager(templateManager), m_sourceURL(sourceURL)
+ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent, const char *name)
+	: QDialog(parent)
+	, m_templateManager(templateManager)
+	, m_sourceURL(sourceURL)
 {
 	setObjectName(name);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
 
 	m_templateType = KileDocument::Extensions().determineDocumentType(sourceURL);
 
 	QWidget *page = new QWidget(this);
 	page->setObjectName("managetemplates_mainwidget");
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 	QGridLayout *topLayout = new QGridLayout();
 	topLayout->setMargin(0);
-	topLayout->setSpacing(KDialog::spacingHint());
 	page->setLayout(topLayout);
 
 	topLayout->addWidget(new QLabel(i18n("Name:"), page), 0, 0);
@@ -89,19 +89,23 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	if (dotPos >= 0) {
 		fileName = fileName.mid(0, dotPos);
 	}
-	m_nameEdit = new KLineEdit(fileName, page);
+	m_nameEdit = new QLineEdit(fileName, page);
+	mainLayout->addWidget(m_nameEdit);
 	topLayout->addWidget(m_nameEdit, 0, 1);
 
 	topLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page), 0, 2);
 	topLayout->addWidget(new QLabel(i18n("Icon:"), page), 1, 0);
 
-	m_iconEdit = new KLineEdit(KGlobal::dirs()->findResource("appdata", "pics/type_Default.png"), page);
+	m_iconEdit = new QLineEdit(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_Default.png"), page);
+	mainLayout->addWidget(m_iconEdit);
 	topLayout->addWidget(m_iconEdit, 1, 1);
 
-	KPushButton *iconbut = new KPushButton(i18n("Select..."), page);
+	QPushButton *iconbut = new QPushButton(i18n("Select..."), page);
+	mainLayout->addWidget(iconbut);
 	topLayout->addWidget(iconbut, 1, 2);
 
 	m_templateList = new QTreeWidget(page);
+	mainLayout->addWidget(m_templateList);
 	m_templateList->setSortingEnabled(false);
 	m_templateList->setHeaderLabels(QStringList() << i18nc("marked", "M")
 																	<< i18n("Existing Templates")
@@ -114,46 +118,51 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 	topLayout->addWidget(m_templateList, 2, 0, 1, 3);
 
 	m_showAllTypesCheckBox = new QCheckBox(i18n("Show all the templates"), page);
+	mainLayout->addWidget(m_showAllTypesCheckBox);
 	m_showAllTypesCheckBox->setChecked(false);
-	connect(m_showAllTypesCheckBox, SIGNAL(toggled(bool)), this, SLOT(updateTemplateListView(bool)));
+	connect(m_showAllTypesCheckBox, &QCheckBox::toggled, this, &ManageTemplatesDialog::updateTemplateListView);
 	topLayout->addWidget(m_showAllTypesCheckBox, 3, 0, 1, 2);
 
-	KPushButton *clearSelectionButton = new KPushButton(page);
-	clearSelectionButton->setIcon(KIcon("edit-clear-locationbar"));
+	QPushButton *clearSelectionButton = new QPushButton(page);
+	mainLayout->addWidget(clearSelectionButton);
+	clearSelectionButton->setIcon(QIcon::fromTheme("edit-clear-locationbar"));
 	int buttonSize = clearSelectionButton->sizeHint().height();
 	clearSelectionButton->setFixedSize(buttonSize, buttonSize);
 	clearSelectionButton->setToolTip(i18n("Clear Selection"));
-	connect(clearSelectionButton, SIGNAL(clicked()), this, SLOT(clearSelection()));
+	connect(clearSelectionButton, &QPushButton::clicked, this, &ManageTemplatesDialog::clearSelection);
 	topLayout->addWidget(clearSelectionButton, 3, 2, Qt::AlignRight);
 
 	topLayout->addWidget(new QLabel(i18n("Select an existing template if you want to overwrite it with your new template.\nNote that you cannot overwrite templates marked with an asterisk:\nif you do select such a template, a new template with the same name\nwill be created in a location you have write access to."), page), 4, 0, 1, 3);
 
-	connect(m_templateList, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this, SLOT(slotSelectedTemplate(QTreeWidgetItem*)));
-	connect(iconbut, SIGNAL(clicked()), this, SLOT(slotSelectIcon()));
-	connect(this, SIGNAL(aboutToClose()), this, SLOT(addTemplate()));
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	mainLayout->addWidget(buttonBox);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
+	connect(m_templateList, &QTreeWidget::itemClicked, this, &ManageTemplatesDialog::slotSelectedTemplate);
+	connect(iconbut, &QPushButton::clicked, this, &ManageTemplatesDialog::slotSelectIcon);
+	connect(this, &QDialog::accepted, this, &ManageTemplatesDialog::addTemplate);
 }
 
 // dialog to remove a template
 ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent, const char *name)
-		: KDialog(parent),
-		m_templateManager(templateManager), m_templateType(KileDocument::Undefined), m_showAllTypesCheckBox(NULL)
+	: QDialog(parent)
+	, m_templateManager(templateManager)
+	, m_templateType(KileDocument::Undefined)
+	, m_showAllTypesCheckBox(Q_NULLPTR)
 {
 	setObjectName(name);
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
 
-	QWidget *page = new QWidget(this);
-	page->setObjectName("managetemplates_mainwidget");
-	setMainWidget(page);
-	QVBoxLayout *topLayout = new QVBoxLayout();
-	topLayout->setMargin(0);
-	topLayout->setSpacing(KDialog::spacingHint());
-	page->setLayout(topLayout);
+	QVBoxLayout *mainLayout = new QVBoxLayout();
+	mainLayout->setMargin(0);
+	setLayout(mainLayout);
 
-	m_templateList = new QTreeWidget(page);
+	m_templateList = new QTreeWidget(this);
 	m_templateList->setSortingEnabled(false);
 	m_templateList->setHeaderLabels(QStringList() << i18nc("marked", "M")
 	                                              << i18n("Existing Templates")
@@ -163,36 +172,40 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
 
 	populateTemplateListView(KileDocument::Undefined);
 
-	topLayout->addWidget(m_templateList);
-	topLayout->addWidget(new QLabel(i18n("Please select the template that you want to remove.\nNote that you cannot delete templates marked with an asterisk (for which you lack the necessary deletion permissions)."), page));
+	mainLayout->addWidget(m_templateList);
+	mainLayout->addWidget(new QLabel(i18n("Please select the template that you want to remove.\nNote that you cannot delete templates marked with an asterisk (for which you lack the necessary deletion permissions)."), this));
 
-	connect(this, SIGNAL(aboutToClose()), this, SLOT(removeTemplate()));
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	mainLayout->addWidget(buttonBox);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+
+	connect(this, &QDialog::accepted, this, &ManageTemplatesDialog::removeTemplate);
 }
 
-ManageTemplatesDialog::~ManageTemplatesDialog(){
+ManageTemplatesDialog::~ManageTemplatesDialog()
+{
 }
 
-void ManageTemplatesDialog::updateTemplateListView(bool showAllTypes) {
+void ManageTemplatesDialog::updateTemplateListView(bool showAllTypes)
+{
 	populateTemplateListView((showAllTypes ? KileDocument::Undefined : m_templateType));
 }
 
-void ManageTemplatesDialog::clearSelection() {
+void ManageTemplatesDialog::clearSelection()
+{
 	m_templateList->clearSelection();
 }
 
-void ManageTemplatesDialog::slotButtonClicked(int button)
+void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type)
 {
-	if (button == Ok) {
-		emit aboutToClose();
-	}
-	KDialog::slotButtonClicked(button);
-}
-
-void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type) {
 	m_templateManager->scanForTemplates();
 	KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type);
 	QString mode;
-	QTreeWidgetItem* previousItem = NULL;
+	QTreeWidgetItem* previousItem = Q_NULLPTR;
 
 	m_templateList->clear();
 	for (KileTemplate::TemplateListIterator i = templateList.begin(); i != templateList.end(); ++i)
@@ -209,7 +222,8 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type) {
 	m_templateList->resizeColumnToContents(1);
 }
 
-void ManageTemplatesDialog::slotSelectedTemplate(QTreeWidgetItem *item) {
+void ManageTemplatesDialog::slotSelectedTemplate(QTreeWidgetItem *item)
+{
 	TemplateListViewItem *templateItem = dynamic_cast<TemplateListViewItem*>(item);
 	if (templateItem) {
 		KileTemplate::Info info = templateItem->getTemplateInfo();
@@ -218,7 +232,8 @@ void ManageTemplatesDialog::slotSelectedTemplate(QTreeWidgetItem *item) {
 	}
 }
 
-void ManageTemplatesDialog::slotSelectIcon() {
+void ManageTemplatesDialog::slotSelectIcon()
+{
 	KIconDialog *dlg = new KIconDialog();
 	QString res = dlg->openDialog();
 	KIconLoader kil;
@@ -228,8 +243,8 @@ void ManageTemplatesDialog::slotSelectIcon() {
 	}
 }
 
-void ManageTemplatesDialog::addTemplate() {
-
+void ManageTemplatesDialog::addTemplate()
+{
 	QString templateName = (m_nameEdit->text()).trimmed();
 
 	if (templateName.isEmpty()) {
@@ -238,20 +253,26 @@ void ManageTemplatesDialog::addTemplate() {
 	}
 
 	QString icon = (m_iconEdit->text()).trimmed();
-	KUrl iconURL = KUrl::fromPathOrUrl(icon);
+	QUrl iconURL = QUrl::fromUserInput(icon);
 
 	if (icon.isEmpty()) {
 		KMessageBox::error(this, i18n("Please choose an icon first."));
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(iconURL, true, this)) {
+	KIO::StatJob* statJob = KIO::stat(iconURL, KIO::StatJob::SourceSide, 0);
+	KJobWidgets::setWindow(statJob, this);
+	statJob->exec();
+	if (statJob->error()) {
 		KMessageBox::error(this, i18n("The icon file: %1\ndoes not seem to exist. Please choose a new icon.", icon));
 		return;
 	}
 
-	if (!KIO::NetAccess::exists(m_sourceURL, true, this)) {
-		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.prettyUrl()));
+	statJob = KIO::stat(m_sourceURL, KIO::StatJob::SourceSide, 0);
+	KJobWidgets::setWindow(statJob, this);
+	statJob->exec();
+	if (statJob->error()) {
+		KMessageBox::error(this, i18n("The file: %1\ndoes not seem to exist. Maybe you forgot to save the file?", m_sourceURL.toString()));
 		return;
 	}
 
@@ -281,7 +302,6 @@ void ManageTemplatesDialog::addTemplate() {
 		reject();
 		return;
 	}
-	accept();
 }
 
 bool ManageTemplatesDialog::removeTemplate()
@@ -297,7 +317,13 @@ bool ManageTemplatesDialog::removeTemplate()
 
 	KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-	if (!(KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.path), false, this) && (KIO::NetAccess::exists(KUrl::fromPathOrUrl(templateInfo.icon), false, this)|| !QFileInfo(templateInfo.icon).exists()))) {
+	KIO::StatJob* statJob = KIO::stat(QUrl::fromUserInput(templateInfo.path), KIO::StatJob::DestinationSide, 0);
+	KIO::StatJob* statJob2 = KIO::stat(QUrl::fromUserInput(templateInfo.icon), KIO::StatJob::DestinationSide, 0);
+	KJobWidgets::setWindow(statJob, this);
+	KJobWidgets::setWindow(statJob2, this);
+	statJob->exec();
+	statJob2->exec();
+	if ((statJob->error() && statJob2->error()) || !QFileInfo(templateInfo.icon).exists()) {
 		KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
 		return false;
 	}
@@ -306,14 +332,10 @@ bool ManageTemplatesDialog::removeTemplate()
 		return false;
 	}
 
-	if (!m_templateManager->remove(templateInfo))
-	{
+	if (!m_templateManager->remove(templateInfo)) {
 		KMessageBox::error(this, i18n("The template could not be removed."));
 		reject();
 		return false;
 	}
-	accept();
 	return true;
 }
-
-#include "managetemplatesdialog.moc"

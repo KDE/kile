@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,18 +23,18 @@
 #include <QPointer>
 #include <QStackedWidget>
 
-#include <KAction>
-#include <KTabWidget>
-#include <KTextEditor/ContainerInterface>
+#include <QAction>
+#include <QTabWidget>
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
+#include <KTextEditor/View>
 #include <KXmlGuiWindow>
 
 class QPixmap;
 class QSplitter;
 
 class KActionCollection;
-class KUrl;
+class QUrl;
 class KXMLGUIClient;
 
 class KileInfo;
@@ -65,7 +65,7 @@ class DocumentViewerWindow : public KMainWindow
 	Q_OBJECT
 
 public:
-	DocumentViewerWindow(QWidget *parent = NULL, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+	DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
 	virtual ~DocumentViewerWindow();
 
 Q_SIGNALS:
@@ -78,11 +78,9 @@ protected:
 
 //TODO inherit from KParts::Manager
 class Manager
-	: public QObject,
-	  public KTextEditor::MdiContainer
+	: public QObject
 {
 	Q_OBJECT
-	Q_INTERFACES(KTextEditor::MdiContainer)
 
 public:
 	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
@@ -101,7 +99,7 @@ public:
 
 	QWidget* createTabs(QWidget *parent);
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
-	KTabWidget* tabs() { return m_tabs; }
+	QTabWidget* tabs() { return m_tabs; }
 
 // 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
 // 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
@@ -118,7 +116,7 @@ public:
 
 	bool isViewerPartShown() const;
 	void setupViewerPart(QSplitter *splitter);
-	bool openInDocumentViewer(const KUrl& url);
+	bool openInDocumentViewer(const QUrl &url);
 	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
 	void setLivePreviewModeForDocumentViewer(bool b);
 
@@ -134,20 +132,19 @@ Q_SIGNALS:
 
 	void informationMessage(KTextEditor::View*, const QString&);
 	void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
-	void viewModeChanged(KTextEditor::View *view);
+	void viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode);
 	void selectionChanged(KTextEditor::View *view);
 
 	void documentViewerWindowVisibilityChanged(bool shown);
 
 public Q_SLOTS:
-	KTextEditor::View* switchToTextView(const KUrl& url, bool requestFocus = false);
+	KTextEditor::View* switchToTextView(const QUrl &url, bool requestFocus = false);
 	KTextEditor::View* switchToTextView(KTextEditor::Document *doc, bool requestFocus = false);
 	void switchToTextView(KTextEditor::View *view, bool requestFocus = false);
 
-	void closeWidget(QWidget *);
 	void removeView(KTextEditor::View *view);
 
-	void updateStructure(bool parse = false, KileDocument::Info *docinfo = NULL);
+	void updateStructure(bool parse = false, KileDocument::Info *docinfo = Q_NULLPTR);
 
 	void gotoNextView();
 	void gotoPrevView();
@@ -160,24 +157,16 @@ public Q_SLOTS:
 	void pasteAsLaTeX(void);
 	void quickPreviewPopup();
 
-	void moveTabLeft(QWidget *widget = NULL);
-	void moveTabRight(QWidget *widget = NULL);
+	void moveTabLeft(QWidget *widget = Q_NULLPTR);
+	void moveTabRight(QWidget *widget = Q_NULLPTR);
 
 	void setDocumentViewerVisible(bool b);
 
 private Q_SLOTS:
-	void tabContext(QWidget* widget,const QPoint & pos);
+	void tabContext(const QPoint& pos);
+	void closeTab(int index);
 
-// KTextEditor::MdiContainer
 public:
-	void registerMdiContainer();
-	virtual void setActiveView( KTextEditor::View * view );
-	virtual KTextEditor::View * activeView();
-	virtual KTextEditor::Document * createDocument();
-	virtual bool closeDocument( KTextEditor::Document * doc );
-	virtual KTextEditor::View * createView( KTextEditor::Document * doc );
-	virtual bool closeView( KTextEditor::View * view );
-
 	bool viewForLocalFilePresent(const QString& localFileName);
 
 protected:
@@ -204,26 +193,26 @@ protected Q_SLOTS:
 
 private:
 	KileInfo			*m_ki;
-	KTabWidget 			*m_tabs;
+	QTabWidget 			*m_tabs;
 	QObject				*m_receiver;
 	KXMLGUIClient			*m_client;
 	DocumentViewerWindow		*m_viewerPartWindow;
 	QStackedWidget			*m_widgetStack;
 	QWidget				*m_emptyDropWidget;
-	KAction				*m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
+	QAction *m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
 	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
 };
 
 /**
- * Little helper widget to overcome the limitation that KTabWidget doesn't honour drop events when
- * there are no tabs: the DropWidget is shown instead of KTabWidget when there are no tabs.
+ * Little helper widget to overcome the limitation that QTabWidget doesn't honour drop events when
+ * there are no tabs: the DropWidget is shown instead of QTabWidget when there are no tabs.
  */
 class DropWidget : public QWidget {
 	Q_OBJECT
 
 	public:
-		explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WFlags f = 0);
+		explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
 		virtual ~DropWidget();
 
 		virtual void dragEnterEvent(QDragEnterEvent *e);
@@ -241,6 +230,6 @@ class DropWidget : public QWidget {
 
 void focusTextView(KTextEditor::View *view);
 
-Q_DECLARE_METATYPE(KTextEditor::View*)
+// Q_DECLARE_METATYPE(KTextEditor::View*)
 
 #endif

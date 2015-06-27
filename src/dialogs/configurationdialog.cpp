@@ -31,13 +31,14 @@
 #include <QLayout>
 #include <QTextCodec>
 
-#include <kdeversion.h>
-#include <KLocale>
-#include <KIconLoader>
-#include <KVBox>
-
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KWindowConfig>
 #include <KTextEditor/ConfigPage>
-#include <KTextEditor/EditorChooser>
+
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 #include "errorhandler.h"
 #include "kiledocmanager.h"
@@ -67,11 +68,13 @@ namespace KileDialog
 		  m_config(config),
 		  m_ki(ki)
 	{
-		setCaption(i18n("Configure"));
+		setWindowTitle(i18n("Configure"));
 		setModal(true);
-		setButtons(Ok | Cancel);
-		setDefaultButton(Ok);
-		showButtonSeparator(true);
+
+		QWidget *mainWidget = new QWidget(this);
+		QVBoxLayout *mainLayout = new QVBoxLayout;
+		setLayout(mainLayout);
+		mainLayout->addWidget(mainWidget);
 		setObjectName("kileconfiguration");
 		setFaceType(Tree);
 
@@ -104,36 +107,37 @@ namespace KileDialog
 		setupQuickPreview(toolsPageWidgetItem);     // QuickPreview (dani)
 
 		setupEditor(editorPageWidgetItem);
-		showButtonSeparator(true);
 
 		m_configDialogSize = m_config->group("KileConfigDialog");
-		restoreDialogSize(m_configDialogSize);
+		KWindowConfig::restoreWindowSize(windowHandle(), m_configDialogSize);
 
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
-		connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
-		connect(this, SIGNAL(cancelClicked()), this, SLOT(slotCancel()));
-		connect(this, SIGNAL(okClicked()), m_manager, SLOT(updateSettings()));
+		connect(this, &KPageDialog::accepted, this, &Config::slotAcceptChanges);
+		connect(this, &KPageDialog::accepted, m_manager, &KConfigDialogManager::updateSettings);
+		connect(this, &KPageDialog::rejected, this, [=] () {
+			m_config->markAsClean();
+		});
 	}
 
 	Config::~Config()
 	{
-		saveDialogSize(m_configDialogSize);
+		KWindowConfig::saveWindowSize(windowHandle(), m_configDialogSize);
 		delete m_manager;
 	}
 
 	void Config::show()
 	{
 		m_manager->updateWidgets();
-		KDialog::show();
+		QDialog::show();
 	}
 
 	//////////////////// add a new folder ////////////////////
 
 	KPageWidgetItem* Config::addConfigFolder(const QString &section, const QString &icon)
 	{
-		KPageWidgetItem *toReturn = addPage(0, section);
-		toReturn->setIcon(KIcon(icon));
+		KPageWidgetItem *toReturn = addPage(new QWidget(this), section);
+		toReturn->setIcon(QIcon::fromTheme(icon));
 
 		return toReturn;
 	}
@@ -143,14 +147,14 @@ namespace KileDialog
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page, const QString &itemName,
                                    const QString &pixmapName, const QString &header)
 	{
-		return addConfigPage(parent, page, itemName, KIcon(pixmapName), header);
+		return addConfigPage(parent, page, itemName, QIcon::fromTheme(pixmapName), header);
 	}
 
 	KPageWidgetItem* Config::addConfigPage(KPageWidgetItem* parent, QWidget *page,
-                                               const QString &itemName, const KIcon& icon,
+                                               const QString &itemName, const QIcon& icon,
                                                const QString &header)
 	{
-		KILE_DEBUG() << "slot: add config page item=" << itemName;
+		KILE_DEBUG_MAIN << "slot: add config page item=" << itemName;
 
 		// add page
 		KPageWidgetItem *pageWidgetItem = addSubPage(parent, page, itemName);
@@ -195,10 +199,9 @@ namespace KileDialog
 
 	void Config::setupUsermenu(KPageWidgetItem *parent)
 	{
-		usermenuPage = new KileWidgetUsermenuConfig(m_ki->userMenu(),this);
+		usermenuPage = new KileWidgetUsermenuConfig(m_ki->userMenu(), this);
 		usermenuPage->setObjectName("Usermenu");
 		addConfigPage(parent, usermenuPage, i18n("User Menu"), "usermenu-install", i18n("User Menu"));
-
 	}
 
 	//////////////////// LaTeX specific editing options ////////////////////
@@ -293,7 +296,6 @@ namespace KileDialog
 	void Config::setupEditor(KPageWidgetItem* parent)
 	{
 		m_editorSettingsChanged = false;
-
 		m_editorPages.clear();
 
 		KTextEditor::Editor* editor = m_ki->docManager()->getEditor();
@@ -301,20 +303,22 @@ namespace KileDialog
 			return;
 		}
 		for(int i = 0; i < editor->configPages(); ++i) {
-			KVBox *configPageParent = new KVBox(this);
-			KTextEditor::ConfigPage *configPage = editor->configPage(i, configPageParent);
-
-			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPageParent, editor->configPageName(i), editor->configPageIcon(i), editor->configPageFullName(i));
-			connect(configPage, SIGNAL(changed()), this, SLOT(slotChanged()));
+			KTextEditor::ConfigPage *configPage = editor->configPage(i, parent->widget());
+			KPageWidgetItem *pageWidgetItem = addConfigPage(parent, configPage, configPage->name(),
+			                                                                          configPage->icon(),
+			                                                                          configPage->fullName());
+			connect(configPage, &KTextEditor::ConfigPage::changed, this, [=] {
+				m_editorSettingsChanged = true;
+			});
 			m_editorPages.insert(pageWidgetItem, configPage);
 		}
 	}
 
 	//////////////////// slots ////////////////////
 
-	void Config::slotOk()
+	void Config::slotAcceptChanges()
 	{
-		KILE_DEBUG() << "   slot ok (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
+		KILE_DEBUG_MAIN << "   slot acceptChanges (" << m_manager->hasChanged() << ","  << m_editorSettingsChanged << ")";
 
 		// editor settings are only available, when at least one document is opened
 		if(m_editorSettingsChanged) {
@@ -322,11 +326,6 @@ namespace KileDialog
 			while (i.hasNext()) {
 				i.next();
 				i.value()->apply();
-			}
-
-			KTextEditor::Editor *editor = KTextEditor::EditorChooser::editor();
-			if(editor) {
-				editor->writeConfig(m_config);
 			}
 		}
 
@@ -338,24 +337,6 @@ namespace KileDialog
 		livePreviewPage->writeConfig();
 
 		m_config->sync();
-
-		// oder m_manager->updateSettings();
-		accept();
 	}
-
-	void Config::slotCancel()
-	{
-		KILE_DEBUG() << "   slot cancel";
-		m_config->markAsClean();
-		accept();
-	}
-
-	void Config::slotChanged()
-	{
-		KILE_DEBUG() << "   slot changed";
-		m_editorSettingsChanged = true;
-	}
-
 }
 
-#include "configurationdialog.moc"

@@ -17,7 +17,7 @@
 #include <QTreeWidget>
 #include <QWidget>
 
-#include <KAction>
+#include <QAction>
 #include <KToolBar>
 
 class KileInfo;
@@ -35,7 +35,7 @@ namespace KileWidget {
 	class ScriptsManagement : public QWidget {
 		Q_OBJECT
 		public:
-			ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WFlags f = 0);
+			ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WindowFlags f = 0);
 			~ScriptsManagement();
 
 		public:
@@ -70,7 +70,7 @@ namespace KileWidget {
 			QTreeWidget *m_treeWidget;
 
 		private:
-			KAction *m_runAction, *m_scriptOpenAction, *m_configureKeySequenceAction, *m_removeKeySequenceAction; 
+			QAction *m_runAction, *m_scriptOpenAction, *m_configureKeySequenceAction, *m_removeKeySequenceAction; 
 			KToolBar *m_toolBar;
 	};
 

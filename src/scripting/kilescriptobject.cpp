@@ -11,19 +11,21 @@
 *                                                                         *
 ***************************************************************************/
 
+#include <QFile>
+#include <QFileDialog>
+#include <QFileInfo>
+#include <QInputDialog>
+#include <QMap>
 #include <QRegExpValidator>
 #include <QVariant>
-#include <QMap>
-#include <QFile>
-#include <QFileInfo>
 
 #include <KMessageBox>
-#include <KFileDialog>
-#include <KInputDialog>
+#include <QFileDialog>
 #include <KTextEditor/View>
 
 #include "scripting/kilescriptobject.h"
 #include "kileviewmanager.h"
+#include "dialogs/validatorinputdialog.h"
 #include "kileinfo.h"
 
 namespace KileScript {
@@ -74,31 +76,26 @@ KileInput::KileInput(QObject *parent)
 
 QString KileInput::getListboxItem(const QString &caption, const QString &label, const QStringList &list)
 {
-	return getItem(caption,label,list,false);
-}
-
-QString KileInput::getComboboxItem(const QString &caption, const QString &label, const QStringList &list)
-{
-	return getItem(caption,label,list,true);
+	return getItem(caption,label,list);
 }
 
 QString KileInput::getText(const QString &caption, const QString &label)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getText(list[0], list[1], QString(), NULL, NULL);
+	return QInputDialog::getText(Q_NULLPTR, list[0], list[1]);
 }
 
 QString KileInput::getLatexCommand(const QString &caption, const QString &label)
 {
 	QRegExpValidator validator(QRegExp("[A-Za-z]+"),this);
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getText(list[0], list[1], QString(), NULL, NULL, &validator);
+	return KileDialog::getText(list[0], list[1], QString(), Q_NULLPTR, &validator);
 }
 
 int KileInput::getInteger(const QString &caption, const QString &label, int min, int max)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getInteger(list[0], list[1], 0, min, max, 1, 10, NULL, NULL);
+	return QInputDialog::getInt(Q_NULLPTR, list[0], list[1], 0, min, max, 1);
 }
 
 int KileInput::getPosInteger(const QString &caption, const QString &label, int min, int max)
@@ -106,10 +103,10 @@ int KileInput::getPosInteger(const QString &caption, const QString &label, int m
 	return getInteger(caption,label,min,max);
 }
 
-QString KileInput::getItem(const QString &caption, const QString &label, const QStringList &itemlist, bool combobox)
+QString KileInput::getItem(const QString &caption, const QString &label, const QStringList &itemlist)
 {
 	QStringList list = checkCaptionAndLabel(caption, label);
-	return KInputDialog::getItem(list[0], list[1], itemlist, 0, combobox, NULL, NULL);
+	return QInputDialog::getItem(Q_NULLPTR, list[0], list[1], itemlist, 0);
 }
 
 QStringList KileInput::checkCaptionAndLabel(const QString &caption, const QString &label)
@@ -233,7 +230,7 @@ QMap<QString, QVariant> KileFile::read() const
 {
 	QString openedFile = m_kileInfo->getName();
 	const QString filepath = (!openedFile.isEmpty()) ? QFileInfo(m_kileInfo->getName()).absolutePath() : QString();
-	QString filename = KFileDialog::getOpenFileName(filepath, QString(), m_kileInfo->mainWindow(), i18n("Select File to Read"));
+	QString filename = QFileDialog::getOpenFileName(m_kileInfo->mainWindow(), i18n("Select File to Read"), filepath, QString());
 	if(!filename.isEmpty()) {
 		return read(filename);
 	}
@@ -278,7 +275,7 @@ QMap<QString, QVariant> KileFile::write(const QString& text) const
 {
 	QString openedFile = m_kileInfo->getName();
 	const QString filepath = (!openedFile.isEmpty()) ? QFileInfo(m_kileInfo->getName()).absolutePath() : QString();
-	QString filename = KFileDialog::getSaveFileName(filepath, QString(), m_kileInfo->mainWindow(), i18n("Save As"));
+	QString filename = QFileDialog::getSaveFileName(m_kileInfo->mainWindow(), i18n("Save As"), filepath, QString());
 	if(!filename.isEmpty()) {
 		return write(filename, text);
 	}
@@ -287,16 +284,16 @@ QMap<QString, QVariant> KileFile::write(const QString& text) const
 	}
 }
 
-QString KileFile::getOpenFileName(const KUrl& url, const QString& filter)
+QString KileFile::getOpenFileName(const QUrl &url, const QString& filter)
 {
-	KUrl startdir = (url.isEmpty()) ? KUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
-	return KFileDialog::getOpenFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Select File to Read"));
+	QUrl startdir = (url.isEmpty()) ? QUrl::fromLocalFile(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	return QFileDialog::getOpenFileName(m_kileInfo->mainWindow(), i18n("Select File to Read"), startdir.toLocalFile(), filter);
 }
 
-QString KileFile::getSaveFileName(const KUrl& url, const QString& filter)
+QString KileFile::getSaveFileName(const QUrl &url, const QString& filter)
 {
-	KUrl startdir = (url.isEmpty()) ? KUrl(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
-	return KFileDialog::getSaveFileName(startdir, filter, m_kileInfo->mainWindow(), i18n("Save As"));
+	QUrl startdir = (url.isEmpty()) ? QUrl::fromLocalFile(QFileInfo(m_kileInfo->getName()).absolutePath()) : url;
+	return QFileDialog::getSaveFileName(m_kileInfo->mainWindow(), i18n("Save As"), startdir.toLocalFile(), filter );
 }
 
 QMap<QString,QVariant> KileFile::actionCancelled() const
@@ -329,4 +326,3 @@ void KileScriptObject::setScriptname(const QString &name)
 
 }
 
-#include "kilescriptobject.moc"

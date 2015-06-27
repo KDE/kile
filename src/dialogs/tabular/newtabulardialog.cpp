@@ -16,6 +16,7 @@
 #include "newtabulardialog.h"
 
 #include <QCheckBox>
+#include <QIcon>
 #include <QFrame>
 #include <QGridLayout>
 #include <QGroupBox>
@@ -31,15 +32,15 @@
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include <KAction>
-#include <KColorCells>
-#include <KColorDialog>
-#include <KComboBox>
-#include <KIcon>
-#include <KLocale>
-#include <KMenu>
+#include <QAction>
+#include <QColorDialog>
+#include <QComboBox>
+#include <KIconLoader>
+#include <KLocalizedString>
+#include <QMenu>
 #include <KMessageBox>
-#include <KPushButton>
+#include <QPushButton>
+#include <KConfigGroup>
 
 #include "codecompletion.h"
 #include "kiledebug.h"
@@ -63,12 +64,11 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	  m_clCurrentForeground(Qt::black),
 	  m_defaultEnvironment(environment)
 {
-	setCaption(i18n("Tabular Environments"));
+	setWindowTitle(i18n("Tabular Environments"));
 
 	QWidget *page = new QWidget(this);
 	QVBoxLayout *pageLayout = new QVBoxLayout();
 	pageLayout->setMargin(0);
-	pageLayout->setSpacing(KDialog::spacingHint());
 	page->setLayout(pageLayout);
 
 	m_Table = new TabularTable(page);
@@ -78,39 +78,39 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_tbFormat->setFloatable(false);
 	m_tbFormat->setOrientation(Qt::Horizontal);
 
-	m_acLeft = addAction(KIcon("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
-	m_acCenter = addAction(KIcon("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
-	m_acRight = addAction(KIcon("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
+	m_acLeft = addAction(QIcon::fromTheme("format-justify-left"), i18n("Align Left"), SLOT(slotAlignLeft()), page);
+	m_acCenter = addAction(QIcon::fromTheme("format-justify-center"), i18n("Align Center"), SLOT(slotAlignCenter()), page);
+	m_acRight = addAction(QIcon::fromTheme("format-justify-right"), i18n("Align Right"), SLOT(slotAlignRight()), page);
 	m_tbFormat->addSeparator();
-	m_acBold = addAction(KIcon("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
-	m_acItalic = addAction(KIcon("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
-	m_acUnderline = addAction(KIcon("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
+	m_acBold = addAction(QIcon::fromTheme("format-text-bold"), i18n("Bold"), SLOT(slotBold()), page);
+	m_acItalic = addAction(QIcon::fromTheme("format-text-italic"), i18n("Italic"), SLOT(slotItalic()), page);
+	m_acUnderline = addAction(QIcon::fromTheme("format-text-underline"), i18n("Underline"), SLOT(slotUnderline()), page);
 	m_tbFormat->addSeparator();
-	m_acJoin = addAction(KIcon("joincells"), i18n("Join Cells"), SLOT(slotJoinCells()), page);
-	m_acSplit = addAction(KIcon("splitcells"), i18n("Split Cells"), SLOT(slotSplitCells()), page);
+	m_acJoin = addAction(QIcon::fromTheme("joincells"), i18n("Join Cells"), SLOT(slotJoinCells()), page);
+	m_acSplit = addAction(QIcon::fromTheme("splitcells"), i18n("Split Cells"), SLOT(slotSplitCells()), page);
 	m_acSplit->setEnabled(false);
 	m_acFrame = new SelectFrameAction(i18n("Edit Frame"), m_tbFormat);
 	connect(m_acFrame, SIGNAL(borderSelected(int)), this, SLOT(slotFrame(int)));
 	m_tbFormat->addAction(m_acFrame);
 	m_tbFormat->addSeparator();
 
-	m_acBackground = new SelectColorAction(KIcon("format-fill-color"), i18n("Background Color"), page);
+	m_acBackground = new SelectColorAction(QIcon::fromTheme("format-fill-color"), i18n("Background Color"), page);
 	m_acBackground->setIcon(generateColorIcon(true));
 	connect(m_acBackground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
 	connect(m_acBackground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
 	m_tbFormat->addAction(m_acBackground);
-	m_acForeground = new SelectColorAction(KIcon("format-stroke-color"), i18n("Text Color"), page);
+	m_acForeground = new SelectColorAction(QIcon::fromTheme("format-stroke-color"), i18n("Text Color"), page);
 	m_acForeground->setIcon(generateColorIcon(false));
 	connect(m_acForeground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
 	connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
 	m_tbFormat->addAction(m_acForeground);
 
 	m_tbFormat->addSeparator();
-	m_acClearText = addAction(KIcon("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
-	m_acClearAttributes = addAction(KIcon("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
-	m_acClearAll = addAction(KIcon("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
+	m_acClearText = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear Text"), SLOT(slotClearText()), page); // FIXME icon
+	m_acClearAttributes = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear Attributes"), SLOT(slotClearAttributes()), page); // FIXME icon
+	m_acClearAll = addAction(QIcon::fromTheme("edit-clear"), i18n("Clear All"), SLOT(slotClearAll()), page);
 	m_tbFormat->addSeparator();
-	m_acPaste = addAction(KIcon("edit-paste"), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
+	m_acPaste = addAction(QIcon::fromTheme("edit-paste"), i18n("Paste content from clipboard"), m_Table, SLOT(paste()), page);
 
 	/* checkable items */
 	m_acLeft->setCheckable(true);
@@ -122,17 +122,15 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 
 	QGroupBox *configPage = new QGroupBox(i18n("Environment"), page);
 	QGridLayout *configPageLayout = new QGridLayout();
-	configPageLayout->setMargin(KDialog::marginHint());
-	configPageLayout->setSpacing(KDialog::spacingHint());
 	configPage->setLayout(configPageLayout);
 
 	QLabel *label = new QLabel(i18n("Name:"), configPage);
-	m_cmbName = new KComboBox(configPage);
+	m_cmbName = new QComboBox(configPage);
 	label->setBuddy(m_cmbName);
 	configPageLayout->addWidget(label, 0, 0);
 	configPageLayout->addWidget(m_cmbName, 0, 1);
 	label = new QLabel(i18n("Parameter:"), configPage);
-	m_cmbParameter = new KComboBox(configPage);
+	m_cmbParameter = new QComboBox(configPage);
 	label->setBuddy(m_cmbParameter);
 	configPageLayout->addWidget(label, 1, 0);
 	configPageLayout->addWidget(m_cmbParameter, 1, 1);
@@ -154,7 +152,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 
 	m_cbStarred = new QCheckBox(i18n("Use starred version"), configPage);
 	label = new QLabel(i18n("Table width:"), configPage);
-	m_leTableWidth = new KLineEdit(configPage);
+	m_leTableWidth = new QLineEdit(configPage);
 	m_leTableWidth->setEnabled(false);
 	connect(m_cbStarred, SIGNAL(stateChanged(int)), this, SLOT(slotStarredChanged()));
 	label->setBuddy(m_leTableWidth);
@@ -169,10 +167,6 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	configPageLayout->addWidget(m_cbCenter, 3, 0, 1, 2);
 	configPageLayout->addWidget(m_cbBooktabs, 3, 2, 1, 2);
 	configPageLayout->addWidget(m_cbBullets, 4, 0, 1, 2);
-
-	pageLayout->addWidget(m_tbFormat);
-	pageLayout->addWidget(m_Table);
-	pageLayout->addWidget(configPage);
 
 	// whats this texts
 	m_Table->setWhatsThis(i18n("Input data. Enter text when a cell is selected. When return is pressed, the adjacent cell will become selected."));
@@ -201,25 +195,24 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 	m_acClearAll->setWhatsThis(i18n("Clears the text of the selected cells and resets the attributes."));
 	m_acPaste->setWhatsThis(i18n("Pastes a table stored in the clipboard into this wizard."));
 
-	setMainWidget(page);
+	pageLayout->addWidget(m_tbFormat);
+	pageLayout->addWidget(m_Table);
+	pageLayout->addWidget(configPage);
+	pageLayout->addWidget(buttonBox());
+	setLayout(pageLayout);
+
 	initEnvironments();
 	updateColsAndRows();
 	m_Table->item(0, 0)->setSelected(true);
 
-	connect(m_Table, SIGNAL(itemSelectionChanged()),
-	        this, SLOT(slotItemSelectionChanged()));
-	connect(m_Table, SIGNAL(rowAppended()),
-	        this, SLOT(slotRowAppended()));
-	connect(m_Table, SIGNAL(colAppended()),
-	        this, SLOT(slotColAppended()));
-	connect(m_cmbName, SIGNAL(activated(const QString&)),
-	        this, SLOT(slotEnvironmentChanged(const QString&)));
-	connect(m_sbCols, SIGNAL(valueChanged(int)),
-	        this, SLOT(updateColsAndRows()));
-	connect(m_sbRows, SIGNAL(valueChanged(int)),
-	        this, SLOT(updateColsAndRows()));
-	connect(m_Table->horizontalHeader(), SIGNAL(customContextMenuRequested(const QPoint&)),
-					this, SLOT(slotHeaderCustomContextMenuRequested(const QPoint&)));
+	connect(m_Table, &KileDialog::TabularTable::itemSelectionChanged, this, &NewTabularDialog::slotItemSelectionChanged);
+	connect(m_Table, &KileDialog::TabularTable::rowAppended, this, &NewTabularDialog::slotRowAppended);
+	connect(m_Table, &KileDialog::TabularTable::colAppended, this, &NewTabularDialog::slotColAppended);
+	connect(m_cmbName, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &NewTabularDialog::slotEnvironmentChanged);
+	connect(m_sbCols, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &NewTabularDialog::updateColsAndRows);
+	connect(m_sbRows, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &NewTabularDialog::updateColsAndRows);
+	connect(m_Table->horizontalHeader(), &QHeaderView::customContextMenuRequested, this, &NewTabularDialog::slotHeaderCustomContextMenuRequested);
+	connect(this, &QDialog::accepted, this, &NewTabularDialog::slotAccepted);
 }
 
 NewTabularDialog::~NewTabularDialog()
@@ -259,14 +252,14 @@ void NewTabularDialog::initEnvironments()
 	slotEnvironmentChanged(m_cmbName->currentText());
 }
 
-KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, const char *method, QObject *parent)
+QAction * NewTabularDialog::addAction(const QIcon &icon, const QString &text, const char *method, QObject *parent)
 {
 	return addAction(icon, text, this, method, parent);
 }
 
-KAction* NewTabularDialog::addAction(const KIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent)
+QAction * NewTabularDialog::addAction(const QIcon &icon, const QString &text, QObject *receiver, const char *method, QObject *parent)
 {
-	KAction *action = new KAction(icon, text, parent);
+	QAction *action = new QAction(icon, text, parent);
 	connect(action, SIGNAL(triggered(bool)), receiver, method);
 	m_tbFormat->addAction(action);
 
@@ -325,7 +318,7 @@ bool NewTabularDialog::canJoin() const
 {
 	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
 	if(selectedItems.count() < 2) {
-		KILE_DEBUG() << "cannot join cells, because selectedItems.count() < 2";
+		KILE_DEBUG_MAIN << "cannot join cells, because selectedItems.count() < 2";
 		return false;
 	}
 
@@ -333,7 +326,7 @@ bool NewTabularDialog::canJoin() const
 	int row = selectedItems[0]->row();
 	for(int i = 1; i < selectedItems.count(); ++i) {
 		if(selectedItems[i]->row() != row) {
-			KILE_DEBUG() << "cannot join cells, because of different rows";
+			KILE_DEBUG_MAIN << "cannot join cells, because of different rows";
 			return false;
 		}
 	}
@@ -345,7 +338,7 @@ bool NewTabularDialog::canJoin() const
 	}
 	qSort(columns);
 	if((columns.last() - columns.first()) != (columns.size() - 1)) {
-		KILE_DEBUG() << "cannot join cells, because not all cells are adjacent";
+		KILE_DEBUG_MAIN << "cannot join cells, because not all cells are adjacent";
 		return false;
 	}
 
@@ -354,300 +347,293 @@ bool NewTabularDialog::canJoin() const
 
 int NewTabularDialog::exec()
 {
-	/* all toolbar items should be visible when showing the dialog */
 	show();
-	mainWidget()->setMinimumWidth(m_tbFormat->width() + 2 * KDialog::marginHint());
-
 	return Wizard::exec();
 }
 
-void NewTabularDialog::slotButtonClicked(int button)
+void NewTabularDialog::slotAccepted()
 {
-	if(button == KDialog::Ok) {
-		int rows = m_Table->rowCount();
-		int columns = m_Table->columnCount();
-		TabularProperties properties;
+	int rows = m_Table->rowCount();
+	int columns = m_Table->columnCount();
+	TabularProperties properties;
 
-		//BEGIN preprocessing colors and border
-		QColor firstColor;
-		bool topBorder = true;
-		for(int row = 0; row < rows; ++row) {
-			bool sameColor = true;
-			bool borderUnderRow = true;
-			{
-				const QBrush backgroundBrush = m_Table->item(row, 0)->background();
-				if(backgroundBrush.style() != Qt::NoBrush) {
-					firstColor = backgroundBrush.color();
-				}
+	//BEGIN preprocessing colors and border
+	QColor firstColor;
+	bool topBorder = true;
+	for(int row = 0; row < rows; ++row) {
+		bool sameColor = true;
+		bool borderUnderRow = true;
+		{
+			const QBrush backgroundBrush = m_Table->item(row, 0)->background();
+			if(backgroundBrush.style() != Qt::NoBrush) {
+				firstColor = backgroundBrush.color();
 			}
-			for(int column = 0; column < columns; ++column) {
-				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
-
-				// Adjust right and bottom border for current item
-				if(column < columns - 1) {
-					TabularCell *next = static_cast<TabularCell*>(m_Table->item(row, column + 1));
-					if(next->border() & TabularCell::Left) {
-						cell->setBorder(cell->border() | TabularCell::Right);
-					}
-				}
-				if(row < rows - 1) {
-					TabularCell *next = static_cast<TabularCell*>(m_Table->item(row + 1, column));
-					if(next->border() & TabularCell::Top) {
-						cell->setBorder(cell->border() | TabularCell::Bottom);
-					}
-				}
-
-				const QBrush backgroundBrush = m_Table->item(row, column)->background();
-				if(backgroundBrush.style() != Qt::NoBrush) {
-					QColor currentColor = backgroundBrush.color();
-					properties.addColor(currentColor);
-					if(currentColor != firstColor) {
-						sameColor = false;
-					}
-				}
-
-				const QBrush foregroundBrush = m_Table->item(row, column)->foreground();
-				if(foregroundBrush.style() != Qt::NoBrush) {
-					properties.addColor(foregroundBrush.color());
-				}
-
-				if(!(cell->border() & TabularCell::Bottom)) {
-					borderUnderRow = false;
-				}
-				if (row == 0 && !(cell->border() & TabularCell::Top)) {
-					topBorder = false;
-				}
-			}
-			if(sameColor) {
-				properties.addRowColor(row, firstColor);
-			}
-			if(borderUnderRow) {
-				properties.addBorderUnderRow(row);
-			}
-		}
-
-		if(topBorder) {
-			properties.setHasTopBorder();
-		}
-
-		bool leftBorder = true;
-		for(int column = 0; column < columns; ++column) {
-			bool borderBesideColumn = true;
-			for(int row = 0; row < rows; ++row) {
-				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
-
-				if(!(cell->border() & TabularCell::Right)) {
-					borderBesideColumn = false;
-				}
-				if (column == 0 && !(cell->border() & TabularCell::Left)) {
-					leftBorder = false;
-				}
-			}
-			if(borderBesideColumn) {
-				properties.addBorderBesideColumn(column);
-			}
-		}
-
-		if(leftBorder) {
-			properties.setHasLeftBorder();
-		}
-		//END
-
-		/* bullet */
-		if(m_cbBullets->isChecked()) {
-			properties.setBullet(s_bullet);
-		}
-
-		/* environment */
-		QString environment = m_cmbName->currentText();
-		QString environmentFormatted = environment;
-		QString tableWidth;
-		if(m_cbStarred->isEnabled() && m_cbStarred->isChecked()) {
-			environmentFormatted += '*';
-		}
-
-		// Environment needs a width
-		if(m_leTableWidth->isEnabled()) {
-			tableWidth = '{' + m_leTableWidth->text() + '}';
-		}
-
-		/* build table parameter */
-		QString tableParameter;
-		if(m_cmbParameter->currentIndex() != 0) {
-			tableParameter = '[' + m_cmbParameter->currentText() + ']';
-		}
-
-		/* build table alignment */
-		QString tableAlignment = QString('{');
-		if(properties.hasLeftBorder()) {
-			tableAlignment += '|';
 		}
 		for(int column = 0; column < columns; ++column) {
-			TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column));
-			if(headerItem->suppressSpace()) {
-				tableAlignment += QString("@{%1}").arg(properties.bullet());
-			} else if(headerItem->dontSuppressSpace()) {
-				tableAlignment += QString("!{%1}").arg(properties.bullet());
-			}
-			if(headerItem->insertBefore()) {
-				tableAlignment += QString(">{%1}").arg(properties.bullet());
-			}
+			TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
 
-			switch(headerItem->alignment()) {
-				case Qt::AlignLeft:
-					tableAlignment += 'l';
-					break;
-				case Qt::AlignHCenter:
-					tableAlignment += 'c';
-					break;
-				case Qt::AlignRight:
-					tableAlignment += 'r';
-					break;
-				case TabularHeaderItem::AlignP:
-					tableAlignment += QString("p{%1}").arg(properties.bullet());
-					break;
-				case TabularHeaderItem::AlignB:
-					tableAlignment += QString("b{%1}").arg(properties.bullet());
-					break;
-				case TabularHeaderItem::AlignM:
-					tableAlignment += QString("m{%1}").arg(properties.bullet());
-					break;
-				case TabularHeaderItem::AlignX:
-					tableAlignment += 'X';
-					break;
-			}
-
-			if(headerItem->insertAfter()) {
-				tableAlignment += QString("<{%1}").arg(properties.bullet());
-			}
-
-			if(properties.hasBorderBesideColumn(column)) {
-				tableAlignment += '|';
-			}
-		}
-		tableAlignment += '}';
-
-		/* build top border */
-		QString topBorderStr;
-		if(properties.hasTopBorder()) {
-			if(m_cbBooktabs->isChecked()) { // we need a toprule with booktabs here
-				topBorderStr = "\\toprule";
-			}
-			else {
-				topBorderStr = "\\hline";
-			}
-		}
-		else {
-			MultiColumnBorderHelper topBorderHelper;
-			for(int column = 0; column < columns; ++column) {
-				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(0, column));
-				if(cell->border() & TabularCell::Top) {
-					topBorderHelper.addColumn(column);
+			// Adjust right and bottom border for current item
+			if(column < columns - 1) {
+				TabularCell *next = static_cast<TabularCell*>(m_Table->item(row, column + 1));
+				if(next->border() & TabularCell::Left) {
+					cell->setBorder(cell->border() | TabularCell::Right);
 				}
 			}
-			topBorderHelper.finish();
-			topBorderStr = topBorderHelper.toLaTeX();
-		}
-
-		if(m_cbCenter->isChecked()) {
-			m_td.tagBegin += "\\begin{center}\n";
-		}
-
-		m_td.tagBegin += QString("\\begin{%1}%2%3%4%5\n")
-			.arg(environmentFormatted)
-			.arg(tableWidth)
-			.arg(tableParameter)
-			.arg(tableAlignment)
-			.arg(topBorderStr);
-
-		/* required packages */
-		m_requiredPackages.clear();
-		if(properties.requiredPackages().count()) {
-			m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + '\n';
-			m_requiredPackages << properties.requiredPackages();
-		}
-
-		QColor rowColor;
-		for(int row = 0; row < rows; ++row) {
-			rowColor = properties.rowColor(row);
-			if(rowColor.isValid()) {
-				m_td.tagBegin += "\\rowcolor{" + properties.colorName(rowColor) + "}\n";
+			if(row < rows - 1) {
+				TabularCell *next = static_cast<TabularCell*>(m_Table->item(row + 1, column));
+				if(next->border() & TabularCell::Top) {
+					cell->setBorder(cell->border() | TabularCell::Bottom);
+				}
 			}
-			MultiColumnBorderHelper columnBorderHelper;
-			for(int column = 0; column < columns;) {
-				TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
-				QString content = cell->toLaTeX(properties);
-				int columnSpan = m_Table->columnSpan(row, column);
 
-				if(!properties.hasBorderUnderRow(row) && (cell->border() & TabularCell::Bottom)) {
-					for(int c2 = 0; c2 < columnSpan; ++c2) {
-						columnBorderHelper.addColumn(column + c2);
-					}
+			const QBrush backgroundBrush = m_Table->item(row, column)->background();
+			if(backgroundBrush.style() != Qt::NoBrush) {
+				QColor currentColor = backgroundBrush.color();
+				properties.addColor(currentColor);
+				if(currentColor != firstColor) {
+					sameColor = false;
 				}
+			}
 
-				QString sep = " & ";
-				if(column + columnSpan >= columns) {
-					QString end;
-					sep.clear();
-					if(properties.hasBorderUnderRow(row)) {
-						if(m_cbBooktabs->isChecked()){ // we need a midrule with booktabs.
-							if(row < rows-1) {
-								end = "\\midrule";
-							}
-							else { // last line gets a bottomrule
-								end = "\\bottomrule";
-							}
-						}
-						else {
-							end = "\\hline";
-						}
-					}
-					else {
-						columnBorderHelper.finish();
-						end = columnBorderHelper.toLaTeX();
-					}
-					if(row < rows - 1 || !end.isEmpty()) {
-						sep = "\\\\";
-					}
-					sep += end + '\n';
-				}
-				m_td.tagBegin += content + sep;
+			const QBrush foregroundBrush = m_Table->item(row, column)->foreground();
+			if(foregroundBrush.style() != Qt::NoBrush) {
+				properties.addColor(foregroundBrush.color());
+			}
 
-				column += columnSpan;
+			if(!(cell->border() & TabularCell::Bottom)) {
+				borderUnderRow = false;
+			}
+			if (row == 0 && !(cell->border() & TabularCell::Top)) {
+				topBorder = false;
 			}
 		}
-
-		m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
-
-		if(m_cbCenter->isChecked()) {
-			m_td.tagEnd += "\\end{center}\n";
+		if(sameColor) {
+			properties.addRowColor(row, firstColor);
 		}
-
-		QHashIterator<QString, QString> itColorName(properties.colorNames());
-		QString colorNames = "";
-		while(itColorName.hasNext()) {
-			itColorName.next();
-			colorNames += "\\definecolor{" + itColorName.value() + "}{rgb}{";
-			QColor color(itColorName.key());
-			colorNames += QString::number(color.redF()) + ','
-					+ QString::number(color.greenF()) + ','
-					+ QString::number(color.blueF()) + "}\n";
-		}
-		m_td.tagBegin = colorNames + m_td.tagBegin;
-
-		if(properties.useMultiColumn()) {
-			m_td.tagBegin = "\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n"
-					+ m_td.tagBegin;
-		}
-
-		/* use {} if mc was defined */
-		if(properties.useMultiColumn()) {
-			m_td.tagBegin = "{%\n" + m_td.tagBegin;
-			m_td.tagEnd += "}%\n";
+		if(borderUnderRow) {
+			properties.addBorderUnderRow(row);
 		}
 	}
 
-	Wizard::slotButtonClicked(button);
+	if(topBorder) {
+		properties.setHasTopBorder();
+	}
+
+	bool leftBorder = true;
+	for(int column = 0; column < columns; ++column) {
+		bool borderBesideColumn = true;
+		for(int row = 0; row < rows; ++row) {
+			TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
+
+			if(!(cell->border() & TabularCell::Right)) {
+				borderBesideColumn = false;
+			}
+			if (column == 0 && !(cell->border() & TabularCell::Left)) {
+				leftBorder = false;
+			}
+		}
+		if(borderBesideColumn) {
+			properties.addBorderBesideColumn(column);
+		}
+	}
+
+	if(leftBorder) {
+		properties.setHasLeftBorder();
+	}
+	//END
+
+	/* bullet */
+	if(m_cbBullets->isChecked()) {
+		properties.setBullet(s_bullet);
+	}
+
+	/* environment */
+	QString environment = m_cmbName->currentText();
+	QString environmentFormatted = environment;
+	QString tableWidth;
+	if(m_cbStarred->isEnabled() && m_cbStarred->isChecked()) {
+		environmentFormatted += '*';
+	}
+
+	// Environment needs a width
+	if(m_leTableWidth->isEnabled()) {
+		tableWidth = '{' + m_leTableWidth->text() + '}';
+	}
+
+	/* build table parameter */
+	QString tableParameter;
+	if(m_cmbParameter->currentIndex() != 0) {
+		tableParameter = '[' + m_cmbParameter->currentText() + ']';
+	}
+
+	/* build table alignment */
+	QString tableAlignment = QString('{');
+	if(properties.hasLeftBorder()) {
+		tableAlignment += '|';
+	}
+	for(int column = 0; column < columns; ++column) {
+		TabularHeaderItem *headerItem = static_cast<TabularHeaderItem*>(m_Table->horizontalHeaderItem(column));
+		if(headerItem->suppressSpace()) {
+			tableAlignment += QString("@{%1}").arg(properties.bullet());
+		} else if(headerItem->dontSuppressSpace()) {
+			tableAlignment += QString("!{%1}").arg(properties.bullet());
+		}
+		if(headerItem->insertBefore()) {
+			tableAlignment += QString(">{%1}").arg(properties.bullet());
+		}
+
+		switch(headerItem->alignment()) {
+			case Qt::AlignLeft:
+				tableAlignment += 'l';
+				break;
+			case Qt::AlignHCenter:
+				tableAlignment += 'c';
+				break;
+			case Qt::AlignRight:
+				tableAlignment += 'r';
+				break;
+			case TabularHeaderItem::AlignP:
+				tableAlignment += QString("p{%1}").arg(properties.bullet());
+				break;
+			case TabularHeaderItem::AlignB:
+				tableAlignment += QString("b{%1}").arg(properties.bullet());
+				break;
+			case TabularHeaderItem::AlignM:
+				tableAlignment += QString("m{%1}").arg(properties.bullet());
+				break;
+			case TabularHeaderItem::AlignX:
+				tableAlignment += 'X';
+				break;
+		}
+
+		if(headerItem->insertAfter()) {
+			tableAlignment += QString("<{%1}").arg(properties.bullet());
+		}
+
+		if(properties.hasBorderBesideColumn(column)) {
+			tableAlignment += '|';
+		}
+	}
+	tableAlignment += '}';
+
+	/* build top border */
+	QString topBorderStr;
+	if(properties.hasTopBorder()) {
+		if(m_cbBooktabs->isChecked()) { // we need a toprule with booktabs here
+			topBorderStr = "\\toprule";
+		}
+		else {
+			topBorderStr = "\\hline";
+		}
+	}
+	else {
+		MultiColumnBorderHelper topBorderHelper;
+		for(int column = 0; column < columns; ++column) {
+			TabularCell *cell = static_cast<TabularCell*>(m_Table->item(0, column));
+			if(cell->border() & TabularCell::Top) {
+				topBorderHelper.addColumn(column);
+			}
+		}
+		topBorderHelper.finish();
+		topBorderStr = topBorderHelper.toLaTeX();
+	}
+
+	if(m_cbCenter->isChecked()) {
+		m_td.tagBegin += "\\begin{center}\n";
+	}
+
+	m_td.tagBegin += QString("\\begin{%1}%2%3%4%5\n")
+		.arg(environmentFormatted)
+		.arg(tableWidth)
+		.arg(tableParameter)
+		.arg(tableAlignment)
+		.arg(topBorderStr);
+
+	/* required packages */
+	m_requiredPackages.clear();
+	if(properties.requiredPackages().count()) {
+		m_td.tagBegin += "% use packages: " + properties.requiredPackages().join(",") + '\n';
+		m_requiredPackages << properties.requiredPackages();
+	}
+
+	QColor rowColor;
+	for(int row = 0; row < rows; ++row) {
+		rowColor = properties.rowColor(row);
+		if(rowColor.isValid()) {
+			m_td.tagBegin += "\\rowcolor{" + properties.colorName(rowColor) + "}\n";
+		}
+		MultiColumnBorderHelper columnBorderHelper;
+		for(int column = 0; column < columns;) {
+			TabularCell *cell = static_cast<TabularCell*>(m_Table->item(row, column));
+			QString content = cell->toLaTeX(properties);
+			int columnSpan = m_Table->columnSpan(row, column);
+
+			if(!properties.hasBorderUnderRow(row) && (cell->border() & TabularCell::Bottom)) {
+				for(int c2 = 0; c2 < columnSpan; ++c2) {
+					columnBorderHelper.addColumn(column + c2);
+				}
+			}
+
+			QString sep = " & ";
+			if(column + columnSpan >= columns) {
+				QString end;
+				sep.clear();
+				if(properties.hasBorderUnderRow(row)) {
+					if(m_cbBooktabs->isChecked()){ // we need a midrule with booktabs.
+						if(row < rows-1) {
+							end = "\\midrule";
+						}
+						else { // last line gets a bottomrule
+							end = "\\bottomrule";
+						}
+					}
+					else {
+						end = "\\hline";
+					}
+				}
+				else {
+					columnBorderHelper.finish();
+					end = columnBorderHelper.toLaTeX();
+				}
+				if(row < rows - 1 || !end.isEmpty()) {
+					sep = "\\\\";
+				}
+				sep += end + '\n';
+			}
+			m_td.tagBegin += content + sep;
+
+			column += columnSpan;
+		}
+	}
+
+	m_td.tagEnd += QString("\\end{%1}\n").arg(environmentFormatted);
+
+	if(m_cbCenter->isChecked()) {
+		m_td.tagEnd += "\\end{center}\n";
+	}
+
+	QHashIterator<QString, QString> itColorName(properties.colorNames());
+	QString colorNames = "";
+	while(itColorName.hasNext()) {
+		itColorName.next();
+		colorNames += "\\definecolor{" + itColorName.value() + "}{rgb}{";
+		QColor color(itColorName.key());
+		colorNames += QString::number(color.redF()) + ','
+				+ QString::number(color.greenF()) + ','
+				+ QString::number(color.blueF()) + "}\n";
+	}
+	m_td.tagBegin = colorNames + m_td.tagBegin;
+
+	if(properties.useMultiColumn()) {
+		m_td.tagBegin = "\\newcommand{\\mc}[3]{\\multicolumn{#1}{#2}{#3}}\n"
+				+ m_td.tagBegin;
+	}
+
+	/* use {} if mc was defined */
+	if(properties.useMultiColumn()) {
+		m_td.tagBegin = "{%\n" + m_td.tagBegin;
+		m_td.tagEnd += "}%\n";
+	}
 }
 
 void NewTabularDialog::updateColsAndRows()
@@ -1030,5 +1016,3 @@ void KileDialog::NewTabularDialog::slotStarredChanged()
 {
 	m_leTableWidth->setEnabled(m_cbStarred->isChecked() && m_cbStarred->isEnabled());
 }
-
-#include "newtabulardialog.moc"

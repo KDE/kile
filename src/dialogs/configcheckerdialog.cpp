@@ -14,19 +14,19 @@
 
 #include "dialogs/configcheckerdialog.h"
 
+#include <QFileDialog>
 #include <QFileInfo>
+#include <QItemDelegate>
 #include <QLabel>
 #include <QLayout>
-#include <QItemDelegate>
 #include <QPainter>
+#include <QProgressDialog>
+#include <QPushButton>
 #include <QTextDocument>
 
-#include <KCursor>
-#include <KFileDialog>
-#include <KGlobal>
-#include <KLocale>
+#include <KConfigGroup>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KProgressDialog>
 
 #include <config.h>
 #include "kiledebug.h"
@@ -97,15 +97,14 @@ ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int st
 }
 
 ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
-: KAssistantDialog(parent),
-  m_ki(kileInfo),
-  m_tester(NULL)
+	: KAssistantDialog(parent)
+	, m_ki(kileInfo)
+	, m_tester(Q_NULLPTR)
 {
 	// don't show the 'help' button in the title bar
 	setWindowFlags(this->windowFlags() & ~Qt::WindowContextHelpButtonHint);
-	setCaption(i18n("System Check"));
+	setWindowTitle(i18n("System Check"));
 	setModal(true);
-	showButtonSeparator(true);
 	setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
 
 	QWidget *introWidget = new QWidget(this);
@@ -153,9 +152,10 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
 	vboxLayout->addStretch();
 
 	m_testResultsPageWidgetItem = addPage(testResultsWidget, i18n("Test Results"));
-	showButton(User1, false); // hide the 'finish' button initially
-	showButton(User3, false); // don't show the 'back' button
-	showButton(Help, false);
+
+	finishButton()->setVisible(false);
+	backButton()->setVisible(false);
+	buttonBox()->button(QDialogButtonBox::Help)->setVisible(false);
 
 	m_listWidget->setAlternatingRowColors(true);
 	m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
@@ -169,7 +169,7 @@ ConfigChecker::~ConfigChecker()
 void ConfigChecker::next()
 {
 	setCurrentPage(m_runningTestsPageWidgetItem);
-	enableButton(User2, false); // disable the 'next' button
+	nextButton()->setEnabled(false);
 	run();
 }
 
@@ -180,7 +180,7 @@ void ConfigChecker::run()
 	connect(m_tester, SIGNAL(started()), this, SLOT(started()));
 	connect(m_tester, SIGNAL(percentageDone(int)), this, SLOT(setPercentageDone(int)));
 	connect(m_tester, SIGNAL(finished(bool)), this, SLOT(finished(bool)));
-	connect(this, SIGNAL(user1Clicked()), this, SLOT(assistantFinished()));
+	connect(finishButton(), SIGNAL(clicked()), this, SLOT(assistantFinished()));
 
 	m_tester->runTests();
 }
@@ -201,8 +201,9 @@ void ConfigChecker::finished(bool ok)
 {
 	setCurrentPage(m_testResultsPageWidgetItem);
 	setCursor(Qt::ArrowCursor);
-	showButton(User2, false); // hide the 'next' button
-	showButton(User1, true); // show the 'finish' button
+
+	nextButton()->setVisible(false);
+	finishButton()->setVisible(true);
 	QString testResultText = "<br/>";
 
 	QStringList tools = m_tester->testGroups();
@@ -246,7 +247,7 @@ void ConfigChecker::finished(bool ok)
 		m_useModernConfigurationForLaTeXCheckBox->setChecked(m_tester->areSrcSpecialsSupportedForLaTeX());
 		m_useModernConfigurationForPDFLaTeX->setChecked(m_tester->isSyncTeXSupportedForPDFLaTeX());
 
-#ifdef HAVE_VIEWERINTERFACE_H
+#if LIVEPREVIEW_AVAILABLE
 		if(m_tester->isViewerModeSupportedInOkular()) {
 			m_useEmbeddedViewerCheckBox->setVisible(true);
 			m_useEmbeddedViewerCheckBox->setChecked(true);
@@ -275,8 +276,8 @@ void ConfigChecker::finished(bool ok)
 		testResultText += "<br/><br/>";
 
 		m_overallResultLabel->setText(testResultText);
-		enableButton(Ok, true);
-		enableButton(User1, true);
+
+		finishButton()->setEnabled(true);
 	}
 	else {
 		// start by hiding all the labels
@@ -291,8 +292,7 @@ void ConfigChecker::finished(bool ok)
 
 		m_overallResultLabel->setText(i18n("<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
 		                                   "Please check the available disk space.</b></font>"));
-		enableButton(Ok, true);
-		enableButton(User1, false);
+		finishButton()->setEnabled(false);
 	}
 }
 
@@ -321,5 +321,3 @@ void ConfigChecker::setPercentageDone(int p)
 }
 
 }
-
-#include "configcheckerdialog.moc"

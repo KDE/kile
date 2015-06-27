@@ -20,7 +20,7 @@
 #include <QQueue>
 #include <QWaitCondition>
 
-#include <KUrl>
+#include <QUrl>
 
 #include "documentinfo.h"
 
@@ -47,7 +47,7 @@ enum ParserType { LaTeX = 0, BibTeX };
 class DocumentParserInput : public ParserInput
 {
 public:
-	DocumentParserInput(const KUrl& url, QStringList lines,
+	DocumentParserInput(const QUrl &url, QStringList lines,
 	                                     ParserType parserType,
 	                                     const QMap<QString, KileStructData>* dictStructLevel,
 	                                     bool showSectioningLabels,
@@ -79,7 +79,7 @@ Q_SIGNALS:
 	 * The ownership of the 'output' object is transferred to the slot(s)
 	 * connected to this signal.
 	 **/
-	void parsingComplete(const KUrl& url, KileParser::ParserOutput* output);
+	void parsingComplete(const QUrl &url, KileParser::ParserOutput* output);
 
 	void parsingQueueEmpty();
 	void parsingStarted();
@@ -88,7 +88,7 @@ protected:
 	KileInfo *m_ki;
 
 	void addParserInput(ParserInput *input);
-	void removeParserInput(const KUrl& url);
+	void removeParserInput(const QUrl &url);
 
 	void run();
 
@@ -98,7 +98,7 @@ private:
 	bool m_keepParserThreadAlive;
 	bool m_keepParsingDocument;
 	QQueue<ParserInput*> m_parserQueue;
-	KUrl m_currentlyParsedUrl;
+	QUrl m_currentlyParsedUrl;
 	QMutex m_parserMutex;
 	QWaitCondition m_queueEmptyWaitCondition;
 };
@@ -109,13 +109,13 @@ class DocumentParserThread : public ParserThread
 	Q_OBJECT
 
 public:
-	DocumentParserThread(KileInfo *info, QObject *parent = NULL);
+	DocumentParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
 	virtual ~DocumentParserThread();
 
 public Q_SLOTS:
 	void addDocument(KileDocument::TextInfo *textInfo);
 	void removeDocument(KileDocument::TextInfo *textInfo);
-	void removeDocument(const KUrl& url);
+	void removeDocument(const QUrl &url);
 
 protected:
 	virtual Parser* createParser(ParserInput *input);
@@ -128,7 +128,7 @@ class OutputParserThread: public ParserThread
 	Q_OBJECT
 
 public:
-	OutputParserThread(KileInfo *info, QObject *parent = NULL);
+	OutputParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
 	virtual ~OutputParserThread();
 
 public Q_SLOTS:

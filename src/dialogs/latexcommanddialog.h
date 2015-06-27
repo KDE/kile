@@ -20,28 +20,27 @@
 #ifndef LATEXCOMMANDDIALOG_H
 #define LATEXCOMMANDDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QMap>
 
 #include "latexcmd.h"
 #include "ui_latexcommanddialog_base.h"
 
-class QCheckBox;
-class QLabel;
-class QTreeWidget;
-class QTreeWidgetItem;
-
 class KComboBox;
 class KConfig;
-class KLineEdit;
-class KPushButton;
-class KTabWidget;
+class QCheckBox;
+class QDialogButtonBox;
+class QLabel;
+class QLineEdit;
+class QTabWidget;
+class QTreeWidget;
+class QTreeWidgetItem;
 
 namespace KileDialog
 {
 
-class NewLatexCommand : public KDialog
+class NewLatexCommand : public QDialog
 {
 		Q_OBJECT
 
@@ -53,7 +52,7 @@ class NewLatexCommand : public KDialog
 		void getParameter(QString &name, KileDocument::LatexCmdAttributes &attr);
 
 	private:
-		KLineEdit *m_edName;
+		QLineEdit *m_edName;
 		QCheckBox *m_chStarred, *m_chEndofline, *m_chMath;
 		KComboBox *m_coTab, *m_coOption, *m_coParameter;
 
@@ -62,14 +61,14 @@ class NewLatexCommand : public KDialog
 		KileDocument::CmdAttribute m_cmdType;
 		QMap<QString, bool> *m_dict;
 
-	protected Q_SLOTS:
-         virtual void slotButtonClicked(int button);
+	private Q_SLOTS:
+         virtual void slotAccepted();
 };
 
 
-class LatexCommandsDialog : public KDialog
+class LatexCommandsDialog : public QDialog
 {
-		Q_OBJECT
+	Q_OBJECT
 
 	public:
 		LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent = 0);
@@ -89,10 +88,11 @@ class LatexCommandsDialog : public KDialog
 		QTreeWidgetItem *m_lviList, *m_lviTabular, *m_lviMath, *m_lviAmsmath, *m_lviVerbatim;
 		QTreeWidgetItem *m_lviLabels, *m_lviReferences, *m_lviBibliographies, *m_lviCitations;
 		QTreeWidgetItem *m_lviInputs;
-		/*KTabWidget *m_tab;
-		KPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
+		/*QTabWidget *m_tab;
+		QPushButton *m_btnAdd, *m_btnDelete, *m_btnEdit;
 		QCheckBox *m_cbUserDefined;*/
-    Ui::LatexCommandWidget m_widget;
+		QDialogButtonBox *m_buttonBox;
+		Ui::LatexCommandWidget m_widget;
 
 		void resetListviews();
 		LVmode getListviewMode();
@@ -119,7 +119,8 @@ class LatexCommandsDialog : public KDialog
 		void slotDeleteClicked();
 		void slotEditClicked();
 		void slotUserDefinedClicked();
-		void slotButtonClicked(int button);
+		void slotAccepted();
+		void slotSetDefaults();
 };
 
 }

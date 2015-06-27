@@ -21,7 +21,7 @@
 #include <QKeyEvent>
 
 #include <KTextEditor/Document>
-#include <KLocale>
+#include <KLocalizedString>
 
 namespace KileEditorKeySequence {
 
@@ -110,7 +110,7 @@ namespace KileEditorKeySequence {
 	Action* Manager::getAction(const QString& seq)
 	{
 		QMap<QString, Action*>::iterator i = m_actionMap.find(seq);
-		return (i == m_actionMap.end()) ? NULL : (*i);
+		return (i == m_actionMap.end()) ? Q_NULLPTR : (*i);
 	}
 
 	void Manager::setEditorKeySequence(const QString& /* seq */, Action* /* action */)
@@ -257,4 +257,3 @@ bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 
 }
 
-#include "editorkeysequencemanager.moc"

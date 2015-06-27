@@ -37,13 +37,13 @@ tbraun 2007-06-13
 #include <QPixmap>
 #include <QPainter>
 #include <QRegExp>
+#include <QStandardPaths>
 #include <QStringList>
 #include <QTextDocument>
 
 #include <KColorScheme>
 #include <KConfig>
-#include <KLocale>
-#include <KStandardDirs>
+#include <KLocalizedString>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -193,7 +193,7 @@ void SymbolView::initPage(int page)
 			break;
 
 		default:
-			kWarning() << "wrong argument in initPage()";
+			qWarning() << "wrong argument in initPage()";
 			break;
 	}
 }
@@ -204,9 +204,9 @@ QString SymbolView::getToolTip(const QString &key)
 	extract(key, cmd);
 
 	QString label = "<p style='white-space:pre'>";
-	label += "<b>" + i18n("Command: %1", Qt::escape(cmd.latexCommand)) + "</b>";
+	label += "<b>" + i18n("Command: %1", cmd.latexCommand.toHtmlEscaped()) + "</b>";
 	if(!cmd.unicodeCommand.isEmpty()) {
-		label += i18n("<br/>Unicode: %1", Qt::escape(cmd.unicodeCommand));
+		label += i18n("<br/>Unicode: %1", cmd.unicodeCommand.toHtmlEscaped());
 	}
 
 	if(cmd.packages.count() > 0) {
@@ -238,7 +238,7 @@ QString SymbolView::getToolTip(const QString &key)
 	}
 
 	if(!cmd.comment.isEmpty()) {
-		label += "<br/><i>" + i18n("Comment: %1", Qt::escape(cmd.comment))  + "</i>";
+		label += "<br/><i>" + i18n("Comment: %1", cmd.comment.toHtmlEscaped())  + "</i>";
 	}
 
 	label += "</p>";
@@ -250,7 +250,7 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 	Command cmd;
 	QString code_symbol;
 	QList<Package> packages;
-	QListWidgetItem *item = NULL;
+	QListWidgetItem *item = Q_NULLPTR;
 	bool math = false, bracket = false;
 
 	if(event->button() == Qt::LeftButton && (item = itemAt(event->pos()))) {
@@ -283,7 +283,7 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
 		m_ki->focusEditor();
 	}
 
-	KILE_DEBUG() << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
+	KILE_DEBUG_MAIN << "math is " << math << ", bracket is " << bracket << " and item->data(Qt::UserRole).toString() is " << (item ? item->data(Qt::UserRole).toString() : "");
 }
 
 QString convertLatin1StringtoUTF8(const QString &string)
@@ -314,35 +314,46 @@ QString convertLatin1StringtoUTF8(const QString &string)
 
 void SymbolView::fillWidget(const QString& prefix)
 {
-	KILE_DEBUG() << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
+	KILE_DEBUG_MAIN << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
 	QImage image;
 	QListWidgetItem* item;
 	QStringList refCnts, paths, unicodeValues;
 	QString key;
 
-	if (prefix == MFUS_PREFIX) {
-		KConfigGroup config = KGlobal::config()->group(MFUS_GROUP);
+	// find paths
+	if (prefix == MFUS_PREFIX) { // case: most frequently used symbols
+		KConfigGroup config = KSharedConfig::openConfig()->group(MFUS_GROUP);
 		QString configPaths = config.readEntry("paths");
 		QString configrefCnts = config.readEntry("counts");
 		paths = configPaths.split(',', QString::SkipEmptyParts);
 		refCnts = configrefCnts.split(',', QString::SkipEmptyParts);
-		KILE_DEBUG() << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
+		KILE_DEBUG_MAIN << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
 		if(paths.count() != refCnts.count()) {
-			KILE_DEBUG() << "error in saved LRU list";
+			KILE_DEBUG_MAIN << "error in saved LRU list";
 			paths.clear();
 			refCnts.clear();
 		}
 	}
-	else {
-		paths = KGlobal::dirs()->findAllResources("app_symbols", prefix + "/*.png", KStandardDirs::NoDuplicates);
+	else { // case: any other group of math symbols
+		const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kile/mathsymbols/" + prefix, QStandardPaths::LocateDirectory);
+		Q_FOREACH (const QString &dir, dirs) {
+			const QStringList fileNames = QDir(dir).entryList(QStringList() << QStringLiteral("*.png"));
+			Q_FOREACH (const QString &file, fileNames) {
+				const QString path = dir + '/' + file;
+				if (!paths.contains(path)) {
+					paths.append(path);
+				}
+			}
+		}
 		paths.sort();
-		for(int i = 0 ; i < paths.count() ; i++) {
+		for (int i = 0; i < paths.count(); i++) {
 			refCnts.append("1");
 		}
 	}
-	for(int i = 0; i < paths.count(); i++) {
-		if(image.load(paths[i])) {
-//      		KILE_DEBUG() << "path is " << paths[i];
+
+	// render symbols
+	for (int i = 0; i < paths.count(); i++) {
+		if (image.load(paths[i])) {
 			item = new QListWidgetItem(this);
 
 			key = refCnts[i] + '%' + image.text("Command");
@@ -352,13 +363,11 @@ void SymbolView::fillWidget(const QString& prefix)
 			key += '%' + convertLatin1StringtoUTF8(image.text("Comment"));
 			key += '%' + paths[i];
 
-// 			KILE_DEBUG() << "key is " << key;
-
 			item->setData(Qt::UserRole, key);
 			item->setToolTip(getToolTip(key));
 
-			if(prefix != "user"){
-				if(image.format() != QImage::Format_ARGB32_Premultiplied && image.format() != QImage::Format_ARGB32){
+			if (prefix != QLatin1String("user")){
+				if (image.format() != QImage::Format_ARGB32_Premultiplied && image.format() != QImage::Format_ARGB32){
 					image = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 				}
 
@@ -368,12 +377,10 @@ void SymbolView::fillWidget(const QString& prefix)
 				p.fillRect(image.rect(), m_brush.brush(QPalette::Active));
 				p.end();
 			}
-
 			item->setIcon(QPixmap::fromImage(image));
-
 		}
 		else {
-			KILE_DEBUG() << "Loading file " << paths[i] << " failed";
+			KILE_DEBUG_MAIN << "Loading file " << paths[i] << " failed";
 		}
 	}
 }
@@ -385,7 +392,7 @@ void SymbolView::writeConfig()
 	QList<int> refCnts;
 	Command cmd;
 
-	KConfigGroup grp = KGlobal::config()->group(MFUS_GROUP);
+	KConfigGroup grp = KSharedConfig::openConfig()->group(MFUS_GROUP);
 
 	if (KileConfig::clearMFUS()) {
 		grp.deleteEntry("paths");
@@ -397,7 +404,7 @@ void SymbolView::writeConfig()
 			extract(item->data(Qt::UserRole).toString(),cmd);
 			refCnts.append(cmd.referenceCount);
 			paths.append(cmd.path);
-			KILE_DEBUG() << "path=" << paths.last() << ", count is " << refCnts.last();
+			KILE_DEBUG_MAIN << "path=" << paths.last() << ", count is " << refCnts.last();
 		}
 		grp.writeEntry("paths", paths);
 		grp.writeEntry("counts", refCnts);
@@ -410,11 +417,11 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 		return;
 	}
 
-	QListWidgetItem *tmpItem = NULL;
+	QListWidgetItem *tmpItem = Q_NULLPTR;
 	bool found = false;
 	const QRegExp reCnt("^\\d+");
 
-	KILE_DEBUG() << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
+	KILE_DEBUG_MAIN << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
 
 	for(int i = 0; i < count(); ++i) {
 		tmpItem = this->item(i);
@@ -427,9 +434,9 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 	if(!found
 	   && static_cast<unsigned int>(this->count() + 1) > KileConfig::numSymbolsMFUS()) {   // we check before adding the symbol
 		int refCnt, minRefCnt = 10000;
-		QListWidgetItem *unpopularItem = NULL;
+		QListWidgetItem *unpopularItem = Q_NULLPTR;
 
-		KILE_DEBUG() << "Removing most unpopular item";
+		KILE_DEBUG_MAIN << "Removing most unpopular item";
 
 		for (int i = 0; i < count(); ++i) {
 			tmpItem = this->item(i);
@@ -440,12 +447,12 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 				unpopularItem = tmpItem;
 			}
 		}
-		KILE_DEBUG() << " minRefCnt is " << minRefCnt;
+		KILE_DEBUG_MAIN << " minRefCnt is " << minRefCnt;
 		delete unpopularItem;
 	}
 
 	if(found) {
-		KILE_DEBUG() << "item is already in the iconview";
+		KILE_DEBUG_MAIN << "item is already in the iconview";
 
 		int refCnt;
 		extract(tmpItem->data(Qt::UserRole).toString(), refCnt);
@@ -466,4 +473,3 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 
 }
 
-#include "symbolview.moc"

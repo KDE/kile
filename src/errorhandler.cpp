@@ -24,9 +24,9 @@
 #include <QToolButton>
 
 #include <KActionCollection>
-#include <KLocale>
-#include <KUrl>
-#include <KTabWidget>
+#include <KLocalizedString>
+#include <QUrl>
+#include <QTabWidget>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <KSelectAction>
@@ -42,7 +42,7 @@
 #include "widgets/sidebar.h"
 
 KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, KActionCollection *ac)
- : QObject(parent), m_ki(info), m_errorHanderToolBar(NULL), m_currentLaTeXOutputHandler(NULL)
+ : QObject(parent), m_ki(info), m_errorHanderToolBar(Q_NULLPTR), m_currentLaTeXOutputHandler(Q_NULLPTR)
 {
 	setObjectName("ErrorHandler");
 
@@ -100,32 +100,32 @@ void KileErrorHandler::createActions(KActionCollection *ac)
 {
 	m_viewLogAction = ac->addAction("ViewLog", this, SLOT(ViewLog()));
 	m_viewLogAction->setText(i18n("View Log File"));
-	m_viewLogAction->setShortcut(KShortcut(Qt::ALT + Qt::Key_0));
-	m_viewLogAction->setIcon(KIcon("viewlog"));
+	ac->setDefaultShortcut(m_viewLogAction, QKeySequence(Qt::ALT + Qt::Key_0));
+	m_viewLogAction->setIcon(QIcon::fromTheme("viewlog"));
 
 	m_previousErrorAction = ac->addAction("PreviousError", this, SLOT(PreviousError()));
 	m_previousErrorAction->setText(i18n("Previous LaTeX Error"));
-	m_previousErrorAction->setIcon(KIcon("errorprev"));
+	m_previousErrorAction->setIcon(QIcon::fromTheme("errorprev"));
 
 	m_nextErrorAction = ac->addAction("NextError", this, SLOT(NextError()));
 	m_nextErrorAction->setText(i18n("Next LaTeX Error"));
-	m_nextErrorAction->setIcon(KIcon("errornext"));
+	m_nextErrorAction->setIcon(QIcon::fromTheme("errornext"));
 
 	m_previousWarningAction = ac->addAction("PreviousWarning", this, SLOT(PreviousWarning()));
 	m_previousWarningAction->setText(i18n("Previous LaTeX Warning"));
-	m_previousWarningAction->setIcon(KIcon("warnprev"));
+	m_previousWarningAction->setIcon(QIcon::fromTheme("warnprev"));
 
 	m_nextWarningAction = ac->addAction("NextWarning", this, SLOT(NextWarning()));
 	m_nextWarningAction->setText(i18n("Next LaTeX Warnings"));
-	m_nextWarningAction->setIcon(KIcon("warnnext"));
+	m_nextWarningAction->setIcon(QIcon::fromTheme("warnnext"));
 
 	m_previousBadBoxAction = ac->addAction("PreviousBadBox", this, SLOT(PreviousBadBox()));
 	m_previousBadBoxAction->setText(i18n("Previous LaTeX BadBox"));
-	m_previousBadBoxAction->setIcon(KIcon("bboxprev"));
+	m_previousBadBoxAction->setIcon(QIcon::fromTheme("bboxprev"));
 
 	m_nextBadBoxAction = ac->addAction("NextBadBox", this, SLOT(NextBadBox()));
 	m_nextBadBoxAction->setText(i18n("Next LaTeX BadBox"));
-	m_nextBadBoxAction->setIcon(KIcon("bboxnext"));
+	m_nextBadBoxAction->setIcon(QIcon::fromTheme("bboxnext"));
 }
 
 void KileErrorHandler::setErrorHandlerToolBar(QToolBar *toolBar)
@@ -265,7 +265,7 @@ void KileErrorHandler::handleSpawnedChildTool(KileTool::Base *parent, KileTool::
 
 void KileErrorHandler::updateCurrentLaTeXOutputHandler()
 {
-	LaTeXOutputHandler *h = NULL;
+	LaTeXOutputHandler *h = Q_NULLPTR;
 	m_ki->getCompileName(false, &h);
 	if(h == m_currentLaTeXOutputHandler) {
 		return;
@@ -469,10 +469,10 @@ void KileErrorHandler::jumpToProblem(const OutputInfo& info)
 	QString file = m_ki->getFullFromPrettyName(info, info.source());
 
 	if(!file.isEmpty()) {
-		m_ki->docManager()->fileOpen(KUrl(file));
+		m_ki->docManager()->fileOpen(QUrl::fromLocalFile(file));
 		int line = (info.sourceLine() > 0) ? (info.sourceLine() - 1) : 0;
 
-		KTextEditor::Document *doc = m_ki->docManager()->docFor(KUrl(file));
+		KTextEditor::Document *doc = m_ki->docManager()->docFor(QUrl::fromLocalFile(file));
 		if(doc) {
 			KTextEditor::View* view = doc->views().first();
 			if(view) {
@@ -560,4 +560,3 @@ void KileErrorHandler::PreviousBadBox()
 	jumpToProblem(LatexOutputInfo::itmBadBox, false);
 }
 
-#include "errorhandler.moc"

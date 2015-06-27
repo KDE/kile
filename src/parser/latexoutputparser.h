@@ -28,7 +28,7 @@ namespace KileParser {
 class LaTeXOutputParserInput : public ParserInput
 {
 public:
-	LaTeXOutputParserInput(const KUrl& url, KileDocument::Extensions *extensions,
+	LaTeXOutputParserInput(const QUrl &url, KileDocument::Extensions *extensions,
 	                                        const QString& sourceFile,
 	                                        // for QuickPreview
 	                                        const QString &texfilename = "", int selrow = -1, int docrow = -1);
@@ -74,7 +74,7 @@ class LaTeXOutputParser : public Parser
 	Q_OBJECT
 
 public:
-	LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = NULL);
+	LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = Q_NULLPTR);
 	virtual ~LaTeXOutputParser();
 
 	ParserOutput* parse();

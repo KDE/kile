@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -28,12 +28,14 @@
 
 #include <KComboBox>
 #include <KConfig>
-#include <KIcon>
-#include <KLineEdit>
-#include <KLocale>
+#include <QIcon>
+#include <QLineEdit>
 #include <KMessageBox>
-#include <KPushButton>
-#include <KTabWidget>
+#include <QPushButton>
+#include <QTabWidget>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -48,13 +50,14 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 																 const QString &groupname, QTreeWidgetItem *lvitem,
 																 KileDocument::CmdAttribute cmdtype,
 																 QMap<QString, bool> *dict)
-		: KDialog(parent), m_dict(dict)
+		: QDialog(parent), m_dict(dict)
 {
-	setCaption(caption);
+	setWindowTitle(caption);
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+	QWidget *mainWidget = new QWidget(this);
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
+	mainLayout->addWidget(mainWidget);
 
 	// 'add' is only allowed, if the QTreeWidgetItem is defined
 	m_addmode = (lvitem == 0);
@@ -79,27 +82,26 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	}
 
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
+	mainLayout->addWidget(page);
 
 	// layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
 	page->setLayout(vbox);
 
 	QLabel *label1 = new QLabel(page);
+	mainLayout->addWidget(label1);
 
 	QGroupBox* group = new QGroupBox(i18n("Attributes"), page);
+	mainLayout->addWidget(group);
 	QGridLayout *grid = new QGridLayout();
-	grid->setMargin(marginHint());
-	grid->setSpacing(spacingHint());
 	group->setLayout(grid);
 
 	QLabel *label2 = new QLabel(i18n("Group:"), group);
 	QLabel *label3 = new QLabel(i18n("&Name:"), group);
 	QLabel *grouplabel = new QLabel(groupname, group);
 	QLabel *label4 = new QLabel(i18n("Include *-&version:"), group);
-	m_edName = new KLineEdit(group);
+	m_edName = new QLineEdit(group);
 	m_chStarred =  new QCheckBox(group);
 
 	grid->addWidget(label2, 0, 0);
@@ -259,6 +261,15 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 	vbox->addWidget(label1, 0, Qt::AlignHCenter);
 	vbox->addWidget(group);
 	vbox->addStretch();
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	mainLayout->addWidget(buttonBox);
+	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &NewLatexCommand::slotAccepted);
 }
 
 // get all attributes of this command
@@ -293,31 +304,24 @@ void NewLatexCommand::getParameter(QString &name, KileDocument::LatexCmdAttribut
 	attr.parameter = (m_useParameter) ? m_coParameter->currentText() : QString();
 }
 
-void NewLatexCommand::slotButtonClicked(int button)
+void NewLatexCommand::slotAccepted()
 {
-	if(button == KDialog::Ok){
-
-		// check for an empty string
-		if(m_edName->text().isEmpty()) {
-			KMessageBox::error(this, i18n("An empty string is not allowed."));
-			return;
-		}
-
-		QString name = m_edName->text();
-		if (m_envmode == false && name.at(0) != '\\') {
-			name.prepend('\\');
-		}
-
-		if (m_addmode && m_dict->contains(name)) {
-			QString msg = (m_envmode) ? i18n("This environment already exists.")
-										: i18n("This command already exists.");
-			KMessageBox::error(this, msg);
-			return;
-		}
-		accept();
+	// check for an empty string
+	if(m_edName->text().isEmpty()) {
+		KMessageBox::error(this, i18n("An empty string is not allowed."));
+		return;
 	}
-	else{
-		KDialog::slotButtonClicked(button);
+
+	QString name = m_edName->text();
+	if (m_envmode == false && name.at(0) != '\\') {
+		name.prepend('\\');
+	}
+
+	if (m_addmode && m_dict->contains(name)) {
+		QString msg = (m_envmode) ? i18n("This environment already exists.")
+									: i18n("This command already exists.");
+		KMessageBox::error(this, msg);
+		return;
 	}
 }
 //END NewLatexCommand
@@ -327,17 +331,16 @@ void NewLatexCommand::slotButtonClicked(int button)
 //BEGIN LatexCommandsDialog
 
 LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCommands *commands, QWidget *parent)
-		: KDialog(parent), m_config(config), m_commands(commands)
+	: QDialog(parent)
+	, m_config(config)
+	, m_commands(commands)
+	, m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::RestoreDefaults))
 {
-	setCaption(i18n("LaTeX Configuration"));
+	setWindowTitle(i18n("LaTeX Configuration"));
 	setModal(true);
-	setButtons(Ok | Cancel | Default);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
 
 	QWidget *page = new QWidget(this);
 	m_widget.setupUi(page);
-	setMainWidget(page);
 
 	slotEnableButtons();
 
@@ -357,10 +360,22 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	resetListviews();
 	slotEnableButtons();
 
-	for (int col = 0; col <= 6; col++)
+	for (int col = 0; col <= 6; col++) {
 		m_widget.environments->resizeColumnToContents(col);
-	for (int col = 0; col <= 3; col++)
+	}
+	for (int col = 0; col <= 3; col++) {
 		m_widget.commands->resizeColumnToContents(col);
+	}
+
+	QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
+	QPushButton *defaultButton = m_buttonBox->button(QDialogButtonBox::RestoreDefaults);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	layout()->addWidget(m_buttonBox);
+	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(this, &QDialog::accepted, this, &LatexCommandsDialog::slotAccepted);
+	connect(defaultButton, &QPushButton::clicked, this, &LatexCommandsDialog::slotSetDefaults);
 }
 
 ////////////////////////////// listview //////////////////////////////
@@ -388,10 +403,8 @@ void LatexCommandsDialog::resetListviews()
 	KileDocument::LatexCmdAttributes attr;
 
 	m_commands->commandList(list, KileDocument::CmdAttrNone, m_widget.showOnlyUserDefined->isChecked());
-	for (it = list.constBegin(); it != list.constEnd(); ++it)
-	{
-		if (m_commands->commandAttributes(*it, attr))
-		{
+	for (it = list.constBegin(); it != list.constEnd(); ++it) {
+		if (m_commands->commandAttributes(*it, attr)) {
 			QTreeWidgetItem *parent;
 			switch (attr.type) {
 			case KileDocument::CmdAttrAmsmath:
@@ -533,8 +546,7 @@ void LatexCommandsDialog::getEntry(QTreeWidgetItem *item, KileDocument::LatexCmd
 	attr.starred = (item->text(1) == "*");
 
 	// get all attributes
-	if (item->text(0).at(0) != '\\')                   // environment
-	{
+	if (item->text(0).at(0) != '\\') {                 // environment
 		attr.cr = (item->text(2) == "\\\\");
 		attr.mathmode = (item->text(3) == "$");
 		attr.displaymathmode = (item->text(3) == "$$");
@@ -542,8 +554,7 @@ void LatexCommandsDialog::getEntry(QTreeWidgetItem *item, KileDocument::LatexCmd
 		attr.option = item->text(5);
 		attr.parameter = item->text(6);
 	}
-	else                                              // commands
-	{
+	else {                                            // commands
 		attr.cr = false;
 		attr.mathmode = false;
 		attr.displaymathmode = false;
@@ -603,7 +614,7 @@ void LatexCommandsDialog::slotEnableButtons()
 	m_widget.addButton->setEnabled(addState);
 	m_widget.deleteButton->setEnabled(deleteState);
 	m_widget.editButton->setEnabled(editState);
-	enableButton(Default, resetState);
+	m_buttonBox->button(QDialogButtonBox::RestoreDefaults)->setEnabled(resetState);
 }
 
 void LatexCommandsDialog::slotAddClicked()
@@ -625,12 +636,12 @@ void LatexCommandsDialog::slotAddClicked()
 		// get current command type
 		KileDocument::CmdAttribute type = getCommandMode(item);
 		if (type == KileDocument::CmdAttrNone) {
-			KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+			KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 			return;
 		}
 
 		// add a new environment or command
-		NewLatexCommand *dialog = new NewLatexCommand(this, caption, item->text(0), NULL, type, &m_dictCommands);
+		NewLatexCommand *dialog = new NewLatexCommand(this, caption, item->text(0), Q_NULLPTR, type, &m_dictCommands);
 		if (dialog->exec() == QDialog::Accepted) {
 			m_commandChanged = true;
 
@@ -654,22 +665,18 @@ void LatexCommandsDialog::slotDeleteClicked()
 	QTreeWidget *listview;
 	QString message;
 
-	if (getListviewMode() == lvEnvMode)
-	{
+	if (getListviewMode() == lvEnvMode) {
 		listview = m_widget.environments;
 		message  = i18n("Do you want to delete this environment?");
 	}
-	else
-	{
+	else {
 		listview = m_widget.commands;
 		message  = i18n("Do you want to delete this command?");
 	}
 
 	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
-	if (item && !isParentItem(item))
-	{
-		if (KMessageBox::warningContinueCancel(this, message, i18n("Delete")) == KMessageBox::Continue)
-		{
+	if (item && !isParentItem(item)) {
+		if (KMessageBox::warningContinueCancel(this, message, i18n("Delete")) == KMessageBox::Continue) {
 			m_commandChanged = true;
 
 			if (isUserDefined(item->text(0)))
@@ -697,23 +704,19 @@ void LatexCommandsDialog::slotEditClicked()
 	}
 
 	QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
-	if (item && !isParentItem(item))
-	{
+	if (item && !isParentItem(item)) {
 		QTreeWidgetItem *parentitem = (QTreeWidgetItem *)item->parent();
-		if (parentitem)
-		{
+		if (parentitem) {
 			// get current command type
 			KileDocument::CmdAttribute type = getCommandMode(parentitem);
-			if (type == KileDocument::CmdAttrNone)
-			{
-				KILE_DEBUG() << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+			if (type == KileDocument::CmdAttrNone) {
+				KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
 				return;
 			}
 
 			// edit a new environment or command
 			NewLatexCommand *dialog = new NewLatexCommand(this, caption, parentitem->text(0), item, type, &m_dictCommands);
-			if (dialog->exec() == QDialog::Accepted)
-			{
+			if (dialog->exec() == QDialog::Accepted) {
 				m_commandChanged = true;
 
 				// delete old item
@@ -738,40 +741,37 @@ void LatexCommandsDialog::slotUserDefinedClicked()
 	setListviewStates(states);
 }
 
-void LatexCommandsDialog::slotButtonClicked(int button)
+
+void LatexCommandsDialog::slotAccepted()
 {
-	if (button == Default) {
-		QString mode = (getListviewMode() == lvEnvMode) ? i18n("'environment'") : i18n("'command'");
-		if (KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {
-			if (getListviewMode() == lvEnvMode) {
-				resetEnvironments();
-			}
-			else {
-				resetCommands();
-			}
-			slotEnableButtons();
+	// OK-Button clicked, we have to look for user-defined environments/commands
+	// save checkbox for user-defined commands
+	KileConfig::setShowUserCommands(m_widget.showOnlyUserDefined->isChecked());
+
+	// write config entries for environments and commands
+	writeConfig(m_widget.environments, m_commands->envGroupName(), true);
+	writeConfig(m_widget.commands, m_commands->cmdGroupName(), false);
+	m_config->sync();
+
+	// reset known LaTeX environments and commands
+	m_commands->resetCommands();
+
+	// save if there is a change in user-defined commands and environments
+	KileConfig::setCompleteChangedCommands(m_commandChanged);
+}
+
+void LatexCommandsDialog::slotSetDefaults()
+{
+	QString mode = (getListviewMode() == lvEnvMode) ? i18n("'environment'") : i18n("'command'");
+	if (KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {
+		if (getListviewMode() == lvEnvMode) {
+			resetEnvironments();
 		}
-	} else
-		if (button == Ok) {
-			// OK-Button clicked, we have to look for user-defined environments/commands
-
-			// save checkbox for user-defined commands
-			KileConfig::setShowUserCommands(m_widget.showOnlyUserDefined->isChecked());
-
-			// write config entries for environments and commands
-			writeConfig(m_widget.environments, m_commands->envGroupName(), true);
-			writeConfig(m_widget.commands, m_commands->cmdGroupName(), false);
-			m_config->sync();
-
-			// reset known LaTeX environments and commands
-			m_commands->resetCommands();
-
-			// save if there is a change in user-defined commands and environments
-			KileConfig::setCompleteChangedCommands(m_commandChanged);
-
-			accept();
+		else {
+			resetCommands();
 		}
-	KDialog::slotButtonClicked(button);
+		slotEnableButtons();
+	}
 }
 
 ////////////////////////////// read/write config //////////////////////////////
@@ -805,7 +805,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 		attr.type = getCommandMode(cur);
 		if (attr.type == KileDocument::CmdAttrNone)
 		{
-			KILE_DEBUG() << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
+			KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
 			continue;
 		}
 
@@ -817,7 +817,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
 			{
 				getEntry(curchild, attr);
 				QString value = m_commands->configString(attr, env);
-				KILE_DEBUG() << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
+				KILE_DEBUG_MAIN << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
 				if (!value.isEmpty()) {
 					group.writeEntry("Command" + QString::number(nrOfdefinedCommands), key);
 					group.writeEntry("Parameters" + QString::number(nrOfdefinedCommands), value);
@@ -903,4 +903,3 @@ void LatexCommandsDialog::setListviewStates(bool states[])
 
 
 }
-#include "latexcommanddialog.moc"

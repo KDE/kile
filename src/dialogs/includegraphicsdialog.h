@@ -1,8 +1,9 @@
 /***************************************************************************
     date                 : Nov 02 2005
     version              : 0.23
-    copyright            : (C) 2004-2005 by Holger Danielsson, 2004 Jeroen Wijnhout
-    email                : holger.danielsson@t-online.de
+    copyright            : 2004-2005  Holger Danielsson <holger.danielsson@t-online.de>
+                           2004       Jeroen Wijnhout
+                           2015       Andreas Cord-Landwehr <cordlandwehr@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,74 +18,70 @@
 #ifndef INCLUDEGRAPHICSDIALOG_H
 #define INCLUDEGRAPHICSDIALOG_H
 
-#include <KDialog>
-
+#include <QDialog>
 #include <QProcess>
 
 #include "ui_includegraphicsdialog_base.h"
 
+class QDialogButtonBox;
+class KProcess;
+class KileInfo;
+
 /**
   *@author dani
   */
-
-class KProcess;
-
-class KileInfo;
-
 namespace KileDialog
 {
 
-class IncludeGraphics : public KDialog
+class IncludeGraphics : public QDialog
 {
-		Q_OBJECT
+	Q_OBJECT
 
-	public:
-		IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki);
-		~IncludeGraphics();
+public:
+	IncludeGraphics(QWidget *parent, const QString &startdir, KileInfo *ki);
+	virtual ~IncludeGraphics();
 
-		QString getTemplate();
-		QString getFilename();
+	QString getTemplate();
+	QString getFilename();
 
-	private Q_SLOTS:
-		void slotChooseFilter();
-		void slotUrlSelected(const KUrl& url);
-		void slotTextChanged(const QString& string);
-		void slotProcessOutput();
-		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
+private Q_SLOTS:
+	void onChooseFilter();
+	void onUrlSelected(const QUrl &url);
+	void onTextChanged(const QString& string);
+	void onProcessOutput();
+	void onProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
-		void slotWrapFigureSelected(bool state);
-		void slotFigureSelected(bool state);
+	void onWrapFigureSelected(bool state);
+	void onFigureSelected(bool state);
+	void onAccepted();
 
-	protected Q_SLOTS:
-        	virtual void slotButtonClicked(int button);
+private:
+	void readConfig();
+	void writeConfig();
+	QString getOptions();
+	QString getInfo();
+	bool getPictureSize(int &wpx, int &hpx, QString &dpi, QString &wcm, QString &hcm);
+	void setInfo();
 
-	private:
-		void readConfig();
-		void writeConfig();
-		bool checkParameter();
-		QString getOptions();
-		QString getInfo();
-		bool getPictureSize(int &wpx, int &hpx, QString &dpi, QString &wcm, QString &hcm);
-		void setInfo();
+	QDialogButtonBox *m_buttonBox;
+	Ui::IncludeGraphicsWidget m_widget;
 
-		Ui::IncludeGraphicsWidget m_widget;
+	QString m_startdir;
+	QString m_output;
 
-		QString m_startdir;
-		QString m_output;
+	// current picture
+	int m_width, m_height;
+	float m_resolution;
 
-		// current picture
-		int m_width, m_height;
-		float m_resolution;
+	// default
+	bool m_imagemagick;
+	bool m_boundingbox;
+	float m_defaultresolution;
 
-		// default
-		bool m_imagemagick;
-		bool m_boundingbox;
-		float m_defaultresolution;
+	void execute(const QString &command);
 
-		void execute(const QString &command);
-
-		KileInfo *m_ki;
-		KProcess* m_proc;
+	KileInfo *m_ki;
+	KProcess* m_proc;
 };
 
 }

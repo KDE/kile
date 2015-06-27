@@ -25,9 +25,8 @@
 
 #include <KActionMenu>
 #include <KConfig>
-#include <KMenuBar>
-#include <KLocale>
-#include <KUrl>
+#include <QMenuBar>
+#include <QUrl>
 
 #include "kiletoolmanager.h"
 
@@ -45,13 +44,13 @@ public:
 	void enableUserHelpEntries(bool state);
 
 private Q_SLOTS:
-	void slotUserHelpActivated(const KUrl& url);
+	void slotUserHelpActivated(const QUrl &url);
 	//void slotUserHelpDialog();
 
 private:
 	void clearActionList();
-	void readConfig(QStringList& menuList, QList<KUrl>& fileList);
-	void writeConfig(const QStringList& menuList, const QList<KUrl>& fileList);
+	void readConfig(QStringList& menuList, QList<QUrl>& fileList);
+	void writeConfig(const QStringList& menuList, const QList<QUrl>& fileList);
 
 	void setupUserHelpMenu();
 

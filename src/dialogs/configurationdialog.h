@@ -61,9 +61,7 @@ namespace KileDialog
 	//	void widgetModified();
 
 	private Q_SLOTS:
-		void slotOk();
-		void slotCancel();
-		void slotChanged();
+		void slotAcceptChanges();
 
 	private:
 		// dialog manager
@@ -101,7 +99,7 @@ namespace KileDialog
 		                    const QString &header = QString());
 
 		KPageWidgetItem* addConfigPage(KPageWidgetItem* parent, QWidget *page,
-		                    const QString &itemName, const KIcon& icon,
+		                    const QString &itemName, const QIcon& icon,
 		                    const QString &header = QString());
 
 		void setupGeneralOptions(KPageWidgetItem* parent);

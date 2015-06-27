@@ -24,7 +24,7 @@
 #ifndef FINDFILESDIALOG_H
 #define FINDFILESDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 #include <QStringList>
 
@@ -34,12 +34,12 @@
 class QCheckBox;
 class QEvent;
 class QLabel;
+class QLineEdit;
 class QListWidget;
 class QPushButton;
 
 class KProcess;
 class KComboBox;
-class KLineEdit;
 class KUrlRequester;
 
 #define KILEGREP_MAX 12
@@ -53,7 +53,7 @@ enum TemplateMode { tmNormal = 0, tmCommand, tmCommandWithOption, tmEnv, tmGraph
 
 namespace KileDialog {
 
-class FindFilesDialog : public KDialog
+class FindFilesDialog : public QDialog
 {
 		Q_OBJECT
 
@@ -114,7 +114,7 @@ class FindFilesDialog : public KDialog
 		bool m_projectOpened;
 
 		QLabel *projectname_label, *projectdirname_label;
-		KLineEdit *template_edit;
+		QLineEdit *template_edit;
 		KComboBox *filter_combo, *pattern_combo, *template_combo;
 		KUrlRequester *dir_combo;
 		QCheckBox *recursive_box;
@@ -134,7 +134,6 @@ class FindFilesDialog : public KDialog
 		void slotSearch();
 		void slotClear();
 		void slotClose();
-		void slotFinished();
 		void slotPatternTextChanged(const QString &);
 		void slotTemplateActivated(int index);
 };

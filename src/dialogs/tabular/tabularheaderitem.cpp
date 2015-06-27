@@ -16,16 +16,16 @@
 #include "tabularheaderitem.h"
 
 #include <QAction>
+#include <QIcon>
 #include <QMenu>
 
-#include <KIcon>
-#include <KLocale>
+#include <KLocalizedString>
 
 namespace KileDialog {
 
 TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	: QObject(parent),
-	  QTableWidgetItem(KIcon("format-justify-left"), "l"),
+	  QTableWidgetItem(QIcon::fromTheme("format-justify-left"), "l"),
 	  m_Alignment(Qt::AlignLeft),
 	  m_InsertBefore(false),
 	  m_InsertAfter(false),
@@ -34,9 +34,9 @@ TabularHeaderItem::TabularHeaderItem(QWidget *parent)
 	  m_hasXAlignment(false)
 {
 	m_Popup = new QMenu(parent);
-	m_Popup->addAction(KIcon("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
-	m_Popup->addAction(KIcon("format-justify-center"), i18n("Align Center"), this, SLOT(slotAlignCenter()));
-	m_Popup->addAction(KIcon("format-justify-right"), i18n("Align Right"), this, SLOT(slotAlignRight()));
+	m_Popup->addAction(QIcon::fromTheme("format-justify-left"), i18n("Align Left"), this, SLOT(slotAlignLeft()));
+	m_Popup->addAction(QIcon::fromTheme("format-justify-center"), i18n("Align Center"), this, SLOT(slotAlignCenter()));
+	m_Popup->addAction(QIcon::fromTheme("format-justify-right"), i18n("Align Right"), this, SLOT(slotAlignRight()));
 	m_Popup->addAction(i18n("p{w} Alignment"), this, SLOT(slotAlignP()));
 	m_Popup->addAction(i18n("b{w} Alignment"), this, SLOT(slotAlignB()));
 	m_Popup->addAction(i18n("m{w} Alignment"), this, SLOT(slotAlignM()));
@@ -149,17 +149,17 @@ void TabularHeaderItem::format()
 	setText(text);
 }
 
-inline KIcon TabularHeaderItem::iconForAlignment(int alignment) const
+inline QIcon TabularHeaderItem::iconForAlignment(int alignment) const
 {
 	switch(alignment) {
 		case Qt::AlignLeft:
-			return KIcon("format-justify-left");
+			return QIcon::fromTheme("format-justify-left");
 		case Qt::AlignHCenter:
-			return KIcon("format-justify-center");
+			return QIcon::fromTheme("format-justify-center");
 		case Qt::AlignRight:
-			return KIcon("format-justify-right");
+			return QIcon::fromTheme("format-justify-right");
 		default:
-			return KIcon();
+			return QIcon();
 	}
 }
 
@@ -239,4 +239,3 @@ void TabularHeaderItem::slotDeclBang()
 
 }
 
-#include "tabularheaderitem.moc"

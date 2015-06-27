@@ -22,13 +22,13 @@
 #include "kiledebug.h"
 
 ServiceRunAction::ServiceRunAction(const KService& service,
-		                   const KUrl::List& urls,
+		                   const QList<QUrl>& urls,
 		                   QWidget* window,
 		                   bool tempFiles,
 		                   const QString& suggestedFileName,
 		                   const QByteArray& asn,
 		                   QObject *parent)
-: KAction(KIcon(service.icon()), service.genericName(), parent),
+: QAction(QIcon::fromTheme(service.icon()), service.genericName(), parent),
 m_service(service),
 m_urlList(urls),
 m_window(window),
@@ -45,7 +45,7 @@ ServiceRunAction::~ServiceRunAction()
 
 void ServiceRunAction::runService()
 {
-	KRun::run(m_service, m_urlList, m_window,
+	KRun::runService(m_service, m_urlList, m_window,
 	                                m_tempFiles,
 	                                m_suggestedFileName,
 	                                m_asn);
@@ -53,7 +53,7 @@ void ServiceRunAction::runService()
 
 QString KileUtilities::lastModifiedFile(const QStringList& files, const QString& baseDir)
 {
-	KILE_DEBUG() << "==KileUtilities::lastModifiedFile()=====";
+	KILE_DEBUG_MAIN << "==KileUtilities::lastModifiedFile()=====";
 
 	if(files.empty()) {
 		return QString();
@@ -71,7 +71,7 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 	}
 
 	QDateTime lastModifiedTime;
-	const QString* lastModifiedFile = NULL;
+	const QString* lastModifiedFile = Q_NULLPTR;
 
 	Q_FOREACH(const QString& file, absoluteFileNames) {
 		QDateTime modificationTime = QFileInfo(file).lastModified();
@@ -89,5 +89,4 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 	}
 }
 
-#include "utilities.moc"
 

@@ -25,7 +25,7 @@ class QTabWidget;
 class QToolBar;
 class QToolButton;
 
-class KAction;
+class QAction;
 class KActionCollection;
 class KileInfo;
 class KileProject;
@@ -114,10 +114,10 @@ private:
 	QPointer<QLabel>			m_compilationResultLabel;
 	QPointer<KileWidget::LogWidget>		m_mainLogWidget;
 	QPointer<KileWidget::LogWidget>		m_errorLogWidget, m_warningLogWidget, m_badBoxLogWidget;
-	QPointer<KAction>			m_viewLogAction;
-	QPointer<KAction>			m_previousErrorAction, m_nextErrorAction;
-	QPointer<KAction>			m_previousWarningAction, m_nextWarningAction;
-	QPointer<KAction>			m_previousBadBoxAction, m_nextBadBoxAction;
+	QPointer<QAction>			m_viewLogAction;
+	QPointer<QAction>			m_previousErrorAction, m_nextErrorAction;
+	QPointer<QAction>			m_previousWarningAction, m_nextWarningAction;
+	QPointer<QAction>			m_previousBadBoxAction, m_nextBadBoxAction;
 
 	void createActions(KActionCollection *ac);
 	void jumpToProblem(int type, bool);

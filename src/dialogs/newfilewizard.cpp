@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2006, 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
 ******************************************************************************************/
 
 /***************************************************************************
@@ -23,12 +23,15 @@
 #include <QLayout>
 #include <QMap>
 
-#include <KApplication>
 #include <KConfig>
-#include <KGlobal>
 #include <KIconLoader>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
+#include <KConfigGroup>
+#include <KSharedConfig>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
 
 #include "kiledebug.h"
 #include "widgets/newdocumentwidget.h"
@@ -39,17 +42,17 @@
 
 NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocument::Type startType,
                              QWidget *parent, const char *name)
-  : KDialog(parent), m_templateManager(templateManager), m_currentlyDisplayedType(-1)
+  : QDialog(parent), m_templateManager(templateManager), m_currentlyDisplayedType(-1)
 {
 	setObjectName(name);
-	setCaption(i18n("New File"));
+	setWindowTitle(i18n("New File"));
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
 
 	// first read config
-	KConfigGroup newFileWizardGroup = KGlobal::config()->group("NewFileWizard");
+	KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
 	bool wizard = newFileWizardGroup.readEntry("UseWizardWhenCreatingEmptyFile", false);
 	int w = newFileWizardGroup.readEntry("width", -1);
 	if(w == -1) {
@@ -61,18 +64,27 @@ NewFileWizard::NewFileWizard(KileTemplate::Manager *templateManager, KileDocumen
 	}
 
 	m_newDocumentWidget = new NewDocumentWidget(this);
-	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(slotClickOKButton()));
+	connect(m_newDocumentWidget->templateIconView, SIGNAL(itemDoubleClicked(QListWidgetItem*)), SLOT(okButtonClicked()));
 	m_templateManager->scanForTemplates();
 	m_newDocumentWidget->templateIconView->setTemplateManager(m_templateManager);
 
 	connect(m_newDocumentWidget->documentTypeComboBox, SIGNAL(activated(int)), this, SLOT(slotActivated(int)));
 	connect(m_newDocumentWidget->templateIconView, SIGNAL(classFileSearchFinished()), this, SLOT(restoreSelectedIcon()));
 
-	setMainWidget(m_newDocumentWidget);
+	mainLayout->addWidget(m_newDocumentWidget);
 
 	m_newDocumentWidget->documentTypeComboBox->insertItem(LATEX_TYPE, i18n("LaTeX Document"));
 	m_newDocumentWidget->documentTypeComboBox->insertItem(BIBTEX_TYPE, i18n("BibTeX Document"));
 	m_newDocumentWidget->documentTypeComboBox->insertItem(SCRIPT_TYPE, i18n("Kile Script"));
+
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(okButtonClicked()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+	mainLayout->addWidget(buttonBox);
 
 	// set config entries
 	m_newDocumentWidget->quickStartWizardCheckBox->setChecked(wizard);
@@ -106,7 +118,7 @@ TemplateItem* NewFileWizard::getSelection() const
 {
 	QList<QListWidgetItem*> selectedItems = m_newDocumentWidget->templateIconView->selectedItems();
 	if(selectedItems.isEmpty()) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 	return static_cast<TemplateItem*>(selectedItems.first());
 }
@@ -147,13 +159,13 @@ void NewFileWizard::storeSelectedIcon()
 	}
 	TemplateItem *selectedItem = getSelection();
 	if (selectedItem) {
-		KGlobal::config()->group("default").writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
+		KSharedConfig::openConfig()->group("default").writeEntry(getConfigKey(m_currentlyDisplayedType), selectedItem->name());
 	}
 }
 
 void NewFileWizard::restoreSelectedIcon()
 {
-	KConfigGroup defaultGroup = KGlobal::config()->group("default");
+	KConfigGroup defaultGroup = KSharedConfig::openConfig()->group("default");
 	QString selectedIconName = defaultGroup.readEntry(getConfigKey(m_currentlyDisplayedType),
 	                                                  KileTemplate::Manager::defaultEmptyTemplateCaption());
 	QList<QListWidgetItem*> items = m_newDocumentWidget->templateIconView->findItems(selectedIconName, Qt::MatchExactly);
@@ -162,27 +174,16 @@ void NewFileWizard::restoreSelectedIcon()
 	}
 }
 
-void NewFileWizard::slotButtonClicked(int button)
+void NewFileWizard::okButtonClicked()
 {
-	if(button == KDialog::Ok){
-	
-		KConfigGroup newFileWizardGroup = KGlobal::config()->group("NewFileWizard");
-	
-		newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
-		newFileWizardGroup.writeEntry("width", width());
-		newFileWizardGroup.writeEntry("height", height());
-		
-		storeSelectedIcon();
-		accept();
-	}
-	else{
-                 KDialog::slotButtonClicked(button);
-	}
-}
+	KConfigGroup newFileWizardGroup = KSharedConfig::openConfig()->group("NewFileWizard");
 
-void NewFileWizard::slotClickOKButton()
-{
-	slotButtonClicked(KDialog::Ok);
+	newFileWizardGroup.writeEntry("UseWizardWhenCreatingEmptyFile", m_newDocumentWidget->quickStartWizardCheckBox->isChecked());
+	newFileWizardGroup.writeEntry("width", width());
+	newFileWizardGroup.writeEntry("height", height());
+
+	storeSelectedIcon();
+	accept();
 }
 
 void NewFileWizard::slotActivated(int index)
@@ -213,4 +214,3 @@ void NewFileWizard::displayType(int index)
 	restoreSelectedIcon();
 }
 
-#include "newfilewizard.moc"

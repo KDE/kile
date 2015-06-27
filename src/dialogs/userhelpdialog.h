@@ -22,33 +22,31 @@
 #include <QList>
 #include <QStringList>
 
-#include <KDialog>
-#include <KLineEdit>
+#include <QDialog>
+#include <QLineEdit>
 
 class QListWidget;
-
-class KLineEdit;
-class KPushButton;
+class QPushButton;
 
 namespace KileDialog
 {
 
-class UserHelpDialog : public KDialog
+class UserHelpDialog : public QDialog
 {
 		Q_OBJECT
 
 	public:
-		explicit UserHelpDialog(QWidget *parent = 0, const char *name = 0);
+		explicit UserHelpDialog(QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 		~UserHelpDialog() {}
 
-		void setParameter(const QStringList &menuentries, const QList<KUrl> &helpfiles);
-		void getParameter(QStringList &userhelpmenulist, QList<KUrl> &userhelpfilelist);
+		void setParameter(const QStringList &menuentries, const QList<QUrl> &helpfiles);
+		void getParameter(QStringList &userhelpmenulist, QList<QUrl> &userhelpfilelist);
 	private:
 		QListWidget *m_menulistbox;
-		KLineEdit *m_fileedit;
-		KPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
+		QLineEdit *m_fileedit;
+		QPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
 
-		QList<KUrl> m_filelist;
+		QList<QUrl> m_filelist;
 
 		void updateButton();
 
@@ -61,17 +59,17 @@ class UserHelpDialog : public KDialog
 		void slotDown();
 };
 
-class UserHelpAddDialog : public KDialog
+class UserHelpAddDialog : public QDialog
 {
 		Q_OBJECT
 
 	public:
-		explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = NULL);
+		explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = Q_NULLPTR);
 		~UserHelpAddDialog() {}
 
 	private:
-		KLineEdit *m_leMenuEntry, *m_leHelpFile;
-		KPushButton *m_pbChooseFile, *m_pbChooseHtml;
+		QLineEdit *m_leMenuEntry, *m_leHelpFile;
+		QPushButton *m_pbChooseFile;
 		QListWidget *m_menulistbox;
 
 	public:
@@ -83,9 +81,8 @@ class UserHelpAddDialog : public KDialog
 		}
 
 	private Q_SLOTS:
-		void slotChooseFile();
-		void slotChooseHtml();
-		void slotButtonClicked(int button);
+		void onShowLocalFileSelection();
+		void onAccepted();
 };
 
 }

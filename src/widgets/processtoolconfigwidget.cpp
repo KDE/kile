@@ -22,4 +22,3 @@ ProcessToolConfigWidget::~ProcessToolConfigWidget()
 {
 }
 
-#include "processtoolconfigwidget.moc"

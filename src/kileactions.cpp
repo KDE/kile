@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -25,21 +25,25 @@
 #include <QCheckBox>
 #include <QFileInfo>
 #include <QGridLayout>
-#include <QLayout>
 #include <QLabel>
+#include <QLayout>
+#include <QLineEdit>
+#include <QPushButton>
 #include <QString>
 #include <QStringList>
 #include <QToolBar>
 
-#include <KMenu>
+#include <QMenu>
 
-#include <klineedit.h>
-#include <kglobal.h>
-#include <kcombobox.h>
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <kfiledialog.h>
-#include <kiconloader.h>
+#include <KComboBox>
+#include <KCompletion>
+#include <KLocalizedString>
+#include <KIconLoader>
+#include <KConfigGroup>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QFileDialog>
 
 #include "kiledebug.h"
 
@@ -52,56 +56,56 @@ namespace KileAction
 ////////////////
 //    Tag     //
 ////////////////
-Tag::Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const QString &tagBegin, const QString &tagEnd,
          int dx, int dy, const QString &description)
-	: KAction(text, parent),
+	: QAction(text, parent),
 	  m_data(text,tagBegin, tagEnd, dx, dy, description)
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
-	init(receiver,slot);
+	if(!shortcut.isEmpty()) {
+	  parent->setDefaultShortcut(this, shortcut);
+	}
+	init(receiver, slot);
 }
 
-Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const QString &tagBegin, const QString &tagEnd,
          int dx, int dy, const QString &description)
-	: KAction(KIcon(pix), text, parent),
+	: QAction(QIcon::fromTheme(pix), text, parent),
 	  m_data(text,tagBegin, tagEnd, dx, dy, description)
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
+	if(!shortcut.isEmpty()) {
+		parent->setDefaultShortcut(this, shortcut);
+	}
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const QString& iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
          const QString& name, const TagData& data)
-	: KAction(text, parent),
+	: QAction(text, parent),
 	  m_data(data)
 {
 	parent->addAction(name, this);
 	setIconText(iconText);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
+	if(!shortcut.isEmpty()) {
+	  parent->setDefaultShortcut(this, shortcut);
+	}
 	init(receiver,slot);
 }
 
-Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent,
+Tag::Tag(const QString &text, const QString& iconText, const QString& pix, const QKeySequence &shortcut, const QObject *receiver, const char *slot, KActionCollection *parent,
 	 const QString& name, const TagData& data)
-	: KAction(KIcon(pix), text, parent),
+	: QAction(QIcon::fromTheme(pix), text, parent),
 	  m_data(data)
 {
 	parent->addAction(name, this);
-    if(!cut.isEmpty()){
-      setShortcut(cut);
-    }
+	if(!shortcut.isEmpty()) {
+		parent->setDefaultShortcut(this, shortcut);
+	}
 	setIconText(iconText);
 	init(receiver,slot);
 }
@@ -124,7 +128,7 @@ void Tag::emitData()
 ////////////////
 //    InputTag     //
 ////////////////
-InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const QString &tagBegin, const QString &tagEnd,
                    int dx, int dy, const QString &description, const QString &hint, const QString &alter)
 	: Tag(text, iconText, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_ki(ki),
@@ -133,7 +137,7 @@ InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, c
 	init();
 }
 
-InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const QString &tagBegin, const QString &tagEnd,
                    int dx, int dy, const QString &description, const QString &hint, const QString &alter)
 	: Tag(text, iconText, pix, cut, receiver, slot, parent, name, tagBegin, tagEnd, dx, dy, description), m_ki(ki),
@@ -142,7 +146,7 @@ InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, c
 	init();
 }
 
-InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const TagData& data, const QString &hint, const QString &alter)
 	: Tag(text, iconText, cut, receiver, slot, parent, name,data),  m_ki(ki),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
@@ -150,7 +154,7 @@ InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, c
 	init();
 }
 
-InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const KShortcut &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
+InputTag::InputTag(KileInfo* ki, const QString &text, const QString &iconText, const QString& pix, const QKeySequence &cut, const QObject *receiver, const char *slot, KActionCollection *parent, const QString& name, QWidget *wparent, uint options,
                    const TagData& data, const QString &hint, const QString &alter)
 	: Tag(text, iconText, pix, cut,receiver, slot, parent, name,data), m_ki(ki),
 	  m_parent(wparent), m_options(options), m_hint(hint), m_alter(alter)
@@ -176,7 +180,7 @@ void InputTag::addToHistory(const QString& str)
 
 void InputTag::emitData()
 {
-	KILE_DEBUG() << "InputTag::emitData() " << m_ki->getName();
+	KILE_DEBUG_MAIN << "InputTag::emitData() " << m_ki->getName();
 
 	InputDialog *dlg = new InputDialog(m_data.text, m_options, m_history, m_hint, m_alter, m_ki, m_parent, "input_dialog");
 	if (dlg->exec()) {
@@ -222,34 +226,34 @@ void InputTag::emitData()
 	InputDialog
 */
 InputDialog::InputDialog(const QString &caption, uint options, const QStringList& history, const QString& hint, const QString& alter, KileInfo *ki, QWidget *parent, const char *name)
-	: KDialog (parent), m_ki(ki)
+	: QDialog (parent), m_ki(ki)
 {
 	setModal(true);
-	setButtons(Ok | Cancel);
-	setDefaultButton(Ok);
-	showButtonSeparator(true);
+
+	QVBoxLayout *mainLayout = new QVBoxLayout;
+	setLayout(mainLayout);
 	setObjectName(name);
 
 	QString newcaption = caption;
-	setCaption(newcaption.remove('&'));
+	setWindowTitle(newcaption.remove('&'));
 
-	m_labelprefix = ( newcaption == "chapter" ) ? "chap:" : "sec:";
-
+	m_labelprefix = (newcaption == "chapter") ? "chap:" : "sec:";
 	m_usedSelection = false;
 
+	QGridLayout *gbox = new QGridLayout(this);
 	QWidget *page = new QWidget(this);
-	setMainWidget(page);
-	QGridLayout *gbox = new QGridLayout(page);
+	page->setLayout(gbox);
+	mainLayout->addWidget(page);
 
-	QLabel *lb = new QLabel(hint, page);
+	QLabel *lb = new QLabel(hint, this);
 	gbox->addWidget(lb, 0, 0, 1, 3);
 
 	m_tag.clear();
 	QWidget *focus;
 	if((options & KileAction::KeepHistory) || (options & KileAction::FromLabelList) || (options & KileAction::FromBibItemList)) {
-		KComboBox *input = new KComboBox(true, page);
+		KComboBox *input = new KComboBox(true, this);
 		input->setObjectName("input_dialog_input");
-		input->setCompletionMode(KGlobalSettings::CompletionAuto);
+		input->setCompletionMode(KCompletion::CompletionAuto);
 		input->setMinimumWidth(300);
 		focus = input;
 
@@ -286,7 +290,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 		}
 	}
 	else {
-		KLineEdit *input = new KLineEdit(page);
+		QLineEdit *input = new QLineEdit(this);
+		gbox->addWidget(input);
 		input->setMinimumWidth(300);
 		focus = input;
 
@@ -308,8 +313,9 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	}
 
 	if(options & KileAction::ShowBrowseButton) {
-		KPushButton *pbutton = new KPushButton("", page);
-		pbutton->setIcon(KIcon("document-open"));
+		QPushButton *pbutton = new QPushButton(QString(), this);
+		mainLayout->addWidget(pbutton);
+		pbutton->setIcon(QIcon::fromTheme("document-open"));
 		gbox->addWidget(pbutton, 1, 2);
 		gbox->setColumnMinimumWidth(1, 8);
 		gbox->setColumnMinimumWidth(2, pbutton->sizeHint().width() + 5);
@@ -317,19 +323,22 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 	}
 
 	if(options & KileAction::ShowAlternative) {
-		QCheckBox *m_checkbox = new QCheckBox(alter, page);
+		QCheckBox *m_checkbox = new QCheckBox(alter, this);
+		mainLayout->addWidget(m_checkbox);
 		m_checkbox->setObjectName("input_dialog_checkbox");
 		connect(m_checkbox, SIGNAL(clicked()), this, SLOT(slotAltClicked()));
 		m_useAlternative=false;
 		gbox->addWidget(m_checkbox, 2, 0, 1, 3);
 	}
 
-	m_edLabel = NULL;
+	m_edLabel = Q_NULLPTR;
 	m_useLabel = (options & KileAction::ShowLabel);
 	if(m_useLabel) {
 		// Label
-		QLabel *label = new QLabel(i18n("&Label:"),page);
-		m_edLabel = new KLineEdit("", page);
+		QLabel *label = new QLabel(i18n("&Label:"),this);
+		mainLayout->addWidget(label);
+		m_edLabel = new QLineEdit(this);
+		mainLayout->addWidget(m_edLabel);
 		m_edLabel->setMinimumWidth(300);
 		m_edLabel->setText(m_labelprefix);
 		label->setBuddy(m_edLabel);
@@ -341,6 +350,15 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
 
 	gbox->setRowStretch(5, 1);
 	gbox->setColumnStretch(0, 1);
+
+	// add buttons
+	QDialogButtonBox *buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel);
+	mainLayout->addWidget(buttonBox);
+	QPushButton *okButton = buttonBox->button(QDialogButtonBox::Ok);
+	okButton->setDefault(true);
+	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+	connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+	connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
 	focus->setFocus();
 }
@@ -359,14 +377,14 @@ void InputDialog::slotBrowse()
 	// so we are only looking for a LaTeX source document
 	QString filter = m_ki->extensions()->latexDocumentFileFilter() + '\n' + "*|" + i18n("All Files");
 
-	fn = KFileDialog::getOpenFileName(fi.absoluteFilePath(), filter, this,i18n("Select File") );
+	fn = QFileDialog::getOpenFileName(this, i18n("Select File") , fi.absoluteFilePath(), filter);
 	if(!fn.isEmpty()) {
-		QString path = KUrl::relativePath(fi.path(), fn);
+		QString path = QDir(fi.path()).relativeFilePath(fn);
 
 		// if the file has no extension, we add the default TeX extension
 		if(QFileInfo(path).completeSuffix().isEmpty()) {
 			path += m_ki->extensions()->latexDocumentDefault();
- 		}
+		}
 
 		setTag(path);
 		emit(setInput(path));
@@ -399,18 +417,18 @@ QString InputDialog::label()
 //  SelectTag  //
 /////////////////
 
-Select::Select(const QString &text, const KShortcut &cut, KActionCollection *parent, const char *name)
+Select::Select(const QString &text, const QKeySequence &shortcut, KActionCollection *parent, const char *name)
 	: KSelectAction(text, parent)
 {
 	parent->addAction(name, this);
-	setShortcut(cut);
+	parent->setDefaultShortcut(this, shortcut);
 }
 
-void Select::setItems(const QList<KAction*>& list)
+void Select::setItems(const QList<QAction *>& list)
 {
 	removeAllActions();
 
-	for(QList<KAction*>::const_iterator i = list.begin(); i != list.end(); ++i) {
+	for(QList<QAction *>::const_iterator i = list.begin(); i != list.end(); ++i) {
 		addAction(*i);
 	}
 }
@@ -420,7 +438,7 @@ void Select::setItems(const QList<KAction*>& list)
 /////////////////////////
 
 VariantSelection::VariantSelection(const QString &text, const QVariant& value, QObject *parent)
-: KAction(text, parent), m_variant(value)
+: QAction(text, parent), m_variant(value)
 {
 	connect(this, SIGNAL(triggered(bool)), this, SLOT(slotTriggered()));
 }
@@ -429,8 +447,8 @@ void VariantSelection::slotTriggered()
 {
 	emit(triggered(m_variant));
 
-	if(m_variant.canConvert<KUrl>()) {
-		emit(triggered(m_variant.value<KUrl>()));
+	if(m_variant.canConvert<QUrl>()) {
+		emit(triggered(m_variant.value<QUrl>()));
 	}
 
 	if(m_variant.canConvert<QString>()) {
@@ -455,12 +473,12 @@ void VariantSelection::slotTriggered()
 
 ToolbarSelectAction::ToolbarSelectAction(const QString& text, QObject* parent,
                                          bool changeMainActionOnTriggering /*= true */)
-	: KAction(text, parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(NULL)
+	: QWidgetAction(parent), m_currentItem(-1), m_mainText(text), m_savedCurrentAction(Q_NULLPTR)
 {
+	setText(text);
 	if(changeMainActionOnTriggering) {
 		connect(menu(), SIGNAL(triggered(QAction*)), this, SLOT(slotTriggered(QAction*)));
 	}
-	setShortcutConfigurable(false);
 }
 
 int ToolbarSelectAction::actionIndex(QAction *action)
@@ -490,7 +508,7 @@ QAction* ToolbarSelectAction::action(int i)
 {
 	QList<QAction*> actionList = menu()->actions();
 	if(i < 0 || i >= actionList.size()) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 	return actionList.at(i);
 }
@@ -534,12 +552,12 @@ void ToolbarSelectAction::removeAllActions()
 	menu()->clear();
 	m_currentItem = -1;
 	setText(m_mainText);
-	setIcon(KIcon());
+	setIcon(QIcon());
 }
 
 void ToolbarSelectAction::slotTriggered(QAction* action){
 
-	KILE_DEBUG() << "triggered with " << action->text();
+	KILE_DEBUG_MAIN << "triggered with " << action->text();
 
 	if( currentAction() != action ) {
 		setIcon(action->icon());
@@ -564,21 +582,21 @@ void ToolbarSelectAction::slotMainButtonPressed()
 	}
 }
 
-KMenu* ToolbarSelectAction::menu()
+QMenu* ToolbarSelectAction::menu()
 {
-	if(!KAction::menu()) {
-		KMenu *menu = new KMenu();
+	if(!QAction::menu()) {
+		QMenu *menu = new QMenu();
 		setMenu(menu);
 	}
 
-	return qobject_cast<KMenu*>(KAction::menu());
+	return qobject_cast<QMenu*>(QAction::menu());
 }
 
 QWidget* ToolbarSelectAction::createWidget(QWidget *parent)
 {
 	QToolBar *parentToolBar = qobject_cast<QToolBar*>(parent);
 	if (!parentToolBar) {
-		return KAction::createWidget(parent);
+		return QWidgetAction::createWidget(parent);
 	}
 	QToolButton* button = new QToolButton(parent);
 	button->setAutoRaise(true);
@@ -591,7 +609,7 @@ QWidget* ToolbarSelectAction::createWidget(QWidget *parent)
 	connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
                 button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
 	button->setDefaultAction(this);
-	connect(button, SIGNAL(clicked()), this, SLOT(slotMainActionTriggered()));
+	connect(button, SIGNAL(clicked(bool)), this, SLOT(slotMainActionTriggered()));
 	connect(button, SIGNAL(pressed()), this, SLOT(slotMainButtonPressed()));
 	connect(this, SIGNAL(mainButtonWithNoActionPressed()), button, SLOT(showMenu()));
 	return button;
@@ -608,7 +626,6 @@ void ToolbarSelectAction::restoreCurrentAction()
 		return;
 	}
 	setCurrentAction(m_savedCurrentAction);
-	m_savedCurrentAction = NULL;
+	m_savedCurrentAction = Q_NULLPTR;
 }
 
-#include "kileactions.moc"

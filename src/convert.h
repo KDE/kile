@@ -20,7 +20,7 @@
 #include <QStringList>
 #include <qmap.h>
 
-#include <kurl.h>
+#include <QUrl>
 
 namespace KTextEditor { class Document; }
 
@@ -84,12 +84,12 @@ protected:
 class ConvertIOFile : public ConvertIO
 {
 public:
-	ConvertIOFile(KTextEditor::Document *doc, const KUrl & url);
+	ConvertIOFile(KTextEditor::Document *doc, const QUrl &url);
 
 	void writeText();
 
 private:
-	KUrl	m_url;
+	QUrl	m_url;
 };
 
 class ConvertBase

@@ -20,10 +20,10 @@
 #include <QMap>
 #include <QProcess>
 
-#include <KUrl>
+#include <QUrl>
 
 class KJob;
-class KTempDir;
+class QTemporaryDir;
 class KProcess;
 
 class KileInfo;
@@ -129,7 +129,7 @@ class TestToolInKileTest : public ConfigTest
 		KileInfo *m_ki;
 		QString m_toolName;
 		QString m_filePath;
-		KUrl m_documentUrl;
+		QUrl m_documentUrl;
 };
 
 class ProgramTest : public ConfigTest
@@ -203,7 +203,7 @@ public:
 
 	QStringList testGroups();
 	QList<ConfigTest*> resultForGroup(const QString &);
-	int statusForGroup(const QString &testGroup, bool *isCritical = NULL);
+	int statusForGroup(const QString &testGroup, bool *isCritical = Q_NULLPTR);
 
 	bool isSyncTeXSupportedForPDFLaTeX();
 	bool isViewerModeSupportedInOkular();
@@ -228,7 +228,7 @@ private Q_SLOTS:
 private:
 	KileInfo *m_ki;
 	QMap<QString, QList<ConfigTest*> >	m_results;
-	KTempDir				*m_tempDir;
+	QTemporaryDir				*m_tempDir;
 	ConfigTest				*m_currentTest;
 	QLinkedList<ConfigTest*> m_testList;
 	QLinkedList<ConfigTest*>::iterator m_nextTestIterator;
@@ -237,13 +237,13 @@ private:
 	OkularVersionTest *m_okularVersionTest;
 
 	QString m_runningTestGroup;
-	KUrl m_runningToolTestUrl;
+	QUrl m_runningToolTestUrl;
 	bool m_runningTestCritical;
 
 	void setupTests();
-	void installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2 = NULL,
-	                                                        ConfigTest *t3 = NULL,
-	                                                        ConfigTest *t4 = NULL);
+	void installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2 = Q_NULLPTR,
+	                                                        ConfigTest *t3 = Q_NULLPTR,
+	                                                        ConfigTest *t4 = Q_NULLPTR);
 };
 
 #endif

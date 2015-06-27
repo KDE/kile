@@ -21,8 +21,8 @@
 
 #include <QProcess>
 
-#include <KLocale>
-#include <KUrl>
+#include <KLocalizedString>
+#include <QUrl>
 
 #include "kileconstants.h"
 
@@ -54,7 +54,7 @@ class Manager : public QObject {
 	Q_OBJECT
 	
 	public:
-		explicit Manager(KileInfo *info, QObject* parent = NULL, const char* name = NULL);
+		explicit Manager(KileInfo *info, QObject* parent = Q_NULLPTR, const char* name = NULL);
 		virtual ~Manager();
 
 		void scanForTemplates();
@@ -80,13 +80,13 @@ class Manager : public QObject {
 		bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
 
 		// add a template in $HOME/kile/templates/
-		bool add(const KUrl& templateSourceURL, const QString& name, const KUrl& icon);
+		bool add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon);
 		
 		// remove a template from $HOME/kile/templates/
 		bool remove(KileTemplate::Info ti);
 
 		// replaces a template
-		bool replace(const KileTemplate::Info& toBeReplaced, const KUrl& newTemplateSourceURL, const QString& newName, const KUrl& newIcon);
+		bool replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon);
 
 		// these have to be methods as we cannot use i18n calls in global objects
 		static QString defaultEmptyTemplateCaption();
@@ -97,18 +97,19 @@ class Manager : public QObject {
 		KileInfo* m_kileInfo;
 
 	private:
-		bool copyAppData(const KUrl& src, const QString& subdir, const QString& fileName);
+		bool copyAppData(const QUrl &src, const QString& subdir, const QString& fileName);
 		bool removeAppData(const QString &file);
 
 		/**
 		 * Adds a new template. This method differs from the other add method in that it does not try to determine
 		 * the type of the template from the passed source URL.
 		 **/
-		bool add(const KUrl& templateSourceURL, KileDocument::Type type, const QString& name, const KUrl& icon);
+		bool add(const QUrl &templateSourceURL, KileDocument::Type type, const QString& name, const QUrl& icon);
 
 
 	private:
 		TemplateList m_TemplateList;
+		QString m_TempFilePath;
 };
 
 }
@@ -135,7 +136,7 @@ class TemplateIconView : public QListWidget {
 	Q_OBJECT
 	
 	public:
-		TemplateIconView(QWidget *parent = NULL);
+		TemplateIconView(QWidget *parent = Q_NULLPTR);
 		virtual ~TemplateIconView();
 
 		void setTemplateManager(KileTemplate::Manager *templateManager);

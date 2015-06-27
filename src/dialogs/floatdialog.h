@@ -35,7 +35,7 @@ class FloatEnvironmentDialog : public Wizard
 		~FloatEnvironmentDialog() {}
 
 	public Q_SLOTS:
-		void slotButtonClicked(int button);
+		void slotAccepted();
 
 	private Q_SLOTS:
 		void slotEnvironmentClicked();

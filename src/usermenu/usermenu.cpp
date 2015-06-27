@@ -15,13 +15,14 @@
 #include <QFile>
 #include <QRegExp>
 
-#include <KTemporaryFile>
+#include <QTemporaryFile>
 #include <KXMLGUIFactory>
-#include <KMenuBar>
-#include <KAction>
-#include <KStandardDirs>
-#include <KFileDialog>
+#include <QMenuBar>
+#include <QAction>
+#include <QFileDialog>
 #include <KMessageBox>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 #include "kileactions.h"
 #include "editorextension.h"
@@ -44,14 +45,14 @@ namespace KileMenu {
 //
 //  - m_actioncollection: KActionCollection of KileMainWindow (KActionCollection *)
 //
-//  - m_actionlist: a list with all actions of the menu (QList<KAction *>)
+//  - m_actionlist: a list with all actions of the menu (QList<QAction *>)
 //
-//  - m_actionlistContextMenu: a list with all actions of the context menu for selected text (QList<KAction *>)
+//  - m_actionlistContextMenu: a list with all actions of the context menu for selected text (QList<QAction *>)
 //
-//  - a menu is defined in an xml file, which is placed in KGlobal::dirs()->findResource("appdata","usermenu/")
+//  - a menu is defined in an xml file, which is placed in QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory)
 
 UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
-	: m_ki(ki), m_receiver(receiver), m_proc(NULL)
+	: m_ki(ki), m_receiver(receiver), m_proc(Q_NULLPTR)
 {
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
 	m_actioncollection = mainwindow->actionCollection();
@@ -82,11 +83,11 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 	m_currentXmlFile = KileConfig::menuFile();
 	if ( !m_currentXmlFile.isEmpty() ) {
 		if ( !m_currentXmlFile.contains("/") ) {
-			m_currentXmlFile = KGlobal::dirs()->findResource("appdata","usermenu/") + m_currentXmlFile;
+			m_currentXmlFile = QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory) + m_currentXmlFile;
 		}
 
 		if ( QFile(m_currentXmlFile).exists() ) {
-			KILE_DEBUG() << "install menufile: " << m_currentXmlFile;
+			KILE_DEBUG_MAIN << "install menufile: " << m_currentXmlFile;
 			installXml(m_currentXmlFile);
 		}
 		else {
@@ -108,11 +109,11 @@ bool UserMenu::isEmpty()
 }
 /////////////////////// install usermenu//////////////////////////////
 
-KAction *UserMenu::createAction(const QString &name)
+QAction *UserMenu::createAction(const QString &name)
 {
-	KAction *action = m_actioncollection->addAction(name, m_receiver, SLOT(quickUserMenuDialog()));
+	QAction *action = m_actioncollection->addAction(name, m_receiver, SLOT(quickUserMenuDialog()));
 	action->setText(i18n("Edit User Menu"));
-	action->setIcon(KIcon("wizard_usermenu"));
+	action->setIcon(QIcon::fromTheme("wizard_usermenu"));
 	return action;
 }
 
@@ -172,7 +173,7 @@ void UserMenu::clear()
 	m_menudata.clear();
 
 	// remove all actions from actioncollection
-	foreach ( KAction *action, m_actionlist ) {
+	foreach ( QAction *action, m_actionlist ) {
 		m_actioncollection->removeAction(action);
 	}
 
@@ -186,7 +187,7 @@ void UserMenu::clear()
 // GUI was updated and all menu items disappeared
 void UserMenu::updateGui()
 {
-	KILE_DEBUG() << "update usermenu ...";
+	KILE_DEBUG_MAIN << "update usermenu ...";
 
 	if(m_menuLocation == StandAloneLocation) {
 		KXmlGuiWindow *mainwindow = m_ki->mainWindow();
@@ -231,7 +232,7 @@ void UserMenu::removeActionProperties()
 	QString xmlfile = "kileui.rc";
 	QString xml(KXMLGUIFactory::readConfigFile(xmlfile));
 	if ( xml.isEmpty() ) {
-		KILE_DEBUG() << "STOP: xmlfile not found: " << xmlfile;
+		KILE_DEBUG_MAIN << "STOP: xmlfile not found: " << xmlfile;
 		return;
 	}
 
@@ -241,12 +242,12 @@ void UserMenu::removeActionProperties()
 	// process XML data in section 'ActionProperties'
 	QDomElement actionPropElement = KXMLGUIFactory::actionPropertiesElement( doc );
 	if ( actionPropElement.isNull() ) {
-		KILE_DEBUG() << "QDomElement actionPropertiesElement not found ";
+		KILE_DEBUG_MAIN << "QDomElement actionPropertiesElement not found ";
 		return;
 	}
 
 	// search for all actions of the user-defined UserMenu
-	KILE_DEBUG() << "QDomElement actionPropertiesElement found ";
+	KILE_DEBUG_MAIN << "QDomElement actionPropertiesElement found ";
 	bool changed = false;
 	QRegExp re("useraction-(\\d+)$");
 	QDomElement e = actionPropElement.firstChildElement();
@@ -262,7 +263,7 @@ void UserMenu::removeActionProperties()
 		QDomElement removeElement;
 		if ( re.indexIn(name) == 0) {
 			int index = re.cap(1).toInt();
-			KILE_DEBUG() << "action property was changed: old=" << m_menudata[index].shortcut << " new=" << name << " actionIndex=" << index;
+			KILE_DEBUG_MAIN << "action property was changed: old=" << m_menudata[index].shortcut << " new=" << name << " actionIndex=" << index;
 			removeElement = e;
 			changed = true;
 		}
@@ -271,7 +272,7 @@ void UserMenu::removeActionProperties()
 
 		// finally delete element
 		if ( !removeElement.isNull() ) {
-			KILE_DEBUG() << "remove ActionProperty: shortcut=" << shortcut << " name=" << name;
+			KILE_DEBUG_MAIN << "remove ActionProperty: shortcut=" << shortcut << " name=" << name;
 			actionPropElement.removeChild(removeElement);
 		}
 	}
@@ -288,14 +289,14 @@ void UserMenu::removeActionProperties()
 // user-defined action shortcuts and icons. Here they will be refreshed again.
 void UserMenu::refreshActionProperties()
 {
-	KILE_DEBUG() << "refresh action properties";
+	KILE_DEBUG_MAIN << "refresh action properties";
 
 	QRegExp re("useraction-(\\d+)$");
-	foreach ( KAction *action, m_actionlist ) {
+	foreach ( QAction *action, m_actionlist ) {
 		if ( re.indexIn(action->objectName()) == 0 ) {
 			int actionIndex = re.cap(1).toInt();
 			if ( !m_menudata[actionIndex].icon.isEmpty() ) {
-				action->setIcon( KIcon(m_menudata[actionIndex].icon) );
+				action->setIcon( QIcon::fromTheme(m_menudata[actionIndex].icon) );
 			}
 			if ( !m_menudata[actionIndex].shortcut.isEmpty() ) {
 				action->setShortcut( QKeySequence(m_menudata[actionIndex].shortcut,QKeySequence::NativeText) );
@@ -309,8 +310,8 @@ void UserMenu::refreshActionProperties()
 // will be refreshed again, when the dialog is finished
 void UserMenu::removeShortcuts()
 {
-	foreach ( KAction *action, m_actionlist ) {
-		action->setShortcut( KShortcut() );
+	foreach ( QAction *action, m_actionlist ) {
+		action->setShortcut( QKeySequence() );
 	}
 }
 
@@ -319,12 +320,12 @@ void UserMenu::removeShortcuts()
 // call from the menu: no xml file given
 void UserMenu::installXmlMenufile()
 {
-	KILE_DEBUG() << "install xml file with KFileDialog::getOpenFileName";
+	KILE_DEBUG_MAIN << "install xml file with KFileDialog::getOpenFileName";
 
 	QString directory = selectUserMenuDir();
 	QString filter = i18n("*.xml|Latex Menu Files");
 
-	QString filename = KFileDialog::getOpenFileName(directory, filter, m_ki->mainWindow(), i18n("Select Menu File"));
+	QString filename = QFileDialog::getOpenFileName(m_ki->mainWindow(), i18n("Select Menu File"), directory, filter);
 	if(filename.isEmpty()) {
 		return;
 	}
@@ -342,7 +343,7 @@ void UserMenu::installXmlMenufile()
 // use 'basename.ext' if the file is placed in 'KILE-LOCAL-DIR/usermenu' directory and full filepath else
 void UserMenu::installXmlFile(const QString &filename)
 {
-	KILE_DEBUG() << "install xml file" << filename;
+	KILE_DEBUG_MAIN << "install xml file" << filename;
 
 	// clear old usermenu, menudata, actions and actionlists
 	clear();
@@ -353,7 +354,7 @@ void UserMenu::installXmlFile(const QString &filename)
 
 		// save xml file in config (with or without path)
 		QString xmlfile = filename;
-		QString dir = KGlobal::dirs()->findResource("appdata","usermenu/");
+		QString dir = QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory);
 		if ( filename.startsWith(dir) ) {
 			QString basename = filename.right( filename.length()-dir.length() );
 			if ( !basename.isEmpty() && !basename.contains("/") )  {
@@ -374,7 +375,7 @@ void UserMenu::installXmlFile(const QString &filename)
 
 void UserMenu::removeXmlFile()
 {
-	KILE_DEBUG() << "remove xml file";
+	KILE_DEBUG_MAIN << "remove xml file";
 
 	clear();
 	m_currentXmlFile.clear();
@@ -388,10 +389,10 @@ void UserMenu::removeXmlFile()
 // pre: usermenu is already cleared
 bool UserMenu::installXml(const QString &filename)
 {
-	KILE_DEBUG() << "install: start";
+	KILE_DEBUG_MAIN << "install: start";
 
 	if ( !m_usermenu ) {
-		KILE_DEBUG() << "Hmmmm: found no usermenu";
+		KILE_DEBUG_MAIN << "Hmmmm: found no usermenu";
 		return false;
 	}
 
@@ -400,7 +401,7 @@ bool UserMenu::installXml(const QString &filename)
 	QFile file(filename);
 	if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
 		// TODO KMessageBox
-		KILE_DEBUG() << "STOP: can't open xml file " << filename;
+		KILE_DEBUG_MAIN << "STOP: can't open xml file " << filename;
 		return false;
 	}
 
@@ -410,7 +411,7 @@ bool UserMenu::installXml(const QString &filename)
 	}
 	file.close();
 
-	KILE_DEBUG() << "parse xml ...";
+	KILE_DEBUG_MAIN << "parse xml ...";
 	m_actionsContextMenu = 0;
 
 	// parse toplevelitems
@@ -430,7 +431,7 @@ bool UserMenu::installXml(const QString &filename)
 
 			// try to get some structure into to the context menu
 			if ( m_actionsContextMenu > 0 ) {
-				m_actionlistContextMenu.append(NULL);
+				m_actionlistContextMenu.append(Q_NULLPTR);
 				m_actionsContextMenu = 0;
 			}
 		}
@@ -440,7 +441,7 @@ bool UserMenu::installXml(const QString &filename)
 
 		e = e.nextSiblingElement();
 	}
-	KILE_DEBUG() << "install: finished ";
+	KILE_DEBUG_MAIN << "install: finished ";
 
 	return true;
 }
@@ -511,12 +512,12 @@ void UserMenu::installXmlMenuentry(const QDomElement &element, QMenu *parentmenu
 	// add menu item, if its title is not empty
 	if ( !menudata.menutitle.isEmpty() ) {
 
-		KAction *action = m_actioncollection->addAction(QString("useraction-%1").arg(actionnumber), this, SLOT(slotUserMenuAction()) );
+		QAction *action = m_actioncollection->addAction(QString("useraction-%1").arg(actionnumber), this, SLOT(slotUserMenuAction()) );
 		if ( action ) {
 			 action->setText(menudata.menutitle);
 
 			if ( !menudata.icon.isEmpty() ) {
-				action->setIcon( KIcon(menudata.icon) );
+				action->setIcon( QIcon::fromTheme(menudata.icon) );
 			}
 
 			if ( !menudata.shortcut.isEmpty() ) {
@@ -542,7 +543,7 @@ void UserMenu::installXmlMenuentry(const QDomElement &element, QMenu *parentmenu
 // pre: xml file exists
 void UserMenu::updateXmlFile(const QString &filename)
 {
-	KILE_DEBUG() << "update xml file: " << filename;
+	KILE_DEBUG_MAIN << "update xml file: " << filename;
 
 	// read content of xml file
 	QDomDocument doc("UserMenu");
@@ -551,7 +552,7 @@ void UserMenu::updateXmlFile(const QString &filename)
 	doc.setContent(&file);
 	file.close();
 
-	KILE_DEBUG() << "parse xml ...";
+	KILE_DEBUG_MAIN << "parse xml ...";
 
 	// parse toplevelitems
 	bool changed = false;
@@ -568,10 +569,10 @@ void UserMenu::updateXmlFile(const QString &filename)
 		}
 		e = e.nextSiblingElement();
 	}
-	KILE_DEBUG() << "update finished ";
+	KILE_DEBUG_MAIN << "update finished ";
 
 	if ( changed ) {
-		KILE_DEBUG() << "found changes, so write updated xml file ";
+		KILE_DEBUG_MAIN << "found changes, so write updated xml file ";
 		QFile outfile(filename);
 		outfile.open(QFile::WriteOnly | QFile::Text);
 		QTextStream stream(&outfile);
@@ -661,7 +662,7 @@ bool UserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &
 
 QString UserMenu::selectUserMenuDir()
 {
-	QStringList dirs = KGlobal::dirs()->findDirs("appdata", "usermenu/");
+	QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory);
 	if ( dirs.size() < 2 ) {
 		return dirs.at(0);
 	}
@@ -687,26 +688,26 @@ QString UserMenu::selectUserMenuDir()
 //  - execute action
 void UserMenu::slotUserMenuAction()
 {
-	KILE_DEBUG() << "want to start an action from usermenu ...";
+	KILE_DEBUG_MAIN << "want to start an action from usermenu ...";
 
-	KAction *action = dynamic_cast<KAction *>(sender());
+	QAction *action = dynamic_cast<QAction *>(sender());
 	if ( !action ) {
 		return;
 	}
 
 	QString actionName = action->objectName();
-	KILE_DEBUG() << "action name: " << actionName << "classname=" << action->metaObject()->className();
+	KILE_DEBUG_MAIN << "action name: " << actionName << "classname=" << action->metaObject()->className();
 
 	QRegExp re("useraction-(\\d+)$");
 	if ( re.indexIn(actionName) != 0) {
-			KILE_DEBUG() << "STOP: found wrong action name: " << actionName;
+			KILE_DEBUG_MAIN << "STOP: found wrong action name: " << actionName;
 		return;
 	}
 
 	bool ok;
 	int actionIndex = re.cap(1).toInt(&ok);
 	if ( actionIndex < 0 || actionIndex >= m_menudata.size() ) {
-		KILE_DEBUG() << "STOP: invalid action (range error): " << actionIndex << "  list size: " << m_menudata.size();
+		KILE_DEBUG_MAIN << "STOP: invalid action (range error): " << actionIndex << "  list size: " << m_menudata.size();
 		return;
 	}
 
@@ -733,7 +734,7 @@ void UserMenu::slotUserMenuAction()
 		execActionProgramOutput(view,m_menudata[actionIndex]);
 	}
 	else {
-		KILE_DEBUG() << "STOP: unknown action type: " << type;
+		KILE_DEBUG_MAIN << "STOP: unknown action type: " << type;
 	}
 }
 
@@ -742,7 +743,7 @@ void UserMenu::slotUserMenuAction()
 // execute an action: insert text
 void UserMenu::execActionText(KTextEditor::View *view, const UserMenuData &menudata)
 {
-	KILE_DEBUG() << "want to insert text ... ";
+	KILE_DEBUG_MAIN << "want to insert text ... ";
 	insertText(view, menudata.text, menudata.replaceSelection, menudata.selectInsertion);
 }
 
@@ -751,11 +752,11 @@ void UserMenu::execActionText(KTextEditor::View *view, const UserMenuData &menud
 // execute an action: insert file contents
 void UserMenu::execActionFileContent(KTextEditor::View *view, const UserMenuData &menudata)
 {
-	KILE_DEBUG() << "want to insert contents of a file: " << menudata.filename;
+	KILE_DEBUG_MAIN << "want to insert contents of a file: " << menudata.filename;
 
 	QFile file(menudata.filename);
 	if ( !file.open(QFile::ReadOnly | QFile::Text) ) {
-		KILE_DEBUG() << "STOP: could not open file " << menudata.filename;
+		KILE_DEBUG_MAIN << "STOP: could not open file " << menudata.filename;
 		return;
 	}
 
@@ -773,12 +774,12 @@ void UserMenu::execActionFileContent(KTextEditor::View *view, const UserMenuData
 // execute an action: run a program
 void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuData &menudata)
 {
-	KILE_DEBUG() << "want to start a program ... ";
+	KILE_DEBUG_MAIN << "want to start a program ... ";
 
 	// delete old process
 	if (m_proc) {
 		delete m_proc;
-		m_proc = NULL;
+		m_proc = Q_NULLPTR;
 	}
 
 	// build commandline
@@ -790,21 +791,22 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 
 	// check parameter
 	if ( needsSelection && !hasSelection ) {
-		KILE_DEBUG() << "STOP: this program needs selected text";
+		KILE_DEBUG_MAIN << "STOP: this program needs selected text";
 		return;
 	}
 
 	// do we need a temporary file for the selected text?
 	if ( hasSelection && useTemporaryFile ) {
-		KILE_DEBUG() << "selection and 'placeholder' %M found --> create temporary file";
+		KILE_DEBUG_MAIN << "selection and 'placeholder' %M found --> create temporary file";
 
 		// create temporary file
-		KTemporaryFile tempfile;
-		tempfile.setSuffix(".txt");
+		QTemporaryFile tempfile;
+//code was 		tempfile.setSuffix(".txt");
+//Add to constructor and adapt if necessay: QDir::tempPath() + QLatin1String("/myapp_XXXXXX") + QLatin1String(".txt") 
 		tempfile.setAutoRemove(false);
 
 		if ( !tempfile.open() ) {
-			KILE_DEBUG() << "STOP: could not create tempfile for selected text" ;
+			KILE_DEBUG_MAIN << "STOP: could not create tempfile for selected text" ;
 			return;
 		}
 
@@ -838,7 +840,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 	connect(m_proc, SIGNAL(readyReadStandardError()),  this, SLOT(slotProcessOutput()));
 	connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
 
-	KILE_DEBUG() << "... start proc: " << cmdline;
+	KILE_DEBUG_MAIN << "... start proc: " << cmdline;
 	// init and/or save important data
 	m_procOutput.clear();
 	m_procView = view;
@@ -854,8 +856,8 @@ void UserMenu::slotProcessOutput()
 
 void UserMenu::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitStatus)
 {
-	KILE_DEBUG() << "... finish proc ";
-	KILE_DEBUG() << "output:  " << m_procOutput;
+	KILE_DEBUG_MAIN << "... finish proc ";
+	KILE_DEBUG_MAIN << "output:  " << m_procOutput;
 
 	if ( exitStatus == QProcess::NormalExit && m_procMenudata->insertOutput && !m_procOutput.isEmpty() ) {
 		insertText(m_procView, m_procOutput, m_procMenudata->replaceSelection, m_procMenudata->selectInsertion);
@@ -867,7 +869,7 @@ void UserMenu::slotProcessExited(int /* exitCode */, QProcess::ExitStatus exitSt
 // action is finished, now insert some text
 void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool replaceSelection, bool selectInsertion)
 {
-	KILE_DEBUG() << "insert text from action: " << text;
+	KILE_DEBUG_MAIN << "insert text from action: " << text;
 	// metachars: %R - references (like \ref{%R}, \pageref{%R} ...)
 	//            %T - citations  (like \cite{%T} ...)
 	QString metachar,label;
@@ -886,7 +888,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 	if ( !metachar.isEmpty() ) {
 		QStringList list = text.split(metachar);
 
-		KileAction::InputTag tag(m_ki, i18n("Input Dialog"), QString(), KShortcut(), m_receiver, SLOT(insertTag(const KileAction::TagData&)), m_actioncollection,"tag_temporary_action", m_ki->mainWindow(), actiontype, list.at(0)+metachar, list.at(1), list.at(0).length(), 0, QString(), label);
+		KileAction::InputTag tag(m_ki, i18n("Input Dialog"), QString(), QKeySequence(), m_receiver, SLOT(insertTag(const KileAction::TagData&)), m_actioncollection,"tag_temporary_action", m_ki->mainWindow(), actiontype, list.at(0)+metachar, list.at(1), list.at(0).length(), 0, QString(), label);
 
 		tag.activate(QAction::Trigger);
 		return;
@@ -919,7 +921,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
 	else {
 		ins.replace("%M", QString());
 	}
-	KILE_DEBUG() << " ---> " << ins;
+	KILE_DEBUG_MAIN << " ---> " << ins;
 
 	// insert new text
 	KTextEditor::Cursor cursor1 = view->cursorPosition();
@@ -948,4 +950,3 @@ bool UserMenu::str2bool(const QString &value)
 
 }
 
-#include "usermenu.moc"

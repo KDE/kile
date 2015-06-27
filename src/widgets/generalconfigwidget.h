@@ -24,10 +24,10 @@ class KileWidgetGeneralConfig : public QWidget, public Ui::KileWidgetGeneralConf
 	Q_OBJECT
 
 	public:
-		KileWidgetGeneralConfig(QWidget *parent = NULL);
+		KileWidgetGeneralConfig(QWidget *parent = Q_NULLPTR);
 		~KileWidgetGeneralConfig();
 
-	private slots:
+	private Q_SLOTS:
 		void selectDefaultProjectLocation();
 };
 

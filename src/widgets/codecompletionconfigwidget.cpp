@@ -29,13 +29,13 @@
 #include <QVBoxLayout>
 
 #include <KConfig>
-#include <KDialog>
+#include <QDialog>
 #include <KDirWatch>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
-#include <KPushButton>
-#include <KStandardDirs>
-#include <KTabWidget>
+#include <QPushButton>
+#include <QTabWidget>
+#include <KConfigGroup>
 
 #include "dialogs/listselector.h"
 #include "codecompletion.h"
@@ -102,7 +102,7 @@ void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, c
 
 	QGridLayout *grid = new QGridLayout();
 	grid->setMargin(0);
-	grid->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	grid->setSpacing(QDialog::spacingHint());
 	m_page[page]->setLayout(grid);
 	grid->addWidget(m_listview[page], 0, 0);
 
@@ -226,7 +226,7 @@ void CodeCompletionConfigWidget::updateColumnWidth(QTreeWidget *listview)
 
 bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage page)
 {
-	KILE_DEBUG() << "===bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage" << page << ")";
+	KILE_DEBUG_MAIN << "===bool CodeCompletionConfigWidget::getListviewEntries(CompletionPage" << page << ")";
 	
 	bool changed = false;
 
@@ -275,7 +275,7 @@ QTreeWidgetItem* CodeCompletionConfigWidget::getListviewEntry(QTreeWidget *listv
 {
 	QList<QTreeWidgetItem*> items = listview->findItems(filename, Qt::MatchExactly);
 	if (items.empty()) {
-		return NULL;
+		return Q_NULLPTR;
 	}
 	else {
 		if (items.count() > 1) {
@@ -348,8 +348,8 @@ void CodeCompletionConfigWidget::addClicked()
 					QString basename = filename.left(filename.length() - 4);
 
 					// Check if this entry already exists.
-					QTreeWidgetItem* entry = NULL;
-					if ((entry = getListviewEntry(listview, basename)) == NULL) {
+					QTreeWidgetItem* entry = Q_NULLPTR;
+					if ((entry = getListviewEntry(listview, basename)) == Q_NULLPTR) {
 						// A new entry has to be created
 						entry = new QTreeWidgetItem(listview, QStringList(basename));
 					}
@@ -404,4 +404,3 @@ void CodeCompletionConfigWidget::updateCompletionFilesTab(const QString& path)
 }
 
 
-#include "codecompletionconfigwidget.moc"

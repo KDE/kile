@@ -16,27 +16,33 @@
 #ifndef KILEWIZARD_H
 #define KILEWIZARD_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 #include "kileactions.h"
 
 class KConfig;
+class QDialogButtonBox;
 
 namespace KileDialog
 {
-	class Wizard : public KDialog
-	{
-	public:
-		explicit Wizard(KConfig *, QWidget *parent = NULL, const char *name = NULL, const QString &caption = QString());
-		~Wizard();
+class Wizard : public QDialog
+{
+public:
+	explicit Wizard(KConfig *, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR, const QString &caption = QString());
+	virtual ~Wizard();
 
-	public:
-		const KileAction::TagData & tagData() const { return m_td; }
+public:
+	const KileAction::TagData & tagData() const { return m_td; }
 
-	protected:
-		KileAction::TagData		m_td;
-		KConfig				*m_config;
-	};
+protected:
+	KConfig * config() const;
+	QDialogButtonBox * buttonBox() const;
+	KileAction::TagData m_td;
+
+private:
+	KConfig *m_config;
+	QDialogButtonBox *m_buttonBox;
+};
 }
 
 #endif

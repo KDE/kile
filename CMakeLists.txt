@@ -1,151 +1,248 @@
-cmake_minimum_required(VERSION 2.6.2)
+project(kile)
 
-PROJECT( kile )
+cmake_minimum_required(VERSION 3.0.0)
 
-find_package(KDE4 4.3.0 REQUIRED)
-include (KDE4Defaults)
+find_package(ECM 5.10.0 REQUIRED NO_MODULE)
+set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
-find_package( SharedMimeInfo REQUIRED )
+include(ECMAddAppIcon)
+include(ECMOptionalAddSubdirectory)
+include(ECMInstallIcons)
+include(ECMSetupVersion)
+include(ECMMarkNonGuiExecutable)
+include(ECMGenerateHeaders)
 
+include(GenerateExportHeader)
+include(CMakePackageConfigHelpers)
+include(FeatureSummary)
+include(WriteBasicConfigVersionFile)
+include(CheckFunctionExists)
 
-SET( KILE_VERSION CACHE STRING "Kile's version; can be used to install special documentation files in share/doc/kile-$KILE_VERSION/" )
+include(KDEInstallDirs)
+include(KDECMakeSettings)
+include(KDECompilerSettings)
 
-SET( kile_PO_FILE "kile.po" )
-SET( kile_DOCBOOK "index.docbook" )
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fexceptions")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-MACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _relative_dir _docbook _language )
+find_package(Qt5 5.3 CONFIG REQUIRED
+	Core
+	DBus
+	Widgets
+	Script
+	Test
+)
+
+find_package(KF5 5.11 REQUIRED COMPONENTS
+	Config
+	CoreAddons
+	Crash
+	DBusAddons
+	DocTools
+	GuiAddons
+	I18n
+	IconThemes
+	Init
+	KHtml
+	KIO
+	Parts
+	TextEditor
+	WindowSystem
+	XmlGui
+)
+
+find_package(Poppler)
+set_package_properties("Poppler" PROPERTIES
+	DESCRIPTION "A PDF rendering library"
+	URL "http://poppler.freedesktop.org"
+	TYPE RECOMMENDED
+	PURPOSE "Support for PDF file operations.")
+if(POPPLER_FOUND)
+	set(HAVE_POPPLER TRUE)
+	include_directories(${POPPLER_INCLUDE_DIR})
+endif()
+
+find_package(Okular)
+set_package_properties("Okular" PROPERTIES
+	DESCRIPTION "Okular core library"
+	URL "http://okular.kde.org"
+	TYPE RECOMMENDED
+	PURPOSE "Live preview support.")
+if(Okular_FOUND)
+	set(HAVE_OKULAR TRUE)
+endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)
+
+# find_package(SharedMimeInfo REQUIRED)
+
+add_definitions(
+#   -DQT_USE_QSTRINGBUILDER
+#   -DQT_NO_CAST_FROM_ASCII
+#   -DQT_NO_CAST_FROM_BYTEARRAY
+#   -DQT_USE_FAST_OPERATOR_PLUS
+  -DQT_NO_CAST_TO_ASCII
+  -DQT_STRICT_ITERATORS
+  -DQT_NO_URL_CAST_FROM_STRING
+  -DQT_NO_SIGNALS_SLOTS_KEYWORDS
+)
+
+set(KILE_VERSION CACHE STRING "Kile's version; can be used to install special documentation files in share/doc/kile-$KILE_VERSION/")
+set(kile_PO_FILE "kile.po")
+set(kile_DOCBOOK "index.docbook")
+
+macro(KILE_ADD_DOCBOOK_DIRECTORY _sources _relative_dir _docbook _language)
 	# only depend on images
-	FILE( GLOB_RECURSE _dependencies ${CMAKE_CURRENT_SOURCE_DIR}/${_relative_dir}/*.[pP][nN][gG] )
-	FILE( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir} )
+	file(GLOB_RECURSE _dependencies ${CMAKE_CURRENT_SOURCE_DIR}/${_relative_dir}/*.[pP][nN][gG])
+	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir})
 
-	SET( _source_docbook ${CMAKE_CURRENT_SOURCE_DIR}/${_relative_dir}/${_docbook} )
-	SET( _compiled_docbook ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}/index.cache.bz2 )
+	set(_source_docbook ${CMAKE_CURRENT_SOURCE_DIR}/${_relative_dir}/${_docbook})
+	set(_compiled_docbook ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}/index.cache.bz2)
 
-	ADD_CUSTOM_COMMAND(OUTPUT ${_compiled_docbook}
+	add_custom_command(OUTPUT ${_compiled_docbook}
 			COMMAND ${KDE4_MEINPROC_EXECUTABLE} --check --cache index.cache.bz2 ${_source_docbook}
 			DEPENDS ${_dependencies} ${_source_docbook}
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
-			COMMENT "Compiling ${_language} docbook in ${_relative_dir}/${_docbook}" )
+			COMMENT "Compiling ${_language} docbook in ${_relative_dir}/${_docbook}")
 
-	INSTALL( FILES ${_compiled_docbook} ${_source_docbook} ${_dependencies} DESTINATION ${HTML_INSTALL_DIR}/${_language}/kile )
-	SET( ${_sources} ${${_sources}} ${_compiled_docbook} )
-ENDMACRO( KILE_ADD_DOCBOOK_DIRECTORY _sources _docbook _language )
+	install(FILES ${_compiled_docbook} ${_source_docbook} ${_dependencies} DESTINATION ${HTML_INSTALL_DIR}/${_language}/kile)
+	set(${_sources} ${${_sources}} ${_compiled_docbook})
+endmacro(KILE_ADD_DOCBOOK_DIRECTORY _sources _docbook _language)
 
-MACRO( KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language )
-	FILE( MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir} )
+macro(KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language)
+	file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir})
 
-	GET_FILENAME_COMPONENT(_base_name ${_file} NAME_WE)
-	SET( _source_file ${CMAKE_CURRENT_SOURCE_DIR}/${_relative_dir}/${_file} )
-	SET( _base_compiled_file ${_base_name}.mo)
-	SET( _compiled_file ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}/${_base_compiled_file} )
+	get_filename_component(_base_name ${_file} NAME_WE)
+	set(_source_file ${CMAKE_CURRENT_SOURCE_DIR}/${_relative_dir}/${_file})
+	set(_base_compiled_file ${_base_name}.mo)
+	set(_compiled_file ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}/${_base_compiled_file})
 
-	ADD_CUSTOM_COMMAND(OUTPUT ${_compiled_file}
+	add_custom_command(OUTPUT ${_compiled_file}
 			COMMAND ${KILE_MSGFMT} -o ${_compiled_file} ${_source_file}
 			DEPENDS ${_source_file}
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
-			COMMENT "Compiling ${_language} translation file" )
+			COMMENT "Compiling ${_language} translation file")
 
-	INSTALL( FILES ${_compiled_file} DESTINATION ${LOCALE_INSTALL_DIR}/${_language}/LC_MESSAGES )
-	SET( ${_sources} ${${_sources}} ${_compiled_file} )
-ENDMACRO( KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language )
+	install(FILES ${_compiled_file} DESTINATION ${LOCALE_INSTALL_DIR}/${_language}/LC_messageS)
+	set(${_sources} ${${_sources}} ${_compiled_file})
+endmacro(KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language)
 
-MACRO( KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sources _dir )
-	FILE( GLOB _subdirectories ${_dir}/* )
+macro(KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sources _dir)
+	file(GLOB _subdirectories ${_dir}/*)
 
-	FOREACH( _entry ${_subdirectories} )
-		IF( IS_DIRECTORY ${_entry} )
-			GET_FILENAME_COMPONENT( _language ${_entry} NAME )
-			IF( KILE_MSGFMT AND EXISTS ${_entry}/messages )
-				KILE_ADD_TRANSLATION_DIRECTORY( ${_translation_sources} translations/${_language}/messages ${kile_PO_FILE} ${_language} )
-				SET(_translations_built ${_translations_built} ${_language} )
-			ENDIF( KILE_MSGFMT AND EXISTS ${_entry}/messages )
-			IF( KDE4_MEINPROC_EXECUTABLE AND EXISTS ${_entry}/doc )
-				KILE_ADD_DOCBOOK_DIRECTORY( ${_documentation_sources} translations/${_language}/doc ${kile_DOCBOOK} ${_language} )
-				SET(_docbooks_built ${_docbooks_built} ${_language} )
-			ENDIF( KDE4_MEINPROC_EXECUTABLE AND EXISTS ${_entry}/doc )
-		ENDIF( IS_DIRECTORY ${_entry} )
-	ENDFOREACH( _entry ${_subdirectories} )
+	foreach(_entry ${_subdirectories})
+		if(IS_DIRECTORY ${_entry})
+			get_filename_component(_language ${_entry} NAME)
+			if(KILE_MSGFMT AND EXISTS ${_entry}/messages)
+				KILE_ADD_TRANSLATION_DIRECTORY(${_translation_sources} translations/${_language}/messages ${kile_PO_FILE} ${_language})
+				set(_translations_built ${_translations_built} ${_language})
+			endif(KILE_MSGFMT AND EXISTS ${_entry}/messages)
+			if(KDE4_MEINPROC_EXECUTABLE AND EXISTS ${_entry}/doc)
+				KILE_ADD_DOCBOOK_DIRECTORY(${_documentation_sources} translations/${_language}/doc ${kile_DOCBOOK} ${_language})
+				set(_docbooks_built ${_docbooks_built} ${_language})
+			endif(KDE4_MEINPROC_EXECUTABLE AND EXISTS ${_entry}/doc)
+		endif(IS_DIRECTORY ${_entry})
+	endforeach(_entry ${_subdirectories})
 
-	IF( _translations_built )
-		MESSAGE( STATUS "Building translations for ${_translations_built}" )
-	ELSE( _translations_built )
-		MESSAGE( STATUS "Not building translations" )
-	ENDIF( _translations_built )
+	if(_translations_built)
+		message(STATUS "Building translations for ${_translations_built}")
+	else(_translations_built)
+		message(STATUS "Not building translations")
+	endif(_translations_built)
 
-	IF( _docbooks_built )
-		MESSAGE( STATUS "Building documentation for ${_docbooks_built}" )
-	ELSE( _docbooks_built )
-		MESSAGE( STATUS "Not building additional documentation" )
-	ENDIF( _docbooks_built )
-ENDMACRO( KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sources _dir )
+	if(_docbooks_built)
+		message(STATUS "Building documentation for ${_docbooks_built}")
+	else(_docbooks_built)
+		message(STATUS "Not building additional documentation")
+	endif(_docbooks_built)
+endmacro(KILE_ADD_TRANSLATION_DIRECTORIES _documentation_sources _translation_sources _dir)
 
-MACRO( KILE_FIND_DOC_TOOLS )
+macro(KILE_FIND_DOC_TOOLS)
+	if(KDE4_MEINPROC_EXECUTABLE)
+		message(STATUS "Found meinproc4: ${KDE4_MEINPROC_EXECUTABLE}")
+	else(KDE4_MEINPROC_EXECUTABLE)
+		message(STATUS "Could not find meinproc4")
+	endif(KDE4_MEINPROC_EXECUTABLE)
 
-	IF( KDE4_MEINPROC_EXECUTABLE )
-		MESSAGE( STATUS "Found meinproc4: ${KDE4_MEINPROC_EXECUTABLE}" )
-	ELSE ( KDE4_MEINPROC_EXECUTABLE)
-		MESSAGE( STATUS "Could not find meinproc4")
-	ENDIF( KDE4_MEINPROC_EXECUTABLE )
+	find_program(KILE_MSGFMT "msgfmt" DOC "path of the msgfmt executable")
+	if(KILE_MSGFMT)
+		message(STATUS "Found msgfmt: ${KILE_MSGFMT}")
+	else(KILE_MSGFMT)
+		 message(STATUS "Could not find msgfmt")
+	endif(KILE_MSGFMT)
 
-	FIND_PROGRAM( KILE_MSGFMT "msgfmt" DOC "path of the msgfmt executable")
-	IF( KILE_MSGFMT )
-		MESSAGE( STATUS "Found msgfmt: ${KILE_MSGFMT}" )
-	ELSE( KILE_MSGFMT )
-		 MESSAGE( STATUS "Could not find msgfmt" )
-	ENDIF( KILE_MSGFMT )
+	if(KDE4_MEINPROC_EXECUTABLE AND KILE_MSGFMT)
+		set(KILE_DOC_TOOLS_FOUND true)
+	endif(KDE4_MEINPROC_EXECUTABLE AND KILE_MSGFMT)
+endmacro(KILE_FIND_DOC_TOOLS)
 
-	IF( KDE4_MEINPROC_EXECUTABLE AND KILE_MSGFMT )
-		SET( KILE_DOC_TOOLS_FOUND true )
-	ENDIF ( KDE4_MEINPROC_EXECUTABLE AND KILE_MSGFMT )
-ENDMACRO( KILE_FIND_DOC_TOOLS )
+if(EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations)
+	KILE_FIND_DOC_TOOLS()
+endif(EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations)
 
-IF( EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations )
-	KILE_FIND_DOC_TOOLS( )
-ENDIF(  EXISTS ${kile_SOURCE_DIR}/doc OR EXISTS ${kile_SOURCE_DIR}/translations )
+if(EXISTS ${kile_SOURCE_DIR}/doc)
+	if(KDE4_MEINPROC_EXECUTABLE)
+		message(STATUS "Building standard documentation")
+		KILE_ADD_DOCBOOK_DIRECTORY(kile_DOCUMENTATION_SOURCES doc index.docbook en)
+	endif(KDE4_MEINPROC_EXECUTABLE)
+else(EXISTS ${kile_SOURCE_DIR}/doc)
+	message(STATUS "Not building standard documentation")
+endif(EXISTS ${kile_SOURCE_DIR}/doc)
 
-IF( EXISTS ${kile_SOURCE_DIR}/doc )
-	IF( KDE4_MEINPROC_EXECUTABLE )
-		MESSAGE( STATUS "Building standard documentation")
-		KILE_ADD_DOCBOOK_DIRECTORY( kile_DOCUMENTATION_SOURCES doc index.docbook en )
-	ENDIF( KDE4_MEINPROC_EXECUTABLE )
-ELSE( EXISTS ${kile_SOURCE_DIR}/doc )
-	MESSAGE( STATUS "Not building standard documentation")
-ENDIF( EXISTS ${kile_SOURCE_DIR}/doc )
+if(EXISTS ${kile_SOURCE_DIR}/translations)
+	if(KDE4_MEINPROC_EXECUTABLE OR KILE_MSGFMT)
+		KILE_ADD_TRANSLATION_DIRECTORIES(kile_DOCUMENTATION_SOURCES kile_TRANSLATION_SOURCES ${kile_SOURCE_DIR}/translations)
+	endif(KDE4_MEINPROC_EXECUTABLE OR KILE_MSGFMT)
+else(EXISTS ${kile_SOURCE_DIR}/translations)
+	message(STATUS "Not building translations")
+endif(EXISTS ${kile_SOURCE_DIR}/translations)
 
-IF( EXISTS ${kile_SOURCE_DIR}/translations )
-	IF( KDE4_MEINPROC_EXECUTABLE OR KILE_MSGFMT )
-		KILE_ADD_TRANSLATION_DIRECTORIES( kile_DOCUMENTATION_SOURCES kile_TRANSLATION_SOURCES ${kile_SOURCE_DIR}/translations )
-	ENDIF( KDE4_MEINPROC_EXECUTABLE OR KILE_MSGFMT )
-ELSE( EXISTS ${kile_SOURCE_DIR}/translations )
-	MESSAGE( STATUS "Not building translations")
-ENDIF( EXISTS ${kile_SOURCE_DIR}/translations )
+if(kile_DOCUMENTATION_SOURCES)
+	add_custom_target(docbooks ALL DEPENDS ${kile_DOCUMENTATION_SOURCES})
+endif(kile_DOCUMENTATION_SOURCES)
 
-IF( kile_DOCUMENTATION_SOURCES )
-	ADD_CUSTOM_TARGET(docbooks ALL DEPENDS ${kile_DOCUMENTATION_SOURCES})
-ENDIF( kile_DOCUMENTATION_SOURCES )
+if(kile_TRANSLATION_SOURCES)
+	add_custom_target(translations ALL DEPENDS ${kile_TRANSLATION_SOURCES})
+endif(kile_TRANSLATION_SOURCES)
 
-IF( kile_TRANSLATION_SOURCES )
-	ADD_CUSTOM_TARGET(translations ALL DEPENDS ${kile_TRANSLATION_SOURCES})
-ENDIF( kile_TRANSLATION_SOURCES)
-
-ADD_SUBDIRECTORY( doc )
-ADD_SUBDIRECTORY( src )
+add_subdirectory(doc)
+add_subdirectory(src)
 
 ########### install files ###############
 
-install( FILES kile.xml DESTINATION ${XDG_MIME_INSTALL_DIR} )
-update_xdg_mimetypes( ${XDG_MIME_INSTALL_DIR} )
+install(
+	FILES kile.xml
+	DESTINATION ${XDG_MIME_INSTALL_DIR})
+# update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 
-INSTALL( FILES kile.upd kile1.6_upd.pl kile1.7_upd.pl kile1.9_upd.pl
-kile1.9-1_upd.pl kile2.0-1_upd.pl kile2.0-2_upd.pl kile2.0-3_upd.pl
-kile2.0-4_upd.pl kile2.0-5_upd.pl DESTINATION ${DATA_INSTALL_DIR}/kconf_update )
+install(
+	FILES
+		kile.upd
+		kile1.6_upd.pl
+		kile1.7_upd.pl
+		kile1.9_upd.pl
+		kile1.9-1_upd.pl
+		kile2.0-1_upd.pl
+		kile2.0-2_upd.pl
+		kile2.0-3_upd.pl
+		kile2.0-4_upd.pl
+		kile2.0-5_upd.pl
+	DESTINATION ${DATA_INSTALL_DIR}/kconf_update)
 
-IF( KILE_VERSION )
-	SET(_KILE_SPECIAL_DOC_DIR "share/doc/kile-${KILE_VERSION}")
-ELSE( KILE_VERSION )
-	SET(_KILE_SPECIAL_DOC_DIR "share/doc/kile")
-ENDIF( KILE_VERSION )
+if(KILE_VERSION)
+	set(_KILE_SPECIAL_DOC_DIR "share/doc/kile-${KILE_VERSION}")
+else(KILE_VERSION)
+	set(_KILE_SPECIAL_DOC_DIR "share/doc/kile")
+endif(KILE_VERSION)
 
-INSTALL( FILES AUTHORS ChangeLog README README.cwl kile-remote-control.txt README.MacOSX DESTINATION ${_KILE_SPECIAL_DOC_DIR})
+install(
+	FILES
+		AUTHORS
+		ChangeLog
+		README
+		README.cwl
+		kile-remote-control.txt
+		README.MacOSX
+	DESTINATION ${_KILE_SPECIAL_DOC_DIR})
 
-MACRO_DISPLAY_FEATURE_LOG()
+feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,7 @@
 #include <QObject>
 #include <QQueue>
 
-#include <KUrl>
+#include <QUrl>
 
 class KileInfo;
 
@@ -54,14 +54,14 @@ public:
 
 	bool isDocumentParsingComplete();
 
-	void stopDocumentParsing(const KUrl& url);
+	void stopDocumentParsing(const QUrl &url);
 
 Q_SIGNALS:
 	void documentParsingComplete();
 	void documentParsingStarted();
 
 protected Q_SLOTS:
-	void handleOutputParsingComplete(const KUrl& url, KileParser::ParserOutput *output);
+	void handleOutputParsingComplete(const QUrl &url, KileParser::ParserOutput *output);
 
 	void removeToolFromUrlHash(KileTool::Base *tool);
 
@@ -69,7 +69,7 @@ private:
 	KileInfo *m_ki;
 	DocumentParserThread *m_documentParserThread;
 	OutputParserThread *m_outputParserThread;
-	QMultiHash<QString, KileTool::Base*> m_urlToToolHash;
+	QMultiHash<QUrl, KileTool::Base*> m_urlToToolHash;
 };
 
 }

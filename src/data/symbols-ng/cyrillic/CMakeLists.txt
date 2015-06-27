@@ -1,3 +1,3 @@
 file(GLOB symbols *.png)
-SET(symbolType "cyrillic")
-INSTALL( FILES ${symbols} DESTINATION ${DATA_INSTALL_DIR}/kile/mathsymbols/${symbolType} )
+set(symbolType "cyrillic")
+install(FILES ${symbols} DESTINATION ${DATA_INSTALL_DIR}/kile/mathsymbols/${symbolType})

@@ -108,7 +108,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KIntNumInput" name="kcfg_TimeLimit" >
+         <widget class="QSpinBox" name="kcfg_TimeLimit" >
           <property name="sizePolicy" >
            <sizepolicy vsizetype="Fixed" hsizetype="Minimum" >
             <horstretch>0</horstretch>
@@ -161,16 +161,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction></pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>KIntNumInput</class>
-   <extends>QWidget</extends>
-   <header>knuminput.h</header>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local" >knuminput.h</include>
- </includes>
  <resources/>
  <connections>
   <connection>

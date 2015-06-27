@@ -12,21 +12,18 @@
  ***************************************************************************/
 
 
+#include <QIcon>
+#include <QInputDialog>
 #include <QFile>
 #include <QFileInfo>
 #include <QHeaderView>
 #include <QDomDocument>
+#include <QProcessEnvironment>
 #include <QSignalMapper>
 
-#if QT_VERSION >= 0x040600
-#include <QProcessEnvironment>
-#endif
-
-#include <KIcon>
 #include <KIconLoader>
-#include <KMenu>
-#include <KLocale>
-#include <KInputDialog>
+#include <QMenu>
+#include <KLocalizedString>
 #include <KMessageBox>
 
 
@@ -79,9 +76,9 @@ UserMenuTree::UserMenuTree(QWidget *parent)
 {
 	setColumnCount(2);
 
-	header()->setResizeMode(0,QHeaderView::Stretch);
-	header()->setResizeMode(1,QHeaderView::Fixed);
-	header()->setMovable(false);
+	header()->setSectionResizeMode(0, QHeaderView::Stretch);
+	header()->setSectionResizeMode(1, QHeaderView::Fixed);
+	header()->setSectionsMovable(false);
 	header()->setStretchLastSection(false);
 	setColumnWidth(1,140);
 	setItemDelegateForColumn(0, new MenuentryDelegate(parent));
@@ -165,49 +162,49 @@ bool UserMenuTree::isItemExecutable(const QString &filename)
 // build a context menu
 void UserMenuTree::contextMenuRequested(const QPoint &pos)
 {
-	KILE_DEBUG() << "context menu requested ..." ;
+	KILE_DEBUG_MAIN << "context menu requested ..." ;
 
 	m_popupItem = dynamic_cast<UserMenuItem*>(itemAt(pos));
 	if ( !m_popupItem ) {
-		KILE_DEBUG() << "... no item found";
+		KILE_DEBUG_MAIN << "... no item found";
 		return;
 	}
 
-	KILE_DEBUG() << "... popup item found: " << m_popupItem->text(0);
+	KILE_DEBUG_MAIN << "... popup item found: " << m_popupItem->text(0);
 	bool submenu = ( m_popupItem->menutype() ==  UserMenuData::Submenu );
 	bool separator = ( m_popupItem->menutype() ==  UserMenuData::Separator );
 
-	KMenu popup;
-	QAction *action = NULL;
+	QMenu popup;
+	QAction *action = Q_NULLPTR;
 	QSignalMapper signalMapper;
 	connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
 
 	// insert standard menu items
-	action = popup.addAction(KIcon("usermenu-insert-above.png"),i18n("Insert above"), &signalMapper, SLOT(map()));
+	action = popup.addAction(QIcon::fromTheme("usermenu-insert-above.png"),i18n("Insert above"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_INSERT_ABOVE);
-	action = popup.addAction(KIcon("usermenu-insert-below.png"),i18n("Insert below"), &signalMapper, SLOT(map()));
+	action = popup.addAction(QIcon::fromTheme("usermenu-insert-below.png"),i18n("Insert below"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_INSERT_BELOW);
 	popup.addSeparator();
 
 	// insert separators
 	if ( !separator ) {
-		action = popup.addAction(KIcon("usermenu-separator-above.png"),i18n("Insert a separator above"), &signalMapper, SLOT(map()));
+		action = popup.addAction(QIcon::fromTheme("usermenu-separator-above.png"),i18n("Insert a separator above"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, POPUP_SEPARATOR_ABOVE);
-		action = popup.addAction(KIcon("usermenu-separator-below.png"),i18n("Insert a separator below"), &signalMapper, SLOT(map()));
+		action = popup.addAction(QIcon::fromTheme("usermenu-separator-below.png"),i18n("Insert a separator below"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, POPUP_SEPARATOR_BELOW);
 		popup.addSeparator();
 	}
 
 	// insert submenus
-	action = popup.addAction(KIcon("usermenu-submenu-above.png"),i18n("Insert a submenu above"), &signalMapper, SLOT(map()));
+	action = popup.addAction(QIcon::fromTheme("usermenu-submenu-above.png"),i18n("Insert a submenu above"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_SUBMENU_ABOVE);
-	action = popup.addAction(KIcon("usermenu-submenu-below.png"),i18n("Insert a submenu below"), &signalMapper, SLOT(map()));
+	action = popup.addAction(QIcon::fromTheme("usermenu-submenu-below.png"),i18n("Insert a submenu below"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_SUBMENU_BELOW);
 	popup.addSeparator();
 
 	// insert into submenus
 	if ( submenu ) {
-		action = popup.addAction(KIcon("usermenu-into-submenu.png"),i18n("Insert into this submenu"), &signalMapper, SLOT(map()));
+		action = popup.addAction(QIcon::fromTheme("usermenu-into-submenu.png"),i18n("Insert into this submenu"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, POPUP_INTO_SUBMENU);
 		action = popup.addAction(i18n("Insert a separator into this submenu"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, POPUP_SEPARATOR_INTO_SUBMENU);
@@ -217,10 +214,10 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
 	}
 
 	// delete actions
-	action = popup.addAction(KIcon("usermenu-delete.png"),i18n("Delete this item"), &signalMapper, SLOT(map()));
+	action = popup.addAction(QIcon::fromTheme("usermenu-delete.png"),i18n("Delete this item"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action,POPUP_DELETE_ITEM);
 	popup.addSeparator();
-	action = popup.addAction(KIcon("usermenu-clear.png"),i18n("Delete the complete tree"), &signalMapper, SLOT(map()));
+	action = popup.addAction(QIcon::fromTheme("usermenu-clear.png"),i18n("Delete the complete tree"), &signalMapper, SLOT(map()));
 	signalMapper.setMapping(action, POPUP_DELETE_TREE);
 
 	// expand/collapse tree
@@ -245,7 +242,7 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
 	int error = m_popupItem->data(0,Qt::UserRole+2).toInt();
 	if ( error != UserMenuItem::MODEL_ERROR_NONE ) {
 		popup.addSeparator();
-		action = popup.addAction(KIcon("help-about.png"),i18n("Info"), &signalMapper, SLOT(map()));
+		action = popup.addAction(QIcon::fromTheme("help-about.png"),i18n("Info"), &signalMapper, SLOT(map()));
 		signalMapper.setMapping(action, POPUP_ITEM_INFO);
 	}
 
@@ -259,7 +256,7 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
 // a context menu action was selected
 void UserMenuTree::slotPopupActivated(int id)
 {
-	KILE_DEBUG() << "popup activated with id: " << id;
+	KILE_DEBUG_MAIN << "popup activated with id: " << id;
 	switch (id ) {
 		case POPUP_INSERT_ABOVE:           insertMenuItem (m_popupItem, false);                      break;
 		case POPUP_INSERT_BELOW:           insertMenuItem (m_popupItem, true);                       break;
@@ -285,7 +282,7 @@ void UserMenuTree::slotPopupActivated(int id)
 // read an xml file and check for errors
 bool UserMenuTree::readXml(const QString &filename)
 {
-	KILE_DEBUG() << "read xml file " << filename;
+	KILE_DEBUG_MAIN << "read xml file " << filename;
 
 	QDomDocument doc("UserMenu");
 	QFile file(filename);
@@ -299,7 +296,7 @@ bool UserMenuTree::readXml(const QString &filename)
 	}
 	file.close();
 
-	KILE_DEBUG() << "parse xml ...";
+	KILE_DEBUG_MAIN << "parse xml ...";
 	blockSignals(true);
 
 	// clear menutree
@@ -311,7 +308,7 @@ bool UserMenuTree::readXml(const QString &filename)
 	while ( !e.isNull()) {
 		QString tag = e.tagName();
 
-		UserMenuItem *item = NULL;
+		UserMenuItem *item = Q_NULLPTR;
 		if ( tag == "submenu" ) {
 			item = readXmlSubmenu(e);
 		}
@@ -356,7 +353,7 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 	if ( element.hasChildNodes() ) {
 		QDomElement e = element.firstChildElement();
 		while ( !e.isNull()) {
-			UserMenuItem *item = NULL;
+			UserMenuItem *item = Q_NULLPTR;
 
 			QString tag = e.tagName();
 			if ( tag == "title" ) {
@@ -442,7 +439,7 @@ UserMenuItem *UserMenuTree::readXmlMenuentry(const QDomElement &element)
 		menuentryitem->setParameter(parameter);
 		if ( !icon.isEmpty() ) {
 			menuentryitem->setMenuicon(icon);
-			menuentryitem->setIcon(0,KIcon(icon));
+			menuentryitem->setIcon(0,QIcon::fromTheme(icon));
 		}
 		if ( !shortcut.isEmpty() ) {
 			QKeySequence seq = QKeySequence::fromString(shortcut,QKeySequence::PortableText);
@@ -468,7 +465,7 @@ UserMenuItem *UserMenuTree::readXmlMenuentry(const QDomElement &element)
 
 bool UserMenuTree::writeXml(const QString &filename)
 {
-	KILE_DEBUG() << "write xml file " << filename;
+	KILE_DEBUG_MAIN << "write xml file " << filename;
 
 	QFile file(filename);
 	if ( !file.open(QFile::WriteOnly | QFile::Text) ) {
@@ -602,7 +599,7 @@ void UserMenuTree::writeXmlSeparator(QXmlStreamWriter *xml)
 //  - empty filenames, not existing or not executable files
 void UserMenuTree::setErrorCodes()
 {
-	KILE_DEBUG() << "check menutree for errors and set error codes ...";
+	KILE_DEBUG_MAIN << "check menutree for errors and set error codes ...";
 
 	for (int i = 0; i < topLevelItemCount(); ++i) {
 		UserMenuItem *item = dynamic_cast<UserMenuItem *>(topLevelItem(i));
@@ -624,7 +621,7 @@ void UserMenuTree::checkMenuTitle(UserMenuItem *item)
 {
 	if ( item->menutitle().isEmpty() ) {
 		item->setText(0,EMPTY_MENUENTRY);
-		KILE_DEBUG() << "empty menutitle changed to " << EMPTY_MENUENTRY;
+		KILE_DEBUG_MAIN << "empty menutitle changed to " << EMPTY_MENUENTRY;
 	}
 }
 
@@ -660,7 +657,7 @@ void UserMenuTree::checkSubmenu(UserMenuItem *item)
 // check for errors (true=no errors)
 bool UserMenuTree::errorCheck()
 {
-	KILE_DEBUG() << "check menutree for errors ...";
+	KILE_DEBUG_MAIN << "check menutree for errors ...";
 
 	for (int i = 0; i < topLevelItemCount(); ++i) {
 		UserMenuItem *item = dynamic_cast<UserMenuItem *>(topLevelItem(i));
@@ -755,7 +752,7 @@ bool UserMenuTree::insertSeparator(QTreeWidgetItem *current, bool below)
 
 void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
-	QTreeWidgetItem *parent = ( current ) ? current->parent() : NULL;
+	QTreeWidgetItem *parent = ( current ) ? current->parent() : Q_NULLPTR;
 	int index = itemIndex(parent,current);
 
 	UserMenuItem *item = new UserMenuItem(type,menulabel);
@@ -768,7 +765,7 @@ void UserMenuTree::insertMenuItemAbove(QTreeWidgetItem *current, UserMenuData::M
 void UserMenuTree::insertMenuItemBelow(QTreeWidgetItem *current, UserMenuData::MenuType type, const QString &menulabel)
 {
 	UserMenuItem *item;
-	QTreeWidgetItem *parent = ( current ) ? current->parent() : NULL;
+	QTreeWidgetItem *parent = ( current ) ? current->parent() : Q_NULLPTR;
 
 	if(!parent) {
 		item = new UserMenuItem(this,current,type,menulabel);
@@ -812,7 +809,7 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
 			selectitem = topLevelItem(index-1);
 		}
 		else {
-			selectitem = NULL;
+			selectitem = Q_NULLPTR;
 		}
 
 		item = takeTopLevelItem(index);
@@ -1043,7 +1040,7 @@ bool UserMenuTree::str2bool(const QString &value)
 QString UserMenuTree::getMenuTitle(const QString &title)
 {
 	bool ok;
-	QString value = KInputDialog::getText(i18n("Name"), title, QString(), &ok, this);
+	QString value = QInputDialog::getText(this, i18n("Name"), title, QLineEdit::Normal, QString(), &ok);
 	return ( ok ) ? value : QString();
 
 }
@@ -1051,4 +1048,3 @@ QString UserMenuTree::getMenuTitle(const QString &title)
 
 }
 
-#include "usermenutree.moc"

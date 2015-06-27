@@ -27,9 +27,10 @@
 
 #include <KColorButton>
 #include <KComboBox>
-#include <KDialog>
-#include <KLineEdit>
-#include <KLocale>
+#include <QDialog>
+#include <QLineEdit>
+#include <KLocalizedString>
+#include <KConfigGroup>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
@@ -43,14 +44,14 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	// Layout
 	QVBoxLayout *vbox = new QVBoxLayout();
 	vbox->setMargin(0);
-	vbox->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
 	setLayout(vbox);
 
 	QGroupBox *groupbox = new QGroupBox(i18n("Quick Preview in a Separate Window"), this);
 	groupbox->setFlat(true);
 	QGridLayout *groupboxLayout = new QGridLayout();
-	groupboxLayout->setMargin(KDialog::marginHint());
-	groupboxLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	groupboxLayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	groupboxLayout->setSpacing(QDialog::spacingHint());
 	groupboxLayout->setAlignment(Qt::AlignTop);
 	groupbox->setLayout(groupboxLayout);
 
@@ -67,13 +68,13 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	QGroupBox *gbResolution = new QGroupBox(i18n("Quick Preview in Bottom Bar"), this);
 	gbResolution->setFlat(true);
 	QGridLayout *resLayout = new QGridLayout();
-	resLayout->setMargin(KDialog::marginHint());
-	resLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	resLayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	resLayout->setSpacing(QDialog::spacingHint());
 	resLayout->setAlignment(Qt::AlignTop);
 	gbResolution->setLayout(resLayout);
 
 	QLabel *resLabel = new QLabel(i18n("&Resolution:"), gbResolution);
-	m_leDvipngResolution = new KLineEdit(gbResolution);
+	m_leDvipngResolution = new QLineEdit(gbResolution);
 	QLabel *resDpi = new QLabel(i18n("dpi"), gbResolution);
 	QLabel *resAllowed = new QLabel(i18n("(allowed values: 30-1000 dpi)"), gbResolution);
 
@@ -118,8 +119,8 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	m_gbPreview->setFlat(true);
 	m_gbPreview->setObjectName("gbpreview");
 	QGridLayout *previewLayout = new QGridLayout();
-	previewLayout->setMargin(KDialog::marginHint());
-	previewLayout->setSpacing(KDialog::spacingHint());
+//TODO PORT QT5 	previewLayout->setMargin(QDialog::marginHint());
+//TODO PORT QT5 	previewLayout->setSpacing(QDialog::spacingHint());
 	previewLayout->setAlignment(Qt::AlignTop);
 	m_gbPreview->setLayout(previewLayout);
 
@@ -348,4 +349,3 @@ void KileWidgetPreviewConfig::updateConversionTools()
 	m_coMathgroup->setEnabled(m_cbMathgroup->isChecked());
 }
 
-#include "previewconfigwidget.moc"

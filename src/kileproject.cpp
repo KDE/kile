@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -25,16 +25,11 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include <kdeversion.h>
-#include <KGlobal>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>
 #include <KTextEditor/SessionConfigInterface>
-#if KDE_IS_VERSION(4,3,75)
-#include <KTextEditor/ParameterizedSessionConfigInterface>
-#endif
-#include <KUrl>
+#include <QUrl>
 
 #include "documentinfo.h"
 #include "kiledebug.h"
@@ -54,14 +49,14 @@
 /*
  * KileProjectItem
  */
-KileProjectItem::KileProjectItem(KileProject *project, const KUrl & url, int type) :
+KileProjectItem::KileProjectItem(KileProject *project, const QUrl &url, int type) :
 	m_project(project),
 	m_url(url),
 	m_type(type),
-	m_docinfo(NULL),
-	m_parent(NULL),
-	m_child(NULL),
-	m_sibling(NULL),
+	m_docinfo(Q_NULLPTR),
+	m_parent(Q_NULLPTR),
+	m_child(Q_NULLPTR),
+	m_sibling(Q_NULLPTR),
 	m_nLine(0),
 	m_order(-1)
 {
@@ -185,36 +180,24 @@ void KileProjectItem::saveViewSettings(KTextEditor::View *view, int viewIndex)
 
 void KileProjectItem::loadDocumentSettings(KTextEditor::Document *document)
 {
-#if KDE_IS_VERSION(4,3,75)
-	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
-	if(!interface) {
-		return;
-	}
 	KConfigGroup configGroup = m_project->configGroupForItemDocumentSettings(this);
 	if(!configGroup.exists()) {
 		return;
 	}
-	interface->readParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
-#endif
+	document->readSessionConfig(configGroup, QSet<QString>() << "SkipUrl");
 }
 
 void KileProjectItem::saveDocumentSettings(KTextEditor::Document *document)
 {
-#if KDE_IS_VERSION(4,3,75)
-	KTextEditor::ParameterizedSessionConfigInterface *interface = qobject_cast<KTextEditor::ParameterizedSessionConfigInterface*>(document);
-	if(!interface) {
-		return;
-	}
 	KConfigGroup configGroup = m_project->configGroupForItemDocumentSettings(this);
-	interface->writeParameterizedSessionConfig(configGroup, KTextEditor::ParameterizedSessionConfigInterface::SkipUrl);
-#endif
+	document->writeSessionConfig(configGroup, QSet<QString>() << "SkipUrl");
 }
 
 void KileProjectItem::print(int level)
 {
 	QString str;
 	str.fill('\t', level);
-	KILE_DEBUG() << str << "+" << url().fileName();
+	KILE_DEBUG_MAIN << str << "+" << url().fileName();
 
 	if (firstChild()) {
 		firstChild()->print(++level);
@@ -229,10 +212,10 @@ void KileProjectItem::allChildren(QList<KileProjectItem*> *list) const
 {
 	KileProjectItem *item = firstChild();
 
-// 	KILE_DEBUG() << "\tKileProjectItem::allChildren(" << list->count() << ")";
-	while(item != NULL) {
+// 	KILE_DEBUG_MAIN << "\tKileProjectItem::allChildren(" << list->count() << ")";
+	while(item != Q_NULLPTR) {
 		list->append(item);
-// 		KILE_DEBUG() << "\t\tappending " << item->url().fileName();
+// 		KILE_DEBUG_MAIN << "\t\tappending " << item->url().fileName();
 		item->allChildren(list);
 		item = item->sibling();
 	}
@@ -243,12 +226,12 @@ void KileProjectItem::setInfo(KileDocument::TextInfo *docinfo)
 	m_docinfo = docinfo;
 	if(docinfo)
 	{
-	connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*, const KUrl &)), this, SLOT(slotChangeURL(KileDocument::Info*, const KUrl &)));
+	connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*, const QUrl &)), this, SLOT(slotChangeURL(KileDocument::Info*, const QUrl &)));
 	connect(docinfo,SIGNAL(depChanged()), m_project, SLOT(buildProjectTree()));
 	}
 }
 
-void KileProjectItem::changeURL(const KUrl &url)
+void KileProjectItem::changeURL(const QUrl &url)
 {
 	// don't allow empty URLs
 	if(!url.isEmpty() && m_url != url)
@@ -258,7 +241,7 @@ void KileProjectItem::changeURL(const KUrl &url)
 	}
 }
 
-void KileProjectItem::slotChangeURL(KileDocument::Info*, const KUrl &url)
+void KileProjectItem::slotChangeURL(KileDocument::Info*, const QUrl &url)
 {
 	changeURL(url);
 }
@@ -266,15 +249,15 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const KUrl &url)
 /*
  * KileProject
  */
-KileProject::KileProject(const QString& name, const KUrl& url, KileDocument::Extensions *extensions)
-: QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Extensions *extensions)
+: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
 	setObjectName(name);
 	init(name, url, extensions);
 }
 
-KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions)
-: QObject(NULL), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+KileProject::KileProject(const QUrl &url, KileDocument::Extensions *extensions)
+: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
 {
 	setObjectName(url.fileName());
 	init(url.fileName(), url, extensions);
@@ -282,7 +265,7 @@ KileProject::KileProject(const KUrl& url, KileDocument::Extensions *extensions)
 
 KileProject::~KileProject()
 {
-	KILE_DEBUG() << "DELETING KILEPROJECT " <<  m_projecturl.url();
+	KILE_DEBUG_MAIN << "DELETING KILEPROJECT " <<  m_projecturl.url();
 	emit(aboutToBeDestroyed(this));
 	delete m_config;
 
@@ -291,7 +274,7 @@ KileProject::~KileProject()
 	}
 }
 
-void KileProject::init(const QString& name, const KUrl& url, KileDocument::Extensions *extensions)
+void KileProject::init(const QString& name, const QUrl &url, KileDocument::Extensions *extensions)
 {
 	m_name = name;
 	m_projecturl = KileDocument::Manager::symlinkFreeURL( url);;
@@ -299,10 +282,9 @@ void KileProject::init(const QString& name, const KUrl& url, KileDocument::Exten
 	m_config = new KConfig(m_projecturl.toLocalFile(), KConfig::SimpleConfig);
 	m_extmanager = extensions;
 
-	m_baseurl = m_projecturl.directory();
-	m_baseurl.cleanPath(KUrl::SimplifyDirSeparators);
+	m_baseurl = m_projecturl.adjusted(QUrl::RemoveFilename);
 
-	KILE_DEBUG() << "KileProject m_baseurl = " << m_baseurl.toLocalFile();
+	KILE_DEBUG_MAIN << "KileProject m_baseurl = " << m_baseurl.toLocalFile();
 
 	if(QFileInfo(url.toLocalFile()).exists()) {
 		load();
@@ -317,7 +299,7 @@ void KileProject::init(const QString& name, const KUrl& url, KileDocument::Exten
 	}
 }
 
-void KileProject::setLastDocument(const KUrl &url)
+void KileProject::setLastDocument(const QUrl &url)
 {
     if ( item(url) != 0 )
         m_lastDocument = KileDocument::Manager::symlinkFreeURL(url);
@@ -327,7 +309,7 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
 	if (type<KileProjectItem::Source || type>KileProjectItem::Image)
 	{
-		kWarning() << "ERROR: TYPE<1 or TYPE>3";
+		qWarning() << "ERROR: TYPE<1 or TYPE>3";
 		return;
 	}
 
@@ -427,7 +409,7 @@ void KileProject::readMakeIndexOptions()
 	QString grp = KileTool::groupFor("MakeIndex", m_config);
 
 	//get the default value
-	KSharedConfig::Ptr cfg = KGlobal::config();
+	KSharedConfig::Ptr cfg = KSharedConfig::openConfig();
 	KConfigGroup configGroup = cfg->group(KileTool::groupFor("MakeIndex", KileTool::configName("MakeIndex", cfg.data())));
 	QString deflt = configGroup.readEntry("options", "'%S'.idx");
 
@@ -452,16 +434,16 @@ void KileProject::writeUseMakeIndexOptions()
 
 QString KileProject::addBaseURL(const QString &path)
 {
-	KILE_DEBUG() << "===addBaseURL(const QString & " << path << " )";
+	KILE_DEBUG_MAIN << "===addBaseURL(const QString & " << path << " )";
 	if(path.isEmpty()) {
 		return path;
 	}
 
 	else if(QDir::isAbsolutePath(path)) {
-		return KileDocument::Manager::symlinkFreeURL(KUrl(path)).toLocalFile();
+		return KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(path)).toLocalFile();
 	}
 	else {
-		return  KileDocument::Manager::symlinkFreeURL(KUrl(m_baseurl.toLocalFile(KUrl::AddTrailingSlash) +path)).toLocalFile();
+		return  KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
 	}
 }
 
@@ -470,7 +452,7 @@ QString KileProject::removeBaseURL(const QString &path)
 	if(QDir::isAbsolutePath(path)) {
 		QFileInfo info(path);
 		QString relPath = findRelativePath(path);
-		KILE_DEBUG() << "removeBaseURL path is" << path << " , relPath is " << relPath;
+		KILE_DEBUG_MAIN << "removeBaseURL path is" << path << " , relPath is " << relPath;
 		return relPath;
 	}
 	else {
@@ -480,7 +462,7 @@ QString KileProject::removeBaseURL(const QString &path)
 
 bool KileProject::load()
 {
-	KILE_DEBUG() << "KileProject: loading..." <<endl;
+	KILE_DEBUG_MAIN << "KileProject: loading..." <<endl;
 
 	//load general settings/options
 	KConfigGroup generalGroup = m_config->group("General");
@@ -491,7 +473,7 @@ bool KileProject::load()
 	m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
 
 	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt()) {
-		if(KMessageBox::warningYesNo(NULL, i18n("The project file of %1 was created by a newer version of kile. "
+		if(KMessageBox::warningYesNo(Q_NULLPTR, i18n("The project file of %1 was created by a newer version of kile. "
 				"Opening it can lead to unexpected results.\n"
 				"Do you really want to continue (not recommended)?", m_name),
 				 QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No) {
@@ -501,7 +483,7 @@ bool KileProject::load()
 	}
 
 	QString master = addBaseURL(generalGroup.readEntry("masterDocument", QString()));
-	KILE_DEBUG() << "masterDoc == " << master;
+	KILE_DEBUG_MAIN << "masterDoc == " << master;
 	setMasterDocument(master);
 
 	setExtensions(KileProjectItem::Source, generalGroup.readEntry("src_extensions",m_extmanager->latexDocuments()));
@@ -519,7 +501,7 @@ bool KileProject::load()
 
 	readMakeIndexOptions();
 
-	KUrl url;
+	QUrl url;
 	KileProjectItem *item;
 	QStringList groups = m_config->groupList();
 
@@ -528,12 +510,11 @@ bool KileProject::load()
 		if (groups[i].left(5) == "item:") {
 			QString path = groups[i].mid(5);
 			if (QDir::isAbsolutePath(path)) {
-				url = KUrl(path);
+				url = QUrl::fromLocalFile(path);
 			}
 			else {
-				url = m_baseurl;
-				url.addPath(path);
-				url.cleanPath(KUrl::SimplifyDirSeparators);
+				url = m_baseurl.adjusted(QUrl::StripTrailingSlash);
+				url.setPath(url.path() + '/' + path);
 			}
 			item = new KileProjectItem(this, KileDocument::Manager::symlinkFreeURL(url));
 			setType(item);
@@ -548,7 +529,7 @@ bool KileProject::load()
 
 	// only call this after all items are created, otherwise setLastDocument doesn't accept the url
 	generalGroup = m_config->group("General");
-	setLastDocument(KUrl(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
+	setLastDocument(QUrl::fromLocalFile(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
 	readBibliographyBackendSettings(generalGroup);
 
@@ -561,7 +542,7 @@ bool KileProject::load()
 
 bool KileProject::save()
 {
-	KILE_DEBUG() << "KileProject: saving..." <<endl;
+	KILE_DEBUG_MAIN << "KileProject: saving..." <<endl;
 
 	KConfigGroup generalGroup = m_config->group("General");
 	generalGroup.writeEntry("name", m_name);
@@ -569,7 +550,7 @@ bool KileProject::save()
 	generalGroup.writeEntry("kileversion", kileFullVersion);
 	generalGroup.writeEntry("def_graphic_ext", m_defGraphicExt);
 
-	KILE_DEBUG() << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
+	KILE_DEBUG_MAIN << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));
 	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
 
@@ -650,7 +631,7 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
 static bool isAncestorOf(KileProjectItem *toBeChecked, KileProjectItem *parent)
 {
 	KileProjectItem *item = parent;
-	while(item != NULL) {
+	while(item != Q_NULLPTR) {
 		if(item == toBeChecked) {
 			return true;
 		}
@@ -661,14 +642,14 @@ static bool isAncestorOf(KileProjectItem *toBeChecked, KileProjectItem *parent)
 
 void KileProject::buildProjectTree()
 {
-	KILE_DEBUG() << "==KileProject::buildProjectTree==========================";
+	KILE_DEBUG_MAIN << "==KileProject::buildProjectTree==========================";
 
 	//determine the parent doc for each item (TODO:an item can only have one parent, not necessarily true for LaTeX docs)
 
 	QStringList deps;
 	QString dep;
 	KileProjectItem *itm;
-	KUrl url;
+	QUrl url;
 
 	//clean first
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
@@ -682,10 +663,10 @@ void KileProject::buildProjectTree()
 		KileDocument::Info *docinfo = (*it)->getInfo();
 
 		if(docinfo) {
-			KUrl parentUrl = docinfo->url();
+			QUrl parentUrl = docinfo->url();
 			if(parentUrl.isLocalFile()) {
 				// strip the file name from 'parentUrl'
-				parentUrl = KUrl::fromPathOrUrl(QFileInfo(parentUrl.path()).path());
+				parentUrl = QUrl::fromUserInput(QFileInfo(parentUrl.path()).path());
 			}
 			else {
 				parentUrl = m_baseurl;
@@ -695,10 +676,10 @@ void KileProject::buildProjectTree()
 				dep = deps[i];
 
 				if(m_extmanager->isTexFile(dep)) {
-					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs);
+					url = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs));
 				}
 				else if(m_extmanager->isBibFile(dep)) {
-					url = KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs);
+					url = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs));
 				}
 				itm = item(url);
 				if(itm && (itm->parent() == 0)
@@ -713,7 +694,7 @@ void KileProject::buildProjectTree()
 	//make a list of all the root items (items with parent == 0)
 	m_rootItems.clear();
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
-		if((*it)->parent() == NULL) {
+		if((*it)->parent() == Q_NULLPTR) {
 			m_rootItems.append(*it);
 		}
 	}
@@ -721,7 +702,7 @@ void KileProject::buildProjectTree()
 	emit(projectTreeChanged(this));
 }
 
-KileProjectItem* KileProject::item(const KUrl& url)
+KileProjectItem* KileProject::item(const QUrl &url)
 {
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
 		if((*it)->url() == url) {
@@ -729,7 +710,7 @@ KileProjectItem* KileProject::item(const KUrl& url)
 		}
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 KileProjectItem* KileProject::item(const KileDocument::Info *info)
@@ -742,12 +723,12 @@ KileProjectItem* KileProject::item(const KileDocument::Info *info)
 		}
 	}
 
-	return NULL;
+	return Q_NULLPTR;
 }
 
 void KileProject::add(KileProjectItem* item)
 {
-	KILE_DEBUG() << "KileProject::add projectitem" << item->url().toLocalFile();
+	KILE_DEBUG_MAIN << "KileProject::add projectitem" << item->url().toLocalFile();
 
 	setType(item);
 
@@ -763,7 +744,7 @@ void KileProject::add(KileProjectItem* item)
 
 void KileProject::remove(KileProjectItem* item)
 {
-	KILE_DEBUG() << item->path();
+	KILE_DEBUG_MAIN << item->path();
 	removeConfigGroupsForItem(item);
 	m_projectItems.removeAll(item);
 
@@ -774,8 +755,8 @@ void KileProject::remove(KileProjectItem* item)
 
 void KileProject::itemRenamed(KileProjectItem *item)
 {
-	KILE_DEBUG() << "==KileProject::itemRenamed==========================";
-	KILE_DEBUG() << "\t" << item->url().fileName();
+	KILE_DEBUG_MAIN << "==KileProject::itemRenamed==========================";
+	KILE_DEBUG_MAIN << "\t" << item->url().fileName();
 	removeConfigGroupsForItem(item);
 
 	item->changePath(findRelativePath(item->url()));
@@ -783,24 +764,22 @@ void KileProject::itemRenamed(KileProjectItem *item)
 
 QString KileProject::findRelativePath(const QString &path)
 {
-	return this->findRelativePath(KUrl(path));
+	return this->findRelativePath(QUrl::fromLocalFile(path));
 }
 
-QString KileProject::findRelativePath(const KUrl &url)
+QString KileProject::findRelativePath(const QUrl &url)
 {
-	KILE_DEBUG() << "QString KileProject::findRelativePath(const KUrl " << url.path() << ")";
+	KILE_DEBUG_MAIN << "QString KileProject::findRelativePath(const QUrl " << url.path() << ")";
 
 	if ( m_baseurl.toLocalFile() == url.toLocalFile() ) {
 		return "./";
 	}
-
-	m_baseurl.adjustPath(KUrl::AddTrailingSlash);
-	QString path = KUrl::relativeUrl(m_baseurl,url);
-	KILE_DEBUG() << "relPath is " << path;
+	const QString path = QDir(m_baseurl.path()).relativeFilePath(url.path());
+	KILE_DEBUG_MAIN << "relPath is " << path;
 	return path;
 }
 
-bool KileProject::contains(const KUrl &url)
+bool KileProject::contains(const QUrl &url)
 {
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
 		if((*it)->url() == url) {
@@ -825,7 +804,7 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 {
 	//find the root item (i.e. the eldest parent)
 	KileProjectItem *root = item;
-	while(root->parent() != NULL) {
+	while(root->parent() != Q_NULLPTR) {
 		root = root->parent();
 	}
 
@@ -854,18 +833,18 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
 
 void KileProject::dump()
 {
-	KILE_DEBUG() << "KileProject::dump() " << m_name;
+	KILE_DEBUG_MAIN << "KileProject::dump() " << m_name;
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
 		KileProjectItem *item = *it;
-		KILE_DEBUG() << "item " << item << " has path: "  << item->path();
-		KILE_DEBUG() << "item->type() " << item->type();
-		KILE_DEBUG() << "OpenState: " << item->isOpen();
+		KILE_DEBUG_MAIN << "item " << item << " has path: "  << item->path();
+		KILE_DEBUG_MAIN << "item->type() " << item->type();
+		KILE_DEBUG_MAIN << "OpenState: " << item->isOpen();
 	}
 }
 
 QString KileProject::archiveFileList() const
 {
-	KILE_DEBUG() << "KileProject::archiveFileList()";
+	KILE_DEBUG_MAIN << "KileProject::archiveFileList()";
 
 	QString path, list;
 	for(QList<KileProjectItem*>::const_iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
@@ -885,7 +864,7 @@ void KileProject::setMasterDocument(const QString & master){
 			m_masterDocument = master;
 		else {
 			m_masterDocument.clear();
-			KILE_DEBUG() << "setMasterDocument: masterDoc=NULL";
+			KILE_DEBUG_MAIN << "setMasterDocument: masterDoc=Q_NULLPTR";
 		}
 
 	}
@@ -896,4 +875,3 @@ void KileProject::setMasterDocument(const QString & master){
 	emit (masterDocumentChanged(m_masterDocument));
 }
 
-#include "kileproject.moc"

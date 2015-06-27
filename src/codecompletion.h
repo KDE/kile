@@ -1,6 +1,6 @@
 /************************************************************************************************
   Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                2008-2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
  ************************************************************************************************/
 
 /***************************************************************************
@@ -20,8 +20,7 @@
 
 #include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/CodeCompletionModel>
-// mainly needed for CodeCompletionModelControllerInferface3
-#include <ktexteditor/codecompletionmodelcontrollerinterface.h>
+#include <KTextEditor/CodeCompletionModelControllerInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <kconfig.h>
@@ -44,35 +43,34 @@ namespace KileCodeCompletion
 	class Manager;
 
 	class LaTeXCompletionModel : public KTextEditor::CodeCompletionModel,
-	                             public KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME} {
+	                             public KTextEditor::CodeCompletionModelControllerInterface {
 		Q_OBJECT
-		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
+		Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
 		
 		public:
 			LaTeXCompletionModel(QObject *parent, KileCodeCompletion::Manager *manager,
 			                                      KileDocument::EditorExtension *editorExtension);
 			virtual ~LaTeXCompletionModel();
-
-			virtual QModelIndex index (int row, int column, const QModelIndex &parent=QModelIndex()) const;
-			virtual QVariant data(const QModelIndex& index, int role) const;
-			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const Q_DECL_OVERRIDE;
+			virtual QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
+			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
 			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
-			                                   bool userInsertion, const KTextEditor::Cursor &position);
-			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
-			                                                            const QString &currentCompletion);
+			                                   bool userInsertion, const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
+			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
+			                                                            const QString &currentCompletion) Q_DECL_OVERRIDE;
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
-			                                                        InvocationType invocationType);
-			virtual ${CODECOMPLETION_RANGE_RETURN} updateCompletionRange(KTextEditor::View *view,
-			                                                             ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME}& range);
+			                                                        InvocationType invocationType) Q_DECL_OVERRIDE;
+			virtual KTextEditor::Range updateCompletionRange(KTextEditor::View *view,
+			                                                             const KTextEditor::Range& range) Q_DECL_OVERRIDE;
 			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
-			                                           const KTextEditor::Cursor &position);
+			                                           const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 			virtual QString filterString(KTextEditor::View *view,
-			                             const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
-			                             const KTextEditor::Cursor &position);
+			                             const KTextEditor::Range &range,
+			                             const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 
-			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
-			                                                                    int row) const;
+			virtual void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
+			                                                            const QModelIndex &index) const Q_DECL_OVERRIDE;
 			QString filterLatexCommand(const QString &text, int &cursorYPos, int &cursorXPos);
 
 
@@ -97,34 +95,34 @@ namespace KileCodeCompletion
 			                                                      const KTextEditor::Cursor& cursorPosition) const;
 	};
 
-	class AbbreviationCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME} {
+	class AbbreviationCompletionModel : public KTextEditor::CodeCompletionModel, public KTextEditor::CodeCompletionModelControllerInterface {
 		Q_OBJECT
-		Q_INTERFACES(KTextEditor::${CODECOMPLETION_MODELCONTROLLERINTERFACE_CLASSNAME})
+		Q_INTERFACES(KTextEditor::CodeCompletionModelControllerInterface)
 
 		public:
 			AbbreviationCompletionModel(QObject *parent, KileAbbreviation::Manager *manager);
 			virtual ~AbbreviationCompletionModel();
 
-			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const;
-			virtual QVariant data(const QModelIndex& index, int role) const;
-			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const;
+			virtual QModelIndex index(int row, int column, const QModelIndex &parent=QModelIndex()) const Q_DECL_OVERRIDE;
+			virtual QVariant data(const QModelIndex& index, int role) const Q_DECL_OVERRIDE;
+			virtual int rowCount(const QModelIndex &parent = QModelIndex()) const Q_DECL_OVERRIDE;
 
 			virtual bool shouldStartCompletion(KTextEditor::View *view, const QString &insertedText,
-			                                   bool userInsertion, const KTextEditor::Cursor &position);
-			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
-			                                                            const QString &currentCompletion);
+			                                   bool userInsertion, const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
+			virtual bool shouldAbortCompletion(KTextEditor::View *view, const KTextEditor::Range &range,
+			                                                            const QString &currentCompletion) Q_DECL_OVERRIDE;
 			virtual void completionInvoked(KTextEditor::View *view, const KTextEditor::Range &range,
-			                                                        InvocationType invocationType);
-			virtual ${CODECOMPLETION_RANGE_RETURN} updateCompletionRange(KTextEditor::View *view,
-			                                                             ${CODECOMPLETION_RANGE_EXTRA} KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME}& range);
+			                                                        InvocationType invocationType) Q_DECL_OVERRIDE;
+			virtual KTextEditor::Range updateCompletionRange(KTextEditor::View *view,
+			                                                             const KTextEditor::Range& range) Q_DECL_OVERRIDE;
 			virtual KTextEditor::Range completionRange(KTextEditor::View *view,
-			                                           const KTextEditor::Cursor &position);
+			                                           const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 			virtual QString filterString(KTextEditor::View *view,
-			                             const KTextEditor::${CODECOMPLETION_RANGE_CLASSNAME} &range,
-			                             const KTextEditor::Cursor &position);
+			                             const KTextEditor::Range &range,
+			                             const KTextEditor::Cursor &position) Q_DECL_OVERRIDE;
 
-			virtual void executeCompletionItem(KTextEditor::Document *document, const KTextEditor::Range& word,
-			                                                                    int row) const;
+			virtual void executeCompletionItem(KTextEditor::View *view, const KTextEditor::Range& word,
+			                                                            const QModelIndex &index) const Q_DECL_OVERRIDE;
 
 		protected:
 			KileAbbreviation::Manager *m_abbreviationManager;
@@ -167,9 +165,9 @@ namespace KileCodeCompletion
 			static QPair<QString, QString> getCwlBaseDirs();
 
 		public Q_SLOTS:
-			void startLaTeXCompletion(KTextEditor::View *view = NULL);
-			void startLaTeXEnvironment(KTextEditor::View *view = NULL);
-			void startAbbreviationCompletion(KTextEditor::View *view = NULL);
+			void startLaTeXCompletion(KTextEditor::View *view = Q_NULLPTR);
+			void startLaTeXEnvironment(KTextEditor::View *view = Q_NULLPTR);
+			void startAbbreviationCompletion(KTextEditor::View *view = Q_NULLPTR);
 
 			void textInserted(KTextEditor::View* view, const KTextEditor::Cursor& position, const QString & text);
 

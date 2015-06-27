@@ -16,12 +16,11 @@
 
 #include <QFile>
 #include <QRegExp>
+#include <QStandardPaths>
 #include <QTextCodec>
 #include <QTextStream>
 
-#include <KGlobal>
 #include <KMessageBox>
-#include <KStandardDirs>
 #include <KTextEditor/Document>
 
 #include "kiledebug.h"
@@ -30,23 +29,23 @@ QMap<QString, ConvertMap*> ConvertMap::g_maps;
 
 bool ConvertMap::create(const QString & encoding)
 {
-	KILE_DEBUG() << "\tlooking for map for " << encoding;
+	KILE_DEBUG_MAIN << "\tlooking for map for " << encoding;
 	ConvertMap * map = g_maps[encoding];
 
 	if(!map) {
-		KILE_DEBUG() << "\tcreating a map for " << encoding;
+		KILE_DEBUG_MAIN << "\tcreating a map for " << encoding;
 		map = new ConvertMap(encoding); // FIXME This will never be deleted if load() succeeds...
 		if(map->load()) {
 			g_maps[encoding] = map;
 		}
 		else {
 				delete map;
-				map = NULL;
+				map = Q_NULLPTR;
 		}
 		map = g_maps[encoding];
 	}
 
-	return (map != NULL);
+	return (map != Q_NULLPTR);
 }
 
 QString ConvertMap::encodingNameFor(const QString & name)
@@ -119,11 +118,11 @@ bool ConvertMap::load()
 	//makeMap(encoding());
 
 	//if map already exists, replace it
-	QFile qf(KGlobal::dirs()->findResource("appdata", "encodings/" + encoding() + ".enc"));
+	QFile qf(QStandardPaths::locate(QStandardPaths::DataLocation, "encodings/" + encoding() + ".enc"));
 
 	if(qf.open(QIODevice::ReadOnly)) {
 		QTextStream stream(&qf);
-		QTextCodec *codec = QTextCodec::codecForName(isoName().toAscii());
+		QTextCodec *codec = QTextCodec::codecForName(isoName().toLatin1());
 		if(codec) {
 			stream.setCodec(codec);
 		}
@@ -176,7 +175,7 @@ bool ConvertIO::done()
 	return current() == m_doc->lines();
 }
 
-ConvertIOFile::ConvertIOFile(KTextEditor::Document *doc, const KUrl & url) : ConvertIO(doc), m_url(url)
+ConvertIOFile::ConvertIOFile(KTextEditor::Document *doc, const QUrl &url) : ConvertIO(doc), m_url(url)
 {
 }
 
@@ -190,14 +189,14 @@ void ConvertIOFile::writeText()
 		qf.close();
 	}
 	else {
-		kWarning() << "Could not open " << m_url.toLocalFile();
+		qWarning() << "Could not open " << m_url.toLocalFile();
 	}
 }
 
 ConvertBase::ConvertBase(const QString & encoding, ConvertIO * io) :
 	m_io(io),
 	m_encoding(encoding),
-	m_map(NULL)
+	m_map(Q_NULLPTR)
 {
 }
 
@@ -239,10 +238,10 @@ bool ConvertBase::setMap()
 		m_map = ConvertMap::mapFor(m_encoding);
 	}
 	else {
-		m_map = NULL;
+		m_map = Q_NULLPTR;
 	}
 
-	return (m_map != NULL);
+	return (m_map != Q_NULLPTR);
 }
 //END ConvertBase
 
@@ -285,7 +284,7 @@ QString ConvertASCIIToEnc::getSequence(int &i)
 	static QRegExp reBraces("\\{([a-zA-Z]?)\\}");
 
 	if(isModifier(seq)) {
-		KILE_DEBUG() << "\tisModifier true : " << seq;
+		KILE_DEBUG_MAIN << "\tisModifier true : " << seq;
 		if(seq[seq.length() - 1].isLetter()) {
 			seq += ' ';
 		}
@@ -303,7 +302,7 @@ QString ConvertASCIIToEnc::getSequence(int &i)
 		}
 		else {
 			if(reBraces.exactMatch(m_io->currentLine().mid(i, 3))) {
-				KILE_DEBUG() << "\tbraces detected";
+				KILE_DEBUG_MAIN << "\tbraces detected";
 				i = i + 3;
 				seq += reBraces.cap(1);
 			}
@@ -331,9 +330,9 @@ QString ConvertASCIIToEnc::mapNext(int &i)
 {
 	if(m_io->currentLine()[i] == '\\') { 
 		QString seq = getSequence(i);
-		KILE_DEBUG() << "'\tsequence: " << seq;
+		KILE_DEBUG_MAIN << "'\tsequence: " << seq;
 		if(m_map->canEncode(seq)) {
-			KILE_DEBUG() << "\tcan encode this";
+			KILE_DEBUG_MAIN << "\tcan encode this";
 			//if ( m_io->currentLine().mid(i, 2) == "{}" ) i = i + 2;
 			return m_map->toEncoding(seq);
 		}

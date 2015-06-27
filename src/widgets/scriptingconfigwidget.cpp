@@ -22,4 +22,3 @@ KileWidgetScriptingConfig::~KileWidgetScriptingConfig()
 {
 }
 
-#include "scriptingconfigwidget.moc"

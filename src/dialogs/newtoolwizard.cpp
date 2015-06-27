@@ -12,10 +12,11 @@
 ***************************************************************************/
 
 #include "dialogs/newtoolwizard.h"
-
 #include "kiletoolmanager.h"
+#include <KSharedConfig>
+#include <QPushButton>
 
-NewToolWizard::NewToolWizard(QWidget *parent, Qt::WFlags fl) : KAssistantDialog(parent, fl)
+NewToolWizard::NewToolWizard(QWidget *parent, Qt::WindowFlags fl) : KAssistantDialog(parent, fl)
 {
 	QWidget *toolNameWidget = new QWidget(this);
 	Ui::NewToolWizardToolNamePage::setupUi(toolNameWidget);
@@ -28,9 +29,9 @@ NewToolWizard::NewToolWizard(QWidget *parent, Qt::WFlags fl) : KAssistantDialog(
 	addPage(toolNamePage);
 	addPage(classPage);
 
-	m_toolList = KileTool::toolList(KGlobal::config().data(), false);
+	m_toolList = KileTool::toolList(KSharedConfig::openConfig().data(), false);
 
-	showButton(KDialog::Help, false);
+	buttonBox()->button(QDialogButtonBox::Help)->setVisible(false);
 
 	connect(this, SIGNAL(currentPageChanged(KPageWidgetItem*, KPageWidgetItem*)), this, SLOT(slotCurrentPageChanged(KPageWidgetItem*, KPageWidgetItem*)));
 	connect(m_leName, SIGNAL(textChanged(const QString &)), this, SLOT(nameChanged(const QString &)));
@@ -89,4 +90,3 @@ void NewToolWizard::slotCurrentPageChanged(KPageWidgetItem* current, KPageWidget
 	}
 }
 
-#include "newtoolwizard.moc"

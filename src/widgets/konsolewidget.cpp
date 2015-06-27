@@ -23,25 +23,23 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include <KLocale>
+#include <KLocalizedString>
 #include <KPluginLoader>
 #include <KService>
 #include <KShell>
-#include <KUrl>
+#include <QUrl>
 
 #include <KParts/Part>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
 #include <kde_terminal_interface.h>
-// available in KDE 4.3
-#include <kde_terminal_interface_v2.h>
 
 namespace KileWidget
 {
 	Konsole::Konsole(KileInfo * info, QWidget *parent) :
 		QFrame(parent),
-		m_part(NULL),
+		m_part(Q_NULLPTR),
 		m_ki(info)
 	{
 		setLayout(new QVBoxLayout(this));
@@ -56,18 +54,18 @@ namespace KileWidget
 
 	void Konsole::spawn()
 	{
-		KILE_DEBUG() << "void Konsole::spawn()";
+		KILE_DEBUG_MAIN << "void Konsole::spawn()";
 
-		KPluginFactory *factory = NULL;
+		KPluginFactory *factory = Q_NULLPTR;
 		KService::Ptr service = KService::serviceByDesktopName("konsolepart");
 		if(!service) {
-			KILE_DEBUG() << "No service for konsolepart";
+			KILE_DEBUG_MAIN << "No service for konsolepart";
 			return;
 		}
 
 		factory = KPluginLoader(service->library()).factory();
 		if(!factory) {
-			KILE_DEBUG() << "No factory for konsolepart";
+			KILE_DEBUG_MAIN << "No factory for konsolepart";
 			return;
 		}
 
@@ -78,9 +76,9 @@ namespace KileWidget
 		}
 
 		if(!qobject_cast<TerminalInterface*>(m_part)){
-			KILE_DEBUG() << "Did not find the TerminalInterface";
+			KILE_DEBUG_MAIN << "Did not find the TerminalInterface";
 			delete m_part;
-			m_part = NULL;
+			m_part = Q_NULLPTR;
 			return;
 		}
 
@@ -100,7 +98,7 @@ namespace KileWidget
 		}
 
 		KTextEditor::Document *doc = m_ki->activeTextDocument();
-		KTextEditor::View *view = NULL;
+		KTextEditor::View *view = Q_NULLPTR;
 
 		if(doc) {
 			view = doc->views().first();
@@ -108,30 +106,23 @@ namespace KileWidget
 
 		if(view) {
 			QString finame;
-			KUrl url = view->document()->url();
+			QUrl url = view->document()->url();
 
 			if(url.path().isEmpty()) {
 				return;
 			}
 
-			QFileInfo fic(url.directory());
+			QFileInfo fic(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
 			if(fic.isReadable()) {
-				setDirectory(url.directory());
+				setDirectory(url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path());
 			}
 		}
 	}
 
 	void Konsole::setDirectory(const QString &directory)
 	{
-		{
-			TerminalInterfaceV2 *m_term2 = qobject_cast<TerminalInterfaceV2*>(m_part);
-			if(m_term2 && m_term2->foregroundProcessId() >= 0) { // check if a foreground process is running
-				return;
-			}
-		}
-
 		TerminalInterface *m_term = qobject_cast<TerminalInterface*>(m_part);
-		if(!m_term) {
+		if(!m_term || m_term->foregroundProcessId() >= 0) { // check if a foreground process is running
 			return;
 		}
 
@@ -164,9 +155,8 @@ namespace KileWidget
 	{
 		// there is no need to remove the widget from the layout as this is done
 		// automatically when the widget is destroyed
-		m_part = NULL;
+		m_part = Q_NULLPTR;
 		spawn();
 	}
 }
 
-#include "konsolewidget.moc"

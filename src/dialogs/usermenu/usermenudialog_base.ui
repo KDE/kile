@@ -95,7 +95,7 @@
        <item>
         <layout class="QGridLayout" name="m_glButton">
          <item row="1" column="0">
-          <widget class="KPushButton" name="m_pbInsertSeparator">
+          <widget class="QPushButton" name="m_pbInsertSeparator">
            <property name="whatsThis">
             <string>Insert a new separator below the selected item.</string>
            </property>
@@ -105,7 +105,7 @@
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="KPushButton" name="m_pbDelete">
+          <widget class="QPushButton" name="m_pbDelete">
            <property name="whatsThis">
             <string>Delete the selected item.</string>
            </property>
@@ -115,7 +115,7 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="KPushButton" name="m_pbDown">
+          <widget class="QPushButton" name="m_pbDown">
            <property name="whatsThis">
             <string>Move the selected item down.</string>
            </property>
@@ -125,7 +125,7 @@
           </widget>
          </item>
          <item row="0" column="0">
-          <widget class="KPushButton" name="m_pbInsertBelow">
+          <widget class="QPushButton" name="m_pbInsertBelow">
            <property name="whatsThis">
             <string>Insert a new menu item below the selected item.</string>
            </property>
@@ -135,7 +135,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="KPushButton" name="m_pbInsertSubmenu">
+          <widget class="QPushButton" name="m_pbInsertSubmenu">
            <property name="whatsThis">
             <string>Insert a new submenu item below the selected item.</string>
            </property>
@@ -161,7 +161,7 @@
           </spacer>
          </item>
          <item row="0" column="3">
-          <widget class="KPushButton" name="m_pbUp">
+          <widget class="QPushButton" name="m_pbUp">
            <property name="whatsThis">
             <string>Move the selected item up.</string>
            </property>
@@ -207,7 +207,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="KPushButton" name="m_pbInstall">
+             <widget class="QPushButton" name="m_pbInstall">
               <property name="whatsThis">
                <string>Install an unmodified and saved menu tree as user-defined menu.</string>
               </property>
@@ -233,7 +233,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="KPushButton" name="m_pbLoad">
+             <widget class="QPushButton" name="m_pbLoad">
               <property name="whatsThis">
                <string>Load an xml file, which describes the user-defined menu.</string>
               </property>
@@ -259,7 +259,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="KPushButton" name="m_pbSave">
+             <widget class="QPushButton" name="m_pbSave">
               <property name="whatsThis">
                <string>Save a modified menu tree, which describes the user-defined menu, to an xml file into the local directory of Kile.</string>
               </property>
@@ -269,7 +269,7 @@
              </widget>
             </item>
             <item>
-             <widget class="KPushButton" name="m_pbSaveAs">
+             <widget class="QPushButton" name="m_pbSaveAs">
               <property name="whatsThis">
                <string>Save a modified menu tree, which describes the user-defined menu, to an xml file into the local directory of Kile and choose a new name for this file.</string>
               </property>
@@ -377,7 +377,7 @@
              </spacer>
             </item>
             <item>
-             <widget class="KPushButton" name="m_pbNew">
+             <widget class="QPushButton" name="m_pbNew">
               <property name="whatsThis">
                <string>Delete current menu tree and start a new one.</string>
               </property>
@@ -497,7 +497,7 @@
             <item row="6" column="2">
              <layout class="QHBoxLayout" name="horizontalLayout_2">
               <item>
-               <widget class="KPushButton" name="m_pbIcon">
+               <widget class="QPushButton" name="m_pbIcon">
                 <property name="whatsThis">
                  <string>Choose an icon for this action.</string>
                 </property>
@@ -530,7 +530,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="m_pbIconDelete">
+               <widget class="QPushButton" name="m_pbIconDelete">
                 <property name="whatsThis">
                  <string>Remove the icon for this action.</string>
                 </property>
@@ -574,7 +574,7 @@
                </spacer>
               </item>
               <item>
-               <widget class="KPushButton" name="m_pbMenuentryType">
+               <widget class="QPushButton" name="m_pbMenuentryType">
                 <property name="whatsThis">
                  <string>Change the type of a menu item.</string>
                 </property>
@@ -776,7 +776,6 @@
    </item>
   </layout>
  </widget>
- <layoutfunction spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
  <customwidgets>
   <customwidget>
    <class>KKeySequenceWidget</class>
@@ -789,7 +788,7 @@
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
-   <class>KPushButton</class>
+   <class>QPushButton</class>
    <extends>QPushButton</extends>
    <header>kpushbutton.h</header>
   </customwidget>

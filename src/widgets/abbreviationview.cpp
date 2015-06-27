@@ -20,8 +20,8 @@
 #include <QLabel>
 #include <QTextStream>
 
-#include <KLocale>
-#include <KMenu>
+#include <KLocalizedString>
+#include <QMenu>
 #include <KMessageBox>
 
 #include "abbreviationmanager.h"
@@ -39,8 +39,8 @@ AbbreviationView::AbbreviationView(KileAbbreviation::Manager *manager, QWidget *
 	setHeaderLabels(headerLabelList);
 	setAllColumnsShowFocus(true);
 
-	header()->setMovable(false);      // default: true
-	header()->setResizeMode(QHeaderView::ResizeToContents);
+	header()->setSectionsMovable(false);      // default: true
+	header()->setSectionResizeMode(QHeaderView::ResizeToContents);
 
 	setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -56,7 +56,7 @@ AbbreviationView::~AbbreviationView()
 
 void AbbreviationView::updateAbbreviations()
 {
-KILE_DEBUG();
+KILE_DEBUG_MAIN;
 	setUpdatesEnabled(false);
 	clear();
 	const QMap<QString, QPair<QString, bool> >& abbreviationMap = m_abbreviationManager->getAbbreviationMap();
@@ -107,7 +107,7 @@ void AbbreviationView::slotItemClicked(QTreeWidgetItem *item, int /* column */)
 
 void AbbreviationView::slotCustomContextMenuRequested(const QPoint& p)
 {
-	KMenu popupMenu;
+	QMenu popupMenu;
 	QAction *action = new QAction(i18n("&Add"), &popupMenu);
 	connect(action, SIGNAL(triggered()), this, SLOT(slotAddAbbreviation()));
 	popupMenu.addAction(action);
@@ -133,7 +133,7 @@ void AbbreviationView::slotCustomContextMenuRequested(const QPoint& p)
 
 void AbbreviationView::slotAddAbbreviation()
 {
-	KileDialog::AbbreviationInputDialog dialog(this, NULL, ALVadd);
+	KileDialog::AbbreviationInputDialog dialog(this, Q_NULLPTR, ALVadd);
 	if(dialog.exec() == QDialog::Accepted) {
 		QString abbrev, expansion;
 		dialog.abbreviation(abbrev, expansion);
@@ -182,4 +182,3 @@ void AbbreviationView::slotDeleteAbbreviation()
 
 }
 
-#include "abbreviationview.moc"

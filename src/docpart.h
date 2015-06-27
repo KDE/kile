@@ -17,7 +17,6 @@
 #define DOCPART_H
 
 #include <QStringList>
-
 #include <KHTMLPart>
 
 class DocumentationViewer : public KHTMLPart
@@ -25,7 +24,7 @@ class DocumentationViewer : public KHTMLPart
 	Q_OBJECT
 
 	public:
-		DocumentationViewer(QWidget *parent = NULL);
+		DocumentationViewer(QWidget *parent = Q_NULLPTR);
 		~DocumentationViewer();
 
 		bool backEnable();

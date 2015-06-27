@@ -22,4 +22,3 @@ LibraryToolConfigWidget::~LibraryToolConfigWidget()
 {
 }
 
-#include "librarytoolconfigwidget.moc"

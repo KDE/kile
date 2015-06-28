@@ -651,6 +651,7 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 	installEventFilters(view);
 	installSignalConnections(view);
 	registerCodeCompletionModels(view);
+	view->setStatusBarEnabled(false);
 	connect(view, SIGNAL(destroyed(QObject*)), this, SLOT(slotViewDestroyed(QObject*)));
 	return view;
 }

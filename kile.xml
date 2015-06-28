@@ -2,14 +2,12 @@
 <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
   <mime-type type="text/x-kilepr">
     <comment>Kile project</comment>
-    <comment xml:lang="ar">مشروع كايل</comment>
     <comment xml:lang="ast">Proyeutu Kile</comment>
-    <comment xml:lang="bs">Kile projekt</comment>
+    <comment xml:lang="bs">Kile project</comment>
     <comment xml:lang="ca">projecte del Kile</comment>
     <comment xml:lang="cs">Projekt Kile</comment>
     <comment xml:lang="da">Kile-projekt</comment>
     <comment xml:lang="de">Kile-Projekt</comment>
-    <comment xml:lang="el">Έργο του Kile</comment>
     <comment xml:lang="en_GB">Kile project</comment>
     <comment xml:lang="es">Proyecto Kile</comment>
     <comment xml:lang="fi">Kile-projekti</comment>
@@ -20,10 +18,8 @@
     <comment xml:lang="pt">Projecto do Kile</comment>
     <comment xml:lang="pt_BR">Projeto do Kile</comment>
     <comment xml:lang="sk">Projekt Kile</comment>
-    <comment xml:lang="sv">Kile projekt</comment>
-    <comment xml:lang="tr">Kile projesi</comment>
+    <comment xml:lang="sv">Kile projektfiler</comment>
     <comment xml:lang="uk">проект Kile</comment>
-    <comment xml:lang="zh_CN">Kile 工程</comment>
     <glob pattern="*.kilepr"/>
   </mime-type>
 </mime-info>

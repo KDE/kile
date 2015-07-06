@@ -200,13 +200,15 @@ QWidget* Manager::createTabs(QWidget *parent)
 	m_tabs->setFocus();
 	m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
 
-	connect(m_tabs, SIGNAL(currentChanged(int)), this, SLOT(currentViewChanged(int)));
-	connect(m_tabs, SIGNAL(tabCloseRequested(int)), this, SLOT(closeTab(int)));
-	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
-	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
-	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
-	connect(m_tabs->tabBar(), SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(tabContext(const QPoint&)));
-	connect(m_tabs, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
+	connect(m_tabs, &QTabWidget::currentChanged, this, static_cast<void (Manager::*)(int)>(&Manager::currentViewChanged));
+	connect(m_tabs, &QTabWidget::tabCloseRequested, this, &Manager::closeTab);
+	connect(m_tabs->tabBar(), &QTabBar::customContextMenuRequested, this, &Manager::tabContext);
+
+//TODO KF5: drop event functionality was provided by KTabWidget
+// 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
+// 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
+// 	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
+// 	connect(m_tabs, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
 
 	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
 

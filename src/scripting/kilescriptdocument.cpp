@@ -690,6 +690,7 @@ void KileScriptDocument::editBegin()
 	if (m_editingTransaction) {
 		KILE_DEBUG_MAIN << "editor editing transaction was active, forcefully closing it";
 		m_editingTransaction->finish();
+		delete m_editingTransaction;
 	}
 	m_editingTransaction = new KTextEditor::Document::EditingTransaction(m_document);
 	m_editingTransaction->start();

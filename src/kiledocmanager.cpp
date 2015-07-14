@@ -1729,7 +1729,7 @@ void Manager::projectSave(KileProject *project /* = 0 */)
 			if(docinfo) {
 				KTextEditor::View *view = m_ki->viewManager()->textView(docinfo);
 				if(view) {
-					int position = m_ki->viewManager()->getIndexOf(view);
+					int position = m_ki->viewManager()->tabIndexOf(view);
 					if(position >= 0 && position < viewPositionVector.size()) {
 						viewPositionVector[position] = *i;
 					}

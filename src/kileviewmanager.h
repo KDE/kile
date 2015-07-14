@@ -21,7 +21,6 @@
 #include <QObject>
 #include <QPixmap>
 #include <QPointer>
-#include <QStackedWidget>
 
 #include <QAction>
 #include <QTabWidget>
@@ -32,6 +31,9 @@
 
 class QPixmap;
 class QSplitter;
+class QStackedWidget;
+class QTabBar;
+class QToolButton;
 
 class KActionCollection;
 class QUrl;
@@ -94,12 +96,11 @@ public:
 	KTextEditor::View* textView(int i);
 	KTextEditor::View* textView(KileDocument::TextInfo *info);
 	int textViewCount() const;
-	int getIndexOf(KTextEditor::View* view) const;
+	int tabIndexOf(KTextEditor::View* view) const;
 	unsigned int getTabCount() const;
 
 	QWidget* createTabs(QWidget *parent);
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
-	QTabWidget* tabs() { return m_tabs; }
 
 // 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
 // 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
@@ -165,6 +166,7 @@ public Q_SLOTS:
 private Q_SLOTS:
 	void tabContext(const QPoint& pos);
 	void closeTab(int index);
+	void switchToTab(int index);
 
 public:
 	bool viewForLocalFilePresent(const QString& localFileName);
@@ -187,18 +189,16 @@ protected Q_SLOTS:
 	 **/
 	void updateTabTexts(KTextEditor::Document* changedDoc);
 
-	void currentViewChanged(int index);
-
 	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 
 private:
 	KileInfo			*m_ki;
-	QTabWidget 			*m_tabs;
+	QTabBar *m_tabBar;
+	QToolButton *m_documentListButton;
 	QObject				*m_receiver;
 	KXMLGUIClient			*m_client;
 	DocumentViewerWindow		*m_viewerPartWindow;
-	QStackedWidget			*m_widgetStack;
-	QWidget				*m_emptyDropWidget;
+	QStackedWidget *m_widgetStack;
 	QAction *m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
 					*m_quickPreviewAction;
 	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;

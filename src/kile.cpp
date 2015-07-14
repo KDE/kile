@@ -642,7 +642,8 @@ void Kile::setupBottomBar()
 
 	m_texKonsole = new KileWidget::Konsole(this, this);
 	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
-	connect(viewManager()->tabs(), SIGNAL(currentChanged(int)), m_texKonsole, SLOT(sync()));
+	connect(viewManager(), static_cast<void (KileView::Manager::*)(QWidget*)>(&KileView::Manager::currentViewChanged),
+		m_texKonsole, static_cast<void (KileWidget::Konsole::*)(void)>(&KileWidget::Konsole::sync));
 
 	m_previewWidget = new KileWidget::PreviewWidget(this, m_bottomBar);
 	m_bottomBar->addPage(m_previewWidget, SmallIcon ("document-preview"), i18n ("Preview"));

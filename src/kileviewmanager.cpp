@@ -22,6 +22,7 @@
 #include <QSplitter>
 #include <QTimer> //for QTimer::singleShot trick
 #include <QMimeData>
+#include <QToolButton>
 
 #include <QApplication>
 #include <QAction>
@@ -68,6 +69,11 @@
 namespace KileView
 {
 
+bool sortDocuments(const KTextEditor::View* const lhs, const KTextEditor::View* const rhs)
+{
+	return lhs->document()->documentName().compare(rhs->document()->documentName(), Qt::CaseInsensitive) < 0;
+}
+
 //BEGIN DocumentViewerWindow
 
 DocumentViewerWindow::DocumentViewerWindow(QWidget *parent, Qt::WindowFlags f)
@@ -97,10 +103,10 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	QObject(parent),
 	m_ki(info),
 // 	m_projectview(Q_NULLPTR),
-	m_tabs(Q_NULLPTR),
+	m_tabBar(Q_NULLPTR),
+	m_documentListButton(Q_NULLPTR),
 	m_viewerPartWindow(Q_NULLPTR),
 	m_widgetStack(Q_NULLPTR),
-	m_emptyDropWidget(Q_NULLPTR),
 	m_pasteAsLaTeXAction(Q_NULLPTR),
 	m_convertToLaTeXAction(Q_NULLPTR),
 	m_quickPreviewAction(Q_NULLPTR)
@@ -126,11 +132,6 @@ Manager::~Manager()
 static inline bool isTextView(QWidget* /*w*/)
 {
 	return true;
-}
-
-static inline KTextEditor::View* toTextView(QWidget* w)
-{
-	return qobject_cast<KTextEditor::View*>(w);
 }
 
 void Manager::setClient(KXMLGUIClient *client)
@@ -181,53 +182,113 @@ void Manager::writeConfig()
 	}
 }
 
-QWidget* Manager::createTabs(QWidget *parent)
+QWidget * Manager::createTabs(QWidget *parent)
 {
 	m_widgetStack = new QStackedWidget(parent);
-	m_emptyDropWidget = new DropWidget(m_widgetStack);
-	m_widgetStack->addWidget(m_emptyDropWidget);
-	connect(m_emptyDropWidget, SIGNAL(testCanDecode(const QDragEnterEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragEnterEvent*, bool&)));
-	connect(m_emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
-	connect(m_emptyDropWidget, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
-	m_tabs = new QTabWidget(parent);
-	KAcceleratorManager::setNoAccel(m_tabs);
-	m_widgetStack->addWidget(m_tabs);
-	m_tabs->setFocusPolicy(Qt::ClickFocus);
+	DropWidget *emptyDropWidget = new DropWidget(m_widgetStack);
+	m_widgetStack->insertWidget(0, emptyDropWidget);
+	connect(emptyDropWidget, SIGNAL(testCanDecode(const QDragEnterEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragEnterEvent*, bool&)));
+	connect(emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
+	connect(emptyDropWidget, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
 
-	m_tabs->setMovable(true);
-	m_tabs->setTabsClosable(true);
-	m_tabs->setUsesScrollButtons(true);
-	m_tabs->setFocus();
-	m_tabs->tabBar()->setContextMenuPolicy(Qt::CustomContextMenu);
+	m_tabBar = new QTabBar(parent);
+	QWidget *tabBarWidget = new QWidget();
+	tabBarWidget->setLayout(new QHBoxLayout);
+	tabBarWidget->layout()->setSpacing(0);
+	tabBarWidget->layout()->setContentsMargins(0, 0, 0, 0);
+	KAcceleratorManager::setNoAccel(m_tabBar);
 
-	connect(m_tabs, &QTabWidget::currentChanged, this, static_cast<void (Manager::*)(int)>(&Manager::currentViewChanged));
-	connect(m_tabs, &QTabWidget::tabCloseRequested, this, &Manager::closeTab);
-	connect(m_tabs->tabBar(), &QTabBar::customContextMenuRequested, this, &Manager::tabContext);
+	// quick menu for all open documents
+	m_documentListButton = new QToolButton(parent);
+	m_documentListButton->setIcon(QIcon::fromTheme("format-list-unordered"));
+	m_documentListButton->setMenu(new QMenu(parent));
+	m_documentListButton->setPopupMode(QToolButton::InstantPopup);
+	m_documentListButton->setAutoRaise(true);
+	m_documentListButton->setToolTip(i18n("Show sorted list of opened documents"));
+	m_documentListButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+	// lambda: update context menu
+	connect(m_documentListButton->menu(), &QMenu::aboutToShow, [=]() {
+		qDeleteAll(m_documentListButton->menu()->actions());
+		m_documentListButton->menu()->clear();
 
-//TODO KF5: drop event functionality was provided by KTabWidget
-// 	connect(m_tabs, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragMoveEvent*, bool&)));
-// 	connect(m_tabs, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
-// 	connect(m_tabs, SIGNAL(receivedDropEvent(QWidget*, QDropEvent*)), this, SLOT(replaceLoadedURL(QWidget*, QDropEvent*)));
-// 	connect(m_tabs, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
+		// create a lexicographically sorted list
+		QVector<KTextEditor::View*> views;
+		views.reserve(m_tabBar->count());
+		for (int i = 0; i < m_tabBar->count(); ++i) {
+			views << m_tabBar->tabData(i).value<KTextEditor::View*>();
+		}
+		std::sort(views.begin(), views.end(), sortDocuments);
 
-	m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs, so show the DropWidget
+		foreach(KTextEditor::View* view, views) {
+			QAction *action = m_documentListButton->menu()->addAction(view->document()->documentName());
+			action->setData(QVariant::fromValue(view));
+		}
+	});
+	// lambda: handle context menu action triggers
+	connect(m_documentListButton->menu(), &QMenu::triggered, [=](QAction *action) {
+		KTextEditor::View *view = action->data().value<KTextEditor::View*>();
+		Q_ASSERT(view);
+		m_tabBar->setCurrentIndex(tabIndexOf(view));
+	});
+	tabBarWidget->layout()->addWidget(m_documentListButton);
 
-	return m_widgetStack;
+	// tabbar
+	m_tabBar->setFocusPolicy(Qt::ClickFocus);
+	m_tabBar->setMovable(true);
+	m_tabBar->setTabsClosable(true);
+	m_tabBar->setUsesScrollButtons(true);
+	m_tabBar->setFocus();
+	m_tabBar->setContextMenuPolicy(Qt::CustomContextMenu);
+	tabBarWidget->layout()->addWidget(m_tabBar);
+
+	// connect tabbar with document views
+	connect(m_tabBar, &QTabBar::currentChanged, this, &Manager::switchToTab);
+	connect(m_tabBar, &QTabBar::tabCloseRequested, this, &Manager::closeTab);
+	connect(m_tabBar, &QTabBar::customContextMenuRequested, this, &Manager::tabContext);
+
+	// main widget in which we put everything
+	QWidget *viewWidget = new QWidget(parent);
+	viewWidget->setLayout(new QVBoxLayout);
+	viewWidget->layout()->setSpacing(0);
+	viewWidget->layout()->addWidget(tabBarWidget);
+	viewWidget->layout()->addWidget(m_widgetStack);
+
+	return viewWidget;
 }
 
 void Manager::closeTab(int index)
 {
-	QWidget *widget = m_tabs->widget(index);
+	QWidget *widget = m_tabBar->tabData(index).value<KTextEditor::View *>();
 	if(widget->inherits("KTextEditor::View")) {
 		KTextEditor::View *view = static_cast<KTextEditor::View*>(widget);
 		m_ki->docManager()->fileClose(view->document());
 	}
 }
 
+void Manager::switchToTab(int index)
+{
+	QWidget *activatedWidget = m_tabBar->tabData(index).value<KTextEditor::View *>();
+	if (!activatedWidget) {
+		return;
+	}
+	QWidget *oldViewWidget = m_widgetStack->widget(1);
+	if (oldViewWidget) {
+		m_widgetStack->removeWidget(oldViewWidget);
+	}
+	m_widgetStack->insertWidget(1, activatedWidget);
+	m_widgetStack->setCurrentIndex(1);
+	emit currentViewChanged(activatedWidget);
+	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(activatedWidget);
+	if (view) {
+		emit textViewActivated(view);
+	}
+}
+
 KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
 	KTextEditor::Document *doc = info->getDoc();
-	KTextEditor::View *view = static_cast<KTextEditor::View*>(info->createView(m_tabs, Q_NULLPTR));
+	KTextEditor::View *view = info->createView(m_tabBar, Q_NULLPTR);
+	Q_ASSERT(view);
 
 	if(!view) {
 		KMessageBox::error(m_ki->mainWindow(), i18n("Could not create an editor view."), i18n("Fatal Error"));
@@ -241,8 +302,8 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 // 		view->focusProxy()->installEventFilter(m_ki->eventFilter());
 	}
 
-	//insert the view in the tab widget
-	m_tabs->insertTab(index, view, QString());
+	index = m_tabBar->insertTab(index, QString()); // if index=-1 for appending tab, it gets assigned a new index
+	m_tabBar->setTabData(index, QVariant::fromValue(view));
 
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	        this, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
@@ -286,11 +347,9 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 		connect(action, SIGNAL(triggered()), m_ki->docManager(), SLOT(fileSaveAs()));
 	}
 	updateTabTexts(doc);
-	m_widgetStack->setCurrentWidget(m_tabs); // there is at least one tab, so show the QTabWidget now
 	// we do this twice as otherwise the tool tip for the first view did not appear (Qt issue ?)
 	// (BUG 205245)
 	updateTabTexts(doc);
-	m_tabs->setCurrentIndex(m_tabs->indexOf(view));
 
 	//activate the newly created view
 	emit(activateView(view, false));
@@ -299,6 +358,11 @@ KTextEditor::View* Manager::createTextView(KileDocument::TextInfo *info, int ind
 	reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
 
 	emit(prepareForPart("Editor"));
+
+	// this is the first tab, set it active
+	if (m_tabBar->count() == 1) {
+		switchToTab(0);
+	}
 
 	return view;
 }
@@ -339,13 +403,13 @@ void Manager::installContextMenu(KTextEditor::View *view)
 void Manager::tabContext(const QPoint& pos)
 {
 	KILE_DEBUG_MAIN << pos;
-	const int tabUnderPos = m_tabs->tabBar()->tabAt(pos);
+	const int tabUnderPos = m_tabBar->tabAt(pos);
 	if(tabUnderPos < 0) {
 		KILE_DEBUG_MAIN << tabUnderPos;
 		return;
 	}
 
-	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(m_tabs->widget(tabUnderPos));
+	KTextEditor::View *view = m_tabBar->tabData(tabUnderPos).value<KTextEditor::View *>();
 
 	if(!view || !view->document()) {
 		return;
@@ -399,7 +463,7 @@ void Manager::tabContext(const QPoint& pos)
 	tabMenu.addAction(addAction);
 	tabMenu.addAction(removeAction);*/
 
-	tabMenu.exec(m_tabs->tabBar()->mapToGlobal(pos));
+	tabMenu.exec(m_tabBar->mapToGlobal(pos));
 
 	if(action1) {
 		action1->setData(QVariant());
@@ -430,13 +494,12 @@ void Manager::removeView(KTextEditor::View *view)
 		m_client->factory()->removeClient(view);
 
 		const bool isActiveView = (KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView() == view);
-		m_tabs->removeTab(m_tabs->indexOf(view));
+		m_tabBar->removeTab(tabIndexOf(view));
 
 		emit(updateCaption());  //make sure the caption gets updated
-		if (m_tabs->count() == 0) {
+		if (m_tabBar->count() == 0) {
 			m_ki->structureWidget()->clear();
-			m_widgetStack->setCurrentWidget(m_emptyDropWidget); // there are no tabs left, so show
-			                                                    // the DropWidget
+			m_widgetStack->setCurrentWidget(0); // if there are no open views, then show the DropWidget
 		}
 
 		emit(textViewClosed(view, isActiveView));
@@ -450,14 +513,13 @@ void Manager::removeView(KTextEditor::View *view)
 
 KTextEditor::View *Manager::currentTextView() const
 {
-	KTextEditor::View *view = qobject_cast<KTextEditor::View*>(m_tabs->currentWidget());
-
-	return view;
+	return m_tabBar->tabData(m_tabBar->currentIndex()).value<KTextEditor::View *>();
 }
 
 KTextEditor::View* Manager::textView(int i)
 {
-	return qobject_cast<KTextEditor::View*>(m_tabs->widget(i));
+	Q_ASSERT(m_tabBar->tabData(i).value<KTextEditor::View *>());
+	return m_tabBar->tabData(i).value<KTextEditor::View *>();
 }
 
 KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
@@ -466,8 +528,8 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 	if(!doc) {
 		return Q_NULLPTR;
 	}
-	for(int i = 0; i < m_tabs->count(); ++i) {
-		KTextEditor::View *view = toTextView(m_tabs->widget(i));
+	for(int i = 0; i < m_tabBar->count(); ++i) {
+		KTextEditor::View *view = m_tabBar->tabData(i).value<KTextEditor::View *>();
 		if(!view) {
 			continue;
 		}
@@ -482,16 +544,22 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 
 int Manager::textViewCount() const
 {
-	return m_tabs->count();
+	return m_tabBar->count();
 }
 
-int Manager::getIndexOf(KTextEditor::View* view) const
+int Manager::tabIndexOf(KTextEditor::View* view) const
 {
-	return m_tabs->indexOf(view);
+	for (int i = 0; i < m_tabBar->count(); ++i) {
+		if (m_tabBar->tabData(i).value<KTextEditor::View *>() == view) {
+			return i;
+		}
+	}
+	return -1;
 }
 
-unsigned int Manager::getTabCount() const {
-	return m_tabs->count();
+unsigned int Manager::getTabCount() const
+{
+	return m_tabBar->count();
 }
 
 KTextEditor::View* Manager::switchToTextView(const QUrl &url, bool requestFocus)
@@ -515,11 +583,11 @@ KTextEditor::View* Manager::switchToTextView(KTextEditor::Document *doc, bool re
 
 void Manager::switchToTextView(KTextEditor::View *view, bool requestFocus)
 {
-	int index = m_tabs->indexOf(view);
+	int index = tabIndexOf(view);
 	if(index < 0) {
 		return;
 	}
-	m_tabs->setCurrentIndex(index);
+	m_tabBar->setCurrentIndex(index);
 	if(requestFocus) {
 		focusTextView(view);
 	}
@@ -527,7 +595,7 @@ void Manager::switchToTextView(KTextEditor::View *view, bool requestFocus)
 
 void Manager::setTabIcon(QWidget *view, const QPixmap& icon)
 {
-	m_tabs->setTabIcon(m_tabs->indexOf(view), QIcon(icon));
+	m_tabBar->setTabIcon(tabIndexOf(qobject_cast<KTextEditor::View *>(view)), QIcon(icon));
 }
 
 void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = Q_NULLPTR */)
@@ -540,44 +608,44 @@ void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *doci
 		m_ki->structureWidget()->update(docinfo, parse);
 	}
 
-	if(m_tabs->count() == 0) {
+	if(m_tabBar->count() == 0) {
 		m_ki->structureWidget()->clear();
 	}
 }
 
 void Manager::gotoNextView()
 {
-	if(m_tabs->count() < 2) {
+	if(m_tabBar->count() < 2) {
 		return;
 	}
 
-	int cPage = m_tabs->currentIndex() + 1;
-	if(cPage >= m_tabs->count()) {
-		m_tabs->setCurrentIndex(0);
+	int cPage = m_tabBar->currentIndex() + 1;
+	if(cPage >= m_tabBar->count()) {
+		m_tabBar->setCurrentIndex(0);
 	}
 	else {
-		m_tabs->setCurrentIndex(cPage);
+		m_tabBar->setCurrentIndex(cPage);
 	}
 }
 
 void Manager::gotoPrevView()
 {
-	if(m_tabs->count() < 2) {
+	if(m_tabBar->count() < 2) {
 		return;
 	}
 
-	int cPage = m_tabs->currentIndex() - 1;
+	int cPage = m_tabBar->currentIndex() - 1;
 	if(cPage < 0) {
-		m_tabs->setCurrentIndex(m_tabs->count() - 1);
+		m_tabBar->setCurrentIndex(m_tabBar->count() - 1);
 	}
 	else {
-		m_tabs->setCurrentIndex(cPage);
+		m_tabBar->setCurrentIndex(cPage);
 	}
 }
 
 void Manager::moveTabLeft(QWidget *widget)
 {
-	if(m_tabs->count() < 2) {
+	if(m_tabBar->count() < 2) {
 		return;
 	}
 
@@ -597,14 +665,14 @@ void Manager::moveTabLeft(QWidget *widget)
 	if(!widget) {
 		return;
 	}
-	int currentIndex = m_tabs->indexOf(widget);
-	int newIndex = (currentIndex == 0 ? m_tabs->count() - 1 : currentIndex - 1);
-	m_tabs->tabBar()->moveTab(currentIndex, newIndex);
+	int currentIndex = tabIndexOf(qobject_cast<KTextEditor::View *>(widget));
+	int newIndex = (currentIndex == 0 ? m_tabBar->count() - 1 : currentIndex - 1);
+	m_tabBar->moveTab(currentIndex, newIndex);
 }
 
 void Manager::moveTabRight(QWidget *widget)
 {
-	if(m_tabs->count() < 2) {
+	if(m_tabBar->count() < 2) {
 		return;
 	}
 
@@ -624,9 +692,9 @@ void Manager::moveTabRight(QWidget *widget)
 	if(!widget) {
 		return;
 	}
-	int currentIndex = m_tabs->indexOf(widget);
-	int newIndex = (currentIndex == m_tabs->count() - 1 ? 0 : currentIndex + 1);
-	m_tabs->tabBar()->moveTab(currentIndex, newIndex);
+	int currentIndex = tabIndexOf(qobject_cast<KTextEditor::View *>(widget));
+	int newIndex = (currentIndex == m_tabBar->count() - 1 ? 0 : currentIndex + 1);
+	m_tabBar->moveTab(currentIndex, newIndex);
 }
 
 void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
@@ -844,7 +912,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 	if (urls.isEmpty()) {
 		return;
 	}
-	int index = m_tabs->indexOf(w);
+	int index = tabIndexOf(qobject_cast<KTextEditor::View *>(w));
 	KileDocument::Extensions *extensions = m_ki->extensions();
 	bool hasReplacedTab = false;
 	for(QList<QUrl>::iterator i = urls.begin(); i != urls.end(); ++i) {
@@ -863,7 +931,7 @@ void Manager::replaceLoadedURL(QWidget *w, QDropEvent *e)
 	}
 }
 
-void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
+void Manager::updateTabTexts(KTextEditor::Document *changedDoc)
 {
 	const QList<KTextEditor::View*> &viewsList = changedDoc->views();
 	for(QList<KTextEditor::View*>::const_iterator i = viewsList.begin(); i != viewsList.end(); ++i) {
@@ -871,22 +939,9 @@ void Manager::updateTabTexts(KTextEditor::Document* changedDoc)
 		if(documentName.isEmpty()) {
 			documentName = i18n("Untitled");
 		}
-		const int viewIndex = m_tabs->indexOf(*i);
-		m_tabs->setTabText(viewIndex, documentName);
-		m_tabs->setTabToolTip(viewIndex, changedDoc->url().toString());
-	}
-}
-
-void Manager::currentViewChanged(int index)
-{
-	QWidget *activatedWidget = m_tabs->widget(index);
-	if(!activatedWidget) {
-		return;
-	}
-	emit currentViewChanged(activatedWidget);
-	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(activatedWidget);
-	if(view) {
-		emit textViewActivated(view);
+		const int viewIndex = tabIndexOf(*i);
+		m_tabBar->setTabText(viewIndex, documentName);
+		m_tabBar->setTabToolTip(viewIndex, changedDoc->url().toString());
 	}
 }
 
@@ -1133,8 +1188,8 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 
 bool Manager::viewForLocalFilePresent(const QString& localFileName)
 {
-	for(int i = 0; i < m_tabs->count(); ++i) {
-		KTextEditor::View *view = toTextView(m_tabs->widget(i));
+	for(int i = 0; i < m_tabBar->count(); ++i) {
+		KTextEditor::View *view = m_tabBar->tabData(i).value<KTextEditor::View*>();
 		if(!view) {
 			continue;
 		}

@@ -117,7 +117,7 @@ public:
 
 private Q_SLOTS:
 	void clickedCreateNewFileCb();
-	void fillProjectDefaults();
+	void fillProjectDefaults() Q_DECL_OVERRIDE;
 	void onAccepted();
 
 private:

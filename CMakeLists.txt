@@ -62,13 +62,13 @@ if(POPPLER_FOUND)
 	include_directories(${POPPLER_INCLUDE_DIR})
 endif()
 
-find_package(Okular)
-set_package_properties("Okular" PROPERTIES
+find_package(Okular5)
+set_package_properties(Okular5 PROPERTIES
 	DESCRIPTION "Okular core library"
 	URL "http://okular.kde.org"
 	TYPE RECOMMENDED
 	PURPOSE "Live preview support.")
-if(Okular_FOUND)
+if(Okular5_FOUND)
 	set(HAVE_OKULAR TRUE)
 endif()
 

@@ -232,10 +232,10 @@ if(POPPLER_FOUND)
 	target_link_libraries(kdeinit_kile PUBLIC ${POPPLER_LIBRARY})
 endif()
 
-if(Okular_FOUND)
+if(Okular5_FOUND)
   # We don't need to link to okular since it gets loaded dynamically at runtime.
   # All we need are the include directories which we can get with this generator expression:
-  target_include_directories(kdeinit_kile PRIVATE $<TARGET_PROPERTY:Okular::okularcore,INTERFACE_INCLUDE_DIRECTORIES>)
+  target_include_directories(kdeinit_kile PRIVATE $<TARGET_PROPERTY:Okular::Core,INTERFACE_INCLUDE_DIRECTORIES>)
 endif()
 
 install(TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS})

@@ -19,10 +19,6 @@
 
 Q_DECLARE_LOGGING_CATEGORY(LOG_KILE_MAIN)
 
-#ifdef NDEBUG
-	#define KILE_DEBUG_MAIN if (true); else qCDebug(LOG_KILE_MAIN)
-#else
-	#define KILE_DEBUG_MAIN qCDebug(LOG_KILE_MAIN)
-#endif
+#define KILE_DEBUG_MAIN qCDebug(LOG_KILE_MAIN)
 
 #endif

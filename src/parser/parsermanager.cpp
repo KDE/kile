@@ -28,7 +28,7 @@ Manager::Manager(KileInfo *info, QObject *parent) :
 	QObject(parent),
 	m_ki(info)
 {
-	KILE_DEBUG_MAIN;
+	qCDebug(LOG_KILE_PARSER);
 	m_documentParserThread = new DocumentParserThread(m_ki, this);
 	// we have to make this connection 'blocking' to ensure that when 'ParserThread::isDocumentParsingComplete()'
 	// returns true, all document info objects have been passed the information obtained from parsing already
@@ -50,21 +50,21 @@ Manager::Manager(KileInfo *info, QObject *parent) :
 
 Manager::~Manager()
 {
-	KILE_DEBUG_MAIN << "destroying...";
+	qCDebug(LOG_KILE_PARSER) << "destroying...";
 	m_documentParserThread->stopParsing();
 	m_outputParserThread->stopParsing();
 }
 
 void Manager::parseDocument(KileDocument::TextInfo* textInfo)
 {
-	KILE_DEBUG_MAIN << textInfo;
+	qCDebug(LOG_KILE_PARSER) << textInfo;
 	m_documentParserThread->addDocument(textInfo);
 }
 
 void Manager::parseOutput(KileTool::Base *tool, const QString& fileName, const QString& sourceFile,
                                                 const QString& texFileName, int selrow, int docrow)
 {
-	KILE_DEBUG_MAIN << fileName << sourceFile;
+	qCDebug(LOG_KILE_PARSER) << fileName << sourceFile;
 	m_outputParserThread->addLaTeXLogFile(fileName, sourceFile, texFileName, selrow, docrow);
 	connect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
 	        this, SLOT(removeToolFromUrlHash(KileTool::Base*)), Qt::UniqueConnection);
@@ -90,13 +90,13 @@ void Manager::stopDocumentParsing(const QUrl &url)
 
 void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOutput *output)
 {
-	KILE_DEBUG_MAIN << url;
+	qCDebug(LOG_KILE_PARSER) << url;
 	QList<KileTool::Base*> toolList = m_urlToToolHash.values(url);
 	m_urlToToolHash.remove(url);
 
 	LaTeXOutputParserOutput *latexOutput = dynamic_cast<LaTeXOutputParserOutput*>(output);
 	if(!latexOutput) {
-		KILE_DEBUG_MAIN << "Q_NULLPTR output given";
+		qCDebug(LOG_KILE_PARSER) << "Q_NULLPTR output given";
 		return;
 	}
 	if(toolList.isEmpty()) { // no tool was found, which means that all the tools for 'url'

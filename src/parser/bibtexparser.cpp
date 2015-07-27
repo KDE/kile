@@ -17,9 +17,11 @@
 
 #include <QFileInfo>
 #include <QRegExp>
+#include <QDebug>
 
 #include <KLocalizedString>
 
+#include "kiledebug.h"
 #include "codecompletion.h"
 #include "parserthread.h"
 
@@ -37,7 +39,7 @@ BibTeXParserOutput::BibTeXParserOutput()
 
 BibTeXParserOutput::~BibTeXParserOutput()
 {
-    KILE_DEBUG_MAIN;
+    qCDebug(LOG_KILE_PARSER);
 }
 
 BibTeXParser::BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent)
@@ -48,14 +50,14 @@ BibTeXParser::BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input,
 
 BibTeXParser::~BibTeXParser()
 {
-    KILE_DEBUG_MAIN;
+    qCDebug(LOG_KILE_PARSER);
 }
 
 ParserOutput* BibTeXParser::parse()
 {
 	BibTeXParserOutput *parserOutput = new BibTeXParserOutput();
 
-	KILE_DEBUG_MAIN;
+	qCDebug(LOG_KILE_PARSER);
 
 	static QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
 	static QRegExp reSpecial("string|preamble|comment");
@@ -66,14 +68,14 @@ ParserOutput* BibTeXParser::parse()
 // 	emit(parsingStarted(m_doc->lines()));
 	for(int i = 0; i < m_textLines.size(); ++i) {
 		if(!m_parserThread->shouldContinueDocumentParsing()) {
-			KILE_DEBUG_MAIN << "stopping...";
+			qCDebug(LOG_KILE_PARSER) << "stopping...";
 			delete(parserOutput);
 			return Q_NULLPTR;
 		}
 // 		emit(parsingUpdate(i));
 		s = getTextLine(m_textLines, i);
 		if((s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower())) {
-			KILE_DEBUG_MAIN << "found: " << reItem.cap(2);
+			qCDebug(LOG_KILE_PARSER) << "found: " << reItem.cap(2);
 			//start looking for key
 			key = "";
 			bool keystarted = false;
@@ -107,7 +109,7 @@ ParserOutput* BibTeXParser::parse()
 				else if(state == 1) {
 					if(s[col] == ',') {
 						key = key.trimmed();
-						KILE_DEBUG_MAIN << "found: " << key;
+						qCDebug(LOG_KILE_PARSER) << "found: " << key;
 						parserOutput->bibItems.append(key);
 						parserOutput->structureViewItems.push_back(new StructureViewItem(key, startline+1, startcol, KileStruct::BibItem, 0, startline+1, startcol, "viewbib", reItem.cap(2).toLower()));
 						break;

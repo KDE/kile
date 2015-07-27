@@ -46,7 +46,7 @@ LaTeXParserOutput::LaTeXParserOutput()
 
 LaTeXParserOutput::~LaTeXParserOutput()
 {
-    KILE_DEBUG_MAIN;
+    qCDebug(LOG_KILE_PARSER);
 }
 
 LaTeXParser::LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
@@ -62,7 +62,7 @@ LaTeXParser::LaTeXParser(ParserThread *parserThread, LaTeXParserInput *input,
 
 LaTeXParser::~LaTeXParser()
 {
-    KILE_DEBUG_MAIN;
+    qCDebug(LOG_KILE_PARSER);
 }
 
 BracketResult LaTeXParser::matchBracket(const QStringList& textLines, int &l, int &pos)
@@ -99,7 +99,7 @@ ParserOutput* LaTeXParser::parse()
 {
 	LaTeXParserOutput *parserOutput = new LaTeXParserOutput();
 
-	KILE_DEBUG_MAIN << m_textLines;
+	qCDebug(LOG_KILE_PARSER) << m_textLines;
 
 	QMap<QString,KileStructData>::const_iterator it;
 	static QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
@@ -122,7 +122,7 @@ ParserOutput* LaTeXParser::parse()
 // 	emit(parsingStarted(m_doc->lines()));
 	for(int i = 0; i < m_textLines.size(); ++i) {
 		if(!m_parserThread->shouldContinueDocumentParsing()) {
-			KILE_DEBUG_MAIN << "stopping...";
+			qCDebug(LOG_KILE_PARSER) << "stopping...";
 			delete(parserOutput);
 			return Q_NULLPTR;
 		}
@@ -148,7 +148,7 @@ ParserOutput* LaTeXParser::parse()
 		//find all commands in this line
 		while(tagStart != -1) {
 			if((!foundBD) && ((bd = s.indexOf(reBD, tagEnd)) != -1)) {
-				KILE_DEBUG_MAIN << "\tfound \\begin{document}";
+				qCDebug(LOG_KILE_PARSER) << "\tfound \\begin{document}";
 				foundBD = true;
 				parserOutput->preamble.clear();
 //FIXME: improve this
@@ -170,7 +170,7 @@ ParserOutput* LaTeXParser::parse()
 			}
 
 			if((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1)) {
-				KILE_DEBUG_MAIN << "\tsetting m_bIsRoot to true";
+				qCDebug(LOG_KILE_PARSER) << "\tsetting m_bIsRoot to true";
 				tagEnd += reRoot.cap(0).length();
 				parserOutput->bIsRoot = true;
 			}
@@ -203,7 +203,7 @@ ParserOutput* LaTeXParser::parse()
 							tagLine = result.line + 1;
 							tagCol = result.col + 1;
 						}
-					//KILE_DEBUG_MAIN << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}";
+					//qCDebug(LOG_KILE_PARSER) << "\tgrabbed: " << reCommand.cap(1) << "[" << shorthand << "]{" << m << "}";
 					}
 					else {
 						m = i18n("Frame");
@@ -320,7 +320,7 @@ ParserOutput* LaTeXParser::parse()
 
 					// update the referenced Bib files
 					else  if((*it).type == KileStruct::Bibliography) {
-						KILE_DEBUG_MAIN << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
+						qCDebug(LOG_KILE_PARSER) << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
 
 						QStringList bibs = m.split(',');
 						QString biblio;
@@ -352,7 +352,7 @@ ParserOutput* LaTeXParser::parse()
 
 					// update the bibitem list
 					else if((*it).type == KileStruct::BibItem) {
-						//KILE_DEBUG_MAIN << "\tappending bibitem " << m;
+						//qCDebug(LOG_KILE_PARSER) << "\tappending bibitem " << m;
 						parserOutput->bibItems.append(m);
 					}
 
@@ -383,7 +383,7 @@ ParserOutput* LaTeXParser::parse()
 
 							if(ok) {
 								if(s.indexOf(reNumOfOptParams, tagEnd + 1) != -1) {
-									KILE_DEBUG_MAIN << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL";
+									qCDebug(LOG_KILE_PARSER) << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL";
 									noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
 									optArg = '[' + reNumOfOptParams.cap(2) + ']';
 								}
@@ -415,7 +415,7 @@ ParserOutput* LaTeXParser::parse()
 					// and some other commands, which don't need special actions:
 					// \caption, ...
 
-					// KILE_DEBUG_MAIN << "\t\temitting: " << m;
+					// qCDebug(LOG_KILE_PARSER) << "\t\temitting: " << m;
 					if(fire && !fireSuspended) {
 						parserOutput->structureViewItems.push_back(new StructureViewItem(m, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder));
 					}
@@ -424,7 +424,7 @@ ParserOutput* LaTeXParser::parse()
 		} // while tagStart
 	} //for
 
-	KILE_DEBUG_MAIN << "done";
+	qCDebug(LOG_KILE_PARSER) << "done";
 	return parserOutput;
 }
 

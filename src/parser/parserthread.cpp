@@ -45,11 +45,11 @@ ParserThread::ParserThread(KileInfo *info, QObject *parent) :
 
 ParserThread::~ParserThread()
 {
-	KILE_DEBUG_MAIN << "destroying parser thread" << this;
+	qCDebug(LOG_KILE_PARSER) << "destroying parser thread" << this;
 	stopParsing();
 	// wait for the thread to finish before it is deleted at
 	// the end of this destructor
-	KILE_DEBUG_MAIN << "waiting for parser thread to finish...";
+	qCDebug(LOG_KILE_PARSER) << "waiting for parser thread to finish...";
 	wait();
 	// and delete remaining queue items (no mutex is required
 	// as the thread's execution has stopped)
@@ -58,8 +58,8 @@ ParserThread::~ParserThread()
 
 void ParserThread::addParserInput(ParserInput *input)
 {
-	KILE_DEBUG_MAIN << input;
-	KILE_DEBUG_MAIN << "trying to obtain m_parserMutex";
+	qCDebug(LOG_KILE_PARSER) << input;
+	qCDebug(LOG_KILE_PARSER) << "trying to obtain m_parserMutex";
 
 	m_parserMutex.lock();
 	// first, check whether the document is queued already
@@ -71,19 +71,19 @@ void ParserThread::addParserInput(ParserInput *input)
 	}
 
 	if(it != m_parserQueue.end()) {
-		KILE_DEBUG_MAIN << "document in queue already";
+		qCDebug(LOG_KILE_PARSER) << "document in queue already";
 		*it = input;
 	}
 	else {
 		if(m_currentlyParsedUrl == input->url) {
-			KILE_DEBUG_MAIN << "re-parsing document";
+			qCDebug(LOG_KILE_PARSER) << "re-parsing document";
 			// stop the parsing of the document
 			m_keepParsingDocument = false;
 			// and add it as first element to the queue
 			m_parserQueue.push_front(input);
 		}
 		else {
-			KILE_DEBUG_MAIN << "adding to the end";
+			qCDebug(LOG_KILE_PARSER) << "adding to the end";
 			m_parserQueue.push_back(input);
 		}
 	}
@@ -95,18 +95,18 @@ void ParserThread::addParserInput(ParserInput *input)
 
 void ParserThread::removeParserInput(const QUrl &url)
 {
-	KILE_DEBUG_MAIN << url;
+	qCDebug(LOG_KILE_PARSER) << url;
 	m_parserMutex.lock();
 	// first, if the document is currently parsed, we stop the parsing
 	if(m_currentlyParsedUrl == url) {
-		KILE_DEBUG_MAIN << "document currently being parsed";
+		qCDebug(LOG_KILE_PARSER) << "document currently being parsed";
 		m_keepParsingDocument = false;
 	}
 	// nevertheless, we remove all traces of the document from the queue
 	for(QQueue<ParserInput*>::iterator it = m_parserQueue.begin(); it != m_parserQueue.end();) {
 		ParserInput *input = *it;
 		if(input->url == url) {
-			KILE_DEBUG_MAIN << "found it";
+			qCDebug(LOG_KILE_PARSER) << "found it";
 			it = m_parserQueue.erase(it);
 			delete input;
 		}
@@ -119,7 +119,7 @@ void ParserThread::removeParserInput(const QUrl &url)
 
 void ParserThread::stopParsing()
 {
-	KILE_DEBUG_MAIN;
+	qCDebug(LOG_KILE_PARSER);
 	m_parserMutex.lock();
 
 	m_keepParserThreadAlive = false;
@@ -147,7 +147,7 @@ bool ParserThread::isParsingComplete()
 void ParserThread::run()
 {
 	ParserInput* currentParsedItem;
-	KILE_DEBUG_MAIN << "starting up...";
+	qCDebug(LOG_KILE_PARSER) << "starting up...";
 	while(true) {
 		// first, try to extract the head of the queue
 		m_parserMutex.lock();
@@ -164,10 +164,10 @@ void ParserThread::run()
 		// as it can happen that an item is added to the queue but this
 		// thread is woken up only after it has been removed again.
 		while(m_parserQueue.size() == 0 && m_keepParserThreadAlive) {
-			KILE_DEBUG_MAIN << "going to sleep...";
+			qCDebug(LOG_KILE_PARSER) << "going to sleep...";
 			emit(parsingQueueEmpty());
 			m_queueEmptyWaitCondition.wait(&m_parserMutex);
-			KILE_DEBUG_MAIN << "woken up...";
+			qCDebug(LOG_KILE_PARSER) << "woken up...";
 		}
 		// threads are woken up when an object of this class is destroyed; in
 		// that case the queue might still be empty
@@ -177,7 +177,7 @@ void ParserThread::run()
 			return;
 		}
 		Q_ASSERT(m_parserQueue.size() > 0);
-		KILE_DEBUG_MAIN << "queue length" << m_parserQueue.length();
+		qCDebug(LOG_KILE_PARSER) << "queue length" << m_parserQueue.length();
 		// now, extract the head
 		currentParsedItem = m_parserQueue.dequeue();
 
@@ -201,7 +201,7 @@ void ParserThread::run()
 		// as this call will be blocking, one has to make sure that no mutex is held
 		emit(parsingComplete(m_currentlyParsedUrl, parserOutput));
 	}
-	KILE_DEBUG_MAIN << "leaving...";
+	qCDebug(LOG_KILE_PARSER) << "leaving...";
 	// remaining queue elements are deleted in the destructor
 }
 
@@ -228,7 +228,7 @@ Parser* DocumentParserThread::createParser(ParserInput *input)
 
 void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
 {
-	KILE_DEBUG_MAIN << textInfo;
+	qCDebug(LOG_KILE_PARSER) << textInfo;
 	const QUrl url = m_ki->docManager()->urlFor(textInfo);
 	if(url.isEmpty()) { // if the url is empty (which can happen with new documents),
 		return;     // we can't do anything as not even the results of the parsing can be displayed
@@ -255,7 +255,7 @@ void DocumentParserThread::addDocument(KileDocument::TextInfo *textInfo)
 
 void DocumentParserThread::removeDocument(KileDocument::TextInfo *textInfo)
 {
-	KILE_DEBUG_MAIN;
+	qCDebug(LOG_KILE_PARSER);
 	KTextEditor::Document *document = textInfo->getDoc();
 	if(!document) {
 		return;
@@ -288,7 +288,7 @@ Parser* OutputParserThread::createParser(ParserInput *input)
 void OutputParserThread::addLaTeXLogFile(const QString& logFile, const QString& sourceFile,
                                          const QString& texFileName, int selrow, int docrow)
 {
-	KILE_DEBUG_MAIN << logFile << sourceFile;
+	qCDebug(LOG_KILE_PARSER) << logFile << sourceFile;
 
 	ParserInput* newItem = new LaTeXOutputParserInput(QUrl::fromLocalFile(logFile), m_ki->extensions(),
 	                                                                           sourceFile,

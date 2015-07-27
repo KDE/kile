@@ -2783,9 +2783,11 @@ void Kile::slotPerformCheck()
 	// first we have to disable the live preview that may be running, and clear the master document
 #if LIVEPREVIEW_AVAILABLE
 	const bool livePreviewEnabledForFreshlyOpenedDocuments = KileConfig::previewEnabledForFreshlyOpenedDocuments();
-	const bool livePreviewEnabledForCurrentDocument = livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
-	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
-	livePreviewManager()->setLivePreviewEnabledForCurrentDocument(false);
+	const bool livePreviewEnabledForCurrentDocument = livePreviewManager() && livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
+	if (livePreviewManager()) {
+		KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
+		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(false);
+	}
 #endif
 	QString currentMasterDocument = m_masterDocumentFileName;
 	if(!m_singlemode) {
@@ -2800,9 +2802,11 @@ void Kile::slotPerformCheck()
 		setMasterDocumentFileName(currentMasterDocument);
 	}
 #if LIVEPREVIEW_AVAILABLE
-	KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
-	if(livePreviewEnabledForCurrentDocument) {
-		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);
+	if (livePreviewManager()) {
+		KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
+		if(livePreviewEnabledForCurrentDocument) {
+			livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);
+		}
 	}
 #endif
 }

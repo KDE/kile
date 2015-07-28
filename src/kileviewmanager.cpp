@@ -137,15 +137,15 @@ void Manager::setClient(KXMLGUIClient *client)
 	m_client = client;
 	if(Q_NULLPTR == m_client->actionCollection()->action("popup_pasteaslatex")) {
 		m_pasteAsLaTeXAction = new QAction(i18n("Paste as LaTe&X"), this);
-		connect(m_pasteAsLaTeXAction, SIGNAL(triggered()), this, SLOT(pasteAsLaTeX()));
+		connect(m_pasteAsLaTeXAction, &QAction::triggered, this, &Manager::pasteAsLaTeX);
 	}
 	if(Q_NULLPTR == m_client->actionCollection()->action("popup_converttolatex")) {
 		m_convertToLaTeXAction = new QAction(i18n("Convert Selection to &LaTeX"), this);
-		connect(m_convertToLaTeXAction, SIGNAL(triggered()), this, SLOT(convertSelectionToLaTeX()));
+		connect(m_convertToLaTeXAction, &QAction::triggered, this, &Manager::convertSelectionToLaTeX);
 	}
 	if(Q_NULLPTR == m_client->actionCollection()->action("popup_quickpreview")) {
 		m_quickPreviewAction = new QAction(this);
-		connect(m_quickPreviewAction, SIGNAL(triggered()), this, SLOT(quickPreviewPopup()));
+		connect(m_quickPreviewAction, &QAction::triggered, this, &Manager::quickPreviewPopup);
 	}
 }
 
@@ -185,10 +185,11 @@ QWidget * Manager::createTabs(QWidget *parent)
 	m_widgetStack = new QStackedWidget(parent);
 	DropWidget *emptyDropWidget = new DropWidget(m_widgetStack);
 	m_widgetStack->insertWidget(0, emptyDropWidget);
-	connect(emptyDropWidget, SIGNAL(testCanDecode(const QDragEnterEvent*, bool&)), this, SLOT(testCanDecodeURLs(const QDragEnterEvent*, bool&)));
-	connect(emptyDropWidget, SIGNAL(receivedDropEvent(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
-	connect(emptyDropWidget, SIGNAL(mouseDoubleClick()), m_ki->docManager(), SLOT(fileNew()));
-
+	connect(emptyDropWidget, &KileView::DropWidget::testCanDecode, this, static_cast<void (Manager::*)(const QDragEnterEvent *, bool &)>(&Manager::testCanDecodeURLs));
+	connect(emptyDropWidget, &KileView::DropWidget::receivedDropEvent, m_ki->docManager(), &KileDocument::Manager::openDroppedURLs);
+	connect(emptyDropWidget, &KileView::DropWidget::mouseDoubleClick, [=]() {
+		m_ki->docManager()->fileNew();
+	});
 	m_tabBar = new QTabBar(parent);
 	QWidget *tabBarWidget = new QWidget();
 	tabBarWidget->setLayout(new QHBoxLayout);
@@ -303,21 +304,17 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 	index = m_tabBar->insertTab(index, QString()); // if index=-1 for appending tab, it gets assigned a new index
 	m_tabBar->setTabData(index, QVariant::fromValue(view));
 
-	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
-	        this, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
-	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)),
-	        this, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)));
-	connect(view, SIGNAL(selectionChanged(KTextEditor::View*)),
-	        this, SIGNAL(selectionChanged(KTextEditor::View*)));
-	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
-	connect(view, SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)), this, SIGNAL(updateCaption()));
-	connect(view, SIGNAL(viewInputModeChanged(KTextEditor::View*, enum KTextEditor::View::InputMode)), this, SIGNAL(updateModeStatus()));
-	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
-	connect(doc, SIGNAL(documentNameChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
-	connect(doc, SIGNAL(documentUrlChanged(KTextEditor::Document*)), this, SLOT(updateTabTexts(KTextEditor::Document*)));
-
-	connect(view, SIGNAL(textInserted(KTextEditor::View*, const KTextEditor::Cursor&, const QString &)),
-	        m_ki->codeCompletionManager(), SLOT(textInserted(KTextEditor::View*, const KTextEditor::Cursor&, const QString &)));
+	connect(view, &KTextEditor::View::cursorPositionChanged, this, &Manager::cursorPositionChanged);
+	connect(view, &KTextEditor::View::viewModeChanged, this, &Manager::viewModeChanged);
+	connect(view, &KTextEditor::View::selectionChanged, this, &Manager::selectionChanged);
+	connect(view, &KTextEditor::View::viewModeChanged, this, &Manager::updateCaption);
+	connect(view, &KTextEditor::View::viewInputModeChanged, this, &Manager::updateModeStatus);
+//TODO KF5: signals not available anymore
+// 	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
+// 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
+	connect(view, &KTextEditor::View::textInserted, m_ki->codeCompletionManager(), &KileCodeCompletion::Manager::textInserted);
+	connect(doc, &KTextEditor::Document::documentNameChanged, this, &Manager::updateTabTexts);
+	connect(doc, &KTextEditor::Document::documentUrlChanged, this, &Manager::updateTabTexts);
 
 	// code completion
 	KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
@@ -335,14 +332,18 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 	QAction *action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
 	if(action) {
 		KILE_DEBUG_MAIN << "   reconnect action 'file_save'...";
-		action->disconnect(SIGNAL(triggered(bool)));
-		connect(action, SIGNAL(triggered()), m_ki->docManager(), SLOT(fileSave()));
+		disconnect(action, &QAction::triggered, 0, 0);
+		connect(action, &QAction::triggered, [=]() {
+			m_ki->docManager()->fileSave();
+		});
 	}
 	action = view->actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs));
 	if(action) {
 		KILE_DEBUG_MAIN << "   reconnect action 'file_save_as'...";
-		action->disconnect(SIGNAL(triggered(bool)));
-		connect(action, SIGNAL(triggered()), m_ki->docManager(), SLOT(fileSaveAs()));
+		disconnect(action, &QAction::triggered, 0, 0);
+		connect(action, &QAction::triggered, [=]() {
+			m_ki->docManager()->fileSaveAs();
+		});
 	}
 	updateTabTexts(doc);
 	// we do this twice as otherwise the tool tip for the first view did not appear (Qt issue ?)
@@ -370,7 +371,7 @@ void Manager::installContextMenu(KTextEditor::View *view)
 	QMenu *popupMenu = view->defaultContextMenu();
 
 	if(popupMenu) {
-		connect(popupMenu, SIGNAL(aboutToShow()), this, SLOT(onTextEditorPopupMenuRequest()));
+		connect(popupMenu, &QMenu::aboutToShow, this, &Manager::onTextEditorPopupMenuRequest);
 
 		// install some more actions on it
 		popupMenu->addSeparator();
@@ -1054,8 +1055,7 @@ void Manager::setupViewerPart(QSplitter *splitter)
 		m_viewerPartWindow->setCentralWidget(m_viewerPart->widget());
 		m_viewerPartWindow->setAttribute(Qt::WA_DeleteOnClose, false);
 		m_viewerPartWindow->setAttribute(Qt::WA_QuitOnClose, false);
-		connect(m_viewerPartWindow, SIGNAL(visibilityChanged(bool)),
-		        this, SIGNAL(documentViewerWindowVisibilityChanged(bool)));
+		connect(m_viewerPartWindow, &KileView::DocumentViewerWindow::visibilityChanged, this, &Manager::documentViewerWindowVisibilityChanged);
 
 		m_viewerPartWindow->setWindowTitle(i18n("Document Viewer"));
 		m_viewerPartWindow->applyMainWindowSettings(KSharedConfig::openConfig()->group("KileDocumentViewerWindow"));
@@ -1082,8 +1082,7 @@ void Manager::destroyDocumentViewerWindow()
 	m_viewerPartWindow->saveMainWindowSettings(group);
 	// we don't want it to influence the document viewer visibility setting as
 	// this is a forced close
-	disconnect(m_viewerPartWindow, SIGNAL(visibilityChanged(bool)),
-	           this, SIGNAL(documentViewerWindowVisibilityChanged(bool)));
+	disconnect(m_viewerPartWindow, &KileView::DocumentViewerWindow::visibilityChanged, this, &Manager::documentViewerWindowVisibilityChanged);
 	m_viewerPartWindow->hide();
 	delete m_viewerPartWindow;
 	m_viewerPartWindow = Q_NULLPTR;

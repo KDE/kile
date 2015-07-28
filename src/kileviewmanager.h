@@ -15,28 +15,28 @@
 #ifndef KILEVIEWKILEVIEWMANAGER_H
 #define KILEVIEWKILEVIEWMANAGER_H
 
-#include <QDropEvent>
-#include <QDragMoveEvent>
-#include <QList>
-#include <QObject>
-#include <QPixmap>
-#include <QPointer>
-
-#include <QAction>
-#include <QTabWidget>
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
 #include <KTextEditor/View>
 #include <KXmlGuiWindow>
+
+#include <QAction>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+#include <QList>
+#include <QObject>
+#include <QPixmap>
+#include <QPointer>
+#include <QTabWidget>
 
 class QPixmap;
 class QSplitter;
 class QStackedWidget;
 class QTabBar;
 class QToolButton;
+class QUrl;
 
 class KActionCollection;
-class QUrl;
 class KXMLGUIClient;
 
 class KileInfo;
@@ -85,7 +85,7 @@ class Manager
 	Q_OBJECT
 
 public:
-	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = 0, const char *name = 0);
+	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 
 	~Manager();
 
@@ -93,8 +93,8 @@ public:
 	void setClient(KXMLGUIClient *client);
 
 	KTextEditor::View* currentTextView() const;
-	KTextEditor::View* textView(int i);
-	KTextEditor::View* textView(KileDocument::TextInfo *info);
+	KTextEditor::View* textView(int index) const;
+	KTextEditor::View* textView(KileDocument::TextInfo *info) const;
 	int textViewCount() const;
 	int tabIndexOf(KTextEditor::View* view) const;
 	unsigned int getTabCount() const;
@@ -195,16 +195,17 @@ protected Q_SLOTS:
 	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 
 private:
-	KileInfo			*m_ki;
+	KileInfo *m_ki;
 	QTabBar *m_tabBar;
 	QToolButton *m_documentListButton;
-	QObject				*m_receiver;
-	KXMLGUIClient			*m_client;
-	DocumentViewerWindow		*m_viewerPartWindow;
+	QObject *m_receiver;
+	KXMLGUIClient *m_client;
+	DocumentViewerWindow *m_viewerPartWindow;
 	QStackedWidget *m_widgetStack;
-	QAction *m_pasteAsLaTeXAction, *m_convertToLaTeXAction,
-					*m_quickPreviewAction;
-	QPointer<KParts::ReadOnlyPart> 	m_viewerPart;
+	QAction *m_pasteAsLaTeXAction;
+	QAction *m_convertToLaTeXAction;
+	QAction *m_quickPreviewAction;
+	QPointer<KParts::ReadOnlyPart> m_viewerPart;
 };
 
 /**
@@ -212,27 +213,25 @@ private:
  * there are no tabs: the DropWidget is shown instead of QTabWidget when there are no tabs.
  */
 class DropWidget : public QWidget {
-	Q_OBJECT
+Q_OBJECT
 
-	public:
-		explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
-		virtual ~DropWidget();
+public:
+	explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
+	virtual ~DropWidget();
 
-		virtual void dragEnterEvent(QDragEnterEvent *e);
-		virtual void dropEvent(QDropEvent *e);
+	virtual void dragEnterEvent(QDragEnterEvent *e);
+	virtual void dropEvent(QDropEvent *e);
 
-		virtual void mouseDoubleClickEvent(QMouseEvent *e);
+	virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
-	Q_SIGNALS:
-		void testCanDecode(const QDragEnterEvent *, bool &);
-		void receivedDropEvent(QDropEvent *);
-		void mouseDoubleClick();
+Q_SIGNALS:
+	void testCanDecode(const QDragEnterEvent *, bool &);
+	void receivedDropEvent(QDropEvent *);
+	void mouseDoubleClick();
 };
 
 }
 
 void focusTextView(KTextEditor::View *view);
-
-// Q_DECLARE_METATYPE(KTextEditor::View*)
 
 #endif

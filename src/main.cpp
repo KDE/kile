@@ -34,8 +34,8 @@
 #include "kileversion.h"
 #include "kiledebug.h"
 
-Q_LOGGING_CATEGORY(LOG_KILE_MAIN, "org.kde.kile.main")
-Q_LOGGING_CATEGORY(LOG_KILE_PARSER, "org.kde.kile.parser")
+Q_LOGGING_CATEGORY(LOG_KILE_MAIN, "org.kde.kile.main", QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_KILE_PARSER, "org.kde.kile.parser", QtWarningMsg)
 
 bool isProject(const QUrl url)
 {

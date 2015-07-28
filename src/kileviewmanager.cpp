@@ -134,6 +134,11 @@ static inline bool isTextView(QWidget* /*w*/)
 	return true;
 }
 
+KTextEditor::View * Manager::textViewAtTab(int index) const
+{
+	return m_tabBar->tabData(index).value<KTextEditor::View*>();
+}
+
 void Manager::setClient(KXMLGUIClient *client)
 {
 	m_client = client;
@@ -215,7 +220,7 @@ QWidget * Manager::createTabs(QWidget *parent)
 		QVector<KTextEditor::View*> views;
 		views.reserve(m_tabBar->count());
 		for (int i = 0; i < m_tabBar->count(); ++i) {
-			views << m_tabBar->tabData(i).value<KTextEditor::View*>();
+			views << textViewAtTab(i);
 		}
 		std::sort(views.begin(), views.end(), sortDocuments);
 
@@ -258,7 +263,7 @@ QWidget * Manager::createTabs(QWidget *parent)
 
 void Manager::closeTab(int index)
 {
-	QWidget *widget = m_tabBar->tabData(index).value<KTextEditor::View *>();
+	QWidget *widget = textViewAtTab(index);
 	if(widget->inherits("KTextEditor::View")) {
 		KTextEditor::View *view = static_cast<KTextEditor::View*>(widget);
 		m_ki->docManager()->fileClose(view->document());
@@ -267,7 +272,7 @@ void Manager::closeTab(int index)
 
 void Manager::switchToTab(int index)
 {
-	QWidget *activatedWidget = m_tabBar->tabData(index).value<KTextEditor::View *>();
+	QWidget *activatedWidget = textViewAtTab(index);
 	if (!activatedWidget) {
 		return;
 	}
@@ -409,7 +414,7 @@ void Manager::tabContext(const QPoint& pos)
 		return;
 	}
 
-	KTextEditor::View *view = m_tabBar->tabData(tabUnderPos).value<KTextEditor::View *>();
+	KTextEditor::View *view = textViewAtTab(tabUnderPos);
 
 	if(!view || !view->document()) {
 		return;
@@ -513,13 +518,13 @@ void Manager::removeView(KTextEditor::View *view)
 
 KTextEditor::View *Manager::currentTextView() const
 {
-	return m_tabBar->tabData(m_tabBar->currentIndex()).value<KTextEditor::View *>();
+	return textViewAtTab(m_tabBar->currentIndex());
 }
 
 KTextEditor::View* Manager::textView(int i)
 {
-	Q_ASSERT(m_tabBar->tabData(i).value<KTextEditor::View *>());
-	return m_tabBar->tabData(i).value<KTextEditor::View *>();
+	Q_ASSERT(textViewAtTab(i));
+	return textViewAtTab(i);
 }
 
 KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
@@ -529,7 +534,7 @@ KTextEditor::View* Manager::textView(KileDocument::TextInfo *info)
 		return Q_NULLPTR;
 	}
 	for(int i = 0; i < m_tabBar->count(); ++i) {
-		KTextEditor::View *view = m_tabBar->tabData(i).value<KTextEditor::View *>();
+		KTextEditor::View *view = textViewAtTab(i);
 		if(!view) {
 			continue;
 		}
@@ -550,7 +555,7 @@ int Manager::textViewCount() const
 int Manager::tabIndexOf(KTextEditor::View* view) const
 {
 	for (int i = 0; i < m_tabBar->count(); ++i) {
-		if (m_tabBar->tabData(i).value<KTextEditor::View *>() == view) {
+		if (textViewAtTab(i) == view) {
 			return i;
 		}
 	}
@@ -1189,7 +1194,7 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 bool Manager::viewForLocalFilePresent(const QString& localFileName)
 {
 	for(int i = 0; i < m_tabBar->count(); ++i) {
-		KTextEditor::View *view = m_tabBar->tabData(i).value<KTextEditor::View*>();
+		KTextEditor::View *view = textViewAtTab(i);
 		if(!view) {
 			continue;
 		}

@@ -168,6 +168,9 @@ private Q_SLOTS:
 	void closeTab(int index);
 	void switchToTab(int index);
 
+private:
+	KTextEditor::View * textViewAtTab(int index) const;
+
 public:
 	bool viewForLocalFilePresent(const QString& localFileName);
 

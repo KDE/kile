@@ -25,11 +25,10 @@
 #include <QDropEvent>
 #include <QList>
 #include <QObject>
-#include <QPixmap>
+#include <QIcon>
 #include <QPointer>
 #include <QTabWidget>
 
-class QPixmap;
 class QSplitter;
 class QStackedWidget;
 class QTabBar;
@@ -175,7 +174,7 @@ public:
 	bool viewForLocalFilePresent(const QString& localFileName);
 
 protected:
-	void setTabIcon(QWidget *view, const QPixmap& icon);
+	void setTabIcon(QWidget *view, const QIcon& icon);
 
 	void createViewerPart(KActionCollection *actionCollection);
 	void destroyDocumentViewerWindow();

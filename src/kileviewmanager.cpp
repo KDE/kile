@@ -18,7 +18,7 @@
 #include <KAcceleratorManager>
 #include <KActionCollection>
 #include <KIconLoader>
-#include <kio/pixmaploader.h>
+#include <kio/global.h>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KTextEditor/Application>
@@ -590,9 +590,9 @@ void Manager::switchToTextView(KTextEditor::View *view, bool requestFocus)
 	}
 }
 
-void Manager::setTabIcon(QWidget *view, const QPixmap& icon)
+void Manager::setTabIcon(QWidget *view, const QIcon& icon)
 {
-	m_tabBar->setTabIcon(tabIndexOf(qobject_cast<KTextEditor::View *>(view)), QIcon(icon));
+	m_tabBar->setTabIcon(tabIndexOf(qobject_cast<KTextEditor::View *>(view)), icon);
 }
 
 void Manager::updateStructure(bool parse /* = false */, KileDocument::Info *docinfo /* = Q_NULLPTR */)
@@ -698,24 +698,24 @@ void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
                                                 bool isModified,
                                                 KTextEditor::ModificationInterface::ModifiedOnDiskReason reason)
 {
-	QPixmap icon;
+	QIcon icon;
 	if (reason == KTextEditor::ModificationInterface::OnDiskUnmodified && isModified) { //nothing
-		icon = SmallIcon("modified"); // This icon is taken from Kate. Therefore
+		icon = QIcon::fromTheme("modified"); // This icon is taken from Kate. Therefore
 		                              // our thanks go to the authors of Kate.
 	}
 	else if (reason == KTextEditor::ModificationInterface::OnDiskModified
 	     || reason == KTextEditor::ModificationInterface::OnDiskCreated) { //dirty file
-		icon = SmallIcon("modonhd"); // This icon is taken from Kate. Therefore
+		icon = QIcon::fromTheme("modonhd"); // This icon is taken from Kate. Therefore
 		                             // our thanks go to the authors of Kate.
 	}
 	else if (reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
-		icon = SmallIcon("process-stop");
+		icon = QIcon::fromTheme("process-stop");
 	}
 	else if (m_ki->extensions()->isScriptFile(doc->url())) {
-		icon = SmallIcon("js");
+		icon = QIcon::fromTheme("js");
 	}
 	else {
-		icon = KIO::pixmapForUrl(doc->url(), 0, KIconLoader::Small);
+		icon = QIcon::fromTheme(KIO::iconNameForUrl(doc->url()));
 	}
 
 	const QList<KTextEditor::View*> &viewsList = doc->views();

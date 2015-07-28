@@ -12,11 +12,11 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
- 
+
 #ifndef SIDEBAR_H
 #define SIDEBAR_H
 
-#include <QPixmap>
+#include <QIcon>
 #include <QStackedWidget>
 #include <QWidget>
 
@@ -32,7 +32,7 @@ public:
 	explicit SideBar(QWidget *parent = Q_NULLPTR, Qt::Orientation orientation = Qt::Vertical);
 	virtual ~SideBar();
 
-	int addPage(QWidget *tab, const QPixmap &pic, const QString &text = QString());
+	int addPage(QWidget *tab, const QIcon &pic, const QString &text = QString());
 	void removePage(QWidget *w);
 
 	QWidget* currentPage();
@@ -62,7 +62,7 @@ public:
 
 	/**
 	 * Sets the side bar's height if its orientation is vertical, its width otherwise.
-	 **/	
+	 **/
 	void setDirectionalSize(int i);
 
 	/**

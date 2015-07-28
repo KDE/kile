@@ -71,37 +71,37 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
 	m_toolBar->setIconDimensions(KIconLoader::SizeSmall);
 
 	m_runAction = new QAction(this);
-	m_runAction->setIcon(SmallIcon("run-build"));
+	m_runAction->setIcon(QIcon::fromTheme("run-build"));
 	m_runAction->setText(i18n("Run Selected Script"));
 	connect(m_runAction, SIGNAL(triggered()), this, SLOT(executeSelectedScript()));
 	m_toolBar->addAction(m_runAction);
 
 	QAction *action = new QAction(this);
-	action->setIcon(SmallIcon("scriptnew"));
+	action->setIcon(QIcon::fromTheme("scriptnew"));
 	action->setText(i18n("Create New Script"));
 	connect(action, SIGNAL(triggered()), kileInfo->docManager(), SLOT(fileNewScript()));
 	m_toolBar->addAction(action);
 
 	m_scriptOpenAction = new QAction(this);
-	m_scriptOpenAction->setIcon(SmallIcon("scriptopen"));
+	m_scriptOpenAction->setIcon(QIcon::fromTheme("scriptopen"));
 	m_scriptOpenAction->setText(i18n("Open Selected Script in Editor"));
 	connect(m_scriptOpenAction, SIGNAL(triggered()), this, SLOT(openSelectedScript()));
 	m_toolBar->addAction(m_scriptOpenAction);
 
 	m_configureKeySequenceAction = new QAction(this);
-	m_configureKeySequenceAction->setIcon(SmallIcon("configure-shortcuts"));
+	m_configureKeySequenceAction->setIcon(QIcon::fromTheme("configure-shortcuts"));
 	m_configureKeySequenceAction->setText(i18n("Configure Key Sequence"));
 	connect(m_configureKeySequenceAction, SIGNAL(triggered()), this, SLOT(configureSelectedKeySequence()));
 	m_toolBar->addAction(m_configureKeySequenceAction);
 
 	m_removeKeySequenceAction = new QAction(this);
-	m_removeKeySequenceAction->setIcon(SmallIcon("edit-delete"));
+	m_removeKeySequenceAction->setIcon(QIcon::fromTheme("edit-delete"));
 	m_removeKeySequenceAction->setText(i18n("Remove Key Sequence"));
 	connect(m_removeKeySequenceAction, SIGNAL(triggered()), this, SLOT(removeSelectedKeySequence()));
 	m_toolBar->addAction(m_removeKeySequenceAction);
 
 	action = new QAction(this);
-	action->setIcon(SmallIcon("view-refresh"));
+	action->setIcon(QIcon::fromTheme("view-refresh"));
 	action->setText(i18n("Refresh List"));
 	connect(action, SIGNAL(triggered()), m_kileInfo->scriptManager(), SLOT(scanScriptDirectories()));
 	m_toolBar->addAction(action);
@@ -202,7 +202,7 @@ void ScriptsManagement::configureSelectedKeySequence() {
 	if ( result==QDialog::Rejected || (newType==oldType && newSequence==oldSequence) ) {
 		return;
 	}
-	
+
 	if ( newSequence.isEmpty() ) {
 		m_kileInfo->scriptManager()->removeEditorKeySequence(script);
 	}

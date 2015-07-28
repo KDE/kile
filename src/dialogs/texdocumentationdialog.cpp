@@ -109,7 +109,7 @@ TexDocDialog::TexDocDialog(QWidget *parent)
 		"kpsewhich --expand-path='$TEXMF/doc' && "
 		"kpsewhich --expand-path='$TEXMF'"
 	);
-	
+
 	mainLayout->addWidget(m_texdocs);
 	mainLayout->addWidget(groupbox);
 	mainLayout->addWidget(m_buttonBox);
@@ -194,7 +194,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 			}
 			if (itemsection) {
 				QTreeWidgetItem *item = new QTreeWidgetItem(itemsection, QStringList() << keylist[1] << keylist[0]);
-				item->setIcon(0, SmallIcon(getIconName(keylist[2])));
+				item->setIcon(0, QIcon::fromTheme(getIconName(keylist[2])));
 
 				// save filename in dictionary
 				m_dictDocuments[keylist[0]] = keylist[2];
@@ -214,7 +214,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
 	}
 	m_buttonBox->button(QDialogButtonBox::RestoreDefaults)->setEnabled(!toc);
 	m_texdocs->setFocus();
-	
+
 	if (m_texdocs->topLevelItemCount() == 1) {
 		m_texdocs->expandAll();
 	}
@@ -293,7 +293,7 @@ void TexDocDialog::decompressFile(const QString &docfile, const QString &command
 		return;
 	}
 	m_filename = m_tempfile->fileName(); // the unique file name of the temporary file should be kept
-	m_tempfile->close(); 
+	m_tempfile->close();
 
 	KILE_DEBUG_MAIN << "\tdecompress file: "  << command + " > " + m_filename << endl;
 	connect(this, &TexDocDialog::processFinished, this, &TexDocDialog::slotShowFile);

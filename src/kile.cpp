@@ -434,7 +434,7 @@ void Kile::setupSideBar()
 	m_sideBar = new KileWidget::SideBar(m_horizontalSplitter);
 
 	m_fileBrowserWidget = new KileWidget::FileBrowserWidget(m_extensions, m_sideBar);
-	m_sideBar->addPage(m_fileBrowserWidget, SmallIcon("document-open"), i18n("Open File"));
+	m_sideBar->addPage(m_fileBrowserWidget, QIcon::fromTheme("document-open"), i18n("Open File"));
 	connect(m_fileBrowserWidget,SIGNAL(fileSelected(const KFileItem&)), docManager(), SLOT(fileSelected(const KFileItem&)));
 
 	setupProjectView();
@@ -453,7 +453,7 @@ void Kile::setupProjectView()
 {
 	KileWidget::ProjectView *projectview = new KileWidget::ProjectView(m_sideBar, this);
 // 	viewManager()->setProjectView(projectview);
-	m_sideBar->addPage(projectview, SmallIcon("relation"), i18n("Files and Projects"));
+	m_sideBar->addPage(projectview, QIcon::fromTheme("relation"), i18n("Files and Projects"));
 	connect(projectview, SIGNAL(fileSelected(const KileProjectItem *)), docManager(), SLOT(fileSelected(const KileProjectItem *)));
 	connect(projectview, SIGNAL(fileSelected(const QUrl &)), docManager(), SLOT(fileSelected(const QUrl &)));
 	connect(projectview, SIGNAL(closeURL(const QUrl&)), docManager(), SLOT(fileClose(const QUrl&)));
@@ -479,7 +479,7 @@ void Kile::setupProjectView()
 void Kile::setupStructureView()
 {
 	m_kwStructure = new KileWidget::StructureWidget(this, m_sideBar);
-	m_sideBar->addPage(m_kwStructure, SmallIcon("view-list-tree"), i18n("Structure"));
+	m_sideBar->addPage(m_kwStructure, QIcon::fromTheme("view-list-tree"), i18n("Structure"));
 	m_kwStructure->setFocusPolicy(Qt::ClickFocus);
 	connect(configurationManager(), SIGNAL(configChanged()), m_kwStructure, SIGNAL(configChanged()));
 	connect(m_kwStructure, SIGNAL(setCursor(const QUrl &,int,int)), this, SLOT(setCursor(const QUrl &,int,int)));
@@ -492,7 +492,7 @@ void Kile::setupStructureView()
 void Kile::setupScriptsManagementView()
 {
 	m_scriptsManagementWidget = new KileWidget::ScriptsManagement(this, m_sideBar);
-	m_sideBar->addPage(m_scriptsManagementWidget, SmallIcon("preferences-plugin-script"), i18n("Scripts"));
+	m_sideBar->addPage(m_scriptsManagementWidget, QIcon::fromTheme("preferences-plugin-script"), i18n("Scripts"));
 }
 
 void Kile::enableSymbolViewMFUS()
@@ -531,7 +531,7 @@ void Kile::disableSymbolViewMFUS()
 void Kile::setupSymbolViews()
 {
 	m_toolBox = new QToolBox(m_sideBar);
-	m_sideBar->addPage(m_toolBox,SmallIcon("math0"),i18n("Symbols"));
+	m_sideBar->addPage(m_toolBox,QIcon::fromTheme("math0"),i18n("Symbols"));
 
 	m_symbolViewMFUS = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MFUS);
 	m_toolBox->addItem(m_symbolViewMFUS,i18n("Most Frequently Used"));
@@ -540,52 +540,52 @@ void Kile::setupSymbolViews()
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewRelation = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Relation);
-	m_toolBox->addItem(m_symbolViewRelation,SmallIcon("math1"),i18n("Relation"));
+	m_toolBox->addItem(m_symbolViewRelation,QIcon::fromTheme("math1"),i18n("Relation"));
 	connect(m_symbolViewRelation, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewOperators = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Operator);
-	m_toolBox->addItem(m_symbolViewOperators,SmallIcon("math2"),i18n("Operators"));
+	m_toolBox->addItem(m_symbolViewOperators,QIcon::fromTheme("math2"),i18n("Operators"));
 	connect(m_symbolViewOperators, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewArrows = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Arrow);
-	m_toolBox->addItem(m_symbolViewArrows,SmallIcon("math3"),i18n("Arrows"));
+	m_toolBox->addItem(m_symbolViewArrows,QIcon::fromTheme("math3"),i18n("Arrows"));
 	connect(m_symbolViewArrows, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewMiscMath = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MiscMath);
-	m_toolBox->addItem(m_symbolViewMiscMath,SmallIcon("math4"),i18n("Miscellaneous Math"));
+	m_toolBox->addItem(m_symbolViewMiscMath,QIcon::fromTheme("math4"),i18n("Miscellaneous Math"));
 	connect(m_symbolViewMiscMath, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewMiscText = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::MiscText);
-	m_toolBox->addItem(m_symbolViewMiscText,SmallIcon("math5"),i18n("Miscellaneous Text"));
+	m_toolBox->addItem(m_symbolViewMiscText,QIcon::fromTheme("math5"),i18n("Miscellaneous Text"));
 	connect(m_symbolViewMiscText, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewDelimiters= new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Delimiters);
-	m_toolBox->addItem(m_symbolViewDelimiters,SmallIcon("math6"),i18n("Delimiters"));
+	m_toolBox->addItem(m_symbolViewDelimiters,QIcon::fromTheme("math6"),i18n("Delimiters"));
 	connect(m_symbolViewDelimiters, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewGreek = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Greek);
-	m_toolBox->addItem(m_symbolViewGreek,SmallIcon("math7"),i18n("Greek"));
+	m_toolBox->addItem(m_symbolViewGreek,QIcon::fromTheme("math7"),i18n("Greek"));
 	connect(m_symbolViewGreek, SIGNAL(insertText(const QString& ,const QList<Package>&)),
 		 this, SLOT(insertText(const QString& ,const QList<Package>&)));
 
 	m_symbolViewSpecial = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Special);
-	m_toolBox->addItem(m_symbolViewSpecial,SmallIcon("math8"),i18n("Special Characters"));
+	m_toolBox->addItem(m_symbolViewSpecial,QIcon::fromTheme("math8"),i18n("Special Characters"));
 	connect(m_symbolViewSpecial, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewCyrillic = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::Cyrillic);
-	m_toolBox->addItem(m_symbolViewCyrillic,SmallIcon("math10"),i18n("Cyrillic Characters"));
+	m_toolBox->addItem(m_symbolViewCyrillic,QIcon::fromTheme("math10"),i18n("Cyrillic Characters"));
 	connect(m_symbolViewCyrillic, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
 	m_symbolViewUser = new KileWidget::SymbolView(this, m_toolBox, KileWidget::SymbolView::User);
-	m_toolBox->addItem(m_symbolViewUser,SmallIcon("math9"),i18n("User Defined"));
+	m_toolBox->addItem(m_symbolViewUser,QIcon::fromTheme("math9"),i18n("User Defined"));
 	connect(m_symbolViewUser, &KileWidget::SymbolView::insertText,
 		this, static_cast<void (Kile::*)(const QString&, const QList<Package>&)>(&Kile::insertText));
 
@@ -599,7 +599,7 @@ void Kile::setupSymbolViews()
 void Kile::setupCommandViewToolbox()
 {
 	m_commandViewToolBox = new KileWidget::CommandViewToolBox(this,m_sideBar);
-	m_sideBar->addPage(m_commandViewToolBox,SmallIcon("texlion"),i18n("LaTeX"));
+	m_sideBar->addPage(m_commandViewToolBox,QIcon::fromTheme("texlion"),i18n("LaTeX"));
 
 	connect(m_commandViewToolBox, SIGNAL(sendText(const QString &)),this, SLOT(insertText(const QString &)));
 }
@@ -608,7 +608,7 @@ void Kile::setupAbbreviationView()
 {
 	m_kileAbbrevView = new KileWidget::AbbreviationView(abbreviationManager(), m_sideBar);
 	connect(abbreviationManager(), SIGNAL(abbreviationsChanged()), m_kileAbbrevView, SLOT(updateAbbreviations()));;
-	m_sideBar->addPage(m_kileAbbrevView, SmallIcon("complete3"), i18n("Abbreviation"));
+	m_sideBar->addPage(m_kileAbbrevView, QIcon::fromTheme("complete3"), i18n("Abbreviation"));
 
 	connect(m_kileAbbrevView, SIGNAL(sendText(const QString&)), this, SLOT(insertText(const QString&)));
 }
@@ -632,21 +632,21 @@ void Kile::setupBottomBar()
 
 	layout->addWidget(errorHandler()->outputWidget());
 	layout->addWidget(m_latexOutputErrorToolBar);
-	m_bottomBar->addPage(widget, SmallIcon("utilities-log-viewer"), i18n("Log and Messages"));
+	m_bottomBar->addPage(widget, QIcon::fromTheme("utilities-log-viewer"), i18n("Log and Messages"));
 
 	m_outputWidget = new KileWidget::OutputView(this);
 	m_outputWidget->setFocusPolicy(Qt::ClickFocus);
 	m_outputWidget->setMinimumHeight(40);
 	m_outputWidget->setReadOnly(true);
-	m_bottomBar->addPage(m_outputWidget, SmallIcon("output_win"), i18n("Output"));
+	m_bottomBar->addPage(m_outputWidget, QIcon::fromTheme("output_win"), i18n("Output"));
 
 	m_texKonsole = new KileWidget::Konsole(this, this);
-	m_bottomBar->addPage(m_texKonsole, SmallIcon("utilities-terminal"),i18n("Konsole"));
+	m_bottomBar->addPage(m_texKonsole, QIcon::fromTheme("utilities-terminal"),i18n("Konsole"));
 	connect(viewManager(), static_cast<void (KileView::Manager::*)(QWidget*)>(&KileView::Manager::currentViewChanged),
 		m_texKonsole, static_cast<void (KileWidget::Konsole::*)(void)>(&KileWidget::Konsole::sync));
 
 	m_previewWidget = new KileWidget::PreviewWidget(this, m_bottomBar);
-	m_bottomBar->addPage(m_previewWidget, SmallIcon ("document-preview"), i18n ("Preview"));
+	m_bottomBar->addPage(m_previewWidget, QIcon::fromTheme ("document-preview"), i18n ("Preview"));
 
 	m_bottomBar->setVisible(true);
 	m_bottomBar->switchToTab(KileConfig::bottomBarIndex());

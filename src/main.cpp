@@ -88,6 +88,9 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
 	QApplication app(argc, argv);
 
+	// enable high dpi support
+	app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
 	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
 	                     i18n("KDE Integrated LaTeX Environment"),
 	                     KAboutLicense::GPL,

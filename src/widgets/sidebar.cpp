@@ -55,13 +55,13 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/) :
 	extraLayout->addWidget(m_tabBar);
 
 	if(orientation == Qt::Horizontal) {
-		layout->addWidget(m_extraWidget);
 		layout->addWidget(m_tabStack);
+		layout->addWidget(m_extraWidget);
 		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
 	}
 	else if(orientation == Qt::Vertical) {
-		layout->addWidget(m_tabStack);
 		layout->addWidget(m_extraWidget);
+		layout->addWidget(m_tabStack);
 		m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
 	}
 

@@ -249,6 +249,7 @@ QWidget * Manager::createTabs(QWidget *parent)
 	QWidget *viewWidget = new QWidget(parent);
 	viewWidget->setLayout(new QVBoxLayout);
 	viewWidget->layout()->setSpacing(0);
+	viewWidget->layout()->setContentsMargins(0, 0, 0, 0);
 	viewWidget->layout()->addWidget(tabBarWidget);
 	viewWidget->layout()->addWidget(m_widgetStack);
 

@@ -229,6 +229,13 @@ QWidget * Manager::createTabs(QWidget *parent)
 		Q_ASSERT(view);
 		m_tabBar->setCurrentIndex(tabIndexOf(view));
 	});
+	// lambda: menu button is enabled if and only if at least two documents are open
+	connect(this, &KileView::Manager::textViewCreated, [=]() {
+		m_documentListButton->setEnabled(m_tabBar->count() > 1);
+	});
+	connect(this, &KileView::Manager::textViewClosed, [=]() {
+		m_documentListButton->setEnabled(m_tabBar->count() > 1);
+	});
 	tabBarWidget->layout()->addWidget(m_documentListButton);
 
 	// tabbar
@@ -352,6 +359,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 	updateTabTexts(doc);
 
 	//activate the newly created view
+	emit(textViewCreated(view));
 	emit(activateView(view, false));
 	emit(updateCaption());  //make sure the caption gets updated
 

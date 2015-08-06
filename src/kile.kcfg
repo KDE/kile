@@ -133,7 +133,7 @@
 		</entry>
 		<entry name="PreviewBibInputPaths" type="String">
 			<label>Holds the BIBINPUTS environment variable for QuickPreview tools.</label>
-			<whatsthis>Set the BIBINPUTS environment variable for QuickPreview tools here. BIBINPUTS should be a colon-separated list of all paths TeX should look for additional packages and/or files. You do not have to add :$BIBINPUTS at the end.</whatsthis>
+			<whatsthis>Set the BIBINPUTS environment variable for QuickPreview tools here. BIBINPUTS should be a colon-separated list of all the paths where the bibliography tool (e.g. BibTeX or Biber) should look for additional packages and/or files. You do not have to add :$BIBINPUTS at the end.</whatsthis>
 			<default></default>
 		</entry>
 		<entry name="BstInputPaths" type="String">

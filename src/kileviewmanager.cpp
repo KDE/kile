@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2015 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -274,18 +274,21 @@ void Manager::closeTab(int index)
 
 void Manager::currentTabChanged(int index)
 {
-	QWidget *activatedWidget = textViewAtTab(index);
-	if(!activatedWidget) {
+	QWidget *newlyActivatedWidget = textViewAtTab(index);
+	if(!newlyActivatedWidget) {
 		return;
 	}
 	QWidget *oldViewWidget = m_widgetStack->widget(1);
+	if(oldViewWidget == newlyActivatedWidget) {
+		return;
+	}
 	if(oldViewWidget) {
 		m_widgetStack->removeWidget(oldViewWidget);
 	}
-	m_widgetStack->insertWidget(1, activatedWidget);
+	m_widgetStack->insertWidget(1, newlyActivatedWidget);
 	m_widgetStack->setCurrentIndex(1);
-	emit currentViewChanged(activatedWidget);
-	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(activatedWidget);
+	emit currentViewChanged(newlyActivatedWidget);
+	KTextEditor::View *view = dynamic_cast<KTextEditor::View*>(newlyActivatedWidget);
 	if(view) {
 		emit textViewActivated(view);
 	}

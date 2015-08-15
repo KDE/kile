@@ -166,7 +166,7 @@ public Q_SLOTS:
 private Q_SLOTS:
 	void tabContext(const QPoint& pos);
 	void closeTab(int index);
-	void switchToTab(int index);
+	void currentTabChanged(int index);
 
 private:
 	KTextEditor::View * textViewAtTab(int index) const;

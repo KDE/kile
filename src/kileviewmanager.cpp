@@ -248,7 +248,7 @@ QWidget * Manager::createTabs(QWidget *parent)
 	tabBarWidget->layout()->addWidget(m_tabBar);
 
 	// connect tabbar with document views
-	connect(m_tabBar, &QTabBar::currentChanged, this, &Manager::switchToTab);
+	connect(m_tabBar, &QTabBar::currentChanged, this, &Manager::currentTabChanged);
 	connect(m_tabBar, &QTabBar::tabCloseRequested, this, &Manager::closeTab);
 	connect(m_tabBar, &QTabBar::customContextMenuRequested, this, &Manager::tabContext);
 
@@ -272,7 +272,7 @@ void Manager::closeTab(int index)
 	}
 }
 
-void Manager::switchToTab(int index)
+void Manager::currentTabChanged(int index)
 {
 	QWidget *activatedWidget = textViewAtTab(index);
 	if(!activatedWidget) {
@@ -358,6 +358,11 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 	// (BUG 205245)
 	updateTabTexts(doc);
 
+	m_tabBar->setCurrentIndex(index);
+	if(m_tabBar->count() == 1) { // when the tab bar is empty initially, 'setCurrentIndex' won't have any effect
+	  currentTabChanged(0);      // at this point; so we do it manually
+	}
+
 	//activate the newly created view
 	emit(textViewCreated(view));
 	emit(activateView(view, false));
@@ -366,11 +371,6 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 	reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
 
 	emit(prepareForPart("Editor"));
-
-	// this is the first tab, set it active
-	if(m_tabBar->count() == 1) {
-		switchToTab(0);
-	}
 
 	return view;
 }

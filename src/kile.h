@@ -107,7 +107,6 @@ public Q_SLOTS:
 
 	void runArchiveTool();
 	void runArchiveTool(const QUrl&);
-	void showTip();
 
 	void prepareForPart(const QString &);
 

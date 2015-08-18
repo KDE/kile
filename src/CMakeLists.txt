@@ -246,7 +246,7 @@ install(TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 install(PROGRAMS org.kde.kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
-install(FILES data/bibtexentries.rc data/biblatexentries.rc tips DESTINATION ${DATA_INSTALL_DIR}/kile)
+install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${DATA_INSTALL_DIR}/kile)
 install(FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile)
 install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 

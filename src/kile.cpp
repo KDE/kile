@@ -43,7 +43,6 @@
 #include <KRecentFilesAction>
 #include <KRun>
 #include <KShortcutsDialog>
-#include <KTipDialog>
 #include <KToggleAction>
 #include <KXMLGUIFactory>
 #include <KXmlGuiWindow>
@@ -349,8 +348,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 				m_toolFactory->readStandardToolConfig();
 		}
 	}
-
-	KTipDialog::showTip(this, "kile/tips");
 
 	// lazy creation: last possible place to insert this user-defined menu
 	m_userMenu = new KileMenu::UserMenu(this, this);
@@ -916,8 +913,6 @@ void Kile::setupActions()
 
 	KHelpMenu *help_menu = new KHelpMenu(this, KAboutData::applicationData());
 
-	actionCollection()->addAction(KStandardAction::TipofDay, this, SLOT(showTip()));
-
 	createAction(i18n("TeX Guide"), "help_tex_guide", QKeySequence("CTRL+Alt+H, G"), m_help, SLOT(helpTexGuide()));
 	createAction(i18n("LaTeX"), "help_latex_index", QKeySequence("CTRL+Alt+H, L"), m_help, SLOT(helpLatexIndex()));
 	createAction(i18n("LaTeX Command"), "help_latex_command", QKeySequence("CTRL+Alt+H, C"), m_help, SLOT(helpLatexCommand()));
@@ -1253,11 +1248,6 @@ void Kile::setActive()
 	raise();
 	activateWindow();
 	show();
-}
-
-void Kile::showTip()
-{
-    KTipDialog::showTip(this, "kile/tips", true);
 }
 
 void Kile::setLine(const QString &line)

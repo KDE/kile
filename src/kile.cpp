@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2015 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -176,8 +176,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(viewManager(), SIGNAL(currentViewChanged(QWidget*)), this, SLOT(updateModeStatus()));
 	connect(viewManager(), SIGNAL(updateCaption()), this, SLOT(newCaption()));
 	connect(viewManager(), SIGNAL(updateModeStatus()), this, SLOT(updateModeStatus()));
-	connect(viewManager(), SIGNAL(cursorPositionChanged(KTextEditor::View*,const KTextEditor::Cursor&)),
-	        this, SLOT(updateStatusBarCursorPosition(KTextEditor::View*,const KTextEditor::Cursor&)));
+	connect(viewManager(), &KileView::Manager::cursorPositionChanged, this, &Kile::updateStatusBarCursorPosition);
 	connect(viewManager(), SIGNAL(viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode)),
 	        this, SLOT(updateStatusBarViewMode(KTextEditor::View*)));
 	connect(viewManager(), SIGNAL(informationMessage(KTextEditor::View*,const QString&)),

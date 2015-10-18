@@ -998,15 +998,21 @@ void NewTabularDialog::slotClearAll()
 
 void NewTabularDialog::slotRowAppended()
 {
-	m_sbRows->setValue(m_sbRows->value() + 1);
-	/* This is called twice, but now we can be sure that the new row has been created */
+	const int newValue = m_sbRows->value() + 1;
+
+	m_sbRows->setMaximum(qMax(m_sbRows->maximum(), newValue));
+	m_sbRows->setValue(newValue);
+
 	updateColsAndRows();
 }
 
 void NewTabularDialog::slotColAppended()
 {
-	m_sbCols->setValue(m_sbCols->value() + 1);
-	/* This is called twice, but now we can be sure that the new row has been created */
+	const int newValue = m_sbCols->value() + 1;
+
+	m_sbCols->setMaximum(qMax(m_sbCols->maximum(), newValue));
+	m_sbCols->setValue(newValue);
+
 	updateColsAndRows();
 }
 

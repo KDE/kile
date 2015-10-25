@@ -18,7 +18,11 @@
 
 #include <sys/stat.h>
 #include <stdlib.h> //getenv
+#ifndef _MSC_VER
 #include <unistd.h> //read
+#else
+#include <io.h>
+#endif
 #include <fcntl.h>
 
 #include "kileactions.h"
@@ -33,8 +37,13 @@
 #include <KLocalizedString>
 
 KileLyxServer::KileLyxServer(bool startMe) :
-	m_perms(S_IRUSR | S_IWUSR), m_running(false)
-{	
+	m_running(false)
+{
+#ifndef _MSC_VER
+    m_perms = S_IRUSR | S_IWUSR;
+#else
+    m_perms = 0;
+#endif
 	KILE_DEBUG_MAIN << "===KileLyxServer::KileLyxServer(bool" << startMe << ")=== ";
 
 	m_tempDir = new QTemporaryDir();

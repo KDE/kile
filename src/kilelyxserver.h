@@ -30,6 +30,10 @@
 
 #include <sys/types.h>
 
+#ifdef _MSC_VER
+typedef int mode_t;
+#endif
+
 /**
  * @short Simple server that impersonates as LyX to work with gBib, pyBibliographer etc.
  * @author Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>

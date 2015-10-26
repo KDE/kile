@@ -334,14 +334,20 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	: QDialog(parent)
 	, m_config(config)
 	, m_commands(commands)
+	, m_commandChanged(false)
 	, m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel|QDialogButtonBox::RestoreDefaults))
 {
 	setWindowTitle(i18n("LaTeX Configuration"));
+	setLayout(new QVBoxLayout);
 	setModal(true);
 
-	QWidget *page = new QWidget(this);
-	m_widget.setupUi(page);
+	QWidget* widget = new QWidget(this);
+	m_widget.setupUi(widget);
 
+	// read config and initialize changes (add, edit or delete an entry)
+	readConfig();
+	// init listview
+	resetListviews();
 	slotEnableButtons();
 
 	connect(m_widget.tab, SIGNAL(currentChanged(int)), this, SLOT(slotEnableButtons()));
@@ -352,30 +358,26 @@ LatexCommandsDialog::LatexCommandsDialog(KConfig *config, KileDocument::LatexCom
 	connect(m_widget.editButton, SIGNAL(clicked()), this, SLOT(slotEditClicked()));
 	connect(m_widget.showOnlyUserDefined, SIGNAL(clicked()), this, SLOT(slotUserDefinedClicked()));
 
-	// read config and initialize changes (add, edit or delete an entry)
-	readConfig();
-	m_commandChanged = false;
-
-	// init listview
-	resetListviews();
-	slotEnableButtons();
-
-	for (int col = 0; col <= 6; col++) {
+	for (int col = 0; col <= 6; ++col) {
 		m_widget.environments->resizeColumnToContents(col);
 	}
-	for (int col = 0; col <= 3; col++) {
+	for (int col = 0; col <= 3; ++col) {
 		m_widget.commands->resizeColumnToContents(col);
 	}
 
-	QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
-	QPushButton *defaultButton = m_buttonBox->button(QDialogButtonBox::RestoreDefaults);
+	layout()->addWidget(widget);
+	layout()->addWidget(m_buttonBox);
+
+	QPushButton* okButton = m_buttonBox->button(QDialogButtonBox::Ok);
+	QPushButton* defaultsButton = m_buttonBox->button(QDialogButtonBox::RestoreDefaults);
+
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	layout()->addWidget(m_buttonBox);
+
 	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
 	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+	connect(defaultsButton, &QPushButton::clicked, this, &LatexCommandsDialog::slotSetDefaults);
 	connect(this, &QDialog::accepted, this, &LatexCommandsDialog::slotAccepted);
-	connect(defaultButton, &QPushButton::clicked, this, &LatexCommandsDialog::slotSetDefaults);
 }
 
 ////////////////////////////// listview //////////////////////////////

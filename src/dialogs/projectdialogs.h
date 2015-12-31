@@ -100,7 +100,7 @@ public:
 	KileNewProjectDialog(KileTemplate::Manager *templateManager, KileDocument::Extensions *extensions, QWidget* parent = Q_NULLPTR, const char* name = Q_NULLPTR);
 	~KileNewProjectDialog();
 
-	KileProject * project() Q_DECL_OVERRIDE;
+	KileProject *project() Q_DECL_OVERRIDE;
 
 	QString cleanProjectFile();
 	QString folder() const {
@@ -118,7 +118,7 @@ public:
 private Q_SLOTS:
 	void clickedCreateNewFileCb();
 	void fillProjectDefaults() Q_DECL_OVERRIDE;
-	void onAccepted();
+	void handleOKButtonClicked();
 
 private:
 	KileTemplate::Manager *m_templateManager;

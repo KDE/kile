@@ -1,7 +1,7 @@
 /*******************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-            (C) 2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2013-2015 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2015 by Andreas Cord-Landwehr (cordlandwehr@kde.org)
 ********************************************************************************************/
 
@@ -260,9 +260,8 @@ KileNewProjectDialog::KileNewProjectDialog(KileTemplate::Manager *templateManage
 	okButton->setDefault(true);
 	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
 	okButton->setDefault(true);
-	connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+	connect(okButton, &QPushButton::clicked, this, &KileNewProjectDialog::handleOKButtonClicked);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-	connect(this, &QDialog::accepted, this, &KileNewProjectDialog::onAccepted);
 
 	connect(m_defaultLatexFileExtensionsCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::highlighted), this, &KileNewProjectDialog::onExtensionsHighlighted);
 	connect(m_userFileExtensions, &QLineEdit::textEdited, this, &KileNewProjectDialog::onExtensionsTextEdited);
@@ -312,7 +311,7 @@ QString KileNewProjectDialog::cleanProjectFile()
 	return projectTitle().toLower().trimmed().remove(QRegExp("\\s*")) + ".kilepr";
 }
 
-void KileNewProjectDialog::onAccepted()
+void KileNewProjectDialog::handleOKButtonClicked()
 {
 	if (!acceptUserExtensions()) {
 		return;
@@ -387,6 +386,7 @@ void KileNewProjectDialog::onAccepted()
 	}
 
 	m_projectFileWithPath = QUrl::fromLocalFile(projectFilePath);
+        accept();
 }
 
 void KileNewProjectDialog::fillProjectDefaults()

@@ -145,7 +145,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
 	action = actionCollection->addAction("tag_tabulator", ki->editorExtension(), SLOT(insertIntelligentTabulator()));
 	action->setText(i18n("Smart Tabulator"));
-	action->setShortcut(QKeySequence(Qt::ALT + Qt::Key_Ampersand));
+	actionCollection->setDefaultShortcut(action, QKeySequence(Qt::ALT + Qt::Key_Ampersand));
 
 	// new tags (dani 29.01.2005)
 	KActionCollection* ac = actionCollection;

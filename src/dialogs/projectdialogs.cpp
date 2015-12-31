@@ -320,7 +320,7 @@ void KileNewProjectDialog::onAccepted()
 
 	if (projectTitle().trimmed().isEmpty()) {
 		if (KMessageBox::warningYesNo(this, i18n("You have not entered a project name. If you decide to proceed, the project name will be set to \"Untitled\".\n"
-													"Do you want to create the project nevertheless?"), i18n("No Project Name Given")) == KMessageBox::Yes) {
+		                                         "Do you want to create the project nevertheless?"), i18n("No Project Name Given")) == KMessageBox::Yes) {
 			m_title->setText(i18n("Untitled"));
 		}
 		else {
@@ -328,46 +328,48 @@ void KileNewProjectDialog::onAccepted()
 		}
 	}
 
-	if (folder().trimmed().isEmpty()){
+	const QString dirString = folder().trimmed();
+	const QString fileString = file().trimmed();
+
+	if (dirString.isEmpty()) {
 		KMessageBox::error(this, i18n("Please enter the folder where the project file should be saved to."), i18n("Empty Location"));
 		return;
 	}
 
-	const QString dirString = folder().trimmed();
-	if(!QDir::isAbsolutePath(dirString)) {
-		KMessageBox::error(this, i18n("Please enter an absolute (local) path to the project folder."), i18n("Invalid Location"));
+	if (!QDir::isAbsolutePath(dirString)) {
+		KMessageBox::error(this, i18n("Please enter an absolute path to the project folder."), i18n("Invalid Location"));
 		return;
 	}
 
-	QDir dir = QDir(dirString);
-	KILE_DEBUG_MAIN << "project location is " << dir.absolutePath() << endl;
+	if (createNewFile() && fileString.isEmpty()){
+		KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
+		return;
+	}
 
-	if(!dir.exists()){
+	QDir dir(dirString);
+
+	if (!dir.exists()) {
 		dir.mkpath(dir.absolutePath());
 	}
 
-	if(!dir.exists()){
-		KMessageBox::error(this, i18n("Could not create the project folder, check your permissions."));
+	if (!dir.exists()) {
+		KMessageBox::error(this, i18n("Could not create the project folder. Please check if you have write permission."));
 		return;
 	}
 
 	QFileInfo fi(dir.absolutePath());
 	if (!fi.isDir() || !fi.isWritable()){
-		KMessageBox::error(this, i18n("The project folder is not writable, check your permissions."));
+		KMessageBox::error(this, i18n("The project folder is not writable. Please check the permissions of the project folder."));
 		return;
 	}
+
 	const QString projectFilePath = dir.filePath(cleanProjectFile());
-	if(QFileInfo(projectFilePath).exists()){
-					KMessageBox::error(this, i18n("The project file already exists, please select another name. Delete the existing project file if your intention was to overwrite it."), i18n("Project File Already Exists"));
+	if (QFileInfo(projectFilePath).exists()) { // this can only happen when the project dir existed already
+		KMessageBox::error(this, i18n("The project file already exists. Please select another name."), i18n("Project File Already Exists"));
 		return;
 	}
 
 	if (createNewFile()) {
-		if (file().trimmed().isEmpty()){
-			KMessageBox::error(this, i18n("Please enter a filename for the file that should be added to this project."), i18n("No File Name Given"));
-			return;
-		}
-
 		//check for validity of name first, then check for existence (fixed by tbraun)
 		QUrl fileURL;
 		fileURL = fileURL.adjusted(QUrl::RemoveFilename);
@@ -377,8 +379,8 @@ void KileNewProjectDialog::onAccepted()
 			m_file->setText(validURL.fileName());
 		}
 
-		if(QFileInfo(QDir(fi.path()) , file().trimmed()).exists()){
-			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", file()), i18n("File Already Exists")) == KMessageBox::No) {
+		if(QFileInfo(QDir(fi.path()), fileString).exists()){
+			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", fileString), i18n("File Already Exists")) == KMessageBox::No) {
 				return;
 			}
 		}

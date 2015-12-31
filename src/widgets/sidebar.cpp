@@ -80,7 +80,7 @@ SideBar::~SideBar()
 int SideBar::addPage(QWidget *widget, const QIcon &pic, const QString &text /* = QString()*/)
 {
 	int index = m_tabStack->addWidget(widget);
-	m_tabBar->appendTab(pic.pixmap(QSize(16, 16)), index, text);
+	m_tabBar->appendTab(pic, index, text);
 	connect(m_tabBar->tab(index), SIGNAL(clicked(int)), this, SLOT(tabClicked(int)));
 
 	switchToTab(index);

@@ -2,7 +2,7 @@
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 - 2005 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2011 - 2015 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2011 - 2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -94,7 +94,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
 	                     i18n("KDE Integrated LaTeX Environment"),
 	                     KAboutLicense::GPL,
-	                     i18n("by the Kile Team (2003 - 2015)"),
+	                     i18n("by the Kile Team (2003 - 2016)"),
 	                     QString(),
 	                     QStringLiteral("http://kile.sourceforge.net"));
 	aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), "michel.ludwig@kdemail.net");

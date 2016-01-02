@@ -338,6 +338,8 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 
 	// delete the 'Configure Editor...' action
 	delete view->actionCollection()->action("set_confdlg");
+        // delete the "save copy as" action as we have our own
+	delete view->actionCollection()->action("file_save_copy_as");
 
 	// use Kile's save and save-as functions instead of the text editor's
 	QAction *action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
@@ -385,7 +387,7 @@ void Manager::installContextMenu(KTextEditor::View *view)
 	if(popupMenu) {
 		connect(popupMenu, &QMenu::aboutToShow, this, &Manager::onTextEditorPopupMenuRequest);
 
-		// install some more actions on it
+            // install some more actions on it
 		popupMenu->addSeparator();
 		popupMenu->addAction(m_pasteAsLaTeXAction);
 		popupMenu->addAction(m_convertToLaTeXAction);

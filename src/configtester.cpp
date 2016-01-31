@@ -301,7 +301,6 @@ void OkularVersionTest::call()
 	KPluginFactory *factory = pluginLoader.factory();
 	if (!factory) {
 		m_status = Failure;
-		return;
 	}
 	else {
 		m_status = Success;

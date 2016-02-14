@@ -2,7 +2,7 @@ project(kile)
 
 cmake_minimum_required(VERSION 3.0.0)
 
-find_package(ECM 5.10.0 REQUIRED NO_MODULE)
+find_package(ECM 5.19.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(ECMAddAppIcon)
@@ -51,15 +51,14 @@ find_package(KF5 5.11 REQUIRED COMPONENTS
 	XmlGui
 )
 
-find_package(Poppler)
+find_package(Poppler COMPONENTS Qt5)
 set_package_properties("Poppler" PROPERTIES
-	DESCRIPTION "A PDF rendering library"
-	URL "http://poppler.freedesktop.org"
 	TYPE RECOMMENDED
 	PURPOSE "Support for PDF file operations.")
-if(POPPLER_FOUND)
+
+if(Poppler_Qt5_FOUND)
 	set(HAVE_POPPLER TRUE)
-	include_directories(${POPPLER_INCLUDE_DIR})
+	include_directories(${Poppler_INCLUDE_DIRS})
 endif()
 
 find_package(Okular5)

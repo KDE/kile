@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2015 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -1107,15 +1107,18 @@ void Manager::handleActivatedSourceReference(const QString& absFileName, int lin
 	KILE_DEBUG_MAIN << "absFileName:" << absFileName << "line:" << line << "column:" << col;
 	QString fileName;
 	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(absFileName);
-	if(!textInfo) {
+	// check whether the file or the project item associated with 'absFileName' is already open
+	if(!textInfo || !m_ki->isOpen(absFileName)) {
 		m_ki->docManager()->fileOpen(absFileName);
 		textInfo = m_ki->docManager()->textInfoFor(absFileName);
-		if(!textInfo) {
-			return;
-		}
+	}
+	if(!textInfo) {
+		KILE_DEBUG_MAIN << "no document found!";
+		return;
 	}
 	KTextEditor::View *view = textView(textInfo);
 	if(!view) {
+		KILE_DEBUG_MAIN << "no view found!";
 		return;
 	}
 	view->setCursorPosition(KTextEditor::Cursor(line, col));
@@ -1222,3 +1225,4 @@ void focusTextView(KTextEditor::View *view)
 	QTimer::singleShot(0, view, SLOT(setFocus()));
 }
 
+// kate: replace-tabs off;

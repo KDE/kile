@@ -111,6 +111,10 @@ private:
 public:
 	bool similarOrEqualURL(const QUrl &validurl, const QUrl &testurl);
 	bool isOpen(const QUrl &url);
+	inline bool isOpen(const QString& localFile)
+	{
+		return isOpen(QUrl::fromLocalFile(localFile));
+	}
 	bool projectIsOpen(const QUrl & );
 
 	bool watchFile() { return m_bWatchFile; }

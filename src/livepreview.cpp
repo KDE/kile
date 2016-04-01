@@ -117,9 +117,7 @@ private:
 	QTemporaryDir *m_tempDir;
 
 	void initTemporaryDirectory() {
-		// work around bug in the SyncTeX implementation of PDFTeX (can't rename file)
-		// should be: QDir::tempPath() + QLatin1Char('/') +  "kile-livepreview")
-		m_tempDir = new QTemporaryDir(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "livepreview");
+		m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "kile-livepreview");
 	}
 
 public:

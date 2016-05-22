@@ -1695,7 +1695,7 @@
 		<title>Writing Own Completion Files</title>
 
     <para>The latest specification of the completion file format can found in the
-		<ulink url="https://quickgit.kde.org/?p=kile.git&amp;a=blob&amp;f=README.cwl&amp;o=plain">
+		<ulink url="https://commits.kde.org/kile?path=README.cwl">
 		CWL file format specification</ulink>.
 		</para>
 

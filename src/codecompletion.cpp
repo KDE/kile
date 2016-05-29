@@ -1124,7 +1124,7 @@ QMap<QString, QString> Manager::getAllCwlFiles(const QString &localCwlPath, cons
 
 QPair<QString, QString> Manager::getCwlBaseDirs()
 {
-	QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "complete/";
+	QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "complete";
 	QString globalDir;
 
 	const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "complete", QStandardPaths::LocateDirectory);

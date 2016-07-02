@@ -16,13 +16,9 @@
   <!ENTITY makeidx "<application>makeidx</application>">
   <!ENTITY cjk "<abbrev>CJK</abbrev>">
   <!ENTITY ucs "<abbrev>ucs</abbrev>">
-  <!ENTITY kappname "&kile;">
-  <!ENTITY package "extragear">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE">
-  <!ENTITY kate "<application>Kate</application>">
   <!ENTITY javascript "<application>JavaScript</application>">
-
   <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
   <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
 ]>
@@ -897,7 +893,7 @@
 	and highlight many different types of text files, among which are &latex; and &bibtex;; you can access
 	many options for &kate; directly from &kile;'s <guimenu>Tools</guimenu> menu.</para>
 
-	 <para>To learn more about &kate; and its capabilities, see the <ulink url="help:kate">&kate; Handbook</ulink>.
+	 <para>To learn more about &kate; and its capabilities, see the <ulink url="help:/kate">&kate; Handbook</ulink>.
 	&kile; users can start reading from the chapter <quote>Working with the &kate; Editor</quote>.</para>
 
 	 <sect1 id="editing_sect">

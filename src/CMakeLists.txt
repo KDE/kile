@@ -229,7 +229,7 @@ PUBLIC
 )
 # optional dependencies
 if(POPPLER_FOUND)
-	target_link_libraries(kdeinit_kile PUBLIC ${POPPLER_LIBRARY})
+    target_link_libraries(kdeinit_kile PUBLIC Poppler::Qt5)
 endif()
 
 if(Okular_FOUND)

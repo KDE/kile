@@ -51,7 +51,7 @@ find_package(KF5 5.11 REQUIRED COMPONENTS
 	XmlGui
 )
 
-find_package(Poppler)
+find_package(Poppler COMPONENTS Qt5)
 set_package_properties("Poppler" PROPERTIES
 	DESCRIPTION "A PDF rendering library"
 	URL "http://poppler.freedesktop.org"
@@ -62,8 +62,8 @@ if(POPPLER_FOUND)
 	include_directories(${POPPLER_INCLUDE_DIR})
 endif()
 
-find_package(Okular)
-set_package_properties("Okular" PROPERTIES
+find_package(Okular5)
+set_package_properties("Okular5" PROPERTIES
 	DESCRIPTION "Okular core library"
 	URL "http://okular.kde.org"
 	TYPE RECOMMENDED

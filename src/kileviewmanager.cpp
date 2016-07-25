@@ -1105,7 +1105,13 @@ void Manager::destroyDocumentViewerWindow()
 void Manager::handleActivatedSourceReference(const QString& absFileName, int line, int col)
 {
 	KILE_DEBUG_MAIN << "absFileName:" << absFileName << "line:" << line << "column:" << col;
-	QString fileName;
+
+	QFileInfo fileInfo(absFileName);
+	if(!fileInfo.isFile() || !fileInfo.isReadable()) {
+	    qWarning() << "Got passed an unreadable file:" << absFileName;
+	    return;
+	}
+
 	KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(absFileName);
 	// check whether the file or the project item associated with 'absFileName' is already open
 	if(!textInfo || !m_ki->isOpen(absFileName)) {

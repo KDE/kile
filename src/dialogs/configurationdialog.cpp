@@ -70,11 +70,6 @@ namespace KileDialog
 	{
 		setWindowTitle(i18n("Configure"));
 		setModal(true);
-
-		QWidget *mainWidget = new QWidget(this);
-		QVBoxLayout *mainLayout = new QVBoxLayout;
-		setLayout(mainLayout);
-		mainLayout->addWidget(mainWidget);
 		setObjectName("kileconfiguration");
 		setFaceType(Tree);
 

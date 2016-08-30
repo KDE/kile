@@ -139,9 +139,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	m_singlemode = true;
 
-	m_AutosaveTimer = new QTimer();
-	connect(m_AutosaveTimer,SIGNAL(timeout()),this,SLOT(autoSaveAll()));
-
 	m_viewManager= new KileView::Manager(this, actionCollection(), parent, "KileView::Manager");
 	viewManager()->setClient(this);
 
@@ -407,7 +404,6 @@ Kile::~Kile()
 	delete m_quickPreview;
 	delete m_edit;
 	delete m_help;
-	delete m_AutosaveTimer;
 	delete m_lyxserver; //QObject without parent, have to delete it ourselves
 	delete m_latexCommands;
 	delete m_extensions;
@@ -1409,30 +1405,6 @@ void Kile::closeDocument()
 	docManager()->fileClose();
 }
 
-void Kile::autoSaveAll()
-{
-	if(docManager()->isAutoSaveAllowed()) {
-		docManager()->fileSaveAll(true);
-	}
-	// in case we can't auto-save, we simply skip it and wait for the next one;
-	// if we kept calling this method again, we could end up doing a busy-wait (see bug 259612)
-}
-
-void Kile::enableAutosave(bool as)
-{
-	if(as) {
-		//paranoia pays, we're really screwed if somehow autosaveinterval equals zero
-		int interval = KileConfig::autosaveInterval();
-		if(interval < 1 || interval > 99) {
-			interval = 10;
-		}
-		m_AutosaveTimer->start(interval * 60000);
-	}
-	else {
-		m_AutosaveTimer->stop();
-	}
-}
-
 void Kile::openProject(const QUrl &url)
 {
 	docManager()->projectOpen(url);
@@ -1530,9 +1502,6 @@ bool Kile::queryClose()
 
 	bool close = stage1 && stage2;
 	if(close) {
-		// auto save has to be disabled because it might still be triggered when the main
-		// window (and all the widgets) have already been destroyed, causing a crash
-		enableAutosave(false);
 		saveSettings();
 	}
 
@@ -2564,7 +2533,6 @@ void Kile::readRecentFileSettings()
 
 void Kile::readConfig()
 {
-	enableAutosave(KileConfig::autosave());
 	m_codeCompletionManager->readConfig(m_config.data());
 #if LIVEPREVIEW_AVAILABLE
 	if(m_livePreviewManager) {

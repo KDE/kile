@@ -180,8 +180,6 @@ private:
 
 	KRecentFilesAction *m_actRecentProjects;
 
-	QTimer *m_AutosaveTimer;
-
 	KileLyxServer		*m_lyxserver;
 
 	/* actions */
@@ -314,10 +312,6 @@ private Q_SLOTS:
 	void slotUpdateUserMenuStatus();
 
 	void includeGraphics();
-
-	/* autosave */
-	void autoSaveAll();
-	void enableAutosave(bool);
 
 	// QuickPreview
 	void slotQuickPreview(int type);

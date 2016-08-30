@@ -331,17 +331,9 @@
 			<label>Reopen files and projects on startup.</label>
 			<default>true</default>
 		</entry>
-		<entry name="Autosave" type="Bool">
-			<label>Automatic save.</label>
-			<default>true</default>
-		</entry>
 		<entry name="CleanUpAfterClose" type="Bool">
 			<label>Automatically clean-up files after close.</label>
 			<default>false</default>
-		</entry>
-		<entry name="AutosaveInterval" type="Int">
-			<label>The autosave interval in minutes.</label>
-			<default>10</default>
 		</entry>
 		<entry name="CleanUpFileExtensions" type="String">
 			<label>The file extensions to clean on exit.</label>

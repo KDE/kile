@@ -92,7 +92,7 @@ public Q_SLOTS:
 	void fileSaveCopyAs();
 
 	void saveURL(const QUrl&);
-	bool fileSaveAll(bool amAutoSaving = false, bool disUntitled = false);
+	bool fileSaveAll(bool disUntitled = false);
 
 	bool fileCloseAllOthers(KTextEditor::View *view = Q_NULLPTR);
 	bool fileCloseAll();
@@ -185,15 +185,6 @@ Q_SIGNALS:
 	void documentOpened(KileDocument::TextInfo *textInfo);
 
 public:
-	/**
-	 * Autosave is not allowed whenever the documents are opened, closed, etc.
-	 * Note that even though the autosave functionality is not executed in a separate
-	 * thread, it would be possible that autosave is executed during the manipulation
-	 * of documents as a separate event handling loop can be started (for example, for
-	 * a progress dialog).
-	 **/
-	bool isAutoSaveAllowed();
-
 	bool isOpeningFile();
 
 	KTextEditor::Editor* getEditor();

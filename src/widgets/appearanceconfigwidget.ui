@@ -20,7 +20,7 @@
       <string>General</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
@@ -48,7 +48,7 @@
       <string>Document Viewer</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="checkable">
       <bool>false</bool>

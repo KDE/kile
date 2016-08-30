@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
+    <width>504</width>
     <height>227</height>
    </rect>
   </property>
@@ -28,7 +28,7 @@
         <string>Most Frequently Used Symbols</string>
        </property>
        <property name="flat">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
@@ -94,7 +94,7 @@
         <string>Unicode</string>
        </property>
        <property name="flat">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <layout class="QVBoxLayout" name="verticalLayout">
         <item>

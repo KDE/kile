@@ -48,7 +48,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	setLayout(vbox);
 
 	QGroupBox *groupbox = new QGroupBox(i18n("Quick Preview in a Separate Window"), this);
-	groupbox->setFlat(true);
+	groupbox->setFlat(false);
 	QGridLayout *groupboxLayout = new QGridLayout();
 //TODO PORT QT5 	groupboxLayout->setMargin(QDialog::marginHint());
 //TODO PORT QT5 	groupboxLayout->setSpacing(QDialog::spacingHint());
@@ -66,7 +66,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	groupboxLayout->setColumnStretch(3, 1);
 
 	QGroupBox *gbResolution = new QGroupBox(i18n("Quick Preview in Bottom Bar"), this);
-	gbResolution->setFlat(true);
+	gbResolution->setFlat(false);
 	QGridLayout *resLayout = new QGridLayout();
 //TODO PORT QT5 	resLayout->setMargin(QDialog::marginHint());
 //TODO PORT QT5 	resLayout->setSpacing(QDialog::spacingHint());
@@ -116,7 +116,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 	resLayout->setColumnStretch(5, 1);
 
 	m_gbPreview = new QGroupBox(i18n("Properties"), this);
-	m_gbPreview->setFlat(true);
+	m_gbPreview->setFlat(false);
 	m_gbPreview->setObjectName("gbpreview");
 	QGridLayout *previewLayout = new QGridLayout();
 //TODO PORT QT5 	previewLayout->setMargin(QDialog::marginHint());
@@ -302,7 +302,7 @@ int KileWidgetPreviewConfig::tool2index(int tool)
 			result = tool - 1;
 		}
 	}
-	
+
 	return result;
 }
 

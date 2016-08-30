@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>776</width>
-    <height>572</height>
+    <height>593</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -32,7 +32,7 @@
       <string>Project Options</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
@@ -80,7 +80,7 @@
       <string>Autosave Options</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
@@ -107,14 +107,14 @@
         </item>
         <item>
          <widget class="QSpinBox" name="kcfg_AutosaveInterval">
-          <property name="value">
-           <number>10</number>
-          </property>
           <property name="minimum">
            <number>1</number>
           </property>
           <property name="maximum">
            <number>9999</number>
+          </property>
+          <property name="value">
+           <number>10</number>
           </property>
           <property name="minValue" stdset="0">
            <number>1</number>
@@ -135,7 +135,7 @@
       <string>Template Variables</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QGridLayout">
       <item row="0" column="1">
@@ -150,7 +150,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="textLabel3">
         <property name="text">
-         <string>&amp;Author:</string>
+         <string>A&amp;uthor:</string>
         </property>
         <property name="wordWrap">
          <bool>false</bool>
@@ -163,7 +163,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="textLabel4">
         <property name="text">
-         <string>&amp;Document class options:</string>
+         <string>Document c&amp;lass options:</string>
         </property>
         <property name="wordWrap">
          <bool>false</bool>
@@ -176,7 +176,7 @@
       <item row="2" column="0">
        <widget class="QLabel" name="textLabel5">
         <property name="text">
-         <string>Input &amp;encoding:</string>
+         <string>I&amp;nput encoding:</string>
         </property>
         <property name="wordWrap">
          <bool>false</bool>
@@ -195,7 +195,7 @@
       <string>File Clean-Up Details</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout">
       <item>
@@ -217,7 +217,7 @@
       <string>Document Viewer</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>

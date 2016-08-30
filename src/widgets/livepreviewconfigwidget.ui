@@ -26,10 +26,10 @@
       </sizepolicy>
      </property>
      <property name="title">
-      <string>Enable live preview</string>
+      <string>Enable &amp;live preview</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -53,7 +53,7 @@
            <item>
             <widget class="QRadioButton" name="m_compileDocumentOnChangesRadioButton">
              <property name="text">
-              <string>Compile documents whenever there are changes after</string>
+              <string>Compile documents whenever &amp;there are changes after</string>
              </property>
             </widget>
            </item>
@@ -91,7 +91,7 @@
          <item>
           <widget class="QRadioButton" name="m_compileDocumentOnSaveRadioButton">
            <property name="text">
-            <string>Compile documents after saving</string>
+            <string>Compile doc&amp;uments after saving</string>
            </property>
           </widget>
          </item>

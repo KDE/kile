@@ -14,10 +14,10 @@
    <item>
     <widget class="QGroupBox" name="cb_autocomplete">
      <property name="title">
-      <string>Auto completion for LaTeX markup</string>
+      <string>Auto completion for &amp;LaTeX markup</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="checkable">
       <bool>true</bool>
@@ -73,12 +73,15 @@
    <item>
     <widget class="QGroupBox" name="cb_autocompleteabbrev">
      <property name="title">
-      <string>Auto completion for abbreviations</string>
+      <string>A&amp;uto completion for abbreviations</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
       <bool>true</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3"/>
@@ -90,7 +93,7 @@
       <string>Completion Files</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_5">
       <item>
@@ -209,7 +212,7 @@
       <string>Completion Properties</string>
      </property>
      <property name="flat">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -251,19 +254,6 @@
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QTabWidget</class>
-   <extends>QTabWidget</extends>
-   <header>ktabwidget.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>

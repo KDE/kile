@@ -155,20 +155,17 @@ namespace KileScript {
 		}
 
 		// scan *.js files
-		QStringList scriptFileNamesList;
+		QSet<QString> scriptFileNamesSet;
 		const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "scripts/", QStandardPaths::LocateDirectory);
 		Q_FOREACH (const QString &dir, dirs) {
 			QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
 			while (it.hasNext()) {
-				const QString scriptFile = it.next();
-				if (!scriptFileNamesList.contains(scriptFile)) {
-					scriptFileNamesList.append(scriptFile);
-				}
+				scriptFileNamesSet.insert(it.next());
 			}
 		}
 
-		for(QStringList::iterator i = scriptFileNamesList.begin(); i != scriptFileNamesList.end(); ++i) {
-			registerScript(*i, pathIDMap, takenIDMap, maxID);
+		Q_FOREACH(const QString &scriptFileName, scriptFileNamesSet) {
+			registerScript(scriptFileName, pathIDMap, takenIDMap, maxID);
 		}
 		//rewrite the IDs that are currently in use
 		writeIDs();

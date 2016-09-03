@@ -1,5 +1,5 @@
 /******************************************************************************
-  Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
                 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
  ******************************************************************************/
 
@@ -129,18 +129,8 @@ static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &ra
 Script::Script(unsigned int id, const QString& file)
    : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
 {
-	// compute relative data location for file
-	const QString canonical = QFileInfo(file).canonicalFilePath();
-	Q_FOREACH(const QString &base, QStandardPaths::standardLocations(QStandardPaths::DataLocation)) {
-		if (canonical.startsWith(base)) {
-			m_name = canonical.mid(base.length()+1);
-			break;
-		}
-	}
+	m_name = QFileInfo(file).fileName();
 
-	if(m_name.startsWith("scripts")) {
-		m_name = m_name.mid(8); // remove "scripts" + path separator
-	}
 	if(m_name.endsWith(".js")) { // remove the extension
 		m_name = m_name.left(m_name.length() - 3);
 	}

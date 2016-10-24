@@ -2,7 +2,7 @@
     begin                : Wed Jun 6 2001
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2005-2007  by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2007-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************************/
 
 /***************************************************************************
@@ -14,34 +14,27 @@
  *                                                                         *
  ***************************************************************************/
 
-// 2005-12-02 dani
-//  - put configuration of Kile and Kate together in one dialog
-//  - items are shown as a tree list
-//  - encoding config page and spelling page are removed,
-//    because settings are also avaiblable with Kate
-//  - geometry of the dialog are saved and restored, because
-//    the initial values may be bad in some languages
-
-// 2007-03-17 dani
-//  - add support for auto insert $
-//  - move graphics config to a separate page
-
 #include "dialogs/configurationdialog.h"
 
-#include <QLayout>
+#include <QDialogButtonBox>
+#include <QPushButton>
+#include <QScreen>
 #include <QTextCodec>
+#include <QTimer>
+#include <QVBoxLayout>
+#include <QWindow>
 
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KWindowConfig>
 #include <KTextEditor/ConfigPage>
 
-#include <QDialogButtonBox>
-#include <QPushButton>
-#include <QVBoxLayout>
-
+#include "editorextension.h"
 #include "errorhandler.h"
+#include "kileconfig.h"
+#include "kiledebug.h"
 #include "kiledocmanager.h"
+#include "kileinfo.h"
 #include "kiletoolmanager.h"
 #include "kileviewmanager.h"
 
@@ -52,14 +45,9 @@
 #include "widgets/livepreviewconfigwidget.h"
 #include "widgets/previewconfigwidget.h"
 #include "widgets/scriptingconfigwidget.h"
+#include "widgets/scrollwidget.h"
 #include "widgets/toolconfigwidget.h"
 #include "widgets/usermenuconfigwidget.h"
-
-#include "kileconfig.h"
-#include "kileinfo.h"
-#include "editorextension.h"
-
-#include "kiledebug.h"
 
 namespace KileDialog
 {
@@ -103,9 +91,35 @@ namespace KileDialog
 
 		setupEditor(editorPageWidgetItem);
 
-		m_configDialogSize = m_config->group("KileConfigDialog");
-		KWindowConfig::restoreWindowSize(windowHandle(), m_configDialogSize);
+		{
+			// every config page is added to a KileWidget::ScrollWidget, but all the scroll widgets should have
+			// the same size; first we find the maximal page size
+			QSize maximumSizeHint;
+			for(KPageWidgetItem *item : const_cast<const QList<KPageWidgetItem*>&>(m_pageWidgetItemList)) { // use 'qAsConst' later
+				QScrollArea *scrollArea = dynamic_cast<QScrollArea*>(item->widget());
+				if(!scrollArea) {
+					qWarning() << "One scroll area not a KileWidget::ScrollWidget!";
+					continue;
+				}
+				maximumSizeHint = maximumSizeHint.expandedTo(scrollArea->widget()->sizeHint());
+			}
+			// and then we set the size of all the scroll widgets to the maximal page size
+			for(KPageWidgetItem *item : const_cast<const QList<KPageWidgetItem*>&>(m_pageWidgetItemList)) { // use 'qAsConst' later
+				KileWidget::ScrollWidget *scrollWidget = dynamic_cast<KileWidget::ScrollWidget*>(item->widget());
+				if(!scrollWidget) {
+					continue;
+				}
+				scrollWidget->setPreferredSize(maximumSizeHint);
+			}
+		}
 
+		m_configDialogSize = m_config->group("KileConfigDialog");
+
+		resize(sizeHint());
+		// as of October 2016, 'restoreWindowSize' has no effect when called directly from here
+		QTimer::singleShot(0, this, [=] () {
+			KWindowConfig::restoreWindowSize(windowHandle(), m_configDialogSize);
+		});
 		// setup connections
 		//connect(m_manager, SIGNAL(widgetModified()), this, SLOT(slotWidgetModified()));
 		connect(this, &KPageDialog::accepted, this, &Config::slotAcceptChanges);
@@ -118,6 +132,7 @@ namespace KileDialog
 	Config::~Config()
 	{
 		KWindowConfig::saveWindowSize(windowHandle(), m_configDialogSize);
+
 		delete m_manager;
 	}
 
@@ -151,13 +166,27 @@ namespace KileDialog
 	{
 		KILE_DEBUG_MAIN << "slot: add config page item=" << itemName;
 
+		// Create scroll widget for the page
+		KileWidget::ScrollWidget *scrollWidget = new KileWidget::ScrollWidget(this);
+		scrollWidget->setFrameShape(QFrame::NoFrame);
+		scrollWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+		scrollWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+		scrollWidget->setWidget(page);
+		scrollWidget->setWidgetResizable(true);
+		page->setMinimumSize(page->sizeHint());
+		page->resize(page->sizeHint());
+
 		// add page
-		KPageWidgetItem *pageWidgetItem = addSubPage(parent, page, itemName);
+		KPageWidgetItem *pageWidgetItem = new KPageWidgetItem(scrollWidget, itemName);
 		pageWidgetItem->setIcon(icon);
 		pageWidgetItem->setHeader(header);
 
+		addSubPage(parent, pageWidgetItem);
+
 		// add to the dialog manager
 		m_manager->addWidget(page);
+
+		m_pageWidgetItemList << pageWidgetItem;
 
 		return pageWidgetItem;
 	}
@@ -168,7 +197,8 @@ namespace KileDialog
 	{
 		generalPage = new KileWidgetGeneralConfig(this);
 		generalPage->setObjectName("LaTeX");
-		addConfigPage(parent, generalPage, i18n("General"), "configure", i18n("General Settings"));
+		KPageWidgetItem *item = addConfigPage(parent, generalPage, i18n("General"), "configure", i18n("General Settings"));
+		setCurrentPage(item);
 	}
 
 	//////////////////// Tools Configuration ////////////////////

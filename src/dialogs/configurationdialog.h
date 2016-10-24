@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Wed Jun 6 2001
     copyright            : (C) 2003 by Jeroen Wijnout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -70,6 +70,8 @@ namespace KileDialog
 		KConfig *m_config;
 		KConfigGroup m_configDialogSize;
 		KileInfo *m_ki;
+
+		QList<KPageWidgetItem*> m_pageWidgetItemList;
 
 		bool m_editorSettingsChanged;
 

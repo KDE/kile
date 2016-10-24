@@ -122,6 +122,7 @@ set(kile_SRCS
 	widgets/structurewidget.cpp
 	widgets/symbolview.cpp
 	widgets/toolconfigwidget.cpp
+	widgets/scrollwidget.cpp
 )
 
 set(kile_UI

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>701</width>
-    <height>265</height>
+    <height>242</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -138,22 +138,6 @@
     </widget>
    </item>
    <item>
-    <spacer name="verticalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <widget class="QGroupBox" name="groupBox_2">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -174,7 +158,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Show the user menu in the LaTeX menu</string>
+         <string>Show &amp;the user menu in the LaTeX menu</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -190,7 +174,7 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Show the user menu in the menu bar</string>
+         <string>Show the &amp;user menu in the menu bar</string>
         </property>
         <property name="checked">
          <bool>false</bool>
@@ -210,21 +194,14 @@
      </property>
      <property name="sizeHint" stdset="0">
       <size>
-       <width>20</width>
-       <height>20</height>
+       <width>0</width>
+       <height>0</height>
       </size>
      </property>
     </spacer>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>QPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

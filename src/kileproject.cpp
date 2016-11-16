@@ -27,7 +27,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>
-#include <KTextEditor/SessionConfigInterface>
 #include <QUrl>
 
 #include "documentinfo.h"
@@ -162,21 +161,14 @@ void KileProjectItem::saveDocumentAndViewSettings()
 
 void KileProjectItem::loadViewSettings(KTextEditor::View *view, int viewIndex)
 {
-	KTextEditor::SessionConfigInterface *interface = qobject_cast<KTextEditor::SessionConfigInterface*>(view);
-	if(!interface) {
-		return;
-	}
-	interface->readSessionConfig(m_project->configGroupForItemViewSettings(this, viewIndex));
+	KConfigGroup configGroup = m_project->configGroupForItemViewSettings(this, viewIndex);
+	view->readSessionConfig(configGroup);
 }
 
 void KileProjectItem::saveViewSettings(KTextEditor::View *view, int viewIndex)
 {
-	KTextEditor::SessionConfigInterface *interface = qobject_cast<KTextEditor::SessionConfigInterface*>(view);
-	if(!interface) {
-		return;
-	}
 	KConfigGroup configGroup = m_project->configGroupForItemViewSettings(this, viewIndex);
-	interface->writeSessionConfig(configGroup);
+	view->writeSessionConfig(configGroup);
 }
 
 void KileProjectItem::loadDocumentSettings(KTextEditor::Document *document)

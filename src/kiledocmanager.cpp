@@ -43,7 +43,6 @@
 #include <KMessageBox>
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
-#include <KTextEditor/SessionConfigInterface>
 #include <KTextEditor/View>
 
 #include "dialogs/cleandialog.h"

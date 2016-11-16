@@ -121,6 +121,9 @@ private Q_SLOTS:
 	void handleOKButtonClicked();
 
 private:
+	bool testDirectoryIsUsable(const QString& path);
+	bool testDirectoryIsUsable(const QDir& dir);
+
 	KileTemplate::Manager *m_templateManager;
 	QLineEdit *m_file, *m_name;
 	TemplateIconView *m_templateIconView;

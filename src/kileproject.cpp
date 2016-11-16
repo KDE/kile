@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,6 @@
 //  - allowed extensions are always defined as list, f.e.: .tex .ltx .latex
 
 #include "kileproject.h"
-#include "kileversion.h"
 
 #include <QStringList>
 #include <QFileInfo>
@@ -39,11 +38,12 @@
 #include "kileextensions.h"
 #include "livepreview.h"
 
-/*
- 01/24/06 tbraun
-	Added the logic to get versioned kilepr files
-	We also warn if the user wants to open a project file with a different kileprversion
-*/
+/**
+ * Since project file version 3, project files 'consist' of two files: one file named '<name>.kilepr' and
+ * one file named '<name>.kilepr.gui' located in the '.kile' subdirectory of the project directory.
+ * The former files contains the static structure of the project, and the later contains the current gui display settings
+ * (like which file is open or on which line and column the cursors are).
+ */
 
 
 /*
@@ -57,7 +57,6 @@ KileProjectItem::KileProjectItem(KileProject *project, const QUrl &url, int type
 	m_parent(Q_NULLPTR),
 	m_child(Q_NULLPTR),
 	m_sibling(Q_NULLPTR),
-	m_nLine(0),
 	m_order(-1)
 {
 	m_bOpen = m_archive = true;
@@ -99,28 +98,30 @@ void KileProjectItem::setParent(KileProjectItem * item)
 
 void KileProjectItem::load()
 {
-	KConfigGroup configGroup = m_project->configGroupForItem(this);
-	setOpenState(configGroup.readEntry("open", true));
-	setEncoding(configGroup.readEntry("encoding", QString()));
-	setMode(configGroup.readEntry("mode", QString()));
-	setHighlight(configGroup.readEntry("highlight", QString()));
-	setArchive(configGroup.readEntry("archive", true));
-	setLineNumber(configGroup.readEntry("line", 0));
-	setColumnNumber(configGroup.readEntry("column", 0));
-	setOrder(configGroup.readEntry("order", -1));
+	KConfigGroup projectConfigGroup = m_project->configGroupForItem(this, KileProject::ProjectFile);
+	KConfigGroup guiConfigGroup = m_project->configGroupForItem(this, KileProject::GUIFile);
+	// project: archive, highlight, mode
+	// gui: column, encoding, line, open, order
+	setEncoding(projectConfigGroup.readEntry("encoding", QString()));
+	setMode(projectConfigGroup.readEntry("mode", QString()));
+	setHighlight(projectConfigGroup.readEntry("highlight", QString()));
+	setArchive(projectConfigGroup.readEntry("archive", true));
+	setOpenState(guiConfigGroup.readEntry("open", true));
+	setOrder(guiConfigGroup.readEntry("order", -1));
 }
 
 void KileProjectItem::save()
 {
-	KConfigGroup configGroup = m_project->configGroupForItem(this);
-	configGroup.writeEntry("open", isOpen());
-	configGroup.writeEntry("encoding", encoding());
-	configGroup.writeEntry("mode", mode());
-	configGroup.writeEntry("highlight", highlight());
-	configGroup.writeEntry("archive", archive());
-	configGroup.writeEntry("line", lineNumber());
-	configGroup.writeEntry("column", columnNumber());
-	configGroup.writeEntry("order", order());
+	KConfigGroup projectConfigGroup = m_project->configGroupForItem(this, KileProject::ProjectFile);
+	KConfigGroup guiConfigGroup = m_project->configGroupForItem(this, KileProject::GUIFile);
+	// project: archive, highlight, mode
+	// gui: encoding, open, order
+	projectConfigGroup.writeEntry("encoding", encoding());
+	projectConfigGroup.writeEntry("mode", mode());
+	projectConfigGroup.writeEntry("highlight", highlight());
+	projectConfigGroup.writeEntry("archive", archive());
+	guiConfigGroup.writeEntry("open", isOpen());
+	guiConfigGroup.writeEntry("order", order());
 }
 
 void KileProjectItem::loadDocumentAndViewSettings()
@@ -249,24 +250,37 @@ void KileProjectItem::slotChangeURL(KileDocument::Info*, const QUrl &url)
 /*
  * KileProject
  */
+
+// for creating an empty project
 KileProject::KileProject(const QString& name, const QUrl &url, KileDocument::Extensions *extensions)
-: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false),
+  m_config(Q_NULLPTR), m_guiConfig(Q_NULLPTR), m_extmanager(extensions)
 {
-	setObjectName(name);
-	init(name, url, extensions);
+	m_name = name;
+	init(url);
+
+	//create the project file
+	KConfigGroup configGroup = m_config->group("General");
+	configGroup.writeEntry("name", m_name);
+	configGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
+	configGroup.writeEntry("kileversion", kileFullVersion);
+
+	load();
 }
 
+// for opening an existing project, 'load()' still has to be called separately!
 KileProject::KileProject(const QUrl &url, KileDocument::Extensions *extensions)
-: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false)
+: QObject(Q_NULLPTR), m_invalid(false), m_masterDocument(QString()), m_useMakeIndexOptions(false),
+  m_config(Q_NULLPTR), m_guiConfig(Q_NULLPTR), m_extmanager(extensions)
 {
-	setObjectName(url.fileName());
-	init(url.fileName(), url, extensions);
+	init(url);
 }
 
 KileProject::~KileProject()
 {
 	KILE_DEBUG_MAIN << "DELETING KILEPROJECT " <<  m_projecturl.url();
 	emit(aboutToBeDestroyed(this));
+	delete m_guiConfig;
 	delete m_config;
 
 	for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
@@ -274,35 +288,22 @@ KileProject::~KileProject()
 	}
 }
 
-void KileProject::init(const QString& name, const QUrl &url, KileDocument::Extensions *extensions)
+void KileProject::init(const QUrl &url)
 {
-	m_name = name;
-	m_projecturl = KileDocument::Manager::symlinkFreeURL( url);;
-
-	m_config = new KConfig(m_projecturl.toLocalFile(), KConfig::SimpleConfig);
-	m_extmanager = extensions;
+	m_projecturl = KileDocument::Manager::symlinkFreeURL(url);
 
 	m_baseurl = m_projecturl.adjusted(QUrl::RemoveFilename);
 
 	KILE_DEBUG_MAIN << "KileProject m_baseurl = " << m_baseurl.toLocalFile();
 
-	if(QFileInfo(url.toLocalFile()).exists()) {
-		load();
-	}
-	else {
-		//create the project file
-		KConfigGroup configGroup = m_config->group("General");
-		configGroup.writeEntry("name", m_name);
-		configGroup.writeEntry("kileprversion", kilePrVersion);
-		configGroup.writeEntry("kileversion", kileFullVersion);
-		configGroup.sync();
-	}
+	m_config = new KConfig(m_projecturl.toLocalFile(), KConfig::SimpleConfig);
 }
 
 void KileProject::setLastDocument(const QUrl &url)
 {
-    if ( item(url) != 0 )
+    if (item(url) != 0) {
         m_lastDocument = KileDocument::Manager::symlinkFreeURL(url);
+    }
 }
 
 void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
@@ -460,27 +461,31 @@ QString KileProject::removeBaseURL(const QString &path)
 	}
 }
 
+int KileProject::getProjectFileVersion()
+{
+	KConfigGroup generalGroup = m_config->group("General");
+
+	return generalGroup.readEntry("kileprversion", 0);
+}
+
+// WARNING: before calling this method, the project file must be of the current 'kileprversion'!
+//          also assumes that 'm_name' has been set correctly already if this is a fresh (empty) project!
 bool KileProject::load()
 {
-	KILE_DEBUG_MAIN << "KileProject: loading..." <<endl;
+	KILE_DEBUG_MAIN << "KileProject: loading..." << endl;
+
+	if(!ensurePrivateKileDirectoryExists(m_projecturl)) {
+	    return false;
+	}
+
+	delete m_guiConfig;
+	m_guiConfig = new KConfig(getPathForGUISettingsProjectFile(m_projecturl), KConfig::SimpleConfig);
 
 	//load general settings/options
 	KConfigGroup generalGroup = m_config->group("General");
-	m_name = generalGroup.readEntry("name", i18n("Project"));
-	m_kileversion = generalGroup.readEntry("kileversion", QString());
-	m_kileprversion = generalGroup.readEntry("kileprversion",QString());
+	m_name = generalGroup.readEntry("name", m_name);
 
 	m_defGraphicExt = generalGroup.readEntry("def_graphic_ext", QString());
-
-	if(!m_kileprversion.isNull() && m_kileprversion.toInt() > kilePrVersion.toInt()) {
-		if(KMessageBox::warningYesNo(Q_NULLPTR, i18n("The project file of %1 was created by a newer version of kile. "
-				"Opening it can lead to unexpected results.\n"
-				"Do you really want to continue (not recommended)?", m_name),
-				 QString(), KStandardGuiItem::yes(), KStandardGuiItem::no(), QString(), KMessageBox::Dangerous) == KMessageBox::No) {
-			m_invalid=true;
-			return false;
-		}
-	}
 
 	QString master = addBaseURL(generalGroup.readEntry("masterDocument", QString()));
 	KILE_DEBUG_MAIN << "masterDoc == " << master;
@@ -528,12 +533,14 @@ bool KileProject::load()
 	}
 
 	// only call this after all items are created, otherwise setLastDocument doesn't accept the url
+	KConfigGroup guiGeneralGroup = m_guiConfig->group("General");
+	setLastDocument(QUrl::fromLocalFile(addBaseURL(guiGeneralGroup.readEntry("lastDocument", QString()))));
+
 	generalGroup = m_config->group("General");
-	setLastDocument(QUrl::fromLocalFile(addBaseURL(generalGroup.readEntry("lastDocument", QString()))));
 
 	readBibliographyBackendSettings(generalGroup);
 
-	KileTool::LivePreviewManager::readLivePreviewStatusSettings(generalGroup, this);
+	KileTool::LivePreviewManager::readLivePreviewStatusSettings(guiGeneralGroup, this);
 
 // 	dump();
 
@@ -545,18 +552,20 @@ bool KileProject::save()
 	KILE_DEBUG_MAIN << "KileProject: saving..." <<endl;
 
 	KConfigGroup generalGroup = m_config->group("General");
+	KConfigGroup guiGeneralGroup = m_guiConfig->group("General");
+
 	generalGroup.writeEntry("name", m_name);
-	generalGroup.writeEntry("kileprversion", kilePrVersion);
+	generalGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
 	generalGroup.writeEntry("kileversion", kileFullVersion);
 	generalGroup.writeEntry("def_graphic_ext", m_defGraphicExt);
 
 	KILE_DEBUG_MAIN << "KileProject::save() masterDoc = " << removeBaseURL(m_masterDocument);
 	generalGroup.writeEntry("masterDocument", removeBaseURL(m_masterDocument));
-	generalGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
+	guiGeneralGroup.writeEntry("lastDocument", removeBaseURL(m_lastDocument.toLocalFile()));
 
 	writeBibliographyBackendSettings(generalGroup);
 
-	KileTool::LivePreviewManager::writeLivePreviewStatusSettings(generalGroup, this);
+	KileTool::LivePreviewManager::writeLivePreviewStatusSettings(guiGeneralGroup, this);
 
 	writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
 	writeConfigEntry("pkg_extensions",m_extmanager->latexPackages(),KileProjectItem::Package);
@@ -583,6 +592,7 @@ bool KileProject::save()
 	}
 
 	m_config->sync();
+	m_guiConfig->sync();
 
 	// dump();
 
@@ -601,19 +611,20 @@ void KileProject::writeConfigEntry(const QString &key, const QString &standardEx
 	}
 }
 
-KConfigGroup KileProject::configGroupForItem(KileProjectItem *item) const
+KConfigGroup KileProject::configGroupForItem(KileProjectItem *item, ConfigScope scope) const
 {
-	return m_config->group("item:" + item->path());
+	KConfig* cfgObject = (scope == GUIFile ? m_guiConfig : m_config);
+	return cfgObject->group("item:" + item->path());
 }
 
 KConfigGroup KileProject::configGroupForItemDocumentSettings(KileProjectItem *item) const
 {
-	return m_config->group("document-settings,item:" + item->path());
+	return m_guiConfig->group("document-settings,item:" + item->path());
 }
 
 KConfigGroup KileProject::configGroupForItemViewSettings(KileProjectItem *item, int viewIndex) const
 {
-	return m_config->group("view-settings,view=" + QString::number(viewIndex) + ",item:" + item->path());
+	return m_guiConfig->group("view-settings,view=" + QString::number(viewIndex) + ",item:" + item->path());
 }
 
 void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
@@ -875,3 +886,104 @@ void KileProject::setMasterDocument(const QString & master){
 	emit (masterDocumentChanged(m_masterDocument));
 }
 
+namespace {
+
+	void moveConfigGroupKeysAsStrings(KConfig *src, KConfig *dst, const QString& groupName, const QStringList &keysToMove)
+	{
+		KConfigGroup srcGroup(src, groupName);
+		KConfigGroup dstGroup(dst, groupName);
+
+		for(const QString& key : keysToMove) {
+			if(srcGroup.hasKey(key)) {
+			    QString value = srcGroup.readEntry(key, QStringLiteral(""));
+			    dstGroup.writeEntry(key, value);
+			    srcGroup.deleteEntry(key);
+			}
+		}
+	}
+
+	void deleteConfigGroupKeys(KConfig *src, const QString& groupName, const QStringList &keysToDelete)
+	{
+		KConfigGroup srcGroup(src, groupName);
+
+		for(const QString& key : keysToDelete) {
+			srcGroup.deleteEntry(key);
+		}
+	}
+}
+
+bool KileProject::migrateProjectFileToCurrentVersion()
+{
+    if(getProjectFileVersion() < KILE_PROJECTFILE_VERSION) {
+		return migrateProjectFileToVersion3();
+    }
+    return true;
+}
+
+bool KileProject::migrateProjectFileToVersion3()
+{
+	KILE_DEBUG_MAIN << "Migrating project file" << m_projecturl << "to version 3";
+
+	// (1) Every config group starting with "document-settings," or "view-settings," will be moved to the GUI config file
+	// (2) In every group named "item:..." the keys "column" and "line" are deleted
+	// (3) In every group named "item:..." the keys "open" and "order" are moved to a new group of the same name
+	//     in the GUI project file
+	// (4) In the "General" group the keys "lastDocument", "kile_livePreviewEnabled", "kile_livePreviewStatusUserSpecified",
+	//     "kile_livePreviewTool" are moved to the "General" group in the GUI project file
+
+	if(!ensurePrivateKileDirectoryExists(m_projecturl)) {
+	    return false;
+	}
+
+	KConfig projectGUIFile(getPathForGUISettingsProjectFile(m_projecturl), KConfig::SimpleConfig);
+
+	QStringList keysToMoveInItemGroups, keysToDeleteInItemGroups, keysToMoveInGeneralGroup;
+
+	keysToMoveInItemGroups
+		<< QStringLiteral("column")
+		<< QStringLiteral("line")
+		<< QStringLiteral("open")
+		<< QStringLiteral("order");
+
+	keysToDeleteInItemGroups
+		<< QStringLiteral("column")
+		<< QStringLiteral("line");
+
+	keysToMoveInGeneralGroup
+		<< QStringLiteral("lastDocument")
+		<< QStringLiteral("kile_livePreviewEnabled")
+		<< QStringLiteral("kile_livePreviewStatusUserSpecified")
+		<< QStringLiteral("kile_livePreviewTool");
+
+	const QStringList groups = m_config->groupList();
+	for(int i = 0; i < groups.count(); ++i) {
+		const QString& groupName = groups[i];
+
+		// these ones we move completely
+		if(groupName.startsWith(QLatin1String("document-settings,")) || groupName.startsWith(QLatin1String("view-settings,"))) {
+			KConfigGroup oldGroup(m_config, groupName);
+			KConfigGroup guiGroup(&projectGUIFile, groupName);
+			oldGroup.copyTo(&guiGroup);
+			m_config->deleteGroup(groupName);
+			continue;
+		}
+
+		if(groupName.startsWith(QLatin1String("item:"))) {
+			deleteConfigGroupKeys(m_config, groupName, keysToDeleteInItemGroups);
+			moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInItemGroups);
+		}
+		else if(groupName == QLatin1String("General")) {
+			moveConfigGroupKeysAsStrings(m_config, &projectGUIFile, groupName, keysToMoveInGeneralGroup);
+		}
+	}
+
+	if(!projectGUIFile.sync()) {
+		return false;
+	}
+
+	KConfigGroup configGroup = m_config->group("General");
+	configGroup.writeEntry("kileprversion", KILE_PROJECTFILE_VERSION);
+	configGroup.writeEntry("kileversion", kileFullVersion);
+
+	return m_config->sync();
+}

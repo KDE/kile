@@ -1,7 +1,7 @@
 /*******************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-            (C) 2013-2015 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2013-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2015 by Andreas Cord-Landwehr (cordlandwehr@kde.org)
 ********************************************************************************************/
 
@@ -345,26 +345,22 @@ void KileNewProjectDialog::handleOKButtonClicked()
 		return;
 	}
 
-	QDir dir(dirString);
+	const QString cleanProjectFileName = cleanProjectFile();
+	const QDir projectDir(dirString);
+	const QString projectFilePath = projectDir.filePath(cleanProjectFileName);
+	const QDir guiFileDir = KileProject::getPathForPrivateKileDirectory(projectFilePath);
 
-	if (!dir.exists()) {
-		dir.mkpath(dir.absolutePath());
-	}
+	testDirectoryIsUsable(projectDir);
+	testDirectoryIsUsable(guiFileDir);
 
-	if (!dir.exists()) {
-		KMessageBox::error(this, i18n("Could not create the project folder. Please check if you have write permission."));
-		return;
-	}
-
-	QFileInfo fi(dir.absolutePath());
-	if (!fi.isDir() || !fi.isWritable()){
-		KMessageBox::error(this, i18n("The project folder is not writable. Please check the permissions of the project folder."));
-		return;
-	}
-
-	const QString projectFilePath = dir.filePath(cleanProjectFile());
 	if (QFileInfo(projectFilePath).exists()) { // this can only happen when the project dir existed already
-		KMessageBox::error(this, i18n("The project file already exists. Please select another name."), i18n("Project File Already Exists"));
+		KMessageBox::error(this, i18n("The project file exists already. Please choose another name."), i18n("Project File Already Exists"));
+		return;
+	}
+
+	const QString guiProjectFilePath = KileProject::getPathForGUISettingsProjectFile(projectFilePath);
+	if (QFileInfo(guiProjectFilePath).exists()) { // this can only happen when the project dir existed already
+		KMessageBox::error(this, i18n("The GUI settings file exists already. Please choose another project name."), i18n("Project File Already Exists"));
 		return;
 	}
 
@@ -378,7 +374,7 @@ void KileNewProjectDialog::handleOKButtonClicked()
 			m_file->setText(validURL.fileName());
 		}
 
-		if(QFileInfo(QDir(fi.path()), fileString).exists()){
+		if(QFileInfo(projectDir.filePath(fileString)).exists()){
 			if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", fileString), i18n("File Already Exists")) == KMessageBox::No) {
 				return;
 			}
@@ -558,4 +554,30 @@ void KileProjectOptionsDialog::onAccepted()
 		m_defaultGraphicsExtensionCombo->itemData(m_defaultGraphicsExtensionCombo->currentIndex()).toString());
 
 	m_project->save();
+}
+
+bool KileNewProjectDialog::testDirectoryIsUsable(const QString& path)
+{
+	return testDirectoryIsUsable(QDir(path));
+}
+
+bool KileNewProjectDialog::testDirectoryIsUsable(const QDir& dir)
+{
+	if (!dir.exists()) {
+		dir.mkpath(dir.absolutePath());
+	}
+
+	if (!dir.exists()) {
+		KMessageBox::error(this, i18n("<p>Could not create the project folder \"\n%1\"</p>."
+		                              "<p>Please check whether you have write permissions.</p>").arg(dir.path()));
+		return false;
+	}
+
+	QFileInfo fi(dir.absolutePath());
+	if (!fi.isDir() || !fi.isWritable()){
+		KMessageBox::error(this, i18n("<p>The project folder \"(%1)\" is not writable.</p>"
+		                              "<p>Please check the permissions of the project folder.</p>").arg(dir.path()));
+		return false;
+	}
+	return true;
 }

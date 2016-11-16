@@ -21,7 +21,7 @@
 
 const QString kileVersion="3.0 alpha 1";
 const QString kileFullVersion="2.9.60"; // only use numbers and '.'
-const QString kilePrVersion="2";
+#define KILE_PROJECTFILE_VERSION 3
 
 /**
  * Compares two strings of the form "a.b(.c)" and "d.e(.f)" lexicographically,

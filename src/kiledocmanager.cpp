@@ -920,7 +920,6 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
 	}
 	else if(view) {
 		KileProjectItem *item = itemList.first();
-		view->setCursorPosition(KTextEditor::Cursor(item->lineNumber(),item->columnNumber()));
 		item->loadDocumentAndViewSettings();
 	}
 
@@ -1314,7 +1313,7 @@ void Manager::projectNew()
 		}
 
 		project->buildProjectTree();
-		//project->save();
+		project->save();
 		addProject(project);
 		emit(updateModeStatus());
 		emit(addToRecentProjects(project->url()));
@@ -1436,7 +1435,6 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 	if(item->isOpen()) {
 		KTextEditor::View *view = loadItem(m_ki->extensions()->determineDocumentType(item->url()), item, QString(), openProjectItemViews);
 		if (view) {
-			view->setCursorPosition(KTextEditor::Cursor(item->lineNumber(), item->columnNumber()));
 			item->loadDocumentAndViewSettings();
 		}
 		// make sure that the item has been parsed, even if it isn't shown;
@@ -1472,7 +1470,9 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 			m_progressDialog->hide();
 		}
 
-		KMessageBox::information(m_ki->mainWindow(), i18n("The project you tried to open is already opened. If you wanted to reload the project, close the project before you re-open it."),i18n("Project Already Open"));
+		KMessageBox::information(m_ki->mainWindow(), i18n("<p>The project \"%1\" is already open.</p>"
+		                                                  "<p>If you wanted to reload the project, close the project before you re-open it.", url.fileName()),
+			                                     i18n("Project Already Open"));
 		return;
 	}
 
@@ -1482,7 +1482,10 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 			m_progressDialog->hide();
 		}
 
-		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("The project file for the project \"%1\" does not exist or is not readable. Remove this project from the recent projects list?", url.toDisplayString()), i18n("Could Not Load Project File"))  == KMessageBox::Yes) {
+		if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("<p>The project file for the project \"%1\" does not exist or it is not readable.</p>"
+		                                                       "<p>Do you want to remove this project from the recent projects list?</p>",
+		                                                       url.fileName()),
+		                                                  i18n("Could Not Open Project"))  == KMessageBox::Yes) {
 			emit(removeFromRecentProjects(realurl));
 		}
 		return;
@@ -1492,9 +1495,47 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 		createProgressDialog();
 	}
 
+	KileProject *kp = new KileProject(realurl, m_ki->extensions());
+
+	if(kp->getProjectFileVersion() > KILE_PROJECTFILE_VERSION) {
+		if(m_progressDialog) {
+			m_progressDialog->hide();
+		}
+
+		KMessageBox::sorry(m_ki->mainWindow(), i18n("<p>The project \"%1\" cannot be opened as it was created <br/>by a newer version of Kile.</p>",
+		                                            url.fileName()),
+		                   i18n("Impossible to Open Project"));
+		delete kp;
+		return;
+	}
+
+	if(!kp->isOfCurrentVersion()) {
+		if(m_progressDialog) {
+			m_progressDialog->hide();
+		}
+
+		if(KMessageBox::questionYesNo(m_ki->mainWindow(), i18n("<p>The project file \"%1\" was created by a previous version of Kile.<br/>"
+		                                                       "It needs to be updated before it can be opened.</p>"
+		                                                       "<p>Do you want to update it?</p>", url.fileName()),
+		                                                  i18n("Project File Needs to be Updated"))  == KMessageBox::No) {
+			delete kp;
+			return;
+		}
+
+		if(!kp->migrateProjectFileToCurrentVersion()) {
+			if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("<p>The project file \"%1\" could be not updated.</p>"
+			                                                       "<p>Do you want to remove this project from the recent projects list?</p>", url.fileName()),
+			                                                  i18n("Could Not Update Project File"))  == KMessageBox::Yes) {
+				emit(removeFromRecentProjects(realurl));
+			}
+			delete kp;
+			return;
+		}
+	}
+
 	m_progressDialog->show();
 
-	KileProject *kp = new KileProject(realurl,m_ki->extensions());
+	kp->load();
 
 	if(kp->isInvalid()) {
 		if(m_progressDialog) {
@@ -1833,19 +1874,6 @@ void Manager::storeProjectItem(KileProjectItem *item, KTextEditor::Document *doc
 	item->setEncoding(doc->encoding());
 	item->setMode(doc->mode());
 	item->setHighlight(doc->highlightingMode());
-	uint l = 0, c = 0;
-	QList<KTextEditor::View*> viewList = doc->views();
-	if(viewList.size() > 0) {
-		KTextEditor::View *view = static_cast<KTextEditor::View*>(viewList.first());
-
-		if (view) {
-			KTextEditor::Cursor cursor = view->cursorPosition();
-			l = cursor.line();
-			c = cursor.column();
-		}
-	}
-	item->setLineNumber(l);
-	item->setColumnNumber(c);
 	item->saveDocumentAndViewSettings();
 }
 

@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2009-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -15,8 +15,10 @@
 #ifndef KILEPROJECT_H
 #define KILEPROJECT_H
 
-#include <QObject>
+#include <QDir>
+#include <QFileInfo>
 #include <QList>
+#include <QObject>
 #include <QRegExp>
 
 #include <KConfig>
@@ -24,6 +26,7 @@
 #include <KTextEditor/View>
 
 #include "kiledebug.h"
+#include "kileversion.h"
 #include "livepreview_utils.h"
 #include "outputinfo.h"
 
@@ -80,12 +83,6 @@ public:
 	const QString& mode() { return m_mode;}
 	void setMode(const QString& mode) {m_mode = mode;}
 
-	uint lineNumber() { return m_nLine; }
-	void setLineNumber(uint l) { m_nLine = l; }
-
-	uint columnNumber() { return m_nColumn; }
-	void setColumnNumber(uint l) { m_nColumn = l; }
-
 	int order() const { return m_order; }
 	void setOrder(int i);
 
@@ -141,7 +138,6 @@ private:
 	int			m_type;
 	KileDocument::TextInfo	*m_docinfo;
 	KileProjectItem		*m_parent, *m_child, *m_sibling;
-	uint			m_nLine, m_nColumn;
 	int			m_order;
 };
 
@@ -193,6 +189,7 @@ public:
 	QList<KileProjectItem*> items() { return m_projectItems; }
 
 	KConfig *config() { return m_config; }
+	KConfig *guiConfig() { return m_guiConfig; }
 
 	bool contains(const QUrl&);
 	bool contains(const KileDocument::Info *info);
@@ -200,6 +197,47 @@ public:
 	const QList<KileProjectItem*>& rootItems() const {return m_rootItems;}
 	bool isInvalid(){ return m_invalid;}
 	QString archiveFileList() const;
+
+	bool isOfCurrentVersion()
+	{
+		return (getProjectFileVersion() == KILE_PROJECTFILE_VERSION);
+	}
+
+	int getProjectFileVersion();
+
+	bool migrateProjectFileToCurrentVersion();
+
+	static inline QString getPathForGUISettingsProjectFile(const QString& projectFilePath)
+	{
+		QFileInfo fi(projectFilePath);
+
+		return getPathForPrivateKileDirectory(fi) + QStringLiteral("/") + fi.fileName() + QStringLiteral(".gui");
+	}
+
+	static inline QString getPathForGUISettingsProjectFile(const QUrl& projectUrl)
+	{
+		return getPathForGUISettingsProjectFile(projectUrl.toLocalFile());
+	}
+
+	static inline QString getPathForPrivateKileDirectory(const QUrl& projectUrl)
+	{
+	    return getPathForPrivateKileDirectory(projectUrl.toLocalFile());
+	}
+
+	static inline QString getPathForPrivateKileDirectory(const QFileInfo& projectFilePath)
+	{
+		return projectFilePath.dir().absoluteFilePath(".kile");
+	}
+
+	static inline QString getPathForPrivateKileDirectory(const QString& projectFilePath)
+	{
+		return getPathForPrivateKileDirectory(QFileInfo(projectFilePath));
+	}
+
+	static inline bool ensurePrivateKileDirectoryExists(const QUrl& projectUrl)
+	{
+		return QFileInfo(projectUrl.toLocalFile()).dir().mkpath(".kile");
+	}
 
 Q_SIGNALS:
 	void nameChanged(const QString &);
@@ -227,7 +265,9 @@ Q_SIGNALS:
 	void loadFile(const QUrl &url , const QString & encoding);
 
 private:
-	void init(const QString& name, const QUrl &url, KileDocument::Extensions *extensions);
+	bool migrateProjectFileToVersion3();
+
+	void init(const QUrl &url);
 	QString	findRelativePath(const QUrl&);
 	QString	findRelativePath(const QString&);
 
@@ -236,14 +276,20 @@ private:
 	QString removeBaseURL(const QString &path);
 	void writeConfigEntry(const QString &key,const QString &standardExt,KileProjectItem::Type type);
 
-	KConfigGroup configGroupForItem(KileProjectItem *item) const;
+	enum ConfigScope {
+		ProjectFile,
+		GUIFile
+	};
+
+	KConfigGroup configGroupForItem(KileProjectItem *item, ConfigScope scope) const;
 	KConfigGroup configGroupForItemDocumentSettings(KileProjectItem *item) const;
 	KConfigGroup configGroupForItemViewSettings(KileProjectItem *item, int viewIndex) const;
 
 	void removeConfigGroupsForItem(KileProjectItem *item);
 
 private:
-	QString		m_name, m_quickBuildConfig, m_kileversion, m_kileprversion, m_defGraphicExt;
+
+	QString		m_name, m_quickBuildConfig, m_defGraphicExt;
 	QUrl		m_projecturl, m_baseurl, m_lastDocument;
 	bool		m_invalid;
 	QList<KileProjectItem*> m_rootItems;
@@ -255,7 +301,8 @@ private:
 	QString				m_masterDocument, m_makeIndexOptions;
 	bool				m_useMakeIndexOptions;
 
-	KConfig	*m_config;
+	KConfig	*m_config;     // stores project structure
+	KConfig	*m_guiConfig;  // stores project GUI settings: last document, items view settings, etc.
 	KileDocument::Extensions *m_extmanager;
 };
 

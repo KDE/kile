@@ -120,6 +120,10 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
 	extensionGroupLayout->addRow(new QLabel(i18n("Predefined:"), this), m_defaultLatexFileExtensions);
 
 	fillProjectDefaults();
+
+	QWidget::setTabOrder(m_title, m_projectFolder);
+	QWidget::setTabOrder(m_defaultGraphicsExtensionCombo, m_defaultLatexFileExtensionsCombo);
+	QWidget::setTabOrder(m_defaultLatexFileExtensionsCombo, m_defaultLatexFileExtensions);
 }
 
 KileProjectDialogBase::~KileProjectDialogBase()
@@ -267,6 +271,14 @@ KileNewProjectDialog::KileNewProjectDialog(KileTemplate::Manager *templateManage
 	connect(m_userFileExtensions, &QLineEdit::textEdited, this, &KileNewProjectDialog::onExtensionsTextEdited);
 
 	mainLayout->addWidget(buttonBox);
+
+	QWidget::setTabOrder(m_projectFolder, m_createNewFileCheckbox);
+
+	QWidget::setTabOrder(m_createNewFileCheckbox, m_file);
+	QWidget::setTabOrder(m_file, m_templateIconView);
+	QWidget::setTabOrder(m_templateIconView, m_defaultGraphicsExtensionCombo);
+
+	QWidget::setTabOrder(m_defaultGraphicsExtensionCombo, buttonBox);
 }
 
 KileNewProjectDialog::~KileNewProjectDialog()
@@ -498,6 +510,15 @@ KileProjectOptionsDialog::KileProjectOptionsDialog(KileProject *project, KileDoc
 	connect(m_userFileExtensions, &QLineEdit::textChanged, this, &KileProjectOptionsDialog::onExtensionsTextEdited);
 
 	mainLayout->addWidget(buttonBox);
+
+	QWidget::setTabOrder(m_projectFolder, m_defaultGraphicsExtensionCombo);
+	QWidget::setTabOrder(m_defaultLatexFileExtensions, m_selectMasterDocumentCombo);
+
+	QWidget::setTabOrder(m_selectMasterDocumentCombo, m_QuickBuildCheckbox);
+	QWidget::setTabOrder(m_QuickBuildCheckbox, m_ckMakeIndex);
+	QWidget::setTabOrder(m_ckMakeIndex, m_leMakeIndex);
+
+	QWidget::setTabOrder(m_leMakeIndex, buttonBox);
 }
 
 KileProjectOptionsDialog::~KileProjectOptionsDialog()

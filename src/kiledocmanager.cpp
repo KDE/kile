@@ -1470,7 +1470,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 		}
 
 		KMessageBox::information(m_ki->mainWindow(), i18n("<p>The project \"%1\" is already open.</p>"
-		                                                  "<p>If you wanted to reload the project, close the project before you re-open it.", url.fileName()),
+		                                                  "<p>If you wanted to reload the project, close the project before you re-open it.</p>", url.fileName()),
 			                                     i18n("Project Already Open"));
 		return;
 	}

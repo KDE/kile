@@ -250,6 +250,7 @@ install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${DATA_INSTALL_DIR}/kile)
 install(FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile)
 install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})
+install(FILES data/org.kde.kile.appdata.xml DESTINATION ${CMAKE_INSTALL_METAINFODIR})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	install(FILES data/kilestdtools-win.rc

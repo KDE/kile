@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.kde.kile</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>Kile</name>
+  <summary>TeX/LaTeX Editor</summary>
+  <description>
+    <p>
+      Kile is a user-friendly TeX/LaTeX editor for the KDE desktop environment.
+    </p>
+    <p>Features:</p>
+    <ul>
+      <li>Compile, convert and view your document with one click</li>
+      <li>Auto-completion of (La)TeX commands</li>
+      <li>Templates and wizards make starting new documents very little work</li>
+      <li>Easy insertion of many standard tags and symbols and the option to define (an arbitrary number of) user defined tags</li>
+      <li>Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor
+          to the corresponding page in the viewer</li>
+      <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
+          jump to the corresponding section</li>
+      <li>Collect documents that belong together into a project</li>
+      <li>Easy insertion of citations and references when using projects</li>
+      <li>Flexible and smart build system to compile your LaTeX documents</li>
+      <li>QuickPreview: preview a selected part of your document</li>
+      <li>Easy access to various help sources</li>
+      <li>Advanced editing commands</li>
+    </ul>
+  </description>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://kde.org/images/screenshots/kile.png</image>
+    </screenshot>
+  </screenshots>
+  <url type="homepage">http://kile.sourceforge.net/</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kile</url>
+  <url type="help">http://docs.kde.org/stable/en/applications/kile/index.html</url>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>kile</binary>
+  </provides>
+</component>

@@ -201,16 +201,22 @@ ecm_add_app_icon(kile_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/128-apps-kile.png
 )
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
-  set(PROGNAME Kile)
-else(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-  set(PROGNAME kile)
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-
 kf5_add_kdeinit_executable(kile ${kile_SRCS})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
-	set_target_properties(${PROGNAME} PROPERTIES MACOSX_BUNDLE_BUNDLE_NAME "Kile")
+    set_target_properties(kile PROPERTIES
+        OUTPUT_NAME                     "Kile"
+        MACOSX_BUNDLE_BUNDLE_NAME       "Kile"
+        MACOSX_BUNDLE_GUI_IDENTIFIER    "org.kde.kile"
+        MACOSX_BUNDLE_DISPLAY_NAME      "Kile"
+        MACOSX_BUNDLE_INFO_STRING       "Kile, an KDE Integrated LaTeX Environment"
+        MACOSX_BUNDLE_COPYRIGHT         "the Kile Team (2003 - 2016)")
+    if(KILE_VERSION)
+        set_target_properties(kile PROPERTIES
+            MACOSX_BUNDLE_LONG_VERSION_STRING "Kile ${KILE_VERSION}"
+            MACOSX_BUNDLE_SHORT_VERSION_STRING "${KILE_VERSION}"
+            MACOSX_BUNDLE_BUNDLE_VERSION "${KILE_VERSION}")
+    endif()
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 target_link_libraries(kdeinit_kile

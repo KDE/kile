@@ -94,7 +94,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
 	                     i18n("KDE Integrated LaTeX Environment"),
 	                     KAboutLicense::GPL,
-	                     i18n("by the Kile Team (2003 - 2016)"),
+	                     i18nc("the parameter is the last copyright year", "by the Kile Team (2003 - %1)", KILE_LAST_COPYRIGHT_YEAR),
 	                     QString(),
 	                     QStringLiteral("http://kile.sourceforge.net"));
 	aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), "michel.ludwig@kdemail.net");

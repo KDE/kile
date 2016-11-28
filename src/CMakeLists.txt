@@ -250,8 +250,8 @@ if(Okular5_FOUND)
   target_include_directories(kdeinit_kile PRIVATE $<TARGET_PROPERTY:Okular::Core,INTERFACE_INCLUDE_DIRECTORIES>)
 endif()
 
-install(TARGETS kile ${INSTALL_TARGETS_DEFAULT_ARGS})
-install(TARGETS kdeinit_kile ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS kdeinit_kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 

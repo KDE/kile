@@ -201,6 +201,9 @@ ecm_add_app_icon(kile_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/128-apps-kile.png
 )
 
+# add the resource file containing the ui files
+qt5_add_resources(kile_SRCS kile.qrc)
+
 kf5_add_kdeinit_executable(kile ${kile_SRCS})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
@@ -259,7 +262,6 @@ install(FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTAL
 install(PROGRAMS org.kde.kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${DATA_INSTALL_DIR}/kile)
-install(FILES kileui.rc docpartui.rc DESTINATION ${KXMLGUI_INSTALL_DIR}/kile)
 install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 install(FILES data/org.kde.kile.appdata.xml DESTINATION ${CMAKE_INSTALL_METAINFODIR})
 

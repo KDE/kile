@@ -1274,6 +1274,8 @@ void Manager::projectNew()
 
 	if (dlg->exec())
 	{
+		TextInfo *newTextInfo = Q_NULLPTR;
+
 		KileProject *project = dlg->project();
 
 		//add the project file to the project
@@ -1282,7 +1284,9 @@ void Manager::projectNew()
 		item->setOpenState(false);
 		projectOpenItem(item);
 
-		if(dlg->createNewFile()){
+		if(dlg->createNewFile()) {
+			m_currentlyOpeningFile = true; // don't let live preview interfere
+
 			QString filename = dlg->file();
 
 			//create the new document and fill it with the template
@@ -1294,28 +1298,35 @@ void Manager::projectNew()
 				url = url.adjusted(QUrl::StripTrailingSlash);
 				url.setPath(url.path() + '/' + filename);
 
-				TextInfo *docinfo = textInfoFor(view->document());
+				newTextInfo = textInfoFor(view->document());
 
 				//save the new file
+				//FIXME: this needs proper error handling
 				view->document()->saveAs(url);
 				emit(documentModificationStatusChanged(view->document(),
 				     false, KTextEditor::ModificationInterface::OnDiskUnmodified));
 
 				//add this file to the project
 				item = new KileProjectItem(project, url);
-				//project->add(item);
-				item->setInfo(docinfo);
+				item->setInfo(newTextInfo);
 
 				//docinfo->updateStruct(m_kwStructure->level());
-				emit(updateStructure(false, docinfo));
+				emit(updateStructure(false, newTextInfo));
 			}
+
+			m_currentlyOpeningFile = false;
 		}
 
 		project->buildProjectTree();
 		project->save();
 		addProject(project);
+
 		emit(updateModeStatus());
 		emit(addToRecentProjects(project->url()));
+
+		if(newTextInfo) {
+			emit documentOpened(newTextInfo);
+		}
 	}
 }
 

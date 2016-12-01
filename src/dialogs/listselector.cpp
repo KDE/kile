@@ -182,6 +182,12 @@ ManageCompletionFilesDialog::ManageCompletionFilesDialog(const QString& caption,
 		this, &ManageCompletionFilesDialog::addCustomCompletionFiles);
 	connect(manageCustomButton, &QPushButton::clicked,
 		this, &ManageCompletionFilesDialog::openLocalCompletionDirectoryInFileManager);
+
+	// Create the local path if it doesn't exist
+	QDir localPath(m_localCompletionDirectory);
+	if(!localPath.exists()) {
+		localPath.mkpath(m_localCompletionDirectory);
+	}
 }
 
 ManageCompletionFilesDialog::~ManageCompletionFilesDialog()
@@ -223,11 +229,7 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 	if (files.isEmpty()) {
 		return;
 	}
-	// Create local path if it doesn't exist or has been deleted in the mean time
 	QDir workPath(m_localCompletionDirectory);
-	if (!workPath.isReadable()) {
-		workPath.mkpath(m_localCompletionDirectory);
-	}
 
 	foreach (QString file, files) {
 		QFileInfo fileInf(file);

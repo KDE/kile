@@ -1,6 +1,6 @@
 /**********************************************************************************************
   Copyright (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
-                2008-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************************************/
 
 /***************************************************************************
@@ -63,7 +63,7 @@ void UserHelp::readConfig(QStringList& menuList, QList<QUrl>& fileList)
 		QString menu = configGroup.readEntry(QString("menu%1").arg(i));
 		menuList << menu;
 		if(!menu.isEmpty() && menu != "-") {
-			fileList << QUrl::fromLocalFile(configGroup.readEntry(QString("file%1").arg(i)));
+			fileList << configGroup.readEntry(QString("file%1").arg(i), QUrl());
 		}
 		else {
 			fileList << QUrl();

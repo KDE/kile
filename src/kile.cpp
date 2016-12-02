@@ -340,10 +340,15 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	if(KileConfig::rCVersion() < 7) {
 		if (KMessageBox::questionYesNo(mainWindow(),
-		    i18n("The standard tool list need to be reloaded because of the switch from KDE3 to KDE4. This will overwrite any changes in the tools you have made. Do you want to reload the list now (recommended)?"),
+		    i18n("<p>The standard tool list needs to be reset as Kile has been upgraded.<br/>"
+		         "This will overwrite any changes you have made.</p>"
+		         "<p>Do you want to reset the list now (recommended)?</p>"),
 			i18n("Tools need to be updated"))  == KMessageBox::Yes){
 				m_toolFactory->readStandardToolConfig();
 		}
+	}
+	else if(KileConfig::rCVersion() < 8) { // we need to add the livepreview tools
+		m_toolFactory->installStandardLivePreviewTools();
 	}
 
 	// lazy creation: last possible place to insert this user-defined menu

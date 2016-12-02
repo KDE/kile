@@ -38,6 +38,8 @@
 #include "parser/parsermanager.h"
 #include "utilities.h"
 
+#define SHORTCUTS_GROUP_NAME "Shortcuts"
+
 namespace KileTool
 {
 	Factory::Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection)
@@ -49,8 +51,6 @@ namespace KileTool
 	Factory::~Factory()
 	{
 	}
-
-	static const QString shortcutGroupName = "Shortcuts";
 
 	Base* Factory::create(const QString& toolName, const QString& config, bool prepare /* = true */)
 	{
@@ -122,15 +122,54 @@ namespace KileTool
 	void Factory::readStandardToolConfig()
 	{
 		KConfig stdToolConfig(m_standardToolConfigurationFileName, KConfig::NoGlobals);
-		QStringList groupList = stdToolConfig.groupList();
-		for(QStringList::iterator it = groupList.begin(); it != groupList.end(); ++it) {
-			QString groupName = *it;
-			if(groupName != shortcutGroupName) {
+		const QStringList groupList = stdToolConfig.groupList();
+		for(QString groupName : groupList) {
+			if(groupName != SHORTCUTS_GROUP_NAME) {
 				KConfigGroup configGroup = stdToolConfig.group(groupName);
 				m_config->deleteGroup(groupName);
 				KConfigGroup newGroup = m_config->group(groupName);
 				configGroup.copyTo(&newGroup, KConfigGroup::Persistent);
 			}
+		}
+	}
+
+	static void transferKeyStringPairsStartingWith(KConfigGroup& src, KConfigGroup& target, const QString& startsWith)
+	{
+		const QStringList keyList = src.keyList();
+		for(QString key : keyList) {
+		    if(key.startsWith(startsWith)) {
+			QString value = src.readEntry(key, QString());
+			target.writeEntry(key, value);
+		    }
+		}
+	}
+
+	void Factory::installStandardLivePreviewTools()
+	{
+		KConfig stdToolConfig(m_standardToolConfigurationFileName, KConfig::NoGlobals);
+
+		const QStringList groupList = stdToolConfig.groupList();
+		for(QString groupName : groupList) {
+			if(groupName.startsWith(QStringLiteral("Tool/LivePreview"))) {
+				KConfigGroup configGroup = stdToolConfig.group(groupName);
+				m_config->deleteGroup(groupName);
+				KConfigGroup newGroup = m_config->group(groupName);
+				configGroup.copyTo(&newGroup, KConfigGroup::Persistent);
+			}
+		}
+
+		{ // transfer the standard settings inside the "Tools" group
+			const QString groupName(QStringLiteral("Tools"));
+			KConfigGroup stdConfigGroup = stdToolConfig.group(groupName);
+			KConfigGroup newGroup = m_config->group(groupName);
+			transferKeyStringPairsStartingWith(stdConfigGroup, newGroup, QStringLiteral("LivePreview"));
+		}
+
+		{ // transfer the standard settings inside the "ToolsGUI" group
+			const QString groupName(QStringLiteral("ToolsGUI"));
+			KConfigGroup stdConfigGroup = stdToolConfig.group(groupName);
+			KConfigGroup newGroup = m_config->group(groupName);
+			transferKeyStringPairsStartingWith(stdConfigGroup, newGroup, QStringLiteral("LivePreview"));
 		}
 	}
 

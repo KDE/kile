@@ -38,6 +38,7 @@
 #include "widgets/filebrowserwidget.h"
 #include "kileinfo.h"
 #include "kileactions.h"
+#include "kileversion.h"
 #include "widgets/symbolview.h"
 #include "widgets/commandview.h"
 
@@ -48,8 +49,6 @@
 #include "kilehelp.h"              // kile help (dani)
 #include "quickpreview.h"
 #include "widgets/abbreviationview.h"
-
-#define KILERC_VERSION 7
 
 class QFileInfo;
 class QTimer;

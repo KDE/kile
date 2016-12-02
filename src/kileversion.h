@@ -22,6 +22,7 @@
 const QString kileVersion="3.0 alpha 1";
 const QString kileFullVersion="2.9.60"; // only use numbers and '.'
 #define KILE_PROJECTFILE_VERSION 3
+#define KILERC_VERSION 8
 
 // the last-copyright-year is used in 'main.cpp' and 'CMakeLists.txt'
 #define KILE_LAST_COPYRIGHT_YEAR 2016

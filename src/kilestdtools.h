@@ -38,6 +38,7 @@ namespace KileTool
 			~Factory();
 
 			void readStandardToolConfig();
+			void installStandardLivePreviewTools();
 
 		private:
 			Manager            *m_manager;

@@ -6,6 +6,7 @@
   <name>Kile</name>
   <name xml:lang="ca">Kile</name>
   <name xml:lang="ca-valencia">Kile</name>
+  <name xml:lang="cs">Kile</name>
   <name xml:lang="de">Kile</name>
   <name xml:lang="es">Kile</name>
   <name xml:lang="nl">Kile</name>
@@ -17,6 +18,7 @@
   <summary>TeX/LaTeX Editor</summary>
   <summary xml:lang="ca">Editor de TeX/LaTeX</summary>
   <summary xml:lang="ca-valencia">Editor de TeX/LaTeX</summary>
+  <summary xml:lang="cs">Editor pro TeX/LaTeX</summary>
   <summary xml:lang="de">TeX-/LaTeX-Editor</summary>
   <summary xml:lang="es">Editor TeX/LaTeX</summary>
   <summary xml:lang="nl">TeX/LaTeX-bewerker</summary>
@@ -39,6 +41,7 @@
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
+    <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="es">Funciones:</p>
     <p xml:lang="nl">Kenmerken:</p>

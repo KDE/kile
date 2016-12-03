@@ -800,9 +800,16 @@ void Manager::fileOpen()
 	KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, QUrl::fromLocalFile(currentDir), filter, m_ki->mainWindow(), i18n("Open Files"));
 
 	//open them
-	QList<QUrl> urls = result.URLs;
-	for (QList<QUrl>::Iterator i=urls.begin(); i != urls.end(); ++i) {
-		fileOpen(*i, result.encoding);
+	const QList<QUrl>& urls = result.URLs;
+	for (QList<QUrl>::ConstIterator i = urls.begin(); i != urls.end(); ++i) {
+		const QUrl& url = *i;
+		if(m_ki->extensions()->isProjectFile(url)) { // this can happen... (bug 317432)
+			KILE_DEBUG_MAIN << "file is a project file:" << url;
+			projectOpen(url);
+			continue;
+		}
+
+		fileOpen(url, result.encoding);
 	}
 }
 

@@ -1020,7 +1020,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 		auto statJob = KIO::stat(saveURL, KIO::StatJob::SourceSide, 0);
 		KJobWidgets::setWindow(statJob, m_ki->mainWindow());
 		if (statJob->exec()) { // check for writing possibility
-			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?", saveURL.fileName()), i18n("Overwrite File?"), KGuiItem(i18n("&Overwrite")));
+			int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?", saveURL.fileName()), i18n("Overwrite File?"), KStandardGuiItem::overwrite());
 			if(r != KMessageBox::Continue) {
 				continue;
 			}

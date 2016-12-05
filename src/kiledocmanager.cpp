@@ -1514,6 +1514,18 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
 
 	KileProject *kp = new KileProject(realurl, m_ki->extensions());
 
+	if(!kp->appearsToBeValidProjectFile()) {
+		if(m_progressDialog) {
+			m_progressDialog->hide();
+		}
+
+		KMessageBox::sorry(m_ki->mainWindow(), i18n("<p>The file \"%1\" cannot be opened as it does not appear to be a project file.</p>",
+		                                            url.fileName()),
+		                   i18n("Impossible to Open Project File"));
+		delete kp;
+		return;
+	}
+
 	if(kp->getProjectFileVersion() > KILE_PROJECTFILE_VERSION) {
 		if(m_progressDialog) {
 			m_progressDialog->hide();

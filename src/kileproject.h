@@ -198,7 +198,9 @@ public:
 	bool isInvalid(){ return m_invalid;}
 	QString archiveFileList() const;
 
-	bool isOfCurrentVersion()
+	bool appearsToBeValidProjectFile();
+
+	inline bool isOfCurrentVersion()
 	{
 		return (getProjectFileVersion() == KILE_PROJECTFILE_VERSION);
 	}

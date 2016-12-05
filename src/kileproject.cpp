@@ -453,6 +453,16 @@ QString KileProject::removeBaseURL(const QString &path)
 	}
 }
 
+bool KileProject::appearsToBeValidProjectFile()
+{
+	if(!m_config->hasGroup("General")) {
+		return false;
+	}
+
+	KConfigGroup generalGroup = m_config->group("General");
+	return generalGroup.hasKey("name") && generalGroup.hasKey("kileprversion") && generalGroup.hasKey("kileversion");
+}
+
 int KileProject::getProjectFileVersion()
 {
 	KConfigGroup generalGroup = m_config->group("General");

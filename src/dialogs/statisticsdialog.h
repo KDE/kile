@@ -34,7 +34,7 @@ class StatisticsDialog : public KPageDialog
 	public:
 		StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo,
 		                 QWidget* parent = Q_NULLPTR, KTextEditor::View *view = Q_NULLPTR,
-		                 const char* name = Q_NULLPTR, const QString &caption = QString());
+		                 const QString &caption = QString());
 		~StatisticsDialog();
 
 	private:

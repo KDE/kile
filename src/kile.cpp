@@ -1529,8 +1529,7 @@ void Kile::showDocInfo(KTextEditor::View *view)
 		KileDialog::StatisticsDialog *dlg = new KileDialog::StatisticsDialog(project,
 		                                                                     docinfo,
 		                                                                     this,
-		                                                                     view,
-		                                                                     Q_NULLPTR, "");
+		                                                                     view);
 		dlg->exec();
 		delete dlg;
 	}

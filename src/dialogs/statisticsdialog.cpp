@@ -35,10 +35,9 @@
 namespace KileDialog {
 
 StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo* docinfo, QWidget* parent,
-                                   KTextEditor::View *view, const char* name, const QString &caption)
+                                   KTextEditor::View *view, const QString &caption)
 		: KPageDialog(parent), m_project(project), m_docinfo(docinfo), m_view(view)
 {
-	setObjectName(name);
 	setFaceType(Tabbed);
 	setWindowTitle(caption);
 	setModal(true);
@@ -82,7 +81,7 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 	KileWidget::StatisticsWidget* summary;
 	KileDocument::TextInfo* tempDocinfo;
 
-	m_hasSelection = false; // class variable, if the user has selected text,
+	m_hasSelection = view->selection(); // class variable, if the user has selected text,
 	summary = new KileWidget::StatisticsWidget(mainWidget);
 	KPageWidgetItem *itemSummary = new KPageWidgetItem(summary, i18n("Summary"));
 	addPage(itemSummary);
@@ -91,13 +90,6 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
 	// we have in every case a summary tab
 	m_pagetowidget[itemSummary] = summary;
 	m_pagetoname[itemSummary] = i18n("Summary");
-
-	// the user should really have that doc as active in which the selection is
-	if (KTextEditor::Editor::instance()->application()
-		&& KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView()->selection()
-	) {
-		m_hasSelection = true;
-	}
 
 	if (!m_project) { // the active doc doesn't belong to a project
 		setWindowTitle(i18n("Statistics for %1", m_docinfo->getDoc()->url().fileName()));

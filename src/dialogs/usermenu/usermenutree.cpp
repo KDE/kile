@@ -823,8 +823,8 @@ void UserMenuTree::itemDelete(QTreeWidgetItem *current)
 		else if ( index > 0  ) {
 			selectitem = parent->child(index-1);
 		}
-		else
-			selectitem = parent; {
+		else {
+			selectitem = parent;
 		}
 
 		item = parent->takeChild(index);

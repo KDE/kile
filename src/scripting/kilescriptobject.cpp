@@ -20,7 +20,6 @@
 #include <QVariant>
 
 #include <KMessageBox>
-#include <QFileDialog>
 #include <KTextEditor/View>
 
 #include "scripting/kilescriptobject.h"

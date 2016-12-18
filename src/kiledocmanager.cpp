@@ -787,11 +787,10 @@ void Manager::fileOpen()
 
 	// use a filter for fileOpen dialog
 	Extensions *extensions = m_ki->extensions();
-	QString filter = extensions->latexDocumentFileFilter() + '\n'
-	                 + extensions->latexPackageFileFilter() + '\n'
-	                 + extensions->bibtexFileFilter() + '\n'
-	                 + extensions->metapostFileFilter() + '\n'
-	                 + "*|" + i18n("All Files");
+	QString filter = extensions->fileFilterKDEStyle(true, {KileDocument::Extensions::TEX,
+	                                                       KileDocument::Extensions::PACKAGES,
+	                                                       KileDocument::Extensions::BIB,
+	                                                       KileDocument::Extensions::METAPOST});
 
 	// try to get the current encoding, this is kind of ugly ...
 	QString encoding = m_ki->toolManager()->config()->group("Kate Document Defaults").readEntry("Encoding","");
@@ -1006,7 +1005,8 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 	KEncodingFileDialog::Result result;
 	QUrl saveURL;
 	while(true) {
-		QString filter = info->getFileFilter() + "\n* |" + i18n("All Files");
+		QString filter = m_ki->extensions()->fileFilterKDEStyle(true, info->getFileFilter());
+
 		result = KEncodingFileDialog::getSaveUrlAndEncoding(doc->encoding(), startUrl, filter, m_ki->mainWindow(), i18n("Save File"));
 		if(result.URLs.isEmpty() || result.URLs.first().isEmpty()) {
 			return false;
@@ -1655,7 +1655,9 @@ void Manager::updateProjectReferences(KileProject *project)
 void Manager::projectOpen()
 {
 	KILE_DEBUG_MAIN << "==Kile::projectOpen==========================";
-	QUrl url = QFileDialog::getOpenFileUrl(m_ki->mainWindow(),  i18n("Open Project"), QUrl::fromLocalFile(KileConfig::defaultProjectLocation()), i18n("*.kilepr|Kile Project Files\n*|All Files"));
+	QUrl url = QFileDialog::getOpenFileUrl(m_ki->mainWindow(), i18n("Open Project"),
+	                                       QUrl::fromLocalFile(KileConfig::defaultProjectLocation()),
+	                                       m_ki->extensions()->fileFilterQtStyle(false, {KileDocument::Extensions::KILE_PROJECT}));
 
 	if(!url.isEmpty()) {
 		projectOpen(url);
@@ -1758,7 +1760,7 @@ void Manager::projectAddFiles(KileProject *project,const QUrl &fileUrl)
 		}
 
 		KILE_DEBUG_MAIN << "currentDir is " << currentDir;
-		QFileDialog *dlg = new QFileDialog(m_ki->mainWindow(), i18n("Add Files"), currentDir, i18n("*|All Files"));
+		QFileDialog *dlg = new QFileDialog(m_ki->mainWindow(), i18n("Add Files"), currentDir, m_ki->extensions()->fileFilterQtStyle(true, {}));
 		dlg->setModal(true);
 		dlg->setFileMode(QFileDialog::ExistingFiles);
 		dlg->setLabelText(QFileDialog::Accept, i18n("Add"));

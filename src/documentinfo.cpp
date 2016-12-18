@@ -237,9 +237,9 @@ Type Info::getType()
 	return Undefined;
 }
 
-QString Info::getFileFilter() const
+QLinkedList<Extensions::ExtensionType> Info::getFileFilter() const
 {
-	return QString();
+	return {};
 }
 
 bool Info::isDocumentTypePromotionAllowed()
@@ -873,9 +873,9 @@ Type LaTeXInfo::getType()
 	return LaTeX;
 }
 
-QString LaTeXInfo::getFileFilter() const
+QLinkedList<Extensions::ExtensionType> LaTeXInfo::getFileFilter() const
 {
-	return m_extensions->latexDocumentFileFilter() + '\n' + m_extensions->latexPackageFileFilter();
+	return {Extensions::TEX, Extensions::PACKAGES};
 }
 
 void LaTeXInfo::startLaTeXCompletion(KTextEditor::View *view)
@@ -1155,9 +1155,9 @@ Type BibInfo::getType()
 	return BibTeX;
 }
 
-QString BibInfo::getFileFilter() const
+QLinkedList<Extensions::ExtensionType> BibInfo::getFileFilter() const
 {
-	return m_extensions->bibtexFileFilter();
+	return {Extensions::BIB};
 }
 
 ScriptInfo::ScriptInfo(Extensions* extensions,
@@ -1182,9 +1182,9 @@ Type ScriptInfo::getType()
 	return Script;
 }
 
-QString ScriptInfo::getFileFilter() const
+QLinkedList<Extensions::ExtensionType> ScriptInfo::getFileFilter() const
 {
-	return m_extensions->scriptFileFilter();
+	return {Extensions::JS};
 }
 
 }

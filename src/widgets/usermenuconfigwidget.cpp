@@ -59,7 +59,7 @@ void KileWidgetUsermenuConfig::slotInstallClicked()
 	KILE_DEBUG_MAIN << "install clicked";
 
 	QString directory = KileMenu::UserMenu::selectUserMenuDir();
-	QString filter = i18n("*.xml|Latex Menu Files");
+	QString filter = i18n("User Menu Files (*.xml)");
 
 	QString xmlfile = QFileDialog::getOpenFileName(this, i18n("Select Menu File"), directory, filter);
 	if(xmlfile.isEmpty()) {

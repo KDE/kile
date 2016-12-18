@@ -14,7 +14,6 @@
 
 #include "dialogs/configcheckerdialog.h"
 
-#include <QFileDialog>
 #include <QFileInfo>
 #include <QItemDelegate>
 #include <QLabel>

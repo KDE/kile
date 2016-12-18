@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -46,7 +46,7 @@
 #include <QFileDialog>
 
 #include "kiledebug.h"
-
+#include "kileextensions.h"
 #include "kileinfo.h"
 #include "kiledocmanager.h"
 
@@ -375,7 +375,7 @@ void InputDialog::slotBrowse()
 
 	// Called from InputDialog after a \input- or \include command:
 	// so we are only looking for a LaTeX source document
-	QString filter = m_ki->extensions()->latexDocumentFileFilter() + '\n' + "*|" + i18n("All Files");
+	QString filter = m_ki->extensions()->fileFilterQtStyle(true, {KileDocument::Extensions::TEX});
 
 	fn = QFileDialog::getOpenFileName(this, i18n("Select File") , fi.absoluteFilePath(), filter);
 	if(!fn.isEmpty()) {

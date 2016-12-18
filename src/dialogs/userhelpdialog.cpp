@@ -430,7 +430,7 @@ UserHelpAddDialog::UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent)
 void UserHelpAddDialog::onShowLocalFileSelection()
 {
 	QString directory = QDir::currentPath();
-	QString filter = i18n("Websites (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi *.epub);;All Files (*.*)");
+	QString filter = i18n("Websites (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf *.dvi *.epub);;All Files (*)");
 
 	QString filename = QFileDialog::getOpenFileName(this, i18n("Select File"), directory, filter);
 	if (filename.isEmpty()) {

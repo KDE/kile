@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Mar 12 2007
-    copyright            : 2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+/*****************************************************************************
+*   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
+*             (C) 2016 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -18,9 +17,8 @@
 
 #include "kileconstants.h"
 
+#include <QLinkedList>
 #include <QString>
-#include <QStringList>
-
 #include <QUrl>
 
 namespace KileDocument 
@@ -32,7 +30,7 @@ public:
 	Extensions();
 	~Extensions() {}
 
-	enum { LATEX_EXT_DOC=1,  LATEX_EXT_PKG=2,  LATEX_EXT_BIB=4, LATEX_EXT_IMG=8,  LATEX_EXT_MP=16, LATEX_EXT_JS=32, LATEX_EXT_PROJ=64 };
+	enum ExtensionType { TEX=1,  PACKAGES=2,  BIB=4, IMG=8, METAPOST=16, JS=32, KILE_PROJECT=64 };
 
 	QString latexDocuments() const { return m_documents; }
 	QString latexPackages() const { return m_packages; }
@@ -44,14 +42,10 @@ public:
 	QString bibtexDefault() const { return m_bibtexDefault; }
 	QString metapostDefault() const { return m_metapostDefault; }
 
-	QString latexDocumentFileFilter() const { return fileFilter(LATEX_EXT_DOC); }
-	QString latexPackageFileFilter() const { return fileFilter(LATEX_EXT_PKG); }
-	QString bibtexFileFilter() const { return fileFilter(LATEX_EXT_BIB); }
-	QString imageFileFilter() const { return fileFilter(LATEX_EXT_IMG); }
-	QString metapostFileFilter() const { return fileFilter(LATEX_EXT_MP); }
-	QString scriptFileFilter() const { return fileFilter(LATEX_EXT_JS); }
-	QString projectFileFilter() const { return fileFilter(LATEX_EXT_PROJ); }
-	
+	// we need two methods as KEncodingFileDialog has no Qt-equivalent yet
+	QString fileFilterKDEStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const;
+	QString fileFilterQtStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const;
+
 	bool isTexFile(const QString &fileName) const;
 	bool isTexFile(const QUrl &url) const { return isTexFile(url.fileName()); }
 	bool isBibFile(const QString &fileName) const;	
@@ -84,8 +78,11 @@ private:
 	bool isProject(const QString &ext) const { return validExtension(ext,m_project); }
 	bool validExtension(const QString &ext, const QString &extensions) const;
 
-	QString fileFilter(uint type) const;
+	void fileFilterRaw(ExtensionType type, QString& ext, QString& text) const;
+	QString fileFilterKDEStyle(ExtensionType type) const;
+	QString fileFilterQtStyle(ExtensionType type) const;
 };
+
 
 }
 

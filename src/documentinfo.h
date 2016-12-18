@@ -158,7 +158,7 @@ public:
 	/**
 	 * Returns a file filter suitable for loading and saving files of this class' type.
 	 **/
-	virtual QString getFileFilter() const;
+	virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
 
 	virtual bool isDocumentTypePromotionAllowed();
 	void setDocumentTypePromotionAllowed(bool b);
@@ -437,7 +437,7 @@ public:
 
 	virtual Type getType();
 
-	virtual QString getFileFilter() const;
+	virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
 
 	void startLaTeXCompletion(KTextEditor::View *view);
 
@@ -489,7 +489,7 @@ public:
 
 	virtual Type getType();
 
-	virtual QString getFileFilter() const;
+	virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
 
 	void installParserOutput(KileParser::ParserOutput *parserOutput);
 
@@ -512,7 +512,7 @@ public:
 
 	virtual Type getType();
 
-	virtual QString getFileFilter() const;
+	virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
 };
 
 }

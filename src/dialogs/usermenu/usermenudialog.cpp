@@ -21,7 +21,6 @@
 
 #include <KLocalizedString>
 #include <KIconDialog>
-#include <QFileDialog>
 #include <KMessageBox>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
@@ -273,7 +272,7 @@ void UserMenuDialog::slotLoadClicked()
 	}
 
 	QString directory = UserMenu::selectUserMenuDir();
-	QString filter = i18n("*.xml|Latex Menu Files");
+	QString filter = i18n("User Menu Files (*.xml)");
 
 	QString filename = QFileDialog::getOpenFileName(this, i18n("Select Menu File"), directory, filter);
 	if (filename.isEmpty()) {
@@ -374,7 +373,7 @@ QString UserMenuDialog::saveAsClicked()
 	}
 
 	const QString directory = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "usermenu/";
-	const QString filter = i18n("*.xml|Latex Menu Files");
+	const QString filter = i18n("User Menu Files (*.xml)");
 
 	QString filename = QFileDialog::getSaveFileName(this, i18n("Save Menu File"), directory, filter);
 	if (filename.isEmpty()) {

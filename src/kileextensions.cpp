@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Mar 12 2007
-    copyright            : 2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+/*****************************************************************************
+*   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
+*             (C) 2016 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,8 +14,6 @@
 
 #include "kileextensions.h"
 
-#include <QString>
-#include <QStringList>
 #include <QFileInfo>
 
 #include <KLocalizedString>
@@ -47,41 +44,86 @@ Extensions::Extensions()
 
 //////////////////// file filter ////////////////////
 
-QString Extensions::fileFilter(uint type) const
+QString Extensions::fileFilterKDEStyle(ExtensionType type) const
 {
-	QString ext,text;
-	switch ( type )
-	{ 
-		case LATEX_EXT_DOC:
-			ext = m_documents;
-			text = i18n("(La)TeX Source Files");
-			break;
-		case LATEX_EXT_PKG:
-			ext = m_packages;
-			text = i18n("(La)TeX Packages");
-			break;
-		case LATEX_EXT_BIB:
-			ext = m_bibtex;
-			text = i18n("BibTeX Files");
-			break;
-		case LATEX_EXT_MP:
-			ext = m_metapost;
-			text = i18n("Metapost Files");
-			break;
-		case LATEX_EXT_JS:
-			ext = m_script;
-			text = i18n("Kile Script Files");
-			break;
-		case LATEX_EXT_PROJ:
-			ext = m_project;
-			text = i18n("Kile Project Files");
-			break;
-		default:
-			return QString();
-	}
+	QString ext, text;
+	fileFilterRaw(type, ext, text);
 
 	ext.replace('.', "*.");
 	return ext + '|' + text;
+}
+
+QString Extensions::fileFilterQtStyle(ExtensionType type) const
+{
+	QString ext, text;
+	fileFilterRaw(type, ext, text);
+
+	ext.replace('.', "*.");
+	return text + QStringLiteral(" (") + ext + ')';
+}
+
+void Extensions::fileFilterRaw(ExtensionType type, QString& ext, QString& text) const
+{
+	switch(type) {
+		case TEX:
+			ext = m_documents;
+			text = i18n("(La)TeX Source Files");
+			return;
+		case PACKAGES:
+			ext = m_packages;
+			text = i18n("(La)TeX Packages");
+			return;
+		case BIB:
+			ext = m_bibtex;
+			text = i18n("BibTeX Files");
+			return;
+		case IMG:
+			ext = m_images;
+			text = i18n("Image Files");
+			return;
+		case METAPOST:
+			ext = m_metapost;
+			text = i18n("Metapost Files");
+			return;
+		case JS:
+			ext = m_script;
+			text = i18n("Kile Script Files");
+			return;
+		case KILE_PROJECT:
+			ext = m_project;
+			text = i18n("Kile Project Files");
+			return;
+	}
+}
+
+QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const
+{
+	QString toReturn;
+
+	for(ExtensionType extension : extensions) {
+		toReturn += fileFilterKDEStyle(extension) + '\n';
+	}
+
+	if(includeAllFiles) {
+		toReturn += i18n("* |All Files");
+	}
+
+	return toReturn;
+}
+
+QString Extensions::fileFilterQtStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const
+{
+	QString toReturn;
+
+	for(ExtensionType extension : extensions) {
+		toReturn += fileFilterQtStyle(extension) + QStringLiteral(";;");
+	}
+
+	if(includeAllFiles) {
+		toReturn += i18n("All Files (*)");
+	}
+
+	return toReturn;
 }
 
 //////////////////// document type ////////////////////

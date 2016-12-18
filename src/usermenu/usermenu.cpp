@@ -19,7 +19,6 @@
 #include <KXMLGUIFactory>
 #include <QMenuBar>
 #include <QAction>
-#include <QFileDialog>
 #include <KMessageBox>
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -320,10 +319,10 @@ void UserMenu::removeShortcuts()
 // call from the menu: no xml file given
 void UserMenu::installXmlMenufile()
 {
-	KILE_DEBUG_MAIN << "install xml file with KFileDialog::getOpenFileName";
+	KILE_DEBUG_MAIN << "install xml file with QFileDialog::getOpenFileName";
 
 	QString directory = selectUserMenuDir();
-	QString filter = i18n("*.xml|Latex Menu Files");
+	QString filter = i18n("User Menu Files (*.xml)");
 
 	QString filename = QFileDialog::getOpenFileName(m_ki->mainWindow(), i18n("Select Menu File"), directory, filter);
 	if(filename.isEmpty()) {

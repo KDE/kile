@@ -388,14 +388,12 @@ void FindFilesDialog::writeConfig()
 void FindFilesDialog::setupDirectory()
 {
 	setDirName(QDir::home().absolutePath());
-
 	// use a filter for 'find in files' dialog
 	KileDocument::Extensions *extensions = m_ki->extensions();
-	QString filter = extensions->latexDocumentFileFilter() + '\n'
-									 + extensions->latexPackageFileFilter() + '\n'
-									 + extensions->bibtexFileFilter() + '\n'
-									 + extensions->metapostFileFilter() + '\n'
-									 + "*|" + i18n("All Files");
+	QString filter = extensions->fileFilterKDEStyle(true, {KileDocument::Extensions::TEX,
+	                                                       KileDocument::Extensions::PACKAGES,
+	                                                       KileDocument::Extensions::BIB,
+	                                                       KileDocument::Extensions::METAPOST});
 	setFilter(filter);
 }
 

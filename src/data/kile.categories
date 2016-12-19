@@ -1,3 +1,4 @@
 # Kile's logging categories (for the kdebugsettings tool)
 org.kde.kile.main Kile
 org.kde.kile.parser Kile (Parser)
+org.kde.kile.codecompletion Kile (Code completion)

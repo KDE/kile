@@ -1,6 +1,6 @@
 /**********************************************************************************************
   Copyright (C) 2004-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
 ***********************************************************************************************/
 
 /***************************************************************************
@@ -58,14 +58,14 @@ void LaTeXCompletionModel::completionInvoked(KTextEditor::View *view, const KTex
 	}
 	Q_UNUSED(invocationType);
 	m_currentView = view;
-	KILE_DEBUG_MAIN << "building model...";
+	KILE_DEBUG_CODECOMPLETION << "building model...";
 	buildModel(view, range);
 }
 
 KTextEditor::Range LaTeXCompletionModel::updateCompletionRange(KTextEditor::View *view,
                                                                            const KTextEditor::Range &range)
 {
-	KILE_DEBUG_MAIN << "updating model..." << view << range;
+	KILE_DEBUG_CODECOMPLETION << "updating model..." << view << range;
 	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
 	if(newRange.isValid()) {
 		buildModel(view, newRange);
@@ -135,7 +135,7 @@ static bool laTeXCommandLessThan(const QString& s1, const QString& s2)
 void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor::Range &range)
 {
 	QString completionString = view->document()->text(range);
-	KILE_DEBUG_MAIN << "Text in completion range: " << completionString;
+	KILE_DEBUG_CODECOMPLETION << "Text in completion range: " << completionString;
 	m_completionList.clear();
 
 	if(completionString.startsWith('\\')) {
@@ -179,7 +179,7 @@ KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor
 	QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,.=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
 	completionStartRegExp.setMinimal(true);
 	QString leftSubstring = line.left(position.column());
-	KILE_DEBUG_MAIN << "leftSubstring: " << leftSubstring;
+	KILE_DEBUG_CODECOMPLETION << "leftSubstring: " << leftSubstring;
 	int startPos = completionStartRegExp.lastIndexIn(leftSubstring);
 	if(startPos >= 0) {
 		return KTextEditor::Cursor(position.line(), startPos);
@@ -218,35 +218,35 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	int cursorPos = position.column();
 
 	KTextEditor::Cursor latexCommandStart = determineLaTeXCommandStart(view->document(), position);
-	KILE_DEBUG_MAIN << "LaTeX command start " << latexCommandStart;
+	KILE_DEBUG_CODECOMPLETION << "LaTeX command start " << latexCommandStart;
 	if(!latexCommandStart.isValid() || !isWithinLaTeXCommand(view->document(), latexCommandStart, position)) {
 		return KTextEditor::Range::invalid();
 	}
 	QString completionString = view->document()->text(KTextEditor::Range(latexCommandStart,
 	                                                                     position));
-	KILE_DEBUG_MAIN << "completionString " << completionString;
+	KILE_DEBUG_CODECOMPLETION << "completionString " << completionString;
 	//check whether we are completing a citation of reference
 	if(completionString.indexOf(m_codeCompletionManager->m_citeRegExp) != -1
 		|| completionString.indexOf(m_codeCompletionManager->m_referencesRegExp) != -1) {
-		KILE_DEBUG_MAIN << "found citation or reference!";
+		KILE_DEBUG_CODECOMPLETION << "found citation or reference!";
 		int openBracketIndex = completionString.indexOf('{');
 		if(openBracketIndex != -1) {
 			// TeX allows '.' characters inside citation labels (bug 266670)
 			QRegExp labelListRegExp("\\s*(([:.\\w]+)|([:.\\w]+(\\s*,\\s*[:.\\w]*)+))");
 			labelListRegExp.setMinimal(false);
 			int column = openBracketIndex + 1;
-			KILE_DEBUG_MAIN << "open bracket column + 1: " << column;
-			KILE_DEBUG_MAIN << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
+			KILE_DEBUG_CODECOMPLETION << "open bracket column + 1: " << column;
+			KILE_DEBUG_CODECOMPLETION << labelListRegExp.indexIn(completionString, openBracketIndex + 1);
 			if(labelListRegExp.indexIn(completionString, openBracketIndex + 1) == openBracketIndex + 1
 			      && labelListRegExp.matchedLength() + openBracketIndex + 1 == completionString.length()) {
 				QRegExp lastCommaRegExp(",\\s*");
 				int lastCommaIndex = lastCommaRegExp.lastIndexIn(completionString);
 				if(lastCommaIndex >= 0) {
-					KILE_DEBUG_MAIN << "last comma found at: " << lastCommaIndex;
+					KILE_DEBUG_CODECOMPLETION << "last comma found at: " << lastCommaIndex;
 					column =  lastCommaIndex + lastCommaRegExp.matchedLength();
 				}
 			}
-			KILE_DEBUG_MAIN << labelListRegExp.errorString();
+			KILE_DEBUG_CODECOMPLETION << labelListRegExp.errorString();
 			startCursor.setColumn(latexCommandStart.column() + column);
 			latexCompletion = false;
 		}
@@ -259,7 +259,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	}
 
 	int endPos = line.indexOf(completionEndRegExp, cursorPos);
-	KILE_DEBUG_MAIN << "endPos" << endPos;
+	KILE_DEBUG_CODECOMPLETION << "endPos" << endPos;
 	if(endPos >= 0) {
 		endCursor.setColumn(endPos);
 	}
@@ -267,10 +267,10 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
 	int rangeLength = endCursor.column() - startCursor.column();
 
 	if(latexCompletion && KileConfig::completeAuto() && rangeLength < KileConfig::completeAutoThreshold() + 1) { // + 1 for the command backslash
-		KILE_DEBUG_MAIN << "not reached the completion threshold yet";
+		KILE_DEBUG_CODECOMPLETION << "not reached the completion threshold yet";
 		return KTextEditor::Range::invalid();
 	}
-	KILE_DEBUG_MAIN << "returning completion range: " << completionRange;
+	KILE_DEBUG_CODECOMPLETION << "returning completion range: " << completionRange;
 	return completionRange;
 }
 
@@ -310,8 +310,8 @@ QString LaTeXCompletionModel::filterString(KTextEditor::View *view, const KTextE
                                                                     const KTextEditor::Cursor &position)
 {
 	Q_UNUSED(position);
-	KILE_DEBUG_MAIN << "range: " << range;
-	KILE_DEBUG_MAIN << "text: " << (range.isValid() ? view->document()->text(range)
+	KILE_DEBUG_CODECOMPLETION << "range: " << range;
+	KILE_DEBUG_CODECOMPLETION << "text: " << (range.isValid() ? view->document()->text(range)
 	                                             : "(invalid range)");
 
 	return "";
@@ -377,7 +377,7 @@ void LaTeXCompletionModel::executeCompletionItem(KTextEditor::View *view,
 		prefix = document->text(KTextEditor::Range(startCursor.line(), 0,
 		                                           startCursor.line(), word.start().column()));
 		textToInsert = buildEnvironmentCompletedText(completionText, prefix, cursorYPos, cursorXPos);
-		KILE_DEBUG_MAIN << cursorYPos << ", " << cursorXPos;
+		KILE_DEBUG_CODECOMPLETION << cursorYPos << ", " << cursorXPos;
 	}
 	else {
 		textToInsert = buildRegularCompletedText(stripParameters(completionText), cursorYPos, cursorXPos, true);
@@ -729,7 +729,7 @@ void AbbreviationCompletionModel::completionInvoked(KTextEditor::View *view, con
 		endResetModel();
 		return;
 	}
-	KILE_DEBUG_MAIN << "building model...";
+	KILE_DEBUG_CODECOMPLETION << "building model...";
 	buildModel(view, range, (invocationType == UserInvocation || invocationType == ManualInvocation));
 }
 
@@ -743,7 +743,7 @@ KTextEditor::Range AbbreviationCompletionModel::updateCompletionRange(KTextEdito
 		return range;
 	}
 	
-	KILE_DEBUG_MAIN << "updating model...";
+	KILE_DEBUG_CODECOMPLETION << "updating model...";
 	KTextEditor::Range newRange = completionRange(view, view->cursorPosition());
 	if(newRange.isValid()) {
 		buildModel(view, newRange);
@@ -806,7 +806,7 @@ void AbbreviationCompletionModel::buildModel(KTextEditor::View *view, const KTex
 	m_completionList.clear();
 	endResetModel();
 	QString text = view->document()->text(range);
-	KILE_DEBUG_MAIN << text;
+	KILE_DEBUG_CODECOMPLETION << text;
 	if(text.isEmpty()) {
 		return;
 	}
@@ -852,15 +852,15 @@ QStringList Manager::getLocallyDefinedLaTeXCommands(KTextEditor::View *view) con
 void Manager::readConfig(KConfig *config)
 {
 	Q_UNUSED(config);
-	KILE_DEBUG_MAIN << "======================";
+	KILE_DEBUG_CODECOMPLETION << "======================";
 
 	// reading the wordlists is only necessary at the first start
 	// and when the list of files changes
 	if(m_firstConfig || KileConfig::completeChangedLists() || KileConfig::completeChangedCommands()) {
-		KILE_DEBUG_MAIN << "   setting regexp for references...";
+		KILE_DEBUG_CODECOMPLETION << "   setting regexp for references...";
 		buildReferenceCitationRegularExpressions();
 
-		KILE_DEBUG_MAIN << "   read wordlists...";
+		KILE_DEBUG_CODECOMPLETION << "   read wordlists...";
 		// wordlists for Tex/Latex mode
 		QStringList files = KileConfig::completeTex();
 		m_texWordList = readCWLFiles(files, "tex");

@@ -36,6 +36,7 @@
 
 Q_LOGGING_CATEGORY(LOG_KILE_MAIN, "org.kde.kile.main", QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_KILE_PARSER, "org.kde.kile.parser", QtWarningMsg)
+Q_LOGGING_CATEGORY(LOG_KILE_CODECOMPLETION, "org.kde.kile.codecompletion", QtWarningMsg)
 
 bool isProject(const QUrl url)
 {

@@ -2500,26 +2500,35 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 
 QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encoding)
 {
-	QTemporaryFile file;
-	if(!file.open()) {
-		KILE_DEBUG_MAIN << "Cannot create temporary file for" << url;
-		return QStringList();
+	QTemporaryFile *temporaryFile = Q_NULLPTR;
+	QString localFileName;
+	if(url.isLocalFile()) {
+		localFileName = url.path();
 	}
-	auto downloadJob = KIO::file_copy(url, QUrl::fromLocalFile(file.fileName()), 0600, KIO::Overwrite);
-	KJobWidgets::setWindow(downloadJob, m_ki->mainWindow());
-	// FIXME: 'exec' should not be used!
-	if (!downloadJob->exec()) {
-		KILE_DEBUG_MAIN << "Cannot download resource: " << url;
-		KILE_DEBUG_MAIN << downloadJob->errorString();
-		file.close();
-		return QStringList();
+	else { // only use KIO when we have to
+		temporaryFile = new QTemporaryFile();
+		if(!temporaryFile->open()) {
+			KILE_DEBUG_MAIN << "Cannot create temporary file for" << url;
+			delete temporaryFile;
+			return QStringList();
+		}
+		localFileName = temporaryFile->fileName();
+		auto downloadJob = KIO::file_copy(url, QUrl::fromLocalFile(localFileName), 0600, KIO::Overwrite);
+		KJobWidgets::setWindow(downloadJob, m_ki->mainWindow());
+		// FIXME: 'exec' should not be used!
+		if (!downloadJob->exec()) {
+			KILE_DEBUG_MAIN << "Cannot download resource: " << url;
+			KILE_DEBUG_MAIN << downloadJob->errorString();
+			delete temporaryFile;
+			return QStringList();
+		}
 	}
 
-	QFile localFile(file.fileName());
+	QFile localFile(localFileName);
 
 	if (!localFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-		KILE_DEBUG_MAIN << "Cannot open source file: " << file.fileName();
-		file.close();
+		KILE_DEBUG_MAIN << "Cannot open source file: " << localFileName;
+		delete temporaryFile;
 		return QStringList();
 	}
 
@@ -2531,7 +2540,7 @@ QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encodin
 	while(!stream.atEnd()) {
 		res.append(stream.readLine());
 	}
-	file.close();
+	delete temporaryFile;
 	return res;
 }
 

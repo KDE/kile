@@ -35,7 +35,7 @@ namespace KileHelp
 
 	Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(Q_NULLPTR)
 	{
-		m_helpDir = QStandardPaths::locate(QStandardPaths::DataLocation, "help", QStandardPaths::LocateDirectory);
+		m_helpDir = QStandardPaths::locate(QStandardPaths::DataLocation, "help/", QStandardPaths::LocateDirectory); // this must end in '/'
 		KILE_DEBUG_MAIN << "help dir: " << m_helpDir;
 
 		m_kileReference = m_helpDir + "latexhelp.html";

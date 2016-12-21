@@ -2501,11 +2501,16 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encoding)
 {
 	QTemporaryFile file;
-	file.open();
-	auto downloadJob = KIO::file_copy(url, QUrl::fromLocalFile(file.fileName()), 0);
+	if(!file.open()) {
+		KILE_DEBUG_MAIN << "Cannot create temporary file for" << url;
+		return QStringList();
+	}
+	auto downloadJob = KIO::file_copy(url, QUrl::fromLocalFile(file.fileName()), 0600, KIO::Overwrite);
 	KJobWidgets::setWindow(downloadJob, m_ki->mainWindow());
+	// FIXME: 'exec' should not be used!
 	if (!downloadJob->exec()) {
 		KILE_DEBUG_MAIN << "Cannot download resource: " << url;
+		KILE_DEBUG_MAIN << downloadJob->errorString();
 		file.close();
 		return QStringList();
 	}

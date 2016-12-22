@@ -1458,8 +1458,10 @@ void Manager::projectOpenItem(KileProjectItem *item, bool openProjectItemViews)
 		// this is necessary to identify the correct LaTeX root document (bug 233667);
 		m_ki->structureWidget()->update(itemInfo, true);
 	}
-	else { // 'item' is not shown, i.e. its contents won't be loaded into a KTextEditor::Document;
-		// so, we have to do it: we are loading the contents of the project item into the docinfo
+	else if(item->type() == KileProjectItem::Source || item->type() == KileProjectItem::Package || item->type() == KileProjectItem::Bibliography) {
+		// 'item' is not shown (and it is either a LaTeX source file or package), i.e. its
+		// contents won't be loaded into a KTextEditor::Document; so, we have to do it:
+		// we are loading the contents of the project item into the docinfo
 		// for a moment
 		itemInfo->setDocumentContents(loadTextURLContents(item->url(), item->encoding()));
 		// in order to pass the contents to the parser

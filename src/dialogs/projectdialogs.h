@@ -69,7 +69,7 @@ public:
 
 protected Q_SLOTS:
 	virtual void fillProjectDefaults();
-	virtual void onExtensionsHighlighted(int index);
+	virtual void onExtensionsIndexChanged(int index);
 	virtual void onExtensionsTextEdited(const QString &text);
 
 protected:

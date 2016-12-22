@@ -27,7 +27,7 @@ class QMenu;
 class KToggleAction;
 class KileInfo;
 
-namespace KileType {enum ProjectView {Project = 0, ProjectItem, ProjectExtra, File, Folder};}
+namespace KileType {enum ProjectView {Project = 0, ProjectItem, Bibliography, ProjectExtra, File, Folder};}
 
 namespace KileWidget {
 

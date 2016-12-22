@@ -300,9 +300,9 @@ void KileProject::setLastDocument(const QUrl &url)
 
 void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 {
-	if (type<KileProjectItem::Source || type>KileProjectItem::Image)
+	if (type == KileProjectItem::ProjectFile || type >= KileProjectItem::Other)
 	{
-		qWarning() << "ERROR: TYPE<1 or TYPE>3";
+		qWarning() << "ERROR: invalid project item type:" << type;
 		return;
 	}
 
@@ -314,8 +314,11 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 	else if(type == KileProjectItem::Package) {
 		standardExtList = (m_extmanager->latexPackages()).split(' ');
 	}
-	else { // if ( type == KileProjectItem::Image )
+	else if(type == KileProjectItem::Image) {
 		standardExtList = (m_extmanager->images()).split(' ');
+	}
+	else if(type == KileProjectItem::Bibliography) {
+		standardExtList = (m_extmanager->bibtex()).split(' ');
 	}
 
 	// now we scan user-defined list and accept all extension,
@@ -339,8 +342,14 @@ void KileProject::setExtensions(KileProjectItem::Type type, const QString & ext)
 					userExtList << (*it);
 				}
 			}
-			else { // if ( type == KileProjectItem::Image )
+			else if(type == KileProjectItem::Image) {
 				if(!m_extmanager->isImage(*it)) {
+					standardExtList << (*it);
+					userExtList << (*it);
+				}
+			}
+			else if(type == KileProjectItem::Bibliography) {
+				if(!m_extmanager->isBibFile(*it)) {
 					standardExtList << (*it);
 					userExtList << (*it);
 				}
@@ -496,6 +505,7 @@ bool KileProject::load()
 	setExtensions(KileProjectItem::Source, generalGroup.readEntry("src_extensions",m_extmanager->latexDocuments()));
 	setExtensions(KileProjectItem::Package, generalGroup.readEntry("pkg_extensions",m_extmanager->latexPackages()));
 	setExtensions(KileProjectItem::Image, generalGroup.readEntry("img_extensions",m_extmanager->images()));
+	setExtensions(KileProjectItem::Bibliography, generalGroup.readEntry("bib_extensions", m_extmanager->bibtex()));
 
 	setQuickBuildConfig(KileTool::configName("QuickBuild", m_config));
 
@@ -572,6 +582,7 @@ bool KileProject::save()
 	writeConfigEntry("src_extensions",m_extmanager->latexDocuments(),KileProjectItem::Source);
 	writeConfigEntry("pkg_extensions",m_extmanager->latexPackages(),KileProjectItem::Package);
 	writeConfigEntry("img_extensions",m_extmanager->images(),KileProjectItem::Image);
+	writeConfigEntry("bib_extensions", m_extmanager->bibtex(), KileProjectItem::Bibliography);
 	// only to avoid problems with older versions
 	generalGroup.writeEntry("src_extIsRegExp", false);
 	generalGroup.writeEntry("pkg_extIsRegExp", false);

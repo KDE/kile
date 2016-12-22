@@ -109,6 +109,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
 	m_defaultLatexFileExtensionsCombo->addItem(i18n("Source Files"));
 	m_defaultLatexFileExtensionsCombo->addItem(i18n("Package Files"));
 	m_defaultLatexFileExtensionsCombo->addItem(i18n("Image Files"));
+	m_defaultLatexFileExtensionsCombo->addItem(i18n("Bibliography Files"));
 	m_defaultLatexFileExtensions = new QLabel(QString(), this);
 	m_defaultLatexFileExtensionsCombo->setWhatsThis(whatsthisExt);
 
@@ -130,7 +131,7 @@ KileProjectDialogBase::~KileProjectDialogBase()
 {
 }
 
-void KileProjectDialogBase::onExtensionsHighlighted(int index)
+void KileProjectDialogBase::onExtensionsIndexChanged(int index)
 {
 	m_userFileExtensions->setText(m_val_extensions[index]);
 	m_defaultLatexFileExtensions->setText(m_val_standardExtensions[index]);
@@ -202,11 +203,13 @@ void KileProjectDialogBase::fillProjectDefaults()
 	m_val_extensions[0].clear();
 	m_val_extensions[1].clear();
 	m_val_extensions[2].clear();
-	//m_val_extensions[3] = OTHER_EXTENSIONS;
+	m_val_extensions[3].clear();
+	//m_val_extensions[4] = OTHER_EXTENSIONS;
 
 	m_val_standardExtensions[0] = m_extmanager->latexDocuments();
 	m_val_standardExtensions[1] = m_extmanager->latexPackages();
 	m_val_standardExtensions[2] = m_extmanager->images();
+	m_val_standardExtensions[3] = m_extmanager->bibtex();
 
 	m_userFileExtensions->setText(m_val_extensions[0]);
 	m_defaultLatexFileExtensions->setText(m_val_standardExtensions[0]);
@@ -267,7 +270,8 @@ KileNewProjectDialog::KileNewProjectDialog(KileTemplate::Manager *templateManage
 	connect(okButton, &QPushButton::clicked, this, &KileNewProjectDialog::handleOKButtonClicked);
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
-	connect(m_defaultLatexFileExtensionsCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::highlighted), this, &KileNewProjectDialog::onExtensionsHighlighted);
+	connect(m_defaultLatexFileExtensionsCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+	        this, &KileNewProjectDialog::onExtensionsIndexChanged);
 	connect(m_userFileExtensions, &QLineEdit::textEdited, this, &KileNewProjectDialog::onExtensionsTextEdited);
 
 	mainLayout->addWidget(buttonBox);
@@ -506,7 +510,8 @@ KileProjectOptionsDialog::KileProjectOptionsDialog(KileProject *project, KileDoc
 	connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 	connect(this, &QDialog::accepted, this, &KileProjectOptionsDialog::onAccepted);
 
-	connect(m_defaultLatexFileExtensionsCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::highlighted), this, &KileProjectOptionsDialog::onExtensionsHighlighted);
+	connect(m_defaultLatexFileExtensionsCombo, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged),
+	        this, &KileProjectOptionsDialog::onExtensionsIndexChanged);
 	connect(m_userFileExtensions, &QLineEdit::textChanged, this, &KileProjectOptionsDialog::onExtensionsTextEdited);
 
 	mainLayout->addWidget(buttonBox);

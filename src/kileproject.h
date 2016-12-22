@@ -48,7 +48,7 @@ public:
 
 	bool operator==(const KileProjectItem& item) { return m_url  == item.url();}
 
-	enum Type { ProjectFile = 0, Source, Package, Image, Other /* should be the last item*/ };
+	enum Type { ProjectFile = 0, Source, Package, Image, Bibliography, Other /* should be the last item*/ };
 
 	int type() const { return m_type; }
 	void setType(int type) { m_type = type; }
@@ -297,8 +297,8 @@ private:
 	QList<KileProjectItem*> m_rootItems;
 	QList<KileProjectItem*>	m_projectItems;
 
-	QString		m_extensions[3];
-	QRegExp		m_reExtensions[3];
+	QString		m_extensions[4];
+	QRegExp		m_reExtensions[4];
 
 	QString				m_masterDocument, m_makeIndexOptions;
 	bool				m_useMakeIndexOptions;

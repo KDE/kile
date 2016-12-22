@@ -144,8 +144,11 @@ void ProjectViewItem::isrootChanged(bool isroot)
 		setIcon(0, QIcon::fromTheme("masteritem"));
 	}
 	else {
-		if(text(0).right(7) == ".kilepr") {
+		if(m_projectItem && m_projectItem->type() == KileProjectItem::ProjectFile) {
 			setIcon(0, QIcon::fromTheme("kile"));
+		}
+		else if(m_projectItem && m_projectItem->type() == KileProjectItem::Bibliography) {
+			setIcon(0, QIcon::fromTheme("viewbib"));
 		}
 		else if(type() == KileType::ProjectItem) {
 			setIcon(0, QIcon::fromTheme("projectitem"));
@@ -447,17 +450,20 @@ ProjectViewItem* ProjectView::folder(const KileProjectItem *pi, ProjectViewItem 
 	QString foldername;
 	switch(pi->type()) {
 		case (KileProjectItem::ProjectFile):
-			foldername = i18n("projectfile");
+			foldername = i18n("Project File");
 		break;
 		case (KileProjectItem::Package):
-			foldername = i18n("packages");
+			foldername = i18n("Packages");
 		break;
 		case (KileProjectItem::Image):
-			foldername = i18n("images");
+			foldername = i18n("Images");
+		break;
+		case (KileProjectItem::Bibliography):
+			foldername = i18n("Bibliography");
 		break;
 		case (KileProjectItem::Other):
 		default :
-			foldername = i18n("other");
+			foldername = i18n("Other");
 		break;
 	}
 
@@ -605,12 +611,19 @@ ProjectViewItem* ProjectView::add(KileProjectItem *projitem, ProjectViewItem *pr
 		item->setType(KileType::ProjectItem);
 		item->setIcon(0, QIcon::fromTheme("projectitem"));
 	break;
-	case (KileProjectItem::ProjectFile):
 	default:
 		parent = folder(projitem, projvi);
 		item = new ProjectViewItem(parent, projitem);
 		item->setType(KileType::ProjectExtra);
-		item->setIcon(0, QIcon::fromTheme((projitem->type()==KileProjectItem::ProjectFile) ? "kile" : "file"));
+		if(projitem->type() == KileProjectItem::ProjectFile) {
+			item->setIcon(0, QIcon::fromTheme("kile"));
+		}
+		else if(projitem->type() == KileProjectItem::Bibliography) {
+			item->setIcon(0, QIcon::fromTheme("viewbib"));
+		}
+		else {
+			item->setIcon(0, QIcon::fromTheme("file"));
+		}
 	break;
 	}
 	

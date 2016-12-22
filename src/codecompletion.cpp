@@ -780,7 +780,7 @@ void AbbreviationCompletionModel::executeCompletionItem(KTextEditor::View *view,
                                                         const QModelIndex &index) const
 {
 	// replace abbreviation and take care of newlines
-	QString completionText = data(index, Qt::DisplayRole).toString();
+	QString completionText = data(index.sibling(index.row(), Name), Qt::DisplayRole).toString();
 	completionText.replace("%n","\n");
 	KTextEditor::Document *document = view->document();
 	document->replaceText(word, completionText);

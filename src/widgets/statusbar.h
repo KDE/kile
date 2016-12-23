@@ -1,5 +1,6 @@
 /*************************************************************************************************
    Copyright (C) 2015 Andreas Cord-Landwehr (cordlandwehr@kde.org)
+                 2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -30,19 +31,24 @@ public:
 	~StatusBar();
 
 public:
-	enum StatusMode {
-		HintText,
-		LineColumn,
-		ViewMode,
-		SelectionMode,
-		ParserStatus
-	};
+	void setHintText(const QString& text);
+	void clearHintText();
 
-	void changeItem(StatusMode id, const QString &text);
+	void setParserStatus(const QString& text);
+	void clearParserStatus();
+
+	void setLineColumn(int line, int column);
+	void clearLineColumn();
+
+	void setViewMode(const QString& text);
+	void clearViewMode();
+
+	void setSelectionMode(const QString& text);
+	void clearSelectionMode();
+
 	void reset();
 
 private:
-	void addLabel(StatusMode id, const QString &text, int stretch = 0);
 	KileErrorHandler * const m_errorHandler;
 	QLabel *m_hintTextLabel;
 	QLabel *m_lineColumnLabel;

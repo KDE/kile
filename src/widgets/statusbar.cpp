@@ -1,5 +1,6 @@
 /*************************************************************************************************
    Copyright (C) 2015 Andreas Cord-Landwehr (cordlandwehr@kde.org)
+                 2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -14,7 +15,6 @@
 #include "statusbar.h"
 
 #include <QLabel>
-#include <QMap>
 
 #include <KLocalizedString>
 
@@ -25,6 +25,19 @@ KileWidget::StatusBar::StatusBar(KileErrorHandler *errorHandler, QWidget* parent
 	: QStatusBar(parent),
 	m_errorHandler(errorHandler)
 {
+	m_hintTextLabel = new QLabel();
+	m_parserStatusLabel = new QLabel();
+	m_lineColumnLabel = new QLabel();
+	m_viewModeLabel = new QLabel();
+	m_selectionModeLabel = new QLabel();
+
+	addPermanentWidget(m_hintTextLabel, 10);
+	addPermanentWidget(m_errorHandler->compilationResultLabel());
+	addPermanentWidget(m_parserStatusLabel, 0);
+	addPermanentWidget(m_lineColumnLabel, 0);
+	addPermanentWidget(m_viewModeLabel, 0);
+	addPermanentWidget(m_selectionModeLabel, 0);
+
 	reset();
 }
 
@@ -32,58 +45,61 @@ KileWidget::StatusBar::~StatusBar()
 {
 }
 
-void KileWidget::StatusBar::changeItem(StatusBar::StatusMode id, const QString &text)
+void KileWidget::StatusBar::setHintText(const QString& text)
 {
-	switch (id) {
-	case HintText:
-		m_hintTextLabel->setText(text);
-		break;
-	case ParserStatus:
-		m_parserStatusLabel->setText(text);
-		break;
-	case LineColumn:
-		m_lineColumnLabel->setText(text);
-		break;
-	case ViewMode:
-		m_viewModeLabel->setText(text);
-		break;
-	case SelectionMode:
-		m_selectionModeLabel->setText(text);
-		break;
-	}
+	m_hintTextLabel->setText(text);
+}
+
+void KileWidget::StatusBar::clearHintText()
+{
+	m_hintTextLabel->clear();
+}
+
+void KileWidget::StatusBar::setParserStatus(const QString& text)
+{
+	m_parserStatusLabel->setText(text);
+}
+
+void KileWidget::StatusBar::clearParserStatus()
+{
+	m_parserStatusLabel->clear();
+}
+
+void KileWidget::StatusBar::setLineColumn(int line, int column)
+{
+	m_lineColumnLabel->setText(i18n("Line: %1 Col: %2", line, column));
+}
+
+void KileWidget::StatusBar::clearLineColumn()
+{
+	m_lineColumnLabel->clear();
+}
+
+void KileWidget::StatusBar::setViewMode(const QString& text)
+{
+	m_viewModeLabel->setText(text);
+}
+
+void KileWidget::StatusBar::clearViewMode()
+{
+	m_viewModeLabel->clear();
+}
+
+void KileWidget::StatusBar::setSelectionMode(const QString& text)
+{
+	m_selectionModeLabel->setText(text);
+}
+
+void KileWidget::StatusBar::clearSelectionMode()
+{
+	m_selectionModeLabel->clear();
 }
 
 void KileWidget::StatusBar::reset()
 {
-	addLabel(HintText, i18n("Normal Mode"), 10);
-	addPermanentWidget(m_errorHandler->compilationResultLabel());
-	addLabel(ParserStatus, QString(), 0);
-	addLabel(LineColumn, QString(), 0);
-	addLabel(ViewMode, QString(), 0);
-	addLabel(SelectionMode, QString(), 0);
-}
-
-void KileWidget::StatusBar::addLabel(StatusMode id, const QString& text, int stretch)
-{
-	QLabel *l = new QLabel(this);
-	l->setText(text);
-	switch (id) {
-		case HintText:
-		  m_hintTextLabel = l;
-		  break;
-		case ParserStatus:
-		  m_parserStatusLabel = l;
-		  break;
-		case LineColumn:
-		  m_lineColumnLabel = l;
-		  break;
-		case ViewMode:
-		  m_viewModeLabel = l;
-		  break;
-		case SelectionMode:
-		  m_selectionModeLabel = l;
-		  break;
-	}
-	addPermanentWidget(l, stretch);
-	l->show();
+	clearHintText();
+	clearParserStatus();
+	clearLineColumn();
+	clearViewMode();
+	clearSelectionMode();
 }

@@ -1361,18 +1361,18 @@ void Kile::updateModeStatus()
 
 	if(project) {
 		if (m_singlemode) {
-			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Project: %1", project->name()));
+			statusBar()->setHintText(i18n("Project: %1", project->name()));
 		}
 		else {
-			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Project: %1 (Master document: %2)", project->name(), shortName));
+			statusBar()->setHintText(i18n("Project: %1 (Master document: %2)", project->name(), shortName));
 		}
 	}
 	else {
 		if (m_singlemode) {
-			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Normal mode"));
+			statusBar()->setHintText(i18n("Normal mode"));
 		}
 		else {
-			statusBar()->changeItem(KileWidget::StatusBar::HintText, i18n("Master document: %1", shortName));
+			statusBar()->setHintText(i18n("Master document: %1", shortName));
 		}
 	}
 
@@ -3026,21 +3026,20 @@ void Kile::updateStatusBarCursorPosition(KTextEditor::View *view,
                                          const KTextEditor::Cursor &newPosition)
 {
 	if(!view) {
-		statusBar()->changeItem(KileWidget::StatusBar::LineColumn, QString());
+		statusBar()->clearLineColumn();
 	}
 	else {
-		statusBar()->changeItem(KileWidget::StatusBar::LineColumn,
-			i18n("Line: %1 Col: %2", newPosition.line() + 1, newPosition.column() + 1));
+		statusBar()->setLineColumn(newPosition.line() + 1, newPosition.column() + 1);
 	}
 }
 
 void Kile::updateStatusBarViewMode(KTextEditor::View *view)
 {
 	if(!view) {
-		statusBar()->changeItem(KileWidget::StatusBar::ViewMode, QString());
+		statusBar()->clearViewMode();
 	}
 	else {
-		statusBar()->changeItem(KileWidget::StatusBar::ViewMode, view->viewModeHuman());
+		statusBar()->setViewMode(view->viewModeHuman());
 	}
 }
 
@@ -3052,22 +3051,22 @@ void Kile::updateStatusBarInformationMessage(KTextEditor::View * /* view */, con
 void Kile::updateStatusBarSelection(KTextEditor::View *view)
 {
 	if(!view) {
-		statusBar()->changeItem(KileWidget::StatusBar::SelectionMode, QString());
+		statusBar()->clearSelectionMode();
 	}
 	else {
 		const QString text = view->blockSelection() ?
 					i18nc("@info:status status bar label for block selection mode", "BLOCK") + ' ' :
 					i18nc("@info:status status bar label for line selection mode", "LINE") + ' ';
-		statusBar()->changeItem(KileWidget::StatusBar::SelectionMode, text);
+		statusBar()->setSelectionMode(text);
 	}
 }
 
 void Kile::handleDocumentParsingStarted()
 {
-	statusBar()->changeItem(KileWidget::StatusBar::ParserStatus, i18n("Refreshing structure..."));
+	statusBar()->setParserStatus(i18n("Refreshing structure..."));
 }
 
 void Kile::handleDocumentParsingComplete()
 {
-	statusBar()->changeItem(KileWidget::StatusBar::ParserStatus, QString());
+	statusBar()->clearParserStatus();
 }

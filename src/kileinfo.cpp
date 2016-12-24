@@ -90,8 +90,14 @@ QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
 		doc = activeTextDocument();
 	}
 	if (doc) {
-		KILE_DEBUG_MAIN << "url " << doc->url().toLocalFile() << endl;
-		title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
+		QUrl url = doc->url();
+		KILE_DEBUG_MAIN << "url " << url << endl;
+		if(url.isLocalFile()) {
+			title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
+		}
+		else {
+			title = url.toDisplayString();
+		}
 	}
 
 	return title;

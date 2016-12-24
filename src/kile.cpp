@@ -1598,10 +1598,12 @@ void Kile::newCaption()
 {
 	KTextEditor::View *view = viewManager()->currentTextView();
 	if(view) {
+		const bool showFullPath = KileConfig::showFullPathInWindowTitle();
+
 		KTextEditor::Document *doc = view->document();
-		const QString caption = (doc->isReadWrite() ? getShortName(doc)
+		const QString caption = (doc->isReadWrite() ? getName(doc, !showFullPath)
 		                                            : i18nc("Window caption in read-only mode: <file name> [Read-Only]",
-		                                                    "%1 [Read-Only]", getShortName(doc)));
+		                                                    "%1 [Read-Only]", getName(doc, !showFullPath)));
 		setWindowTitle(caption);
 		if (m_bottomBar->currentPage() && m_bottomBar->currentPage()->inherits("KileWidget::Konsole")) {
 			m_texKonsole->sync();
@@ -2726,15 +2728,18 @@ void Kile::generalOptions()
 		saveLastSelectedAction(); // save the old current tools before calling setupTools() which calls restoreLastSelectedActions()
 		setupTools();
 		m_help->update();
+		newCaption(); // for the 'showFullPathInWindowTitle' setting
 
 		configurationManager()->emitConfigChanged();
 
 		//stop/restart LyX server if necessary
-		if (KileConfig::runLyxServer() && !m_lyxserver->isRunning())
+		if(KileConfig::runLyxServer() && !m_lyxserver->isRunning()) {
 			m_lyxserver->start();
+		}
 
-		if (!KileConfig::runLyxServer() && m_lyxserver->isRunning())
+		if(!KileConfig::runLyxServer() && m_lyxserver->isRunning()) {
 			m_lyxserver->stop();
+		}
 	}
 
 	delete dlg;

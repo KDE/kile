@@ -383,6 +383,10 @@
 			<label>Whether the watch-file mode is enabled for the document viewer</label>
 			<default>true</default>
 		</entry>
+		<entry name="ShowFullPathInWindowTitle" type="Bool">
+			<label>Whether to show the full path of file names in the window title.</label>
+			<default>false</default>
+		</entry>
 	</group>
 	<group name="Complete">
 		<entry name="CompleteCursor" type="Bool">

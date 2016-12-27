@@ -1,7 +1,7 @@
 /*************************************************************************************************
    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net
                  2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                 2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                 2008-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -704,12 +704,11 @@ void StructureViewItem::setLabel(const QString &label)
 			}
 
 			QFileInfo fi(fname);
-			QUrl url;
-			url.setPath(fname);
 
-			if (fi.isReadable()) {
-				if( item->type() == KileStruct::Graphics) {
-QMimeDatabase db;
+			if(fi.isReadable()) {
+				QUrl url = QUrl::fromLocalFile(fname);
+				if(item->type() == KileStruct::Graphics) {
+					QMimeDatabase db;
 					QMimeType pMime = db.mimeTypeForUrl(url);
 					KRun::runUrl(url, pMime.name(), this);
 				}
@@ -717,7 +716,7 @@ QMimeDatabase db;
 					emit(fileOpen(url, QString()));
 				}
 			}
-			else{
+			else {
 				QString otherFilename;
 
 				if(item->type() == KileStruct::Bibliography) {
@@ -730,14 +729,12 @@ QMimeDatabase db;
 				fi.setFile(otherFilename);
 
 				if(fi.isReadable()) {
-					url.setPath(otherFilename);
-					emit(fileOpen(url, QString()));
+					emit(fileOpen(QUrl::fromLocalFile(otherFilename), QString()));
 				}
 				else {
 					if(KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?", fname), i18n("Cannot Find File"))
 					   == KMessageBox::Yes) {
-						url.setPath(fname);
-						emit(fileNew(url));
+						emit(fileNew(QUrl::fromLocalFile(fname)));
 					}
 				}
 			}

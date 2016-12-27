@@ -253,7 +253,7 @@ namespace KileTool
 		KileDocument::TextInfo *docinfo = manager()->info()->docManager()->textInfoFor(source());
 		if(docinfo) {
 			QStringList pckgs = manager()->info()->allPackages(docinfo);
-			if(pckgs.contains("makeidx")) {
+			if(pckgs.contains("makeidx") || pckgs.contains("imakeidx") || pckgs.contains("splitidx")) {
 				return needsUpdate(targetDir() + '/' + S() + ".ind", manager()->info()->lastModifiedFile(docinfo));
 			}
 		}

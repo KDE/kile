@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -277,6 +277,8 @@ void ConfigChecker::finished(bool ok)
 		m_overallResultLabel->setText(testResultText);
 
 		finishButton()->setEnabled(true);
+		finishButton()->setDefault(true);
+		finishButton()->setFocus();
 	}
 	else {
 		// start by hiding all the labels

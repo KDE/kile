@@ -102,6 +102,7 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	QObject(parent),
 	m_ki(info),
 // 	m_projectview(Q_NULLPTR),
+	m_tabsAndEditorWidget(Q_NULLPTR),
 	m_tabBar(Q_NULLPTR),
 	m_documentListButton(Q_NULLPTR),
 	m_viewerPartWindow(Q_NULLPTR),
@@ -180,6 +181,11 @@ void Manager::writeConfig()
 	}
 }
 
+void Manager::setTabsAndEditorVisible(bool b)
+{
+	m_tabsAndEditorWidget->setVisible(b);
+}
+
 QWidget * Manager::createTabs(QWidget *parent)
 {
 	m_widgetStack = new QStackedWidget(parent);
@@ -253,14 +259,14 @@ QWidget * Manager::createTabs(QWidget *parent)
 	connect(m_tabBar, &QTabBar::customContextMenuRequested, this, &Manager::tabContext);
 
 	// main widget in which we put everything
-	QWidget *viewWidget = new QWidget(parent);
-	viewWidget->setLayout(new QVBoxLayout);
-	viewWidget->layout()->setSpacing(0);
-	viewWidget->layout()->setContentsMargins(0, 0, 0, 0);
-	viewWidget->layout()->addWidget(tabBarWidget);
-	viewWidget->layout()->addWidget(m_widgetStack);
+	m_tabsAndEditorWidget = new QWidget(parent);
+	m_tabsAndEditorWidget->setLayout(new QVBoxLayout);
+	m_tabsAndEditorWidget->layout()->setSpacing(0);
+	m_tabsAndEditorWidget->layout()->setContentsMargins(0, 0, 0, 0);
+	m_tabsAndEditorWidget->layout()->addWidget(tabBarWidget);
+	m_tabsAndEditorWidget->layout()->addWidget(m_widgetStack);
 
-	return viewWidget;
+	return m_tabsAndEditorWidget;
 }
 
 void Manager::closeTab(int index)

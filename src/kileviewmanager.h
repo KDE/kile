@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -99,6 +99,7 @@ public:
 	unsigned int getTabCount() const;
 
 	QWidget* createTabs(QWidget *parent);
+	void setTabsAndEditorVisible(bool b);
 	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 
 // 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
@@ -196,6 +197,7 @@ protected Q_SLOTS:
 
 private:
 	KileInfo *m_ki;
+	QWidget *m_tabsAndEditorWidget;
 	QTabBar *m_tabBar;
 	QToolButton *m_documentListButton;
 	QObject *m_receiver;

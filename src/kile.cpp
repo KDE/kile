@@ -2756,18 +2756,46 @@ void Kile::slotPerformCheck()
 		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(false);
 	}
 #endif
+	// we show the message output widget in the bottom bar and shrink the side bar
+	int sideBarTab = m_sideBar->currentTab();
+	int bottomBarTab = m_bottomBar->currentTab();
+
+	m_sideBar->shrink();
+	m_bottomBar->switchToTab(0); // show the log widget
+
+	int outputTab = m_errorHandler->currentOutputTabIndex();
+	m_errorHandler->showMessagesOutput();
+
 	QString currentMasterDocument = m_masterDocumentFileName;
 	if(!m_singlemode) {
 		clearMasterDocument();
 	}
+	// we hide the editor pane and tabs
+	m_viewManager->setTabsAndEditorVisible(false);
+
 	// now, we can run the tests
 	KileDialog::ConfigChecker *dlg = new KileDialog::ConfigChecker(this);
 	dlg->exec();
 	delete dlg;
+
 	// finally, we restore the rest to what it was before launching the tests
+	m_viewManager->setTabsAndEditorVisible(true);
 	if(!currentMasterDocument.isEmpty()) {
 		setMasterDocumentFileName(currentMasterDocument);
 	}
+
+	m_errorHandler->setCurrentOutputTab(outputTab);
+
+	if(sideBarTab >= 0) {
+		m_sideBar->switchToTab(sideBarTab);
+	}
+	if(bottomBarTab < 0) {
+		m_bottomBar->shrink();
+	}
+	else {
+		m_bottomBar->switchToTab(bottomBarTab);
+	}
+
 #if LIVEPREVIEW_AVAILABLE
 	if (livePreviewManager()) {
 		KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);

@@ -82,11 +82,12 @@ public Q_SLOTS:
 	 **/
 	void switchToTab(int id);
 
+	void shrink();
+
 private:
 	int findNextShownTab(int i);
 
 protected Q_SLOTS:
-	void shrink();
 	void expand();
 	void tabClicked(int i);
 

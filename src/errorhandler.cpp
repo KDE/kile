@@ -1,6 +1,6 @@
 /*************************************************************************
    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                 2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                 2008-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************/
 
 /***************************************************************************
@@ -202,6 +202,19 @@ void KileErrorHandler::printProblem(int type, const QString& problem, const Outp
 void KileErrorHandler::clearMessages()
 {
 	m_mainLogWidget->clear();
+}
+
+int KileErrorHandler::currentOutputTabIndex()
+{
+	return m_outputTabWidget->currentIndex();
+}
+
+void KileErrorHandler::setCurrentOutputTab(int i)
+{
+	if(i < 0 || i >= m_outputTabWidget->count()) {
+		return;
+	}
+	m_outputTabWidget->setCurrentIndex(i);
 }
 
 void KileErrorHandler::showMessagesOutput()

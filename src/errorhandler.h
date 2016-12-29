@@ -1,6 +1,6 @@
 /***************************************************************************
    Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                 2011-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -81,6 +81,9 @@ public Q_SLOTS:
 
 	void jumpToFirstError();
 	void jumpToProblem(const OutputInfo& info);
+
+	int currentOutputTabIndex();
+	void setCurrentOutputTab(int i);
 
 	void showMessagesOutput();
 	void showErrorsOutput();

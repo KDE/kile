@@ -1,6 +1,6 @@
 /******************************************************************************
-  Copyright (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
-                2011-2017 by Holger Danielsson (holger.danielsson@versanet.de)
+  Copyright (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
  ******************************************************************************/
 
 /**************************************************************************
@@ -235,9 +235,9 @@ ScriptEnvironment::~ScriptEnvironment()
 void ScriptEnvironment::execute(const Script *script)
 {
 	// initialize engine to work with Cursor and Range objects
-	m_engine->evaluate(m_enginePluginCode,i18n("Cursor/Range plugin"));
+	m_engine->evaluate(m_enginePluginCode, i18n("Cursor/Range plugin"));
 
-	if ( m_engine->hasUncaughtException() ) {
+	if(m_engine->hasUncaughtException()) {
 		scriptError(i18n("Cursor/Range plugin"));
 		return;
 	}
@@ -246,20 +246,20 @@ void ScriptEnvironment::execute(const Script *script)
 	}
 
 	// set global objects
-	if ( m_scriptView->view() ) {
+	if(m_scriptView->view()) {
 		m_engine->globalObject().setProperty("view", m_engine->newQObject(m_scriptView));
 		m_engine->globalObject().setProperty("document", m_engine->newQObject(m_scriptDocument));
 	}
 	m_engine->globalObject().setProperty("kile", m_engine->newQObject(m_kileScriptObject));
 
-  // export debug function
-  m_engine->globalObject().setProperty("debug", m_engine->newFunction(KileScript::debug));
+	// export debug function
+	m_engine->globalObject().setProperty("debug", m_engine->newFunction(KileScript::debug));
 
 	// start engine
 	m_engine->evaluate(script->getCode());
 
 	// success or error
-	if ( m_engine->hasUncaughtException() ) {
+	if(m_engine->hasUncaughtException()) {
 		scriptError(script->getName());
 	}
 	else {
@@ -303,8 +303,8 @@ QScriptValue debug(QScriptContext *context, QScriptEngine *engine)
 	for(int i = 0; i < context->argumentCount(); ++i) {
 		message << context->argument(i).toString();
 	}
-	// debug in blue to distance from other debug output if necessary
-	std::cerr << "\033[31m" << qPrintable(message.join(" ")) << "\033[0m\n";
+	// debug output in blue to distinguish it from other debug output
+	std::cout << "\033[34m" << qPrintable(message.join(' ')) << "\033[0m\n";
 	return engine->nullValue();
 }
 

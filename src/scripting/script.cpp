@@ -1,6 +1,6 @@
 /******************************************************************************
   Copyright (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
-                2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+                2011-2017 by Holger Danielsson (holger.danielsson@versanet.de)
  ******************************************************************************/
 
 /**************************************************************************
@@ -95,8 +95,8 @@ static QScriptValue cursorToScriptValue(QScriptEngine *engine, const KTextEditor
 /** Conversion function from QtScript cursor to KTextEditor::Cursor */
 static void cursorFromScriptValue(const QScriptValue &obj, KTextEditor::Cursor &cursor)
 {
-  cursor.setPosition(obj.property("line").toInt32(),
-                     obj.property("column").toInt32());
+  cursor.setPosition(obj.property(QStringLiteral("line")).toInt32(),
+                     obj.property(QStringLiteral("column")).toInt32());
 }
 
 /** Conversion function from QtScript range to KTextEditor::Range */
@@ -112,10 +112,10 @@ static QScriptValue rangeToScriptValue(QScriptEngine *engine, const KTextEditor:
 /** Conversion function from QtScript range to KTextEditor::Range */
 static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &range)
 {
-  range.start().setPosition(obj.property("start").property("line").toInt32(),
-                            obj.property("start").property("column").toInt32());
-  range.end().setPosition(obj.property("end").property("line").toInt32(),
-                          obj.property("end").property("column").toInt32());
+  range.setStart(KTextEditor::Cursor(obj.property(QStringLiteral("start")).property(QStringLiteral("line")).toInt32(),
+                                     obj.property(QStringLiteral("start")).property(QStringLiteral("column")).toInt32()));
+  range.setEnd(KTextEditor::Cursor(obj.property(QStringLiteral("end")).property(QStringLiteral("line")).toInt32(),
+                                   obj.property(QStringLiteral("end")).property(QStringLiteral("column")).toInt32()));
 }
 //END
 

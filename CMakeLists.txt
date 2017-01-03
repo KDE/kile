@@ -122,7 +122,7 @@ macro(KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language)
 			WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/${_relative_dir}
 			COMMENT "Compiling ${_language} translation file")
 
-	install(FILES ${_compiled_file} DESTINATION ${LOCALE_INSTALL_DIR}/${_language}/LC_messageS)
+	install(FILES ${_compiled_file} DESTINATION ${LOCALE_INSTALL_DIR}/${_language}/LC_MESSAGES)
 	set(${_sources} ${${_sources}} ${_compiled_file})
 endmacro(KILE_ADD_TRANSLATION_DIRECTORY _sources _relative_dir _file _language)
 

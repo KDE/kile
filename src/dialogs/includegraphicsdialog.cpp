@@ -62,7 +62,8 @@ IncludeGraphics::IncludeGraphics(QWidget *parent, const QString &startdir, KileI
 	onChooseFilter();
 
 	setFocusProxy(m_widget.edit_file);
-	m_widget.edit_file->setUrl(QUrl::fromLocalFile(m_startdir));
+	m_widget.edit_file->setMode(KFile::File | KFile::LocalOnly);
+	m_widget.edit_file->setStartDir(QUrl::fromLocalFile(m_startdir));
 	m_widget.edit_file->setFocus();
 
 	connect(m_widget.cb_bb, &QCheckBox::toggled, this, &IncludeGraphics::onChooseFilter);

@@ -369,7 +369,7 @@ QString IncludeGraphics::getInfo()
 		QFileInfo fi(m_widget.edit_file->lineEdit()->text());
 
 		return "% " + fi.baseName() + '.' + fi.completeSuffix()
-					 + QString(": %1x%2 pixel").arg(wpx).arg(hpx)
+					 + QString(": %1x%2 px").arg(wpx).arg(hpx)
 					 + ", " + dpi + "dpi"
 					 + ", " + wcm + 'x' + hcm + " cm"
 					 + ", bb=" + m_widget.edit_bb->text();
@@ -383,7 +383,7 @@ void IncludeGraphics::setInfo()
 	int wpx, hpx;
 
 	if (!m_widget.edit_file->lineEdit()->text().isEmpty() && getPictureSize(wpx, hpx, dpi, wcm, hcm)) {
-		text = QString("%1x%2 pixel").arg(wpx).arg(hpx)
+		text = QString("%1x%2 px").arg(wpx).arg(hpx)
 					 + " / " + wcm + 'x' + hcm + " cm"
 					 + "  (" + dpi + "dpi)";
 	} else {
@@ -446,7 +446,7 @@ void IncludeGraphics::onUrlSelected(const QUrl &url)
 				execute("gunzip -c " + url.toLocalFile() + grep);
 		}
 		else {
-			execute("identify -format \"w=%w h=%h dpi=%x\" \"" + url.toLocalFile() + "\"");
+			execute("identify -format \"w=%w h=%h dpi=%x %U\" \"" + url.toLocalFile() + "\"");
 		}
 		m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(true);
 	} else {
@@ -511,6 +511,38 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
 		if (m_output.left(14) == "%%BoundingBox:") {
 			m_widget.edit_bb->setText(m_output.trimmed().mid(15, m_output.length() - 15));
 
+			// this regexp will extract width and height from the bounding box
+			QRegExp reg("(\\d+) (\\d+) (\\d+) (\\d+)");
+			if(reg.indexIn(m_output) == -1) {
+				return;
+			}
+
+			// determine lower-left-x (llx), lower-left-y (lly), upper-right-x (urx) and upper-right-y (ury)
+			bool ok;
+			int llx = (int)reg.cap(1).toInt(&ok);
+			if (!ok) {
+				return;
+			}
+
+			int lly = (int)reg.cap(2).toInt(&ok);
+			if (!ok) {
+				return;
+			}
+
+			int urx = (int)reg.cap(3).toInt(&ok);
+			if (!ok) {
+				return;
+			}
+
+			int ury = (int)reg.cap(4).toInt(&ok);
+			if (!ok) {
+				return;
+			}
+
+			// calculate width and height from 72 dpi of eps graphics to the default resolution
+			m_width = ((urx-llx)*m_resolution) / 72;
+			m_height = ((ury-lly)*m_resolution) / 72;
+
 			// show information
 			setInfo();
 		}
@@ -531,22 +563,27 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
 				// get bounding box and resolution
 				bool ok;
 				m_width = (int)reg.cap(1).toInt(&ok);
-				if (!ok)
+				if (!ok) {
 					return;
+				}
 
 				m_height = (int)reg.cap(2).toInt(&ok);
-				if (!ok)
+				if (!ok) {
 					return;
+				}
 
 				float res = (float)reg.cap(3).toFloat(&ok);
-				if (!ok)
+				if (!ok) {
 					return;
-				if (res > 0.0)
+				}
+				if (res > 0.0) {
 					m_resolution = res;
+				}
 
 				// look, if resolution is in PixelsPerCentimeter
-				if (reg.cap(4).trimmed() == "PixelsPerCentimeter")
+				if (reg.cap(4).trimmed() == "PixelsPerCentimeter") {
 					m_resolution *= 2.54;
+				}
 
 				// calc the bounding box
 				int bbw = (int)((float)m_width * 72.0 / m_resolution + 0.5);
@@ -554,9 +591,8 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
 
 				// take width and height as parameters for the bounding box
 				m_widget.edit_bb->setText(QString("0 0 ") + QString::number(bbw)
-																	+ ' '
-																	+ QString::number(bbh)
-																 );
+									  + ' '
+									  + QString::number(bbh));
 
 				// show information
 				setInfo();

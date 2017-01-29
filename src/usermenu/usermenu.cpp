@@ -58,24 +58,19 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 
 	// add actions and menu entries
 	QMenu *wizard_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("wizard", mainwindow));
-	m_wizardAction1 = wizard_menu->addSeparator();
+	m_wizardAction1 = new QAction(this);
+	m_wizardAction1->setSeparator(true);
 	m_wizardAction2 = createAction("wizard_usermenu");
-	wizard_menu->addAction(m_wizardAction2);
 
 	QMenu *latex_menu  = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
-	m_latexAction1 = latex_menu->addSeparator();
+	m_latexAction1 = new QAction(this);
+	m_latexAction1->setSeparator(true);
 	m_latexAction2 = createAction("wizard_usermenu2");
-	latex_menu->addAction(m_latexAction2);
 
 	m_latexMenuEntry = new QMenu(i18n("User Menu"));
 	m_latexMenuEntry->setObjectName("usermenu-submenu");
-	latex_menu->addMenu(m_latexMenuEntry);
 
-	// prepare menu position
-	m_menuLocation = KileConfig::menuLocation();
-	m_usermenu = (m_menuLocation == StandAloneLocation)
-	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
-	            : m_latexMenuEntry;
+	addSpecialActionsToMenus();
 
 	// look for an existing menufile:
 	// if filename matches 'basename.ext' then the file is placed in 'KILE-LOCAL-DIR/usermenu' directory
@@ -116,6 +111,27 @@ QAction *UserMenu::createAction(const QString &name)
 	return action;
 }
 
+void UserMenu::addSpecialActionsToMenus()
+{
+	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
+
+	// update wizard menu
+	QMenu *wizard_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("wizard", mainwindow));
+	wizard_menu->addAction(m_wizardAction1);
+	wizard_menu->addAction(m_wizardAction2);
+
+	// update latex menu
+	QMenu *latex_menu  = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
+	latex_menu->addAction(m_latexAction1);
+	latex_menu->addAction(m_latexAction2);
+	latex_menu->addMenu(m_latexMenuEntry);
+
+	// update usermenu
+	m_usermenu = (m_menuLocation == StandAloneLocation)
+	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
+	            : m_latexMenuEntry;
+}
+
 void UserMenu::updateUsermenuPosition()
 {
 	// and set the new one
@@ -151,6 +167,7 @@ void UserMenu::setStandAloneMenuVisible(bool state, bool show)
 
 	m_latexAction1->setVisible(!state);
 	m_latexAction2->setVisible(!state);
+
 	m_latexMenuEntry->menuAction()->setVisible(!state && show);
 
 	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
@@ -188,10 +205,10 @@ void UserMenu::updateGui()
 {
 	KILE_DEBUG_MAIN << "update usermenu ...";
 
-	if(m_menuLocation == StandAloneLocation) {
-		KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-		m_usermenu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow));
-	}
+	addSpecialActionsToMenus();
+
+	// make entries visible or not
+	updateUsermenuPosition();
 
 	// like installXmlFile(), but without updating KileConfig::menuFile
 	// first clear old usermenu, menudata, actions and actionlists
@@ -206,7 +223,6 @@ void UserMenu::updateGui()
 			viewManager->installContextMenu( viewManager->textView(i) );
 		}
 	}
-
 }
 
 ///////////////////////////// update key bindings //////////////////////////////

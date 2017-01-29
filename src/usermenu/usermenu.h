@@ -96,6 +96,7 @@ class UserMenu : public QObject
 		KTextEditor::View *m_procView;
 		const UserMenuData *m_procMenudata;
 
+		void addSpecialActionsToMenus();
 		void updateUsermenuPosition();
 		void setStandAloneMenuVisible(bool state, bool show);
 		QAction *createAction(const QString &name);

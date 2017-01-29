@@ -934,6 +934,11 @@ void UserMenuDialog::setMenuentryCheckboxes(UserMenuItem *item, bool useInsertOu
 
 	// m_cbNeedsSelection and m_cbSelectInsertion are always enabled
 	m_UserMenuDialog.m_cbNeedsSelection->setChecked(selectionState);
+
+	// m_cbContextMenu and m_cbReplaceSelection need a selection to be enabled
+	m_UserMenuDialog.m_cbContextMenu->setEnabled(selectionState);
+	m_UserMenuDialog.m_cbReplaceSelection->setEnabled(selectionState);
+
 	m_UserMenuDialog.m_cbContextMenu->setChecked(contextState);
 	m_UserMenuDialog.m_cbReplaceSelection->setChecked(replaceState);
 	m_UserMenuDialog.m_cbSelectInsertion->setChecked(insertionState);

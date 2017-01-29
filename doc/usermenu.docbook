@@ -362,6 +362,20 @@ Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the 
 
 <para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <guilabel>Needs selected text</guilabel> parameter is checked to assure a selection. The output of this script will be inserted (<guilabel>Insert the output of the chosen program</guilabel>) and replace the current  selection (<guilabel>Replace selected text</guilabel>), but not selected itself.</para>
 
+<para>Of course you can also call your own programs or scripts. For example select a list of numbers, separated by spaces, and call a script or Perl program, which transforms this selection into &latex; code for a matrix. Whatever your ideas may be, you can realize them using the following usermenu entry.</para>
+
+	<screenshot>
+		<screeninfo>Parameter example 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG" />
+		</imageobject>
+		<textobject>
+		<phrase>Parameter example 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
 </sect1>
 
 

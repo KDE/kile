@@ -57,12 +57,10 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 	m_actioncollection = mainwindow->actionCollection();
 
 	// add actions and menu entries
-	QMenu *wizard_menu = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("wizard", mainwindow));
 	m_wizardAction1 = new QAction(this);
 	m_wizardAction1->setSeparator(true);
 	m_wizardAction2 = createAction("wizard_usermenu");
 
-	QMenu *latex_menu  = dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_latex", mainwindow));
 	m_latexAction1 = new QAction(this);
 	m_latexAction1->setSeparator(true);
 	m_latexAction2 = createAction("wizard_usermenu2");

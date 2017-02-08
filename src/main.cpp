@@ -145,7 +145,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
 	bool running = false;
 
-	const KDBusService dbusService(KDBusService::Multiple);
+	const KDBusService dbusService(KDBusService::Multiple | KDBusService::NoExitOnFailure);
 
 	QDBusConnection dbus = QDBusConnection::sessionBus();
 	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");

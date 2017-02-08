@@ -127,7 +127,12 @@ Tester::~Tester()
 void Tester::runTests()
 {
 	const QString& destinationDirectory = m_tempDir->path();
-	const QString& testDirectory = QStandardPaths::locate(QStandardPaths::DataLocation, "test", QStandardPaths::LocateDirectory);
+	const QString& testDirectory =
+#ifdef Q_OS_WIN
+        QStandardPaths::locate(QStandardPaths::AppDataLocation, "kile/test", QStandardPaths::LocateDirectory);
+#else
+        QStandardPaths::locate(QStandardPaths::AppDataLocation, "test", QStandardPaths::LocateDirectory);
+#endif
 	KIO::CopyJob *copyJob = KIO::copyAs(QUrl::fromLocalFile(testDirectory), QUrl::fromLocalFile(destinationDirectory), KIO::HideProgressInfo | KIO::Overwrite);
 	connect(copyJob, SIGNAL(result(KJob*)), this, SLOT(handleFileCopyResult(KJob*)));
 	emit(percentageDone(0));
@@ -325,7 +330,12 @@ FindProgramTest::~FindProgramTest()
 void FindProgramTest::call()
 {
 	const QString execPath = QStandardPaths::findExecutable(m_programName);
-	if(execPath.isEmpty()) {
+    bool thisIsWindowsConvertExe = false;
+#ifdef Q_OS_WIN
+    QFileInfo execPathInfo(execPath);
+    thisIsWindowsConvertExe = (m_programName == "convert") && (execPathInfo.dir().dirName() == "system32");
+#endif
+	if(execPath.isEmpty() || thisIsWindowsConvertExe) {
 		m_status = Failure;
 		if(!m_additionalFailureMessage.isEmpty()) {
 			if(isCritical()) {

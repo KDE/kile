@@ -2098,7 +2098,7 @@ bool EditorExtension::findOpenBracketTag(KTextEditor::Document *doc, int row, in
 //  - all quoted comment signs: '\%'
 //  - all quoted brackets: '\{' and '\}'
 //  - all comments
-// replace these characters one one, which never will be looked for
+// replace these characters with one, which never will be looked for
 
 QString EditorExtension::getTextLineReal(KTextEditor::Document *doc, int row)
 {

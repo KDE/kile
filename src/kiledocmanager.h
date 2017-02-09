@@ -249,7 +249,7 @@ protected:
 
 	/**
 	 * Tries to remove and delete a TextInfo object. The TextInfo object will only be deleted if it isn't referenced
-	 * by any project item or if is is only referenced by a project that should be closed.
+	 * by any project item or if it is only referenced by a project that should be closed.
 	 * @param closingproject Indicates whether the TextInfo object should be removed as part of a project close
 	 *                       operation.
 	 * @warning This method does not close or delete any Kate documents that are associated with the TextInfo object !

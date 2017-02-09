@@ -1137,7 +1137,7 @@ void PdfDialog::finishPdfAction(bool state)
 				runViewer();
 			}
 
-			// file properties/permissions could be changed changed
+			// file properties/permissions could be changed
 			if ( (m_scriptmode==PDF_SCRIPTMODE_ACTION && m_PdfDialog.m_cbOverwrite->isChecked())
 				   || m_scriptmode==PDF_SCRIPTMODE_PROPERTIES || m_scriptmode==PDF_SCRIPTMODE_PERMISSIONS ) {
 				slotInputfileChanged( m_PdfDialog.m_edInfile->lineEdit()->text().trimmed() );

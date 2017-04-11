@@ -112,7 +112,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 	aboutData.addCredit(i18n("Jonathan Pechta"), i18n("Documentation"));
 	aboutData.addCredit(i18n("Federico Zenith"), i18n("Documentation"));
 
-	aboutData.setOrganizationDomain(QByteArray("sourceforge.net"));
+	aboutData.setOrganizationDomain(QByteArray("kde.org"));
 
 	aboutData.setProductName(QByteArray("kile"));
 

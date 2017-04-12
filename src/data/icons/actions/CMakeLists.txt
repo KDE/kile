@@ -291,5 +291,5 @@ set(kile_action_ICONS
 
 ecm_install_icons(
 	ICONS ${kile_action_ICONS}
-	DESTINATION ${ICON_INSTALL_DIR}
+	DESTINATION ${DATA_INSTALL_DIR}/kile/icons
 )

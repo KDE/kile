@@ -11,6 +11,7 @@
   <name xml:lang="de">Kile</name>
   <name xml:lang="en-GB">Kile</name>
   <name xml:lang="es">Kile</name>
+  <name xml:lang="fr">Kile</name>
   <name xml:lang="it">Kile</name>
   <name xml:lang="nl">Kile</name>
   <name xml:lang="pl">Kile</name>
@@ -56,6 +57,7 @@
     <p xml:lang="de">Funktionen:</p>
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Funciones:</p>
+    <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="it">Caratteristiche:</p>
     <p xml:lang="nl">Kenmerken:</p>
     <p xml:lang="pl">Możliwości:</p>

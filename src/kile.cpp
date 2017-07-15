@@ -747,7 +747,7 @@ void Kile::setupActions()
 	createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_Down), m_edit, SLOT(gotoNextParagraph()));
 	createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_Up), m_edit, SLOT(gotoPrevParagraph()));
 
-	createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_F), this, SLOT(findInFiles()));
+	createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", this, SLOT(findInFiles()));
 
 	createAction(i18n("Refresh Str&ucture"), "RefreshStructure", "refreshstructure", QKeySequence(Qt::Key_F12), this, SLOT(refreshStructure()));
 

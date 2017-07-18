@@ -12,8 +12,9 @@
  ***************************************************************************/
 
 #include "livepreview.h"
+#include "config.h"
 
-#include <config.h>
+#include <algorithm>
 
 #include <QCryptographicHash>
 #include <QDir>
@@ -335,7 +336,7 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
 	menu->addSeparator();
 
 	QList<ToolConfigPair> toolList = toolsWithConfigurationsBasedOnClass(config, "LaTeXLivePreview");
-	qSort(toolList);
+	std::sort(toolList.begin(), toolList.end());
 	for(QList<ToolConfigPair>::iterator i = toolList.begin(); i != toolList.end(); ++i) {
 		const QString shortToolName = QString((*i).first).remove("LivePreview-");
 		QAction *action = new KToggleAction(ToolConfigPair::userStringRepresentation(shortToolName, (*i).second), this);

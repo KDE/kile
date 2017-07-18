@@ -15,7 +15,12 @@
 
 #include "newtabulardialog.h"
 
+#include <algorithm>
+
+#include <QAction>
 #include <QCheckBox>
+#include <QColorDialog>
+#include <QComboBox>
 #include <QIcon>
 #include <QFrame>
 #include <QGridLayout>
@@ -24,23 +29,20 @@
 #include <QHeaderView>
 #include <QLabel>
 #include <QList>
+#include <QMenu>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPaintEvent>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QTableWidget>
 #include <QToolBar>
 #include <QVBoxLayout>
 
-#include <QAction>
-#include <QColorDialog>
-#include <QComboBox>
+#include <KConfigGroup>
 #include <KIconLoader>
 #include <KLocalizedString>
-#include <QMenu>
 #include <KMessageBox>
-#include <QPushButton>
-#include <KConfigGroup>
 
 #include "codecompletion.h"
 #include "kiledebug.h"
@@ -316,7 +318,7 @@ QIcon NewTabularDialog::generateColorIcon(bool background) const
 
 bool NewTabularDialog::canJoin() const
 {
-	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+	const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
 	if(selectedItems.count() < 2) {
 		KILE_DEBUG_MAIN << "cannot join cells, because selectedItems.count() < 2";
 		return false;
@@ -333,10 +335,10 @@ bool NewTabularDialog::canJoin() const
 
 	/* check whether all selected items are adjacent */
 	QList<int> columns;
-	foreach(QTableWidgetItem* item, selectedItems) {
+	for(QTableWidgetItem* item : selectedItems) {
 		columns.append(item->column());
 	}
-	qSort(columns);
+	std::sort(columns.begin(), columns.end());
 	if((columns.last() - columns.first()) != (columns.size() - 1)) {
 		KILE_DEBUG_MAIN << "cannot join cells, because not all cells are adjacent";
 		return false;
@@ -892,14 +894,14 @@ void NewTabularDialog::slotJoinCells()
 {
 	if(!canJoin()) return;
 
-	QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
+	const QList<QTableWidgetItem*> selectedItems = m_Table->selectedItems();
 	int row = selectedItems[0]->row();
 
 	QList<int> columns;
-	foreach(QTableWidgetItem* item, selectedItems) {
+	for(QTableWidgetItem* item : selectedItems) {
 		columns.append(item->column());
 	}
-	qSort(columns);
+	std::sort(columns.begin(), columns.end());
 
 	int newColumnSpan = columns.size();
 

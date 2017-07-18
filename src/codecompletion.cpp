@@ -14,6 +14,8 @@
 
 #include "codecompletion.h"
 
+#include <algorithm>
+
 #include <QFile>
 #include <QList>
 #include <QRegExp>
@@ -163,7 +165,7 @@ void LaTeXCompletionModel::buildModel(KTextEditor::View *view, const KTextEditor
 	}
 	beginResetModel();
 	filterModel(completionString);
-	qSort(m_completionList.begin(), m_completionList.end(), laTeXCommandLessThan);
+	std::sort(m_completionList.begin(), m_completionList.end(), laTeXCommandLessThan);
 	endResetModel();
 }
 

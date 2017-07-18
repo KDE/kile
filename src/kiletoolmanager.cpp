@@ -14,6 +14,8 @@
 
 #include "kiletoolmanager.h"
 
+#include <algorithm>
+
 #include <QFileInfo>
 #include <QMenu>
 #include <QRegExp>
@@ -708,7 +710,7 @@ void KileTool::Manager::buildBibliographyBackendSelection()
 	m_bibliographyBackendSelectAction->addAction(m_bibliographyBackendAutodetectAction);
 
 	m_bibliographyToolsList = toolsWithConfigurationsBasedOnClass(m_config, BibliographyCompile::ToolClass);
-	qSort(m_bibliographyToolsList); // necessary for the user-visible actions in the menu bar
+	std::sort(m_bibliographyToolsList.begin(), m_bibliographyToolsList.end()); // necessary for the user-visible actions in the menu bar
 
 	Q_FOREACH(const ToolConfigPair& tool, m_bibliographyToolsList) {
 		// create an action for backend selection

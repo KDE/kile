@@ -17,6 +17,8 @@
 
 #include "listselector.h"
 
+#include <algorithm>
+
 #include <QApplication>
 #include <QDir>
 #include <QFile>
@@ -198,7 +200,7 @@ void ManageCompletionFilesDialog::fillTreeView() {
 	// we want to keep selected items still selected after refreshing
 	QSet<QString> previouslySelectedItems = selected();
 	QStringList list = KileCodeCompletion::Manager::getAllCwlFiles(m_localCompletionDirectory, m_globalCompletionDirectory).uniqueKeys();
-	qSort(list);
+	std::sort(list.begin(), list.end());
 	m_listView->clear();
 	foreach(QString filename, list) {
 		QString expectedLocalPath = m_localCompletionDirectory + "/" + filename;

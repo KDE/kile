@@ -59,19 +59,18 @@
 
 #include <QClipboard>
 #include <QFileInfo>
+#include <QIcon>
 #include <QHeaderView>
+#include <QMimeDatabase>
+#include <QMimeType>
 #include <QRegExp>
 #include <QScrollBar>
 #include <QSignalMapper>
+#include <QUrl>
 
-#include <QIcon>
 #include <KLocalizedString>
 #include <KMessageBox>
-
 #include <KRun>
-#include <QUrl>
-#include <QMimeDatabase>
-#include <QMimeType>
 
 #include "documentinfo.h"
 #include "errorhandler.h"
@@ -710,7 +709,7 @@ void StructureViewItem::setLabel(const QString &label)
 				if(item->type() == KileStruct::Graphics) {
 					QMimeDatabase db;
 					QMimeType pMime = db.mimeTypeForUrl(url);
-					KRun::runUrl(url, pMime.name(), this);
+					KRun::runUrl(url, pMime.name(), this, KRun::RunFlags());
 				}
 				else {
 					emit(fileOpen(url, QString()));

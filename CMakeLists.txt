@@ -34,7 +34,7 @@ find_package(Qt5 5.3 CONFIG REQUIRED
 	Test
 )
 
-find_package(KF5 5.11 REQUIRED COMPONENTS
+find_package(KF5 5.31 REQUIRED COMPONENTS
 	Config
 	CoreAddons
 	Crash

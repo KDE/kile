@@ -16,26 +16,25 @@
 #include "widgets/projectview.h"
 
 #include <QHeaderView>
-#include <QList>
-#include <QSignalMapper>
-
-#include <KActionMenu>
 #include <QIcon>
 #include <KLocalizedString>
+#include <QList>
 #include <QMenu>
+#include <QMimeData>
+#include <QMimeDatabase>
+#include <QMimeType>
+#include <QSignalMapper>
+#include <QUrl>
 
+#include <KActionMenu>
 #include <KMimeTypeTrader>
 #include <KRun>
-#include <QUrl>
-#include <QMimeData>
 
 #include "kileinfo.h"
 #include "documentinfo.h"
 #include "kiledocmanager.h"
 #include <iostream>
 #include <typeinfo>
-#include <QMimeDatabase>
-#include <QMimeType>
 
 const int KPV_ID_OPEN = 0, KPV_ID_SAVE = 1, KPV_ID_CLOSE = 2,
 	KPV_ID_OPTIONS = 3, KPV_ID_ADD = 4, KPV_ID_REMOVE = 5,
@@ -281,7 +280,7 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
 					emit(fileSelected(itm->url()));
 				}
 				else {
-					KRun::runUrl(itm->url(), pMime.name(), this);
+					KRun::runUrl(itm->url(), pMime.name(), this, KRun::RunFlags());
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -27,6 +27,8 @@
 #include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
+#include <KToolBar>
+#include <KToggleAction>
 #include <KXMLGUIClient>
 #include <KXMLGUIFactory>
 
@@ -109,10 +111,38 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	m_widgetStack(Q_NULLPTR),
 	m_pasteAsLaTeXAction(Q_NULLPTR),
 	m_convertToLaTeXAction(Q_NULLPTR),
-	m_quickPreviewAction(Q_NULLPTR)
+	m_quickPreviewAction(Q_NULLPTR),
+	m_showCursorPositionInViewerAction(Q_NULLPTR),
+	m_viewerControlToolBar(Q_NULLPTR),
+	m_cursorPositionChangedTimer(Q_NULLPTR),
+	m_clearLastShownSourceLocationTimer(Q_NULLPTR),
+	m_synchronizeViewWithCursorAction(Q_NULLPTR)
 {
 	setObjectName(name);
 	createViewerPart(actionCollection);
+
+	m_showCursorPositionInViewerAction = new QAction(QIcon::fromTheme("go-jump-symbolic"), i18n("Show Cursor Position in Viewer"), this);
+	connect(m_showCursorPositionInViewerAction, &QAction::triggered, this, &KileView::Manager::showCursorPositionInDocumentViewer);
+	actionCollection->addAction("show_cursor_position_in_document_viewer", m_showCursorPositionInViewerAction);
+
+	m_synchronizeViewWithCursorAction = new KToggleAction(i18n("Synchronize Cursor Position with Viewer"), this);
+	connect(m_synchronizeViewWithCursorAction, &KToggleAction::toggled, this, &KileView::Manager::synchronizeViewWithCursorActionToggled);
+	connect(m_synchronizeViewWithCursorAction, &KToggleAction::changed,
+	        this, [=] () { m_showCursorPositionInViewerAction->setEnabled(!m_synchronizeViewWithCursorAction->isChecked()); });
+	actionCollection->addAction("synchronize_cursor_with_document_viewer", m_synchronizeViewWithCursorAction);
+
+	connect(this, &KileView::Manager::cursorPositionChanged, this, &KileView::Manager::handleCursorPositionChanged);
+
+	m_cursorPositionChangedTimer = new QTimer(this);
+	m_cursorPositionChangedTimer->setSingleShot(true);
+	connect(m_cursorPositionChangedTimer, &QTimer::timeout, this, &KileView::Manager::handleCursorPositionChangedTimeout);
+
+	m_clearLastShownSourceLocationTimer = new QTimer(this);
+	m_clearLastShownSourceLocationTimer->setInterval(3000);
+	m_clearLastShownSourceLocationTimer->setSingleShot(true);
+	connect(m_clearLastShownSourceLocationTimer, &QTimer::timeout, this, &KileView::Manager::clearLastShownSourceLocationInDocumentViewer);
+
+	createViewerControlToolBar();
 }
 
 Manager::~Manager()
@@ -131,6 +161,17 @@ Manager::~Manager()
 KTextEditor::View * Manager::textViewAtTab(int index) const
 {
 	return m_tabBar->tabData(index).value<KTextEditor::View*>();
+}
+
+void Manager::createViewerControlToolBar()
+{
+	m_viewerControlToolBar = new KToolBar(Q_NULLPTR, false, false);
+	m_viewerControlToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+	m_viewerControlToolBar->setFloatable(false);
+	m_viewerControlToolBar->setMovable(false);
+	m_viewerControlToolBar->setIconDimensions(KIconLoader::SizeSmall);
+
+	m_viewerControlToolBar->addAction(m_showCursorPositionInViewerAction);
 }
 
 void Manager::setClient(KXMLGUIClient *client)
@@ -157,6 +198,8 @@ void Manager::readConfig(QSplitter *splitter)
 
 	setDocumentViewerVisible(KileConfig::showDocumentViewer());
 
+	m_synchronizeViewWithCursorAction->setChecked(KileConfig::synchronizeCursorWithView());
+
 #if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface && !m_ki->livePreviewManager()->isLivePreviewActive()) {
@@ -179,6 +222,8 @@ void Manager::writeConfig()
 		KConfigGroup group(KSharedConfig::openConfig(), "KileDocumentViewerWindow");
 		m_viewerPartWindow->saveMainWindowSettings(group);
 	}
+
+	KileConfig::setSynchronizeCursorWithView(m_synchronizeViewWithCursorAction->isChecked());
 }
 
 void Manager::setTabsAndEditorVisible(bool b)
@@ -241,6 +286,10 @@ QWidget * Manager::createTabs(QWidget *parent)
 	});
 	connect(this, &KileView::Manager::textViewClosed, [=]() {
 		m_documentListButton->setEnabled(m_tabBar->count() > 1);
+		m_cursorPositionChangedTimer->stop();
+	});
+	connect(this, &KileView::Manager::textViewClosed, [=]() {
+		m_documentListButton->setEnabled(m_tabBar->count() > 1);
 	});
 	tabBarWidget->layout()->addWidget(m_documentListButton);
 
@@ -300,6 +349,24 @@ void Manager::currentTabChanged(int index)
 	}
 }
 
+void Manager::handleCursorPositionChangedTimeout()
+{
+	if(m_ki->livePreviewManager()->isLivePreviewEnabledForCurrentDocument()) {
+		m_ki->livePreviewManager()->showCursorPositionInDocumentViewer();
+	}
+}
+
+void Manager::handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos)
+{
+	Q_UNUSED(view);
+	Q_UNUSED(pos);
+
+	if(!m_synchronizeViewWithCursorAction->isChecked()) {
+		return;
+	}
+	m_cursorPositionChangedTimer->start(100);
+}
+
 KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int index)
 {
 	KTextEditor::Document *doc = info->getDoc();
@@ -332,6 +399,8 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 	connect(view, &KTextEditor::View::textInserted, m_ki->codeCompletionManager(), &KileCodeCompletion::Manager::textInserted);
 	connect(doc, &KTextEditor::Document::documentNameChanged, this, &Manager::updateTabTexts);
 	connect(doc, &KTextEditor::Document::documentUrlChanged, this, &Manager::updateTabTexts);
+
+	connect(this, &KileView::Manager::textViewClosed, m_cursorPositionChangedTimer, &QTimer::stop);
 
 	// code completion
 	KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
@@ -1137,6 +1206,21 @@ void Manager::handleActivatedSourceReference(const QString& absFileName, int lin
 	switchToTextView(view, true);
 }
 
+void Manager::showCursorPositionInDocumentViewer()
+{
+	if(m_ki->livePreviewManager()->isLivePreviewEnabledForCurrentDocument()) {
+		m_ki->livePreviewManager()->showCursorPositionInDocumentViewer();
+	}
+}
+
+void Manager::synchronizeViewWithCursorActionToggled(bool checked)
+{
+	m_showCursorPositionInViewerAction->setEnabled(!checked);
+	if(checked) {
+	    showCursorPositionInDocumentViewer();
+	}
+}
+
 void Manager::setDocumentViewerVisible(bool b)
 {
 	if(!m_viewerPart) {
@@ -1179,12 +1263,24 @@ bool Manager::openInDocumentViewer(const QUrl &url)
 #endif
 }
 
+void Manager::clearLastShownSourceLocationInDocumentViewer()
+{
+#if LIVEPREVIEW_AVAILABLE
+	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
+	if(v) {
+		v->clearLastShownSourceLocation();
+	}
+#endif
+}
+
 void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int line, int column)
 {
 #if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(v) {
+		m_clearLastShownSourceLocationTimer->stop();
 		v->showSourceLocation(fileName, line, column, true);
+		m_clearLastShownSourceLocationTimer->start();
 	}
 #else
 	Q_UNUSED(fileName);
@@ -1209,6 +1305,16 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 #else
 	Q_UNUSED(b);
 #endif
+}
+
+KToolBar* Manager::getViewerControlToolBar()
+{
+	return m_viewerControlToolBar;
+}
+
+bool Manager::isSynchronisingCursorWithDocumentViewer() const
+{
+	return m_synchronizeViewWithCursorAction->isChecked();
 }
 
 //END ViewerPart methods

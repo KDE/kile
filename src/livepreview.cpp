@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -132,9 +132,7 @@ public:
 LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
  : m_ki(ki),
    m_bootUpMode(true),
-   m_controlToolBar(Q_NULLPTR),
    m_previewStatusLed(Q_NULLPTR),
-   m_synchronizeViewWithCursorAction(Q_NULLPTR),
    m_previewForCurrentDocumentAction(Q_NULLPTR),
    m_recompileLivePreviewAction(Q_NULLPTR),
    m_runningLaTeXInfo(Q_NULLPTR), m_runningTextView(Q_NULLPTR), m_runningProject(Q_NULLPTR),
@@ -154,7 +152,7 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	        this, SLOT(handleProjectOpened(KileProject*)));
 
 	createActions(ac);
-	createControlToolBar();
+	populateViewerControlToolBar();
 
 	m_ledBlinkingTimer = new QTimer(this);
 	m_ledBlinkingTimer->setSingleShot(false);
@@ -164,10 +162,6 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
 	m_documentChangedTimer = new QTimer(this);
 	m_documentChangedTimer->setSingleShot(true);
 	connect(m_documentChangedTimer, SIGNAL(timeout()), this, SLOT(handleDocumentModificationTimerTimeout()));
-
-	m_cursorPositionChangedTimer = new QTimer(this);
-	m_cursorPositionChangedTimer->setSingleShot(true);
-	connect(m_cursorPositionChangedTimer, SIGNAL(timeout()), this, SLOT(handleCursorPositionChangedTimeout()));
 
 	showPreviewDisabled();
 }
@@ -193,11 +187,6 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 
 	m_livePreviewToolActionGroup = new QActionGroup(ac);
 
-	m_synchronizeViewWithCursorAction = new KToggleAction(QIcon::fromTheme("document-swap"), i18n("Synchronize Cursor Position with Preview Document"), this);
-	// just to get synchronization back when the sync feature is activated (again)
-	connect(m_synchronizeViewWithCursorAction, SIGNAL(triggered(bool)), this, SLOT(synchronizeViewWithCursorActionTriggered(bool)));
-	ac->addAction("synchronize_cursor_preview", m_synchronizeViewWithCursorAction);
-
 	m_previewForCurrentDocumentAction = new KToggleAction(QIcon::fromTheme("document-preview"), i18n("Live Preview for Current Document or Project"), this);
 	m_previewForCurrentDocumentAction->setChecked(true);
 	connect(m_previewForCurrentDocumentAction, SIGNAL(triggered(bool)), this, SLOT(previewForCurrentDocumentActionTriggered(bool)));
@@ -206,35 +195,6 @@ void LivePreviewManager::createActions(KActionCollection *ac)
 	m_recompileLivePreviewAction = new QAction(i18n("Recompile Live Preview"), this);
 	connect(m_recompileLivePreviewAction, SIGNAL(triggered()), this, SLOT(recompileLivePreview()));
 	ac->addAction("live_preview_recompile", m_recompileLivePreviewAction);
-}
-
-void LivePreviewManager::synchronizeViewWithCursorActionTriggered(bool b)
-{
-#if LIVEPREVIEW_AVAILABLE
-	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
-		return;
-	}
-	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
-	if(!b || !view) {
-		Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_ki->viewManager()->viewerPart());
-		if(v) {
-			v->clearLastShownSourceLocation();
-		}
-		return;
-	}
-	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
-	if(latexInfo) {
-		LivePreviewUserStatusHandler *userStatusHandler;
-		findPreviewInformation(latexInfo, Q_NULLPTR, &userStatusHandler);
-		Q_ASSERT(userStatusHandler);
-		if(userStatusHandler->isLivePreviewEnabled()) { // only do something if live preview is enabled
-			// showPreviewCompileIfNecessary synchronizes the view with the cursor
-			showPreviewCompileIfNecessary(latexInfo, view);
-		}
-	}
-#else
-	Q_UNUSED(b);
-#endif
 }
 
 void LivePreviewManager::previewForCurrentDocumentActionTriggered(bool b)
@@ -441,9 +401,8 @@ void LivePreviewManager::readConfig(KConfig *config)
 
 	buildLivePreviewMenu(config);
 
-	m_synchronizeViewWithCursorAction->setChecked(KileConfig::synchronizeCursorWithView());
-
-	m_controlToolBar->setVisible(KileConfig::livePreviewEnabled());
+	m_previewForCurrentDocumentAction->setEnabled(KileConfig::livePreviewEnabled());
+	m_previewStatusLed->setEnabled(KileConfig::livePreviewEnabled());
 
 	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
 		deleteAllLivePreviewInformation();
@@ -456,7 +415,6 @@ void LivePreviewManager::readConfig(KConfig *config)
 
 void LivePreviewManager::writeConfig()
 {
-	KileConfig::setSynchronizeCursorWithView(m_synchronizeViewWithCursorAction->isChecked());
 }
 
 void LivePreviewManager::readLivePreviewStatusSettings(KConfigGroup &configGroup, LivePreviewUserStatusHandler *handler)
@@ -483,26 +441,15 @@ void LivePreviewManager::writeLivePreviewStatusSettings(KConfigGroup &configGrou
 	configGroup.writeEntry("kile_livePreviewStatusUserSpecified", handler->userSpecifiedLivePreviewStatus());
 }
 
-QWidget* LivePreviewManager::getControlToolBar()
+void LivePreviewManager::populateViewerControlToolBar()
 {
-	return m_controlToolBar;
-}
+	KToolBar* viewerControlToolBar = m_ki->viewManager()->getViewerControlToolBar();
+	viewerControlToolBar->addAction(m_previewForCurrentDocumentAction);
 
-void LivePreviewManager::createControlToolBar()
-{
-	m_controlToolBar = new KToolBar(Q_NULLPTR, false, false);
-	m_controlToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
-	m_controlToolBar->setFloatable(false);
-	m_controlToolBar->setMovable(false);
-	m_controlToolBar->setIconDimensions(KIconLoader::SizeSmall);
-
-	m_controlToolBar->addAction(m_previewForCurrentDocumentAction);
-	m_controlToolBar->addAction(m_synchronizeViewWithCursorAction);
-
-	m_controlToolBar->addSeparator();
-
-	m_previewStatusLed = new KLed(m_controlToolBar);
-	m_controlToolBar->addWidget(m_previewStatusLed);
+	m_previewStatusLed = new KLed(viewerControlToolBar);
+	m_previewStatusLed->setShape(KLed::Circular);
+	m_previewStatusLed->setLook(KLed::Flat);
+	viewerControlToolBar->addWidget(m_previewStatusLed);
 }
 
 void LivePreviewManager::handleMasterDocumentChanged()
@@ -513,20 +460,6 @@ void LivePreviewManager::handleMasterDocumentChanged()
 
 	deleteAllLivePreviewInformation();
 	refreshLivePreview();
-}
-
-void LivePreviewManager::handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos)
-{
-	Q_UNUSED(view);
-	Q_UNUSED(pos);
-	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
-		return;
-	}
-
-	if(!m_synchronizeViewWithCursorAction->isChecked()) {
-		return;
-	}
-	m_cursorPositionChangedTimer->start(100);
 }
 
 void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
@@ -716,7 +649,7 @@ bool LivePreviewManager::isCurrentDocumentOrProject(KTextEditor::Document *doc)
 	return true;
 }
 
-void LivePreviewManager::handleCursorPositionChangedTimeout()
+void LivePreviewManager::showCursorPositionInDocumentViewer()
 {
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	if(!view) {
@@ -1161,8 +1094,6 @@ void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasA
 		return;
 	}
 
-	m_cursorPositionChangedTimer->stop();
-
 	// check if there is still an open editor tab
 	if(!KTextEditor::Editor::instance()->application()->activeMainWindow()->activeView()) {
 		stopAndClearPreview();
@@ -1403,7 +1334,7 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
 		reloadDocumentInViewer();
 	}
 
-	if(m_synchronizeViewWithCursorAction->isChecked()) {
+	if(m_ki->viewManager()->isSynchronisingCursorWithDocumentViewer()) {
 		synchronizeViewWithCursor(m_runningLaTeXInfo, m_runningTextView, m_runningTextView->cursorPosition());
 	}
 

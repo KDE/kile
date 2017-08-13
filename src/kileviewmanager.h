@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -36,6 +36,7 @@ class QToolButton;
 class QUrl;
 
 class KActionCollection;
+class KToggleAction;
 class KXMLGUIClient;
 
 class KileInfo;
@@ -118,8 +119,13 @@ public:
 	bool isViewerPartShown() const;
 	void setupViewerPart(QSplitter *splitter);
 	bool openInDocumentViewer(const QUrl &url);
+	void clearLastShownSourceLocationInDocumentViewer();
 	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
 	void setLivePreviewModeForDocumentViewer(bool b);
+
+	KToolBar* getViewerControlToolBar();
+
+	bool isSynchronisingCursorWithDocumentViewer() const;
 
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
@@ -168,9 +174,13 @@ private Q_SLOTS:
 	void tabContext(const QPoint& pos);
 	void closeTab(int index);
 	void currentTabChanged(int index);
+	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
+	void handleCursorPositionChangedTimeout();
 
 private:
 	KTextEditor::View * textViewAtTab(int index) const;
+
+	void createViewerControlToolBar();
 
 public:
 	bool viewForLocalFilePresent(const QString& localFileName);
@@ -195,6 +205,9 @@ protected Q_SLOTS:
 
 	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 
+	void showCursorPositionInDocumentViewer();
+	void synchronizeViewWithCursorActionToggled(bool b);
+
 private:
 	KileInfo *m_ki;
 	QWidget *m_tabsAndEditorWidget;
@@ -207,7 +220,11 @@ private:
 	QAction *m_pasteAsLaTeXAction;
 	QAction *m_convertToLaTeXAction;
 	QAction *m_quickPreviewAction;
+	QAction *m_showCursorPositionInViewerAction;
 	QPointer<KParts::ReadOnlyPart> m_viewerPart;
+	QPointer<KToolBar> m_viewerControlToolBar;
+	QTimer *m_cursorPositionChangedTimer, *m_clearLastShownSourceLocationTimer;
+	KToggleAction *m_synchronizeViewWithCursorAction;
 };
 
 /**

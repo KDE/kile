@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2015 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -225,14 +225,14 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
+	if(viewManager()->viewerPart()) {
+		m_bottomBar->addExtraWidget(viewManager()->getViewerControlToolBar());
+	}
 #if LIVEPREVIEW_AVAILABLE
 	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection());
 	connect(this, &Kile::masterDocumentChanged, m_livePreviewManager, &KileTool::LivePreviewManager::handleMasterDocumentChanged);
 
-	if(viewManager()->viewerPart()) {
-		m_bottomBar->addExtraWidget(m_livePreviewManager->getControlToolBar());
-	}
-	else { // live preview part couldn't be created
+	if(!viewManager()->viewerPart()) { // live preview part couldn't be created
 		delete m_livePreviewManager;
 		m_livePreviewManager = Q_NULLPTR;
 	}

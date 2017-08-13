@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -63,12 +63,9 @@ public:
 	bool isLivePreviewEnabledForCurrentDocument();
 	void setLivePreviewEnabledForCurrentDocument(bool b);
 
-	QWidget* getControlToolBar();
-
 	void buildLivePreviewMenu(KConfig *config);
 
 public Q_SLOTS:
-	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
 	void handleTextChanged(KTextEditor::Document *doc);
 	void handleDocumentSavedOrUploaded(KTextEditor::Document *doc, bool savedAs);
 
@@ -76,6 +73,8 @@ public Q_SLOTS:
 
 	void recompileLivePreview();
 	void refreshLivePreview();
+
+	void showCursorPositionInDocumentViewer();
 
 private Q_SLOTS:
 	void handleDocumentModificationTimerTimeout();
@@ -101,23 +100,19 @@ private Q_SLOTS:
 
 	void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);
 
-	void synchronizeViewWithCursorActionTriggered(bool b);
 	void previewForCurrentDocumentActionTriggered(bool b);
 
 	void livePreviewToolActionTriggered();
-
-	void handleCursorPositionChangedTimeout();
 
 private:
 	class PreviewInformation;
 
 	KileInfo *m_ki;
 	bool m_bootUpMode;
-	QPointer<KToolBar> m_controlToolBar;
 	QPointer<KLed> m_previewStatusLed;
-	KToggleAction *m_synchronizeViewWithCursorAction, *m_previewForCurrentDocumentAction;
+	KToggleAction *m_previewForCurrentDocumentAction;
 	QAction *m_recompileLivePreviewAction;
-	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer, *m_cursorPositionChangedTimer;
+	QTimer *m_ledBlinkingTimer, *m_documentChangedTimer;
 
 	QHash<QString, QString> m_runningPathToPreviewPathHash;
 	QHash<QString, QString> m_runningPreviewPathToPathHash;
@@ -150,7 +145,7 @@ private:
 	void displayErrorMessage(const QString &text, bool clearFirst = false);
 
 	void createActions(KActionCollection *ac);
-	void createControlToolBar();
+	void populateViewerControlToolBar();
 	void synchronizeViewWithCursor(KileDocument::TextInfo *info, KTextEditor::View *view,
 	                                                             const KTextEditor::Cursor& newPosition,
 	                                                             bool calledFromCursorPositionChange = false);

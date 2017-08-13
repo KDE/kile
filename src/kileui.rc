@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="44">
+<kpartgui name="kile" version="45">
 <Menu name="ktexteditor_popup" noMerge="1">
 	<DefineGroup name="popup_operations" />
 	<Action name="popup_pasteaslatex"/>
@@ -123,6 +123,9 @@
 <Menu name="view" noMerge="1"><text>&amp;View</text>
 <Action name="return_to_editor"/>
 <DefineGroup name="view_operations" append="view_operations"/>
+<Separator/>
+<Action name="show_cursor_position_in_document_viewer"/>
+<Action name="synchronize_cursor_with_document_viewer"/>
 <Separator/>
 <Action name="gotoPrevDocument"/>
 <Action name="gotoNextDocument"/>

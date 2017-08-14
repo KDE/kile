@@ -317,10 +317,6 @@
 			<label>Use the system's TeX reference for the contextual help (older version).</label>
 			<default>false</default>
 		</entry>
-		<entry name="embedded" type="Bool">
-			<label>Use embedded viewer for user help.</label>
-			<default>false</default>
-		</entry>
 		<entry name="external" type="Bool">
 			<label>Use an external viewer for user help.</label>
 			<default>true</default>

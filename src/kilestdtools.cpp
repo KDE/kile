@@ -672,7 +672,7 @@ namespace KileTool
 		QString relativeTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + ' ' + texfile; // space added, for files starting with numbers
 		QString absoluteTarget = "file:" + targetDir() + '/' + target() + "#src:" + QString::number(para + 1) + filepath;
 
-		if(readEntry("useDocumentViewer") == "yes") {
+		if(readEntry("type") == "DocumentViewer") {
 			addDict("%dir_target", targetDir());
 			addDict("%target", target());
 			addDict("%sourceFileName", filepath);

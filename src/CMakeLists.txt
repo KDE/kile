@@ -145,7 +145,6 @@ set(kile_UI
 	widgets/helpconfigwidget.ui
 	widgets/latexconfigwidget.ui
 	widgets/latextoolconfigwidget.ui
-	widgets/librarytoolconfigwidget.ui
 	widgets/livepreviewconfigwidget.ui
 	widgets/maintoolconfigwidget.ui
 	widgets/newdocumentwidget.ui
@@ -167,7 +166,6 @@ set(kile_UI_SRCS
 	widgets/helpconfigwidget.cpp
 	widgets/latexconfigwidget.cpp
 	widgets/latextoolconfigwidget.cpp
-	widgets/librarytoolconfigwidget.cpp
 	widgets/livepreviewconfigwidget.cpp
 	widgets/maintoolconfigwidget.cpp
 	widgets/newdocumentwidget.cpp

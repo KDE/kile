@@ -1,6 +1,6 @@
 /**********************************************************************************************
   Copyright (C) 2005-2006 by Holger Danielsson (holger.danielsson@t-online.de)
-                2008-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************************************/
 
 /***************************************************************************
@@ -157,7 +157,6 @@ void UserHelp::slotUserHelpActivated(const QUrl &url)
 
 	// determine, how to show the file
 	QString type;
-	QString cfg = (KileConfig::embedded()) ? "Embedded Viewer" : "Okular";
 	if(local) {
 		QString ext = fi.suffix();
 		if(ext == "dvi") {
@@ -176,7 +175,7 @@ void UserHelp::slotUserHelpActivated(const QUrl &url)
 
 	KileTool::Base *tool = Q_NULLPTR;
 	if(!type.isEmpty() && type != "ViewHTML") {
-		tool = m_manager->createTool(type, cfg, false);
+		tool = m_manager->createTool(type, "Okular", false);
 	}
 	if(tool) {
 		tool->setFlags(0);

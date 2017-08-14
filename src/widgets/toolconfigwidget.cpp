@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Sat 3-1 20:40:00 CEST 2004
     copyright            : (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -40,7 +40,6 @@
 #include "kilestdtools.h"
 #include "widgets/maintoolconfigwidget.h"
 #include "widgets/processtoolconfigwidget.h"
-#include "widgets/librarytoolconfigwidget.h"
 #include "widgets/quicktoolconfigwidget.h"
 #include "widgets/latextoolconfigwidget.h"
 #include "dialogs/newtoolwizard.h"
@@ -110,17 +109,10 @@ namespace KileWidget
 	{
 		m_configWidget->m_cbType->addItem(i18n("Run Outside of Kile"));
 		m_configWidget->m_cbType->addItem(i18n("Run in Konsole"));
-		m_configWidget->m_cbType->addItem(i18n("Run Embedded in Kile"));
-		m_configWidget->m_cbType->addItem(i18n("Use HTML Viewer"));
+		m_configWidget->m_cbType->addItem(i18n("Use Document Viewer"));
 		m_configWidget->m_cbType->addItem(i18n("Run Sequence of Tools"));
 		connect(m_configWidget->m_cbType, SIGNAL(activated(int)), this, SLOT(switchType(int)));
 		connect(m_configWidget->m_ckClose, SIGNAL(toggled(bool)), this, SLOT(setClose(bool)));
-		m_configWidget->m_useDocumentViewer->setEnabled(false);
-		connect(m_ltcw->m_library, SIGNAL(textChanged(const QString&)),
-		        this, SLOT(handleLibraryNameChanged(const QString&)));
-		connect(m_configWidget->m_useDocumentViewer, SIGNAL(toggled(bool)), this, SLOT(setUseDocumentViewer(bool)));
-		connect(m_configWidget->m_useDocumentViewer, SIGNAL(toggled(bool)),
-		        this, SLOT(handleDocumentViewerToggled(bool)));
 
 		m_classes << "Compile" << "Convert" << "Archive" << KileTool::BibliographyCompile::ToolClass << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
 		m_configWidget->m_cbClass->addItems(m_classes);
@@ -132,8 +124,6 @@ namespace KileWidget
 		connect(m_configWidget->m_leRelDir, SIGNAL(textChanged(const QString &)), this, SLOT(setRelDir(const QString &)));
 
 		m_configWidget->m_cbState->addItem("Editor");
-		m_configWidget->m_cbState->addItem("Viewer");
-		m_configWidget->m_cbState->addItem("HTMLpreview");
 		connect(m_configWidget->m_cbState, SIGNAL(activated(const QString &)), this, SLOT(setState(const QString &)));
 	}
 
@@ -148,14 +138,11 @@ namespace KileWidget
 			m_configWidget->m_cbType->setCurrentIndex(1);
 			enablekonsoleclose = true;
 		}
-		else if(type == "Part") {
+		else if(type == "DocumentViewer") {
 			m_configWidget->m_cbType->setCurrentIndex(2);
 		}
-		else if(type == "DocPart") {
-			m_configWidget->m_cbType->setCurrentIndex(3);
-		}
 		else if(type == "Sequence") {
-			m_configWidget->m_cbType->setCurrentIndex(4);
+			m_configWidget->m_cbType->setCurrentIndex(3);
 		}
 		m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
 
@@ -182,7 +169,6 @@ namespace KileWidget
 		m_configWidget->m_leTarget->setText(m_map["to"]);
 		m_configWidget->m_leFile->setText(m_map["target"]);
 		m_configWidget->m_leRelDir->setText(m_map["relDir"]);
-		m_configWidget->m_useDocumentViewer->setChecked((m_map["libName"].trimmed() == OKULAR_LIBRARY_NAME) && (m_map["useDocumentViewer"] == "yes"));
 	}
 
 	void ToolConfig::setupGeneral()
@@ -193,12 +179,6 @@ namespace KileWidget
 		m_configWidget->m_stackBasic->insertWidget(GBS_Process, m_ptcw);
 		connect(m_ptcw->m_command, SIGNAL(textChanged(const QString &)), this, SLOT(setCommand(const QString &)));
 		connect(m_ptcw->m_options, SIGNAL(textChanged()), this, SLOT(setOptions()));
-
-		m_ltcw = new LibraryToolConfigWidget(m_configWidget->m_stackBasic);
-		m_configWidget->m_stackBasic->insertWidget(GBS_Library, m_ltcw);
-		connect(m_ltcw->m_library, SIGNAL(textChanged(const QString &)), this, SLOT(setLibrary(const QString &)));
-		connect(m_ltcw->m_class, SIGNAL(textChanged(const QString &)), this, SLOT(setClassName(const QString &)));
-		connect(m_ltcw->m_options, SIGNAL(textChanged(const QString &)), this, SLOT(setLibOptions(const QString &)));
 
 		m_qtcw = new QuickToolConfigWidget(m_configWidget->m_stackBasic);
 		m_configWidget->m_stackBasic->insertWidget(GBS_Sequence, m_qtcw);
@@ -223,26 +203,27 @@ namespace KileWidget
 		int basicPage = GBS_None;
 		int extraPage = GES_None;
 
-		if ( type == "Process" || type == "Konsole" ) basicPage = GBS_Process;
-		else if ( type == "Part" ) basicPage = GBS_Library;
-		else if ( type == "DocPart" ) basicPage = GBS_None;
-		else if ( type == "Sequence" )
-		{
+		if(type == "Process" || type == "Konsole") {
+			basicPage = GBS_Process;
+		}
+		else if(type == "DocumentViewer") {
+			basicPage = GBS_None;
+		}
+		else if(type == "Sequence") {
 			basicPage = GBS_Sequence;
 			m_qtcw->updateSequence(m_map["sequence"]);
 		}
-		else basicPage = GBS_Error;
+		else {
+			basicPage = GBS_Error;
+		}
 
 		QString cls = m_map["class"];
-		if ( cls == "LaTeX" )
+		if(cls == "LaTeX") {
 			extraPage = GES_LaTeX;
+		}
 
 		m_ptcw->m_command->setText(m_map["command"]);
 		m_ptcw->m_options->setText(m_map["options"]);
-
-		m_ltcw->m_library->setText(m_map["libName"]);
-		m_ltcw->m_class->setText(m_map["className"]);
-		m_ltcw->m_options->setText(m_map["libOptions"]);
 
 		m_LaTeXtcw->m_ckRootDoc->setChecked(m_map["checkForRoot"] == "yes");
 		m_LaTeXtcw->m_ckJump->setChecked(m_map["jumpToFirstError"] == "yes");
@@ -541,17 +522,11 @@ namespace KileWidget
 		switch (index) {
 			case 0 : m_map["type"] = "Process"; break;
 			case 1 : m_map["type"] = "Konsole"; break;
-			case 2 : m_map["type"] = "Part"; break;
-			case 3 : m_map["type"] = "DocPart"; break;
-			case 4 : m_map["type"] = "Sequence"; break;
+			case 2 : m_map["type"] = "DocumentViewer"; break;
+			case 3 : m_map["type"] = "Sequence"; break;
 			default : m_map["type"] = "Process"; break;
 		}
 		emit(changed());
-	}
-
-	void ToolConfig::handleLibraryNameChanged(const QString& s)
-	{
-		m_configWidget->m_useDocumentViewer->setEnabled(s.trimmed() == OKULAR_LIBRARY_NAME);
 	}
 
 	void ToolConfig::handleDocumentViewerToggled(bool b)
@@ -562,10 +537,6 @@ namespace KileWidget
 
 	void ToolConfig::setCommand(const QString & command) { m_map["command"] = command.trimmed(); }
 	void ToolConfig::setOptions() { m_map["options"] = m_ptcw->m_options->toPlainText().trimmed(); }
-	void ToolConfig::setLibrary(const QString & lib) { m_map["libName"] = lib.trimmed(); }
-	void ToolConfig::setLibOptions(const QString & options) { m_map["libOptions"] = options.trimmed(); }
-	void ToolConfig::setUseDocumentViewer(bool ck) { m_map["useDocumentViewer"] = ck ? "yes" : "no"; };
-	void ToolConfig::setClassName(const QString & name) { m_map["className"] = name.trimmed(); }
 	void ToolConfig::setState(const QString & state)
 	{
 		QString str = state.trimmed();

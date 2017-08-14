@@ -1,7 +1,7 @@
 /***************************************************************************
     Begin : Sat 3-1 20:40:00 CEST 2004
     Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                  2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2011 - 2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -35,7 +35,7 @@ namespace KileWidget
 	{
 		Q_OBJECT
 
-		enum GeneralBasicStack { GBS_None = 1, GBS_Process, GBS_Library, GBS_DocPart, GBS_Sequence, GBS_Error };
+		enum GeneralBasicStack { GBS_None = 1, GBS_Process, GBS_Sequence, GBS_Error };
 		enum GeneralExtraStack { GES_None = 1, GES_LaTeX/*, GES_ViewBib*/ };
 
 	public:
@@ -69,10 +69,6 @@ namespace KileWidget
 
 		void setCommand(const QString &);
 		void setOptions();
-		void setLibrary(const QString &);
-		void setLibOptions(const QString &);
-		void setUseDocumentViewer(bool);
-		void setClassName(const QString &);
 		void setState(const QString &);
 		void setSequence(const QString &);
 		void setClose(bool);
@@ -88,7 +84,6 @@ namespace KileWidget
 		void switchClass(const QString &);
 		void switchType(int);
 
-		void handleLibraryNameChanged(const QString& s);
 		void handleDocumentViewerToggled(bool b);
 
 	Q_SIGNALS:

@@ -543,11 +543,8 @@ namespace KileTool
 		else if ( type == "Konsole" ) {
 			lr = new KonsoleLauncher();
 		}
-		else if ( type == "Part" ) {
-			lr = new PartLauncher();
-		}
-		else if ( type == "DocPart" ) {
-			lr = new DocPartLauncher();
+		else if ( type == "DocumentViewer" ) {
+			lr = new DocumentViewerLauncher();
 		}
 
 		if (lr) {

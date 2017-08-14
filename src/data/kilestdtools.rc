@@ -681,25 +681,6 @@ options=%dir_base/%source
 from=bib
 to=bib
 
-[Tool/ViewBib/KBibTex (embedded)]
-type=Part
-class=ViewBib
-libName=kbibtexpart
-className=KBibTeXPart
-liboptions=%dir_base/%source
-state=Viewer
-from=bib
-to=bib
-
-[Tool/ViewHTML/Embedded Viewer]
-type=DocPart
-class=ViewHTML
-state=HTMLpreview
-relDir=
-target=
-from=html
-to=html
-
 [Tool/ViewHTML/Konqueror]
 type=Process
 class=ViewHTML
@@ -744,26 +725,11 @@ target=
 from=html
 to=html
 
-[Tool/ForwardDVI/Embedded Viewer]
-type=Part
-class=ForwardDVI
-className=Okular::Part
-libName=okularpart
-from=dvi
-to=dvi
-state=Viewer
-libOptions=dvi
-
 [Tool/ForwardDVI/Document Viewer]
-type=Part
+type=DocumentViewer
 class=ForwardDVI
-className=Okular::Part
-libName=okularpart
 from=dvi
 to=dvi
-state=Viewer
-libOptions=dvi
-useDocumentViewer=yes
 
 [Tool/ForwardDVI/Okular]
 class=ForwardDVI
@@ -781,45 +747,17 @@ options=--unique %absolute_target
 from=pdf
 to=pdf
 
-[Tool/ForwardPDF/Embedded Viewer]
-type=Part
-class=ForwardDVI
-className=Okular::Part
-libName=okularpart
-from=pdf
-to=pdf
-state=Viewer
-libOptions=
-
 [Tool/ForwardPDF/Document Viewer]
-type=Part
+type=DocumentViewer
 class=ForwardDVI
-className=Okular::Part
-libName=okularpart
 from=pdf
 to=pdf
-state=Viewer
-libOptions=
-useDocumentViewer=yes
-
-[Tool/ViewDVI/Embedded Viewer]
-class=View
-className=Okular::Part
-libName=okularpart
-state=Viewer
-type=Part
-from=dvi
-to=dvi
 
 [Tool/ViewDVI/Document Viewer]
 class=View
-className=Okular::Part
-libName=okularpart
-state=Viewer
-type=Part
+type=DocumentViewer
 from=dvi
 to=dvi
-useDocumentViewer=yes
 
 [Tool/ViewDVI/Okular]
 class=View
@@ -884,24 +822,11 @@ to=ps
 state=Viewer
 type=Process
 
-[Tool/ViewPS/Embedded Viewer]
-class=View
-className=Okular::Part
-from=ps
-to=ps
-libName=okularpart
-state=Viewer
-type=Part
-
 [Tool/ViewPS/Document Viewer]
 class=View
-className=Okular::Part
 from=ps
 to=ps
-libName=okularpart
-state=Viewer
-type=Part
-useDocumentViewer=yes
+type=DocumentViewer
 
 [Tool/ViewPDF/Okular]
 class=View
@@ -930,24 +855,11 @@ to=pdf
 state=Viewer
 type=Process
 
-[Tool/ViewPDF/Embedded Viewer]
-class=View
-className=Okular::Part
-libName=okularpart
-from=pdf
-to=pdf
-state=Viewer
-type=Part
-
 [Tool/ViewPDF/Document Viewer]
 class=View
-className=Okular::Part
-libName=okularpart
 from=pdf
 to=pdf
-state=Viewer
-type=Part
-useDocumentViewer=yes
+type=DocumentViewer
 
 [Tool/ViewPDF/Acroread]
 class=View

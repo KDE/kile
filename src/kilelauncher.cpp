@@ -39,15 +39,6 @@
 #include <KParts/Part>
 #include <KParts/PartManager>
 
-static QVariantList toVariantList(const QStringList& list)
-{
-	QVariantList toReturn;
-	for(QStringList::const_iterator i = list.begin(); i != list.end(); ++i) {
-		toReturn.push_back(QVariant(*i));
-	}
-	return toReturn;
-}
-
 namespace KileTool {
 
 	Launcher::Launcher() :
@@ -347,184 +338,46 @@ namespace KileTool {
 		return ProcessLauncher::launch();
 	}
 
-	PartLauncher::PartLauncher() :
-		m_part(Q_NULLPTR),
-		m_state("Viewer")
+	DocumentViewerLauncher::DocumentViewerLauncher()
 	{
 	}
 
-	PartLauncher::~PartLauncher()
+	DocumentViewerLauncher::~DocumentViewerLauncher()
 	{
-		// the created part will be deleted in 'Kile::resetPart'
-		KILE_DEBUG_MAIN << "DELETING PartLauncher";
+		KILE_DEBUG_MAIN << "DELETING DocumentViewerLauncher";
 	}
 
-	void PartLauncher::setLibrary(const QString& lib)
-	{
-		m_libName = lib;
-	}
-
-	void PartLauncher::setClass(const QString& clas)
-	{
-		m_className = clas;
-	}
-
-	void PartLauncher::setOptions(const QString& options)
-	{
-		m_options = options;
-	}
-
-	bool PartLauncher::selfCheck()
+	bool DocumentViewerLauncher::selfCheck()
 	{
 		return true;  //no additional self-checks, all of them are done in launch()
 	}
 
-	bool PartLauncher::launch()
+	bool DocumentViewerLauncher::launch()
 	{
-		m_libName = tool()->readEntry("libName");
-		m_className = tool()->readEntry("className");
-		m_options = tool()->readEntry("libOptions");
-		m_state = tool()->readEntry("state");
-
-		// check if should use the document viewer
-		if(tool()->readEntry("useDocumentViewer") == "yes") {
-			// and whether it's available
-			if(!tool()->manager()->viewManager()->viewerPart()) {
-				emit(message(Error, i18n("The document viewer is not available")));
-				return false;
-			}
-			if(tool()->manager()->livePreviewManager() && tool()->manager()->livePreviewManager()->isLivePreviewActive()) {
-				emit(message(Error, i18n("Please disable the live preview before launching this tool")));
-				return false;
-			}
-			const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
-			tool()->manager()->viewManager()->openInDocumentViewer(QUrl::fromLocalFile(fileName));
-			if(tool()->paramDict().contains("%sourceFileName")
-			    && tool()->paramDict().contains("%sourceLine")) {
-				const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
-				const QString lineString = tool()->paramDict()["%sourceLine"];
-				tool()->manager()->viewManager()->showSourceLocationInDocumentViewer(sourceFileName, lineString.toInt(), 0);
-			}
-			emit(done(Success));
-
-			return true;
-		}
-
-		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
-
-		QString name, shrt;
-
-		// FIXME: this should be made user configurable
-		// allow support for embedding ForwardPDF (with Okular) as part (bug 245483)
-		if(tool()->paramDict().contains("%absolute_target")) {
-			shrt = "%absolute_target";
-			tool()->translate(shrt);
-			name = shrt;
-		}
-		else {
-			shrt = "%target";
-			tool()->translate(shrt);
-			QString dir  = "%dir_target";
-			tool()->translate(dir);
-
-			name = shrt;
-			if(!QDir::isRelativePath(dir)) {
-				name = dir + '/' + shrt;
-			}
-		}
-
-		KPluginLoader pluginLoader(m_libName);
-		KPluginFactory *factory = pluginLoader.factory();
-		if (!factory) {
-			emit(message(Error, i18n("Could not find the %1 library.", m_libName)));
+		if(!tool()->manager()->viewManager()->viewerPart()) {
+			emit(message(Error, i18n("The document viewer is not available")));
 			return false;
 		}
-
-		QStackedWidget *stack = tool()->manager()->widgetStack();
-		KParts::PartManager *pm = tool()->manager()->partManager();
-
-		m_part = factory->create<KParts::ReadOnlyPart>(stack, toVariantList(KShell::splitArgs(m_options, KShell::AbortOnMeta)));
-
-		if(!m_part) {
-			emit(message(Error, i18n("Could not create component %1 from the library %2.", m_className, m_libName)));
-			emit(done(Failed));
+		if(tool()->manager()->livePreviewManager() && tool()->manager()->livePreviewManager()->isLivePreviewActive()) {
+			emit(message(Error, i18n("Please disable the live preview before launching this tool")));
 			return false;
 		}
-		else {
-			QString cmd = QString(m_libName) + "->" + QString(m_className) + ' ' + m_options + ' ' + name;
-			out += "*****     " + cmd + '\n';
-
-			msg = shrt+ " (" + tool()->readEntry("libName") + ')';
-			emit(message(Info,msg));
+		const QString fileName = tool()->paramDict()["%dir_target"] + '/' + tool()->paramDict()["%target"];
+		tool()->manager()->viewManager()->openInDocumentViewer(QUrl::fromLocalFile(fileName));
+		if(tool()->paramDict().contains("%sourceFileName")
+		    && tool()->paramDict().contains("%sourceLine")) {
+			const QString sourceFileName = tool()->paramDict()["%sourceFileName"];
+			const QString lineString = tool()->paramDict()["%sourceLine"];
+			tool()->manager()->viewManager()->showSourceLocationInDocumentViewer(sourceFileName, lineString.toInt(), 0);
 		}
-
-		out += "*****\n";
-		emit(output(out));
-
-		tool()->manager()->wantGUIState(m_state);
-
-		stack->insertWidget(1, m_part->widget());
-		stack->setCurrentIndex(1);
-
-		m_part->openUrl(QUrl::fromLocalFile(name));
-		pm->addPart(m_part, true);
-		pm->setActivePart(m_part);
-
 		emit(done(Success));
 
 		return true;
 	}
 
-	void PartLauncher::kill(bool emitSignals)
+	void DocumentViewerLauncher::kill(bool emitSignals)
 	{
 		Q_UNUSED(emitSignals);
-	}
-
-	KParts::ReadOnlyPart* PartLauncher::part()
-	{
-		return m_part;
-	}
-
-	DocPartLauncher::DocPartLauncher() : PartLauncher()
-	{
-	}
-
-	bool DocPartLauncher::launch()
-	{
-		m_state=tool()->readEntry("state");
-
-		QString shrt = "%target";
-		tool()->translate(shrt);
-		QString name="%dir_target/%target";
-		tool()->translate(name);
-
-		QString out = "*****\n*****     " + tool()->name() + i18n(" output: \n") + "*****     KHTML " + name + "\n*****\n";
-		QString msg =  shrt+ " (KHTML)";
-		emit(message(Info, msg));
-		emit(output(out));
-
-		QStackedWidget *stack = tool()->manager()->widgetStack();
-		KParts::PartManager *pm = tool()->manager()->partManager();
-
-		DocumentationViewer *htmlpart = new DocumentationViewer(stack);
-		htmlpart->setObjectName("help");
-		m_part = static_cast<KParts::ReadOnlyPart*>(htmlpart);
-
-		connect(htmlpart, SIGNAL(updateStatus(bool, bool)), tool(), SIGNAL(updateStatus(bool, bool)));
-
-		tool()->manager()->wantGUIState(m_state);
-
-		htmlpart->openUrl(QUrl::fromLocalFile(name));
-		htmlpart->addToHistory(name);
-		stack->insertWidget(1, htmlpart->widget());
-		stack->setCurrentIndex(1);
-
-		pm->addPart(htmlpart, true);
-		pm->setActivePart( htmlpart);
-
-		emit(done(Success));
-
-		return true;
 	}
 
 }

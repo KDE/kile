@@ -526,16 +526,6 @@
               </layout>
              </item>
              <item>
-              <widget class="QCheckBox" name="m_useDocumentViewer">
-               <property name="enabled">
-                <bool>false</bool>
-               </property>
-               <property name="text">
-                <string>Use document viewer</string>
-               </property>
-              </widget>
-             </item>
-             <item>
               <widget class="QCheckBox" name="m_ckClose">
                <property name="text">
                 <string>Close Konsole when tool is finished</string>

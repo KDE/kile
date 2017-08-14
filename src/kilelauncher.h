@@ -111,42 +111,19 @@ namespace KileTool
 		bool launch();
 	};
 
-	class PartLauncher : public Launcher
+	class DocumentViewerLauncher : public Launcher
 	{
 		Q_OBJECT
 
 	public:
-		PartLauncher();
-		~PartLauncher();
-
-		void setLibrary(const QString& lib);
-		void setClass(const QString& clas);
-		void setOptions(const QString& options);
+		DocumentViewerLauncher();
+		~DocumentViewerLauncher();
 
 	public Q_SLOTS:
 		bool launch();
 		void kill(bool emitSignals = true);
 		bool selfCheck();
 
-		KParts::ReadOnlyPart* part();
-
-	protected:
-		KParts::ReadOnlyPart	*m_part;
-
-		QString		m_state;
-		QString		m_libName, m_className;
-		QString		m_options;
-	};
-
-	class DocPartLauncher : public PartLauncher
-	{
-		Q_OBJECT
-
-	public:
-		DocPartLauncher();
-
-	public Q_SLOTS:
-		bool launch();
 	};
 }
 

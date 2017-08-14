@@ -310,7 +310,7 @@ void OkularVersionTest::call()
 	else {
 		m_status = Success;
 		quint32 version = pluginLoader.pluginVersion();
-		m_resultText = i18n("%1 - Forward Search and Embedded Viewer Mode are supported", version);
+		m_resultText = i18n("%1 - Forward Search is supported", version);
 	}
 
 	emit(testComplete(this));

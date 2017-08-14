@@ -997,26 +997,22 @@ QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 
 void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
 {
-#if LIVEPREVIEW_AVAILABLE
 	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	        m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
 	connect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
 	        m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)), Qt::UniqueConnection);
 	connect(view->document(), SIGNAL(documentSavedOrUploaded(KTextEditor::Document*,bool)),
 	        m_livePreviewManager, SLOT(handleDocumentSavedOrUploaded(KTextEditor::Document*,bool)), Qt::UniqueConnection);
-#endif
 }
 
 void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
 {
-#if LIVEPREVIEW_AVAILABLE
 	disconnect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
 	           m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
 	disconnect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
 	           m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)));
 	disconnect(view->document(), SIGNAL(documentSavedOrUploaded(KTextEditor::Document*,bool)),
 	           m_livePreviewManager, SLOT(handleDocumentSavedOrUploaded(KTextEditor::Document*,bool)));
-#endif
 }
 
 void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)

@@ -40,9 +40,7 @@
 #include <KParts/MainWindow>
 #include <KXMLGUIFactory>
 
-#if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
-#endif
 
 #include "errorhandler.h"
 #include "kiledebug.h"
@@ -1031,11 +1029,7 @@ bool LivePreviewManager::isLivePreviewActive() const
 
 bool LivePreviewManager::isLivePreviewPossible() const
 {
-#if LIVEPREVIEW_AVAILABLE
 	return true;
-#else
-	return false;
-#endif
 }
 
 void LivePreviewManager::handleDocumentOpened(KileDocument::TextInfo *info)

@@ -52,6 +52,11 @@ find_package(KF5 5.31 REQUIRED COMPONENTS
 	XmlGui
 )
 
+find_package(Okular5 REQUIRED)
+set_package_properties(Okular5 PROPERTIES
+	DESCRIPTION "Okular core library"
+	URL "http://okular.kde.org")
+
 find_package(Poppler COMPONENTS Qt5)
 set_package_properties("Poppler" PROPERTIES
 	TYPE RECOMMENDED
@@ -60,16 +65,6 @@ set_package_properties("Poppler" PROPERTIES
 if(Poppler_Qt5_FOUND)
 	set(HAVE_POPPLER TRUE)
 	include_directories(${Poppler_INCLUDE_DIRS})
-endif()
-
-find_package(Okular5)
-set_package_properties(Okular5 PROPERTIES
-	DESCRIPTION "Okular core library"
-	URL "http://okular.kde.org"
-	TYPE RECOMMENDED
-	PURPOSE "Live preview support.")
-if(Okular5_FOUND)
-	set(HAVE_OKULAR TRUE)
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)

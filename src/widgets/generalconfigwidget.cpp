@@ -31,10 +31,6 @@ KileWidgetGeneralConfig::KileWidgetGeneralConfig(QWidget *parent) : QWidget(pare
 	dirCompletion->setMode(KUrlCompletion::DirCompletion);
 	kcfg_DefaultProjectLocation->setCompletionObject(dirCompletion);
 	kcfg_DefaultProjectLocation->setAutoDeleteCompletionObject(true);
-
-#if !LIVEPREVIEW_AVAILABLE
-	documentViewerGroupBox->setEnabled(false);
-#endif
 }
 
 KileWidgetGeneralConfig::~KileWidgetGeneralConfig()

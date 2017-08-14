@@ -15,8 +15,11 @@
 #include "kileviewmanager.h"
 #include <config.h>
 
+#include <okular/interfaces/viewerinterface.h>
+
 #include <KAcceleratorManager>
 #include <KActionCollection>
+#include <KConfigGroup>
 #include <KIconLoader>
 #include <kio/global.h>
 #include <KLocalizedString>
@@ -62,10 +65,6 @@
 #include "quickpreview.h"
 #include "codecompletion.h"
 
-#if LIVEPREVIEW_AVAILABLE
-#include <okular/interfaces/viewerinterface.h>
-#include <KConfigGroup>
-#endif
 
 namespace KileView
 {
@@ -200,7 +199,6 @@ void Manager::readConfig(QSplitter *splitter)
 
 	m_synchronizeViewWithCursorAction->setChecked(KileConfig::synchronizeCursorWithView());
 
-#if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface && !m_ki->livePreviewManager()->isLivePreviewActive()) {
 		viewerInterface->setWatchFileModeEnabled(KileConfig::watchFileForDocumentViewer());
@@ -210,7 +208,6 @@ void Manager::readConfig(QSplitter *splitter)
 			m_viewerPart->openUrl(m_viewerPart->url());
 		}
 	}
-#endif
 }
 
 void Manager::writeConfig()
@@ -1091,7 +1088,7 @@ void Manager::removeEventFilter(KTextEditor::View *view, QObject *eventFilter)
 void Manager::createViewerPart(KActionCollection *actionCollection)
 {
 	m_viewerPart = Q_NULLPTR;
-#if LIVEPREVIEW_AVAILABLE
+
 	KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
 	KPluginFactory *factory = pluginLoader.factory();
 	if(!factory) {
@@ -1124,14 +1121,10 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 			printPreviewAction->setText(i18n("Print Preview For Compiled Document..."));
 		}
 	}
-#else
-	Q_UNUSED(actionCollection);
-#endif
 }
 
 void Manager::setupViewerPart(QSplitter *splitter)
 {
-#if LIVEPREVIEW_AVAILABLE
 	if(!m_viewerPart) {
 		return;
 	}
@@ -1156,9 +1149,6 @@ void Manager::setupViewerPart(QSplitter *splitter)
 		splitter->addWidget(m_viewerPart->widget()); // remove it from the window first!
 		destroyDocumentViewerWindow();
 	}
-#else
-	Q_UNUSED(splitter);
-#endif
 }
 
 void Manager::destroyDocumentViewerWindow()
@@ -1249,7 +1239,6 @@ bool Manager::isViewerPartShown() const
 
 bool Manager::openInDocumentViewer(const QUrl &url)
 {
-#if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(!v) {
 		return false;
@@ -1257,41 +1246,28 @@ bool Manager::openInDocumentViewer(const QUrl &url)
 	bool r = m_viewerPart->openUrl(url);
 	v->clearLastShownSourceLocation();
 	return r;
-#else
-	Q_UNUSED(url);
-	return false;
-#endif
 }
 
 void Manager::clearLastShownSourceLocationInDocumentViewer()
 {
-#if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(v) {
 		v->clearLastShownSourceLocation();
 	}
-#endif
 }
 
 void Manager::showSourceLocationInDocumentViewer(const QString& fileName, int line, int column)
 {
-#if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *v = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(v) {
 		m_clearLastShownSourceLocationTimer->stop();
 		v->showSourceLocation(fileName, line, column, true);
 		m_clearLastShownSourceLocationTimer->start();
 	}
-#else
-	Q_UNUSED(fileName);
-	Q_UNUSED(line);
-	Q_UNUSED(column);
-#endif
 }
 
 void Manager::setLivePreviewModeForDocumentViewer(bool b)
 {
-#if LIVEPREVIEW_AVAILABLE
 	Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
 	if(viewerInterface) {
 		if(b) {
@@ -1302,9 +1278,6 @@ void Manager::setLivePreviewModeForDocumentViewer(bool b)
 
 		}
 	}
-#else
-	Q_UNUSED(b);
-#endif
 }
 
 KToolBar* Manager::getViewerControlToolBar()

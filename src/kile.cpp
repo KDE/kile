@@ -50,9 +50,7 @@
 #include <KWindowSystem>
 #include <KParts/BrowserExtension>
 
-#if LIVEPREVIEW_AVAILABLE
 #include <okular/interfaces/viewerinterface.h>
-#endif
 
 #include "abbreviationmanager.h"
 #include "configurationmanager.h"
@@ -228,7 +226,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	if(viewManager()->viewerPart()) {
 		m_bottomBar->addExtraWidget(viewManager()->getViewerControlToolBar());
 	}
-#if LIVEPREVIEW_AVAILABLE
+
 	m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection());
 	connect(this, &Kile::masterDocumentChanged, m_livePreviewManager, &KileTool::LivePreviewManager::handleMasterDocumentChanged);
 
@@ -236,9 +234,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 		delete m_livePreviewManager;
 		m_livePreviewManager = Q_NULLPTR;
 	}
-#else
-	m_livePreviewManager = Q_NULLPTR;
-#endif
 
 	m_toolFactory = new KileTool::Factory(m_manager, m_config.data(), actionCollection());
 	m_manager->setFactory(m_toolFactory);
@@ -2540,11 +2535,9 @@ void Kile::readRecentFileSettings()
 void Kile::readConfig()
 {
 	m_codeCompletionManager->readConfig(m_config.data());
-#if LIVEPREVIEW_AVAILABLE
-	if(m_livePreviewManager) {
-		m_livePreviewManager->readConfig(m_config.data());
-	}
-#endif
+
+	m_livePreviewManager->readConfig(m_config.data());
+
 	//m_edit->initDoubleQuotes();
 	m_edit->readConfig();
 	docManager()->updateInfos();
@@ -2574,11 +2567,9 @@ void Kile::saveSettings()
 	showEditorWidget();
 
 	m_fileBrowserWidget->writeConfig();
-#if LIVEPREVIEW_AVAILABLE
-	if(m_livePreviewManager) {
-		m_livePreviewManager->writeConfig();
-	}
-#endif
+
+	m_livePreviewManager->writeConfig();
+
 	m_symbolViewMFUS->writeConfig();
 	saveLastSelectedAction();
 	// Store recent files
@@ -2748,14 +2739,13 @@ void Kile::generalOptions()
 void Kile::slotPerformCheck()
 {
 	// first we have to disable the live preview that may be running, and clear the master document
-#if LIVEPREVIEW_AVAILABLE
 	const bool livePreviewEnabledForFreshlyOpenedDocuments = KileConfig::previewEnabledForFreshlyOpenedDocuments();
 	const bool livePreviewEnabledForCurrentDocument = livePreviewManager() && livePreviewManager()->isLivePreviewEnabledForCurrentDocument();
 	if (livePreviewManager()) {
 		KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(false);
 		livePreviewManager()->setLivePreviewEnabledForCurrentDocument(false);
 	}
-#endif
+
 	// we show the message output widget in the bottom bar and shrink the side bar
 	int sideBarTab = m_sideBar->currentTab();
 	int bottomBarTab = m_bottomBar->currentTab();
@@ -2796,14 +2786,12 @@ void Kile::slotPerformCheck()
 		m_bottomBar->switchToTab(bottomBarTab);
 	}
 
-#if LIVEPREVIEW_AVAILABLE
 	if (livePreviewManager()) {
 		KileConfig::setPreviewEnabledForFreshlyOpenedDocuments(livePreviewEnabledForFreshlyOpenedDocuments);
 		if(livePreviewEnabledForCurrentDocument) {
 			livePreviewManager()->setLivePreviewEnabledForCurrentDocument(true);
 		}
 	}
-#endif
 }
 
 void Kile::aboutEditorComponent()

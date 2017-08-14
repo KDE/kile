@@ -1,6 +1,6 @@
 /****************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                  2008-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -17,15 +17,13 @@
 #include <config.h>
 
 #include "docpart.h"
-#if LIVEPREVIEW_AVAILABLE
-  #include "livepreview.h"
-#endif
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kiletool.h"
 #include "kiletoolmanager.h"
 #include "kiletool_enums.h"
 #include "kileviewmanager.h"
+#include "livepreview.h"
 
 #include <QStackedWidget>
 #include <QFileInfo>
@@ -387,7 +385,7 @@ namespace KileTool {
 		m_className = tool()->readEntry("className");
 		m_options = tool()->readEntry("libOptions");
 		m_state = tool()->readEntry("state");
-#if LIVEPREVIEW_AVAILABLE
+
 		// check if should use the document viewer
 		if(tool()->readEntry("useDocumentViewer") == "yes") {
 			// and whether it's available
@@ -411,7 +409,7 @@ namespace KileTool {
 
 			return true;
 		}
-#endif
+
 		QString msg, out = "*****\n*****     " + tool()->name() + i18n(" output: \n");
 
 		QString name, shrt;

@@ -129,7 +129,6 @@ public:
 
 Q_SIGNALS:
 	void activateView(QWidget*, bool);
-	void prepareForPart(const QString&);
 	void startQuickPreview(int);
 	void currentViewChanged(QWidget*);
 	void textViewActivated(KTextEditor::View *view);

@@ -69,7 +69,6 @@ namespace KileWidget
 
 		void setCommand(const QString &);
 		void setOptions();
-		void setState(const QString &);
 		void setSequence(const QString &);
 		void setClose(bool);
 		void setTarget(const QString &);
@@ -83,8 +82,6 @@ namespace KileWidget
 		void setClass(const QString &);
 		void switchClass(const QString &);
 		void switchType(int);
-
-		void handleDocumentViewerToggled(bool b);
 
 	Q_SIGNALS:
 		void changed();

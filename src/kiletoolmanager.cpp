@@ -1,6 +1,6 @@
 /**************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -93,11 +93,10 @@ namespace KileTool
 		}
 	}
 
-	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *manager, QStackedWidget *stack, QAction *stop, uint to, KActionCollection *ac) :
+	Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget *stack, QAction *stop, uint to, KActionCollection *ac) :
 		m_ki(ki),
 		m_config(config),
 		m_output(output),
-		m_pm(manager),
 		m_stack(stack),
 		m_stop(stop),
 		m_bClear(true),

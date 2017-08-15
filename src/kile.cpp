@@ -48,7 +48,6 @@
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 #include <KWindowSystem>
-#include <KParts/BrowserExtension>
 
 #include <okular/interfaces/viewerinterface.h>
 
@@ -146,18 +145,13 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	m_latexCommands = new KileDocument::LatexCommands(m_config.data(), this);  // at first (dani)
 	m_edit = new KileDocument::EditorExtension(this);
 	m_help = new KileHelp::Help(m_edit, this);
-	m_partManager = new KParts::PartManager(this);
 	m_errorHandler = new KileErrorHandler(this, this, actionCollection());
 	m_quickPreview = new KileTool::QuickPreview(this);
 	m_extensions = new KileDocument::Extensions();
 	m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
 	m_userMenu = Q_NULLPTR;
 
-	connect(m_partManager, SIGNAL(activePartChanged(KParts::Part*)), this, SLOT(activePartGUI(KParts::Part*)));
-
 	// do initializations first
-	m_currentState = "Editor";
-	m_wantState = "Editor";
 	m_bWatchFile = false;
 
 	setStatusBar(new KileWidget::StatusBar(m_errorHandler, parent));
@@ -195,7 +189,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	viewManager()->createTabs(m_verticalSplitter);
 
 	connect(viewManager(), SIGNAL(activateView(QWidget*, bool)), this, SLOT(activateView(QWidget*, bool)));
-	connect(viewManager(), SIGNAL(prepareForPart(const QString& )), this, SLOT(prepareForPart(const QString& )));
 	connect(viewManager(), SIGNAL(startQuickPreview(int)), this, SLOT(slotQuickPreview(int)) );
 
 	connect(parserManager(), SIGNAL(documentParsingStarted()), this, SLOT(handleDocumentParsingStarted()));
@@ -218,8 +211,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	setupActions(); // sets up m_paStop
 
 	// Parser manager and view manager must be created before the tool manager!
-	m_manager = new KileTool::Manager(this, m_config.data(), m_outputWidget, m_partManager, m_topWidgetStack, m_paStop, 10000, actionCollection()); //FIXME make timeout configurable
-	connect(m_manager, SIGNAL(requestGUIState(const QString &)), this, SLOT(prepareForPart(const QString &)));
+	m_manager = new KileTool::Manager(this, m_config.data(), m_outputWidget, m_topWidgetStack, m_paStop, 10000, actionCollection()); //FIXME make timeout configurable
 	connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
 	connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
@@ -264,7 +256,8 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
 
 	setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
-	m_partManager->setActivePart(Q_NULLPTR); // 'createGUI' is called in response to this
+	createShellGUI(true);
+	updateUserDefinedMenus();
 
 	// we can only do this here after the main GUI has been set up
 	if(m_livePreviewManager && viewManager()->viewerPart()) {
@@ -352,7 +345,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(m_userMenu, &KileMenu::UserMenu::updateStatus, this, &Kile::slotUpdateUserMenuStatus);
 
 	restoreFilesAndProjects(allowRestore);
-	slotStateChanged("Editor");
 	initMenu();
 	updateModeStatus();
 
@@ -779,7 +771,6 @@ void Kile::setupActions()
 
 	errorHandler()->setErrorHandlerToolBar(m_latexOutputErrorToolBar);
 
-	createAction(i18n("Return to Editor"), "return_to_editor", "document-edit", QKeySequence("CTRL+E"), this, SLOT(showEditorWidget()));
 	createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page", QKeySequence(Qt::ALT + Qt::Key_Right), viewManager(), SLOT(gotoNextView()));
 	createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page", QKeySequence(Qt::ALT + Qt::Key_Left), viewManager(), SLOT(gotoPrevView()));
 	createAction(i18n("Focus Log/Messages View"), "focus_log", QKeySequence("CTRL+Alt+M"), this, SLOT(focusLog()));
@@ -1259,8 +1250,6 @@ void Kile::setLine(const QString &line)
 		KWindowSystem::forceActiveWindow(winId());
 		focusTextView(view);
 		editorExtension()->goToLine(l - 1, view);
-
-		showEditorWidget();
 	}
 }
 
@@ -1463,11 +1452,7 @@ bool Kile::queryClose()
 	}
 
 	//don't close Kile if embedded viewers are present
-	KILE_DEBUG_MAIN << "==bool Kile::queryClose(" << m_currentState << ")==========" << endl;
-	if(m_currentState != "Editor") {
-		resetPart();
-		return false;
-	}
+	KILE_DEBUG_MAIN << "==bool Kile::queryClose==========" << endl;
 
 	m_listProjectsOpenOnStart.clear();
 	m_listDocsOpenOnStart.clear();
@@ -1654,36 +1639,9 @@ void Kile::findInProjects()
 }
 
 /////////////////// PART & EDITOR WIDGET //////////
-void Kile::showEditorWidget()
-{
-	if(!resetPart()){
-		return;
-	}
-	setCentralWidget(m_topWidgetStack);
-	m_topWidgetStack->show();
-	m_horizontalSplitter->show();
-	m_verticalSplitter->show();
-}
-
-
 bool Kile::resetPart()
 {
 	KILE_DEBUG_MAIN << "==Kile::resetPart()=============================" << endl;
-	KILE_DEBUG_MAIN << "\tcurrent state " << m_currentState << endl;
-	KILE_DEBUG_MAIN << "\twant state " << m_wantState << endl;
-
-	KParts::ReadOnlyPart *part = static_cast<KParts::ReadOnlyPart*>(m_partManager->activePart());
-
-	if (part && m_currentState != "Editor") {
-		if(part->closeUrl()) {
-			m_partManager->removePart(part);
-			m_topWidgetStack->removeWidget(part->widget());
-			delete part;
-		}
-		else {
-			return false;
-		}
-	}
 
 	statusBar()->reset();
 	updateModeStatus();
@@ -1694,41 +1652,7 @@ bool Kile::resetPart()
 		activateView(view);
 	}
 
-	m_currentState = "Editor";
-	m_wantState = "Editor";
 	return true;
-}
-
-void Kile::activePartGUI(KParts::Part *part)
-{
-	KILE_DEBUG_MAIN << "==Kile::activePartGUI()=============================" << endl;
-	KILE_DEBUG_MAIN << "\tcurrent state " << m_currentState << endl;
-	KILE_DEBUG_MAIN << "\twant state " << m_wantState << endl;
-
-	//manually plug the print action into the toolbar for
-	//kghostview (which has the print action defined in
-	//a KParts::BrowserExtension)
-	KParts::BrowserExtension *ext = KParts::BrowserExtension::childObject(part);
-	if(ext && ext->metaObject()->indexOfSlot("print()") > -1) { //part is a BrowserExtension, connect printAction()
-		connect(m_paPrint, SIGNAL(triggered()), ext, SLOT(print()));
-		toolBar("mainToolBar")->addAction(m_paPrint); //plug this action into its default location
-		m_paPrint->setEnabled(true);
-	}
-	else {
-		if (m_paPrint->associatedWidgets().contains(toolBar("mainToolBar"))) {
-			toolBar("mainToolBar")->removeAction(m_paPrint);
-		}
-		m_paPrint->setEnabled(false);
-	}
-
-	createGUI(part);
-	updateUserDefinedMenus();
-
-	// finally update the GUI regarding the current state
-	updateGUI(m_wantState);
-	//set the current state
-	m_currentState = m_wantState;
-	m_wantState = "Editor";
 }
 
 void Kile::updateUserDefinedMenus()
@@ -1740,10 +1664,7 @@ void Kile::updateUserDefinedMenus()
 	m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_other", m_mainWindow));
 	m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
 
-	if ( m_userMenu ) {
-		m_userMenu->updateGui();
-	}
-	else {
+	if(!m_userMenu) {
 		QMenu *usermenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_usermenu", m_mainWindow));
 		if ( usermenu ) {
 			usermenu->menuAction()->setVisible(false);
@@ -1754,55 +1675,7 @@ void Kile::updateUserDefinedMenus()
 	setupTools();
 }
 
-void Kile::updateGUI(const QString &wantState)
-{
-	// save state of all toolbars
-	static bool mainToolBar = true;
-	static bool toolsToolBar = true;
-	static bool editToolBar = true;
-	static bool mathToolBar = true;
-
-	if(m_currentState == "Editor") {
-		mainToolBar  = !toolBar("mainToolBar")->isHidden();
-		toolsToolBar = !toolBar("toolsToolBar")->isHidden();
-		editToolBar  = !toolBar("editToolBar")->isHidden();
-		mathToolBar  = !toolBar("mathToolBar")->isHidden();
-	}
-
-	if(wantState == "HTMLpreview") {
-		slotStateChanged("HTMLpreview");
-		setViewerToolBars();
-		enableKileGUI(false);
-		actionCollection()->action("return_to_editor")->setVisible(true);
-	}
-	else if(wantState == "Viewer") {
-		slotStateChanged("Viewer");
-		setViewerToolBars();
-		enableKileGUI(false);
-		actionCollection()->action("return_to_editor")->setVisible(true);
-	}
-	else {
-		slotStateChanged( "Editor" );
-		m_wantState="Editor";
-		m_topWidgetStack->setCurrentIndex(0);
-		if ( !mainToolBar  ) toolBar("mainToolBar")->hide();
-		if ( toolsToolBar ) toolBar("toolsToolBar")->show();
-		if ( editToolBar  ) toolBar("editToolBar")->show();
-		if ( mathToolBar  ) toolBar("mathToolBar")->show();
-		actionCollection()->action("return_to_editor")->setVisible(false);
-		enableKileGUI(true);
-	}
-}
-
-void Kile::setViewerToolBars()
-{
-	toolBar("mainToolBar")->show();
-	toolBar("toolsToolBar")->hide();
-	toolBar("editToolBar")->hide();
-	toolBar("mathToolBar")->hide();
-}
-
-void Kile::enableKileGUI(bool enable)
+void Kile::enableGUI(bool enable)
 {
 	// update action lists
 	QList<QAction *> actions = actionCollection()->actions();
@@ -2021,7 +1894,7 @@ void Kile::updateMenu()
 	bool file_open = ( viewManager()->currentTextView() );
 	KILE_DEBUG_MAIN << "\tprojectopen=" << project_open << " fileopen=" << file_open << endl;
 
-	enableKileGUI(file_open);
+	enableGUI(file_open);
 }
 
 bool Kile::updateMenuActivationStatus(QMenu *menu)
@@ -2068,26 +1941,6 @@ void Kile::updateLatexenuActivationStatus(QMenu *menu, bool state)
 		state = false;
 	}
 	menu->menuAction()->setVisible(state);
-}
-
-//TODO: move to KileView::Manager
-void Kile::prepareForPart(const QString & state)
-{
-	KILE_DEBUG_MAIN << "==Kile::prepareForPart====================";
-
-	if(m_currentState == "Editor" && state == "Editor") {
-		return;
-	}
-
-	resetPart();
-	m_wantState = state;
-
-	//deactivate kateparts
-	for(int i = 0; i < viewManager()->textViewCount(); ++i) {
-		KTextEditor::View *view = viewManager()->textView(i);
-		guiFactory()->removeClient(view);
-		view->clearFocus();
-	}
 }
 
 void Kile::runTool(const QString& tool)
@@ -2564,8 +2417,6 @@ void Kile::readConfig()
 
 void Kile::saveSettings()
 {
-	showEditorWidget();
-
 	m_fileBrowserWidget->writeConfig();
 
 	m_livePreviewManager->writeConfig();
@@ -2842,7 +2693,6 @@ void Kile::configureToolbars()
 	applyMainWindowSettings(m_config->group("KileMainWindow"));
 
 	updateUserDefinedMenus();
-	updateGUI(m_currentState);
 	setUpdatesEnabled(true);
 }
 

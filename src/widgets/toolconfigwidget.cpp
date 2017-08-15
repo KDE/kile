@@ -122,9 +122,6 @@ namespace KileWidget
 		connect(m_configWidget->m_leTarget, SIGNAL(textChanged(const QString &)), this, SLOT(setTo(const QString &)));
 		connect(m_configWidget->m_leFile, SIGNAL(textChanged(const QString &)), this, SLOT(setTarget(const QString &)));
 		connect(m_configWidget->m_leRelDir, SIGNAL(textChanged(const QString &)), this, SLOT(setRelDir(const QString &)));
-
-		m_configWidget->m_cbState->addItem("Editor");
-		connect(m_configWidget->m_cbState, SIGNAL(activated(const QString &)), this, SLOT(setState(const QString &)));
 	}
 
 	void ToolConfig::updateAdvanced()
@@ -145,19 +142,6 @@ namespace KileWidget
 			m_configWidget->m_cbType->setCurrentIndex(3);
 		}
 		m_configWidget->m_ckClose->setEnabled(enablekonsoleclose);
-
-		QString state = m_map["state"];
-		if(state.isEmpty()) {
-			state = "Editor";
-		}
-		int i = m_configWidget->m_cbState->findText(state);
-		if(i >= 0) {
-			m_configWidget->m_cbState->setCurrentIndex(i);
-		}
-		else {
-			m_configWidget->m_cbState->setItemText(m_configWidget->m_cbState->currentIndex(),
-			                                       state);
-		}
 
 		int index = m_classes.indexOf(m_map["class"]);
 		if(index == -1) {
@@ -408,7 +392,6 @@ namespace KileWidget
 				KConfigGroup toolGroup = m_config->group(KileTool::groupFor(toolName, "Default"));
 				toolGroup.writeEntry("class", tempMap["class"]);
 				toolGroup.writeEntry("type", tempMap["type"]);
-				toolGroup.writeEntry("state", tempMap["state"]);
 				toolGroup.writeEntry("close", tempMap["close"]);
 				toolGroup.writeEntry("checkForRoot", tempMap["checkForRoot"]);
 				toolGroup.writeEntry("autoRun", tempMap["autoRun"]);
@@ -452,7 +435,6 @@ namespace KileWidget
 		toolGroup.writeEntry("class", "Compile");
 		toolGroup.writeEntry("type", "Process");
 		toolGroup.writeEntry("menu", "Compile");
-		toolGroup.writeEntry("state", "Editor");
 		toolGroup.writeEntry("close", "no");
 
 		m_config->group("Tools").writeEntry(tool, cfg);
@@ -529,20 +511,8 @@ namespace KileWidget
 		emit(changed());
 	}
 
-	void ToolConfig::handleDocumentViewerToggled(bool b)
-	{
-		m_configWidget->m_cbState->setEnabled(!b);
-		m_configWidget->m_leRelDir->setEnabled(!b);
-	}
-
 	void ToolConfig::setCommand(const QString & command) { m_map["command"] = command.trimmed(); }
 	void ToolConfig::setOptions() { m_map["options"] = m_ptcw->m_options->toPlainText().trimmed(); }
-	void ToolConfig::setState(const QString & state)
-	{
-		QString str = state.trimmed();
-		if(str.isEmpty()) str = "Editor";
-		m_map["state"] = str;
-	}
 	void ToolConfig::setSequence(const QString & sequence) { m_map["sequence"] = sequence.trimmed(); }
 	void ToolConfig::setClose(bool on) { m_map["close"] = on ? "yes" : "no"; }
 	void ToolConfig::setTarget(const QString & trg) { m_map["target"] = trg.trimmed(); }

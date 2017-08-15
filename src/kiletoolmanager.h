@@ -1,6 +1,6 @@
 /**************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -48,8 +48,6 @@ class KConfig;
 class KSelectAction;
 class KTextEdit;
 
-namespace KParts { class PartManager; }
-
 class KileInfo;
 namespace KileParser { class Manager; }
 namespace KileView { class Manager; }
@@ -89,7 +87,7 @@ namespace KileTool
 		Q_OBJECT
 
 	public:
-		Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, KParts::PartManager *, QStackedWidget* stack, QAction *, uint to, KActionCollection *);
+		Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget* stack, QAction *, uint to, KActionCollection *);
 		~Manager();
 	public:
 		Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
@@ -104,7 +102,6 @@ namespace KileTool
 
 		void wantGUIState(const QString &);
 
-		KParts::PartManager * partManager() { return m_pm; }
 		QStackedWidget* widgetStack() { return m_stack; }
 		KileView::Manager* viewManager();
 		KileTool::LivePreviewManager* livePreviewManager();
@@ -171,7 +168,6 @@ namespace KileTool
 		KileInfo			*m_ki;
 		KConfig				*m_config;
 		KileWidget::OutputView		*m_output;
-		KParts::PartManager		*m_pm;
 		QStackedWidget			*m_stack;
 		QAction *m_stop;
 		Factory				*m_factory;

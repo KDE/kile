@@ -447,8 +447,6 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 
 	reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
 
-	emit(prepareForPart("Editor"));
-
 	return view;
 }
 

@@ -29,9 +29,6 @@
 
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
-#include <kparts/mainwindow.h>
-#include <kparts/partmanager.h>
-#include <kparts/part.h>
 #include <ktogglefullscreenaction.h>
 #include <KXmlGuiWindow>
 
@@ -61,6 +58,8 @@ class KRecentFilesAction;
 class KToggleFullScreenAction;
 class KToggleToolBarAction;
 class KMultiTabBar;
+
+namespace KParts { class MainWindow; }
 
 class KileLyxServer;
 class KileProject;
@@ -106,8 +105,6 @@ public Q_SLOTS:
 
 	void runArchiveTool();
 	void runArchiveTool(const QUrl&);
-
-	void prepareForPart(const QString &);
 
 	void updateModeStatus();
 	void newCaption();
@@ -168,9 +165,6 @@ private:
 	KToolBar			*m_latexOutputErrorToolBar;
 	QMenu  *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview;
 
-	//parts
-	KParts::PartManager 		*m_partManager;
-	QString 			m_wantState, m_currentState;
 	QSignalMapper			*m_signalMapper;
 
 	/* config */
@@ -214,8 +208,6 @@ private:
 	void updateLatexenuActivationStatus(QMenu *menu, bool state);
 	void updateUserMenuStatus(bool state);
 
-	void setViewerToolBars();
-
 	QAction * createAction(const QString &text, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
 	QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
 	QAction * createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
@@ -228,15 +220,12 @@ private:
 private Q_SLOTS:
 	void toggleMasterDocumentMode();
 	void toggleWatchFile();
-	void showEditorWidget();
 	void refreshStructure();
 
 	void helpLaTex();
 
 	bool resetPart();
-	void activePartGUI(KParts::Part *);
-	void updateGUI(const QString &wantingState);
-	void enableKileGUI(bool);
+	void enableGUI(bool);
 	void slotToggleFullScreen();
 
 	void restoreFilesAndProjects(bool allowRestore);

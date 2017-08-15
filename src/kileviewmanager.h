@@ -169,11 +169,12 @@ public Q_SLOTS:
 
 	void setDocumentViewerVisible(bool b);
 
+	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
+
 private Q_SLOTS:
 	void tabContext(const QPoint& pos);
 	void closeTab(int index);
 	void currentTabChanged(int index);
-	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
 	void handleCursorPositionChangedTimeout();
 
 private:

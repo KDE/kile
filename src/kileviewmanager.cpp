@@ -130,8 +130,6 @@ Manager::Manager(KileInfo *info, KActionCollection *actionCollection, QObject *p
 	        this, [=] () { m_showCursorPositionInViewerAction->setEnabled(!m_synchronizeViewWithCursorAction->isChecked()); });
 	actionCollection->addAction("synchronize_cursor_with_document_viewer", m_synchronizeViewWithCursorAction);
 
-	connect(this, &KileView::Manager::cursorPositionChanged, this, &KileView::Manager::handleCursorPositionChanged);
-
 	m_cursorPositionChangedTimer = new QTimer(this);
 	m_cursorPositionChangedTimer->setSingleShot(true);
 	connect(m_cursorPositionChangedTimer, &QTimer::timeout, this, &KileView::Manager::handleCursorPositionChangedTimeout);

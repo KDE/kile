@@ -435,6 +435,7 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &u
 				                        m_ki->configurationManager(),
 				                        m_ki->codeCompletionManager(),
 				                        m_ki->livePreviewManager(),
+				                        m_ki->viewManager(),
 				                        m_ki->parserManager());
 				break;
 			case BibTeX:

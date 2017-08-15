@@ -1,6 +1,6 @@
 /*************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-              (C) 2006-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -48,6 +48,7 @@ namespace KileCodeCompletion { class LaTeXCompletionModel; class AbbreviationCom
 namespace KileAbbreviation { class Manager; }
 namespace KileTool { class LivePreviewManager; }
 namespace KileParser { class ParserOutput; class Manager; }
+namespace KileView { class Manager; }
 
 namespace KileStruct
 {
@@ -431,6 +432,7 @@ public:
 	          KileConfiguration::Manager *manager,
 	          KileCodeCompletion::Manager *codeCompletionManager,
 	          KileTool::LivePreviewManager *livePreviewManager,
+	          KileView::Manager *viewManager,
 	          KileParser::Manager *parserManager);
 
 	virtual ~LaTeXInfo();
@@ -453,6 +455,7 @@ protected:
 	QObject *m_eventFilter;
 	KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
 	KileTool::LivePreviewManager *m_livePreviewManager;
+	KileView::Manager *m_viewManager;
 
 	virtual void updateStructLevelInfo();
 	virtual void checkChangedDeps();

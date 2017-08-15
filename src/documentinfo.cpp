@@ -1,7 +1,7 @@
 /*********************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
               (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-              (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -849,13 +849,15 @@ LaTeXInfo::LaTeXInfo(Extensions* extensions,
                      KileConfiguration::Manager* manager,
                      KileCodeCompletion::Manager* codeCompletionManager,
                      KileTool::LivePreviewManager* livePreviewManager,
+                     KileView::Manager *viewManager,
                      KileParser::Manager* parserManager)
 : TextInfo(extensions, abbreviationManager, parserManager, "LaTeX"),
   m_commands(commands),
   m_editorExtension(editorExtension),
   m_configurationManager(manager),
   m_eventFilter(Q_NULLPTR),
-  m_livePreviewManager(livePreviewManager)
+  m_livePreviewManager(livePreviewManager),
+  m_viewManager(viewManager)
 {
 	documentTypePromotionAllowed = false;
 	updateStructLevelInfo();
@@ -997,22 +999,22 @@ QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 
 void LaTeXInfo::installSignalConnections(KTextEditor::View *view)
 {
-	connect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
-	        m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
-	connect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
-	        m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)), Qt::UniqueConnection);
-	connect(view->document(), SIGNAL(documentSavedOrUploaded(KTextEditor::Document*,bool)),
-	        m_livePreviewManager, SLOT(handleDocumentSavedOrUploaded(KTextEditor::Document*,bool)), Qt::UniqueConnection);
+	connect(view, &KTextEditor::View::cursorPositionChanged,
+	        m_viewManager, &KileView::Manager::handleCursorPositionChanged);
+	connect(view->document(), &KTextEditor::Document::textChanged,
+	        m_livePreviewManager, &KileTool::LivePreviewManager::handleTextChanged, Qt::UniqueConnection);
+	connect(view->document(), &KTextEditor::Document::documentSavedOrUploaded,
+	        m_livePreviewManager, &KileTool::LivePreviewManager::handleDocumentSavedOrUploaded, Qt::UniqueConnection);
 }
 
 void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
 {
-	disconnect(view, SIGNAL(cursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)),
-	           m_livePreviewManager, SLOT(handleCursorPositionChanged(KTextEditor::View*, const KTextEditor::Cursor&)));
-	disconnect(view->document(), SIGNAL(textChanged(KTextEditor::Document*)),
-	           m_livePreviewManager, SLOT(handleTextChanged(KTextEditor::Document*)));
-	disconnect(view->document(), SIGNAL(documentSavedOrUploaded(KTextEditor::Document*,bool)),
-	           m_livePreviewManager, SLOT(handleDocumentSavedOrUploaded(KTextEditor::Document*,bool)));
+	disconnect(view, &KTextEditor::View::cursorPositionChanged,
+	        m_viewManager, &KileView::Manager::handleCursorPositionChanged);
+	disconnect(view->document(), &KTextEditor::Document::textChanged,
+	           m_livePreviewManager, &KileTool::LivePreviewManager::handleTextChanged);
+	disconnect(view->document(), &KTextEditor::Document::documentSavedOrUploaded,
+	           m_livePreviewManager, &KileTool::LivePreviewManager::handleDocumentSavedOrUploaded);
 }
 
 void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)

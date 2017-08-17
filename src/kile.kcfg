@@ -637,7 +637,7 @@
 		</entry>
 		<entry name="livePreviewCompileOnlyAfterSaving" type="Bool">
 			<label>Only compile documents after saving.</label>
-			<default>false</default>
+			<default>true</default>
 		</entry>
 	</group>
 </kcfg>

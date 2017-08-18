@@ -106,7 +106,7 @@ install(
 		kile2.0-3_upd.pl
 		kile2.0-4_upd.pl
 		kile2.0-5_upd.pl
-	DESTINATION ${DATA_INSTALL_DIR}/kconf_update)
+	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kconf_update)
 
 install(FILES
 		AUTHORS

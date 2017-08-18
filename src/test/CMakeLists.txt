@@ -5,4 +5,4 @@ set(testFiles
 	test_bib.tex
 	test_index.tex
 )
-install(FILES ${testFiles} DESTINATION ${DATA_INSTALL_DIR}/kile/test)
+install(FILES ${testFiles} DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile/test)

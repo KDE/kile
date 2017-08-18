@@ -291,5 +291,5 @@ set(kile_action_ICONS
 
 ecm_install_icons(
 	ICONS ${kile_action_ICONS}
-	DESTINATION ${DATA_INSTALL_DIR}/kile/icons
+	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile/icons
 )

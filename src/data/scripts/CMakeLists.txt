@@ -1,4 +1,4 @@
 
 ########### install files ###############
 file(GLOB kile_jsplug *.js)
-install(FILES ${kile_jsplug} DESTINATION ${DATA_INSTALL_DIR}/kile/scripts)
+install(FILES ${kile_jsplug} DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile/scripts)

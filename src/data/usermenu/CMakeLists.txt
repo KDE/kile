@@ -1,2 +1,2 @@
 file(GLOB kile_lum *.xml)
-install(FILES ${kile_lum} DESTINATION ${DATA_INSTALL_DIR}/kile/usermenu)
+install(FILES ${kile_lum} DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile/usermenu)

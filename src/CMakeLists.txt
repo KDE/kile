@@ -259,15 +259,15 @@ install(TARGETS kdeinit_kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 install(FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
 install(PROGRAMS org.kde.kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
 install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
-install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${DATA_INSTALL_DIR}/kile)
+install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
 install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})
 install(FILES data/org.kde.kile.appdata.xml DESTINATION ${CMAKE_INSTALL_METAINFODIR})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	install(FILES data/kilestdtools-win.rc
-           DESTINATION ${DATA_INSTALL_DIR}/kile
+           DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile
            RENAME kilestdtools.rc)
 else(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	install (FILES data/kilestdtools.rc
-           DESTINATION ${DATA_INSTALL_DIR}/kile)
+           DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
 endif(CMAKE_SYSTEM_NAME MATCHES "Windows")

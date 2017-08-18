@@ -1,2 +1,2 @@
 file(GLOB kile_dictFiles *.cwl)
-install(FILES ${kile_dictFiles} DESTINATION ${DATA_INSTALL_DIR}/kile/complete/dictionary)
+install(FILES ${kile_dictFiles} DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile/complete/dictionary)

@@ -2,6 +2,8 @@ project(kile)
 
 cmake_minimum_required(VERSION 3.0.0)
 
+set(KILE_VERSION CACHE STRING "Kile's version; can be used to set the internal version of Kile on MacOSX")
+
 find_package(ECM 5.19.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
@@ -106,20 +108,13 @@ install(
 		kile2.0-5_upd.pl
 	DESTINATION ${DATA_INSTALL_DIR}/kconf_update)
 
-if(KILE_VERSION)
-	set(_KILE_SPECIAL_DOC_DIR "share/doc/kile-${KILE_VERSION}")
-else(KILE_VERSION)
-	set(_KILE_SPECIAL_DOC_DIR "share/doc/kile")
-endif(KILE_VERSION)
-
-install(
-	FILES
+install(FILES
 		AUTHORS
 		ChangeLog
 		README
 		README.cwl
 		kile-remote-control.txt
 		README.MacOSX
-	DESTINATION ${_KILE_SPECIAL_DOC_DIR})
+	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/doc/kile)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

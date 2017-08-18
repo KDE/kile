@@ -1,93 +1,64 @@
 Dear User/Packager,
 
-this Readme is targeted towards people who want to build Kile from source or plan to create binary packages.
-If you have created a package, please drop us a note ( kile-devel@lists.sourceforge.net ), so that we can promote your package.
+this Readme is targeted toward users who want to build Kile from source or plan to create binary packages on Linux systems
 
-1.) Checking dependencies
+
+(1) Checking dependencies
 ============================
 
-- KDE 4.x with x >= 3 and corresponding Qt development packages
-  KDE 4.4 is required for enabling additional functionality in Kile.
-- CMake 2.6.2 or greater
-- GCC 4.x
+You will need recent versions of
 
-2.) Building Kile from Source on Linux/BSD
-===========================================
+- a C++ compiler that supports lambda expressions (like GCC 6.x)
+- CMake
+- Qt 5 (and corresponding development packages if installed from binary packages)
+- KDE Frameworks 5 (and corresponding development packages if installed from binary packages)
+- Okular 5 (and corresponding development packages if installed from binary packages)
+
+(2) Building Kile from source on Linux systems
+==============================================
 
 It is recommended to create a special directory which will contain the Kile executable and related files. In that way
 it is easier to upgrade Kile. We assume in the following that the directory $HOME/kile-install is used for that purpose.
 If you do not want to use a separate directory, you can also install Kile into the local KDE directory for your user,
 which is named $HOME/.kde usually. The different steps for compiling Kile are now as follows:
 
-- Extract the source code with "tar xjf kile-x.tar.bz2"
+- Extract the source code with "tar xjf kile-<x>.tar.bz2"
 - Create a "kile-build" directory somewhere for an out-of-source build.
 - Enter the "kile-build" directory and call CMake with:
   " cmake <path to the Kile source directory> -DCMAKE_INSTALL_PREFIX=$HOME/kile-install -DCMAKE_BUILD_TYPE="Debug" "
 - Type "make -j 2" to compile the package.
 - Type "make install -j 2" to install the programs, data files and documentation.
-- Type "KDEDIRS=$HOME/kile-install:$KDEDIRS $HOME/kile-install/bin/kile" and enjoy the power of LaTeX together with
-  the joy of using Kile :)
+- Type "XDG_DATA_DIRS=$HOME/kile-install/:$XDG_DATA_DIRS $HOME/kile-install/bin/kile" to run Kile
 
-2.1.) Building Documentation
-============================
-
-The documentation will automatically be built provided that the documentation files
-are located in the following directories:
-<kile-root>
-           /doc                                   for the standard documentation and
-                                                  accompanying image files
-
-           /translations
-                        /<language>
-                                   /doc           for the translated documentation and
-                                                  images in language <language>
-
-                                   /messages      for the translated message catalogs
-                                                  in language <language>
-
-Please note that every docbook must be called "index.docbook" and that only PNG image
-files can be used. Furthermore, message catalogs must be called "kile.po".
-
-When the "doc" and "translations" directories are found, the build targets "docbooks"
-and "translations" will be generated for the compiling of the documentation.
-
-2.3.) Special Flags for Building
-=================================
-The flag "KILE_VERSION" can be set in the CMake cache to specify the installation
-directory for basic documentation files (README, AUTHORS, ChangeLog,...), i.e. they
-will be installed in "share/doc/kile-${KILE_VERSION}/" instead of "share/doc/kile/".
-
-3.) Using Kile
+(3) Using Kile
 ===============================
 
 To use Kile you (obviously) need some external programs.
 The following list is divided into basic, advanced and additional usage.
 
 Basic:
-- TeXLive 2005/2007/2008/2009 (Including "AMS"-Packages and the documentation).
-  This add among others the following programs:
+- TeXLive LaTeX distribution, which will add, among others, the following programs:
     - Tex/LaTeX
     - PDFLaTeX
     - XeLaTeX
     - ConTeXt
     - BibTeX
     - MakeIndex
-- Okular (DVI, PS, PDF Viewer from KDE)
 
 Advanced:
-- Imagemagick, DVIPNG 1.7 (Bottom bar preview)
+- ImageMagick, DVIPNG (for the bottom bar preview)
 
-By default there are also tools for the following programs defined:
+By default Kile ships with pre-defined tool settings for following programs:
 - Tar/Zip/GZip/BZip2 (Archive)
-- DBlatex (Docbook to LaTeX)
+- DBLaTeX (Docbook to LaTeX)
 - Metapost and Asymptote
-- Latex2html (LaTeX to Web)
+- LaTeX2html (LaTeX to Web)
 - Tex4ht (LaTeX to Web)
 - Xindy (MakeIndex replacement)
 - Lilypond (Music Typesetting)
-- Konqueror/Mozilla/Firefox (Viewing HTML)
-- KBibTeX, KBib, JabRef, PyBliographer, GBib (View Bibtex files)
+- Konqueror/Firefox (Viewing HTML)
+- KBibTeX, KBib, JabRef, PyBliographer, GBib (View BibTeX files)
 
-If you have any questions or corrections, please don't hesitate to contact us via kile-devel@lists.sourceforge.net.
+If you have any questions, please don't hesitate to contact us via kile-devel@lists.sourceforge.net.
 
 The Kile development team

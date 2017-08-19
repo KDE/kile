@@ -2309,9 +2309,6 @@ void Kile::transformOldUserTags()
 
 void Kile::transformOldUserSettings()
 {
-	//test for old kilerc
-	int version = KileConfig::rCVersion();
-
 	//delete old editor key
 	if(m_config->hasGroup("Editor")) {
 		m_config->deleteGroup("Editor");

@@ -37,7 +37,7 @@ namespace KileTool
 			Factory(Manager *mngr, KConfig *config, KActionCollection *actionCollection);
 			~Factory();
 
-			void readStandardToolConfig();
+			void resetToolConfigurations();
 			void installStandardLivePreviewTools();
 
 		private:

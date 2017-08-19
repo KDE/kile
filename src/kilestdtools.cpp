@@ -1,7 +1,7 @@
 /**************************************************************************************
     begin                : Thu Nov 27 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2011-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -119,11 +119,22 @@ namespace KileTool
 		return tool;
 	}
 
-	void Factory::readStandardToolConfig()
+	void Factory::resetToolConfigurations()
 	{
 		KConfig stdToolConfig(m_standardToolConfigurationFileName, KConfig::NoGlobals);
-		const QStringList groupList = stdToolConfig.groupList();
-		for(QString groupName : groupList) {
+
+		m_config->deleteGroup(QLatin1String("Tools"));
+		m_config->deleteGroup(QLatin1String("ToolsGUI"));
+
+		// we delete all the groups whose names start with "Tool/";
+		for(QString groupName : m_config->groupList()) {
+			if(groupName.startsWith(QLatin1String("Tool/"))) {
+				m_config->deleteGroup(groupName);
+			}
+		}
+
+		// now we copy all the "Tool/" groups, the "Tools", and "ToolsGUI" groups over
+		for(QString groupName : stdToolConfig.groupList()) {
 			if(groupName != SHORTCUTS_GROUP_NAME) {
 				KConfigGroup configGroup = stdToolConfig.group(groupName);
 				m_config->deleteGroup(groupName);

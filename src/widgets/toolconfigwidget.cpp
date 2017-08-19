@@ -221,25 +221,14 @@ namespace KileWidget
 
 	void ToolConfig::writeDefaults()
 	{
-		if (KMessageBox::warningContinueCancel(this, i18n("All your tool settings will be overwritten with the default settings, are you sure you want to continue?")) == KMessageBox::Continue) {
-			QStringList groups = m_config->groupList();
-			QRegExp re = QRegExp("Tool/(.+)/.+");
-			for(int i = 0; i < groups.count(); ++i) {
-				if (re.exactMatch(groups[i])) {
-					m_config->deleteGroup(groups[i]);
-				}
-			}
-			// magic names, defined in kilestdtools.rc
-			m_config->deleteGroup("ToolsGUI");
-			m_config->deleteGroup("Tools");
-
-			m_manager->factory()->readStandardToolConfig();
+		if (KMessageBox::warningContinueCancel(this, i18n("All your tool settings will be overwritten with the default settings.\nAre you sure you want to continue?")) == KMessageBox::Continue) {
+			m_manager->factory()->resetToolConfigurations();
 			m_config->sync();
 			updateToollist();
   			QStringList tools = KileTool::toolList(m_config, true);
 			for (int i = 0; i < tools.count(); ++i) {
 				switchTo(tools[i], false);// needed to retrieve the new map
- 				switchTo(tools[i],true); // this writes the newly retrieved entry map (and not an perhaps changed old one)
+ 				switchTo(tools[i], true); // this writes the newly retrieved entry map (and not an perhaps changed old one)
 			}
 			int index = indexQuickBuild();
 			if(!tools.empty()) {

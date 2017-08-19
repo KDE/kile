@@ -247,8 +247,20 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	connect(docManager(), SIGNAL(documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
 	        viewManager(), SLOT(reflectDocumentModificationStatus(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
 
-	transformOldUserSettings();
-	transformOldUserTags();
+	if(KileConfig::rCVersion() < 8) {
+		transformOldUserSettings();
+		transformOldUserTags();
+
+		// before Kile 2.1 shortcuts were stored in a "Shortcuts" group inside
+		// Kile's configuration file, but this led to problems with the way of how shortcuts
+		// are generally stored in kdelibs; we now delete the "Shortcuts" group if it
+		// still present in Kile's configuration file.
+		if(m_config->hasGroup("Shortcuts")) {
+			KConfigGroup shortcutGroup = m_config->group("Shortcuts");
+			actionCollection()->readSettings(&shortcutGroup);
+			m_config->deleteGroup("Shortcuts");
+		}
+	}
 	readGUISettings();
 	readRecentFileSettings();
 	readConfig();
@@ -326,17 +338,14 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 		m_listUserTools.clear();
 	}
 
-	if(KileConfig::rCVersion() < 7) {
+	if(KileConfig::rCVersion() < 8) {
 		if (KMessageBox::questionYesNo(mainWindow(),
-		    i18n("<p>The standard tool list needs to be reset as Kile has been upgraded.<br/>"
+		    i18n("<p>The tool settings need to be reset for this version of Kile to function properly.<br/>"
 		         "This will overwrite any changes you have made.</p>"
-		         "<p>Do you want to reset the list now (recommended)?</p>"),
-			i18n("Tools need to be updated"))  == KMessageBox::Yes){
-				m_toolFactory->readStandardToolConfig();
+		         "<p>Do you want to reset the tools now?</p>"),
+			i18n("Tools need to be reset"))  == KMessageBox::Yes){
+				m_toolFactory->resetToolConfigurations();
 		}
-	}
-	else if(KileConfig::rCVersion() < 8) { // we need to add the livepreview tools
-		m_toolFactory->installStandardLivePreviewTools();
 	}
 
 	// lazy creation: last possible place to insert this user-defined menu
@@ -347,16 +356,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	restoreFilesAndProjects(allowRestore);
 	initMenu();
 	updateModeStatus();
-
-	// before Kile 2.1 shortcuts were stored in a "Shortcuts" group inside
-	// Kile's configuration file, but this led to problems with the way of how shortcuts
-	// are generally stored in kdelibs; we now delete the "Shortcuts" group if it
-	// still present in Kile's configuration file.
-	if(m_config->hasGroup("Shortcuts")) {
-		KConfigGroup shortcutGroup = m_config->group("Shortcuts");
-		actionCollection()->readSettings(&shortcutGroup);
-		m_config->deleteGroup("Shortcuts");
-	}
 
 	// finally init all actions for the ScriptManager
 	m_jScriptManager->initScriptActions();
@@ -2312,14 +2311,6 @@ void Kile::transformOldUserSettings()
 {
 	//test for old kilerc
 	int version = KileConfig::rCVersion();
-
-	//if the kilerc file is old some of the configuration
-	//data must be set by kile, even if the keys are present
-	//in the kilerc file
-	if(version < 4) {
-		KILE_DEBUG_MAIN << "READING STD TOOL CONFIG" << endl;
-		m_toolFactory->readStandardToolConfig();
-	}
 
 	//delete old editor key
 	if(m_config->hasGroup("Editor")) {

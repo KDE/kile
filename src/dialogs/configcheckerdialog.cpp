@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -246,14 +246,15 @@ void ConfigChecker::finished(bool ok)
 		m_useModernConfigurationForLaTeXCheckBox->setChecked(m_tester->areSrcSpecialsSupportedForLaTeX());
 		m_useModernConfigurationForPDFLaTeX->setChecked(m_tester->isSyncTeXSupportedForPDFLaTeX());
 
+//TODO: simplify this as Okular now always supports viewer mode
 		if(m_tester->isViewerModeSupportedInOkular()) {
 			m_useEmbeddedViewerCheckBox->setVisible(true);
 			m_useEmbeddedViewerCheckBox->setChecked(true);
 			if(m_tester->isSyncTeXSupportedForPDFLaTeX()) {
-				testResultText += i18n("The embedded viewer is available and live preview is supported.");
+				testResultText += i18n("The embedded document viewer is available and live preview is supported.");
 			}
 			else {
-				testResultText += i18n("The embedded viewer is available, but the installed version of PDFLaTeX is<br/>"
+				testResultText += i18n("The embedded document viewer is available, but the installed version of PDFLaTeX is<br/>"
 				                       "<b>not compatible</b> with live preview.");
 			}
 		}
@@ -261,7 +262,7 @@ void ConfigChecker::finished(bool ok)
 			m_useEmbeddedViewerCheckBox->setVisible(false);
 			m_useEmbeddedViewerCheckBox->setChecked(false);
 
-			testResultText += i18n("The embedded viewer is <b>not available</b> (as Okular is either not available or the installed<br/>version is too old). "
+			testResultText += i18n("The embedded document viewer is <b>not available</b> (as Okular is either not available or the installed<br/>version is too old). "
 			                       "Live preview is hence not supported.");
 		}
 

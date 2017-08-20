@@ -1199,7 +1199,7 @@ void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project
 	if(!previewNeedsToBeRefreshed) {
 		KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 		// we can't use TextInfo pointers here as they might not be set in 'item' yet
-		if(view->document()->url() == item->url()) {
+		if(view && (view->document()->url() == item->url())) {
 			previewNeedsToBeRefreshed = true;
 		}
 	}

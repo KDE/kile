@@ -520,12 +520,15 @@ bool KileProject::load()
 
 	QUrl url;
 	KileProjectItem *item;
-	QStringList groups = m_config->groupList();
+	const QStringList groups = m_config->groupList();
 
 	//retrieve all the project files and create and initialize project items for them
-	for (int i = 0; i < groups.count(); ++i) {
-		if (groups[i].left(5) == "item:") {
-			QString path = groups[i].mid(5);
+	for (auto group : groups) {
+		if(!m_config->hasGroup(group)) { // 'group' might have been deleted
+			continue;                // work around bug 384039
+		}
+		if (group.left(5) == "item:") {
+			QString path = group.mid(5);
 			if (QDir::isAbsolutePath(path)) {
 				url = QUrl::fromLocalFile(path);
 			}
@@ -536,9 +539,9 @@ bool KileProject::load()
 			item = new KileProjectItem(this, KileDocument::Manager::symlinkFreeURL(url));
 			setType(item);
 
-			KConfigGroup configGroup = m_config->group(groups[i]);
+			KConfigGroup configGroup = m_config->group(group);
 			// path has to be set before we can load it
-			item->changePath(groups[i].mid(5));
+			item->changePath(group.mid(5));
 			item->load();
 			connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
 		}
@@ -643,9 +646,11 @@ KConfigGroup KileProject::configGroupForItemViewSettings(KileProjectItem *item, 
 void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
 {
 	QString itemString = "item:" + item->path();
-	QStringList groupList = m_config->groupList();
-	for(QStringList::iterator i = groupList.begin(); i != groupList.end(); ++i) {
-		QString groupName = *i;
+	const QStringList groupList = m_config->groupList();
+	for(auto groupName : groupList) {
+		if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
+			continue;                    // work around bug 384039
+		}
 		if(groupName.indexOf(itemString) >= 0) {
 			m_config->deleteGroup(groupName);
 		}
@@ -969,8 +974,10 @@ bool KileProject::migrateProjectFileToVersion3()
 		<< QStringLiteral("kile_livePreviewTool");
 
 	const QStringList groups = m_config->groupList();
-	for(int i = 0; i < groups.count(); ++i) {
-		const QString& groupName = groups[i];
+	for(auto groupName : groups) {
+		if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
+			continue;                    // work around bug 384039
+		}
 
 		// these ones we move completely
 		if(groupName.startsWith(QLatin1String("document-settings,")) || groupName.startsWith(QLatin1String("view-settings,"))) {

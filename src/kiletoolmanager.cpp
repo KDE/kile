@@ -519,15 +519,20 @@ namespace KileTool
 	{
 		KILE_DEBUG_MAIN << "==KileTool::toolList()==================" << endl;
 
-		QStringList groups = config->groupList(), tools;
+		const QStringList groups = config->groupList();
+		QStringList tools;
+
 		QRegExp re = QRegExp("Tool/(.+)/.+");
 		QString name;
 
-		for(int i = 0; i < groups.count(); ++i) {
-			if(re.exactMatch(groups[i])) {
+		for(auto group : groups) {
+			if(!config->hasGroup(group)) { // 'group' might have been deleted
+				continue;                // work around bug 384039
+			}
+			if(re.exactMatch(group)) {
 				name = configName(re.cap(1), config);
 
-				if(name.isEmpty() || !groups[i].endsWith(name)) {
+				if(name.isEmpty() || !group.endsWith(name)) {
 					continue;
 				}
 
@@ -545,12 +550,17 @@ namespace KileTool
 
 	QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const QString& className)
 	{
-		QStringList groups = config->groupList(), tools;
+		const QStringList groups = config->groupList();
+		QStringList tools;
+
 		QRegExp re = QRegExp("Tool/(.+)/(.+)");
 		QList<ToolConfigPair> toReturn;
 
-		for(int i = 0; i < groups.count(); ++i) {
-			if(re.exactMatch(groups[i])) {
+		for(auto group : groups) {
+			if(!config->hasGroup(group)) { // 'group' might have been deleted
+				continue;                // work around bug 384039
+			}
+			if(re.exactMatch(group)) {
 				const QString toolName = re.cap(1);
 				const QString configName = re.cap(2);
 
@@ -558,7 +568,7 @@ namespace KileTool
 					continue;
 				}
 
-				if(config->group(groups[i]).readEntry("class", "") == className) {
+				if(config->group(group).readEntry("class", "") == className) {
 					toReturn.push_back(ToolConfigPair(toolName, configName));
 				}
 			}
@@ -622,11 +632,16 @@ namespace KileTool
 
 	QStringList configNames(const QString &tool, KConfig *config)
 	{
-		QStringList groups = config->groupList(), configs;
+		const QStringList groups = config->groupList();
+		QStringList configs;
+
 		QRegExp re = QRegExp("Tool/"+ tool +"/(.+)");
 
-		for(int i = 0; i < groups.count(); ++i) {
-			if(re.exactMatch(groups[i])) {
+		for(auto group : groups) {
+			if(!config->hasGroup(group)) { // 'group' might have been deleted
+			    continue;                // work around bug 384039
+			}
+			if(re.exactMatch(group)) {
 				configs.append(re.cap(1));
 			}
 		}

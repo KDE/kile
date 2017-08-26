@@ -2488,9 +2488,11 @@ QString Manager::configGroupNameForViewSettings(const QUrl &url, int viewIndex) 
 void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 {
 	QString urlString = url.url();
-	QStringList groupList = KSharedConfig::openConfig()->groupList();
-	for(QStringList::iterator i = groupList.begin(); i != groupList.end(); ++i) {
-		QString groupName = *i;
+	const QStringList groupList = KSharedConfig::openConfig()->groupList();
+	for(auto groupName : groupList) {
+		if(!KSharedConfig::openConfig()->hasGroup(groupName)) { // 'groupName' might have been deleted
+			continue;                                       // work around bug 384039
+		}
 		if(groupName.startsWith("Document-Settings")
 		|| groupName.startsWith("View-Settings")) {
 			int urlIndex = groupName.indexOf("URL=");

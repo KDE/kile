@@ -262,21 +262,36 @@ Print List of Shorthands - \printshorthands
 	if(bibCfg == Q_NULLPTR )
 		return;
 
-	QStringList groupList = bibCfg->groupList();
+	const QStringList groupList = bibCfg->groupList();
 
-	if( groupList.count() == 0 )
-		return;
+	// check if a non-deleted group exists
+	// groupList.count() == 0 is not enough due to bug 384039
+	{
+		bool allDeleted = false;
+		for(auto group : groupList) {
+			if(bibCfg->hasGroup(group)) {
+				allDeleted = false;
+				break;
+			}
+		}
+		if(allDeleted) {
+			return;
+		}
+	}
 
 	QString name, tag, internalName, keys, key;
 	QStringList keyList, optKeyList, altKeyList;
 	QString altText, optText, compText;
 
-	for(QList<QString>::iterator it = groupList.begin(); it != groupList.end(); ++it) {
+	for(auto group : groupList) {
+		if(!bibCfg->hasGroup(group)) { // 'group' might have been deleted
+			continue;                // work around bug 384039
+		}
 		altKeyList.clear();
 		keyList.clear();
 		optKeyList.clear();
 
-		KConfigGroup grp = bibCfg->group(*it);
+		KConfigGroup grp = bibCfg->group(group);
 
 // 		KILE_DEBUG_MAIN << "group " <<  grp.name();
 

@@ -339,11 +339,13 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	}
 
 	if(KileConfig::rCVersion() < 8) {
-		if (KMessageBox::questionYesNo(mainWindow(),
+		// if KileConfig::rCVersion() <= 0, then 'kilerc' is (most likely) fresh or empty,
+		// otherwise, we have to ask the user if she wants to reset the tools
+		if ((KileConfig::rCVersion() <= 0) || (KMessageBox::questionYesNo(mainWindow(),
 		    i18n("<p>The tool settings need to be reset for this version of Kile to function properly.<br/>"
 		         "This will overwrite any changes you have made.</p>"
 		         "<p>Do you want to reset the tools now?</p>"),
-			i18n("Tools need to be reset"))  == KMessageBox::Yes){
+			i18n("Tools need to be reset"))  == KMessageBox::Yes)){
 				m_toolFactory->resetToolConfigurations();
 		}
 	}
@@ -370,7 +372,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	// finally, we check whether the system check assistant should be run, which is important for
 	// version 3.0 regarding the newly introduced live preview feature
 	const QString& lastVersionRunFor = KileConfig::systemCheckLastVersionRunForAtStartUp();
-	if(lastVersionRunFor.isEmpty() || compareVersionStrings(lastVersionRunFor, "2.9.60") < 0) {
+	if(lastVersionRunFor.isEmpty() || compareVersionStrings(lastVersionRunFor, "2.9.91") < 0) {
 		slotPerformCheck();
 		KileConfig::setSystemCheckLastVersionRunForAtStartUp(kileFullVersion);
 	}

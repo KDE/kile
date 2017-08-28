@@ -2609,6 +2609,9 @@ void Kile::slotPerformCheck()
 	dlg->exec();
 	delete dlg;
 
+	m_errorHandler->clearMessages();
+	m_errorHandler->clearErrorOutput();
+
 	// finally, we restore the rest to what it was before launching the tests
 	m_viewManager->setTabsAndEditorVisible(true);
 	if(!currentMasterDocument.isEmpty()) {

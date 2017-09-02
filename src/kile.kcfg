@@ -609,11 +609,11 @@
 		</entry>
 	</group>
 	<group name="UserMenu">
-		<entry name="menuFile" type="String">
+		<entry name="userMenuFile" type="String">
 			<label>XML file for the user menu</label>
 			<default></default>
 		</entry>
-		<entry name="menuLocation" type="Int">
+		<entry name="userMenuLocation" type="Int">
 			<label>Use the main menubar (value 0) or the LaTeX menu (value 1) for the location of the user menu</label>
 			<default>1</default>
 		</entry>

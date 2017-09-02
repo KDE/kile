@@ -20,14 +20,14 @@
 #include "kiledebug.h"
 
 KileWidgetUsermenuConfig::KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent)
-   : QWidget(parent)
-   , m_usermenu(usermenu)
+   : QWidget(parent),
+     m_usermenu(usermenu)
 {
 	Q_ASSERT(m_usermenu);
 	setupUi(this);
 	setXmlFile(m_usermenu->xmlFile());
 
-	if(KileConfig::menuLocation() == KileMenu::UserMenu::StandAloneLocation) {
+	if(KileConfig::userMenuLocation() == KileMenu::UserMenu::StandAloneLocation) {
 		m_rbStandAloneMenuLocation->setChecked(true);
 	}
 	else {
@@ -47,9 +47,9 @@ void KileWidgetUsermenuConfig::writeConfig()
 {
 	const int location = (m_rbStandAloneMenuLocation->isChecked())
 	                     ? KileMenu::UserMenu::StandAloneLocation : KileMenu::UserMenu::LaTeXMenuLocation;
-	if(KileConfig::menuLocation() != location) {
+	if(KileConfig::userMenuLocation() != location) {
 		KILE_DEBUG_MAIN << "menu position changed";
-		KileConfig::setMenuLocation(location);
+		KileConfig::setUserMenuLocation(location);
 		m_usermenu->changeMenuLocation(location);
 	}
 }

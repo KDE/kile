@@ -1,5 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+            (C) 2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -51,7 +52,17 @@ class UserMenu : public QObject
 		void updateGui();
 		void updateKeyBindings();
 
-		QMenu *getMenuItem() const { return m_usermenu; }
+		QMenu* getMenuItem();
+
+		inline MenuLocation getUserMenuLocation() const
+		{
+			switch(KileConfig::userMenuLocation()) {
+				case 0:
+					return StandAloneLocation;
+				default:
+					return LaTeXMenuLocation;
+			}
+		}
 
 		QList<QAction *> contextMenuActions() const { return m_actionlistContextMenu; }
 		QList<QAction *> menuActions() const { return m_actionlist; }
@@ -78,7 +89,6 @@ class UserMenu : public QObject
 		QObject * m_receiver;
 		QString m_currentXmlFile;
 
-		int m_menuLocation;
 		QAction *m_wizardAction1, *m_latexAction1;
 		QAction *m_wizardAction2, *m_latexAction2;
 		QMenu *m_latexMenuEntry;
@@ -88,7 +98,6 @@ class UserMenu : public QObject
 		QList<QAction *> m_actionlist;
 		QList<UserMenuData> m_menudata;
 
-		QMenu *m_usermenu;
 		KActionCollection *m_actioncollection;
 
 		KProcess *m_proc;

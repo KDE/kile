@@ -1,5 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+            (C) 2017 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -36,7 +37,7 @@ namespace KileMenu {
 
 // The UserMenu uses six values/data structures:
 //
-//  - m_usermenu: the menu with its entries/actions itself (QMenu *)
+//  - getUserMenu(): the menu with its entries/actions itself (QMenu *)
 //    (actions for menu items are named 'useraction-n', where n is a
 //     number starting at 0. It is also used as index for the m_menudata list.)
 //
@@ -72,7 +73,7 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
 
 	// look for an existing menufile:
 	// if filename matches 'basename.ext' then the file is placed in 'KILE-LOCAL-DIR/usermenu' directory
-	m_currentXmlFile = KileConfig::menuFile();
+	m_currentXmlFile = KileConfig::userMenuFile();
 	if ( !m_currentXmlFile.isEmpty() ) {
 		if ( !m_currentXmlFile.contains("/") ) {
 			m_currentXmlFile = QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory) + m_currentXmlFile;
@@ -97,7 +98,7 @@ UserMenu::~UserMenu()
 
 bool UserMenu::isEmpty()
 {
-	return (m_usermenu->actions().size() == 0);
+	return (getMenuItem()->actions().size() == 0);
 }
 /////////////////////// install usermenu//////////////////////////////
 
@@ -123,18 +124,13 @@ void UserMenu::addSpecialActionsToMenus()
 	latex_menu->addAction(m_latexAction1);
 	latex_menu->addAction(m_latexAction2);
 	latex_menu->addMenu(m_latexMenuEntry);
-
-	// update usermenu
-	m_usermenu = (m_menuLocation == StandAloneLocation)
-	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
-	            : m_latexMenuEntry;
 }
 
 void UserMenu::updateUsermenuPosition()
 {
 	// and set the new one
 	const bool show = !isEmpty() && m_ki->viewManager()->currentTextView();
-	if(m_menuLocation == StandAloneLocation) {
+	if(getUserMenuLocation() == StandAloneLocation) {
 		setStandAloneMenuVisible(true, show);
 	}
 	else {
@@ -146,13 +142,6 @@ void UserMenu::changeMenuLocation(int newPosition)
 {
 	// clear old usermenu, wherever it is
 	clear();
-
-	// set new usermenu position
-	KXmlGuiWindow *mainwindow = m_ki->mainWindow();
-	m_menuLocation = newPosition;
-	m_usermenu = (m_menuLocation == StandAloneLocation)
-	            ? dynamic_cast<QMenu*>(mainwindow->guiFactory()->container("menu_usermenu", mainwindow))
-	            : m_latexMenuEntry;
 
 	installXmlFile(m_currentXmlFile);
 	updateUsermenuPosition();
@@ -181,8 +170,8 @@ void UserMenu::setStandAloneMenuVisible(bool state, bool show)
 void UserMenu::clear()
 {
 	// clear usermenu and menudata
-	if ( m_usermenu ) {
-		m_usermenu->clear();
+	if(getMenuItem()) {
+		getMenuItem()->clear();
 	}
 	m_menudata.clear();
 
@@ -208,7 +197,7 @@ void UserMenu::updateGui()
 	// make entries visible or not
 	updateUsermenuPosition();
 
-	// like installXmlFile(), but without updating KileConfig::menuFile
+	// like installXmlFile(), but without updating KileConfig::userMenuFile
 	// first clear old usermenu, menudata, actions and actionlists
 	clear();
 
@@ -238,6 +227,18 @@ void UserMenu::updateKeyBindings()
 
 	// update xml file of current usermenu
 	updateXmlFile(m_currentXmlFile);
+}
+
+QMenu* UserMenu::getMenuItem()
+{
+
+	if(getUserMenuLocation() == StandAloneLocation) {
+		KParts::MainWindow *mainWindow = m_ki->mainWindow();
+		return dynamic_cast<QMenu*>(mainWindow->guiFactory()->container("menu_usermenu", mainWindow));
+	}
+	else {
+		return m_latexMenuEntry;
+	}
 }
 
 void UserMenu::removeActionProperties()
@@ -374,7 +375,7 @@ void UserMenu::installXmlFile(const QString &filename)
 				xmlfile = basename;
 			}
 		}
-		KileConfig::setMenuFile(xmlfile);
+		KileConfig::setUserMenuFile(xmlfile);
 		emit (updateStatus());
 
 		// add changed context menu to all existing views
@@ -393,7 +394,7 @@ void UserMenu::removeXmlFile()
 	clear();
 	m_currentXmlFile.clear();
 
-	KileConfig::setMenuFile(m_currentXmlFile);
+	KileConfig::setUserMenuFile(m_currentXmlFile);
 	emit (updateStatus());
 }
 
@@ -404,7 +405,9 @@ bool UserMenu::installXml(const QString &filename)
 {
 	KILE_DEBUG_MAIN << "install: start";
 
-	if ( !m_usermenu ) {
+	QMenu *userMenu = getMenuItem();
+
+	if(!userMenu) {
 		KILE_DEBUG_MAIN << "Hmmmm: found no usermenu";
 		return false;
 	}
@@ -436,10 +439,10 @@ bool UserMenu::installXml(const QString &filename)
 
 		if ( tag=="submenu" || tag=="separator") {
 			if ( tag == "submenu" ) {
-				installXmlSubmenu(e,m_usermenu,actionnumber);
+				installXmlSubmenu(e, userMenu, actionnumber);
 			}
 			else /* tag=="separator" */ {
-				m_usermenu->addSeparator();
+				userMenu->addSeparator();
 			}
 
 			// try to get some structure into to the context menu
@@ -449,7 +452,7 @@ bool UserMenu::installXml(const QString &filename)
 			}
 		}
 		else /* if ( tag == "menu" ) */ {
-			installXmlMenuentry(e,m_usermenu,actionnumber);
+			installXmlMenuentry(e, userMenu, actionnumber);
 		}
 
 		e = e.nextSiblingElement();

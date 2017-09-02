@@ -268,7 +268,12 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	createToolActions(); // this creates the actions for the tools and user tags, which is required before 'activePartGUI' is called
 
 	setupGUI(KXmlGuiWindow::StatusBar | KXmlGuiWindow::Save, "kileui.rc");
-	createShellGUI(true);
+	createShellGUI(true); // do not call guiFactory()->refreshActionProperties() after this! (bug 314580)
+
+	m_userMenu = new KileMenu::UserMenu(this, this);
+	connect(m_userMenu, &KileMenu::UserMenu::sendText, this, static_cast<void (Kile::*)(const QString &)>(&Kile::insertText));
+	connect(m_userMenu, &KileMenu::UserMenu::updateStatus, this, &Kile::slotUpdateUserMenuStatus);
+
 	updateUserDefinedMenus();
 
 	// we can only do this here after the main GUI has been set up
@@ -350,11 +355,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 		}
 	}
 
-	// lazy creation: last possible place to insert this user-defined menu
-	m_userMenu = new KileMenu::UserMenu(this, this);
-	connect(m_userMenu, &KileMenu::UserMenu::sendText, this, static_cast<void (Kile::*)(const QString &)>(&Kile::insertText));
-	connect(m_userMenu, &KileMenu::UserMenu::updateStatus, this, &Kile::slotUpdateUserMenuStatus);
-
 	restoreFilesAndProjects(allowRestore);
 	initMenu();
 	updateModeStatus();
@@ -364,7 +364,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
 	setUpdatesEnabled(false);
 	setAutoSaveSettings(QLatin1String("KileMainWindow"),true);
-	guiFactory()->refreshActionProperties();
 
 	m_userMenu->refreshActionProperties();
 	setUpdatesEnabled(true);
@@ -2304,7 +2303,7 @@ void Kile::transformOldUserTags()
 		file.close();
 
 		// save current xml file
-		KileConfig::setMenuFile(usertagfile);
+		KileConfig::setUserMenuFile(usertagfile);
 	}
 	userGroup.deleteEntry("nUserTags");
 }
@@ -2677,16 +2676,20 @@ void Kile::configureKeys()
 
 void Kile::configureToolbars()
 {
-	KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
-	saveMainWindowSettings(configGroup);
+	{
+		KConfigGroup configGroup = KSharedConfig::openConfig()->group("KileMainWindow");
+		saveMainWindowSettings(configGroup);
+	}
+
 	KEditToolBar dlg(factory());
+	connect(&dlg, &KEditToolBar::newToolBarConfig, this, [=] () {
+		setUpdatesEnabled(false);
+		applyMainWindowSettings(m_config->group("KileMainWindow"));
+
+		updateUserDefinedMenus();
+		setUpdatesEnabled(true);
+	});
 	dlg.exec();
-
-	setUpdatesEnabled(false);
-	applyMainWindowSettings(m_config->group("KileMainWindow"));
-
-	updateUserDefinedMenus();
-	setUpdatesEnabled(true);
 }
 
 //////////////////// CLEAN BIB /////////////////////

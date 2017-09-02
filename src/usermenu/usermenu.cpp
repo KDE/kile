@@ -138,15 +138,6 @@ void UserMenu::updateUsermenuPosition()
 	}
 }
 
-void UserMenu::changeMenuLocation(int newPosition)
-{
-	// clear old usermenu, wherever it is
-	clear();
-
-	installXmlFile(m_currentXmlFile);
-	updateUsermenuPosition();
-}
-
 void UserMenu::setStandAloneMenuVisible(bool state, bool show)
 {
 	m_wizardAction1->setVisible(state);
@@ -176,7 +167,7 @@ void UserMenu::clear()
 	m_menudata.clear();
 
 	// remove all actions from actioncollection
-	foreach ( QAction *action, m_actionlist ) {
+	for(QAction *action : m_actionlist) {
 		m_actioncollection->removeAction(action);
 	}
 
@@ -187,29 +178,28 @@ void UserMenu::clear()
 
 ///////////////////////////// update GUI //////////////////////////////
 
-// GUI was updated and all menu items disappeared
-void UserMenu::updateGui()
+// repopulate the user menu and show it at the desired location
+void UserMenu::updateGUI()
 {
-	KILE_DEBUG_MAIN << "update usermenu ...";
+	KILE_DEBUG_MAIN << "updating usermenu ...";
 
-	addSpecialActionsToMenus();
-
-	// make entries visible or not
-	updateUsermenuPosition();
+	addSpecialActionsToMenus(); // adding actions twice has no effect
 
 	// like installXmlFile(), but without updating KileConfig::userMenuFile
 	// first clear old usermenu, menudata, actions and actionlists
 	clear();
 
 	// then install
-	if ( installXml(m_currentXmlFile) ) {
+	if(installXml(m_currentXmlFile)) {
 		// add changed context menu to all existing views
-	   KileView::Manager* viewManager = m_ki->viewManager();
+		KileView::Manager* viewManager = m_ki->viewManager();
 		int views = viewManager->textViewCount();
 		for ( int i=0; i<views; ++i ) {
 			viewManager->installContextMenu( viewManager->textView(i) );
 		}
 	}
+
+	updateUsermenuPosition();
 }
 
 ///////////////////////////// update key bindings //////////////////////////////

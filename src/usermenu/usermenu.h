@@ -49,7 +49,7 @@ class UserMenu : public QObject
 		void refreshActionProperties();
 		void removeShortcuts();
 
-		void updateGui();
+		void updateGUI();
 		void updateKeyBindings();
 
 		QMenu* getMenuItem();
@@ -72,7 +72,6 @@ class UserMenu : public QObject
 	public Q_SLOTS:
 		void installXmlFile(const QString &filename);
 		void removeXmlFile();
-		void changeMenuLocation(int newPosition);
 
 	private Q_SLOTS:
 		void slotUserMenuAction();

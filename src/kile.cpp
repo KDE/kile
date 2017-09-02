@@ -1664,13 +1664,7 @@ void Kile::updateUserDefinedMenus()
 	m_buildMenuOther   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_other", m_mainWindow));
 	m_buildMenuQuickPreview   = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("quickpreview", m_mainWindow));
 
-	if(!m_userMenu) {
-		QMenu *usermenu = dynamic_cast<QMenu*>(m_mainWindow->guiFactory()->container("menu_usermenu", m_mainWindow));
-		if ( usermenu ) {
-			usermenu->menuAction()->setVisible(false);
-		}
-
-	}
+	m_userMenu->updateGUI();
 
 	setupTools();
 }

@@ -50,7 +50,7 @@ void KileWidgetUsermenuConfig::writeConfig()
 	if(KileConfig::userMenuLocation() != location) {
 		KILE_DEBUG_MAIN << "menu position changed";
 		KileConfig::setUserMenuLocation(location);
-		m_usermenu->changeMenuLocation(location);
+		m_usermenu->updateGUI();
 	}
 }
 

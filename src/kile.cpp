@@ -315,7 +315,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 	int horSplitLeft = KileConfig::horizontalSplitterLeft();
 	int horSplitRight = KileConfig::horizontalSplitterRight();
 	if(horSplitLeft <= 0 && horSplitRight <= 0) { // compute default values
-		horSplitLeft = width() / 4;
+		horSplitLeft = m_sideBar->width();
 		horSplitRight = width() / 2; // leave some room for the viewer part
 	}
 	// the size of the third widget is computed from the sizes of the two other widgets

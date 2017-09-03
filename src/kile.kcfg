@@ -181,7 +181,7 @@
 		</entry>
 		<entry name="SelectedLeftView" type="Int">
 			<label>The identifier of the selected view in the left pane.</label>
-			<default>1</default>
+			<default>-1</default>
 		</entry>
 		<entry name="ShowSplashScreen" type="Bool">
 			<label>Whether to show the splash screen on startup.</label>

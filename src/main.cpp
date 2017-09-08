@@ -83,11 +83,15 @@ QString readDataFromStdin()
 	return tempFileName;
 }
 
+inline void initQtResources() { Q_INIT_RESOURCE(kile); }
+
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
 	KLocalizedString::setApplicationDomain("kile");
 
 	QApplication app(argc, argv);
+
+	initQtResources();
 
 	// enable high dpi support
 	app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);

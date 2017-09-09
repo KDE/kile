@@ -188,8 +188,10 @@ set(kile_KCFG_SRCS kileconfig.kcfgc)
 
 kconfig_add_kcfg_files(kile_SRCS ${kile_KCFG_SRCS})
 
-# add icon to executable on windows and mac
-ecm_add_app_icon(kile_SRCS
+# add icon to executable on windows and mac;
+# workaround: as ecm_add_app_icon and kf5_add_kdeinit_executable don't work well together,
+# we use a variable named 'kile' at this point
+ecm_add_app_icon(kile
 	ICONS
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/16-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/22-apps-kile.png
@@ -198,6 +200,7 @@ ecm_add_app_icon(kile_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/128-apps-kile.png
 )
+set(kile_SRCS "${kile_SRCS};${kile}")
 
 # add the resource file containing the ui files
 qt5_add_resources(kile_SRCS kile.qrc)

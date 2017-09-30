@@ -164,7 +164,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 				kile->openDocument(readDataFromStdin());
 			}
 			else {
-				const QUrl url = QUrl::fromUserInput(argument);
+				const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
 
 				if(isProject(url)) {
 					kile->openProject(url);
@@ -190,7 +190,7 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 				interface->call("openDocument", readDataFromStdin());
 			}
 			else {
-				const QUrl url = QUrl::fromUserInput(argument);
+				const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
 
 				if(isProject(url)) {
 					interface->call("openProject", url.url());

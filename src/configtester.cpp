@@ -329,11 +329,16 @@ FindProgramTest::~FindProgramTest()
 
 void FindProgramTest::call()
 {
-	const QString execPath = QStandardPaths::findExecutable(m_programName);
-    bool thisIsWindowsConvertExe = false;
+	QString execPath = QStandardPaths::findExecutable(m_programName);
 #ifdef Q_OS_WIN
-    QFileInfo execPathInfo(execPath);
-    thisIsWindowsConvertExe = (m_programName == "convert") && (execPathInfo.dir().dirName() == "system32");
+	if(execPath.isEmpty()) {
+		execPath = QStandardPaths::findExecutable(m_programName, QStringList(QCoreApplication::applicationDirPath()));
+	}
+#endif
+	bool thisIsWindowsConvertExe = false;
+#ifdef Q_OS_WIN
+	QFileInfo execPathInfo(execPath);
+	thisIsWindowsConvertExe = (m_programName == "convert") && (execPathInfo.dir().dirName() == "system32");
 #endif
 	if(execPath.isEmpty() || thisIsWindowsConvertExe) {
 		m_status = Failure;

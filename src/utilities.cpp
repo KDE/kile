@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2008 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -13,9 +13,12 @@
 
 #include "utilities.h"
 
-
+#include <QApplication>
 #include <QDateTime>
+#include <QDesktopWidget>
 #include <QDir>
+#include <QStyle>
+#include <QTimer>
 
 #include <KRun>
 
@@ -89,4 +92,28 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 	}
 }
 
+void centerWidgetRelativeToParentRect(QWidget *widget, const QRect& parentRect)
+{
+	QRect alignedRect = QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, widget->size(), parentRect);
+	widget->move(alignedRect.x(), alignedRect.y());
+}
+
+void KileUtilities::centerWidgetRelativeToParent(QWidget *widget)
+{
+	QWidget *parentWidget = widget->parentWidget();
+	if(!parentWidget) {
+		centerWidgetRelativeToParentRect(widget, QApplication::desktop()->availableGeometry(widget));
+	}
+	else {
+		QRect parentRect(parentWidget->mapToGlobal(QPoint(0, 0)), parentWidget->size());
+		centerWidgetRelativeToParentRect(widget, parentRect);
+	}
+}
+
+void KileUtilities::scheduleCenteringOfWidget(QWidget *widget)
+{
+	QTimer::singleShot(0, widget, [=] () {
+		centerWidgetRelativeToParent(widget);
+	});
+}
 

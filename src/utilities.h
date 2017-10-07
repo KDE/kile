@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2008 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -55,6 +55,18 @@ namespace KileUtilities {
 	 * @return Absolute path of the file with the latest modification time or empty string if @ref files is empty
 	 **/
 	QString lastModifiedFile(const QStringList& files, const QString& baseDir = QString());
+
+
+	/**
+	 * Centers the given widget w.r.t. its parent. If it doesn't have a parent, the containing screen is used.
+	 **/
+	void centerWidgetRelativeToParent(QWidget *widget);
+
+	/**
+	 * Schedules the centering of the given widget w.r.t. its parent in the event loop.
+	 **/
+	void scheduleCenteringOfWidget(QWidget *widget);
+
 }
 
 #endif

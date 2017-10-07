@@ -100,6 +100,7 @@
 #include "dialogs/usermenu/usermenudialog.h"
 #include "usermenu/usermenudata.h"
 #include "usermenu/usermenu.h"
+#include "utilities.h"
 
 #define LOG_TAB     0
 #define OUTPUT_TAB  1
@@ -2196,6 +2197,7 @@ void Kile::quickUserMenuDialog()
 {
 	m_userMenu->removeShortcuts();
 	KileMenu::UserMenuDialog *dlg = new KileMenu::UserMenuDialog(m_config.data(), this, m_userMenu, m_userMenu->xmlFile(), m_mainWindow);
+	KileUtilities::scheduleCenteringOfWidget(dlg);
 	dlg->exec();
 	delete dlg;
 

@@ -32,20 +32,21 @@
 #include "usermenu/usermenu.h"
 
 #include "kiledebug.h"
+#include "utilities.h"
 
 namespace KileMenu {
 
 #define CHOOSABLE_MENUTYPES   3
 
 UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu *userMenu, const QString &xmlfile, QWidget *parent)
-	: KileDialog::Wizard(config, parent)
+	: KileDialog::Wizard(config, parent, Q_NULLPTR, i18n("Edit User Menu"))
 	, m_ki(ki)
 	, m_userMenu(userMenu)
 {
-	QWidget *page = new QWidget(this);
+	QWidget *page = new QWidget();
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	setLayout(mainLayout);
-	mainLayout->addWidget(page);
+
 	m_UserMenuDialog.setupUi(page);
 
 	m_menutree = m_UserMenuDialog.m_twUserMenu;
@@ -140,6 +141,8 @@ UserMenuDialog::UserMenuDialog(KConfig *config, KileInfo *ki, KileMenu::UserMenu
 	else {
 		startDialog();
 	}
+
+	resize(minimumSize());
 }
 
 void UserMenuDialog::startDialog()

@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Tue Dec 23 2003
-    copyright            : (C) 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+/******************************************************************************
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+		2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -22,6 +21,7 @@
 
 class KConfig;
 class QDialogButtonBox;
+class QShowEvent;
 
 namespace KileDialog
 {
@@ -38,6 +38,8 @@ protected:
 	KConfig * config() const;
 	QDialogButtonBox * buttonBox() const;
 	KileAction::TagData m_td;
+
+	virtual void showEvent(QShowEvent *event);
 
 private:
 	KConfig *m_config;

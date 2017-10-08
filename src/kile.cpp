@@ -2196,16 +2196,21 @@ void Kile::quickPdf()
 void Kile::quickUserMenuDialog()
 {
 	m_userMenu->removeShortcuts();
-	KileMenu::UserMenuDialog *dlg = new KileMenu::UserMenuDialog(m_config.data(), this, m_userMenu, m_userMenu->xmlFile(), m_mainWindow);
-	KileUtilities::scheduleCenteringOfWidget(dlg);
+	QPointer<KileMenu::UserMenuDialog> dlg = new KileMenu::UserMenuDialog(m_config.data(), this, m_userMenu, m_userMenu->xmlFile(), m_mainWindow);
+
 	dlg->exec();
+
+	connect(dlg, &QDialog::finished, this, [=] (int result) {
+		Q_UNUSED(result);
+
+		// tell all the documents and views to update their action shortcuts (bug 247646)
+		docManager()->reloadXMLOnAllDocumentsAndViews();
+
+		// a new usermenu could have been installed, even if the return value is QDialog::Rejected
+		m_userMenu->refreshActionProperties();
+	});
+
 	delete dlg;
-
-	// tell all the documents and views to update their action shortcuts (bug 247646)
-	docManager()->reloadXMLOnAllDocumentsAndViews();
-
-	// a new usermenu could have been installed, even if the return value is QDialog::Rejected
-	m_userMenu->refreshActionProperties();
 }
 
 void Kile::slotUpdateUserMenuStatus()
@@ -2547,9 +2552,9 @@ void Kile::toggleWatchFile()
 void Kile::generalOptions()
 {
 	KileDialog::Config *dlg = new KileDialog::Config(m_config.data(), this, this);
+	KileUtilities::scheduleCenteringOfWidget(dlg);
 
-	if (dlg->exec())
-	{
+	if (dlg->exec()) {
 		// update new settings
 		readConfig();
 		saveLastSelectedAction(); // save the old current tools before calling setupTools() which calls restoreLastSelectedActions()

@@ -1,8 +1,7 @@
-/***************************************************************************
-    begin                : Tue Dec 23 2003
-    copyright            : (C) 2003 Jeroen Wijnhout
-    email                : Jeroen.Wijnhout@kdemail.net
- ***************************************************************************/
+/******************************************************************************
+  Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
+		2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -17,6 +16,9 @@
 
 #include <QDialogButtonBox>
 #include <QPushButton>
+#include <QShowEvent>
+
+#include "utilities.h"
 
 namespace KileDialog
 {
@@ -42,7 +44,7 @@ Wizard::Wizard(KConfig *config, QWidget *parent, const char *name, const QString
 Wizard::~Wizard()
 {}
 
-KConfig * Wizard::config() const
+KConfig* Wizard::config() const
 {
 	return m_config;
 }
@@ -51,4 +53,13 @@ QDialogButtonBox * Wizard::buttonBox() const
 {
 	return m_buttonBox;
 }
+
+void Wizard::showEvent(QShowEvent *event)
+{
+	// even with 'showEvent' the dialog might not be shown yet, only about to be shown
+	// so we have to 'schedule' a centering (still does not work all the time)
+	KileUtilities::scheduleCenteringOfWidget(this);
+	QDialog::showEvent(event);
+}
+
 }

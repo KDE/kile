@@ -129,8 +129,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 	app.setApplicationVersion(aboutData.version());
 
 	QCommandLineParser parser;
-	parser.addVersionOption();
-	parser.addHelpOption();
 	aboutData.setupCommandLine(&parser);
 
 	parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("line"), i18n("Jump to line"), QLatin1String("line")));

@@ -39,6 +39,7 @@
   <summary xml:lang="tr">TeX/LaTeX Düzenleyici</summary>
   <summary xml:lang="uk">Редактор TeX/LaTeX</summary>
   <summary xml:lang="x-test">xxTeX/LaTeX Editorxx</summary>
+  <summary xml:lang="zh-CN">TeX/LaTeX 编辑器</summary>
   <description>
     <p>
       Kile is a user-friendly TeX/LaTeX editor by KDE.
@@ -56,6 +57,7 @@
     <p xml:lang="tr">Kile, KDE tarafından kullanıcı dostu bir TeX/LaTeX düzenleyicisidir.</p>
     <p xml:lang="uk">Kile — зручний у користуванні редактор коду TeX/LaTeX від KDE.</p>
     <p xml:lang="x-test">xxKile is a user-friendly TeX/LaTeX editor by KDE.xx</p>
+    <p xml:lang="zh-CN">Kile 是 KDE 提供的一个用户友好的 TeX/LaTeX 编辑器。</p>
     <p>Features:</p>
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="ca-valencia">Característiques:</p>
@@ -90,6 +92,7 @@
       <li xml:lang="tr">Tek tıklama ile belgenizi derleyin, dönüştürün ve görüntüleyin</li>
       <li xml:lang="uk">Збирання, перетворення та перегляд документів у одне клацання кнопкою миші.</li>
       <li xml:lang="x-test">xxCompile, convert and view your document with one clickxx</li>
+      <li xml:lang="zh-CN">一键对您的文档进行编译、转换和查看</li>
       <li>Auto-completion of (La)TeX commands</li>
       <li xml:lang="ca">Compleció automàtica d'ordres del (La)TeX</li>
       <li xml:lang="ca-valencia">Compleció automàtica d'ordes del (La)TeX</li>
@@ -105,6 +108,7 @@
       <li xml:lang="tr">(La)TeX komutlarının Otomatik-Tamamlanması</li>
       <li xml:lang="uk">Автодоповнення команд (La)TeX.</li>
       <li xml:lang="x-test">xxAuto-completion of (La)TeX commandsxx</li>
+      <li xml:lang="zh-CN">(La)TeX 命令自动补全</li>
       <li>Templates and wizards make starting new documents very little work</li>
       <li xml:lang="ca">Les plantilles i els assistents fan que sigui molt poca feina iniciar els documents nous</li>
       <li xml:lang="ca-valencia">Les plantilles i els assistents fan que siga molt poca faena iniciar els documents nous</li>
@@ -247,6 +251,7 @@
       <li xml:lang="tr">İleri seviye düzenleme komutları</li>
       <li xml:lang="uk">Розширені команди редагування.</li>
       <li xml:lang="x-test">xxAdvanced editing commandsxx</li>
+      <li xml:lang="zh-CN">高级编辑命令</li>
     </ul>
   </description>
   <screenshots>

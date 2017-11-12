@@ -1,7 +1,7 @@
 /**********************************************************************************
 *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)           *
 *                 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
-*                 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+*                 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)          *
 ***********************************************************************************/
 
 /***************************************************************************
@@ -322,30 +322,25 @@ ParserOutput* LaTeXParser::parse()
 					else  if((*it).type == KileStruct::Bibliography) {
 						qCDebug(LOG_KILE_PARSER) << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
 
-						QStringList bibs = m.split(',');
+						const QStringList bibs = m.split(',');
 						QString biblio;
 
 						// assure that all files have an extension
-						QString bibext = m_extensions->bibtexDefault();
-						int bibextlen = bibext.length();
-
-						uint cumlen = 0;
-						int nextbib = 0; // length to add to jump to the next bibliography
-						for(int b = 0; b < bibs.count(); ++b) {
-							nextbib = 0;
-							biblio=bibs[b];
+						const QString bibtexExtension = m_extensions->bibtexDefault();
+						for(QString biblio : bibs) {
+							biblio = biblio.trimmed();
+							{
+								QString ext = QFileInfo(biblio).suffix();
+								if(ext.isEmpty()) {
+									biblio += m_extensions->bibtexDefault();
+								}
+							}
 							parserOutput->bibliography.append(biblio);
 							if(biblio.left(2) == "./") {
-								nextbib += 2;
 								biblio = biblio.mid(2, biblio.length() - 2);
 							}
-							if(biblio.right(bibextlen) != bibext) {
-								biblio += bibext;
-								nextbib -= bibextlen;
-							}
 							parserOutput->deps.append(biblio);
-							parserOutput->structureViewItems.push_back(new StructureViewItem(biblio, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder));
-							cumlen += biblio.length() + 1 + nextbib;
+							parserOutput->structureViewItems.push_back(new StructureViewItem(biblio, tagLine, tagCol, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder));
 						}
 						fire = false;
 					}

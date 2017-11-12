@@ -56,7 +56,7 @@ void ServiceRunAction::runService()
 
 QString KileUtilities::lastModifiedFile(const QStringList& files, const QString& baseDir)
 {
-	KILE_DEBUG_MAIN << "==KileUtilities::lastModifiedFile()=====";
+	KILE_DEBUG_MAIN << "==KileUtilities::lastModifiedFile()=====" << files << "baseDir:" << baseDir;
 
 	if(files.empty()) {
 		return QString();
@@ -77,7 +77,12 @@ QString KileUtilities::lastModifiedFile(const QStringList& files, const QString&
 	const QString* lastModifiedFile = Q_NULLPTR;
 
 	Q_FOREACH(const QString& file, absoluteFileNames) {
-		QDateTime modificationTime = QFileInfo(file).lastModified();
+		QFileInfo fileInfo(file);
+		if(!fileInfo.exists()) {
+			KILE_DEBUG_MAIN << "file does not exist:" << file << "files:" << files;
+			continue;
+		}
+		QDateTime modificationTime = fileInfo.lastModified();
 		if(!lastModifiedTime.isValid() || modificationTime > lastModifiedTime) {
 		   lastModifiedFile = &file;
 		   lastModifiedTime = modificationTime;

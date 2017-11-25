@@ -608,15 +608,15 @@ namespace KileTool
 	void extract(const QString &str, QString &tool, QString &cfg)
 	{
 		static QRegExp re("([^\\(]*)\\((.*)\\)");
-		QString lcl = str;
-		lcl.trimmed();
+		QString lcl = str.trimmed();
 		cfg.clear();
 		if(re.exactMatch(lcl)) {
 			tool = re.cap(1).trimmed();
 			cfg = re.cap(2).trimmed();
 		}
-		else
+		else {
 			tool = lcl;
+		}
 		KILE_DEBUG_MAIN << "===void extract(const QString &str = " << str << " , QString &tool = " << tool << ", QString &cfg = " << cfg << " )===" << endl;
 	}
 

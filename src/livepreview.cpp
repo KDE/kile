@@ -465,6 +465,7 @@ void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
 		return;
 	}
+
 	KILE_DEBUG_MAIN;
 	if(!isCurrentDocumentOrProject(doc)) {
 		return;
@@ -481,6 +482,11 @@ void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 void LivePreviewManager::handleDocumentSavedOrUploaded(KTextEditor::Document *doc, bool savedAs)
 {
 	Q_UNUSED(savedAs);
+
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG_MAIN;
 
 	if(!KileConfig::livePreviewCompileOnlyAfterSaving()) {
@@ -506,7 +512,12 @@ void LivePreviewManager::handleDocumentSavedOrUploaded(KTextEditor::Document *do
 
 void LivePreviewManager::handleDocumentModificationTimerTimeout()
 {
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG_MAIN;
+
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	KileDocument::LaTeXInfo *latexInfo = dynamic_cast<KileDocument::LaTeXInfo*>(m_ki->docManager()->textInfoFor(view->document()));
 	if(!latexInfo) {
@@ -1034,6 +1045,10 @@ bool LivePreviewManager::isLivePreviewPossible() const
 
 void LivePreviewManager::handleDocumentOpened(KileDocument::TextInfo *info)
 {
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KTextEditor::View *view = m_ki->viewManager()->currentTextView();
 	if(view && view->document() == info->getDoc()) {
 		handleTextViewActivated(view);
@@ -1084,6 +1099,7 @@ void LivePreviewManager::handleTextViewClosed(KTextEditor::View *view, bool wasA
 {
 	Q_UNUSED(view);
 	Q_UNUSED(wasActiveView);
+
 	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
 		return;
 	}
@@ -1161,6 +1177,10 @@ void LivePreviewManager::removeProject(KileProject *project)
 
 void LivePreviewManager::handleProjectOpened(KileProject *project)
 {
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	connect(project, SIGNAL(aboutToBeDestroyed(KileProject*)),
 	        this, SLOT(removeProject(KileProject*)),
 	        Qt::UniqueConnection);
@@ -1174,6 +1194,10 @@ void LivePreviewManager::handleProjectOpened(KileProject *project)
 
 void LivePreviewManager::handleProjectItemAdditionOrRemoval(KileProject *project, KileProjectItem *item)
 {
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG_MAIN;
 	bool previewNeedsToBeRefreshed = false;
 
@@ -1236,11 +1260,12 @@ void LivePreviewManager::handleProjectItemRemoved(KileProject *project, KileProj
 
 void LivePreviewManager::handleDocumentSavedAs(KTextEditor::View *view, KileDocument::TextInfo *info)
 {
+	Q_UNUSED(info);
+
 	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
 		return;
 	}
 
-	Q_UNUSED(info);
 	KTextEditor::View *currentTextView = m_ki->viewManager()->currentTextView();
 	if(view != currentTextView) { // might maybe happen at some point...
 		// preview will be refreshed the next time that view is activated as the hashes don't
@@ -1258,6 +1283,11 @@ void LivePreviewManager::toolDestroyed()
 void LivePreviewManager::handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child)
 {
 	Q_UNUSED(parent);
+
+	if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+		return;
+	}
+
 	KILE_DEBUG_MAIN;
 	// only connect the signal for tools that are part of live preview!
 	if(parent->isPartOfLivePreview()) {

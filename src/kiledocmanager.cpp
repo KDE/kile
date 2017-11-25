@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -531,6 +531,16 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
 	doc = m_editor->createDocument(Q_NULLPTR);
 	KILE_DEBUG_MAIN << "appending document " <<  doc;
 
+	connect(doc, &KTextEditor::Document::canceled, [=] (const QString &errMsg) {
+		if(!errMsg.isEmpty()) {
+			KMessageBox::error(m_ki->mainWindow(), i18n("The URL \"%1\" couldn't be opened.\n\n%2", url.toDisplayString(), errMsg),
+			                                       i18n("Cannot open URL"));
+		}
+		else {
+			KMessageBox::error(m_ki->mainWindow(), i18n("The URL \"%1\" couldn't be opened.", url.toDisplayString()), i18n("Cannot open URL"));
+		}
+	});
+
 	docinfo->setDoc(doc); // do this here to set up all the signals correctly in 'TextInfo'
 	doc->setEncoding(encoding);
 
@@ -538,6 +548,12 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
 
 	if(!url.isEmpty()) {
 		bool r = doc->openUrl(url);
+		if(!r) {
+			KILE_WARNING_MAIN << "couldn't open the url" << url;
+			docinfo->detach();
+			delete doc;
+			return Q_NULLPTR;
+		}
 		// don't add scripts to the recent files
 		if(r && docinfo->getType() != Script) {
         		emit(addToRecentFiles(url));
@@ -621,6 +637,10 @@ KTextEditor::View* Manager::loadText(KileDocument::Type type, const QUrl &url, c
 
 	TextInfo *docinfo = createTextDocumentInfo(type, url, baseDirectory);
 	KTextEditor::Document *doc = createDocument(url, docinfo, encoding, mode, highlight);
+	if(!doc) {
+		removeTextDocumentInfo(docinfo);
+		return Q_NULLPTR;
+	}
 
 	m_ki->structureWidget()->clean(docinfo);
 
@@ -900,12 +920,20 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
 	m_currentlyOpeningFile = true;
 	KILE_DEBUG_MAIN << "==Kile::fileOpen==========================";
 
+	if(url.isLocalFile() && QFileInfo(url.toLocalFile()).isDir()) {
+		KILE_DEBUG_MAIN << "tried to open directory" << url;
+		KMessageBox::error(m_ki->mainWindow(), i18n("The URL \"%1\" cannot be opened\nas it is a directory.", url.toDisplayString()),
+		                                       i18n("Cannot open directory"));
+		m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
+		                                // it emits signals that are handled by the live preview manager
+		return Q_NULLPTR;
+	}
+
 	KILE_DEBUG_MAIN << "url is " << url.url();
 	const QUrl realurl = symlinkFreeURL(url);
 	KILE_DEBUG_MAIN << "symlink free url is " << realurl.url();
 
-	bool isopen = m_ki->isOpen(realurl);
-	if(isopen) {
+	if(m_ki->isOpen(realurl)) {
 		m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
 		                                // it emits signals that are handled by the live preview manager
 		m_ki->viewManager()->switchToTextView(realurl);
@@ -913,6 +941,11 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
 	}
 
 	KTextEditor::View *view = loadText(m_ki->extensions()->determineDocumentType(realurl), realurl, encoding, true, QString(), QString(), QString(), index);
+	if(!view) {
+		m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
+		                                // it emits signals that are handled by the live preview manager
+		return Q_NULLPTR;
+	}
 	QList<KileProjectItem*> itemList = itemsFor(realurl);
 	TextInfo *textInfo = textInfoFor(realurl);
 

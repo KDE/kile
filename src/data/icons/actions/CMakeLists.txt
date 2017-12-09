@@ -121,6 +121,15 @@ set(kile_action_ICONS
 	16-actions-texlion.png
 	16-actions-thinspace.png
 	16-actions-tilde.png
+	16-actions-usermenu-down.png
+	16-actions-usermenu-insert-above.png
+	16-actions-usermenu-insert-below.png
+	16-actions-usermenu-into-submenu.png
+	16-actions-usermenu-separator-above.png
+	16-actions-usermenu-separator-below.png
+	16-actions-usermenu-submenu-above.png
+	16-actions-usermenu-submenu-below.png
+	16-actions-usermenu-up.png
 	16-actions-vec.png
 	16-actions-verbatim.png
 	16-actions-verb.png
@@ -220,16 +229,7 @@ set(kile_action_ICONS
 	22-actions-typewriter.png
 	22-actions-usermenu-clear.png
 	22-actions-usermenu-delete.png
-	22-actions-usermenu-down.png
-	22-actions-usermenu-insert-above.png
-	22-actions-usermenu-insert-below.png
 	22-actions-usermenu-install.png
-	22-actions-usermenu-into-submenu.png
-	22-actions-usermenu-separator-above.png
-	22-actions-usermenu-separator-below.png
-	22-actions-usermenu-submenu-above.png
-	22-actions-usermenu-submenu-below.png
-	22-actions-usermenu-up.png
 	22-actions-verbatim.png
 	22-actions-verb.png
 	22-actions-viewdvi.png

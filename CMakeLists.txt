@@ -97,6 +97,10 @@ install(
 install(
 	FILES
 		kile.upd
+	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kconf_update)
+
+install(
+	PROGRAMS
 		kile1.6_upd.pl
 		kile1.7_upd.pl
 		kile1.9_upd.pl

@@ -84,6 +84,10 @@ add_definitions(
   -DQT_NO_SIGNALS_SLOTS_KEYWORDS
 )
 
+if(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+  add_definitions(-DQT_MESSAGELOGCONTEXT)
+endif(CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+
 add_subdirectory(doc)
 add_subdirectory(src)
 

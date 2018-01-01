@@ -152,5 +152,3 @@ void CommandViewToolBox::slotItemActivated(QListWidgetItem *item)
 }
 
 }
-
-// kate: replace-tabs: on; indent-width 4;

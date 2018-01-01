@@ -35,5 +35,3 @@ const QString kileFullVersion="2.9.92"; // only use numbers and '.'
 int compareVersionStrings(const QString& s1, const QString& s2);
 
 #endif
-
-// kate: replace-tabs: on; indent-width 4;

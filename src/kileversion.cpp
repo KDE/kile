@@ -40,5 +40,3 @@ int compareVersionStrings(const QString& s1, const QString& s2) {
     }
     return 0;
 }
-
-// kate: replace-tabs: on; indent-width 4;

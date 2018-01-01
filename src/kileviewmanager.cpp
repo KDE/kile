@@ -1311,5 +1311,3 @@ void focusTextView(KTextEditor::View *view)
 	// is called when the widget hasn't been shown yet (see bug 269590)
 	QTimer::singleShot(0, view, SLOT(setFocus()));
 }
-
-// kate: replace-tabs off;

@@ -1,7 +1,7 @@
-/***************************************************************************************
-    begin                : June 12 2009
-    copyright            : (C) 2009 dani
- ***************************************************************************************/
+/********************************************************************************
+*   Copyright (C) 2018 by Michel Ludwig (michel.ludwig@kdemail.net)             *
+*                 2009 by Holger Danielsson (holger.danielsson@versanet.de)     *
+*********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -21,49 +21,47 @@
 #include "kileinfo.h"
 #include "codecompletion.h"
 
-class QMouseEvent;
+class QComboBox;
 
 namespace KileWidget {
 
 class CommandView : public QListWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit CommandView(QWidget *parent, const QString &title, const char *name = Q_NULLPTR);
-		~CommandView();
-
-	public:
-		QString m_title;
-
+public:
+    explicit CommandView(QWidget *parent);
+    ~CommandView();
 };
 
-class CommandViewToolBox : public QToolBox
+class CommandViewToolBox : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit CommandViewToolBox(KileInfo *ki, QWidget *parent, const char *name = Q_NULLPTR);
-		~CommandViewToolBox();
+public:
+    explicit CommandViewToolBox(KileInfo *ki, QWidget *parent);
+    ~CommandViewToolBox();
 
-		void readCommandViewFiles();
+    void readCommandViewFiles();
 
-	Q_SIGNALS:
-		void sendText(const QString &text);
+Q_SIGNALS:
+    void sendText(const QString &text);
 
-	private Q_SLOTS:
-		void slotItemActivated(QListWidgetItem *item);
+private Q_SLOTS:
+    void slotItemActivated(QListWidgetItem *item);
 
-	private:
-		void clearItems();
-		
-		QMap<QString,CommandView*> *m_viewmap;
-		int m_activeMaps;
+private:
+    KileInfo *m_ki;
+    KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
+    QComboBox *m_cwlFilesComboBox;
+    CommandView *m_commandView;
 
-		KileInfo *m_ki;
-		KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
+    void clearItems();
+    void populateCommands(const QString& cwlFile);
 };
 
 }
 
 #endif
+
+// kate: replace-tabs: on; indent-width 4;

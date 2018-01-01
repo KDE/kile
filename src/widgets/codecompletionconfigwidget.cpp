@@ -64,7 +64,6 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileErro
 	cb_showabbrevview->setWhatsThis(i18n("Show abbreviations of the selected completion files in the sidebar"));
 	cb_autocompleteabbrev->setWhatsThis(i18n("Directional or popup-based completion of abbreviations that are contained in the selected completion files."));
 	cb_showcwlview->setWhatsThis(i18n("Show LaTeX commands of the selected completion files in the sidebar"));
-	sp_cwlthreshold->setWhatsThis(i18n("Maximum number of completion files, which can be shown in the sidebar."));
 
 	connect(m_tabWidget, SIGNAL(currentChanged(int)), this, SLOT(showPage(int)));
 	connect(m_addFileButton, SIGNAL(clicked()), this, SLOT(addClicked()));
@@ -136,7 +135,6 @@ void CodeCompletionConfigWidget::readConfig(void)
 	cb_autocompleteabbrev->setChecked(KileConfig::completeAutoAbbrev());
 
 	sp_latexthreshold->setValue(KileConfig::completeAutoThreshold());
-	sp_cwlthreshold->setValue(KileConfig::maxCwlFiles());
 
 	// insert filenames into listview
 	for (uint i = TexPage; i < NumPages; ++i) {
@@ -171,7 +169,6 @@ void CodeCompletionConfigWidget::writeConfig(void)
 	KileConfig::setCompleteAuto(autoModeLatex);
 	KileConfig::setCompleteAutoAbbrev(autoModeAbbrev);
 	KileConfig::setCompleteAutoThreshold(sp_latexthreshold->value());
-	KileConfig::setMaxCwlFiles(sp_cwlthreshold->value());
 	
 	// save changed wordlists?
 	KileConfig::setCompleteChangedLists(m_configChanged);

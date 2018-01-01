@@ -1,7 +1,7 @@
-/****************************************************************************************
-    begin                : June 12 2009
-    copyright            : (C) 2009 dani
- ****************************************************************************************/
+/********************************************************************************
+*   Copyright (C) 2018 by Michel Ludwig (michel.ludwig@kdemail.net)             *
+*                 2009 by Holger Danielsson (holger.danielsson@versanet.de)     *
+*********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -18,6 +18,11 @@
 #include <KLocalizedString>
 #include <KTextEditor/View>
 
+#include <QComboBox>
+#include <QVBoxLayout>
+
+#include <algorithm>
+
 #include "kileconfig.h"
 #include "kileviewmanager.h"
 #include "kiledebug.h"
@@ -27,116 +32,125 @@ namespace KileWidget {
 
 //-------------------- CommandView --------------------
 
-CommandView::CommandView(QWidget *parent, const QString &title, const char *name)
-		: QListWidget(parent)
+CommandView::CommandView(QWidget *parent)
+    : QListWidget(parent)
 {
-	setObjectName(name);
-	setViewMode(ListMode);
-	setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-	setSortingEnabled(true);
-	setDragDropMode(NoDragDrop);
+    setViewMode(ListMode);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setSortingEnabled(true);
+    setDragDropMode(NoDragDrop);
 
-	m_title = title;
-	connect(this, SIGNAL(itemActivated(QListWidgetItem*)), parent, SLOT(slotItemActivated(QListWidgetItem*)));
-	KILE_DEBUG_MAIN << "connect view: " << m_title;
+    connect(this, SIGNAL(itemActivated(QListWidgetItem*)), parent, SLOT(slotItemActivated(QListWidgetItem*)));
 }
 
 CommandView::~CommandView()
 {
-	KILE_DEBUG_MAIN << "disconnect view: " << m_title;
 }
 
 //-------------------- CommandViewToolBox --------------------
 
-CommandViewToolBox::CommandViewToolBox(KileInfo *ki, QWidget *parent, const char *name)
-		: QToolBox(parent), m_ki(ki)
+CommandViewToolBox::CommandViewToolBox(KileInfo *ki, QWidget *parent)
+    : QWidget(parent), m_ki(ki)
 {
-	setObjectName(name);
-	m_viewmap = new QMap<QString,CommandView *>;
-	m_activeMaps = 0;
-	
-	// we need a completion model for some auxiliary functions
-	m_latexCompletionModel = new KileCodeCompletion::LaTeXCompletionModel(this,
-	                                                                      m_ki->codeCompletionManager(),
-	                                                                      m_ki->editorExtension());
+    // we need a completion model for some auxiliary functions
+    m_latexCompletionModel = new KileCodeCompletion::LaTeXCompletionModel(this,
+            m_ki->codeCompletionManager(),
+            m_ki->editorExtension());
+    m_cwlFilesComboBox = new QComboBox(this);
+    connect(m_cwlFilesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+    [=](int index) {
+        populateCommands(m_cwlFilesComboBox->itemData(index).toString());
+    });
+
+    m_commandView = new CommandView(this);
+
+    QVBoxLayout *layout = new QVBoxLayout();
+    layout->addWidget(m_cwlFilesComboBox);
+    layout->addWidget(m_commandView);
+
+    setLayout(layout);
+
+    clearItems();
 }
 
 CommandViewToolBox::~CommandViewToolBox()
 {
-	delete m_viewmap;
 }
 
 void CommandViewToolBox::readCommandViewFiles()
 {
-	clearItems();
-  
-	KileCodeCompletion::Manager *manager = m_ki->codeCompletionManager();
-	QStringList files = KileConfig::completeTex();	
-	int maxFiles = ( KileConfig::showCwlCommands() ) ? KileConfig::maxCwlFiles() : 0;	
+    clearItems();
 
-	for(int i = 0; i<files.count() && i<maxFiles; ++i) {
-		// check, if the wordlist has to be read
-		QString cwlfile = manager->validCwlFile(files[i]);
-		if( !cwlfile.isEmpty() ) {
-			// read wordlist from cwl file
-			QStringList wordlist = manager->readCWLFile("tex/" + cwlfile + ".cwl");
+    KileCodeCompletion::Manager *manager = m_ki->codeCompletionManager();
 
-			// Add new commandView with entries
-			if ( wordlist.size() > 0 ) {
-				CommandView *view = new CommandView(this,cwlfile);
-				addItem(view,cwlfile);
-				m_viewmap->insert(cwlfile,view);
-				for(QStringList::Iterator it = wordlist.begin(); it != wordlist.end(); ++it) 
-					view->addItem(*it);
-			}
-		}
-	}
-	m_activeMaps = m_viewmap->size();
-	
-	if ( m_activeMaps == 0 ) {
-		KILE_DEBUG_MAIN << "no completion files or view not visible";
-		QString title = i18n("LaTeX commands");
-		CommandView *view = new CommandView(this,title);
-		addItem(view,title);
-		m_viewmap->insert(title,view);
-		view->addItem(i18n("No wordlists chosen"));
-		view->setDisabled(true);
-	}
-}	
+    QStringList validCwlFiles;
+
+    for(QString file : KileConfig::completeTex()) {
+        // check, if the wordlist has to be read
+        const QString validCwlFile = manager->validCwlFile(file);
+
+        if(!validCwlFile.isEmpty()) {
+            validCwlFiles << validCwlFile;
+        }
+    }
+
+    std::sort(validCwlFiles.begin(), validCwlFiles.end());
+
+    for(QString cwlFile : qAsConst(validCwlFiles)) {
+        m_cwlFilesComboBox->addItem(cwlFile, cwlFile);
+    }
+
+    if(m_cwlFilesComboBox->count() > 0) {
+        m_commandView->setEnabled(true);
+        m_cwlFilesComboBox->setEnabled(true);
+        m_cwlFilesComboBox->setCurrentIndex(0);
+    }
+}
+
+void CommandViewToolBox::populateCommands(const QString& cwlFile)
+{
+    KileCodeCompletion::Manager *manager = m_ki->codeCompletionManager();
+
+    m_commandView->clear();
+
+    const QStringList wordlist = manager->readCWLFile("tex/" + cwlFile + ".cwl");
+
+    for(QString string : wordlist) {
+        m_commandView->addItem(string);
+    }
+}
 
 void CommandViewToolBox::clearItems()
 {
-	// iterate through the map and delete all CommandViews
-	QMap<QString,CommandView*>::iterator it;
-	for( it=m_viewmap->begin(); it!=m_viewmap->end(); ++it ) {
-		if(it.value())
-			delete it.value();
-	}
-	m_viewmap->clear();
-	m_activeMaps = 0;
+    m_commandView->clear();
+    m_cwlFilesComboBox->clear();
+
+    m_commandView->setEnabled(false);
+    m_cwlFilesComboBox->setEnabled(false);
 }
 
 void CommandViewToolBox::slotItemActivated(QListWidgetItem *item)
 {
-	KTextEditor::View *view = m_ki->viewManager()->currentTextView();	
-	if (view && m_activeMaps > 0 ) {
-		KTextEditor::Cursor cursor = view->cursorPosition();
-		
-		//insert text
-		int xpos,ypos;  
-		QString text = m_latexCompletionModel->filterLatexCommand(item->text(),ypos,xpos);
-		if ( !text.isEmpty() ) {
-			emit( sendText(text) );
-		
-			// place cursor
-			if(KileConfig::completeCursor() && (xpos > 0 || ypos > 0) ) {
-				view->setCursorPosition(KTextEditor::Cursor(cursor.line() + (ypos >= 0 ? ypos : 0),
-				                                            cursor.column() + (xpos >= 0 ? xpos : 0)));
-			}
-		}
-	}
+    KTextEditor::View *view = m_ki->viewManager()->currentTextView();
+    if(view) {
+        KTextEditor::Cursor cursor = view->cursorPosition();
+
+        //insert text
+        int xpos,ypos;
+        QString text = m_latexCompletionModel->filterLatexCommand(item->text(),ypos,xpos);
+        if(!text.isEmpty()) {
+            emit(sendText(text));
+
+            // place cursor
+            if(KileConfig::completeCursor() && (xpos > 0 || ypos > 0) ) {
+                view->setCursorPosition(KTextEditor::Cursor(cursor.line() + (ypos >= 0 ? ypos : 0),
+                                        cursor.column() + (xpos >= 0 ? xpos : 0)));
+            }
+        }
+    }
 }
 
 }
 
+// kate: replace-tabs: on; indent-width 4;

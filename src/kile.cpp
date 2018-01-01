@@ -261,6 +261,12 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 			actionCollection()->readSettings(&shortcutGroup);
 			m_config->deleteGroup("Shortcuts");
 		}
+
+		if(m_config->hasGroup("Complete")) {
+			KConfigGroup completionGroup = m_config->group("Complete");
+			completionGroup.deleteEntry("maxCwlFiles"); // in Kile 3.0 the UI has been changed so that this setting is no longer
+			                                            // needed
+		}
 	}
 	readGUISettings();
 	readRecentFileSettings();
@@ -583,10 +589,10 @@ void Kile::setupSymbolViews()
 
 void Kile::setupCommandViewToolbox()
 {
-	m_commandViewToolBox = new KileWidget::CommandViewToolBox(this,m_sideBar);
-	m_sideBar->addPage(m_commandViewToolBox,QIcon::fromTheme("texlion"),i18n("LaTeX"));
+	m_commandViewToolBox = new KileWidget::CommandViewToolBox(this, m_sideBar);
+	m_sideBar->addPage(m_commandViewToolBox, QIcon::fromTheme("texlion"), i18n("LaTeX"));
 
-	connect(m_commandViewToolBox, SIGNAL(sendText(const QString &)),this, SLOT(insertText(const QString &)));
+	connect(m_commandViewToolBox, SIGNAL(sendText(const QString &)), this, SLOT(insertText(const QString &)));
 }
 
 void Kile::setupAbbreviationView()

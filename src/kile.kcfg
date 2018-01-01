@@ -413,10 +413,6 @@
 			<label></label>
 			<default>true</default>
 		</entry>
-		<entry name="maxCwlFiles" type="Int">
-			<label></label>
-			<default>10</default>
-		</entry>
 		<entry name="CompleteAutoThreshold" type="Int">
 			<label></label>
 			<default>3</default>

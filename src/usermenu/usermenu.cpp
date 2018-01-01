@@ -498,17 +498,17 @@ void UserMenu::installXmlMenuentry(const QDomElement &element, QMenu *parentmenu
 
 			int index = UserMenuData::xmlMenuTag(tag);
 			switch (index) {
-				case  UserMenuData::XML_TITLE:            menudata.menutitle = text;                   break;
-				case  UserMenuData::XML_PLAINTEXT:        menudata.text = text.replace("\\n","\n");    break;
-				case  UserMenuData::XML_FILENAME:         menudata.filename = text;                    break;
-				case  UserMenuData::XML_PARAMETER:        menudata.parameter = text;                   break;
-				case  UserMenuData::XML_ICON:             menudata.icon = text;                        break;
-				case  UserMenuData::XML_SHORTCUT:         menudata.shortcut = text;                    break;
-				case  UserMenuData::XML_NEEDSSELECTION:   menudata.needsSelection   = str2bool(text);  break;
-				case  UserMenuData::XML_USECONTEXTMENU:   menudata.useContextMenu   = str2bool(text);  break;
-				case  UserMenuData::XML_REPLACESELECTION: menudata.replaceSelection = str2bool(text);  break;
-				case  UserMenuData::XML_SELECTINSERTION:  menudata.selectInsertion  = str2bool(text);  break;
-				case  UserMenuData::XML_INSERTOUTPUT:     menudata.insertOutput     = str2bool(text);  break;
+				case  UserMenuData::XML_TITLE:            menudata.menutitle = text;                          break;
+				case  UserMenuData::XML_PLAINTEXT:        menudata.text = UserMenuData::decodeLineFeed(text); break;
+				case  UserMenuData::XML_FILENAME:         menudata.filename = text;                           break;
+				case  UserMenuData::XML_PARAMETER:        menudata.parameter = text;                          break;
+				case  UserMenuData::XML_ICON:             menudata.icon = text;                               break;
+				case  UserMenuData::XML_SHORTCUT:         menudata.shortcut = text;                           break;
+				case  UserMenuData::XML_NEEDSSELECTION:   menudata.needsSelection   = str2bool(text);         break;
+				case  UserMenuData::XML_USECONTEXTMENU:   menudata.useContextMenu   = str2bool(text);         break;
+				case  UserMenuData::XML_REPLACESELECTION: menudata.replaceSelection = str2bool(text);         break;
+				case  UserMenuData::XML_SELECTINSERTION:  menudata.selectInsertion  = str2bool(text);         break;
+				case  UserMenuData::XML_INSERTOUTPUT:     menudata.insertOutput     = str2bool(text);         break;
 			}
 
 			e = e.nextSiblingElement();

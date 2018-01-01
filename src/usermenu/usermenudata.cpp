@@ -1,5 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+            (C) 2018 by Michel Ludwig (michel.ludwig@gmail.com)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -73,6 +74,26 @@ QString UserMenuData::xmlMenuTagName(int index)
 	return xmlMenuTagList[index];
 }
 
+
+// first, every backslash is replaced with the string "\\;" (backslash, followed by ':')
+// then, every line feed character '\n' is replaced with the string "\\n" (backslash, followed by 'n')
+QString UserMenuData::encodeLineFeed(const QString& string)
+{
+	QString toReturn = string;
+    toReturn = toReturn.replace(QLatin1Char('\\'), QLatin1String("\\;"));
+	toReturn = toReturn.replace(QLatin1Char('\n'), QLatin1String("\\n"));
+
+	return toReturn;
+}
+
+QString UserMenuData::decodeLineFeed(const QString& string)
+{
+	QString toReturn = string;
+    toReturn = toReturn.replace(QLatin1String("\\n"), QLatin1String("\n"));
+	toReturn = toReturn.replace(QLatin1String("\\;"), QLatin1String("\\"));
+
+	return toReturn;
+}
 
 }
 

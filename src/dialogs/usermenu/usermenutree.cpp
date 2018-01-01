@@ -432,7 +432,7 @@ UserMenuItem *UserMenuTree::readXmlMenuentry(const QDomElement &element)
 		menuentryitem->setMenutitle(title);
 
 		// add code newline
-		plaintext.replace("\\n","\n");
+		plaintext = UserMenuData::decodeLineFeed(plaintext);
 		menuentryitem->setPlaintext(plaintext);
 
 		menuentryitem->setFilename(filename);
@@ -513,8 +513,8 @@ void UserMenuTree::writeXmlMenuentry(QXmlStreamWriter *xml, UserMenuItem *item)
 	if ( menutype == UserMenuData::Text ) {
 		QString plaintext = item->plaintext();
 		if ( !plaintext.isEmpty() ) {
-			// replace newline code
-			plaintext.replace('\n',"\\n");
+			// encode newline characters
+			plaintext = UserMenuData::encodeLineFeed(plaintext);
 			xml->writeTextElement(UserMenuData::xmlMenuTagName(UserMenuData::XML_PLAINTEXT), plaintext);
 		}
 	}

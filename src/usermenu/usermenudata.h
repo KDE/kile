@@ -1,5 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+            (C) 2018 by Michel Ludwig (michel.ludwig@gmail.com)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -66,6 +67,8 @@ class UserMenuData {
 		static int xmlMenuTag(const QString &tag);
 		static QString xmlMenuTagName(int index);
 
+		static QString encodeLineFeed(const QString& string);
+		static QString decodeLineFeed(const QString& string);
 };
 
 

@@ -18,40 +18,40 @@
 namespace KileTool {
 
 LivePreviewUserStatusHandler::LivePreviewUserStatusHandler()
-: m_userSpecifiedLivePreviewStatus(false),
-  m_livePreviewEnabled(true),
-  m_livePreviewTool(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION)
+    : m_userSpecifiedLivePreviewStatus(false),
+      m_livePreviewEnabled(true),
+      m_livePreviewTool(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION)
 {
 }
 
 bool LivePreviewUserStatusHandler::userSpecifiedLivePreviewStatus() const
 {
-	return m_userSpecifiedLivePreviewStatus;
+    return m_userSpecifiedLivePreviewStatus;
 }
 
 bool LivePreviewUserStatusHandler::isLivePreviewEnabled() const
 {
-	return (m_userSpecifiedLivePreviewStatus ? m_livePreviewEnabled : KileConfig::previewEnabledForFreshlyOpenedDocuments());
+    return (m_userSpecifiedLivePreviewStatus ? m_livePreviewEnabled : KileConfig::previewEnabledForFreshlyOpenedDocuments());
 }
 
 void LivePreviewUserStatusHandler::setLivePreviewEnabled(bool b)
 {
-	m_userSpecifiedLivePreviewStatus = true;
-	m_livePreviewEnabled = b;
+    m_userSpecifiedLivePreviewStatus = true;
+    m_livePreviewEnabled = b;
 }
 
 ToolConfigPair LivePreviewUserStatusHandler::livePreviewTool() const
 {
-	return m_livePreviewTool;
+    return m_livePreviewTool;
 }
 
 bool LivePreviewUserStatusHandler::setLivePreviewTool(const ToolConfigPair& p)
 {
-	if(m_livePreviewTool == p) {
-		return false;
-	}
-	m_livePreviewTool = p;
-	return true;
+    if(m_livePreviewTool == p) {
+        return false;
+    }
+    m_livePreviewTool = p;
+    return true;
 }
 
 }

@@ -24,10 +24,10 @@
 namespace KileWidget {
 
 SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/)
- : QWidget(parent),
-   m_orientation(orientation),
-   m_minimized(true),
-   m_directionalSize(0)
+    : QWidget(parent),
+      m_orientation(orientation),
+      m_minimized(true),
+      m_directionalSize(0)
 {
     QBoxLayout *layout = Q_NULLPTR, *extraLayout = Q_NULLPTR;
     KMultiTabBar::KMultiTabBarPosition tabbarpos = KMultiTabBar::Top;

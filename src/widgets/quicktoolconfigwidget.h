@@ -20,29 +20,29 @@
 
 class QuickToolConfigWidget : public QWidget, public Ui::QuickToolConfigWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		QuickToolConfigWidget(QWidget *parent = 0);
-		~QuickToolConfigWidget();
+public:
+    QuickToolConfigWidget(QWidget *parent = 0);
+    ~QuickToolConfigWidget();
 
-	public Q_SLOTS:
-		virtual void updateSequence(const QString& sequence);
-		virtual void updateConfigs(const QString& tool);
+public Q_SLOTS:
+    virtual void updateSequence(const QString& sequence);
+    virtual void updateConfigs(const QString& tool);
 
-	Q_SIGNALS:
-		void sequenceChanged(const QString &);
+Q_SIGNALS:
+    void sequenceChanged(const QString &);
 
-	private:
-		QString m_sequence;
-		QString m_currentDefaultConfig;
+private:
+    QString m_sequence;
+    QString m_currentDefaultConfig;
 
-	private Q_SLOTS:
-		void down();
-		void up();
-		void remove();
-		void add();
-		void changed();
+private Q_SLOTS:
+    void down();
+    void up();
+    void remove();
+    void add();
+    void changed();
 };
 
 #endif

@@ -21,35 +21,35 @@
 
 class DocumentationViewer : public KHTMLPart
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		DocumentationViewer(QWidget *parent = Q_NULLPTR);
-		~DocumentationViewer();
+public:
+    DocumentationViewer(QWidget *parent = Q_NULLPTR);
+    ~DocumentationViewer();
 
-		bool backEnable();
-		bool forwardEnable();
+    bool backEnable();
+    bool forwardEnable();
 
-	public Q_SLOTS:
-		void home();
-		void forward();
-		void back();
-		void addToHistory(const QString& url);
+public Q_SLOTS:
+    void home();
+    void forward();
+    void back();
+    void addToHistory(const QString& url);
 
-	Q_SIGNALS:
-		void updateStatus(bool back, bool forward);
+Q_SIGNALS:
+    void updateStatus(bool back, bool forward);
 
-	protected:
-		virtual bool urlSelected(const QString &url,
-					int button,
-					int state,
-					const QString &_target,
-					const KParts::OpenUrlArguments &args = KParts::OpenUrlArguments(),
-					const KParts::BrowserArguments &browserArgs = KParts::BrowserArguments());
+protected:
+    virtual bool urlSelected(const QString &url,
+                             int button,
+                             int state,
+                             const QString &_target,
+                             const KParts::OpenUrlArguments &args = KParts::OpenUrlArguments(),
+                             const KParts::BrowserArguments &browserArgs = KParts::BrowserArguments());
 
-	private:
-		QStringList	m_history;
-		int		m_hpos;
+private:
+    QStringList	m_history;
+    int		m_hpos;
 };
 
 #endif

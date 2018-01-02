@@ -31,38 +31,38 @@ namespace KileDialog
 {
 class ResultItem : public QListWidgetItem
 {
-	public:
-		ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests);
+public:
+    ResultItem(QListWidget *listWidget, const QString &toolGroup, int status, bool isCritical, const QList<ConfigTest*> &tests);
 };
 
 class ConfigChecker : public KAssistantDialog
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		ConfigChecker(KileInfo *kileInfo, QWidget* parent = Q_NULLPTR);
-		~ConfigChecker();
+public:
+    ConfigChecker(KileInfo *kileInfo, QWidget* parent = Q_NULLPTR);
+    ~ConfigChecker();
 
-	public Q_SLOTS:
-		void run();
-		void started();
-		void finished(bool);
-		void setPercentageDone(int);
-		void slotCancel();
+public Q_SLOTS:
+    void run();
+    void started();
+    void finished(bool);
+    void setPercentageDone(int);
+    void slotCancel();
 
-		void next();
+    void next();
 
-	protected Q_SLOTS:
-		void assistantFinished();
+protected Q_SLOTS:
+    void assistantFinished();
 
-	private:
-		KileInfo *m_ki;
-		Tester    *m_tester;
-		QProgressBar *m_progressBar;
-		QListWidget *m_listWidget;
-		QLabel *m_overallResultLabel;
-		KPageWidgetItem *m_introPageWidgetItem, *m_runningTestsPageWidgetItem, *m_testResultsPageWidgetItem;
-		QCheckBox *m_useEmbeddedViewerCheckBox, *m_useModernConfigurationForLaTeXCheckBox, *m_useModernConfigurationForPDFLaTeX;
+private:
+    KileInfo *m_ki;
+    Tester    *m_tester;
+    QProgressBar *m_progressBar;
+    QListWidget *m_listWidget;
+    QLabel *m_overallResultLabel;
+    KPageWidgetItem *m_introPageWidgetItem, *m_runningTestsPageWidgetItem, *m_testResultsPageWidgetItem;
+    QCheckBox *m_useEmbeddedViewerCheckBox, *m_useModernConfigurationForLaTeXCheckBox, *m_useModernConfigurationForPDFLaTeX;
 };
 }
 #endif

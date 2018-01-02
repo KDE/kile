@@ -20,11 +20,11 @@
 
 class KileWidgetScriptingConfig : public QWidget, public Ui::KileWidgetScriptingConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetScriptingConfig(QWidget *parent = 0);
-		~KileWidgetScriptingConfig();
+public:
+    KileWidgetScriptingConfig(QWidget *parent = 0);
+    ~KileWidgetScriptingConfig();
 };
 
 #endif

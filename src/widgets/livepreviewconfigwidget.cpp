@@ -16,10 +16,10 @@
 #include "kileconfig.h"
 
 KileWidgetLivePreviewConfig::KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent)
- : QWidget(parent),
-   m_config(config)
+    : QWidget(parent),
+      m_config(config)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 KileWidgetLivePreviewConfig::~KileWidgetLivePreviewConfig()
@@ -28,18 +28,18 @@ KileWidgetLivePreviewConfig::~KileWidgetLivePreviewConfig()
 
 void KileWidgetLivePreviewConfig::readConfig()
 {
-	if(KileConfig::livePreviewCompileOnlyAfterSaving()) {
-		m_compileDocumentOnSaveRadioButton->setChecked(true);
-	}
-	else {
-		m_compileDocumentOnChangesRadioButton->setChecked(true);
-	}
+    if(KileConfig::livePreviewCompileOnlyAfterSaving()) {
+        m_compileDocumentOnSaveRadioButton->setChecked(true);
+    }
+    else {
+        m_compileDocumentOnChangesRadioButton->setChecked(true);
+    }
 
 }
 
 void KileWidgetLivePreviewConfig::writeConfig()
 {
-	KileConfig::setLivePreviewCompileOnlyAfterSaving(m_compileDocumentOnSaveRadioButton->isChecked());
+    KileConfig::setLivePreviewCompileOnlyAfterSaving(m_compileDocumentOnSaveRadioButton->isChecked());
 }
 
 

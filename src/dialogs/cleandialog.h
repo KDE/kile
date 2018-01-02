@@ -31,16 +31,16 @@ namespace KileDialog
 {
 class Clean : public QDialog
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		Clean(QWidget *parent, const QString &filename, const QStringList &extlist);
-		~Clean();
-		QStringList cleanList();
+public:
+    Clean(QWidget *parent, const QString &filename, const QStringList &extlist);
+    ~Clean();
+    QStringList cleanList();
 
-	private:
-		QTreeWidget *m_listview;
-		QStringList m_extlist;
+private:
+    QTreeWidget *m_listview;
+    QStringList m_extlist;
 };
 }
 

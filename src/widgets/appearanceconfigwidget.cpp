@@ -16,10 +16,10 @@
 #include <config.h>
 
 KileWidgetAppearanceConfig::KileWidgetAppearanceConfig(KConfig *config, QWidget *parent)
- : QWidget(parent),
-   m_config(config)
+    : QWidget(parent),
+      m_config(config)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 KileWidgetAppearanceConfig::~KileWidgetAppearanceConfig()

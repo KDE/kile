@@ -22,17 +22,17 @@
 
 class KileWidgetLivePreviewConfig : public QWidget, public Ui::KileWidgetLivePreviewConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
-		~KileWidgetLivePreviewConfig();
+public:
+    KileWidgetLivePreviewConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
+    ~KileWidgetLivePreviewConfig();
 
-		void readConfig();
-		void writeConfig();
+    void readConfig();
+    void writeConfig();
 
-	protected:
-		KConfig *m_config;
+protected:
+    KConfig *m_config;
 };
 
 #endif

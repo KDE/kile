@@ -25,28 +25,28 @@ namespace KileConfiguration {
  * This class handles the configuration management in Kile.
  **/
 class Manager : public QObject {
-	friend class ::Kile;
+    friend class ::Kile;
 
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		/**
-		 * Constructs a new Manager object.
-		 **/
-		explicit Manager(KileInfo *info, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
-		virtual ~Manager();
+public:
+    /**
+     * Constructs a new Manager object.
+     **/
+    explicit Manager(KileInfo *info, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    virtual ~Manager();
 
-	Q_SIGNALS:
-		/**
-		* This signal is emitted when the configuration has changed. Classes that read and write to the global KConfig object
-		* should connect to this signal so they can update their settings.
-		**/
-		void configChanged();
+Q_SIGNALS:
+    /**
+    * This signal is emitted when the configuration has changed. Classes that read and write to the global KConfig object
+    * should connect to this signal so they can update their settings.
+    **/
+    void configChanged();
 
-	protected:
-		KileInfo *m_kileInfo;
+protected:
+    KileInfo *m_kileInfo;
 
-		void emitConfigChanged();
+    void emitConfigChanged();
 
 };
 

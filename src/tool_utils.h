@@ -26,32 +26,32 @@ namespace KileTool
 class ToolConfigPair : public QPair<QString, QString>
 {
 public:
-	ToolConfigPair();
-	ToolConfigPair(const QString& toolName, const QString& configName);
+    ToolConfigPair();
+    ToolConfigPair(const QString& toolName, const QString& configName);
 
-	inline bool isValid() const
-	{
-		return !first.isEmpty();
-	}
+    inline bool isValid() const
+    {
+        return !first.isEmpty();
+    }
 
-	/** If the first components are equal, we compare the second one but
-	 * an empty config name or the default tool config name should precede all others.
-	 **/
-	bool operator<(const ToolConfigPair& p2) const;
+    /** If the first components are equal, we compare the second one but
+     * an empty config name or the default tool config name should precede all others.
+     **/
+    bool operator<(const ToolConfigPair& p2) const;
 
-	static QString userStringRepresentation(const QString& toolName, const QString& toolConfig);
-	inline QString userStringRepresentation() const
-	{
-		return userStringRepresentation(first, second);
-	}
+    static QString userStringRepresentation(const QString& toolName, const QString& toolConfig);
+    inline QString userStringRepresentation() const
+    {
+        return userStringRepresentation(first, second);
+    }
 
-	static QString configStringRepresentation(const QString& toolName, const QString& toolConfig);
-	QString configStringRepresentation() const
-	{
-		return configStringRepresentation(first, second);
-	}
+    static QString configStringRepresentation(const QString& toolName, const QString& toolConfig);
+    QString configStringRepresentation() const
+    {
+        return configStringRepresentation(first, second);
+    }
 
-	static ToolConfigPair fromConfigStringRepresentation(const QString& s);
+    static ToolConfigPair fromConfigStringRepresentation(const QString& s);
 };
 
 }

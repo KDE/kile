@@ -19,7 +19,7 @@
 #include <QTableWidgetItem>
 
 namespace KileDocument {
-	class LatexCommands;
+class LatexCommands;
 }
 
 namespace KileDialog {
@@ -27,19 +27,19 @@ namespace KileDialog {
 class TabularProperties;
 
 class TabularCell : public QTableWidgetItem {
-	public:
-		enum { None = 0, Left = 1, Top = 2, Right = 4, Bottom = 8 };
+public:
+    enum { None = 0, Left = 1, Top = 2, Right = 4, Bottom = 8 };
 
-		TabularCell();
-		TabularCell(const QString &text);
+    TabularCell();
+    TabularCell(const QString &text);
 
-		void setBorder(int border);
-		int border() const;
-		
-		QString toLaTeX( TabularProperties &properties ) const;
+    void setBorder(int border);
+    int border() const;
 
-	private:
-		int m_Border;
+    QString toLaTeX( TabularProperties &properties ) const;
+
+private:
+    int m_Border;
 };
 
 }

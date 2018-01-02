@@ -20,11 +20,11 @@
 
 class NewDocumentWidget : public QWidget, public Ui::NewDocumentWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		NewDocumentWidget(QWidget *parent = 0);
-		~NewDocumentWidget();
+public:
+    NewDocumentWidget(QWidget *parent = 0);
+    ~NewDocumentWidget();
 };
 
 #endif

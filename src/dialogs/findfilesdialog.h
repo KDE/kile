@@ -55,87 +55,87 @@ namespace KileDialog {
 
 class FindFilesDialog : public QDialog
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
-		~FindFilesDialog();
+public:
+    FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode mode, const char *name = 0);
+    ~FindFilesDialog();
 
-		void appendFilter(const QString &name, const QString &filter);
+    void appendFilter(const QString &name, const QString &filter);
 
-		void appendTemplate(const QString &name, const QString &regexp);
-		void clearTemplates();
+    void appendTemplate(const QString &name, const QString &regexp);
+    void clearTemplates();
 
-	public Q_SLOTS:
-		void slotSearchFor(const QString &pattern);
+public Q_SLOTS:
+    void slotSearchFor(const QString &pattern);
 
-	Q_SIGNALS:
-		void itemSelected(const QString &abs_filename, int line);
+Q_SIGNALS:
+    void itemSelected(const QString &abs_filename, int line);
 
-	private:
-		KileInfo *m_ki;
-		KileGrep::Mode m_mode;
-		KProcess *m_proc;
-		int m_grepJobs;
+private:
+    KileInfo *m_ki;
+    KileGrep::Mode m_mode;
+    KProcess *m_proc;
+    int m_grepJobs;
 
-		void readConfig();
-		void writeConfig();
+    void readConfig();
+    void writeConfig();
 
-		QStringList getListItems(KComboBox *combo);
-		int findListItem(KComboBox *combo, const QString &s);
-		void updateListItems(KComboBox *combo);
+    QStringList getListItems(KComboBox *combo);
+    int findListItem(KComboBox *combo, const QString &s);
+    void updateListItems(KComboBox *combo);
 
-		void processOutput(bool forceAll = false);
-		void finish();
+    void processOutput(bool forceAll = false);
+    void finish();
 
-		void startGrep();
-		bool shouldRestart() {
-			return (m_grepJobs > 0);
-		}
-		void clearGrepJobs() {
-			m_grepJobs = 0;
-		}
-		QString buildFilesCommand();
-		QString buildProjectCommand();
-		QString getPattern();
-		QString getShellPattern();
-		QString getCommandList(KileDocument::CmdAttribute attrtype);
+    void startGrep();
+    bool shouldRestart() {
+        return (m_grepJobs > 0);
+    }
+    void clearGrepJobs() {
+        m_grepJobs = 0;
+    }
+    QString buildFilesCommand();
+    QString buildProjectCommand();
+    QString getPattern();
+    QString getShellPattern();
+    QString getCommandList(KileDocument::CmdAttribute attrtype);
 
-		void setupDirectory();
-		void setupProject();
-		void setDirName(const QString &dir);
-		void setFilter(const QString &filter);
-		QStringList readList(KileGrep::List listtype);
-		void updateLists();
-		void updateWidgets();
+    void setupDirectory();
+    void setupProject();
+    void setDirName(const QString &dir);
+    void setFilter(const QString &filter);
+    QStringList readList(KileGrep::List listtype);
+    void updateLists();
+    void updateWidgets();
 
-		QStringList m_projectfiles;
-		QString m_projectdir;
-		bool m_projectOpened;
+    QStringList m_projectfiles;
+    QString m_projectdir;
+    bool m_projectOpened;
 
-		QLabel *projectname_label, *projectdirname_label;
-		QLineEdit *template_edit;
-		KComboBox *filter_combo, *pattern_combo, *template_combo;
-		KUrlRequester *dir_combo;
-		QCheckBox *recursive_box;
-		QListWidget *resultbox;
-		QPushButton *search_button, *clear_button, *close_button;
-		QString m_buf;
-		QString m_errbuf;
-		QStringList m_filterList;
-		QStringList m_TemplateList;
-		int m_lastTemplateIndex;
+    QLabel *projectname_label, *projectdirname_label;
+    QLineEdit *template_edit;
+    KComboBox *filter_combo, *pattern_combo, *template_combo;
+    KUrlRequester *dir_combo;
+    QCheckBox *recursive_box;
+    QListWidget *resultbox;
+    QPushButton *search_button, *clear_button, *close_button;
+    QString m_buf;
+    QString m_errbuf;
+    QStringList m_filterList;
+    QStringList m_TemplateList;
+    int m_lastTemplateIndex;
 
-	private Q_SLOTS:
-		void processExited(int exitCode, QProcess::ExitStatus exitStatus);
-		void processStandardOutputReady();
-		void processErrorOutputReady();
-		void slotItemSelected(const QString&);
-		void slotSearch();
-		void slotClear();
-		void slotClose();
-		void slotPatternTextChanged(const QString &);
-		void slotTemplateActivated(int index);
+private Q_SLOTS:
+    void processExited(int exitCode, QProcess::ExitStatus exitStatus);
+    void processStandardOutputReady();
+    void processErrorOutputReady();
+    void slotItemSelected(const QString&);
+    void slotSearch();
+    void slotClear();
+    void slotClose();
+    void slotPatternTextChanged(const QString &);
+    void slotTemplateActivated(int index);
 };
 
 }

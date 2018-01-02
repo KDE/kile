@@ -31,53 +31,53 @@
 using namespace KileDialog;
 
 ValidatorInputDialogHelper::ValidatorInputDialogHelper(const QString &caption, const QString &label,
-	const QString &value, QWidget *parent,
-	QValidator *validator, const QString &mask)
-	: QDialog(parent)
-	, m_lineEdit(new QLineEdit(this))
-	, m_buttonBox(new QDialogButtonBox(this))
+        const QString &value, QWidget *parent,
+        QValidator *validator, const QString &mask)
+    : QDialog(parent)
+    , m_lineEdit(new QLineEdit(this))
+    , m_buttonBox(new QDialogButtonBox(this))
 {
-	setWindowTitle(caption);
-	setModal(true);
+    setWindowTitle(caption);
+    setModal(true);
 
-	QVBoxLayout *layout = new QVBoxLayout;
-	setLayout(layout);
+    QVBoxLayout *layout = new QVBoxLayout;
+    setLayout(layout);
 
-	QLabel *m_label = new QLabel(label, this);
-	m_label->setWordWrap(true);
-	layout->addWidget(m_label);
+    QLabel *m_label = new QLabel(label, this);
+    m_label->setWordWrap(true);
+    layout->addWidget(m_label);
 
-	m_lineEdit->setText(value);
-	m_lineEdit->setClearButtonEnabled(true);
-	layout->addWidget(m_lineEdit);
+    m_lineEdit->setText(value);
+    m_lineEdit->setClearButtonEnabled(true);
+    layout->addWidget(m_lineEdit);
 
-	m_lineEdit->setFocus();
-	m_label->setBuddy(m_lineEdit);
+    m_lineEdit->setFocus();
+    m_label->setBuddy(m_lineEdit);
 
-	layout->addStretch();
+    layout->addStretch();
 
-	m_buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
-	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-	layout->addWidget(m_buttonBox);
+    m_buttonBox->setStandardButtons(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    layout->addWidget(m_buttonBox);
 
-	if (validator) {
-		m_lineEdit->setValidator(validator);
-	}
+    if (validator) {
+        m_lineEdit->setValidator(validator);
+    }
 
-	if (!mask.isEmpty()) {
-		m_lineEdit->setInputMask(mask);
-	}
+    if (!mask.isEmpty()) {
+        m_lineEdit->setInputMask(mask);
+    }
 
-	connect(m_lineEdit, &QLineEdit::textChanged, this, &ValidatorInputDialogHelper::slotEditTextChanged);
+    connect(m_lineEdit, &QLineEdit::textChanged, this, &ValidatorInputDialogHelper::slotEditTextChanged);
 
-	slotEditTextChanged(value);
-	setMinimumWidth(350);
+    slotEditTextChanged(value);
+    setMinimumWidth(350);
 }
 
 QLineEdit * ValidatorInputDialogHelper::lineEdit() const
 {
-	return m_lineEdit;
+    return m_lineEdit;
 }
 
 void ValidatorInputDialogHelper::slotEditTextChanged(const QString &text)
@@ -96,8 +96,8 @@ void ValidatorInputDialogHelper::slotEditTextChanged(const QString &text)
 }
 
 QString KileDialog::getText(const QString &caption,
-                const QString &label, const QString &value, QWidget *parent,
-                QValidator *validator, const QString &mask)
+                            const QString &label, const QString &value, QWidget *parent,
+                            QValidator *validator, const QString &mask)
 {
     ValidatorInputDialogHelper dlg(caption, label, value, parent, validator, mask);
 

@@ -34,44 +34,44 @@ namespace KileDialog
 
 class MathEnvironmentDialog : public Wizard
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		MathEnvironmentDialog(QWidget *parent, KConfig *config, KileInfo *ki,
-		                      KileDocument::LatexCommands *commands);
-		~MathEnvironmentDialog() {}
+public:
+    MathEnvironmentDialog(QWidget *parent, KConfig *config, KileInfo *ki,
+                          KileDocument::LatexCommands *commands);
+    ~MathEnvironmentDialog() {}
 
-	public Q_SLOTS:
-		void slotAccepted();
+public Q_SLOTS:
+    void slotAccepted();
 
-	private Q_SLOTS:
-		void slotEnvironmentChanged(int index);
-		void slotSpinboxValueChanged(int index);
+private Q_SLOTS:
+    void slotEnvironmentChanged(int index);
+    void slotSpinboxValueChanged(int index);
 
-	private:
-		KileInfo *m_ki;
-		KileDocument::LatexCommands *m_latexCommands;
+private:
+    KileInfo *m_ki;
+    KileDocument::LatexCommands *m_latexCommands;
 
-		KComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
-		QCheckBox *m_cbStarred, *m_cbBullets;
-		QSpinBox *m_spRows, *m_spCols;
-		QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;
-		QLabel *m_lbTabulator, *m_lbDisplaymath, *m_lbStarred;
-		QLabel *m_lbEnvironment, *m_lbBullets;
-		QLineEdit *m_edSpace;
+    KComboBox *m_coEnvironment, *m_coTabulator, *m_coDisplaymath;
+    QCheckBox *m_cbStarred, *m_cbBullets;
+    QSpinBox *m_spRows, *m_spCols;
+    QLabel *m_lbRows, *m_lbCols, *m_lbSpace ;
+    QLabel *m_lbTabulator, *m_lbDisplaymath, *m_lbStarred;
+    QLabel *m_lbEnvironment, *m_lbBullets;
+    QLineEdit *m_edSpace;
 
-		QString m_envname;
-		bool m_starred;
-		bool m_groups;
-		bool m_columns;
-		bool m_fixedcolumns;
-		bool m_mathmode;
-		QString m_tabulator;
-		QString m_parameter;
+    QString m_envname;
+    bool m_starred;
+    bool m_groups;
+    bool m_columns;
+    bool m_fixedcolumns;
+    bool m_mathmode;
+    QString m_tabulator;
+    QString m_parameter;
 
-		void initEnvironments();
-		bool isParameterEnv();
-		bool isGroupsParameterEnv();
+    void initEnvironments();
+    bool isParameterEnv();
+    bool isGroupsParameterEnv();
 };
 
 }

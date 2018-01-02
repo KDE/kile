@@ -32,100 +32,104 @@ class KileProject;
 class LaTeXOutputHandler;
 class OutputInfo;
 
-namespace KileTool { class Base; }
-namespace KileWidget { class LogWidget; }
+namespace KileTool {
+class Base;
+}
+namespace KileWidget {
+class LogWidget;
+}
 
 class KileErrorHandler : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	KileErrorHandler(QObject *parent, KileInfo *info, KActionCollection *ac);
+    KileErrorHandler(QObject *parent, KileInfo *info, KActionCollection *ac);
 
-	~KileErrorHandler();
+    ~KileErrorHandler();
 
-	QLabel* compilationResultLabel();
+    QLabel* compilationResultLabel();
 
-	QWidget* outputWidget();
+    QWidget* outputWidget();
 
-	void setErrorHandlerToolBar(QToolBar *toolBar);
+    void setErrorHandlerToolBar(QToolBar *toolBar);
 
-	void setMostRecentLogInformation(const QString& logFile, const LatexOutputInfoArray& outputInfoList);
+    void setMostRecentLogInformation(const QString& logFile, const LatexOutputInfoArray& outputInfoList);
 
 
-	enum ProblemType { AllProblems = 0, OnlyErrors, OnlyWarnings, OnlyBadBoxes };
+    enum ProblemType { AllProblems = 0, OnlyErrors, OnlyWarnings, OnlyBadBoxes };
 
-	void displayProblemsInLogWidget(KileWidget::LogWidget *logWidget, const LatexOutputInfoArray& infoList, ProblemType problemType = AllProblems);
+    void displayProblemsInLogWidget(KileWidget::LogWidget *logWidget, const LatexOutputInfoArray& infoList, ProblemType problemType = AllProblems);
 
-	bool areMessagesShown() const;
-	void addEmptyLineToMessages();
+    bool areMessagesShown() const;
+    void addEmptyLineToMessages();
 
-	void startToolLogOutput();
-	void endToolLogOutput();
+    void startToolLogOutput();
+    void endToolLogOutput();
 
 Q_SIGNALS:
-	void showingErrorMessage(QWidget *w);
-	void currentLaTeXOutputHandlerChanged(LaTeXOutputHandler *outputHandler);
+    void showingErrorMessage(QWidget *w);
+    void currentLaTeXOutputHandlerChanged(LaTeXOutputHandler *outputHandler);
 
 public Q_SLOTS:
-	void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);
-	void handleLaTeXToolDone(KileTool::Base*, int, bool childToolSpawned);
+    void handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child);
+    void handleLaTeXToolDone(KileTool::Base*, int, bool childToolSpawned);
 
 
-	void printMessage(const QString& message);
-	void printMessage(int type, const QString& message, const QString &tool = "Kile",
-	                  const OutputInfo& outputInfo = OutputInfo(), bool allowSelection = false,
-	                  bool scroll = true);
-	void printProblem(int type, const QString& problem, const OutputInfo& outputInfo = OutputInfo());
-	void clearMessages();
+    void printMessage(const QString& message);
+    void printMessage(int type, const QString& message, const QString &tool = "Kile",
+                      const OutputInfo& outputInfo = OutputInfo(), bool allowSelection = false,
+                      bool scroll = true);
+    void printProblem(int type, const QString& problem, const OutputInfo& outputInfo = OutputInfo());
+    void clearMessages();
 
-	void jumpToFirstError();
-	void jumpToProblem(const OutputInfo& info);
+    void jumpToFirstError();
+    void jumpToProblem(const OutputInfo& info);
 
-	int currentOutputTabIndex();
-	void setCurrentOutputTab(int i);
+    int currentOutputTabIndex();
+    void setCurrentOutputTab(int i);
 
-	void showMessagesOutput();
-	void showErrorsOutput();
-	void showWarningsOutput();
-	void showBadBoxesOutput();
+    void showMessagesOutput();
+    void showErrorsOutput();
+    void showWarningsOutput();
+    void showBadBoxesOutput();
 
-	void clearErrorOutput();
+    void clearErrorOutput();
 
-/* log view, error handling */
+    /* log view, error handling */
 private Q_SLOTS:
-	void ViewLog();
-	void NextError();
-	void PreviousError();
-	void NextWarning();
-	void PreviousWarning();
-	void NextBadBox();
-	void PreviousBadBox();
+    void ViewLog();
+    void NextError();
+    void PreviousError();
+    void NextWarning();
+    void PreviousWarning();
+    void NextBadBox();
+    void PreviousBadBox();
 
-	void setOutputActionsEnabled(bool b);
+    void setOutputActionsEnabled(bool b);
 
-	void handleProjectOpened(KileProject *project);
-	void updateCurrentLaTeXOutputHandler();
-	void updateForCompilationResult();
+    void handleProjectOpened(KileProject *project);
+    void updateCurrentLaTeXOutputHandler();
+    void updateForCompilationResult();
 
 private:
-	KileInfo				*m_ki;
-	QToolBar				*m_errorHanderToolBar;
-	int					m_currentOutputType;
-	LaTeXOutputHandler			*m_currentLaTeXOutputHandler;
-	QPointer<QTabWidget>			m_outputTabWidget;
-	QPointer<QLabel>			m_compilationResultLabel;
-	QPointer<KileWidget::LogWidget>		m_mainLogWidget;
-	QPointer<KileWidget::LogWidget>		m_errorLogWidget, m_warningLogWidget, m_badBoxLogWidget;
-	QPointer<QAction>			m_viewLogAction;
-	QPointer<QAction>			m_previousErrorAction, m_nextErrorAction;
-	QPointer<QAction>			m_previousWarningAction, m_nextWarningAction;
-	QPointer<QAction>			m_previousBadBoxAction, m_nextBadBoxAction;
+    KileInfo				*m_ki;
+    QToolBar				*m_errorHanderToolBar;
+    int					m_currentOutputType;
+    LaTeXOutputHandler			*m_currentLaTeXOutputHandler;
+    QPointer<QTabWidget>			m_outputTabWidget;
+    QPointer<QLabel>			m_compilationResultLabel;
+    QPointer<KileWidget::LogWidget>		m_mainLogWidget;
+    QPointer<KileWidget::LogWidget>		m_errorLogWidget, m_warningLogWidget, m_badBoxLogWidget;
+    QPointer<QAction>			m_viewLogAction;
+    QPointer<QAction>			m_previousErrorAction, m_nextErrorAction;
+    QPointer<QAction>			m_previousWarningAction, m_nextWarningAction;
+    QPointer<QAction>			m_previousBadBoxAction, m_nextBadBoxAction;
 
-	void createActions(KActionCollection *ac);
-	void jumpToProblem(int type, bool);
-	void displayProblemsInMainLogWidget(const LatexOutputInfoArray& infoList);
-	void printNoInformationAvailable();
+    void createActions(KActionCollection *ac);
+    void jumpToProblem(int type, bool);
+    void displayProblemsInMainLogWidget(const LatexOutputInfoArray& infoList);
+    void printNoInformationAvailable();
 };
 
 #endif

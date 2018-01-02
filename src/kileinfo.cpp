@@ -50,397 +50,398 @@
  */
 
 KileInfo::KileInfo(KParts::MainWindow *parent)
-	: m_mainWindow(parent)
-	, m_viewManager(Q_NULLPTR)
-	, m_manager(Q_NULLPTR)
-	, m_jScriptManager(Q_NULLPTR)
-	, m_toolFactory(Q_NULLPTR)
-	, m_texKonsole(Q_NULLPTR)
-	, m_errorHandler(Q_NULLPTR)
-	, m_edit(Q_NULLPTR)
-	, m_userMenu(Q_NULLPTR)
+    : m_mainWindow(parent)
+    , m_viewManager(Q_NULLPTR)
+    , m_manager(Q_NULLPTR)
+    , m_jScriptManager(Q_NULLPTR)
+    , m_toolFactory(Q_NULLPTR)
+    , m_texKonsole(Q_NULLPTR)
+    , m_errorHandler(Q_NULLPTR)
+    , m_edit(Q_NULLPTR)
+    , m_userMenu(Q_NULLPTR)
 {
-	m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
-	m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
-	m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
-	m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
-	m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
-	m_parserManager = new KileParser::Manager(this, parent);
-	m_editorCommands = new EditorCommands(this);
+    m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
+    m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");
+    m_templateManager = new KileTemplate::Manager(this, parent, "KileTemplate::Manager");
+    m_editorKeySequenceManager = new KileEditorKeySequence::Manager(this, parent, "KileEditorKeySequence::Manager");
+    m_abbreviationManager = new KileAbbreviation::Manager(this, parent);
+    m_parserManager = new KileParser::Manager(this, parent);
+    m_editorCommands = new EditorCommands(this);
 }
 
 KileInfo::~KileInfo()
 {
-	// this has to be deleted before the editor component is destroyed
-	delete m_editorCommands;
+    // this has to be deleted before the editor component is destroyed
+    delete m_editorCommands;
 }
 
 KTextEditor::Document * KileInfo::activeTextDocument() const
 {
-	KTextEditor::View *view = viewManager()->currentTextView();
-	if (view) return view->document(); else return Q_NULLPTR;
+    KTextEditor::View *view = viewManager()->currentTextView();
+    if (view) return view->document();
+    else return Q_NULLPTR;
 }
 
 QString KileInfo::getName(KTextEditor::Document *doc, bool shrt) const
 {
-	KILE_DEBUG_MAIN << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << endl;
-	QString title;
+    KILE_DEBUG_MAIN << "===KileInfo::getName(KTextEditor::Document *doc, bool " << shrt << ")===" << endl;
+    QString title;
 
-	if (!doc) {
-		doc = activeTextDocument();
-	}
-	if (doc) {
-		QUrl url = doc->url();
-		KILE_DEBUG_MAIN << "url " << url << endl;
-		if(url.isLocalFile()) {
-			title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
-		}
-		else {
-			title = url.toDisplayString();
-		}
-	}
+    if (!doc) {
+        doc = activeTextDocument();
+    }
+    if (doc) {
+        QUrl url = doc->url();
+        KILE_DEBUG_MAIN << "url " << url << endl;
+        if(url.isLocalFile()) {
+            title = shrt ? doc->url().fileName() : doc->url().toLocalFile();
+        }
+        else {
+            title = url.toDisplayString();
+        }
+    }
 
-	return title;
+    return title;
 }
 
 LaTeXOutputHandler* KileInfo::findCurrentLaTeXOutputHandler() const
 {
-	LaTeXOutputHandler *h = Q_NULLPTR;
+    LaTeXOutputHandler *h = Q_NULLPTR;
 
-	getCompileName(false, &h);
-	return h;
+    getCompileName(false, &h);
+    return h;
 }
 
 QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h /* = Q_NULLPTR */) const
 {
-	KileProject *project = docManager()->activeProject();
+    KileProject *project = docManager()->activeProject();
 
-	if (m_singlemode) {
-		if (project) {
-			if(h) {
-				*h = project;
-			}
-			return getCompileNameForProject(project, shrt);
-		}
-		else {
-			KTextEditor::Document *doc = activeTextDocument();
-			if(h) {
-				*h = dynamic_cast<KileDocument::LaTeXInfo*>(m_docManager->textInfoFor(doc));
-			}
-			return getName(doc, shrt);
-		}
-	}
-	else {
-		QFileInfo fi(m_masterDocumentFileName);
-		if(h) {
-			*h = dynamic_cast<KileDocument::LaTeXInfo*>(m_docManager->textInfoFor(m_masterDocumentFileName));
-		}
-		if(shrt) {
-			return fi.fileName();
-		}
-		else {
-			return m_masterDocumentFileName;
-		}
-	}
+    if (m_singlemode) {
+        if (project) {
+            if(h) {
+                *h = project;
+            }
+            return getCompileNameForProject(project, shrt);
+        }
+        else {
+            KTextEditor::Document *doc = activeTextDocument();
+            if(h) {
+                *h = dynamic_cast<KileDocument::LaTeXInfo*>(m_docManager->textInfoFor(doc));
+            }
+            return getName(doc, shrt);
+        }
+    }
+    else {
+        QFileInfo fi(m_masterDocumentFileName);
+        if(h) {
+            *h = dynamic_cast<KileDocument::LaTeXInfo*>(m_docManager->textInfoFor(m_masterDocumentFileName));
+        }
+        if(shrt) {
+            return fi.fileName();
+        }
+        else {
+            return m_masterDocumentFileName;
+        }
+    }
 }
 
 QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt) const
 {
-	if (!project->masterDocument().isEmpty()) {
-		QUrl master(project->masterDocument());
-		if(shrt) {
-			return master.fileName();
-		}
-		else {
-			return master.toLocalFile();
-		}
-	}
-	else {
-		KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
-		if (item) {
-			QUrl url = item->url();
-			if(shrt) {
-				return url.fileName();
-			}
-			else {
-				return url.toLocalFile();
-			}
-		}
-		else {
-			return QString();
-		}
-	}
+    if (!project->masterDocument().isEmpty()) {
+        QUrl master(project->masterDocument());
+        if(shrt) {
+            return master.fileName();
+        }
+        else {
+            return master.toLocalFile();
+        }
+    }
+    else {
+        KileProjectItem *item = project->rootItem(docManager()->activeProjectItem());
+        if (item) {
+            QUrl url = item->url();
+            if(shrt) {
+                return url.fileName();
+            }
+            else {
+                return url.toLocalFile();
+            }
+        }
+        else {
+            return QString();
+        }
+    }
 }
 
 QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& name) const
 {
-	if(name.isEmpty()) {
-		return name;
-	}
+    if(name.isEmpty()) {
+        return name;
+    }
 
-	QString file = name;
+    QString file = name;
 
-	if(file.left(2) == "./") {
-		file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file.mid(2);
-	}
+    if(file.left(2) == "./") {
+        file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file.mid(2);
+    }
 
-	if(QDir::isRelativePath(file)) {
-		file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file;
-	}
+    if(QDir::isRelativePath(file)) {
+        file = QFileInfo(info.mainSourceFile()).absolutePath() + '/' + file;
+    }
 
-	QFileInfo fi(file);
-	if(file.isEmpty() || fi.isDir() || (! fi.exists()) || (! fi.isReadable())) {
-		// - call from logwidget or error handling, which
-		//   tries to determine the LaTeX source file
-		bool found = false;
-		QStringList extlist = (m_extensions->latexDocuments()).split(' ');
-		for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
-			QString name = file + (*it);
-			if(QFileInfo(name).exists()) {
-				file = name;
-				fi.setFile(name);
-				found = true;
-				break;
-			}
-		}
-		if(!found) {
-			file.clear();
-		}
-	}
+    QFileInfo fi(file);
+    if(file.isEmpty() || fi.isDir() || (! fi.exists()) || (! fi.isReadable())) {
+        // - call from logwidget or error handling, which
+        //   tries to determine the LaTeX source file
+        bool found = false;
+        QStringList extlist = (m_extensions->latexDocuments()).split(' ');
+        for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
+            QString name = file + (*it);
+            if(QFileInfo(name).exists()) {
+                file = name;
+                fi.setFile(name);
+                found = true;
+                break;
+            }
+        }
+        if(!found) {
+            file.clear();
+        }
+    }
 
-	if(!fi.isReadable()) {
-		return QString();
-	}
+    if(!fi.isReadable()) {
+        return QString();
+    }
 
-	return file;
+    return file;
 }
 
 QList<QUrl> KileInfo::getParentsFor(KileDocument::Info *info)
 {
-	QList<KileProjectItem*> items = docManager()->itemsFor(info);
-	QList<QUrl> list;
-	for(QList<KileProjectItem*>::iterator it = items.begin(); it != items.end(); ++it) {
-		if((*it)->parent()) {
-			list.append((*it)->parent()->url());
-		}
-	}
-	return list;
+    QList<KileProjectItem*> items = docManager()->itemsFor(info);
+    QList<QUrl> list;
+    for(QList<KileProjectItem*>::iterator it = items.begin(); it != items.end(); ++it) {
+        if((*it)->parent()) {
+            list.append((*it)->parent()->url());
+        }
+    }
+    return list;
 }
 
 QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() const, KileDocument::TextInfo *docinfo)
 {
-	if(!docinfo) {
-		docinfo = docManager()->getInfo();
-	}
-	KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
+    if(!docinfo) {
+        docinfo = docManager()->getInfo();
+    }
+    KileProjectItem *item = docManager()->itemFor(docinfo, docManager()->activeProject());
 
-	KILE_DEBUG_MAIN << "Kile::retrieveList()";
-	if (item) {
-		KileProject *project = item->project();
-		KileProjectItem *root = project->rootItem(item);
-		if (root) {
-			KILE_DEBUG_MAIN << "\tusing root item " << root->url().fileName();
+    KILE_DEBUG_MAIN << "Kile::retrieveList()";
+    if (item) {
+        KileProject *project = item->project();
+        KileProjectItem *root = project->rootItem(item);
+        if (root) {
+            KILE_DEBUG_MAIN << "\tusing root item " << root->url().fileName();
 
-			QList<KileProjectItem*> children;
-			children.append(root);
-			root->allChildren(&children);
+            QList<KileProjectItem*> children;
+            children.append(root);
+            root->allChildren(&children);
 
-			QStringList toReturn;
-			for(QList<KileProjectItem*>::iterator it = children.begin(); it != children.end(); ++it) {
-				const KileProjectItem *item = *it;
-				KileDocument::TextInfo *textInfo = item->getInfo();
-				KILE_DEBUG_MAIN << "\t" << item->url();
+            QStringList toReturn;
+            for(QList<KileProjectItem*>::iterator it = children.begin(); it != children.end(); ++it) {
+                const KileProjectItem *item = *it;
+                KileDocument::TextInfo *textInfo = item->getInfo();
+                KILE_DEBUG_MAIN << "\t" << item->url();
 
-				if(textInfo) {
-					toReturn << (textInfo->*getit)();
-				}
-			}
-			return toReturn;
-		}
-		else {
-			return QStringList();
-		}
-	}
-	else if (docinfo) {
-		return (docinfo->*getit)();
-	}
-	else {
-		return QStringList();
-	}
+                if(textInfo) {
+                    toReturn << (textInfo->*getit)();
+                }
+            }
+            return toReturn;
+        }
+        else {
+            return QStringList();
+        }
+    }
+    else if (docinfo) {
+        return (docinfo->*getit)();
+    }
+    else {
+        return QStringList();
+    }
 }
 
 QStringList KileInfo::allLabels(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::allLabels()" << endl;
-	return retrieveList(&KileDocument::Info::labels, info);
+    KILE_DEBUG_MAIN << "Kile::allLabels()" << endl;
+    return retrieveList(&KileDocument::Info::labels, info);
 }
 
 QStringList KileInfo::allBibItems(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::allBibItems()" << endl;
-	return retrieveList(&KileDocument::Info::bibItems, info);
+    KILE_DEBUG_MAIN << "Kile::allBibItems()" << endl;
+    return retrieveList(&KileDocument::Info::bibItems, info);
 }
 
 QStringList KileInfo::allBibliographies(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::bibliographies()" << endl;
-	return retrieveList(&KileDocument::Info::bibliographies, info);
+    KILE_DEBUG_MAIN << "Kile::bibliographies()" << endl;
+    return retrieveList(&KileDocument::Info::bibliographies, info);
 }
 
 QStringList KileInfo::allDependencies(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::dependencies()" << endl;
-	return retrieveList(&KileDocument::Info::dependencies, info);
+    KILE_DEBUG_MAIN << "Kile::dependencies()" << endl;
+    return retrieveList(&KileDocument::Info::dependencies, info);
 }
 
 QStringList KileInfo::allNewCommands(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::newCommands()" << endl;
-	return retrieveList(&KileDocument::Info::newCommands, info);
+    KILE_DEBUG_MAIN << "Kile::newCommands()" << endl;
+    return retrieveList(&KileDocument::Info::newCommands, info);
 }
 
 QStringList KileInfo::allAsyFigures(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::asyFigures()" << endl;
-	return retrieveList(&KileDocument::Info::asyFigures, info);
+    KILE_DEBUG_MAIN << "Kile::asyFigures()" << endl;
+    return retrieveList(&KileDocument::Info::asyFigures, info);
 }
 
 QStringList KileInfo::allPackages(KileDocument::TextInfo *info)
 {
-	KILE_DEBUG_MAIN << "Kile::allPackages()" << endl;
-	return retrieveList(&KileDocument::Info::packages, info);
+    KILE_DEBUG_MAIN << "Kile::allPackages()" << endl;
+    return retrieveList(&KileDocument::Info::packages, info);
 }
 
 QString KileInfo::lastModifiedFile(KileDocument::TextInfo* info)
 {
-	if(!info) {
-		info = docManager()->getInfo();
-	}
-	QStringList list = allDependencies(info);
-	QFileInfo fileinfo(info->url().toLocalFile());
-	list.append(fileinfo.fileName());
+    if(!info) {
+        info = docManager()->getInfo();
+    }
+    QStringList list = allDependencies(info);
+    QFileInfo fileinfo(info->url().toLocalFile());
+    list.append(fileinfo.fileName());
 
-	return KileUtilities::lastModifiedFile(list, fileinfo.absolutePath());
+    return KileUtilities::lastModifiedFile(list, fileinfo.absolutePath());
 }
 
 QString KileInfo::documentTypeToString(KileDocument::Type type)
 {
-	switch(type) {
-		case KileDocument::Undefined:
-			return i18n("Undefined");
-		case KileDocument::Text:
-			return i18n("Text");
-		case KileDocument::LaTeX:
-			return i18n("LaTeX");
-		case KileDocument::BibTeX:
-			return i18n("BibTeX");
-		case KileDocument::Script:
-			return i18n("Script");
-	}
-	return QString();
+    switch(type) {
+    case KileDocument::Undefined:
+        return i18n("Undefined");
+    case KileDocument::Text:
+        return i18n("Text");
+    case KileDocument::LaTeX:
+        return i18n("LaTeX");
+    case KileDocument::BibTeX:
+        return i18n("BibTeX");
+    case KileDocument::Script:
+        return i18n("Script");
+    }
+    return QString();
 }
 
 bool KileInfo::similarOrEqualURL(const QUrl &validurl, const QUrl &testurl)
 {
-	if ( testurl.isEmpty() || testurl.path().isEmpty() ) return false;
+    if ( testurl.isEmpty() || testurl.path().isEmpty() ) return false;
 
 
-	bool absolute = QDir::isAbsolutePath(testurl.toLocalFile());
-	return (
-		     (validurl == testurl) ||
-		     (!absolute && validurl.path().endsWith(testurl.path()))
-		   );
+    bool absolute = QDir::isAbsolutePath(testurl.toLocalFile());
+    return (
+               (validurl == testurl) ||
+               (!absolute && validurl.path().endsWith(testurl.path()))
+           );
 }
 
 bool KileInfo::isOpen(const QUrl &url)
 {
-	KILE_DEBUG_MAIN << "==bool KileInfo::isOpen(const QUrl &url)=============" << endl;
+    KILE_DEBUG_MAIN << "==bool KileInfo::isOpen(const QUrl &url)=============" << endl;
 
-	for (int i = 0; i < viewManager()->textViewCount(); ++i) {
-		KTextEditor::View *view = viewManager()->textView(i);
-		if (view->document() && similarOrEqualURL(view->document()->url(), url)) {
-			return true;
-		}
-	}
+    for (int i = 0; i < viewManager()->textViewCount(); ++i) {
+        KTextEditor::View *view = viewManager()->textView(i);
+        if (view->document() && similarOrEqualURL(view->document()->url(), url)) {
+            return true;
+        }
+    }
 
-	return false;
+    return false;
 }
 
 bool KileInfo::projectIsOpen(const QUrl &url)
 {
-	KileProject *project = docManager()->projectFor(url);
+    KileProject *project = docManager()->projectFor(url);
 
-	return project != 0 ;
+    return project != 0 ;
 }
 
 
 QString KileInfo::getSelection() const
 {
-	KTextEditor::View *view = viewManager()->currentTextView();
+    KTextEditor::View *view = viewManager()->currentTextView();
 
-	if (view && view->selection()) {
-		return view->selectionText();
-	}
+    if (view && view->selection()) {
+        return view->selectionText();
+    }
 
-	return QString();
+    return QString();
 }
 
 void KileInfo::clearSelection() const
 {
-	KTextEditor::View *view = viewManager()->currentTextView();
+    KTextEditor::View *view = viewManager()->currentTextView();
 
-	if(view && view->selection()) {
-		view->removeSelectionText();
-	}
+    if(view && view->selection()) {
+        view->removeSelectionText();
+    }
 }
 
 QString KileInfo::expandEnvironmentVars(const QString &str)
 {
-	static QRegExp reEnvVars("\\$(\\w+)");
-	QString result = str;
-	int index = -1;
-	while ( (index = str.indexOf(reEnvVars, index + 1)) != -1 )
-		result.replace(reEnvVars.cap(0),qgetenv(reEnvVars.cap(1).toLocal8Bit()));
+    static QRegExp reEnvVars("\\$(\\w+)");
+    QString result = str;
+    int index = -1;
+    while ( (index = str.indexOf(reEnvVars, index + 1)) != -1 )
+        result.replace(reEnvVars.cap(0),qgetenv(reEnvVars.cap(1).toLocal8Bit()));
 
-	return result;
+    return result;
 }
 
 QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)
 {
-	KILE_DEBUG_MAIN << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)" << endl;
-	QStringList inputpaths;
-	QString configpaths;
-	QFileInfo info;
+    KILE_DEBUG_MAIN << "QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int type)" << endl;
+    QStringList inputpaths;
+    QString configpaths;
+    QFileInfo info;
 
-	switch(type)
-	{
-		case bibinputs:
-			configpaths = KileConfig::bibInputPaths() + PATH_SEPARATOR + "$BIBINPUTS";
-			break;
-		case texinputs:
-			configpaths = KileConfig::teXPaths() + PATH_SEPARATOR + "$TEXINPUTS";
-			break;
-		case bstinputs:
-			configpaths = KileConfig::bstInputPaths() + PATH_SEPARATOR + "$BSTINPUTS";
-			break;
-		default:
-			KILE_DEBUG_MAIN << "Unknown type in checkOtherPaths" << endl;
-			return QString();
-			break;
-	}
+    switch(type)
+    {
+    case bibinputs:
+        configpaths = KileConfig::bibInputPaths() + PATH_SEPARATOR + "$BIBINPUTS";
+        break;
+    case texinputs:
+        configpaths = KileConfig::teXPaths() + PATH_SEPARATOR + "$TEXINPUTS";
+        break;
+    case bstinputs:
+        configpaths = KileConfig::bstInputPaths() + PATH_SEPARATOR + "$BSTINPUTS";
+        break;
+    default:
+        KILE_DEBUG_MAIN << "Unknown type in checkOtherPaths" << endl;
+        return QString();
+        break;
+    }
 
-	inputpaths = expandEnvironmentVars(configpaths).split(PATH_SEPARATOR);
-	inputpaths.prepend(path);
+    inputpaths = expandEnvironmentVars(configpaths).split(PATH_SEPARATOR);
+    inputpaths.prepend(path);
 
-		// the first match is supposed to be the correct one
-	foreach(const QString &string, inputpaths){
-		KILE_DEBUG_MAIN << "path is " << string << "and file is " << file << endl;
-		info.setFile(string + '/' + file);
-		if(info.exists()) {
-			KILE_DEBUG_MAIN << "filepath after correction is: " << info.path() << endl;
-			return info.absoluteFilePath();
-		}
-	}
-	return QString();
+    // the first match is supposed to be the correct one
+    foreach(const QString &string, inputpaths) {
+        KILE_DEBUG_MAIN << "path is " << string << "and file is " << file << endl;
+        info.setFile(string + '/' + file);
+        if(info.exists()) {
+            KILE_DEBUG_MAIN << "filepath after correction is: " << info.path() << endl;
+            return info.absoluteFilePath();
+        }
+    }
+    return QString();
 }
 

@@ -17,8 +17,8 @@
 
 KileWidgetLatexConfig::KileWidgetLatexConfig(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
-	connect(m_pbCommands, SIGNAL(clicked()), this, SLOT(slotConfigure()));
+    setupUi(this);
+    connect(m_pbCommands, SIGNAL(clicked()), this, SLOT(slotConfigure()));
 }
 
 KileWidgetLatexConfig::~KileWidgetLatexConfig()
@@ -27,15 +27,15 @@ KileWidgetLatexConfig::~KileWidgetLatexConfig()
 
 void KileWidgetLatexConfig::slotConfigure()
 {
-	KileDialog::LatexCommandsDialog *dlg = new KileDialog::LatexCommandsDialog(m_config, m_commands, this);
-	dlg->exec();
-	delete dlg;
+    KileDialog::LatexCommandsDialog *dlg = new KileDialog::LatexCommandsDialog(m_config, m_commands, this);
+    dlg->exec();
+    delete dlg;
 }
 
 
 void KileWidgetLatexConfig::setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands)
 {
-	m_config = config;
-	m_commands = commands;
+    m_config = config;
+    m_commands = commands;
 }
 

@@ -20,11 +20,11 @@
 
 class KileWidgetSymbolViewConfig : public QWidget, public Ui::KileWidgetSymbolViewConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetSymbolViewConfig(QWidget *parent = 0);
-		~KileWidgetSymbolViewConfig();
+public:
+    KileWidgetSymbolViewConfig(QWidget *parent = 0);
+    ~KileWidgetSymbolViewConfig();
 };
 
 #endif

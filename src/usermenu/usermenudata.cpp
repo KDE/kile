@@ -22,24 +22,24 @@ namespace KileMenu {
 
 UserMenuData::UserMenuData()
 {
-	clear();
+    clear();
 }
 
 void UserMenuData::clear()
 {
-	menutype  = Text;
-	menutitle.clear();
-	filename.clear();
-	parameter.clear();
-	text.clear();
-	icon.clear();
-	shortcut.clear();
+    menutype  = Text;
+    menutitle.clear();
+    filename.clear();
+    parameter.clear();
+    text.clear();
+    icon.clear();
+    shortcut.clear();
 
-	needsSelection   = false;
-	useContextMenu   = false;
-	replaceSelection = false;
-	insertOutput     = false;
-	selectInsertion  = false;
+    needsSelection   = false;
+    useContextMenu   = false;
+    replaceSelection = false;
+    insertOutput     = false;
+    selectInsertion  = false;
 }
 
 // static list for xml menu attributes
@@ -47,31 +47,31 @@ QStringList UserMenuData::xmlMenuAttrList = QStringList() << "text" << "file" <<
 
 // static list for xml menu tags
 QStringList UserMenuData::xmlMenuTagList = QStringList() << "text" << "filename" << "parameter"
-	                                                       << "icon" << "shortcut"
-	                                                       << "needsSelection"     << "useContextMenu" << "replaceSelection"
-	                                                       << "selectInsertion"    << "insertOutput"   << "title";
+        << "icon" << "shortcut"
+        << "needsSelection"     << "useContextMenu" << "replaceSelection"
+        << "selectInsertion"    << "insertOutput"   << "title";
 
 // static methods  for xml menu attributes
 UserMenuData::MenuType UserMenuData::xmlMenuType(const QString &name)
 {
-	int index = xmlMenuAttrList.indexOf(name);
-	return ( index >= 0 ) ? (UserMenuData::MenuType)index : UserMenuData::Text;
+    int index = xmlMenuAttrList.indexOf(name);
+    return ( index >= 0 ) ? (UserMenuData::MenuType)index : UserMenuData::Text;
 }
 
 QString UserMenuData::xmlMenuTypeName(int index)
 {
-	return xmlMenuAttrList[index];
+    return xmlMenuAttrList[index];
 }
 
 // static methods  for xml menu tags
 int UserMenuData::xmlMenuTag(const QString &tag)
 {
-	return xmlMenuTagList.indexOf(tag);
+    return xmlMenuTagList.indexOf(tag);
 }
 
 QString UserMenuData::xmlMenuTagName(int index)
 {
-	return xmlMenuTagList[index];
+    return xmlMenuTagList[index];
 }
 
 
@@ -79,20 +79,20 @@ QString UserMenuData::xmlMenuTagName(int index)
 // then, every line feed character '\n' is replaced with the string "\\n" (backslash, followed by 'n')
 QString UserMenuData::encodeLineFeed(const QString& string)
 {
-	QString toReturn = string;
+    QString toReturn = string;
     toReturn = toReturn.replace(QLatin1Char('\\'), QLatin1String("\\;"));
-	toReturn = toReturn.replace(QLatin1Char('\n'), QLatin1String("\\n"));
+    toReturn = toReturn.replace(QLatin1Char('\n'), QLatin1String("\\n"));
 
-	return toReturn;
+    return toReturn;
 }
 
 QString UserMenuData::decodeLineFeed(const QString& string)
 {
-	QString toReturn = string;
+    QString toReturn = string;
     toReturn = toReturn.replace(QLatin1String("\\n"), QLatin1String("\n"));
-	toReturn = toReturn.replace(QLatin1String("\\;"), QLatin1String("\\"));
+    toReturn = toReturn.replace(QLatin1String("\\;"), QLatin1String("\\"));
 
-	return toReturn;
+    return toReturn;
 }
 
 }

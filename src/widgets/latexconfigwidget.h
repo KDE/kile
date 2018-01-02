@@ -24,20 +24,20 @@
 
 class KileWidgetLatexConfig : public QWidget, public Ui::KileWidgetLatexConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetLatexConfig(QWidget *parent = 0);
-		~KileWidgetLatexConfig();
+public:
+    KileWidgetLatexConfig(QWidget *parent = 0);
+    ~KileWidgetLatexConfig();
 
-		void setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands);
+    void setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands);
 
-	protected Q_SLOTS:
-		void slotConfigure();
+protected Q_SLOTS:
+    void slotConfigure();
 
-	protected:
-		KConfig *m_config;
-		KileDocument::LatexCommands *m_commands;
+protected:
+    KConfig *m_config;
+    KileDocument::LatexCommands *m_commands;
 };
 
 #endif

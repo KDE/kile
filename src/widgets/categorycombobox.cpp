@@ -25,38 +25,38 @@ email                : msoeken@tzi.de
 namespace KileWidget {
 
 class CategoryComboBoxDelegate : public QItemDelegate {
-	public:
-		void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
-			bool category = index.model()->data(index, KileWidget::CategoryComboBox::Category).toBool();
+public:
+    void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+        bool category = index.model()->data(index, KileWidget::CategoryComboBox::Category).toBool();
 
-			if (category) {
-				painter->setPen(Qt::gray);
-				painter->drawLine(option.rect.x(), option.rect.y() + (option.rect.height() / 2), option.rect.x() + 4, option.rect.y() + (option.rect.height() / 2));
+        if (category) {
+            painter->setPen(Qt::gray);
+            painter->drawLine(option.rect.x(), option.rect.y() + (option.rect.height() / 2), option.rect.x() + 4, option.rect.y() + (option.rect.height() / 2));
 
-				QFont newFont = painter->font();
-				newFont.setPointSize(8);
-				painter->setFont(newFont);
+            QFont newFont = painter->font();
+            newFont.setPointSize(8);
+            painter->setFont(newFont);
 
-				QRect boundingRect;
-				painter->drawText(QRect(option.rect.x() + 5, option.rect.y(), option.rect.width() - 5, option.rect.height()), Qt::AlignLeft | Qt::AlignVCenter, index.model()->data(index, Qt::DisplayRole).toString(), &boundingRect);
+            QRect boundingRect;
+            painter->drawText(QRect(option.rect.x() + 5, option.rect.y(), option.rect.width() - 5, option.rect.height()), Qt::AlignLeft | Qt::AlignVCenter, index.model()->data(index, Qt::DisplayRole).toString(), &boundingRect);
 
-				painter->drawLine(boundingRect.right() + 1, option.rect.y() + (option.rect.height() / 2), option.rect.right(), option.rect.y() + (option.rect.height() / 2));
-			} else {
-				QItemDelegate::paint(painter, option, index);
-			}
-		}
+            painter->drawLine(boundingRect.right() + 1, option.rect.y() + (option.rect.height() / 2), option.rect.right(), option.rect.y() + (option.rect.height() / 2));
+        } else {
+            QItemDelegate::paint(painter, option, index);
+        }
+    }
 };
 
 CategoryComboBox::CategoryComboBox(QWidget *parent) : KComboBox(parent)
 {
-	setItemDelegate(new KileWidget::CategoryComboBoxDelegate());
-	//view()->setAlternatingRowColors( true );
+    setItemDelegate(new KileWidget::CategoryComboBoxDelegate());
+    //view()->setAlternatingRowColors( true );
 }
 
 CategoryComboBox::CategoryComboBox(bool rw, QWidget *parent) : KComboBox(rw, parent)
 {
-	setItemDelegate(new KileWidget::CategoryComboBoxDelegate());
-	//view()->setAlternatingRowColors( true );
+    setItemDelegate(new KileWidget::CategoryComboBoxDelegate());
+    //view()->setAlternatingRowColors( true );
 }
 
 CategoryComboBox::~CategoryComboBox()
@@ -65,25 +65,25 @@ CategoryComboBox::~CategoryComboBox()
 
 void CategoryComboBox::addCategoryItem(const QString &text)
 {
-	addItem(text);
+    addItem(text);
 
-	// row of the item
-	int row = count() - 1;
+    // row of the item
+    int row = count() - 1;
 
-	QStandardItemModel *pModel = qobject_cast<QStandardItemModel*>(model());
-	if (pModel) {
-		QStandardItem *item = pModel->item(row, 0);
-		if (item) {
-			item->setData(true, KileWidget::CategoryComboBox::Category);
+    QStandardItemModel *pModel = qobject_cast<QStandardItemModel*>(model());
+    if (pModel) {
+        QStandardItem *item = pModel->item(row, 0);
+        if (item) {
+            item->setData(true, KileWidget::CategoryComboBox::Category);
 
-			// make the item unselectable
-			item->setFlags(0);
-		}
-	}
+            // make the item unselectable
+            item->setFlags(0);
+        }
+    }
 
-	if (currentIndex() == row) {
-		setCurrentIndex(-1);
-	}
+    if (currentIndex() == row) {
+        setCurrentIndex(-1);
+    }
 }
 
 } // namespace KileWidget

@@ -20,9 +20,9 @@
 #include <QCloseEvent>
 
 KileWidget::ProgressDialog::ProgressDialog(QWidget* parent)
-	: QProgressDialog(parent)
+    : QProgressDialog(parent)
 {
-	setCancelButtonText(QString()); // empty string disables cancel button
+    setCancelButtonText(QString()); // empty string disables cancel button
 }
 
 KileWidget::ProgressDialog::~ProgressDialog()
@@ -31,9 +31,9 @@ KileWidget::ProgressDialog::~ProgressDialog()
 
 void KileWidget::ProgressDialog::closeEvent(QCloseEvent *event)
 {
-	// only allow closing the dialog if progressbar is full
-	if (value() >= maximum()) {
-		QProgressDialog::closeEvent(event);
-	}
-	event->ignore();
+    // only allow closing the dialog if progressbar is full
+    if (value() >= maximum()) {
+        QProgressDialog::closeEvent(event);
+    }
+    event->ignore();
 }

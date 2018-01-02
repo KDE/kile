@@ -36,37 +36,37 @@ namespace KileWidget {
 
 class FileBrowserWidget : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent);
-	~FileBrowserWidget();
+    FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent);
+    ~FileBrowserWidget();
 
-	QUrl currentUrl() const;
+    QUrl currentUrl() const;
 
 public Q_SLOTS:
-	void setDir(const QUrl &url);
-	void writeConfig();
+    void setDir(const QUrl &url);
+    void writeConfig();
 
 private Q_SLOTS:
-	void toggleShowLaTeXFilesOnly(bool filter);
-	void dirUrlEntered(const QUrl &u);
-	void emitFileSelectedSignal();
+    void toggleShowLaTeXFilesOnly(bool filter);
+    void dirUrlEntered(const QUrl &u);
+    void emitFileSelectedSignal();
 
 protected:
-	void setupToolbar();
-	void readConfig();
+    void setupToolbar();
+    void readConfig();
 
 Q_SIGNALS:
-	void fileSelected(const KFileItem& fileItem);
+    void fileSelected(const KFileItem& fileItem);
 
 private:
-	KToolBar 	*m_toolbar;
-	KUrlNavigator	*m_urlNavigator;
-	KDirOperator	*m_dirOperator;
-	KConfig		*m_config;
-	KConfigGroup 	m_configGroup;
-	KileDocument::Extensions *m_extensions;
+    KToolBar 	*m_toolbar;
+    KUrlNavigator	*m_urlNavigator;
+    KDirOperator	*m_dirOperator;
+    KConfig		*m_config;
+    KConfigGroup 	m_configGroup;
+    KileDocument::Extensions *m_extensions;
 };
 
 }

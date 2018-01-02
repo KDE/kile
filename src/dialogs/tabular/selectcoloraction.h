@@ -21,16 +21,16 @@
 namespace KileDialog {
 
 class SelectColorAction : public QAction {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	SelectColorAction(const QIcon &icon, const QString &text, QWidget *parent);
+    SelectColorAction(const QIcon &icon, const QString &text, QWidget *parent);
 
 private Q_SLOTS:
-	void showDialog();
+    void showDialog();
 
 Q_SIGNALS:
-	void colorSelected(const QColor &color);
+    void colorSelected(const QColor &color);
 };
 
 }

@@ -40,174 +40,176 @@ Q_LOGGING_CATEGORY(LOG_KILE_CODECOMPLETION, "org.kde.kile.codecompletion", QtWar
 
 bool isProject(const QUrl url)
 {
-	return url.fileName().endsWith(".kilepr");
+    return url.fileName().endsWith(".kilepr");
 }
 
 QString readDataFromStdin()
 {
-	KILE_DEBUG_MAIN;
+    KILE_DEBUG_MAIN;
 
-	QByteArray fileData;
-	QFile qstdin;
-	QTextCodec *codec = Q_NULLPTR;
+    QByteArray fileData;
+    QFile qstdin;
+    QTextCodec *codec = Q_NULLPTR;
 
-	qstdin.open( stdin, QIODevice::ReadOnly );
-	fileData = qstdin.readAll();
-	qstdin.close();
+    qstdin.open( stdin, QIODevice::ReadOnly );
+    fileData = qstdin.readAll();
+    qstdin.close();
 
-	QTemporaryDir *tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') +  "kile-stdin");
-	QString tempFileName = QFileInfo(tempDir->path(), i18n("StandardInput.tex")).absoluteFilePath();
-	KILE_DEBUG_MAIN << "tempFile is " << tempFileName;
+    QTemporaryDir *tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') +  "kile-stdin");
+    QString tempFileName = QFileInfo(tempDir->path(), i18n("StandardInput.tex")).absoluteFilePath();
+    KILE_DEBUG_MAIN << "tempFile is " << tempFileName;
 
-	QFile tempFile(tempFileName);
-	if(!tempFile.open(QIODevice::WriteOnly)) {
-		return QString();
-	}
+    QFile tempFile(tempFileName);
+    if(!tempFile.open(QIODevice::WriteOnly)) {
+        return QString();
+    }
 
-	QTextStream stream(&tempFile);
+    QTextStream stream(&tempFile);
 
-	KEncodingProber prober(KEncodingProber::Universal);
- 	KEncodingProber::ProberState state = prober.feed(fileData);
-	KILE_DEBUG_MAIN << "KEncodingProber::state " << state;
-	KILE_DEBUG_MAIN << "KEncodingProber::prober.confidence() " << prober.confidence();
-	KILE_DEBUG_MAIN << "KEncodingProber::encoding " << prober.encoding();
+    KEncodingProber prober(KEncodingProber::Universal);
+    KEncodingProber::ProberState state = prober.feed(fileData);
+    KILE_DEBUG_MAIN << "KEncodingProber::state " << state;
+    KILE_DEBUG_MAIN << "KEncodingProber::prober.confidence() " << prober.confidence();
+    KILE_DEBUG_MAIN << "KEncodingProber::encoding " << prober.encoding();
 
-	codec = QTextCodec::codecForName(prober.encoding());
-	if(codec){
-		stream.setCodec(codec);
-	}
+    codec = QTextCodec::codecForName(prober.encoding());
+    if(codec) {
+        stream.setCodec(codec);
+    }
 
-	stream << fileData;
-	tempFile.close();
+    stream << fileData;
+    tempFile.close();
 
-	return tempFileName;
+    return tempFileName;
 }
 
-inline void initQtResources() { Q_INIT_RESOURCE(kile); }
+inline void initQtResources() {
+    Q_INIT_RESOURCE(kile);
+}
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
-	KLocalizedString::setApplicationDomain("kile");
+    KLocalizedString::setApplicationDomain("kile");
 
-	QApplication app(argc, argv);
+    QApplication app(argc, argv);
 
-	initQtResources();
+    initQtResources();
 
-	// enable high dpi support
-	app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    // enable high dpi support
+    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
-	KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
-	                     i18n("KDE Integrated LaTeX Environment"),
-	                     KAboutLicense::GPL,
-	                     i18nc("the parameter is the last copyright year", "by the Kile Team (2003 - %1)", KILE_LAST_COPYRIGHT_YEAR),
-	                     QString(),
-	                     QStringLiteral("http://kile.sourceforge.net"));
-	aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
-	aboutData.addAuthor(i18n("Holger Danielsson"), i18n("Developer"), "holger.danielsson@versanet.de");
-	aboutData.addAuthor(i18n("Thomas Braun"), i18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
-	aboutData.addAuthor(i18n("Jeroen Wijnhout"), i18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
-	aboutData.addAuthor(i18n("Brachet Pascal"));
+    KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
+                         i18n("KDE Integrated LaTeX Environment"),
+                         KAboutLicense::GPL,
+                         i18nc("the parameter is the last copyright year", "by the Kile Team (2003 - %1)", KILE_LAST_COPYRIGHT_YEAR),
+                         QString(),
+                         QStringLiteral("http://kile.sourceforge.net"));
+    aboutData.addAuthor(i18n("Michel Ludwig"), i18n("Project Management/Developer"), "michel.ludwig@kdemail.net");
+    aboutData.addAuthor(i18n("Holger Danielsson"), i18n("Developer"), "holger.danielsson@versanet.de");
+    aboutData.addAuthor(i18n("Thomas Braun"), i18n("Former Developer"), "thomas.braun@virtuell-zuhause.de");
+    aboutData.addAuthor(i18n("Jeroen Wijnhout"), i18n("Former Maintainer/Developer"),"Jeroen.Wijnhout@kdemail.net");
+    aboutData.addAuthor(i18n("Brachet Pascal"));
 
-	aboutData.addCredit(i18n("Andrius Štikonas"), i18n("Migration from Subversion to Git"), "andrius@stikonas.eu");
-	aboutData.addCredit(i18n("Simon Martin"), i18n("KConfig XT, Various Improvements and Bug-Fixing"));
-	aboutData.addCredit(i18n("Roland Schulz"), i18n("KatePart Integration"));
-	aboutData.addCredit(i18n("Thorsten Lück"), i18n("Log Parsing"));
-	aboutData.addCredit(i18n("Jan-Marek Glogowski"), i18n("Find-in-Files Dialog"));
-	aboutData.addCredit(i18n("Jonathan Pechta"), i18n("Documentation"));
-	aboutData.addCredit(i18n("Federico Zenith"), i18n("Documentation"));
+    aboutData.addCredit(i18n("Andrius Štikonas"), i18n("Migration from Subversion to Git"), "andrius@stikonas.eu");
+    aboutData.addCredit(i18n("Simon Martin"), i18n("KConfig XT, Various Improvements and Bug-Fixing"));
+    aboutData.addCredit(i18n("Roland Schulz"), i18n("KatePart Integration"));
+    aboutData.addCredit(i18n("Thorsten Lück"), i18n("Log Parsing"));
+    aboutData.addCredit(i18n("Jan-Marek Glogowski"), i18n("Find-in-Files Dialog"));
+    aboutData.addCredit(i18n("Jonathan Pechta"), i18n("Documentation"));
+    aboutData.addCredit(i18n("Federico Zenith"), i18n("Documentation"));
 
-	aboutData.setOrganizationDomain(QByteArray("kde.org"));
-        aboutData.setDesktopFileName(QStringLiteral("org.kde.kile"));
+    aboutData.setOrganizationDomain(QByteArray("kde.org"));
+    aboutData.setDesktopFileName(QStringLiteral("org.kde.kile"));
 
-	aboutData.setProductName(QByteArray("kile"));
+    aboutData.setProductName(QByteArray("kile"));
 
-	KAboutData::setApplicationData(aboutData);
+    KAboutData::setApplicationData(aboutData);
 
-	app.setApplicationName(aboutData.componentName());
-	app.setApplicationDisplayName(aboutData.displayName());
-	app.setOrganizationDomain(aboutData.organizationDomain());
-	app.setApplicationVersion(aboutData.version());
+    app.setApplicationName(aboutData.componentName());
+    app.setApplicationDisplayName(aboutData.displayName());
+    app.setOrganizationDomain(aboutData.organizationDomain());
+    app.setApplicationVersion(aboutData.version());
 
-	QCommandLineParser parser;
-	aboutData.setupCommandLine(&parser);
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
 
-	parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("line"), i18n("Jump to line"), QLatin1String("line")));
-	parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("new"), i18n("Start a new Kile mainwindow")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("line"), i18n("Jump to line"), QLatin1String("line")));
+    parser.addOption(QCommandLineOption(QStringList() <<  QLatin1String("new"), i18n("Start a new Kile mainwindow")));
 //TODO KF5 VERIFY THAT '-' STILL WORKS
-	parser.addPositionalArgument("urls", i18n("Files to open / specify '-' to read from standard input"), QLatin1String("[urls...]"));
+    parser.addPositionalArgument("urls", i18n("Files to open / specify '-' to read from standard input"), QLatin1String("[urls...]"));
 
-	parser.process(app);
-	aboutData.processCommandLine(&parser);
+    parser.process(app);
+    aboutData.processCommandLine(&parser);
 
-	app.setApplicationName(aboutData.componentName());
-	app.setApplicationDisplayName(aboutData.displayName());
-	app.setOrganizationDomain(aboutData.organizationDomain());
-	app.setApplicationVersion(aboutData.version());
+    app.setApplicationName(aboutData.componentName());
+    app.setApplicationDisplayName(aboutData.displayName());
+    app.setOrganizationDomain(aboutData.organizationDomain());
+    app.setApplicationVersion(aboutData.version());
 
 
-	bool running = false;
+    bool running = false;
 
-	const KDBusService dbusService(KDBusService::Multiple | KDBusService::NoExitOnFailure);
+    const KDBusService dbusService(KDBusService::Multiple | KDBusService::NoExitOnFailure);
 
-	QDBusConnection dbus = QDBusConnection::sessionBus();
-	running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
+    QDBusConnection dbus = QDBusConnection::sessionBus();
+    running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
 
-	if(!running  || parser.isSet("new")) {
-		bool restore = (parser.positionalArguments().count() == 0);
+    if(!running  || parser.isSet("new")) {
+        bool restore = (parser.positionalArguments().count() == 0);
 
-		Kile *kile = new Kile(restore);
+        Kile *kile = new Kile(restore);
 
-		Q_FOREACH(QString argument, parser.positionalArguments()) {
-			if(argument == "-") {
-				kile->openDocument(readDataFromStdin());
-			}
-			else {
-				const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
+        Q_FOREACH(QString argument, parser.positionalArguments()) {
+            if(argument == "-") {
+                kile->openDocument(readDataFromStdin());
+            }
+            else {
+                const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
 
-				if(isProject(url)) {
-					kile->openProject(url);
-				}
-				else {
-					kile->openDocument(url);
-				}
-			}
-		}
+                if(isProject(url)) {
+                    kile->openProject(url);
+                }
+                else {
+                    kile->openDocument(url);
+                }
+            }
+        }
 
-		if(parser.isSet("line")){
-			QString line = parser.value("line");
-			kile->setLine(line);
-		}
+        if(parser.isSet("line")) {
+            QString line = parser.value("line");
+            kile->setLine(line);
+        }
 
-		return app.exec();
-	}
-	else {
-		QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
+        return app.exec();
+    }
+    else {
+        QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
 
-		Q_FOREACH(QString argument, parser.positionalArguments()) {
-			if(argument == "-") {
-				interface->call("openDocument", readDataFromStdin());
-			}
-			else {
-				const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
+        Q_FOREACH(QString argument, parser.positionalArguments()) {
+            if(argument == "-") {
+                interface->call("openDocument", readDataFromStdin());
+            }
+            else {
+                const QUrl url = QUrl::fromUserInput(argument, QDir::currentPath(), QUrl::AssumeLocalFile);
 
-				if(isProject(url)) {
-					interface->call("openProject", url.url());
-				}
-				else {
-					interface->call("openDocument", url.url());
-				}
-			}
-		}
+                if(isProject(url)) {
+                    interface->call("openProject", url.url());
+                }
+                else {
+                    interface->call("openDocument", url.url());
+                }
+            }
+        }
 
-		if(parser.isSet("line")){
-			QString line = parser.value("line");
-			interface->call("setLine", line);
-		}
+        if(parser.isSet("line")) {
+            QString line = parser.value("line");
+            interface->call("setLine", line);
+        }
 
-		KStartupInfo::appStarted();
-		interface->call("setActive");
-		delete interface;
-	}
+        KStartupInfo::appStarted();
+        interface->call("setActive");
+        delete interface;
+    }
 
-	return EXIT_SUCCESS;
+    return EXIT_SUCCESS;
 }

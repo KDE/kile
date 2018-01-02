@@ -33,56 +33,56 @@ namespace KileDialog
 
 class UserHelpDialog : public QDialog
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit UserHelpDialog(QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
-		~UserHelpDialog() {}
+public:
+    explicit UserHelpDialog(QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    ~UserHelpDialog() {}
 
-		void setParameter(const QStringList &menuentries, const QList<QUrl> &helpfiles);
-		void getParameter(QStringList &userhelpmenulist, QList<QUrl> &userhelpfilelist);
-	private:
-		QListWidget *m_menulistbox;
-		QLineEdit *m_fileedit;
-		QPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
+    void setParameter(const QStringList &menuentries, const QList<QUrl> &helpfiles);
+    void getParameter(QStringList &userhelpmenulist, QList<QUrl> &userhelpfilelist);
+private:
+    QListWidget *m_menulistbox;
+    QLineEdit *m_fileedit;
+    QPushButton *m_add, *m_remove, *m_addsep, *m_up, *m_down;
 
-		QList<QUrl> m_filelist;
+    QList<QUrl> m_filelist;
 
-		void updateButton();
+    void updateButton();
 
-	private Q_SLOTS:
-		void slotChange();
-		void slotAdd();
-		void slotRemove();
-		void slotAddSep();
-		void slotUp();
-		void slotDown();
+private Q_SLOTS:
+    void slotChange();
+    void slotAdd();
+    void slotRemove();
+    void slotAddSep();
+    void slotUp();
+    void slotDown();
 };
 
 class UserHelpAddDialog : public QDialog
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = Q_NULLPTR);
-		~UserHelpAddDialog() {}
+public:
+    explicit UserHelpAddDialog(QListWidget *menulistbox, QWidget *parent = Q_NULLPTR);
+    ~UserHelpAddDialog() {}
 
-	private:
-		QLineEdit *m_leMenuEntry, *m_leHelpFile;
-		QPushButton *m_pbChooseFile;
-		QListWidget *m_menulistbox;
+private:
+    QLineEdit *m_leMenuEntry, *m_leHelpFile;
+    QPushButton *m_pbChooseFile;
+    QListWidget *m_menulistbox;
 
-	public:
-		QString getMenuitem() {
-			return m_leMenuEntry->text();
-		}
-		QString getHelpfile() {
-			return m_leHelpFile->text();
-		}
+public:
+    QString getMenuitem() {
+        return m_leMenuEntry->text();
+    }
+    QString getHelpfile() {
+        return m_leHelpFile->text();
+    }
 
-	private Q_SLOTS:
-		void onShowLocalFileSelection();
-		void onAccepted();
+private Q_SLOTS:
+    void onShowLocalFileSelection();
+    void onAccepted();
 };
 
 }

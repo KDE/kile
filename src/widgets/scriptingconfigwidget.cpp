@@ -15,7 +15,7 @@
 
 KileWidgetScriptingConfig::KileWidgetScriptingConfig(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 KileWidgetScriptingConfig::~KileWidgetScriptingConfig()

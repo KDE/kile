@@ -2,7 +2,7 @@
 //
 // C++ Interface: kilestdactions
 //
-// Description: 
+// Description:
 //
 //
 // Author: Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>, (C) 2003
@@ -28,9 +28,9 @@
 
 namespace KileStdActions
 {
-	void setupStdTags(KileInfo *ki, const QObject *receiver, KActionCollection *actionCollection, QWidget *parentWidget);
-	void setupBibTags(const QObject *receiver, KActionCollection *actionCollection,KActionMenu* menu);
-	void setupMathTags(const QObject *receiver, KActionCollection *actionCollection);
+void setupStdTags(KileInfo *ki, const QObject *receiver, KActionCollection *actionCollection, QWidget *parentWidget);
+void setupBibTags(const QObject *receiver, KActionCollection *actionCollection,KActionMenu* menu);
+void setupMathTags(const QObject *receiver, KActionCollection *actionCollection);
 
 }
 

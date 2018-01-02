@@ -15,7 +15,7 @@
 
 ToolConfigWidget::ToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 ToolConfigWidget::~ToolConfigWidget()

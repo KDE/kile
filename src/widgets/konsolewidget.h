@@ -19,38 +19,40 @@
 #include <QFrame>
 #include <QShowEvent>
 
-namespace KParts { class ReadOnlyPart; }
+namespace KParts {
+class ReadOnlyPart;
+}
 
 class KileInfo;
 
 namespace KileWidget
 {
-	class Konsole : public QFrame
-	{
-		Q_OBJECT
+class Konsole : public QFrame
+{
+    Q_OBJECT
 
-		public:
-			Konsole(KileInfo *, QWidget* parent);
-			~Konsole();
+public:
+    Konsole(KileInfo *, QWidget* parent);
+    ~Konsole();
 
-		public Q_SLOTS:
-			void setDirectory(const QString& dir);
-			void activate();
-			void sync();
+public Q_SLOTS:
+    void setDirectory(const QString& dir);
+    void activate();
+    void sync();
 
-		private Q_SLOTS:
-			void slotDestroyed();
+private Q_SLOTS:
+    void slotDestroyed();
 
-		protected:
-			void showEvent(QShowEvent *ev);
-			void spawn();
+protected:
+    void showEvent(QShowEvent *ev);
+    void spawn();
 
-		private:
-			KParts::ReadOnlyPart	*m_part;
-			bool			m_bPresent;
-			KileInfo		*m_ki;
-			QString 		m_currentDir;
-	};
+private:
+    KParts::ReadOnlyPart	*m_part;
+    bool			m_bPresent;
+    KileInfo		*m_ki;
+    QString 		m_currentDir;
+};
 }
 
 #endif

@@ -21,17 +21,17 @@ namespace KileWidget {
 
 class OutputView : public KTextEdit
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		OutputView(QWidget *parent);
-		~OutputView();
+public:
+    OutputView(QWidget *parent);
+    ~OutputView();
 
-	public Q_SLOTS:
-		void receive(const QString &);
+public Q_SLOTS:
+    void receive(const QString &);
 
-	protected:
-		virtual void paintEvent(QPaintEvent *ev);
+protected:
+    virtual void paintEvent(QPaintEvent *ev);
 };
 
 }

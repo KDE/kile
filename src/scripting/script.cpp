@@ -87,35 +87,35 @@ void KJSCPUGuard::alarmHandler(int) {
 /** Conversion function from KTextEditor::Cursor to QtScript cursor */
 static QScriptValue cursorToScriptValue(QScriptEngine *engine, const KTextEditor::Cursor &cursor)
 {
-  QString code = QString("new Cursor(%1, %2);").arg(cursor.line())
-                                               .arg(cursor.column());
-  return engine->evaluate(code);
+    QString code = QString("new Cursor(%1, %2);").arg(cursor.line())
+                   .arg(cursor.column());
+    return engine->evaluate(code);
 }
 
 /** Conversion function from QtScript cursor to KTextEditor::Cursor */
 static void cursorFromScriptValue(const QScriptValue &obj, KTextEditor::Cursor &cursor)
 {
-  cursor.setPosition(obj.property(QStringLiteral("line")).toInt32(),
-                     obj.property(QStringLiteral("column")).toInt32());
+    cursor.setPosition(obj.property(QStringLiteral("line")).toInt32(),
+                       obj.property(QStringLiteral("column")).toInt32());
 }
 
 /** Conversion function from QtScript range to KTextEditor::Range */
 static QScriptValue rangeToScriptValue(QScriptEngine *engine, const KTextEditor::Range &range)
 {
-  QString code = QString("new Range(%1, %2, %3, %4);").arg(range.start().line())
-                                                      .arg(range.start().column())
-                                                      .arg(range.end().line())
-                                                      .arg(range.end().column());
-  return engine->evaluate(code);
+    QString code = QString("new Range(%1, %2, %3, %4);").arg(range.start().line())
+                   .arg(range.start().column())
+                   .arg(range.end().line())
+                   .arg(range.end().column());
+    return engine->evaluate(code);
 }
 
 /** Conversion function from QtScript range to KTextEditor::Range */
 static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &range)
 {
-  range.setStart(KTextEditor::Cursor(obj.property(QStringLiteral("start")).property(QStringLiteral("line")).toInt32(),
-                                     obj.property(QStringLiteral("start")).property(QStringLiteral("column")).toInt32()));
-  range.setEnd(KTextEditor::Cursor(obj.property(QStringLiteral("end")).property(QStringLiteral("line")).toInt32(),
-                                   obj.property(QStringLiteral("end")).property(QStringLiteral("column")).toInt32()));
+    range.setStart(KTextEditor::Cursor(obj.property(QStringLiteral("start")).property(QStringLiteral("line")).toInt32(),
+                                       obj.property(QStringLiteral("start")).property(QStringLiteral("column")).toInt32()));
+    range.setEnd(KTextEditor::Cursor(obj.property(QStringLiteral("end")).property(QStringLiteral("line")).toInt32(),
+                                     obj.property(QStringLiteral("end")).property(QStringLiteral("column")).toInt32()));
 }
 //END
 
@@ -127,43 +127,43 @@ static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &ra
  */
 
 Script::Script(unsigned int id, const QString& file)
-   : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
+    : m_id(id), m_file(file), m_action(Q_NULLPTR), m_sequencetype(KEY_SEQUENCE)
 {
-	m_name = QFileInfo(file).fileName();
+    m_name = QFileInfo(file).fileName();
 
-	if(m_name.endsWith(".js")) { // remove the extension
-		m_name = m_name.left(m_name.length() - 3);
-	}
+    if(m_name.endsWith(".js")) { // remove the extension
+        m_name = m_name.left(m_name.length() - 3);
+    }
 }
 
 QString Script::getCode() const
 {
-	return readFile(m_file);
+    return readFile(m_file);
 }
 
 QString Script::getName() const
 {
-	return m_name;
+    return m_name;
 }
 
 QString Script::getFileName() const
 {
-	return m_file;
+    return m_file;
 }
 
 unsigned int Script::getID() const
 {
-	return m_id;
+    return m_id;
 }
 
 void Script::setID(unsigned int id)
 {
-	m_id = id;
+    m_id = id;
 }
 
 void Script::setActionObject(QAction * action)
 {
-	m_action = action;
+    m_action = action;
 }
 
 // const QAction * Script::getActionObject() const
@@ -173,100 +173,100 @@ void Script::setActionObject(QAction * action)
 
 QAction * Script::getActionObject() const
 {
-	return m_action;
+    return m_action;
 }
 
 void Script::setKeySequence(const QString& str)
 {
-	m_keySequence = str;
+    m_keySequence = str;
 }
 
 QString Script::getKeySequence() const
 {
-	return m_keySequence;
+    return m_keySequence;
 }
 
 
 int Script::getSequenceType() const
 {
-	return m_sequencetype;
+    return m_sequencetype;
 }
 
 void Script::setSequenceType(int type)
 {
-	m_sequencetype = type;
+    m_sequencetype = type;
 }
 
 QString Script::readFile(const QString &filename) {
-	QFile file(filename);
-	if ( !file.open(QIODevice::ReadOnly) ) {
-		KILE_DEBUG_MAIN << i18n("Unable to find '%1'", filename);
-		return QString();
-	} else {
-		QTextStream stream(&file);
-		stream.setCodec("UTF-8");
-		QString text = stream.readAll();
-		file.close();
-		return text;
-	}
+    QFile file(filename);
+    if ( !file.open(QIODevice::ReadOnly) ) {
+        KILE_DEBUG_MAIN << i18n("Unable to find '%1'", filename);
+        return QString();
+    } else {
+        QTextStream stream(&file);
+        stream.setCodec("UTF-8");
+        QString text = stream.readAll();
+        file.close();
+        return text;
+    }
 }
 
 ////////////////////////////// ScriptEnvironment //////////////////////////////
 
 ScriptEnvironment::ScriptEnvironment(KileInfo *kileInfo,
-   KileScriptView *scriptView, KileScriptDocument *scriptDocument,
-   KileScriptObject *scriptObject, const QString &pluginCode)
-   : m_kileInfo(kileInfo), m_scriptView(scriptView), m_scriptDocument(scriptDocument),
-     m_kileScriptObject(scriptObject), m_enginePluginCode(pluginCode)
+                                     KileScriptView *scriptView, KileScriptDocument *scriptDocument,
+                                     KileScriptObject *scriptObject, const QString &pluginCode)
+    : m_kileInfo(kileInfo), m_scriptView(scriptView), m_scriptDocument(scriptDocument),
+      m_kileScriptObject(scriptObject), m_enginePluginCode(pluginCode)
 {
 
-	KILE_DEBUG_MAIN << "create ScriptEnvironment";
-	m_engine = new QScriptEngine();
-	qScriptRegisterMetaType(m_engine, cursorToScriptValue, cursorFromScriptValue);
-	qScriptRegisterMetaType(m_engine, rangeToScriptValue, rangeFromScriptValue);
+    KILE_DEBUG_MAIN << "create ScriptEnvironment";
+    m_engine = new QScriptEngine();
+    qScriptRegisterMetaType(m_engine, cursorToScriptValue, cursorFromScriptValue);
+    qScriptRegisterMetaType(m_engine, rangeToScriptValue, rangeFromScriptValue);
 }
 
 ScriptEnvironment::~ScriptEnvironment()
 {
-	delete m_engine;
+    delete m_engine;
 }
 
 // Executes script code in this environment.
 void ScriptEnvironment::execute(const Script *script)
 {
-	// initialize engine to work with Cursor and Range objects
-	m_engine->evaluate(m_enginePluginCode, i18n("Cursor/Range plugin"));
+    // initialize engine to work with Cursor and Range objects
+    m_engine->evaluate(m_enginePluginCode, i18n("Cursor/Range plugin"));
 
-	if(m_engine->hasUncaughtException()) {
-		scriptError(i18n("Cursor/Range plugin"));
-		return;
-	}
-	else {
-		KILE_DEBUG_MAIN << "Cursor/Range plugin successfully installed ";
-	}
+    if(m_engine->hasUncaughtException()) {
+        scriptError(i18n("Cursor/Range plugin"));
+        return;
+    }
+    else {
+        KILE_DEBUG_MAIN << "Cursor/Range plugin successfully installed ";
+    }
 
-	// set global objects
-	if(m_scriptView->view()) {
-		m_engine->globalObject().setProperty("view", m_engine->newQObject(m_scriptView));
-		m_engine->globalObject().setProperty("document", m_engine->newQObject(m_scriptDocument));
-	}
-	m_engine->globalObject().setProperty("kile", m_engine->newQObject(m_kileScriptObject));
+    // set global objects
+    if(m_scriptView->view()) {
+        m_engine->globalObject().setProperty("view", m_engine->newQObject(m_scriptView));
+        m_engine->globalObject().setProperty("document", m_engine->newQObject(m_scriptDocument));
+    }
+    m_engine->globalObject().setProperty("kile", m_engine->newQObject(m_kileScriptObject));
 
-	// export debug function
-	m_engine->globalObject().setProperty("debug", m_engine->newFunction(KileScript::debug));
+    // export debug function
+    m_engine->globalObject().setProperty("debug", m_engine->newFunction(KileScript::debug));
 
-	// start engine
-	m_engine->evaluate(script->getCode());
+    // start engine
+    m_engine->evaluate(script->getCode());
 
-	// success or error
-	if(m_engine->hasUncaughtException()) {
-		scriptError(script->getName());
-	}
-	else {
-		KILE_DEBUG_MAIN << "script finished without errors";
-	}
+    // success or error
+    if(m_engine->hasUncaughtException()) {
+        scriptError(script->getName());
+    }
+    else {
+        KILE_DEBUG_MAIN << "script finished without errors";
+    }
 
- //FIXME: add time execution limit once it becomes available
+//FIXME: add time execution limit once it becomes available
 // 			bool useGuard = KileConfig::timeLimitEnabled();
 // 			uint timeLimit = (uint)KileConfig::timeLimit();
 // 			KJSCPUGuard guard;
@@ -277,35 +277,35 @@ void ScriptEnvironment::execute(const Script *script)
 // 			if(useGuard) {
 // 				guard.stop();
 // 			}
-	QTimer::singleShot(0, m_scriptView->view(), SLOT(setFocus()));
+    QTimer::singleShot(0, m_scriptView->view(), SLOT(setFocus()));
 
-	// remove global objects
-	m_engine->globalObject().setProperty("view", QScriptValue());
-	m_engine->globalObject().setProperty("document", QScriptValue());
-	m_engine->globalObject().setProperty("kile", QScriptValue());
+    // remove global objects
+    m_engine->globalObject().setProperty("view", QScriptValue());
+    m_engine->globalObject().setProperty("document", QScriptValue());
+    m_engine->globalObject().setProperty("kile", QScriptValue());
 }
 
 // Executes script code in this environment.
 void ScriptEnvironment::scriptError(const QString &name)
 {
-	int errorline = m_engine->uncaughtExceptionLineNumber();
-	QScriptValue exception = m_engine->uncaughtException();
-	QString errormessage = ( exception.isError() ) ? exception.toString() : QString();
-	QString message = i18n("An error has occurred at line %1 during the execution of the script \"%2\":\n%3", errorline, name, errormessage);
-	KMessageBox::sorry(m_kileInfo->mainWindow(), message, i18n("Error"));
+    int errorline = m_engine->uncaughtExceptionLineNumber();
+    QScriptValue exception = m_engine->uncaughtException();
+    QString errormessage = ( exception.isError() ) ? exception.toString() : QString();
+    QString message = i18n("An error has occurred at line %1 during the execution of the script \"%2\":\n%3", errorline, name, errormessage);
+    KMessageBox::sorry(m_kileInfo->mainWindow(), message, i18n("Error"));
 }
 
 ////////////////////////////// ScriptHelpers //////////////////////////////
 
 QScriptValue debug(QScriptContext *context, QScriptEngine *engine)
 {
-	QStringList message;
-	for(int i = 0; i < context->argumentCount(); ++i) {
-		message << context->argument(i).toString();
-	}
-	// debug output in blue to distinguish it from other debug output
-	std::cout << "\033[34m" << qPrintable(message.join(' ')) << "\033[0m\n";
-	return engine->nullValue();
+    QStringList message;
+    for(int i = 0; i < context->argumentCount(); ++i) {
+        message << context->argument(i).toString();
+    }
+    // debug output in blue to distinguish it from other debug output
+    std::cout << "\033[34m" << qPrintable(message.join(' ')) << "\033[0m\n";
+    return engine->nullValue();
 }
 
 }

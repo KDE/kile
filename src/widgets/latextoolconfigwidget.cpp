@@ -15,7 +15,7 @@
 
 LaTeXToolConfigWidget::LaTeXToolConfigWidget(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 LaTeXToolConfigWidget::~LaTeXToolConfigWidget()

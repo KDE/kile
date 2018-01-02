@@ -15,7 +15,7 @@
 
 ConfigCheckerWidget::ConfigCheckerWidget(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 ConfigCheckerWidget::~ConfigCheckerWidget()
@@ -24,17 +24,17 @@ ConfigCheckerWidget::~ConfigCheckerWidget()
 
 QProgressBar* ConfigCheckerWidget::progressBar()
 {
-	return m_progress;
+    return m_progress;
 }
 
 
 QLabel* ConfigCheckerWidget::label()
 {
-	return m_lbChecking;
+    return m_lbChecking;
 }
 
 QListWidget* ConfigCheckerWidget::listWidget()
 {
-	return m_lstResults;
+    return m_lstResults;
 }
 

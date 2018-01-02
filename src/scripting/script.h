@@ -37,70 +37,70 @@ class KileScriptDocument;
  * This class represents a script.
  **/
 class Script {
-	public:
-		enum SequenceType {
-			KEY_SEQUENCE = 0,
-			KEY_SHORTCUT
-		};
+public:
+    enum SequenceType {
+        KEY_SEQUENCE = 0,
+        KEY_SHORTCUT
+    };
 
-		/**
-		 * Constructs a new JavaScript script.
-		 * @param file the file that contains the script
-		 **/
-		Script(unsigned int id, const QString& file);
-		virtual ~Script() {}
+    /**
+     * Constructs a new JavaScript script.
+     * @param file the file that contains the script
+     **/
+    Script(unsigned int id, const QString& file);
+    virtual ~Script() {}
 
-		/**
-		 * Returns the code of this script, i.e. the file is read and its contents are
-		 * returned.
-		 **/
-		QString getCode() const;
+    /**
+     * Returns the code of this script, i.e. the file is read and its contents are
+     * returned.
+     **/
+    QString getCode() const;
 
-		/**
-		 * Returns the name of the script (the base name of the file).
-		 **/
-		QString getName() const;
+    /**
+     * Returns the name of the script (the base name of the file).
+     **/
+    QString getName() const;
 
-		/**
-		 * Returns the file of the script (the full path, including the base name).
-		 **/
-		QString getFileName() const;
+    /**
+     * Returns the file of the script (the full path, including the base name).
+     **/
+    QString getFileName() const;
 
-		/**
-		 * Returns the unique identifier of this script.
-		 **/
-		unsigned int getID() const;
+    /**
+     * Returns the unique identifier of this script.
+     **/
+    unsigned int getID() const;
 
-		/**
-		 * Sets the unique identifier of this script.
-		 **/
-		void setID(unsigned int id);
+    /**
+     * Sets the unique identifier of this script.
+     **/
+    void setID(unsigned int id);
 
 
-		/**
-		 *
-		 **/
-		void setActionObject(QAction * action);
+    /**
+     *
+     **/
+    void setActionObject(QAction * action);
 //		const QAction * getActionObject() const;
-		QAction * getActionObject() const;
+    QAction * getActionObject() const;
 
-		void setKeySequence(const QString& str);
-		QString getKeySequence() const;
+    void setKeySequence(const QString& str);
+    QString getKeySequence() const;
 
-		int getSequenceType() const;
-		void setSequenceType(int type);
+    int getSequenceType() const;
+    void setSequenceType(int type);
 
-		static QString readFile(const QString &filename);
+    static QString readFile(const QString &filename);
 
 private:
-		unsigned int m_id;
-		QString m_code;
-		QString m_file;
-		QString m_name;
-		QAction *m_action;
-		QString m_keySequence;
-		int m_sequencetype;
-		
+    unsigned int m_id;
+    QString m_code;
+    QString m_file;
+    QString m_name;
+    QAction *m_action;
+    QString m_keySequence;
+    int m_sequencetype;
+
 
 };
 
@@ -112,30 +112,30 @@ private:
  * in.
  **/
 class ScriptEnvironment {
-	public:
-		/**
-		 * Constructs a new environment.
-		 **/
-		ScriptEnvironment(KileInfo *kileInfo, KileScriptView *scriptView, KileScriptDocument *scriptDocument,
-		                  KileScriptObject *scriptObject, const QString &pluginCode);
-		virtual ~ScriptEnvironment();
+public:
+    /**
+     * Constructs a new environment.
+     **/
+    ScriptEnvironment(KileInfo *kileInfo, KileScriptView *scriptView, KileScriptDocument *scriptDocument,
+                      KileScriptObject *scriptObject, const QString &pluginCode);
+    virtual ~ScriptEnvironment();
 
-		/**
-		 * Executes script code in this environment.
-		 * @param s the script that should be executed
-		 **/
-		void execute(const Script *script);
+    /**
+     * Executes script code in this environment.
+     * @param s the script that should be executed
+     **/
+    void execute(const Script *script);
 
-	protected:
-		KileInfo *m_kileInfo;
-		KileScriptView *m_scriptView;
-		KileScriptDocument *m_scriptDocument;
-		KileScriptObject *m_kileScriptObject;
+protected:
+    KileInfo *m_kileInfo;
+    KileScriptView *m_scriptView;
+    KileScriptDocument *m_scriptDocument;
+    KileScriptObject *m_kileScriptObject;
 
-		QScriptEngine *m_engine;
-		QString m_enginePluginCode;
+    QScriptEngine *m_engine;
+    QString m_enginePluginCode;
 
-		void scriptError(const QString &name);
+    void scriptError(const QString &name);
 
 };
 

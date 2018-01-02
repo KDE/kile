@@ -23,108 +23,115 @@ class KProcess;
 
 class KileInfo;
 
-namespace KParts { class ReadOnlyPart; class PartManager; }
+namespace KParts {
+class ReadOnlyPart;
+class PartManager;
+}
 
 namespace KileTool
 {
-	class Base;
+class Base;
 
-	/**
-	 * This class represents a way to launch a tool. This could be a commandline tool
-	 * running in a Konsole, running as a separate process, it could even be responsible
-	 * for starting a KPart.
-	 *
-	 * @author Jeroen Wijnhout
-	 **/
-	class Launcher : public QObject
-	{
-		Q_OBJECT
+/**
+ * This class represents a way to launch a tool. This could be a commandline tool
+ * running in a Konsole, running as a separate process, it could even be responsible
+ * for starting a KPart.
+ *
+ * @author Jeroen Wijnhout
+ **/
+class Launcher : public QObject
+{
+    Q_OBJECT
 
-	public:
-		Launcher();
-		~Launcher();
+public:
+    Launcher();
+    ~Launcher();
 
-	public Q_SLOTS:
-		virtual bool launch() = 0;
-		virtual void kill(bool emitSignals = true) = 0;
-		virtual bool selfCheck() = 0;
+public Q_SLOTS:
+    virtual bool launch() = 0;
+    virtual void kill(bool emitSignals = true) = 0;
+    virtual bool selfCheck() = 0;
 
-	public:
-		virtual void setWorkingDirectory(const QString &) {}
+public:
+    virtual void setWorkingDirectory(const QString &) {}
 
-		void setTool(Base *tool) { m_tool = tool; }
-		Base* tool() { return m_tool; }
+    void setTool(Base *tool) {
+        m_tool = tool;
+    }
+    Base* tool() {
+        return m_tool;
+    }
 
-	Q_SIGNALS:
-		void message(int, const QString&);
-		void output(const QString&);
+Q_SIGNALS:
+    void message(int, const QString&);
+    void output(const QString&);
 
-		void exitedWith(int);
-		void abnormalExit();
+    void exitedWith(int);
+    void abnormalExit();
 
-		void done(int);
+    void done(int);
 
-	private:
-		//QDict<QString>	*m_pdictParams;
-		Base			*m_tool;
-	};
+private:
+    //QDict<QString>	*m_pdictParams;
+    Base			*m_tool;
+};
 
-	class ProcessLauncher : public Launcher
-	{
-		Q_OBJECT
+class ProcessLauncher : public Launcher
+{
+    Q_OBJECT
 
-	public:
-		ProcessLauncher();
-		~ProcessLauncher();
+public:
+    ProcessLauncher();
+    ~ProcessLauncher();
 
-	public:
-		void setWorkingDirectory(const QString &wd);
-		void changeToWorkingDirectory(bool change);
-		void setCommand(const QString& cmd);
-		void setOptions(const QString& opt);
+public:
+    void setWorkingDirectory(const QString &wd);
+    void changeToWorkingDirectory(bool change);
+    void setCommand(const QString& cmd);
+    void setOptions(const QString& opt);
 
-	public Q_SLOTS:
-		bool launch();
-		void kill(bool emitSignals = true);
-		bool selfCheck();
+public Q_SLOTS:
+    bool launch();
+    void kill(bool emitSignals = true);
+    bool selfCheck();
 
-	private Q_SLOTS:
-		void slotProcessOutput();
-		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
-		void slotProcessError(QProcess::ProcessError error);
+private Q_SLOTS:
+    void slotProcessOutput();
+    void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
+    void slotProcessError(QProcess::ProcessError error);
 
-	private:
-		QString 	m_wd, m_cmd;
-		QString		m_options;
-		KProcess	*m_proc;
-		bool		m_changeTo;
-	};
+private:
+    QString 	m_wd, m_cmd;
+    QString		m_options;
+    KProcess	*m_proc;
+    bool		m_changeTo;
+};
 
-	class KonsoleLauncher : public ProcessLauncher
-	{
-		Q_OBJECT
+class KonsoleLauncher : public ProcessLauncher
+{
+    Q_OBJECT
 
-	public:
-		KonsoleLauncher();
+public:
+    KonsoleLauncher();
 
-	public Q_SLOTS:
-		bool launch();
-	};
+public Q_SLOTS:
+    bool launch();
+};
 
-	class DocumentViewerLauncher : public Launcher
-	{
-		Q_OBJECT
+class DocumentViewerLauncher : public Launcher
+{
+    Q_OBJECT
 
-	public:
-		DocumentViewerLauncher();
-		~DocumentViewerLauncher();
+public:
+    DocumentViewerLauncher();
+    ~DocumentViewerLauncher();
 
-	public Q_SLOTS:
-		bool launch();
-		void kill(bool emitSignals = true);
-		bool selfCheck();
+public Q_SLOTS:
+    bool launch();
+    void kill(bool emitSignals = true);
+    bool selfCheck();
 
-	};
+};
 }
 
 #endif

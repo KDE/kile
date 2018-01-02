@@ -30,13 +30,13 @@
 class PlainToLaTeXConverter
 {
 public:
-	PlainToLaTeXConverter(void);
-	~PlainToLaTeXConverter(void);
+    PlainToLaTeXConverter(void);
+    ~PlainToLaTeXConverter(void);
 
-	QString ConvertToLaTeX(const QString&) const;
+    QString ConvertToLaTeX(const QString&) const;
 
 private:
-	QMap<QChar, QString> m_replaceMap;
+    QMap<QChar, QString> m_replaceMap;
 };
 
 #endif /* _PLAINTOLATEXCONVERTER_H_ */

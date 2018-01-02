@@ -15,14 +15,14 @@
 #define KILECONSTANTS_H
 
 namespace KileDocument {
-	enum Type {Undefined, Text, LaTeX, BibTeX, Script};
+enum Type {Undefined, Text, LaTeX, BibTeX, Script};
 
 }
 
 #ifdef Q_WS_WIN
- #define PATH_SEPARATOR ';'
+#define PATH_SEPARATOR ';'
 #else
- #define PATH_SEPARATOR ':'
+#define PATH_SEPARATOR ':'
 #endif
 
 #endif

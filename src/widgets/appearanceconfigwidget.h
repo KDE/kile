@@ -22,17 +22,17 @@
 
 class KileWidgetAppearanceConfig : public QWidget, public Ui::KileWidgetAppearanceConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetAppearanceConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
-		~KileWidgetAppearanceConfig();
+public:
+    KileWidgetAppearanceConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
+    ~KileWidgetAppearanceConfig();
 
-		void readConfig();
-		void writeConfig();
+    void readConfig();
+    void writeConfig();
 
-	protected:
-		KConfig *m_config;
+protected:
+    KConfig *m_config;
 };
 
 #endif

@@ -29,8 +29,8 @@
 class KileInfo;
 
 namespace KileDocument {
-	class Info;
-	class TextInfo;
+class Info;
+class TextInfo;
 }
 
 namespace KileParser {
@@ -47,98 +47,98 @@ enum ParserType { LaTeX = 0, BibTeX };
 class DocumentParserInput : public ParserInput
 {
 public:
-	DocumentParserInput(const QUrl &url, QStringList lines,
-	                                     ParserType parserType,
-	                                     const QMap<QString, KileStructData>* dictStructLevel,
-	                                     bool showSectioningLabels,
-	                                     bool showStructureTodo);
+    DocumentParserInput(const QUrl &url, QStringList lines,
+                        ParserType parserType,
+                        const QMap<QString, KileStructData>* dictStructLevel,
+                        bool showSectioningLabels,
+                        bool showStructureTodo);
 
-	QStringList lines;
-	ParserType parserType;
-	const QMap<QString, KileStructData>* dictStructLevel;
-	bool showSectioningLabels;
-	bool showStructureTodo;
+    QStringList lines;
+    ParserType parserType;
+    const QMap<QString, KileStructData>* dictStructLevel;
+    bool showSectioningLabels;
+    bool showStructureTodo;
 };
 
 class ParserThread : public QThread
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ParserThread(KileInfo *info, QObject *parent = 0);
-	virtual ~ParserThread();
+    ParserThread(KileInfo *info, QObject *parent = 0);
+    virtual ~ParserThread();
 
-	void stopParsing();
+    void stopParsing();
 
-	bool shouldContinueDocumentParsing();
+    bool shouldContinueDocumentParsing();
 
-	bool isParsingComplete();
+    bool isParsingComplete();
 
 Q_SIGNALS:
-	/**
-	 * The ownership of the 'output' object is transferred to the slot(s)
-	 * connected to this signal.
-	 **/
-	void parsingComplete(const QUrl &url, KileParser::ParserOutput* output);
+    /**
+     * The ownership of the 'output' object is transferred to the slot(s)
+     * connected to this signal.
+     **/
+    void parsingComplete(const QUrl &url, KileParser::ParserOutput* output);
 
-	void parsingQueueEmpty();
-	void parsingStarted();
+    void parsingQueueEmpty();
+    void parsingStarted();
 
 protected:
-	KileInfo *m_ki;
+    KileInfo *m_ki;
 
-	void addParserInput(ParserInput *input);
-	void removeParserInput(const QUrl &url);
+    void addParserInput(ParserInput *input);
+    void removeParserInput(const QUrl &url);
 
-	void run();
+    void run();
 
-	virtual Parser* createParser(ParserInput *input) = 0;
+    virtual Parser* createParser(ParserInput *input) = 0;
 
 private:
-	bool m_keepParserThreadAlive;
-	bool m_keepParsingDocument;
-	QQueue<ParserInput*> m_parserQueue;
-	QUrl m_currentlyParsedUrl;
-	QMutex m_parserMutex;
-	QWaitCondition m_queueEmptyWaitCondition;
+    bool m_keepParserThreadAlive;
+    bool m_keepParsingDocument;
+    QQueue<ParserInput*> m_parserQueue;
+    QUrl m_currentlyParsedUrl;
+    QMutex m_parserMutex;
+    QWaitCondition m_queueEmptyWaitCondition;
 };
 
 
 class DocumentParserThread : public ParserThread
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DocumentParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
-	virtual ~DocumentParserThread();
+    DocumentParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
+    virtual ~DocumentParserThread();
 
 public Q_SLOTS:
-	void addDocument(KileDocument::TextInfo *textInfo);
-	void removeDocument(KileDocument::TextInfo *textInfo);
-	void removeDocument(const QUrl &url);
+    void addDocument(KileDocument::TextInfo *textInfo);
+    void removeDocument(KileDocument::TextInfo *textInfo);
+    void removeDocument(const QUrl &url);
 
 protected:
-	virtual Parser* createParser(ParserInput *input);
+    virtual Parser* createParser(ParserInput *input);
 
 };
 
 
 class OutputParserThread: public ParserThread
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	OutputParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
-	virtual ~OutputParserThread();
+    OutputParserThread(KileInfo *info, QObject *parent = Q_NULLPTR);
+    virtual ~OutputParserThread();
 
 public Q_SLOTS:
-	void addLaTeXLogFile(const QString& logFile, const QString& sourceFile,
-	                     // for QuickPreview
-	                     const QString& texFileName = "", int selrow = -1, int docrow = -1);
-	void removeFile(const QString& fileName);
+    void addLaTeXLogFile(const QString& logFile, const QString& sourceFile,
+                         // for QuickPreview
+                         const QString& texFileName = "", int selrow = -1, int docrow = -1);
+    void removeFile(const QString& fileName);
 
 protected:
-	virtual Parser* createParser(ParserInput *input);
+    virtual Parser* createParser(ParserInput *input);
 };
 
 }

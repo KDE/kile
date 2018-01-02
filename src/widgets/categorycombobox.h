@@ -23,19 +23,19 @@ namespace KileWidget {
 
 class CategoryComboBox : public KComboBox
 {
-	public:
-		enum {
-			Category = Qt::UserRole + 1
-		};
+public:
+    enum {
+        Category = Qt::UserRole + 1
+    };
 
-	public:
-		explicit CategoryComboBox(QWidget *parent = 0);
-		explicit CategoryComboBox(bool rw, QWidget *parent = 0);
+public:
+    explicit CategoryComboBox(QWidget *parent = 0);
+    explicit CategoryComboBox(bool rw, QWidget *parent = 0);
 
-		virtual ~CategoryComboBox();
+    virtual ~CategoryComboBox();
 
-	public:
-		void addCategoryItem(const QString &text);
+public:
+    void addCategoryItem(const QString &text);
 };
 
 }

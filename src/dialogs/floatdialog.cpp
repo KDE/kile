@@ -27,94 +27,94 @@ namespace KileDialog
 {
 
 FloatEnvironmentDialog::FloatEnvironmentDialog(KConfig *config, KileInfo *ki,
-                                               QWidget *parent)
-	: Wizard(config, parent), m_ki(ki)
+        QWidget *parent)
+    : Wizard(config, parent), m_ki(ki)
 {
-	QWidget *page = new QWidget(this);
-	QVBoxLayout *mainLayout = new QVBoxLayout;
-	setLayout(mainLayout);
-	mainLayout->addWidget(page);
+    QWidget *page = new QWidget(this);
+    QVBoxLayout *mainLayout = new QVBoxLayout;
+    setLayout(mainLayout);
+    mainLayout->addWidget(page);
 
-	m_FloatDialog.setupUi(page);
+    m_FloatDialog.setupUi(page);
 
-	m_prefix = "fig:";
-	m_FloatDialog.m_edLabel->setText(m_prefix);
+    m_prefix = "fig:";
+    m_FloatDialog.m_edLabel->setText(m_prefix);
 
-	slotEnvironmentClicked();
-	setFocusProxy(m_FloatDialog.m_edCaption);
+    slotEnvironmentClicked();
+    setFocusProxy(m_FloatDialog.m_edCaption);
 
-	mainLayout->addWidget(buttonBox());
-	connect(buttonBox(), &QDialogButtonBox::accepted, this, &QDialog::accept);
-	connect(buttonBox(), &QDialogButtonBox::rejected, this, &QDialog::reject);
-	connect(m_FloatDialog.m_rbFigure, &QRadioButton::clicked, this, &FloatEnvironmentDialog::slotEnvironmentClicked);
-	connect(m_FloatDialog.m_rbTable, &QRadioButton::clicked, this, &FloatEnvironmentDialog::slotEnvironmentClicked);
-	connect(this, &QDialog::accepted, this, &FloatEnvironmentDialog::slotAccepted);
+    mainLayout->addWidget(buttonBox());
+    connect(buttonBox(), &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox(), &QDialogButtonBox::rejected, this, &QDialog::reject);
+    connect(m_FloatDialog.m_rbFigure, &QRadioButton::clicked, this, &FloatEnvironmentDialog::slotEnvironmentClicked);
+    connect(m_FloatDialog.m_rbTable, &QRadioButton::clicked, this, &FloatEnvironmentDialog::slotEnvironmentClicked);
+    connect(this, &QDialog::accepted, this, &FloatEnvironmentDialog::slotAccepted);
 }
 
 ////////////////////////////// determine the whole tag //////////////////////////////
 
 void FloatEnvironmentDialog::slotAccepted()
 {
-	QString envname = (m_FloatDialog.m_rbFigure->isChecked()) ? "figure" : "table";
-	QString indent = m_ki->editorExtension()->autoIndentEnvironment();
+    QString envname = (m_FloatDialog.m_rbFigure->isChecked()) ? "figure" : "table";
+    QString indent = m_ki->editorExtension()->autoIndentEnvironment();
 
-	QString position;
-	if (m_FloatDialog.m_cbHere->isChecked())
-		position += 'h';
-	if (m_FloatDialog.m_cbTop->isChecked())
-		position += 't';
-	if (m_FloatDialog.m_cbBottom->isChecked())
-		position += 'b';
-	if (m_FloatDialog.m_cbPage->isChecked())
-		position += 'p';
+    QString position;
+    if (m_FloatDialog.m_cbHere->isChecked())
+        position += 'h';
+    if (m_FloatDialog.m_cbTop->isChecked())
+        position += 't';
+    if (m_FloatDialog.m_cbBottom->isChecked())
+        position += 'b';
+    if (m_FloatDialog.m_cbPage->isChecked())
+        position += 'p';
 
-	m_td.tagBegin = "\\begin{" + envname + '}';
-	if (!position.isEmpty()) {
-		m_td.tagBegin += '[' + position + ']';
-	}
-	m_td.tagBegin += '\n';
+    m_td.tagBegin = "\\begin{" + envname + '}';
+    if (!position.isEmpty()) {
+        m_td.tagBegin += '[' + position + ']';
+    }
+    m_td.tagBegin += '\n';
 
-	int row = 1;
-	if (m_FloatDialog.m_cbCenter->isChecked()) {
-		m_td.tagBegin += indent + "\\centering\n";
-		row = 2;
-	}
+    int row = 1;
+    if (m_FloatDialog.m_cbCenter->isChecked()) {
+        m_td.tagBegin += indent + "\\centering\n";
+        row = 2;
+    }
 
-	m_td.tagEnd = indent + '\n';
+    m_td.tagEnd = indent + '\n';
 
-	QString caption = m_FloatDialog.m_edCaption->text();
-	if (! caption.isEmpty())
-		m_td.tagEnd += indent  + "\\caption{" + caption + "}\n";
+    QString caption = m_FloatDialog.m_edCaption->text();
+    if (! caption.isEmpty())
+        m_td.tagEnd += indent  + "\\caption{" + caption + "}\n";
 
-	QString label = m_FloatDialog.m_edLabel->text();
-	if (!label.isEmpty() && label != m_prefix)
-		m_td.tagEnd += indent + "\\label{" + label + "}\n";
+    QString label = m_FloatDialog.m_edLabel->text();
+    if (!label.isEmpty() && label != m_prefix)
+        m_td.tagEnd += indent + "\\label{" + label + "}\n";
 
-	m_td.tagEnd += "\\end{" + envname + "}\n";
+    m_td.tagEnd += "\\end{" + envname + "}\n";
 
-	m_td.dy = row;
-	m_td.dx = indent.length();
+    m_td.dy = row;
+    m_td.dx = indent.length();
 }
 
 void FloatEnvironmentDialog::slotEnvironmentClicked()
 {
-	KILE_DEBUG_MAIN << "entering";
-	QString caption, oldprefix;
+    KILE_DEBUG_MAIN << "entering";
+    QString caption, oldprefix;
 
-	if (m_FloatDialog.m_rbFigure->isChecked()) {
-		caption = i18n("Figure Environment");
-		oldprefix = "^tab:";
-		m_prefix = "fig:";
-	} else {
-		caption = i18n("Table Environment");
-		oldprefix = "^fig:";
-		m_prefix = "tab:";
-	}
+    if (m_FloatDialog.m_rbFigure->isChecked()) {
+        caption = i18n("Figure Environment");
+        oldprefix = "^tab:";
+        m_prefix = "fig:";
+    } else {
+        caption = i18n("Table Environment");
+        oldprefix = "^fig:";
+        m_prefix = "tab:";
+    }
 
-	setWindowTitle(caption);
-	QString s = m_FloatDialog.m_edLabel->text();
-	s.replace(QRegExp(oldprefix), m_prefix);
-	m_FloatDialog.m_edLabel->setText(s);
+    setWindowTitle(caption);
+    QString s = m_FloatDialog.m_edLabel->text();
+    s.replace(QRegExp(oldprefix), m_prefix);
+    m_FloatDialog.m_edLabel->setText(s);
 }
 
 }

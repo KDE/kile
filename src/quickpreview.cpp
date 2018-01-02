@@ -39,22 +39,22 @@ namespace KileTool
 
 QuickPreview::QuickPreview(KileInfo *ki) : m_ki(ki), m_running(0), m_tempDir(Q_NULLPTR)
 {
-	m_taskList << i18n("LaTeX ---> DVI (Okular)")
-	           << i18n("LaTeX ---> DVI (Document Viewer)")
-	           << i18n("LaTeX ---> PS (Okular)")
-	           << i18n("LaTeX ---> PS (Document Viewer)")
-	           << i18n("PDFLaTeX ---> PDF (Okular)")
-	           << i18n("PDFLaTeX ---> PDF (Document Viewer)")
-	           << i18n("XeLaTeX ---> PDF (Okular)")
-	           << i18n("XeLaTeX ---> PDF (Document Viewer)")
-	           << i18n("LuaLaTeX ---> PDF (Okular)")
-	           << i18n("LuaLaTeX ---> PDF (Document Viewer)")
-	           ;
+    m_taskList << i18n("LaTeX ---> DVI (Okular)")
+               << i18n("LaTeX ---> DVI (Document Viewer)")
+               << i18n("LaTeX ---> PS (Okular)")
+               << i18n("LaTeX ---> PS (Document Viewer)")
+               << i18n("PDFLaTeX ---> PDF (Okular)")
+               << i18n("PDFLaTeX ---> PDF (Document Viewer)")
+               << i18n("XeLaTeX ---> PDF (Okular)")
+               << i18n("XeLaTeX ---> PDF (Document Viewer)")
+               << i18n("LuaLaTeX ---> PDF (Okular)")
+               << i18n("LuaLaTeX ---> PDF (Document Viewer)")
+               ;
 }
 
-QuickPreview::~QuickPreview() 
+QuickPreview::~QuickPreview()
 {
-	delete m_tempDir;
+    delete m_tempDir;
 }
 
 //////////////////// quick preview ////////////////////
@@ -63,86 +63,86 @@ QuickPreview::~QuickPreview()
 
 void QuickPreview::previewSelection(KTextEditor::View *view, bool previewInWidgetConfig)
 {
-	if (view->selection()) {
-		int startLine = view->selectionRange().start().line();
-		KTextEditor::Document *doc = view->document();
-		if ( previewInWidgetConfig && KileConfig::selPreviewInWidget() ) {
-			m_ki->previewWidget()->showActivePreview(view->selectionText(), m_ki->getName(doc), startLine, KileTool::qpSelection);
-		}
-		else {
-			run(view->selectionText(), m_ki->getName(doc), startLine);
-			view->removeSelection();
-		}
-	} 
-	else {
-		showError( i18n("There is no selection to compile.") );
-	}
+    if (view->selection()) {
+        int startLine = view->selectionRange().start().line();
+        KTextEditor::Document *doc = view->document();
+        if ( previewInWidgetConfig && KileConfig::selPreviewInWidget() ) {
+            m_ki->previewWidget()->showActivePreview(view->selectionText(), m_ki->getName(doc), startLine, KileTool::qpSelection);
+        }
+        else {
+            run(view->selectionText(), m_ki->getName(doc), startLine);
+            view->removeSelection();
+        }
+    }
+    else {
+        showError( i18n("There is no selection to compile.") );
+    }
 }
 
 // compile and view current environment (singlemode and mastermode)
 
 void QuickPreview::previewEnvironment(KTextEditor::Document *doc)
 {
-	int row, col;
-	QString envname;
-	QString text = m_ki->editorExtension()->getEnvironmentText(row, col, envname);
-	if (!text.isEmpty()) {
-		if(m_ki->latexCommands()->isMathModeEnv(envname)) {
-			text = '$' + text + '$';
-		}
-		else if (m_ki->latexCommands()->isDisplaymathModeEnv(envname)) {
-			text = "\\[" + text + "\\]";
-		}
+    int row, col;
+    QString envname;
+    QString text = m_ki->editorExtension()->getEnvironmentText(row, col, envname);
+    if (!text.isEmpty()) {
+        if(m_ki->latexCommands()->isMathModeEnv(envname)) {
+            text = '$' + text + '$';
+        }
+        else if (m_ki->latexCommands()->isDisplaymathModeEnv(envname)) {
+            text = "\\[" + text + "\\]";
+        }
 
-		if(KileConfig::envPreviewInWidget()) {
-			m_ki->previewWidget()->showActivePreview(text, m_ki->getName(doc), row, KileTool::qpEnvironment);
-		}
-		else {
-			run(text, m_ki->getName(doc), row);
-		}
-	}
-	else {
-		showError(i18n("There is no surrounding environment."));
-	}
+        if(KileConfig::envPreviewInWidget()) {
+            m_ki->previewWidget()->showActivePreview(text, m_ki->getName(doc), row, KileTool::qpEnvironment);
+        }
+        else {
+            run(text, m_ki->getName(doc), row);
+        }
+    }
+    else {
+        showError(i18n("There is no surrounding environment."));
+    }
 }
 
 // compile and view current subdocument (only mastermode)
 
 void QuickPreview::previewSubdocument(KTextEditor::Document *doc)
 {
-	// this mode is only useful with a master document
-	if(!m_ki->docManager()->activeProject() && m_ki->getSinglemode()) {
-		showError(i18n("This job is only useful with a master document."));
-		return;
-	}
+    // this mode is only useful with a master document
+    if(!m_ki->docManager()->activeProject() && m_ki->getSinglemode()) {
+        showError(i18n("This job is only useful with a master document."));
+        return;
+    }
 
-	// the current document should not be the master document
-	QString filename = doc->url().toLocalFile();
-	if(filename == m_ki->getCompileName()) {
-		showError( i18n("This is not a subdocument, but the master document."));
-		return;
-	}
+    // the current document should not be the master document
+    QString filename = doc->url().toLocalFile();
+    if(filename == m_ki->getCompileName()) {
+        showError( i18n("This is not a subdocument, but the master document."));
+        return;
+    }
 
-	run(doc->text(), m_ki->getName(doc), 0);
+    run(doc->text(), m_ki->getName(doc), 0);
 }
 
 // compile and view current mathgroup (singlemode and mastermode)
 
 void QuickPreview::previewMathgroup(KTextEditor::Document *doc)
 {
-	uint row,col;
-	QString text = m_ki->editorExtension()->getMathgroupText(row, col);
-	if (!text.isEmpty()) {
-		if(KileConfig::mathgroupPreviewInWidget()) {
-			m_ki->previewWidget()->showActivePreview(text, m_ki->getName(doc), row, KileTool::qpMathgroup);
-		}
-		else {
-			run(text, m_ki->getName(doc), row);
-		}
-	}
-	else {
-		showError(i18n("There is no surrounding mathgroup."));
-	}
+    uint row,col;
+    QString text = m_ki->editorExtension()->getMathgroupText(row, col);
+    if (!text.isEmpty()) {
+        if(KileConfig::mathgroupPreviewInWidget()) {
+            m_ki->previewWidget()->showActivePreview(text, m_ki->getName(doc), row, KileTool::qpMathgroup);
+        }
+        else {
+            run(text, m_ki->getName(doc), row);
+        }
+    }
+    else {
+        showError(i18n("There is no surrounding mathgroup."));
+    }
 
 }
 
@@ -150,240 +150,240 @@ void QuickPreview::previewMathgroup(KTextEditor::Document *doc)
 
 void QuickPreview::getTaskList(QStringList &tasklist)
 {
-	tasklist.clear();
-	tasklist << "Tool/ViewDVI/Okular="          + m_taskList[0]
-	         << "Tool/ViewDVI/Document Viewer=" + m_taskList[1]
-	         << "Tool/ViewPS/Okular="           + m_taskList[2]
-	         << "Tool/ViewPS/Document Viewer="  + m_taskList[3]
-	         << "Tool/ViewPDF/Okular="          + m_taskList[4]
-	         << "Tool/ViewPDF/Document Viewer=" + m_taskList[5]
-	         << "Tool/ViewPDF/Okular="          + m_taskList[6]
-	         << "Tool/ViewPDF/Document Viewer=" + m_taskList[7]
-	         << "Tool/ViewPDF/Okular="          + m_taskList[8]
-	         << "Tool/ViewPDF/Document Viewer=" + m_taskList[9]
-	         ;
+    tasklist.clear();
+    tasklist << "Tool/ViewDVI/Okular="          + m_taskList[0]
+             << "Tool/ViewDVI/Document Viewer=" + m_taskList[1]
+             << "Tool/ViewPS/Okular="           + m_taskList[2]
+             << "Tool/ViewPS/Document Viewer="  + m_taskList[3]
+             << "Tool/ViewPDF/Okular="          + m_taskList[4]
+             << "Tool/ViewPDF/Document Viewer=" + m_taskList[5]
+             << "Tool/ViewPDF/Okular="          + m_taskList[6]
+             << "Tool/ViewPDF/Document Viewer=" + m_taskList[7]
+             << "Tool/ViewPDF/Okular="          + m_taskList[8]
+             << "Tool/ViewPDF/Document Viewer=" + m_taskList[9]
+             ;
 }
 
 bool QuickPreview::isRunning()
 {
-	return (m_running > 0);
+    return (m_running > 0);
 }
 
-bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow) 
+bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow)
 {
-	// define possible tools
-	QMap <QString,QString> map;
-	map[m_taskList[0]]  = "PreviewLaTeX,,,ViewDVI,Okular,dvi";
-	map[m_taskList[1]]  = "PreviewLaTeX,,,ViewDVI,Document Viewer,dvi";
-	map[m_taskList[2]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps";
-	map[m_taskList[3]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Document Viewer,ps";
-	map[m_taskList[4]]  = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
-	map[m_taskList[5]]  = "PreviewPDFLaTeX,,,ViewPDF,Document Viewer,pdf";
-	map[m_taskList[6]] = "PreviewXeLaTeX,,,ViewPDF,Okular,pdf";
-	map[m_taskList[7]] = "PreviewXeLaTeX,,,ViewPDF,Document Viewer,pdf";
-	map[m_taskList[8]] = "PreviewLuaLaTeX,,,ViewPDF,Okular,pdf";
-	map[m_taskList[9]] = "PreviewLuaLaTeX,,,ViewPDF,Document Viewer,pdf";
+    // define possible tools
+    QMap <QString,QString> map;
+    map[m_taskList[0]]  = "PreviewLaTeX,,,ViewDVI,Okular,dvi";
+    map[m_taskList[1]]  = "PreviewLaTeX,,,ViewDVI,Document Viewer,dvi";
+    map[m_taskList[2]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Okular,ps";
+    map[m_taskList[3]]  = "PreviewLaTeX,DVItoPS,Default,ViewPS,Document Viewer,ps";
+    map[m_taskList[4]]  = "PreviewPDFLaTeX,,,ViewPDF,Okular,pdf";
+    map[m_taskList[5]]  = "PreviewPDFLaTeX,,,ViewPDF,Document Viewer,pdf";
+    map[m_taskList[6]] = "PreviewXeLaTeX,,,ViewPDF,Okular,pdf";
+    map[m_taskList[7]] = "PreviewXeLaTeX,,,ViewPDF,Document Viewer,pdf";
+    map[m_taskList[8]] = "PreviewLuaLaTeX,,,ViewPDF,Okular,pdf";
+    map[m_taskList[9]] = "PreviewLuaLaTeX,,,ViewPDF,Document Viewer,pdf";
 
-	QString previewtask = KileConfig::previewTask();
-	if(!map.contains(previewtask)) {
-		showError(i18n("Could not run QuickPreview:\nunknown task '%1'",previewtask));
-		return false;
-	}
+    QString previewtask = KileConfig::previewTask();
+    if(!map.contains(previewtask)) {
+        showError(i18n("Could not run QuickPreview:\nunknown task '%1'",previewtask));
+        return false;
+    }
 
-	return run (text, textfilename, startrow, map[previewtask]);
+    return run (text, textfilename, startrow, map[previewtask]);
 }
 
-bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist) 
+bool QuickPreview::run(const QString &text,const QString &textfilename,int startrow,const QString &spreviewlist)
 {
-	KILE_DEBUG_MAIN << "==QuickPreview::run()=========================="  << endl;
-	m_ki->errorHandler()->clearMessages();
-	if(m_running > 0) {
-		showError( i18n("There is already a preview running that has to be finished to run this one.") );
-		return false;
-	}
-	
-	// check if there is something to compile
-	if(text.isEmpty()) {
-		showError(i18n("There is nothing to compile and preview."));
-		return false;
-	}
-	
-	delete m_tempDir;
-	m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "kile-preview");
-	m_tempDir->setAutoRemove(true);
-	m_tempFile = QFileInfo(m_tempDir->path(), "preview.tex").absoluteFilePath();
-	KILE_DEBUG_MAIN << "\tdefine tempfile: " << m_tempFile << endl;
+    KILE_DEBUG_MAIN << "==QuickPreview::run()=========================="  << endl;
+    m_ki->errorHandler()->clearMessages();
+    if(m_running > 0) {
+        showError( i18n("There is already a preview running that has to be finished to run this one.") );
+        return false;
+    }
 
-	// create the temporary file with preamble and text
-	int preamblelines = createTempfile(text);
-	if(preamblelines == 0) {
-		return false;
-	}
+    // check if there is something to compile
+    if(text.isEmpty()) {
+        showError(i18n("There is nothing to compile and preview."));
+        return false;
+    }
 
-	QStringList previewlist = spreviewlist.split(',', QString::KeepEmptyParts);
-	
-	// create preview tools
-	KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
-	KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolManager()->createTool(previewlist[pvLatex], QString(), false));
-	if(!latex) {
-		showError(i18n("Could not run '%1' for QuickPreview.", QString("LaTeX")));
-		return false;
-	}
-	
-	KileTool::Base *dvips = Q_NULLPTR;
-	if(!previewlist[1].isEmpty()) {
-		QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
-		KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
-		dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
-		if(!dvips) {
-			showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
-			return false;
-		}
-	} 
+    delete m_tempDir;
+    m_tempDir = new QTemporaryDir(QDir::tempPath() + QLatin1Char('/') + "kile-preview");
+    m_tempDir->setAutoRemove(true);
+    m_tempFile = QFileInfo(m_tempDir->path(), "preview.tex").absoluteFilePath();
+    KILE_DEBUG_MAIN << "\tdefine tempfile: " << m_tempFile << endl;
 
-	KileTool::Base *viewer = Q_NULLPTR;
-	if(!previewlist[pvViewer].isEmpty()) {
-		QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
-		KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
-		viewer = m_ki->toolManager()->createTool(previewlist[pvViewer], previewlist[pvViewerCfg], false);
-		if(!viewer) {
-			showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
-			return false;
-		}
-	} 
-	
-	// set value of texinput path (only for QuickPreview tools)
-	QString texinputpath = KileConfig::teXPaths();
-	QString inputdir = QFileInfo(m_ki->getCompileName()).absolutePath();
-	if(!texinputpath.isEmpty()) {
-		inputdir += PATH_SEPARATOR + texinputpath;
-	}
-	KileConfig::setPreviewTeXPaths(inputdir);
-	KILE_DEBUG_MAIN << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
-	
-	// prepare tools: previewlatex
-	QString filepath = m_tempFile.left(m_tempFile.length() - 3);
-	latex->setPreviewInfo(textfilename, startrow, preamblelines + 1);
-	latex->setSource(m_tempFile);
-	latex->prepareToRun();
-	latex->setQuickie();
-	connect(latex, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
-	m_ki->toolManager()->run(latex);
+    // create the temporary file with preamble and text
+    int preamblelines = createTempfile(text);
+    if(preamblelines == 0) {
+        return false;
+    }
 
-	m_running++;
+    QStringList previewlist = spreviewlist.split(',', QString::KeepEmptyParts);
 
-	// dvips
-	if(dvips) {
-		dvips->setSource( filepath + "dvi" );
-		dvips->setQuickie();
-		connect(dvips, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
-		m_ki->toolManager()->run(dvips);
+    // create preview tools
+    KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << endl;
+    KileTool::PreviewLaTeX *latex = dynamic_cast<KileTool::PreviewLaTeX*>(m_ki->toolManager()->createTool(previewlist[pvLatex], QString(), false));
+    if(!latex) {
+        showError(i18n("Could not run '%1' for QuickPreview.", QString("LaTeX")));
+        return false;
+    }
 
-		m_running++;
-	}
+    KileTool::Base *dvips = Q_NULLPTR;
+    if(!previewlist[1].isEmpty()) {
+        QString dvipstool = previewlist[pvDvips] + " (" + previewlist[pvDvipsCfg] + ')';
+        KILE_DEBUG_MAIN << "\tcreate dvips tool for QuickPreview: "  << previewlist[pvDvips] << endl;
+        dvips = m_ki->toolManager()->createTool(previewlist[pvDvips], previewlist[pvDvipsCfg]);
+        if(!dvips) {
+            showError(i18n("Could not run '%1' for QuickPreview.",dvipstool));
+            return false;
+        }
+    }
 
-	// viewer
-	if(viewer) {
-		connect(viewer, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
-		viewer->setSource( filepath + previewlist[pvExtension] );
-		viewer->setQuickie();
-		m_ki->toolManager()->run(viewer);
-	}
+    KileTool::Base *viewer = Q_NULLPTR;
+    if(!previewlist[pvViewer].isEmpty()) {
+        QString viewertool = previewlist[pvViewer] + " (" + previewlist[pvViewerCfg] + ')';
+        KILE_DEBUG_MAIN << "\tcreate viewer for QuickPreview: "  << viewertool << endl;
+        viewer = m_ki->toolManager()->createTool(previewlist[pvViewer], previewlist[pvViewerCfg], false);
+        if(!viewer) {
+            showError(i18n("Could not run '%1' for QuickPreview.",viewertool));
+            return false;
+        }
+    }
 
-	return true;
+    // set value of texinput path (only for QuickPreview tools)
+    QString texinputpath = KileConfig::teXPaths();
+    QString inputdir = QFileInfo(m_ki->getCompileName()).absolutePath();
+    if(!texinputpath.isEmpty()) {
+        inputdir += PATH_SEPARATOR + texinputpath;
+    }
+    KileConfig::setPreviewTeXPaths(inputdir);
+    KILE_DEBUG_MAIN << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;
+
+    // prepare tools: previewlatex
+    QString filepath = m_tempFile.left(m_tempFile.length() - 3);
+    latex->setPreviewInfo(textfilename, startrow, preamblelines + 1);
+    latex->setSource(m_tempFile);
+    latex->prepareToRun();
+    latex->setQuickie();
+    connect(latex, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+    m_ki->toolManager()->run(latex);
+
+    m_running++;
+
+    // dvips
+    if(dvips) {
+        dvips->setSource( filepath + "dvi" );
+        dvips->setQuickie();
+        connect(dvips, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+        m_ki->toolManager()->run(dvips);
+
+        m_running++;
+    }
+
+    // viewer
+    if(viewer) {
+        connect(viewer, SIGNAL(destroyed()), this, SLOT(toolDestroyed()));
+        viewer->setSource( filepath + previewlist[pvExtension] );
+        viewer->setQuickie();
+        m_ki->toolManager()->run(viewer);
+    }
+
+    return true;
 }
 
 void QuickPreview::toolDestroyed()
 {
-	KILE_DEBUG_MAIN << "\tQuickPreview: tool destroyed" << endl;
-	if(m_running > 0) {
-		--m_running;
-	}
+    KILE_DEBUG_MAIN << "\tQuickPreview: tool destroyed" << endl;
+    if(m_running > 0) {
+        --m_running;
+    }
 }
 
 QString QuickPreview::getPreviewFile(const QString &extension)
 {
-	if (m_tempFile.length () < 3) {
-		return QString();
-	}
+    if (m_tempFile.length () < 3) {
+        return QString();
+    }
 
-	QString filepath = m_tempFile.left(m_tempFile.length () - 3);
-	return filepath + extension;
-} 
+    QString filepath = m_tempFile.left(m_tempFile.length () - 3);
+    return filepath + extension;
+}
 
 //////////////////// tempfile ////////////////////
 
 int QuickPreview::createTempfile(const QString &text)
 {
-	// determine main document to read the preamble
-	QString filename = m_ki->getCompileName();
-	if(filename.isEmpty()) {
-		showError(i18n("Could not determine the main document."));
-		return 0;
-	}
-	
-	// open to read
-	QFile fin(filename);
-	if(!fin.exists() || !fin.open(QIODevice::ReadOnly)) {
-		showError(i18n("Could not read the preamble."));
-		return 0;
-	}
-	KILE_DEBUG_MAIN << "\tcreate a temporary file: "  << m_tempFile << endl;
-	
-	// use a textstream
-	QTextStream preamble(&fin);
+    // determine main document to read the preamble
+    QString filename = m_ki->getCompileName();
+    if(filename.isEmpty()) {
+        showError(i18n("Could not determine the main document."));
+        return 0;
+    }
 
-	// create the temporary file
-	QFile tempfile(m_tempFile);
-	if(!tempfile.open(QIODevice::WriteOnly)) {
-		showError(i18n("Could not create a temporary file."));
-		return 0;
-	}
-	QTextStream stream(&tempfile);
-	
-	// set the encoding according to the original file (tbraun)
-	if(m_ki->activeTextDocument()) {
-		QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().toLatin1());
-		if(codec) {
-			stream.setCodec(codec);
-		}
-	}
-	// write the whole preamble into this temporary file
-	QString textline;
-	int preamblelines = 0;
-	bool begindocumentFound = false;
-	while(!preamble.atEnd()) {
-		textline = preamble.readLine();
-		if (textline.indexOf("\\begin{document}") >= 0) {
-			begindocumentFound = true;
-			break;
-		}
-		stream << textline << "\n";
-		preamblelines++;
-	}
+    // open to read
+    QFile fin(filename);
+    if(!fin.exists() || !fin.open(QIODevice::ReadOnly)) {
+        showError(i18n("Could not read the preamble."));
+        return 0;
+    }
+    KILE_DEBUG_MAIN << "\tcreate a temporary file: "  << m_tempFile << endl;
 
-	// look if we found '\begin{document}' to finish the preamble
-	if (!begindocumentFound) {
-		tempfile.close();
-		showError(i18n("Could not find a '\\begin{document}' command."));
-		return 0;
-	}
+    // use a textstream
+    QTextStream preamble(&fin);
 
-	// add the text to compile
-	stream << "\\pagestyle{empty}\n";
-	stream << "\\begin{document}\n";
-	stream << text;
-	stream << "\n\\end{document}\n";
-	tempfile.close();
-	
-	return preamblelines;
+    // create the temporary file
+    QFile tempfile(m_tempFile);
+    if(!tempfile.open(QIODevice::WriteOnly)) {
+        showError(i18n("Could not create a temporary file."));
+        return 0;
+    }
+    QTextStream stream(&tempfile);
+
+    // set the encoding according to the original file (tbraun)
+    if(m_ki->activeTextDocument()) {
+        QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().toLatin1());
+        if(codec) {
+            stream.setCodec(codec);
+        }
+    }
+    // write the whole preamble into this temporary file
+    QString textline;
+    int preamblelines = 0;
+    bool begindocumentFound = false;
+    while(!preamble.atEnd()) {
+        textline = preamble.readLine();
+        if (textline.indexOf("\\begin{document}") >= 0) {
+            begindocumentFound = true;
+            break;
+        }
+        stream << textline << "\n";
+        preamblelines++;
+    }
+
+    // look if we found '\begin{document}' to finish the preamble
+    if (!begindocumentFound) {
+        tempfile.close();
+        showError(i18n("Could not find a '\\begin{document}' command."));
+        return 0;
+    }
+
+    // add the text to compile
+    stream << "\\pagestyle{empty}\n";
+    stream << "\\begin{document}\n";
+    stream << text;
+    stream << "\n\\end{document}\n";
+    tempfile.close();
+
+    return preamblelines;
 }
 
 //////////////////// error messages ////////////////////
 
 void QuickPreview::showError(const QString &text)
 {
-	m_ki->errorHandler()->printMessage(KileTool::Error, text, i18n("QuickPreview"));
+    m_ki->errorHandler()->printMessage(KileTool::Error, text, i18n("QuickPreview"));
 }
 
 }

@@ -15,7 +15,7 @@
 
 KileWidgetStructureViewConfig::KileWidgetStructureViewConfig(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 KileWidgetStructureViewConfig::~KileWidgetStructureViewConfig()

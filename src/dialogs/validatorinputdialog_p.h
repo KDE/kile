@@ -33,21 +33,21 @@ class QValidator;
 namespace KileDialog {
 class ValidatorInputDialogHelper : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ValidatorInputDialogHelper(const QString &caption, const QString &label,
-		const QString &value, QWidget *parent,
-		QValidator *validator, const QString &mask);
+    ValidatorInputDialogHelper(const QString &caption, const QString &label,
+                               const QString &value, QWidget *parent,
+                               QValidator *validator, const QString &mask);
 
-	QLineEdit * lineEdit() const;
+    QLineEdit * lineEdit() const;
 
 public Q_SLOTS:
-	void slotEditTextChanged(const QString &value);
+    void slotEditTextChanged(const QString &value);
 
 private:
-	QLineEdit *m_lineEdit;
-	QDialogButtonBox *m_buttonBox;
+    QLineEdit *m_lineEdit;
+    QDialogButtonBox *m_buttonBox;
 };
 }
 

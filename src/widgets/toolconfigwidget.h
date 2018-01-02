@@ -21,7 +21,9 @@
 
 #include "kiletool.h"
 
-namespace KileTool { class Manager; }
+namespace KileTool {
+class Manager;
+}
 class ToolConfigWidget;
 class ProcessToolConfigWidget;
 class LibraryToolConfigWidget;
@@ -31,74 +33,74 @@ class ViewBibToolConfigWidget;
 
 namespace KileWidget
 {
-	class ToolConfig : public QWidget
-	{
-		Q_OBJECT
+class ToolConfig : public QWidget
+{
+    Q_OBJECT
 
-		enum GeneralBasicStack { GBS_None = 1, GBS_Process, GBS_Sequence, GBS_Error };
-		enum GeneralExtraStack { GES_None = 1, GES_LaTeX/*, GES_ViewBib*/ };
+    enum GeneralBasicStack { GBS_None = 1, GBS_Process, GBS_Sequence, GBS_Error };
+    enum GeneralExtraStack { GES_None = 1, GES_LaTeX/*, GES_ViewBib*/ };
 
-	public:
-		ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
+public:
+    ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char * name = 0);
 
-	public Q_SLOTS:
-		void writeConfig();
+public Q_SLOTS:
+    void writeConfig();
 
-	private:
-		void setupAdvanced();
-		void setupGeneral();
-		int indexQuickBuild();
-		
-	private Q_SLOTS:
-		void updateGeneral();
-		void updateAdvanced();
-		void switchTo(const QString & tool, bool save = true);
-		void updateToollist();
-		void updateConfiglist();
-		void selectIcon();
-		void setMenu(int index);
-		void switchConfig(int index = -1);
-		void switchConfig(const QString &);
+private:
+    void setupAdvanced();
+    void setupGeneral();
+    int indexQuickBuild();
 
-		void newTool();
-		void newConfig();
-		void removeTool();
-		void removeConfig();
-		void writeStdConfig(const QString &, const QString &);
-		void writeDefaults();
+private Q_SLOTS:
+    void updateGeneral();
+    void updateAdvanced();
+    void switchTo(const QString & tool, bool save = true);
+    void updateToollist();
+    void updateConfiglist();
+    void selectIcon();
+    void setMenu(int index);
+    void switchConfig(int index = -1);
+    void switchConfig(const QString &);
 
-		void setCommand(const QString &);
-		void setOptions();
-		void setSequence(const QString &);
-		void setClose(bool);
-		void setTarget(const QString &);
-		void setRelDir(const QString &);
-		void setLaTeXCheckRoot(bool);
-		void setLaTeXJump(bool);
-		void setLaTeXAuto(bool);
-		void setRunLyxServer(bool);
-		void setFrom(const QString &);
-		void setTo(const QString &);
-		void setClass(const QString &);
-		void switchClass(const QString &);
-		void switchType(int);
+    void newTool();
+    void newConfig();
+    void removeTool();
+    void removeConfig();
+    void writeStdConfig(const QString &, const QString &);
+    void writeDefaults();
 
-	Q_SIGNALS:
-		void changed();
+    void setCommand(const QString &);
+    void setOptions();
+    void setSequence(const QString &);
+    void setClose(bool);
+    void setTarget(const QString &);
+    void setRelDir(const QString &);
+    void setLaTeXCheckRoot(bool);
+    void setLaTeXJump(bool);
+    void setLaTeXAuto(bool);
+    void setRunLyxServer(bool);
+    void setFrom(const QString &);
+    void setTo(const QString &);
+    void setClass(const QString &);
+    void switchClass(const QString &);
+    void switchType(int);
 
-	private:
-		ToolConfigWidget	*m_configWidget;
-		KileTool::Manager	*m_manager;
-		KConfig			*m_config;
-		KileTool::Config	m_map;
-		QString			m_current, m_icon;
-		QStringList		m_classes;
-		QWidget			*m_tabGeneral, *m_tabAdvanced, *m_tabMenu;
-		ProcessToolConfigWidget	*m_ptcw;
-		LibraryToolConfigWidget	*m_ltcw;
-		QuickToolConfigWidget	*m_qtcw;
-		LaTeXToolConfigWidget	*m_LaTeXtcw;
-	};
+Q_SIGNALS:
+    void changed();
+
+private:
+    ToolConfigWidget	*m_configWidget;
+    KileTool::Manager	*m_manager;
+    KConfig			*m_config;
+    KileTool::Config	m_map;
+    QString			m_current, m_icon;
+    QStringList		m_classes;
+    QWidget			*m_tabGeneral, *m_tabAdvanced, *m_tabMenu;
+    ProcessToolConfigWidget	*m_ptcw;
+    LibraryToolConfigWidget	*m_ltcw;
+    QuickToolConfigWidget	*m_qtcw;
+    LaTeXToolConfigWidget	*m_LaTeXtcw;
+};
 }
 
 #endif

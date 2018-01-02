@@ -43,41 +43,45 @@ typedef int mode_t;
 
 class QFile;
 class QSocketNotifier;
-namespace KileAction { class TagData; }
+namespace KileAction {
+class TagData;
+}
 
 class KileLyxServer : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	KileLyxServer(bool start = true);
-	~KileLyxServer();
+    KileLyxServer(bool start = true);
+    ~KileLyxServer();
 
-	bool isRunning() { return m_running; }
+    bool isRunning() {
+        return m_running;
+    }
 
 public Q_SLOTS:
-	bool start();
-	void stop();
+    bool start();
+    void stop();
 
 private Q_SLOTS:
-	void receive(int);
-	
+    void receive(int);
+
 private:
-	bool openPipes();
-	void removePipes();
-	void processLine(const QString &);
+    bool openPipes();
+    void removePipes();
+    void processLine(const QString &);
 
 Q_SIGNALS:
-	void insert(const KileAction::TagData &);
+    void insert(const KileAction::TagData &);
 
 private:
-	mode_t 				m_perms;
-	QTemporaryDir			*m_tempDir;
-	QList<QFile*>			m_pipeIn;
-	QList<QSocketNotifier*>		m_notifier;
-	QHash<int, QFile*>		m_file;
-	bool				m_running;
-	QStringList 			m_links,m_pipes;
+    mode_t 				m_perms;
+    QTemporaryDir			*m_tempDir;
+    QList<QFile*>			m_pipeIn;
+    QList<QSocketNotifier*>		m_notifier;
+    QHash<int, QFile*>		m_file;
+    bool				m_running;
+    QStringList 			m_links,m_pipes;
 };
 
 #endif // _LYXSERVER_H_

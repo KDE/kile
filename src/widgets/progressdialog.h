@@ -25,12 +25,12 @@ namespace KileWidget {
 
 class ProgressDialog : public QProgressDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	ProgressDialog(QWidget *parent = Q_NULLPTR);
-	~ProgressDialog();
-	virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
+    ProgressDialog(QWidget *parent = Q_NULLPTR);
+    ~ProgressDialog();
+    virtual void closeEvent(QCloseEvent *event) Q_DECL_OVERRIDE;
 
 public:
 

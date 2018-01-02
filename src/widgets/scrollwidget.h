@@ -21,25 +21,25 @@ namespace KileWidget {
 
 class ScrollWidget : public QScrollArea
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit ScrollWidget(QWidget *parent = Q_NULLPTR);
-	virtual ~ScrollWidget();
+    explicit ScrollWidget(QWidget *parent = Q_NULLPTR);
+    virtual ~ScrollWidget();
 
-	/**
-	 * Returns the preferred size if it has been set, otherwise the widget's size hint
-	 **/
-        virtual QSize sizeHint() const;
+    /**
+     * Returns the preferred size if it has been set, otherwise the widget's size hint
+     **/
+    virtual QSize sizeHint() const;
 
-	/**
-	 * Set the preferred size of this widget, which will be returned by 'sizeHint'
-	 **/
-        QSize getPreferredSize() const;
-        void setPreferredSize(const QSize& size);
+    /**
+     * Set the preferred size of this widget, which will be returned by 'sizeHint'
+     **/
+    QSize getPreferredSize() const;
+    void setPreferredSize(const QSize& size);
 
 protected:
-	QSize m_preferredSize;
+    QSize m_preferredSize;
 };
 
 }

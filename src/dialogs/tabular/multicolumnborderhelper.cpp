@@ -18,38 +18,38 @@
 namespace KileDialog {
 
 MultiColumnBorderHelper::MultiColumnBorderHelper()
-	: m_FirstNumber(-2), m_LastNumber(-2)
+    : m_FirstNumber(-2), m_LastNumber(-2)
 {
 }
 
 void MultiColumnBorderHelper::addColumn(int column)
 {
-	if(column == m_LastNumber + 1) { // enlarge range
-		m_LastNumber = column;
-	} else {
-		if(m_LastNumber != -2) {
-			m_SpanColumns.append(std::make_pair(m_FirstNumber, m_LastNumber));
-		}
-		m_FirstNumber = m_LastNumber = column;
-	}
+    if(column == m_LastNumber + 1) { // enlarge range
+        m_LastNumber = column;
+    } else {
+        if(m_LastNumber != -2) {
+            m_SpanColumns.append(std::make_pair(m_FirstNumber, m_LastNumber));
+        }
+        m_FirstNumber = m_LastNumber = column;
+    }
 }
 
 void MultiColumnBorderHelper::finish()
 {
-	if(m_LastNumber != -2) {
-		m_SpanColumns.append(std::make_pair(m_FirstNumber, m_LastNumber));
-	}
+    if(m_LastNumber != -2) {
+        m_SpanColumns.append(std::make_pair(m_FirstNumber, m_LastNumber));
+    }
 }
 
 QString MultiColumnBorderHelper::toLaTeX() const
 {
-	QString result;
-	QVector<std::pair<int,int> >::const_iterator it;
-	for(it = m_SpanColumns.constBegin(); it != m_SpanColumns.constEnd(); ++it) {
-		result += "\\cline{" + QString::number(it->first + 1) + '-' +
-		          QString::number(it->second + 1) + '}';
-	}
-	return result;
+    QString result;
+    QVector<std::pair<int,int> >::const_iterator it;
+    for(it = m_SpanColumns.constBegin(); it != m_SpanColumns.constEnd(); ++it) {
+        result += "\\cline{" + QString::number(it->first + 1) + '-' +
+                  QString::number(it->second + 1) + '}';
+    }
+    return result;
 }
 
 }

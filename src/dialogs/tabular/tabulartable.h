@@ -25,30 +25,30 @@ class QPaintEvent;
 namespace KileDialog {
 
 class TabularTable : public QTableWidget {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		TabularTable(QWidget *parent = 0);
+public:
+    TabularTable(QWidget *parent = 0);
 
-	public Q_SLOTS:
-		void paste();
+public Q_SLOTS:
+    void paste();
 
-	protected:
-		bool eventFilter(QObject *obj, QEvent *event);
-		void mousePressEvent(QMouseEvent *event);
-		void mouseReleaseEvent(QMouseEvent *event);
-		void paintEvent(QPaintEvent *event);
+protected:
+    bool eventFilter(QObject *obj, QEvent *event);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
+    void paintEvent(QPaintEvent *event);
 
-	Q_SIGNALS:
-		void rowAppended();
-		void colAppended();
+Q_SIGNALS:
+    void rowAppended();
+    void colAppended();
 
-	private:
-		SelectionMode m_DefaultMode;
-		QPoint m_ManualBorderPosition;
-		QPoint m_ManualBorderStart;
-		QPoint m_HoverPosition;
-		QTableWidgetItem *m_LastItem;
+private:
+    SelectionMode m_DefaultMode;
+    QPoint m_ManualBorderPosition;
+    QPoint m_ManualBorderStart;
+    QPoint m_HoverPosition;
+    QTableWidgetItem *m_LastItem;
 };
 
 }

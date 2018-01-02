@@ -22,36 +22,38 @@
 
 //////////////////// KlistView for abbreviations ////////////////////
 
-namespace KileAbbreviation { class Manager; }
+namespace KileAbbreviation {
+class Manager;
+}
 
 namespace KileWidget {
 
 class AbbreviationView : public QTreeWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-	enum {ALVabbrev = 0, ALVlocal = 1, ALVexpansion = 2};
-	enum {ALVnone = 0, ALVadd = 1, ALVedit = 2, ALVdelete = 3};
+    enum {ALVabbrev = 0, ALVlocal = 1, ALVexpansion = 2};
+    enum {ALVnone = 0, ALVadd = 1, ALVedit = 2, ALVdelete = 3};
 
-	AbbreviationView(KileAbbreviation::Manager *manager, QWidget *parent = Q_NULLPTR);
-	~AbbreviationView();
+    AbbreviationView(KileAbbreviation::Manager *manager, QWidget *parent = Q_NULLPTR);
+    ~AbbreviationView();
 
-	bool findAbbreviation(const QString &abbrev);
+    bool findAbbreviation(const QString &abbrev);
 
 Q_SIGNALS:
-	void sendText(const QString &text);
- 
+    void sendText(const QString &text);
+
 private Q_SLOTS:
-	void updateAbbreviations();
-	void slotItemClicked(QTreeWidgetItem *item, int column);
-	void slotCustomContextMenuRequested(const QPoint& p);
-	void slotAddAbbreviation();
-	void slotChangeAbbreviation();
-	void slotDeleteAbbreviation();
+    void updateAbbreviations();
+    void slotItemClicked(QTreeWidgetItem *item, int column);
+    void slotCustomContextMenuRequested(const QPoint& p);
+    void slotAddAbbreviation();
+    void slotChangeAbbreviation();
+    void slotDeleteAbbreviation();
 
 private:
-	KileAbbreviation::Manager *m_abbreviationManager;
+    KileAbbreviation::Manager *m_abbreviationManager;
 
 };
 

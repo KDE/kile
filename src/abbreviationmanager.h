@@ -25,80 +25,80 @@ class KileInfo;
 
 namespace KileAbbreviation {
 
-	typedef QPair<QString, bool> StringBooleanPair;
-	typedef QMap<QString, StringBooleanPair> AbbreviationMap;
+typedef QPair<QString, bool> StringBooleanPair;
+typedef QMap<QString, StringBooleanPair> AbbreviationMap;
 
-	/**
-	 * This manager class is responsible for handling abbreviations.
-	 **/
-	class Manager : public QObject {
-		Q_OBJECT
+/**
+ * This manager class is responsible for handling abbreviations.
+ **/
+class Manager : public QObject {
+    Q_OBJECT
 
-		public:
-			/**
-			 * Constructs a new manager object.
-			 **/
-			explicit Manager(KileInfo* kileInfo, QObject *parent = Q_NULLPTR);
-			virtual ~Manager();
+public:
+    /**
+     * Constructs a new manager object.
+     **/
+    explicit Manager(KileInfo* kileInfo, QObject *parent = Q_NULLPTR);
+    virtual ~Manager();
 
-			// the boolean value is 'true' iff the abbreviation is global
-			const AbbreviationMap& getAbbreviationMap();
+    // the boolean value is 'true' iff the abbreviation is global
+    const AbbreviationMap& getAbbreviationMap();
 
-			void readAbbreviationFiles();
-			void saveLocalAbbreviations();
+    void readAbbreviationFiles();
+    void saveLocalAbbreviations();
 
-			void updateLocalAbbreviation(const QString& text, const QString& replacement);
-			void removeLocalAbbreviation(const QString& text);
+    void updateLocalAbbreviation(const QString& text, const QString& replacement);
+    void removeLocalAbbreviation(const QString& text);
 
-			static inline bool isLocalAbbreviation(const StringBooleanPair& p)
-			{
-				return !p.second;
-			}
+    static inline bool isLocalAbbreviation(const StringBooleanPair& p)
+    {
+        return !p.second;
+    }
 
-			static inline bool isGlobalAbbreviation(const StringBooleanPair& p)
-			{
-				return p.second;
-			}
+    static inline bool isGlobalAbbreviation(const StringBooleanPair& p)
+    {
+        return p.second;
+    }
 
-			static inline StringBooleanPair createGlobalAbbreviationPair(const QString& s)
-			{
-				return StringBooleanPair(s, true);
-			}
+    static inline StringBooleanPair createGlobalAbbreviationPair(const QString& s)
+    {
+        return StringBooleanPair(s, true);
+    }
 
-			static inline StringBooleanPair createLocalAbbreviationPair(const QString& s)
-			{
-				return StringBooleanPair(s, false);
-			}
+    static inline StringBooleanPair createLocalAbbreviationPair(const QString& s)
+    {
+        return StringBooleanPair(s, false);
+    }
 
-			/**
-			 * Returns the replacement strings of those strings that start with 'text'.
-			 **/
-			QStringList getAbbreviationTextMatches(const QString& text) const;
+    /**
+     * Returns the replacement strings of those strings that start with 'text'.
+     **/
+    QStringList getAbbreviationTextMatches(const QString& text) const;
 
-			/**
-			 * Returns the replacement string for 'text'; an empty string is returned
-			 * is 'text' is not found
-			 **/
-			QString getAbbreviationTextMatch(const QString& text) const;
+    /**
+     * Returns the replacement string for 'text'; an empty string is returned
+     * is 'text' is not found
+     **/
+    QString getAbbreviationTextMatch(const QString& text) const;
 
-			/**
-			 * Returns true iff there exists an abbreviation which starts with 'text'.
-			 **/
-			bool abbreviationStartsWith(const QString& text) const;
+    /**
+     * Returns true iff there exists an abbreviation which starts with 'text'.
+     **/
+    bool abbreviationStartsWith(const QString& text) const;
 
-			bool isAbbreviationDefined(const QString& text) const;
+    bool isAbbreviationDefined(const QString& text) const;
 
-		Q_SIGNALS:
-			void abbreviationsChanged();
+Q_SIGNALS:
+    void abbreviationsChanged();
 
-		protected:
-			KileInfo *m_kileInfo;
-			bool m_abbreviationsDirty;
-			QString m_localAbbreviationFile;
-			AbbreviationMap m_abbreviationMap;
+protected:
+    KileInfo *m_kileInfo;
+    bool m_abbreviationsDirty;
+    QString m_localAbbreviationFile;
+    AbbreviationMap m_abbreviationMap;
 
-			void addAbbreviationListToMap(const QStringList& list, bool global);
-	};
+    void addAbbreviationListToMap(const QStringList& list, bool global);
+};
 
 
 }

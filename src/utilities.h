@@ -19,53 +19,53 @@
 #include <QUrl>
 
 class ServiceRunAction : public QAction {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		ServiceRunAction(const KService& service,
-		                 const QList<QUrl>& urls,
-		                 QWidget* window,
-		                 bool tempFiles = false,
-		                 const QString& suggestedFileName = QString(),
-		                 const QByteArray& asn = "",
-		                 QObject *parent = Q_NULLPTR);
-		~ServiceRunAction();
+public:
+    ServiceRunAction(const KService& service,
+                     const QList<QUrl>& urls,
+                     QWidget* window,
+                     bool tempFiles = false,
+                     const QString& suggestedFileName = QString(),
+                     const QByteArray& asn = "",
+                     QObject *parent = Q_NULLPTR);
+    ~ServiceRunAction();
 
-	protected Q_SLOTS:
-		void runService();
+protected Q_SLOTS:
+    void runService();
 
-	protected:
-		const KService& m_service;
-		QList<QUrl> m_urlList;
-		QWidget* m_window;
-		bool m_tempFiles;
-		QString m_suggestedFileName;
-		QByteArray m_asn;
+protected:
+    const KService& m_service;
+    QList<QUrl> m_urlList;
+    QWidget* m_window;
+    bool m_tempFiles;
+    QString m_suggestedFileName;
+    QByteArray m_asn;
 };
 
 namespace KileUtilities {
 
-	/**
-	 * @brief Finds the file with the most recent modification time from a list
-	 *
-	 * Checks last modification time for files and returns absolute (see @ref baseDir description) file name of
-	 * file with the latest modification time
-	 * @param files List of filenames, relative to @ref baseDir
-	 * @param baseDir Path to base directory. If empty, @ref files are used as they are
-	 * @return Absolute path of the file with the latest modification time or empty string if @ref files is empty
-	 **/
-	QString lastModifiedFile(const QStringList& files, const QString& baseDir = QString());
+/**
+ * @brief Finds the file with the most recent modification time from a list
+ *
+ * Checks last modification time for files and returns absolute (see @ref baseDir description) file name of
+ * file with the latest modification time
+ * @param files List of filenames, relative to @ref baseDir
+ * @param baseDir Path to base directory. If empty, @ref files are used as they are
+ * @return Absolute path of the file with the latest modification time or empty string if @ref files is empty
+ **/
+QString lastModifiedFile(const QStringList& files, const QString& baseDir = QString());
 
 
-	/**
-	 * Centers the given widget w.r.t. its parent. If it doesn't have a parent, the containing screen is used.
-	 **/
-	void centerWidgetRelativeToParent(QWidget *widget);
+/**
+ * Centers the given widget w.r.t. its parent. If it doesn't have a parent, the containing screen is used.
+ **/
+void centerWidgetRelativeToParent(QWidget *widget);
 
-	/**
-	 * Schedules the centering of the given widget w.r.t. its parent in the event loop.
-	 **/
-	void scheduleCenteringOfWidget(QWidget *widget);
+/**
+ * Schedules the centering of the given widget w.r.t. its parent in the event loop.
+ **/
+void scheduleCenteringOfWidget(QWidget *widget);
 
 }
 

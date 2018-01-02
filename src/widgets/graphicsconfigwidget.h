@@ -20,11 +20,11 @@
 
 class KileWidgetGraphicsConfig : public QWidget, public Ui::KileWidgetGraphicsConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetGraphicsConfig(QWidget *parent = 0);
-		~KileWidgetGraphicsConfig();
+public:
+    KileWidgetGraphicsConfig(QWidget *parent = 0);
+    ~KileWidgetGraphicsConfig();
 };
 
 #endif

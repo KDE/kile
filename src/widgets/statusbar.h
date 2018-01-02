@@ -24,37 +24,37 @@ namespace KileWidget {
 
 class StatusBar : public QStatusBar
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	StatusBar(KileErrorHandler *errorHandler, QWidget *parent = Q_NULLPTR);
-	~StatusBar();
+    StatusBar(KileErrorHandler *errorHandler, QWidget *parent = Q_NULLPTR);
+    ~StatusBar();
 
 public:
-	void setHintText(const QString& text);
-	void clearHintText();
+    void setHintText(const QString& text);
+    void clearHintText();
 
-	void setParserStatus(const QString& text);
-	void clearParserStatus();
+    void setParserStatus(const QString& text);
+    void clearParserStatus();
 
-	void setLineColumn(int line, int column);
-	void clearLineColumn();
+    void setLineColumn(int line, int column);
+    void clearLineColumn();
 
-	void setViewMode(const QString& text);
-	void clearViewMode();
+    void setViewMode(const QString& text);
+    void clearViewMode();
 
-	void setSelectionMode(const QString& text);
-	void clearSelectionMode();
+    void setSelectionMode(const QString& text);
+    void clearSelectionMode();
 
-	void reset();
+    void reset();
 
 private:
-	KileErrorHandler * const m_errorHandler;
-	QLabel *m_hintTextLabel;
-	QLabel *m_lineColumnLabel;
-	QLabel *m_viewModeLabel;
-	QLabel *m_selectionModeLabel;
-	QLabel *m_parserStatusLabel;
+    KileErrorHandler * const m_errorHandler;
+    QLabel *m_hintTextLabel;
+    QLabel *m_lineColumnLabel;
+    QLabel *m_viewModeLabel;
+    QLabel *m_selectionModeLabel;
+    QLabel *m_parserStatusLabel;
 };
 }
 

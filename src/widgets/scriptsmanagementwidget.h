@@ -23,56 +23,56 @@
 class KileInfo;
 
 namespace KileScript {
-	class Manager;
-	class Script;
+class Manager;
+class Script;
 }
 
 namespace KileWidget {
 
-	/**
-	 * This widget is used to control Kile's scripting features.
-	 **/
-	class ScriptsManagement : public QWidget {
-		Q_OBJECT
-		public:
-			ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WindowFlags f = 0);
-			~ScriptsManagement();
+/**
+ * This widget is used to control Kile's scripting features.
+ **/
+class ScriptsManagement : public QWidget {
+    Q_OBJECT
+public:
+    ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WindowFlags f = 0);
+    ~ScriptsManagement();
 
-		public:
-			int scriptNameColumnWidth();
-			void setScriptNameColumnWidth(int width);
+public:
+    int scriptNameColumnWidth();
+    void setScriptNameColumnWidth(int width);
 
-		public Q_SLOTS:
-			/**
-			 * Rebuilds the view.
-			 **/
-			void update();
+public Q_SLOTS:
+    /**
+     * Rebuilds the view.
+     **/
+    void update();
 
-		protected Q_SLOTS:
-			/**
-			 * Opens the currently selected script in Kile's editing area.
-			 **/
-			void openSelectedScript();
+protected Q_SLOTS:
+    /**
+     * Opens the currently selected script in Kile's editing area.
+     **/
+    void openSelectedScript();
 
-			/**
-			 * Executes the currently selected script.
-			 **/
-			void executeSelectedScript();
+    /**
+     * Executes the currently selected script.
+     **/
+    void executeSelectedScript();
 
-			void configureSelectedKeySequence();
+    void configureSelectedKeySequence();
 
-			void removeSelectedKeySequence();
+    void removeSelectedKeySequence();
 
-			void updateButtonPanel();
+    void updateButtonPanel();
 
-		protected:
-			KileInfo *m_kileInfo;
-			QTreeWidget *m_treeWidget;
+protected:
+    KileInfo *m_kileInfo;
+    QTreeWidget *m_treeWidget;
 
-		private:
-			QAction *m_runAction, *m_scriptOpenAction, *m_configureKeySequenceAction, *m_removeKeySequenceAction; 
-			KToolBar *m_toolBar;
-	};
+private:
+    QAction *m_runAction, *m_scriptOpenAction, *m_configureKeySequenceAction, *m_removeKeySequenceAction;
+    KToolBar *m_toolBar;
+};
 
 }
 #endif

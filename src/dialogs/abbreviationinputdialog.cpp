@@ -35,53 +35,53 @@ namespace KileDialog {
 // changed data accordingling; this should be changed
 
 AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name)
-	: QDialog(listview)
-	, m_listview(listview)
-	, m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel))
-	, m_abbrevItem(item)
-	, m_mode(mode)
+    : QDialog(listview)
+    , m_listview(listview)
+    , m_buttonBox(new QDialogButtonBox(QDialogButtonBox::Ok|QDialogButtonBox::Cancel))
+    , m_abbrevItem(item)
+    , m_mode(mode)
 {
-	setWindowTitle(i18n("Add Abbreviation"));
-	setModal(true);
-	setObjectName(name);
-	setMinimumWidth(350);
+    setWindowTitle(i18n("Add Abbreviation"));
+    setModal(true);
+    setObjectName(name);
+    setMinimumWidth(350);
 
-	QFormLayout *mainLayout = new QFormLayout;
-	setLayout(mainLayout);
+    QFormLayout *mainLayout = new QFormLayout;
+    setLayout(mainLayout);
 
-	if(m_mode == KileWidget::AbbreviationView::ALVedit) {
-		setWindowTitle( i18n("Edit Abbreviation") );
-		m_abbrev = m_abbrevItem->text(KileWidget::AbbreviationView::ALVabbrev);
-		m_expansion = m_abbrevItem->text(KileWidget::AbbreviationView::ALVexpansion);
-	}
+    if(m_mode == KileWidget::AbbreviationView::ALVedit) {
+        setWindowTitle( i18n("Edit Abbreviation") );
+        m_abbrev = m_abbrevItem->text(KileWidget::AbbreviationView::ALVabbrev);
+        m_expansion = m_abbrevItem->text(KileWidget::AbbreviationView::ALVexpansion);
+    }
 
-	m_leAbbrev = new QLineEdit(m_abbrev, this);
-	m_leExpansion = new QLineEdit(m_expansion, this);
-	QLabel *labelAbbreviation = new QLabel(i18n("&Abbreviation:"), this);
-	labelAbbreviation->setBuddy(m_leAbbrev);
-	QLabel *labelExpanded = new QLabel(i18n("&Expanded Text:"), this);
-	labelExpanded->setBuddy(m_leExpansion);
+    m_leAbbrev = new QLineEdit(m_abbrev, this);
+    m_leExpansion = new QLineEdit(m_expansion, this);
+    QLabel *labelAbbreviation = new QLabel(i18n("&Abbreviation:"), this);
+    labelAbbreviation->setBuddy(m_leAbbrev);
+    QLabel *labelExpanded = new QLabel(i18n("&Expanded Text:"), this);
+    labelExpanded->setBuddy(m_leExpansion);
 
-	mainLayout->addRow(labelAbbreviation, m_leAbbrev);
-	mainLayout->addRow(labelExpanded, m_leExpansion);
+    mainLayout->addRow(labelAbbreviation, m_leAbbrev);
+    mainLayout->addRow(labelExpanded, m_leExpansion);
 
-	QRegExp reg("[a-zA-Z0-9]+");
-	QRegExpValidator *abbrevValidator = new QRegExpValidator(reg, this);
-	m_leAbbrev->setValidator(abbrevValidator);
+    QRegExp reg("[a-zA-Z0-9]+");
+    QRegExpValidator *abbrevValidator = new QRegExpValidator(reg, this);
+    m_leAbbrev->setValidator(abbrevValidator);
 
-	connect(m_leAbbrev, &QLineEdit::textChanged, this, &AbbreviationInputDialog::onTextChanged);
-	connect(m_leExpansion, &QLineEdit::textChanged, this, &AbbreviationInputDialog::onTextChanged);
+    connect(m_leAbbrev, &QLineEdit::textChanged, this, &AbbreviationInputDialog::onTextChanged);
+    connect(m_leExpansion, &QLineEdit::textChanged, this, &AbbreviationInputDialog::onTextChanged);
 
-	onTextChanged(QString());
-	m_leAbbrev->setFocus();
+    onTextChanged(QString());
+    m_leAbbrev->setFocus();
 
-	QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
-	okButton->setDefault(true);
-	okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
-	connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
-	connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
-	mainLayout->addWidget(m_buttonBox);
-	okButton->setDefault(true);
+    QPushButton *okButton = m_buttonBox->button(QDialogButtonBox::Ok);
+    okButton->setDefault(true);
+    okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
+    connect(m_buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(m_buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    mainLayout->addWidget(m_buttonBox);
+    okButton->setDefault(true);
 }
 
 AbbreviationInputDialog::~AbbreviationInputDialog()
@@ -90,16 +90,16 @@ AbbreviationInputDialog::~AbbreviationInputDialog()
 
 void AbbreviationInputDialog::abbreviation(QString &abbrev, QString &expansion)
 {
-	abbrev = m_leAbbrev->text();
-	expansion = m_leExpansion->text().trimmed();
+    abbrev = m_leAbbrev->text();
+    expansion = m_leExpansion->text().trimmed();
 }
 
 void AbbreviationInputDialog::onTextChanged(const QString &)
 {
-	bool state = (m_mode == KileWidget::AbbreviationView::ALVadd)
-	           ? !m_listview->findAbbreviation( m_leAbbrev->text()) : true;
- 	state = state && !m_leAbbrev->text().isEmpty() && !m_leExpansion->text().isEmpty();
-	m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
+    bool state = (m_mode == KileWidget::AbbreviationView::ALVadd)
+                 ? !m_listview->findAbbreviation( m_leAbbrev->text()) : true;
+    state = state && !m_leAbbrev->text().isEmpty() && !m_leExpansion->text().isEmpty();
+    m_buttonBox->button(QDialogButtonBox::Ok)->setEnabled(state);
 }
 }
 

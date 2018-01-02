@@ -21,17 +21,17 @@
 
 PlainToLaTeXConverter::PlainToLaTeXConverter(void)
 {
-	// Fill the replacement map
-	//TODO Do it only once!
-	m_replaceMap.insert('$', "\\$");
-	m_replaceMap.insert('%', "\\%");
-	m_replaceMap.insert('^', "\\^");
-	m_replaceMap.insert('&', "\\&");
-	m_replaceMap.insert('_', "\\_");
-	m_replaceMap.insert('#', "\\#");
-	m_replaceMap.insert('{', "\\{");
-	m_replaceMap.insert('}', "\\}");
-	m_replaceMap.insert('~', "$\\sim$");
+    // Fill the replacement map
+    //TODO Do it only once!
+    m_replaceMap.insert('$', "\\$");
+    m_replaceMap.insert('%', "\\%");
+    m_replaceMap.insert('^', "\\^");
+    m_replaceMap.insert('&', "\\&");
+    m_replaceMap.insert('_', "\\_");
+    m_replaceMap.insert('#', "\\#");
+    m_replaceMap.insert('{', "\\{");
+    m_replaceMap.insert('}', "\\}");
+    m_replaceMap.insert('~', "$\\sim$");
 }
 
 PlainToLaTeXConverter::~PlainToLaTeXConverter(void) {}
@@ -43,24 +43,24 @@ PlainToLaTeXConverter::~PlainToLaTeXConverter(void) {}
  */
 QString PlainToLaTeXConverter::ConvertToLaTeX(const QString& toConv) const
 {
-	QString result(toConv);
+    QString result(toConv);
 
-	// Replacing what must be...
-	uint sSize = result.length();
-	QMap<QChar, QString>::const_iterator mapEnd = m_replaceMap.end();
-	for(uint i = 0 ; i < sSize ; ++i) 
-	{
-		QMap<QChar, QString>::const_iterator it = m_replaceMap.find(result.at(i));
+    // Replacing what must be...
+    uint sSize = result.length();
+    QMap<QChar, QString>::const_iterator mapEnd = m_replaceMap.end();
+    for(uint i = 0 ; i < sSize ; ++i)
+    {
+        QMap<QChar, QString>::const_iterator it = m_replaceMap.find(result.at(i));
 
-		if(it != mapEnd) { // The character must be replaced
-			result.replace(i, 1, *it);
-			uint len = (*it).length();
-			if(1 < len) {
-				i += len - 1;
-				sSize += len - 1;
-			}
-		}
-	}
+        if(it != mapEnd) { // The character must be replaced
+            result.replace(i, 1, *it);
+            uint len = (*it).length();
+            if(1 < len) {
+                i += len - 1;
+                sSize += len - 1;
+            }
+        }
+    }
 
-	return result;
+    return result;
 }

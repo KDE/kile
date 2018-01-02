@@ -29,47 +29,47 @@ class KDirWatch;
 
 class KileListSelector : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
-							QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    KileListSelector(const QStringList &list, const QString &caption, const QString &select, bool sort = true,
+                     QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 
-	bool hasSelection() const;
-	void setSelectionMode(QAbstractItemView::SelectionMode mode);
-	QStringList selectedItems() const;
+    bool hasSelection() const;
+    void setSelectionMode(QAbstractItemView::SelectionMode mode);
+    QStringList selectedItems() const;
 
 protected Q_SLOTS:
-	void handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    void handleSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 protected:
-	QTreeWidget *m_listView;
-	QDialogButtonBox *m_buttonBox;
-	void insertStringList(const QStringList &list);
+    QTreeWidget *m_listView;
+    QDialogButtonBox *m_buttonBox;
+    void insertStringList(const QStringList &list);
 };
 
 
 class ManageCompletionFilesDialog : public QDialog
 {
-	Q_OBJECT;
+    Q_OBJECT;
 
 public:
-	ManageCompletionFilesDialog(const QString &caption,
-								const QString &localCompletionDir, const QString &globalCompletionDir,
-								QWidget* parent = Q_NULLPTR, const char *name = Q_NULLPTR);
-	~ManageCompletionFilesDialog();
+    ManageCompletionFilesDialog(const QString &caption,
+                                const QString &localCompletionDir, const QString &globalCompletionDir,
+                                QWidget* parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    ~ManageCompletionFilesDialog();
 
-	const QSet<QString> selected() const;
+    const QSet<QString> selected() const;
 
 protected Q_SLOTS:
-	void addCustomCompletionFiles();
-	void openLocalCompletionDirectoryInFileManager();
-	void fillTreeView();
+    void addCustomCompletionFiles();
+    void openLocalCompletionDirectoryInFileManager();
+    void fillTreeView();
 
 private:
-	KDirWatch *m_dirWatcher;
-	QTreeWidget *m_listView;
-	QString m_localCompletionDirectory, m_globalCompletionDirectory;
+    KDirWatch *m_dirWatcher;
+    QTreeWidget *m_listView;
+    QString m_localCompletionDirectory, m_globalCompletionDirectory;
 };
 
 #endif

@@ -31,24 +31,24 @@ namespace KileDialog {
 
 class AbbreviationInputDialog : public QDialog
 {
-   Q_OBJECT
+    Q_OBJECT
 
 public:
-	AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name = Q_NULLPTR);
-	~AbbreviationInputDialog();
-	void abbreviation(QString &abbrev, QString &expansion);
+    AbbreviationInputDialog(KileWidget::AbbreviationView *listview, QTreeWidgetItem *item, int mode, const char *name = Q_NULLPTR);
+    ~AbbreviationInputDialog();
+    void abbreviation(QString &abbrev, QString &expansion);
 
 private Q_SLOTS:
-	void onTextChanged(const QString &text);
+    void onTextChanged(const QString &text);
 
 private:
-	KileWidget::AbbreviationView *m_listview;
-	QDialogButtonBox *m_buttonBox;
-	QTreeWidgetItem *m_abbrevItem;
-	QLineEdit *m_leAbbrev;
-	QLineEdit *m_leExpansion;
-	int m_mode;
-	QString m_abbrev, m_expansion;
+    KileWidget::AbbreviationView *m_listview;
+    QDialogButtonBox *m_buttonBox;
+    QTreeWidgetItem *m_abbrevItem;
+    QLineEdit *m_leAbbrev;
+    QLineEdit *m_leExpansion;
+    int m_mode;
+    QString m_abbrev, m_expansion;
 };
 
 }

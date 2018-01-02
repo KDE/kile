@@ -33,7 +33,7 @@ ScrollWidget::~ScrollWidget()
 
 QSize ScrollWidget::getPreferredSize() const
 {
-        return m_preferredSize;
+    return m_preferredSize;
 }
 
 void ScrollWidget::setPreferredSize(const QSize& size)

@@ -33,37 +33,37 @@ class KConfig;
 
 class KileWidgetPreviewConfig : public QWidget
 {
-		Q_OBJECT
-	public:
-		KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent = 0, const char *name = 0);
-		~KileWidgetPreviewConfig() {}
+    Q_OBJECT
+public:
+    KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent = 0, const char *name = 0);
+    ~KileWidgetPreviewConfig() {}
 
-		void readConfig(void);
-		void writeConfig(void);
+    void readConfig(void);
+    void writeConfig(void);
 
-	private:
-		KConfig *m_config;
-		KComboBox *m_combobox;
-		KileTool::QuickPreview *m_preview;
-		QLineEdit *m_leDvipngResolution;
-		QLabel *m_lbDvipng, *m_lbConvert;
-		QCheckBox *m_cbEnvironment, *m_cbSelection, *m_cbMathgroup;
-		KComboBox *m_coSelection, *m_coEnvironment, *m_coMathgroup;
-		QGroupBox *m_gbPreview;
-		KColorButton *m_backgroundColorButton;
+private:
+    KConfig *m_config;
+    KComboBox *m_combobox;
+    KileTool::QuickPreview *m_preview;
+    QLineEdit *m_leDvipngResolution;
+    QLabel *m_lbDvipng, *m_lbConvert;
+    QCheckBox *m_cbEnvironment, *m_cbSelection, *m_cbMathgroup;
+    KComboBox *m_coSelection, *m_coEnvironment, *m_coMathgroup;
+    QGroupBox *m_gbPreview;
+    KColorButton *m_backgroundColorButton;
 
-		bool m_dvipngInstalled, m_convertInstalled;
+    bool m_dvipngInstalled, m_convertInstalled;
 
-		int tool2index(int tool);
-		int index2tool(int index);
-		int installedTools();
+    int tool2index(int tool);
+    int index2tool(int index);
+    int installedTools();
 
-		void setupSeparateWindow();
-		void setupBottomBar();
-		void setupProperties();
+    void setupSeparateWindow();
+    void setupBottomBar();
+    void setupProperties();
 
-	private Q_SLOTS:
-		void updateConversionTools();
+private Q_SLOTS:
+    void updateConversionTools();
 };
 
 #endif

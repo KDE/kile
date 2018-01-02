@@ -29,7 +29,7 @@ email                : thomas.braun@virtuell-zuhause.de
 #include "../../symbolviewclasses.h"
 
 void usage();
-void outputXML(const QString ,const QString , QList< Package >& packages, bool mathMode);
+void outputXML(const QString,const QString, QList< Package >& packages, bool mathMode);
 void extractPackageString(const QString&string, QList<Package> &packages);
 
 #endif

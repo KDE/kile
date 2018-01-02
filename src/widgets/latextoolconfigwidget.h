@@ -20,11 +20,11 @@
 
 class LaTeXToolConfigWidget : public QWidget, public Ui::LaTeXToolConfigWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		LaTeXToolConfigWidget(QWidget *parent = 0);
-		~LaTeXToolConfigWidget();
+public:
+    LaTeXToolConfigWidget(QWidget *parent = 0);
+    ~LaTeXToolConfigWidget();
 };
 
 #endif

@@ -28,22 +28,24 @@ namespace KileDialog
 class Wizard : public QDialog
 {
 public:
-	explicit Wizard(KConfig *, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR, const QString &caption = QString());
-	virtual ~Wizard();
+    explicit Wizard(KConfig *, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR, const QString &caption = QString());
+    virtual ~Wizard();
 
 public:
-	const KileAction::TagData & tagData() const { return m_td; }
+    const KileAction::TagData & tagData() const {
+        return m_td;
+    }
 
 protected:
-	KConfig * config() const;
-	QDialogButtonBox * buttonBox() const;
-	KileAction::TagData m_td;
+    KConfig * config() const;
+    QDialogButtonBox * buttonBox() const;
+    KileAction::TagData m_td;
 
-	virtual void showEvent(QShowEvent *event);
+    virtual void showEvent(QShowEvent *event);
 
 private:
-	KConfig *m_config;
-	QDialogButtonBox *m_buttonBox;
+    KConfig *m_config;
+    QDialogButtonBox *m_buttonBox;
 };
 }
 

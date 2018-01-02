@@ -45,195 +45,225 @@ namespace KileWidget
 class StructureViewItem : public QTreeWidgetItem
 {
 public:
-	StructureViewItem(QTreeWidgetItem *parent, const QString &title, const QUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
-	StructureViewItem(QTreeWidget *parent, const QString &label);
-	explicit StructureViewItem(const QString &label, QTreeWidgetItem *parent = Q_NULLPTR);
+    StructureViewItem(QTreeWidgetItem *parent, const QString &title, const QUrl &url, uint line, uint m_column, int type, int level, uint startline, uint startcol);
+    StructureViewItem(QTreeWidget *parent, const QString &label);
+    explicit StructureViewItem(const QString &label, QTreeWidgetItem *parent = Q_NULLPTR);
 
-	/** @returns the title of this element (for a label it return the label), without the (line ...) part **/
-	const QString& title() const { return m_title; }
-	/** @returns the line number of the structure element. **/
-	uint line() const { return m_line; }
-	/** @returns the column number of the structure element, right after the { **/
-	uint column() const { return m_column; }
-	/** @returns the type of element, see @ref KileStruct **/
-	int type() const { return m_type; }
-	uint startline() const { return m_startline; }
-	uint startcol() const { return m_startcol; }
-	/**@returns the file in which this item was found*/
-	const QUrl &url() const { return m_url; }
-	void setURL(const QUrl &url) { m_url = url; }
+    /** @returns the title of this element (for a label it return the label), without the (line ...) part **/
+    const QString& title() const {
+        return m_title;
+    }
+    /** @returns the line number of the structure element. **/
+    uint line() const {
+        return m_line;
+    }
+    /** @returns the column number of the structure element, right after the { **/
+    uint column() const {
+        return m_column;
+    }
+    /** @returns the type of element, see @ref KileStruct **/
+    int type() const {
+        return m_type;
+    }
+    uint startline() const {
+        return m_startline;
+    }
+    uint startcol() const {
+        return m_startcol;
+    }
+    /**@returns the file in which this item was found*/
+    const QUrl &url() const {
+        return m_url;
+    }
+    void setURL(const QUrl &url) {
+        m_url = url;
+    }
 
-	int level() const { return m_level; }
-	const QString &label() const { return m_label; }
-	
-	void setTitle(const QString &title);
-	void setLabel(const QString &label);
+    int level() const {
+        return m_level;
+    }
+    const QString &label() const {
+        return m_label;
+    }
+
+    void setTitle(const QString &title);
+    void setLabel(const QString &label);
 
 private:
-	QString  m_title;
-	QUrl     m_url;
-	uint     m_line;
-	uint     m_column;
-	int      m_type, m_level;
-	uint     m_startline;
-	uint     m_startcol;
-	QString  m_label;
-	
-	void setItemEntry();
+    QString  m_title;
+    QUrl     m_url;
+    uint     m_line;
+    uint     m_column;
+    int      m_type, m_level;
+    uint     m_startline;
+    uint     m_startcol;
+    QString  m_label;
+
+    void setItemEntry();
 };
 
 class KileReferenceData
 {
 public:
-	KileReferenceData() {}
-	KileReferenceData(const QString &name, uint line, uint column) : m_name(name), m_line(line), m_column(column) {}
-	~KileReferenceData() {}
-	
-	const QString &name() const { return m_name; }
-	uint line() const { return m_line; }
-	uint column() const { return m_column; }
-	
+    KileReferenceData() {}
+    KileReferenceData(const QString &name, uint line, uint column) : m_name(name), m_line(line), m_column(column) {}
+    ~KileReferenceData() {}
+
+    const QString &name() const {
+        return m_name;
+    }
+    uint line() const {
+        return m_line;
+    }
+    uint column() const {
+        return m_column;
+    }
+
 private:
-	QString m_name;
-	uint m_line;
-	uint m_column;
+    QString m_name;
+    uint m_line;
+    uint m_column;
 };
 
-	class StructureWidget; //forward declaration
+class StructureWidget; //forward declaration
 
-	class StructureView : public QTreeWidget
-	{
-		Q_OBJECT
+class StructureView : public QTreeWidget
+{
+    Q_OBJECT
 
-	public:
-		StructureView(StructureWidget *stack, KileDocument::Info *docinfo);
-		~StructureView();
+public:
+    StructureView(StructureWidget *stack, KileDocument::Info *docinfo);
+    ~StructureView();
 
-		void activate();
-		void cleanUp(bool preserveState = true);
-		void showReferences(KileInfo *ki);
-		
-		QUrl url() const { return m_docinfo->url(); }
-		void updateRoot();
+    void activate();
+    void cleanUp(bool preserveState = true);
+    void showReferences(KileInfo *ki);
 
-	public Q_SLOTS:
-		void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
-		             const QString &pix, const QString &folder = "root");
-		void slotConfigChanged();
+    QUrl url() const {
+        return m_docinfo->url();
+    }
+    void updateRoot();
 
-	protected:
-		virtual void contextMenuEvent(QContextMenuEvent *event);
+public Q_SLOTS:
+    void addItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
+                 const QString &pix, const QString &folder = "root");
+    void slotConfigChanged();
 
-	private:
-		StructureViewItem* parentFor(int lev, const QString &fldr);
+protected:
+    virtual void contextMenuEvent(QContextMenuEvent *event);
 
-		void init();
-		StructureViewItem* createFolder(const QString &folder);
-		StructureViewItem* folder(const QString &folder);
+private:
+    StructureViewItem* parentFor(int lev, const QString &fldr);
 
-		void saveState();
-		bool shouldBeOpen(StructureViewItem *item, const QString &folder, int level);
+    void init();
+    StructureViewItem* createFolder(const QString &folder);
+    StructureViewItem* folder(const QString &folder);
 
-	private:
-		StructureWidget				*m_stack;
-		KileDocument::Info			*m_docinfo;
-		QMap<QString, StructureViewItem *>	m_folders;
-		QMap<QString, bool>			m_openByTitle;
-		QMap<uint, bool>			m_openByLine;
-		QMap<QString, bool>			m_openByFolders;
-		StructureViewItem			*m_parent[7], *m_root;
-		QList<KileReferenceData> m_references;
-		bool m_openStructureLabels;
-		bool m_openStructureReferences;
-		bool m_openStructureBibitems;
-		bool m_openStructureTodo;
-		bool m_showStructureLabels;
+    void saveState();
+    bool shouldBeOpen(StructureViewItem *item, const QString &folder, int level);
 
-		int m_lastType;
-		uint m_lastLine;
-		StructureViewItem *m_lastSectioning;
-		StructureViewItem *m_lastFloat;
-		StructureViewItem *m_lastFrame;
-		StructureViewItem *m_lastFrameEnv;
-		
-		bool m_stop;
-	};
+private:
+    StructureWidget				*m_stack;
+    KileDocument::Info			*m_docinfo;
+    QMap<QString, StructureViewItem *>	m_folders;
+    QMap<QString, bool>			m_openByTitle;
+    QMap<uint, bool>			m_openByLine;
+    QMap<QString, bool>			m_openByFolders;
+    StructureViewItem			*m_parent[7], *m_root;
+    QList<KileReferenceData> m_references;
+    bool m_openStructureLabels;
+    bool m_openStructureReferences;
+    bool m_openStructureBibitems;
+    bool m_openStructureTodo;
+    bool m_showStructureLabels;
 
-	class StructureWidget : public QStackedWidget
-	{
-		friend class StructureView;
+    int m_lastType;
+    uint m_lastLine;
+    StructureViewItem *m_lastSectioning;
+    StructureViewItem *m_lastFloat;
+    StructureViewItem *m_lastFrame;
+    StructureViewItem *m_lastFrameEnv;
 
-		Q_OBJECT
+    bool m_stop;
+};
 
-		public:
-			StructureWidget(KileInfo*, QWidget *parent, const char *name = Q_NULLPTR);
-			~StructureWidget();
+class StructureWidget : public QStackedWidget
+{
+    friend class StructureView;
 
-			int level();
-			KileInfo *info() { return m_ki; }
+    Q_OBJECT
 
-			bool findSectioning(StructureViewItem *item, KTextEditor::Document *doc, int row,
-			                    int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
-			void updateUrl(KileDocument::Info *docinfo);
+public:
+    StructureWidget(KileInfo*, QWidget *parent, const char *name = Q_NULLPTR);
+    ~StructureWidget();
 
-			void updateAfterParsing(KileDocument::Info *info, const QLinkedList<KileParser::StructureViewItem*>& items);
+    int level();
+    KileInfo *info() {
+        return m_ki;
+    }
 
-		enum { SectioningCut = 10, SectioningCopy = 11, SectioningPaste = 12, 
-		       SectioningSelect = 13, SectioningDelete = 14, 
-		       SectioningComment = 15,
-		       SectioningPreview = 16,
-		       SectioningGraphicsOther = 100, SectioningGraphicsOfferlist = 101
-		     };
+    bool findSectioning(StructureViewItem *item, KTextEditor::Document *doc, int row,
+                        int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
+    void updateUrl(KileDocument::Info *docinfo);
 
-		public Q_SLOTS:
-			void slotClicked(QTreeWidgetItem *);
-			void slotDoubleClicked(QTreeWidgetItem *);
-			void slotPopupActivated(int id);
+    void updateAfterParsing(KileDocument::Info *info, const QLinkedList<KileParser::StructureViewItem*>& items);
 
-			void addDocumentInfo(KileDocument::Info *);
-			void closeDocumentInfo(KileDocument::Info *);
-			void update(KileDocument::Info *);
-			void update(KileDocument::Info *, bool);
-			void clean(KileDocument::Info *);
-			void updateReferences(KileDocument::Info *);
+    enum { SectioningCut = 10, SectioningCopy = 11, SectioningPaste = 12,
+           SectioningSelect = 13, SectioningDelete = 14,
+           SectioningComment = 15,
+           SectioningPreview = 16,
+           SectioningGraphicsOther = 100, SectioningGraphicsOfferlist = 101
+         };
 
-			/**
-			* Clears the structure widget and empties the map between KileDocument::Info objects and their structure trees (QListViewItem).
-			**/
-			void clear();
+public Q_SLOTS:
+    void slotClicked(QTreeWidgetItem *);
+    void slotDoubleClicked(QTreeWidgetItem *);
+    void slotPopupActivated(int id);
 
-		Q_SIGNALS:
-			void sendText(const QString&);
-			void setCursor(const QUrl&, int, int);
-			void fileOpen(const QUrl&, const QString&);
-			void fileNew(const QUrl&);
-			void configChanged();
-			void sectioningPopup(KileWidget::StructureViewItem *item, int id);
+    void addDocumentInfo(KileDocument::Info *);
+    void closeDocumentInfo(KileDocument::Info *);
+    void update(KileDocument::Info *);
+    void update(KileDocument::Info *, bool);
+    void clean(KileDocument::Info *);
+    void updateReferences(KileDocument::Info *);
 
-		protected:
-			void viewContextMenuEvent(StructureView *view, QContextMenuEvent *event);
+    /**
+    * Clears the structure widget and empties the map between KileDocument::Info objects and their structure trees (QListViewItem).
+    **/
+    void clear();
 
-		private:
-			KileInfo							*m_ki;
-			KileDocument::Info						*m_docinfo;
-			QMap<KileDocument::Info *, StructureView*>			m_map;
-			StructureView							*m_default;
-			StructureViewItem *m_popupItem;
-			QMenu *m_showingContextMenu;
-			QString m_popupInfo;
-			KService::List m_offerList;
+Q_SIGNALS:
+    void sendText(const QString&);
+    void setCursor(const QUrl&, int, int);
+    void fileOpen(const QUrl&, const QString&);
+    void fileNew(const QUrl&);
+    void configChanged();
+    void sectioningPopup(KileWidget::StructureViewItem *item, int id);
 
-			StructureView* viewFor(KileDocument::Info *info);
-			bool viewExistsFor(KileDocument::Info *info);
+protected:
+    void viewContextMenuEvent(StructureView *view, QContextMenuEvent *event);
 
-			void slotPopupLabel(int id);
-			void slotPopupSectioning(int id);
-			void slotPopupGraphics(int id);
+private:
+    KileInfo							*m_ki;
+    KileDocument::Info						*m_docinfo;
+    QMap<KileDocument::Info *, StructureView*>			m_map;
+    StructureView							*m_default;
+    StructureViewItem *m_popupItem;
+    QMenu *m_showingContextMenu;
+    QString m_popupInfo;
+    KService::List m_offerList;
 
-		private Q_SLOTS:
-			void handleDocumentParsingStarted();
-			void handleDocumentParsingCompleted();
-	};
+    StructureView* viewFor(KileDocument::Info *info);
+    bool viewExistsFor(KileDocument::Info *info);
+
+    void slotPopupLabel(int id);
+    void slotPopupSectioning(int id);
+    void slotPopupGraphics(int id);
+
+private Q_SLOTS:
+    void handleDocumentParsingStarted();
+    void handleDocumentParsingCompleted();
+};
 }
 
 #endif

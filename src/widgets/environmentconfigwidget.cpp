@@ -15,7 +15,7 @@
 
 KileWidgetEnvironmentConfig::KileWidgetEnvironmentConfig(QWidget *parent) : QWidget(parent)
 {
-	setupUi(this);
+    setupUi(this);
 }
 
 KileWidgetEnvironmentConfig::~KileWidgetEnvironmentConfig()

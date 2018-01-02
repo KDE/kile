@@ -21,22 +21,22 @@
 
 class NewToolWizard : public KAssistantDialog, public Ui::NewToolWizardToolNamePage, public Ui::NewToolWizardClassPage
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		explicit NewToolWizard(QWidget *parent = 0, Qt::WindowFlags fl = 0);
+public:
+    explicit NewToolWizard(QWidget *parent = 0, Qt::WindowFlags fl = 0);
 
-		virtual QString customTool();
-		virtual QString toolName();
-		virtual QString parentTool();
-	
-	protected Q_SLOTS:
-		void nameChanged(const QString & name);
-		void slotCurrentPageChanged(KPageWidgetItem* current, KPageWidgetItem* before);
+    virtual QString customTool();
+    virtual QString toolName();
+    virtual QString parentTool();
 
-	private:
-		QStringList m_toolList;
-		KPageWidgetItem *toolNamePage, *classPage;
+protected Q_SLOTS:
+    void nameChanged(const QString & name);
+    void slotCurrentPageChanged(KPageWidgetItem* current, KPageWidgetItem* before);
+
+private:
+    QStringList m_toolList;
+    KPageWidgetItem *toolNamePage, *classPage;
 };
 
 #endif

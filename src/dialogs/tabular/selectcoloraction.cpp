@@ -27,17 +27,17 @@
 namespace KileDialog {
 
 SelectColorAction::SelectColorAction(const QIcon &icon, const QString &text, QWidget *parent)
-	: QAction(icon, text, parent)
+    : QAction(icon, text, parent)
 {
-	connect(this, &QAction::triggered, this, &SelectColorAction::showDialog);
+    connect(this, &QAction::triggered, this, &SelectColorAction::showDialog);
 }
 
 void SelectColorAction::showDialog()
 {
-	QColor color = QColorDialog::getColor();
-	if (color.isValid()) {
-		emit colorSelected(color);
-	}
+    QColor color = QColorDialog::getColor();
+    if (color.isValid()) {
+        emit colorSelected(color);
+    }
 }
 
 }

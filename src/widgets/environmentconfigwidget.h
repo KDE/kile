@@ -20,11 +20,11 @@
 
 class KileWidgetEnvironmentConfig : public QWidget, public Ui::KileWidgetEnvironmentConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetEnvironmentConfig(QWidget *parent = 0);
-		~KileWidgetEnvironmentConfig();
+public:
+    KileWidgetEnvironmentConfig(QWidget *parent = 0);
+    ~KileWidgetEnvironmentConfig();
 };
 
 #endif

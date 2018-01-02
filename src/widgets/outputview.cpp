@@ -23,8 +23,8 @@ namespace KileWidget {
 
 OutputView::OutputView(QWidget *parent) : KTextEdit(parent)
 {
-	setReadOnly(true);
-	setAcceptRichText(false);
+    setReadOnly(true);
+    setAcceptRichText(false);
 }
 
 OutputView::~OutputView()
@@ -33,29 +33,29 @@ OutputView::~OutputView()
 
 void OutputView::receive(const QString& str)
 {
-	static QString line;
+    static QString line;
 
-	//find newline symbol
-	//only output if we have receive one or more
-	//full lines of text
-	int newLineAt = str.lastIndexOf('\n');
-	if(newLineAt != -1) {
-		line += str.left(newLineAt); //don't copy the newline char
-		append(line);
-		line = str.mid(newLineAt + 1);
-	}
-	else {
-		line += str;
-	}
+    //find newline symbol
+    //only output if we have receive one or more
+    //full lines of text
+    int newLineAt = str.lastIndexOf('\n');
+    if(newLineAt != -1) {
+        line += str.left(newLineAt); //don't copy the newline char
+        append(line);
+        line = str.mid(newLineAt + 1);
+    }
+    else {
+        line += str;
+    }
 }
 
 void OutputView::paintEvent(QPaintEvent *ev)
 {
-	QPalette customPalette = palette();
-	KColorScheme::adjustBackground(customPalette, KColorScheme::NormalBackground,
-	                               QPalette::Base, KColorScheme::View);
-	setPalette(customPalette);
-	KTextEdit::paintEvent(ev);
+    QPalette customPalette = palette();
+    KColorScheme::adjustBackground(customPalette, KColorScheme::NormalBackground,
+                                   QPalette::Base, KColorScheme::View);
+    setPalette(customPalette);
+    KTextEdit::paintEvent(ev);
 }
 
 }

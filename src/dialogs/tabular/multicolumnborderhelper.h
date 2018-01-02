@@ -27,16 +27,16 @@ namespace KileDialog {
  * @brief A helper class for managing multi column borders
  */
 class MultiColumnBorderHelper {
-	public:
-		MultiColumnBorderHelper();
-		void addColumn(int column);
-		void finish();
-		QString toLaTeX() const;
+public:
+    MultiColumnBorderHelper();
+    void addColumn(int column);
+    void finish();
+    QString toLaTeX() const;
 
-	private:
-		QVector<std::pair<int,int> > m_SpanColumns;
-		int m_FirstNumber;
-		int m_LastNumber;
+private:
+    QVector<std::pair<int,int> > m_SpanColumns;
+    int m_FirstNumber;
+    int m_LastNumber;
 };
 
 }

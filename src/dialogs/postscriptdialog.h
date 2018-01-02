@@ -50,42 +50,42 @@ namespace KileDialog
 
 class PostscriptDialog : public QDialog
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		PostscriptDialog(QWidget *parent,
-		                 const QString &texfilename, const QString &startdir,
-		                 const QString &latexextensions,
-		                 KileErrorHandler *errorHandler, KileWidget::OutputView *output);
-		~PostscriptDialog();
+public:
+    PostscriptDialog(QWidget *parent,
+                     const QString &texfilename, const QString &startdir,
+                     const QString &latexextensions,
+                     KileErrorHandler *errorHandler, KileWidget::OutputView *output);
+    ~PostscriptDialog();
 
-	Q_SIGNALS:
-		void output(const QString &);
+Q_SIGNALS:
+    void output(const QString &);
 
-	private Q_SLOTS:
-		void comboboxChanged(int index);
-		void slotExecuteClicked();
-		void slotProcessOutput();
-		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
+private Q_SLOTS:
+    void comboboxChanged(int index);
+    void slotExecuteClicked();
+    void slotProcessOutput();
+    void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 
-	private:
-		bool checkParameter();
-		QString buildTempfile();
-		QString duplicateParameter(const QString &param);
-		void showError(const QString &text);
-		void execute();
+private:
+    bool checkParameter();
+    QString buildTempfile();
+    QString duplicateParameter(const QString &param);
+    void showError(const QString &text);
+    void execute();
 
-		QString m_startdir;
-		KileErrorHandler *m_errorHandler;
-		KileWidget::OutputView *m_output;
+    QString m_startdir;
+    KileErrorHandler *m_errorHandler;
+    KileWidget::OutputView *m_output;
 
-		QString m_tempfile;
-		QString m_program;
-		QString m_param;
+    QString m_tempfile;
+    QString m_program;
+    QString m_param;
 
-		KProcess* m_proc;
+    KProcess* m_proc;
 
-		Ui::PostscriptDialog m_PostscriptDialog;
+    Ui::PostscriptDialog m_PostscriptDialog;
 };
 
 }

@@ -21,8 +21,12 @@
 
 class KModifierKeyInfo;
 
-namespace KTextEditor {class View; }
-namespace KileDocument { class EditorExtension; }
+namespace KTextEditor {
+class View;
+}
+namespace KileDocument {
+class EditorExtension;
+}
 
 /**
  * This class is capable of intercepting key-strokes from the editor. It can complete a \begin{env}
@@ -30,23 +34,23 @@ namespace KileDocument { class EditorExtension; }
  **/
 class LaTeXEventFilter : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit);
+    LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit);
 
 public Q_SLOTS:
-	void readConfig();
+    void readConfig();
 
 protected:
-	bool eventFilter(QObject *o, QEvent *e);
-	bool isCapsLockEnabled();
+    bool eventFilter(QObject *o, QEvent *e);
+    bool isCapsLockEnabled();
 
 private:
-	bool m_bCompleteEnvironment;
-	KTextEditor::View *m_view;
-	KileDocument::EditorExtension *m_edit;
-	KModifierKeyInfo *m_modifierKeyInfo;
+    bool m_bCompleteEnvironment;
+    KTextEditor::View *m_view;
+    KileDocument::EditorExtension *m_edit;
+    KModifierKeyInfo *m_modifierKeyInfo;
 
 };
 

@@ -23,21 +23,21 @@
 
 class KileWidgetHelpConfig : public QWidget, public Ui::KileWidgetHelpConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetHelpConfig(QWidget *parent = 0);
-		~KileWidgetHelpConfig();
+public:
+    KileWidgetHelpConfig(QWidget *parent = 0);
+    ~KileWidgetHelpConfig();
 
-		void setHelp(KileHelp::Help *help);
+    void setHelp(KileHelp::Help *help);
 
-	protected Q_SLOTS:
-		void slotConfigure();
-		void selectHelpLocation();
-		void slotHelpInformation();
+protected Q_SLOTS:
+    void slotConfigure();
+    void selectHelpLocation();
+    void slotHelpInformation();
 
-	protected:
-		KileHelp::Help *m_help;
+protected:
+    KileHelp::Help *m_help;
 };
 
 #endif

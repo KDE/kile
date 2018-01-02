@@ -23,48 +23,48 @@ class QLabel;
 class QGridLayout;
 
 namespace KileDialog {
-	class StatisticsDialog;
+class StatisticsDialog;
 }
 
 namespace KileWidget {
 
 class StatisticsWidget : public QWidget
 {
-	friend class KileDialog::StatisticsDialog;
-	Q_OBJECT
+    friend class KileDialog::StatisticsDialog;
+    Q_OBJECT
 
-	public:
-		explicit StatisticsWidget(QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0);
-		~StatisticsWidget();
+public:
+    explicit StatisticsWidget(QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0);
+    ~StatisticsWidget();
 
-		void updateColumns();
+    void updateColumns();
 
-	private:
-		QLabel* m_commentAboutHelp;
-		QLabel* m_warning;
+private:
+    QLabel* m_commentAboutHelp;
+    QLabel* m_warning;
 
-		QLabel* m_wordChar;
-		QLabel* m_commandChar;
-		QLabel* m_whitespaceChar;
-		QLabel* m_totalChar;
-		QLabel* m_wordCharText;
-		QLabel* m_commandCharText;
-		QLabel* m_whitespaceCharText;
-		QLabel* m_totalCharText;
+    QLabel* m_wordChar;
+    QLabel* m_commandChar;
+    QLabel* m_whitespaceChar;
+    QLabel* m_totalChar;
+    QLabel* m_wordCharText;
+    QLabel* m_commandCharText;
+    QLabel* m_whitespaceCharText;
+    QLabel* m_totalCharText;
 
-		QLabel* m_wordString;
-		QLabel* m_environmentString;
-		QLabel* m_commandString;
-		QLabel* m_totalString;
-		QLabel* m_wordStringText;
-		QLabel* m_environmentStringText;
-		QLabel* m_commandStringText;
-		QLabel* m_totalStringText;
+    QLabel* m_wordString;
+    QLabel* m_environmentString;
+    QLabel* m_commandString;
+    QLabel* m_totalString;
+    QLabel* m_wordStringText;
+    QLabel* m_environmentStringText;
+    QLabel* m_commandStringText;
+    QLabel* m_totalStringText;
 
-		QGroupBox *m_charactersGroup, *m_stringsGroup;
+    QGroupBox *m_charactersGroup, *m_stringsGroup;
 
-		QGridLayout *chargrouplayout;
-		QGridLayout *stringgrouplayout;
+    QGridLayout *chargrouplayout;
+    QGridLayout *stringgrouplayout;
 };
 
 }

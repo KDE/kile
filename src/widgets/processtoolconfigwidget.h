@@ -20,11 +20,11 @@
 
 class ProcessToolConfigWidget : public QWidget, public Ui::ProcessToolConfigWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		ProcessToolConfigWidget(QWidget *parent = 0);
-		~ProcessToolConfigWidget();
+public:
+    ProcessToolConfigWidget(QWidget *parent = 0);
+    ~ProcessToolConfigWidget();
 };
 
 #endif

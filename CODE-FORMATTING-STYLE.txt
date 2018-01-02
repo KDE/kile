@@ -2,56 +2,55 @@ When writing code for Kile, it should be formatted as illustrated through the fo
 
 unsigned int Manager::findFreeID(const QMap<unsigned int, bool>& takenIDMap, unsigned int maxID)
 {
-	if(takenIDMap.size() == 0) {
-		return 0;
-	}
-	// maxID should have a real meaning now 
-	for(unsigned int i = 0; i < maxID; ++i) {
-		if(takenIDMap.find(i) == takenIDMap.end()) {
-			return i;
-		}
-	}
-	return (maxID + 1);
+    if(takenIDMap.size() == 0) {
+        return 0;
+    }
+    // maxID should have a real meaning now
+    for(unsigned int i = 0; i < maxID; ++i) {
+        if(takenIDMap.find(i) == takenIDMap.end()) {
+            return i;
+        }
+    }
+    return (maxID + 1);
 }
 
 void Manager::writeIDs()
 {
-	KConfigGroup configGroup = m_config->group("Scripts");
-	//delete old entries
-	QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
-	for(QList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
-		configGroup.deleteEntry("Script" + QString::number(*i));
-	}
-
-	//write new ones
-	idList.clear();
-	for(QMap<unsigned int, Script*>::iterator i = m_idScriptMap.begin(); i != m_idScriptMap.end(); ++i) {
-		unsigned int id = i.key();
-		idList.push_back(id);
-		configGroup.writePathEntry("Script" + QString::number(id), (*i)->getFileName());
-	}
-	configGroup.writeEntry("IDs", idList);
+    KConfigGroup configGroup = m_config->group("Scripts");
+    //delete old entries
+    QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
+    for(QList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
+        configGroup.deleteEntry("Script" + QString::number(*i));
+    }
+    //write new ones
+    idList.clear();
+    for(QMap<unsigned int, Script*>::iterator i = m_idScriptMap.begin(); i != m_idScriptMap.end(); ++i) {
+        unsigned int id = i.key();
+        idList.push_back(id);
+        configGroup.writePathEntry("Script" + QString::number(id), (*i)->getFileName());
+    }
+    configGroup.writeEntry("IDs", idList);
 }
 
-QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(value, oldSequence);
+QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(newSequence, oldSequence);
 if(pair.first == 0) {
-	m_kileInfo->scriptManager()->setEditorKeySequence(script, value);
+    m_kileInfo->scriptManager()->setEditorKeySequence(script, newType, newSequence);
 }
 KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
 QString description = (!action) ? QString() : action->getDescription();
 switch(pair.first) {
-	case 1:
-		<...>
-	return;
-	case 2:
-		<...>
-	return;
-	case 3:
-		<...>
-	return;
+case 1:
+    <...>
+    return;
+case 2:
+    <...>
+    return;
+case 3:
+    <...>
+    return;
 }
 
-The key points are that tabs are used for indentation, opening curly brackets follow on the same line (except
+The key points are that 4 spaces are used for indentation, opening curly brackets follow on the same line (except
 for function declarations), and function arguments are separated by spaces.
 
 Please feel free to ask on the kile-devel mailing list for further explanations!

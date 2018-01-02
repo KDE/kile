@@ -17,132 +17,132 @@
 namespace KileDialog {
 
 TabularProperties::TabularProperties()
-	: m_UseMultiColumn(false), m_ColorIndex(0),
-	  m_TopBorder(false), m_LeftBorder(false) {}
+    : m_UseMultiColumn(false), m_ColorIndex(0),
+      m_TopBorder(false), m_LeftBorder(false) {}
 
 void TabularProperties::setUseMultiColumn(bool useMultiColumn)
 {
-	m_UseMultiColumn = useMultiColumn;
+    m_UseMultiColumn = useMultiColumn;
 }
 
 bool TabularProperties::useMultiColumn() const
 {
-	return m_UseMultiColumn;
+    return m_UseMultiColumn;
 }
 
 void TabularProperties::addRowColor(int row, const QColor &color)
 {
-	if(!color.isValid()) {
-		return;
-	}
+    if(!color.isValid()) {
+        return;
+    }
 
-	m_RowColors.insert(row, color);
+    m_RowColors.insert(row, color);
 }
 
 void TabularProperties::addColor(const QColor &color)
 {
-	if(!color.isValid()) {
-		return;
-	}
+    if(!color.isValid()) {
+        return;
+    }
 
-	if(!m_ColorNames.contains(color.name())) {
-		int index = m_ColorIndex;
-		int value;
-		QString colorName = "tc";
+    if(!m_ColorNames.contains(color.name())) {
+        int index = m_ColorIndex;
+        int value;
+        QString colorName = "tc";
 
-		do {
-			value = index % 26;
-			colorName += ('A' + value);
-			index -= value;
-		} while(index > 0);
+        do {
+            value = index % 26;
+            colorName += ('A' + value);
+            index -= value;
+        } while(index > 0);
 
-		if(m_ColorNames.count() == 0) {
-			m_RequiredPackages << "color" << "colortbl";
-		}
+        if(m_ColorNames.count() == 0) {
+            m_RequiredPackages << "color" << "colortbl";
+        }
 
-		m_ColorNames.insert(color.name(), colorName);
-		++m_ColorIndex;
-	}
+        m_ColorNames.insert(color.name(), colorName);
+        ++m_ColorIndex;
+    }
 }
 
 QColor TabularProperties::rowColor(int row) const
 {
-	if(m_RowColors.contains(row)) {
-		return m_RowColors[row];
-	}
-	else {
-		return QColor();
-	}
+    if(m_RowColors.contains(row)) {
+        return m_RowColors[row];
+    }
+    else {
+        return QColor();
+    }
 }
 
 QString TabularProperties::colorName(const QColor &color) const
 {
-	if(color.isValid() && m_ColorNames.contains(color.name())) {
-		return m_ColorNames[color.name()];
-	}
-	else {
-		return QString();
-	}
+    if(color.isValid() && m_ColorNames.contains(color.name())) {
+        return m_ColorNames[color.name()];
+    }
+    else {
+        return QString();
+    }
 }
 
 const QHash<QString, QString>& TabularProperties::colorNames() const
 {
-	return m_ColorNames;
+    return m_ColorNames;
 }
 
 const QStringList& TabularProperties::requiredPackages() const
 {
-	return m_RequiredPackages;
+    return m_RequiredPackages;
 }
 
 void TabularProperties::setBullet(const QString &bullet)
 {
-	m_Bullet = bullet;
+    m_Bullet = bullet;
 }
 
 QString TabularProperties::bullet() const
 {
-	return m_Bullet;
+    return m_Bullet;
 }
 
 void TabularProperties::addBorderUnderRow(int row)
 {
-	m_BorderUnderRow.append(row);
+    m_BorderUnderRow.append(row);
 }
 
 bool TabularProperties::hasBorderUnderRow(int row) const
 {
-	return m_BorderUnderRow.contains(row);
+    return m_BorderUnderRow.contains(row);
 }
 
 void TabularProperties::setHasTopBorder()
 {
-	m_TopBorder = true;
+    m_TopBorder = true;
 }
 
 bool TabularProperties::hasTopBorder() const
 {
-	return m_TopBorder;
+    return m_TopBorder;
 }
 
 void TabularProperties::addBorderBesideColumn(int column)
 {
-	m_BorderBesideColumn.append(column);
+    m_BorderBesideColumn.append(column);
 }
 
 bool TabularProperties::hasBorderBesideColumn(int column) const
 {
-	return m_BorderBesideColumn.contains(column);
+    return m_BorderBesideColumn.contains(column);
 }
 
 void TabularProperties::setHasLeftBorder()
 {
-	m_LeftBorder = true;
+    m_LeftBorder = true;
 }
 
 bool TabularProperties::hasLeftBorder() const
 {
-	return m_LeftBorder;
+    return m_LeftBorder;
 }
 
 }

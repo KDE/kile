@@ -42,21 +42,21 @@ class KXMLGUIClient;
 class KileInfo;
 
 namespace KParts {
-	class ReadOnlyPart;
+class ReadOnlyPart;
 }
 
 namespace KileWidget {
-	class ProjectView;
+class ProjectView;
 }
 
 namespace KTextEditor {
-	class Document;
-	class View;
+class Document;
+class View;
 }
 
 namespace KileDocument {
-	class Info;
-	class TextInfo;
+class Info;
+class TextInfo;
 }
 
 namespace KileView
@@ -64,167 +64,169 @@ namespace KileView
 
 class DocumentViewerWindow : public KMainWindow
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
-	virtual ~DocumentViewerWindow();
+    DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+    virtual ~DocumentViewerWindow();
 
 Q_SIGNALS:
-	void visibilityChanged(bool shown);
+    void visibilityChanged(bool shown);
 
 protected:
-	virtual void showEvent(QShowEvent *event);
-	virtual void closeEvent(QCloseEvent *event);
+    virtual void showEvent(QShowEvent *event);
+    virtual void closeEvent(QCloseEvent *event);
 };
 
 //TODO inherit from KParts::Manager
 class Manager
-	: public QObject
+    : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
+    explicit Manager(KileInfo *ki, KActionCollection *actionCollection, QObject *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
 
-	~Manager();
+    ~Manager();
 
 public:
-	void setClient(KXMLGUIClient *client);
+    void setClient(KXMLGUIClient *client);
 
-	KTextEditor::View* currentTextView() const;
-	KTextEditor::View* textView(int index) const;
-	KTextEditor::View* textView(KileDocument::TextInfo *info) const;
-	int textViewCount() const;
-	int tabIndexOf(KTextEditor::View* view) const;
-	unsigned int getTabCount() const;
+    KTextEditor::View* currentTextView() const;
+    KTextEditor::View* textView(int index) const;
+    KTextEditor::View* textView(KileDocument::TextInfo *info) const;
+    int textViewCount() const;
+    int tabIndexOf(KTextEditor::View* view) const;
+    unsigned int getTabCount() const;
 
-	QWidget* createTabs(QWidget *parent);
-	void setTabsAndEditorVisible(bool b);
-	KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
+    QWidget* createTabs(QWidget *parent);
+    void setTabsAndEditorVisible(bool b);
+    KTextEditor::View* createTextView(KileDocument::TextInfo *info, int index = -1);
 
 // 	void setProjectView(KileWidget::ProjectView *view) { m_projectview = view; }
 // 	KileWidget::ProjectView *projectView() { return m_projectview; } commented out by tbraun, better use signal/slot stuff
 
-	static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
-	static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
+    static void installEventFilter(KTextEditor::View *view, QObject *eventFilter);
+    static void removeEventFilter(KTextEditor::View *view, QObject *eventFilter);
 
-	void installContextMenu(KTextEditor::View *view);
+    void installContextMenu(KTextEditor::View *view);
 
-	KParts::ReadOnlyPart* viewerPart() const { return m_viewerPart; }
+    KParts::ReadOnlyPart* viewerPart() const {
+        return m_viewerPart;
+    }
 
-	void readConfig(QSplitter *splitter);
-	void writeConfig();
+    void readConfig(QSplitter *splitter);
+    void writeConfig();
 
-	bool isViewerPartShown() const;
-	void setupViewerPart(QSplitter *splitter);
-	bool openInDocumentViewer(const QUrl &url);
-	void clearLastShownSourceLocationInDocumentViewer();
-	void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
-	void setLivePreviewModeForDocumentViewer(bool b);
+    bool isViewerPartShown() const;
+    void setupViewerPart(QSplitter *splitter);
+    bool openInDocumentViewer(const QUrl &url);
+    void clearLastShownSourceLocationInDocumentViewer();
+    void showSourceLocationInDocumentViewer(const QString& fileName, int line, int column);
+    void setLivePreviewModeForDocumentViewer(bool b);
 
-	KToolBar* getViewerControlToolBar();
+    KToolBar* getViewerControlToolBar();
 
-	bool isSynchronisingCursorWithDocumentViewer() const;
+    bool isSynchronisingCursorWithDocumentViewer() const;
 
 Q_SIGNALS:
-	void activateView(QWidget*, bool);
-	void startQuickPreview(int);
-	void currentViewChanged(QWidget*);
-	void textViewActivated(KTextEditor::View *view);
-	void textViewCreated(KTextEditor::View *view);
-	void textViewClosed(KTextEditor::View *view, bool wasActiveView);
-	void updateModeStatus();
-	void updateCaption();
+    void activateView(QWidget*, bool);
+    void startQuickPreview(int);
+    void currentViewChanged(QWidget*);
+    void textViewActivated(KTextEditor::View *view);
+    void textViewCreated(KTextEditor::View *view);
+    void textViewClosed(KTextEditor::View *view, bool wasActiveView);
+    void updateModeStatus();
+    void updateCaption();
 
-	void informationMessage(KTextEditor::View*, const QString&);
-	void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
-	void viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode);
-	void selectionChanged(KTextEditor::View *view);
+    void informationMessage(KTextEditor::View*, const QString&);
+    void cursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &newPosition);
+    void viewModeChanged(KTextEditor::View*, KTextEditor::View::ViewMode);
+    void selectionChanged(KTextEditor::View *view);
 
-	void documentViewerWindowVisibilityChanged(bool shown);
+    void documentViewerWindowVisibilityChanged(bool shown);
 
 public Q_SLOTS:
-	KTextEditor::View* switchToTextView(const QUrl &url, bool requestFocus = false);
-	KTextEditor::View* switchToTextView(KTextEditor::Document *doc, bool requestFocus = false);
-	void switchToTextView(KTextEditor::View *view, bool requestFocus = false);
+    KTextEditor::View* switchToTextView(const QUrl &url, bool requestFocus = false);
+    KTextEditor::View* switchToTextView(KTextEditor::Document *doc, bool requestFocus = false);
+    void switchToTextView(KTextEditor::View *view, bool requestFocus = false);
 
-	void removeView(KTextEditor::View *view);
+    void removeView(KTextEditor::View *view);
 
-	void updateStructure(bool parse = false, KileDocument::Info *docinfo = Q_NULLPTR);
+    void updateStructure(bool parse = false, KileDocument::Info *docinfo = Q_NULLPTR);
 
-	void gotoNextView();
-	void gotoPrevView();
+    void gotoNextView();
+    void gotoPrevView();
 
-	void reflectDocumentModificationStatus(KTextEditor::Document*,
-	                                       bool,
-	                                       KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
+    void reflectDocumentModificationStatus(KTextEditor::Document*,
+                                           bool,
+                                           KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
 
-	void convertSelectionToLaTeX(void);
-	void pasteAsLaTeX(void);
-	void quickPreviewPopup();
+    void convertSelectionToLaTeX(void);
+    void pasteAsLaTeX(void);
+    void quickPreviewPopup();
 
-	void moveTabLeft(QWidget *widget = Q_NULLPTR);
-	void moveTabRight(QWidget *widget = Q_NULLPTR);
+    void moveTabLeft(QWidget *widget = Q_NULLPTR);
+    void moveTabRight(QWidget *widget = Q_NULLPTR);
 
-	void setDocumentViewerVisible(bool b);
+    void setDocumentViewerVisible(bool b);
 
-	void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
+    void handleCursorPositionChanged(KTextEditor::View *view, const KTextEditor::Cursor &pos);
 
 private Q_SLOTS:
-	void tabContext(const QPoint& pos);
-	void closeTab(int index);
-	void currentTabChanged(int index);
-	void handleCursorPositionChangedTimeout();
+    void tabContext(const QPoint& pos);
+    void closeTab(int index);
+    void currentTabChanged(int index);
+    void handleCursorPositionChangedTimeout();
 
 private:
-	KTextEditor::View * textViewAtTab(int index) const;
+    KTextEditor::View * textViewAtTab(int index) const;
 
-	void createViewerControlToolBar();
+    void createViewerControlToolBar();
 
 public:
-	bool viewForLocalFilePresent(const QString& localFileName);
+    bool viewForLocalFilePresent(const QString& localFileName);
 
 protected:
-	void setTabIcon(QWidget *view, const QIcon& icon);
+    void setTabIcon(QWidget *view, const QIcon& icon);
 
-	void createViewerPart(KActionCollection *actionCollection);
-	void destroyDocumentViewerWindow();
+    void createViewerPart(KActionCollection *actionCollection);
+    void destroyDocumentViewerWindow();
 
 protected Q_SLOTS:
-	void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
-	void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
-	void replaceLoadedURL(QWidget *w, QDropEvent *e);
-	void onTextEditorPopupMenuRequest(void);
+    void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
+    void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
+    void replaceLoadedURL(QWidget *w, QDropEvent *e);
+    void onTextEditorPopupMenuRequest(void);
 
-	/**
-	 * Updates the labels of every tab that contains a view for 'changedDoc' to reflect there
-	 * the name of 'changedDoc'.
-	 **/
-	void updateTabTexts(KTextEditor::Document* changedDoc);
+    /**
+     * Updates the labels of every tab that contains a view for 'changedDoc' to reflect there
+     * the name of 'changedDoc'.
+     **/
+    void updateTabTexts(KTextEditor::Document* changedDoc);
 
-	void handleActivatedSourceReference(const QString& absFileName, int line, int col);
+    void handleActivatedSourceReference(const QString& absFileName, int line, int col);
 
-	void showCursorPositionInDocumentViewer();
-	void synchronizeViewWithCursorActionToggled(bool b);
+    void showCursorPositionInDocumentViewer();
+    void synchronizeViewWithCursorActionToggled(bool b);
 
 private:
-	KileInfo *m_ki;
-	QWidget *m_tabsAndEditorWidget;
-	QTabBar *m_tabBar;
-	QToolButton *m_documentListButton;
-	QObject *m_receiver;
-	KXMLGUIClient *m_client;
-	DocumentViewerWindow *m_viewerPartWindow;
-	QStackedWidget *m_widgetStack;
-	QAction *m_pasteAsLaTeXAction;
-	QAction *m_convertToLaTeXAction;
-	QAction *m_quickPreviewAction;
-	QAction *m_showCursorPositionInViewerAction;
-	QPointer<KParts::ReadOnlyPart> m_viewerPart;
-	QPointer<KToolBar> m_viewerControlToolBar;
-	QTimer *m_cursorPositionChangedTimer, *m_clearLastShownSourceLocationTimer;
-	KToggleAction *m_synchronizeViewWithCursorAction;
+    KileInfo *m_ki;
+    QWidget *m_tabsAndEditorWidget;
+    QTabBar *m_tabBar;
+    QToolButton *m_documentListButton;
+    QObject *m_receiver;
+    KXMLGUIClient *m_client;
+    DocumentViewerWindow *m_viewerPartWindow;
+    QStackedWidget *m_widgetStack;
+    QAction *m_pasteAsLaTeXAction;
+    QAction *m_convertToLaTeXAction;
+    QAction *m_quickPreviewAction;
+    QAction *m_showCursorPositionInViewerAction;
+    QPointer<KParts::ReadOnlyPart> m_viewerPart;
+    QPointer<KToolBar> m_viewerControlToolBar;
+    QTimer *m_cursorPositionChangedTimer, *m_clearLastShownSourceLocationTimer;
+    KToggleAction *m_synchronizeViewWithCursorAction;
 };
 
 /**
@@ -232,21 +234,21 @@ private:
  * there are no tabs: the DropWidget is shown instead of QTabWidget when there are no tabs.
  */
 class DropWidget : public QWidget {
-Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
-	virtual ~DropWidget();
+    explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
+    virtual ~DropWidget();
 
-	virtual void dragEnterEvent(QDragEnterEvent *e);
-	virtual void dropEvent(QDropEvent *e);
+    virtual void dragEnterEvent(QDragEnterEvent *e);
+    virtual void dropEvent(QDropEvent *e);
 
-	virtual void mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
 Q_SIGNALS:
-	void testCanDecode(const QDragEnterEvent *, bool &);
-	void receivedDropEvent(QDropEvent *);
-	void mouseDoubleClick();
+    void testCanDecode(const QDragEnterEvent *, bool &);
+    void receivedDropEvent(QDropEvent *);
+    void mouseDoubleClick();
 };
 
 }

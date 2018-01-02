@@ -28,31 +28,31 @@ namespace KileDialog {
 class TabularFrameWidget;
 
 class SelectFrameAction : public KToolBarPopupAction {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		SelectFrameAction(const QString &text, QToolBar *parent);
+public:
+    SelectFrameAction(const QString &text, QToolBar *parent);
 
-	private:
-		QIcon generateIcon();
+private:
+    QIcon generateIcon();
 
-	private:
-		QToolButton *m_pbNone, *m_pbLeftRight, *m_pbTopBottom, *m_pbAll;
-		TabularFrameWidget *m_FrameWidget;
-		QPushButton *m_pbDone;
-		QToolBar *m_Parent;
-		int m_CurrentBorder;
+private:
+    QToolButton *m_pbNone, *m_pbLeftRight, *m_pbTopBottom, *m_pbAll;
+    TabularFrameWidget *m_FrameWidget;
+    QPushButton *m_pbDone;
+    QToolBar *m_Parent;
+    int m_CurrentBorder;
 
-	private Q_SLOTS:
-		void slotTriggered();
-		void slotNoneClicked();
-		void slotLeftRightClicked();
-		void slotTopBottomClicked();
-		void slotAllClicked();
-		void slotDoneClicked();
+private Q_SLOTS:
+    void slotTriggered();
+    void slotNoneClicked();
+    void slotLeftRightClicked();
+    void slotTopBottomClicked();
+    void slotAllClicked();
+    void slotDoneClicked();
 
-	Q_SIGNALS:
-		void borderSelected(int border);
+Q_SIGNALS:
+    void borderSelected(int border);
 };
 
 }

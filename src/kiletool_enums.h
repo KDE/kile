@@ -19,19 +19,20 @@
 
 namespace KileTool
 {
-	/**
-	 * KileTool can send several types of messages
-	 * Error
-	 * Warning
-	 * Info
-	 **/
-	enum { Error = 0, Warning, Info, ProblemError, ProblemWarning, ProblemBadBox };
+/**
+ * KileTool can send several types of messages
+ * Error
+ * Warning
+ * Info
+ **/
+enum { Error = 0, Warning, Info, ProblemError, ProblemWarning, ProblemBadBox };
 
-	enum { NeedTargetDirExec = 0x01, NeedTargetDirWrite = 0x02, NeedTargetExists = 0x04, NeedTargetRead = 0x08,
-	NeedActiveDoc = 0x10, NeedMasterDoc = 0x20, NoUntitledDoc = 0x40, NeedSourceExists = 0x80, NeedSourceRead = 0x100, NeedSaveAll = 0x200 };
+enum { NeedTargetDirExec = 0x01, NeedTargetDirWrite = 0x02, NeedTargetExists = 0x04, NeedTargetRead = 0x08,
+       NeedActiveDoc = 0x10, NeedMasterDoc = 0x20, NoUntitledDoc = 0x40, NeedSourceExists = 0x80, NeedSourceRead = 0x100, NeedSaveAll = 0x200
+     };
 
-	enum { Running = 0, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
-	
-	enum { Success = 0, Failed = 1, AbnormalExit = 2, Aborted = 3, Silent = 4 };
+enum { Running = 0, ConfigureFailed, NoLauncherInstalled, NoValidTarget, NoValidSource, TargetHasWrongPermissions, NoValidPrereqs, CouldNotLaunch, SelfCheckFailed};
+
+enum { Success = 0, Failed = 1, AbnormalExit = 2, Aborted = 3, Silent = 4 };
 }
 #endif

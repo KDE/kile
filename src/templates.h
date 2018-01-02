@@ -35,15 +35,15 @@ class KileInfo;
 namespace KileTemplate {
 
 struct Info {
-	public:
-		Info();
+public:
+    Info();
 
-		QString name;
-		QString path;
-		QString icon;
-		KileDocument::Type type;
-		
-		bool operator==(const Info ti) const;
+    QString name;
+    QString path;
+    QString icon;
+    KileDocument::Type type;
+
+    bool operator==(const Info ti) const;
 };
 
 typedef QList<Info> TemplateList;
@@ -51,65 +51,65 @@ typedef QList<Info>::iterator TemplateListIterator;
 typedef QList<Info>::const_iterator TemplateListConstIterator;
 
 class Manager : public QObject {
-	Q_OBJECT
-	
-	public:
-		explicit Manager(KileInfo *info, QObject* parent = Q_NULLPTR, const char* name = NULL);
-		virtual ~Manager();
+    Q_OBJECT
 
-		void scanForTemplates();
+public:
+    explicit Manager(KileInfo *info, QObject* parent = Q_NULLPTR, const char* name = NULL);
+    virtual ~Manager();
 
-		/**
-		* Get all the templates.
-		**/
-		TemplateList getAllTemplates() const;
+    void scanForTemplates();
 
-		/**
-		* Get all the templates of a certain type.
-		*
-		* @param type The type of the templates that should be returned. You can pass "KileDocument::Undefined" to
-		*             retrieve every template.
-		**/
-		TemplateList getTemplates(KileDocument::Type type) const;
+    /**
+    * Get all the templates.
+    **/
+    TemplateList getAllTemplates() const;
 
-		/**
-		 * Checks whether a template with a given name and type exists.
-		 *
-		 * @return true iff a template with the given name and type could be found
-		 **/
-		bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
+    /**
+    * Get all the templates of a certain type.
+    *
+    * @param type The type of the templates that should be returned. You can pass "KileDocument::Undefined" to
+    *             retrieve every template.
+    **/
+    TemplateList getTemplates(KileDocument::Type type) const;
 
-		// add a template in $HOME/kile/templates/
-		bool add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon);
-		
-		// remove a template from $HOME/kile/templates/
-		bool remove(KileTemplate::Info ti);
+    /**
+     * Checks whether a template with a given name and type exists.
+     *
+     * @return true iff a template with the given name and type could be found
+     **/
+    bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
 
-		// replaces a template
-		bool replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon);
+    // add a template in $HOME/kile/templates/
+    bool add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon);
 
-		// these have to be methods as we cannot use i18n calls in global objects
-		static QString defaultEmptyTemplateCaption();
-		static QString defaultEmptyLaTeXTemplateCaption();
-		static QString defaultEmptyBibTeXTemplateCaption();
+    // remove a template from $HOME/kile/templates/
+    bool remove(KileTemplate::Info ti);
 
-	protected:
-		KileInfo* m_kileInfo;
+    // replaces a template
+    bool replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon);
 
-	private:
-		bool copyAppData(const QUrl &src, const QString& subdir, const QString& fileName);
-		bool removeAppData(const QString &file);
+    // these have to be methods as we cannot use i18n calls in global objects
+    static QString defaultEmptyTemplateCaption();
+    static QString defaultEmptyLaTeXTemplateCaption();
+    static QString defaultEmptyBibTeXTemplateCaption();
 
-		/**
-		 * Adds a new template. This method differs from the other add method in that it does not try to determine
-		 * the type of the template from the passed source URL.
-		 **/
-		bool add(const QUrl &templateSourceURL, KileDocument::Type type, const QString& name, const QUrl& icon);
+protected:
+    KileInfo* m_kileInfo;
+
+private:
+    bool copyAppData(const QUrl &src, const QString& subdir, const QString& fileName);
+    bool removeAppData(const QString &file);
+
+    /**
+     * Adds a new template. This method differs from the other add method in that it does not try to determine
+     * the type of the template from the passed source URL.
+     **/
+    bool add(const QUrl &templateSourceURL, KileDocument::Type type, const QString& name, const QUrl& icon);
 
 
-	private:
-		TemplateList m_TemplateList;
-		QString m_TempFilePath;
+private:
+    TemplateList m_TemplateList;
+    QString m_TempFilePath;
 };
 
 }
@@ -118,46 +118,54 @@ class Manager : public QObject {
 class TemplateItem : public QListWidgetItem
 {
 public:
-	TemplateItem( QListWidget * parent, const KileTemplate::Info & info);
-	~TemplateItem() {}
+    TemplateItem( QListWidget * parent, const KileTemplate::Info & info);
+    ~TemplateItem() {}
 
-	bool operator<(const QListWidgetItem &other) const;
-	
-	QString name() { return m_info.name; }
-	QString path() { return m_info.path; }
-	QString icon() { return m_info.icon; }
-	KileDocument::Type type() { return m_info.type; }
+    bool operator<(const QListWidgetItem &other) const;
+
+    QString name() {
+        return m_info.name;
+    }
+    QString path() {
+        return m_info.path;
+    }
+    QString icon() {
+        return m_info.icon;
+    }
+    KileDocument::Type type() {
+        return m_info.type;
+    }
 
 private:
-	KileTemplate::Info m_info;
+    KileTemplate::Info m_info;
 };
 
 class TemplateIconView : public QListWidget {
-	Q_OBJECT
-	
-	public:
-		TemplateIconView(QWidget *parent = Q_NULLPTR);
-		virtual ~TemplateIconView();
+    Q_OBJECT
 
-		void setTemplateManager(KileTemplate::Manager *templateManager);
+public:
+    TemplateIconView(QWidget *parent = Q_NULLPTR);
+    virtual ~TemplateIconView();
 
-		void fillWithTemplates(KileDocument::Type type);
+    void setTemplateManager(KileTemplate::Manager *templateManager);
 
-	Q_SIGNALS:
-		void classFileSearchFinished();
+    void fillWithTemplates(KileDocument::Type type);
 
-	protected:
-		KileTemplate::Manager *m_templateManager;
-		QString m_output;
-		KProcess *m_proc;
+Q_SIGNALS:
+    void classFileSearchFinished();
 
-		void addTemplateIcons(KileDocument::Type type);
-		void searchLaTeXClassFiles();
+protected:
+    KileTemplate::Manager *m_templateManager;
+    QString m_output;
+    KProcess *m_proc;
 
-	protected Q_SLOTS:
-		void slotProcessError();
-		void slotProcessOutput();
-		void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
+    void addTemplateIcons(KileDocument::Type type);
+    void searchLaTeXClassFiles();
+
+protected Q_SLOTS:
+    void slotProcessError();
+    void slotProcessOutput();
+    void slotProcessExited(int exitCode, QProcess::ExitStatus exitStatus);
 };
 
 #endif

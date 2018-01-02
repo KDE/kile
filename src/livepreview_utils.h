@@ -25,20 +25,20 @@ namespace KileTool {
 class LivePreviewUserStatusHandler
 {
 public:
-	LivePreviewUserStatusHandler();
+    LivePreviewUserStatusHandler();
 
-	bool userSpecifiedLivePreviewStatus() const;
-	bool isLivePreviewEnabled() const;
-	void setLivePreviewEnabled(bool b);
+    bool userSpecifiedLivePreviewStatus() const;
+    bool isLivePreviewEnabled() const;
+    void setLivePreviewEnabled(bool b);
 
-	ToolConfigPair livePreviewTool() const;
-	// returns 'true' iff the live preview type has changed
-	bool setLivePreviewTool(const ToolConfigPair& p);
+    ToolConfigPair livePreviewTool() const;
+    // returns 'true' iff the live preview type has changed
+    bool setLivePreviewTool(const ToolConfigPair& p);
 
 private:
-	bool m_userSpecifiedLivePreviewStatus;
-	bool m_livePreviewEnabled;
-	ToolConfigPair m_livePreviewTool;
+    bool m_userSpecifiedLivePreviewStatus;
+    bool m_livePreviewEnabled;
+    ToolConfigPair m_livePreviewTool;
 };
 
 }

@@ -35,40 +35,40 @@ struct Info;
   *@author Jeroen Wijnhout
   */
 class ManageTemplatesDialog : public QDialog  {
-	Q_OBJECT
+    Q_OBJECT
 public:
-	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent = 0, const char *name = 0);
-	ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent = 0, const char *name = 0);
-	virtual ~ManageTemplatesDialog();
+    ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QUrl &sourceURL, const QString &caption, QWidget *parent = 0, const char *name = 0);
+    ManageTemplatesDialog(KileTemplate::Manager *templateManager, const QString &caption, QWidget *parent = 0, const char *name = 0);
+    virtual ~ManageTemplatesDialog();
 
 public Q_SLOTS:
-	void slotSelectedTemplate(QTreeWidgetItem *item);
-	void slotSelectIcon();
-	void addTemplate();
-	bool removeTemplate();
+    void slotSelectedTemplate(QTreeWidgetItem *item);
+    void slotSelectIcon();
+    void addTemplate();
+    bool removeTemplate();
 
 Q_SIGNALS:
-	void aboutToClose();
+    void aboutToClose();
 
 protected Q_SLOTS:
-	void updateTemplateListView(bool showAllTypes);
-	void clearSelection();
+    void updateTemplateListView(bool showAllTypes);
+    void clearSelection();
 
 protected:
-	KileTemplate::Manager* m_templateManager;
-	QLineEdit *m_nameEdit, *m_iconEdit;
-	QTreeWidget *m_templateList;
-	KileDocument::Type m_templateType;
-	QCheckBox *m_showAllTypesCheckBox;
-	QUrl m_sourceURL;
+    KileTemplate::Manager* m_templateManager;
+    QLineEdit *m_nameEdit, *m_iconEdit;
+    QTreeWidget *m_templateList;
+    KileDocument::Type m_templateType;
+    QCheckBox *m_showAllTypesCheckBox;
+    QUrl m_sourceURL;
 
-	/**
-		* Fills the template list view with template entries.
-		*
-		* @param type The type of the templates that should be displayed. You can pass "KileDocument::Undefined" to
-		*             display every template.
-		**/
-	void populateTemplateListView(KileDocument::Type type);
+    /**
+    	* Fills the template list view with template entries.
+    	*
+    	* @param type The type of the templates that should be displayed. You can pass "KileDocument::Undefined" to
+    	*             display every template.
+    	**/
+    void populateTemplateListView(KileDocument::Type type);
 };
 
 #endif

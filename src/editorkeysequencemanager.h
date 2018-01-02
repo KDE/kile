@@ -23,207 +23,207 @@
 #include <KTextEditor/View>
 
 namespace KileScript {
-	class Script;
-	class Manager;
+class Script;
+class Manager;
 }
 
 class KileInfo;
 
 namespace KileEditorKeySequence {
-	/**
-	 * This class represents an action that can be assigned to an editor key sequence.
-	 **/
- 	class Action {
-		public:
-			Action();
-			virtual ~Action();
+/**
+ * This class represents an action that can be assigned to an editor key sequence.
+ **/
+class Action {
+public:
+    Action();
+    virtual ~Action();
 
-			/**
-			 * The main method, which implements the "action" itself.
-			 **/
-			virtual void execute() = 0;
+    /**
+     * The main method, which implements the "action" itself.
+     **/
+    virtual void execute() = 0;
 
-			/**
-			 * Returns a textual representation of the action.
-			 **/
-			virtual QString getDescription() const;
- 	};
+    /**
+     * Returns a textual representation of the action.
+     **/
+    virtual QString getDescription() const;
+};
 
-	/**
-	 * This class represents the execution of a script in Kile.
-	 **/
-	class ExecuteScriptAction : public Action {
-		public:
-			ExecuteScriptAction(KileScript::Script *script, KileScript::Manager *scriptManager);
-			virtual ~ExecuteScriptAction();
+/**
+ * This class represents the execution of a script in Kile.
+ **/
+class ExecuteScriptAction : public Action {
+public:
+    ExecuteScriptAction(KileScript::Script *script, KileScript::Manager *scriptManager);
+    virtual ~ExecuteScriptAction();
 
-			virtual void execute();
-			virtual QString getDescription() const;
+    virtual void execute();
+    virtual QString getDescription() const;
 
-		protected:
-			KileScript::Script *m_script;
-			KileScript::Manager *m_scriptManager;
-	};
+protected:
+    KileScript::Script *m_script;
+    KileScript::Manager *m_scriptManager;
+};
 
-	// forward declaration
-	class Recorder;
+// forward declaration
+class Recorder;
 
-	/**
-	 * This manager class is responsible for handling the key sequences that get assigned 
-	 * to actions. Currently, every key sequence can only trigger one single action.
-	 *
-	 * Whenever a watched key sequence is typed, the manager triggers the corresponding
-	 * action. The only characters that are allowed in key sequences are those that make
-	 * the cursor advance by one position, i.e. for example tabs are not allowed in key
-	 * sequences.
-	 **/
-	class Manager : public QObject {
-		Q_OBJECT
-	
-		friend class Recorder;
+/**
+ * This manager class is responsible for handling the key sequences that get assigned
+ * to actions. Currently, every key sequence can only trigger one single action.
+ *
+ * Whenever a watched key sequence is typed, the manager triggers the corresponding
+ * action. The only characters that are allowed in key sequences are those that make
+ * the cursor advance by one position, i.e. for example tabs are not allowed in key
+ * sequences.
+ **/
+class Manager : public QObject {
+    Q_OBJECT
 
-		public:
-			/**
-			 * Constructs a new manager object.
-			 **/
-			explicit Manager(KileInfo* kileInfo, QObject *parent = 0, const char *name = 0);
-			virtual ~Manager();
+    friend class Recorder;
 
-			/**
-			 * Adds a new consequence and the corresponding action.
-			 * @param seq the key sequence
-			 * @param action the action for the sequence
-			 **/
-			void addAction(const QString& seq, Action *action);
+public:
+    /**
+     * Constructs a new manager object.
+     **/
+    explicit Manager(KileInfo* kileInfo, QObject *parent = 0, const char *name = 0);
+    virtual ~Manager();
 
-			/** 
-			 * Convenience method. Adds a key sequence-to-action map to this 
-			 * manager, removing any existing mappings.
-			 * @warning This method overrides any exising mappings !
-			 **/
-			void addActionMap(const QMap<QString, Action*>& map);
+    /**
+     * Adds a new consequence and the corresponding action.
+     * @param seq the key sequence
+     * @param action the action for the sequence
+     **/
+    void addAction(const QString& seq, Action *action);
 
-			/**
-			 * Removes all the mappings.
-			 **/
-			void clear();
+    /**
+     * Convenience method. Adds a key sequence-to-action map to this
+     * manager, removing any existing mappings.
+     * @warning This method overrides any exising mappings !
+     **/
+    void addActionMap(const QMap<QString, Action*>& map);
 
-			/**
-			 * Returns a list of all the key sequences that are currently being
-			 * watched.
-			 **/
-			const QStringList& getWatchedKeySequences();
+    /**
+     * Removes all the mappings.
+     **/
+    void clear();
 
-			/**
-			 * Returns the key sequence that corresponds to an action.
-			 * @param a the action that is considered
-			 **/
-			QString getKeySequence(const Action* a);
+    /**
+     * Returns a list of all the key sequences that are currently being
+     * watched.
+     **/
+    const QStringList& getWatchedKeySequences();
 
-			/**
-			 * Returns the action that corresponds to a key sequence.
-			 **/
-			Action* getAction(const QString& seq);
+    /**
+     * Returns the key sequence that corresponds to an action.
+     * @param a the action that is considered
+     **/
+    QString getKeySequence(const Action* a);
 
-			/**
-			 * Remove a key sequence, i.e. the key sequence is no longer watched.
-			 * @param seq the key sequence that should be removed
-			 **/
-			void removeKeySequence(const QString& seq);
+    /**
+     * Returns the action that corresponds to a key sequence.
+     **/
+    Action* getAction(const QString& seq);
 
-			/**
-			 * Convenience method. Removes every key sequence contained in the list.
-			 * @see removeKeySequence(const QString& seq)
-			 **/
-			void removeKeySequence(const QStringList& l);
+    /**
+     * Remove a key sequence, i.e. the key sequence is no longer watched.
+     * @param seq the key sequence that should be removed
+     **/
+    void removeKeySequence(const QString& seq);
 
-			/**
-			 * @warning not implemented yet !
-			 **/
-			void setEditorKeySequence(const QString& seq, Action *action);
+    /**
+     * Convenience method. Removes every key sequence contained in the list.
+     * @see removeKeySequence(const QString& seq)
+     **/
+    void removeKeySequence(const QStringList& l);
 
-			/**
-			 * Checks whether the sequence "seq" is already assigned to an action.
-			 * This method also checks whether a longer sequence that starts with
-			 * "seq" is assigned to an action.
-			 * @param seq the sequence that should be checked
-			 * @return "true" if and only the sequence "seq" or another sequence
-			 *                that starts with "seq" is assigned to an action
-			 **/
-			bool isSequenceAssigned(const QString& seq) const;
+    /**
+     * @warning not implemented yet !
+     **/
+    void setEditorKeySequence(const QString& seq, Action *action);
 
-			/**
-			 * Performs a few checks on a key sequence.
-			 * @returns in the first component: 0 if the sequence is free; 1
-			 *          if the sequence is assigned; 2 if there is a longer,
-			 *          currently stored sequence that starts with "seq"; 3 
-			 *          if "seq" starts with a shorter sequence that is currently
-			 *          stored
-			 *
-			 *          in the second component: a string that corresponds to one
-			 *          of the previous cases (in the case 0: QString())
-			 **/
-			QPair<int, QString> checkSequence(const QString& seq, const QString& skip = QString());
-	
-		Q_SIGNALS:
-			/**
-			 * Emitted whenever the set of watched key sequences changes.
-			 **/
-			void watchedKeySequencesChanged();
+    /**
+     * Checks whether the sequence "seq" is already assigned to an action.
+     * This method also checks whether a longer sequence that starts with
+     * "seq" is assigned to an action.
+     * @param seq the sequence that should be checked
+     * @return "true" if and only the sequence "seq" or another sequence
+     *                that starts with "seq" is assigned to an action
+     **/
+    bool isSequenceAssigned(const QString& seq) const;
 
-		protected Q_SLOTS:
-			/**
-			 * Signalises to the manager that a (watched) sequence has been typed.
-			 * @param seq the sequence that has been typed
-			 **/
-			void keySequenceTyped(const QString& seq);
+    /**
+     * Performs a few checks on a key sequence.
+     * @returns in the first component: 0 if the sequence is free; 1
+     *          if the sequence is assigned; 2 if there is a longer,
+     *          currently stored sequence that starts with "seq"; 3
+     *          if "seq" starts with a shorter sequence that is currently
+     *          stored
+     *
+     *          in the second component: a string that corresponds to one
+     *          of the previous cases (in the case 0: QString())
+     **/
+    QPair<int, QString> checkSequence(const QString& seq, const QString& skip = QString());
 
-		protected:
-			KileInfo *m_kileInfo;
-			QMap<QString, Action*> m_actionMap;
-			QStringList m_watchedKeySequencesList;
-	};
+Q_SIGNALS:
+    /**
+     * Emitted whenever the set of watched key sequences changes.
+     **/
+    void watchedKeySequencesChanged();
 
-	/**
-	 * This class keeps track of the characters that are typed. It is used in 
-	 * conjunction with a KTextEditor view and a KileEditorKeySequence::Manager.
-	 **/
-	class Recorder : public QObject {
-		Q_OBJECT
-		public:
-			Recorder(KTextEditor::View *view, Manager *manager);
-			virtual ~Recorder();
+protected Q_SLOTS:
+    /**
+     * Signalises to the manager that a (watched) sequence has been typed.
+     * @param seq the sequence that has been typed
+     **/
+    void keySequenceTyped(const QString& seq);
 
-		Q_SIGNALS:
-			/**
-			 * Emitted whenever a key sequence that is currently watched has 
-			 * been typed.
-			 **/
-			void detectedTypedKeySequence(const QString& seq);
-	
+protected:
+    KileInfo *m_kileInfo;
+    QMap<QString, Action*> m_actionMap;
+    QStringList m_watchedKeySequencesList;
+};
 
-		public Q_SLOTS:
-			/**
-			 * Reloads the key sequences that this recorders watches.
-			 **/
-			void reloadWatchedKeySequences();
+/**
+ * This class keeps track of the characters that are typed. It is used in
+ * conjunction with a KTextEditor view and a KileEditorKeySequence::Manager.
+ **/
+class Recorder : public QObject {
+    Q_OBJECT
+public:
+    Recorder(KTextEditor::View *view, Manager *manager);
+    virtual ~Recorder();
 
-		protected:
-			Manager *m_manager;
-			QString m_typedSequence;
-			int m_maxSequenceLength;
-			int m_oldCol, m_oldLine;
-			KTextEditor::View* m_view;
-			QStringList m_watchedKeySequencesList;
+Q_SIGNALS:
+    /**
+     * Emitted whenever a key sequence that is currently watched has
+     * been typed.
+     **/
+    void detectedTypedKeySequence(const QString& seq);
 
-			virtual bool eventFilter(QObject *o, QEvent *e);
 
-			/**
-			 * Checks whether a key sequence is currently watched.
-			 * @param s the key sequence that should be checked
-			 **/
-			bool seekForKeySequence(const QString& s);
-	};
+public Q_SLOTS:
+    /**
+     * Reloads the key sequences that this recorders watches.
+     **/
+    void reloadWatchedKeySequences();
+
+protected:
+    Manager *m_manager;
+    QString m_typedSequence;
+    int m_maxSequenceLength;
+    int m_oldCol, m_oldLine;
+    KTextEditor::View* m_view;
+    QStringList m_watchedKeySequencesList;
+
+    virtual bool eventFilter(QObject *o, QEvent *e);
+
+    /**
+     * Checks whether a key sequence is currently watched.
+     * @param s the key sequence that should be checked
+     **/
+    bool seekForKeySequence(const QString& s);
+};
 }
 
 #endif

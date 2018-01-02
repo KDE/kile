@@ -20,11 +20,11 @@
 
 class KileWidgetStructureViewConfig : public QWidget, public Ui::KileWidgetStructureViewConfig
 {
-	Q_OBJECT
+    Q_OBJECT
 
-	public:
-		KileWidgetStructureViewConfig(QWidget *parent = 0);
-		~KileWidgetStructureViewConfig();
+public:
+    KileWidgetStructureViewConfig(QWidget *parent = 0);
+    ~KileWidgetStructureViewConfig();
 };
 
 #endif

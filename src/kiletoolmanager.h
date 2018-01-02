@@ -49,175 +49,197 @@ class KSelectAction;
 class KTextEdit;
 
 class KileInfo;
-namespace KileParser { class Manager; }
-namespace KileView { class Manager; }
-namespace KileWidget { class OutputView; }
+namespace KileParser {
+class Manager;
+}
+namespace KileView {
+class Manager;
+}
+namespace KileWidget {
+class OutputView;
+}
 
 namespace KileTool
 {
-	class Factory;
-	class LivePreviewManager;
+class Factory;
+class LivePreviewManager;
 
-	class QueueItem
-	{
-	public:
-		explicit QueueItem(Base *tool, bool block = false);
-		~QueueItem();
+class QueueItem
+{
+public:
+    explicit QueueItem(Base *tool, bool block = false);
+    ~QueueItem();
 
-		Base* tool() const { return m_tool; }
-		bool shouldBlock() { return m_bBlock; }
+    Base* tool() const {
+        return m_tool;
+    }
+    bool shouldBlock() {
+        return m_bBlock;
+    }
 
-	private:
-		Base *m_tool;
-		bool m_bBlock;
-	};
+private:
+    Base *m_tool;
+    bool m_bBlock;
+};
 
-	class Queue : public QQueue<QueueItem*>
-	{
-	public:
-		Base* tool() const;
-		bool shouldBlock() const;
+class Queue : public QQueue<QueueItem*>
+{
+public:
+    Base* tool() const;
+    bool shouldBlock() const;
 
-		void enqueueNext(QueueItem *);
-	};
+    void enqueueNext(QueueItem *);
+};
 
-	class Manager : public QObject
-	{
-		friend class Base;
-		Q_OBJECT
+class Manager : public QObject
+{
+    friend class Base;
+    Q_OBJECT
 
-	public:
-		Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget* stack, QAction *, uint to, KActionCollection *);
-		~Manager();
-	public:
-		Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
-		inline Base* createTool(const ToolConfigPair& p, bool prepare = false)
-		{
-			return createTool(p.first, p.second, prepare);
-		}
-		bool configure(Base*, const QString &cfg = QString());
-		bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString());
-		void saveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
-		QString currentGroup(const QString &name, bool usequeue = true, bool useproject = true);
+public:
+    Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget* stack, QAction *, uint to, KActionCollection *);
+    ~Manager();
+public:
+    Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
+    inline Base* createTool(const ToolConfigPair& p, bool prepare = false)
+    {
+        return createTool(p.first, p.second, prepare);
+    }
+    bool configure(Base*, const QString &cfg = QString());
+    bool retrieveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true, const QString & cfg = QString());
+    void saveEntryMap(const QString & name, Config & map, bool usequeue = true, bool useproject = true);
+    QString currentGroup(const QString &name, bool usequeue = true, bool useproject = true);
 
-		void wantGUIState(const QString &);
+    void wantGUIState(const QString &);
 
-		QStackedWidget* widgetStack() { return m_stack; }
-		KileView::Manager* viewManager();
-		KileTool::LivePreviewManager* livePreviewManager();
-		KileParser::Manager* parserManager();
+    QStackedWidget* widgetStack() {
+        return m_stack;
+    }
+    KileView::Manager* viewManager();
+    KileTool::LivePreviewManager* livePreviewManager();
+    KileParser::Manager* parserManager();
 
-		KileInfo * info() { return m_ki; }
-		KConfig * config() { return m_config; }
+    KileInfo * info() {
+        return m_ki;
+    }
+    KConfig * config() {
+        return m_config;
+    }
 
-		void setFactory(Factory* fac) { m_factory = fac; }
-		Factory* factory() { return m_factory; }
+    void setFactory(Factory* fac) {
+        m_factory = fac;
+    }
+    Factory* factory() {
+        return m_factory;
+    }
 
-		bool queryContinue(const QString & question, const QString & caption = QString());
+    bool queryContinue(const QString & question, const QString & caption = QString());
 
-		bool shouldBlock();
-		int lastResult() { return m_nLastResult; }
+    bool shouldBlock();
+    int lastResult() {
+        return m_nLastResult;
+    }
 
-		// convenience method; also see the static method of the same name below
-		void setConfigName(const QString &tool, const QString &name);
+    // convenience method; also see the static method of the same name below
+    void setConfigName(const QString &tool, const QString &name);
 
-		bool containsBibliographyTool(const ToolConfigPair& p) const;
-		ToolConfigPair findFirstBibliographyToolForCommand(const QString& command) const;
+    bool containsBibliographyTool(const ToolConfigPair& p) const;
+    ToolConfigPair findFirstBibliographyToolForCommand(const QString& command) const;
 
-	public Q_SLOTS:
-		void run(KileTool::Base *tool);
+public Q_SLOTS:
+    void run(KileTool::Base *tool);
 
-		void stopLivePreview();
+    void stopLivePreview();
 
-	private:
-		void setEnabledStopButton(bool state);
-		void initTool(Base*);
+private:
+    void setEnabledStopButton(bool state);
+    void initTool(Base*);
 
-	private Q_SLOTS:
-		int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = Q_NULLPTR);
-		int runNextInQueue();
-		void enableClear();
+private Q_SLOTS:
+    int runImmediately(Base *tool, bool insertAtTop = false, bool block = false, Base *parent = Q_NULLPTR);
+    int runNextInQueue();
+    void enableClear();
 
-		void started(KileTool::Base *tool);
-		void done(KileTool::Base *tool, int result);
+    void started(KileTool::Base *tool);
+    void done(KileTool::Base *tool, int result);
 
-		void stop(); //should be a slot that stops the active tool and clears the queue
-		void stopActionDestroyed();
+    void stop(); //should be a slot that stops the active tool and clears the queue
+    void stopActionDestroyed();
 
-		// must be used when a child tool is launched from within another tool!
-		int runChildNext(Base *parent, Base *tool, bool block = false);
+    // must be used when a child tool is launched from within another tool!
+    int runChildNext(Base *parent, Base *tool, bool block = false);
 
-		void toolScheduledAfterParsingDestroyed(KileTool::Base *tool);
-		void handleDocumentParsingComplete();
+    void toolScheduledAfterParsingDestroyed(KileTool::Base *tool);
+    void handleDocumentParsingComplete();
 
-		void currentLaTeXOutputHandlerChanged(LaTeXOutputHandler* handler);
+    void currentLaTeXOutputHandlerChanged(LaTeXOutputHandler* handler);
 
-		void bibliographyBackendSelectedByUser();
-		void buildBibliographyBackendSelection();
-		void resetAutodetectedBibliographyBackend();
+    void bibliographyBackendSelectedByUser();
+    void buildBibliographyBackendSelection();
+    void resetAutodetectedBibliographyBackend();
 
-	Q_SIGNALS:
-		void requestGUIState(const QString &);
-		void jumpToFirstError();
-		void toolStarted();
-		void previewDone();
-		// emitted when a tool spawns another tool (parent, child).
-		void childToolSpawned(KileTool::Base*,KileTool::Base*);
+Q_SIGNALS:
+    void requestGUIState(const QString &);
+    void jumpToFirstError();
+    void toolStarted();
+    void previewDone();
+    // emitted when a tool spawns another tool (parent, child).
+    void childToolSpawned(KileTool::Base*,KileTool::Base*);
 
-	private:
-		KileInfo			*m_ki;
-		KConfig				*m_config;
-		KileWidget::OutputView		*m_output;
-		QStackedWidget			*m_stack;
-		QAction *m_stop;
-		Factory				*m_factory;
-		Queue				m_queue;
-		QTimer				*m_timer;
-		bool				m_bClear;
-		int				m_nLastResult;
-		uint				m_nTimeout;
-		QQueue<Base*>			m_toolsScheduledAfterParsingList;
-		KSelectAction			*m_bibliographyBackendSelectAction;
-		QAction				*m_bibliographyBackendAutodetectAction;
-		QAction *m_bibliographyBackendResetAutodetectedAction;
-		QMap<ToolConfigPair, QAction *>	m_bibliographyBackendActionMap;
-		QList<ToolConfigPair> 		m_bibliographyToolsList;
+private:
+    KileInfo			*m_ki;
+    KConfig				*m_config;
+    KileWidget::OutputView		*m_output;
+    QStackedWidget			*m_stack;
+    QAction *m_stop;
+    Factory				*m_factory;
+    Queue				m_queue;
+    QTimer				*m_timer;
+    bool				m_bClear;
+    int				m_nLastResult;
+    uint				m_nTimeout;
+    QQueue<Base*>			m_toolsScheduledAfterParsingList;
+    KSelectAction			*m_bibliographyBackendSelectAction;
+    QAction				*m_bibliographyBackendAutodetectAction;
+    QAction *m_bibliographyBackendResetAutodetectedAction;
+    QMap<ToolConfigPair, QAction *>	m_bibliographyBackendActionMap;
+    QList<ToolConfigPair> 		m_bibliographyToolsList;
 
-		void createActions(KActionCollection *ac);
+    void createActions(KActionCollection *ac);
 
-		void deleteLivePreviewToolsFromQueue();
-		void deleteLivePreviewToolsFromRunningAfterParsingQueue();
-	};
+    void deleteLivePreviewToolsFromQueue();
+    void deleteLivePreviewToolsFromRunningAfterParsingQueue();
+};
 
-	QStringList toolList(KConfig *config, bool menuOnly = false);
-	QStringList configNames(const QString &tool, KConfig *config);
+QStringList toolList(KConfig *config, bool menuOnly = false);
+QStringList configNames(const QString &tool, KConfig *config);
 
-	QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const QString& className);
+QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const QString& className);
 
-	// configuration names must be in English, i.e. not translated!
-	QString configName(const QString &tool, KConfig *config);
-	void setConfigName(const QString &tool, const QString &name, KConfig *config);
+// configuration names must be in English, i.e. not translated!
+QString configName(const QString &tool, KConfig *config);
+void setConfigName(const QString &tool, const QString &name, KConfig *config);
 
-	QString groupFor(const QString& tool, KConfig *config);
-	QString groupFor(const QString& tool, const QString& cfg = "Default");
+QString groupFor(const QString& tool, KConfig *config);
+QString groupFor(const QString& tool, const QString& cfg = "Default");
 
-	void extract(const QString& str, QString &tool, QString &cfg);
-	QString format(const QString& tool, const QString &cfg);
+void extract(const QString& str, QString &tool, QString &cfg);
+QString format(const QString& tool, const QString &cfg);
 
-	QString commandFor(const QString& toolName, const QString& configName, KConfig *config);
-	inline QString commandFor(const ToolConfigPair& p, KConfig *config)
-	{
-		return commandFor(p.first, p.second, config);
-	}
-
-
-	QString menuFor(const QString &tool, KConfig *config);
-	QString iconFor(const QString &tool, KConfig *config);
+QString commandFor(const QString& toolName, const QString& configName, KConfig *config);
+inline QString commandFor(const ToolConfigPair& p, KConfig *config)
+{
+    return commandFor(p.first, p.second, config);
+}
 
 
-	QString categoryFor(const QString &clss);
+QString menuFor(const QString &tool, KConfig *config);
+QString iconFor(const QString &tool, KConfig *config);
 
-	void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config);
+
+QString categoryFor(const QString &clss);
+
+void setGUIOptions(const QString &tool, const QString &menu, const QString &icon, KConfig *config);
 }
 
 #endif

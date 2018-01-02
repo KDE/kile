@@ -28,23 +28,23 @@ namespace KileDialog
 
 class FloatEnvironmentDialog : public Wizard
 {
-		Q_OBJECT
+    Q_OBJECT
 
-	public:
-		FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QWidget *parent);
-		~FloatEnvironmentDialog() {}
+public:
+    FloatEnvironmentDialog(KConfig *config, KileInfo *ki, QWidget *parent);
+    ~FloatEnvironmentDialog() {}
 
-	public Q_SLOTS:
-		void slotAccepted();
+public Q_SLOTS:
+    void slotAccepted();
 
-	private Q_SLOTS:
-		void slotEnvironmentClicked();
+private Q_SLOTS:
+    void slotEnvironmentClicked();
 
-	private:
-		Ui::FloatDialog m_FloatDialog;
+private:
+    Ui::FloatDialog m_FloatDialog;
 
-		QString m_prefix;
-		KileInfo *m_ki;
+    QString m_prefix;
+    KileInfo *m_ki;
 };
 
 }

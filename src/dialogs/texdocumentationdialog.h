@@ -38,62 +38,62 @@ namespace KileDialog
 
 class TexDocDialog : public QDialog
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	TexDocDialog(QWidget *parent = 0);
-	~TexDocDialog();
+    TexDocDialog(QWidget *parent = 0);
+    ~TexDocDialog();
 
 private:
-	QTreeWidget *m_texdocs;
-	QLineEdit *m_leKeywords;
-	QPushButton *m_pbSearch;
-	QDialogButtonBox *m_buttonBox;
+    QTreeWidget *m_texdocs;
+    QLineEdit *m_leKeywords;
+    QPushButton *m_pbSearch;
+    QDialogButtonBox *m_buttonBox;
 
-	QString m_texmfPath, m_texmfdocPath, m_texdoctkPath;
+    QString m_texmfPath, m_texmfdocPath, m_texdoctkPath;
 
-	QStringList m_tocList, m_tocSearchList;
-	QMap<QString, QString> m_dictDocuments;
-	QMap<QString, QString> m_dictStyleCodes;
+    QStringList m_tocList, m_tocSearchList;
+    QMap<QString, QString> m_dictDocuments;
+    QMap<QString, QString> m_dictStyleCodes;
 
-	void readToc();
-	void showToc(const QString &caption, const QStringList &doclist, bool toc = true);
+    void readToc();
+    void showToc(const QString &caption, const QStringList &doclist, bool toc = true);
 
-	QString m_filename;
-	QString m_output;
+    QString m_filename;
+    QString m_output;
 
-	QTemporaryFile *m_tempfile;
-	KProcess *m_proc;
+    QTemporaryFile *m_tempfile;
+    KProcess *m_proc;
 
-	void callSearch();
-	void executeScript(const QString &command);
-	void showFile(const QString &filename);
+    void callSearch();
+    void executeScript(const QString &command);
+    void showFile(const QString &filename);
 
-	QString searchFile(const QString &docfilename, const QString &listofpathes,
-						const QString &subdir = QString());
-	void decompressFile(const QString &docfile, const QString &command);
-	void showStyleFile(const QString &filename, const QString &stylecode);
+    QString searchFile(const QString &docfilename, const QString &listofpathes,
+                       const QString &subdir = QString());
+    void decompressFile(const QString &docfile, const QString &command);
+    void showStyleFile(const QString &filename, const QString &stylecode);
 
-	QString getMimeType(const QString &filename);
-	QString getIconName(const QString &filename);
+    QString getMimeType(const QString &filename);
+    QString getIconName(const QString &filename);
 
 protected:
-	bool eventFilter(QObject *o, QEvent *e);
+    bool eventFilter(QObject *o, QEvent *e);
 
 Q_SIGNALS:
-	void processFinished();
+    void processFinished();
 
 private Q_SLOTS:
-	void slotListViewDoubleClicked(QTreeWidgetItem *item);
-	void slotTextChanged(const QString &text);
-	void slotSearchClicked();
-	void slotResetSearch();
+    void slotListViewDoubleClicked(QTreeWidgetItem *item);
+    void slotTextChanged(const QString &text);
+    void slotSearchClicked();
+    void slotResetSearch();
 
-	void slotProcessOutput();
-	void slotProcessExited(int, QProcess::ExitStatus);
+    void slotProcessOutput();
+    void slotProcessExited(int, QProcess::ExitStatus);
 
-	void slotInitToc();
-	void slotShowFile();
+    void slotInitToc();
+    void slotShowFile();
 };
 
 }

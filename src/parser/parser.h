@@ -22,73 +22,73 @@
 class KileInfo;
 
 namespace KileDocument {
-	class Info;
-	class TextInfo;
+class Info;
+class TextInfo;
 }
 
 namespace KileParser {
 
 struct TodoResult
 {
-	int type;
-	uint colTag;
-	uint colComment;
-	QString comment;
+    int type;
+    uint colTag;
+    uint colComment;
+    QString comment;
 };
 
 class ParserThread;
 
 class StructureViewItem {
 public:
-	StructureViewItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
-	                  const QString &pix, const QString &folder);
-	~StructureViewItem();
+    StructureViewItem(const QString &title, uint line, uint column, int type, int level, uint startline, uint startcol,
+                      const QString &pix, const QString &folder);
+    ~StructureViewItem();
 
-	QString title;
-	uint line;
-	uint column;
-	int type;
-	int level;
-	uint startline;
-	uint startcol;
-	QString pix;
-	QString folder;
+    QString title;
+    uint line;
+    uint column;
+    int type;
+    int level;
+    uint startline;
+    uint startcol;
+    QString pix;
+    QString folder;
 };
 
 class ParserInput {
 public:
-	explicit ParserInput(const QUrl &url);
-	virtual ~ParserInput();
+    explicit ParserInput(const QUrl &url);
+    virtual ~ParserInput();
 
-	QUrl url;
+    QUrl url;
 };
 
 class ParserOutput {
 public:
-	virtual ~ParserOutput();
+    virtual ~ParserOutput();
 
-	QLinkedList<StructureViewItem*> structureViewItems;
+    QLinkedList<StructureViewItem*> structureViewItems;
 };
 
 class Parser : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit Parser(ParserThread *parserThread, QObject *parent = Q_NULLPTR);
-	virtual ~Parser();
+    explicit Parser(ParserThread *parserThread, QObject *parent = Q_NULLPTR);
+    virtual ~Parser();
 
-	virtual ParserOutput* parse() = 0;
+    virtual ParserOutput* parse() = 0;
 
 protected:
-	ParserThread *m_parserThread;
+    ParserThread *m_parserThread;
 
-	QString processTextline(const QString &line, TodoResult &todo);
-	void searchTodoComment(const QString &s, uint startpos, TodoResult &todo);
-	QString matchBracket(const QStringList& textLines, QChar obracket, int &l, int &pos);
-	// for now, we have to emulate the behaviour of 'KTextEditor::Document::line':
-	// we return an empty string if the given line number is invalid
-	QString getTextLine(const QStringList& textLines, int line);
+    QString processTextline(const QString &line, TodoResult &todo);
+    void searchTodoComment(const QString &s, uint startpos, TodoResult &todo);
+    QString matchBracket(const QStringList& textLines, QChar obracket, int &l, int &pos);
+    // for now, we have to emulate the behaviour of 'KTextEditor::Document::line':
+    // we return an empty string if the given line number is invalid
+    QString getTextLine(const QStringList& textLines, int line);
 };
 
 }

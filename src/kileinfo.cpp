@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                : Thu Jul 17 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2011 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -416,13 +416,13 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
     switch(type)
     {
     case bibinputs:
-        configpaths = KileConfig::bibInputPaths() + PATH_SEPARATOR + "$BIBINPUTS";
+        configpaths = KileConfig::bibInputPaths() + LIST_SEPARATOR + "$BIBINPUTS";
         break;
     case texinputs:
-        configpaths = KileConfig::teXPaths() + PATH_SEPARATOR + "$TEXINPUTS";
+        configpaths = KileConfig::teXPaths() + LIST_SEPARATOR + "$TEXINPUTS";
         break;
     case bstinputs:
-        configpaths = KileConfig::bstInputPaths() + PATH_SEPARATOR + "$BSTINPUTS";
+        configpaths = KileConfig::bstInputPaths() + LIST_SEPARATOR + "$BSTINPUTS";
         break;
     default:
         KILE_DEBUG_MAIN << "Unknown type in checkOtherPaths" << endl;
@@ -430,7 +430,7 @@ QString KileInfo::checkOtherPaths(const QString &path,const QString &file, int t
         break;
     }
 
-    inputpaths = expandEnvironmentVars(configpaths).split(PATH_SEPARATOR);
+    inputpaths = expandEnvironmentVars(configpaths).split(LIST_SEPARATOR);
     inputpaths.prepend(path);
 
     // the first match is supposed to be the correct one

@@ -1,6 +1,6 @@
 /**************************************************************************************************
    Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                 2007-2009 by Michel Ludwig (michel.ludwig@kdemail.net)
+                 2007-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************************/
 
 /***************************************************************************
@@ -256,7 +256,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
     QString texinputpath = KileConfig::teXPaths();
     QString inputdir = QFileInfo(m_ki->getCompileName()).absolutePath();
     if(!texinputpath.isEmpty()) {
-        inputdir += PATH_SEPARATOR + texinputpath;
+        inputdir += LIST_SEPARATOR + texinputpath;
     }
     KileConfig::setPreviewTeXPaths(inputdir);
     KILE_DEBUG_MAIN << "\tQuickPreview: inputdir is '" << inputdir << "'" << endl;

@@ -1,6 +1,6 @@
-/**************************************************************************
-*   Copyright (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)       *
-***************************************************************************/
+/****************************************************************************
+*   Copyright (C) 2006-2018 by Michel Ludwig (michel.ludwig@kdemail.net)    *
+*****************************************************************************/
 
 /**************************************************************************
 *                                                                         *
@@ -19,10 +19,6 @@ enum Type {Undefined, Text, LaTeX, BibTeX, Script};
 
 }
 
-#ifdef Q_WS_WIN
-#define PATH_SEPARATOR ';'
-#else
-#define PATH_SEPARATOR ':'
-#endif
+#define LIST_SEPARATOR QDir::listSeparator()
 
 #endif

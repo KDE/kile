@@ -1,6 +1,6 @@
 /****************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                  2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -179,21 +179,21 @@ bool ProcessLauncher::launch()
     }
 
     KILE_DEBUG_MAIN << "$PATH=" << tool()->manager()->info()->expandEnvironmentVars("$PATH");
-    KILE_DEBUG_MAIN << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + PATH_SEPARATOR + "$TEXINPUTS");
-    KILE_DEBUG_MAIN << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + PATH_SEPARATOR + "$BIBINPUTS");
-    KILE_DEBUG_MAIN << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + PATH_SEPARATOR + "$BSTINPUTS");
+    KILE_DEBUG_MAIN << "$TEXINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + LIST_SEPARATOR + "$TEXINPUTS");
+    KILE_DEBUG_MAIN << "$BIBINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + LIST_SEPARATOR + "$BIBINPUTS");
+    KILE_DEBUG_MAIN << "$BSTINPUTS=" << tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + LIST_SEPARATOR + "$BSTINPUTS");
     KILE_DEBUG_MAIN << "Tool name is "<< tool()->name();
 
     m_proc->setEnv("PATH", tool()->manager()->info()->expandEnvironmentVars("$PATH"));
 
     if(!teXInputPaths.isEmpty()) {
-        m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + PATH_SEPARATOR + "$TEXINPUTS"));
+        m_proc->setEnv("TEXINPUTS", tool()->manager()->info()->expandEnvironmentVars(teXInputPaths + LIST_SEPARATOR + "$TEXINPUTS"));
     }
     if(!bibInputPaths.isEmpty()) {
-        m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + PATH_SEPARATOR + "$BIBINPUTS"));
+        m_proc->setEnv("BIBINPUTS", tool()->manager()->info()->expandEnvironmentVars(bibInputPaths + LIST_SEPARATOR + "$BIBINPUTS"));
     }
     if(!bstInputPaths.isEmpty()) {
-        m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + PATH_SEPARATOR + "$BSTINPUTS"));
+        m_proc->setEnv("BSTINPUTS", tool()->manager()->info()->expandEnvironmentVars(bstInputPaths + LIST_SEPARATOR + "$BSTINPUTS"));
     }
 
     out += "*****\n";

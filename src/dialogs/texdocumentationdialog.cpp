@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@t-online.de)
-                2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2014-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -256,7 +256,7 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 
 QString TexDocDialog::searchFile(const QString &docfilename, const QString &listofpaths, const QString &subdir)
 {
-    QStringList pathlist  = listofpaths.split(PATH_SEPARATOR);
+    QStringList pathlist  = listofpaths.split(LIST_SEPARATOR);
     QStringList extlist   = QString(",.gz,.bz2").split(',', QString::KeepEmptyParts);
 
     QString filename;

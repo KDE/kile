@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -963,12 +963,12 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
         fileInfo = QFileInfo(m_ki->getCompileName());
     }
 
-    const QString inputDir = previewInformation->getTempDir() + PATH_SEPARATOR + fileInfo.absolutePath();
+    const QString inputDir = previewInformation->getTempDir() + LIST_SEPARATOR + fileInfo.absolutePath();
 
     // set value of texinput path (only for LivePreviewManager tools)
     QString texInputPath = KileConfig::teXPaths();
     if(!texInputPath.isEmpty()) {
-        texInputPath = inputDir + PATH_SEPARATOR + texInputPath;
+        texInputPath = inputDir + LIST_SEPARATOR + texInputPath;
     }
     else {
         texInputPath = inputDir;
@@ -977,7 +977,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
     QString bibInputPath = KileConfig::bibInputPaths();
     if(!bibInputPath.isEmpty()) {
-        bibInputPath = inputDir + PATH_SEPARATOR + bibInputPath;
+        bibInputPath = inputDir + LIST_SEPARATOR + bibInputPath;
     }
     else {
         bibInputPath = inputDir;
@@ -986,7 +986,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
     QString bstInputPath = KileConfig::bstInputPaths();
     if(!bstInputPath.isEmpty()) {
-        bstInputPath = inputDir + PATH_SEPARATOR + bstInputPath;
+        bstInputPath = inputDir + LIST_SEPARATOR + bstInputPath;
     }
     else {
         bstInputPath = inputDir;

@@ -2385,7 +2385,9 @@ void Kile::readConfig()
 {
     m_codeCompletionManager->readConfig(m_config.data());
 
-    m_livePreviewManager->readConfig(m_config.data());
+    if(m_livePreviewManager) {
+        m_livePreviewManager->readConfig(m_config.data());
+    }
 
     //m_edit->initDoubleQuotes();
     m_edit->readConfig();
@@ -2415,7 +2417,9 @@ void Kile::saveSettings()
 {
     m_fileBrowserWidget->writeConfig();
 
-    m_livePreviewManager->writeConfig();
+    if(m_livePreviewManager) {
+        m_livePreviewManager->writeConfig();
+    }
 
     m_symbolViewMFUS->writeConfig();
     saveLastSelectedAction();

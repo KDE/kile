@@ -8,48 +8,49 @@
     </menu>
     <menu type="text">
       <title>Insert text (replace selection)</title>
-      <text>This text has replaced current selection...</text>
+      <text>This text has replaced the current selection...</text>
       <needsSelection>true</needsSelection>
       <replaceSelection>true</replaceSelection>
     </menu>
     <menu type="text">
       <title>Bold text (without selection)</title>
-      <text>\textbf{%C}</text>
+      <text>\;textbf{%C}</text>
     </menu>
     <menu type="text">
       <title>Italic text (with selection)</title>
-      <text>\textit{%M}</text>
+      <text>\;textit{%M}</text>
       <needsSelection>true</needsSelection>
       <useContextMenu>true</useContextMenu>
       <replaceSelection>true</replaceSelection>
     </menu>
     <menu type="text">
       <title>Small caps (with or without selection)</title>
-      <text>\textsc{%M%C}</text>
+      <text>\;textsc{%M%C}</text>
+      <replaceSelection>true</replaceSelection>
     </menu>
     <separator/>
     <menu type="text">
       <title>pageref</title>
-      <text>\pageref{%R}</text>
+      <text>\;pageref{%R}</text>
     </menu>
     <menu type="text">
       <title>cite</title>
-      <text>\cite{%R}</text>
+      <text>\;cite{%R}</text>
     </menu>
     <separator/>
     <menu type="text">
       <title>Environment (center)</title>
-      <text>\begin{center}\n%E%C\n\end{center}\n</text>
+      <text>\;begin{center}\n%E%C\n\;end{center}\n</text>
     </menu>
     <menu type="text">
       <title>Environment (tabular)</title>
-      <text>\begin{tabular}{%B}\n%B\n\end{tabular}\n</text>
+      <text>\;begin{tabular}{%B}\n%B\n\;end{tabular}\n</text>
     </menu>
   </submenu>
   <separator/>
   <menu type="file">
     <title>File contents</title>
-    <filename>/etc/resolv.conf</filename>
+    <filename>/etc/hostname</filename>
     <selectInsertion>true</selectInsertion>
   </menu>
   <separator/>

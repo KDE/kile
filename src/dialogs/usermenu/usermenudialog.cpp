@@ -1,5 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+            (C) 2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -691,10 +692,8 @@ void UserMenuDialog::slotKeySequenceChanged(const QKeySequence &seq)
 
 void UserMenuDialog::slotSelectionStateChanged(int state)
 {
-    m_UserMenuDialog.m_cbReplaceSelection->setEnabled(state);
     m_UserMenuDialog.m_cbContextMenu->setEnabled(state);
-    if (!state) {
-        m_UserMenuDialog.m_cbReplaceSelection->setChecked(state);
+    if(!state) {
         m_UserMenuDialog.m_cbContextMenu->setChecked(state);
     }
     setModified();
@@ -939,7 +938,7 @@ void UserMenuDialog::setMenuentryCheckboxes(UserMenuItem *item, bool useInsertOu
     bool selectionState, insertionState, outputState, replaceState, contextState;
     if (item) {
         selectionState = item->needsSelection();
-        replaceState   = (selectionState) ? item->replaceSelection() : false;
+        replaceState   = item->replaceSelection();
         insertionState = item->selectInsertion();
         outputState    = (useInsertOutput) ? item->insertOutput() : false;
         contextState   = (selectionState) ? item->useContextMenu() : false;
@@ -955,9 +954,8 @@ void UserMenuDialog::setMenuentryCheckboxes(UserMenuItem *item, bool useInsertOu
     // m_cbNeedsSelection and m_cbSelectInsertion are always enabled
     m_UserMenuDialog.m_cbNeedsSelection->setChecked(selectionState);
 
-    // m_cbContextMenu and m_cbReplaceSelection need a selection to be enabled
+    // m_cbContextMenu needs a selection to be enabled
     m_UserMenuDialog.m_cbContextMenu->setEnabled(selectionState);
-    m_UserMenuDialog.m_cbReplaceSelection->setEnabled(selectionState);
 
     m_UserMenuDialog.m_cbContextMenu->setChecked(contextState);
     m_UserMenuDialog.m_cbReplaceSelection->setChecked(replaceState);

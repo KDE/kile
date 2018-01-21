@@ -1,6 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
-            (C) 2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2017-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -903,17 +903,17 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
     QString metachar,label;
     int actiontype =0;
 
-    if ( text.contains("%R") )  {
+    if(text.contains("%R")) {
         metachar = "%R";
         label = i18n("Label");
         actiontype = KileAction::FromLabelList;
     }
-    else if ( text.contains("%T") )  {
+    else if(text.contains("%T")) {
         metachar = "%T";
         label = i18n("Reference");
         actiontype = KileAction::FromBibItemList;
     }
-    if ( !metachar.isEmpty() ) {
+    if(!metachar.isEmpty()) {
         QStringList list = text.split(metachar);
 
         KileAction::InputTag tag(m_ki, i18n("Input Dialog"), QString(), QKeySequence(), m_receiver, SLOT(insertTag(const KileAction::TagData&)), m_actioncollection,"tag_temporary_action", m_ki->mainWindow(), actiontype, list.at(0)+metachar, list.at(1), list.at(0).length(), 0, QString(), label);
@@ -923,23 +923,18 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
     }
 
     // metachars: %B - bullet
-    //            %M - selected text (replaced by %C, if no selection is present)
+    //            %M - selected text
     //            %C - place cursor
     //            %E - indent in environment
     QString ins = text;
     bool bullet = ins.contains("%B");
 
     // deselect and/or remove current selection
-    if ( view->selection() ) {
-        if ( ins.contains("%M") )  {
-            if ( ins.contains("%M%C") ) {
-                ins.replace("%M%C",view->selectionText());
-            }
-            else {
-                ins.replace("%M",view->selectionText());
-            }
+    if(view->selection()) {
+        if(ins.contains("%M")) {
+            ins.replace("%M", view->selectionText());
         }
-        if ( replaceSelection ) {
+        if(replaceSelection) {
             view->removeSelectionText();
         }
         else {
@@ -956,15 +951,15 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
     emit( sendText(ins) );
 
     // select inserted text
-    if ( selectInsertion ) {
+    if(selectInsertion) {
         KTextEditor::Cursor cursor2 = view->cursorPosition();
-        view->setSelection(KTextEditor::Range(cursor1,cursor2));
+        view->setSelection(KTextEditor::Range(cursor1, cursor2));
     }
 
     // text with bullet metachar %B
-    if ( bullet ) {
+    if(bullet) {
         view->setCursorPosition(cursor1);
-        m_ki->editorExtension()->gotoBullet(false,view);
+        m_ki->editorExtension()->gotoBullet(false, view);
     }
 }
 

@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -14,6 +14,8 @@
 
 #include "configtester.h"
 
+#include <okular/interfaces/viewerinterface.h>
+
 #include <QTimer>
 
 #include <KAboutData>
@@ -21,6 +23,7 @@
 #include <KIO/CopyJob>
 #include <KJob>
 #include <KLocalizedString>
+#include <KPluginFactory>
 #include <KPluginLoader>
 #include <KProcess>
 
@@ -304,14 +307,27 @@ void OkularVersionTest::call()
 {
     KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
     KPluginFactory *factory = pluginLoader.factory();
+
     if (!factory) {
         m_status = Failure;
     }
     else {
-        m_status = Success;
-        quint32 version = pluginLoader.pluginVersion();
-        m_resultText = i18n("%1 - Forward Search is supported", version);
+        KParts::ReadOnlyPart *part = factory->create<KParts::ReadOnlyPart>();
+        Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(part);
+
+        if(!viewerInterface) {
+            // OkularPart doesn't provide the ViewerInterface
+            m_status = Failure;
+        }
+        else {
+            m_status = Success;
+            // it seems that the version of OkularPart cannot be detected, so we don't try it
+            m_resultText = i18n("Embedding of Okular is supported");
+        }
+        delete part;
     }
+
+    delete factory;
 
     emit(testComplete(this));
 }

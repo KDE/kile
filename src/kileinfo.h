@@ -268,45 +268,45 @@ public:
     }
 
 protected:
-    KileConfiguration::Manager	*m_configurationManager;
-    KParts::MainWindow		*m_mainWindow;
-    KileDocument::Manager		*m_docManager;
-    KileView::Manager		*m_viewManager;
-    KileTool::Manager		*m_manager;
-    KileTemplate::Manager		*m_templateManager;
-    KileScript::Manager		*m_jScriptManager;
-    KileEditorKeySequence::Manager	*m_editorKeySequenceManager;
-    KileTool::Factory		*m_toolFactory;
-    KileWidget::Konsole		*m_texKonsole;
-    KileWidget::OutputView		*m_outputWidget;
-    KileWidget::ScriptsManagement	*m_scriptsManagementWidget;
-    KileWidget::BottomBar		*m_bottomBar;
-    KileWidget::PreviewWidget	*m_previewWidget;
-    KileWidget::ExtendedScrollArea	*m_previewScrollArea;
-    KileCodeCompletion::Manager	*m_codeCompletionManager;
-    KileAbbreviation::Manager	*m_abbreviationManager;
-    KileParser::Manager		*m_parserManager;
-    KileErrorHandler 		*m_errorHandler;
+    KParts::MainWindow             *m_mainWindow;
+    KileConfiguration::Manager     *m_configurationManager;
+    KileDocument::Manager          *m_docManager;
+    KileView::Manager              *m_viewManager;
+    KileTool::Manager              *m_manager;
+    KileTemplate::Manager          *m_templateManager;
+    KileScript::Manager            *m_jScriptManager;
+    KileEditorKeySequence::Manager *m_editorKeySequenceManager;
+    KileTool::Factory              *m_toolFactory;
+    KileWidget::Konsole            *m_texKonsole;
+    KileWidget::OutputView         *m_outputWidget;
+    KileWidget::ScriptsManagement  *m_scriptsManagementWidget;
+    KileWidget::BottomBar          *m_bottomBar;
+    KileWidget::PreviewWidget      *m_previewWidget;
+    KileWidget::ExtendedScrollArea *m_previewScrollArea;
+    KileCodeCompletion::Manager    *m_codeCompletionManager;
+    KileAbbreviation::Manager      *m_abbreviationManager;
+    KileParser::Manager            *m_parserManager;
+    KileErrorHandler               *m_errorHandler;
 
-    EditorCommands				*m_editorCommands;
+    EditorCommands                 *m_editorCommands;
 
-    KileHelp::Help		*m_help;
-    KileDocument::EditorExtension 	*m_edit;
-    KileDocument::LatexCommands *m_latexCommands;
-    KileDocument::Extensions *m_extensions;
-    KileTool::QuickPreview *m_quickPreview;
-    KileMenu::UserMenu *m_userMenu;
-    KileTool::LivePreviewManager *m_livePreviewManager;
+    KileHelp::Help                 *m_help;
+    KileDocument::EditorExtension  *m_edit;
+    KileDocument::LatexCommands    *m_latexCommands;
+    KileDocument::Extensions       *m_extensions;
+    KileTool::QuickPreview         *m_quickPreview;
+    KileMenu::UserMenu             *m_userMenu;
+    KileTool::LivePreviewManager   *m_livePreviewManager;
 
-    bool 		m_singlemode;
-    QString		m_masterDocumentFileName;
+    bool                            m_singlemode;
+    QString                         m_masterDocumentFileName;
 
-    QString	m_currentTarget;
+    QString                         m_currentTarget;
 
-    bool m_bWatchFile;
+    bool                            m_bWatchFile;
 
-    KileWidget::StructureWidget	*m_kwStructure;
-    KileWidget::FileBrowserWidget 			*m_fileBrowserWidget;
+    KileWidget::StructureWidget    *m_kwStructure;
+    KileWidget::FileBrowserWidget  *m_fileBrowserWidget;
 };
 
 #endif

@@ -50,15 +50,35 @@
  */
 
 KileInfo::KileInfo(KParts::MainWindow *parent)
-    : m_mainWindow(parent)
-    , m_viewManager(Q_NULLPTR)
-    , m_manager(Q_NULLPTR)
-    , m_jScriptManager(Q_NULLPTR)
-    , m_toolFactory(Q_NULLPTR)
-    , m_texKonsole(Q_NULLPTR)
-    , m_errorHandler(Q_NULLPTR)
-    , m_edit(Q_NULLPTR)
-    , m_userMenu(Q_NULLPTR)
+    : m_mainWindow(parent),
+      m_configurationManager(Q_NULLPTR),
+      m_docManager(Q_NULLPTR),
+      m_viewManager(Q_NULLPTR),
+      m_manager(Q_NULLPTR),
+      m_templateManager(Q_NULLPTR),
+      m_jScriptManager(Q_NULLPTR),
+      m_editorKeySequenceManager(Q_NULLPTR),
+      m_toolFactory(Q_NULLPTR),
+      m_texKonsole(Q_NULLPTR),
+      m_outputWidget(Q_NULLPTR),
+      m_scriptsManagementWidget(Q_NULLPTR),
+      m_bottomBar(Q_NULLPTR),
+      m_previewWidget(Q_NULLPTR),
+      m_previewScrollArea(Q_NULLPTR),
+      m_codeCompletionManager(Q_NULLPTR),
+      m_abbreviationManager(Q_NULLPTR),
+      m_parserManager(Q_NULLPTR),
+      m_errorHandler(Q_NULLPTR),
+      m_editorCommands(Q_NULLPTR),
+      m_help(Q_NULLPTR),
+      m_edit(Q_NULLPTR),
+      m_latexCommands(Q_NULLPTR),
+      m_extensions(Q_NULLPTR),
+      m_quickPreview(Q_NULLPTR),
+      m_userMenu(Q_NULLPTR),
+      m_livePreviewManager(Q_NULLPTR),
+      m_kwStructure(Q_NULLPTR),
+      m_fileBrowserWidget(Q_NULLPTR)
 {
     m_configurationManager = new KileConfiguration::Manager(this, parent, "KileConfiguration::Manager");
     m_docManager = new KileDocument::Manager(this, parent, "KileDocument::Manager");

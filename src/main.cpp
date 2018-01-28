@@ -2,7 +2,7 @@
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2002 - 2003 by Pascal Brachet
                                2003 - 2005 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2011 - 2016 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2011 - 2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************************/
 
 /***************************************************************************
@@ -28,11 +28,13 @@
 #include <KDBusService>
 #include <KEncodingProber>
 #include <KLocalizedString>
+#include <KMessageBox>
 #include <KStartupInfo>
 
 #include "kile.h"
 #include "kileversion.h"
 #include "kiledebug.h"
+#include "kileviewmanager.h"
 
 Q_LOGGING_CATEGORY(LOG_KILE_MAIN, "org.kde.kile.main", QtWarningMsg)
 Q_LOGGING_CATEGORY(LOG_KILE_PARSER, "org.kde.kile.parser", QtWarningMsg)
@@ -158,6 +160,18 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
         bool restore = (parser.positionalArguments().count() == 0);
 
         Kile *kile = new Kile(restore);
+
+        // the constructor of the Kile class will return immediatey if Okular cannot be instantiated correctly
+        if(!kile->viewManager()->viewerPart()) {
+            delete kile;
+
+            KILE_DEBUG_MAIN << "couldn't find a recent version of the Okular library";
+
+            KMessageBox::sorry(Q_NULLPTR, i18n("Kile cannot start as a recent version the Okular library could not be found.\n\n"
+                                               "Please install the Okular library before running Kile."),
+                                          i18n("Okular library not found"));
+            return EXIT_FAILURE;
+        }
 
         Q_FOREACH(QString argument, parser.positionalArguments()) {
             if(argument == "-") {

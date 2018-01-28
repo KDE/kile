@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -112,26 +112,56 @@
  */
 
 Kile::Kile(bool allowRestore, QWidget *parent)
-    : KParts::MainWindow()
-    , KileInfo(this)
-    , m_paPrint(Q_NULLPTR)
+    : KParts::MainWindow(),
+      KileInfo(this),
+      m_toolsToolBar(Q_NULLPTR),       // we have to set all of these to null as the constructor
+      m_userHelpActionMenu(Q_NULLPTR), // might return early
+      m_bibTagSettings(Q_NULLPTR),
+      m_compilerActions(Q_NULLPTR),
+      m_viewActions(Q_NULLPTR),
+      m_convertActions(Q_NULLPTR),
+      m_quickActions(Q_NULLPTR),
+      m_bibTagActionMenu(Q_NULLPTR),
+      m_paStop(Q_NULLPTR),
+      m_paPrint(Q_NULLPTR),
+      ModeAction(Q_NULLPTR),
+      WatchFileAction(Q_NULLPTR),
+      m_actionMessageView(Q_NULLPTR),
+      m_actRecentFiles(Q_NULLPTR),
+      m_pFullScreen(Q_NULLPTR),
+      m_sideBar(Q_NULLPTR),
+      m_kileAbbrevView(Q_NULLPTR),
+      m_topWidgetStack(Q_NULLPTR),
+      m_horizontalSplitter(Q_NULLPTR),
+      m_verticalSplitter(Q_NULLPTR),
+      m_toolBox(Q_NULLPTR),
+      m_commandViewToolBox(Q_NULLPTR),
+      m_symbolViewMFUS(Q_NULLPTR),
+      m_symbolViewRelation(Q_NULLPTR),
+      m_symbolViewArrows(Q_NULLPTR),
+      m_symbolViewMiscMath(Q_NULLPTR),
+      m_symbolViewMiscText(Q_NULLPTR),
+      m_symbolViewOperators(Q_NULLPTR),
+      m_symbolViewUser(Q_NULLPTR),
+      m_symbolViewDelimiters(Q_NULLPTR),
+      m_symbolViewGreek(Q_NULLPTR),
+      m_symbolViewSpecial(Q_NULLPTR),
+      m_symbolViewCyrillic(Q_NULLPTR),
+      m_commandView(Q_NULLPTR),
+      m_latexOutputErrorToolBar(Q_NULLPTR),
+      m_buildMenuTopLevel(Q_NULLPTR),
+      m_buildMenuCompile(Q_NULLPTR),
+      m_buildMenuConvert(Q_NULLPTR),
+      m_buildMenuViewer(Q_NULLPTR),
+      m_buildMenuOther(Q_NULLPTR),
+      m_buildMenuQuickPreview(Q_NULLPTR),
+      m_signalMapper(Q_NULLPTR),
+      m_actRecentProjects(Q_NULLPTR),
+      m_lyxserver(Q_NULLPTR)
 {
     setObjectName("Kile");
 
-    // Under some circumstances (Qt or KDE issues like a KIO process still running (?)), Kile doesn't terminate
-    // when the main window is closed (bugs 220343 and 299569). So, we force this here.
-    // This still seems to happen with Qt 4.8.1 and KDE 4.8.2.
-    connect(m_mainWindow, SIGNAL(destroyed(QObject*)), qApp, SLOT(quit())); //FIXME: KF5 is this still necessary?
-
-    QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
-    if(KileConfig::showSplashScreen()) {
-        splashScreen.show();
-        qApp->processEvents();
-    }
-
     m_config = KSharedConfig::openConfig();
-
-    m_codeCompletionManager = new KileCodeCompletion::Manager(this, parent);
 
     setStandardToolBarMenuEnabled(true);
 
@@ -139,6 +169,19 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
     m_viewManager= new KileView::Manager(this, actionCollection(), parent, "KileView::Manager");
     viewManager()->setClient(this);
+
+    // fail gracefully if we cannot instantiate Okular part correctly
+    if(!m_viewManager->viewerPart()) {
+        return;
+    }
+
+    QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+    if(KileConfig::showSplashScreen()) {
+        splashScreen.show();
+        qApp->processEvents();
+    }
+
+    m_codeCompletionManager = new KileCodeCompletion::Manager(this, parent);
 
     // process events for correctly displaying the splash screen
     qApp->processEvents();
@@ -150,7 +193,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     m_quickPreview = new KileTool::QuickPreview(this);
     m_extensions = new KileDocument::Extensions();
     m_jScriptManager = new KileScript::Manager(this, m_config.data(), actionCollection(), parent, "KileScript::Manager");
-    m_userMenu = Q_NULLPTR;
 
     // do initializations first
     m_bWatchFile = false;
@@ -216,17 +258,10 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     connect(m_manager, SIGNAL(jumpToFirstError()), m_errorHandler, SLOT(jumpToFirstError()));
     connect(m_manager, SIGNAL(previewDone()), this, SLOT(focusPreview()));
 
-    if(viewManager()->viewerPart()) {
-        m_bottomBar->addExtraWidget(viewManager()->getViewerControlToolBar());
-    }
+    m_bottomBar->addExtraWidget(viewManager()->getViewerControlToolBar());
 
     m_livePreviewManager = new KileTool::LivePreviewManager(this, actionCollection());
     connect(this, &Kile::masterDocumentChanged, m_livePreviewManager, &KileTool::LivePreviewManager::handleMasterDocumentChanged);
-
-    if(!viewManager()->viewerPart()) { // live preview part couldn't be created
-        delete m_livePreviewManager;
-        m_livePreviewManager = Q_NULLPTR;
-    }
 
     m_toolFactory = new KileTool::Factory(m_manager, m_config.data(), actionCollection());
     m_manager->setFactory(m_toolFactory);
@@ -284,7 +319,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     updateUserDefinedMenus();
 
     // we can only do this here after the main GUI has been set up
-    if(m_livePreviewManager && viewManager()->viewerPart()) {
+    {
         guiFactory()->addClient(viewManager()->viewerPart());
 
         QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container("menu_document_viewer", this));
@@ -300,12 +335,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
                 documentViewerMenu->setVisible(false);
             }
             delete popup;
-        }
-    }
-    else { // we hide the special document viewer menu
-        QMenu *documentViewerMenu = static_cast<QMenu*>(guiFactory()->container("menu_document_viewer", this));
-        if(documentViewerMenu) {
-            documentViewerMenu->setVisible(false);
         }
     }
 
@@ -393,9 +422,8 @@ Kile::~Kile()
 {
     KILE_DEBUG_MAIN << "cleaning up..." << endl;
 
-    if(m_livePreviewManager && viewManager()->viewerPart()) {
-        guiFactory()->removeClient(viewManager()->viewerPart());
-    }
+    guiFactory()->removeClient(viewManager()->viewerPart());
+
     delete m_userMenu;
     delete m_livePreviewManager;
     delete m_toolFactory;
@@ -865,14 +893,12 @@ void Kile::setupActions()
     ModeAction->setIcon(QIcon::fromTheme("master"));
     connect(ModeAction, SIGNAL(triggered()), this, SLOT(toggleMasterDocumentMode()));
 
-    if(viewManager()->viewerPart()) {
-        KToggleAction *showDocumentViewer = new KToggleAction(i18n("Show Document Viewer"), actionCollection());
-        actionCollection()->addAction("ShowDocumentViewer", showDocumentViewer);
-        showDocumentViewer->setChecked(KileConfig::showDocumentViewer());
-        connect(showDocumentViewer, SIGNAL(toggled(bool)), viewManager(), SLOT(setDocumentViewerVisible(bool)));
-        connect(viewManager(), SIGNAL(documentViewerWindowVisibilityChanged(bool)),
-                showDocumentViewer, SLOT(setChecked(bool)));
-    }
+    KToggleAction *showDocumentViewer = new KToggleAction(i18n("Show Document Viewer"), actionCollection());
+    actionCollection()->addAction("ShowDocumentViewer", showDocumentViewer);
+    showDocumentViewer->setChecked(KileConfig::showDocumentViewer());
+    connect(showDocumentViewer, SIGNAL(toggled(bool)), viewManager(), SLOT(setDocumentViewerVisible(bool)));
+    connect(viewManager(), SIGNAL(documentViewerWindowVisibilityChanged(bool)),
+            showDocumentViewer, SLOT(setChecked(bool)));
 
     KToggleAction *tact = new KToggleAction(i18n("Show S&ide Bar"), actionCollection());
     actionCollection()->addAction("StructureView", tact);

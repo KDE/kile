@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : sam jui 13 09:50:06 CEST 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
 
  ***************************************************************************************/
@@ -147,44 +147,76 @@ protected:
     virtual bool queryClose();
 
 private:
-    QMap<QString,bool> m_dictMenuAction, m_dictMenuFile, m_dictMenuProject;
+    QMap<QString,bool>              m_dictMenuAction,
+                                    m_dictMenuFile,
+                                    m_dictMenuProject;
 
-    KToolBar				*m_toolsToolBar;
-    KActionMenu				*m_userHelpActionMenu;
-    KSelectAction				*m_bibTagSettings;
-    ToolbarSelectAction			*m_compilerActions, *m_viewActions, *m_convertActions, *m_quickActions;
-    QList<KileAction::TagData>		m_listUserTags;
-    QList<userItem>				m_listUserTools;
-    QList<QAction*> 			m_listQuickActions, m_listCompilerActions, m_listConverterActions, m_listViewerActions, m_listOtherActions;
-    KActionMenu 				*m_bibTagActionMenu;
-    QAction *m_paStop, *m_paPrint;
-    KToggleAction 				*ModeAction, *WatchFileAction;
-    KToggleAction 				*m_actionMessageView;
-    KRecentFilesAction			*m_actRecentFiles;
-    KToggleFullScreenAction			*m_pFullScreen;
+    KToolBar                       *m_toolsToolBar;
+    KActionMenu                    *m_userHelpActionMenu;
+    KSelectAction                  *m_bibTagSettings;
+    ToolbarSelectAction            *m_compilerActions,
+                                   *m_viewActions,
+                                   *m_convertActions,
+                                   *m_quickActions;
+
+    QList<KileAction::TagData>      m_listUserTags;
+    QList<userItem>                 m_listUserTools;
+    QList<QAction*>                 m_listQuickActions,
+                                    m_listCompilerActions,
+                                    m_listConverterActions,
+                                    m_listViewerActions,
+                                    m_listOtherActions;
+
+    KActionMenu                    *m_bibTagActionMenu;
+    QAction                        *m_paStop,
+                                   *m_paPrint;
+    KToggleAction                  *ModeAction,
+                                   *WatchFileAction;
+    KToggleAction                  *m_actionMessageView;
+    KRecentFilesAction             *m_actRecentFiles;
+    KToggleFullScreenAction        *m_pFullScreen;
 
     /* GUI */
     //widgets
-    KileWidget::SideBar			*m_sideBar;
-    KileWidget::AbbreviationView		*m_kileAbbrevView;
-    QStackedWidget			*m_topWidgetStack;
-    QSplitter 			*m_horizontalSplitter, *m_verticalSplitter;
-    QToolBox			*m_toolBox;
+    KileWidget::SideBar            *m_sideBar;
+    KileWidget::AbbreviationView   *m_kileAbbrevView;
+    QStackedWidget                 *m_topWidgetStack;
+    QSplitter                      *m_horizontalSplitter,
+                                   *m_verticalSplitter;
+    QToolBox                       *m_toolBox;
     KileWidget::CommandViewToolBox *m_commandViewToolBox;
-    KileWidget::SymbolView		*m_symbolViewMFUS, *m_symbolViewRelation, *m_symbolViewArrows, *m_symbolViewMiscMath, *m_symbolViewMiscText, *m_symbolViewOperators, *m_symbolViewUser, *m_symbolViewDelimiters, *m_symbolViewGreek, *m_symbolViewSpecial, *m_symbolViewCyrillic;
-    KileWidget::CommandView *m_commandView;
-    KToolBar			*m_latexOutputErrorToolBar;
-    QMenu  *m_buildMenuTopLevel, *m_buildMenuCompile, *m_buildMenuConvert, *m_buildMenuViewer, *m_buildMenuOther, *m_buildMenuQuickPreview;
+    KileWidget::SymbolView         *m_symbolViewMFUS,
+                                   *m_symbolViewRelation,
+                                   *m_symbolViewArrows,
+                                   *m_symbolViewMiscMath,
+                                   *m_symbolViewMiscText,
+                                   *m_symbolViewOperators,
+                                   *m_symbolViewUser,
+                                   *m_symbolViewDelimiters,
+                                   *m_symbolViewGreek,
+                                   *m_symbolViewSpecial,
+                                   *m_symbolViewCyrillic;
+    KileWidget::CommandView        *m_commandView;
+    KToolBar                       *m_latexOutputErrorToolBar;
+    QMenu                          *m_buildMenuTopLevel,
+                                   *m_buildMenuCompile,
+                                   *m_buildMenuConvert,
+                                   *m_buildMenuViewer,
+                                   *m_buildMenuOther,
+                                   *m_buildMenuQuickPreview;
 
-    QSignalMapper			*m_signalMapper;
+    QSignalMapper                  *m_signalMapper;
 
     /* config */
-    KSharedConfigPtr	m_config;
-    QStringList 		m_recentFilesList, m_listDocsOpenOnStart, m_listEncodingsOfDocsOpenOnStart, m_listProjectsOpenOnStart;
+    KSharedConfigPtr               m_config;
+    QStringList                    m_recentFilesList,
+                                   m_listDocsOpenOnStart,
+                                   m_listEncodingsOfDocsOpenOnStart,
+                                   m_listProjectsOpenOnStart;
 
-    KRecentFilesAction *m_actRecentProjects;
+    KRecentFilesAction             *m_actRecentProjects;
 
-    KileLyxServer		*m_lyxserver;
+    KileLyxServer                  *m_lyxserver;
 
     /* actions */
     void initSelectActions();

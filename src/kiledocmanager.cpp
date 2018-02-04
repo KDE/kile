@@ -1,6 +1,6 @@
 /*****************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)      *
-*             (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)     *
+*             (C) 2006-2018 by Michel Ludwig (michel.ludwig@kdemail.net)     *
 *             (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
 ******************************************************************************/
 
@@ -13,9 +13,6 @@
  *                                                                         *
  ***************************************************************************/
 
-// 2007-03-12 dani
-//  - use KileDocument::Extensions
-
 #include "kiledocmanager.h"
 
 #include <QAbstractItemView>
@@ -27,6 +24,7 @@
 #include <QList>
 #include <QMimeData>
 #include <QMimeType>
+#include <QMimeDatabase>
 #include <QProgressDialog>
 #include <QPushButton>
 #include <QTemporaryFile>
@@ -35,6 +33,7 @@
 
 #include <KConfigGroup>
 #include <KEncodingFileDialog>
+#include <KIO/CopyJob>
 #include <KIO/DeleteJob>
 #include <KIO/FileCopyJob>
 #include <KIO/StatJob>
@@ -918,6 +917,44 @@ bool Manager::fileSaveAll(bool disUntitled)
     return !oneSaveFailed;
 }
 
+void Manager::fileSaveCompiledDocument()
+{
+    const QString compiledDocumentFileName = m_ki->livePreviewManager()->getPreviewFile();
+
+    QFileInfo fileInfo(compiledDocumentFileName);
+    if(!fileInfo.exists() || !fileInfo.isReadable()) {
+        KILE_WARNING_MAIN << "file doesn't exist or cannot be read:" << compiledDocumentFileName;
+        return;
+    }
+    QMimeDatabase db;
+
+    QStringList nameFilters;
+    {
+        QMimeType detectedMimeType = db.mimeTypeForFile(fileInfo);
+        if(!detectedMimeType.isDefault()) { // All files (*)
+            nameFilters << detectedMimeType.filterString();
+        }
+    }
+    nameFilters << i18n("Any files (*)");
+
+    QFileDialog *dlg = new QFileDialog(m_ki->mainWindow(), i18n("Save Compiled Document As..."));
+    dlg->setModal(true);
+    dlg->setNameFilters(nameFilters);
+    dlg->selectFile(fileInfo.fileName());
+    dlg->setAcceptMode(QFileDialog::AcceptSave);
+
+    connect(dlg,  &QFileDialog::urlSelected,
+            this, [compiledDocumentFileName](const QUrl& url) {
+                      if(!url.isValid()) {
+                          return;
+                      }
+                      // the QFileDialog will take care of asking for overwrite permission (if the chosen file exists already)
+                      KIO::CopyJob *copyJob = KIO::copy(QUrl::fromLocalFile(compiledDocumentFileName), url, KIO::Overwrite);
+                      connect(copyJob, &KIO::CopyJob::finished, copyJob, &QObject::deleteLater);
+                  });
+    dlg->exec();
+}
+
 TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
 {
     m_currentlyOpeningFile = true;
@@ -1054,13 +1091,8 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
                                             m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
         }
 
-        auto statJob = KIO::stat(saveURL, KIO::StatJob::SourceSide, 0);
-        KJobWidgets::setWindow(statJob, m_ki->mainWindow());
-        if (statJob->exec()) { // check for writing possibility
-            int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?", saveURL.fileName()), i18n("Overwrite File?"), KStandardGuiItem::overwrite());
-            if(r != KMessageBox::Continue) {
-                continue;
-            }
+        if(!checkForFileOverwritePermission(saveURL)) {
+            continue;
         }
         break;
     }
@@ -1078,6 +1110,20 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
         emit addToProjectView(doc->url());
     }
     emit(documentSavedAs(view, info));
+    return true;
+}
+
+bool Manager::checkForFileOverwritePermission(const QUrl& url)
+{
+    auto statJob = KIO::stat(url, KIO::StatJob::SourceSide, 0);
+    KJobWidgets::setWindow(statJob, m_ki->mainWindow());
+    if (statJob->exec()) { // check for writing possibility
+        int r =  KMessageBox::warningContinueCancel(m_ki->mainWindow(), i18n("A file with the name \"%1\" exists already. Do you want to overwrite it?",
+                                                    url.fileName()), i18n("Overwrite File?"), KStandardGuiItem::overwrite());
+        if(r != KMessageBox::Continue) {
+            return false;
+        }
+    }
     return true;
 }
 

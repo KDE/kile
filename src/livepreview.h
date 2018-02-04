@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -66,6 +66,16 @@ public:
     void setLivePreviewEnabledForCurrentDocument(bool b);
 
     void buildLivePreviewMenu(KConfig *config);
+
+    QString getPreviewFile() const;
+    inline QUrl getPreviewFileURL() const {
+        return QUrl::fromLocalFile(getPreviewFile());
+    }
+
+Q_SIGNALS:
+    void livePreviewSuccessful();
+    void livePreviewRunning();
+    void livePreviewStopped(); // disabled or stopped
 
 public Q_SLOTS:
     void handleTextChanged(KTextEditor::Document *doc);

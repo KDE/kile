@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -14,6 +14,8 @@
 
 #ifndef KILEVIEWKILEVIEWMANAGER_H
 #define KILEVIEWKILEVIEWMANAGER_H
+
+#include <okular/interfaces/viewerinterface.h>
 
 #include <KTextEditor/Cursor>
 #include <KTextEditor/ModificationInterface>
@@ -111,8 +113,12 @@ public:
 
     void installContextMenu(KTextEditor::View *view);
 
-    KParts::ReadOnlyPart* viewerPart() const {
-        return m_viewerPart;
+    inline KParts::ReadOnlyPart* viewerPart() const {
+        return m_viewerPart.data();
+    }
+
+    inline Okular::ViewerInterface* viewerInterfaceForViewerPart() const {
+        return dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
     }
 
     void readConfig(QSplitter *splitter);

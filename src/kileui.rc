@@ -1,123 +1,124 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="45">
+<kpartgui name="kile" version="46">
 <Menu name="ktexteditor_popup" noMerge="1">
-	<DefineGroup name="popup_operations" />
-	<Action name="popup_pasteaslatex"/>
-	<Action name="popup_converttolatex"/>
-	<Separator/>
-	<Action name="popup_quickpreview"/>
+    <DefineGroup name="popup_operations" />
+    <Action name="popup_pasteaslatex"/>
+    <Action name="popup_converttolatex"/>
+    <Separator/>
+    <Action name="popup_quickpreview"/>
 </Menu>
 <MenuBar>
 <Menu name="file" noMerge="1"><text>&amp;File</text>
-	<Action name="file_new"/>
-	<Separator/>
-	<Action name="file_open"/>
-	<Action name="file_open_recent"/>
-	<DefineGroup name="revert_merge"/>
-	<Separator/>
-	<DefineGroup name="save_merge"/>
-	<Action name="file_save_copy_as"/>
-	<Action name="file_save_all"/>
-	<Separator/>
-	<Action name="template_create"/>
-	<Action name="template_remove"/>
-	<Separator/>
-	<DefineGroup name="okular_print_merge" append="okular_print_merge"/>
-	<Action name="print_compiled_document"/>
-	<Separator/>
-	<DefineGroup name="print_merge"/>
-	<Separator/>
-	<Merge/>
-	<Menu name="convert"><text>Con&amp;vert To</text>
-		<Action name="file_export_ascii"/>
-		<Separator/>
-		<Action name="file_export_latin1"/>
-		<Action name="file_export_latin2"/>
-		<Action name="file_export_latin3"/>
-		<Action name="file_export_latin4"/>
-		<Action name="file_export_latin5"/>
-		<Action name="file_export_latin9"/>
-		<Action name="file_export_cp1250"/>
-		<Action name="file_export_cp1252"/>
-	</Menu>
-	<Action name="Statistics"/>
-	<Separator/>
-	<Action name="file_close"/>
-	<Action name="file_close_all"/>
-	<Action name="file_close_all_others"/>
-	<Separator/>
-	<Action name="file_quit"/>
+    <Action name="file_new"/>
+    <Separator/>
+    <Action name="file_open"/>
+    <Action name="file_open_recent"/>
+    <DefineGroup name="revert_merge"/>
+    <Separator/>
+    <DefineGroup name="save_merge"/>
+    <Action name="file_save_copy_as"/>
+    <Action name="file_save_all"/>
+    <Action name="file_save_compiled_document"/>
+    <Separator/>
+    <Action name="template_create"/>
+    <Action name="template_remove"/>
+    <Separator/>
+    <DefineGroup name="okular_print_merge" append="okular_print_merge"/>
+    <Action name="print_compiled_document"/>
+    <Separator/>
+    <DefineGroup name="print_merge"/>
+    <Separator/>
+    <Merge/>
+    <Menu name="convert"><text>Con&amp;vert To</text>
+        <Action name="file_export_ascii"/>
+        <Separator/>
+        <Action name="file_export_latin1"/>
+        <Action name="file_export_latin2"/>
+        <Action name="file_export_latin3"/>
+        <Action name="file_export_latin4"/>
+        <Action name="file_export_latin5"/>
+        <Action name="file_export_latin9"/>
+        <Action name="file_export_cp1250"/>
+        <Action name="file_export_cp1252"/>
+    </Menu>
+    <Action name="Statistics"/>
+    <Separator/>
+    <Action name="file_close"/>
+    <Action name="file_close_all"/>
+    <Action name="file_close_all_others"/>
+    <Separator/>
+    <Action name="file_quit"/>
 </Menu>
 
 <Menu name="edit"><text>&amp;Edit</text>
-	<DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
-	<DefineGroup name="edit_paste_merge" append="edit_paste_merge"/>
-	<DefineGroup name="edit_select_merge" append="edit_select_merge"/>
-	<DefineGroup name="edit_find_merge" append="edit_find_merge"/>
-	<Separator/>
-	<Menu name="goto_menu" >
-		<text>&amp;Go to</text>
-		<Action name="edit_next_section" />
-		<Action name="edit_prev_section" />
-		<Separator/>
-		<Action name="edit_next_paragraph" />
-		<Action name="edit_prev_paragraph" />
-	</Menu>
-	<Action name="FindInFiles"/>
-	<Separator/>
-	<Menu name="complete"><text>Co&amp;mplete</text>
-		<Action name="edit_complete_word"/>
-		<Action name="edit_complete_env"/>
-		<Action name="edit_complete_abbrev"/>
-	</Menu>
-	<Menu name="bullet"><text>&amp;Bullets</text>
-		<Action name="edit_next_bullet"/>
-		<Action name="edit_prev_bullet"/>
-	</Menu>
-	<Menu name="select"><text>&amp;Select</text>
-		<Action name="edit_select_inside_env"/>
-		<Action name="edit_select_outside_env"/>
-		<Separator/>
-		<Action name="edit_select_inside_group"/>
-		<Action name="edit_select_outside_group"/>
-		<Separator/>
-		<Action name="edit_select_mathgroup"/>
-		<Separator/>
-		<Action name="edit_select_paragraph"/>
-		<Action name="edit_select_line"/>
-		<Action name="edit_select_word"/>
-	</Menu>
-	<Menu name="delete"><text>D&amp;elete</text>
-		<Action name="edit_delete_inside_env"/>
-		<Action name="edit_delete_outside_env"/>
-		<Separator/>
-		<Action name="edit_delete_inside_group"/>
-		<Action name="edit_delete_outside_group"/>
-		<Separator/>
-		<Action name="edit_delete_mathgroup"/>
-		<Separator/>
-		<Action name="edit_delete_paragraph"/>
-		<Action name="edit_delete_eol"/>
-		<Action name="edit_delete_word"/>
-	</Menu>
-	<Menu name="environment"><text>Environmen&amp;t</text>
-		<Action name="edit_begin_env"/>
-		<Action name="edit_end_env"/>
-		<Action name="edit_match_env"/>
-		<Separator/>
-		<Action name="edit_close_env"/>
-		<Action name="edit_closeall_env"/>
-	</Menu>
-	<Menu name="texgroup"><text>Te&amp;X Group</text>
-		<Action name="edit_begin_group"/>
-		<Action name="edit_end_group"/>
-		<Action name="edit_match_group"/>
-		<Separator/>
-		<Action name="edit_close_group"/>
-	</Menu>
-	<Separator/>
-	<Action name="RefreshStructure"/>
+    <DefineGroup name="edit_undo_merge" append="edit_undo_merge"/>
+    <DefineGroup name="edit_paste_merge" append="edit_paste_merge"/>
+    <DefineGroup name="edit_select_merge" append="edit_select_merge"/>
+    <DefineGroup name="edit_find_merge" append="edit_find_merge"/>
+    <Separator/>
+    <Menu name="goto_menu" >
+        <text>&amp;Go to</text>
+        <Action name="edit_next_section" />
+        <Action name="edit_prev_section" />
+        <Separator/>
+        <Action name="edit_next_paragraph" />
+        <Action name="edit_prev_paragraph" />
+    </Menu>
+    <Action name="FindInFiles"/>
+    <Separator/>
+    <Menu name="complete"><text>Co&amp;mplete</text>
+        <Action name="edit_complete_word"/>
+        <Action name="edit_complete_env"/>
+        <Action name="edit_complete_abbrev"/>
+    </Menu>
+    <Menu name="bullet"><text>&amp;Bullets</text>
+        <Action name="edit_next_bullet"/>
+        <Action name="edit_prev_bullet"/>
+    </Menu>
+    <Menu name="select"><text>&amp;Select</text>
+        <Action name="edit_select_inside_env"/>
+        <Action name="edit_select_outside_env"/>
+        <Separator/>
+        <Action name="edit_select_inside_group"/>
+        <Action name="edit_select_outside_group"/>
+        <Separator/>
+        <Action name="edit_select_mathgroup"/>
+        <Separator/>
+        <Action name="edit_select_paragraph"/>
+        <Action name="edit_select_line"/>
+        <Action name="edit_select_word"/>
+    </Menu>
+    <Menu name="delete"><text>D&amp;elete</text>
+        <Action name="edit_delete_inside_env"/>
+        <Action name="edit_delete_outside_env"/>
+        <Separator/>
+        <Action name="edit_delete_inside_group"/>
+        <Action name="edit_delete_outside_group"/>
+        <Separator/>
+        <Action name="edit_delete_mathgroup"/>
+        <Separator/>
+        <Action name="edit_delete_paragraph"/>
+        <Action name="edit_delete_eol"/>
+        <Action name="edit_delete_word"/>
+    </Menu>
+    <Menu name="environment"><text>Environmen&amp;t</text>
+        <Action name="edit_begin_env"/>
+        <Action name="edit_end_env"/>
+        <Action name="edit_match_env"/>
+        <Separator/>
+        <Action name="edit_close_env"/>
+        <Action name="edit_closeall_env"/>
+    </Menu>
+    <Menu name="texgroup"><text>Te&amp;X Group</text>
+        <Action name="edit_begin_group"/>
+        <Action name="edit_end_group"/>
+        <Action name="edit_match_group"/>
+        <Separator/>
+        <Action name="edit_close_group"/>
+    </Menu>
+    <Separator/>
+    <Action name="RefreshStructure"/>
 </Menu>
 
 <Menu name="view" noMerge="1"><text>&amp;View</text>
@@ -134,445 +135,445 @@
 </Menu>
 
 <Menu name="menu_build"><text>B&amp;uild</text>
-	<Menu name="menu_livepreview">
-		<text>Live Preview</text>
-	</Menu>
-	<Separator/>
-	<Menu name="quickpreview"><text>Quick Preview</text>
-		<Action name="quickpreview_selection"/>
-		<Action name="quickpreview_environment"/>
-		<Action name="quickpreview_subdocument"/>
-		<Separator/>
-		<Action name="quickpreview_math" />
-	</Menu>
-	<Separator/>
-	<Menu name="menu_compile"><text>&amp;Compile</text>
-	</Menu>
-	<Menu name="menu_convert"><text>C&amp;onvert</text>
-	</Menu>
-	<Menu name="menu_viewer"><text>&amp;View</text>
-	</Menu>
-	<Menu name="menu_other"><text>O&amp;ther</text>
-	</Menu>
-	<Separator/>
-	<Action name="bibbackend_select"/>
-	<Separator/>
-	<Action name="WatchFile"/>
-	<Separator/>
-	<Action name="ViewLog"/>
-	<Action name="PreviousError"/>
-	<Action name="NextError"/>
-	<Action name="PreviousWarning"/>
-	<Action name="NextWarning"/>
-	<Action name="PreviousBadBox"/>
-	<Action name="NextBadBox"/>
-	<Action name="Stop"/>
-	<Separator/>
-	<Action name="CleanAll"/>
+    <Menu name="menu_livepreview">
+        <text>Live Preview</text>
+    </Menu>
+    <Separator/>
+    <Menu name="quickpreview"><text>Quick Preview</text>
+        <Action name="quickpreview_selection"/>
+        <Action name="quickpreview_environment"/>
+        <Action name="quickpreview_subdocument"/>
+        <Separator/>
+        <Action name="quickpreview_math" />
+    </Menu>
+    <Separator/>
+    <Menu name="menu_compile"><text>&amp;Compile</text>
+    </Menu>
+    <Menu name="menu_convert"><text>C&amp;onvert</text>
+    </Menu>
+    <Menu name="menu_viewer"><text>&amp;View</text>
+    </Menu>
+    <Menu name="menu_other"><text>O&amp;ther</text>
+    </Menu>
+    <Separator/>
+    <Action name="bibbackend_select"/>
+    <Separator/>
+    <Action name="WatchFile"/>
+    <Separator/>
+    <Action name="ViewLog"/>
+    <Action name="PreviousError"/>
+    <Action name="NextError"/>
+    <Action name="PreviousWarning"/>
+    <Action name="NextWarning"/>
+    <Action name="PreviousBadBox"/>
+    <Action name="NextBadBox"/>
+    <Action name="Stop"/>
+    <Separator/>
+    <Action name="CleanAll"/>
 </Menu>
 <Menu name="menu_project"><text>Pro&amp;ject</text>
-	<Action name="project_new"/>
-	<Action name="project_open"/>
-	<Action name="project_openrecent"/>
-	<Separator/>
-	<Action name="project_show" />
-	<Separator/>
-	<Action name="project_add"/>
-	<Action name="project_remove" />
-	<Action name="project_openallfiles" />
-	<Action name="project_showfiles" />
-	<Separator/>
-	<Action name="project_findfiles"/>
-	<Separator/>
-	<Action name="project_buildtree"/>
-	<Action name="project_options"/>
-	<Separator/>
-	<Action name="project_archive"/>
-	<Separator/>
-	<Action name="project_close"/>
+    <Action name="project_new"/>
+    <Action name="project_open"/>
+    <Action name="project_openrecent"/>
+    <Separator/>
+    <Action name="project_show" />
+    <Separator/>
+    <Action name="project_add"/>
+    <Action name="project_remove" />
+    <Action name="project_openallfiles" />
+    <Action name="project_showfiles" />
+    <Separator/>
+    <Action name="project_findfiles"/>
+    <Separator/>
+    <Action name="project_buildtree"/>
+    <Action name="project_options"/>
+    <Separator/>
+    <Action name="project_archive"/>
+    <Separator/>
+    <Action name="project_close"/>
 </Menu>
 
 <Menu name="menu_latex"><text>LaTe&amp;X</text>
-	<Menu name="menu_preamble"><text>&amp;Preamble</text>
-		<Action name="tag_documentclass"/>
-		<Action name="tag_usepackage"/>
-		<Action name="tag_amspackages"/>
-		<Action name="tag_env_document"/>
-		<Separator/>
-		<Action name="tag_author"/>
-		<Action name="tag_title"/>
-		<Action name="tag_maketitle"/>
-		<Separator/>
-		<Action name="tag_titlepage"/>
-		<Action name="tag_env_abstract"/>
-	</Menu>
-	<Separator/>
-	<Menu name="menu_lists"><text>Tables and Lists</text>
-		<Action name="tag_tableofcontents"/>
-		<Action name="tag_listoffigures"/>
-		<Action name="tag_listoftables"/>
-		<Separator/>
-		<Action name="tag_makeindex"/>
-		<Action name="tag_printindex"/>
-		<Separator/>
-		<Action name="tag_makeglossary"/>
-		<Action name="tag_env_thebibliography"/>
-	</Menu>
-	<Menu name="menu_sectioning"><text>&amp;Sectioning</text>
-		<Action name="tag_part"/>
-		<Separator/>
-		<Action name="tag_chapter"/>
-		<Action name="tag_section"/>
-		<Action name="tag_subsection"/>
-		<Action name="tag_subsubsection"/>
-		<Separator/>
-		<Action name="tag_paragraph"/>
-		<Action name="tag_subparagraph"/>
-	</Menu>
-	<Menu name="references"><text>&amp;References</text>
-		<Action name="tag_label"/>
-		<Action name="tag_ref"/>
-		<Action name="tag_pageref"/>
-		<Separator/>
-		<Action name="tag_index"/>
-		<Action name="tag_footnote"/>
-		<Separator/>
-		<Action name="tag_cite"/>
-		<Action name="citeViewBib"/>
-	</Menu>
-	<Separator/>
-	<Menu name="menu_environment"><text>&amp;Environment</text>
-		<Action name="tag_center"/>
-		<Action name="tag_flushleft"/>
-		<Action name="tag_flushright"/>
-		<Separator/>
-		<Action name="tag_env_minipage"/>
-		<Separator/>
-		<Action name="tag_quote"/>
-		<Action name="tag_quotation"/>
-		<Action name="tag_verse"/>
-	</Menu>
-	<Menu name="menu_listenv"><text>&amp;List Environment</text>
-		<Action name="tag_env_itemize"/>
-		<Action name="tag_env_enumerate"/>
-		<Action name="tag_env_description"/>
-		<Separator/>
-		<Action name="tag_item"/>
-	</Menu>
-	<Menu name="menu_tabularenv"><text>&amp;Tabular Environment</text>
-		<Action name="tag_env_tabular"/>
-		<Action name="tag_env_tabular*"/>
-		<Separator/>
-		<Action name="tag_env_tabbing"/>
-		<Separator/>
-		<Action name="tag_multicolumn"/>
-		<Action name="tag_hline"/>
-		<Action name="tag_vline"/>
-		<Action name="tag_cline"/>
-	</Menu>
-	<Menu name="menu_floatenv"><text>&amp;Floating Environment</text>
-		<Action name="tag_figure"/>
-		<Action name="tag_table"/>
-	</Menu>
-	<Menu name="menu_code"><text>&amp;Code Environment</text>
-		<Action name="tag_verbatim"/>
-		<Action name="tag_env_verbatim*"/>
-		<Separator/>
-		<Action name="tag_verb"/>
-		<Action name="tag_verb*"/>
-	</Menu>
-	<Separator/>
-	<Menu name="menu_math"><text>&amp;Math Commands</text>
-		<Action name="tag_mathmode"/>
-		<Action name="tag_equation"/>
-		<Separator/>
-		<Action name="tag_subscript"/>
-		<Action name="tag_superscript"/>
-		<Separator/>
-		<Action name="tag_sqrt"/>
-		<Action name="tag_nroot"/>
-		<Separator/>
-		<Menu name="menu_mathbraces"><text>Braces</text>
-			<Action name="tag_left"/>
-			<Action name="tag_right"/>
-			<Action name="tag_leftright"/>
-			<Separator/>
-			<Action name="tag_bigl"/>
-			<Action name="tag_bigr"/>
-			<Separator/>
-			<Action name="tag_Bigl"/>
-			<Action name="tag_Bigr"/>
-			<Separator/>
-			<Action name="tag_biggl"/>
-			<Action name="tag_biggr"/>
-			<Separator/>
-			<Action name="tag_Biggl"/>
-			<Action name="tag_Biggr"/>
-		</Menu>
-		<Separator/>
-		<Menu name="menu_mathtext"><text>AMS Text and Boxes</text>
-			<Action name="tag_text"/>
-			<Action name="tag_intertext"/>
-			<Separator/>
-			<Action name="tag_boxed"/>
-		</Menu>
-		<Menu name="menu_mathfrac"><text>AMS Fraction</text>
-			<Action name="tag_frac"/>
-			<Action name="tag_dfrac"/>
-			<Action name="tag_tfrac"/>
-		</Menu>
-		<Menu name="menu_mathbinom"><text>AMS Binomial Expression</text>
-			<Action name="tag_binom"/>
-			<Action name="tag_dbinom"/>
-			<Action name="tag_tbinom"/>
-		</Menu>
-		<Menu name="menu_mathcommands"><text>AMS Arrows</text>
-			<Action name="tag_xleftarrow"/>
-			<Action name="tag_xrightarrow"/>
-		</Menu>
-		<Separator/>
-		<Menu name="menu_mathfontstyles"><text>Math &amp;Font Styles</text>
-			<Action name="tag_mathrm"/>
-			<Action name="tag_mathit"/>
-			<Action name="tag_mathbf"/>
-			<Action name="tag_mathsf"/>
-			<Action name="tag_mathtt"/>
-			<Action name="tag_mathcal"/>
-			<Action name="tag_mathbb"/>
-			<Action name="tag_mathfrak"/>
-		</Menu>
-		<Menu name="menu_mathaccents"><text>Math &amp;Accents</text>
-			<Action name="tag_acute"/>
-			<Action name="tag_grave"/>
-			<Action name="tag_tilde"/>
-			<Action name="tag_bar"/>
-			<Action name="tag_vec"/>
-			<Action name="tag_hat"/>
-			<Action name="tag_check"/>
-			<Action name="tag_breve"/>
-			<Action name="tag_dot"/>
-			<Action name="tag_ddot"/>
-		</Menu>
-		<Menu name="menu_mathspaces"><text>Math &amp;Spaces</text>
-			<Action name="tag_space_small"/>
-			<Action name="tag_space_medium"/>
-			<Action name="tag_space_large"/>
-			<Separator/>
-			<Action name="tag_quad"/>
-			<Action name="tag_qquad"/>
-			<Separator/>
-			<Action name="tag_enskip"/>
-		</Menu>
-	</Menu>
-	<Menu name="menu_mathenv"><text>Standard Math &amp;Environments</text>
-		<Action name="tag_env_displaymath"/>
-		<Separator/>
-		<Action name="tag_env_equation"/>
-		<Action name="tag_env_equation*"/>
-		<Separator/>
-		<Action name="tag_env_array"/>
-	</Menu>
-	<Menu name="menu_mathamsenv"><text>&amp;AMS Math Environments</text>
-		<Menu name="menu_amsenv_align"><text>&amp;Align Environments</text>
-			<Action name="tag_env_align"/>
-			<Action name="tag_env_align*"/>
-			<Separator/>
-			<Action name="tag_env_alignat"/>
-			<Action name="tag_env_alignat*"/>
-			<Separator/>
-			<Action name="tag_env_aligned"/>
-			<Action name="tag_env_alignedat"/>
-			<Separator/>
-			<Action name="tag_env_flalign"/>
-			<Action name="tag_env_flalign*"/>
-		</Menu>
-		<Menu name="menu_amsenv_center"><text>&amp;Center Environments</text>
-			<Action name="tag_env_gather"/>
-			<Action name="tag_env_gather*"/>
-			<Separator/>
-			<Action name="tag_env_gathered"/>
-		</Menu>
-		<Menu name="menu_amsenv_multiline"><text>Multi &amp;Line Environments</text>
-			<Action name="tag_env_multline"/>
-			<Action name="tag_env_multline*"/>
-			<Separator/>
-			<Action name="tag_env_split"/>
-		</Menu>
-		<Menu name="menu_amsenv_matrix"><text>&amp;Matrix Environments</text>
-			<Action name="tag_env_matrix"/>
-			<Action name="tag_env_pmatrix"/>
-			<Separator/>
-			<Action name="tag_env_vmatrix"/>
-			<Action name="tag_env_VVmatrix"/>
-			<Separator/>
-			<Action name="tag_env_bmatrix"/>
-			<Action name="tag_env_BBmatrix"/>
-		</Menu>
-		<Separator/>
-		<Action name="tag_env_cases"/>
-	</Menu>
-	<Separator/>
-	<Action name="menu_bibliography"/>
-	<Separator/>
-	<Menu name="menu_fontstyles"><text>&amp;Font Styles</text>
-		<Action name="tag_textit"/>
-		<Action name="tag_textsl"/>
-		<Action name="tag_textbf"/>
-		<Action name="tag_texttt"/>
-		<Action name="tag_textsc"/>
-		<Separator/>
-		<Action name="tag_emph"/>
-		<Action name="tag_strong"/>
-		<Separator/>
-		<Menu name="menu_fontfamily"><text>Font Family</text>
-			<Action name="tag_rmfamily"/>
-			<Action name="tag_sffamily"/>
-			<Action name="tag_ttfamily"/>
-		</Menu>
-		<Menu name="menu_fontseries"><text>Font Series</text>
-			<Action name="tag_mdseries"/>
-			<Action name="tag_bfseries"/>
-		</Menu>
-		<Menu name="menu_fontshape"><text>Font Shape</text>
-			<Action name="tag_upshape"/>
-			<Action name="tag_itshape"/>
-			<Action name="tag_slshape"/>
-			<Action name="tag_scshape"/>
-		</Menu>
-	</Menu>
-	<Menu name="menu_spacing"><text>Spa&amp;cing</text>
-		<Menu name="menu_breaks"><text>Page- and Linebreaks</text>
-			<Action name="tag_newline"/>
-			<Action name="tag_newpage"/>
-			<Separator/>
-			<Action name="tag_linebreak"/>
-			<Action name="tag_pagebreak"/>
-		</Menu>
-		<Menu name="menu_skips"><text>Space</text>
-			<Action name="tag_bigskip"/>
-			<Action name="tag_medskip"/>
-			<Action name="tag_smallskip"/>
-			<Separator/>
-			<Action name="tag_hspace"/>
-			<Action name="tag_hspace*"/>
-			<Separator/>
-			<Action name="tag_vspace"/>
-			<Action name="tag_vspace*"/>
-		</Menu>
-		<Menu name="menu_rubberlength"><text>Rubber Lengths</text>
-			<Action name="tag_hfill"/>
-			<Action name="tag_hrulefill"/>
-			<Action name="tag_dotfill"/>
-			<Separator/>
-			<Action name="tag_vfill"/>
-		</Menu>
-	</Menu>
-	<Separator/>
-	<Action name="tag_includegraphics"/>
-	<Action name="tag_include"/>
-	<Action name="tag_input"/>
+    <Menu name="menu_preamble"><text>&amp;Preamble</text>
+        <Action name="tag_documentclass"/>
+        <Action name="tag_usepackage"/>
+        <Action name="tag_amspackages"/>
+        <Action name="tag_env_document"/>
+        <Separator/>
+        <Action name="tag_author"/>
+        <Action name="tag_title"/>
+        <Action name="tag_maketitle"/>
+        <Separator/>
+        <Action name="tag_titlepage"/>
+        <Action name="tag_env_abstract"/>
+    </Menu>
+    <Separator/>
+    <Menu name="menu_lists"><text>Tables and Lists</text>
+        <Action name="tag_tableofcontents"/>
+        <Action name="tag_listoffigures"/>
+        <Action name="tag_listoftables"/>
+        <Separator/>
+        <Action name="tag_makeindex"/>
+        <Action name="tag_printindex"/>
+        <Separator/>
+        <Action name="tag_makeglossary"/>
+        <Action name="tag_env_thebibliography"/>
+    </Menu>
+    <Menu name="menu_sectioning"><text>&amp;Sectioning</text>
+        <Action name="tag_part"/>
+        <Separator/>
+        <Action name="tag_chapter"/>
+        <Action name="tag_section"/>
+        <Action name="tag_subsection"/>
+        <Action name="tag_subsubsection"/>
+        <Separator/>
+        <Action name="tag_paragraph"/>
+        <Action name="tag_subparagraph"/>
+    </Menu>
+    <Menu name="references"><text>&amp;References</text>
+        <Action name="tag_label"/>
+        <Action name="tag_ref"/>
+        <Action name="tag_pageref"/>
+        <Separator/>
+        <Action name="tag_index"/>
+        <Action name="tag_footnote"/>
+        <Separator/>
+        <Action name="tag_cite"/>
+        <Action name="citeViewBib"/>
+    </Menu>
+    <Separator/>
+    <Menu name="menu_environment"><text>&amp;Environment</text>
+        <Action name="tag_center"/>
+        <Action name="tag_flushleft"/>
+        <Action name="tag_flushright"/>
+        <Separator/>
+        <Action name="tag_env_minipage"/>
+        <Separator/>
+        <Action name="tag_quote"/>
+        <Action name="tag_quotation"/>
+        <Action name="tag_verse"/>
+    </Menu>
+    <Menu name="menu_listenv"><text>&amp;List Environment</text>
+        <Action name="tag_env_itemize"/>
+        <Action name="tag_env_enumerate"/>
+        <Action name="tag_env_description"/>
+        <Separator/>
+        <Action name="tag_item"/>
+    </Menu>
+    <Menu name="menu_tabularenv"><text>&amp;Tabular Environment</text>
+        <Action name="tag_env_tabular"/>
+        <Action name="tag_env_tabular*"/>
+        <Separator/>
+        <Action name="tag_env_tabbing"/>
+        <Separator/>
+        <Action name="tag_multicolumn"/>
+        <Action name="tag_hline"/>
+        <Action name="tag_vline"/>
+        <Action name="tag_cline"/>
+    </Menu>
+    <Menu name="menu_floatenv"><text>&amp;Floating Environment</text>
+        <Action name="tag_figure"/>
+        <Action name="tag_table"/>
+    </Menu>
+    <Menu name="menu_code"><text>&amp;Code Environment</text>
+        <Action name="tag_verbatim"/>
+        <Action name="tag_env_verbatim*"/>
+        <Separator/>
+        <Action name="tag_verb"/>
+        <Action name="tag_verb*"/>
+    </Menu>
+    <Separator/>
+    <Menu name="menu_math"><text>&amp;Math Commands</text>
+        <Action name="tag_mathmode"/>
+        <Action name="tag_equation"/>
+        <Separator/>
+        <Action name="tag_subscript"/>
+        <Action name="tag_superscript"/>
+        <Separator/>
+        <Action name="tag_sqrt"/>
+        <Action name="tag_nroot"/>
+        <Separator/>
+        <Menu name="menu_mathbraces"><text>Braces</text>
+            <Action name="tag_left"/>
+            <Action name="tag_right"/>
+            <Action name="tag_leftright"/>
+            <Separator/>
+            <Action name="tag_bigl"/>
+            <Action name="tag_bigr"/>
+            <Separator/>
+            <Action name="tag_Bigl"/>
+            <Action name="tag_Bigr"/>
+            <Separator/>
+            <Action name="tag_biggl"/>
+            <Action name="tag_biggr"/>
+            <Separator/>
+            <Action name="tag_Biggl"/>
+            <Action name="tag_Biggr"/>
+        </Menu>
+        <Separator/>
+        <Menu name="menu_mathtext"><text>AMS Text and Boxes</text>
+            <Action name="tag_text"/>
+            <Action name="tag_intertext"/>
+            <Separator/>
+            <Action name="tag_boxed"/>
+        </Menu>
+        <Menu name="menu_mathfrac"><text>AMS Fraction</text>
+            <Action name="tag_frac"/>
+            <Action name="tag_dfrac"/>
+            <Action name="tag_tfrac"/>
+        </Menu>
+        <Menu name="menu_mathbinom"><text>AMS Binomial Expression</text>
+            <Action name="tag_binom"/>
+            <Action name="tag_dbinom"/>
+            <Action name="tag_tbinom"/>
+        </Menu>
+        <Menu name="menu_mathcommands"><text>AMS Arrows</text>
+            <Action name="tag_xleftarrow"/>
+            <Action name="tag_xrightarrow"/>
+        </Menu>
+        <Separator/>
+        <Menu name="menu_mathfontstyles"><text>Math &amp;Font Styles</text>
+            <Action name="tag_mathrm"/>
+            <Action name="tag_mathit"/>
+            <Action name="tag_mathbf"/>
+            <Action name="tag_mathsf"/>
+            <Action name="tag_mathtt"/>
+            <Action name="tag_mathcal"/>
+            <Action name="tag_mathbb"/>
+            <Action name="tag_mathfrak"/>
+        </Menu>
+        <Menu name="menu_mathaccents"><text>Math &amp;Accents</text>
+            <Action name="tag_acute"/>
+            <Action name="tag_grave"/>
+            <Action name="tag_tilde"/>
+            <Action name="tag_bar"/>
+            <Action name="tag_vec"/>
+            <Action name="tag_hat"/>
+            <Action name="tag_check"/>
+            <Action name="tag_breve"/>
+            <Action name="tag_dot"/>
+            <Action name="tag_ddot"/>
+        </Menu>
+        <Menu name="menu_mathspaces"><text>Math &amp;Spaces</text>
+            <Action name="tag_space_small"/>
+            <Action name="tag_space_medium"/>
+            <Action name="tag_space_large"/>
+            <Separator/>
+            <Action name="tag_quad"/>
+            <Action name="tag_qquad"/>
+            <Separator/>
+            <Action name="tag_enskip"/>
+        </Menu>
+    </Menu>
+    <Menu name="menu_mathenv"><text>Standard Math &amp;Environments</text>
+        <Action name="tag_env_displaymath"/>
+        <Separator/>
+        <Action name="tag_env_equation"/>
+        <Action name="tag_env_equation*"/>
+        <Separator/>
+        <Action name="tag_env_array"/>
+    </Menu>
+    <Menu name="menu_mathamsenv"><text>&amp;AMS Math Environments</text>
+        <Menu name="menu_amsenv_align"><text>&amp;Align Environments</text>
+            <Action name="tag_env_align"/>
+            <Action name="tag_env_align*"/>
+            <Separator/>
+            <Action name="tag_env_alignat"/>
+            <Action name="tag_env_alignat*"/>
+            <Separator/>
+            <Action name="tag_env_aligned"/>
+            <Action name="tag_env_alignedat"/>
+            <Separator/>
+            <Action name="tag_env_flalign"/>
+            <Action name="tag_env_flalign*"/>
+        </Menu>
+        <Menu name="menu_amsenv_center"><text>&amp;Center Environments</text>
+            <Action name="tag_env_gather"/>
+            <Action name="tag_env_gather*"/>
+            <Separator/>
+            <Action name="tag_env_gathered"/>
+        </Menu>
+        <Menu name="menu_amsenv_multiline"><text>Multi &amp;Line Environments</text>
+            <Action name="tag_env_multline"/>
+            <Action name="tag_env_multline*"/>
+            <Separator/>
+            <Action name="tag_env_split"/>
+        </Menu>
+        <Menu name="menu_amsenv_matrix"><text>&amp;Matrix Environments</text>
+            <Action name="tag_env_matrix"/>
+            <Action name="tag_env_pmatrix"/>
+            <Separator/>
+            <Action name="tag_env_vmatrix"/>
+            <Action name="tag_env_VVmatrix"/>
+            <Separator/>
+            <Action name="tag_env_bmatrix"/>
+            <Action name="tag_env_BBmatrix"/>
+        </Menu>
+        <Separator/>
+        <Action name="tag_env_cases"/>
+    </Menu>
+    <Separator/>
+    <Action name="menu_bibliography"/>
+    <Separator/>
+    <Menu name="menu_fontstyles"><text>&amp;Font Styles</text>
+        <Action name="tag_textit"/>
+        <Action name="tag_textsl"/>
+        <Action name="tag_textbf"/>
+        <Action name="tag_texttt"/>
+        <Action name="tag_textsc"/>
+        <Separator/>
+        <Action name="tag_emph"/>
+        <Action name="tag_strong"/>
+        <Separator/>
+        <Menu name="menu_fontfamily"><text>Font Family</text>
+            <Action name="tag_rmfamily"/>
+            <Action name="tag_sffamily"/>
+            <Action name="tag_ttfamily"/>
+        </Menu>
+        <Menu name="menu_fontseries"><text>Font Series</text>
+            <Action name="tag_mdseries"/>
+            <Action name="tag_bfseries"/>
+        </Menu>
+        <Menu name="menu_fontshape"><text>Font Shape</text>
+            <Action name="tag_upshape"/>
+            <Action name="tag_itshape"/>
+            <Action name="tag_slshape"/>
+            <Action name="tag_scshape"/>
+        </Menu>
+    </Menu>
+    <Menu name="menu_spacing"><text>Spa&amp;cing</text>
+        <Menu name="menu_breaks"><text>Page- and Linebreaks</text>
+            <Action name="tag_newline"/>
+            <Action name="tag_newpage"/>
+            <Separator/>
+            <Action name="tag_linebreak"/>
+            <Action name="tag_pagebreak"/>
+        </Menu>
+        <Menu name="menu_skips"><text>Space</text>
+            <Action name="tag_bigskip"/>
+            <Action name="tag_medskip"/>
+            <Action name="tag_smallskip"/>
+            <Separator/>
+            <Action name="tag_hspace"/>
+            <Action name="tag_hspace*"/>
+            <Separator/>
+            <Action name="tag_vspace"/>
+            <Action name="tag_vspace*"/>
+        </Menu>
+        <Menu name="menu_rubberlength"><text>Rubber Lengths</text>
+            <Action name="tag_hfill"/>
+            <Action name="tag_hrulefill"/>
+            <Action name="tag_dotfill"/>
+            <Separator/>
+            <Action name="tag_vfill"/>
+        </Menu>
+    </Menu>
+    <Separator/>
+    <Action name="tag_includegraphics"/>
+    <Action name="tag_include"/>
+    <Action name="tag_input"/>
 </Menu>
 
 <Menu name="menu_usermenu">
-	<text>User Menu</text>
+    <text>User Menu</text>
 </Menu>
 
 <Menu name="wizard"><text>&amp;Wizard</text>
-	<Action name="wizard_document"/>
-	<Separator/>
-	<Action name="wizard_tabular"/>
-	<Action name="wizard_array"/>
-	<Action name="wizard_tabbing"/>
-	<Separator/>
-	<Action name="wizard_float"/>
-	<Action name="wizard_mathenv"/>
-	<Separator/>
-	<Action name="wizard_postscript"/>
-	<Action name="wizard_pdf"/>
+    <Action name="wizard_document"/>
+    <Separator/>
+    <Action name="wizard_tabular"/>
+    <Action name="wizard_array"/>
+    <Action name="wizard_tabbing"/>
+    <Separator/>
+    <Action name="wizard_float"/>
+    <Action name="wizard_mathenv"/>
+    <Separator/>
+    <Action name="wizard_postscript"/>
+    <Action name="wizard_pdf"/>
 </Menu>
 
 <Merge/>
 
 <Menu name="settings" ><text>&amp;Settings</text>
-	<Action name="Mode"/>
-	<Separator/>
-	<Action name="settings_perform_check" />
-	<Separator/>
-	<Action name="ShowDocumentViewer" append="show_merge"/>
-	<Action name="MessageView" append="show_merge"/>
-	<Action name="StructureView" append="show_merge"/>
-	<DefineGroup name="configure_merge" append="configure_merge"/>
+    <Action name="Mode"/>
+    <Separator/>
+    <Action name="settings_perform_check" />
+    <Separator/>
+    <Action name="ShowDocumentViewer" append="show_merge"/>
+    <Action name="MessageView" append="show_merge"/>
+    <Action name="StructureView" append="show_merge"/>
+    <DefineGroup name="configure_merge" append="configure_merge"/>
 </Menu>
 
 <Menu name="help"><text>&amp;Help</text>
-	<Separator append="help_whats_this_merge" />
-	<Action name="help_latex_reference" append="help_whats_this_merge"/>
-	<Action name="help_context" append="help_whats_this_merge"/>
-	<Menu name="help_tex" append="help_whats_this_merge"><text>TeX Documentation</text>
-		<Action name="help_docbrowser" />
-		<Action name="help_tex_guide" />
-		<Separator/>
-		<Action name="help_latex_index" />
-		<Separator/>
-		<Action name="help_latex_command" />
-		<Action name="help_latex_subject" />
-		<Action name="help_latex_env" />
-	</Menu>
-	<Separator append="help_whats_this_merge" />
-	<Action name="help_userhelp" append="help_whats_this_merge"/>
-	<Separator/>
-	<Action name="help_about_editor" append="about_merge"/>
-	<DefineGroup name="about_merge" append="about_merge"/>
+    <Separator append="help_whats_this_merge" />
+    <Action name="help_latex_reference" append="help_whats_this_merge"/>
+    <Action name="help_context" append="help_whats_this_merge"/>
+    <Menu name="help_tex" append="help_whats_this_merge"><text>TeX Documentation</text>
+        <Action name="help_docbrowser" />
+        <Action name="help_tex_guide" />
+        <Separator/>
+        <Action name="help_latex_index" />
+        <Separator/>
+        <Action name="help_latex_command" />
+        <Action name="help_latex_subject" />
+        <Action name="help_latex_env" />
+    </Menu>
+    <Separator append="help_whats_this_merge" />
+    <Action name="help_userhelp" append="help_whats_this_merge"/>
+    <Separator/>
+    <Action name="help_about_editor" append="about_merge"/>
+    <DefineGroup name="about_merge" append="about_merge"/>
 </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar" fullWidth="false" index="1" noMerge="1" hidden="false"><text>Main</text>
-	<Action name="file_new"/>
-	<Action name="file_open"/>
-	<Action name="file_close"/>
-	<Merge/>
+    <Action name="file_new"/>
+    <Action name="file_open"/>
+    <Action name="file_close"/>
+    <Merge/>
 </ToolBar>
 <ToolBar name="toolsToolBar" fullWidth="false" index="2" hidden="false"><text>Tools</text>
-	<Action name="list_compiler_select"/>
-	<Separator lineSeparator="true"/>
-	<Action name="list_view_select"/>
-	<Separator lineSeparator="true"/>
-	<Action name="list_convert_select"/>
-	<Separator lineSeparator="true"/>
-	<Action name="list_quick_select"/>
-	<Separator lineSeparator="true"/>
+    <Action name="list_compiler_select"/>
+    <Separator lineSeparator="true"/>
+    <Action name="list_view_select"/>
+    <Separator lineSeparator="true"/>
+    <Action name="list_convert_select"/>
+    <Separator lineSeparator="true"/>
+    <Action name="list_quick_select"/>
+    <Separator lineSeparator="true"/>
 </ToolBar>
 <ToolBar name="editToolBar" fullWidth="false" index="3" hidden="true"><text>Edit</text>
-	<Action name="structure_list"/>
-	<Separator lineSeparator="true"/>
-	<Action name="other_list"/>
-	<Separator lineSeparator="true"/>
-	<Action name="size_list"/>
-	<Separator lineSeparator="true"/>
-	<Action name="tag_textbf"/>
-	<Action name="tag_textit"/>
-	<Action name="tag_texttt"/>
-	<Action name="tag_underline"/>
-	<Separator/>
-	<Action name="tag_center"/>
-	<Separator/>
-	<Action name="tag_env_itemize"/>
-	<Action name="tag_env_enumerate"/>
-	<Action name="tag_env_description"/>
-	<Action name="tag_item"/>
+    <Action name="structure_list"/>
+    <Separator lineSeparator="true"/>
+    <Action name="other_list"/>
+    <Separator lineSeparator="true"/>
+    <Action name="size_list"/>
+    <Separator lineSeparator="true"/>
+    <Action name="tag_textbf"/>
+    <Action name="tag_textit"/>
+    <Action name="tag_texttt"/>
+    <Action name="tag_underline"/>
+    <Separator/>
+    <Action name="tag_center"/>
+    <Separator/>
+    <Action name="tag_env_itemize"/>
+    <Action name="tag_env_enumerate"/>
+    <Action name="tag_env_description"/>
+    <Action name="tag_item"/>
 </ToolBar>
 <ToolBar name="mathToolBar" fullWidth="false" index="4" hidden="true"><text>Math</text>
-	<Action name="tag_mathmode"/>
-	<Action name="tag_subscript"/>
-	<Action name="tag_superscript"/>
-	<Action name="tag_frac"/>
-	<Action name="tag_dfrac"/>
-	<Action name="tag_sqrt"/>
-	<Separator lineSeparator="true"/>
-	<Action name="left_list"/>
-	<Separator lineSeparator="true"/>
-	<Action name="right_list"/>
-	<Separator lineSeparator="true"/>
-	<Action name="tag_newline"/>
+    <Action name="tag_mathmode"/>
+    <Action name="tag_subscript"/>
+    <Action name="tag_superscript"/>
+    <Action name="tag_frac"/>
+    <Action name="tag_dfrac"/>
+    <Action name="tag_sqrt"/>
+    <Separator lineSeparator="true"/>
+    <Action name="left_list"/>
+    <Separator lineSeparator="true"/>
+    <Action name="right_list"/>
+    <Separator lineSeparator="true"/>
+    <Action name="tag_newline"/>
 </ToolBar>
 <ActionProperties scheme="Default" version="1">
   <Action shortcut="Alt+1" name="tool_QuickBuild" />

@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2013 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -98,6 +98,8 @@ public Q_SLOTS:
 
     void saveURL(const QUrl&);
     bool fileSaveAll(bool disUntitled = false);
+
+    void fileSaveCompiledDocument();
 
     bool fileCloseAllOthers(KTextEditor::View *view = Q_NULLPTR);
     bool fileCloseAll();
@@ -277,6 +279,7 @@ protected:
     KTextEditor::View* loadItem(KileDocument::Type type, KileProjectItem *item, const QString& text = QString(), bool openProjectItemViews = true);
 
     QStringList loadTextURLContents(const QUrl &url, const QString& encoding);
+
 private:
     KTextEditor::Editor			*m_editor;
     QList<TextInfo*>			m_textInfoList;
@@ -300,6 +303,8 @@ private:
     KConfigGroup configGroupForViewSettings(KTextEditor::Document *doc, int viewIndex) const;
     QString configGroupNameForViewSettings(const QUrl &url, int viewIndex) const;
     void deleteDocumentAndViewSettingsGroups(const QUrl &url);
+
+    bool checkForFileOverwritePermission(const QUrl& url);
 };
 
 }

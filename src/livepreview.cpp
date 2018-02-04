@@ -78,12 +78,12 @@ public:
         if(containsInvalidRelativeItem) {
             *containsInvalidRelativeItem = false;
         }
-        QList<KileProjectItem*> items = project->items();
+        const QList<KileProjectItem*> items = project->items();
         const QString tempCanonicalDir = QDir(m_tempDir->path()).canonicalPath();
         if(tempCanonicalDir.isEmpty()) {
             return false;
         }
-        Q_FOREACH(KileProjectItem *item, items) {
+        for(KileProjectItem *item : items) {
             bool successful = true;
             const QString itemRelativeDir = QFileInfo(tempCanonicalDir + '/' + item->path()).path();
             const QString itemAbsolutePath = QDir(itemRelativeDir).absolutePath();
@@ -193,6 +193,15 @@ void LivePreviewManager::createActions(KActionCollection *ac)
     m_recompileLivePreviewAction = new QAction(i18n("Recompile Live Preview"), this);
     connect(m_recompileLivePreviewAction, SIGNAL(triggered()), this, SLOT(recompileLivePreview()));
     ac->addAction("live_preview_recompile", m_recompileLivePreviewAction);
+
+    {
+        QAction *action = new QAction(i18n("Save Compiled Document..."), this);
+        connect(action, &QAction::triggered, m_ki->docManager(), &KileDocument::Manager::fileSaveCompiledDocument);
+        ac->addAction("file_save_compiled_document", action);
+        connect(this, &KileTool::LivePreviewManager::livePreviewSuccessful, action, [=]() { action->setEnabled(true); });
+        connect(this, &KileTool::LivePreviewManager::livePreviewRunning, action, [=]() { action->setEnabled(false); });
+        connect(this, &KileTool::LivePreviewManager::livePreviewStopped, action, [=]() { action->setEnabled(false); });
+    }
 }
 
 void LivePreviewManager::previewForCurrentDocumentActionTriggered(bool b)
@@ -310,6 +319,14 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
     menu->addAction(m_recompileLivePreviewAction);
 }
 
+QString LivePreviewManager::getPreviewFile() const
+{
+    if(!m_shownPreviewInformation) {
+        return QString();
+    }
+    return m_shownPreviewInformation->previewFile;
+}
+
 bool LivePreviewManager::isLivePreviewEnabledForCurrentDocument()
 {
     return m_previewForCurrentDocumentAction->isChecked();
@@ -346,6 +363,7 @@ void LivePreviewManager::clearLivePreview()
         viewerPart->closeUrl();
     }
     m_shownPreviewInformation = Q_NULLPTR;
+    emit(livePreviewStopped());
 }
 
 void LivePreviewManager::stopLivePreview()
@@ -743,6 +761,7 @@ void LivePreviewManager::synchronizeViewWithCursor(KileDocument::TextInfo *textI
         clearLivePreview();
         // must happen after the call to 'clearLivePreview' only
         showPreviewFailed();
+        emit(livePreviewStopped());
         return;
     }
 
@@ -863,6 +882,7 @@ void LivePreviewManager::showPreviewCompileIfNecessary(KileDocument::LaTeXInfo *
             KILE_DEBUG_MAIN << "hashes match";
             showPreviewSuccessful();
             synchronizeViewWithCursor(latexInfo, view, view->cursorPosition());
+            emit(livePreviewSuccessful());
         }
     }
 }
@@ -1026,6 +1046,7 @@ void LivePreviewManager::compilePreview(KileDocument::LaTeXInfo *latexInfo, KTex
 
     // finally, run the tool
     m_ki->toolManager()->run(latex);
+    emit(livePreviewRunning());
 }
 
 bool LivePreviewManager::isLivePreviewActive() const
@@ -1304,6 +1325,7 @@ void LivePreviewManager::toolDone(KileTool::Base *base, int i, bool childToolSpa
         KILE_DEBUG_MAIN << "tool didn't return successfully, doing nothing";
         showPreviewFailed();
         clearRunningLivePreviewInformation();
+        emit(livePreviewStopped());
     }
     // a LaTeX variant must have finished for the preview to be complete
     else if(!childToolSpawned && dynamic_cast<KileTool::LaTeX*>(base)) {
@@ -1324,6 +1346,7 @@ void LivePreviewManager::childToolDone(KileTool::Base *base, int i, bool childTo
         KILE_DEBUG_MAIN << "tool didn't return successfully, doing nothing";
         showPreviewFailed();
         clearRunningLivePreviewInformation();
+        emit(livePreviewStopped());
     }
     // a LaTeX variant must have finished for the preview to be complete
     else if(!childToolSpawned && dynamic_cast<KileTool::LaTeX*>(base)) {
@@ -1344,11 +1367,14 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
     m_shownPreviewInformation->textHash = m_runningTextHash;
     m_shownPreviewInformation->previewFile = m_runningPreviewFile;
 
+    m_runningPreviewInformation = Q_NULLPTR;
+
     bool hadToOpen = false;
     if(!ensureDocumentIsOpenInViewer(m_shownPreviewInformation, &hadToOpen)) {
         clearLivePreview();
         // must happen after the call to 'clearLivePreview' only
         showPreviewFailed();
+        emit(livePreviewStopped());
         return;
     }
 
@@ -1363,6 +1389,7 @@ void LivePreviewManager::updatePreviewInformationAfterCompilationFinished()
     }
 
     showPreviewSuccessful();
+    emit(livePreviewSuccessful());
 }
 
 void LivePreviewManager::displayErrorMessage(const QString &text, bool clearFirst)

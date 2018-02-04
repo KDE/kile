@@ -44,8 +44,10 @@ public:
 Q_SIGNALS:
     void sendText(const QString &text);
 
-private Q_SLOTS:
+public Q_SLOTS:
     void updateAbbreviations();
+
+private Q_SLOTS:
     void slotItemClicked(QTreeWidgetItem *item, int column);
     void slotCustomContextMenuRequested(const QPoint& p);
     void slotAddAbbreviation();

@@ -25,7 +25,6 @@
 #include <QStringList>
 #include <QToolBox>
 #include <QWidget>
-#include <QSignalMapper>
 
 #include <KTextEditor/View>
 #include <KTextEditor/Document>
@@ -49,7 +48,6 @@
 
 class QFileInfo;
 class QTimer;
-class QSignalMapper;
 
 class KToolBar;
 class QAction;
@@ -168,8 +166,7 @@ private:
                                     m_listOtherActions;
 
     KActionMenu                    *m_bibTagActionMenu;
-    QAction                        *m_paStop,
-                                   *m_paPrint;
+    QAction                        *m_paStop;
     KToggleAction                  *ModeAction,
                                    *WatchFileAction;
     KToggleAction                  *m_actionMessageView;
@@ -205,8 +202,6 @@ private:
                                    *m_buildMenuOther,
                                    *m_buildMenuQuickPreview;
 
-    QSignalMapper                  *m_signalMapper;
-
     /* config */
     KSharedConfigPtr               m_config;
     QStringList                    m_recentFilesList,
@@ -233,7 +228,7 @@ private:
     void setupGraphicTools();
     void setupPreviewTools();
     void setupActions();
-    QAction* createToolAction(QString toolName);
+    QAction* createToolAction(const QString& toolName);
     void createToolActions();
     void setupTools();
     void updateUserDefinedMenus();
@@ -251,11 +246,49 @@ private:
     void updateLatexenuActivationStatus(QMenu *menu, bool state);
     void updateUserMenuStatus(bool state);
 
-    QAction * createAction(const QString &text, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
-    QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
-    QAction * createAction(const QString &text, const QString &name, const QKeySequence& shortcut, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
-    QAction * createAction(const QString &text, const QString &name, const QString& iconName, const QKeySequence& shortcut = QKeySequence(), const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
-    QAction * createAction(KStandardAction::StandardAction actionType, const QString &name, const QObject *receiver = Q_NULLPTR, const char *member = Q_NULLPTR);
+    template<class ContextType, class Func>
+    inline QAction* createAction(const QString &text, const char* actionName, const ContextType* context, Func function)
+    {
+        return createAction<ContextType, Func>(text, actionName, QString(), QKeySequence(), context, function);
+    }
+
+    template<class ContextType, class Func>
+    inline QAction* createAction(const QString &text, const char* actionName, const QString& iconName, const ContextType* context, Func function)
+    {
+        return createAction<ContextType, Func>(text, QLatin1String(actionName), iconName, QKeySequence(), context, function);
+    }
+
+    template<class ContextType, class Func>
+    QAction* createAction(const QString &text, const QString& actionName, const QString& iconName, const ContextType* context, Func function)
+    {
+        return createAction<ContextType, Func>(text, actionName, iconName, QKeySequence(), context, function);
+    }
+
+    template<class ContextType, class Func>
+    inline QAction* createAction(const QString &text, const char* actionName, const QKeySequence& shortcut, const ContextType* context, Func function)
+    {
+        return createAction<ContextType, Func>(text, actionName, QString(), shortcut, context, function);
+    }
+
+    template<class ContextType, class Func>
+    inline QAction* createAction(const QString &text, const char* actionName, const QString& iconName, const QKeySequence& shortcut,
+                                 const ContextType* context, Func function)
+    {
+        return createAction<ContextType, Func>(text, QLatin1String(actionName), iconName, shortcut, context, function);
+    }
+
+    template<class ContextType, class Func>
+    QAction* createAction(const QString &text, const QString& actionName, const QString& iconName, const QKeySequence& shortcut,
+                          const ContextType* context, Func function);
+
+    template<class ContextType, class Func>
+    inline QAction* createAction(KStandardAction::StandardAction actionType, const ContextType* context, Func function)
+    {
+        return createAction<ContextType, Func>(actionType, QString(), context, function);
+    }
+
+    template<class ContextType, class Func>
+    QAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const ContextType* context, Func function);
 
     void setMasterDocumentFileName(const QString& fileName);
     void clearMasterDocument();

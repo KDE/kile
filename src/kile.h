@@ -166,7 +166,6 @@ private:
                                     m_listOtherActions;
 
     KActionMenu                    *m_bibTagActionMenu;
-    QAction                        *m_paStop;
     KToggleAction                  *ModeAction,
                                    *WatchFileAction;
     KToggleAction                  *m_actionMessageView;

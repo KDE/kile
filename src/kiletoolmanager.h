@@ -1,6 +1,6 @@
 /**************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2011-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -97,7 +97,7 @@ class Manager : public QObject
     Q_OBJECT
 
 public:
-    Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget* stack, QAction *, uint to, KActionCollection *);
+    Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget* stack, uint to, KActionCollection *);
     ~Manager();
 public:
     Base* createTool(const QString& name, const QString &cfg = QString(), bool prepare = false);
@@ -191,7 +191,7 @@ private:
     KConfig				*m_config;
     KileWidget::OutputView		*m_output;
     QStackedWidget			*m_stack;
-    QAction *m_stop;
+    QAction *m_stopAction;
     Factory				*m_factory;
     Queue				m_queue;
     QTimer				*m_timer;

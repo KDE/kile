@@ -1,6 +1,6 @@
 /**************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2011-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2011-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -93,12 +93,12 @@ void Queue::enqueueNext(QueueItem *item)
     }
 }
 
-Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget *stack, QAction *stop, uint to, KActionCollection *ac) :
+Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, QStackedWidget *stack, uint to, KActionCollection *ac) :
     m_ki(ki),
     m_config(config),
     m_output(output),
     m_stack(stack),
-    m_stop(stop),
+    m_stopAction(Q_NULLPTR),
     m_bClear(true),
     m_nLastResult(Success),
     m_nTimeout(to),
@@ -111,8 +111,6 @@ Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, 
 
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
-    connect(stop, SIGNAL(triggered()), this, SLOT(stop()));
-    connect(stop, SIGNAL(destroyed(QObject*)), this, SLOT(stopActionDestroyed()));
 
     connect(m_ki->errorHandler(), SIGNAL(currentLaTeXOutputHandlerChanged(LaTeXOutputHandler*)), SLOT(currentLaTeXOutputHandlerChanged(LaTeXOutputHandler*)));
 
@@ -142,11 +140,11 @@ bool Manager::shouldBlock()
     return m_queue.shouldBlock();
 }
 
-// in some cases the pointer m_stop might not be valid, therefore this helper function comes in handy
+// in some cases the pointer m_stopAction might not be valid, therefore this helper function comes in handy
 void Manager::setEnabledStopButton(bool state) {
 
-    if(m_stop) {
-        m_stop->setEnabled(state);
+    if(m_stopAction) {
+        m_stopAction->setEnabled(state);
     }
 }
 
@@ -341,7 +339,7 @@ void Manager::stopLivePreview()
 
 void Manager::stopActionDestroyed()
 {
-    m_stop = Q_NULLPTR;
+    m_stopAction = Q_NULLPTR;
 }
 
 void Manager::done(KileTool::Base *tool, int result)
@@ -741,6 +739,14 @@ void KileTool::Manager::buildBibliographyBackendSelection()
 
 void KileTool::Manager::createActions(KActionCollection *ac)
 {
+    m_stopAction = new QAction(this);
+    m_stopAction->setText(i18n("&Stop"));
+    ac->addAction(QLatin1String("Stop"), m_stopAction);
+    ac->setDefaultShortcut(m_stopAction, QKeySequence(Qt::Key_Escape));
+    m_stopAction->setIcon(QIcon::fromTheme(QLatin1String("process-stop")));
+    m_stopAction->setEnabled(false);
+    connect(m_stopAction, &QAction::triggered, this, &KileTool::Manager::stop);
+
     delete m_bibliographyBackendSelectAction;
 
     m_bibliographyBackendSelectAction = new KSelectAction(i18n("Bibliography Back End"), this);

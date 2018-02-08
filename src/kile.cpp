@@ -120,7 +120,6 @@ Kile::Kile(bool allowRestore, QWidget *parent)
       m_convertActions(Q_NULLPTR),
       m_quickActions(Q_NULLPTR),
       m_bibTagActionMenu(Q_NULLPTR),
-      m_paStop(Q_NULLPTR),
       ModeAction(Q_NULLPTR),
       WatchFileAction(Q_NULLPTR),
       m_actionMessageView(Q_NULLPTR),
@@ -242,9 +241,12 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     setCentralWidget(m_topWidgetStack);
 
     // Parser manager and view manager must be created before the tool manager!
-    m_manager = new KileTool::Manager(this, m_config.data(), m_outputWidget, m_topWidgetStack, m_paStop, 10000, actionCollection()); //FIXME make timeout configurable
+    m_manager = new KileTool::Manager(this, m_config.data(), m_outputWidget, m_topWidgetStack, 10000, actionCollection()); //FIXME make timeout configurable
     connect(m_manager, &KileTool::Manager::jumpToFirstError, m_errorHandler, &KileErrorHandler::jumpToFirstError);
     connect(m_manager, &KileTool::Manager::previewDone, this, &Kile::focusPreview);
+
+    m_latexOutputErrorToolBar->addAction(actionCollection()->action(QLatin1String("Stop")));
+    errorHandler()->setErrorHandlerToolBar(m_latexOutputErrorToolBar); // add the remaining actions to m_latexOutputErrorToolBar
 
     m_bottomBar->addExtraWidget(viewManager()->getViewerControlToolBar());
 
@@ -256,7 +258,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
 
     setupGraphicTools();
     setupPreviewTools();
-    setupActions(); // sets up m_paStop
+    setupActions();
 
     initSelectActions();
 
@@ -853,16 +855,6 @@ void Kile::setupActions()
 
     //build actions
     act = createAction(i18n("Clean"), "CleanAll", "user-trash", this, [this]() { cleanAll(); });
-    { // streamline the creation of m_paStop
-        m_paStop = new QAction(this);
-        m_paStop->setText(i18n("&Stop"));
-        actionCollection()->addAction("Stop", m_paStop);
-        actionCollection()->setDefaultShortcut(m_paStop, QKeySequence(Qt::Key_Escape));
-        m_paStop->setIcon(QIcon::fromTheme("process-stop"));
-        m_paStop->setEnabled(false);
-        m_latexOutputErrorToolBar->addAction(m_paStop);
-    }
-    errorHandler()->setErrorHandlerToolBar(m_latexOutputErrorToolBar);
 
     createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page", QKeySequence(Qt::ALT + Qt::Key_Right),
                  viewManager(), &KileView::Manager::gotoNextView);
@@ -1090,7 +1082,7 @@ void Kile::rebuildBibliographyMenu() {
 QAction* Kile::createToolAction(const QString& toolName)
 {
     return createAction(toolName, "tool_" + toolName,
-                        KileTool::iconFor(toolName, m_config.data()), this, [this, &toolName]() { runTool(toolName); });
+                        KileTool::iconFor(toolName, m_config.data()), this, [this, toolName]() { runTool(toolName); });
 }
 
 void Kile::createToolActions()

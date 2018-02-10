@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -412,6 +412,10 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     delete view->actionCollection()->action("set_confdlg");
     // delete the "save copy as" action as we have our own
     delete view->actionCollection()->action("file_save_copy_as");
+    // delete the "save as with encoding" action as it's too technical for Kile
+    // also, there is currently no way to preset the desired extension in the save-as dialog
+    // (the functionality is still available via Tools/Encoding + save)
+    delete view->actionCollection()->action("file_save_as_with_encoding");
 
     // use Kile's save and save-as functions instead of the text editor's
     QAction *action = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));

@@ -410,8 +410,6 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
 
     // delete the 'Configure Editor...' action
     delete view->actionCollection()->action("set_confdlg");
-    // delete the "save copy as" action as we have our own
-    delete view->actionCollection()->action("file_save_copy_as");
     // delete the "save as with encoding" action as it's too technical for Kile
     // also, there is currently no way to preset the desired extension in the save-as dialog
     // (the functionality is still available via Tools/Encoding + save)

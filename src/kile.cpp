@@ -793,7 +793,6 @@ void Kile::setupActions()
     m_actRecentFiles->loadEntries(m_config->group("Recent Files"));
 
     createAction(i18n("Save All"), "file_save_all", "document-save-all", docManager(), &KileDocument::Manager::fileSaveAll);
-    createAction(i18n("Save Copy As..."), "file_save_copy_as", docManager(), &KileDocument::Manager::fileSaveCopyAs);
 
     createAction(i18n("Create Template From Document..."), "template_create", docManager(), &KileDocument::Manager::createTemplate);
     createAction(i18n("&Remove Template..."), "template_remove", docManager(), &KileDocument::Manager::removeTemplate);

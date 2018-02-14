@@ -94,7 +94,6 @@ public Q_SLOTS:
 
     bool fileSave(KTextEditor::View* = Q_NULLPTR);
     bool fileSaveAs(KTextEditor::View* = Q_NULLPTR);
-    void fileSaveCopyAs();
 
     void saveURL(const QUrl&);
     bool fileSaveAll(bool disUntitled = false);

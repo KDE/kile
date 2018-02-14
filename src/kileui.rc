@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="46">
+<kpartgui name="kile" version="47">
 <Menu name="ktexteditor_popup" noMerge="1">
     <DefineGroup name="popup_operations" />
     <Action name="popup_pasteaslatex"/>
@@ -17,7 +17,6 @@
     <DefineGroup name="revert_merge"/>
     <Separator/>
     <DefineGroup name="save_merge"/>
-    <Action name="file_save_copy_as"/>
     <Action name="file_save_all"/>
     <Action name="file_save_compiled_document"/>
     <Separator/>

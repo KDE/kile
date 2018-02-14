@@ -1127,57 +1127,6 @@ bool Manager::checkForFileOverwritePermission(const QUrl& url)
     return true;
 }
 
-void Manager::fileSaveCopyAs()
-{
-    KTextEditor::View *view = Q_NULLPTR;
-    // the 'data' property can be set by the view manager
-    QAction *action = dynamic_cast<QAction*>(QObject::sender());
-    if(action) {
-        QVariant var = action->data();
-        if(var.isValid()) {
-            view = var.value<KTextEditor::View*>();
-            // the 'data' property for the relevant actions is cleared
-            // inside the view manager
-        }
-    }
-    if(!view) {
-        view = m_ki->viewManager()->currentTextView();
-    }
-    if(!view) {
-        return;
-    }
-
-    KTextEditor::Document *doc = view->document();
-
-    if(!doc) {
-        return;
-    }
-
-    KileDocument::TextInfo *originalInfo = textInfoFor(doc);
-
-    if(!originalInfo) {
-        return;
-    }
-
-    view = createDocumentWithText(doc->text(),originalInfo->getType());
-
-    KileDocument::TextInfo *newInfo = textInfoFor(view->document());
-
-    if(originalInfo->url().isEmpty()) { // untitled doc
-        newInfo->setBaseDirectory(m_ki->fileSelector()->currentUrl());
-    }
-    else {
-        newInfo->setBaseDirectory(originalInfo->url());
-    }
-
-    fileSaveAs(view);
-
-    doc = view->document();
-    if(doc && !doc->isModified()) { // fileSaveAs was successful
-        fileClose(doc);
-    }
-}
-
 bool Manager::fileCloseAllOthers(KTextEditor::View *currentView)
 {
     // the 'data' property can be set by the view manager

@@ -243,7 +243,7 @@ public:
     QList<KileProjectItem*> itemsFor(Info *docinfo) const;
     QList<KileProjectItem*> itemsFor(const QUrl &url) const;
 
-    static const QUrl symlinkFreeURL(const QUrl &url);
+    static const QUrl canonicalUrl(const QUrl &url);
 
 protected:
     /**

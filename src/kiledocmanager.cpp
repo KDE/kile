@@ -970,8 +970,8 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
     }
 
     KILE_DEBUG_MAIN << "url is " << url.url();
-    const QUrl realurl = symlinkFreeURL(url);
-    KILE_DEBUG_MAIN << "symlink free url is " << realurl.url();
+    const QUrl realurl = canonicalUrl(url);
+    KILE_DEBUG_MAIN << "canonical url is " << realurl.url();
 
     if(m_ki->isOpen(realurl)) {
         m_currentlyOpeningFile = false; // has to be before the 'switchToTextView' call as
@@ -1422,7 +1422,7 @@ void Manager::addToProject(const QUrl &url)
 
 void Manager::addToProject(KileProject* project, const QUrl &url)
 {
-    const QUrl realurl = symlinkFreeURL(url);
+    const QUrl realurl = canonicalUrl(url);
     QFileInfo fi(realurl.toLocalFile());
 
     if (project->contains(realurl)) {
@@ -1514,7 +1514,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
     KILE_DEBUG_MAIN << "==Kile::projectOpen==========================";
     KILE_DEBUG_MAIN << "\tfilename: " << url.fileName();
 
-    const QUrl realurl = symlinkFreeURL(url);
+    const QUrl realurl = canonicalUrl(url);
 
     if(m_ki->projectIsOpen(realurl)) {
         if(m_progressDialog) {
@@ -2346,9 +2346,9 @@ void Manager::projectAddFile(QString filename, bool graphics)
 }
 
 // if 'url' points to a local file, removes symbolic links, and '.', '..' path components
-const QUrl Manager::symlinkFreeURL(const QUrl &url)
+const QUrl Manager::canonicalUrl(const QUrl &url)
 {
-    KILE_DEBUG_MAIN << "===symlinkFreeURL==" << url;
+    KILE_DEBUG_MAIN << "===canonicalUrl==" << url;
 
     if(!url.isLocalFile()) {
         return url;

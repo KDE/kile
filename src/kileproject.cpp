@@ -282,7 +282,7 @@ KileProject::~KileProject()
 
 void KileProject::init(const QUrl &url)
 {
-    m_projecturl = KileDocument::Manager::symlinkFreeURL(url);
+    m_projecturl = KileDocument::Manager::canonicalUrl(url);
 
     m_baseurl = m_projecturl.adjusted(QUrl::RemoveFilename);
 
@@ -294,7 +294,7 @@ void KileProject::init(const QUrl &url)
 void KileProject::setLastDocument(const QUrl &url)
 {
     if (item(url) != 0) {
-        m_lastDocument = KileDocument::Manager::symlinkFreeURL(url);
+        m_lastDocument = KileDocument::Manager::canonicalUrl(url);
     }
 }
 
@@ -442,10 +442,10 @@ QString KileProject::addBaseURL(const QString &path)
     }
 
     else if(QDir::isAbsolutePath(path)) {
-        return KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(path)).toLocalFile();
+        return KileDocument::Manager::canonicalUrl(QUrl::fromLocalFile(path)).toLocalFile();
     }
     else {
-        return  KileDocument::Manager::symlinkFreeURL(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
+        return  KileDocument::Manager::canonicalUrl(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
     }
 }
 
@@ -536,7 +536,7 @@ bool KileProject::load()
                 url = m_baseurl.adjusted(QUrl::StripTrailingSlash);
                 url.setPath(url.path() + '/' + path);
             }
-            item = new KileProjectItem(this, KileDocument::Manager::symlinkFreeURL(url));
+            item = new KileProjectItem(this, KileDocument::Manager::canonicalUrl(url));
             setType(item);
 
             KConfigGroup configGroup = m_config->group(group);

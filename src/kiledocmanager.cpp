@@ -2345,36 +2345,18 @@ void Manager::projectAddFile(QString filename, bool graphics)
     addToProject(project, url);
 }
 
+// if 'url' points to a local file, removes symbolic links, and '.', '..' path components
 const QUrl Manager::symlinkFreeURL(const QUrl &url)
 {
-#ifdef Q_OS_WIN
-    //TODO: maybe actually do something here?  Seems unncecessary given Windows' lack of symlinks though...
-    //Also: the else'd code below fails badly on Windows
-    return url;
-#else
-    KILE_DEBUG_MAIN << "===symlinkFreeURL==";
+    KILE_DEBUG_MAIN << "===symlinkFreeURL==" << url;
 
     if(!url.isLocalFile()) {
         return url;
     }
 
-    QDir dir(url.adjusted(QUrl::RemoveFilename | QUrl::StripTrailingSlash).path());
-    QString filename = url.toLocalFile(); // if the directory does not exist we return the old url (just to be sure)
+    const QString canonicalFileName  = QFileInfo(url.toLocalFile()).canonicalFilePath();
 
-    if(dir.exists()) {
-        filename= dir.canonicalPath() + '/' + url.fileName();
-    }
-    else {
-        KILE_DEBUG_MAIN << "directory " << url.adjusted(QUrl::RemoveFilename|QUrl::StripTrailingSlash).path() << "does not exist";
-    }
-
-    QFileInfo fi(filename);
-    if (fi.isSymLink()) {
-        filename = fi.symLinkTarget();
-    }
-
-    return QUrl::fromLocalFile(filename);
-#endif //def Q_OS_WIN
+    return QUrl::fromLocalFile(canonicalFileName);
 }
 
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)

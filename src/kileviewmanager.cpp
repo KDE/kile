@@ -1177,11 +1177,17 @@ void Manager::handleActivatedSourceReference(const QString& absFileName, int lin
         return;
     }
 
-    KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(absFileName);
-    // check whether the file or the project item associated with 'absFileName' is already open
-    if(!textInfo || !m_ki->isOpen(absFileName)) {
-        m_ki->docManager()->fileOpen(absFileName);
-        textInfo = m_ki->docManager()->textInfoFor(absFileName);
+    const QString canonicalFileName = fileInfo.canonicalFilePath(); // remove symbolic links, and
+                                                                    // '.', '..' path components
+                                                                    // (XeLaTeX + synctex sometimes produces paths containing ./)
+
+    KILE_DEBUG_MAIN << "canonicalFileName:" << canonicalFileName;
+
+    KileDocument::TextInfo *textInfo = m_ki->docManager()->textInfoFor(canonicalFileName);
+    // check whether the file or the project item associated with 'canonicalFileName' is already open
+    if(!textInfo || !m_ki->isOpen(canonicalFileName)) {
+        m_ki->docManager()->fileOpen(canonicalFileName);
+        textInfo = m_ki->docManager()->textInfoFor(canonicalFileName);
     }
     if(!textInfo) {
         KILE_DEBUG_MAIN << "no document found!";

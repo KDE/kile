@@ -151,10 +151,18 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     bool running = false;
 
-    const KDBusService dbusService(KDBusService::Multiple | KDBusService::NoExitOnFailure);
+    {
+        const KDBusService dbusService(KDBusService::Multiple | KDBusService::NoExitOnFailure);
 
-    QDBusConnection dbus = QDBusConnection::sessionBus();
-    running = dbus.interface()->isServiceRegistered("net.sourceforge.kile");
+        QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
+
+        if(interface) {
+            running = interface->isServiceRegistered("net.sourceforge.kile");
+        }
+        else {
+            KILE_WARNING_MAIN << "no DBUS interface found!";
+        }
+    }
 
     if(!running  || parser.isSet("new")) {
         bool restore = (parser.positionalArguments().count() == 0);

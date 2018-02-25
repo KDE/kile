@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2008-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -122,3 +122,21 @@ void KileUtilities::scheduleCenteringOfWidget(QWidget *widget)
     });
 }
 
+QUrl KileUtilities::canonicalUrl(const QUrl &url)
+{
+    if(!url.isLocalFile()) {
+        return url;
+    }
+
+    QFileInfo fileInfo(url.toLocalFile());
+
+    if(fileInfo.exists()) {
+        const QString canonicalFileName  = fileInfo.canonicalFilePath();
+        Q_ASSERT_X(!canonicalFileName.isEmpty(), "canonicalUrl", "empty although file exists!");
+
+        return QUrl::fromLocalFile(canonicalFileName);
+    }
+    else {
+        return QUrl::fromLocalFile(QDir::cleanPath(url.toLocalFile()));
+    }
+}

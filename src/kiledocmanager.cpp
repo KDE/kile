@@ -64,6 +64,7 @@
 #include "parser/parsermanager.h"
 #include "scriptmanager.h"
 #include "templates.h"
+#include "utilities.h"
 #include "widgets/filebrowserwidget.h"
 #include "widgets/konsolewidget.h"
 #include "widgets/projectview.h"
@@ -970,7 +971,7 @@ TextInfo* Manager::fileOpen(const QUrl &url, const QString& encoding, int index)
     }
 
     KILE_DEBUG_MAIN << "url is " << url.url();
-    const QUrl realurl = canonicalUrl(url);
+    const QUrl realurl = KileUtilities::canonicalUrl(url);
     KILE_DEBUG_MAIN << "canonical url is " << realurl.url();
 
     if(m_ki->isOpen(realurl)) {
@@ -1422,7 +1423,7 @@ void Manager::addToProject(const QUrl &url)
 
 void Manager::addToProject(KileProject* project, const QUrl &url)
 {
-    const QUrl realurl = canonicalUrl(url);
+    const QUrl realurl = KileUtilities::canonicalUrl(url);
     QFileInfo fi(realurl.toLocalFile());
 
     if (project->contains(realurl)) {
@@ -1514,7 +1515,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
     KILE_DEBUG_MAIN << "==Kile::projectOpen==========================";
     KILE_DEBUG_MAIN << "\tfilename: " << url.fileName();
 
-    const QUrl realurl = canonicalUrl(url);
+    const QUrl realurl = KileUtilities::canonicalUrl(url);
 
     if(m_ki->projectIsOpen(realurl)) {
         if(m_progressDialog) {
@@ -2343,20 +2344,6 @@ void Manager::projectAddFile(QString filename, bool graphics)
     QUrl url;
     url.setPath(filename);
     addToProject(project, url);
-}
-
-// if 'url' points to a local file, removes symbolic links, and '.', '..' path components
-const QUrl Manager::canonicalUrl(const QUrl &url)
-{
-    KILE_DEBUG_MAIN << "===canonicalUrl==" << url;
-
-    if(!url.isLocalFile()) {
-        return url;
-    }
-
-    const QString canonicalFileName  = QFileInfo(url.toLocalFile()).canonicalFilePath();
-
-    return QUrl::fromLocalFile(canonicalFileName);
 }
 
 void Manager::cleanupDocumentInfoForProjectItems(KileDocument::Info *info)

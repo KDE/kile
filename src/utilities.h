@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2008-2017 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2008-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -67,6 +67,12 @@ void centerWidgetRelativeToParent(QWidget *widget);
  **/
 void scheduleCenteringOfWidget(QWidget *widget);
 
+/**
+ * If 'url' is a local file, the canonical file path is returned if the file exists. Otherwise,
+ * the cleaned file path is returned (see QDir::cleanPath).
+ * If 'url' is not a local file, 'url' is returned.
+ **/
+QUrl canonicalUrl(const QUrl &url);
 }
 
 #endif

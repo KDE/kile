@@ -243,8 +243,6 @@ public:
     QList<KileProjectItem*> itemsFor(Info *docinfo) const;
     QList<KileProjectItem*> itemsFor(const QUrl &url) const;
 
-    static const QUrl canonicalUrl(const QUrl &url);
-
 protected:
     /**
      * @param openProjectItemViews Opens project files in the editor iff openProjectItemViews is set to 'true'.

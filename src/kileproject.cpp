@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                            (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                           (C) 2009-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
 *********************************************************************************************/
 
 /***************************************************************************
@@ -36,6 +36,7 @@
 #include "kileinfo.h"
 #include "kileextensions.h"
 #include "livepreview.h"
+#include "utilities.h"
 
 /**
  * Since project file version 3, project files 'consist' of two files: one file named '<name>.kilepr' and
@@ -282,7 +283,7 @@ KileProject::~KileProject()
 
 void KileProject::init(const QUrl &url)
 {
-    m_projecturl = KileDocument::Manager::canonicalUrl(url);
+    m_projecturl = KileUtilities::canonicalUrl(url);
 
     m_baseurl = m_projecturl.adjusted(QUrl::RemoveFilename);
 
@@ -294,7 +295,7 @@ void KileProject::init(const QUrl &url)
 void KileProject::setLastDocument(const QUrl &url)
 {
     if (item(url) != 0) {
-        m_lastDocument = KileDocument::Manager::canonicalUrl(url);
+        m_lastDocument = KileUtilities::canonicalUrl(url);
     }
 }
 
@@ -442,10 +443,10 @@ QString KileProject::addBaseURL(const QString &path)
     }
 
     else if(QDir::isAbsolutePath(path)) {
-        return KileDocument::Manager::canonicalUrl(QUrl::fromLocalFile(path)).toLocalFile();
+        return KileUtilities::canonicalUrl(QUrl::fromLocalFile(path)).toLocalFile();
     }
     else {
-        return  KileDocument::Manager::canonicalUrl(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
+        return  KileUtilities::canonicalUrl(QUrl::fromLocalFile(m_baseurl.adjusted(QUrl::StripTrailingSlash).toLocalFile() + '/' + path)).toLocalFile();
     }
 }
 
@@ -536,7 +537,7 @@ bool KileProject::load()
                 url = m_baseurl.adjusted(QUrl::StripTrailingSlash);
                 url.setPath(url.path() + '/' + path);
             }
-            item = new KileProjectItem(this, KileDocument::Manager::canonicalUrl(url));
+            item = new KileProjectItem(this, KileUtilities::canonicalUrl(url));
             setType(item);
 
             KConfigGroup configGroup = m_config->group(group);

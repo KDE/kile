@@ -107,7 +107,7 @@
       <li>Auto-completion of (La)TeX commands</li>
       <li xml:lang="ar">إكمال آليّ لأوامر (لا)تخ</li>
       <li xml:lang="ca">Compleció automàtica d'ordres del (La)TeX</li>
-      <li xml:lang="ca-valencia">Compleció automàtica d'ordes del (La)TeX</li>
+      <li xml:lang="ca-valencia">Compleció automàtica d'ordres del (La)TeX</li>
       <li xml:lang="de">Automatische Vervollständigung von (La)TeX-Befehlen</li>
       <li xml:lang="en-GB">Auto-completion of (La)TeX commands</li>
       <li xml:lang="es">Terminación automática de órdenes de (La)TeX</li>
@@ -160,7 +160,7 @@
       <li>Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor
           to the corresponding page in the viewer</li>
       <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visualitzador del DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent del visualitzador</li>
-      <li xml:lang="ca-valencia">Busca directa i inversa: cliqueu en el visualitzador del DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent del visualitzador</li>
+      <li xml:lang="ca-valencia">Cerca directa i inversa: cliqueu en el visualitzador del DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent del visualitzador</li>
       <li xml:lang="en-GB">Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewer</li>
       <li xml:lang="es">Búsqueda hacia atrás y hacia adelante: pulse en el visor DVI y vaya a la correspondiente línea de LaTeX en el editor, o vaya del editor a la página correspondiente del visor</li>
       <li xml:lang="fi">Etsi molempiin suuntiin: napsauta DVI-katselinta ja siirry muokkaimessa vastaavalla LaTeX-riville tai siirry muokkaimesta vastaavalle kohtaa katselimessa</li>
@@ -177,7 +177,7 @@
       <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
           jump to the corresponding section</li>
       <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per saltar a la secció corresponent</li>
-      <li xml:lang="ca-valencia">La busca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per saltar a la secció corresponent</li>
+      <li xml:lang="ca-valencia">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per saltar a la secció corresponent</li>
       <li xml:lang="en-GB">Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding section</li>
       <li xml:lang="es">Encontrar capítulos y secciones es muy fácil: Kile construye una lista de todos los capítulos, etc. del documento. Puede usar dicha lista para ir a la sección correspondiente.</li>
       <li xml:lang="fi">Löydä (ala-) luku helposti: Kile pitää niistä yllä luetteloa, jonka avulla voit siirtyä luvusta toiseen</li>
@@ -282,7 +282,7 @@
       <li>Advanced editing commands</li>
       <li xml:lang="ar">أوامر تحرير متقدّمة</li>
       <li xml:lang="ca">Edició avançada d'ordres</li>
-      <li xml:lang="ca-valencia">Edició avançada d'ordes</li>
+      <li xml:lang="ca-valencia">Edició avançada d'ordres</li>
       <li xml:lang="de">Erweiterte Bearbeitungsbefehle</li>
       <li xml:lang="en-GB">Advanced editing commands</li>
       <li xml:lang="es">Órdenes de edición avanzadas</li>

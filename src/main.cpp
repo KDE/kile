@@ -91,11 +91,12 @@ inline void initQtResources() {
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
-    KLocalizedString::setApplicationDomain("kile");
-
     QApplication app(argc, argv);
 
     initQtResources();
+
+    app.setApplicationName(QStringLiteral("kile"));
+    KLocalizedString::setApplicationDomain("kile");
 
     // enable high dpi support
     app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
@@ -127,7 +128,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     KAboutData::setApplicationData(aboutData);
 
-    app.setApplicationName(aboutData.componentName());
     app.setApplicationDisplayName(aboutData.displayName());
     app.setOrganizationDomain(aboutData.organizationDomain());
     app.setApplicationVersion(aboutData.version());
@@ -142,12 +142,6 @@ extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 
     parser.process(app);
     aboutData.processCommandLine(&parser);
-
-    app.setApplicationName(aboutData.componentName());
-    app.setApplicationDisplayName(aboutData.displayName());
-    app.setOrganizationDomain(aboutData.organizationDomain());
-    app.setApplicationVersion(aboutData.version());
-
 
     bool running = false;
 

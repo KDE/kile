@@ -1010,10 +1010,6 @@ void Kile::setupActions()
         WatchFileAction->setChecked(false);
     }
 
-    setHelpMenuEnabled(false);
-
-    KHelpMenu *help_menu = new KHelpMenu(this, KAboutData::applicationData());
-
     createAction(i18n("TeX Guide"), "help_tex_guide", QKeySequence("CTRL+Alt+H, G"), m_help, &KileHelp::Help::helpTexGuide);
     createAction(i18n("LaTeX"), "help_latex_index", QKeySequence("CTRL+Alt+H, L"), m_help, &KileHelp::Help::helpLatexIndex);
     createAction(i18n("LaTeX Command"), "help_latex_command", QKeySequence("CTRL+Alt+H, C"), m_help, &KileHelp::Help::helpLatexCommand);
@@ -1024,16 +1020,7 @@ void Kile::setupActions()
 
     createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-latex", this, &Kile::helpLaTex);
 
-    createAction(KStandardAction::HelpContents, help_menu, &KHelpMenu::appHelpActivated);
-    createAction(KStandardAction::ReportBug, help_menu, &KHelpMenu::reportBug);
-
-    act = createAction(KStandardAction::AboutApp, help_menu, &KHelpMenu::aboutApplication);
-    act->setMenuRole(QAction::AboutRole); // for Mac OS X, to get the right about menu in the application menu
-
-    act = createAction(KStandardAction::AboutKDE, help_menu, &KHelpMenu::aboutKDE);
-    act->setMenuRole(QAction::NoRole);
-    act = createAction(i18n("&About Editor Component"), "help_about_editor", this, &Kile::aboutEditorComponent);
-    act->setMenuRole(QAction::NoRole);
+    createAction(i18n("&About Editor Component"), "help_about_editor", this, &Kile::aboutEditorComponent);
 
     QAction *kileconfig = KStandardAction::preferences(this, &Kile::generalOptions, actionCollection());
     kileconfig->setIcon(QIcon::fromTheme("configure-kile"));
@@ -1047,7 +1034,6 @@ void Kile::setupActions()
     actionCollection()->addAction("help_userhelp", m_userHelpActionMenu);
 
     m_pFullScreen = KStandardAction::fullScreen(this, &Kile::slotToggleFullScreen, this, actionCollection());
-
 }
 
 void Kile::rebuildBibliographyMenu() {

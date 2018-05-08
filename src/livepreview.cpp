@@ -480,7 +480,8 @@ void LivePreviewManager::handleMasterDocumentChanged()
 
 void LivePreviewManager::handleTextChanged(KTextEditor::Document *doc)
 {
-    if(m_bootUpMode || !KileConfig::livePreviewEnabled()) {
+    if(m_bootUpMode || !KileConfig::livePreviewEnabled()
+                    || !isLivePreviewEnabledForCurrentDocument()) {
         return;
     }
 

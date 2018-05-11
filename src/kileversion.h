@@ -19,7 +19,7 @@
 
 #include <QString>
 
-const QString kileVersion="3.0 alpha 1";
+const QString kileVersion="3.0 beta 2";
 const QString kileFullVersion="2.9.92"; // only use numbers and '.'
 #define KILE_PROJECTFILE_VERSION 3
 #define KILERC_VERSION 8

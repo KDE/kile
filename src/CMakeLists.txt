@@ -188,6 +188,9 @@ set(kile_KCFG_SRCS kileconfig.kcfgc)
 
 kconfig_add_kcfg_files(kile_SRCS ${kile_KCFG_SRCS})
 
+set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/kileconfig.h" PROPERTIES SKIP_AUTOMOC ON)   # otherwise we get a warning about
+set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/kileconfig.cpp" PROPERTIES SKIP_AUTOMOC ON) # the CMP0071 policy (with CMake 3.11)
+
 # add icon to executable on windows and mac;
 # workaround: as ecm_add_app_icon and kf5_add_kdeinit_executable don't work well together,
 # we use a variable named 'kile' at this point

@@ -34,6 +34,7 @@
   <summary xml:lang="en-GB">TeX/LaTeX Editor</summary>
   <summary xml:lang="es">Editor TeX/LaTeX</summary>
   <summary xml:lang="fi">TeX/LaTeX-muokkain</summary>
+  <summary xml:lang="fr">Éditeur TeX/LaTeX</summary>
   <summary xml:lang="gl">Editor de TeX/LaTeX</summary>
   <summary xml:lang="it">Editor TeX/LaTeX</summary>
   <summary xml:lang="nl">TeX/LaTeX-bewerker</summary>
@@ -54,6 +55,7 @@
     <p xml:lang="en-GB">Kile is a user-friendly TeX/LaTeX editor by KDE.</p>
     <p xml:lang="es">Kile es un editor TeX/LaTeX amigable para KDE.</p>
     <p xml:lang="fi">Kile on KDE:n käyttäjäystävällinen TeX/LaTeX-muokkain.</p>
+    <p xml:lang="fr">Kile est un éditeur TeX/LaTeX facile à utiliser, conçu par KDE.</p>
     <p xml:lang="gl">Kile é un editor de TeX/LaTeX de KDE fácil de usar.</p>
     <p xml:lang="it">Kile è un intuitivo editor TeX/LaTeX della comunità KDE.</p>
     <p xml:lang="nl">Kile is een gebruikersvriendelijke TeX/LaTeX bewerker door KDE.</p>
@@ -94,6 +96,7 @@
       <li xml:lang="en-GB">Compile, convert and view your document with one click</li>
       <li xml:lang="es">Compile, convierta y visualice documentos con un solo clic</li>
       <li xml:lang="fi">Käännä, muunna ja näytä tiedostosi yhdellä napsautuksella</li>
+      <li xml:lang="fr">Compiler, convertir et afficher vos documents en un clic</li>
       <li xml:lang="gl">Compilar, converter e visualizar o documento cun clic.</li>
       <li xml:lang="it">Compila, converte e visualizza i tuoi documenti con un clic</li>
       <li xml:lang="nl">Compileert, converteert en toont uw document met één klik</li>
@@ -112,6 +115,7 @@
       <li xml:lang="en-GB">Auto-completion of (La)TeX commands</li>
       <li xml:lang="es">Terminación automática de órdenes de (La)TeX</li>
       <li xml:lang="fi">Täydennä (La)TeX-komennot automaattisesti</li>
+      <li xml:lang="fr">Auto-complètement des balises (La)TeX</li>
       <li xml:lang="gl">Completación automática de ordes de (La)TeX.</li>
       <li xml:lang="it">Completamento automatico dei comandi (La)TeX</li>
       <li xml:lang="nl">Automatische aanvulling van (La)TeX commando's</li>
@@ -130,6 +134,7 @@
       <li xml:lang="en-GB">Templates and wizards make starting new documents very little work</li>
       <li xml:lang="es">Plantillas y asistentes para facilitar la creación de nuevos documentos</li>
       <li xml:lang="fi">Aloita uusi tiedosto helposti mallipohjien ja opastettujen toimintojen avulla</li>
+      <li xml:lang="fr">Modèles et assistants pour créer de nouveaux documents en très peu de temps</li>
       <li xml:lang="gl">Modelos e asistentes para facilitar o inicio de novos documentos.</li>
       <li xml:lang="it">I modelli e le procedure guidate ti fanno iniziare i nuovi documenti con pochissimo lavoro</li>
       <li xml:lang="nl">Sjablonen en assistenten maken het begin van nieuwe documenten tot weinig werk</li>
@@ -147,6 +152,7 @@
       <li xml:lang="en-GB">Easy insertion of many standard tags and symbols and the option to define (an arbitrary number of) user defined tags</li>
       <li xml:lang="es">Fácil inserción de numerosas etiquetas y símbolos estándares, además de la opción de definir (cualquier número) de etiquetas del usuario</li>
       <li xml:lang="fi">Lisää vaivattomasti vakiotunnisteita ja -symboleja sekä määrittele (mielivaltainen määrä) omia tunnisteitasi</li>
+      <li xml:lang="fr">Insertion facile de nombreuses balises et symboles standards avec la possibilité de définir des balises personnalisées</li>
       <li xml:lang="gl">Inserción fácil de moitas etiquetas e símbolos estándar, e a posibilidade de definir etiquetas de usuario.</li>
       <li xml:lang="it">Inserimento semplice di molti tag standard e simboli, inoltre è possibile definire (un numero arbitrario di) tag definiti dall'utente</li>
       <li xml:lang="nl">Gemakkelijk invoegen van vele standaard tags en symbolen en de optie om (een willekeurig aantal) gebruikergedefinieerde tags te definiëren</li>
@@ -164,6 +170,7 @@
       <li xml:lang="en-GB">Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewer</li>
       <li xml:lang="es">Búsqueda hacia atrás y hacia adelante: pulse en el visor DVI y vaya a la correspondiente línea de LaTeX en el editor, o vaya del editor a la página correspondiente del visor</li>
       <li xml:lang="fi">Etsi molempiin suuntiin: napsauta DVI-katselinta ja siirry muokkaimessa vastaavalla LaTeX-riville tai siirry muokkaimesta vastaavalle kohtaa katselimessa</li>
+      <li xml:lang="fr">Recherche inversée et en avant : cliquez sur l'afficheur DVI et passez directement à la ligne LaTeX correspondante dans l'éditeur ou passez de l'éditeur à la page correspondante dans l'afficheur</li>
       <li xml:lang="gl">Busca inversa e cara adiante: prema o visualizador de DVI e salte á liña correspondente de LaTeX no editor, ou salte do editor á páxina correspondente no visualizador.</li>
       <li xml:lang="it">Ricerca in avanti e indietro: fai clic nel visore DVI per saltare alla riga LaTeX corrispondente nell'editor, oppure salta dalla riga dell'editor alla pagina corrispondente nel visore</li>
       <li xml:lang="nl">Omgekeerd en voorwaards zoeken: klik in de DVI-viewer en spring naar de overeenkomstige LaTeX regel in de bewerker of spring uit de bewerker naar de overeenkomstige pagina in de viewer</li>
@@ -181,6 +188,7 @@
       <li xml:lang="en-GB">Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding section</li>
       <li xml:lang="es">Encontrar capítulos y secciones es muy fácil: Kile construye una lista de todos los capítulos, etc. del documento. Puede usar dicha lista para ir a la sección correspondiente.</li>
       <li xml:lang="fi">Löydä (ala-) luku helposti: Kile pitää niistä yllä luetteloa, jonka avulla voit siirtyä luvusta toiseen</li>
+      <li xml:lang="fr">Il n'a jamais été aussi facile de trouver des chapitres ou des sections, Kile construit une liste de tous les chapitres, sections, etc. de vos documents. Vous pouvez utiliser cette liste pour aller directement à la section correspondante.</li>
       <li xml:lang="gl">Atopar capítulos ou seccións é moi doado, Kile constrúe unha lista de capítulos, etc. no documento. Podes usar a lista para saltar á sección correspondente.</li>
       <li xml:lang="it">Trovare i capitoli o le sezioni è molto semplice: Kile costruisce un elenco di tutti i capitoli ecc. nel tuo documento, che puoi usare per saltare alla sezione corrispondente</li>
       <li xml:lang="nl">Vinden van hoofdstuk of sectie is erg gemakkelijk, Kile maakt een lijst met alle hoofdstukken etc. in uw document. U kunt de lijst gebruiken om naar de overeenkomstige sectie te springen</li>
@@ -199,6 +207,7 @@
       <li xml:lang="en-GB">Collect documents that belong together into a project</li>
       <li xml:lang="es">Reunir documentos que deben ir juntos en un proyecto</li>
       <li xml:lang="fi">Kokoa yhteen kuuluvat tiedostot projektiksi</li>
+      <li xml:lang="fr">Collection de documents appartenant au même projet</li>
       <li xml:lang="gl">Recolle documentos que van xuntos nun proxecto.</li>
       <li xml:lang="it">Raccoglie i documenti che appartengono ad un progetto</li>
       <li xml:lang="nl">Verzamelt documenten die bij elkaar behoren in een project</li>
@@ -215,6 +224,7 @@
       <li xml:lang="en-GB">Easy insertion of citations and references when using projects</li>
       <li xml:lang="es">Fácil inserción de citas y referencias al usar proyectos</li>
       <li xml:lang="fi">Lisää projekteja käytettäessä lainaukset ja viitteet helposti</li>
+      <li xml:lang="fr">Insertion facile de citations et de références au sein de vos projets</li>
       <li xml:lang="gl">Inserción fácil de citas e referencias ao usar proxectos.</li>
       <li xml:lang="it">Inserimento semplice di citazioni e di riferimenti quando usi i progetti</li>
       <li xml:lang="nl">Gemakkelijk invoegen van citaten en referenties bij gebruik van projecten</li>
@@ -233,6 +243,7 @@
       <li xml:lang="en-GB">Flexible and smart build system to compile your LaTeX documents</li>
       <li xml:lang="es">Sistema de construcción flexible e inteligente para compilar documentos LaTeX</li>
       <li xml:lang="fi">Käännä LaTeX-tiedostosi joustavasti ja älykkäästi</li>
+      <li xml:lang="fr">Système de compilation de documents LaTeX flexible et intelligent</li>
       <li xml:lang="gl">Sistema de construción flexíbel e intelixente para compilar documentos de LaTeX.</li>
       <li xml:lang="it">Sistema flessibile e intelligente per compilare i tuoi documenti LaTeX</li>
       <li xml:lang="nl">Flexibel en slim bouwsysteem om uw LaTeX documenten te compileren</li>
@@ -251,6 +262,7 @@
       <li xml:lang="en-GB">QuickPreview: preview a selected part of your document</li>
       <li xml:lang="es">Vista rápida: vista previa de la parte seleccionada del documento</li>
       <li xml:lang="fi">Esikatsele nopeasti tiedoston valittua osa pikaesikatselulla</li>
+      <li xml:lang="fr">Aperçu rapide : aperçu rapide d'un passage sélectionné de votre document</li>
       <li xml:lang="gl">Previsualización da parte seleccionada dun documento.</li>
       <li xml:lang="it">Anteprima rapida: anteprima di una parte selezionata del tuo documento</li>
       <li xml:lang="nl">QuickPreview: bekijk een geselecteerd deel van uw document</li>
@@ -269,6 +281,7 @@
       <li xml:lang="en-GB">Easy access to various help sources</li>
       <li xml:lang="es">Fácil acceso a diversas fuentes de ayuda</li>
       <li xml:lang="fi">Löydä eri lähteiden ohjeet nopeasti</li>
+      <li xml:lang="fr">Accès rapide à de nombreuses sources d'assistance</li>
       <li xml:lang="gl">Acceso doado a varios recursos de axuda.</li>
       <li xml:lang="it">Semplice accesso a varie risorse di aiuto</li>
       <li xml:lang="nl">Gemakkelijke toegang tot verschillende hulpbronnen</li>
@@ -287,6 +300,7 @@
       <li xml:lang="en-GB">Advanced editing commands</li>
       <li xml:lang="es">Órdenes de edición avanzadas</li>
       <li xml:lang="fi">Kehittyneet muokkauskomennot</li>
+      <li xml:lang="fr">Commandes d'édition avancées</li>
       <li xml:lang="gl">Ordes de edición avanazda.</li>
       <li xml:lang="it">Comandi di modifica avanzati</li>
       <li xml:lang="nl">Geavanceerde commando's voor bewerking</li>

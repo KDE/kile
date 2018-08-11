@@ -10,8 +10,8 @@
 #ifndef SYMBOLVIEWCLASSES_H
 #define SYMBOLVIEWCLASSES_H
 
-#include <QtCore/QObject>
-#include <QtCore/QString>
+#include <QObject>
+#include <QString>
 
 struct Preamble {
     QString className;

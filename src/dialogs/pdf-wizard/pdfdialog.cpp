@@ -473,7 +473,7 @@ void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
     }
     else {
         QString s = output;
-        numpages = s.remove("\n").toInt(&ok);
+        numpages = s.remove('\n').toInt(&ok);
     }
 
     setNumberOfPages(numpages);
@@ -717,7 +717,7 @@ QString PdfDialog::readPermissions()
     QString permissions;
     for (int i = 0; i < m_pdfPermissionKeys.size(); ++i) {
         if ( m_pdfPermissionWidgets.at(i)->isChecked() ) {
-            permissions += m_pdfPermissionPdftk.at(i) + " ";
+            permissions += m_pdfPermissionPdftk.at(i) + ' ';
         }
     }
     return permissions;
@@ -805,7 +805,7 @@ void PdfDialog::slotTaskChanged(int)
             s = i18n("All options for 'pdfpages'");
             m_PdfDialog.m_edParameter->setValidator(0);
         }
-        m_PdfDialog.m_lbParamInfo->setText(" (" + s + ")");
+        m_PdfDialog.m_lbParamInfo->setText(" (" + s + ')');
 
         m_PdfDialog.m_lbParameter->setText(labeltext);
         m_PdfDialog.m_lbParameter->show();
@@ -1499,7 +1499,7 @@ QString PdfDialog::buildPageList(bool even)
 
     int start = ( even ) ? 2 : 1;
     for (int i=start; i<=m_numpages; i+=2 ) {
-        s += number.setNum(i) + ",";
+        s += number.setNum(i) + ',';
     }
 
     if ( !s.isEmpty() ) {
@@ -1572,10 +1572,10 @@ QString PdfDialog::buildDeletePageList()
         }
         int to = searchPages(&arr,from+1,m_numpages,false) - 1;
         if ( !result.isEmpty() ) {
-            result += ",";
+            result += ',';
         }
         if ( from < to ) {
-            result += QString::number(from) + "-" + QString::number(to);
+            result += QString::number(from) + '-' + QString::number(to);
         }
         else {
             result += QString::number(from);

@@ -131,7 +131,7 @@ Script::Script(unsigned int id, const QString& file)
 {
     m_name = QFileInfo(file).fileName();
 
-    if(m_name.endsWith(".js")) { // remove the extension
+    if(m_name.endsWith(QLatin1String(".js"))) { // remove the extension
         m_name = m_name.left(m_name.length() - 3);
     }
 }

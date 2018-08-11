@@ -59,11 +59,11 @@ QString ConvertMap::encodingNameFor(const QString & name)
 
     std = std.toLower();
 
-    if(std.startsWith("iso8859-")) {
+    if(std.startsWith(QLatin1String("iso8859-"))) {
         return "latin" + std.right(1);
     }
 
-    if(std.startsWith("cp")) {
+    if(std.startsWith(QLatin1String("cp"))) {
         return "cp" + std.right(4);
     }
 
@@ -81,11 +81,11 @@ QString ConvertMap::isoNameFor(const QString & name)
 
     std = std.toLower();
 
-    if(std.startsWith("latin")) {
+    if(std.startsWith(QLatin1String("latin"))) {
         return "ISO 8859-" + std.right(1);
     }
 
-    if(std.startsWith("cp")) {
+    if(std.startsWith(QLatin1String("cp"))) {
         return "cp " + std.right(4);
     }
 

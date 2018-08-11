@@ -276,7 +276,7 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
                 //determine mimeType and open file with preferred application
                 QMimeDatabase db;
                 QMimeType pMime = db.mimeTypeForUrl(itm->url());
-                if(pMime.name().startsWith("text/")) {
+                if(pMime.name().startsWith(QLatin1String("text/"))) {
                     emit(fileSelected(itm->url()));
                 }
                 else {

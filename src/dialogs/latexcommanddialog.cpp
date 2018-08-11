@@ -35,7 +35,6 @@
 #include <QTabWidget>
 #include <KConfigGroup>
 #include <QDialogButtonBox>
-#include <QPushButton>
 
 #include "kileconfig.h"
 #include "kiledebug.h"

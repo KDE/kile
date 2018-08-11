@@ -203,8 +203,8 @@ void ManageCompletionFilesDialog::fillTreeView() {
     std::sort(list.begin(), list.end());
     m_listView->clear();
     foreach(QString filename, list) {
-        QString expectedLocalPath = m_localCompletionDirectory + "/" + filename;
-        QString expectedGlobalPath = m_globalCompletionDirectory + "/" + filename;
+        QString expectedLocalPath = m_localCompletionDirectory + '/' + filename;
+        QString expectedGlobalPath = m_globalCompletionDirectory + '/' + filename;
         if (QFileInfo(expectedLocalPath).exists() && QFileInfo(expectedLocalPath).isReadable()) {
             QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("yes"));
             item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
@@ -235,14 +235,14 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 
     foreach (QString file, files) {
         QFileInfo fileInf(file);
-        QFileInfo localFile(m_localCompletionDirectory + "/" + fileInf.fileName());
+        QFileInfo localFile(m_localCompletionDirectory + '/' + fileInf.fileName());
         if (localFile.exists()) {
-            const QString dialog_text = i18n("A local completion file with the name \"%1\" already exists.\nDo you want to replace this file?").arg(localFile.fileName());
+            const QString dialog_text = i18n("A local completion file with the name \"%1\" already exists.\nDo you want to replace this file?", localFile.fileName());
             const QString dialog_caption = i18n("Replace Local File?");
             if (KMessageBox::questionYesNo(this, dialog_text, dialog_caption) == KMessageBox::Yes) {
                 if (!QFile::remove(localFile.absoluteFilePath())) {
-                    KMessageBox::error(this, i18n("An error occurred while removing the file \"%1\".\nPlease check the file permissions.")
-                                       .arg(localFile.fileName()), i18n("Remove Error"));
+                    KMessageBox::error(this, i18n("An error occurred while removing the file \"%1\".\nPlease check the file permissions.",
+                                       localFile.fileName()), i18n("Remove Error"));
                     continue;
                 }
             }
@@ -253,8 +253,8 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
         }
         // Copy selected file to local directory.
         if (!QFile::copy(fileInf.absoluteFilePath(),localFile.absoluteFilePath())) {
-            KMessageBox::error(this, i18n("Cannot copy the file to the local directory!\nPlease check the access permissions of the directory \"%1\".")
-                               .arg(localFile.absolutePath()), i18n("Copy Error"));
+            KMessageBox::error(this, i18n("Cannot copy the file to the local directory!\nPlease check the access permissions of the directory \"%1\".",
+                               localFile.absolutePath()), i18n("Copy Error"));
         }
         else {
             // Add file to QTreeWidget or change status to local if a global file with the same name exists.

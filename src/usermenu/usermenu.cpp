@@ -811,7 +811,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
     }
 
     // build commandline
-    QString cmdline = menudata.filename + " " + menudata.parameter;
+    QString cmdline = menudata.filename + ' ' + menudata.parameter;
     bool useTemporaryFile = cmdline.contains("%M");
 
     bool needsSelection = menudata.needsSelection;

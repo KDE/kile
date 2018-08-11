@@ -89,7 +89,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
     // combo box for default graphics extension
     m_defaultGraphicsExtensionCombo = new QComboBox(this);
     KileDocument::Extensions extManager;
-    QStringList imageExtensions = extManager.images().split(" ");
+    QStringList imageExtensions = extManager.images().split(' ');
     foreach (const QString &extension, imageExtensions) {
         const QString extName = extension.mid(1); // all characters right of "."
         m_defaultGraphicsExtensionCombo->addItem(extension, extName);
@@ -595,14 +595,14 @@ bool KileNewProjectDialog::testDirectoryIsUsable(const QDir& dir)
 
     if (!dir.exists()) {
         KMessageBox::error(this, i18n("<p>Could not create the project folder \"\n%1\"</p>."
-                                      "<p>Please check whether you have write permissions.</p>").arg(dir.path()));
+                                      "<p>Please check whether you have write permissions.</p>", dir.path()));
         return false;
     }
 
     QFileInfo fi(dir.absolutePath());
     if (!fi.isDir() || !fi.isWritable()) {
         KMessageBox::error(this, i18n("<p>The project folder \"(%1)\" is not writable.</p>"
-                                      "<p>Please check the permissions of the project folder.</p>").arg(dir.path()));
+                                      "<p>Please check the permissions of the project folder.</p>", dir.path()));
         return false;
     }
     return true;

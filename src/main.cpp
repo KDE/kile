@@ -42,7 +42,7 @@ Q_LOGGING_CATEGORY(LOG_KILE_CODECOMPLETION, "org.kde.kile.codecompletion", QtWar
 
 bool isProject(const QUrl url)
 {
-    return url.fileName().endsWith(".kilepr");
+    return url.fileName().endsWith(QLatin1String(".kilepr"));
 }
 
 QString readDataFromStdin()

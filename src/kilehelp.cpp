@@ -124,9 +124,9 @@ QString Help::locateTexLivePath(const QStringList &paths)
     for (QStringList::ConstIterator it = paths.begin(); it != paths.end(); ++it) {
         // Remove any leading or trailing ", this is commonly used in the environment variables
         QString path = (*it);
-        if (path.startsWith("\""))
+        if (path.startsWith('\"'))
             path = path.right(path.length() - 1);
-        if (path.endsWith("\""))
+        if (path.endsWith('\"'))
             path = path.left(path.length() - 1);
 
         if ( re.indexIn(path) > 0 ) {
@@ -284,7 +284,7 @@ void Help::helpLatex(HelpType type)
         default:
             return;
         }
-        filename = m_latex2eReference + "#" + link;
+        filename = m_latex2eReference + '#' + link;
     }
 
     // show help file
@@ -304,7 +304,7 @@ void Help::helpKeyword(KTextEditor::View *view)
         KILE_DEBUG_MAIN << "about to show help for '" << word << "' (section " << m_dictHelpTex[word] << " )";
 
         if ( m_contextHelpType == HelpLatex2eRefs ) {
-            showHelpFile( m_latex2eReference + "#" + m_dictHelpTex[word] );
+            showHelpFile( m_latex2eReference + '#' + m_dictHelpTex[word] );
         }
         else if ( m_contextHelpType == HelpTexRefs ) {
             showHelpFile( m_texdocPath + m_texrefsReference + m_dictHelpTex[word] );

@@ -534,7 +534,7 @@ void LaTeX::checkAutoRun()
             Base *tool = manager()->createTool("Asymptote", QString());
 
             if(tool) {
-                configureAsymptote(tool, targetDir() + '/' + S() + "-" + QString::number(i + 1) + '.' + tool->from());
+                configureAsymptote(tool, targetDir() + '/' + S() + '-' + QString::number(i + 1) + '.' + tool->from());
                 // e.g. for LivePreview, it is necessary that the paths are copied to child processes
                 tool->copyPaths(this);
                 runChildNext(tool);

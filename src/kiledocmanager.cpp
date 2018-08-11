@@ -2493,8 +2493,8 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
         if(!KSharedConfig::openConfig()->hasGroup(groupName)) { // 'groupName' might have been deleted
             continue;                                       // work around bug 384039
         }
-        if(groupName.startsWith("Document-Settings")
-                || groupName.startsWith("View-Settings")) {
+        if(groupName.startsWith(QLatin1String("Document-Settings"))
+                || groupName.startsWith(QLatin1String("View-Settings"))) {
             int urlIndex = groupName.indexOf("URL=");
             if(urlIndex >= 0 && groupName.mid(urlIndex + 4) == urlString) {
                 KSharedConfig::openConfig()->deleteGroup(groupName);

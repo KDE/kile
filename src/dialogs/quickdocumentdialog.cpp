@@ -42,7 +42,6 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 #include <QTabWidget>
 #include <KConfigGroup>
 #include <QDialogButtonBox>
-#include <QPushButton>
 
 #include "widgets/categorycombobox.h"
 #include "kiledebug.h"

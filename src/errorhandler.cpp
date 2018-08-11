@@ -26,7 +26,6 @@
 #include <KActionCollection>
 #include <KLocalizedString>
 #include <QUrl>
-#include <QTabWidget>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <KSelectAction>

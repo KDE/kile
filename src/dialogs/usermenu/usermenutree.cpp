@@ -113,7 +113,7 @@ void UserMenuTree::initEnvPathlist()
     // Returns the environment of the calling process as a list of key=value pairs.
     QStringList environment = QProcess::systemEnvironment();
     foreach ( const QString &s, environment ) {
-        if ( s.startsWith("PATH=") ) {
+        if ( s.startsWith(QLatin1String("PATH=")) ) {
             envpath = s.mid(5);
             break;
         }
@@ -142,7 +142,7 @@ bool UserMenuTree::isItemExecutable(const QString &filename)
 
     // search in all paths
     for (int i=0; i<m_envPathlist.size(); ++i ) {
-        bool executable = QFileInfo(m_envPathlist[i]+"/"+filename).isExecutable();
+        bool executable = QFileInfo(m_envPathlist[i]+'/'+filename).isExecutable();
         if ( executable ) {
             // move to front
             if ( i > 0 ) {

@@ -69,7 +69,6 @@
 #include <KUrlCompletion>
 #include <KUrlRequester>
 #include <KConfigGroup>
-#include <QDialogButtonBox>
 
 #include "kiledebug.h"
 #include "kileconfig.h"

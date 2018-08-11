@@ -19,7 +19,7 @@
 #define KILEAPPIFACE_H
 
 #include <QObject>
-#include <QtDBus/QtDBus>
+#include <QtDBus>
 
 /*
  * 	This files servers as our source for the xml file net.sourceforge.kile.main.xml

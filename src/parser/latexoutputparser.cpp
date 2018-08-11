@@ -155,7 +155,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
         //The partial filename was followed by '(', this means that TeX is signalling it is
         //opening the file. We are sure the filename is complete now. Don't call updateFileStackHeuristic
         //since we don't want the filename on the stack twice.
-        if(strLine.startsWith('(') || strLine.startsWith("\\openout")) {
+        if(strLine.startsWith('(') || strLine.startsWith(QLatin1String("\\openout"))) {
             //push the filename on the stack and mark it as 'reliable'
             m_stackFile.push(LOFStackItem(strPartialFileName, true));
 // 				qCDebug(LOG_KILE_PARSER) << "\tpushed : " << strPartialFileName << endl;
@@ -170,7 +170,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
             strPartialFileName.clear();
             detectError(strLine, dwCookie);
         }
-        else if(strLine.startsWith("No file")) {
+        else if(strLine.startsWith(QLatin1String("No file"))) {
 // 				qCDebug(LOG_KILE_PARSER) << "No file: " << strLine << endl;
             dwCookie = Start;
             strPartialFileName.clear();

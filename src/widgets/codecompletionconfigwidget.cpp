@@ -34,7 +34,6 @@
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <QPushButton>
-#include <QTabWidget>
 #include <KConfigGroup>
 
 #include "dialogs/listselector.h"

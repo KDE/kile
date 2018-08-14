@@ -11,6 +11,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kilehelp.h"
 #include <QDir>
 #include <QFileInfo>
 #include <QTextStream>
@@ -18,7 +19,6 @@
 
 #include "editorextension.h"
 #include "errorhandler.h"
-#include "kilehelp.h"
 #include "kiledebug.h"
 #include "kiletool_enums.h"
 #include "kiletoolmanager.h"

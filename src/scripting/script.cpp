@@ -12,6 +12,8 @@
 *                                                                         *
 ***************************************************************************/
 
+#include "scripting/script.h"
+
 #include <QFile>
 #include <QTextStream>
 #include <QScriptValue>
@@ -27,7 +29,6 @@
 
 #include "kileinfo.h"
 #include "kiledebug.h"
-#include "scripting/script.h"
 #include "scripting/kilescriptobject.h"
 #include "scripting/kilescriptview.h"
 #include "scripting/kilescriptdocument.h"

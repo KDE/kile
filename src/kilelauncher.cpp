@@ -314,7 +314,7 @@ void ProcessLauncher::slotProcessError(QProcess::ProcessError error)
         errorString = i18n("crashed");
         break;
     default:
-        errorString = i18n("failed (error code %i)", error);
+        errorString = i18n("failed (error code %1)", error);
         break;
     }
     emit(message(Error, errorString));

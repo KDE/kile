@@ -12,6 +12,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "usermenu/usermenu.h"
 
 #include <QFile>
 #include <QRegExp>
@@ -27,7 +28,6 @@
 #include "kileactions.h"
 #include "editorextension.h"
 #include "kileviewmanager.h"
-#include "usermenu/usermenu.h"
 
 #include "kileconfig.h"
 #include "kiledebug.h"

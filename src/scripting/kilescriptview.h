@@ -17,7 +17,7 @@
 
 #include <QObject>
 #include <QMap>
-#include <QtScript/QScriptable>
+#include <QScriptable>
 
 #include <KTextEditor/Cursor>
 #include <KTextEditor/Range>

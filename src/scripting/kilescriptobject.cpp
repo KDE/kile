@@ -11,6 +11,8 @@
 *                                                                         *
 ***************************************************************************/
 
+#include "scripting/kilescriptobject.h"
+
 #include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -22,7 +24,6 @@
 #include <KMessageBox>
 #include <KTextEditor/View>
 
-#include "scripting/kilescriptobject.h"
 #include "kileviewmanager.h"
 #include "dialogs/validatorinputdialog.h"
 #include "kileinfo.h"

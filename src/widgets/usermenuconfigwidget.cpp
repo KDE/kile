@@ -11,10 +11,10 @@
 *                                                                         *
 ***************************************************************************/
 
+#include "widgets/usermenuconfigwidget.h"
+
 #include <KMessageBox>
 #include <QFileDialog>
-
-#include "widgets/usermenuconfigwidget.h"
 
 #include "kileconfig.h"
 #include "kiledebug.h"

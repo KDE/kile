@@ -104,7 +104,6 @@ p, li { white-space: pre-wrap; }
    </item>
   </layout>
  </widget>
- <pixmapfunction></pixmapfunction>
  <customwidgets>
   <customwidget>
    <class>KLineEdit</class>

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>879</width>
-    <height>627</height>
+    <height>645</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -616,7 +616,7 @@
              </widget>
             </item>
             <item row="7" column="2">
-             <widget class="KKeySequenceWidget" name="m_keyChooser" native="true">
+             <widget class="KKeySequenceWidget" name="m_keyChooser">
               <property name="whatsThis">
                <string>Choose or clear a shortcut for this action.</string>
               </property>
@@ -726,18 +726,18 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KKeySequenceWidget</class>
-   <extends>QWidget</extends>
-   <header>kkeysequencewidget.h</header>
-  </customwidget>
-  <customwidget>
    <class>KLineEdit</class>
    <extends>QLineEdit</extends>
    <header>klineedit.h</header>
   </customwidget>
   <customwidget>
+   <class>KKeySequenceWidget</class>
+   <extends>QWidget</extends>
+   <header>kkeysequencewidget.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
-   <extends>QFrame</extends>
+   <extends>QWidget</extends>
    <header>kurlrequester.h</header>
    <container>1</container>
   </customwidget>

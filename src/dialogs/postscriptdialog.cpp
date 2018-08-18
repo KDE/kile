@@ -93,17 +93,17 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
     bool pstops = !QStandardPaths::findExecutable("pstops").isEmpty();
     bool psselect = !QStandardPaths::findExecutable("psselect").isEmpty();
 
-    if (!pstops || !psselect) {
-        QString msg;
-        if (!pstops) {
-            msg = "'pstops'";
-            if (!psselect)
-                msg += " and ";
-        }
-        if (!psselect) {
-            msg += "'psselect'";
-        }
-        m_PostscriptDialog.m_lbInfo->setText(m_PostscriptDialog.m_lbInfo->text() + "\n(Error: " + msg + " not found.)");
+    if (!pstops && !psselect) {
+        m_PostscriptDialog.m_mwErrors->setMessageType(KMessageWidget::Error);
+        m_PostscriptDialog.m_mwErrors->setText(i18n("Neither 'pstops' nor 'psselect' found."));
+    } else if (!pstops) {
+        m_PostscriptDialog.m_mwErrors->setMessageType(KMessageWidget::Warning);
+        m_PostscriptDialog.m_mwErrors->setText(i18n("'pstops' not found."));
+    } else if (!psselect) {
+        m_PostscriptDialog.m_mwErrors->setMessageType(KMessageWidget::Warning);
+        m_PostscriptDialog.m_mwErrors->setText(i18n("'psselect' not found."));
+    } else {
+        m_PostscriptDialog.m_mwErrors->hide();
     }
 
     m_PostscriptDialog.m_edInfile->lineEdit()->setText(psfilename);

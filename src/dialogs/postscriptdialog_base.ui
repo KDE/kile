@@ -29,6 +29,13 @@
       <string>Parameter</string>
      </property>
      <layout class="QGridLayout">
+      <item row="4" column="1">
+       <widget class="KComboBox" name="m_cbTask">
+        <property name="whatsThis">
+         <string>Choose one of the 18 operations to convert a postscript file. The last four operations need specific parameters.</string>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0" colspan="2">
        <widget class="QLabel" name="m_lbInfo">
         <property name="text">
@@ -41,14 +48,21 @@ hyperref package (if needed) with option 'a4paper'.</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="0">
+      <item row="2" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>Input file:</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Output file:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
        <widget class="KUrlRequester" name="m_edInfile">
         <property name="whatsThis">
          <string>Input file, which should be converted.</string>
@@ -58,52 +72,7 @@ hyperref package (if needed) with option 'a4paper'.</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Output file:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="KUrlRequester" name="m_edOutfile">
-        <property name="whatsThis">
-         <string>The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked.</string>
-        </property>
-        <property name="filter">
-         <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Task:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="KComboBox" name="m_cbTask">
-        <property name="whatsThis">
-         <string>Choose one of the 18 operations to convert a postscript file. The last four operations need specific parameters.</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="m_lbParameter">
-        <property name="text">
-         <string>Parameter:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Viewer:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
+      <item row="6" column="1">
        <widget class="QCheckBox" name="m_cbView">
         <property name="whatsThis">
          <string>View the result of the conversion process. okular is always taken as an external viewer.</string>
@@ -116,7 +85,14 @@ hyperref package (if needed) with option 'a4paper'.</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Task:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
        <widget class="QWidget" name="widget" native="true">
         <layout class="QVBoxLayout">
          <property name="spacing">
@@ -154,6 +130,37 @@ hyperref package (if needed) with option 'a4paper'.</string>
         </layout>
        </widget>
       </item>
+      <item row="3" column="1">
+       <widget class="KUrlRequester" name="m_edOutfile">
+        <property name="whatsThis">
+         <string>The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked.</string>
+        </property>
+        <property name="filter">
+         <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Viewer:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="m_lbParameter">
+        <property name="text">
+         <string>Parameter:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="2">
+       <widget class="KMessageWidget" name="m_mwErrors">
+        <property name="closeButtonVisible">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -173,6 +180,11 @@ hyperref package (if needed) with option 'a4paper'.</string>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>KMessageWidget</class>
+   <extends>QFrame</extends>
+   <header>kmessagewidget.h</header>
+  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QWidget</extends>

@@ -11,8 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LATEXMENUITEM_H
-#define LATEXMENUITEM_H
+#ifndef USERMENUITEM_H
+#define USERMENUITEM_H
 
 #include <QTreeWidget>
 #include <QTreeWidgetItem>

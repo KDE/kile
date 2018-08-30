@@ -11,8 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LATEXMENUTREE_H
-#define LATEXMENUTREE_H
+#ifndef USERMENUTREE_H
+#define USERMENUTREE_H
 
 #include <QStyledItemDelegate>
 #include <QContextMenuEvent>

@@ -13,8 +13,8 @@ email                : thomas.braun@virtuell-zuhause.de
 *                                                                         *
 ***************************************************************************/
 
-#ifndef GESYMB_H
-#define GESYMB_H
+#ifndef CONVERTOLDSYMBOLFORMAT_H
+#define CONVERTOLDSYMBOLFORMAT_H
 
 #include <QImage>
 #include <QString>

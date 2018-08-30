@@ -11,8 +11,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef LATEXMENUDIALOG_H
-#define LATEXMENUDIALOG_H
+#ifndef USERMENUDIALOG_H
+#define USERMENUDIALOG_H
 
 #include <QKeySequence>
 #include <QCheckBox>

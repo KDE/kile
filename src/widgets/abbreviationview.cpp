@@ -45,7 +45,7 @@ AbbreviationView::AbbreviationView(KileAbbreviation::Manager *manager, QWidget *
     setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(this, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(slotItemClicked(QTreeWidgetItem*,int)));
-    connect(this, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(slotCustomContextMenuRequested(const QPoint&)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(slotCustomContextMenuRequested(QPoint)));
 }
 
 AbbreviationView::~AbbreviationView()

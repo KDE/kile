@@ -69,7 +69,7 @@ class DocumentViewerWindow : public KMainWindow
     Q_OBJECT
 
 public:
-    DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+    explicit DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
     virtual ~DocumentViewerWindow();
 
 Q_SIGNALS:

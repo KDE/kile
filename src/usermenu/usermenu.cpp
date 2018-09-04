@@ -866,7 +866,7 @@ void UserMenu::execActionProgramOutput(KTextEditor::View *view, const UserMenuDa
 
     connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
     connect(m_proc, SIGNAL(readyReadStandardError()),  this, SLOT(slotProcessOutput()));
-    connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+    connect(m_proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessExited(int,QProcess::ExitStatus)));
 
     KILE_DEBUG_MAIN << "... start proc: " << cmdline;
     // init and/or save important data
@@ -916,7 +916,7 @@ void UserMenu::insertText(KTextEditor::View *view, const QString &text, bool rep
     if(!metachar.isEmpty()) {
         QStringList list = text.split(metachar);
 
-        KileAction::InputTag tag(m_ki, i18n("Input Dialog"), QString(), QKeySequence(), m_receiver, SLOT(insertTag(const KileAction::TagData&)), m_actioncollection,"tag_temporary_action", m_ki->mainWindow(), actiontype, list.at(0)+metachar, list.at(1), list.at(0).length(), 0, QString(), label);
+        KileAction::InputTag tag(m_ki, i18n("Input Dialog"), QString(), QKeySequence(), m_receiver, SLOT(insertTag(KileAction::TagData)), m_actioncollection,"tag_temporary_action", m_ki->mainWindow(), actiontype, list.at(0)+metachar, list.at(1), list.at(0).length(), 0, QString(), label);
 
         tag.activate(QAction::Trigger);
         return;

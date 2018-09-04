@@ -259,7 +259,7 @@ void PdfDialog::initUtilities()
 
     // if we found at least one utility, we can enable some connections
     if ( m_pdftk || m_pdfpages) {
-        connect(m_PdfDialog.m_edOutfile->lineEdit(), SIGNAL(textChanged(const QString &)), this, SLOT(slotOutputfileChanged(const QString &)));
+        connect(m_PdfDialog.m_edOutfile->lineEdit(), SIGNAL(textChanged(QString)), this, SLOT(slotOutputfileChanged(QString)));
         connect(m_PdfDialog.m_cbOverwrite, SIGNAL(stateChanged(int)), this, SLOT(slotOverwriteChanged(int)));
         connect(m_cbTask, SIGNAL(activated(int)), this, SLOT(slotTaskChanged(int)));
     }
@@ -1070,8 +1070,8 @@ void PdfDialog::executeScript(const QString &command, const QString &dir, int sc
             this, SLOT(slotProcessOutput()));
     connect(m_proc, SIGNAL(readyReadStandardError()),
             this, SLOT(slotProcessOutput()));
-    connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
-            this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+    connect(m_proc, SIGNAL(finished(int,QProcess::ExitStatus)),
+            this, SLOT(slotProcessExited(int,QProcess::ExitStatus)));
 
     KILE_DEBUG_MAIN << "=== PdfDialog::runPdfutils() ====================";
     KILE_DEBUG_MAIN << "execute '" << command << "'";

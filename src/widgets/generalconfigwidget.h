@@ -24,7 +24,7 @@ class KileWidgetGeneralConfig : public QWidget, public Ui::KileWidgetGeneralConf
     Q_OBJECT
 
 public:
-    KileWidgetGeneralConfig(QWidget *parent = Q_NULLPTR);
+    explicit KileWidgetGeneralConfig(QWidget *parent = Q_NULLPTR);
     ~KileWidgetGeneralConfig();
 
 private Q_SLOTS:

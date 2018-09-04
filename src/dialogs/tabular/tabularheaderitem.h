@@ -30,7 +30,7 @@ class TabularHeaderItem : public QObject, public QTableWidgetItem {
 public:
     enum { AlignP = 0x0200, AlignB = 0x0400, AlignM = 0x0800, AlignX = 0x1000 };
 
-    TabularHeaderItem(QWidget *parent);
+    explicit TabularHeaderItem(QWidget *parent);
 
     void setAlignment(int alignment);
     int alignment() const;

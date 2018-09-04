@@ -144,7 +144,7 @@ StructureView::StructureView(StructureWidget *stack, KileDocument::Info *docinfo
     setAllColumnsShowFocus(true);
     setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
-    //connect(this, SIGNAL(clicked(QListViewItem *)), m_stack, SLOT(slotClicked(QListViewItem *)));
+    //connect(this, SIGNAL(clicked(QListViewItem*)), m_stack, SLOT(slotClicked(QListViewItem*)));
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotDoubleClicked(QTreeWidgetItem*)));
 
     connect(this, SIGNAL(itemClicked(QTreeWidgetItem*,int)), m_stack, SLOT(slotClicked(QTreeWidgetItem*)));
@@ -163,8 +163,8 @@ void StructureView::init()
         m_root->setURL(m_docinfo->url());
         m_root->setExpanded(true);
         m_root->setIcon(0, QIcon::fromTheme("contents"));
-        connect(m_docinfo, SIGNAL(foundItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)),
-                this, SLOT(addItem(const QString&, uint, uint, int, int, uint, uint, const QString &, const QString &)));
+        connect(m_docinfo, SIGNAL(foundItem(QString,uint,uint,int,int,uint,uint,QString,QString)),
+                this, SLOT(addItem(QString,uint,uint,int,int,uint,uint,QString,QString)));
     }
 
     m_parent[0]=m_parent[1]=m_parent[2]=m_parent[3]=m_parent[4]=m_parent[5]=m_parent[6]=m_root;

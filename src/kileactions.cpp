@@ -116,7 +116,7 @@ Tag::~Tag()
 void Tag::init(const QObject *receiver, const char *slot)
 {
     connect(this, SIGNAL(triggered()), SLOT(emitData()));
-    connect(this, SIGNAL(triggered(const KileAction::TagData&)), receiver, slot);
+    connect(this, SIGNAL(triggered(KileAction::TagData)), receiver, slot);
 }
 
 void Tag::emitData()
@@ -256,8 +256,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
         input->setMinimumWidth(300);
         focus = input;
 
-        connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
-        connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setEditText(const QString&)));
+        connect(input, SIGNAL(textChanged(QString)), this, SLOT(setTag(QString)));
+        connect(this,  SIGNAL(setInput(QString)), input, SLOT(setEditText(QString)));
         if(options & KileAction::ShowBrowseButton) {
             gbox->addWidget(input, 1, 0);
         }
@@ -294,8 +294,8 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
         input->setMinimumWidth(300);
         focus = input;
 
-        connect(input, SIGNAL(textChanged(const QString&)), this, SLOT(setTag(const QString&)));
-        connect(this,  SIGNAL(setInput(const QString&)), input, SLOT(setText(const QString&)));
+        connect(input, SIGNAL(textChanged(QString)), this, SLOT(setTag(QString)));
+        connect(this,  SIGNAL(setInput(QString)), input, SLOT(setText(QString)));
         if(options & KileAction::ShowBrowseButton) {
             gbox->addWidget(input, 1, 0);
         }
@@ -603,8 +603,8 @@ QWidget* ToolbarSelectAction::createWidget(QWidget *parent)
     button->setPopupMode(QToolButton::MenuButtonPopup);
     button->setIconSize(parentToolBar->iconSize());
     button->setToolButtonStyle(parentToolBar->toolButtonStyle());
-    connect(parent, SIGNAL(iconSizeChanged(const QSize&)),
-            button, SLOT(setIconSize(const QSize&)));
+    connect(parent, SIGNAL(iconSizeChanged(QSize)),
+            button, SLOT(setIconSize(QSize)));
     connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
             button, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
     button->setDefaultAction(this);

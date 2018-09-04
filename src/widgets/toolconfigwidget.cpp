@@ -99,7 +99,7 @@ ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *nam
 
     switchConfig(cfg);
     switchTo(m_current, false);
-    connect(m_configWidget->m_lstbTools, SIGNAL(currentTextChanged(const QString &)), this, SLOT(switchTo(const QString &)));
+    connect(m_configWidget->m_lstbTools, SIGNAL(currentTextChanged(QString)), this, SLOT(switchTo(QString)));
 
     connect(this, SIGNAL(changed()), this, SLOT(updateAdvanced()));
     connect(this, SIGNAL(changed()), this, SLOT(updateGeneral()));
@@ -116,12 +116,12 @@ void ToolConfig::setupAdvanced()
 
     m_classes << "Compile" << "Convert" << "Archive" << KileTool::BibliographyCompile::ToolClass << "View" <<  "Sequence" << "LaTeX" << "ViewHTML" << "ViewBib" << "ForwardDVI" << "Base";
     m_configWidget->m_cbClass->addItems(m_classes);
-    connect(m_configWidget->m_cbClass, SIGNAL(activated(const QString &)), this, SLOT(switchClass(const QString &)));
+    connect(m_configWidget->m_cbClass, SIGNAL(activated(QString)), this, SLOT(switchClass(QString)));
 
-    connect(m_configWidget->m_leSource, SIGNAL(textChanged(const QString &)), this, SLOT(setFrom(const QString &)));
-    connect(m_configWidget->m_leTarget, SIGNAL(textChanged(const QString &)), this, SLOT(setTo(const QString &)));
-    connect(m_configWidget->m_leFile, SIGNAL(textChanged(const QString &)), this, SLOT(setTarget(const QString &)));
-    connect(m_configWidget->m_leRelDir, SIGNAL(textChanged(const QString &)), this, SLOT(setRelDir(const QString &)));
+    connect(m_configWidget->m_leSource, SIGNAL(textChanged(QString)), this, SLOT(setFrom(QString)));
+    connect(m_configWidget->m_leTarget, SIGNAL(textChanged(QString)), this, SLOT(setTo(QString)));
+    connect(m_configWidget->m_leFile, SIGNAL(textChanged(QString)), this, SLOT(setTarget(QString)));
+    connect(m_configWidget->m_leRelDir, SIGNAL(textChanged(QString)), this, SLOT(setRelDir(QString)));
 }
 
 void ToolConfig::updateAdvanced()
@@ -161,12 +161,12 @@ void ToolConfig::setupGeneral()
 
     m_ptcw = new ProcessToolConfigWidget(m_configWidget->m_stackBasic);
     m_configWidget->m_stackBasic->insertWidget(GBS_Process, m_ptcw);
-    connect(m_ptcw->m_command, SIGNAL(textChanged(const QString &)), this, SLOT(setCommand(const QString &)));
+    connect(m_ptcw->m_command, SIGNAL(textChanged(QString)), this, SLOT(setCommand(QString)));
     connect(m_ptcw->m_options, SIGNAL(textChanged()), this, SLOT(setOptions()));
 
     m_qtcw = new QuickToolConfigWidget(m_configWidget->m_stackBasic);
     m_configWidget->m_stackBasic->insertWidget(GBS_Sequence, m_qtcw);
-    connect(m_qtcw, SIGNAL(sequenceChanged(const QString &)), this, SLOT(setSequence(const QString &)));
+    connect(m_qtcw, SIGNAL(sequenceChanged(QString)), this, SLOT(setSequence(QString)));
 
     m_configWidget->m_stackBasic->insertWidget(GBS_Error, new QLabel(i18n("Unknown tool type; your configuration data is malformed.\nPerhaps it is a good idea to restore the default settings."), this));
 

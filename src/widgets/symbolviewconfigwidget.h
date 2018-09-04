@@ -23,7 +23,7 @@ class KileWidgetSymbolViewConfig : public QWidget, public Ui::KileWidgetSymbolVi
     Q_OBJECT
 
 public:
-    KileWidgetSymbolViewConfig(QWidget *parent = 0);
+    explicit KileWidgetSymbolViewConfig(QWidget *parent = 0);
     ~KileWidgetSymbolViewConfig();
 };
 

@@ -124,7 +124,7 @@ void UserHelp::setupUserHelpMenu()
                 QString icon = (!url.isLocalFile()) ? "viewhtml" : "view" + ext;
                 action->setIcon(QIcon::fromTheme(icon));
             }
-            connect(action, SIGNAL(triggered(const QUrl&)), this, SLOT(slotUserHelpActivated(const QUrl&)));
+            connect(action, SIGNAL(triggered(QUrl)), this, SLOT(slotUserHelpActivated(QUrl)));
             m_userHelpActionMenu->addAction(action);
             m_actionList.append(action);
         }

@@ -231,8 +231,8 @@ void PostscriptDialog::execute()
                 this, SLOT(slotProcessOutput()));
         connect(m_proc, SIGNAL(readyReadStandardError()),
                 this, SLOT(slotProcessOutput()));
-        connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)),
-                this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+        connect(m_proc, SIGNAL(finished(int,QProcess::ExitStatus)),
+                this, SLOT(slotProcessExited(int,QProcess::ExitStatus)));
 
         KILE_DEBUG_MAIN << "=== PostscriptDialog::runPsutils() ====================";
         KILE_DEBUG_MAIN << "   execute '" << m_tempfile << "'";

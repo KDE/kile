@@ -409,7 +409,7 @@ void ProjectView::makeTheConnection(ProjectViewItem *item, KileDocument::TextInf
             qWarning() << "makeTheConnection COULD NOT FIND AN PROJECT OBJECT FOR " << item->url().toLocalFile();
         }
         else {
-            connect(project, SIGNAL(nameChanged(const QString &)), item, SLOT(nameChanged(const QString &)));
+            connect(project, SIGNAL(nameChanged(QString)), item, SLOT(nameChanged(QString)));
         }
     }
     else {
@@ -421,7 +421,7 @@ void ProjectView::makeTheConnection(ProjectViewItem *item, KileDocument::TextInf
             }
         }
         item->setInfo(textInfo);
-        connect(textInfo, SIGNAL(urlChanged(KileDocument::Info*, const QUrl&)),  item, SLOT(slotURLChanged(KileDocument::Info*, const QUrl&)));
+        connect(textInfo, SIGNAL(urlChanged(KileDocument::Info*,QUrl)),  item, SLOT(slotURLChanged(KileDocument::Info*,QUrl)));
         connect(textInfo, SIGNAL(isrootChanged(bool)), item, SLOT(isrootChanged(bool)));
         //set the pixmap
         item->isrootChanged(textInfo->isLaTeXRoot());

@@ -106,7 +106,7 @@ class BottomBar : public SideBar
     Q_OBJECT
 
 public:
-    BottomBar(QWidget *parent = Q_NULLPTR);
+    explicit BottomBar(QWidget *parent = Q_NULLPTR);
 
 };
 

@@ -206,7 +206,7 @@ private Q_SLOTS:
 class QuickDocumentInputDialog : public QDialog {
     Q_OBJECT
 public:
-    QuickDocumentInputDialog(const QStringList &list, int check = 0,
+    explicit QuickDocumentInputDialog(const QStringList &list, int check = 0,
                              QuickDocument *parent = 0, const char *name = 0);
     ~QuickDocumentInputDialog();
 

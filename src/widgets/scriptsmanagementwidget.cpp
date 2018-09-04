@@ -118,8 +118,8 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
     m_treeWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     m_treeWidget->setRootIsDecorated(false);
     connect(m_kileInfo->scriptManager(), SIGNAL(scriptsChanged()), this, SLOT(update()));
-// 	connect(m_treeWidget, SIGNAL(doubleClicked(QListViewItem*, const QPoint&, int)), this, SLOT(executed(QListViewItem*, const QPoint&, int)));
-// 	connect(m_treeWidget, SIGNAL(itemRenamed(QListViewItem*, const QString&, int)), this, SLOT(itemRenamed(QListViewItem*, const QString&, int)));
+// 	connect(m_treeWidget, SIGNAL(doubleClicked(QListViewItem*,QPoint,int)), this, SLOT(executed(QListViewItem*,QPoint,int)));
+// 	connect(m_treeWidget, SIGNAL(itemRenamed(QListViewItem*,QString,int)), this, SLOT(itemRenamed(QListViewItem*,QString,int)));
     connect(m_treeWidget, SIGNAL(itemSelectionChanged()), this, SLOT(updateButtonPanel()));
 
     baseLayout->addWidget(m_treeWidget);

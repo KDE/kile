@@ -39,7 +39,7 @@ class EditorExtension : public QObject
     Q_OBJECT
 
 public:
-    EditorExtension(KileInfo *);
+    explicit EditorExtension(KileInfo *);
     ~EditorExtension();
 
     enum EnvType {EnvNone, EnvList, EnvTab, EnvCrTab};

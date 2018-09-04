@@ -99,11 +99,11 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
     m_acBackground = new SelectColorAction(QIcon::fromTheme("format-fill-color"), i18n("Background Color"), page);
     m_acBackground->setIcon(generateColorIcon(true));
     connect(m_acBackground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentBackground()));
-    connect(m_acBackground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotBackground(const QColor&)));
+    connect(m_acBackground, SIGNAL(colorSelected(QColor)), this, SLOT(slotBackground(QColor)));
     m_tbFormat->addAction(m_acBackground);
     m_acForeground = new SelectColorAction(QIcon::fromTheme("format-stroke-color"), i18n("Text Color"), page);
     m_acForeground->setIcon(generateColorIcon(false));
-    connect(m_acForeground, SIGNAL(colorSelected(const QColor&)), this, SLOT(slotForeground(const QColor&)));
+    connect(m_acForeground, SIGNAL(colorSelected(QColor)), this, SLOT(slotForeground(QColor)));
     connect(m_acForeground, SIGNAL(triggered(bool)), this, SLOT(slotCurrentForeground()));
     m_tbFormat->addAction(m_acForeground);
 

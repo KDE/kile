@@ -33,8 +33,8 @@ NewToolWizard::NewToolWizard(QWidget *parent, Qt::WindowFlags fl) : KAssistantDi
 
     buttonBox()->button(QDialogButtonBox::Help)->setVisible(false);
 
-    connect(this, SIGNAL(currentPageChanged(KPageWidgetItem*, KPageWidgetItem*)), this, SLOT(slotCurrentPageChanged(KPageWidgetItem*, KPageWidgetItem*)));
-    connect(m_leName, SIGNAL(textChanged(const QString &)), this, SLOT(nameChanged(const QString &)));
+    connect(this, SIGNAL(currentPageChanged(KPageWidgetItem*,KPageWidgetItem*)), this, SLOT(slotCurrentPageChanged(KPageWidgetItem*,KPageWidgetItem*)));
+    connect(m_leName, SIGNAL(textChanged(QString)), this, SLOT(nameChanged(QString)));
     setValid(toolNamePage, false);
 
     //setup the Behavior page (page 1)

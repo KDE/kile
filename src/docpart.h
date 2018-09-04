@@ -24,7 +24,7 @@ class DocumentationViewer : public KHTMLPart
     Q_OBJECT
 
 public:
-    DocumentationViewer(QWidget *parent = Q_NULLPTR);
+    explicit DocumentationViewer(QWidget *parent = Q_NULLPTR);
     ~DocumentationViewer();
 
     bool backEnable();

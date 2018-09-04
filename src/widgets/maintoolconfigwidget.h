@@ -23,7 +23,7 @@ class ToolConfigWidget : public QWidget, public Ui::ToolConfigWidget
     Q_OBJECT
 
 public:
-    ToolConfigWidget(QWidget *parent = 0);
+    explicit ToolConfigWidget(QWidget *parent = 0);
     ~ToolConfigWidget();
 };
 

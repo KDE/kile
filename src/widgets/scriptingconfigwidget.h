@@ -23,7 +23,7 @@ class KileWidgetScriptingConfig : public QWidget, public Ui::KileWidgetScripting
     Q_OBJECT
 
 public:
-    KileWidgetScriptingConfig(QWidget *parent = 0);
+    explicit KileWidgetScriptingConfig(QWidget *parent = 0);
     ~KileWidgetScriptingConfig();
 };
 

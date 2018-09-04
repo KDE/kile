@@ -106,7 +106,7 @@ class KileInfo
     friend class KileMainWindow;
 
 public:
-    KileInfo(KParts::MainWindow *mainWindow);
+    explicit KileInfo(KParts::MainWindow *mainWindow);
     virtual ~KileInfo();
 
 public:

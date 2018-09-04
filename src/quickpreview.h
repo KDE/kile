@@ -37,7 +37,7 @@ class QuickPreview : public QObject
     Q_OBJECT
 
 public:
-    QuickPreview(KileInfo *ki);
+    explicit QuickPreview(KileInfo *ki);
     ~QuickPreview();
 
     bool run(const QString &text,const QString &textfilename,int startrow);

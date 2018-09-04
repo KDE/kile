@@ -27,7 +27,7 @@ class KileWidgetLatexConfig : public QWidget, public Ui::KileWidgetLatexConfig
     Q_OBJECT
 
 public:
-    KileWidgetLatexConfig(QWidget *parent = 0);
+    explicit KileWidgetLatexConfig(QWidget *parent = 0);
     ~KileWidgetLatexConfig();
 
     void setLatexCommands(KConfig *config, KileDocument::LatexCommands *commands);

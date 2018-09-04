@@ -24,7 +24,7 @@ class KileWidgetUsermenuConfig : public QWidget, public Ui::KileWidgetUsermenuCo
     Q_OBJECT
 
 public:
-    KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent = Q_NULLPTR);
+    explicit KileWidgetUsermenuConfig(KileMenu::UserMenu *usermenu, QWidget *parent = Q_NULLPTR);
     ~KileWidgetUsermenuConfig();
 
     void writeConfig();

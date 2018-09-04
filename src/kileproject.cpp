@@ -220,7 +220,7 @@ void KileProjectItem::setInfo(KileDocument::TextInfo *docinfo)
     m_docinfo = docinfo;
     if(docinfo)
     {
-        connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*, const QUrl &)), this, SLOT(slotChangeURL(KileDocument::Info*, const QUrl &)));
+        connect(docinfo,SIGNAL(urlChanged(KileDocument::Info*,QUrl)), this, SLOT(slotChangeURL(KileDocument::Info*,QUrl)));
         connect(docinfo,SIGNAL(depChanged()), m_project, SLOT(buildProjectTree()));
     }
 }

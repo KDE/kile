@@ -225,8 +225,8 @@ QWidget *QuickDocument::setupClassOptions(QTabWidget *tab)
     gl->addWidget(m_lvClassOptions, 4, 1, 1, 3);
     connect(m_lvClassOptions, SIGNAL(itemSelectionChanged()),
             this, SLOT(slotEnableButtons()));
-    connect(m_lvClassOptions, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
-            this, SLOT(slotOptionDoubleClicked(QTreeWidgetItem*, int)));
+    connect(m_lvClassOptions, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(slotOptionDoubleClicked(QTreeWidgetItem*,int)));
 
     label = new QLabel(i18n("Cl&ass options:"), classOptions);
     label->setBuddy(m_lvClassOptions);
@@ -279,13 +279,13 @@ QWidget *QuickDocument::setupPackages(QTabWidget *tab)
     m_lvPackages->setAllColumnsShowFocus(true);
     m_lvPackages->setItemDelegateForColumn(1, new EditableItemDelegate());
     label->setBuddy(m_lvPackages);
-    connect(m_lvPackages, SIGNAL(itemClicked(QTreeWidgetItem*, int)),
+    connect(m_lvPackages, SIGNAL(itemClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotCheckParent(QTreeWidgetItem*)));
-    connect(m_lvPackages, SIGNAL(itemChanged(QTreeWidgetItem*, int)),
+    connect(m_lvPackages, SIGNAL(itemChanged(QTreeWidgetItem*,int)),
             this, SLOT(slotCheckParent(QTreeWidgetItem*)));
     connect(m_lvPackages, SIGNAL(itemSelectionChanged()),
             this, SLOT(slotEnableButtons()));
-    connect(m_lvPackages, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
+    connect(m_lvPackages, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPackageDoubleClicked(QTreeWidgetItem*)));
 
     QWidget *frame = new QWidget(packages);

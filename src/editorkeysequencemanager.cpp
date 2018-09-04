@@ -163,7 +163,7 @@ QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& sk
 Recorder::Recorder(KTextEditor::View *view, Manager *manager) : QObject(view), m_manager(manager), m_view(view)
 {
     connect(m_manager, SIGNAL(watchedKeySequencesChanged()), this, SLOT(reloadWatchedKeySequences()));
-    connect(this, SIGNAL(detectedTypedKeySequence(const QString&)), m_manager, SLOT(keySequenceTyped(const QString&)));
+    connect(this, SIGNAL(detectedTypedKeySequence(QString)), m_manager, SLOT(keySequenceTyped(QString)));
     KTextEditor::Cursor cursor = m_view->cursorPosition();
     m_oldLine = cursor.line();
     m_oldCol = cursor.column();

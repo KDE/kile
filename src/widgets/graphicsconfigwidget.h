@@ -23,7 +23,7 @@ class KileWidgetGraphicsConfig : public QWidget, public Ui::KileWidgetGraphicsCo
     Q_OBJECT
 
 public:
-    KileWidgetGraphicsConfig(QWidget *parent = 0);
+    explicit KileWidgetGraphicsConfig(QWidget *parent = 0);
     ~KileWidgetGraphicsConfig();
 };
 

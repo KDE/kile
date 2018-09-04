@@ -78,8 +78,8 @@ CodeCompletionConfigWidget::CodeCompletionConfigWidget(KConfig *config, KileErro
     if (m_dirWatcher) {
         m_dirWatcher->addDir(m_localCwlDir, KDirWatch::WatchSubDirs | KDirWatch::WatchFiles);
         m_dirWatcher->addDir(m_globalCwlDir, KDirWatch::WatchSubDirs | KDirWatch::WatchFiles);
-        connect(m_dirWatcher, SIGNAL(created(const QString&)), this, SLOT(updateCompletionFilesTab(const QString&)));
-        connect(m_dirWatcher, SIGNAL(deleted(const QString&)), this, SLOT(updateCompletionFilesTab(const QString&)));
+        connect(m_dirWatcher, SIGNAL(created(QString)), this, SLOT(updateCompletionFilesTab(QString)));
+        connect(m_dirWatcher, SIGNAL(deleted(QString)), this, SLOT(updateCompletionFilesTab(QString)));
     }
 }
 

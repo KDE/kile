@@ -81,7 +81,7 @@ private:
 class ConvertIO
 {
 public:
-    ConvertIO(KTextEditor::Document *doc);
+    explicit ConvertIO(KTextEditor::Document *doc);
     virtual ~ConvertIO() {}
 
     virtual void nextLine(); //read next line

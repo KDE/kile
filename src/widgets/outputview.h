@@ -24,7 +24,7 @@ class OutputView : public KTextEdit
     Q_OBJECT
 
 public:
-    OutputView(QWidget *parent);
+    explicit OutputView(QWidget *parent);
     ~OutputView();
 
 public Q_SLOTS:

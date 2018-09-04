@@ -36,7 +36,7 @@ class UserMenuTree : public QTreeWidget
     Q_OBJECT
 
 public:
-    UserMenuTree(QWidget *parent);
+    explicit UserMenuTree(QWidget *parent);
     ~UserMenuTree() {}
 
     bool insertMenuItem(QTreeWidgetItem *current, bool below=true);

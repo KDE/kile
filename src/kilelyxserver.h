@@ -52,7 +52,7 @@ class KileLyxServer : public QObject
     Q_OBJECT
 
 public:
-    KileLyxServer(bool start = true);
+    explicit KileLyxServer(bool start = true);
     ~KileLyxServer();
 
     bool isRunning() {

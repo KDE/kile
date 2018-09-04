@@ -51,9 +51,9 @@ Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionC
 
     m_jScriptDirWatch = new KDirWatch(this);
     m_jScriptDirWatch->setObjectName("KileScript::Manager::ScriptDirWatch");
-    connect(m_jScriptDirWatch, SIGNAL(dirty(const QString&)), this, SLOT(scanScriptDirectories()));
-    connect(m_jScriptDirWatch, SIGNAL(created(const QString&)), this, SLOT(scanScriptDirectories()));
-    connect(m_jScriptDirWatch, SIGNAL(deleted(const QString&)), this, SLOT(scanScriptDirectories()));
+    connect(m_jScriptDirWatch, SIGNAL(dirty(QString)), this, SLOT(scanScriptDirectories()));
+    connect(m_jScriptDirWatch, SIGNAL(created(QString)), this, SLOT(scanScriptDirectories()));
+    connect(m_jScriptDirWatch, SIGNAL(deleted(QString)), this, SLOT(scanScriptDirectories()));
     m_jScriptDirWatch->startScan();
 
     // read plugin code for QScriptEngine

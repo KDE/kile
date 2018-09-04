@@ -25,7 +25,7 @@ class KileWidgetAppearanceConfig : public QWidget, public Ui::KileWidgetAppearan
     Q_OBJECT
 
 public:
-    KileWidgetAppearanceConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
+    explicit KileWidgetAppearanceConfig(KConfig *config, QWidget *parent = Q_NULLPTR);
     ~KileWidgetAppearanceConfig();
 
     void readConfig();

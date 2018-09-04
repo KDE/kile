@@ -55,7 +55,7 @@ class KileInput : public QObject
     Q_OBJECT
 
 public:
-    KileInput(QObject *parent);
+    explicit KileInput(QObject *parent);
     virtual ~KileInput() {}
 
     // get input values
@@ -105,7 +105,7 @@ class KileJavaScript : public QObject
     Q_OBJECT
 
 public:
-    KileJavaScript(QObject *parent);
+    explicit KileJavaScript(QObject *parent);
     virtual ~KileJavaScript() {}
 
     void setScriptname(const QString &name) {

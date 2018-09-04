@@ -198,7 +198,7 @@ class Tester : public QObject
     Q_OBJECT
 
 public:
-    Tester(KileInfo *kileInfo, QObject *parent = 0);
+    explicit Tester(KileInfo *kileInfo, QObject *parent = 0);
     ~Tester();
 
     QStringList testGroups();

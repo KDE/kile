@@ -256,7 +256,7 @@ void TestToolInKileTest::call()
     // parsing is complete, which could trigger a "root document not found" error message.
     tool->setEntry("autoRun", "no");
     connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(handleToolExit(KileTool::Base*,int,bool)), Qt::UniqueConnection);
-    connect(tool, SIGNAL(failedToRun(KileTool::Base*, int)), this, SLOT(reportFailure()));
+    connect(tool, SIGNAL(failedToRun(KileTool::Base*,int)), this, SLOT(reportFailure()));
     m_ki->toolManager()->run(tool);
 }
 

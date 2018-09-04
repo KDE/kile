@@ -391,8 +391,8 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     connect(view, &KTextEditor::View::viewModeChanged, this, &Manager::updateCaption);
     connect(view, &KTextEditor::View::viewInputModeChanged, this, &Manager::updateModeStatus);
 //TODO KF5: signals not available anymore
-// 	connect(view, SIGNAL(informationMessage(KTextEditor::View*,const QString&)), this, SIGNAL(informationMessage(KTextEditor::View*,const QString&)));
-// 	connect(view, SIGNAL(dropEventPass(QDropEvent *)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent *)));
+// 	connect(view, SIGNAL(informationMessage(KTextEditor::View*,QString)), this, SIGNAL(informationMessage(KTextEditor::View*,QString)));
+// 	connect(view, SIGNAL(dropEventPass(QDropEvent*)), m_ki->docManager(), SLOT(openDroppedURLs(QDropEvent*)));
     connect(view, &KTextEditor::View::textInserted, m_ki->codeCompletionManager(), &KileCodeCompletion::Manager::textInserted);
     connect(doc, &KTextEditor::Document::documentNameChanged, this, &Manager::updateTabTexts);
     connect(doc, &KTextEditor::Document::documentUrlChanged, this, &Manager::updateTabTexts);
@@ -1109,7 +1109,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
         }
         viewerInterface->setWatchFileModeEnabled(false);
         viewerInterface->setShowSourceLocationsGraphically(true);
-        connect(m_viewerPart, SIGNAL(openSourceReference(const QString&, int, int)), this, SLOT(handleActivatedSourceReference(const QString&, int, int)));
+        connect(m_viewerPart, SIGNAL(openSourceReference(QString,int,int)), this, SLOT(handleActivatedSourceReference(QString,int,int)));
 
         QAction *paPrintCompiledDocument = actionCollection->addAction(KStandardAction::Print, "print_compiled_document", m_viewerPart, SLOT(slotPrint()));
         paPrintCompiledDocument->setText(i18n("Print Compiled Document..."));

@@ -59,7 +59,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
     KFilePlacesModel* model = new KFilePlacesModel(this);
     m_urlNavigator = new KUrlNavigator(model, QUrl::fromLocalFile(QDir::homePath()), this);
     layout->addWidget(m_urlNavigator);
-    connect(m_urlNavigator, SIGNAL(urlChanged(const QUrl&)), SLOT(setDir(const QUrl&)));
+    connect(m_urlNavigator, SIGNAL(urlChanged(QUrl)), SLOT(setDir(QUrl)));
 
     m_dirOperator = new KDirOperator(QUrl(), this);
     m_dirOperator->setViewConfig(m_configGroup);
@@ -68,9 +68,9 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
     m_dirOperator->setMode(KFile::Files);
     setFocusProxy(m_dirOperator);
 
-    connect(m_urlNavigator, SIGNAL(urlChanged(const QUrl&)), m_dirOperator, SLOT(setFocus()));
-    connect(m_dirOperator, SIGNAL(fileSelected(const KFileItem&)), this, SIGNAL(fileSelected(const KFileItem&)));
-    connect(m_dirOperator, SIGNAL(urlEntered(const QUrl&)), this, SLOT(dirUrlEntered(const QUrl&)));
+    connect(m_urlNavigator, SIGNAL(urlChanged(QUrl)), m_dirOperator, SLOT(setFocus()));
+    connect(m_dirOperator, SIGNAL(fileSelected(KFileItem)), this, SIGNAL(fileSelected(KFileItem)));
+    connect(m_dirOperator, SIGNAL(urlEntered(QUrl)), this, SLOT(dirUrlEntered(QUrl)));
 
 
 

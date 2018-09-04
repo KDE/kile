@@ -36,7 +36,7 @@ public:
     enum {ALVabbrev = 0, ALVlocal = 1, ALVexpansion = 2};
     enum {ALVnone = 0, ALVadd = 1, ALVedit = 2, ALVdelete = 3};
 
-    AbbreviationView(KileAbbreviation::Manager *manager, QWidget *parent = Q_NULLPTR);
+    explicit AbbreviationView(KileAbbreviation::Manager *manager, QWidget *parent = Q_NULLPTR);
     ~AbbreviationView();
 
     bool findAbbreviation(const QString &abbrev);

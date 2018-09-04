@@ -27,7 +27,7 @@ class StatusBar : public QStatusBar
     Q_OBJECT
 
 public:
-    StatusBar(KileErrorHandler *errorHandler, QWidget *parent = Q_NULLPTR);
+    explicit StatusBar(KileErrorHandler *errorHandler, QWidget *parent = Q_NULLPTR);
     ~StatusBar();
 
 public:

@@ -107,7 +107,7 @@ Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, 
     connect(m_ki->parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingComplete()));
 
     connect(this, SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
-            m_ki->errorHandler(), SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
+            m_ki->errorHandler(), SLOT(handleSpawnedChildTool(KileTool::Base*,KileTool::Base*)));
 
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
@@ -198,8 +198,8 @@ int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block 
     }
 
     if(dynamic_cast<KileTool::LaTeX*>(tool)) {
-        connect(tool, SIGNAL(done(KileTool::Base*, int, bool)),
-                m_ki->errorHandler(), SLOT(handleLaTeXToolDone(KileTool::Base*, int, bool)));
+        connect(tool, SIGNAL(done(KileTool::Base*,int,bool)),
+                m_ki->errorHandler(), SLOT(handleLaTeXToolDone(KileTool::Base*,int,bool)));
     }
 
     if(tool->needsToBePrepared()) {
@@ -294,9 +294,9 @@ void Manager::initTool(Base *tool)
     tool->setInfo(m_ki);
     tool->setConfig(m_config);
 
-    connect(tool, SIGNAL(message(int, const QString &, const QString &)), m_ki->errorHandler(), SLOT(printMessage(int, const QString &, const QString &)));
-    connect(tool, SIGNAL(output(const QString &)), m_output, SLOT(receive(const QString &)));
-    connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(done(KileTool::Base*, int)));
+    connect(tool, SIGNAL(message(int,QString,QString)), m_ki->errorHandler(), SLOT(printMessage(int,QString,QString)));
+    connect(tool, SIGNAL(output(QString)), m_output, SLOT(receive(QString)));
+    connect(tool, SIGNAL(done(KileTool::Base*,int,bool)), this, SLOT(done(KileTool::Base*,int)));
     connect(tool, SIGNAL(start(KileTool::Base*)), this, SLOT(started(KileTool::Base*)));
 }
 

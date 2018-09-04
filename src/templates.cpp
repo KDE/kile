@@ -340,7 +340,7 @@ void TemplateIconView::searchLaTeXClassFiles()
     m_proc->setReadChannel(QProcess::StandardOutput);
 
     connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
-    connect(m_proc, SIGNAL(finished(int, QProcess::ExitStatus)), this, SLOT(slotProcessExited(int, QProcess::ExitStatus)));
+    connect(m_proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessExited(int,QProcess::ExitStatus)));
     connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError()));
     KILE_DEBUG_MAIN << "=== NewFileWidget::searchClassFiles() ====================";
     KILE_DEBUG_MAIN << "\texecute: " << command;

@@ -1376,7 +1376,7 @@ void Manager::addProject(KileProject *project)
     m_projects.append(project);
     KILE_DEBUG_MAIN << "\tnow " << m_projects.count() << " projects";
     emit addToProjectView(project);
-    connect(project, SIGNAL(projectTreeChanged(const KileProject *)), this, SIGNAL(projectTreeChanged(const KileProject *)));
+    connect(project, SIGNAL(projectTreeChanged(const KileProject*)), this, SIGNAL(projectTreeChanged(const KileProject*)));
 }
 
 KileProject* Manager::selectProject(const QString& caption)

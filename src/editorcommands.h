@@ -27,7 +27,7 @@ class KileInfo;
  **/
 class EditorCommands : public KTextEditor::Command {
 public:
-    EditorCommands(KileInfo *info);
+    explicit EditorCommands(KileInfo *info);
     virtual ~EditorCommands();
 
     virtual bool exec(KTextEditor::View *view, const QString &cmd, QString &msg,

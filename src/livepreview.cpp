@@ -141,9 +141,9 @@ LivePreviewManager::LivePreviewManager(KileInfo *ki, KActionCollection *ac)
     connect(m_ki->viewManager(), SIGNAL(textViewClosed(KTextEditor::View*,bool)),
             this, SLOT(handleTextViewClosed(KTextEditor::View*,bool)));
     connect(m_ki->toolManager(), SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
-            this, SLOT(handleSpawnedChildTool(KileTool::Base*, KileTool::Base*)));
-    connect(m_ki->docManager(), SIGNAL(documentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)),
-            this, SLOT(handleDocumentSavedAs(KTextEditor::View*, KileDocument::TextInfo*)));
+            this, SLOT(handleSpawnedChildTool(KileTool::Base*,KileTool::Base*)));
+    connect(m_ki->docManager(), SIGNAL(documentSavedAs(KTextEditor::View*,KileDocument::TextInfo*)),
+            this, SLOT(handleDocumentSavedAs(KTextEditor::View*,KileDocument::TextInfo*)));
     connect(m_ki->docManager(), SIGNAL(documentOpened(KileDocument::TextInfo*)),
             this, SLOT(handleDocumentOpened(KileDocument::TextInfo*)));
     connect(m_ki->docManager(), SIGNAL(projectOpened(KileProject*)),

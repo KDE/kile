@@ -54,21 +54,21 @@ KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, KActionColle
     m_mainLogWidget->setFocusPolicy(Qt::ClickFocus);
     m_mainLogWidget->setMinimumHeight(40);
 
-    connect(m_mainLogWidget, SIGNAL(outputInfoSelected(const OutputInfo&)),
-            this, SLOT(jumpToProblem(const OutputInfo&)));
+    connect(m_mainLogWidget, SIGNAL(outputInfoSelected(OutputInfo)),
+            this, SLOT(jumpToProblem(OutputInfo)));
     connect(m_mainLogWidget, SIGNAL(showingErrorMessage(QWidget*)),
             this, SIGNAL(showingErrorMessage(QWidget*)));
     connect(m_mainLogWidget, SIGNAL(showingErrorMessage(QWidget*)),
             this, SLOT(showMessagesOutput()));
     m_errorLogWidget = new KileWidget::LogWidget(KileWidget::LogWidget::NoHideActions);
-    connect(m_errorLogWidget, SIGNAL(outputInfoSelected(const OutputInfo&)),
-            this, SLOT(jumpToProblem(const OutputInfo&)));
+    connect(m_errorLogWidget, SIGNAL(outputInfoSelected(OutputInfo)),
+            this, SLOT(jumpToProblem(OutputInfo)));
     m_warningLogWidget = new KileWidget::LogWidget(KileWidget::LogWidget::NoHideActions);
-    connect(m_warningLogWidget, SIGNAL(outputInfoSelected(const OutputInfo&)),
-            this, SLOT(jumpToProblem(const OutputInfo&)));
+    connect(m_warningLogWidget, SIGNAL(outputInfoSelected(OutputInfo)),
+            this, SLOT(jumpToProblem(OutputInfo)));
     m_badBoxLogWidget = new KileWidget::LogWidget(KileWidget::LogWidget::NoHideActions);
-    connect(m_badBoxLogWidget, SIGNAL(outputInfoSelected(const OutputInfo&)),
-            this, SLOT(jumpToProblem(const OutputInfo&)));
+    connect(m_badBoxLogWidget, SIGNAL(outputInfoSelected(OutputInfo)),
+            this, SLOT(jumpToProblem(OutputInfo)));
 
     // FIXME: suggestions for icons: utilities-log-viewer, script-error, dialog-warning
     m_outputTabWidget = new QTabWidget();
@@ -271,8 +271,8 @@ void KileErrorHandler::handleSpawnedChildTool(KileTool::Base *parent, KileTool::
         return;
     }
 
-    connect(child, SIGNAL(done(KileTool::Base*, int, bool)),
-            this, SLOT(handleLaTeXToolDone(KileTool::Base*, int, bool)));
+    connect(child, SIGNAL(done(KileTool::Base*,int,bool)),
+            this, SLOT(handleLaTeXToolDone(KileTool::Base*,int,bool)));
 }
 
 void KileErrorHandler::updateCurrentLaTeXOutputHandler()

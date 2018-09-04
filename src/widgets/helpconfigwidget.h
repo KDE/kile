@@ -26,7 +26,7 @@ class KileWidgetHelpConfig : public QWidget, public Ui::KileWidgetHelpConfig
     Q_OBJECT
 
 public:
-    KileWidgetHelpConfig(QWidget *parent = 0);
+    explicit KileWidgetHelpConfig(QWidget *parent = 0);
     ~KileWidgetHelpConfig();
 
     void setHelp(KileHelp::Help *help);

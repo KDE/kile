@@ -32,8 +32,8 @@ Manager::Manager(KileInfo *info, QObject *parent) :
     m_documentParserThread = new DocumentParserThread(m_ki, this);
     // we have to make this connection 'blocking' to ensure that when 'ParserThread::isDocumentParsingComplete()'
     // returns true, all document info objects have been passed the information obtained from parsing already
-    connect(m_documentParserThread, SIGNAL(parsingComplete(const QUrl&, KileParser::ParserOutput*)),
-            m_ki->docManager(), SLOT(handleParsingComplete(const QUrl&, KileParser::ParserOutput*)), Qt::BlockingQueuedConnection);
+    connect(m_documentParserThread, SIGNAL(parsingComplete(QUrl,KileParser::ParserOutput*)),
+            m_ki->docManager(), SLOT(handleParsingComplete(QUrl,KileParser::ParserOutput*)), Qt::BlockingQueuedConnection);
     // the next two can't be made 'blocking' as they are emitted when a mutex is held
     connect(m_documentParserThread, SIGNAL(parsingQueueEmpty()),
             this, SIGNAL(documentParsingComplete()), Qt::QueuedConnection);
@@ -42,8 +42,8 @@ Manager::Manager(KileInfo *info, QObject *parent) :
     m_documentParserThread->start();
 
     m_outputParserThread = new OutputParserThread(m_ki, this);
-    connect(m_outputParserThread, SIGNAL(parsingComplete(const QUrl&, KileParser::ParserOutput*)),
-            this, SLOT(handleOutputParsingComplete(const QUrl&, KileParser::ParserOutput*)), Qt::QueuedConnection);
+    connect(m_outputParserThread, SIGNAL(parsingComplete(QUrl,KileParser::ParserOutput*)),
+            this, SLOT(handleOutputParsingComplete(QUrl,KileParser::ParserOutput*)), Qt::QueuedConnection);
     m_outputParserThread->start();
 }
 

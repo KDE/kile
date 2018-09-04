@@ -144,7 +144,7 @@ class TemplateIconView : public QListWidget {
     Q_OBJECT
 
 public:
-    TemplateIconView(QWidget *parent = Q_NULLPTR);
+    explicit TemplateIconView(QWidget *parent = Q_NULLPTR);
     virtual ~TemplateIconView();
 
     void setTemplateManager(KileTemplate::Manager *templateManager);

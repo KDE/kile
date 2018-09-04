@@ -522,8 +522,8 @@ void Base::installLauncher(Launcher *lr)
     //lr->setParamDict(paramDict());
     lr->setTool(this);
 
-    connect(lr, SIGNAL(message(int, const QString &)), this, SLOT(sendMessage(int, const QString &)));
-    connect(lr, SIGNAL(output(const QString &)), this, SLOT(filterOutput(const QString &)));
+    connect(lr, SIGNAL(message(int,QString)), this, SLOT(sendMessage(int,QString)));
+    connect(lr, SIGNAL(output(QString)), this, SLOT(filterOutput(QString)));
     connect(lr, SIGNAL(done(int)), this, SLOT(finish(int)));
 }
 

@@ -20,6 +20,7 @@
   <name xml:lang="nl">Kile</name>
   <name xml:lang="pl">Kile</name>
   <name xml:lang="pt">Kile</name>
+  <name xml:lang="pt-BR">Kile</name>
   <name xml:lang="sk">Kile</name>
   <name xml:lang="sv">Kile</name>
   <name xml:lang="tr">Kile</name>
@@ -42,6 +43,7 @@
   <summary xml:lang="nl">TeX/LaTeX-bewerker</summary>
   <summary xml:lang="pl">Edytor TeX/LaTeX</summary>
   <summary xml:lang="pt">Editor de TeX/LaTeX</summary>
+  <summary xml:lang="pt-BR">Editor TeX/LaTeX</summary>
   <summary xml:lang="sv">Tex/Latex-editor</summary>
   <summary xml:lang="tr">TeX/LaTeX Düzenleyici</summary>
   <summary xml:lang="uk">Редактор TeX/LaTeX</summary>
@@ -85,6 +87,7 @@
     <p xml:lang="nl">Kenmerken:</p>
     <p xml:lang="pl">Możliwości:</p>
     <p xml:lang="pt">Funcionalidades:</p>
+    <p xml:lang="pt-BR">Recursos:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sv">Funktioner:</p>
     <p xml:lang="tr">Özellikler:</p>
@@ -302,6 +305,7 @@
       <li xml:lang="nl">Gemakkelijke toegang tot verschillende hulpbronnen</li>
       <li xml:lang="pl">Łatwy dostęp do źródeł pomocy</li>
       <li xml:lang="pt">Acesso simples a diversas fontes de ajuda</li>
+      <li xml:lang="pt-BR">Acesso fácil a várias fontes de ajuda</li>
       <li xml:lang="sv">Enkel tillgång till olika hjälpkällor</li>
       <li xml:lang="tr">Çeşitli yardım kaynaklarına kolay erişim</li>
       <li xml:lang="uk">Простий доступ до різноманітних довідкових джерел.</li>
@@ -322,6 +326,7 @@
       <li xml:lang="nl">Geavanceerde commando's voor bewerking</li>
       <li xml:lang="pl">Zaawansowane polecenia edytowania</li>
       <li xml:lang="pt">Comandos de edição avançados</li>
+      <li xml:lang="pt-BR">Comandos de edição avançados</li>
       <li xml:lang="sv">Avancerade redigeringskommandon</li>
       <li xml:lang="tr">İleri seviye düzenleme komutları</li>
       <li xml:lang="uk">Розширені команди редагування.</li>

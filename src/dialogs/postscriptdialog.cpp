@@ -203,7 +203,7 @@ void PostscriptDialog::execute()
         QFileInfo to(m_PostscriptDialog.m_edOutfile->lineEdit()->text());
 
         // output for log window
-        QString msg = i18n("rearrange ps file: ") + from.fileName();
+        QString msg = i18n("rearrange ps file: %1", from.fileName());
         if (!to.fileName().isEmpty())
             msg += " ---> " + to.fileName();
         m_errorHandler->printMessage(KileTool::Info, msg, m_program);

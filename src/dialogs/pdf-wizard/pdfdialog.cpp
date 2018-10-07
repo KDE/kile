@@ -404,7 +404,7 @@ void PdfDialog::setNumberOfPages(int numpages)
 
         QString pages;
         if ( m_encrypted )
-            m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages)+"   "+i18n("(encrypted)"));
+            m_PdfDialog.m_lbPages->setText(i18nc("%1 is the number of pages", "%1 (encrypted)", QString::number(m_numpages)));
         else
             m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages));
     }
@@ -919,7 +919,7 @@ void PdfDialog::executeAction()
 
     // output for log window
     QString program = (m_execLatex) ? i18n("LaTeX with 'pdfpages' package") : i18n("pdftk");
-    QString msg = i18n("Rearranging PDF file: ") + from.fileName();
+    QString msg = i18n("Rearranging PDF file: %1", from.fileName());
     if (!to.fileName().isEmpty())
         msg += " ---> " + to.fileName();
     m_errorHandler->printMessage(KileTool::Info, msg, program);

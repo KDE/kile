@@ -762,8 +762,10 @@ void LatexCommandsDialog::slotAccepted()
 
 void LatexCommandsDialog::slotSetDefaults()
 {
-    QString mode = (getListviewMode() == lvEnvMode) ? i18n("'environment'") : i18n("'command'");
-    if (KMessageBox::warningContinueCancel(this, i18n("All your %1 settings will be overwritten with the default settings, are you sure you want to continue?", mode)) == KMessageBox::Continue) {
+    const QString text = (getListviewMode() == lvEnvMode)
+        ? i18n("All your 'environment' settings will be overwritten with the default settings, are you sure you want to continue?")
+        : i18n("All your 'command' settings will be overwritten with the default settings, are you sure you want to continue?");
+    if (KMessageBox::warningContinueCancel(this, text) == KMessageBox::Continue) {
         if (getListviewMode() == lvEnvMode) {
             resetEnvironments();
         }

@@ -190,7 +190,7 @@ void UserMenu::updateGUI()
     clear();
 
     // then install
-    if(installXml(m_currentXmlFile)) {
+    if(!m_currentXmlFile.isEmpty() && installXml(m_currentXmlFile)) {
         // add changed context menu to all existing views
         KileView::Manager* viewManager = m_ki->viewManager();
         int views = viewManager->textViewCount();

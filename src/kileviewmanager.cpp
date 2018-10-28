@@ -506,39 +506,52 @@ void Manager::tabContext(const QPoint &pos)
 
     // 'action1' can become null if it belongs to a view that has been closed, for example
     QPointer<QAction> action1 = m_ki->mainWindow()->action("move_view_tab_left");
-    action1->setData(qVariantFromValue(view));
-    tabMenu.addAction(action1);
+    if(action1) {
+        action1->setData(qVariantFromValue(view));
+        tabMenu.addAction(action1);
+    }
 
     QPointer<QAction> action2 = m_ki->mainWindow()->action("move_view_tab_right");
-    action2->setData(qVariantFromValue(view));
-    tabMenu.addAction(action2);
+    if(action2) {
+        action2->setData(qVariantFromValue(view));
+        tabMenu.addAction(action2);
+    }
 
     tabMenu.addSeparator();
 
     QPointer<QAction> action3;
     if(view->document()->isModified()) {
         action3 = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
-        action3->setData(qVariantFromValue(view));
-        tabMenu.addAction(action3);
+        if(action3) {
+            action3->setData(qVariantFromValue(view));
+            tabMenu.addAction(action3);
+        }
     }
 
     QPointer<QAction> action4 = view->actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs));
-    action4->setData(qVariantFromValue(view));
-    tabMenu.addAction(action4);
+    if(action4) {
+        action4->setData(qVariantFromValue(view));
+        tabMenu.addAction(action4);
+    }
 
-    QPointer<QAction> action5 = m_ki->mainWindow()->action("file_save_copy_as");
-    action5->setData(qVariantFromValue(view));
-    tabMenu.addAction(action5);
+    QPointer<QAction> action5 = view->action("file_save_copy_as");
+    if(action5) {
+        tabMenu.addAction(action5);
+    }
 
     tabMenu.addSeparator();
 
     QPointer<QAction> action6 = m_ki->mainWindow()->action("file_close");
-    action6->setData(qVariantFromValue(view));
-    tabMenu.addAction(action6);
+    if(action6) {
+        action6->setData(qVariantFromValue(view));
+        tabMenu.addAction(action6);
+    }
 
     QPointer<QAction> action7 = m_ki->mainWindow()->action("file_close_all_others");
-    action7->setData(qVariantFromValue(view));
-    tabMenu.addAction(action7);
+    if(action7) {
+        action7->setData(qVariantFromValue(view));
+        tabMenu.addAction(action7);
+    }
     /*
     	FIXME create proper actions which delete/add the current file without asking stupidly
     	QAction* removeAction = m_ki->mainWindow()->action("project_remove");
@@ -562,9 +575,7 @@ void Manager::tabContext(const QPoint &pos)
     if(action4) {
         action4->setData(QVariant());
     }
-    if(action5) {
-        action5->setData(QVariant());
-    }
+    // action5 doesn't need to be given extra data
     if(action6) {
         action6->setData(QVariant());
     }

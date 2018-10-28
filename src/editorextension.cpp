@@ -89,7 +89,7 @@ EditorExtension::~EditorExtension()
 
 //////////////////// read configuration ////////////////////
 
-void EditorExtension::readConfig(void)
+void EditorExtension::readConfig()
 {
     // init insertion of double quotes
     initDoubleQuotes();

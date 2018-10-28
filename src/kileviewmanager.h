@@ -168,8 +168,8 @@ public Q_SLOTS:
                                            bool,
                                            KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
 
-    void convertSelectionToLaTeX(void);
-    void pasteAsLaTeX(void);
+    void convertSelectionToLaTeX();
+    void pasteAsLaTeX();
     void quickPreviewPopup();
 
     void moveTabLeft(QWidget *widget = Q_NULLPTR);
@@ -203,7 +203,7 @@ protected Q_SLOTS:
     void testCanDecodeURLs(const QDragEnterEvent *e, bool &accept);
     void testCanDecodeURLs(const QDragMoveEvent *e, bool &accept);
     void replaceLoadedURL(QWidget *w, QDropEvent *e);
-    void onTextEditorPopupMenuRequest(void);
+    void onTextEditorPopupMenuRequest();
 
     /**
      * Updates the labels of every tab that contains a view for 'changedDoc' to reflect there

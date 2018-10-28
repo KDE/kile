@@ -169,7 +169,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
 
 //////////////////// read/write configuration ////////////////////
 
-void KileWidgetPreviewConfig::readConfig(void)
+void KileWidgetPreviewConfig::readConfig()
 {
     setupSeparateWindow();
     setupBottomBar();
@@ -178,7 +178,7 @@ void KileWidgetPreviewConfig::readConfig(void)
     updateConversionTools();
 }
 
-void KileWidgetPreviewConfig::writeConfig(void)
+void KileWidgetPreviewConfig::writeConfig()
 {
     KileConfig::setPreviewTask(m_combobox->currentText());
 

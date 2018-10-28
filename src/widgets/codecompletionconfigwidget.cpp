@@ -116,7 +116,7 @@ void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, c
 
 //////////////////// read/write configuration ////////////////////
 
-void CodeCompletionConfigWidget::readConfig(void)
+void CodeCompletionConfigWidget::readConfig()
 {
     // read selected and deselected filenames with wordlists
     m_wordlist[TexPage] = KileConfig::completeTex();
@@ -141,7 +141,7 @@ void CodeCompletionConfigWidget::readConfig(void)
     }
 }
 
-void CodeCompletionConfigWidget::writeConfig(void)
+void CodeCompletionConfigWidget::writeConfig()
 {
     // get listview entries
     for (uint i = TexPage; i < NumPages; ++i) {

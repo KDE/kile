@@ -193,7 +193,7 @@ Info::Info() :
     updateStructLevelInfo();
 }
 
-Info::~Info(void)
+Info::~Info()
 {
     KILE_DEBUG_MAIN << "DELETING DOCINFO" << this;
 }

@@ -19,7 +19,7 @@
 
 #include "plaintolatexconverter.h"
 
-PlainToLaTeXConverter::PlainToLaTeXConverter(void)
+PlainToLaTeXConverter::PlainToLaTeXConverter()
 {
     // Fill the replacement map
     //TODO Do it only once!
@@ -34,7 +34,7 @@ PlainToLaTeXConverter::PlainToLaTeXConverter(void)
     m_replaceMap.insert('~', "$\\sim$");
 }
 
-PlainToLaTeXConverter::~PlainToLaTeXConverter(void) {}
+PlainToLaTeXConverter::~PlainToLaTeXConverter() {}
 
 /**
  * Converts plain text to LaTeX.

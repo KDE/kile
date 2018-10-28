@@ -855,7 +855,7 @@ void Manager::onTextEditorPopupMenuRequest()
     }
 }
 
-void Manager::convertSelectionToLaTeX(void)
+void Manager::convertSelectionToLaTeX()
 {
     KTextEditor::View *view = currentTextView();
 
@@ -922,7 +922,7 @@ void Manager::convertSelectionToLaTeX(void)
 /**
  * Pastes the clipboard's contents as LaTeX (ie. % -> \%, etc.).
  */
-void Manager::pasteAsLaTeX(void)
+void Manager::pasteAsLaTeX()
 {
     KTextEditor::View *view = currentTextView();
 

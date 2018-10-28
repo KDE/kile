@@ -40,8 +40,8 @@ public:
     CodeCompletionConfigWidget(KConfig *config, KileErrorHandler *errorHandler, QWidget *parent = Q_NULLPTR, const char *name = Q_NULLPTR);
     ~CodeCompletionConfigWidget();
 
-    void readConfig(void);
-    void writeConfig(void);
+    void readConfig();
+    void writeConfig();
 
 private:
     enum CompletionPage { TexPage = 0, DictionaryPage = 1, AbbreviationPage = 2, NumPages = 3 };

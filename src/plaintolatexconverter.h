@@ -30,8 +30,8 @@
 class PlainToLaTeXConverter
 {
 public:
-    PlainToLaTeXConverter(void);
-    ~PlainToLaTeXConverter(void);
+    PlainToLaTeXConverter();
+    ~PlainToLaTeXConverter();
 
     QString ConvertToLaTeX(const QString&) const;
 

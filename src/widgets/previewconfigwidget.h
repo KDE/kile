@@ -38,8 +38,8 @@ public:
     KileWidgetPreviewConfig(KConfig *config, KileTool::QuickPreview *preview, QWidget *parent = 0, const char *name = 0);
     ~KileWidgetPreviewConfig() {}
 
-    void readConfig(void);
-    void writeConfig(void);
+    void readConfig();
+    void writeConfig();
 
 private:
     KConfig *m_config;

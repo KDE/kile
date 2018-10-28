@@ -792,11 +792,11 @@ void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
     }
     else if(reason == KTextEditor::ModificationInterface::OnDiskModified
             || reason == KTextEditor::ModificationInterface::OnDiskCreated) { //dirty file
-        icon = QIcon::fromTheme("modonhd"); // This icon is taken from Kate. Therefore
+        icon = QIcon::fromTheme("emblem-warning"); // This icon is taken from Kate. Therefore
         // our thanks go to the authors of Kate.
     }
     else if(reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
-        icon = QIcon::fromTheme("process-stop");
+        icon = QIcon::fromTheme("emblem-warning");
     }
     else if(m_ki->extensions()->isScriptFile(doc->url())) {
         icon = QIcon::fromTheme("js");

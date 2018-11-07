@@ -50,7 +50,7 @@
   <summary xml:lang="zh-CN">TeX/LaTeX 编辑器</summary>
   <description>
     <p>
-      Kile is a user-friendly TeX/LaTeX editor by KDE.
+      Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.
     </p>
     <p xml:lang="ca">El Kile és un editor de TeX/LaTeX amigable, creat per la comunitat KDE.</p>
     <p xml:lang="ca-valencia">El Kile és un editor de TeX/LaTeX amigable, creat per la comunitat KDE.</p>
@@ -335,6 +335,7 @@
   </description>
   <screenshots>
     <screenshot type="default">
+      <caption>Document editing in Kile</caption>
       <image>http://kde.org/images/screenshots/kile.png</image>
     </screenshot>
   </screenshots>

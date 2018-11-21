@@ -55,6 +55,7 @@
     <p xml:lang="ca">El Kile és un editor TeX/LaTeX amigable fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per veure immediatament els resultats de l'edició.</p>
     <p xml:lang="ca-valencia">El Kile és un editor TeX/LaTeX amigable fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per veure immediatament els resultats de l'edició.</p>
     <p xml:lang="gl">Kile é un editor de TeX e LaTeX fácil de usar creado por KDE. Kile permítelle usar toda a funcionalidade de LaTeX nunha interface gráfica e ten un mecanismo de vista previa para ver rapidamente os resultados da edición.</p>
+    <p xml:lang="it">Kile è un editor TeX/LaTeX della comunità KDE facile da usare. Ti dà la possibilità di utilizzare tutte la funzionalità di LaTeX in un'interfaccia grafica e dispone di un meccanismo di anteprima interattiva per vedere prontamente i risultati della modifica.</p>
     <p xml:lang="nl">Kile is een gebruikersvriendelijke TeX/LaTeX bewerker door KDE. Kile geeft u de mogelijkheid om alle functionaliteit van LaTeX in een grafisch interface te gebruiken en heeft interactieve voorbeeldweergave om op een redelijke manier het resultaat van de bewerking te zien.</p>
     <p xml:lang="pt">O Kile é um editor amigável de TeX/LaTeX para o KDE. O Kile dá-lhe a capacidade de usar todas as funcionalidades do LaTeX numa interface gráfica e tem mecanismos de antevisão interactiva para ler de forma imediata os resultados da edição.</p>
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
@@ -328,7 +329,9 @@
       <caption>Document editing in Kile</caption>
       <caption xml:lang="ca">Edició d'un document al Kile</caption>
       <caption xml:lang="ca-valencia">Edició d'un document al Kile</caption>
+      <caption xml:lang="de">Bearbeitung eines Dokuments in Kile</caption>
       <caption xml:lang="gl">Edición de documentos en Kile</caption>
+      <caption xml:lang="it">Modifica dei documenti in Kile</caption>
       <caption xml:lang="nl">Bewerking van documenten in Kile</caption>
       <caption xml:lang="pt">Edição de documentos no Kile</caption>
       <caption xml:lang="sv">Dokumentredigering i Kile</caption>

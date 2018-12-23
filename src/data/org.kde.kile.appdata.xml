@@ -55,6 +55,8 @@
     <p xml:lang="ca">El Kile és un editor TeX/LaTeX amigable fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per veure immediatament els resultats de l'edició.</p>
     <p xml:lang="ca-valencia">El Kile és un editor TeX/LaTeX amigable fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per veure immediatament els resultats de l'edició.</p>
     <p xml:lang="en-GB">Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.</p>
+    <p xml:lang="es">Kile es un editor de TeX/LaTeX amigable creado por KDE. Kile le permite usar toda la funcionalidad de LaTeX mediante una interfaz gráfica y posee mecanismos interactivos de vista previa para comprobar rápidamente el resultado de la edición.</p>
+    <p xml:lang="fr">Kile est un éditeur TeX/LaTeX intuitif par KDE. Kile vous offre la possibilité d'utiliser toutes les fonctionnalités de LaTeX au sein d'une interface graphique et dispose de mécanismes d'aperçu interactifs qui vous permettent d'afficher les résultats de l'édition.</p>
     <p xml:lang="gl">Kile é un editor de TeX e LaTeX fácil de usar creado por KDE. Kile permítelle usar toda a funcionalidade de LaTeX nunha interface gráfica e ten un mecanismo de vista previa para ver rapidamente os resultados da edición.</p>
     <p xml:lang="it">Kile è un editor TeX/LaTeX della comunità KDE facile da usare. Ti dà la possibilità di utilizzare tutte la funzionalità di LaTeX in un'interfaccia grafica e dispone di un meccanismo di anteprima interattiva per vedere prontamente i risultati della modifica.</p>
     <p xml:lang="nl">Kile is een gebruikersvriendelijke TeX/LaTeX bewerker door KDE. Kile geeft u de mogelijkheid om alle functionaliteit van LaTeX in een grafisch interface te gebruiken en heeft interactieve voorbeeldweergave om op een redelijke manier het resultaat van de bewerking te zien.</p>
@@ -333,6 +335,8 @@
       <caption xml:lang="ca-valencia">Edició d'un document al Kile</caption>
       <caption xml:lang="de">Bearbeitung eines Dokuments in Kile</caption>
       <caption xml:lang="en-GB">Document editing in Kile</caption>
+      <caption xml:lang="es">Edición de documentos en Kile</caption>
+      <caption xml:lang="fr">Édition de documents dans Kile</caption>
       <caption xml:lang="gl">Edición de documentos en Kile</caption>
       <caption xml:lang="it">Modifica dei documenti in Kile</caption>
       <caption xml:lang="nl">Bewerking van documenten in Kile</caption>

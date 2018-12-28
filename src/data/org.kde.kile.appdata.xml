@@ -14,6 +14,7 @@
   <name xml:lang="fi">Kile</name>
   <name xml:lang="fr">Kile</name>
   <name xml:lang="gl">Kile</name>
+  <name xml:lang="id">Kile</name>
   <name xml:lang="it">Kile</name>
   <name xml:lang="ko">Kile</name>
   <name xml:lang="nl">Kile</name>
@@ -37,6 +38,7 @@
   <summary xml:lang="fi">TeX/LaTeX-muokkain</summary>
   <summary xml:lang="fr">Éditeur TeX/LaTeX</summary>
   <summary xml:lang="gl">Editor de TeX/LaTeX</summary>
+  <summary xml:lang="id">Editor TeX/LaTeX</summary>
   <summary xml:lang="it">Editor TeX/LaTeX</summary>
   <summary xml:lang="ko">TeX/LaTeX 편집기</summary>
   <summary xml:lang="nl">TeX/LaTeX-bewerker</summary>
@@ -58,6 +60,7 @@
     <p xml:lang="es">Kile es un editor de TeX/LaTeX amigable creado por KDE. Kile le permite usar toda la funcionalidad de LaTeX mediante una interfaz gráfica y posee mecanismos interactivos de vista previa para comprobar rápidamente el resultado de la edición.</p>
     <p xml:lang="fr">Kile est un éditeur TeX/LaTeX intuitif par KDE. Kile vous offre la possibilité d'utiliser toutes les fonctionnalités de LaTeX au sein d'une interface graphique et dispose de mécanismes d'aperçu interactifs qui vous permettent d'afficher les résultats de l'édition.</p>
     <p xml:lang="gl">Kile é un editor de TeX e LaTeX fácil de usar creado por KDE. Kile permítelle usar toda a funcionalidade de LaTeX nunha interface gráfica e ten un mecanismo de vista previa para ver rapidamente os resultados da edición.</p>
+    <p xml:lang="id">Kile adalah editor TeX/LaTeX yang mudah digunakan oleh KDE. Kile memberi Anda kemampuan untuk menggunakan semua fungsi LaTeX dalam antarmuka grafis dan memiliki mekanisme pratinjau interaktif untuk kesiapan melihat hasil pengeditan.</p>
     <p xml:lang="it">Kile è un editor TeX/LaTeX della comunità KDE facile da usare. Ti dà la possibilità di utilizzare tutte la funzionalità di LaTeX in un'interfaccia grafica e dispone di un meccanismo di anteprima interattiva per vedere prontamente i risultati della modifica.</p>
     <p xml:lang="nl">Kile is een gebruikersvriendelijke TeX/LaTeX bewerker door KDE. Kile geeft u de mogelijkheid om alle functionaliteit van LaTeX in een grafisch interface te gebruiken en heeft interactieve voorbeeldweergave om op een redelijke manier het resultaat van de bewerking te zien.</p>
     <p xml:lang="pl">Kile jest przyjaznym użytkownikowi edytorem TeX/LaTeX dla KDE. Kile umożliwia wykorzystanie wszystkich możliwości LaTeX przy użyciu interfejsu graficznego i ma mechanizm interaktywnego podglądu, aby szybko podejrzeć wyniki edycji.</p>
@@ -76,6 +79,7 @@
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Caratteristiche:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nl">Kenmerken:</p>
@@ -99,6 +103,7 @@
       <li xml:lang="fi">Käännä, muunna ja näytä tiedostosi yhdellä napsautuksella</li>
       <li xml:lang="fr">Compiler, convertir et afficher vos documents en un clic</li>
       <li xml:lang="gl">Compilar, converter e visualizar o documento cun clic.</li>
+      <li xml:lang="id">Kompilasi, konversi, dan lihat dokumen Anda dengan satu klik</li>
       <li xml:lang="it">Compila, converte e visualizza i tuoi documenti con un clic</li>
       <li xml:lang="ko">문서를 간단하게 컴파일, 변환, 보기</li>
       <li xml:lang="nl">Compileert, converteert en toont uw document met één klik</li>
@@ -119,6 +124,7 @@
       <li xml:lang="fi">Täydennä (La)TeX-komennot automaattisesti</li>
       <li xml:lang="fr">Auto-complètement des balises (La)TeX</li>
       <li xml:lang="gl">Completación automática de ordes de (La)TeX.</li>
+      <li xml:lang="id">Penyelesaian otomatis perintah-perintah (La)TeX</li>
       <li xml:lang="it">Completamento automatico dei comandi (La)TeX</li>
       <li xml:lang="ko">(La)TeX 명령 자동 완성</li>
       <li xml:lang="nl">Automatische aanvulling van (La)TeX commando's</li>
@@ -139,6 +145,7 @@
       <li xml:lang="fi">Aloita uusi tiedosto helposti mallipohjien ja opastettujen toimintojen avulla</li>
       <li xml:lang="fr">Modèles et assistants pour créer de nouveaux documents en très peu de temps</li>
       <li xml:lang="gl">Modelos e asistentes para facilitar o inicio de novos documentos.</li>
+      <li xml:lang="id">Template dan asisten membuat pemulaian dokumen baru sangat sedikit bekerja</li>
       <li xml:lang="it">I modelli e le procedure guidate ti fanno iniziare i nuovi documenti con pochissimo lavoro</li>
       <li xml:lang="ko">새 문서를 빠르게 시작할 수 있는 템플릿과 마법사</li>
       <li xml:lang="nl">Sjablonen en assistenten maken het begin van nieuwe documenten tot weinig werk</li>
@@ -158,6 +165,7 @@
       <li xml:lang="fi">Lisää vaivattomasti vakiotunnisteita ja -symboleja sekä määrittele (mielivaltainen määrä) omia tunnisteitasi</li>
       <li xml:lang="fr">Insertion facile de nombreuses balises et symboles standards avec la possibilité de définir des balises personnalisées</li>
       <li xml:lang="gl">Inserción fácil de moitas etiquetas e símbolos estándar, e a posibilidade de definir etiquetas de usuario.</li>
+      <li xml:lang="id">Penyisipan mudah banyak tag dan simbol standar dan opsi untuk menentukan (sebuah nomor semaunya) tag yang ditentukan pengguna</li>
       <li xml:lang="it">Inserimento semplice di molti tag standard e simboli, inoltre è possibile definire (un numero arbitrario di) tag definiti dall'utente</li>
       <li xml:lang="ko">표준 태그와 기호 및 사용자 정의 태그 추가</li>
       <li xml:lang="nl">Gemakkelijk invoegen van vele standaard tags en symbolen en de optie om (een willekeurig aantal) gebruikergedefinieerde tags te definiëren</li>
@@ -177,6 +185,7 @@
       <li xml:lang="fi">Etsi molempiin suuntiin: napsauta DVI-katselinta ja siirry muokkaimessa vastaavalla LaTeX-riville tai siirry muokkaimesta vastaavalle kohtaa katselimessa</li>
       <li xml:lang="fr">Recherche inversée et en avant : cliquez sur l'afficheur DVI et passez directement à la ligne LaTeX correspondante dans l'éditeur ou passez de l'éditeur à la page correspondante dans l'afficheur</li>
       <li xml:lang="gl">Busca inversa e cara adiante: prema o visualizador de DVI e salte á liña correspondente de LaTeX no editor, ou salte do editor á páxina correspondente no visualizador.</li>
+      <li xml:lang="id">Pencarian mundur dan maju: klik di DVI viewer dan lompat ke baris LaTeX yang sesuai di editor, atau lompat dari editor ke halaman terkait di viewer</li>
       <li xml:lang="it">Ricerca in avanti e indietro: fai clic nel visore DVI per saltare alla riga LaTeX corrispondente nell'editor, oppure salta dalla riga dell'editor alla pagina corrispondente nel visore</li>
       <li xml:lang="ko">전방 및 후방 검색: DVI 뷰어에서 항목을 누르면 LaTeX 편집기의 해당하는 줄로 이동하며, 그 반대도 가능합니다</li>
       <li xml:lang="nl">Omgekeerd en voorwaards zoeken: klik in de DVI-viewer en spring naar de overeenkomstige LaTeX regel in de bewerker of spring uit de bewerker naar de overeenkomstige pagina in de viewer</li>
@@ -196,6 +205,7 @@
       <li xml:lang="fi">Löydä (ala-) luku helposti: Kile pitää niistä yllä luetteloa, jonka avulla voit siirtyä luvusta toiseen</li>
       <li xml:lang="fr">Il n'a jamais été aussi facile de trouver des chapitres ou des sections, Kile construit une liste de tous les chapitres, sections, etc. de vos documents. Vous pouvez utiliser cette liste pour aller directement à la section correspondante.</li>
       <li xml:lang="gl">Atopar capítulos ou seccións é moi doado, Kile constrúe unha lista de capítulos, etc. no documento. Podes usar a lista para saltar á sección correspondente.</li>
+      <li xml:lang="id">Penemuan bab atau bagian sangat mudah, Kile menyusun daftar semua bab dll. di dokumen Anda. Anda dapat menggunakan daftar untuk melompat ke bagian yang sesuai</li>
       <li xml:lang="it">Trovare i capitoli o le sezioni è molto semplice: Kile costruisce un elenco di tutti i capitoli ecc. nel tuo documento, che puoi usare per saltare alla sezione corrispondente</li>
       <li xml:lang="ko">문서에 포함된 모든 장과 절을 목록으로 구성하여 쉽게 찾을 수 있습니다. 목록을 통해서 해당하는 부분으로 이동할 수 있습니다</li>
       <li xml:lang="nl">Vinden van hoofdstuk of sectie is erg gemakkelijk, Kile maakt een lijst met alle hoofdstukken etc. in uw document. U kunt de lijst gebruiken om naar de overeenkomstige sectie te springen</li>
@@ -216,6 +226,7 @@
       <li xml:lang="fi">Kokoa yhteen kuuluvat tiedostot projektiksi</li>
       <li xml:lang="fr">Collection de documents appartenant au même projet</li>
       <li xml:lang="gl">Recolle documentos que van xuntos nun proxecto.</li>
+      <li xml:lang="id">Kumpulkan dokumen-dokumen yang menjadi bagian dari suatu projek</li>
       <li xml:lang="it">Raccoglie i documenti che appartengono ad un progetto</li>
       <li xml:lang="ko">프로젝트에 포함되는 여러 문서 모으기</li>
       <li xml:lang="nl">Verzamelt documenten die bij elkaar behoren in een project</li>
@@ -234,6 +245,7 @@
       <li xml:lang="fi">Lisää projekteja käytettäessä lainaukset ja viitteet helposti</li>
       <li xml:lang="fr">Insertion facile de citations et de références au sein de vos projets</li>
       <li xml:lang="gl">Inserción fácil de citas e referencias ao usar proxectos.</li>
+      <li xml:lang="id">Menyisipkan kutipan dan referensi dengan mudah saat menggunakan projek</li>
       <li xml:lang="it">Inserimento semplice di citazioni e di riferimenti quando usi i progetti</li>
       <li xml:lang="ko">프로젝트 모드에서 인용과 참고 문헌 간단하게 삽입</li>
       <li xml:lang="nl">Gemakkelijk invoegen van citaten en referenties bij gebruik van projecten</li>
@@ -254,6 +266,7 @@
       <li xml:lang="fi">Käännä LaTeX-tiedostosi joustavasti ja älykkäästi</li>
       <li xml:lang="fr">Système de compilation de documents LaTeX flexible et intelligent</li>
       <li xml:lang="gl">Sistema de construción flexíbel e intelixente para compilar documentos de LaTeX.</li>
+      <li xml:lang="id">Sistem pembangunan yang fleksibel dan cerdas untuk mengkompilasi dokumen LaTeX Anda</li>
       <li xml:lang="it">Sistema flessibile e intelligente per compilare i tuoi documenti LaTeX</li>
       <li xml:lang="ko">LaTeX 문서를 컴파일할 수 있는 유연하고 똑똑한 빌드 시스템</li>
       <li xml:lang="nl">Flexibel en slim bouwsysteem om uw LaTeX documenten te compileren</li>
@@ -274,6 +287,7 @@
       <li xml:lang="fi">Esikatsele nopeasti tiedoston valittua osa pikaesikatselulla</li>
       <li xml:lang="fr">Aperçu rapide : aperçu rapide d'un passage sélectionné de votre document</li>
       <li xml:lang="gl">Previsualización da parte seleccionada dun documento.</li>
+      <li xml:lang="id">QuickPreview: mempratinjau bagian yang dipilih dari dokumen Anda</li>
       <li xml:lang="it">Anteprima rapida: anteprima di una parte selezionata del tuo documento</li>
       <li xml:lang="ko">빠른 미리 보기: 문서의 선택한 부분 미리 보기</li>
       <li xml:lang="nl">QuickPreview: bekijk een geselecteerd deel van uw document</li>
@@ -294,6 +308,7 @@
       <li xml:lang="fi">Löydä eri lähteiden ohjeet nopeasti</li>
       <li xml:lang="fr">Accès rapide à de nombreuses sources d'assistance</li>
       <li xml:lang="gl">Acceso doado a varios recursos de axuda.</li>
+      <li xml:lang="id">Akses mudah untuk berbagai sumberdaya bantuan</li>
       <li xml:lang="it">Semplice accesso a varie risorse di aiuto</li>
       <li xml:lang="ko">여러 도움말 정보에 쉽게 접근</li>
       <li xml:lang="nl">Gemakkelijke toegang tot verschillende hulpbronnen</li>
@@ -315,6 +330,7 @@
       <li xml:lang="fi">Kehittyneet muokkauskomennot</li>
       <li xml:lang="fr">Commandes d'édition avancées</li>
       <li xml:lang="gl">Ordes de edición avanazda.</li>
+      <li xml:lang="id">Perintah pengeditan tingkatlanjut</li>
       <li xml:lang="it">Comandi di modifica avanzati</li>
       <li xml:lang="ko">고급 편집 명령</li>
       <li xml:lang="nl">Geavanceerde commando's voor bewerking</li>
@@ -338,6 +354,7 @@
       <caption xml:lang="es">Edición de documentos en Kile</caption>
       <caption xml:lang="fr">Édition de documents dans Kile</caption>
       <caption xml:lang="gl">Edición de documentos en Kile</caption>
+      <caption xml:lang="id">Pengeditan dokumen di Kile</caption>
       <caption xml:lang="it">Modifica dei documenti in Kile</caption>
       <caption xml:lang="nl">Bewerking van documenten in Kile</caption>
       <caption xml:lang="pl">Edytowanie dokumentów w Kile</caption>

@@ -1,7 +1,7 @@
 /**********************************************************************************
 *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)           *
 *                 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
-*                 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+*                 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)          *
 ***********************************************************************************/
 
 /***************************************************************************
@@ -33,6 +33,8 @@ LaTeXParserInput::LaTeXParserInput(const QUrl &url, QStringList textLines,
     : ParserInput(url),
       textLines(textLines),
       extensions(extensions),
+      // make a copy here as otherwise the parsing of a document that is being closed
+      // can lead to a crash:
       dictStructLevel(dictStructLevel),
       showSectioningLabels(showSectioningLabels),
       showStructureTodo(showStructureTodo)

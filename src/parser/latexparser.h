@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)       *
 ***************************************************************************/
 
 /***************************************************************************
@@ -41,7 +41,7 @@ public:
 
     QStringList textLines;
     KileDocument::Extensions *extensions;
-    const QMap<QString, KileStructData>& dictStructLevel;
+    const QMap<QString, KileStructData> dictStructLevel;
     bool showSectioningLabels;
     bool showStructureTodo;
 };

@@ -170,7 +170,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
         return;
     }
 
-    QSplashScreen splashScreen(QPixmap(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
+    QSplashScreen splashScreen(QPixmap(KileUtilities::locate(QStandardPaths::AppDataLocation, "pics/kile_splash.png")), Qt::WindowStaysOnTopHint);
     if(KileConfig::showSplashScreen()) {
         splashScreen.show();
         qApp->processEvents();
@@ -2327,7 +2327,7 @@ void Kile::updateUserMenuStatus(bool state)
 
 void Kile::helpLaTex()
 {
-    QString loc = QStandardPaths::locate(QStandardPaths::DataLocation, "help/latexhelp.html");
+    QString loc = KileUtilities::locate(QStandardPaths::AppDataLocation, "help/latexhelp.html");
     KileTool::Base *tool = toolManager()->createTool("ViewHTML", QString(), false);
     if(!tool) {
         errorHandler()->printMessage(KileTool::Error, i18n("Could not create the \"ViewHTML\" tool. Please reset the tools."));
@@ -2348,7 +2348,7 @@ void Kile::readGUISettings()
 void Kile::transformOldUserTags()
 {
     KILE_DEBUG_MAIN << "Convert old user tags";
-    QString xmldir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/usermenu/";
+    QString xmldir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + "/usermenu/";
     // create dir if not existing
     QDir testDir(xmldir);
     if (!testDir.exists()) {

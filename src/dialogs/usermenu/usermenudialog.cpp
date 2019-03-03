@@ -17,7 +17,6 @@
 #include <QInputDialog>
 #include <QKeySequence>
 #include <QPushButton>
-#include <QStandardPaths>
 #include <QVBoxLayout>
 
 #include <KLocalizedString>
@@ -343,7 +342,7 @@ bool UserMenuDialog::saveClicked()
     }
 
     // force to save file in local directory
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory);
+    QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "usermenu", QStandardPaths::LocateDirectory);
     if (dirs.size() > 1) {
         if (m_currentXmlFile.startsWith(dirs[1])) {
             m_currentXmlFile.replace(dirs[1],dirs[0]);
@@ -382,7 +381,7 @@ QString UserMenuDialog::saveAsClicked()
         return QString();
     }
 
-    const QString directory = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "usermenu/";
+    const QString directory = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + "usermenu/";
     const QString filter = i18n("User Menu Files (*.xml)");
 
     QString filename = QFileDialog::getSaveFileName(this, i18n("Save Menu File"), directory, filter);

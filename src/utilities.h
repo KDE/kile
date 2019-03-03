@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2008-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2008-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -15,6 +15,7 @@
 #define UTILITIES_H
 
 #include <QAction>
+#include <QStandardPaths>
 #include <KService>
 #include <QUrl>
 
@@ -73,6 +74,27 @@ void scheduleCenteringOfWidget(QWidget *widget);
  * If 'url' is not a local file, 'url' is returned.
  **/
 QUrl canonicalUrl(const QUrl &url);
+
+
+/**
+ * Add our own versions of most QStandardPaths:: methods, which allow to locate 'DataLocation' or
+ * 'AppDataLocation' items under <app binary dir>/../share/kile
+ * This is necessary for being able to create an AppImage
+ **/
+
+QString findExecutable(const QString &executableName, const QStringList &paths = QStringList());
+
+QString locate(QStandardPaths::StandardLocation type,
+               const QString &fileName,
+               QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
+
+QStringList locateAll(QStandardPaths::StandardLocation type,
+                      const QString &fileName,
+                      QStandardPaths::LocateOptions options = QStandardPaths::LocateFile);
+
+QStringList standardLocations(QStandardPaths::StandardLocation type);
+
+QString writableLocation(QStandardPaths::StandardLocation type);
 }
 
 #endif

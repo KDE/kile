@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006-2016 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -23,7 +23,6 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QMap>
-#include <QStandardPaths>
 
 #include "kiledebug.h"
 #include "kileconfig.h"
@@ -31,6 +30,7 @@
 #include "kileversion.h"
 #include "kileviewmanager.h"
 #include "editorkeysequencemanager.h"
+#include "utilities.h"
 #include "scripting/script.h"
 
 namespace KileScript {
@@ -43,7 +43,7 @@ Manager::Manager(KileInfo *kileInfo, KConfig *config, KActionCollection *actionC
     setObjectName(name);
 
     // create a local scripts directory if it doesn't exist yet
-    m_localScriptDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/scripts/";
+    m_localScriptDir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + "/scripts/";
     QDir testDir(m_localScriptDir);
     if (!testDir.exists()) {
         testDir.mkpath(m_localScriptDir);
@@ -156,7 +156,7 @@ void Manager::scanScriptDirectories()
 
     // scan *.js files
     QSet<QString> scriptFileNamesSet;
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "scripts/", QStandardPaths::LocateDirectory);
+    const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
     Q_FOREACH (const QString &dir, dirs) {
         QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
         while (it.hasNext()) {
@@ -333,7 +333,7 @@ void Manager::removeEditorKeySequence(Script* script)
 
 void Manager::populateDirWatch()
 {
-    QStringList jScriptDirectories = QStandardPaths::locateAll(QStandardPaths::DataLocation, "scripts/", QStandardPaths::LocateDirectory);
+    QStringList jScriptDirectories = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
     for(QStringList::iterator i = jScriptDirectories.begin(); i != jScriptDirectories.end(); ++i) {
         // FIXME: future KDE versions could support the recursive
         //        watching of directories out of the box.
@@ -406,7 +406,7 @@ void Manager::addDirectoryToDirWatch(const QString& dir)
 void Manager::readEnginePlugin()
 {
     // TODO error message and disable scripting if not found
-    QString pluginUrl = QStandardPaths::locate(QStandardPaths::DataLocation, "script-plugins/cursor-range.js");
+    QString pluginUrl = KileUtilities::locate(QStandardPaths::AppDataLocation, "script-plugins/cursor-range.js");
     m_enginePlugin = Script::readFile(pluginUrl);
 }
 

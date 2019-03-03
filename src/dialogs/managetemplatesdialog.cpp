@@ -23,7 +23,6 @@
 #include <QLayout>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QStandardPaths>
 #include <QTreeWidget>
 #include <QUrl>
 #include <QVBoxLayout>
@@ -40,6 +39,7 @@
 #include "kileextensions.h"
 #include "kileinfo.h"
 #include "templates.h"
+#include "utilities.h"
 
 class TemplateListViewItem : public QTreeWidgetItem {
 public:
@@ -96,7 +96,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
     topLayout->addWidget(new QLabel(i18n("Type: %1", KileInfo::documentTypeToString(m_templateType)), page), 0, 2);
     topLayout->addWidget(new QLabel(i18n("Icon:"), page), 1, 0);
 
-    m_iconEdit = new QLineEdit(QStandardPaths::locate(QStandardPaths::DataLocation, "pics/type_Default.png"), page);
+    m_iconEdit = new QLineEdit(KileUtilities::locate(QStandardPaths::AppDataLocation, "pics/type_Default.png"), page);
     mainLayout->addWidget(m_iconEdit);
     topLayout->addWidget(m_iconEdit, 1, 1);
 

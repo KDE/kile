@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -28,7 +28,6 @@
 #include <KProcess>
 
 #include <QTemporaryDir>
-#include <QStandardPaths>
 
 #include "documentinfo.h"
 #include "kiledebug.h"
@@ -39,6 +38,7 @@
 #include "kiletool.h"
 #include "kiletool_enums.h"
 #include "kileversion.h"
+#include "utilities.h"
 
 ConfigTest::ConfigTest(const QString& testGroup, const QString &name, bool isCritical)
     : m_testGroup(testGroup)
@@ -132,9 +132,9 @@ void Tester::runTests()
     const QString& destinationDirectory = m_tempDir->path();
     const QString& testDirectory =
 #ifdef Q_OS_WIN
-        QStandardPaths::locate(QStandardPaths::AppDataLocation, "kile/test", QStandardPaths::LocateDirectory);
+        KileUtilities::locate(QStandardPaths::AppDataLocation, "kile/test", QStandardPaths::LocateDirectory);
 #else
-        QStandardPaths::locate(QStandardPaths::AppDataLocation, "test", QStandardPaths::LocateDirectory);
+        KileUtilities::locate(QStandardPaths::AppDataLocation, "test", QStandardPaths::LocateDirectory);
 #endif
     KIO::CopyJob *copyJob = KIO::copyAs(QUrl::fromLocalFile(testDirectory), QUrl::fromLocalFile(destinationDirectory), KIO::HideProgressInfo | KIO::Overwrite);
     connect(copyJob, SIGNAL(result(KJob*)), this, SLOT(handleFileCopyResult(KJob*)));

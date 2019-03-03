@@ -2,7 +2,7 @@
     begin                : Sun Jul 29 2001
     copyright            : (C) 2001 - 2003 by Brachet Pascal
                                2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008 - 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************************/
 
 /***************************************************************************
@@ -25,14 +25,14 @@
 
 #include <QMimeDatabase>
 #include <QMimeType>
-#include <QStandardPaths>
 
 #include "kiledebug.h"
+#include "utilities.h"
 
 DocumentationViewer::DocumentationViewer(QWidget *parent) : KHTMLPart(parent, parent, BrowserViewGUI)
 {
     m_hpos = 0;
-    QString rc = QStandardPaths::locate(QStandardPaths::DataLocation, "docpartui.rc");
+    QString rc = KileUtilities::locate(QStandardPaths::AppDataLocation, "docpartui.rc");
     setXMLFile(rc);
     KStandardAction::back(this, SLOT(back()), (QObject*)actionCollection());
     KStandardAction::forward(this, SLOT(forward()), (QObject*)actionCollection());

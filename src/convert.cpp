@@ -16,7 +16,6 @@
 
 #include <QFile>
 #include <QRegExp>
-#include <QStandardPaths>
 #include <QTextCodec>
 #include <QTextStream>
 
@@ -24,6 +23,7 @@
 #include <KTextEditor/Document>
 
 #include "kiledebug.h"
+#include "utilities.h"
 
 QMap<QString, ConvertMap*> ConvertMap::g_maps;
 
@@ -118,7 +118,7 @@ bool ConvertMap::load()
     //makeMap(encoding());
 
     //if map already exists, replace it
-    QFile qf(QStandardPaths::locate(QStandardPaths::DataLocation, "encodings/" + encoding() + ".enc"));
+    QFile qf(KileUtilities::locate(QStandardPaths::AppDataLocation, "encodings/" + encoding() + ".enc"));
 
     if(qf.open(QIODevice::ReadOnly)) {
         QTextStream stream(&qf);

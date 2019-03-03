@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                                2006 - 2009 by Thomas Braun
-                               2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2012 - 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -37,7 +37,6 @@ tbraun 2007-06-13
 #include <QPixmap>
 #include <QPainter>
 #include <QRegExp>
-#include <QStandardPaths>
 #include <QStringList>
 #include <QTextDocument>
 
@@ -49,6 +48,7 @@ tbraun 2007-06-13
 #include "kiledebug.h"
 #include "kileinfo.h"
 #include "../symbolviewclasses.h"
+#include "utilities.h"
 
 #define MFUS_GROUP "MostFrequentlyUsedSymbols"
 #define MFUS_PREFIX "MFUS"
@@ -335,10 +335,12 @@ void SymbolView::fillWidget(const QString& prefix)
         }
     }
     else { // case: any other group of math symbols
-        const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::GenericDataLocation, "kile/mathsymbols/" + prefix, QStandardPaths::LocateDirectory);
-        Q_FOREACH (const QString &dir, dirs) {
+        const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation,
+                                                          QLatin1String("mathsymbols/") + prefix,
+                                                          QStandardPaths::LocateDirectory);
+        for(const QString &dir : dirs) {
             const QStringList fileNames = QDir(dir).entryList(QStringList() << QStringLiteral("*.png"));
-            Q_FOREACH (const QString &file, fileNames) {
+            for(const QString &file : fileNames) {
                 const QString path = dir + '/' + file;
                 if (!paths.contains(path)) {
                     paths.append(path);

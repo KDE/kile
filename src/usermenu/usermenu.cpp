@@ -1,6 +1,6 @@
 /***********************************************************************************
   Copyright (C) 2011-2012 by Holger Danielsson (holger.danielsson@versanet.de)
-            (C) 2017-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2017-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************/
 
 /***************************************************************************
@@ -23,7 +23,6 @@
 #include <QAction>
 #include <KMessageBox>
 #include <QFileDialog>
-#include <QStandardPaths>
 
 #include "kileactions.h"
 #include "editorextension.h"
@@ -31,6 +30,7 @@
 
 #include "kileconfig.h"
 #include "kiledebug.h"
+#include "utilities.h"
 
 
 namespace KileMenu {
@@ -49,7 +49,7 @@ namespace KileMenu {
 //
 //  - m_actionlistContextMenu: a list with all actions of the context menu for selected text (QList<QAction *>)
 //
-//  - a menu is defined in an xml file, which is placed in QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory)
+//  - a menu is defined in an xml file, which is placed in KileUtilities::locate(QStandardPaths::AppDataLocation, "usermenu", QStandardPaths::LocateDirectory)
 
 UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
     : m_ki(ki), m_receiver(receiver), m_proc(Q_NULLPTR)
@@ -76,7 +76,7 @@ UserMenu::UserMenu(KileInfo *ki, QObject *receiver)
     m_currentXmlFile = KileConfig::userMenuFile();
     if ( !m_currentXmlFile.isEmpty() ) {
         if ( !m_currentXmlFile.contains("/") ) {
-            m_currentXmlFile = QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory) + m_currentXmlFile;
+            m_currentXmlFile = KileUtilities::locate(QStandardPaths::AppDataLocation, "usermenu", QStandardPaths::LocateDirectory) + m_currentXmlFile;
         }
 
         if ( QFile(m_currentXmlFile).exists() ) {
@@ -358,7 +358,7 @@ void UserMenu::installXmlFile(const QString &filename)
 
         // save xml file in config (with or without path)
         QString xmlfile = filename;
-        QString dir = QStandardPaths::locate(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory);
+        QString dir = KileUtilities::locate(QStandardPaths::AppDataLocation, "usermenu", QStandardPaths::LocateDirectory);
         if ( filename.startsWith(dir) ) {
             QString basename = filename.right( filename.length()-dir.length() );
             if ( !basename.isEmpty() && !basename.contains("/") )  {
@@ -690,7 +690,7 @@ bool UserMenu::updateXmlMenuentry(QDomDocument &doc, QDomElement &element, int &
 
 QString UserMenu::selectUserMenuDir()
 {
-    QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "usermenu", QStandardPaths::LocateDirectory);
+    QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "usermenu", QStandardPaths::LocateDirectory);
     if ( dirs.size() < 2 ) {
         return dirs.at(0);
     }

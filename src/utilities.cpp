@@ -17,6 +17,7 @@
 #include <QDateTime>
 #include <QDesktopWidget>
 #include <QDir>
+#include <QFileInfo>
 #include <QStyle>
 #include <QTimer>
 
@@ -140,3 +141,65 @@ QUrl KileUtilities::canonicalUrl(const QUrl &url)
         return QUrl::fromLocalFile(QDir::cleanPath(url.toLocalFile()));
     }
 }
+
+static inline QString getRelativeSharePath()
+{
+    return QCoreApplication::applicationDirPath() + QLatin1String("/../share/kile/");
+}
+
+QString KileUtilities::findExecutable(const QString &executableName, const QStringList &paths)
+{
+    return findExecutable(executableName, paths);
+}
+
+QString KileUtilities::locate(QStandardPaths::StandardLocation type, const QString &fileName,
+                                                      QStandardPaths::LocateOptions options)
+{
+    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
+	const QString candidate = getRelativeSharePath() + fileName;
+	if((options == QStandardPaths::LocateFile) && QFileInfo::exists(candidate)) {
+            return candidate;
+	}
+        else if((options == QStandardPaths::LocateDirectory) && QDir(candidate).exists()) {
+            return candidate;
+        }
+    }
+
+    return QStandardPaths::locate(type, fileName, options);
+}
+
+QStringList KileUtilities::locateAll(QStandardPaths::StandardLocation type, const QString &fileName,
+                                                             QStandardPaths::LocateOptions options)
+{
+    QStringList toReturn;
+    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
+	const QString candidate = getRelativeSharePath() + fileName;
+	if((options == QStandardPaths::LocateFile) && QFileInfo::exists(candidate)) {
+            toReturn << candidate;
+	}
+        else if((options == QStandardPaths::LocateDirectory) && QDir(candidate).exists()) {
+            toReturn << candidate;
+        }
+    }
+    toReturn << QStandardPaths::locateAll(type, fileName, options);
+
+    return toReturn;
+}
+
+QStringList KileUtilities::standardLocations(QStandardPaths::StandardLocation type)
+{
+    QStringList toReturn;
+    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
+        toReturn << getRelativeSharePath();
+    }
+    toReturn << standardLocations(type);
+
+    return toReturn;
+}
+
+QString KileUtilities::writableLocation(QStandardPaths::StandardLocation type)
+{
+    return QStandardPaths::writableLocation(type);
+}
+
+// kate: indent-width 4; replace-tabs: true;

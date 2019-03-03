@@ -19,7 +19,6 @@
 #include <QFile>
 #include <QList>
 #include <QRegExp>
-#include <QStandardPaths>
 #include <QTimer>
 
 #include <KConfig>
@@ -34,6 +33,7 @@
 #include "kileinfo.h"
 #include "kileviewmanager.h"
 #include "kileconfig.h"
+#include "utilities.h"
 
 namespace KileCodeCompletion {
 
@@ -1060,7 +1060,7 @@ void Manager::addUserDefinedLaTeXCommands(QStringList &wordlist)
 QStringList Manager::readCWLFile(const QString &filename, bool fullPathGiven)
 {
     QStringList toReturn;
-    QString file = fullPathGiven ? filename : QStandardPaths::locate(QStandardPaths::DataLocation, "complete/" + filename);
+    QString file = fullPathGiven ? filename : KileUtilities::locate(QStandardPaths::AppDataLocation, "complete/" + filename);
     if(file.isEmpty()) {
         return toReturn;
     }
@@ -1126,10 +1126,10 @@ QMap<QString, QString> Manager::getAllCwlFiles(const QString &localCwlPath, cons
 
 QPair<QString, QString> Manager::getCwlBaseDirs()
 {
-    QString localDir = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + QLatin1Char('/') + "complete";
+    QString localDir = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + QLatin1Char('/') + "complete";
     QString globalDir;
 
-    const QStringList dirs = QStandardPaths::locateAll(QStandardPaths::DataLocation, "complete", QStandardPaths::LocateDirectory);
+    const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "complete", QStandardPaths::LocateDirectory);
     for(QStringList::ConstIterator it = dirs.constBegin(); it != dirs.constEnd(); ++it) {
         if((*it) != localDir) {
             globalDir = (*it);

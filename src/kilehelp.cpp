@@ -15,7 +15,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QTextStream>
-#include <QStandardPaths>
 
 #include "editorextension.h"
 #include "errorhandler.h"
@@ -26,6 +25,7 @@
 #include "kileinfo.h"
 #include "dialogs/texdocumentationdialog.h"
 #include "kileconfig.h"
+#include "utilities.h"
 
 // tbraun 27.06.2007
 // it _looks_ like texlive 2007 has the same layout than texlive 2005 so don't get confused about the variable names :)
@@ -35,7 +35,7 @@ namespace KileHelp
 
 Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(Q_NULLPTR)
 {
-    m_helpDir = QStandardPaths::locate(QStandardPaths::DataLocation, "help/", QStandardPaths::LocateDirectory); // this must end in '/'
+    m_helpDir = KileUtilities::locate(QStandardPaths::AppDataLocation, "help/", QStandardPaths::LocateDirectory); // this must end in '/'
     KILE_DEBUG_MAIN << "help dir: " << m_helpDir;
 
     m_kileReference = m_helpDir + "latexhelp.html";

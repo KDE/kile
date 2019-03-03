@@ -15,16 +15,16 @@
 #include "abbreviationmanager.h"
 
 #include <KMessageBox>
-#include <QStandardPaths>
 #include "codecompletion.h"
 #include "kileinfo.h"
+#include "utilities.h"
 
 namespace KileAbbreviation {
 
 Manager::Manager(KileInfo* kileInfo, QObject *parent) : QObject(parent), m_kileInfo(kileInfo), m_abbreviationsDirty(false)
 {
     setObjectName("KileAbbreviation::Manager");
-    m_localAbbreviationFile = QStandardPaths::writableLocation(QStandardPaths::DataLocation) + '/' + "complete/abbreviation/" + "kile-abbrevs.cwl";
+    m_localAbbreviationFile = KileUtilities::writableLocation(QStandardPaths::AppDataLocation) + '/' + "complete/abbreviation/" + "kile-abbrevs.cwl";
     QDir testDir(m_localAbbreviationFile);
     if (!testDir.exists()) {
         testDir.mkpath(m_localAbbreviationFile);

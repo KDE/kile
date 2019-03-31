@@ -1,5 +1,5 @@
 /**************************************************************************************
-    Copyright (C) 2016 by Michel Ludwig (michel.ludwig@kdemail.net)
+    Copyright (C) 2016-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************/
 
 /***************************************************************************
@@ -30,7 +30,7 @@ public:
     /**
      * Returns the preferred size if it has been set, otherwise the widget's size hint
      **/
-    virtual QSize sizeHint() const;
+    virtual QSize sizeHint() const override;
 
     /**
      * Set the preferred size of this widget, which will be returned by 'sizeHint'

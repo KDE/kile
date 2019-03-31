@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -38,7 +38,7 @@ class ResultItemDelegate : public QItemDelegate {
 public:
     ResultItemDelegate(QListWidget *parent) : QItemDelegate(parent) {}
 
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override
     {
         painter->save();
         drawBackground(painter, option, index);
@@ -51,7 +51,7 @@ public:
         painter->restore();
     }
 
-    virtual QSize sizeHint(const QStyleOptionViewItem& /* option */, const QModelIndex &index) const
+    virtual QSize sizeHint(const QStyleOptionViewItem& /* option */, const QModelIndex &index) const override
     {
         QTextDocument document;
         document.setHtml(index.data(Qt::UserRole).toString());

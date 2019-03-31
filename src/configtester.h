@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -86,7 +86,7 @@ public:
     OkularVersionTest(const QString& testGroup, bool isCritical);
     ~OkularVersionTest();
 
-    virtual void call();
+    virtual void call() override;
 
     bool isViewerModeSupported() const;
 
@@ -101,7 +101,7 @@ public:
     FindProgramTest(const QString& testGroup, const QString& programName, bool isCritical);
     ~FindProgramTest();
 
-    virtual void call();
+    virtual void call() override;
 
     void setAdditionalFailureMessage(const QString& s);
 
@@ -117,7 +117,7 @@ public:
     TestToolInKileTest(const QString& testGroup, KileInfo *kileInfo, const QString& toolName, const QString& filePath, bool isCritical);
     ~TestToolInKileTest();
 
-    virtual void call();
+    virtual void call() override;
 
 protected Q_SLOTS:
     void handleToolExit(KileTool::Base *tool, int status, bool childToolSpawned);
@@ -143,7 +143,7 @@ public:
                 bool isCritical = false);
     ~ProgramTest();
 
-    virtual void call();
+    virtual void call() override;
 
 protected Q_SLOTS:
     virtual void handleTestProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
@@ -172,9 +172,9 @@ public:
 protected:
     QString m_fileBaseName;
 
-    virtual void reportSuccess();
-    virtual void reportFailure();
-    virtual void processFinishedSuccessfully();
+    virtual void reportSuccess() override;
+    virtual void reportFailure() override;
+    virtual void processFinishedSuccessfully() override;
 };
 
 class SyncTeXSupportTest : public ProgramTest
@@ -188,9 +188,9 @@ public:
 protected:
     QString m_fileBaseName;
 
-    virtual void reportSuccess();
-    virtual void reportFailure();
-    virtual void processFinishedSuccessfully();
+    virtual void reportSuccess() override;
+    virtual void reportFailure() override;
+    virtual void processFinishedSuccessfully() override;
 };
 
 class Tester : public QObject

@@ -27,7 +27,7 @@ class MenuentryDelegate : public QStyledItemDelegate {
 public:
     MenuentryDelegate(QObject *parent=0) : QStyledItemDelegate(parent) {}
 
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const;
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const override;
 };
 
 

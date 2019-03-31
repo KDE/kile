@@ -1,7 +1,7 @@
 /*****************************************************************************
 *   Copyright (C) 2006 by Mathias Soeken (msoeken@informatik.uni-bremen.de)  *
 *                        (orginal version of this preview)                   *
-*             (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+*             (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)          *
 ******************************************************************************/
 
 // dani/2006:
@@ -57,7 +57,7 @@ public:
     void setImageFile(const QString& fileName);
 
 protected:
-    void paintEvent(QPaintEvent *event);
+    virtual void paintEvent(QPaintEvent *event) override;
 
 private:
     QImage *m_image;

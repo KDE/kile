@@ -1,7 +1,7 @@
 /**********************************************************************
  Copyright (C) 2001 - 2003 by Brachet Pascal
                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-               2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+               2007-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************/
 
 /***************************************************************************
@@ -44,7 +44,7 @@ private Q_SLOTS:
     void slotDestroyed();
 
 protected:
-    void showEvent(QShowEvent *ev);
+    void showEvent(QShowEvent *ev) override;
     void spawn();
 
 private:

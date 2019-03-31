@@ -45,7 +45,7 @@ protected:
                              int state,
                              const QString &_target,
                              const KParts::OpenUrlArguments &args = KParts::OpenUrlArguments(),
-                             const KParts::BrowserArguments &browserArgs = KParts::BrowserArguments());
+                             const KParts::BrowserArguments &browserArgs = KParts::BrowserArguments()) override;
 
 private:
     QStringList	m_history;

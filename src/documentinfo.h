@@ -1,6 +1,6 @@
 /*************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-              (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -318,11 +318,11 @@ public:
     /**
      * @returns the URL of the KTextEditor::Document if not null, an empty QUrl otherwise
      **/
-    virtual QUrl url();
+    virtual QUrl url() override;
 
-    virtual Type getType();
+    virtual Type getType() override;
 
-    bool isTextDocument();
+    virtual bool isTextDocument() override;
 
     void setHighlightingMode(const QString& highlight = QString());
 
@@ -484,16 +484,16 @@ public:
 
     virtual ~LaTeXInfo();
 
-    virtual Type getType();
+    virtual Type getType() override;
 
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
+    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const override;
 
     void startLaTeXCompletion(KTextEditor::View *view);
 
-    void installParserOutput(KileParser::ParserOutput *parserOutput);
+    virtual void installParserOutput(KileParser::ParserOutput *parserOutput) override;
 
 public Q_SLOTS:
-    virtual void updateStruct();
+    virtual void updateStruct() override;
 
 protected:
     LatexCommands *m_commands;
@@ -504,19 +504,19 @@ protected:
     KileTool::LivePreviewManager *m_livePreviewManager;
     KileView::Manager *m_viewManager;
 
-    virtual void updateStructLevelInfo();
+    virtual void updateStructLevelInfo() override;
     virtual void checkChangedDeps();
 
     /**
      * Creates a custom event filter.
      */
-    virtual QList<QObject*> createEventFilters(KTextEditor::View *view);
+    virtual QList<QObject*> createEventFilters(KTextEditor::View *view) override;
 
-    virtual void installSignalConnections(KTextEditor::View *view);
-    virtual void removeSignalConnections(KTextEditor::View *view);
+    virtual void installSignalConnections(KTextEditor::View *view) override;
+    virtual void removeSignalConnections(KTextEditor::View *view) override;
 
-    virtual void registerCodeCompletionModels(KTextEditor::View *view);
-    virtual void unregisterCodeCompletionModels(KTextEditor::View *view);
+    virtual void registerCodeCompletionModels(KTextEditor::View *view) override;
+    virtual void unregisterCodeCompletionModels(KTextEditor::View *view) override;
 
 private:
     BracketResult matchBracket(int &, int &);
@@ -535,16 +535,16 @@ public:
              LatexCommands* commands);
     virtual ~BibInfo();
 
-    virtual bool isLaTeXRoot();
+    virtual bool isLaTeXRoot() override;
 
-    virtual Type getType();
+    virtual Type getType() override;
 
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
+    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const override;
 
-    void installParserOutput(KileParser::ParserOutput *parserOutput);
+    virtual void installParserOutput(KileParser::ParserOutput *parserOutput) override;
 
 public Q_SLOTS:
-    virtual void updateStruct();
+    virtual void updateStruct() override;
 };
 
 class ScriptInfo : public TextInfo
@@ -558,11 +558,11 @@ public:
 
     virtual ~ScriptInfo();
 
-    virtual bool isLaTeXRoot();
+    virtual bool isLaTeXRoot() override;
 
-    virtual Type getType();
+    virtual Type getType() override;
 
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
+    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const override;
 };
 
 }

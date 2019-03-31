@@ -1,7 +1,7 @@
 /*************************************************************************************
     begin                :  2003-07-01 17:33:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2008-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2008-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
                            (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
 
  *************************************************************************************/
@@ -125,7 +125,7 @@ private:
 
 private Q_SLOTS:
     //emits the triggered(TagData) signal
-    virtual void emitData();
+    virtual void emitData() override;
 
 private:
     KileInfo	*m_ki;
@@ -250,7 +250,7 @@ Q_SIGNALS:
 
 protected:
     QMenu* menu();
-    QWidget* createWidget(QWidget *parent);
+    virtual QWidget* createWidget(QWidget *parent) override;
 
 private:
     QList<QAction*> m_actionList;

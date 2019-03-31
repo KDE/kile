@@ -1,7 +1,7 @@
 /*****************************************************************************************
     begin                : Tue Aug 12 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2006 - 2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2006 - 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *****************************************************************************************/
 
 /***************************************************************************
@@ -63,7 +63,7 @@ public:
     void setType(KileType::ProjectView type);
     KileType::ProjectView type() const;
 
-    virtual bool operator<(const QTreeWidgetItem& other) const;
+    virtual bool operator<(const QTreeWidgetItem& other) const override;
 
     void setURL(const QUrl &url);
     const QUrl &url();
@@ -142,10 +142,10 @@ Q_SIGNALS:
     void buildProjectTree(const QUrl&);
 
 protected:
-    virtual void contextMenuEvent(QContextMenuEvent *event);
-    virtual void dragEnterEvent(QDragEnterEvent *event);
-    virtual void dragMoveEvent(QDragMoveEvent *event);
-    virtual void dropEvent(QDropEvent *event);
+    virtual void contextMenuEvent(QContextMenuEvent *event) override;
+    virtual void dragEnterEvent(QDragEnterEvent *event) override;
+    virtual void dragMoveEvent(QDragMoveEvent *event) override;
+    virtual void dropEvent(QDropEvent *event) override;
 
 private:
 

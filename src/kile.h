@@ -106,7 +106,7 @@ public:
     explicit Kile(bool allowRestore = true, QWidget *parent = Q_NULLPTR);
     ~Kile();
 
-    int lineNumber();
+    int lineNumber() override;
     KileWidget::StatusBar * statusBar();
 
 public Q_SLOTS:
@@ -131,7 +131,7 @@ public Q_SLOTS:
     /**
      * @param line : Jump to give line in current editor (can be called via DBUS interface).
      **/
-    void setLine(const QString &line);
+    void setLine(const QString &line) override;
     void openProject(const QString& proj);
     void runTool(const QString& tool);
     void runToolWithConfig(const QString &tool, const QString &config);
@@ -142,7 +142,7 @@ Q_SIGNALS:
     void masterDocumentChanged();
 
 protected:
-    virtual bool queryClose();
+    virtual bool queryClose() override;
 
 private:
     QMap<QString,bool>              m_dictMenuAction,
@@ -313,7 +313,7 @@ private Q_SLOTS:
 
     void generalOptions();
     void configureKeys();
-    void configureToolbars();
+    void configureToolbars() override;
     void slotPerformCheck();
 
     void aboutEditorComponent();
@@ -324,11 +324,11 @@ private Q_SLOTS:
      **/
     void activateView(QWidget* view, bool updateStruct = true);
 
-    void focusLog();
-    void focusOutput();
-    void focusKonsole();
-    void focusEditor();
-    void focusPreview();
+    void focusLog() override;
+    void focusOutput() override;
+    void focusKonsole() override;
+    void focusEditor() override;
+    void focusPreview() override;
 
     void sideOrBottomBarChanged(bool visible);
 

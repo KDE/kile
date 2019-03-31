@@ -41,7 +41,7 @@ protected:
     QDialogButtonBox * buttonBox() const;
     KileAction::TagData m_td;
 
-    virtual void showEvent(QShowEvent *event);
+    virtual void showEvent(QShowEvent *event) override;
 
 private:
     KConfig *m_config;

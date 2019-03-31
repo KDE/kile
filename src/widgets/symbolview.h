@@ -52,7 +52,7 @@ protected:
     KStatefulBrush m_brush;
 
 
-    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mousePressEvent(QMouseEvent *event) override;
 
 Q_SIGNALS:
     void insertText(const QString& text, const QList<Package> &pkgs);

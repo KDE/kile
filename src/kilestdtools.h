@@ -60,7 +60,7 @@ protected:
 public:
     virtual ~LaTeX();
 
-    void setupAsChildTool(KileTool::Base *child);
+    virtual void setupAsChildTool(KileTool::Base *child) override;
 
     LaTeXOutputHandler* latexOutputHandler();
     void setLaTeXOutputHandler(LaTeXOutputHandler *h);
@@ -69,16 +69,16 @@ Q_SIGNALS:
     void jumpToFirstError();
 
 public Q_SLOTS:
-    bool finish(int);
+    virtual bool finish(int) override;
 
 protected:
     LaTeXOutputHandler *m_latexOutputHandler;
 
-    virtual bool determineSource();
+    virtual bool determineSource() override;
 
     void checqCriticals();
     void checkAutoRun();
-    void latexOutputParserResultInstalled();
+    virtual void latexOutputParserResultInstalled() override;
 
     virtual bool updateBibs(bool checkOnlyBibDependencies);
     virtual bool updateIndex();
@@ -116,7 +116,7 @@ public:
     void setPreviewInfo(const QString &filename, int selrow, int docrow);
 
 public Q_SLOTS:
-    bool finish(int);
+    virtual bool finish(int) override;
 
 private:
     QString m_filename;
@@ -139,10 +139,10 @@ public Q_SLOTS:
 // 			bool finish(int);
 
 protected:
-    virtual void configureLaTeX(KileTool::Base *tool, const QString& source);
-    virtual void configureBibTeX(KileTool::Base *tool, const QString& source);
-    virtual void configureMakeIndex(KileTool::Base *tool, const QString& source);
-    virtual void configureAsymptote(KileTool::Base *tool, const QString& source);
+    virtual void configureLaTeX(KileTool::Base *tool, const QString& source) override;
+    virtual void configureBibTeX(KileTool::Base *tool, const QString& source) override;
+    virtual void configureMakeIndex(KileTool::Base *tool, const QString& source) override;
+    virtual void configureAsymptote(KileTool::Base *tool, const QString& source) override;
 
 private:
     QString m_filename;
@@ -157,8 +157,8 @@ class ForwardDVI : public View
 protected:
     ForwardDVI(const QString & tool, Manager *mngr, bool prepare = true);
 
-    bool determineTarget();
-    bool checkPrereqs();
+    virtual bool determineTarget() override;
+    virtual bool checkPrereqs() override;
 };
 
 class ViewBib : public View
@@ -168,7 +168,7 @@ class ViewBib : public View
 protected:
     ViewBib(const QString& tool, Manager *mngr, bool prepare = true);
 
-    bool determineSource();
+    virtual bool determineSource() override;
 };
 
 class ViewHTML : public View
@@ -179,7 +179,7 @@ class ViewHTML : public View
 protected:
     ViewHTML(const QString& tool, Manager *mngr, bool prepare = true);
 
-    bool determineTarget();
+    virtual bool determineTarget() override;
 
 Q_SIGNALS:
     void updateStatus(bool, bool);

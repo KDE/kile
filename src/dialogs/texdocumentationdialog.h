@@ -78,7 +78,7 @@ private:
     QString getIconName(const QString &filename);
 
 protected:
-    bool eventFilter(QObject *o, QEvent *e);
+    virtual bool eventFilter(QObject *o, QEvent *e) override;
 
 Q_SIGNALS:
     void processFinished();

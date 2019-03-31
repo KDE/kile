@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)       *
 ***************************************************************************/
 
 /**************************************************************************
@@ -57,8 +57,8 @@ public:
     ExecuteScriptAction(KileScript::Script *script, KileScript::Manager *scriptManager);
     virtual ~ExecuteScriptAction();
 
-    virtual void execute();
-    virtual QString getDescription() const;
+    virtual void execute() override;
+    virtual QString getDescription() const override;
 
 protected:
     KileScript::Script *m_script;
@@ -216,7 +216,7 @@ protected:
     KTextEditor::View* m_view;
     QStringList m_watchedKeySequencesList;
 
-    virtual bool eventFilter(QObject *o, QEvent *e);
+    virtual bool eventFilter(QObject *o, QEvent *e) override;
 
     /**
      * Checks whether a key sequence is currently watched.

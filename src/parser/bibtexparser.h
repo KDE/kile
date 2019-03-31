@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)       *
 ***************************************************************************/
 
 /***************************************************************************
@@ -48,7 +48,7 @@ public:
     BibTeXParser(ParserThread *parserThread, BibTeXParserInput *input, QObject *parent = Q_NULLPTR);
     virtual ~BibTeXParser();
 
-    ParserOutput* parse();
+    ParserOutput* parse() override;
 
 protected:
     QStringList m_textLines;

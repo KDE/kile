@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2011-2013 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -388,7 +388,7 @@ public:
     ~Compile();
 
 protected:
-    bool checkSource();
+    virtual bool checkSource() override;
 };
 
 /**
@@ -402,7 +402,7 @@ protected:
 public:
     ~View();
 
-    bool isViewer() {
+    virtual bool isViewer() override {
         return true;
     }
 };
@@ -418,7 +418,7 @@ protected:
 public:
     ~Convert();
 
-    bool determineSource();
+    virtual bool determineSource() override;
 };
 
 /**
@@ -433,8 +433,8 @@ protected:
     Archive(const QString &name, Manager * manager, bool prepare = true);
 public:
     ~Archive();
-    bool checkPrereqs();
-    void setSource(const QString & source, const QString& workingDir = "");
+    virtual bool checkPrereqs() override;
+    virtual void setSource(const QString & source, const QString& workingDir = "") override;
 private:
     KileProject *m_project;
     QString m_fileList;
@@ -445,7 +445,7 @@ class Sequence : public Base
     Q_OBJECT
     friend class KileTool::Factory;
 
-    bool requestSaveAll();
+    virtual bool requestSaveAll() override;
 
     void setupSequenceTools();
 
@@ -453,14 +453,14 @@ class Sequence : public Base
     void setLaTeXOutputHandler(LaTeXOutputHandler *h);
 
 public Q_SLOTS:
-    int run();
+    virtual int run() override;
 
 protected:
     Sequence(const QString &name, Manager *manager, bool prepare = true);
     ~Sequence();
 
     // will also determine the current LaTeXOutputHandler
-    bool determineSource();
+    virtual bool determineSource() override;
 
     QLinkedList<Base*> m_tools;
     QString m_unknownToolSpec;

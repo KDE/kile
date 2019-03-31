@@ -104,7 +104,7 @@ class ConvertIOFile : public ConvertIO
 public:
     ConvertIOFile(KTextEditor::Document *doc, const QUrl &url);
 
-    void writeText();
+    void writeText() override;
 
 private:
     QUrl	m_url;
@@ -135,7 +135,7 @@ public:
     ConvertEncToASCII(const QString & encoding, ConvertIO * io) : ConvertBase(encoding, io) {}
 
 protected:
-    QString mapNext(int&);
+    QString mapNext(int&) override;
 };
 
 class ConvertASCIIToEnc : public ConvertBase
@@ -147,7 +147,7 @@ protected:
     QString getSequence(int&);
     QString nextSequence(int&);
     bool isModifier(const QString&);
-    QString mapNext(int&);
+    QString mapNext(int&) override;
 };
 
 #endif

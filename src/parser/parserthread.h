@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011-2012 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -90,7 +90,7 @@ protected:
     void addParserInput(ParserInput *input);
     void removeParserInput(const QUrl &url);
 
-    void run();
+    void run() override;
 
     virtual Parser* createParser(ParserInput *input) = 0;
 
@@ -118,7 +118,7 @@ public Q_SLOTS:
     void removeDocument(const QUrl &url);
 
 protected:
-    virtual Parser* createParser(ParserInput *input);
+    virtual Parser* createParser(ParserInput *input) override;
 
 };
 
@@ -138,7 +138,7 @@ public Q_SLOTS:
     void removeFile(const QString& fileName);
 
 protected:
-    virtual Parser* createParser(ParserInput *input);
+    virtual Parser* createParser(ParserInput *input) override;
 };
 
 }

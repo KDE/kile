@@ -121,7 +121,7 @@ public:
     TemplateItem( QListWidget * parent, const KileTemplate::Info & info);
     ~TemplateItem() {}
 
-    bool operator<(const QListWidgetItem &other) const;
+    bool operator<(const QListWidgetItem &other) const override;
 
     QString name() {
         return m_info.name;

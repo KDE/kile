@@ -1,6 +1,6 @@
 /**********************************************************************************
 *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)           *
-*                 2011 by Michel Ludwig (michel.ludwig@kdemail.net)               *
+*                 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)               *
 ***********************************************************************************/
 
 /***************************************************************************
@@ -85,7 +85,7 @@ public:
     LaTeXOutputParser(ParserThread *parserThread, LaTeXOutputParserInput *input, QObject *parent = Q_NULLPTR);
     virtual ~LaTeXOutputParser();
 
-    ParserOutput* parse();
+    ParserOutput* parse() override;
 
     void updateInfoLists(const QString &texfilename, int selrow, int docrow);
 

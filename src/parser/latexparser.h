@@ -72,7 +72,7 @@ public:
                 QObject *parent = Q_NULLPTR);
     virtual ~LaTeXParser();
 
-    ParserOutput* parse();
+    ParserOutput* parse() override;
 
 protected:
     KileDocument::Extensions *m_extensions;

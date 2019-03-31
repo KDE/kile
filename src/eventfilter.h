@@ -1,6 +1,6 @@
 /***********************************************************************************************
     Copyright (C) 2004 by Jeroen Wijnhout <Jeroen.Wijnhout@kdemail.net>
-                  2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***********************************************************************************************/
 
 /***************************************************************************
@@ -43,7 +43,7 @@ public Q_SLOTS:
     void readConfig();
 
 protected:
-    bool eventFilter(QObject *o, QEvent *e);
+    bool eventFilter(QObject *o, QEvent *e) override;
     bool isCapsLockEnabled();
 
 private:

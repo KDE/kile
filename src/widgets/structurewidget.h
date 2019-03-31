@@ -150,7 +150,7 @@ public Q_SLOTS:
     void slotConfigChanged();
 
 protected:
-    virtual void contextMenuEvent(QContextMenuEvent *event);
+    virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
 private:
     StructureViewItem* parentFor(int lev, const QString &fldr);

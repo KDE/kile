@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : mon 3-11 20:40:00 CEST 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -85,15 +85,15 @@ public:
     ~ProcessLauncher();
 
 public:
-    void setWorkingDirectory(const QString &wd);
+    virtual void setWorkingDirectory(const QString &wd) override;
     void changeToWorkingDirectory(bool change);
     void setCommand(const QString& cmd);
     void setOptions(const QString& opt);
 
 public Q_SLOTS:
-    bool launch();
-    void kill(bool emitSignals = true);
-    bool selfCheck();
+    virtual bool launch() override;
+    virtual void kill(bool emitSignals = true) override;
+    virtual bool selfCheck() override;
 
 private Q_SLOTS:
     void slotProcessOutput();
@@ -115,7 +115,7 @@ public:
     KonsoleLauncher();
 
 public Q_SLOTS:
-    bool launch();
+    virtual bool launch() override;
 };
 
 class DocumentViewerLauncher : public Launcher
@@ -127,9 +127,9 @@ public:
     ~DocumentViewerLauncher();
 
 public Q_SLOTS:
-    bool launch();
-    void kill(bool emitSignals = true);
-    bool selfCheck();
+    virtual bool launch() override;
+    virtual void kill(bool emitSignals = true) override;
+    virtual bool selfCheck() override;
 
 };
 }

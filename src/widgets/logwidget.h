@@ -1,6 +1,6 @@
 /*************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                  2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -37,12 +37,12 @@ public:
     explicit LogWidgetItemDelegate(QObject* parent = Q_NULLPTR);
 
     virtual QSize sizeHint(const QStyleOptionViewItem& option,
-                           const QModelIndex& index) const;
+                           const QModelIndex& index) const override;
 
 protected:
     virtual void paint(QPainter* painter,
                        const QStyleOptionViewItem& option,
-                       const QModelIndex & index) const;
+                       const QModelIndex & index) const override;
 
     QTextDocument* constructTextDocument(const QModelIndex& index) const;
 };
@@ -87,14 +87,14 @@ Q_SIGNALS:
     void outputInfoSelected(const OutputInfo&);
 
 protected:
-    virtual void enterEvent(QEvent *event);
-    virtual void leaveEvent(QEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent* event);
+    virtual void enterEvent(QEvent *event) override;
+    virtual void leaveEvent(QEvent *event) override;
+    virtual void mouseMoveEvent(QMouseEvent* event) override;
 
     void adaptMouseCursor(const QPoint& p);
-    void keyPressEvent(QKeyEvent *event);
+    virtual void keyPressEvent(QKeyEvent *event) override;
 
-    virtual void contextMenuEvent(QContextMenuEvent *event);
+    virtual void contextMenuEvent(QContextMenuEvent *event) override;
 
     void printMessageLine(int type, const QString& message, const QString &tool = "Kile",
                           const OutputInfo& outputInfo = OutputInfo(), bool allowSelection = false,

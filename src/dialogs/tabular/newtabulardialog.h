@@ -65,7 +65,7 @@ private:
     bool canJoin() const;
 
 public Q_SLOTS:
-    int exec();
+    int exec() override;
     void slotAccepted();
 
 private Q_SLOTS:

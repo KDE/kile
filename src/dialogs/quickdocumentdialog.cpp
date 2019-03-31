@@ -75,7 +75,7 @@ class EditableItemDelegate : public QItemDelegate {
 public:
     EditableItemDelegate(QObject *parent = 0) : QItemDelegate(parent) {}
 
-    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const
+    virtual void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex& index) const override
     {
         drawBackground(painter, option, index);
 

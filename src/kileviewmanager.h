@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2018 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -76,8 +76,8 @@ Q_SIGNALS:
     void visibilityChanged(bool shown);
 
 protected:
-    virtual void showEvent(QShowEvent *event);
-    virtual void closeEvent(QCloseEvent *event);
+    virtual void showEvent(QShowEvent *event) override;
+    virtual void closeEvent(QCloseEvent *event) override;
 };
 
 //TODO inherit from KParts::Manager
@@ -246,10 +246,10 @@ public:
     explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
     virtual ~DropWidget();
 
-    virtual void dragEnterEvent(QDragEnterEvent *e);
-    virtual void dropEvent(QDropEvent *e);
+    virtual void dragEnterEvent(QDragEnterEvent *e) override;
+    virtual void dropEvent(QDropEvent *e) override;
 
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void mouseDoubleClickEvent(QMouseEvent *e) override;
 
 Q_SIGNALS:
     void testCanDecode(const QDragEnterEvent *, bool &);

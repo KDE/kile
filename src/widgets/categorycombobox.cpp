@@ -26,7 +26,7 @@ namespace KileWidget {
 
 class CategoryComboBoxDelegate : public QItemDelegate {
 public:
-    void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const {
+    void paint(QPainter *painter, const QStyleOptionViewItem& option, const QModelIndex& index) const override {
         bool category = index.model()->data(index, KileWidget::CategoryComboBox::Category).toBool();
 
         if (category) {
@@ -41,7 +41,8 @@ public:
             painter->drawText(QRect(option.rect.x() + 5, option.rect.y(), option.rect.width() - 5, option.rect.height()), Qt::AlignLeft | Qt::AlignVCenter, index.model()->data(index, Qt::DisplayRole).toString(), &boundingRect);
 
             painter->drawLine(boundingRect.right() + 1, option.rect.y() + (option.rect.height() / 2), option.rect.right(), option.rect.y() + (option.rect.height() / 2));
-        } else {
+        }
+        else {
             QItemDelegate::paint(painter, option, index);
         }
     }

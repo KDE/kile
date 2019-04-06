@@ -2283,8 +2283,9 @@ void Kile::quickPdf()
     }
 
     KileDialog::PdfDialog *dlg = new KileDialog::PdfDialog(m_mainWindow, texFileName, startDir, m_extensions->latexDocuments(), m_manager, errorHandler(), m_outputWidget);
-    dlg->exec();
-    delete dlg;
+    connect(dlg, &QDialog::finished, dlg, &QObject::deleteLater);
+
+    dlg->open();
 }
 
 void Kile::quickUserMenuDialog()

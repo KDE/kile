@@ -2559,17 +2559,7 @@ void Kile::saveSettings()
     KileConfig::setVerticalSplitterTop(*it);
     ++it;
     KileConfig::setVerticalSplitterBottom(*it);
-#ifdef __GNUC__
-#warning Restoring the side bar sizes from minimized after start up does not work perfectly yet!
-#endif
-// 	// sync vertical splitter and size of bottom bar
-// 	int sizeBottomBar = m_bottomBar->directionalSize();
-// 	if(m_bottomBar->isVisible()) {
-// 		sizeBottomBar = m_verSplitBottom;
-// 	}
-// 	else {
-// 		m_verSplitBottom = sizeBottomBar;
-// 	}
+
     KileConfig::setSideBar(!m_sideBar->isHidden()); // do not use 'isVisible()'!
     KileConfig::setSideBarSize(m_sideBar->directionalSize());
     KileConfig::setBottomBar(!m_bottomBar->isHidden()); // do not use 'isVisible()'!

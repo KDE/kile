@@ -183,7 +183,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 
     // init Dialog
     m_PdfDialog.m_lbParameterInfo->setTextFormat(Qt::RichText);
-    m_PdfDialog.m_cbOverwrite->setChecked(true);
+    m_PdfDialog.m_cbOverwrite->setChecked(false);
     updateDialog();
 
     connect(this, &PdfDialog::output, m_output, &KileWidget::OutputView::receive);

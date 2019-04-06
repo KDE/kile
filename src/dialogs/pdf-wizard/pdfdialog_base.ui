@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>562</width>
-    <height>563</height>
+    <height>590</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -93,7 +93,7 @@
        </spacer>
       </item>
       <item row="1" column="4">
-       <widget class="KUrlRequester" name="m_edInfile"/>
+       <widget class="KUrlRequester" name="m_edInfile" native="true"/>
       </item>
      </layout>
     </widget>
@@ -154,17 +154,14 @@
       </item>
       <item>
        <widget class="QLabel" name="m_lbParameterInfo">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
         <property name="text">
          <string>This wizard will use 'pdftk' and LaTeX package 'pdfpages'.</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -214,11 +211,11 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="KUrlRequester" name="m_edOutfile">
+           <widget class="KUrlRequester" name="m_edOutfile" native="true">
             <property name="whatsThis">
              <string>The name of the output file. This entry may also be empty, if you want to overwrite the original file.</string>
             </property>
-            <property name="filter">
+            <property name="filter" stdset="0">
              <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
             </property>
            </widget>
@@ -289,7 +286,7 @@
            </widget>
           </item>
           <item row="7" column="1">
-           <widget class="KUrlRequester" name="m_edStamp"/>
+           <widget class="KUrlRequester" name="m_edStamp" native="true"/>
           </item>
           <item row="9" column="1">
            <spacer name="verticalSpacer_6">

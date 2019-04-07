@@ -953,7 +953,7 @@ void Manager::fileSaveCompiledDocument()
                       }
                       // the QFileDialog will take care of asking for overwrite permission (if the chosen file exists already)
                       KIO::CopyJob *copyJob = KIO::copy(QUrl::fromLocalFile(compiledDocumentFileName), url, KIO::Overwrite);
-                      connect(copyJob, &KIO::CopyJob::finished, copyJob, &QObject::deleteLater);
+                      QObject::connect(copyJob, &KIO::CopyJob::finished, copyJob, &QObject::deleteLater);
                   });
     dlg->exec();
 }

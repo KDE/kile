@@ -192,7 +192,7 @@ QStringList KileUtilities::standardLocations(QStandardPaths::StandardLocation ty
     if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
         toReturn << getRelativeSharePath();
     }
-    toReturn << standardLocations(type);
+    toReturn << QStandardPaths::standardLocations(type);
 
     return toReturn;
 }

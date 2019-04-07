@@ -21,14 +21,12 @@ set(kile_action_ICONS
 	16-actions-complete1.png
 	16-actions-complete2.png
 	16-actions-complete3.png
-	16-actions-configure_kile.png
 	16-actions-configure_project.png
 	16-actions-contents.png
 	16-actions-ddot.png
 	16-actions-delenv_i.png
 	16-actions-delenv_o.png
 	16-actions-deleol.png
-	16-actions-delete.png
 	16-actions-delgroup_i.png
 	16-actions-delgroup_o.png
 	16-actions-delline.png
@@ -81,7 +79,6 @@ set(kile_action_ICONS
 	16-actions-medspace.png
 	16-actions-minipage.png
 	16-actions-modified.png
-	16-actions-modonhd.png
 	16-actions-multline.png
 	16-actions-nextbullet.png
 	16-actions-nextparagraph.png
@@ -155,7 +152,6 @@ set(kile_action_ICONS
 	22-actions-complete1.png
 	22-actions-complete2.png
 	22-actions-complete3.png
-	22-actions-configure_kile.png
 	22-actions-configure_project.png
 	22-actions-contents.png
 	22-actions-convert.png

@@ -149,7 +149,7 @@ static inline QString getRelativeSharePath()
 
 QString KileUtilities::findExecutable(const QString &executableName, const QStringList &paths)
 {
-    return findExecutable(executableName, paths);
+    return QStandardPaths::findExecutable(executableName, paths);
 }
 
 QString KileUtilities::locate(QStandardPaths::StandardLocation type, const QString &fileName,

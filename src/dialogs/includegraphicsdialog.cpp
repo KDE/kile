@@ -583,7 +583,7 @@ void IncludeGraphics::onProcessExited(int /* exitCode */, QProcess::ExitStatus e
 
                 // look, if resolution is in PixelsPerCentimeter
                 if (reg.cap(4).trimmed() == "PixelsPerCentimeter") {
-                    m_resolution *= 2.54;
+                    m_resolution *= 2.54f;
                 }
 
                 // calc the bounding box

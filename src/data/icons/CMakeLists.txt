@@ -7,7 +7,7 @@ set(kile_ICONS
 	32-apps-kile.png
 	48-apps-kile.png
 	64-apps-kile.png
-	sc-apps-kile.svgz
+	sc-apps-kile.svg
 )
 
 ecm_install_icons(

@@ -56,7 +56,7 @@ KileLyxServer::KileLyxServer(bool startMe) :
     m_links << ".lyxpipe.out" << ".lyx/lyxpipe.out";
 
     for(int i = 0; i < m_links.count() ; ++i) {
-        m_pipes.append( m_tempDir->path() + m_links[i] );
+        m_pipes.append( m_tempDir->path() + QDir::separator() + m_links[i] );
         m_links[i].prepend(QDir::homePath() + QDir::separator() );
         KILE_DEBUG_MAIN << "m_pipes[" << i << "]=" << m_pipes[i];
         KILE_DEBUG_MAIN << "m_links[" << i << "]=" << m_links[i];

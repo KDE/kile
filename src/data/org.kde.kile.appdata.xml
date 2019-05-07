@@ -371,7 +371,7 @@
   </screenshots>
   <url type="homepage">http://kile.sourceforge.net/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=kile</url>
-  <url type="help">http://docs.kde.org/stable/en/applications/kile/index.html</url>
+  <url type="help">https://docs.kde.org/?application=kile</url>
   <project_group>KDE</project_group>
   <provides>
     <binary>kile</binary>

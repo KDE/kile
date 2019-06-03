@@ -237,7 +237,7 @@
       <li xml:lang="pt">Colecção de documentos que pertencem em conjunto a um projecto</li>
       <li xml:lang="sv">Samla dokument som hör ihop i ett projekt</li>
       <li xml:lang="tr">Birlikte bir projeye ait olan belgeleri toplayın</li>
-      <li xml:lang="uk">Збирання документів у проекти.</li>
+      <li xml:lang="uk">Збирання документів у проєкти.</li>
       <li xml:lang="x-test">xxCollect documents that belong together into a projectxx</li>
       <li xml:lang="zh-CN">收集属于同一项目的文档于一处</li>
       <li>Easy insertion of citations and references when using projects</li>
@@ -256,7 +256,7 @@
       <li xml:lang="pt">Inserção simpless de citações e referências ao usar os projectos</li>
       <li xml:lang="sv">Enkelt att infoga hänvisningar och referenser vid användning av projekt</li>
       <li xml:lang="tr">Projeleri kullanırken alıntıların ve başvuruların kolay eklenmesi</li>
-      <li xml:lang="uk">Просте вставлення посилань у межах проектів.</li>
+      <li xml:lang="uk">Просте вставлення посилань у межах проєктів.</li>
       <li xml:lang="x-test">xxEasy insertion of citations and references when using projectsxx</li>
       <li xml:lang="zh-CN">使用项目时可以轻松插入引文和引用</li>
       <li>Flexible and smart build system to compile your LaTeX documents</li>

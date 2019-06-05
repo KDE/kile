@@ -109,7 +109,7 @@
 		<itemizedlist>
 			<listitem><para><ulink url="http://www.kde.org/">K Desktop environment (&kde;)</ulink>:
 			&kde; is a popular open-source desktop environment.</para></listitem>
-			<listitem><para><ulink url="http://www.qtsoftware.com/products/">&Qt;</ulink>: &Qt; is a C++
+			<listitem><para><ulink url="https://qt.io/">&Qt;</ulink>: &Qt; is a C++
 			 &GUI; and network library needed to compile &kile;.</para></listitem>
 			<listitem><para><ulink url="http://www.ctan.org/">&latex;</ulink>: high-quality document
 			typesetting program. Most likely you want the &texlive; (or on older systems the &tetex;) package, if you are on a

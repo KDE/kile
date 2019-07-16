@@ -4,6 +4,8 @@
       xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd" >
 	<include>QApplication</include>
+	<include>QGuiApplication</include>
+	<include>QScreen</include>
 	<include>QString</include>
 	<include>QTextCodec</include>
 	<include>QDir</include>
@@ -37,13 +39,13 @@
 		<entry name="MainwindowWidth" type="Int">
 			<label>The main window's width.</label>
 			<default code="true">
-				QApplication::desktop()->screenGeometry().width() - 100
+				QGuiApplication::primaryScreen()->geometry().width() - 100
 			</default>
 		</entry>
 		<entry name="MainwindowHeight" type="Int">
 			<label>The main window's height.</label>
 			<default code="true">
-				QApplication::desktop()->screenGeometry().height() - 100
+				QGuiApplication::primaryScreen()->geometry().height() - 100
 			</default>
 		</entry>
 	</group>

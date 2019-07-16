@@ -45,7 +45,7 @@ public:
 
         QTextDocument document;
         document.setHtml(index.data(Qt::UserRole).toString());
-        painter->resetMatrix();
+        painter->resetTransform();
         painter->translate(option.rect.topLeft());
         document.drawContents(painter);
         painter->restore();

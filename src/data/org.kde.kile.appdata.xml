@@ -67,6 +67,7 @@
     <p xml:lang="nl">Kile is een gebruikersvriendelijke TeX/LaTeX bewerker door KDE. Kile geeft u de mogelijkheid om alle functionaliteit van LaTeX in een grafisch interface te gebruiken en heeft interactieve voorbeeldweergave om op een redelijke manier het resultaat van de bewerking te zien.</p>
     <p xml:lang="pl">Kile jest przyjaznym użytkownikowi edytorem TeX/LaTeX dla KDE. Kile umożliwia wykorzystanie wszystkich możliwości LaTeX przy użyciu interfejsu graficznego i ma mechanizm interaktywnego podglądu, aby szybko podejrzeć wyniki edycji.</p>
     <p xml:lang="pt">O Kile é um editor amigável de TeX/LaTeX para o KDE. O Kile dá-lhe a capacidade de usar todas as funcionalidades do LaTeX numa interface gráfica e tem mecanismos de antevisão interactiva para ler de forma imediata os resultados da edição.</p>
+    <p xml:lang="pt-BR">O Kile é um editor de TeX/LaTeX fácil de usar criado pela comunidade KDE. Ele permite usar toda a funcionalidade do LaTeX com uma interface gráfica, possuindo ainda pré-visualização interative para ver dinamicamente os resultados da sua edição.</p>
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
     <p xml:lang="uk">Kile — дружня до користувача програма для редагування коду TeX/LaTeX від KDE. Kile надає вам змогу скористатися усіма функціональними можливостями LaTeX за допомогою графічного інтерфейсу та має механізми інтерактивного попереднього перегляду для негайного отримання результатів редагування.</p>
     <p xml:lang="x-test">xxKile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.xx</p>
@@ -112,6 +113,7 @@
       <li xml:lang="nl">Compileert, converteert en toont uw document met één klik</li>
       <li xml:lang="pl">Kompiluj, przekształcaj i oglądaj swoje dokumenty na kliknięcie</li>
       <li xml:lang="pt">Compilar, converter e ver o seu documento com um 'click'</li>
+      <li xml:lang="pt-BR">Compile, converta e visualize seu documento com apenas um clique</li>
       <li xml:lang="sv">Kompilera, konvertera och visa dokumentet med ett klick</li>
       <li xml:lang="tr">Tek tıklama ile belgenizi derleyin, dönüştürün ve görüntüleyin</li>
       <li xml:lang="uk">Збирання, перетворення та перегляд документів у одне клацання кнопкою миші.</li>
@@ -133,6 +135,7 @@
       <li xml:lang="nl">Automatische aanvulling van (La)TeX commando's</li>
       <li xml:lang="pl">Samouzupełnianie poleceń (La)TeX</li>
       <li xml:lang="pt">Completação automática de comandos de (La)TeX</li>
+      <li xml:lang="pt-BR">Função de auto-completar para comandos do (La)TeX</li>
       <li xml:lang="sv">Automatisk komplettering av Tex- och Latex-kommandon</li>
       <li xml:lang="tr">(La)TeX komutlarının Otomatik-Tamamlanması</li>
       <li xml:lang="uk">Автодоповнення команд (La)TeX.</li>
@@ -154,6 +157,7 @@
       <li xml:lang="nl">Sjablonen en assistenten maken het begin van nieuwe documenten tot weinig werk</li>
       <li xml:lang="pl">Szablony i pomocnicy ułatwiający tworzenie nowych dokumentów</li>
       <li xml:lang="pt">Os modelos e assistentes tornam a criação de documentos novos um esforço mínimo</li>
+      <li xml:lang="pt-BR">Modelos e assistentes permitem criar novos documentos sem esforço</li>
       <li xml:lang="sv">Mallar och guider gör att mycket lite arbete behövs för att påbörja nya dokument</li>
       <li xml:lang="tr">Şablonlar ve sihirbazlar yeni belgelere başlamayı çok küçük bir işe çevirirler</li>
       <li xml:lang="uk">Шаблони і допоміжні засоби для створення документів з мінімальними зусиллями.</li>
@@ -174,6 +178,7 @@
       <li xml:lang="nl">Gemakkelijk invoegen van vele standaard tags en symbolen en de optie om (een willekeurig aantal) gebruikergedefinieerde tags te definiëren</li>
       <li xml:lang="pl">Łatwe wstawianie wielu standardowych znaczników i symboli oraz opcja do definiowania (dowolnej liczby) znaczników użytkownika</li>
       <li xml:lang="pt">Inserção simples de muitas marcas-padrão e símbolos, assim como a opção para definir (um número arbitrário de) marcas definidas pelo utilizador</li>
+      <li xml:lang="pt-BR">Inserção fácil de várias tags e símbolos comuns, assim como a opção de definir (uma quantidade arbitrária de) tags feitas pelo usuário</li>
       <li xml:lang="sv">Enkelt att infoga många standardtaggar och symboler, och möjlighet att definiera (ett godtyckligt antal) användardefinerade taggar</li>
       <li xml:lang="tr">Pek çok standart etiketin ve sembolün kolayca eklenmesi ve kullanıcı tanımlı etiketleri (isteğe bağlı sayıda) tanımlama seçeneği</li>
       <li xml:lang="uk">Просте вставлення багатьох стандартних команд і символів, можливість додаткового визначення користувачем довільної кількості команд.</li>
@@ -214,6 +219,7 @@
       <li xml:lang="nl">Vinden van hoofdstuk of sectie is erg gemakkelijk, Kile maakt een lijst met alle hoofdstukken etc. in uw document. U kunt de lijst gebruiken om naar de overeenkomstige sectie te springen</li>
       <li xml:lang="pl">Znajdowanie rozdziałów lub sekcji jest bardzo proste. Kile tworzy listę wszystkich rozdziałów itp. w twoim dokumencie. Możesz uzyć tej listy do przeskakiwania do danej sekcji.</li>
       <li xml:lang="pt">A pesquisa de capítulos ou secções é muito simples - o Kile constrói uma lista com todos os capítulos, etc. no seu documento. Poderá usar a lista para ir para a secção correspondente</li>
+      <li xml:lang="pt-BR">Achar o capítulo ou seção correta é muito fácil, o Kile constrói uma lista de todos os capítulos e afins do seu documento, permitindo pular para a seção correspondente rapidamente</li>
       <li xml:lang="sv">Det är mycket enkelt att hitta kapitel eller avsnitt. Kile skapar en lista av alla kapitel, etc., i dokumentet. Listan kan användas för att gå till motsvarande avsnitt</li>
       <li xml:lang="tr">Bölüm veya kısımları bulmak çok kolay, Kile belgenizdeki tüm bölümlerin vb. bir listesini oluşturur. İlgili bölüme atlamak için listeyi kullanabilirsiniz</li>
       <li xml:lang="uk">Знайти потрібну главу або розділ дуже просто: Kile будує список усіх розділів у документі. Ви можете скористатися цим списком для переходу до відповідного розділу.</li>
@@ -235,6 +241,7 @@
       <li xml:lang="nl">Verzamelt documenten die bij elkaar behoren in een project</li>
       <li xml:lang="pl">Zbieranie dokumentów należących razem do projektu</li>
       <li xml:lang="pt">Colecção de documentos que pertencem em conjunto a um projecto</li>
+      <li xml:lang="pt-BR">Reúna documentos que pertencem a um mesmo projeto</li>
       <li xml:lang="sv">Samla dokument som hör ihop i ett projekt</li>
       <li xml:lang="tr">Birlikte bir projeye ait olan belgeleri toplayın</li>
       <li xml:lang="uk">Збирання документів у проєкти.</li>
@@ -254,6 +261,7 @@
       <li xml:lang="nl">Gemakkelijk invoegen van citaten en referenties bij gebruik van projecten</li>
       <li xml:lang="pl">Łatwe wstawianie cytowań i odwołań przy użyciu projektów</li>
       <li xml:lang="pt">Inserção simpless de citações e referências ao usar os projectos</li>
+      <li xml:lang="pt-BR">Inserção fácil de citações e referências ao usar projetos</li>
       <li xml:lang="sv">Enkelt att infoga hänvisningar och referenser vid användning av projekt</li>
       <li xml:lang="tr">Projeleri kullanırken alıntıların ve başvuruların kolay eklenmesi</li>
       <li xml:lang="uk">Просте вставлення посилань у межах проєктів.</li>
@@ -275,6 +283,7 @@
       <li xml:lang="nl">Flexibel en slim bouwsysteem om uw LaTeX documenten te compileren</li>
       <li xml:lang="pl">Eleastyczny i mądry system budowania do kompilowania twoich dokumentów LaTeX</li>
       <li xml:lang="pt">Sistema flexível e inteligente de compilação dos seus documentos em LaTeX</li>
+      <li xml:lang="pt-BR">Sistema de depuração flexível e inteligente para compilar seus documentos do LaTeX</li>
       <li xml:lang="sv">Flexibelt och smart byggsystem för att kompilera Latex-dokument</li>
       <li xml:lang="tr">LaTeX belgelerinizi derlemek için esnek ve akıllı bir inşa sistemi</li>
       <li xml:lang="uk">Гнучка та інтелектуальна система збирання для обробки ваших документів LaTeX.</li>
@@ -296,6 +305,7 @@
       <li xml:lang="nl">QuickPreview: bekijk een geselecteerd deel van uw document</li>
       <li xml:lang="pl">SzybkiPodgląd: podgląd wybranej części dokumentu</li>
       <li xml:lang="pt">Antevisão Rápida: antevisão de uma parte seleccionada do seu documento</li>
+      <li xml:lang="pt-BR">Visualização rápida: pré-visualize uma parte específica do seu documento</li>
       <li xml:lang="sv">Snabbgranskning: Förhandsgranska en markerad del av dokumentet</li>
       <li xml:lang="tr">QuickPreview: belgenizin seçili bir bölümünü önizleyin</li>
       <li xml:lang="uk">Швидкий перегляд: можливість швидко переглянути частину вашого документа.</li>
@@ -363,6 +373,7 @@
       <caption xml:lang="nl">Bewerking van documenten in Kile</caption>
       <caption xml:lang="pl">Edytowanie dokumentów w Kile</caption>
       <caption xml:lang="pt">Edição de documentos no Kile</caption>
+      <caption xml:lang="pt-BR">Edição de documentos no Kile</caption>
       <caption xml:lang="sv">Dokumentredigering i Kile</caption>
       <caption xml:lang="uk">Редагування документа у Kile</caption>
       <caption xml:lang="x-test">xxDocument editing in Kilexx</caption>

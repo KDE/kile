@@ -24,7 +24,6 @@
 #include <QHash>
 #include <QObject>
 #include <QPointer>
-#include <QSignalMapper>
 #include <QString>
 #include <QStringList>
 

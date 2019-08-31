@@ -218,7 +218,6 @@ public:
 public Q_SLOTS:
     void slotClicked(QTreeWidgetItem *);
     void slotDoubleClicked(QTreeWidgetItem *);
-    void slotPopupActivated(int id);
 
     void addDocumentInfo(KileDocument::Info *);
     void closeDocumentInfo(KileDocument::Info *);
@@ -256,7 +255,6 @@ private:
     StructureView* viewFor(KileDocument::Info *info);
     bool viewExistsFor(KileDocument::Info *info);
 
-    void slotPopupLabel(int id);
     void slotPopupSectioning(int id);
     void slotPopupGraphics(int id);
 

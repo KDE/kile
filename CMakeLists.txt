@@ -28,7 +28,7 @@ include(KDECMakeSettings)
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(Qt5 5.3 CONFIG REQUIRED
+find_package(Qt5 5.6 CONFIG REQUIRED
 	Core
 	DBus
 	Widgets

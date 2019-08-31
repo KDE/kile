@@ -19,7 +19,6 @@
 #include <QHeaderView>
 #include <QDomDocument>
 #include <QProcessEnvironment>
-#include <QSignalMapper>
 
 #include <KIconLoader>
 #include <QMenu>
@@ -175,137 +174,62 @@ void UserMenuTree::contextMenuRequested(const QPoint &pos)
     bool separator = ( m_popupItem->menutype() ==  UserMenuData::Separator );
 
     QMenu popup;
-    QAction *action = Q_NULLPTR;
-    QSignalMapper signalMapper;
-    connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotPopupActivated(int)));
 
     // insert standard menu items
-    action = popup.addAction(QIcon::fromTheme("usermenu-insert-above.png"),i18n("Insert above"), &signalMapper, SLOT(map()));
-    signalMapper.setMapping(action, POPUP_INSERT_ABOVE);
-    action = popup.addAction(QIcon::fromTheme("usermenu-insert-below.png"),i18n("Insert below"), &signalMapper, SLOT(map()));
-    signalMapper.setMapping(action, POPUP_INSERT_BELOW);
+    popup.addAction(QIcon::fromTheme("usermenu-insert-above.png"),i18n("Insert above"), this, [this] {insertMenuItem(m_popupItem, false);});
+    popup.addAction(QIcon::fromTheme("usermenu-insert-below.png"),i18n("Insert below"), this, [this] {insertMenuItem(m_popupItem, true);});
     popup.addSeparator();
 
     // insert separators
     if ( !separator ) {
-        action = popup.addAction(QIcon::fromTheme("usermenu-separator-above.png"),i18n("Insert a separator above"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, POPUP_SEPARATOR_ABOVE);
-        action = popup.addAction(QIcon::fromTheme("usermenu-separator-below.png"),i18n("Insert a separator below"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, POPUP_SEPARATOR_BELOW);
+        popup.addAction(QIcon::fromTheme("usermenu-separator-above.png"),i18n("Insert a separator above"), this, [this] {insertSeparator(m_popupItem, false);});
+        popup.addAction(QIcon::fromTheme("usermenu-separator-below.png"),i18n("Insert a separator below"), this, [this] {insertSeparator(m_popupItem, true);});
         popup.addSeparator();
     }
 
     // insert submenus
-    action = popup.addAction(QIcon::fromTheme("usermenu-submenu-above.png"),i18n("Insert a submenu above"), &signalMapper, SLOT(map()));
-    signalMapper.setMapping(action, POPUP_SUBMENU_ABOVE);
-    action = popup.addAction(QIcon::fromTheme("usermenu-submenu-below.png"),i18n("Insert a submenu below"), &signalMapper, SLOT(map()));
-    signalMapper.setMapping(action, POPUP_SUBMENU_BELOW);
+    popup.addAction(QIcon::fromTheme("usermenu-submenu-above.png"),i18n("Insert a submenu above"), this, [this] {insertSubmenu(m_popupItem, false);});
+    popup.addAction(QIcon::fromTheme("usermenu-submenu-below.png"),i18n("Insert a submenu below"), this, [this] {insertSubmenu(m_popupItem, true);});
     popup.addSeparator();
 
     // insert into submenus
     if ( submenu ) {
-        action = popup.addAction(QIcon::fromTheme("usermenu-into-submenu.png"),i18n("Insert into this submenu"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, POPUP_INTO_SUBMENU);
-        action = popup.addAction(i18n("Insert a separator into this submenu"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, POPUP_SEPARATOR_INTO_SUBMENU);
-        action = popup.addAction(i18n("Insert a submenu into this submenu"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, POPUP_SUBMENU_INTO_SUBMENU);
+        popup.addAction(QIcon::fromTheme("usermenu-into-submenu.png"),i18n("Insert into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Text);});
+        popup.addAction(i18n("Insert a separator into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Separator);});
+        popup.addAction(i18n("Insert a submenu into this submenu"), this, [this] {insertIntoSubmenu(m_popupItem, UserMenuData::Submenu);});
         popup.addSeparator();
     }
 
     // delete actions
-    action = popup.addAction(QIcon::fromTheme("usermenu-delete.png"),i18n("Delete this item"), &signalMapper, SLOT(map()));
-    signalMapper.setMapping(action,POPUP_DELETE_ITEM);
+    popup.addAction(QIcon::fromTheme("usermenu-delete.png"),i18n("Delete this item"), this, [this] {itemDelete(m_popupItem);});
     popup.addSeparator();
-    action = popup.addAction(QIcon::fromTheme("usermenu-clear.png"),i18n("Delete the complete tree"), &signalMapper, SLOT(map()));
-    signalMapper.setMapping(action, POPUP_DELETE_TREE);
+    popup.addAction(QIcon::fromTheme("usermenu-clear.png"),i18n("Delete the complete tree"), this, [this] {deleteMenuTree();});
 
     // expand/collapse tree
     if ( submenu ) {
         popup.addSeparator();
         if ( m_popupItem->isExpanded() ) {
-            action = popup.addAction(i18n("Collapse submenu"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action,POPUP_COLLAPSE_ITEM);
+            popup.addAction(i18n("Collapse submenu"), this, [this] {m_popupItem->setExpanded(false);});
         }
         else  {
-            action = popup.addAction(i18n("Expand submenu"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action,POPUP_EXPAND_ITEM);
+            popup.addAction(i18n("Expand submenu"), this, [this] {m_popupItem->setExpanded(true);});
         }
         popup.addSeparator();
-        action = popup.addAction(i18n("Collapse complete tree"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action,POPUP_COLLAPSE_TREE);
-        action = popup.addAction(i18n("Expand complete tree"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action,POPUP_EXPAND_TREE);
+        popup.addAction(i18n("Collapse complete tree"), this, [this] {collapseAll();});
+        popup.addAction(i18n("Expand complete tree"), this, [this] {expandAll();});
     }
 
     // if there are any errors with this item, some info is available
     int error = m_popupItem->data(0,Qt::UserRole+2).toInt();
     if ( error != UserMenuItem::MODEL_ERROR_NONE ) {
         popup.addSeparator();
-        action = popup.addAction(QIcon::fromTheme("help-about.png"),i18n("Info"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, POPUP_ITEM_INFO);
+        popup.addAction(QIcon::fromTheme("help-about.png"),i18n("Info"), this, [this] {itemInfo(m_popupItem);});
     }
 
     // const QPoint& pos parameter in the customContextMenuRequested() signal is normally in widget coordinates.
     // But classes like QTreeWidget, which inherit from QAbstractScrollArea1 instead use the coordinates of their viewport()
     if ( !popup.isEmpty() ) {
         popup.exec( viewport()->mapToGlobal(pos) );
-    }
-}
-
-// a context menu action was selected
-void UserMenuTree::slotPopupActivated(int id)
-{
-    KILE_DEBUG_MAIN << "popup activated with id: " << id;
-    switch (id ) {
-    case POPUP_INSERT_ABOVE:
-        insertMenuItem (m_popupItem, false);
-        break;
-    case POPUP_INSERT_BELOW:
-        insertMenuItem (m_popupItem, true);
-        break;
-    case POPUP_SEPARATOR_ABOVE:
-        insertSeparator(m_popupItem, false);
-        break;
-    case POPUP_SEPARATOR_BELOW:
-        insertSeparator(m_popupItem, true);
-        break;
-    case POPUP_SUBMENU_ABOVE:
-        insertSubmenu  (m_popupItem, false);
-        break;
-    case POPUP_SUBMENU_BELOW:
-        insertSubmenu  (m_popupItem, true);
-        break;
-    case POPUP_INTO_SUBMENU:
-        insertIntoSubmenu(m_popupItem, UserMenuData::Text);
-        break;
-    case POPUP_SEPARATOR_INTO_SUBMENU:
-        insertIntoSubmenu(m_popupItem, UserMenuData::Separator);
-        break;
-    case POPUP_SUBMENU_INTO_SUBMENU:
-        insertIntoSubmenu(m_popupItem, UserMenuData::Submenu);
-        break;
-    case POPUP_DELETE_ITEM:
-        itemDelete(m_popupItem);
-        break;
-    case POPUP_DELETE_TREE:
-        deleteMenuTree();
-        break;
-    case POPUP_COLLAPSE_ITEM:
-        m_popupItem->setExpanded(false);
-        break;
-    case POPUP_EXPAND_ITEM:
-        m_popupItem->setExpanded(true);
-        break;
-    case POPUP_COLLAPSE_TREE:
-        collapseAll();
-        break;
-    case POPUP_EXPAND_TREE:
-        expandAll();
-        break;
-    case POPUP_ITEM_INFO:
-        itemInfo(m_popupItem);
-        break;
     }
 }
 

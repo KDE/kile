@@ -23,7 +23,6 @@
 #include <QMimeData>
 #include <QMimeDatabase>
 #include <QMimeType>
-#include <QSignalMapper>
 #include <QUrl>
 
 #include <KActionMenu>
@@ -764,7 +763,6 @@ void ProjectView::removeItem(const KileProjectItem *projitem, bool open)
 
 void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 {
-    QSignalMapper signalMapper, serviceSignalMapper;
     QMenu popup;
     QAction *action = Q_NULLPTR;
 
@@ -791,32 +789,27 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
 
     if(projectViewItem->type() == KileType::ProjectExtra && !isKilePrFile) {
         QMenu *servicesMenu = popup.addMenu(QIcon::fromTheme("fork"), i18n("&Open With"));
-        connect(&serviceSignalMapper, SIGNAL(mapped(int)), this, SLOT(slotRun(int)));
         QMimeDatabase db;
         m_offerList = KMimeTypeTrader::self()->query(db.mimeTypeForUrl(projectViewItem->url()).name(), "Application");
         for (int i = 0; i < m_offerList.count(); ++i) {
             action = new QAction(servicesMenu);
             action->setIcon(QIcon::fromTheme(m_offerList[i]->icon()));
             action->setText(m_offerList[i]->name());
-            connect(action, SIGNAL(triggered()), &serviceSignalMapper, SLOT(map()));
-            serviceSignalMapper.setMapping(action, i + 1);
+            connect(action, &QAction::triggered, this, [this, i] { slotRun(i + 1); });
             servicesMenu->addAction(action);
         }
 
         servicesMenu->addSeparator();
-        action = servicesMenu->addAction(i18n("Other..."), &serviceSignalMapper, SLOT(map()));
-        serviceSignalMapper.setMapping(action, 0);
+        servicesMenu->addAction(i18n("Other..."), this, [this] { slotRun(0); });
         insertsep = true;
     }
 
     if (projectViewItem->type() == KileType::File || projectViewItem->type() == KileType::ProjectItem) {
         if(!m_ki->isOpen(projectViewItem->url())) {
-            action = popup.addAction(QIcon::fromTheme("document-open"), i18n("&Open"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action, KPV_ID_OPEN);
+            popup.addAction(QIcon::fromTheme("document-open"), i18n("&Open"), this, [this] { slotProjectItem(KPV_ID_OPEN); });
         }
         else {
-            action = popup.addAction(QIcon::fromTheme("document-save"), i18n("&Save"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action, KPV_ID_SAVE);
+            popup.addAction(QIcon::fromTheme("document-save"), i18n("&Save"), this, [this] { slotProjectItem(KPV_ID_SAVE); });
         }
         insertsep = true;
     }
@@ -826,11 +819,9 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
             if(insertsep) {
                 popup.addSeparator();
             }
-            action = popup.addAction(QIcon::fromTheme("project_add"), i18n("&Add to Project"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action, KPV_ID_ADD);
+            popup.addAction(QIcon::fromTheme("project_add"), i18n("&Add to Project"), this, [this] { slotProjectItem(KPV_ID_ADD); });
             insertsep = true;
         }
-        connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotFile(int)));
     }
     else if(projectViewItem->type() == KileType::ProjectItem || projectViewItem->type() == KileType::ProjectExtra) {
         KileProjectItem *pi = projectViewItem->projectItem();
@@ -838,8 +829,7 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
             if(insertsep) {
                 popup.addSeparator();
             }
-            action = popup.addAction(i18n("&Include in Archive"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action, KPV_ID_INCLUDE);
+            action = popup.addAction(i18n("&Include in Archive"), this, [this] { slotProjectItem(KPV_ID_INCLUDE); });
             action->setCheckable(true);
             action->setChecked(pi->archive());
             insertsep = true;
@@ -848,29 +838,21 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
             if(insertsep) {
                 popup.addSeparator();
             }
-            action = popup.addAction(QIcon::fromTheme("project_remove"),i18n("&Remove From Project"), &signalMapper, SLOT(map()));
-            signalMapper.setMapping(action, KPV_ID_REMOVE);
+            popup.addAction(QIcon::fromTheme("project_remove"),i18n("&Remove From Project"), this, [this] { slotProjectItem(KPV_ID_REMOVE); });
             insertsep = true;
         }
-        connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotProjectItem(int)));
     }
     else if(projectViewItem->type() == KileType::Project) {
         if(insertsep) {
             popup.addSeparator();
         }
-        action = popup.addAction(i18n("A&dd Files..."), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, KPV_ID_ADDFILES);
+        popup.addAction(i18n("A&dd Files..."), this, [this] { slotProject(KPV_ID_ADDFILES); });
         popup.addSeparator();
-        action = popup.addAction(i18n("Open All &Project Files"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, KPV_ID_OPENALLFILES);
+        popup.addAction(i18n("Open All &Project Files"), this, [this] { slotProject(KPV_ID_OPENALLFILES); });
         popup.addSeparator();
-        action = popup.addAction(QIcon::fromTheme("view-refresh"),i18n("Refresh Project &Tree"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, KPV_ID_BUILDTREE);
-        action = popup.addAction(QIcon::fromTheme("configure"), i18n("Project &Options"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, KPV_ID_OPTIONS);
-        action = popup.addAction(i18n("&Archive"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, KPV_ID_ARCHIVE);
-        connect(&signalMapper, SIGNAL(mapped(int)), this, SLOT(slotProject(int)));
+        popup.addAction(QIcon::fromTheme("view-refresh"),i18n("Refresh Project &Tree"), this, [this] { slotProject(KPV_ID_BUILDTREE); });
+        popup.addAction(QIcon::fromTheme("configure"), i18n("Project &Options"), this, [this] { slotProject(KPV_ID_OPTIONS); });
+        popup.addAction(i18n("&Archive"), this, [this] { slotProject(KPV_ID_ARCHIVE); });
         insertsep = true;
     }
 
@@ -879,8 +861,12 @@ void ProjectView::contextMenuEvent(QContextMenuEvent *event)
         if(insertsep) {
             popup.addSeparator();
         }
-        action = popup.addAction(QIcon::fromTheme("view-close"), i18n("&Close"), &signalMapper, SLOT(map()));
-        signalMapper.setMapping(action, KPV_ID_CLOSE);
+        if(projectViewItem->type() == KileType::Project) {
+            popup.addAction(QIcon::fromTheme("view-close"), i18n("&Close"), this, [this] { slotProject(KPV_ID_CLOSE); });
+        }
+        else {
+            popup.addAction(QIcon::fromTheme("view-close"), i18n("&Close"), this, [this] { slotProjectItem(KPV_ID_CLOSE); });
+        }
     }
 
     popup.exec(event->globalPos());

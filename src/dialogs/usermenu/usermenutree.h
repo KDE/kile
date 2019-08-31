@@ -55,20 +55,7 @@ public:
 
     bool isEmpty();
 
-private Q_SLOTS:
-    void slotPopupActivated(int id);
-
 private:
-    enum PopupType { POPUP_INSERT_ABOVE=0x00,    POPUP_INSERT_BELOW=0x01,
-                     POPUP_SEPARATOR_ABOVE=0x02, POPUP_SEPARATOR_BELOW=0x03,
-                     POPUP_SUBMENU_ABOVE=0x04,   POPUP_SUBMENU_BELOW=0x05,
-                     POPUP_INTO_SUBMENU=0x06,    POPUP_SEPARATOR_INTO_SUBMENU=0x07, POPUP_SUBMENU_INTO_SUBMENU=0x08,
-                     POPUP_DELETE_ITEM=0x09,     POPUP_DELETE_TREE=0x0A,
-                     POPUP_COLLAPSE_ITEM=0x0B,   POPUP_EXPAND_ITEM=0x0C,
-                     POPUP_COLLAPSE_TREE=0x0D,   POPUP_EXPAND_TREE=0x0E,
-                     POPUP_ITEM_INFO=0x0F
-                   };
-
     UserMenuItem *m_popupItem;
 
     void setErrorCodes();

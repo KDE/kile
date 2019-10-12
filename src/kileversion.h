@@ -25,7 +25,8 @@ const QString kileFullVersion="2.9.93"; // only use numbers and '.'
 #define KILERC_VERSION 8
 
 // the last-copyright-year is used in 'main.cpp' and 'CMakeLists.txt'
-#define KILE_LAST_COPYRIGHT_YEAR 2019
+// KILE_LAST_COPYRIGHT_YEAR must be a string (it may appear as, e.g., 2,019 on Windows otherwise)
+#define KILE_LAST_COPYRIGHT_YEAR "2019"
 
 /**
  * Compares two strings of the form "a.b(.c)" and "d.e(.f)" lexicographically,

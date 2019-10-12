@@ -213,7 +213,7 @@ kf5_add_kdeinit_executable(kile ${kile_SRCS})
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
     # extract the last copyright year from "kileversion.h"
     file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/kileversion.h" LAST_COPYRIGHT_YEAR_LINE REGEX "KILE_LAST_COPYRIGHT_YEAR (.*)")
-    string(REGEX MATCH "KILE_LAST_COPYRIGHT_YEAR[^0-9]+([0-9]+)" TMP_MATCH ${LAST_COPYRIGHT_YEAR_LINE})
+    string(REGEX MATCH "KILE_LAST_COPYRIGHT_YEAR \"([0-9]+)\"" TMP_MATCH ${LAST_COPYRIGHT_YEAR_LINE})
     set(LAST_COPYRIGHT_YEAR ${CMAKE_MATCH_1})
 
     set_target_properties(kile PROPERTIES

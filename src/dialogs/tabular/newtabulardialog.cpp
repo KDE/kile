@@ -70,7 +70,6 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
 
     QWidget *page = new QWidget(this);
     QVBoxLayout *pageLayout = new QVBoxLayout();
-    pageLayout->setMargin(0);
     page->setLayout(pageLayout);
 
     m_Table = new TabularTable(page);

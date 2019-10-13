@@ -113,7 +113,7 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
                                     "<p>It is recommended to run this assistant before using Kile for the first time.</p>"
                                     "<p>Please press 'Next' now to start the test procedure.</p>"));
     label->setWordWrap(true);
-    QVBoxLayout *vboxLayout = new QVBoxLayout(this);
+    QVBoxLayout *vboxLayout = new QVBoxLayout();
     vboxLayout->setSizeConstraint(QLayout::SetMinimumSize);
     introWidget->setLayout(vboxLayout);
     vboxLayout->addWidget(label);
@@ -122,7 +122,7 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
 
     QWidget *runningTestsWidget = new QWidget(this);
     label = new QLabel(i18n("Checking whether the system is set up correctly..."));
-    vboxLayout = new QVBoxLayout(this);
+    vboxLayout = new QVBoxLayout();
     vboxLayout->setSizeConstraint(QLayout::SetMinimumSize);
     runningTestsWidget->setLayout(vboxLayout);
     vboxLayout->addStretch();
@@ -133,7 +133,7 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
     m_runningTestsPageWidgetItem = addPage(runningTestsWidget, "");
 
     QWidget *testResultsWidget = new QWidget(this);
-    vboxLayout = new QVBoxLayout(this);
+    vboxLayout = new QVBoxLayout();
     vboxLayout->setSizeConstraint(QLayout::SetMinimumSize);
     testResultsWidget->setLayout(vboxLayout);
     m_listWidget = new QListWidget(this);

@@ -92,15 +92,16 @@ inline void initQtResources() {
 
 extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
 {
+    // enable high dpi support
+    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
+
     QApplication app(argc, argv);
 
     initQtResources();
 
     app.setApplicationName(QStringLiteral("kile"));
     KLocalizedString::setApplicationDomain("kile");
-
-    // enable high dpi support
-    app.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
 
     KAboutData aboutData("kile", i18n("Kile"), kileFullVersion.toLatin1(),
                          i18n("KDE Integrated LaTeX Environment"),

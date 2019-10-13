@@ -105,6 +105,9 @@ ConfigChecker::ConfigChecker(KileInfo *kileInfo, QWidget* parent)
     setWindowTitle(i18n("System Check"));
     setModal(true);
     setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred));
+    #ifdef Q_OS_WIN
+    setContentsMargins(6, 6, 6, 6);
+    #endif
 
     QWidget *introWidget = new QWidget(this);
     QLabel *label = new QLabel(i18n("<p>This configuration assistant will check whether your system is set up "

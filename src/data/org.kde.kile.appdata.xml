@@ -199,6 +199,7 @@
       <li xml:lang="nl">Omgekeerd en voorwaards zoeken: klik in de DVI-viewer en spring naar de overeenkomstige LaTeX regel in de bewerker of spring uit de bewerker naar de overeenkomstige pagina in de viewer</li>
       <li xml:lang="pl">Wyszukiwanie odwrotne i wprzód: kliknij w przeglądarce DVI i przejdź do odpowiadającego wiersza LaTeX w edytorze lub przejdź z edytora do odpowiadającej strony w przeglądarce</li>
       <li xml:lang="pt">Pesquisa inversa e directa: carregue no visualizador de DVI e vá para a linha de LaTeX correspondente no editor, ou salte do editor para a página correspondente no visualizador</li>
+      <li xml:lang="pt-BR">Pesquisa inversa e direta: clique no visualizador de DVI e vá para a linha de LaTeX correspondente no editor, ou salte do editor para a página correspondente no visualizador</li>
       <li xml:lang="sv">Invers och framåtsökning: Klicka i DVI-visningen och gå till motsvarande Latex-rad i editorn, eller gå från editorn till motsvarande sida i visningen</li>
       <li xml:lang="tr">Tersine ve ileri arama: DVI görüntüleyiciyi tıklatın ve düzenleyicideki ilgili LaTeX satırına atlayın veya düzenleyiciden görüntüleyicideki ilgili sayfaya atlayın</li>
       <li xml:lang="uk">Зворотний і прямий пошук: клацання на тексті у програмі для перегляду DVI призведе до переходу до відповідного рядка коду LaTeX у редакторі, а з редактора можна перейти до відповідного місця у програмі для перегляду документів.</li>

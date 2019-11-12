@@ -389,4 +389,7 @@
   <provides>
     <binary>kile</binary>
   </provides>
+  <custom>
+    <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9PMBNG78PFK3</value>
+  </custom>
 </component>

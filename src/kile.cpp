@@ -404,6 +404,12 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     // version 3.0 regarding the newly introduced live preview feature
     const QString& lastVersionRunFor = KileConfig::systemCheckLastVersionRunForAtStartUp();
     if(lastVersionRunFor.isEmpty() || compareVersionStrings(lastVersionRunFor, "2.9.91") < 0) {
+#ifdef Q_OS_WIN
+        // work around the problem that Sonnet's language auto-detection feature doesn't work
+        // together with KatePart (as of 08 November 2019)
+        QSettings settings(QStringLiteral("KDE"), QStringLiteral("Sonnet"));
+        settings.setValue(QStringLiteral("autodetectLanguage"), false);
+#endif
         slotPerformCheck();
         KileConfig::setSystemCheckLastVersionRunForAtStartUp(kileFullVersion);
     }

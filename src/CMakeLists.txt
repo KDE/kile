@@ -55,7 +55,6 @@ set(kile_SRCS
 	dialogs/usermenu/usermenuitem.cpp
 	dialogs/usermenu/usermenutree.cpp
 	dialogs/validatorinputdialog.cpp
-	docpart.cpp
 	documentinfo.cpp
 	editorcommands.cpp
 	editorextension.cpp
@@ -238,7 +237,6 @@ PUBLIC
     KF5::Crash
     KF5::DBusAddons
     KF5::GuiAddons
-    KF5::KHtml
     KF5::I18n
     KF5::IconThemes
     KF5::KIOCore

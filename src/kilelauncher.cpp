@@ -16,7 +16,6 @@
 
 #include <config.h>
 
-#include "docpart.h"
 #include "kileconfig.h"
 #include "kileinfo.h"
 #include "kiletool.h"

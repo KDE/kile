@@ -648,7 +648,7 @@ bool ForwardDVI::checkPrereqs ()
             int minorVersion = regExp.cap(2).toInt();
             int veryMinorVersion = regExp.cap(3).toInt();
 
-            //  see http://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
+            //  see https://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
             // 	the required okular version is > 0.8.5
             if(  majorVersion > 0  ||
                     ( majorVersion == 0 && minorVersion > 8 ) ||

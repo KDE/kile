@@ -56,7 +56,7 @@ find_package(KF5 5.31 REQUIRED COMPONENTS
 find_package(Okular5 REQUIRED)
 set_package_properties(Okular5 PROPERTIES
 	DESCRIPTION "Okular core library"
-	URL "http://okular.kde.org")
+	URL "https://okular.kde.org")
 
 find_package(Poppler COMPONENTS Qt5)
 set_package_properties("Poppler" PROPERTIES

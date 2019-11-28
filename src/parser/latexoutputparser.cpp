@@ -209,10 +209,10 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
         We're expecting a filename. If a filename really ends at this position one of the following must be true:
         	1) Next character is a space (indicating the end of a filename (yes, there can't be spaces in the
         	path, this is a TeX limitation).
-        comment by tbraun: there is a workround \include{{"file name"}} according to http://groups.google.com/group/comp.text.tex/browse_thread/thread/af873534f0644e4f/cd7e0cdb61a8b837?lnk=st&q=include+space+tex#cd7e0cdb61a8b837,
+        comment by tbraun: there is a workaround \include{{"file name"}} according to https://groups.google.com/forum/#!topic/comp.text.tex/r4c1NPBkTk8,
         but this is currently not supported by kile.
         	2) We're at the end of the line, the filename is probably continued on the next line.
-        	3) The TeX was closed already, signalled by the ')'.
+        	3) The TeX was closed already, signaled by the ')'.
         */
 
         bool isLastChar = (i+1 == strLine.length());
@@ -407,7 +407,7 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
 
     static QRegExp reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)", Qt::CaseInsensitive);
     static QRegExp reNoFile("No file (.*)");
-    static QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when http://sourceforge.net/tracker/index.php?func=detail&aid=1772022&group_id=120000&atid=685683 has promoted to the users
+    static QRegExp reNoAsyFile("File .* does not exist."); // FIXME can be removed when https://sourceforge.net/p/asymptote/bugs/70/ has promoted to the users
 
     switch(dwCookie) {
     //detect the beginning of a warning

@@ -65,9 +65,9 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/)
         m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Minimum, QSizePolicy::Expanding));
     }
 
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    extraLayout->setMargin(0);
+    extraLayout->setContentsMargins(0, 0, 0, 0);
     extraLayout->setSpacing(0);
 
     setLayout(layout);

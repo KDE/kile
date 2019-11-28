@@ -70,7 +70,7 @@ UserHelpDialog::UserHelpDialog(QWidget *parent, const char *name)
     // action widget
     QWidget *actionwidget = new QWidget(group);
     QVBoxLayout *actions = new QVBoxLayout(actionwidget);
-    actions->setMargin(0);
+    actions->setContentsMargins(0, 0, 0, 0);
 
     m_add = new QPushButton(i18n("&Add..."), actionwidget);
     m_remove = new QPushButton(i18n("&Remove"), actionwidget);

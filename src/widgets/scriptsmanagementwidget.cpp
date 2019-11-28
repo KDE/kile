@@ -63,7 +63,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
     : QWidget(parent, f), m_kileInfo(kileInfo) {
     setObjectName(name);
     QVBoxLayout *baseLayout = new QVBoxLayout(this);
-    baseLayout->setMargin(0);
+    baseLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(baseLayout);
 
     m_toolBar = new KToolBar(this, "scriptControlToolBar");

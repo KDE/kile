@@ -696,7 +696,7 @@ void Kile::setupBottomBar()
 
     QWidget *widget = new QWidget(this);
     QHBoxLayout *layout = new QHBoxLayout(widget);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     widget->setLayout(layout);
 
     m_latexOutputErrorToolBar = new KToolBar(widget);

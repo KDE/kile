@@ -53,7 +53,7 @@ ToolConfig::ToolConfig(KileTool::Manager *mngr, QWidget *parent, const char *nam
     setObjectName(name);
     m_config = m_manager->config();
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
 //TODO PORT QT5 		layout->setSpacing(QDialog::spacingHint());
     setLayout(layout);
     m_configWidget = new ToolConfigWidget(this);

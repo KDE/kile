@@ -256,13 +256,13 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 
     QWidget *page = new QWidget(parent);
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     page->setLayout(layout);
 
     QWidget *buttonBox = new QWidget(page);
     QHBoxLayout *buttonBoxLayout = new QHBoxLayout();
-    buttonBoxLayout->setMargin(0);
+    buttonBoxLayout->setContentsMargins(0, 0, 0, 0);
     buttonBox->setLayout(buttonBoxLayout);
 
     m_pbNone = new QToolButton(buttonBox);
@@ -284,7 +284,7 @@ SelectFrameAction::SelectFrameAction(const QString &text, QToolBar *parent)
 
     QWidget *frameWidget = new QWidget(page);
     QHBoxLayout *frameWidgetLayout = new QHBoxLayout();
-    frameWidgetLayout->setMargin(0);
+    frameWidgetLayout->setContentsMargins(0, 0, 0, 0);
     frameWidget->setLayout(frameWidgetLayout);
 
     m_FrameWidget = new TabularFrameWidget(frameWidget);

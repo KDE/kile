@@ -43,7 +43,7 @@ Konsole::Konsole(KileInfo * info, QWidget *parent) :
     m_ki(info)
 {
     setLayout(new QVBoxLayout(this));
-    layout()->setMargin(0);
+    layout()->setContentsMargins(0, 0, 0, 0);
     setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
     spawn();
 }

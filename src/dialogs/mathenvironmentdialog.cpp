@@ -49,7 +49,7 @@ MathEnvironmentDialog::MathEnvironmentDialog(QWidget *parent, KConfig *config, K
     setWindowTitle(i18n("Math Environments"));
 
     QVBoxLayout *vbox = new QVBoxLayout();
-    vbox->setMargin(0);
+    vbox->setContentsMargins(0, 0, 0, 0);
     page->setLayout(vbox);
 
     // environment groupbox

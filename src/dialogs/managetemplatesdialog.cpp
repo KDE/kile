@@ -78,7 +78,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
     page->setObjectName("managetemplates_mainwidget");
     mainLayout->addWidget(page);
     QGridLayout *topLayout = new QGridLayout();
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
     page->setLayout(topLayout);
 
     topLayout->addWidget(new QLabel(i18n("Name:"), page), 0, 0);
@@ -159,7 +159,7 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
     setModal(true);
 
     QVBoxLayout *mainLayout = new QVBoxLayout();
-    mainLayout->setMargin(0);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mainLayout);
 
     m_templateList = new QTreeWidget(this);

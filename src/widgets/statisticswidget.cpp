@@ -36,7 +36,7 @@ StatisticsWidget::StatisticsWidget(QWidget* parent, const char *name, Qt::Window
 {
     setObjectName(name);
     QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->setMargin(0);
+    vbox->setContentsMargins(0, 0, 0, 0);
 //TODO PORT QT5 	vbox->setSpacing(QDialog::spacingHint());
     setLayout(vbox);
 

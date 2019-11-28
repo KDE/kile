@@ -85,7 +85,7 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
 
     // layout
     QVBoxLayout *vbox = new QVBoxLayout();
-    vbox->setMargin(0);
+    vbox->setContentsMargins(0, 0, 0, 0);
     page->setLayout(vbox);
 
     QLabel *label1 = new QLabel(page);

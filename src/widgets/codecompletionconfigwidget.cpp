@@ -99,7 +99,7 @@ void CodeCompletionConfigWidget::addPage(QTabWidget *tab, CompletionPage page, c
     m_listview[page]->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     QGridLayout *grid = new QGridLayout();
-    grid->setMargin(0);
+    grid->setContentsMargins(0, 0, 0, 0);
 //TODO PORT QT5 	grid->setSpacing(QDialog::spacingHint());
     m_page[page]->setLayout(grid);
     grid->addWidget(m_listview[page], 0, 0);

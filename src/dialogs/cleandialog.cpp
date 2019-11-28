@@ -46,14 +46,14 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 
     // Layout
     QVBoxLayout *vbox = new QVBoxLayout();
-    vbox->setMargin(0);
+    vbox->setContentsMargins(0, 0, 0, 0);
     page->setLayout(vbox);
 
     // label widgets
     QWidget *labelwidget = new QWidget(page);
     mainLayout->addWidget(labelwidget);
     QHBoxLayout *labellayout = new QHBoxLayout();
-    labellayout->setMargin(0);
+    labellayout->setContentsMargins(0, 0, 0, 0);
     labelwidget->setLayout(labellayout);
 
     // line 1: picture and label

@@ -149,7 +149,7 @@ FindFilesDialog::FindFilesDialog(QWidget *parent, KileInfo *ki, KileGrep::Mode m
                       << i18n("File");
 
     QHBoxLayout *template_layout = new QHBoxLayout();
-    template_layout->setMargin(0);
+    template_layout->setContentsMargins(0, 0, 0, 0);
     template_combo = new KComboBox(false, searchgroup);
     template_combo->addItems(templatemode_list);
     template_combo->adjustSize();

@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
-                               2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -79,14 +79,12 @@ public:
      **/
     bool searchForTemplate(const QString& name, KileDocument::Type& type) const;
 
-    // add a template in $HOME/kile/templates/
+    // Add a template in .kde/share/kile/templates/
+    // This function will override any existing template.
     bool add(const QUrl &templateSourceURL, const QString &name, const QUrl &icon);
 
-    // remove a template from $HOME/kile/templates/
+    // Remove a template from .kde/share/kile/templates/
     bool remove(KileTemplate::Info ti);
-
-    // replaces a template
-    bool replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon);
 
     // these have to be methods as we cannot use i18n calls in global objects
     static QString defaultEmptyTemplateCaption();

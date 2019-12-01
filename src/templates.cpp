@@ -82,12 +82,15 @@ bool Manager::copyAppData(const QUrl &src, const QString& subdir, const QString&
             testDir.mkpath(dir);
         }
         // copy file
-        KIO::FileCopyJob* copyJob = KIO::file_copy(src, targetURL);
+        if(src == targetURL) { // copying a file over itself
+            return true;
+        }
+        KIO::FileCopyJob* copyJob = KIO::file_copy(src, targetURL, -1, KIO::Overwrite);
         KJobWidgets::setWindow(copyJob, m_kileInfo->mainWindow());
         return copyJob->exec();
     }
     else {
-        KMessageBox::error(Q_NULLPTR, i18n("Could not find a folder to save %1 to.\nCheck whether you have a .kde folder with write permissions in your home folder.", fileName));
+        KMessageBox::error(Q_NULLPTR, i18n("Could not find a folder to save %1 to.\nCheck whether you have a folder named \".kde\" with write permissions in your home folder.", fileName));
         return false;
     }
 }
@@ -128,77 +131,6 @@ bool Manager::add(const QUrl &templateSourceURL, KileDocument::Type type, const 
 
 bool Manager::remove(Info ti) {
     return removeAppData(ti.path) && removeAppData(ti.icon);
-}
-
-bool Manager::replace(const KileTemplate::Info& toBeReplaced, const QUrl &newTemplateSourceURL, const QString& newName, const QUrl& newIcon) {
-    KileDocument::Type type = m_kileInfo->extensions()->determineDocumentType(newTemplateSourceURL);
-
-    //start by copying the files that belong to the new template to a safe place
-    QString templateTempFile, iconTempFile;
-
-    if( newTemplateSourceURL.isLocalFile() ) {
-        // file protocol. We do not need the network
-        templateTempFile = newTemplateSourceURL.toLocalFile();
-    }
-    else {
-        QTemporaryFile tmpFile;
-        tmpFile.setAutoRemove( false );
-        tmpFile.open();
-
-        templateTempFile = tmpFile.fileName();
-        m_TempFilePath = tmpFile.fileName();
-        KIO::FileCopyJob* fileCopyJob = KIO::file_copy( newTemplateSourceURL, QUrl::fromLocalFile(templateTempFile), -1, KIO::Overwrite );
-        KJobWidgets::setWindow( fileCopyJob, m_kileInfo->mainWindow() );
-
-        if( ! fileCopyJob->exec() ) {
-            return false;
-        }
-    }
-
-    if( newIcon.isLocalFile() ) {
-        // file protocol. We do not need the network
-        iconTempFile = newIcon.toLocalFile();
-    }
-    else {
-        QTemporaryFile tmpFile;
-        tmpFile.setAutoRemove( false );
-        tmpFile.open();
-
-        iconTempFile = tmpFile.fileName();
-        m_TempFilePath = tmpFile.fileName();
-        KIO::FileCopyJob* fileCopyJob = KIO::file_copy( newIcon, QUrl::fromLocalFile(iconTempFile), -1, KIO::Overwrite );
-        KJobWidgets::setWindow( fileCopyJob, m_kileInfo->mainWindow() );
-
-        if( ! fileCopyJob->exec() ) {
-            if( ! templateTempFile.isEmpty() )
-                QFile::remove( templateTempFile );
-            return false;
-        }
-    }
-
-    //now delete the template that should be replaced
-    if(!remove(toBeReplaced)) {
-        if( ! templateTempFile.isEmpty() )
-            QFile::remove( templateTempFile );
-        if( ! iconTempFile.isEmpty() )
-            QFile::remove( iconTempFile );
-    }
-
-    //finally, create the new template
-    if(!add(QUrl::fromUserInput(templateTempFile), type, newName, QUrl::fromUserInput(iconTempFile))) {
-        if( ! templateTempFile.isEmpty() )
-            QFile::remove( templateTempFile );
-        if( ! iconTempFile.isEmpty() )
-            QFile::remove( iconTempFile );
-        return false;
-    }
-
-    if( ! templateTempFile.isEmpty() )
-        QFile::remove( templateTempFile );
-    if( ! iconTempFile.isEmpty() )
-        QFile::remove( iconTempFile );
-
-    return true;
 }
 
 void Manager::scanForTemplates() {

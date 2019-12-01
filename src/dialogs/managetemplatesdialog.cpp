@@ -292,11 +292,10 @@ void ManageTemplatesDialog::addTemplate()
             reject();
             return;
         }
-        returnValue = m_templateManager->replace(templateInfo, m_sourceURL, templateName, iconURL);
     }
-    else {
-        returnValue = m_templateManager->add(m_sourceURL, templateName, iconURL);
-    }
+
+    returnValue = m_templateManager->add(m_sourceURL, templateName, iconURL);
+
     if (!returnValue) {
         KMessageBox::error(this, i18n("Failed to create the template."));
         reject();

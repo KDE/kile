@@ -159,7 +159,6 @@ ManageTemplatesDialog::ManageTemplatesDialog(KileTemplate::Manager *templateMana
     setModal(true);
 
     QVBoxLayout *mainLayout = new QVBoxLayout();
-    mainLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(mainLayout);
 
     m_templateList = new QTreeWidget(this);

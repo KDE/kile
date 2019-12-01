@@ -317,17 +317,6 @@ bool ManageTemplatesDialog::removeTemplate()
 
     KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-    KIO::StatJob* statJob = KIO::stat(QUrl::fromUserInput(templateInfo.path), KIO::StatJob::DestinationSide, 0);
-    KIO::StatJob* statJob2 = KIO::stat(QUrl::fromUserInput(templateInfo.icon), KIO::StatJob::DestinationSide, 0);
-    KJobWidgets::setWindow(statJob, this);
-    KJobWidgets::setWindow(statJob2, this);
-    statJob->exec();
-    statJob2->exec();
-    if ((statJob->error() && statJob2->error()) || !QFileInfo(templateInfo.icon).exists()) {
-        KMessageBox::error(this, i18n("Sorry, but you do not have the necessary permissions to remove the selected template."));
-        return false;
-    }
-
     if (KMessageBox::warningYesNo(this, i18n("You are about to remove the template \"%1\"; are you sure?", templateInfo.name)) == KMessageBox::No) {
         return false;
     }

@@ -38,10 +38,10 @@
 #include <KEditToolBar>
 #include <KHelpMenu>
 #include <KIconLoader>
+#include <KIO/DesktopExecParser>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRecentFilesAction>
-#include <KRun>
 #include <KShortcutsDialog>
 #include <KToggleAction>
 #include <KXMLGUIFactory>
@@ -2437,7 +2437,7 @@ void Kile::transformOldUserSettings()
             KileTool::setGUIOptions(tempItem.name, "Other", "preferences-other", m_config.data());
 
             KConfigGroup group = m_config->group(KileTool::groupFor(tempItem.name, "Default"));
-            QString bin = KRun::binaryName(tempItem.tag, false);
+            QString bin = KIO::DesktopExecParser::executablePath(tempItem.tag);
             group.writeEntry("command", bin);
             group.writeEntry("options", tempItem.tag.mid(bin.length()));
             group.writeEntry("class", "Base");

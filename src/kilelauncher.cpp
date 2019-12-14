@@ -28,7 +28,7 @@
 #include <QFileInfo>
 
 #include "kiledebug.h"
-#include <KRun>
+#include <KIO/DesktopExecParser>
 #include <KProcess>
 #include <KLocalizedString>
 #include <KPluginFactory>
@@ -243,7 +243,7 @@ bool ProcessLauncher::selfCheck()
     }
 
 
-    QString exe = KRun::binaryName(tool()->readEntry("command"), false);
+    QString exe = KIO::DesktopExecParser::executablePath(tool()->readEntry("command"));
     QString path = QStandardPaths::findExecutable(exe);
 
     if(path.isEmpty()) {
@@ -330,7 +330,7 @@ bool KonsoleLauncher::launch()
     QString noclose = (tool()->readEntry("close") == "no") ? "--noclose" : "";
     setCommand("konsole");
     setOptions(noclose + " -e " + cmd + ' ' + tool()->readEntry("options"));
-    if(QStandardPaths::findExecutable(KRun::binaryName(cmd, false)).isEmpty()) {
+    if(QStandardPaths::findExecutable(KIO::DesktopExecParser::executablePath(cmd)).isEmpty()) {
         return false;
     }
 

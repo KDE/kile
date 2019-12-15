@@ -1,11 +1,7 @@
-/***************************************************************************
-                         texdocdialog.h
-                         --------------
-    date                 : Feb 15 2007
-    version              : 0.14
-    copyright            : (C) 2005-2007 by Holger Danielsson
-    email                : holger.danielsson@versanet.de
- ***************************************************************************/
+/******************************************************************************
+  Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@t-online.de)
+            (C) 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+ ******************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -54,7 +50,6 @@ private:
 
     QStringList m_tocList, m_tocSearchList;
     QMap<QString, QString> m_dictDocuments;
-    QMap<QString, QString> m_dictStyleCodes;
 
     void readToc();
     void showToc(const QString &caption, const QStringList &doclist, bool toc = true);
@@ -71,8 +66,7 @@ private:
 
     QString searchFile(const QString &docfilename, const QString &listofpathes,
                        const QString &subdir = QString());
-    void decompressFile(const QString &docfile, const QString &command);
-    void showStyleFile(const QString &filename, const QString &stylecode);
+    QString findFile(const QString &docfilename);
 
     QString getMimeType(const QString &filename);
     QString getIconName(const QString &filename);

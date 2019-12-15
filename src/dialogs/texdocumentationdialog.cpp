@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@t-online.de)
-                2014-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2014-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +17,6 @@
 #include "kiledebug.h"
 
 #include <KConfigGroup>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KMimeTypeTrader>
@@ -81,7 +80,9 @@ TexDocDialog::TexDocDialog(QWidget *parent)
     groupboxLayout->addWidget(m_leKeywords);
     groupboxLayout->addWidget(m_pbSearch);
 
-    m_texdocs->setWhatsThis(i18n("A list of available documents, which are listed in 'texdoctk.dat', that come with TexLive/teTeX. Double clicking with the mouse or pressing the space key will open a viewer to show this file."));
+    m_texdocs->setWhatsThis(i18n("<p>A list of the documentation provided by the installed TeX distribution.<br/>"
+                                 "<p>Double clicking on an item or pressing the space key will open a viewer to show the corresponding file.</p>"
+                                 "<p>Items that are grayed out are not installed.</p>"));
     m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files that are related to this keyword."));
     m_pbSearch->setWhatsThis(i18n("Start the search for the chosen keyword."));
     m_pbSearch->setEnabled(false);
@@ -196,14 +197,13 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
                 QTreeWidgetItem *item = new QTreeWidgetItem(itemsection, QStringList() << keylist[1] << keylist[0]);
                 item->setIcon(0, QIcon::fromTheme(getIconName(keylist[2])));
 
-                // save filename in dictionary
-                m_dictDocuments[keylist[0]] = keylist[2];
-
-                // search for special keywords
-                QRegExp reg("^\\s*(-\\d-)");
-                if (keylist[3].indexOf(reg, 0) == 0) {
-                    m_dictStyleCodes[keylist[0]] = reg.cap(1);
+                QString filename = findFile(keylist[2]);
+                if(filename.isEmpty()) {
+                    item->setDisabled(true);
                 }
+
+                // save filename in dictionary
+                m_dictDocuments[keylist[0]] = filename;
             }
         }
     }
@@ -256,15 +256,15 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 
 QString TexDocDialog::searchFile(const QString &docfilename, const QString &listofpaths, const QString &subdir)
 {
-    QStringList pathlist  = listofpaths.split(LIST_SEPARATOR);
-    QStringList extlist   = QString(",.gz,.bz2").split(',', QString::KeepEmptyParts);
+    const QStringList pathlist  = listofpaths.split(LIST_SEPARATOR);
+    const QString extensions[] = {"", QLatin1String(".gz"), QLatin1String(".bz2")};
 
     QString filename;
-    for (QStringList::Iterator itp = pathlist.begin(); itp != pathlist.end(); ++itp) {
-        for (QStringList::Iterator ite = extlist.begin(); ite != extlist.end(); ++ite) {
-            filename = (subdir.isEmpty()) ? (*itp) + '/' + docfilename + (*ite)
-                       : (*itp) + '/' + subdir + '/' + docfilename + (*ite);
-            KILE_DEBUG_MAIN << "search file: "  << filename << endl;
+    for(const QString& itp : pathlist) {
+        for(const QString& ite : extensions) {
+            filename = (subdir.isEmpty()) ? itp + '/' + docfilename + ite
+                       : itp + '/' + subdir + '/' + docfilename + ite;
+
             if(QFile::exists(filename)) {
                 return filename;
             }
@@ -274,112 +274,18 @@ QString TexDocDialog::searchFile(const QString &docfilename, const QString &list
     return QString();
 }
 
-void TexDocDialog::decompressFile(const QString &docfile, const QString &command)
+QString TexDocDialog::findFile(const QString &docfilename)
 {
-    QString ext = QFileInfo(docfile).suffix().toLower();
-    if(!(ext == "dvi" || ext == "pdf" || ext == "ps" || ext == "html")) {
-        ext = "txt";
-    }
-
-    if(m_tempfile) {
-        delete m_tempfile;
-    }
-    m_tempfile = new QTemporaryFile(QDir::tempPath() + QLatin1String("/kile_XXXXXX.") + ext);
-    m_tempfile->setAutoRemove(true);
-
-    if (!m_tempfile->open()) {
-        KMessageBox::error(this, i18n("Could not create a temporary file."));
-        m_filename.clear();
-        return;
-    }
-    m_filename = m_tempfile->fileName(); // the unique file name of the temporary file should be kept
-    m_tempfile->close();
-
-    KILE_DEBUG_MAIN << "\tdecompress file: "  << command + " > " + m_filename << endl;
-    connect(this, &TexDocDialog::processFinished, this, &TexDocDialog::slotShowFile);
-    executeScript(command + " > " + m_filename);
-}
-
-void TexDocDialog::showStyleFile(const QString &filename, const QString &stylecode)
-{
-    KILE_DEBUG_MAIN << "\tshow style file: " << filename << endl;
-    if (!QFile::exists(filename)) {
-        return;
-    }
-
-    // open to read
-    QFile fin(filename);
-    if (!fin.exists() || !fin.open(QIODevice::ReadOnly)) {
-        KMessageBox::error(this, i18n("Could not read the style file."));
-        return;
-    }
-
-    if (m_tempfile) {
-        delete m_tempfile;
-    }
-    m_tempfile = new QTemporaryFile();
-    m_tempfile->setAutoRemove(true);
-
-    // use a textstream to write to the temporary file
-    if (!m_tempfile->open()) {
-        KMessageBox::error(this, i18n("Could not create a temporary file."));
-        return ;
-    }
-    QTextStream stream(m_tempfile);
-
-    // use another textstream to read from the style file
-    QTextStream sty(&fin);
-
-    // there are four mode to read from the style file
-    QString textline;
-    if (stylecode == "-3-") {
-        // mode 3: read everything up to the first empty line
-        while (!sty.atEnd()) {
-            textline = sty.readLine().trimmed();
-            if(textline.isEmpty()) {
-                break;
-            }
-            stream << textline << "\n";
+    QString filename = searchFile(docfilename, m_texmfdocPath);
+    if(filename.isEmpty()) {
+        // not found: search it elsewhere
+        filename = searchFile(docfilename, m_texmfPath, "tex");
+        if(filename.isEmpty()) {
+            return QString();
         }
+        return filename;
     }
-    else {
-        if (stylecode == "-2-") {
-            // mode 2: read everything up to a line starting with at least 4 '%' characters
-            for (int i = 0; i < 9; ++i) {
-                stream << sty.readLine() << "\n";
-            }
-            while (!sty.atEnd()) {
-                textline = sty.readLine();
-                if (textline.indexOf("%%%%") == 0)
-                    break;
-                stream << textline << "\n";
-            }
-        }
-        else {
-            if(stylecode == "-1-") {
-                // mode 1: read all lines at the end behind \endinput
-                while (!sty.atEnd()) {
-                    textline = sty.readLine().trimmed();
-                    if(textline.indexOf("\\endinput") == 0)
-                        break;
-                }
-                while (!sty.atEnd()) {
-                    stream << sty.readLine() << "\n";
-                }
-            }
-            else {
-                // mode 0: read everything except empty lines and comments
-                while (!sty.atEnd()) {
-                    textline = sty.readLine();
-                    if (!textline.isEmpty() && textline[0] != '%') {
-                        stream << textline << "\n";
-                    }
-                }
-            }
-        }
-    }
-    // start the viewer
-    showFile(m_tempfile->fileName());
+    return filename;
 }
 
 void TexDocDialog::showFile(const QString &filename)
@@ -405,7 +311,7 @@ void TexDocDialog::showFile(const QString &filename)
 
 void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
 {
-    if (!item->parent()) {
+    if (!item->parent() || item->isDisabled()) {
         return;
     }
 
@@ -416,39 +322,14 @@ void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
         return;
     }
 
-    QString texdocfile = m_dictDocuments[package];
-    KILE_DEBUG_MAIN << "\tis texdocfile: " << texdocfile << endl;
+    QString filename = m_dictDocuments[package];
+    KILE_DEBUG_MAIN << "\tgot filename:" << filename << endl;
+    if(filename.isEmpty()) {
+        KMessageBox::error(this, i18n("Could not find the documentation file '%1'", filename));
+        return;
+    }
 
-    // search for the file in the documentation directories
-    QString filename = searchFile(texdocfile, m_texmfdocPath);
-    if (filename.isEmpty()) {
-        // not found: search it elsewhere
-        filename = searchFile(texdocfile, m_texmfPath, "tex");
-        if (filename.isEmpty()) {
-            KMessageBox::error(this, i18n("Could not find '%1'", filename));
-            return;
-        }
-    }
-    KILE_DEBUG_MAIN << "\tfound file: " << filename << endl;
-
-    QString ext = QFileInfo(filename).suffix().toLower();
-    m_filename.clear();
-    if (ext == "gz") {
-        decompressFile(m_dictDocuments[package], "gzip -cd " + filename);
-    }
-    else {
-        if (ext == "bz2") {
-            decompressFile(m_dictDocuments[package], "bzip2 -cd " + filename);
-        }
-        else {
-            if (ext == "sty" &&  m_dictStyleCodes.contains(package)) {
-                showStyleFile(filename, m_dictStyleCodes[package]);
-            }
-            else {
-                showFile(filename);
-            }
-        }
-    }
+    showFile(filename);
 }
 
 void TexDocDialog::slotTextChanged(const QString &text)
@@ -528,7 +409,7 @@ void TexDocDialog::executeScript(const QString &command)
     connect(m_proc, static_cast<void (QProcess::*)(int,QProcess::ExitStatus)>(&QProcess::finished),
             this, &TexDocDialog::slotProcessExited);
 
-    KILE_DEBUG_MAIN << "=== TexDocDialog::runShellSkript() ====================" << endl;
+    KILE_DEBUG_MAIN << "=== TexDocDialog::runShellScript() ====================" << endl;
     KILE_DEBUG_MAIN << "   execute: " << command << endl;
     m_proc->start();
 }
@@ -547,7 +428,8 @@ void TexDocDialog::slotProcessExited(int exitCode, QProcess::ExitStatus exitStat
         emit(processFinished());
     }
     else {
-        KMessageBox::error(this, i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br> Hence, this dialog is unable to provide any useful information.") + i18n("</center>"), i18n("TexDoc Dialog"));
+        KMessageBox::error(this, i18n("<center>") + i18n("Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'.<br/>"
+                                                         "Unfortunately, Kile cannot show any useful information.") + i18n("</center>"), i18n("TexDoc Dialog"));
     }
 }
 
@@ -559,7 +441,8 @@ void TexDocDialog::slotInitToc()
 
     QStringList results = m_output.split('\n', QString::KeepEmptyParts);
     if (results.count() < 3) {
-        KMessageBox::error(this, i18n("Could not determine the search paths of TexLive or file 'texdoctk.dat'.<br> Hence, this dialog is unable to provide any useful information."));
+        KMessageBox::error(this, i18n("Could not determine the installation path of your TeX distribution or find the file 'texdoctk.dat'.<br>"
+                                      "Hence, we cannot provide you with an overview of the installed TeX documentation."));
         return;
     }
 
@@ -629,23 +512,17 @@ QString TexDocDialog::getIconName(const QString &filename)
     else if( ext == "txt") {
         ext = "text-plain";
     }
+    else if(ext == "ps") {
+        icon = "application-postscript";
+    }
+    else if(ext == "sty") {
+        icon = "text-x-tex";
+    }
+    else if(ext == "faq" || basename == "readme" || basename == "00readme") {
+        icon = "text-x-readme";
+    }
     else {
-        if(ext == "ps") {
-            icon = "application-postscript";
-        }
-        else {
-            if(ext == "sty") {
-                icon = "text-x-tex";
-            }
-            else {
-                if(ext == "faq" || basename == "readme" || basename == "00readme") {
-                    icon = "text-x-readme";
-                }
-                else {
-                    icon = "text-plain";
-                }
-            }
-        }
+        icon = "text-plain";
     }
     return icon;
 }

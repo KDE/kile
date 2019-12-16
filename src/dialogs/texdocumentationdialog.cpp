@@ -80,7 +80,7 @@ TexDocDialog::TexDocDialog(QWidget *parent)
     groupboxLayout->addWidget(m_leKeywords);
     groupboxLayout->addWidget(m_pbSearch);
 
-    m_texdocs->setWhatsThis(i18n("<p>A list of the documentation provided by the installed TeX distribution.<br/>"
+    m_texdocs->setWhatsThis(i18n("<p>A list of the documentation provided by the installed TeX distribution.</p>"
                                  "<p>Double clicking on an item or pressing the space key will open a viewer to show the corresponding file.</p>"
                                  "<p>Items that are grayed out are not installed.</p>"));
     m_leKeywords->setWhatsThis(i18n("You can choose a keyword to show only document files that are related to this keyword."));
@@ -441,7 +441,7 @@ void TexDocDialog::slotInitToc()
 
     QStringList results = m_output.split('\n', QString::KeepEmptyParts);
     if (results.count() < 3) {
-        KMessageBox::error(this, i18n("Could not determine the installation path of your TeX distribution or find the file 'texdoctk.dat'.<br>"
+        KMessageBox::error(this, i18n("Could not determine the installation path of your TeX distribution or find the file 'texdoctk.dat'.<br/>"
                                       "Hence, we cannot provide you with an overview of the installed TeX documentation."));
         return;
     }

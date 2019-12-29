@@ -681,23 +681,12 @@ options=%dir_base/%source
 from=bib
 to=bib
 
-[Tool/ViewHTML/Konqueror]
+[Tool/ViewHTML/Google Chrome]
 type=Process
 class=ViewHTML
 state=Editor
 relDir=
-command=konqueror
-options=file:%dir_target/%target
-target=
-from=html
-to=html
-
-[Tool/ViewHTML/Mozilla]
-type=Process
-class=ViewHTML
-state=Editor
-relDir=
-command=mozilla
+command=google-chrome
 options=file:%dir_target/%target
 target=
 from=html
@@ -709,17 +698,6 @@ class=ViewHTML
 state=Editor
 relDir=
 command=firefox
-options=file:%dir_target/%target
-target=
-from=html
-to=html
-
-[Tool/ViewHTML/Seamonkey]
-type=Process
-class=ViewHTML
-state=Editor
-relDir=
-command=seamonkey
 options=file:%dir_target/%target
 target=
 from=html
@@ -941,7 +919,7 @@ ViewBib=KBibTex
 ViewPDF=Document Viewer
 ViewPS=Document Viewer
 ViewDVI=Document Viewer
-ViewHTML=Konqueror
+ViewHTML=Firefox
 ForwardDVI=Document Viewer
 ForwardPDF=Document Viewer
 Lilypond=PDF

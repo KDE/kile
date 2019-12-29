@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\left &amp; \right (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\left &amp; \right (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\left &amp; \right (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Delimiters.html#Delimiters" rel="up" title="Delimiters">
+<link href="_005cbigl-_0026-_005cbigr-etc.html#g_t_005cbigl-_0026-_005cbigr-etc" rel="next" title="\bigl &amp; \bigr etc">
+<link href="Delimiters.html#Delimiters" rel="prev" title="Delimiters">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cleft-_0026-_005cright"></a>
+<div class="header">
+<p>
+Next: <a href="_005cbigl-_0026-_005cbigr-etc.html#g_t_005cbigl-_0026-_005cbigr-etc" accesskey="n" rel="next">\bigl &amp; \bigr etc</a>, Up: <a href="Delimiters.html#Delimiters" accesskey="u" rel="up">Delimiters</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cleft-_0026-_005cright-1"></a>
+<h4 class="subsubsection">16.2.5.1 <code>\left</code> &amp; <code>\right</code></h4>
+
+<a name="index-delimiters_002c-paired"></a>
+<a name="index-paired-delimiters"></a>
+<a name="index-matching-parentheses"></a>
+<a name="index-matching-brackets"></a>
+<a name="index-null-delimiter"></a>
+<a name="index-_005cleft"></a>
+<a name="index-_005cright"></a>
+
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\left <var>delimiter1</var> ... \right <var>delimiter2</var>
+</pre></div>
+
+<p>Make matching parentheses, braces, or other delimiters.  LaTeX makes
+the delimiters tall enough to just cover the size of the formula that
+they enclose.
+</p>
+<p>This makes a unit vector surrounded by parentheses tall enough to cover
+the entries.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  \left(\begin{array}{c}
+    1   \\
+    0   \\
+  \end{array}\right)
+\end{equation}
+</pre></div>
+
+<p>See <a href="Delimiters.html#Delimiters">Delimiters</a> for a list of the common delimiters.
+</p>
+<p>Every <code>\left</code> must have a matching <code>\right</code>.  In the above
+example, leaving out the <code>\left(</code> gets the error message
+&lsquo;<samp>Extra \right</samp>&rsquo;.  Leaving out the <code>\right)</code> gets &lsquo;<samp>You
+can't use `\eqno' in math mode</samp>&rsquo;.
+</p>
+<a name="index-package_002c-amsmath-6"></a>
+<a name="index-amsmath-package-6"></a>
+
+<a name="index-package_002c-mathtools-2"></a>
+<a name="index-mathtools-package-2"></a>
+
+<p>However, <var>delimiter1</var> and <var>delimiter2</var> need not match.  A common
+case is that you want an unmatched brace, as below. Use a period,
+&lsquo;<samp>.</samp>&rsquo;, as a null delimiter.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  f(n)=\left\{\begin{array}{ll}
+                1             &amp;\mbox{--if \(n=0\)} \\
+                f(n-1)+3n^2   &amp;\mbox{--else}       
+       \end{array}\right.
+\end{equation}
+</pre></div>
+
+<p>Note that to get a curly brace as a delimiter you must prefix it with a
+backslash, <code>\{</code>.  (The packages <samp>amsmath</samp> and
+<samp>mathtools</samp> allow you to get the above construct through in a
+<code>cases</code> environment.)
+</p>
+<p>The <code>\left ... \right</code> pair make a group.  One consequence is that
+the formula enclosed in the <code>\left ... \right</code> pair cannot have
+line breaks in the output.  This includes both manual line breaks and
+LaTeX-generated automatic ones.  In this example, LaTeX breaks the
+equation to make the formula fit the margins.
+</p>
+<div class="example">
+<pre class="example">Lorem ipsum dolor sit amet
+\( (a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u+v+w+x+y+z) \)
+</pre></div>
+
+<p>But with <code>\left</code> and <code>\right</code>
+</p>
+<div class="example">
+<pre class="example">Lorem ipsum dolor sit amet
+\( \left(a+b+c+d+e+f+g+h+i+j+k+l+m+n+o+p+q+r+s+t+u+v+w+x+y+z\right) \)
+</pre></div>
+
+<p>LaTeX won&rsquo;t break the line, causing the formula to extend into the
+margin.
+</p>
+<p>Because <code>\left ... \right</code> make a group, all the usual grouping
+rules hold.  Here, the value of <code>\testlength</code> set inside the
+equation will be forgotten, and the output is &lsquo;<samp>1.2pt</samp>&rsquo;.
+</p>
+<div class="example">
+<pre class="example">\newlength{\testlength} \setlength{\testlength}{1.2pt}
+\begin{equation}
+  \left( a+b=c \setlength{\testlength}{3.4pt} \right)
+  \the\testlength
+\end{equation}
+</pre></div>
+
+<p>The <code>\left ... \right</code> pair affect the horizontal spacing of the
+enclosed formula, in two ways.  The first is that in <code>\( \sin(x) =
+\sin\left(x\right) \)</code> the one after the equals sign has more space
+around the <code>x</code>.  That&rsquo;s because <code>\left( ... \right)</code> inserts
+an inner node while <code>( ... )</code> inserts an opening node.  The second
+way that the pair affect the horizontal spacing is that because they
+form a group, the enclosed subformula will be typeset at its natural
+width, with no stretching or shrinking to make the line fit better.
+</p>
+<p>TeX scales the delimiters according to the height and depth of the
+contained formula.  Here LaTeX grows the brackets to extend the full
+height of the integral.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  \left[ \int_{x=r_0}^{\infty} -G\frac{Mm}{r^2}\, dr \right] 
+\end{equation}
+</pre></div>
+
+<p>Manual sizing is often better.  For instance, although below the rule
+has no depth, TeX will create delimiters that extend far below the
+rule.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  \left( \rule{1pt}{1cm} \right)
+\end{equation}
+</pre></div>
+
+<p>TeX can choose delimiters that are too small, as in <code>\( \left|
+|x|+|y| \right| \)</code>.  It can also choose delimiters that are too large,
+as here.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  \left( \sum_{0\leq i&lt;n} i^k \right)
+\end{equation}
+</pre></div>
+
+<p>A third awkward case is when a long displayed formula is on more than
+one line and you must match the sizes of the opening and closing
+delimiter; you can&rsquo;t use <code>\left</code> on the first line and
+<code>\right</code> on the last because they must be paired.
+</p>
+<p>To size the delimiters manually, see&nbsp;<a href="_005cbigl-_0026-_005cbigr-etc.html#g_t_005cbigl-_0026-_005cbigr-etc">\bigl &amp; \bigr etc</a>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

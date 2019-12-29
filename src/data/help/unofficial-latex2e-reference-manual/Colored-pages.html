@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Colored pages (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Colored pages (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Colored pages (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Commands-for-color.html#Commands-for-color" rel="up" title="Commands for color">
+<link href="Graphics.html#Graphics" rel="next" title="Graphics">
+<link href="Colored-boxes.html#Colored-boxes" rel="prev" title="Colored boxes">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Colored-pages"></a>
+<div class="header">
+<p>
+Previous: <a href="Colored-boxes.html#Colored-boxes" accesskey="p" rel="prev">Colored boxes</a>, Up: <a href="Commands-for-color.html#Commands-for-color" accesskey="u" rel="up">Commands for color</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Colored-pages-1"></a>
+<h4 class="subsection">21.3.4 Colored pages</h4>
+
+<a name="index-color-4"></a>
+<a name="index-colored-page"></a>
+<a name="index-page_002c-colored"></a>
+<a name="index-background_002c-colored"></a>
+
+<p>Synopses:
+</p>
+<div class="example">
+<pre class="example">\pagecolor{<var>name</var>}
+\pagecolor[<var>color model</var>]{<var>color specification</var>}
+\nopagecolor
+</pre></div>
+
+<p>The first two set the background of the page, and all subsequent pages,
+to the color.  For an explanation of the specification in the second
+form see <a href="Colored-text.html#Colored-text">Colored text</a>.  The third returns the background to normal,
+which is a transparent background.  (If that is not supported use
+<code>\pagecolor{white}</code>, although that will make a white background
+rather than the default transparent background.)
+</p>
+<div class="example">
+<pre class="example"> ...
+\pagecolor{cyan}
+ ...
+\nopagecolor
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

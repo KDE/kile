@@ -1,0 +1,367 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>makeindex (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="makeindex (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="makeindex (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Indexes.html#Indexes" rel="up" title="Indexes">
+<link href="_005cprintindex.html#g_t_005cprintindex" rel="next" title="\printindex">
+<link href="_005cindex.html#g_t_005cindex" rel="prev" title="\index">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="makeindex"></a>
+<div class="header">
+<p>
+Next: <a href="_005cprintindex.html#g_t_005cprintindex" accesskey="n" rel="next">\printindex</a>, Previous: <a href="_005cindex.html#g_t_005cindex" accesskey="p" rel="prev">\index</a>, Up: <a href="Indexes.html#Indexes" accesskey="u" rel="up">Indexes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="makeindex-1"></a>
+<h4 class="subsection">25.2.2 <code>makeindex</code></h4>
+
+<a name="index-index_002c-processing"></a>
+<a name="index-makeindex"></a>
+<a name="index-makeindex-program"></a>
+<a name="index-_002eind-file"></a>
+<a name="index-_002eidx-file-1"></a>
+
+<p>Synopsis, one of:
+</p>
+<div class="example">
+<pre class="example">makeindex <var>filename</var>
+makeindex -s <var>style-file</var> <var>filename</var>
+makeindex <var>options</var> <var>filename0</var> ...
+</pre></div>
+
+<p>Sort, and otherwise process, the index information in the auxiliary file
+<var>filename</var>.  This is a command line program.  It takes one or more
+raw index files, <samp><var>filename</var>.idx</samp> files, and produces the
+actual index file, the <samp><var>filename</var>.ind</samp> file that is input by
+<code>\printindex</code> (see <a href="_005cprintindex.html#g_t_005cprintindex">\printindex</a>).
+</p>
+<a name="index-_002eisty-file"></a>
+<a name="index-index_002c-style-file"></a>
+<a name="index-makeindex_002c-style-file"></a>
+<p>The first form of the command suffices for many uses.  The second allows
+you to format the index by using an <em>index style file</em>, a
+<samp>.isty</samp> file.  The third form is the most general; see the full
+documentation on CTAN.
+</p>
+<p>This is a simple <samp>.isty</samp> file.
+</p>
+<div class="example">
+<pre class="example">% book.isty 
+%   $ makeindex -s book.isty -p odd book.idx
+% creates the index as book.ind, starting on an odd page. 
+preamble
+&quot;\\pagestyle{empty}
+\\small
+\\begin{theindex}
+\\thispagestyle{empty}&quot;
+
+postamble
+&quot;\n
+\\end{theindex}&quot;
+</pre></div>
+
+<p>The description here covers only some of the index formatting
+possibilities in <var>style-file</var>. For a full list see the documentation
+on CTAN.
+</p>
+<p>A style file consists of a list of pairs: <var>specifier</var> and
+<var>attribute</var>.  These can appear in the file in any order.  All of the
+<var>attributes</var> are strings, except where noted.  Strings are
+surrounded with double quotes, <code>&quot;</code>, and the maximum length of a
+string is 144 characters.  The <code>\n</code> is for a newline and <code>\t</code>
+is for a tab.  Backslashes are escaped with another backslash,
+<code>\\</code>.  If a line begins with a percent sign, <code>%</code>, then it is a
+comment.
+</p>
+<dl compact="compact">
+<dd><a name="makeindex-preamble"></a></dd>
+<dt><code>preamble</code>
+<a name="index-preamble"></a>
+</dt>
+<dd><p>Preamble of the output file. Defines the context in which the index is
+formatted.  Default: <code>&quot;\\begin{theindex}\n&quot;</code>.
+</p>
+<a name="makeindex-postamble"></a></dd>
+<dt><code>postamble</code>
+<a name="index-postamble"></a>
+</dt>
+<dd><p>Postamble of the output file.  Default: <code>&quot;\n\n\\end{theindex}\n&quot;</code>.
+</p>
+<a name="makeindex-group-skip"></a></dd>
+<dt><code>group_skip</code>
+<a name="index-group_005fskip"></a>
+</dt>
+<dd><a name="index-_005cindexspace"></a>
+<p>Traditionally index items are broken into groups, typically a group for
+entries starting with &lsquo;<samp>a</samp>&rsquo;, etc.  This specifier gives what is
+inserted when a new group begins.  Default: <code>&quot;\n\n \\indexspace\n&quot;</code>
+(<code>\indexspace</code> is a rubber length with default value <code>10pt
+plus5pt minus3pt</code>).
+</p>
+<a name="makeindex-letheadflag"></a></dd>
+<dt><code>lethead_flag</code>
+<a name="index-lethead_005fflag"></a>
+</dt>
+<dd><p>An integer.  It governs what is inserted for a new group or letter.  If
+it is 0 (which is the default) then other than <code>group_skip</code> nothing
+will be inserted before the group. If it is positive then at a new
+letter the <code>lethead_prefix</code> and <code>lethead_suffix</code> will be
+inserted, with that letter in uppercase between them.  If it is negative
+then what will be inserted is the letter in lowercase.  The default
+is&nbsp;0.
+</p>
+<a name="makeindex-lethead-prefix"></a></dd>
+<dt><code>lethead_prefix</code>
+<a name="index-lethead_005fprefix"></a>
+</dt>
+<dd><p>If a new group begins with a different letter then this is the prefix
+inserted before the new letter header.  Default: <code>&quot;&quot;</code>
+</p>
+<a name="makeindex-lethead-suffix"></a></dd>
+<dt><code>lethead_suffix</code>
+<a name="index-lethead_005fsuffix"></a>
+</dt>
+<dd><p>If a group begins with a different letter then this is the suffix
+inserted after the new letter header.  Default: <code>&quot;&quot;</code>.
+</p>
+<a name="makeindex-item-0"></a></dd>
+<dt><code>item_0</code>
+<a name="index-item_005f0"></a>
+</dt>
+<dd><p>What is put between two level&nbsp;0 items.  Default: <code>&quot;\n \\item
+&quot;</code>.
+</p>
+<a name="makeindex-item-1"></a></dd>
+<dt><code>item_1</code>
+<a name="index-item_005f1"></a>
+</dt>
+<dd><p>Put between two level&nbsp;1 items.  Default: <code>&quot;\n \\subitem &quot;</code>.
+</p>
+<a name="makeindex-item-2"></a></dd>
+<dt><code>item_2</code>
+<a name="index-item_005f2"></a>
+</dt>
+<dd><p>put between two level&nbsp;2 items.  Default: <code>&quot;\n \\subsubitem &quot;</code>.
+</p>
+<a name="makeindex-item-01"></a></dd>
+<dt><code>item_01</code>
+<a name="index-item_005f01"></a>
+</dt>
+<dd><p>What is put between a level&nbsp;0 item and a level&nbsp;1 item.
+Default: <code>&quot;\n \\subitem &quot;</code>.
+</p>
+<a name="makeindex-item-x1"></a></dd>
+<dt><code>item_x1</code>
+<a name="index-item_005fx1"></a>
+</dt>
+<dd><p>What is put between a level&nbsp;0 item and a level&nbsp;1 item in the
+case that the level&nbsp;0 item doesn&rsquo;t have any page numbers (as in
+<code>\index{aaa|see{bbb}}</code>).  Default: <code>&quot;\n \\subitem &quot;</code>.
+</p>
+<a name="makeindex-item-12"></a></dd>
+<dt><code>item_12</code>
+<a name="index-item_005f12"></a>
+</dt>
+<dd><p>What is put between a level&nbsp;1 item and a level&nbsp;2 item.
+Default: <code>&quot;\n \\subsubitem &quot;</code>.
+</p>
+<a name="makeindex-item-x2"></a></dd>
+<dt><code>item_x2</code>
+<a name="index-item_005fx2"></a>
+</dt>
+<dd><p>What is put between a level&nbsp;1 item and a level&nbsp;2 item, if the
+level&nbsp;1 item doesn&rsquo;t have page numbers.  Default: <code>&quot;\n
+\\subsubitem &quot;</code>.
+</p>
+<a name="makeindex-delim-0"></a></dd>
+<dt><code>delim_0</code>
+<a name="index-delim_005f0"></a>
+</dt>
+<dd><p>Delimiter put between a level&nbsp;0 key and its first page
+number. Default: a comma followed by a blank, <code>&quot;, &quot;</code>.
+</p>
+<a name="makeindex-delim-1"></a></dd>
+<dt><code>delim_1</code>
+<a name="index-delim_005f1"></a>
+</dt>
+<dd><p>Delimiter put between a level&nbsp;1 key and its first page
+number. Default: a comma followed by a blank, <code>&quot;, &quot;</code>.
+</p>
+<a name="makeindex-delim-2"></a></dd>
+<dt><code>delim_2</code>
+<a name="index-delim_005f2"></a>
+</dt>
+<dd><p>Delimiter between a level&nbsp;2 key and its first page number. Default:
+a comma followed by a blank, <code>&quot;, &quot;</code>.
+</p>
+<a name="makeindex-delim-n"></a></dd>
+<dt><code>delim_n</code>
+<a name="index-delim_005fn"></a>
+</dt>
+<dd><p>Delimiter between two page numbers for the same key (at any
+level). Default: a comma followed by a blank, <code>&quot;, &quot;</code>.
+</p>
+<a name="makeindex-delim-r"></a></dd>
+<dt><code>delim_r</code>
+<a name="index-delim_005fr"></a>
+</dt>
+<dd><p>What is put between the starting and ending page numbers of a range.
+Default: <code>&quot;--&quot;</code>.
+</p>
+<a name="makeindex-line-max"></a></dd>
+<dt><code>line_max</code>
+<a name="index-line_005fmax"></a>
+</dt>
+<dd><p>An integer.  Maximum length of an index entry&rsquo;s line in the output,
+beyond which the line wraps.  Default: <code>72</code>.
+</p>
+<a name="makeindex-indent-space"></a></dd>
+<dt><code>indent_space</code>
+<a name="index-indent_005fspace"></a>
+</dt>
+<dd><p>What is inserted at the start of a wrapped line.  Default:
+<code>&quot;\t\t&quot;</code>.
+</p>
+<a name="makeindex-indent-length"></a></dd>
+<dt><code>indent_length</code>
+<a name="index-indent_005flength"></a>
+</dt>
+<dd><p>A number.  The length of the wrapped line indentation.  The default
+<code>indent_space</code> is two tabs and each tab is eight spaces so the
+default here is <code>16</code>.
+</p>
+<a name="makeindex-page-precedence"></a></dd>
+<dt><code>page_precedence</code>
+<a name="index-page_005fprecedence"></a>
+</dt>
+<dd><p>A document may have pages numbered in different ways.  For example, a
+book may have front matter pages numbered in lowercase roman while main
+matter pages are in arabic.  This string specifies the order in which
+they will appear in the index.  The <code>makeindex</code> command supports
+five different types of numerals: lowercase roman <code>r</code>, and numeric
+or arabic <code>n</code>, and lowercase alphabetic <code>a</code>, and uppercase
+roman <code>R</code>, and uppercase alphabetic <code>A</code>.  Default:
+<code>&quot;rnaRA&quot;</code>.
+</p>
+</dd>
+</dl>
+
+<a name="index-xindy"></a>
+<a name="index-xindy-program"></a>
+<p>There are a number of other programs that do the job
+<code>makeindex</code> does. One is <code>xindy</code>, which does
+internationalization and can process indexes for documents marked up
+using LaTeX and a number of other languages. It is highly
+configurable, both in markup terms and in terms of the collating order
+of the text, as described in its documentation.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

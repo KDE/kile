@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\@ifstar (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\@ifstar (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\@ifstar (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Definitions.html#Definitions" rel="up" title="Definitions">
+<link href="_005cnewcounter.html#g_t_005cnewcounter" rel="next" title="\newcounter">
+<link href="_005cmakeatletter-_0026-_005cmakeatother.html#g_t_005cmakeatletter-_0026-_005cmakeatother" rel="prev" title="\makeatletter &amp; \makeatother">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005c_0040ifstar"></a>
+<div class="header">
+<p>
+Next: <a href="_005cnewcounter.html#g_t_005cnewcounter" accesskey="n" rel="next">\newcounter</a>, Previous: <a href="_005cmakeatletter-_0026-_005cmakeatother.html#g_t_005cmakeatletter-_0026-_005cmakeatother" accesskey="p" rel="prev">\makeatletter &amp; \makeatother</a>, Up: <a href="Definitions.html#Definitions" accesskey="u" rel="up">Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005c_0040ifstar-1"></a>
+<h3 class="section">12.4 <code>\@ifstar</code></h3>
+
+<a name="index-_005c_0040ifstar"></a>
+<a name="index-commands_002c-star_002dvariants"></a>
+<a name="index-star_002dvariants_002c-commands"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\newcommand{\mycmd}{\@ifstar{\mycmd@star}{\mycmd@nostar}}
+\newcommand{\mycmd@nostar}[<var>nostar-num-args</var>]{<var>nostar-body</var>} 
+\newcommand{\mycmd@star}[<var>star-num-args</var>]{<var>star-body</var>}
+</pre></div>
+
+<p>Many standard LaTeX environments or commands have a variant with the
+same name but ending with a star character&nbsp;<code>*</code>, an asterisk.
+Examples are the <code>table</code> and <code>table*</code> environments and the
+<code>\section</code> and <code>\section*</code> commands.
+</p>
+<p>When defining environments, following this pattern is straightforward
+because <code>\newenvironment</code> and <code>\renewenvironment</code> allow the
+environment name to contain a star.  For commands the situation is more
+complex.  As in the synopsis above, there will be a user-called command,
+given above as <code>\mycmd</code>, which peeks ahead to see if it is followed
+by a star.  For instance, LaTeX does not really have a
+<code>\section*</code> command; instead, the <code>\section</code> command peeks
+ahead.  This command does not accept arguments but instead expands to
+one of two commands that do accept arguments.  In the synopsis these two
+are <code>\mycmd@nostar</code> and <code>\mycmd@star</code>.  They could take the
+same number of arguments or a different number, or no arguments at all.
+As always, in a LaTeX document a command using at-sign&nbsp;<code>@</code>
+must be enclosed inside a <code>\makeatletter ... \makeatother</code> block
+(see <a href="_005cmakeatletter-_0026-_005cmakeatother.html#g_t_005cmakeatletter-_0026-_005cmakeatother">\makeatletter &amp; \makeatother</a>).
+</p>
+<p>This example of <code>\@ifstar</code> defines the command <code>\ciel</code> and a
+variant <code>\ciel*</code>.  Both have one required argument.  A call to
+<code>\ciel{night}</code> will return &quot;starry night sky&quot; while
+<code>\ciel*{blue}</code> will return &quot;starry not blue sky&quot;.
+</p>
+<div class="example">
+<pre class="example">\newcommand*{\ciel@unstarred}[1]{starry #1 sky}
+\newcommand*{\ciel@starred}[1]{starry not #1 sky}
+\newcommand*{\ciel}{\@ifstar{\ciel@starred}{\ciel@unstarred}}
+</pre></div>
+
+<p>In the next example, the starred variant takes a different number of
+arguments than the unstarred one.  With this definition, Agent 007&rsquo;s
+<code>``My name is \agentsecret*{Bond},
+\agentsecret{James}{Bond}.''</code> is equivalent to entering the commands
+<code>``My name is \textsc{Bond}, \textit{James} textsc{Bond}.''</code>
+</p>
+<div class="example">
+<pre class="example">\newcommand*{\agentsecret@unstarred}[2]{\textit{#1} \textsc{#2}}
+\newcommand*{\agentsecret@starred}[1]{\textsc{#1}}
+\newcommand*{\agentsecret}{%
+  \@ifstar{\agentsecret@starred}{\agentsecret@unstarred}}
+</pre></div>
+
+<p>There are two sometimes more convenient ways to accomplish the work of
+<code>\@ifstar</code>.  The <samp>suffix</samp> package allows the construct
+<code>\newcommand\mycommand{<var>unstarred version</var>}</code> followed by
+<code>\WithSuffix\newcommand\mycommand*{<var>starred version</var>}</code>.  And
+LaTeX3 has the <samp>xparse</samp> package that allows this code.
+</p>
+<div class="example">
+<pre class="example">\NewDocumentCommand\foo{s}{\IfBooleanTF#1
+  {<var>starred version</var>}%
+  {<var>unstarred version</var>}% 
+  }
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

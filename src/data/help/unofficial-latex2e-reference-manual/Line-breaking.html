@@ -1,0 +1,163 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Line breaking (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Line breaking (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Line breaking (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="_005c_005c.html#g_t_005c_005c" rel="next" title="\\">
+<link href="verse.html#verse" rel="prev" title="verse">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Line-breaking"></a>
+<div class="header">
+<p>
+Next: <a href="Page-breaking.html#Page-breaking" accesskey="n" rel="next">Page breaking</a>, Previous: <a href="Environments.html#Environments" accesskey="p" rel="prev">Environments</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Line-breaking-1"></a>
+<h2 class="chapter">9 Line breaking</h2>
+
+<a name="index-line-breaking"></a>
+<a name="index-breaking-lines"></a>
+
+<p>The first thing LaTeX does when processing ordinary text is to
+translate your input file into a sequence of glyphs and spaces.  To
+produce a printed document, this sequence must be broken into lines
+(and these lines must be broken into pages).
+</p>
+<p>LaTeX usually does the line (and page) breaking in the text body for
+you but in some environments you manually force line breaks.
+</p>
+<p>A common workflow is to get a final version of the document content
+before taking a final pass through and considering line breaks (and page
+breaks).  This differs from word processing, where you are formatting
+text as you input it.  Putting these off until the end prevents a lot of
+fiddling with breaks that will change anyway.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005c_005c.html#g_t_005c_005c" accesskey="1">\\</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Start a new line.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cobeycr-_0026-_005crestorecr.html#g_t_005cobeycr-_0026-_005crestorecr" accesskey="2">\obeycr &amp; \restorecr</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Make each input line start a new output line.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cnewline.html#g_t_005cnewline" accesskey="3">\newline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Break the line
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005c_002d-_0028hyphenation_0029.html#g_t_005c_002d-_0028hyphenation_0029" accesskey="4">\- (hyphenation)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Insert explicit hyphenation.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cdiscretionary.html#g_t_005cdiscretionary" accesskey="5">\discretionary</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Explicit control of the hyphen character.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cfussy-_0026-_005csloppy.html#g_t_005cfussy-_0026-_005csloppy" accesskey="6">\fussy &amp; \sloppy</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Be more or less particular with line breaking.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005chyphenation.html#g_t_005chyphenation" accesskey="7">\hyphenation</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Tell LaTeX how to hyphenate a word.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005clinebreak-_0026-_005cnolinebreak.html#g_t_005clinebreak-_0026-_005cnolinebreak" accesskey="8">\linebreak &amp; \nolinebreak</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Forcing &amp; avoiding line breaks.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

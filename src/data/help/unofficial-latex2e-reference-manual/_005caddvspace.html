@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\addvspace (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\addvspace (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\addvspace (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Spaces.html#Spaces" rel="up" title="Spaces">
+<link href="Boxes.html#Boxes" rel="next" title="Boxes">
+<link href="_005cvfill.html#g_t_005cvfill" rel="prev" title="\vfill">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005caddvspace"></a>
+<div class="header">
+<p>
+Previous: <a href="_005cvfill.html#g_t_005cvfill" accesskey="p" rel="prev">\vfill</a>, Up: <a href="Spaces.html#Spaces" accesskey="u" rel="up">Spaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005caddvspace-1"></a>
+<h3 class="section">19.16 <code>\addvspace</code></h3>
+
+<a name="index-_005caddvspace"></a>
+<a name="index-vertical-space-1"></a>
+<a name="index-space_002c-inserting-vertical"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\addvspace{<var>vert-length</var>}
+</pre></div>
+
+<p>Add a vertical space of <var>vert-length</var>.  However, if there are two or
+more <code>\addvspace</code>&rsquo;s in a sequence then together they only add the
+space needed to make the natural length equal to the maximum of the
+<var>vert-length</var>&rsquo;s in that sequence. This command is fragile
+(see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).  The <var>vert-length</var> is a rubber length
+(see <a href="Lengths.html#Lengths">Lengths</a>).
+</p>
+<p>This example illustrates.  The <code>picture</code> draws a scale.  In a
+standard LaTeX article the length <code>\baselineskip</code> is 12pt.
+The two rules here are 22pt apart: the sum of the
+<code>\baselineskip</code> and the 10pt from the first <code>addvspace</code>.
+</p>
+<div class="example">
+<pre class="example">\documentclass{article}
+\usepackage{color}
+\begin{document}
+\setlength{\unitlength}{2pt}%
+\noindent\begin{picture}(0,0)%
+  \multiput(0,0)(0,-1){25}{{\color{blue}\line(1,0){1}}}
+  \multiput(0,0)(0,-5){6}{{\color{red}\line(1,0){2}}}
+\end{picture}%
+\rule{0.25\linewidth}{0.1pt}% 
+\par\addvspace{10pt}% \addvspace{20pt}%
+\par\noindent\rule{0.25\linewidth}{0.1pt}%
+\end{document}
+</pre></div>
+
+<p>Now uncomment the second <code>\addvspace</code>.  It does not make the gap
+20pt longer; instead the gap is the sum of <code>\baselineskip</code>
+and 20pt.  So <code>\addvspace</code> in a sense does the opposite of
+its name &mdash; it makes sure that multiple vertical spaces do not
+accumulate, but instead that only the largest one is used.
+</p>
+<p>LaTeX uses this command to adjust the vertical space above or below
+an environment that starts a new paragraph.  For instance, a
+<code>theorem</code> environment begins and ends with <code>\addvspace</code> so
+that two consecutive <code>theorem</code>&rsquo;s are separated by one vertical
+space, not two.
+</p>
+<p>A error &lsquo;<samp>Something's wrong--perhaps a missing \item</samp>&rsquo; pointing to an
+<code>\addvspace</code> means that you were not in vertical mode when you hit
+this command. One way to change that is to precede <code>\addvspace</code>
+with a <code>\par</code> command (see <a href="_005cpar.html#g_t_005cpar">\par</a>), as in the above example.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

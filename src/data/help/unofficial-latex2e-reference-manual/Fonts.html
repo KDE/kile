@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Fonts (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Fonts (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Fonts (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="fontenc-package.html#fontenc-package" rel="next" title="fontenc package">
+<link href="Class-and-package-commands.html#Class-and-package-commands" rel="prev" title="Class and package commands">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Fonts"></a>
+<div class="header">
+<p>
+Next: <a href="Layout.html#Layout" accesskey="n" rel="next">Layout</a>, Previous: <a href="Document-classes.html#Document-classes" accesskey="p" rel="prev">Document classes</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Fonts-1"></a>
+<h2 class="chapter">4 Fonts</h2>
+<a name="Typefaces"></a>
+<a name="index-typefaces"></a>
+<a name="index-fonts"></a>
+
+<p>LaTeX comes with powerful font capacities.  For one thing, its New
+Font Selection Scheme allows you to work easily with the font families
+in your document (for instance, see&nbsp;<a href="Font-styles.html#Font-styles">Font styles</a>).  And,
+LaTeX documents can use most fonts that are available today,
+including versions of Times Roman, Helvetica, Courier, etc.  (Note,
+though, that many fonts do not have support for mathematics.)
+</p>
+<p>The first typeface in the TeX world was the Computer Modern family,
+developed by Donald Knuth.  It is the default for LaTeX documents and
+is still the most widely used.  But changing to another font often only
+involves a few commands.  For instance, putting the following in your
+preamble gives you a Palatino-like font, which is handsome and more
+readable online than many other fonts, while still allowing you to
+typeset mathematics.  (This example is from Michael Sharpe,
+<a href="http://math.ucsd.edu/~msharpe/RcntFnts.pdf">http://math.ucsd.edu/~msharpe/RcntFnts.pdf</a>.)
+</p>
+<div class="example">
+<pre class="example">\usepackage[full]{textcomp}
+\usepackage[osf]{newpxtext} % osf for text, not math
+\usepackage{cabin} % sans serif
+\usepackage[varqu,varl]{inconsolata} % sans serif typewriter
+\usepackage[bigdelims,vvarbb]{newpxmath} % bb from STIX
+\usepackage[cal=boondoxo]{mathalfa} % mathcal
+</pre></div>
+
+<p>In addition, the <code>xelatex</code> or <code>lualatex</code> engines allow
+you to use any fonts on your system that are in OpenType or TrueType
+format (see <a href="TeX-engines.html#TeX-engines">TeX engines</a>).
+</p>
+<p>The LaTeX Font Catalogue <a href="http://www.tug.dk/FontCatalogue/">http://www.tug.dk/FontCatalogue/</a> shows
+font sample graphics and copy-and-pasteable source to use many fonts,
+including many with support for mathematics.  It aims to cover all Latin
+alphabet free fonts available for easy use with LaTeX.
+</p>
+<p>More information is also available from the TeX Users Group, at
+<a href="https://www.tug.org/fonts/">https://www.tug.org/fonts/</a>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="fontenc-package.html#fontenc-package" accesskey="1">fontenc package</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Encoding of the font.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Font-styles.html#Font-styles" accesskey="2">Font styles</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Select roman, italics, etc.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Font-sizes.html#Font-sizes" accesskey="3">Font sizes</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Select point size.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Low_002dlevel-font-commands.html#Low_002dlevel-font-commands" accesskey="4">Low-level font commands</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Select encoding, family, series, shape.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

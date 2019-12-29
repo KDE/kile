@@ -1,0 +1,31 @@
+The source file for the "LaTeX2e unofficial reference manual" can downloaded via:
+
+svn checkout http://svn.gnu.org.ua/sources/latexrefman/trunk
+
+The Texinfo source file "latex2e.texi" is converted into multiple HTML files with:
+
+texi2any --html ../trunk/latex2e.texi --internal-links=internal-links.txt
+
+Don't forget to copy over the css files.
+
+The next step is to create an .index file for Kile, given pointers for LaTeX commands and environments into the reference manual:
+
+cat internal-links.txt  | grep "environment" > env.txt
+cat internal-links.txt  | grep "\\\\" > commands.txt
+
+Extract the necessary columns:
+
+awk ' { print $3 "\t" $1 } ' env.txt > env-curated.txt
+awk ' { print $3 "\t" $1 } ' commands.txt > commands-curated.txt
+
+and the filter the -curated files manually to exclude unwanted entries.
+
+As a last step, rename the Index.file (to avoid having a file named 'index.html' and 'Index.html' in one directory):
+
+mv Index.html IndexDocument.html
+sed -i 's/Index.html/IndexDocument.html/g' *
+
+
+(To remove all symbolic links:
+
+find . -maxdepth 1 -type l   -print0  | xargs -0 rm)

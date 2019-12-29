@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>~ (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="~ (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="~ (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Spaces.html#Spaces" rel="up" title="Spaces">
+<link href="_005cthinspace-_0026-_005cnegthinspace.html#g_t_005cthinspace-_0026-_005cnegthinspace" rel="next" title="\thinspace &amp; \negthinspace">
+<link href="_005c_0028SPACE_0029.html#g_t_005c_0028SPACE_0029" rel="prev" title="\(SPACE)">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_007e"></a>
+<div class="header">
+<p>
+Next: <a href="_005cthinspace-_0026-_005cnegthinspace.html#g_t_005cthinspace-_0026-_005cnegthinspace" accesskey="n" rel="next">\thinspace &amp; \negthinspace</a>, Previous: <a href="_005c_0028SPACE_0029.html#g_t_005c_0028SPACE_0029" accesskey="p" rel="prev">\(SPACE)</a>, Up: <a href="Spaces.html#Spaces" accesskey="u" rel="up">Spaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_007e-1"></a>
+<h3 class="section">19.7 <code>~</code></h3>
+
+<a name="index-_007e"></a>
+<a name="index-tie"></a>
+<a name="index-space_002c-hard"></a>
+<a name="index-space_002c-unbreakable"></a>
+<a name="index-NBSP"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example"><var>before</var>~<var>after</var>
+</pre></div>
+
+<p>The tie character, <code>~</code>, produces a space between <var>before</var> and
+<var>after</var> at which the line will not be broken. By default the white
+space has length 3.33333pt plus 1.66666pt minus
+1.11111pt (see <a href="Lengths.html#Lengths">Lengths</a>).
+</p>
+<p>Here LaTeX will not break the line between the final two words.
+</p>
+<div class="example">
+<pre class="example">Thanks to Prof.~Lerman.
+</pre></div>
+
+<p>In addition, despite the period, LaTeX does not use the
+end-of-sentence spacing (see <a href="_005c_0040.html#g_t_005c_0040">\@</a>).
+</p>
+<p>Ties prevent the end of line separation of things where that could cause
+confusion. But they also reduce LaTeX&rsquo;s options when it breaks lines
+into paragraphs, so you can use too many. They are also matters of
+taste, sometimes alarmingly dogmatic taste, among readers. Nevertheless,
+here are some usage models, many of them from the TeXbook.
+</p>
+<ul>
+<li> Between an enumerator and its item, such as in references:
+<code>Chapter~12</code>, or <code>Theorem~\ref{th:Wilsons}</code>, or
+<code>Figure~\ref{fig:KGraph}</code>. When cases are enumerated inline:
+<code>(b)~Show that $f(x)$ is (1)~continuous, and (2)~bounded</code>.
+
+<a name="index-package_002c-siunitx"></a>
+<a name="index-siunitx-package"></a>
+
+</li><li> Between a number and its unit: <code>$745.7.8$~watts</code> (the
+<samp>siunitx</samp> package has a special facility for this) or
+<code>144~eggs</code>. This includes between a month and a date:
+<code>October~12</code> or <code>12~Oct</code>. In general, in any expressions where
+numbers and abbreviations or symbols are separated by a space:
+<code>AD~565</code>, or <code>2:50~pm</code>, or <code>Boeing~747</code>, or
+<code>268~Plains Road</code>, or <code>\$$1.4$~billion</code>.
+
+</li><li> When mathematical phrases are rendered in words: <code>equals~$n$</code>, or
+<code>less than~$\epsilon$</code>, or <code>given~$X$</code>, or <code>modulo~$p^e$
+for all large~$n$</code> (but compare <code>is~$15$</code> with <code>is $15$~times
+the height</code>). Between mathematical symbols in apposition with nouns:
+<code>dimension~$d$</code> or <code>function~$f(x)$</code> (but compare <code>with
+length $l$~or more</code>). When a symbol is a tightly bound object of a
+preposition: <code>of~$x$</code>, or <code>from $0$ to~$1$</code>, or <code>in
+common with~$m$</code>.
+
+</li><li> Between symbols in series: <code>$1$,~$2$, or~$3$</code> or <code>$1$,~$2$,
+\ldots,~$n$</code>.
+
+</li><li> Between a person&rsquo;s forenames and between multiple surnames:
+<code>Donald~E. Knuth</code>, or <code>Luis~I. Trabb~Pardo</code>, or
+<code>Charles~XII</code> (but you must give TeX places to break the line so
+you may do <code>Charles Louis Xavier~Joseph de~la Vall\'ee~Poussin</code>).
+
+</li><li> Before a dash: <code>pages 12~--14</code> or <code>it is~--- it must be
+said~--- plausible</code>.
+
+</li></ul>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\graphicspath (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\graphicspath (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\graphicspath (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Graphics-package-configuration.html#Graphics-package-configuration" rel="up" title="Graphics package configuration">
+<link href="_005cDeclareGraphicsExtensions.html#g_t_005cDeclareGraphicsExtensions" rel="next" title="\DeclareGraphicsExtensions">
+<link href="Graphics-package-configuration.html#Graphics-package-configuration" rel="prev" title="Graphics package configuration">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cgraphicspath"></a>
+<div class="header">
+<p>
+Next: <a href="_005cDeclareGraphicsExtensions.html#g_t_005cDeclareGraphicsExtensions" accesskey="n" rel="next">\DeclareGraphicsExtensions</a>, Up: <a href="Graphics-package-configuration.html#Graphics-package-configuration" accesskey="u" rel="up">Graphics package configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cgraphicspath-1"></a>
+<h4 class="subsection">22.2.1 <code>\graphicspath</code></h4>
+
+<a name="index-_005cgraphicspath"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\graphicspath{<var>list of dir names inside curly brackets</var>}
+</pre></div>
+
+<p>Declare a list of directories to search for graphics files.  This allows
+you to later say something like <code>\includegraphics{lion.png}</code>
+instead of having to give its path.
+</p>
+<p>LaTeX always looks for graphic files first in the current directory.
+The declaration below tells the system to then look in the subdirectory
+<samp>pix</samp>, and then <samp>../pix</samp>.
+</p>
+<div class="example">
+<pre class="example">\usepackage{graphicx}   % or graphics; put in preamble
+  ...
+\graphicspath{ {pix/} {../pix/} }
+</pre></div>
+
+<p>The <code>\graphicspath</code> declaration is optional.  If you don&rsquo;t include
+it then LaTeX&rsquo;s default is to search all of the places that it
+usually looks for a file (it uses LaTeX&rsquo;s <code>\input@path</code>).  In
+particular, in this case one of the places it looks is the current
+directory.
+</p>
+<p>Enclose each directory name in curly braces; for example, above it says
+&lsquo;<samp><code>{pix}</code></samp>&rsquo;.  Do this even if there is only one directory.
+Each directory name must end in a forward slash, <samp>/</samp>.  This is true
+even on Windows, where good practice is to use forward slashes for all
+the directory separators since it makes the document portable to other
+platforms.  If you have spaces in your directory name then use double
+quotes, as with <code>{&quot;my docs/&quot;}</code>. Getting one of these rules wrong
+will cause LaTeX to report <code>Error: File `<var>filename</var>' not
+found</code>.
+</p>
+<p>Basically, the algorithm is that with this example, after looking in the
+current directory,
+</p>
+<div class="example">
+<pre class="example">\graphicspath{ {pix/} {../pix/} }
+...
+\usepackage{lion.png}
+</pre></div>
+
+<p>for each of the listed directories, LaTeX concatenates it with the
+file name and searches for the result, checking for <samp>pix/lion.png</samp>
+and then <samp>../pix/lion.png</samp>.  This algorithm means that the
+<code>\graphicspath</code> command does not recursively search subdirectories:
+if you issue <code>\graphicspath{{a/}}</code> and the graphic is in
+<samp>a/b/lion.png</samp> then LaTeX will not find it.  It also means that
+you can use absolute paths such as
+<code>\graphicspath{{/home/jim/logos/}}</code> or
+<code>\graphicspath{{C:/Users/Albert/Pictures/}}</code>.  However, using
+these means that the document is not portable.  (You could preserve
+portability by adjusting your TeX system settings configuration file
+parameter <code>TEXINPUTS</code>; see the documentation of your system.)
+</p>
+<p>You can use <code>\graphicspath</code> anywhere in the document.  You can use
+it more than once.  Show its value with
+<code>\makeatletter\typeout{\Ginput@path}\makeatother</code>.
+</p>
+<p>The directories are taken with respect to the base file.  That is,
+suppose that you are working on a document based on <samp>book/book.tex</samp>
+and it contains <code>\include{chapters/chap1}</code>.  If in
+<samp>chap1.tex</samp> you put <code>\graphicspath{{plots/}}</code> then
+LaTeX will not search for graphics in <samp>book/chapters/plots</samp>, but
+instead in <samp>book/plots</samp>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

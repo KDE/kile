@@ -1,0 +1,216 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>enumerate (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="enumerate (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="enumerate (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="eqnarray.html#eqnarray" rel="next" title="eqnarray">
+<link href="_005cAtEndDocument.html#g_t_005cAtEndDocument" rel="prev" title="\AtEndDocument">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="enumerate"></a>
+<div class="header">
+<p>
+Next: <a href="eqnarray.html#eqnarray" accesskey="n" rel="next">eqnarray</a>, Previous: <a href="document.html#document" accesskey="p" rel="prev">document</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="enumerate-1"></a>
+<h3 class="section">8.7 <code>enumerate</code></h3>
+
+<a name="index-environment_002c-enumerate"></a>
+<a name="index-enumerate-environment"></a>
+        
+<a name="index-lists-of-items_002c-numbered"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{enumerate}
+  \item[<var>optional label of first item</var>] <var>text of first item</var>
+  \item[<var>optional label of second item</var>] <var>text of second item</var>
+  ...
+\end{enumerate}
+</pre></div>
+
+<p>Environment to produce a numbered list of items.  The format of the
+label numbering depends on the nesting level of this environment; see
+below. The default top-level numbering is &lsquo;<samp>1.</samp>&rsquo;, &lsquo;<samp>2.</samp>&rsquo;,
+etc. Each <code>enumerate</code> list environment must have at least one item;
+having none causes the LaTeX error &lsquo;<samp>Something's wrong--perhaps a
+missing \item</samp>&rsquo;.
+</p>
+<p>This example gives the first two finishers in the 1908 Olympic marathon.
+As a top-level list the labels would come out as &lsquo;<samp>1.</samp>&rsquo; and
+&lsquo;<samp>2.</samp>&rsquo;.
+</p>
+<div class="example">
+<pre class="example">\begin{enumerate}
+ \item Johnny Hayes (USA)
+ \item Charles Hefferon (RSA) 
+\end{enumerate}
+</pre></div>
+
+<a name="index-_005citem-1"></a>
+<p>Start list items with the <code>\item</code> command (see <a href="_005citem.html#g_t_005citem">\item</a>).  If you
+give <code>\item</code> an optional argument by following it with square
+brackets, as in <code>\item[Interstitial label]</code>, then the next item
+will continue the interrupted sequence (see <a href="_005citem.html#g_t_005citem">\item</a>).  That is, you
+will get labels like &lsquo;<samp>1.</samp>&rsquo;, then &lsquo;<samp>Interstitial label</samp>&rsquo;, then
+&lsquo;<samp>2.</samp>&rsquo;.  Following the <code>\item</code> is optional text, which may
+contain multiple paragraphs.
+</p>
+<p>Enumerations may be nested within other <code>enumerate</code> environments,
+or within any paragraph-making environment such as <code>itemize</code>
+(see <a href="itemize.html#itemize">itemize</a>), up to four levels deep.  This gives LaTeX&rsquo;s
+default for the format at each nesting level, where 1 is the top level,
+the outermost level.
+</p>
+<ol>
+<li> arabic number followed by a period: &lsquo;<samp>1.</samp>&rsquo;, &lsquo;<samp>2.</samp>&rsquo;,&nbsp;&hellip;
+</li><li> lowercase letter inside parentheses: &lsquo;<samp>(a)</samp>&rsquo;, &lsquo;<samp>(b)</samp>&rsquo;&nbsp;&hellip;
+</li><li> lowercase roman numeral followed by a period: &lsquo;<samp>i.</samp>&rsquo;, &lsquo;<samp>ii.</samp>&rsquo;,&nbsp;&hellip;
+</li><li> uppercase letter followed by a period: &lsquo;<samp>A.</samp>&rsquo;, &lsquo;<samp>B.</samp>&rsquo;,&nbsp;&hellip;
+</li></ol>
+
+<a name="index-_005cenumi"></a>
+<a name="index-_005cenumii"></a>
+<a name="index-_005cenumiii"></a>
+<a name="index-_005cenumiv"></a>
+<a name="enumerate-enumi"></a><a name="enumerate-enumii"></a><a name="enumerate-enumiii"></a><a name="enumerate-enumiv"></a><p>The <code>enumerate</code> environment uses the counters <code>\enumi</code> through
+<code>\enumiv</code> (see <a href="Counters.html#Counters">Counters</a>).
+</p>
+<p>For other major LaTeX labeled list environments, see
+<a href="description.html#description">description</a> and <a href="itemize.html#itemize">itemize</a>.  For information about list layout
+parameters, including the default values, and for information about
+customizing list layout, see <a href="list.html#list">list</a>.  The package <samp>enumitem</samp> is
+useful for customizing lists.
+</p>
+<a name="index-_005clabelenumi"></a>
+<a name="index-_005clabelenumii"></a>
+<a name="index-_005clabelenumiii"></a>
+<a name="index-_005clabelenumiv"></a>
+<a name="enumerate-labelenumi"></a><a name="enumerate-labelenumii"></a><a name="enumerate-labelenumiii"></a><a name="enumerate-labelenumiv"></a><p>To change the format of the label use <code>\renewcommand</code>
+(see <a href="_005cnewcommand-_0026-_005crenewcommand.html#g_t_005cnewcommand-_0026-_005crenewcommand">\newcommand &amp; \renewcommand</a>) on the commands <code>\labelenumi</code>
+through <code>\labelenumiv</code>. For instance, this first level list will be
+labelled with uppercase letters, in boldface, and without a trailing
+period.
+</p>
+<a name="index-_005cAlph-example"></a>
+<div class="example">
+<pre class="example">\renewcommand{\labelenumi}{\textbf{\Alph{enumi}}}
+\begin{enumerate}
+  \item Shows as boldface A
+  \item Shows as boldface B
+\end{enumerate}
+</pre></div>
+
+<p>For a list of counter-labeling commands see <a href="_005calph-_005cAlph-_005carabic-_005croman-_005cRoman-_005cfnsymbol.html#g_t_005calph-_005cAlph-_005carabic-_005croman-_005cRoman-_005cfnsymbol">\alph \Alph \arabic \roman \Roman \fnsymbol</a>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

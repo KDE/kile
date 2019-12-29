@@ -1,0 +1,272 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\twocolumn (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\twocolumn (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\twocolumn (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Layout.html#Layout" rel="up" title="Layout">
+<link href="_005cflushbottom.html#g_t_005cflushbottom" rel="next" title="\flushbottom">
+<link href="_005conecolumn.html#g_t_005conecolumn" rel="prev" title="\onecolumn">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005ctwocolumn"></a>
+<div class="header">
+<p>
+Next: <a href="_005cflushbottom.html#g_t_005cflushbottom" accesskey="n" rel="next">\flushbottom</a>, Previous: <a href="_005conecolumn.html#g_t_005conecolumn" accesskey="p" rel="prev">\onecolumn</a>, Up: <a href="Layout.html#Layout" accesskey="u" rel="up">Layout</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005ctwocolumn-1"></a>
+<h3 class="section">5.2 <code>\twocolumn</code></h3>
+
+<a name="index-_005ctwocolumn"></a>
+<a name="index-multicolumn-text"></a>
+<a name="index-two_002dcolumn-output"></a>
+
+<p>Synopses:
+</p>
+<div class="example">
+<pre class="example">\twocolumn
+\twocolumn[<var>prelim one column text</var>]
+</pre></div>
+
+<p>Start a new page and produce two-column output. If the document is given
+the class option <code>twocolumn</code> then this is the default
+(see <a href="Document-class-options.html#Document-class-options">Document class options</a>).  This command is fragile
+(see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).
+</p>
+<p>If the optional <var>prelim one column text</var> argument
+is present, it is typeset in one-column mode before the two-column
+typesetting starts.
+</p>
+<p>These parameters control typesetting in two-column output:
+</p>
+<dl compact="compact">
+<dt><code>\columnsep</code>
+<a name="index-_005ccolumnsep"></a>
+</dt>
+<dd><a name="twocolumn-columnsep"></a><p>The distance between columns. The default is 35pt.  Change it with a
+command such as <code>\setlength{\columnsep}{40pt}</code> You must change
+it before the two column environment starts; in the preamble is a good
+place.
+</p>
+</dd>
+<dt><code>\columnseprule</code>
+<a name="index-_005ccolumnseprule"></a>
+</dt>
+<dd><a name="twocolumn-columnseprule"></a><p>The width of the rule between columns. The rule appears halfway between
+the two columns.  The default is 0pt, meaning that there is no rule.
+Change it with a command such as
+<code>\setlength{\columnseprule}{0.4pt}</code>, before the two-column
+environment starts.
+</p>
+</dd>
+<dt><code>\columnwidth</code>
+<a name="index-_005ccolumnwidth"></a>
+</dt>
+<dd><a name="twocolumn-columnwidth"></a><p>The width of a single column.  In one-column mode this is equal to
+<code>\textwidth</code>.  In two-column mode by default LaTeX sets the
+width of each of the two columns to be half of <code>\textwidth</code> minus
+<code>\columnsep</code>.
+</p>
+</dd>
+</dl>
+
+<p>In a two-column document, the starred environments <code>table*</code> and
+<code>figure*</code> are two columns wide, whereas the unstarred environments
+<code>table</code> and <code>figure</code> take up only one column (see <a href="figure.html#figure">figure</a>
+and see <a href="table.html#table">table</a>). LaTeX places starred floats at the top of a page.
+The following parameters control float behavior of two-column output.
+</p>
+<dl compact="compact">
+<dd><a name="twocolumn-dbltopfraction"></a></dd>
+<dt><code>\dbltopfraction</code>
+<a name="index-_005cdbltopfraction"></a>
+</dt>
+<dd><p>The maximum fraction at the top of a two-column page that may be
+occupied by two-column wide floats.  The default is 0.7, meaning that
+the height of a <code>table*</code> or <code>figure*</code> environment must not
+exceed <code>0.7\textheight</code> .  If the height of your starred float
+environment exceeds this then you can take one of the following actions
+to prevent it from floating all the way to the back of the document:
+</p>
+<ul>
+<li> Use the <code>[tp]</code> location specifier to tell LaTeX to try to put
+the bulky float on a page by itself, as well as at the top of a page.
+
+</li><li> Use the <code>[t!]</code> location specifier to override the effect of
+<code>\dbltopfraction</code> for this particular float.
+
+</li><li> Increase the value of <code>\dbltopfraction</code> to a suitably large number,
+to avoid going to float pages so soon.
+</li></ul>
+
+<p>You can redefine it, as with
+<code>\renewcommand{\dbltopfraction}{0.9}</code>.
+</p>
+<a name="twocolumn-dblfloatpagefraction"></a></dd>
+<dt><code>\dblfloatpagefraction</code>
+<a name="index-_005cdblfloatpagefraction"></a>
+</dt>
+<dd><p>For a float page of two-column wide floats, this is the minimum fraction
+that must be occupied by floats, limiting the amount of blank space.
+LaTeX&rsquo;s default is <code>0.5</code>.  Change it with <code>\renewcommand</code>.
+</p>
+<a name="twocolumn-dblfloatsep"></a></dd>
+<dt><code>\dblfloatsep</code>
+<a name="index-_005cdblfloatsep"></a>
+</dt>
+<dd><p>On a float page of two-column wide floats, this length is the distance
+between floats, at both the top and bottom of the page.  The default is
+<code>12pt plus2pt minus2pt</code> for a document set at <code>10pt</code> or
+<code>11pt</code>, and <code>14pt plus2pt minus4pt</code> for a document set at
+<code>12pt</code>.
+</p>
+<a name="twocolumn-dbltextfloatsep"></a></dd>
+<dt><code>\dbltextfloatsep</code>
+<a name="index-_005cdbltextfloatsep"></a>
+</dt>
+<dd><p>This length is the distance between a multi-column float at the top or
+bottom of a page and the main text.  The default is <code>20pt plus2pt
+minus4pt</code>.
+</p>
+<a name="twocolumn-dbltopnumber"></a></dd>
+<dt><code>\dbltopnumber</code>
+<a name="index-_005cdbltopnumber"></a>
+</dt>
+<dd><p>On a float page of two-column wide floats, this counter gives the
+maximum number of floats allowed at the top of the page.  The LaTeX
+default is <code>2</code>.
+</p>
+</dd>
+</dl>
+
+<p>This example uses <code>\twocolumn</code>&rsquo;s optional argument of to create a
+title that spans the two-column article:
+</p>
+<div class="example">
+<pre class="example">\documentclass[twocolumn]{article}
+\newcommand{\authormark}[1]{\textsuperscript{#1}}
+\begin{document}
+\twocolumn[{% inside this optional argument goes one-column text
+  \centering
+  \LARGE The Title \\[1.5em]
+  \large Author One\authormark{1},
+         Author Two\authormark{2},
+         Author Three\authormark{1} \\[1em]
+  \normalsize
+  \begin{tabular}{p{.2\textwidth}@{\hspace{2em}}p{.2\textwidth}}
+    \authormark{1}Department one  &amp;\authormark{2}Department two \\ 
+     School one                   &amp;School two 
+  \end{tabular}\\[3em] % space below title part
+  }]
+
+Two column text here.
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

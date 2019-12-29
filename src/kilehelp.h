@@ -1,6 +1,7 @@
 /***************************************************************************
     begin     : 2004
     copyright : (C) 2004-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+                (C) 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,7 +25,7 @@
 #include "userhelp.h"
 
 namespace KileDocument {
-class EditorExtension;
+    class EditorExtension;
 }
 
 namespace KileHelp
@@ -33,21 +34,10 @@ namespace KileHelp
 enum HelpType
 {
     HelpKileRefs,
-    HelpTexRefs,
     HelpLatex2eRefs,
     HelpLatexIndex,
     HelpLatexCommand,
-    HelpLatexSubject,
     HelpLatexEnvironment
-};
-
-enum TexVersion
-{
-    TEXLIVE_201x_TUG,
-    TEXLIVE2009,
-    TEXLIVE2005,
-    TETEX3,
-    TEX_UNKNOWN
 };
 
 class Help : public QObject
@@ -70,17 +60,13 @@ public:
     void enableUserhelpEntries(bool state);
 
 public Q_SLOTS:
-    void helpTexGuide();
-    void helpLatexIndex() {
+    inline void helpLatexIndex() {
         helpLatex(KileHelp::HelpLatexIndex);
     }
-    void helpLatexCommand() {
+    inline void helpLatexCommand() {
         helpLatex(KileHelp::HelpLatexCommand);
     }
-    void helpLatexSubject() {
-        helpLatex(KileHelp::HelpLatexSubject);
-    }
-    void helpLatexEnvironment() {
+    inline void helpLatexEnvironment() {
         helpLatex(KileHelp::HelpLatexEnvironment);
     }
     void helpKeyword();
@@ -93,22 +79,13 @@ private:
     UserHelp *m_userhelp;
     QString m_helpDir;
 
-    TexVersion m_texVersion;
-    QString m_texVersionText;
-    QString m_texlivePath;
-    QString m_texdocPath;
-
     QString m_latex2eReference;
-    QString m_texrefsReference;
     QString m_kileReference;
 
     HelpType m_contextHelpType;
     QMap<QString, QString> m_dictHelpTex;
 
-    void initTexDocumentation();
     void initContextHelp();
-    QString locateTexLivePath(const QStringList &paths);
-    QString locateTexLive201x();
 
     void readHelpList(const QString &filename);
     void showHelpFile(const QString &parameter);

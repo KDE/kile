@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\vspace (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\vspace (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\vspace (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Spaces.html#Spaces" rel="up" title="Spaces">
+<link href="_005cvfill.html#g_t_005cvfill" rel="next" title="\vfill">
+<link href="_005cstrut.html#g_t_005cstrut" rel="prev" title="\strut">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cvspace"></a>
+<div class="header">
+<p>
+Next: <a href="_005cvfill.html#g_t_005cvfill" accesskey="n" rel="next">\vfill</a>, Previous: <a href="_005cstrut.html#g_t_005cstrut" accesskey="p" rel="prev">\strut</a>, Up: <a href="Spaces.html#Spaces" accesskey="u" rel="up">Spaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cvspace-1"></a>
+<h3 class="section">19.14 <code>\vspace</code></h3>
+
+<a name="index-_005cvspace"></a>
+<a name="index-vertical-space"></a>
+<a name="index-space_002c-vertical"></a>
+
+<p>Synopsis, one of:
+</p>
+<div class="example">
+<pre class="example">\vspace{<var>length</var>}
+\vspace*{<var>length</var>}
+</pre></div>
+
+<p>Add the vertical space <var>length</var>.  The <var>length</var> can be positive,
+negative, or zero.  It is a rubber length&mdash;it may contain a <code>plus</code>
+or <code>minus</code> component (see <a href="Lengths.html#Lengths">Lengths</a>).
+</p>
+<p>This puts space between the two paragraphs.
+</p>
+<div class="example">
+<pre class="example">And I slept.
+
+\vspace{1ex plus 0.5ex}
+The new day dawned cold.
+</pre></div>
+
+<p>(See <a href="_005cbigskip-_0026-_005cmedskip-_0026-_005csmallskip.html#g_t_005cbigskip-_0026-_005cmedskip-_0026-_005csmallskip">\bigskip &amp; \medskip &amp; \smallskip</a> for common inter-paragraph
+spaces.)
+</p>
+<p>The <code>*</code>-version inserts vertical space that non-discardable.  More
+precisely, LaTeX discards vertical space at a page break and the
+<code>*</code>-version causes the space to stay.  This example leaves space
+between the two questions.
+</p>
+<div class="example">
+<pre class="example">Question: Find the integral of \( 5x^4+5 \).
+
+\vspace*{2cm plus 0.5cm}
+Question: Find the derivative of \( x^5+5x+9 \).
+</pre></div>
+
+<p>That space will be present even if the page break happens to fall
+between the questions.
+</p>
+<p>If you use <code>\vspace</code> in the middle of a paragraph (i.e., in
+horizontal mode) then the space is inserted after the line containing
+the <code>\vspace</code> command; it does not start a new paragraph at the
+<code>\vspace</code> command.
+</p>
+<p>In this example the two questions will be evenly spaced vertically on
+the page, with at least one inch of space below each.
+</p>
+<div class="example">
+<pre class="example">\begin{document}
+1) Who put the bomp in the bomp bah bomp bah bomp?
+\vspace{1in plus 1fill}
+
+2) Who put the ram in the rama lama ding dong?
+\vspace{1in plus 1fill}
+\end{document}
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

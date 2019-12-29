@@ -1,0 +1,324 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>picture (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="picture (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="picture (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="_005cput.html#g_t_005cput" rel="next" title="\put">
+<link href="minipage.html#minipage" rel="prev" title="minipage">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="picture"></a>
+<div class="header">
+<p>
+Next: <a href="quotation-_0026-quote.html#quotation-_0026-quote" accesskey="n" rel="next">quotation &amp; quote</a>, Previous: <a href="minipage.html#minipage" accesskey="p" rel="prev">minipage</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="picture-1"></a>
+<h3 class="section">8.19 <code>picture</code></h3>
+
+<a name="index-environment_002c-picture"></a>
+<a name="index-picture-environment"></a>
+        
+<a name="index-creating-pictures"></a>
+<a name="index-pictures_002c-creating"></a>
+
+<p>Synopses: 
+</p><div class="example">
+<pre class="example">\begin{picture}(<var>width</var>,<var>height</var>)
+   <var>picture commands</var> 
+\end{picture}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\begin{picture}(<var>width</var>,<var>height</var>)(<var>xoffset</var>,<var>yoffset</var>)
+  <var>picture commands</var>
+\end{picture}
+</pre></div>
+
+<p>An environment to create simple pictures containing lines, arrows,
+boxes, circles, and text.  Note that while this environment is not
+obsolete, new documents typically use much more powerful graphics
+creation systems, such as <code>TikZ</code>, <code>PSTricks</code>, <code>MetaPost</code>,
+or <code>Asymptote</code>.  These are not covered in this document; see CTAN.
+</p>
+<p>This shows the parallelogram law for adding vectors.
+</p>
+<a name="index-_005cunitlength"></a>
+<div class="example">
+<pre class="example">\setlength{\unitlength}{1cm}
+\begin{picture}(6,6)      % picture box will be 6cm wide by 6cm tall
+  \put(0,0){\vector(2,1){4}}  % for every 2 over this vector goes 1 up
+    \put(2,1){\makebox(0,0)[l]{\ first leg}}
+  \put(4,2){\vector(1,2){2}}
+    \put(5,4){\makebox(0,0)[l]{\ second leg}}  
+  \put(0,0){\line(1,1){6}}
+    \put(3,3){\makebox(0,0)[r]{sum\ }}  
+\end{picture}
+</pre></div>
+
+<p>You can also use this environment to place arbitrary material at an
+exact location.
+</p>
+<div class="example">
+<pre class="example">\usepackage{color,graphicx}  % in preamble
+  ...
+\begin{center}
+\setlength{\unitlength}{\textwidth} 
+\begin{picture}(1,1)      % leave space, \textwidth wide and tall
+  \put(0,0){\includegraphics[width=\textwidth]{desertedisland.jpg}}
+  \put(0.25,0.35){\textcolor{red}{X Treasure here}}
+\end{picture}
+\end{center}
+</pre></div>
+
+<p>The red&nbsp;X will be precisely a quarter of the <code>\linewidth</code> from
+the left margin, and <code>0.35\linewidth</code> up from the bottom.  Another
+example of this usage is to put similar code in the page header to get
+repeat material on each of a document&rsquo;s pages.
+</p>
+<p>The <code>picture</code> environment has one required argument, a pair of
+numbers (<var>width</var>,<var>height</var>).  Multiply these by the value
+<code>\unitlength</code> to get the nominal size of the output, the space that
+LaTeX reserves on the output page.  This nominal size need not be how
+large the picture really is; LaTeX will draw things from the picture
+outside the picture&rsquo;s box.
+</p>
+<p>This environment also has an optional argument
+(<var>xoffset</var>,<var>yoffset</var>).  It is used to shift the origin.  Unlike
+most optional arguments, this one is not contained in square brackets.
+As with the required argument, it consists of two real numbers.
+Multiply these by <code>\unitlength</code> to get the point at the lower-left
+corner of the picture.
+</p>
+<p>For example, if <code>\unitlength</code> has been set to <code>1mm</code>, the
+command
+</p>
+<div class="example">
+<pre class="example">\begin{picture}(100,200)(10,20)
+</pre></div>
+
+<p>produces a box of width 100 millimeters and height 200 millimeters.  The
+picture&rsquo;s origin is the point (10mm,20mm) and so the lower-left corner
+is there, and the upper-right corner is at (110mm,220mm).  When you
+first draw a picture you typically omit the optional argument, leaving
+the origin at the lower-left corner.  If you then want to modify your
+picture by shifting everything, you can just add the appropriate
+optional argument.
+</p>
+<a name="index-position_002c-in-picture"></a>
+<p>Each <var>picture command</var> tells LaTeX where to put something by
+naming its position.  A <em>position</em> is a pair such as <code>(2.4,-5)</code>
+giving the x- and y-coordinates.  A <em>coordinate</em> is a not a length,
+it is a real number (it may have a decimal point or a minus sign).  It
+specifies a length in multiples of the unit length <code>\unitlength</code>,
+so if <code>\unitlength</code> has been set to <code>1cm</code>, then the coordinate
+2.54 specifies a length of 2.54 centimeters.
+</p>
+<p>LaTeX&rsquo;s default for <code>\unitlength</code> is <code>1pt</code>.  it is a rigid
+length (see <a href="Lengths.html#Lengths">Lengths</a>).  Change it with the <code>\setlength</code> command
+(see <a href="_005csetlength.html#g_t_005csetlength">\setlength</a>).  Make this change only outside of a <code>picture</code>
+environment.
+</p>
+<p>Coordinates are given with respect to an origin, which is normally at
+the lower-left corner of the picture.  Note that when a position appears
+as an argument, as with <code>\put(1,2){...}</code>, it is not enclosed in
+braces since the parentheses serve to delimit the argument.  Also,
+unlike in some computer graphics systems, larger y-coordinates are
+further up the page.
+</p>
+<p>There are four ways to put things in a picture: <code>\put</code>,
+<code>\multiput</code>, <code>\qbezier</code>, and <code>\graphpaper</code>.  The most
+often used is <code>\put</code>. This
+</p>
+<div class="example">
+<pre class="example">\put(11.3,-0.3){...}
+</pre></div>
+
+<p>places the object with its reference point at coordinates
+<em>(11.3,-0.3)</em>.  The reference points for various objects will be
+described below.
+<a name="index-LR-box"></a>
+The <code>\put</code> command creates an <em>LR box</em> (see <a href="Modes.html#Modes">Modes</a>).
+Anything that can go in an <code>\mbox</code> (see <a href="_005cmbox-_0026-_005cmakebox.html#g_t_005cmbox-_0026-_005cmakebox">\mbox &amp; \makebox</a>) can
+go in the text argument of the <code>\put</code> command.  The reference point
+will be the lower left corner of the box.  In this picture
+</p>
+<div class="example">
+<pre class="example">\setlength{\unitlength}{1cm}
+...\begin{picture}(1,1)
+  \put(0,0){\line(1,0){1}}
+  \put(0,0){\line(1,1){1}}
+\end{picture}
+</pre></div>
+
+<p>the three dots are just slightly left of the point of the angle formed
+by the two lines.  (Also, <code>\line(1,1){1}</code> does not call for a
+line of length one; rather the line has a change in the x coordinate of
+1.)
+</p>
+<p>The <code>\multiput</code>, <code>qbezier</code>, and <code>graphpaper</code> commands are
+described below.
+</p>
+<p>This draws a rectangle with a wavy top, using <code>\qbezier</code> for
+that curve.
+</p>
+<div class="example">
+<pre class="example">\begin{picture}(3,1.5)
+  \put(0,0){\vector(1,0){8}}  % x axis
+  \put(0,0){\vector(0,1){4}}  % y axis
+  \put(2,0){\line(0,1){3}}       % left side rectangle
+  \put(4,0){\line(0,1){3.5}}     % right side
+  \qbezier(2,3)(2.5,2.9)(3,3.25)
+    \qbezier(3,3.25)(3.5,3.6)(4,3.5)
+  \thicklines                 % below here, lines are twice as thick
+  \put(2,3){\line(4,1){2}}
+  \put(4.5,2.5){\framebox{Trapezoidal Rule}}
+\end{picture}
+</pre></div>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cput.html#g_t_005cput" accesskey="1">\put</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Place an object at a specified place.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cmultiput.html#g_t_005cmultiput" accesskey="2">\multiput</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw multiple instances of an object.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cqbezier.html#g_t_005cqbezier" accesskey="3">\qbezier</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a quadratic Bezier curve.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cgraphpaper.html#g_t_005cgraphpaper" accesskey="4">\graphpaper</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw graph paper.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cline.html#g_t_005cline" accesskey="5">\line</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a straight line.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005clinethickness.html#g_t_005clinethickness" accesskey="6">\linethickness</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set thickness of horizontal and vertical lines.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cthinlines.html#g_t_005cthinlines" accesskey="7">\thinlines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The default line thickness.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cthicklines.html#g_t_005cthicklines" accesskey="8">\thicklines</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A heavier line thickness.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005ccircle.html#g_t_005ccircle" accesskey="9">\circle</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a circle.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005coval.html#g_t_005coval">\oval</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw an oval.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cshortstack.html#g_t_005cshortstack">\shortstack</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Make a stack of objects.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cvector.html#g_t_005cvector">\vector</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a line with an arrow.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cmakebox-_0028picture_0029.html#g_t_005cmakebox-_0028picture_0029">\makebox (picture)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a box of the specified size.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cframebox-_0028picture_0029.html#g_t_005cframebox-_0028picture_0029">\framebox (picture)</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a box with a frame around it.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cframe.html#g_t_005cframe">\frame</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a frame around an object.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cdashbox.html#g_t_005cdashbox">\dashbox</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a dashed box.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

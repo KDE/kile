@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\include &amp; \includeonly (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\include &amp; \includeonly (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\include &amp; \includeonly (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Splitting-the-input.html#Splitting-the-input" rel="up" title="Splitting the input">
+<link href="_005cinput.html#g_t_005cinput" rel="next" title="\input">
+<link href="_005cendinput.html#g_t_005cendinput" rel="prev" title="\endinput">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cinclude-_0026-_005cincludeonly"></a>
+<div class="header">
+<p>
+Next: <a href="_005cinput.html#g_t_005cinput" accesskey="n" rel="next">\input</a>, Previous: <a href="_005cendinput.html#g_t_005cendinput" accesskey="p" rel="prev">\endinput</a>, Up: <a href="Splitting-the-input.html#Splitting-the-input" accesskey="u" rel="up">Splitting the input</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cinclude-_0026-_005cincludeonly-1"></a>
+<h3 class="section">24.2 <code>\include</code> &amp; <code>\includeonly</code></h3>
+
+<a name="index-_005cinclude"></a>
+<a name="index-_005cincludeonly"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\includeonly{  % in document preamble
+  ...
+  <var>filename</var>,
+  ...
+  }
+  ...
+\include{<var>filename</var>}  % in document body 
+</pre></div>
+
+<p>Bring material from the external file <samp><var>filename</var>.tex</samp> into a
+LaTeX document.
+</p>
+<p>The <code>\include</code> command does three things: it executes
+<code>\clearpage</code> (see <a href="_005cclearpage-_0026-_005ccleardoublepage.html#g_t_005cclearpage-_0026-_005ccleardoublepage">\clearpage &amp; \cleardoublepage</a>), then it
+inputs the material from <samp><var>filename</var>.tex</samp> into the document,
+and then it does another <code>\clearpage</code>.  This command can only
+appear in the document body.  The <code>\includeonly</code> command controls
+which files will be read by LaTeX under subsequent <code>\include</code>
+commands.  Its list of filenames is comma-separated, and it can only
+appear in the preamble.
+</p>
+<p>This example root document, <samp>constitution.tex</samp>, brings in
+three files, <samp>preamble.tex</samp>, <samp>articles.tex</samp>, and
+<samp>amendments.tex</samp>.
+</p>
+<div class="example">
+<pre class="example">\documentclass{book}
+\includeonly{
+  preamble,
+  articles,
+  amendments
+  }
+\begin{document}
+\include{preamble}
+\include{articles}
+\include{amendments}
+\end{document}
+</pre></div>
+
+<p>The file <samp>preamble.tex</samp> contains no special code; you have just
+excerpted the chapter from <samp>consitution.tex</samp> and put it in a
+separate file just for editing convenience.
+</p>
+<div class="example">
+<pre class="example">\chapter{Preamble}
+We the People of the United States,
+in Order to form a more perfect Union, ...
+</pre></div>
+
+<p>Running LaTeX on <samp>constitution.tex</samp> makes the material from the
+three files appear in the document but also generates the auxiliary
+files <samp>preamble.aux</samp>, <samp>articles.aux</samp>, and
+<samp>amendments.tex</samp>. These contain information such as page numbers
+and cross-references (see <a href="Cross-references.html#Cross-references">Cross references</a>).  If you now comment out
+<code>\includeonly</code>&rsquo;s lines with <code>preamble</code> and <code>amendments</code>
+and run LaTeX again then the resulting document shows only the
+material from <samp>articles.tex</samp>, not the material from
+<samp>preamble.tex</samp> or <samp>amendments.tex</samp>.  Nonetheless, all of the
+auxiliary information from the omitted files is still there, including
+the starting page number of the chapter.
+</p>
+<p>If the document preamble does not have <code>\includeonly</code> then
+LaTeX will include all the files you call for with <code>\include</code>
+commands.
+</p>
+<p>The <code>\include</code> command makes a new page.  To avoid that, see
+<a href="_005cinput.html#g_t_005cinput">\input</a> (which, however, does not retain the auxiliary
+information).
+</p>
+<p>See <a href="Larger-book-template.html#Larger-book-template">Larger book template</a> for another example using <code>\include</code>
+and <code>\includeonly</code>.  That example also uses <code>\input</code> for some
+material that will not necessarily start on a new page.
+</p>
+<p>File names can involve paths.
+</p>
+<div class="example">
+<pre class="example">\documentclass{book}
+\includeonly{
+  chapters/chap1,
+  }
+\begin{document}
+\include{chapters/chap1}
+\end{document}
+</pre></div>
+
+<p>To make your document portable across distributions and platforms you
+should avoid spaces in the file names. The tradition is to instead use
+dashes or underscores.  Nevertheless, for the name &lsquo;<samp>amo amas amat</samp>&rsquo;,
+this works under TeX Live on GNU/Linux:
+</p>
+<div class="example">
+<pre class="example">\documentclass{book}
+\includeonly{
+  &quot;amo\space amas\space amat&quot;
+  }
+\begin{document}
+\include{&quot;amo\space amas\space amat&quot;}
+\end{document}
+</pre></div>
+
+<p>and this works under MiKTeX on Windows:
+</p>
+<div class="example">
+<pre class="example">\documentclass{book}
+\includeonly{
+  {&quot;amo amas amat&quot;}
+  }
+\begin{document}
+\include{{&quot;amo amas amat&quot;}}
+\end{document}
+</pre></div>
+
+<a name="index-nested-_005cinclude_002c-not-allowed"></a>
+<p>You cannot use <code>\include</code> inside a file that is being included or
+you get &lsquo;<samp>LaTeX Error: \include cannot be nested.</samp>&rsquo;  The
+<code>\include</code> command cannot appear in the document preamble; you will
+get &lsquo;<samp>LaTeX Error: Missing \begin{document}</samp>&rsquo;.
+</p>
+<p>If a file that you <code>\include</code> does not exist, for instance if you
+<code>\include{athiesm}</code> but you meant <code>\include{atheism}</code>,
+then LaTeX does not give you an error but will warn you &lsquo;<samp>No file
+athiesm.tex.</samp>&rsquo;  (It will also create <samp>athiesm.aux</samp>.)
+</p>
+<p>If you <code>\include</code> the root file in itself then you first get
+&lsquo;<samp>LaTeX Error: Can be used only in preamble.</samp>&rsquo;  Later runs get
+&lsquo;<samp>TeX capacity exceeded, sorry [text input levels=15]</samp>&rsquo;.  To fix
+this, you must remove the inclusion <code>\include{root}</code> but also
+delete the file <samp><var>root</var>.aux</samp> and rerun LaTeX.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

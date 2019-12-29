@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Accents (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Accents (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Accents (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Special-insertions.html#Special-insertions" rel="up" title="Special insertions">
+<link href="_005caccent.html#g_t_005caccent" rel="next" title="\accent">
+<link href="Text-symbols.html#Text-symbols" rel="prev" title="Text symbols">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Accents"></a>
+<div class="header">
+<p>
+Next: <a href="Additional-Latin-letters.html#Additional-Latin-letters" accesskey="n" rel="next">Additional Latin letters</a>, Previous: <a href="Text-symbols.html#Text-symbols" accesskey="p" rel="prev">Text symbols</a>, Up: <a href="Special-insertions.html#Special-insertions" accesskey="u" rel="up">Special insertions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Accents-1"></a>
+<h3 class="section">23.5 Accents</h3>
+
+<a name="index-accents"></a>
+<a name="index-characters_002c-accented"></a>
+<a name="index-letters_002c-accented"></a>
+
+<a name="index-package_002c-babel-2"></a>
+<a name="index-babel-package-2"></a>
+
+<a name="index-package_002c-polyglossia"></a>
+<a name="index-polyglossia-package"></a>
+
+<a name="index-multilingual-support"></a>
+<p>LaTeX has wide support for many of the world&rsquo;s scripts and languages,
+through the <code>babel</code> package and related support if you are using
+pdfLaTeX, or <samp>polyglossia</samp> if you are using XeLaTeX or
+LuaLaTeX.  This section does not cover that support. It only lists
+the core LaTeX commands for creating accented characters.  The
+<code>\capital...</code> commands shown here produce alternative forms for use
+with capital letters.  These are not available with OT1.
+</p>
+<p>Below, to make them easier to find, the accents are all illustrated with
+lowercase &lsquo;<samp>o</samp>&rsquo;.
+</p>
+<a name="index-_005ci-_0028dotless-i_0029"></a>
+<a name="index-dotless-i"></a>
+<p>Note that <code>\i</code> produces a dotless i,
+<a name="index-_005cj-_0028dotless-j_0029"></a>
+<a name="index-dotless-j"></a>
+and <code>\j</code> produces a dotless j.
+These are often used in place of their dotted counterparts when they are
+accented.
+</p>
+<dl compact="compact">
+<dt><code>\&quot;</code></dt>
+<dt><code>\capitaldieresis</code></dt>
+<dd><a name="index-_005c_0022-_0028umlaut-accent_0029"></a>
+<a name="index-_005ccapitaldieresis"></a>
+<a name="index-umlaut-accent"></a>
+<a name="index-dieresis-accent"></a>
+<p>&ouml; Umlaut (dieresis).
+</p>
+</dd>
+<dt><code>\'</code></dt>
+<dt><code>\capitalacute</code></dt>
+<dd><a name="index-_005c_0027-_0028acute-accent_0029"></a>
+<a name="index-_005ccapitalacute"></a>
+<a name="index-acute-accent"></a>
+<p>&oacute; Acute accent.
+</p>
+</dd>
+<dt><code>\.</code></dt>
+<dd><a name="index-_005c_002e-_0028dot_002dover-accent_0029"></a>
+<a name="index-dot-accent"></a>
+<a name="index-dot_002dover-accent"></a>
+<p>&#559;  Dot accent.
+</p>
+</dd>
+<dt><code>\=</code></dt>
+<dt><code>\capitalmacron</code></dt>
+<dd><a name="index-_005c_003d-_0028macron-accent_0029"></a>
+<a name="index-_005ccapitalmacron"></a>
+<a name="index-macron-accent"></a>
+<a name="index-overbar-accent"></a>
+<a name="index-bar_002dover-accent"></a>
+<p>&#333; Macron (overbar) accent.
+</p>
+</dd>
+<dt><code>\^</code></dt>
+<dt><code>\capitalcircumflex</code></dt>
+<dd><a name="index-_005c_005e-_0028circumflex-accent_0029"></a>
+<a name="index-_005ccapitalcircumflex"></a>
+<a name="index-circumflex-accent"></a>
+<a name="index-hat-accent"></a>
+<p>&ocirc; Circumflex (hat) accent.
+</p>
+</dd>
+<dt><code>\`</code></dt>
+<dt><code>\capitalgrave</code></dt>
+<dd><a name="index-_005c_0060-_0028grave-accent_0029"></a>
+<a name="index-_005ccapitalgrave"></a>
+<a name="index-grave-accent"></a>
+<p>&ograve; Grave accent.
+</p>
+</dd>
+<dt><code>\~</code></dt>
+<dt><code>\capitaltilde</code></dt>
+<dd><a name="index-_005c_007e-_0028tilde-accent_0029"></a>
+<a name="index-_005ccapitaltilde"></a>
+<a name="index-tilde-accent"></a>
+<p>&ntilde; Tilde accent.
+</p>
+</dd>
+<dt><code>\b</code></dt>
+<dd><a name="index-_005cb-_0028bar_002dunder-accent_0029"></a>
+<a name="index-bar_002dunder-accent"></a>
+<p>o_ Bar accent underneath.
+</p>
+<a name="index-_005cunderbar"></a>
+<a name="index-underbar"></a>
+<p>Related to this, <code>\underbar{<var>text</var>}</code> produces a bar under
+<var>text</var>.  The argument is always processed in LR mode
+(see <a href="Modes.html#Modes">Modes</a>).  The bar is always a fixed position under the baseline,
+thus crossing through descenders.  See also <code>\underline</code> in
+<a href="Math-miscellany.html#Math-miscellany">Math miscellany</a>.
+</p>
+</dd>
+<dt><code>\c</code></dt>
+<dt><code>\capitalcedilla</code></dt>
+<dd><a name="index-_005cc-_0028cedilla-accent_0029"></a>
+<a name="index-_005ccapitalcedilla"></a>
+<a name="index-cedilla-accent"></a>
+<p>&ccedil; Cedilla accent underneath.
+</p>
+</dd>
+<dt><code>\d</code></dt>
+<dt><code>\capitaldotaccent</code></dt>
+<dd><a name="index-_005cd-_0028dot_002dunder-accent_0029"></a>
+<a name="index-_005ccapitaldotaccent"></a>
+<a name="index-dot_002dunder-accent"></a>
+<p>&#7885; Dot accent underneath.
+</p>
+</dd>
+<dt><code>\H</code></dt>
+<dt><code>\capitalhungarumlaut</code></dt>
+<dd><a name="index-_005cH-_0028Hungarian-umlaut-accent_0029"></a>
+<a name="index-_005ccapitalhungarumlaut"></a>
+<a name="index-hungarian-umlaut-accent"></a>
+<p>&#337; Long Hungarian umlaut accent.
+</p>
+</dd>
+<dt><code>\k</code></dt>
+<dt><code>\capitalogonek</code></dt>
+<dd><a name="index-_005ck-_0028ogonek_0029"></a>
+<a name="index-_005ccapitalogonek"></a>
+<a name="index-ogonek"></a>
+<p>&#491; Ogonek.  Not available in the OT1 encoding.
+</p>
+</dd>
+<dt><code>\r</code></dt>
+<dt><code>\capitalring</code></dt>
+<dd><a name="index-_005cr-_0028ring-accent_0029"></a>
+<a name="index-_005ccapitalring"></a>
+<a name="index-ring-accent"></a>
+<p>o* Ring accent.
+</p>
+</dd>
+<dt><code>\t</code></dt>
+<dt><code>\capitaltie</code></dt>
+<dt><code>\newtie</code></dt>
+<dt><code>\capitalnewtie</code></dt>
+<dd><a name="index-_005ct-_0028tie_002dafter-accent_0029"></a>
+<a name="index-_005ccapitaltie"></a>
+<a name="index-_005cnewtie"></a>
+<a name="index-_005ccapitalnewtie"></a>
+<a name="index-tie_002dafter-accent"></a>
+<p>oo[ Tie-after accent.  The <code>\newtie</code> form is centered in
+its box.
+</p>
+</dd>
+<dt><code>\u</code></dt>
+<dt><code>\capitalbreve</code></dt>
+<dd><a name="index-_005cu-_0028breve-accent_0029"></a>
+<a name="index-_005ccapitalbreve"></a>
+<a name="index-breve-accent"></a>
+<p>&#335; Breve accent.
+</p>
+</dd>
+<dt><code>\v</code></dt>
+<dt><code>\capitalcaron</code></dt>
+<dd><a name="index-_005cv-_0028breve-accent_0029"></a>
+<a name="index-_005ccapitalcaron"></a>
+<a name="index-hacek-accent"></a>
+<a name="index-check-accent"></a>
+<a name="index-caron-accent"></a>
+<p>&#466;  H&aacute;&#269;ek (check, caron) accent.
+</p>
+</dd>
+</dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005caccent.html#g_t_005caccent" accesskey="1">\accent</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Low level command to produce an accented character.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

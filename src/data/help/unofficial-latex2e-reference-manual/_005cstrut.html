@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\strut (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\strut (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\strut (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Spaces.html#Spaces" rel="up" title="Spaces">
+<link href="_005cvspace.html#g_t_005cvspace" rel="next" title="\vspace">
+<link href="_005cbigbreak-_0026-_005cmedbreak-_0026-_005csmallbreak.html#g_t_005cbigbreak-_0026-_005cmedbreak-_0026-_005csmallbreak" rel="prev" title="\bigbreak &amp; \medbreak &amp; \smallbreak">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cstrut"></a>
+<div class="header">
+<p>
+Next: <a href="_005cvspace.html#g_t_005cvspace" accesskey="n" rel="next">\vspace</a>, Previous: <a href="_005cbigbreak-_0026-_005cmedbreak-_0026-_005csmallbreak.html#g_t_005cbigbreak-_0026-_005cmedbreak-_0026-_005csmallbreak" accesskey="p" rel="prev">\bigbreak &amp; \medbreak &amp; \smallbreak</a>, Up: <a href="Spaces.html#Spaces" accesskey="u" rel="up">Spaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cstrut-1"></a>
+<h3 class="section">19.13 <code>\strut</code></h3>
+
+<a name="index-_005cstrut"></a>
+<a name="index-strut"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\strut
+</pre></div>
+
+<p>Ensure that the current line has height at least <code>0.7\baselineskip</code>
+and depth at least <code>0.3\baselineskip</code>.  Essentially, LaTeX
+inserts into the line a rectangle having zero width,
+<code>\rule[-0.3\baselineskip]{0pt}{\baselineskip}</code> (see <a href="_005crule.html#g_t_005crule">\rule</a>).
+The <code>\baselineskip</code> changes with the current font and fontsize.
+</p>
+<p>In this example the <code>\strut</code> keeps the box inside the frame from
+having zero height.
+</p>
+<div class="example">
+<pre class="example">\setlength{\fboxsep}{0pt}\framebox[2in]{\strut}
+</pre></div>
+
+<p>This example has four lists.  In the first there is a much bigger gap
+between items 2 and&nbsp;3 than there is between items 1 and&nbsp;2.
+The second list fixes that with a <code>\strut</code> at the end of its first
+item&rsquo;s second line.
+</p>
+<div class="example">
+<pre class="example">\setlength{\fboxsep}{0pt}
+\noindent\begin{minipage}[t]{0.2\linewidth}
+\begin{enumerate}
+  \item \parbox[t]{15pt}{test \\ test}
+  \item test
+  \item test
+\end{enumerate}
+\end{minipage}%
+\begin{minipage}[t]{0.2\linewidth}
+\begin{enumerate}
+  \item \parbox[t]{15pt}{test \\ test\strut}
+  \item test
+  \item test
+\end{enumerate}
+\end{minipage}%
+\begin{minipage}[t]{0.2\linewidth}
+\begin{enumerate}
+  \item \fbox{\parbox[t]{15pt}{test \\ test}}
+  \item \fbox{test}
+  \item \fbox{test}
+\end{enumerate}
+\end{minipage}%
+\begin{minipage}[t]{0.2\linewidth}
+\begin{enumerate}
+  \item \fbox{\parbox[t]{15pt}{test \\ test\strut}}
+  \item \fbox{test}
+  \item \fbox{test}
+\end{enumerate}
+\end{minipage}%
+</pre></div>
+
+<p>The final two lists use <code>\fbox</code> to show what&rsquo;s happening.  The
+third list&rsquo;s <code>\parbox</code> goes only to the bottom of its second
+&lsquo;<samp>test</samp>&rsquo;, which happens not have any characters that descend below
+the baseline.  The fourth list adds the strut that gives the needed
+extra below-baseline space.
+</p>
+<a name="index-package_002c-TikZ-1"></a>
+<a name="index-TikZ-package-1"></a>
+<a name="index-package_002c-Asymptote-1"></a>
+<a name="index-Asymptote-package-1"></a>
+
+<p>The <code>\strut</code> command is often useful in graphics, such as in
+<samp>TikZ</samp> or <samp>Asymptote</samp>.  For instance, you may have a command
+such as <code>\graphnode{<var>node-name</var>}</code> that fits a circle around
+<var>node-name</var>.  However, unless you are careful the <var>node-name</var>&rsquo;s
+&lsquo;<samp>x</samp>&rsquo; and &lsquo;<samp>y</samp>&rsquo; will produce different-diameter circles because
+the characters are different sizes.  A careful <code>\graphnode</code> might
+insert a <code>\strut</code>, then <var>node-name</var>, and then draw the circle.
+</p>
+<p>The general approach of using a zero width <code>\rule</code> is useful in
+many circumstances.  In this table, the zero-width rule keeps the top of
+the first integral from hitting the <code>\hline</code>.  Similarly, the
+second rule keeps the second integral from hitting the first.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{rl}
+  \textsc{Integral}   &amp;\textsc{Value}           \\
+  \hline
+  $\int_0^x t\, dt$   &amp;$x^2/2$  \rule{0em}{2.5ex} \\  
+  $\int_0^x t^2\, dt$ &amp;$x^3/3$  \rule{0em}{2.5ex}
+\end{tabular}
+</pre></div>
+
+<p>(Although the line-ending double backslash command has an available
+optional argument to put in more vertical room, that won&rsquo;t work here.
+Changing the first double backslash to something like <code>\\[2.5ex]</code>
+will put the room between the header line and the <code>\hline</code>, and the
+integral would still hit the line.)
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

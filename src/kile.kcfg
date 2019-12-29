@@ -303,24 +303,12 @@
 		</entry>
 	</group>
 	<group name="Help">
-		<entry name="location" type="String">
-			<label>Location of the TeX documentation.</label>
-			<default>/usr/share/texmf/doc</default>
-		</entry>
 		<entry name="kilerefs" type="Bool">
 			<label>Use the Kile LaTeX reference for the contextual help.</label>
 			<default>false</default>
 		</entry>
 		<entry name="latex2erefs" type="Bool">
 			<label>Use the system's TexLive LaTeX2e reference for the contextual help.</label>
-			<default>true</default>
-		</entry>
-		<entry name="texrefs" type="Bool">
-			<label>Use the system's TeX reference for the contextual help (older version).</label>
-			<default>false</default>
-		</entry>
-		<entry name="external" type="Bool">
-			<label>Use an external viewer for user help.</label>
 			<default>true</default>
 		</entry>
 	</group>

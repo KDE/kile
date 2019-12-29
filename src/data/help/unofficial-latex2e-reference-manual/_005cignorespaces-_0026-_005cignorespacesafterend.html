@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\ignorespaces &amp; \ignorespacesafterend (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\ignorespaces &amp; \ignorespacesafterend (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\ignorespaces &amp; \ignorespacesafterend (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Definitions.html#Definitions" rel="up" title="Definitions">
+<link href="Counters.html#Counters" rel="next" title="Counters">
+<link href="_005cprotect.html#g_t_005cprotect" rel="prev" title="\protect">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cignorespaces-_0026-_005cignorespacesafterend"></a>
+<div class="header">
+<p>
+Previous: <a href="_005cprotect.html#g_t_005cprotect" accesskey="p" rel="prev">\protect</a>, Up: <a href="Definitions.html#Definitions" accesskey="u" rel="up">Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cignorespaces-_0026-_005cignorespacesafterend-1"></a>
+<h3 class="section">12.12 <code>\ignorespaces &amp; \ignorespacesafterend</code></h3>
+
+<a name="index-_005cignorespaces"></a>
+<a name="index-_005cignorespacesafterend"></a>
+<a name="index-spaces_002c-ignore-around-commands"></a>
+<a name="index-commands_002c-ignore-spaces"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\ignorespaces
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\ignorespacesafterend
+</pre></div>
+
+<p>Both commands cause LaTeX to ignore spaces after the end of the
+command up until the first non-space character.  The first is a command
+from Plain TeX, and the second is LaTeX-specific.
+</p>
+<p>The <code>ignorespaces</code> is often used when defining commands via
+<code>\newcommand</code>, or <code>\newenvironment</code>, or <code>\def</code>.  The
+example below illustrates.  It allows a user to show the points values
+for quiz questions in the margin but it is inconvenient because, as
+shown in the <code>enumerate</code> list, users must not put any space between
+the command and the question text.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\points}[1]{\makebox[0pt]{\makebox[10em][l]{#1~pts}}
+\begin{enumerate} 
+  \item\points{10}no extra space output here
+  \item\points{15} extra space between the number and the `extra'
+\end{enumerate} 
+</pre></div>
+
+<p>The solution is to change to this.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\points}[1]{%
+  \makebox[0pt]{\makebox[10em][l]{#1~pts}}\ignorespaces}
+</pre></div>
+
+<p>A second example shows spaces being removed from the front of text.  The
+commands below allow a user to uniformly attach a title to names.  But,
+as given, if a title accidentally starts with a space then
+<code>\fullname</code> will reproduce that.
+</p>
+<div class="example">
+<pre class="example">\makeatletter
+\newcommand{\honorific}[1]{\def\@honorific{#1}} % remember title
+\newcommand{\fullname}[1]{\@honorific~#1}       % put title before name
+\makeatother
+\begin{tabular}{|l|}
+\honorific{Mr/Ms}  \fullname{Jones} \\  % no extra space here
+\honorific{ Mr/Ms} \fullname{Jones}     % extra space before title
+\end{tabular}
+</pre></div>
+
+<p>To fix this, change to
+<code>\newcommand{\fullname}[1]{\ignorespaces\@honorific~#1}</code>.
+</p>
+<p>The <code>\ignorespaces</code> is also often used in a <code>\newenvironment</code>
+at the end of the <var>begin</var> clause, that is, as part of the second
+argument, as in <code>\begin{newenvironment}{<var>env
+name</var>}{... \ignorespaces}{...}</code>.
+</p>
+<p>To strip spaces off the end of an environment use
+<code>\ignorespacesafterend</code>.  An example is that this will show a much
+larger vertical space between the first and second environments than
+between the second and third.
+</p>
+<div class="example">
+<pre class="example">\newenvironment{eq}{\begin{equation}}{\end{equation}}
+\begin{eq}
+e=mc^2
+\end{eq}
+\begin{equation}
+F=ma
+\end{equation}
+\begin{equation}
+E=IR
+\end{equation}
+</pre></div>
+
+<p>Putting a comment character&nbsp;<code>%</code> immediately after the
+<code>\end{eq}</code> will make the vertical space disappear, but that is
+inconvenient.  The solution is to change to
+<code>\newenvironment{eq}{\begin{equation}}{\end{equation}\ignorespacesafterend}</code>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

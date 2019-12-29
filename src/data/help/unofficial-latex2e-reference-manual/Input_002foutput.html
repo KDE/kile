@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Input/output (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Input/output (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Input/output (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="_005copenin-_0026-_005copenout.html#g_t_005copenin-_0026-_005copenout" rel="next" title="\openin &amp; \openout">
+<link href="_005ctelephone.html#g_t_005ctelephone" rel="prev" title="\telephone">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Input_002foutput"></a>
+<div class="header">
+<p>
+Next: <a href="Command-line.html#Command-line" accesskey="n" rel="next">Command line</a>, Previous: <a href="Letters.html#Letters" accesskey="p" rel="prev">Letters</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Input_002foutput-1"></a>
+<h2 class="chapter">27 Input/output</h2>
+
+<a name="index-input_002foutput_002c-to-terminal"></a>
+<a name="index-terminal-input_002foutput"></a>
+<a name="index-input_002foutput"></a>
+
+<p>LaTeX uses the ability to write to a file and later read it back in
+to build document components such as a table of contents or index.  You
+can also read a file that other programs written, or write a file for
+others to read.  You can communicate with users through the terminal.
+And, you can issue instructions for the operating system.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005copenin-_0026-_005copenout.html#g_t_005copenin-_0026-_005copenout" accesskey="1">\openin &amp; \openout</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Open a file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cread.html#g_t_005cread" accesskey="2">\read</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Read text from a file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005ctypein.html#g_t_005ctypein" accesskey="3">\typein</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Read text from the terminal.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005ctypeout.html#g_t_005ctypeout" accesskey="4">\typeout</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Write text to the terminal.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cwrite.html#g_t_005cwrite" accesskey="5">\write</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Write text to a file or terminal.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

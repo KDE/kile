@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\write (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\write (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\write (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Input_002foutput.html#Input_002foutput" rel="up" title="Input/output">
+<link href="_005cmessage.html#g_t_005cmessage" rel="next" title="\message">
+<link href="_005ctypeout.html#g_t_005ctypeout" rel="prev" title="\typeout">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cwrite"></a>
+<div class="header">
+<p>
+Previous: <a href="_005ctypeout.html#g_t_005ctypeout" accesskey="p" rel="prev">\typeout</a>, Up: <a href="Input_002foutput.html#Input_002foutput" accesskey="u" rel="up">Input/output</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cwrite-1"></a>
+<h3 class="section">27.5 <code>\write</code></h3>
+
+<a name="index-_005cwrite"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\write<var>number</var>{<var>string</var>}
+</pre></div>
+
+<p>Write <code>string</code> to the log file, to the terminal, or to a file
+opened by <code>\openout</code>.  For instance, <code>\write6</code> writes to text
+stream number&nbsp;6.
+</p>
+<p>If the following appears in <samp><var>basefile</var>.tex</samp> then it opens
+<samp><var>basefile</var>.jh</samp>, writes &lsquo;<samp>Hello World!</samp>&rsquo; and a newline to
+it, and closes that file.
+</p>
+<div class="example">
+<pre class="example">\newwrite\myfile
+\immediate\openout\myfile=\jobname.jh   % \jobname is current file name
+  ...
+\immediate\write\myfile{Hello world!}
+  ...
+\immediate\closeout\myfile
+</pre></div>
+
+<p>The <code>\newwrite</code> allocates a stream number, giving it a symbolic
+names to make life easier, so that <code>test
+\newwrite\myfile\the\myfile</code> produces something like &lsquo;<samp>test 3</samp>&rsquo;.
+Then <code>\openout</code> associates the stream number with the given file
+name.  With that, <code>\write3</code> puts the string in the file.
+</p>
+<p>Typically <var>number</var> is between 0 and&nbsp;15 because typically
+LaTeX authors follow the prior example and the number is allocated by
+the system.  If <var>number</var> is outside the range from 0 to 15 or if it
+is not associated with an open file then LaTeX writes <var>string</var> to
+the log file.  If <var>number</var> is positive then in addition LaTeX
+writes <var>string</var> to the terminal. Thus, <code>test \write-1{Hello
+World!}</code> puts &lsquo;<samp>Hello World!</samp>&rsquo; followed by a newline in the log
+file.  (This is what the <code>\wlog</code> command does; see <a href="_005cwlog.html#g_t_005cwlog">\wlog</a>).  And
+<code>\write100{Hello World!}</code> puts the same in the log file but also
+puts &lsquo;<samp>Hello World!</samp>&rsquo; followed by a newline in the terminal output.
+(But 16, 17, and 18 are special as <var>number</var>; see below.)
+</p>
+<p>In LuaTeX, instead of 16 output streams there are 256
+(see <a href="TeX-engines.html#TeX-engines">TeX engines</a>).
+</p>
+<p>Write to the current <samp>.aux</samp> file, which is associated with the main
+file or with the current include file, using
+<code>\write\@auxout{<var>string</var>}</code>.  Write to the main <samp>.aux</samp>
+file using <code>\write\@mainaux{<var>string</var>}</code>.
+</p>
+<p>By default LaTeX does not write <var>string</var> to the file right away.
+This is because, for example, you may use <code>\write</code> to save the
+current page number but when TeX comes across a <code>\write</code> it may
+be not yet sure what page this is, since it has not yet done the page
+breaking.  So you <code>\write</code> in one of three contexts.
+</p>
+<div class="example">
+<pre class="example">\immediate\write\@auxout{<var>string</var>}
+\write\@auxout{<var>string</var>}
+\protected@write\@auxout{}{<var>string</var>}
+</pre></div>
+
+<p>With the first, LaTeX writes <var>string</var> to the file.  Any commands
+in <var>string</var> will be expanded (just as in <code>\edef</code> so that to
+prevent expansion you should use <code>\noexpand</code> or a <code>toks</code>,
+except that you should use <code>#</code> instead of <code>##</code>).  With the
+second, <var>string</var> is stored on the current list of things (as a
+TeX &ldquo;whatsit&rdquo;) and kept until the page is shipped out and likewise
+the commands are unexpanded until shipout.  The third,
+<code>\protected@write</code>, is like the second except that you can use
+<code>\protect</code> on fragile commands. The extra first argument allows you
+to locally insert extra definitions to make more commands be safe or
+have special definition during the write.
+</p>
+<p>Here <var>string</var> contains a control sequence.
+</p>
+<div class="example">
+<pre class="example">\newwrite\jhfile
+\openout\jhfile=test.jh
+\newcommand{\triplex}{XXX}
+\write\jhfile{test \triplex test}
+</pre></div>
+
+<p>This results in the file <samp>test.jh</samp> containing &lsquo;<samp>test XXXtest</samp>&rsquo;
+followed by a newline.
+</p>
+<p>The cases where <var>number</var> is 16, 17, or 18 are special.  Because of
+<code>\write</code>&rsquo;s behavior when <var>number</var> is outside the range from 0
+to 15 described above, in Plain&nbsp;TeX <code>\write16</code> and
+<code>\write17</code> were sometimes used to write to the log file and the
+terminal.  Note that in LaTeX the natural way to do that is with
+<code>\typeout</code> (see <a href="_005ctypeout.html#g_t_005ctypeout">\typeout</a>).  The <code>\write18</code> command is even
+more special; modern TeX systems use it for giving commands to the
+operating system (see <a href="_005cwrite18.html#g_t_005cwrite18">\write18</a>).
+</p>
+<p>Ordinarily <code>\write</code> outputs a single line.  Put in a newline with
+<code>^^J</code>.  Thus, this produces two lines in the log file.
+</p>
+<div class="example">
+<pre class="example">\wlog{Parallel lines have a lot in common.^^JBut they never meet.}
+</pre></div>
+
+<p>The ability to write files raises security issues. If you compiled a
+downloaded LaTeX file and it overwrote your password file then you
+would be justifiably troubled. TeX systems by default only allow
+you to open files for writing that are in the current directory or in
+a subdirectory. This
+</p>
+<div class="example">
+<pre class="example">\newwrite\jhfile
+\openout\jhfile=../test.jh
+</pre></div>
+
+<p>gives an error like &lsquo;<samp>Not writing to ../test.jh (openout_any = p). !
+I can't write on file `../test.jh'</samp>&rsquo;.  Note that you can get such an
+error when trying to use commands such as <code>\include{../filename}</code>
+because LaTeX will try to open <samp>../filename.aux</samp>.  The simplest
+solution is to put the included files in the same directory as the
+master file, or in subdirectories.
+</p>
+<a name="index-package_002c-answers"></a>
+<a name="index-answers-package"></a>
+
+<p>A common case where authors want to write a file not already provided by
+LaTeX is for answers to exercises, or some other situation where you
+want to write out verbatim, without expanding the commands.  CTAN has a
+number of packages for this; one is <samp>answers</samp>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cmessage.html#g_t_005cmessage" accesskey="1">\message</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Write part of a line to log file and terminal.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cwlog.html#g_t_005cwlog" accesskey="2">\wlog</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Write to the log file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cwrite18.html#g_t_005cwrite18" accesskey="3">\write18</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Write to the operating system.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

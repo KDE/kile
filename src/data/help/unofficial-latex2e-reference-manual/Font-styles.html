@@ -1,0 +1,372 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Font styles (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Font styles (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Font styles (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Fonts.html#Fonts" rel="up" title="Fonts">
+<link href="Font-sizes.html#Font-sizes" rel="next" title="Font sizes">
+<link href="_005cUseTextAccent-_0026-_005cUseTextSymbol.html#g_t_005cUseTextAccent-_0026-_005cUseTextSymbol" rel="prev" title="\UseTextAccent &amp; \UseTextSymbol">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Font-styles"></a>
+<div class="header">
+<p>
+Next: <a href="Font-sizes.html#Font-sizes" accesskey="n" rel="next">Font sizes</a>, Previous: <a href="fontenc-package.html#fontenc-package" accesskey="p" rel="prev">fontenc package</a>, Up: <a href="Fonts.html#Fonts" accesskey="u" rel="up">Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Font-styles-1"></a>
+<h3 class="section">4.2 Font styles</h3>
+
+<a name="index-font-styles"></a>
+<a name="index-type-styles"></a>
+<a name="index-styles-of-text"></a>
+
+<p>The following type style commands are supported by LaTeX.
+</p>
+<p>In the table below the listed commands, the <code>\text...</code>  commands,
+is used with an argument, as in <code>\textit{<var>text</var>}</code>.  This is
+the preferred form.  But shown after it, in parenthesis, is the
+corresponding declaration form, which is sometimes useful.  This form
+takes no arguments, as in <code>{\itshape <var>text</var>}</code>.  The scope of
+the declaration form lasts until the next type style command or the end
+of the current group.  In addition, each has an environment form such as
+<code>\begin{itshape}...\end{itshape}</code>.
+</p>
+<p>These commands, in both the argument form and the declaration form, are
+cumulative; for instance you can get bold sans serif by saying either of
+<code>\sffamily\bfseries</code> or <code>\bfseries\sffamily</code>.
+</p>
+<a name="index-_005cnocorrlist"></a>
+<a name="index-_005cnocorr"></a>
+<p>One advantage of these commands is that they automatically insert italic
+corrections if needed (see <a href="_005c_002f.html#g_t_005c_002f">\/</a>).  Specifically, they insert the
+italic correction unless the following character is in the list
+<code>\nocorrlist</code>, which by default consists of a period and a comma.
+To suppress the automatic insertion of italic correction, use
+<code>\nocorr</code> at the start or end of the command argument, such as
+<code>\textit{\nocorr text}</code> or <code>\textsc{text \nocorr}</code>.
+</p>
+<dl compact="compact">
+<dt><code>\textrm (\rmfamily)</code></dt>
+<dd><a name="index-_005ctextrm"></a>
+<a name="index-_005crmfamily"></a>
+<p>Roman.
+</p>
+</dd>
+<dt><code>\textit (\itshape)</code></dt>
+<dd><a name="index-_005ctextit"></a>
+<a name="index-_005citshape"></a>
+<p>Italics.
+</p>
+</dd>
+<dt><code>\textmd (\mdseries)</code></dt>
+<dd><a name="index-_005ctextmd"></a>
+<a name="index-_005cmdseries"></a>
+<p>Medium weight (default).
+</p>
+</dd>
+<dt><code>\textbf (\bfseries)</code></dt>
+<dd><a name="index-_005ctextbf"></a>
+<a name="index-_005cbfseries"></a>
+<p>Boldface.
+</p>
+</dd>
+<dt><code>\textup (\upshape)</code></dt>
+<dd><a name="index-_005ctextup"></a>
+<a name="index-_005cupshape"></a>
+<p>Upright (default).
+</p>
+</dd>
+<dt><code>\textsl (\slshape)</code></dt>
+<dd><a name="index-_005ctextsl"></a>
+<a name="index-_005cslshape"></a>
+<p>Slanted.
+</p>
+</dd>
+<dt><code>\textsf (\sffamily)</code></dt>
+<dd><a name="index-_005ctextsf"></a>
+<a name="index-_005csffamily"></a>
+<p>Sans serif.
+</p>
+</dd>
+<dt><code>\textsc (\scshape)</code></dt>
+<dd><a name="index-_005ctextsc"></a>
+<a name="index-_005cscshape"></a>
+<p>Small caps.
+</p>
+</dd>
+<dt><code>\texttt (\ttfamily)</code></dt>
+<dd><a name="index-_005ctexttt"></a>
+<a name="index-_005cttfamily"></a>
+<p>Typewriter.
+</p>
+</dd>
+<dt><code>\textnormal (\normalfont)</code></dt>
+<dd><a name="index-_005ctextnormal"></a>
+<a name="index-_005cnormalfont"></a>
+<p>Main document font.
+</p>
+</dd>
+</dl>
+
+<a name="index-emphasis"></a>
+<a name="index-_005cemph"></a>
+<p>Although it also changes fonts, the <code>\emph{<var>text</var>}</code> command
+is semantic, for text to be emphasized, and should not be used as a
+substitute for <code>\textit</code>.  For example, <code>\emph{<var>start
+text</var> \emph{<var>middle text</var>} <var>end text</var>}</code> will result in the
+<var>start text</var> and <var>end text</var> in italics, but <var>middle text</var>
+will be in roman.
+</p>
+<p>LaTeX also provides the following commands, which unconditionally
+switch to the given style, that is, are <em>not</em> cumulative.  They are
+used as declarations: <code>{\<var>cmd</var>...}</code> instead of
+<code>\<var>cmd</var>{...}</code>.
+</p>
+<p>(The unconditional commands below are an older version of font
+switching. The earlier commands are an improvement in most
+circumstances. But sometimes an unconditional font switch is precisely
+what you want.)
+</p>
+<dl compact="compact">
+<dt><code>\bf</code>
+<a name="index-_005cbf"></a>
+</dt>
+<dd><a name="index-bold-font"></a>
+<p>Switch to bold face.
+</p>
+</dd>
+<dt><code>\cal</code>
+<a name="index-_005ccal"></a>
+</dt>
+<dd><a name="index-script-letters-for-math"></a>
+<a name="index-calligraphic-letters-for-math"></a>
+<p>Switch to calligraphic letters for math.
+</p>
+</dd>
+<dt><code>\it</code>
+<a name="index-_005cit"></a>
+</dt>
+<dd><a name="index-italic-font"></a>
+<p>Italics.
+</p>
+</dd>
+<dt><code>\rm</code>
+<a name="index-_005crm"></a>
+</dt>
+<dd><a name="index-roman-font"></a>
+<p>Roman.
+</p>
+</dd>
+<dt><code>\sc</code>
+<a name="index-_005csc"></a>
+</dt>
+<dd><a name="index-small-caps-font"></a>
+<p>Small caps.
+</p>
+</dd>
+<dt><code>\sf</code>
+<a name="index-_005csf"></a>
+</dt>
+<dd><a name="index-sans-serif-font"></a>
+<p>Sans serif.
+</p>
+</dd>
+<dt><code>\sl</code>
+<a name="index-_005csl"></a>
+</dt>
+<dd><a name="index-slanted-font"></a>
+<a name="index-oblique-font"></a>
+<p>Slanted (oblique).
+</p>
+</dd>
+<dt><code>\tt</code>
+<a name="index-_005ctt"></a>
+</dt>
+<dd><a name="index-typewriter-font"></a>
+<a name="index-monospace-font"></a>
+<a name="index-fixed_002dwidth-font"></a>
+<p>Typewriter (monospace, fixed-width).
+</p>
+</dd>
+</dl>
+
+<p>The <code>\em</code> command is the unconditional version of <code>\emph</code>.
+</p>
+<p>The following commands are for use in math mode.  They are not
+cumulative, so <code>\mathbf{\mathit{<var>symbol</var>}}</code> does not
+create a boldface and italic <var>symbol</var>; instead, it will just be in
+italics.  This is because typically math symbols need consistent
+typographic treatment, regardless of the surrounding environment.
+</p>
+<dl compact="compact">
+<dt><code>\mathrm</code></dt>
+<dd><a name="index-_005cmathrm"></a>
+<p>Roman, for use in math mode.
+</p>
+</dd>
+<dt><code>\mathbf</code></dt>
+<dd><a name="index-_005cmathbf"></a>
+<p>Boldface, for use in math mode.
+</p>
+</dd>
+<dt><code>\mathsf</code></dt>
+<dd><a name="index-_005cmathsf"></a>
+<p>Sans serif, for use in math mode.
+</p>
+</dd>
+<dt><code>\mathtt</code></dt>
+<dd><a name="index-_005cmathtt"></a>
+<p>Typewriter, for use in math mode.
+</p>
+</dd>
+<dt><code>\mathit</code></dt>
+<dt><code>(\mit)</code></dt>
+<dd><p>Italics, for use in math mode.
+</p>
+</dd>
+<dt><code>\mathnormal</code></dt>
+<dd><a name="index-_005cmathnormal"></a>
+<p>For use in math mode, e.g., inside another type style declaration.
+</p>
+</dd>
+<dt><code>\mathcal</code></dt>
+<dd><a name="index-_005cmathcal"></a>
+<p>Calligraphic letters, for use in math mode.
+</p>
+</dd>
+</dl>
+
+<a name="index-_005cmathversion"></a>
+<a name="index-math_002c-bold"></a>
+<a name="index-bold-math"></a>
+<p>In addition, the command <code>\mathversion{bold}</code> can be used for
+switching to bold letters and symbols in
+formulas. <code>\mathversion{normal}</code> restores the default.
+</p>
+<a name="index-_005coldstylenums"></a>
+<a name="index-numerals_002c-old_002dstyle"></a>
+<a name="index-old_002dstyle-numerals"></a>
+<a name="index-lining-numerals"></a>
+<a name="index-package_002c-textcomp"></a>
+<a name="index-textcomp-package"></a>
+
+<p>Finally, the command <code>\oldstylenums{<var>numerals</var>}</code> will typeset
+so-called &ldquo;old-style&rdquo; numerals, which have differing heights and
+depths (and sometimes widths) from the standard &ldquo;lining&rdquo; numerals,
+which all have the same height as uppercase letters.  LaTeX&rsquo;s
+default fonts support this, and will respect <code>\textbf</code> (but not
+other styles; there are no italic old-style numerals in Computer
+Modern).  Many other fonts have old-style numerals also; sometimes the
+<code>textcomp</code> package must be loaded, and sometimes package options
+are provided to make them the default.  FAQ entry:
+<a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=osf">http://www.tex.ac.uk/cgi-bin/texfaq2html?label=osf</a>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

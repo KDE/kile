@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\newglossaryentry (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\newglossaryentry (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\newglossaryentry (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Glossaries.html#Glossaries" rel="up" title="Glossaries">
+<link href="_005cgls.html#g_t_005cgls" rel="next" title="\gls">
+<link href="Glossaries.html#Glossaries" rel="prev" title="Glossaries">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cnewglossaryentry"></a>
+<div class="header">
+<p>
+Next: <a href="_005cgls.html#g_t_005cgls" accesskey="n" rel="next">\gls</a>, Up: <a href="Glossaries.html#Glossaries" accesskey="u" rel="up">Glossaries</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cnewglossaryentry-1"></a>
+<h4 class="subsection">25.3.1 <code>\newglossaryentry</code></h4>
+
+<a name="index-glossary_002c-entries"></a>
+<a name="index-_005cnewglossaryentry"></a>
+
+<p>Synopsis, one of: 
+</p>
+<div class="example">
+<pre class="example">\newglossaryentry{<var>label</var>} 
+{ 
+  name={<var>name</var>}, 
+  description={<var>description</var>}, 
+  <var>other options</var>, ... 
+}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\longnewglossaryentry{<var>label</var>} 
+{ 
+  name={<var>name</var>}, 
+  <var>other options</var> ..., 
+} 
+{<var>description</var>}
+</pre></div>
+
+<p>Declare a new entry for a glossary.  The <var>label</var> must be unique for
+the document.  The settings associated with the label are pairs:
+<code><var>key</var>=<var>value</var></code>.
+</p>
+<p>This puts the blackboard bold symbol for the real numbers &#x211D; in the
+glossary.
+</p>
+<div class="example">
+<pre class="example">\newglossaryentry{R}  
+{  
+  name={\ensuremath{\mathbb{R}}},  
+  description={the real numbers},  
+}
+</pre></div>
+
+<p>Use the second command form if the <var>description</var> spans more than one
+paragraph.
+</p>
+<p>For a full list of <var>key</var>s see the package documentation on CTAN but
+here are a few.
+</p>
+<dl compact="compact">
+<dt><code>name</code>
+<a name="index-name"></a>
+</dt>
+<dd><p>(Required.) The word, phrase, or symbol that you are defining.
+</p>
+</dd>
+<dt><code>description</code>
+<a name="index-description"></a>
+</dt>
+<dd><p>(Required.) The description that will appear in the glossary.
+If this has more than one paragraph then you must use the second command
+form given in the synopsis.
+</p>
+</dd>
+<dt><code>plural</code>
+<a name="index-plural"></a>
+</dt>
+<dd><p>The plural form of <var>name</var>.  Refer to the plural form using
+<code>\glspl</code> or <code>\Glspl</code> (see <a href="_005cgls.html#g_t_005cgls">\gls</a>).
+</p>
+</dd>
+<dt><code>sort</code>
+<a name="index-sort"></a>
+</dt>
+<dd><p>How to place this entry in the list of entries that the glossary holds.
+</p>
+</dd>
+<dt><code>symbol</code>
+<a name="index-symbol"></a>
+</dt>
+<dd><p>A symbol, such as a mathematical symbol, besides the name.
+</p>
+</dd>
+</dl>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\addcontentsline (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\addcontentsline (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\addcontentsline (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e" rel="up" title="Table of contents etc.">
+<link href="_005caddtocontents.html#g_t_005caddtocontents" rel="next" title="\addtocontents">
+<link href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e" rel="prev" title="Table of contents etc.">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005caddcontentsline"></a>
+<div class="header">
+<p>
+Next: <a href="_005caddtocontents.html#g_t_005caddtocontents" accesskey="n" rel="next">\addtocontents</a>, Up: <a href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e" accesskey="u" rel="up">Table of contents etc.</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005caddcontentsline-1"></a>
+<h4 class="subsection">25.1.1 <code>\addcontentsline</code></h4>
+
+<a name="index-_005caddcontentsline"></a>
+<a name="index-table-of-contents-entry_002c-manually-adding"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\addcontentsline{<var>ext</var>}{<var>unit</var>}{<var>text</var>}
+</pre></div>
+
+<a name="index-_005ccontentsline"></a>
+<p>Add an entry to the file specified by <var>ext</var>.  Usually <var>ext</var> is
+one of <code>toc</code> for the table of contents, <code>lof</code> for the list of
+figures, or <code>lot</code> for the list of tables.
+</p>
+<p>The following will result in an &lsquo;<samp>Appendices</samp>&rsquo; line in the table of
+contents.
+</p>
+<div class="example">
+<pre class="example">\addcontentsline{toc}{section}{\protect\textbf{Appendices}}
+</pre></div>
+
+<p>It will appear at the same indentation level as the sections, will be in
+boldface, and will be assigned the page number associated with the point
+where it appears in the input file.
+</p>
+<p>The <code>\addcontentsline</code> command writes information to the file
+<samp><var>root-name</var>.<var>ext</var></samp>.  It writes that information as the
+text of the command
+<code>\contentsline{<var>unit</var>}{<var>text</var>}{<var>num</var>}</code>, where
+<code><var>num</var></code> is the current value of counter <code><var>unit</var></code>.  The
+most common case is the table of contents and there <var>num</var> is the
+page number of the first page of <var>unit</var>.
+</p>
+<p>This command is invoked by the sectioning commands <code>\chapter</code>,
+etc., and also by <code>\caption</code> inside a float environment.  But it is
+also used by authors.  For example, in a book to have the preface
+unnumbered, you may use the starred <code>\chapter*</code>.  But that does not
+put in table of contents information, so you can enter it manually, as
+here.
+</p>
+<div class="example">
+<pre class="example">\chapter*{Preface}
+\addcontentsline{toc}{chapter}{\protect\numberline{}Preface}
+</pre></div>
+
+<p>In the <samp>.toc</samp> file LaTeX will put the line <code>\contentsline
+{chapter}{\numberline {}Preface}{3}</code>; note the page number
+&lsquo;<samp>3</samp>&rsquo;.
+</p>
+
+<p>All of the arguments for <code>\addcontentsline</code> are required.
+</p>
+<dl compact="compact">
+<dt><var>ext</var></dt>
+<dd><p>Typically one of the strings <code>toc</code> for the table of contents,
+<code>lof</code> for the list of figures, or <code>lot</code> for the list of
+tables. The filename extension of the information file.
+</p>
+</dd>
+<dt><var>unit</var></dt>
+<dd><p>A string that depends on the value of the <var>ext</var> argument:
+</p>
+<dl compact="compact">
+<dt><code>toc</code></dt>
+<dd><p>For the table of contents, this is the name of a sectional unit:
+<code>part</code>, <code>chapter</code>, <code>section</code>, <code>subsection</code>, etc.
+</p>
+</dd>
+<dt><code>lof</code></dt>
+<dd><p>For the list of figures: <code>figure</code>.
+</p>
+</dd>
+<dt><code>lot</code></dt>
+<dd><p>For the list of tables: <code>table</code>.
+</p></dd>
+</dl>
+
+</dd>
+<dt><var>text</var></dt>
+<dd><p>The text of the entry.  You must <code>\protect</code> any commands that are
+fragile (see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).
+</p></dd>
+</dl>
+
+<p>The <code>\addcontentsline</code> command has an interaction with
+<code>\include</code> (see <a href="_005cinclude-_0026-_005cincludeonly.html#g_t_005cinclude-_0026-_005cincludeonly">\include &amp; \includeonly</a>). If you use them at
+the same level, as with
+<code>\addcontentsline{...}{...}{...}\include{...}</code> then lines
+in the table of contents can come out in the wrong order.  The solution
+is to move <code>\addcontentsline</code> into the file being included.
+</p>
+<p>If you use a <var>unit</var> that LaTeX does not recognize, as here
+</p>
+<div class="example">
+<pre class="example">\addcontentsline{toc}{setcion}{\protect\textbf{Appendices}}
+</pre></div>
+
+<p>then you don&rsquo;t get an error but the formatting in the table of contents
+will not make sense.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

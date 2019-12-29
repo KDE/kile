@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Footnotes in a table (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Footnotes in a table (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Footnotes in a table (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Footnotes.html#Footnotes" rel="up" title="Footnotes">
+<link href="Footnotes-of-footnotes.html#Footnotes-of-footnotes" rel="next" title="Footnotes of footnotes">
+<link href="Footnotes-in-section-headings.html#Footnotes-in-section-headings" rel="prev" title="Footnotes in section headings">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Footnotes-in-a-table"></a>
+<div class="header">
+<p>
+Next: <a href="Footnotes-of-footnotes.html#Footnotes-of-footnotes" accesskey="n" rel="next">Footnotes of footnotes</a>, Previous: <a href="Footnotes-in-section-headings.html#Footnotes-in-section-headings" accesskey="p" rel="prev">Footnotes in section headings</a>, Up: <a href="Footnotes.html#Footnotes" accesskey="u" rel="up">Footnotes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Footnotes-in-a-table-1"></a>
+<h3 class="section">11.5 Footnotes in a table</h3>
+
+<a name="index-footnote_002c-in-a-table"></a>
+
+<p>Inside a <code>tabular</code> or <code>array</code> environment the <code>\footnote</code>
+command does not work; there is a footnote mark in the table cell but
+the footnote text does not appear.  The solution is to use a
+<code>minipage</code> environment as here (see <a href="minipage.html#minipage">minipage</a>).
+</p>
+<div class="example">
+<pre class="example">\begin{center}
+  \begin{minipage}{\textwidth} \centering
+     \begin{tabular}{l|l}
+       \textsc{Ship}           &amp;\textsc{Book} \\ \hline 
+       \textit{HMS Sophie}     &amp;Master and Commander  \\ 
+       \textit{HMS Polychrest} &amp;Post Captain  \\  
+       \textit{HMS Lively}     &amp;Post Captain \\
+       \textit{HMS Surprise}   &amp;A number of books\footnote{%
+                                  Starting with HMS Surprise.}
+     \end{tabular}
+  \end{minipage}                              
+\end{center}
+</pre></div>
+
+<p>Inside a <code>minipage</code>, footnote marks are lowercase letters.  Change
+that with something like
+<code>\renewcommand{\thempfootnote}{\arabic{mpfootnote}}</code>
+(see <a href="_005calph-_005cAlph-_005carabic-_005croman-_005cRoman-_005cfnsymbol.html#g_t_005calph-_005cAlph-_005carabic-_005croman-_005cRoman-_005cfnsymbol">\alph \Alph \arabic \roman \Roman \fnsymbol</a>).
+</p>
+<p>The footnotes in the prior example appear at the bottom of the
+<code>minipage</code>.  To have them appear at the bottom of the main page, as
+part of the regular footnote sequence, use the <code>\footnotemark</code> and
+<code>\footnotetext</code> pair and make a new counter.
+</p>
+<div class="example">
+<pre class="example">\newcounter{mpFootnoteValueSaver}
+\begin{center}
+  \begin{minipage}{\textwidth}
+    \setcounter{mpFootnoteValueSaver}{\value{footnote}} \centering
+     \begin{tabular}{l|l}
+       \textsc{Woman}             &amp;\textsc{Relationship} \\ \hline 
+       Mona                       &amp;Attached\footnotemark  \\ 
+       Diana Villiers             &amp;Eventual wife  \\  
+       Christine Hatherleigh Wood &amp;Fiance\footnotemark 
+     \end{tabular}
+  \end{minipage}%  percent sign keeps footnote text close to minipage
+  \stepcounter{mpFootnoteValueSaver}%
+    \footnotetext[\value{mpFootnoteValueSaver}]{%
+      Little is known other than her death.}%
+  \stepcounter{mpFootnoteValueSaver}%
+    \footnotetext[\value{mpFootnoteValueSaver}]{%
+      Relationship is unresolved in XXI.}
+\end{center}
+</pre></div>
+
+<p>For a floating <code>table</code> environment (see <a href="table.html#table">table</a>), use the
+<samp>tablefootnote</samp> package.
+</p>
+<div class="example">
+<pre class="example">\usepackage{tablefootnote}  % in preamble
+   ...
+\begin{table}
+  \centering
+     \begin{tabular}{l|l}
+     \textsc{Date}  &amp;\textsc{Campaign} \\ \hline 
+     1862           &amp;Fort Donelson \\ 
+     1863           &amp;Vicksburg     \\  
+     1865           &amp;Army of Northern Virginia\tablefootnote{%
+                      Ending the war.}
+     \end{tabular}
+    \caption{Forces captured by US Grant}
+\end{table}
+</pre></div>
+
+<p>The footnote appears at the page bottom and is numbered in sequence with
+other footnotes.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

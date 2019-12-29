@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Math functions (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Math functions (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Math functions (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Math-formulas.html#Math-formulas" rel="up" title="Math formulas">
+<link href="Math-accents.html#Math-accents" rel="next" title="Math accents">
+<link href="Greek-letters.html#Greek-letters" rel="prev" title="Greek letters">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Math-functions"></a>
+<div class="header">
+<p>
+Next: <a href="Math-accents.html#Math-accents" accesskey="n" rel="next">Math accents</a>, Previous: <a href="Math-symbols.html#Math-symbols" accesskey="p" rel="prev">Math symbols</a>, Up: <a href="Math-formulas.html#Math-formulas" accesskey="u" rel="up">Math formulas</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Math-functions-1"></a>
+<h3 class="section">16.3 Math functions</h3>
+
+<a name="index-math-functions"></a>
+<a name="index-functions_002c-math"></a>
+
+<p>These commands produce roman function names in math mode with proper
+spacing.
+</p>
+<dl compact="compact">
+<dt><code>\arccos</code>
+<a name="index-_005carccos"></a>
+</dt>
+<dd><p>Inverse cosine
+</p>
+</dd>
+<dt><code>\arcsin</code>
+<a name="index-_005carcsin"></a>
+</dt>
+<dd><p>Inverse sine
+</p>
+</dd>
+<dt><code>\arctan</code>
+<a name="index-_005carctan"></a>
+</dt>
+<dd><p>Inverse tangent
+</p>
+</dd>
+<dt><code>\arg</code>
+<a name="index-_005carg"></a>
+</dt>
+<dd><p>Angle between the real axis and a point in the complex plane
+</p>
+</dd>
+<dt><code>\bmod</code>
+<a name="index-_005cbmod"></a>
+</dt>
+<dd><p>Binary modulo operator, used as in <code>\( 5\bmod 3=2 \)</code>
+</p>
+</dd>
+<dt><code>\cos</code>
+<a name="index-_005ccos"></a>
+</dt>
+<dd><p>Cosine
+</p>
+</dd>
+<dt><code>\cosh</code>
+<a name="index-_005ccosh"></a>
+</dt>
+<dd><p>Hyperbolic cosine
+</p>
+</dd>
+<dt><code>\cot</code>
+<a name="index-_005ccot"></a>
+</dt>
+<dd><p>Cotangent
+</p>
+</dd>
+<dt><code>\coth</code>
+<a name="index-_005ccoth"></a>
+</dt>
+<dd><p>Hyperbolic cotangent
+</p>
+</dd>
+<dt><code>\csc</code>
+<a name="index-_005ccsc"></a>
+</dt>
+<dd><p>Cosecant
+</p>
+</dd>
+<dt><code>\deg</code>
+<a name="index-_005cdeg"></a>
+</dt>
+<dd><p>Degrees
+</p>
+</dd>
+<dt><code>\det</code>
+<a name="index-_005cdet"></a>
+</dt>
+<dd><p>Determinant
+</p>
+</dd>
+<dt><code>\dim</code>
+<a name="index-_005cdim"></a>
+</dt>
+<dd><p>Dimension
+</p>
+</dd>
+<dt><code>\exp</code>
+<a name="index-_005cexp"></a>
+</dt>
+<dd><p>Exponential
+</p>
+</dd>
+<dt><code>\gcd</code>
+<a name="index-_005cgcd"></a>
+</dt>
+<dd><p>Greatest common divisor
+</p>
+</dd>
+<dt><code>\hom</code>
+<a name="index-_005chom"></a>
+</dt>
+<dd><p>Homomorphism
+</p>
+</dd>
+<dt><code>\inf</code>
+<a name="index-_005cinf"></a>
+</dt>
+<dd><p>Infinum
+</p>
+</dd>
+<dt><code>\ker</code>
+<a name="index-_005cker"></a>
+</dt>
+<dd><p>Kernel
+</p>
+</dd>
+<dt><code>\lg</code>
+<a name="index-_005clg"></a>
+</dt>
+<dd><p>Base 2 logarithm
+</p>
+</dd>
+<dt><code>\lim</code>
+<a name="index-_005clim"></a>
+</dt>
+<dd><p>Limit
+</p>
+</dd>
+<dt><code>\liminf</code>
+<a name="index-_005climinf"></a>
+</dt>
+<dd><p>Limit inferior
+</p>
+</dd>
+<dt><code>\limsup</code>
+<a name="index-_005climsup"></a>
+</dt>
+<dd><p>Limit superior
+</p>
+</dd>
+<dt><code>\ln</code>
+<a name="index-_005cln"></a>
+</dt>
+<dd><p>Natural logarithm
+</p>
+</dd>
+<dt><code>\log</code>
+<a name="index-_005clog"></a>
+</dt>
+<dd><p>Logarithm
+</p>
+</dd>
+<dt><code>\max</code>
+<a name="index-_005cmax"></a>
+</dt>
+<dd><p>Maximum
+</p>
+</dd>
+<dt><code>\min</code>
+<a name="index-_005cmin"></a>
+</dt>
+<dd><p>Minimum
+</p>
+</dd>
+<dt><code>\pmod</code>
+<a name="index-_005cpmod"></a>
+</dt>
+<dd><p>Parenthesized modulus, as used in <code>\( 5\equiv 2\pmod 3 \)</code>
+</p>
+</dd>
+<dt><code>\Pr</code>
+<a name="index-_005cPr"></a>
+</dt>
+<dd><p>Probability
+</p>
+</dd>
+<dt><code>\sec</code>
+<a name="index-_005csec"></a>
+</dt>
+<dd><p>Secant
+</p>
+</dd>
+<dt><code>\sin</code>
+<a name="index-_005csin"></a>
+</dt>
+<dd><p>Sine
+</p>
+</dd>
+<dt><code>\sinh</code>
+<a name="index-_005csinh"></a>
+</dt>
+<dd><p>Hyperbolic sine
+</p>
+</dd>
+<dt><code>\sup</code>
+<a name="index-_005csup"></a>
+</dt>
+<dd><p>sup
+</p>
+</dd>
+<dt><code>\tan</code>
+<a name="index-_005ctan"></a>
+</dt>
+<dd><p>Tangent
+</p>
+</dd>
+<dt><code>\tanh</code>
+<a name="index-_005ctanh"></a>
+</dt>
+<dd><p>Hyperbolic tangent
+</p>
+</dd>
+</dl>
+
+<a name="index-package_002c-amsmath-9"></a>
+<a name="index-amsmath-package-9"></a>
+
+<p>The <samp>amsmath</samp> package adds improvements on some of these, and also
+allows you to define your own.  The full documentation is on CTAN, but
+briefly, you can define an identity operator with
+<code>\DeclareMathOperator{\identity}{id}</code> that is like the ones
+above but prints as &lsquo;<samp>id</samp>&rsquo;.  The starred form
+<code>\DeclareMathOperator*{\op}{op}</code> sets any limits above and
+below, as is traditional with <code>\lim</code>, <code>\sup</code>, or <code>\max</code>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

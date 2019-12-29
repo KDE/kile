@@ -1,0 +1,210 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\DeclareGraphicsRule (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\DeclareGraphicsRule (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\DeclareGraphicsRule (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Graphics-package-configuration.html#Graphics-package-configuration" rel="up" title="Graphics package configuration">
+<link href="Commands-for-graphics.html#Commands-for-graphics" rel="next" title="Commands for graphics">
+<link href="_005cDeclareGraphicsExtensions.html#g_t_005cDeclareGraphicsExtensions" rel="prev" title="\DeclareGraphicsExtensions">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cDeclareGraphicsRule"></a>
+<div class="header">
+<p>
+Previous: <a href="_005cDeclareGraphicsExtensions.html#g_t_005cDeclareGraphicsExtensions" accesskey="p" rel="prev">\DeclareGraphicsExtensions</a>, Up: <a href="Graphics-package-configuration.html#Graphics-package-configuration" accesskey="u" rel="up">Graphics package configuration</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cDeclareGraphicsRule-1"></a>
+<h4 class="subsection">22.2.3 <code>\DeclareGraphicsRule</code></h4>
+
+<a name="index-_005cDeclareGraphicsRule"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\DeclareGraphicsRule{<var>extension</var>}{<var>type</var>}{<var>size-file extension</var>}{<var>command</var>}
+</pre></div>
+
+<p>Declare how to handle graphic files whose names end in <var>extension</var>.
+</p>
+<p>This example declares that all files with names have the form
+<samp>filename-without-dot.mps</samp> will be treated as output from MetaPost,
+meaning that the printer driver will use its MetaPost-handling code to
+input the file.
+</p>
+<div class="example">
+<pre class="example">\DeclareGraphicsRule{.mps}{mps}{.mps}{}
+</pre></div>
+
+<p>This
+</p>
+<div class="example">
+<pre class="example">\DeclareGraphicsRule{*}{mps}{*}{}
+</pre></div>
+
+<p>tells LaTeX that it should handle as MetaPost output any file with an
+extension not covered by another rule, so it covers <samp>filename.1</samp>,
+<samp>filename.2</samp>, etc.
+</p>
+<p>This describes the four arguments.
+</p>
+<dl compact="compact">
+<dt><var>extension</var></dt>
+<dd><p>The file extension to which this rule applies. The extension is anything
+after and including the first dot in the filename.  Use the Kleene star,
+<code>*</code>, to denote the default behaviour for all undeclared extensions.
+</p>
+</dd>
+<dt><var>type</var></dt>
+<dd><p>The type of file involved.  This type is a string that must be defined
+in the printer driver. For instance, files with extensions <samp>.ps</samp>,
+<samp>.eps</samp>, or <samp>.ps.gz</samp> may all be classed as type <code>eps</code>.
+All files of the same type will be input with the same internal command
+by the printer driver. For example, the file types that <samp>pdftex</samp>
+recognizes are: <code>jpg</code>, <code>jbig2</code>, <code>mps</code>, <code>pdf</code>,
+<code>png</code>, <code>tif</code>.
+</p>
+</dd>
+<dt><var>size-file extension</var></dt>
+<dd><p>The extension of the file to be read to determine the size of the
+graphic, if there is such a file. It may be the same as <var>extension</var>
+but it may be different.
+</p>
+<p>As an example, consider a PostScript graphic.  To make it smaller, it
+might be compressed into a <samp>.ps.gz</samp> file.  Compressed files are not
+easily read by LaTeX so you can put the bounding box information in a
+separate file. If <var>size-file extension</var> is empty then you must
+specify size information in the arguments of <code>\includegraphics</code>.
+</p>
+<p>If the driver file has a procedure for reading size files for
+<code>type</code> then that will be used, otherwise it will use the procedure
+for reading <samp>.eps</samp> files.  (Thus you may specify the size of bitmap
+files in a file with a PostScript style <code>%%BoundingBox</code> line if no
+other format is available.)
+</p>
+</dd>
+<dt><var>command</var></dt>
+<dd><p>A command that will be applied to the
+file. This is very often left blank. This command must start with a
+single backward quote.  Thus,
+<code>\DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c
+#1}</code> specifies that any file with the extension <samp>.eps.gz</samp> should
+be treated as an <code>eps</code> file, with the BoundingBox information
+stored in the file with extension <samp>.eps.bb</samp>, and that the command
+<code>gunzip -c</code> will run on your platform to decompresses the file.
+</p>
+<p>Such a command is specific to your platform.  In addition, your TeX
+system must allow you to run external commands; as a security measure
+modern systems restrict running commands unless you explicitly allow it.
+See the documentation for your TeX distribution.
+</p>
+</dd>
+</dl>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

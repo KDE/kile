@@ -1,0 +1,348 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Floats (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Floats (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Floats (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Layout.html#Layout" rel="up" title="Layout">
+<link href="Sectioning.html#Sectioning" rel="next" title="Sectioning">
+<link href="Page-layout-parameters.html#Page-layout-parameters" rel="prev" title="Page layout parameters">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Floats"></a>
+<div class="header">
+<p>
+Previous: <a href="Page-layout-parameters.html#Page-layout-parameters" accesskey="p" rel="prev">Page layout parameters</a>, Up: <a href="Layout.html#Layout" accesskey="u" rel="up">Layout</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Floats-1"></a>
+<h3 class="section">5.6 Floats</h3>
+
+<p>Some typographic elements, such as figures and tables, cannot be broken
+across pages.  They must be typeset outside of the normal flow of text,
+for instance floating to the top of a later page.
+</p>
+<p>LaTeX can have a number of different classes of floating material.
+The default is the two classes, <code>figure</code> (see <a href="figure.html#figure">figure</a>) and
+<code>table</code> (see <a href="table.html#table">table</a>), but you can create a new class with the
+package <samp>float</samp>.
+</p>
+<p>Within any one float class LaTeX always respects the order, so that
+the first figure in a document source must be typeset before the second
+figure.  However, LaTeX may mix the classes, so it can happen that
+while the first table appears in the source before the first figure, it
+appears in the output after it.
+</p>
+<p>The placement of floats is subject to parameters, given below, that
+limit the number of floats that can appear at the top of a page, and
+the bottom, etc. If so many floats are queued that the limits prevent
+them all from fitting on a page then LaTeX places what it can and
+defers the rest to the next page.  In this way, floats may end up
+being typeset far from their place in the source.  In particular, a
+float that is big may migrate to the end of the document. In which
+event, because all floats in a class must appear in sequential order,
+every following float in that class also appears at the end.
+</p>
+<a name="index-placement-of-floats"></a>
+<a name="index-specifier_002c-float-placement"></a>
+<p>In addition to changing the parameters, for each float you can tweak
+where the float placement algorithm tries to place it by using its
+<var>placement</var> argument.  The possible values are a sequence of the
+letters below. The default for both <code>figure</code> and <code>table</code>, in
+both <code>article</code> and <code>book</code> classes, is <code>tbp</code>.
+</p>
+<dl compact="compact">
+<dt><code>t</code></dt>
+<dd><p>(Top)&mdash;at the top of a text page.
+</p>
+</dd>
+<dt><code>b</code></dt>
+<dd><p>(Bottom)&mdash;at the bottom of a text page.  (However, <code>b</code> is not
+allowed for full-width floats (<code>figure*</code>) with double-column
+output.  To ameliorate this, use the <samp>stfloats</samp> or
+<samp>dblfloatfix</samp> package, but see the discussion at caveats in the
+FAQ: <a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=2colfloat">http://www.tex.ac.uk/cgi-bin/texfaq2html?label=2colfloat</a>.
+</p>
+</dd>
+<dt><code>h</code></dt>
+<dd><p>(Here)&mdash;at the position in the text where the <code>figure</code> environment
+appears.  However, <code>h</code> is not allowed by itself; <code>t</code> is
+automatically added.
+</p>
+<a name="index-here_002c-putting-floats"></a>
+<a name="index-package_002c-float"></a>
+<a name="index-float-package"></a>
+
+<p>To absolutely force a float to appear &ldquo;here&rdquo;, you can
+<code>\usepackage{float}</code> and use the <code>H</code> specifier which it
+defines.  For further discussion, see the FAQ entry at
+<a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=figurehere">http://www.tex.ac.uk/cgi-bin/texfaq2html?label=figurehere</a>.
+</p>
+</dd>
+<dt><code>p</code></dt>
+<dd><a name="index-float-page"></a>
+<p>(Page of floats)&mdash;on a separate <em>float page</em>, which is a page
+containing no text, only floats.
+</p>
+</dd>
+<dt><code>!</code></dt>
+<dd><p>Used in addition to one of the above; for this float only, LaTeX
+ignores the restrictions on both the number of floats that can appear
+and the relative amounts of float and non-float text on the page.
+The <code>!</code> specifier does <em>not</em> mean &ldquo;put the float here&rdquo;;
+see above.
+</p>
+</dd>
+</dl>
+
+<p>Note: the order in which letters appear in the <var>placement</var> argument
+does not change the order in which LaTeX tries to place the float;
+for instance, <code>btp</code> has the same effect as <code>tbp</code>.  All that
+<var>placement</var> does is that if a letter is not present then the
+algorithm does not try that location.  Thus, LaTeX&rsquo;s default of
+<code>tbp</code> is to try every location except placing the float where it
+occurs in the source.
+</p>
+<p>To prevent LaTeX from moving floats to the end of the document or a
+chapter you can use a <code>\clearpage</code> command to start a new page and
+insert all pending floats. If a pagebreak is undesirable then you can
+use the <samp>afterpage</samp> package and issue
+<code>\afterpage{\clearpage}</code>.  This will wait until the current page
+is finished and then flush all outstanding floats.
+</p>
+<a name="index-package_002c-flafter"></a>
+<a name="index-flafter-package"></a>
+
+<p>LaTeX can typeset a float before where it appears in the source
+(although on the same output page) if there is a <code>t</code> specifier in
+the <var>placement</var> parameter.  If this is not desired, and deleting
+the <code>t</code> is not acceptable as it keeps the float from being placed
+at the top of the next page, then you can prevent it by either using
+the <samp>flafter</samp> package or using the command
+<a name="index-_005csuppressfloats"></a>
+<code>\suppressfloats[t]</code>, which causes floats for the top position on
+this page to moved to the next page.
+</p>
+<p>Parameters relating to fractions of pages occupied by float and
+non-float text (change them with
+<code>\renewcommand{<var>parameter</var>}{<var>decimal between 0 and 1</var>}</code>):
+</p>
+<dl compact="compact">
+<dt><code>\bottomfraction</code>
+<a name="index-_005cbottomfraction"></a>
+</dt>
+<dd><a name="index-_005cbottomfraction-1"></a>
+<a name="floats-bottomfraction"></a><p>The maximum fraction of the page allowed to be occupied by floats at
+the bottom; default &lsquo;<samp>.3</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\floatpagefraction</code>
+<a name="index-_005cfloatpagefraction"></a>
+</dt>
+<dd><a name="index-_005cfloatpagefraction-1"></a>
+<a name="floats-floatpagefraction"></a><p>The minimum fraction of a float page that must be occupied by floats;
+default &lsquo;<samp>.5</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\textfraction</code>
+<a name="index-_005ctextfraction"></a>
+</dt>
+<dd><a name="index-_005ctextfraction-1"></a>
+<a name="floats-textfraction"></a><p>Minimum fraction of a page that must be text; if floats take up too
+much space to preserve this much text, floats will be moved to a
+different page.  The default is &lsquo;<samp>.2</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\topfraction</code>
+<a name="index-_005ctopfraction"></a>
+</dt>
+<dd><a name="index-_005ctopfraction-1"></a>
+<a name="floats-topfraction"></a><p>Maximum fraction at the top of a page that may be occupied before
+floats; default &lsquo;<samp>.7</samp>&rsquo;.
+</p></dd>
+</dl>
+
+<p>Parameters relating to vertical space around floats (change them with a
+command of the form <code>\setlength{<var>parameter</var>}{<var>length
+expression</var>}</code>):
+</p>
+<dl compact="compact">
+<dt><code>\floatsep</code>
+<a name="index-_005cfloatsep"></a>
+</dt>
+<dd><a name="index-_005cfloatsep-1"></a>
+<a name="floats-floatsep"></a><p>Space between floats at the top or bottom of a page; default
+&lsquo;<samp>12pt plus2pt minus2pt</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\intextsep</code>
+<a name="index-_005cintextsep"></a>
+</dt>
+<dd><a name="index-_005cintextsep-1"></a>
+<a name="floats-intextsep"></a><p>Space above and below a float in the middle of the main text; default
+&lsquo;<samp>12pt plus2pt minus2pt</samp>&rsquo; for 10 point and 11 point documents,
+and &lsquo;<samp>14pt plus4pt minus4pt</samp>&rsquo; for 12 point documents.
+</p>
+</dd>
+<dt><code>\textfloatsep</code>
+<a name="index-_005ctextfloatsep"></a>
+</dt>
+<dd><a name="index-_005ctextfloatsep-1"></a>
+<a name="floats-textfloatsep"></a><p>Space between the last (first) float at the top (bottom) of a page;
+default &lsquo;<samp>20pt plus2pt minus4pt</samp>&rsquo;.
+</p></dd>
+</dl>
+
+<p>Counters relating to the number of floats on a page (change them with a
+command of the form <code>\setcounter{<var>ctrname</var>}{<var>natural
+number</var>}</code>):
+</p>
+<dl compact="compact">
+<dt><code>bottomnumber</code>
+<a name="index-bottomnumber"></a>
+</dt>
+<dd><a name="index-bottomnumber-1"></a>
+<a name="floats-bottomnumber"></a><p>Maximum number of floats that can appear at the bottom of a text page;
+default 1.
+</p>
+</dd>
+<dt><code>dbltopnumber</code>
+<a name="index-dbltopnumber"></a>
+</dt>
+<dd><a name="index-dbltopnumber-1"></a>
+<a name="floats-dbltopnumber"></a><p>Maximum number of full-sized floats that can appear at the top of a
+two-column page; default 2.
+</p>
+</dd>
+<dt><code>topnumber</code>
+<a name="index-topnumber"></a>
+</dt>
+<dd><a name="index-topnumber-1"></a>
+<a name="floats-topnumber"></a><p>Maximum number of floats that can appear at the top of a text page;
+default 2.
+</p>
+</dd>
+<dt><code>totalnumber</code>
+<a name="index-totalnumber"></a>
+</dt>
+<dd><a name="index-totalnumber-1"></a>
+<a name="floats-totalnumber"></a><p>Maximum number of floats that can appear on a text page; default 3.
+</p></dd>
+</dl>
+
+<p>The principal TeX&nbsp;FAQ entry relating to floats
+<a href="http://www.tex.ac.uk/cgi-bin/texfaq2html?label=floats">http://www.tex.ac.uk/cgi-bin/texfaq2html?label=floats</a> contains
+suggestions for relaxing LaTeX&rsquo;s default parameters to reduce the
+problem of floats being pushed to the end.  A full explanation of the
+float placement algorithm is in Frank Mittelbach&rsquo;s article &ldquo;How to
+influence the position of float environments like figure and table in
+LaTeX?&rdquo;
+(<a href="http://latex-project.org/papers/tb111mitt-float.pdf">http://latex-project.org/papers/tb111mitt-float.pdf</a>).
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

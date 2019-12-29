@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\write18 (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\write18 (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\write18 (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="_005cwrite.html#g_t_005cwrite" rel="up" title="\write">
+<link href="Command-line.html#Command-line" rel="next" title="Command line">
+<link href="_005cwlog.html#g_t_005cwlog" rel="prev" title="\wlog">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cwrite18"></a>
+<div class="header">
+<p>
+Previous: <a href="_005cwlog.html#g_t_005cwlog" accesskey="p" rel="prev">\wlog</a>, Up: <a href="_005cwrite.html#g_t_005cwrite" accesskey="u" rel="up">\write</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cwrite18-1"></a>
+<h4 class="subsection">27.5.3 <code>\write18</code></h4>
+
+<a name="index-_005cwrite18"></a>
+<a name="index-external-commands"></a>
+<a name="index-commands_002c-run-from-LaTeX"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\write18{<var>shell_command</var>}
+</pre></div>
+
+<p>Issue a command to the operating system shell.  The operating system
+runs the command and LaTeX&rsquo;s execution is blocked until that
+finishes.
+</p>
+<a name="index-package_002c-Asymptote-3"></a>
+<a name="index-Asymptote-package-3"></a>
+
+<p>This
+</p>
+<div class="example">
+<pre class="example">\usepackage{graphicx}  % in preamble
+  ...
+\newcommand{\fignum}{1}
+\immediate\write18{cd pix &amp;&amp; asy figure\fignum}
+\includegraphics{pix\figure\fignum.pdf}
+</pre></div>
+
+<p>will run <samp>Asymptote</samp> on <samp>pix/figure1.asy</samp>, so that the
+document can later read in the resulting graphic
+(see <a href="_005cincludegraphics.html#g_t_005cincludegraphics">\includegraphics</a>).  Like any <code>\write</code>, here LaTeX
+expands macros in <var>shell_command</var> so that <code>\fignum</code> is replaced
+by &lsquo;<samp>1</samp>&rsquo;.
+</p>
+<p>Another example is that you can automatically run BibTeX at the start
+of each LaTeX run (see <a href="Using-BibTeX.html#Using-BibTeX">Using BibTeX</a>) by including
+<code>\immediate\write18{bibtex8 \jobname}</code> as the first line of the
+file.  Note that <code>\jobname</code> gives the base name of the current
+file.
+</p>
+<p>You sometimes need to do a multi-step process to get the information
+that you want.  This will insert into the input a list of all PDF files
+in the current directory.
+</p>
+<div class="example">
+<pre class="example">\immediate\write18{ls *.pdf &gt; tmp.dat}
+\input{tmp.dat}
+</pre></div>
+
+<p>The standard behaviour of any <code>\write</code> is to wait until a page is
+being shipped out before expanding the macros or writing to the stream
+(see <a href="_005cwrite.html#g_t_005cwrite">\write</a>). But sometimes you want it done now.  For this, use
+<code>\immediate\write18{<var>shell_command</var>}</code>.
+</p>
+<p>There are obvious security issues with allowing system commands inside a
+LaTeX file.  If you download a file off the net and it contains
+commands to delete all your files then you would be annoyed. The
+standard settings in modern distributions turn off full shell
+access. You can turn it on, if you are sure the shell commands are safe,
+by compiling with <code>latex --shell-escape <var>filename</var></code> for TeX
+Live or MacTeX or <code>latex --enable-write18 <var>filename</var></code> for
+MiKTeX (see <a href="Command-line-options.html#Command-line-options">Command line options</a>).
+</p>
+<p>In the place of full shell access, modern distributions by default use a
+restricted version that allows some commands to work, such as those that
+run Metafont to generate missing fonts, even if you do not use the
+<code>shell-escape</code> or <code>enable-write18</code> option. By default this
+list of allowed commands is short and features only commands that are
+under the control of the distribution maintainers (see <a href="Command-line-options.html#Command-line-options">Command line options</a>).
+</p>
+<p>Some packages need to run external system commands. For instance
+<samp>sagetex</samp> allows you to have the mathematics software system
+<i>Sage</i> do calculations or draw graphs and then incorporate that output
+in your document. For this you must compile with full <code>\write18</code>
+capability turned on.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

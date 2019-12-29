@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2007-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 *                 2011 by Felix Mauch (felix_mauch@web.de)                *
 ***************************************************************************/
 
@@ -33,8 +33,6 @@ public:
 
 protected Q_SLOTS:
     void slotConfigure();
-    void selectHelpLocation();
-    void slotHelpInformation();
 
 protected:
     KileHelp::Help *m_help;

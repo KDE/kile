@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\index (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\index (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\index (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Indexes.html#Indexes" rel="up" title="Indexes">
+<link href="makeindex.html#makeindex" rel="next" title="makeindex">
+<link href="Indexes.html#Indexes" rel="prev" title="Indexes">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cindex"></a>
+<div class="header">
+<p>
+Next: <a href="makeindex.html#makeindex" accesskey="n" rel="next">makeindex</a>, Up: <a href="Indexes.html#Indexes" accesskey="u" rel="up">Indexes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cindex-1"></a>
+<h4 class="subsection">25.2.1 <code>\index</code></h4>
+
+<a name="index-index-entry"></a>
+<a name="index-_005cindex-1"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\index{<var>index-entry-string</var>}
+</pre></div>
+
+<p>Declare an entry in the index.  This command is fragile
+(see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).
+</p>
+<p>For example, as described in <a href="Indexes.html#Indexes">Indexes</a>, one way to get an index from
+what&rsquo;s below is to compile the document with <code>pdflatex test</code>, then
+process the index entries with <code>makeindex test</code>, and then compile
+again with <code>pdflatex test</code>.
+</p>
+<div class="example">
+<pre class="example">W~Ackermann (1896--1962).\index{Ackermann}
+  ...
+Ackermann function\index{Ackermann!function}
+  ...
+rate of growth\index{Ackermann!function!growth rate}
+</pre></div>
+
+<p>All three index entries will get a page number, such as &lsquo;<samp>Ackermann,
+22</samp>&rsquo;.  LaTeX will format the second as a subitem of the first, on the
+line below it and indented, and the third as a subitem of the second.
+Three levels deep is as far as you can nest subentries.  (If you add
+<code>\index{Ackermann!function!growth rate!comparison}</code> then
+<code>makeindex</code> says &lsquo;<samp>Scanning input file test.idx....done (4
+entries accepted, 1 rejected)</samp>&rsquo; and nothing appears in the index).
+</p>
+<p>If you enter a second <code>\index</code> with the same
+<var>index-entry-string</var> then you will get a single index entry with two
+page numbers (unless they happen to fall on the same page).  Thus,
+adding <code>as for Ackermann.\index{Ackermann}</code> later in the same
+document as above will give an index entry like &lsquo;<samp>Ackermann, 22,
+151</samp>&rsquo;.  Also, you can enter the index entries in any order, so for
+instance <code>\index{Ackermann!function}</code> could come before
+<code>\index{Ackermann}</code>.
+</p>
+<a name="index-index_002c-page-range"></a>
+<p>Get a page range in the output, like &lsquo;<samp>Hilbert, 23--27</samp>&rsquo;, as here.
+</p>
+<div class="example">
+<pre class="example">W~Ackermann (1896--1962).\index{Ackermann}
+  ...
+D~Hilbert (1862--1943)\index{Ackermann!Hilbert\(}
+  ...
+disapproved of his marriage.\index{Ackermann!Hilbert\)}
+</pre></div>
+
+<p>If the beginning and ending of the page range are equal then the system
+just gives a single page entry, not a range.
+</p>
+<p>If you index subentries but not a main entry, as with
+<code>\index{Jones!program}</code> and <code>\index{Jones!results}</code>, then
+the output is the item &lsquo;<samp>Jones</samp>&rsquo; with no comma or page number,
+followed by two subitems, like &lsquo;<samp>program, 50</samp>&rsquo; and &lsquo;<samp>results,
+51</samp>&rsquo;.
+</p>
+<a name="index-_0060see_0027-and-_0060see-also_0027-index-entries"></a>
+<a name="index-index-entries_002c-_0060see_0027-and-_0060see-also_0027"></a>
+<a name="index-_005cseename"></a>
+<a name="index-_005calsoname"></a>
+<a name="index-package_002c-babel-5"></a>
+<a name="index-babel-package-5"></a>
+<a name="index-package_002c-polyglossia-3"></a>
+<a name="index-polyglossia-package-3"></a>
+
+
+<p>Generate a index entry that says &lsquo;<samp>See</samp>&rsquo; by using a vertical bar
+character: <code>\index{Ackermann!function|see{P\'eter's
+function}}</code>.  You can instead get &lsquo;<samp>See also</samp>&rsquo; with <code>seealso</code>.
+(The text &lsquo;<samp>See</samp>&rsquo; is defined by <code>\seename</code>, and &lsquo;<samp>See also</samp>&rsquo;
+by <code>\alsoname</code>.  You can redefine these either by using an
+internationalization package such as <samp>babel</samp> or <samp>polyglossia</samp>,
+or directly as with <code>\renewcommand{\alsoname}[1]{Also see
+#1}</code>.)
+</p>
+<p>The &lsquo;<samp>See</samp>&rsquo; feature is part of a more general functionality.  After
+the vertical bar you can put the name of a one-input command, as in
+<code>\index{group|textit}</code> (note the missing backslash on the
+<code>\textit</code> command) and the system will apply that command to the
+page number, here giving something like <code>\textit{7}</code>.  You can
+define your own one-input commands, such as
+<code>\newcommand{\definedpage}[1]{{\color{blue}#1}}</code> and then
+<code>\index{Ackermann!function|definedpage}</code> will give a blue page
+number (see <a href="Color.html#Color">Color</a>).  Another, less practical, example is this,
+</p>
+<div class="example">
+<pre class="example">\newcommand\indexownpage[1]{#1, \thepage}
+  ... Epimenides.\index{self-reference|indexownpage}
+</pre></div>
+
+<p>which creates an entry citing the page number of its own index listing.
+</p>
+<p>The two functions just described combine, as here
+</p>
+<div class="example">
+<pre class="example">\index{Ackermann!function|(definedpage}
+  ...
+\index{Ackermann!function|)}
+</pre></div>
+
+<p>which outputs an index entry like &lsquo;<samp>function, 23--27</samp>&rsquo; where the page
+number range is in blue.
+</p>
+<p>Consider an index entry such as &lsquo;<samp>&#x03B1;-ring</samp>&rsquo;.  Entering
+it as <code>$\alpha$-ring</code> will cause it to be alphabetized according to
+the dollar sign. You can instead enter it using an at-sign, as
+<code>\index{alpha-ring@$\alpha$-ring}</code>.  If you specify an entry
+with an at-sign separating two strings, <code><var>pos</var>@<var>text</var></code>,
+then <var>pos</var> gives the alphabetical position of the entry while
+<var>text</var> produces the text of the entry.  Another example is that
+<code>\index{Saint Michael's College@SMC}</code> produces an index entry
+&lsquo;<samp>SMC</samp>&rsquo; alphabetized into a different location than its spelling
+would naturally give it.
+</p>
+<p>To put a <code>!</code>, or <code>@</code>, or <code>|</code> character in an index
+entry, preceding it with a double quote, <code>&quot;</code>.  (The double quote
+gets deleted before alphabetization.)
+</p>
+<a name="index-package_002c-index"></a>
+<a name="index-index-package"></a>
+
+<p>A number of packages on CTAN have additional functionality beyond that
+provided by <samp>makeidx</samp>.  One is <samp>index</samp>, which allows for
+multiple indices and contains a command
+<code>\index*{<var>index-entry-string</var>}</code> that prints the
+<var>index-entry-string</var> as well as indexing it.
+</p>
+<a name="index-_005cindexentry"></a>
+<a name="index-idx-file"></a>
+<p>The <code>\index</code> command writes the indexing information to the file
+<samp><var>root-name</var>.idx</samp> file.  Specifically, it writes text of the
+command
+<code>\indexentry{<var>index-entry-string</var>}{<var>page-num</var>}</code>,
+where <var>page-num</var> is the value of the <code>\thepage</code> counter.  On
+occasion, when the <code>\printindex</code> command is confused, you have to
+delete this file to start with a fresh slate.
+</p>
+<p>If you omit the closing brace of an <code>\index</code> command then you get a
+message like this.
+</p>
+<div class="example">
+<pre class="example">Runaway argument?  {Ackermann!function
+!  Paragraph ended before \@wrindex was complete.
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

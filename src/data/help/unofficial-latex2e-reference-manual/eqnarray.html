@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>eqnarray (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="eqnarray (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="eqnarray (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="equation.html#equation" rel="next" title="equation">
+<link href="enumerate.html#enumerate" rel="prev" title="enumerate">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="eqnarray"></a>
+<div class="header">
+<p>
+Next: <a href="equation.html#equation" accesskey="n" rel="next">equation</a>, Previous: <a href="enumerate.html#enumerate" accesskey="p" rel="prev">enumerate</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="eqnarray-1"></a>
+<h3 class="section">8.8 <code>eqnarray</code></h3>
+
+<a name="index-environment_002c-eqnarray"></a>
+<a name="index-eqnarray-environment"></a>
+        
+<a name="index-equations_002c-aligning"></a>
+<a name="index-aligning-equations"></a>
+
+<a name="index-align-environment_002c-from-amsmath"></a>
+<a name="index-amsmath-package_002c-replacing-eqnarray"></a>
+<a name="index-Madsen_002c-Lars"></a>
+<p>The <code>eqnarray</code> environment is obsolete.  It has infelicities,
+including spacing that is inconsistent with other mathematics elements.
+(See &ldquo;Avoid eqnarray!&rdquo; by Lars Madsen
+<a href="http://tug.org/TUGboat/tb33-1/tb103madsen.pdf">http://tug.org/TUGboat/tb33-1/tb103madsen.pdf</a>).  New documents
+should include the <samp>amsmath</samp> package and use the displayed
+mathematics environments provided there, such as the <code>align</code>
+environment.  We include a description only for completeness and for
+working with old documents.
+</p>
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{eqnarray} 
+  <var>first formula left</var>  &amp;<var>first formula middle</var>  &amp;<var>first formula right</var> \\
+  ...
+\end{eqnarray}
+</pre></div>
+
+<p>or 
+</p>
+<div class="example">
+<pre class="example">\begin{eqnarray*} 
+  <var>first formula left</var>  &amp;<var>first formula middle</var>  &amp;<var>first formula right</var> \\
+  ...
+\end{eqnarray*}
+</pre></div>
+
+<a name="index-_005c_005c-_0028for-eqnarray_0029"></a>
+<p>Display a sequence of equations or inequalities.  The left and right
+sides are typeset in display mode, while the middle is typeset in text
+mode.
+</p>
+<p>It is similar to a three-column <code>array</code> environment, with items
+within a row separated by an ampersand&nbsp;(<code>&amp;</code>), and with rows
+separated by double backslash&nbsp; <code>\\</code>).
+<a name="index-_005c_005c_002a-_0028for-eqnarray_0029"></a>
+The starred form of line break (<code>\\*</code>) can also be used to separate
+equations, and will disallow a page break there (see <a href="_005c_005c.html#g_t_005c_005c">\\</a>).
+</p>
+<a name="index-_005cnonumber"></a>
+<a name="index-equation-numbers_002c-omitting"></a>
+<p>The unstarred form <code>eqnarray</code> places an equation number on every
+line (using the <code>equation</code> counter), unless that line contains a
+<code>\nonumber</code> command.  The starred form <code>eqnarray*</code> omits
+equation numbering, while otherwise being the same.
+</p>
+<a name="index-_005clefteqn"></a>
+<p>The command <code>\lefteqn</code> is used for splitting long formulas across
+lines. It typesets its argument in display style flush left in a box of
+zero width.
+</p>
+<p>This example shows three lines.  The first two lines make an inequality,
+while the third line has not entry on the left side.
+</p>
+<div class="example">
+<pre class="example">\begin{eqnarray*}
+  \lefteqn{x_1+x_2+\cdots+x_n}     \\
+    &amp;\leq &amp;y_1+y_2+\cdots+y_n      \\
+    &amp;=    &amp;z+y_3+\cdots+y_n
+\end{eqnarray*}
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

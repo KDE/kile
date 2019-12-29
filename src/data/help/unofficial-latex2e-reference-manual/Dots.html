@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Dots (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Dots (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Dots (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Math-symbols.html#Math-symbols" rel="up" title="Math symbols">
+<link href="Greek-letters.html#Greek-letters" rel="next" title="Greek letters">
+<link href="_005cbigl-_0026-_005cbigr-etc.html#g_t_005cbigl-_0026-_005cbigr-etc" rel="prev" title="\bigl &amp; \bigr etc">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Dots"></a>
+<div class="header">
+<p>
+Next: <a href="Greek-letters.html#Greek-letters" accesskey="n" rel="next">Greek letters</a>, Previous: <a href="Delimiters.html#Delimiters" accesskey="p" rel="prev">Delimiters</a>, Up: <a href="Math-symbols.html#Math-symbols" accesskey="u" rel="up">Math symbols</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Dots_002c-horizontal-or-vertical"></a>
+<h4 class="subsection">16.2.6 Dots, horizontal or vertical</h4>
+
+<a name="index-ellipses"></a>
+<a name="index-dots"></a>
+
+<p>Ellipses are the three dots (usually three) indicating that a pattern
+continues.
+</p>
+<div class="example">
+<pre class="example">\begin{array}{cccc}
+  a_{0,0}    &amp;a_{0,1}   &amp;a_{0,2} &amp;\ldots \\
+  a_{1,0}    &amp;\ddots                     \\
+  \vdots
+\end{array}
+</pre></div>
+
+<p>LaTeX provides these.
+</p>
+<dl compact="compact">
+<dd><a name="ellipses-cdots"></a></dd>
+<dt><code>\cdots</code>
+<a name="index-_005ccdots"></a>
+</dt>
+<dd><p>Horizontal ellipsis with the dots raised to the center of the line, as
+in &#x22EF;.  Used as: <code>\( a_0\cdot a_1\cdots a_{n-1}
+\)</code>.
+</p>
+<a name="ellipses-ddots"></a></dd>
+<dt><code>\ddots</code>
+<a name="index-_005cddots"></a>
+</dt>
+<dd><p>Diagonal ellipsis, &#x22F1;.  See the above array example for a
+usage.
+</p>
+<a name="ellipses-ldots"></a></dd>
+<dt><code>\ldots</code>
+<a name="index-_005cldots"></a>
+</dt>
+<dd><p>Ellipsis on the baseline, &#x2026;.  Used as: <code>\(
+x_0,\ldots x_{n-1} \)</code>.  Another example is the above array example. A
+synonym is <code>\mathellipsis</code>.  A synonym from the <samp>amsmath</samp>
+package is <code>\hdots</code>.
+</p>
+<p>You can also use this command outside of mathematical text, as in
+<code>The gears, brakes, \ldots{} are all broken</code>.  (In a paragraph
+mode or LR mode a synonym for <code>\ldots</code> is <code>\dots</code>.)
+</p>
+<a name="ellipses-vdots"></a></dd>
+<dt><code>\vdots</code>
+<a name="index-_005cvdots"></a>
+</dt>
+<dd><p>Vertical ellipsis, &#x22EE;.  See the above array example for a
+usage.
+</p>
+</dd>
+</dl>
+
+<a name="index-package_002c-amsmath-8"></a>
+<a name="index-amsmath-package-8"></a>
+
+<p>The <samp>amsmath</samp> package has the command <code>\dots</code> to semantically
+mark up ellipses.  This example produces two different-looking outputs
+for the first two uses of the <code>\dots</code> command.
+</p>
+<div class="example">
+<pre class="example">\usepackage{amsmath}  % in preamble
+  ...
+Suppose that \( p_0, p_1, \dots, p_{n-1} \) lists all of the primes.
+Observe that \( p_0\cdot p_1 \dots \cdot p_{n-1} +1 \) is not a
+  multiple of any \( p_i \).
+Conclusion: there are infinitely many primes \( p_0, p_1, \dotsc \).
+</pre></div>
+
+<p>In the first line LaTeX looks to the comma following <code>\dots</code> to
+determine that it should output an ellipsis on the baseline.  The second
+line has a <code>\cdot</code> following <code>\dots</code> so LaTeX outputs an
+ellipsis that is on the math axis, vertically centered.  However, the
+third usage has no follow-on character so you have to tell LaTeX what
+to do.  You can use one of the commands: <code>\dotsc</code> if you need the
+ellipsis appropriate for a comma following, <code>\dotsb</code> if you need
+the ellipses that fits when the dots are followed by a binary operator
+or relation symbol, <code>\dotsi</code> for dots with integrals, or
+<code>\dotso</code> for others.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

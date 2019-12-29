@@ -1,0 +1,352 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>tabbing (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="tabbing (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="tabbing (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="table.html#table" rel="next" title="table">
+<link href="quotation-_0026-quote.html#quotation-_0026-quote" rel="prev" title="quotation &amp; quote">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="tabbing"></a>
+<div class="header">
+<p>
+Next: <a href="table.html#table" accesskey="n" rel="next">table</a>, Previous: <a href="quotation-_0026-quote.html#quotation-_0026-quote" accesskey="p" rel="prev">quotation &amp; quote</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="tabbing-1"></a>
+<h3 class="section">8.21 <code>tabbing</code></h3>
+
+<a name="index-environment_002c-tabbing"></a>
+<a name="index-tabbing-environment"></a>
+        
+<a name="index-tab-stops_002c-using"></a>
+<a name="index-lining-text-up-using-tab-stops"></a>
+<a name="index-alignment-via-tabbing"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{tabbing}
+<var>row1col1</var> \= <var>row1col2</var> ...  \\
+<var>row2col1</var> \&gt; <var>row2col2</var> ...  \\
+...
+\end{tabbing}
+</pre></div>
+
+<p>Align text in columns, by setting tab stops and tabbing to them much as
+was done on a typewriter.  This is less often used than the environments
+<code>tabular</code> (see <a href="tabular.html#tabular">tabular</a>) or <code>array</code> (see <a href="array.html#array">array</a>) because
+in those the width of each column need not be constant and need not be
+known in advance.
+</p>
+<p>This example has a first line where the tab stops are set to explicit
+widths, ended by a <code>\kill</code> command (which is described below):
+</p>
+<div class="example">
+<pre class="example">\begin{tabbing}
+\hspace{0.75in}     \= \hspace{0.40in}  \= \hspace{0.40in}    \kill
+Ship                \&gt; Guns             \&gt; Year    \\ 
+\textit{Sophie}     \&gt; 14               \&gt; 1800    \\
+\textit{Polychrest} \&gt; 24               \&gt; 1803    \\
+\textit{Lively}     \&gt; 38               \&gt; 1804    \\
+\textit{Surprise}   \&gt; 28               \&gt; 1805    \\
+\end{tabbing}
+</pre></div>
+
+<p>Both the <code>tabbing</code> environment and the more widely-used
+<code>tabular</code> environment put text in columns.  The most important
+distinction is that in <code>tabular</code> the width of columns is
+determined automatically by LaTeX, while in <code>tabbing</code> the user
+sets the tab stops.  Another distinction is that <code>tabular</code>
+generates a box, but <code>tabbing</code> can be broken across pages.
+Finally, while <code>tabular</code> can be used in any mode, <code>tabbing</code>
+can be used only in paragraph mode and it starts a new paragraph.
+</p>
+<p>A <code>tabbing</code> environment always starts a new paragraph, without
+indentation. Moreover, as shown in the example above, there is no need
+to use the starred form of the <code>\hspace</code> command at the beginning
+of a tabbed row.  The right margin of the <code>tabbing</code> environment is
+the end of line, so that the width of the environment is
+<code>\linewidth</code>.
+</p>
+<a name="index-row_002c-tabbing"></a>
+<p>The <code>tabbing</code> environment contains a sequence of <em>tabbed
+rows</em>.  The first tabbed row begins immediately after
+<code>\begin{tabbing}</code> and each row ends with <code>\\</code> or
+<code>\kill</code>. The last row may omit the <code>\\</code> and end with just
+<code>\end{tabbing}</code>.
+</p>
+<p>At any point the <code>tabbing</code> environment has a current tab stop
+pattern, a sequence of <em><var>n</var> &gt; 0</em> tab stops, numbered 0, 1,
+etc.  These create <var>n</var> corresponding columns.  Tab stop&nbsp;0 is
+always the left margin, defined by the enclosing environment.  Tab
+stop number&nbsp;<var>i</var> is set if it is assigned a horizontal
+position on the page.  Tab stop number&nbsp;<var>i</var> can only be set if
+all the stops 0, &hellip;, <em>i-1</em> have already been set; normally
+later stops are to the right of earlier ones.
+</p>
+<p>By default any text typeset in a <code>tabbing</code> environment is typeset
+ragged right and left-aligned on the current tab stop. Typesetting is
+done in LR mode (see <a href="Modes.html#Modes">Modes</a>).
+</p>
+<p>The following commands can be used inside a <code>tabbing</code> environment.
+They are all fragile (see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).
+</p>
+<dl compact="compact">
+<dt><code>\\ <span class="roman">(tabbing)</span></code>
+<a name="index-_005c_005c-_0028tabbing_0029"></a>
+</dt>
+<dd><p>End a tabbed line and typeset it.
+</p>
+</dd>
+<dt><code>\= <span class="roman">(tabbing)</span></code>
+<a name="index-_005c_003d-_0028tabbing_0029"></a>
+</dt>
+<dd><p>Sets a tab stop at the current position.
+</p>
+</dd>
+<dt><code>\&gt; <span class="roman">(tabbing)</span></code>
+<a name="index-_005c_003e-_0028tabbing_0029"></a>
+</dt>
+<dd><a name="index-_005c_003e"></a>
+<p>Advances to the next tab stop.
+</p>
+</dd>
+<dt><code>\&lt;</code>
+<a name="index-_005c_003c"></a>
+</dt>
+<dd><p>Put following text to the left of the local margin (without changing
+the margin).  Can only be used at the start of the line.
+</p>
+</dd>
+<dt><code>\+</code>
+<a name="index-_005c_002b"></a>
+</dt>
+<dd><p>Moves the left margin of the next and all the
+following commands one tab stop to the right, beginning tabbed line if
+necessary.
+</p>
+</dd>
+<dt><code>\-</code>
+<a name="index-_005c_002d"></a>
+</dt>
+<dd><p>Moves the left margin of the next and all the
+following commands one tab stop to the left, beginning tabbed line if
+necessary.
+</p>
+</dd>
+<dt><code>\' <span class="roman">(tabbing)</span></code>
+<a name="index-_005c_0027-_0028tabbing_0029"></a>
+</dt>
+<dd><p>Moves everything that you have typed so far in the current column, i.e.,
+everything from the most recent <code>\&gt;</code>, <code>\&lt;</code>, <code>\'</code>,
+<code>\\</code>, or <code>\kill</code> command, to the previous column and aligned
+to the right, flush against the current column&rsquo;s tab stop.
+</p>
+</dd>
+<dt><code>\` <span class="roman">(tabbing)</span></code>
+<a name="index-_005c_0060-_0028tabbing_0029"></a>
+</dt>
+<dd><p>Allows you to put text flush right against any tab stop, including tab
+stop&nbsp;0.  However, it can&rsquo;t move text to the right of the last
+column because there&rsquo;s no tab stop there.  The <code>\`</code> command moves
+all the text that follows it, up to the <code>\\</code> or
+<code>\end{tabbing}</code> command that ends the line, to the right margin
+of the <code>tabbing</code> environment.  There must be no <code>\&gt;</code> or
+<code>\'</code> command between the <code>\`</code> and the <code>\\</code> or
+<code>\end{tabbing}</code> command that ends the line.
+</p>
+</dd>
+<dt><code>\a <span class="roman">(tabbing)</span></code>
+<a name="index-_005ca-_0028tabbing_0029"></a>
+</dt>
+<dd><a name="index-_005ca_0027-_0028acute-accent-in-tabbing_0029"></a>
+<a name="index-_005ca_0060-_0028grave-accent-in-tabbing_0029"></a>
+<a name="index-_005ca_003d-_0028macron-accent-in-tabbing_0029"></a>
+<p>In a <code>tabbing</code> environment, the commands <code>\=</code>, <code>\'</code> and
+<code>\`</code> do not produce accents as usual (see <a href="Accents.html#Accents">Accents</a>).  Instead,
+use the commands <code>\a=</code>, <code>\a'</code> and <code>\a`</code>.
+</p>
+</dd>
+<dt><code>\kill</code>
+<a name="index-_005ckill"></a>
+</dt>
+<dd><p>Sets tab stops without producing text.  Works just like <code>\\</code> except
+that it throws away the current line instead of producing output for it.
+Any <code>\=</code>, <code>\+</code> or <code>\-</code> commands in that line remain in
+effect.
+</p>
+</dd>
+<dt><code>\poptabs</code>
+<a name="index-_005cpoptabs"></a>
+</dt>
+<dd><a name="index-_005cpoptabs-1"></a>
+<p>Restores the tab stop positions saved by the last <code>\pushtabs</code>.
+</p>
+</dd>
+<dt><code>\pushtabs</code>
+<a name="index-_005cpushtabs"></a>
+</dt>
+<dd><p>Saves all current tab stop positions. Useful for temporarily changing
+tab stop positions in the middle of a <code>tabbing</code> environment.
+</p>
+</dd>
+<dt><code>\tabbingsep</code>
+<a name="index-_005ctabbingsep"></a>
+</dt>
+<dd><p>Distance of the text moved by <code>\'</code> to left of current tab stop.
+</p>
+</dd>
+</dl>
+
+<p>This example typesets a Pascal function:
+</p>
+<div class="example">
+<pre class="example">\begin{tabbing}
+function \= fact(n : integer) : integer;\\
+         \&gt; begin \= \+ \\
+               \&gt; if \= n &gt; 1 then \+ \\
+                        fact := n * fact(n-1) \- \\
+                  else \+ \\
+                        fact := 1; \-\- \\
+            end;\\
+\end{tabbing}
+</pre></div>
+
+<p>The output looks like this.
+</p>
+<div class="example">
+<pre class="example">function fact(n : integer) : integer;
+         begin
+               if n &gt; 1 then
+                  fact := n * fact(n-1);
+               else
+                  fact := 1;
+         end;
+</pre></div>
+
+<a name="index-package_002c-algorithm2e"></a>
+<a name="index-algorithm2e-package"></a>
+<a name="index-package_002c-listings"></a>
+<a name="index-listings-package"></a>
+<a name="index-package_002c-minted"></a>
+<a name="index-minted-package"></a>
+
+<a name="index-package_002c-fancyvrb"></a>
+<a name="index-fancyvrb-package"></a>
+
+<p>This example is just for illustration of the environment.  To actually
+typeset computer code in typewriter like this, a verbatim environment
+(see <a href="verbatim.html#verbatim">verbatim</a>) would normally be best.  For pretty-printed code,
+there are quite a few packages, including <code>algorithm2e</code>,
+<code>fancyvrb</code>, <code>listings</code>, and <code>minted</code>.
+</p>
+        
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

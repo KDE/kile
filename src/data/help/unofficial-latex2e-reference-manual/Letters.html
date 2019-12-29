@@ -1,0 +1,239 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Letters (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Letters (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Letters (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="_005caddress.html#g_t_005caddress" rel="next" title="\address">
+<link href="_005cgls.html#g_t_005cgls" rel="prev" title="\gls">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Letters"></a>
+<div class="header">
+<p>
+Next: <a href="Input_002foutput.html#Input_002foutput" accesskey="n" rel="next">Input/output</a>, Previous: <a href="Front_002fback-matter.html#Front_002fback-matter" accesskey="p" rel="prev">Front/back matter</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Letters-1"></a>
+<h2 class="chapter">26 Letters</h2>
+
+<a name="index-letters_002c-writing"></a>
+<a name="index-writing-letters"></a>
+
+<p>Synopsis: 
+</p>
+<div class="example">
+<pre class="example">\documentclass{letter}
+\address{<var>senders address</var>}   % return address
+\signature{<var>sender name</var>}
+\begin{document}
+\begin{letter}{<var>recipient address</var>}
+\opening{<var>salutation</var>}
+  <var>letter body</var>
+\closing{<var>closing text</var>}
+\end{letter}
+   ...
+\end{document}
+</pre></div>
+
+<p>Produce one or more letters.  
+</p>
+<p>Each letter is in a separate <code>letter</code> environment, whose argument
+<var>recipient address</var> often contains multiple lines separated with a
+double backslash,&nbsp;(<code>\\</code>).  For example, you might have:
+</p>
+<div class="example">
+<pre class="example"> \begin{letter}{Ninon de l'Enclos \\
+                l'h\^otel Sagonne}
+   ...
+ \end{letter}
+</pre></div>
+
+<p>The start of the <code>letter</code> environment resets the page number to 1,
+and the footnote number to 1 also.
+</p>
+<p>The <var>sender address</var> and <var>sender name</var> are common to all of the
+letters, whether there is one or more, so these are best put in the
+preamble.  As with the recipient address, often <var>sender address</var>
+contains multiple lines separated by a double
+backslash&nbsp;(<code>\\</code>).  LaTeX will put the <var>sender name</var>
+under the closing, after a vertical space for the traditional
+hand-written signature.
+</p>
+<p>Each <code>letter</code> environment body begins with a required
+<code>\opening</code> command such as <code>\opening{Dear Madam or Sir:}</code>.
+The <var>letter body</var> text is ordinary LaTeX so it can contain
+everything from enumerated lists to displayed math, except that commands
+such as <code>\chapter</code> that make no sense in a letter are turned off.
+Each <code>letter</code> environment body typically ends with a
+<code>\closing</code> command such as <code>\closing{Yours,}</code>.
+</p>
+<a name="index-_005c_005c-for-letters"></a>
+<p>Additional material may come after the <code>\closing</code>.  You can say who
+is receiving a copy of the letter with a command like <code>\cc{the
+Boss \\ the Boss's Boss}</code>.  There&rsquo;s a similar <code>\encl</code> command for
+a list of enclosures.  And, you can add a postscript with <code>\ps</code>.
+</p>
+<p>LaTeX&rsquo;s default is to indent the sender name and the closing above it
+by a length of <code>\longindentation</code>.  By default this is
+<code>0.5\textwidth</code>. To make them flush left, put
+<code>\setlength{\longindentation}{0em}</code> in your preamble.
+</p>
+<p>To set a fixed date use something like
+<code>\renewcommand{\today}{1958-Oct-12}</code>.  If put in your preamble
+then it will apply to all the letters.
+</p>
+<p>This example shows only one <code>letter</code> environment.  The three lines
+marked as optional are typically omitted.
+</p>
+<div class="example">
+<pre class="example">\documentclass{letter}
+\address{Sender's street \\ Sender's town}
+\signature{Sender's name \\ Sender's title}
+% optional: \location{Mailbox 13}
+% optional: \telephone{(102) 555-0101}
+\begin{document}
+\begin{letter}{Recipient's name \\ Recipient's address}
+\opening{Sir:}
+% optional: \thispagestyle{firstpage}
+I am not interested in entering a business arrangement with you.
+\closing{Your most humble, etc.,}
+\end{letter}
+\end{document}
+</pre></div>
+
+<p>These commands are used with the <code>letter</code> class.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005caddress.html#g_t_005caddress" accesskey="1">\address</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sender&rsquo;s return address.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005ccc.html#g_t_005ccc" accesskey="2">\cc</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Carbon copy list.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cclosing.html#g_t_005cclosing" accesskey="3">\closing</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Saying goodbye.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cencl.html#g_t_005cencl" accesskey="4">\encl</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">List of enclosed material.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005clocation.html#g_t_005clocation" accesskey="5">\location</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sender&rsquo;s organizational location.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cmakelabels.html#g_t_005cmakelabels" accesskey="6">\makelabels</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Make address labels.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cname.html#g_t_005cname" accesskey="7">\name</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sender&rsquo;s name, for the return address.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005copening.html#g_t_005copening" accesskey="8">\opening</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Saying hello.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cps.html#g_t_005cps" accesskey="9">\ps</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Adding a postscript.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csignature.html#g_t_005csignature">\signature</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sender&rsquo;s signature.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005ctelephone.html#g_t_005ctelephone">\telephone</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Sender&rsquo;s phone number.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Colored text (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Colored text (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Colored text (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Commands-for-color.html#Commands-for-color" rel="up" title="Commands for color">
+<link href="Colored-boxes.html#Colored-boxes" rel="next" title="Colored boxes">
+<link href="Define-colors.html#Define-colors" rel="prev" title="Define colors">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Colored-text"></a>
+<div class="header">
+<p>
+Next: <a href="Colored-boxes.html#Colored-boxes" accesskey="n" rel="next">Colored boxes</a>, Previous: <a href="Define-colors.html#Define-colors" accesskey="p" rel="prev">Define colors</a>, Up: <a href="Commands-for-color.html#Commands-for-color" accesskey="u" rel="up">Commands for color</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Colored-text-1"></a>
+<h4 class="subsection">21.3.2 Colored text</h4>
+
+<a name="index-color-2"></a>
+<a name="index-colored-text"></a>
+
+<p>Synopses:
+</p>
+<div class="example">
+<pre class="example">\textcolor{<var>name</var>}{...}
+\textcolor[<var>color model</var>]{<var>color specification</var>}{...}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\color{<var>name</var>}
+\color[<var>color model</var>]{<var>specification</var>}
+</pre></div>
+
+<p>The affected text gets the color.  This line
+</p>
+<div class="example">
+<pre class="example">\textcolor{magenta}{My name is Ozymandias, king of kings:}
+Look on my works, ye Mighty, and despair!
+</pre></div>
+
+<p>causes the first half to be in magenta while the rest is in black.  You
+can use a color declared with <code>\definecolor</code> in exactly the same
+way that we just used the builtin color &lsquo;<samp>magenta</samp>&rsquo;.
+</p>
+<div class="example">
+<pre class="example">\definecolor{MidlifeCrisisRed}{rgb}{1.0,0.11,0.0}
+I'm thinking about getting a \textcolor{MidlifeCrisisRed}{sports car}.
+</pre></div>
+
+<p>The two <code>\textcolor</code> and <code>\color</code> differ in that the first is
+a command form, enclosing the text to be colored as an argument.  Often
+this form is more convenient, or at least more explicit.  The second
+form is a declaration, as in <code>The moon is made of {\color{green}
+green} cheese</code>, so it is in effect until the end of the current group
+or environment.  This is sometimes useful when writing macros or as
+below where it colors everything inside the <code>center</code> environment,
+including the vertical and horizontal lines.
+</p>
+<div class="example">
+<pre class="example">\begin{center} \color{blue}
+  \begin{tabular}{l|r}
+    UL &amp;UR \\ \hline
+    LL &amp;LR 
+  \end{tabular}
+\end{center}
+</pre></div>
+
+<p>You can use color in equations.  A document might have this definition
+in the preamble
+</p>
+<div class="example">
+<pre class="example">\definecolor{highlightcolor}{RGB}{225,15,0}
+</pre></div>
+
+<p>and then contain this equation.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  \int_a^b \textcolor{highlightcolor}{f'(x)}\,dx=f(b)-f(a)
+\end{equation}
+</pre></div>
+
+<p>Typically the colors used in a document are declared in a class or style
+but sometimes you want a one-off.  Those are the second forms in the
+synopses.
+</p>
+<div class="example">
+<pre class="example">Colors of \textcolor[rgb]{0.33,0.14,0.47}{Purple} and
+{\color[rgb]{0.72,0.60,0.37} Gold} for the team.
+</pre></div>
+
+<p>The format of <var>color specification </var> depends on the color model
+(see <a href="Color-models.html#Color-models">Color models</a>).  For instance, while <code>rgb</code> takes three
+numbers, <code>gray</code> takes only one.
+</p>
+<div class="example">
+<pre class="example">The selection was \textcolor[gray]{0.5}{grayed out}.
+</pre></div>
+
+<p>Colors inside colors do not combine.  Thus
+</p>
+<div class="example">
+<pre class="example">\textcolor{green}{kind of \textcolor{blue}{blue}}
+</pre></div>
+
+<p>has a final word that is blue, not a combination of blue and green.
+</p>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

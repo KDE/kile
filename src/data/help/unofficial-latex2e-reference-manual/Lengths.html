@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Lengths (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Lengths (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Lengths (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Units-of-length.html#Units-of-length" rel="next" title="Units of length">
+<link href="_005cday-_0026-_005cmonth-_0026-_005cyear.html#g_t_005cday-_0026-_005cmonth-_0026-_005cyear" rel="prev" title="\day &amp; \month &amp; \year">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Lengths"></a>
+<div class="header">
+<p>
+Next: <a href="Making-paragraphs.html#Making-paragraphs" accesskey="n" rel="next">Making paragraphs</a>, Previous: <a href="Counters.html#Counters" accesskey="p" rel="prev">Counters</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Lengths-1"></a>
+<h2 class="chapter">14 Lengths</h2>
+
+<a name="index-lengths_002c-defining-and-using"></a>
+
+<p>A <em>length</em> is a measure of distance.  Many LaTeX commands take a
+length as an argument.
+</p>
+<p>Lengths come in two types.  A <em>rigid length</em> such as <code>10pt</code>
+does not contain a <code>plus</code> or <code>minus</code> component.  (Plain TeX
+calls this a <em>dimen</em>.)  A <em>rubber length</em> (what Plain TeX
+calls a <em>skip</em>) such as as with <code>1cm plus0.05cm minus0.01cm</code>
+can contain either or both of those components.  In that rubber length,
+the <code>1cm</code> is the <em>natural length</em> while the other two, the
+<code>plus</code> and <code>minus</code> components, allow TeX to stretch or
+shrink the length to optimize placement.
+</p>
+<p>The illustrations below use these two commands.
+</p>
+<div class="example">
+<pre class="example">% make a black bar 10pt tall and #1 wide
+\newcommand{\blackbar}[1]{\rule{#1}{10pt}}
+
+% Make a box around #2 that is #1 wide (excluding the border)
+\newcommand{\showhbox}[2]{%
+  \fboxsep=0pt\fbox{\hbox to #1{#2}}} 
+</pre></div>
+
+<p>This example uses those commands to show a black bar 100&nbsp;points
+long between &lsquo;<samp>XXX</samp>&rsquo; and &lsquo;<samp>YYY</samp>&rsquo;.  This length is rigid.
+</p>
+<div class="example">
+<pre class="example">XXX\showhbox{100pt}{\blackbar{100pt}}YYY
+</pre></div>
+
+<p>As for rubber lengths, shrinking is simpler one: with <code>1cm minus
+0.05cm</code>, the natural length is 1cm but TeX can shrink it down
+as far as 0.95cm.  Beyond that, TeX refuses to shrink any more.
+Thus, below the first one works fine, producing a space of
+98&nbsp;points between the two bars.
+</p>
+<div class="example">
+<pre class="example">XXX\showhbox{300pt}{%
+  \blackbar{101pt}\hspace{100pt minus 2pt}\blackbar{101pt}}YYY
+
+XXX\showhbox{300pt}{%
+  \blackbar{105pt}\hspace{100pt minus 1pt}\blackbar{105pt}}YYY
+</pre></div>
+
+<p>But the second one gets a warning like &lsquo;<samp>Overfull \hbox (1.0pt too
+wide) detected at line 17</samp>&rsquo;.  In the output the first &lsquo;<samp>Y</samp>&rsquo; is
+overwritten by the end of the black bar, because the box&rsquo;s material is
+wider than the 300pt allocated, as TeX has refused to shrink
+the total to less than 309&nbsp;points.
+</p>
+<p>Stretching is like shrinking except that if TeX is asked to stretch
+beyond the given amount, it will do it.  Here the first line is fine,
+producing a space of 110&nbsp;points between the bars.
+</p>
+<div class="example">
+<pre class="example">XXX\showhbox{300pt}{%
+  \blackbar{95pt}\hspace{100pt plus 10pt}\blackbar{95pt}}YYY
+
+XXX\showhbox{300pt}{%
+  \blackbar{95pt}\hspace{100pt plus 1pt}\blackbar{95pt}}YYY
+</pre></div>
+
+<p>In the second line TeX needs a stretch of 10&nbsp;points and only
+1&nbsp;point was specified.  TeX stretches the space to the required
+length but it gives you a warning like &lsquo;<samp>Underfull \hbox (badness
+10000) detected at line 22</samp>&rsquo;.  (We won&rsquo;t discuss badness.)
+</p>
+<p>You can put both stretch and shrink in the same length, as in
+<code>1ex plus 0.05ex minus 0.02ex</code>.
+</p>
+<p>If TeX is setting two or more rubber lengths then it allocates the
+stretch or shrink in proportion.
+</p>
+<div class="example">
+<pre class="example">XXX\showhbox{300pt}{%
+  \blackbar{100pt}%  left
+  \hspace{0pt plus 50pt}\blackbar{80pt}\hspace{0pt plus 10pt}%  middle
+  \blackbar{100pt}}YYY  % right
+</pre></div>
+
+<p>The left and right bars take up 100&nbsp;points, so the middle needs
+another 100.  The middle bar is 80&nbsp;points so the two
+<code>\hspace</code>&rsquo;s must stretch 20&nbsp;points.  Because the two are
+<code>plus 50pt</code> and <code>plus 10pt</code>, TeX gets 5/6 of the stretch
+from the first space and 1/6 from the second.
+</p>
+<p>The <code>plus</code> or <code>minus</code> component of a rubber length can contain
+a <em>fill</em> component, as in <code>1in plus2fill</code>.  This gives the
+length infinite stretchability or shrinkability so that TeX could set
+it to any distance.  Here the two figures will be equal-spaced across
+the page.
+</p>
+<div class="example">
+<pre class="example">\begin{minipage}{\linewidth}
+  \hspace{0pt plus 1fill}\includegraphics{godel.png}%
+  \hspace{0pt plus 1fill}\includegraphics{einstein.png}%
+  \hspace{0pt plus 1fill}
+\end{minipage}
+</pre></div>
+
+<p>TeX actually has three levels of infinity for glue components:
+<code>fil</code>, <code>fill</code>, and <code>filll</code>.  The later ones are more
+infinite than the earlier ones.  Ordinarily document authors only use
+the middle one (see <a href="_005chfill.html#g_t_005chfill">\hfill</a> and see <a href="_005cvfill.html#g_t_005cvfill">\vfill</a>).
+</p>
+<p>Multiplying a rubber length by a number turns it into a rigid length, so
+that after <code>\setlength{\ylength}{1in plus 0.2in}</code> and
+<code>\setlength{\zlength}{3\ylength}</code> then the value of
+<code>\zlength</code> is <code>3in</code>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Units-of-length.html#Units-of-length" accesskey="1">Units of length</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The units that LaTeX knows.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csetlength.html#g_t_005csetlength" accesskey="2">\setlength</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set the value of a length.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005caddtolength.html#g_t_005caddtolength" accesskey="3">\addtolength</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Add a quantity to a length.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csettodepth.html#g_t_005csettodepth" accesskey="4">\settodepth</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set a length to the depth of something.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csettoheight.html#g_t_005csettoheight" accesskey="5">\settoheight</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set a length to the height of something.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csettowidth.html#g_t_005csettowidth" accesskey="6">\settowidth</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Set a length to the width of something.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

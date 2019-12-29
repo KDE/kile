@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\maketitle (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\maketitle (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\maketitle (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Page-styles.html#Page-styles" rel="up" title="Page styles">
+<link href="_005cpagenumbering.html#g_t_005cpagenumbering" rel="next" title="\pagenumbering">
+<link href="Page-styles.html#Page-styles" rel="prev" title="Page styles">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cmaketitle"></a>
+<div class="header">
+<p>
+Next: <a href="_005cpagenumbering.html#g_t_005cpagenumbering" accesskey="n" rel="next">\pagenumbering</a>, Up: <a href="Page-styles.html#Page-styles" accesskey="u" rel="up">Page styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cmaketitle-1"></a>
+<h3 class="section">18.1 <code>\maketitle</code></h3>
+
+<a name="index-titles_002c-making"></a>
+<a name="index-_005cmaketitle"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\maketitle
+</pre></div>
+
+<p>Generate a title.  In the standard classes the title appears on a
+separate page, except in the <code>article</code> class where it is at the top
+of the first page.  (See <a href="Document-class-options.html#Document-class-options">Document class options</a> for information about
+the <code>titlepage</code> document class option.)
+</p>
+<p>This example shows <code>\maketitle</code> appearing in its usual place,
+immediately after <code>\begin{document}</code>.
+</p>
+<div class="example">
+<pre class="example">\documentclass{article}
+\title{Constructing a Nuclear Reactor Using Only Coconuts}
+\author{Jonas Grumby\thanks{%
+    With the support of a Ginger Grant from the Roy Hinkley Society.} \\
+  Skipper, \textit{Minnow}
+  \and
+  Willy Gilligan\thanks{%
+    Thanks to the Mary Ann Summers foundation
+    and to Thurston and Lovey Howell.}           \\
+  Mate, \textit{Minnow}
+  }
+\date{1964-Sep-26}
+\begin{document}
+\maketitle
+Just sit right back and you'll hear a tale, a tale of a fateful trip.
+That started from this tropic port, aboard this tiny ship. The mate was
+a mighty sailin' man, the Skipper brave and sure. Five passengers set
+sail that day for a three hour tour. A three hour tour.
+  ...
+</pre></div>
+
+<p>You tell LaTeX the information used to produce the title by making
+the following declarations.  These must come before the
+<code>\maketitle</code>, either in the preamble or in the document body.
+</p>
+<dl compact="compact">
+<dt><code>\author{<var>name1</var> \and <var>name2</var> \and ...}</code>
+<a name="index-_005cauthor_007bname1-_005cand-name2-_005cand-_002e_002e_002e_007d"></a>
+</dt>
+<dd><a name="index-author_002c-for-titlepage"></a>
+<a name="index-_005c_005c-for-_005cauthor"></a>
+<a name="index-_005cand-for-_005cauthor"></a>
+<p>Required.  Declare the document author or authors.  The argument is a
+list of authors separated by <code>\and</code> commands.  To separate lines
+within a single author&rsquo;s entry, for instance to give the author&rsquo;s
+institution or address, use a double backslash, <code>\\</code>.  If you omit
+the <code>\author</code> declaration then you get &lsquo;<samp>LaTeX Warning: No
+\author given</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\date{<var>text</var>}</code>
+<a name="index-_005cdate_007btext_007d"></a>
+</dt>
+<dd><a name="index-date_002c-for-titlepage"></a>
+<p>Optional.  Declare <var>text</var> to be the document&rsquo;s date.  The <var>text</var>
+doesn&rsquo;t need to be in a date format; it can be any text at all.  If you
+omit <code>\date</code> then LaTeX uses the current date (see <a href="_005ctoday.html#g_t_005ctoday">\today</a>).
+To have no date, instead use <code>\date{}</code>.
+</p>
+</dd>
+<dt><code>\thanks{<var>text</var>}</code>
+<a name="index-_005cthanks_007btext_007d"></a>
+</dt>
+<dd><a name="index-thanks_002c-for-titlepage"></a>
+<a name="index-credit-footnote"></a>
+<p>Optional.  Produce a footnote.  You can use it in the author information
+for acknowledgements as illustrated above, but you can also use it in
+the title, or any place a footnote makes sense.  It can be any text at
+all so you can use it for any purpose, such as to print an email
+address.
+</p>
+</dd>
+<dt><code>\title{<var>text</var>}</code>
+<a name="index-_005ctitle_007btext_007d"></a>
+</dt>
+<dd><a name="index-title_002c-for-titlepage"></a>
+<a name="index-_005c_005c-for-_005ctitle"></a>
+<p>Required.  Declare <var>text</var> to be the title of the document.  Get line
+breaks inside <var>text</var> with a double backslash, <code>\\</code>.  If you
+omit the <code>\title</code> declaration then you get &lsquo;<samp>LaTeX Error: No
+\title given</samp>&rsquo;.
+</p>
+</dd>
+</dl>
+
+<p>To make your own title page, see&nbsp;<a href="titlepage.html#titlepage">titlepage</a>. You can either
+create this as a one-off or you can include it as part of a renewed
+<code>\maketitle</code> command.  (Many publishers will provide a class to use
+in place of <code>article</code> that formats the title according to their
+house requirements.)
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

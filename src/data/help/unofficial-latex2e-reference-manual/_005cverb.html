@@ -1,0 +1,194 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\verb (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\verb (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\verb (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="verbatim.html#verbatim" rel="up" title="verbatim">
+<link href="verse.html#verse" rel="next" title="verse">
+<link href="verbatim.html#verbatim" rel="prev" title="verbatim">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cverb"></a>
+<div class="header">
+<p>
+Up: <a href="verbatim.html#verbatim" accesskey="u" rel="up">verbatim</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cverb-1"></a>
+<h4 class="subsection">8.27.1 <code>\verb</code></h4>
+
+<a name="index-_005cverb"></a>
+<a name="index-verbatim-text_002c-inline"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\verb <var>char</var> <var>literal-text</var> <var>char</var>
+\verb* <var>char</var> <var>literal-text</var> <var>char</var>
+</pre></div>
+
+<p>Typeset <var>literal-text</var> as it is input, including special characters
+and spaces, using the typewriter (<code>\tt</code>) font.
+</p>
+<p>This example shows two different invocations of <code>\verb</code>.
+</p>
+<div class="example">
+<pre class="example">This is \verb!literally! the biggest pumpkin ever.
+And this is the best squash, \verb+literally!+
+</pre></div>
+
+<p>The first <code>\verb</code> has its <var>literal-text</var> surrounded with
+exclamation point, <code>!</code>.  The second instead uses plus, <code>+</code>,
+because the exclamation point is part of <code>literal-text</code>.
+</p>
+<p>The single-character delimiter <var>char</var> surrounds
+<var>literal-text</var>&nbsp;&mdash; it must be the same character before and
+after.  No spaces come between <code>\verb</code> or <code>\verb*</code> and
+<var>char</var>, or between <var>char</var> and <var>literal-text</var>, or between
+<var>literal-text</var> and the second occurrence of <var>char</var> (the synopsis
+shows a space only to distinguish one component from the other).  The
+delimiter must not appear in <var>literal-text</var>. The <var>literal-text</var>
+cannot include a line break.
+</p>
+<a name="index-visible-space"></a>
+<p>The <code>*</code>-form differs only in that spaces are printed with a visible
+space character.
+</p>
+<p>The output from this will include a character showing the spaces.
+</p>
+<div class="example">
+<pre class="example">The commands's first argument is \verb*!filename with extension! and ...
+</pre></div>
+
+<a name="index-package_002c-url"></a>
+<a name="index-url-package"></a>
+
+<p>For typesetting Internet addresses, urls, the package <code>url</code>
+provides an option that is better than the <code>\verb</code> command, since
+it allows line breaks.
+</p>
+<a name="index-package_002c-listings-2"></a>
+<a name="index-listings-package-2"></a>
+
+<a name="index-package_002c-minted-2"></a>
+<a name="index-minted-package-2"></a>
+
+<p>For computer code there are many packages with advantages over
+<code>\verb</code>.  One is <samp>listings</samp>, another is <samp>minted</samp>.
+</p>
+<a name="index-package_002c-cprotect-1"></a>
+<a name="index-cprotect-package-1"></a>
+
+<p>You cannot use <code>\verb</code> in the argument to a macro, for instance in
+the argument to a <code>\section</code>.  It is not a question of <code>\verb</code>
+being fragile (see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>), instead it just cannot appear there.
+(But the <code>cprotect</code> package can help with this.)
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

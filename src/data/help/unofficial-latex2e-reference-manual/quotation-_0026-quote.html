@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>quotation &amp; quote (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="quotation &amp; quote (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="quotation &amp; quote (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="tabbing.html#tabbing" rel="next" title="tabbing">
+<link href="_005cdashbox.html#g_t_005cdashbox" rel="prev" title="\dashbox">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="quotation-_0026-quote"></a>
+<div class="header">
+<p>
+Next: <a href="tabbing.html#tabbing" accesskey="n" rel="next">tabbing</a>, Previous: <a href="picture.html#picture" accesskey="p" rel="prev">picture</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="quotation-_0026-quote-1"></a>
+<h3 class="section">8.20 <code>quotation</code> &amp; <code>quote</code></h3>
+
+<a name="index-environment_002c-quotation"></a>
+<a name="index-quotation-environment"></a>
+        
+<a name="index-quoted-text-with-paragraph-indentation_002c-displaying"></a>
+<a name="index-displaying-quoted-text-with-paragraph-indentation"></a>
+<a name="index-paragraph-indentations-in-quoted-text"></a>
+<a name="index-environment_002c-quote"></a>
+<a name="index-quote-environment"></a>
+        
+<a name="index-quoted-text-without-paragraph-indentation_002c-displaying"></a>
+<a name="index-displaying-quoted-text-without-paragraph-indentation"></a>
+<a name="index-paragraph-indentations-in-quoted-text_002c-omitting"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{quotation}
+  <var>text</var>
+\end{quotation}
+</pre></div>
+
+<p>or 
+</p>
+<div class="example">
+<pre class="example">\begin{quote}
+  <var>text</var>
+\end{quote}
+</pre></div>
+
+<p>Include a quotation. Both environments indent margins on both sides by
+<code>\leftmargin</code> and the text is right-justified.
+</p>
+<p>They differ in how they treat paragraphs. In the <code>quotation</code>
+environment, paragraphs are indented by 1.5em and the space
+between paragraphs is small, <code>0pt plus 1pt</code>.  In the <code>quote</code>
+environment, paragraphs are not indented and there is vertical space
+between paragraphs (it is the rubber length <code>\parsep</code>).
+</p>
+<div class="example">
+<pre class="example">\begin{quotation} \small\it
+  Four score and seven years ago
+  ... shall not perish from the earth.
+  \hspace{1em plus 1fill}---Abraham Lincoln
+\end{quotation}
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Page layout parameters (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Page layout parameters (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Page layout parameters (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Layout.html#Layout" rel="up" title="Layout">
+<link href="Floats.html#Floats" rel="next" title="Floats">
+<link href="_005craggedbottom.html#g_t_005craggedbottom" rel="prev" title="\raggedbottom">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Page-layout-parameters"></a>
+<div class="header">
+<p>
+Next: <a href="Floats.html#Floats" accesskey="n" rel="next">Floats</a>, Previous: <a href="_005craggedbottom.html#g_t_005craggedbottom" accesskey="p" rel="prev">\raggedbottom</a>, Up: <a href="Layout.html#Layout" accesskey="u" rel="up">Layout</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Page-layout-parameters-1"></a>
+<h3 class="section">5.5 Page layout parameters</h3>
+
+<a name="index-page-layout-parameters"></a>
+<a name="index-parameters_002c-page-layout"></a>
+<a name="index-layout_002c-page-parameters-for"></a>
+<a name="index-header_002c-parameters-for"></a>
+<a name="index-footer_002c-parameters-for"></a>
+<a name="index-running-header-and-footer"></a>
+
+<dl compact="compact">
+<dt><code>\columnsep</code>
+<a name="index-_005ccolumnsep-1"></a>
+</dt>
+<dt><code>\columnseprule</code>
+<a name="index-_005ccolumnseprule-1"></a>
+</dt>
+<dt><code>\columnwidth</code>
+<a name="index-_005ccolumnwidth-1"></a>
+</dt>
+<dd><a name="index-_005ccolumnsep-2"></a>
+<a name="index-_005ccolumnseprule-2"></a>
+<a name="index-_005ccolumnwidth-2"></a>
+<a name="page-layout-parameters-columnsep"></a><a name="page-layout-parameters-columnseprule"></a><a name="page-layout-parameters-columnwidth"></a><p>The distance between the two columns, the width of a rule between the
+columns, and the width of the columns, when the document class option
+<code>twocolumn</code> is in effect (see <a href="Document-class-options.html#Document-class-options">Document class options</a>).
+See <a href="_005ctwocolumn.html#g_t_005ctwocolumn">\twocolumn</a>.
+</p>
+</dd>
+<dt><code>\headheight</code>
+<a name="index-_005cheadheight"></a>
+</dt>
+<dd><a name="index-_005cheadheight-1"></a>
+<a name="page-layout-parameters-headheight"></a><p>Height of the box that contains the running head.  The default in the
+<code>article</code>, <code>report</code>, and <code>book</code> classes is &lsquo;<samp>12pt</samp>&rsquo;,
+at all type sizes.
+</p>
+</dd>
+<dt><code>\headsep</code>
+<a name="index-_005cheadsep"></a>
+</dt>
+<dd><a name="index-_005cheadsep-1"></a>
+<a name="page-layout-parameters-headsep"></a><p>Vertical distance between the bottom of the header line and the top of
+the main text.  The default in the <code>article</code> and <code>report</code>
+classes is &lsquo;<samp>25pt</samp>&rsquo;.  In the <code>book</code> class the default is: if the
+document is set at 10pt then it is &lsquo;<samp>0.25in</samp>&rsquo;, and at 11pt and 12pt
+it is &lsquo;<samp>0.275in</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\footskip</code>
+<a name="index-_005cfootskip"></a>
+</dt>
+<dd><a name="index-_005cfootskip-1"></a>
+<a name="page-layout-parameters-footskip"></a><p>Distance from the baseline of the last line of text to the baseline of
+the page footer.  The default in the <code>article</code> and <code>report</code>
+classes is &lsquo;<samp>30pt</samp>&rsquo;.  In the <code>book</code> class the default is: when
+the type size is 10pt the default is &lsquo;<samp>0.35in</samp>&rsquo;, while at 11pt it is
+&lsquo;<samp>0.38in</samp>&rsquo;, and at 12pt it is &lsquo;<samp>30pt</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\linewidth</code>
+<a name="index-_005clinewidth"></a>
+</dt>
+<dd><a name="index-_005clinewidth-1"></a>
+<a name="page-layout-parameters-linewidth"></a><p>Width of the current line, decreased for each nested <code>list</code>
+(see <a href="list.html#list">list</a>).  That is, the nominal value for <code>\linewidth</code> is to
+equal <code>\textwidth</code> but for each nested list the <code>\linewidth</code>
+is decreased by the sum of that list&rsquo;s <code>\leftmargin</code> and
+<code>\rightmargin</code> (see <a href="itemize.html#itemize">itemize</a>).
+</p>
+</dd>
+<dt><code>\marginparpush</code>
+<a name="index-_005cmarginparpush"></a>
+</dt>
+<dt><code>\marginsep</code>
+<a name="index-_005cmarginsep"></a>
+</dt>
+<dt><code>\marginparwidth</code>
+<a name="index-_005cmarginparwidth"></a>
+</dt>
+<dd><a name="index-_005cmarginparpush-1"></a>
+<a name="index-_005cmarginsep-1"></a>
+<a name="index-_005cmarginparwidth-1"></a>
+<a name="page-layout-parameters-marginparpush"></a><a name="page-layout-parameters-marginsep"></a><a name="page-layout-parameters-marginparwidth"></a><p>The minimum vertical space between two marginal notes, the horizontal
+space between the text body and the marginal notes, and the horizontal
+width of the notes.
+</p>
+<p>Normally marginal notes appear on the outside of the page, but the
+declaration <code>\reversemarginpar</code> changes that (and
+<code>\normalmarginpar</code> changes it back).
+</p>
+<p>The defaults for <code>\marginparpush</code> in both <code>book</code> and
+<code>article</code> classes are: &lsquo;<samp>7pt</samp>&rsquo; if the document is set at 12pt,
+and &lsquo;<samp>5pt</samp>&rsquo; if the document is set at 11pt or 10pt.
+</p>
+<p>For <code>\marginsep</code>, in <code>article</code> class the default is
+&lsquo;<samp>10pt</samp>&rsquo; except if the document is set at 10pt and in two-column mode
+where the default is &lsquo;<samp>11pt</samp>&rsquo;.
+</p>
+<p>For <code>\marginsep</code> in <code>book</code> class the default is &lsquo;<samp>10pt</samp>&rsquo; in
+two-column mode and &lsquo;<samp>7pt</samp>&rsquo; in one-column mode.  
+</p>
+<p>For <code>\marginparwidth</code> in both <code>book</code> and <code>article</code>
+classes, in two-column mode the default is 60% of <code>\paperwidth
+- \textwidth</code>, while in one-column mode it is 50% of that
+distance.
+</p>
+</dd>
+<dt><code>\oddsidemargin</code>
+<a name="index-_005coddsidemargin-1"></a>
+</dt>
+<dt><code>\evensidemargin</code>
+<a name="index-_005cevensidemargin-1"></a>
+</dt>
+<dd><a name="index-_005coddsidemargin-2"></a>
+<a name="index-_005cevensidemargin-2"></a>
+<a name="page-layout-parameters-oddsidemargin"></a><a name="page-layout-parameters-evensidemargin"></a><p>The <code>\oddsidemargin</code> is the extra distance between the left side of
+the page and the text&rsquo;s left margin, on odd-numbered pages when the
+document class option <code>twoside</code> is chosen and on all pages when
+<code>oneside</code> is in effect.  When <code>twoside</code> is in effect, on
+even-numbered pages the extra distance on the left is
+<code>evensidemargin</code>.
+</p>
+<p>LaTeX&rsquo;s default is that <code>\oddsidemargin</code> is 40% of the
+difference between <code>\paperwidth</code> and <code>\textwidth</code>, and
+<code>\evensidemargin</code> is the remainder.
+</p>
+</dd>
+<dt><code>\paperheight</code>
+<a name="index-_005cpaperheight"></a>
+</dt>
+<dd><a name="index-_005cpaperheight-1"></a>
+<a name="page-layout-parameters-paperheight"></a><p>The height of the paper, as distinct from the height of the print area.
+Normally set with a document class option, as in
+<code>\documentclass[a4paper]{article}</code> (see <a href="Document-class-options.html#Document-class-options">Document class options</a>).
+</p>
+</dd>
+<dt><code>\paperwidth</code>
+<a name="index-_005cpaperwidth"></a>
+</dt>
+<dd><a name="index-_005cpaperwidth-1"></a>
+<a name="page-layout-parameters-paperwidth"></a><p>The width of the paper, as distinct from the width of the print area.
+Normally set with a document class option, as in
+<code>\documentclass[a4paper]{article}</code> (see <a href="Document-class-options.html#Document-class-options">Document class options</a>).
+</p>
+</dd>
+<dt><code>\textheight</code>
+<a name="index-_005ctextheight"></a>
+</dt>
+<dd><a name="index-_005ctextheight-1"></a>
+<a name="page-layout-parameters-textheight"></a><p>The normal vertical height of the page body.  If the document is set at
+a nominal type size of 10pt then for an <code>article</code> or <code>report</code>
+the default is &lsquo;<samp>43\baselineskip</samp>&rsquo;, while for a <code>book</code> it is
+&lsquo;<samp>41\baselineskip</samp>&rsquo;.  At a type size of 11pt the default is
+&lsquo;<samp>38\baselineskip</samp>&rsquo; for all document classes.  At 12pt it is
+&lsquo;<samp>36\baselineskip</samp>&rsquo; for all classes.
+</p>
+</dd>
+<dt><code>\textwidth</code>
+<a name="index-_005ctextwidth"></a>
+</dt>
+<dd><a name="index-_005ctextwidth-1"></a>
+<a name="page-layout-parameters-textwidth"></a><p>The full horizontal width of the entire page body.  For an
+<code>article</code> or <code>report</code> document, the default is &lsquo;<samp>345pt</samp>&rsquo;
+when the chosen type size is 10pt, the default is &lsquo;<samp>360pt</samp>&rsquo; at 11pt,
+and it is &lsquo;<samp>390pt</samp>&rsquo; at 12pt.  For a <code>book</code> document, the default
+is &lsquo;<samp>4.5in</samp>&rsquo; at a type size of 10pt, and &lsquo;<samp>5in</samp>&rsquo; at 11pt or 12pt.
+</p>
+<p>In multi-column output, <code>\textwidth</code> remains the width of the
+entire page body, while <code>\columnwidth</code> is the width of one column
+(see <a href="_005ctwocolumn.html#g_t_005ctwocolumn">\twocolumn</a>).
+</p>
+<p>In lists (see <a href="list.html#list">list</a>), <code>\textwidth</code> remains the width of the
+entire page body (and <code>\columnwidth</code> the width of the entire
+column), while <code>\linewidth</code> may decrease for nested lists.
+</p>
+<p>Inside a minipage (see <a href="minipage.html#minipage">minipage</a>) or <code>\parbox</code>
+(see <a href="_005cparbox.html#g_t_005cparbox">\parbox</a>), all the width-related parameters are set to the
+specified width, and revert to their normal values at the end of the
+<code>minipage</code> or <code>\parbox</code>.
+</p>
+<a name="index-_005chsize"></a>
+<a name="page-layout-parameters-hsize"></a></dd>
+<dt><code>\hsize</code>
+<a name="index-_005chsize-1"></a>
+</dt>
+<dd><p>This entry is included for completeness: <code>\hsize</code> is the TeX
+primitive parameter used when text is broken into lines.  It should not
+be used in normal LaTeX documents.
+</p>
+</dd>
+<dt><code>\topmargin</code>
+<a name="index-_005ctopmargin"></a>
+</dt>
+<dd><a name="index-topmargin"></a>
+<a name="page-layout-parameters-topmargin"></a><p>Space between the top of the TeX page (one inch from the top of the
+paper, by default) and the top of the header.  The value is computed
+based on many other parameters: <code>\paperheight - 2in -
+\headheight - \headsep - \textheight - \footskip</code>,
+and then divided by two.
+</p>
+</dd>
+<dt><code>\topskip</code>
+<a name="index-_005ctopskip"></a>
+</dt>
+<dd><a name="index-_005ctopskip-1"></a>
+<a name="page-layout-parameters-topskip"></a><p>Minimum distance between the top of the page body and the baseline of
+the first line of text.  For the standard classes, the default is the
+same as the font size, e.g., &lsquo;<samp>10pt</samp>&rsquo; at a type size of 10pt.
+</p>
+</dd>
+</dl>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

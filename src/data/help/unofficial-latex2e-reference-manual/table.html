@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>table (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="table (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="table (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="tabular.html#tabular" rel="next" title="tabular">
+<link href="tabbing.html#tabbing" rel="prev" title="tabbing">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="table"></a>
+<div class="header">
+<p>
+Next: <a href="tabular.html#tabular" accesskey="n" rel="next">tabular</a>, Previous: <a href="tabbing.html#tabbing" accesskey="p" rel="prev">tabbing</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="table-1"></a>
+<h3 class="section">8.22 <code>table</code></h3>
+
+<a name="index-environment_002c-table"></a>
+<a name="index-table-environment"></a>
+        
+<a name="index-tables_002c-creating"></a>
+<a name="index-creating-tables"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{table}[<var>placement</var>]
+  <var>table body</var>
+  \caption[<var>loftitle</var>]{<var>title</var>}  % optional
+  \label{<var>label}</var>              % also optional
+\end{table}
+</pre></div>
+
+<p>A class of floats (see <a href="Floats.html#Floats">Floats</a>).  They cannot be split across pages
+and so they are not typeset in sequence with the normal text but instead
+are floated to a convenient place, such as the top of a following page.
+</p>
+<p>This example <code>table</code> environment contains a <code>tabular</code>
+</p>
+<div class="example">
+<pre class="example">\begin{table}
+  \centering\small
+  \begin{tabular}{ll}
+    \multicolumn{1}{c}{\textit{Author}}
+      &amp;\multicolumn{1}{c}{\textit{Piece}}  \\ \hline
+    Bach            &amp;Cello Suite Number 1  \\
+    Beethoven       &amp;Cello Sonata Number 3 \\
+    Brahms          &amp;Cello Sonata Number 1
+  \end{tabular}
+  \caption{Top cello pieces}
+  \label{tab:cello}
+\end{table}
+</pre></div>
+
+<p>but you can put many different kinds of content in a <code>table</code>,
+including text, LaTeX commands, etc.
+</p>
+<p>For the possible values of <var>placement</var> and their effect on the 
+float placement algorithm, see <a href="Floats.html#Floats">Floats</a>.
+</p>
+<p>The table body is typeset in a <code>parbox</code> of width <code>\textwidth</code>.
+It can contain text, commands, graphics, etc.
+</p>
+<p>The label is optional; it is used for cross references (see <a href="Cross-references.html#Cross-references">Cross references</a>).  
+<a name="index-_005ccaption-1"></a>
+The <code>\caption</code> command is also optional.  It specifies caption text
+for the table.  By default it is numbered.  If its optional
+<var>lottitle</var> is present then that text is used in the list of tables
+instead of <var>title</var> (see <a href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e">Table of contents etc.</a>).
+</p>
+<p>In this example the table and caption will float to the bottom of a page,
+unless it is pushed to a float page at the end.
+</p>
+<div class="example">
+<pre class="example">\begin{table}[b]
+  \centering
+  \begin{tabular}{r|p{2in}} \hline
+    One &amp;The loneliest number \\
+    Two &amp;Can be as sad as one.
+         It's the loneliest number since the number one.
+  \end{tabular}
+  \caption{Cardinal virtues}
+  \label{tab:CardinalVirtues}
+\end{table}
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

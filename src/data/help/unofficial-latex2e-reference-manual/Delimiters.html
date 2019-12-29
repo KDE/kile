@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Delimiters (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Delimiters (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Delimiters (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Math-symbols.html#Math-symbols" rel="up" title="Math symbols">
+<link href="_005cleft-_0026-_005cright.html#g_t_005cleft-_0026-_005cright" rel="next" title="\left &amp; \right">
+<link href="Calligraphic.html#Calligraphic" rel="prev" title="Calligraphic">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Delimiters"></a>
+<div class="header">
+<p>
+Next: <a href="Dots.html#Dots" accesskey="n" rel="next">Dots</a>, Previous: <a href="Calligraphic.html#Calligraphic" accesskey="p" rel="prev">Calligraphic</a>, Up: <a href="Math-symbols.html#Math-symbols" accesskey="u" rel="up">Math symbols</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Delimiters-1"></a>
+<h4 class="subsection">16.2.5 Delimiters</h4>
+
+<a name="index-Delimiters"></a>
+<a name="index-parentheses"></a>
+<a name="index-braces"></a>
+<a name="index-curly-braces"></a>
+<a name="index-brackets"></a>
+
+<p>Delimiters are parentheses, braces, or other characters used to mark
+the start and end of subformulas.  This formula has three sets of
+parentheses delimiting the three subformulas.
+</p>
+<div class="example">
+<pre class="example">(z-z_0)^2 = (x-x_0)^2 + (y-y_0)^2
+</pre></div>
+
+<p>The delimiters do not need to match, so you can enter <code>\( [0,1) \)</code>.
+</p>
+<p>These are the common delimiters.
+</p>
+<table>
+<thead><tr><th width="10%">Delimiter</th><th width="20%">Command</th><th width="40%">Name</th></tr></thead>
+<tr><td width="10%">(</td><td width="20%"><code>(</code></td><td width="40%">Left parenthesis</td></tr>
+<tr><td width="10%">)</td><td width="20%"><code>)</code></td><td width="40%">Right parenthesis</td></tr>
+<tr><td width="10%">\}</td><td width="20%"><code>{</code> or <code>\lbrace</code></td><td width="40%">Left brace</td></tr>
+<tr><td width="10%">\{</td><td width="20%"><code>}</code> or <code>\rbrace</code></td><td width="40%">Right brace</td></tr>
+<tr><td width="10%">[</td><td width="20%"><code>[</code> or <code>\lbrack</code></td><td width="40%">Left bracket</td></tr>
+<tr><td width="10%">]</td><td width="20%"><code>]</code> or <code>\rbrack</code></td><td width="40%">Right bracket</td></tr>
+<tr><td width="10%">&#x230A;</td><td width="20%"><code>\lfloor</code></td><td width="40%">Left floor bracket</td></tr>
+<tr><td width="10%">&#x230B;</td><td width="20%"><code>\rfloor</code></td><td width="40%">Right floor bracket</td></tr>
+<tr><td width="10%">&#x2308;</td><td width="20%"><code>\lceil</code></td><td width="40%">Left ceiling bracket</td></tr>
+<tr><td width="10%">&#x2309;</td><td width="20%"><code>\rceil</code></td><td width="40%">Right ceiling bracket</td></tr>
+<tr><td width="10%">&#x27E8;</td><td width="20%"><code>\langle</code></td><td width="40%">Left angle bracket</td></tr>
+<tr><td width="10%">&#x27E9;</td><td width="20%"><code>\rangle</code></td><td width="40%">Right angle bracket</td></tr>
+<tr><td width="10%">/</td><td width="20%"><code>/</code></td><td width="40%">Slash, or forward slash</td></tr>
+<tr><td width="10%">\</td><td width="20%"><code>\backslash</code></td><td width="40%">Reverse slash, or backslash</td></tr>
+<tr><td width="10%">|</td><td width="20%"><code>|</code> or <code>\vert</code></td><td width="40%">Vertical bar</td></tr>
+<tr><td width="10%">&#x2016;</td><td width="20%"><code>\|</code> or <code>\Vert</code></td><td width="40%">Double vertical bar</td></tr>
+</table>
+
+<a name="index-package_002c-mathtools-1"></a>
+<a name="index-mathtools-package-1"></a>
+
+<p>The <samp>mathtools</samp> package allows you to create commands for paired
+delimiters.  For instance, if you put
+<code>\DeclarePairedDelimiter\abs{\lvert}{\rvert}</code> in your preamble
+then you get two commands for single-line vertical bars (they only work
+in math mode).  The starred version, such as
+<code>\abs*{\frac{22}{7}}</code>, has the height of the vertical bars
+match the height of the argument.  The unstarred version, such as
+<code>\abs{\frac{22}{7}}</code>, has the bars fixed at a default height.
+This version accepts an optional argument, as in <code>\abs[<var>size
+command</var>]{\frac{22}{7}}</code>, where the height of the bars is given in
+<var>size command</var>, such as <code>\Bigg</code>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cleft-_0026-_005cright.html#g_t_005cleft-_0026-_005cright" accesskey="1">\left &amp; \right</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Automatically sized delimiters.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cbigl-_0026-_005cbigr-etc.html#g_t_005cbigl-_0026-_005cbigr-etc" accesskey="2">\bigl &amp; \bigr etc</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Manually sized delimiters.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

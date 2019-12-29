@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>TeX engines (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="TeX engines (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="TeX engines (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Overview.html#Overview" rel="up" title="Overview">
+<link href="LaTeX-command-syntax.html#LaTeX-command-syntax" rel="next" title="LaTeX command syntax">
+<link href="Output-files.html#Output-files" rel="prev" title="Output files">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="TeX-engines"></a>
+<div class="header">
+<p>
+Next: <a href="LaTeX-command-syntax.html#LaTeX-command-syntax" accesskey="n" rel="next">LaTeX command syntax</a>, Previous: <a href="Output-files.html#Output-files" accesskey="p" rel="prev">Output files</a>, Up: <a href="Overview.html#Overview" accesskey="u" rel="up">Overview</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="TeX-engines-1"></a>
+<h3 class="section">2.3 TeX engines</h3>
+
+<a name="index-engines_002c-TeX"></a>
+<a name="index-implementations-of-TeX"></a>
+<a name="index-UTF_002d8"></a>
+<a name="index-Unicode-input_002c-native"></a>
+<a name="index-TrueType-fonts"></a>
+<a name="index-OpenType-fonts"></a>
+
+<p>LaTeX is defined to be a set of commands that are run by a TeX
+implementation (see <a href="Overview.html#Overview">Overview</a>).  This section gives a terse
+overview of the main programs (see also&nbsp;<a href="Command-line.html#Command-line">Command line</a>).
+</p>
+<dl compact="compact">
+<dt><code>latex</code></dt>
+<dt><code>pdflatex</code></dt>
+<dd><a name="index-pdfTeX-engine"></a>
+<a name="index-etex-command"></a>
+<a name="index-e_002dTeX"></a>
+<a name="tex-engines-latex"></a><p>In TeX Live (<a href="http://tug.org/texlive">http://tug.org/texlive</a>), if LaTeX is invoked
+via either the system command <code>latex</code> or <code>pdflatex</code>,
+then the pdfTeX engine is run (<a href="http://ctan.org/pkg/pdftex">http://ctan.org/pkg/pdftex</a>).
+When invoked as <code>latex</code>, the main output is a <samp>.dvi</samp>
+file; as <code>pdflatex</code>, the main output is a <samp>.pdf</samp> file.
+</p>
+<p>pdfTeX incorporates the e-TeX extensions to Knuth&rsquo;s original
+program (<a href="http://ctan.org/pkg/etex">http://ctan.org/pkg/etex</a>), including additional
+programming features and bi-directional typesetting, and has plenty of
+extensions of its own.  e-TeX is available on its own as the system
+command <code>etex</code>, but this is plain TeX (and produces
+<samp>.dvi</samp>).
+</p>
+<p>In other TeX distributions, <code>latex</code> may invoke e-TeX
+rather than pdfTeX.  In any case, the e-TeX extensions can be
+assumed to be available in LaTeX.
+</p>
+</dd>
+<dt><code>lualatex</code></dt>
+<dd><a name="index-lualatex-command"></a>
+<a name="index-LuaTeX"></a>
+<a name="tex-engines-lualatex"></a><p>If LaTeX is invoked via the system command <code>lualatex</code>, the
+LuaTeX engine is run (<a href="http://ctan.org/pkg/luatex">http://ctan.org/pkg/luatex</a>).  This
+program allows code written in the scripting language Lua
+(<a href="http://luatex.org">http://luatex.org</a>) to interact with TeX&rsquo;s typesetting.
+LuaTeX handles UTF-8 Unicode input natively, can handle OpenType
+and TrueType fonts, and produces a <samp>.pdf</samp> file by default.
+There is also <code>dvilualatex</code> to produce a <samp>.dvi</samp> file,
+but this is rarely used.
+</p>
+</dd>
+<dt><code>xelatex</code></dt>
+<dd><a name="index-xelatex-command"></a>
+<a name="index-XeTeX"></a>
+<a name="index-_002exdv-file"></a>
+<a name="index-xdvipdfmx"></a>
+<a name="tex-engines-xelatex"></a><p>If LaTeX is invoked with the system command <code>xelatex</code>, the
+XeTeX engine is run (<a href="http://tug.org/xetex">http://tug.org/xetex</a>).  Like LuaTeX,
+XeTeX natively supports UTF-8 Unicode and TrueType and OpenType
+fonts, though the implementation is completely different, mainly using
+external libraries instead of internal code.  XeTeX produces a
+<samp>.pdf</samp> file as output; it does not support DVI output.
+</p>
+<p>Internally, XeTeX creates an <code>.xdv</code> file, a variant of DVI,
+and translates that to PDF using the (<code>x</code>)<code>dvipdfmx</code>
+program, but this process is automatic.  The <code>.xdv</code> file is only
+useful for debugging.
+</p>
+</dd>
+</dl>
+
+<p>Other variants of LaTeX and TeX exist, e.g., to provide
+additional support for Japanese and other languages ([u]pTeX,
+<a href="http://ctan.org/pkg/ptex">http://ctan.org/pkg/ptex</a>, <a href="http://ctan.org/pkg/uptex">http://ctan.org/pkg/uptex</a>).
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

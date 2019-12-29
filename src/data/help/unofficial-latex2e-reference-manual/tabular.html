@@ -1,0 +1,365 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>tabular (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="tabular (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="tabular (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="_005cmulticolumn.html#g_t_005cmulticolumn" rel="next" title="\multicolumn">
+<link href="table.html#table" rel="prev" title="table">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="tabular"></a>
+<div class="header">
+<p>
+Next: <a href="thebibliography.html#thebibliography" accesskey="n" rel="next">thebibliography</a>, Previous: <a href="table.html#table" accesskey="p" rel="prev">table</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="tabular-1"></a>
+<h3 class="section">8.23 <code>tabular</code></h3>
+
+<a name="index-environment_002c-tabular"></a>
+<a name="index-tabular-environment"></a>
+        
+<a name="index-lines-in-tables"></a>
+<a name="index-lining-text-up-in-tables"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}[<var>pos</var>]{<var>cols</var>}
+  <var>column 1 entry</var>  &amp;<var>column 2 entry</var>  ...  &amp;<var>column n entry</var> \\
+  ...
+\end{tabular}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\begin{tabular*}{<var>width</var>}[<var>pos</var>]{<var>cols</var>}
+  <var>column 1 entry</var>  &amp;<var>column 2 entry</var>  ...  &amp;<var>column n entry</var> \\
+  ...
+\end{tabular*}
+</pre></div>
+
+<p>Produce a table, a box consisting of a sequence of horizontal rows.
+Each row consists of items that are aligned vertically in columns.  This
+illustrates many of the features.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{l|l}
+  \textit{Player name}  &amp;\textit{Career home runs}  \\ 
+  \hline
+  Hank Aaron  &amp;755 \\
+  Babe Ruth   &amp;714
+\end{tabular}
+</pre></div>
+
+<p>The output will have two left-aligned columns with a vertical bar
+between them.  This is specified in <code>tabular</code>&rsquo;s argument
+<code>{l|l}</code>.
+<a name="index-_0026"></a>
+Put the entries into different columns by separating them with an
+ampersand, <code>&amp;</code>.  The end of each row is marked with a double
+backslash, <code>\\</code>.  Put a horizontal rule below a row, after a double
+backslash, with <code>\hline</code>.
+<a name="index-_005c_005c-for-tabular"></a>
+After the last row the <code>\\</code> is optional, unless an <code>\hline</code>
+command follows to put a rule below the table.
+</p>
+<p>The required and optional arguments to <code>tabular</code> consist of:
+</p>
+<dl compact="compact">
+<dt><var>pos</var></dt>
+<dd><p>Optional.  Specifies the table&rsquo;s vertical position.  The default is to
+align the table so its vertical center matches the baseline of the
+surrounding text.  There are two other possible alignments: <code>t</code>
+aligns the table so its top row matches the baseline of the surrounding
+text, and <code>b</code> aligns on the bottom row.
+</p>
+<p>This only has an effect if there is other text.  In the common case of a
+<code>tabular</code> alone in a <code>center</code> environment this option makes
+no difference.
+</p>
+</dd>
+<dt><var>cols</var></dt>
+<dd><p>Required.  Specifies the formatting of columns.  It consists of a
+sequence of the following specifiers, corresponding to the types of
+column and intercolumn material.
+</p>
+<dl compact="compact">
+<dt><code>l</code></dt>
+<dd><p>A column of left-aligned items.
+</p>
+</dd>
+<dt><code>r</code></dt>
+<dd><p>A column of right-aligned items.
+</p>
+</dd>
+<dt><code>c</code></dt>
+<dd><p>A column of centered items.
+</p>
+</dd>
+<dt><code>|</code></dt>
+<dd><p>A vertical line the full height and depth of the environment.
+</p>
+</dd>
+<dt><code>@{<var>text or space</var>}</code></dt>
+<dd><p>Insert <var>text or space</var> at this location in every row.  The <var>text
+or space</var> material is typeset in LR mode.  This text is fragile
+(see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).
+</p>
+<p>If between two columns there is no @-expression then LaTeX&rsquo;s
+<code>book</code>, <code>article</code>, and <code>report</code> classes will put on
+either side of each column a space of length <code>\tabcolsep</code>, which by
+default is 6pt.  That is, by default adjacent columns are
+separated by 12pt (so <code>\tabcolsep</code> is misleadingly named
+since it is only half of the separation between tabular columns).  In
+addition, a space of 6pt also comes before the first column and
+after the final column, unless you put a <code>@{...}</code> or <code>|</code>
+there.
+</p>
+<p>If you override the default and use an @-expression then LaTeX does
+not insert <code>\tabcolsep</code> so you must insert any desired space
+yourself, as in <code>@{\hspace{1em}}</code>.
+</p>
+<p>An empty expression <code>@{}</code> will eliminate the space. In
+particular, sometimes you want to eliminate the space before the first
+column or after the last one, as in the example below where the
+tabular lines need to lie on the left margin.
+</p>
+<div class="example">
+<pre class="example">\begin{flushleft}
+  \begin{tabular}{@{}l}
+    ...
+  \end{tabular}
+\end{flushleft}
+</pre></div>
+
+<p>The next example shows text, a decimal point between the columns,
+arranged so the numbers in the table are aligned on it.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{r@{$.$}l}
+  $3$ &amp;$14$  \\
+  $9$ &amp;$80665$
+\end{tabular}
+</pre></div>
+
+<a name="index-_005cextracolsep"></a>
+<p>An <code>\extracolsep{<var>wd</var>}</code> command in an @-expression causes an
+extra space of width <var>wd</var> to appear to the left of all subsequent
+columns, until countermanded by another <code>\extracolsep</code>.  Unlike
+ordinary intercolumn space, this extra space is not suppressed by an
+@-expression.  An <code>\extracolsep</code> command can be used only in an
+@-expression in the <code>cols</code> argument.  Below, LaTeX inserts the
+right amount of intercolumn space to make the entire table 4 inches
+wide.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular*}{4in}{l@{\extracolsep{\fill}}l}
+  Seven times down, eight times up \ldots 
+  &amp;such is life!
+\end{tabular*}
+</pre></div>
+
+<p>To insert commands that are automatically executed before a given
+column, load the <code>array</code> package and use the <code>&gt;{...}</code>
+specifier.
+</p>
+</dd>
+<dt><code>p{<var>wd</var>}</code></dt>
+<dd><p>Each item in the column is typeset in a parbox of width <var>wd</var>, as if
+it were the argument of a <code>\parbox[t]{wd}{...}</code> command.
+</p>
+<p>A line break double backslash <code>\\</code> may not appear in the item,
+except inside an environment like <code>minipage</code>, <code>array</code>, or
+<code>tabular</code>, or inside an explicit <code>\parbox</code>, or in the scope of
+a <code>\centering</code>, <code>\raggedright</code>, or <code>\raggedleft</code>
+declaration (when used in a <code>p</code>-column element these declarations
+must appear inside braces, as with <code>{\centering .. \\
+..}</code>). Otherwise LaTeX will misinterpret the double backslash as
+ending the row.  Instead, to get a line break in there use
+<code>\newline</code> (see <a href="_005cnewline.html#g_t_005cnewline">\newline</a>).
+</p>
+</dd>
+<dt><code>*{<var>num</var>}{<var>cols</var>}</code></dt>
+<dd><p>Equivalent to <var>num</var> copies of <var>cols</var>, where <var>num</var> is a
+positive integer and <var>cols</var> is a list of specifiers.  Thus the
+specifier <code>\begin{tabular}{|*{3}{l|r}|}</code> is equivalent to
+the specifier <code>\begin{tabular}{|l|rl|rl|r|}</code>.  Note that
+<var>cols</var> may contain another <code>*</code>-expression.
+</p> 
+</dd>
+</dl>
+
+</dd>
+<dt><var>width</var></dt>
+<dd><p>Required for <code>tabular*</code>, not allowed for <code>tabular</code>. Specifies
+the width of the <code>tabular*</code> environment.  The space between columns
+should be rubber, as with <code>@{\extracolsep{\fill}}</code>, to allow
+the table to stretch or shrink to make the specified width, or else you
+are likely to get the <code>Underfull \hbox (badness 10000) in alignment
+...</code> warning.
+</p>
+</dd>
+</dl>
+
+<p>Parameters that control formatting:
+</p>
+<dl compact="compact">
+<dt><code>\arrayrulewidth</code>
+<a name="index-_005carrayrulewidth"></a>
+</dt>
+<dd><a name="tabular-arrayrulewidth"></a><p>A length that is the thickness of the rule created by <code>|</code>,
+<code>\hline</code>, and <code>\vline</code> in the <code>tabular</code> and <code>array</code>
+environments.  The default is &lsquo;<samp>.4pt</samp>&rsquo;. Change it as in
+<code>\setlength{\arrayrulewidth}{0.8pt}</code>.
+</p>
+</dd>
+<dt><code>\arraystretch</code>
+<a name="index-_005carraystretch"></a>
+</dt>
+<dd><a name="tabular-arraystrech"></a><p>A factor by which the spacing between rows in the <code>tabular</code> and
+<code>array</code> environments is multiplied.  The default is &lsquo;<samp>1</samp>&rsquo;, for
+no scaling.  Change it as <code>\renewcommand{\arraystretch}{1.2}</code>.
+</p>
+</dd>
+<dt><code>\doublerulesep</code>
+<a name="index-_005cdoublerulesep"></a>
+</dt>
+<dd><a name="tabular-doublerulesep"></a><p>A length that is the distance between the vertical rules produced by the
+<code>||</code> specifier.  The default is &lsquo;<samp>2pt</samp>&rsquo;.
+</p>
+</dd>
+<dt><code>\tabcolsep</code>
+<a name="index-_005ctabcolsep"></a>
+</dt>
+<dd><a name="tabular-tabcolsep"></a><p>A length that is half of the space between columns. The default is
+&lsquo;<samp>6pt</samp>&rsquo;.  Change it with <code>\setlength</code>.
+</p>
+</dd>
+</dl>
+
+<p>The following commands can be used inside the body of a <code>tabular</code>
+environment, the first two inside an entry and the second two between
+lines:
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cmulticolumn.html#g_t_005cmulticolumn" accesskey="1">\multicolumn</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Make an item spanning several columns.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cvline.html#g_t_005cvline" accesskey="2">\vline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a vertical line.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005ccline.html#g_t_005ccline" accesskey="3">\cline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a horizontal line spanning some columns.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005chline.html#g_t_005chline" accesskey="4">\hline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Draw a horizontal line spanning all columns.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

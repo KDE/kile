@@ -1,0 +1,200 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\smash (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\smash (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\smash (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Spacing-in-math-mode.html#Spacing-in-math-mode" rel="up" title="Spacing in math mode">
+<link href="_005cphantom-_0026-_005cvphantom-_0026-_005chphantom.html#g_t_005cphantom-_0026-_005cvphantom-_0026-_005chphantom" rel="next" title="\phantom &amp; \vphantom &amp; \hphantom">
+<link href="Spacing-in-math-mode.html#Spacing-in-math-mode" rel="prev" title="Spacing in math mode">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005csmash"></a>
+<div class="header">
+<p>
+Next: <a href="_005cphantom-_0026-_005cvphantom-_0026-_005chphantom.html#g_t_005cphantom-_0026-_005cvphantom-_0026-_005chphantom" accesskey="n" rel="next">\phantom &amp; \vphantom &amp; \hphantom</a>, Up: <a href="Spacing-in-math-mode.html#Spacing-in-math-mode" accesskey="u" rel="up">Spacing in math mode</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005csmash-1"></a>
+<h4 class="subsection">16.6.1 <code>\smash</code></h4>
+
+<a name="index-vertical-spacing_002c-math-mode"></a>
+<a name="index-math-mode_002c-vertical-space"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\smash{<var>subformula</var>}
+</pre></div>
+
+<p>Typeset <var>subformula</var> as if its height and depth were zero.
+</p>
+<p>In this example the exponential is so tall that without the
+<code>\smash</code> command LaTeX would separate its line from the line
+above it, and the uneven line spacing might be unsightly.
+</p>
+<div class="example">
+<pre class="example">To compute the tetration $\smash{2^{2^{2^2}}}$,
+evaluate from the top down, as $2^{2^4}=2^{16}=65536$.
+</pre></div>
+
+<p>(Because of the <code>\smash</code> the printed expression could run into the
+line above so you may want to wait until the final version of the
+document to make such adjustments.)
+</p>
+<p>This pictures the effect of <code>\smash</code> by using <code>\fbox</code> to
+surround the box that LaTeX will put on the line.  The
+<code>\blackbar</code> command makes a bar extending from 10&nbsp;points below
+the baseline to 20&nbsp;points above.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\blackbar}{\rule[-10pt]{5pt}{30pt}}
+\fbox{\blackbar}
+\fbox{\smash{\blackbar}}
+</pre></div>
+
+<p>The first box that LaTeX places is 20&nbsp;points high and
+10&nbsp;points deep.  But the second box is treated by LaTeX as
+having zero height and zero depth, despite that the ink printed on the
+page still extends well above and below the line.
+</p>
+<p>The <code>\smash</code> command appears often in mathematics to adjust the
+size of an element that surrounds a subformula.  Here the first radical
+extends below the baseline while the second lies just on the baseline.
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+\sqrt{\sum_{0\leq k&lt; n} f(k)}
+\sqrt{\vphantom{\sum}\smash{\sum_{0\leq k&lt; n}} f(k)}
+\end{equation}
+</pre></div>
+
+<p>Note the use of <code>\vphantom</code> to give the <code>\sqrt</code> command an
+argument with the height of the <code>\sum</code> (see <a href="_005cphantom-_0026-_005cvphantom-_0026-_005chphantom.html#g_t_005cphantom-_0026-_005cvphantom-_0026-_005chphantom">\phantom &amp; \vphantom &amp; \hphantom</a>).
+</p>
+<p>While most often used in mathematics, the <code>\smash</code> command can
+appear in other contexts.  However, it doesn&rsquo;t change into horizontal
+mode.  So if it starts a paragraph then you should first put a
+<code>\leavevmode</code>, as in the bottom line below.
+</p>
+<div class="example">
+<pre class="example">xxx xxx xxx
+
+\smash{yyy}  % no paragraph indent
+
+\leavevmode\smash{zzz}  % usual paragraph indent
+</pre></div>
+
+<a name="index-package_002c-mathtools-4"></a>
+<a name="index-mathtools-package-4"></a>
+
+<p>The package <code>mathtools</code> has operators that provide even finer
+control over smashing a subformula box.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

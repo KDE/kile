@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\openin &amp; \openout (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\openin &amp; \openout (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\openin &amp; \openout (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Input_002foutput.html#Input_002foutput" rel="up" title="Input/output">
+<link href="_005cread.html#g_t_005cread" rel="next" title="\read">
+<link href="Input_002foutput.html#Input_002foutput" rel="prev" title="Input/output">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005copenin-_0026-_005copenout"></a>
+<div class="header">
+<p>
+Next: <a href="_005cread.html#g_t_005cread" accesskey="n" rel="next">\read</a>, Up: <a href="Input_002foutput.html#Input_002foutput" accesskey="u" rel="up">Input/output</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005copenin-_0026-_005copenout-1"></a>
+<h3 class="section">27.1 <code>\openin</code> &amp; <code>\openout</code></h3>
+
+<a name="index-_005copenin"></a>
+<a name="index-_005copenout"></a>
+<a name="index-_005cclosein"></a>
+<a name="index-_005ccloseout"></a>
+<a name="index-file_002c-opening"></a>
+<a name="index-file_002c-closing"></a>
+<a name="index-open-a-file"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\openin<var>number</var>=<var>filename</var>
+</pre></div>
+
+<p>or:
+</p>
+<div class="example">
+<pre class="example">\openout<var>number</var>=<var>filename</var>
+</pre></div>
+
+<p>Open a file for reading material, or for writing it.  The <var>number</var>
+must be between 0 and 15, as in <code>\openin3</code> (in LuaLaTeX
+<var>number</var> can be between 0 and 255).
+</p>
+<p>Here TeX opens the file <samp>presidents.tex</samp> for reading.
+</p>
+<div class="example">
+<pre class="example">\newread\presidentsfile
+\openin\presidentsfile=presidents
+\typeout{presidentsfile is \the\presidentsfile}
+\read\presidentsfile to\presidentline
+\typeout{\presidentline}
+</pre></div>
+ 
+<p>The <code>\newread</code> command allocates input stream numbers from 0
+to&nbsp;15 (there is also a <code>\newwrite</code>).  The
+<code>\presidentsfile</code> is more memorable but under the hood it is still
+a number; the first <code>\typeout</code> gives something like
+&lsquo;<samp>presidentsfile is 1</samp>&rsquo;.  In addition, <code>\newread</code> keeps track of
+the allocation so that if you use too many then you get an error like
+&lsquo;<samp>! No room for a new \read</samp>&rsquo;.  The second <code>\typeout</code> gives the
+first line of the file, something like &lsquo;<samp>1 Washington, George</samp>&rsquo;.
+</p>
+<p>Ordinarily TeX will not try to open the file until the next page
+shipout. To change this, use
+<code>\immediate\openin<var>number</var>=<var>filename</var></code> or
+<code>\immediate\openout<var>number</var>=<var>filename</var></code>.
+</p>
+<p>Close files with <code>\closein<var>number</var></code> and
+<code>\closeout<var>number</var></code>.
+</p>
+<p>How LaTeX handles filenames varies among distributions, and even can
+vary among versions of a distribution.  If the file does not have an
+extension then TeX will add a <samp>.tex</samp>.  This creates
+<samp>presidents.tex</samp>, writes one line to it, and closes it.
+</p>
+<div class="example">
+<pre class="example">\newwrite\presidentsfile
+\openout\presidentsfile=presidents
+\write\presidentsfile{1 Washington, George}
+\closeout\presidentsfile
+</pre></div>
+
+<p>But filenames with a period can cause trouble: if TeX finds a
+<var>filename</var> of <samp>presidents.dat</samp> it could look first for
+<samp>presidents.dat.tex</samp> and later for <samp>presidents.dat</samp>, or it
+could do the opposite.  Your distribution&rsquo;s documentation should say
+more, and if you find something that works for you then you are good,
+but to ensure complete portability the best thing is to use file names
+containing only the twenty six ASCII letters (not case-sensitive) and
+the ten digits, along with underscore and dash, and in particular with
+no dot or space.
+</p>
+<p>For <code>openin</code>, if TeX cannot find the file then it does not give
+an error.  It just considers that the stream is not open (test for this
+with <code>\ifeof</code>; one recourse is the command
+<code>\InputIfFileExists</code>, see <a href="Class-and-package-commands.html#Class-and-package-commands">Class and package commands</a>).  If you
+try to use the same number twice, LaTeX won&rsquo;t give you an error.  If
+you try to use a bad number then you get an error message like &lsquo;<samp>!
+Bad number (16).  &lt;to be read again&gt; = l.30 \openin16=test.jh</samp>&rsquo;.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

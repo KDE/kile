@@ -1,0 +1,171 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Recovering from errors (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Recovering from errors (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Recovering from errors (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Command-line.html#Command-line" rel="up" title="Command line">
+<link href="Document-templates.html#Document-templates" rel="next" title="Document templates">
+<link href="Command-line-input.html#Command-line-input" rel="prev" title="Command line input">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Recovering-from-errors"></a>
+<div class="header">
+<p>
+Previous: <a href="Command-line-input.html#Command-line-input" accesskey="p" rel="prev">Command line input</a>, Up: <a href="Command-line.html#Command-line" accesskey="u" rel="up">Command line</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Recovering-from-errors-1"></a>
+<h3 class="section">28.3 Recovering from errors</h3>
+
+<p>If LaTeX finds an error in your document then it gives you an error
+message and prompts you with a question mark, <code>?</code>.  For instance,
+running LaTeX on this file
+</p>
+<div class="example">
+<pre class="example">\newcommand{\NP}{\ensuremath{\textbf{NP}}}
+The \PN{} problem is a million dollar one.
+</pre></div>
+
+<p>causes it show this, and wait for input.
+</p>
+<div class="example">
+<pre class="example">! Undefined control sequence.
+l.5 The \PN
+           {} problem is a million dollar one.
+? 
+</pre></div>
+
+<p>The simplest thing is to enter &lsquo;<samp>x</samp>&rsquo; and <code>&lt;return&gt;</code> and fix the
+typo.  You could instead enter &lsquo;<samp>?</samp>&rsquo; and <code>&lt;return&gt;</code> to see other
+options.
+</p>
+<a name="index-_002a-prompt"></a>
+<a name="index-prompt_002c-_002a"></a>
+<a name="index-_005cstop"></a>
+<p>There are two other error scenarios.  The first is that you forgot to
+include the <code>\end{document}</code> or misspelled it.  In this case
+LaTeX gives you a &lsquo;<samp>*</samp>&rsquo; prompt.  You can get back to the command
+line by typing <code>\stop</code> and <code>&lt;return&gt;</code>.
+</p>
+<p>The last scenario is that you mistyped the file name.  For instance,
+instead of <code>pdflatex test</code> you might type <code>pdflatex tste</code>.
+</p>
+<div class="example">
+<pre class="example">! I can't find file `tste'.
+&lt;*&gt; tste
+        
+(Press Enter to retry, or Control-D to exit)
+Please type another input file name:
+</pre></div>
+
+<p>The simplest thing is to enter <code>&lt;Control&gt;</code> and &lsquo;<samp>d</samp>&rsquo; (holding
+them down at the same time), and then retype the correct command line.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

@@ -1,0 +1,482 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>list (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="list (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="list (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="_005citem.html#g_t_005citem" rel="next" title="\item">
+<link href="letter.html#letter" rel="prev" title="letter">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="list"></a>
+<div class="header">
+<p>
+Next: <a href="math.html#math" accesskey="n" rel="next">math</a>, Previous: <a href="letter.html#letter" accesskey="p" rel="prev">letter</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="list-1"></a>
+<h3 class="section">8.16 <code>list</code></h3>
+
+<a name="index-environment_002c-list"></a>
+<a name="index-list-environment"></a>
+        
+<a name="index-lists-of-items_002c-generic"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{list}{<var>labeling</var>}{<var>spacing</var>}
+  \item[<var>optional label of first item</var>] <var>text of first item</var>
+  \item[<var>optional label of second item</var>] <var>text of second item</var>
+  ...
+\end{list}
+</pre></div>
+
+<p>An environment for constructing lists.
+</p>
+<p>Note that this environment does not typically appear in the document
+body.  Most lists created by LaTeX authors are the ones that come
+standard: the <code>description</code>, <code>enumerate</code>, and <code>itemize</code>
+environments (see <a href="description.html#description">description</a>, <a href="enumerate.html#enumerate">enumerate</a>, and <a href="itemize.html#itemize">itemize</a>).
+</p>
+<p>Instead, the <code>list</code> environment is most often used in macros.  For
+example, many standard LaTeX environments that do not immediately
+appear to be lists are in fact constructed using <code>list</code>, including
+<code>quotation</code>, <code>quote</code>, and <code>center</code> (see <a href="quotation-_0026-quote.html#quotation-_0026-quote">quotation &amp; quote</a>, see <a href="center.html#center">center</a>).
+</p>
+<p>This uses the <code>list</code> environment to define a new custom
+environment.
+</p>
+<div class="example">
+<pre class="example">\newcounter{namedlistcounter}  % number the items
+\newenvironment{named}
+  {\begin{list}
+     {Item~\Roman{namedlistcounter}.} % labeling 
+     {\usecounter{namedlistcounter}   % set counter
+      \setlength{\leftmargin}{3.5em}} % set spacing 
+  }
+  {\end{list}}
+
+\begin{named}
+  \item Shows as ``Item~I.''
+  \item[Special label.] Shows as ``Special label.''
+  \item Shows as ``Item~II.''
+\end{named}
+</pre></div>
+
+<p>The mandatory first argument <var>labeling</var> specifies the default
+labeling of list items.  It can contain text and LaTeX commands, as
+above where it contains both &lsquo;<samp>Item</samp>&rsquo; and &lsquo;<samp>\Roman{&hellip;}</samp>&rsquo;.
+LaTeX forms the label by putting the <var>labeling</var> argument in a box
+of width <code>\labelwidth</code>.  If the label is wider than that, the
+additional material extends to the right.  When making an instance of a
+<code>list</code> you can override the default labeling by giving <code>\item</code> an
+optional argument by including square braces and the text, as in the
+above <code>\item[Special label.]</code>; see <a href="_005citem.html#g_t_005citem">\item</a>.
+</p>
+<p>The mandatory second argument <var>spacing</var> has a list of commands.
+This list can be empty.  A command that can go in here is
+<code>\usecounter{<var>countername</var>}</code> (see <a href="_005cusecounter.html#g_t_005cusecounter">\usecounter</a>).  Use this
+to tell LaTeX to number the items using the given counter.  The
+counter will be reset to zero each time LaTeX enters the environment,
+and the counter is incremented by one each time LaTeX encounters an
+<code>\item</code> that does not have an optional argument.
+</p>
+<a name="index-_005cmakelabel"></a>
+<a name="list-makelabel"></a><p>Another command that can go in <var>spacing</var> is
+<code>\makelabel</code>, which constructs the label box.  By default it puts
+the contents flush right.  Its only argument is the label, which it
+typesets in LR mode (see <a href="Modes.html#Modes">Modes</a>). One example of changing its
+definition is that to the above <code>named</code> example, before the
+definition of the environment add
+<code>\newcommand{\namedmakelabel}[1]{\textsc{#1}}</code>, and between
+the <code>\setlength</code> command and the parenthesis that closes the
+<var>spacing</var> argument also add <code>\let\makelabel\namedmakelabel</code>.
+Then the labels will be typeset in small caps.  Similarly, changing the
+second code line to <code>\let\makelabel\fbox</code> puts the labels inside a
+framed box.  Another example of the <code>\makelabel</code> command is below,
+in the definition of the <code>redlabel</code> environment.
+</p>
+<p>Also often in <var>spacing</var> are commands to redefine the spacing for the
+list.  Below are the spacing parameters with their default values.
+(Default values for derived environments such as <code>itemize</code> can be
+different than the values shown here.) See also the figure that follows
+the list.  Each is a length (see <a href="Lengths.html#Lengths">Lengths</a>).  The vertical spaces are
+normally rubber lengths, with <code>plus</code> and <code>minus</code> components,
+to give TeX flexibility in setting the page.  Change each with a
+command such as <code>\setlength{itemsep}{2pt plus1pt minus1pt}</code>.
+For some effects these lengths should be zero or negative.
+</p>
+<dl compact="compact">
+<dt><code>\itemindent</code>
+<a name="index-_005citemindent"></a>
+</dt>
+<dd><a name="list-itemindent"></a><p>Extra horizontal space indentation, beyond <code>leftmargin</code>, of the
+first line each item.  Its default value is <code>0pt</code>.
+</p>
+</dd>
+<dt><code>\itemsep</code>
+<a name="index-_005citemsep"></a>
+</dt>
+<dd><a name="list-itemsep"></a><p>Vertical space between items, beyond the <code>\parsep</code>.  The defaults
+for the first three levels in LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;, &lsquo;<samp>book</samp>&rsquo;,
+and &lsquo;<samp>report</samp>&rsquo; classes at 10 point size are: <code>4pt plus2pt
+minus1pt</code>, <code>\parsep</code> (that is, <code>2pt plus1pt minus1pt</code>), and
+<code>\topsep</code> (that is, <code>2pt plus1pt minus1pt</code>).  The defaults at
+11 point are: <code>4.5pt plus2pt minus1pt</code>, <code>\parsep</code> (that is,
+<code>2pt plus1pt minus1pt</code>), and <code>\topsep</code> (that is, <code>2pt
+plus1pt minus1pt</code>).  The defaults at 12 point are: <code>5pt plus2.5pt
+minus1pt</code>, <code>\parsep</code> (that is, <code>2.5pt plus1pt minus1pt</code>), and
+<code>\topsep</code> (that is, <code>2.5pt plus1pt minus1pt</code>).
+</p>
+</dd>
+<dt><code>\labelsep</code>
+<a name="index-_005clabelsep"></a>
+</dt>
+<dd><a name="list-labelsep"></a><p>Horizontal space between the label and text of an item.
+The default for LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;, &lsquo;<samp>book</samp>&rsquo;,
+and &lsquo;<samp>report</samp>&rsquo; classes is <code>0.5em</code>.
+</p>
+</dd>
+<dt><code>\labelwidth</code>
+<a name="index-_005clabelwidth"></a>
+</dt>
+<dd><a name="list-labelwidth"></a><p>Horizontal width.  The box containing the label is nominally this wide.
+If <code>\makelabel</code> returns text that is wider than this then the first
+line of the item will be indented to make room for this extra material.
+If <code>\makelabel</code> returns text of width less than or equal to
+<code>\labelwidth</code> then LaTeX&rsquo;s default is that the label is typeset
+flush right in a box of this width.
+</p>
+<p>The left edge of the label box is
+<code>\leftmargin</code>+<code>\itemindent</code>-<code>\labelsep</code>-<code>\labelwidth</code>
+from the left margin of the enclosing environment.
+</p>
+<p>The default for LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;, &lsquo;<samp>book</samp>&rsquo;, and
+&lsquo;<samp>report</samp>&rsquo; classes at the top level is
+<code>\leftmargini</code>-<code>\labelsep</code>, (which is <code>2em</code> in one column
+mode and <code>1.5em</code> in two column mode).  At the second level it is
+<code>\leftmarginii</code>-<code>\labelsep</code>, and at the third level it is
+<code>\leftmarginiii</code>-<code>\labelsep</code>.  These definitions make the
+label&rsquo;s left edge coincide with the left margin of the enclosing
+environment.
+</p>
+</dd>
+<dt><code>\leftmargin</code>
+<a name="index-_005cleftmargin-1"></a>
+</dt>
+<dd><a name="list-leftmargin"></a><p>Horizontal space between the left margin of the enclosing environment
+(or the left margin of the page if this is a top-level list), and the
+left margin of this list.  It must be non-negative.
+</p>
+<p>In the standard LaTeX document classes, a top-level list has this set
+to the value of <code>\leftmargini</code>, while a list that is nested inside
+a top-level list has this margin set to <code>\leftmarginii</code>.  More
+deeply nested lists get the values of <code>\leftmarginiii</code> through
+<code>\leftmarginvi</code>.  (Nesting greater than level five generates the
+error message &lsquo;<samp>Too deeply nested</samp>&rsquo;.)
+</p>
+<p>The defaults for the first three levels in LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;,
+&lsquo;<samp>book</samp>&rsquo;, and &lsquo;<samp>report</samp>&rsquo; classes are: <code>\leftmargini</code> is
+<code>2.5em</code> (in two column mode, <code>2em</code>), <code>\leftmarginii</code> is
+<code>2.2em</code>, and <code>\leftmarginiii</code> is <code>1.87em</code>.
+</p>
+</dd>
+<dt><code>\listparindent</code>
+<a name="index-_005clistparindent"></a>
+</dt>
+<dd><a name="list-listparindent"></a><p>Horizontal space of additional line indentation, beyond
+<code>\leftmargin</code>, for second and subsequent paragraphs within a list
+item.  A negative value makes this an &ldquo;outdent&rdquo;.  Its default value
+is <code>0pt</code>.
+</p>
+</dd>
+<dt><code>\parsep</code>
+<a name="index-_005cparsep"></a>
+</dt>
+<dd><a name="list-parsep"></a><p>Vertical space between paragraphs within an item.  The defaults for the first three levels in
+LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;, &lsquo;<samp>book</samp>&rsquo;, and &lsquo;<samp>report</samp>&rsquo; classes at 10
+point size are: <code>4pt plus2pt minus1pt</code>, <code>2pt plus1pt
+minus1pt</code>, and <code>0pt</code>.  The defaults at 11 point size are:
+<code>4.5pt plus2pt minus1pt</code>, <code>2pt plus1pt minus1pt</code>, and
+<code>0pt</code>.  The defaults at 12 point size are: <code>5pt plus2.5pt
+minus1pt</code>, <code>2.5pt plus1pt minus1pt</code>, and <code>0pt</code>.
+</p>
+</dd>
+<dt><code>\partopsep</code>
+<a name="index-_005cpartopsep"></a>
+</dt>
+<dd><a name="list-partopsep"></a><p>Vertical space added, beyond <code>\topsep</code>+<code>\parskip</code>, to the top
+and bottom of the entire environment if the list instance is preceded by
+a blank line.  (A blank line in the LaTeX source before the list
+changes spacing at both the top and bottom of the list; whether the line
+following the list is blank does not matter.)
+</p>
+<p>The defaults for the first three levels in LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;,
+&lsquo;<samp>book</samp>&rsquo;, and &lsquo;<samp>report</samp>&rsquo; classes at 10 point size are: <code>2pt
+plus1 minus1pt</code>, <code>2pt plus1pt minus1pt</code>, and <code>1pt plus0pt
+minus1pt</code>.  The defaults at 11 point are: <code>3pt plus1pt minus1pt</code>,
+<code>3pt plus1pt minus1pt</code>, and <code>1pt plus0pt minus1pt</code>).  The
+defaults at 12 point are: <code>3pt plus2pt minus3pt</code>, <code>3pt plus2pt
+minus2pt</code>, and <code>1pt plus0pt minus1pt</code>.
+</p>
+</dd>
+<dt><code>\rightmargin</code>
+<a name="index-_005crightmargin"></a>
+</dt>
+<dd><a name="list-rightmargin"></a><p>Horizontal space between the right margin of the list and the right
+margin of the enclosing environment.  Its default value is <code>0pt</code>.
+It must be non-negative.
+</p>
+</dd>
+<dt><code>\topsep</code>
+<a name="index-_005ctopsep"></a>
+</dt>
+<dd><a name="list-topsep"></a><p>Vertical space added to both the top and bottom of the list, in addition
+to <code>\parskip</code> (see <a href="_005cparindent-_0026-_005cparskip.html#g_t_005cparindent-_0026-_005cparskip">\parindent &amp; \parskip</a>).  The defaults for
+the first three levels in LaTeX&rsquo;s &lsquo;<samp>article</samp>&rsquo;, &lsquo;<samp>book</samp>&rsquo;, and
+&lsquo;<samp>report</samp>&rsquo; classes at 10 point size are: <code>8pt plus2pt minus4pt</code>,
+<code>4pt plus2pt minus1pt</code>, and <code>2pt plus1pt minus1pt</code>.  The
+defaults at 11 point are: <code>9pt plus3pt minus5pt</code>, <code>4.5pt
+plus2pt minus1pt</code>, and <code>2pt plus1pt minus1pt</code>.  The defaults at 12
+point are: <code>10pt plus4pt minus6pt</code>, <code>5pt plus2.5pt minus1pt</code>,
+and <code>2.5pt plus1pt minus1pt</code>.
+</p>
+</dd>
+</dl>
+
+<p>This shows the horizontal and vertical distances.
+</p>
+<div class="float">
+<img src="latex2e-figures/list.png" alt="latex2e-figures/list">
+</div>
+<p>The lengths shown are listed below.  The key relationship is that the
+right edge of the bracket for <var>h1</var> equals the right edge of the
+bracket for <var>h4</var>, so that the left edge of the label box is at
+<var>h3</var>+<var>h4</var>-(<var>h0</var>+<var>h1</var>).
+</p>
+<dl compact="compact">
+<dt><var>v0</var></dt>
+<dd><p><em><code>\topsep</code> + <code>\parskip</code></em> if
+the list environment does not start a new paragraph, and
+<code>\topsep</code>+<code>\parskip</code>+<code>\partopsep</code> if it does
+</p>
+</dd>
+<dt><var>v1</var></dt>
+<dd><p><code>\parsep</code>
+</p>
+</dd>
+<dt><var>v2</var></dt>
+<dd><p><code>\itemsep</code>+<code>\parsep</code>
+</p>
+</dd>
+<dt><var>v3</var></dt>
+<dd><p>Same as <var>v0</var>.  (This space is affected by whether a blank line
+appears in the source above the environment; whether a blank line
+appears in the source below the environment does not matter.)
+</p>
+</dd>
+<dt><var>h0</var></dt>
+<dd><p><code>\labelwidth</code>
+</p>
+</dd>
+<dt><var>h1</var></dt>
+<dd><p><code>\labelsep</code>
+</p>
+</dd>
+<dt><var>h2</var></dt>
+<dd><p><code>\listparindent</code>
+</p>
+</dd>
+<dt><var>h3</var></dt>
+<dd><p><code>\leftmargin</code>
+</p>
+</dd>
+<dt><var>h4</var></dt>
+<dd><p><code>\itemindent</code>
+</p>
+</dd>
+<dt><var>h5</var></dt>
+<dd><p><code>\rightmargin</code>
+</p>
+</dd>
+</dl>
+
+<p>The list&rsquo;s left and right margins, shown above as <var>h3</var> and <var>h5</var>,
+are with respect to the ones provided by the surrounding environment, or
+with respect to the page margins for a top-level list.  The line width
+used for typesetting the list items is <code>\linewidth</code> (see <a href="Page-layout-parameters.html#Page-layout-parameters">Page layout parameters</a>).  For instance, set the list&rsquo;s left margin to be one
+quarter of the distance between the left and right margins of the
+enclosing environment with
+<code>\setlength{\leftmargin}{0.25\linewidth}</code>.
+</p>
+<p>Page breaking in a list structure is controlled by the three
+parameters below. For each, the LaTeX default is
+<code>-\@lowpenalty</code>, that is, <code>-51</code>.  Because it is negative,
+it somewhat encourages a page break at each spot.  Change it with,
+e.g., <code>\@beginparpenalty=9999</code>; a value of 10000 prohibits a
+page break.
+</p>
+<dl compact="compact">
+<dt><code>\@beginparpenalty</code>
+<a name="index-_005c_0040beginparpenalty"></a>
+</dt>
+<dd><a name="list-beginparpenalty"></a><p>The page breaking penalty for breaking before the list (default <code>-51</code>).
+</p>
+</dd>
+<dt><code>\@itempenalty</code>
+<a name="index-_005c_0040itempenalty"></a>
+</dt>
+<dd><a name="list-itempenalty"></a><p>The page breaking penalty for breaking before a list item (default <code>-51</code>).
+</p>
+</dd>
+<dt><code>\@endparpenalty</code>
+<a name="index-_005c_0040endparpenalty"></a>
+</dt>
+<dd><a name="list-endparpenalty"></a><p>The page breaking penalty for breaking after a list (default <code>-51</code>).
+</p>
+</dd>
+</dl>
+
+<a name="index-package_002c-enumitem-1"></a>
+<a name="index-enumitem-package-1"></a>
+
+<p>The package <code>enumitem</code> is useful for customizing lists.
+</p>
+<p>This example has the labels in red.  They are numbered, and the left
+edge of the label lines up with the left edge of the item text.
+See <a href="_005cusecounter.html#g_t_005cusecounter">\usecounter</a>.
+</p>
+<div class="example">
+<pre class="example">\usepackage{color}
+\newcounter{cnt}  
+\newcommand{\makeredlabel}[1]{\textcolor{red}{#1.}}
+\newenvironment{redlabel}
+  {\begin{list}
+    {\arabic{cnt}}
+    {\usecounter{cnt}
+     \setlength{\labelwidth}{0em}
+     \setlength{\labelsep}{0.5em}
+     \setlength{\leftmargin}{1.5em}
+     \setlength{\itemindent}{0.5em} % equals \labelwidth+\labelsep
+     \let\makelabel=\makeredlabel
+    }
+  }
+{\end{list} }
+</pre></div>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005citem.html#g_t_005citem" accesskey="1">\item</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">An entry in a list.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="trivlist.html#trivlist" accesskey="2">trivlist</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">A restricted form of <code>list</code>.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

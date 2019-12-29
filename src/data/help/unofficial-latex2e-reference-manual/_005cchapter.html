@@ -1,0 +1,245 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\chapter (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\chapter (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\chapter (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Sectioning.html#Sectioning" rel="up" title="Sectioning">
+<link href="_005csection.html#g_t_005csection" rel="next" title="\section">
+<link href="_005cpart.html#g_t_005cpart" rel="prev" title="\part">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cchapter"></a>
+<div class="header">
+<p>
+Next: <a href="_005csection.html#g_t_005csection" accesskey="n" rel="next">\section</a>, Previous: <a href="_005cpart.html#g_t_005cpart" accesskey="p" rel="prev">\part</a>, Up: <a href="Sectioning.html#Sectioning" accesskey="u" rel="up">Sectioning</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cchapter-1"></a>
+<h3 class="section">6.2 <code>\chapter</code></h3>
+
+<a name="index-_005cchapter-1"></a>
+<a name="index-chapter-1"></a>
+
+<p>Synopsis, one of:
+</p>
+<div class="example">
+<pre class="example">\chapter{<var>title</var>}
+\chapter*{<var>title</var>}
+\chapter[<var>toc-title</var>]{<var>title</var>}
+</pre></div>
+
+<p>Start a chapter.  The standard LaTeX classes <code>book</code> and
+<code>report</code> have this command but <code>article</code> does not.
+</p>
+<p>This produces a chapter.
+</p>
+<div class="example">
+<pre class="example">\chapter{Loomings}
+Call me Ishmael.
+Some years ago---never mind how long precisely---having little or no
+money in my purse, and nothing particular to interest me on shore, I
+thought I would sail about a little and see the watery part of
+the world.
+</pre></div>
+
+<p>The LaTeX default starts each chapter on a fresh page, an
+odd-numbered page if the document is two-sided.  It produces a chapter
+number such as &lsquo;<samp>Chapter 1</samp>&rsquo; in large boldface type (the size is
+<code>\huge</code>).  It then puts <var>title</var> on a fresh line, in boldface
+type that is still larger (size <code>\Huge</code>).  It also increments the
+<code>chapter</code> counter, adds an entry to the table of contents
+(see <a href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e">Table of contents etc.</a>), and sets the running header
+information (see <a href="Page-styles.html#Page-styles">Page styles</a>).
+</p>
+<p>The <code>*</code>&nbsp;form shows <var>title</var> on a fresh line, in boldface.
+But it does not show the chapter number, does not increment the
+<code>chapter</code> counter, produces no table of contents entry, and does
+not affect the running header.  (If you use the page style
+<code>headings</code> in a two-sided document then the header will be from the
+prior chapter.)  This example illustrates.
+</p>
+<div class="example">
+<pre class="example">\chapter*{Preamble}
+</pre></div>
+
+<p>The optional argument <var>toc-title</var> will appear as the chapter title
+in the table of contents (see <a href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e">Table of contents etc.</a>) and in
+running headers (see <a href="Page-styles.html#Page-styles">Page styles</a>).  If it is not present then
+<var>title</var> will be there.  This shows the full name in the chapter
+title,
+</p>
+<div class="example">
+<pre class="example">\chapter[Weyl]{Hermann Klaus Hugo (Peter) Weyl (1885--1955)}
+</pre></div>
+
+<p>but only &lsquo;<samp>Weyl</samp>&rsquo; on the contents page.  This puts a line break in
+the title but that doesn&rsquo;t work well with running headers so it omits
+the break in the contents
+</p>
+<div class="example">
+<pre class="example">\chapter[Given it all\\ my story]{Given it all\\ my story}
+</pre></div>
+
+<p>For determining which sectional units are numbered and which appear in
+the table of contents, the level number of a chapter is&nbsp;0
+(see <a href="Sectioning.html#Sectioning_002fsecnumdepth">Sectioning/secnumdepth</a> and see <a href="Sectioning.html#Sectioning_002ftocdepth">Sectioning/tocdepth</a>).
+</p>
+<a name="index-package_002c-indentfirst-1"></a>
+<a name="index-indentfirst-package-1"></a>
+
+<p>The paragraph that follows the chapter title is not indented, as is a
+standard typographical practice.  To get an indent use the package
+<samp>indentfirst</samp>.
+</p>
+<p>You can change what is shown for the chapter number.  To change it to
+something like &lsquo;<samp>Lecture 1</samp>&rsquo;, put in the preamble either
+<code>\renewcommand{\chaptername}{Lecture}</code> or this
+(see <a href="_005cmakeatletter-_0026-_005cmakeatother.html#g_t_005cmakeatletter-_0026-_005cmakeatother">\makeatletter &amp; \makeatother</a>).
+</p>
+<div class="example">
+<pre class="example">\makeatletter
+\renewcommand{\@chapapp}{Lecture}
+\makeatother
+</pre></div>
+
+<a name="index-package_002c-babel"></a>
+<a name="index-babel-package"></a>
+
+<p>To make this change because of the primary language for
+the document, see the package <samp>babel</samp>.
+</p>
+<p>In a two-sided document LaTeX puts a chapter on odd-numbered page, if
+necessary leaving an even-numbered page that is blank except for any
+running headers.  To make that page completely blank,
+see&nbsp;<a href="_005cclearpage-_0026-_005ccleardoublepage.html#g_t_005cclearpage-_0026-_005ccleardoublepage">\clearpage &amp; \cleardoublepage</a>.
+</p>
+<a name="index-package_002c-titlesec-2"></a>
+<a name="index-titlesec-package-2"></a>
+
+<p>To change the behavior of the <code>\chapter</code> command, you can copy its
+definition from the LaTeX format file and make adjustments.  But
+there are also many packages on CTAN that address this.  One is
+<samp>titlesec</samp>.  See its documentation, but the example below gives a
+sense of what it can do.
+</p>
+<div class="example">
+<pre class="example">\usepackage{titlesec}   % in preamble
+\titleformat{\chapter}
+  {\Huge\bfseries}  % format of title
+  {}                % label, such as 1.2 for a subsection
+  {0pt}             % length of separation between label and title
+  {}                % before-code hook
+</pre></div>
+
+<p>This omits the chapter number &lsquo;<samp>Chapter 1</samp>&rsquo; from the page but unlike
+<code>\chapter*</code> it keeps the chapter in the table of contents and the
+running headers.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

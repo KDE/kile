@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>649</width>
-    <height>429</height>
+    <height>444</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -20,84 +20,6 @@
    <string>Help</string>
   </property>
   <layout class="QVBoxLayout">
-   <item>
-    <layout class="QHBoxLayout">
-     <item>
-      <widget class="QLabel" name="m_lbLocation">
-       <property name="whatsThis">
-        <string>Insert the path to the TeX documentation directory here. For example /usr/share/texmf/doc.</string>
-       </property>
-       <property name="text">
-        <string>&amp;Location of TeX documentation:</string>
-       </property>
-       <property name="wordWrap">
-        <bool>false</bool>
-       </property>
-       <property name="buddy">
-        <cstring>kcfg_location</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="KLineEdit" name="kcfg_location"/>
-     </item>
-     <item>
-      <widget class="QPushButton" name="m_helpLocationButton"/>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <property name="bottomMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <widget class="QPushButton" name="m_pbInformation">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Information</string>
-       </property>
-       <attribute name="buttonGroup">
-        <string notr="true">buttonGroup</string>
-       </attribute>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeType">
-      <enum>QSizePolicy::Fixed</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
    <item>
     <widget class="QGroupBox" name="m_gbContextHelp">
      <property name="sizePolicy">
@@ -114,9 +36,9 @@
      </property>
      <layout class="QVBoxLayout">
       <item>
-       <widget class="QRadioButton" name="kcfg_kilerefs">
+       <widget class="QRadioButton" name="kcfg_latex2erefs">
         <property name="text">
-         <string>Use the &amp;Kile LaTeX reference</string>
+         <string>&amp;Use the LaTeX2e unofficial reference manual</string>
         </property>
         <property name="checked">
          <bool>true</bool>
@@ -124,16 +46,12 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="kcfg_latex2erefs">
+       <widget class="QRadioButton" name="kcfg_kilerefs">
         <property name="text">
-         <string>&amp;Use your system's TeXLive documentation</string>
+         <string>Use &amp;Kile's LaTeX reference</string>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="kcfg_texrefs">
-        <property name="text">
-         <string>Use your system's &amp;TeX documentation   (older version)</string>
+        <property name="checked">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
@@ -195,23 +113,6 @@
         </item>
        </layout>
       </item>
-      <item>
-       <widget class="QRadioButton" name="kcfg_embedded">
-        <property name="text">
-         <string>Use &amp;embedded viewer</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QRadioButton" name="kcfg_external">
-        <property name="text">
-         <string>Show help file in a &amp;separate window</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
      </layout>
     </widget>
    </item>
@@ -231,19 +132,9 @@
   </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>KLineEdit</class>
-   <extends>QLineEdit</extends>
-   <header>klineedit.h</header>
-  </customwidget>
- </customwidgets>
  <includes>
   <include location="local">klineedit.h</include>
  </includes>
  <resources/>
  <connections/>
- <buttongroups>
-  <buttongroup name="buttonGroup"/>
- </buttongroups>
 </ui>

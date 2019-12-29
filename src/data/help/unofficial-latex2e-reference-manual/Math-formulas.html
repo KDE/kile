@@ -1,0 +1,268 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Math formulas (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Math formulas (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Math formulas (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Subscripts-_0026-superscripts.html#Subscripts-_0026-superscripts" rel="next" title="Subscripts &amp; superscripts">
+<link href="Marginal-notes.html#Marginal-notes" rel="prev" title="Marginal notes">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Math-formulas"></a>
+<div class="header">
+<p>
+Next: <a href="Modes.html#Modes" accesskey="n" rel="next">Modes</a>, Previous: <a href="Making-paragraphs.html#Making-paragraphs" accesskey="p" rel="prev">Making paragraphs</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Math-formulas-1"></a>
+<h2 class="chapter">16 Math formulas</h2>
+
+<a name="index-math-formulas"></a>
+<a name="index-formulas_002c-math"></a>
+<a name="index-math-mode_002c-entering"></a>
+<a name="index-environment_002c-math-1"></a>
+<a name="index-math-environment-1"></a>
+        
+<a name="index-environment_002c-displaymath-1"></a>
+<a name="index-displaymath-environment-1"></a>
+        
+<a name="index-environment_002c-equation-1"></a>
+<a name="index-equation-environment-1"></a>
+        
+
+<p>Produce mathematical text by putting LaTeX into math mode or display
+math mode (see <a href="Modes.html#Modes">Modes</a>).  This example shows both.
+</p>
+<div class="example">
+<pre class="example">The wave equation for \( u \) is
+\begin{displaymath}
+  \frac{\partial^2u}{\partial t^2} = c^2\nabla^2u
+\end{displaymath}
+where \( \nabla^2 \) is the spatial Laplacian and \( c \) is constant.
+</pre></div>
+
+<p>Math mode is for inline mathematics.  In the above example it is invoked
+by the starting <code>\(</code> and finished by the matching ending <code>\)</code>.
+Display math mode is for displayed equations and here is invoked by the
+<code>displaymath</code> environment.  Note that any mathematical text
+whatever, including mathematical text consisting of just one character,
+is handled in math mode.
+</p>
+<p>When in math mode or display math mode, LaTeX handles many aspects of
+your input text differently than in other text modes.  For example,
+</p>
+<div class="example">
+<pre class="example">contrast x+y with \( x+y \)
+</pre></div>
+
+<p>in math mode the letters are in italics and the spacing around the plus
+sign is different.
+</p>
+<p>There are three ways to make inline formulas, to put LaTeX in math
+mode.
+</p>
+<div class="example">
+<pre class="example">\( <var>mathematical material</var> \)
+$ <var>mathematical material</var> $
+\begin{math} <var>mathematical material</var> \end{math}
+</pre></div>
+
+<p>The first form is preferred and the second is quite common, but the
+third form is rarely used.  You can sometimes use one and sometimes
+another, as in <code>\(x\) and $y$</code>.  You can use these in paragraph
+mode or in LR mode (see <a href="Modes.html#Modes">Modes</a>).
+</p>
+<p>To make displayed formulas, put LaTeX into display math mode with
+either:
+</p>
+<div class="example">
+<pre class="example">\begin{displaymath}
+  <var>mathematical material</var>
+\end{displaymath}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\begin{equation}
+  <var>mathematical material</var>
+\end{equation}
+</pre></div>
+
+<p>(see <a href="displaymath.html#displaymath">displaymath</a>, see <a href="equation.html#equation">equation</a>).  The only difference is that
+with the <code>equation</code> environment, LaTeX puts a formula number
+alongside the formula.  The construct <code>\[ <var>math</var> \]</code> is
+equivalent to <code>\begin{displaymath} <var>math</var>
+\end{displaymath}</code>.  These environments can only be used in paragraph
+mode (see <a href="Modes.html#Modes">Modes</a>).
+</p>
+<a name="index-_005cdisplaystyle"></a>
+<p>The two mathematics modes are similar, but there are some differences.
+One involves the placement of subscripts and superscripts; in display
+math mode they are further apart and in inline math mode they are closer
+together.
+</p>
+<p>Sometimes you want the display math typographical treatment to happen in
+the inline math mode.  For this, the <code>\displaystyle</code> declaration
+forces the size and style of the formula to be that of
+<code>displaymath</code>.  Thus <code>\(\displaystyle \sum_{n=0}^\infty
+x_n\)</code> will have the limits above and below the summation sign, not next
+to it.  Another example is that
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{r|cc}
+  \textsc{Name}  &amp;\textsc{Series}  &amp;\textsc{Sum}  \\  \hline
+  Arithmetic     &amp;\( a+(a+b)+(a+2b)+\cdots+(a+(n-1)b) \)
+                   &amp;\( na+(n-1)n\cdot\frac{b}{2}\)  \\
+  Geometric      &amp;\( a+ab+ab^2+\cdots+ab^{n-1} \)
+                   &amp;\(\displaystyle a\cdot\frac{1-b^n}{1-b}\)  \\
+\end{tabular}
+</pre></div>
+
+<p>because it has no <code>\displaystyle</code>, the &lsquo;<samp>Arithmetic</samp>&rsquo; line&rsquo;s
+fraction will be scrunched.  But, because of its <code>\displaystyle</code>,
+the &lsquo;<samp>Geometric</samp>&rsquo; line&rsquo;s fraction will be easy to read, with
+characters the same size as in the rest of the line.
+</p>
+<a name="index-package_002c-amsmath-5"></a>
+<a name="index-amsmath-package-5"></a>
+
+<a name="index-package_002c-amsfonts"></a>
+<a name="index-amsfonts-package"></a>
+
+<a name="index-package_002c-mathtools"></a>
+<a name="index-mathtools-package"></a>
+
+<p>The American Mathematical Society has made freely available a set of
+packages that greatly expand your options for writing mathematics,
+<samp>amsmath</samp> and <samp>amssymb</samp> (also be aware of the <samp>mathtools</samp>
+package that is an extension to, and loads, <samp>amsmath</samp>).  New
+documents that will have mathematical text should use these packages.
+Descriptions of these packages is outside the scope of this document;
+see their documentation on CTAN.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Subscripts-_0026-superscripts.html#Subscripts-_0026-superscripts" accesskey="1">Subscripts &amp; superscripts</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Also known as exponent or index.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Math-symbols.html#Math-symbols" accesskey="2">Math symbols</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Various mathematical squiggles.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Math-functions.html#Math-functions" accesskey="3">Math functions</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Math function names like sin and exp.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Math-accents.html#Math-accents" accesskey="4">Math accents</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Accents in math.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Over_002d-and-Underlining.html#Over_002d-and-Underlining" accesskey="5">Over- and Underlining</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Things over or under formulas.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Spacing-in-math-mode.html#Spacing-in-math-mode" accesskey="6">Spacing in math mode</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Thick, medium, thin, and negative spaces.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Math-miscellany.html#Math-miscellany" accesskey="7">Math miscellany</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Stuff that doesn&rsquo;t fit anywhere else.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

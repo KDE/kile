@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\subsection (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\subsection (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\subsection (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Sectioning.html#Sectioning" rel="up" title="Sectioning">
+<link href="_005csubsubsection-_0026-_005cparagraph-_0026-_005csubparagraph.html#g_t_005csubsubsection-_0026-_005cparagraph-_0026-_005csubparagraph" rel="next" title="\subsubsection &amp; \paragraph &amp; \subparagraph">
+<link href="_005csection.html#g_t_005csection" rel="prev" title="\section">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005csubsection"></a>
+<div class="header">
+<p>
+Next: <a href="_005csubsubsection-_0026-_005cparagraph-_0026-_005csubparagraph.html#g_t_005csubsubsection-_0026-_005cparagraph-_0026-_005csubparagraph" accesskey="n" rel="next">\subsubsection &amp; \paragraph &amp; \subparagraph</a>, Previous: <a href="_005csection.html#g_t_005csection" accesskey="p" rel="prev">\section</a>, Up: <a href="Sectioning.html#Sectioning" accesskey="u" rel="up">Sectioning</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005csubsection-1"></a>
+<h3 class="section">6.4 <code>\subsection</code></h3>
+
+<a name="index-_005csubsection-1"></a>
+<a name="index-subsection-1"></a>
+
+<p>Synopsis, one of:
+</p>
+<div class="example">
+<pre class="example">\subsection{<var>title</var>}
+\subsection*{<var>title</var>}
+\subsection[<var>toc-title</var>]{<var>title</var>}
+</pre></div>
+
+<p>Start a subsection.  The standard LaTeX classes <code>article</code>,
+<code>book</code>, and <code>report</code> all have this command.
+</p>
+<p>This produces a subsection.
+</p>
+<div class="example">
+<pre class="example">We will show that there are more functions than Turing machines and that
+therefore some functions have no associated machine.
+
+\subsection{Cardinality} We will begin with two paradoxes that
+dramatize the challenge to our intuition posed by comparing the sizes of
+infinite sets.
+</pre></div>
+
+<p>For the standard LaTeX classes <code>book</code> and <code>report</code> the
+default output is like &lsquo;<samp>1.2.3 <var>title</var></samp>&rsquo; (for chapter&nbsp;1,
+section&nbsp;2, subsection&nbsp;3), alone on its line and flush left, in
+boldface and a larger type (the type size is <code>\large</code>).  The same
+holds in <code>article</code> except that there are no chapters in that class
+so it looks like &lsquo;<samp>2.3 <var>title</var></samp>&rsquo;.
+</p>
+<p>The <code>*</code>&nbsp;form shows <var>title</var>.
+But it does not show the section number, does not increment the
+<code>section</code> counter, and produces no table of contents entry.
+</p>
+<p>The optional argument <var>toc-title</var> will appear as the section title
+in the table of contents (see <a href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e">Table of contents etc.</a>).  If it is
+not present then <var>title</var> will be there.  This shows the full name in
+the title of the section,
+</p>
+<div class="example">
+<pre class="example">\subsection[$\alpha,\beta,\gamma$ paper]{\textit{The Origin of
+  Chemical Elements} by R.A.~Alpher, H.~Bethe, and G.~Gamow}
+</pre></div>
+
+<p>but only &lsquo;<samp>&#x03B1;,&#x03B2;,&#x03B3;
+paper</samp>&rsquo; on the contents page.
+</p>
+<p>For determining which sectional units are numbered and which appear in
+the table of contents, the level number of a subsection is&nbsp;2
+(see <a href="Sectioning.html#Sectioning_002fsecnumdepth">Sectioning/secnumdepth</a> and see <a href="Sectioning.html#Sectioning_002ftocdepth">Sectioning/tocdepth</a>).
+</p>
+<a name="index-package_002c-indentfirst-3"></a>
+<a name="index-indentfirst-package-3"></a>
+
+<p>The paragraph that follows the subsection title is not indented, as is a
+standard typographical practice.  One way to get an indent is to use the
+package <samp>indentfirst</samp>.
+</p>
+<a name="index-package_002c-titlesec-4"></a>
+<a name="index-titlesec-package-4"></a>
+
+<p>There are a number of ways to change the behavior of the
+<code>\subsection</code> command.  One is the <code>\@startsection</code> command
+(see <a href="_005c_0040startsection.html#g_t_005c_0040startsection">\@startsection</a>).  There are also many packages on CTAN that
+address this, including <samp>titlesec</samp>.  See the documentation but the
+example below gives a sense of what they can do.
+</p>
+<div class="example">
+<pre class="example">\usepackage{titlesec}   % in preamble
+\titleformat{\subsection}[runin]
+  {\normalfont\normalsize\bfseries}  % format of the title
+  {\thesubsection}                   % label
+  {0.6em}                            % space between label and title
+  {}                                 % before-code hook
+</pre></div>
+
+<p>That puts the subsection number and <var>title</var> in the first line of
+text.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

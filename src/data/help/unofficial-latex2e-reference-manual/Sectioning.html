@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Sectioning (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Sectioning (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Sectioning (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="_005cpart.html#g_t_005cpart" rel="next" title="\part">
+<link href="Floats.html#Floats" rel="prev" title="Floats">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Sectioning"></a>
+<div class="header">
+<p>
+Next: <a href="Cross-references.html#Cross-references" accesskey="n" rel="next">Cross references</a>, Previous: <a href="Layout.html#Layout" accesskey="p" rel="prev">Layout</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Sectioning-1"></a>
+<h2 class="chapter">6 Sectioning</h2>
+
+<a name="index-sectioning-commands"></a>
+<a name="index-part"></a>
+<a name="index-chapter"></a>
+<a name="index-section"></a>
+<a name="index-subsection"></a>
+<a name="index-paragraph"></a>
+<a name="index-subparagraph"></a>
+<a name="index-_005cpart"></a>
+<a name="index-_005cchapter"></a>
+<a name="index-_005csection"></a>
+<a name="index-_005csubsection"></a>
+<a name="index-_005cparagraph"></a>
+<a name="index-_005csubparagraph"></a>
+
+<p>Structure your text into divisions: parts, chapters, sections, etc.  All
+sectioning commands have the same form, one of:
+</p>
+<div class="example">
+<pre class="example"><var>sectioning-command</var>{<var>title</var>}
+<var>sectioning-command</var>*{<var>title</var>}
+<var>sectioning-command</var>[<var>toc-title</var>]{<var>title</var>}
+</pre></div>
+
+<p>For instance, declare the start of a subsection as with
+<code>\subsection{Motivation}</code>.
+</p>
+<p>The table has each <var>sectioning-command</var> in LaTeX.  All are
+available in all of LaTeX&rsquo;s standard document classes <code>book</code>,
+<code>report</code>, and&nbsp;<code>article</code>, except that <code>\chapter</code> is
+not available in <code>article</code>.
+</p>
+<table>
+<thead><tr><th width="25%">Sectioning unit</th><th width="25%">Command</th><th width="40%">Level</th></tr></thead>
+<tr><td width="25%">Part</td><td width="25%"><code>\part</code></td><td width="40%">-1 (<code>book</code>, <code>report</code>), 0 (<code>article</code>)</td></tr>
+<tr><td width="25%">Chapter</td><td width="25%"><code>\chapter</code></td><td width="40%">0</td></tr>
+<tr><td width="25%">Section</td><td width="25%"><code>\section</code></td><td width="40%">1</td></tr>
+<tr><td width="25%">Subsection</td><td width="25%"><code>\subsection</code></td><td width="40%">2</td></tr>
+<tr><td width="25%">Subsubsection</td><td width="25%"><code>\subsubsection</code></td><td width="40%">3</td></tr>
+<tr><td width="25%">Paragraph</td><td width="25%"><code>\paragraph</code></td><td width="40%">4</td></tr>
+<tr><td width="25%">Subparagraph</td><td width="25%"><code>\subparagraph</code></td><td width="40%">5</td></tr>
+</table>
+
+<a name="index-_002a_002dform-of-sectioning-commands"></a>
+<p>All these commands have a <code>*</code>-form that prints <var>title</var> as usual
+but is not numbered and does not make an entry in the table of contents.
+An example of using this is for an appendix in an <code>article</code> .  The
+input <code>\appendix\section{Appendix}</code> gives the output &lsquo;<samp>A
+Appendix</samp>&rsquo; (see <a href="_005cappendix.html#g_t_005cappendix">\appendix</a>).  You can lose the numbering&nbsp;&lsquo;<samp>A</samp>&rsquo;
+by instead entering <code>\section*{Appendix}</code> (articles often omit a
+table of contents and have simple page headers so the other differences
+from the <code>\section</code> command may not matter).
+</p>
+<p>The section title <var>title</var> provides the heading in the main text, but
+it may also appear in the table of contents and in the running head or
+foot (see <a href="Page-styles.html#Page-styles">Page styles</a>).  You may not want the same text in these
+places as in the main text.  All of these commands have an optional
+argument <var>toc-title</var> for these other places.
+</p>
+<p>The level number in the table above determines which sectional units are
+numbered, and which appear in the table of contents.  If the sectioning
+command&rsquo;s <var>level</var> is less than or equal to the value of the counter
+<code>secnumdepth</code> then the titles for this sectioning command will be
+numbered (see <a href="#Sectioning_002fsecnumdepth">Sectioning/secnumdepth</a>).  And, if <var>level</var> is less
+than or equal to the value of the counter <code>tocdepth</code> then the table
+of contents will have an entry for this sectioning unit
+(see <a href="#Sectioning_002ftocdepth">Sectioning/tocdepth</a>).
+</p>
+<p>LaTeX expects that before you have a <code>\subsection</code> you will have
+a <code>\section</code> and, in a book, that before a <code>\section</code> you will
+have a <code>\chapter</code>.  Otherwise you can get a something like a
+subsection numbered &lsquo;<samp>3.0.1</samp>&rsquo;.
+</p>
+<a name="index-package_002c-titlesec"></a>
+<a name="index-titlesec-package"></a>
+
+<p>LaTeX lets you change the appearance of the sectional units.  As a
+simple example, you can change the section numbering to upper-case
+letters with <code>\renewcommand\thesection{\Alph{section}}</code> in the
+preamble (see <a href="_005calph-_005cAlph-_005carabic-_005croman-_005cRoman-_005cfnsymbol.html#g_t_005calph-_005cAlph-_005carabic-_005croman-_005cRoman-_005cfnsymbol">\alph \Alph \arabic \roman \Roman \fnsymbol</a>).  CTAN
+has many package that make this adjustment easier, including
+<samp>titlesec</samp>.
+</p>
+<p>Two counters relate to the appearance of sectioning commands.
+</p>
+<dl compact="compact">
+<dt><code>secnumdepth</code>
+<a name="index-secnumdepth"></a>
+</dt>
+<dd><a name="index-secnumdepth-counter"></a>
+<a name="index-section-numbers_002c-printing"></a>
+<a name="sectioning-secnumdepth"></a><a name="Sectioning_002fsecnumdepth"></a><p>Controls which sectioning commands are
+numbered.  Suppress numbering of sectioning at any depth greater than
+<var>level</var> <code>\setcounter{secnumdepth}{<var>level</var>}</code>
+(see <a href="_005csetcounter.html#g_t_005csetcounter">\setcounter</a>).  See the above table for the level numbers.  For
+instance, if the <code>secnumdepth</code> is 1 in an <code>article</code> then a
+<code>\section{Introduction}</code> command will produce output like &lsquo;<samp>1
+Introduction</samp>&rsquo; while <code>\subsection{Discussion}</code> will produce output
+like &lsquo;<samp>Discussion</samp>&rsquo;, without the number. LaTeX&rsquo;s default
+<code>secnumdepth</code> is&nbsp;3 in <samp>article</samp> class and &nbsp;2 in the
+<samp>book</samp> and <samp>report</samp> classes.
+</p>
+</dd>
+<dt><code>tocdepth</code>
+<a name="index-tocdepth"></a>
+</dt>
+<dd><a name="index-tocdepth-counter"></a>
+<a name="index-table-of-contents_002c-sectioning-numbers-printed"></a>
+<a name="sectioning-tocdepth"></a><a name="Sectioning_002ftocdepth"></a><p>Controls which sectioning units are listed in the table of contents.
+The setting <code>\setcounter{tocdepth}{<var>level</var>}</code> makes the
+sectioning units at <var>level</var> be the smallest ones listed
+(see <a href="_005csetcounter.html#g_t_005csetcounter">\setcounter</a>).  See the above table for the level numbers.  For
+instance, if <code>tocdepth</code> is&nbsp;1 then the table of contents will
+list sections but not subsections.  LaTeX&rsquo;s default
+<code>secnumdepth</code> is&nbsp;3 in <samp>article</samp> class and &nbsp;2 in the
+<samp>book</samp> and <samp>report</samp> classes.
+</p>
+</dd>
+</dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cpart.html#g_t_005cpart" accesskey="1">\part</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Start a part.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cchapter.html#g_t_005cchapter" accesskey="2">\chapter</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Start a chapter.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csection.html#g_t_005csection" accesskey="3">\section</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Start a section.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csubsection.html#g_t_005csubsection" accesskey="4">\subsection</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Start a subsection.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005csubsubsection-_0026-_005cparagraph-_0026-_005csubparagraph.html#g_t_005csubsubsection-_0026-_005cparagraph-_0026-_005csubparagraph" accesskey="5">\subsubsection &amp; \paragraph &amp; \subparagraph</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Lower divisions.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cappendix.html#g_t_005cappendix" accesskey="6">\appendix</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Start appendices.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter.html#g_t_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter" accesskey="7">\frontmatter &amp; \mainmatter &amp; \backmatter</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The three parts of a book.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005c_0040startsection.html#g_t_005c_0040startsection" accesskey="8">\@startsection</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Layout of sectional units.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

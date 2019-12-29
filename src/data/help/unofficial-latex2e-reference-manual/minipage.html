@@ -1,0 +1,315 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>minipage (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="minipage (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="minipage (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="picture.html#picture" rel="next" title="picture">
+<link href="math.html#math" rel="prev" title="math">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="minipage"></a>
+<div class="header">
+<p>
+Next: <a href="picture.html#picture" accesskey="n" rel="next">picture</a>, Previous: <a href="math.html#math" accesskey="p" rel="prev">math</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="minipage-1"></a>
+<h3 class="section">8.18 <code>minipage</code></h3>
+
+<a name="index-environment_002c-minipage"></a>
+<a name="index-minipage-environment"></a>
+        
+<a name="index-minipage_002c-creating-a"></a>
+
+<p>Synopses:
+</p>
+<div class="example">
+<pre class="example">\begin{minipage}{<var>width</var>}
+  <var>contents</var>
+\end{minipage}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\begin{minipage}[<var>position</var>][<var>height</var>][<var>inner-pos</var>]{<var>width</var>}
+  <var>contents</var>
+\end{minipage}
+</pre></div>
+
+<p>Put <var>contents</var> into a box that is <var>width</var> wide.  This is like a
+small version of a page; it can contain its own footnotes, itemized
+lists, etc. (There are some restrictions, including that it cannot have
+floats.)  This box will not be broken across pages.  So <code>minipage</code>
+is similar to <code>\parbox</code> (see <a href="_005cparbox.html#g_t_005cparbox">\parbox</a>) but here you can have
+paragraphs.
+</p>
+<p>This example will be 3&nbsp;inches wide, and has two paragraphs.
+</p>
+<div class="example">
+<pre class="example">\begin{minipage}{3in}
+  Stephen Kleene was a founder of the Theory of Computation.
+
+  He was a student of Church, wrote three influential texts,
+  was President of the Association for Symbolic Logic,
+  and won the National Medal of Science.
+\end{minipage}
+</pre></div>
+
+<p>See below for a discussion of the paragraph indent inside a
+<code>minipage</code>.
+</p>
+<p>The required argument <var>width</var> is a rigid length (see <a href="Lengths.html#Lengths">Lengths</a>).
+It gives the width of the box into which <var>contents</var> are typeset.
+</p>
+<p>There are three optional arguments, <var>position</var>, <var>height</var>, and
+<var>inner-pos</var>.  You need not include all three. For example, get the
+default <var>position</var> and set the <var>height</var> with
+<code>\begin{minipage}[c][2.54cm] <var>contents</var> \end{minipage}</code>.
+(Get the natural height with an empty argument, <code>[]</code>.)
+</p>
+<p>The optional argument <var>position</var> governs how the <code>minipage</code>
+vertically aligns with the surrounding material.
+</p>
+<dl compact="compact">
+<dt><code>c</code></dt>
+<dd><p>(synonym <code>m</code>) Default.  Positions the <code>minipage</code> so its
+vertical center lines up with the center of the adjacent text line (what
+Plain TeX calls <code>\vcenter</code>).
+</p>
+</dd>
+<dt><code>t</code></dt>
+<dd><p>Match the top line in the <code>minipage</code> with the baseline of the
+surrounding text (Plain TeX&rsquo;s <code>\vtop</code>.
+</p>
+</dd>
+<dt><code>b</code></dt>
+<dd><p>Match the bottom line in the <code>minipage</code> with the baseline of the
+surrounding text (Plain TeX&rsquo;s <code>\vbox</code>.
+</p></dd>
+</dl>
+
+<p>To see the effects of these, contrast running this
+</p>
+<div class="example">
+<pre class="example">---\begin{minipage}[c]{0.25in}
+  first\\ second\\ third
+\end{minipage}
+</pre></div>
+
+<p>with the results of changing <code>c</code> to <code>b</code> or&nbsp;<code>t</code>.
+</p>
+<p>The optional argument <var>height</var> is a rigid length (see <a href="Lengths.html#Lengths">Lengths</a>).
+It sets the height of the <code>minipage</code>.  You can enter any value
+larger than, or equal to, or smaller than the <code>minipage</code>&rsquo;s natural
+height and LaTeX will not give an error or warning.  You can also set
+it to a height of zero or a negative value.
+</p>
+<p>The final optional argument <var>inner-pos</var> controls the placement of
+<var>content</var> inside the box. These are the possible values are (the
+default is the value of <var>position</var>).
+</p>
+<dl compact="compact">
+<dt><code>t</code></dt>
+<dd><p>Place <var>content</var> at the top of the box.
+</p>
+</dd>
+<dt><code>c</code></dt>
+<dd><p>Place it in the vertical center.
+</p>
+</dd>
+<dt><code>b</code></dt>
+<dd><p>Place it at the box bottom.
+</p>
+</dd>
+<dt><code>s</code></dt>
+<dd><p>Stretch <var>contents</var> out vertically; it must contain vertically
+stretchable space.
+</p>
+</dd>
+</dl>
+
+<p>The <var>inner-pos</var> argument makes sense when the <var>height</var> option
+is set to a value larger than the <code>minipage</code>&rsquo;s natural height.  To
+see the effect of the options, run this example with the various choices
+in place of <code>b</code>.
+</p>
+<div class="example">
+<pre class="example">Text before
+\begin{center}
+  ---\begin{minipage}[c][3in][b]{0.25\textwidth}
+       first\\ second\\ third
+  \end{minipage}              
+\end{center}
+Text after  
+</pre></div>
+
+<a name="index-indentation-of-paragraphs_002c-in-minipage"></a>
+<a name="index-paragraph-indentation_002c-in-minipage"></a>
+<a name="index-_005cparindent"></a>
+<p>By default paragraphs are not indented in a <code>minipage</code>.  Change
+that with a command such as <code>\setlength{\parindent}{1pc}</code> at
+the start of <var>contents</var>.
+</p>
+<a name="index-footnotes-in-figures"></a>
+<a name="index-figures_002c-footnotes-in"></a>
+<p>Footnotes in a <code>minipage</code> environment are handled in a way that is
+particularly useful for putting footnotes in figures or tables.  A
+<code>\footnote</code> or <code>\footnotetext</code> command puts the footnote at
+the bottom of the minipage instead of at the bottom of the page, and it
+uses the <code>\mpfootnote</code> counter instead of the ordinary
+<code>footnote</code> counter (see <a href="Counters.html#Counters">Counters</a>).
+</p>
+<p>This puts the footnote at the bottom of the table, not the bottom of the
+page.
+</p>
+<div class="example">
+<pre class="example">\begin{center}           % center the minipage on the line
+\begin{minipage}{2.5in}
+  \begin{center}         % center the table inside the minipage
+    \begin{tabular}{ll}
+      \textsc{Monarch}  &amp;\textsc{Reign}             \\ \hline
+      Elizabeth II      &amp;63 years\footnote{to date} \\
+      Victoria          &amp;63 years                   \\
+      George III        &amp;59 years
+    \end{tabular}
+  \end{center}  
+\end{minipage}
+\end{center}
+</pre></div>
+
+<p>If you nest minipages then there is an oddness when using footnotes.
+Footnotes appear at the bottom of the text ended by the next
+<code>\end{minipage}</code> which may not be their logical place.
+</p>
+<p>This puts a table containing data side by side with a map graphic.  They
+are vertically centered.
+</p>
+<div class="example">
+<pre class="example">\newcommand*{\vcenteredhbox}[1]{\begin{tabular}{@{}c@{}}#1\end{tabular}}
+  ...
+\begin{center}
+  \vcenteredhbox{\includegraphics[width=0.3\textwidth]{nyc.png}}
+  \hspace{0.1\textwidth}
+  \begin{minipage}{0.5\textwidth}
+    \begin{tabular}{r|l}
+      \multicolumn{1}{r}{Borough} &amp;Pop (million)  \\ \hline
+      The Bronx      &amp;$1.5$  \\
+      Brooklyn       &amp;$2.6$  \\
+      Manhattan      &amp;$1.6$  \\
+      Queens         &amp;$2.3$  \\
+      Staten Island  &amp;$0.5$  
+    \end{tabular}
+  \end{minipage}              
+\end{center}
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

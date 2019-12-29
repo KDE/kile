@@ -1,0 +1,296 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Document class options (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Document class options (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Document class options (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Document-classes.html#Document-classes" rel="up" title="Document classes">
+<link href="Additional-packages.html#Additional-packages" rel="next" title="Additional packages">
+<link href="Document-classes.html#Document-classes" rel="prev" title="Document classes">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Document-class-options"></a>
+<div class="header">
+<p>
+Next: <a href="Additional-packages.html#Additional-packages" accesskey="n" rel="next">Additional packages</a>, Up: <a href="Document-classes.html#Document-classes" accesskey="u" rel="up">Document classes</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Document-class-options-1"></a>
+<h3 class="section">3.1 Document class options</h3>
+
+<a name="index-document-class-options"></a>
+<a name="index-options_002c-document-class"></a>
+<a name="index-class-options"></a>
+<a name="index-global-options"></a>
+
+<p>You can specify <em>global options</em> or <em>class options</em> to the
+<code>\documentclass</code> command by enclosing them in square brackets.  To
+specify more than one <var>option</var>, separate them with a comma.
+</p>
+<div class="example">
+<pre class="example">\documentclass[<var>option1</var>,<var>option2</var>,...]{<var>class</var>}
+</pre></div>
+
+<p>Here is the list of the standard class options.
+</p>
+<a name="index-10pt-option"></a>
+<a name="index-11pt-option"></a>
+<a name="index-12pt-option"></a>
+<p>All of the standard classes except <code>slides</code> accept the following
+options for selecting the typeface size (default is <code>10pt</code>):
+</p>
+<div class="example">
+<pre class="example">10pt  11pt  12pt
+</pre></div>
+
+<a name="index-a4paper-option"></a>
+<a name="index-a5paper-option"></a>
+<a name="index-b5paper-option"></a>
+<a name="index-executivepaper-option"></a>
+<a name="index-legalpaper-option"></a>
+<a name="index-letterpaper-option"></a>
+<p>All of the standard classes accept these options for selecting the paper
+size (these show height by width):
+</p>
+<dl compact="compact">
+<dt><code>a4paper</code></dt>
+<dd><p>210 by 297mm (about 8.25 by 11.75&nbsp;inches)
+</p>
+</dd>
+<dt><code>a5paper</code></dt>
+<dd><p>148 by 210mm (about 5.8 by 8.3&nbsp;inches)
+</p>
+</dd>
+<dt><code>b5paper</code></dt>
+<dd><p>176 by 250mm (about 6.9 by 9.8&nbsp;inches)
+</p> 
+</dd>
+<dt><code>executivepaper</code></dt>
+<dd><p>7.25 by 10.5&nbsp;inches
+</p> 
+</dd>
+<dt><code>legalpaper</code></dt>
+<dd><p>8.5 by 14&nbsp;inches
+</p> 
+</dd>
+<dt><code>letterpaper</code></dt>
+<dd><p>8.5 by 11&nbsp;inches (the default)
+</p></dd>
+</dl>
+
+<a name="index-_005cpdfpagewidth"></a>
+<a name="index-_005cpdfpageheight"></a>
+<a name="index-package_002c-geometry"></a>
+<a name="index-geometry-package"></a>
+
+<p>When using one of the engines pdfLaTeX, LuaLaTeX, or XeLaTeX
+(see <a href="TeX-engines.html#TeX-engines">TeX engines</a>), options other than <code>letterpaper</code> set
+the print area but you must also set the physical paper size.  One way
+to do that is to put <code>\pdfpagewidth=\paperwidth</code> and
+<code>\pdfpageheight=\paperheight</code> in your document&rsquo;s preamble.
+<a name="index-package_002c-geometry-1"></a>
+<a name="index-geometry-package-1"></a>
+</p>
+<p>The <code>geometry</code> package provides flexible ways of setting the print
+area and physical page size.
+</p>
+<a name="index-draft-option"></a>
+<a name="index-final-option"></a>
+<a name="index-fleqn-option"></a>
+<a name="index-landscape-option"></a>
+<a name="index-leqno-option"></a>
+<a name="index-openbib-option"></a>
+<a name="index-titlepage-option"></a>
+<a name="index-notitlepage-option"></a>
+<p>Miscellaneous other options:
+</p>
+<dl compact="compact">
+<dt><code>draft</code></dt>
+<dt><code>final</code></dt>
+<dd><a name="index-black-boxes_002c-omitting"></a>
+<p>Mark (<code>draft</code>) or do not mark (<code>final</code>) overfull boxes with a
+black box in the margin; default is <code>final</code>.
+</p>
+</dd>
+<dt><code>fleqn</code></dt>
+<dd><a name="index-flush-left-equations"></a>
+<a name="index-centered-equations"></a>
+<a name="index-equations_002c-flush-left-vs_002e-centered"></a>
+<p>Put displayed formulas flush left; default is centered.
+</p>
+</dd>
+<dt><code>landscape</code></dt>
+<dd><a name="index-landscape-orientation"></a>
+<a name="index-portrait-orientation"></a>
+<p>Selects landscape format; default is portrait.
+</p>
+</dd>
+<dt><code>leqno</code></dt>
+<dd><a name="index-left_002dhand-equation-numbers"></a>
+<a name="index-right_002dhand-equation-numbers"></a>
+<a name="index-equation-numbers_002c-left-vs_002e-right"></a>
+<p>Put equation numbers on the left side of equations; default is the right side.
+</p>
+</dd>
+<dt><code>openbib</code></dt>
+<dd><a name="index-bibliography-format_002c-open"></a>
+<p>Use &ldquo;open&rdquo; bibliography format.
+</p>
+</dd>
+<dt><code>titlepage</code></dt>
+<dt><code>notitlepage</code></dt>
+<dd><a name="index-title-page_002c-separate-or-run_002din"></a>
+<p>Specifies whether there is a separate page for the title information and
+for the abstract also, if there is one.  The default for the
+<code>report</code> class is <code>titlepage</code>, for the other classes it is
+<code>notitlepage</code>.
+</p></dd>
+</dl>
+
+<p>The following options are not available with the <code>slides</code> class.
+</p>
+<a name="index-onecolumn-option"></a>
+<a name="index-twocolumn-option"></a>
+<a name="index-oneside-option"></a>
+<a name="index-twoside-option"></a>
+<a name="index-openright-option"></a>
+<a name="index-openany-option"></a>
+<dl compact="compact">
+<dt><code>onecolumn</code></dt>
+<dt><code>twocolumn</code></dt>
+<dd><p>Typeset in one or two columns; default is <code>onecolumn</code>.
+</p>
+</dd>
+<dt><code>oneside</code></dt>
+<dt><code>twoside</code></dt>
+<dd><a name="index-_005cevensidemargin"></a>
+<a name="index-_005coddsidemargin"></a>
+<p>Selects one- or two-sided layout; default is <code>oneside</code>, except
+that in the <code>book</code> class the default is <code>twoside</code>.
+</p>
+<p>For one-sided printing, the text is centered on the page.  For two-sided
+printing, the <code>\evensidemargin</code> (<code>\oddsidemargin</code>) parameter
+determines the distance on even (odd) numbered pages between the left
+side of the page and the text&rsquo;s left margin, with <code>\oddsidemargin</code>
+being 40% of the difference between <code>\paperwidth</code> and
+<code>\textwidth</code>, and <code>\evensidemargin</code> is the remainder.
+</p>
+</dd>
+<dt><code>openright</code></dt>
+<dt><code>openany</code></dt>
+<dd><p>Determines if a chapter should start on a right-hand page; default is
+<code>openright</code> for <code>book</code>, and <code>openany</code> for <code>report</code>.
+</p></dd>
+</dl>
+
+<a name="index-clock-option-to-slides-class"></a>
+<p>The <code>slides</code> class offers the option <code>clock</code> for printing
+the time at the bottom of each note.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

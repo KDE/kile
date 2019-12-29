@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>verbatim (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="verbatim (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="verbatim (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Environments.html#Environments" rel="up" title="Environments">
+<link href="_005cverb.html#g_t_005cverb" rel="next" title="\verb">
+<link href="titlepage.html#titlepage" rel="prev" title="titlepage">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="verbatim"></a>
+<div class="header">
+<p>
+Next: <a href="verse.html#verse" accesskey="n" rel="next">verse</a>, Previous: <a href="titlepage.html#titlepage" accesskey="p" rel="prev">titlepage</a>, Up: <a href="Environments.html#Environments" accesskey="u" rel="up">Environments</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="verbatim-1"></a>
+<h3 class="section">8.27 <code>verbatim</code></h3>
+
+<a name="index-environment_002c-verbatim"></a>
+<a name="index-verbatim-environment"></a>
+        
+<a name="index-verbatim-text"></a>
+<a name="index-simulating-typed-text"></a>
+<a name="index-typed-text_002c-simulating"></a>
+<a name="index-code_002c-typesetting"></a>
+<a name="index-computer-programs_002c-typesetting"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\begin{verbatim}
+<var>literal-text</var>
+\end{verbatim}
+</pre></div>
+
+<p>A paragraph-making environment in which LaTeX produces as output
+exactly what you type as input.  For instance inside <var>literal-text</var>
+the backslash&nbsp;<code>\</code> character does not start commands, it
+produces a printed &lsquo;<samp>\</samp>&rsquo;, and carriage returns and blanks are taken
+literally.  The output appears in a monospaced typewriter-like font
+(<code>\tt</code>).
+</p>
+<div class="example">
+<pre class="example">\begin{verbatim}
+Symbol swearing: %&amp;$#?!.
+\end{verbatim}
+</pre></div>
+
+<p>The only restriction on <code>literal-text</code> is that it cannot include
+the string <code>\end{verbatim}</code>.
+</p>
+<a name="index-package_002c-cprotect"></a>
+<a name="index-cprotect-package"></a>
+
+<p>You cannot use the verbatim environment in the argument to macros, for
+instance in the argument to a <code>\section</code>.  This is not the same as
+commands being fragile (see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>), instead it just cannot appear
+there. (But the <code>cprotect</code> package can help with this.)
+</p>
+<a name="index-package_002c-listings-1"></a>
+<a name="index-listings-package-1"></a>
+
+<a name="index-package_002c-minted-1"></a>
+<a name="index-minted-package-1"></a>
+
+<p>One common use of verbatim input is to typeset computer code.  There are
+packages that are an improvement the <code>verbatim</code> environment.  For
+instance, one improvement is to allow the verbatim inclusion of external
+files, or parts of those files.  Such packages include <code>listings</code>,
+and <code>minted</code>.
+</p>
+<a name="index-package_002c-fancyvrb-1"></a>
+<a name="index-fancyvrb-package-1"></a>
+
+<a name="index-package_002c-verbatimbox"></a>
+<a name="index-verbatimbox-package"></a>
+
+<p>A package that provides many more options for verbatim environments is
+<code>fancyvrb</code>.  Another is <code>verbatimbox</code>.
+</p>
+<p>For a list of all the relevant packages, see CTAN.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cverb.html#g_t_005cverb" accesskey="1">\verb</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">The macro form of the <code>verbatim</code> environment.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

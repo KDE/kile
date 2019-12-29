@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Upper and lower case (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Upper and lower case (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Upper and lower case (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Special-insertions.html#Special-insertions" rel="up" title="Special insertions">
+<link href="Symbols-by-font-position.html#Symbols-by-font-position" rel="next" title="Symbols by font position">
+<link href="Reserved-characters.html#Reserved-characters" rel="prev" title="Reserved characters">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Upper-and-lower-case"></a>
+<div class="header">
+<p>
+Next: <a href="Symbols-by-font-position.html#Symbols-by-font-position" accesskey="n" rel="next">Symbols by font position</a>, Previous: <a href="Reserved-characters.html#Reserved-characters" accesskey="p" rel="prev">Reserved characters</a>, Up: <a href="Special-insertions.html#Special-insertions" accesskey="u" rel="up">Special insertions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Upper-and-lower-case-1"></a>
+<h3 class="section">23.2 Upper and lower case</h3>
+
+<a name="index-uppercase"></a>
+<a name="index-lowercase"></a>
+<a name="index-characters_002c-case-of"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\uppercase{<var>text</var>}
+\lowercase{<var>text</var>}
+\MakeUppercase{<var>text</var>}
+\MakeLowercase{<var>text</var>}
+</pre></div>
+
+<p>Change the case of characters.  The TeX primitives commands
+<code>\uppercase</code> and <code>\lowercase</code> only work for American
+characters. The LaTeX commands <code>\MakeUppercase</code> and
+<code>\MakeLowercase</code> commands also change characters accessed by
+commands such as <code>\ae</code> or <code>\aa</code>.  The commands
+<code>\MakeUppercase</code> and <code>\MakeLowercase</code> are robust but they have
+moving arguments (see <a href="_005cprotect.html#g_t_005cprotect">\protect</a>).
+</p>
+<p>These commands do not change the case of letters used in the name of a
+command within <var>text</var>.  But they do change the case of every other
+Latin letter inside the argument <var>text</var>.  Thus,
+<code>\MakeUppercase{Let $y=f(x)$</code>} produces &lsquo;<samp>LET Y=F(X)</samp>&rsquo;.  Another
+example is that the name of an environment will be changed, so that
+<code>\MakeUppercase{\begin{tabular} ... \end{tabular}}</code> will
+produce an error because the first half is changed to
+<code>\begin{TABULAR}</code>.
+</p>
+<p>LaTeX uses the same fixed table for changing case throughout a
+document, The table used is designed for the font encoding T1; this
+works well with the standard TeX fonts for all Latin alphabets but
+will cause problems when using other alphabets.
+</p>
+<p>To change the case of text that results from a macro inside <var>text</var>
+you need to do expansion.  Here the <code>\Schoolname</code> produces
+&lsquo;<samp>COLLEGE OF MATHEMATICS</samp>&rsquo;.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\schoolname}{College of Mathematics}
+\newcommand{\Schoolname}{\expandafter\MakeUppercase
+                           <!-- /@w -->\expandafter{\schoolname}}
+</pre></div>
+
+<a name="index-package_002c-textcase"></a>
+<a name="index-textcase-package"></a>
+
+<p>The <samp>textcase</samp> package brings some of the missing feature of the
+standard LaTeX commands <code>\MakeUppercase</code> and
+<code>\MakeLowerCase</code>.
+</p>
+<a name="index-package_002c-mfirstuc"></a>
+<a name="index-mfirstuc-package"></a>
+ 
+<p>To uppercase only the first letter of words, you can use the package
+<samp>mfirstuc</samp>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

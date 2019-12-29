@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\protect (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\protect (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\protect (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Definitions.html#Definitions" rel="up" title="Definitions">
+<link href="_005cignorespaces-_0026-_005cignorespacesafterend.html#g_t_005cignorespaces-_0026-_005cignorespacesafterend" rel="next" title="\ignorespaces &amp; \ignorespacesafterend">
+<link href="_005cnewfont.html#g_t_005cnewfont" rel="prev" title="\newfont">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cprotect"></a>
+<div class="header">
+<p>
+Next: <a href="_005cignorespaces-_0026-_005cignorespacesafterend.html#g_t_005cignorespaces-_0026-_005cignorespacesafterend" accesskey="n" rel="next">\ignorespaces &amp; \ignorespacesafterend</a>, Previous: <a href="_005cnewfont.html#g_t_005cnewfont" accesskey="p" rel="prev">\newfont</a>, Up: <a href="Definitions.html#Definitions" accesskey="u" rel="up">Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cprotect-1"></a>
+<h3 class="section">12.11 <code>\protect</code></h3>
+
+<a name="index-_005cprotect"></a>
+<a name="index-fragile-commands"></a>
+<a name="index-robust-commands"></a>
+
+<p>All LaTeX commands are either <em>fragile</em> or <em>robust</em>.  A
+fragile command can break when it is used in the argument to certain
+other commands.  Commands that contain data that LaTeX writes to an
+auxiliary file and re-reads later are fragile.  This includes material
+that goes into a table of contents, list of figures, list of tables,
+etc.  Fragile commands also include line breaks, any command that has an
+optional argument, and many more. To prevent such commands from
+breaking, one solution is to preceded them with the command
+<code>\protect</code>.
+</p>
+<p>For example, when LaTeX runs the <code>\section{<var>section
+name</var>}</code> command it writes the <var>section name</var> text to the
+<samp>.aux</samp> auxiliary file, moving it there for use elsewhere in the
+document such as in the table of contents.  Any argument that is
+internally expanded by LaTeX without typesetting it directly is
+referred to as a 
+<a name="index-moving-arguments"></a>
+<em>moving argument</em>.  A command is fragile if it can
+expand during this process into invalid TeX code.  Some examples of
+moving arguments are those that appear in the <code>\caption{...}</code>
+command (see <a href="figure.html#figure">figure</a>), in the <code>\thanks{...}</code> command
+(see <a href="_005cmaketitle.html#g_t_005cmaketitle">\maketitle</a>), and in @-expressions in the <code>tabular</code> and
+<code>array</code> environments (see <a href="tabular.html#tabular">tabular</a>).
+</p>
+<p>If you get strange errors from commands used in moving arguments, try
+preceding it with <code>\protect</code>.  Every fragile commands must be
+protected with their own <code>\protect</code>.  
+</p>
+<p>Although usually a <code>\protect</code> command doesn&rsquo;t hurt, length
+commands are robust and should not be preceded by a <code>\protect</code>
+command. Nor can a <code>\protect</code> command be used in the argument to
+<code>\addtocounter</code> or <code>\setcounter</code> command.
+</p>
+<p>In this example the <code>\caption</code> command gives a mysterious error
+about an extra curly brace.  Fix the problem by preceding each
+<code>\raisebox</code> command with <code>\protect</code>.
+</p>
+<div class="example">
+<pre class="example">\begin{figure}
+  ...
+  \caption{Company headquarters of A\raisebox{1pt}{B}\raisebox{-1pt}{C}}
+\end{figure}
+</pre></div>
+
+<p>In the next example the <code>\tableofcontents</code> command gives an error
+because the <code>\(..\)</code> in the section title expands to illegal TeX
+in the <samp>.toc</samp> file.  You can solve this by changing <code>\(..\)</code>
+to <code>\protect\(..\protect\)</code>.
+</p>
+<div class="example">
+<pre class="example">\begin{document}
+\tableofcontents
+...
+\section{Einstein's \( e=mc^2 \)}
+...
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

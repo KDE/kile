@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Table of contents etc. (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Table of contents etc. (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Table of contents etc. (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Front_002fback-matter.html#Front_002fback-matter" rel="up" title="Front/back matter">
+<link href="_005caddcontentsline.html#g_t_005caddcontentsline" rel="next" title="\addcontentsline">
+<link href="Front_002fback-matter.html#Front_002fback-matter" rel="prev" title="Front/back matter">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Table-of-contents-etc_002e"></a>
+<div class="header">
+<p>
+Next: <a href="Indexes.html#Indexes" accesskey="n" rel="next">Indexes</a>, Up: <a href="Front_002fback-matter.html#Front_002fback-matter" accesskey="u" rel="up">Front/back matter</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Table-of-contents-etc_002e-1"></a>
+<h3 class="section">25.1 Table of contents etc.</h3>
+
+<a name="index-table-of-contents_002c-creating"></a>
+
+<a name="index-_005ctableofcontents"></a>
+<a name="index-_002etoc-file-1"></a>
+<a name="index-_005clistoffigures"></a>
+<a name="index-_005clistoftables"></a>
+<a name="index-_002elof-file-1"></a>
+<a name="index-_002elot-file-1"></a>
+
+<p>Synopsis, one of:
+</p>
+<div class="example">
+<pre class="example">\tableofcontents
+\listoffigures
+\listoftables
+</pre></div>
+
+<p>Produce a table of contents, or list of figures, or list of tables.  Put
+the command in the input file where you want the table or list to
+go. You do not type the entries; for example, typically the table of
+contents entries are automatically generated from the sectioning
+commands <code>\chapter</code>, etc.
+</p>
+<p>This example illustrates the first command, <code>\tableofcontents</code>.
+LaTeX will produce a table of contents on the book&rsquo;s first page.
+</p>
+<div class="example">
+<pre class="example">\documentclass{book}
+% \setcounter{tocdepth}{1}
+\begin{document}
+\tableofcontents\newpage
+  ...
+\chapter{...}
+  ...
+\section{...}
+  ...
+\subsection{...}
+  ...
+\end{document}
+</pre></div>
+
+<p>Uncommenting the second line would cause that table to contain chapter
+and section listings but not subsection listings, because the
+<code>\section</code> command has level&nbsp;1.  See <a href="Sectioning.html#Sectioning">Sectioning</a> for level
+numbers of the sectioning units.  For more on the <code>tocdepth</code>
+see <a href="Sectioning.html#Sectioning_002ftocdepth">Sectioning/tocdepth</a>.
+</p>
+<p>Another example of the use of <code>\tableofcontents</code> is in <a href="Larger-book-template.html#Larger-book-template">Larger book template</a>.
+</p>
+<p>If you want a page break after the table of contents, write a
+<code>\newpage</code> command after the <code>\tableofcontents</code> command, as
+above.
+</p>
+<p>To make the table of contents LaTeX stores the information in an
+auxiliary file named <samp><var>root-file</var>.toc</samp> (see <a href="Splitting-the-input.html#Splitting-the-input">Splitting the input</a>).  For example, this LaTeX file <samp>test.tex</samp>
+</p>
+<div class="example">
+<pre class="example">\documentclass{article}
+\begin{document}
+\tableofcontents\newpage
+\section{First section}
+\subsection{First subsection}
+  ...
+</pre></div>
+
+<p>writes the following line to <samp>test.toc</samp>.
+</p>
+<div class="example">
+<pre class="example">\contentsline {section}{\numberline {1}First section}{2}
+\contentsline {subsection}{\numberline {1.1}First subsection}{2}
+</pre></div>
+
+<p>The <code>section</code> or <code>subsection</code> is the sectioning unit.  The
+hook <code>\numberline</code> lets you to change how the information appears
+in the table of contents.  Of its two arguments, <code>1</code> or <code>1.1</code>
+is the sectioning unit number and <code>First section</code> or <code>First
+subsection</code> is the title.  Finally, <code>2</code> is the page number on which
+the sectioning units start.
+</p>
+<p>One consequence of this auxiliary file storage strategy is that to get the
+contents page correct you must run LaTeX twice, once to store the
+information and once to get it.  In particular, the first time that you
+run LaTeX on a new document, the table of contents page will be empty
+except for its &lsquo;<samp>Contents</samp>&rsquo; header.  Just run it again.
+</p>
+<p>The commands <code>\listoffigures</code> and <code>\listoftables</code> produce a
+list of figures and a list of tables.  They work the same way as the
+contents commands; for instance, these work with information stored in
+<samp>.lof</samp> and <samp>.lot</samp> files.
+</p>
+<a name="index-package_002c-babel-4"></a>
+<a name="index-babel-package-4"></a>
+
+<a name="index-package_002c-polyglossia-2"></a>
+<a name="index-polyglossia-package-2"></a>
+
+<p>To change the header for the table of contents page do something like
+the first line here.
+</p>
+<div class="example">
+<pre class="example">\renewcommand{\contentsname}{Table of contents}
+\renewcommand{\listfigurename}{Plots}
+\renewcommand{\listtablename}{Tables}
+</pre></div>
+
+<p>Similarly, the other two lines will do the other two.
+Internationalization packages such as <samp>babel</samp> or <samp>polyglossia</samp>
+will change the headers depending on the chosen base language.
+</p>
+<a name="index-package_002c-tocloft"></a>
+<a name="index-tocloft-package"></a>
+
+<a name="index-package_002c-tocbibbind"></a>
+<a name="index-tocbibbind-package"></a>
+
+<p>CTAN has many packages for the table of contents and lists of figures
+and tables.  One convenient one for adjusting some aspects of the
+default, such as spacing, is <samp>tocloft</samp>.  And, <samp>tocbibbind</samp>
+will automatically add the bibliography, index, etc. to the table of
+contents.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005caddcontentsline.html#g_t_005caddcontentsline" accesskey="1">\addcontentsline</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Add an entry to table of contents, etc.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005caddtocontents.html#g_t_005caddtocontents" accesskey="2">\addtocontents</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Add text directly to table of contents file, etc.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cnofiles.html#g_t_005cnofiles" accesskey="3">\nofiles</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Prevent writing to auxiliary files.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

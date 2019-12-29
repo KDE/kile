@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -299,6 +299,17 @@ Kile::Kile(bool allowRestore, QWidget *parent)
             // needed
         }
     }
+    if(KileConfig::rCVersion() < 9) {
+        // in Kile 3.0 beta 4, the user help was updated, some old config settings were no longer needed
+        if(m_config->hasGroup("Help")) {
+            KConfigGroup helpGroup = m_config->group("Help");
+            helpGroup.deleteEntry("location");
+            helpGroup.deleteEntry("texrefs");
+            helpGroup.deleteEntry("external");
+            helpGroup.deleteEntry("embedded");
+        }
+    }
+
     readGUISettings();
     readRecentFileSettings();
     readConfig();
@@ -1016,15 +1027,11 @@ void Kile::setupActions()
         WatchFileAction->setChecked(false);
     }
 
-    createAction(i18n("TeX Guide"), "help_tex_guide", QKeySequence("CTRL+Alt+H, G"), m_help, &KileHelp::Help::helpTexGuide);
     createAction(i18n("LaTeX"), "help_latex_index", QKeySequence("CTRL+Alt+H, L"), m_help, &KileHelp::Help::helpLatexIndex);
-    createAction(i18n("LaTeX Command"), "help_latex_command", QKeySequence("CTRL+Alt+H, C"), m_help, &KileHelp::Help::helpLatexCommand);
-    createAction(i18n("LaTeX Subject"), "help_latex_subject", QKeySequence("CTRL+Alt+H, S"), m_help, &KileHelp::Help::helpLatexSubject);
-    createAction(i18n("LaTeX Env"), "help_latex_env", QKeySequence("CTRL+Alt+H, E"), m_help, &KileHelp::Help::helpLatexEnvironment);
+    createAction(i18n("LaTeX Commands"), "help_latex_command", QKeySequence("CTRL+Alt+H, C"), m_help, &KileHelp::Help::helpLatexCommand);
+    createAction(i18n("LaTeX Environments"), "help_latex_env", QKeySequence("CTRL+Alt+H, E"), m_help, &KileHelp::Help::helpLatexEnvironment);
     createAction(i18n("Context Help"), "help_context", QKeySequence("CTRL+Alt+H, K"), m_help, [this]() { m_help->helpKeyword(); });
     createAction(i18n("Documentation Browser"), "help_docbrowser", QKeySequence("CTRL+Alt+H, B"), m_help, &KileHelp::Help::helpDocBrowser);
-
-    createAction(i18n("LaTeX Reference"), "help_latex_reference", "help-latex", this, &Kile::helpLaTex);
 
     createAction(i18n("&About Editor Component"), "help_about_editor", this, &Kile::aboutEditorComponent);
 
@@ -2330,21 +2337,6 @@ void Kile::updateUserMenuStatus(bool state)
             updateLatexenuActivationStatus(menu,state);
         }
     }
-}
-
-void Kile::helpLaTex()
-{
-    QString loc = KileUtilities::locate(QStandardPaths::AppDataLocation, "help/latexhelp.html");
-    KileTool::Base *tool = toolManager()->createTool("ViewHTML", QString(), false);
-    if(!tool) {
-        errorHandler()->printMessage(KileTool::Error, i18n("Could not create the \"ViewHTML\" tool. Please reset the tools."));
-        return;
-    }
-    tool->setFlags(KileTool::NeedSourceExists | KileTool::NeedSourceRead);
-    tool->setSource(loc);
-    tool->setTargetPath(loc);
-    tool->prepareToRun();
-    m_manager->run(tool);
 }
 
 void Kile::readGUISettings()

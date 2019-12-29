@@ -1,0 +1,257 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>fontenc package (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="fontenc package (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="fontenc package (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Fonts.html#Fonts" rel="up" title="Fonts">
+<link href="_005cDeclareFontEncoding.html#g_t_005cDeclareFontEncoding" rel="next" title="\DeclareFontEncoding">
+<link href="Fonts.html#Fonts" rel="prev" title="Fonts">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="fontenc-package"></a>
+<div class="header">
+<p>
+Next: <a href="Font-styles.html#Font-styles" accesskey="n" rel="next">Font styles</a>, Up: <a href="Fonts.html#Fonts" accesskey="u" rel="up">Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="fontenc-package-1"></a>
+<h3 class="section">4.1 <samp>fontenc</samp> package</h3>
+
+<a name="index-Font-encoding"></a>
+<a name="index-UTF_002d8-1"></a>
+<a name="index-T1"></a>
+<a name="index-OT1"></a>
+<a name="index-fontenc"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\usepackage[<var>font_encoding</var>]{fontenc}
+</pre></div>
+
+<p>or
+</p>
+<div class="example">
+<pre class="example">\usepackage[<var>font_encoding1</var>, <var>font_encoding2</var>, ...]{fontenc}
+</pre></div>
+
+<p>Specify the font encodings.  A font encoding is a mapping of the
+character codes to the font glyphs that are used to typeset your output.
+</p>
+<p>This package only applies if you use the <code>pdflatex</code> engine
+(see <a href="TeX-engines.html#TeX-engines">TeX engines</a>).  If you use the <code>xelatex</code> or
+<code>lualatex</code> engine then instead use the <samp>fontspec</samp> package.
+</p>
+<p>TeX&rsquo;s original font family, Computer Modern, has a limited character
+set. For instance, to make common accented characters you must use
+<code>\accent</code> (see <a href="_005caccent.html#g_t_005caccent">\accent</a>) but this disables hyphenation.  TeX
+users have agreed on a number of standards to access the larger sets of
+characters provided by modern fonts.  If you are using
+<code>pdflatex</code> then this in the preamble
+</p>
+<div class="example">
+<pre class="example">\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}  % Optional: encoding of input file
+</pre></div>
+
+<p>gives you support for the most widespread European languages, including
+French, German, Italian, Polish, and others.  In particular, if you have
+words with accented letters then LaTeX will hyphenate them and your
+output can be copied and pasted.  (The optional second line allows you
+to directly enter accented characters into your source file.)
+</p>
+<a name="index-package_002c-lmodern"></a>
+<a name="index-lmodern-package"></a>
+<a name="index-package_002c-cm_002dsuper"></a>
+<a name="index-cm_002dsuper-package"></a>
+
+<p>If you are using an encoding such as <code>T1</code> and the characters appear
+blurry or do not magnify well then your fonts may be bitmapped,
+sometimes called raster or Type&nbsp;3.  You want vector fonts.  Use a
+package such as <samp>lmodern</samp> or <samp>cm-super</samp> to get a font that
+extends LaTeX&rsquo;s default using vector fonts.
+</p>
+<p>For each <var>font_encoding</var> given as an option but not already
+declared, this package loads the encoding definition files, named
+<samp><var>font_encoding</var>enc.def</samp>.  It also sets <code>\encodingdefault</code>
+to be the last encoding in the option list.
+</p>
+<p>These are the common values for <var>font_encoding</var>.
+</p>
+<dl compact="compact">
+<dt><code>OT1</code></dt>
+<dd><p>The original encoding for TeX.  Limited to mostly English characters.
+</p>
+</dd>
+<dt><code>OMS, OML</code></dt>
+<dd><p>Math symbols and math letters encoding.
+</p>
+</dd>
+<dt><code>T1</code></dt>
+<dd><p>TeX text extended.  Sometimes called the Cork encoding for the Users
+Group meeting where it was developed.  Gives access to most European
+accented characters.  The most common option for this package.
+</p>
+</dd>
+<dt><code>TS1</code></dt>
+<dd><p>Text Companion encoding.
+</p></dd>
+</dl>
+
+<p>LaTeX&rsquo;s default is to load <code>OML</code>, <code>T1</code>, <code>OT1</code>, and
+then <code>OMS</code>, and set the default to <code>OT1</code>.
+</p>
+<p>Even if you do not use accented letters, you may need to specify a font
+encoding if your font requires it.
+</p>
+<p>If you use <code>T1</code>&nbsp;encoded fonts other than the default Computer
+Modern family then you may need to load the package that selects your
+fonts before loading <samp>fontenc</samp>, to prevent the system from loading
+any <code>T1</code>&nbsp;encoded fonts from the default.
+</p>
+<p>The LaTeX team reserve encoding names starting with: &lsquo;<samp>T</samp>&rsquo; for the
+standard text encodings with 256 characters, &lsquo;<samp>TS</samp>&rsquo; for symbols that
+extend the corresponding T encodings, &lsquo;<samp>X</samp>&rsquo; for test encodings,
+&lsquo;<samp>M</samp>&rsquo; for standard math encodings with 256 characters, &lsquo;<samp>A</samp>&rsquo; for
+special applications, &lsquo;<samp>OT</samp>&rsquo; for standard text encodings with 128
+characters, and &lsquo;<samp>OM</samp>&rsquo; for standard math encodings with 128
+characters (&lsquo;<samp>O</samp>&rsquo; stands for &lsquo;<samp>obsolete</samp>&rsquo;).
+</p>
+<p>This package provides a number of commands, detailed below.  Many of
+them are encoding-specific, so if you have defined a command that works
+for one encoding but the current encoding is different then the command
+is not in effect.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareFontEncoding.html#g_t_005cDeclareFontEncoding" accesskey="1">\DeclareFontEncoding</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Define an encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextAccent.html#g_t_005cDeclareTextAccent" accesskey="2">\DeclareTextAccent</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Define an accent in the encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextAccentDefault.html#g_t_005cDeclareTextAccentDefault" accesskey="3">\DeclareTextAccentDefault</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Fallback for using an accent in the encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextCommand-_0026-_005cProvideTextCommand.html#g_t_005cDeclareTextCommand-_0026-_005cProvideTextCommand" accesskey="4">\DeclareTextCommand &amp; \ProvideTextCommand</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">New encoding-specific command.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextCommandDefault-_0026-_005cProvideTextCommandDefault.html#g_t_005cDeclareTextCommandDefault-_0026-_005cProvideTextCommandDefault" accesskey="5">\DeclareTextCommandDefault &amp; \ProvideTextCommandDefault</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Fallback for encoding-specific commands.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextComposite.html#g_t_005cDeclareTextComposite" accesskey="6">\DeclareTextComposite</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Directly access an accented glyph, in the encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextCompositeCommand.html#g_t_005cDeclareTextCompositeCommand" accesskey="7">\DeclareTextCompositeCommand</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Run code in slot, in the encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextSymbol.html#g_t_005cDeclareTextSymbol" accesskey="8">\DeclareTextSymbol</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Define a symbol in the encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cDeclareTextSymbolDefault.html#g_t_005cDeclareTextSymbolDefault" accesskey="9">\DeclareTextSymbolDefault</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Fallback for a symbol in the encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cLastDeclaredEncoding.html#g_t_005cLastDeclaredEncoding">\LastDeclaredEncoding</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Save most recently declared encoding.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cUseTextAccent-_0026-_005cUseTextSymbol.html#g_t_005cUseTextAccent-_0026-_005cUseTextSymbol">\UseTextAccent &amp; \UseTextSymbol</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Temporarily switch to another encoding.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

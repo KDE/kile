@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Splitting the input (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Splitting the input (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Splitting the input (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="_005cendinput.html#g_t_005cendinput" rel="next" title="\endinput">
+<link href="_005ctoday.html#g_t_005ctoday" rel="prev" title="\today">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Splitting-the-input"></a>
+<div class="header">
+<p>
+Next: <a href="Front_002fback-matter.html#Front_002fback-matter" accesskey="n" rel="next">Front/back matter</a>, Previous: <a href="Special-insertions.html#Special-insertions" accesskey="p" rel="prev">Special insertions</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Splitting-the-input-1"></a>
+<h2 class="chapter">24 Splitting the input</h2>
+
+<a name="index-splitting-the-input-file"></a>
+<a name="index-input-file"></a>
+
+<p>LaTeX lets you split a large document into several smaller ones.
+This can simplify editing or allow multiple authors to work on the
+document.  It can also speed processing.
+</p>
+<p>Regardless of how many separate files you use, there is always one
+<a name="index-root-file"></a>
+<a name="index-file_002c-root"></a>
+<em>root file</em>, on which LaTeX compilation starts.  This shows such
+a file with five included files.
+</p>
+<div class="example">
+<pre class="example">\documentclass{book}
+\includeonly{  % comment out lines below to omit compiling
+  pref,
+  chap1,
+  chap2,
+  append,
+  bib
+  }
+\begin{document}
+\frontmatter
+\include{pref} 
+\mainmatter
+\include{chap1} 
+\include{chap2}
+\appendix
+\include{append}
+\backmatter
+\include{bib} 
+\end{document}
+</pre></div>
+
+<p>This will bring in material from <samp>pref.tex</samp>, <samp>chap1.tex</samp>,
+<samp>chap2.tex</samp>, <samp>append.tex</samp>, and <samp>bib.tex</samp>.  If you compile
+this file, and then comment out all of the lines inside
+<code>\includeonly{...}</code> except for <code>chap1,</code> and compile again,
+then LaTeX will only process the material in the first chapter.
+Thus, your output will appear more quickly and be shorter to print.
+However, the advantage of the <code>\includeonly</code> command is that
+LaTeX will retain the page numbers and all of the cross reference
+information from the other parts of the document so these will appear in
+your output correctly.
+</p>
+<p>See <a href="Larger-book-template.html#Larger-book-template">Larger book template</a> for another example of <code>\includeonly</code>.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005cendinput.html#g_t_005cendinput" accesskey="1">\endinput</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Stop including material from a file.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cinclude-_0026-_005cincludeonly.html#g_t_005cinclude-_0026-_005cincludeonly" accesskey="2">\include &amp; \includeonly</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Conditionally include files.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cinput.html#g_t_005cinput" accesskey="3">\input</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Unconditionally include a file.
+</td></tr>
+</table>
+
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

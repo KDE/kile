@@ -1,0 +1,185 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Command line (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Command line (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Command line (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="index.html#Top" rel="up" title="Top">
+<link href="Command-line-options.html#Command-line-options" rel="next" title="Command line options">
+<link href="_005cwrite18.html#g_t_005cwrite18" rel="prev" title="\write18">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Command-line"></a>
+<div class="header">
+<p>
+Next: <a href="Document-templates.html#Document-templates" accesskey="n" rel="next">Document templates</a>, Previous: <a href="Input_002foutput.html#Input_002foutput" accesskey="p" rel="prev">Input/output</a>, Up: <a href="index.html#Top" accesskey="u" rel="up">Top</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Command-line-1"></a>
+<h2 class="chapter">28 Command line</h2>
+
+<a name="index-command-line"></a>
+
+<p>Synopsis (from a terminal command line):
+</p>
+<div class="example">
+<pre class="example">pdflatex <var>options</var> <var>argument</var>
+</pre></div>
+
+<p>Run LaTeX on <var>argument</var>.  In place of <code>pdflatex</code> you can
+also use <code>xelatex</code>, or <code>lualatex</code>, or <code>dviluatex</code>, or
+<code>latex</code>.
+</p>
+<p>For example, this will run LaTeX on the file <samp>thesis.tex</samp>,
+creating the output <samp>thesis.pdf</samp>.
+</p>
+<div class="example">
+<pre class="example">pdflatex thesis
+</pre></div>
+
+<p><a name="index-_002etex_002c-default-extension"></a>
+Note that <samp>.tex</samp> is the default file extension.
+</p>
+<p>pdfTeX is a development of the original TeX program, as are
+XeTeX and LuaTeX (see <a href="TeX-engines.html#TeX-engines">TeX engines</a>).  They are completely
+backward compatible.  But the original program had a custom output
+format, DVI, while the newer ones can output directly to PDF.  This
+allows them to take advantage of the extra features in PDF such as
+hyperlinks, support for modern image formats such as JPG and PNG, and
+ubiquitous viewing programs.  In short, if you run <code>pdflatex</code> or
+<code>xelatex</code> or <code>lualatex</code> then you will by default get PDF
+and have access to all its modern features.  If you run <code>latex</code>,
+or <code>dvilualatex</code>, then you will get DVI.  The description here
+assumes pdfLaTeX.
+</p>
+<p>See <a href="Command-line-options.html#Command-line-options">Command line options</a>, for a selection of the most useful
+command line options. As to <var>argument</var>, the usual case is that it
+does not begin with a backslash, so the system takes it to be the name
+of a file and it compiles that file. If <var>argument</var> begins with a
+backslash then the system will interpret it as a line of LaTeX
+input, which can be used for special effects (see <a href="Command-line-input.html#Command-line-input">Command line input</a>).
+</p>
+<p>If you gave no arguments or options then <code>pdflatex</code> prompts for
+input from the terminal. You can escape from this by entering
+<code>&lt;control&gt;-D</code>.
+</p>
+<p>If LaTeX finds an error in your document then by default it stops and
+asks you about it.  See <a href="Recovering-from-errors.html#Recovering-from-errors">Recovering from errors</a> for an outline of what
+to do.
+</p>
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="Command-line-options.html#Command-line-options" accesskey="1">Command line options</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Read text from the terminal.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Command-line-input.html#Command-line-input" accesskey="2">Command line input</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Write text to the terminal.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="Recovering-from-errors.html#Recovering-from-errors" accesskey="3">Recovering from errors</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">When something goes wrong.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

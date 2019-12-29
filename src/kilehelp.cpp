@@ -1,5 +1,6 @@
 /**********************************************************************************************
     Copyright (C) 2004-2012 by Holger Danielsson (holger.danielsson@versanet.de)
+              (C) 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
  **********************************************************************************************/
 
 /***************************************************************************
@@ -27,22 +28,18 @@
 #include "kileconfig.h"
 #include "utilities.h"
 
-// tbraun 27.06.2007
-// it _looks_ like texlive 2007 has the same layout than texlive 2005 so don't get confused about the variable names :)
-
 namespace KileHelp
 {
 
 Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWindow(mainWindow), m_edit(edit), m_userhelp(Q_NULLPTR)
 {
-    m_helpDir = KileUtilities::locate(QStandardPaths::AppDataLocation, "help/", QStandardPaths::LocateDirectory); // this must end in '/'
+    m_helpDir = KileUtilities::locate(QStandardPaths::AppDataLocation, QLatin1String("help/"), QStandardPaths::LocateDirectory); // this must end in '/'
     KILE_DEBUG_MAIN << "help dir: " << m_helpDir;
 
     m_kileReference = m_helpDir + "latexhelp.html";
-    m_latex2eReference =  m_helpDir + "latex2e-texlive.html";
+    m_latex2eReference =  m_helpDir + QLatin1String("unofficial-latex2e-reference-manual/");
 
     m_contextHelpType = contextHelpType();
-    initTexDocumentation();
     initContextHelp();
 }
 
@@ -51,112 +48,23 @@ Help::~Help()
     delete m_userhelp;
 }
 
-void Help::initTexDocumentation()
-{
-    // use documentation for teTeX v3.x, TexLive 2005-2007, TexLive 2009, TexLive2 010-2011 (TUG)
-    m_texdocPath = KileConfig::location();
-
-    // first check for TexLive 2010-2011 (TUG)
-    m_texlivePath = locateTexLive201x();
-    if ( !m_texlivePath.isEmpty() ) {
-        KILE_DEBUG_MAIN << "found TexLive 2010-2011 (TUG): " << m_texlivePath;
-        m_texVersion = TEXLIVE_201x_TUG;
-        m_texVersionText = "TexLive " + m_texlivePath.right(4) + " (TUG)";
-        m_texrefsReference = "/generic/tex-refs/";
-        return;
-    }
-
-    //  then check for TexLive 2009 (as found with Debian, Ubuntu, ...)
-    QDir dir(m_texdocPath + "/generic/tex-refs/");
-    if ( dir.exists() )  {
-        KILE_DEBUG_MAIN << "found TexLive 2009: " << m_texdocPath;
-        m_texVersion = TEXLIVE2009;
-        m_texVersionText = "TexLive 2009";
-        m_texrefsReference = "/generic/tex-refs/";
-        return;
-    }
-
-    // then check for older versions of TexLive 2005-2007
-    dir.setPath(m_texdocPath + "/english/tex-refs");
-    if ( dir.exists() ) {
-        KILE_DEBUG_MAIN << "found TexLive 2005-2007: " << m_texdocPath;
-        m_texVersion = TEXLIVE2005;
-        m_texVersionText = "TexLive 2005-2007";
-        m_texrefsReference = "/english/tex-refs/";
-        return;
-    }
-
-    // finally we check for tetex3
-    dir.setPath(m_texdocPath + "/latex/tex-refs");
-    if ( dir.exists() )  {
-        m_texVersion = TETEX3;
-        m_texVersionText = "teTeX v3.x";
-        // check if this is buggy tetex3.0 or an updated version with subdirectory 'html'
-        dir.setPath(m_texdocPath + "/latex/tex-refs/html");
-        m_texrefsReference = ( dir.exists() ) ? "/latex/tex-refs/html/" : "/latex/tex-refs/";
-        return;
-    }
-
-    // found no tex documents for LaTeX help
-    m_texVersion = TEX_UNKNOWN;
-}
-
 void Help::initContextHelp()
 {
     // read a list with keywords for context help
-    if ( m_contextHelpType == HelpKileRefs ) {
+    if(m_contextHelpType == HelpKileRefs) {
         readHelpList("latex-kile.lst");
     }
-    else if ( m_contextHelpType == HelpLatex2eRefs ) {
-        readHelpList("latex2e-texlive.lst");
+    else if(m_contextHelpType == HelpLatex2eRefs) {
+        readHelpList("unofficial-latex2e-reference-manual.index");
     }
-    else if ( m_contextHelpType == HelpTexRefs ) {
-        QString keyfile = ( m_texVersion != TETEX3 ) ? "latex-texlive-3.9.lst" : "latex-tetex3.lst";
-        readHelpList(keyfile);
-    }
-}
-
-QString Help::locateTexLivePath(const QStringList &paths)
-{
-    QString sep = QDir::separator();
-    QRegExp re( sep + "texlive" + sep + "(201\\d)" + sep );
-
-    for (QStringList::ConstIterator it = paths.begin(); it != paths.end(); ++it) {
-        // Remove any leading or trailing ", this is commonly used in the environment variables
-        QString path = (*it);
-        if (path.startsWith('\"'))
-            path = path.right(path.length() - 1);
-        if (path.endsWith('\"'))
-            path = path.left(path.length() - 1);
-
-        if ( re.indexIn(path) > 0 ) {
-            return path.left(re.pos(1)+4);
-        }
-    }
-    return QString();
-}
-
-QString Help::locateTexLive201x()
-{
-#if defined(Q_OS_WIN32)
-    QRegExp splitReg("[;,]");
-#else
-    QRegExp splitReg("[:]");
-#endif
-    QStringList paths = QString::fromLocal8Bit(getenv("PATH")).split(splitReg, QString::SkipEmptyParts);
-    return locateTexLivePath(paths);
 }
 
 ////////////////////// update paths and context help of TeX documentation  //////////////////////
 
 void Help::update()
 {
-    if ( m_texdocPath != KileConfig::location() ) {
-        initTexDocumentation();
-    }
-
     HelpType contextHelp = contextHelpType();
-    if ( m_contextHelpType != contextHelp ) {
+    if(m_contextHelpType != contextHelp) {
         m_contextHelpType = contextHelp;
         initContextHelp();
     }
@@ -211,85 +119,23 @@ void Help::helpDocBrowser()
     delete dlg;
 }
 
-////////////////////// Help: TeTeX //////////////////////
-
-void Help::helpTexGuide()
-{
-    QString filename = m_texdocPath;
-
-    switch(m_texVersion) {
-    case TEXLIVE_201x_TUG:
-        filename = filename.replace("texmf-dist","texmf");
-        filename += "/texlive/texlive-en/texlive-en.html";
-        break;
-    case TEXLIVE2009:
-        filename += "/texlive/texlive-en/texlive-en.html";
-        break;
-    case TEXLIVE2005:
-        filename += "/english/texlive-en/live.html";
-        break;
-    case TETEX3:
-        filename += "/index.html";
-        break;
-    default:
-        return;
-    }
-
-    KILE_DEBUG_MAIN << "show TeX Guide: " <<  m_texVersionText << " file=" << filename;
-    showHelpFile( filename );
-}
-
 ////////////////////// Help: LaTeX //////////////////////
 
 void Help::helpLatex(HelpType type)
 {
-    QString filename;
-    // use older 'tex-refs' documentation, if this document is present and explicitly wanted
-    // in all other cases use current TexLive documentation (latex2e-texlive.html)
-    if  ( m_contextHelpType==HelpTexRefs && m_texVersion!=TETEX3 ) {
-        QString link;
-        switch(type) {
+    switch(type) {
         case HelpLatexIndex:
-            link = "tex-refs.html#latex";
+            showHelpFile(m_latex2eReference + QLatin1String("index.html"));
             break;
         case HelpLatexCommand:
-            link = "tex-refs.html#tex-refs-idx";
-            break;
-        case HelpLatexSubject:
-            link = "tex-refs.html#commands";
+            showHelpFile(m_latex2eReference + QLatin1String("IndexDocument.html#Index_cp_symbol-8"));
             break;
         case HelpLatexEnvironment:
-            link = "tex-refs.html#env-latex";
+            showHelpFile(m_latex2eReference + QLatin1String("Environments.html#Environments"));
             break;
         default:
             return;
-        }
-        filename =  m_texdocPath + m_texrefsReference + link;
     }
-    else {
-        QString link;
-        switch(type) {
-        case HelpLatexIndex:
-            link = "LaTeX2e";
-            break;
-        case HelpLatexCommand:
-            link = "Command-Index";
-            break;
-        case HelpLatexSubject:
-            link = "SEC_Overview";
-            break;
-        case HelpLatexEnvironment:
-            link = "Environments";
-            break;
-        default:
-            return;
-        }
-        filename = m_latex2eReference + '#' + link;
-    }
-
-    // show help file
-    KILE_DEBUG_MAIN << "show LaTeX help: " << m_texVersionText << " file=" << filename;
-    showHelpFile( filename );
 }
 
 ////////////////////// Help: Keyword //////////////////////
@@ -300,14 +146,11 @@ void Help::helpKeyword(KTextEditor::View *view)
     QString word = getKeyword(view);
     KILE_DEBUG_MAIN << "keyword: " << word;
 
-    if ( !m_helpDir.isEmpty() && !word.isEmpty() && m_dictHelpTex.contains(word) ) {
+    if(!m_helpDir.isEmpty() && !word.isEmpty() && m_dictHelpTex.contains(word)) {
         KILE_DEBUG_MAIN << "about to show help for '" << word << "' (section " << m_dictHelpTex[word] << " )";
 
-        if ( m_contextHelpType == HelpLatex2eRefs ) {
-            showHelpFile( m_latex2eReference + '#' + m_dictHelpTex[word] );
-        }
-        else if ( m_contextHelpType == HelpTexRefs ) {
-            showHelpFile( m_texdocPath + m_texrefsReference + m_dictHelpTex[word] );
+        if(m_contextHelpType == HelpLatex2eRefs) {
+            showHelpFile(m_latex2eReference + m_dictHelpTex[word]);
         }
         else if ( m_contextHelpType == HelpKileRefs ) {
             showHelpFile(m_kileReference + '#' + m_dictHelpTex[word]);
@@ -357,9 +200,6 @@ HelpType Help::contextHelpType()
     if ( KileConfig::latex2erefs() ) {
         return HelpLatex2eRefs;
     }
-    else if ( KileConfig::texrefs() ) {
-        return HelpTexRefs;
-    }
     else {
         return HelpKileRefs;
     }
@@ -378,9 +218,8 @@ void Help::readHelpList(const QString &filename)
         return;
     }
 
-//		KILE_DEBUG_MAIN << "   read file: " << filename << endl;
     KILE_DEBUG_MAIN << "read keyword file: " << file;
-    QRegExp reg("\\s*(\\S+)\\s*=>\\s*(\\S+)");
+    QRegExp reg("\\s*(\\S+)\\s*\\t\\s*(\\S+)");
 
     QFile f(file);
     if(f.open(QIODevice::ReadOnly)) { // file opened successfully
@@ -389,7 +228,7 @@ void Help::readHelpList(const QString &filename)
             QString s = t.readLine().trimmed();       // line of text excluding '\n'
             if(!(s.isEmpty() || s.at(0)=='#')) {
                 int pos = reg.indexIn(s);
-                if ( pos != -1 ) {
+                if(pos != -1) {
                     m_dictHelpTex[reg.cap(1)] = reg.cap(2);
                 }
             }

@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>LaTeX command syntax (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="LaTeX command syntax (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="LaTeX command syntax (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Overview.html#Overview" rel="up" title="Overview">
+<link href="Environment.html#Environment" rel="next" title="Environment">
+<link href="TeX-engines.html#TeX-engines" rel="prev" title="TeX engines">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="LaTeX-command-syntax"></a>
+<div class="header">
+<p>
+Next: <a href="Environment.html#Environment" accesskey="n" rel="next">Environment</a>, Previous: <a href="TeX-engines.html#TeX-engines" accesskey="p" rel="prev">TeX engines</a>, Up: <a href="Overview.html#Overview" accesskey="u" rel="up">Overview</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="LaTeX-command-syntax-1"></a>
+<h3 class="section">2.4 LaTeX command syntax</h3>
+
+<a name="index-command-syntax"></a>
+<a name="index-_005c-character-starting-commands"></a>
+<a name="index-_005b_002e_002e_002e_005d-for-optional-arguments"></a>
+<a name="index-_007b_002e_002e_002e_007d-for-required-arguments"></a>
+<p>In the LaTeX input file, a command name starts with a backslash
+character, <code>\</code>.  The name itself then consists of either
+(a)&nbsp;a string of letters or (b)&nbsp;a single non-letter.
+</p>
+<p>LaTeX commands names are case sensitive so that <code>\pagebreak</code>
+differs from <code>\Pagebreak</code> (the latter is not a standard command).
+Most commands are lowercase, but in any event you must enter all
+commands in the same case as they are defined.
+</p>
+<p>A command may be followed by zero, one, or more arguments. These
+arguments may be either required or optional.  Required arguments are
+contained in curly braces, <code>{...}</code>.  Optional arguments are
+contained in square brackets, <code>[...]</code>.  Generally, but not
+universally, if the command accepts an optional argument, it comes
+first, before any required arguments.
+</p>
+<p>Inside of an optional argument, to use the character close square
+bracket&nbsp;(<code>]</code>) hide it inside curly braces, as
+in&nbsp;<code>\item[closing bracket {]}]</code>.  Similarly, if an optional
+argument comes last, with no required argument after it, then to make
+the first character of the following text be an open square bracket,
+hide it inside curly braces.
+</p>
+<p>Some of LaTeX&rsquo;s commands are a <em>declaration</em>.  Such a command
+changes the value the meaning of some other command or parameter.  For
+instance, the <code>\mainmatter</code> declaration changes the typesetting of
+page numbers from roman numerals to arabic (see <a href="_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter.html#g_t_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter">\frontmatter &amp; \mainmatter &amp; \backmatter</a>).
+</p>
+<p>LaTeX has the convention that some commands have a <code>*</code> form that
+is related to the form without a <code>*</code>, such as <code>\chapter</code> and
+<code>\chapter*</code>.  The exact difference in behavior varies from command
+to command.
+</p>
+<p>This manual describes all accepted options and <code>*</code>-forms for the
+commands it covers (barring unintentional omissions, a.k.a. bugs).
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

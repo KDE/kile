@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Output files (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Output files (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Output files (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Overview.html#Overview" rel="up" title="Overview">
+<link href="TeX-engines.html#TeX-engines" rel="next" title="TeX engines">
+<link href="Starting-and-ending.html#Starting-and-ending" rel="prev" title="Starting and ending">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Output-files"></a>
+<div class="header">
+<p>
+Next: <a href="TeX-engines.html#TeX-engines" accesskey="n" rel="next">TeX engines</a>, Previous: <a href="Starting-and-ending.html#Starting-and-ending" accesskey="p" rel="prev">Starting and ending</a>, Up: <a href="Overview.html#Overview" accesskey="u" rel="up">Overview</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Output-files-1"></a>
+<h3 class="section">2.2 Output files</h3>
+
+<p>LaTeX produces a main output file and at least two auxiliary files.
+The main output file&rsquo;s name ends in either <samp>.dvi</samp> or <samp>.pdf</samp>.
+</p>
+<dl compact="compact">
+<dt><code>.dvi</code></dt>
+<dd><a name="index-_002edvi-file"></a>
+<a name="index-latex-command"></a>
+<a name="index-xdvi-command"></a>
+<a name="index-dvips-command"></a>
+<a name="index-dvipdfmx-command"></a>
+<a name="index-dvitype-command"></a>
+<a name="output-files-dvi"></a><p>If LaTeX is invoked with the system command <code>latex</code> then it
+produces a DeVice Independent file, with extension <samp>.dvi</samp>.  You
+can view this file with a command such as <code>xdvi</code>, or convert
+it to a PostScript <code>.ps</code> file with <code>dvips</code> or to a
+Portable Document Format <code>.pdf</code> file with <code>dvipdfmx</code>.
+The contents of the file can be dumped in human-readable form with
+<code>dvitype</code>.  A vast array of other DVI utility programs are
+available (<a href="http://mirror.ctan.org/dviware">http://mirror.ctan.org/dviware</a>).
+</p>
+</dd>
+<dt><code>.pdf</code></dt>
+<dd><a name="index-_002epdf-file"></a>
+<a name="index-pdfTeX"></a>
+<a name="index-pdflatex-command"></a>
+<a name="output-files-pdf"></a><p>If LaTeX is invoked via the system command <code>pdflatex</code>,
+among other commands (see <a href="TeX-engines.html#TeX-engines">TeX engines</a>), then the main output is
+a Portable Document Format (PDF) file.  Typically this is a
+self-contained file, with all fonts and images included.
+</p>
+</dd>
+</dl>
+
+<p>LaTeX also produces at least two additional files.
+</p>
+<dl compact="compact">
+<dt><code>.log</code></dt>
+<dd><a name="index-transcript-file"></a>
+<a name="index-log-file"></a>
+<a name="index-_002elog-file"></a>
+<a name="output-files-log"></a><p>This transcript file contains summary information such as a list of
+loaded packages.  It also includes diagnostic messages and perhaps
+additional information for any errors.
+</p>
+</dd>
+<dt><code>.aux</code></dt>
+<dd><a name="index-auxiliary-file"></a>
+<a name="index-_002eaux-file"></a>
+<a name="index-cross-references_002c-resolving"></a>
+<a name="index-forward-references_002c-resolving"></a>
+<a name="index-references_002c-resolving-forward"></a>
+<a name="output-files-aux"></a><p>Auxiliary information is used by LaTeX for things such as
+cross references.  For example, the first time that LaTeX finds a
+forward reference&mdash;a cross reference to something that has not yet
+appeared in the source&mdash;it will appear in the output as a doubled
+question mark <code>??</code>.  When the referred-to spot does eventually
+appear in the source then LaTeX writes its location information to
+this <code>.aux</code> file.  On the next invocation, LaTeX reads the
+location information from this file and uses it to resolve the
+reference, replacing the double question mark with the remembered
+location.
+</p>
+</dd>
+</dl>
+
+<a name="index-_002elof-file"></a>
+<a name="index-list-of-figures-file"></a>
+<a name="index-_002elot-file"></a>
+<a name="index-list-of-tables-file"></a>
+<a name="index-_002etoc-file"></a>
+<a name="index-table-of-contents-file"></a>
+<a name="index-contents-file"></a>
+<p>LaTeX may produce yet more files, characterized by the filename
+ending.  These include a <code>.lof</code> file that is used to make a list of
+figures, a <code>.lot</code> file used to make a list of tables, and a
+<code>.toc</code> file used to make a table of contents (see <a href="Table-of-contents-etc_002e.html#Table-of-contents-etc_002e">Table of contents etc.</a>).  A particular class may create others; the list is
+open-ended.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

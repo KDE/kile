@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\newenvironment &amp; \renewenvironment (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\newenvironment &amp; \renewenvironment (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\newenvironment &amp; \renewenvironment (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Definitions.html#Definitions" rel="up" title="Definitions">
+<link href="_005cnewtheorem.html#g_t_005cnewtheorem" rel="next" title="\newtheorem">
+<link href="_005cnewsavebox.html#g_t_005cnewsavebox" rel="prev" title="\newsavebox">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cnewenvironment-_0026-_005crenewenvironment"></a>
+<div class="header">
+<p>
+Next: <a href="_005cnewtheorem.html#g_t_005cnewtheorem" accesskey="n" rel="next">\newtheorem</a>, Previous: <a href="_005cnewsavebox.html#g_t_005cnewsavebox" accesskey="p" rel="prev">\newsavebox</a>, Up: <a href="Definitions.html#Definitions" accesskey="u" rel="up">Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cnewenvironment-_0026-_005crenewenvironment-1"></a>
+<h3 class="section">12.8 <code>\newenvironment</code> &amp; <code>\renewenvironment</code></h3>
+
+<a name="index-_005cnewenvironment"></a>
+<a name="index-_005crenewenvironment"></a>
+<a name="index-environments_002c-defining"></a>
+<a name="index-defining-new-environments"></a>
+<a name="index-redefining-environments"></a>
+
+<p>Synopses, one of:
+</p>
+<div class="example">
+<pre class="example">\newenvironment{<var>env</var>}{<var>begdef</var>}{<var>enddef</var>}
+\newenvironment{<var>env</var>}[<var>nargs</var>]{<var>begdef</var>}{<var>enddef</var>}
+\newenvironment{<var>env</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>begdef</var>}{<var>enddef</var>}
+\newenvironment*{<var>env</var>}{<var>begdef</var>}{<var>enddef</var>}
+\newenvironment*{<var>env</var>}[<var>nargs</var>]{<var>begdef</var>}{<var>enddef</var>}
+\newenvironment*{<var>env</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>begdef</var>}{<var>enddef</var>}
+</pre></div>
+
+<p>or one of these.
+</p>
+<div class="example">
+<pre class="example">\renewenvironment{<var>env</var>}{<var>begdef</var>}{<var>enddef</var>}
+\renewenvironment{<var>env</var>}[<var>nargs</var>]{<var>begdef</var>}{<var>enddef</var>}
+\renewenvironment{<var>env</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>begdef</var>}{<var>enddef</var>}
+\renewenvironment*{<var>env</var>}{<var>begdef</var>}{<var>enddef</var>}
+\renewenvironment*{<var>env</var>}[<var>nargs</var>]{<var>begdef</var>}{<var>enddef</var>}
+\renewenvironment*{<var>env</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>begdef</var>}{<var>enddef</var>}
+</pre></div>
+
+<p>Define or redefine the environment <var>env</var>, that is, create the
+construct <code>\begin{<var>env</var>} ... <var>body</var> ... \end{<var>env</var>}</code>.
+</p>
+<a name="index-_002a_002dform-of-environment-commands"></a>
+<p>The starred form of these commands requires that the arguments not
+contain multiple paragraphs of text.  However, the body of these
+environments can contain multiple paragraphs.
+</p>
+<dl compact="compact">
+<dt><var>env</var></dt>
+<dd><p>Required; the environment name.  It consists only of letters or the
+<code>*</code> character, and thus does not begin with backslash, <code>\</code>.
+It must not begin with the string <code>end</code>.  For
+<code>\newenvironment</code>, the name <var>env</var> must not be the name of an
+already existing environment, and also the command <code>\<var>env</var></code>
+must be undefined.  For <code>\renewenvironment</code>, <var>env</var> must be the
+name of an existing environment.
+</p>
+</dd>
+<dt><var>nargs</var></dt>
+<dd><p>Optional; an integer from 0 to 9 denoting the number of arguments of
+that the environment takes.  When you use the environment these
+arguments appear after the <code>\begin</code>, as in
+<code>\begin{<var>env</var>}{<var>arg1</var>} ... {<var>argn</var>}</code>.  Omitting
+this is equivalent to setting it to 0; the environment will have no
+arguments.  When redefining an environment, the new version can have a
+different number of arguments than the old version.
+</p>
+</dd>
+<dt><var>optargdefault</var></dt>
+<dd><p>Optional; if this is present then the first argument of the defined
+environment is optional, with default value <var>optargdefault</var> (which
+may be the empty string).  If this is not in the definition then the
+environment does not take an optional argument.
+</p>
+<p>That is, when <var>optargdefault</var> is present in the definition of the
+environment then you can start the environment with square brackets, as
+in <code>\begin{<var>env</var>}[<var>optval</var>]{...} ... \end{<var>env</var>}</code>.
+In this case, within <var>begdefn</var> the parameter <code>#1</code> is set to the
+value of <var>optval</var>.  If you call <code>\begin{<var>env</var>}</code> without
+square brackets, then within <var>begdefn</var> the parameter <code>#1</code> is
+set to the value of the default <var>optargdefault</var>.  In either case,
+any required arguments start with <code>#2</code>.
+</p>
+<p>Omitting <code>[<var>myval</var>]</code> in the call is different than having the
+square brackets with no contents, as in <code>[]</code>.  The former results
+in <code>#1</code> expanding to <var>optargdefault</var>; the latter results in
+<code>#1</code> expanding to the empty string.
+</p>
+</dd>
+<dt><var>begdef</var></dt>
+<dd><p>Required; the text expanded at every occurrence of
+<code>\begin{<var>env</var>}</code>.  Within <var>begdef</var>, the parameters
+<code>#1</code>, <code>#2</code>, ... <code>#<var>nargs</var></code>, are replaced by the
+values that you supply when you call the environment; see the examples
+below.
+</p>
+</dd>
+<dt><var>enddef</var></dt>
+<dd><p>Required; the text expanded at every occurrence of
+<code>\end{<var>env</var>}</code>.  This may not contain any parameters, that is,
+you cannot use <code>#1</code>, <code>#2</code>, etc., here (but see the final
+example below).
+</p>
+</dd>
+</dl>
+
+<p>All environments, that is to say the <var>begdef</var> code, the environment
+body, and the <var>enddef</var> code, are processed within a group.  Thus, in
+the first example below, the effect of the <code>\small</code> is limited to
+the quote and does not extend to material following the environment.
+</p>
+<p>If you try to define an environment and the name has already been used
+then you get something like &lsquo;<samp>LaTeX Error: Command \fred already
+defined. Or name \end... illegal, see p.192 of the manual</samp>&rsquo;.  If you try
+to redefine an environment and the name has not yet been used then you
+get something like &lsquo;<samp>LaTeX Error: Environment hank undefined.</samp>&rsquo;.
+</p>
+<p>This example gives an environment like LaTeX&rsquo;s <code>quotation</code>
+except that it will be set in smaller type.
+</p>
+<div class="example">
+<pre class="example">\newenvironment{smallquote}{%
+  \small\begin{quotation}
+}{%
+  \end{quotation}
+}
+</pre></div>
+
+<p>This has an argument, which is set in boldface at the start of a
+paragraph.
+</p>
+<div class="example">
+<pre class="example">\newenvironment{point}[1]{%
+  \noindent\textbf{#1}
+}{%
+}
+</pre></div>
+
+<p>This one shows the use of a optional argument; it gives a quotation
+environment that cites the author.
+</p>
+<div class="example">
+<pre class="example">\newenvironment{citequote}[1][Shakespeare]{%
+  \begin{quotation}
+  \noindent\textit{#1}: 
+}{%
+  \end{quotation}
+}
+</pre></div>
+
+<p>The author&rsquo;s name is optional, and defaults to &lsquo;<samp>Shakespeare</samp>&rsquo;.  In
+the document, use the environment like this.
+</p>
+<div class="example">
+<pre class="example">\begin{citequote}[Lincoln]
+  ...
+\end{citequote}
+</pre></div>
+
+<p>The final example shows how to save the value of an argument to use in 
+<var>enddef</var>, in this case in a box (see <a href="_005csbox-_0026-_005csavebox.html#g_t_005csbox-_0026-_005csavebox">\sbox &amp; \savebox</a>).
+</p>
+<div class="example">
+<pre class="example">\newsavebox{\quoteauthor}
+\newenvironment{citequote}[1][Shakespeare]{%
+  \sbox\quoteauthor{#1}%
+  \begin{quotation} 
+}{%
+  \hspace{1em plus 1fill}---\usebox{\quoteauthor}
+  \end{quotation}
+}
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

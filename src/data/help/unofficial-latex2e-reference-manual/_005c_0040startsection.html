@@ -1,0 +1,349 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\@startsection (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\@startsection (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\@startsection (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Sectioning.html#Sectioning" rel="up" title="Sectioning">
+<link href="Cross-references.html#Cross-references" rel="next" title="Cross references">
+<link href="_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter.html#g_t_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter" rel="prev" title="\frontmatter &amp; \mainmatter &amp; \backmatter">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005c_0040startsection"></a>
+<div class="header">
+<p>
+Previous: <a href="_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter.html#g_t_005cfrontmatter-_0026-_005cmainmatter-_0026-_005cbackmatter" accesskey="p" rel="prev">\frontmatter &amp; \mainmatter &amp; \backmatter</a>, Up: <a href="Sectioning.html#Sectioning" accesskey="u" rel="up">Sectioning</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005c_0040startsection-1"></a>
+<h3 class="section">6.8 <code>\@startsection</code></h3>
+
+<a name="index-_005c_0040startsection"></a>
+<a name="index-section_002c-redefining"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\@startsection{<var>name</var>}{<var>level</var>}{<var>indent</var>}{<var>beforeskip</var>}{<var>afterskip</var>}{<var>style</var>}
+</pre></div>
+
+<p>Used to help redefine the behavior of commands that start sectioning
+divisions such as <code>\section</code> or <code>\subsection</code>.
+</p>
+<p>Note that the <samp>titlesec</samp> package makes manipulation of sectioning
+easier.  Further, while most requirements for sectioning commands can be
+satisfied with <code>\@startsection</code>, some cannot.  For instance, in
+the standard LaTeX <code>book</code> and <code>report</code> classes the commands
+<code>\chapter</code> and <code>\report</code> are not constructed in this way.  To
+make such a command you may want to use the <code>\secdef</code> command.
+</p>
+<p>Technically, <code>\@startsection</code> has the form
+</p>
+<div class="example">
+<pre class="example">\@startsection{<var>name</var>}
+  {<var>level</var>}
+  {<var>indent</var>}
+  {<var>beforeskip</var>}
+  {<var>afterskip</var>}
+  {<var>style</var>}*[<var>toctitle</var>]{<var>title</var>}
+</pre></div>
+
+<p>so that issuing
+</p>
+<div class="example">
+<pre class="example">\renewcommand{\section}{\@startsection{<var>name</var>}
+  {<var>level</var>}
+  {<var>indent</var>}
+  {<var>beforeskip</var>}
+  {<var>afterskip</var>}
+  {<var>style</var>}}
+</pre></div>
+
+<p>redefines <code>\section</code> to have the form
+<code>\section*[<var>toctitle</var>]{<var>title</var>}</code> (here too, the
+star&nbsp;<code>*</code> is optional).  See <a href="Sectioning.html#Sectioning">Sectioning</a>.  This implies that
+when you write a command like <code>\renewcommand{section}{...}</code>,
+the <code>\@startsection{...}</code> must come last in the definition.  See
+the examples below.
+</p>
+<dl compact="compact">
+<dt><var>name</var></dt>
+<dd><a name="startsection-name"></a><a name="g_t_005c_0040startsection_002fname"></a><p>Name of the counter used to number the sectioning header.  This counter
+must be defined separately.  Most commonly this is either
+<code>section</code>, <code>subsection</code>, or <code>paragraph</code>.  Although in
+those cases the counter name is the same as the sectioning command
+itself, you don&rsquo;t have to use the same name.
+</p>
+<p>Then <code>\the</code><var>name</var> displays the title number and
+<code>\</code><var>name</var><code>mark</code> is for the page headers.  See the third
+example below.
+</p>
+</dd>
+<dt><var>level</var></dt>
+<dd><a name="startsection-level"></a><a name="g_t_005c_0040startsection_002flevel"></a><p>An integer giving the depth of the sectioning command.
+See <a href="Sectioning.html#Sectioning">Sectioning</a> for the list of standard level numbers.
+</p>
+<p>If <var>level</var> is less than or equal to the value of the counter
+<code>secnumdepth</code> then titles for this sectioning command will be
+numbered (see <a href="Sectioning.html#Sectioning_002fsecnumdepth">Sectioning/secnumdepth</a>).  For instance, if
+<code>secnumdepth</code> is 1 in an <code>article</code> then the command
+<code>\section{Introduction}</code> will produce output like &ldquo;1
+Introduction&rdquo; while <code>\subsection{Discussion}</code> will produce
+output like &ldquo;Discussion&rdquo;, without the number prefix.
+</p>
+<p>If <var>level</var> is less than or equal to the value of the counter
+<var>tocdepth</var> then the table of contents will have an entry for this
+sectioning unit (see <a href="Sectioning.html#Sectioning_002ftocdepth">Sectioning/tocdepth</a>).  For instance, in an
+<code>article</code>, if <var>tocdepth</var> is 1 then the table of contents will
+list sections but not subsections.
+</p>
+</dd>
+<dt><var>indent</var></dt>
+<dd><a name="startsection-indent"></a><a name="g_t_005c_0040startsection_002findent"></a><p>A length giving the indentation of all of the title lines with respect
+to the left margin.  To have the title flush with the margin use
+<code>0pt</code>.  A negative indentation such as <code>-\parindent</code> will move
+the title into the left margin.
+</p>
+</dd>
+<dt><var>beforeskip</var></dt>
+<dd><a name="startsection-beforeskip"></a><a name="g_t_005c_0040startsection_002fbeforeskip"></a><p>The absolute value of this length is the amount of vertical space that
+is inserted before this sectioning unit&rsquo;s title.  This space will be
+discarded if the sectioning unit happens to start at the top of a fresh
+page.  If this number is negative then the first paragraph following the
+header is not indented, if it is non-negative then the first paragraph
+is indented.  (Note that the negative of <code>1pt plus 2pt minus 3pt</code>
+is <code>-1pt plus -2pt minus -3pt</code>.)
+</p>
+<p>For example, if <var>beforeskip</var> is <code>-3.5ex plus -1ex minus -0.2ex</code>
+then to start the new sectioning unit, LaTeX will add about 3.5 times
+the height of a letter x in vertical space, and the first paragraph in
+the section will not be indented.  Using a rubber length, with
+<code>plus</code> and <code>minus</code>, is good practice here since it gives
+LaTeX more flexibility in making up the page (see <a href="Lengths.html#Lengths">Lengths</a>).
+</p>
+<p>The full accounting of the vertical space between the baseline of the
+line prior to this sectioning unit&rsquo;s header and the baseline of the
+header is that it is the sum of the <code>\parskip</code> of the text font,
+the <code>\baselineskip</code> of the title font, and the absolute value of
+the <var>beforeskip</var>.  This space is typically rubber so it may stretch
+or shrink.  (If the sectioning unit starts on a fresh page so that the
+vertical space is discarded then the baseline of the header text will be
+where LaTeX would put the baseline of the first text line on that
+page.)
+</p>
+</dd>
+<dt><var>afterskip</var></dt>
+<dd><a name="startsection-afterskip"></a><a name="g_t_005c_0040startsection_002fafterskip"></a><p>This is a length.  If <var>afterskip</var> is non-negative then this is the
+vertical space inserted after the sectioning unit&rsquo;s title header.  If it
+is negative then the title header becomes a run-in header, so that it
+becomes part of the next paragraph.  In this case the absolute value of
+the length gives the horizontal space between the end of the title and
+the beginning of the following paragraph.  (Note that the negative of
+<code>1pt plus 2pt minus 3pt</code> is <code>-1pt plus -2pt minus -3pt</code>.)
+</p>
+<p>As with <var>beforeskip</var>, using a rubber length, with <code>plus</code> and
+<code>minus</code> components, is good practice here since it gives LaTeX
+more flexibility in putting together the page.
+</p>
+<p>If <code>afterskip</code> is non-negative then the full accounting of the
+vertical space between the baseline of the sectioning unit&rsquo;s header and
+the baseline of the first line of the following paragraph is that it is
+the sum of the <code>\parskip</code> of the title font, the
+<code>\baselineskip</code> of the text font, and the value of <var>after</var>.
+That space is typically rubber so it may stretch or shrink.  (Note that
+because the sign of <code>afterskip</code> changes the sectioning unit
+header&rsquo;s from standalone to run-in, you cannot use a negative
+<code>afterskip</code> to cancel part of the <code>\parskip</code>.)
+</p>
+</dd>
+<dt><var>style</var></dt>
+<dd><a name="startsection-style"></a><a name="g_t_005c_0040startsection_002fstyle"></a><p>Controls the styling of the title.  See the examples below.  Typical
+commands to use here are <code>\centering</code>, <code>\raggedright</code>,
+<code>\normalfont</code>, <code>\hrule</code>, or <code>\newpage</code>.  The last command
+in <var>style</var> may be one that takes one argument, such as
+<code>\MakeUppercase</code> or <code>\fbox</code> that takes one argument.  The
+section title will be supplied as the argument to this command. For
+instance, setting <var>style</var> to <code>\bfseries\MakeUppercase</code> would
+produce titles that are bold and uppercase.
+</p></dd>
+</dl>
+
+<p>These are LaTeX&rsquo;s defaults for the first three sectioning units that
+are defined with <code>\@startsection</code>, for the <samp>article</samp>,
+<samp>book</samp>, and <samp>report</samp> classes.  For section, the <var>level</var> is
+1, the <var>indent</var> is 0pt, the <var>beforeskip</var> is <code>-3.5ex
+plus -1ex minus -0.2ex</code>, the <var>afterskip</var> is <code>2.3ex plus 0.2ex</code>,
+and the <var>style</var> is <code>\normalfont\Large\bfseries</code>.  For
+subsection, the <var>level</var> is 2, the <var>indent</var> is 0pt, the
+<var>beforeskip</var> is <code>-3.25ex plus -1ex minus -0.2ex</code>, the
+<var>afterskip</var> is <code>1.5ex plus 0.2ex</code>, and the <var>style</var> is
+<code>\normalfont\large\bfseries</code>.  For subsubsection, the <var>level</var>
+is 3, the <var>indent</var> is 0pt, the <var>beforeskip</var> is
+<code>-3.25ex plus -1ex minus -0.2ex</code>, the <var>afterskip</var> is
+<code>1.5ex plus 0.2ex</code>, and the <var>style</var> is
+<code>\normalfont\normalsize\bfseries</code>.
+</p>
+<p>Here are examples.  They go either in a package or class file or in the
+preamble of a LaTeX document.  If you put them in the preamble they
+must go between a <code>\makeatletter</code> command and a
+<code>\makeatother</code>.  (Probably the error message <code>You can't use
+`\spacefactor' in vertical mode.</code>  means that you forgot this.)
+See <a href="_005cmakeatletter-_0026-_005cmakeatother.html#g_t_005cmakeatletter-_0026-_005cmakeatother">\makeatletter &amp; \makeatother</a>.
+</p>
+<p>This will put section titles in large boldface type, centered.  It says
+<code>\renewcommand</code> because LaTeX&rsquo;s standard classes have already
+defined a <code>\section</code>.  For the same reason it does not define a
+<code>section</code> counter, or the commands <code>\thesection</code> and
+<code>\l@section</code>.
+</p>
+<div class="example">
+<pre class="example">\renewcommand\section{%
+  \@startsection{section}% <a href="#g_t_005c_0040startsection_002fname"><var>name</var></a>
+    {1}% <a href="#g_t_005c_0040startsection_002flevel"><var>level</var></a>
+    {0pt}% <a href="#g_t_005c_0040startsection_002findent"><var>indent</var></a>
+    {-3.5ex plus -1ex minus -.2ex}% <a href="#g_t_005c_0040startsection_002fbeforeskip"><var>beforeskip</var></a>
+    {2.3ex plus.2ex}% <a href="#g_t_005c_0040startsection_002fafterskip"><var>afterskip</var></a>
+    {\centering\normalfont\Large\bfseries}% <a href="#g_t_005c_0040startsection_002fstyle"><var>style</var></a>
+  }
+</pre></div>
+
+<p>This will put <code>subsection</code> titles in small caps type, inline with the paragraph.
+</p>
+<div class="example">
+<pre class="example">\renewcommand\subsection{%
+  \@startsection{subsection}%  <a href="#g_t_005c_0040startsection_002fname"><var>name</var></a>
+    {2}% <a href="#g_t_005c_0040startsection_002flevel"><var>level</var></a>
+    {0em}% <a href="#g_t_005c_0040startsection_002findent"><var>indent</var></a>
+    {-1ex plus 0.1ex minus -0.05ex}% <a href="#g_t_005c_0040startsection_002fbeforeskip"><var>beforeskip</var></a>
+    {-1em plus 0.2em}% <a href="#g_t_005c_0040startsection_002fafterskip"><var>afterskip</var></a>
+    {\scshape}% <a href="#g_t_005c_0040startsection_002fstyle"><var>style</var></a>
+  }
+</pre></div>
+
+<p>The prior examples redefined existing sectional unit title commands.
+This defines a new one, illustrating the needed counter and macros to
+display that counter.
+</p>
+<div class="example">
+<pre class="example">\setcounter{secnumdepth}{6}% show counters this far down
+\newcounter{subsubparagraph}[subparagraph]% counter for numbering
+\renewcommand{\thesubsubparagraph}%               how to display 
+  {\thesubparagraph.\@arabic\c@subsubparagraph}%  numbering
+\newcommand{\subsubparagraph}{\@startsection
+                         {subsubparagraph}%
+                         {6}%
+                         {0em}%
+                         {\baselineskip}%
+                         {0.5\baselineskip}%
+                         {\normalfont\normalsize}}
+\newcommand*\l@subsubparagraph{\@dottedtocline{6}{10em}{5em}}% for toc
+\newcommand{\subsubparagraphmark}[1]{}% for page headers
+</pre></div>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

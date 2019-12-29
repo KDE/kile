@@ -1,0 +1,16 @@
+/* $Id$
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018.*/
+
+/* Make the navigation header less obtrusive. */
+.header {font-size:small; }
+
+/* A little bit of color, just to not have none. */
+h1, h2, h3 {color:#007849; }
+a:link {color:#044a71;
+	text-decoration:none; }
+a:visited {color:#516672;
+	   text-decoration:none; }
+
+/* Room in the intro below the text */
+div.intro {margin-bottom: 4ex; }

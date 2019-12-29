@@ -1,0 +1,220 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\multicolumn (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\multicolumn (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\multicolumn (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="tabular.html#tabular" rel="up" title="tabular">
+<link href="_005cvline.html#g_t_005cvline" rel="next" title="\vline">
+<link href="tabular.html#tabular" rel="prev" title="tabular">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cmulticolumn"></a>
+<div class="header">
+<p>
+Next: <a href="_005cvline.html#g_t_005cvline" accesskey="n" rel="next">\vline</a>, Up: <a href="tabular.html#tabular" accesskey="u" rel="up">tabular</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cmulticolumn-1"></a>
+<h4 class="subsection">8.23.1 <code>\multicolumn</code></h4>
+
+<a name="index-_005cmulticolumn"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\multicolumn{<var>numcols</var>}{<var>cols</var>}{<var>text</var>}
+</pre></div>
+
+<p>Make an <code>array</code> or <code>tabular</code> entry that spans several columns.
+The first argument <var>numcols</var> gives the number of columns to span.
+The second argument <var>cols</var> specifies the formatting of the entry,
+with <code>c</code> for centered, <code>l</code> for flush left, or <code>r</code> for
+flush right.  The third argument <var>text</var> gives the contents of that
+entry.
+</p>
+<p>In this example, in the first row, the second and third columns are
+spanned by the single heading &lsquo;<samp>Name</samp>&rsquo;.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{lccl} 
+  \textit{ID}       &amp;\multicolumn{2}{c}{\textit{Name}} &amp;\textit{Age} \\
+  \hline  
+  978-0-393-03701-2 &amp;O'Brian &amp;Patrick                  &amp;55           \\
+    ...
+\end{tabular}
+</pre></div>
+
+<p>What counts as a column is:&nbsp;the column format specifier for the
+<code>array</code> or <code>tabular</code> environment is broken into parts, where
+each part (except the first) begins with <code>l</code>, <code>c</code>, <code>r</code>,
+or&nbsp;<code>p</code>.  So from <code>\begin{tabular}{|r|ccp{1.5in}|}</code>
+the parts are <code>|r|</code>, <code>c</code>, <code>c</code>,
+and&nbsp;<code>p{1.5in}|</code>.
+</p>
+<p>The <var>cols</var> argument overrides the <code>array</code> or <code>tabular</code>
+environment&rsquo;s intercolumn area default adjoining this multicolumn
+entry. To affect that area, this argument can contain vertical bars
+<code>|</code> indicating the placement of vertical rules, and <code>@{...}</code>
+expressions.  Thus if <var>cols</var> is &lsquo;<samp>|c|</samp>&rsquo; then this multicolumn
+entry will be centered and a vertical rule will come in the intercolumn
+area before it and after it.  This table details the exact behavior.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{|cc|c|c|}
+  \multicolumn{1}{r}{w}       % entry one
+    &amp;\multicolumn{1}{|r|}{x}  % entry two 
+    &amp;\multicolumn{1}{|r}{y}   % entry three
+    &amp;z                        % entry four
+\end{tabular}
+</pre></div>
+
+<p>Before the first entry the output will not have a vertical rule because
+the <code>\multicolumn</code> has the <var>cols</var> specifier &lsquo;<samp>r</samp>&rsquo; with no
+initial vertical bar.  Between entry one and entry two there will be a
+vertical rule; although the first <var>cols</var> does not have an ending
+vertical bar, the second <var>cols</var> does have a starting one.  Between
+entry two and entry three there is a single vertical rule; despite that
+the <var>cols</var> in both of the surrounding <code>multicolumn</code>&rsquo;s call for
+a vertical rule, you only get one rule.  Between entry three and entry
+four there is no vertical rule; the default calls for one but the
+<var>cols</var> in the entry three <code>\multicolumn</code> leaves it out, and
+that takes precedence.  Finally, following entry four there is a
+vertical rule because of the default.
+</p>
+<p>The number of spanned columns <var>numcols</var> can be 1.  Besides giving
+the ability to change the horizontal alignment, this also is useful to
+override for one row the <code>tabular</code> definition&rsquo;s default intercolumn
+area specification, including the placement of vertical rules.
+</p>
+<p>In the example below, in the <code>tabular</code> definition the first column
+is specified to default to left justified but in the first row the entry
+is centered with <code>\multicolumn{1}{c}{\textsc{Period}}</code>.
+Also in the first row, the second and third columns are spanned by a
+single entry with <code>\multicolumn{2}{c}{\textsc{Span}}</code>,
+overriding the specification to center those two columns on the page
+range en-dash.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{l|r@{--}l} 
+  \multicolumn{1}{c}{\textsc{Period}}  
+    &amp;multicolumn{2}{c}{\textsc{Span}} \\ \hline
+  Baroque          &amp;1600           &amp;1760         \\
+  Classical        &amp;1730           &amp;1820         \\
+  Romantic         &amp;1780           &amp;1910         \\
+  Impressionistic  &amp;1875           &amp;1925
+\end{tabular}
+</pre></div>
+
+<p>Although the <code>tabular</code> specification by default puts a vertical
+rule between the first and second columns, no such vertical rule appears
+in the first row here.  That&rsquo;s because there is no vertical bar in the
+<var>cols</var> part of the first row&rsquo;s first <code>\multicolumn</code> command.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

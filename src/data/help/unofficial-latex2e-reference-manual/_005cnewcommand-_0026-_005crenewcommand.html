@@ -1,0 +1,282 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\newcommand &amp; \renewcommand (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\newcommand &amp; \renewcommand (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\newcommand &amp; \renewcommand (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Definitions.html#Definitions" rel="up" title="Definitions">
+<link href="_005cprovidecommand.html#g_t_005cprovidecommand" rel="next" title="\providecommand">
+<link href="Definitions.html#Definitions" rel="prev" title="Definitions">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cnewcommand-_0026-_005crenewcommand"></a>
+<div class="header">
+<p>
+Next: <a href="_005cprovidecommand.html#g_t_005cprovidecommand" accesskey="n" rel="next">\providecommand</a>, Up: <a href="Definitions.html#Definitions" accesskey="u" rel="up">Definitions</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cnewcommand-_0026-_005crenewcommand-1"></a>
+<h3 class="section">12.1 <code>\newcommand</code> &amp; <code>\renewcommand</code></h3>
+
+<a name="index-_005cnewcommand"></a>
+<a name="index-commands_002c-defining-new-ones"></a>
+<a name="index-commands_002c-redefining"></a>
+<a name="index-defining-a-new-command"></a>
+<a name="index-new-commands_002c-defining"></a>
+
+<p>Synopses, one of:
+</p>
+<div class="example">
+<pre class="example">\newcommand{\<var>cmd</var>}{<var>defn</var>}
+\newcommand{\<var>cmd</var>}[<var>nargs</var>]{<var>defn</var>}
+\newcommand{\<var>cmd</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>defn</var>}
+\newcommand*{\<var>cmd</var>}{<var>defn</var>}
+\newcommand*{\<var>cmd</var>}[<var>nargs</var>]{<var>defn</var>}
+\newcommand*{\<var>cmd</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>defn</var>}
+</pre></div>
+
+<p>or one of these.
+</p>
+<div class="example">
+<pre class="example">\renewcommand{\<var>cmd</var>}[<var>nargs</var>]{<var>defn</var>}
+\renewcommand{\<var>cmd</var>}[<var>nargs</var>]{<var>defn</var>}
+\renewcommand{\<var>cmd</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>defn</var>}
+\renewcommand*{\<var>cmd</var>}{<var>defn</var>}
+\renewcommand*{\<var>cmd</var>}[<var>nargs</var>]{<var>defn</var>}
+\renewcommand*{\<var>cmd</var>}[<var>nargs</var>][<var>optargdefault</var>]{<var>defn</var>}
+</pre></div>
+
+<p>Define or redefine a command.  See also the discussion of
+<code>\DeclareRobustCommand</code> in <a href="Class-and-package-commands.html#Class-and-package-commands">Class and package commands</a>.
+<a name="index-starred-form_002c-defining-new-commands"></a>
+<a name="index-_002a_002dform_002c-defining-new-commands"></a>
+The starred form of these two requires that the arguments not contain
+multiple paragraphs of text (in plain TeX terms that it not be
+<code>\long</code>).
+</p>
+<p>These are the parameters:
+</p>
+<dl compact="compact">
+<dt><var>cmd</var></dt>
+<dd>
+<p>Required; the command name.  It must begin with a backslash, <code>\</code>,
+and must not begin with the four letter string <code>\end</code>.  For
+<code>\newcommand</code>, it must not be already defined.  For
+<code>\renewcommand</code>, this name must already be defined.
+</p>
+</dd>
+<dt><var>nargs</var></dt>
+<dd><p>Optional; an integer from 0 to 9, specifying the number of arguments
+that the command takes, including any optional argument.  Omitting this
+argument is the same as specifying 0, meaning that the command has no
+arguments.  If you redefine a command, the new version can have a
+different number of arguments than the old version.
+</p>
+</dd>
+<dt><var>optargdefault</var></dt>
+<dd><p>Optional; if this argument is present then the first argument of
+<code>\<var>cmd</var></code> is optional, with default value <var>optargdefault</var>
+(which may be the empty string).  If <var>optargsdefault</var> is not present
+then <code>\<var>cmd</var></code> does not take an optional argument.
+</p>
+<a name="index-positional-parameter"></a>
+<p>That is, if <code>\<var>cmd</var></code> is used with square brackets, as in
+<code>\<var>cmd</var>[<var>optval</var>]{...}...</code>, then within <var>defn</var> the
+parameter&nbsp;<code>#1</code> is set to the value of <var>optval</var>.  On the
+other hand, if <code>\<var>cmd</var></code> is called without the square brackets
+then within <var>defn</var> the parameter <code>#1</code> is set to the value of
+<var>optargdefault</var>.  In either case, the required arguments start with
+<code>#2</code>.
+</p>
+<p>Omitting <code>[<var>optargdefault</var>]</code> is different from having the
+square brackets with no contents, as in <code>[]</code>.  The former sets
+<code>#1</code> to the value of <var>optargdefault</var>; the latter sets <code>#1</code>
+to the empty string.
+</p>
+</dd>
+<dt><var>defn</var></dt>
+<dd><p>Required; the text to be substituted for every occurrence of
+<code>\<var>cmd</var></code>. The parameters <code>#1</code>, <code>#2</code>,
+... <code>#<var>nargs</var></code> are replaced by the values that you supply when
+you call the command (or by the default value if there is an optional
+argument and you don&rsquo;t exercise the option).
+</p>
+</dd>
+</dl>
+
+<p>TeX ignores spaces in the source following an alphabetic control
+sequence, as in &lsquo;<samp>\cmd </samp>&rsquo;.  If you actually want a space there, one
+solution is to type <code>{}</code> after the command (&lsquo;<samp>\cmd{} </samp>&rsquo;, and
+another solution is to use an explicit control space (&lsquo;<samp>\cmd\ </samp>&rsquo;).
+</p>
+<p>A simple example of defining a new command:
+<code>\newcommand{\RS}{Robin Smith}</code> results in <code>\RS</code> being
+replaced by the longer text.  Redefining an existing command is similar:
+<code>\renewcommand{\qedsymbol}{{\small QED}}</code>.
+</p>
+<p>If you try to define a command and the name has already been used then
+you get something like &lsquo;<samp>LaTeX Error: Command \fred already
+defined. Or name \end... illegal, see p.192 of the manual</samp>&rsquo;.  If you try
+to redefine a command and the name has not yet been used then you get
+something like &lsquo;<samp>LaTeX Error: \hank undefined</samp>&rsquo;.
+</p>
+<p>Here the first command definition has no arguments, and the second has
+one required argument.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\student}{Ms~O'Leary}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+</pre></div>
+
+<p>Use the first as in <code>I highly recommend \student{} to you</code>.  The
+second has a variable, so that <code>\defref{def:basis}</code> expands to
+<code>Definition~\ref{def:basis}</code>, which ultimately expands to
+something like &lsquo;<samp>Definition~3.14</samp>&rsquo;.
+</p>
+<p>Similarly, but with two required arguments:
+<code>\newcommand{\nbym}[2]{$#1 \times #2$}</code> is invoked as
+<code>\nbym{2}{k}</code>.
+</p>
+<p>This example has an optional argument.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\salutation}[1][Sir or Madam]{Dear #1:}
+</pre></div>
+
+<p>Then <code>\salutation</code> gives &lsquo;<samp>Dear Sir or Madam:</samp>&rsquo; while
+<code>\salutation[John]</code> gives &lsquo;<samp>Dear John:</samp>&rsquo;.  And
+<code>\salutation[]</code> gives &lsquo;<samp>Dear :</samp>&rsquo;.
+</p>
+<p>This example has an optional argument and two required arguments.
+</p>
+<div class="example">
+<pre class="example">\newcommand{\lawyers}[3][company]{#2, #3, and~#1}
+I employ \lawyers[Howe]{Dewey}{Cheatem}.
+</pre></div>
+
+<p>The output is &lsquo;<samp>I employ Dewey, Cheatem, and Howe</samp>&rsquo;.  The optional
+argument, the <code>Howe</code>, is associated with <code>#1</code>, while
+<code>Dewey</code> and <code>Cheatem</code> are associated with <code>#2</code>
+and&nbsp;<code>#3</code>.  Because of the optional argument,
+<code>\lawyers{Dewey}{Cheatem}</code> will give the output &lsquo;<samp>I employ
+Dewey, Cheatem, and company</samp>&rsquo;.
+</p>
+<p>The braces around <var>defn</var> do not define a group, that is, they do not
+delimit the scope of the result of expanding <var>defn</var>.  For example,
+with <code>\newcommand{\shipname}[1]{\it #1}</code>, in this sentence,
+</p>
+<div class="example">
+<pre class="example">The \shipname{Monitor} met the \shipname{Merrimac}.
+</pre></div>
+
+<p>the words &lsquo;<samp>met the</samp>&rsquo; would incorrectly be in italics.  The solution
+is to put another pair of braces inside the definition:
+<code>\newcommand{\shipname}[1]{{\it #1}}</code>.
+</p>
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

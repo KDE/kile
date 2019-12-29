@@ -1,0 +1,238 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\pagestyle (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\pagestyle (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\pagestyle (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Page-styles.html#Page-styles" rel="up" title="Page styles">
+<link href="_005cthispagestyle.html#g_t_005cthispagestyle" rel="next" title="\thispagestyle">
+<link href="_005cpagenumbering.html#g_t_005cpagenumbering" rel="prev" title="\pagenumbering">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005cpagestyle"></a>
+<div class="header">
+<p>
+Next: <a href="_005cthispagestyle.html#g_t_005cthispagestyle" accesskey="n" rel="next">\thispagestyle</a>, Previous: <a href="_005cpagenumbering.html#g_t_005cpagenumbering" accesskey="p" rel="prev">\pagenumbering</a>, Up: <a href="Page-styles.html#Page-styles" accesskey="u" rel="up">Page styles</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="g_t_005cpagestyle-1"></a>
+<h3 class="section">18.3 <code>\pagestyle</code></h3>
+
+<a name="index-_005cpagestyle"></a>
+<a name="index-header-style"></a>
+<a name="index-footer-style"></a>
+<a name="index-running-header-and-footer-style"></a>
+
+<p>Synopsis:
+</p>
+<div class="example">
+<pre class="example">\pagestyle{<var>style</var>}
+</pre></div>
+
+<p>Declaration that specifies how the page headers and footers are typeset,
+from the current page onwards.
+</p>
+<a name="index-package_002c-fancyhdr-1"></a>
+<a name="index-fancyhdr-package-1"></a>
+
+<p>A discussion with an example is below.  Note first that the package
+<samp>fancyhdr</samp> is now the standard way to manipulate headers and
+footers.  New documents that need to do anything other than one of the
+standard options below should use this package.  See its documentation
+on CTAN.
+</p>
+<p>Values for <var>style</var>:
+</p>
+<dl compact="compact">
+<dt><code>plain</code></dt>
+<dd><p>The header is empty.  The footer contains only a page number, centered.
+</p>
+</dd>
+<dt><code>empty</code></dt>
+<dd><p>The header and footer is empty.
+</p>
+</dd>
+<dt><code>headings</code></dt>
+<dd><p>Put running headers and footers on each page.  The document style
+specifies what goes in there; see the discussion below.
+</p>
+</dd>
+<dt><code>myheadings</code></dt>
+<dd><p>Custom headers, specified via the <code>\markboth</code> or the
+<code>\markright</code> commands.
+</p>
+</dd>
+</dl>
+
+<p>Some discussion of the motivation for LaTeX&rsquo;s mechanism will help you
+work with the options <code>headings</code> or <code>myheadings</code>.  The
+document source below produces an article, two-sided, with the pagestyle
+<code>headings</code>.  On this document&rsquo;s left hand pages, LaTeX wants (in
+addition to the page number) the title of the current section.  On its
+right hand pages LaTeX wants the title of the current subsection.
+When it makes up a page, LaTeX gets this information from the
+commands <code>\leftmark</code> and <code>\rightmark</code>.  So it is up to
+<code>\section</code> and <code>\subsection</code> to store that information there.
+</p>
+<div class="example">
+<pre class="example">\documentclass[twoside]{article}
+\pagestyle{headings}
+\begin{document}
+  ... \section{Section 1} ... \subsection{Subsection 1.1} ...
+\section{Section 2}
+  ...
+\subsection{Subsection 2.1}
+  ...
+\subsection{Subsection 2.2}
+  ...
+</pre></div>
+
+<p>Suppose that the second section falls on a left page.  Although when the
+page starts it is in the first section, LaTeX will put
+&lsquo;<samp>Section&nbsp;2</samp>&rsquo; in the left page header.  As to the right header,
+if no subsection starts before the end of the right page then LaTeX
+blanks the right hand header.  If a subsection does appear before the
+right page finishes then there are two cases.  If at least one
+subsection starts on the right hand page then LaTeX will put in the
+right header the title of the first subsection starting on that right
+page.  If at least one of 2.1, 2.2, &hellip;, starts on the left page but
+none starts on the right then LaTeX puts in the right hand header the
+title of the last subsection to start, that is, the one in effect during
+the right hand page.
+</p>
+<p>To accomplish this, in a two-sided article, LaTeX has <code>\section</code>
+issue a command <code>\markboth</code>, setting <code>\leftmark</code>
+to &lsquo;<samp>Section&nbsp;2</samp>&rsquo; and setting <code>\rightmark</code> to blank.
+And, LaTeX has <code>\subsection</code> issue a command <code>\markright</code>,
+setting <code>\rightmark</code> to &lsquo;<samp>Subsection&nbsp;2.1</samp>&rsquo;, etc.
+</p>
+<p>Here are the descriptions of <code>\markboth</code> and <code>\markright</code>:
+</p>
+<dl compact="compact">
+<dt><code>\markboth{<var>left-head</var>}{<var>right-head</var>}</code>
+<a name="index-_005cmarkboth_007bleft_002dhead_007d_007bright_002dhead_007d"></a>
+</dt>
+<dd><p>Sets both the right hand and left hand heading information for either a
+page style of <code>headings</code> or <code>myheadings</code>.  A left hand page
+heading <var>left-head</var> is generated by the last <code>\markboth</code>
+command before the end of the page.  A right hand page heading
+<var>right-head</var> is generated by the first <code>\markboth</code> or
+<code>\markright</code> that comes on the page if there is one, otherwise by
+the last one that came before that page.
+</p>
+</dd>
+<dt><code>\markright{<var>right</var>}</code>
+<a name="index-_005cmarkright_007bright_007d"></a>
+</dt>
+<dd><p>Sets the right hand page heading, leaving the left unchanged.
+</p>
+</dd>
+</dl>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

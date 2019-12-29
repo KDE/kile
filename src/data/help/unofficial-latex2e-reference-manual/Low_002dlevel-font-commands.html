@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Low-level font commands (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Low-level font commands (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Low-level font commands (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Fonts.html#Fonts" rel="up" title="Fonts">
+<link href="Layout.html#Layout" rel="next" title="Layout">
+<link href="Font-sizes.html#Font-sizes" rel="prev" title="Font sizes">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Low_002dlevel-font-commands"></a>
+<div class="header">
+<p>
+Previous: <a href="Font-sizes.html#Font-sizes" accesskey="p" rel="prev">Font sizes</a>, Up: <a href="Fonts.html#Fonts" accesskey="u" rel="up">Fonts</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Low_002dlevel-font-commands-1"></a>
+<h3 class="section">4.4 Low-level font commands</h3>
+
+<a name="index-low_002dlevel-font-commands"></a>
+<a name="index-font-commands_002c-low_002dlevel"></a>
+
+<p>These commands are primarily intended for writers of macros and
+packages.  The commands listed here are only a subset of the available
+ones.
+</p>
+<dl compact="compact">
+<dd><a name="low-level-font-commands-fontencoding"></a></dd>
+<dt><code>\fontencoding{<var>encoding</var>}</code></dt>
+<dd><a name="index-_005cfontencoding"></a>
+<p>Select the font encoding, the encoding of the output font. There are a
+large number of valid encodings.  The most common are <code>OT1</code>,
+Knuth&rsquo;s original encoding for Computer Modern (the default), and
+<code>T1</code>, also known as the Cork encoding, which has support for the
+accented characters used by the most widespread European languages
+(German, French, Italian, Polish and others), which allows TeX to
+hyphenate words containing accented letters. For more, see
+<a href="https://ctan.org/pkg/encguide">https://ctan.org/pkg/encguide</a>.
+</p>
+<a name="low-level-font-commands-fontfamily"></a></dd>
+<dt><code>\fontfamily{<var>family</var>}</code></dt>
+<dd><a name="index-_005cfontfamily"></a>
+<a name="index-families_002c-of-fonts"></a>
+<a name="index-font-catalogue"></a>
+<p>Select the font family.  The web page
+<a href="http://www.tug.dk/FontCatalogue/">http://www.tug.dk/FontCatalogue/</a> provides one way to browse
+through many of the fonts easily used with LaTeX.  Here are
+examples of some common families.
+</p>
+<table>
+<tr><td><code>pag</code></td><td>Avant Garde</td></tr>
+<tr><td><code>fvs</code></td><td>Bitstream Vera Sans</td></tr>
+<tr><td><code>pbk</code></td><td>Bookman</td></tr>
+<tr><td><code>bch</code></td><td>Charter</td></tr>
+<tr><td><code>ccr</code></td><td>Computer Concrete</td></tr>
+<tr><td><code>cmr</code></td><td>Computer Modern</td></tr>
+<tr><td><code>cmss</code></td><td>Computer Modern Sans Serif</td></tr>
+<tr><td><code>cmtt</code></td><td>Computer Modern Typewriter</td></tr>
+<tr><td><code>pcr</code></td><td>Courier</td></tr>
+<tr><td><code>phv</code></td><td>Helvetica</td></tr>
+<tr><td><code>fi4</code></td><td>Inconsolata</td></tr>
+<tr><td><code>lmr</code></td><td>Latin Modern</td></tr>
+<tr><td><code>lmss</code></td><td>Latin Modern Sans</td></tr>
+<tr><td><code>lmtt</code></td><td>Latin Modern Typewriter</td></tr>
+<tr><td><code>pnc</code></td><td>New Century Schoolbook</td></tr>
+<tr><td><code>ppl</code></td><td>Palatino</td></tr>
+<tr><td><code>ptm</code></td><td>Times</td></tr>
+<tr><td><code>uncl</code></td><td>Uncial</td></tr>
+<tr><td><code>put</code></td><td>Utopia</td></tr>
+<tr><td><code>pzc</code></td><td>Zapf Chancery</td></tr>
+</table>
+
+
+<a name="low-level-font-commands-fontseries"></a></dd>
+<dt><code>\fontseries{<var>series</var>}</code></dt>
+<dd><a name="index-_005cfontseries"></a>
+<a name="index-series_002c-of-fonts"></a>
+<p>Select the font series.  A <em>series</em> combines a <em>weight</em> and a
+<em>width</em>.  Typically, a font supports only a few of the possible
+combinations.  Some common combined series values include:
+</p>
+<table>
+<tr><td><code>m</code></td><td>Medium (normal)</td></tr>
+<tr><td><code>b</code></td><td>Bold</td></tr>
+<tr><td><code>c</code></td><td>Condensed</td></tr>
+<tr><td><code>bc</code></td><td>Bold condensed</td></tr>
+<tr><td><code>bx</code></td><td>Bold extended</td></tr>
+</table>
+
+<a name="index-weights_002c-of-fonts"></a>
+<p>The possible values for weight, individually, are:
+</p>
+<table>
+<tr><td><code>ul</code></td><td>Ultra light</td></tr>
+<tr><td><code>el</code></td><td>Extra light</td></tr>
+<tr><td><code>l</code></td><td>Light</td></tr>
+<tr><td><code>sl</code></td><td>Semi light</td></tr>
+<tr><td><code>m</code></td><td>Medium (normal)</td></tr>
+<tr><td><code>sb</code></td><td>Semi bold</td></tr>
+<tr><td><code>b</code></td><td>Bold</td></tr>
+<tr><td><code>eb</code></td><td>Extra bold</td></tr>
+<tr><td><code>ub</code></td><td>Ultra bold</td></tr>
+</table>
+ 
+<a name="index-widths_002c-of-fonts"></a>
+<p>The possible values for width, individually, are (the meaning and
+relationship of these terms varies with individual typefaces):
+</p>
+<table>
+<tr><td><code>uc</code></td><td>Ultra condensed</td></tr>
+<tr><td><code>ec</code></td><td>Extra condensed</td></tr>
+<tr><td><code>c</code></td><td>Condensed</td></tr>
+<tr><td><code>sc</code></td><td>Semi condensed</td></tr>
+<tr><td><code>m</code></td><td>Medium</td></tr>
+<tr><td><code>sx</code></td><td>Semi expanded</td></tr>
+<tr><td><code>x</code></td><td>Expanded</td></tr>
+<tr><td><code>ex</code></td><td>Extra expanded</td></tr>
+<tr><td><code>ux</code></td><td>Ultra expanded</td></tr>
+</table>
+
+<p>When forming the <var>series</var> string from the weight and width, drop the
+<code>m</code> that stands for medium weight or medium width, unless both
+weight and width are <code>m</code>, in which case use just one
+(&lsquo;<samp><code>m</code></samp>&rsquo;).
+</p> 
+</dd>
+<dt><code>\fontshape{<var>shape</var>}</code></dt>
+<dd><a name="index-_005cfontshape"></a>
+<a name="index-shapes_002c-of-fonts"></a>
+<a name="low-level-font-commands-fontshape"></a><p>Select font shape. Valid shapes are:
+</p>
+<table>
+<tr><td><code>n</code></td><td>Upright (normal)</td></tr>
+<tr><td><code>it</code></td><td>Italic</td></tr>
+<tr><td><code>sl</code></td><td>Slanted (oblique)</td></tr>
+<tr><td><code>sc</code></td><td>Small caps</td></tr>
+<tr><td><code>ui</code></td><td>Upright italics</td></tr>
+<tr><td><code>ol</code></td><td>Outline</td></tr>
+</table>
+
+<p>The two last shapes are not available for most font families, and
+small caps are often missing as well.
+</p>
+<a name="low-level-font-commands-fontsize"></a></dd>
+<dt><code>\fontsize{<var>size</var>}{<var>skip</var>}</code></dt>
+<dd><a name="index-_005cfontsize"></a>
+<a name="index-font-size"></a>
+<a name="index-_005cbaselineskip"></a>
+<p>Set the font size and the line spacing.  The unit of both parameters
+defaults to points (<code>pt</code>).  The line spacing is the nominal
+vertical space between lines, baseline to baseline.  It is stored in the
+parameter <code>\baselineskip</code>.  The default <code>\baselineskip</code> for
+the Computer Modern typeface is 1.2 times the <code>\fontsize</code>.
+Changing <code>\baselineskip</code> directly is inadvisable since its value is
+reset every time a size change happens; see <code>\baselinestretch</code>, next.
+</p>
+<a name="low-level-font-commands-baselinestretch"></a></dd>
+<dt><code>\baselinestretch</code></dt>
+<dd><a name="index-_005cbaselinestretch"></a>
+<p>LaTeX multiplies the line spacing by the value of the
+<code>\baselinestretch</code> parameter; the default factor is 1.  A change
+takes effect when <code>\selectfont</code> (see below) is called.  You can
+make a line skip change happen for the entire document, for instance
+doubling it, by doing <code>\renewcommand{\baselinestretch}{2.0}</code> in
+the preamble.
+</p>
+<a name="index-package_002c-setspace"></a>
+<a name="index-setspace-package"></a>
+
+<a name="index-double-spacing"></a>
+<p>However, the best way to double-space a document is to use the
+<samp>setspace</samp> package.  In addition to offering a number of spacing
+options, this package keeps the line spacing single-spaced in places
+where that is typically desirable, such as footnotes and figure
+captions.  See the package documentation.
+</p>
+<a name="low-level-font-commands-linespread"></a></dd>
+<dt><code>\linespread{<var>factor</var>}</code></dt>
+<dd><a name="index-_005clinespread"></a>
+<p>Equivalent to
+<code>\renewcommand{\baselinestretch}{<var>factor</var>}</code>, and
+therefore must be followed by <code>\selectfont</code> to have any effect.
+Best specified in the preamble, or use the <code>setspace</code> package, as
+just described.
+</p>
+<a name="low-level-font-commands-selectfont"></a></dd>
+<dt><code>\selectfont</code></dt>
+<dd><a name="index-_005cselectfont"></a>
+<p>The effects of the font commands described above do not happen until
+<code>\selectfont</code> is called, as in
+<code>\fontfamily{<var>familyname</var>}\selectfont</code>.  It is often useful
+to put this in a macro:<br>
+<code>\newcommand*{\myfont}{\fontfamily{<var>familyname</var>}\selectfont}</code><br>
+(see <a href="_005cnewcommand-_0026-_005crenewcommand.html#g_t_005cnewcommand-_0026-_005crenewcommand">\newcommand &amp; \renewcommand</a>).
+</p>
+<a name="low-level-font-commands-usefont"></a></dd>
+<dt><code>\usefont{<var>enc</var>}{<var>family</var>}{<var>series</var>}{<var>shape</var>}</code></dt>
+<dd><a name="index-_005cusefont"></a>
+<p>The same as invoking <code>\fontencoding</code>, <code>\fontfamily</code>,
+<code>\fontseries</code> and <code>\fontshape</code> with the given parameters,
+followed by <code>\selectfont</code>.  For example:
+</p>
+<div class="example">
+<pre class="example">\usefont{ot1}{cmr}{m}{n}
+</pre></div>
+
+</dd>
+</dl>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

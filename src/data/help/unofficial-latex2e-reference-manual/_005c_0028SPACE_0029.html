@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>\(SPACE) (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="\(SPACE) (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="\(SPACE) (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Spaces.html#Spaces" rel="up" title="Spaces">
+<link href="_007e.html#g_t_007e" rel="next" title="~">
+<link href="_005cnormalsfcodes.html#g_t_005cnormalsfcodes" rel="prev" title="\normalsfcodes">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="g_t_005c_0028SPACE_0029"></a>
+<div class="header">
+<p>
+Next: <a href="_007e.html#g_t_007e" accesskey="n" rel="next">~</a>, Previous: <a href="_005cspacefactor.html#g_t_005cspacefactor" accesskey="p" rel="prev">\spacefactor</a>, Up: <a href="Spaces.html#Spaces" accesskey="u" rel="up">Spaces</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Backslash_002dspace_002c-_005c-"></a>
+<h3 class="section">19.6 Backslash-space, <code>\ </code></h3>
+
+<a name="index-_005cNEWLINE"></a>
+<a name="index-_005cSPACE"></a>
+<a name="index-_005c-_0028backslash_002dspace_0029"></a>
+<a name="index-_005cTAB"></a>
+<a name="index-_005cSPACE-1"></a>
+
+<p>This section refers to the command consisting of two characters, a
+backslash followed by a space. Synopsis:
+</p>
+<div class="example">
+<pre class="example">\    
+</pre></div>
+
+<p>Produce a space. By default it produces white space of length
+3.33333pt plus 1.66666pt minus 1.11111pt.
+</p>
+<p>When you type one or more blanks between words, LaTeX produces white
+space.  But that is different than an explicit space.  This illustrates.
+</p>
+<div class="example">
+<pre class="example">\begin{tabular}{l}
+One blank: makes some space \\
+Three blanks:   in a row \\
+Three spaces:\ \ \ in a row \\
+\end{tabular}
+</pre></div>
+
+<p>On the first line LaTeX puts some space after the colon.  On the
+second line LaTeX collapses the three blanks to output one
+whitespace, so you end with the same space after the colon as in the
+first line.  LaTeX would similarly collapse a blank followed by a
+tab, or a blank and a newline and a blank.  However, the bottom line
+asks for three spaces so the white area is wider.  That is, the
+backslash-space command creates a fixed amount of horizontal space.
+(Note that you can define a horizontal space of any width at all with
+<code>\hspace</code>; see&nbsp;<a href="_005chspace.html#g_t_005chspace">\hspace</a>.)
+</p>
+<p>The backslash-space command has two main uses.  It is often used after
+control sequences to keep them from gobbling the space that follows, as
+in <code>\TeX\ is nice</code>.  (But using curly parentheses, as in
+<code>\TeX{} is best</code>, has the advantage of still working if the next
+character is a period.)  The other common use is that it marks a period
+as ending an abbreviation instead of ending a sentence, as in <code>So
+says Prof.\ Smith</code> or <code>Jones et al.\ (1993)</code> (see <a href="_005c_0040.html#g_t_005c_0040">\@</a>).
+</p>
+<p>Under normal circumstances, <code>\</code><tt class="key">tab</tt> and <code>\</code><tt class="key">newline</tt>
+are equivalent to backslash-space, <code>\ </code>.
+</p>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

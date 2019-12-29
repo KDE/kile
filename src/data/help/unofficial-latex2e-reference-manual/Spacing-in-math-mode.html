@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<!-- This document is an unofficial reference manual for LaTeX, a
+document preparation system, version of November 2018.
+
+This manual was originally translated from LATEX.HLP v1.0a in the
+VMS Help Library.  The pre-translation version was written by
+George D. Greenwade of Sam Houston State University.  The
+LaTeX 2.09 version was written by Stephen Gilmore.  The
+LaTeX2e version was adapted from this by Torsten Martinsen.  Karl
+Berry made further updates and additions, and gratefully acknowledges
+using Hypertext Help with LaTeX, by Sheldon Green, and
+LaTeX Command Summary (for LaTeX 2.09) by
+L. Botway and C. Biemesderfer (published by the TeX Users
+Group as TeXniques number 10), as reference material.  We also
+gratefully acknowledge additional material appearing in
+latex2e-reference by Martin Herbert Dietze.  (From these references no
+text was directly copied.)
+
+Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2013,
+2014, 2015, 2016, 2017, 2018 Karl Berry.
+
+Copyright 1988, 1994, 2007 Stephen Gilmore.
+
+Copyright 1994, 1995, 1996 Torsten Martinsen.
+
+Permission is granted to make and distribute verbatim copies of
+this manual provided the copyright notice and this permission notice
+are preserved on all copies.
+
+
+Permission is granted to copy and distribute modified versions of this
+manual under the conditions for verbatim copying, provided that the entire
+resulting derived work is distributed under the terms of a permission
+notice identical to this one.
+
+Permission is granted to copy and distribute translations of this manual
+into another language, under the above conditions for modified versions. -->
+<!-- Created by GNU Texinfo 6.5, http://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Spacing in math mode (LaTeX2e unofficial reference manual (November 2018))</title>
+
+<meta name="description" content="Spacing in math mode (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="keywords" content="Spacing in math mode (LaTeX2e unofficial reference manual (November 2018))">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<link href="index.html#Top" rel="start" title="Top">
+<link href="IndexDocument.html#Index" rel="index" title="Index">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Math-formulas.html#Math-formulas" rel="up" title="Math formulas">
+<link href="_005csmash.html#g_t_005csmash" rel="next" title="\smash">
+<link href="Over_002d-and-Underlining.html#Over_002d-and-Underlining" rel="prev" title="Over- and Underlining">
+<style type="text/css">
+<!--
+/* $Id: latex2e.css 690 2018-09-15 15:20:19Z jimhefferon $
+   Minor css for latexrefman. Public domain.
+   Originally written by Jim Hefferon and Karl Berry, 2018. */
+
+/* So you can style for yourself */
+@import url("/css/latexreflocal.css");
+
+
+
+a.summary-letter {text-decoration: none}
+blockquote.indentedblock {margin-right: 0em}
+blockquote.smallindentedblock {margin-right: 0em; font-size: smaller}
+blockquote.smallquotation {font-size: smaller}
+div.display {margin-left: 3.2em}
+div.example {margin-left: 3.2em}
+div.lisp {margin-left: 3.2em}
+div.smalldisplay {margin-left: 3.2em}
+div.smallexample {margin-left: 3.2em}
+div.smalllisp {margin-left: 3.2em}
+kbd {font-style: oblique}
+pre.display {font-family: inherit}
+pre.format {font-family: inherit}
+pre.menu-comment {font-family: serif}
+pre.menu-preformatted {font-family: serif}
+pre.smalldisplay {font-family: inherit; font-size: smaller}
+pre.smallexample {font-size: smaller}
+pre.smallformat {font-family: inherit; font-size: smaller}
+pre.smalllisp {font-size: smaller}
+span.nolinebreak {white-space: nowrap}
+span.roman {font-family: initial; font-weight: normal}
+span.sansserif {font-family: sans-serif; font-weight: normal}
+ul.no-bullet {list-style: none}
+BODY {
+  margin-top: 1em;
+  margin-left: 1em; /* auto results in two-digit <ol> lost off left */
+  margin-right: 1em;
+  margin-bottom: 1em;
+  /* the idea is to use the whole window, unless it is ridiculously
+     wide, probably with too-small fonts, too.  */
+  max-width: 64em;
+}
+
+/* Because we want @math{... @code ...} to be upright, not slanted,
+   and Texinfo won't fix it. */
+code {font-style:normal; font-family:monospace; }
+
+/* We put a link to our own home page at the bottom. */
+div.referenceinfo {font-size:small;}
+
+-->
+</style>
+
+
+</head>
+
+<body lang="en">
+<a name="Spacing-in-math-mode"></a>
+<div class="header">
+<p>
+Next: <a href="Math-miscellany.html#Math-miscellany" accesskey="n" rel="next">Math miscellany</a>, Previous: <a href="Over_002d-and-Underlining.html#Over_002d-and-Underlining" accesskey="p" rel="prev">Over- and Underlining</a>, Up: <a href="Math-formulas.html#Math-formulas" accesskey="u" rel="up">Math formulas</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="IndexDocument.html#Index" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<a name="Spacing-in-math-mode-1"></a>
+<h3 class="section">16.6 Spacing in math mode</h3>
+
+<a name="index-spacing-within-math-mode"></a>
+<a name="index-math-mode_002c-spacing"></a>
+
+<p>When typesetting mathematics, LaTeX puts in spacing according to the
+normal rules for mathematics texts.  If you enter <code>y=m x</code> then
+LaTeX ignores the space and in the output the m is next to the x,
+as <em>y=mx</em>.
+</p>
+<p>But LaTeX&rsquo;s rules sometimes need tweaking.  For example, in an
+integral the tradition is to put a small extra space between the
+<code>f(x)</code> and the <code>dx</code>, here done with the <code>\,</code> command.
+</p>
+<div class="example">
+<pre class="example">\int_0^1 f(x)\,dx
+</pre></div>
+
+<p>LaTeX provides the commands that follow for use in math mode.  Many
+of these spacing definitions are expressed in terms of the math unit
+<em>mu</em>.  It is defined as 1/18em, where the em is taken from the
+current math symbols family (see <a href="Units-of-length.html#Units-of-length">Units of length</a>).  Thus, a
+<code>\thickspace</code> is something like 5/18 times the width of
+a&nbsp;&lsquo;<samp>M</samp>&rsquo;.
+</p>
+<dl compact="compact">
+<dt><code>\;</code></dt>
+<dd><a name="index-_005c_003b"></a>
+<a name="index-_005cthickspace"></a>
+<a name="spacing-in-math-mode-thickspace"></a><p>Synonym: <code>\thickspace</code>.  Normally <code>5.0mu plus 5.0mu</code>.  Math
+mode only.
+</p>
+</dd>
+<dt><code>\:</code></dt>
+<dt><code>\&gt;</code></dt>
+<dd><a name="index-_005c_003a"></a>
+<a name="index-_005c_003e-1"></a>
+<a name="index-_005cmedspace"></a>
+<a name="spacing-in-math-mode-medspace"></a><p>Synonym: <code>\medspace</code>.  Normally <code>4.0mu plus 2.0mu minus 4.0mu</code>.
+Math mode only.
+</p>
+</dd>
+<dt><code>\,</code></dt>
+<dd><a name="index-_005c_002c"></a>
+<a name="index-_005cthinspace"></a>
+<a name="index-thin-space"></a>
+<a name="Spacing-in-math-mode_002f_005cthinspace"></a><a name="spacing-in-math-mode-thinspace"></a><p>Synonym: <code>\thinspace</code>.  Normally <code>3mu</code>, which is 1/6em.
+Can be used in both math mode and text mode (see <a href="_005cthinspace-_0026-_005cnegthinspace.html#g_t_005cthinspace-_0026-_005cnegthinspace">\thinspace &amp; \negthinspace</a>).
+</p>
+<p>This space is widely used, for instance between the function and the
+infinitesimal in an integral <code>\int f(x)\,dx</code> and, if an author does
+this, before punctuation in a displayed equation.
+</p>
+<div class="example">
+<pre class="example">The antiderivative is
+\begin{equation}
+  3x^{-1/2}+3^{1/2}\,.
+\end{equation}
+</pre></div>
+
+</dd>
+<dt><code>\!</code></dt>
+<dd><a name="index-_005c_0021"></a>
+<a name="index-_005cnegthinspace"></a>
+<a name="index-thin-space_002c-negative"></a>
+<a name="spacing-in-math-mode-negthinspace"></a><p>A negative thin space. Normally <code>-3mu</code>.  The <code>\!</code> command is
+math mode only but the <code>\negthinspace</code> command is available for
+text mode (see <a href="_005cthinspace-_0026-_005cnegthinspace.html#g_t_005cthinspace-_0026-_005cnegthinspace">\thinspace &amp; \negthinspace</a>).
+</p>
+</dd>
+<dt><code>\quad</code></dt>
+<dd><a name="index-quad"></a>
+<a name="index-_005cquad"></a>
+<a name="spacing-in-math-mode-quad"></a><p>This is 18mu, that is, 1em. This is often used for space
+surrounding equations or expressions, for instance for the space between
+two equations inside a <code>displaymath</code> environment.  It is available
+in both text and math mode.
+</p>
+</dd>
+<dt><code>\qquad</code></dt>
+<dd><a name="index-_005cqquad"></a>
+<a name="spacing-in-math-mode-qquad"></a><p>A length of 2 quads, that is, 36mu = 2em.  It is available in
+both text and math mode.
+</p></dd>
+</dl>
+
+<table class="menu" border="0" cellspacing="0">
+<tr><td align="left" valign="top">&bull; <a href="_005csmash.html#g_t_005csmash" accesskey="1">\smash</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Eliminate height or depth of a subformula.
+</td></tr>
+<tr><td align="left" valign="top">&bull; <a href="_005cphantom-_0026-_005cvphantom-_0026-_005chphantom.html#g_t_005cphantom-_0026-_005cvphantom-_0026-_005chphantom" accesskey="2">\phantom &amp; \vphantom &amp; \hphantom</a>:</td><td>&nbsp;&nbsp;</td><td align="left" valign="top">Make empty box with the same size as the argument.
+</td></tr>
+</table>
+
+
+
+
+<hr/><div class='referenceinfo'> <a href='https://latexref.xyz/'> <i>Unofficial LaTeX2e reference manual</i></a></div>
+</body>
+</html>

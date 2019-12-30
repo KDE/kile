@@ -137,12 +137,7 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
 
     (void) new KileAction::Tag(i18n("Underline - \\underline{}"), i18n("Underline"), "format-text-underline", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_underline", "\\underline{","}",11);
 
-    QAction *action = actionCollection->addAction("tag_newline", ki->editorExtension(), SLOT(insertIntelligentNewline()));
-    action->setText(i18n("Smart New Line"));
-    actionCollection->setDefaultShortcut(action, QKeySequence(Qt::CTRL + Qt::Key_Return));
-    action->setIcon(QIcon::fromTheme("smartnewline"));
-
-    action = actionCollection->addAction("tag_tabulator", ki->editorExtension(), SLOT(insertIntelligentTabulator()));
+    QAction *action = actionCollection->addAction("tag_tabulator", ki->editorExtension(), SLOT(insertIntelligentTabulator()));
     action->setText(i18n("Smart Tabulator"));
     actionCollection->setDefaultShortcut(action, QKeySequence(Qt::ALT + Qt::Key_Ampersand));
 

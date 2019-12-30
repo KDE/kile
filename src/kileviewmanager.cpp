@@ -432,6 +432,16 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
             m_ki->docManager()->fileSaveAs();
         });
     }
+
+    // use Kile's smart-new-line feature
+    action = view->actionCollection()->action("smart_newline");
+    if(action) {
+        disconnect(action, &QAction::triggered, 0, 0);
+        connect(action, &QAction::triggered, [=]() {
+            m_ki->editorExtension()->insertIntelligentNewline();
+        });
+    }
+
     updateTabTexts(doc);
     // we do this twice as otherwise the tool tip for the first view did not appear (Qt issue ?)
     // (BUG 205245)

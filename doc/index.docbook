@@ -3957,24 +3957,21 @@
 		can be expanded by a great variety of additional packages.
 		&kile; provides numerous different ways to aid the user.</para>
 
+		<para>
+			The <menuchoice><guimenu>Help</guimenu> <guisubmenu>LaTeX Documentation</guisubmenu></menuchoice> submenu includes links on documentation for all the included packages and an additional &latex;
+		reference.
+		</para>
+
 		<variablelist>
 
 		<varlistentry>
-		<term><guimenu>LaTeX Reference</guimenu></term>
-		<listitem><para>An alphabetical index of the most
-		common &latex; commands.</para></listitem>
-		</varlistentry>
-
-		<varlistentry>
-		<term><guimenu>TeX Documentation</guimenu></term>
-		<listitem><para>&tetex;/&texlive; ships with a huge number of help documents.
-		This includes documentation for all the included packages and an additional &latex;
-		reference.</para></listitem>
+		<term><guimenu>Documentation Browser</guimenu></term>
+		<listitem><para>A handy tool to browse all &latex; topics. Please install &latex; help packages for your distribution if you need the full-fledged documentation compendium.</para></listitem>
 		</varlistentry>
 
 		<varlistentry>
 		<term><guimenu>LaTeX</guimenu></term>
-		<listitem><para>A full reference for &tex; and friends. This is not
+		<listitem><para>A full unofficial reference for &tex; and friends. This is not
 		only a description of all programs, but some important packages are also
 		mentioned. It also includes a full reference manual of &latex;
 		commands&mdash;ideal for looking up a particular piece of formatting
@@ -3983,19 +3980,13 @@
 		</varlistentry>
 
 		<varlistentry>
-		<term><guimenu>LaTeX Command</guimenu></term>
+		<term><guimenu>LaTeX Commands</guimenu></term>
 		<listitem><para>Another alphabetical index of the most common
 		&latex; commands.</para></listitem>
 		</varlistentry>
 
 		<varlistentry>
-		<term><guimenu>LaTeX Subject</guimenu></term>
-		<listitem><para>A description of important &latex;
-		subjects.</para></listitem>
-		</varlistentry>
-
-		<varlistentry>
-		<term><guimenu>LaTeX Env</guimenu></term>
+		<term><guimenu>LaTeX Environments</guimenu></term>
 		<listitem><para>An alphabetical index of the most common
 		&latex; environments.</para></listitem>
 		</varlistentry>

@@ -105,17 +105,40 @@ void LatexCommands::resetCommands()
 
     QStringList cmdlist;
     cmdlist
-    // Labels
+            // Labels
             << "\\label,+,L,,,{ }"
             // References
             << "\\ref,+,R,,,{ }"
             << "\\pageref,+,R,,,{ }"
+            // Support for \eqref from amsmath package (https://ctan.org/pkg/amsmath)
+            << "\\eqref,+,R,,,{ }"
+            // Support for varioref package (https://ctan.org/pkg/varioref)
             << "\\vref,+,R,,,{ }"
             << "\\vpageref,+,R,,[ ],{ }"
+            // Support for fancyref package (https://ctan.org/pkg/fancyref)
             << "\\fref,+,R,,,{ }"
             << "\\Fref,+,R,,,{ }"
-            << "\\eqref,+,R,,,{ }"
+            // Support for \autoref from hyperref package (https://ctan.org/pkg/hyperref)
             << "\\autoref,+,R,,,{ }"
+            // Support for cleveref package (https://ctan.org/pkg/cleveref)
+            //TODO: Support completion of second parameter, e.g., for \crefrange
+            //FIXME: Does not complete references in starred version
+            << "\\cref,+,R,*,,{ }"
+            << "\\Cref,+,R,*,,{ }"
+            << "\\crefrange,+,R,*,,{ }"
+            << "\\Crefrange,+,R,*,,{ }"
+            << "\\cpageref,+,R,,,{ }" 
+            << "\\Cpageref,+,R,,,{ }"
+            << "\\cpagerefrange,+,R,,,{ }"
+            << "\\Cpagerefrange,+,R,,,{ }"
+            << "\\namecref,+,R,,,{ }"
+            << "\\nameCref,+,R,,,{ }"
+            << "\\lcnamecref,+,R,,,{ }"
+            << "\\namecrefs,+,R,,,{ }"
+            << "\\nameCrefs,+,R,,,{ }"
+            << "\\lcnamecrefs,+,R,,,{ }"
+            << "\\labelcref,+,R,,,{ }"
+            << "\\labelcpageref,+,R,,,{ }"            
             // Bibliographies
             << "\\bibliography,+,B,,,{ }"
             << "\\addbibresource,+,B,*,[ ],{ }"

@@ -34,20 +34,19 @@ ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int ty
     okButton->setShortcut(Qt::CTRL | Qt::Key_Return);
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
-    //PORTING SCRIPT: WARNING mainLayout->addWidget(buttonBox) must be last item in layout. Please move it.
-    mainLayout->addWidget(buttonBox);
     okButton->setDefault(true);
 
     QWidget *page = new QWidget(this);
     mainLayout->addWidget(page);
     m_scriptShortcutDialog.setupUi(page);
+    mainLayout->addWidget(buttonBox);
 
     m_scriptShortcutDialog.m_rbKeySequence->setWhatsThis(i18n("Use a key sequence written in the editor to execute a script."));
     m_scriptShortcutDialog.m_rbShortcut->setWhatsThis(i18n("Use a shortcut to execute a script."));
 
-    if ( type == KileScript::Script::KEY_SHORTCUT ) {
+    if(type == KileScript::Script::KEY_SHORTCUT) {
         m_scriptShortcutDialog.m_rbShortcut->setChecked(true);
-        if ( sequence.isEmpty() ) {
+        if(sequence.isEmpty()) {
             m_scriptShortcutDialog.m_keyChooser->clearKeySequence();
         }
         else {
@@ -74,12 +73,12 @@ ScriptShortcutDialog::ScriptShortcutDialog(QWidget *parent, KileInfo *ki, int ty
 
 int ScriptShortcutDialog::sequenceType()
 {
-    return ( m_scriptShortcutDialog.m_rbShortcut->isChecked() ) ?  KileScript::Script::KEY_SHORTCUT : KileScript::Script::KEY_SEQUENCE;
+    return (m_scriptShortcutDialog.m_rbShortcut->isChecked()) ?  KileScript::Script::KEY_SHORTCUT : KileScript::Script::KEY_SEQUENCE;
 }
 
 QString ScriptShortcutDialog::sequenceValue()
 {
-    return ( m_scriptShortcutDialog.m_rbShortcut->isChecked() )
+    return m_scriptShortcutDialog.m_rbShortcut->isChecked()
            ? m_scriptShortcutDialog.m_keyChooser->keySequence().toString(QKeySequence::PortableText)
            : m_scriptShortcutDialog.m_leKeySequence->text();
 }
@@ -92,7 +91,7 @@ void ScriptShortcutDialog::slotUpdate()
     m_scriptShortcutDialog.m_lbShortcut->setEnabled(!state);
     m_scriptShortcutDialog.m_keyChooser->setEnabled(!state);
 
-    if ( state ) {
+    if(state) {
         m_scriptShortcutDialog.m_leKeySequence->setFocus();
     }
     else {

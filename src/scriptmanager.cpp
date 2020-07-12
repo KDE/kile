@@ -76,9 +76,10 @@ Manager::~Manager()
     delete m_kileScriptObject;
 
     //still need to delete the scripts
-    for(QList<Script*>::iterator it = m_jScriptList.begin(); it != m_jScriptList.end(); ++it) {
-        delete *it;
+    for(Script *script : qAsConst(m_jScriptList)) {
+        delete script;
     }
+    m_jScriptList.clear();
 }
 
 void Manager::executeScript(const Script *script)
@@ -203,7 +204,8 @@ void Manager::deleteScripts()
     for(QList<Script*>::iterator it = scriptList.begin(); it != scriptList.end(); ++it) {
         QAction *action = (*it)->getActionObject();
         if(action) {
-            foreach(QWidget *w, action->associatedWidgets()) {
+            const QList<QWidget*> widgets = action->associatedWidgets();
+            for(QWidget *w : widgets) {
                 w->removeAction(action);
             }
             m_actionCollection->takeAction(action);
@@ -242,11 +244,11 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
     int sequenceType = 0;
     QString editorKeySequence = QString();
     QString seq = configGroup.readEntry("Script" + QString::number(id) + "KeySequence");
-    if ( !seq.isEmpty() ) {
+    if(!seq.isEmpty()) {
         QRegExp re("(\\d+)-(.*)");
-        if ( re.exactMatch(seq) )  {
+        if(re.exactMatch(seq))  {
             sequenceType = re.cap(1).toInt();
-            if ( sequenceType<Script::KEY_SEQUENCE || sequenceType>Script::KEY_SHORTCUT ) {
+            if(sequenceType<Script::KEY_SEQUENCE || sequenceType>Script::KEY_SHORTCUT) {
                 sequenceType = Script::KEY_SEQUENCE;
             }
             editorKeySequence = re.cap(2);
@@ -265,7 +267,7 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
     if(!editorKeySequence.isEmpty()) {
         script->setSequenceType(sequenceType);
         script->setKeySequence(editorKeySequence);
-        if ( sequenceType == Script::KEY_SEQUENCE )  {
+        if(sequenceType == Script::KEY_SEQUENCE) {
             m_kileInfo->editorKeySequenceManager()->addAction(editorKeySequence, new KileEditorKeySequence::ExecuteScriptAction(script, this));
         }
         else {
@@ -289,10 +291,10 @@ void Manager::writeConfig()
 
     // write the key sequences
     KConfigGroup configGroup = m_config->group("Scripts");
-    for(QList<Script*>::iterator i = m_jScriptList.begin(); i != m_jScriptList.end(); ++i) {
-        QString seq = (*i)->getKeySequence();
-        QString sequenceEntry = ( seq.isEmpty() ) ? seq : QString("%1-%2").arg(QString::number((*i)->getSequenceType())).arg(seq);
-        configGroup.writeEntry("Script" + QString::number((*i)->getID()) + "KeySequence", sequenceEntry);
+    for(const Script *script : qAsConst(m_jScriptList)) {
+        QString seq = script->getKeySequence();
+        QString sequenceEntry = (seq.isEmpty()) ? seq : QString("%1-%2").arg(QString::number(script->getSequenceType())).arg(seq);
+        configGroup.writeEntry("Script" + QString::number(script->getID()) + "KeySequence", sequenceEntry);
     }
 }
 
@@ -304,11 +306,11 @@ void Manager::setEditorKeySequence(Script* script, int type, const QString& keyS
     if(script) {
         int oldType = script->getSequenceType();
         QString oldSequence = script->getKeySequence();
-        if( oldType==type && oldSequence==keySequence) {
+        if(oldType==type && oldSequence==keySequence) {
             return;
         }
 
-        if ( oldType == KileScript::Script::KEY_SEQUENCE ) {
+        if (oldType == KileScript::Script::KEY_SEQUENCE) {
             m_kileInfo->editorKeySequenceManager()->removeKeySequence(oldSequence);
         }
         else {
@@ -316,7 +318,7 @@ void Manager::setEditorKeySequence(Script* script, int type, const QString& keyS
         }
         script->setSequenceType(type);
         script->setKeySequence(keySequence);
-        if ( type == KileScript::Script::KEY_SEQUENCE ) {
+        if(type == KileScript::Script::KEY_SEQUENCE) {
             m_kileInfo->editorKeySequenceManager()->addAction(keySequence, new KileEditorKeySequence::ExecuteScriptAction(script, this));
         }
         else {
@@ -337,7 +339,7 @@ void Manager::removeEditorKeySequence(Script* script)
         script->setKeySequence(QString());
 
         int sequenceType = script->getSequenceType();
-        if ( sequenceType == Script::KEY_SEQUENCE ) {
+        if(sequenceType == Script::KEY_SEQUENCE) {
             m_kileInfo->editorKeySequenceManager()->removeKeySequence(keySequence);
         }
         else {
@@ -350,11 +352,11 @@ void Manager::removeEditorKeySequence(Script* script)
 
 void Manager::populateDirWatch()
 {
-    QStringList jScriptDirectories = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
-    for(QStringList::iterator i = jScriptDirectories.begin(); i != jScriptDirectories.end(); ++i) {
+    const QStringList jScriptDirectories = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
+    for(const QString& dir : jScriptDirectories) {
         // FIXME: future KDE versions could support the recursive
         //        watching of directories out of the box.
-        addDirectoryToDirWatch(*i);
+        addDirectoryToDirWatch(dir);
     }
     //we do not remove the directories that were once added as this apparently causes some strange
     //bugs (on KDE 3.5.x)
@@ -389,8 +391,8 @@ void Manager::writeIDs()
     KConfigGroup configGroup = m_config->group("Scripts");
     //delete old entries
     QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
-    for(QList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
-        configGroup.deleteEntry("Script" + QString::number(*i));
+    for(const int i : qAsConst(idList)) {
+        configGroup.deleteEntry("Script" + QString::number(i));
     }
     //write new ones
     idList.clear();
@@ -411,9 +413,8 @@ void Manager::addDirectoryToDirWatch(const QString& dir)
         m_jScriptDirWatch->addDir(dir,  KDirWatch::WatchDirOnly);
     }
     QDir qDir(dir);
-    QStringList list = qDir.entryList(QDir::Dirs);
-    for(QStringList::iterator i = list.begin(); i != list.end(); ++i) {
-        QString subdir = *i;
+    const QStringList list = qDir.entryList(QDir::Dirs);
+    for(const QString& subdir : list) {
         if(subdir != "." && subdir != "..") {
             addDirectoryToDirWatch(qDir.filePath(subdir));
         }
@@ -445,13 +446,15 @@ void Manager::initScriptActions()
                                      ;
 
 
-    foreach ( KXMLGUIClient *client, m_kileInfo->mainWindow()->guiFactory()->clients() ) {
-        KILE_DEBUG_MAIN << "collection count: " << client->actionCollection()->count() ;
+    const QList<KXMLGUIClient*> clients = m_kileInfo->mainWindow()->guiFactory()->clients();
+    for(KXMLGUIClient *client : clients) {
+        KILE_DEBUG_MAIN << "collection count: " << client->actionCollection()->count();
 
-        foreach ( QAction *action, client->actionCollection()->actions() ) {
+        const QList<QAction*> actions = client->actionCollection()->actions();
+        for(QAction *action : actions) {
             QString objectname = action->objectName();
-            if ( m_scriptActionList.indexOf(objectname) >= 0  ) {
-                m_scriptActionMap->insert(objectname,action);
+            if(m_scriptActionList.indexOf(objectname) >= 0) {
+                m_scriptActionMap->insert(objectname, action);
             }
         }
     }

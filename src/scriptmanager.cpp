@@ -158,13 +158,26 @@ void Manager::scanScriptDirectories()
         }
     }
 
-    // scan *.js files
+    // scan for *.js files
     QSet<QString> scriptFileNamesSet;
-    const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
-    for(const QString &dir : dirs) {
-        QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
-        while (it.hasNext()) {
-            scriptFileNamesSet.insert(it.next());
+    {
+        QSet<QString> canonicalScriptFileNamesSet;
+        const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
+        for(const QString &dir : dirs) {
+            QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
+            while(it.hasNext()) {
+                const QString fileName = QDir::cleanPath(it.next());
+                const QString canonicalFilePath = QFileInfo(fileName).canonicalFilePath();
+
+                // filter out file paths that point to the same file (via symbolic links, for example)
+                // but later on we work with the original file path, possibly containing symbolic links
+                if(canonicalFilePath.isEmpty() || canonicalScriptFileNamesSet.contains(canonicalFilePath)) {
+                    continue;
+                }
+                canonicalScriptFileNamesSet.insert(canonicalFilePath);
+
+                scriptFileNamesSet.insert(fileName);
+            }
         }
     }
 

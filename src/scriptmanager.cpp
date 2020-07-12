@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2006-2020 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -140,14 +140,18 @@ void Manager::scanScriptDirectories()
     populateDirWatch();
 
     KConfigGroup configGroup = m_config->group("Scripts");
-    QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
+    const QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
     unsigned int maxID = 0;
     QMap<QString, unsigned int> pathIDMap;
     QMap<unsigned int, bool> takenIDMap;
-    for(QList<unsigned int>::iterator i = idList.begin(); i != idList.end(); ++i) {
-        QString fileName = configGroup.readPathEntry("Script" + QString::number(*i), QString());
+    for(const unsigned int i : idList) {
+        // as of 12.07.2020, KConfigGroup::readPathEntry messes up the path if $HOME ends in /
+        // for example, if HOME=/home/michel/, KConfigGroup::readPathEntry will return /home/michel//.local/share/kile/scripts/test.js,
+        // resulting in the path /home/michel/.local/share/kile/scripts/test.js not being found;
+        // we have used QDir:cleanPath to work around this
+        QString fileName = QDir::cleanPath(configGroup.readPathEntry("Script" + QString::number(i), QString()));
         if(!fileName.isEmpty()) {
-            unsigned int id = *i;
+            unsigned int id = i;
             pathIDMap[fileName] = id;
             takenIDMap[id] = true;
             maxID = qMax(maxID, id);
@@ -157,14 +161,14 @@ void Manager::scanScriptDirectories()
     // scan *.js files
     QSet<QString> scriptFileNamesSet;
     const QStringList dirs = KileUtilities::locateAll(QStandardPaths::AppDataLocation, "scripts/", QStandardPaths::LocateDirectory);
-    Q_FOREACH (const QString &dir, dirs) {
+    for(const QString &dir : dirs) {
         QDirIterator it(dir, QStringList() << QStringLiteral("*.js"), QDir::Files | QDir::Readable, QDirIterator::Subdirectories);
         while (it.hasNext()) {
             scriptFileNamesSet.insert(it.next());
         }
     }
 
-    Q_FOREACH(const QString &scriptFileName, scriptFileNamesSet) {
+    for(const QString &scriptFileName : qAsConst(scriptFileNamesSet)) {
         registerScript(scriptFileName, pathIDMap, takenIDMap, maxID);
     }
     //rewrite the IDs that are currently in use

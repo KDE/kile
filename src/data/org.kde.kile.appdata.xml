@@ -60,8 +60,8 @@
     <p>
       Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.
     </p>
-    <p xml:lang="ca">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per veure immediatament els resultats de l'edició.</p>
-    <p xml:lang="ca-valencia">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per veure immediatament els resultats de l'edició.</p>
+    <p xml:lang="ca">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
+    <p xml:lang="ca-valencia">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
     <p xml:lang="en-GB">Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.</p>
     <p xml:lang="es">Kile es un editor de TeX/LaTeX amigable creado por KDE. Kile le permite usar toda la funcionalidad de LaTeX mediante una interfaz gráfica y posee mecanismos interactivos de vista previa para comprobar rápidamente el resultado de la edición.</p>
     <p xml:lang="et">Kile on KDE kasutajasõbralik TeX/LaTeXi redaktor. See võimaldab kasutada kõiki LaTeXi võimalusi graafilises liideses ning pakub interaktiivseid viise kiiresti näha oma redigeerimise tulemusi.</p>
@@ -233,8 +233,8 @@
       <li xml:lang="zh-CN">反向和正向搜索：点击 DVI 查看器并在编辑器中跳到相应的 LaTex 行，或者从编辑器中跳到查看器中对应的页面</li>
       <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
           jump to the corresponding section</li>
-      <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per saltar a la secció corresponent</li>
-      <li xml:lang="ca-valencia">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per saltar a la secció corresponent</li>
+      <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
+      <li xml:lang="ca-valencia">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
       <li xml:lang="en-GB">Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding section</li>
       <li xml:lang="es">Encontrar capítulos y secciones es muy fácil: Kile construye una lista de todos los capítulos, etc. del documento. Puede usar dicha lista para ir a la sección correspondiente.</li>
       <li xml:lang="et">Peatükkide või sektsioonide leidmine on ülimalt lihtne: Kile loob sinu dokumendi kõigi peatükkide, sektsioonide jne nimekirja. Selle abil saab kohe hüpata vajalikku kohta</li>
@@ -305,8 +305,8 @@
       <li xml:lang="zh-CN">使用项目时可以轻松插入引文和引用</li>
       <li>Flexible and smart build system to compile your LaTeX documents</li>
       <li xml:lang="ar">نظام بناء مرن ذكيّ لتصريف مستندات لاتخ</li>
-      <li xml:lang="ca">Sistema de construcció flexible i intel·ligent per compilar els documents LaTeX</li>
-      <li xml:lang="ca-valencia">Sistema de construcció flexible i intel·ligent per compilar els documents LaTeX</li>
+      <li xml:lang="ca">Sistema de construcció flexible i intel·ligent per a compilar els documents LaTeX</li>
+      <li xml:lang="ca-valencia">Sistema de construcció flexible i intel·ligent per a compilar els documents LaTeX</li>
       <li xml:lang="de">Flexibles und intelligentes Build-System, um Ihre LaTeX-Dokumente zu kompilieren</li>
       <li xml:lang="en-GB">Flexible and smart build system to compile your LaTeX documents</li>
       <li xml:lang="es">Sistema de construcción flexible e inteligente para compilar documentos LaTeX</li>

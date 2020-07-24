@@ -15,6 +15,7 @@
   <name xml:lang="fi">Kile</name>
   <name xml:lang="fr">Kile</name>
   <name xml:lang="gl">Kile</name>
+  <name xml:lang="ia">Kile</name>
   <name xml:lang="id">Kile</name>
   <name xml:lang="it">Kile</name>
   <name xml:lang="ko">Kile</name>
@@ -92,6 +93,7 @@
     <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
+    <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Caratteristiche:</p>
     <p xml:lang="ko">기능:</p>

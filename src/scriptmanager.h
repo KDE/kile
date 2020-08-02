@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2006-2020 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -79,6 +79,14 @@ public:
      * @param keySequence the key sequence that is assigned
      **/
     void setEditorKeySequence(Script* script, int type, const QString& keySequence);
+
+    /**
+     * Assigns a shortcut to a script. If the parameter "keySequence" is empty,
+     * then nothing is done.
+     * @param script the script that is considered
+     * @param keySequence the shortcut that is assigned
+     **/
+    void setShortcut(Script* script, const QKeySequence& keySequence);
 
     /**
      * Removes an assigned key sequence from a script.

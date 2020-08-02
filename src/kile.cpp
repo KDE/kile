@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2020 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -94,6 +94,7 @@
 #include "symbolviewclasses.h"
 #include "livepreview.h"
 #include "parser/parsermanager.h"
+#include "scripting/script.h"
 
 #include "dialogs/usermenu/usermenudialog.h"
 #include "usermenu/usermenudata.h"
@@ -2753,13 +2754,27 @@ void Kile::configureKeys()
     if(part) {
         dlg.addCollection(part->actionCollection());
     }
+    connect(&dlg, &KShortcutsDialog::saved, this, [this]() {
+        // tell all the documents and views to update their action shortcuts (bug 247646)
+        docManager()->reloadXMLOnAllDocumentsAndViews();
+
+        // tell m_userMenu that key bindings may have been changed
+        m_userMenu->updateKeyBindings();
+
+        // transfer the shortcuts to the scripts
+        const QList<KileScript::Script*> scripts = scriptManager()->getScripts();
+        for(KileScript::Script *script : scripts) {
+            QAction *action = script->getActionObject();
+
+            if(action && !action->shortcut().isEmpty()) {
+                scriptManager()->setShortcut(script, action->shortcut());
+            }
+        }
+
+        scriptManager()->writeConfig();
+        m_scriptsManagementWidget->update();
+    });
     dlg.configure();
-
-    // tell all the documents and views to update their action shortcuts (bug 247646)
-    docManager()->reloadXMLOnAllDocumentsAndViews();
-
-    // tell m_userMenu that key bindings may have been changed
-    m_userMenu->updateKeyBindings();
 }
 
 void Kile::configureToolbars()

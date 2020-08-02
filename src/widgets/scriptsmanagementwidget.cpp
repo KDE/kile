@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006-2014 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*   Copyright (C) 2006-2020 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -199,37 +199,39 @@ void ScriptsManagement::configureSelectedKeySequence() {
     delete dialog;
 
     // cancelled or nothing to do?
-    if ( result==QDialog::Rejected || (newType==oldType && newSequence==oldSequence) ) {
+    if(result == QDialog::Rejected || (newType == oldType && newSequence==oldSequence)) {
         return;
     }
 
-    if ( newSequence.isEmpty() ) {
+    if(newSequence.isEmpty()) {
         m_kileInfo->scriptManager()->removeEditorKeySequence(script);
     }
     else {
-        if ( newType == KileScript::Script::KEY_SEQUENCE ) {
+        if(newType == KileScript::Script::KEY_SEQUENCE) {
             QPair<int, QString> pair = m_kileInfo->editorKeySequenceManager()->checkSequence(newSequence, oldSequence);
             if(pair.first == 0) {
                 m_kileInfo->scriptManager()->setEditorKeySequence(script, newType, newSequence);
+                m_kileInfo->scriptManager()->writeConfig();
             }
-            KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
-            QString description = (!action) ? QString() : action->getDescription();
-            switch(pair.first) {
-            case 1:
-                KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is already assigned to the action \"%2\"", newSequence, description),
-                                                             i18n("Sequence Already Assigned"));
-                return;
-            case 2:
-                KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", newSequence, pair.second, description),
-                                                             i18n("Sequence Already Assigned"));
-                return;
-            case 3:
-                KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description),
-                                                             i18n("Sequence Already Assigned"));
-                return;
+            else {
+                KileEditorKeySequence::Action *action = m_kileInfo->editorKeySequenceManager()->getAction(pair.second);
+                QString description = (!action) ? QString() : action->getDescription();
+                switch(pair.first) {
+                case 1:
+                    KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is already assigned to the action \"%2\"", newSequence, description),
+                                                                i18n("Sequence Already Assigned"));
+                    return;
+                case 2:
+                    KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The sequence \"%1\" is a subsequence of \"%2\", which is already assigned to the action \"%3\"", newSequence, pair.second, description),
+                                                                i18n("Sequence Already Assigned"));
+                    return;
+                case 3:
+                    KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("The shorter sequence \"%1\" is already assigned to the action \"%2\"", pair.second, description),
+                                                                i18n("Sequence Already Assigned"));
+                    return;
+                }
             }
         }
-        m_kileInfo->scriptManager()->setEditorKeySequence(script, newType, newSequence);
     }
     QTimer::singleShot(0, this, SLOT(update()));
 }

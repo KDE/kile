@@ -263,6 +263,11 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
     // now set up a regular action object
     ScriptExecutionAction *action = new ScriptExecutionAction(id, this, m_actionCollection);
 
+    // add to action collection
+    m_actionCollection->addAction("script" + QString::number(id) + "_execution", action);
+    m_actionCollection->setDefaultShortcut(action, QString());
+    script->setActionObject(action);
+
     // action with shortcut?
     if(!editorKeySequence.isEmpty()) {
         script->setSequenceType(sequenceType);
@@ -274,10 +279,6 @@ void Manager::registerScript(const QString& fileName, QMap<QString, unsigned int
             action->setShortcut(editorKeySequence);
         }
     }
-
-    // add to action collection
-    m_actionCollection->addAction("script" + QString::number(id) + "_execution", action);
-    script->setActionObject(action);
 }
 
 void Manager::writeConfig()
@@ -306,15 +307,15 @@ void Manager::setEditorKeySequence(Script* script, int type, const QString& keyS
     if(script) {
         int oldType = script->getSequenceType();
         QString oldSequence = script->getKeySequence();
-        if(oldType==type && oldSequence==keySequence) {
+        if(oldType == type && oldSequence == keySequence) {
             return;
         }
 
-        if (oldType == KileScript::Script::KEY_SEQUENCE) {
+        if(oldType == KileScript::Script::KEY_SEQUENCE) {
             m_kileInfo->editorKeySequenceManager()->removeKeySequence(oldSequence);
         }
         else {
-            script->getActionObject()->setShortcut(QString());
+            script->getActionObject()->setShortcut(QKeySequence());
         }
         script->setSequenceType(type);
         script->setKeySequence(keySequence);
@@ -324,8 +325,22 @@ void Manager::setEditorKeySequence(Script* script, int type, const QString& keyS
         else {
             script->getActionObject()->setShortcut(keySequence);
         }
+    }
+}
 
-        writeConfig();
+void Manager::setShortcut(Script* script, const QKeySequence& keySequence)
+{
+    if(keySequence.isEmpty()) {
+        return;
+    }
+    if(script) {
+        if(script->getSequenceType() == KileScript::Script::KEY_SEQUENCE) {
+            m_kileInfo->editorKeySequenceManager()->removeKeySequence(script->getKeySequence());
+        }
+
+        script->setSequenceType(KileScript::Script::KEY_SHORTCUT);
+        script->setKeySequence(keySequence.toString(QKeySequence::PortableText));
+        script->getActionObject()->setShortcut(keySequence);
     }
 }
 

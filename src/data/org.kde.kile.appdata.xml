@@ -213,8 +213,8 @@
       <li xml:lang="zh-CN">便捷插入很多标准标签和符号，以及可以定义任意数量用户自定义标签</li>
       <li>Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor
           to the corresponding page in the viewer</li>
-      <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visualitzador del DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent del visualitzador</li>
-      <li xml:lang="ca-valencia">Cerca directa i inversa: cliqueu en el visualitzador del DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent del visualitzador</li>
+      <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
+      <li xml:lang="ca-valencia">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
       <li xml:lang="en-GB">Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewer</li>
       <li xml:lang="es">Búsqueda hacia atrás y hacia adelante: pulse en el visor DVI y vaya a la correspondiente línea de LaTeX en el editor, o vaya del editor a la página correspondiente del visor</li>
       <li xml:lang="et">Taasi-ja edasiotsin: klõps DVI näitajas viib vastavale LaTeXi reale redaktoris, redaktorist saab aga samamoodi hüpata vastavale leheküljele näitajas</li>

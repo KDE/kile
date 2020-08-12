@@ -23,7 +23,6 @@
 #include <QTreeWidget>
 
 #include <QMenu>
-#include <KMimeTypeTrader>
 #include <KService>
 
 #include "documentinfo.h"

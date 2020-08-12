@@ -19,7 +19,7 @@
 #include <KConfigGroup>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KMimeTypeTrader>
+#include <KApplicationTrader>
 #include <KProcess>
 #include <KRun>
 #include <KService>
@@ -295,7 +295,7 @@ void TexDocDialog::showFile(const QString &filename)
         QUrl url;
         url.setPath(filename);
 
-        KService::List offers = KMimeTypeTrader::self()->query(getMimeType(filename), "Application");
+        KService::List offers = KApplicationTrader::queryByMimeType(getMimeType(filename));
         if(offers.isEmpty()) {
             KMessageBox::error(this, i18n("No KDE service found for this file."));
             return;

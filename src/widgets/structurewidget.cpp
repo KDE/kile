@@ -67,6 +67,7 @@
 #include <QScrollBar>
 #include <QUrl>
 
+#include <KApplicationTrader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KRun>
@@ -787,7 +788,7 @@ void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEven
             url.setPath(m_popupInfo);
 
             QMimeDatabase db;
-            m_offerList = KMimeTypeTrader::self()->query(db.mimeTypeForUrl(url).name(), "Application");
+            m_offerList = KApplicationTrader::queryByMimeType(db.mimeTypeForUrl(url).name());
             for(int i = 0; i < m_offerList.count(); ++i) {
                 popup.addAction(QIcon::fromTheme(m_offerList[i]->icon()), m_offerList[i]->name(),
                                          this, [this, i] { slotPopupGraphics(i + SectioningGraphicsOfferlist); });

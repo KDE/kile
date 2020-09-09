@@ -121,7 +121,6 @@ install(FILES
 		README
 		README.cwl
 		kile-remote-control.txt
-		README.MacOSX
 	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/doc/kile)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

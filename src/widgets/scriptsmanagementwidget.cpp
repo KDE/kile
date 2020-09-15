@@ -66,7 +66,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
     baseLayout->setContentsMargins(0, 0, 0, 0);
     setLayout(baseLayout);
 
-    m_toolBar = new KToolBar(this, "scriptControlToolBar");
+    m_toolBar = new KToolBar("scriptControlToolBar", this);
     m_toolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     m_toolBar->setIconDimensions(KIconLoader::SizeSmall);
 

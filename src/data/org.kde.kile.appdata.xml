@@ -85,6 +85,7 @@
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
     <p xml:lang="uk">Kile — дружня до користувача програма для редагування коду TeX/LaTeX від KDE. Kile надає вам змогу скористатися усіма функціональними можливостями LaTeX за допомогою графічного інтерфейсу та має механізми інтерактивного попереднього перегляду для негайного отримання результатів редагування.</p>
     <p xml:lang="x-test">xxKile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.xx</p>
+    <p xml:lang="zh-CN">Kile 是 KDE 的 TeX/LaTeX 编辑器。 Kile 能够让您在图形界面中使用 LaTeX 的所有功能，并且拥有交互式预览机制以便随时查看编辑结果。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -451,6 +452,7 @@
       <caption xml:lang="sv">Dokumentredigering i Kile</caption>
       <caption xml:lang="uk">Редагування документа у Kile</caption>
       <caption xml:lang="x-test">xxDocument editing in Kilexx</caption>
+      <caption xml:lang="zh-CN">Kile 文档编辑</caption>
       <image>https://cdn.kde.org/screenshots/kile/kile.png</image>
     </screenshot>
   </screenshots>

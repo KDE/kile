@@ -2708,6 +2708,16 @@ bool EditorExtension::insertDoubleQuotes(KTextEditor::View *view)
         return true;
     }
 
+    // don't insert double quotes when in vimode
+    // but not in a "text insert" mode (e.g normal mode)
+    // return false so that the " can be handled normally
+    KTextEditor::View::ViewMode viewMode = view->viewMode();
+    if (view->viewInputMode() == KTextEditor::View::ViInputMode
+        && viewMode != KTextEditor::View::ViModeInsert
+        && viewMode != KTextEditor::View::ViModeReplace) {
+            return false;
+    }
+
     KTextEditor::Document *doc = view->document();
 
     if(!doc) {

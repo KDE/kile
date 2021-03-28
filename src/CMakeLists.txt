@@ -190,10 +190,7 @@ kconfig_add_kcfg_files(kile_SRCS ${kile_KCFG_SRCS})
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/kileconfig.h" PROPERTIES SKIP_AUTOMOC ON)   # otherwise we get a warning about
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/kileconfig.cpp" PROPERTIES SKIP_AUTOMOC ON) # the CMP0071 policy (with CMake 3.11)
 
-# add icon to executable on windows and mac;
-# workaround: as ecm_add_app_icon and kf5_add_kdeinit_executable don't work well together,
-# we use a variable named 'kile' at this point
-ecm_add_app_icon(kile
+ecm_add_app_icon(kile_SRCS
 	ICONS
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/16-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/22-apps-kile.png
@@ -202,12 +199,11 @@ ecm_add_app_icon(kile
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/128-apps-kile.png
 )
-set(kile_SRCS "${kile_SRCS};${kile}")
 
 # add the resource file containing the ui files
 qt5_add_resources(kile_SRCS kile.qrc)
 
-kf5_add_kdeinit_executable(kile ${kile_SRCS})
+add_executable(kile ${kile_SRCS})
 
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
     # extract the last copyright year from "kileversion.h"
@@ -230,7 +226,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
     endif()
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
-target_link_libraries(kdeinit_kile
+target_link_libraries(kile
 PUBLIC
     Qt5::Script
     KF5::CoreAddons
@@ -246,17 +242,16 @@ PUBLIC
 )
 # optional dependencies
 if(Poppler_Qt5_FOUND)
-	target_link_libraries(kdeinit_kile PUBLIC Poppler::Qt5)
+	target_link_libraries(kile PUBLIC Poppler::Qt5)
 endif()
 
 if(Okular5_FOUND)
   # We don't need to link to okular since it gets loaded dynamically at runtime.
   # All we need are the include directories which we can get with this generator expression:
-  target_include_directories(kdeinit_kile PRIVATE $<TARGET_PROPERTY:Okular::Core,INTERFACE_INCLUDE_DIRECTORIES>)
+  target_include_directories(kile PRIVATE $<TARGET_PROPERTY:Okular::Core,INTERFACE_INCLUDE_DIRECTORIES>)
 endif()
 
 install(TARGETS kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-install(TARGETS kdeinit_kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 

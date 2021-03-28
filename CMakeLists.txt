@@ -45,7 +45,6 @@ find_package(KF5 5.68 REQUIRED COMPONENTS
 	GuiAddons
 	I18n
 	IconThemes
-	Init
 	KIO
 	Parts
 	TextEditor

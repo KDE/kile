@@ -90,7 +90,7 @@ inline void initQtResources() {
     Q_INIT_RESOURCE(kile);
 }
 
-extern "C" Q_DECL_EXPORT int kdemain(int argc, char **argv)
+int main(int argc, char **argv)
 {
     // enable high dpi support
     QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);

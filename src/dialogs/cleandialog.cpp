@@ -58,7 +58,7 @@ Clean::Clean(QWidget *parent, const QString &filename, const QStringList &extlis
 
     // line 1: picture and label
     QLabel *picture =  new QLabel("", labelwidget);
-    picture->setPixmap(KIconLoader::global()->loadIcon("dialog-warning", KIconLoader::NoGroup, KIconLoader::SizeMedium));
+    picture->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(KIconLoader::SizeMedium));
     QLabel *label =  new QLabel(i18n("Do you really want to delete these files?"), labelwidget);
     labellayout->addWidget(picture);
     labellayout->addSpacing(20);

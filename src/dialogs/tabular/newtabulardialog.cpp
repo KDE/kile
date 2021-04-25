@@ -304,7 +304,8 @@ bool NewTabularDialog::checkForColumnAlignment(int column)
 QIcon NewTabularDialog::generateColorIcon(bool background) const
 {
     QString iconName = background ? "format-fill-color" : "format-stroke-color";
-    QPixmap pixmap = KIconLoader().loadIcon(iconName, KIconLoader::Toolbar);
+    const int iconSize = style()->pixelMetric(QStyle::PM_ToolBarIconSize);
+    QPixmap pixmap = QIcon::fromTheme(iconName).pixmap(iconSize);
 
     QPainter painter(&pixmap);
     QColor color = background ? m_clCurrentBackground : m_clCurrentForeground;

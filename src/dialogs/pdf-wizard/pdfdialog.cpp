@@ -115,7 +115,7 @@ PdfDialog::PdfDialog(QWidget *parent,
     // set an user button to execute the task and icon for help button
     m_rearrangeButton->setText(i18n("Re&arrange"));
     m_rearrangeButton->setIcon(QIcon::fromTheme("system-run"));
-    m_PdfDialog.m_lbParameterIcon->setPixmap(KIconLoader::global()->loadIcon("help-about", KIconLoader::NoGroup, KIconLoader::SizeSmallMedium));
+    m_PdfDialog.m_lbParameterIcon->setPixmap(QIcon::fromTheme("help-about").pixmap(KIconLoader::SizeSmallMedium));
 
     // init important variables
     m_numpages = 0;

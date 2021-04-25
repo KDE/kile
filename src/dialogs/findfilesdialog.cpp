@@ -62,7 +62,6 @@
 #include <KProcess>
 #include <KAcceleratorManager>
 #include <KComboBox>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KShell>

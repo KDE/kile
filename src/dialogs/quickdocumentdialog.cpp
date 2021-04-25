@@ -34,7 +34,6 @@ copyright            : Thomas Fischer <t-fisch@users.sourceforge.net>
 
 #include <KComboBox>
 #include <KConfig>
-#include <KIconLoader>
 #include <QLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>

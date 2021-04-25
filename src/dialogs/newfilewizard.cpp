@@ -24,7 +24,6 @@
 #include <QMap>
 
 #include <KConfig>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KConfigGroup>

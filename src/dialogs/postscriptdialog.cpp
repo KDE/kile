@@ -31,7 +31,6 @@
 #include <QStandardPaths>
 
 #include <KComboBox>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KProcess>

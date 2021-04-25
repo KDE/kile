@@ -69,7 +69,6 @@
 #include <QRegExp>
 
 #include <KConfig>
-#include <KIconLoader>
 #include <KJobWidgets>
 #include <KIO/StatJob>
 #include <KLocalizedString>

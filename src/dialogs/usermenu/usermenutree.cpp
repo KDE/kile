@@ -20,7 +20,6 @@
 #include <QDomDocument>
 #include <QProcessEnvironment>
 
-#include <KIconLoader>
 #include <QMenu>
 #include <KLocalizedString>
 #include <KMessageBox>

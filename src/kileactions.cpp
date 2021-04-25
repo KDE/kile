@@ -38,7 +38,6 @@
 #include <KComboBox>
 #include <KCompletion>
 #include <KLocalizedString>
-#include <KIconLoader>
 #include <KConfigGroup>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>

@@ -29,7 +29,6 @@
 #include <QTemporaryDir>
 
 #include <KActionCollection>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KTextEditor/Application>
 #include <KTextEditor/CodeCompletionInterface>

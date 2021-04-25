@@ -37,7 +37,6 @@
 #include <QFormLayout>
 
 #include <KComboBox>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KUrlCompletion>

@@ -17,7 +17,6 @@
 #include <QFileInfo>
 #include <QMenu>
 
-#include <KIconLoader>
 #include <KMessageBox>
 #include <QUrl>
 #include <KRun>

@@ -40,7 +40,6 @@
 #include <QVBoxLayout>
 
 #include <KConfigGroup>
-#include <KIconLoader>
 #include <KLocalizedString>
 #include <KMessageBox>
 

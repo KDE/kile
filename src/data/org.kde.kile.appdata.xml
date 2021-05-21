@@ -66,6 +66,7 @@
     </p>
     <p xml:lang="ca">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
     <p xml:lang="ca-valencia">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
+    <p xml:lang="de">Kile ist ein benutzerfreundlicher TeX/LaTeX-Editor von KDE. Kile gibt Ihnen die Möglichkeit, die gesamte Funktionalität von LaTeX in einer grafischen Oberfläche zu nutzen und verfügt über interaktive Vorschaumechanismen, um die Ergebnisse der Bearbeitung zu sehen.</p>
     <p xml:lang="el">Το Kile είναι ένας φιλικός προς στον χρήστη επεξεργαστής TeX/LaTeX από το KDE. Το Kile σάς δίνει τη δυνατότητα να χρησιμοποιήσετε όλη τη λειτουργικότητα του LaTeX σε ένα γραφικό περιβάλλον και περιέχει διαδραστικούς μηχανισμούς προεπισκόπησης για να βλέπετε άμεσα τα αποτελέσματα της επεξεργασίας.</p>
     <p xml:lang="en-GB">Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.</p>
     <p xml:lang="es">Kile es un editor de TeX/LaTeX amigable creado por KDE. Kile le permite usar toda la funcionalidad de LaTeX mediante una interfaz gráfica y posee mecanismos interactivos de vista previa para comprobar rápidamente el resultado de la edición.</p>
@@ -199,6 +200,7 @@
       <li xml:lang="ar">إدراج سهل للعديد من الوسوم والرّموز القياسيّة، إضافة إلى إمكانيّة تعريف المستخدم لوسوم بالعدد الذي يريد</li>
       <li xml:lang="ca">Inserció fàcil de moltes etiquetes i símbols estàndard, i l'opció de definir (amb un nombre arbitrari) etiquetes definides per l'usuari</li>
       <li xml:lang="ca-valencia">Inserció fàcil de moltes etiquetes i símbols estàndard, i l'opció de definir (amb un nombre arbitrari) etiquetes definides per l'usuari</li>
+      <li xml:lang="de">Einfaches Einfügen von vielen Standard-Markierungen und -Symbolen und die Möglichkeit zur Definition von einer beliebige Anzahl von benutzerdefinierten Markierungen</li>
       <li xml:lang="el">Εύκολη εισαγωγή πολλών τυπικών ετικετών και συμβόλων ακι την επιλογή να καθοριστεί ένα αυθαίρετο πλήθος ετικετών ορισμένων από τον χρήστη</li>
       <li xml:lang="en-GB">Easy insertion of many standard tags and symbols and the option to define (an arbitrary number of) user defined tags</li>
       <li xml:lang="es">Fácil inserción de numerosas etiquetas y símbolos estándares, además de la opción de definir (cualquier número) de etiquetas del usuario</li>
@@ -224,6 +226,7 @@
           to the corresponding page in the viewer</li>
       <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
       <li xml:lang="ca-valencia">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
+      <li xml:lang="de">Rückwärts- und Vorwärtssuche: Klicken Sie in den DVI-Betrachter und springen Sie zu der entsprechenden LaTeX-Zeile im Editor, oder springen Sie vom Editor zu der entsprechenden Seite im Betrachter</li>
       <li xml:lang="el">Αντίστροφη και προς τα εμπρός αναζήτηση: με κλικ στον προβολέα DVI και μετάβαση στη σχετική γραμμή του LaTeX στον επεξεργαστή ή με μετάβαση από τον επεξεργαστή στη σχετική σελίδα στον προβολέα</li>
       <li xml:lang="en-GB">Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewer</li>
       <li xml:lang="es">Búsqueda hacia atrás y hacia adelante: pulse en el visor DVI y vaya a la correspondiente línea de LaTeX en el editor, o vaya del editor a la página correspondiente del visor</li>
@@ -249,6 +252,7 @@
           jump to the corresponding section</li>
       <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
       <li xml:lang="ca-valencia">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
+      <li xml:lang="de">Das Auffinden von Kapiteln oder Abschnitten ist sehr einfach, Kile erstellt eine Liste mit allen Kapitel usw. in Ihrem Dokument. Sie können die Liste benutzen, um zu dem entsprechenden Abschnitt zu gehen</li>
       <li xml:lang="el">Είναι πολύ εύκολη η εύρεση κεφαλαίων ή ενοτήτων. Το Kile συνθέτει μια λίστα με όλα τα κεφάλαια κλπ. στο έγγραφό σας. Μπορείτε να χρησιμοποιήσετε τη λίστα για να μεταβείτε στη σχετική ενότητα</li>
       <li xml:lang="en-GB">Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding section</li>
       <li xml:lang="es">Encontrar capítulos y secciones es muy fácil: Kile construye una lista de todos los capítulos, etc. del documento. Puede usar dicha lista para ir a la sección correspondiente.</li>
@@ -299,6 +303,7 @@
       <li>Easy insertion of citations and references when using projects</li>
       <li xml:lang="ca">Inserció fàcil de cites i referències en usar projectes</li>
       <li xml:lang="ca-valencia">Inserció fàcil de cites i referències en usar projectes</li>
+      <li xml:lang="de">Einfaches Einfügen von Zitaten und Referenzen bei der Verwendung von Projekten</li>
       <li xml:lang="el">Εύκολη εισαγωγή παραπομπών και αναφορών με τη χρήση έργων</li>
       <li xml:lang="en-GB">Easy insertion of citations and references when using projects</li>
       <li xml:lang="es">Fácil inserción de citas y referencias al usar proyectos</li>

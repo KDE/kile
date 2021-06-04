@@ -86,7 +86,7 @@
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
     <p xml:lang="uk">Kile — дружня до користувача програма для редагування коду TeX/LaTeX від KDE. Kile надає вам змогу скористатися усіма функціональними можливостями LaTeX за допомогою графічного інтерфейсу та має механізми інтерактивного попереднього перегляду для негайного отримання результатів редагування.</p>
     <p xml:lang="x-test">xxKile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.xx</p>
-    <p xml:lang="zh-CN">Kile 是 KDE 的 TeX/LaTeX 编辑器。 Kile 能够让您在图形界面中使用 LaTeX 的所有功能，并且拥有交互式预览机制以便随时查看编辑结果。</p>
+    <p xml:lang="zh-CN">Kile 是一款 KDE 开发的 TeX/LaTeX 编辑器。Kile 能够让您在图形界面中使用 LaTeX 的所有功能，并且拥有交互式预览机制以便随时查看编辑结果。</p>
     <p>Features:</p>
     <p xml:lang="ar">الميزات:</p>
     <p xml:lang="ca">Característiques:</p>
@@ -116,7 +116,7 @@
     <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
-    <p xml:lang="zh-CN">功能：</p>
+    <p xml:lang="zh-CN">程序功能：</p>
     <ul>
       <li>Compile, convert and view your document with one click</li>
       <li xml:lang="ar">صرّف مستنداتك وحوّلها واعرضها بنقرة واحدة</li>
@@ -221,7 +221,7 @@
       <li xml:lang="tr">Pek çok standart etiketin ve sembolün kolayca eklenmesi ve kullanıcı tanımlı etiketleri (isteğe bağlı sayıda) tanımlama seçeneği</li>
       <li xml:lang="uk">Просте вставлення багатьох стандартних команд і символів, можливість додаткового визначення користувачем довільної кількості команд.</li>
       <li xml:lang="x-test">xxEasy insertion of many standard tags and symbols and the option to define (an arbitrary number of) user defined tagsxx</li>
-      <li xml:lang="zh-CN">便捷插入很多标准标签和符号，以及可以定义任意数量用户自定义标签</li>
+      <li xml:lang="zh-CN">简单方便地插入多种标准标签和符号，还对任意数量的用户自定义标签进行定义</li>
       <li>Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor
           to the corresponding page in the viewer</li>
       <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
@@ -247,7 +247,7 @@
       <li xml:lang="tr">Tersine ve ileri arama: DVI görüntüleyiciyi tıklatın ve düzenleyicideki ilgili LaTeX satırına atlayın veya düzenleyiciden görüntüleyicideki ilgili sayfaya atlayın</li>
       <li xml:lang="uk">Зворотний і прямий пошук: клацання на тексті у програмі для перегляду DVI призведе до переходу до відповідного рядка коду LaTeX у редакторі, а з редактора можна перейти до відповідного місця у програмі для перегляду документів.</li>
       <li xml:lang="x-test">xxInverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewerxx</li>
-      <li xml:lang="zh-CN">反向和正向搜索：点击 DVI 查看器并在编辑器中跳到相应的 LaTex 行，或者从编辑器中跳到查看器中对应的页面</li>
+      <li xml:lang="zh-CN">反向和正向搜索：点击 DVI 查看器即可在编辑器中跳转到对应的 LaTex 代码行，或者点击编辑器代码行跳转到查看器中对应的页面</li>
       <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
           jump to the corresponding section</li>
       <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
@@ -273,7 +273,7 @@
       <li xml:lang="tr">Bölüm veya kısımları bulmak çok kolay, Kile belgenizdeki tüm bölümlerin vb. bir listesini oluşturur. İlgili bölüme atlamak için listeyi kullanabilirsiniz</li>
       <li xml:lang="uk">Знайти потрібну главу або розділ дуже просто: Kile будує список усіх розділів у документі. Ви можете скористатися цим списком для переходу до відповідного розділу.</li>
       <li xml:lang="x-test">xxFinding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding sectionxx</li>
-      <li xml:lang="zh-CN">查找章节非常容易，Kile 构建了文档的所有章节的列表。您可以使用列表跳转到对应的节</li>
+      <li xml:lang="zh-CN">查找章节非常便利，Kile 会构建文档所有章节的列表，您可以使用该列表跳转到对应的章节</li>
       <li>Collect documents that belong together into a project</li>
       <li xml:lang="ar">اجمع المستندات ذات العلاقة ببعضها البعض في مشروع</li>
       <li xml:lang="ca">Reuneix els documents relacionats en un projecte</li>
@@ -299,7 +299,7 @@
       <li xml:lang="tr">Birlikte bir projeye ait olan belgeleri toplayın</li>
       <li xml:lang="uk">Збирання документів у проєкти.</li>
       <li xml:lang="x-test">xxCollect documents that belong together into a projectxx</li>
-      <li xml:lang="zh-CN">收集属于同一项目的文档于一处</li>
+      <li xml:lang="zh-CN">将相互关联的文档集合在同一工程之下进行管理</li>
       <li>Easy insertion of citations and references when using projects</li>
       <li xml:lang="ca">Inserció fàcil de cites i referències en usar projectes</li>
       <li xml:lang="ca-valencia">Inserció fàcil de cites i referències en usar projectes</li>
@@ -324,7 +324,7 @@
       <li xml:lang="tr">Projeleri kullanırken alıntıların ve başvuruların kolay eklenmesi</li>
       <li xml:lang="uk">Просте вставлення посилань у межах проєктів.</li>
       <li xml:lang="x-test">xxEasy insertion of citations and references when using projectsxx</li>
-      <li xml:lang="zh-CN">使用项目时可以轻松插入引文和引用</li>
+      <li xml:lang="zh-CN">使用工程时可以轻松插入引用和参考文献</li>
       <li>Flexible and smart build system to compile your LaTeX documents</li>
       <li xml:lang="ar">نظام بناء مرن ذكيّ لتصريف مستندات لاتخ</li>
       <li xml:lang="ca">Sistema de construcció flexible i intel·ligent per a compilar els documents LaTeX</li>
@@ -350,7 +350,7 @@
       <li xml:lang="tr">LaTeX belgelerinizi derlemek için esnek ve akıllı bir inşa sistemi</li>
       <li xml:lang="uk">Гнучка та інтелектуальна система збирання для обробки ваших документів LaTeX.</li>
       <li xml:lang="x-test">xxFlexible and smart build system to compile your LaTeX documentsxx</li>
-      <li xml:lang="zh-CN">灵活且智能的构建系统来编译您的 LaTex 文档</li>
+      <li xml:lang="zh-CN">灵活且智能的构建系统，方便您对 LaTex 文档进行编译</li>
       <li>QuickPreview: preview a selected part of your document</li>
       <li xml:lang="ar">المعاينة السّريعة: عاين جزءًا من مستندك</li>
       <li xml:lang="ca">QuickPreview: vista prèvia d'una part seleccionada del document</li>
@@ -402,7 +402,7 @@
       <li xml:lang="tr">Çeşitli yardım kaynaklarına kolay erişim</li>
       <li xml:lang="uk">Простий доступ до різноманітних довідкових джерел.</li>
       <li xml:lang="x-test">xxEasy access to various help sourcesxx</li>
-      <li xml:lang="zh-CN">便捷访问各种帮助资源</li>
+      <li xml:lang="zh-CN">轻松访问各种帮助资源</li>
       <li>Advanced editing commands</li>
       <li xml:lang="ar">أوامر تحرير متقدّمة</li>
       <li xml:lang="ca">Edició avançada d'ordres</li>

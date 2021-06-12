@@ -1,35 +1,34 @@
 project(kile)
 
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.0.0)
 
-set(QT_MIN_VERSION "5.15.0")
-set(KF5_MIN_VERSION "5.82")
 set(KILE_VERSION CACHE STRING "Kile's version; can be used to set the internal version of Kile on MacOSX")
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
+find_package(ECM 5.19.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
+
 include(ECMAddAppIcon)
 include(ECMOptionalAddSubdirectory)
 include(ECMInstallIcons)
 include(ECMSetupVersion)
 include(ECMMarkNonGuiExecutable)
 include(ECMGenerateHeaders)
+
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
 include(FeatureSummary)
 include(WriteBasicConfigVersionFile)
 include(CheckFunctionExists)
+
 include(KDEInstallDirs)
 include(KDECMakeSettings)
 
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
+find_package(Qt5 5.6 CONFIG REQUIRED
 	Core
 	DBus
 	Widgets
@@ -37,7 +36,7 @@ find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED
 	Test
 )
 
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
+find_package(KF5 5.68 REQUIRED COMPONENTS
 	Config
 	CoreAddons
 	Crash

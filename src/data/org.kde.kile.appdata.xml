@@ -48,6 +48,7 @@
   <summary xml:lang="fi">TeX/LaTeX-muokkain</summary>
   <summary xml:lang="fr">Éditeur TeX/LaTeX</summary>
   <summary xml:lang="gl">Editor de TeX/LaTeX</summary>
+  <summary xml:lang="ia">Editor de TeX/LaTeX</summary>
   <summary xml:lang="id">Editor TeX/LaTeX</summary>
   <summary xml:lang="it">Editor TeX/LaTeX</summary>
   <summary xml:lang="ko">TeX/LaTeX 편집기</summary>
@@ -135,6 +136,7 @@
       <li xml:lang="fi">Käännä, muunna ja näytä tiedostosi yhdellä napsautuksella</li>
       <li xml:lang="fr">Compiler, convertir et afficher vos documents en un clic</li>
       <li xml:lang="gl">Compilar, converter e visualizar o documento cun clic.</li>
+      <li xml:lang="ia">Compila, converte e vide ty documento con un click</li>
       <li xml:lang="id">Kompilasi, konversi, dan lihat dokumen Anda dengan satu klik</li>
       <li xml:lang="it">Compila, converte e visualizza i tuoi documenti con un clic</li>
       <li xml:lang="ko">문서를 간단하게 컴파일, 변환, 보기</li>
@@ -162,6 +164,7 @@
       <li xml:lang="fi">Täydennä (La)TeX-komennot automaattisesti</li>
       <li xml:lang="fr">Auto-complètement des balises (La)TeX</li>
       <li xml:lang="gl">Completación automática de ordes de (La)TeX.</li>
+      <li xml:lang="ia">Auto-completion de commandos de (La)TeX</li>
       <li xml:lang="id">Penyelesaian otomatis perintah-perintah (La)TeX</li>
       <li xml:lang="it">Completamento automatico dei comandi (La)TeX</li>
       <li xml:lang="ko">(La)TeX 명령 자동 완성</li>
@@ -297,6 +300,7 @@
       <li xml:lang="fi">Kokoa yhteen kuuluvat tiedostot projektiksi</li>
       <li xml:lang="fr">Collection de documents appartenant au même projet</li>
       <li xml:lang="gl">Recolle documentos que van xuntos nun proxecto.</li>
+      <li xml:lang="ia">Collige documentos que appertine insimul in un projecto</li>
       <li xml:lang="id">Kumpulkan dokumen-dokumen yang menjadi bagian dari suatu projek</li>
       <li xml:lang="it">Raccoglie i documenti che appartengono ad un progetto</li>
       <li xml:lang="ko">프로젝트에 포함되는 여러 문서 모으기</li>

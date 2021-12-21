@@ -786,6 +786,25 @@ QAction* Kile::createAction(const QString &text, const QString &actionName, cons
 }
 
 template<class ContextType, class Func>
+QAction* Kile::createAction(const QString &text, const QString &actionName, const QString& iconName, const QList<QKeySequence> shortcut, const ContextType* context, Func function)
+{
+    QAction *action = new QAction(this);
+    action->setText(text);
+
+    connect(action, &QAction::triggered, context, function);
+    actionCollection()->addAction(actionName, action);
+
+    if(!shortcut.isEmpty()) {
+        actionCollection()->setDefaultShortcuts(action, shortcut);
+    }
+    if(!iconName.isEmpty()) {
+        action->setIcon(QIcon::fromTheme(iconName));
+    }
+
+    return action;
+}
+
+template<class ContextType, class Func>
 QAction* Kile::createAction(KStandardAction::StandardAction actionType, const QString &actionName, const ContextType* context, Func function)
 {
     QAction *action = KStandardAction::create(actionType, context, function, this);
@@ -873,10 +892,18 @@ void Kile::setupActions()
     //build actions
     act = createAction(i18n("Clean"), "CleanAll", "user-trash", this, [this]() { cleanAll(); });
 
-    createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page", QKeySequence(Qt::ALT + Qt::Key_Right),
-                 viewManager(), &KileView::Manager::gotoNextView);
-    createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page", QKeySequence(Qt::ALT + Qt::Key_Left),
-                 viewManager(), &KileView::Manager::gotoPrevView);
+    QList<QKeySequence> nextTabShorcuts;
+    nextTabShorcuts.append(QKeySequence(Qt::ALT + Qt::Key_Right));
+    nextTabShorcuts.append(KStandardShortcut::tabNext());
+    createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page",
+                 nextTabShorcuts, viewManager(), &KileView::Manager::gotoNextView);
+
+    QList<QKeySequence> prevTabShorcuts;
+    prevTabShorcuts.append(QKeySequence(Qt::ALT + Qt::Key_Left));
+    prevTabShorcuts.append(KStandardShortcut::tabPrev());
+    createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page",
+                 prevTabShorcuts, viewManager(), &KileView::Manager::gotoPrevView);
+
     createAction(i18n("Focus Log/Messages View"), "focus_log", QKeySequence("CTRL+Alt+M"), this, &Kile::focusLog);
     createAction(i18n("Focus Output View"), "focus_output", QKeySequence("CTRL+Alt+O"), this, &Kile::focusOutput);
     createAction(i18n("Focus Konsole View"), "focus_konsole", QKeySequence("CTRL+Alt+K"), this, &Kile::focusKonsole);

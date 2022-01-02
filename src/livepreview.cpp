@@ -1298,7 +1298,7 @@ void LivePreviewManager::handleDocumentSavedAs(KTextEditor::View *view, KileDocu
 
 void LivePreviewManager::toolDestroyed()
 {
-    KILE_DEBUG_MAIN << "\tLivePreviewManager: tool destroyed" << endl;
+    KILE_DEBUG_MAIN << "\tLivePreviewManager: tool destroyed" << Qt::endl;
 }
 
 void LivePreviewManager::handleSpawnedChildTool(KileTool::Base *parent, KileTool::Base *child)
@@ -1318,9 +1318,9 @@ void LivePreviewManager::handleSpawnedChildTool(KileTool::Base *parent, KileTool
 
 void LivePreviewManager::toolDone(KileTool::Base *base, int i, bool childToolSpawned)
 {
-    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << endl;
-    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << endl;
-    KILE_DEBUG_MAIN << "\tLivePreviewManager: tool done" << base->name() << i << childToolSpawned <<  endl;
+    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << Qt::endl;
+    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << Qt::endl;
+    KILE_DEBUG_MAIN << "\tLivePreviewManager: tool done" << base->name() << i << childToolSpawned << Qt::endl;
     if(i != Success) {
         KILE_DEBUG_MAIN << "tool didn't return successfully, doing nothing";
         showPreviewFailed();
@@ -1336,9 +1336,9 @@ void LivePreviewManager::toolDone(KileTool::Base *base, int i, bool childToolSpa
 
 void LivePreviewManager::childToolDone(KileTool::Base *base, int i, bool childToolSpawned)
 {
-    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << endl;
-    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << endl;
-    KILE_DEBUG_MAIN << "\tLivePreviewManager: child tool done" << base->name() << i << childToolSpawned << endl;
+    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << Qt::endl;
+    KILE_DEBUG_MAIN << "\t!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" << i << Qt::endl;
+    KILE_DEBUG_MAIN << "\tLivePreviewManager: child tool done" << base->name() << i << childToolSpawned << Qt::endl;
     if(!m_ki->viewManager()->viewerPart()) {
         return;
     }

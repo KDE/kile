@@ -819,7 +819,7 @@ void TextInfo::slotViewDestroyed(QObject *object)
 
 void TextInfo::activateDefaultMode()
 {
-    KILE_DEBUG_MAIN << "m_defaultMode = " <<  m_defaultMode << endl;
+    KILE_DEBUG_MAIN << "m_defaultMode = " <<  m_defaultMode << Qt::endl;
 
     if(m_doc && !m_defaultMode.isEmpty()) {
         m_doc->setMode(m_defaultMode);
@@ -1076,7 +1076,7 @@ void LaTeXInfo::updateStruct()
 void LaTeXInfo::checkChangedDeps()
 {
     if(m_depsPrev != m_deps) {
-        KILE_DEBUG_MAIN << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< endl;
+        KILE_DEBUG_MAIN << "===void LaTeXInfo::checkChangedDeps()===, deps have changed"<< Qt::endl;
         emit(depChanged());
         m_depsPrev = m_deps;
     }

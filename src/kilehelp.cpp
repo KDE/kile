@@ -214,7 +214,7 @@ void Help::readHelpList(const QString &filename)
 
     QString file = m_helpDir + filename;
     if(file.isEmpty()) {
-        KILE_DEBUG_MAIN << "   file not found: " << filename << endl;
+        KILE_DEBUG_MAIN << "   file not found: " << filename << Qt::endl;
         return;
     }
 

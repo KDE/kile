@@ -47,12 +47,12 @@ int main( int argc, char ** argv )
 
     QFile file(texfile);
     if (  !file.open( QIODevice::ReadOnly ) ) {
-        cerr << "File " << qPrintable(texfile) << " is not readable" << endl;
+        cerr << "File " << qPrintable(texfile) << " is not readable" << Qt::endl;
         return 1;
     }
 
     type = texfile.left(texfile.length() - 4);
-    cout << qPrintable("<symbolGroupName>" + type + "</symbolGroupName>") << endl;
+    cout << qPrintable("<symbolGroupName>" + type + "</symbolGroupName>") << Qt::endl;
 
     QTextStream t(&file);
 
@@ -106,7 +106,7 @@ int main( int argc, char ** argv )
             pkgsarg.clear();
         }
 
-        cout << "<!-- pkgs=" << qPrintable(pkgs) << " ,pkgsarg=" << qPrintable(pkgsarg) << " ,savepkgs=" << qPrintable(savepkgs) << " ,savepkgsarg=" << qPrintable(savepkgsarg) << "-->" << endl;
+        cout << "<!-- pkgs=" << qPrintable(pkgs) << " ,pkgsarg=" << qPrintable(pkgsarg) << " ,savepkgs=" << qPrintable(savepkgs) << " ,savepkgsarg=" << qPrintable(savepkgsarg) << "-->" << Qt::endl;
 
 
         QString packageString = QString("{%1}").arg(pkgs);
@@ -117,7 +117,7 @@ int main( int argc, char ** argv )
         }
 
         if(line.indexOf(optarg) != -1) {
-            cout << "<!-- optarg " << qPrintable(optarg.cap(1) + ' ' + optarg.cap(2) + ' ' + optarg.cap(3) + " -->") << endl;
+            cout << "<!-- optarg " << qPrintable(optarg.cap(1) + ' ' + optarg.cap(2) + ' ' + optarg.cap(3) + " -->") << Qt::endl;
             if(optarg.cap(1) == QString("math") ) {
                 mathMode = true;
             }
@@ -125,7 +125,7 @@ int main( int argc, char ** argv )
             outputXML(optarg.cap(2),optarg.cap(3),PackagesList,mathMode);
         }
         else if(line.indexOf(arg) != -1) {
-            cout << "<!-- arg " << qPrintable(arg.cap(1) + ' ' + arg.cap(2) + ' ' + arg.cap(3)+ " -->") << endl;
+            cout << "<!-- arg " << qPrintable(arg.cap(1) + ' ' + arg.cap(2) + ' ' + arg.cap(3)+ " -->") << Qt::endl;
 
             if(arg.cap(1) == QString("math") ) {
                 mathMode = true;
@@ -134,7 +134,7 @@ int main( int argc, char ** argv )
             outputXML(arg.cap(2),arg.cap(2),PackagesList,mathMode);
         }
     }
-    cout << "</symbols>" << endl;
+    cout << "</symbols>" << Qt::endl;
     return 0;
 }
 
@@ -179,7 +179,7 @@ void outputXML(const QString latexCommand, const QString imageCommand, QList< Pa
 
     output += "</commandDefinition>\n";
 
-    cout << qPrintable(output) << endl;
+    cout << qPrintable(output) << Qt::endl;
 }
 
 void extractPackageString(const QString&string, QList<Package> &packages) {

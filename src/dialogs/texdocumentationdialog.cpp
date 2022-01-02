@@ -290,7 +290,7 @@ QString TexDocDialog::findFile(const QString &docfilename)
 
 void TexDocDialog::showFile(const QString &filename)
 {
-    KILE_DEBUG_MAIN << "\tshow file: " << filename << endl;
+    KILE_DEBUG_MAIN << "\tshow file: " << filename << Qt::endl;
     if (QFile::exists(filename)) {
         QUrl url;
         url.setPath(filename);
@@ -316,14 +316,14 @@ void TexDocDialog::slotListViewDoubleClicked(QTreeWidgetItem *item)
     }
 
     QString package = item->text(1);
-    KILE_DEBUG_MAIN << "\tselect child: "  << item->text(0) << endl
-                    << "\tis package: " << package << endl;
+    KILE_DEBUG_MAIN << "\tselect child: "  << item->text(0) << Qt::endl
+                    << "\tis package: " << package << Qt::endl;
     if (!m_dictDocuments.contains(package)) {
         return;
     }
 
     QString filename = m_dictDocuments[package];
-    KILE_DEBUG_MAIN << "\tgot filename:" << filename << endl;
+    KILE_DEBUG_MAIN << "\tgot filename:" << filename << Qt::endl;
     if(filename.isEmpty()) {
         KMessageBox::error(this, i18n("Could not find the documentation file '%1'", filename));
         return;
@@ -409,8 +409,8 @@ void TexDocDialog::executeScript(const QString &command)
     connect(m_proc, static_cast<void (QProcess::*)(int,QProcess::ExitStatus)>(&QProcess::finished),
             this, &TexDocDialog::slotProcessExited);
 
-    KILE_DEBUG_MAIN << "=== TexDocDialog::runShellScript() ====================" << endl;
-    KILE_DEBUG_MAIN << "   execute: " << command << endl;
+    KILE_DEBUG_MAIN << "=== TexDocDialog::runShellScript() ====================" << Qt::endl;
+    KILE_DEBUG_MAIN << "   execute: " << command << Qt::endl;
     m_proc->start();
 }
 
@@ -450,9 +450,9 @@ void TexDocDialog::slotInitToc()
     m_texmfdocPath = results[1];
     m_texmfPath = results[2];
 
-    KILE_DEBUG_MAIN << "\ttexdoctk path: " << m_texdoctkPath << endl;
-    KILE_DEBUG_MAIN << "\ttexmfdoc path: " << m_texmfdocPath << endl;
-    KILE_DEBUG_MAIN << "\ttexmf path: " << m_texmfPath << endl;
+    KILE_DEBUG_MAIN << "\ttexdoctk path: " << m_texdoctkPath << Qt::endl;
+    KILE_DEBUG_MAIN << "\ttexmfdoc path: " << m_texmfdocPath << Qt::endl;
+    KILE_DEBUG_MAIN << "\ttexmf path: " << m_texmfPath << Qt::endl;
 
     if(m_texdoctkPath.indexOf('\n', -1) > -1) {
         m_texdoctkPath.truncate(m_texdoctkPath.length() - 1);
@@ -489,7 +489,7 @@ QString TexDocDialog::getMimeType(const QString &filename)
         mimetype = pMime.name();
     }
 
-    KILE_DEBUG_MAIN << "\tmime = "  << mimetype << " " << endl;
+    KILE_DEBUG_MAIN << "\tmime = "  << mimetype << " " << Qt::endl;
     return mimetype;
 }
 

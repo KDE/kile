@@ -121,7 +121,7 @@ bool LaTeXOutputParser::fileExists(const QString & name)
 //	from the context.
 void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::updateFileStack()================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::updateFileStack()================" << Qt::endl;
     static QString strPartialFileName;
 
     switch (dwCookie) {
@@ -130,7 +130,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
     case FileNameHeuristic :
         //TeX is opening a file
         if(strLine.startsWith(":<+ ")) {
-// 				qCDebug(LOG_KILE_PARSER) << "filename detected" << endl;
+// 				qCDebug(LOG_KILE_PARSER) << "filename detected" << Qt::endl;
             //grab the filename, it might be a partial name (i.e. continued on the next line)
             strPartialFileName = strLine.mid(4).trimmed();
 
@@ -139,7 +139,7 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
         }
         //TeX closed a file
         else if(strLine.contains(":<-")) {
-// 				qCDebug(LOG_KILE_PARSER) << "\tpopping : " << m_stackFile.top().file() << endl;
+// 				qCDebug(LOG_KILE_PARSER) << "\tpopping : " << m_stackFile.top().file() << Qt::endl;
             if(!m_stackFile.isEmpty()) {
                 m_stackFile.pop();
             }
@@ -158,27 +158,27 @@ void LaTeXOutputParser::updateFileStack(const QString &strLine, short& dwCookie)
         if(strLine.startsWith('(') || strLine.startsWith(QLatin1String("\\openout"))) {
             //push the filename on the stack and mark it as 'reliable'
             m_stackFile.push(LOFStackItem(strPartialFileName, true));
-// 				qCDebug(LOG_KILE_PARSER) << "\tpushed : " << strPartialFileName << endl;
+// 				qCDebug(LOG_KILE_PARSER) << "\tpushed : " << strPartialFileName << Qt::endl;
             strPartialFileName.clear();
             dwCookie = Start;
         }
         //The partial filename was followed by an TeX error, meaning the file doesn't exist.
         //Don't push it on the stack, instead try to detect the error.
         else if(strLine.startsWith('!')) {
-// 				qCDebug(LOG_KILE_PARSER) << "oops!" << endl;
+// 				qCDebug(LOG_KILE_PARSER) << "oops!" << Qt::endl;
             dwCookie = Start;
             strPartialFileName.clear();
             detectError(strLine, dwCookie);
         }
         else if(strLine.startsWith(QLatin1String("No file"))) {
-// 				qCDebug(LOG_KILE_PARSER) << "No file: " << strLine << endl;
+// 				qCDebug(LOG_KILE_PARSER) << "No file: " << strLine << Qt::endl;
             dwCookie = Start;
             strPartialFileName.clear();
             detectWarning(strLine, dwCookie);
         }
         //Partial filename still isn't complete.
         else {
-// 				qCDebug(LOG_KILE_PARSER) << "\tpartial file name, adding" << endl;
+// 				qCDebug(LOG_KILE_PARSER) << "\tpartial file name, adding" << Qt::endl;
             strPartialFileName = strPartialFileName + strLine.trimmed();
         }
         break;
@@ -237,12 +237,12 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
             else if(isLastChar) {
                 if(fileExists(strPartialFileName)) {
                     m_stackFile.push(LOFStackItem(strPartialFileName));
-                    qCDebug(LOG_KILE_PARSER) << "pushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << endl;
+                    qCDebug(LOG_KILE_PARSER) << "pushed (i = " << i << " length = " << strLine.length() << "): " << strPartialFileName << Qt::endl;
                     expectFileName = false;
                     dwCookie = Start;
                 }
                 else {
-                    qCDebug(LOG_KILE_PARSER) << "Filename spans more than one line." << endl;
+                    qCDebug(LOG_KILE_PARSER) << "Filename spans more than one line." << Qt::endl;
                     dwCookie = FileNameHeuristic;
                 }
             }
@@ -282,7 +282,7 @@ void LaTeXOutputParser::updateFileStackHeuristic(const QString &strLine, short &
 
 void LaTeXOutputParser::flushCurrentItem()
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::flushCurrentItem()================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::flushCurrentItem()================" << Qt::endl;
     int nItemType = m_currentItem.type();
 
     while( m_stackFile.count() > 0 && !fileExists(m_stackFile.top().file()) ) {
@@ -297,19 +297,19 @@ void LaTeXOutputParser::flushCurrentItem()
     case itmError:
         ++m_nErrors;
         m_infoList->push_back(m_currentItem);
-        //qCDebug(LOG_KILE_PARSER) << "Flushing Error in" << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() <<  endl;
+        //qCDebug(LOG_KILE_PARSER) << "Flushing Error in" << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << Qt::endl;
         break;
 
     case itmWarning:
         ++m_nWarnings;
         m_infoList->push_back(m_currentItem);
-        //qCDebug(LOG_KILE_PARSER) << "Flushing Warning in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
+        //qCDebug(LOG_KILE_PARSER) << "Flushing Warning in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << Qt::endl;
         break;
 
     case itmBadBox:
         ++m_nBadBoxes;
         m_infoList->push_back(m_currentItem);
-        //qCDebug(LOG_KILE_PARSER) << "Flushing BadBox in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << endl;
+        //qCDebug(LOG_KILE_PARSER) << "Flushing BadBox in " << m_currentItem.source() << "@" << m_currentItem.sourceLine() << " reported in line " << m_currentItem.outputLine() << Qt::endl;
         break;
 
     default:
@@ -320,7 +320,7 @@ void LaTeXOutputParser::flushCurrentItem()
 
 bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectError(" << strLine.length() << ")================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectError(" << strLine.length() << ")================" << Qt::endl;
 
     bool found = false, flush = false;
 
@@ -332,17 +332,17 @@ bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
     switch (dwCookie) {
     case Start :
         if(reLaTeXError.indexIn(strLine) != -1) {
-            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reLaTeXError.cap(1) << endl;
+            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reLaTeXError.cap(1) << Qt::endl;
             m_currentItem.setMessage(reLaTeXError.cap(1));
             found = true;
         }
         else if(rePDFLaTeXError.indexIn(strLine) != -1) {
-            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  rePDFLaTeXError.cap(1) << endl;
+            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  rePDFLaTeXError.cap(1) << Qt::endl;
             m_currentItem.setMessage(rePDFLaTeXError.cap(1));
             found = true;
         }
         else if(reTeXError.indexIn(strLine) != -1) {
-            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reTeXError.cap(1) << endl;
+            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reTeXError.cap(1) << Qt::endl;
             m_currentItem.setMessage(reTeXError.cap(1));
             found = true;
         }
@@ -353,31 +353,31 @@ bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
         break;
 
     case Error :
-        //qCDebug(LOG_KILE_PARSER) << "\tError (cont'd): " << strLine << endl;
+        //qCDebug(LOG_KILE_PARSER) << "\tError (cont'd): " << strLine << Qt::endl;
         if(strLine.endsWith('.')) {
             dwCookie = LineNumber;
             m_currentItem.setMessage(m_currentItem.message() + strLine);
         }
         else if(GetCurrentOutputLine() - m_currentItem.outputLine() > 3) {
-            qWarning() << "\tBAILING OUT: error description spans more than three lines" << endl;
+            qWarning() << "\tBAILING OUT: error description spans more than three lines" << Qt::endl;
             dwCookie = Start;
             flush = true;
         }
         break;
 
     case LineNumber :
-        //qCDebug(LOG_KILE_PARSER) << "\tLineNumber " << endl;
+        //qCDebug(LOG_KILE_PARSER) << "\tLineNumber " << Qt::endl;
         if(reLineNumber.indexIn(strLine) != -1) {
             dwCookie = Start;
             flush = true;
-            //qCDebug(LOG_KILE_PARSER) << "\tline number: " << reLineNumber.cap(1) << endl;
+            //qCDebug(LOG_KILE_PARSER) << "\tline number: " << reLineNumber.cap(1) << Qt::endl;
             m_currentItem.setSourceLine(reLineNumber.cap(1).toInt());
             m_currentItem.setMessage(m_currentItem.message() + reLineNumber.cap(2));
         }
         else if(GetCurrentOutputLine() - m_currentItem.outputLine() > 10) {
             dwCookie = Start;
             flush = true;
-            qWarning() << "\tBAILING OUT: did not detect a TeX line number for an error" << endl;
+            qWarning() << "\tBAILING OUT: did not detect a TeX line number for an error" << Qt::endl;
             m_currentItem.setSourceLine(0);
         }
         break;
@@ -414,7 +414,7 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
     case Start :
         if(reLaTeXWarning.indexIn(strLine) != -1) {
             warning = reLaTeXWarning.cap(5);
-            //qCDebug(LOG_KILE_PARSER) << "\tWarning found: " << warning << endl;
+            //qCDebug(LOG_KILE_PARSER) << "\tWarning found: " << warning << Qt::endl;
 
             found = true;
             dwCookie = Start;
@@ -445,7 +445,7 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
     //warning spans multiple lines, detect the end
     case Warning :
         warning = m_currentItem.message() + strLine;
-        //qCDebug(LOG_KILE_PARSER) << "'\tWarning (cont'd) : " << warning << endl;
+        //qCDebug(LOG_KILE_PARSER) << "'\tWarning (cont'd) : " << warning << Qt::endl;
         flush = detectLaTeXLineNumber(warning, dwCookie, strLine.length());
         m_currentItem.setMessage(warning);
         break;
@@ -468,33 +468,33 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
 
 bool LaTeXOutputParser::detectLaTeXLineNumber(QString & warning, short & dwCookie, int len)
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectLaTeXLineNumber(" << warning.length() << ")================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectLaTeXLineNumber(" << warning.length() << ")================" << Qt::endl;
 
     static QRegExp reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", Qt::CaseInsensitive);
     static QRegExp reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", Qt::CaseInsensitive);
     if((reLaTeXLineNumber.indexIn(warning) != -1) || (reInternationalLaTeXLineNumber.indexIn(warning) != -1)) {
-        //qCDebug(LOG_KILE_PARSER) << "een" << endl;
+        //qCDebug(LOG_KILE_PARSER) << "een" << Qt::endl;
         m_currentItem.setSourceLine(reLaTeXLineNumber.cap(2).toInt());
         warning += reLaTeXLineNumber.cap(1);
         dwCookie = Start;
         return true;
     }
     else if(warning.endsWith('.')) {
-        //qCDebug(LOG_KILE_PARSER) << "twee" << endl;
+        //qCDebug(LOG_KILE_PARSER) << "twee" << Qt::endl;
         m_currentItem.setSourceLine(0);
         dwCookie = Start;
         return true;
     }
     //bailing out, did not find a line number
     else if((GetCurrentOutputLine() - m_currentItem.outputLine() > 4) || (len == 0)) {
-        //qCDebug(LOG_KILE_PARSER) << "drie current " << GetCurrentOutputLine() << " " <<  m_currentItem.outputLine() << " len " << len << endl;
+        //qCDebug(LOG_KILE_PARSER) << "drie current " << GetCurrentOutputLine() << " " <<  m_currentItem.outputLine() << " len " << len << Qt::endl;
         m_currentItem.setSourceLine(0);
         dwCookie = Start;
         return true;
     }
     //error message is continued on the other line
     else {
-        //qCDebug(LOG_KILE_PARSER) << "vier" << endl;
+        //qCDebug(LOG_KILE_PARSER) << "vier" << Qt::endl;
         dwCookie = Warning;
         return false;
     }
@@ -502,7 +502,7 @@ bool LaTeXOutputParser::detectLaTeXLineNumber(QString & warning, short & dwCooki
 
 bool LaTeXOutputParser::detectBadBox(const QString & strLine, short & dwCookie)
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectBadBox(" << strLine.length() << ")================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectBadBox(" << strLine.length() << ")================" << Qt::endl;
 
     bool found = false, flush = false;
     QString badbox;
@@ -544,7 +544,7 @@ bool LaTeXOutputParser::detectBadBox(const QString & strLine, short & dwCookie)
 
 bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCookie, int len)
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectBadBoxLineNumber(" << strLine.length() << ")================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectBadBoxLineNumber(" << strLine.length() << ")================" << Qt::endl;
 
     static QRegExp reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", Qt::CaseInsensitive);
     static QRegExp reBadBoxLine("(.*) at line ([0-9]+)", Qt::CaseInsensitive);
@@ -564,7 +564,7 @@ bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCook
         dwCookie = Start;
         strLine = reBadBoxLine.cap(1);
         m_currentItem.setSourceLine(reBadBoxLine.cap(2).toInt());
-        //qCDebug(LOG_KILE_PARSER) << "\tBadBox@" << reBadBoxLine.cap(2) << "." << endl;
+        //qCDebug(LOG_KILE_PARSER) << "\tBadBox@" << reBadBoxLine.cap(2) << "." << Qt::endl;
         return true;
     }
     else if(reBadBoxOutput.indexIn(strLine) != -1) {
@@ -588,7 +588,7 @@ bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCook
 
 short LaTeXOutputParser::parseLine(const QString & strLine, short dwCookie)
 {
-    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::parseLine(" << strLine << dwCookie << strLine.length() << ")================" << endl;
+    //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::parseLine(" << strLine << dwCookie << strLine.length() << ")================" << Qt::endl;
 
     switch (dwCookie) {
     case Start :

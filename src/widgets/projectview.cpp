@@ -557,7 +557,7 @@ ProjectViewItem* ProjectView::parentFor(const KileProjectItem *projitem, Project
             KILE_DEBUG_MAIN << "\t\t" << vi->url().toLocalFile();
             if (vi->url() == parpi->url()) {
                 parpvi = vi;
-                KILE_DEBUG_MAIN << "\t\tfound" <<endl;
+                KILE_DEBUG_MAIN << "\t\tfound" << Qt::endl;
                 break;
             }
             ++it;

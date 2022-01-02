@@ -705,7 +705,7 @@ void Archive::setSource(const QString &source, const QString& workingDir)
     addDict("%AFL", m_fileList);
 
     KILE_DEBUG_MAIN << "===KileTool::Archive::setSource("<< source << ")==============";
-    KILE_DEBUG_MAIN << "m_fileList="<<m_fileList<<endl;
+    KILE_DEBUG_MAIN << "m_fileList="<<m_fileList<< Qt::endl;
 }
 
 Convert::Convert(const QString &name, Manager * manager, bool prepare /*= true*/)

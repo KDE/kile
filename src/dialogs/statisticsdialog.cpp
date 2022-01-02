@@ -98,7 +98,7 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
     }
     else { // active doc belongs to a project
         setWindowTitle(i18n("Statistics for the Project %1", m_project->name()));
-        KILE_DEBUG_MAIN << "Project file is " << project->baseURL() << endl;
+        KILE_DEBUG_MAIN << "Project file is " << project->baseURL() << Qt::endl;
 
         QList<KileProjectItem*> items = project->items();
 
@@ -126,7 +126,7 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
                     tempWidget = new KileWidget::StatisticsWidget();
                     KPageWidgetItem *itemTemp = new KPageWidgetItem(tempWidget, tempName);
                     addPage(itemTemp);
-                    KILE_DEBUG_MAIN << "TempName is " << tempName << endl;
+                    KILE_DEBUG_MAIN << "TempName is " << tempName << Qt::endl;
                     m_pagetowidget[itemTemp] = tempWidget;
                     m_pagetoname[itemTemp] = tempName;
                     fillWidget(stats, tempWidget);
@@ -141,8 +141,8 @@ StatisticsDialog::StatisticsDialog(KileProject *project, KileDocument::TextInfo*
                 summary->m_warning->setText(i18n("To get statistics for all project files, you have to open them all."));
             }
 
-            KILE_DEBUG_MAIN << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
-            KILE_DEBUG_MAIN << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << endl;
+            KILE_DEBUG_MAIN << "All keys in name " << m_pagetoname.keys() << " Nr. of keys " << m_pagetowidget.count() << Qt::endl;
+            KILE_DEBUG_MAIN << "All keys in widget " << m_pagetowidget.keys() << " Nr. of keys " << m_pagetowidget.count() << Qt::endl;
         }
     }
 }

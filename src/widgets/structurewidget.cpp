@@ -820,7 +820,7 @@ void StructureWidget::viewContextMenuEvent(StructureView *view, QContextMenuEven
 // id's 10..16 (already checked)
 void StructureWidget::slotPopupSectioning(int id)
 {
-    KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupSectioning (" << id << ")"<< endl;
+    KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupSectioning (" << id << ")"<< Qt::endl;
     if(m_popupItem->level() >= 1 && m_popupItem->level() <= 7) {
         emit(sectioningPopup(m_popupItem, id));
     }
@@ -829,7 +829,7 @@ void StructureWidget::slotPopupSectioning(int id)
 // id's 100ff (already checked)
 void StructureWidget::slotPopupGraphics(int id)
 {
-    KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupGraphics (" << id << ")"<< endl;
+    KILE_DEBUG_MAIN << "\tStructureWidget::slotPopupGraphics (" << id << ")"<< Qt::endl;
 
     QUrl url;
     url.setPath(m_popupInfo);

@@ -636,7 +636,7 @@ void LatexCommandsDialog::slotAddClicked()
         // get current command type
         KileDocument::CmdAttribute type = getCommandMode(item);
         if (type == KileDocument::CmdAttrNone) {
-            KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+            KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << Qt::endl;
             return;
         }
 
@@ -710,7 +710,7 @@ void LatexCommandsDialog::slotEditClicked()
             // get current command type
             KileDocument::CmdAttribute type = getCommandMode(parentitem);
             if (type == KileDocument::CmdAttrNone) {
-                KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << endl;
+                KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no item in slotAddClicked() (" << item->text(0) << ")" << Qt::endl;
                 return;
             }
 
@@ -807,7 +807,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
         attr.type = getCommandMode(cur);
         if (attr.type == KileDocument::CmdAttrNone)
         {
-            KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << endl;
+            KILE_DEBUG_MAIN << "\tLatexCommandsDialog error: no parent item (" << cur->text(0) << ")" << Qt::endl;
             continue;
         }
 
@@ -819,7 +819,7 @@ void LatexCommandsDialog::writeConfig(QTreeWidget *listview, const QString &grou
             {
                 getEntry(curchild, attr);
                 QString value = m_commands->configString(attr, env);
-                KILE_DEBUG_MAIN << "\tLatexCommandsDialog write config: " << key << " --> " << value << endl;
+                KILE_DEBUG_MAIN << "\tLatexCommandsDialog write config: " << key << " --> " << value << Qt::endl;
                 if (!value.isEmpty()) {
                     group.writeEntry("Command" + QString::number(nrOfdefinedCommands), key);
                     group.writeEntry("Parameters" + QString::number(nrOfdefinedCommands), value);

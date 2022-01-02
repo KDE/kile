@@ -339,7 +339,7 @@ QString PostscriptDialog::buildTempfile()
     QString tempname = temp.fileName();
 
     QTextStream stream(&temp);
-    stream << "#! /bin/sh" << endl;
+    stream << "#! /bin/sh" << Qt::endl;
 
     // accept only ".ps" or ".ps.gz" as an input file
     QFileInfo fi(m_PostscriptDialog.m_edInfile->lineEdit()->text());
@@ -366,43 +366,43 @@ QString PostscriptDialog::buildTempfile()
 
     if (!zipped_psfile) {                                       // unzipped ps files
         if (m_PostscriptDialog.m_edOutfile->lineEdit()->text().isEmpty()) { // pstops/psselect | okular
-            stream << command << " " << inputfile << " | okular -" << endl;
+            stream << command << " " << inputfile << " | okular -" << Qt::endl;
             viewer = false;
         } else {                                                    // pstops/psselect
-            stream << command << " " << inputfile << " " << outputfile << endl;
+            stream << command << " " << inputfile << " " << outputfile << Qt::endl;
         }
     } else {                                                      // zipped ps files
         if (m_PostscriptDialog.m_edOutfile->lineEdit()->text().isEmpty()) { // pstops/psselect | okular
             stream << "gunzip -c " << inputfile
                    << " | " << command
                    << " | okular -"
-                   << endl;
+                   << Qt::endl;
             viewer = false;
         } else {
             stream << "gunzip -c " << inputfile                    // pstops/psselect
                    << " | " << command
                    << " > " << outputfile
-                   << endl;
+                   << Qt::endl;
         }
     }
 
     // check, if we should stop
     if ( equalfiles || viewer ) {
-        stream << "if [ $? != 0 ]; then" << endl;
-        stream << "   exit 1" << endl;
-        stream << "fi" << endl;
+        stream << "if [ $? != 0 ]; then" << Qt::endl;
+        stream << "   exit 1" << Qt::endl;
+        stream << "fi" << Qt::endl;
     }
 
     // replace the original file
     if ( equalfiles ) {
-        stream << "rm " << inputfile << endl;
-        stream << "mv " << outputfile << " " << inputfile << endl;
+        stream << "rm " << inputfile << Qt::endl;
+        stream << "mv " << outputfile << " " << inputfile << Qt::endl;
     }
 
     // viewer
     if ( viewer ) {                                                // viewer: okular
         stream << "okular" << " "
-               << ((equalfiles) ? inputfile : outputfile) << endl;
+               << ((equalfiles) ? inputfile : outputfile) << Qt::endl;
     }
 
     // everything is prepared to do the job
@@ -485,7 +485,7 @@ bool PostscriptDialog::checkParameter()
 
 void PostscriptDialog::comboboxChanged(int index)
 {
-    KILE_DEBUG_MAIN << index << endl;
+    KILE_DEBUG_MAIN << index << Qt::endl;
     if (index == PS_COPY_SORTED || index == PS_COPY_UNSORTED) {
         m_PostscriptDialog.m_lbParameter->setEnabled(true);
         m_PostscriptDialog.m_lbParameter->setText(i18n("Copies:"));

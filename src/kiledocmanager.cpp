@@ -863,7 +863,7 @@ void Manager::saveURL(const QUrl &url)
 
 void Manager::newDocumentStatus(KTextEditor::Document *doc)
 {
-    KILE_DEBUG_MAIN << "void Manager::newDocumentStatus(Kate::Document)" << endl;
+    KILE_DEBUG_MAIN << "void Manager::newDocumentStatus(Kate::Document)" << Qt::endl;
     if(!doc) {
         return;
     }

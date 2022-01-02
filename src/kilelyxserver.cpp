@@ -143,8 +143,8 @@ bool KileLyxServer::openPipes()
         QFile::remove(linkInfo.absoluteFilePath());
         linkInfo.refresh();
 
-        KILE_DEBUG_MAIN << "pipe=" << m_pipes[i] << endl;
-        KILE_DEBUG_MAIN << "link=" << m_links[i] << endl;
+        KILE_DEBUG_MAIN << "pipe=" << m_pipes[i] << Qt::endl;
+        KILE_DEBUG_MAIN << "link=" << m_links[i] << Qt::endl;
 
         if(!pipeInfo.exists()) {
             //create the dir first
@@ -188,7 +188,7 @@ bool KileLyxServer::openPipes()
                 m_pipeIn.append(file);
                 m_file.insert(file->handle(), file);
                 opened = true;
-                KILE_DEBUG_MAIN << "everything is correct :)" << endl;
+                KILE_DEBUG_MAIN << "everything is correct :)" << Qt::endl;
             }
         }
         else {

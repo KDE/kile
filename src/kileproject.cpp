@@ -484,7 +484,7 @@ int KileProject::getProjectFileVersion()
 //          also assumes that 'm_name' has been set correctly already if this is a fresh (empty) project!
 bool KileProject::load()
 {
-    KILE_DEBUG_MAIN << "KileProject: loading..." << endl;
+    KILE_DEBUG_MAIN << "KileProject: loading..." << Qt::endl;
 
     if(!ensurePrivateKileDirectoryExists(m_projecturl)) {
         return false;
@@ -565,7 +565,7 @@ bool KileProject::load()
 
 bool KileProject::save()
 {
-    KILE_DEBUG_MAIN << "KileProject: saving..." <<endl;
+    KILE_DEBUG_MAIN << "KileProject: saving..." << Qt::endl;
 
     KConfigGroup generalGroup = m_config->group("General");
     KConfigGroup guiGeneralGroup = m_guiConfig->group("General");

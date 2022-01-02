@@ -517,13 +517,13 @@ void Manager::tabContext(const QPoint &pos)
     // 'action1' can become null if it belongs to a view that has been closed, for example
     QPointer<QAction> action1 = m_ki->mainWindow()->action("move_view_tab_left");
     if(action1) {
-        action1->setData(qVariantFromValue(view));
+        action1->setData(QVariant::fromValue(view));
         tabMenu.addAction(action1);
     }
 
     QPointer<QAction> action2 = m_ki->mainWindow()->action("move_view_tab_right");
     if(action2) {
-        action2->setData(qVariantFromValue(view));
+        action2->setData(QVariant::fromValue(view));
         tabMenu.addAction(action2);
     }
 
@@ -533,14 +533,14 @@ void Manager::tabContext(const QPoint &pos)
     if(view->document()->isModified()) {
         action3 = view->actionCollection()->action(KStandardAction::name(KStandardAction::Save));
         if(action3) {
-            action3->setData(qVariantFromValue(view));
+            action3->setData(QVariant::fromValue(view));
             tabMenu.addAction(action3);
         }
     }
 
     QPointer<QAction> action4 = view->actionCollection()->action(KStandardAction::name(KStandardAction::SaveAs));
     if(action4) {
-        action4->setData(qVariantFromValue(view));
+        action4->setData(QVariant::fromValue(view));
         tabMenu.addAction(action4);
     }
 
@@ -553,13 +553,13 @@ void Manager::tabContext(const QPoint &pos)
 
     QPointer<QAction> action6 = m_ki->mainWindow()->action("file_close");
     if(action6) {
-        action6->setData(qVariantFromValue(view));
+        action6->setData(QVariant::fromValue(view));
         tabMenu.addAction(action6);
     }
 
     QPointer<QAction> action7 = m_ki->mainWindow()->action("file_close_all_others");
     if(action7) {
-        action7->setData(qVariantFromValue(view));
+        action7->setData(QVariant::fromValue(view));
         tabMenu.addAction(action7);
     }
     /*

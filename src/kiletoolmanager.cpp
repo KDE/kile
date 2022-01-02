@@ -727,7 +727,7 @@ void KileTool::Manager::buildBibliographyBackendSelection()
     Q_FOREACH(const ToolConfigPair& tool, m_bibliographyToolsList) {
         // create an action for backend selection
         QAction * action = m_bibliographyBackendSelectAction->addAction(tool.userStringRepresentation());
-        action->setData(qVariantFromValue(tool));
+        action->setData(QVariant::fromValue(tool));
         m_bibliographyBackendActionMap[tool] = action;
     }
 

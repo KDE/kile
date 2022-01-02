@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2007-2020 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2007-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
             (C) 2007 Holger Danielsson (holger.danielsson@versanet.de)
             (C) 2009 Thomas Braun (thomas.braun@virtuell-zuhause.de)
  ****************************************************************************************/
@@ -985,7 +985,7 @@ void Kile::setupActions()
     KileStdActions::setupMathTags(this, actionCollection());
 
     m_bibTagActionMenu = new KActionMenu(i18n("&Bibliography"), actionCollection());
-    m_bibTagActionMenu->setDelayed(false);
+    m_bibTagActionMenu->setPopupMode(QToolButton::InstantPopup);
     actionCollection()->addAction("menu_bibliography", m_bibTagActionMenu);
 
     createAction(i18n("Clean"), "CleanBib", this, &Kile::cleanBib);

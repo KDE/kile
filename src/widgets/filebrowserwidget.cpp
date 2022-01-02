@@ -1,7 +1,7 @@
 /******************************************************************************************
     begin                : Wed Aug 14 2002
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
 
 from Kate (C) 2001 by Matt Newell
 
@@ -127,7 +127,7 @@ void FileBrowserWidget::setupToolbar()
 
     // section for settings menu
     KActionMenu *optionsMenu = new KActionMenu(QIcon::fromTheme("configure"), i18n("Options"), this);
-    optionsMenu->setDelayed(false);
+    optionsMenu->setPopupMode(QToolButton::InstantPopup);
     optionsMenu->addAction(m_dirOperator->actionCollection()->action("short view"));
     optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed view"));
     optionsMenu->addAction(m_dirOperator->actionCollection()->action("tree view"));

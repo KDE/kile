@@ -786,7 +786,7 @@ QAction* Kile::createAction(const QString &text, const QString &actionName, cons
 }
 
 template<class ContextType, class Func>
-QAction* Kile::createAction(const QString &text, const QString &actionName, const QString& iconName, const QList<QKeySequence> shortcut, const ContextType* context, Func function)
+QAction* Kile::createAction(const QString &text, const QString &actionName, const QString& iconName, const QList<QKeySequence>& shortcut, const ContextType* context, Func function)
 {
     QAction *action = new QAction(this);
     action->setText(text);

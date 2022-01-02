@@ -290,7 +290,7 @@ private:
     QAction* createAction(KStandardAction::StandardAction actionType, const QString &name, const ContextType* context, Func function);
 
     template<class ContextType, class Func>
-    QAction* createAction(const QString &text, const QString &actionName, const QString& iconName, const QList<QKeySequence> shortcut, const ContextType* context, Func function);
+    QAction* createAction(const QString &text, const QString &actionName, const QString& iconName, const QList<QKeySequence>& shortcut, const ContextType* context, Func function);
 
     void setMasterDocumentFileName(const QString& fileName);
     void clearMasterDocument();

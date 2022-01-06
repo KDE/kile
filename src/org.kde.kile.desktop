@@ -179,5 +179,5 @@ GenericName[zh_CN]=LaTeX 前端程序
 GenericName[zh_TW]=LaTeX 前端介面
 MimeType=text/x-tex;text/x-kilepr;
 Categories=Qt;KDE;Office;Publishing;
+SingleMainWindow=true
 X-DBUS-ServiceName=net.sourceforge.kile
-X-GNOME-SingleWindow=true

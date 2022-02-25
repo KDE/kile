@@ -492,4 +492,5 @@
   <custom>
     <value key="KDE::windows_store">https://www.microsoft.com/store/apps/9PMBNG78PFK3</value>
   </custom>
+  <content_rating type="oars-1.1"/>
 </component>

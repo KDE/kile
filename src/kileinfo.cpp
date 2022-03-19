@@ -168,7 +168,7 @@ QString KileInfo::getCompileName(bool shrt /* = false */, LaTeXOutputHandler** h
 QString KileInfo::getCompileNameForProject(KileProject *project, bool shrt) const
 {
     if (!project->masterDocument().isEmpty()) {
-        QUrl master(project->masterDocument());
+        QUrl master = QUrl::fromLocalFile(project->masterDocument());
         if(shrt) {
             return master.fileName();
         }

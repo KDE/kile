@@ -236,7 +236,7 @@
       <li>Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor
           to the corresponding page in the viewer</li>
       <li xml:lang="ca">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
-      <li xml:lang="ca-valencia">Cerca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
+      <li xml:lang="ca-valencia">Busca directa i inversa: cliqueu en el visor de DVI i salteu a la línia LaTeX corresponent de l'editor, o salteu des de l'editor a la pàgina corresponent en el visor</li>
       <li xml:lang="de">Rückwärts- und Vorwärtssuche: Klicken Sie in den DVI-Betrachter und springen Sie zu der entsprechenden LaTeX-Zeile im Editor, oder springen Sie vom Editor zu der entsprechenden Seite im Betrachter</li>
       <li xml:lang="el">Αντίστροφη και προς τα εμπρός αναζήτηση: με κλικ στον προβολέα DVI και μετάβαση στη σχετική γραμμή του LaTeX στον επεξεργαστή ή με μετάβαση από τον επεξεργαστή στη σχετική σελίδα στον προβολέα</li>
       <li xml:lang="en-GB">Inverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewer</li>
@@ -263,7 +263,7 @@
       <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
           jump to the corresponding section</li>
       <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
-      <li xml:lang="ca-valencia">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
+      <li xml:lang="ca-valencia">La busca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
       <li xml:lang="de">Das Auffinden von Kapiteln oder Abschnitten ist sehr einfach, Kile erstellt eine Liste mit allen Kapitel usw. in Ihrem Dokument. Sie können die Liste benutzen, um zu dem entsprechenden Abschnitt zu gehen</li>
       <li xml:lang="el">Είναι πολύ εύκολη η εύρεση κεφαλαίων ή ενοτήτων. Το Kile συνθέτει μια λίστα με όλα τα κεφάλαια κλπ. στο έγγραφό σας. Μπορείτε να χρησιμοποιήσετε τη λίστα για να μεταβείτε στη σχετική ενότητα</li>
       <li xml:lang="en-GB">Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding section</li>

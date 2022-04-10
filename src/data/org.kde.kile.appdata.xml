@@ -88,6 +88,7 @@
     <p xml:lang="sk">Kile je užívateľsky príjemný editor TeX/LaTeX od KDE. Kile vám dáva možnosť používať všetky funkcie LaTeXu v grafickom rozhraní a má interaktívne mechanizmy náhľadu, aby ste mohli okamžite vidieť výsledky úprav.</p>
     <p xml:lang="sl">Kile je uporabniku prijazen TeX/LaTeX urejevalnik na namizju KDE. Kile omogoča uporabo vseh funkcij LaTeX v grafičnem vmesniku in imainteraktivne predogledne mehanizmi za lažji ogled rezultatov urejanja.</p>
     <p xml:lang="sv">Kile är en användarvänlig Tex- och Latex-editor av KDE. Kile ger dig möjlighet att använda hela Latex funktionalitet i ett grafiskt gränssnitt, och har en interaktiv förhandsgranskningsmekanism för att enkelt kunna se redigeringsresultatet.</p>
+    <p xml:lang="tr">Kile, KDE tarafından yapılan kullanıcı dostu bir TeX/LaTeX düzenleyicisidir. Kile, LaTeX'in tüm işlevselliğini grafik bir arabirimde kullanmanıza izin verir ve düzenlemenizin sonuçlarını anında görebilmeniz için etkileşimli önizleme mekanizmaları sunar.</p>
     <p xml:lang="uk">Kile — дружня до користувача програма для редагування коду TeX/LaTeX від KDE. Kile надає вам змогу скористатися усіма функціональними можливостями LaTeX за допомогою графічного інтерфейсу та має механізми інтерактивного попереднього перегляду для негайного отримання результатів редагування.</p>
     <p xml:lang="x-test">xxKile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.xx</p>
     <p xml:lang="zh-CN">Kile 是一款 KDE 开发的 TeX/LaTeX 编辑器。Kile 能够让您在图形界面中使用 LaTeX 的所有功能，并且拥有交互式预览机制以便随时查看编辑结果。</p>
@@ -175,7 +176,7 @@
       <li xml:lang="sk">Automatické dokončenie príkazov (La)TeX</li>
       <li xml:lang="sl">Avtomatsko dokončevanje (La)TeX ukazov</li>
       <li xml:lang="sv">Automatisk komplettering av Tex- och Latex-kommandon</li>
-      <li xml:lang="tr">(La)TeX komutlarının Otomatik-Tamamlanması</li>
+      <li xml:lang="tr">(La)TeX komutlarının Otomatik Tamamlanması</li>
       <li xml:lang="uk">Автодоповнення команд (La)TeX.</li>
       <li xml:lang="x-test">xxAuto-completion of (La)TeX commandsxx</li>
       <li xml:lang="zh-CN">(La)TeX 命令自动补全</li>
@@ -202,7 +203,7 @@
       <li xml:lang="sk">Šablóny a sprievodcovia robia spúšťanie nových dokumentov veľmi jednoduché</li>
       <li xml:lang="sl">Predloge in čarovniki omogočajo začetek pisanja novih dokumentov zelo malo dela</li>
       <li xml:lang="sv">Mallar och guider gör att mycket lite arbete behövs för att påbörja nya dokument</li>
-      <li xml:lang="tr">Şablonlar ve sihirbazlar yeni belgelere başlamayı çok küçük bir işe çevirirler</li>
+      <li xml:lang="tr">Şablonlar ve sihirbazlar yeni belgelere başlamayı çok kolaylaştırırlar</li>
       <li xml:lang="uk">Шаблони і допоміжні засоби для створення документів з мінімальними зусиллями.</li>
       <li xml:lang="x-test">xxTemplates and wizards make starting new documents very little workxx</li>
       <li xml:lang="zh-CN">模板和向导让创建新文档变得简单高效</li>
@@ -445,7 +446,7 @@
       <li xml:lang="sk">Rozšírené editovacie príkazy</li>
       <li xml:lang="sl">Napredni ukazi za urejanje</li>
       <li xml:lang="sv">Avancerade redigeringskommandon</li>
-      <li xml:lang="tr">İleri seviye düzenleme komutları</li>
+      <li xml:lang="tr">İleri düzey düzenleme komutları</li>
       <li xml:lang="uk">Розширені команди редагування.</li>
       <li xml:lang="x-test">xxAdvanced editing commandsxx</li>
       <li xml:lang="zh-CN">高级编辑命令</li>
@@ -476,6 +477,7 @@
       <caption xml:lang="sk">Úpravy dokumentov v Kile</caption>
       <caption xml:lang="sl">Urejanje dokumentov v Kile</caption>
       <caption xml:lang="sv">Dokumentredigering i Kile</caption>
+      <caption xml:lang="tr">Kile'de belge düzenleme</caption>
       <caption xml:lang="uk">Редагування документа у Kile</caption>
       <caption xml:lang="x-test">xxDocument editing in Kilexx</caption>
       <caption xml:lang="zh-CN">Kile 文档编辑</caption>

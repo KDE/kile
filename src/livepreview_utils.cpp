@@ -22,6 +22,11 @@ LivePreviewUserStatusHandler::LivePreviewUserStatusHandler()
       m_livePreviewEnabled(true),
       m_livePreviewTool(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION)
 {
+    // if something is configured, use that as global default
+    QString defaultToolName = KileConfig::livePreviewDefaultTool();
+    if(!defaultToolName.isEmpty()) {
+        m_livePreviewTool = KileTool::ToolConfigPair::fromConfigStringRepresentation(defaultToolName);
+    }
 }
 
 bool LivePreviewUserStatusHandler::userSpecifiedLivePreviewStatus() const

@@ -17,8 +17,10 @@
 #include <QWidget>
 
 #include <KConfig>
+#include "kiletool.h"
 
 #include "ui_livepreviewconfigwidget.h"
+
 
 class KileWidgetLivePreviewConfig : public QWidget, public Ui::KileWidgetLivePreviewConfig
 {

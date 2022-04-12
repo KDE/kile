@@ -625,5 +625,9 @@
 			<label>Only compile documents after saving.</label>
 			<default>true</default>
 		</entry>
+		<entry name="livePreviewDefaultTool" type="String">
+			<label>default livepreview tool.</label>
+			<default></default>
+		</entry>
 	</group>
 </kcfg>

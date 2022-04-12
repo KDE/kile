@@ -98,6 +98,19 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="m_previewDefaultToolLabel">
+        <property name="text">
+         <string>Set default live preview tool</string>
+        </property>
+        <property name="buddy">
+         <cstring>m_previewDefaultToolComboBox</cstring>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="m_previewDefaultToolComboBox"/>
+      </item>
      </layout>
     </widget>
    </item>

@@ -442,7 +442,13 @@ void LivePreviewManager::readLivePreviewStatusSettings(KConfigGroup &configGroup
 
     const QString livePreviewToolConfigString = configGroup.readEntry("kile_livePreviewTool", "");
     if(livePreviewToolConfigString.isEmpty()) {
-        handler->setLivePreviewTool(ToolConfigPair(LIVEPREVIEW_DEFAULT_TOOL_NAME, DEFAULT_TOOL_CONFIGURATION));
+        // if nothing is set for this fallback to the configured global default, otherwise to the hardcoded default
+        QString defaultToolName = KileConfig::livePreviewDefaultTool();
+        if(defaultToolName.isEmpty()) {
+            defaultToolName = LIVEPREVIEW_DEFAULT_TOOL_NAME;
+        }
+        KileTool::ToolConfigPair defaultTool = KileTool::ToolConfigPair::fromConfigStringRepresentation(defaultToolName);
+        handler->setLivePreviewTool(defaultTool);
     }
     else {
         handler->setLivePreviewTool(ToolConfigPair::fromConfigStringRepresentation(livePreviewToolConfigString));

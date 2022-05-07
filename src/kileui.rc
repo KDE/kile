@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="kile" version="48">
+<kpartgui name="kile" version="49">
 <Menu name="ktexteditor_popup" noMerge="1">
     <DefineGroup name="popup_operations" />
     <Action name="popup_pasteaslatex"/>
@@ -56,14 +56,6 @@
     <DefineGroup name="edit_select_merge" append="edit_select_merge"/>
     <DefineGroup name="edit_find_merge" append="edit_find_merge"/>
     <Separator/>
-    <Menu name="goto_menu" >
-        <text>&amp;Go to</text>
-        <Action name="edit_next_section" />
-        <Action name="edit_prev_section" />
-        <Separator/>
-        <Action name="edit_next_paragraph" />
-        <Action name="edit_prev_paragraph" />
-    </Menu>
     <Action name="FindInFiles"/>
     <Separator/>
     <Menu name="complete"><text>Co&amp;mplete</text>
@@ -120,17 +112,32 @@
     <Action name="RefreshStructure"/>
 </Menu>
 
+<Menu name="selection" append="before_view">
+  <text>&amp;Selection</text>
+</Menu>
+
 <Menu name="view" noMerge="1"><text>&amp;View</text>
 <DefineGroup name="view_operations" append="view_operations"/>
 <Separator/>
 <Action name="show_cursor_position_in_document_viewer"/>
 <Action name="synchronize_cursor_with_document_viewer"/>
 <Separator/>
-<Action name="gotoPrevDocument"/>
-<Action name="gotoNextDocument"/>
-<Separator/>
 <Menu name="menu_document_viewer"><text>Document Viewer</text>
 </Menu>
+</Menu>
+
+<Menu name="go"><text>&amp;Go</text>
+  <DefineGroup name="edit_goto"/>
+  <Action name="gotoPrevDocument"/>
+  <Action name="gotoNextDocument"/>
+  <Separator/>
+  <Action name="edit_next_section" />
+  <Action name="edit_prev_section" />
+  <Separator/>
+  <Action name="edit_next_paragraph" />
+  <Action name="edit_prev_paragraph" />
+  <Separator/>
+  <DefineGroup name="edit_goto2"/>
 </Menu>
 
 <Menu name="menu_build"><text>B&amp;uild</text>
@@ -494,6 +501,8 @@
 <Merge/>
 
 <Menu name="settings" ><text>&amp;Settings</text>
+    <DefineGroup name="color"/>
+    <Separator/>
     <Action name="Mode"/>
     <Separator/>
     <Action name="settings_perform_check" />

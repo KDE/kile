@@ -68,7 +68,7 @@
       Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.
     </p>
     <p xml:lang="ca">El Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. El Kile proporciona la possibilitat d'usar totes les funcionalitats del LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a veure immediatament els resultats de l'edició.</p>
-    <p xml:lang="ca-valencia">Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. Kile proporciona la possibilitat d'usar totes les funcionalitats de LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a vore immediatament els resultats de l'edició.</p>
+    <p xml:lang="ca-valencia">Kile és un editor TeX/LaTeX fàcil d'emprar fet per la comunitat KDE. Kile proporciona la possibilitat d'utilitzar totes les funcionalitats de LaTeX en una interfície gràfica i té mecanismes de previsualització interactius per a vore immediatament els resultats de l'edició.</p>
     <p xml:lang="de">Kile ist ein benutzerfreundlicher TeX/LaTeX-Editor von KDE. Kile gibt Ihnen die Möglichkeit, die gesamte Funktionalität von LaTeX in einer grafischen Oberfläche zu nutzen und verfügt über interaktive Vorschaumechanismen, um die Ergebnisse der Bearbeitung zu sehen.</p>
     <p xml:lang="el">Το Kile είναι ένας φιλικός προς στον χρήστη επεξεργαστής TeX/LaTeX από το KDE. Το Kile σάς δίνει τη δυνατότητα να χρησιμοποιήσετε όλη τη λειτουργικότητα του LaTeX σε ένα γραφικό περιβάλλον και περιέχει διαδραστικούς μηχανισμούς προεπισκόπησης για να βλέπετε άμεσα τα αποτελέσματα της επεξεργασίας.</p>
     <p xml:lang="en-GB">Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.</p>
@@ -264,7 +264,7 @@
       <li>Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to
           jump to the corresponding section</li>
       <li xml:lang="ca">La cerca de capítols o seccions és molt senzilla, El Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
-      <li xml:lang="ca-valencia">La busca de capítols o seccions és molt senzilla, Kile construeix una llista de tots els capítols, etc. en el document. Podeu usar la llista per a saltar a la secció corresponent</li>
+      <li xml:lang="ca-valencia">La busca de capítols o seccions és molt senzilla, Kile construeix una llista de tots els capítols, etc. en el document. Podeu utilitzar la llista per a saltar a la secció corresponent</li>
       <li xml:lang="de">Das Auffinden von Kapiteln oder Abschnitten ist sehr einfach, Kile erstellt eine Liste mit allen Kapitel usw. in Ihrem Dokument. Sie können die Liste benutzen, um zu dem entsprechenden Abschnitt zu gehen</li>
       <li xml:lang="el">Είναι πολύ εύκολη η εύρεση κεφαλαίων ή ενοτήτων. Το Kile συνθέτει μια λίστα με όλα τα κεφάλαια κλπ. στο έγγραφό σας. Μπορείτε να χρησιμοποιήσετε τη λίστα για να μεταβείτε στη σχετική ενότητα</li>
       <li xml:lang="en-GB">Finding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding section</li>
@@ -318,7 +318,7 @@
       <li xml:lang="zh-CN">将相互关联的文档集合在同一工程之下进行管理</li>
       <li>Easy insertion of citations and references when using projects</li>
       <li xml:lang="ca">Inserció fàcil de cites i referències en usar projectes</li>
-      <li xml:lang="ca-valencia">Inserció fàcil de cites i referències en usar projectes</li>
+      <li xml:lang="ca-valencia">Inserció fàcil de cites i referències en utilitzar projectes</li>
       <li xml:lang="de">Einfaches Einfügen von Zitaten und Referenzen bei der Verwendung von Projekten</li>
       <li xml:lang="el">Εύκολη εισαγωγή παραπομπών και αναφορών με τη χρήση έργων</li>
       <li xml:lang="en-GB">Easy insertion of citations and references when using projects</li>

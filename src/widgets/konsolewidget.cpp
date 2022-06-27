@@ -131,8 +131,8 @@ void Konsole::setDirectory(const QString &directory)
     if(m_term && !directory.isEmpty() && directory != m_currentDir) {
         m_term->sendInput(QChar(0x05)); // clear the shell command prompt by sending Ctrl+E and
         m_term->sendInput(QChar(0x15)); // Ctrl+U (#301653)
-        m_term->sendInput("cd " + KShell::quoteArg(directory) + '\n');
-        m_term->sendInput("clear\n");
+        m_term->sendInput(" cd " + KShell::quoteArg(directory) + '\n');
+        m_term->sendInput(" clear\n");
         m_currentDir = directory;
     }
 }

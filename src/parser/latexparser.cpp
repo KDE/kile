@@ -96,6 +96,14 @@ BracketResult LaTeXParser::matchBracket(const QStringList& textLines, int &l, in
     return result;
 }
 
+// Skip any number of white spaces in a line
+int skipWS(const QString &s, int pos) {
+    while(pos + 1 < s.length() && s.at(pos + 1).isSpace()) {
+        ++pos;
+    }
+    return pos;
+}
+
 //FIXME: this has to be completely rewritten!
 ParserOutput* LaTeXParser::parse()
 {
@@ -238,7 +246,14 @@ ParserOutput* LaTeXParser::parse()
                         else if(m == "frame") {
                             const QString untitledFrameDisplayName = i18n("Frame");
                             it = m_dictStructLevel.constFind("\\begin{frame}");
-                            if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
+                            tagEnd = skipWS(s, tagEnd);
+                            // the frame may have [fragile] modifier
+                            if(tagEnd + 1 < s.size() && s.at(tagEnd + 1) == '[') {
+                                tagEnd++;
+                                Parser::matchBracket(m_textLines, '[', i, tagEnd);
+                            }
+                            tagEnd = skipWS(s, tagEnd);
+                            if(tagEnd + 1 < s.size() && s.at(tagEnd + 1) == '{') {
                                 tagEnd++;
                                 result = matchBracket(m_textLines, i, tagEnd);
                                 m = result.value.trimmed();
@@ -253,6 +268,7 @@ ParserOutput* LaTeXParser::parse()
                         else if(m=="block" || m=="exampleblock" || m=="alertblock") {
                             const QString untitledBlockDisplayName = i18n("Untitled Block");
                             it = m_dictStructLevel.constFind("\\begin{block}");
+                            tagEnd = skipWS(s, tagEnd);
                             if(tagEnd+1 < s.size() && s.at(tagEnd+1) == '{') {
                                 tagEnd++;
                                 result = matchBracket(m_textLines, i, tagEnd);

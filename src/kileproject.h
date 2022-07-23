@@ -1,7 +1,7 @@
 /***************************************************************************************
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                           (C) 2009-2016 by Michel Ludwig (michel.ludwig@kdemail.net)
+                           (C) 2009-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************/
 
 /***************************************************************************
@@ -49,7 +49,7 @@ class KileProjectItem : public QObject
 public:
     explicit KileProjectItem(KileProject *project = 0, const QUrl &url = QUrl(), int type = Source);
     ~KileProjectItem() {
-        KILE_DEBUG_MAIN << "DELETING PROJITEM " << m_path << endl;
+        KILE_DEBUG_MAIN << "DELETING PROJITEM " << m_path << Qt::endl;
     }
 
     bool operator==(const KileProjectItem& item) {

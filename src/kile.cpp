@@ -124,6 +124,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
       ModeAction(Q_NULLPTR),
       WatchFileAction(Q_NULLPTR),
       m_actionMessageView(Q_NULLPTR),
+      m_actionShowMenuBar(Q_NULLPTR),
       m_actRecentFiles(Q_NULLPTR),
       m_pFullScreen(Q_NULLPTR),
       m_sideBar(Q_NULLPTR),
@@ -430,6 +431,8 @@ Kile::Kile(bool allowRestore, QWidget *parent)
         m_livePreviewManager->buildLivePreviewMenu(m_config.data());
         m_livePreviewManager->disableBootUpMode();
     }
+
+    menuBar()->show();
 }
 
 Kile::~Kile()
@@ -1075,6 +1078,9 @@ void Kile::setupActions()
     actionCollection()->addAction("help_userhelp", m_userHelpActionMenu);
 
     m_pFullScreen = KStandardAction::fullScreen(this, &Kile::slotToggleFullScreen, this, actionCollection());
+    m_actionShowMenuBar = KStandardAction::showMenubar(this,
+                                                       [this]() { toggleShowMenuBar(true); },
+                                                       actionCollection());
 }
 
 void Kile::rebuildBibliographyMenu() {
@@ -3074,4 +3080,23 @@ void Kile::handleDocumentParsingStarted()
 void Kile::handleDocumentParsingComplete()
 {
     statusBar()->clearParserStatus();
+}
+
+void Kile::toggleShowMenuBar(bool showMessage)
+{
+    if (m_actionShowMenuBar->isChecked()) {
+        menuBar()->show();
+        return;
+    }
+    
+    if (showMessage) {
+        const QString accel = m_actionShowMenuBar->shortcut().toString(QKeySequence::NativeText);
+        KMessageBox::information(this,
+                                    i18n("This will hide the menu bar completely."
+                                        " You can show it again by typing %1.",
+                                        accel),
+                                    i18n("Hide menu bar"),
+                                    QStringLiteral("HideMenuBarWarning"));
+    }
+    menuBar()->hide();
 }

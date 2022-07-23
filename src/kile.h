@@ -169,6 +169,7 @@ private:
     KToggleAction                  *ModeAction,
                                    *WatchFileAction;
     KToggleAction                  *m_actionMessageView;
+    KToggleAction                  *m_actionShowMenuBar;
     KRecentFilesAction             *m_actRecentFiles;
     KToggleFullScreenAction        *m_pFullScreen;
 
@@ -303,6 +304,8 @@ private Q_SLOTS:
     bool resetPart();
     void enableGUI(bool);
     void slotToggleFullScreen();
+
+    void toggleShowMenuBar(bool showMessage = true);
 
     void restoreFilesAndProjects(bool allowRestore);
     void readGUISettings();

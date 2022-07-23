@@ -2,7 +2,7 @@
     begin                : Fri Aug 1 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                                2006 - 2009 by Thomas Braun
-                               2012 - 2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2012 - 2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -293,7 +293,7 @@ QString convertLatin1StringtoUTF8(const QString &string)
     }
 
     QVector<uint> stringAsIntVector;
-    QStringList stringList = string.split(',', QString::SkipEmptyParts);
+    QStringList stringList = string.split(',', Qt::SkipEmptyParts);
 
     QStringList::const_iterator it;
     QString str;
@@ -325,8 +325,8 @@ void SymbolView::fillWidget(const QString& prefix)
         KConfigGroup config = KSharedConfig::openConfig()->group(MFUS_GROUP);
         QString configPaths = config.readEntry("paths");
         QString configrefCnts = config.readEntry("counts");
-        paths = configPaths.split(',', QString::SkipEmptyParts);
-        refCnts = configrefCnts.split(',', QString::SkipEmptyParts);
+        paths = configPaths.split(',', Qt::SkipEmptyParts);
+        refCnts = configrefCnts.split(',', Qt::SkipEmptyParts);
         KILE_DEBUG_MAIN << "Read " << paths.count() << " paths and " << refCnts.count() << " refCnts";
         if(paths.count() != refCnts.count()) {
             KILE_DEBUG_MAIN << "error in saved LRU list";

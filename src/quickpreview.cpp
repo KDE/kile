@@ -1,6 +1,6 @@
 /**************************************************************************************************
    Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                 2007-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+                 2007-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************************/
 
 /***************************************************************************
@@ -220,7 +220,7 @@ bool QuickPreview::run(const QString &text,const QString &textfilename,int start
         return false;
     }
 
-    QStringList previewlist = spreviewlist.split(',', QString::KeepEmptyParts);
+    QStringList previewlist = spreviewlist.split(',', Qt::KeepEmptyParts);
 
     // create preview tools
     KILE_DEBUG_MAIN << "\tcreate latex tool for QuickPreview: "  << previewlist[pvLatex] << Qt::endl;

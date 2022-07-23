@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2005-2007 by Holger Danielsson (holger.danielsson@t-online.de)
-            (C) 2014-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2014-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -149,7 +149,7 @@ void TexDocDialog::readToc()
 
             // list entries 0,1,basename(2),3 are needed for keyword search
             // (key,title,filepath,keywords)
-            QStringList list = textline.split(';', QString::KeepEmptyParts);
+            QStringList list = textline.split(';', Qt::KeepEmptyParts);
 
             // get basename of help file
             QString basename;
@@ -189,7 +189,7 @@ void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, b
             itemsection = new QTreeWidgetItem(m_texdocs, QStringList(section.remove(0, 1)));
         }
         else {
-            keylist = doclist[i].split(';', QString::KeepEmptyParts);
+            keylist = doclist[i].split(';', Qt::KeepEmptyParts);
             if (keylist.size() < 4) {
                 continue;
             }
@@ -439,7 +439,7 @@ void TexDocDialog::slotInitToc()
 {
     disconnect(this, &TexDocDialog::processFinished, this, &TexDocDialog::slotInitToc);
 
-    QStringList results = m_output.split('\n', QString::KeepEmptyParts);
+    QStringList results = m_output.split('\n', Qt::KeepEmptyParts);
     if (results.count() < 3) {
         KMessageBox::error(this, i18n("Could not determine the installation path of your TeX distribution or find the file 'texdoctk.dat'.<br/>"
                                       "Hence, we cannot provide you with an overview of the installed TeX documentation."));

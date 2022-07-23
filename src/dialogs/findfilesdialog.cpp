@@ -4,7 +4,7 @@
    Copyright (C) 2001 Anders Lund <anders.lund@lund.tdcadsl.dk>
    Copyright (C) 2003 Jan-Marek Glogowski <glogow@stud.fbi.fh-darmstadt.de>
    Copyright (C) 2005 Holger Danielsson <holger.danielsson@versanet.de>
-   Copyright (C) 2008-2014 Michel Ludwig <michel.ludwig@kdemail.net>
+   Copyright (C) 2008-2022 Michel Ludwig <michel.ludwig@kdemail.net>
 
    This program is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public License as
@@ -639,7 +639,7 @@ QString FindFilesDialog::buildFilesCommand()
         files_temp = filter_combo->currentText();
     }
 
-    QStringList tokens = files_temp.split(' ', QString::SkipEmptyParts);
+    QStringList tokens = files_temp.split(' ', Qt::SkipEmptyParts);
     QStringList::Iterator it = tokens.begin();
     if (it != tokens.end()) {
         files = " '" + (*it) + '\'';

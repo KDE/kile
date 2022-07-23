@@ -937,7 +937,7 @@ void QuickDocument::fillCombobox(KileWidget::CategoryComboBox *combo, const QStr
     bool documentclasscombo = (combo == m_cbDocumentClass);
 
     QString sep = (m_currentClass == "beamer" && combo == m_cbPaperSize) ? ";" : ",";
-    QStringList list = cslist.split(sep, QString::SkipEmptyParts);
+    QStringList list = cslist.split(sep, Qt::SkipEmptyParts);
     if (!documentclasscombo) {
         list.sort();
     }
@@ -2209,7 +2209,7 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int 
             mainLayout->addWidget(combobox);
             combobox->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Minimum);
             combobox->setDuplicatesEnabled(false);
-            combobox->addItems(list[i+2].split(',', QString::KeepEmptyParts));
+            combobox->addItems(list[i+2].split(',', Qt::KeepEmptyParts));
             if (i > 0 && m_description[i-1] == "label") {
                 ((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
             }

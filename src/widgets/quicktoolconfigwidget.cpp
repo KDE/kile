@@ -1,6 +1,6 @@
 /********************************************************************************
-*   Copyright (C) 2007, 2008 by Michel Ludwig (michel.ludwig@kdemail.net)       *
-*********************************************************************************/
+ *   Copyright (C) 2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+ ********************************************************************************/
 
 /**************************************************************************
 *                                                                         *
@@ -39,7 +39,7 @@ void QuickToolConfigWidget::updateSequence(const QString &sequence)
     connect(m_cbTools, SIGNAL(activated(QString)), this, SLOT(updateConfigs(QString)));
 
     m_sequence = sequence;
-    QStringList list = sequence.split(',', QString::SkipEmptyParts);
+    QStringList list = sequence.split(',', Qt::SkipEmptyParts);
     QString tl, cfg;
     m_lstbSeq->clear();
     for(QStringList::iterator i = list.begin(); i != list.end(); ++i) {

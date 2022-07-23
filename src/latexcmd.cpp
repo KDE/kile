@@ -1,6 +1,6 @@
 /*****************************************************************************************
   Copyright (C) 2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                2010 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ******************************************************************************************/
 
 /***************************************************************************
@@ -183,7 +183,7 @@ void LatexCommands::insert(const QStringList &list)
         if(pos >= 0)  {
             QString key = (*it).left(pos);
             QString value = (*it).right( (*it).length()-pos-1 );
-            QStringList valuelist = value.split(',', QString::KeepEmptyParts);
+            QStringList valuelist = value.split(',', Qt::KeepEmptyParts);
             int attributes = ( key.at(0)=='\\' ) ? MaxCmdAttr : MaxEnvAttr;
             if(valuelist.count() == attributes) {
                 m_latexCommands[key] = value;
@@ -218,7 +218,7 @@ QString LatexCommands::getAttrAt(const QString &name, int index)
         return QString();
     }
     int attributes = (name.at(0) == '\\') ? MaxCmdAttr : MaxEnvAttr;
-    QStringList list = getValue(name).split(',', QString::KeepEmptyParts);
+    QStringList list = getValue(name).split(',', Qt::KeepEmptyParts);
     return (index < attributes && list.count() == attributes) ? list[index] : QString();
 }
 
@@ -418,7 +418,7 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
     int attributes = (name.at(0) == '\\') ? MaxCmdAttr : MaxEnvAttr;
 
     // split attribute list
-    QStringList list = getValue(name).split(',', QString::KeepEmptyParts);
+    QStringList list = getValue(name).split(',', Qt::KeepEmptyParts);
 
     // check number of attributes
     if(list.count() != attributes) {

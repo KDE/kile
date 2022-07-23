@@ -1,6 +1,7 @@
 /**************************************************************************
-*   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-***************************************************************************/
+ *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)  *
+ *             (C) 2022 by Michel Ludwig (michel.ludwig@kdemail.net)      *
+ **************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -292,9 +293,9 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
         tag = grp.name();
         name = grp.readEntry(QString("name"));
         internalName = grp.readEntry(QString("internalName"));
-        keyList = grp.readEntry(QString("key")).split(',', QString::SkipEmptyParts);
-        altKeyList = grp.readEntry(QString("altkey")).split(',', QString::SkipEmptyParts);
-        optKeyList = grp.readEntry(QString("optkey")).split(',', QString::SkipEmptyParts);
+        keyList = grp.readEntry(QString("key")).split(',', Qt::SkipEmptyParts);
+        altKeyList = grp.readEntry(QString("altkey")).split(',', Qt::SkipEmptyParts);
+        optKeyList = grp.readEntry(QString("optkey")).split(',', Qt::SkipEmptyParts);
 
 // 		KILE_DEBUG_MAIN << "length(keys)=" << keyList.count() << ", length(altkeys)=" << altKeyList.count() << ", length(optkeys)=" << optKeyList.count();
 // 		KILE_DEBUG_MAIN << "tag=" << tag << ", name=" << name << ", internalName=" << internalName;

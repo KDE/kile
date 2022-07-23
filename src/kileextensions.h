@@ -1,7 +1,7 @@
 /*****************************************************************************
-*   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
-*             (C) 2016 by Michel Ludwig (michel.ludwig@kdemail.net)          *
-******************************************************************************/
+ *   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de) *
+ *             (C) 2016-2022 by Michel Ludwig (michel.ludwig@kdemail.net)    *
+ *****************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -17,7 +17,6 @@
 
 #include "kileconstants.h"
 
-#include <QLinkedList>
 #include <QString>
 #include <QUrl>
 
@@ -59,8 +58,8 @@ public:
     }
 
     // we need two methods as KEncodingFileDialog has no Qt-equivalent yet
-    QString fileFilterKDEStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const;
-    QString fileFilterQtStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const;
+    QString fileFilterKDEStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const;
+    QString fileFilterQtStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const;
 
     bool isTexFile(const QString &fileName) const;
     bool isTexFile(const QUrl &url) const {

@@ -1,7 +1,7 @@
 /*********************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
               (C) 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-              (C) 2006-2017 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  *********************************************************************************************/
 
 /***************************************************************************
@@ -236,7 +236,7 @@ Type Info::getType()
     return Undefined;
 }
 
-QLinkedList<Extensions::ExtensionType> Info::getFileFilter() const
+std::list<Extensions::ExtensionType> Info::getFileFilter() const
 {
     return {};
 }
@@ -874,7 +874,7 @@ Type LaTeXInfo::getType()
     return LaTeX;
 }
 
-QLinkedList<Extensions::ExtensionType> LaTeXInfo::getFileFilter() const
+std::list<Extensions::ExtensionType> LaTeXInfo::getFileFilter() const
 {
     return {Extensions::TEX, Extensions::PACKAGES};
 }
@@ -1152,7 +1152,7 @@ Type BibInfo::getType()
     return BibTeX;
 }
 
-QLinkedList<Extensions::ExtensionType> BibInfo::getFileFilter() const
+std::list<Extensions::ExtensionType> BibInfo::getFileFilter() const
 {
     return {Extensions::BIB};
 }
@@ -1179,7 +1179,7 @@ Type ScriptInfo::getType()
     return Script;
 }
 
-QLinkedList<Extensions::ExtensionType> ScriptInfo::getFileFilter() const
+std::list<Extensions::ExtensionType> ScriptInfo::getFileFilter() const
 {
     return {Extensions::JS};
 }

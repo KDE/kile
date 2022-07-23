@@ -1,6 +1,6 @@
 /****************************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-            (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+            (C) 2011-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -16,7 +16,6 @@
 #define KILETOOL_H
 
 #include <QHash>
-#include <QLinkedList>
 #include <QMap>
 #include <QObject>
 #include <QString>
@@ -462,7 +461,7 @@ protected:
     // will also determine the current LaTeXOutputHandler
     virtual bool determineSource() override;
 
-    QLinkedList<Base*> m_tools;
+    std::list<Base*> m_tools;
     QString m_unknownToolSpec;
     LaTeXOutputHandler *m_latexOutputHandler;
 };

@@ -1,6 +1,6 @@
-/**************************************************************************
-*   Copyright (C) 2011 by Michel Ludwig (michel.ludwig@kdemail.net)       *
-***************************************************************************/
+/***************************************************************************
+ *   Copyright (C) 2011-2022 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -14,7 +14,6 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#include <QLinkedList>
 #include <QObject>
 
 #include <QUrl>
@@ -67,7 +66,7 @@ class ParserOutput {
 public:
     virtual ~ParserOutput();
 
-    QLinkedList<StructureViewItem*> structureViewItems;
+    std::list<StructureViewItem*> structureViewItems;
 };
 
 class Parser : public QObject

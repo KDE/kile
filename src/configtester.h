@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -16,7 +16,6 @@
 #define CONFIGTESTER_H
 
 #include <QObject>
-#include <QLinkedList>
 #include <QMap>
 #include <QProcess>
 
@@ -68,9 +67,9 @@ Q_SIGNALS:
     void testComplete(ConfigTest *test);
 
 private:
-    QString				m_testGroup, m_name;
-    bool				m_isCritical, m_isSilent;
-    QLinkedList<ConfigTest*>	m_dependencyTestList;
+    QString                 m_testGroup, m_name;
+    bool                    m_isCritical, m_isSilent;
+    std::list<ConfigTest*>  m_dependencyTestList;
 
 protected:
     Status		m_status;
@@ -230,8 +229,8 @@ private:
     QMap<QString, QList<ConfigTest*> >	m_results;
     QTemporaryDir				*m_tempDir;
     ConfigTest				*m_currentTest;
-    QLinkedList<ConfigTest*> m_testList;
-    QLinkedList<ConfigTest*>::iterator m_nextTestIterator;
+    std::list<ConfigTest*> m_testList;
+    std::list<ConfigTest*>::iterator m_nextTestIterator;
     int					m_testsDone;
     ConfigTest *m_pdfLaTeXSyncTeXSupportTest, *m_laTeXSrcSpecialsSupportTest;
     OkularVersionTest *m_okularVersionTest;

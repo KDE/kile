@@ -1,6 +1,6 @@
 /*************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-              (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+              (C) 2006-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -206,7 +206,7 @@ public:
     /**
      * Returns a file filter suitable for loading and saving files of this class' type.
      **/
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const;
+    virtual std::list<Extensions::ExtensionType> getFileFilter() const;
 
     virtual bool isDocumentTypePromotionAllowed();
     void setDocumentTypePromotionAllowed(bool b);
@@ -486,7 +486,7 @@ public:
 
     virtual Type getType() override;
 
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const override;
+    virtual std::list<Extensions::ExtensionType> getFileFilter() const override;
 
     void startLaTeXCompletion(KTextEditor::View *view);
 
@@ -539,7 +539,7 @@ public:
 
     virtual Type getType() override;
 
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const override;
+    virtual std::list<Extensions::ExtensionType> getFileFilter() const override;
 
     virtual void installParserOutput(KileParser::ParserOutput *parserOutput) override;
 
@@ -562,7 +562,7 @@ public:
 
     virtual Type getType() override;
 
-    virtual QLinkedList<Extensions::ExtensionType> getFileFilter() const override;
+    virtual std::list<Extensions::ExtensionType> getFileFilter() const override;
 };
 
 }

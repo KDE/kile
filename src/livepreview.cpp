@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -277,7 +277,7 @@ void LivePreviewManager::updateLivePreviewToolActions(LivePreviewUserStatusHandl
 
 void LivePreviewManager::setLivePreviewToolActionsEnabled(bool b)
 {
-    Q_FOREACH(QAction *action, m_livePreviewToolActionList) {
+    for(QAction *action : m_livePreviewToolActionList) {
         action->setEnabled(b);
     }
 }

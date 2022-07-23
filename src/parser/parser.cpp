@@ -1,7 +1,7 @@
 /**********************************************************************************
 *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)           *
 *                 2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
-*                 2006-2011 by Michel Ludwig (michel.ludwig@kdemail.net)          *
+*                 2006-2022 by Michel Ludwig (michel.ludwig@kdemail.net)          *
 ***********************************************************************************/
 
 /***************************************************************************
@@ -50,7 +50,7 @@ ParserInput::~ParserInput()
 
 ParserOutput::~ParserOutput()
 {
-    Q_FOREACH(StructureViewItem *item, structureViewItems) {
+    for(StructureViewItem *item : structureViewItems) {
         delete(item);
     }
 }

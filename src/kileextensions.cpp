@@ -1,7 +1,7 @@
 /*****************************************************************************
-*   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de)  *
-*             (C) 2016 by Michel Ludwig (michel.ludwig@kdemail.net)          *
-******************************************************************************/
+ *   Copyright (C) 2007 by Holger Danielsson (holger.danielsson@versanet.de) *
+ *             (C) 2016-2022 by Michel Ludwig (michel.ludwig@kdemail.net)    *
+ *****************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -96,7 +96,7 @@ void Extensions::fileFilterRaw(ExtensionType type, QString& ext, QString& text) 
     }
 }
 
-QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const
+QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const
 {
     QString toReturn;
 
@@ -111,7 +111,7 @@ QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const QLinkedList<E
     return toReturn;
 }
 
-QString Extensions::fileFilterQtStyle(bool includeAllFiles, const QLinkedList<ExtensionType>& extensions) const
+QString Extensions::fileFilterQtStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const
 {
     QString toReturn;
 

@@ -1,7 +1,7 @@
 /**********************************************************************************
-*   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)           *
-*                 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)               *
-***********************************************************************************/
+ *   Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)          *
+ *                 2011-2022 by Michel Ludwig (michel.ludwig@kdemail.net)         *
+ **********************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,7 +15,6 @@
 #ifndef LATEXOUTPUTPARSER_H
 #define LATEXOUTPUTPARSER_H
 
-#include <QLinkedList>
 #include <QStack>
 
 #include "kileconstants.h"

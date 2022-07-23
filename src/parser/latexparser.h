@@ -14,8 +14,6 @@
 #ifndef LATEXPARSER_H
 #define LATEXPARSER_H
 
-#include <QLinkedList>
-
 #include "documentinfo.h"
 #include "kileconstants.h"
 #include "kileextensions.h"

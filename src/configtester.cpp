@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -80,7 +80,7 @@ void ConfigTest::addDependency(ConfigTest *test)
 
 bool ConfigTest::allDependenciesSucceeded() const
 {
-    Q_FOREACH(ConfigTest *test, m_dependencyTestList) {
+    for(ConfigTest *test : m_dependencyTestList) {
         if(test->status() != Success) {
             return false;
         }
@@ -415,13 +415,13 @@ void ProgramTest::call()
     m_testProcess->setWorkingDirectory(m_workingDir);
     QStringList argList;
     if(!m_arg0.isEmpty()) {
-        argList << m_arg0;
+        argList.push_back(m_arg0);
     }
     if(!m_arg1.isEmpty()) {
-        argList << m_arg1;
+        argList.push_back(m_arg1);
     }
     if(!m_arg2.isEmpty()) {
-        argList << m_arg2;
+        argList.push_back(m_arg2);
     }
     m_testProcess->setProgram(m_programName, argList);
     if (!KileConfig::teXPaths().isEmpty()) {
@@ -574,22 +574,22 @@ void Tester::installConsecutivelyDependentTests(ConfigTest *t1, ConfigTest *t2, 
     if(!t1) {
         return;
     }
-    m_testList << t1;
+    m_testList.push_back(t1);
     if(!t2) {
         return;
     }
     t2->addDependency(t1);
-    m_testList << t2;
+    m_testList.push_back(t2);
     if(!t3) {
         return;
     }
     t3->addDependency(t2);
-    m_testList << t3;
+    m_testList.push_back(t3);
     if(!t4) {
         return;
     }
     t4->addDependency(t3);
-    m_testList << t4;
+    m_testList.push_back(t4);
 }
 
 void Tester::setupTests()
@@ -795,7 +795,7 @@ void Tester::setupTests()
     */
     FindProgramTest *dvipngProgramTest = new FindProgramTest("DVItoPNG", "dvipng", false);
     dvipngProgramTest->setAdditionalFailureMessage(i18n("PNG previews cannot be used for mathgroups in the bottom preview pane"));
-    m_testList << dvipngProgramTest;
+    m_testList.push_back(dvipngProgramTest);
     /*
     echo "starting test: Convert"
     setTool Convert
@@ -805,7 +805,7 @@ void Tester::setupTests()
     */
     FindProgramTest *convertProgramTest = new FindProgramTest("Convert", "convert", false);
     convertProgramTest->setAdditionalFailureMessage(i18n("PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' in the bottom preview pane"));
-    m_testList << convertProgramTest;
+    m_testList.push_back(convertProgramTest);
 }
 
 bool Tester::isSyncTeXSupportedForPDFLaTeX()

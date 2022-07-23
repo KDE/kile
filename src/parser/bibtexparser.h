@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2011-2019 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2011-2022 by Michel Ludwig (michel.ludwig@kdemail.net)       *
 ***************************************************************************/
 
 /***************************************************************************
@@ -13,8 +13,6 @@
 
 #ifndef BIBTEXPARSER_H
 #define BIBTEXPARSER_H
-
-#include <QLinkedList>
 
 #include "documentinfo.h"
 #include "kileconstants.h"

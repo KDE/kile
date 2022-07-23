@@ -1,6 +1,6 @@
 /***************************************************************************
   Copyright (C) 2003 by Jeroen Wijnhout (jeroen.wijnhout@kdemail.net)
-                2010-2014 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2010-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************/
 
 /***************************************************************************
@@ -768,8 +768,8 @@ bool Sequence::requestSaveAll()
 {
     // if one of the tools in the sequence requests save-all, then we also
     // request it
-    for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
-        if((*i)->requestSaveAll()) {
+    for(Base *tool : m_tools) {
+        if(tool->requestSaveAll()) {
             return true;
         }
     }
@@ -791,7 +791,7 @@ void Sequence::setupSequenceTools()
             KILE_DEBUG_MAIN << "===tool created with name " << tool->name();
             if(!(manager()->info()->watchFile() && tool->isViewer())) { // FIXME: why this?
                 KILE_DEBUG_MAIN << "\tqueueing " << tl << "(" << cfg << ") with " << source();
-                m_tools << tool;
+                m_tools.push_back(tool);
             }
             else {
                 delete tool;
@@ -823,8 +823,7 @@ int Sequence::run()
         return ConfigureFailed;
     }
 
-    for(QLinkedList<Base*>::iterator i = m_tools.begin(); i != m_tools.end(); ++i) {
-        Base *tool = *i;
+    for(Base *tool : m_tools) {
         tool->setSource(source());
 
         // if we are running a 'LaTeX' tool here, we still have to set the

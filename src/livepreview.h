@@ -1,5 +1,5 @@
 /********************************************************************************
-  Copyright (C) 2011-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+  Copyright (C) 2011-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  ********************************************************************************/
 
 /***************************************************************************
@@ -144,7 +144,7 @@ private:
     QHash<ToolConfigPair, QAction *> m_livePreviewToolToActionHash;
     QHash<QAction *, ToolConfigPair> m_actionToLivePreviewToolHash;
     QActionGroup *m_livePreviewToolActionGroup;
-    QLinkedList<QAction *> m_livePreviewToolActionList;
+    std::list<QAction*> m_livePreviewToolActionList;
 
     PreviewInformation* findPreviewInformation(KileDocument::TextInfo *textInfo, KileProject* *locatedProject = Q_NULLPTR,
             LivePreviewUserStatusHandler* *userStatusHandler = Q_NULLPTR,

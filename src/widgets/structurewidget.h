@@ -2,7 +2,7 @@
     begin                : Sun Dec 28 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
                                2005-2007 by Holger Danielsson (holger.danielsson@versanet.de)
-                               2008-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2008-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
  **************************************************************************************************/
 
 /***************************************************************************
@@ -205,7 +205,7 @@ public:
                         int col, bool backwards, bool checkLevel, int &sectRow, int &sectCol);
     void updateUrl(KileDocument::Info *docinfo);
 
-    void updateAfterParsing(KileDocument::Info *info, const QLinkedList<KileParser::StructureViewItem*>& items);
+    void updateAfterParsing(KileDocument::Info *info, const std::list<KileParser::StructureViewItem*>& items);
 
     enum { SectioningCut = 10, SectioningCopy = 11, SectioningPaste = 12,
            SectioningSelect = 13, SectioningDelete = 14,

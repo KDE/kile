@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2007 by Michel Ludwig (michel.ludwig@kdemail.net)       *
+*   Copyright (C) 2007-2022 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /**************************************************************************
@@ -24,7 +24,7 @@ class NewToolWizard : public KAssistantDialog, public Ui::NewToolWizardToolNameP
     Q_OBJECT
 
 public:
-    explicit NewToolWizard(QWidget *parent = 0, Qt::WindowFlags fl = 0);
+    explicit NewToolWizard(QWidget *parent = 0, Qt::WindowFlags flags = Qt::WindowFlags());
 
     virtual QString customTool();
     virtual QString toolName();

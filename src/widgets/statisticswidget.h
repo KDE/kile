@@ -34,7 +34,7 @@ class StatisticsWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit StatisticsWidget(QWidget* parent = 0, const char* name = 0, Qt::WindowFlags fl = 0);
+    explicit StatisticsWidget(QWidget* parent = 0, const char* name = 0, Qt::WindowFlags flags = Qt::WindowFlags());
     ~StatisticsWidget();
 
     void updateColumns();

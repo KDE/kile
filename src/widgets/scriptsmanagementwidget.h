@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2006-2008 by Michel Ludwig (michel.ludwig@kdemail.net   *
+*   Copyright (C) 2006-2022 by Michel Ludwig (michel.ludwig@kdemail.net   *
 ***************************************************************************/
 
 /**************************************************************************
@@ -35,7 +35,7 @@ namespace KileWidget {
 class ScriptsManagement : public QWidget {
     Q_OBJECT
 public:
-    explicit ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WindowFlags f = 0);
+    explicit ScriptsManagement(KileInfo *kileInfo, QWidget *parent = 0, const char *name = 0, Qt::WindowFlags f = Qt::WindowFlags());
     ~ScriptsManagement();
 
 public:

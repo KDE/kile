@@ -1,6 +1,6 @@
 /**************************************************************************
 *   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)   *
-*             (C) 2006-2019 by Michel Ludwig (michel.ludwig@kdemail.net)  *
+*             (C) 2006-2022 by Michel Ludwig (michel.ludwig@kdemail.net)  *
 ***************************************************************************/
 
 /***************************************************************************
@@ -69,7 +69,7 @@ class DocumentViewerWindow : public KMainWindow
     Q_OBJECT
 
 public:
-    explicit DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = KDE_DEFAULT_WINDOWFLAGS);
+    explicit DocumentViewerWindow(QWidget *parent = Q_NULLPTR, Qt::WindowFlags f = Qt::WindowFlags());
     virtual ~DocumentViewerWindow();
 
 Q_SIGNALS:
@@ -243,7 +243,7 @@ class DropWidget : public QWidget {
     Q_OBJECT
 
 public:
-    explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = 0);
+    explicit DropWidget(QWidget * parent = 0, const char * name = 0, Qt::WindowFlags f = Qt::WindowFlags());
     virtual ~DropWidget();
 
     virtual void dragEnterEvent(QDragEnterEvent *e) override;

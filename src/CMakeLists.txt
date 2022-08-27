@@ -11,8 +11,6 @@ include_directories(
 
 get_directory_property(CMAKE_REQUIRED_INCLUDES INCLUDE_DIRECTORIES)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KDE4_ENABLE_EXCEPTIONS}")
-
 ########### next target ###############
 
 set(kile_SRCS

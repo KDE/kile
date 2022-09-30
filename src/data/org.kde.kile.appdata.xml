@@ -21,6 +21,7 @@
   <name xml:lang="ia">Kile</name>
   <name xml:lang="id">Kile</name>
   <name xml:lang="it">Kile</name>
+  <name xml:lang="ka">Kile</name>
   <name xml:lang="ko">Kile</name>
   <name xml:lang="nl">Kile</name>
   <name xml:lang="pl">Kile</name>
@@ -51,6 +52,7 @@
   <summary xml:lang="ia">Editor de TeX/LaTeX</summary>
   <summary xml:lang="id">Editor TeX/LaTeX</summary>
   <summary xml:lang="it">Editor TeX/LaTeX</summary>
+  <summary xml:lang="ka">TeX/LaTeX რედაქტორი</summary>
   <summary xml:lang="ko">TeX/LaTeX 편집기</summary>
   <summary xml:lang="nl">TeX/LaTeX-bewerker</summary>
   <summary xml:lang="pl">Edytor TeX/LaTeX</summary>
@@ -110,6 +112,7 @@
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Caratteristiche:</p>
+    <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nl">Kenmerken:</p>
     <p xml:lang="pl">Możliwości:</p>
@@ -168,6 +171,7 @@
       <li xml:lang="ia">Auto-completion de commandos de (La)TeX</li>
       <li xml:lang="id">Penyelesaian otomatis perintah-perintah (La)TeX</li>
       <li xml:lang="it">Completamento automatico dei comandi (La)TeX</li>
+      <li xml:lang="ka">(La)TeX -ის ბრძანებების ავტომატური დასრულება</li>
       <li xml:lang="ko">(La)TeX 명령 자동 완성</li>
       <li xml:lang="nl">Automatische aanvulling van (La)TeX commando's</li>
       <li xml:lang="pl">Samouzupełnianie poleceń (La)TeX</li>
@@ -438,6 +442,7 @@
       <li xml:lang="gl">Ordes de edición avanazda.</li>
       <li xml:lang="id">Perintah pengeditan tingkat-lanjut</li>
       <li xml:lang="it">Comandi di modifica avanzati</li>
+      <li xml:lang="ka">რედაქტორის დამატებითი ბრძანებები</li>
       <li xml:lang="ko">고급 편집 명령</li>
       <li xml:lang="nl">Geavanceerde commando's voor bewerking</li>
       <li xml:lang="pl">Rozszerzone polecenia edytowania</li>
@@ -469,6 +474,7 @@
       <caption xml:lang="gl">Edición de documentos en Kile</caption>
       <caption xml:lang="id">Pengeditan dokumen di Kile</caption>
       <caption xml:lang="it">Modifica dei documenti in Kile</caption>
+      <caption xml:lang="ka">დოკუმენტს ჩასწორება Kile-ში</caption>
       <caption xml:lang="ko">Kile로 문서 편집</caption>
       <caption xml:lang="nl">Bewerking van documenten in Kile</caption>
       <caption xml:lang="pl">Edytowanie dokumentów w Kile</caption>

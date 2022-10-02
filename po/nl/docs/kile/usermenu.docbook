@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Menu door de gebruiker in te stellen</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Configuratie</title>
+
+<para
+>&kile; ondersteunt een menu, dat door de gebruiker is in te stellen en wat als onderdeel van het menu van &kile; zal verschijnen. Dit menu kan ingesteld worden met de instingendialoog van &kile; met <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen</guisubmenu
+><guimenuitem
+>Gebruikersmenu</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Het gebruikersmenu instellen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Het gebruikersmenu instellen</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>U hebt twee opties waar dit menu te plaatsen:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>ofwel verschijnt het menu <guimenu
+>Gebruikersmenu</guimenu
+> in de hoofdmenubalk tussen de menu's <guimenu
+>LaTeX</guimenu
+> en <guimenu
+>Assistent</guimenu
+> en de instellingenassistent <guimenu
+>Gebruikersmenu bewerken</guimenu
+> in het menu <guimenu
+>Assistent</guimenu
+></para>
+
+	<screenshot>
+		<screeninfo
+>Gebruikersmenu is in het hoofdmenu geplaatst</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Gebruikersmenu is in het hoofdmenu geplaatst</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>of beide items zullen aan de onderkant van het menu <guimenu
+>LaTeX</guimenu
+> verschijnen.</para>
+
+	<screenshot>
+		<screeninfo
+>Gebruikersmenu is een onderdeel van het menu LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Gebruikersmenu is een onderdeel van het menu LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Al bestaande gebruikergedefinieerde tags uit oudere versies van &kile; worden automatisch getransformeerd naar het nieuwe gebruikergedefinieerde menu. De tags worden opgeslagen in een bestand genaamd <filename
+>usertags.xml</filename
+> en zoals alle definitiebestanden van menu's, zijn ze te vinden in de map voor lokale gebruikersmenu's van &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, &eg; <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>U kunt verschillende definitiebestanden voor menu's gebruiken voor verschillende taken. Roep de assistent voor gebruikersmenu's op: <menuchoice
+><guimenu
+>Assistent</guimenu
+><guisubmenu
+>Gebruikersmenu bewerken</guisubmenu
+></menuchoice
+> of <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Gebruikersmenu bewerken</guisubmenu
+></menuchoice
+> om een definitiebestand van een menu te installeren of te bewerken.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Assistent</title>
+
+<para
+>U kunt nieuwe menu's aanmaken of bestaande wijzigen met een comfortabele assistent voor het instellen van een gebruikersmenu, die te vinden is via <menuchoice
+><guimenu
+>Assistent</guimenu
+><guisubmenu
+>Gebruikersmenu bewerken</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Assistent voor Gebruikersmenu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Assistent voor Gebruikersmenu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Links ziet u een bestaande boomstructuur van een menu. Zoals in een standaard menu, zijn er drie verschillende soorten menu-items beschikbaar:</para>
+
+<itemizedlist>
+<listitem
+><para
+>standaard menu-items, die aan een actie zijn toegekend</para
+></listitem>
+<listitem
+><para
+>submenu's, die meer menu-items bevatten</para
+></listitem>
+<listitem
+><para
+>scheidingen, om een visuele structuur van alle items te krijgen.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Om dit menu te wijzigen gebruikt u de zes knoppen aan de linker kant. Meer mogelijke acties zijn beschikbaar in het contextmenu van al bestaande menu-items.</para>
+
+	<screenshot>
+		<screeninfo
+>Gebruikergedefinieerde menuboom</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Gebruikergedefinieerde menuboom</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Elk standaard menu-item is toegekend aan één van drie typen acties, waar elk van hen verschillende attributen heeft, die ingesteld kunnen worden:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Tekst:</guilabel
+>&nbsp; &kile; geeft u de mogelijkheid om uw eigen tags te maken. Een tag is te vergelijken met een sneltoets die een commando start of frequent gebruikte teksten schrijft, &eg; Joe Sixpack gebruikt vaak de zin <userinput
+>Hi, ik ben ingevoegd ...</userinput
+>. Deze tag zal ingevoegd worden op de huidige cursorpositie, wanneer deze actie wordt aangeroepen (zie boven). Meta-tekens zijn ook beschikbaar (zie <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Inhoud van bestand invoegen:</guilabel
+>&nbsp; Voegt de gehele inhoud van een gegeven bestand in.</para>
+
+	<screenshot>
+		<screeninfo
+>Bestandsinhoud invoegen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Bestandsinhoud invoegen</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Voer een extern programma uit:</guilabel
+>&nbsp; De uitvoer van dit programma kan ingevoegd worden in het geopende document. Meta-teken <userinput
+>%M</userinput
+> is ook mogelijk in de opdrachtregel van dit programma, omdat de geselecteerde tekst opgeslagen zal worden in een tijdelijk bestand. Gebruik <userinput
+>%M</userinput
+> voor de bestandsnaam van dit tijdelijke bestand.</para>
+
+	<screenshot>
+		<screeninfo
+>Een extern programma uitvoeren</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Een extern programma uitvoeren</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Als nog enige belangrijke informatie voor een actie ontbreekt, zullen menu-items rood worden gekleurd. Dit kan een niet bestaand bestand zijn</para>
+
+	<screenshot>
+		<screeninfo
+>Niet bestaand bestand</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Niet bestaand bestand</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>of een ontbrekende titel voor het menu-item zijn, die getoond zal worden met vraagtekens zoals <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Ontbrekende titel van een menu-item</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ontbrekende titel van een menu-item</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Als u het contextmenu van zo'n rood gekleurd menu-item opent, dan krijgt u een extra optie voor meer informatie over deze fout.</para>
+
+	<screenshot>
+		<screeninfo
+>Aanvullende informatie</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Aanvullende informatie</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Meer informatie kan ook beschikbaar zijn door de functie <guilabel
+>Wat is dit</guilabel
+> van de meeste widgets te gebruiken.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Plaatshouders</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Tekst invoegen</title>
+
+<para
+>Er zijn enige plaatshouders die u kunt gebruiken in uw gebruikergedefinieerde tags: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> en <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; dit is waar de cursor geplaatst zal worden na gebruik van een gebruikergedefinieerde tag.</para>
+
+	<screenshot>
+		<screeninfo
+>Cursorpositie (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Cursorpositie (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; zal vervangen worden door een opsommingsteken (zie <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Opsommingsteken (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Opsommingsteken (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; zal vervangen worden door de geselecteerde tekst.</para>
+
+	<screenshot>
+		<screeninfo
+>Geselecteerde tekst (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Geselecteerde tekst (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; duidt de inspringdiepte van de tekst in een omgeving aan.</para>
+
+	<screenshot>
+		<screeninfo
+>Inspringen van omgevingstekst (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inspringen van omgevingstekst (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; zal een dialoog starten voor een referentie om een al gedefinieerd label te kiezen. Dit kan gebruikt worden om te verwijzen naar een voorgedefinieerd label, die u kunt kiezen uit een afrollijst (zie ook <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Verwijzingen</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> of <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Verwijzingen</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Referenties (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Referenties (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; zal een dialoog voor citaten aanroepen om een al gedefinieerd citaat te kiezen. Zoals bij <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Verwijzingen</guimenuitem
+><guimenuitem
+>citaat</guimenuitem
+></menuchoice
+> die een lijst met alle citaatsleutels laat verschijnen.</para>
+
+	<screenshot>
+		<screeninfo
+>Citaatsleutels (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Citaatsleutels (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Laten we naar een ander voorbeeld kijken met de volgende macro <userinput
+>\frac{%M}{%C}</userinput
+>. Eerst selecteren we een getal in onze tekst, neem <userinput
+>42</userinput
+>. Daarna roepen we deze macro aan en krijgen <userinput
+>\frac{42}{}</userinput
+> met de cursor gelokaliseerd tussen het tweede paar accolades.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Bestandsinhoud invoegen</title>
+
+<para
+>Als u de inhoud van een tekstbestand wilt invoegen, dan kunt u dezelfde plaatshouders gebruiken.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Een programma uitvoeren</title>
+
+<para
+>Als u een extern programma uit wilt voeren, wordt alleen de <userinput
+>%M</userinput
+> voor geselecteerde tekst herkend in de opdrachtregel. De selectie zal opgeslagen worden in een tijdelijk bestand en de plaatshouder <userinput
+>%M</userinput
+> wordt vervangen door deze bestandsnaam.</para>
+
+	<screenshot>
+		<screeninfo
+>Een extern programma uitvoeren (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Een extern programma uitvoeren (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Een andere plaatshouder is <userinput
+>%S</userinput
+>, die vervangen wordt door de complete basisnaam van het huidige document zonder het pad. Deze basisnaam bestaat uit alle tekens in het bestand tot (maar niet inclusief) het laatste '.'-teken.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parameter</title>
+
+<para
+>De meeste menu-items kunnen additionele zelfverklarende parameters hebben, die gecontroleerd kunnen worden. Als sommige van deze parameters niet beschikbaar zijn voor enkele soorten acties, dan worden ze uitgeschakeld.</para>
+
+	<screenshot>
+		<screeninfo
+>Parameter in gebruikersmenu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameter in gebruikersmenu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Hier is een voorbeeld voor het uitvoeren van een extern programma:</para>
+
+	<screenshot>
+		<screeninfo
+>Voorbeeld van parameter</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Voorbeeld van parameter</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>U ziet dat er een <userinput
+>perl</userinput
+>-script wordt aangeroepen, die zou moeten werken met de huidige selectie. De parameter <guilabel
+>Heeft geselecteerde tekst nodig</guilabel
+> wordt gecontroleerd om zeker te zijn van een selectie. De uitvoer van dit script zal ingevoegd worden (<guilabel
+>Voeg de uitvoer van het gekozen programma in</guilabel
+>) en vervang de huidige selectie (<guilabel
+>Vervang geselecteerde tekst</guilabel
+>), maar niet het zelf geselecteerde.</para>
+
+<para
+>Natuurlijk kunt u ook uw eigen programma's of scripts aanroepen. U kunt bijvoorbeeld een lijst met getallen, gescheiden door spaties selecteren en een script of Perl programma aanroepen, die deze selectie omzet in &latex; code voor een matrix. Wat ook uw ideeën kunnen zijn, u kunt ze realiseren met het volgende item in het gebruikersmenu.</para>
+
+	<screenshot>
+		<screeninfo
+>Voorbeeld van parameter 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Voorbeeld van parameter 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Bestanden met menudefinitie</title>
+
+<para
+>U kunt verschillende menu's bij uitvoeren installeren voor verschillende taken. Wanneer u de assitent voor het gebruikersmenu wijzigt, zal het huidige bestand met de menudefinitie worden geladen. Als u het wijzigt en de dialoog sluit met de knop <guibutton
+>OK</guibutton
+>, zullen uw wijzigen opgeslagen worden en geïnstalleerd als het nieuwe gebruikersmenu. De dialoog met <guibutton
+>Annuleren</guibutton
+> sluiten zal alle wijzigingen verwerpen.</para>
+
+	<screenshot>
+		<screeninfo
+>Bestanden met menudefinitie</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Bestanden met menudefinitie</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>U bent ook vrij om het gewijzigde bestand in de map van gebruikersmenu's op te slaan of om een ander menu-definitiebestand te laden en het te installeren. Alle bestanden met gebruikersmenu-definities moeten opgeslagen worden in de lokale map voor gebruikersmenu's van &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Kijk in het voorbeeld van een bestand met een menudefinitie <userinput
+>example.xml</userinput
+> om meer menu-items met hun parameters te bekijken.</para>
+
+</sect1>
+
+</chapter>

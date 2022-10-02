@@ -1,0 +1,6718 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Catalan  "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>El manual del &kile;</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	&traductor.Antoni.Bella; 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>22 de maig de 2011</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>El &kile; és un editor de codi font i intèrpret d'ordres per a &tex; i &latex;. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>Kile</keyword>
+<keyword
+>LaTeX</keyword>
+<keyword
+>TeX</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>Prefaci</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>Requisits</title>
+
+		<para
+>Per executar el &kile;, haureu de tenir instal·lats els següents components al sistema:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>L'<ulink url="http://www.kde.org/"
+>entorn d'escriptori K (&kde;)</ulink
+>: El &kde; és un popular entorn d'escriptori de codi obert.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: Les &Qt; són una &IGU; escrita en C++ i la biblioteca de xarxa necessària per a compilar el &kile;.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>&latex;</ulink
+>: és un programa de composició de documents d'alta qualitat. El més probable és que vulgueu el paquet &texlive; (o en sistemes més antics el &tetex;), si esteu en un sistema tipus &UNIX;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>La majoria d'aquests elements pot estar inclosos a la vostra distribució &Linux;. Consulteu la documentació de la distribució, o consulteu el &CD; o DVD d'instal·lació, per afegir aquests paquets al vostre ordinador.</para>
+
+		<para
+>El &kile; també pot estar disponible com un paquet precompilat per a la vostra distribució &Linux;. Si us plau, comproveu al gestor de paquets de la vostra distribució.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>Persones a les quals va dirigit aquest document</title>
+
+		<para
+>Aquest manual està dirigit a qualsevol persona, independentment de la seva experiència amb &latex;, &kde;, &kile; o &Linux;.</para>
+
+		<para
+>No s'espera que els usuaris avançats llegeixin aquest manual, però s'agrairan qualsevol suggeriment sobre la documentació. Si voleu contribuir amb aquest projecte o la documentació, podeu consultar la <ulink url="http://kile.sourceforge.net/"
+>pàgina web del &kile;</ulink
+>.</para>
+
+		<para
+>Necessiteu respostes sobre el &kile;? Està encallat en el procés de compilació? Voleu veure implementada una nova característica? La millor manera de fer preguntes tècniques o per iniciar un debat és utilitzar la nostra llista de correu: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>Introducció</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>Aspectes bàsics</title>
+
+		<sect2>
+
+			<title
+>Quant al &kile;</title>
+
+			<para
+>El &kile; és un entorn &latex; integrat per a l'escriptori &kde;. El &kile; ofereix la possibilitat d'utilitzar tota la funcionalitat de &latex; des d'una interfície gràfica, la qual us proporcionarà un accés fàcil, immediat i personalitzat a tots els programes per a la compleció de codi, compilació, postprocessament, depuració, conversió i eines de visualització de &latex;. També ofereix assistents molt pràctics, una referència de &latex; i un potent gestor de projectes.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>El &kile; i el component d'edició del &kate;</title>
+
+			<para
+>El &kile; es basa en el component d'edició del &kate;, &ead;, una gran quantitat de les seves capacitats d'edició es deriven del component d'edició del &kate;. El &kile; amplia aquestes capacitats amb les característiques per editar documents de &latex;. Per aprendre més sobre el component d'edició del &kate; i les seves capacitats, vegeu la <ulink url="http://kate-editor.org"
+>pàgina web del &kate;</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Què és el &latex;?</title>
+
+			<para
+>&latex; és un sistema de processament de text derivat de &tex;, un programa desenvolupat originalment el 1977 per Donald Knuth per ajudar als autors a confeccionar el seu treball d'una manera professional i obtenir una qualitat de disseny parella al treball d'un tipògraf professional. &latex; va ser creat per Leslie Lamport per a proporcionar als autors un tipògraf automàtic, especialment per a facilitar el procés costós i laboriós de composició tipogràfica de fórmules i expressions matemàtiques, les quals estan tancades entre signes de dòlar en &latex; <emphasis
+>per una raó</emphasis
+>. Avui dia, els programes de processament de text permeten a qualsevol actuar com a tipògraf, però el que sovint es necessita és un document que simplement es vegi bé, sense haver d'invertir hores per a donar-li forma. &latex; pren aquesta càrrega sobre les seves espatlles, i permet concentrar-vos en el document en lloc del disseny. I sí, <emphasis
+>es veurà bé</emphasis
+>!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Com es pronuncia? Per què aquesta estranya composició tipogràfica?</title>
+
+			<para
+>Hi ha una curiosa tradició perquè els paquets relacionats amb &tex; tinguin la pronunciació i composició tipogràfica tan estranya. Se suposa que &tex; prové del grec <emphasis
+>τεχ</emphasis
+>, en lletres llatines <emphasis
+>tech</emphasis
+>. Hi ha un moltes explicacions del perquè, però el més probable és perquè &tex; es va concebre originalment per a informes tècnics, i d'aquí que el seu principal punt fort fos la correcció i la facilitat escrivint fórmules matemàtiques, que llavors resultava extremadament car, llarga i frustrant.</para>
+			<para
+>Se suposa que es pronuncia de la següent manera: <emphasis
+>T</emphasis
+>, <emphasis
+>E</emphasis
+> com era d'esperar, <emphasis
+>X</emphasis
+> com la <emphasis
+>ch</emphasis
+> en alemany, Si no sabeu com sona <emphasis
+>ch</emphasis
+>, és més o menys com el so que produeix un gat en xiuxiuejar. El símbol de la IPA que el representa és /ç/. Molta gent informa d'una pronunciació diferent <emphasis
+>ach</emphasis
+> (símbol de la IPA és /x/), però segons alguns grecs, la primera versió és la correcta. Haureu de ser conscient que moltes persones pronuncien malament &tex; com /teks/ o /tek/.</para>
+			<para
+>Finalment, a &latex; la primera L<superscript
+>A</superscript
+> es pronuncia com la paraula anglesa <emphasis
+>lay</emphasis
+>: la idea és que, mentre &tex; és difícil, fins i tot un <emphasis
+>profà</emphasis
+> pot utilitzar macros de &latex;. Una explicació menys inspiradora, però més realista és que prové del cognom de Leslie Lamport, el creador de &latex;. Ara ja ho sabeu!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>&latex; 101</title>
+
+		<para
+>El sistema de composició tipogràfica &latex; és similar a altres llenguatges de marques, com &XML;, utilitzat en molts tipus de documents (incloent-hi el que esteu llegint), o &HTML;, utilitzat per a les pàgines web. La idea general al darrere dels llenguatges de marques és tenir un conjunt de paraules clau especials, anomenades <emphasis
+>etiquetes</emphasis
+>, que li indiquen a un programa (un processador de text, un navegador web, o al compilador de &latex;) com interpretar el text tancat entre les etiquetes. El &kile; ofereix una sèrie d'aquestes etiquetes al menú <guimenu
+>LaTeX</guimenu
+> a la barra de menús.</para>
+
+		<para
+>Si bé tractarem de donar-vos una bona idea del que és &latex;, aquest document no és, per descomptat, el llibre definitiu sobre &latex; Si voleu aprendre &latex; en profunditat, possiblement voldreu manllevar un llibre especialitzat en la vostra biblioteca local.</para>
+
+		<para
+>Com amb qualsevol altre llenguatge de marques, els documents &latex; contenen un <emphasis
+>preàmbul</emphasis
+>, que defineix les propietats globals, com la mida del paper, la numeració de les pàgines, les dimensions del text a la pàgina, i un <emphasis
+>cos</emphasis
+> del document que contindrà el text del document. El preàmbul es compon almenys de l'ordre <userinput
+>\documentclass</userinput
+>. Aquest precedeix al cos del document, que s'inicia amb l'ordre <userinput
+>\begin{document}</userinput
+> i es conclou amb l'ordre <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>Característiques principals del &kile;</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>Assistent d'inici ràpid</title>
+
+			<para
+>L'assistent d'inici ràpid incorporat en el &kile; és una útil característica per iniciar-vos en la creació ràpida de documents amb el &kile;. Escollint l'assistent des de la barra de menús se us oferiran diverses opcions per a la creació del document. També podeu especificar algunes opcions relacionades amb el document.</para>
+
+			<para
+>Opcions de la classe:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Classe del document</guilabel
+>: escull el tipus de document que voleu crear: article, llibre, lletra, informe, scrartcl, scrreprt, scrbook, prosperar, prosper, beamer o un altre definit a mida.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Mida del tipus de lletra</guilabel
+>: indica al &kile; quina mida en punts (pt) voleu utilitzar.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Mida del paper</guilabel
+>: escull la mida o l'estil dels fulls.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Codificació</guilabel
+>: En general és una bona idea utilitzar la codificació estàndard del vostre sistema. Cada vegada més sistemes moderns es passen a UTF-8 com a codificació estàndard. Si podeu, utilitzeu utf8 o utf8x (que en realitat és la forma correcta per als documents de &latex;). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Altres opcions</guilabel
+>: permet establir opcions addicionals, com ara la impressió, l'esborrany i altres.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Paquets</para>
+			<para
+>Llista alguns dels paquets addicionals més comuns utilitzats en &latex;. Marqueu la casella de selecció per a incloure'ls.</para>
+
+			<para
+>Propietats del document:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Autor</guilabel
+>: escriviu aquí el vostre nom.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Títol</guilabel
+>: afegiu el títol del document.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Data</guilabel
+>: especifiqueu la data.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>Plantilles predefinides</title>
+
+			<para
+>Les plantilles predefinides al &kile; són:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>Document buit: els més fanàtics comencen des de zero!</para
+></listitem>
+				<listitem
+><para
+>Article: selecciona el format d'article, per a un document prou curt per a no dividir-lo en capítols.</para
+></listitem>
+				<listitem
+><para
+>Informe: selecciona el format d'informe, per a un document de mida mitjana, amb, per exemple, la numeració de les pàgines a la vora exterior de la pàgina.</para
+></listitem>
+				<listitem
+><para
+>Llibre: selecciona el format de llibre, una opció tan potent que s'utilitza per escriure molts llibres de text universitaris.</para
+></listitem>
+				<listitem
+><para
+>Lletra: selecciona el format de lletra.</para
+></listitem>
+				<listitem
+><para
+>Beamer, HA-Prosper: crear vistoses presentacions en PDF amb un aspecte superior i tota la potència de &latex;.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: Powerdot és la continuació dels paquets <userinput
+>seminar</userinput
+> i <userinput
+>HA-Prosper</userinput
+>. No té tantes opcions com Beamer, però és fàcil d'utilitzar i es poden crear presentacions molt boniques en format PDF.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl, Scrbook, Scrreprt, Scrlttr2: les classes de document de Koma-Script, especialment adaptades a la tipografia alemanya. Utilitzeu-les quan escriviu textos en alemany.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: una modificació de la plantilla <userinput
+>Article</userinput
+> per utilitzar-la amb <userinput
+>XeLaTeX</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Tingueu en compte que totes aquestes plantilles es poden ajustar a les necessitats de l'usuari.</para>
+
+			<para
+>Els nous usuaris no s'han de preocupar: aquesta llista sols és una breu descripció de les característiques disponibles, i es pot trobar una descripció més detallada a <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>Ressaltat de sintaxi</title>
+
+			<para
+>El &kile; és similar a altres programes que tracten amb el codi font i l'edició, i ressaltarà automàticament les ordres, les opcions i els elements que s'utilitzen (i dels que s'abusa). El &kile; permet identificar fàcilment les àrees problemàtiques: Per exemple, si veieu un gran espai de text de color verd, probablement heu oblidat tancar un entorn matemàtic en algun lloc.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>Compleció automàtica dels entorns</title>
+
+			<para
+>La compleció automàtica dels entorns significa que quan s'inicia un nou entorn escrivint <userinput
+>\begin{environment}</userinput
+>, el &kile; automàticament afegirà una ordre coincident <userinput
+>\end{environment}</userinput
+>, amb una línia al mig per al vostre text. Per descomptat, podeu desactivar-ho a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Entorns</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>Saltar a un element de l'estructura</title>
+
+			<para
+>Tots els documents normalment s'estructuren en una jerarquia d'algun tipus. &latex; us permet dividir els documents en la següent jerarquia (sent «part» la més alta a la jerarquia, i «subparàgraf» la més baixa):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part (part)</para
+></listitem>
+				<listitem
+><para
+>\chapter (capítol)</para
+></listitem>
+				<listitem
+><para
+>\section (secció)</para
+></listitem>
+				<listitem
+><para
+>\subsection (subsecció)</para
+></listitem>
+				<listitem
+><para
+>\subsubsection (subsubsecció)</para
+></listitem>
+				<listitem
+><para
+>\paragraph (paràgraf)</para
+></listitem>
+				<listitem
+><para
+>\subparagraph (subparàgraf)</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Mentre esteu veient un document a la vista <guilabel
+>Estructura</guilabel
+>, podreu saltar entre els elements fent clic sobre l'element que us agradaria veure.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>Cerca inversa</title>
+
+			<para
+>Quan creeu els vostres propis fitxers de &latex;, la cerca inversa pot ser molt útil. Una vegada creat un fitxer &DVI; (DeVice Independent File -fitxer independent del dispositiu-) o un fitxer PDF, feu clic amb el &BER; mentre premeu la tecla &Maj; al visualitzador i el &kile; saltarà a la línia corresponent al codi font de &latex;.</para>
+
+			<para
+>Un &DVI; és un tipus de fitxer que conté la descripció d'un document amb format, juntament amb altra informació incloent-hi el tipus de lletra dels caràcters, i junt amb el PDF és la sortida habitual de &tex; o &latex;. Hi ha una sèrie d'utilitats per a visualitzar, convertir i imprimir fitxers &DVI; a diversos sistemes i dispositius.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>Cerca cap endavant</title>
+
+			<para
+>En utilitzar la cerca inversa, la selecció d'elements en el fitxer &DVI; o PDF s'associarà amb l'editor, de manera que en fer clic sobre el fitxer &DVI; o PDF, la finestra principal saltarà a la secció de codi corresponent de &latex; a l'editor. La cerca cap endavant és exactament el contrari. Us permetrà fer clic sobre una secció específica de text en el codi de &latex;, i saltar a la posició associada a la finestra del visualitzador.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>La barra d'eines</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>Nova</guibutton
+>: inicia un nou document.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Obre</guibutton
+>: obre un document nou.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Tanca</guibutton
+>: tanca el document.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>Defineix el document actual com a «document mestre»</guibutton
+>: s'utilitza quan es treballa amb múltiples fitxers. Tenir un document mestre us permetrà treballar amb més facilitat amb altres fitxers <literal role="extension"
+>.tex</literal
+> inclosos en el document. Si esteu utilitzant projectes, també podreu establir-ho a <menuchoice
+><guimenu
+>Projecte</guimenu
+><guisubmenu
+>Opcions del projecte</guisubmenu
+></menuchoice
+> un document de projecte a nivell màster.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Creació ràpida</guibutton
+>: compila el codi font de &latex; i mostra els resultats de forma automàtica si no hi ha errors continguts en el document.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Mode de vigilància de fitxer</guibutton
+>: aquest mode «vigilarà» el fitxer &DVI; per als canvis, i no llançarà una nova sessió de l'&okular; després de <guibutton
+>Creació ràpida</guibutton
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Mostra el fitxer del registre</guibutton
+>: mostra el fitxer <literal role="extension"
+>.log</literal
+>, de manera que pugueu detectar errors.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Error anterior</guibutton
+>: salta cap enrere a través del fitxer <literal role="extension"
+>.log</literal
+> i ressalta els errors en el codi font.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Error següent</guibutton
+>: salta cap endavant a través del fitxer <literal role="extension"
+>.log</literal
+> i ressalta els errors en el codi font.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Atura</guibutton
+>: atura l'eina actual.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>LaTeX</guibutton
+>: executa &latex; sobre el document actiu.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewDVI</guibutton
+>: llança el visualitzador de &DVI;.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPS</guibutton
+>: converteix un &DVI; a un &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPS</guibutton
+>: llança el visualitzador de &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLaTeX</guibutton
+>: executa el &pdflatex; sobre el document actiu.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPDF</guibutton
+>: llança el visualitzador de PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPDF</guibutton
+>: converteix un &DVI; en un PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PStoPDF</guibutton
+>: converteix un PS en un PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewHTML</guibutton
+>: visualitza l'&HTML; creat.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardDVI</guibutton
+>: saltar a la pàgina del fitxer &DVI; que correspon a la línia actual a l'editor.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardPDF</guibutton
+>: salta a la pàgina del fitxer PDF que es correspon amb la línia actual a l'editor.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Si us fixeu en la barra d'eines <guilabel
+>Edita</guilabel
+>, observareu tres grans menús desplegables. Els menús desplegables s'han dissenyat per a permetre-us afegir ràpidament certes característiques comunes al vostre document. La primera llista desplegable s'utilitza per a dividir ràpidament el document en parts, capítols, seccions i així successivament. Les ordres disponibles per afegir segments al vostre codi font de &latex; són:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>part</guilabel
+>: el nivell més alt de seccionament per a un document.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>chapter</guilabel
+> (capítol): comença un nou capítol.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>section</guilabel
+> (secció): crea una nova secció.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsection</guilabel
+> (subsecció): crea una nova subsecció.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsubsection</guilabel
+> (subsubsecció): crea una secció secundària entre una subsecció i un paràgraf.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>paragraph</guilabel
+> (paràgraf): crea un nou paràgraf.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subparagraph</guilabel
+> (subparàgraf): crea un nou subparàgraf.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>La llista desplegable anomenada <guilabel
+>Altres</guilabel
+>, s'utilitza per inserir elements al vostre document, com ara índexs, notes al peu i referències. Les ordres disponibles són les següents:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+> (etiqueta): una ordre que produeix una etiqueta per a un capítol, una figura o un altre element.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+> (índex): crea una entrada per a l'índex.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnote</guilabel
+> (nota al peu): crea una nota al peu del vostre document.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+> (referència): s'utilitza per fer referència a una etiqueta predefinida, que podeu escollir des d'una llista desplegable.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+> (referència de pàgina): igual que <guilabel
+>ref</guilabel
+>, però es refereix a una pàgina en lloc d'un element de l'estructura.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+> (cita): crea una referència amb les dades d'una bibliografia.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>El menú desplegable <guilabel
+>Altres</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>El menú desplegable <guilabel
+>Altres</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>El menú desplegable <guilabel
+>Altres</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>Seleccionant l'etiqueta per a una referència</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Seleccionant l'etiqueta per a una referència</phrase>
+			</textobject>
+			<caption
+><para
+>Seleccionant l'etiqueta per a una referència</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Quan s'utilitzi <guilabel
+>cite</guilabel
+>, se us mostrarà una llista desplegable de «bibitems», però si esteu utilitzant &bibtex; tan sols funcionarà si el fitxer pertany a un projecte. Per a l'edició de fitxers &bibtex; es recomana l'ús d'editors especialitzats. L'autor ha obtingut un bon resultat amb el &kbibtex;. Per descomptat, també podeu escriure els fitxers &bibtex; a mà des del &kile;.</para>
+
+		<para
+>L'última llista desplegable anomenada <guilabel
+>tiny</guilabel
+> s'utilitza per ajustar la mida del text. Podeu ajustar la mida del text principal, les notes al peu, i així successivament. Les ordres disponibles són les següents:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>tiny</guilabel
+>: la més petita.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>scriptsize</guilabel
+>: molt petita.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnotesize</guilabel
+>: més petita.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>small</guilabel
+>: petita.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>normalsize</guilabel
+>: normal.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>large</guilabel
+>: gran.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Large</guilabel
+>: més gran.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>LARGE</guilabel
+>: encara més gran.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>huge</guilabel
+>: la més gran.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Huge</guilabel
+>: la més gran de totes.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>Inici ràpid</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>Escriure un document &latex; amb el &kile; per a principiants</title>
+
+		<para
+>Els usuaris del &kile; tenen dues opcions quan comencen un nou document: poden utilitzar l'<guimenu
+>Assistent</guimenu
+> per iniciar un nou document, seleccionant el tipus de document que volen crear i opcions com ara la mida del tipus de lletra, la mida de paper, i així successivament. L'altra opció és escriure el codi a mà.</para>
+
+<programlisting
+>\documentclass[12pt]{article}
+\begin{document}
+        Aqu\'{i} hi ha un munt de text codificat en \LaTeX.
+\end{document}</programlisting>
+
+		<para
+>Cada document en &latex; comença amb l'ordre <userinput
+> \documentclass[optional argument]{class}</userinput
+>, on la classe especifica el tipus de document.</para>
+
+		<para
+>Escrivint el codi d'exemple anterior, el quadre de text donarà el següent resultat:</para>
+
+		<screenshot>
+			<screeninfo
+>Text compilat en la sortida &DVI;</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Text compilat en la sortida &DVI;</phrase>
+				</textobject>
+				<caption
+><para
+>Text compilat en la sortida &DVI;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+><important
+><para
+>Per emprar els caràcters en català cal fer una de les dues coses:</para
+><itemizedlist
+><listitem
+><para
+>Escapar els caràcters especials: <userinput
+>\`{o}</userinput
+> (per una «ò» -amb accent tancat-) o <userinput
+>\"{u}</userinput
+> (per a una «ü» -amb dièresi-).</para
+></listitem
+><listitem
+><para
+>Utilitzar el paquet <userinput
+>\usepackage[utf8]{inputenc}</userinput
+> per indicar que l'entrada és en UTF-8.</para
+></listitem
+></itemizedlist
+></important
+> Les claus que venen després de l'ordre <userinput
+>\documentclass</userinput
+> contenen les opcions per l'ordre. L'opció <userinput
+>[12pt]</userinput
+> defineix la mida del tipus de lletra per al vostre article. Si no s'estableix la mida del tipus de lletra al començament, es podrà establir més endavant en el text.</para>
+
+		<para
+>Una vegada escriviu el codi d'exemple al quadre anterior, haureu de compilar el codi font &latex;. La manera més fàcil de compilar &latex; és utilitzar el menú <guimenu
+>Construeix</guimenu
+>, o amb el botó <guilabel
+>Creació ràpida</guilabel
+>.</para>
+
+		<para
+><keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> és la drecera de teclat per a compilar el codi font.</para>
+
+		<para
+>Haureu de desar el codi font abans de poder compilar. El &kile; ho farà automàticament.</para>
+
+		<para
+>Si el document no compila, comproveu el registre d'errors. Quan s'utilitza la clau <guilabel
+>Creació ràpida</guilabel
+>, el visualitzador &okular; s'hauria de llançar de forma automàtica; si no és així, comproveu el registre.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>Entorns</title>
+
+		<para
+>Un entorn és un segment de text que es gestiona de manera diferent que la resta del document. Per exemple, podeu crear un informe amb tipus de lletra amb mida 12, però heu de canviar la mida del tipus de lletra per a un parell de frases. Les ordres <userinput
+>\begin{environment}</userinput
+>, <userinput
+>\huge</userinput
+> i <userinput
+>\end{environment}</userinput
+> us permetran alterar temporalment el text dins de les ordres d'entorn per a tenir una mida major.</para>
+
+		<para
+>Els canvis sols són efectius a partir de <userinput
+>\begin{environment}</userinput
+> fins a <userinput
+>\end{environment}</userinput
+>. No hi ha límits pel que fa a quants canvis es poden fer dins d'un entorn.</para>
+
+		<para
+>Hi ha moltes característiques que podeu afegir al vostre document que el faran més fàcil de llegir i d'utilitzar. Al vostre document podeu afegir característiques com tipus de lletra específics, negreta, cursiva, subratllat, &etc;, i aquestes ordres acabaran, sigui amb una ordre <userinput
+>\end</userinput
+>, o al final del vostre entorn.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: aquesta ordre posa el text en cursiva, i és vàlida fins que el codi es troba amb un <userinput
+>\end{emph}</userinput
+>, o un altre entorn. Per posar en cursiva una paraula en una oració, podeu utilitzar la sintaxi: aquesta és la frase <userinput
+>\emph{som i serem}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{Estic posant en negreta el text entre claus}</userinput
+>: Aquesta ordre posa el text en negreta.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\quote</userinput
+>: per a crear una cita dins del vostre document, comenceu la vostra cita amb <userinput
+>\begin{quote}</userinput
+> i acabeu-la amb <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: centra el text.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: crea text desplaçat per a poemes.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: crea una llista d'elements.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>Usar el &kile;</title>
+
+		<para
+>Ara que us hem donat alguns antecedents sobre com escriure codi utilitzant el llenguatge de marques &latex;, us mostrarem com crear un document pas a pas utilitzant el &kile;.</para>
+
+		<procedure>
+			<step
+><para
+>Inicieu el &kile;.</para
+></step>
+			<step
+><para
+>Seleccioneu <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Inici ràpid</guimenuitem
+></menuchoice
+>, després escolliu un format i establiu les vostres preferències a l'assistent.</para
+></step>
+			<step
+><para
+>Una vegada que l'assistent hagi introduït text, personalitzeu-lo una mica per a fer que el document sigui més fàcil de llegir, afegiu com a mínim una cita, algun text en negreta, cursiva i un vers per a veure la diferència entre les ordres.</para
+></step>
+			<step
+><para
+>Deseu el fitxer i assigneu-li el nom <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>Construïu el document utilitzant <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>, o el botó anomenat <guilabel
+>LaTeX</guilabel
+>.</para
+></step>
+			<step
+><para
+>Seleccioneu <guibutton
+>ViewDVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>Comproveu el text nou.</para
+></step>
+			<step
+><para
+>En acabar de veure el document, feu clic al botó <guibutton
+>Veure de l'editor</guibutton
+> o premeu <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> per a tornar a l'editor si esteu utilitzant el visualitzador incrustat, o tanqueu la finestra del visualitzador, si feu servir un visualitzador independent.</para
+></step>
+		</procedure>
+
+		<para
+>Això és! Acabeu de crear el vostre primer document &latex;!</para>
+
+		<para
+>Una vegada hàgiu creat el vostre &DVI;, sereu capaç d'imprimir el document, convertir-lo en un fitxer &PostScript; o PDF. Experimenteu i divertiu-vos!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>Fitxers &DVI;</title>
+
+		<para
+>&DVI; vol dir, fitxer <emphasis
+>independent del dispositiu (DeVice Independent)</emphasis
+>. Aquests fitxers són produïts per &tex; o &latex; per a ser llegits per un programa d'algun tipus al vostre ordinador. Hi ha molts tipus diferents de sortides a les quals es pot enviar un <literal role="extension"
+>.dvi</literal
+>, com una impressora, convertidor de fitxer &PostScript; o PDF, o a la pantalla de l'ordinador.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>Veure un &DVI;</title>
+
+			<para
+>Ja heu vist com veure un fitxer &DVI; a la pantalla utilitzant el botó <guibutton
+>ViewDVI</guibutton
+> a la barra d'eines.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>Imprimir un &DVI;</title>
+
+			<para
+>Per imprimir un &DVI;, podeu utilitzar el mateix procediment que vàreu utilitzar per a crear el document anterior (vegeu <xref linkend="quick_using" role="select: title pageabbrv"/>). En el pas 7, després feu clic a <guibutton
+>ViewDVI</guibutton
+>, seleccioneu <menuchoice
+><guimenu
+>Fitxer</guimenu
+><guimenuitem
+>Imprimeix</guimenuitem
+></menuchoice
+> al visualitzador, i si teniu correctament configurada la impressora, podreu imprimir el &DVI;.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>Convertir fitxers &DVI;</title>
+
+			<para
+>La barra d'eines ofereix les opcions per a convertir un &DVI; a altres formats. Un cop heu creat un &DVI; des del vostre codi font &latex;, sereu capaç d'exportar-lo a un format de la vostra elecció utilitzant els botons de la barra d'eines.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>Cerca cap endavant entre el &kile; i l'&okular;</title>
+
+		<para
+>Les funcions de cerca cap endavant us permetran saltar des del vostre editor directament a la posició associada al fitxer &DVI; o PDF. </para>
+		<para
+>El &kile; ofereix una configuració d'aquesta opció per a tots els binaris &latex;. Aneu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Eines</guimenuitem
+><guilabel
+>Construeix</guilabel
+></menuchoice
+> i sempre escolliu la configuració <guilabel
+>Moderna</guilabel
+>.</para>
+
+		<para
+>Per executar una cerca cap endavant, situeu el ​​cursor en una línia del codi font, i feu clic a <guilabel
+>Cerca cap endavant</guilabel
+> per a saltar a la posició associada a la finestra del visualitzador &DVI; o PDF.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>Cerca inversa entre el &kile; i l'&okular;</title>
+
+		<para
+>La cerca inversa és una característica molt útil quan esteu escrivint un document &latex;. Si tot és correcte, podeu fer clic a la finestra de l'&okular; amb el &BER; mentre premeu la tecla &Maj;. Després, el &kile; carregarà el fitxer de codi font &latex; i saltarà al paràgraf adequat. Per utilitzar la cerca inversa, haureu de compilar el fitxer &latex; amb la configuració <guilabel
+>Moderna</guilabel
+>.</para>
+
+		<para
+>La cerca inversa no funcionarà a menys que:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>El fitxer de codi font s'hagi compilat amb èxit.</para
+></listitem>
+			<listitem
+><para
+>Que l'&okular; conegui quin editor voleu utilitzar.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Amb aquesta característica de l'&okular;, un clic amb el &BER; mentre premeu &Maj; al document &DVI; o PDF resultarà en el fet que el &kile; obrirà el document &latex; corresponent i intentarà anar a la línia corresponent. Recordeu dir-li a l'&okular; utilitzar el &kile; com a editor de text, a l'element de menú <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guimenuitem
+>Configura l'&okular;...</guimenuitem
+></menuchoice
+> (a la pàgina <guimenuitem
+>Editor</guimenuitem
+>) de l'&okular;.</para>
+
+		<screenshot>
+			<screeninfo
+>Configurant l'&okular;</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Configurant l'&okular;</phrase>
+			</textobject>
+			<caption
+><para
+>Configurant l'&okular;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>Resoldre errors</title>
+
+		<para
+>Si esteu intentant utilitzar la creació ràpida, i el visualitzador &DVI; no s'obre, el més probable és que hi hagi un error. Si teniu un error, serà visible al fitxer de registre / àrea de missatges, i es donarà un resum de l'error.</para>
+
+		<para
+>El fitxer de registre explicarà l'origen de l'error en el codi. A l'editor, podeu utilitzar els botons a la barra d'eines anomenats <guibutton
+>Anterior error LaTeX</guibutton
+> i <guibutton
+>Següent error LaTeX</guibutton
+> per a saltar a i des dels errors. El fitxer de registre sempre indica en quina línia es va produir l'error. Per a veure la línia en la qual hi ha hagut un error, feu clic sobre l'error a la finestra de registre, i el &kile; us durà a la línia de l'error.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>Començar un nou document</title>
+
+	<para
+>En fer clic al botó de la barra d'eines per a començar un nou document apareixerà un diàleg que us demanarà quin tipus de plantilla voleu utilitzar per escriure el document. Les opcions per omissió són:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Document buit</para
+></listitem>
+		<listitem
+><para
+>Article</para
+></listitem>
+		<listitem
+><para
+>Beamer</para
+></listitem>
+		<listitem
+><para
+>Llibre</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>Carta</para
+></listitem>
+		<listitem
+><para
+>Informe</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (del paquet KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (del paquet KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrlttr2 (del paquet KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (del paquet KOMA-Script)</para
+></listitem>
+		<listitem
+><para
+>PDF</para
+></listitem>
+		<listitem
+><para
+>XeLaTeX</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Si heu seleccionat un <guilabel
+>Document buit</guilabel
+>, podeu començar a escriure un document des de zero, o utilitzar l'assistent per a iniciar ràpidament un nou document (vegeu <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>Plantilles</title>
+
+		<para
+>Els usuaris que utilitzin &latex;, sovint solen utilitzar el mateix preàmbul per a gairebé tots els seus documents. Les plantilles es poden crear, desar i carregar en el &kile; perquè sigui més fàcil començar un nou document.</para>
+
+
+		<sect2>
+			<title
+>Crea una plantilla nova</title>
+
+			<para
+>Per a crear una plantilla, primer heu d'obrir un fitxer &tex; / &latex;, o crear un fitxer pel vostre compte. El &kile; pot generar una plantilla a partir d'un document existent obrint el document que desitgeu i seleccionant <menuchoice
+><guimenu
+>Fitxer</guimenu
+><guimenuitem
+>Crea una plantilla des del document</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Configurar les substitucions automàtiques</title>
+
+			<para
+>Quan es crea un nou document seleccionant una plantilla des de <menuchoice
+><guimenu
+>Fitxer</guimenu
+><guimenuitem
+>Nou</guimenuitem
+></menuchoice
+>, certes combinacions de caràcters seran substituïdes per dades com ara el vostre nom, o la codificació de caràcters que esteu utilitzant. Aquestes variables es poden configurar a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>Si esteu dissenyant la vostra pròpia plantilla, és útil conèixer quines combinacions de caràcters són substituïdes per quines variables de plantilla:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: Aquesta cadena serà substituïda per la variable AUTHOR.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: Aquesta cadena serà substituïda per la variable DOCUMENTCLASSOPTIONS. Normalment això s'utilitza de la següent manera: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: Si s'estableix la variable INPUTENCODING a, per exemple, <userinput
+>latin1</userinput
+> aquesta cadena se substituirà per <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>Crear una plantilla des de l'assistent</title>
+
+			<para
+>La manera més fàcil de crear una plantilla és iniciar l'assistent i, a continuació afegiu les ordres a l'editor. Una vegada tingueu ajustat el document al vostre gust:</para>
+
+			<procedure>
+				<step
+><para
+>Deseu el fitxer;</para
+></step>
+				<step
+><para
+>Aneu a <guimenu
+>Fitxer</guimenu
+>;</para
+></step>
+				<step
+><para
+>Escolliu <guimenuitem
+>Crea una plantilla des del document</guimenuitem
+>;</para
+></step>
+				<step
+><para
+>Feu les correccions necessàries a la plantilla;</para
+></step>
+				<step
+><para
+>Introduïu un nom per a la nova plantilla;</para
+></step>
+				<step
+><para
+>Feu clic a <guibutton
+>D'acord</guibutton
+> per afegir la vostra plantilla al menú.</para
+></step>
+			</procedure>
+
+			<para
+>La pròxima vegada que comenceu un nou document, sereu capaç d'escollir la vostra plantilla personalitzada en lloc de les per omissió.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Crear una plantilla a partir de qualsevol fitxer</title>
+
+			<para
+>Una plantilla es pot crear des de qualsevol fitxer &latex;. Si esteu cercant una manera fàcil de configurar una plantilla, cerqueu una que us agradi a Internet i seguiu els mateixos passos que s'enumeren a <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>Per exemple, diguem que voleu crear un pòster A0 en tota regla. Aquests pòsters se solen veure en conferències científiques, i &latex; us ajudarà a crear un cartell atractiu, amb ganxo. Podeu obtenir una plantilla per a pòsters A0 a la <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
+>pàgina web de Jonathan Marchini</ulink
+>, però n'hi ha disponibles molts més. Recordeu que necessitareu el paquet <filename
+>a0poster</filename
+>, el qual normalment no es troba a les distribucions de &tex; estàndard. Podeu descarregar-lo des d'<ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>aquí</ulink
+> i posar-lo a la mateixa carpeta que el fitxer &latex;.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>Eliminar una plantilla</title>
+
+			<para
+>Per eliminar una plantilla del &kile;, feu el següent:</para>
+
+			<procedure>
+				<step
+><para
+>Aneu a <menuchoice
+><guimenu
+>Fitxer</guimenu
+><guimenuitem
+>Elimina plantilla...</guimenuitem
+></menuchoice
+>;</para
+></step>
+				<step
+><para
+>Apareixerà un diàleg amb totes les plantilles de la llista: seleccioneu una plantilla;</para
+></step>
+				<step
+><para
+>Feu clic a <guibutton
+>D'acord</guibutton
+> i la vostra plantilla serà eliminada.</para
+></step>
+			</procedure>
+
+			<para
+>Les plantilles marcades amb un asterisc (*) no es poden eliminar sense els permisos adequats.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>Editar documents &latex;</title>
+
+	<para
+>L'editor intern que utilitza el &kile; és el &kate;. El &kate; és un editor de text creat per a programadors, que incorpora la capacitat de llegir i ressaltar molts tipus diferents de fitxers de text, entre els quals destaquen &latex; i &bibtex;, podeu accedir a moltes opcions per al &kate; directament des del menú <guimenu
+>Eines</guimenu
+> del &kile;.</para>
+
+	 <para
+>Per aprendre més sobre el &kate; i les seves capacitats, vegeu el <ulink url="help:kate"
+>Manual del &kate;</ulink
+>. Els usuaris del &kile; poden començar a llegir des del capítol <quote
+>Treballar amb l'editor &kate;</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>La referència de &latex;</title>
+
+		<para
+>Les característiques del &kile; són una molt pràctica referència de les etiquetes de &latex;, a la qual podeu accedir escollint <menuchoice
+><guimenu
+>Ajuda</guimenu
+><guimenuitem
+>Referència de LaTeX</guimenuitem
+></menuchoice
+>. Conté una acurada descripció de gairebé totes les ordres que es poden utilitzar en &latex; i la seva sintaxi.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>Moviments del cursor</title>
+
+		<para
+>Per a seleccionar text, disposeu de les següents opcions:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Premeu el &BER; i arrossegueu el ratolí per a ressaltar el text.</para
+></listitem>
+			<listitem
+><para
+>Feu un sol clic sobre una paraula per a moure el cursor a una nova àrea.</para
+></listitem>
+			<listitem
+><para
+>Feu doble clic sobre una paraula per a seleccionar la paraula sencera.</para
+></listitem>
+			<listitem
+><para
+>Feu doble clic sobre una paraula i premeu <keycombo
+>&Ctrl;</keycombo
+> per a seleccionar la paraula de &tex; sencera. Això significa que fent clic sobre <userinput
+>\par</userinput
+> des de <userinput
+>\par\bigskip</userinput
+> sols se seleccionarà \par.</para
+></listitem>
+			<listitem
+><para
+>Feu clic tres vegades per a seleccionar la frase completa.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Manteniu premut el &BER; i arrossegueu el text que voleu seleccionar, automàticament es copiarà el text seleccionat al porta-retalls.</para>
+
+		<para
+>Prement la tecla &Maj; i utilitzant les de fletxa podreu seleccionar porcions del codi font a la finestra de l'editor.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>Parèntesis</title>
+
+		<para
+>La compleció de parèntesis és una eina visual emprada a la vista de l'editor per indicar-vos quins parèntesis coincideixen entre si. Si obriu qualsevol fitxer <literal role="extension"
+>.tex</literal
+>, i seleccioneu qualsevol parèntesi, ja sigui parèntesis (), claudàtors [] o claus {}, l'editor ressaltarà el parèntesi i la seva parella en color groc (aquest color per omissió es pot canviar). De manera que si, per exemple, situeu el cursor sobre les claus a <userinput
+>\section{Introducció}</userinput
+>, les veureu ressaltades en el color groc per omissió, mostrant-vos la ubicació dels parèntesis al començament i al final.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>Ressaltat</title>
+
+		<para
+>El &kile; té la capacitat de cercar i ressaltar diferents tipus de codi. Per exemple, les ordres de &latex; es distingeixen del text normal, i les fórmules matemàtiques també es ressalten en un color diferent.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>Pics</title>
+
+		<para
+>Molts assistents poden inserir pics opcionals, un tipus especial de punt en el text. Les entrades del menú <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Pics</guisubmenu
+></menuchoice
+> o les dreceres de teclat corresponents us permetran saltar al pic següent o anterior. Això també ressaltarà el pic de manera que serà eliminat de forma automàtica quan introduïu la primera lletra.</para>
+
+		<screenshot>
+			<screeninfo
+>Pics</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Pics</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keysym
+>Fletxa dreta</keysym
+></keycombo
+></shortcut
+> <guimenuitem
+>Següent pic</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Salta al següent pic al text si és que existeix.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keysym
+>Fletxa esquerra</keysym
+></keycombo
+></shortcut
+> <guimenuitem
+>Anterior pic</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Salta al pic anterior al text si és que existeix.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>Seleccionar</title>
+
+		<para
+>L'edició és sens dubte un dels aspectes més importants quan s'utilitza un programa com el &kile;. Encara que el &kate; ja té grans capacitats, el &kile; afegeix algunes característiques importants que són especialment necessàries per escriure codi font &latex;. &latex; sempre necessita una gran quantitat d'entorns i grups, de manera que el &kile; implementa ordres especials per a seleccionar-los. A <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Selecciona</guisubmenu
+></menuchoice
+> trobareu les següents ordres per al text seleccionat.</para>
+
+		<screenshot>
+			<screeninfo
+>Edita -> Selecciona elements</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Edita -> Selecciona elements</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Entorn (dintre)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Selecciona un entorn sense les etiquetes que l'envolten. Si es crida aquesta ordre quan ja hi ha seleccionat un entorn, el &kile; ampliarà la selecció al següent entorn que l'envolti.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Entorn (fora)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Selecciona un entorn incloent-hi les etiquetes que l'envolten. Aquesta selecció també es pot ampliar cridant aquesta ordre una altra vegada. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Grup TeX (dintre)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Selecciona un grup de &tex; dins de les claus que l'envolten.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Grup TeX (fora)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Selecciona un grup de &tex; incloent-hi les claus que l'envolten.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Grup matemàtic</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Selecciona el grup matemàtic actual incloent-hi les ordres matemàtiques.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Paràgraf</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleccionar un paràgraf sencer, &ead;, un grup de línies de text separades a banda i banda per línies buides. Un paràgraf no sols significa línies contínues de text, com en altres editors de text. Aquest significat ampliat també inclou taules, ordres &latex; i totes les altres línies de codi font. L'única cosa important per al &kile; és que aquest tipus de paràgraf estigui separat per dues línies buides.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>Línia</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Selecciona la línia de text a la posició actual del cursor.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Paraula TeX</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Selecciona la paraula sota la posició actual del cursor. Aquesta selecció també té un significat extens, ja que aquesta ordre també pot seleccionar ordres &latex; que comencin amb una barra inversa i també poden tenir un inici i un final opcional.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>Seleccionar ordres de &latex;</title>
+
+		<para
+>El &kile; té una característica ampliada per a seleccionar ordres &latex;. Si, per exemple, heu escrit</para>
+
+		<programlisting
+>text \bfseries\itshape més text</programlisting>
+
+		<para
+>i feu doble clic sobre una de les ordres de &latex;, seran seleccionades ambdues. Però sovint sols voldreu seleccionar una de dues o més ordres. Això es pot fer utilitzant la tecla <keycombo
+>&Ctrl;</keycombo
+> i fent doble clic per només seleccionar l'ordre desitjada.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>Eliminar</title>
+
+		<para
+>Per eliminar algunes parts d'un document podeu seleccionar i després utilitzar la tecla <keycombo
+><keycap
+>Supr</keycap
+></keycombo
+>. El &kate; també ofereix l'ordre <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+> que esborrarà la línia sencera. Però el &kile; ofereix una forma més ràpida amb les seves pròpies ordres per eliminar. A <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Elimina</guisubmenu
+></menuchoice
+> trobareu les següents ordres per esborrar text.</para>
+
+		<screenshot>
+			<screeninfo
+>Edita -> Elimina elements</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Edita -> Elimina elements</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Entorn (dintre)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un entorn sense les etiquetes que l'envolten.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Entorn (fora)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un entorn incloent-hi les etiquetes que l'envolten.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Grup TeX (dintre)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un grup de &tex; dins de les claus que l'envolten.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Grup TeX (fora)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un grup de &tex; incloent-hi les claus que l'envolten.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Grup matemàtic</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Elimina el grup matemàtic actual incloent-hi les ordres matemàtiques.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Paràgraf</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un paràgraf sencer. Vegeu l'ordre <menuchoice
+><guisubmenu
+>Selecciona</guisubmenu
+><guimenuitem
+>Paràgraf</guimenuitem
+></menuchoice
+> com es defineix un paràgraf al &kile;.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>A final de línia</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Elimina el text des de la posició actual del cursor fins al final de la línia. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Paraula TeX</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina la paraula o ordre de &latex; sota la posició actual del cursor.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>Entorn</title>
+
+		<para
+>Ja s'ha esmentat que els entorns són un punt central a &latex;. Pel que el &kile; ofereix cinc ordres sota el submenú <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Entorn</guisubmenu
+></menuchoice
+> per a treballar amb &latex; d'una manera senzilla.</para>
+
+		<screenshot>
+			<screeninfo
+>Edita -> Entorn elements</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Edita -> Entorn elements</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Ves al començament</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Aquesta ordre salta al començament de l'entorn actual, sense importar la vostra posició actual. El cursor se situarà directament al davant de l'etiqueta d'entorn que obre.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Ves al final</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Aquesta ordre salta al final de l'entorn actual, sense importar la vostra posició actual. El cursor se situarà directament al darrere de l'etiqueta d'entorn que tanca.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Coincidència</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Quan se situa el cursor al davant de o sobre de l'etiqueta <userinput
+>\begin{environment}</userinput
+>, es mourà cap al final oposat de l'entorn i viceversa.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Tanca</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>En escriure un munt d'etiquetes d'entorn imbricades, podeu perdre el control de tots els entorns. Aquesta ordre tancarà l'últim entorn obert, de manera que l'estructura imbricada d'entorns no es trencarà.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>Tanca-ho tot</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Tanca tots els entorns oberts, no sols l'entorn obert per darrera vegada.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>Grup &tex;</title>
+
+		<para
+>El &kile; també ofereix algunes ordres especials per a grups de &latex;, els quals són determinats per claus <userinput
+>{...}</userinput
+>. Al submenú <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Grup TeX</guisubmenu
+></menuchoice
+> trobareu algunes ordres importants, que es corresponen amb les del menú <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Entorn</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>Edita -> Grup TeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Edita -> Grup TeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Ves al començament</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Aquesta ordre salta al començament del grup actual, sense importar la vostra posició actual. El cursor se situarà directament al davant de la clau que obre.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Ves al final</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Aquesta ordre salta al final del grup actual, sense importar la vostra posició actual. El cursor se situarà directament al darrere de la clau que tanca.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Coincidència</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Quan se situa el cursor al davant de o al darrere d'una clau que obre un grup &tex;, es mourà cap al final oposat del grup i viceversa.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Tanca</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Escriure un munt de claus de grup imbricades pot ser un treball de valent. Aquesta ordre tancarà l'últim grup obert, de manera que l'estructura imbricada dels grups &tex; no es trencarà.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>Cometes dobles</title>
+
+		<para
+>En &latex;, s'utilitzen dues cometes simples com a cometes dobles. Per ajudar-vos a inserir-les de manera eficient, el &kile; us permet prémer la tecla <keycap
+>"</keycap
+> per inserir dues cometes simples per obrir. A més, si voleu tancar una cita, també haureu de prémer la tecla <keycap
+>"</keycap
+>. El &kile; serà prou intel·ligent per a reconèixer aquesta situació i inserir dues cometes de tanca per a &latex;.</para>
+
+		<para
+>Per obtenir cometes dobles literals a l'altre costat, premeu <keycap
+>"</keycap
+> dues vegades.</para>
+
+		<para
+>Podeu activar o desactivar aquesta inserció automàtica per obrir i tancar les cometes dobles a la secció <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Cometes dobles</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Cometes dobles</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Si també incloeu opcions específiques de l'idioma com <userinput
+>ngerman</userinput
+> o <userinput
+>french</userinput
+>, sereu capaç d'utilitzar les cometes dobles alemanyes o franceses. Hi ha disponibles molts llenguatges més. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>Final de línia intel·ligent</title>
+
+		<para
+>Si premeu les tecles <keycombo
+>&Ctrl;<keycap
+>Retorn</keycap
+></keycombo
+>, el &kile; inserirà un salt de línia intel·ligent. Si la posició actual està dins d'un entorn de llista, com <userinput
+>enumerate</userinput
+> o <userinput
+>itemize</userinput
+>, el &kile; no només inserirà una nova línia, sinó també afegirà una ordre <userinput
+>\item</userinput
+>.</para>
+
+		<para
+>Si esteu dintre d'un entorn de taula, el &kile; acabarà la línia actual amb <userinput
+>\\</userinput
+>, seguit per la nova línia.</para>
+
+    <para
+>Si està dins d'un comentari de &latex;, el &kile; començarà la següent línia amb un <userinput
+>%</userinput
+>.</para>
+
+		<para
+>Encara millor, el &kile; és prou intel·ligent per a suportar entorns de &latex; predefinits i definits per l'usuari, que es poden afegir a la secció <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>Tabulador intel·ligent</title>
+
+		<para
+>Alguns usuaris volen organitzar les columnes en entorns de taula i posar tots els caràcters ampersand <keycap
+>&amp;</keycap
+> un sota l'altra. El &kile; ho intenta admetre. Si premeu <keycombo
+>&Alt;&Maj;<keycap
+>&amp;</keycap
+></keycombo
+>, el &kile; cercarà el tabulador següent a la fila de dalt. Malgrat tot, a vegades aquest tabulador no es correspondrà amb el tabulador corresponent, el &kile; afegirà alguns espais per ajustar-lo a la posició de la columna amb el tabulador actual.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>Compleció de codi</title>
+
+	<para
+>Encara que el &kate; ja ofereix un bon mode de compleció, la compleció de codi estès del &kile; suporta alguns mètodes especialment indicats per a &latex; Hi ha integrats cinc modes diferents. Tres d'ells treballen sota demanda, els altres dos són modes de compleció automàtica. Tots els modes es poden configurar per a treballar de moltes maneres diferents en <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guimenuitem
+>Configura el &kile;...</guimenuitem
+></menuchoice
+>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>Compleció automàtica dels entorns</title>
+
+		<para
+>Quan comenceu un nou entorn, escrivint <userinput
+>\begin{environment}</userinput
+>, el &kile; automàticament afegirà una ordre <userinput
+>\end{environment}</userinput
+>, amb una línia al mig per al vostre text.</para>
+
+		<para
+>La compleció automàtica es pot desactivar a la secció &latex; de <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Entorns</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Compleció d'un entorn d'equació</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Compleció d'un entorn d'equació</phrase>
+			</textobject>
+			<caption
+><para
+>Compleció d'un entorn d'equació</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>Ordres de &latex;</title>
+
+		<para
+>En escriure algunes lletres, podeu activar aquest mode de compleció per a les ordres de &latex; i paraules normals amb l'element de menú <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Completa</guisubmenu
+><guimenuitem
+>Ordre de (La)TeX</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo
+>&Ctrl;&Maj;<keycap
+>Espai</keycap
+></keycombo
+>. El &kile; primer llegirà les lletres des de la posició actual del cursor a l'esquerra i s'aturarà al primer caràcter no lletra o barra inversa. Si aquest patró comença amb una barra inversa, el &kile; entrarà en el mode de compleció d'ordres de &tex; o &latex;. En cas contrari, entrarà en el mode de diccionari normal, on no trobareu cap ordre de &latex;. Segons el perfil escollit, s'obrirà un quadre de compleció. Veureu totes les ordres o paraules que comencin amb el patró actual. Podreu navegar amb les tecles del cursor a través d'aquesta llista i seleccionar una entrada amb &Intro;, o fent doble clic amb el ratolí.</para>
+
+		<screenshot>
+			<screeninfo
+>Compleció d'una ordre de LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Compleció d'una ordre de LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Quan premeu la tecla &Retro;, s'eliminarà l'última lletra del vostre patró, i la llista de compleció podrà créixer. D'altra banda, si escriviu una altra lletra, s'ampliarà el patró i la llista de paraules visibles podria reduir-se.</para>
+
+		<para
+>Si decidiu no seleccionar cap dels suggeriments, podeu deixar aquest diàleg amb &Esc;.</para>
+
+		<para
+>Veureu que totes les ordres s'escriuen amb una breu descripció dels seus paràmetres. Aquestes descripcions desapareixen quan se selecciona una ordre. De manera opcional, es pot deixar que el &kile; insereixi pics en aquests llocs, de manera que podreu saltar amb facilitat a aquestes posicions amb <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Pics</guisubmenu
+><guimenuitem
+>Següent pic</guimenuitem
+></menuchoice
+> i inserir el paràmetre que voleu.</para>
+
+		<screenshot>
+			<screeninfo
+>Compleció d'una ordre de LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Compleció d'una ordre de LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Aneu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Compleció</guilabel
+></menuchoice
+> per a configurar una o més d'aquestes llistes. Podeu escollir diferents llistes de paraules per a les ordres de &tex; i &latex; i el mode de diccionari per a les paraules normals.</para>
+
+		<para
+>Si escolliu l'opció <guimenuitem
+>Mostra les ordres de LaTeX</guimenuitem
+>, les entrades de tots els fitxers de llista de paraules escollides (CWL) per a la compleció d'ordres de &latex; es mostraran en una vista separada a la barra lateral del &kile;. D'aquesta manera disposareu d'un bon escrutini de les ordres disponibles, així com quins paràmetres i opcions trobareu per a la compleció. També podeu simplement seleccionar una entrada amb un clic del ratolí i serà inserida en el document, amb tots els noms de paràmetres i opcions eliminats.</para>
+
+		<screenshot>
+			<screeninfo
+>Ordres de LaTeX a la barra lateral</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Ordres de LaTeX a la barra lateral</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Com cada llista de paraules escollida es mostrarà en una vista separada, podria haver-hi massa vistes, de manera que la finestra principal del &kile; podria ser massa gran per a pantalles petites. Com això es veurà molt lleig, el &kile; treballa amb un nombre màxim de vistes permeses, el qual està establert a 10. Si aquest valor és massa gran per a la vostra pantalla, haureu de reduir-lo.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>Entorns</title>
+
+		<para
+>El <emphasis
+>mode d'ordres</emphasis
+> no és útil per a la compleció de codi dels entorns. Sempre haureu d'escriure algunes lletres de <userinput
+>\begin</userinput
+>, i invocant el mode de compleció resultarà en una enorme llista d'etiquetes d'entorn. D'altra banda, els entorns que el &kile; utilitza sovint, compten amb un mode especial per a la compleció de codi dels entorns. Oblideu-vos de l'etiqueta d'obertura i escriviu, per exemple, <userinput
+>al</userinput
+>.</para>
+
+		<para
+>Quan crideu el mode de compleció amb <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Completa</guisubmenu
+><guimenuitem
+>Entorn</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo
+>&Alt;&Maj;<keycap
+>Espai</keycap
+></keycombo
+>, l'etiqueta d'obertura serà afegida automàticament i veureu <userinput
+>\begin{al}</userinput
+>. Després d'aquest canvi, la llista de compleció restarà molt menys desordenada.</para>
+
+		<screenshot>
+			<screeninfo
+>Compleció d'una ordre de LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Compleció d'una ordre de LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ara seleccioneu un entorn, i veurà que també es tancarà automàticament. Encara més, si el &kile; el reconeix com un entorn de llista, també inserirà una primera etiqueta <userinput
+>\item</userinput
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Compleció d'una ordre de LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Compleció d'una ordre de LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Aneu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per a configurar una o més d'aquestes llistes. Aquest mode utilitza les mateixes llistes de paraules com el mode de compleció per a les ordres de &tex; i &latex;.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>Abreviatures</title>
+
+		<para
+>El &kile; suporta llistes d'abreviatures definides per l'usuari, que són substituïdes sota demanda per cadenes de text més llargues. Mireu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per a configurar una o més d'aquestes llistes. Per a l'exemple donat, s'ha escollit la llista d'abreviatures a <filename
+>exemple.cwl</filename
+>. En aquest fitxer trobareu, per exemple, l'entrada <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>Per exemple, escriviu sols la lletra <userinput
+>L</userinput
+>. Ara invoqueu el mode d'abreviatura del mode de compleció amb l'element de menú <menuchoice
+><guimenu
+>Edita</guimenu
+><guisubmenu
+>Completa</guisubmenu
+><guimenuitem
+>Abreviatura</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo
+>&Ctrl;&Alt;<keycap
+>Espai</keycap
+></keycombo
+>, i la lletra <userinput
+>L</userinput
+> se substituirà per la cadena <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>La compleció d'abreviatures també admet els caràcters de línia nova <userinput
+>%n</userinput
+> i <userinput
+>%C</userinput
+> per a situar el cursor, si aquests caràcters estan presents en el text d'expansió. De manera que si teniu l'entrada</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>al fitxer de compleció, i invoqueu la compleció d'abreviatures, l'expansió tindrà l'aspecte com es veu a continuació, on <userinput
+>x</userinput
+> mostra la posició final del cursor.</para>
+
+<programlisting
+>\begin{enumerate}
+        \item x
+\end{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>Abreviatures</title>
+
+			<para
+>Si escolliu <guimenuitem
+>Mostra les abreviatures</guimenuitem
+>, es mostraran totes les possibles abreviatures en una vista de la barra lateral. D'aquesta manera disposareu d'un bon escrutini de totes les abreviatures possibles.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>Modes d'autocompleció</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>Ordres de &latex;</title>
+
+			<para
+>També podeu activar un mode de compleció automàtica per a les ordres de &latex;. Quan s'abasti un llindar determinat de lletres (per omissió: 3), s'obrirà una finestra emergent amb una llista de totes les ordres de &latex; coincidents. Podeu seleccionar una d'aquestes ordres, o ignorar aquesta finestra i escriure les lletres addicionals. Les entrades del quadre de compleció sempre canviaran de manera que coincideixin amb la paraula que escriviu.</para>
+
+			<para
+>Aneu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per activar o desactivar aquest mode o canviar el llindar.</para>
+
+		<screenshot>
+			<screeninfo
+>Compleció d'un entorn d'equació</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Compleció d'un entorn d'equació</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>Paraules del document</title>
+
+			<para
+>Els diccionaris de grans dimensions no són útils en el mode de compleció automàtica. Tanmateix, hem vist que una gran quantitat de paraules en un document s'escriuen més d'una vegada. De manera que el &kile; oferirà una compleció per a totes les paraules en el document que l'usuari ja ha teclejat. Podeu invocar aquesta compleció de manera manual, si premeu les tecles <keycombo
+>&Ctrl;<keycap
+>Espai</keycap
+></keycombo
+>. Tingueu en compte que aquest mode és diferent del mode de compleció per a les ordres de &latex;.</para>
+
+			<para
+>Per activar aquest mode d'encesa o apagat, aneu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Editor</guimenuitem
+><guimenuitem
+>Edició</guimenuitem
+><guilabel
+>Compleció automàtica</guilabel
+></menuchoice
+>. En aquest diàleg podreu configurar, si el mode de compleció de paraules al document estarà activat. També hi ha un mode d'autocompleció addicional, on apareixerà un quadre de compleció quan s'abasti un cert llindar.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>Escriure fitxers propis de compleció</title>
+
+    <para
+>L'última especificació del format de fitxer per a la compleció es pot trobar a l'<ulink url="https://commits.kde.org/kile?path=README.cwl"
+>especificació per al format de fitxer CWL</ulink
+>. </para>
+
+		<para
+>Els fitxers de compleció es poden instal·lar a la carpeta d'inici de l'usuari al subdirectori <filename
+>~/.kde/share/apps/kile/complete/&lt;mode&gt;/</filename
+>, on <parameter
+>&lt;mode&gt;</parameter
+> podrà ser <constant
+>abbreviation</constant
+>, <constant
+>dictionary</constant
+> o <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>Assistents i diàlegs</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>Assistent d'inici ràpid</title>
+
+		<para
+>Aquest assistent ja s'ha descrit a la secció <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>Incloure gràfics</title>
+
+		<para
+>El diàleg <guilabel
+>Inclou gràfics</guilabel
+> facilita la inserció de gràfics tant com sigui possible. Podeu accedir-hi mitjançant la barra de menús amb <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Inserció d'imatge</guimenuitem
+></menuchoice
+>. Si us plau, mireu <xref linkend="build_graphics" role="select: title pageabbrv"/> i <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> per obtenir una visió general d'alguns fets bàsics sobre el format dels gràfics.</para>
+
+		<screenshot>
+			<screeninfo
+>Afegint un element gràfic</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Afegint un element gràfic</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>Escolliu un fitxer de gràfics. Aquest podrà ser un fitxer JPEG, PNG, PDF, EPS o fins i tot un fitxer comprimit amb ZIP o un fitxer EPS comprimit amb GZIP. Si teniu <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> i el &kile; també està configurat per utilitzar-lo (<menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Gràfics</guilabel
+></menuchoice
+>), l'amplada i l'alçada del gràfic es mostraran automàticament. Si &imagemagick; pot determinar una resolució, la mida dels gràfics també es mostrarà en centímetres.</para
+></step>
+
+		<step
+><para
+>Decidiu si la imatge estarà centrada a la pàgina.</para
+></step>
+
+		<step
+><para
+>Escolliu si voleu la notació <userinput
+>\graphicspath</userinput
+> per al vostre fitxer de gràfics.</para>
+
+		<para
+>Per omissió, els fitxers de gràfics han d'estar a la mateixa carpeta que el document mestre. Tanmateix, és possible situar-los en carpetes diferents per a tenir-ho tot més ordenat. Sense una ordre <userinput
+>\graphicspath</userinput
+>, el &kile; inclourà el camí per al fitxer de gràfics. Però si utilitzeu <userinput
+>\graphicspath</userinput
+> al preàmbul de la següent manera:</para>
+
+		<programlisting
+>\graphicspath{{/camí/als/meus/gràfics}{un/altre/camí/a/més/gràfics}}</programlisting>
+
+		<para
+>i marqueu aquesta opció, el &kile; sols farà servir el nom base del fitxer de gràfics.</para>
+
+		<para
+>Un altre exemple: si establiu una ordre <userinput
+>\graphicspath</userinput
+> com:</para>
+
+		<programlisting
+>\graphicspath{{./}{càmera/}{imatges/}}</programlisting>
+
+		<para
+>&latex; cercarà a la carpeta actual, després a <filename
+>càmera</filename
+> i finalment a <filename
+>imatges</filename
+> per a trobar el vostre fitxer de gràfics.</para
+></step>
+
+		<step
+><para
+>Si escolliu una amplada o una alçada, els gràfics sencers seran escalats proporcionalment. Si ajusteu dos valors alhora per a l'amplada i l'alçada, es podran escalar amb factors diferents, i això podria no ser el que voleu. Vegeu també la informació a la part superior del diàleg per a conèixer la mida original de les imatges.</para
+></step>
+
+		<step
+><para
+>Inseriu un angle per a girar els gràfics en sentit contrari a les agulles del rellotge.</para
+></step>
+
+		<step
+><para
+>La informació al contenidor s'ajustarà automàticament quan escolliu un fitxer de gràfics. Aquesta informació sols és necessària quan es treballa amb &latex; tradicional i gràfics de mapes de bits. Vegeu el debat quant als <link linkend="build_epsgraphics"
+>gràfics EPS</link
+>. </para>
+
+		<para
+>Si &latex; necessita un contenidor i no voleu generar un fitxer «bb», el &kile; suporta aquesta opció. A l'altre costat, el &pdflatex; us donarà un avís quan vulgueu incloure un gràfic PNG o JPG amb aquesta opció. Aquesta casella de selecció activa o desactiva l'opció del contenidor.</para
+></step>
+
+		<step
+><para
+>Escala la imatge per al factor d'escala desitjat. Per exemple, 0.5 per a reduir a la meitat, o 2 per a duplicar. Quan utilitzeu aquesta opció, no cal que establiu una amplada o alçada per a la imatge.</para
+></step>
+
+		<step
+><para
+>A la pestanya <guilabel
+>Encongeix la imatge</guilabel
+> podreu escapçar la imatge en qualsevol de les quatre direccions.</para
+></step>
+
+		<step>
+		  <para
+>Finalment, haureu d'especificar si voleu incrustar aquesta imatge en un entorn de figures. Si voleu que el text s'ajusti al voltant de la figura, utilitzeu l'entorn «wrapfigure» en el seu lloc. </para>
+			<note>
+				<para
+>Quan escolliu l'entorn «wrapfigure», haureu d'incloure el paquet «wrapfig» al vostre preàmbul.</para>
+			</note>
+		  <para
+>En qualsevol cas, podeu inserir una llegenda i una etiqueta per a la vostra imatge. En general, és recomanable afegir un prefix diferent per a cada tipus d'etiqueta. És comú utilitzar el prefix <userinput
+>fig:</userinput
+> per a les imatges. </para>
+		</step>
+
+		<step
+><para
+>Si escolliu l'entorn de figura, podreu escollir on hauria de situar &latex; preferiblement la figura. </para
+></step>
+		<step>
+		  <para
+>A l'entorn «wrapfigure» podeu:</para>
+		  <substeps>
+		    <step
+><para
+>Escollir una regla per a la situació de la figura i decidir si la figura haurà o no de flotar. En un document de dues cares podeu definir si la figura haurà d'estar a l'interior o a l'exterior de la pàgina. </para
+></step>
+		    <step
+><para
+>Definiu quantes línies ajustades del text s'establiran al llarg de la figura. Si el deixeu buit, &latex; determinarà per si mateix el millor possible. </para
+></step>
+		    <step
+><para
+>Definir un voladís cap al costat escollit. Això és especialment útil quan teniu columnes en el document i voleu que una figura abasti més d'una sola columna o voleu text ajustat a ambdós costats de la figura. </para
+></step>
+		    <step
+><para
+>Escolliu l'amplada de la figura. Aquesta hauria de ser una mica més gran que l'amplada real de la imatge, de manera que hi haurà un espai buit entre la figura i el text. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>Matrius i taules</title>
+
+		<para
+>Una de les tasques més avorrides que podeu fer a &latex; és escriure una matriu o un entorn de taula. Haureu de mantenir un registre de tots els elements, assegureu-vos que l'entorn està ben format, i que totes les coses estan on se suposa que han d'estar. Un bon sagnat ajuda, però hi ha una manera més senzilla: utilitzar les entrades de menú <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Matriu</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Taula</guimenuitem
+></menuchoice
+> del &kile;. Obtindreu un formulari d'entrada amb l'estil d'una matriu que podreu omplir amb les vostres entrades. Aquest diàleg també ofereix algunes opcions per a compondre el material de la taula.</para>
+
+		<screenshot>
+			<screeninfo
+>Inserint un entorn de taula</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Inserint un entorn de taula</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Utilitzant la barra d'eines a la part superior del diàleg podeu establir l'alineació «<userinput
+>align</userinput
+>» d'una cel·la, definir un cert estil de tipus de lletra «<userinput
+>font style</userinput
+>», fusionar «<userinput
+>join</userinput
+>» i dividir «<userinput
+>split</userinput
+>» les cel·les, escollir una vora «<userinput
+>border</userinput
+>», i especificar els <userinput
+>colors</userinput
+> de fons i del tipus de lletra. A l'extrem dret hi ha un botó <guilabel
+>Enganxa</guilabel
+>. Amb aquest botó podeu inserir una taula del porta-retalls des de dins del diàleg, &pex;, us permetrà copiar i enganxar taules des d'un full de càlcul. </para>
+
+		<para
+>A sota podeu escollir el nombre de files i columnes que voleu, i podeu modificar alguns detalls més sobre la vostra matriu: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Amb l'opció <guilabel
+>Nom</guilabel
+> podeu seleccionar l'entorn a utilitzar per a la matriu o material de la taula. </para
+></listitem>
+			<listitem
+><para
+>Podeu seleccionar l'alineació vertical de la cel·la amb l'opció <guilabel
+>Paràmetre</guilabel
+>. Això sols és possible per als entorns que implementen aquesta funció. </para
+></listitem>
+			<listitem
+><para
+>Si existeix per a l'entorn seleccionat, podeu seleccionar <guilabel
+>Usa la versió preferida</guilabel
+>. En seleccionar aquesta opció, també haureu d'especificar una <guilabel
+>Amplada de la taula</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Les taules de vegades es veuen millor quan seleccioneu l'opció <guilabel
+>Usa el paquet «booktabs»</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Per descomptat, també podeu fer <guilabel
+>Centra</guilabel
+> sobre tota la matriu. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Insereix pics</guilabel
+> us ajuda quan voleu introduir el vostre contingut a l'editor. Amb aquesta opció marcada, el &kile; inserirà pics com a marcadors de posició per a cada element a la matriu. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>L'opció <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Taula</guimenuitem
+></menuchoice
+> mostrarà un diàleg senzill per a configurar ràpidament un entorn de taula. Permet especificar amb facilitat el nombre de files o columnes i l'espai requerit.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>Inserir elements flotants</title>
+
+	  <para
+>El &kile; us ajuda amb la inserció d'elements flotants. Amb <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Elements flotants</guimenuitem
+></menuchoice
+> és molt simple crear una nova figura o entorn de taula. </para>
+
+	  <screenshot>
+		<screeninfo
+>Inserint un element flotant</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserint un element flotant</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Per inserir un nou entorn flotant sols haureu de seguir aquests passos: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>Escolliu si voleu inserir una figura o una taula. </para>
+	       </step>
+	       <step>
+		 <para
+>Seleccioneu les regles de posició desitjades. </para>
+	       </step>
+	       <step>
+		 <para
+>Introduïu una llegenda per a l'element flotant. </para>
+	      </step>
+	      <step>
+		<para
+>Escriviu una etiqueta per al nou element flotant. El &kile; suggerirà automàticament un prefix apropiat, &pex; «fig:» per a les figures i «tab:» per a les taules. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+>Inserir en entorns matemàtics</title>
+
+	  <para
+>Recordar com funcionen tots els diferents elements matemàtics pot ser realment molest. Per descomptat, el &kile; pot fer màgia aquí: <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Matemàtica</guimenuitem
+></menuchoice
+></para>
+
+	  <screenshot>
+		<screeninfo
+>Inserint un element matemàtic</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserint un element matemàtic</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>Opcions: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>Nom:</guilabel
+> Escull el tipus d'element matemàtic que voleu crear.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Sense numeració:</guilabel
+> Això pot activar o desactivar la numeració dels elements numerats com equacions o alineacions.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Ordre d'espaiat per separar grups:</guilabel
+> En un entorn que implementi diversos grups com «alignat», podreu definir un separador d'espai quan tingueu més d'un grup. Podeu introduir qualsevol ordre d'espai aquí, que existeixi en «mathmode», &pex; \quad. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Tabulador estàndard:</guilabel
+> Selecciona el tabulador que utilitzarà. El &kile; hauria d'escollir automàticament el més adequat.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Mode de visualització matemàtica:</guilabel
+> Per entorns com matrius o llistes podeu escollir amb quin entorn matemàtic s'haurà de mostrar el vostre text matemàtic. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Usa pics:</guilabel
+> Amb aquesta opció marcada, el &kile; inserirà pics com a marcadors de posició per a cada element del vostre text matemàtic.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>Utilitats de &PostScript;</title>
+
+		<para
+>Els fitxers PS no són tan populars com els fitxers PDF, però són una excel·lent base per a la manipulació i reorganització de pàgines. Si necessiteu una sortida PDF, podeu reorganitzar les pàgines amb algunes utilitats de &PostScript; i després convertir-les a PDF amb <command
+>ps2pdf</command
+>.</para>
+
+		<para
+>L'<emphasis
+>Assistent de &PostScript;</emphasis
+> sota <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Eines Postscript</guimenuitem
+></menuchoice
+> suggerirà la reorganització més popular. La conversió es realitza mitjançant els programes <command
+>pstops</command
+> i <command
+>psselect</command
+>, que es poden trobar a la majoria de les distribucions en el paquet <userinput
+>psutils</userinput
+>. Si un d'aquests programes no està disponible, l'element corresponent no serà visible.</para>
+
+		<screenshot>
+			<screeninfo
+>El diàleg PSTools</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>El diàleg PSTools</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Primer escolliu el fitxer d'entrada. Si el &kile; troba un fitxer PS corresponent al document mestre actual, s'utilitzarà com a fitxer d'entrada, però també sou lliure d'escollir-ne un altre. A continuació, escolliu un fitxer de sortida i seleccioneu una de les tasques. Finalment, haureu de decidir si voleu fer la conversió, o també invocar l'&okular; per a veure el resultat.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>1 pàgina A5 + pàgina buida --> A4</term>
+		<listitem
+><para
+>Combina una pàgina A5 amb una pàgina buida sobre una pàgina A4. Quan es combinen dues pàgines A5, es giren 90 graus i s'ajustaran sobre una pàgina A4 en mode horitzontal.</para>
+		<screenshot>
+			<screeninfo
+>A5 + pàgina buida</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + pàgina buida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 pàgina A5 + duplicat --> A4</term>
+		<listitem
+><para
+>Col·loca una pàgina A5 i un duplicat sobre una pàgina A4.</para>
+		<screenshot>
+			<screeninfo
+>duplicant pàgines A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Duplicant una pàgina A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pàgines A5 --> A4</term>
+		<listitem
+><para
+>Col·loca dues pàgines A5 consecutives sobre una pàgina A4.</para>
+		<screenshot>
+			<screeninfo
+>Combinant dues pàgines A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Combinant dues pàgines A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pàgines A5L --> A4</term>
+		<listitem
+><para
+>Col·loca dues pàgines A5 consecutives en mode horitzontal sobre una pàgina A4.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 pàgines A5 --> A4</term>
+		<listitem
+><para
+>Combina quatre pàgines A5 consecutives sobre una pàgina A4. Les pàgines A5 s'hauran d'escalar amb un factor de 0.7 per ajustar-les a la pàgina.</para>
+		<screenshot>
+			<screeninfo
+>4 pàgines A5 --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>4 pàgines A5 --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 pàgina A4 + pàgina buida --> A4</term>
+		<listitem
+><para
+>Combina una pàgina A4 amb una pàgina buida sobre una pàgina A4. Sempre que es combinen dues pàgines A4 sobre una pàgina A4, s'hauran d'escalar amb un factor de 0.7 i s'ajustaran en el mode apaïsat.</para>
+		<screenshot>
+			<screeninfo
+>1 pàgina A4 + pàgina buida --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 pàgina A4 + pàgina buida --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 pàgina A4 + duplicat --> A4</term>
+		<listitem
+><para
+>Col·loca una pàgina A4 i un duplicat sobre una pàgina A4.</para>
+		<screenshot>
+			<screeninfo
+>1 pàgina A4 + duplicat --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 pàgina A4 + duplicat --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pàgines A4 --> A4</term>
+		<listitem
+><para
+>Col·loca dues pàgines A4 consecutives sobre una pàgina A4.</para>
+		<screenshot>
+			<screeninfo
+>Combinant dues pàgines A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Combinant dues pàgines A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pàgines A4L --> A4</term>
+		<listitem
+><para
+>Col·loca dues pàgines A4 consecutives en mode horitzontal sobre una pàgina A4.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Seleccioneu les pàgines parelles</term>
+		<listitem
+><para
+>Selecciona totes les pàgines parelles d'un document.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Seleccioneu les pàgines senars</term>
+		<listitem
+><para
+>Selecciona totes les pàgines senars d'un document.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Seleccioneu les pàgines parelles (ordre invers)</term>
+		<listitem
+><para
+>Selecciona totes les pàgines parelles d'un document en ordre invers.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Seleccioneu les pàgines senars (ordre invers)</term>
+		<listitem
+><para
+>Selecciona totes les pàgines senars d'un document en ordre invers.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Inverteix totes les pàgines</term>
+		<listitem
+><para
+>Inverteix totes les pàgines d'un document.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Copia totes les pàgines (ordenades)</term>
+		<listitem
+><para
+>Copia totes les pàgines d'un document. Haureu d'escollir el nombre de còpies ordenades.</para>
+		<screenshot>
+			<screeninfo
+>Copia totes les pàgines (ordenades)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Copia totes les pàgines (ordenades)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>Copia totes les pàgines (desordenades)</term>
+		<listitem
+><para
+>Copia totes les pàgines d'un document. Haureu d'escollir el nombre de còpies sense ordenar.</para>
+		<screenshot>
+			<screeninfo
+>Copia totes les pàgines (desordenades)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Copia totes les pàgines (desordenades)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: escollir un paràmetre</term>
+		<listitem
+><para
+>Hi ha moltes opcions per a les utilitats de &PostScript; <command
+>pstops</command
+> i <command
+>psselect</command
+>. Si necessiteu una molt especial, podeu invocar <command
+>pstops</command
+> amb una opció de la vostra elecció. Llegiu el manual per a veure totes les opcions possibles.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: escollir el paràmetre</term>
+		<listitem
+><para
+>Pot invocar <command
+>psselect</command
+> amb una opció de la vostra elecció. Llegiu el manual per a veure totes les opcions possibles.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>Utilitats PDF</title>
+
+		<para
+>Molta gent pensa en els PDF com a fitxers congelats, que no es poden modificar. Però això no és cert, ja que hi ha eines excel·lents</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>per a la manipulació i reordenació de les pàgines</para
+></listitem>
+		<listitem
+><para
+>per llegir i actualitzar la informació del document</para
+></listitem>
+		<listitem
+><para
+>per llegir, establir o canviar alguns permisos</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>d'un document PDF existent.</para>
+
+		<para
+>L'<emphasis
+>Assistent PDF</emphasis
+> del &kile; sota <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Eines PDF</guimenuitem
+></menuchoice
+> utilitza dos mètodes diferents per a manipular i reordenar els documents PDF:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>El paquet <command
+>pdfpages</command
+> de &latex;, que forma part de cadascuna de les distribucions de &latex;. <command
+>pdfpages</command
+> no funciona amb pàgines encriptades.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+>, que és una excel·lent eina de línia d'ordres per a fer coses quotidianes amb documents PDF (vegeu <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>The PDF Toolkit</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Si un d'aquests ajudants, <command
+>pdfpages</command
+> o <command
+>pdftk</command
+>, no és present al sistema, els elements corresponents no seran visibles. A més, recordeu que <command
+>pdftk</command
+> només pot treballar amb fitxers encriptats.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>Reordenar</title>
+
+			<para
+>Si es crida l'assistent PDF del &kile;, s'iniciarà amb la targeta de registre <userinput
+>Reordenació</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>El diàleg Eines PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>El diàleg Eines PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Primer escolliu el fitxer d'entrada. Si el &kile; troba un fitxer PDF corresponent al document mestre actual, l'utilitzarà com a fitxer d'entrada, però també sou lliure d'escollir-ne un altre. A continuació, escolliu un fitxer de sortida o sobreescriviu l'existent i seleccioneu una de les tasques. Finalment, haureu de decidir si només voleu realitzar la conversió, o també invocar el visualitzador (&pex;, l'&okular;) per a veure el resultat.</para>
+
+			<para
+>Si el fitxer PDF està encriptat, només funcionarà <command
+>pdftk</command
+> i caldrà indicar la contrasenya d'aquest document per executar tasques.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>1 pàgina + pàgina buida --> A4</term>
+			<listitem
+><para
+>Combina una pàgina amb una pàgina buida sobre una pàgina A4. Quan es combinen dues pàgines A5, es giren 90 graus i s'ajustaran sobre una pàgina A4 en mode horitzontal.</para>
+			<screenshot>
+				<screeninfo
+>A5 + pàgina buida</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + pàgina buida</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Quan es combinen dues pàgines A4, s'escalen, es giren 90 graus i s'ajustaran sobre una pàgina A4 en mode horitzontal.</para>
+			<screenshot>
+				<screeninfo
+>A4 + pàgina buida --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + pàgina buida</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>1 pàgina + duplicat --> A4</term>
+			<listitem
+><para
+>Col·loca una pàgina i un duplicat sobre una pàgina A4.</para>
+			<screenshot>
+				<screeninfo
+>Duplicant una pàgina</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Duplicant una pàgina</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Si la pàgina que es duplica té una mida A4, s'escalarà per ajustar-se a la pàgina.</para>
+			<screenshot>
+				<screeninfo
+>Duplicant una pàgina</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Duplicant una pàgina</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 pàgines --> A4</term>
+			<listitem
+><para
+>Combina dues pàgines consecutives sobre una pàgina A4. Quan es combinen dues pàgines A5, es giren 90 graus i s'ajustaran sobre una pàgina A4 en mode horitzontal.</para>
+			<screenshot>
+				<screeninfo
+>Combinant dues pàgines A5</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Combinant dues pàgines A5</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Quan es combinen dues pàgines A4, s'escalen, es giren 90 graus i s'ajustaran sobre una pàgina A4 en mode horitzontal.</para>
+			<screenshot>
+				<screeninfo
+>Combinant dues pàgines A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Combinant dues pàgines A4</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 pàgines (horitzontal) --> A4</term>
+			<listitem
+><para
+>Col·loca dues pàgines consecutives en mode horitzontal sobre una pàgina A4.</para>
+			<screenshot>
+				<screeninfo
+>Combinant dues pàgines (en mode horitzontal)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Combinant dues pàgines (en mode horitzontal)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 pàgines --> A4</term>
+			<listitem
+><para
+>Combina quatre pàgines consecutives sobre una pàgina A4. Les pàgines s'hauran d'escalar fins a ajustar-les a la pàgina.</para>
+			<screenshot>
+				<screeninfo
+>4 pàgines --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>4 pàgines --> A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 pàgines (horitzontal) --> A4</term>
+			<listitem
+><para
+>Combina quatre pàgines consecutives en mode horitzontal sobre una pàgina A4. Les pàgines s'hauran d'escalar fins a ajustar-les a la pàgina.</para>
+			<screenshot>
+				<screeninfo
+>Combinant quatre pàgines (en mode horitzontal)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Combinant quatre pàgines (en mode horitzontal)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Seleccioneu les pàgines parelles</term>
+			<listitem
+><para
+>Selecciona totes les pàgines parelles d'un document.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Seleccioneu les pàgines senars</term>
+			<listitem
+><para
+>Selecciona totes les pàgines senars d'un document.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Seleccioneu les pàgines parelles (ordre invers)</term>
+			<listitem
+><para
+>Selecciona totes les pàgines parelles d'un document en ordre invers.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Seleccioneu les pàgines senars (ordre invers)</term>
+			<listitem
+><para
+>Selecciona totes les pàgines senars d'un document en ordre invers.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Inverteix totes les pàgines</term>
+			<listitem
+><para
+>Inverteix totes les pàgines d'un document.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>desencripta un fitxer</term>
+			<listitem
+><para
+>Si el fitxer PDF està encriptat, podreu desencriptar-lo.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Selecciona pàgines</term>
+			<listitem
+><para
+>Afegir una llista separada per comes de les pàgines o intervals de pàgines, &pex;, 1,4-7,9. Només apareixeran aquestes pàgines en el fitxer PDF resultant.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Elimina pàgines</term>
+			<listitem
+><para
+>Afegir una llista separada per comes de les pàgines o intervals de pàgines, que s'han d'eliminar del fitxer PDF escollit.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Aplica una marca d'aigua de fons</term>
+			<listitem
+><para
+>S'aplica una marca d'aigua PDF al fons d'un únic PDF d'entrada. L'assistent només utilitza la primera pàgina del PDF de fons i l'aplica a totes les pàgines del PDF d'entrada. Aquesta pàgina s'escalarà i girarà segons sigui necessari per ajustar-se a la pàgina d'entrada.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Aplica un color de fons</term>
+			<listitem
+><para
+>Aplica un color de fons a totes les pàgines del document actual. Això només es pot fer una vegada, el segon color es posarà al darrere del primer i després no serà visible.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Aplica un segell de primer pla</term>
+			<listitem
+><para
+>Aplica un segell de primer pla a la part superior de les pàgines del document PDF d'entrada. L'assistent només utilitzarà la primera pàgina del segell PDF i l'aplicarà a totes les pàgines del PDF d'entrada. Aquesta pàgina s'escalarà i girarà segons sigui necessari per ajustar-se a la pàgina d'entrada. Això funciona millor si la pàgina PDF del segell té un fons transparent.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: escollir un paràmetre</term>
+			<listitem
+><para
+>Podeu invocar <command
+>pdftk</command
+> amb una opció de la vostra elecció. Llegiu el manual per a veure totes les opcions possibles.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: escollir un paràmetre</term>
+			<listitem
+><para
+>Podeu invocar <command
+>pdfpages</command
+> amb una opció de la vostra elecció. Llegiu el manual per a veure totes les opcions possibles.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>Propietats</title>
+
+			<para
+>L'establiment, canvi i eliminació de les propietats només serà possible, si <command
+>pdftk</command
+> està instal·lat i si, a més, el &kile; es va compilar amb la biblioteca <userinput
+>libpoppler</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>El diàleg Propietats PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>El diàleg Propietats PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Les metadades PDF tradicionals inclouen el títol del document, autor, tema, paraules clau, autor, productor i les dates de creació i última modificació.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>Permisos</title>
+
+			<para
+>A més, l'establiment, modificació i eliminació de permisos només serà possible, si <command
+>pdftk</command
+> està instal·lat.</para>
+
+			<screenshot>
+				<screeninfo
+>El diàleg Permisos PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>El diàleg Permisos PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>És necessària una contrasenya per establir o canviar la configuració del document. A més, L'encriptatge PDF es fa per bloquejar el contingut del fitxer darrere d'aquesta contrasenya o per fer complir algunes restriccions imposades per l'autor. De manera que l'autor les pugui permetre o restringir:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>impressió de les pàgines</para
+></listitem>
+			<listitem
+><para
+>modificació de les pàgines</para
+></listitem>
+			<listitem
+><para
+>copia el text i els gràfics de les pàgines</para
+></listitem>
+			<listitem
+><para
+>canvia o afegeix anotacions</para
+></listitem>
+			<listitem
+><para
+>omple els camps de formulari amb les dades.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>El canvi dels permisos sempre força l'encriptatge associat amb la seguretat de 128 bits d'<userinput
+>Acrobat</userinput
+> 5 i 6, i també necessita una contrasenya.</para>
+
+			<para
+>Però recordeu sempre: l'encriptatge i una contrasenya no ofereix cap seguretat PDF real. El contingut està encriptat, però la clau és coneguda. L'heu de veure més com una petició cortesa però ferma de respectar els desitjos de l'autor.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>Estadístiques del document</title>
+
+		<para
+>El diàleg de les estadístiques a <menuchoice
+><guimenu
+>Fitxer</guimenu
+><guimenuitem
+>Estadístiques</guimenuitem
+></menuchoice
+> us ofereix un resum estadístic d'una selecció, un document o un projecte sencer. Inclou el nombre de paraules, les ordres/entorns de &latex;, així com el nombre de caràcters per a cada tipus.</para>
+
+		<para
+>Les estadístiques obtingudes es poden copiar com a text o en un format agradable com una taula de &latex; al porta-retalls. </para>
+		<para
+>Quan seleccioneu un text i obriu el diàleg de les estadístiques, obtindreu les estadístiques per al text seleccionat. Si obriu el diàleg sense cap text seleccionat, es mostraran les estadístiques per a tots els fitxers oberts. Per obtenir les estadístiques per a tot el projecte, podeu utilitzar l'element de menú <menuchoice
+><guimenu
+>Projecte</guimenu
+><guisubmenu
+>Obre tots els fitxers del projecte</guisubmenu
+></menuchoice
+> per a una manera fàcil i ràpida d'obrir tots els fitxers de codi font del vostre projecte.</para>
+
+		<para
+>Cal una nota de precaució sobre l'exactitud dels números. Hem inclòs alguna lògica per obtenir una bona estimació, &pex; K\"uhler dona una paraula i una ordre, amb 6 i 2 caràcters, respectivament. Però hi ha altres combinacions en què les parts de les ordres són comptades com a paraules i viceversa. Tingueu en compte que l'algorisme es va desenvolupar i provar per a idiomes similars a l'anglès o l'alemany. De manera que no preneu els números com a certs. Si escriviu un informe, la longitud haurà de ser un nombre concret de paraules o caràcters, si us plau, feu algunes proves la primera vegada per a comprovar si la precisió del &kile; pot satisfer les vostres necessitats.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>Etiquetes especials a &latex;</title>
+
+	<sect1 id="latex_library">
+		<title
+>Usar la biblioteca d'etiquetes de &latex;</title>
+
+		<para
+>&latex; disposa de milers d'etiquetes per a símbols i caràcters especials. El millor camí per inserir aquestes etiquetes és utilitzar el menú de la barra lateral, a l'esquerra de la finestra de l'editor.</para>
+
+		<screenshot>
+			<screeninfo
+>El menú de la barra lateral</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>El menú de la barra lateral</phrase>
+			</textobject>
+			<caption
+><para
+>El menú de la barra lateral</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>Estan disponibles els tipus següents:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Usats més freqüentment</para
+></listitem>
+			<listitem
+><para
+>Relació</para
+></listitem>
+			<listitem
+><para
+>Operadors</para
+></listitem>
+			<listitem
+><para
+>Fletxes</para
+></listitem>
+			<listitem
+><para
+>Matemàtics diversos</para
+></listitem>
+			<listitem
+><para
+>Text divers</para
+></listitem>
+			<listitem
+><para
+>Delimitadors</para
+></listitem>
+			<listitem
+><para
+>Grec</para
+></listitem>
+			<listitem
+><para
+>Caràcters especials</para
+></listitem>
+			<listitem
+><para
+>Caràcters ciríl·lics</para
+></listitem>
+			<listitem
+><para
+>Definit per l'usuari</para
+></listitem>
+		</itemizedlist>
+		<para
+>Els consells d'eina de les icones mostren les ordres de &latex; i paquets necessaris addicionals.</para>
+		<para
+>En prémer la tecla <keycombo
+>&Maj;</keycombo
+> i fent clic resultarà en un símbol, s'inserirà <userinput
+>$\symbolcmd$</userinput
+>. De manera similar, prement la tecla <keycombo
+>&Ctrl;</keycombo
+> s'inserirà entre claus.</para>
+		<para
+>Si inseriu una ordre que necessita un paquet que no està inclòs en el vostre document &latex;, veureu un missatge d'avís a la finestra visualitzador del registre.</para>
+		<para
+>La primera llista de símbols conté els símbols <guilabel
+>Usats més freqüentment</guilabel
+>. Els símbols inserits seran afegits a aquesta llista, per a una referència ràpida i fàcil. L'ordenament dels símbols no es canviarà després d'afegir símbols nous, però s'incrementarà un comptador de referència. Si el nombre d'elements excedeix de 30, l'element amb un número menor serà eliminat.</para>
+		<para
+>La llista de símbols <guilabel
+>Definit per l'usuari</guilabel
+> pot mantenir els vostres propis símbols. Per a crear els vostres propis símbols necessitareu el programa «gesymb» i el fitxer «<filename
+>definitions.tex</filename
+>» des del paquet de codi font de «kile». De manera addicional necessitareu un compilador de &latex; (quina sorpresa) i <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> (versió 1.7 o posterior). El procediment consisteix a crear un fitxer &latex; amb <userinput
+>\input{definitions}</userinput
+>, el que farà disponibles les ordres llistades a continuació, i <userinput
+>gesymb mysymbols.tex usuari</userinput
+> (que crida a &latex; i &dvipng;) crearà les icones. Després copieu-les a <userinput
+>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
+> i torneu a iniciar el &kile; per utilitzar els vostres propis símbols. </para>
+		<para
+>Les ordres següents estan definides a <filename
+>definitions.tex</filename
+>: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\optarg]{\symbol}</userinput
+>: Inclou el símbol <userinput
+>\symbol</userinput
+> a la llista de símbols, l'argument opcional <userinput
+>\optarg</userinput
+> especifica l'ordre que haurà d'inserir el &kile;. Si no es dona, s'utilitzarà l'ordre en l'argument obligatori. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\optarg]{\symbol}</userinput
+>: Igual que l'anterior, excepte que l'ordre en l'argument obligatori serà inserit en el mode matemàtic. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[arg]{pkg}</userinput
+>: Declara que l'ordre donat en aquesta línia necessita el paquet <userinput
+>pkg</userinput
+> de &latex; amb l'argument opcional <userinput
+>arg</userinput
+>. Aquesta ordre haurà d'estar al davant de l'ordre <userinput
+>\command</userinput
+> i substitueix qualsevol especificació del paquet per a l'entorn «neededpkgs». </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[pkgs-args]{pkgs} ... \end{neededpkgs}</userinput
+>: Té el mateix efecte que l'anterior, però per a totes les ordres tancades. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>Un exemple complet a continuació: <programlisting
+>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% els paquets s'han d'incloure així
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  només per explicar el format
+\end{document}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>Usar «Bibitems»</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> és una ordre utilitzada per introduir una referència en un entorn <userinput
+>thebibliography</userinput
+> en el document. La sintaxi per utilitzar <userinput
+>\bibitem</userinput
+> és <userinput
+>\bibitem[etiqueta]{clau}</userinput
+>.</para>
+
+		<para
+>L'<userinput
+>[etiqueta]</userinput
+> opcional és perquè afegiu el vostre propi sistema d'etiquetatge per a l'entrada bibliogràfica. Si no hi ha cap etiqueta establerta, les entrades es posaran en ordre numèric: [1], [2], [3], &etc;</para>
+
+		<para
+>L'argument <userinput
+>{clau}</userinput
+>, s'utilitza per a referenciar i enllaçar les ordres <userinput
+>\bibitem</userinput
+> i <userinput
+>\cite</userinput
+> entre si i la informació que contenen. L'ordre <userinput
+>\cite</userinput
+> conté l'etiqueta associada amb la <userinput
+>\bibitem</userinput
+> pretesa, que es troba dins d'un entorn <userinput
+>thebibliography</userinput
+>, i conté les dades de referència. Tant la <userinput
+>\bibitem</userinput
+> com la <userinput
+>\cite</userinput
+> corresponent han de tenir la mateixa <userinput
+>{clau}</userinput
+>. La manera més fàcil d'organitzar les claus és pel cognom de l'autor. Les segones <userinput
+>{}</userinput
+> a l'entorn <userinput
+>thebibliography</userinput
+> denoten l'etiqueta bibliogràfica més llarga que espereu tenir. Per tant, la inserció de <userinput
+>{<replaceable
+>foo</replaceable
+>}</userinput
+> significa que podeu tenir qualsevol etiqueta més curta o tan gran com l'expressió <userinput
+><replaceable
+>foo</replaceable
+></userinput
+>. Si no ajusteu correctament aquest paràmetre, podria resultar en un sagnat no tan atractiu de la vostra bibliografia.</para>
+
+		<para
+>La bibliografia és una secció a part del vostre document principal, i un exemple de codi per a la bibliografia es veuria de la següent manera:</para>
+
+<programlisting
+>\begin{thebibliography}{50}
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}. Evergreen Terrace Printing Co.,
+                          Springfield, SomewhereUSA, 1998
+\end{thebibliography}</programlisting>
+
+		<para
+>A continuació, el ​​codi font principal que conté la ubicació de la informació relativa a la <userinput
+>\bibitem</userinput
+> utilitzant <userinput
+>\cite</userinput
+>. El codi font es veuria així:</para>
+
+		<programlisting
+>La meva tesi sobre la filosofia d'«Els Simpsons»\el copyright ve del meu llibre preferit \cite{Simpson}.</programlisting>
+
+		<para
+>Com sovint és difícil recordar la clau d'una cita exacta quan té moltes referències, el &kile; proporciona una manera senzilla per inserir una cita. Utilitzant <menuchoice
+><guimenu
+>LaTeX </guimenu
+><guimenuitem
+>Referències</guimenuitem
+><guimenuitem
+>Cita</guimenuitem
+></menuchoice
+> apareixerà una llista amb totes les claus de cita. Seleccioneu la referència correcta i una s'inserirà una cita en el document. Per actualitzar la llista de claus, deseu el fitxer o <menuchoice
+><guimenu
+>Edita</guimenu
+><guimenuitem
+>Actualitza l'estructura</guimenuitem
+></menuchoice
+>, o premeu <keycap
+>F12</keycap
+>. Amb la compleció de codi activada, el &kile; us mostrarà una llista de totes les etiquetes <userinput
+>bibitem</userinput
+> tan aviat com obriu una ordre <userinput
+>\cite</userinput
+>.</para>
+
+		<para
+>El resultat final en la bibliografia del vostre document es veuria així:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998.</computeroutput
+></para>
+
+		<para
+>El &kile; també pot treballar junt amb els editors de &bibtex;, com el &kbibtex; perquè sigui més fàcil introduir cites. Quan s'afegeix un fitxer de &bibtex; al projecte, el &kile; us ajudarà a completar les ordres de cita, tal com s'ha descrit anteriorment.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>Les eines de construcció</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>Compilar, convertir i visualitzar</title>
+
+		<para
+>Per a veure el resultat del vostre treball, primer haureu de compilar el codi font. Totes les eines de construcció s'agrupen en els menús <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Compila</guisubmenu
+></menuchoice
+>, <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Converteix</guisubmenu
+></menuchoice
+>, i <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Visualitza</guisubmenu
+></menuchoice
+>.</para>
+
+		<para
+>Per compilar el vostre codi font per als visualitzadors en pantalla com l'&okular; o d'altres, podeu utilitzar la drecera <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>. Després podeu visualitzar el fitxer &DVI; utilitzant el vostre visualitzador predeterminat amb <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>, convertir el &DVI; a un fitxer PS amb <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+>, i visualitzar el fitxer PS amb <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>Si utilitzeu <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+> per a les vostres entrades bibliogràfiques, en general haureu de seguir un esquema de compilació especial. Això implica cridar a &latex;, després a &bibtex; i després a &latex; una altra vegada. Afortunadament el &kile; és prou intel·ligent per a detectar automàticament si cal cridar a eines addicionals com &bibtex;, &makeidx; i &asymptote;. Aquesta lògica s'activa per omissió i es pot canviar a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+><guisubmenu
+>Eines</guisubmenu
+><guilabel
+>Construeix</guilabel
+></menuchoice
+> a la pestanya <guilabel
+>General</guilabel
+> de les eines &latex; i &pdflatex;. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost i &asymptote;</title>
+
+			<para
+>Si voleu compilar el vostre document amb <application
+>MetaPost</application
+> o <application
+>&asymptote;</application
+> -els programes de dibuix d'imatges-, podeu fer-ho amb <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Compila</guisubmenu
+><guimenuitem
+>Metapost</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Compila</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>També hi ha una altra manera de compilar el vostre document, si voleu un PDF: podeu executar el &pdflatex;, que compilarà la font directament a un fitxer PDF, amb <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>: podreu visualitzar el fitxer compilat prement <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>De manera alternativa, podeu convertir un PS a un PDF amb <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+>, o directament un &DVI; a un PDF amb <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>Utilitzant el &pdflatex; en lloc de &latex; es pot deure a una qüestió de simplicitat o de costum, però de vegades el comportament dels dos programes pot ser diferent.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&latex; per a la web</title>
+
+			<para
+>Finalment, possiblement voldreu publicar el vostre treball a la web i no sols en paper. A continuació, podreu utilitzar el programa <application
+>latex2html</application
+>, que es pot cridar des del menú del &kile; <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Converteix</guisubmenu
+><guimenuitem
+>LaTeX a la web</guimenuitem
+></menuchoice
+>. El resultat serà col·locat en una subcarpeta de la carpeta de treball, i sereu capaç de veure el resultat de la conversió escollint l'element de menú <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Visualitza</guisubmenu
+><guimenuitem
+>View&HTML;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>Passar paràmetres a la línia d'ordres</title>
+
+			<para
+>Per passar alguns paràmetres específics de línia d'ordres a les eines de compilació, conversió o visualització, podeu configurar la seva crida a <menuchoice
+><guimenu
+>Arranjament</guimenu
+> <guisubmenu
+>Configura el &kile;...</guisubmenu
+><guisubmenu
+>Eines</guisubmenu
+><guilabel
+>Construeix</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>Vista prèvia ràpida</title>
+
+		<para
+>Quan treballeu amb &latex; sempre necessitareu algun temps per a veure el resultat. &latex; ha de compilar el codi font i cridar al visualitzador. Això pot ser molest si sols es canvien algunes lletres en una equació difícil de compondre. El &kile; ofereix una manera <emphasis
+>Vista prèvia ràpida</emphasis
+>, on podreu compilar sols una part d'un document i estalviat molt de temps. És compatible amb quatre modes diferents, que es poden combinar amb set configuracions.</para>
+
+		<screenshot>
+			<screeninfo
+>Vista prèvia ràpida</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Vista prèvia ràpida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Tota la configuració s'ha de fer a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Eines</guimenuitem
+><guilabel
+>Vista prèvia</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Configuració de la vista prèvia ràpida</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Configuració de la vista prèvia ràpida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>Mode de selecció</title>
+
+			<para
+>L'usuari ha de seleccionar una part del document. L'entrada de menú <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Vista prèvia ràpida</guisubmenu
+><guimenuitem
+>Selecció</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>S</keycap
+> iniciaran els programes seleccionats. El &kile; prendrà el preàmbul del text original, de manera que s'incloguin tots els paquets i ordres definits per l'usuari. L'usuari pot triar una de les vuit configuracions predefinides:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (visualitzador incrustat)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (visualitzador incrustat)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (visualitzador incrustat)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (visualitzador incrustat)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Això hauria de ser suficient per a totes les situacions per a les quals es requereixi una vista prèvia ràpida.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>Mode entorn</title>
+
+			<para
+>Molt sovint voleu previsualitzar l'entorn actual, i especialment els entorns matemàtics, que de vegades poden ser difícils d'escriure. El &kile; ofereix una manera molt ràpida de fer això. La selecció no és necessària, simplement seleccioneu <menuchoice
+><guimenu
+>Construcció</guimenu
+><guisubmenu
+>Vista prèvia ràpida</guisubmenu
+><guimenuitem
+>Entorn</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>, <keycap
+>E</keycap
+> i es compilarà i mostrarà l'entorn actual.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>Mode subdocument</title>
+
+			<para
+>Si teniu un projecte gran amb un munt de documents, compilar tot el projecte no serà una gran idea, si heu realitzat canvis sols en un únic document. El &kile; és capaç de compilar i mostrar una vista prèvia del subdocument actual. Pren el preàmbul del document mestre i sols compilarà la part actual quan escolliu <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Vista prèvia ràpida</guisubmenu
+><guimenuitem
+>Subdocument</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>Mode grup matemàtic</title>
+
+			<para
+>El mode de vista prèvia del grup matemàtic permet la vista prèvia del grup matemàtic que esteu editant. El &kile; pren el preàmbul del document mestre i sols compilarà el grup matemàtic on es trobi el cursor quan escolliu <menuchoice
+><guimenu
+>Construeix</guimenu
+><guisubmenu
+>Vista prèvia ràpida</guisubmenu
+><guimenuitem
+>Grup matemàtic</guimenuitem
+></menuchoice
+> o la drecera de teclat <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>Vista prèvia ràpida en la barra inferior</title>
+
+			<para
+>En lloc de mostrar la vista prèvia d'un document nou, també es pot configurar el &kile; per utilitzar la barra inferior per a les compilacions de vista prèvia. Podeu activar aquesta característica en el plafó de configuració de la vista prèvia ràpida.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>Formats de fitxers gràfics</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>&latex; i &pdflatex;</title>
+
+		<para
+>El &pdflatex;, quan s'utilitza amb els paquets <userinput
+>graphics</userinput
+> o <userinput
+>graphicx</userinput
+>, pot compilar correctament fitxers PNG i JPG en un &DVI; o PDF, però no és capaç de manejar fitxers EPS. Per contra, el procés de compilació de &latex; a &DVI; i conversió a PS i potser a PDF sí que suporta EPS, però no suporta PNG i JPG.</para>
+
+		<para
+>Molts usuaris volen crear documents PDF, però també volen utilitzar l'excel·lent paquet <application
+>Pstricks</application
+> per a crear gràfics &PostScript;, o volen utilitzar la sortida &PostScript; de programari matemàtic i científic com <application
+>Mathematica</application
+>, <application
+>Maple</application
+> o <application
+>MuPAD</application
+>. Aquests usuaris de &latex; primer han de compilar en &PostScript;, encara que vulguin crear documents PDF, ja que aquests programes generen codi &PostScript;, el qual no pot ser manejat pel &pdflatex;. Tanmateix, no és tan difícil com pot semblar, ja que el &kile; us ajudarà.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>Conversió de gràfics</title>
+
+		<para
+>Per a superar aquest frustrant bucle, quan vulgueu incloure tant codi &PostScript; com fitxers PNG o JPG, disposareu d'un nombre de solucions:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Si necessiteu un fitxer en format PS, però té gràfics JPG o PNG, també podeu simplement utilitzar el &pdflatex; amb sortida &DVI; primer, i després executar <application
+>dvips</application
+> per a crear el fitxer PS. Podeu veure que el &pdflatex; és una molt bona opció, si la vostra font no conté codi &PostScript;.</para
+></listitem>
+
+			<listitem
+><para
+>Podeu convertir el fitxer EPS a PNG o altres formats amb utilitats com el <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> o <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> i utilitzar el &pdflatex;.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>Una manera preferida és la de convertir els gràfics EPS a PDF amb <command
+>epstopdf</command
+>, el qual ve amb totes les distribucions de &tex; i aleshores utilitzar el &pdflatex;. Aquest produeix gràfics d'alta qualitat, fins i tot podeu controlar el resultat amb alguna de les següents opcions: <programlisting
+>-dAutoFilterColorImages=false
+        -dAutoFilterGrayImages=false
+        -sColorImageFilter=FlateEncode
+        -sGrayImageFilter=FlateEncode
+        -dPDFSETTINGS=/prepress
+        -dUseFlateCompression=true
+</programlisting>
+			</para>
+
+			<para
+>Millor encara: si el vostre sistema permet <userinput
+>shell-escape</userinput
+>, la conversió es pot fer sobre la marxa. Tot el que heu de fer és incloure el paquet <application
+>epstopdf</application
+>, el qual forma part de totes les distribucions de &tex;, amb l'ordre <userinput
+>\usepackage{epstopdf}</userinput
+>. Assumint que el codi és <programlisting>
+        \includegraphics[width=5cm]{prova.eps}
+</programlisting
+> On podreu cridar al &pdflatex; amb l'opció <option
+>--shell-escape</option
+>, el gràfic <filename
+>prova.eps</filename
+> es convertirà automàticament en <filename
+>prova.pdf</filename
+>.</para>
+
+			<para
+>Aquesta conversió es durà a terme cada vegada que executeu el &pdflatex;. Si doneu de forma implícita l'ordre de gràfics<programlisting>
+        \includegraphics[width=5cm]{prova}
+</programlisting
+> <application
+>epstopdf</application
+> comprovarà si ja està disponible <filename
+>prova.pdf</filename
+>, per a saltar el pas de la conversió.</para
+></listitem>
+
+			<listitem
+><para
+>Podeu convertir en l'altre sentit, i utilitzar &latex; i la conversió PS-PDF. Això no sempre és una bona idea, ja que l'encapsulació EPS de JPG o PNG pot produir fitxers més grans, que al seu torn produeixen documents innecessàriament grans. Tot i que això depèn <emphasis
+>en gran manera</emphasis
+> de la utilitat gràfica que utilitzeu, ja que EPS pot encapsular altres gràfics, però no totes les aplicacions ho implementen correctament. Algunes podrien intentar construir la vostra imatge JPG amb vectors i els diversos scripts creats, el qual resultarà en fitxers gegantins. La conversió de tots els formats gràfics a EPS la podeu fer amb <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Un altre programa senzill que fa aquest procés correctament és <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>També podeu utilitzar una conversió automàtica. Tots els fitxers gràfics seran convertits a l'instant a EPS, i s'inseriran al document PS. Aquesta és una forma còmoda, però haureu de configurar el sistema correctament. Això es discuteix a la secció <link linkend="build_epsgraphics"
+>Gràfics EPS</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>Utilitzar el fitxer adequat per a cada gràfic</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>EPS és un tipus de llenguatge per a la creació de scripts de vectors gràfics, que descriu totes les línies i punts que formen el gràfic. Es veu bé fins i tot quan s'augmenta més enllà de la seva mida per omissió, i concorda millor amb diagrames i gràfics vectorials produïts de forma nativa en PS, els quals es veuen molt nets i clars mantenint una mida molt petita de bytes.</para
+></listitem>
+			<listitem
+><para
+>PNG (o el &GIF; en desús) és un format de fitxer <emphasis
+>sense pèrdua</emphasis
+>, amb una bona compressió i qualitat. És molt bo per als diagrames, escanejats de dibuixos, o qualsevol cosa de la qual vulgueu conservar la nitidesa. De vegades no funciona bé quan s'utilitza per a fotografies.</para
+></listitem>
+			<listitem
+><para
+>JPG és un format <emphasis
+>amb pèrdua</emphasis
+>, que comprimeix millor els fitxers PNG a costa d'alguna pèrdua en el detall de la imatge. Això sol ser irrellevant per a les fotografies, però pot causar una mala qualitat per als diagrames, dibuixos, i pot fer que desapareguin algunes línies fines. En aquests casos utilitzeu EPS o PNG.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Però recordeu sempre: si entreu brossa, traureu brossa! Cap conversió farà bona una mala imatge.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>Gràfics EPS</title>
+
+		<para
+>Els fitxers gràfics EPS són la forma tradicional d'inserir fitxers gràfics en documents &latex; Com les llistes de correu són plenes de preguntes sobre gràfics EPS, debatrem sobre alguns aspectes importants i demostrarem com els implementa el &kile;.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>&latex; i els gràfics EPS</title>
+
+		<para
+>Si decidiu utilitzar el &latex; tradicional per presentar una sortida PS o PDF, probablement us trobareu amb alguns problemes amb els gràfics. Haureu d'utilitzar gràfics EPS (&PostScript; encapsulat). No fitxers JPEG o PNG. Això no hauria de ser un problema, ja que hi ha una gran quantitat de <link linkend="build_graphics_conversion"
+>convertidors</link
+> com <command
+>convert</command
+> de l'excel·lent paquet <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Però, per descomptat, això porta el seu temps.</para>
+
+		<para
+>Els fitxers EPS són utilitzats tant per &latex; com pel convertidor &DVI;-PS:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; escaneja el fitxer EPS per a determinar la línia del contenidor, el qual indicarà a &latex; quant espai reservar per als gràfics.</para
+></listitem>
+
+		<listitem
+><para
+>El convertidor &DVI;-PS llegirà a continuació el fitxer EPS i inserirà el gràfic al fitxer PS.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Això té algunes implicacions:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; mai llegirà el fitxer EPS si s'han especificat els paràmetres relatius al contenidor en l'ordre d'inserció dels gràfics.</para
+></listitem>
+
+		<listitem
+><para
+>Com &latex; no pot llegir els fitxers que no són ASCII, no podrà llegir la informació sobre el contenidor a partir de fitxers comprimits o gràfics no EPS.</para
+></listitem>
+
+		<listitem
+><para
+>Els gràfics EPS no seran inclosos en el fitxer &DVI;. Atès que els fitxers EPS han d'estar presents quan el fitxer &DVI; es converteix a PS, els fitxers EPS s'han d'acompanyar dels fitxers &DVI; cada vegada que es mouen.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Ara podreu cridar a &latex;, i un convertidor &DVI;-PS com <application
+>dvips</application
+> per crear el vostre document &PostScript;. Si el vostre objectiu és un document PDF, l'haureu d'executar amb l'opció <option
+>-Ppdf</option
+> i després cridar a <command
+>ps2pdf</command
+>. Vostè trobarà una gran quantitat de documents que descriuen aquesta solució.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>La manera &PostScript; del &kile;</title>
+
+		<para
+>El &kile; us ajudarà a obtenir la informació sobre el contenidor. Si teniu instal·lat el paquet <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, el &kile; extraurà aquesta informació del fitxer EPS i la inserirà com una opció. Això es fa automàticament quan seleccioneu el fitxer de gràfics. Hi ha dos avantatges per a procedir d'aquesta manera:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>La informació apareixerà en el diàleg, i no l'haurà d'obtenir &latex;.</para
+></listitem>
+		<listitem
+><para
+>Encara més important és que quan es coneix la seva resolució es poden calcular l'amplada i l'alçada de la imatge. Aquesta informació apareixerà a la part superior del diàleg, i pot servir com una pista quan es volen escalar els gràfics.</para
+></listitem>
+		<listitem
+><para
+>El &kile; també suporta fitxers EPS comprimits amb GZIP, que són molt més petits que els fitxers EPS sense comprimir. Tanmateix, aquesta característica sols es pot utilitzar amb una configuració especial del sistema i un canvi de la configuració gràfica local, com es descriu a la secció <link linkend="build_graphics_bitmap"
+>Gràfics de mapa de bits</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>La manera &PostScript; i els gràfics de mapa de bits</title>
+
+		<para
+>Si el vostre sistema permet <userinput
+>shell-escape</userinput
+>, el &kile; també implementa una manera fàcil d'incloure gràfics de mapes de bits, si configureu el sistema de &tex; correctament. No hi ha necessitat de convertir gràfics JPEG o PNG, això es pot fer automàticament quan el fitxer &DVI; es converteix a PS.</para>
+
+		<para
+>&latex; necessita una mica d'informació sobre els sufixos dels fitxers. El paquet <userinput
+>graphicx</userinput
+> cerca un fitxer <filename
+>graphics.cfg</filename
+>, que ha d'estar en algun lloc en el vostre camí de cerca per a documents de &latex;. Cerqueu entrades de la següent manera:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para
+>i substituïu aquestes línies amb:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % changed or new graphic rules
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   zipped EPS
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   gzipped EPS
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      PDF-graphics
+</programlisting>
+
+		<para
+>Trobareu aquest fitxer, per exemple en Debian, a <filename
+>/etc/texmf/latex/graphics.cfg</filename
+>. La millor manera de procedir és copiar aquest fitxer al vostre camí local de &tex; (texpath) i després canviar aquesta còpia. Vegeu el manual de &tex; de la vostra distribució per a saber com obtenir una llista de les vostres carpetes de &tex;.</para>
+
+		<para
+>Amb aquest fitxer de configuració sereu capaços d'inserir gràfics de mapa de bits o fitxers EPS comprimits amb ZIP i GZIP a &latex;. L'ordre per a la conversió és definida per <command
+>dvips</command
+>. Quan us fixeu en l'ordre de conversió veureu que no es crea cap fitxer extra. El resultat del procés de conversió es dirigeix directament al fitxer PS. L'únic que ha de saber &latex; és la mida dels gràfics, i per tant necessitem el contenidor, el qual és proporcionat pel &kile;.</para>
+
+		<para
+>Hi ha que diu que aquest camí no és segur, haureu de decidir sobre com treballar. En qualsevol cas, no necessitareu cap contenidor, ja que el &kile; extraurà aquesta informació de tots els tipus de gràfics.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>El &pdflatex; i els gràfics EPS</title>
+
+		<para
+>Com ja s'ha indicat, el &pdflatex; no és capaç de manejar fitxers gràfics EPS, però convertidors com <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+> us ajudaran. La millor manera de fer-ho és incloure el paquet <filename
+>epstopdf</filename
+>, al que seguirà el paquet <userinput
+>graphicx</userinput
+>.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>
+
+		<para
+>Ara ja pots incloure els gràfics EPS, si executeu <command
+>pdflatex</command
+> amb l'opció <option
+>--shell-escape</option
+>, però podem fer-ho encara millor manejant fitxers EPS comprimits amb ZIP o GZIP. Una vegada més hem de canviar el fitxer de configuració de gràfics <filename
+>graphics.cfg</filename
+> com anteriorment. Aquesta vegada buscarem:</para>
+
+<programlisting
+>% pdfTeX executant-se en mode PDF
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para
+>i afegirem algunes línies:</para>
+
+<programlisting
+>% pdfTeX executant-se en mode PDF
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+   }%
+</programlisting>
+
+		<para
+>Amb aquestes línies, el &pdflatex; serà capaç de manejar fitxers EPS, i esperem que no tingueu més problemes amb els gràfics.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>Document mestre</title>
+
+		<para
+>Definir el vostre document com un mestre us permetrà treballar amb fitxers separats, el que us donarà un document de nivell superior (o document mestre) i documents fills que compondran una obra completa. Una vegada definit el document mestre, amb l'ordre corresponent al menú <guimenu
+>Arranjament</guimenu
+>, totes les ordres del menú <guimenu
+>Eines</guimenu
+> sols seran d'aplicació a aquest document, fins i tot quan esteu treballant en els documents fills. Encara podreu tancar el document mestre.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>Gestió d'errors</title>
+
+		<para
+>Després de compilar alguna cosa, el &kile; dona un cop d'ull als missatges d'error que s'han generat. Si hi ha algun error o avís, se us informarà breument a la finestra <guilabel
+>Registre i missatges</guilabel
+>. Podeu profunditzar en els missatges seleccionant <menuchoice
+><guimenu
+>Construeix</guimenu
+><guimenuitem
+>Mostra el fitxer del registre</guimenuitem
+></menuchoice
+>, o utilitzant la drecera de teclat <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. El registre generat es mostrarà a la vista <guilabel
+>Registre i missatges</guilabel
+>. Els errors i els avisos seran ressaltats.</para>
+
+		<screenshot>
+			<screeninfo
+>Veure el registre</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Veure el registre</phrase>
+			</textobject>
+			<caption
+><para
+>Veure el registre</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Podeu saltar d'un missatge al fitxer de registre a un altre utilitzant els elements de menú <menuchoice
+><guimenu
+>Build</guimenu
+><guimenuitem
+>Següent / Anterior error/avís de LaTeX</guimenuitem
+></menuchoice
+>, o utilitzant els botons de la barra d'eines corresponent.</para>
+
+		<para
+>Per saltar a la línia en el codi font &latex; font on s'ha produït l'error o avís, feu clic sobre l'error o l'avís a la vista <guilabel
+>Registre i missatges</guilabel
+>. El &kile; us portarà automàticament a la línia en qüestió.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>El mode de vigilància del fitxer</title>
+
+			<para
+>Quan llanceu l'ordre <guibutton
+>Creació ràpida</guibutton
+>, normalment s'invocarà un visualitzador d'algun tipus després de la compilació. Si no teniu un visualitzador incrustat, cada vegada s'obrirà una nova finestra.</para>
+
+			<para
+>Si voleu ajustar l'aspecte del vostre document, possiblement llançareu <guibutton
+>Creació ràpida</guibutton
+> molt sovint, i tindreu moltes finestres del visualitzador obertes a l'escriptori. Per evitar aquesta confusió, podeu activar el mode <guibutton
+>Vigilància de fitxer</guibutton
+>, evitant que la <guibutton
+>Creació ràpida</guibutton
+> llanci un visualitzador.</para>
+
+			<para
+>Aquest mode manca d'utilitat amb els visualitzadors incrustats, ja que cal tancar-los per tornar a editar i compilar el document.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>Navegar pel codi font de &latex;</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>Utilitzar la vista d'estructura</title>
+
+		<para
+>La vista <guilabel
+>Estructura</guilabel
+> mostra la jerarquia de l'estructura del document que s'està creant en el &kile;, i us permet navegar ràpidament, mostrant la seva segmentació. Per a navegar pel document, tot el que haureu de fer és fer clic esquerre sobre qualsevol etiqueta, capítol, secció, subsecció, &etc;, i se us portarà al començament de l'àrea corresponent.</para>
+
+		<para
+>Si incloeu un fitxer &latex; a part al codi font utilitzant les etiquetes <userinput
+>\input</userinput
+> o <userinput
+>\include</userinput
+>, aquests fitxers seran referenciats a la vista <guilabel
+>Estructura</guilabel
+>, feu doble clic sobre els seus noms, el qual farà que el &kile; obri el fitxer inclòs a la finestra de l'editor.</para>
+
+		<para
+>L'arbre de jerarquia també té una branca separada per a les etiquetes utilitzades en el text.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>Utilitzar el menú contextual</title>
+
+			<para
+>La majoria de les entrades a la vista d'estructura tenen un munt d'entrades al menú contextual, el qual es pot obrir amb un clic dret del ratolí. Així que cerqueu a la vista d'estructura en la següent imatge.</para>
+
+			<screenshot>
+				<screeninfo
+>Utilitzant la vista d'estructura</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Utilitzant la vista d'estructura</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Trobareu algunes etiquetes, algunes entrades de secció, dos entorns de figures i tres imatges. Si feu clic sobre una de les entrades de secció, apareixerà un menú amb algunes ordres d'utilitat. Totes les ordres com <guibutton
+>Selecciona</guibutton
+>, <guibutton
+>Elimina</guibutton
+> o <guibutton
+>Comentari</guibutton
+> treballaran amb totes les línies que pertanyin a aquesta secció.</para>
+
+			<screenshot>
+				<screeninfo
+>Menú contextual per a seccionar entrades</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Menú contextual per a seccionar entrades</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>En fer clic sobre una entrada de figura o de taula s'oferiran algunes accions respecte a les referències i un clic dret sobre una entrada de gràfics s'oferiran alguns programes per obrir els gràfics.</para>
+
+			<screenshot>
+				<screeninfo
+>Menú contextual per a entrades de figures/taules i gràfics</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Menú contextual per a entrades de figures/taules i gràfics</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>Actualitzar la vista d'estructura</title>
+
+			<para
+>Per actualitzar la vista d'estructura podeu anar a <menuchoice
+><guimenu
+>Edita</guimenu
+><guimenuitem
+>Actualitza l'estructura</guimenuitem
+></menuchoice
+>, premeu <keycombo
+><keycap
+>F12</keycap
+></keycombo
+>, o podeu desar el document, el qual farà que el &kile; actualitzi la seva vista <guilabel
+>Estructura</guilabel
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>Punts</title>
+
+		<para
+>Els punts són la vostra referència a un segment de text o a una línia dins l'entorn del &kile;. Per utilitzar un punt, seleccioneu una línia específica del document a la que us agradaria tornar, a continuació premeu <keycombo
+>&Ctrl; <keycap
+>B</keycap
+></keycombo
+>, i el &kile; afegirà un punt a aquesta línia. De manera alternativa, també podeu establir un punt ressaltant una línia i escollint l'element de menú anomenat <menuchoice
+><guimenu
+>Punts</guimenu
+><guimenuitem
+>Estableix un punt</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>Per eliminar tots els punts, seleccioneu <menuchoice
+><guimenu
+>Punts</guimenu
+> <guimenuitem
+>Neteja tots els punts</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>Projectes</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>Treballar amb projectes</title>
+
+		<para
+>Al &kile; podeu crear i treballar amb <emphasis
+>projectes</emphasis
+>. Un projecte és un grup de &latex;, gràfics, &bibtex;, o altres fitxers que contenen tota la informació que s'utilitza per a construir el document complet Un projecte típic seria un document que consta de diversos capítols, escrit en diferents fitxers <literal role="extension"
+>.tex</literal
+>, tots podrien estar inclosos en un projecte, per a fer que el document sigui més fàcil d'utilitzar. Les especificacions del projecte s'emmagatzemen en un fitxer especial, amb extensió <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>Un projecte afegeix les següents funcionalitats:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>No cal que establiu un document mestre, el &kile; ho farà automàticament.</para
+></listitem>
+			<listitem
+><para
+>Els fitxers de projecte es poden arxivar junts amb facilitat anant a <menuchoice
+><guimenu
+>Projecte</guimenu
+><guimenuitem
+>Arxiva</guimenuitem
+></menuchoice
+>.</para
+></listitem>
+			<listitem
+><para
+>La vista <guilabel
+>Fitxers i projectes</guilabel
+> mostra quins fitxers estan inclosos en el projecte.</para
+></listitem>
+			<listitem
+><para
+>Després d'obrir un projecte, qualsevol fitxer obert anteriorment serà restaurat amb la codificació i ressaltat originals.</para
+></listitem>
+      <listitem
+><para
+>La compleció de codi funciona en tots els fitxers del projecte.</para
+></listitem>
+      <listitem
+><para
+>La compleció de referència funciona en tots els fitxers del projecte.</para
+></listitem>
+      <listitem
+><para
+>La compleció de cites funciona en tots els fitxers del projecte.</para
+></listitem>
+      <listitem
+><para
+>Cerca en tots els fitxers del projecte.</para
+></listitem>
+      <listitem
+><para
+>Especifica les ordres personalitzades creació ràpida i &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Podeu trobar totes les ordres relacionades amb el projecte en el menú <guilabel
+>Projecte</guilabel
+>. Des d'on podreu obrir, tancar i gestionar els vostres projectes.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>Crear un projecte</title>
+
+		<para
+>Per a crear un projecte, seleccioneu <menuchoice
+><guimenu
+>Projecte</guimenu
+> <guimenuitem
+>Nou projecte...</guimenuitem
+></menuchoice
+>.</para>
+		<screenshot>
+		  <screeninfo
+>Finestra de creació del projecte</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>Finestra de creació del projecte</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+> Se us demanarà que proporcioneu la següent informació per crear el vostre projecte:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>Títol del vostre projecte (camp de text <guilabel
+>Títol del projecte</guilabel
+>). </para>
+		    <para
+>El títol del projecte s'utilitzarà per crear un nom de fitxer del projecte transformant a minúscules i afegint l'extensió <filename role="extension"
+>.kilepr</filename
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Una carpeta on s'emmagatzemarà el fitxer del projecte (camp de text <guilabel
+>Carpeta del projecte</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Per crear un nou fitxer principal del projecte marqueu l'element <guilabel
+>Crea un nou fitxer i afegeix-lo a aquest projecte</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Quan completeu el quadre <guilabel
+>Nom de fitxer</guilabel
+>, haureu d'incloure un camí relatiu on es troba emmagatzemat el fitxer de projecte <filename role="extension"
+>.kilepr</filename
+> (vegeu l'element <guilabel
+>Carpeta del projecte</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Tipus del fitxer creat, <guilabel
+>Fitxer buit</guilabel
+>, <guilabel
+>Article</guilabel
+>, <guilabel
+>Llibre</guilabel
+>, <guilabel
+>Carta</guilabel
+>, <guilabel
+>Informe</guilabel
+>, &etc; es poden triar des d'una llista visual a la part inferior del plafó <guilabel
+>Fitxer</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Les extensions dels fitxers per omissió en el projecte es poden seleccionar utilitzant el plafó <guilabel
+>Extensions</guilabel
+>. La vostra elecció es farà servir per a definir els fitxers que s'obriran quan escolliu l'element de menú <menuchoice
+><guimenu
+>Projecte</guimenu
+><guimenuitem
+>Obre tots els fitxers del projecte</guimenuitem
+></menuchoice
+> i en els assistents del &kile;. Les extensions en el camp de text han d'estar separades per espais. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>La vista de fitxers i projectes</title>
+
+		<para
+>La vista <guilabel
+>Fitxers i projectes</guilabel
+> és un botó del menú de la barra lateral. Des d'aquesta vista podreu veure l'estructura del vostre projecte, els seus fitxers i el nom del fitxer <literal role="extension"
+>.kilepr</literal
+> que emmagatzema la informació del projecte. Les opcions per afegir, treure o canviar el projecte es fan mitjançant aquesta.</para>
+
+		<screenshot>
+			<screeninfo
+>La vista de fitxers i projectes</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>La vista de fitxers i projectes</phrase>
+			</textobject>
+			<caption
+><para
+>La vista de fitxers i projectes</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>Afegir i eliminar fitxers</title>
+
+		<para
+>Per afegir un fitxer al vostre projecte, obriu qualsevol fitxer &tex;, feu clic sobre el seu nom a la vista <guilabel
+>Fitxers i projectes</guilabel
+>, i seleccioneu <guilabel
+>Afegeix al projecte</guilabel
+>. Si teniu oberts múltiples projectes, apareixerà un diàleg on podreu especificar a quin projecte s'ha d'afegir el fitxer.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>També podeu fer clic dret sobre el nom del projecte en la vista <guilabel
+>Fitxers i projectes</guilabel
+>, i seleccioneu <guilabel
+>Afegeix fitxers...</guilabel
+> per obrir un diàleg de selecció de fitxers.</para>
+
+		<screenshot>
+			<screeninfo
+>Afegint un fitxer a un projecte</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Afegint un fitxer a un projecte</phrase>
+			</textobject>
+			<caption
+><para
+>Afegint un fitxer a un projecte</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Per eliminar un fitxer d'un projecte, feu clic dret sobre seu i seleccioneu <guilabel
+>Elimina fitxer</guilabel
+>. Això <emphasis
+>no</emphasis
+> eliminarà el fitxer (i tampoc el tancarà), sols l'eliminarà de la llista de fitxers continguts al fitxer <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>Arxivar el vostre projecte</title>
+
+			<para
+>El &kile; permet realitzar còpies de seguretat del vostre projecte emmagatzemant tots els seus fitxers en un sol fitxer comprimit (sovint conegut com un <emphasis
+>arxiu tar</emphasis
+>). Per arxivar el projecte, feu clic dret sobre el seu nom en la vista <guilabel
+>Fitxers i projectes</guilabel
+>, o seleccioneu <menuchoice
+><guimenu
+>Projecte</guimenu
+><guimenuitem
+>Arxiva</guimenuitem
+></menuchoice
+>.</para>
+
+			<para
+>Per omissió, tots els fitxers en un projecte seran afegits a l'arxiu. Si no voleu incloure un determinat fitxer, feu clic sobre aquest a la vista <guilabel
+>Fitxers i projectes</guilabel
+> i desmarqueu l'opció <guilabel
+>Inclou en l'arxiu</guilabel
+>.</para>
+
+			<para
+>L'operació d'arxivat actualment es realitza executant <command
+>tar</command
+> des de la carpeta de projecte (on es troba el fitxer <literal role="extension"
+>.kilepr</literal
+>).</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>Opcions del projecte</title>
+
+		<para
+>El &kile; té algunes opcions relacionades amb el projecte que es poden ajustar. Per a canviar-les, feu clic sobre el títol del projecte i seleccioneu <guilabel
+>Opcions del projecte</guilabel
+>, i tindreu l'opció de canviar:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>El títol del vostre projecte.</para
+></listitem>
+			<listitem
+><para
+>Extensions de fitxer per omissió.</para
+></listitem>
+ 			<listitem
+><para
+>El document mestre.</para
+></listitem>
+ 			<listitem
+><para
+>L'ordre Creació ràpida.</para
+></listitem>
+ 			<listitem
+><para
+>Les opcions de &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>Tancar un projecte</title>
+
+		<para
+>Per a tancar un projecte, seleccioneu la vista <guilabel
+>Fitxers i projectes</guilabel
+> des de la barra d'eines vertical, feu clic dret sobre el títol del projecte, i després seleccioneu <guimenuitem
+>Tanca</guimenuitem
+>. Això tancarà el projecte, tots els fitxers relacionats amb el projecte, i també afegirà el nom del projecte que acabeu de tancar a <guisubmenu
+>Obre un projecte recent...</guisubmenu
+> al menú <guimenu
+>Projecte</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>Codificar el document</title>
+
+	<para
+>L'editor &kile; permet llegir, convertir i desar missatges de text en la codificació de caràcters que necessiti el vostre document. Amb això és possible, per exemple, utilitzar caràcters accentuats, com els que s'utilitzen comunament en italià o francès directament en documents de &latex;. Podeu seleccionar la codificació per al vostre document de dues maneres:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Una forma d'establir la codificació del document és utilitzant el submenú <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+><guimenuitem
+>Editor</guimenuitem
+></menuchoice
+>, on podreu establir la codificació de caràcters per omissió per a tots els fitxers.</para>
+		<screenshot>
+			<screeninfo
+>Ajustant la codificació de caràcters per omissió</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Ajustant la codificació de caràcters per omissió</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>Una segona manera d'establir la codificació d'un document és escollir la codificació desitjada dins de l'assistent per crear un nou document.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>&latex; sols entén ASCII, el que representa un conjunt molt limitat de caràcters. Per tant, no és possible utilitzar caràcters accentuats directament. Per utilitzar-los, s'ha inventat una sintaxi especial: com per exemple <userinput
+>\"e</userinput
+> per a <computeroutput
+>ë</computeroutput
+>. El paquet <application
+>inputenc</application
+> està disponible per ajudar amb això. S'inclou en el preàmbul amb <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>, on l'argument opcional especifica la codificació que voleu utilitzar (avui dia en la majoria dels casos <userinput
+>utf8</userinput
+>). Això li indica a &latex; que tradueixi totes les <userinput
+>ë</userinput
+> que escriviu a <userinput
+>\"e</userinput
+> abans de compilar. Si us plau, consulteu la documentació de <application
+>inputenc</application
+> directament per obtenir més informació. Finalment, però no menys important: recordeu assegurar-vos que el fitxer es desa realment en la mateixa codificació especificada per al paquet <application
+>inputenc</application
+>!</para>
+
+	<para
+>Aquesta multitud de diferents taules de codificació de caràcters ha creat nombrosos problemes: per exemple, no podeu escriure un curs de turc en francès sense perdre els caràcters especials d'un dels idiomes. Hi ha un acord general que, tard o d'hora, tothom canviarà a <ulink url="http://www.unicode.org"
+>Unicode</ulink
+>. Hi ha moltes implementacions d'Unicode i <abbrev
+>UTF-8</abbrev
+> és la més utilitzada a &Linux;, en canvi &Windows;&reg; es basa més aviat en la més incòmoda i menys flexible <abbrev
+>UCS-2</abbrev
+>. La majoria de les distribucions ja han començat a establir la seva codificació per omissió a <abbrev
+>UTF-8</abbrev
+>, i per tant podríeu estar molt interessats a utilitzar l'argument <userinput
+>utf8</userinput
+> al paquet <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>El paquet &ucs;</title>
+		<para
+>Si no teniu instal·lat el paquet &ucs;, podeu procedir de la següent manera:</para>
+		<itemizedlist>
+		<listitem
+><para
+>Obtenir el paquet &ucs; des de <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>Per instal·lar-lo, descomprimiu el fitxer descarregat i el col·loqueu-lo en una carpeta llistada a la vostra variable d'entorn $<envar
+>TEXINPUTS</envar
+>. També es pot ajustar dins del &kile;.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}
+\usepackage[utf8]{inputenc}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>XeLaTeX</title>
+
+		<para
+>Si esteu utilitzant <userinput
+>XeLaTeX</userinput
+>, sols haureu de carregar el paquet <userinput
+>xltxtra</userinput
+>. De manera addicional carregarà tots els paquets necessaris.</para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>Suport &cjk;</title>
+
+		<para
+>Afegir suport per a idiomes ideogràfics és molt complicat. Tanmateix, un cop ho hàgiu aconseguit, funcionarà molt bé. La instal·lació d'altres paquets us permetrà treballar amb algunes configuracions extres.</para>
+
+		<tip
+><para
+>La vostra distribució &Linux; pot contenir un paquet &cjk; (xinès, japonès, coreà) preparat, de manera que us estalviareu la molèstia d'haver-lo d'instal·lar manualment. Comproveu-ho abans de seguir endavant!</para
+></tip>
+
+		<para
+>Hi ha la possibilitat d'utilitzar el paquet &ucs; per escriure pedaços de text &cjk;, però aquesta opció està seriosament limitada, ja que no maneja, entre altres coses, les noves línies. En el seu lloc, instal·larem el complet paquet &cjk;-&latex; i farem que funcioni per a &latex; i &pdflatex;. Gran part d'aquest material ha estat inspirat per la <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>pàgina sobre com configurar el &pdflatex;</ulink
+> d'en <ulink url="http://www.ece.uci.edu/~chou/"
+>Pai H. Chou</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>Descarregueu el paquet <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. Copieu els fitxers descomprimits a la subcarpeta corresponent de $<envar
+>TEXMF</envar
+>, igual com ho vau fer amb el paquet &ucs; (vegeu <xref linkend="ucs" role="select: title pageabbrv"/>). Els fitxers es descomprimeixen en una carpeta <filename
+>CJK/X_Y.Z</filename
+>. Tot i que no és important una vegada els heu descomprimit, és probable que sigui més ordenat i fàcil de mantenir.</para
+></listitem>
+
+		<listitem
+><para
+>Ara haureu de descarregar un tipus de lletra que suporti tots els caràcters que necessita &cjk;. Podeu escollir qualsevol fitxer <literal role="extension"
+>*.ttf</literal
+> els cobreixi, però en aquest cas utilitzarem <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+>. Descomprimiu el fitxer i canvieu-ne el nom de <filename
+>Cyberbit.ttf</filename
+> a <filename
+>cyberbit.ttf</filename
+>, ja que podria la majúscula podria confondre al vostre sistema.</para>
+		<para
+>Col·loqueu <filename
+>cyberbit.ttf</filename
+> en una carpeta juntament amb <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+>, i genereu els fitxers <literal role="extension"
+>*.tfm</literal
+> i <literal role="extension"
+>*.enc</literal
+> amb l'ordre <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. Per alguna raó, de vegades això no produeix els centenars de fitxers necessaris. Si és aquest el vostre cas, podeu descarregar els fitxers <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+> i <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+>.</para>
+		<para
+>Col·loqui els fitxers <literal role="extension"
+>*.tfm</literal
+> en una carpeta adequada, diguem <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>. Els fitxers <literal role="extension"
+>*.enc</literal
+> es poden instal·lar a <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Ara necessitem un fitxer de mapa per a connectar els fitxers <literal role="extension"
+>*.enc</literal
+> amb el tipus de lletra. Descarregueu <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> i instal·leu-lo a <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Descarregueu un altre fitxer, <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+>, i poseu-lo en una carpeta adequada. Podeu escollir, per exemple, <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>L'últim fitxer que hem de generar és un tipus de lletra &PostScript; de Type 1, necessari per a llegir fitxers &DVI; generats amb &latex;. Executeu l'ordre <userinput
+><command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+></userinput
+> i copieu el resultat <filename
+>cyberbit.pfb</filename
+> en una carpeta com <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Ara col·loqueu <filename
+>cyberbit.ttf</filename
+> entre els tipus de lletra on &latex; el pugui trobar. Podeu col·locar-lo en una carpeta amb el nom <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Comproveu el fitxer de configuració que es troba a <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+>, i assegureu-vos que la línia que conté <envar
+>TTFONTS</envar
+> està sense comentar i que apunta a la carpeta on heu desat <filename
+>cyberbit.ttf</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Per a fer possible que el &pdflatex; utilitzi els tipus de lletra &cjk;, cal que afegiu una línia al fitxer de configuració $<filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+>. Afegiu <userinput
+>map +cyberbit.map</userinput
+> al fitxer per a completar la configuració per al &pdflatex;.</para
+></listitem>
+
+		<listitem
+><para
+>Per a configurar &latex; de manera que pugui presentar fitxers &DVI; amb caràcters &cjk;, cal que afegiu una línia al fitxer <filename
+>ttfonts.map</filename
+>. El fitxer pot estar en una carpeta anomenada <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+>, però probablement l'haureu de buscar. Afegiu la línia <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Ara, sols haureu d'executar <userinput
+><command
+>texhash</command
+></userinput
+> i el sistema hauria d'estar llest.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>Per provar si la configuració és correcta, podeu intentar compilar <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>aquest fitxer de prova</ulink
+>.</para>
+
+		<sect2>
+			<title
+>Solució de problemes amb &cjk;</title>
+
+			<para
+>Hi ha moltes coses que poden sortir malament quan es configura el suport &cjk; manualment. Si quelcom sembla no funcionar, la següent llista pot ajudar-vos.</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>Òbviament, ja heu executat &latex; com a usuari i no com a root, haureu de <emphasis
+>permetre</emphasis
+> que els usuaris normals accedeixin als fitxers nous. Assegureu-vos que totes les carpetes i fitxers són accessibles utilitzant l'ordre <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>Si &latex; escriu un &DVI; sense problemes, però no el podeu veure, gairebé segur que es deu a alguns problemes en la generació automàtica dels tipus de lletra <literal role="extension"
+>*.pk</literal
+>. Se suposa que es generen sobre la marxa mentre esteu veient un fitxer &DVI;, però això pot fallar per una sèrie de raons: Verifiqueu de nou <filename
+>ttfonts.map</filename
+> a la vostra primera línia personalitzada. Tanmateix, podria ocórrer que la vostra ordre <command
+>ttf2pk</command
+>, que sol ser invocada pel visualitzador de &DVI;, s'ha compilat <emphasis
+>sense</emphasis
+> suport per a les biblioteques <application
+>kpathsea</application
+>. Si és aquest el vostre cas, <userinput
+><command
+>ttf2pk</command
+> <option
+>--version</option
+></userinput
+> no farà cap menció de <application
+>kpathsea</application
+>. Ja que el suport per aquestes biblioteques és necessari, potser haureu de trobar un nou paquet, o tornar a compilar <application
+>FreeType 1</application
+> vosaltres mateixos.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>Com puc fer entrades &cjk; en Unicode?</title>
+
+			<para
+>Hi ha una sèrie de motors d'entrada diferents, i escollir-ne un o altre també dependrà de les vostres preferències personals. L'autor utilitza <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+>, un port al &kde; del motor <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+>. Consulteu la documentació de la vostra distribució per aprendre com instal·lar aquests programes. La configuració d'aquest tipus de programes també pot ser complicada, en el cas de <application
+>Skim</application
+>, haureu de definir una variable d'entorn <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> <emphasis
+>abans</emphasis
+> d'iniciar <application
+>X</application
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>Ajuda</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>Documents d'ajuda</title>
+
+		<para
+>&latex; és un sistema molt sofisticat, on les característiques bàsiques es poden ampliar amb una gran varietat de paquets addicionals. El &kile; proporciona nombroses maneres diferents per ajudar a l'usuari.</para>
+
+		<para
+>L'element de menú <menuchoice
+><guimenu
+>Ajuda</guimenu
+> <guisubmenu
+>Documentació de LaTeX</guisubmenu
+></menuchoice
+> inclou enllaços sobre la documentació per a tots els paquets inclosos i una referència de &latex; addicional. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>Navegador de documentació</guimenu
+></term>
+		<listitem
+><para
+>Una eina útil per a explorar tots els temes de &latex;. Si us plau. Instal·leu els paquets d'ajuda de &latex; per a la vostra distribució si necessiteu tot el compendi de la documentació.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Una completa referència no oficial de &tex; i companyia. No és només una descripció de tots els programes, sinó que també s'esmenten alguns paquets importants. També inclou un complet manual de referència de les de &latex; -ideal per a cercar una peça de format en particular en escriure un document-. Com aquest document és molt extens, el &kile; el separa en tres punts.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Ordres de LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Un altre índex alfabètic de les ordres més comunes de &latex;.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Entorns de LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Un índex alfabètic dels entorns més comuns de &latex;.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>Ajuda sensible al context</title>
+
+		<para
+>El &kile; també implementa una ajuda sensible al context, la qual es crida amb <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>,<keycap
+>K</keycap
+>. En <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Ajuda</guilabel
+></menuchoice
+> podreu escollir si voleu utilitzar la referència de &latex; del &kile; o el sistema d'ajuda de &tetex; i &texlive;, el qual és la configuració per omissió.</para>
+
+		<screenshot>
+			<screeninfo
+>Pics</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Pics</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>Cercar paraules clau</title>
+
+		<para
+>No sempre és fàcil trobar el document correcte, ja que &tetex;/&texlive; venen amb un gran nombre de documents d'ajuda. Per tal de facilitar aquest procés, &tetex; i &texlive; ofereixen un petit programa anomenat <application
+>texdoctk</application
+>. El qual proporciona una base de dades de tots els documents d'ajuda, per al qual, el &kile; ofereix una interfície fàcil d'utilitzar.</para>
+
+		<screenshot>
+			<screeninfo
+>Pics</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Pics</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Tots els documents estan agrupats en categories. A més, es pot cercar pel nom del paquet o per paraula clau. El &kile; sols mostrarà els documents d'ajuda que coincideixin amb la cadena de cerca.</para>
+
+		<screenshot>
+			<screeninfo
+>Pics</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Pics</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Un doble clic del ratolí o la tecla <keycap
+>Espai</keycap
+> iniciarà un visualitzador per al document seleccionat. Aquest pot ser un document arbitrari, no sols un document &DVI;, PS, PDF o &HTML;. El &kile; prendrà la configuració del &kde; per tal d'iniciar un visualitzador adequat.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>Ajuda definida per l'usuari</title>
+
+		<para
+>A més de la documentació estàtica de &tetex; i &texlive;, el &kile; també suporta una manera variable més flexible per als documents d'ajuda. Al menú <guimenu
+>Ajuda</guimenu
+> del &kile; té un submenú especial <guimenu
+>Ajuda a l'usuari</guimenu
+>, on l'usuari pot afegir documents de la seva elecció. Aquests poden ser els documents més importants de la documentació de &tetex;/&texlive;, o fins i tot documents escrits per si mateix. També és possible introduir-hi alguns &URL;.</para>
+
+		<para
+>Aneu a <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Ajuda</guilabel
+></menuchoice
+> i escolliu el botó <guibutton
+>Configura</guibutton
+> per a configurar aquest menú <guimenu
+>Ajuda a l'usuari</guimenu
+>. Podeu afegir, eliminar o moure les entrades de menú, i inserir separadors per optimitzar la seva estructura.</para>
+
+		<screenshot>
+			<screeninfo
+>Diàleg: configurant entrades d'ajuda definides per l'usuari</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Diàleg: configurant entrades d'ajuda definides per l'usuari</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>En prémer el botó <guibutton
+>Afegeix</guibutton
+> s'obrirà un altre diàleg, on podreu editar el nom de l'entrada de menú, i escollir el fitxer o &URL; corresponent. El segon botó a la dreta del camp de text llança el &konqueror;, el qual es pot utilitzar per a determinar l'&URL; correcte.</para>
+
+		<screenshot>
+			<screeninfo
+>Diàleg: afegint una nova entrada d'ajuda</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Diàleg: afegint una nova entrada d'ajuda</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Després de finalitzar la configuració, totes les entrades apareixeran al menú <guimenu
+>Ajuda</guimenu
+> del &kile; com una entrada de menú especial d'<guimenu
+>Ajuda a l'usuari</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>El menú d'ajuda a l'usuari</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>El menú d'ajuda a l'usuari</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>Crèdits i llicència</title>
+
+	<para
+>El &kile; és un editor de codi font &latex; / &tex; de codi obert fàcil d'utilitzar. S'executa en sistemes amb l'entorn d'escriptori &kde; instal·lat. El &kde; està disponible per a diverses arquitectures, incloent-hi &Linux; i altres sistemes Unix.</para>
+
+	<para
+>Donem gràcies a les persones que s'esforcen per continuar amb el projecte &kile; i per a aquells que sacrifiquen moltes hores del seu temps per a desenvolupar eines que tothom pot utilitzar sota la llicència &GNU;. Podeu trobar informació actualitzada sobre els col·laboradors al diàleg <guimenuitem
+>Quant al &kile;</guimenuitem
+> al menú <guimenu
+>Ajuda</guimenu
+>. </para>
+
+	<para
+>Moltes gràcies a tots els implicats!</para>
+
+<para
+>Traductor de la documentació: &credits.Antoni.Bella;</para
+> &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

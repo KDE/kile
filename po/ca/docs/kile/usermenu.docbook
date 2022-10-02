@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Menú configurable per l'usuari</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Configuració</title>
+
+<para
+>El &kile; implementa un menú configurable per l'usuari, el qual apareixerà com a part del menú del &kile;. Aquest menú es pot configurar utilitzant el diàleg de configuració del &kile; amb <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+><guimenuitem
+>Menú d'usuari</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Configurant el menú d'usuari</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Configurant el menú d'usuari</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Teniu dues opcions on col·locar aquest menú:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>Ja sigui l'entrada de menú <guimenu
+>Menú d'usuari</guimenu
+> que apareixerà a la barra de menús principal entre els menús <guimenu
+>LaTeX</guimenu
+> i <guimenu
+>Assistent</guimenu
+> com l'assistent de configuració <guimenuitem
+>Edita el menú d'usuari</guimenuitem
+> al menú <guimenu
+>Assistent</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú d'usuari es troba en el menú principal</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú d'usuari es troba en el menú principal</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>O ambdós elements apareixeran a la part inferior del menú <guimenu
+>LaTeX</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú d'usuari com una part del menú LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú d'usuari com una part del menú LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Les etiquetes definides per l'usuari ja existents de versions anteriors del &kile; es transformaran automàticament en el nou menú configurable per l'usuari. Les etiquetes es desen en un fitxer anomenat <filename
+>usertags.xml</filename
+> i igual que tots els fitxers de definició del menú, es poden trobar al directori de menú d'usuari local del &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, &pex; <filename
+>/home/usuari/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Podeu utilitzar diferents fitxers de definició del menú per a les diferents tasques. Crideu l'assistent de menú d'usuari <menuchoice
+><guimenu
+>Assistent</guimenu
+><guisubmenu
+>Edita el menú d'usuari</guisubmenu
+></menuchoice
+> o <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Edita el menú d'usuari</guisubmenu
+></menuchoice
+> per instal·lar o modificar un fitxer de definició de menú.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Assistent</title>
+
+<para
+>Podeu crear o modificar menús existents amb un confortable assistent de configuració del menú d'usuari que es troba a <menuchoice
+><guimenu
+>Assistent</guimenu
+><guisubmenu
+>Edita el menú d'usuari</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú d'usuari de l'Assistent</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú d'usuari de l'Assistent</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>A la part esquerra veureu un menú en arbre existent. Com un menú estàndard, estaran disponibles tres tipus diferents d'elements de menú:</para>
+
+<itemizedlist>
+<listitem
+><para
+>Entrades de menú estàndard, que s'assignen a una acció.</para
+></listitem>
+<listitem
+><para
+>Submenús, que contenen més elements de menú.</para
+></listitem>
+<listitem
+><para
+>Separadors, per aconseguir una estructura visible de totes les entrades.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Per modificar aquest menú, utilitzeu els sis botons al costat esquerre. Són possibles més accions, disponibles al menú contextual dels elements de menú ja existents.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú en arbre definit per l'usuari</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú en arbre definit per l'usuari</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Cada element de menú estàndard s'assigna a un dels tres tipus d'acció, on cadascun d'ells té atributs diferents, que es poden establir:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Text:</guilabel
+>&nbsp; el &kile; ofereix la capacitat de crear les vostres pròpies etiquetes. Una etiqueta és similar a una drecera que llança alguna ordre o que escriu textos d'ús freqüent, &pex;, en Joe Sixpack utilitza sovint les frases <userinput
+>Hi, I have been inserted ...</userinput
+>. Aquesta etiqueta serà inserida a la posició actual del cursor, quan es cridi aquesta acció (vegeu a dalt). També estan disponibles els metacaràcters (vegeu <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Insereix el contingut del fitxer:</guilabel
+>&nbsp; Insereix tot el contingut d'un fitxer donat.</para>
+
+	<screenshot>
+		<screeninfo
+>Inserint el contingut d'un fitxer</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserint el contingut d'un fitxer</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Executa un programa extern:</guilabel
+>&nbsp; La sortida d'aquest programa es pot inserir en el document obert. El metacaràcter <userinput
+>%M</userinput
+> també és possible a la línia d'ordres d'aquest programa, atès que el text seleccionat es desarà en un fitxer temporal. Utilitzeu <userinput
+>%M</userinput
+> per al nom de fitxer d'aquest fitxer temporal.</para>
+
+	<screenshot>
+		<screeninfo
+>Executant un programa extern</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Executant un programa extern</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Si no està present alguna informació important per a una acció, els elements de menú seran de color vermell. Aquesta pot tractar d'un fitxer inexistent.</para>
+
+	<screenshot>
+		<screeninfo
+>El fitxer no existeix</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El fitxer no existeix</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>O un títol que falti per a l'entrada de menú, el qual es mostrarà amb signes d'interrogació com <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Falta el títol d'una entrada de menú</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Falta el títol d'una entrada de menú</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Si obriu el menú contextual d'un element de menú en color vermell, obtindreu una opció addicional per obtenir més informació sobre aquest error.</para>
+
+	<screenshot>
+		<screeninfo
+>Informació addicional</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Informació addicional</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Més informació també pot estar disponible utilitzant la característica <guilabel
+>Què és això?</guilabel
+> de la majoria de ginys.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Marcadors de posició</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Inserir text</title>
+
+<para
+>Hi ha alguns marcadors de posició que podeu utilitzar en les etiquetes definides per l'usuari: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> i <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>: indica a on se situarà el cursor després d'inserir una etiqueta definida per l'usuari.</para>
+
+	<screenshot>
+		<screeninfo
+>Posició del cursor (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Posició del cursor (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; serà substituït per un pic (vegeu <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Pic (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Pic (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; serà substituït pel text seleccionat.</para>
+
+	<screenshot>
+		<screeninfo
+>Text seleccionat (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Text seleccionat (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; indica la profunditat del sagnat del text dins d'un entorn.</para>
+
+	<screenshot>
+		<screeninfo
+>Sagnat del text d'entorn (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Sagnat del text d'entorn (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; cridarà a un diàleg de referència per escollir una etiqueta que ja s'ha definit. Això es pot utilitzar per referir-se a una etiqueta predefinida, que podreu escollir des d'una llista desplegable (vegeu <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referències</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referències</guimenuitem
+><guimenuitem
+>ref_pàgina</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Referències (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Referències (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; cridarà un diàleg de cita per escollir una cita ja definida. El mateix que utilitzar <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referències</guimenuitem
+><guimenuitem
+>cita</guimenuitem
+></menuchoice
+> una llista amb totes les claus de cita que apareixen.</para>
+
+	<screenshot>
+		<screeninfo
+>Claus de citació (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Claus de citació (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Considerem un altre exemple, amb la macro <userinput
+>\frac{%M}{%C}</userinput
+>. En primer lloc, seleccionem un nombre en el nostre text, diguem <userinput
+>42</userinput
+>. Ara invocarem aquesta macro i obtindrem <userinput
+>\frac{42}{}</userinput
+> amb el cursor situat en el segon parell de claus.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Inserir el contingut d'un fitxer</title>
+
+<para
+>Si voleu inserir el contingut d'un fitxer de text, podeu utilitzar els mateixos marcadors de posició.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Executar un programa</title>
+
+<para
+>Si voleu executar un programa extern, a la línia d'ordres només es reconeixerà la <userinput
+>%M</userinput
+> per al text seleccionat. La selecció es desarà en un fitxer temporal i el marcador de posició <userinput
+>%M</userinput
+> serà substituït amb aquest nom de fitxer.</para>
+
+	<screenshot>
+		<screeninfo
+>Executant un programa extern (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Executant un programa extern (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Un altre marcador de posició és <userinput
+>%S</userinput
+>, que serà substituït pel nom base complet del document actual sense el camí d'accés. Aquest nom base es compon de tots els caràcters al fitxer fins a (però sense incloure) l'últim caràcter «.».</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Paràmetre</title>
+
+<para
+>La majoria de les entrades al menú poden tenir altres paràmetres autoexplicatius, que es poden seleccionar. Si algun d'aquests paràmetres no estan disponibles per a algun tipus d'acció, aquestes restaran desactivades.</para>
+
+	<screenshot>
+		<screeninfo
+>El menú d'usuari de Paràmetre</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>El menú d'usuari de Paràmetre</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Heus aquí un exemple de l'execució d'un programa extern:</para>
+
+	<screenshot>
+		<screeninfo
+>Paràmetre d'exemple</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Paràmetre d'exemple</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Podeu veure que es crida un script <userinput
+>perl</userinput
+>, que ha de treballar amb la selecció actual. El paràmetre <guilabel
+>Necessitats el text seleccionat</guilabel
+> es marca per assegurar una selecció. La sortida d'aquest script s'inserirà (<guilabel
+>Insereix la sortida del programa escollit</guilabel
+>) i substituirà a la selecció actual (<guilabel
+>Substitueix el text seleccionat</guilabel
+>), però no serà seleccionat per si mateix.</para>
+
+<para
+>Per descomptat, també podeu cridar als vostres propis programes o scripts. Per exemple, seleccioneu una llista de números, separats per espais, i crideu a un script o programa en Perl, el qual transformarà aquesta selecció en un codi en &latex; per a una matriu. Siguin quines siguin les vostres idees, podreu adonar-vos utilitzant la següent entrada del menú d'usuari.</para>
+
+	<screenshot>
+		<screeninfo
+>Paràmetre d'exemple 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Paràmetre d'exemple 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Fitxers de definició del menú</title>
+
+<para
+>Podeu instal·lar diferents menús en temps d'execució per a diferents tasques. Quan crideu l'assistent menú d'usuari, el fitxer de definició de menú actual serà carregat. Si el modifiqueu i tanqueu el diàleg amb <guibutton
+>D'acord</guibutton
+>, els canvis es desaran i s'instal·laran com el nou menú d'usuari. Tanqueu el diàleg amb <guibutton
+>Cancel·la</guibutton
+> i es descartaran tots els canvis.</para>
+
+	<screenshot>
+		<screeninfo
+>Fitxers de definició del menú</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Fitxers de definició del menú</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>També sou lliure per desar el fitxer modificat al directori del menú d'usuari o per carregar un altre fitxer de definició del menú i instal·lar-lo. Tots els fitxers de definició del menú d'usuari s'han de desar al directori de menú d'usuari del &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Mireu l'exemple del fitxer de definició del menú <userinput
+>exemple.xml</userinput
+> per veure més entrades de menú amb els seus paràmetres.</para>
+
+</sect1>
+
+</chapter>

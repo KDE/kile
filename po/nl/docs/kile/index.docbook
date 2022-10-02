@@ -1,0 +1,6706 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Dutch "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>Het handboek van &kile;</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	&Claire.Lotion;&Tom.Albers;&Freek.de.Kruijf; 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>2011-05-22</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>&kile; is een programma waarmee u bronbestanden van &tex; en &latex; kunt maken. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>Kile</keyword>
+<keyword
+>LaTeX</keyword>
+<keyword
+>TeX</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>Inleiding</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>Vereisten</title>
+
+		<para
+>Om &kile; uit te voeren, dient u de volgende componenten op uw systeem geïnstalleerd te hebben:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><ulink url="http://www.kde.org/"
+>K Desktop Environment (&kde;)</ulink
+>: &kde; is een populaire open-source desktop environment.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: &Qt; is een C++ &GUI; en netwerkbibliotheek nodig om &kile; te compileren.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>&latex;</ulink
+>: programma van hoogwaardige kwaliteit om documenten te zetten. Hoogst waarschijnlijk hebt (of wilt) u het pakket &texlive; (of op oudere systemen &tetex;), aangezien u op een &UNIX;-gelijkend systeem werkt.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>De meeste van deze componenten maken misschien deel uit van uw &Linux;-distributie; raadpleegt u hiervoor de documentatie bij uw distributie, of raadpleeg de installatie-cd of -dvd, om deze pakketten op uw computer te installeren.</para>
+
+		<para
+>&kile; kan ook al beschikbaar zijn als een voorgecompileerd pakket voor uw &Linux;-distributie. Controleer dat met de pakketbeheerder van uw distributie.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>Beoogd publiek</title>
+
+		<para
+>Dit handboek is bedoeld voor iedereen, ongeacht zijn of haar ervaring met &latex;, &kde;, &kile; of &Linux;.</para>
+
+		<para
+>Gevorderde gebruikers zullen dit handboek waarschijnlijk niet gebruiken, maar alle suggesties voor de documentatie zullen in ogenschouw genomen worden. Indien u een bijdrage zou willen leveren aan dit project of de documentatie, raadpleeg dan de webpagina van <ulink url="http://kile.sourceforge.net/"
+>webpagina van &kile;</ulink
+>.</para>
+
+		<para
+>Antwoorden nodig over &kile;? Vastgelopen bij het compileren? Wilt u een nieuwe functie? Stel technische vragen of start een discussie bij voorkeur op onze mailinglijst: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>Inleiding</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>Basisfeiten</title>
+
+		<sect2>
+
+			<title
+>Over &kile;</title>
+
+			<para
+>&kile; is een geïntegreerde omgeving voor &latex; voor de &kde;-desktop. &kile; geeft u de capaciteit om alle functionaliteit van &latex; te gebruiken in een grafische interface, die u eenvoudige, directe, en op maat gebrachte toegang geeft tot alle programma's voor code-aanvullen, compileren, nabewerken, debuggen, converteren en bekijken van &latex; en tot  hulpprogramma's om het bekijken. U krijgt ook een uiterst praktische assistent, een &latex;-referentie en een krachtig projectbeheer.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&kile; en de &kate; tekstbewerkercomponent</title>
+
+			<para
+>&kile; is gebaseerd op de &kate; tekstbewerkercomponent, &ie; heel wat van tekstbewerkingsmogelijkheden komen uit de &kate;-tekstbewerkercomponent zelf. &kile; breidt deze mogelijkheden met functies om &latex;-documenten te bewerken. Om meer over de &kate;-tekstbewerkercomponent en zijn mogelijkheden te weten te komen, zie de <ulink url="http://kate-editor.org"
+>&kate; webpagina</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Wat is &latex;?</title>
+
+			<para
+>&latex; is een tekstverwerkingssysteem afgeleid van &tex;, een programma dat oorspronkelijk ontwikkeld is in 1977 door Donald Knuth om te helpen tekst professioneel op te maken, en een professionele kwaliteit te bereiken die vergelijkbaar is met het werk van een professionele zetter. &latex; werd door Leslie Lamport gecreëerd om auteurs een automatische zetter te geven, vooral om het dure en nauwkeurig zetten van mathematische formules en expressies te vergemakkelijken, die  in &latex; <emphasis
+>met reden</emphasis
+> omsloten worden door dollartekens. Vandaag de dag, laten tekstverwerkingsprogramma's iedere gebruiker een zetter zijn; maar wat u vaak wilt, is een document dat goed oogt zonder er uren aan te besteden om het er goed uit te laten zien. &latex; neemt deze last op zich en laat u zich concentreren op het document en niet op de opmaak. En ja, het <emphasis
+>zal</emphasis
+> er goed uitzien!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Hoe spreek je het uit? Waarom die rare typografie?</title>
+
+			<para
+>Er is een rare traditie van &tex;-gerelateerde pakketten om de vreemdst mogelijke uitspraak en typografie te gebruiken. &tex; werd geacht van het Griekse <emphasis
+>τεχ</emphasis
+> gehaald te zijn, in Latijnse letters <emphasis
+>tech</emphasis
+>. Er zijn veel verklaringen waarom, maar de meest waarschijnlijke is omdat &tex; van origine bedacht werd voor technische rapporten en zijn belangrijkste vermogen inderdaad het correct en eenvoudig zetten van mathematische formules was, toen een uiterst dure, tijdrovende en frustrerende zaak.</para>
+			<para
+>De uitspraak dient als volgt te zijn: <emphasis
+>T</emphasis
+> zoals u zou verwachten, <emphasis
+>E</emphasis
+> zoals is in <emphasis
+>zet</emphasis
+>, en <emphasis
+>X</emphasis
+> zoals in het Duitse i<emphasis
+>ch</emphasis
+>. Als u niet weet hoe <emphasis
+>ch</emphasis
+> klinkt, het klinkt min of meer als een sissende kat; het IPA-symbool is /ç/. Veel mensen rapporteren de andere uitspraak van <emphasis
+>ach</emphasis
+> (IPA-symbool /x/), maar ik heb het persoonlijk aan een aantal Grieken gevraagd, en zij bevestigen de eerste versie. U dient zich ervan bewust te zijn dat een groot aantal mensen &tex; verkeerd uitspreken als /teks/ of /tek/.</para>
+			<para
+>Tenslotte, in &latex; wordt de eerste letter L<superscript
+>A</superscript
+> uitgesproken als <emphasis
+>lay</emphasis
+>: het idee is dat, terwijl het rauwe &tex; moeilijk is, zelfs een <emphasis
+>lay</emphasis
+>man (leek) er &latex;-macro's kan gebruiken. Een minder inspirerende, maar meer realistische verklaring is dat het afgeleid is van de achternaam van Leslie Lamport, de schepper van &latex;. Nu weet u het!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>&latex; 101</title>
+
+		<para
+>Het &latex;-typografiesysteem lijkt op andere markeertalen zoals &XML;, dat gebruikt wordt voor vele types documenten (inclusief dat wat u nu aan het lezen bent) of &HTML;, dat gebruikt wordt voor webpagina's. Het algemene idee is om op speciale wijze omsloten trefwoorden te gebruiken, <emphasis
+>tags</emphasis
+> genaamd, die aan een programma (een tekstverwerker, een webbrowser of de &latex; compiler) vertellen hoe de tekst, omsloten door tags, gepresenteerd dient te worden. &kile; biedt u een flink aantal van dergelijke tags in het menu <guimenu
+>LaTeX</guimenu
+> in de menubalk.</para>
+
+		<para
+>Alhoewel we trachten u een goede indruk te geven van wat &latex; is, is dit natuurlijk niet Het Definitieve Boek over &latex;. Als u goed &latex; wilt leren, kunt u wellicht een gespecialiseerd boek lenen uit uw lokale bibliotheek. De schrijver heeft een goede ervaring met A Guide to &latex; geschreven door H. Kopka en P.W. Daly, en houdt het nog steeds op de boekenplank.</para>
+
+		<para
+>Evenals elke andere markeertaal, bevat een &latex; document, een <emphasis
+>preambule</emphasis
+>, die de globale eigenschappen instelt, zoals papiergrootte, paginanummering, afmetingen van de tekst op de pagina en een <emphasis
+>body</emphasis
+>, die de tekst van het document bevat. preambule bestaat minstens uit het commando <userinput
+>\documentclass</userinput
+>. Het gaat vooraf aan de body, die begint met het commando <userinput
+>\begin{document}</userinput
+> en wordt afgesloten met het commando <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>De belangrijkste kenmerken van &kile;</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>Snelstart-assistent</title>
+
+			<para
+>De Snelstart-assistent, die is ingebouwd in &kile;, is een nuttige functie om snel te beginnen documenten te maken in &kile;. Het kiezen van de assistent uit de menubalk levert u een aantal keuzemogelijkheden voor het aanmaken van uw document. U kunt ook meteen een aantal opties specificeren die gerelateerd zijn aan het document.</para>
+
+			<para
+>Klasseopties:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Documentklasse</guilabel
+>: kies het type document dat u wilt aanmaken: artikel, boek, brief, rapport, scrartcl, scrreprt, scrbook, prosper, beamer of een ander met aangepaste definitie.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Tekengrootte</guilabel
+>: vertelt &kile;  welke tekengrootte in punten (pt) u wilt gebruiken.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Papiergrootte</guilabel
+>: kiest de grootte of stijl van bladen.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Codering</guilabel
+>: In het algemeen is het een goed idee om uw systeemstandaard voor codering te gebruiken. Moderne systemen gaan meer en meer naar UTF-8 als de standaard codering. Als u kunt, gebruik dan utf8 of utf8x (wat juiste spelling is voor &latex; documenten). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Overige opties</guilabel
+>: dit staat u toe verder opties in te stellen zoals printen, concept, en andere.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Pakketten</para>
+			<para
+>Dit geeft een lijst met enige van de meest algemene additionele pakketten, die in &latex; worden gebruikt. Activeer het keuzevak om ze in te voegen.</para>
+
+			<para
+>Documenteigenschappen:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Auteur</guilabel
+>: schrijf hier uw naam in.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Titel</guilabel
+>: voeg hier uw documenttitel toe.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Datum</guilabel
+>: specificeer de datum.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>Voorgedefinieerde sjablonen</title>
+
+			<para
+>De voorgedefinieerde sjablonen in &kile; zijn:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>Leeg document: echte mannen beginnen met helemaal niets!</para
+></listitem>
+				<listitem
+><para
+>Artikel: stelt de opmaak artikel in, voor een document dat kort genoeg is om niet in hoofdstukken opgedeeld te hoeven worden.</para
+></listitem>
+				<listitem
+><para
+>Rapport: stelt de opmaak rapport in, voor een middelgroot document, bijvoorbeeld met paginanummering op de buitenste rand van de pagina.</para
+></listitem>
+				<listitem
+><para
+>Boek: stelt de opmaak boek in, een volwaardige variant die zo krachtig is dat hij gebruikt wordt om veel leerboeken voor de universiteit te schrijven.</para
+></listitem>
+				<listitem
+><para
+>Letter: stelt het letterformat in.</para
+></listitem>
+				<listitem
+><para
+>Beamer, HA-Prosper: maakt mooie presentaties in PDF met een superieur uiterlijk en helemaal &latex; power.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: Powerdot is de opvolger van de pakketten <userinput
+>seminar</userinput
+> en <userinput
+>HA-Prosper</userinput
+>. Het heeft niet zoveel opties als Beamer, maar het is gemakkelijk in gebruik en het kan echt mooie presentaties in PDF maken.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl, Scrbook, Scrreprt, Scrlttr2: de documentklasses van KOMA-script, speciaal aangepast aan de Duits typografie. Gebruik ze wanneer u Duitse teksten schrijft.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: een gewijzigd sjabloon <userinput
+>Artikel</userinput
+>, te gebruiken met <userinput
+>XeLaTeX</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Merk op dat al deze sjablonen aangepast kunnen worden aan de wensen van de gebruiker.</para>
+
+			<para
+>Nieuwe gebruikers hoeven zich geen zorgen te maken, dit is slechts een korte beschrijving van beschikbare functies. Een meer gedetailleerde beschrijving kan gevonden worden in <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>Accentuering van de syntaxis</title>
+
+			<para
+>&kile; lijkt op programma's die met broncode en editing omgaan, en accentueert commando's, opties en onderdelen die gebruikt (en misbruikt) worden. &kile; maakt het zo mogelijk om op eenvoudige wijze probleemgebieden te ontdekken: bijvoorbeeld, wanneer u ziet dat grote delen van de tekst groen zijn geworden, dan heeft u waarschijnlijk ergens vergeten een wiskundige omgeving te sluiten.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>Automatische aanvulling van omgevingen</title>
+
+			<para
+>Het automatisch aanvullen van omgevingen houdt in dat, wanneer u met een nieuwe omgeving begint door <userinput
+>\begin{environment}</userinput
+> in te typen, &kile; automatisch het bijbehorende commando <userinput
+>\end{environment}</userinput
+> invoegt, met een regel ertussen voor uw tekst. U kunt het natuurlijk deactiveren als u dat wilt in <menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>&kile; instellen...</guimenuitem
+><guilabel
+>LaTeX</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>Het element spring naar structuur</title>
+
+			<para
+>Alle documenten worden normaliter gestructureerd in een zekere hiërarchie. &latex; staat u toe documenten op te breken in de volgende hiërarchie (met deel (part) als hoogste in de hiërarchie, en sub-alinea (subparagraph) als laagste):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part</para
+></listitem>
+				<listitem
+><para
+>\chapter</para
+></listitem>
+				<listitem
+><para
+>\section</para
+></listitem>
+				<listitem
+><para
+>\subsection</para
+></listitem>
+				<listitem
+><para
+>\subsubsection</para
+></listitem>
+				<listitem
+><para
+>\paragraph</para
+></listitem>
+				<listitem
+><para
+>\subparagraph</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Wanneer u een document in de weergave <guilabel
+>Structuur</guilabel
+> bekijkt, kunt u tussen de tekstelementen springen door te klikken op het element dat u wilt zien.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>Terugzoeken (Inverse search)</title>
+
+			<para
+>Wanneer u uw eigen &latex;-bestanden maakt, kan inverse search (terugzoeken) zeer nuttig zijn. Zodra u een DVI-bestand (DeVice Independent File) of PDF bestand hebt gemaakt, kunt u in het weergaveprogramma op de linker muisknop drukken terwijl u &Shift; indrukt, waarna &kile; u naar de overeenkomstige regel in de &latex;-broncode zult laten springen.</para>
+
+			<para
+>Een DVI-bestand is een type bestand dat een beschrijving bevat van een opgemaakt document, samen met andere informatie, waaronder het lettertype, en is naast PDF de gebruikelijke uitvoer van &tex; of &latex;. Er bestaan een aantal hulpmiddelen om DVI-bestanden te bekijken, te converteren en uit te printen op uiteenlopende systemen en apparaten.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>Vooruit zoeken (Forward Search)</title>
+
+			<para
+>Wanneer gebruik gemaakt wordt van inverse search, wordt de selectie van onderdelen in het &DVI;- of PDF-bestand geassocieerd met de editor. Dus wanneer u op een &DVI;- of PDF-bestand klikt, springt het hoofdvenster naar de overeenkomstige sectie van de &latex;-code in de editor. Vooruit zoeken is precies het tegenovergestelde hiervan. Vooruit zoeken staat u toe op een specifiek deel van de tekst in de &latex;-code te klikken en te springen naar de hiermee geassocieerde positie in het venster van de viewer.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>De werkbalk</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>Nieuw</guibutton
+>: begin een nieuw document.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Openen</guibutton
+>: open een nieuw document.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Sluiten</guibutton
+>: sluit het document af.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>Huidig document als hoofddocument definieren</guibutton
+>: dit wordt gebruikt wanneer met meerdere bestanden gewerkt wordt. Het hebben van een hoofddocument laat u eenvoudiger werken met andere <literal role="extension"
+>.tex</literal
+>-bestanden die in uw document zijn opgenomen. Als u projecten gebruikt kunt u ook met <menuchoice
+><guimenu
+>Project</guimenu
+><guisubmenu
+>Projectopties</guisubmenu
+></menuchoice
+> een projectbreed masterdocument instellen.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Snelbouwen</guibutton
+>: compileert uw broncode in &latex; en toont automatisch de resultaten, tenzij u fouten in het document hebt zitten.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Bestanden observeren</guibutton
+>: deze modus "observeert" of het &DVI;-bestand veranderingen bevat en zal geen nieuwe sessie van &okular; opstarten na <guibutton
+>Snelbouwen</guibutton
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Logbestand tonen</guibutton
+>: laat u het <literal role="extension"
+>.log</literal
+>-bestand zien, zodat u fouten kunt ontdekken.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Vorige fout</guibutton
+>: springt achterwaarts door het <literal role="extension"
+>.log</literal
+>-bestand en accentueert fouten in de broncode.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Volgende fout</guibutton
+>: springt voorwaarts door het <literal role="extension"
+>.log</literal
+>-bestand en accentueert fouten in de broncode.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Stoppen</guibutton
+>: stopt het huidige hulpmiddel.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>LaTeX</guibutton
+>: voert het commando &latex; uit op het actieve document.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewDVI</guibutton
+>: start de &DVI;-viewer op.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPS</guibutton
+>: converteert een &DVI; naar &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPS</guibutton
+>: start de &PostScript;-viewer (PS) op.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLaTeX</guibutton
+>: voert het commando &pdflatex; uit op het actieve document.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewPDF</guibutton
+>: start de PDF-viewer op.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVItoPDF</guibutton
+>: converteert een &DVI;- naar een PDF-bestand.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PStoPDF</guibutton
+>: converteert een PS- naar een PDF-bestand.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ViewHTML</guibutton
+>: toont gegenereerde &HTML;.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardDVI</guibutton
+>: springt naar de pagina van de &DVI; die overeenkomt met de huidige regel in de editor.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>ForwardPDF</guibutton
+>: springt naar de pagina van het PDF-bestand die overeenkomt met de huidige regel in de editor.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Als u naar de werkbalk <guilabel
+>Bewerken</guilabel
+> kijkt, zult u drie lange afrolmenu's opmerken. De menu's zijn voor u ontwikkeld om snel bepaalde veelvoorkomende functies aan uw document te kunnen toevoegen. Het eerste afrolvak wordt gebruikt om uw document te verdelen in delen, hoofdstukken, paragrafen enzovoorts. De beschikbare commando's om segmenten aan uw &latex;-broncode toe te voegen zijn:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>Gedeelte</guilabel
+>: hoogste indelingsniveau voor een document.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Hoofdstuk</guilabel
+>: begint een nieuw hoofdstuk.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Sectie</guilabel
+>: maak een nieuwe paragraaf.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Subsectie</guilabel
+>: maak een nieuwe subparagraaf.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Subsubsectie</guilabel
+>: een secundaire paragraaf, qua hiërarchie tussen subparagraaf en alinea in.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Paragraaf</guilabel
+>:  maak een nieuwe alinea.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Subparagraaf</guilabel
+>: maak een nieuwe subalinea.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Het afrolvak genaamd <guilabel
+>Overig</guilabel
+> wordt gebruikt om zaken in uw document te voegen, zoals indexen, voetnoten en referenties. De beschikbare commando's zijn:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+>: een commando dat een label produceert voor hoofdstuk, een figuur of een ander element.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+>: maak een ingang voor de index aan.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>voetnoot</guilabel
+>: maakt een voetnoot in uw document.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+>: wordt gebruikt om te verwijzen naar een voorgedefinieerd label, dat u kunt kiezen uit een uitvouwlijst.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+>: net als <guilabel
+>ref</guilabel
+>, maar verwijst naar een pagina in plaats van een structuurelement.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+>: maakt een referentie aan met gegevens uit een bibliografie.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>Het afrolmenu <guilabel
+>Overig</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Het afrolmenu <guilabel
+>Overig</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>Het afrolmenu <guilabel
+>Overig</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>Het label selecteren voor een verwijzing</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Het label selecteren voor een verwijzen</phrase>
+			</textobject>
+			<caption
+><para
+>Het label selecteren voor een verwijzing</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Wanneer u <guilabel
+>cite</guilabel
+> gebruikt, wordt er een afrolvak met bib-items gepresenteerd, maar als u &bibtex; gebruikt zal dit alleen werken wanneer het bestand onderdeel uitmaakt van een Project. Voor het bewerken van &bibtex;-bestanden wordt het gebruik van gespecialiseerde editors aangeraden. De auteur heeft goede resultaten behaald met &kbibtex;. Natuurlijk kunt u ook met de hand &bibtex;-bestanden schrijven binnen &kile;.</para>
+
+		<para
+>Het afrolvak dat het label <guilabel
+>tiny</guilabel
+> draagt, wordt gebruikt om de grootte van de tekst in te stellen. U kunt de grootte van de hoofdtekst of voetnoten, enz. instellen. De beschikbare commando's zijn:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>tiny</guilabel
+>: kleinst.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>scriptsize</guilabel
+>: zeer klein.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnotesize</guilabel
+>: kleiner.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>small</guilabel
+>: klein.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>normalsize</guilabel
+>: normaal.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>large</guilabel
+>: groot.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Large</guilabel
+>: groter.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>LARGE</guilabel
+>: nog groter.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>huge</guilabel
+>: nog steeds groter.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Huge</guilabel
+>: grootst.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>Snelstart</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>Een document in &latex; schrijven voor beginners</title>
+
+		<para
+>Gebruikers van &kile; hebben twee keuzes wanneer ze aan een nieuw document beginnen: ze kunnen de <guimenu
+>Assistent</guimenu
+> gebruiken om een nieuw document te beginnen, aangeven welk type document ze zouden willen maken en opties zoals lettertype, papiergrootte, enzovoorts; of anders kunnen ze de code handmatig invoeren.</para>
+
+<programlisting
+>\documentclass[12pt]{article}
+\begin{document}
+        Hier is wat broncode voor tekst geschreven in \LaTeX.
+\end{document}</programlisting>
+
+		<para
+>Elk document in &latex; begint met het commando <userinput
+> \documentclass[optioneel argument]{class}</userinput
+>, waar class het documenttype specificeert.</para>
+
+		<para
+>Door de voorbeeldcode hierboven uit het tekstvak in te typen krijgt u de volgende uitvoer:</para>
+
+		<screenshot>
+			<screeninfo
+>Gecompileerde tekst in &DVI;-uitvoer</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Gecompileerde tekst in &DVI;-uitvoer</phrase>
+				</textobject>
+				<caption
+><para
+>Gecompileerde tekst in &DVI;-uitvoer</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>De haakjes die na het commando <userinput
+>\documentclass</userinput
+> komen bevatten de opties voor het commando. De optie <userinput
+>[12pt]</userinput
+> stelt de grootte in van het lettertype voor uw artikel; als u de tekengrootte niet in het begin instelt, kunt u het later in de tekst instellen.</para>
+
+		<para
+>Zodra u het codevoorbeeld uit het kader hierboven hebt ingetypt, zult u uw &latex;-broncode moeten compileren. De meest eenvoudige manier voor u om &latex; te compileren is gebruik te maken van het menu <guimenu
+>Bouwen</guimenu
+>, of door de knop <guilabel
+>Snelbouwen</guilabel
+> te gebruiken.</para>
+
+		<para
+><keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> is de sneltoetscombinatie om uw broncode te compileren.</para>
+
+		<para
+>U dient uw broncode op te slaan voor u kunt compileren. &kile; zal dit automatisch voor u doen.</para>
+
+		<para
+>Controleer het logbestand, als uw document niet werd gecompileerd. Wanneer u de knop <guilabel
+>Snelmaken</guilabel
+> gebruikt, dient de viewer &okular; automatisch geopend te worden. Bekijk het logbestand als dit niet gebeurt.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>Omgevingen</title>
+
+		<para
+>Een omgeving is een deel van de tekst dat anders behandeld wordt dan de rest van het document. Bijvoorbeeld wanneer u een rapport wilt maken met tekengrootte 12, maar u voor een paar regels de tekengrootte wenst aan te passen. De commando's <userinput
+>\begin{environment}</userinput
+>, <userinput
+>\huge</userinput
+> en <userinput
+>\end{environment}</userinput
+> laten u tijdelijk de tekst aanpassen binnen de omgeving tot "zeer groot".</para>
+
+		<para
+>Veranderingen hebben alleen effect tussen <userinput
+>\begin{environment}</userinput
+> en <userinput
+>\end{environment}</userinput
+>. U kunt een onbeperkt aantal veranderingen maken binnen een omgeving.</para>
+
+		<para
+>Er zijn veel attributen die u aan uw document kunt toevoegen om de tekst leesbaarder en gebruikersvriendelijker te maken. U kunt attributen aan uw document toevoegen zoals speciale lettertypen, vet, cursief, onderstreept, enz., en deze commando's zullen eindigen met commando <userinput
+>\end</userinput
+> of aan het einde van uw omgeving.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: dit commando maakt de tekst cursief en is actief tot in de code een commando <userinput
+>\end{emph}</userinput
+> of een andere omgeving wordt aangetroffen. Om één woord in een zin cursief te maken kunt u gebruik maken van de schrijfwijze: dit is <userinput
+>\emph{mijn}</userinput
+> zin.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{Ik maak deze tekst binnen de accolades vet}</userinput
+>: dit commando maakt uw tekst vet.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\quote</userinput
+>: om een citaat te maken in uw document; begin uw citaat met <userinput
+>\begin{quote}</userinput
+> en sluit het af met <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: centreert de tekst.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: laat de tekst inspringen, bijvoorbeeld voor gedichten.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: maakt een lijst of opsomming met opsommingstekens.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>&kile; gebruiken</title>
+
+		<para
+>Nu we u enige achtergrond gegeven hebben over hoe u broncode kunt schrijven met de markeringstaal &latex;, zullen we u stap voor stap laten zien hoe u een document kunt maken met behulp van &kile;.</para>
+
+		<procedure>
+			<step
+><para
+>Start &kile; op.</para
+></step>
+			<step
+><para
+>Selecteer <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Snelstart</guimenuitem
+></menuchoice
+>, kies dan een formaat, en vul uw voorkeuren in de assistent in.</para
+></step>
+			<step
+><para
+>Breng, zodra de assistent tekst heeft ingevoegd, wat aanpassingen aan om het document leesbaarder te maken, voeg minimaal één citaat toe, wat vetgedrukte tekst, cursieve, en een vers om het verschil tussen de commando's te zien.</para
+></step>
+			<step
+><para
+>Sla uw bestand op onder de naam <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>Bouw uw document met <keycombo
+>&Alt;<keycap
+></keycap
+> <keycap
+>2</keycap
+></keycombo
+> of met de knop  met het label <guilabel
+>LaTeX</guilabel
+>.</para
+></step>
+			<step
+><para
+>Selecteer <guibutton
+>ViewDVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>Bekijk al uw nieuwe tekst.</para
+></step>
+			<step
+><para
+>Wanneer u de ingebedde viewer gebruikt, kunt u, wanneer u klaar bent met het document te bekijken, op de knop <guibutton
+>Editor-weergave</guibutton
+> klikken of <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> indrukken om terug te keren naar de editor. Of sluit het venster van de viewer af als u een aparte viewer gebruikt.</para
+></step>
+		</procedure>
+
+		<para
+>Dat is het! U heeft zojuist uw eerste document in &latex; geschreven!</para>
+
+		<para
+>Zodra u uw &DVI;-bestand hebt gemaakt, kunt u, als u dat wilt, uw document afdrukken of het converteren naar een &PostScript; of PDF-bestand. Experimenteert u hier maar mee en veel plezier!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>&DVI;-bestanden</title>
+
+		<para
+>&DVI; staat voor <emphasis
+>DeVice Independent</emphasis
+> bestand. Dit type bestand wordt gegenereerd door &tex; of &latex; om ingelezen te worden door een soort stuurprogramma op uw computer. Er zijn veel verschillende typen uitvoer waar een <literal role="extension"
+>.dvi</literal
+>-bestand naartoe gestuurd kan worden, zoals een printer, &PostScript;- of PDF-bestandsconverter of naar uw beeldscherm.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>Een &DVI;-bestand bekijken</title>
+
+			<para
+>U heeft reeds gezien hoe u een &DVI;-bestand op het scherm kunt bekijken door gebruik te maken van de knop <guibutton
+>ViewDVI</guibutton
+> op de werkbalk.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>Een &DVI;-bestand afdrukken</title>
+
+			<para
+>U kunt dezelfde procedure gebruiken om een &DVI;-bestand uit te printen als die u gebruikt hebt om uw document te maken (zie <xref linkend="quick_using" role="select: title pageabbrv"/>). Selecteer dan bij stap 7, na het klikken op <guibutton
+>ViewDVI</guibutton
+><menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Afdrukken</guimenuitem
+></menuchoice
+> in de viewer. Als uw printer goed is geconfigureerd kunt u het &DVI;-bestand afdrukken.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>&DVI;-bestanden converteren</title>
+
+			<para
+>De werkbalk geeft de opties om een &DVI;-bestand naar andere formaten te converteren. Nadat u een &DVI;-bestand hebt gemaakt uit uw &latex;-broncode, zult u dit kunnen exporteren naar een formaat van uw keuze met de knoppen op de werkbalk.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>Vooruit zoeken tussen &kile; en &okular;</title>
+
+		<para
+>Met de vooruitzoekfuncties kunt u vanuit uw editor meteen naar de bijhorende positie in het  &DVI;- of PDF-bestand springen. </para>
+		<para
+>U kunt in &kile; voor alle &latex;-programma's instellingen aanmaken. Ga naar <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen</guisubmenu
+><guimenuitem
+>Hulpmiddelen</guimenuitem
+><guilabel
+>Bouwen</guilabel
+></menuchoice
+> en kies altijd voor de <guilabel
+>Modern</guilabel
+>e configuratie.</para>
+
+		<para
+>Om vooruit te zoeken, plaatst u de cursor op een regel in de broncode en klikt u op <guilabel
+>Vooruit zoeken</guilabel
+> om naar de bijhorende positie in het venster van de &DVI;- of PDF-viewer te gaan.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>Terugzoeken tussen &kile; en &okular;</title>
+
+		<para
+>Terugzoeken (inverse search) is een zeer handige functie als u zelf een &latex;-document schrijft. Als alles goed is opgezet kunt u met de <mousebutton
+>linker</mousebutton
+> muisknop klikken, terwijl &Shift; wordt ingedrukt, in het &okular;-venster. Daarna zal zal &kile; het &latex;-bronbestand laden en naar de juiste alinea gaan. Om terugzoeken te kunnen gebruiken dient u het &latex;-bestand te compileren met de <guilabel
+>Modern</guilabel
+>e configuratie.</para>
+
+		<para
+>Inverse search werkt niet, tenzij:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Het broncode-bestand met succes is gecompileerd.</para
+></listitem>
+			<listitem
+><para
+>&okular; weet welke editor u wilt gebruiken.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Met deze functie van &okular;, zal het klikken met de linker muisknop, terwijl &Shift; wordt ingedrukt, in het &DVI;- of PDF-document, resulteren in het openen van het bijbehorende document door &kile; en dan naar de bijhorende regel te gaan. Vergeet niet &okular; te vertellen om &kile; als editor te gebruiken in het menu-item  <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Okular instellen...</guimenuitem
+></menuchoice
+> (op de pagina <guimenuitem
+>Editor</guimenuitem
+>).</para>
+
+		<screenshot>
+			<screeninfo
+>&okular; configureren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>&okular; configureren</phrase>
+			</textobject>
+			<caption
+><para
+>&okular; configureren</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>Fouten verhelpen</title>
+
+		<para
+>Als u probeert om Snelmaken te gebruiken en de &DVI;-viewer niet geopend wordt, heeft u waarschijnlijke ergens een fout zitten. Indien u een fout hebt, zal dit zichtbaar zijn in het logbestand / het berichtenvenster en zal een samenvatting van de fout gegeven worden.</para>
+
+		<para
+>Het logbestand legt dan uit wat de oorzaak van de fout in uw code is. In de editor, kunt u de knoppen gelabeld <guibutton
+>Vorige LaTeX-fout</guibutton
+> en <guibutton
+>Volgende LaTeX-fout</guibutton
+> gebruiken om naar en van fouten te springen. Het logbestand meldt altijd in welke regel de fout is optrad. Om de regel waarin een fout optrad te bekijken, kunt u op de fout in het logvenster klikken, en &kile; zal u dan naar de desbetreffende regel brengen.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>Een nieuw document beginnen</title>
+
+	<para
+>Wanneer u op de werkbalk klikt op de knop om een nieuw document te beginnen, dan verschijnt er een dialoogvenster, waarin gevraagd wordt welk type sjabloon u wilt gebruiken om uw document te schrijven. De standaard keuzemogelijkheden zijn:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Leeg document</para
+></listitem>
+		<listitem
+><para
+>Artikel</para
+></listitem>
+		<listitem
+><para
+>Beamer</para
+></listitem>
+		<listitem
+><para
+>Boek</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>Brief</para
+></listitem>
+		<listitem
+><para
+>Rapport</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (van het KOMA-Script-pakkket)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (van het KOMA-Script-pakket)</para
+></listitem>
+		<listitem
+><para
+>Scrttr2 (van het KOMA-Script-pakket)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (van het KOMA-Script-pakket)</para
+></listitem>
+		<listitem
+><para
+>PDF</para
+></listitem>
+		<listitem
+><para
+>XeLaTeX</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Als u <guilabel
+>Leeg document</guilabel
+> selecteert, kunt u ofwel beginnen een geheel nieuw document te schrijven, of gebruik maken van de assistent om snel een nieuw document te beginnen (zie <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>Sjablonen</title>
+
+		<para
+>Frequente gebruikers van &latex; gebruiken in het algemeen dezelfde preambule voor bijna ieder document dat zij gebruiken. Sjablonen kunnen aangemaakt, opgeslagen en geladen worden binnen &kile; om het eenvoudiger te maken een nieuw document te beginnen.</para>
+
+
+		<sect2>
+			<title
+>Een nieuw sjabloon maken</title>
+
+			<para
+>Om een nieuw sjabloon te maken, dient u eerst een bestaand &tex;/&latex;-bestand te openen of zelf een bestand te maken. &kile; kan een sjabloon genereren van een bestaand document door het gewenste document te openen en de optie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Sjabloon van document maken</guimenuitem
+></menuchoice
+> te selecteren.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Automatische vervangingen configureren</title>
+
+			<para
+>Wanneer u een nieuw document begint door te kiezen voor een sjabloon via <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Nieuw</guimenuitem
+></menuchoice
+>, worden bepaalde tekencombinaties vervangen door gegevens zoals uw naam of de tekensetcodering die u gebruikt. Deze variabelen kunnen ingesteld worden bij <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>&kile; instellen</guimenuitem
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Algemeen</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>Wanneer u uw eigen sjabloon aan het ontwerpen bent, is het nuttig te weten welke tekencombinaties vervangen worden door welke variabelen in het sjabloon:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: deze term wordt vervangen door de auteur die bij deze variabele is ingevuld.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: Deze term wordt vervangen door de variabele documentclass options. Dit wordt in het algemeen als volgt gebruikt: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: Indien de variabele inputencoding ingesteld is, bijvoorbeeld <userinput
+>latin1</userinput
+>, zal deze term vervangen worden door <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>Een sjabloon maken vanuit de assistent</title>
+
+			<para
+>De eenvoudigste manier om een nieuw sjabloon te maken is het starten van de assistent en dan commando's toe te voegen in de editor. Zodra u uw document hebt ingedeeld zoals u wilt:</para>
+
+			<procedure>
+				<step
+><para
+>Sla uw bestand op;</para
+></step>
+				<step
+><para
+>Ga naar <guimenu
+>Bestand</guimenu
+>;</para
+></step>
+				<step
+><para
+>Kies <guimenuitem
+>Sjabloon van document maken</guimenuitem
+>;</para
+></step>
+				<step
+><para
+>Voer indien nodig de benodigde correcties door in het sjabloon;</para
+></step>
+				<step
+><para
+>Type een naam in voor uw nieuwe sjabloon;</para
+></step>
+				<step
+><para
+>Klik op <guibutton
+>OK</guibutton
+> om uw sjabloon aan het menu toe te voegen.</para
+></step>
+			</procedure>
+
+			<para
+>De volgende keer dat u een nieuw document begint, zult u uw eigen sjabloon kunnen kiezen in plaats van een van de standaardsjablonen.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Een sjabloon van een bestand maken</title>
+
+			<para
+>Van ieder &latex;-bestand kan een sjabloon gemaakt worden. Als u zoekt naar een eenvoudige manier om een sjabloon te configureren, dan gaat u op zoek op het internet en volgt u dezelfde stappen die opgesomd zijn bij <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>U wilt bijvoorbeeld een volwaardige A0-poster maken. Deze posters zijn meestal te zien op wetenschappelijke conferenties en &latex; zal u helpen een aantrekkelijke, opvallende poster te maken. U kunt een sjabloon voor A0 posters vinden op <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
+>De website van Jonathan Marchini </ulink
+>, maar er zijn er veel meer beschikbaar. Onthoudt dat u het pakket  <filename
+>a0poster</filename
+> nodig zult hebben, dat meestal niet bij een standaardinstallatie van &tex; zit. U kunt het van <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>hier</ulink
+> downloaden en het plaatsen in dezelfde map als uw &latex;-bestand.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>Een sjabloon verwijderen</title>
+
+			<para
+>Doet u het volgende om een sjabloon te verwijderen uit &kile; :</para>
+
+			<procedure>
+				<step
+><para
+>Ga naar <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Sjabloon verwijderen...</guimenuitem
+></menuchoice
+>;</para
+></step>
+				<step
+><para
+>Er zal een dialoogvenster verschijnen met een lijst van alle sjablonen: selecteert u een sjabloon;</para
+></step>
+				<step
+><para
+>Klik u dan op <guilabel
+>OK</guilabel
+> en uw sjabloon wordt verwijderd.</para
+></step>
+			</procedure>
+
+			<para
+>Sjablonen die gemarkeerd zijn met een asterisk (*) kunnen niet verwijderd worden zonder de juiste rechten.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>&latex;-documenten bewerken</title>
+
+	<para
+>De interne editor die &kile; gebruikt is &kate;. &kate; is een tekstbewerker gemaakt voor programmeurs, die de mogelijkheid bevat om veel verschillende typen tekstbestanden te lezen en markeren, waaronder &latex; en &bibtex;; u hebt direct vanuit het menu <guimenu
+>Hulpmiddelen</guimenu
+> van &kile; toegang tot de vele opties van &kate; .</para>
+
+	 <para
+>Bekijkt u om meer te leren over &kate; en zijn mogelijkheden het <ulink url="help:/kate"
+>Handboek van &kate;</ulink
+>. Gebruikers van &kile; kunnen beginnen te lezen vanaf het hoofdstuk <quote
+>Werken met de &kate;-editor</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>De &latex;-referentie</title>
+
+		<para
+>&kile; bevat een uiterst praktische tag-referentie voor &latex;, waar u bij kunt komen door <menuchoice
+><guimenu
+>Help</guimenu
+><guimenuitem
+>LaTeX Referentie</guimenuitem
+></menuchoice
+>te kiezen. Het bevat een grondige beschrijving van bijna alle commando's die u kunt gebruiken in &latex; en hun syntaxis.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>Bewegingen met de cursor</title>
+
+		<para
+>Om tekst te selecteren heeft u de volgende opties:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Houd de linkermuisknop ingedrukt en sleep de muis naar de gemarkeerde tekst.</para
+></listitem>
+			<listitem
+><para
+>Klik dan op een woord om de cursor naar een nieuw gebied te verplaatsen.</para
+></listitem>
+			<listitem
+><para
+>Klik tweemaal op een woord om het gehele woord te selecteren.</para
+></listitem>
+			<listitem
+><para
+>Klik twee keer op een woord en druk <keycombo
+>&Ctrl;</keycombo
+> in om het gehele &tex;-woord te selecteren. Op deze manier klikken op <userinput
+>\par</userinput
+> uit <userinput
+>\par\bigskip</userinput
+> betekent dat alleen \par wordt geselecteerd.</para
+></listitem>
+			<listitem
+><para
+>Klik driemaal om de hele zin te selecteren.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Het ingedrukt houden van de linkermuisknop en slepen van de tekst die u wilt selecteren, kopieert de geselecteerde tekst automatisch naar het klembord.</para>
+
+		<para
+>Het ingedrukt houden van &Shift; en gebruiken van de pijl-toetsen stelt u in staat delen van de broncode te selecteren in het venster van de editor.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>Blokhaakjes</title>
+
+		<para
+>Het aanvullen van haakjes is een visueel hulpmiddel dat de editorweergave gebruikt om u aan te geven welk haakje bij welke hoort. Als u een willekeurig .tex-bestand opent en een haakje selecteert dan zal, ongeacht of het ronde haken (), rechte haken [] of accolades {} zijn, de editor de haak en de overeenkomende haak in het geel markeren (deze standaardkleur kan veranderd worden). Dus, als u bijvoorbeeld de cursor positioneert in <userinput
+>\section{Inleiding}</userinput
+>, dan ziet u <userinput
+>\section{Inleiding}</userinput
+> in de standaardkleur geel gemarkeerd, om u de locaties van het haakje openen en sluiten te tonen.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>Markeren</title>
+
+		<para
+>&kile; heeft de mogelijkheid om verschillende typen code te zoeken en te markeren. &latex;-commando's, bijvoorbeeld, worden van normale tekst onderscheiden en wiskundige formules worden ook gemarkeerd in een andere kleur.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>Opsommingstekens</title>
+
+		<para
+>Veel assistenten kunnen optionele opsomtekens invoegen, een speciaal soort bladwijzer in de tekst. De menu-items <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Opsommingstekens</guisubmenu
+></menuchoice
+> of de overeenkomstige sneltoetsen stellen u in staat naar het volgende of laatste opsommingsteken te gaan. Dit zal ook dit opsommingsteken accentueren zodat het automatisch verwijderd zal worden, wanneer u het eerste teken invoert.</para>
+
+		<screenshot>
+			<screeninfo
+>Opsommingstekens</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Opsommingstekens</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Rechts</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Volgende opsomteken</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ga naar het volgende opsomteken in de tekst als er een is.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Links</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Laatste opsomteken</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ga naar het vorige opsomteken in de tekst als er een is.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>Selecteren</title>
+
+		<para
+>Tekstbewerken is natuurlijk een van de hoofdzaken bij het gebruik van een programma als &kile;. Hoewel &kate; al grote eiegenschappen heeft, voegt &kile; enige belangrijke functies toe, die speciaal nodig zijn om &latex; broncode te schrijven. &latex; heeft altijd heel wat omgevingen en groepen nodig, en dus ondersteunt &kile; zeer speciale commando's om ze te selecteren. Onder <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Selecteren</guisubmenu
+></menuchoice
+> vindt u de volgende commando's om tekst te selecteren.</para>
+
+		<screenshot>
+			<screeninfo
+>Bewerken->Items selecteren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Bewerken->Items selecteren</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Omgeving (binnen)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een omgeving zonder de tags er omheen selecteren. Als dit commando wordt aangeroepen, wanneer er al een omgeving is geselecteerd, dan zal &kile; de selectie tot de volgende omgeving er omheen uitbreiden.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Omgeving (buiten)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een omgeving inclusief de tags er omheen selecteren. Deze selectie kan ook uitgebreid worden met een tweede aanroep van dit commando. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>TeX-groep (binnen)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een *tex;-groep, binnen de haakjes er omheen, selecteren.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>TeX-groep (buiten)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een &tex;-groep, inclusief de haakjes er omheen, selecteren.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Wiskundegroep</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>De huidige wiskundegroep inclusief de haakjes er omheen selecteren.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Alinea</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een gehele alinea selecteren, &ie; een groep tekstregels aan beide zijden geschieden door lege regels. Een alinea betekent geen continue regels met tekst, zoals in andere tekstbewerkers. Deze uitgebreide betekenis omvat ook tabellen, &latex;-commando's en alle andere regels van de brontekst. Het enig belangrijke voor &kile; is dat dit soort alinea gescheiden is door twee lege regels.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>Regel</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>De regel tekst selecteren op de huidige cursorpositie.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>TeX-woord</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Het woord onder de huidige cursorpositie selecteren. Deze selectie heeft ook een uitgebreide betekenis, omdat dit commando ook &latex; commando's kan selecteren, die beginnen met een backslash en ook een optioneel sterretje aan het einde kunnen hebben.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>&latex; commando's selecteren</title>
+
+		<para
+>&kile; heeft een uitgebreide functie om &latex; commando's te selecteren. Als u bijvoorbeeld</para>
+
+		<programlisting
+>tekst \bfseries\itshape meer tekst</programlisting>
+
+		<para
+>hebt ingetikt en dubbelklikt op één van de &latex; commando's, dan zullen beiden worden geselecteerd. Maar vaak wilt u alleen een of twee of meer commando's selecteren. Dit kan worden gedaan met de <keycombo
+>&Ctrl;</keycombo
+>-toets. U hoeft alleen de <keycombo
+>&Ctrl;</keycombo
+>-toets in te drukken waarna een dubbelklik alleen het gewenste commando zal selecteren.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>Verwijderen</title>
+
+		<para
+>Om sommige delen van een document te verwijderen kunt ze natuurlijk selecteren en daarna de toets <keycombo
+><keycap
+>Delete</keycap
+></keycombo
+> gebruiken. &kate; biedt ook het commando <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+> die de gehele regel zal verwijderen. &kile; biedt echter een snellere manier met eigen commando's voor verwijderen. Onder <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Verwijderen</guisubmenu
+></menuchoice
+> vindt u de volgende commando's om tekst te verwijderen.</para>
+
+		<screenshot>
+			<screeninfo
+>Bewerken->Items verwijderen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Bewerken->Items verwijderen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Omgeving (binnen)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een omgeving verwijderen zonder de tags er omheen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Omgeving (buiten)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een omgeving verwijderen inclusief de tags er omheen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>TeX-groep (binnen)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een &tex;-groep, binnen de haakjes er omheen, verwijderen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>TeX-groep (buiten)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Een &tex;-groep, inclusief de haakjes er omheen, verwijderen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Wiskundegroep</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>De huidige wiskundegroep inclusief de haakjes er omheen verwijderen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Alinea</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Verwijder een gehele alinea. Kijk naar het commando <menuchoice
+><guisubmenu
+>Selecteer</guisubmenu
+><guimenuitem
+>Alinea</guimenuitem
+></menuchoice
+>, hoe een alinea in &kile; is gedefinieerd.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>Naar einde van regel</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Verwijder de tekst vanaf de huidige cursorpositie tot het einde van de regel. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>TeX-woord</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Verwijder het woord of &latex;-commando onder de huidige cursorpositie.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>Omgeving</title>
+
+		<para
+>Het was al eerder genoemd dat omgevingen een centraal punt zijn in &latex;. &kile; biedt dus vijf andere commando's om het werken met &latex; zo gemakkelijk mogelijk te maken onder submenu's <menuchoice
+><guimenu
+>Berwerken</guimenu
+><guisubmenu
+>Omgeving</guisubmenu
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Bewerken->Omgevingsitems</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Bewerken->Omgevingsitems</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Naar het begin</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Dit commando sprint naar het begin van de huidige omgeving, waar uw huidige positie ook is. De cursor zal geplaatst worden direct voor de openingstag van de omgeving.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Naar het einde</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Dit commando sprint naar het einde van de huidige omgeving, waar uw huidige positie ook is. De cursor zal geplaatst worden direct achter de sluittag van de omgeving.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Overeenkomen</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Wanneer uw cursor zich voor of op de tag <userinput
+>\begin{environment}</userinput
+>, zal het zich verplaatsen naar het overeenkomstige einde van de omgeving en vice versa.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Sluiten</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Bij het invoeren van geneste omgevingstags, dan kun u de controle verliezen over al die omgevingen. Dit commando sluit de laatst geopende omgeving, zodat de geneste structuur niet is verbroken.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>Allen sluiten</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Dit sluit alle geopende omgevingen, niet alleen de laatst geopende omgeving.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>&tex;-groep</title>
+
+		<para
+>&kile; biedt ook enige speciale commando's voor &latex;-groepen, die worden bepaald door accolades <userinput
+>{...}</userinput
+>. In submenu <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>TeX-groep</guisubmenu
+></menuchoice
+> vindt u enige belangrijke commando's, die overeenkomen met die van <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Omgeving</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>Bewerken->TeX-groep</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Bewerken->TeX-groep</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Naar het begin</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Dit commando sprint naar het begin van de huidige groep, waar uw huidige positie ook is. De cursor zal geplaatst worden direct voor de openingsaccolade.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Naar het einde</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Dit commando sprint naar het einde van de huidige groep, waar uw huidige positie ook is. De cursor zal geplaatst worden direct achter de sluitaccolade.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Overeenkomen</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Wanneer uw cursor zich voor of achter een openingsaccolade van een &tex;-groep bevindt zal deze worden verplaatst naar het andere eind van de groep en omgekeerd.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Sluiten</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Het invoeren van geneste accolades kan moeilijk zijn. Dit commando sluit de laatst geopende groep, zodat de geneste structuur van &tex;-groepen niet wordt verbroken.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>Dubbele aanhalingstekens</title>
+
+		<para
+>In &latex;, worden twee enkele accenten als dubbele aanhalingstekens gebruikt. Om u hulp te bieden bij het efficiënt invoeren staat &kile; toe om <keycap
+>"</keycap
+> in te drukken om insert twee openingsaccenten in te voeren. Als u de aanhalingstekens sluiten, dan moet u ook <keycap
+>"</keycap
+> indrukken. &kile; is intelligent genoeg om deze situatie te herkennen en twee sluitaccenten voor &latex; in te voegen.</para>
+
+		<para
+>Om een dubbel aanhalingsteken te krijgen drukt u twee keer op <keycap
+>"</keycap
+>.</para>
+
+		<para
+>Automatische invoegen van dubbele open- en sluit-aanhalingstekens kan in- of uitgeschakeld worden in de sectie <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Dubbele aanhalingstekens</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dubbele aanhalingstekens</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Als u ook taalspecifieke opties zoals <userinput
+>ngerman</userinput
+> of <userinput
+>french</userinput
+>, dan zult u ook in staat zijn Duitse of Franse dubbele aanhalingstekens te gebruiken. Er zijn nog veel meer talen beschikbaar. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>Intelligente nieuwe regel</title>
+
+		<para
+>Als u <keycombo
+>&Ctrl;<keycap
+>Return</keycap
+></keycombo
+> indrukt zal &kile; een intelligente nieuwe-regel invoeren. Als uw huidige positie zich in een lijst bevindt, zoals <userinput
+>enumerate</userinput
+> of <userinput
+>itemize</userinput
+>, dan zal &kile; niet alleen een nieuwe-regel invoeren, maar ook een <userinput
+>\item</userinput
+> commando.</para>
+
+		<para
+>Als u in een tabelomgeving zit zal &kile; de huidige regel beëindigen met <userinput
+>\\</userinput
+>, gevolgd door de nieuwe-regel.</para>
+
+    <para
+>Als u in een &latex;-commentaar zit zal &kile; de volgende regel met een <userinput
+>%</userinput
+>.</para>
+
+		<para
+>Nog beter, &kile; is intelligent genoeg om voorgedefinieerde &latex;- en gebruikerergedefinieerde omgevingen te ondersteunen, die kunnen worden toegevoegd in sectie <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>Intelligente tabulator:</title>
+
+		<para
+>Sommige gebruikers willen graag kolommen in een tabel zo inrichten dat alle ampersand-tekens <keycap
+>&amp;</keycap
+> onder elkaar staan. &kile; probeert dat te ondersteunen. Als u <keycombo
+>&Alt;&Shift;<keycap
+>&amp;</keycap
+></keycombo
+> indrukt zal &kile; naar het volgende tab in de rij erboven gaan. Hoewel deze tab niet de overeenkomstige tab hoeft te zijn, zal &kile; enige spaties toevoegen om de kolompositie met de huidige tab aan te passen.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>Code-aanvulling</title>
+
+	<para
+>Hoewel &kate; reeds een goede modus voor aanvullen biedt, ondersteunt &kile; een uitgebreide code-aanvulling voor enige speciale methoden speciaal voor &latex;. Er zijn vijf verschillende modi geïntegreerd. Drie hiervan werken op verzoek, de andere twee zijn automatische aanvulmodi. Alle modi kunnen geconfigureerd worden om erg verschillende te werken met <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Kile instellen...</guimenuitem
+></menuchoice
+>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>Automatisch aanvullen van omgeving</title>
+
+		<para
+>Wanneer u een nieuwe omgeving begint, door <userinput
+>\begin{environment}</userinput
+> te typen, voegt &kile; automatisch een commando <userinput
+>\end{environment}</userinput
+> toe, met een regel ertussen voor uw tekst.</para>
+
+		<para
+>Automatisch aanvullen kan uitgeschakeld worden in de &latex;-sectie van <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Omgevingen</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Een Equation Environment completeren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een Equation Environment completeren</phrase>
+			</textobject>
+			<caption
+><para
+>Een Equation Environment completeren</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>&latex;-commando's:</title>
+
+		<para
+>Wanneer u enige letters intypt kunt u deze aanvulmodus voor &latex;-commando's en normale woorden activeren met <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Aanvullen</guisubmenu
+><guimenuitem
+>(La)TeX-commando</guimenuitem
+></menuchoice
+> of de sneltoets <keycombo
+>&Ctrl;&Shift;<keycap
+>Space</keycap
+></keycombo
+>. &kile; leest eerst de letters vanaf de huidige cursorpositie naar links en stopt bij het eerste niet-letter teken of een backslash. Als dit patroon met een backslash begint, zal &kile; de aanvulmodus voor &tex; of &latex; commando's in gaan. Anders gaat het normale woordenboekmodus in, waar u geen &latex;-commando's tegen zult komen. Afhankelijk van de gekozen modus, zal een aanvulvak worden geopend. U zult alle commando's of woorden zien waarvan het begin overeenkomt met het huidige patroon. U kunt door deze lijst heen lopen met de de cursortoetsen en er een selecteren met &Enter; of een dubbelklik met de muis.</para>
+
+		<screenshot>
+			<screeninfo
+>Een LaTeX-commando aanvullen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een LaTeX-commando aanvullen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Wanneer u op de &Backspace;-toets drukt zal de laatste letter van uw patroon worden verwijderd en de aanvullijst kan groeien. Aan de andere kant, als u nog een letter intypt zal het patroon groter worden en de zichtbare woordenlijst kan inkrimpen.</para>
+
+		<para
+>Als u besluit geen van de suggesties te selecteren, dan kunt u deze dialoog met &Esc; verlaten.</para>
+
+		<para
+>U zult zien dat alle commando's geschreven worden met een korte beschrijving van hun parameters. Deze beschrijvingen worden natuurlijk verwijderd wanneer u een commando selecteert. Als optie kunt u &kile; opsomtekens op deze plaatsen laten invoegen, zodat u gemakkelijk naar deze posities kunt springen met <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Opsomtekens</guisubmenu
+><guimenuitem
+>Volgende opsomteken</guimenuitem
+></menuchoice
+> en de gewenste parameter invoegen.</para>
+
+		<screenshot>
+			<screeninfo
+>Een LaTeX-commando aanvullen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een LaTeX-commando aanvullen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ga naar <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Aanvullen</guilabel
+></menuchoice
+> om een of meer van deze lijsten in te stellen. U kunt verschillende woordlijsten kiezen voor &tex;- en &latex; commando's en woordenboekmodus voor normale woorden.</para>
+
+		<para
+>Als u de optie <guimenuitem
+>Latex-commando's tonen</guimenuitem
+>, dan worden alle gekozen gecomprimeerde lijsten met woorden (cwl)-bestanden voor commando-aanvulling van &latex; in een aparte weergave van de zijbalk van &kile; getoond. U hebt zo een goed overzicht over welke commando's beschikbaar zijn en welke parameters en opties moeten of kunnen worden gegeven voor een aanvulling. U kunt ook eenvoudig één item met een muisklik kiezen waarna deze zal worden ingevoegd in het document, waar alle genoemde parameters en opties gestript zijn.</para>
+
+		<screenshot>
+			<screeninfo
+>LaTeX-commando's in de zijbalk</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>LaTeX-commando's in de zijbalk</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Omdat elke gekozen woordenlijst getoond zal worden in een eigen weergave, kunnen er te veel weergaven zijn, zodat het hoofdvenster van &kile; groter dan een klein scherm kan weergeven. Omdat dit er erg lelijk uitziet, werkt &kile; met een maximum aantal toegestane weergaven, die standaard is ingesteld op 10. Als deze waarde te groot is voor uw scherm, dan kunt u het verkleinen.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>Omgevingen</title>
+
+		<para
+>De <emphasis
+>commandomodus</emphasis
+> is niet bruikbaar voor code-aanvullen van omgevingen. U moet altijd enige letters van <userinput
+>\begin</userinput
+> intypen en de aanvullingmodus zal resulteren in een grote lijst met omgevingstags. Aan de andere kant worden omgevingen zo vaak gebruikt dat &kile; een speciale modus biedt voor code-aanvullen van omgevingen. Vergeet de openingtag en schrijf, bijvoorbeeld, <userinput
+>al</userinput
+>.</para>
+
+		<para
+>Wanneer u de aanvulmodus aanroept met <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Aanvullen</guisubmenu
+><guimenuitem
+>Omgeving</guimenuitem
+></menuchoice
+> of met de sneltoets <keycombo
+>&Alt;&Shift;<keycap
+>Spatie</keycap
+></keycombo
+>, dan zal de openingtag automatisch worden toegevoegd en zult u <userinput
+>\begin{al}</userinput
+> zien. Na deze wijziging zal de aanvullijst veel minder gevuld zijn.</para>
+
+		<screenshot>
+			<screeninfo
+>Een LaTeX-commando aanvullen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een LaTeX-commando aanvullen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Selecteer nu een omgeving en u zult zien dat het ook automatisch wordt gesloten. Als &kile; het herkent als een lijstomgeving, dan zal het ook een eerste <userinput
+>\item</userinput
+>-tag invoegen.</para>
+
+		<screenshot>
+			<screeninfo
+>Een LaTeX-commando aanvullen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een LaTeX-commando aanvullen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ga naar <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Aanvullen</guilabel
+></menuchoice
+> om een of meer van deze lijsten in te stellen. Deze modus gebruikt dezelfde woordlijsten als de aanvulmodus voor &tex;- en &latex;-commando's.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>Afkortingen</title>
+
+		<para
+>&kile; ondersteunt gebruikergedefinieerde lijsten met afkortingen, die op verzoek worden vervangen door langere tekenreeksen. Kijk op <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Aanvullen</guilabel
+></menuchoice
+> om een of meer van deze lijsten in te stellen. Voor het hier gegeven voorbeeld moet de lijst met afkortingen <filename
+>example.cwl</filename
+> worden gekozen. In dit bestand vindt u bijvoorbeeld de regel <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>Typ bij voorbeeld alleen de letter <userinput
+>L</userinput
+> in. Rope dan de afkortingenmodus van woordaanvullen op met <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guisubmenu
+>Aanvullen</guisubmenu
+><guimenuitem
+>Afkortingen</guimenuitem
+></menuchoice
+> of de sneltoets <keycombo
+>&Ctrl;&Alt;<keycap
+>Space</keycap
+></keycombo
+> en de letter <userinput
+>L</userinput
+> wordt vervangen door de tekenreeks <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>Afkortingen-aanvullen ondersteunt ook nieuwe-regel <userinput
+>%n</userinput
+> en <userinput
+>%C</userinput
+> om de cursor te positioneren, als deze tekens aanwezig zijn in de geëxpandeerde tekst. Dus als u het item</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>hebt in het aanvulbestand en u roept afkortingen-aanvullen aan, dan ziet de expansie er uit als hieronder, waar <userinput
+>x</userinput
+> de uiteindelijke cursorpositie toont.</para>
+
+<programlisting
+>\begin{enumerate}
+        \item x
+\end{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>Afkortingen</title>
+
+			<para
+>Als u <guimenuitem
+>Afkortingen tonen</guimenuitem
+> kiest zullen alle mogelijke afkortingen worden getoond in een weergave van de zijbalk. Zo hebt u een goed overzicht over alle mogelijke afkortingen.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>Modussen voor automatisch aanvullen</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>&latex;-commando's:</title>
+
+			<para
+>U kunt ook een modus automatisch aanvullen inschakelen voor &latex; commando's. Wanneer een gegeven drempel van letters (standaard: 3) is ingevoerd, opent zich een pop-up venster met een lijst met alle overeenkomende &latex; commando's. U kunt een van deze commando's selecteren of dit venster negeren en verdere letters intypen. De items in het aanvullingenvak zullen voortdurend wijzigen en overeenkomen met het dan ingetypte woord.</para>
+
+			<para
+>Ga naar <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Aanvullen</guilabel
+></menuchoice
+> om deze modus in of uit te schakelen of om de drempel te wijzigen.</para>
+
+		<screenshot>
+			<screeninfo
+>Een Equation Environment completeren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een Equation Environment completeren</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>Document-woorden</title>
+
+			<para
+>Grote bibliotheken zijn niet nuttig in de modus automatisch aanvullen. Maar, we hebben gezien dat veel woorden in een document meer dan een keer worden ingetypt. Dus biedt &kile; aanvulling voor alle woorden uit het document die de gebruiker al eerder heeft getypt. U kunt handmatig deze aanvulling oproepen, als u op <keycombo
+>&Ctrl;<keycap
+>Spatie</keycap
+></keycombo
+> drukt. Merk op dat deze modus verschilt van de aanvulmodus van &latex; commando's.</para>
+
+			<para
+>Als u deze modus aan of uit wilt zetten, ga dan naar <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Editor</guimenuitem
+><guimenuitem
+>Bewerking</guimenuitem
+><guilabel
+>Automatisch aanvullen</guilabel
+></menuchoice
+>. In deze dialoog kunt u instellen of de aanvulmodus voor woorden in het document moet worden ingeschakeld. Er is ook een extra auto-aanvulmodus, waar een vak met aanvullingen verschijnt, wanneer een bepaalde drempel is bereikt.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>Uw eigen aanvulbestanden maken</title>
+
+    <para
+>De laatste specificatie van het aanvulbestandsformaat kan gevonden worden in <ulink url="http://https://commits.kde.org/kile?path=README.cwl"
+> CWL-bestandsformaatspecificatie</ulink
+>. </para>
+
+		<para
+>Aanvulbestanden kunnen worden geïnstalleerd in de persoonlijke map van een gebruiker onder de submap <filename
+>~/.kde/share/apps/kile/complete/&lt;modus&gt;/</filename
+>, waar <parameter
+>&lt;modus&gt;</parameter
+> ofwel staat voor <constant
+>abbreviation</constant
+>, <constant
+>dictionary</constant
+> of <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>Assistenten en dialogen</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>Snelstart-assistent</title>
+
+		<para
+>Deze assistent is al beschreven in de sectie <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>Afbeeldingen opnemen</title>
+
+		<para
+>De dialoog <guilabel
+>Afbeeldingen invoegen</guilabel
+> maakt het invoegen van grafische elementen zo gemakkelijk mogelijk. U kunt het bereiken via de menubalk met <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Afbeelding invoegen</guimenuitem
+></menuchoice
+>. Neem een kijkje in <xref linkend="build_graphics" role="select: title pageabbrv"/> en <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> om een overzicht te krijgen van enkele basis feiten over grafische formaten.</para>
+
+		<screenshot>
+			<screeninfo
+>Een grafisch element invoegen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een grafisch element invoegen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>Kies een grafisch bestand. Dit kan een JPEG, PNG, PDF, EPS of zelfs een gezipt of gegzipt EPS bestand zijn. Als u <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> hebt geïnstalleerd en ook &kile; ingesteld om het te gebruiken (Met <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Grafisch</guilabel
+></menuchoice
+>) wordt de breedte en de hoogte van het grafische element automatisch getoond. Als &imagemagick; een resolutie kan bepalen, worden de afmetingen van het grafische element ook in centimeters getoond.</para
+></step>
+
+		<step
+><para
+>Beslis of uw afbeelding gecentreerd moet worden op de pagina.</para
+></step>
+
+		<step
+><para
+>Kies of u de notatie <userinput
+>\graphicspath</userinput
+> voor dit afbeeldingsbestand wilt.</para>
+
+		<para
+>De standaard is dat afbeeldingsbestanden zich in dezelfde map als uw masterdocument moeten bevinden. Het is echter mogelijk om ze in andere mappen te hebben om dingen bij elkaar te houden. Zonder een commando <userinput
+>\graphicspath</userinput
+> zal &kile; het pad voor het afbeeldingsbestand invoegen. Maar als u <userinput
+>\graphicspath</userinput
+> in uw preamble zoals dit gebruikt:</para>
+
+		<programlisting
+>\graphicspath{{/pad/naar/mijn/afbeeldingen}{ander/pad/naar/meer/afbeeldingen}}</programlisting>
+
+		<para
+>en deze optie activeert, dan zal &kile; alleen de basisnaam van het afbeeldingsbestand gebruiken.</para>
+
+		<para
+>Nog een voorbeeld: als u het commando <userinput
+>\graphicspath</userinput
+> instelt, zoals:</para>
+
+		<programlisting
+>\graphicspath{{./}{camera/}{afbeeldingen/}}</programlisting>
+
+		<para
+>dan zal &latex; in de huidige map zoeken, daarna in <filename
+>camera</filename
+> en tenslotte in <filename
+>afbeeldingen</filename
+> om uw  afbeeldingsbestanden te vinden.</para
+></step>
+
+		<step
+><para
+>Als u ofwel een breedte of een hoogte kiest zal de gehele afbeelding proportioneel worden geschaald. Als u twee waarden voor breedte en hoogte op hetzelfde moment instelt kunnen breedte en hoogte met verschillende factoren worden geschaald en dat het kan zijn dat u dat niet wilt. Zie ook de informatie bovenaan de dialoog om de oorspronkelijke afmeting van de afbeelding te weten te komen.</para
+></step>
+
+		<step
+><para
+>Voeg een hoek in waarmee de afbeelding linksom gedraaid moet worden.</para
+></step>
+
+		<step
+><para
+>De informatie van het begrensde vak is automatisch ingesteld wanneer u een grafisch bestand kiest. Deze informatie is alleen nodig wanneer u met de traditionele &latex; werkt en afbeeldingen in het formaat bitmap. Zie de discussie van <link linkend="build_epsgraphics"
+>EPS-grafische elementen</link
+>. </para>
+
+		<para
+>Als &latex; een begrensd vak nodig heeft en u wilt geen bb-bestand genereren, dan ondersteunt &kile; deze optie. Aan de andere kant zal &pdflatex; een waarschuwing geven wanneer u een png- of jpg-afbeelding met deze optie wilt invoegen. Dit keuzevak schakelt de optie 'begrensde vak' in of uit.</para
+></step>
+
+		<step
+><para
+>Schaal de afbeelding met de gewenste schaalfactor. &eg;, 0.5 om het tot de helft te reduceren of 2 om het te verdubbelen. Wanneer u deze optie gebruikt, dan hoeft u geen breedte of hoogte voor de afbeelding in te stellen.</para
+></step>
+
+		<step
+><para
+>In het tabblad <guilabel
+>Afbeelding trimmen</guilabel
+> kunt u uw afbeelding in alle vier richtingen bijsnijden.</para
+></step>
+
+		<step>
+		  <para
+>Tenslotte moet u specificeren of u deze afbeelding wilt inbedden in een afbeeldingomgeving. Wanneer u wilt dat de tekst zich rond de afbeelding vlijt, gebruik dan de omgeving 'wrapfigure'. </para>
+			<note>
+				<para
+>Wanneer u de wrapfigure-omgeving kiest, dan moet u het wrapfig-pakket in uw preamble invoegen.</para>
+			</note>
+		  <para
+>In beide gevallen kunt u een bijschrift en een label voor uw afbeelding invoegen. In het algemeen is het een goed idee om een verschillende prefix voor elk soort label in te voegen. Het is gewoonte om de prefix <userinput
+>fig:</userinput
+> voor afbeeldingen te gebruiken. </para>
+		</step>
+
+		<step
+><para
+>Als u de afbeeldingomgeving kiest, dan kunt u kiezen waar &latex; de figuur bij voorkeur moet plaatsen. </para
+></step>
+		<step>
+		  <para
+>In de wrapfigure-omgeving kunt u:</para>
+		  <substeps>
+		    <step
+><para
+>Kies een plaatsingsregel voor de figuur en bepaal of de figuur moet zweven of niet. In een tweezijdig document kunt u definiëren of de figuur op de binnen- of buitenkant van de pagina moet staan. </para
+></step>
+		    <step
+><para
+>Definieer in hoeveel afgekorte regels de omhullende tekst moet worden opgebroken. Als u dit leeg laat zal &latex; dit zelf, zo goed als mogelijk, bepalen. </para
+></step>
+		    <step
+><para
+>Definieer een overhang aan de gekozen kant. Dit is speciaal nuttig wanneer u kolommen in uw document hebt en u wilt dat een figuur meer dan één kolom overspant of u wilt afgekorte tekst aan beide zijden van de afbeelding. </para
+></step>
+		    <step
+><para
+>Kies een breedte voor de figuur. Dit zou een beetje groter dan de actuele breedte van de afbeelding moeten zijn, zodat er enige lege ruimte tussen de figuur en de tekst zal zijn. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>Arrays en tabstops</title>
+
+		<para
+>Een van de saaiste klusjes die men in &latex; kan doen, is het schrijven van een matrix of een tabelomgeving. Men dient alle elementen bij te houden, te verzekeren dat de omgeving goed gevormd is, en dat alles is, waar het verondersteld wordt te zijn. Werken met inspringniveaus helpt, maar er is een eenvoudigere manier: de menu's <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Array</guimenuitem
+></menuchoice
+> of <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Tabel</guimenuitem
+></menuchoice
+>. U heeft dan een matrix-achtige invoervorm die u eenvoudig in kunt vullen met uw elementen. Deze dialoog biedt ook sommige opties om elementen in de tabel op te maken.</para>
+
+		<screenshot>
+			<screeninfo
+>Een tabular-omgeving invoegen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een tabular-omgeving invoegen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Met de werkbalk bovenaan de dialoog kunt u can de <userinput
+>uitlijnen</userinput
+> van een cel instellen, cellen een bepaalde <userinput
+>lettertypestijl</userinput
+> geven, ze <userinput
+>samenvoegen</userinput
+> en <userinput
+>splitsen</userinput
+>, kies een <userinput
+>rand</userinput
+> en specificeer achtergrond- en lettertype<userinput
+>kleuren</userinput
+>. Helemaal rechts is er een knop <guilabel
+>Plakken</guilabel
+>. Met deze knop kunt u een tabel uit het klembord invoegen in de dialoog, die u in staat stelt om tabellen, bijvoorbeeld uit een rekenbladprogramma te kopiëren en te plakken. </para>
+
+		<para
+>Onderaan kunt u kiezen hoe veel rijen en kolommen u wilt en kunt u een beetje meer details aan uw array instellen: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Met de optie <guilabel
+>Naam</guilabel
+> kunt u selecteren welke omgeving gebruikt moet worden voor uw array met materiaal in tabelvorm. </para
+></listitem>
+			<listitem
+><para
+>U kunt de verticale uitlijning van cellen met de optie <guilabel
+>Parameter</guilabel
+> selecteren. Dit is alleen ingeschakeld voor omgevingen die die functie ondersteunen. </para
+></listitem>
+			<listitem
+><para
+>U kunt <guilabel
+>gebruik de versie met een ster</guilabel
+>selecteren, als deze bestaat voor de geselecteerde omgeving. Wanneer u deze optie select selecteert, moet u ook een <guilabel
+>tabelbreedte</guilabel
+> specificeren. </para
+></listitem>
+			<listitem
+><para
+>Tabellen zien er soms mooier uit wanneer u de optie <guilabel
+>booktabspakket gebruiken</guilabel
+> selecteert. </para
+></listitem>
+			<listitem
+><para
+>Natuurlijk kunt u ook <guilabel
+>Centreren</guilabel
+> kiezen voor uw gehele array. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Opsomtekens invoegen</guilabel
+> helpt u wanneer u uw inhoud in de editor wilt invullen. Met deze optie geactiveerd zal &kile; plaatshouders voor opsomtekens invoegen voor elk element van uw array. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>De optie <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Tabellering</guimenuitem
+></menuchoice
+> zal een eenvoudiger dialoog tonen om snel een tabelomgeving op te zetten. Het stelt u in staat om gemakkelijk het aantal rijen of kolommen en de gewenste spatiëring te specificeren.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>Zwevende elementen invoegen</title>
+
+	  <para
+>&kile; helpt u met het invoegen van zwevende elementen. Met de wizard <menuchoice
+><guimenu
+>Wizard</guimenu
+><guimenuitem
+>Zwevend</guimenuitem
+></menuchoice
+> is het erg eenvoudig om een nieuwe figuur of tabelomgeving aan te maken. </para>
+
+	  <screenshot>
+		<screeninfo
+>Een zwevend element invoegen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Een zwevend element invoegen</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Om een nieuwe zwevende omgeving in te voegen volgt u deze stappen: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>Kies of u een figuur of een tabel wilt invoegen. </para>
+	       </step>
+	       <step>
+		 <para
+>Selecteer de gewenste positioneringsregels. </para>
+	       </step>
+	       <step>
+		 <para
+>Voer een bijschrift in voor uw zwevende element. </para>
+	      </step>
+	      <step>
+		<para
+>Type een label voor uw nieuwe zwevende element in. &kile; zal automatisch een van toepassing zijnd voorvoegsel, &eg; "fig:" voor figuren en "tab:" voor tabellen suggereren. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+>Wiskundige omgevingen invoegen</title>
+
+	  <para
+>U herinneren hoe alle verschillende wiskundige elementen werken kan echt vervelend zijn. Natuurlijk kan &kile; de magie hiervan voor u doen: <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Wiskunde</guimenuitem
+></menuchoice
+></para>
+
+	  <screenshot>
+		<screeninfo
+>Een wiskundig element invoegen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Een wiskundig element invoegen</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>Opties: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>Naam:</guilabel
+>: kies het type wiskundige element dat u wilt aanmaken.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Zonder nummering:</guilabel
+> Dit kan nummering voor genummerde elementen zoals vergelijkingen of uitlijning uitschakelen.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Spatie-commando om groepen te scheiden:</guilabel
+> In een omgeving die verschillende groepen, zoals alignat, ondersteunt, kunt u een spatie als scheidingsteken definiëren wanneer u meer dan één groep hebt. U kunt hier elk spatie-commando die in mathmode bestaat, invoeren, &eg; \quad. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Standaard tabulator:</guilabel
+> Selecteer de tabulator die gebruikt zou moeten worden. &kile; zou hier automatisch de juiste voor u moeten kiezen.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Wiskundige weergavemodus:</guilabel
+> Voor omgevingen zoals matrices of arrays kunt u kiezen met welke wiskundige omgeving uw wiskundige tekst getoond zou moeten worden. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Gebruik opsomtekens:</guilabel
+> Met deze optie geactiveerd zal &kile; plaatshouders voor opsomtekens voor elk element van uw wiskundige tekst invoegen.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>&PostScript; hulpmiddelen</title>
+
+		<para
+>PS-bestanden zijn niet zo populair als PDF-bestanden, maar zijn een uitstekende basis voor manipuleren en opnieuw rangschikken van pagina's. Als u PDF-uitvoer wilt, dan kunt u pagina's herschikken met sommige &PostScript; hulpmiddelen en ze daarna converteren naar PDF met <command
+>ps2pdf</command
+>.</para>
+
+		<para
+>De <emphasis
+>&PostScript;-assistent</emphasis
+> onder <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>Postscript hulpmiddelen</guimenuitem
+></menuchoice
+> zal de meest populaire rangschikking suggereren. De conversie  wordt gedaan door de programma's <command
+>pstops</command
+> en <command
+>psselect</command
+>, die in meeste distributies zijn te vinden in het pakket <userinput
+>psutils</userinput
+>. Als een van deze programma's niet beschikbaar is zal het overeenkomstige item niet zichtbaar zijn.</para>
+
+		<screenshot>
+			<screeninfo
+>Dialoog PSTools</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Dialoog PSTools</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Kies eerst uw invoerbestand. Als &kile; een PS-bestand vindt, overeenkomend met uw huidige masterdocument, dan is het al ingevuld als het invoerbestand, maar u bent ook vrij om een ander bestand te kiezen. Kies daarna een uitvoerbestand en selecteer een van de taken. U moet tenslotte besluiten of u alleen de conversatie wilt doen of ook &okular; wilt oproepen om het resultaat te zien.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>1 A5 pagina + lege pagina --> A4</term>
+		<listitem
+><para
+>Combineer een A5 pagina met een lege pagina op een A4 pagina. Wanneer twee A5 pagina's gecombineerd worden, dan zullen zij 90 graden gedraaid worden en zullen gearrangeerd worden op een A4 pagina in landschapmodus.</para>
+		<screenshot>
+			<screeninfo
+>A5 + lege pagina</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + lege pagina</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A5 pagina + duplicaat --> A4</term>
+		<listitem
+><para
+>Zet één A5 pagina en een duplicaat samen op één A4 pagina.</para>
+		<screenshot>
+			<screeninfo
+>A5 pagina's dupliceren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Een A5 pagina dupliceren</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A5 pagina's --> A4</term>
+		<listitem
+><para
+>Zet twee opvolgende A5 pagina's samen op één A4 pagina.</para>
+		<screenshot>
+			<screeninfo
+>Twee A5 pagina's combineren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Twee A5 pagina's combineren</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A5L pagina's --> A4</term>
+		<listitem
+><para
+>Zet twee opvolgende A5 pagina's in liggend formaat samen op één A4 pagina.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 A5 pagina's --> A4</term>
+		<listitem
+><para
+>Combineer vier opvolgende A5 pagina's op één A4 pagina. De A5 pagina's moeten met een factor 0,7 geschaald worden om op de pagina te passen.</para>
+		<screenshot>
+			<screeninfo
+>4 A5 pages --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>4 A5 pagina's --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A4 pagina + lege pagina --> A4</term>
+		<listitem
+><para
+>Combineer één A4 pagina samen met één lege pagina op één A4 pagina. Wanneer twee A4 pagina's gecombineerd worden om samen op één A4 pagina te passen, dan moeten ze geschaald worden met een factor 0.7 en gerangschikt in de indeling landschap.</para>
+		<screenshot>
+			<screeninfo
+>1 A4 pagina + lege pagina --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 A4 pagina + lege pagina --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A4 pagina + duplicaat --> A4</term>
+		<listitem
+><para
+>Zet één A4 pagina en een duplicaat samen op één A4 pagina.</para>
+		<screenshot>
+			<screeninfo
+>1 A4 pagina + duplicaat --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 A4 pagina + duplicaat --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A4 pagina's --> A4</term>
+		<listitem
+><para
+>Zet twee opvolgende A4 pagina's samen op één A4 pagina.</para>
+		<screenshot>
+			<screeninfo
+>Twee A4 pagina's combineren</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Twee A4 pagina's combineren</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A4L pagina's --> A4</term>
+		<listitem
+><para
+>Zet twee opvolgende A4 pagina's in liggend formaat samen op één A4 pagina.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>even pagina's selecteren</term>
+		<listitem
+><para
+>Selecteer alle even pagina's van een document.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>oneven pagina's selecteren</term>
+		<listitem
+><para
+>Selecteer alle oneven pagina's van een document.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>even pagina's selecteren (omgekeerde volgorde)</term>
+		<listitem
+><para
+>Selecteer alle even pagina's van een document en draai de volgorde om.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>oneven pagina's selecteren (omgekeerde volgorde)</term>
+		<listitem
+><para
+>Selecteer alle oneven pagina's van een document en draai de volgorde om.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>alle pagina's omkeren</term>
+		<listitem
+><para
+>Draai de volgorde van alle pagina's van een document om.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>alle pagina's kopiëren (gesorteerd)</term>
+		<listitem
+><para
+>Kopieer alle pagina's van een document. U moet het aantal gesorteerde kopieën kiezen.</para>
+		<screenshot>
+			<screeninfo
+>Alle pagina's kopiëren (gesorteerd)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Alle pagina's kopiëren (gesorteerd)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>alle pagina's kopiëren (ongesorteerd)</term>
+		<listitem
+><para
+>Kopieer alle pagina's van een document. U moet het aantal niet gesorteerde kopieën kiezen.</para>
+		<screenshot>
+			<screeninfo
+>Alle pagina's kopiëren (ongesorteerd)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Alle pagina's kopiëren (ongesorteerd)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: parameter kiezen</term>
+		<listitem
+><para
+>Er zijn veel opties voor de &PostScript; hulpprogramma's <command
+>pstops</command
+> en <command
+>psselect</command
+>. Als u een zeer speciale nodig hebt, dan kunt u <command
+>pstops</command
+> gebruiken met een optie naar keuze. Lees de handleiding voor alle mogelijke opties.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: parameter kiezen</term>
+		<listitem
+><para
+>U kunt <command
+>psselect</command
+> gebruiken met een optie naar keuze. Lees de handleiding voor alle mogelijke opties.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>PDF-hulpprogramma's</title>
+
+		<para
+>Veel mensen denken bij PDF's als bevroren bestanden, die niet gewijzigd kunnen worden. Maar dat is niet waar, omdat er uitstekende hulpmiddelen bestaan</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>voor manipulaties en opnieuw arrangeren van pagina's</para
+></listitem>
+		<listitem
+><para
+>om informatie over het document te lezen en bij te werken</para
+></listitem>
+		<listitem
+><para
+>om sommige rechten te lezen, in te stellen of te wijzigen</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>van een bestaand PDF-document.</para>
+
+		<para
+>De <emphasis
+>PDF-assistent</emphasis
+> van &kile; onder <menuchoice
+><guimenu
+>Assistent</guimenu
+><guimenuitem
+>PDF hulpmiddelen</guimenuitem
+></menuchoice
+> gebruikt twee verschillende methoden voor manipulatie en herschikken van PDF-documenten:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>Het &latex; pakket <command
+>pdfpages</command
+>, dat onderdeel is van elke &latex; distributie, <command
+>pdfpages</command
+> werkt niet met versleutelde pagina's.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+>, wat een uitstekend hulpmiddel op de commandoregel voor het doen van alledaagse dingen met PDF-documenten (zie <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>De PDF-toolkit</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Als een van deze helpers, <command
+>pdfpages</command
+> of <command
+>pdftk</command
+> niet aanwezig is in uw systeem, zullen de overeenkomstige items niet zichtbaar zijn. Bedenk verder dat alleen <command
+>pdftk</command
+> kan werken met versleutelde bestanden.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>Herindelingen</title>
+
+			<para
+>Als de PDF-assistent van &kile;'s wordt aangeroepen, dat deze met de registratiekaart <userinput
+>Herordenen</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Dialoog PDF-hulpmiddelen</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Dialoog PDF-hulpmiddelen</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>U kiest eerst uw invoerbestand. Als &kile; een PDF-bestand vindt dat behoort bij uw huidige masterdocument, dan zal het al ingevuld zijn als het invoerbestand, maar u bent ook vrij om een ander bestand te kiezen. Kies daarna een uitvoerbestand of overschrijf het bestaande PDF-bestand en selecteer een van de taken. Tenslotte moet u beslissen of u alleen de conversie wilt doen of ook de viewer (&eg; &okular;) wilt starten om het resulterende document te tonen.</para>
+
+			<para
+>Als het PDF-bestand versleuteld is zal alleen <command
+>pdftk</command
+> werken en moet u het wachtwoord van dit document ingeven om taken uit te voeren.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>1 pagina + lege pagina --> A4</term>
+			<listitem
+><para
+>Combineer een pagina met een lege pagina op een A4 pagina. Wanneer twee A5 pagina's gecombineerd worden, dan zullen zij 90 graden gedraaid worden en op een A4 pagina in landschapmodus gezet worden.</para>
+			<screenshot>
+				<screeninfo
+>A5 + lege pagina</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + lege pagina</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Wanneer twee A4 pagina's gecombineerd worden, dan worden ze geschaald, met 90 graden en zullen ze op een A4 pagina in landschapmodus gezet worden.</para>
+			<screenshot>
+				<screeninfo
+>A4 pagina + lege pagina --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + lege pagina</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>1 pagina + duplicaat --> A4</term>
+			<listitem
+><para
+>Zet één pagina en een duplicaat samen op één A4 pagina.</para>
+			<screenshot>
+				<screeninfo
+>Een pagina dupliceren</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Een pagina dupliceren</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Als de te dupliceren pagina de afmeting A4 heeft, zal deze geschaald worden om op de pagina te passen.</para>
+			<screenshot>
+				<screeninfo
+>Een pagina dupliceren</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Een pagina dupliceren</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 pagina's --> A4</term>
+			<listitem
+><para
+>Combineer twee opvolgende pagina's op een A4 pagina. Wanneer twee A5 pagina's gecombineerd worden, dan zullen zij 90 graden gedraaid worden en zullen op een A4 pagina in landschapmodus gezet worden.</para>
+			<screenshot>
+				<screeninfo
+>Twee A5 pagina's combineren</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Twee A5 pagina's combineren</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Wanneer twee A4 pagina's gecombineerd worden, dan worden ze geschaald, met 90 graden en zullen ze op een A4 pagina in landschapmodus gezet worden.</para>
+			<screenshot>
+				<screeninfo
+>Twee A4 pagina's combineren</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Twee A4 pagina's combineren</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 pagina's (liggend) --> A4</term>
+			<listitem
+><para
+>Zet twee opvolgende A5 pagina's in liggend formaat samen op één A4 pagina.</para>
+			<screenshot>
+				<screeninfo
+>Twee pagina's (in liggend formaat) combineren</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Twee pagina's (in liggend formaat) combineren</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 pagina's --> A4</term>
+			<listitem
+><para
+>Combineer vier opvolgende pagina's op één A4 pagina. De pagina's moeten geschaald worden om op de pagina te passen.</para>
+			<screenshot>
+				<screeninfo
+>4 pagina's --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>4 pagina's --> A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 pagina's (liggend) --> A4</term>
+			<listitem
+><para
+>Zet twee opvolgende A5 pagina's in liggend formaat samen op één A4 pagina.</para>
+			<screenshot>
+				<screeninfo
+>Vier pagina's (in liggend formaat) combineren</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Vier pagina's (in liggend formaat) combineren</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>even pagina's selecteren</term>
+			<listitem
+><para
+>Selecteer alle even pagina's van een document.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>oneven pagina's selecteren</term>
+			<listitem
+><para
+>Selecteer alle oneven pagina's van een document.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>even pagina's selecteren (omgekeerde volgorde)</term>
+			<listitem
+><para
+>Selecteer alle even pagina's van een document en draai de volgorde om.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>oneven pagina's selecteren (omgekeerde volgorde)</term>
+			<listitem
+><para
+>Selecteer alle oneven pagina's van een document en draai de volgorde om.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>alle pagina's omkeren</term>
+			<listitem
+><para
+>Draai de volgorde van alle pagina's van een document om.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>Een bestand ontcijferen</term>
+			<listitem
+><para
+>Als het PDF-bestand versleuteld is, dan kunt u het ontcijferen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pagina's selecteren</term>
+			<listitem
+><para
+>Voeg een kommagescheiden lijst met pagina's of reeksen pagina's toe, &eg; 1,4-7,9. Alleen deze pagina's zullen in het resulterende PDF-bestand verschijnen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pagina's verwijderen</term>
+			<listitem
+><para
+>Voeg een kommagescheiden lijst met pagina's of reeksen pagina's toe, die verwijderd moeten worden uit het gekozen PDF-bestand.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>een achtergrond watermerk toepassen</term>
+			<listitem
+><para
+>Past een PDF-watermerk toe op de achtergrond van een enkele invoer-PDF. De assistent gebruikt alleen de eerste pagina van de achtergrond-PDF en past het toe op elke pagina van de invoer-PDF. Deze pagina wordt zo nodig geschaald en gedraaid om op de invoerpagina te passen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>een achtergrondkleur toepassen</term>
+			<listitem
+><para
+>Past een achtergrondkleur toe op alle pagina's van het huidige document. Dit kan slechts één keer worden gedaan, omdat de tweede kleur achter de eerste kleur wordt gezet en dus niet zichtbaar zal zijn.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>een voorgrondstempel toepassen</term>
+			<listitem
+><para
+>Past een voorgrondstempel toe bovenop de invoerpagina's van het PDF document. De assistent gebruikt alleen de eerste pagina van het PDF-stempel en het toe te passen op elke pagina van de invoer-PDF. Deze pagina wordt zo nodig geschaald en geroteerd om op de invoerpagina te passen. Deze werkt het beste als de PDF-stempelpagina een transparante achtergrond heeft.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: parameter kiezen</term>
+			<listitem
+><para
+>U kunt <command
+>pdftk</command
+> gebruiken met een optie naar keuze. Lees de handleiding voor alle mogelijke opties.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: parameter kiezen</term>
+			<listitem
+><para
+>U kunt <command
+>pdfpages</command
+> gebruiken met een optie naar keuze. Lees de handleiding voor alle mogelijke opties.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>Eigenschappen</title>
+
+			<para
+>Het instellen, wijzigen en verwijderen van eigenschappen zal alleen mogelijk zijn, als <command
+>pdftk</command
+> is geïnstalleerd en als bovendien &kile; gecompileerd is met de bibliotheek <userinput
+>libpoppler</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Dialoog PDF-eigenschappen</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Dialoog PDF-eigenschappen</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Traditionele metagegevens van PDF omvatten de titel, auteur, onderwerp, kenwoorden, maker, producent en de datums van aanmaken en laatst gewijzigd van het document.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>Toegangsrechten</title>
+
+			<para
+>Ook het instellen, wijzigen en verwijderen van rechten zal alleen mogelijk zijn als <command
+>pdftk</command
+> is geïnstalleerd.</para>
+
+			<screenshot>
+				<screeninfo
+>Dialoog PDF-toegangsrechten</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Dialoog PDF-toegangsrechten</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Een wachtwoord is nodig om deze instellingen va het document in te stellen of te wijzigen. Bovendien wordt versleutelen van PDF gedaan om de inhoud van het bestand achter dit wachtwoord te vergrendelen of om lichtere beperkingen door de auteur op te leggen. De auteur kan toestaan of beperken om</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>pagina's af te drukken</para
+></listitem>
+			<listitem
+><para
+>pagina's te wijzigen</para
+></listitem>
+			<listitem
+><para
+>tekst en illustraties uit pagina's te kopiëren</para
+></listitem>
+			<listitem
+><para
+>annotaties te wijzigen of toe te voegen</para
+></listitem>
+			<listitem
+><para
+>formuliervelden met gegevens invullen</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Toegangsrechten wijzigen dwingt altijd versleuteling af met 128-bits beveiliging  van <userinput
+>Acrobat</userinput
+> 5 en 6 en heeft een wachtwoord nodig.</para>
+
+			<para
+>Maar bedenk altijd: versleuteling en een wachtwoord bieden geen echte beveiliging van PDF. De inhoud is versleuteld, maar de sleutel is bekend. U moet het meer zien als een beleefd maar dringend verzoek om de wensen van de auteur te respecteren.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>Statistieken van het document</title>
+
+		<para
+>De statistiekendialoog in <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Statistieken</guimenuitem
+></menuchoice
+> geeft u een statistisch overzicht voor een selectie, een document of een geheel project. Het omvat het aantal woorden, &latex; commands/omgevingen en ook het aantal tekens van elk type.</para>
+
+		<para
+>De verkregen statistieken kunnen als tekst of als een netjes opgemaakte &latex;-tabel naar het klembord gekopieerd worden. </para>
+		<para
+>Wanneer u een tekst selecteert en de statistieken-dialoog opent, krijgt u de statistieken voor de nu geselecteerde tekst. Als u de dialoog opent zonder enige geselecteerde tekst, worden de statistieken voor alle geopende bestanden getoond. Als u statistieken voor het gehele project wilt, dan kunt u <menuchoice
+><guimenu
+>Project</guimenu
+><guisubmenu
+>Alle projectbestanden openen</guisubmenu
+></menuchoice
+> voor een gemakkelijke en snelle manier om alle bronbestanden van uw project te openen.</para>
+
+		<para
+>Een opmerking ter waarschuwing moet er luiden over de nauwkeurigheid van de getallen. We hebben enige logica toegevoegd om een goede schatting te maken, &eg; K\"uhler geeft één woord en één commando, met zes respectievelijk twee tekens. Maar er zijn andere combinaties waarin delen van commando's geteld worden als woorden en omgekeerd. Merk op dat het algoritme ontwikkeld en getest is voor talen vergelijkbaar aan Engels of Duits. Hecht dus niet te veel waarde aan de getallen. Als u een rapport maakt waarvan de lengte een zeker aantal woorden of tekens mag zijn, doe dan eerst enige testen om te controleren of de nauwkeurigheid van &kile; aan uw behoefte voldoet.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>Speciale elementen (tags)  in &latex;</title>
+
+	<sect1 id="latex_library">
+		<title
+>Gebruiken van de elementenbibliotheek van &latex;</title>
+
+		<para
+>&latex; heeft duizenden elementen voor symbolen en speciale tekens. De meest eenvoudige manier om een speciaal teken in te voegen is gebruik te maken van het menu in de zijbalk, links van het venster van de editor.</para>
+
+		<screenshot>
+			<screeninfo
+>Het menu in de zijbalk</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Het menu in de zijbalk</phrase>
+			</textobject>
+			<caption
+><para
+>Het menu in de zijbalk</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>De volgende types zijn beschikbaar:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Meestfrequent gebruikt</para
+></listitem>
+			<listitem
+><para
+>Relatie</para
+></listitem>
+			<listitem
+><para
+>Operators</para
+></listitem>
+			<listitem
+><para
+>Pijlen</para
+></listitem>
+			<listitem
+><para
+>Diversen wiskunde</para
+></listitem>
+			<listitem
+><para
+>Diversen tekst</para
+></listitem>
+			<listitem
+><para
+>Begrenzingstekens</para
+></listitem>
+			<listitem
+><para
+>Grieks</para
+></listitem>
+			<listitem
+><para
+>Speciale tekens</para
+></listitem>
+			<listitem
+><para
+>Cyrillische tekens</para
+></listitem>
+			<listitem
+><para
+>Gebruikergedefinieerd</para
+></listitem>
+		</itemizedlist>
+		<para
+>De tekstballonnen van de pictogrammen tonen de &latex; commando 's en extra benodigde pakketten.</para>
+		<para
+>Op <keycombo
+>&Shift;</keycombo
+> drukken en op een symbool drukken zal tot gevolg hebben dat <userinput
+>$\symbolcmd$</userinput
+> wordt ingevoegd. Overeenkomstig drukken op <keycombo
+>&Ctrl;</keycombo
+> voegt het in in accolades.</para>
+		<para
+>Als u een commando invoegt die een pakket vereist dat niet is ingevoegd in uw &latex;-document, dan ziet u een waarschuwingsbericht in het logview-venster.</para>
+		<para
+>De eerst lijst met symbolen bevat de <guilabel
+>Meest frequent gebruikte</guilabel
+> symbolen. Ingevoegde symbolen zullen aan deze lijst worden toegevoegd, voor een snelle en gemakkelijke referentie. De volgorde van de symbolen zal niet gewijzigd worden bij toevoegen van nieuwe symbolen, in plaats daarvan zal een referentieteller worden opgehoogd. Als het aantal items boven 30 items gaat, zal het item met het laagste aantal worden verwijderd.</para>
+		<para
+>De <guilabel
+>Gebruikergedefinieerde</guilabel
+> symbolenlijst kan uw eigen symbolen bevatten. Om uw eigen symbolen aan te maken hebt u het programma gesymb en het bestand <filename
+>definitions.tex</filename
+> nodig uit het bronpakket van kile. Bovendien hebt u een &latex;-compiler nodig (wat een verrassing) en <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> (versie 1.7 of later). De procedure is dat u een &latex;-bestand maakt met <userinput
+>\input{definitions}</userinput
+>, die de onderstaande commando's beschikbaar maakt en laat <userinput
+>gesymb mysymbols.tex user</userinput
+> (die &latex; en &dvipng; aanroept) de pictogrammen maken. Na ze naar <userinput
+>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
+> te hebben gekopieerd en opnieuw starten van kile kunt u uw eigen symbolen gebruiken. </para>
+		<para
+>De volgende commando's worden gedefinieerd in <filename
+>definitions.tex</filename
+>: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\optarg]{\symbol}</userinput
+>: Voeg het symbool <userinput
+>\symbol</userinput
+> toe aan de lijst symbolen, het optionele argument <userinput
+>\optarg</userinput
+> specificeert het commando wat kile in zou moeten voegen. Als het niet gegeven is zal het commando in het verplichte argument gebruikt worden. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\optarg]{\symbol}</userinput
+>: hetzelfde als boven, behalve dat het commando in het vereiste argument ingevoerd moet worden in math-modus. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[arg]{pkg}</userinput
+>: declareert dat het commando in deze regel het &latex; pakket <userinput
+>pkg</userinput
+> nodig heeft met het optionele argument <userinput
+>arg</userinput
+>. Dit commando moet voor het commando <userinput
+>\command</userinput
+> staan en gaat boven elke pakketspecificatie van de omgeving neededpkgs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[pkgs-args]{pkgs} ... \end{neededpkgs}</userinput
+>: heeft hetzelfde effect als bovenstaand, maar voor alle ingesloten commando's. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>Om helemaal compleet te zijn hierbij een voorbeeld: <programlisting
+>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% this would need to include the packages
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  just to explain the format
+\end{document}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>Bibitems gebruiken</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> is een commando dat gebruikt wordt om een referentie in een omgeving <userinput
+>thebibliography</userinput
+> in te voeren in uw document. De syntaxis voor het gebruik van <userinput
+>\bibitem</userinput
+> is <userinput
+>\bibitem[label]{key}</userinput
+>.</para>
+
+		<para
+>Het optionele <userinput
+>[label]</userinput
+> is voor u om uw eigen labelsysteem toe te voegen voor het bibliografie-item. Als er geen label ingesteld is, worden de items op numerieke volgorde geplaatst: [1], [2], [3], etc.</para>
+
+		<para
+>Het argument <userinput
+>{key}</userinput
+> wordt gebruikt om te verwijzen en om de commando's <userinput
+>\bibitem</userinput
+> en <userinput
+>\cite</userinput
+> aan elkaar en aan de informatie die zij bevatten te koppelen. Het commando <userinput
+>\cite</userinput
+> bevat het label dat overeenkomt met het bedoelde <userinput
+>\bibitem</userinput
+>, dat zich bevindt in een omgeving <userinput
+>thebibliography</userinput
+>, en de referentiegegevens bevat. Beiden aan elkaar gekoppelden <userinput
+>\bibitem</userinput
+> en <userinput
+>\cite</userinput
+> moeten dezelfde <userinput
+>{key}</userinput
+> hebben; de gemakkelijkste manier om keys te organiseren is met de achternaam van de auteur. De secundaire accolades in de <userinput
+>thebibliography</userinput
+> omgeving geven het langste bibliografielabel aan dat u verwacht. Dus <userinput
+>{<replaceable
+>foo</replaceable
+>}</userinput
+> invoegen betekent dat u elk label korter of net zo lang als de uitdrukking <userinput
+><replaceable
+>foo</replaceable
+></userinput
+> kan hebben. Deze parameter onjuist instellen kan een niet zo netjes uitziend inspringen van uw bibliografie betekenen.</para>
+
+		<para
+>De bibliografie is een apart onderdeel van uw hoofddocument, en een voorbeeld van de code voor de bibliografie ziet er als volgt uit:</para>
+
+<programlisting
+>\begin{thebibliography}{50}
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...donuts}. Evergreen Terrace Printing Co.,
+                          Springfield, SomewhereUSA, 1998
+\end{thebibliography}</programlisting>
+
+		<para
+>Uw hoofd-broncode bevat dan de locatie van de informatie met betrekking tot het <userinput
+>\bibitem</userinput
+> dat gebruik maakt van <userinput
+>\cite</userinput
+>. Die broncode lijkt hierop:</para>
+
+		<programlisting
+>Mijn thesis, over de filosofie van De Simpsons\copyright komt uit mijn favoriete boek \cite{Simpson}.</programlisting>
+
+		<para
+>Omdat het vaak moeilijk is de exacte sleutel voor de referentie te onthouden wanneer u veel verwijzingen hebt, biedt &kile; een eenvoudige manier om een verwijzing in te voegen. Met <menuchoice
+><guimenu
+>LaTeX </guimenu
+><guimenuitem
+>Referenties</guimenuitem
+><guimenuitem
+>Cite</guimenuitem
+></menuchoice
+> wordt een lijst met alle sleutels voor verwijzingen. Selecteer de juiste referentie en een verwijzing zal in uw document worden ingevoegd. Sla het bestand op of kies <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Documentstructuur verversen</guimenuitem
+></menuchoice
+> of druk op <keycap
+>F12</keycap
+> om de lijst met sleutels bij te werken. Met code aanvullen ingeschakeld zal &kile; u een lijst tonen met alle <userinput
+>bibitem</userinput
+>-labels zodra u een <userinput
+>\cite</userinput
+> commando opent.</para>
+
+		<para
+>Het eindproduct in de bibliografie van uw document ziet er dan zo uit:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm...donuts. Evergreen Terrace Printing Co., Springfield, SomewhereUSA, 1998.</computeroutput
+></para>
+
+		<para
+>&kile; kan ook samenwerken met &bibtex; editors, zoals &kbibtex; om het gemakkelijker te maken om citaten in te voeren. Wanneer een &bibtex; bestand wordt toegevoegd aan het project, zal &kile; u helpen om commando's voor citaten aan te vullen, op dezelfde manier als boven beschreven.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>De hulpmiddelen voor bouwen</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>Compileren, converteren en bekijken</title>
+
+		<para
+>Om het resultaat van uw werk te bekijken, dient u eerst de broncode te compileren. Alle hulpmiddelen om te bouwen zijn dicht bijeen gegroepeerd in de menu's <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Compileren</guisubmenu
+></menuchoice
+>, <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Converteren</guisubmenu
+></menuchoice
+> en <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Beeld</guisubmenu
+></menuchoice
+>.</para>
+
+		<para
+>Om uw broncode te compileren voor scherm-viewers zoals &okular;, andere DVI-viewers of verdere conversie, kunt u de sneltoetscombinatie <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> gebruiken. Dan kunt u het DVI-bestand bekijken gebruik makend van uw standaard viewer met <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>, het DVI- naar een ps-bestand converteren met <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+> en het ps-bestand bekijken met <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>Als u <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+> gebruikt voor uw bibliografie items, moet u gewoonlijk een speciaal schema voor compilatie gebruiken. Dit betekent aanroepen van &latex; daarna &bibtex; en dan &latex; opnieuw twee keer. Gelukkig is &kile; slim genoeg om automatisch te ontdekken of het nodig is om extra hulpmiddelen zoals &bibtex;, &makeidx; en &asymptote; aan te roepen. Deze logica wordt standaard ingeschakeld en kan veranderd worden in <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+><guisubmenu
+>Hulpmiddelen</guisubmenu
+><guilabel
+>Bouwen</guilabel
+></menuchoice
+> in het tabblad <guilabel
+>Algemeen</guilabel
+> in de hulpmiddelen &latex; en &pdflatex;. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost en &asymptote;</title>
+
+			<para
+>Als u uw document wilt compileren met  <application
+>MetaPost</application
+> of <application
+>&asymptote;</application
+>, een programma om afbeeldingen te tekenen, dan kunt u dat doen met <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Compileren</guisubmenu
+><guimenuitem
+>Metapost</guimenuitem
+></menuchoice
+> of <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Compileren</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>Er is tevens een andere wijze om uw document te compileren, als u een pdf-bestand wilt: u kunt &pdflatex; uitvoeren, die de broncode direct tot een pdf-bestand compileert, met <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>: u kunt dan het gecompileerde bestand bekijken door te drukken op <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>Als alternatief, kunt u een ps- in een pdf-bestand converteren met <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+> of direct een &DVI;- in een pdf-bestand met <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>&pdflatex; gebruiken, in plaats van &latex;, kan slechts een kwestie van eenvoud of gewoonte zijn, maar soms verschilt het gedrag van de twee programma's.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&latex; naar webpagina</title>
+
+			<para
+>Tenslotte, wilt u misschien uw werk op het web publiceren en niet alleen op papier. U kunt het programma <application
+>latex2html</application
+> gebruiken, dat vanuit &kile; aangeroepen kan worden vanuit het menu <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Converteren</guisubmenu
+><guimenuitem
+>LaTeX naar HTML</guimenuitem
+></menuchoice
+>. Het resultaat wordt geplaatst in een submap van de werkmap, en u kunt het resultaat van de conversie zien door te kiezen voor het menu-onderdeel <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Beeld</guisubmenu
+><guimenuitem
+>View HTML</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>Parameters via de commandoregel doorgeven</title>
+
+			<para
+>Indien u specifieke parameters op de commandoregel wilt doorgeven aan de hulpprogramma's voor het compileren, converteren of bekijken, dan kunt u hun aanroep configureren in <menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guisubmenu
+>Kile configureren...</guisubmenu
+><guisubmenu
+>Hulpmiddelen</guisubmenu
+><guilabel
+>Bouwen</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>Snelvoorbeeld</title>
+
+		<para
+>U zult altijd enige tijd nodig hebben om het resultaat te bekijken bij het werken met &latex;. &latex; moet de bron compileren en de viewer moet aangeroepen worden. Dit kan vervelend zijn als u slechts enige letters in een vergelijking, die moeilijk is te op te maken, wijzigt. &kile; biedt een modus <emphasis
+>Snel voorbeeld</emphasis
+>, waarin u slechts een gedeelte van een document compileert en heel wat tijd bespaart. Het ondersteunt vier verschillende modi, die gecombineerd kunnen worden tot zeven configuraties.</para>
+
+		<screenshot>
+			<screeninfo
+>Snelvoorbeeld</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Snelvoorbeeld</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Alle instellingen moeten worden gedaan in <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile configureren...</guisubmenu
+> <guimenuitem
+>Hulpmiddelen</guimenuitem
+><guilabel
+>Voorbeeld</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Configureren van Snelvoorbeeld;</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Configureren van Snelvoorbeeld;</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>Selectiemodus</title>
+
+			<para
+>De gebruiker moet een gedeelte van het document selecteren. Menu-item <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Snelvoorbeeld</guisubmenu
+><guimenuitem
+>Selectie</guimenuitem
+></menuchoice
+> of de sneltoets <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>S</keycap
+> start de geselecteerde programma's. &kile; neemt de preamble van de originele tekst, zodat alle pakketten en gebruikergedefinieerde commando 's ingevoegd worden. De gebruiker kan uit één van de acht voorgedefinieerde configuraties kiezen:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (ingebedde viewer)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (ingebedde viewer)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (ingebedde viewer)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (ingebedde viewer)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Dit zou voldoende moeten zijn voor alle situaties waarvoor een snel voorbeeld nodig is.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>Omgevingmodus</title>
+
+			<para
+>Heel vaal wilt u de huidige omgeving bekijken en speciaal wiskundige omgevingen, die soms moeilijk zijn te maken. &kile; biedt een erg snelle manier om dit te doen. Er is geen selectie nodig, kies gewoon <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Snelvoorbeeld</guisubmenu
+><guimenuitem
+>Omgeving</guimenuitem
+></menuchoice
+> of de sneltoets <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>E</keycap
+> en de huidige omgeving zal gecompileerd en getoond worden.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>Subdocument-modus</title>
+
+			<para
+>Als u een groot project hebt met heel wat documenten, dan is compileren van het gehele project niet zo'n goed idee, als u alleen wijzigingen in een enkel document hebt gemaakt. &kile; kan compileren en een voorbeeld tonen van het huidige subdocument. Het neemt de preamble uit het hoofddocument en compileert alleen het huidige deel wanneer u <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Snelvoorbeeld</guisubmenu
+><guimenuitem
+>Subdocument</guimenuitem
+></menuchoice
+> kiest of de sneltoets <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>Mathgroup-modus</title>
+
+			<para
+>De voorbeeldmodus wiskundegroep stelt u in staat de wiskundegroep die u nu aan het bewerken bent te bekijken. &kile; neemt de preamble uit het hoofddocument en compileert alleen de wiskundegroep waarin de cursor zich nu bevindt wanneer u <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guisubmenu
+>Snelvoorbeeld</guisubmenu
+><guimenuitem
+>Wiskundegroep</guimenuitem
+></menuchoice
+> kiest of de sneltoets <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>Snelvoorbeeld in onderste balk</title>
+
+			<para
+>In plaats van het tonen van een voorbeeld van een nieuw document kan &kile; ook ingesteld worden om de onderbalk te gebruiken voor voorbeeldcompilaties. U kunt deze functie activeren in het instellingenpaneel snelvoorbeeld.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>Formaten voor grafische bestanden</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>&latex; en &pdflatex;</title>
+
+		<para
+>&pdflatex; kan, wanneer het gebruikt wordt met de pakketten <userinput
+>graphics</userinput
+> of <userinput
+>graphicx</userinput
+> op correcte wijze png- en jpg-bestanden compileren in &DVI; of pdf maar kan niet met eps-bestanden overweg. Omgekeerd ondersteunt het proces van compileren met &latex; naar &DVI; en het converteren naar ps- en uiteindelijk pdf-bestanden wel eps-, maar geen png- en jpg-bestanden.</para>
+
+		<para
+>Heel wat gebruikers willen PDF-documenten maken, maar ook het excellente pakket <application
+>Pstricks</application
+> gebruiken om &PostScript;-illustraties te maken of ze willen de &PostScript; uitvoer van mathematische en wetenschappelijke software zoals <application
+>Mathematica</application
+>, <application
+>Maple</application
+> of <application
+>MuPAD</application
+> gebruiken. Deze &latex; gebruikers moeten eerst in &PostScript; compileren, zelfs als ze PDF-documenten willen maken, omdat deze programma's &PostScript; code produceert die niet beheerd kan worden door &pdflatex;. Het is echter niet zo moeilijk als het klinkt, omdat &kile; zal helpen.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>Grafische conversie</title>
+
+		<para
+>Om deze frustrerende cirkel te doorbreken, wanneer u zowel &PostScript;-code als png- of jpg-bestanden wilt invoegen, hebt u een aantal manieren om hier omheen te werken:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Als u een bestand in PS-formaat nodig heeft, maar een jpg- of png-afbeelding hebt, kunt u ook eenvoudig eerst &pdflatex; gebruiken met &DVI;-uitvoer en dan het commando <application
+>dvips</application
+> gebruiken om het PS-bestand aan te maken. U zult zien dat &pdflatex; een erg goede keuze is, als uw bron helemaal geen &PostScript;-code bevat.</para
+></listitem>
+
+			<listitem
+><para
+>U kunt eps-bestanden naar png- of andere formaten converteren met hulpmiddelen als the <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> of <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> en &pdflatex; gebruiken.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>Een bij voorkeur gebruikte manier is om grafische eps-bestanden naar grafische pdf-bestanden te converteren with <command
+>epstopdf</command
+>, dat meegeleverd wordt in elke &tex;-distributie en daarna &pdflatex; gebruiken. Het maakt grafische bestanden van hoge kwaliteit en u kunt zelfs het resultaat bepalen met enige van de volgende opties: <programlisting
+>-dAutoFilterColorImages=false
+        -dAutoFilterGrayImages=false
+        -sColorImageFilter=FlateEncode
+        -sGrayImageFilter=FlateEncode
+        -dPDFSETTINGS=/prepress
+        -dUseFlateCompression=true
+</programlisting>
+			</para>
+
+			<para
+>Nog beter: als uw systeem <userinput
+>shell-escape</userinput
+> toestaat, dan kan de conversie on-the-fly gedaan worden. Alles wat u moet doen is het pakket <application
+>epstopdf</application
+> invoegen, hetwelk onderdeel is van alle &tex; distributies, met het commando <userinput
+>\usepackage{epstopdf}</userinput
+>. Aannemend dat uw code is <programlisting>
+        \includegraphics[width=5cm]{test.eps}
+</programlisting
+> Wanneer u &pdflatex; aanroept met de optie <option
+>--shell-escape</option
+>, zal de illustratie <filename
+>test.eps</filename
+> automatisch geconverteerd worden in <filename
+>test.pdf</filename
+>.</para>
+
+			<para
+>Deze conversie zal elke keer plaatsvinden als u &pdflatex; uitvoert. Als u graphische commando impliciet gegevens is: <programlisting>
+        \includegraphics[width=5cm]{test}
+</programlisting
+> zal <application
+>epstopdf</application
+> controleren of <filename
+>test.pdf</filename
+> al beschikbaar is, zodat de conversiestap overgeslagen kan worden.</para
+></listitem>
+
+			<listitem
+><para
+>U kunt ook andersom converteren en &latex; en ps-pdf-conversie gebruiken. Dit is niet altijd een goed idee, aangezien inkapselen met eps van jpg of png groter bestanden kan opleveren, die op hun beurt onnodig grote bestanden opleveren. Dit is echter sterk afhankelijk van het grafische hulpmiddel dat u gebruikt, omdat eps andere grafische gegevens kan inkapselen, maar niet alle toepassingen dit perfect ondersteunen. Sommige proberen misschien zelfs uw jpg-afbeelding met vectoren en verscheidene scripts te schrijven, die in gigantische bestanden zullen resulteren. Conversie van alle grafische formaten kan worden gedaan door <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Een ander eenvoudig programma dat dit proces op correcte wijze uitvoert is <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>U kunt ook een automatische conversie gebruiken. Alle grafische bestanden worden on-the-fly geconverteerd naar EPS en ingevoegd in het PS-document. Dit is een comfortabele manier, maar u moet uw systeem op de juiste manier inrichten. Dit wordt uitgelegd in de sectie <link linkend="build_epsgraphics"
+>EPS Graphics</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>Gebruik het juiste bestand voor de juiste afbeelding</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>Eps is een soort grafische vectorscripttaal, die alle lijnen en punten beschrijft waar de afbeelding van is gemaakt, hij ziet er zelfs goed uit wanneer hij vergroot is tot meer dan de standaardgrootte, en past het best bij diagrammen en vector afbeeldingen die in eps zelf gemaakt zijn, die er zeer helder en scherp uitzien terwijl zij een zeer kleine grootte in bytes behouden.</para
+></listitem>
+			<listitem
+><para
+>Png (of het langzaamaan verdwijnende &GIF;) is een <emphasis
+>verliesvrij</emphasis
+> bestandsformaat, met goede compressie en kwaliteit. Het is zeer goed voor diagrammen, scans van tekeningen en alles waarvan u de scherpte wilt behouden. Het is soms overbodig wanneer het gebruikt wordt voor foto's.</para
+></listitem>
+			<listitem
+><para
+>Jpg is een <emphasis
+>niet-verliesvrij</emphasis
+> formaat, dat bestanden beter comprimeert dan png met als prijs wat verlies in detail van de afbeelding. Dit is meestal irrelevant voor foto's, maar kan een slechte kwaliteit veroorzaken voor diagrammen en tekeningen, en kan sommige dunne lijnen helemaal doen verdwijnen; gebruik in die gevallen eps of png.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Maar onthoud altijd: garbage in, garbage out! Geen enkele conversie kan een slechte afbeelding goed maken.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>EPS-grafische bestanden</title>
+
+		<para
+>Grafische EPS-bestanden zijn de traditionele manier om grafische bestanden in &latex; documenten in te voegen. Omdat e-maillijsten vol staan met vragen over EPS-graphics, bespreken we enige belangrijke aspecten en demonstreren hoe &kile; ze ondersteunt.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>&latex; en EPS Graphics</title>
+
+		<para
+>Als u het traditionele &latex; wilt gebruiken om PS of PDF uitvoer te maken, dan zult u waarschijnlijk problemen krijgen met illustraties. U moet EPS-bestanden (Encapsulated &PostScript;) gebruiken, geen JPEG of PNG bestanden. Dit zou geen probleem moeten zijn, omdat er heel wat <link linkend="build_graphics_conversion"
+>converters</link
+> zoals <command
+>convert</command
+> zijn uit het excellente pakket <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Dat kost echter de nodige tijd.</para>
+
+		<para
+>De EPS-bestanden worden gebruikt door zowel &latex; als de &DVI;-PS converter:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; scant het EPS-bestand op de lijn van het begrensde vak, die &latex; vertelt hoeveel ruimte te reserveren voor de illustraties.</para
+></listitem>
+
+		<listitem
+><para
+>De &DVI;-PS converter leest dan het EPS-bestand en voegt de illustratie in in het PS-bestand.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Dit heeft enige implicaties:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; leest nooit het EPS-bestand als de parameters van het omgevende vak gespecificeerd zijn in het commando voor invoegen van de illustratie.</para
+></listitem>
+
+		<listitem
+><para
+>Omdat &latex; geen niet-ASCII bestanden kan lezen, kan het geen informatie over het omgevende vak lezen uit gecomprimeerde of niet-EPS bestanden met illustraties.</para
+></listitem>
+
+		<listitem
+><para
+>De grafische EPS-bestand is niet aanwezig in het &DVI;-bestand. Omdat de EPS bestanden aanwezig moeten zijn wanneer het &DVI; bestand geconverteerd wordt naar PS, moeten de EPS bestanden meegaan met de &DVI; bestanden wanneer ze verplaatst worden.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>U kunt nu &latex; aanroepen en een &DVI;-PS converter zoals <application
+>dvips</application
+> om uw &PostScript; document te maken. Als uw doel een PDF-document is, zou u <command
+>dvips</command
+> uit moeten voeren met de optie <option
+>-Ppdf</option
+> en daarna <command
+>ps2pdf</command
+> aanroepen. U zult heel wat documenten vinden die deze oplossing beschrijven.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>De &PostScript; manier van &kile;</title>
+
+		<para
+>&kile; helpt u om de informatie over het begrensde vak te vinden. Als u het pakket <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> hebt geïnstalleerd zal &kile; deze informatie ophalen uit het EPS bestand en het als optie invoegen. Dit wordt automatisch gedaan wanneer u het grafische bestand selecteert. Er zijn twee voordelen om als volgt verder te gaan:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>De informatie is al gescand in de dialoog en het is niet nodig het later nog eens door &latex; te laten doen.</para
+></listitem>
+		<listitem
+><para
+>Nog belangrijker is dat de breedte en hoogte van het plaatje berekend kan worden wanneer zijn resolutie bekend is. Deze informatie zal getoond worden bovenaan de dialoog en kan dienen als aanwijzing wanneer u de illustratie wilt schalen.</para
+></listitem>
+		<listitem
+><para
+>&kile; kan ook met zip of gzip gecomprimeerde EPS bestanden ondersteunen, die veel kleiner zijn dan niet gecomprimeerde EPS bestanden. Deze mogelijkheid kan alleen gebruikt worden met een speciale instelling van het systeem en een wijziging van uw lokale grafische configuratie, zoals is beschreven in de sectie <link linkend="build_graphics_bitmap"
+>Bitmap-illustraties</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>De &PostScript; manier en bitmap-illustraties</title>
+
+		<para
+>Als uw systeem <userinput
+>shell-escape</userinput
+> toestaat ondersteunt &kile; ook een gemakkelijke manier om bitmap-illustraties in te voegen, als u uw &tex;-systeem op de juiste manier instelt. Er geen noodzaak naar JPEG of PNG illustraties te converteren, dit kan automatisch worden gedaan wanneer het &DVI;-bestand geconverteerd wordt naar PS.</para>
+
+		<para
+>&latex; heeft enige informatie nodig over achtervoegsels van bestanden. Het pakket <userinput
+>graphicx</userinput
+> zoekt naar een bestand <filename
+>graphics.cfg</filename
+>, die ergens in uw zoekpad voor &latex; documenten moet zitten. Zoek naar items zoals:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para
+>en vervangt deze regels door:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % changed or new graphic rules
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   zipped EPS
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   gzipped EPS
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      PDF-graphics
+</programlisting>
+
+		<para
+>U zult dit bestand, bijvoorbeeld in Debian, vinden in <filename
+>/etc/texmf/latex/graphics.cfg</filename
+>. De beste manier om verder te gaan is dit bestand naar uw lokale texpath te kopiëren en daarna dit bestand te wijzigen. Zie de handleiding van uw &tex;-distributie om te vinden waar de lijst van uw &tex;-mappen zich bevinden.</para>
+
+		<para
+>Met dit instellingenbestand kunt u bitmap-illustraties toevoegen en zip- of gzip EPS-bestanden in &latex; invoegen. Het commando voor conversie wordt gegeven door <command
+>dvips</command
+>. Wanneer u naar het conversiecommando kijkt zult u zien dat er geen extra bestand wordt gemaakt. Het resultaat van het conversieproces wordt direct in de pijp naar het PS-bestand gestopt. Het enige dat &latex; moet weten is de grootte van de illustratie en daarom hebben we het begrensde vak nodig, dat door &kile; wordt geleverd.</para>
+
+		<para
+>Sommigen zeggen dat deze manier onveilig is; u moet beslissen over hoe te werk gaan. In elk geval hebt u geen begrensd vak nodig, omdat &kile; deze informatie uit alle type illustraties haalt.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>&pdflatex; en EPS-illustraties</title>
+
+		<para
+>Zoals al eerder gezegd is &pdflatex; niet in staat EPS-afbeldingsbestanden te behandelen, maar converters zoals <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+> bieden hulp. De beste manier is het pakket <filename
+>epstopdf</filename
+>in te voegen, die het <userinput
+>graphicx</userinput
+> pakket moet volgen.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>
+
+		<para
+>U kunt nu al EPS-afbeeldingen invoegen, als u <command
+>pdflatex</command
+> met de optie <option
+>--shell-escape</option
+> uitvoert, maar we kunnen het nog beter maken en ook zip- of gzip EPS-bestanden behandelen. We moeten dan opnieuw het grafische instellingenbestand <filename
+>graphics.cfg</filename
+> zoals boven wijzigen. Deze keer zoeken we naar:</para>
+
+<programlisting
+>% pdfTeX wordt uitgevoerd in pdf-modus
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para
+>en eenvoudig enkele regels toevoegen:</para>
+
+<programlisting
+>% pdfTeX wordt uitgevoerd in pdf-modus
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+   }%
+</programlisting>
+
+		<para
+>Met deze regels is &pdflatex; in staat EPS-bestanden te behandelen en hopelijk zijn er dan geen kwesties meer met illustraties.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>Hoofddocument</title>
+
+		<para
+>Het definiëren van uw document als hoofddocument stelt u in staat met gescheiden bestanden te werken, hetgeen u een ouder-document (of hoofddocument) en kind-documenten geeft die uw complete werk vormen. Na een hoofddocument gedefinieerd te hebben met het overeenkomstige commando in het menu <guimenu
+>Instellingen</guimenu
+>, zijn alle commando's van het menu <guimenu
+>Hulpmiddelen</guimenu
+> alleen van toepassing op dit document, zelfs wanneer u werkt in de kind-documenten. U kunt het hoofddocument zelfs sluiten.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>Afhandelen van fouten</title>
+
+		<para
+>Nadat u iets gecompileerd heeft,kijkt &kile; naar de foutmeldingen die gegenereerd zijn. Als er fouten of waarschuwingen zijn, dan worden ze kort gerapporteerd in het scherm <guilabel
+>Loggegevens en berichten</guilabel
+>. Men kan de fouten gedetailleerder bekijken door te kiezen voor <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guimenuitem
+>Logbestand bekijken</guimenuitem
+></menuchoice
+> of door de sneltoetscombinatie <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. Het gegenereerde logbestand wordt weergegeven in de weergave <guilabel
+>Loggegevens en berichten</guilabel
+>; fouten en waarschuwingen worden gemarkeerd.</para>
+
+		<screenshot>
+			<screeninfo
+>Het logbestand bekijken</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Het logbestand bekijken</phrase>
+			</textobject>
+			<caption
+><para
+>Het logbestand bekijken</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>U kunt eenvoudig van het ene bericht in het logbestand naar het andere springen door de menu-onderdelen <menuchoice
+><guimenu
+>Bouwen</guimenu
+><guimenuitem
+>Volgende/ Vorige LaTeX-fout /-waarschuwing</guimenuitem
+></menuchoice
+> te gebruiken, of door de overeenkomstige knoppen van de taakbalk te gebruiken.</para>
+
+		<para
+>Klik op de fout of waarschuwing om in de &latex;-broncode naar de regel te springen waar de foutmelding of waarschuwing in de weergave <guilabel
+>Loggegevens en berichten</guilabel
+> voorkwam. &kile; brengt u automatisch naar de regel die problemen geeft.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>De modus Bestanden observeren</title>
+
+			<para
+>Wanneer u het commando <guibutton
+>Snelmaken</guibutton
+> start, zal normaliter een viewer aangeroepen worden na de compilatie. Als u geen ingebedde viewer gebruikt, zal er iedere keer een nieuw venster worden geopend.</para>
+
+			<para
+>Als u de opmaak van uw document aan het aanpassen bent, voert u misschien erg vaak <guibutton
+>Snelmaken</guibutton
+>, en heeft u veel vensters van de viewer open op uw bureaublad; om verwarring te vermijden, kunt u de modus <guibutton
+>Bestanden observeren</guibutton
+> activeren, die het starten van een viewer door <guibutton
+>Snelmaken</guibutton
+> voorkomt.</para>
+
+			<para
+>Deze modus is natuurlijk nutteloos met ingebedde viewers, daar u deze toch af dient te sluiten om verder te gaan met het bewerken van het document en hercompileren.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>Door de &latex; broncode navigeren</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>De weergave Structuur gebruiken</title>
+
+		<para
+>De weergave <guilabel
+>Structuur</guilabel
+> toont de hiërarchie van het document dat gecreëerd wordt in &kile;, en staat u toe er snel doorheen te navigeren, door de opdeling in segmenten te tonen. Om door uw document te navigeren, dient u slechts te klikken op een label, hoofdstuk, paragraaf, subparagraaf, etc., en u zult naar het begin van het overeenkomstige gebied gebracht worden.</para>
+
+		<para
+>Indien u een los &latex;-document in uw broncode heeft ingevoegd met de tags <userinput
+>\input</userinput
+> of <userinput
+>\include</userinput
+>, zal in de weergave <guilabel
+>Structuur</guilabel
+> verwezen worden; dubbelklikken op hun namen in deze weergave doet &kile; het ingevoegde bestand openen in het editor-venster.</para>
+
+		<para
+>De hiërarchische boomstructuur heeft ook een aparte tak voor labels die gebruikt worden in de tekst.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>Het contextmenu gebruiken</title>
+
+			<para
+>De meeste items in de weergave Structuur hebben heel wat items in het contextmenu, dat u kunt openen met rechtsklikken. Kijk dus eens naar de weergave Structuur in het volgende plaatje.</para>
+
+			<screenshot>
+				<screeninfo
+>De weergave Structuur gebruiken</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>De weergave Structuur gebruiken</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>U zult er enige labels, enige items voor secties, twee omgevingen voor figuren en drie plaatjes vinden. Als u rechts klikt op een van de items voor secties, zal er een menu met enige nuttige commando's verschijnen. Alle commando's zoals <guibutton
+>Selecteer</guibutton
+>, <guibutton
+>Verwijder</guibutton
+> of <guibutton
+>Commentaar</guibutton
+> zal met alle regels, die tot deze sectie behoren, werken.</para>
+
+			<screenshot>
+				<screeninfo
+>Contextmenu voor items om secties te maken</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Contextmenu voor items om secties te maken</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Op een figuur- of tabelitem klikken biedt enige acties met betrekking tot referenties en rechts klikken op een grafisch item zal enige programma's bieden om de afbeeldingen te openen.</para>
+
+			<screenshot>
+				<screeninfo
+>Contextmenu voor afbeeldingen/tabellen en grafische items </screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Contextmenu voor afbeeldingen/tabellen en grafische items </phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>De weergave Structuur actualiseren</title>
+
+			<para
+>Om uw weergave van de structuur te actualiseren kunt u ofwel gaan naar <menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Documentstructuur verversen</guimenuitem
+></menuchoice
+> of <keycombo
+><keycap
+>F12</keycap
+></keycombo
+> indrukken of u kunt uw document opslaan, hetgeen &kile; de weergave <guilabel
+>Structuur</guilabel
+> doet actualiseren.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>Bladwijzers</title>
+
+		<para
+>Bladwijzers zijn uw verwijzingen naar een tekstsegment of een regel in de &kile;-omgeving. Selecteer om een bladwijzer te gebruiken een specifieke regel van uw document waar u naartoe terug wilt keren, druk dan <keycombo
+>&Ctrl; <keycap
+>B</keycap
+></keycombo
+> en &kile; voegt een bladwijzer toe aan deze regel. Als alternatief kunt u ook een bladwijzer instellen door een regel te markeren en het menu gelabeld <menuchoice
+><guimenu
+>Bladwijzers</guimenu
+><guimenuitem
+>Bladwijzer zetten</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>Selecteer om al uw bladwijzers te verwijderen <menuchoice
+><guimenu
+>Bladwijzers</guimenu
+> <guimenuitem
+>Alle bladwijzers verwijderen</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>Projecten</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>Werken met projecten</title>
+
+		<para
+>in &kile; kunt u <emphasis
+>projecten</emphasis
+> aanmaken en ermee werken. Een project is een groep van &latex;-, grafische, &bibtex;- of andere bestanden die alle informatie bevatten die gebruikt wordt om uw complete document te maken. Een typisch project zou een document zijn bestaand uit een aantal hoofdstukken, geschreven in verschillende <literal role="extension"
+>.tex</literal
+>-bestanden. Zij kunnen allemaal bijgevoegd worden in een project, om het hele document eenvoudiger te beheren te maken. De specificaties van het project worden opgeslagen in een speciaal bestand, met extensie <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>Een project voegt de volgende functionaliteiten toe:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>U hoeft geen hoofddocument in te stellen, &kile; doet dit automatisch.</para
+></listitem>
+			<listitem
+><para
+>Projectbestanden kunnen gemakkelijk worden gearchiveerd door naar <menuchoice
+><guimenu
+>Project</guimenu
+><guimenuitem
+>Archiveren</guimenuitem
+></menuchoice
+></para
+></listitem>
+			<listitem
+><para
+>De weergave <guilabel
+>Bestanden en projecten</guilabel
+> toont welke bestanden deel uitmaken van het project.</para
+></listitem>
+			<listitem
+><para
+>Na het openen van een project wordt elk bestand dat eerder geopend was hersteld met de originele codering en accentuering.</para
+></listitem>
+      <listitem
+><para
+>Code-aanvulling werkt over alle projectbestanden.</para
+></listitem>
+      <listitem
+><para
+>Aanvulling van referenties werkt over alle projectbestanden.</para
+></listitem>
+      <listitem
+><para
+>Aanvulling van citaten werkt over alle projectbestanden.</para
+></listitem>
+      <listitem
+><para
+>Zoeken in alle projectbestanden.</para
+></listitem>
+      <listitem
+><para
+>Specificeer eigen commando's quickbuild en &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>U kunt alle aan het project gerelateerde commando's vinden in het menu <guilabel
+>Project</guilabel
+>. Daarin kunt u uw projecten openen, sluiten en beheren.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>Een project aanmaken</title>
+
+		<para
+>Selecteer om een project aan te maken <menuchoice
+><guimenu
+>Project</guimenu
+><guimenuitem
+>Nieuw project...</guimenuitem
+></menuchoice
+>.</para>
+		<screenshot>
+		  <screeninfo
+>Venster voor aanmaken van project</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>Venster voor aanmaken van project</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+>U wordt gevraagd de volgende informatie te geven om uw project aan te maken:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>Titel van uw project (tekstveld <guilabel
+>Projecttitel</guilabel
+>). </para>
+		    <para
+>De titel van een project zal gebruikt worden om een naam van het projectbestand te maken door het naar kleine letters te transformeren en de extensie <filename role="extension"
+>.kilepr</filename
+> toe te voegen. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Een map waar het projectbestand zal worden opgeslagen (tekstveld <guilabel
+>Projectmap</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Als u een nieuw hoofdbestand van het project wilt maken, activeer dan het item <guilabel
+>Maak een nieuw bestand aan en voeg het toe aan dit project</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Wanneer u het veld <guilabel
+>Bestandsnaam</guilabel
+> invult, dient u een relatief pad op te nemen van waaruit uit het projectbestand <filename role="extension"
+>.kilepr</filename
+> wordt opgeslagen (zie het item <guilabel
+>Projectmap</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Type van het gemaakte bestand, <guilabel
+>Leeg bestand</guilabel
+>, <guilabel
+>Artikel</guilabel
+>, <guilabel
+>Boek</guilabel
+>, <guilabel
+>Brief</guilabel
+>, <guilabel
+>Rapport</guilabel
+>, &etc; kan gekozen worden uit een zichtbare lijst onderaan het paneel <guilabel
+>Bestand</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Extensies voor de standaard bestanden in het project kunnen geselecteerd worden in het paneel <guilabel
+>Extensies</guilabel
+>. Uw keuze zal gebruikt worden om de bestanden te definiëren die geopend zouden moeten worden wanneer u menu-item <menuchoice
+><guimenu
+>Project</guimenu
+><guimenuitem
+>Alle projectbestanden openen</guimenuitem
+></menuchoice
+> kiest en in de assistenten van &kile;. De extensies in het tekstveld moeten gescheiden worden door spaties. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>De weergave Bestanden en projecten</title>
+
+		<para
+>De weergave <guilabel
+>Bestanden en projecten</guilabel
+> is een knop op het menu van de zijbalk. In deze weergaven, kunt u de structuur van uw project, de bestanden en de naam van het bestand .kilepr, dat de projectinformatie bevat, zien. Toevoegen, verwijderen en wijzigen van opties in uw project wordt gedaan via de weergave <guilabel
+> Bestanden en Projecten</guilabel
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>De weergave Bestanden en projecten</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>De weergave Bestanden en projecten</phrase>
+			</textobject>
+			<caption
+><para
+>De weergave Bestanden en projecten</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>Bestanden toevoegen en verwijderen</title>
+
+		<para
+>Open een willekeurig &tex;-bestand en klik met de rechtermuisknop op de bestandsnaam in de weergave <guilabel
+>Bestanden en projecten</guilabel
+> en selecteer <guilabel
+>Aan project toevoegen</guilabel
+> om het bestand aan uw project toe te voegen. Indien u meerdere projecten open heeft staan, vraagt een dialoogvenster aan welk project het bestand toegevoegd dient te worden.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>U kunt ook rechtsklikken op de projectnaam in de weergave <guilabel
+>Bestanden en projecten</guilabel
+>, en <guilabel
+>Bestanden toevoegen...</guilabel
+> selecteren om een dialoogvenster voor het selecteren van bestanden te doen verschijnen.</para>
+
+		<screenshot>
+			<screeninfo
+>Bestanden aan een project toevoegen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Bestanden aan een project toevoegen</phrase>
+			</textobject>
+			<caption
+><para
+>Een bestand aan een project toevoegen</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Klik met de rechtermuisknop op het bestand en selecteer dan <guilabel
+>Bestand verwijderen</guilabel
+> om een bestand uit een project te verwijderen. Dit wist uw bestand <emphasis
+>niet</emphasis
+>, maar verwijdert het uit de lijst van bestanden die het bestand met de extensie <literal role="extension"
+>.kilepr</literal
+> bevat.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>Uw project archiveren</title>
+
+			<para
+>&kile; laat u op eenvoudige wijze een reservekopie van uw project maken door al zijn bestanden in een enkel archief (vaak bekend als een <emphasis
+>tarball</emphasis
+>) op te slaan. Klik met de rechtermuisknop op de naam van uw project in de weergave <guilabel
+>Bestanden en projecten</guilabel
+> of selecteer <menuchoice
+><guimenu
+>Project</guimenu
+><guisubmenu
+>Overig</guisubmenu
+><guimenuitem
+>Archiveren</guimenuitem
+></menuchoice
+> om uw project te archiveren.</para>
+
+			<para
+>Standaard worden alle bestanden in een project toegevoegd aan het archief. Als u een bepaald bestand niet wilt toevoegen aan het archief, dient u in de weergave <guilabel
+>Bestanden en projecten</guilabel
+> rechts te klikken en de optie <guilabel
+>Insluiten in archief</guilabel
+> uit te vinken.</para>
+
+			<para
+>De archiveerbewerking is nu gerealiseerd door het uitvoeren vanuit de projectmap (waarin het <literal role="extension"
+>.kilepr</literal
+>-bestand zich bevind) van het commando <command
+>tar</command
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>Projectopties</title>
+
+		<para
+>&kile; heeft een aantal opties gerelateerd aan uw project, die ingesteld kunnen worden. Klik met de rechtermuisknop op de titel van uw project en selecteer <guilabel
+>Projectopties</guilabel
+> om hen te wijzigen. U heeft de mogelijkheid om te veranderingen aan te brengen in:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>De titel van uw project.</para
+></listitem>
+			<listitem
+><para
+>Standaard bestandsextensies.</para
+></listitem>
+ 			<listitem
+><para
+>Het hoofddocument.</para
+></listitem>
+ 			<listitem
+><para
+>Het commando Snelmaken.</para
+></listitem>
+ 			<listitem
+><para
+>De opties &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>Een project sluiten</title>
+
+		<para
+>Selecteer, om een project te sluiten, de weergave <guilabel
+>Bestanden en projecten</guilabel
+> in de verticale werkbalk, klik met de rechtermuisknop op uw projecttitel en selecteer dan <guimenuitem
+>Sluiten</guimenuitem
+>. Dit sluit uw project af en alle bestanden die met uw project geassocieerd worden en voegt ook de naam van het project dat u net heeft afgesloten toe aan <guisubmenu
+>Recent project openen...</guisubmenu
+> in het menu <guimenu
+>Project</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>Documentcodering</title>
+
+	<para
+>De editor &kile; laat u de tekst lezen, converteren en opslaan, in de codering die uw document nodig heeft. Dit staat u toe niet-standaard letters en symbolen te gebruiken; u kunt bijvoorbeeld direct tekens met een accent gebruiken voor Italiaans of Frans in &latex;-documenten. Het selecteren van de codering voor uw document kan op twee manieren gedaan worden:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Een manier om de codering van het document in testellen is met gebruik van het submenu <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+><guimenuitem
+>Editor</guimenuitem
+></menuchoice
+>, waar u de standaard tekencodering voor alle bestanden kunt zetten.</para>
+		<screenshot>
+			<screeninfo
+>De standaard tekencodering instellen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>De standaard tekencodering instellen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>Een tweede manier om de codering van een document in te stellen is de om de gewenste codering te kiezen in de assistent om een nieuw document te maken.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>&latex; begrijpt zelf alleen ASCII, een zeer beperkte verzameling van lettertekens, dus u zou niet direct een letters met een accent of speciale letters kunnen gebruiken. Om toch letters met een accent te gebruiken is een speciale syntaxis gecreëerd: zoals bijvoorbeeld <userinput
+>\"e</userinput
+>voor <computeroutput
+>ë</computeroutput
+>. Er is een pakket dat u hierbij helpt, <application
+>inputenc</application
+> genaamd, en het wordt opgenomen in de preambule met <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>, waarin het argument voor de optie de codering is die u wenst te gebruiken (op dit moment in de meeste gevallen <userinput
+>utf8</userinput
+>). Dit vertelt &latex; om alle <userinput
+>ë</userinput
+>'s die u geschreven hebt te vertalen in <userinput
+>\"e</userinput
+>'s voor het compileren. Raadpleeg alstublieft direct de documentatie van <application
+>inputenc</application
+> voor meer informatie. Tenslotte: denkt u eraan zich ervan te verzekeren dat uw bestand <emphasis
+>daadwerkelijk</emphasis
+> in dezelfde codering is gecodeerd als u aangegeven hebt voor het pakket <application
+>inputenc</application
+>!</para>
+
+	<para
+>Dit legioen van verschillende coderingstabellen voor lettertekens heeft veel problemen veroorzaakt: u kunt bijvoorbeeld geen cursus Turks in het Frans schrijven zonder de speciale tekens van één taal te verliezen. Er is algemeen overeengekomen dat, vroeger of later, iedereen over zal stappen op <ulink url="http://www.unicode.org"
+>Unicode</ulink
+>. Er zijn vele implementaties van Unicode en <abbrev
+>UTF-8</abbrev
+> is de meest succesvolle onder &Linux;; &Windows;&reg; vertrouwt daarentegen op het lastigere en minder flexibele <abbrev
+>UCS-2</abbrev
+>. De meeste distributies zijn al begonnen hun standaard codering in te stellen op <abbrev
+>UTF-8</abbrev
+> en daarom vindt u het wellicht zeer interessant om het argument <userinput
+>utf8</userinput
+> te gebruiken voor het pakket <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>Het &ucs;-pakket</title>
+		<para
+>Als u het pakket &ucs;niet hebt geïnstalleerd dan kunt u als volgt verder gaan:</para>
+		<itemizedlist>
+		<listitem
+><para
+>Hal het pakket &ucs; vanaf <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>Om het te installeren pakt u het gedownloade bestand uit en plaatst het in een map genoemd in de lijst uw omgevingsvariable $<envar
+>TEXINPUTS</envar
+>. Deze kan ook ingesteld worden binnen &kile;.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}
+\usepackage[utf8]{inputenc}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>XeLaTeX</title>
+
+		<para
+>Als u <userinput
+>XeLaTeX</userinput
+> gebruikt, kunt u eenvoudig het pakket <userinput
+>xltxtra</userinput
+> laden. Het zal bovendien alle vereiste pakketten laden.</para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>&cjk;-ondersteuning</title>
+
+		<para
+>Ondersteuning toevoegen voor ideografische talen is heel lastig. Wanneer u er echter klaar mee bent, zal het behoorlijk goed werken. Anders dan pakketten installeren, is er is nog enig extra werk aan de instellingen te doen.</para>
+
+		<tip
+><para
+>Uw &Linux; distributie zou al een &cjk; (Chinees, Japans, Koreaans) pakket voor u gereed hebben, u kunt zich dan mogelijk de moeite van het handmatig alles te installeren besparen. Controleer echter om door te gaan!</para
+></tip>
+
+		<para
+>Er is de mogelijkheid het pakket &ucs; te gebruiken om korte fragmenten van &cjk;-tekst te schrijven, maar die optie is ernstig beperkt omdat het, onder andere, nieuwe regels niet behandeld. In plaats daarvan, installeren we het complete pakket &cjk;-&latex; en laten het voor beide &latex; en &pdflatex; werken. Heel wat van dit materiaal is geïnspireerd door de pagina  van <ulink url="http://www.ece.uci.edu/~chou/"
+>Pai H. Chou</ulink
+> <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>over hoe &pdflatex; in te stellen</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>Download het pakket <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. Kopieer zijn uitgepakte bestanden naar een toepasselijke submap van $<envar
+>TEXMF</envar
+>, precies zoals u deed met het pakket &ucs; vóór (see <xref linkend="ucs" role="select: title pageabbrv"/>). De bestanden zullen uitgepakt worden in een map <filename
+>CJK/X_Y.Z</filename
+>; het is niet belangrijk dat u ze uitpakt, hoewel het waarschijnlijk netter en gemakkelijker voor u is om ze te onderhouden.</para
+></listitem>
+
+		<listitem
+><para
+>U moet een lettertype downloaden dat alle &cjk;-tekens ondersteunt die u nodig hebt. U kunt elke <literal role="extension"
+>*.ttf</literal
+> bestand kiezen dat ze dekt, maar in deze handleiding zullen we <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+> gebruiken. Unzip het bestand en hernoem <filename
+>Cyberbit.ttf</filename
+> naar <filename
+>cyberbit.ttf</filename
+>, omdat hoofdletters u systeem in de war zou kunnen brengen.</para>
+		<para
+>Plaats <filename
+>cyberbit.ttf</filename
+> in een map samen met <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+> en genereer de bestanden <literal role="extension"
+>*.tfm</literal
+> en <literal role="extension"
+>*.enc</literal
+> met het commando <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. Om de een of andere reden produceert dit niet de honderden bestanden zoals zou moeten. Is dat het geval, dan kunt u beide typen bestanden <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+> en <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+> downloaden.</para>
+		<para
+>Plaats de bestanden <literal role="extension"
+>*.tfm</literal
+> in een toepasselijke map, zeg <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>; de bestanden <literal role="extension"
+>*.enc</literal
+> kunnen geïnstalleerd worden in <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Hierna hebben we een overeenkomst-bestand nodig om de bestanden <literal role="extension"
+>*.enc</literal
+> te koppelen aan het lettertype. Download <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> en installeer het in <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Download een ander bestand, <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+> en plaats het in een toepasselijke map. U kunt bijvoorbeeld <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+> kiezen.</para
+></listitem>
+
+		<listitem
+><para
+>Het laatste bestand dat we moeten genereren is een &PostScript; type 1 lettertype, noodzakelijk om &DVI;-bestanden gegenereerd met &latex; te lezen. Voer het commando <userinput
+><command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+></userinput
+> uit en kopieer het gemaakte bestand <filename
+>cyberbit.pfb</filename
+> naar een map zoals <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Daarna plaatsen we <filename
+>cyberbit.ttf</filename
+> tussen de lettertypen waar &latex; ze kan vinden. U zou ze kunnen plaatsen in een map genaamd <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Controleer het configuratiebestand dat u vindt in <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+> en ga na dat de regel met <envar
+>TTFONTS</envar
+> geen commentaar is en wijst naar de map waar u <filename
+>cyberbit.ttf</filename
+> hebt opgeslagen.</para
+></listitem>
+
+		<listitem
+><para
+>Om het mogelijk te maken dat &pdflatex; uw &cjk;-lettertypen gebruikt, is het noodzakelijk dat u een regel in het configuratiebestand <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+> toevoegt. Voeg <userinput
+>map +cyberbit.map</userinput
+> in het bestand toe om de configuratie van &pdflatex; volledig te maken.</para
+></listitem>
+
+		<listitem
+><para
+>Om &latex; te configureren zodat u &DVI;-bestanden met &cjk;-tekens kunt maken, moet u een regel in het bestand <filename
+>ttfonts.map</filename
+> toevoegen. Het bestand zou zich in een map genaamd <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+> kunnen bevinden, maar u zult er waarschijnlijk naar moeten zoeken. Voeg de regel <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+> er achteraan.</para
+></listitem>
+
+		<listitem
+><para
+>Hierna behoeft nog slechts <userinput
+><command
+>texhash</command
+></userinput
+> uit te voeren en het systeem zou gereed moeten zijn.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>Om te testen of uw configuratie correct is, kunt u proberen om <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>dit testbestand</ulink
+> te compileren.</para>
+
+		<sect2>
+			<title
+>Probleemoplossing voor &cjk;</title>
+
+			<para
+>Er zijn veel dingen die fout kunnen gaan bij het handmatig instellen van ondersteuning voor &cjk;. Als iets niet lijkt te werken, dan kan de volgende controlelijst misschien helpen.</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>Omdat u &latex; uitvoert als gebruiker en niet als systeembeheerder, moet u gewone gebruikers <emphasis
+>toestaan</emphasis
+> om de nieuwe bestanden te lezen. Ga na of alle mappen en bestanden toegankelijk zijn met het commando <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>Als &latex; een &DVI; zonder problemen schrijft, maar u kunt het niet zien, dan is er bijna zeker een probleem in het automatisch genereren van <literal role="extension"
+>*.pk</literal
+> lettertypen. Ze worden verondersteld on-the-fly te worden gegenereerd bij het bekijken van een &DVI;bestand, maar dit kan om een aantal redenen mislukken: controleer nog eens <filename
+>ttfonts.map</filename
+> voor uw zelfgemaakte regel. Het kan echter zijn dat uw commando <command
+>ttf2pk</command
+>, wat gewoonlijk wordt aangeroepen door de &DVI;-viewer, gecompileerd is <emphasis
+>zonder</emphasis
+> ondersteuning voor de bibliotheken <application
+>kpathsea</application
+>. Als dat het geval is zal <userinput
+><command
+>ttf2pk</command
+> <option
+>--version</option
+></userinput
+> geen melding maken van <application
+>kpathsea</application
+>. Omdat ondersteuning voor deze bibliotheken noodzakelijk is, moet u zoeken naar een nieuw pakket of <application
+>FreeType 1</application
+> zelf compileren.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>Hoe voer ik &cjk; in in Unicode?</title>
+
+			<para
+>Er zijn een aantal verschillende invoer-engines en de keuze kan ook afhangen van persoonlijke voorkeur. De auteur gebruikt <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+>, een overzetting naar &kde; van de engine <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+>. Kijk in de documentatie van uw distributie om na te gaan hoe deze programma's te installeren. Configuratie van zulke programma's kan ook tricky zijn, in het geval van <application
+>Skim</application
+> zult u een omgevingsvariable <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> moeten definiëren <emphasis
+>alvorens</emphasis
+> <application
+>X</application
+> te starten.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>Help</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>Hulpdocumenten</title>
+
+		<para
+>&latex; is een behoorlijk geavanceerd systeem, waar basis mogelijkheden uitgebreid kunnen worden met een grote variëteit van additionele pakketten. &kile; biedt vele verschillende manieren om de gebruiker te helpen.</para>
+
+		<para
+>Het submenu <menuchoice
+><guimenu
+>Help</guimenu
+> <guisubmenu
+>LaTeX-documentatie</guisubmenu
+></menuchoice
+> bevat koppelingen in de documentatie voor alle ingevoegde pakketen en een extra &latex;-referentie. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>Documentatiebrowser</guimenu
+></term>
+		<listitem
+><para
+>Een handig hulpmiddel om door alle &latex; onderwerpen te bladeren. Installeer &latex; help-pakketten voor uw distributie als u het volledige documentatiecompendium nodig hebt.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Een volledige niet-officiële verwijzingstabel voor &tex; en zijn vrienden. Dit is niet alleen een beschrijving van alle programma's, maar sommige belangrijke pakketten worden ook vermeld. Het bevat ook een volledige referentie-handleiding van &latex;-commando's &mdash; ideaal voor het opzoeken van een specifiek stukje voor de opmaak bij het schrijven van een document. Omdat dit document echt heel uitgebreid is, wordt er in &kile; naar verwezen door drie bladwijzers.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX-commando's</guimenu
+></term>
+		<listitem
+><para
+>Nog een alfabetische index van de meest algemene &latex;-commando's.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX-omgevingen</guimenu
+></term>
+		<listitem
+><para
+>Een alfabetische index van de meest algemene &latex;-omgevingen.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>Contextgevoelige documentatie</title>
+
+		<para
+>&kile; ondersteunt ook contextgevoelige hulp, die wordt aangeroepen met <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>,<keycap
+>K</keycap
+>. In <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Help</guilabel
+></menuchoice
+> kunt u kiezen of u de index van &latex; van &kile; wilt gebruiken of het helpsysteem van &tetex;/&texlive;, wat de standaard instelling is.</para>
+
+		<screenshot>
+			<screeninfo
+>Opsommingstekens</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Opsommingstekens</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>Naar trefwoorden zoeken</title>
+
+		<para
+>Het is niet altijd gemakkelijk om het juiste document te vinden omdat &tetex;/&texlive; geleverd wordt met een groot aantal hulpdocumenten. Om dit proceste faciliteren levert &tetex;/&texlive; een programmaatje genaamd <application
+>texdoctk</application
+>. Het levert een database van alle hulpdocumenten waarvoor &kile; een gebruikersvriendelijk interface biedt.</para>
+
+		<screenshot>
+			<screeninfo
+>Opsommingstekens</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Opsommingstekens</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Alle documenten zijn in categorieën gegroepeerd. Verder kan men zoeken naar pakketnamen of trefwoorden. &kile; zal dan alleen de hulpdocumenten tonen die overeenkomen met de zoektekst.</para>
+
+		<screenshot>
+			<screeninfo
+>Opsommingstekens</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Opsommingstekens</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Dubbelklikken met de muis of de <keycap
+>Spatie</keycap
+>-toets start een viewer voor het geselecteerde document. Dit kan een willekeurig document zijn, niet alleen een &DVI;-, PS-, PDF- of &HTML;-document. &kile; neemt de instellingen van &kde; mee om een passende viewer te starten.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>Gebruikergedefinieerde hulp</title>
+
+		<para
+>Naast deze statische &tetex;/&texlive; documentatie, ondersteunt &kile; ook een meer flexibele variabele manier voor hulpdocumenten. In het menu <guimenu
+>Help</guimenu
+> heeft &kile; een speciaal submenu <guimenu
+>Gebruikershulp</guimenu
+>, waar de gebruiker documenten naar zijn/haar keuze kan toevoegen. Dit kunnen de meest belangrijke documenten van de &tetex;/&texlive; documentatie zijn of zelfs zelfgeschreven documenten. Het is ook mogelijk om URL's in te voeren.</para>
+
+		<para
+>Ga naar <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Help</guilabel
+></menuchoice
+> en kies de knop <guibutton
+>Instellen</guibutton
+> om dit menu <guimenu
+>Gebruikershulp</guimenu
+> in te stellen. U kunt overal menu-items toevoegen, verwijderen of verplaatsen en scheidingstekens invoegen om de structuur van het menu te optimaliseren.</para>
+
+		<screenshot>
+			<screeninfo
+>Dialoog: gebruikergedefinieerde hulp-items instellen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dialoog: gebruikergedefinieerde hulp-items instellen</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Drukken op de knop <guibutton
+>Toevoegen</guibutton
+> zal nog een dialoog openen, waarin u de naam van het menu-item kunt bewerken en het bijbehorende bestand of &URL; kunt kiezen. De tweede knop rechts van het tekstveld start &konqueror;, die gebruikt kan worden om de juiste &URL; te bepalen.</para>
+
+		<screenshot>
+			<screeninfo
+>Dialoog: een nieuw hulp-item</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dialoog: een nieuw hulp-item</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Na beëindiging van de configuratie verschijnen alle items in het menu <guimenu
+>Help</guimenu
+> van &kile; als een speciaal menu-item <guimenu
+>Gebruikershulp</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Menu Gebruikershulp</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Menu Gebruikershulp</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>Dankbetuiging en licentie</title>
+
+	<para
+>&kile; is een open-source gebruikersvriendelijke broncode-editor voor &latex;/&tex;. Het draait op systemen waarop de &kde; Bureaubladomgeving wordt gebruikt. &kde; is beschikbaar voor verscheidene architecturen inclusief &Linux; en andere &UNIX;-achtige systemen.</para>
+
+	<para
+>Er is veel dank verschuldigd aan de mensen die streven het project &kile; voort te zetten, en de bijdragen van vele uren door diegenen die hun tijd opofferen om de hulpmiddelen te ontwikkelen die wij allemaal kunnen gebruiken onder de <acronym
+>GNU</acronym
+>-licentie. Bijgewerkte informatie over hen die bijdroegen is te vinden in de dialoog <guimenuitem
+>Info over &kile;</guimenuitem
+> uit het menu <guimenu
+>Help</guimenu
+>. </para>
+
+	<para
+>Hartelijk dank aan iedereen die betrokken is!</para>
+
+&meld.fouten;&vertaling.freek; &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

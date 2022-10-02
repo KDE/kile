@@ -1,0 +1,6719 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Swedish "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>Handbok &kile;</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	<othercredit role="translator"
+><firstname
+>Stefan</firstname
+><surname
+>Asserhäll</surname
+><affiliation
+><address
+><email
+>stefan.asserhall@bredband.net</email
+></address
+></affiliation
+><contrib
+>Översättare</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>2011-05-22</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>&kile; är en &tex;- och &latex;-källkodseditor och skal. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>Kile</keyword>
+<keyword
+>Latex</keyword>
+<keyword
+>Tex</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>Förord</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>Krav</title>
+
+		<para
+>För att köra &kile; behöver du ha följande komponenter installerade på din dator:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><ulink url="http://www.kde.org/"
+>K-skrivbordsmiljön (&kde;)</ulink
+>: &kde; är en populär skrivbordsmiljö med öppen källkod.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: &Qt; är ett C++ grafiskt gränssnitt och nätverksbibliotek som behövs för att kompilera &kile;.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>&latex;</ulink
+>: Typsättningsprogram för dokument med hög kvalitet. Troligen ska du använda paketet &texlive; (eller &tetex; på äldre system), om du har ett &UNIX;-liknande system.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>De flesta av dessa paket kan ingå i din &Linux;-distribution, kontrollera distributionens dokumentation eller installations-cd eller dvd för att lägga till paketen i datorn.</para>
+
+		<para
+>&kile; kan också redan finnas tillgängligt som ett förkompilerat paket för din &Linux;-distribution. Kontrollera med pakethanteraren i distributionen.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>Tilltänkt publik</title>
+
+		<para
+>Den här handboken är avsedd för vem som helst, oavsett vilken erfarenhet de har av &latex;, &kde;, &kile; eller &Linux;.</para>
+
+		<para
+>Avancerade användare läser troligen inte handboken, men alla förslag om dokumentationen tas hänsyn till. Om du skulle vilja bidra till projektet eller dokumentationen, konsultera <ulink url="http://kile.sourceforge.net/"
+>&kile;s webbsida</ulink
+>.</para>
+
+		<para
+>Behöver du svar på frågor om &kile;? Har du fastnat vid kompilering? Vill du se en ny funktion? Det bästa sättet för att ställa tekniska frågor eller inleda en diskussion, är att använda vår e-postlista: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>Inledning</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>Grundläggande fakta</title>
+
+		<sect2>
+
+			<title
+>Om &kile;</title>
+
+			<para
+>&kile; är en integrerad &latex;-miljö för &kde;-skrivbordet. &kile; ger dig möjlighet att utnyttja alla funktioner som finns i &latex; i ett grafiskt gränssnitt, vilket ger dig en enkel, omedelbar och anpassningsbar möjlighet att komma åt alla program för att kodkomplettera, kompilera, efterbehandla, felsöka, konvertera och visa &latex;. Du får också mycket bekväma guider, en referensmanual till &latex;, och kraftfull projekthantering.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&kile; och editorkomponenten i &kate;</title>
+
+			<para
+>&kile; är baserat på editorkomponenten i &kate;, så en hel del av redigeringsmöjligheterna kommer från själva editorkomponenten i &kate;, och &kile; utökar möjligheterna med funktioner för att redigera &latex;-dokument. För att lära dig mer om editorkomponenten i &kate;, och dess möjligheter, se  <ulink url="http://kate-editor.org"
+>&kate;s webbsida</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Vad är &latex;?</title>
+
+			<para
+>&latex; är ett textbehandlingssystem som är härlett från &tex;, ett program som ursprungligen utvecklades under 1977 av Donald Knuth, för att vara till hjälp att skapa en professionell textlayout, och erhålla en kvalitet likvärdigt med den en professionell sättare kan åstadkomma. &latex; skapades av Leslie Lamport för att ge författare automatisk sättning, särskilt för att förenkla den dyra och mödosamma sättningen av matematiska formler och uttryck, som <emphasis
+>inte av en slump</emphasis
+> omges av dollartecken i &latex;. Idag låter ordbehandlingsprogram alla användare fungera som sättare, men vad som ofta behövs är ett dokument som helt enkelt ser bra ut, utan att man behöver spendera flera timmar för att få det snyggt. &latex; tar hand om den bördan, och låter dig koncentrera dig på dokumentet, inte layouten. Och ja, resultatet <emphasis
+>ser</emphasis
+> bra ut!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Hur uttalas det? Varför det konstiga sättet att skriva det på?</title>
+
+			<para
+>Det finns en lustig tradition att paket som hör ihop med &tex; ska ha konstigast möjliga uttal och skrivsätt. &tex; antas ha hämtats från det grekiska <emphasis
+>τεχ</emphasis
+>, med latinska bokstäver <emphasis
+>tech</emphasis
+>. Det finns många förklaringar, men den troligaste är att &tex; ursprungligen var tänkt för tekniska rapporter, och dess främsta förmåga var riktig och enkel sättning av matematiska formler, vilket på den tiden var en extremt dyr, tidsödande och frustrerande uppgift.</para>
+			<para
+>Uttalet är tänkt att vara följande: <emphasis
+>T</emphasis
+> som väntat, <emphasis
+>E</emphasis
+> som vokalen i <emphasis
+>lätt</emphasis
+>, och <emphasis
+>X</emphasis
+> som i tyska <emphasis
+>ch</emphasis
+>. Om du inte vet hur <emphasis
+>ch</emphasis
+> låter, är det mer eller mindre som en fräsande katt. I det fonetiska alfabetet är symbolen /ç/. Många rapporterar det annorlunda uttalet <emphasis
+>ach</emphasis
+> (fonetiska symbolen /x/), men enligt en del greker, är den första versionen verkligen den rätta. Du bör vara medveten om att många använder det felaktiga uttalet /teks/ eller /tek/.</para>
+			<para
+>Till sist, i &latex; uttalas det första L<superscript
+>A</superscript
+> som <emphasis
+>lej</emphasis
+>: idén är att även om ren &tex; är svår, kan till och med en nybörjare (på engelska <emphasis
+>lay</emphasis
+>man) använda &latex;-makron. En mindre inspirerande, men mer realistisk förklaring är att det har sitt ursprung i &latex; skapares efternamn, Leslie Lamport. Så nu vet du!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>Grundkurs i &latex;</title>
+
+		<para
+>&latex; typsättningssystem liknar andra taggspråk som &XML;, som används för många dokumenttyper (inklusive det du läser nu), eller &HTML;, som används för webbsidor. Den övergripande idén är att ha särskilda omgivande nyckelord, som kallas <emphasis
+>taggar</emphasis
+>, som talar om för ett program (en ordbehandlare, en webbläsare, eller &latex;-kompilatorn) hur texten innesluten av taggarna ska presenteras. &kile; erbjuder ett antal sådana taggar i menyn <guimenu
+>Latex</guimenu
+> på menyraden.</para>
+
+		<para
+>Även om vi försöker ge dig en god idé om vad &latex; är, kan detta inte vara den definitiva guiden till &latex;. Om du vill lära dig &latex; väl, kanske du kan låna en bok om ämnet på det lokala biblioteket.</para>
+
+		<para
+>Som med andra taggspråk har &latex; en <emphasis
+>inledning</emphasis
+> som ställer in globala egenskaper, som pappersstorlek, sidnumrering, textens dimensioner på sidan, och en <emphasis
+>huvuddel</emphasis
+>, som innehåller dokumentets text. Inledningen innehåller åtminstone kommandot <userinput
+>\documentclass</userinput
+>, och föregår huvuddelen, som börjar med kommandot <userinput
+>\begin{document}</userinput
+>, och avslutas med kommandot <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>&kile;s huvudfunktioner</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>Snabbstartsguide</title>
+
+			<para
+>Snabbstartsguiden som är inbyggd i &kile; är en användbar funktion för att snabbt börja skapa dokument i &kile;. Genom att välja guiden i menyraden, får du flera olika val för att skapa ett dokument. Du kan också direkt ställa in vissa alternativ som hör ihop med dokumentet.</para>
+
+			<para
+>Klassalternativ:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Dokumentklass</guilabel
+>: Välj typ av dokument du vill skapa: artikel, bok, brev, rapport, scrartcl, scrreprt, scrbook, prosper, beamer eller annat egendefinierat.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Typsnittsstorlek</guilabel
+>: Tala om för &kile; vilken punktstorlek (pt) du vill använda.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Pappersstorlek</guilabel
+>: Välj storlek eller typ av papper.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Kodning</guilabel
+>: I allmänhet är det en god idé att använda systemets standardkodning. Moderna system går mer och mer över till UTF-8 som standardkodning. Om du kan, använd utf8 eller utf8x (som verkligen är rätt stavning för &latex;-dokument). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Övriga alternativ</guilabel
+>: Det här låter dig ställa in ytterligare alternativ såsom utskrift, utkast med mera.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Paket</para>
+			<para
+>Här listas några av de vanligaste ytterligare paket som används i &latex;. Markera kryssrutan för att inkludera det.</para>
+
+			<para
+>Dokumentegenskaper:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Författare</guilabel
+>: Skriv in ditt namn här.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Titel</guilabel
+>: Lägg till dokumentets titel här.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Datum</guilabel
+>: Ange datum.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>Fördefinierade mallar</title>
+
+			<para
+>De fördefinierade mallarna i &kile; är:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>Empty document: Riktiga fantaster börjar från början!</para
+></listitem>
+				<listitem
+><para
+>Article: Ställer in format för en artikel, ett dokument kort nog att inte behöva uppdelas i kapitel.</para
+></listitem>
+				<listitem
+><para
+>Report : Ställer in format för en rapport, ett dokument av mellanstorlek, med till exempel sidnumrering vid sidans ytterkant.</para
+></listitem>
+				<listitem
+><para
+>Book: Ställer in bokformatet, en fullständig variant, så kraftfull att den används för att skriva många universitetsläroböcker.</para
+></listitem>
+				<listitem
+><para
+>Letter: Ställer in brevformat.</para
+></listitem>
+				<listitem
+><para
+>Beamer, HA-Prosper: Skapa trevliga presentationer i PDF med ett överlägset utseende och hela &latex; kapacitet.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: Powerdot är efterföljaren till paketen <userinput
+>seminar</userinput
+> och <userinput
+>HA-Prosper</userinput
+>. Det har inte så många alternativ som Beamer, men det är enkelt att använda och skapar mycket trevliga presentationer i PDF.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl, Scrbook, Scrreprt, Scrlttr2: KOMA-skript dokumentklasser, särskilt anpassade för tysk typografi. Använd dem när du skriver text på tyska.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: En modifierad <userinput
+>artikelmall</userinput
+> att använda med  <userinput
+>Xelatex</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Observera att alla mallar kan anpassas efter användarnas behov.</para>
+
+			<para
+>Nya användare behöver inte oroa sig: den här listan är bara en kortfattad beskrivning av tillgängliga funktioner, och en mer detaljrik beskrivning finns i <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>Syntaxfärgläggning</title>
+
+			<para
+>&kile; liknar andra program som hanterar källkod och redigering, och färglägger automatiskt kommandon, alternativ och objekt som används (eller missbrukas). På så sätt gör &kile; det möjligt att enkelt upptäcka problemområden. Om du till exempel ser att stora delar av texten blir grön, är det troligt att du glömt avsluta en matematisk omgivning någonstans.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>Automatisk komplettering av omgivningar</title>
+
+			<para
+>Automatisk komplettering av omgivningar betyder att när du påbörjar en ny omgivning genom att till exempel skriva <userinput
+>\begin{omgivning}</userinput
+>, lägger &kile; automatiskt till kommandot <userinput
+>\end{omgivning}</userinput
+>, med en rad för din text innan. Du kan förstås inaktivera funktionen om du vill från <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Anpassa Kile...</guimenuitem
+> <guilabel
+>Latex</guilabel
+><guilabel
+>Omgivningar</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>Gå till strukturelement</title>
+
+			<para
+>Alla dokument är normalt strukturerade i en hierarki av någon typ. &latex; låter dig dela upp dokument i följande hierarki (part är längst upp i hierarkin och subparagraph längst ner):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part</para
+></listitem>
+				<listitem
+><para
+>\chapter</para
+></listitem>
+				<listitem
+><para
+>\section</para
+></listitem>
+				<listitem
+><para
+>\subsection</para
+></listitem>
+				<listitem
+><para
+>\subsubsection</para
+></listitem>
+				<listitem
+><para
+>\paragraph</para
+></listitem>
+				<listitem
+><para
+>\subparagraph</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>När ett dokument betraktas i <guilabel
+>strukturvyn</guilabel
+>, kan du flytta dig mellan element genom att klicka på elementet som du vill se.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>Omvänd sökning</title>
+
+			<para
+>När du skapar dina egna &latex;-filer, kan omvänd sökning vara till stor hjälp. När du väl har skapat en &DVI;-fil (DeVice Independent File) eller PDF-fil, kan du klicka med musens vänsterknapp i visaren medan &Shift; hålls nere, och då går &kile; till motsvarande rad i &latex;-källkoden.</para>
+
+			<para
+>En &DVI; är en sorts fil som innehåller en beskrivning av ett formaterat dokument, tillsammans med annan information, inklusive typsnitt för tecken, och är förutom PDF den vanligaste utdatan från &tex; eller &latex;. Ett antal verktyg finns för att visa, konvertera och skriva ut &DVI;-filer på olika system och enheter.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>Sökning framåt</title>
+
+			<para
+>När omvänd sökning används, associeras val av objekt i &DVI;- eller PDF-filen med editorn, så att när du klickar i en &DVI;- eller PDF-fil, går huvudfönstret till motsvarande plats i editorns &latex;-kod. Sökning framåt är den exakta motsatsen till detta. Sökning framåt låter dig klicka på en särskild del av texten i &latex;-koden, och gå till motsvarande plats i visarens fönster.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>Verktygsraden</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>Ny</guibutton
+>: Påbörja ett nytt dokument.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Öppna</guibutton
+>: Öppna ett nytt dokument.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Stäng</guibutton
+>: Stäng dokumentet.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>Definiera aktuellt dokument som 'Huvuddokument'</guibutton
+>: Det här används när du arbetar med flera filer. Genom att ha ett huvuddokument, kan du enklare arbeta med andra <literal role="extension"
+>.tex</literal
+>-filer som ingår i dokumentet. Om du använder projekt kan du också ställa in ett huvuddokument för hela projektet med <menuchoice
+><guimenu
+>Projekt</guimenu
+> <guisubmenu
+>Projektalternativ</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Snabbygg</guibutton
+>: Kompilerar all &latex;-källkod och visar automatiskt resultaten, om det inte finns fel i dokumentet.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Filbevakningsläge</guibutton
+>: Det här läget "bevakar" &DVI;-filen om den ändras, och startar inte en ny &okular;-session efter <guibutton
+>Snabbygg</guibutton
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visa loggfil</guibutton
+>: Visar <literal role="extension"
+>.log</literal
+>-filen, så att du kan upptäcka fel.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Föregående fel</guibutton
+>: Går bakåt genom <literal role="extension"
+>.log</literal
+>-filen och markerar fel i källkoden.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Nästa fel</guibutton
+>: Går framåt genom <literal role="extension"
+>.log</literal
+>-filen och markerar fel i källkoden.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Stoppa</guibutton
+>: Stoppar aktuellt verktyg.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Latex</guibutton
+>: Kör &latex; för det aktiva dokumentet.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visa DVI</guibutton
+>: Startar &DVI;-visaren.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVI till PS</guibutton
+>: Konverterar &DVI; till &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visa PS</guibutton
+>: Startar &PostScript;-visaren (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLatex</guibutton
+>: Kör &pdflatex; för det aktiva dokumentet.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visa PDF</guibutton
+>: Startar PDF-visaren.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVI till PDF</guibutton
+>: Konverterar &DVI; till PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PS till PDF</guibutton
+>: Konverterar PS till PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visa HTML</guibutton
+>: Visar &HTML; som skapats.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVI framåtsökning</guibutton
+>: Gå till sidan i &DVI;-filen som motsvarar nuvarande rad i editorn.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDF framåtsökning</guibutton
+>: Gå till sidan i PDF-filen som motsvarar nuvarande rad i editorn.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Om du tittar på redigeringsverktygsraden, ser du tre stora kombinationsrutor. De är konstruerade för att användaren snabbt ska kunna lägga till vissa vanliga funktioner i dokumentet. Den första kombinationsrutan används för att snabbt dela upp dokumentet i delar, kapitel, avsnitt och så vidare. Tillgängliga kommandon för att lägga till delar i &latex;-källkoden är:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>part</guilabel
+>: Högsta sektionsnivån i ett dokument.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Chapter</guilabel
+>: Inleder ett nytt kapitel.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>section</guilabel
+>: Skapar en ny sektion.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Subsection</guilabel
+>: Skapar en ny delsektion.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Subsubsection</guilabel
+>: Ett sekundärt avsnitt som ligger mellan avsnitt och stycke.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>paragraph</guilabel
+>: Skapar ett nytt stycke.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subparagraph</guilabel
+>: Skapar ett nytt delstycke.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Kombinationsrutan som heter <guilabel
+>Övrigt</guilabel
+>, används för att infoga objekt i dokumentet, såsom index, fotnoter och referenser. De tillgängliga kommandona är:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+>: Ett kommando som skapar en rubrik för ett kapitel, figur eller ett annat element.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+>: Skapar en post i indexet.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnote</guilabel
+>: Skapar en fotnot i dokumentet.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+>: Används för att hänvisa till en fördefinierad rubrik, som du kan välja i en kombinationsruta.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+>: Precis som <guilabel
+>ref</guilabel
+>, men hänvisar till en sida istället för ett strukturelement.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+>: Skapar en referens med data från en bibliografi.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>Kombinationsrutan <guilabel
+>Övrigt</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kombinationsrutan <guilabel
+>Övrigt</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>Kombinationsrutan <guilabel
+>Övrigt</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>Välja etikett för en referens</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Välja etikett för en referens</phrase>
+			</textobject>
+			<caption
+><para
+>Välja etikett för en referens</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>När <guilabel
+>cite</guilabel
+> används visas en kombinationsruta med bibliografiposter, men om du använder &bibtex; fungerar det bara om filen hör till ett projekt. Vid redigering av &bibtex;-filer rekommenderas användning av en specialiserad editor. Författaren har fått bra resultat med &kbibtex;. Du kan förstås också skriva &bibtex;-filen för hand inne i &kile;.</para>
+
+		<para
+>Den sista kombinationsrutan som heter <guilabel
+>tiny</guilabel
+>, används för att ställa in textens storlek. Du har möjlighet att ange huvudtextens storlek, fotnoters storlek och så vidare. Tillgängliga kommandon är:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>tiny</guilabel
+>: minst.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>scriptsize</guilabel
+>: mycket litet.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnotesize</guilabel
+>: mindre.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>small</guilabel
+>: litet.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>normalsize</guilabel
+>: normalt.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>large</guilabel
+>: stort.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Large</guilabel
+>: större.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>LARGE</guilabel
+>: ännu större.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>huge</guilabel
+>: större än stor.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Huge</guilabel
+>: störst.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>Komma igång</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>Skriva ett &latex;-dokument med &kile; för nybörjare</title>
+
+		<para
+>Användare av &kile; har två möjligheter när de påbörjar ett nytt dokument. De kan använda <guimenu
+>guiden</guimenu
+> för att påbörja dokumentet, välja vilken dokumenttyp de vill skapa, och alternativ som teckenstorlek, pappersstorlek och så vidare. Annars kan de skriva in koden för hand.</para>
+
+<programlisting
+>\documentclass[12pt]{article}
+\begin{document}
+        Här är en massa text kodad med \LaTeX.
+\end{document}</programlisting>
+
+		<para
+>Alla dokument i &latex; börjar med kommandot <userinput
+>\documentclass[optional argument]{klass}</userinput
+>, där klass anger dokumenttypen.</para>
+
+		<para
+>Genom att skriva in kodexemplet ovan från textrutan får du följande utmatning:</para>
+
+		<screenshot>
+			<screeninfo
+>Kompilerad text i &DVI;-utdata</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Kompilerad text i &DVI;-utdata</phrase>
+				</textobject>
+				<caption
+><para
+>Kompilerad text i &DVI;-utdata</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Hakparenteserna som följer kommandot <userinput
+>\documentclass</userinput
+> innehåller alternativen för kommandot. Alternativet <userinput
+>[12pt]</userinput
+> ställer in teckenstorleken för artikeln. Om du inte ställer in teckenstorleken i början, kan du ställa in den senare i texten.</para>
+
+		<para
+>När du väl har skrivit in kodexemplet i rutan ovan, måste du kompilera &latex;-källkoden. Det enklaste sättet du kan kompilera &latex; är att använda menyn <guimenu
+>Bygg</guimenu
+> eller knappen <guilabel
+>Snabbygg</guilabel
+>.</para>
+
+		<para
+><keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> är snabbtangenten för att kompilera din källkod.</para>
+
+		<para
+>Du måste spara källkoden innan du kan kompilera, &kile; gör det automatiskt åt dig.</para>
+
+		<para
+>Om dokumentet inte kompilerades, kontrollera loggen efter fel. När tangenten <guilabel
+>Snabbygg</guilabel
+> används, ska &okular;-visaren startas automatiskt. Om den inte gör det, titta på loggen.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>Omgivningar</title>
+
+		<para
+>En omgivning är ett textstycke som hanteras annorlunda från resten av dokumentet. Du skapar till exempel en rapport med teckenstorleken 12 punkter, men du behöver ändra teckenstorleken för några få meningar. Kommandona <userinput
+>\begin{omgivning}</userinput
+>, <userinput
+>\huge</userinput
+> och <userinput
+>\end{omgivning}</userinput
+>, låter dig tillfälligt ändra texten mellan omgivningskommandona så att den blir större än stor.</para>
+
+		<para
+>Ändringar gäller bara från <userinput
+>\begin{omgivning}</userinput
+> till <userinput
+>\end{omgivning}</userinput
+>. Det finns inga begränsningar för hur många ändringar du kan göra inne i en omgivning.</para>
+
+		<para
+>Det finns många funktioner du kan lägga till i dokumentet för att göra det mer läsbart och användarvänligt. Du kan lägga till funktioner som speciella teckensnitt, fetstil, kursivstil, understrykning, etc. i dokumentet, och kommandona avslutas antingen med <userinput
+>\end</userinput
+> eller med slutet på omgivningen.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: Det här kommandot gör texten kursiv, och gäller till koden kommer fram till ett <userinput
+>\end{emph}</userinput
+> eller en annan omgivning. För att kursivera ett ord i en mening, kan man använda syntaxen: Det här är <userinput
+>\emph{min}</userinput
+> mening.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{Jag gör texten mellan parenteserna till fetstil}</userinput
+>: Kommandot gör texten till fetstil.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\qoute</userinput
+>: För att skapa ett citat i dokumentet, inled det med <userinput
+>\begin{quote}</userinput
+> och avsluta det med <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: Centrerar texten.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: Skapar indragen text för en vers.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: Skapar en punktlista.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>Att använda &kile;</title>
+
+		<para
+>Nu när vi har givit dig en viss bakgrund om hur man skriver kod med &latex; taggspråk, visar vi hur ett dokument skapas steg för steg med användning av &kile;.</para>
+
+		<procedure>
+			<step
+><para
+>Starta &kile;.</para
+></step>
+			<step
+><para
+>Välj <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>Snabbstart</guimenuitem
+></menuchoice
+>, och välj därefter ett format och ställ in vad du önskar i guiden.</para
+></step>
+			<step
+><para
+>När guiden väl har lagt till text, gör några anpassningar för att få dokumentet mer läsbart. Lägg till minst ett citat, lite text med fetstil,kursivstil och en vers för att se skillnaden mellan kommandona.</para
+></step>
+			<step
+><para
+>Spara filen och ge den namnet <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>Bygg dokumentet med <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> eller knappen som heter <guilabel
+>Latex</guilabel
+>.</para
+></step>
+			<step
+><para
+>Välj <guibutton
+>Visa DVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>Kontrollera all din nya text.</para
+></step>
+			<step
+><para
+>När du är klar med att titta på dokumentet, klicka på knappen <guibutton
+>Visa editor</guibutton
+> eller tryck på <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> för att återgå till editorn om du använder den inbyggda visningen, eller stäng visningsfönstret om du använder separat visning.</para
+></step>
+		</procedure>
+
+		<para
+>Det är allt! Du har just skapat ditt första &latex;-dokument.</para>
+
+		<para
+>När du väl har skapat &DVI;-filen, kan du skriva ut dokumentet eller konvertera det till &PostScript; eller en PDF-fil om du vill. Roa dig med att experimentera!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>&DVI;-filer</title>
+
+		<para
+>&DVI; betyder <emphasis
+>DeVice Independent</emphasis
+> (enhetsoberoende). Filerna skapas av &tex; eller &latex; för att läsas av en drivrutin av någon typ på datorn. Det finns många typer av utmatning som kan användas med <literal role="extension"
+>.dvi</literal
+>, som en skrivare, PDF, &PostScript; eller datorns skärm.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>Visa en &DVI;-fil</title>
+
+			<para
+>Du har redan sett hur man visar en &DVI;-fil på skärmen genom att använda knappen <guibutton
+>Visa DVI</guibutton
+> i verktygsraden.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>Skriva ut en &DVI;-fil</title>
+
+			<para
+>För att skriva ut en &DVI;-fil kan du använda samma process som du tidigare använde för att skapa dokumentet (se <xref linkend="quick_using" role="select: title pageabbrv"/>). Vid steg 7, efter att ha klickat på <guibutton
+>Visa DVI</guibutton
+>, välj <menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Skriv ut</guimenuitem
+></menuchoice
+> i visaren, och om skrivaren är riktigt inställd, kommer du att kunna skriva ut &DVI;-filen.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>Konvertera &DVI;-filer</title>
+
+			<para
+>Verktygsraden ger möjlighet att konvertera en &DVI;-fil till andra format. När du väl har skapat en &DVI;-fil från din &latex;-källkod, kan du exportera den till formatet du vill ha med knapparna i verktygsraden.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>Sökning framåt mellan &kile; och &okular;</title>
+
+		<para
+>Funktionerna för sökning framåt låter dig direkt gå från editorn till motsvarande position i &DVI;- eller PDF-filen. </para>
+		<para
+>&kile; erbjuder en inställning för det här alternativet med alla &latex; binärfiler. Gå till <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guisubmenu
+>Anpassa Kile...</guisubmenu
+><guimenuitem
+>Verktyg</guimenuitem
+><guimenuitem
+>Bygg</guimenuitem
+></menuchoice
+> och välj alltid <guilabel
+>Modern</guilabel
+> inställning.</para>
+
+		<para
+>För att utföra en sökning framåt, placera markören på en rad i källkoden och klicka på <guilabel
+>Sökning framåt</guilabel
+> för att gå till motsvarande position i &DVI;- eller PDF-visarens fönster.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>Omvänd sökning mellan &kile; och &okular;</title>
+
+		<para
+>Omvänd sökning är en mycket användbar funktion när du skriver ett &latex;-dokument själv. Om allt är riktigt inställt, kan du klicka på &okular;s fönster med <mousebutton
+>vänster</mousebutton
+> musknapp medan &Shift; hålls nere. Därefter laddar &kile; &latex;-källfilen och går till rätt stycke. För att använda omvänd sökning, måste du kompilera &latex;-filen med inställningen <guilabel
+>Modern</guilabel
+>.</para>
+
+		<para
+>Omvänd sökning kan inte fungera om inte:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Källkodsfilen har kompilerats med lyckat resultat.</para
+></listitem>
+			<listitem
+><para
+>&okular; vet vilken editor du vill använda.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Med den här funktionen i &okular;, gör ett klick med vänster musknapp i &DVI;- eller PDF-dokumentet medan &Shift; hålls nere, att &kile; öppnar motsvarande &latex;-dokument och försöker gå till motsvarande rad. Kom ihåg att tala om för &okular; att &kile; ska användas som texteditor med &okular;s menyalternativ <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Anpassa Okular...</guimenuitem
+></menuchoice
+> (på sidan <guimenuitem
+>Editor</guimenuitem
+>).</para>
+
+		<screenshot>
+			<screeninfo
+>Anpassa &okular;</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Anpassa &okular;</phrase>
+			</textobject>
+			<caption
+><para
+>Anpassa &okular;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>Lösa upp fel</title>
+
+		<para
+>Om du försöker använda snabbygg, men &DVI;-visaren inte öppnas, är det stor chans att du har ett fel. Om du har ett fel, syns det i loggfilen eller meddelandefönstret, och en summering av felet ges.</para>
+
+		<para
+>Loggfilen förklarar orsaken till felet i din kod. I editorn kan du använda knapparna i verktygsraden som heter <guibutton
+>Föregående Latexfel</guibutton
+> och <guibutton
+>Nästa Latexfel</guibutton
+> för att gå mellan olika fel. Loggfilen anger alltid på vilken rad som felet uppstod. För att se raden där ett fel uppstod, klicka på felet i loggfönstret så går &kile; till felets rad.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>Påbörja ett nytt dokument</title>
+
+	<para
+>När du klickar på knapparna i verktygsraden för att påbörja ett nytt dokument, visas en dialogruta som frågar om vilken sorts mall du vill använda för att skriva dokumentet. Standardvalen är:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Tomt dokument</para
+></listitem>
+		<listitem
+><para
+>Artikel</para
+></listitem>
+		<listitem
+><para
+>Beamer</para
+></listitem>
+		<listitem
+><para
+>Bok</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>Brev</para
+></listitem>
+		<listitem
+><para
+>Rapport</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (från KOMA-skriptpaketet)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (från KOMA-skriptpaketet)</para
+></listitem>
+		<listitem
+><para
+>Scrlttr2 (från KOMA-skriptpaketet)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (från KOMA-skriptpaketet)</para
+></listitem>
+		<listitem
+><para
+>PDF</para
+></listitem>
+		<listitem
+><para
+>Xelatex</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Om du väljer <guilabel
+>Tomt dokument</guilabel
+> kan du antingen börja skriva dokumentet från början, eller använda guiden för att snabbt påbörja ett nytt dokument (se <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>Mallar</title>
+
+		<para
+>De som ofta använder &latex; har typiskt samma inledning för nästan alla dokument de skapar. Mallar kan skapas, sparas och laddas inne i &kile; för att göra det enklare att påbörja ett nytt dokument.</para>
+
+
+		<sect2>
+			<title
+>Skapa en ny mall</title>
+
+			<para
+>För att skapa en ny mall, måste du först antingen öppna en &tex;- eller &latex;-fil, eller påbörja en egen fil. &kile; kan skapa en mall från ett befintligt dokument genom att öppna önskat dokument och välja <menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Skapa mall från dokument</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Anpassa automatiska ersättningar</title>
+
+			<para
+>När ett nytt dokument skapas genom att välja en mall med <menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Ny</guimenuitem
+></menuchoice
+>, ersätts vissa teckenkombinationer med data som ditt namn eller teckenkodningen du använder. Dessa variabler kan ställas in under <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guisubmenu
+>Anpassa Kile...</guisubmenu
+><guimenuitem
+>Inställningar</guimenuitem
+><guilabel
+>Allmänt</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>När du skapar dina egna mallar är det användbart att veta vilka teckenkombinationer som ersätts med vilka mallvariabler:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: Den här strängen ersätts med variabeln författare.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: Den här strängen ersätts med variabeln dokumentklassalternativ. Typiskt används detta enligt följande: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: Om variabeln inmatningskodning är inställd till, låt oss säga <userinput
+>latin1</userinput
+>, ersätts strängen av <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>Skapa en mall från guiden</title>
+
+			<para
+>Det enklaste sättet att skapa en ny mall är att starta guiden, och därefter lägga till kommandon i editorn. När du väl har fått dokumentet som du vill ha det:</para>
+
+			<procedure>
+				<step
+><para
+>Spara filen.</para
+></step>
+				<step
+><para
+>Gå till <guimenu
+>Arkiv</guimenu
+>.</para
+></step>
+				<step
+><para
+>Välj <guimenuitem
+>Skapa mall från dokument</guimenuitem
+>.</para
+></step>
+				<step
+><para
+>Gör alla nödvändiga ändringar i mallen.</para
+></step>
+				<step
+><para
+>Skriv in ett namn på den nya mallen.</para
+></step>
+				<step
+><para
+>Klicka på <guibutton
+>Ok</guibutton
+> för att lägga till mallen i menyn.</para
+></step>
+			</procedure>
+
+			<para
+>Nästa gång du startar ett nytt dokument, kommer du kunna välja din anpassade mall istället för standardmallarna.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Skapa en mall från godtycklig fil</title>
+
+			<para
+>En mall kan skapas från vilken &latex;-fil som helst. Om du söker efter ett enkelt sätt att anpassa en mall, hämta en fil du tycker om på Internet, och följ samma steg som anges under <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>Du kan till exempel vilja skapa en fullständig A0-affisch. Sådana affischer visas ofta på vetenskapliga konferenser, och &latex; hjälper dig skapa en attraktiv affisch som väcker uppmärksamhet. Du kan hämta en mall för A0-affischer på <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
+>Jonathan Marchinis hemsida</ulink
+>, men många fler är tillgängliga. Kom ihåg att du behöver paketet <filename
+>a0poster</filename
+>, som normalt inte ingår i en vanlig &tex;-distribution. Ladda ner det <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>härifrån</ulink
+>, och placera det i samma katalog som din &latex;-fil.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>Ta bort en mall</title>
+
+			<para
+>För att ta bort en mall från &kile;, gör följande:</para>
+
+			<procedure>
+				<step
+><para
+>Gå till <menuchoice
+><guimenu
+>Arkiv</guimenu
+> <guimenuitem
+>Ta bort mall...</guimenuitem
+></menuchoice
+>.</para
+></step>
+				<step
+><para
+>En dialogruta visas där alla mallar listas. Välj en mall.</para
+></step>
+				<step
+><para
+>Klicka på <guilabel
+>Ok</guilabel
+>, så tas mallen bort.</para
+></step>
+			</procedure>
+
+			<para
+>Mallar markerade med en asterisk (*) kan inte tas bort utan lämpliga rättigheter.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>Redigera &latex;-dokument</title>
+
+	<para
+>Den interna editorn som &kile; använder är &kate;. &kate; är en texteditor skapad för programmerare, som innehåller möjlighet att läsa och färglägga många olika sorters textfiler, bland annat &latex; och &bibtex;. Du kan komma åt många av &kate;s alternativ direkt från menyn <guimenu
+>Verktyg</guimenu
+> i &kile;.</para>
+
+	 <para
+>För att lära dig mer om &kate;, och dess möjligheter, se <ulink url="help:/kate"
+>&kate;s handbok</ulink
+>. Användare av &kile; kan börja läsa i kapitlet <quote
+>Arbeta med &kate;-editorn</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>&latex;-referens</title>
+
+		<para
+>&kile; erbjuder en mycket praktisk taggreferens för &latex;, som du kan komma åt genom att välja <menuchoice
+><guimenu
+>Hjälp</guimenu
+> <guimenuitem
+>Latex-referens</guimenuitem
+></menuchoice
+>. Den innehåller en omfattande beskrivning av nästan alla kommandon som du kan använda i &latex; och deras syntax.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>Flytta markören</title>
+
+		<para
+>För att markera text, har du följande möjligheter:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Håll nere vänster musknapp och dra för att markera text.</para
+></listitem>
+			<listitem
+><para
+>Klicka en gång på ett ord för att flytta markören till en ny plats.</para
+></listitem>
+			<listitem
+><para
+>Klicka två gånger på ett ord för att välja hela ordet.</para
+></listitem>
+			<listitem
+><para
+>Klicka två gånger på ett ord och håll nere <keycombo
+>&Ctrl;</keycombo
+> för att markera hela &tex;-ordet. Det innebär att klicka på detta sätt på <userinput
+>\par</userinput
+> i <userinput
+>\par\bigskip</userinput
+> bara markerar \par.</para
+></listitem>
+			<listitem
+><para
+>Klicka tre gånger för att välja hela meningen.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Genom att hålla nere musknappen och dra över texten du vill välja, kopieras den automatiskt till klippbordet.</para>
+
+		<para
+>Genom att hålla nere &Shift; och använda piltangenterna kan du välja delar av källkoden i editorfönstret.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>Parenteser</title>
+
+		<para
+>Komplettering av parenteser är ett visuellt verktyg som editorn använder för att visa dig vilka parenteser som hör ihop. Om du öppnar en fil med filändelsen <literal role="extension"
+>.tex</literal
+>, och markerar vilken parentestyp som helst, som parenteser (), hakparenteser [] eller klamrar {}, så färgläggs matchande parentestyp i gult (den här standardfärgen kan ändras). Om du till exempel placerar markören på en klammer i <userinput
+>\section{Introduktion}</userinput
+>, ser du färgläggning av <userinput
+>\section{Introduktion}</userinput
+> med standardfärgen gult, som visar dig platsen för den inledande och avslutande klammern.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>Färgläggning</title>
+
+		<para
+>&kile; har möjlighet att leta efter och färglägga olika sorters kod. &latex;-kommandon skiljs till exempel från normal text, och även matematiska formler färgläggs med en annan färg.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>Punkter</title>
+
+		<para
+>Många guider kan infoga valfria punkter, en särskild sorts bokmärke i texten. Menyalternativen <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Punkter</guisubmenu
+></menuchoice
+> eller motsvarande snabbtangenter låter dig gå till nästa eller föregående punkt. Det markerar också punkten så att den automatiskt tas bort när du skriver in den första bokstaven.</para>
+
+		<screenshot>
+			<screeninfo
+>Punkter</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punkter</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Högerpil</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Nästa punkt</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Gå till nästa punkt i texten om det finns någon.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Vänsterpil</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Föregående punkt</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Gå till föregående punkt i texten om det finns någon.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>Markera</title>
+
+		<para
+>Redigering är förstås en av huvudaspekterna när du använder ett program som &kile;. Även om &kate; har stora möjligheter, lägger &kile; till vissa viktiga funktioner, som särskilt behövs för att skriva &latex;-källkod. &latex; behöver alltid en stor mängd omgivningar och grupper, så &kile; stöder mycket speciella kommandon för att markera dem. Under <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guisubmenu
+>Markera</guisubmenu
+></menuchoice
+> hittar du följande kommandon för att markera text:</para>
+
+		<screenshot>
+			<screeninfo
+>Redigera -> Markera objekt</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Redigera -> Markera objekt</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Omgivning (inne i)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera en omgivning utan taggarna. Om det här kommandot utförs när en omgivning redan är markerad, expanderar &kile; markeringen till den nästa utanförliggande omgivningen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Omgivning (utanför)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera en omgivning inklusive taggarna. Denna markering kan också expanderas med en andra användning av kommanot. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Tex-grupp (inne i)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera en &tex;-grupp innanför de omgivande klamrarna.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Tex-grupp (utanför)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera en &tex;-grupp inklusive de omgivande klamrarna.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Matematisk grupp</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Markera den nuvarande matematiska gruppen inklusive matematikkommandon.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Stycke</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera ett helt stycke, dvs. en grupp med textrader åtskilda på båda sidor av tomma rader. Ett stycke betyder inte bara kontinuerliga textrader, som i andra texteditorer. Den utökade betydelsen omfattar också tabeller, &latex;-kommandon och andra källkodsrader. Det enda viktiga för &kile; är att dessa sorters stycken är omgivna av två tomma rader.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>Rad</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera textraden på markörens nuvarande position.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Tex-ord</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Markera ordet under nuvarande markörposition. Markeringen har också en utökad mening, eftersom kommandot också kan markera &latex;-kommandon som börjar med ett bakstreck och dessutom kan ha en valfri asterisk i slutet.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>Välj &latex;-kommandon</title>
+
+		<para
+>&kile; har en utökad funktion för att välja &latex;-kommandon. Om du till exempel har skrivit</para>
+
+		<programlisting
+>text \bfseries\itshape mer text</programlisting>
+
+		<para
+>och dubbelklickar på ett av &latex;-kommandona, markeras båda. Men ofta vill du bara markera ett av två eller flera kommandon. Det kan göras med tangenten <keycombo
+>&Ctrl;</keycombo
+>. Du behöver bara trycka på <keycombo
+>&Ctrl;</keycombo
+>-tangenten, så markerar ett dubbelklick bara det önskade kommandot.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>Ta bort</title>
+
+		<para
+>För att ta bort delar av ett dokument kan du förstås markera dem, och därefter använda tangenten <keycombo
+><keycap
+>Delete</keycap
+></keycombo
+>. &kate; erbjuder också kommandot <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+> som tar bort hela raden. Men &kile; erbjuder ett snabbare sätt med sina egna borttagningskommandon. Under <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Ta bort</guisubmenu
+></menuchoice
+> hittar du följande kommandon för att ta bort text:</para>
+
+		<screenshot>
+			<screeninfo
+>Redigera -> Ta bort objekt</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Redigera -> Ta bort objekt</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Omgivning (inne i)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta bort en omgivning utan de omgivande taggarna.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Omgivning (utanför)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta bort en omgivning inklusive de omgivande taggarna.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Tex-grupp (inne i)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta bort en &tex;-grupp innanför de omgivande klamrarna.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Tex-grupp (utanför)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta bort en &tex;-grupp inklusive de omgivande klamrarna.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Matematisk grupp</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Ta bort den nuvarande matematiska gruppen inklusive matematikkommandon.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Stycke</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta bort ett helt stycke. Titta på kommandot <menuchoice
+><guisubmenu
+>Markera</guisubmenu
+><guimenuitem
+>Stycke</guimenuitem
+></menuchoice
+>, för att se hur ett stycke definieras i &kile;.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>Till radslut</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Ta bort texten från markörens nuvarande position till radens slut. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Tex-ord</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Ta bort ordet eller &latex;-kommandot på markörens nuvarande position.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>Omgivning</title>
+
+		<para
+>Det har redan nämnts att omgivningar spelar en central roll i &latex;. &kile; erbjuder alltså fem andra kommandon, för att göra arbetet med &latex; så enkelt som möjligt, i undermenyerna <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guisubmenu
+>Omgivning</guisubmenu
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Redigera -> Omgivningsobjekt</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Redigera -> Omgivningsobjekt</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Gå till start</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Kommandot går till början av nuvarande omgivning, var än den aktuella positionen är. Markören placeras direkt före omgivningens inledande tagg.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Gå till slut</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Kommandot går till slutet av nuvarande omgivning, var än den aktuella positionen är. Markören placeras direkt efter omgivningens avslutande tagg.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Matcha</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>När markören är placerad framför eller ovanför taggen <userinput
+>\begin{omgivning}</userinput
+>, flyttas den till motsatt ända av omgivningen och tvärtom.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Stäng</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>När du skriver en mängd omgivningstaggar inne i varandra, kan du förlora kontroll på alla omgivningarna. Det här kommandot avslutar den senast inledda omgivningen, så att ordningen i omgivningarnas struktur inte bryts.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>Stäng alla</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Det här stänger alla inledda omgivningar, inte bara den senaste omgivningen.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>&tex;-grupp</title>
+
+		<para
+>&kile; erbjuder också några specialkommandon för &latex;-grupper, som bestäms av parenteser <userinput
+>{...}</userinput
+>. I undermenyn <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Tex-grupp</guisubmenu
+></menuchoice
+> hittar du några viktiga kommandon, som motsvarar de från <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Omgivning</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>Redigera -> Tex-grupp</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Redigera -> Tex-grupp</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Gå till början</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Kommandot går till början av nuvarande grupp, var än den aktuella positionen är. Markören placeras direkt före den inledande parentesen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Gå till slut</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Kommandot går till slutet av nuvarande grupp, var än den aktuella positionen är. Markören placeras direkt efter den avslutande parentesen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Matcha</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>När markören är placerad framför eller efter en inledande parentes i en &tex;-grupp, flyttas den till motsatt ända av gruppen och vice versa.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Stäng</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Att skriva många parenteser för grupper inne i varandra kan vara hårt arbete. Kommandot avslutar den senast inledda gruppen, så att ordningen av &tex;-grupper inte bryts.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>Dubbla citationstecken</title>
+
+		<para
+>I &latex; används två enkla citationstecken som dubbla citationstecken. För att hjälpa dig att infoga dem effektivt, låter &kile; dig trycka på <keycap
+>"</keycap
+> för att infoga två inledande enkla citationstecken. Om du dessutom vill avsluta ett citat, måste du också trycka på <keycap
+>"</keycap
+>. &kile; är smart nog att känna igen denna situation och infoga två avslutande citationstecken för &latex;.</para>
+
+		<para
+>För att istället få ett verkligt dubbelt citationstecken, tryck två gånger på <keycap
+>"</keycap
+>.</para>
+
+		<para
+>Du kan aktivera eller inaktivera att automatiskt infoga inledande och avslutande dubbla citationstecken i <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+><guimenuitem
+>Latex</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Dubbla citationstecken</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dubbla citationstecken</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Om du dessutom inkluderar språkspecifika alternativ som <userinput
+>ngerman</userinput
+> eller <userinput
+>french</userinput
+>, kan du också använda tyska eller franska dubbla citationstecken. Många ytterligare språk är tillgängliga. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>Smart nyrad</title>
+
+		<para
+>Om du trycker på <keycombo
+>&Ctrl;<keycap
+>Retur</keycap
+></keycombo
+>, infogar &kile; en intelligent nyrad. Om din nuvarande position är inne i en listomgivning som <userinput
+>enumerate</userinput
+> eller <userinput
+>itemize</userinput
+>, infogar &kile; inte bara en nyrad, utan lägger också till kommandot <userinput
+>\item</userinput
+>.</para>
+
+		<para
+>Om du är inne i en tabellomgivning, avslutar &kile; aktuell rad med <userinput
+>\\</userinput
+>, följt av nyraden.</para>
+
+    <para
+>Om du är inne i en &latex;-kommentar, inleder &kile; nästa rad med <userinput
+>%</userinput
+>.</para>
+
+		<para
+>Ännu bättre är att &kile; är smart nog att stödja fördefinierade &latex;-omgivningar och användardefinierade omgivningar, som kan läggas till under <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Latex</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>Smart tabulator</title>
+
+		<para
+>Vissa användare tycker om att arrangera kolumner i tabellomgivningar och placera alla och-tecken <keycap
+>&amp;</keycap
+> under varandra. &kile; försöker stödja det. Om du trycker på <keycombo
+>&Alt;&Shift;<keycap
+>&amp;</keycap
+></keycombo
+>, tittar &kile; efter nästa tabulatortecken i raden ovanför. Även om detta tecken inte motsvarar tabulatorn, lägger &kile; till några mellanslag för att justera kolumnpositionen till nuvarande tabulator.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>Kodkomplettering</title>
+
+	<para
+>Även om &kate; erbjuder ett bra kompletteringsläge, utökar &kile; kodkomplettering för att stödja vissa speciella metoder för &latex;. Fem olika metoder är införlivade. Tre av dem fungerar på begäran, medan de två övriga är automatiska kompletteringslägen. Alla metoder kan ställas in att arbeta på mycket olika sätt med <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guimenuitem
+>Anpassa Kile...</guimenuitem
+></menuchoice
+>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>Automatisk komplettering av omgivning</title>
+
+		<para
+>När du påbörjar en ny omgivning genom att skriva <userinput
+>\begin{omgivning}</userinput
+>, lägger &kile; automatiskt till kommandot <userinput
+>\end{omgivning}</userinput
+>, med en rad för din text emellan.</para>
+
+		<para
+>Automatisk komplettering kan stängas av på sidan &latex; under <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guimenuitem
+>Anpassa Kile...</guimenuitem
+> <guimenuitem
+>Latex</guimenuitem
+><guilabel
+>Omgivningar</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Komplettering av en ekvationsomgivning</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Komplettering av en ekvationsomgivning</phrase>
+			</textobject>
+			<caption
+><para
+>Komplettering av en ekvationsomgivning</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>&latex;-kommandon</title>
+
+		<para
+>När du skrivit några bokstäver kan du aktivera kompletteringsläget för &latex;-kommandon och normala ord med <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Komplettera</guisubmenu
+><guimenuitem
+>(La)tex kommando</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo
+>&Ctrl;&Shift;<keycap
+>Mellanslag</keycap
+></keycombo
+>. &kile; läser först bokstäver från markörens nuvarande position åt vänster och stannar vid det första tecknet som inte är en bokstav eller vid ett bakstreck. Om mönstret börjar med ett bakstreck, går &kile; in i kompletteringsläget för &tex;- eller &latex;-kommandon. Annars går &kile; in i normalt ordläge, där du inte hittar några &latex;-kommandon. Beroende på valt läge, visas en kompletteringsruta. Du ser alla kommandon eller ord vars början matchar nuvarande mönster. Du kan navigera med piltangenterna i listan och välja en post med returtangenten eller ett dubbelklick med musen.</para>
+
+		<screenshot>
+			<screeninfo
+>Komplettering av ett Latex-kommando</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Komplettering av ett Latex-kommando</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>När du trycker på backstegstangenten, tas den sista bokstaven i mönstret bort, och kompletteringslistan kan växa. Å andra sidan, om du skriver en bokstav till utökar den mönstret och den synliga listan med ord kan minska.</para>
+
+		<para
+>Om du bestämmer dig för att inte välja något av förslagen, kan du lämna dialogrutan med Esc.</para>
+
+		<para
+>Du märker att alla kommandon skrivs med en kort beskrivning av deras parametrar. Beskrivningarna plockas förstås bort när du väljer ett kommando. Alternativt kan du låta &kile; infoga punkter på platserna, så att du enkelt kan hoppa till platserna med <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Punkter</guisubmenu
+><guimenuitem
+>Nästa punkt</guimenuitem
+></menuchoice
+> och infoga parametern du vill använda.</para>
+
+		<screenshot>
+			<screeninfo
+>Komplettering av ett Latex-kommando</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Komplettering av ett Latex-kommando</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Gå till <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+> <guilabel
+>Komplettera</guilabel
+></menuchoice
+> för att ställa in en eller flera av listorna. Du kan välja olika ordlistor för &tex;- och &latex;-kommandon och ordlisteläge för vanliga ord.</para>
+
+		<para
+>Om du väljer alternativet <guimenuitem
+>Visa Latex-kommandon</guimenuitem
+>, visas posterna i alla valda cwl-filer (komprimerade ordlistor) i en separat vy i &kile;s sidorad, för komplettering av &latex;-kommandon. Du ser vilka kommandon som är tillgängliga, och vilka parametrar och alternativ som kan eller måste anges för komplettering. Du kan också helt enkelt välja en post med ett musklick, så infogas den i dokumentet, med alla namngivna parametrar och alternativ borttagna.</para>
+
+		<screenshot>
+			<screeninfo
+>Latex kommandon i sidoraden</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Latex kommandon i sidoraden</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Eftersom varje vald ordlista visas i en egen separat vy, kan det bli för många vyer, så att &kile;s huvudfönster blir större än en liten bildskärm tillåter. Eftersom det ser mycket fult ut, arbetar &kile; med ett maximalt antal tillåtna vyer, som normalt är inställt till 10. Om värdet är för stort för din bildskärm, bör du minska det.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>Omgivningar</title>
+
+		<para
+><emphasis
+>Kommandoläget</emphasis
+> är inte användbart för kodkomplettering av omgivningar. Du måste alltid skriva in några bokstäver av <userinput
+>\begin</userinput
+>, och att aktivera kompletteringsläge ger en enorm lista med omgivningstaggar som resultat. Å andra sidan används omgivningar så ofta att &kile; erbjuder en särskild metod för kodkomplettering av omgivningar. Glöm den inledande taggen och skriv till exempel <userinput
+>al</userinput
+>.</para>
+
+		<para
+>När du anropar kompletteringsläget med <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Komplettera</guisubmenu
+><guimenuitem
+>Omgivning</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo
+>&Alt;&Shift;<keycap
+>Mellanslag</keycap
+></keycombo
+>, läggs den inledande taggen automatiskt till, och du ser <userinput
+>\begin{al}</userinput
+>. Efter den ändringen är kompletteringslistan mycket mindre nedskräpad.</para>
+
+		<screenshot>
+			<screeninfo
+>Komplettering av ett Latex-kommando</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Komplettering av ett Latex-kommando</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Markera nu en omgivning, så ser du att den automatiskt avslutas. Förutom det, om &kile; känner igen den som en listomgivning, infogas också den första taggen <userinput
+>\item</userinput
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Komplettering av ett Latex-kommando</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Komplettering av ett Latex-kommando</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Gå till <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+> <guilabel
+>Komplettera</guilabel
+></menuchoice
+> för att ställa in en eller flera av listorna. Metoden använder samma ordlistor som komplettering för &tex;- och &latex;-kommandon.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>Förkortningar</title>
+
+		<para
+>&kile; stöder användardefinierade listor med förkortningar, som ersätts av längre textsträngar på begäran . Titta på <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Komplettera</guilabel
+></menuchoice
+> för att ställa in en eller flera av dessa listor. För exemplet som ges här måste förkortningslistan i <filename
+>example.cwl</filename
+> väljas. I den filen hittar du till exempel posten <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>Skriv till exempel bara bokstaven <userinput
+>L</userinput
+>. Aktivera nu ordkompletteringens förkortningsläge med <menuchoice
+><guimenu
+>Redigera</guimenu
+><guisubmenu
+>Komplettera</guisubmenu
+><guimenuitem
+>Förkortning</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo
+>&Ctrl;&Alt;<keycap
+>Mellanslag</keycap
+></keycombo
+>, så ersätts bokstaven <userinput
+>L</userinput
+> av strängen <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>Komplettering av förkortningar stöder också nyrad <userinput
+>%n</userinput
+>, och <userinput
+>%C</userinput
+> för att placera markören, om dessa tecken förekommer i expansionstexten. Om du alltså har posten</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>i kompletteringsfilen, och utför komplettering av förkortningen, ser expansionen ut som nedan, där <userinput
+>x</userinput
+> visar den slutliga positionen för markören.</para>
+
+<programlisting
+>\begin{enumerate}
+        \item x
+\end{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>Förkortningar</title>
+
+			<para
+>Om du väljer <guimenuitem
+>Visa förkortningar</guimenuitem
+>, visas alla möjliga förkortningar med en vy i sidoraden. Du får alltså en god överblick av alla möjliga förkortningar.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>Automatiska kompletteringslägen</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>&latex;-kommandon</title>
+
+			<para
+>Du kan också aktivera automatisk komplettering för &latex;-kommandon. När en given tröskel av bokstäver (förval: 3) skrivs in, dyker ett fönster upp med en lista över alla &latex;-kommandon som matchar. Du kan välja ett av kommandona, eller ignorera fönstret och skriva fler bokstäver. Posterna i kompletteringsrutan ändras alltid och matchar det ord du för närvarande har skrivit.</para>
+
+			<para
+>Gå till <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Komplettera</guilabel
+></menuchoice
+> för att aktivera eller inaktivera läget, eller för att ändra tröskeln.</para>
+
+		<screenshot>
+			<screeninfo
+>Komplettering av en ekvationsomgivning</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Komplettering av en ekvationsomgivning</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>Dokumentord</title>
+
+			<para
+>Stora ordlistor är inte användbara i automatiskt kompletteringsläge. Men vi har märkt att många ord i ett dokument skrivs mer än en gång. &kile; erbjuder alltså komplettering av alla ord i dokumentet som användaren redan har skrivit. Du kan utföra kompletteringen manuellt, om du trycker på <keycombo
+>&Ctrl;<keycap
+>Mellanslag</keycap
+></keycombo
+>. Observera att metoden skiljer sig från kompletteringsmetoden för &latex;-kommandon.</para>
+
+			<para
+>Om du vill aktivera eller inaktivera läget, gå till <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Editor</guimenuitem
+> <guimenuitem
+>Redigering</guimenuitem
+><guilabel
+>Automatisk komplettering</guilabel
+></menuchoice
+>. I dialogrutan kan du ställa in om kompletteringsläge för ord i dokumentet ska vara aktiverat Det finns också ytterligare en metod för automatisk komplettering, där en kompletteringsruta dyker upp när en viss tröskel nås.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>Skriva egna kompletteringsfiler</title>
+
+    <para
+>Den senaste specifikationen av filformatet för kompletteringsfiler finns i <ulink url="https://commits.kde.org/kile?path=README.cwl"
+>specifikationen av CWL-filformatet</ulink
+>. </para>
+
+		<para
+>Kompletteringsfiler kan installeras i en användares hemkatalog i underkatalogen <filename
+>~/.kde/share/apps/kile/complete/&lt;typ&gt;/</filename
+>, där <parameter
+>&lt;typ&gt;</parameter
+> antingen är <constant
+>abbreviation</constant
+>, <constant
+>dictionary</constant
+> eller <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>Guider och dialogrutor</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>Snabbstartsguide</title>
+
+		<para
+>Den här guiden har redan beskrivits i avsnittet <xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>Infoga grafik</title>
+
+		<para
+>Dialogrutan <guilabel
+>Infoga grafik</guilabel
+> gör det så enkelt som möjligt att infoga grafik. Du hittar den via menyraden i <menuchoice
+><guimenu
+>LaTeX</guimenu
+> <guimenuitem
+>Infoga bild</guimenuitem
+></menuchoice
+>. Ta gärna en titt på <xref linkend="build_graphics" role="select: title pageabbrv"/> och <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> för att få en översikt av några grundläggande fakta rörande grafikformat.</para>
+
+		<screenshot>
+			<screeninfo
+>Infoga element från grafik</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Infoga element från grafik</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>Välj en grafikfil. Det kan vara en JPEG-fil, PNG-fil, PDF-fil, EPS-fil eller till och med en EPS-fil komprimerad med zip eller gzip. Om du har installerat <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> och dessutom ställt in &kile; att använda det (<menuchoice
+><guimenu
+>Inställningar</guimenu
+><guimenuitem
+>Anpassa Kile...</guimenuitem
+> <guimenuitem
+>Latex</guimenuitem
+> <guilabel
+>Grafik</guilabel
+></menuchoice
+>), visas grafikens höjd och bredd automatiskt. Om &imagemagick; kan bestämma upplösningen, visas också grafikens storlek i centimeter.</para
+></step>
+
+		<step
+><para
+>Bestäm om bilden ska vara centrerad på sidan.</para
+></step>
+
+		<step
+><para
+>Ett annat exempel: Om du anger kommandot <userinput
+>\graphicspath</userinput
+> som:</para>
+
+		<para
+>Normalt måste grafikfiler finnas i samma katalog som ditt huvuddokument. Det är dock möjligt att placera dem i andra kataloger för att göra saker och ting snyggare. Utan kommandot <userinput
+>\graphicspath</userinput
+> skulle &kile; inkludera sökvägen till grafikfilen. Men om du använder <userinput
+>\graphicspath</userinput
+> i inledningen, som:</para>
+
+		<programlisting
+>\graphicspath{{/sökväg/till/min/grafik}{annan/sökväg/till/mer/grafik}}</programlisting>
+
+		<para
+>och markerar alternativet, använder &kile; bara grafikfilens basnamn.</para>
+
+		<para
+>Ett annat exempel: Om du anger kommandot <userinput
+>\graphicspath</userinput
+> som:</para>
+
+		<programlisting
+>\graphicspath{{./}{kamera/}{bilder/}}</programlisting>
+
+		<para
+>söker &latex; i aktuell katalog, därefter i <filename
+>kamera</filename
+> och till sist i <filename
+>bilder</filename
+> för att hitta din grafikfil.</para
+></step>
+
+		<step
+><para
+>Om du antingen väljer bredd eller höjd, skalas hela grafiken proportionellt. Om du ställer in två värden samtidigt för bredd och höjd, kan bredd och höjd skalas med olika faktorer, och det kanske inte är vad du vill. Se också informationen längst upp i dialogrutan för att få reda på grafikens originalstorlek.</para
+></step>
+
+		<step
+><para
+>Ange en vinkel som grafiken ska roteras moturs.</para
+></step>
+
+		<step
+><para
+>Information om omgivande ruta ställs automatiskt in när du väljer en grafikfil. Informationen behövs bara när du arbetar med traditionell &latex;-grafik och punktavbildad grafik. Se beskrivningen av <link linkend="build_epsgraphics"
+>EPS-grafik</link
+>. </para>
+
+		<para
+>Om &latex; behöver en omgivande ruta, och du inte vill skapa en bb-fil, stöder &kile; det här alternativet. Å andra sidan ger &pdflatex; en varning när du vill inkludera png- eller jpg-grafik tillsammans med alternativet. Den här kryssrutan låter dig aktivera eller inaktivera alternativet med omgivande ruta.</para
+></step>
+
+		<step
+><para
+>Skala bilden med önskad skalfaktor, t.ex. 0,5 för att reducera storleken till hälften, eller 2 för att dubbla den. När du använder det här alternativet behöver du inte ange bildens bredd och höjd.</para
+></step>
+
+		<step
+><para
+>Under fliken <guilabel
+>Trimma bild</guilabel
+> kan du beskära din bild i alla fyra riktningar.</para
+></step>
+
+		<step>
+		  <para
+>Slutligen kan du ange om du vill bädda in bilden i en figuromgivning. När du vill att texten ska omsluta figuren, använd omgivningen wrapfigure istället. </para>
+			<note>
+				<para
+>När du väljer omgivningen wrapfigure behöver du inkludera paketet wrapfig i inledningen.</para>
+			</note>
+		  <para
+>I båda fall kan du infoga en rubrik och en etikett. Det är en god idé att lägga till olika prefix för varje typ av etikett. Det är vanligt att använda prefixet <userinput
+>fig:</userinput
+> för bilder. </para>
+		</step>
+
+		<step
+><para
+>Om du väljer figuromgivningen kan du välja var du helst vill att &latex; ska placera figuren. </para
+></step>
+		<step>
+		  <para
+>I omgivningen wrapfigure kan du:</para>
+		  <substeps>
+		    <step
+><para
+>Välja en placeringsregel för figuren och bestämma om figuren ska flyta eller inte. I ett tvåsidigt dokument kan du ange om figuren ska vara på sidans inre eller yttre kant. </para
+></step>
+		    <step
+><para
+>Ange i hur många avkortade rader av texten som placeras längs med figuren. Om du lämnar alternativet tomt kommer &latex; bestämma det själv efter bästa förmåga. </para
+></step>
+		    <step
+><para
+>Ange ett överdrag till den valda sidan. Det här är särskilt användbart när du har kolumner i ditt dokument och vill att en figur ska sträcka sig över mer än bara en kolumn, eller om du vill ha avkortad text på båda sidor om figuren. </para
+></step>
+		    <step
+><para
+>Välj en bredd för figuren. Den bör vara lite större än bildens egentliga bredd, så att det finns lite tomt utrymme mellan figuren och texten. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>Fält och tabeller</title>
+
+		<para
+>En av de tråkigaste uppgifterna man kan göra i &latex; är att skriva en matris eller tabellomgivning. Man måste hålla reda på alla element, försäkra sig om att omgivningen är riktigt inmatad, och att allt finns där det är meningen att det ska vara. Bra indentering hjälper till, men det finns ett enklare sätt: Använd &kile;s menyalternativ <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>Fält</guimenuitem
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Guide</guimenu
+> <guimenuitem
+>Tabell</guimenuitem
+></menuchoice
+>. Då får du ett inmatningsformulär av matristyp som du enkelt kan fylla i med dina värden. Dialogrutan erbjuder också inställningar för att typsätta tabellmaterialet.</para>
+
+		<screenshot>
+			<screeninfo
+>Infoga en tabellomgivning</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Infoga en tabellomgivning</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Genom att använda verktygsraden längst upp i dialogrutan kan du ställa in en cells <userinput
+>align</userinput
+> (justering), definiera en viss <userinput
+>font style</userinput
+> (teckenstil), <userinput
+>join</userinput
+> (sammanfoga) och <userinput
+>split</userinput
+> (dela) celler, välja <userinput
+>border</userinput
+> (kant), samt ange <userinput
+>color</userinput
+> (färg) för bakgrund och tecken. Allra längst till höger finns knappen <userinput
+>Klistra in</userinput
+>. Med denna knapp kan du infoga en tabell från klippbordet i dialogrutan, vilket låter dig kopiera och klistra in tabeller från exempelvis ett kalkylprogram. </para>
+
+		<para
+>Nedan kan du välja hur många rader och kolumner du vill ha, och du kan finjustera några fler detaljer rörande ditt fält: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Med alternativet <guilabel
+>Namn</guilabel
+> kan du vilja vilken omgivning som ska användas för ditt fält eller tabellmaterial. </para
+></listitem>
+			<listitem
+><para
+>Du kan välja vertikal celljustering med alternativet <guilabel
+>Parameter</guilabel
+>. Det är bara aktiverat för omgivningar som stöder funktionen. </para
+></listitem>
+			<listitem
+><para
+>Om den finns i den valda omgivningen kan du välja <guilabel
+>använd version med asterisk</guilabel
+>. När du väljer alternativet måste du också ange en <guilabel
+>tabellbredd</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Tabeller ser ibland bättre ut när du väljer alternativet <guilabel
+>Använd paketet booktabs</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Du kan förstås också <guilabel
+>Centrera</guilabel
+> hela fältet. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Infoga punkter</guilabel
+> hjälper till när du vill fylla i innehållet i editorn. Med alternativet markerat kommer &kile; infoga platsmarkörer för punkter för varje element i fältet. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Alternativet <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>Tabulering</guimenuitem
+></menuchoice
+> visar en enkel meny för att ställa in en tabuleringsomgivning. Den låter dig enkelt ange antal rader och kolumner, och önskad separation.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>Infoga flytande element</title>
+
+	  <para
+>&kile; hjälper dig infoga flytande element. Med guiden <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>Flytande</guimenuitem
+></menuchoice
+> är det mycket enkelt att skapa en ny figur- eller tabellomgivning. </para>
+
+	  <screenshot>
+		<screeninfo
+>Infoga ett flytande element</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Infoga ett flytande element</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>För att infoga ett nytt flytande element, följ bara dessa steg: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>Välj om du vill infoga en figur eller en tabell. </para>
+	       </step>
+	       <step>
+		 <para
+>Välj dina placeringsregler. </para>
+	       </step>
+	       <step>
+		 <para
+>Skriv in ett namn på det flytande elementet. </para>
+	      </step>
+	      <step>
+		<para
+>Skriv in en etikett för det nya flytande elementet. &kile; kommer automatiskt föreslå ett passande prefix, t.ex. "fig:" för figurer och "tab:" för tabeller. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+><phrase
+>Infoga en matematikomgivning</phrase
+></title>
+
+	  <para
+>Att minnas hur alla olika matematikelementen fungerar kan vara riktigt frustrerande. &kile; kan förstås stå för magin här: <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>Matematik</guimenuitem
+></menuchoice
+></para>
+
+	  <screenshot>
+		<screeninfo
+>Infoga ett matematikelement</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Infoga ett matematikelement</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>Alternativ: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>Namn:</guilabel
+> Välj den typ av matematikelement du vill skapa.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Utan numrering:</guilabel
+> Det här kan stänga av numrering för numrerade element, som ekvationer eller justeringar.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Mellanrumskommando för att separera grupper:</guilabel
+> I en omgivning som stöder flera grupper som alignat kan du ange en mellanrumsseparator när du har mer än en grupp. Du kan ange vilket mellanrumskommando som helst här, bara det finns i matematikläge, t.ex. \quad. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Vanlig tabulator:</guilabel
+> Välj den tabulator som ska användas. &kile; bör automatiskt välja den bästa åt dig.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Matematikvisningsläge:</guilabel
+> För omgivningar som matriser eller fält kan du välja i vilken matematikomgivning din matematiska text ska visas. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Använd punkter:</guilabel
+> Med alternativet markerat kommer &kile; infoga platsmarkörer för varje element i din matematiska text.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>&PostScript;-verktyg</title>
+
+		<para
+>PS-filer är inte så populära som PDF-filer, men är en utmärkt grund för behandling och omflyttning av sidor. Om du behöver PDF-utmatning, kan du arrangera om sidor med några &PostScript;-verktyg, och därefter konvertera till PDF med <command
+>ps2pdf</command
+>.</para>
+
+		<para
+><emphasis
+>Postscript-guiden</emphasis
+> i <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>Postscript-verktyg</guimenuitem
+></menuchoice
+> föreslår de populäraste omändringarna, men du har frihet att välja själv. Arbetet utförs av programmen <command
+>pstops</command
+> och <command
+>psselect</command
+>, som du hittar i de flesta distributioner i paketet <userinput
+>psutils</userinput
+>. Om ett av programmen inte är tillgängligt, är inte motsvarande post synlig.</para>
+
+		<screenshot>
+			<screeninfo
+>Dialogrutan Postscript-verktyg</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Dialogrutan Postscript-verktyg</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Välj först indatafil. Om &kile; hittar en PS-fil som motsvarar det nuvarande huvuddokumentet, är den redan ifylld som indatafil, men du har också frihet att välja en annan fil. Välj därefter utdatafil, och välj en av uppgifterna. Till sist måste du välja om du bara vill göra konverteringen, eller också starta &okular; för att titta på resultatet.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>1 A5-sida + tom sida --> A4</term>
+		<listitem
+><para
+>Kombinera en A5-sida med en tom sida på en A4-sida. Så fort två A5-sidor kombineras, roteras de 90 grader och arrangeras på A4-sidan med liggande format.</para>
+		<screenshot>
+			<screeninfo
+>A5 + tom sida</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + tom sida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A5-sida + duplikat --> A4</term>
+		<listitem
+><para
+>Placera en A5-sida och ett duplikat tillsammans på en A4-sida.</para>
+		<screenshot>
+			<screeninfo
+>duplicera A5-sidor</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Duplicera en A5-sida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A5-sidor --> A4</term>
+		<listitem
+><para
+>Placera två på varandra följande A5-sidor tillsammans på en A4-sida.</para>
+		<screenshot>
+			<screeninfo
+>Kombinera två A5-sidor</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kombinera två A5-sidor</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A5 liggande sidor --> A4</term>
+		<listitem
+><para
+>Placera två på varandra följande liggande A5-sidor tillsammans på en A4-sida.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 A5-sidor --> A4</term>
+		<listitem
+><para
+>Kombinera fyra på varandra följande A5-sidor tillsammans på en A4-sida. A5-sidorna måste skalas med faktorn 0,7 för att få plats på sidan.</para>
+		<screenshot>
+			<screeninfo
+>4 A5-sidor --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>4 A5-sidor --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A4-sida + tom sida --> A4</term>
+		<listitem
+><para
+>Kombinera en A4-sida med en tom sida på en A4-sida. Så fort två A4-sidor kombineras på en A4-resultatsida, måste de skalas med faktorn 0,7 och arrangeras med liggande format.</para>
+		<screenshot>
+			<screeninfo
+>1 A4-sida + tom sida --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 A4-sida + tom sida --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 A4-sida + duplikat --> A4</term>
+		<listitem
+><para
+>Placera en A4-sida och ett duplikat tillsammans på en A4-sida.</para>
+		<screenshot>
+			<screeninfo
+>1 A4-sida + duplikat --> A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 A4-sida + duplikat --> A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A4-sidor --> A4</term>
+		<listitem
+><para
+>Placera två på varandra följande A4-sidor tillsammans på en A4-sida.</para>
+		<screenshot>
+			<screeninfo
+>Kombinera två A4-sidor</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kombinera två A4-sidor</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 A4 liggande sidor --> A4</term>
+		<listitem
+><para
+>Placera två på varandra följande liggande A4-sidor tillsammans på en A4-sida.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>välj jämna sidor</term>
+		<listitem
+><para
+>Välj alla jämna sidor i ett dokument.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>välj udda sidor</term>
+		<listitem
+><para
+>Välj alla udda sidor i ett dokument</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>välj jämna sidor (omvänd ordning)</term>
+		<listitem
+><para
+>Välj alla jämna sidor i ett dokument och vänd på ordningen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>välj udda sidor (omvänd ordning)</term>
+		<listitem
+><para
+>Välj alla udda sidor i ett dokument och vänd på ordningen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>vänd alla sidor</term>
+		<listitem
+><para
+>Vänd alla sidor i ett dokument.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>kopiera alla sidor (sorterade)</term>
+		<listitem
+><para
+>Kopiera alla sidor i ett dokument. Du måste välja antal sorterade kopior.</para>
+		<screenshot>
+			<screeninfo
+>Kopiera alla sidor (sorterade)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kopiera alla sidor (sorterade)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>kopiera alla sidor (osorterade)</term>
+		<listitem
+><para
+>Kopiera alla sidor i ett dokument. Du måste välja antal osorterade kopior.</para>
+		<screenshot>
+			<screeninfo
+>Kopiera alla sidor (osorterade)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Kopiera alla sidor (osorterade)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: välj parameter</term>
+		<listitem
+><para
+>Det finns många väljare för &PostScript;-verktygen <command
+>pstops</command
+> och <command
+>psselect</command
+>. Om du vill ha en mycket speciell, kan du starta <command
+>pstops</command
+> med en egen väljare. Läs i manualen om alla tillgängliga väljare.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: välj parameter</term>
+		<listitem
+><para
+>Du kan starta <command
+>psselect</command
+> med en egen väljare. Läs i manualen om alla tillgängliga väljare.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>PDF-verktyg</title>
+
+		<para
+>Många betraktar PDF-dokument som färdiga filer, som inte kan modifieras. Men det är inte sant, eftersom det finns utmärkta verktyg</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>för att hantera och arrangera om sidor</para
+></listitem>
+		<listitem
+><para
+>för att läsa och uppdatera dokumentinformation</para
+></listitem>
+		<listitem
+><para
+>för att läsa eller ändra vissa rättigheter</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>i ett befintligt PDF-dokument.</para>
+
+		<para
+>&kile;s <emphasis
+>PDF-guide</emphasis
+> under <menuchoice
+><guimenu
+>Guide</guimenu
+><guimenuitem
+>PDF-verktyg</guimenuitem
+></menuchoice
+> använder två olika metoder för att hantera och arrangera om PDF-dokument:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex;-paketet <command
+>pdfpages</command
+> vilket ingår i alla distributioner av &latex;. <command
+>pdfpages</command
+> fungerar inte med krypterade sidor.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+>, som är ett utmärkt kommandoradsverktyg för att göra vardagliga saker med PDF-dokument (se <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>PDF-verktygslådan</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Om något av dessa hjälpverktyg, <command
+>pdfpages</command
+> eller <command
+>pdftk</command
+> inte är tillgängligt i systemet, är motsvarande alternativ inte synliga. Kom dessutom ihåg att bara <command
+>pdftk</command
+> fungerar med krypterade filer.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>Arrangera om</title>
+
+			<para
+>Om &kile;s PDF-guide anropas, startar med registerkortet <userinput
+>Arrangera om</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Dialogrutan PDF-verktyg</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Dialogrutan PDF-verktyg</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Välj först indatafil. Om &kile; hittar en PDF-fil som motsvarar det nuvarande huvuddokumentet, är den redan ifylld som indatafil, men du har också frihet att välja en annan fil. Välj därefter utdatafil eller att skriva över den befintliga PDF-filen, och välj en av uppgifterna. Till sist måste du välja om du bara vill göra konverteringen, eller också starta visaren (t.ex. &okular;) för att titta på resultatet.</para>
+
+			<para
+>Om PDF-filen är krypterad, fungerar bara <command
+>pdftk</command
+> och dokumentets lösenord måste anges för att utföra uppgifter.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>1 sida + tom sida --> A4</term>
+			<listitem
+><para
+>Kombinera en sida med en tom sida på en A4-sida. Så fort två A5-sidor kombineras, roteras de 90 grader och arrangeras på A4-sidan med liggande format.</para>
+			<screenshot>
+				<screeninfo
+>A5 + tom sida</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + tom sida</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Så fort två A4-sidor kombineras, skalas de, roteras 90 grader och arrangeras på A4-sidan med liggande format.</para>
+			<screenshot>
+				<screeninfo
+>A4 + tom sida --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + tom sida</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>1 sida + duplikat --> A4</term>
+			<listitem
+><para
+>Placera en sida och ett duplikat tillsammans på en A4-sida.</para>
+			<screenshot>
+				<screeninfo
+>Duplicera en sida</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Duplicera en sida</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Om sidan som ska dupliceras har A4-storlek, kommer den att skalas för att passa på en sida.</para>
+			<screenshot>
+				<screeninfo
+>Duplicera en sida</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Duplicera en sida</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 sidor --> A4</term>
+			<listitem
+><para
+>Kombinera två på varandra följande sidor tillsammans på en A4-sida. Så fort två A5-sidor kombineras, roteras de 90 grader och arrangeras på en A4-sida med liggande format.</para>
+			<screenshot>
+				<screeninfo
+>Kombinera två A5-sidor</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kombinera två A5-sidor</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Så fort två A4-sidor kombineras, skalas de, roteras 90 grader och arrangeras på A4-sidan med liggande format.</para>
+			<screenshot>
+				<screeninfo
+>Kombinera två A4-sidor</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kombinera två A4-sidor</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 sidor (liggande) --> A4</term>
+			<listitem
+><para
+>Placera två på varandra följande liggande sidor tillsammans på en A4-sida.</para>
+			<screenshot>
+				<screeninfo
+>Kombinera två sidor (med liggande orientering)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kombinera två sidor (med liggande orientering)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 sidor --> A4</term>
+			<listitem
+><para
+>Kombinera fyra på varandra följande sidor tillsammans på en A4-sida. Sidorna måste skalas för att få plats på sidan.</para>
+			<screenshot>
+				<screeninfo
+>4 sidor --> A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>4 sidor --> A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 sidor (liggande) --> A4</term>
+			<listitem
+><para
+>Kombinera fyra på varandra följande liggande sidor tillsammans på en A4-sida. Sidorna måste skalas för att få plats på sidan.</para>
+			<screenshot>
+				<screeninfo
+>Kombinera fyra sidor (med liggande orientering)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Kombinera fyra sidor (med liggande orientering)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>välj jämna sidor</term>
+			<listitem
+><para
+>Välj alla jämna sidor i ett dokument.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>välj udda sidor</term>
+			<listitem
+><para
+>Välj alla udda sidor i ett dokument</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>välj jämna sidor (omvänd ordning)</term>
+			<listitem
+><para
+>Välj alla jämna sidor i ett dokument och vänd på ordningen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>välj udda sidor (omvänd ordning)</term>
+			<listitem
+><para
+>Välj alla udda sidor i ett dokument och vänd på ordningen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>vänd alla sidor</term>
+			<listitem
+><para
+>Vänd alla sidor i ett dokument.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>avkoda en fil</term>
+			<listitem
+><para
+>Om PDF-filen är krypterad, kan du avkoda den.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>välj sidor</term>
+			<listitem
+><para
+>Lägg till en kommaseparerad lista med sidor eller sidintervall, t.ex. 1,4-7,9. Bara dessa sidor kommer att ingå i den resulterande PDF-filen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>ta bort sidor</term>
+			<listitem
+><para
+>Lägg till en kommaseparerad lista med sidor eller sidintervall, som ska tas bort från den valda PDF-filen.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>använd ett vattenmärke i bakgrunden</term>
+			<listitem
+><para
+>Lägger till ett PDF-vattenmärke i bakgrunden av en enstaka PDF-indatafil. Guiden använder bara den första sidan från PDF-filen med bakgrunden och lägger till den på varje sida i PDF-indatafilen. Sidan skalas och roteras efter behov för att passa på indatasidan.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>använd en bakgrundsfärg</term>
+			<listitem
+><para
+>Inför en bakgrundsfärg på alla sidor i det aktuella dokumentet. Det kan bara göras en gång, eftersom den andra färgen läggs bakom den första och därmed inte är synlig.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>använd en förgrundsstämpel</term>
+			<listitem
+><para
+>Lägger till en förgrundsstämpel över PDF-dokumentets sidor. Guiden använder bara den första sidan från PDF-filen med stämpeln och lägger till den på varje sida i PDF-indatafilen. Sidan skalas och roteras efter behov för att passa på indatasidan. Det fungerar bäst om PDF-sidan har en genomskinlig bakgrund.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: välj parameter</term>
+			<listitem
+><para
+>Du kan starta <command
+>pdftk</command
+> med en egen väljare. Läs i manualen om alla tillgängliga väljare.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: välj parameter</term>
+			<listitem
+><para
+>Du kan starta <command
+>pdfpages</command
+> med en egen väljare. Läs i manualen om alla tillgängliga väljare.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>Egenskaper</title>
+
+			<para
+>Inställning, tillägg, ändring och borttagning av egenskaper är bara möjligt om <command
+>pdftk</command
+> är installerat och &kile; dessutom kompilerades med biblioteket <userinput
+>libpoppler</userinput
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Dialogrutan PDF-egenskaper</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Dialogrutan PDF-egenskaper</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Traditionellt innehåller PDF-metadata dokumentets titel, författare, ämne, nyckelord, skapare, producent och datum för det skapades och senast ändrades.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>Rättigheter</title>
+
+			<para
+>Dessutom är det bara möjligt att ställa in, ändra och ta bort rättigheter om <command
+>pdftk</command
+> är installerat.</para>
+
+			<screenshot>
+				<screeninfo
+>Dialogrutan PDF-rättigheter</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Dialogrutan PDF-rättigheter</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Ett lösenord är nödvändigt för att lägga till eller ändra dokumentens inställningar. Dessutom utförs PDF-kryptering för att låsa filens innehåll med lösenordet, eller upprätthålla mindre restriktioner som författaren infört. Författaren kan alltså tillåta eller förbjuda:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>utskrift av sidor</para
+></listitem>
+			<listitem
+><para
+>ändring av sidor</para
+></listitem>
+			<listitem
+><para
+>kopiering av text och grafik från sidor</para
+></listitem>
+			<listitem
+><para
+>ändring eller tillägg av kommentarer</para
+></listitem>
+			<listitem
+><para
+>att fylla i formulärfält med data</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Att ändra rättigheter gör alltid att kryptering utförs som hör ihop med 128-bitars säkerhet i <userinput
+>Acrobat</userinput
+> 5 och 6, och kräver också ett lösenord.</para>
+
+			<para
+>Kom dock alltid ihåg: kryptering och ett lösenord ger inte någon riktig säkerhet för PDF. Innehållet är krypterat, men nyckeln är känd. Det bör mer betraktas som en artig men bestämd begäran om att respektera författarens önskemål.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>Dokumentstatistik</title>
+
+		<para
+>Statistikdialogrutan i <menuchoice
+><guimenu
+>Arkiv</guimenu
+><guimenuitem
+>Statistik</guimenuitem
+></menuchoice
+> ger dig en statistisk översikt av en markering, ett dokument eller ett helt projekt. Den omfattar antal ord, kommandon och omgivningar i &latex; och innehåller också antalet tecken av varje typ.</para>
+
+		<para
+>Statistikvärdena kan kopieras som text eller en snyggt formaterad &latex;-tabell till klippbordet. </para>
+		<para
+>När du markerar text och öppnar statistikdialogrutan får du statistiken för texten som för närvarande är markerad. Om du öppnar dialogrutan utan att ha markerat något visas statistik för alla öppna filer. Om du vill ha statistik för hela projektet kan du använda <menuchoice
+><guimenu
+>Projekt</guimenu
+><guisubmenu
+>Öppna alla projektfiler</guisubmenu
+></menuchoice
+> som ett snabbt och enkelt sätt att öppna alla källfiler i projektet.</para>
+
+		<para
+>Ett varningens ord måste sägas om noggrannheten hos värdena. En del logik för att få en bra uppskattning har inkluderats, t.ex. ger K\"old ett ord och ett kommando, med fyra respektive två tecken. Det finns dock andra kombinationer där delar av kommandon räknas som ord och tvärtom. Man bör också tänka på att algoritmen utvecklades och provades med språk som liknar engelska eller tyska. Ta alltså inte värdena för givet. Om du måste skapa en rapport med ett exakt antal ord eller tecken, gör några försök för att se om &kile;s noggrannhet uppfyller dina behov.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>Specialtaggar i &latex;</title>
+
+	<sect1 id="latex_library">
+		<title
+>Använda &latex;-taggbibliotek</title>
+
+		<para
+>&latex; har tusentals taggar för symboler och specialtecken. Det enklaste sättet att infoga ett specialtecken är att använda menyn i sidoraden, till vänster om redigeringsfönstret.</para>
+
+		<screenshot>
+			<screeninfo
+>Sidoradens meny</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Sidoradens meny</phrase>
+			</textobject>
+			<caption
+><para
+>Sidoradens meny</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>Följande typer är tillgängliga:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Oftast använda</para
+></listitem>
+			<listitem
+><para
+>Relationer</para
+></listitem>
+			<listitem
+><para
+>Operatorer</para
+></listitem>
+			<listitem
+><para
+>Pilar</para
+></listitem>
+			<listitem
+><para
+>Diverse matematik</para
+></listitem>
+			<listitem
+><para
+>Diverse text</para
+></listitem>
+			<listitem
+><para
+>Avgränsare</para
+></listitem>
+			<listitem
+><para
+>Grekiska</para
+></listitem>
+			<listitem
+><para
+>Specialtecken</para
+></listitem>
+			<listitem
+><para
+>Kyrilliska tecken</para
+></listitem>
+			<listitem
+><para
+>Användardefinierade</para
+></listitem>
+		</itemizedlist>
+		<para
+>Ikonernas verktygstips visar &latex;-kommandon och ytterligare paket som behövs.</para>
+		<para
+>Att hålla nere <keycombo
+>&Shift;</keycombo
+> och klicka på en symbol gör att <userinput
+>$\symbolcmd$</userinput
+> infogas. På liknande sätt infogas krullparenteser genom att hålla nere <keycombo
+>&Ctrl;</keycombo
+>.</para>
+		<para
+>Om du infogar ett kommando som kräver ett paket som inte ingår i &latex;-dokumentet, ser du en varning i loggfönstret.</para>
+		<para
+>Den första listan med symboler innehåller <guilabel
+>Oftast använda</guilabel
+> symboler. Infogade symboler läggs till i listan för snabb och enkel åtkomst. Symbolernas ordning ändras inte när nya symboler läggs till, utan istället ökas en referensräknare. Om antalet objekt överstiger 30, tas objektet med lägst antal referenser bort.</para>
+		<para
+>Symbollistan <guilabel
+>Användardefinierade</guilabel
+> kan innehålla dina egna symboler. För att skapa egna symboler behöver du programmet gesymb och filen <filename
+>definitions.tex</filename
+> från Kiles källkodspaket. Dessutom behöver du en &latex;-kompilator (ingen överraskning) och <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> (version 1.7 eller senare). Proceduren är att skapa en &latex;-fil med <userinput
+>\input{definitions}</userinput
+>, som gör kommandona listade nedan tillgängliga, och låter <userinput
+>gesymb mysymbols.tex user</userinput
+> skapa ikonerna (då anropas &latex; och &dvipng;). Efter att de har kopierats till <userinput
+>$HOME/.kde/share/apps/kile/mathsymbols/user/</userinput
+> och &kile; har startats om, kan du använda dina egna symboler. </para>
+		<para
+>Följande kommandon är definierade i <filename
+>definitions.tex</filename
+>: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\optarg]{\symbol}</userinput
+>: Inkludera symbolen <userinput
+>\symbol</userinput
+> i symbollistan, det valfria argumentet <userinput
+>\optarg</userinput
+> anger kommandot som Kile ska infoga. Om det inte anges används kommandot i argumentet som krävs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\optarg]{\symbol}</userinput
+>: Samma som ovan, förutom att kommandot i argumentet som krävs infogas i matematikläge. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[arg]{pkg}</userinput
+>: Deklarerar att kommandot som anges på raden kräver &latex;-paketet <userinput
+>pkg</userinput
+> med det valfria argumentet <userinput
+>arg</userinput
+>. Kommandot måste vara framför kommadot <userinput
+>\command</userinput
+> och överskrider eventuella paketspecifikationer av omgivningen neededpkgs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[pkgs-args]{pkgs} ... \end{neededpkgs}</userinput
+>: Har samma effekt som ovan, men för alla omslutna kommandon. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>För fullständighetens skull anges ett exempel här: <programlisting
+>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% detta skulle behöva inkludera paketen
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  bara för att förklara formatet
+\end{document}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>Att använda bibliografiposter</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> är ett kommando som används för att lägga till en referens i dokumentet till omgivningen <userinput
+>bibliografin</userinput
+>. Syntaxen för att använda kommandot <userinput
+>\bibitem</userinput
+> är <userinput
+>\bibitem[rubrik]{nyckel}</userinput
+>.</para>
+
+		<para
+>Det valfria <userinput
+>[rubrik]</userinput
+> är till för att du ska kunna lägga till ditt eget rubriksystem för bibliografiposten. Om ingen rubrik anges, läggs posterna till i numerisk ordning: [1], [2], [3] etc.</para>
+
+		<para
+>Argumentet <userinput
+>{nyckel}</userinput
+> används för att referera och länka kommandona <userinput
+>\bibitem</userinput
+> och <userinput
+>\cite</userinput
+> till varandra och informationen de innehåller. Kommandot <userinput
+>\cite</userinput
+> innehåller referensen som hör ihop med önskad <userinput
+>\bibitem</userinput
+>, som finns i omgivningen <userinput
+>bibliografin</userinput
+> och innehåller referensdata. Båda samhörande <userinput
+>\bibitem</userinput
+> och <userinput
+>\cite</userinput
+> måste ha samma <userinput
+>{nyckel}</userinput
+>. Det enklaste sättet att organisera nycklar är med författarens efternamn. De andra klamrarna i omgivningen <userinput
+>bibliografin</userinput
+> anger den längsta bibliografireferensen du kan ha. Så att skriva <userinput
+>{<replaceable
+>999</replaceable
+>}</userinput
+>, betyder att du kan ha referenser kortare eller lika långa som <userinput
+><replaceable
+>999</replaceable
+></userinput
+>. Anges inte parametern på ett riktigt sätt, kan det orsaka mindre attraktiva indenteringar i bibliografin.</para>
+
+		<para
+>Bibliografin är en separat sektion åtskild från huvuddokumentet. Ett exempel på kod för bibliografin skulle kunna se ut som följer:</para>
+
+<programlisting
+>\begin{bibliografin}{50}
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm...munkar}. Evergreen Terrace Printing Co.,
+                          Springfield, Någonstans i U.S.A, 1998
+\end{bibliografin}</programlisting>
+
+		<para
+>Därefter skulle din huvudkällkod innehålla platsen för informationen som har att göra med detta <userinput
+>\bibitem</userinput
+> genom att använda <userinput
+>\cite</userinput
+>. Källkoden skulle se ut ungefär så här:</para>
+
+		<programlisting
+>Min uppsats om filosofin i Simpsons\copyright kommer från min favoritbok \cite{Simpson}.</programlisting>
+
+		<para
+>Eftersom det ofta är svårt att komma ihåg den exakta hänvisningsnyckeln när du har många referenser, tillhandahåller &kile; ett enkelt sätt att infoga en referens. Genom att använda <menuchoice
+><guimenu
+>Latex </guimenu
+><guimenuitem
+>Referenser</guimenuitem
+><guimenuitem
+>Hänvisa</guimenuitem
+></menuchoice
+> dyker en lista med alla hänvisningsnycklar upp.Välj den rätta referensen, så infogas en hänvisning i dokumentet. För att uppdatera listan med nycklar, spara antingen filen, välj <menuchoice
+><guimenu
+>Redigera</guimenu
+><guimenuitem
+>Uppdatera struktur</guimenuitem
+></menuchoice
+> eller tryck på <keycap
+>F12</keycap
+>. När kodkomplettering är aktiverad, visar &kile; en lista med alla bibliografibeteckningar så fort kommandot <userinput
+>\cite</userinput
+> påbörjas.</para>
+
+		<para
+>Slutprodukten i dokumentets bibliografi ser då ut så här:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm...munkar. Evergreen Terrace Printing Co., Springfield, Någonstans i U.S.A., 1998.</computeroutput
+></para>
+
+		<para
+>&kile; kan också arbeta med &bibtex; editorprogram som &kbibtex; för att göra det enklare att mata in hänvisningar. När en &bibtex;-fil läggs till i projektet, hjälper &kile; till att komplettera hänvisningskommandon, precis som beskrivs ovan.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>Byggverktygen</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>Kompilera, konvertera och visa</title>
+
+		<para
+>För att visa resultatet av arbetet, måste du först kompilera källkoden. Alla byggverktyg är grupperade tätt tillsammans i menyerna <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guisubmenu
+>Kompilera</guisubmenu
+></menuchoice
+>, <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guisubmenu
+>Konvertera</guisubmenu
+></menuchoice
+> och <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guisubmenu
+>Visa</guisubmenu
+></menuchoice
+>.</para>
+
+		<para
+>För att kompilera källkoden för att visa på skärmen med program som &okular;, eller för ytterligare konvertering, kan du använda snabbtangenten <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>. Därefter kan du visa &DVI;-filen med ditt eget förvalda visningsprogram med <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>, konvertera &DVI; till en PS-fil med <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+>, och visa PS-filen med <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>Om du använder <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+> för bibliografiposter, måste du oftast följa ett speciellt kompileringsförfarande.Det betyder att anropa &latex;, därefter &bibtex; och sedan &latex; ytterligare två gånger. Tursamt nog är &kile; smart nog att automatiskt detektera om det är nödvändigt att anropa ytterligare verktyg som &bibtex;, &makeidx; och &asymptote;. Logiken är normalt aktiverad och kan ändras i <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guisubmenu
+>Verktyg</guisubmenu
+> <guilabel
+>Bygg</guilabel
+></menuchoice
+> under fliken <guilabel
+>Allmänt</guilabel
+> för &latex;- och &pdflatex;-verktygen. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost och &asymptote;</title>
+
+			<para
+>Om du vill kompilera dokumentet med <application
+>MetaPost</application
+> eller <application
+>&asymptote;</application
+>, program för att rita bilder, kan du göra det med <menuchoice
+><guimenu
+>Bygg</guimenu
+><guisubmenu
+>Kompilera</guisubmenu
+><guimenuitem
+>MetaPost</guimenuitem
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Bygg</guimenu
+><guisubmenu
+>Övrigt</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>Det finns också ett annat sätt att kompilera dokumentet, om du vill ha PDF: Du kan köra &pdflatex; som kompilerar källkoden direkt till en PDF-fil, med <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>. Därefter kan du direkt titta på den kompilerade filen genom att trycka på <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>Du kan alternativt konvertera PS till PDF med <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+>, eller direkt från &DVI; till PDF med <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>Att använda &pdflatex; istället för &latex; kan bara vara fråga om enkelhet eller vana, men ibland kan beteendet hos de två programmen skilja sig åt.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&latex; till HTML</title>
+
+			<para
+>Slutligen kanske du vill publicera arbetet på Internet och inte bara på papper. Då kan du använda programmet <application
+>latex2html</application
+> som kan anropas från &kile;s meny <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guisubmenu
+>Konvertera</guisubmenu
+> <guimenuitem
+>Latex till HTML</guimenuitem
+></menuchoice
+>. Resultatet läggs in en underkatalog till arbetskatalogen, och du kan se resultatet av konverteringen genom att välja menyalternativet <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guisubmenu
+>Visa</guisubmenu
+> <guimenuitem
+>Visa &HTML;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>Skicka med kommandoradsväljare</title>
+
+			<para
+>Om du vill ange några särskilda kommandoradsväljare till verktygen för att kompilera, konvertera eller visa dina filer, kan du anpassa anropen under <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guimenuitem
+>Anpassa Kile...</guimenuitem
+> <guilabel
+>Verktyg</guilabel
+><guilabel
+>Bygg</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>Snabbgranskning</title>
+
+		<para
+>Du behöver alltid en viss tid för att titta på resultatet när du arbetar med &latex;. &latex; måste kompilera källkoden, och visningsprogrammet måste anropas. Det kan vara irriterande om du bara ändrade några bokstäver i en ekvation som var svår att typsätta. &kile; erbjuder en <emphasis
+>Snabbgranskning</emphasis
+>, där du enbart kan kompilera en del av ett dokument och spara mycket tid. Den stöder fyra olika lägen, som kan kombineras med sju inställningar.</para>
+
+		<screenshot>
+			<screeninfo
+>Snabbgranskning</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Snabbgranskning</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Alla inställningar måste göras i <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Verktyg</guimenuitem
+> <guilabel
+>Förhandsgranskning</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Anpassa snabbgranskning</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Anpassa snabbgranskning</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>Markeringsläge</title>
+
+			<para
+>Användaren måste markera en del av dokumentet. Menyalternativet <menuchoice
+><guimenu
+>Bygg</guimenu
+><guisubmenu
+>Snabbgranskning</guisubmenu
+><guimenuitem
+>Markering</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>, <keycap
+>S</keycap
+> startar valda program. &kile; tar inledningen av originaltexten, så att alla paket och användardefinierade kommandon inkluderas. Användaren kan välja en av åtta fördefinierade inställningar:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>Latex+&DVI; (inbäddad visning)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>Latex+&DVI; (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>Latex+PS (inbäddad visning)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>Latex+PS (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLatex+PDF (inbäddad visning)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLatex+PDF (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>Xelatex+PDF (inbäddad visning)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>Xelatex+PDF (&okular;)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Det bör vara tillräckligt för alla situationer då en snabbgranskning behövs.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>Omgivningsläge</title>
+
+			<para
+>Du vill ofta förhandsgranska nuvarande omgivning, och särskilt matematiska omgivningar, som ibland kan vara svåra att skriva. &kile; erbjuder ett mycket snabbt sätt att göra det. Ingen markering krävs, välj bara <menuchoice
+><guimenu
+>Bygg</guimenu
+><guisubmenu
+>Snabbgranskning</guisubmenu
+><guimenuitem
+>Omgivning</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>, <keycap
+>E</keycap
+> så kompileras den nuvarande omgivningen och visas.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>Underdokumentläge</title>
+
+			<para
+>Om du har ett stort projekt med många dokument, är det inte en god idé att kompilera hela projektet. Om du bara har gjort ändringar i ett enda dokument. &kile; klarar av att kompilera och visa en förhandsgranskning av det nuvarande underdokumentet. Inledningen tas från huvuddokumentet, och bara den nuvarande delen kompileras, när du väljer <menuchoice
+><guimenu
+>Bygg</guimenu
+><guisubmenu
+>Snabbgranskning</guisubmenu
+><guimenuitem
+>Underdokument</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>, <keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>Matematiskt gruppläge</title>
+
+			<para
+>Förhandsgranskning av matematisk grupp låter dig förhandsgranska den matematiska grupp som du för närvarande redigerar. &kile; tar Inledningen från huvuddokumentet, och bara den matematiska gruppen som markören befinner sig i kompileras, när du väljer <menuchoice
+><guimenu
+>Bygg</guimenu
+><guisubmenu
+>Snabbgranskning</guisubmenu
+><guimenuitem
+>Matematisk grupp</guimenuitem
+></menuchoice
+> eller snabbtangenten <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>, <keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>Snabbgranskning i nedre raden</title>
+
+			<para
+>Istället för att visa förhandsgranskningen i ett nytt dokument, kan &kile; också ställas in att använda den nedre raden för förhandsgranskning av kompilering. Du kan aktivera funktionen i inställningsrutan för snabbgranskning.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>Grafiska filformat</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>&latex; och &pdflatex;</title>
+
+		<para
+>&pdflatex;, när det används med paketen <userinput
+>graphics</userinput
+> eller <userinput
+>graphicx</userinput
+>, kan kompilera PNG- och JPG-filer till &DVI; eller PDF, men kan inte hantera EPS-filer. Omvänt så stöds EPS av processen att kompilera med &latex; till &DVI; och konvertera till PS och slutligen PDF, men den stöder inte PNG och JPG.</para>
+
+		<para
+>Många användare vill skapa PDF-dokument, men vill också använda det utmärkta paketet <application
+>Pstricks</application
+> för att skapa &PostScript;-grafik, eller vill använda &PostScript;-utmatning från matematisk eller vetenskaplig programvara som <application
+>Mathematica</application
+>, <application
+>Maple</application
+> eller <application
+>MuPAD</application
+>. Dessa användare av &latex; måste först kompilera &PostScript; även om de vill skapa PDF-dokument, eftersom programmen skapar &PostScript;-kod som inte kan hanteras av &pdflatex;. Det är dock inte så svårt som det kan låta, eftersom &kile; hjälper till.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>Konvertering av grafik</title>
+
+		<para
+>För att klara av den här irriterande rundgången, när du vill inkludera både &PostScript; och PNG- eller JPG-filer, finns det ett antal sätt att gå förbi den:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Om du behöver en fil med PS-format, men har JPG- eller PNG-grafik, kan du också helt enkelt först använda &pdflatex; med &DVI;-utmatning, och därefter köra <application
+>dvips</application
+> för att skapa PS-filen. Du märker att &pdflatex;; är ett mycket bra val om din källkod inte innehåller någon &PostScript;-kod alls.</para
+></listitem>
+
+			<listitem
+><para
+>Du kan konvertera EPS-filer till PNG eller andra format med verktyg som <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> eller <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, och använda &pdflatex;.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>Sättet som föredras är att konvertera EPS-grafik till PDF-grafik med <command
+>epstopdf</command
+>, som levereras med alla &tex;-distributioner, och därefter använda &pdflatex;. Det producerar grafik med hög kvalitet, och du kan till och med styra resultatet med några av följande väljare: <programlisting
+>-dAutoFilterColorImages=false
+        -dAutoFilterGrayImages=false
+        -sColorImageFilter=FlateEncode
+        -sGrayImageFilter=FlateEncode
+        -dPDFSETTINGS=/prepress
+        -dUseFlateCompression=true
+</programlisting>
+			</para>
+
+			<para
+>Ännu bättre: Om systemet tillåter <userinput
+>shell-escape</userinput
+>, kan konvertering göras i farten. Allt du behöver göra är att inkludera paketet <application
+>epstopdf</application
+>, som ingår i alla &tex;-distributioner, med kommandot <userinput
+>\usepackage{epstopdf}</userinput
+>. Antag att din kod är <programlisting>
+        \includegraphics[width=5cm]{test.eps}
+</programlisting
+> När du anropar &pdflatex; med väljaren <option
+>--shell-escape</option
+>, konverteras grafikfilen <filename
+>test.eps</filename
+> automatiskt till <filename
+>test.pdf</filename
+>.</para>
+
+			<para
+>Konverteringen utförs varje gång du kör &pdflatex;. Om ditt grafikkommando anges implicit: <programlisting>
+        \includegraphics[width=5cm]{test}
+</programlisting
+> kontrollerar <application
+>epstopdf</application
+> om <filename
+>test.pdf</filename
+> redan är tillgänglig, så att det konverteringssteget kan hoppas över.</para
+></listitem>
+
+			<listitem
+><para
+>Du kan konvertera åt andra hållet, och använda &latex; med PS-PDF konvertering. Det rekommenderas inte, eftersom en EPS-inkapsling av JPG- eller PNG-filer kan ge större EPS-filer, som i sin tur ger onödigt stora dokument. Det här är dock <emphasis
+>ytterst</emphasis
+> beroende på vilket grafikprogrammet du använder, eftersom EPS kan inkapsla annan grafik, men alla program stöder inte detta perfekt. En del kan verkligen försöka bygga JPG-bilden med vektorer och diverse skript, vilket resulterar i gigantiska filer. Konvertering av alla grafikformat till EPS kan göras av <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Ett annat enkelt program som utför processen riktigt är <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>Du kan också använda automatisk konvertering. Alla grafikfiler konverteras i farten till EPS, och infogas i PS-dokumentet. Det är ett bekvämt sätt, men du måste ställa in systemet riktigt. Detta beskrivs i avsnittet <link linkend="build_epsgraphics"
+>EPS-grafik</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>Använd rätt fil för rätt sorts grafik</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>EPS är ett sorts grafiskt vektorskriptspråk, som beskriver alla linjer och punkter som grafiken består av. Det ser bra ut till och med när det förstoras mer än normalstorleken, och passar bäst för diagram och vektorgrafik som skapats direkt i EPS. De ser mycket klara och skarpa ut, medan de behåller en mycket liten storlek.</para
+></listitem>
+			<listitem
+><para
+>PNG (eller det mindre lämpliga &GIF;) är ett <emphasis
+>förlustfritt</emphasis
+> filformat , med bra komprimering och kvalitet. Det är mycket bra för diagram, inlästa ritningar, eller någonting vars skärpa måste bibehållas. Det är ibland för mycket av det goda när det används för fotografier.</para
+></listitem>
+			<listitem
+><para
+>JPEG är ett format <emphasis
+>med förlust</emphasis
+>, som komprimerar bilder bättre än PNG till priset av en viss förlust av detaljer i bilden. Det har ofta ingen betydelse för fotografier, men kan orsaka dålig kvalitet för diagram eller ritningar, och kan få vissa tunna linjer att försvinna helt. I dessa fall, använd EPS eller PNG.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Men kom alltid ihåg: Skräp in, skräp ut! Ingen konvertering kan få en dålig bild att bli bra.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>EPS-grafik</title>
+
+		<para
+>EPS-grafikfiler är det traditionella sättet att infoga grafikfiler i &latex;-dokument. Eftersom e-postlistor är fulla med frågor angående EPS-grafik, beskriver vi några viktiga aspekter och demonstrerar hur &kile; stöder dem.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>&latex; och EPS-grafik</title>
+
+		<para
+>Om du bestämde dig för att använda det traditionella &latex; för att skapa PS- eller PDF-utmatning, stöter du troligen på vissa problem med grafik. Du måste använda EPS-grafik (Encapsulated &PostScript;), inte JPEG- eller PNG-filer. Det ska inte vara något problem, eftersom det finns många <link linkend="build_graphics_conversion"
+>konverteringsprogram</link
+> som <command
+>convert</command
+> från det utmärkta paketet <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Men det kräver förstås en viss tid.</para>
+
+		<para
+>EPS-filerna används både av &latex; och &DVI;-PS konverteringen:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; söker igenom EPS-filen efter den omgivande rutan, som talar om för &latex; hur mycket utrymme som ska reserveras för grafiken.</para
+></listitem>
+
+		<listitem
+><para
+>Konverteringen &DVI;-PS läser därefter EPS-filen och infogar grafiken i PS-filen.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Det leder till vissa följder:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; läser aldrig EPS-filen om den omgivande rutans parametrar anges i kommandot för att infoga grafik.</para
+></listitem>
+
+		<listitem
+><para
+>Eftersom &latex; bara kan läsa filer som innehåller ASCII, kan det inte läsa informationen om den omgivande rutan från komprimerade eller andra filer än EPS-grafikfiler.</para
+></listitem>
+
+		<listitem
+><para
+>EPS-grafiken infogas inte i &DVI;-filen. Eftersom EPS-filerna måste vara tillgängliga när &DVI;-filen konverteras till PS, måste EPS-filerna följa med &DVI;-filerna så fort de flyttas.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Nu kan du anropa &latex; och ett &DVI;-PS konverteringsverktyg som <application
+>dvips</application
+> för att skapa ditt &PostScript;-dokument. Om målet är ett PDF-dokument, ska du köra <command
+>dvips</command
+> med väljaren <option
+>-Ppdf</option
+> och därefter anropa <command
+>ps2pdf</command
+>. Du hittar många dokument som beskriver denna lösningen.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>Sättet med &PostScript; i &kile;</title>
+
+		<para
+>&kile; hjälper dig att hitta information om den omgivande rutan. Om du har installerat paketet <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, hämtar &kile; informationen från EPS-filen och infogar den som ett alternativ. Det görs automatiskt när du väljer grafikfilen. Det finns två fördelar med att gå till väga så här:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>Informationen är redan inläst i dialogrutan, och det behöver inte göras senare av &latex;.</para
+></listitem>
+		<listitem
+><para
+>Ännu viktigare är att bildens bredd och höjd kan beräknas när upplösningen är känd. Informationen visas längst upp i dialogrutan, och kan fungera som en ledtråd när du vill skala grafiken.</para
+></listitem>
+		<listitem
+><para
+>&kile; kan också stödja EPS-filer komprimerade med zip eller gzip, som är mycket mindre än okomprimerade EPS-filer. Men funktionen kan bara användas med en särskild systeminställning, och en ändring av din lokala grafikinställning, som beskrivs i avsnittet <link linkend="build_graphics_bitmap"
+>Punktavbildad grafik</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>Sättet med &PostScript; och punktavbildad grafik</title>
+
+		<para
+>Om systemet tillåter <userinput
+>shell-escape</userinput
+>, stöder &kile; också ett enkelt sätt att infoga punktavbildad grafik, om du ställer in &tex;-systemet riktigt. Det finns inget behov av att konvertera JPEG- eller PNG-grafik, det kan göras automatiskt när &DVI;-filen konverteras till PS.</para>
+
+		<para
+>&latex; behöver viss information om filändelserna. Paketet <userinput
+>graphicx</userinput
+> letar efter filen <filename
+>graphics.cfg</filename
+> som måste finnas någonstans i din sökväg för &latex;-dokument. Sök efter poster som:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para
+>och ersätt raderna med:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % changed or new graphic rules
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   zipped EPS
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   gzipped EPS
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      PDF-graphics
+</programlisting>
+
+		<para
+>Du hittar till exempel filen under <filename
+>/etc/texmf/latex/graphics.cfg</filename
+> på Debian. Det bästa sättet att gå tillväga är att kopiera filen till din lokala Tex-sökväg och därefter ändra kopian. Se &tex;-distributionens manual för att ta reda på hur du får fram en lista med dina &tex;-kataloger.</para>
+
+		<para
+>Med den här inställningsfilen har du möjlighet att infoga punktavbildad grafik och EPS-filer komprimerade med zip eller gzip i &latex;. Kommandot för konvertering ges av <command
+>dvips</command
+>. När du tittar på konverteringskommandot ser du att ingen extra fil skapas. Resultatet av konverteringsprocessen skickas direkt till PS-filen. Det enda som &latex; måste känna till är grafikens storlek, och därför behöver vi den omgivande rutan, som tillhandahållls av &kile;.</para>
+
+		<para
+>Vissa säger att det är ett osäkert sätt. Du måste bestämma dig för hur du vill arbeta. Hur som helst behöver du ingen omgivande ruta, eftersom &kile; extraherar informationen från alla typer av grafik.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>&pdflatex; och EPS-grafik</title>
+
+		<para
+>Som redan har nämnts, kan inte &pdflatex; hantera EPS-grafikfiler, men konverteringsverktyg som <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+> kan hjälpa. Det bästa sättet är att inkludera paketet <filename
+>epstopdf</filename
+>, som måste följa paketet <userinput
+>graphicx</userinput
+>.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>
+
+		<para
+>Nu kan du redan infoga EPS-grafik om du kör <command
+>pdflatex</command
+> med väljaren <option
+>--shell-escape</option
+>, men vi kan göra det ännu bättre och också hantera EPS-filer komprimerade med zip eller gzip. Återigen måste vi ändra grafikinställningsfilen <filename
+>graphics.cfg</filename
+> enligt ovan. Denna gången söker vi efter:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para
+>och helt enkelt lägga till några rader:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+   }%
+</programlisting>
+
+		<para
+>Med dessa rader kan &pdflatex; hantera EPS-filer, och förhoppningsvis ska det inte uppstå fler problem rörande grafik.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>Huvuddokument</title>
+
+		<para
+>Att definiera dokumentet som huvuddokument, gör att du kan arbeta med olika filer, vilket ger ett överliggande dokument (eller huvuddokument) och underliggande dokument som utgör ett helt verk. Efter att ha definierat huvuddokumentet, med motsvarande kommando i menyn <guimenu
+>Inställningar</guimenu
+>, gäller alla kommandon i menyn <guimenu
+>Verktyg</guimenu
+> bara detta dokument, även om du arbetar i underliggande dokument. Du kan till och med stänga huvuddokumentet.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>Felhantering</title>
+
+		<para
+>Efter du har kompilerat någonting, tittar &kile; på de felmeddelanden som genererades. Om det finns några fel eller varningar, rapporteras de kortfattat i fönstret <guilabel
+>Logg och meddelanden</guilabel
+>. Man kan ta en närmare titt på meddelanden genom att välja <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guimenuitem
+>Visa loggfil</guimenuitem
+></menuchoice
+>, eller med snabbtangenten <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. Loggen som skapade visas då i fönstret <guilabel
+>Logg och meddelanden</guilabel
+>, med fel och varningar markerade.</para>
+
+		<screenshot>
+			<screeninfo
+>Visa loggen</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Visa loggen</phrase>
+			</textobject>
+			<caption
+><para
+>Visa loggen</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Du kan enkelt gå från ett meddelande i loggfilen till ett annat, genom att använda menyalternativen <menuchoice
+><guimenu
+>Bygg</guimenu
+> <guimenuitem
+>Nästa/Föregående Latexfel/varning</guimenuitem
+></menuchoice
+>, eller genom att använda motsvarande knappar i verktygsraden.</para>
+
+		<para
+>För att gå till raden in &latex; källkod där felet eller varningen uppstod, klicka på felet eller varningen i fönstret <guilabel
+>Logg och meddelanden</guilabel
+>. &kile; visar automatiskt raden som orsakade problemet.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>Filbevakningsläget</title>
+
+			<para
+>När du startar kommandot <guibutton
+>Snabbygg</guibutton
+>, anropas normalt någon form av visning efter kompileringen. Om du inte använder inbyggd visning, öppnas ett nytt fönster varje gång.</para>
+
+			<para
+>Om du justerar dokumentets utseende, kanske du startar <guibutton
+>Snabbygg</guibutton
+> mycket ofta, och har många visningsfönster öppna på skrivbordet. För att undvika förvirring, kan du aktivera läget <guibutton
+>Filbevakningsläge</guibutton
+> som förhindrar att <guibutton
+>Snabbygg</guibutton
+> startar visningen.</para>
+
+			<para
+>Läget är förstås oanvändbart med inbyggd visning, eftersom du ändå måste stänga den för att komma tillbaka till redigering av dokumentet och omkompilering.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>Navigera i &latex;-källkoden</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>Användning av strukturvyn</title>
+
+		<para
+>Vyn <guilabel
+>Struktur</guilabel
+> visar hierarkin för dokumentet som skapas i &kile;, och låter dig snabbt navigera i dokumentet, genom att visa dokumentets delar. För att navigera i dokumentet är allt du behöver göra att vänsterklicka på en rubrik, ett kapitel, ett avsnitt, ett delavsnitt, etc., så kommer du till början av motsvarande område.</para>
+
+		<para
+>Om du inkluderar en separat &latex;-fil i källkoden med taggarna <userinput
+>\input</userinput
+> eller <userinput
+>\include</userinput
+>, refereras de till i vyn <guilabel
+>Struktur</guilabel
+>. Att dubbelklicka på dess namn gör att &kile; visar den inkluderade filen i redigeringsfönstret.</para>
+
+		<para
+>Strukturträdet har också en särskild gren för etiketter som används i texten.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>Använda den sammanhangsberoende menyn</title>
+
+			<para
+>De flesta posterna i strukturvyn har många alternativ i den sammanhangsberoende menyn, som du kan visa med ett högerklick av musen. Betrakta strukturvyn i följande bild:</para>
+
+			<screenshot>
+				<screeninfo
+>Användning av strukturvyn</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Användning av strukturvyn</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Du hittar några etiketter, några sektionsposter, två figuromgivningar och tre bilder. Om du högerklickar på en av sektionsposterna, visas en meny men några användbara kommandon. Alla kommandon som <guibutton
+>Markera</guibutton
+>, <guibutton
+>Ta bort</guibutton
+> eller <guibutton
+>Kommentera</guibutton
+> fungerar för alla rader som hör till sektionen.</para>
+
+			<screenshot>
+				<screeninfo
+>Sammanhangsberoende meny för att dela poster i sektioner</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Sammanhangsberoende meny för att dela poster i sektioner</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Att klicka på en figur- eller tabellpost erbjuder vissa åtgärder gällande referenser, och ett högerklick på en grafisk post erbjuder vissa program för att visa grafiken.</para>
+
+			<screenshot>
+				<screeninfo
+>Sammanhangsberoende meny för figurer, tabeller och grafiska poster</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Sammanhangsberoende meny för figurer, tabeller och grafiska poster</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>Uppdatera strukturvyn</title>
+
+			<para
+>För att uppdatera strukturvyn kan du antingen använda <menuchoice
+><guimenu
+>Redigera</guimenu
+> <guimenuitem
+>Uppdatera struktur</guimenuitem
+></menuchoice
+>, trycka på <keycombo
+><keycap
+>F12</keycap
+></keycombo
+>, eller spara dokumentet, vilket gör att &kile; uppdaterar strukturvyn.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>Bokmärken</title>
+
+		<para
+>Bokmärken är användarens referens till ett textstycke eller en rad inne i &kile;-miljön. För att använda ett bokmärke, markera en viss rad i dokumentet som du skulle vilja kunna komma tillbaka till, och tryck därefter <keycombo
+>&Ctrl; <keycap
+>B</keycap
+></keycombo
+>, så lägger &kile; automatiskt till ett bokmärke på raden. Som ett alternativ kan du också lägga till ett bokmärke genom att markera raden du skulle vilja kunna komma tillbaka till, och välja menyalternativet <menuchoice
+><guimenu
+>Bokmärken</guimenu
+><guimenuitem
+>Växla bokmärke</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>För att ta bort alla bokmärken, välj <menuchoice
+><guimenu
+>Bokmärken</guimenu
+> <guimenuitem
+>Rensa alla bokmärken</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>Projekt</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>Arbeta med projekt</title>
+
+		<para
+>Du har möjlighet att skapa och arbeta med <emphasis
+>projekt</emphasis
+> i &kile;. Ett projekt är en gruppering av &latex;, &bibtex; eller andra filer som innehåller all information som används för att bygga det fullständiga dokumentet. Ett typiskt projekt skulle vara ett dokument som består av flera kapitel, skrivna i olika <literal role="extension"
+>.tex</literal
+>-filer. Alla skulle då kunna ingå i ett projekt, för att göra hela dokumentet enklare att hantera. Projektets specifikation lagras i en särskild fil, med filändelsen <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>Ett projekt lägger till följande funktioner:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Du behöver inte ange huvuddokument, utan &kile; gör det automatiskt.</para
+></listitem>
+			<listitem
+><para
+>Projektfiler kan enkelt arkiveras tillsammans genom att välja <menuchoice
+><guimenu
+>Projekt</guimenu
+><guimenuitem
+>Arkivera</guimenuitem
+></menuchoice
+></para
+></listitem>
+			<listitem
+><para
+>Vyn <guilabel
+>Filer och projekt</guilabel
+> visar vilka filer som ingår i projektet.</para
+></listitem>
+			<listitem
+><para
+>Efter ett projekt har öppnats, återställs alla filer som tidigare var öppna med ursprunglig kodning och färgläggning.</para
+></listitem>
+      <listitem
+><para
+>Kodkomplettering fungerar över alla projektfiler.</para
+></listitem>
+      <listitem
+><para
+>Referenskomplettering fungerar över alla projektfiler.</para
+></listitem>
+      <listitem
+><para
+>Hänvisningskomplettering fungerar över alla projektfiler.</para
+></listitem>
+      <listitem
+><para
+>Sök i alla projektfiler.</para
+></listitem>
+      <listitem
+><para
+>Ange egna snabbygg- och &makeidx;-kommandon.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Alla projektrelaterade kommandon hittar man i menyn <guilabel
+>Projekt</guilabel
+>. Där kan man öppna, stänga och hantera projekt.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>Skapa ett projekt</title>
+
+		<para
+>För att skapa ett projekt, välj <menuchoice
+><guimenu
+>Projekt</guimenu
+> <guimenuitem
+>Nytt projekt...</guimenuitem
+></menuchoice
+>.</para>
+		<screenshot>
+		  <screeninfo
+>Fönstret för att skapa projekt</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>Fönstret för att skapa projekt</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+>Du blir tillfrågad om att ge följande information för att kunna skapa projektet:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>Projektets namn (textfältet <guilabel
+>Projekttitel</guilabel
+>). </para>
+		    <para
+>Projekttiteln används för att skapa ett namn på projektfilen genom att omvandla till små bokstäver och lägga till filändelsen <filename role="extension"
+>.kilepr</filename
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>En katalog där projektfilen lagras (textfältet <guilabel
+>Projektkatalog</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Om du vill skapa en ny huvudfil i projektet, markera alternativet <guilabel
+>Skapa en ny fil, och lägg till den i projektet</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>När du fyller i rutan <guilabel
+>Filnamn</guilabel
+>, måste du ta med en relativ sökväg från platsen där projektfilen <filename role="extension"
+>.kilepr</filename
+> är lagrad (se alternativet <guilabel
+>Projektkatalog</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Den skapade filens typ, <guilabel
+>Tom fil</guilabel
+>, <guilabel
+>Artikel</guilabel
+>, <guilabel
+>Bok</guilabel
+>, <guilabel
+>Brev</guilabel
+>, <guilabel
+>Rapport</guilabel
+>, etc., kan väljas i en lista synlig längst ner i rutan <guilabel
+>Arkiv</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Filändelser för standardfilerna i projektet kan väljas i rutan <guilabel
+>Filändelser</guilabel
+>. Valet används för att definiera filer som ska öppnas när menyalternativet <menuchoice
+><guimenu
+>Projekt</guimenu
+> <guimenuitem
+>Öppna alla projektfiler</guimenuitem
+></menuchoice
+> väljes, och &kile;s guider. Filändelserna i textfältet ska skiljas åt med mellanslag. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>Fil- och projektvyn</title>
+
+		<para
+>Vyn <guilabel
+>Filer och projekt</guilabel
+> visas med en knapp i sidoradens meny. I vyn kan du se projektets struktur, dess filer och namnet på filen <literal role="extension"
+>.kilepr</literal
+> som lagrar projektinformationen. Lägga till filer, ta bort filer, eller ändra alternativ i projektet görs via vyn <guilabel
+>Filer och projekt</guilabel
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Fil- och projektvyn</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Fil- och projektvyn</phrase>
+			</textobject>
+			<caption
+><para
+>Fil- och projektvyn</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>Lägga till och ta bort filer</title>
+
+		<para
+>För att lägga till en fil i projektet, öppna vilken &tex;-fil som helst, klicka på namnet i vyn <guilabel
+>Filer och projekt</guilabel
+> och välj <guilabel
+>Lägg till i projekt</guilabel
+>. Om du har flera öppna projekt, dyker en dialogruta upp där du får ange i vilket projekt filen ska läggas till.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>Du kan också högerklicka på projektets namn i vyn <guilabel
+>Filer och projekt</guilabel
+> och välja <guilabel
+>Lägg till filer...</guilabel
+> för att visa en filvalsdialogruta.</para>
+
+		<screenshot>
+			<screeninfo
+>Lägga till en fil i ett projekt</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Lägga till en fil i ett projekt</phrase>
+			</textobject>
+			<caption
+><para
+>Lägga till en fil i ett projekt</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>För att ta bort en fil från ett projekt, högerklicka på den och välj <guilabel
+>Ta bort fil</guilabel
+>. Det här tar <emphasis
+>inte</emphasis
+> bort själva filen (och stänger den inte heller), utan tar bara bort den från listan med filer som finns i filen med filändelsen <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>Arkivera projekt</title>
+
+			<para
+>&kile; låter dig enkelt säkerhetskopiera projektet genom att lagra alla dess filer i ett enda arkiv (ofta kallat ett <emphasis
+>tar-arkiv</emphasis
+>). För att arkivera projektet, högerklicka på dess namn i vyn <guilabel
+>Filer och projekt</guilabel
+>, eller välj <menuchoice
+><guimenu
+>Projekt</guimenu
+><guimenuitem
+>Arkivera</guimenuitem
+></menuchoice
+>.</para>
+
+			<para
+>Normalt läggs alla filer i ett projekt till i arkivet. Om du inte vill lägga till en viss fil i arkivet, högerklicka på den i vyn <guilabel
+>Filer och projekt</guilabel
+> och avmarkera alternativet <guilabel
+>Inkludera i arkiv</guilabel
+>.</para>
+
+			<para
+>Arkiveringskommandot åstadkoms för närvarande genom att köra <command
+>tar</command
+> från projektkatalogen (där filen <literal role="extension"
+>.kilepr</literal
+> finns).</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>Projektalternativ</title>
+
+		<para
+>&kile; har bara några få alternativ som kan ställas in för projektet. För att ändra dem, högerklicka på projektets namn och välj <guilabel
+>Projektalternativ</guilabel
+>, så får du möjlighet att ändra:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Projektets namn.</para
+></listitem>
+			<listitem
+><para
+>Förvalda filändelser.</para
+></listitem>
+ 			<listitem
+><para
+>Huvuddokumentet.</para
+></listitem>
+ 			<listitem
+><para
+>Snabbyggkommandot.</para
+></listitem>
+ 			<listitem
+><para
+>Väljare för &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>Stänga ett projekt</title>
+
+		<para
+>För att stänga ett projekt, välj vyn <guilabel
+>Filer och projekt</guilabel
+> i den vertikala verktygsraden, högerklicka på projektnamnet, och välj <guimenuitem
+>Stäng</guimenuitem
+>. Då stängs projektet, alla filer som hör ihop med det, och dessutom läggs namnet på projektet som du just stängde till i kombinationsrutan <guisubmenu
+>Öppna senaste projekt...</guisubmenu
+> i menyn <guimenu
+>Projekt</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>Dokumentkodning</title>
+
+	<para
+>&kile;-editorn låter dig läsa, konvertera och spara texten med kodningen som dokumentet behöver. Det ger dig möjlighet att exempelvis använda tecken med accent som ofta används i italienska, franska eller svenska direkt i &latex;-dokument. Att välja kodning för ett dokument kan göras på två sätt:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Ett sätt att ange dokumentkodningen är att använda undermenyn <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+><guimenuitem
+>Editor</guimenuitem
+></menuchoice
+> där du kan ställa in förvald teckenkodning för alla filer.</para>
+		<screenshot>
+			<screeninfo
+>Välja förvald teckenkodning</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Välja förvald teckenkodning</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>Ett andra sätt att ange kodningen för ett dokument är att välja den önskade kodningen inne i guiden för att skapa ett nytt dokument.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>&latex; själv förstår bara ASCII-tecken, vilket representerar en mycket begränsad uppsättning tecken, så du har inte möjlighet att använda bokstäver med accent eller specialtecken direkt. För att använda dem ändå, skapades en särskild syntax, som till exempel <userinput
+>\"a</userinput
+> för <computeroutput
+>ä</computeroutput
+>. Paketet <application
+>inputenc</application
+> är tillgängligt för att hjälpa till med detta. Det  infogas i inledningen med <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>, där det valfria argumentet är kodningen som du vill använda (i de flesta fall <userinput
+>utf8</userinput
+>). Det talar om för &latex; att översätta alla <userinput
+>ä</userinput
+> du skrev till <userinput
+>\"a</userinput
+> innan kompilering. Titta direkt i dokumentationen om <application
+>inputenc</application
+> för mer information om det. Sist men inte minst, kom ihåg att försäkra dig om att filen <emphasis
+>verkligen</emphasis
+> är kodad med samma kodning som du anger för <application
+>inputenc</application
+>.</para>
+
+	<para
+>Mängden olika tabeller för teckenkodning har orsakat åtskilliga problem: Du kan till exempel inte skriva en kurs i turkiska på franska utan att ett av språkens specialtecken går förlorade. Det finns en allmän överenskommelse att alla, förr eller senare, ska byta till <ulink url="http://www.unicode.org"
+>Unicode</ulink
+>. Det finns många implementeringar av Unicode, och <abbrev
+>UTF-8</abbrev
+> är den mest lyckade på &Linux;. &Windows;&reg; förlitar sig på det mer ohanterliga och mindre flexibla <abbrev
+>UCS-2</abbrev
+>. Vissa distributioner, som RedHat, har redan börjat ställa in förvald kodning till <abbrev
+>UTF-8</abbrev
+>, och därför kan det vara mycket intressant att använda argumentet <userinput
+>utf8</userinput
+> för paketet <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>Paketet &ucs;</title>
+		<para
+>Om du inte har installerat &ucs;-paketet, kan du fortsätta på följande sätt:</para>
+		<itemizedlist>
+		<listitem
+><para
+>Hämta paketet &ucs; från <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>Packa upp den nerladdade filen och placera den i en katalog som anges i miljövariabeln $<envar
+>TEXINPUTS</envar
+>, för att installera det. Det kan också ställas in i &kile;.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}
+\usepackage[utf8]{inputenc}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>Xelatex</title>
+
+		<para
+>Om du använder <userinput
+>Xelatex</userinput
+> kan du helt enkelt läsa in paketet <userinput
+>xltxtra</userinput
+>. Det läser in alla paket som krävs. </para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>Stöd för &cjk;</title>
+
+		<para
+>Att lägga till stöd för språk med ideogram är rätt besvärligt. När du väl har gjort det, fungerar det dock riktigt bra. Förutom att installera paket, behöver visst extra inställningsarbete utföras.</para>
+
+		<tip
+><para
+>Din &Linux;-distribution kanske redan har paketet &cjk; (kinesiska, japanska, koreanska) klart åt dig, så du kan bli besparad besväret att installera allt för hand. Kontrollera det innan du går vidare!</para
+></tip>
+
+		<para
+>Möjligheten att använda &ucs;-paketet för att skriva korta snuttar med &cjk;-text finns, men alternativet har allvarliga begränsningar eftersom det inte hanterar bland annat nyrader. Vi installerar istället det fullständiga &cjk;-&latex; paketet och får det att fungera både för &latex; och &pdflatex;. Mycket av materialet här är inspirerat av <ulink url="http://www.ece.uci.edu/~chou/"
+>Pai H. Chous</ulink
+> <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>sida om hur &pdflatex; ställs in</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>Ladda ner paketet <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. Kopiera de uppackade filerna till en lämplig underkatalog under $<envar
+>TEXMF</envar
+>, precis som du gjorde med paketet &ucs; tidigare (se <xref linkend="ucs" role="select: title pageabbrv"/>). Filerna packas upp i katalogen <filename
+>CJK/X_Y.Z</filename
+>. Det är inte viktigt att flytta dem, även om det blir snyggare och enklare att underhålla.</para
+></listitem>
+
+		<listitem
+><para
+>Nu måste du ladda ner ett teckensnitt som stöder alla &cjk;-tecken som du behöver. Du kan välja vilken <literal role="extension"
+>*.ttf</literal
+>-fil som helst som täcker dem, men i den här genomgången använder vi <ulink url="ftp://ftp.netscape.com/pub/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+>. Packa upp filen och byt namn på <filename
+>Cyberbit.ttf</filename
+> till <filename
+>cyberbit.ttf</filename
+>, eftersom stora bokstäver kan förvirra systemet.</para>
+		<para
+>Placera <filename
+>cyberbit.ttf</filename
+> i en katalog tillsammans med <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+>, och skapa filerna <literal role="extension"
+>*.tfm</literal
+> och <literal role="extension"
+>*.enc</literal
+> med kommandot <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. Av någon anledning skapar detta inte alltid de hundratals filer som det ska. Om det skulle inträffa i ditt fall, kan du ladda ner både <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+>- och <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+>-filerna.</para>
+		<para
+>Placera <literal role="extension"
+>.tfm</literal
+>-filerna i lämplig katalog, såsom <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>, <literal role="extension"
+>.enc</literal
+>-filerna kan installeras i <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Nu behöver vi en avbildningsfil för att koppla ihop <literal role="extension"
+>.enc</literal
+>-filerna med teckensnittet. Ladda ner <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> och installera den i <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Ladda ner en annan fil, <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+>, och placera den i lämplig katalog. Du kan till exempel välja <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Den sista filen vi måste skapa är ett &PostScript; Typ 1 teckensnitt, som behövs för att läsa &DVI;-filer som skapas med &latex;. Kör kommandot <command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+> och kopiera resultatet <filename
+>cyberbit.pfb</filename
+> till en katalog såsom <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Låt oss nu placera <filename
+>cyberbit.ttf</filename
+> bland teckensnitten där &latex; kan hitta den. Du skulle kunna placera den i en katalog som heter <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Kontrollera inställningsfilen som du hittar med <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+>, och försäkra dig om att raden som nämner <envar
+>TTFONTS</envar
+> inte är bortkommenterad och pekar på katalogen där du sparade <filename
+>cyberbit.ttf</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>För att göra det möjligt för &pdflatex; att använda dina &cjk;-teckensnitt, är det nödvändigt att lägga till en rad i inställningsfilen <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+>. Lägg till <userinput
+>map +cyberbit.map</userinput
+> i filen för att färdigställa inställningen av &pdflatex;.</para
+></listitem>
+
+		<listitem
+><para
+>För att ställa in &latex; så att du kan skapa &DVI;-filer med &cjk;-tecken, måste du lägga till en rad i filen <filename
+>ttfonts.map</filename
+>. Filen kan finnas i en katalog som heter <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+>, men du måste troligen leta efter den. Lägg till raden <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+> i den.</para
+></listitem>
+
+		<listitem
+><para
+>Nu behöver du bara köra <userinput
+><command
+>texhash</command
+></userinput
+> så ska systemet vara klart.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>För att testa om din inställning är riktig, kan du försöka kompilera <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>den här testfilen</ulink
+>.</para>
+
+		<sect2>
+			<title
+>Felsökning av &cjk;</title>
+
+			<para
+>Det finns många saker som kan gå fel när &cjk;-stöd läggs till för hand. Om något inte verkar fungera, kan följande checklista hjälpa dig:</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>Eftersom du kör &latex; som en användare och inte som systemadministratör, måste du förstås <emphasis
+>tillåta</emphasis
+> vanliga användare att komma åt de nya filerna. Försäkra dig om att alla kataloger och filer kan kommas åt med kommandot <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>Om &latex; skriver &DVI; utan problem, men du inte kan visa det, beror den nästan säkert på något problem med de automatiskt skapade <literal role="extension"
+>*.pk</literal
+>-tecknensnitten. Det är meningen att de ska skapas i farten när en &DVI;-fil visas, men det kan misslyckas av ett antal olika orsaker: kontrollera först i <filename
+>ttfonts.map</filename
+> efter din egna rad. Det kan dock inträffa att kommandot <command
+>ttf2pk</command
+>, som oftast anropas av &DVI;-visaren, har kompilerats <emphasis
+>utan</emphasis
+> stöd för biblioteken <application
+>kpathsea</application
+>. Om så är fallet, nämner <userinput
+><command
+>ttf2pk</command
+> <option
+>--version</option
+></userinput
+>inte <application
+>kpathsea</application
+>. Eftersom stöd för dessa bibliotek är nödvändigt, måste du hitta ett nytt paket eller kompilera om <application
+>FreeType 1</application
+> själv.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>Hur matar man in &cjk; med Unicode?</title>
+
+			<para
+>Det finns ett antal olika inmatningsprogram, och valet kan bero på vad du personligen föredrar. Upphovsmannen använder <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+>, en överföring av programmet <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+> till &kde;. Titta i din distributions dokumentation för att ta reda på hur man installerar programmen. Inställning av sådana program kan också vara besvärlig. I fallet med <application
+>Skim</application
+> måste du definiera miljövariabeln <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> <emphasis
+>innan</emphasis
+> du startar <application
+>X</application
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>Hjälp</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>Hjälpdokument</title>
+
+		<para
+>&latex; är ett rätt avancerat system, där de grundläggande funktionerna kan utökas med en stor variation av ytterligare paket. &kile; tillhandahåller en mängd olika typer av hjälp för att stödja användaren.</para>
+
+		<para
+>Undermenyn <menuchoice
+><guimenu
+>Hjälp</guimenu
+> <guisubmenu
+>Latex-dokumentation</guisubmenu
+></menuchoice
+> omfattar dokumentation av alla paket som ingår och ytterligare referensdokumentation för &latex;. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>Dokumentationsbläddrare</guimenu
+></term>
+		<listitem
+><para
+>Ett praktiskt verktyg för att bläddra bland alla &latex;-ämnen. Installera &latex; hjälppaket från distributionen om du behöver den fullfjädrade dokumentationssamlingen.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Latex</guimenu
+></term>
+		<listitem
+><para
+>En fullständig inofficiell referensdokumentation för &tex; och tillhörande program. Det är inte bara en beskrivning av alla program, utan vissa viktiga paket nämns också. Det omfattar också en fullständig referensmanual för &latex;-kommandon, ideal för att slå upp en viss typ av formatering medan ett dokument skrivs. Eftersom dokumentet är verkligt omfattande, delar &kile; upp det med tre viktiga bokmärken.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Latex-kommandon</guimenu
+></term>
+		<listitem
+><para
+>Ett annat alfabetiskt index över de vanligaste kommandona i &latex;.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Latex-omgivningar</guimenu
+></term>
+		<listitem
+><para
+>Ett alfabetiskt index över de vanligaste omgivningarna i &latex;.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>Sammanhangsberoende hjälp</title>
+
+		<para
+>&kile; stöder också sammanhangsberoende hjälp, vilken anropas med <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>, <keycap
+>K</keycap
+>. I <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+> <guilabel
+>Hjälp</guilabel
+></menuchoice
+> kan du välja om du vill använda &kile;s &latex;-referens eller hjälpsystemet i &tetex; eller &texlive;, som är förvald inställning.</para>
+
+		<screenshot>
+			<screeninfo
+>Punkter</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punkter</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>Söka efter nyckelord</title>
+
+		<para
+>Det är inte alltid lätt att hitta rätt dokument, eftersom &tetex; och &texlive; levereras med en enorm mängd hjälpdokument. För att förenkla processen erbjuder &tetex; och &texlive; ett litet program som kallas  <application
+>texdoctk</application
+>. Det tillhandahåller en databas med alla hjälpdokument, som &kile; tillhandahåller ett andvändarvänligt gränssnitt för.</para>
+
+		<screenshot>
+			<screeninfo
+>Punkter</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punkter</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Alla dokument är grupperade i olika kategorier. Dessutom kan man söka efter paketnamn eller nyckelord. &kile; visar därefter bara hjälpdokument som motsvarar söksträngen.</para>
+
+		<screenshot>
+			<screeninfo
+>Punkter</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punkter</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Ett dubbelklick med musen, eller mellanslagstangenten, startar visning av dokumentet. Det kan vara ett godtyckligt dokument, inte bara &DVI;-, PS-, PDF- eller &HTML;-dokument. &kile; använder inställningarna i &kde; för att starta lämpligt visningsprogram.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>Användardefinierad hjälp</title>
+
+		<para
+>Förutom den statiska &tetex;- och &texlive;-dokumentationen, stöder &kile; också ett smidigare sätt för hjälpdokument. I menyn <guimenu
+>Hjälp</guimenu
+> har &kile; en särskild undermeny <guimenu
+>Användarhjälp</guimenu
+>, där användaren kan lägga till dokument som han eller hon själv väljer. De kan vara de viktigaste dokumenten i &tetex;- och &texlive;-dokumentationen, eller till och med egenframställda dokument. Det är också möjligt att ange webbadresser.</para>
+
+		<para
+>Gå till <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Hjälp</guilabel
+></menuchoice
+> och välj knappen <guibutton
+>Anpassa</guibutton
+> för att ställa in menyn <guimenu
+>Användarhjälp</guimenu
+>. Man kan lägga till, ta bort eller flytta menyalternativ, och dessutom infoga avskiljare för att få en bättre struktur.</para>
+
+		<screenshot>
+			<screeninfo
+>Dialogruta: Anpassa användardefinierade hjälpposter</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dialogruta: Anpassa användardefinierade hjälpposter</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Genom att klicka på knappen <guibutton
+>Lägg till</guibutton
+> visas en annan dialogruta, där du kan redigera menyalternativets namn, och välja motsvarande fil eller webbadress. Den andra knappen till höger om textfältet startar &konqueror; som kan användas för att bestämma den riktiga webbadressen.</para>
+
+		<screenshot>
+			<screeninfo
+>Dialogruta: Lägg till nytt hjälpalternativ</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Dialogruta: Lägg till nytt hjälpalternativ</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Efter inställningen har slutförts visas alla valda alternativ i &kile;s meny <guimenu
+>Hjälp</guimenu
+> som ett särskilt menyalternativ 
+<guimenu
+>Användarhjälp</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Användarhjälpmeny</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Användarhjälpmeny</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>Tack till och licens</title>
+
+	<para
+>&kile; är en användarvänlig &latex;/&tex;-källkodseditorf. Den kör på system med &kde;:s skrivbordsmiljö installerad. &kde; är tillgängligt för flera arkitekturer inklusive &Linux; och andra Unix-liknande system.</para>
+
+	<para
+>Stort tack går till alla som anstränger sig för att &kile;-projektet ska kunna fortsätta, och de som offrar många timmar av sin tid för att utveckla verktyg som vi alla kan använda under &GNU;-licens. Aktuell information om bidragsgivare finns i dialogrutan <guimenuitem
+>Om &kile;</guimenuitem
+> från <guimenu
+>Hjälp</guimenu
+>-menyn. </para>
+
+	<para
+>Många tack till alla inblandade!</para>
+
+<para
+>Översättning Stefan Asserhäll <email
+>stefan.asserhall@bredband.net</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

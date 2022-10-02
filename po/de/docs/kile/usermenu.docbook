@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Benutzerdefinierte Menüs</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Einrichtung</title>
+
+<para
+>In &kile; können benutzerdefinierte Menüs verwendet werden, die im Hauptmenü von &kile; eingefügt werden. Dieses Menü kann im Einrichtungsdialog von &kile; bearbeitet werden. Wählen Sie dazu <menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guisubmenu
+>Kile einrichten ...</guisubmenu
+><guimenuitem
+>Benutzermenü</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Einrichtung des Benutzermenüs</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Einrichtung des Benutzermenüs</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Es gibt zwei Möglichkeiten, dieses Menü anzuordnen:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>Entweder der Menüeintrag <guilabel
+>Benutzermenü</guilabel
+> wird im Hauptmenü zwischen den Menüeinträgen <guilabel
+>LaTeX</guilabel
+> und <guilabel
+>Assistent</guilabel
+> und der Einrichtungsassistent <guilabel
+>Benutzermenü bearbeiten</guilabel
+> im Menü <guilabel
+>Assistent</guilabel
+> angezeigt</para>
+
+	<screenshot>
+		<screeninfo
+>Benutzermenü im Hauptmenü</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Benutzermenü im Hauptmenü</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>oder beide Einträge werden am Ende des Menüs <guilabel
+>LaTeX</guilabel
+> angefügt.</para>
+
+	<screenshot>
+		<screeninfo
+>Benutzermenü als Teil des LaTeX-Menüs</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Benutzermenü als Teil des LaTeX-Menüs</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Bereits vorhandene benutzerdefinierte Tags aus früheren &kile;-Versionen werden automatisch in das neue benutzerdefinierte Menu umgewandelt. Diese Tags sind in der Datei <filename
+>usertags.xml</filename
+> gespeichert. Wie alle Menüdefinitionsdateien finden Sie diese Dateien im lokalen Benutzermenü-Ordner von &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, &eg; <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Es können mehrere Menüdefinitionsdateien für unterschiedliche Aufgaben benutzt werden. Wählen Sie <menuchoice
+><guimenu
+>Assistent</guimenu
+><guisubmenu
+>Benutzermenü bearbeiten</guisubmenu
+></menuchoice
+> oder <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Benutzermenü bearbeiten</guisubmenu
+></menuchoice
+>, um Menüdefinitionsdateien zu installieren oder zu bearbeiten.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Assistent</title>
+
+<para
+>Sie können neue Menüs erstellen oder vorhandene bearbeiten, indem Sie mit <menuchoice
+><guimenu
+>Assistent</guimenu
+><guisubmenu
+>Benutzermenü bearbeiten</guisubmenu
+></menuchoice
+> den Assistenten für das Benutzermenü aufrufen.</para>
+
+	<screenshot>
+		<screeninfo
+>Benutzermenü-Assistent</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Benutzermenü-Assistent</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Auf der linken Seite finden Sie die vorhandene Menüstruktur. Wie im Standardmenü gibt es drei verschiedene Arten von Einträgen:</para>
+
+<itemizedlist>
+<listitem
+><para
+>Standard-Menüeinträge, denen eine Aktion zugewiesen ist</para
+></listitem>
+<listitem
+><para
+>Untermenüs, die weitere Menüeinträge enthalten</para
+></listitem>
+<listitem
+><para
+>Trennlinien zur visuellen Strukturierung aller Einträge.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Um dieses Menü zu bearbeiten, verwenden Sie die sechs Knöpfe links unter der Menüstruktur. Weitere Aktionen erreichen Sie über das Kontextmenü bereits vorhandener Menüeinträge.</para>
+
+	<screenshot>
+		<screeninfo
+>Benutzerdefinierte Menüstruktur</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Benutzerdefinierte Menüstruktur</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Jedem Standardmenüeintrag ist einer von drei Aktionsarten zugewiesen, jede Aktionsart hat andere einstellbare Attribute:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Text:</guilabel
+>&nbsp; Mit &kile; können Sie ihre eigenen Tags erstellen. Ein Tag funktioniert etwa wie ein Kurzbefehl, der einen Befehl aufruft oder häufig gebrauchte Texte einfügt, &eg; oft benutzte Sätze wie  <userinput
+>Hi, Ich bin eingefügt worden ...</userinput
+>. Dieses Tag Tag wird an der aktuellen Cursor-Position, wenn die Aktion wie oben erläutert aufgerufen wird. Platzhalter können ebenfalls benutzt werden, siehe <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>.</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Datei-Inhalt einfügen:</guilabel
+>&nbsp; Fügt den gesamten Inhalt einer angegeben Datei ein.</para>
+
+	<screenshot>
+		<screeninfo
+>Datei-Inhalt einfügen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Datei-Inhalt einfügen</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Externes Programm ausführen</guilabel
+>&nbsp; Die Ausgaben des Programms können in das geöffnete Dokument eingefügt werden. Der Platzhalter <userinput
+>%M</userinput
+> ist auch in der Befehlszeile des Programms verfügbar, da der markierte Text in einer temporären Datei gespeichert wird. Verwenden Sie <userinput
+>%M</userinput
+> als Dateinamen für diese temporäre Datei.</para>
+
+	<screenshot>
+		<screeninfo
+>Externes Programm ausführen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Externes Programm ausführen</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Sollten wichtige Informationen für eine Aktion fehlen, werden Menüeinträge in roter Farbe dargestellt. Es kann eine nicht vorhandene Datei sein</para>
+
+	<screenshot>
+		<screeninfo
+>Nicht vorhandene Datei</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Nicht vorhandene Datei</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>oder ein fehlender Titel eines Menüeintrags, was mit Fragezeichen wie <userinput
+>???</userinput
+> angezeigt wird.</para>
+
+	<screenshot>
+		<screeninfo
+>Fehlender Titel eines Menüeintrags</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Fehlender Titel eines Menüeintrags</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Öffnen Sie das Kontextmenü eines rot angezeigten Menüeintrags, erhalten Sie zusätzliche Informationen über die Fehler.</para>
+
+	<screenshot>
+		<screeninfo
+>Zusätzliche Informationen</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Zusätzliche Informationen</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Weitere Informationen für die meisten Elemente finden Sie in der entsprechenden <guilabel
+>Was ist das?</guilabel
+>-Hilfe.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Platzhalter</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Text einfügen</title>
+
+<para
+>Es gibt einige Platzhalter, die Sie in benutzerdefinierten Tags verwenden können: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> und <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; An diese Stelle wird der Cursor nach dem Einfügen des benutzerdefinierten Tags gesetzt.</para>
+
+	<screenshot>
+		<screeninfo
+>Cursor-Position (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Cursor-Position (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; wird durch eine Sprungmarke ersetzt (siehe <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Sprungmarke (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Sprungmarke (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; wird durch den ausgewählten Text ersetzt.</para>
+
+	<screenshot>
+		<screeninfo
+>Ausgewählter Text (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ausgewählter Text (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; Bestimmt die Einrückungstiefe von Text in einer Umgebung.</para>
+
+	<screenshot>
+		<screeninfo
+>Einrückung von Umgebungstext (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Einrückung von Umgebungstext (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; öffnet einen Referenzdialog, in dem Sie ein bereits vorher definiertes Label wählen können. Die kann benutzt werden, um eine Referenz zu einem bereits definierten aus einem Auswahlfeld auszusuchen , siehe auch <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referenzen</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> oder <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referenzen</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Referenzen (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Referenzen (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; öffnet den Zitierungsdialog auf, um eine bereits definierte Zitierung zu wählen. Wie mit <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referenzen</guimenuitem
+><guimenuitem
+>cite</guimenuitem
+></menuchoice
+> wird ein Dialog mit allen Zitierungsschlüsseln zur Auswahl angeboten.</para>
+
+	<screenshot>
+		<screeninfo
+>Zitierung (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Zitierung (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Betrachten Sie ein Makro wie zum Beispiel <userinput
+>\frac{%M}{%C}</userinput
+>. Zuerst wird eine Zahl im Text ausgewählt, zum Beispiel <userinput
+>42</userinput
+>. Wird nun das Makro aufgerufen, wird <userinput
+>\frac{42}{}</userinput
+> eingefügt und der Cursor steht im zweiten Klammerpaar.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Datei-Inhalt einfügen</title>
+
+<para
+>Wenn Sie den Inhalt einer Textdatei einfügen möchten, können Sie den gleichen Platzhalter verwenden.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Ein Programm ausführen</title>
+
+<para
+>Möchten Sie ein externes Programm ausführen, dann wird nur der Platzhalter <userinput
+>%M</userinput
+> für eine Textauswahl in der Befehlszeile erkannt. Die Auswahl wird in einer temporären Datei gespeichert und der Platzhalter <userinput
+>%M</userinput
+> durch diesen Dateinamen ersetzt.</para>
+
+	<screenshot>
+		<screeninfo
+>Ein externes Programm ausführen (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ein externes Programm ausführen (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ein weiterer Platzhalter ist <userinput
+>%S</userinput
+>, er wird durch den Basisnamen des aktuellen Dokuments ohne den Pfad ersetzt. Der Basisname enthält alle Zeichen im Dateinamen bis auf das letzte „.“-Zeichen, das ausgeschlossen ist.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parameter</title>
+
+<para
+>Die meisten Menüeinträge können zusätzliche selbsterklärende Parameter haben, die aktiviert sein können. Sind einige dieser Parameter für eine bestimmte Aktion nicht verfügbar, dann sind die Ankreuzfelder deaktiviert.</para>
+
+	<screenshot>
+		<screeninfo
+>Parameter in Benutzermenüs</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameter in Benutzermenüs</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Hier ist ein Beispiel für die Ausführung eines externen Programms:</para>
+
+	<screenshot>
+		<screeninfo
+>Parameter-Beispiel</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameter-Beispiel</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Im oben gezeigten Bildschirmfoto wird ein <userinput
+>perl</userinput
+>-Skript aufgerufen, dass die aktuelle Auswahl bearbeitet. Der Parameter <guilabel
+>Benötigt eine Textauswahl</guilabel
+> ist aktiviert, um sicherzustellen, dass Text ausgewählt wurde. Die Ausgabe dieses Skripts wird eingefügt (<guilabel
+>Ausgabe des gewählten Programms einfügen</guilabel
+>) und ersetzt die aktuelle Auswahl (<guilabel
+>Ausgewählten Text ersetzen</guilabel
+>), ist dann aber nicht ausgewählt.</para>
+
+<para
+>Natürlich können Sie auch Ihre eigenen Programme und Skripte starten. Wählen Sie zum Beispiel eine durch Leerzeichen getrennte Liste von Zahlen und starten dann ein Skript oder Perl-Programm, das diese Auswahl in &latex;-Quelltext für eine Matrix umwandelt. Sie können beliebige Ideen mit Einträgen im Benutzermenü umsetzen.</para>
+
+	<screenshot>
+		<screeninfo
+>Parameter-Beispiel 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameter-Beispiel 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Menüdefinitionsdateien</title>
+
+<para
+>Während der Ausführung von &kile; können Sie mehrere Menüs für verschiedenen Aufgaben laden. Wenn Sie den Benutzermenü-Assistenten aufrufen, wird die aktuelle Menüdefinitionsdatei geladen. Wenn Sie sie bearbeiten und auf <guibutton
+>OK</guibutton
+> drücken, werden Ihre Änderungen gespeichert und als neues Benutzermenü installiert. Schließen Sie den Dialogs mit <guibutton
+>Abbrechen</guibutton
+> verwirft alle Änderungen.</para>
+
+	<screenshot>
+		<screeninfo
+>Menüdefinitionsdateien</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Menüdefinitionsdateien</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Sie können die geänderte Datei aber auch im Ordner für Benutzermenüs speichern oder einen andere Menüdefinitionsdatei laden und installieren. Alle Menüdefinitionsdateien müssen im lokalen Ordner für Benutzermenüs von &kile; gespeichert werden: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Im Beispiel einer Menüdefinitionsdatei <userinput
+>example.xml</userinput
+> finden Sie weitere Menüeinträge mit deren Parametern.</para>
+
+</sect1>
+
+</chapter>

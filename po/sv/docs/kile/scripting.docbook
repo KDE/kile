@@ -1,0 +1,4258 @@
+<chapter id="id_scripting">
+<title
+>Skript</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>Skript i &kile;</title>
+
+<para
+>Skriptfunktionaliteten i &kile; gör det möjligt att köra <ulink url="http://sv.wikipedia.org/wiki/Ecmascript"
+>Ecmascript</ulink
+>-kod, allmänt känt som &javascript;. Det finns en mängd handledningar som ger information om objekt (variabler), funktioner och egenskaper som stöds av &javascript;.</para>
+
+<para
+>Skriptstöd kan aktiveras i  &kile;s inställningsdialogruta: <menuchoice
+><guimenu
+>Inställningar</guimenu
+><guisubmenu
+>Anpassa Kile...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Skript</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>Aktivera eller inaktivera skriptstöd</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Aktivera eller inaktivera skriptstöd</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Om skript är aktiverade, visas en ytterligare skriptpanel i sidoraden där skript kan hanteras: <screenshot>
+	<screeninfo
+>Skriptpanelen i sidoraden</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skriptpanelen i sidoraden</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Komponenten innehåller sex ikoner som tillhandahåller olika aktiviteter: <itemizedlist>
+<listitem
+><para
+>Kör det markerade skriptet.</para
+></listitem>
+<listitem
+><para
+>Skapa ett nytt skript.</para
+></listitem>
+<listitem
+><para
+>Öppna det markerade skriptet i editorn.</para
+></listitem>
+<listitem
+><para
+>Anpassa en tangentsekvens för det markerade skriptet.</para
+></listitem>
+<listitem
+><para
+>Ta bort en tilldelad tangentsekvens.</para
+></listitem>
+<listitem
+><para
+>Uppdatera listan med tillgängliga skript, som alla finns i  <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>Köra ett skript</title>
+
+<para
+>Du kan köra ett skript på tre olika sätt:</para>
+
+<procedure>
+<step
+><para
+>Markera önskat skript och klicka på knappen <guilabel
+>Kör</guilabel
+> på vänster sida i skripthanteringskomponenten.</para>
+<screenshot>
+	<screeninfo
+>Skript: Körknappen</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skript: Körknappen</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Använda en snabbtangent.</para>
+<screenshot>
+	<screeninfo
+>Skript: Snabbtangent</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skript: Snabbtangent</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Du kan tilldela en snabbtangent till ett skript genom att använda knappen <guilabel
+>Anpassa</guilabel
+> i skripthanteringskomponenten.</para>
+<screenshot>
+	<screeninfo
+>Skript: Dialogrutan anpassa sekvens</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skript: Dialogrutan anpassa sekvens</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Använda en tangentsekvens i editorn. Skriptet körs när den tilldelade tangentsekvensen skrivs in i editorn.</para>
+<screenshot>
+	<screeninfo
+>Skript: Tangentsekvens i editorn</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skript: Tangentsekvens i editorn</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Metoden kan utökas till en ganska sofistikerad sorts kodkomplettering. Låt oss anta att du har skrivit ett skript som helt enkelt infogar &latex;-kommandot <userinput
+>\textbf{}</userinput
+> i det nuvarande dokumentet.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>Om du nu skriver den tilldelade tangentsekvensen <userinput
+>bfx</userinput
+> i textdokumentet, tas tangentsekvensen bort och skriptet körs. Det kommer att infoga <userinput
+>\textbf{}</userinput
+> och markören placeras mellan krullparenteserna.</para>
+<screenshot>
+	<screeninfo
+>Skript: Skriva in en tangentsekvens i editorn</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Skript: Skriva in en tangentsekvens i editorn</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Vilken bekväm och kraftfull metod för kodkomplettering.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>Referens till programmeringsgränssnittet</title>
+
+<para
+>Programmeringsgränssnittet för skript som beskrivs här är tillgängligt i alla skript. Innan skriptets innehåll läses in, lägger &kile; först till en mängd prototyper och funktioner i skriptsammanhanget. Detta bekväma programmeringsgränssnitt innehåller prototyper som textmarkörer och textintervall och finns i katalogen <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>Skript i &kile; skiljer sig något från skript i <ulink url="http://kate-editor.org"
+>&kate;</ulink
+>, som använder en annan konstruktion eftersom de också kan startas från kommandoraden. Men alla funktioner i &kate;s programmeringsgränssnitt för skript är också tillgängliga i &kile;s programmeringsgränssnitt för skript, så att flytta &javascript;-kod från &kate; till &kile; bör vara mycket enkelt. Men eftersom &kile; är en &latex;-editor med mycket omfattande funktioner, erbjuder dess egna programmeringsgränssnitt för skript många fler möjligheter än det i &kate;.</para>
+
+<para
+><emphasis
+>Anmärkning:</emphasis
+>Beskrivningen av anrop i programmeringsgränssnittet, som också är tillgängliga i &kate;s skript, är hämtade från &kate;s dokumentation.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>Globala funktioner</title>
+
+<para
+>Det här avsnittet listar globala funktioner.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Skriver ut <replaceable
+>text</replaceable
+> på <literal
+>standardutmatningen</literal
+> i terminalen. Den utskrivna texten är färglagd för att skilja den från annan felsökningsutmatning. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>Prototypen för Cursor</title>
+
+<para
+>Eftersom &kile; är en texteditor är alla programmeringsgränssnitt baserade på markörer och intervall om det är möjligt. En markör (Cursor) ärett enkelt par <literal
+>(rad, kolumn)</literal
+>, som representerar en textposition i dokumentet.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor. Returnerar en markör på position <literal
+>(0, 0)</literal
+>. </para
+><para
+>Exempel: <function
+>var cursor = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor. Returnerar en markör på position (rad, kolumn). </para
+><para
+>Exempel: <function
+>var cursor = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Kopieringskonstruktor. Returnerar en kopia av markören <replaceable
+>annan</replaceable
+>. </para
+><para
+>Exempel: <function
+>var copy = new Cursor(other);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar en klon av markören. </para
+><para
+>Exempel: <function
+>var clone = cursor.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Kontrollera om markören är giltig. Markören är ogiltig om rad och/eller kolumn har värdet <literal
+>-1</literal
+>. </para
+><para
+>Exempel: <function
+>var valid = cursor.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar en ny ogiltig markör placerad på <literal
+>(-1, -1)</literal
+>. </para
+><para
+>Exempel: <function
+>var invalidCursor = cursor.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Jämför den här markören med markören <replaceable
+>annan</replaceable
+>. Returnerar <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+>, om den här markören är placerad innan markören <replaceable
+>annan</replaceable
+>,</para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+>, om båda markörerna är lika, och</para
+></listitem>
+<listitem
+><para
+><literal
+>+1</literal
+>, om den här markören är placerad efter markören <replaceable
+>annan</replaceable
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om den här markören och markören <parameter
+>annan</parameter
+> är lika, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar markören som en sträng på formen <literal
+>Cursor(rad, kolumn)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>Prototyp för Range</title>
+
+<para
+>Eftersom &kile; är en texteditor är alla programmeringsgränssnitt baserade på markörer och intervall om det är möjligt En markör (Cursor) är ett enkelt par <literal
+>(rad, kolumn)</literal
+>, som representerar en textposition i dokumentet. Ett intervall (Range) omfattar text från en markörs startposition till en markörs slutposition.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor. Att anropa <literal
+>new Range()</literal
+> returnerar intervallet <literal
+>(0, 0) - (0, 0)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>start</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>slut</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstruktor: Anrop av <literal
+>new Range(<replaceable
+>start</replaceable
+>, <replaceable
+>slut</replaceable
+>)</literal
+> returnerar intervallet från markören <parameter
+>start</parameter
+> till markören <parameter
+>slut</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>startrad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>startkolumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>slutrad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>slutkolumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Konstructor: Anrop av <literal
+>new Range(<replaceable
+>startrad</replaceable
+>, <replaceable
+>startkolumn</replaceable
+>, <replaceable
+>slutrad</replaceable
+>, <replaceable
+>slutkolumn</replaceable
+>)</literal
+> returnerar intervallet från (<literal
+>startrad</literal
+>, <literal
+>startkolumn</literal
+>) till (<literal
+>slutrad</literal
+>, <literal
+>slutkolumn</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Kopieringskonstruktor: Returnerar en kopia av intervallet <literal
+>annan</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar en klon av intervallet. </para
+><para
+>Exempel: <function
+>var clone = range.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om både start- och slutmarkörerna är giltiga, annars <literal
+>falskt</literal
+>. </para
+><para
+>Exempel: <function
+>var valid = range.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet från (-1, -1) till (-1, -1). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <constant
+>true</constant
+> om intervallet innehåller markörpositionen, annars <constant
+>false</constant
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om det här intervallet innehåller intervallet <parameter
+>annat</parameter
+>, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om <parameter
+>kolumn</parameter
+> är i det halvöppna intervallet <literal
+>[startkolumn, slutkolumn)</literal
+>, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om <parameter
+>rad</parameter
+> är i det halvöppna intervallet <literal
+>[startrad, slutrad)</literal
+>, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om det här intervallet och intervallet <parameter
+>annat</parameter
+> delar ett gemensamt område, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om <parameter
+>rad</parameter
+> är i intervallet <literal
+>[startrad, slutrad]</literal
+>, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om <parameter
+>kolumn</parameter
+> är i intervallet <literal
+>[startkolumn, slutkolumn]</literal
+>, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>annan</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om det här intervallet och intervallet <parameter
+>annat</parameter
+> är lika, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet som en sträng på formen <literal
+>Range(Cursor(rad, kolumn), Cursor(rad, kolumn))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>Programmeringsgränssnittet för vyn</title>
+
+<para
+>När ett skript håller på att köras, finns det ett globalt objekt (variabel) <userinput
+>view</userinput
+> som representerar den för närvarande aktiva editorvyn. Alla funktioner i <literal
+>view</literal
+> arbetar med markörpositioner eller markerad text. Det följande är en lista med alla tillgängliga funktioner i <userinput
+>view</userinput
+>.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>Utför motsvarigheten till att trycka på backstegstangenten programmatiskt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar den nuvarande markörpositionen i vyn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ställ in den nuvarande markörpositionen till antingen <parameter
+>rad</parameter
+>, <parameter
+>kolumn</parameter
+> eller till angiven <parameter
+>markör</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>Flyttar markören en position bakåt i texten. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>Flyttar markören en position framåt i texten. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>Flyttar markören en rad uppåt i dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>Flyttar markören en rad neråt i dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar raden där markören för närvarande är placerad. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar kolumnen där markören för närvarande är placerad. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ändra markörens rad till angiven <parameter
+>rad</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ändra markörens kolumn till angiven <parameter
+>kolumn</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Hämta den nuvarande <emphasis
+>virtuella</emphasis
+> markörpositionen. <emphasis
+>Virtuell</emphasis
+> betyder att tabulatortecknet (TAB) räknas som <emphasis
+>flera</emphasis
+> tecken, enligt vad som är inställt av användaren (t.ex. en tabulator är 8 mellanslag). Den virtuella markörpositionen ger tillgång till den nuvarande markörpositionens värde som användaren ser. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <constant
+>true</constant
+> om vyn har markerad text, annars <constant
+>false</constant
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar den markerade texten. Om ingen text är markerad, är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar det markerade textintervallet. Det returnerade intervallet är ogiltigt om det inte finns någon markerad text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>intervall</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ställer in markerad text till angivet <parameter
+>intervall</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>Markerar hela texten i dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Rensar textmarkeringen utan att ta bort texten. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort den markerade texten. Om vyn inte har någon markerad text, händer ingenting. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>Markerar texten på nuvarande rad. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Markerar texten på angiven <parameter
+>rad</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>från</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>till</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Markerar hela texten från rad <parameter
+>från</parameter
+> till rad <parameter
+>till</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>Markerar aktuellt ord. Om inget ord hittas vid markörens position händer ingenting. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Markerar aktuellt &latex;-kommando. Om inget kommando hittas vid markörens position händer ingenting. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inuti = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Markerar hela texten i den nuvarande &latex;-omgivningen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, markeras omgivningstexten inklusive &latex;-taggarna <userinput
+>\begin{...}...\end{...}</userinput
+>, annars ingår inte taggarna. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>inuti = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Markerar texten i den nuvarande &latex;-omgivningen. Om<parameter
+>inuti</parameter
+> är <literal
+>true</literal
+>, markeras bara textgruppen utan omgivande krullparenteser. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>true</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Markerar texten i aktuell matematikgrupp. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>Markerar hela texten i det nuvarande &latex;-stycket. Om <parameter
+>wholeLines</parameter
+> är <literal
+>true</literal
+>, ingår styckets första och sista rader helt och hållet (inklusive radslutstecken), annars innehåller markeringen bara tecken som inte är blanktecken. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>Programmeringsgränssnittet för dokumentet</title>
+
+<para
+>Så snart ett skript körs, finns ett globalt objekt (variabel) <userinput
+>document</userinput
+> som representerar det nuvarande aktiva dokumentet. Det följande är en lista över tillgängliga funktioner för <userinput
+>document</userinput
+>.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Infogar <parameter
+>text</parameter
+> vid aktuell markörposition. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+void document.insertText(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Infogar <parameter
+>text</parameter
+> vid angiven markörposition. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>frånrad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>frånkolumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>tillrad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>tillkolumn</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>från</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>till</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>intervall</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort text i det givna intervallet. Returnerar <literal
+>sant</literal
+> om det lyckas, eller <literal
+>falskt</literal
+> om dokumentet är skrivskyddat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>intervall</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ersätter texten i det givna intervallet med den angivna texten. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar antal rader i dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar antal tecken i dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar ett intervall som omfattar hela dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar aktuell markörposition för dokumentets slut. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar dokumentets hela innehåll i en enda textsträng. Nya rader är markerade med nyradstecknet <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>frånrad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>frånkolumn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>tillrad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>tillkolumn</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>från</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>till</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>intervall</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar texten i det angivna intervallet. Det rekommenderas att använda markör- och intervallbaserade versioner för bättre läsbarhet hos källkoden. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Anger hela dokumentets text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort hela texten i dokumentet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar aktuell textrad som en sträng. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar den givna textraden som en sträng. Strängen är tom om den begärda raden är utanför tillgängligt intervall. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar den aktuella radens längd. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar längden på <parameter
+>rad</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Infogar text på den nuvarande raden. Returnerar <literal
+>true</literal
+> om det lyckas, eller <literal
+>false</literal
+> om dokumentet är skrivskyddat eller raden inte ingår i dokumentets intervall. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Infogar text på den givna raden. Returnerar <literal
+>sant</literal
+> om det lyckas, eller <literal
+>falskt</literal
+> om dokumentet är skrivskyddat eller raden inte ingår i dokumentets intervall. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort den nuvarande textraden. Returnerar <literal
+>true</literal
+> om det lyckas, eller <literal
+>false</literal
+> om dokumentet är skrivskyddat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort den givna textraden. Returnerar <literal
+>sant</literal
+> om det lyckas, eller <literal
+>falskt</literal
+> om dokumentet är skrivskyddat eller raden inte ingår i dokumentets intervall. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ersätter texten på aktuell rad med den angivna texten. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ersätter texten på den givna raden med angiven text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>Avkorta den nuvarande raden från angiven kolumn eller markörposition. Returnerar <literal
+>true</literal
+> om det lyckas, eller <literal
+>false</literal
+> om den angivna raden inte ingår i dokumentets intervall. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Avkortar den givna raden på den givna kolumnen eller markörpositionen. Returnerar <literal
+>sant</literal
+> om det lyckas, eller <literal
+>falskt</literal
+> om den givna raden inte ingår i dokumentets intervall. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar ordet på den nuvarande markörpositionen. Om inget ord hittas på markörpositionen, är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar ordet på den angivna markörpositionen. Om inget ord hittas på markörpositionen, är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet för ordet vid den angivna markörpositionen. Om inget ord hittas, returneras <literal
+>Range.invalid()</literal
+>, vilket kan kontrolleras med <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar &latex;-kommandot på den nuvarande markörpositionen. Om inget kommando hittas vid markörpositionen är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar &latex;-kommandot på den angivna markörpositionen. Om inget kommando hittas på markörpositionen, är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet för &latex;-kommandot vid den angivna markörpositionen. Om inget kommando hittas, returneras <literal
+>Range.invalid()</literal
+>, vilket kan kontrolleras med <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar tacknet på den angivna markörpositionen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar det första tecknet på angiven <parameter
+>rad</parameter
+> som inte är ett blanktecken. Det första tecknet finns på kolumn 0. Om raden är tom, eller bara innehåller blanktecken, är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar det sista tecknet på angiven <parameter
+>rad</parameter
+> som inte är ett blanktecken. Om raden är tom, eller bara innehåller blanktecken, är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om tecknet på den givna markörpositionen är ett blanktecken, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga en &kile; <emphasis
+>punkt</emphasis
+>. Kom ihåg att du enkelt kan gå till nästa eller föregående punkt. Detta markerar också punkten så att den automatiskt tas bort när den första bokstaven skrivs in. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till nästa punkt i texten om det finns någon. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till föregående punkt i texten om det finns någon. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>true</literal
+> om en omgivande &latex;-omgivning hittas, annars <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inuti = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar hela texten i den nuvarande &latex;-omgivningen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, returneras omgivningstexten inklusive &latex;-taggarna <userinput
+>\begin{...}...\end{...}</userinput
+>, annars ingår inte taggarna. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. Om ingen omgivning hittas är den returnerade strängen tom. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>inuti = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet i den nuvarande &latex;-omgivningen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, returneras intervallet inklusive &latex;-taggarna <userinput
+>\begin{...}...\end{...}</userinput
+>, annars ingår inte taggarna. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. Om inget kommando hittas, returneras <literal
+>Range.invalid()</literal
+>, vilket kan kontrolleras med <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar namnet på den omgivande &latex;-omgivningen eller en tom sträng. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>inuti = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort texten i den nuvarande &latex;-omgivningen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, tas omgivningstexten inklusive &latex;-taggarna <userinput
+>\begin{...}...\end{...}</userinput
+> bort, annars ingår inte taggarna. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga en avslutande omgivningstagg, om en öppen &latex;-omgivning hittas på markörens nuvarande position. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga avslutande omgivningstaggar, för alla öppna &latex;-omgivningar som hittades på markörens nuvarande position. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>true</literal
+> om en omgivande &latex;-grupp hittas vid markörens nuvarande position, annars <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>inuti = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar texten i den omgivande &latex;-gruppen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, returneras texten i &latex;-gruppen inklusive omgivande krullparenteser <userinput
+>{...}</userinput
+>, annars ingår de inte. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. Den returnerade strängen tom om ingen omgivande &latex;-grupp hittas på markörens nuvarande position. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>inuti = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet i den omgivande &latex;-gruppen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, returneras intervallet inklusive omgivande krullparenteser <userinput
+>{...}</userinput
+>, annars ingår de inte. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. Om ingen grupp hittas, returneras <literal
+>Range.invalid()</literal
+>, vilket kan kontrolleras med <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>inuti = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort texten i den omgivande &latex;-gruppen. Om<parameter
+>inuti</parameter
+> är <literal
+>false</literal
+>, tas texten i &latex;-gruppen inklusive omgivande krullparenteser <userinput
+>{...}</userinput
+> bort, annars ingår de inte. Om ingen parameter anges, sätts <parameter
+>inuti</parameter
+> till <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>true</literal
+> om en omgivande &latex;-matematikgrupp hittas, annars <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar den omgivande &latex;-matematikgruppens text. Den returnerade strängen är tom om ingen omgivande &latex;-matematikgrupp hittas vid markörens nuvarande position. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet för den omgivande &latex;-matematikgruppen. Om ingen matematikgrupp hittas, returneras <literal
+>Range.invalid()</literal
+>, vilket kan kontrolleras med <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort den omgivande &latex;-matematikgruppens text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar det nuvarande &latex;-styckets text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar intervallet för det omgivande &latex;-stycket. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort det nuvarande &latex;-styckets text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>sant</literal
+> om given <parameter
+>text</parameter
+> matchar på den motsvarande markörpositionen, annars <literal
+>falskt</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>mönster</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>hoppa-över-blanktecken = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>true</literal
+> om raden börjar med <parameter
+>mönster</parameter
+>, annars <literal
+>false</literal
+>. Parametern <parameter
+>hoppa-över-blanktecken</parameter
+> bestämmer om inledande blanktecken ignoreras. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>mönster</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>hoppa-över-blanktecken = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar <literal
+>true</literal
+> om raden slutar med <parameter
+>mönster</parameter
+>, annars <literal
+>false</literal
+>. Parametern <parameter
+>hoppa-över-blanktecken</parameter
+> bestämmer om avslutande blanktecken ignoreras. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar det första tecknet som inte är ett blanktecken på given <parameter
+>rad</parameter
+>. Om det bara finns blanktecken på raden, är returvärdet <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar det sista tecknet som inte är ett blanktecken på given <parameter
+>rad</parameter
+>. Om det bara finns blanktecken på raden, är returvärdet <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar kolumnen med ett tecken som inte är ett blanktecken med början på given markörposition genom att söka bakåt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolumn</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>markör</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar kolumnen med ett tecken som inte är ett blanktecken med början på given markörposition genom att söka framåt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar nästa rad som inte är tom och som innehåller tecken som inte är blanktecken, genom att söka bakåt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar nästa rad som inte är tom och som innehåller tecken som inte är blanktecken, genom att söka framåt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till början av en omgivande &latex;-omgivning. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till slutet av en omgivande &latex;-omgivning. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till början av en omgivande &latex;-grupp. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till slutet av en omgivande &latex;-grupp. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till nästa &latex;-stycke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till föregående &latex;-stycke. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till nästa &latex;-avsnitt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Gå till föregående &latex;-avsnitt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>rad</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Gå till angiven <literal
+>rad</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\chapter</userinput
+> (se också <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\section</userinput
+>. Som när menyalternativet <menuchoice
+><guimenu
+>Latex</guimenu
+><guisubmenu
+>Sektioner</guisubmenu
+><guimenuitem
+>section</guimenuitem
+></menuchoice
+> används, dyker en dialogruta upp där du kan välja rubrik och en valfri etikett för det här sektionskommandot. <screenshot>
+	<screeninfo
+>Dialogruta: Kommandot Infoga kapitel</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Dialogruta: Kommandot Infoga kapitel</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\subsection</userinput
+> (se också <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\subsubsection</userinput
+> (se också <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\paragraph</userinput
+> (se också <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\subparagraph</userinput
+> (se också <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\label</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\ref</userinput
+>. Som när menyalternativet <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>Referenser</guisubmenu
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> används, dyker en dialogruta upp där du kan välja bland redan definierade etiketter som listas i en kombinationsruta. <screenshot>
+	<screeninfo
+>Dialogruta: Infoga ett hänvisningskommando</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Dialogruta: Infoga ett hänvisningskommando</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\pageref</userinput
+> (se också <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\cite</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\index</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga kommandot <userinput
+>\footnote</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>Infogar kommentarmarkörer så att markeringen eller nuvarande rad blir en kommentar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>Tar bort kommentarmarkörer från markeringen eller nuvarande rad. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>Ändra den markerade texten eller bokstaven efter markören till stora bokstäver. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>Ändra den markerade texten eller bokstaven efter markören till små bokstäver. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>Ändra den inledande bokstaven för orden i den markerade texten eller i aktuellt ord till stor bokstav. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>Sammanfogar raderna i den nuvarande markeringen. Två textrader i följd åtskiljs alltid av ett enda mellanslag. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga en smart nyrad (se <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>Infoga en smart tabulator (se <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>Startar en redigeringsgrupp för gruppering av ångra/gör om. Försäkra dig om att alltid anropa <function
+>editEnd()</function
+> lika många gånger som du anropar <function
+>editBegin()</function
+>. Att anropa <function
+>editBegin()</function
+> använder en referensräknare internt, dvs. anropet kan nästlas. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Avslutar en redigeringsgrupp. Det sista anropet av <function
+>editEnd()</function
+> (dvs. det för det första anropet till <function
+>editBegin()</function
+>) avslutar redigeringssteget. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar alla definierade etiketter som en <literal
+>StringList</literal
+>, vilken kan användas i &javascript; som ett fält av strängar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar alla definierade bibitems som en <literal
+>StringList</literal
+>, vilken kan användas i &javascript; som ett fält av strängar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>Uppdaterar strukturvyn (se <xref linkend="navigating" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>Programmeringsgränssnittet för &kile;</title>
+
+<para
+>Det globala objektet (variabeln) <userinput
+>kile</userinput
+> används för att hantera interaktion på toppnivå med den omgivande världen, indatameddelanden och dialogrutegränssnitt. Dessa anrop till programmeringsgränssnittet är uppdelade i delobjekt för att strukturera den här delen av skriptgränssnittet. Begreppsmässigt påminner <userinput
+>kile</userinput
+> något om <userinput
+>window</userinput
+> i ett programmeringsgränssnitt för webbläsare. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>:&nbsp;Meddelanderutor</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>:&nbsp;Hämta inmatning från användaren</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>:&nbsp;Anropa en av guiderna i &kile;</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>:&nbsp;Hämta information om ett skript som kör</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>:&nbsp;Åtgärder med filer, som läs och skriv.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>Meddelanden</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Visa en <emphasis
+>informationsdialogruta</emphasis
+>. <parameter
+>text</parameter
+> är meddelandets sträng och <parameter
+>rubrik</parameter
+> är meddelanderutans namn. Standardnamnet är skriptets namn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Visa dialogrutan <emphasis
+>Tyvärr</emphasis
+>. <parameter
+>text</parameter
+> är meddelandets sträng och <parameter
+>rubrik</parameter
+> är meddelanderutans namn. Standardnamnet är skriptets namn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Visa en <emphasis
+>feldialogruta</emphasis
+>. <parameter
+>text</parameter
+> är meddelandets sträng och <parameter
+>rubrik</parameter
+> är meddelanderutans namn. Standardnamnet är skriptets namn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Visa en enkel <emphasis
+>frågedialogruta</emphasis
+>. <parameter
+>text</parameter
+> är meddelandets sträng och <parameter
+>rubrik</parameter
+> är meddelanderutans namn. Standardnamnet är skriptets namn. Den returnerade strängen är antingen <literal
+>yes</literal
+> eller <literal
+>no</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Visa en enkel <emphasis
+>varningsdialogruta</emphasis
+>. <parameter
+>text</parameter
+> är meddelandets sträng och <parameter
+>rubrik</parameter
+> är meddelanderutans namn. Standardnamnet är skriptets namn. Den returnerade strängen är antingen <literal
+>continue</literal
+> eller <literal
+>cancel</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>Inmatning</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etikett</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>lista</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funktion för att låta användaren välja ett objekt i en lista, som visas som en listruta. <parameter
+>rubrik</parameter
+> är texten som visas i namnlisten, <parameter
+>etikett</parameter
+> är texten som syns som etikett för listan och <parameter
+>lista</parameter
+> är stränglistan som infogas i rutan. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etikett</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>lista</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funktion för att låta användaren välja ett objekt i en lista, som visas som en kombinationsruta. <parameter
+>rubrik</parameter
+> är texten som visas i namnlisten, <parameter
+>etikett</parameter
+> är texten som syns som etikett för listan och <parameter
+>lista</parameter
+> är stränglistan som infogas i rutan. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etikett</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funktion för att hämta en sträng från användaren. <parameter
+>rubrik</parameter
+> är texten som visas i namnlisten, <parameter
+>etikett</parameter
+> är texten som syns som etikett för radeditorn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etikett</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funktion för att hämta ett &latex;-kommando från användaren. Det betyder att bara små och stora bokstäver tillåts. <parameter
+>rubrik</parameter
+> är texten som visas i namnlisten, <parameter
+>etikett</parameter
+> är texten som syns som etikett för radeditorn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etikett</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = INT_MIN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funktion för att hämta ett heltal från användaren. <parameter
+>rubrik</parameter
+> är texten som visas i namnlisten, <parameter
+>etikett</parameter
+> är texten som syns som etikett för nummerrutan. <parameter
+>min</parameter
+> och <parameter
+>max</parameter
+> är det minsta och största tillåtna värdet som användaren kan välja. Förvalda värden är <literal
+>INT_MIN</literal
+> och <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>rubrik</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etikett</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funktion för att hämta ett positivt heltal från användaren. <parameter
+>rubrik</parameter
+> är texten som visas i namnlisten, <parameter
+>etikett</parameter
+> är texten som syns som etikett för nummerrutan. <parameter
+>min</parameter
+> och <parameter
+>max</parameter
+> är det minsta och största tillåtna värdet som användaren kan välja. Förvalda värden är <literal
+>1</literal
+> och <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>Guider</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>Anropar <emphasis
+>tabellguiden</emphasis
+> som hjälper till att skriva en tabellomgivning (se <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>Anropar <emphasis
+>fältguiden</emphasis
+> som hjälper till att skriva en fältomgivning (se <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>Anropar <emphasis
+>tabulatorguiden</emphasis
+> som hjälper till att skriva en tabulatoromgivning (se <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Anropar <emphasis
+>flytguiden</emphasis
+> som hjälper till att infoga flytande element (se <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Anropar <emphasis
+>matematikguiden</emphasis
+> som hjälper till att infoga matematikomgivningar (se <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>Anropar <emphasis
+>Postscript-verktygsguiden</emphasis
+> som kan hjälpa till att hantera eller arrangera om Postscript-dokument (se <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>Skript</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar basnamnet på ett skript som kör (utan sökväg och filändelse). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>Returnerar en sträng som kan användas som rubrik i underrättelserutor. Det ser ut som <userinput
+>Script: scriptname.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>Fil</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>filnamn</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Läser innehållet i en textfil. Det används på följande sätt: </para
+><para
+>Exempel: <function
+>var res = kile.file.read("path/to/file.txt");</function
+> </para
+><para
+>Returvärdet <userinput
+>res</userinput
+> är ett objekt (eller bättre: en avbildning) med tre egenskaper: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>status:</guilabel
+>&nbsp; Anger åtgärdens statuskod, som kan vara 0 (inget fel), 1 (åtkomst misslyckades) eller 2 (åtkomst nekades). Så om inget fel uppstod är värdet av <userinput
+>res.status</userinput
+> eller <userinput
+>res["status"]</userinput
+> 0.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>result:</guilabel
+>&nbsp; Innehåller den angivna filens text.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>message:</guilabel
+>&nbsp; Innehåller ett felmeddelande om ett fel uppstod.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>Samma sak som <literal
+>read(filnamn)</literal
+>, men inget filnamn anges. En dialogruta kommer att visas för att välja filen att läsa. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>filnamn</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Skriv den angivna texten till en fil. Det används på följande sätt: </para
+><para
+>Exempel: <function
+>var res = kile.file.write("sökväg/till/fil.txt","Någon text...");</function
+> </para
+><para
+>Returvärdet <userinput
+>res</userinput
+> är ett objekt (eller bättre: en avbildning) med två egenskaper: <literal
+>status</literal
+> och <literal
+>message</literal
+> (se <literal
+>read()</literal
+> för mer information). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Samma sak som <literal
+>write(filename,text)</literal
+> men inget filnamn anges. En dialogruta dyker upp för att välja ett filnamn. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>startkatalog</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Skapar en fildialogruta och returnerar det valda filnamnet eller en tom sträng om inget väljes. Observera att med den här metoden måste användaren välja ett befintligt filnamn. </para
+><para
+>Parametrar: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>startkatalog:</guilabel
+>&nbsp; Den öppnade dialogrutans startkatalog.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filter:</guilabel
+>&nbsp; En sträng med jokertecken för skalet eller ett Mime-typfilter som anger vilka filer som ska visas. Se dokumentationen av KFileDialog för mer information om parametern.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Båda parametrar är valfria. Om <literal
+>filter</literal
+> utelämnas visas alla filer. Om dessutom <literal
+>startkatalog</literal
+> utelämnas använder dialogrutan det nuvarande dokumentets katalog som startpunkt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getSaveFileName(<parameter
+>String <replaceable
+>startkatalog</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Skapar en fildialogruta och returnerar det valda filnamnet eller en tom sträng om inget väljes. Observera att med den här metoden behöver användaren inte välja ett befintligt filnamn. Se <literal
+>getOpenFileName()</literal
+> för en förklaring av parametrarna. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>Exempel</title>
+
+<para
+>Några exempel kan hjälpa till att förstå hur skriptgränssnittet används. Dessa exempel och ytterligare några finns i &kile;s skriptkatalog: <filename
+>KILE_APP_DIR/scripts/</filename
+>. Varje skript innehåller en kortfattad beskrivning.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>Exempel 1: Ersätt omgivningsnamn</title>
+
+<para
+>Ersätt en omgivande &latex;-omgivning med en annan, där den relativa markörpositionen inte ändras. <userinput
+>\begin{abc}...\end{abc}</userinput
+> kan exempelvis ändras till <userinput
+>\begin{xyz}...\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Ange omgivning","Nytt omgivningsnamn:");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("Ingen omgivande Latex-omgivning hittades.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>Exempel 2: Ersätt ett &latex; teckensnittskommando</title>
+
+<para
+>Ersätt ett omgivande &latex;-teckensnittkommando med ett annat teckensnittkommando där markören är placerad inne i tex-gruppen. Den relativa markörpositionen ändras inte. <userinput
+>\textbf{abc}</userinput
+> kan exempelvis ändras till <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("Ingen omgivande Tex-grupp hittades.");
+}
+
+function replaceFontCommand(r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Choose",
+                                                    "Choose font command:",buildCmdList(cmd));
+                        if ( newcommand != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition(c);
+        }
+        else {
+                kile.alert.sorry("Inget omgivande teckensnittkommando hittades.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>Exempel 3: Omge markerad text</title>
+
+<para
+>Omge markerad text med ett Tex-kommando där den relativa markörpositionen inte ändras. <userinput
+>abc</userinput
+> kan exempelvis ändras till <userinput
+>\texkommando{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand("Välj","Välj omgivande Latex-kommando:");
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("Ingen markering hittades.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

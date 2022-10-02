@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Användaranpassad meny</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Anpassning</title>
+
+<para
+>&kile; stöder en användaranpassad meny, som visas som en del av &kile;s meny. Menyn kan ställas in med &kile;s inställningsdialogruta med <menuchoice
+><guimenu
+>Inställningar</guimenu
+> <guisubmenu
+>Anpassa Kile</guisubmenu
+> <guimenuitem
+>Användarmeny</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Anpassa användarmenyn</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Anpassa användarmenyn</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Det finns två alternativ där menyn kan placeras:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>antingen visas menyalternativet <guilabel
+>Användarmeny</guilabel
+> i huvudmenyn mellan menyalternativen <guilabel
+>Latex</guilabel
+> och <guilabel
+>Guide</guilabel
+>, och inställningsguiden <guilabel
+>Redigera användarmeny</guilabel
+> i menyn <guilabel
+>Guide</guilabel
+></para>
+
+	<screenshot>
+		<screeninfo
+>Användarmenyn är placerad i huvudmenyn</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Användarmenyn är placerad i huvudmenyn</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>eller båda alternativen visas längst ner i menyalternativet <guilabel
+>Latex</guilabel
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Användarmenyn som en del av menyn Latex</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Användarmenyn som en del av menyn Latex</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Redan befintliga användardefinierade taggar från äldre versioner av &kile; omvandlas automatiskt till den nya användaranpassade menyn. Taggarna sparas i en fil som heter <filename
+>usertags.xml</filename
+> och liksom alla menydefinitionsfiler, finns den i &kile;s lokala katalog för användarmenyer <filename
+>KILE_PGM_KAT/usermenu/</filename
+>, t.ex. <filename
+>/home/användare/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Olika menydefinitionsfiler kan användas för olika uppgifter. Använd användarmenyguiden <menuchoice
+><guimenu
+>Guide</guimenu
+> <guisubmenu
+>Redigera användarmeny</guisubmenu
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Latex</guimenu
+> <guisubmenu
+>Redigera användarmeny</guisubmenu
+></menuchoice
+> för att installera eller redigera en menydefinitionsfil.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Guide</title>
+
+<para
+>Du kan skapa nya eller ändra befintliga menyer med en bekväm guide för anpassning av användarmenyer som finns under <menuchoice
+><guimenu
+>Guide</guimenu
+> <guisubmenu
+>Redigera användarmeny</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Användarmenyguiden</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Användarmenyguiden</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>På vänster sida visas ett befintligt menyträd. Liksom i en vanlig meny är tre olika sorters menyalternativ tillgängliga:</para>
+
+<itemizedlist>
+<listitem
+><para
+>vanliga menyalternativ, som tilldelas en åtgärd</para
+></listitem>
+<listitem
+><para
+>undermenyer, som innehåller fler menyalternativ</para
+></listitem>
+<listitem
+><para
+>avskiljare, för att ge alla poster en synlig struktur.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Använd de sex knapparna på väster sida för att ändra menyn. Fler möjliga åtgärder är tillgängliga i den sammanhangsberoende menyn för de befintliga menyalternativen.</para>
+
+	<screenshot>
+		<screeninfo
+>Användardefinierat menyträd</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Användardefinierat menyträd</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Varje vanligt menyalternativ tilldelas en av de tre åtgärdstyperna, där var och en av dem har olika egenskaper som kan anges:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Text:</guilabel
+>&nbsp; &kile; ger dig möjlighet att skapa egna taggar. En tagg liknar en genväg som startar något kommando eller skriver in texter som ofta används, t.ex. använder medelsvensson ofta meningen <userinput
+>Hej, jag har blivit infogad ...</userinput
+>. Taggen infogas på nuvarande markörposition när åtgärden utförs (se ovan). Metatecken är också tillgängliga (se <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Infoga filinnehåll</guilabel
+>:&nbsp;Infogar det fullständiga innehållet i en angiven fil.</para>
+
+	<screenshot>
+		<screeninfo
+>Infoga filinnehåll</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Infoga filinnehåll</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Kör ett externt program</guilabel
+>:&nbsp;Utdata från programmet kan infogas i det öppnade dokumentet. Metatecknet <userinput
+>%M</userinput
+> är också möjligt att använda i kommandoraden till programmet, eftersom den markerade texten sparas i en tillfällig fil. Använd <userinput
+>%M</userinput
+> för den tillfälliga filens filnamn.</para>
+
+	<screenshot>
+		<screeninfo
+>Kör ett externt program</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Kör ett externt program</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Om någon viktig information för en åtgärd saknas, markeras menyalternativ med rött. Det kan vara en fil som inte finns.</para>
+
+	<screenshot>
+		<screeninfo
+>Saknad fil</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Saknad fil</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>eller att rubriken saknas för menyalternativet, vilket visas med frågetecken som <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Saknad rubrik för ett menyalternativ</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Saknad rubrik för ett menyalternativ</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Om den sammanhangsberoende menyn för ett sådant rödfärgat menyalternativ öppnas, får du alternativet ytterligare information med mer information som rör felet.</para>
+
+	<screenshot>
+		<screeninfo
+>Ytterligare information</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ytterligare information</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Mer information kan också vara tillgänglig genom att använda funktionen <guilabel
+>Vad är det här</guilabel
+> i de flesta grafiska komponenter.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Platsmarkörer</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Infoga text</title>
+
+<para
+>Det finns ett antal platsmarkörer som kan användas i användardefinierade taggar: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> och <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp;Det är här markören placeras efter en användardefinierad tagg infogas.</para>
+
+	<screenshot>
+		<screeninfo
+>Markörposition (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Markörposition (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp;Ersätts av en punkt (se <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Punkt (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Punkt (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp;Ersätts av den markerade texten.</para>
+
+	<screenshot>
+		<screeninfo
+>Markerad text (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Markerad text (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp;Anger indenteringsdjupet för text inne i en omgivning.</para>
+
+	<screenshot>
+		<screeninfo
+>Indentering av miljötext (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Indentering av omgivningstext (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp;Anropar en referensdialogruta för att välja en etikett som redan har definierats. Det kan användas för att referera till en fördefinierad etikett, som du kan välja i en kombinationsruta (se också <menuchoice
+><guimenu
+>Latex</guimenu
+><guimenuitem
+>Referenser</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> eller <menuchoice
+><guimenu
+>Latex</guimenu
+><guimenuitem
+>Referenser</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Referenser (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Referenser (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp;anropar en hänvisningsdialogruta för att välja en redan definierad hänvisning. På samma sätt som vid användning av <menuchoice
+><guimenu
+>Latex</guimenu
+><guimenuitem
+>Referenser</guimenuitem
+><guimenuitem
+>cite</guimenuitem
+></menuchoice
+> dyker en lista med alla hänvisningsnycklar upp.</para>
+
+	<screenshot>
+		<screeninfo
+>Hänvisningsnycklar (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Hänvisningsnycklar (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Låt oss betrakta ett annat exempel, med följande makro <userinput
+>\frac{%M} {%C}</userinput
+>. Först markerar vi ett tal i texten, låt oss säga <userinput
+>42</userinput
+>. Nu anropar vi makrot och erhåller <userinput
+>\frac{42}{}</userinput
+> med markören placerad innanför det andra paret krullparenteser.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Infoga filinnehåll</title>
+
+<para
+>Om du vill infoga innehållet i en textfil skulle du kunna använda samma platsmarkörer.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Kör ett program</title>
+
+<para
+>Om du vill köra ett externt program känns bara <userinput
+>%M</userinput
+> för markerad text igen på kommandoraden. Markeringen sparas i en tillfällig fil och platsmarkören <userinput
+>%M</userinput
+> ersätts med filnamnet.</para>
+
+	<screenshot>
+		<screeninfo
+>Kör ett externt program (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Kör ett externt program (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>En annan platsmarkör är <userinput
+>%S</userinput
+> som ersätts med det nuvarande dokumentets fullständiga basnamn utan sökvägen. Basnamnet består av alla tecken i filen till (men inkluderar inte) det sista punkttecknet '.'.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parameter</title>
+
+<para
+>De flesta menyalternativ kan ha ytterligare självförklarliga parametrar, som kan markeras. Om några av dessa parametrar inte är tillgängliga för en viss typ av åtgärd är de inaktiverade.</para>
+
+	<screenshot>
+		<screeninfo
+>Användarmenyparametrar</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Användarmenyparametrar</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Här är ett exempel på att köra ett externt program:</para>
+
+	<screenshot>
+		<screeninfo
+>Parameterexempel</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameterexempel</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Du kan se att ett <userinput
+>perl</userinput
+>-skript anropas, vilket arbetar på den nuvarande markeringen. Parametern <guilabel
+>Behöver markerad text</guilabel
+> är markerad för att garantera en markering. Utmatning från skriptet infogas (<guilabel
+>Infoga utmatning från valt program</guilabel
+>) och ersätter den nuvarande markeringen (<guilabel
+>Ersätt markerad text</guilabel
+>), men blir inte själv markerad.</para>
+
+<para
+>Du kan naturligtvis också anropa dina egna program eller skript. Markera exempelvis en nummerlista åtskild av mellanslag, och anropa ett skript eller Perl-program, som omvandlar markeringen till &latex;-kod för en matris. Vilka idéer du än har, kan du förverkliga dem genom att använda följande alternativ i användarmenyn.</para>
+
+	<screenshot>
+		<screeninfo
+>Parameterexempel 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parameterexempel 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Menydefinitionsfiler</title>
+
+<para
+>Du kan installera olika menyer under körning för olika uppgifter. När guiden för användarmenyer anropas, läses den nuvarande menydefinitionsfilen in. Om du ändrar den och stänger dialogrutan med <guibutton
+>Ok</guibutton
+>, sparas ändringarna och installeras som en ny användarmeny. Stängs dialogrutan med <guibutton
+>Avbryt</guibutton
+> kastas alla ändringar.</para>
+
+	<screenshot>
+		<screeninfo
+>Menydefinitionsfiler</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Menydefinitionsfiler</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Men du har också full frihet att spara den ändrade filen i användarmenykatalogen eller läsa in en annan menydefinitionsfil och installera den. Alla filer med användarmenydefinitioner måste sparas i den lokala användarmenykatalogen i &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Titta i exemplet på en menydefinitionsfil, <userinput
+>example.xml</userinput
+>, för att se fler menyalternativ med tillhörande parametrar.</para>
+
+</sect1>
+
+</chapter>

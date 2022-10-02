@@ -1,0 +1,6748 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY kile "<application
+>Kile</application
+>">
+  <!ENTITY latex "L<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY pdflatex "PDFL<superscript
+>A</superscript
+>T<subscript
+>E</subscript
+>X">
+  <!ENTITY tex "T<subscript
+>E</subscript
+>X">
+  <!ENTITY tetex "<application
+>teT<subscript
+>E</subscript
+>X</application
+>">
+  <!ENTITY texlive "<application
+>TeX Live</application
+>">
+  <!ENTITY bibtex "BibT<subscript
+>E</subscript
+>X">
+  <!ENTITY makeindex "makeindex">
+  <!ENTITY kbibtex "KBibT<subscript
+>E</subscript
+>X">
+  <!ENTITY kbib "KBib">
+  <!ENTITY asymptote "Asymptote">
+  <!ENTITY imagemagick "<application
+>ImageMagick</application
+>">
+  <!ENTITY dvipng "<application
+>dvipng</application
+>">
+  <!ENTITY makeidx "<application
+>makeidx</application
+>">
+  <!ENTITY cjk "<abbrev
+>CJK</abbrev
+>">
+  <!ENTITY ucs "<abbrev
+>ucs</abbrev
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Italian "INCLUDE">
+  <!ENTITY javascript "<application
+>JavaScript</application
+>">
+  <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
+  <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
+]>
+
+<book id="kile" lang="&language;">
+
+<bookinfo>
+<title
+>Manuale di &kile;</title>
+
+<authorgroup>
+	<author
+><firstname
+>Jonathan</firstname
+><surname
+>Pechta</surname
+></author>
+	<author
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+> <affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Holger</firstname
+><surname
+>Danielsson</surname
+> <affiliation
+><address
+><email
+>holger.danielsson@versanet.de</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Thomas</firstname
+><surname
+>Braun</surname
+></author>
+	<author
+><firstname
+>Michel</firstname
+><surname
+>Ludwig</surname
+> <affiliation
+><address
+><email
+>michel.ludwig@kdemail.net</email
+></address
+></affiliation
+></author>
+	<author
+><firstname
+>Felix</firstname
+><surname
+>Mauch</surname
+> <affiliation
+><address
+><email
+>felix_mauch@web.de</email
+></address
+></affiliation
+></author>
+	<othercredit role="translator"
+><firstname
+>Federico</firstname
+> <surname
+>Zenith</surname
+><affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+><contrib
+>Traduzione della documentazione in italiano</contrib
+></othercredit
+> 
+</authorgroup>
+
+<copyright>
+<year
+>2003</year>
+<holder
+>Jonathan Pechta</holder>
+</copyright>
+
+<copyright>
+<year
+>2003</year
+><year
+>2005</year
+><year
+>2006</year>
+<holder
+>Federico Zenith</holder>
+</copyright>
+
+<copyright>
+<year
+>2005</year
+><year
+>2006</year
+><year
+>2012</year>
+<holder
+>Holger Danielsson</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year>
+<holder
+>Thomas Braun</holder>
+</copyright>
+
+<copyright>
+<year
+>2007</year
+><year
+>2011</year>
+<holder
+>Michel Ludwig</holder>
+</copyright>
+
+<copyright>
+<year
+>2011</year>
+<holder
+>Felix Mauch</holder>
+</copyright>
+
+<date
+>22/05/2011</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<legalnotice>
+&FDLNotice;
+</legalnotice>
+
+<abstract>
+<para
+>&kile; è un editor di sorgenti e shell di &tex; e &latex;,. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdenonbeta</keyword>
+<keyword
+>Kile</keyword>
+<keyword
+>LaTeX</keyword>
+<keyword
+>TeX</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="preface">
+
+<title
+>Prefazione</title>
+
+	<sect1 id="preface_sect">
+
+		<title
+>Requisiti</title>
+
+		<para
+>Per eseguire &kile; sono necessari i seguenti componenti:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><ulink url="http://www.kde.org/"
+>Ambiente desktop &kde;</ulink
+>: &kde; è un popolare ambiente desktop open source.</para
+></listitem>
+			<listitem
+><para
+><ulink url="https://qt.io/"
+>&Qt;</ulink
+>: &Qt; è una libreria per interfacce e di rete in C++ necessaria a compilare &kile;.</para
+></listitem>
+			<listitem
+><para
+><ulink url="http://www.ctan.org/"
+>&latex;</ulink
+>: programma tipografico di alta qualità. Quasi sicuramente servirà il pacchetto &texlive; (o sui sistemi più vecchi &tetex;), se sei su un sistema di tipo &UNIX;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>La maggior parte di questi elementi potrebbero essere inclusi nella tua distribuzione &Linux;; riferisciti alla documentazione della distribuzione, o riferisciti al &CD; o DVD di installazione per aggiungere questi pacchetti sul sistema.</para>
+
+		<para
+>&kile; potrebbe anche essere disponibile come pacchetto precompilato per la tua distribuzione di &Linux;. Controlla il gestore dei pacchetti della distribuzione.</para>
+
+	</sect1>
+
+	<sect1 id="preface_audience">
+
+		<title
+>Pubblico</title>
+
+		<para
+>Questo manuale è pensato per chiunque, indipendentemente dalla sua esperienza con &latex;, &kde;, &kile; o &Linux;.</para>
+
+		<para
+>Gli utenti avanzati probabilmente non leggeranno questo manuale, ma tutti i suggerimenti saranno presi in considerazione. Se volessi contribuire a questo progetto o alla documentazione, consulta la <ulink url="http://kile.sourceforge.net/"
+>pagina Web di &kile;</ulink
+>.</para>
+
+		<para
+>Hai bisogno di risposte su &kile;? Sei bloccato con una compilazione? Vuoi una nuova funzionalità? Il modo migliore di fare domande tecniche o avviare una discussione è usare la nostra mailing list: <email
+>kile-devel@lists.sourceforge.net</email
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="introduction">
+
+	<title
+>Introduzione</title>
+
+	<sect1 id="intro_about">
+
+		<title
+>Fatti di base</title>
+
+		<sect2>
+
+			<title
+>Informazioni su &kile;</title>
+
+			<para
+>&kile; è un ambiente &latex; integrato per il desktop &kde;. &kile; dà la possibilità di usare tutte le funzionalità di &latex; in un'interfaccia grafica, dando accesso facile, immediato, e personalizzato a tutti i programmi relativi a &latex;, il postprocessing, il debugging, la conversione e la visualizzazione; hai a disposizione anche degli assistenti molto comodi, un riferimento &latex;, e una potente gestione dei progetti.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&kile; e il componente editor &kate;</title>
+
+			<para
+>&kile; è basato sul componente editor &kate;, cioè molte funzionalità di scrittura provengono da lì; &kile; le estende per lavorare con i documenti &latex;. Per saperne di più sul componente editor &kate; e sulle sue possibilità, vedi <ulink url="http://kate-editor.org"
+>la pagina Web di &kate;</ulink
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Cos'è &latex;?</title>
+
+			<para
+>&latex; è un sistema di trattamento testi derivato da &tex;, un programma sviluppato originariamente nel 1977 da Donald Knuth per disporre i testi in modo professionale e ottenere una qualità pari a quella di un tipografo professionista. &latex; è stato creato da Leslie Lamport per dare agli autori un tipografo automatico, specialmente per facilitare la costosa e complicata tipografia delle formule e delle espressioni matematiche, che in &latex; sono racchiuse da segni del dollaro <emphasis
+>per una buona ragione</emphasis
+>. Oggi, i programmi di trattamento di testi permettono a ogni utente di essere il tipografo, ma spesso quello che serve è un documento che ha un bell'aspetto senza dover spendere ore a rifinirlo. &latex; si fa carico di questo compito, e lascia pensare al documento invece che alla tipografia. E, sì, <emphasis
+>verrà</emphasis
+> bello!</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Come si pronuncia? Perché si scrive così strano?</title>
+
+			<para
+>C'è una buffa tradizione per la quale i pacchetti relativi a &tex; hanno la pronuncia e la grafia più strane possibile. Si suppone che &tex; sia arrivato dal greco <emphasis
+>τεχ</emphasis
+>, in lettere latine <emphasis
+>tech</emphasis
+>. Ci sono molte spiegazioni possibili sul perché, ma la più probabile è che &tex; fu originariamente concepito per i rapporti tecnici, e infatti la sua abilità principale era la scrittura facile e corretta delle formule matematiche, ai tempi un affare estremamente costoso, tedioso e frustrante.</para>
+			<para
+>La pronuncia dovrebbe essere come segue: <emphasis
+>TE</emphasis
+> come in italiano, e <emphasis
+>X</emphasis
+> come nel tedesco i<emphasis
+>ch</emphasis
+>. Se non sai come suona <emphasis
+>ch</emphasis
+>, è più o meno come il suono di un gatto che soffia; il simbolo IPA è /ç/. Molte persone sostengono la diversa pronuncia di <emphasis
+>ach</emphasis
+> (simbolo IPA /x/), ma secondo alcuni greci la prima versione è corretta. Dovresti sapere che molti pronunciano erroneamente &tex; come /teks/ o /tek/.</para>
+			<para
+>Infine, in &latex; la parte L<superscript
+>A</superscript
+> è pronunciata come l'inglese <emphasis
+>lay</emphasis
+> (<quote
+>profano</quote
+>): l'idea è che, mentre il &tex; grezzo è difficile, anche un profano può usare le macro di &latex;. Una spiegazione meno suggestiva ma più realistica è che venga dal cognome di Leslie Lamport, il creatore di &latex;. Adesso lo sai!</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_latexbasics">
+
+		<title
+>Fondamenti di &latex;</title>
+
+		<para
+>Il sistema di tipografia di &latex; è simile ad altri linguaggi a marcatori come &XML;, usato in molti tipi di documenti (incluso quello che stai leggendo), o l'&HTML;, usato per le pagine Web. L'idea generale dei linguaggi a marcatori è avere parole chiave speciali dette <emphasis
+>tag</emphasis
+>, che dicono a un programma (un elaboratore di testi, un browser Web, o il compilatore di &latex;) come interpretare il testo tra i tag. &kile; offre un buon numero di questi tag nel menu <guimenu
+>LaTeX</guimenu
+> nella barra dei menu.</para>
+
+		<para
+>Sebbene proveremo a darti una buona idea di cosa sia &latex;, questo documento non è ovviamente La Bibbia Definitiva di &latex;. Se vuoi imparare &latex; bene, potresti prendere un libro da una biblioteca.</para>
+
+		<para
+>Come per altri linguaggi a marcatori, i documenti &latex; contengono un <emphasis
+>preambolo</emphasis
+>, che definiscono le proprietà globali, come la dimensione della carta, la numerazione delle pagine, le dimensioni del testo sulla pagina, e un <emphasis
+>corpo</emphasis
+> del documento, che ne contiene il testo; il preambolo contiene almeno il comando <userinput
+>\documentclass</userinput
+>, e precede il corpo, che inizia con il comando <userinput
+>\begin{document}</userinput
+> e si conclude con il comando <userinput
+>\end{document}</userinput
+>.</para>
+
+	</sect1>
+
+	<sect1 id="intro_mainfeat">
+
+		<title
+>Funzionalità principali di &kile;</title>
+
+		<sect2 id="intro_docwizard">
+
+			<title
+>Assistente di avvio rapido</title>
+
+			<para
+>L'assistente di avvio rapido integrato in &kile; è una utile funzione per iniziare rapidamente a creare documenti con &kile;. Scegliendo l'assistente dalla barra dei menu verranno offerte varie scelte per la creazione del documento. Puoi anche specificare subito alcune opzioni relative ad esso.</para>
+
+			<para
+>Opzioni della classe:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Tipo del documento</guilabel
+>: scegli il tipo di documento che vuoi creare: articolo, libro, lettera, rapporto, presentazione Beamer o altri tipi, inclusi quelli che potresti aver definito tu.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Dimensione caratteri</guilabel
+>: dì a &kile; quale dimensione dei caratteri (in punti) vuoi usare.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Dimensione carta</guilabel
+>: scegli le dimensioni o lo stile della carta.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Codifica</guilabel
+>: in genere è una buona idea usare la codifica predefinita del sistema. I sistemi più recenti tendono ad adottare UTF-8 come codifica predefinita. Se puoi, usa utf8 o utf8x (che è davvero scritto così per i documenti &latex;). </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Altre opzioni</guilabel
+>: questo permette di impostare ulteriori opzioni per la stampa, le bozze, e altro.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Pacchetti</para>
+			<para
+>Questo elenca i pacchetti aggiuntivi più comuni usati in &latex;. Seleziona le caselle per includerli.</para>
+
+			<para
+>Proprietà dei documenti:</para>
+			<itemizedlist>
+				<listitem
+><para
+><guilabel
+>Autore</guilabel
+>: metti qui il tuo nome.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Titolo</guilabel
+>: aggiungi qui il titolo del documento.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Data</guilabel
+>: specifica qui la data.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="intro_templates">
+
+			<title
+>Modelli predefiniti</title>
+
+			<para
+>I modelli predefiniti in &kile; sono:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>Documento vuoto: gli uomini veri partono da zero!</para
+></listitem>
+				<listitem
+><para
+>Articolo: imposta il formato per articoli, per un documento abbastanza breve da non aver bisogno di essere diviso in capitoli.</para
+></listitem>
+				<listitem
+><para
+>Rapporto: imposta il formato per rapporti, per documenti di media grandezza, con per esempio la numerazione delle pagine sul margine esterno.</para
+></listitem>
+				<listitem
+><para
+>Libro: imposta il formato per libri, una versione completa, così potente da essere usata per scrivere molti testi universitari.</para
+></listitem>
+				<listitem
+><para
+>Lettera: imposta il formato per lettere.</para
+></listitem>
+				<listitem
+><para
+>Beamer, HA-Prosper: crea delle presentazioni di alta qualità in formato PDF con tutte le potenzialità di &latex;.</para
+></listitem>
+				<listitem
+><para
+>Powerdot: è il successore dei pacchetti <userinput
+>seminar</userinput
+> e <userinput
+>HA-Prosper</userinput
+>. Non ha tante opzioni come Beamer, ma è facile da usare e può creare presentazioni molto belle in PDF.</para
+></listitem>
+				<listitem
+><para
+>Scrartcl, Scrbook, Scrreprt, Scrlttr2: le classi di documenti KOMA-Script, particolarmente adatte alla tipografia tedesca. Utili soprattutto per testi in tedesco.</para
+></listitem>
+				<listitem
+><para
+>Xelatex: un modello <userinput
+>Article</userinput
+> modificato da usare assieme a <userinput
+>XeLaTeX</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Nota che tutti questi modelli possono essere adattati alle esigenze dell'utente.</para>
+
+			<para
+>I nuovi utenti non si devono preoccupare: queste sezioni sono solo una breve descrizione delle funzionalità disponibili, e una descrizione più dettagliata si può trovare nel<xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_highlight">
+
+			<title
+>Evidenziazione della sintassi</title>
+
+			<para
+>&kile; è simile ad altri programmi che lavorano con codice sorgente, ed evidenzierà automaticamente comandi, opzioni ed elementi, usati e abusati. &kile; rende così possibile avvistare facilmente i problemi: per esempio, se vedi delle grosse aree di testo verde, è probabile che tu abbia dimenticato di chiudere un ambiente matematico da qualche parte.</para>
+
+		</sect2>
+
+		<sect2 id="intro_autocoml">
+
+			<title
+>Autocompletamento degli ambienti</title>
+
+			<para
+>L'autocompletamento degli ambienti significa che quando inizi un nuovo ambiente scrivendo <userinput
+>\begin{ambiente}</userinput
+>, &kile; aggiungerà automaticamente un comando <userinput
+>\end{ambiente}</userinput
+>, con una riga in mezzo per il testo. Puoi ovviamente disattivarlo, se vuoi, in <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Ambienti</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="intro_jump">
+
+			<title
+>Saltare agli elementi struttura</title>
+
+			<para
+>Tutti i documenti normalmente sono strutturati con una gerarchia di qualche tipo. &latex; permette di spezzare i documenti nella gerarchia seguente (part è l'elemento più alto della gerarchia, e subparagraph il più basso):</para>
+
+			<itemizedlist>
+				<listitem
+><para
+>\part</para
+></listitem>
+				<listitem
+><para
+>\chapter</para
+></listitem>
+				<listitem
+><para
+>\section</para
+></listitem>
+				<listitem
+><para
+>\subsection</para
+></listitem>
+				<listitem
+><para
+>\subsubsection</para
+></listitem>
+				<listitem
+><para
+>\paragraph</para
+></listitem>
+				<listitem
+><para
+>\subparagraph</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Quando guardi un documento nella vista <guilabel
+>Struttura</guilabel
+>, puoi saltare tra gli elementi facendo clic sull'elemento che vuoi vedere.</para>
+
+		</sect2>
+
+		<sect2 id="intro_inverse">
+
+			<title
+>Ricerca inversa</title>
+
+			<para
+>Quando crei dei file &latex;, la ricerca inversa può essere molto utile. Una volta che hai creato un file &DVI; (<foreignphrase lang="en"
+>DeVice Independent File</foreignphrase
+>, file indipendente dal dispositivo) o PDF, puoi far clic con il &LMB; nel visore tenendo premuto &Shift;, e &kile; salterà alla riga corrispondente nel codice sorgente &latex;.</para>
+
+			<para
+>Un &DVI; è un tipo di file contenente una descrizione di un documento formattato, insieme ad altre informazioni, incluso il tipo di carattere, e oltre al PDF è il risultato tipico di &tex;/&latex;. Esiste un certo numero di programmi per visualizzare, convertire e stampare file &DVI; su vari sistemi e dispositivi.</para>
+
+		</sect2>
+
+		<sect2 id="intro_forward">
+
+			<title
+>Ricerca in avanti</title>
+
+			<para
+>Usando la ricerca inversa, la selezione di elementi nei file &DVI; o PDF è associata all'editor, così quando fai clic sul file &DVI; o PDF, la finestra principale salta alla sezione corrispondente di codice &latex; nell'editor. La ricerca in avanti ne è l'esatto opposto. La ricerca in avanti permetterà di fare clic su una sezione di testo specifica nel codice &latex;, e saltare alla posizione associata nella finestra del visore.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="intro_toolbar">
+
+		<title
+>La barra degli strumenti</title>
+
+		<itemizedlist>
+			<listitem
+><para
+><guibutton
+>Nuovo</guibutton
+>: inizia un nuovo documento.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Apri</guibutton
+>: apri un nuovo documento.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Chiudi</guibutton
+>: chiudi il documento.</para
+></listitem>
+			<!-- following toolbar items are different in default master/2.1-->
+			<listitem
+><para
+><guibutton
+>Definisci il documento come documento principale</guibutton
+>: questo si usa lavorando con file multipli. Avere un documento principale permette di lavorare più facilmente con altri file <literal role="extension"
+>.tex</literal
+> inclusi nel documento. Se stai usando i progetti, puoi anche impostare un documento principale per tutto il progetto in <menuchoice
+><guimenu
+>Progetto</guimenu
+><guisubmenu
+>Opzioni del progetto</guisubmenu
+></menuchoice
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Costruzione rapida</guibutton
+>: compila il codice sorgente &latex; e ne mostra i risultati automaticamente, a meno che ci siano errori nel documento.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Sorveglia file</guibutton
+>: questa modalità <quote
+>sorveglierà</quote
+> eventuali cambiamenti del file &DVI;, e non avvierà una nuova finestra di &okular; dopo una <guibutton
+>Costruzione rapida</guibutton
+>.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visualizza registro</guibutton
+>: visualizza il file <literal role="extension"
+>.log</literal
+>, per avvistare gli errori.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Errore precedente</guibutton
+>: salta all'indietro nel file <literal role="extension"
+>.log</literal
+> ed evidenzia gli errori nel sorgente.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Errore successivo</guibutton
+>: salta in avanti nel file <literal role="extension"
+>.log</literal
+> e evidenzia gli errori nel sorgente.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Ferma</guibutton
+>: ferma lo strumento attuale.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>LaTeX</guibutton
+>: esegue &latex; sul documento attivo.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visualizza DVI</guibutton
+>: avvia il visore &DVI;.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Da DVI a PS</guibutton
+>: converte un file &DVI; in un &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visualizza PS</guibutton
+>: avvia il visore &PostScript; (PS).</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDFLaTeX</guibutton
+>: esegue &pdflatex; sul documento attivo.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visualizza PDF</guibutton
+>: avvia il visore PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Da DVI a PDF</guibutton
+>: converte un &DVI; in un PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Da PS a PDF</guibutton
+>: converte un PS in un PDF.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>Visualizza HTML</guibutton
+>: visualizza l'&HTML; creato.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>DVI in avanti</guibutton
+>: salta alla pagina del file &DVI; corrispondente alla riga attuale nell'editor.</para
+></listitem>
+			<listitem
+><para
+><guibutton
+>PDF in avanti</guibutton
+>: salta alla pagina del file PDF corrispondente alla riga attuale nell'editor.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Se guardi la barra degli strumenti <guilabel
+>Modifica</guilabel
+>, noterai tre grandi menu a cascata. I menu a cascata sono stati progettati per poter aggiungere rapidamente certe funzionalità comuni nel documento. Il primo menu a cascata è usato per dividere rapidamente il documento in parti, capitoli, sezioni, e così via; i comandi disponibili per aggiungere segmenti al codice sorgente &latex; sono:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>part</guilabel
+>: livello massimo di sezionamento per un documento.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>chapter</guilabel
+>: inizia un nuovo capitolo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>section</guilabel
+>: crea una nuova sezione.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsection</guilabel
+>: crea una nuova sottosezione.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subsubsection</guilabel
+>: una sezione secondaria tra sottosezione e paragrafo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>paragraph</guilabel
+>: crea un nuovo paragrafo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>subparagraph</guilabel
+>: crea un nuovo sottoparagrafo.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Il menu a cascata chiamato <guilabel
+>Altro</guilabel
+> è usato per inserire nel documento elementi come indici, note a piè di pagina, referenze. I comandi disponibili sono:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>label</guilabel
+>: un comando che produce un'etichetta per un capitolo, una figura o altro elemento.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>index</guilabel
+>: crea una voce per l'indice.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnote</guilabel
+>: crea una nota a piè di pagina nel documento.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>ref</guilabel
+>: usato per riferirsi a un'etichetta già definita, che scegli da una lista a cascata.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>pageref</guilabel
+>: proprio come <guilabel
+>ref</guilabel
+>, ma si riferisce a una pagina invece che a un elemento della struttura.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>cite</guilabel
+>: crea un riferimento con dati da una bibliografia.</para
+></listitem>
+<!-- The next feature is currently disabled (see 'kile.cpp'). -->
+<!--			<listitem
+><para
+><guilabel
+>cite from ViewBib</guilabel
+>: ask the ViewBib tool for all selected references and insert them.
+			Currently this is only available with <ulink url="http://user.digisurf.com.au/~thachly/kbib/"
+>&kbib;</ulink
+> as ViewBib tool.</para
+></listitem
+>-->
+		</itemizedlist>
+
+		<screenshot>
+			<screeninfo
+>Il menu a cascata <guilabel
+>Altro</guilabel
+></screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_choose.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Il menu a cascata <guilabel
+>Altro</guilabel
+></phrase>
+			</textobject>
+			<caption
+><para
+>Il menu a cascata <guilabel
+>Altro</guilabel
+></para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<screenshot>
+			<screeninfo
+>Selezione dell'etichetta di un riferimento</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_ref_select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Selezione dell'etichetta di un riferimento</phrase>
+			</textobject>
+			<caption
+><para
+>Selezione dell'etichetta di un riferimento</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Usando <guilabel
+>cite</guilabel
+>, viene presentata una lista a cascata di bibitem, ma se stai usando &bibtex; ciò funzionerà solo se il file appartiene a un progetto. Per modificare i file &bibtex; si raccomanda l'uso di un programma apposito. L'autore ha avuto buoni risultati con &kbibtex;. Ovviamente puoi anche scrivere i file &bibtex; a mano all'interno di &kile;.</para>
+
+		<para
+>L'ultimo menu a cascata, indicato con <guilabel
+>tiny</guilabel
+>, è usato per impostare la dimensione del testo. Hai la possibilità di impostare le dimensioni di testo, note a piè di pagina, e così via; i comandi disponibili sono:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><guilabel
+>tiny</guilabel
+>: piccolissimo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>scriptsize</guilabel
+>: molto piccolo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>footnotesize</guilabel
+>: più piccolo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>small</guilabel
+>: piccolo.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>normalsize</guilabel
+>: normale.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>large</guilabel
+>: grande.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Large</guilabel
+>: più grande.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>LARGE</guilabel
+>: ancora più grande.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>huge</guilabel
+>: molto grande.</para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Huge</guilabel
+>: grandissimo.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+</chapter>
+<chapter id="quickstart">
+
+	<title
+>Avvio rapido</title>
+
+	<sect1 id="quick_begin">
+
+		<title
+>Stesura di un documento &latex; con &kile; per principianti</title>
+
+		<para
+>Gli utenti di &kile; hanno due scelte quando cominciano un nuovo documento: possono usare l'<guimenu
+>Assistente</guimenu
+> per cominciare un nuovo documento, selezionare il tipo di documento che vorrebbero creare, e opzioni come la dimensione dei caratteri, della carta, e così via; altrimenti, possono scrivere il codice a mano.</para>
+
+<programlisting
+>\documentclass[12pt]{article}
+\begin{document}
+        Qui c'è un pacco di codice \LaTeX.
+\end{document}</programlisting>
+
+		<para
+>Ogni documento &latex; comincia con il comando <userinput
+>\documentclass[<replaceable
+>argomento facoltativo</replaceable
+>]{<replaceable
+>classe</replaceable
+>}</userinput
+>, dove la classe specifica il tipo di documento.</para>
+
+		<para
+>Inserire l'esempio di codice della casella di testo sopra restituirà quanto segue:</para>
+
+		<screenshot>
+			<screeninfo
+>Testo compilato nell'output &DVI;</screeninfo>
+			<mediaobject>
+				<imageobject>
+					<imagedata fileref="latex_example.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Testo compilato nell'output &DVI;</phrase>
+				</textobject>
+				<caption
+><para
+>Testo compilato nell'output &DVI;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Le parentesi quadre che vengono dopo il comando <userinput
+>\documentclass</userinput
+> contengono le opzioni del commando. L'opzione <userinput
+>[12pt]</userinput
+> imposta la dimensione dei caratteri per l'articolo; se non imposti la dimensione dei caratteri all'inizio, la puoi impostare più avanti.</para>
+
+		<para
+>Una volta che hai inserito l'esempio di codice dalla casella sopra, dovrai compilare il codice &latex;. Il modo più facile per farlo è usare il menu <guimenu
+>Costruzione</guimenu
+>, o usare il pulsante <guilabel
+>Costruzione rapida</guilabel
+>.</para>
+
+		<para
+><keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+> è la scorciatoia da tastiera per compilare il codice sorgente.</para>
+
+		<para
+>Devi salvare il codice sorgente prima di poter compilare; &kile; lo farà automaticamente al posto tuo se necessario.</para>
+
+		<para
+>Se il documento non è stato compilato correttamente, controlla se ci sono errori nel registro. Usando il pulsante <guilabel
+>Costruzione rapida</guilabel
+>, il visore &okular; dovrebbe essere avviato automaticamente; altrimenti, controlla il registro.</para>
+
+	</sect1>
+
+	<sect1 id="quick_env">
+		<title
+>Ambienti</title>
+
+		<para
+>Un ambiente è un segmento di testo gestito diversamente dal resto del documento. Per esempio, crei un rapporto con dimensione dei caratteri pari a 12, ma hai bisogno di cambiare la dimensione dei caratteri per poche frasi. I comandi <userinput
+>\begin{ambiente}</userinput
+>, <userinput
+>\huge</userinput
+> and <userinput
+>\end{ambiente}</userinput
+> permetteranno di alterare temporaneamente il testo all'interno dei comandi ambiente affinché il testo sia di dimensione molto grande.</para>
+
+		<para
+>I cambiamenti hanno effetto da <userinput
+>\begin{ambiente}</userinput
+> a <userinput
+>\end{ambiente}</userinput
+>. Non ci sono limiti a quanti cambiamenti puoi fare all'interno di un ambiente.</para>
+
+		<para
+>Ci sono molte funzioni che puoi aggiungere al documento che lo renderanno più leggibile e semplice. Puoi aggiungere cose come tipi di carattere particolari, grassetto, corsivo, sottolineato, eccetera, e questi comandi si concluderanno o con un comando <userinput
+>\end</userinput
+>, o alla fine dell'ambiente.</para>
+
+		<itemizedlist>
+			<listitem
+><para
+><userinput
+>\begin{emph}</userinput
+>: questo comando mette il testo in corsivo, ed è valido finché il codice non raggiunge un <userinput
+>\end{emph}</userinput
+> o un altro ambiente. Per mettere una singola parola in corsivo in una frase, puoi usare la seguente sintassi: questa è la <userinput
+>\emph{mia}</userinput
+> frase.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\textbf{Sto scrivendo questo testo all'interno delle parentesi in grassetto}</userinput
+>: questo comando scrive il testo in grassetto.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\quote</userinput
+>: per creare una citazione all'interno del tuo documento; inizia la citazione con <userinput
+>\begin{quote}</userinput
+> e finiscila con <userinput
+>\end{quote}</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\center</userinput
+>: centra il testo.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\verse</userinput
+>: crea un'indentazione adatta alla poesia.</para
+></listitem>
+			<listitem
+><para
+><userinput
+>\itemize</userinput
+>: fai una lista di oggetti.</para
+></listitem>
+		</itemizedlist>
+
+	</sect1>
+
+	<sect1 id="quick_using">
+
+		<title
+>Uso di &kile;</title>
+
+		<para
+>Adesso che abbiamo dato un'infarinatura su come scrivere codice usando il linguaggio &latex;, mostreremo come creare un documento passo-passo usando &kile;.</para>
+
+		<procedure>
+			<step
+><para
+>Avvia &kile;.</para
+></step>
+			<step
+><para
+>Scegli <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Avvio rapido</guimenuitem
+></menuchoice
+>, quindi scegli un formato, e imposta le tue preferenze nell'assistente.</para
+></step>
+			<step
+><para
+>Una volta che l'assistente avrà inserito del testo, fai un po' di personalizzazione per rendere il documento più leggibile, aggiungi almeno una citazione, del testo in grassetto, corsivi, e un verso per vedere le differenze tra i comandi.</para
+></step>
+			<step
+><para
+>Salva il file, e dagli il nome <filename
+>intro.tex</filename
+>.</para
+></step>
+			<step
+><para
+>Compila il file usando <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>, o il pulsante indicato con <guilabel
+>LaTeX</guilabel
+>.</para
+></step>
+			<step
+><para
+>Seleziona <guibutton
+>Visualizza DVI</guibutton
+>.</para
+></step>
+			<step
+><para
+>Controlla tutto il nuovo testo.</para
+></step>
+			<step
+><para
+>Quando hai finito di guardare il documento, fai clic sul pulsante <guibutton
+>Vista editor</guibutton
+> o premi <keycombo
+>&Ctrl;<keycap
+>E</keycap
+></keycombo
+> per ritornare all'editor se stai usando il visore integrato, o chiudi la finestra del visore se stai usandone uno separato.</para
+></step>
+		</procedure>
+
+		<para
+>Ecco fatto! Hai appena creato il tuo primo documento &latex;!</para>
+
+		<para
+>Una volta che hai creato il &DVI;, potrai stampare il documento, o cambiarlo in un file &PostScript; o PDF, se vuoi. Sperimenta e divertiti!</para>
+
+	</sect1>
+
+	<sect1 id="quick_dvi">
+
+		<title
+>File &DVI;</title>
+
+		<para
+>&DVI; significa file <emphasis
+>indipendente dal dispositivo</emphasis
+> (<foreignphrase lang="en"
+>DeVice Independent</foreignphrase
+>). Questi file sono prodotti da &tex; o &latex; per essere letti da un driver sul sistema. Ci sono molte destinazioni a cui si può inviare un <literal role="extension"
+>.dvi</literal
+>, come una stampante, un convertitore in file &PostScript; o PDF, o il monitor.</para>
+
+	 	<sect2 id="quick_viewdvi">
+
+			<title
+>Visualizzare un &DVI;</title>
+
+			<para
+>Hai già visto come visualizzare un file &DVI; su schermo usando il pulsante <guibutton
+>Visualizza DVI</guibutton
+> nella barra degli strumenti.</para>
+
+		</sect2>
+
+		<sect2 id="quick_printdvi">
+
+		<title
+>Stampare un &DVI;</title>
+
+			<para
+>Per stampare un &DVI; puoi usare lo stesso processo che hai usato per creare il documento prima (vedi <xref linkend="quick_using" role="select: title pageabbrv"/>). Al passo 7, dopo aver fatto clic su <guibutton
+>Visualizza DVI</guibutton
+>, seleziona <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Stampa</guimenuitem
+></menuchoice
+> nel visore, e se hai configurato correttamente la stampante, potrai stampare il file &DVI;.</para>
+
+		</sect2>
+
+		<sect2 id="quick_exportdvi">
+
+			<title
+>Convertire i file &DVI;</title>
+
+			<para
+>La barra degli strumenti dà la possibilità di convertire un &DVI; ad altri formati. Una volta che hai creato un &DVI; dal codice sorgente &latex;, potrai esportarlo in un formato di tua scelta usando i pulsanti della barra degli strumenti.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="quick_forward">
+
+		<title
+>Ricerche in avanti tra &kile; e &okular;</title>
+
+		<para
+>Le funzioni di ricerca in avanti permettono di passare direttamente dall'editor alla posizione associata del file &DVI; o PDF. </para>
+		<para
+>&kile; offre di configurare questa opzione per tutti i file binari &latex;. Vai a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Strumenti</guimenuitem
+><guilabel
+>Costruzione</guilabel
+></menuchoice
+> e scegli sempre la configurazione <guilabel
+>Moderna</guilabel
+>.</para>
+
+		<para
+>Per eseguire una ricerca in avanti, metti il cursore su una riga di codice sorgente, e fai clic su <guilabel
+>Ricerca in avanti</guilabel
+> per saltare alla posizione associata nella finestra del visore &DVI; o PDF.</para>
+	</sect1>
+
+	<sect1 id="quick_inverse">
+
+		<title
+>Ricerca inversa tra &kile; e &okular;</title>
+
+		<para
+>La ricerca inversa è una funzionalità utile quando scrivi un documento &latex;. Se tutto è a posto, puoi fare clic nella finestra di &okular; con il &LMB; tenendo premuto &Shift;. Dopodiché, &kile; caricherà il file sorgente &latex; e salterà al paragrafo giusto. Per usare la ricerca all'indietro, devi compilare il file di &latex; con la configurazione <guilabel
+>Moderna</guilabel
+>.</para>
+
+		<para
+>La ricerca inversa non può funzionare a meno che:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Il file sorgente sia stato compilato correttamente.</para
+></listitem>
+			<listitem
+><para
+>&okular; sappia quale editor vuoi usare.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Con questa funzionalità di &okular;, un clic sul &LMB; tenendo premuto &Shift; nel documento &DVI; o PDF farà aprire a &kile; il documento &latex; corrispondente, e gli farà cercare di raggiungere la riga corrispondente. Ricordati di dire a &okular; di usare &kile; come editor di testo, usando l'elemento del menu di &okular; <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Configura Okular...</guimenuitem
+></menuchoice
+> (sulla pagina <guimenuitem
+>Editor</guimenuitem
+>).</para>
+
+		<screenshot>
+			<screeninfo
+>Configurazione di &okular;</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_okular_settings.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Configurazione di &okular;</phrase>
+			</textobject>
+			<caption
+><para
+>Configurare &okular;</para
+></caption>
+			</mediaobject>
+		</screenshot>
+	</sect1>
+
+	<sect1 id="quick_errors">
+
+		<title
+>Risolvere gli errori</title>
+
+		<para
+>Se stai cercando di usare la costruzione rapida, e il visore &DVI; non si apre, è probabile che ci sia un errore. Se c'è un errore, è visibile nell'area dei messaggi e del registro, e verrà presentato un riassunto degli errori.</para>
+
+		<para
+>Il registro spiegherà l'origine dell'errore nel codice. Nell'editor, puoi usare i pulsanti nella barra degli strumenti indicati come <guibutton
+>Errore LaTeX precedente</guibutton
+> e <guibutton
+>Errore LaTeX successivo</guibutton
+> per saltare avanti e indietro tra gli errori. Il registro dichiara sempre in quale riga è occorso l'errore. Per vedere la riga dove è avvenuto l'errore, fai clic sull'errore nella finestra del registro, e &kile; ti porterà alla riga dell'errore.</para>
+
+	</sect1>
+
+</chapter>
+<chapter id="startnew">
+
+	<title
+>Iniziare un nuovo documento</title>
+
+	<para
+>Quando fai clic sul pulsante nella barra degli strumenti per cominciare un nuovo documento, appare una finestra che chiede quale tipo di modello vorresti usare per scrivere il documento. Le scelte predefinite sono:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Documento vuoto</para
+></listitem>
+		<listitem
+><para
+>Articolo</para
+></listitem>
+		<listitem
+><para
+>Beamer</para
+></listitem>
+		<listitem
+><para
+>Libro</para
+></listitem>
+		<listitem
+><para
+>HA-Prosper</para
+></listitem>
+		<listitem
+><para
+>Powerdot</para
+></listitem>
+		<listitem
+><para
+>Lettera</para
+></listitem>
+		<listitem
+><para
+>Rapporto</para
+></listitem>
+		<listitem
+><para
+>Scrartcl (dal pacchetto di script KOMA)</para
+></listitem>
+		<listitem
+><para
+>Scrbook (dal pacchetto di script KOMA)</para
+></listitem>
+		<listitem
+><para
+>Scrlttr2 (dal pacchetto di script KOMA)</para
+></listitem>
+		<listitem
+><para
+>Scrreprt (dal pacchetto di script KOMA)</para
+></listitem>
+		<listitem
+><para
+>PDF</para
+></listitem>
+		<listitem
+><para
+>XeLaTeX</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>Se hai selezionato un <guilabel
+>Documento vuoto</guilabel
+>, puoi o iniziare a scrivere un documento da zero, o puoi usare l'assistente per iniziare rapidamente un nuovo documento (vedi <xref linkend="intro_docwizard" role="select: title pageabbrv"/>).</para>
+
+
+	<sect1 id="startnew_templates">
+
+		<title
+>Modelli</title>
+
+		<para
+>Gli utenti frequenti di &latex; usano tipicamente lo stesso preambolo per quasi ogni documento che usano. Si possono creare, salvare e caricare modelli all'interno di &kile; per facilitare l'inizio di un nuovo documento.</para>
+
+
+		<sect2>
+			<title
+>Crea un nuovo modello</title>
+
+			<para
+>Per creare un nuovo modello, devi prima o aprire un file &tex; / &latex;, o crearne uno da te. &kile; può generare un modello da un documento esistente aprendo il documento desiderato e selezionando <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Crea modello da documento</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Configurazione delle sostituzioni automatiche</title>
+
+			<para
+>Nella creazione di un nuovo documento selezionando un modello da <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Nuovo</guimenuitem
+></menuchoice
+>, certe combinazioni di caratteri saranno sostituite da dati come il tuo nome, o la codifica che stai usando. Queste variabili possono essere configurate in <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Impostazioni</guimenuitem
+><guilabel
+>Generale</guilabel
+></menuchoice
+>.</para>
+
+			<para
+>Nella stesura del modello, è utile sapere quali combinazioni di caratteri sono sostituite da quali variabili dei modelli:</para>
+
+			<itemizedlist>
+				<listitem
+><para
+><userinput
+>$$AUTHOR$$</userinput
+>: Questa stringa sarà rimpiazzata dalla variabile autore.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$DOCUMENTCLASSOPTIONS$$</userinput
+>: Questa stringa sarà sostituita dalla variabile opzioni del tipo di documento. Tipicamente viene usato come di seguito: <userinput
+>\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
+>.</para
+></listitem>
+				<listitem
+><para
+><userinput
+>$$INPUTENCODING$$</userinput
+>: Se la variabile codifica è impostata, per esempio, a <userinput
+>latin1</userinput
+> questa stringa è rimpiazzata da <userinput
+>\input[latin1]{inputenc}</userinput
+>.</para
+></listitem>
+			</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="templ_wiz">
+
+			<title
+>Crea modelli con l'assistente</title>
+
+			<para
+>Il modo più semplice di creare un nuovo modello è partire con l'assistente, e poi aggiungere comandi nell'editor. Una volta che il documento è impostato come vuoi:</para>
+
+			<procedure>
+				<step
+><para
+>Salva il file;</para
+></step>
+				<step
+><para
+>Vai a <guimenu
+>File</guimenu
+>;</para
+></step>
+				<step
+><para
+>Scegli <guimenuitem
+>Crea modello dal documento</guimenuitem
+>;</para
+></step>
+				<step
+><para
+>Fai qualsiasi correzione necessaria al modello;</para
+></step>
+				<step
+><para
+>Inserisci un nome per il nuovo modello;</para
+></step>
+				<step
+><para
+>Fai clic su <guibutton
+>OK</guibutton
+> per aggiungere il modello al menu.</para
+></step>
+			</procedure>
+
+			<para
+>La prossima volta che inizierai un documento, potrai scegliere il tuo modello personalizzato invece dei predefiniti.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Creare un modello da un file qualsiasi</title>
+
+			<para
+>Un modello può essere creato da qualsiasi file &latex;. Se stai cercando un modo facile per configurare un modello, vai a cercarne uno che ti piaccia su Internet e segui gli stessi passi elencati nel<xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
+
+			<para
+>Per esempio, potresti voler creare un perfetto poster A0. Questi poster si vedono regolarmente alle conferenze scientifiche, e &latex; ti aiuterà a fare un poster accattivante e interessante. Puoi ottenere un modello per poster A0 alla <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
+>home page di Jonathan Marchini</ulink
+>, ma ce ne sono molti altri disponibili. Ricorda che avrai bisogno del pacchetto <filename
+>a0poster</filename
+>, che normalmente non è incluso in nelle installazioni &tex; standard. Scaricalo da <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>qui</ulink
+> e mettilo nella stessa cartella del file &latex;.</para>
+		</sect2>
+
+		 <sect2 id="templ_rem">
+
+	 		<title
+>Rimuovere un modello</title>
+
+			<para
+>Per rimuovere un modello da &kile;, fai come segue:</para>
+
+			<procedure>
+				<step
+><para
+>Vai a <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Rimuovi modello</guimenuitem
+></menuchoice
+>;</para
+></step>
+				<step
+><para
+>Apparirà un riquadro con elencati tutti i modelli: seleziona un modello;</para
+></step>
+				<step
+><para
+>Fai clic su <guilabel
+>OK</guilabel
+>, e il modello verrà rimosso.</para
+></step>
+			</procedure>
+
+			<para
+>I modelli segnati con un asterisco (*) non possono essere rimossi senza i permessi appropriati.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+<chapter id="editing">
+
+	<title
+>Modificare i documenti &latex;</title>
+
+	<para
+>L'editor interno che &kile; usa è &kate;. &kate; è un editor di testo creato per programmatori, che include la capacità di leggere ed evidenziare molti tipi diversi di file di testo, tra cui &latex; e &bibtex;; puoi accedere a molte opzioni di &kate; direttamente dal menu <guimenu
+>Strumenti</guimenu
+> di &kile;.</para>
+
+	 <para
+>Per saperne di più su &kate; e sulle sue possibilità, vedi il <ulink url="help:/kate"
+>manuale di &kate;</ulink
+>. Gli utenti di &kile; possono iniziare a leggere dal capitolo <quote
+>Lavorare con l'editor &kate;</quote
+>.</para>
+
+	 <sect1 id="editing_sect">
+
+		<title
+>Il riferimento &latex;</title>
+
+		<para
+>&kile; include un riferimento &latex; molto pratico, cui puoi accedere attraverso <menuchoice
+><guimenu
+>Aiuto</guimenu
+><guimenuitem
+>Riferimento LaTeX</guimenuitem
+></menuchoice
+>. Contiene una descrizione completa di quasi tutti i comandi che userai in &latex; e la loro sintassi.</para>
+
+	</sect1>
+
+	<sect1 id="editing_cursor">
+
+	 	<title
+>Movimenti del cursore</title>
+
+		<para
+>Per selezionare del testo, hai le seguenti possibilità:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Tieni premuto il pulsante sinistro del mouse, e trascina per evidenziare del testo.</para
+></listitem>
+			<listitem
+><para
+>Fai clic una volta su una parola per muovervi il cursore.</para
+></listitem>
+			<listitem
+><para
+>Fai clic due volte su una parola per selezionare l'intera parola.</para
+></listitem>
+			<listitem
+><para
+>Fai clic due volte su una parola e premi <keycombo
+>&Ctrl;</keycombo
+> per selezionare tutta la parola &tex;. Ciò vuol dire che fare clic in questo modo su <userinput
+>\par</userinput
+> in <userinput
+>\par\bigskip</userinput
+> seleziona solo <userinput
+>\par</userinput
+>.</para
+></listitem>
+			<listitem
+><para
+>Fai clic tre volte per selezionare l'intera frase.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Mantenere premuto il pulsante sinistro del mouse, e trascinare sul testo che vuoi selezionare, copia automaticamente il testo selezionato negli appunti.</para>
+
+		<para
+>Tenere premuto &Shift; e usare i tasti freccia permette di selezionare porzioni del codice sorgente nella finestra dell'editor.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bracket">
+
+		<title
+>Parentesi</title>
+
+		<para
+>Il completamento delle parentesi è uno strumento visuale che la vista editor usa per indicare quali parentesi corrispondono a quali. Se apri un qualsiasi file <literal role="extension"
+>.tex</literal
+>, e selezioni delle qualsiasi parentesi, siano esse tonde (), quadre [] o graffe {}, l'editor evidenzierà la parentesi e la sua corrispondente in giallo (questo colore predefinito può essere cambiato). Quindi, per esempio, se posizionassi il cursore sulle graffe di <userinput
+>\section{Introduzione}</userinput
+>, vedresti <userinput
+>\section{Introduzione}</userinput
+> nell'evidenziazione gialla predefinita, mostrandoti la posizione delle parentesi iniziale e finale.</para>
+
+	</sect1>
+
+	<sect1 id="editing_highlight">
+
+		<title
+>Evidenziazione</title>
+
+		<para
+>&kile; ha la capacità di cercare ed evidenziare diversi tipi di codice. Per esempio, i comandi &latex; sono distinti dal testo normale, e anche le formule matematiche sono evidenziate in un colore diverso.</para>
+
+	</sect1>
+
+	<sect1 id="editing_bullets">
+
+		<title
+>Punti</title>
+
+		<para
+>Molti assistenti possono inserire punti facoltativi, una specie di segnalibro nel testo. Le voci del menu <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Punti</guisubmenu
+></menuchoice
+>, o le scorciatoie da tastiera corrispondenti, permetteranno di saltare al punto successivo o al precedente. Ciò evidenzierà il punto, in modo che sia eliminato automaticamente quando inserisci la prima lettera.</para>
+
+		<screenshot>
+			<screeninfo
+>Punti</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="bullets.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punti</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+> &Ctrl;&Alt;<keycap
+>Destra</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Punto successivo</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Passa al punto successivo, se ce n'è uno.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>Sinistra</keycap
+></keycombo
+></shortcut
+> <guimenuitem
+>Punto precedente</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Passa al punto precedente, se ce n'è uno.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_select">
+
+		<title
+>Selezione</title>
+
+		<para
+>Scrivere è ovviamente uno degli aspetti principali quando si usa un programma come &kile;. Sebbene &kate; abbia già grandi capacità, &kile; aggiunge alcune importanti funzionalità, che sono particolarmente utili quando si scrive un sorgente &latex;. &latex; ha sempre bisogno di molti ambienti e gruppi, perciò &kile; supporta comandi molto speciali per selezionarli. Sotto <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Seleziona</guisubmenu
+></menuchoice
+> troverai i seguenti comandi per selezionare il testo.</para>
+
+		<screenshot>
+			<screeninfo
+>Elementi di Modifica->Seleziona</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="select.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Elementi di Modifica->Seleziona</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Ambiente (dentro)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona un ambiente senza i tag che lo delimitano. Se questo comando viene chiamato quando un ambiente è già selezionato, &kile; espanderà la selezione al prossimo ambiente circostante.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Ambiente (fuori)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona un ambiente inclusi i tag che lo delimitano. Questa selezione può inoltre venire espansa con una seconda chiamata del comando. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Gruppo TeX (dentro)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona un gruppo &tex; dentro le graffe che lo delimitano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Gruppo TeX (fuori)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona un gruppo &tex; insieme alle graffe che lo delimitano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Gruppo matematico</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Seleziona il gruppo matematico attuale insieme ai comandi matematici.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Paragrafo</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona un intero paragrafo, cioè un gruppo di righe di testo separate su ambo i lati da righe vuote. Un paragrafo non vuol dire solo righe contigue di testo, come in altri editor di testo. Questo significato esteso include anche le tabelle, i comandi &latex; e tutte le altre righe del sorgente. L'unica cosa importante per &kile; è che questo tipo di paragrafo sia separato da due righe vuote.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,L</keycap
+></shortcut
+> <guimenuitem
+>Riga</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona la riga di testo alla posizione attuale del cursore.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>S</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Parola TeX</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Seleziona la parola alla posizione attuale del cursore. Questa selezione ha anche un significato esteso, perché il comando può anche selezionare i comandi &latex;, che cominciano con una sbarra inversa e possono avere un asterisco facoltativo alla fine.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+		<sect2 id="editing_select_latex_commands">
+
+		<title
+>Seleziona i comandi &latex;</title>
+
+		<para
+>&kile; ha una funzionalità estesa per selezionare i comandi &latex;. Se per esempio hai scritto:</para>
+
+		<programlisting
+>testo \bfseries\itshape altro testo</programlisting>
+
+		<para
+>e fai doppio clic su uno dei comandi &latex;, saranno entrambi selezionati. Spesso però vuoi solo selezionarne uno o due tra tanti. Lo puoi fare usando il tasto &Ctrl;. Premendo &Ctrl; e facendo doppio clic verrà selezionato solo il comando desiderato.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="editing_delete">
+
+		<title
+>Elimina</title>
+
+		<para
+>Per eliminare alcune parti di un documento puoi, ovviamente, selezionarle e usare il tasto <keycombo
+><keycap
+>Canc</keycap
+></keycombo
+>. &kate; ha anche il comando <keycombo
+>&Ctrl;<keycap
+>K</keycap
+></keycombo
+>, che cancella tutta la riga. Però &kile; ha un modo più veloce con i suoi comandi di eliminazione. Sotto <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Elimina</guisubmenu
+></menuchoice
+> troverai i seguenti comandi per eliminare il testo.</para>
+
+		<screenshot>
+			<screeninfo
+>Elementi di Modifica->Elimina</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="delete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Elementi di Modifica->Elimina</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Ambiente (dentro)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un ambiente senza i tag che lo delimitano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,F</keycap
+></shortcut
+> <guimenuitem
+>Ambiente (fuori)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un ambiente compresi i tag che lo delimitano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,T</keycap
+></shortcut
+> <guimenuitem
+>Gruppo TeX (dentro)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un gruppo &tex; dentro le graffe che lo delimitano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,U</keycap
+></shortcut
+> <guimenuitem
+>Gruppo TeX (fuori)</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un gruppo &tex; insieme alle graffe che lo delimitano.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Gruppo matematico</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Elimina il gruppo matematico attuale insieme ai comandi matematici.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,P</keycap
+></shortcut
+> <guimenuitem
+>Paragrafo</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina un intero paragrafo. Vedi il comando <menuchoice
+><guisubmenu
+>Seleziona</guisubmenu
+><guimenuitem
+>Paragrafo</guimenuitem
+></menuchoice
+> per come viene definito un paragrafo in &kile;.</para
+></listitem>
+		</varlistentry>
+
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,I</keycap
+></shortcut
+> <guimenuitem
+>Alla fine della riga</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Elimina il testo dalla posizione attuale del cursore fino alla fine della riga. </para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>T</keycap
+></keycombo
+> <keycap
+>,W</keycap
+></shortcut
+> <guimenuitem
+>Parola TeX</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Elimina una parola o comando &latex; alla posizione attuale del cursore.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_environment">
+
+		<title
+>Ambiente</title>
+
+		<para
+>È già stato detto che gli ambienti sono un punto centrale di &latex;. Perciò &kile; offre altri cinque comandi per rendere il lavoro con &latex; il più facile possibile nei sottomenu <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Ambiente</guisubmenu
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Elementi di Modifica->Ambiente</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="environment.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Elementi di Modifica->Ambiente</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Vai all'inizio</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Questo comando passerà all'inizio dell'ambiente attuale, ovunque tu sia. Il cursore sarà posizionato direttamente davanti al tag di apertura dell'ambiente.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Vai alla fine</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Questo comando passerà alla fine dell'ambiente attuale, ovunque tu sia. Il cursore sarà posizionato direttamente dietro al tag di chiusura dell'ambiente.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Corrispondente</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Quando il cursore viene messo davanti o sopra il tag <userinput
+>\begin{ambiente}</userinput
+>, sarà fatto passare all'altro capo dell'ambiente e viceversa.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Chiudi</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Scrivendo molti tag annidati, potresti perdere il conto di tutti gli ambienti. Questo comando chiuderà l'ultimo ambiente aperto, in modo che la struttura annidata degli ambienti non sia danneggiata.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>E</keycap
+></keycombo
+> <keycap
+>,A</keycap
+></shortcut
+> <guimenuitem
+>Chiudi tutti</guimenuitem
+></menuchoice
+></term>
+			<listitem
+><para
+>Questo chiude tutti gli ambienti aperti, non solo l'ultimo che hai aperto.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_texgroup">
+
+		<title
+>Gruppo &tex;</title>
+
+		<para
+>&kile; offre anche alcuni comandi speciali per i gruppi &latex;, che sono indicati dalle parentesi graffe <userinput
+>{...}</userinput
+>. Nel sottomenu <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Gruppo TeX</guisubmenu
+></menuchoice
+> troverai alcuni comandi importanti, che corrispondono a quelli di <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Ambiente</guisubmenu
+></menuchoice
+>. </para>
+
+		<screenshot>
+			<screeninfo
+>Modifica->Gruppo TeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="texgroup.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Modifica->Gruppo TeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<variablelist>
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,B</keycap
+></shortcut
+> <guimenuitem
+>Vai all'inizio</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Questo comando passerà all'inizio del gruppo attuale, dovunque tu sia. Il cursore sarà spostato direttamente davanti alla graffa di apertura.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,E</keycap
+></shortcut
+> <guimenuitem
+>Vai alla fine</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Questo comando passerà alla fine del gruppo attuale, dovunque tu sia. Il cursore sarà posizionato direttamente dietro alla graffa di chiusura.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,M</keycap
+></shortcut
+> <guimenuitem
+>Corrispondente</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Quando il cursore è posizionato davanti o dietro la graffa di apertura di un gruppo &tex;, sarà spostato all'altro capo del gruppo e viceversa.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry
+><term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>G</keycap
+></keycombo
+> <keycap
+>,C</keycap
+></shortcut
+> <guimenuitem
+>Chiudi</guimenuitem
+></menuchoice
+></term>
+		<listitem
+><para
+>Scrivere molte graffe di gruppi annidati potrebbe essere dura. Questo comando chiuderà l'ultimo gruppo aperto, in modo che la struttura annidata dei gruppi di &tex; non sia danneggiata.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="editing_dblquotes">
+
+		<title
+>Virgolette</title>
+
+		<para
+>In &latex;, due virgolette singole vengono interpretate come virgolette doppie. Per aiutarti a inserirle efficientemente, &kile; permette di premere <keycap
+>"</keycap
+> per inserire due virgolette singole di apertura. Inoltre, se vuoi chiudere una citazione, dovrai premere <keycap
+>"</keycap
+>. &kile; sarà abbastanza intelligente da riconoscere questa situazione e inserire due virgolette di chiusura per &latex;.</para>
+
+		<para
+>Per avere un carattere di virgolette doppie sull'altro lato, premi due volte <keycap
+>"</keycap
+>.</para>
+
+		<para
+>Puoi abilitare o disabilitare questo inserimento automatico dell'apertura e della chiusura delle virgolette doppie nella sezione <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Virgolette</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-dblquotes.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Virgolette</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Se includi anche opzioni specifiche per la lingua come <userinput
+>ngerman</userinput
+> o <userinput
+>french</userinput
+>, potrai anche usare le virgolette doppie tedesche o francesi. Sono disponibili molte altre lingue. </para>
+
+	</sect1>
+
+	<sect1 id="editing_smartnewline">
+
+		<title
+>Ritorno a capo intelligente</title>
+
+		<para
+>Se premi <keycombo
+>&Ctrl;&Enter;</keycombo
+>, &kile; inserisce un ritorno a capo intelligente. Se la tua posizione attuale è in un ambiente a elenco come <userinput
+>enumerate</userinput
+> o <userinput
+>itemize</userinput
+>, &kile; non solo inserirà un ritorno a capo, ma aggiungerà anche un comando <userinput
+>\item</userinput
+>.</para>
+
+		<para
+>Se sei all'interno di un ambiente tabulare, &kile; finirà la riga attuale con <userinput
+>\\</userinput
+>, seguito da un ritorno a capo.</para>
+
+    <para
+>Se sei all'interno di un commento &latex;, &kile; comincerà la prossima riga con <userinput
+>%</userinput
+>.</para>
+
+		<para
+>Inoltre, &kile; è abbastanza intelligente da supportare ambienti &latex; predefiniti e definiti dall'utente, che possono essere aggiunti nella sezione <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+	<sect1 id="editing_tabulator">
+
+		<title
+>Tabulatore intelligente</title>
+
+		<para
+>Alcuni utenti preferiscono ordinare le colonne degli ambienti tabulari e mettere tutti i caratteri ampersand <keycap
+>&amp;</keycap
+> uno sotto l'altro. &kile; prova ad aiutarli. Se premi <keycombo
+>&Alt;&Shift;<keycap
+>&amp;</keycap
+></keycombo
+>, &kile; cercherà il prossimo tabulatore nella riga sopra. Sebbene possa non essere il tabulatore corrispondente, &kile; aggiungerà dello spazio per regolare la posizione della colonna con il tabulatore attuale.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="completion">
+
+	<title
+>Completamento del codice</title>
+
+	<para
+>Sebbene &kate; offra già un buon modo di completamento, di &kile; estende il completamento del codice per supportare alcuni metodi particolari per &latex;. Sono stati integrate cinque diverse modalità. Tre di esse funzionano a richiesta, le altre due sono modalità di autocompletamento. Tutte le modalità possono essere configurate per funzionare molto diversamente in <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Configura Kile</guimenuitem
+></menuchoice
+>.</para>
+
+	<sect1 id="complete_autoenvironment">
+
+		<title
+>Completamento automatico degli ambienti</title>
+
+		<para
+>Quando inizi un nuovo ambiente, scrivendo <userinput
+>\begin{ambiente}</userinput
+>, &kile; aggiungerà automaticamente un comando <userinput
+>\end{ambiente}</userinput
+>, con in mezzo una riga per il testo.</para>
+
+		<para
+>L'autocompletamento può essere disattivato nella sezione &latex; di <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Ambienti</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Completamento di un ambiente equazione</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_autocomplete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Completamento di un ambiente equazione</phrase>
+			</textobject>
+			<caption
+><para
+>Completamento di un ambiente equazione</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="complete_command">
+
+		<title
+>Comandi &latex;</title>
+
+		<para
+>Quando scrivi alcune lettere, puoi attivare questa modalità di autocompletamento per i comandi &latex; e le parole normali con <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Completa</guisubmenu
+><guimenuitem
+>Comando (La)TeX</guimenuitem
+></menuchoice
+> o con la scorciatoia <keycombo
+>&Ctrl;&Shift;<keycap
+>Spazio</keycap
+></keycombo
+>. &kile; prima legge le lettere dalla posizione attuale del cursore a sinistra, e si ferma al primo carattere non letterale o sbarra inversa. &kile; entrerà nella modalità di autocompletamento per i comandi &tex; o &latex;. Altrimenti entra nella modalità di dizionario normale, dove non troverai nessun comando &latex;. A seconda della modalità scelta, sarà aperto un riquadro di completamento. Vedrai tutti i comandi o parole il cui inizio coincide con lo schema selezionato. Puoi navigare l'elenco con i tasti cursore, e selezionare una voce con il tasto &Enter; o fare doppio clic con il mouse.</para>
+
+		<screenshot>
+			<screeninfo
+>Completamento di un comando LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Completamento di un comando LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Quando premi il tasto &Backspace;, l'ultima lettera dello schema sarà eliminata, e l'elenco di completamento potrebbe aumentare. D'altro canto, se scrivi un'altra lettera, lo schema si allungherà e l'elenco potrebbe ridursi.</para>
+
+		<para
+>Se decidi di non selezionare nessuno dei suggerimenti, puoi abbandonare questa finestra premendo &Esc;.</para>
+
+		<para
+>Vedrai che tutti i comandi sono scritti con delle brevi descrizioni dei loro parametri. Queste descrizioni sono ovviamente rimosse quando selezioni un comando. A scelta puoi lasciare che &kile; inserisce dei punti al loro posto, in modo da poter passare facilmente a queste posizioni con <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Punti</guisubmenu
+><guimenuitem
+>Punto successivo</guimenuitem
+></menuchoice
+> e inserire il parametro che vuoi.</para>
+
+		<screenshot>
+			<screeninfo
+>Completamento di un comando LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_cmd2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Completamento di un comando LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Vai a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per configurare uno o più di questi elenchi. Puoi scegliere diversi elenchi di comandi &tex; e &latex; e diverse modalità dizionario per le parole normali.</para>
+
+		<para
+>Se scegli l'opzione <guimenuitem
+>Mostra comandi LaTeX</guimenuitem
+>, le voci di tutti i file di elenchi compressi di parole (<foreignphrase lang="en"
+>Compressed Word Lists</foreignphrase
+>, o CWL) selezionati per il completamento dei comandi &latex; vengono mostrate in una vista separata della barra laterale di &kile;. Vedrai i comandi disponibili e quali parametri e opzioni devono o possono essere dati per un completamento. Puoi anche selezionare una voce con un clic del mouse e verrà inserita nel documento, dopo aver rimosso tutti i parametri e le opzioni con nome.</para>
+
+		<screenshot>
+			<screeninfo
+>Comandi &latex; nella barra laterale</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="command-view.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Comandi &latex; nella barra laterale</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Siccome ogni elenco di parole sarà mostrato in una vista a parte, ce ne potrebbero essere troppe, al punto che la finestra principale di &kile; potrebbe diventare troppo grande per un piccolo schermo. Visto che ciò non è pratico, &kile; opera con un numero massimo di viste permesse, preimpostato a 10. Se questo valore è troppo elevato per il tuo schermo, riducilo.</para>
+
+	</sect1>
+
+	<sect1 id="complete_environment">
+
+		<title
+>Ambienti</title>
+
+		<para
+>La <emphasis
+>modalità comando</emphasis
+> non serve a completare gli ambienti. Devi sempre scrivere alcune lettere di <userinput
+>\begin</userinput
+>, e invocare la modalità di completamento risulterà in un grande elenco di tag di ambienti. D'altro canto, gli ambienti sono usati così spesso che &kile; offre una modalità particolare di completamento degli ambienti. Lascia stare l'apertura e scrivi, per esempio, <userinput
+>al</userinput
+>.</para>
+
+		<para
+>Quando chiami la modalità di completamento con <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Completa</guisubmenu
+><guimenuitem
+>Ambiente</guimenuitem
+></menuchoice
+> o la scorciatoia da tastiera <keycombo
+>&Alt;&Shift;<keycap
+>Spazio</keycap
+></keycombo
+>, il tag di apertura viene inserito automaticamente, e vedrai <userinput
+>\begin{al}</userinput
+>. Dopo questa modifica, l'elenco di completamento è molto meno affollato.</para>
+
+		<screenshot>
+			<screeninfo
+>Completamento di un comando LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Completamento di un comando LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Adesso seleziona un ambiente e vedrai che viene anche chiuso automaticamente. Inoltre, se &kile; lo riconosce come ambiente elenco, inserirà anche un primo tag <userinput
+>\item</userinput
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Completamento di un comando LaTeX</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="complete_env2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Completamento di un comando LaTeX</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Vai a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per configurare uno o più di questi elenchi. Questa modalità usa gli stessi elenchi di parole della modalità di completamento dei comandi &tex; e &latex;.</para>
+
+	</sect1>
+
+	<sect1 id="complete_abbreviation">
+
+		<title
+>Abbreviazioni</title>
+
+		<para
+>&kile; supporta gli elenchi di abbreviazioni definite dagli utenti, che sono sostituite a richiesta da stringhe di testo più lunghe. Vedi <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per configurare uno o più di questi elenchi. Nell'esempio qui riportato, deve essere scelto l'elenco di abbreviazioni <filename
+>example.cwl</filename
+>. In questo file troverai, per esempio, la voce <userinput
+>L=\LaTeX</userinput
+>.</para>
+
+		<para
+>Per esempio, scrivi solo la lettera <userinput
+>L</userinput
+>. Adesso chiama la modalità abbreviazione del completamento delle parole con <menuchoice
+><guimenu
+>Modifica</guimenu
+><guisubmenu
+>Completa</guisubmenu
+><guimenuitem
+>Abbreviazione</guimenuitem
+></menuchoice
+>, o la scorciatoia <keycombo
+>&Ctrl;&Alt;<keycap
+>Spazio</keycap
+></keycombo
+>, e la lettera <userinput
+>L</userinput
+> verrà sostituita dalla stringa <userinput
+>\LaTeX</userinput
+>.</para>
+
+		<para
+>Il completamento delle abbreviazioni supporta anche il ritorno a capo <userinput
+>%n</userinput
+> e <userinput
+>%C</userinput
+> per posizionare il cursore, se questi caratteri sono presenti nel testo di espansione. Quindi se hai la voce:</para>
+
+		<programlisting
+>en1=\begin{enumerate}%n\item %C%n\end{enumerate}%n</programlisting>
+
+		<para
+>nel file di completamento, e usi il completamento delle abbreviazioni, l'espansione sarà come sotto, dove <userinput
+>x</userinput
+> indica la posizione finale del cursore.</para>
+
+<programlisting
+>\begin{enumerate}
+        \item x
+\end{enumerate}</programlisting>
+
+		<sect2 id="complete_abbrev_view">
+
+			<title
+>Abbreviazioni</title>
+
+			<para
+>Se scegli <guimenuitem
+>Mostra abbreviazioni</guimenuitem
+>, tutte le abbreviazioni possibili saranno mostrate in una vista della barra laterale. In questo modo avrai una visuale completa di tutte le abbreviazioni possibili.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_auto">
+
+		<title
+>Modalità di autocompletamento</title>
+
+		<sect2 id="complete_autolatex">
+
+			<title
+>Comandi &latex;</title>
+
+			<para
+>Puoi anche abilitare una modalità di autocompletamento per i comandi &latex;. Quando viene inserito un certo numero di lettere (tre come impostazione predefinita), si apre una finestra a comparsa con un elenco di tutti i comandi &latex; corrispondenti. Puoi selezionare uno di questi comandi, o ignorare questa finestra e scrivere altre lettere. Le voci del riquadro di completamento cambieranno sempre e corrisponderanno alla parola che stai scrivendo.</para>
+
+			<para
+>Vai a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Completa</guilabel
+></menuchoice
+> per abilitare o disabilitare questa modalità, o cambiare il numero di soglia.</para>
+
+		<screenshot>
+			<screeninfo
+>Completamento di un ambiente equazione</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-complete.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Completamento di un ambiente equazione</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		</sect2>
+
+		<sect2 id="complete_autotext">
+
+			<title
+>Parole dei documenti</title>
+
+			<para
+>I grandi dizionari non sono utili nella modalità di autocompletamento. Però, abbiamo visto che ci sono molte parole che sono scritte più di una volta in un documento. Perciò &kile; offre un completamento per tutte le parole del documento che l'utente ha già scritto. Puoi invocare il completamento manualmente premendo <keycombo
+>&Ctrl;<keycap
+>Spazio</keycap
+></keycombo
+>. Nota che questa modalità è diversa dalla modalità di completamento dei comandi &latex;.</para>
+
+			<para
+>Se vuoi attivare o disattivare questa modalità, vai a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Editor</guimenuitem
+><guimenuitem
+>Modifica</guimenuitem
+><guilabel
+>Completamento delle parole</guilabel
+></menuchoice
+>. In questa finestra puoi impostare se deve essere attivata la modalità di completamento per le parole del documento. C'è anche un'altra modalità di completamento automatico, nella quale compare un riquadro di completamento quando si raggiunge una certa soglia.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="complete_own_files">
+
+		<title
+>Scrivere i propri file di completamento</title>
+
+    <para
+>L'ultima specifica del formato dei file di completamento può essere trovata nella <ulink url="https://commits.kde.org/kile?path=README.cwl"
+>specifica del formato CWL</ulink
+>. </para>
+
+		<para
+>I file di completamento possono essere installati nella cartella Home di un utente nella cartella <filename
+>~/.kde/share/apps/kile/complete/&lt;modalità&gt;/</filename
+>, dove <parameter
+>&lt;modalità&gt;</parameter
+> sta per <constant
+>abbreviation</constant
+>, <constant
+>dictionary</constant
+> o <constant
+>tex</constant
+>. </para>
+
+	</sect1>
+</chapter>
+
+<chapter id="wizard">
+
+	<title
+>Assistenti e finestre</title>
+
+	<sect1 id="wizard_quickstart">
+
+		<title
+>Assistente di avvio rapido</title>
+
+		<para
+>Questo assistente è già stato descritto nel<xref linkend="intro_docwizard" role="select: title pageabbrv"/>.</para>
+
+	</sect1>
+
+	<sect1 id="wizard_graphics">
+
+		<title
+>Includi grafica</title>
+
+		<para
+>La finestra <guilabel
+>Includi grafica</guilabel
+> rende il più semplice possibile l'inserimento di elementi grafici. La puoi raggiungere dalla barra dei menu con <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Inserimento di immagini</guimenuitem
+></menuchoice
+>. Dài un'occhiata al<xref linkend="build_graphics" role="select: title pageabbrv"/> e al<xref linkend="build_epsgraphics" role="select: title pageabbrv"/> per avere una panoramica di alcuni concetti fondamentali sui formati grafici.</para>
+
+		<screenshot>
+			<screeninfo
+>Includere un elemento grafico</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="includegraphics.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Includere un elemento grafico</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<procedure>
+		<step
+><para
+>Scegli un file grafico. Può essere un file JPEG, PNG, PDF, EPS o anche un file EPS compresso. Se hai installato <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+> e hai anche configurato &kile; per usarlo (<menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>Grafica</guilabel
+></menuchoice
+>), l'altezza e la larghezza dei file grafici sono mostrate automaticamente. Se &imagemagick; può determinare una risoluzione, la dimensione dell'immagine viene mostrata anche in centimetri.</para
+></step>
+
+		<step
+><para
+>Decidi se l'immagine deve stare al centro della pagina.</para
+></step>
+
+		<step
+><para
+>Scegli se vuoi la notazione di <userinput
+>\graphicspath</userinput
+> per il file grafico.</para>
+
+		<para
+>Come impostazione predefinita i file devono essere nella stessa cartella del documento principale. Però è possibile metterli in altre cartelle per mantenere le cose in ordine. Senza un comando <userinput
+>\graphicspath</userinput
+>, &kile; includerebbe il percorso per il file grafico. Però se usi <userinput
+>\graphicspath</userinput
+> nel preambolo in questo modo:</para>
+
+		<programlisting
+>\graphicspath{{/percorso/ai/miei/file/grafici}{altro/percorso/ad/altri/grafici}}</programlisting>
+
+		<para
+>e segni questa opzione, &kile; userà solo il nome di base del file grafico.</para>
+
+		<para
+>Un altro esempio: se imposti il comando <userinput
+>\graphicspath</userinput
+> come:</para>
+
+		<programlisting
+>\graphicspath{{./}{macchinaFotografica/}{immagini/}}</programlisting>
+
+		<para
+>&latex; cercherà nella cartella attuale, poi in <filename
+>macchinaFotografica</filename
+>, e infine in <filename
+>immagini</filename
+> per trovare il file.</para
+></step>
+
+		<step
+><para
+>Se scegli un'altezza o una larghezza, tutto il file sarà riscalato in proporzione. Se imposti i due valori allo stesso tempo, la larghezza e l'altezza potrebbero essere riscalate con fattori diversi, e questo potrebbe non essere quello che avevi in mente. Vedi anche le informazioni in alto nella finestra per conoscere le dimensioni originali dell'immagine.</para
+></step>
+
+		<step
+><para
+>Inserisci un angolo di cui ruotare il file in senso antiorario.</para
+></step>
+
+		<step
+><para
+>Le informazioni sul riquadro di delimitazione sono impostate automaticamente quando scegli un file di grafica. Queste informazioni sono necessarie solo quando lavori con il &latex; normale  e con la grafica bitmap. Vedi il discorso sulla <link linkend="build_epsgraphics"
+>grafica EPS</link
+>. </para>
+
+		<para
+>Se a &latex; serve un riquadro di delimitazione e non vuoi generare un file BB, &kile; supporta questa opzione. D'altro canto, &pdflatex; produrrà un avviso ogni volta che vorrai includere della grafica PNG o JPG con questa opzione. Questa casella abilita o disabilita l'opzione del riquadro di delimitazione.</para
+></step>
+
+		<step
+><para
+>Riscala l'immagine del fattore di scala desiderato, per esempio 0,5 per dimezzare, o 2 per raddoppiare. Quando usi questa opzione, non c'è bisogno di impostare una larghezza o un'altezza dell'immagine.</para
+></step>
+
+		<step
+><para
+>Nella scheda <guilabel
+>Taglia immagine</guilabel
+> puoi ritagliare l'immagine in tutte e quattro le direzioni.</para
+></step>
+
+		<step>
+		  <para
+>Infine, devi specificare se vuoi incorporare l'immagine in un ambiente figure. Se vuoi che il testo passi attorno alla figura, usa piuttosto l'ambiente wrapfigure. </para>
+			<note>
+				<para
+>Se scegli l'ambiente wrapfigure, devi includere il pacchetto wrapfig nel preambolo.</para>
+			</note>
+		  <para
+>In ogni caso puoi inserire una didascalia e un'etichetta dell'immagine. È buona norma aggiungere un diverso prefisso a diversi tipi di etichette. È comune usare il prefisso <userinput
+>fig:</userinput
+> per le immagini. </para>
+		</step>
+
+		<step
+><para
+>Se scegli l'ambiente figure, puoi scegliere dove &latex; dovrebbe preferibilmente mettere l'immagine. </para
+></step>
+		<step>
+		  <para
+>Nell'ambiente wrapfigure puoi:</para>
+		  <substeps>
+		    <step
+><para
+>Scegliere una regola di posizionamento per la figura e decidere se essa debba flottare o meno. In un documento con fronte e retro puoi definire se la figura debba essere sul lato interno od esterno della pagina. </para
+></step>
+		    <step
+><para
+>Definire quante righe abbreviate di testo vadano messe accanto alla figura. Se lo lasci vuoto, &latex; lo determinerà al meglio delle sue capacità. </para
+></step>
+		    <step
+><para
+>Definire una sporgenza da un lato a scelta. È particolarmente utile quando ci sono delle colonne nel documento e vuoi che una figura copra più di una colonna, o vuoi del testo abbreviato su ambo i lati della figura. </para
+></step>
+		    <step
+><para
+>Scegliere la larghezza della figura. Dovrebbe essere un po' più grande della larghezza reale dell'immagine, in modo che ci sia un po' di spazio vuoto tra la figura e il testo. </para
+></step>
+		  </substeps>
+		</step>
+		</procedure>
+
+	</sect1>
+
+	<sect1 id="wizard_array">
+
+		<title
+>Matrici e tabulari</title>
+
+		<para
+>Uno dei lavori più noiosi che si possano fare in &latex; è scrivere una matrice o un ambiente tabulare. Si deve tener conto di tutti gli elementi, assicurarsi che l'ambiente sia ben formato, e che tutte le cose siano dove devono essere. Una buona indentazione aiuta, ma c'è un modo più semplice: usare le voci del menu <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Matrice</guimenuitem
+></menuchoice
+> e <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Tabella</guimenuitem
+></menuchoice
+> di &kile;. Apparirà quindi uno schema a forma di matrice che puoi facilmente riempire con delle voci. Questa finestra offre anche alcune opzioni per impostare il tipo di carattere degli elementi della tabella.</para>
+
+		<screenshot>
+			<screeninfo
+>Inserimento di un ambiente tabulare</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-tabular.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Inserimento di un ambiente tabulare</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Usando la barra degli strumenti in cima alla finestra puoi impostare l'allineamento di una cella, definire lo stile del testo, unire e dividere le celle, scegliere un bordo, e specificare i colori di sfondo e del testo. In fondo a destra c'è un pulsante <guibutton
+>Incolla</guibutton
+>, con il quale puoi inserire una tabella dagli appunti; questo permette, per esempio, di copiare e incollare tabelle da un foglio di calcolo. </para>
+
+		<para
+>Sotto puoi scegliere quante righe e colonne vuoi, e puoi regolare altri dettagli della matrice: </para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Con l'opzione <guilabel
+>Nome</guilabel
+> puoi selezionare quale ambiente usare per il materiale della matrice o della tabella. </para
+></listitem>
+			<listitem
+><para
+>Puoi selezionare l'allineamento verticale delle celle con l'opzione <guilabel
+>Parametro</guilabel
+>. Questa è abilitata solo per gli ambienti che la supportano. </para
+></listitem>
+			<listitem
+><para
+>Se esiste per l'ambiente selezionato, puoi selezionare <guilabel
+>Usa la versione con asterisco</guilabel
+>. Quando selezioni questa opzione, devi anche specificare una <guilabel
+>Larghezza della tabella</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Le tabelle hanno a volte un aspetto migliore se selezioni l'opzione <guilabel
+>Usa il pacchetto booktabs</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+>Ovviamente, puoi anche mettere tutta la matrice al <guilabel
+>Centro</guilabel
+>. </para
+></listitem>
+			<listitem
+><para
+><guilabel
+>Inserisci punti</guilabel
+> aiuta quando vuoi mettere il contenuto nell'editor. Con questa opzione, &kile; inserirà dei segnaposti a forma di punto per ogni elemento della matrice. </para
+></listitem>
+		</itemizedlist>
+
+		<para
+>L'opzione <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Tabulazione</guimenuitem
+></menuchoice
+> farà apparire una finestra più semplice per configurare un ambiente di tabulazione. Permette di specificare facilmente il numero di righe e colonne e la spaziatura desiderata.</para>
+	</sect1>
+
+	<sect1 id="wizard_float">
+	  <title
+>Inserire elementi flottanti</title>
+
+	  <para
+>&kile; aiuta a inserire gli elementi flottanti. Con l'assistente disponibile da <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Flottanti</guimenuitem
+></menuchoice
+> è molto facile creare un nuovo ambiente per figure o tabelle. </para>
+
+	  <screenshot>
+		<screeninfo
+>Inserimento di un flottante</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-float.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserimento di un flottante</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+	<para
+>Per inserire un nuovo ambiente flottante basta seguire questi passi: </para>
+
+	     <procedure>
+	       <step>
+		 <para
+>Scegli se vuoi inserire una figura o una tabella. </para>
+	       </step>
+	       <step>
+		 <para
+>Seleziona le regole di posizionamento desiderate. </para>
+	       </step>
+	       <step>
+		 <para
+>Inserisci una didascalia per il flottante. </para>
+	      </step>
+	      <step>
+		<para
+>Scrivi un'etichetta per il nuovo flottante. &kile; suggerirà automaticamente un prefisso appropriato, per esempio <userinput
+>fig:</userinput
+> per le figure e <userinput
+>tab:</userinput
+> per le tabelle. </para>
+	      </step>
+	     </procedure>
+	</sect1>
+
+	<sect1 id="wizard_math">
+	  <title
+>Inserire ambienti matematici</title>
+
+	  <para
+>Ricordarsi come funzionano tutti i vari ambienti matematici può essere una seccatura. Ovviamente &kile; può aiutarti anche in questo: <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Matematica</guimenuitem
+></menuchoice
+>.</para>
+
+	  <screenshot>
+		<screeninfo
+>Inserire un elemento matematico</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="dialog-math.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserire un elemento matematico</phrase>
+		</textobject>
+		</mediaobject>
+	  </screenshot>
+
+	  <para
+>Opzioni: </para>
+	  <itemizedlist>
+				<listitem
+><para
+><guilabel
+>Nome</guilabel
+>: scegli il tipo di elemento matematico che vuoi creare.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Senza numerazione</guilabel
+>: questo disattiva la numerazione per gli elementi come equazioni o allineamenti.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Comando di spaziatura per separare i gruppi</guilabel
+>: in un ambiente che supporta diversi gruppi, come alignat, puoi definire un separatore di spaziatura quando hai più di un gruppo. Puoi inserire qualsiasi comando di spaziatura che esista in modalità matematica, per esempio <userinput
+>\qquad</userinput
+>. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Tabulatore standard</guilabel
+>: seleziona il tabulatore da usare. Qui &kile; dovrebbe scegliere automaticamente quello giusto.</para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Modalità di vista matematica</guilabel
+>: per ambienti come matrici o vettori puoi scegliere con quale ambiente visualizzare il testo matematico. </para
+></listitem>
+				<listitem
+><para
+><guilabel
+>Usa punti</guilabel
+>: con questa opzione, &kile; inserirà dei segnaposti a forma di punto per ogni elemento del testo matematico.</para
+></listitem>
+			</itemizedlist>
+	</sect1>
+
+	<sect1 id="wizard_postscript">
+
+		<title
+>Programmi per &PostScript;</title>
+
+		<para
+>I file PS non sono popolari come i PDF, ma sono un ottimo punto di partenza per le manipolazioni e i riordinamenti delle pagine. Se vuoi un file PDF, puoi riordinare le pagine con dei programmi &PostScript;, e poi convertire in PDF con <command
+>ps2pdf</command
+>.</para>
+
+		<para
+>L'<emphasis
+>Assistente &PostScript;</emphasis
+> sotto <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Strumenti PostScript</guimenuitem
+></menuchoice
+> suggerirà gli ordinamenti più comuni. Il lavoro viene fatto dai programmi <command
+>pstops</command
+> e <command
+>psselect</command
+>, che si trovano nella maggior parte delle distribuzioni nel pacchetto <userinput
+>psutils</userinput
+>. Se uno di questi programmi non è disponibile, l'elemento corrispondente non sarà visibile.</para>
+
+		<screenshot>
+			<screeninfo
+>Finestra degli strumenti PS</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-pstools.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+				<phrase
+>Finestra degli strumenti PS</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Per prima cosa scegli il file di ingresso. Se &kile; trova un file PS corrispondente al documento principale attuale, questo verrà suggerito come file di ingresso, ma sei libero di sceglierne un altro. Quindi, scegli un file risultante e seleziona uno dei compiti. Infine devi decidere se vuoi solo la conversione o se vuoi anche chiamare &okular; per visualizzare il risultato.</para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+>1 pagina + pagina vuota A5 → A4</term>
+		<listitem
+><para
+>Metti insieme una pagina A5 con una pagina vuota su una pagina A4. Ogni volta che due pagine A5 sono messe insieme, sono ruotate di 90 gradi e saranno posizionate orizzontalmente su una pagina A4.</para>
+		<screenshot>
+			<screeninfo
+>A5 + pagina vuota</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>A5 + pagina vuota</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 pagina A5 + duplicato → A4</term>
+		<listitem
+><para
+>Metti insieme una pagina A5 e una sua copia su una pagina A4.</para>
+		<screenshot>
+			<screeninfo
+>duplica pagine A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Duplica una pagina A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pagine A5 → A4</term>
+		<listitem
+><para
+>Metti insieme due pagine A5 consecutive su una pagina A4.</para>
+		<screenshot>
+			<screeninfo
+>Metti insieme due pagine A5</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils3.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Metti insieme due pagine A5</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pagine A5L → A4</term>
+		<listitem
+><para
+>Metti insieme due pagine A5 orizzontali consecutive su una pagina A4.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>4 pagine A5 → A4</term>
+		<listitem
+><para
+>Metti insieme quattro pagine A5 consecutive su una pagina A4. Le pagine A5 devono essere riscalate con un fattore di 0,7 per adattarsi alla pagine.</para>
+		<screenshot>
+			<screeninfo
+>4 pagine A5 → A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils5.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Quattro pagine A5 → A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 pagina A4 + pagina vuota → A4</term>
+		<listitem
+><para
+>Metti assieme una pagina A4 con una pagina vuota su una pagina A4. Ogni volta che due pagine A4 sono messe assieme in una pagina A4, devono essere riscalate con un fattore di 0,7, e saranno ordinate orizzontalmente.</para>
+		<screenshot>
+			<screeninfo
+>1 pagina A4 + pagina vuota → A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils6.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 pagina A4 + pagina vuota → A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>1 pagina A4 + duplicato → A4</term>
+		<listitem
+><para
+>Metti una pagina A4 e una sua copia in una pagina A4.</para>
+		<screenshot>
+			<screeninfo
+>1 pagina A4 + duplicato → A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils7.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>1 pagina A4 + duplicato → A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pagine A4 → A4</term>
+		<listitem
+><para
+>Metti assieme due pagine A4 consecutive su una pagina A4.</para>
+		<screenshot>
+			<screeninfo
+>Metti insieme due pagine A4</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils8.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Metti insieme due pagine A4</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>2 pagine A4L → A4</term>
+		<listitem
+><para
+>Metti assieme due pagine A4 consecutive e orizzontali su una pagina A4.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>seleziona pagine pari</term>
+		<listitem
+><para
+>Seleziona tutte le pagine pari di un documento.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>seleziona pagine dispari</term>
+		<listitem
+><para
+>Seleziona tutte le pagine dispari di un documento.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>seleziona pagine pari (ordine inverso)</term>
+		<listitem
+><para
+>Seleziona tutte le pagine pari di un documento e invertine l'ordine.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>seleziona pagine dispari (ordine inverso)</term>
+		<listitem
+><para
+>Seleziona tutte le pagine dispari di un documento e invertine l'ordine.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>inverti tutte le pagine</term>
+		<listitem
+><para
+>Inverti tutte le pagine di un documento.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>copia tutte le pagine (ordinate)</term>
+		<listitem
+><para
+>Copia tutte le pagine di un documento. Devi scegliere il numero di copie ordinate.</para>
+		<screenshot>
+			<screeninfo
+>Copia tutte le pagine (ordinate)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils15.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Copia tutte le pagine (ordinate)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>copia tutte le pagine (non ordinate)</term>
+		<listitem
+><para
+>Copia tutte le pagine di un documento. Devi scegliere il numero di copie non ordinate.</para>
+		<screenshot>
+			<screeninfo
+>Copia tutte le pagine (non ordinate)</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="psutils16.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Copia tutte le pagine (non ordinate)</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>pstops: scegli parametro</term>
+		<listitem
+><para
+>Ci sono molte opzioni per i comandi &PostScript; <command
+>pstops</command
+> e <command
+>psselect</command
+>. Se ti serve un'opzione particolare, puoi chiamare <command
+>pstops</command
+> con un'opzione di tua scelta. Riferisciti al manuale per tutte le opzioni possibili.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+>psselect: scegli parametro</term>
+		<listitem
+><para
+>Puoi chiamare <command
+>psselect</command
+> con un'opzione di tua scelta. Riferisciti al manuale per tutte le opzioni possibili.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="wizard_pdf">
+
+		<title
+>Programmi per PDF</title>
+
+		<para
+>Molti pensano che i PDF siano file immutabili; esistono invece degli ottimi programmi per:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>manipolare e ridisporre le pagine,</para
+></listitem>
+		<listitem
+><para
+>leggere e aggiornare le informazioni del documento,</para
+></listitem>
+		<listitem
+><para
+>leggere, impostare e cambiare alcuni permessi</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>di un documento PDF.</para>
+
+		<para
+>L'<emphasis
+>Assistente PDF</emphasis
+> di &kile; sotto <menuchoice
+><guimenu
+>Assistente</guimenu
+><guimenuitem
+>Strumenti PDF</guimenuitem
+></menuchoice
+> usa due diversi metodi per manipolare e ridisporre i documenti PDF:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>I pacchetto &latex; <command
+>pdfpages</command
+>, che fa parte di ogni distribuzione di &latex;. <command
+>pdfpages</command
+> non funziona con pagine cifrate.</para
+></listitem>
+		<listitem
+><para
+><command
+>pdftk</command
+>, che è un ottimo strumento da riga di comando per fare cose comuni con i documenti PDF (vedi <ulink url="http://www.pdflabs.com/tools/pdftk-the-pdf-toolkit"
+>il suo sito</ulink
+>).</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Se uno di questi assistenti, <command
+>pdfpages</command
+> o <command
+>pdftk</command
+>, manca sul tuo sistema, i suoi elementi corrispondenti non saranno visibili. Inoltre, ricorda che solo <command
+>pdftk</command
+> può lavorare con i file cifrati.</para>
+
+		<sect2 id="pdf_rearrangements">
+
+			<title
+>Ridisposizioni</title>
+
+			<para
+>Quando viene chiamato l'assistente PDF di &kile;, si avvia con la scheda di registrazione delle <guilabel
+>Ridisposizioni</guilabel
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Finestra degli strumenti PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Finestra degli strumenti PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Per prima cosa scegli il file di ingresso. Se &kile; trova un file PDF corrispondente al documento principale attuale, questo verrà suggerito come file di ingresso, ma sei libero di sceglierne un altro. Quindi, scegli un file risultante o di sovrascrivere il file esistente, e seleziona uno dei compiti. Infine devi decidere se vuoi solo la conversione o se vuoi anche chiamare il visore (per esempio &okular;) per visualizzare il documento risultante.</para>
+
+			<para
+>Se il file PDF è cifrato, funzionerà solo <command
+>pdftk</command
+>, e devi dare la password del documento per eseguire i compiti.</para>
+
+			<variablelist>
+
+			<varlistentry>
+			<term
+>1 pagina + pagina vuota → A4</term>
+			<listitem
+><para
+>Metti insieme una pagina con una pagina vuota su una pagina A4. Ogni volta che due pagine A5 sono messe insieme, sono ruotate di 90 gradi e posizionate orizzontalmente su una pagina A4.</para>
+			<screenshot>
+				<screeninfo
+>A5 + pagina vuota</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A5 + pagina vuota</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Ogni volta che due pagine A4 sono messe insieme, sono riscalate, ruotate di 90 gradi e posizionate orizzontalmente su una pagina A4.</para>
+			<screenshot>
+				<screeninfo
+>A4 + pagina vuota → A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils6.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>A4 + pagina vuota</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>1 pagina + duplicato → A4</term>
+			<listitem
+><para
+>Metti insieme una pagina e una sua copia su una pagina A4.</para>
+			<screenshot>
+				<screeninfo
+>Duplica una pagina</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Duplica una pagina</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Se la pagina da duplicare ha dimensioni A4, sarà riscalata per adattarsi alla pagina.</para>
+			<screenshot>
+				<screeninfo
+>Duplica una pagina</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils7.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Duplica una pagina</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 pagine → A4</term>
+			<listitem
+><para
+>Metti insieme due pagine consecutive su una pagina A4. Ogni volta che due pagine A5 sono messe insieme, sono ruotate di 90 gradi e posizionate orizzontalmente su una pagina A4.</para>
+			<screenshot>
+				<screeninfo
+>Metti insieme due pagine A5</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Metti insieme due pagine A5</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			<para
+>Ogni volta che due pagine A4 sono messe insieme, sono riscalate, ruotate di 90 gradi e posizionate orizzontalmente su una pagina A4.</para>
+			<screenshot>
+				<screeninfo
+>Metti insieme due pagine A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils8.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Metti insieme due pagine A4</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>2 pagine (orizzontali) → A4</term>
+			<listitem
+><para
+>Metti insieme due pagine orizzontali consecutive su una pagina A4.</para>
+			<screenshot>
+				<screeninfo
+>Metti insieme due pagine (orizzontali)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Metti insieme due pagine (orizzontali)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 pagine → A4</term>
+			<listitem
+><para
+>Metti insieme quattro pagine consecutive su una pagina A4. Le pagine devono essere riscalate per adattarsi alla pagina.</para>
+			<screenshot>
+				<screeninfo
+>4 pagine → A4</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="psutils5.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Quattro pagine → A4</phrase>
+				</textobject>
+			</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>4 pagine (orizzontali) → A4</term>
+			<listitem
+><para
+>Metti insieme quattro pagine orizzontali consecutive su una pagina A4. Le pagine devono essere riscalate per adattarsi alla pagina.</para>
+			<screenshot>
+				<screeninfo
+>Metti insieme quattro pagine (orizzontali)</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Metti insieme quattro pagine (orizzontali)</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+			</listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>seleziona pagine pari</term>
+			<listitem
+><para
+>Seleziona tutte le pagine pari di un documento.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>seleziona pagine dispari</term>
+			<listitem
+><para
+>Seleziona tutte le pagine dispari di un documento.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>seleziona pagine pari (ordine inverso)</term>
+			<listitem
+><para
+>Seleziona tutte le pagine pari di un documento e invertine l'ordine.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>seleziona pagine dispari (ordine inverso)</term>
+			<listitem
+><para
+>Seleziona tutte le pagine dispari di un documento e invertine l'ordine.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>inverti tutte le pagine</term>
+			<listitem
+><para
+>Inverti tutte le pagine di un documento.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>decifra un file</term>
+			<listitem
+><para
+>Se il PDF è cifrato, lo puoi decifrare.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>seleziona pagine</term>
+			<listitem
+><para
+>Aggiungi un elenco separato da virgole delle pagine o dei loro intervalli, per esempio <userinput
+>1,4-7,9</userinput
+>. Appariranno solo queste pagine nel file PDF prodotto.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>elimina pagine</term>
+			<listitem
+><para
+>Aggiungi un elenco separato da virgole delle pagine o dei loro intervalli da rimuovere dal file PDF.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>applica una filigrana di sfondo</term>
+			<listitem
+><para
+>Applica una filigrana PDF allo sfondo di un singolo PDF di ingresso. L'assistente usa solo la prima pagina dal PDF di sfondo e la applica a ogni pagina del PDF di ingresso. Questa pagina viene riscalata e ruotata come necessario per adattarsi alla pagina di ingresso.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>applica un colore di sfondo</term>
+			<listitem
+><para
+>Applica un colore di sfondo a tutte le pagine del documento attuale. Si può fare una volta sola, perché il secondo colore sarà dietro al primo e quindi non sarà visibile.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>applica un timbro in primo piano</term>
+			<listitem
+><para
+>Applica un timbro in primo piano sopra le pagine del documento PDF di ingresso. L'assistente usa solo la prima pagina del PDF del timbro e la applica a ogni pagina del PDF di ingresso. Questa pagina viene riscalata e ruotata come necessario per adattarsi alla pagina in ingresso. Funziona al meglio se la pagina del PDF timbro ha uno sfondo trasparente.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdftk: scegli parametro</term>
+			<listitem
+><para
+>Puoi chiamare <command
+>pdftk</command
+> con un'opzione di tua scelta. Riferisciti al manuale per tutte le opzioni possibili.</para
+></listitem>
+			</varlistentry>
+
+			<varlistentry>
+			<term
+>pdfpages: scegli parametro</term>
+			<listitem
+><para
+>Puoi chiamare <command
+>pdfpages</command
+> con un'opzione di tua scelta. Riferisciti al manuale per tutte le opzioni possibili.</para
+></listitem>
+			</varlistentry>
+
+			</variablelist>
+
+		</sect2>
+
+		<sect2 id="pdf_properties">
+
+			<title
+>Proprietà</title>
+
+			<para
+>L'impostazione, la modifica e la rimozione delle proprietà saranno possibili solo se <command
+>pdftk</command
+> è installato e se inoltre &kile; è stato compilato con la libreria <filename
+>libpoppler</filename
+>.</para>
+
+			<screenshot>
+				<screeninfo
+>Finestra degli strumenti PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Finestra degli strumenti PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>I metadati tradizionali dei PDF includono il titolo, l'autore, l'oggetto, le parole chiave, il creatore, il produttore e le date di creazione e ultima modifica del documento.</para>
+
+		</sect2>
+
+		<sect2 id="pdf_permissions">
+
+			<title
+>Permessi</title>
+
+			<para
+>Inoltre, l'impostazione, la modifica e la rimozione dei permessi saranno possibili solo se <command
+>pdftk</command
+> è installato.</para>
+
+			<screenshot>
+				<screeninfo
+>Finestra dei permessi PDF</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="dialog-pdftools3.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+					<phrase
+>Finestra dei permessi PDF</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>È necessaria una password per impostare o cambiare queste impostazioni del documento. La cifratura PDF è effettuata per bloccare i contenuti del file dietro a questa password, o per imporre certe restrizioni decise dall'autore. L'autore può permettere o proibire:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+>la stampa delle pagine</para
+></listitem>
+			<listitem
+><para
+>la modifica delle pagine</para
+></listitem>
+			<listitem
+><para
+>la copia del testo e della grafica dalle pagine</para
+></listitem>
+			<listitem
+><para
+>la modifica o l'aggiunta di annotazioni</para
+></listitem>
+			<listitem
+><para
+>la compilazione dei moduli con dati.</para
+></listitem>
+			</itemizedlist>
+
+			<para
+>La modifica dei permessi impone sempre la cifratura associata alla sicurezza a 128 bit di <application
+>Acrobat</application
+> 5 e 6, e richiede anch'essa una password.</para>
+
+			<para
+>Tieni sempre presente: la cifratura e una password non danno nessuna reale sicurezza per il file PDF. Il contenuto è cifrato, ma la chiave è nota. Dovresti considerarla come una richiesta, cortese ma decisa, di rispettare i desideri dell'autore.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="statistics">
+		<title
+>Statistiche del documento</title>
+
+		<para
+>La finestra delle statistiche sotto <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Statistiche</guimenuitem
+></menuchoice
+> presenta una panoramica statistica di una selezione, un documento o un intero progetto. Include il numero di parole, comandi e ambienti &latex;, e anche il numero di caratteri di ciascun tipo.</para>
+
+		<para
+>Le statistiche ottenute possono essere copiate negli appunti come testo o come una tabella &latex; ben formattata. </para>
+		<para
+>Quando selezioni del testo e apri la finestra delle statistiche, ottieni le statistiche del testo attualmente selezionato. Se apri la finestra senza aver selezionato del testo, vengono mostrate le statistiche di tutti i file aperti. Se vuoi le statistiche di tutto il progetto, puoi usare <menuchoice
+><guimenu
+>Progetto</guimenu
+><guisubmenu
+>Apri tutti i file del progetto</guisubmenu
+></menuchoice
+> per aprire facilmente tutti i file sorgente del progetto.</para>
+
+		<para
+>Si deve fare attenzione all'accuratezza dei numeri. Abbiamo incluso della logica per avere una buona stima, per esempio <userinput
+>K\"uhler</userinput
+> risulta in una parola e un comando con rispettivamente sei e due caratteri. Però ci sono altre combinazioni in cui parte dei comandi viene contata come parola e viceversa. Nota che l'algoritmo è stato sviluppato e provato per le lingue simili all'inglese o al tedesco, quindi non considerare i numeri perfetti. Se devi scrivere un rapporto la cui lunghezza deve avere un certo numero di parole o caratteri, fai prima delle prove per verificare se l'accuratezza di &kile; è adatta a te.</para>
+	</sect1>
+
+</chapter>
+
+
+<chapter id="latex">
+
+	<title
+>Tag speciali in &latex;</title>
+
+	<sect1 id="latex_library">
+		<title
+>Usare la libreria di etichette &latex;</title>
+
+		<para
+>&latex; ha migliaia di etichette per simboli e caratteri speciali. Il modo più facile per inserirli è usare il menu della barra laterale, a sinistra della finestra dell'editor.</para>
+
+		<screenshot>
+			<screeninfo
+>Il menu della barra laterale</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_sidebarmenu.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Il menu della barra laterale</phrase>
+			</textobject>
+			<caption
+><para
+>Il menu della barra laterale</para
+></caption>
+			</mediaobject>
+		</screenshot>
+		<para
+>Sono disponibili i seguenti tipi:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Usati più spesso</para
+></listitem>
+			<listitem
+><para
+>Relazione</para
+></listitem>
+			<listitem
+><para
+>Operatori</para
+></listitem>
+			<listitem
+><para
+>Frecce</para
+></listitem>
+			<listitem
+><para
+>Matematica varia</para
+></listitem>
+			<listitem
+><para
+>Testo vario</para
+></listitem>
+			<listitem
+><para
+>Delimitatori</para
+></listitem>
+			<listitem
+><para
+>Greco</para
+></listitem>
+			<listitem
+><para
+>Caratteri speciali</para
+></listitem>
+			<listitem
+><para
+>Caratteri cirillici</para
+></listitem>
+			<listitem
+><para
+>Definiti dall'utente</para
+></listitem>
+		</itemizedlist>
+		<para
+>I suggerimenti delle icone mostrato i comandi &latex; e i pacchetti aggiuntivi necessari.</para>
+		<para
+>Premere <keycombo
+>&Shift;</keycombo
+> e fare clic su un simbolo farà inserire <userinput
+>$\<replaceable
+>comandosimbolo</replaceable
+>$</userinput
+>. Similmente, premere <keycombo
+>&Ctrl;</keycombo
+> lo inserirà tra parentesi graffe.</para>
+		<para
+>Se inserisci un comando che richiede un pacchetto non incluso nel documento &latex;, vedrai un messaggio nella finestra del registro.</para>
+		<para
+>Il primo elenco di simboli contiene i simboli <guilabel
+>Usati più spesso</guilabel
+>. I simboli che inserisci saranno aggiunti a questo elenco per poterli ritrovare facilmente. L'ordine dei simboli non verrà cambiato all'aggiunta di nuovi elementi; verrà invece aumentato un contatore. Se il numero di elementi è oltre 30, l'elemento con il conto minore viene rimosso.</para>
+		<para
+>L'elenco di simboli <guilabel
+>Definiti dall'utente</guilabel
+> può contenere i tuoi simboli. Per crearli devi avere il programma <command
+>gesimb</command
+> e il file <filename
+>definitions.tex</filename
+> del pacchetto sorgente di &kile;. Inoltre ti serve un compilatore &latex; e <ulink url="http://www.dvipng.sourceforge.net"
+>&dvipng;</ulink
+> (versione 1.7 o successiva). La procedura è creare un file &latex; con <userinput
+><command
+>\input</command
+>{<replaceable
+>definitions</replaceable
+>}</userinput
+>, che rende disponibili i comandi elencati sotto, ed eseguire <userinput
+><command
+>gesymb</command
+> <filename
+>mieisimboli.tex</filename
+> <option
+>utente</option
+></userinput
+> (che chiama &latex; e &dvipng;) per creare le icone. Dopo averle copiate in <filename
+>$<envar
+>HOME</envar
+>/.kde/share/apps/kile/mathsymbols/user/</filename
+> e aver riavviato &kile; puoi usare i tuoi simboli. </para>
+		<para
+>In <filename
+>definitions.tex</filename
+> sono definiti i seguenti comandi: <itemizedlist>
+			<listitem>
+				<para
+><userinput
+>\command[\opzione]{\simbolo}</userinput
+>: include il simbolo <userinput
+>\simbolo</userinput
+> nell'elenco dei simboli; l'argomento facoltativo <userinput
+>\opzione</userinput
+> specifica il comando che &kile; deve inserire. Se non viene dato, viene usato il comando fornito nell'argomento obbligatorio. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\mathcommand[\opzione]{\simbolo}</userinput
+>: come sopra, tranne che il comando nell'argomento obbligatorio viene inserito in modalità matematica. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\pkgs[argomento]{pacchetto}</userinput
+>: dichiara che il comando dato su questa riga ha bisogno del pacchetto &latex; <userinput
+>pacchetto</userinput
+> con l'argomento facoltativo <userinput
+>argomento</userinput
+>. Questo comando deve stare davanti al comando <userinput
+>\command</userinput
+> e sostituisce qualsiasi specificazione di pacchetti da parte dell'ambiente neededpkgs. </para>
+			</listitem>
+			<listitem>
+				<para
+><userinput
+>\begin{neededpkgs}[argomenti]{pacchetti} ... \end{neededpkgs}</userinput
+>: ha lo stesso effetto come sopra, ma per tutti i comandi inclusi nell'ambiente. </para>
+			</listitem>
+		</itemizedlist>
+		</para>
+		<para
+>Per completezza, viene qui dato un esempio: <programlisting
+>\documentclass[a4paper,10pt]{article}
+\usepackage{amssymb}
+\input{definitions}
+%
+\begin{document}
+\pagestyle{empty}
+%
+\begin{neededpkgs}{amssymb}
+\mathcommand{\surd}
+\pkgs{amsmath}\mathcommand[\ddddot{}]{\ddddot{a}}
+\mathcommand{\angle}
+\end{neededpkgs}
+\command{\"A}
+\mathcommand{\exists}
+\mathcommand[\stackrel{}{}]{\stackrel{abc}{=}}
+
+%\begin{neededpkgs}[russian,koi8-r,T2C,]{babel,inputenc,fontenc,mathtext}
+%
+%   \end{neededpkgs}
+% questo dovrebbe includere i pacchetti
+% \usepackage{mathtext}
+% \usepackage[T2C]{fontenc}
+% \usepackage[russian]{babel}
+% \usepackage[koi8-r]{inputenc}
+%  solo per spiegare il formato
+\end{document}</programlisting>
+		</para>
+	</sect1>
+
+	<sect1 id="latex_bib">
+
+		<title
+>Usare i bibitem</title>
+
+		<para
+><userinput
+>\bibitem</userinput
+> è un comando usato per inserire un riferimento in un ambiente <userinput
+>thebibliography</userinput
+> nel documento. La sintassi per usare <userinput
+>\bibitem</userinput
+> è <userinput
+>\bibitem[etichetta]{chiave}</userinput
+>.</para>
+
+		<para
+>L'<userinput
+>[etichetta]</userinput
+> facoltativa serve per aggiungere il tuo sistema di etichettamento per la voce della bibliografia. Se non viene impostata nessuna etichetta, le voci saranno poste in ordine numerico: [1], [2], [3], eccetera.</para>
+
+		<para
+>L'argomento <userinput
+>{chiave}</userinput
+> è usato per referenziare e collegare i comandi <userinput
+>\bibitem</userinput
+> e <userinput
+>\cite</userinput
+> l'uno all'altro e le informazioni che essi contengono. Il comando <userinput
+>\cite</userinput
+> contiene l'etichetta associata al <userinput
+>\bibitem</userinput
+> desiderato, che è situato all'interno di un ambiente <userinput
+>thebibliography</userinput
+>, e contiene i dati del riferimento. Sia <userinput
+>\bibitem</userinput
+> che il corrispondente <userinput
+>\cite</userinput
+> devono avere la stessa <userinput
+>{chiave}</userinput
+>; il modo più semplice per organizzare le chiavi è il cognome dell'autore. Le graffe secondarie in <userinput
+>{thebibliography}</userinput
+> indicano l'etichetta più lunga che ti aspetti di avere nella bibliografia. Quindi, inserire <userinput
+>{<replaceable
+>pippo</replaceable
+>}</userinput
+> indica che puoi avere qualsiasi etichetta più corta o lunga uguale all'espressione <userinput
+><replaceable
+>pippo</replaceable
+></userinput
+>. Impostare male questo parametro potrebbe risultare in un'indentazione non troppo gradevole nella bibliografia.</para>
+
+		<para
+>La bibliografia è una sezione separata dal documento principale, e un esempio di codice per la bibliografia è il seguente:</para>
+
+<programlisting
+>\begin{thebibliography}{50}
+        \bibitem{Simpson} Homer J. Simpson. \textsl{Mmmmm... ciambelle}. Evergreen Terrace Printing Co.,
+                          Springfield, DaQualchePartenegliusa, 1998
+\end{thebibliography}</programlisting>
+
+		<para
+>Poi, il codice sorgente principale conterrebbe l'indirizzo dell'informazione relativa al <userinput
+>\bibitem</userinput
+> usando <userinput
+>\cite</userinput
+>. Quel codice sorgente assomiglierebbe a questo:</para>
+
+		<programlisting
+>La mia tesi riguardo alla filosofia dei Simpson\copyright viene dal mio libro preferito \cite{Simpson}.</programlisting>
+
+		<para
+>Siccome spesso è difficile ricordarsi l'esatta chiave di citazione una volta che hai molti riferimenti, &kile; dà un modo semplice per inserire una citazione. Usando <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Riferimenti</guimenuitem
+><guimenuitem
+>Cita</guimenuitem
+></menuchoice
+> appare un elenco con tutte le citazioni. Seleziona il riferimento giusto, e una citazione sarà inserita nel documento. Per aggiornare la lista delle chiavi, salva il file, o seleziona <menuchoice
+><guimenu
+>Modifica</guimenu
+><guimenuitem
+>Aggiorna Struttura</guimenuitem
+></menuchoice
+>, o premi <keycap
+>F12</keycap
+>. Quando il completamento del codice è abilitato, &kile; mostrerà un elenco delle etichette <userinput
+>bibitem</userinput
+> non appena apri un comando <userinput
+>\cite</userinput
+>.</para>
+
+		<para
+>Il risultato finale nella bibliografia del documento sarebbe più o meno come questo:</para>
+
+		<para
+><computeroutput
+>[1] Homer J. Simpson. Mmmmm... ciambelle. Evergreen Terrace Printing Co., Springfield, DaqualchepartenegliUSA, 1998.</computeroutput
+></para>
+
+		<para
+>&kile; può anche lavorare assieme a editor di file &bibtex;, come &kbibtex;, per facilitare l'inserimento di citazioni. Quando si aggiunge un file &bibtex; al progetto, &kile; aiuterà a completare i comandi di citazione, come descritto sopra.</para>
+
+	</sect1>
+
+</chapter>
+
+&include-section-usermenu;
+
+<chapter id="build">
+
+	<title
+>Gli strumenti di costruzione</title>
+
+	<sect1 id="build_sect">
+
+		<title
+>Compilazione, conversione e visualizzazione</title>
+
+		<para
+>Per visualizzare il risultato del tuo lavoro, devi prima compilarne il sorgente. Tutti gli strumenti di costruzione sono raggruppati nei menu <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Compila</guisubmenu
+></menuchoice
+>, <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Converti</guisubmenu
+></menuchoice
+>, e <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Visualizza</guisubmenu
+></menuchoice
+>.</para>
+
+		<para
+>Per compilare il codice sorgente per visori come &okular; o conversioni successive, puoi usare la scorciatoia <keycombo
+>&Alt;<keycap
+>2</keycap
+></keycombo
+>. Poi puoi visualizzare il file &DVI; con il visore predefinito con <keycombo
+>&Alt;<keycap
+>3</keycap
+></keycombo
+>, convertire il &DVI; in un file PS con <keycombo
+>&Alt;<keycap
+>4</keycap
+></keycombo
+>, e visualizzare il file PS con <keycombo
+>&Alt;<keycap
+>5</keycap
+></keycombo
+>.</para>
+
+		<sect2>
+
+		<title
+>&bibtex;</title>
+
+			<para
+>Se usi <ulink url="http://www.ecst.csuchico.edu/~jacobsd/bib/formats/bibtex.html"
+>&bibtex;</ulink
+> per le voci bibliografiche, normalmente devi seguire uno schema di compilazione speciale. Ciò vuol dire chiamare &latex; e poi &bibtex; e poi di nuovo &latex;. Fortunatamente &kile; è abbastanza intelligente da rilevare da solo se è necessario chiamare strumenti aggiuntivi come &bibtex;, &makeidx; e &asymptote;. Questa logica è attivata come impostazione predefinita, ma ciò può essere cambiato a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guisubmenu
+>Strumenti</guisubmenu
+><guilabel
+>Costruzione</guilabel
+></menuchoice
+> nella scheda <guilabel
+>Generale</guilabel
+> negli strumenti &latex; e &pdflatex;. </para>
+
+		</sect2>
+
+<!-- Already stated in last paragraph
+		<sect2>
+
+			<title
+>&makeidx;</title>
+
+			<para
+>If you are using the <ulink url="http://ipagwww.med.yale.edu/latex/makeindex.pdf"
+>&makeidx;</ulink>
+			package to make a final, alphabetical index for your document, you have also to follow a certain
+			compilation pattern or let &kile; do this for you in the same way as with &bibtex; files.</para>
+
+		</sect2>
+-->
+		<sect2>
+
+			<title
+>MetaPost e &asymptote;</title>
+
+			<para
+>Se vuoi compilare il documento con <application
+>MetaPost</application
+> o <application
+>&asymptote;</application
+>, dei programmi di disegno, puoi farlo con <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Compila</guisubmenu
+><guimenuitem
+>Metapost</guimenuitem
+></menuchoice
+>, o <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Compila</guisubmenu
+><guimenuitem
+>&asymptote;</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>&pdflatex;</title>
+
+			<para
+>C'è anche un altro modo per compilare il documento, se vuoi un PDF: puoi eseguire &pdflatex;, che compilerà il sorgente direttamente in un file PDF, con <keycombo
+>&Alt;<keycap
+>6</keycap
+></keycombo
+>: puoi quindi visualizzare il file premendo <keycombo
+>&Alt;<keycap
+>7</keycap
+></keycombo
+>.</para>
+
+			<para
+>Alternativamente, puoi convertire un PS in un PDF con <keycombo
+>&Alt;<keycap
+>8</keycap
+></keycombo
+>, o direttamente un &DVI; in un PDF con <keycombo
+>&Alt;<keycap
+>9</keycap
+></keycombo
+>.</para>
+
+			<para
+>Usare &pdflatex; invece di &latex; può essere solo una questione di semplicità o d'abitudine, ma a volte il comportamento dei due programmi può differire.</para>
+
+		</sect2>
+
+		<sect2>
+
+			<title
+>Da &latex; a Web</title>
+
+			<para
+>Infine, potresti voler pubblicare il lavoro sul Web, e non solo su carta. Puoi allora usare il programma <application
+>latex2html</application
+>, che può essere chiamato dal menu <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Converti</guisubmenu
+><guimenuitem
+>Da LaTeX a Web</guimenuitem
+></menuchoice
+> di &kile;. Il risultato sarà posizionato in una sottocartella della cartella di lavoro, e potrai vedere il risultato della conversione scegliendo l'elemento <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Visualizza</guisubmenu
+><guimenuitem
+>Visualizza HTML</guimenuitem
+></menuchoice
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_cl">
+
+			<title
+>Passare parametri da riga di comando</title>
+
+			<para
+>Se vuoi passare alcuni parametri da riga di comando specifici agli strumenti di compilazione, conversione e visualizzazione, puoi configurarne la chiamata in <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guisubmenu
+>Strumenti</guisubmenu
+><guilabel
+>Costruzione</guilabel
+></menuchoice
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_preview">
+		<title
+>Anteprima veloce</title>
+
+		<para
+>Lavorando con &latex;, servirà sempre un po' di tempo per vedere il risultato. &latex; deve compilare il sorgente, e deve essere avviato il visore. Ciò potrebbe essere fastidioso se hai solo cambiato qualche lettera in un'equazione difficile da scrivere. &kile; offre una modalità di <emphasis
+>Anteprima rapida</emphasis
+>, dove puoi compilare solo parte del documento e risparmiare molto tempo. Supporta quattro diverse modalità, che possono essere combinate con sette configurazioni.</para>
+
+		<screenshot>
+			<screeninfo
+>Anteprima rapida</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Anteprima rapida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Tutte le impostazioni devono essere fatte in <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Strumenti</guimenuitem
+><guilabel
+>Anteprima</guilabel
+></menuchoice
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Configurazione dell'anteprima rapida</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-quickpreview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Configurazione dell'anteprima rapida</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<sect2 id="build_qp_selection">
+
+			<title
+>Modalità di selezione</title>
+
+			<para
+>L'utente deve selezionare una parte del documento. La voce del menu <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Anteprima rapida</guisubmenu
+><guimenuitem
+>Selezione</guimenuitem
+></menuchoice
+> o la scorciatoia da tastiera <keycombo action="simul"
+>&Ctrl;&Alt; <keycap
+>P</keycap
+></keycombo
+>,<keycap
+>S</keycap
+> avvierà i programmi selezionati. &kile; prende il preambolo del testo originale, in modo che tutti i pacchetti e i comandi definiti dall'utente siano inclusi. L'utente può scegliere una configurazione tra otto predefinite:</para>
+
+			<itemizedlist>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (visore incorporato)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+&DVI; (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (visore incorporato)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>LaTeX+PS (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (visore incorporato)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>PDFLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (visore incorporato)</application
+></para
+></listitem>
+			<listitem
+><para
+><application
+>XeLaTeX+PDF (&okular;)</application
+></para
+></listitem>
+			</itemizedlist>
+
+			<para
+>Ciò dovrebbe bastare per tutte le situazioni per cui ci sia bisogno di una anteprima rapida.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_environment">
+
+			<title
+>Modalità ambientale</title>
+
+			<para
+>Molto spesso vorresti avere un'anteprima dell'ambiente attuale, e in particolare gli ambienti matematici, che a volte sono difficili da scrivere. &kile; offre un modo molto veloce di farlo. Non c'è bisogno di selezionare, basta scegliere <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Anteprima rapida</guisubmenu
+><guimenuitem
+>Ambiente</guimenuitem
+></menuchoice
+> o la scorciatoia da tastiera <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>E</keycap
+>, e l'ambiente attuale sarà compilato e visualizzato.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_subdocument">
+
+			<title
+>Modalità sottodocumento</title>
+
+			<para
+>Se hai dei progetti con molti documenti, compilare tutto il progetto non è una buona idea, se hai fatto cambiamenti in un documento solo. &kile; può compilare e mostrare un'anteprima del sottodocumento attuale. Prende il preambolo del documento principale e compila solo la parte attuale quando selezioni <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Anteprima rapida</guisubmenu
+><guimenuitem
+>Sottodocumento</guimenuitem
+></menuchoice
+> o la scorciatoia da tastiera <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>,<keycap
+>D</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="build_qp_mathgroup">
+
+			<title
+>Modalità gruppo matematico</title>
+
+			<para
+>La modalità di anteprima del gruppo matematico permette di vedere il gruppo matematico che stai attualmente modificando. &kile; prende il preambolo del documento principale e compila solo il gruppo matematico in cui il cursore si trova quando scegli <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guisubmenu
+>Anteprima rapida</guisubmenu
+><guimenuitem
+>Gruppo matematico</guimenuitem
+></menuchoice
+> o la scorciatoia da tastiera <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>P</keycap
+></keycombo
+>, <keycap
+>M</keycap
+>.</para>
+
+		</sect2>
+
+		<sect2 id="qp_bottombar">
+
+			<title
+>Anteprima rapida nella barra in basso</title>
+
+			<para
+>Invece di mostrare l'anteprima in un nuovo documento, &kile; può anche essere configurato per usare la barra in basso per fare un'anteprima delle compilazioni. Puoi attivare questa funzionalità nel pannello di configurazione dell'anteprima rapida.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_graphics">
+
+		<title
+>Formati di file grafici</title>
+
+		<sect2 id="build_graphics_latex">
+
+		<title
+>&latex; e &pdflatex;</title>
+
+		<para
+>&pdflatex;, quando usato con i pacchetti <userinput
+>graphics</userinput
+> o <userinput
+>graphicx</userinput
+>, può compilare correttamente i file PNG e JPG nei &DVI; e PDF, ma non è in grado di gestire i file EPS. Di converso, il processo di compilazione &latex; in &DVI; e conversione a PS e infine PDF supporta EPS, ma non supporta PNG e JPG.</para>
+
+		<para
+>Molti utenti vogliono creare dei documenti PDF, ma vogliono anche usare l'ottimo pacchetto <application
+>Pstricks</application
+> per creare grafica &PostScript;, o vogliono usare i grafici &PostScript; prodotti da programmi matematici e scientifici come <application
+>Mathematica</application
+>, <application
+>Maple</application
+> o <application
+>MuPAD</application
+>. Questi utenti di &latex; devono prima compilare in &PostScript;, anche se vogliono creare documenti PDF, perché questi programmi producono del codice &PostScript; che non può essere gestito da &pdflatex;. Però non è così difficile, perché &kile; può aiutare.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_conversion">
+
+		<title
+>Conversione della grafica</title>
+
+		<para
+>Per superare questa impasse, quando vuoi includere sia codice &PostScript; che file PNG o JPG, hai a disposizione una serie di soluzioni:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Se hai bisogno di un file in formato PS, ma hai file grafici JPG o PNG, puoi semplicemente prima produrre un &DVI; con &pdflatex;, e poi usare <application
+>dvips</application
+> per creare il file PS. &pdflatex; è un'ottima scelta, se il sorgente non contiene nessun codice &PostScript;.</para
+></listitem>
+
+			<listitem
+><para
+>Puoi convertire i file EPS a PNG o altri formati con applicazioni come <ulink url="http://www.gimp.org/"
+><application
+>Gimp</application
+></ulink
+> o <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, e quindi usare &pdflatex;.</para
+></listitem>
+
+			<listitem
+><para
+><anchor id="build_graphics_epstopdf"
+></anchor
+>Un modo preferibile è convertire la grafica EPS in PDF con il comando <command
+>epstopdf</command
+>, presente in ogni distribuzione di &tex;, e quindi usare &pdflatex;. Produce grafica di alta qualità, e puoi anche controllarne il risultato con alcune delle seguenti opzioni: <programlisting
+>-dAutoFilterColorImages=false
+        -dAutoFilterGrayImages=false
+        -sColorImageFilter=FlateEncode
+        -sGrayImageFilter=FlateEncode
+        -dPDFSETTINGS=/prepress
+        -dUseFlateCompression=true
+</programlisting>
+			</para>
+
+			<para
+>Ancora meglio, se il sistema permette <userinput
+>shell-escape</userinput
+>, la conversione può essere fatta al volo. Tutto quello che devi fare è includere il pacchetto <application
+>epstopdf</application
+>, che fa parte delle distribuzioni &tex;, con il comando <userinput
+>\usepackage{epsdopdf}</userinput
+>. Supponendo che il codice sia <programlisting>
+        \includegraphics[width=5cm]{prova.eps}
+</programlisting
+>Quando chiami &pdflatex; con l'opzione <option
+>--shell-escape</option
+>, il file grafico <filename
+>prova.eps</filename
+> viene convertito automaticamente in <filename
+>prova.pdf</filename
+>.</para>
+
+			<para
+>Questa conversione avverrà ogni volta che esegui &pdflatex;. Se il comando grafico viene dato implicitamente con:<programlisting>
+        \includegraphics[width=5cm]{test}
+</programlisting
+><application
+>epstopdf</application
+> controllerà se c'è già un <filename
+>prova.pdf</filename
+> disponibile, in modo da poter saltare la conversione.</para
+></listitem>
+
+			<listitem
+><para
+>Puoi convertire nell'altro senso, e usare &latex; e la conversione PS-PDF. Questa non è sempre una buona idea, perché l'incapsulazione EPS di file JPG o PNG può produrre file più grandi, che a loro volta producono documenti inutilmente grandi; questo però dipende <emphasis
+>molto</emphasis
+> dall'applicazione grafica che usi, perché EPS può incapsulare altri file grafici, ma non tutte le applicazioni supportano perfettamente questa possibilità. Alcune potrebbero anche cercare di ricostruire l'immagine JPG con vettori e vari script, che risulterà in file giganteschi. La conversione di tutti i file grafici in EPS può essere fatta con <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Un altro semplice programma che fa correttamente questo processo è <ulink url="http://www.tex.uniyar.ac.ru/win32/tools/jpg2ps/"
+><application
+>jpg2ps</application
+></ulink
+>. </para
+></listitem>
+
+			<listitem
+><para
+>Puoi anche usare una conversione automatica. Tutti i file grafici sono convertiti al volo in EPS, e inseriti nel documento PS. Questa è una modalità comoda, ma devi impostare correttamente il sistema. Ciò viene discusso nella sezione sulla <link linkend="build_epsgraphics"
+>grafica EPS</link
+>.</para
+></listitem>
+
+		</itemizedlist>
+
+		</sect2>
+
+		<sect2 id="build_graphics_type">
+
+		<title
+>Usa il formato giusto per la grafica giusta</title>
+
+	 	<itemizedlist>
+			<listitem
+><para
+>EPS è una specie di linguaggio vettoriale, che descrive tutte le linee e punti di cui l'immagine è composta; non perde molto quando viene ingrandito oltre la sua dimensione predefinita, e si adatta al meglio ai diagrammi e alla grafica vettoriale prodotta nativamente in EPS, che hanno un aspetto chiaro e netto pur mantenendo una dimensione molto ridotta.</para
+></listitem>
+			<listitem
+><para
+>PNG (o lo sconsigliato &GIF;) è un formato <emphasis
+>senza perdita</emphasis
+>, con buone compressione e qualità. È molto buono per diagrammi, scansioni di disegni, o qualsiasi cosa di cui vuoi mantenere la definizione. È a volte esagerato per le foto.</para
+></listitem>
+			<listitem
+><para
+>JPG è un formato <emphasis
+>con perdita</emphasis
+>, che comprime i file meglio di PNG al prezzo di qualche perdita nei dettagli delle immagini. Questo è normalmente irrilevante per le foto, ma potrebbe causare una cattiva qualità per diagrammi e disegni, e potrebbe far sparire del tutto le linee più sottili; in questi casi usa EPS o PNG.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Ma ricorda sempre il principio di conservazione della rumenta: nessuna conversione abbellirà una cattiva immagine.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="build_epsgraphics">
+
+		<title
+>Grafica EPS</title>
+
+		<para
+>I file grafici EPS sono il modo tradizionale di inserire i file grafici nei documenti &latex;. Siccome le mailing list sono piene di domande sulla grafica EPS, discuteremo alcuni aspetti importanti e dimostreremo come &kile; li supporta.</para>
+
+		<sect2 id="build_graphics_eps">
+
+		<title
+>&latex; e la grafica EPS</title>
+
+		<para
+>Se hai deciso di usare il classico &latex; per produrre file PS o PDF, probabilmente incorrerai in alcuni problemi con la grafica. Devi usare la grafica EPS (<foreignphrase lang="en"
+>Encapsulated &PostScript;</foreignphrase
+>), senza file JPEG o PNG. Non dovrebbe essere un problema, perché ci sono molti <link linkend="build_graphics_conversion"
+>convertitori</link
+> come <command
+>convert</command
+> dell'eccellente pacchetto <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>. Però ci vuole un po' di tempo.</para>
+
+		<para
+>I file EPS vengono usati sia da &latex; che dai convertitori &DVI;-PS:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; scansiona il file EPS per trovare la linea del riquadro di delimitazione, che dice a &latex; quanto spazio riservare per la grafica.</para
+></listitem>
+
+		<listitem
+><para
+>Il convertitore &DVI;-PS legge il file EPS e inserisce la grafica nel file PS.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Ciò comporta alcune conseguenze:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>&latex; non legge mai il file EPS se i parametri del riquadro di delimitazione sono specificati nel comando di inserimento della grafica.</para
+></listitem>
+
+		<listitem
+><para
+>Siccome &latex; non può leggere file non ASCII, non può leggere le informazioni sul riquadro di delimitazione da file di grafica compressi o non EPS.</para
+></listitem>
+
+		<listitem
+><para
+>La grafica EPS non viene inclusa nel file &DVI;. Siccome i file EPS devono essere presenti nella conversione del file &DVI; in PS, i file EPS devono accompagnare i file &DVI; ovunque.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Ora puoi chiamare &latex; e un convertitore &DVI;-PS come <application
+>dvips</application
+> per creare il documento &PostScript;. Se l'obbiettivo è un documento PDF, dovresti eseguire <command
+>dvips</command
+> con l'opzione <option
+>-Ppdf</option
+>, e quindi chiamare <command
+>ps2pdf</command
+>. Troverai molti documenti che descrivono questo soluzione.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_epskile">
+
+		<title
+>L'approccio a &PostScript; di &kile;</title>
+
+		<para
+>&kile; aiuta a ottenere le informazioni sul riquadro di delimitazione. Se hai installato il pacchetto <ulink url="http://www.imagemagick.org/"
+>&imagemagick;</ulink
+>, &kile; estrarrà queste informazioni dal file EPS e le inserirà come opzioni. Ciò viene fatto automaticamente, quando selezioni il file di grafica. Ci sono due vantaggi in questa procedura:</para>
+
+		<itemizedlist>
+		<listitem
+><para
+>L'informazione viene scansionata nella finestra, e non deve essere fatta da &latex; in seguito.</para
+></listitem>
+		<listitem
+><para
+>È ancora più importante che saranno calcolate la larghezza e l'altezza dell'immagine, quando ne sarà nota la risoluzione. Queste informazioni saranno mostrate in alto nella finestra, e potranno servire da suggerimento quando vorrai riscalare la grafica.</para
+></listitem>
+		<listitem
+><para
+>&kile; può anche supportare i file EPS compressi con <application
+>zip</application
+> o <application
+>gzip</application
+>, che sono molto più piccoli dei file EPS non compressi. Però questa funzionalità può essere usata solo con una particolare configurazione di sistema, come descritto nella sezione sulla <link linkend="build_graphics_bitmap"
+>grafica bitmap</link
+>.</para
+></listitem>
+		</itemizedlist>
+	<!-- FIXME I don't understand the following sentence, tbraun
+		<para
+> The <emphasis
+>&PostScript; Way of &kile;</emphasis
+> can be turned off or on in
+		<menuchoice
+><guimenu
+>Settings</guimenu
+><guisubmenu
+>Configure Kile...</guisubmenu>
+		<guimenuitem
+>LaTeX</guimenuitem
+><guilabel
+>General</guilabel
+></menuchoice
+>.</para>
+		-->
+	</sect2>
+
+	<sect2 id="build_graphics_bitmap">
+
+		<title
+>L'approccio a &PostScript; e la grafica bitmap</title>
+
+		<para
+>Se il sistema permette <userinput
+>shell-escape</userinput
+>, &kile; supporta anche un modo semplice di includere la grafica bitmap, se hai impostato correttamente il sistema &tex;. Non è necessario convertire la grafica JPEG o PNG, si può fare automaticamente quando il file &DVI; viene convertito in PS.</para>
+
+		<para
+>&latex; ha bisogno di alcune informazioni sui suffissi dei file. Il pacchetto <userinput
+>graphicx</userinput
+> cerca un file <filename
+>graphics.cfg</filename
+>, che deve essere da qualche parte nel percorso di ricerca per i documenti &latex;. Cerca voci come:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{}%
+</programlisting>
+
+		<para
+>e sostituisci queste righe con:</para>
+
+<programlisting
+>\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
+   \DeclareGraphicsRule{.eps.Z}{eps}{.eps.bb}{}%
+   \DeclareGraphicsRule{.ps.Z}{eps}{.ps.bb}{}%
+   \DeclareGraphicsRule{.ps.gz}{eps}{.ps.bb}{}%
+   % regole cambiate o nuove
+   \DeclareGraphicsRule{.eps.zip}{eps}{.eps.bb}{`unzip -p #1}%   EPS zip
+   \DeclareGraphicsRule{.eps.gz}{eps}{.eps.bb}{`gunzip -c #1}%   EPS gzip
+   \DeclareGraphicsRule{.jpg}{eps}{}{`convert #1 eps:-}%         JPEG
+   \DeclareGraphicsRule{.gif}{eps}{.bb}{`convert #1 eps:-}%      GIF
+   \DeclareGraphicsRule{.png}{eps}{.bb}{`convert #1 eps:-}%      PNG
+   \DeclareGraphicsRule{.tif}{eps}{.bb}{`convert #1 eps:-}%      TIFF
+   \DeclareGraphicsRule{.pdf}{eps}{.bb}{`convert #1 eps:-}%      grafica PDF
+</programlisting>
+
+		<para
+>Potrai trovare questo file, per esempio in Debian, in <filename
+>/etc/texmf/latex/graphics.cfg</filename
+>. Il modo migliore di procedere è copiare questo file nel percorso &tex; locale, e poi cambiare la copia. Vedi il manuale della distribuzione di &tex; per sapere come ottenere un elenco delle cartelle di &tex;.</para>
+
+		<para
+>Con questo file di configurazione puoi inserire grafica bitmap e file EPS compressi con <application
+>zip</application
+> o <application
+>gzip</application
+> in &latex;. Il comando per la conversione è dato da <command
+>dvips</command
+>. Quando guardi al comando di conversione vedrai che non viene creato nessun file aggiuntivo. Il risultato di questo processo di conversione viene incanalato direttamente nel file PS. L'unica cosa che &latex; deve sapere è la dimensione della grafica, e quindi abbiamo bisogno del riquadro di delimitazione, che viene fornito da &kile;.</para>
+
+		<para
+>Alcuni dicono che questo modo non è sicuro, devi decidere tu in che modo lavorare. In ogni caso non hai bisogno di un riquadro di delimitazione, perché &kile; estrarrà questa informazione da tutti i tipi di grafica.</para>
+
+		</sect2>
+
+		<sect2 id="build_graphics_pdflatex">
+
+		<title
+>&pdflatex; e la grafica EPS</title>
+
+		<para
+>Come già notato, &pdflatex; non è in grado di gestire i file di grafica EPS, ma i convertitori come <link linkend="build_graphics_epstopdf"
+>epstopdf</link
+> saranno d'aiuto. Il modo migliore è includere il pacchetto <filename
+>epstopdf</filename
+>, che deve seguire il pacchetto <userinput
+>graphicx</userinput
+>.</para>
+
+<programlisting
+>\usepackage[pdftex]{graphicx}
+   \usepackage{epstopdf}
+</programlisting>
+
+		<para
+>Adesso puoi già includere la grafica EPS, se esegui <command
+>pdflatex</command
+> con l'opzione <option
+>--shell-escape</option
+>, ma possiamo ancora migliorare le cose e gestire anche i file EPS compressi con <application
+>zip</application
+> o <application
+>gzip</application
+>. Di nuovo, dobbiamo cambiare il file di configurazione grafica <filename
+>graphics.cfg</filename
+>, come sopra. Questa volta cerchiamo:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+</programlisting>
+
+		<para
+>e aggiungiamo alcune righe:</para>
+
+<programlisting
+>% pdfTeX is running in pdf mode
+   \ExecuteOptions{pdftex}%
+   \AtEndOfPackage{%
+      \g@addto@macro\Gin@extensions{.eps.gz,.eps.zip}%
+      \@namedef{Gin@rule@.eps.gz}#1{{pdf}{.pdf}{`gunzip -c #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+      \@namedef{Gin@rule@.eps.zip}#1{{pdf}{.pdf}{`unzip -p #1 | epstopdf -f 
+>\Gin@base.pdf}}%
+   }%
+</programlisting>
+
+		<para
+>Con queste righe, &pdflatex; è in grado di gestire i file EPS, e ciò dovrebbe risolvere tutte le questioni di grafica.</para>
+
+	</sect2>
+
+	</sect1>
+
+	<sect1 id="build_master">
+
+		<title
+>Documento principale</title>
+
+		<para
+>Definire il documento come principale permette di lavorare con file separati, che vuol dire avere un documento principale e documenti figli che costituiscono un'opera completa. Dopo aver definito il documento principale, tutti i comandi del menu <guimenu
+>Strumenti</guimenu
+> si applicheranno solo a questo documento, anche se starai lavorando sui documenti figli. Puoi anche chiudere il documento principale.</para>
+	</sect1>
+
+	<sect1 id="build_errorhandling">
+
+		<title
+>Gestione degli errori</title>
+
+		<para
+>Dopo aver compilato qualcosa, &kile; dà un'occhiata ai messaggi d'errore che sono stati generati. Se ci sono errori o avvertimenti, saranno riportati brevemente nella finestra <guilabel
+>Registro e messaggi</guilabel
+>. Si può dare un'occhiata ai messaggi più da vicino selezionando <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guimenuitem
+>Visualizza registro</guimenuitem
+></menuchoice
+>, o usando la scorciatoia da tastiera <keycombo
+>&Alt;<keycap
+>0</keycap
+></keycombo
+>. Il registro generato è quindi mostrato nella vista <guilabel
+>Registro e messaggi</guilabel
+>; gli errori e gli avvertimenti sono evidenziati.</para>
+
+		<screenshot>
+			<screeninfo
+>Visualizzazione del registro</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_compile_error.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Visualizzazione del registro</phrase>
+			</textobject>
+			<caption
+><para
+>Visualizzazione del registro</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Puoi facilmente saltare da un messaggio all'altro nel registro usando gli elementi del menu <menuchoice
+><guimenu
+>Costruzione</guimenu
+><guimenuitem
+>Errore / Avvertimento LaTeX Successivo / Precedente</guimenuitem
+></menuchoice
+>, o usando i pulsanti corrispondenti nella barra degli strumenti.</para>
+
+		<para
+>Per saltare alla riga del codice &latex; dove è avvenuto l'errore o l'avvertimento, fai clic sull'errore o avvertimento nella vista <guilabel
+>Registro e messaggi</guilabel
+>. &kile; ti porterà automaticamente alla riga incriminata.</para>
+
+	</sect1>
+
+	<sect1 id="build_watch">
+
+			<title
+>La modalità Sorveglia file</title>
+
+			<para
+>Quando avvii il comando <guibutton
+>Costruzione rapida</guibutton
+>, un visore di qualche tipo sarà chiamato dopo la compilazione. Se non stai usando un visore integrato, ogni volta sarà aperta una nuova finestra.</para>
+
+			<para
+>Se stai sistemando l'aspetto del documento, potresti avviare <guibutton
+>Costruzione rapida</guibutton
+> molto spesso, e avere molte finestre di visori aperte sul desktop; per evitare questa confusione, puoi attivare la modalità <guibutton
+>Sorveglia file</guibutton
+>, che impedirà a <guibutton
+>Costruzione rapida</guibutton
+> di avviare un visore.</para>
+
+			<para
+>Questa modalità è ovviamente inutile con i visori integrati, perché devi chiuderli comunque per tornare a modificare il documento e ricompilare.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="navigating">
+
+	<title
+>Navigare nel sorgente &latex;</title>
+
+	<sect1 id="navigating_struct">
+
+		<title
+>Uso della vista strutturale</title>
+
+		<para
+>La vista <guilabel
+>Struttura</guilabel
+> mostra la gerarchia del documento creato in &kile;, e permette di navigarci rapidamente, mostrandone la segmentazione. Per navigare nel documento, tutto quello che devi fare è fare clic sinistro su un qualsiasi etichetta, capitolo, sezione, sottosezione, etichetta, eccetera, e sarai portato all'inizio dell'area corrispondente.</para>
+
+		<para
+>Se includi un file separato nel sorgente &latex; usando le etichette <userinput
+>\input</userinput
+> o <userinput
+>\include</userinput
+>, questi file saranno rappresentati nella vista <guilabel
+>Struttura</guilabel
+>; fare doppio clic sui loro nomi farà mostrare a &kile; il file incluso nella finestra dell'editor.</para>
+
+		<para
+>L'albero di gerarchia ha anche un ramo a parte per le etichette di riferimento usate nel testo.</para>
+
+<!--		<screenshot>
+			<screeninfo
+>Using the Structure View</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_structview_label.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Using the Structure View</phrase>
+			</textobject>
+			<caption
+><para
+>Using the Structure View</para
+></caption>
+			</mediaobject>
+		</screenshot
+>-->
+
+		<sect2 id="navigating_contextmenu">
+
+			<title
+>Usare il menu contestuale</title>
+
+			<para
+>La maggior parte delle voci nella vista a struttura hanno molte voci nel menu contestuale, che puoi aprire con un clic destro del mouse. Guarda la vista strutturale nell'immagine successiva.</para>
+
+			<screenshot>
+				<screeninfo
+>Uso della vista strutturale</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Uso della vista strutturale</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Troverai alcune etichette, alcune voci di sezionamento, due ambienti di figure e tre immagini. Se fai clic con il &RMB; su una delle voci di sezionamento, apparirà un menu con alcuni comandi utili. Tutti i comandi come <guibutton
+>Seleziona</guibutton
+>, <guibutton
+>Elimina</guibutton
+> o <guibutton
+>Commenta</guibutton
+> funzioneranno con tutte le righe appartenenti a questa sezione.</para>
+
+			<screenshot>
+				<screeninfo
+>Menu contestuale per le voci di sezionamento</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context1.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Menu contestuale per le voci di sezionamento</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			<para
+>Fare clic su una voce di figura o tabella presenterà alcune azioni relative ai riferimenti, e fare clic con il &RMB; su una voce di grafica presenterà dei programmi per aprire la grafica.</para>
+
+			<screenshot>
+				<screeninfo
+>Menu contestuale per figure o tabelle e voci di grafica</screeninfo>
+				<mediaobject>
+				<imageobject>
+				<imagedata fileref="structureview-context2.png" format="PNG"/>
+				</imageobject>
+				<textobject>
+				<phrase
+>Menu contestuale per figure o tabelle e voci di grafica</phrase>
+				</textobject>
+				</mediaobject>
+			</screenshot>
+
+			</sect2>
+
+		<sect2 id="navigating_update">
+
+			<title
+>Aggiornare la vista strutturale</title>
+
+			<para
+>Per aggiornare la vista a struttura puoi andare a <menuchoice
+><guimenu
+>Modifica</guimenu
+><guimenuitem
+>Aggiorna struttura</guimenuitem
+></menuchoice
+>, premere <keycombo
+><keycap
+>F12</keycap
+></keycombo
+>, o puoi salvare il documento, che farà aggiornare a &kile; la sua vista strutturale.</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="navigating_bookmarks">
+
+		<title
+>Segnalibri</title>
+
+		<para
+>I segnalibri sono riferimenti a un segmento di testo o una riga all'interno dell'ambiente di &kile;. Per usare un segnalibro, seleziona una riga di testo specifica del documento alla quale vorresti tornare, quindi premi <keycombo
+>&Ctrl;<keycap
+>B</keycap
+></keycombo
+>, e &kile; ci aggiungerà un segnalibro. Alternativamente, puoi anche impostare un segnalibro evidenziando la riga alla quale vorresti tornare, e scegliere il menu chiamato <menuchoice
+><guimenu
+>Segnalibri</guimenu
+><guimenuitem
+>Imposta segnalibro</guimenuitem
+></menuchoice
+>.</para>
+
+		<para
+>Per rimuovere tutti i segnalibri, seleziona <menuchoice
+><guimenu
+>Segnalibri</guimenu
+><guimenuitem
+>Pulisci tutti i segnalibri</guimenuitem
+></menuchoice
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="projects">
+
+	<title
+>Progetti</title>
+
+	<sect1 id="projects_working">
+
+		<title
+>Lavorare con i progetti</title>
+
+		<para
+>In &kile; puoi creare e lavorare con <emphasis
+>progetti</emphasis
+>. Un progetto è un gruppo di file &latex;, grafici, &bibtex;, o di altro tipo, che contengono tutte le informazioni relative al documento completo. Un progetto tipico sarebbe un documento costituito da diversi capitoli, scritti in diversi file <literal role="extension"
+>.tex</literal
+>; tutti potrebbero essere inclusi in un progetto, per rendere più facile da gestire il documento complessivo. Le specificazioni del progetto sono conservate in un file speciale, con estensione <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<para
+>Un progetto aggiunge le seguenti funzionalità:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Non devi impostare un documento principale, &kile; lo fa automaticamente.</para
+></listitem>
+			<listitem
+><para
+>I file di progetto possono facilmente essere archiviati assieme andando a <menuchoice
+><guimenu
+>Progetto</guimenu
+><guimenuitem
+>Archivio</guimenuitem
+></menuchoice
+>.</para
+></listitem>
+			<listitem
+><para
+>La vista <guilabel
+>File e progetti</guilabel
+> mostra quali file sono inclusi nel progetto.</para
+></listitem>
+			<listitem
+><para
+>Dopo aver aperto un progetto, ogni file precedentemente aperto sarà ripristinato con la codifica e l'evidenziazione originali.</para
+></listitem>
+      <listitem
+><para
+>Il completamento del codice funziona in tutti i file del progetto.</para
+></listitem>
+      <listitem
+><para
+>Il completamento dei riferimenti funziona in tutti i file del progetto.</para
+></listitem>
+      <listitem
+><para
+>Il completamento delle citazioni funziona in tutti i file del progetto.</para
+></listitem>
+      <listitem
+><para
+>Cerca in tutti i file del progetto.</para
+></listitem>
+      <listitem
+><para
+>Specifica la generazione rapida personalizzata e il comando &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+		<para
+>Puoi trovare tutti i comandi relativi ai progetti nel menu <guilabel
+>Progetto</guilabel
+>. Da lì puoi aprire, chiudere e gestire i progetti.</para>
+
+	</sect1>
+
+	<sect1 id="projects_creating">
+
+		<title
+>Creare un progetto</title>
+
+		<para
+>Per creare un progetto, seleziona <menuchoice
+><guimenu
+>Progetto</guimenu
+><guimenuitem
+>Nuovo progetto</guimenuitem
+></menuchoice
+>.</para>
+		<screenshot>
+		  <screeninfo
+>Finestra di creazione di un progetto</screeninfo>
+		  <mediaobject>
+		    <imageobject>
+		      <imagedata fileref="project-creation.png" format="PNG"/>
+		    </imageobject>
+		    <textobject>
+		      <phrase
+>Finestra di creazione di un progetto</phrase>
+		    </textobject>
+		  </mediaobject>
+		</screenshot>
+		<para
+>Saranno chieste le seguenti informazioni per creare il progetto:</para>
+		<itemizedlist>
+		  <listitem>
+		    <para
+>Il <guilabel
+>Titolo del progetto</guilabel
+> (nell'apposito campo di testo). </para>
+		    <para
+>Il titolo del progetto verrà usato per creare il nome del file del progetto in lettere minuscole e aggiungendo l'estensione <literal role="extension"
+>.kilepr</literal
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Una cartella dove salvare il progetto (campo di testo <guilabel
+>Cartella del progetto</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Se vuoi creare un nuovo file principale del progetto, spunta l'elemento <guilabel
+>Crea un nuovo file e aggiungilo a questo progetto</guilabel
+>. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Quando riempi la casella <guilabel
+>Nome del file</guilabel
+>, devi includere un percorso relativo da dove il file progetto <literal role="extension"
+>.kilepr</literal
+> è conservato al file (vedi l'elemento <guilabel
+>Cartella del progetto</guilabel
+>). </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Il tipo di file creato: da un elenco a icone si può scegliere <guilabel
+>File vuoto</guilabel
+>, <guilabel
+>Article</guilabel
+>, <guilabel
+>Book</guilabel
+>, <guilabel
+>Letter</guilabel
+>, <guilabel
+>Report</guilabel
+>, eccetera. </para>
+		  </listitem>
+		  <listitem>
+		    <para
+>Le estensioni per i file predefiniti del progetto possono essere selezionate nel pannello <guilabel
+>Estensioni</guilabel
+>. La tua scelta verrà usata per definire quali file aprire quando selezioni <menuchoice
+><guimenu
+>Progetto</guimenu
+><guimenuitem
+>Apri tutti i file del progetto</guimenuitem
+></menuchoice
+> e negli assistenti di &kile;. Le estensioni nel campo di testo vanno separate da spazi. </para>
+		  </listitem>
+		</itemizedlist>
+	</sect1>
+
+	<sect1 id="projects_view">
+
+		<title
+>La vista File e progetti</title>
+
+		<para
+>La vista <guilabel
+>File e progetti</guilabel
+> è un pulsante della barra laterale. Da questa vista, puoi vedere la struttura del progetto, i suoi file, e il nome del file <literal role="extension"
+>.kilepr</literal
+> in cui sono salvate le informazioni del progetto. Aggiunta, rimozione o cambiamento delle opzioni del progetto si fanno attraverso la vista <guilabel
+>File e progetti</guilabel
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>La vista File e progetti</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>La vista File e progetti</phrase>
+			</textobject>
+			<caption
+><para
+>La vista File e progetti</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="projects_adding">
+
+		<title
+>Aggiunta e rimozione di file</title>
+
+		<para
+>Per aggiungere un file al progetto, apri un qualsiasi file &tex;, fai clic destro sul suo nome nella vista <guilabel
+>File e progetti</guilabel
+>, e seleziona <guilabel
+>Aggiungi al progetto</guilabel
+>. Se hai aperto più progetti, apparirà una finestra in cui puoi specificare a quale progetto aggiungerlo.</para>
+		<!-- duplicated see next para
+		<para
+>If you have multiple files to be added to a project, you can select the
+		project from the <guilabel
+>Files and Projects</guilabel
+> view and right-click then select
+		<guilabel
+>Add Files...</guilabel
+>; you will then be able to select your files in a dialog box.</para>
+		-->
+		<para
+>Puoi anche fare clic destro sul nome del progetto nella vista <guilabel
+>File e progetti</guilabel
+>, e selezionare <guilabel
+>Aggiungi file</guilabel
+> per far apparire una finestra di selezione file.</para>
+
+		<screenshot>
+			<screeninfo
+>Aggiunta di un file a un progetto</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="snap_projectview_add.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Aggiunta di un file a un progetto</phrase>
+			</textobject>
+			<caption
+><para
+>Aggiunta di un file a un progetto</para
+></caption>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Per rimuovere un file da un progetto, fai clic destro su di esso e seleziona <guilabel
+>Rimuovi dal progetto</guilabel
+>. Ciò non <emphasis
+>elimina</emphasis
+> il file (e nemmeno lo chiude), ma lo rimuove soltanto dalla lista dei file contenuta nel file con estensione <literal role="extension"
+>.kilepr</literal
+>.</para>
+
+		<sect2 id="projects_archive">
+
+			<title
+>Archiviazione del progetto</title>
+
+			<para
+>&kile; permette di fare facilmente una copia di sicurezza del progetto salvandone tutti i file in un singolo archivio (spesso conosciuto come <emphasis
+>tarball</emphasis
+>). Per archiviare il progetto, fai clic destro sul nome del progetto nella vista <guilabel
+>File e progetti</guilabel
+>, o seleziona <menuchoice
+><guimenu
+>Progetto</guimenu
+><guimenuitem
+>Archivia</guimenuitem
+></menuchoice
+>.</para>
+
+			<para
+>Come impostazione predefinita, tutti i file di un progetto sono aggiunti all'archivio. Se non vuoi includere un certo file nell'archivio, fai clic destro su di esso nella vista <guilabel
+>File e progetti</guilabel
+>, e deseleziona l'opzione <guilabel
+>Includi in archivio</guilabel
+>.</para>
+
+			<para
+>L'operazione viene attualmente effettuata eseguendo il comando <command
+>tar</command
+> dalla cartella del progetto (dove è situato il file <literal role="extension"
+>.kilepr</literal
+>).</para>
+
+		</sect2>
+
+	</sect1>
+
+	<sect1 id="projects_options">
+
+		<title
+>Opzioni dei progetti</title>
+
+		<para
+>&kile; ha alcune opzioni relative al progetto che possono essere impostate. Per cambiarle, fai clic destro sul titolo del progetto e seleziona <guilabel
+>Opzioni progetto</guilabel
+>, e avrai la possibilità di cambiare:</para>
+
+		<itemizedlist>
+			<listitem
+><para
+>Il titolo del progetto.</para
+></listitem>
+			<listitem
+><para
+>Estensioni dei file predefinite.</para
+></listitem>
+ 			<listitem
+><para
+>Il documento principale.</para
+></listitem>
+ 			<listitem
+><para
+>Il comando di costruzione rapida.</para
+></listitem>
+ 			<listitem
+><para
+>Le opzioni di &makeidx;.</para
+></listitem>
+		</itemizedlist>
+
+
+<!-- FIXME not working in kile, tbraun 11/3/2007
+		<sect2 id="projects_ext">
+
+			<title
+>Extensions for Non-Source Files</title>
+
+			<para
+>Non-source files are files such as pictures, PDF or &PostScript; files, etc. that are
+			to be included in the project, but are not source files with the extension <literal role="extension"
+>.tex</literal
+>. You have
+			the option to use your own regular expressions to match non-source files.</para>
+		</sect2>
+-->
+
+	</sect1>
+
+	<sect1 id="projects_closing">
+
+		<title
+>Chiusura di un progetto</title>
+
+		<para
+>Per chiudere un progetto, seleziona la vista <guilabel
+>File e progetti</guilabel
+> dalla barra degli strumenti verticale, fai clic destro sul titolo del progetto, e quindi seleziona <guimenuitem
+>Chiudi</guimenuitem
+>. Questo chiuderà il progetto, tutti i file associati con il progetto, e inoltre ne aggiungerà il nome in <guisubmenu
+>Apri progetto recente</guisubmenu
+> nel menu <guimenu
+>Progetto</guimenu
+>.</para>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="lang">
+
+	<title
+>Codifica dei documenti</title>
+
+	<para
+>L'editor &kile; permette di leggere, convertire e salvare il testo nella codifica di caratteri necessaria al documento. Con esso è per esempio possibile usare direttamente i caratteri accentati per l'italiano e per altre lingue come il francese nei documenti &latex;. La selezione della codifica si può fare in due modi:</para>
+
+	<itemizedlist>
+		<listitem
+><para
+>Un modo è impostare la codifica del documento usando il sottomenu <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Editor</guimenuitem
+></menuchoice
+>, dove puoi impostare la codifica dei caratteri predefinita per tutti i file.</para>
+		<screenshot>
+			<screeninfo
+>Imposta la codifica dei caratteri predefinita</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-encoding.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Imposta la codifica dei caratteri predefinita</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+		</listitem>
+		<listitem
+><para
+>Un secondo modo per impostare la codifica di un documento è scegliere la codifica desiderata con l'assistente per creare un nuovo documento.</para
+></listitem>
+	</itemizedlist>
+
+	<para
+>&latex; di per sé capisce solo ASCII, che rappresenta un insieme molto limitato di caratteri. Quindi non è possibile usare i caratteri accentati direttamente. Per poterli usare, è stata inventata una sintassi speciale: come per esempio <userinput
+>\"e</userinput
+> per <computeroutput
+>ë</computeroutput
+>. Il pacchetto <application
+>inputenc</application
+> implementa questa capacità, e si include nel preambolo con <userinput
+>\usepackage[latin1]{inputenc}</userinput
+>, dove l'argomento facoltativo specifica la codifica che vuoi usare (oggi, nella maggior parte dei casi <userinput
+>utf8</userinput
+>). Ciò dice a &latex; di tradurre tutte le <userinput
+>ë</userinput
+> che hai scritto in <userinput
+>\"e</userinput
+> prima di compilare. Riferisciti direttamente alla documentazione di <application
+>inputenc</application
+> per maggiori informazioni. In ultimo, ma non certo per importanza: assicurati che il file sia <emphasis
+>davvero</emphasis
+> salvato nella stessa codifica che hai specificato al pacchetto <application
+>inputenc</application
+>!</para>
+
+	<para
+>Questa serie di diverse codifiche di caratteri ha creato diversi problemi: per esempio, non puoi scrivere un corso di turco in francese senza perdere i caratteri speciali di una lingua. C'è accordo generale sul fatto che, prima o poi, tutti si sposteranno a <ulink url="http://www.unicode.org"
+>Unicode</ulink
+>. Ci sono molte implementazioni di Unicode, e <abbrev
+>UTF-8</abbrev
+> è la più popolare su &Linux;; &Windows;&reg; si affida invece alla più ingombrante e meno flessibile <abbrev
+>UCS-2</abbrev
+>. La maggior parte delle distribuzioni hanno già cominciato a impostare la loro codifica predefinita a <abbrev
+>UTF-8</abbrev
+>, e quindi ti potrebbe interessare molto usare l'argomento <userinput
+>utf8</userinput
+> per il pacchetto <userinput
+>inputenc</userinput
+>.</para>
+
+	<sect1 id="ucs">
+
+		<title
+>Il pacchetto &ucs;</title>
+		<para
+>Se non hai il pacchetto &ucs;, puoi procedere come segue:</para>
+		<itemizedlist>
+		<listitem
+><para
+>Recupera il pacchetto &ucs; da <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/unicode/"
+>CTAN</ulink
+>. </para
+></listitem>
+		<listitem>
+		<para
+>Per installarlo, scompatta il file scaricato e mettilo in una cartella elencata nella variabile d'ambiente $<envar
+>TEXINPUTS</envar
+>. Questa può essere impostata anche all'interno di &kile;.</para>
+		</listitem>
+		</itemizedlist>
+
+<programlisting
+>\usepackage{ucs}
+\usepackage[utf8]{inputenc}</programlisting>
+
+	</sect1>
+
+	<sect1 id="xelatex">
+
+		<title
+>XeLaTeX</title>
+
+		<para
+>Se stai usando <userinput
+>XeLaTeX</userinput
+> basta caricare il pacchetto <userinput
+>xltxtra</userinput
+>, che inoltre caricherà tutti i pacchetti necessari.</para>
+		<programlisting
+>\usepackage{xltxtra}</programlisting>
+
+	</sect1>
+
+	<sect1 id="cjk">
+
+		<title
+>Supporto &cjk;</title>
+
+		<para
+>Aggiungere il supporto per le lingue ideografiche è piuttosto complicato. Tuttavia, una volta che hai finito, funzionerà piuttosto bene. Oltre a installare dei pacchetti, c'è da fare del lavoro di configurazione aggiuntivo.</para>
+
+		<tip
+><para
+>La tua distribuzione &Linux; potrebbe già avere un pacchetto &cjk; (cinese, giapponese, coreano) pronto per te, quindi ti potresti risparmiare la fatica di installare tutto a mano. Controlla prima di andare avanti!</para
+></tip>
+
+		<para
+>C'è la possibilità di usare il pacchetto &ucs; per scrivere brevi inserti di testo &cjk;, ma quell'opzione è seriamente limitata perché non gestisce, tra l'altro, i ritorni a capo. Noi invece installeremo il pacchetto &cjk;-&latex; completo e lo faremo funzionare sia per &latex; che per &pdflatex;. Molto di questo materiale è stato ispirato alla <ulink url="http://www.ece.uci.edu/~chou/unicode-tex.html"
+>pagina Web su come configurare &pdflatex;</ulink
+> di <ulink url="http://www.ece.uci.edu/~chou/"
+>Pai H. Chou</ulink
+>.</para>
+
+		<orderedlist>
+
+		<listitem
+><para
+>Scarica il pacchetto <ulink url="http://www.ctan.org/tex-archive/help/Catalogue/entries/cjk.html"
+>&cjk;</ulink
+>. Copiane i file scompattati in una sottocartella appropriata di $<envar
+>TEXMF</envar
+>, come hai fatto prima per il pacchetto &ucs; (vedi <xref linkend="ucs" role="select: title pageabbrv"/>). I file saranno scompattati in una cartella <filename
+>CJK/X_Y.Z</filename
+>; non è fondamentale estrarli, anche se sarà poi più facile mantenerli.</para
+></listitem>
+
+		<listitem
+><para
+>Adesso devi scaricare un tipo di carattere che supporti tutti i caratteri &cjk; di cui hai bisogno. Puoi scegliere qualsiasi file <literal role="extension"
+>*.ttf</literal
+> che li contenga, ma in questa guida useremo <ulink url="ftp://ftp.wu-wien.ac.at/pub/www/Netscape/communicator/extras/fonts/windows/Cyberbit.ZIP"
+>Cyberbit</ulink
+>. Scompatta il file e rinomina <filename
+>Cyberbit.ttf</filename
+> in <filename
+>cyberbit.ttf</filename
+>, perché le maiuscole potrebbero confondere il sistema.</para>
+		<para
+>Posiziona <filename
+>cyberbit.ttf</filename
+> in una cartella insieme a <ulink url="http://delloye.free.fr/Unicode.sfd"
+><filename
+>Unicode.sfd</filename
+></ulink
+>, e genera i file <literal role="extension"
+>*.tfm</literal
+> e <literal role="extension"
+>*.enc</literal
+> con il comando <userinput
+><command
+>$ ttf2tfm cyberbit.ttf -w cyberbit@Unicode@</command
+></userinput
+>. Per qualche motivo, a volte questo non produce le centinaia di file che dovrebbe. Se fosse il tuo caso, puoi scaricare sia i file <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-tfm.tgz"
+><literal role="extension"
+>*.tfm</literal
+></ulink
+> che <ulink url="http://www.ece.uci.edu/~chou/unicode/cyberbit-enc.tgz"
+><literal role="extension"
+>*.enc</literal
+></ulink
+>.</para>
+		<para
+>Posiziona i file <literal role="extension"
+>*.tfm</literal
+> in una cartella appropriata, diciamo <filename
+>$<envar
+>TEXMF</envar
+>/fonts/tfm/bitstream/cyberbit/</filename
+>; i file <literal role="extension"
+>*.enc</literal
+> possono essere installati in <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/enc/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Adesso abbiamo bisogno di un file di mappatura per connettere i file <literal role="extension"
+>*.enc</literal
+> al tipo di carattere. Scarica <ulink url="http://delloye.free.fr/cyberbit.map"
+><filename
+>cyberbit.map</filename
+></ulink
+> e installalo in <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Scarica un altro file, <ulink url="http://delloye.free.fr/c70cyberbit.fd"
+><filename
+>c70cyberbit.fd</filename
+></ulink
+>, e posizionalo in una cartella appropriata. Puoi scegliere, per esempio, <filename
+>$<envar
+>TEXMF</envar
+>/tex/misc/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>L'ultimo file che dobbiamo generare è un tipo di carattere &PostScript; Type 1, necessario per leggere i file &DVI; generati con &latex;. Esegui il comando <userinput
+><command
+>$ ttf2pfb cyberbit.ttf -o cyberbit.pfb</command
+></userinput
+>, e copia il file risultante <filename
+>cyberbit.pfb</filename
+> in una cartella come <filename
+>$<envar
+>TEXMF</envar
+>/fonts/type1/cyberbit/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Ora mettiamo <filename
+>cyberbit.ttf</filename
+> tra i tipi di carattere dove &latex; lo può trovare. Puoi posizionarlo in una cartella di nome <filename
+>$<envar
+>TEXMF</envar
+>/fonts/truetype/</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Controlla il file di configurazione che trovi a <filename
+>$<envar
+>TEXMF</envar
+>/web2c/texmf.cnf</filename
+>, e assicurati che la riga contenente <envar
+>TTFONTS</envar
+> non sia commentata e punti alla cartella dove hai salvato <filename
+>cyberbit.ttf</filename
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Per fare sì che &pdflatex; usi i tuoi caratteri &cjk;, è necessario aggiungere una riga nel file di configurazione <filename
+>$<envar
+>TEXMF</envar
+>/pdftex/config/pdftex.cfg</filename
+>. Aggiungi <userinput
+>map +cyberbit.map</userinput
+> nel file per completare la configurazione di &pdflatex;.</para
+></listitem>
+
+		<listitem
+><para
+>Per configurare &latex; in modo da poter produrre file &DVI; con caratteri &cjk;, devi aggiungere una riga nel file <filename
+>ttfonts.map</filename
+>. Il file potrebbe essere in una cartella di nome <filename
+>$<envar
+>TEXMF</envar
+>/ttf2pk/</filename
+>, ma probabilmente dovrai cercarlo. Aggiungici la riga <userinput
+>cyberbit@Unicode@ cyberbit.ttf</userinput
+>.</para
+></listitem>
+
+		<listitem
+><para
+>Adesso, devi solo eseguire <userinput
+><command
+>texhash</command
+></userinput
+> e il sistema dovrebbe essere pronto.</para
+></listitem>
+
+		</orderedlist>
+
+		<para
+>Per controllare se la configurazione è corretta, puoi provare a compilare <ulink url="http://www.math.nus.edu.sg/aslaksen/cs/sample-utf8.tex"
+>questo file di testo</ulink
+>.</para>
+
+		<sect2>
+			<title
+>Risoluzione dei problemi con &cjk;</title>
+
+			<para
+>Ci sono molte cose che possono andare storte quando si aggiunge il supporto &cjk; manualmente. Se qualcosa sembra non funzionare, l'elenco seguente ti potrebbe aiutare.</para>
+
+			<itemizedlist>
+
+			<listitem
+><para
+>Ovviamente, siccome usi &latex; come utente e non come root, devi <emphasis
+>permettere</emphasis
+> agli utenti normali di accedere ai nuovi file. Assicurati che tutte le cartelle e i file siano accessibili usando il comando <command
+>chmod</command
+>.</para
+></listitem>
+
+			<listitem
+><para
+>Se &latex; scrive un &DVI; senza problemi, ma non può visualizzarlo, è quasi sicuramente a causa di problemi nella generazione automatica dei caratteri <literal role="extension"
+>*.pk</literal
+>. Dovrebbero essere generati al volo quando si visualizza un file &DVI;, ma ciò potrebbe non riuscire per vari motivi: per prima cosa ricontrolla accuratamente di aver inserito la nuova riga in <filename
+>ttfonts.map</filename
+>. Tuttavia, potrebbe capitare che il comando <command
+>ttf2pk</command
+>, che è normalmente chiamato dal visore &DVI;, sia stato compilato <emphasis
+>senza</emphasis
+> supporto per le librerie <application
+>kpathsea</application
+>. Se è questo il caso, <userinput
+><command
+>$ ttf2pk --version</command
+></userinput
+> non nominerà <application
+>kpathsea</application
+>. Siccome il supporto di queste librerie è necessario, potresti dover trovare un nuovo pacchetto, o ricompilare da te <application
+>FreeType 1</application
+>.</para
+></listitem>
+
+			</itemizedlist>
+
+		</sect2>
+
+
+		<sect2>
+
+			<title
+>Come scrivo &cjk; in Unicode?</title>
+
+			<para
+>Ci sono una serie di diversi motori di inserimento, e la scelta può dipendere anche dai gusti personali. L'autore usa <ulink url="http://www.scim-im.org/projects/skim"
+><application
+>Skim</application
+></ulink
+>, un trasferimento su &kde; del motore <ulink url="http://www.scim-im.org"
+><application
+>Scim</application
+></ulink
+>. Riferisciti alla documentazione della tua distribuzione per sapere come installare questi programmi. Anche la configurazione di questi programmi può essere difficile, nel caso di <application
+>Skim</application
+> dovrai definire una variabile d'ambiente <userinput
+><envar
+>XMODIFIERS</envar
+>="@im=SCIM"</userinput
+> <emphasis
+>prima</emphasis
+> di avviare <application
+>X</application
+>.</para>
+
+		</sect2>
+
+	</sect1>
+
+</chapter>
+
+&include-section-scripting;
+
+<chapter id="help">
+
+	<title
+>Aiuto</title>
+
+	<sect1 id="help_documents">
+
+		<title
+>Documenti di aiuto</title>
+
+		<para
+>&latex; è un sistema piuttosto sofisticato, dove le funzionalità di base possono essere espanse da una moltitudine di pacchetti aggiuntivi. &kile; fornisce molti modi diversi per aiutare l'utente.</para>
+
+		<para
+>Il sotto-menu <menuchoice
+><guimenu
+>Aiuto</guimenu
+> <guisubmenu
+>Documentazione LaTeX</guisubmenu
+></menuchoice
+> include i collegamenti alla documentazione per tutti i pacchetti inclusi e un riferimento aggiuntivo per &latex;. </para>
+
+		<variablelist>
+
+		<varlistentry>
+		<term
+><guimenu
+>Navigatore della documentazione</guimenu
+></term>
+		<listitem
+><para
+>Un utile strumento per sfogliare tutti gli argomenti di &latex;. Installa i pacchetti della guida di &latex; della tua distribuzione se è necessario il compendio completo della documentazione.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Un riferimento non ufficiale per &tex; e compagnia. Non è solo una descrizione di tutti i programmi, ma sono inclusi anche alcuni pacchetti importanti. Include anche un manuale di riferimento completo dei comandi &latex;, ideale per cercare un particolare comando di formattazione quando si scrive un documento. Essendo un documento molto grande, in &kile; viene separato da tre segnalibri.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Comandi di LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Un altro indice alfabetico dei comandi &latex; più comuni.</para
+></listitem>
+		</varlistentry>
+
+		<varlistentry>
+		<term
+><guimenu
+>Ambienti LaTeX</guimenu
+></term>
+		<listitem
+><para
+>Un indice alfabetico degli ambienti &latex; più comuni.</para
+></listitem>
+		</varlistentry>
+
+		</variablelist>
+
+	</sect1>
+
+	<sect1 id="help_contextsentitive">
+
+		<title
+>Aiuto contestuale</title>
+
+		<para
+>&kile; supporta anche un aiuto contestuale, richiamato con <keycombo action="simul"
+>&Ctrl;&Alt;<keycap
+>H</keycap
+></keycombo
+>,<keycap
+>K</keycap
+>. In <menuchoice
+><guimenu
+>impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Aiuto</guilabel
+></menuchoice
+> puoi scegliere se vuoi usare il riferimento &latex; di &kile; o il sistema di aiuto di &tetex; o &texlive;, che è l'impostazione predefinita.</para>
+
+		<screenshot>
+			<screeninfo
+>Punti</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="config-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punti</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+	<sect1 id="help_search">
+
+		<title
+>Ricerca delle parole chiave</title>
+
+		<para
+>Non è sempre facile trovare il documento giusto, perché &tetex; e &texlive; includono una quantità enorme di documenti di supporto. Per facilitarne il recupero, &tetex; e &texlive; includono un programmino chiamato <application
+>texdoctk</application
+>, che contiene una banca dati di tutti i documenti di supporto, per il quale &kile; fornisce un'interfaccia.</para>
+
+		<screenshot>
+			<screeninfo
+>Punti</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser1.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punti</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Tutti i documenti sono raggruppati in categorie. Inoltre si possono cercare i nomi dei pacchetti o delle parole chiave. Quindi, &kile; mostrerà solo i documenti di supporto corrispondenti alla stringa di ricerca.</para>
+
+		<screenshot>
+			<screeninfo
+>Punti</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-docbrowser2.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Punti</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Un clic doppio del mouse o del tasto <keycap
+>Spazio</keycap
+> avvierà un visore per il documento selezionato. Questo può essere uno qualsiasi, non solo un documento &DVI;, PS, PDF o &HTML;. &kile; terrà conto delle impostazioni di &kde; per avviare un visore appropriato.</para>
+
+
+	</sect1>
+
+	<sect1 id="help_userdefined">
+
+		<title
+>Aiuto definito dall'utente</title>
+
+		<para
+>Oltre alla documentazione statica di &tetex; e &texlive;, &kile; supporta anche un'altra modalità più flessibile per i documenti di supporto. Nel menu <guimenu
+>Aiuto</guimenu
+>, &kile; ha un sottomenu speciale <guimenu
+>Aiuto dell'utente</guimenu
+>, dove l'utente può aggiungere dei documenti a sua scelta. Questi possono essere i documenti più importanti di &tetex; o &texlive;, o anche documenti scritti da sé. È anche possibile inserire degli &URL;.</para>
+
+		<para
+>Vai a <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Aiuto</guilabel
+></menuchoice
+> e scegli il pulsante <guibutton
+>Configura</guibutton
+> per configurare questo menu <guimenu
+>Aiuto dell'utente</guimenu
+>. Puoi aggiungere, rimuovere o spostare le voci, e inserire dei separatori per adattare la struttura del menu.</para>
+
+		<screenshot>
+			<screeninfo
+>Finestra di configurazione delle voci di aiuto definite dall'utente</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Finestra di configurazione delle voci di aiuto definite dall'utente</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Premere il pulsante <guibutton
+>Aggiungi</guibutton
+> aprirà un'altra finestra, dove puoi modificare il nome della voce del menu e scegliere il file corrispondente o &URL;. Il secondo pulsante a destra del campo di testo avvia &konqueror;, che può essere usato per determinare l'&URL; giusto.</para>
+
+		<screenshot>
+			<screeninfo
+>Finestra di aggiunta di una nuova voce d'aiuto</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="dialog-addhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Finestra di aggiunta di una nuova voce d'aiuto</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+		<para
+>Dopo aver concluso la configurazione, tutte le voci appariranno nel menu <guimenu
+>Aiuto</guimenu
+> di &kile; come una voce speciale, <guimenu
+>Aiuto dell'utente</guimenu
+>.</para>
+
+		<screenshot>
+			<screeninfo
+>Menu dell'aiuto dell'utente</screeninfo>
+			<mediaobject>
+			<imageobject>
+			<imagedata fileref="menu-userhelp.png" format="PNG"/>
+			</imageobject>
+			<textobject>
+			<phrase
+>Menu dell'aiuto dell'utente</phrase>
+			</textobject>
+			</mediaobject>
+		</screenshot>
+
+	</sect1>
+
+</chapter>
+
+<chapter id="credits">
+
+	<title
+>Riconoscimenti e licenza</title>
+
+	<para
+>&kile; è un editor di codice sorgente &latex; e &tex; open source e facile da usare. Funziona sui sistemi con ambiente desktop &kde; installato. &kde; è disponibile per diverse architetture, incluso &Linux; e altri sistemi simili a Unix.</para>
+
+	<para
+>Molti ringraziamenti sono dovuti a chi lavora per continuare il progetto &kile; e a chi sacrifica molte ore del suo tempo per sviluppare gli strumenti che possiamo usare tutti sotto la licenza &GNU;. Le informazioni aggiornate sui partecipanti si trovano nella finestra <guimenuitem
+>Informazioni su &kile;</guimenuitem
+> nel menu <guimenu
+>Aiuto</guimenu
+>. </para>
+
+	<para
+>Molte grazie a tutti i partecipanti!</para>
+
+<para
+>Copyright 2003-2009 della traduzione italiana di Federico Zenith, <email
+>federico.zenith@member.fsf.org</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+
+&documentation.index;
+
+</book>
+
+<!--
+Local Variables:
+mode: xml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+
+vim:tabstop=2:shiftwidth=2:expandtab
+-->

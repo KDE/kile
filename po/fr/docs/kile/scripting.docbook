@@ -1,0 +1,4258 @@
+<chapter id="id_scripting">
+<title
+>Écrire des scripts</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>Écrire des scripts dans &kile;</title>
+
+<para
+>Le module d'écriture de script de &kile; permet l'exécution de code <ulink url="http://en.wikipedia.org/wiki/ECMAScript"
+>ECMAScript</ulink
+>, largement connu sous le nom de &javascript;. Vous trouverez beaucoup de tutoriels, fournissant des informations sur les objets (variables), fonctions et propriétés gérés par &javascript;.</para>
+
+<para
+>La prise en charge des scripts peut être activée dans la boîte de configuration de &kile; : <menuchoice
+><guimenu
+>Configuration</guimenu
+><guisubmenu
+>Configurer Kile…</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Scripts</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>Activer ou désactiver la prise en charge des scripts</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Activer ou désactiver la prise en charge des scripts</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Si la prise en charge des scripts est activée, un panneau supplémentaire dédié aux scripts apparaît dans le panneau latéral, où les scripts peuvent être gérés :  <screenshot>
+	<screeninfo
+>Panneau dédié aux scripts dans le panneau latéral</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Panneau dédié aux scripts dans le panneau latéral</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Ce composant graphique contient six icônes proposant différentes fonctions : <itemizedlist>
+<listitem
+><para
+>Exécuter le script sélectionné.</para
+></listitem>
+<listitem
+><para
+>Créer un nouveau script.</para
+></listitem>
+<listitem
+><para
+>Ouvrir le script sélectionné dans l'éditeur.</para
+></listitem>
+<listitem
+><para
+>Configurer une séquence de touches (raccourci) pour le script sélectionné.</para
+></listitem>
+<listitem
+><para
+>Supprimer une séquence de touches affectée (raccourci).</para
+></listitem>
+<listitem
+><para
+>Rafraîchir la liste des scripts disponibles qui ont été trouvés dans <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>Exécution d'un script</title>
+
+<para
+>Vous pouvez exécuter un script de trois façons différentes : </para>
+
+<procedure>
+<step
+><para
+>Sélectionner le script désiré et cliquer sur le bouton <guilabel
+>Exécuter</guilabel
+> sur le côté gauche du composant graphique de gestion de scripts.</para>
+<screenshot>
+	<screeninfo
+>Scripts : bouton « Exécuter » </screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripts : bouton « Exécuter » </phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Utiliser un raccourci clavier.</para>
+<screenshot>
+	<screeninfo
+>Scripts : raccourci clavier</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripts : raccourci clavier</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Vous pouvez assigner un raccourci clavier à un script en utilisant le bouton <guilabel
+>Configurer</guilabel
+> dans le panel de gestion des scripts.</para>
+<screenshot>
+	<screeninfo
+>Scripts : boîte de dialogue pour la configuration de séquences</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripts : boîte de dialogue pour la configuration de séquences</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Utilisez un éditeur de séquences clavier. Le script sera exécuté, si vous saisissez la séquence qui lui a été assignée dans l'éditeur.</para>
+<screenshot>
+	<screeninfo
+>Scripts : éditeur de séquence de caractère</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripts : éditeur de séquence de caractère</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Cette méthode peut être étendue à un type plutôt compliqué de complètement de code. Supposons que vous ayez à écrire un script qui insère simplement la commande &latex; <userinput
+>\textbf{}</userinput
+> dans le document actuel.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>Si vous saisissez maintenant la séquence associée de caractère <userinput
+>bfx</userinput
+> dans votre document, cette séquence sera supprimée et le script sera exécuté. Il insérera <userinput
+>\textbf{}</userinput
+> et le curseur sera placé automatiquement entre les accolades. </para>
+<screenshot>
+	<screeninfo
+>Scripts : saisie d'une séquence de caractère pour l'éditeur</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripts : saisie d'une séquence de caractère pour l'éditeur</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Quelle méthode confortable et puissante de complètement de code.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>Référence de l'API</title>
+
+<para
+>L'API de scripts présenté ici est disponible dans tous les scripts. Avant le chargement du contenu d'un script, &kile; ajoute d'abord plusieurs prototypes et fonctions dans le contexte du script. Cet API pratique, fournit des prototypes comme les curseurs de texte et les champs de texte. Il est disponible dans le dossier <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>Les scripts de &kile; diffèrent légèrement des scripts de <ulink url="http://kate-editor.org"
+>&kate;</ulink
+>, qui utilisent un autre modèle de conception, car ils sont conçus pour être aussi lancés en ligne de commande. Mais toutes les fonctions de l'API des scripts de &kate; sont aussi disponibles dans l'API des scripts &kile;. Par conséquent, le portage d'un code &javascript; de &kate; à &kile; devrait être extrêmement simple. Mais comme &kile; est un éditeur &latex; riche en fonctionnalités, ses scripts offrent bien plus de possibilités que ceux de &kate;.</para>
+
+<para
+><emphasis
+>Remarque : </emphasis
+>La description des appels API, qui sont aussi disponibles pour les scripts de &kate; est déjà fournie dans la documentation de &kate;.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>Fonctions générales</title>
+
+<para
+>Cette section liste les fonctions générales.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>Chaîne <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Imprime <parameter
+>texte</parameter
+> sur <literal
+>stdout</literal
+> dans la console. Le texte imprimé est coloré pour le distinguer des autres sorties de débogage.  </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>Le prototype « Cursor »</title>
+
+<para
+>Comme &kile; est un éditeur de texte, toute l'API de scripts est fondée sur les curseurs et les champs aussi souvent que possible. Un « curseur » est un simple couple <literal
+>(ligne, colonne)</literal
+> représentant la position d'un texte dans le document.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur : renvoie un curseur à la position <literal
+>(0 , 0)</literal
+>. </para
+><para
+>Exemple : <function
+>var curseur = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur : retourne un curseur à la position (ligne, colonne). </para
+><para
+>Exemple : <function
+>var curseur = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur de copie : renvoie une copie du curseur <parameter
+>autre</parameter
+>. </para
+><para
+>Exemple : <function
+>var copie = new Cursor(autre) ; </function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie un clone du curseur. </para
+><para
+>Exemple : <function
+>var clone = curseur.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Vérifie la validité du curseur. Le curseur est non valable si la ligne et / ou la colonne valent <literal
+>-1</literal
+>. </para
+><para
+>Exemple : <function
+>var validité = curseur.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie une nouvelle position de curseur non valable à la position <literal
+>(-1, -1)</literal
+>. </para
+><para
+>Exemple : <function
+>var curseur-non-valable = curseur.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Compare ce curseur avec le curseur <parameter
+>autre</parameter
+>. Renvoie <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+> si ce curseur est positionné avant le curseur <parameter
+>autre</parameter
+>, </para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+> si les deux curseurs sont à la même position et</para
+></listitem>
+<listitem
+><para
+><literal
+>+1</literal
+> si le curseur est positionné après le curseur <parameter
+>autre</parameter
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si le curseur appelant et le curseur <parameter
+>autre</parameter
+> sont égaux, autrement renvoie <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le curseur comme une chaîne de caractères sous la forme <literal
+>Cursor(ligne, colonne)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>Le prototype « Range »</title>
+
+<para
+>Comme &kile; est un éditeur de texte, l'ensemble des API de scripts est fondée sur des curseurs et des zones lorsque cela est possible. Comme Cursor est un simple couple <literal
+>(ligne, colonne)</literal
+> représentant une position d'un texte dans un document, un « Range » encadre un texte entre une position de départ d'un curseur à une position de fin d'un curseur.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur : un appel à <literal
+>new Range()</literal
+> renvoie un intervalle (Range) en <literal
+>(0,0) - (0,0)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>début</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>fin</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur : un appel à <literal
+>new Range(<replaceable
+>début</replaceable
+>, <replaceable
+>fin</replaceable
+>)</literal
+>, renvoie la plage à partir du curseur <parameter
+>début</parameter
+> au curseur <parameter
+>fin</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>début-Ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>début-Colonne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fin-Ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fin-Colonne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur : un appel à <literal
+>new Range(<replaceable
+>début-Ligne</replaceable
+>,<replaceable
+>début-Ligne</replaceable
+>,<replaceable
+>début-Colonne</replaceable
+>, <replaceable
+>fin-Colonne</replaceable
+>)</literal
+> renvoie le Range à partir de (<literal
+>début-Ligne</literal
+>, <literal
+>début-Colonne</literal
+>) à (<literal
+>fin-Ligne</literal
+>, <literal
+>fin-Colonne</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructeur de copie : renvoie une copie de l'intervalle <literal
+>autre</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie un clone de l'intervalle. </para
+><para
+>Exemple : <function
+>var clone = intervalle.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si les deux curseurs « début » et « fin » sont valables, sinon <literal
+>faux</literal
+>. </para
+><para
+>Exemple : <function
+>var valid = intervalle.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le Range de (-1, -1) à (-1, -1). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si cette plage contient la position du curseur, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si la plage contient Range <parameter
+>autre</parameter
+>, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>entier <replaceable
+>colonne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si <parameter
+>colonne</parameter
+> est à la moitié de l'intervalle ouvert <literal
+>[début.column, fin.column]</literal
+>, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int<replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si <parameter
+>ligne</parameter
+> est à la moitié de l'intervalle ouvert <literal
+>[début.line, fin.line]</literal
+>, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si cette plage et la plage <parameter
+>autre</parameter
+> partagent une région commune, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si <parameter
+>ligne</parameter
+> est dans l'intervalle<literal
+>[début.line, fin.line]</literal
+>, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si <parameter
+>colonne</parameter
+> est dans l'intervalle <literal
+>[début.column, fin.column]</literal
+>, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>autre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si cette plage et la plage <parameter
+>autre</parameter
+> sont égales, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage comme une chaîne de caractères de la forme<literal
+>Range(Cursor(ligne, colonne) - Cursor(ligne, colonne))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>L'API d'affichage</title>
+
+<para
+>À chaque fois qu'un script est exécuté, il y a un objet global (variable) <userinput
+>view</userinput
+> représentant la vue de l'actuel éditeur actif. Toutes les fonction de <literal
+>view</literal
+> fonctionnent avec les positions d'un curseur ou du texte sélectionné. La liste de toutes les fonctions disponibles de <userinput
+>view</userinput
+> est donnée ci-dessous. </para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>Réalise l'équivalent à un appui sur la touche « Retour arrière ». </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Retourne la position du curseur courant dans la vue. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Définit la position du curseur courant en position <parameter
+>ligne</parameter
+>, <parameter
+>colonne</parameter
+> ou à la position donnée par <parameter
+>curseur</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>Déplace le curseur d'une position en arrière du texte. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>Déplace le curseur d'une position vers l'avant dans le texte. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>Déplace le curseur d'une ligne vers le haut dans le document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>Déplace le curseur d'une ligne vers le bas dans le document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la ligne où se trouve actuellement le curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la colonne de la position du curseur courant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Définit la ligne du curseur à la valeur <parameter
+>ligne</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Définit la colonne du curseur à la valeur <parameter
+>colonne</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Lit la position courante du curseur <emphasis
+>virtuel</emphasis
+>. <emphasis
+>Virtuel</emphasis
+> signifie que le caractère de tabulation (TAB) compte pour <emphasis
+>plusieurs</emphasis
+> caractères, selon la configuration choisie par l'utilisateur (par exemple une tabulation (TAB) vaut 8 espaces). La position du curseur virtuel permet l'accès aux valeurs visibles par l'utilisateur de la position du curseur courant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+>, si la vue possède du texte sélectionné, auquel cas <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte sélectionné. Si aucun texte n'est sélectionné, la chaîne de caractères vide est renvoyée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage de texte sélectionné. La plage renvoyée n'est pas valable si aucun texte n'est sélectionné. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>intervalle</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Définit le texte sélectionné comme valant <parameter
+>intervalle</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne la totalité du texte du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Efface la sélection sans supprimer le texte. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Supprime le texte sélectionné. Si la vue ne posséde aucun texte sélectionné, rien n'est fait. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne le texte dans la ligne courante. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne le texte à la ligne donnée par <parameter
+>ligne</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>partir-de</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>jusqu-a</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne tout le texte de la ligne <parameter
+>partir-de</parameter
+> jusqu'à la ligne <parameter
+>jusqu-a</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne le mot courant. Si aucun mot n'a été trouvé à la position du curseur courant, rien n'est fait.  </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne la commande &latex; courante. Si aucune commande n'a été trouvée à la position du curseur courant, rien n'est fait. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne la totalité du texte de l'environnement &latex; courant. Si <parameter
+>dedans</parameter
+> est à <literal
+>faux</literal
+>, le texte de l'environnement, y compris les balises &latex; d'encadrement, <userinput
+>\begin{…}… \end{…}</userinput
+> sera sélectionné ; sinon seule le texte sans ces balises sera sélectionné. Si aucun paramètre n'est donné, <parameter
+>dedans</parameter
+> est positionné à <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>dedans = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionnez le texte du groupe &latex; courant. Si <parameter
+>dedans</parameter
+> est <literal
+>vrai</literal
+>, seul le groupe texte sans les accolades qui autour sera sélectionné. Si aucun paramètre n'est renseigné, <parameter
+>inside</parameter
+> est à <literal
+>vrai</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionne le texte de l'actuel groupe mathématique. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>Sélectionnez la totalité du texte du paragraphe &latex; courant. Si <parameter
+>Lignes-entières</parameter
+> est <literal
+>vrai</literal
+>, seules les première et dernière lignes du paragraphe seront prises en compte comme sélection (y compris le caractère de fin de ligne). Dans le cas contraire, la sélection ne contiendra que les caractères différents d'une espace. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>La documentation de l'API</title>
+
+<para
+>Lorsqu'un script est en exécution, il y a un objet global (variable) <userinput
+>document</userinput
+> représentant le document actif courant. La liste de toutes fonctions disponibles de <userinput
+>document</userinput
+> est fournie ci-dessous.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insère le <parameter
+>texte</parameter
+> à la position courante du curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+void document.insertText(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insère le <parameter
+>texte</parameter
+> à la position donnée du curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>de-La-Ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>de-La-Colonne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>a-La-Ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>a-La-Colonne</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>a-partir-de</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>jusqu-a</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>plage</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Supprime le texte contenu dans la plage spécifiée. Renvoie <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+>, si le document est en lecture seule. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>plage</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Remplace le texte de la plage donnée avec le texte spécifié. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le nombre total de lignes du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>Retourne le nombre de caractères dans le document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage qui encapsule la totalité du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la position courante du curseur de fin de document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la totalité du contenu du document dans une seule chaîne de caractères. Les nouvelles lignes sont indiqué par le caractère de nouvelle ligne <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>de-Ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>de-Colonne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>a-Ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>a-Colonne</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>a-partir-de</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>jusqu-a</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>plage</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte contenu dans la plage donnée. Il est recommandé d'utiliser la version utilisant un curseur et une plage pour avoir une meilleure lisibilité du code source. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Définit le texte pour la totalité du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>Supprime la totalité du texte dans le document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte de la ligne courante comme une chaîne de caractères. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte de la ligne donnée comme une chaîne de caractères. La chaîne de caractères vide est renvoyée si la ligne demandée est en dehors de la plage. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la longueur de la ligne courante. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la longueur de <parameter
+>ligne</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>chaîne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insère « texte » dans la ligne courante. Retourne <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+>, si le document est en lecture seul ou sila ligne n'est pas dans la plage du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>chaîne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insère « texte » dans la ligne spécifiée. Retourne <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+>, si le document est en lecture seule ou la ligne n'est pas dans la plage du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>Supprime la ligne courante. Renvoie <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+>, si le document est en lecture seule. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Supprime la ligne spécifiée. Retourne <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+>, si le document est en lecture seule ou la ligne n'est pas dans la plage du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Remplace le texte de la ligne courante avec le texte spécifié. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Remplace le texte de la ligne donnée avec le texte spécifié. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>Tronque la ligne courante à la colonne spécifiée ou à la position du curseur. Renvoie <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+>, si la ligne donnée n'appartient pas à la plage du document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor<replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Tronque la ligne spécifiée à la colonne spécifiée ou à la position du curseur. Renvoie <literal
+>vrai</literal
+> en cas de succès ou <literal
+>faux</literal
+> si la ligne spécifiée ne fait pas partie du document </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le mot à la position du curseur courant. Si aucun mot n'est trouvé à la position du curseur, la chaîne de caractères vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le mot à la position spécifiée du curseur. Si aucun mot n'est trouvé à cette position, la chaîne de caractère vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage de mot à la position donnée du curseur. Si aucun mot n'est trouvé, <literal
+>Range.invalid()</literal
+> est retourné, qui peut être testé avec <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la commande &latex; à la position courante du curseur. Si aucune commande n'est trouvée à la position du curseur, la chaîne vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la commande &latex; à la position donnée du curseur. Si aucune commande n'est trouvée à cette position du curseur, la chaîne vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage de la commande &latex; à la position spécifiée du curseur. Si aucune commande &latex; n'est trouvée, <literal
+>Range.invalid()</literal
+> est retourné, qui peut être testé avec <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le caractère à la position donnée du curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le premier caractère différent d'un espace blanc de la <parameter
+>ligne</parameter
+> donnée. Le premier caractère est à la colonne 0. Si la ligne est vide ou ne contient que des espaces blancs, la chaîne de caractère vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le dernier caractère différent d'un espace blanc de la <parameter
+>ligne</parameter
+> donnée. Si la ligne est vide ou ne contient que des espaces blancs, la chaîne de caractère vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+>, si le caractère à la position donnée du curseur est un espace blanc, sinon retourne <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Insert une <emphasis
+>puce</emphasis
+> &kile;. Se rappeler que vous pouvez facilement sauter à la puce suivante ou précédente. Ceci devrait aussi mettre en valeur cette puce et cet effet sera automatiquement supprimé dès la saisie de votre premier caractère. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Passer à la prochaine puce dans le texte s'il y en a une. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Passer à la puce précédente dans le texte s'il y en a eu une. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si un environnement &latex; englobant est trouvé sinon renvoie <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la totalité du texte dans l'environnement englobant &latex;. Si <parameter
+>inside</parameter
+> vaut <literal
+>faux</literal
+>, le texte de l'environnement, y compris les balises &latex; englobantes <userinput
+>\begin{...}...\end{...}</userinput
+> sera renvoyé, dans l'autre cas, les balises ne seront pas incluses. Si aucun paramètre n'est donné, <parameter
+>inside</parameter
+> est mis à <literal
+>faux</literal
+>. Si aucun environnement n'est trouvé, la chaîne vide est retournée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>dedans = faux</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retourne la plage de l'environnement &latex; englobant. Si <parameter
+>dedans</parameter
+> est <literal
+>faux</literal
+>, la plage incluant les balises &latex; englobantes, <userinput
+>\begin{…}…\end{…}</userinput
+> sera retournée, sinon ce qui sera retourné sera sans ces tags. Si aucun paramètre n'est fourni, <parameter
+>dedans</parameter
+> est mis à <literal
+>faux</literal
+>. Si aucun environnement n'est trouvé, <literal
+>Range.invalid()</literal
+> est retourné, pouvant être testé avec <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le nom de l'environnement &latex; englobant ou une chaîne vide de caractères. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>dedans = faux</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Supprime le texte de l'environnement &latex; englobant. Si <parameter
+>dedans</parameter
+> est <literal
+>faux</literal
+>, l'environnement texte incluant les balises &latex; englobantes, <userinput
+>\begin{…}…\end{…}</userinput
+> sera enlevé, sinon celui-ci sera renvoyé sans balise. Si aucun paramètre n'est fourni, <parameter
+>dedans</parameter
+> est mis à <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Insère une balise d'environnement de fermeture, si un environnement &latex; d'ouverture est trouvé à la position du curseur courante. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>Insert des balises de fermeture de l'environnement pour tous les environnements &latex; ouverts trouvés à la position du curseur courant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+>, si un groupe &latex; englobant est trouvé à la position du curseur courant, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>dedans = vrai</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte du groupe &latex; englobant. Si <parameter
+>dedans</parameter
+> est <literal
+>faux</literal
+>, le texte de ce groupe &latex; incluant les accolades, <userinput
+>{…}</userinput
+>, sera retourné, sinon ce sera sans accolade. Si aucun paramètre n'est indiqué, <parameter
+>dedans</parameter
+> est mis à <literal
+>faux</literal
+>. La chaîne vide est retournée, si aucun groupe &latex; englobant n'est trouvé à la position courante du curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>dedans = vrai</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage du groupe &latex; englobant. Si <parameter
+>dedans</parameter
+> est <literal
+>faux</literal
+>, la plage incluant les accolades englobantes, <userinput
+>{…}</userinput
+>, sera retournée, sinon la place sera retournée sans accolade. Si aucun paramètre n'est fourni, <parameter
+>dedans</parameter
+> est mis à <literal
+>faux</literal
+>. Si aucun groupe n'est trouvé, <literal
+>Range.invalid()</literal
+> est retourné, pouvant être testé avec <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>dedans = vrai</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Supprime le texte du groupe &latex; englobant. Si <parameter
+>dedans</parameter
+> est <literal
+>faux</literal
+>, le texte de ce groupe &latex;, y compris les accolades englobantes, <userinput
+>{…}</userinput
+>, sera enlevé, sinon ce sera sans les accolades. Si aucun paramètre n'est donné, <parameter
+>dedans</parameter
+> est mis à <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si un groupe mathématique &latex; englobant est trouvé à la position courante du curseur, sinon <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte du groupe mathématique &latex; englobant. La chaîne de caractère vide est retournée, si aucun groupe mathématique &latex; englobant n'est trouvé à la position courante du curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage du groupe mathématique &latex; englobant. S'il n'y a aucun groupe englobant de type mathématique, <literal
+>Range.invalid()</literal
+> est retourné ; pouvant être testé avec <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Supprime le texte du bloc mathématique &latex; englobant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le texte du paragraphe &latex; courant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la plage du paragraphe &latex; englobant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Supprime le texte du paragraphe &latex; courant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+>, si le paramètre <parameter
+>texte</parameter
+> correspond à la position correspondant du curseur, sinon renvoie <literal
+>faux</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>expression</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>Sauter-Espaces-Blancs = vrai</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+> si une ligne commence avec <parameter
+>motif</parameter
+>, dans les autres cas <literal
+>faux</literal
+>. L'argument <parameter
+>Sauter-Espaces-Blancs</parameter
+> indique si les espaces blancs en tête sont à ignorer. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>forme</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>Sauter-Espaces-Blancs = vrai</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie <literal
+>vrai</literal
+>, si la ligne se termine avec <parameter
+>motif</parameter
+>, dans les autres cas <literal
+>faux</literal
+>. L'argument <parameter
+>Sauter-Espaces-Blancs</parameter
+> indique si les espaces blancs en fin de ligne sont à ignorer. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la première position d'un caractère différent d'un espace blanc dans la ligne spécifiée par le paramètre <parameter
+>ligne</parameter
+>. S'il n'y a que des espaces blancs dans la ligne, la valeur retournée est <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la dernière position d'un caractère différent d'un espace blanc dans la ligne spécifiée par le paramètre <parameter
+>ligne</parameter
+>. S'il n'y a que des espaces blancs dans la ligne, la valeur retournée est <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Curseur <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la position contenant un caractère différent d'un espace blanc à partir d'une position donnée du curseur et en recherchant en l'arrière. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>colonne</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>curseur</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la position contenant un caractère différent d'un espace blanc à partir de la position spécifiée du curseur et en recherchant vers l'avant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie la ligne suivante non vide contenant un caractère différent d'un espace blanc et en recherchant vers l'arrière. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retourne la prochaine ligne non vide contenant un caractère différent d'un espace blanc et en recherchant vers l'avant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Aller au début de l'environnement &latex; englobant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Aller à la fin de l'environnement &latex; englobant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Aller au début du groupe &latex; englobant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Aller à la fin du groupe &latex; englobant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Aller au paragraphe &latex; suivant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Aller au paragraphe &latex; précédent. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Aller à la section &latex; suivante. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Aller à la section &latex; précédente. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>ligne</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Aller à la <literal
+>ligne</literal
+> indiquée. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande de <userinput
+>\chapter</userinput
+> (voir aussi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande de <userinput
+>\section</userinput
+>. Comme pour choisir l'entrée du menu <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Sectionnement</guisubmenu
+><guimenuitem
+>section</guimenuitem
+></menuchoice
+>, une boîte de dialogue apparaîtra, où vous pourrez choisir le titre et une étiquette optionnelle pour cette commande de sectionnement. <screenshot>
+	<screeninfo
+>Boîte de dialogue : insérez une commande de chapitre</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Boîte de dialogue : insérez une commande de chapitre</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\subsection</userinput
+> (voir aussi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\subsubsection</userinput
+> (voir aussi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\paragraph</userinput
+> (voir aussi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\subparagraph</userinput
+> (voir aussi <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\label</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande de <userinput
+>\ref</userinput
+>. Comme pour choisir l'entrée du menu <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>Références</guisubmenu
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+>, une boîte de dialogue apparaîtra, où vous pourrez choisir un des labels déjà définis dans une liste déroulante. <screenshot>
+	<screeninfo
+>Boîte de dialogue : insérez une commande de référence</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Boîte de dialogue : insérez une commande de référence</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\pageref</userinput
+> (voir aussi <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\cite</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\index</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>Insérez une commande <userinput
+>\footnote</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>Insère des marqueurs de commentaires pour transformer la sélection ou la ligne courante en commentaires. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>Supprime les marqueurs de commentaires de la sélection ou de la ligne courante. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>Met en majuscule le texte sélectionné ou la lettre après le curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>Met en minuscule le texte sélectionné ou la lettre après le curseur. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>Met en majuscule le texte sélectionné ou le mot courant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>Regroupe les lignes de la sélection courante. Deux lignes successives de texte sont toujours séparées avec un seul espace. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>Insère une nouvelle ligne élégante (voir <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>Insère un tabulation élégante (voir <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>Démarre un groupe d'édition pour annuler / refaire le regroupement. Veuillez vous assurer de toujours appeler <function
+>editEnd()</function
+> autant de fois que vous appellerez <function
+>editBegin()</function
+>. L'appel de <function
+>editBegin()</function
+> utilise en interne un compteur de référence, par conséquent, cet appel peut être imbriqué. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Termine un groupe d'édition. Le dernier appel de <function
+>editEnd()</function
+> (c'est-à-dire, celui pour le premier appel de <function
+>editBegin()</function
+>) termine l'étape de modification. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie tous les labels définis comme un <literal
+>StringList</literal
+>, qui peuvent être utilisés dans &javascript; comme tableau de chaînes de caractères. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie tous les éléments « bib » comme un <literal
+>StringList</literal
+>, qui peuvent être utilisés dans &javascript; comme tableau de chaînes de caractères. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>Rafraîchit l'affichage de la structure (voir <xref linkend="navigating" role="sélect: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>L'API de &kile;</title>
+
+<para
+>L'objet global (variable) <userinput
+>kile</userinput
+> est utilisé pour gérer des opérations de haut niveau avec le monde extérieur, des messages en entrée et des interfaces de boîtes de dialogue. Ces appels API sont divisés en sous objet pour structurer cette partie de l'API du langage de scripts. Conceptuellement <userinput
+>kile</userinput
+> est un peu comme <userinput
+>fenêtre</userinput
+> dans une API d'un navigateur. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>: &nbsp; boîtes de messages</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>: &nbsp; lit les entrées de l'utilisateur</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>: &nbsp; appelle l'un des assistants de &kile;</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>: &nbsp; obtient des informations sur le script en exécution.</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>: &nbsp; enregistre des opérations comme la lecture et l'écriture.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>Alerte</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Afficher un boîte de dialogue d'<emphasis
+>Informations</emphasis
+>. <parameter
+>texte</parameter
+> est un message de type chaîne de caractères et <parameter
+>titre</parameter
+> le titre de la boîte de messages. Le titre par défaut est le nom du script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Afficher un boîte de dialogue d'<emphasis
+>Excuses</emphasis
+>. <parameter
+>texte</parameter
+> est un message de type chaîne de caractères et <parameter
+>titre</parameter
+> est le titre de la boîte de messages. Le titre par défaut est le nom du script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Afficher une boîte de dialogue d'<emphasis
+>Erreur</emphasis
+>. <parameter
+>texte</parameter
+> est un message de type chaîne de caractères et <parameter
+>titre</parameter
+> est le titre de la boîte de messages. Le titre par défaut est le nom du script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Afficher une boîte de dialogue <emphasis
+>Question</emphasis
+>. <parameter
+>texte</parameter
+> est un message de type chaîne de caractères et <parameter
+>titre</parameter
+> est le titre de la boîte de messages. Le titre par défaut est le nom du script. La chaîne retournée est soit <literal
+>Oui</literal
+> soit <literal
+>Non</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Afficher une boîte de dialogue d'<emphasis
+>Alerte</emphasis
+>. <parameter
+>texte</parameter
+> est un message de type chaîne de caractères et <parameter
+>titre</parameter
+> est le titre de la boîte de messages. Le titre par défaut est le nom du script. La chaîne retournée est soit <literal
+>Continuer</literal
+> soit <literal
+>Annuler</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>Entrée</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>étiquette</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>liste</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Fonction laissant l'utilisateur sélectionner un élément à partir d'une liste de type choix unique.<parameter
+>légende</parameter
+> est le texte affiché dans le barre de titre,<parameter
+>étiquette</parameter
+> est le texte apparaissant comme étiquette de la liste et <parameter
+>liste</parameter
+> est la chaîne de caractères insérée dans la liste. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>étiquette</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>liste</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Fonction laissant l'utilisateur sélectionner un élément à partir d'une liste à choix multiple.<parameter
+>légende</parameter
+> est le texte affiché dans le barre de titre, <parameter
+>étiquette</parameter
+> est le texte apparaissant comme étiquette de la liste et <parameter
+>liste</parameter
+> est la chaîne de caractères insérée dans la liste. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>étiquette</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Fonction pour saisir une chaîne de caractères par l'utilisateur. <parameter
+>légende</parameter
+> est le texte affiché dans la barre de titre et <parameter
+>étiquette</parameter
+> est le texte apparaissant comme étiquette de la zone de saisie de texte. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>étiquette</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Fonction pour saisir une commande &latex; par l'utilisateur. Ceci ignifie que seuls les caractères (minuscules et majuscules) sont autorisés.<parameter
+>légende</parameter
+> est le texte affiché dans la barre de titre et <parameter
+>étiquette</parameter
+> est le texte apparaissant comme étiquette de la zone d'édition de texte. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>étiquette</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = INT-MIN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT-MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Fonction pour saisir un nombre par l'utilisateur.<parameter
+>légende</parameter
+> est le texte affiché dans la barre de titre et <parameter
+>étiquette</parameter
+> est le texte apparaissant comme étiquette de la boîte à sélection multiple. <parameter
+>min</parameter
+> et <parameter
+>max</parameter
+> sont les valeurs minimum et maximum autorisées choisies par l'utilisateur. Les valeurs par défaut sont <literal
+>INT_MIN</literal
+> et <literal
+>INT-MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>légende</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>étiquette</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT-MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Fonction pour saisir un nombre positif par l'utilisateur.<parameter
+>légende</parameter
+> est le texte affiché dans la barre de titre et <parameter
+>étiquette</parameter
+> est le texte apparaissant comme étiquette de la boîte de sélections multiples. <parameter
+>min</parameter
+> et <parameter
+>max</parameter
+> sont les valeurs minimum et le maximum autorisées choisies par l'utilisateur. Les valeurs par défaut sont <literal
+>INT-MIN</literal
+> et <literal
+>INT-MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>Assistant</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>Appelle l'<emphasis
+>Assistant de tableau</emphasis
+>, qui aide à écrire un environnement de tableau (voir <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>Appelle l'<emphasis
+>Assistant de table</emphasis
+>, qui aide à écrire un environnement de tableau (voir <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>Appelle l'<emphasis
+>Assistant de tabulation</emphasis
+>, qui aide à écrire un environnement de tabulation (voir <xref linkend="wizard_array" role="sélect: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Appelle l'<emphasis
+>Assistant de nombres à virgule</emphasis
+>, qui aide à insérer un nombre à virgule flottante (voir <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Appelle l'<emphasis
+>Assistant Maths</emphasis
+>, qui aide à insérer des environnements mathématiques (voir <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>Appelle l'<emphasis
+>Assistant Outils PostScript</emphasis
+>, qui pourrait vous aider à manipuler ou ré-organiser des documents PostScript (voir <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>Script</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie le nom racine du script en cours d'exécution (sans l'emplacement et l'extension). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>Renvoie une chaîne de caractères pouvant être utilisée comme titre des boîtes d'alerte. Cela ressemble à <userinput
+>Script: scriptname.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>Fichier</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>Nom-Fichier</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Lit le contenu d'un fichier texte. Utilisé comme </para
+><para
+>Exemple : <function
+>var res = kile.file.read("emplacement/vers/fichier.txt");</function
+> </para
+><para
+>La valeur de retour <userinput
+>res</userinput
+> est un objet (mieux, une carte) possédant trois propriétés :  </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>état :</guilabel
+>&nbsp; Donne les codes d'état de l'opération, pouvant être 0 (pas d'erreur), 1 (échec de l'accès) ou 2 (accès refusé). Ainsi, si aucune erreur n'est survenue, la valeur de <userinput
+>res.état</userinput
+> ou <userinput
+>res[ « état » ]</userinput
+> sera 0.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>résultat : </guilabel
+>&nbsp; Contient le texte du fichier spécifié.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>message : </guilabel
+>&nbsp; Contient un message d'erreur, si une erreur est survenue.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>Tout comme <literal
+>read(nom-fichier)</literal
+>, mais sans qu'un nom de fichier ne soit fourni. Une boîte de dialogue apparaîtra pour sélectionner le fichier à lire. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>nom-fichier</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Écrit le texte donné dans un fichier. C'est utilisé comme </para
+><para
+>Exemple : <function
+>var des = kile.file.write("emplacement/de/fichier.txt","Du texte…");</function
+> </para
+><para
+>La valeur de retour <userinput
+>res</userinput
+> est un objet (mieux : une carte) possédant deux propriétés : <literal
+>état</literal
+> et <literal
+>message</literal
+> (voir <literal
+>read()</literal
+> pour plus d'informations). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>texte</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Tout comme <literal
+>write(nom-fichier,texte)</literal
+>, mais sans qu'aucun nom de fichier ne soit fourni. Une boîte de dialogue apparaîtra pour choisir un nom de fichier. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>Dossier-Départ</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filtre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Crée une boîte de dialogue de sélection de fichier et renvoie le nom du ficher sélectionné ou une chaîne vide si aucun fichier n'est choisi. Veuillez noter qu'avec cette méthode, l'utilisateur doit sélectionner un nom de fichier existant. </para
+><para
+>Paramètres : </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Dossier-Départ : </guilabel
+>&nbsp; Dossier de base pour la boîte de dialogue d'ouverture de fichier.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filtre :</guilabel
+>&nbsp; Un shell global ou un filtre de type MIME spécifiant quel fichier à afficher. Veuillez vous référer à la documentation de KFileDialog pour plus d'informations sur ce paramètre.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Les deux paramètres sont optionnels. Si vous ne renseignez pas <literal
+>filtre</literal
+>, tous les fichiers seront affichés. Si en plus <literal
+>Dossier-Départ</literal
+> est omis, la boîte de dialogue prendra le dossier du document courant comme point de départ. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getSaveFileName(<parameter
+>String <replaceable
+>Dossier-Départ</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filtre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Crée une boîte de dialogue de sélection de fichier et renvoie le nom du ficher sélectionné ou une chaîne vide si aucun fichier n'est choisi. Veuillez noter qu'avec cette méthode, l'utilisateur n'a besoin de sélectionner un nom de fichier existant. Veuillez consulter <literal
+>getOpenFileName()</literal
+> pour plus d'explications concernant ces paramètres. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>Exemples</title>
+
+<para
+>Quelques exemples pourraient vous aider à comprendre comment utiliser l'API d'écriture de scripts. Ces exemples et bien d'autres sont disponibles dans le dossier de scripts de &kile; : <filename
+>KILE-APP-DIR/scripts/</filename
+>. Chaque script contient une description succincte.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>Exemple 1 : remplacer le nom de l'environnement</title>
+
+<para
+>Remplace l'environnement &latex; englobant avec un autre, où la position relative du curseur ne sera pas modifiée. <userinput
+>\begin{abc}…\end{abc}</userinput
+>, par exemple, peut être changé en <userinput
+>\begin{xyz}…\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Saisissez l'environnement","Nouveau nom d'environnement : ");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("Aucun environnement LaTeX englobant trouvé.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>Exemple 2 : remplacer une commande &latex; de polices de caractères</title>
+
+<para
+>Remplace la commande &latex; de police englobante avec une autre commande, quand le curseur est placé à l'intérieur du groupe de texte. La position relative du curseur ne sera pas changée. Par exemple, <userinput
+>\textbf{abc}</userinput
+> peut être changé en <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("Aucun groupe LaTeX englobant.");
+}
+
+function replaceFontCommand®
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Choose",
+                                                    "Choose font command:",buildCmdList(cmd));
+                        if ( new command != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition©;
+        }
+        else {
+                kile.alert.sorry("No surrounding font command found.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>Exemple 3: entourer le texte sélectionné</title>
+
+<para
+>Entourer le texte sélectionné à l'aide commande TeX, où la position relative du curseur ne pourra plus être changée. Par exemple, <userinput
+>abc</userinput
+> peut être changé en <userinput
+>\texcommand{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand(« Choisir », « Choisir la commande LaTeX englobante :  »);
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("Aucune sélection trouvée.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

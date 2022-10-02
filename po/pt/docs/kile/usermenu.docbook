@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Menu Configurável pelo Utilizador</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Configuração</title>
+
+<para
+>O &kile; suporta um menu configurável pelo utilizador, que irá aparecer como parte do menu do &kile;. Ao usar a janela de configuração do kile; com a opção <menuchoice
+><guimenu
+>Configuração</guimenu
+><guisubmenu
+>Configurar o Kile</guisubmenu
+><guimenuitem
+>Menu do Utilizador</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Configurar o menu do utilizador</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Configurar o menu do utilizador</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Tem duas opções para colocar este menu:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>ou o item do menu <guilabel
+>Menu do Utilizador</guilabel
+> irá aparecer no menu principal, entre os itens de menu <guilabel
+>LaTeX</guilabel
+> e <guilabel
+>Assistente</guilabel
+> e o assistente de configuração <guilabel
+>Editar o Menu do Utilizador</guilabel
+> no menu <guilabel
+>Assistente</guilabel
+></para>
+
+	<screenshot>
+		<screeninfo
+>O Menu do Utilizador está colocado no menu principal</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>O Menu do Utilizador está colocado no menu principal</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>ou ambos os itens irão aparecer no fundo do item <guilabel
+>LaTeX</guilabel
+> do menu.</para>
+
+	<screenshot>
+		<screeninfo
+>O Menu do Utilizador como parte do menu LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>O Menu do Utilizador como parte do menu LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>As marcas definidas pelo utilizador já existentes noutras versões mais antigas do &kile; são transformadas automaticamente para o novo menu configurável pelo utilizador. As marcas são guardadas num ficheiro chamado <filename
+>usertags.xml</filename
+> e, como em todos os ficheiros de definição do menu, poderão ser encontrados na pasta local dos menus do utilizador do &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, &eg; <filename
+>/home/utilizador/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Poderá usar diferentes ficheiros de definição do menu para diferentes tarefas. Invoque o assistente do menu do utilizador <menuchoice
+><guimenu
+>Assistente</guimenu
+><guisubmenu
+>Editar o Menu do Utilizador</guisubmenu
+></menuchoice
+> ou <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Editar o Menu do Utilizador</guisubmenu
+></menuchoice
+> para instalar ou editar um ficheiro de definição do menu.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Assistente</title>
+
+<para
+>Pode criar menus novos ou alterar os existentes com um assistente de configuração de menus do utilizador que poderá ser encontrado em <menuchoice
+><guimenu
+>Assistente</guimenu
+><guisubmenu
+>Editar o Menu do Utilizador</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Assistente do Menu do Utilizador</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Assistente do Menu do Utilizador</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Do lado esquerdo irá ver uma árvore de menu existente. Como num menu normal, estão disponíveis três tipos de itens do menu:</para>
+
+<itemizedlist>
+<listitem
+><para
+>itens de menu normais, atribuídos a uma acção</para
+></listitem>
+<listitem
+><para
+>submenus, que contêm mais itens de menu</para
+></listitem>
+<listitem
+><para
+>separadores, para obter uma estrutura visível de todos os itens.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Para modificar este menu, use os seis botões do lado esquerdo. Estão disponíveis ainda mais acções no menu de contexto dos itens já existentes.</para>
+
+	<screenshot>
+		<screeninfo
+>Árvore de Menus Definidos pelo Utilizador</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Árvore de Menus Definidos pelo Utilizador</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Cada item de menu normal está atribuído a um de três tipos de acções, onde cada um tem diferentes atributos a definir:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Texto:</guilabel
+>&nbsp; o &kile; dá-lhe a possibilidade de criar as suas próprias marcas. Uma marca é semelhante a um atalho que invoca algum comando ou escreve texto frequente, &eg; o José Pires usa bastante a frase <userinput
+>Olá, venho por este meio ...</userinput
+>. Esta marca será introduzida na posição actual do cursor, quando esta acção for invocada (ver acima). Estão também disponíveis meta-caracteres (ver em <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Inserir o conteúdo de um ficheiro:</guilabel
+>&nbsp; Insere o conteúdo completo de um dado ficheiro.</para>
+
+	<screenshot>
+		<screeninfo
+>Inserir o conteúdo de um ficheiro</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserir o conteúdo de um ficheiro</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Executar um programa externo:</guilabel
+>&nbsp; O resultado deste comando poderá ser introduzido no documento aberto. O meta-carácter <userinput
+>%M</userinput
+> é também possível na linha de comandos deste programa, dado que o texto seleccionado será gravado num ficheiro temporário. Use o <userinput
+>%M</userinput
+> para o nome deste ficheiro temporário.</para>
+
+	<screenshot>
+		<screeninfo
+>Executar um programa externo</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Executar um programa externo</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Se faltar alguma informação importante para uma acção, os itens do menu aparecem a vermelho. Poderá ser, por exemplo, um ficheiro inexistente</para>
+
+	<screenshot>
+		<screeninfo
+>Ficheiro inexistente</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ficheiro inexistente</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>ou um título em falta para a opção do menu, o qual será apresentado com pontos de interrogação do tipo <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Título em falta de um item do menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Título em falta de um item do menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Se abrir o menu de contexto de um desses itens do menu, irá obter uma opção adicional com mais informações sobre esse erro.</para>
+
+	<screenshot>
+		<screeninfo
+>Informações adicionais</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Informação adicional</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Poderá estar mais alguma informação disponível com a funcionalidade <guilabel
+>O que é isto</guilabel
+> da maior parte dos itens.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Substituições</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Inserir um Texto</title>
+
+<para
+>Existem alguns itens de substituição que poderá usar nas marcas definidas por si: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> e <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; aqui será onde o cursor será colocado depois de introduzir uma marca definida pelo utilizador.</para>
+
+	<screenshot>
+		<screeninfo
+>Posição do Cursor (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Posição do Cursor (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; será substituído por um ponto (veja em <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Ponto (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ponto (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; será substituído pelo texto seleccionado.</para>
+
+	<screenshot>
+		<screeninfo
+>Texto Seleccionado (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Texto Seleccionado (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; define a profundidade de indentação do texto dentro de um ambiente.</para>
+
+	<screenshot>
+		<screeninfo
+>Indentação do texto do ambiente (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Indentação do texto do ambiente (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; irá invocar uma janela de referência para escolher uma legenda já definida. Isto pode ser usado para referenciar uma legenda predefinida, que poderá escolher numa lista (ver também em <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referências</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> ou <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referências</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Referências (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Referências (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; irá invocar uma janela de citação para escolher uma já existente. Como no uso da opção <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Referências</guimenuitem
+><guimenuitem
+>Citar</guimenuitem
+></menuchoice
+>, irá aparecer uma lista com todas as chaves de citação.</para>
+
+	<screenshot>
+		<screeninfo
+>Chaves de Citação (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Chaves de Citação (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Vejamos outro exemplo, com uma macro do tipo <userinput
+>\frac{%M}{%C}</userinput
+>. Primeiro, iremos seleccionar um número no nosso texto, como por exemplo <userinput
+>42</userinput
+>. Agora iremos invocar esta macro e obter <userinput
+>\frac{42}{}</userinput
+> com o cursor localizado dentro do segundo par de chavetas.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Inserir o Conteúdo de um Ficheiro</title>
+
+<para
+>Se quiser inserir o conteúdo de um ficheiro de texto, poderá usar os mesmos itens de substituição.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Executar um Programa</title>
+
+<para
+>Se quiser executar um programa externo, só é reconhecido o <userinput
+>%M</userinput
+> para o texto seleccionado na linha de comandos. A selecção será gravada num ficheiro temporário e o item de substituição <userinput
+>%M</userinput
+> é substituído por este nome de ficheiro.</para>
+
+	<screenshot>
+		<screeninfo
+>Executar um programa externo (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Executar um programa externo (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Outro item de substituição é o <userinput
+>%S</userinput
+>, que é substituído pelo nome de base completo do documento actual, sem a respectiva pasta. Este nome de base consiste em todos os caracteres no nome do ficheiro até ao último carácter '.' (exclusive).</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parâmetro</title>
+
+<para
+>A maioria dos itens de menu poderão ter parâmetros intuitivos adicionais, os quais poderão ser verificados. Se alguns destes parâmetros não estiverem disponíveis para algum tipo de acção, serão desactivados.</para>
+
+	<screenshot>
+		<screeninfo
+>Parâmetro do Menu do Utilizador</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parâmetro do Menu do Utilizador</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Aqui está um exemplo de execução de um programa externo:</para>
+
+	<screenshot>
+		<screeninfo
+>Exemplo do parâmetro</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Exemplo do parâmetro</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Poderá ver que é invocado um programa em <userinput
+>perl</userinput
+>, o qual deverá funcionar com a selecção actual. O parâmetro <guilabel
+>Necessita de texto seleccionado</guilabel
+> está assinalado para garantir que tem texto seleccionado. O resultado deste programa será introduzido (<guilabel
+>Inserir o resultado do programa escolhido</guilabel
+>) e substituirá a selecção actual (<guilabel
+>Substituir o texto seleccionado</guilabel
+>), mas não ficará seleccionada por si só.</para>
+
+<para
+>Obviamente, também poderá invocar os seus próprios programas. Por exemplo, seleccione uma lista de números, separada por espaços, e invoque um programa em Perl (por exemplo), que transforma esta secção em código &latex; para uma matriz. Sejam quais for as suas ideias, podê-las-á realizar com o seguinte item de menu.</para>
+
+	<screenshot>
+		<screeninfo
+>Exemplo do parâmetro 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Exemplo do parâmetro 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Ficheiros de Definição do Menu</title>
+
+<para
+>Poderá instalar diferentes menus durante a execução para diferentes tarefas. Quando invocar o assistente do menu, será carregado o ficheiro de definição do menu actual. Se o modificar e fechar a janela com o <guibutton
+>OK</guibutton
+>, as suas alterações serão gravadas e instaladas como um novo menu de utilizador. Se fechar a janela com o <guibutton
+>Cancelar</guibutton
+>, irá ignorar todas as alterações.</para>
+
+	<screenshot>
+		<screeninfo
+>Ficheiros de Definição do Menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ficheiros de Definição do Menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Mas também está à vontade para modificar o ficheiro modificado na pasta de menus do utilizador ou para carregar outro ficheiro de definições e instalá-lo. Todos os ficheiros de definição dos menus deverão ser gravados na pasta local dos menus do utilizador do &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Veja o ficheiro de definição do menu de exemplo <userinput
+>example.xml</userinput
+> para ver mais itens de menu com os seus parâmetros.</para>
+
+</sect1>
+
+</chapter>

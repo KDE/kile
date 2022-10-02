@@ -1,0 +1,4258 @@
+<chapter id="id_scripting">
+<title
+>Scripting</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>Scripting in &kile; gebruiken</title>
+
+<para
+>De scripting functie van &kile; staat het uitvoeren van code volgens <ulink url="http://en.wikipedia.org/wiki/ECMAScript"
+>ECMAScript</ulink
+> toe, beter bekend als &javascript;. U zult heel wat inleidingen vinden, die informatie bieden over objects (variabelen), functies en eigenschappen ondersteund door &javascript;.</para>
+
+<para
+>Ondersteuning kan ingeschakeld worden in de instellingendialoog van &kile;: <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Kile instellen...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Scripting</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>Ondersteuning voor scripting inschakelen</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Ondersteuning voor scripting inschakelen</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Als scripting is ingeschakeld zal een extra paneel voor scripting zichtbaar worden in de zijbalk, waar scripts beheerd kunnen worden: <screenshot>
+	<screeninfo
+>Paneel voor scripting in de zijbalk</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Paneel voor scripting in de zijbalk</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Dit widget bevat zes pictogrammen, die verschillende taken bieden: <itemizedlist>
+<listitem
+><para
+>Het geselecteerd script uitvoeren.</para
+></listitem>
+<listitem
+><para
+>Een nieuw script aanmaken.</para
+></listitem>
+<listitem
+><para
+>Het geselecteerd script in de editor openen.</para
+></listitem>
+<listitem
+><para
+>Stel toetsenreeks in voor het geselecteerde script.</para
+></listitem>
+<listitem
+><para
+>Verwijder een toegekende toetsenreeks.</para
+></listitem>
+<listitem
+><para
+>Ververs de lijst met beschikbare scripts, die allemaal zijn gevonden in <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>Een script uitvoeren</title>
+
+<para
+>U kunt een script op drie verschillende manieren uitvoeren:</para>
+
+<procedure>
+<step
+><para
+>Selecteer het gewenste script en klik op de knop <guilabel
+>Uitvoeren</guilabel
+> aan de linker kant van het widget voor beheer van scripts.</para>
+<screenshot>
+	<screeninfo
+>Scripting: knop Uitvoeren</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripting: knop Uitvoeren</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Een sneltoets gebruiken.</para>
+<screenshot>
+	<screeninfo
+>Scripting: sneltoets</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripting: sneltoets</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>U kunt een sneltoets aan een script toekennen met de knop <guilabel
+>Instellen</guilabel
+> in het widget voor beheer van scripts.</para>
+<screenshot>
+	<screeninfo
+>Scripting: stel dialoog voor toetsenreeks in</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripting: stel dialoog voor toetsenreeks in</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Een toetsenreeks voor de bewerker gebruiken. Het script zal uitgevoerd worden als u de toegekende toetsenreeks in de bewerker intypt.</para>
+<screenshot>
+	<screeninfo
+>Scripting: toetsenreeks voor de bewerker</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripting: toetsenreeks voor de bewerker</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Deze methode kan uitgebreid worden tot een tamelijk geavanceerde soort van aanvullen van code. Nemen we aan dat u een script hebt geschreven, die eenvoudig het &latex;-commando <userinput
+>\textbf{}</userinput
+> in het huidige document invoegt.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>Als u nu de toegekende toetsenreeks <userinput
+>bfx</userinput
+> in uw tekstdocument intypt, dan zal deze toetsenreeks verwijderd worden en zal het script worden uitgevoerd. Het zal <userinput
+>\textbf{}</userinput
+> invoegen en de cursor zal tussen de accolades worden geplaatst.</para>
+<screenshot>
+	<screeninfo
+>Scripting: intypen van een sneltoetsvoor de bewerker</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Scripting: intypen van een sneltoetsvoor de bewerker</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Wat een comfortabele en krachtige methode van aanvullen van code.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>API-referentie</title>
+
+<para
+>De hier gepresenteerde API voor scripts is beschikbaar in alle scripts. Voordat de inhoud van een script wordt geladen zal &kile; eerst verschillende prototypen en functies aan de context van het script toevoegen. Deze API voor het gemak bevat prototypes zoals tekstcursors en tekstreeksen en is gelokaliseerd in de map <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>De scripts van &kile; verschillen enigszins van scripts van <ulink url="http://kate-editor.org"
+>&kate;</ulink
+>, die een ander ontwerp gebruiken, omdat ze ook vanaf de opdrachtregel gestart kunnen worden. Maar alle functies van de API  voor scripts van &kate; zijn ook beschikbaar in de API voor scripts van &kile;, dus porteren van &javascript;-code van &kate; naar &kile; zou erg gemakkelijk moeten zijn. Maar omdat &kile; een erg rijk van functies voorziene &latex;-bewerker is, biedt zijn eigen API voor scripts veel meer mogelijkheden dan die van &kate;.</para>
+
+<para
+><emphasis
+>Opmerking: </emphasis
+>Beschrijvingen van API aanroepen, die ook beschikbaar zijn in de scripts van &kate;, zijn overgenomen uit de documentatie van &kate;.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>Globale functies</title>
+
+<para
+>Deze sectie geeft een lijst met globale functies.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Stuurt <replaceable
+>tekst</replaceable
+> naar <literal
+>stdout</literal
+> in de console. De gestuurde tekst is gekleurd om het te onderscheiden van andere debuguitvoer. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>Het prototype van cursor</title>
+
+<para
+>Omdat &kile; een tekstbewerker is, is, waar mogelijk, alles van de scripting-API gebaseerd op cursors en reeksen. Een cursor is een eenvoudig paar <literal
+>(regel, kolom)</literal
+> die een tekstpositie in het document representeert.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>Constructor: levert een cursor terug op positie <literal
+>(0, 0)</literal
+>. </para
+><para
+>Voorbeeld: <function
+>var cursor = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor: levert een cursor terug op positie (regel, kolom). </para
+><para
+>Voorbeeld: <function
+>var cursor = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>andere</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor kopiëren: geeft een kopie van de cursor <parameter
+>andere</parameter
+> terug.  </para
+><para
+>Voorbeeld: <function
+>var copy = new Cursor(andere);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft een kloon van de cursor terug. </para
+><para
+>Voorbeeld: <function
+>var clone = cursor.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Controleert of de cursor geldig is. De cursor is ongeldig indien lijn en/of kolom ingesteld zijn op <literal
+>-1</literal
+>. </para
+><para
+>Voorbeeld: <function
+>var valid = cursor.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft een nieuwe ongeldige cursor op locatie <literal
+>(-1, -1)</literal
+>. </para
+><para
+>Voorbeeld:<function
+>var invalidCursor = cursor.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>andere</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vergelijkt deze cursor met de cursor <parameter
+>andere</parameter
+>. Geeft terug <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+>, indien deze cursor zich bevindt voor de cursor <parameter
+>andere</parameter
+>,</para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+>, indien beide cursors gelijk zijn</para
+></listitem>
+<listitem
+><para
+><literal
+>+1</literal
+>, als deze cursor gelokaliseerd is na de cursor <parameter
+>andere</parameter
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>andere</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als deze cursor en de cursor <parameter
+>andere</parameter
+> gelijk zijn, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de cursor terug als een tekenreeks met de vorm <literal
+>Cursor(regel, kolom)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>Het prototype Bereik</title>
+
+<para
+>Omdat &kile; een tekstbewerker is, is, waar mogelijk, alles van de scripting-API gebaseerd op cursors en reeksen. Omdat Cursor een eenvoudig paar <literal
+>(regel, kolom)</literal
+> is, die een tekstpositie in het document representeert, omspant een Bereik tekst vanaf een beginpositie van de cursor tot een eindpositie.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>Constructor: Aanroepen van <literal
+>new Range()</literal
+> geeft een Bereik op <literal
+>(0, 0) - (0, 0)</literal
+> terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>begin</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>eind</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor: Aanroepen van <literal
+>new Range(<replaceable
+>begin</replaceable
+>, <replaceable
+>eind</replaceable
+>)</literal
+> geeft het bereik terug van de <parameter
+>begin</parameter
+>-cursor naar de <parameter
+>eind</parameter
+>-cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>beginRegel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>beginKolom</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>eindRegel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>eindKolom</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor: Aanroepen van <literal
+>new Range(<replaceable
+>beginRegel</replaceable
+>, <replaceable
+>beginKolom</replaceable
+>, <replaceable
+>eindeRegel</replaceable
+>, <replaceable
+>eindKolom</replaceable
+>)</literal
+> geeft het Bereik van (<literal
+>beginRegel</literal
+>, <literal
+>beginKolom</literal
+>) tot (<literal
+>eindRegel</literal
+>, <literal
+>eindKolom</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>andere</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor kopiëren. Geeft een kopie terug van Bereik <literal
+>andere</literal
+>.  </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Reeks Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft een kloon van de reeks terug. </para
+><para
+>Voorbeeld: <function
+>var clone = range.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als zowel begin als einde cursor geldig zijn, anders <literal
+>false</literal
+>. </para
+><para
+>Voorbeeld: <function
+>var valid = range.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het Bereik van (-1,-1) tot (-1,-1) terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als dit bereik de cursorpositie bevat, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>andere</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als dit bereik het Bereik <parameter
+>andere</parameter
+> bevat, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als <parameter
+>kolom</parameter
+> zich in het half open interval <literal
+>[start.column, end.column]</literal
+> bevindt, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als <parameter
+>regel</parameter
+> zich in het half open interval <literal
+>[start.line, end.line]</literal
+> bevindt, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>overig</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als dit bereik en het Bereik <parameter
+>overig</parameter
+> een gebied delen, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als <parameter
+>regel</parameter
+> zich in het interval <literal
+>[start.line, end.line)</literal
+> bevindt, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als <parameter
+>kolom</parameter
+> zich in het interval <literal
+>[start.column, end.column)</literal
+> bevindt, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>overig</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als dit bereik en het Bereik <parameter
+>andere</parameter
+> gelijk zijn, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik terug als een tekenreeks van de vorm <literal
+>Range(Cursor(regel, kolom) - Cursor(regel,kolom))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>De API voor weergave</title>
+
+<para
+>Wanneer een script wordt uitgevoerd, dan is er een globaal object (variabele) <userinput
+>view</userinput
+> die de huidige actieve editor-view representeert. Alle functies van <literal
+>view</literal
+> werken met de cursorposities of de geselecteerde tekst. Het volgende is een lijst met alle beschikbare <userinput
+>view</userinput
+>-functies.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>Voert programmatisch het equivalent van het indrukken van de backspace-toets. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de huidige cursorpositie in het beeld terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>lijn</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Stelt de huidige cursorpositie in op ofwel<parameter
+>lijn</parameter
+>, <parameter
+>kolom</parameter
+>  of op de gegeven <parameter
+>cursor</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>Verplaatst de cursor één positie achterwaarts in de tekst. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>Verplaatst de cursor één positie voorwaarts in de tekst. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>Verplaatst de cursor één regel omhoog in het document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>Verplaatst de cursor één regel omlaag in het document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de regel terug waar de cursor zich op dat moment bevindt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de kolom terug waar de cursor zich op dat moment bevindt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Stelt de cursor-regel in op de gegeven <parameter
+>regel</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Stelt de cursor-kolom in op de gegeven <parameter
+>kolom</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Haalt de huidige <emphasis
+>virtuele</emphasis
+> cursor-positie op. <emphasis
+>Virtual</emphasis
+> betekent dat het tabulatorteken (TAB) <emphasis
+>meerdere</emphasis
+> tekens telt, zoals ingesteld door de gebruiker (bijv. één TAB is 8 spaties). De virtuele cursor-positie levert toegang tot de voor de gebruiker zichtbare waarden van de huidige cursor-positie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als het beeld geselecteerde tekst heeft, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de geselecteerde tekst terug. Als er geen tekst is geselecteerd dan is de tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de geselecteerde tekstreeks terug. Als er geen tekst is geselecteerd dan is het teruggegeven bereik ongeldig. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>reeks</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Stelt de geselecteerde tekst in op de gegeven <parameter
+>reeks</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de gehele tekst in het document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Wist de tekstselectie zonder de tekst te verwijderen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Verwijder de geselecteerde tekst. Als het beeld geen geselecteerde tekst bevat, dan doet dit niets. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de tekst in de huidige regel. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de tekst in de huidige <parameter
+>regel</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>van</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>tot</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de gehele tekst van regel <parameter
+>vanaf</parameter
+> tot regel <parameter
+>tot</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert het huidige woord. Als er geen woord is gevonden op de huidige cursorpositie, dan gebeurt er niets. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert het huidige &latex;-commando. Als er geen commando is gevonden op de huidige cursorpositie, dan gebeurt er niets. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de gehele tekst van de huidige &latex;-omgeving. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt zal de omgevingstekst inclusief de omgevende &latex;-tags <userinput
+>\begin{...}...\end{...}</userinput
+> worden geselecteerd, anders zonder deze tags. Als er geen parameter is gegeven, krijgt <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de tekst van de huidige &latex;-groep. Als <parameter
+>inside</parameter
+> de waarde <literal
+>true</literal
+> krijgt, zal alleen de tekstgroep zonder de omgevende accolades geselecteerd worden. Als geen parameter is gegeven, krijgt <parameter
+>inside</parameter
+> de waarde <literal
+>true</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de tekst van de huidige math-groep. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>Selecteert de gehele tekst van de huidige &latex;-paragraaf. Als <parameter
+>wholeLines</parameter
+> de waarde <literal
+>true</literal
+> heeft zullen de eerste en laatste regels van de paragraaf geheel meegenomen worden in de selectie (inclusief het einde-regel-teken); anders zal de selectie alleen niet-witruimte tekens bevatten. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>De API van Document</title>
+
+<para
+>Wanneer een script wordt uitgevoerd is er een globaal object (variabele) <userinput
+>document</userinput
+> die het huidige actieve document representeert. Het volgende is een lijst van alle beschikbare <userinput
+>document</userinput
+>-functies.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Voegt de <parameter
+>tekst</parameter
+> in op de huidige cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+bool document.insertText(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Voegt de <parameter
+>tekst</parameter
+> in op de gegeven cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>vanafRegel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>vanafKolom</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>totRegel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>totKolom</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>vanaf</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>tot</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>reeks</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de tekst in het gegeven bereik. Geeft <literal
+>true</literal
+> terug bij succes of <literal
+>false</literal
+>, als het document alleen-lezen is. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>reeks</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vervangt de tekst van de gegeven reeks door de gespecificeerde tekst. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het aantal regels in het document terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het aantal tekens in het document terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft een reeks terug die het gehele document omvat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de huidige cursorpositie in het beeld terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>Geef de gehele inhoud van het document terug in een enkele tekenreeks. Nieuwe regels zijn gemarkeerd met het teken nieuw-regel <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>vanafRegel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>vanafKolom</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>totRegel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>totKolom</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>vanaf</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>tot</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>reeks</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de tekst terug in het gegeven bereik. Het is aanbevolen de cursor te gebruiken en een versie gebaseerd op bereik voor betere leesbaarheid van de broncode. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Stelt de gehele documenttekst in. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de gehele tekst uit het document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de huidige tekstregel terug als tekenreeks. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de gegeven tekstregel terug als tekenreeks. De tekenreeks is leeg als de gevraagde regel buiten het bereik ligt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de lengte van de huidige regel terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de lengte van de <parameter
+>regel</parameter
+> terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Voegt tekst toe in de huidige regel. Geeft <literal
+>true</literal
+> terug bij success of <literal
+>false</literal
+>, als het document alleen-lezen is of de regel bevindt zich niet in de het documentbereik. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Voegt tekst in de gegeven regel in. Geeft <literal
+>true</literal
+> terug bij succes of <literal
+>false</literal
+>, als het document alleen-lezen is of de regel niet in het documentbereik ligt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de huidige tekstregel. Geeft <literal
+>true</literal
+> terug bij succes of <literal
+>false</literal
+>, als het document alleen-lezen is. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de gegeven tekstregel. Geeft <literal
+>true</literal
+> terug bij succes of <literal
+>false</literal
+>, als het document alleen-lezen is of de regel niet in het documentbereik ligt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vervang de tekst van de huidige regel door de gespecificeerde tekst. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Vervangt de tekst van de gegeven regel door de gespecificeerde tekst. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>Kap de huidige regel op de gegeven kolom of cursorpositie af. Geeft <literal
+>true</literal
+> terug bij succes of <literal
+>false</literal
+> als de gegeven regel geen deel is van het documentbereik. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Kap de gegeven regel op de gegeven kolom of cursorpositie af. Geeft <literal
+>true</literal
+> terug bij succes of <literal
+>false</literal
+> als de gegeven regel geen deel is van het documentbereik. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het woord terug op de huidige cursorpositie. Als er geen woord op deze cursorpositie wordt gevonden, dan is de teruggegeven tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het woord terug op de gegeven cursorpositie. Als er geen woord op deze cursorpositie wordt gevonden, dan is de teruggegeven tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik van het woord terug op de gegeven cursorpositie. Als geen woord is gevonden wordt <literal
+>Range.invalid()</literal
+> teruggegeven, die getest kan worden met <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het &latex;-commando terug op de huidige cursorpositie. Als er geen commando op deze cursorpositie wordt gevonden, dan is de teruggegeven tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het &latex;-commando terug op de gegeven cursorpositie. Als er geen commando op deze cursorpositie wordt gevonden, dan is de teruggegeven tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik van het &latex;-commando terug op de gegeven cursorpositie. Als geen &latex;-commando is gevonden wordt <literal
+>Range.invalid()</literal
+> teruggegeven, die getest kan worden met <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het teken terug op de gegeven cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het eerste teken in de gegeven <parameter
+>regel</parameter
+> terug die geen witruimte is. Het eerste teken is in kolom 0. Als de regel leeg of alleen witruimte bevat, dan is de teruggegeven tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het laatste teken in de gegeven <parameter
+>regel</parameter
+> terug die geen witruimte is. Als de regel leeg of alleen witruimte bevat, dan is de teruggegeven tekenreeks leeg. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als het teken op de gegeven cursorpositie gelijk is aan een witruimte, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een <emphasis
+>opsomteken</emphasis
+> van &kile; in. Denk er aan dat u gemakkelijk naar het volgende of vorige opsomteken kunt springen. Dit zal dit opsomteken ook accentueren zodat het automatisch verwijderd zal worden wanneer u de eerste letter invoert. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar het volgende opsomteken in de tekst als er een is. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar het vorige opsomteken in de tekst als er een is. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug als een omgevende &latex;-omgeving is gevonden, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de gehele tekst van de omgevende &latex;-omgeving terug. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt, zal de omgevende tekst worden teruggegeven inclusief de omgevende &latex;-tags <userinput
+>\begin{...}...\end{...}</userinput
+>, anders zonder deze tags. Als geen parameter is gegeven, zal <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgen. Als geen omgeving is gevonden, dan wordt een lege tekenreeks teruggegeven. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik terug van de omgevende &latex;-omgeving. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt zal het bereik inclusief de omgevende &latex;-tags <userinput
+>\begin{...}...\end{...}</userinput
+> teruggegeven worden, anders zonder deze tags. Als geen parameter is gegeven zal <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgen. Als er geen omgeving is gevonden zal <literal
+>Range.invalid()</literal
+> teruggegeven worden, wat getest kan worden met <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de naam van de omgevende &latex;-omgeving terug of een lege tekenreeks. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de tekst van de omgevende &latex;-omgeving. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt zal de omgevingstekst inclusief de omgevende &latex;-tags <userinput
+>\begin{...}...\end{...}</userinput
+> worden verwijderd, anders zonder deze tags. Als er geen parameter is gegeven, krijgt <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt een sluittag van een omgeving in, als een geopende &latex;-omgeving is gevonden op de huidige cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt een sluitomgevingstag in voor alle geopende &latex;-omgevingen, die zijn gevonden op de huidige cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug als een omgevende &latex;-groep is gevonden op de huidige cursorpositie, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de tekst van de omgevende &latex;groep terug. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt zal de tekst van deze &latex;-groep inclusief de omgevende accolades <userinput
+>{...}</userinput
+> terug worden gegeven, anders zonder deze. Als geen parameter is gegeven zal <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgen. De teruggegeven tekenreeks is leeg, als geen omgevende &latex;-groep gevonden wordt op de huidige cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik terug van de omgevende &latex;-groep. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt zullen omgevende accolades <userinput
+>{...}</userinput
+>  teruggegeven worden, anders zonder deze. Als geen parameter is gegeven zal <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgen. Als er geen groep is gevonden zal <literal
+>Range.invalid()</literal
+> teruggegeven worden, wat getest kan worden met <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de tekst van de omgevende &latex;groep terug. Als <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgt, zal de tekst van deze &latex;-groep inclusief de omgevende accolades <userinput
+>{...}</userinput
+> teruggegeven worden, anders zonder deze. Als geen parameter is gegeven zal <parameter
+>inside</parameter
+> de waarde <literal
+>false</literal
+> krijgen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug als een omgevende &latex;-mathgroep is gevonden op de huidige cursorpositie, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de tekst van de omgevende &latex;-mathgroep terug. De teruggegeven tekenreeks is leeg als er geen omgevende &latex; mathgroep is gevonden op de huidige cursorpositie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik van de omgevende &latex;-mathgroep terug. Als er geen omgevende mathgroep is, wordt <literal
+>Range.invalid()</literal
+> teruggegeven, die getest kan worden met <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de tekst uit de omgevende &latex;-mathgroep. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de tekst van de huidige &latex;-paragraaf terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft het bereik van de omgevende &latex;-paragraaf terug. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert de tekst van de huidige &latex;-paragraaf. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug, als de gegeven <parameter
+>tekst</parameter
+> overeenkomt met de overeenkomstige cursorpositie, anders <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>patroon</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug als de regel begint met <parameter
+>patroon</parameter
+>, anders <literal
+>false</literal
+>. Het argument <replaceable
+>skipWhiteSpaces</replaceable
+> bepaalt of voorloopwitruimte genegeerd worden. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>patroon</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft <literal
+>true</literal
+> terug als de regel eindigt met <parameter
+>patroon</parameter
+>, anders <literal
+>false</literal
+>. Het argument <replaceable
+>skipWhiteSpaces</replaceable
+> bepaalt of witruimte achteraan genegeerd wordt. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de eerste niet-witruimte kolom in de gegeven <parameter
+>regel</parameter
+> terug. Als er alleen witruimte in de regel bevindt, dan is de terugkeerwaarde <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de laatste niet-witruimte kolom in de gegeven <parameter
+>regel</parameter
+> terug. Als er alleen witruimte in de regel bevindt, dan is de terugkeerwaarde <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de kolom terug met een niet-witruimte teken beginnend bij de gegeven cursorpositie en achterwaarts zoeken. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>kolom</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de kolom terug met een niet-witruimte teken beginnend bij de gegeven cursorpositie en voorwaarts zoeken. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de volgende niet-lege regel terug met een niet-witruimte teken en achterwaarts zoeken. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de volgende niet-lege regel terug met een niet-witruimte teken en voorwaarts zoeken. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar het begin van de omringende &latex;-omgeving. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar het einde van de omringende &latex;-omgeving. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar het begin van de omringende &latex;-groep. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar het einde van de omringende &latex;-groep. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar de volgende &latex;-paragraaf. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar de vorige &latex;-paragraaf. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar de volgende &latex;-sectie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar de vorige &latex;-sectie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>regel</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Ga naar de gegeven <literal
+>regel</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\chapter</userinput
+> in (zie ook <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt een commando <userinput
+>\section</userinput
+> in. Zoals met het kiezen van het menu-item <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Opdeling in secties</guisubmenu
+><guimenuitem
+>sectie</guimenuitem
+></menuchoice
+> zal een dialoogvenster verschijnen, waar u de titel en een optioneel label kunt kiezen voor dit commando voor een sectie. <screenshot>
+	<screeninfo
+>Dialoog: voeg commando hoofdstuk in</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Dialoog: voeg commando hoofdstuk in</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\subsection</userinput
+> in (zie ook <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\subsection</userinput
+> in (zie ook <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\paragraph</userinput
+> in (zie ook <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\subparagraph</userinput
+> in (zie ook <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\label</userinput
+> in. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt een commando <userinput
+>\ref</userinput
+> in. Zoals met het kiezen van het menu-item <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>Referenties</guisubmenu
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> zal een dialoogvenster verschijnen, waar u uit al gedefinieerde labels kunt kiezen, die beschikbaar zijn in een keuzelijst. <screenshot>
+	<screeninfo
+>Dialoog: voeg commando referenties in</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Dialoog: voeg commando referenties in</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\pageref</userinput
+> in (zie ook <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\cite</userinput
+> in. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\index</userinput
+> in. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>Voeg een commando <userinput
+>\footnote</userinput
+> in. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt commentaarmarkeringen in om de selectie of de huidige regel commentaar te maken. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>Verwijdert commentaarmarkeringen uit de selectie of de huidige regel. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>Zet de geselecteerde tekst of de letter na de cursor om in hoofdletters. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>Zet de geselecteerde tekst of de letter na de cursor om in kleine letters. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>Laat de geselecteerde tekst of het huidige woord met een hoofdletter beginnen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt de regels in de huidige selectie samen. Twee opeen volgende regels worden altijd gescheiden door een enkele spatie. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt een slimme nieuweregel in (zie <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>Voegt een slimme tab in (zie <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>Begint een bewerkingsgroep voor groepering van ongedaan maken/opnieuw doen. Controleer altijd of <function
+>editEnd()</function
+> is aangeroepen als u <function
+>editBegin()</function
+> aanroept. Aanroepen van <function
+>editBegin()</function
+> gebruikt intern een referentieteller, let op deze aanroep kan genest worden. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Beëindigt een bewerkingsgroep. De laatst aanroep van <function
+>editEnd()</function
+> (dwz. diegene voor de eerste aanroep van <function
+>editBegin()</function
+>) beëindigt de bewerkingsstap. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft alle gedefinieerde labels als een <literal
+>StringList</literal
+> terug, die in &javascript; kan worden gebruikt als een array van tekenreeksen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft alle gedefinieerde bibitems als een <literal
+>StringList</literal
+> terug, die in &javascript; kan worden gebruikt als een array van tekenreeksen. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>Ververs de structuurweergave (zie <xref linkend="navigating" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>De API van &kile;</title>
+
+<para
+>Het globale object (variabele) <userinput
+>kile</userinput
+> wordt gebruikt om interacties op topniveau met de buitenwereld te behandelen, invoerberichten en interfaces voor een dialoog. Deze API-aanroepen worden verdeeld in subobjecten om deze delen van de API voor scripts te structureren. Conceptueel lijkt <userinput
+>kile</userinput
+> een beetje op een <userinput
+>venster</userinput
+> in een API voor een browser. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>: &nbsp; berichtvakken</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>: &nbsp; krijgt de invoer van de gebruiker</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>: &nbsp; roept een van de assistenten van &kile; aan</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>: &nbsp; krijgt informatie over een script in uitvoering</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>: &nbsp; bestandsbewerkingen zoals lezen en schrijven.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>Waarschuwing</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Toon een <emphasis
+>Informatie</emphasis
+>-dialoog. <parameter
+>tekst</parameter
+> is tekenreeks van het bericht en <parameter
+>opschrift</parameter
+> is de titel van het berichtvak. De standaard titel is de naam van het script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Toon een <emphasis
+>Sorry</emphasis
+>-dialoog. <parameter
+>tekst</parameter
+> is tekenreeks van het bericht en <parameter
+>opschrift</parameter
+> is de titel van het berichtvak. De standaard titel is de naam van het script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Toon een <emphasis
+>Fout</emphasis
+>-dialoog. <parameter
+>tekst</parameter
+> is tekenreeks van het bericht en <parameter
+>opschrift</parameter
+> is de titel van het berichtvak. De standaard titel is de naam van het script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Toon een eenvoudige dialoog met een <emphasis
+>vraag</emphasis
+>. <parameter
+>tekst</parameter
+> is tekenreeks van het bericht en <parameter
+>opschrift</parameter
+> is de titel van het berichtvak. De standaard titel is de naam van het script. De teruggegeven tekenreeks is ofwel <literal
+>ja</literal
+> of <literal
+>nee</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Toon een eenvoudige dialoog met een <emphasis
+>waarschuwing</emphasis
+>. <parameter
+>tekst</parameter
+> is tekenreeks van het bericht en <parameter
+>opschrift</parameter
+> is de titel van het berichtvak. De standaard titel is de naam van het script. De teruggegeven tekenreeks is ofwel <literal
+>doorgaan</literal
+> of <literal
+>annuleren</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>Invoer</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>lijst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Functie om de gebruiker een item uit een lijst te laten selecteren, die getoond wordt als een keuzelijst. <parameter
+>opschrift</parameter
+> is de tekst die in de titelbalk wordt getoond, <parameter
+>label</parameter
+> is de tekst die verschijnt als het label voor de lijst en <parameter
+>lijst</parameter
+> is de lijst met tekenreeksen die in de lijst wordt gezet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>lijst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Functie om de gebruiker een item uit een lijst te laten selecteren, die getoond wordt als een keuzelijst. <parameter
+>opschrift</parameter
+> is de tekst die in de titelbalk wordt getoond, <parameter
+>label</parameter
+> is de tekst die verschijnt als het label voor de lijst en <parameter
+>lijst</parameter
+> is de lijst met tekenreeksen die in de lijst wordt gezet. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Functie om een tekenreeks van de gebruiker te krijgen. <parameter
+>opschrift</parameter
+> is de tekst die wordt getoond in de titelbalk en <parameter
+>label</parameter
+> de tekst die verschijnt als een label voor de te bewerken regel. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Functie om een &latex;-opdracht van de gebruiker te krijgen. Dit houdt in dat alleen gewone en hoofdletters zijn toegestaan. <parameter
+>opschrift</parameter
+> is de tekst die wordt getoond in de titelbalk en <parameter
+>label</parameter
+> de tekst die verschijnt als een label voor de te bewerken regel. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = INT_MIN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Functie om een integer van de gebruiker te krijgen. <parameter
+>caption</parameter
+> s de tekst die wordt getoond in de titelbalk. <parameter
+>opschrift</parameter
+> is de tekst die wordt getoond in de spin box. <parameter
+>min</parameter
+> en <parameter
+>max</parameter
+> zijn de minimum en maximum toegestanewaarden die de gebruiker mag kiezen. De standaardwaarden zijn <literal
+>INT_MIN</literal
+> en <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>opschrift</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>label</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = INT_MAX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Functie om een positieve integer van de gebruiker te krijgen. <parameter
+>opschrift</parameter
+> is de tekst die wordt getoond in de titelbalk. <parameter
+>opschrift</parameter
+>  is de tekst die wordt getoond in de spin box. <parameter
+>min</parameter
+> en <parameter
+>max</parameter
+> zijn de minimum en maximum toegestanewaarden die de gebruiker mag kiezen. De standaardwaarden zijn <literal
+>1</literal
+> en <literal
+>INT_MAX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>Assistent</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>Start de <emphasis
+>Tabel assistent</emphasis
+>, die helpt bij het aanmaken van een tabel (lees <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>Start de <emphasis
+>Array assistent</emphasis
+>, die helpt bij het aanmaken van een array (lees <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>Start de <emphasis
+>Tabbing assistent</emphasis
+>, die helpt bij het aanmaken van de instellingen voor tabs (lees <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Start de <emphasis
+>Floats assistent</emphasis
+>, die helpt bij het aanmaken van zwevende elementen (lees <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Start de <emphasis
+>Math assistent</emphasis
+>, die helpt bij het aanmaken van de instellingen voor wiskundige omgeving (lees <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>Start de <emphasis
+>Postscript hulpmiddel assistent</emphasis
+>, die hulp kan geven bij het organiseren van Postscript documenten (lees <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>Script</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft de bestandsnaam van het gestarte script  (zonder pad en zonder extensie). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>Geeft een tekenreeks, dat gebruikt kan worden als opschrift voor een alert box. Dat zal er uit zien zoals <userinput
+>Script: scriptname.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>Bestand</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>bestandsnaam</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Leest de inhoud van een tekstbestand. Het gebruik is als volgt </para
+><para
+>Voorbeeld: <function
+>var res = kile.file.read("path/to/file.txt");</function
+> </para
+><para
+>De teruggegeven waarde <userinput
+>res</userinput
+> is een object (beter: een map) met drie eigenschappen: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>status:</guilabel
+>&nbsp; Geeft de status code van de bewerking, dit kan zijn 0 (geen fout), 1 (toegang mislukt) of 2 (toegang geweigerd). Dus, als er geen fout optrad, dan zal de waarde van <userinput
+>res.status</userinput
+> of <userinput
+>res["status"]</userinput
+> 0 zijn.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>result:</guilabel
+>&nbsp; Bevat de tekst van het opgegeven bestand.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>message:</guilabel
+>&nbsp; Bevat een foutmelding, als een fout is opgetreden.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>Hetzelfde als <literal
+>read(bestandsnaam)</literal
+>, maar er is geen bestandsnaam opgegeven. Een dialoogvenster opent voor het selecteren van het bestand. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>bestandsnaam</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Schrijft de opgegeven tekst naar een bestand. Het gebruik is als volgt </para
+><para
+>Voorbeeld: <function
+>var res = kile.file.write("path/to/file.txt","Wat tekst...");</function
+> </para
+><para
+>De teruggegeven waarde <userinput
+>res</userinput
+> is een object (beter: een map) met twee eigenschappen: <literal
+>status</literal
+> en <literal
+>message</literal
+> (lees <literal
+>read()</literal
+> voor meer informatie). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>tekst</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Hetzelfde als <literal
+>write(bestandsnaam,text)</literal
+>, maar er is geen bestandsnaam opgegeven. Een dialoogvenster opent voor het selecteren van een bestand. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Creëert een algemeen dialoogvenster voor bestanden en geeft de gekozen bestandsnaam of een lege tekenreeks als niets is gekozen. Merk op dat bij deze methode de gebruiker een bestaand bestandsnaam moet kiezen. </para
+><para
+>Parameters: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>startDir:</guilabel
+>&nbsp; De map waarmee het dialoogvenster opent.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filter:</guilabel
+>&nbsp; Een shell glob of een mime-type-filter dat instelt welke bestanden te zien zijn. Lees de informatie over KFileDialog voor meer informatie over deze parameter.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Beide parameters zijn optioneel. Als u <literal
+>filter</literal
+> weglaat, dan zijn alle bestanden zichtbaar. Als bovendien <literal
+>startDir</literal
+> weggelaten is, dan start het dialoogvenster in de huidige document-map. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getSaveFileName(<parameter
+>String <replaceable
+>startDir</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filter</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Creëert een algemeen dialoogvenster voor bestanden en geeft de gekozen bestandsnaam of een lege tekenreeks als niets is gekozen. Merk op dat bij deze methode de gebruiker geen bestaand bestandsnaam hoeft te kiezen. Lees <literal
+>getOpenFileName()</literal
+> voor een uitleg van de parameters. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>Voorbeelden</title>
+
+<para
+>Enige voorbeelden die u kunnen helpen bij het begrijpen van het gebruik van de scripting API. Deze voorbeelden en nog enige andere kunt u vinden in de map voor scripts van  &kile;: <filename
+>KILE_APP_DIR/scripts/</filename
+>. In elk script is een korte beschrijving aanwezig.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>Voorbeeld 1: vervang omgevingsnaam</title>
+
+<para
+>Vervang een omgevende &latex; omgeving door een andere, waar de relatieve cursorpositie niet zal worden gewijzigd. <userinput
+>\begin{abc}...\end{abc}</userinput
+> kan bijvoorbeeld gewijzigd worden in <userinput
+>\begin{xyz}...\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Voer omgeving in","Nieuwe naam omgeving:");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("Geen omgevende LaTeX-omgeving gevonden.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>Voorbeeld 2: vervang een &latex; lettertypecommando</title>
+
+<para
+>Vervang een omgevend &latex;-lettertypecommando door een ander lettertypecommando, wanneer de cursor zich in de texgroup bevindt. De relatieve cursorpositie zal niet gewijzigd worden. <userinput
+>\textbf{abc}</userinput
+> kan bijvoorbeeld vervangen worden door <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("Geen omgevende TeX-groep gevonden.");
+}
+
+function replaceFontCommand(r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Maak keuze",
+                                                    "Kies lettertypecommando:",buildCmdList(cmd));
+                        if ( newcommand != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition(c);
+        }
+        else {
+                kile.alert.sorry("Geen omgevende lettertypecommando gevonden.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>Voorbeeld 3: zet iets om geselecteerde tekst</title>
+
+<para
+>Zet om geselecteerde tekst een TeX-commando, waar de relatieve cursorpositie niet zal worden gewijzigd. Bijvoorbeeld <userinput
+>abc</userinput
+> kan worden gewijzigd in <userinput
+>\texcommand{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand("Maak keuze","Kies omgevende LaTeX-commando:");
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("Geen selectie gevonden.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

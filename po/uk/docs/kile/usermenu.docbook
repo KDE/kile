@@ -1,0 +1,638 @@
+<chapter id="id_usermenu">
+<title
+>Меню, яке може визначити користувач</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Налаштування</title>
+
+<para
+>У &kile; передбачено підтримку меню, визначених користувачем. Ці меню буде показано серед основних пунктів меню &kile;. Налаштувати такі меню можна за допомогою діалогового вікна налаштовування &kile;: <menuchoice
+><guimenu
+>Параметри</guimenu
+><guisubmenu
+>Налаштувати Kile</guisubmenu
+><guimenuitem
+>Меню користувача</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Налаштування меню користувача</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Налаштування меню користувача</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Передбачено два варіанти розташування меню:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>пункт меню <guimenu
+>Меню користувача</guimenu
+> основного меню програми між пунктами <guimenu
+>LaTeX</guimenu
+> і <guimenu
+>Майстер</guimenu
+> та пункт майстра налаштування <guimenuitem
+>Змінити меню користувача</guimenuitem
+> у меню <guimenu
+>Майстер</guimenu
+>;</para>
+
+	<screenshot>
+		<screeninfo
+>Меню користувача у головному меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Меню користувача у головному меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>розташувати обидва пункти у нижній частині меню <guimenu
+>LaTeX</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Меню користувача як частина меню «LaTeX»</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Меню користувача як частина меню «LaTeX»</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Раніше створені користувачем мітки зі старих версій &kile; буде автоматично перетворено на нове придатне до налаштовування користувачем меню. Мітки буде збережено до файла з назвою <filename
+>usertags.xml</filename
+>. Як і всі інші файли визначення меню, цей файл зберігатиметься у локальному каталозі меню користувача &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, наприклад <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Ви можете використовувати різні файли визначення меню для виконання різних завдань. Для встановлення або внесення змін до файла визначення меню скористайтеся майстром меню:  <menuchoice
+><guimenu
+>Майстер</guimenu
+><guisubmenu
+>Змінити меню користувача</guisubmenu
+></menuchoice
+> або <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Змінити меню користувача</guisubmenu
+></menuchoice
+>.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Майстер</title>
+
+<para
+>Ви можете створювати меню або вносити зміни до вже створених меню за допомогою зручного майстра налаштовування меню користувача, доступ до якого можна отримати за допомогою пункту меню <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Змінити меню користувача</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Майстер створення меню користувача</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Майстер створення меню користувача</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>У лівій частині вікна майстра ви побачите поточну ієрархію меню. Подібно до звичайного меню, передбачено три різновиди пунктів меню:</para>
+
+<itemizedlist>
+<listitem
+><para
+>звичайні пункти меню, з якими пов’язано певні дії;</para
+></listitem>
+<listitem
+><para
+>підменю, які містять інші пункти меню;</para
+></listitem>
+<listitem
+><para
+>роздільники, які надають структурованості спискам пунктів меню.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Щоб внести зміни до меню, скористайтеся шістьма кнопками, розташованими ліворуч. Доступ до додаткових дій можна отримати за допомогою контекстного меню вже створених пунктів меню.</para>
+
+	<screenshot>
+		<screeninfo
+>Визначена користувачем ієрархія меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Визначена користувачем ієрархія меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>З кожним звичайним пунктом меню пов’язується дія одного з трьох типів. Кожен з типів має власні атрибути, які можна встановити:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Текст:</guilabel
+> у &kile; передбачено можливість створення власних міток. Мітка подібна до кнопки, натискання на яку призводить до виконання певної команди або вписування якогось поширеного фрагмента тексту. Таким фрагментом, наприклад, може бути речення <userinput
+>Доброго дня, долучаю до цього листа...</userinput
+>. Цю мітку буде вставлено у поточну позицію курсора після виклику відповідного пункту (див. вище). Можна використовувати метасимволи (див. <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Вставити вміст файла:</guilabel
+> вставити повністю вміст вказаного файла.</para>
+
+	<screenshot>
+		<screeninfo
+>Вставлення вмісту файла</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Вставлення вмісту файла</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Виконати зовнішню програму:</guilabel
+> дані, виведені програмою може бути вставлено до відкритого документа. У командному рядку програми можна використати метасимвол <userinput
+>%M</userinput
+> замість позначеного фрагмента тексту, який буде збережено до тимчасового файла. <userinput
+>%M</userinput
+> позначає назву цього тимчасового файла.</para>
+
+	<screenshot>
+		<screeninfo
+>Виконання зовнішньої програми</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Виконання зовнішньої програми</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Якщо майстрові не вистачатиме якихось важливих даних, відповідні пункти меню буде позначено червоним кольором. Таке позначення може означати, що файл не знайдено:</para>
+
+	<screenshot>
+		<screeninfo
+>Файла не існує</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Файла не існує</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>або що не знайдено заголовка пункту меню, замість нього буде показано знаки питання, <userinput
+>???</userinput
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Не вказано заголовка пункту меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Не вказано заголовка пункту меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Якщо ви відкриєте контекстне меню такого «червоного» пункту меню, ви побачите додатковий пункт меню з даними щодо помилки, пов’язаної з пунктом.</para>
+
+	<screenshot>
+		<screeninfo
+>Додаткові дані</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Додаткові дані</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Додаткову інформацію можна отримати за допомогою кнопки <guilabel
+>Що це?</guilabel
+>, підказки для якої передбачено для більшості віджетів.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Заповнювачі</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Вставлення тексту</title>
+
+<para
+>Передбачено декілька замінників, якими ви можете скористатися у ваших мітках: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> and <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>: це позиція, куди буде пересунуто курсор після вставки визначеного користувачем теґу.</para>
+
+	<screenshot>
+		<screeninfo
+>Розташування курсора (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Розташування курсора (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>: буде замінено позначкою-кружечком (див. <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Позначка (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Позначка (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>: буде замінено позначеним фрагментом тексту.</para>
+
+	<screenshot>
+		<screeninfo
+>Позначений фрагмент тексту (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Позначений фрагмент тексту (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>: позначає ширину відступу тексту у середовищі.</para>
+
+	<screenshot>
+		<screeninfo
+>Відступ тексту у середовищі (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Відступ тексту у середовищі (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>: відкриває діалогове вікно посилання, за допомогою якого ви зможете вибрати вже визначену мітку. За допомогою цього замінника можна створити посилання на вже визначену мітку, яку ви можете вибрати зі спадного списку (див. також <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Посилання</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> або <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Посилання</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Посилання (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Посилання (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>: відкриває діалогове вікно посилань списку літератури для вибору вже визначеного пункту списку. Подібно до використання пункту меню <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Посилання</guimenuitem
+><guimenuitem
+>cite</guimenuitem
+></menuchoice
+> буде показано контекстне меню всіх визначених пунктів списку літератури.</para>
+
+	<screenshot>
+		<screeninfo
+>Ключі цитування (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ключі цитування (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Розгляньмо інший приклад з макросом, подібним до <userinput
+>\frac{%M}{%C}</userinput
+>. Спочатку ми позначаємо у нашому тексті число, наприклад <userinput
+>42</userinput
+>. Після цього викликаємо макрос і отримуємо <userinput
+>\frac{42}{}</userinput
+>, причому курсор буде розташовано всередині другої пари дужок.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Вставлення вмісту файла</title>
+
+<para
+>Якщо вам потрібно вставити вміст якогось текстового файла, ви можете скористатися тими самими заповнювачами-замінниками.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Виконання програми</title>
+
+<para
+>Якщо вам потрібно виконати зовнішню програму, у командному рядку розпізнаватиметься лише замінник <userinput
+>%M</userinput
+>, який відповідає позначеному фрагменту тексту. Цей фрагмент буде збережено до тимчасового файла, а замінник <userinput
+>%M</userinput
+> замінено на назву цього файла.</para>
+
+	<screenshot>
+		<screeninfo
+>Виконати зовнішню програму (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Виконати зовнішню програму (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ще одним замінником є <userinput
+>%S</userinput
+>. Цей замінник буде замінено на повну назву поточного документа без шляху до нього. Ця назва складатиметься з усіх назви файла аж до, але не включаючи, останній символ «.».</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Параметр</title>
+
+<para
+>Для більшості пунктів меню передбачено додаткові параметри, призначення яких зрозуміло з назви. Якщо якимись з параметрів не можна скористатися для дії певного типу, відповідні пункти параметрів буде вимкнено.</para>
+
+	<screenshot>
+		<screeninfo
+>Параметр меню користувача</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Параметр меню користувача</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ось один з прикладів для виконання зовнішньої програми:</para>
+
+	<screenshot>
+		<screeninfo
+>Приклад параметра</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Приклад параметра</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Як можна бачити, викликається скрипт мовою <userinput
+>perl</userinput
+>. Цей скрипт оброблятиме поточний позначений фрагмент тексту. Щоб уникнути помилок, позначено пункт <guilabel
+>Потребує позначення фрагмента тексту</guilabel
+>. Виведені цим скриптом дані буде вставлено у текст (<guilabel
+>Вставити дані, виведені вибраною програмою</guilabel
+>). Вставленими даними буде замінено поточний позначений фрагмент (<guilabel
+>Замінити позначений фрагмент тексту</guilabel
+>). Після вставляння фрагмент тексту позначено не буде.</para>
+
+<para
+>Звичайно ж, ви можете також викликати власні програми або скрипти. Наприклад, можете позначити список із чисел, відокремлених пробілами, і викликати скрипт або програму мовою Perl, яка перетворить позначені дані на код &latex; для матриці. Якими б не були ваші ідеї, ви можете реалізувати їх за допомогою пункту меню користувача.</para>
+
+	<screenshot>
+		<screeninfo
+>Приклад параметра 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Приклад параметра 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Файли визначення меню</title>
+
+<para
+>Під час роботи програми ви можете встановлювати різні меню для виконання різних завдань. У відповідь на виклик майстра меню користувача буде завантажено поточний файл визначення меню. Якщо ви внесете до нього зміни і закриєте діалогове вікно за допомогою кнопки <guibutton
+>Гаразд</guibutton
+>, внесені вами зміни буде збережено і встановлено як нове меню користувача. Закриття діалогового вікна за допомогою кнопки <guibutton
+>Скасувати</guibutton
+> призведе до відкидання всіх внесених змін.</para>
+
+	<screenshot>
+		<screeninfo
+>Файли визначення меню</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Файли визначення меню</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Крім того, ви можете зберегти змінений файл до каталогу меню користувача або завантажити інший файл визначення меню і встановити його. Всі файли визначення меню мають зберігатися у локальному каталозі меню користувача &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Ознайомтеся з файлом прикладу визначення меню, <userinput
+>example.xml</userinput
+>, щоб дізнатися більше про пункти меню та параметри цих пунктів.</para>
+
+</sect1>
+
+</chapter>

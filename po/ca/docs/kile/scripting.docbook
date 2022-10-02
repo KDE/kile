@@ -1,0 +1,4256 @@
+<chapter id="id_scripting">
+<title
+>Crear scripts</title>
+
+<sect1 id="id_scripting_kile">
+<title
+>Crear scripts al &kile;</title>
+
+<para
+>La característica de crear scripts del &kile; permet l'execució de codi <ulink url="http://en.wikipedia.org/wiki/ECMAScript"
+>ECMAScript</ulink
+>, també conegut com a &javascript;. Trobareu una gran quantitat de guies d'aprenentatge que proporcionen informació sobre els objectes (variables), funcions i propietats suportades per &javascript;.</para>
+
+<para
+>El suport de creació de scripts es pot activar al diàleg de configuració del &kile;: <menuchoice
+><guimenu
+>Arranjament</guimenu
+><guisubmenu
+>Configura el &kile;...</guisubmenu
+> <guimenuitem
+>Kile</guimenuitem
+><guilabel
+>Crea scripts</guilabel
+></menuchoice
+>. <screenshot>
+	<screeninfo
+>Activant o desactivant la compatibilitat amb crear scripts</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-support.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Activant o desactivant la compatibilitat amb crear scripts</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Si la creació de scripts està activada, serà visible un grup addicional de crear scripts a la barra lateral, des d'on es podran gestionar: <screenshot>
+	<screeninfo
+>El plafó Crear scripts a la barra lateral</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-panel.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>El plafó Crear scripts a la barra lateral</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Aquest giny conté sis icones, les quals ofereixen tasques diferents: <itemizedlist>
+<listitem
+><para
+>Executa l'script seleccionat.</para
+></listitem>
+<listitem
+><para
+>Crea un script nou.</para
+></listitem>
+<listitem
+><para
+>Obre l'script seleccionat a l'editor.</para
+></listitem>
+<listitem
+><para
+>Configura una seqüència de tecles per a l'script seleccionat.</para
+></listitem>
+<listitem
+><para
+>Elimina una seqüència de tecles assignada.</para
+></listitem>
+<listitem
+><para
+>Actualitza la llista de scripts disponibles, els quals es troben a <filename
+>$<envar
+>KDEDIR</envar
+>/share/apps/kile/scripts/</filename
+>.</para
+></listitem>
+</itemizedlist>
+</para>
+
+</sect1>
+
+<sect1 id="id_execute_script">
+<title
+>Executar un script</title>
+
+<para
+>Podeu executar un script de tres maneres diferents:</para>
+
+<procedure>
+<step
+><para
+>Seleccioneu l'script desitjat i feu clic sobre el botó <guilabel
+>Executa</guilabel
+> a la part esquerra del giny per a la gestió de scripts.</para>
+<screenshot>
+	<screeninfo
+>Crear scripts: el botó Executa</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-execbutton.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Crear scripts: el botó Executa</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Utilitzeu una drecera de teclat.</para>
+<screenshot>
+	<screeninfo
+>Crear scripts: drecera de teclat</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-shortcut.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Crear scripts: drecera de teclat</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Podeu assignar una drecera de teclat a un script utilitzant el botó <guilabel
+>Configura</guilabel
+> al giny per a la gestió de scripts.</para>
+<screenshot>
+	<screeninfo
+>Crear scripts: el diàleg configura seqüència</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-configure.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Crear scripts: el diàleg configura seqüència</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</step>
+
+<step
+><para
+>Utilitzeu un editor per a seqüència de tecles. L'script serà executat, si escriviu a l'editor la seqüència de tecles assignada.</para>
+<screenshot>
+	<screeninfo
+>Crear scripts: editor de seqüència de tecles</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence1.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Crear scripts: editor de seqüència de tecles</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Aquest mètode es pot estendre a un tipus força sofisticat de compleció de codi. Suposem que heu escrit un script, el qual simplement insereix l'ordre <userinput
+>\textbf{}</userinput
+> de &latex; en el document actual.</para>
+
+<programlisting
+>document.insertText("\\textbf{%C}");
+</programlisting>
+
+<para
+>Si ara escriviu la seqüència de tecles assignada <userinput
+>bfx</userinput
+> en el vostre document de text, aquesta seqüència de tecles serà eliminada i s'executarà l'script. S'inserirà <userinput
+>\textbf{}</userinput
+> i el cursor se situarà entre les claus.</para>
+<screenshot>
+	<screeninfo
+>Crear scripts: escriure una seqüència de tecles a l'editor</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="scripting-keysequence2.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Crear scripts: escriure una seqüència de tecles a l'editor</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+<para
+>Realment és un mètode còmode i potent per a la finalització de codi.</para>
+</step>
+</procedure>
+
+</sect1>
+
+<sect1 id="id_scripting_api">
+<title
+>Referència de l'API</title>
+
+<para
+>L'API per a la creació de scripts que es presenta aquí està disponible en tots els scripts. Abans que es carregui el contingut d'un script, el &kile; primer afegeix diversos prototips i funcions al context de la creació de scripts. Aquesta utilitat de l'API conté prototips com cursors de text i intervals de text, i està localitzada a la carpeta <filename
+>KILE_APP_DIR/script-plugins/</filename
+>.</para>
+
+<para
+>Els scripts del &kile; difereixen lleugerament dels scripts del <ulink url="http://kate-editor.org"
+>&kate;</ulink
+>, els quals utilitzen un altre disseny, ja que també es poden iniciar des de la línia d'ordres. Però totes les funcions de l'API per a crear scripts del &kate; també estan disponibles a l'API per a crear scripts del &kile;, portar el codi &javascript; del &kate; al &kile; hauria de ser molt fàcil. Però com el &kile; és un editor de &latex; molt ric en característiques, la seva pròpia API per a crear scripts ofereix moltes més possibilitats que la del &kate;.</para>
+
+<para
+><emphasis
+>Observació:</emphasis
+> La descripció de les crides a l'API, que també estan disponibles a la creació de scripts del &kate;, han estat agafades de la documentació del &kate;.</para>
+
+
+<sect2 id="id_scripting_api_global">
+<title
+>Funcions globals</title>
+
+<para
+>Aquesta secció llista les funcions globals.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void debug(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Imprimeix el <parameter
+>text</parameter
+> a <literal
+>stdout</literal
+> a la consola. El text imprès restarà en color per a distingir-lo d'una altra sortida de depuració. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_cursor">
+<title
+>El prototip «Cursor»</title>
+
+<para
+>Com el &kile; és un editor de text, tota l'API per a la creació de scripts es basa en cursors i intervals sempre que és possible. Un cursor és una simple tupla <literal
+>(línia, columna)</literal
+> que representa una posició del text en el document.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor();
+</synopsis
+></term>
+<listitem
+><para
+>Constructor. Retorna un cursor a la posició <literal
+>(0,0)</literal
+>. </para
+><para
+>Exemple: <function
+>var cursor = new Cursor();</function
+></para>
+</listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor. Retorna un cursor a la posició (línia,columna). </para
+><para
+>Exemple: <function
+>var cursor = new Cursor(3,42);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor(<parameter
+>Cursor <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor de còpia: Retorna una còpia del cursor <parameter
+>altre</parameter
+>. </para
+><para
+>Exemple: <function
+>var copy = new Cursor(altre);</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna una còpia del cursor. </para
+><para
+>Exemple: <function
+>var clone = cursor.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Comprova si el cursor és vàlid. El cursor no és vàlid, si la línia i/o la columna s'estableix a <literal
+>-1</literal
+>. </para
+><para
+>Exemple: <function
+>var valid = cursor.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor Cursor.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna un nou cursor no vàlid situat a <literal
+>(-1,-1)</literal
+>. </para
+><para
+>Exemple: <function
+>var invalidCursor = cursor.invalid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int Cursor.compareTo(<parameter
+>Cursor <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Compara aquest cursor al cursor <parameter
+>altre</parameter
+>. Retorna <itemizedlist>
+<listitem
+><para
+><literal
+>-1</literal
+>, si el cursor està situat abans del cursor <parameter
+>altre</parameter
+>,</para
+></listitem>
+<listitem
+><para
+><literal
+>0</literal
+>, si tots dos cursors són iguals i</para
+></listitem>
+<listitem
+><para
+><literal
+>+1</literal
+>, si el cursor està situat després del cursor <parameter
+>altre</parameter
+>.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Cursor.equals(<parameter
+>Cursor <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si aquest cursor i el cursor <parameter
+>altre</parameter
+> són iguals, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Cursor.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el cursor com una cadena de la forma <literal
+>Cursor(línia, columna)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_range">
+<title
+>El prototip «Range»</title>
+
+<para
+>Com el &kile; és un editor de text, tota l'API per a la creació de scripts es basarà en cursors i rangs sempre que és possible. Un cursor és una simple tupla <literal
+>(línia, columna)</literal
+> que representa una posició del text en el document, abasta un rang de text des d'una posició de començament del cursor fins a una posició de finalització del cursor.</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range();
+</synopsis
+></term>
+<listitem
+><para
+>El constructor. Crida <literal
+>new Range()</literal
+> retornant un interval <literal
+>(0,0) - (0,0)</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Cursor <replaceable
+>inici</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>final</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor: Crida <literal
+>new Range(<replaceable
+>inici</replaceable
+>, <replaceable
+>final</replaceable
+>)</literal
+> retorna l'interval des del cursor <parameter
+>inici</parameter
+> fins al cursor <parameter
+>final</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>int <replaceable
+>iniciLínia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>iniciColumna</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>finalLínia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>finalColumna</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>El constructor: Crida <literal
+>new Range(<replaceable
+>iniciLínia</replaceable
+>, <replaceable
+>iniciColumna</replaceable
+>, <replaceable
+>finalLínia</replaceable
+>, <replaceable
+>finalColumna</replaceable
+>)</literal
+> retorna l'interval des de (<literal
+>iniciLínia</literal
+>, <literal
+>iniciColumna</literal
+>) a (<literal
+>finalLínia</literal
+>, <literal
+>finalColumna</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range(<parameter
+>Range <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Constructor de còpia: Retorna una còpia de l'interval <literal
+>altre</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range Range.clone();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna una còpia de l'interval. </para
+><para
+>Exemple: <function
+>var clone = range.clone();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.isValid();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si inici i final del cursor són vàlids, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+><para
+>Exemple: <function
+>var valid = range.isValid();</function
+> </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.invalid();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval de (-1,-1) a (-1,-1). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader) si aquest interval conté la posició de cursor, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.contains(<parameter
+>Range <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si aquest interval conté l'interval <parameter
+>altre</parameter
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsColumn(<parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si <parameter
+>columna</parameter
+> està en l'interval obert mig <literal
+>[start.column, end.column]</literal
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.containsLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si <parameter
+>línia</parameter
+> està en l'interval obert mig <literal
+>[start.line, end.line]</literal
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlaps(<parameter
+>Range <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si aquest interval i l'interval <parameter
+>altre</parameter
+> comparteixen una regió comuna, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si <parameter
+>línia</parameter
+> està en l'interval <literal
+>[start.line, end.line]</literal
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.overlapsColumn(<parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si <parameter
+>columna</parameter
+> està en l'interval <literal
+>[start.column, end.column]</literal
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool Range.equals(<parameter
+>Range <replaceable
+>altre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si aquest interval i l'interval de <parameter
+>altre</parameter
+> són iguals, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String Range.toString();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval com una cadena de la forma <literal
+>Range(Cursor(línia,columna) - Cursor(línia,columna))</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_view">
+<title
+>L'API «View»</title>
+
+<para
+>Sempre que s'està executant un script, hi haurà un objecte global (variable) «<userinput
+>view</userinput
+>» que representa la vista actual de l'editor actiu. Totes les funcions de «<literal
+>view</literal
+>» treballen amb les posicions del cursor o el text seleccionat. La següent és una llista de totes les funcions disponibles per a «<userinput
+>view</userinput
+>».</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.backspace();
+</synopsis
+></term>
+<listitem
+><para
+>Realitza la programació equivalent a prémer la tecla de retrocés. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.cursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la posició actual del cursor en la vista. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorPosition(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+void view.setCursorPosition(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Estableix la posició actual del cursor a <parameter
+>línia</parameter
+>, <parameter
+>columna</parameter
+> o el <parameter
+>cursor</parameter
+> indicat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorLeft();
+</synopsis
+></term>
+<listitem
+><para
+>Mou el cursor una posició cap enrere en el text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorRight();
+</synopsis
+></term>
+<listitem
+><para
+>Mou el cursor una posició cap endavant en el text. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorUp();
+</synopsis
+></term>
+<listitem
+><para
+>Mou el cursor una línia cap amunt en el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.cursorDown();
+</synopsis
+></term>
+<listitem
+><para
+>Mou el cursor una línia cap avall en el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorLine();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna a la línia en la qual està situat el cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int view.cursorColumn();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna a la columna en la qual està el cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Estableix la línia del cursor a la <parameter
+>línia</parameter
+> donada. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setCursorColumn(<parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Estableix la columna del cursor a la <parameter
+>columna</parameter
+> donada. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor view.virtualCursorPosition();
+</synopsis
+></term>
+<listitem
+><para
+>Obté la posició actual del cursor <emphasis
+>virtual</emphasis
+>. <emphasis
+>Virtual</emphasis
+> vol dir que el caràcter tabulador (TAB) compta amb múltiples caràcters, tal com l'ha configurat l'usuari (&pex;, un TAB són 8 espais). La posició del cursor virtual proporciona accés als valors d'usuari visibles de la posició actual del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool view.hasSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si la vista conté el text seleccionat, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String view.selectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el text seleccionat. Si no hi ha text seleccionat, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range view.selectionRange();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval de text seleccionat. L'interval retornat no serà vàlid si no hi ha text seleccionat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.setSelection(<parameter
+>Range <replaceable
+>rang</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Estableix el text seleccionat al <parameter
+>rang</parameter
+> indicat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectAll();
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona tot el text en el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.clearSelection();
+</synopsis
+></term>
+<listitem
+><para
+>Neteja la selecció de text sense eliminar-lo. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.removeSelectedText();
+</synopsis
+></term>
+<listitem
+><para
+>Elimina el text seleccionat. Si la vista no té cap text seleccionat, no fa res. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine();
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona el text a la línia actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona el text a la <parameter
+>línia</parameter
+> indicada. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLines(<parameter
+>int <replaceable
+>des_de</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fins_a</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona tot el text des de la línia <parameter
+>des_de</parameter
+> fins a la línia <parameter
+>fins_a</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectWord();
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona la paraula actual. Si no es troba cap paraula a la posició actual del cursor, no es farà res. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectLatexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona l'ordre de &latex; actual. Si no es troba cap ordre a la posició actual del cursor, no es farà res. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona tot el text d'entorn de &latex; actual. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), es podrà seleccionar tot el text d'entorn, incloses les etiquetes de &latex; circumdants <userinput
+>\begin{...}...\end{...}</userinput
+>, en cas contrari aquestes etiquetes seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona el text del grup de &latex; actual. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>true</literal
+> (vertader), només se seleccionarà el grup de TeX sense les claus circumdants. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>true</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona el text del grup matemàtic actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void view.selectParagraph(bool wholeLines = true);
+</synopsis
+></term>
+<listitem
+><para
+>Selecciona el text sencer del paràgraf de &latex; actual. Si el paràmetre <parameter
+>wholeLines</parameter
+> és <literal
+>true</literal
+> (vertader), la primera i última línies del paràgraf seran incloses en la selecció (incloent-hi el caràcter de final de línia), en cas contrari, la selecció només contindrà caràcters sense espais en blanc. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_document">
+<title
+>L'API «Document»</title>
+
+<para
+>Sempre que s'està executant un script, hi haurà un objecte global (variable) «<userinput
+>document</userinput
+>» que representa la vista actual del document actiu. La següent és una llista de totes les funcions disponibles de «<userinput
+>document</userinput
+>».</para>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insereix el <parameter
+>text</parameter
+> a la posició actual del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertText(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+void document.insertText(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insereix el <parameter
+>text</parameter
+> a la posició donada del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeText(<parameter
+>int <replaceable
+>des_deLínia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>des_deColumna</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fins_aLínia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fins_aColumna</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Cursor <replaceable
+>des_de</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>fins_a</replaceable
+></parameter
+>);
+bool document.removeText(<parameter
+>Range <replaceable
+>rang</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Elimina el text dins de l'interval donat. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals), si el document està en mode de només lectura. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceText(<parameter
+>Range <replaceable
+>rang</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Substitueix el text de l'interval donat amb el text especificat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lines();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el nombre de línies en el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.length();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el nombre de caràcters en el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.documentRange();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna un rang que abasta tot el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Cursor document.documentEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la posició actual del cursor del final del document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el contingut complet del document en una cadena de text única. Els salts de línia estan marcats amb el caràcter de nova línia <literal
+>\n</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.text(<parameter
+>int <replaceable
+>des_deLínia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>des_deColumna</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fins_aLínia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>fins_aColumna</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Cursor <replaceable
+>des_de</replaceable
+></parameter
+>, <parameter
+>Cursor <replaceable
+>fins_a</replaceable
+></parameter
+>);
+String document.text(<parameter
+>Range <replaceable
+>rang</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el text en l'interval donat. Es recomana utilitzar el cursor i la versió basada en l'interval per a una millor lectura del codi font. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.setText(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Estableix el text a tot el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.clear();
+</synopsis
+></term>
+<listitem
+><para
+>Elimina tot el text en el document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la línia de text actual com a cadena. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.line(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la línia de text donada com a cadena. La cadena estarà buida si la línia demanada està fora de l'interval. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la longitud de la línia actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lineLength(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la longitud de la <parameter
+>línia</parameter
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insereix text en la línia actual. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals), si el document està en mode de només lectura o la línia no està en l'interval document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.insertLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>s</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Insereix text en la línia donada. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals), si el document està en mode de només lectura o la línia no està en l'interval document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine();
+</synopsis
+></term>
+<listitem
+><para
+>Elimina la línia de text actual. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals), si el document està en mode de només lectura. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.removeLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Elimina la línia de text donada. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals), si el document està en mode de només lectura o la línia no està en l'interval document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Substitueix el text de la línia actual amb el text especificat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.replaceLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Substitueix el text de la línia donada amb el text especificat. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncateLine();
+</synopsis
+></term>
+<listitem
+><para
+>Trunca la línia actual a la columna o la posició donada del cursor. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals) si la línia donada no forma part de l'interval del document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.truncate(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+bool document.truncate(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Trunca la línia donada a la columna o la posició donada del cursor. Retorna <literal
+>true</literal
+> (vertader) en cas d'èxit, o <literal
+>false</literal
+> (fals) si la línia donada no forma part de l'interval del document. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.word();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la paraula a la posició actual del cursor. Si no es troba cap paraula en aquesta posició del cursor, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.wordAt(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+String document.wordAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la paraula a la posició donada del cursor. Si no es troba cap paraula en aquesta posició del cursor, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.wordRange();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval de la paraula a la posició donada del cursor. Si no es troba cap paraula, es retornarà <literal
+>Range.invalid()</literal
+>, el qual es pot provar amb <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommand();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'ordre de &latex; a la posició actual del cursor. Si no es troba cap ordre en aquesta posició del cursor, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.latexCommandAt(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+String document.latexCommandAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'ordre de &latex; a la posició donada del cursor. Si no es troba cap ordre en aquesta posició del cursor, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.latexCommandRange();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval de l'ordre de &latex; a la posició donada del cursor. Si no es troba l'ordre de &latex;, es retornarà <literal
+>Range.invalid()</literal
+>, el qual es pot provar amb <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.charAt(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+String document.charAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el caràcter a la posició donada del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.firstChar(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el primer caràcter en la <parameter
+>línia</parameter
+> donada que no és un espai en blanc. El primer caràcter és a la columna 0. Si la línia està buida o només conté espais en blanc, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.lastChar(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'últim caràcter de la <parameter
+>línia</parameter
+> donada que no és un espai en blanc. Si la línia està buida o només conté espais en blanc, la cadena retornada estarà buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.isSpace(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+bool document.isSpace(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si el caràcter a la posició donada del cursor és un espai en blanc, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix un <emphasis
+>pic</emphasis
+> del &kile;. Recordeu que podeu saltar amb facilitat al pic següent o anterior. Això també ressaltarà aquest pic, eliminant-lo de forma automàtica en introduir la primera lletra. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.nextBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Salta al següent pic al text si és que existeix. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.previousBullet();
+</synopsis
+></term>
+<listitem
+><para
+>Salta al pic anterior al text si és que existeix. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader) si es troba un entorn de &latex; circumdant, d'altra manera <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna tot el text d'entorn de &latex; circumdant. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), es podrà seleccionar tot el text d'entorn, incloses les etiquetes de &latex; circumdants <userinput
+>\begin{...}...\end{...}</userinput
+>, en cas contrari aquestes etiquetes seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.environmentRange(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval de l'entorn de &latex; circumdant. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), es podrà seleccionar tot l'interval de l'entorn, incloses les etiquetes de &latex; circumdants <userinput
+>\begin{...}...\end{...}</userinput
+>, en cas contrari aquestes etiquetes seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. Si no es troba l'entorn de &latex;, es retornarà <literal
+>Range.invalid()</literal
+>, el qual es pot provar amb <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.environmentName();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el nom de l'entorn de &latex; circumdant o una cadena buida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeEnvironment(<parameter
+>bool <replaceable
+>inside = false</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Elimina el text d'entorn de &latex; circumdant. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), es podrà eliminar tot el text d'entorn, incloses les etiquetes de &latex; circumdants <userinput
+>\begin{...}...\end{...}</userinput
+>, en cas contrari aquestes etiquetes seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una etiqueta de tancament de l'entorn, si es troba un entorn de &latex; obert a la posició actual del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.closeAllEnvironments();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix etiquetes de tancament a tots els entorns de &latex; oberts, si es troben a la posició actual del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader) si es troba un grup de &latex; circumdant a la posició actual del cursor, d'altra manera <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.texgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el text del grup de &latex; circumdant. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), es retornarà el text d'aquest grup de &latex; incloent-hi les claus <userinput
+>{...}</userinput
+>, en cas contrari seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. La cadena retornada restarà buida, si no es troba un grup de &latex; circumdant a la posició actual del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.texgroupRange(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval del grup de &latex; circumdant Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), l'interval inclourà les claus <userinput
+>{...}</userinput
+> circumdants, en cas contrari seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. Si no es troba el grup, es retornarà <literal
+>Range.invalid()</literal
+>, el qual es pot provar amb <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeTexgroup(<parameter
+>bool <replaceable
+>inside = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Elimina el text del grup de &latex; circumdant. Si el paràmetre <parameter
+>inside</parameter
+> és <literal
+>false</literal
+> (fals), s'eliminarà tot en aquest grup de &latex;, incloses les claus circumdants <userinput
+>{...}</userinput
+>, en cas contrari seran excloses. Si no s'especifica cap paràmetre, <parameter
+>inside</parameter
+> restarà establert a <literal
+>false</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.hasMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader) si es troba un grup matemàtic de &latex; circumdant a la posició actual del cursor, d'altra manera <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.mathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el text del grup matemàtic de &latex; circumdant. La cadena retornada serà buida si no es troba cap grup matemàtic de &latex; circumdant a la posició actual del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.mathgroupRange();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval de l'entorn matemàtic de &latex; circumdant. Si no es troba cap grup matemàtic circumdant, es retornarà <literal
+>Range.invalid()</literal
+>, el qual es pot provar amb <literal
+>Range.isValid()</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeMathgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Elimina el text del grup matemàtic de &latex; circumdant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String document.paragraph();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el text del paràgraf de &latex; actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Range document.paragraphRange();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna l'interval del paràgraf de &latex; circumdant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.removeParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Elimina el text del paràgraf de &latex; actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.matchesAt(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+bool document.matchesAt(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si el <parameter
+>text</parameter
+> donat coincideix a la posició del cursor corresponent, en cas contrari retornarà <literal
+>false</literal
+> (fals). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.startsWith(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>patró</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si la línia comença amb <replaceable
+>patró</replaceable
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). L'argument <replaceable
+>skipWhiteSpaces</replaceable
+> controla si s'han d'ometre els espais en blanc davanters. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>bool document.endsWith(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>patró</replaceable
+></parameter
+>, <parameter
+>bool <replaceable
+>skipWhiteSpaces = true</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna <literal
+>true</literal
+> (vertader), si la línia acaba amb <replaceable
+>patró</replaceable
+>, en cas contrari retornarà <literal
+>false</literal
+> (fals). L'argument <replaceable
+>skipWhiteSpaces</replaceable
+> controla si s'han d'ometre els espais en blanc finals. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.firstColumn(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la primera columna que no està en blanc en la <parameter
+>línia</parameter
+> donada. Si només hi ha espais en blanc en la línia, el valor retornat serà <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.lastColumn(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la darrera columna que no està en blanc en la <parameter
+>línia</parameter
+> donada. Si només hi ha espais en blanc en la línia, el valor retornat serà <literal
+>-1</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonSpaceColumn(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+int document.prevNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la columna no buida que conté caràcters no en blanc a partir de la posició donada del cursor i cercant cap enrere. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonSpaceColumn(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>columna</replaceable
+></parameter
+>);
+int document.nextNonSpaceColumn(<parameter
+>Cursor <replaceable
+>cursor</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la columna no buida que conté caràcters no en blanc a partir de la posició donada del cursor i cercant cap endavant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.prevNonEmptyLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la línia següent no buida que conté caràcters no en blanc a la cerca cap enrere. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int document.nextNonEmptyLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Retorna la línia següent no buida que conté caràcters no en blanc a la cerca cap endavant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Va al començament d'un entorn de &latex; circumdant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndEnv();
+</synopsis
+></term>
+<listitem
+><para
+>Va al final d'un entorn de &latex; circumdant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoBeginTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Va al començament d'un grup de &latex; circumdant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoEndTexgroup();
+</synopsis
+></term>
+<listitem
+><para
+>Va al final d'un grup de &latex; circumdant. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Va al següent paràgraf de &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Va a l'anterior paràgraf de &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoNextSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Va a la següent secció de &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoPrevSectioning();
+</synopsis
+></term>
+<listitem
+><para
+>Va a l'anterior secció de &latex;. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.gotoLine(<parameter
+>int <replaceable
+>línia</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Va a la <literal
+>línia</literal
+> donada. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertChapter();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\chapter</userinput
+> (vegeu també <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSection();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\section</userinput
+>. Com escollir l'entrada de menú <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Seccionat</guisubmenu
+><guimenuitem
+>secció</guimenuitem
+></menuchoice
+> que farà aparèixer un diàleg, des d'on podreu escollir el títol i una etiqueta opcional per aquesta ordre de seccionament. <screenshot>
+	<screeninfo
+>Diàleg: inserint una ordre «chapter»</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertsection.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Diàleg: inserint una ordre «chapter»</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\subsection</userinput
+> (vegeu també <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubsubsection();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\subsubsection</userinput
+> (vegeu també <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertParagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\paragraph</userinput
+> (vegeu també <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertSubparagraph();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\subparagraph</userinput
+> (vegeu també <literal
+>document.insertSection()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertLabel();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\label</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertReference();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\ref</userinput
+>. Com escollir l'entrada de menú <menuchoice
+><guimenu
+>&latex;</guimenu
+><guisubmenu
+>Referències</guisubmenu
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> que farà aparèixer un diàleg, des d'on podreu escollir entre les etiquetes ja definides, les quals s'enumeren en un quadre combinat. <screenshot>
+	<screeninfo
+>Diàleg: inserint una ordre «reference»</screeninfo>
+	<mediaobject>
+	<imageobject>
+	<imagedata fileref="dialog-insertreference.png" format="PNG"/>
+	</imageobject>
+	<textobject>
+		<phrase
+>Diàleg: inserint una ordre «reference»</phrase>
+	</textobject>
+	</mediaobject>
+</screenshot>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertPageref();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\pageref</userinput
+> (vegeu també <literal
+>document.insertReference()</literal
+>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertCitation();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\cite</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIndex();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\index</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>oid document.insertFootnote();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix una ordre <userinput
+>\footnote</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.comment();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix marcadors de comentari per fer un comentari de la selecció o línia actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uncomment();
+</synopsis
+></term>
+<listitem
+><para
+>Elimina els marcadors de comentari de la selecció o línia actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.uppercase();
+</synopsis
+></term>
+<listitem
+><para
+>Canvia a majúscules el text seleccionat o la lletra després del cursor. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.lowercase();
+</synopsis
+></term>
+<listitem
+><para
+>Canvia el text seleccionat o la lletra després del cursor a minúscules. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.capitalize();
+</synopsis
+></term>
+<listitem
+><para
+>Posa en majúscula la primera lletra del text seleccionat o la paraula actual. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.joinLines();
+</synopsis
+></term>
+<listitem
+><para
+>Uneix les línies de la selecció actual. Dues línies de text successives sempre estaran separades amb un únic espai. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentNewline();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix un salt de línia intel·ligent (vegeu <xref linkend="editing_smartnewline" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.insertIntelligentTabulator();
+</synopsis
+></term>
+<listitem
+><para
+>Insereix un tabulador intel·ligent (vegeu <xref linkend="editing_tabulator" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editBegin();
+</synopsis
+></term>
+<listitem
+><para
+>Comença un grup d'edició per agrupar desfer/refer. Assegureu-vos de cridar sempre <function
+>editEnd()</function
+> tan aviat com crideu <function
+>editBegin()</function
+>. La crida <function
+>editBegin()</function
+> utilitza internament un comptador de referència, &ead;, aquesta crida es pot niar. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.editEnd();
+</synopsis
+></term>
+<listitem
+><para
+>Finalitza un grup d'edició. L'última crida de <function
+>editEnd()</function
+> (&ead;, una per a la primera crida de <function
+>editBegin()</function
+>) finalitza el pas d'edició. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.labelList();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna totes les etiquetes definides com a <literal
+>StringList</literal
+>, les quals es poden utilitzar en &javascript; com una matriu de cadenes. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>StringList document.bibitemList();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna tots els «bibitem» definits com a <literal
+>StringList</literal
+>, els quals es poden utilitzar en &javascript; com una matriu de cadenes. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void document.refreshStructure();
+</synopsis
+></term>
+<listitem
+><para
+>Actualitza la vista de l'estructura (vegeu <xref linkend="navigating" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect2>
+
+
+<sect2 id="id_scripting_api_kile">
+<title
+>L'API del &kile;</title>
+
+<para
+>L'objecte global (variable) «<userinput
+>kile</userinput
+>» s'utilitza per manejar les interaccions del nivell principal amb el món exterior, missatge d'entrada i les interfícies de diàleg. Aquestes crides a l'API es divideixen en subobjectes per estructurar aquesta part de l'API per a la creació de scripts. Conceptualment, «<userinput
+>kile</userinput
+>» és semblant a un objecte «<userinput
+>window</userinput
+>» en l'API d'un navegador. <itemizedlist>
+<listitem
+><para
+><literal
+>kile.alert</literal
+>: &nbsp; quadres de missatge</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.input</literal
+>: &nbsp; obté l'entrada de l'usuari</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.wizard</literal
+>: &nbsp; crida un dels assistents del &kile;</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.script</literal
+>: &nbsp; obté informació sobre un script en execució</para
+></listitem>
+<listitem
+><para
+><literal
+>kile.file</literal
+>: &nbsp; operacions amb fitxers, com ara la lectura o l'escriptura.</para
+></listitem>
+</itemizedlist>
+</para>
+
+
+<sect3 id="id_scripting_api_kile_alert">
+<title
+>Alerta</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.information(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Mostra un diàleg <emphasis
+>informatiu</emphasis
+>. <parameter
+>text</parameter
+> serà la cadena del missatge i <parameter
+>llegenda</parameter
+> el títol del quadre de missatge. El títol per omissió serà el nom de l'script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.sorry(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Mostra un diàleg <emphasis
+>em sap greu</emphasis
+>. <parameter
+>text</parameter
+> serà la cadena del missatge i <parameter
+>llegenda</parameter
+> el títol del quadre de missatge. El títol per omissió serà el nom de l'script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.alert.error(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Mostra un diàleg <emphasis
+>d'error</emphasis
+>. <parameter
+>text</parameter
+> serà la cadena del missatge i <parameter
+>llegenda</parameter
+> el títol del quadre de missatge. El títol per omissió serà el nom de l'script. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.question(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Mostra un diàleg <emphasis
+>de pregunta</emphasis
+>. <parameter
+>text</parameter
+> serà la cadena del missatge i <parameter
+>llegenda</parameter
+> el títol del quadre de missatge. El títol per omissió serà el nom de l'script. La cadena retornada serà <literal
+>sí</literal
+> o <literal
+>no</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.alert.warning(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Mostra un diàleg <emphasis
+>d'avís</emphasis
+>. <parameter
+>text</parameter
+> serà la cadena del missatge i <parameter
+>llegenda</parameter
+> el títol del quadre de missatge. El títol per omissió serà el nom de l'script. La cadena retornada serà <literal
+>continua</literal
+> o <literal
+>cancel·la</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_input">
+<title
+>Entrada</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getListboxItem(<parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etiqueta</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>llista</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funció perquè l'usuari seleccioni un element d'una llista, que es mostrarà com un quadre de llista. <parameter
+>llegenda</parameter
+> serà el text que es mostrarà a la barra de títol, <parameter
+>etiqueta</parameter
+> serà el text que apareixerà com a etiqueta per a la llista i <parameter
+>llista</parameter
+> serà la llista de cadenes que s'inseriran a la llista. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getComboboxItem(<parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etiqueta</replaceable
+></parameter
+>, <parameter
+>StringList <replaceable
+>llista</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funció perquè l'usuari seleccioni un element d'una llista, que es mostrarà com un quadre combinat. <parameter
+>llegenda</parameter
+> serà el text que es mostrarà a la barra de títol, <parameter
+>etiqueta</parameter
+> serà el text que apareixerà com a etiqueta per a la llista i <parameter
+>llista</parameter
+> serà la llista de cadenes que s'inseriran a la llista. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getText(<parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etiqueta</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funció per obtenir una cadena de l'usuari. <parameter
+>llegenda</parameter
+> serà el text que es mostrarà a la barra de títol i <parameter
+>etiqueta</parameter
+> serà el text que apareixerà com a etiqueta per editar la línia. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.input.getLatexCommand(<parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etiqueta</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funció per obtenir una ordre de &latex; de l'usuari. Això vol dir que només es permeten lletres majúscules i minúscules. <parameter
+>llegenda</parameter
+> serà el text que es mostrarà a la barra de títol i <parameter
+>etiqueta</parameter
+> serà el text que apareixerà com a etiqueta per editar la línia. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getInteger(<parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etiqueta</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = ENTER_MÍN</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = ENTER_MÀX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funció per obtenir un nombre enter de l'usuari. <parameter
+>llegenda</parameter
+> serà el text que es mostrarà a la barra de títol i <parameter
+>etiqueta</parameter
+> serà el text que apareixerà com a etiqueta per al botó de selecció de valors. <parameter
+>min</parameter
+> i <parameter
+>max</parameter
+> són els valors mínims i màxims permesos que l'usuari podrà triar. Els valors per omissió seran <literal
+>ENTER_MÍN</literal
+> i <literal
+>ENTER_MÀX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>int kile.input.getPosInteger(<parameter
+>String <replaceable
+>llegenda</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>etiqueta</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>min = 1</replaceable
+></parameter
+>, <parameter
+>int <replaceable
+>max = ENTER_MÀX</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Funció per obtenir un enter positiu de l'usuari. <parameter
+>llegenda</parameter
+> serà el text que es mostrarà a la barra de títol i <parameter
+>etiqueta</parameter
+> serà el text que apareixerà com a etiqueta per al botó de selecció de valors. <parameter
+>min</parameter
+> i <parameter
+>max</parameter
+> són els valors mínims i màxims permesos que l'usuari podrà triar. Els valors per omissió seran <literal
+>1</literal
+> i <literal
+>ENTER_MÀX</literal
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_wizard">
+<title
+>Assistent</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabular();
+</synopsis
+></term>
+<listitem
+><para
+>Crida a <emphasis
+>l'assistent tabular</emphasis
+>, el qual us ajudarà a escriure un entorn tabular (vegeu <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.array();
+</synopsis
+></term>
+<listitem
+><para
+>Crida a <emphasis
+>l'assistent de Matriu</emphasis
+>, el qual us ajudarà a escriure un entorn de matriu (vegeu <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.tabbing();
+</synopsis
+></term>
+<listitem
+><para
+>Crida a <emphasis
+>l'assistent de Tabulació</emphasis
+>, el qual us ajudarà a escriure un entorn de tabulació (vegeu <xref linkend="wizard_array" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.floatEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Crida a <emphasis
+>l'assistent d'Elements flotants</emphasis
+>, el qual us ajudarà a inserir elements flotants (vegeu <xref linkend="wizard_float" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.mathEnvironment();
+</synopsis
+></term>
+<listitem
+><para
+>Crida a <emphasis
+>l'assistent Matemàtica</emphasis
+>, el qual us ajudarà a inserir entorns matemàtics (vegeu <xref linkend="wizard_math" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>void kile.wizard.postscript();
+</synopsis
+></term>
+<listitem
+><para
+>Crida a <emphasis
+>l'assistent Eines Postscript</emphasis
+>, el qual us pot ajudar a manipular o reorganitzar els documents PostScript (vegeu <xref linkend="wizard_postscript" role="select: title pageabbrv"/>). </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_script">
+<title
+>Script</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.name();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna el nom base d'un script en execució (sense el camí i l'extensió). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.script.caption();
+</synopsis
+></term>
+<listitem
+><para
+>Retorna una cadena, la qual es podrà utilitzar com a una llegenda dels quadres d'alerta. S'assembla a <userinput
+>Script: nom_script.js</userinput
+>. </para
+></listitem>
+</varlistentry
+></variablelist>
+</sect3>
+
+
+<sect3 id="id_scripting_api_kile_file">
+<title
+>Fitxer</title>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read(<parameter
+>String <replaceable
+>nom_fitxer</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Llegeix el contingut d'un fitxer de text. S'utilitza com </para
+><para
+>Exemple: <function
+>var res = kile.file.read("camí/al/fitxer.txt");</function
+> </para
+><para
+>El valor retornat de <userinput
+>res</userinput
+> serà un objecte (millor: un mapa), amb tres propietats: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>estat:</guilabel
+>&nbsp; Indica el codi d'estat de l'operació, el qual pot ser 0 (sense error), 1 (accés fallit) o 2 (accés denegat). Per tant, si no hi ha errors, el valor de <userinput
+>res.status</userinput
+> o <userinput
+>res["status"]</userinput
+> serà 0.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>resultat:</guilabel
+>&nbsp; Conté el text del fitxer donat.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>missatge:</guilabel
+>&nbsp; Contindrà un missatge d'error si es produeix un error.</para
+></listitem>
+</itemizedlist>
+</para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.read();
+</synopsis
+></term>
+<listitem
+><para
+>El mateix que <literal
+>read(nom_fitxer)</literal
+>, però sense donar cap fitxer. Apareixerà un diàleg que us permetrà seleccionar el fitxer a llegir. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>nom_fitxer</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Escriu el text especificat en un fitxer. S'utilitza com segueix </para
+><para
+>Exemple: <function
+>var res = kile.file.write("camí/al/fitxer.txt","Algun text...");</function
+> </para
+><para
+>El valor retornat de <userinput
+>res</userinput
+> serà un objecte (millor: un mapa) amb dues propietats: <literal
+>estat</literal
+> i <literal
+>missatge</literal
+> (vegeu <literal
+>read()</literal
+> per més informació). </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>Object kile.file.write(<parameter
+>String <replaceable
+>text</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>El mateix que <literal
+>write(nom_fitxer,text)</literal
+>, però sense donar cap fitxer. Apareixerà un diàleg per triar un nom de fitxer. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getOpenFileName(<parameter
+>String <replaceable
+>iniciDirectori</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filtre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Crea un diàleg de manera de fitxer i retornarà el nom del fitxer seleccionat, o una cadena buida si no s'ha triat cap fitxer. Tingueu en compte que amb aquest mètode l'usuari haurà de seleccionar un nom de fitxer existent. </para
+><para
+>Paràmetres: </para
+><para>
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>startDir:</guilabel
+>&nbsp; Directori d'inici del diàleg obert.</para
+></listitem>
+<listitem
+><para
+><guilabel
+>filter:</guilabel
+>&nbsp; Un intèrpret d'ordres estàndard o un filtre de tipus &MIME; que indicarà el tipus de fitxers a mostrar. Consulteu la documentació de KFileDialog per a més informació sobre aquest paràmetre.</para
+></listitem>
+</itemizedlist>
+</para
+><para
+>Tots dos paràmetres són opcionals. Si ometeu <literal
+>filtre</literal
+>, es mostraran tots els fitxers. Si, a més, ometeu <literal
+>iniciDirectori</literal
+>, el diàleg tindrà el directori del document actual com a punt de partida. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+<variablelist
+><varlistentry>
+<term
+><synopsis
+>String kile.file.getSaveFileName(<parameter
+>String <replaceable
+>iniciDirectori</replaceable
+></parameter
+>, <parameter
+>String <replaceable
+>filtre</replaceable
+></parameter
+>);
+</synopsis
+></term>
+<listitem
+><para
+>Crea un diàleg de manera de fitxer i retornarà el nom del fitxer seleccionat, o una cadena buida si no s'ha triat cap fitxer. Tingueu en compte que amb aquest mètode l'usuari no haurà de seleccionar un nom de fitxer existent. Vegeu <literal
+>getOpenFileName()</literal
+> per a una explicació dels paràmetres. </para
+></listitem>
+</varlistentry
+></variablelist>
+
+</sect3>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_scripting_examples">
+<title
+>Exemples</title>
+
+<para
+>Alguns exemples poden ajudar a entendre com utilitzar l'API per a crear scripts. Aquests exemples i alguns més es troben al directori per a crear scripts del &kile;: <filename
+>KILE_APP_DIR/scripts/</filename
+>. Cada script conté una petita descripció.</para>
+
+<sect2 id="id_scripting_example1">
+<title
+>Exemple 1: substituir el nom d'entorn</title>
+
+<para
+>Substitueix un entorn de &latex; circumdant amb un altre, on la posició relativa del cursor no serà canviada. <userinput
+>\begin{abc}...\end{abc}</userinput
+>, per exemple es pot canviar a <userinput
+>\begin{xyz}...\end{xyz}</userinput
+>.</para>
+
+<programlisting
+>var range = document.environmentRange(false);
+if ( range.isValid() ) {
+        var envname = kile.input.getLatexCommand("Introduïu l'entorn","Nou nom de l'entorn:");
+        if ( envname != '' ) {
+                replaceEnvCommand(envname,range);
+        }
+}
+else {
+        kile.alert.sorry("No s'ha trobat un entorn de LaTeX circumdant.");
+}
+
+function replaceEnvCommand(newEnv,r)
+{
+        var c = view.cursorPosition();
+
+        var envname = document.environmentName();
+
+        if ( envname != "" ) {
+                var beginRange = new Range(r.start,new Cursor(r.start.line,r.start.column+8+envname.length));
+                var endRange = new Range(new Cursor(r.end.line,r.end.column-6-envname.length),r.end);
+
+                document.editBegin();
+                document.replaceText(endRange,"\\end{"+newEnv+"}");
+                document.replaceText(beginRange,"\\begin{"+newEnv+"}");
+                document.editEnd();
+        }
+}
+</programlisting>
+</sect2>
+
+<sect2 id="id_scripting_example2">
+<title
+>Exemple 2: substituir una ordre de tipus de lletra de &latex;</title>
+
+<para
+>Substitueix una ordre de tipus de lletra de &latex; circumdant amb una altra ordre de tipus de lletra, quan el cursor està situat dins del grup de TeX. La posició relativa del cursor no serà canviada. <userinput
+>\textbf{abc}</userinput
+>, per exemple, es pot canviar a <userinput
+>\textit{abc}</userinput
+>.</para>
+
+<programlisting
+>var fontCommands = new Array("\\textbf","\\textit","\\textsl","\\texttt",
+                             "\\textsc","\\textrm","\\textsf","\\emph");
+
+var range = document.texgroupRange(false);
+if ( range.isValid() ) {
+        replaceFontCommand(range);
+}
+else {
+        kile.alert.sorry("No s'ha trobat un grup de TeX circumdant.");
+}
+
+function replaceFontCommand(r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.setCursorPosition(r.start);
+        var cmd = document.latexCommand();
+        var index = fontCommands.indexOf(cmd);
+        if ( index 
+>= 0 ) {
+                var cmdRange = document.latexCommandRange();
+                if ( cmdRange.isValid() ) {
+                        var newcommand = kile.input.getListboxItem("Choose",
+                                                    "Tria l'ordre de tipus de lletra:",buildCmdList(cmd));
+                        if ( newcommand != "" ) {
+                                document.replaceText(cmdRange,newcommand);
+                                c.column = c.column - (cmd.length - newcommand.length);
+                        }
+                }
+/                view.setCursorPosition(c);
+        }
+        else {
+                kile.alert.sorry("No s'ha trobat una ordre de tipus de lletra circumdant.");
+        }
+        document.editEnd();
+}
+
+function buildCmdList(current)
+{
+        var result = new Array();
+        for ( i=0; i&lt;fontCommands.length; ++i ) {
+                if ( fontCommands[i] != current ) {
+                        result.push(fontCommands[i]);
+                }
+        }
+        return result;
+}
+</programlisting>
+
+</sect2>
+
+<sect2 id="id_scripting_example3">
+<title
+>Exemple 3: envoltar el text seleccionat</title>
+
+<para
+>Envolta el text seleccionat amb una ordre de TeX, on la posició relativa del cursor no serà canviada. <userinput
+>abc</userinput
+> per exemple es podrà canviar a <userinput
+>\texcommand{abc}</userinput
+>.</para>
+
+<programlisting
+>var range = view.selectionRange();
+
+if ( range.isValid() ) {
+        var cmd = kile.input.getLatexCommand("Tria","Tria una ordre de LaTeX circumdant:");
+        if ( cmd != "" ) {
+                surroundTexCommand("\\"+cmd,range);
+        }
+}
+else {
+        kile.alert.sorry("No s'ha trobat una selecció.");
+}
+
+function surroundTexCommand(cmd,r)
+{
+        var c = view.cursorPosition();
+
+        document.editBegin();
+        view.clearSelection();
+        document.insertText(r.end,"}");
+        document.insertText(r.start,cmd+"{");
+
+        c.column = c.column + cmd.length + 2;
+        view.setCursorPosition(c);
+        document.editEnd();
+}
+</programlisting>
+</sect2>
+
+</sect1>
+
+</chapter>

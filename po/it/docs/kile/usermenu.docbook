@@ -1,0 +1,642 @@
+<chapter id="id_usermenu">
+<title
+>Menu configurabile dall'utente</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Configurazione</title>
+
+<para
+>&kile; supporta un menu configurabile dall'utente, che comparirà come parte del menu di &kile;. Lo si può configurare con la finestra di configurazione di &kile;, con <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Configura Kile</guisubmenu
+><guimenuitem
+>Menu dell'utente</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Configurare il menu dell'utente</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Configurare il menu dell'utente</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Hai due scelte per dove mettere questo menu:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>O il <guimenu
+>Menu dell'utente</guimenu
+> apparirà nella barra dei menu principale tra i menu <guilabel
+>LaTeX</guilabel
+> e <guilabel
+>Assistente</guilabel
+>, e l'assistente di configurazione <guilabel
+>Modifica il menu dell'utente</guilabel
+> nel menu <guilabel
+>Assistente</guilabel
+>;</para>
+
+	<screenshot>
+		<screeninfo
+>Il menu dell'utente è nel menu principale</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Il menu dell'utente è nel menu principale</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>O entrambi gli elementi appariranno in fondo al menu <guilabel
+>LaTeX</guilabel
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Il menu dell'utente come parte del menu LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Il menu dell'utente come parte del menu LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Le etichette definite dall'utente preesistenti da versioni precedenti di &kile; vengono trasformate automaticamente nel nuovo menu configurabile dall'utente. Le etichette vengono salvate in un file di nome <filename
+>usertags.xml</filename
+>, e come tutti i file di definizione dei menu è reperibile nella cartella locale dei menu dell'utente di &kile;: <filename class="directory"
+><replaceable
+>KILE_APP_DIR</replaceable
+>/usermenu/</filename
+>, per esempio <filename class="directory"
+>/home/utente/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Puoi usare diversi file di definizione dei menu per diversi compiti. Richiama l'assistente del menu dell'utente con <menuchoice
+><guimenu
+>Assistente</guimenu
+><guisubmenu
+>Modifica il menu dell'utente</guisubmenu
+></menuchoice
+> o <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Modifica il menu dell'utente</guisubmenu
+></menuchoice
+> per installare o modificare un file di definizione dei menu.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Assistente</title>
+
+<para
+>Puoi creare nuovi menu o cambiare gli attuali con un comodo assistente di configurazione dei menu dell'utente, accessibile da <menuchoice
+><guimenu
+>Assistente</guimenu
+><guisubmenu
+>Modifica il menu dell'utente</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Assistente del menu dell'utente</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Assistente del menu dell'utente</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Sul lato sinistro vedrai l'albero del menu attuale. Come per un normale menu, sono disponibili tre tipi di elementi:</para>
+
+<itemizedlist>
+<listitem
+><para
+>voci del menu normali, assegnate ad un'azione;</para
+></listitem>
+<listitem
+><para
+>sottomenu, che contengono altri elementi;</para
+></listitem>
+<listitem
+><para
+>separatori, per dare una struttura visibile di tutte le voci.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Per modificare questo menu, usa i sei pulsanti sul lato sinistro. Altre azioni sono disponibili nel menu contestuale degli elementi preesistenti.</para>
+
+	<screenshot>
+		<screeninfo
+>Albero del menu definito dall'utente</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Albero del menu definito dall'utente</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ogni elemento normale del menu è assegnato a uno tra tre tipi di azione, dove ognuno ha diversi attributi impostabili:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Testo</guilabel
+> &kile; dà la possibilità di creare le tue etichette. Un'etichetta è come una scorciatoia che avvia un comando o scrive del testo inserito di frequente: per esempio, un avvocato potrebbe usare sempre le stesse clausole nei suoi contratti. Questa etichetta sarà inserita alla posizione attuale del cursore alla chiamata di questa azione (vedi sopra). Sono disponibili anche i caratteri meta, vedi <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>.</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Inserisci i contenuti del file</guilabel
+>: inserisce tutti i contenuti di un file indicato.</para>
+
+	<screenshot>
+		<screeninfo
+>Inserimento dei contenuti di un file</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Inserimento dei contenuti di un file</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Esegui programma</guilabel
+>: il risultato prodotto da questo programma può essere inserito nel documento aperto. Anche il carattere meta <userinput
+>%M</userinput
+> è disponibile nella riga di comando di questo programma: il testo selezionato verrà salvato in un file temporaneo, e <userinput
+>%M</userinput
+> indicherà il nome di questo file temporaneo.</para>
+
+	<screenshot>
+		<screeninfo
+>Eseguire un programma esterno</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Eseguire un programma esterno</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Se mancano delle informazioni importanti per un'azione, gli elementi del menu sono colorati in rosso. Questo potrebbe indicare un file mancante.</para>
+
+	<screenshot>
+		<screeninfo
+>File mancante</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>File mancante</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>o un titolo mancante per una voce del menu, che verrà mostrata con dei punti interrogativi, come <guilabel
+>???</guilabel
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Titolo mancante di una voce del menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Titolo mancante di una voce del menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Se apri il menu contestuale di un elemento così colorato in rosso, otterrai un'opzione aggiuntiva riguardo a questo errore.</para>
+
+	<screenshot>
+		<screeninfo
+>Informazioni aggiuntive</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Informazioni aggiuntive</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Maggiori informazioni potrebbero essere disponibili con la funzionalità <guilabel
+>Che cos'è?</guilabel
+> della maggior parte degli oggetti.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Segnaposti</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Inserire del testo</title>
+
+<para
+>Ci sono alcuni segnaposti che puoi usare nelle etichette definibili dall'utente: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> e <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>: questo è dove il cursore sarà posizionato dopo l'inserimento di un'etichetta definita dall'utente.</para>
+
+	<screenshot>
+		<screeninfo
+>Posizione del cursore (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Posizione del cursore (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>: sarà sostituito da un punto (vedi <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Punto (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Punto (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>: sarà sostituito dal testo selezionato.</para>
+
+	<screenshot>
+		<screeninfo
+>Testo selezionato (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Testo selezionato (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>: indica la profondità di rientro del testo in un ambiente.</para>
+
+	<screenshot>
+		<screeninfo
+>Rientro del testo dell'ambiente (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Rientro del testo dell'ambiente (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>: richiamerà una finestra di riferimento per scegliere un'etichetta precedentemente definita. Questo si può usare per riferirsi a un'etichetta predefinita, selezionabile da un menu a cascata (vedi anche <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Riferimenti</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> o <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Riferimenti</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Riferimenti (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Riferimenti (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>: richiamerà una finestra di citazioni per scegliere una citazione definita in precedenza. Come nell'uso di <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Riferimenti</guimenuitem
+><guimenuitem
+>Cita</guimenuitem
+></menuchoice
+>, appare un elenco con tutte le chiavi di citazione.</para>
+
+	<screenshot>
+		<screeninfo
+>Chiavi di citazione (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Chiavi di citazione (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Consideriamo un altro esempio, con la macro seguente <userinput
+>\frac{%M}{%C}</userinput
+>. Per prima cosa, selezioniamo un numero nel testo, poniamo <userinput
+>42</userinput
+>. Adesso invochiamo questa macro e otteniamo <userinput
+>\frac{42}{}</userinput
+> con il cursore posizionato nella seconda coppia di graffe.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Inserire i contenuti di un file</title>
+
+<para
+>Se vuoi inserire i contenuti di un file di testo, puoi usare gli stessi segnaposti.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Eseguire un programma</title>
+
+<para
+>Se vuoi eseguire un programma esterno, dalla riga di comando viene riconosciuto solo <userinput
+>%M</userinput
+> per il testo selezionato. La selezione verrà salvata in un file temporaneo e il segnaposto <userinput
+>%M</userinput
+> verrà sostituito con il nome di questo file.</para>
+
+	<screenshot>
+		<screeninfo
+>Eseguire un programma esterno (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Eseguire un programma esterno (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Un altro segnaposto è <userinput
+>%S</userinput
+>, che viene sostituito dal nome di base completo del documento attuale senza il percorso. Questo nome di base è costituito da tutti i caratteri del file fino all'ultimo punto (<userinput
+>.</userinput
+>) escluso.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parametri</title>
+
+<para
+>La maggior parte delle voci dei menu hanno altri parametri che si spiegano da sé che possono essere selezionati. Se alcuni di questi parametri non sono disponibili per qualche tipo di azione, vengono disabilitati.</para>
+
+	<screenshot>
+		<screeninfo
+>Parametri del menu dell'utente</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parametri del menu dell'utente</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Ecco un esempio di esecuzione di un programma esterno:</para>
+
+	<screenshot>
+		<screeninfo
+>Esempio di parametro</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Esempio di parametro</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Puoi vedere che viene richiamato uno script <userinput
+>Perl</userinput
+>, che dovrebbe lavorare con la selezione attuale. Il parametro <guilabel
+>È necessario avere selezionato del testo</guilabel
+> è spuntato per assicurare la presenza di una selezione. Il risultato di questo script verrà inserito (<guilabel
+>Inserisci il risultato del programma scelto</guilabel
+>) e sostituirà la selezione attuale (<guilabel
+>Sostituisci il testo selezionato</guilabel
+>, ma non verrà selezionato.</para>
+
+<para
+>Naturalmente puoi anche chiamare il tuo programma o il tuo script. Per esempio, seleziona una lista di numeri separati da spazi, e chiama uno script o un programma in Perl che trasformi questa selezione in un codice &latex; per una matrice. Qualunque possano essere le tue idee, puoi realizzarle utilizzando la seguente voce di menu dell'utente.</para>
+
+	<screenshot>
+		<screeninfo
+>Esempio di parametro 2</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Esempio di parametro 2</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>File di definizione dei menu</title>
+
+<para
+>Puoi installare diversi menu durante l'esecuzione per diversi compiti. Quando richiami l'assistente dei menu dell'utente, viene caricato l'attuale file di definizione dei menu. Se lo modifichi e chiudi la finestra con <guibutton
+>OK</guibutton
+>, le tue modifiche verranno salvate e installate come il nuovo menu dell'utente. Chiudere la finestra con <guibutton
+>Annulla</guibutton
+> scarterà le modifiche.</para>
+
+	<screenshot>
+		<screeninfo
+>File di definizione dei menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>File di definizione dei menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Sei anche libero di salvare il file modificato nella cartella dei menu dell'utente o caricare un altro file di definizione dei menu e installarlo. Tutti i file di definizione dei menu dell'utente vanno salvati nella cartella locale dei menu dell'utente di &kile;: <filename class="directory"
+><envar
+>KILE_APP_DIR</envar
+>/usermenu/</filename
+>.</para>
+
+<para
+>Guarda il file di definizione dei menu d'esempio <filename
+>example.xml</filename
+> per vedere altre voci del menu coi loro parametri.</para>
+
+</sect1>
+
+</chapter>

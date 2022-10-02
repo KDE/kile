@@ -1,0 +1,621 @@
+<chapter id="id_usermenu">
+<title
+>Menu tworzone przez użytkownika</title>
+
+<sect1 id="id_usermenu_configuration">
+<title
+>Ustawienia</title>
+
+<para
+>&kile; obsługuje menu tworzone przez użytkownika, które będzie się ukazywać jako menu &kile;. Menu to można utworzyć przy użyciu okna dialogowego tworzenia &kile; poprzez <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guisubmenu
+>Ustawienia Kile</guisubmenu
+><guimenuitem
+>Menu użytkownika</guimenuitem
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Ustawianie menu użytkownika</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Ustawianie menu użytkownika</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Menu można umieścić w jednym z dwóch miejsc:</para>
+
+<itemizedlist>
+<listitem>
+<para
+>albo <guimenu
+>Menu użytkownika</guimenu
+> będzie wyświetlane na głównym pasku menu pomiędzy menu <guimenu
+>LaTeX</guimenu
+> i <guimenu
+>Pomocnik</guimenu
+>, a pomocnik do <guimenuitem
+>Edytowania menu użytkownika</guimenuitem
+> w menu <guimenu
+>Pomocnik</guimenu
+></para>
+
+	<screenshot>
+		<screeninfo
+>Menu użytkownika jest umieszczane w menu głównym</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Menu użytkownika jest umieszczane w menu głównym</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+>albo oba elementy będą wyświetlane na dole menu <guimenu
+>LaTeX</guimenu
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Menu użytkownika jako część menu LaTeX</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Menu użytkownika jako część menu LaTeX</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+
+<para
+>Istniejące znaczniki określone przez użytkownika w starszych wersjach &kile; zostaną samoczynnie przekształcone na nowe menu ustawialne przez użytkownika. Znaczniki zostaną zapisane w pliku o nazwie <filename
+>usertags.xml</filename
+> i jak wszystkie pliki od menu, można będzie je znaleźć w lokalnym katalogu menu użytkownika &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>, np. <filename
+>/home/user/.kde/share/apps/kile/usermenu/</filename
+>.</para>
+
+<para
+>Można używać różnych plików określających menu dla różnych zadań. Wywołaj pomocnika menu poprzez  <menuchoice
+><guimenu
+>Pomocnik</guimenu
+><guisubmenu
+>Edycja menu użytkownika</guisubmenu
+></menuchoice
+> lub <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guisubmenu
+>Edycja menu użytkownika</guisubmenu
+></menuchoice
+> , aby wgrać lub edytować plik definicji menu.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_wizard">
+<title
+>Pomocnik</title>
+
+<para
+>Można utworzyć lub zmienić istniejące menu przy użyciu pomocnika tworzenia menu użytkownika, którego można znaleźć w menu  <menuchoice
+><guimenu
+>Pomocnik</guimenu
+><guisubmenu
+>Edycja menu użytkownika</guisubmenu
+></menuchoice
+>.</para>
+
+	<screenshot>
+		<screeninfo
+>Pomocnik menu użytkownika</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Pomocnik menu użytkownika</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Po lewej stronie widać istniejące drzewo menu. Jako standardowe menu, zawiera ono trzy różne rodzaje elementów menu:</para>
+
+<itemizedlist>
+<listitem
+><para
+>standardowe wpisy menu, które są przypisywane do działań</para
+></listitem>
+<listitem
+><para
+>podmenu, które zawierają więcej elementów menu</para
+></listitem>
+<listitem
+><para
+>rozdzielniki, do uzyskania przejrzystej struktury wszystkich wpisów.</para
+></listitem>
+</itemizedlist>
+
+<para
+>Do zmieniania tego menu, używaj sześciu przycisków po lewej. Więcej możliwości jest dostępnych z menu podręcznego już istniejących elementów menu.</para>
+
+	<screenshot>
+		<screeninfo
+>Własne drzewo menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Własne drzewo menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Każdy standardowy element menu jest przypisany do jednego z trzech rodzajów działań, gdzie każdy z nich ma różne atrybuty, które można ustawić:</para>
+
+<itemizedlist>
+<listitem
+><para
+><guilabel
+>Tekst:</guilabel
+>&nbsp; &kile; daje możliwość tworzenia własnych znaczników. Znacznik jest podobny do skrótu, który uruchamia pewne polecenie lub zapisuje często używane teksty, np. Jan Kowalski często używa zdań <userinput
+>Cześć, zostałem wstawiony ...</userinput
+>. Znacznik ten zostanie wstawiony w bieżącym położeniu kursora, przy wywołaniu działania (zobacz rysunek powyżej). Metaznaki są również dostępne (zobacz <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
+</listitem>
+
+<listitem
+><para
+><guilabel
+>Wstawianie treści pliku:</guilabel
+>&nbsp; Wstawia pełną treść danego pliku.</para>
+
+	<screenshot>
+		<screeninfo
+>Wstawianie treści pliku</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Wstawianie treści pliku</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+  <listitem
+><para
+><guilabel
+>Wykonanie zewnętrznego programu:</guilabel
+>&nbsp; Wynik wykonywania takiego programu można wstawić do otwartego dokumentu. W wierszu poleceń można także używać metaznaku <userinput
+>%M</userinput
+>, a wtedy zaznaczony tekst zostanie zapisany do pliku tymczasowego. Użyj <userinput
+>%M</userinput
+> do nadania nazwy plikowi tymczasowemu.</para>
+
+	<screenshot>
+		<screeninfo
+>Wykonywanie programu zewnętrznego</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Wykonywanie programu zewnętrznego</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Jeśli brakuje jakiejś ważnej informacji dla działania, to elementy menu zostaną zabarwione na czerwony. Powodem może być na przykład nieistniejący plik</para>
+
+	<screenshot>
+		<screeninfo
+>Nieistniejący plik</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Nieistniejący plik</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>lub brakujący tytuł dla wpisu menu, co zostanie wyświetlone jako trzy znaki zapytania: <userinput
+>???</userinput
+></para>
+
+	<screenshot>
+		<screeninfo
+>Brakujący tytuł wpisu menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Brakujący tytuł wpisu menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Po otwarciu menu podręcznego zabarwionego na czerwono elementu menu, pojawią się dodatkowe informacje dotyczące tego błędu.</para>
+
+	<screenshot>
+		<screeninfo
+>Dodatkowe informacje</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Dodatkowe informacje</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Więcej informacji można uzyskać poprzez użycie funkcji większości elementów interfejsu o nazwie <guilabel
+>Co to jest?</guilabel
+>.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_placeholders">
+<title
+>Znaki wieloznaczne</title>
+
+<sect2 id="id_usermenu_placeholders_text">
+<title
+>Wstawianie tekstu</title>
+
+<para
+>W znacznikach określonych przez użytkownika można wykorzystywać pewne znaki wieloznaczne: <userinput
+>%C</userinput
+>, <userinput
+>%B</userinput
+>, <userinput
+>%M</userinput
+>, <userinput
+>%E</userinput
+>, <userinput
+>%R</userinput
+> oraz <userinput
+>%T</userinput
+>.</para>
+
+<itemizedlist>
+<listitem>
+<para
+><userinput
+>%C</userinput
+>:&nbsp; jest to miejsce, w którym zostanie wstawiony kursor po wstawieniu znacznika określonego przez użytkownika.</para>
+
+	<screenshot>
+		<screeninfo
+>Położenie kursora (%C)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Położenie kursora (%C)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%B</userinput
+>:&nbsp; zostanie zastąpione przez punktor (zobacz <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+
+	<screenshot>
+		<screeninfo
+>Punktor (%B)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Punktor (%B)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%M</userinput
+>:&nbsp; zostanie zastąpione zaznaczonym tekstem.</para>
+
+	<screenshot>
+		<screeninfo
+>Zaznaczony tekst (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Zaznaczony tekst (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%E</userinput
+>:&nbsp; określa głębokość wcięcia tekstu wewnątrz otoczenia.</para>
+
+	<screenshot>
+		<screeninfo
+>Wcięcie tekstu otoczenia (%E)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Wcięcie tekstu otoczenia (%E)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%R</userinput
+>:&nbsp; wywoła okno dialogowe odsyłaczy do wybrania wcześniej określonej etykiety. Można go używać do odwoływania się do wcześniej określonych etykiet, które można wybrać z listy rozwijanej (zajrzyj także do <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Odsyłacze</guimenuitem
+><guimenuitem
+>ref</guimenuitem
+></menuchoice
+> lub <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Odsyłacze</guimenuitem
+><guimenuitem
+>pageref</guimenuitem
+></menuchoice
+>).</para>
+
+	<screenshot>
+		<screeninfo
+>Odsyłacze (%R)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Odsyłacze (%R)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+
+<listitem>
+<para
+><userinput
+>%T</userinput
+>:&nbsp; wywoła okno dialogowe cytowania do wybrania wcześniej określonego cytatu. Tak samo jak w przypadku odwołań <menuchoice
+><guimenu
+>LaTeX</guimenu
+><guimenuitem
+>Odsyłacze</guimenuitem
+><guimenuitem
+>cite</guimenuitem
+></menuchoice
+> przywoła listę ze wszystkimi kluczami cytowań.</para>
+
+	<screenshot>
+		<screeninfo
+>Klucze cytowań (%T)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Klucze cytowań (%T)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+</listitem>
+</itemizedlist>
+
+<para
+>Rozważmy przypadek następującego makra <userinput
+>\frac{%M}{%C}</userinput
+>. Najpierw, wybierzemy liczbę w naszym tekście, powiedzmy <userinput
+>42</userinput
+>. teraz wywołamy to makro i otrzymamy <userinput
+>\frac{42}{}</userinput
+> z kursorem położonym w drugiej parze nawiasów.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_file">
+<title
+>Wstawianie treści pliku</title>
+
+<para
+>Przy wstawianiu treści plików tekstowych, można wykorzystać te same znaki wieloznaczne.</para>
+
+</sect2>
+
+<sect2 id="id_usermenu_placeholders_program">
+<title
+>Wykonywanie programu</title>
+
+<para
+>Przy wykonywaniu zewnętrznego programu, rozpoznawany jest tylko <userinput
+>%M</userinput
+> dla zaznaczonego tekstu w wierszu poleceń. Zaznaczenie zostanie zapisane w pliku tymczasowym, a znak wieloznaczny <userinput
+>%M</userinput
+> zostanie zastąpiony nazwą tego pliku tymczasowego.</para>
+
+	<screenshot>
+		<screeninfo
+>Wykonywanie programu zewnętrznego (%M)</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Wykonywanie programu zewnętrznego (%M)</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Kolejnym znakiem wieloznacznym jest <userinput
+>%S</userinput
+>, który jest zastępowany przez nazwę pliku bieżącego dokumentu bez ścieżki. Ta nazwa składa się ze znaków aż do ostatniego znaku '.' lecz nie jest on dodawany do tej nazwy.</para>
+
+</sect2>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_parameter">
+<title
+>Parametr</title>
+
+<para
+>Większość ze wpisów menu może mieć dodatkowe parametry, które można zaznaczyć. Jeśli niektóre z tych parametrów nie są dostępne dla pewnych działań, to będą one wyłączone.</para>
+
+	<screenshot>
+		<screeninfo
+>Parametr menu użytkownika</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Parametr menu użytkownika</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Oto przykład na wykonywanie programu zewnętrznego:</para>
+
+	<screenshot>
+		<screeninfo
+>Przykład z parametrem</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Przykład z parametrem</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+<para
+>Można zauważyć, że wywoływany jest skrypt <userinput
+>perl</userinput
+>, który powinien zadziałać z bieżącym zaznaczeniem. Parametr <guilabel
+>Wymaga zaznaczonego tekstu</guilabel
+> jest zaznaczony, aby zapewnić istnienie zaznaczenia. Wynik tego skryptu zostanie wstawiony (<guilabel
+>Wstawienie wyjścia wybranego programu</guilabel
+>) i zastąpi bieżące zaznaczenie (<guilabel
+>Zastąpienie zaznaczonego tekstu</guilabel
+>), lecz nie zaznaczy go.</para>
+
+</sect1>
+
+
+<sect1 id="id_usermenu_files">
+<title
+>Plik określające menu</title>
+
+<para
+>W czasie działania programu można wgrać różne menu dla różnych działań. Po wywołaniu pomocnika menu użytkownika, wczytywany jest plik określający bieżące menu. Jeśli je zmienisz i zamkniesz okno dialogowe poprzez <guibutton
+>OK</guibutton
+>, to zmiany zostaną zapisane i wgrane jako nowe menu użytkownika. Zamknięcie okna dialogowego poprzez <guibutton
+>Anuluj</guibutton
+> porzuci zmiany.</para>
+
+	<screenshot>
+		<screeninfo
+>Pliki określające menu</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Pliki określające menu</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
+
+<para
+>Można także zapisać zmienione pliki w katalogu menu użytkownika lub wczytać i wgrać inny plik określający menu. Wszystkie pliki określające menu muszą być zapisane w katalogu lokalnym menu użytkownika &kile;: <filename
+>KILE_APP_DIR/usermenu/</filename
+>.</para>
+
+<para
+>Spójrz na przykładowy plik określający menu  <userinput
+>example.xml</userinput
+>, aby zobaczyć więcej wpisów menu z ich parametrami.</para>
+
+</sect1>
+
+</chapter>

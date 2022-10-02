@@ -122,4 +122,6 @@ install(FILES
 		kile-remote-control.txt
 	DESTINATION ${KDE_INSTALL_DATAROOTDIR}/doc/kile)
 
+ki18n_install(po)
+
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)

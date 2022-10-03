@@ -172,7 +172,7 @@ msgstr "No admés"
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
-"Les vistes prèvies dels PNG no es poden utilitzar per a «mathgroups» a la "
+"Les vistes prèvies dels PNG no es poden utilitzar per a «mathgroups» en la "
 "subfinestra de vista prèvia inferior"
 
 #: configtester.cpp:807
@@ -182,7 +182,7 @@ msgid ""
 "in the bottom preview pane"
 msgstr ""
 "No podeu utilitzar les vistes prèvies PNG amb les conversions «dvi -> ps -> "
-"png» i «pdf -> png» a la subfinestra de vista prèvia inferior"
+"png» i «pdf -> png» en la subfinestra de vista prèvia inferior"
 
 #: dialogs/abbreviationinputdialog.cpp:44
 #, kde-format
@@ -5051,7 +5051,7 @@ msgstr ""
 "d'un fitxer donat (també estan disponibles els metacaràcters)</"
 "li><li><i>executar un programa extern</i>: L'eixida d'este programa es pot "
 "inserir en el document obert. El metacaràcter <tt>%M</tt> també és possible "
-"a la línia d'ordres d'este programa, ja que el text seleccionat es guardarà "
+"en la línia d'ordres d'este programa, ja que el text seleccionat es guardarà "
 "en un fitxer temporal. Utilitzeu <tt>%M</tt> per al nom d'este fitxer "
 "temporal.</li></ul><p>Si no està present alguna informació important per a "
 "una acció, els elements de menú seran de color roig. Hi ha més informació "
@@ -6809,7 +6809,7 @@ msgstr ""
 #, kde-format
 msgid "The identifier of the selected view in the left pane."
 msgstr ""
-"L'identificador de la vista seleccionada a la subfinestra de l'esquerra."
+"L'identificador de la vista seleccionada en la subfinestra de l'esquerra."
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
 #: kile.kcfg:189
@@ -7054,7 +7054,7 @@ msgid ""
 "Whether the current directory shown in the console is kept synchronized with "
 "the open tabs"
 msgstr ""
-"Si el directori actual que es mostra a la consola es manté sincronitzat amb "
+"Si el directori actual que es mostra en la consola es manté sincronitzat amb "
 "les pestanyes obertes"
 
 #. i18n: ectx: label, entry (WatchFileForDocumentViewer), group (User)
@@ -8387,14 +8387,14 @@ msgstr ""
 "\\end{tabbing}\n"
 "Ordres:\n"
 "\\=  Situa una tabulació en la posició actual.\n"
-"\\>  Avança a la tabulació següent.\n"
+"\\>  Avança fins a la tabulació següent.\n"
 "\\&lt;  Us permet posar alguna cosa a l'esquerra del marge local sense "
 "canviar el marge. Només es pot utilitzar a l'inici de la línia.\n"
 "\\+  Mou el marge esquerre de la següent i de totes les ordres següents una "
 "tabulació cap a la dreta\n"
 "\\-  Mou el marge esquerre de la següent i de totes les ordres següents una "
 "tabulació cap a l'esquerra\n"
-"\\'  Mou qualsevol cosa que hàgeu escrit a la columna actual cap a la dreta "
+"\\'  Mou qualsevol cosa que hàgeu escrit en la columna actual cap a la dreta "
 "de la columna anterior, alineat al tabulador de la columna actual. \n"
 "\\`  Us permet posar text alineat a la dreta de qualsevol tabulació, inclosa "
 "la tabulació 0\n"
@@ -12908,7 +12908,7 @@ msgstr "&Copia"
 #: widgets/structurewidget.cpp:768
 #, kde-format
 msgid "&Paste below"
-msgstr "&Apega a continuació"
+msgstr "A&pega a continuació"
 
 #: widgets/structurewidget.cpp:773
 #, kde-format

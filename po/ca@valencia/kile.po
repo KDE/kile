@@ -746,7 +746,7 @@ msgstr "Expressió regular no vàlida: %1"
 #: dialogs/findfilesdialog.cpp:696
 #, kde-format
 msgid "&Cancel"
-msgstr "&Cancel·la"
+msgstr "C&ancel·la"
 
 #: dialogs/floatdialog.cpp:105
 #, kde-format
@@ -1454,7 +1454,7 @@ msgstr "Afig un entorn nou."
 #: dialogs/userhelpdialog.cpp:75
 #, kde-format
 msgid "&Add..."
-msgstr "&Afig..."
+msgstr "Afi&g..."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:186
@@ -2173,7 +2173,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog.cpp:728
 #, kde-format
 msgid "&Update"
-msgstr "&Actualitza"
+msgstr "Act&ualitza"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog_base.ui:55
@@ -3172,7 +3172,7 @@ msgstr "(detecció automàtica)"
 #: dialogs/projectdialogs.cpp:463
 #, kde-format
 msgid "&QuickBuild configuration:"
-msgstr "&Configuració de la construcció ràpida:"
+msgstr "Con&figuració de la construcció ràpida:"
 
 #: dialogs/projectdialogs.cpp:482
 #, kde-format
@@ -3293,7 +3293,7 @@ msgstr "Valor"
 #: dialogs/quickdocumentdialog.cpp:297
 #, kde-format
 msgid "&Add Package..."
-msgstr "&Afig paquet..."
+msgstr "Afi&g paquet..."
 
 #: dialogs/quickdocumentdialog.cpp:299
 #, kde-format
@@ -6084,7 +6084,7 @@ msgstr "Projecte &nou..."
 #: kile.cpp:872
 #, kde-format
 msgid "&Open Project..."
-msgstr "&Obri un projecte..."
+msgstr "O&bri un projecte..."
 
 #: kile.cpp:874
 #, kde-format
@@ -6129,7 +6129,7 @@ msgstr "Eli&mina fitxers del projecte..."
 #: kile.cpp:890
 #, kde-format
 msgid "Show Project &Files..."
-msgstr "Mostra els &fitxers del projecte..."
+msgstr "Mostra els fi&txers del projecte..."
 
 #: kile.cpp:892 widgets/projectview.cpp:851
 #, kde-format
@@ -10531,7 +10531,7 @@ msgstr "Reinicia el dorsal de bibliografia"
 #: kileui.rc:12
 #, kde-format
 msgid "&File"
-msgstr "&Fitxer"
+msgstr "Fi&txer"
 
 #. i18n: ectx: Menu (convert)
 #: kileui.rc:32
@@ -10592,7 +10592,7 @@ msgstr "&Selecció"
 #: kileui.rc:119 kileui.rc:160
 #, kde-format
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
@@ -11453,7 +11453,7 @@ msgstr "Text expandit"
 #: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:91
 #, kde-format
 msgid "&Add"
-msgstr "&Afig"
+msgstr "Afi&g"
 
 #: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:771
 #, kde-format
@@ -11860,7 +11860,7 @@ msgstr "Ajuda sensible al context"
 #: widgets/helpconfigwidget.ui:41
 #, kde-format
 msgid "&Use the LaTeX2e unofficial reference manual"
-msgstr "&Utilitza el manual de referència no oficial del LaTeX2e"
+msgstr "Utilit&za el manual de referència no oficial del LaTeX2e"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_kilerefs)
 #: widgets/helpconfigwidget.ui:51
@@ -12113,7 +12113,7 @@ msgstr "Extensió de la &destinació:"
 #: widgets/maintoolconfigwidget.ui:454
 #, kde-format
 msgid "Target &file:"
-msgstr "&Fitxer de destinació:"
+msgstr "Fi&txer de destinació:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2)
 #: widgets/maintoolconfigwidget.ui:480
@@ -12444,7 +12444,7 @@ msgstr "Imatges"
 #: widgets/projectview.cpp:791
 #, kde-format
 msgid "&Open With"
-msgstr "&Obri amb"
+msgstr "O&bri amb"
 
 #: widgets/projectview.cpp:803 widgets/structurewidget.cpp:797
 #, kde-format
@@ -12454,7 +12454,7 @@ msgstr "Altres..."
 #: widgets/projectview.cpp:809
 #, kde-format
 msgid "&Open"
-msgstr "&Obri"
+msgstr "O&bri"
 
 #: widgets/projectview.cpp:812
 #, kde-format
@@ -12464,7 +12464,7 @@ msgstr "Guar&da"
 #: widgets/projectview.cpp:822
 #, kde-format
 msgid "&Add to Project"
-msgstr "&Afig al projecte"
+msgstr "Afi&g al projecte"
 
 #: widgets/projectview.cpp:832
 #, kde-format
@@ -12479,7 +12479,7 @@ msgstr "Elimina del p&rojecte"
 #: widgets/projectview.cpp:849
 #, kde-format
 msgid "A&dd Files..."
-msgstr "Afig &fitxers..."
+msgstr "Afig fi&txers..."
 
 #: widgets/projectview.cpp:865 widgets/projectview.cpp:868
 #, kde-format
@@ -12693,7 +12693,7 @@ msgstr "Mostra les &etiquetes"
 #: widgets/structureviewconfigwidget.ui:144
 #, kde-format
 msgid "&Open labels item"
-msgstr "&Obri l'element etiquetes"
+msgstr "O&bri l'element etiquetes"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowReferences)
 #: widgets/structureviewconfigwidget.ui:151

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-07-24 00:45+0000\n"
-"PO-Revision-Date: 2022-07-24 12:30+0300\n"
+"PO-Revision-Date: 2022-10-08 12:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.04.2\n"
+"X-Generator: Lokalize 22.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1645,7 +1645,7 @@ msgstr "Mevcut Şablonlar"
 #: widgets/newdocumentwidget.ui:32
 #, kde-format
 msgid "Document Type"
-msgstr "Döküman Türü"
+msgstr "Belge Türü"
 
 #: dialogs/managetemplatesdialog.cpp:120
 #, kde-format
@@ -1864,12 +1864,12 @@ msgstr "Yeni Dosya"
 #: dialogs/newfilewizard.cpp:75
 #, kde-format
 msgid "LaTeX Document"
-msgstr "LaTeX Dökümanı"
+msgstr "LaTeX Belgesi"
 
 #: dialogs/newfilewizard.cpp:76
 #, kde-format
 msgid "BibTeX Document"
-msgstr "BibTeX Dökümanı"
+msgstr "BibTeX Belgesi"
 
 #: dialogs/newfilewizard.cpp:77
 #, kde-format
@@ -3129,7 +3129,7 @@ msgstr "(genel ayarları kullan)"
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
 msgstr ""
-"Öntanımlı ana dökümanı seçin. Otomatik olarak bulunması için boş bırakın."
+"Öntanımlı ana belgeyi seçin. Otomatik olarak bulunması için boş bırakın."
 
 #: dialogs/projectdialogs.cpp:440
 #, kde-format
@@ -3325,7 +3325,7 @@ msgstr "&Tema:"
 #: dialogs/quickdocumentdialog.cpp:646
 #, kde-format
 msgid "Sets the document's orientation to landscape"
-msgstr "Dökümanın yönünü manzara durumuna ayarla"
+msgstr "Belgenin yönünü yatay olarak ayarla"
 
 #: dialogs/quickdocumentdialog.cpp:647
 #, kde-format
@@ -3917,7 +3917,7 @@ msgstr "hyperref paketi ile LaTeX"
 #: dialogs/quickdocumentdialog.cpp:1048
 #, kde-format
 msgid "Resize document window to fit document size"
-msgstr "Döküman penceresini döküman ebatlarına göre boyutlandır"
+msgstr "Belge penceresini, belge boyutuna göre boyutlandır"
 
 #: dialogs/quickdocumentdialog.cpp:1049
 #, kde-format
@@ -4219,12 +4219,12 @@ msgstr "%1 '%2' izin verilmiyor."
 #: dialogs/quickdocumentdialog.cpp:2315
 #, kde-format
 msgid "This document class already exists."
-msgstr "Bu döküman sınıfı zaten var."
+msgstr "Bu belge sınıfı zaten var."
 
 #: dialogs/quickdocumentdialog.cpp:2321
 #, kde-format
 msgid "This name is not allowed for a document class."
-msgstr "Bir döküman sınıfı için bu ada izin verilmiyor."
+msgstr "Bir belge sınıfı için bu ada izin verilmiyor."
 
 #: dialogs/quickdocumentdialog.cpp:2328
 #, kde-format
@@ -5645,7 +5645,7 @@ msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 msgstr ""
-"Dökümanda değişiklik oldu. Bu işleme başlamadan önce yapı görüntüsü "
+"Belgede değişiklik oldu. Bu işleme başlamadan önce yapı görüntüsü "
 "güncellenmelidir."
 
 #: editorextension.cpp:3504
@@ -6012,7 +6012,7 @@ msgstr "Dosyalarda &bul..."
 #: kile.cpp:868
 #, kde-format
 msgid "Refresh Str&ucture"
-msgstr "Y&apıyı Tazele"
+msgstr "Y&apıyı Yenile"
 
 #: kile.cpp:871
 #, kde-format
@@ -6037,7 +6037,7 @@ msgstr "Projeye &dosya(lar) ekle..."
 #: kile.cpp:882 widgets/projectview.cpp:853
 #, kde-format
 msgid "Refresh Project &Tree"
-msgstr "Proje Ağacını &Tazele"
+msgstr "Proje Ağacını &Yenile"
 
 #: kile.cpp:883 widgets/projectview.cpp:855
 #, kde-format
@@ -6267,7 +6267,7 @@ msgstr "Yüzen Ögeler"
 #: kile.cpp:1020
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
-msgstr "Güncel Dökümanı '&Ana Döküman' Olarak Tanımla"
+msgstr "Güncel Belgeyi, '&Ana Belge' Olarak Tanımla"
 
 #: kile.cpp:1025
 #, kde-format
@@ -6358,7 +6358,7 @@ msgstr "Proje: %1"
 #: kile.cpp:1495
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
-msgstr "Proje: %1 (Ana döküman: %2)"
+msgstr "Proje: %1 (Ana belge: %2)"
 
 #: kile.cpp:1500
 #, kde-format
@@ -6368,17 +6368,17 @@ msgstr "Normal kip"
 #: kile.cpp:1503
 #, kde-format
 msgid "Master document: %1"
-msgstr "Ana döküman: %1"
+msgstr "Ana belge: %1"
 
 #: kile.cpp:1508 kile.cpp:2630
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
-msgstr "Güncel Dökümanı 'Ana Döküman' Olarak Tanımla"
+msgstr "Güncel Belgeyi 'Ana Belge' Olarak Tanımla"
 
 #: kile.cpp:1512 kile.cpp:2620
 #, kde-format
 msgid "Normal mode (current master document: %1)"
-msgstr "Normal mod (güncel ana döküman: %1)"
+msgstr "Normal kip (güncel ana belge: %1)"
 
 #: kile.cpp:1730
 #, kde-format
@@ -6422,8 +6422,8 @@ msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
-"Güncel dökümanı ana döküman olarak tanımlayabilmek için öncelikle güncel "
-"dökümanı kaydetmeniz gerekir."
+"Güncel belgeyi ana belge olarak tanımlayabilmek için öncelikle güncel "
+"belgeyi kaydetmeniz gerekir."
 
 #: kile.cpp:3069
 #, kde-format
@@ -6440,7 +6440,7 @@ msgstr "SATIR"
 #: kile.cpp:3077
 #, kde-format
 msgid "Refreshing structure..."
-msgstr "Yapıyı tazeleniyor..."
+msgstr "Yapı yenileniyor..."
 
 #: kile.cpp:3095
 #, kde-format
@@ -7220,7 +7220,7 @@ msgstr "Önce bir belge açın/yaratın."
 #: kiledocmanager.cpp:756
 #, kde-format
 msgid "A template for this type of document cannot be created."
-msgstr "Bu tip bir döküman için şablon oluşturulamaz."
+msgstr "Bu tür bir belge için şablon oluşturulamaz."
 
 #: kiledocmanager.cpp:760
 #, kde-format
@@ -7303,14 +7303,14 @@ msgid ""
 "document that is associated to the project you want to build the tree for, "
 "then choose Refresh Project Tree again."
 msgstr ""
-"Mevcut belge bir proje ile ilişkili değil. Lütfen ağaç kurmak istediğiniz "
-"proje ile ilişkili olan bir belge açın, ve sonra Proje Ağacını Tazele'yi "
-"yeniden seçin."
+"Geçerli belge, bir proje ile ilişkili değil. Lütfen, ağacı yapmak "
+"istediğiniz proje ile ilişkili olan bir belge açın ve sonra Proje Ağacını "
+"Yenile'yi yeniden seçin."
 
 #: kiledocmanager.cpp:1309
 #, kde-format
 msgid "Could Not Refresh Project Tree"
-msgstr "Proje Ağacı Tazelenemedi"
+msgstr "Proje Ağacı Yenilenemedi"
 
 #: kiledocmanager.cpp:1394 kiledocmanager.cpp:2161 kiledocmanager.cpp:2235
 #: kiledocmanager.cpp:2272
@@ -7752,7 +7752,7 @@ msgstr "Yapıştır"
 #: kilestdactions.cpp:31
 #, kde-format
 msgid "Document Class Selection - \\documentclass{}"
-msgstr "Döküman Sınıfı Seçimi - \\documentclass{}"
+msgstr "Belge Sınıfı Seçimi - \\documentclass{}"
 
 #: kilestdactions.cpp:32
 #, kde-format
@@ -7803,7 +7803,7 @@ msgid ""
 "selected document class\n"
 "are passed on to the packages loaded with \\usepackage."
 msgstr ""
-"Döküman sınıfında tanımlı olmayan, \\documentclass komutu ile verilen "
+"Belge sınıfında tanımlı olmayan, \\documentclass komutu ile verilen "
 "komutların\n"
 "seçenekleri \\usepackage ile yüklenen paketlere aktarıldı."
 
@@ -7820,7 +7820,7 @@ msgstr "Amerikan Matematik Topluluğu asıl paketleri"
 #: kilestdactions.cpp:41
 #, kde-format
 msgid "Start Document Body - \\begin{document}"
-msgstr "Döküman gövdesine başla - \\begin{document}"
+msgstr "Belge gövdesine başla - \\begin{document}"
 
 #: kilestdactions.cpp:41
 #, kde-format
@@ -8600,7 +8600,7 @@ msgid ""
 msgstr ""
 "\\chapter{başlık}\n"
 "\\chapter*{başlık} : bölüme bir sayı atama ve İçindekiler kısmında gösterme\n"
-"Sadece rapor (report) ve kitap (book) sınıfı dökümanlarda kullanılır."
+"Yalnızca rapor (report) ve kitap (book) sınıfı belgelerde kullanılır."
 
 #: kilestdactions.cpp:102
 #, kde-format
@@ -10296,13 +10296,13 @@ msgid ""
 "Could not determine on which file to run %1, because there is no active "
 "document."
 msgstr ""
-"%1'in hangi dosya üzerinde çalıştırılacağı belirlenemedi çünkü aktif bir "
-"döküman yok."
+"%1'in hangi dosya üzerinde çalıştırılacağı belirlenemedi; çünkü etkin bir "
+"belge yok."
 
 #: kiletool.cpp:63
 #, kde-format
 msgid "Could not determine the master file for this document."
-msgstr "Bu döküman içi ana dosya belirlenemedi."
+msgstr "Bu belge için ana dosya belirlenemedi."
 
 #: kiletool.cpp:64
 #, kde-format
@@ -11076,12 +11076,12 @@ msgstr "Çevreleme ortamı yok."
 #: quickpreview.cpp:115
 #, kde-format
 msgid "This job is only useful with a master document."
-msgstr "Bu iş sadece ana döküman ile kullanıldığında işe yarar."
+msgstr "Bu iş, yalnızca ana belge ile kullanıldığında işe yarar."
 
 #: quickpreview.cpp:122
 #, kde-format
 msgid "This is not a subdocument, but the master document."
-msgstr "Bu bir alt döküman değil, ana döküman."
+msgstr "Bu bir alt belge değil, ana belge."
 
 #: quickpreview.cpp:144
 #, kde-format
@@ -12138,7 +12138,7 @@ msgstr "Matematik grubu:"
 #: widgets/previewconfigwidget.cpp:132
 #, kde-format
 msgid "Subdocument:"
-msgstr "Alt döküman:"
+msgstr "Alt Belge:"
 
 #: widgets/previewconfigwidget.cpp:133
 #, kde-format
@@ -12425,7 +12425,7 @@ msgstr "Anahtar Dizisini Kaldır"
 #: widgets/scriptsmanagementwidget.cpp:105
 #, kde-format
 msgid "Refresh List"
-msgstr "Listeyi Tazele"
+msgstr "Listeyi Yenile"
 
 #: widgets/scriptsmanagementwidget.cpp:115
 #, kde-format

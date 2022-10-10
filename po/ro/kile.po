@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-24 00:45+0000\n"
+"POT-Creation-Date: 2022-10-10 00:46+0000\n"
 "PO-Revision-Date: 2020-09-08 19:06+0100\n"
 "Last-Translator: Sergiu Bivol <sergiu@cip.md>\n"
 "Language-Team: Romanian\n"
@@ -11168,19 +11168,19 @@ msgstr "Număr de rânduri:"
 msgid "Use this number of spaces to autoindent environments."
 msgstr ""
 
-#: widgets/filebrowserwidget.cpp:118
+#: widgets/filebrowserwidget.cpp:124
 #, kde-format
 msgid "Open selected"
 msgstr ""
 
-#: widgets/filebrowserwidget.cpp:123
+#: widgets/filebrowserwidget.cpp:129
 #, fuzzy, kde-format
 #| msgid "Edit a LaTeX Command"
 msgid "Show LaTeX Files Only"
 msgstr "Editează o comandă LaTeX"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:129 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
 #, fuzzy, kde-format
 #| msgid "Option"
 msgid "Options"

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-24 00:45+0000\n"
+"POT-Creation-Date: 2022-10-10 00:46+0000\n"
 "PO-Revision-Date: 2021-06-29 20:38+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -11161,18 +11161,18 @@ msgstr "स्तम्भों की संख्या: "
 msgid "Use this number of spaces to autoindent environments."
 msgstr "कृपया नए एनवायरनमेंट का नाम प्रविष्ट करें:"
 
-#: widgets/filebrowserwidget.cpp:118
+#: widgets/filebrowserwidget.cpp:124
 #, kde-format
 msgid "Open selected"
 msgstr "चयनित को खोलें"
 
-#: widgets/filebrowserwidget.cpp:123
+#: widgets/filebrowserwidget.cpp:129
 #, fuzzy, kde-format
 msgid "Show LaTeX Files Only"
 msgstr "परियोजना फ़ाइल: (&f)"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:129 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
 #, fuzzy, kde-format
 #| msgid "Option"
 msgid "Options"

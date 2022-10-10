@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-24 00:45+0000\n"
+"POT-Creation-Date: 2022-10-10 00:46+0000\n"
 "PO-Revision-Date: 2014-10-13 14:34+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -11250,19 +11250,19 @@ msgstr "Szóközök száma:"
 msgid "Use this number of spaces to autoindent environments."
 msgstr "A környezet csillagozott verziójának használata."
 
-#: widgets/filebrowserwidget.cpp:118
+#: widgets/filebrowserwidget.cpp:124
 #, kde-format
 msgid "Open selected"
 msgstr "A kijelölt megnyitása"
 
-#: widgets/filebrowserwidget.cpp:123
+#: widgets/filebrowserwidget.cpp:129
 #, fuzzy, kde-format
 #| msgid "Show LaTeX commands"
 msgid "Show LaTeX Files Only"
 msgstr "LaTeX parancsok megjelenítése"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:129 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
 msgstr ""

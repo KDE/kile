@@ -14,8 +14,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-24 00:45+0000\n"
-"PO-Revision-Date: 2022-10-08 12:52+0300\n"
+"POT-Creation-Date: 2022-10-10 00:46+0000\n"
+"PO-Revision-Date: 2022-10-09 06:00+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6447,8 +6447,7 @@ msgstr "Yapı yenileniyor..."
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
-"Bu, menü çubuğunu tümüyle gizleyecektir. %1 yazarak yeniden "
-"gösterebilirsiniz."
+"Bu, menü çubuğunu tümüyle gizleyecektir. %1 ile yeniden gösterebilirsiniz."
 
 #: kile.cpp:3098
 #, kde-format
@@ -11584,18 +11583,18 @@ msgstr "&Boşluk sayısı:"
 msgid "Use this number of spaces to autoindent environments."
 msgstr "Otomatik girintileme ortamları için bu sayıda boşluk kullan."
 
-#: widgets/filebrowserwidget.cpp:118
+#: widgets/filebrowserwidget.cpp:124
 #, kde-format
 msgid "Open selected"
 msgstr "Seçiliyi aç"
 
-#: widgets/filebrowserwidget.cpp:123
+#: widgets/filebrowserwidget.cpp:129
 #, kde-format
 msgid "Show LaTeX Files Only"
 msgstr "Sadece LaTeX Dosyalarını Göster"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:129 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
 msgstr "Seçenekler"

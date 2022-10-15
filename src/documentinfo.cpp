@@ -124,7 +124,7 @@ QUrl Info::renameIfExist(const QUrl &url, QWidget* mainWidget)
 {
     QUrl ret(url);
 
-    auto statJob = KIO::stat(url, KIO::StatJob::SourceSide, 0);
+    auto statJob = KIO::statDetails(url, KIO::StatJob::SourceSide, KIO::StatNoDetails);
     KJobWidgets::setWindow(statJob, mainWidget);
     while (statJob->exec()) { // check for writing possibility
         bool isOK;

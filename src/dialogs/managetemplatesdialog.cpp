@@ -259,7 +259,7 @@ void ManageTemplatesDialog::addTemplate()
         return;
     }
 
-    KIO::StatJob* statJob = KIO::stat(iconURL, KIO::StatJob::SourceSide, 0);
+    KIO::StatJob* statJob = KIO::statDetails(iconURL, KIO::StatJob::SourceSide, KIO::StatNoDetails);
     KJobWidgets::setWindow(statJob, this);
     statJob->exec();
     if (statJob->error()) {
@@ -267,7 +267,7 @@ void ManageTemplatesDialog::addTemplate()
         return;
     }
 
-    statJob = KIO::stat(m_sourceURL, KIO::StatJob::SourceSide, 0);
+    statJob = KIO::statDetails(m_sourceURL, KIO::StatJob::SourceSide, KIO::StatNoDetails);
     KJobWidgets::setWindow(statJob, this);
     statJob->exec();
     if (statJob->error()) {

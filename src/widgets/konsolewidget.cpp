@@ -24,12 +24,12 @@
 #include <QVBoxLayout>
 
 #include <KLocalizedString>
-#include <KPluginLoader>
 #include <KService>
 #include <KShell>
 #include <QUrl>
 
 #include <KParts/Part>
+#include <KParts/PartLoader>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
@@ -56,22 +56,13 @@ void Konsole::spawn()
 {
     KILE_DEBUG_MAIN << "void Konsole::spawn()";
 
-    KPluginFactory *factory = Q_NULLPTR;
-    KService::Ptr service = KService::serviceByDesktopName("konsolepart");
-    if(!service) {
-        KILE_DEBUG_MAIN << "No service for konsolepart";
-        return;
-    }
-
-    factory = KPluginLoader(service->library()).factory();
-    if(!factory) {
-        KILE_DEBUG_MAIN << "No factory for konsolepart";
-        return;
-    }
-
+    const KPluginMetaData konsolePart(QStringLiteral("konsolepart"));
     // the catalog for translations is added by the Konsole part constructor already
-    m_part = static_cast<KParts::ReadOnlyPart*>(factory->create<QObject>(this, this));
-    if(!m_part) {
+    const auto result = KParts::PartLoader::instantiatePart<KParts::ReadOnlyPart>(konsolePart, this, this);
+
+    if(!result) {
+        m_part = result.plugin;
+        KILE_DEBUG_MAIN << "No factory for konsolepart";
         return;
     }
 

@@ -24,7 +24,6 @@
 #include <KJob>
 #include <KLocalizedString>
 #include <KPluginFactory>
-#include <KPluginLoader>
 #include <KProcess>
 
 #include <QTemporaryDir>
@@ -305,8 +304,8 @@ OkularVersionTest::~OkularVersionTest()
 
 void OkularVersionTest::call()
 {
-    KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
-    KPluginFactory *factory = pluginLoader.factory();
+    QPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
+    KPluginFactory *factory = qobject_cast<KPluginFactory *>(pluginLoader.instance());
 
     if (!factory) {
         m_status = Failure;
@@ -327,7 +326,7 @@ void OkularVersionTest::call()
         delete part;
     }
 
-    delete factory;
+    pluginLoader.unload();
 
     emit(testComplete(this));
 }

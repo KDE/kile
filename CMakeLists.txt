@@ -28,7 +28,7 @@ include(KDECMakeSettings)
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(Qt5 5.6 CONFIG REQUIRED
+find_package(Qt5 5.15 CONFIG REQUIRED
 	Core
 	DBus
 	Widgets
@@ -36,7 +36,7 @@ find_package(Qt5 5.6 CONFIG REQUIRED
 	Test
 )
 
-find_package(KF5 5.69 REQUIRED COMPONENTS
+find_package(KF5 5.100 REQUIRED COMPONENTS
 	Config
 	CoreAddons
 	Crash

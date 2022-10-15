@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-10-09 06:00+0300\n"
+"PO-Revision-Date: 2022-10-14 21:12+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -139,7 +139,7 @@ msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
-"Destekleniyor, (La)TeX için ileri ve geri arama yetenekleri için 'Modern' "
+"Destekleniyor, (La)TeX için ileri ve geri arama yetenekleri için 'Çağdaş' "
 "yapılandırmayı kullanın."
 
 #: configtester.cpp:528
@@ -163,7 +163,7 @@ msgid ""
 "enable inverse and forward search capabilities."
 msgstr ""
 "Destekleniyor, PDFLaTeX ve XeLaTeX için ileri ve geri arama yetenekleri için "
-"'Modern' yapılandırmayı kullanın."
+"'Çağdaş' yapılandırmayı kullanın."
 
 #: configtester.cpp:555
 #, kde-format
@@ -268,14 +268,14 @@ msgstr "Belge görüntüleyiciyi kullanmak için görüntüleme araçlarını ya
 #: dialogs/configcheckerdialog.cpp:149
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
-msgstr "TeX, PDFTeX ve LaTeX araçları için 'modern' yapılandırmayı kullanın"
+msgstr "TeX, PDFTeX ve LaTeX araçları için 'Çağdaş' yapılandırmayı kullanın"
 
 #: dialogs/configcheckerdialog.cpp:151
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
-"PDFLaTeX, LuaLaTeX ve XeLaTeX araçları için 'modern' yapılandırmayı kullanın"
+"PDFLaTeX, LuaLaTeX ve XeLaTeX araçları için 'Çağdaş' yapılandırmayı kullanın"
 
 #: dialogs/configcheckerdialog.cpp:153
 #, kde-format

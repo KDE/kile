@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-07-24 00:45+0000\n"
+"POT-Creation-Date: 2022-10-10 00:46+0000\n"
 "PO-Revision-Date: 2012-01-17 18:10+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -11396,18 +11396,18 @@ msgstr ""
 msgid "Use this number of spaces to autoindent environments."
 msgstr "Bruk så mange mellomrom for automatisk miljøinnrykk."
 
-#: widgets/filebrowserwidget.cpp:118
+#: widgets/filebrowserwidget.cpp:124
 #, kde-format
 msgid "Open selected"
 msgstr "Åpne merkede"
 
-#: widgets/filebrowserwidget.cpp:123
+#: widgets/filebrowserwidget.cpp:129
 #, kde-format
 msgid "Show LaTeX Files Only"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
-#: widgets/filebrowserwidget.cpp:129 widgets/structureviewconfigwidget.ui:128
+#: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
 msgstr "Valg"

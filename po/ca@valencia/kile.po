@@ -653,8 +653,8 @@ msgid ""
 "Enter the file name pattern of the files to search here. You may give "
 "several patterns separated by commas."
 msgstr ""
-"Introduïu ací el patró de nom de fitxer dels fitxers a buscar. Podeu indicar "
-"diversos patrons separats per comes."
+"Introduïu ací el patró de nom de fitxer dels fitxers que es buscaran. Podeu "
+"indicar diversos patrons separats per comes."
 
 # skip-rule: t-pu_sp
 #: dialogs/findfilesdialog.cpp:284
@@ -1160,7 +1160,7 @@ msgstr "Nom de l'entorn nou o ordre."
 #: dialogs/latexcommanddialog.cpp:120
 #, kde-format
 msgid "Name of the environment or command to edit."
-msgstr "Nom de l'entorn o ordre a editar."
+msgstr "Nom de l'entorn o ordre que s'editarà."
 
 #: dialogs/latexcommanddialog.cpp:122
 #, kde-format
@@ -1561,7 +1561,7 @@ msgstr "no"
 #: dialogs/listselector.cpp:229
 #, kde-format
 msgid "Select Completion Files to Install Locally"
-msgstr "Selecció dels fitxers de compleció a instal·lar localment"
+msgstr "Selecció dels fitxers de compleció que s'han d'instal·lar localment"
 
 #: dialogs/listselector.cpp:229
 #, kde-format
@@ -4716,7 +4716,8 @@ msgstr "No suprimisques els espais"
 #, kde-format
 msgid "There is no content to insert into the table as the clipboard is empty."
 msgstr ""
-"No hi ha contingut a inserir en la taula atés que el porta-retalls està buit."
+"No hi ha contingut per a inserir en la taula atés que el porta-retalls està "
+"buit."
 
 #: dialogs/tabular/tabulartable.cpp:220
 #, kde-format
@@ -7015,7 +7016,7 @@ msgstr "Neteja els fitxers automàticament després de tancar."
 #: kile.kcfg:325
 #, kde-format
 msgid "The file extensions to clean on exit."
-msgstr "Les extensions de fitxer a netejar en eixir."
+msgstr "Les extensions de fitxer que es netejaran en eixir."
 
 #. i18n: ectx: label, entry (showLaTeXFilesOnly), group (Files)
 #: kile.kcfg:337
@@ -7170,8 +7171,8 @@ msgstr "Última tasca utilitzada per l'assistent de PDF."
 #, kde-format
 msgid "Number of symbols to store in the Most Frequently Used Symbols view."
 msgstr ""
-"Nombre de símbols a emmagatzemar en la vista dels símbols utilitzats més "
-"freqüentment."
+"Nombre de símbols que s'emmagatzemaran en la vista dels símbols utilitzats "
+"més freqüentment."
 
 #. i18n: ectx: label, entry (displayMFUS), group (MostUsedSymbols)
 #: kile.kcfg:585
@@ -7630,7 +7631,7 @@ msgstr "No s'ha pogut tancar el projecte"
 #: kiledocmanager.cpp:1988
 #, kde-format
 msgid "Nothing to clean for %1"
-msgstr "No hi ha res a netejar per a %1"
+msgstr "No hi ha res que s'haja de netejar per a %1"
 
 #: kiledocmanager.cpp:1998
 #, kde-format
@@ -7645,7 +7646,7 @@ msgstr "Canvia de projecte"
 #: kiledocmanager.cpp:2130
 #, kde-format
 msgid "Select Files to Remove"
-msgstr "Seleccioneu els fitxers a eliminar"
+msgstr "Seleccioneu els fitxers que s'han d'eliminar"
 
 #: kiledocmanager.cpp:2143 kiledocmanager.cpp:2146
 #, kde-format
@@ -8472,7 +8473,7 @@ msgid ""
 "text specifies what text is to make up the entry."
 msgstr ""
 "\\multicolumn{cols}{pos}{text}\n"
-"cols, especifica el nombre de columnes a crear.\n"
+"cols, especifica el nombre de columnes que es crearan.\n"
 "pos especifica el format de l'entrada: c per a centrat, l per a alineat a "
 "l'esquerra, i r per a alineat a la dreta.\n"
 "text especifica quin text formarà l'entrada."
@@ -11115,7 +11116,8 @@ msgstr "Inicia una finestra principal nova de Kile"
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr ""
-"Fitxers a obrir: especifiqueu «-» per a llegir des de l'entrada estàndard"
+"Fitxers que s'han d'obrir: especifiqueu «-» per a llegir des de l'entrada "
+"estàndard"
 
 #: main.cpp:176
 #, kde-format
@@ -11318,7 +11320,7 @@ msgstr ""
 #: scripting/kilescriptobject.cpp:233 scripting/kilescriptobject.cpp:290
 #, kde-format
 msgid "Select File to Read"
-msgstr "Seleccioneu el fitxer a llegir"
+msgstr "Seleccioneu el fitxer que s'ha de llegir"
 
 #: scripting/kilescriptobject.cpp:249
 #, kde-format
@@ -12998,7 +13000,7 @@ msgstr "Mostra la vi&sualització"
 #: widgets/symbolviewconfigwidget.ui:46
 #, kde-format
 msgid "Number of symbols to show"
-msgstr "Nombre de símbols a mostrar"
+msgstr "Nombre de símbols que s'han de mostrar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_clearMFUS)
 #: widgets/symbolviewconfigwidget.ui:84

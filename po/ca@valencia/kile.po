@@ -6628,7 +6628,8 @@ msgstr ""
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr ""
-"L'extensió per defecte a utilitzar en obrir fitxers gràfics sense extensió"
+"L'extensió predeterminada que s'ha d'utilitzar en obrir fitxers gràfics "
+"sense extensió"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
 #: kile.kcfg:112
@@ -12767,7 +12768,7 @@ msgstr "Extensió gràfica per defecte:"
 #: widgets/structureviewconfigwidget.ui:236
 #, kde-format
 msgid "Extension to use for graphic files without extensions"
-msgstr "Extensió a utilitzar per als fitxers gràfics sense extensió"
+msgstr "Extensió que s'ha d'utilitzar per als fitxers gràfics sense extensió"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:243

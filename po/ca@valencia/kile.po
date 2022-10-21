@@ -5309,7 +5309,7 @@ msgstr "Tipus:"
 #: dialogs/usermenu/usermenudialog_base.ui:473
 #, kde-format
 msgid "Filename of the corresponding file."
-msgstr "Nom de fitxer del fitxer corresponent."
+msgstr "Nom del fitxer corresponent."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog_base.ui:482

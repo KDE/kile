@@ -6581,7 +6581,7 @@ msgstr "Lyx sunucusunun çalıştırılıp çalıştırılmayacağı."
 #: kile.kcfg:122
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable."
-msgstr "TEXINPUTS ortam değişkenini tutar."
+msgstr "TEXINPUTS çevre değişkenini tutar."
 
 #. i18n: ectx: whatsthis, entry (TeXPaths), group (Tools)
 #: kile.kcfg:123
@@ -6599,7 +6599,7 @@ msgstr ""
 #: kile.kcfg:127
 #, kde-format
 msgid "Holds the TEXINPUTS environment variable for QuickPreview tools."
-msgstr "TEXINPUTS ortam değişkenini Hızlı Önizleme araçları için tutar."
+msgstr "TEXINPUTS çevre değişkenini Hızlı Önizleme araçları için tutar."
 
 #. i18n: ectx: whatsthis, entry (PreviewTeXPaths), group (Tools)
 #: kile.kcfg:128
@@ -6619,7 +6619,7 @@ msgstr ""
 #: kile.kcfg:132
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable."
-msgstr "BIBINPUTS ortam değişkenini tutar."
+msgstr "BIBINPUTS çevre değişkenini tutar."
 
 #. i18n: ectx: whatsthis, entry (BibInputPaths), group (Tools)
 #: kile.kcfg:133
@@ -6629,7 +6629,7 @@ msgid ""
 "separated list of all paths bibtex should look for additional .bib files. "
 "You do not have to add :$BIBINPUTS at the end."
 msgstr ""
-"BIBINPUTS ortam değişkenini burada belirleyin. BIBINPUTS, bibtex'in ek .bib "
+"BIBINPUTS çevre değişkenini burada belirleyin. BIBINPUTS, bibtex'in ek .bib "
 "dosyalarını arayacağı gereken yolların tümünün listesidir. Girdiler iki "
 "nokta üstüste karakteri ile ayrılır. Sonuna :$BIBINPUTS eklemenize gerek "
 "yoktur."
@@ -6638,7 +6638,7 @@ msgstr ""
 #: kile.kcfg:137
 #, kde-format
 msgid "Holds the BIBINPUTS environment variable for QuickPreview tools."
-msgstr "QuickPreview araçları için BIBINPUTS ortam değişkenini tutar."
+msgstr "QuickPreview araçları için BIBINPUTS çevre değişkenini tutar."
 
 #. i18n: ectx: whatsthis, entry (PreviewBibInputPaths), group (Tools)
 #: kile.kcfg:138
@@ -6649,7 +6649,7 @@ msgid ""
 "bibliography tool (e.g. BibTeX or Biber) should look for additional packages "
 "and/or files. You do not have to add :$BIBINPUTS at the end."
 msgstr ""
-"QuickPreview araçları için BIBINPUTS ortam değişkenini burada ayarlayın. "
+"QuickPreview araçları için BIBINPUTS çevre değişkenini burada ayarlayın. "
 "BIBINPUTS, BibTeX veya Biber'in ek paketler ve/veya dosyalar için bakacağı "
 "bütün yolları sütunlarla ayrılmış liste şeklinde tutmalıdır. Sonuna :"
 "$BIBINPUTS eklemeniz gerekmez."
@@ -6658,7 +6658,7 @@ msgstr ""
 #: kile.kcfg:142
 #, kde-format
 msgid "Holds the BSTINPUTS environment variable."
-msgstr "BSTINPUTS ortam değişkenini tutar."
+msgstr "BSTINPUTS çevre değişkenini tutar."
 
 #. i18n: ectx: whatsthis, entry (BstInputPaths), group (Tools)
 #: kile.kcfg:143
@@ -6668,7 +6668,7 @@ msgid ""
 "separated list of all paths bibtex should look for additional .bst files. "
 "You do not have to add :$BSTINPUTS at the end."
 msgstr ""
-"BSTINPUTS ortam değişkenini burada belirleyin. BSTINPUTS, bibtex'in ek .bst "
+"BSTINPUTS çevre değişkenini burada belirleyin. BSTINPUTS, bibtex'in ek .bst "
 "dosyalarını arayacağı gereken yolların tümünün listesidir. Girdiler iki "
 "nokta üstüste karakteri ile ayrılır. Sonuna :$BSTINPUTS eklemenize gerek "
 "yoktur."
@@ -11796,7 +11796,7 @@ msgstr "Otomatik ekle $"
 #: widgets/latexconfigwidget.ui:189
 #, kde-format
 msgid "Environment Variables"
-msgstr "Ortam Değişkenleri"
+msgstr "Çevre Değişkenleri"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlPath)
 #: widgets/latexconfigwidget.ui:201

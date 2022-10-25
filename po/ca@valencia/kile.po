@@ -247,7 +247,8 @@ msgstr ""
 "correctament per a processar documents de LaTeX. També permet afinar la "
 "configuració de Kile, tenint en compte els resultats de les proves.</p><p>Es "
 "recomana executar este assistent abans d'utilitzar Kile per primera vegada.</"
-"p><p>Ara feu clic a «Següent» per a iniciar el procediment de les proves.</p>"
+"p><p>Ara feu clic en «Següent» per a iniciar el procediment de les proves.</"
+"p>"
 
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
@@ -4610,8 +4611,8 @@ msgid ""
 "Choose the border for the selected cells. When clicking on the button, the "
 "current border will be applied to the selected cells."
 msgstr ""
-"Seleccioneu el contorn per a les cel·les seleccionades. En clicar en el "
-"botó, el contorn actual s'aplicarà a les cel·les seleccionades."
+"Seleccioneu el contorn per a les cel·les seleccionades. Clicant en el botó, "
+"el contorn actual s'aplicarà a les cel·les seleccionades."
 
 #: dialogs/tabular/newtabulardialog.cpp:191
 #, kde-format
@@ -7746,7 +7747,7 @@ msgid ""
 "Settings->Configure Kile->Help."
 msgstr ""
 "No s'ha pogut trobar la documentació de LaTeX a %1. Establiu el camí "
-"correcte a «Configuració -> Configura Kile -> Ajuda»."
+"correcte en «Configuració -> Configura Kile -> Ajuda»."
 
 #: kilehelp.cpp:166
 #, kde-format

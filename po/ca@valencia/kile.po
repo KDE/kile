@@ -1084,7 +1084,7 @@ msgstr "3,5 polzades"
 #: dialogs/includegraphicsdialog_base.ui:465
 #, kde-format
 msgid "Lines to break:"
-msgstr "Línies a saltar:"
+msgstr "Línies que s'han de saltar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_wrapleft)
 #: dialogs/includegraphicsdialog_base.ui:475

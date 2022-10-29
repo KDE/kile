@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-10-18 05:48+0300\n"
+"PO-Revision-Date: 2022-10-28 13:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.08.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -3385,12 +3385,12 @@ msgstr "Kaynakçayı açık stilde biçimlendirir"
 #: dialogs/quickdocumentdialog.cpp:668
 #, kde-format
 msgid "Chapters may start on top of every page"
-msgstr "Bölümler her sayfanın en üstünde başla(yabili)r"
+msgstr "Fasıllar, her sayfanın en üstünde başla(yabili)r"
 
 #: dialogs/quickdocumentdialog.cpp:669
 #, kde-format
 msgid "Chapters may only start on top of right pages"
-msgstr "Bölümler sadece her sayfanın en üstünde başla(yabili)r"
+msgstr "Fasıllar, yalnızca her sayfanın en üstünde başla(yabili)r"
 
 #: dialogs/quickdocumentdialog.cpp:675
 #, kde-format
@@ -3615,12 +3615,12 @@ msgstr "longtable paketindeki adlar yeniden tanımlanmaz"
 #: dialogs/quickdocumentdialog.cpp:724
 #, kde-format
 msgid "Use a separate line for the chapter number"
-msgstr "Bölüm numarası için ayrı bir satır kullan"
+msgstr "Fasıl numarası için ayrı bir satır kullan"
 
 #: dialogs/quickdocumentdialog.cpp:725
 #, kde-format
 msgid "Use the same line for the chapter number and title"
-msgstr "Bölüm numarası ve başlık için aynı satırı kullan"
+msgstr "Fasıl numarası ve başlık için aynı satırı kullan"
 
 #: dialogs/quickdocumentdialog.cpp:726
 #, kde-format
@@ -8598,13 +8598,13 @@ msgid ""
 "Only for 'report' and 'book' class document."
 msgstr ""
 "\\chapter{başlık}\n"
-"\\chapter*{başlık} : bölüme bir sayı atama ve İçindekiler kısmında gösterme\n"
+"\\chapter*{başlık} : bir sayı atama ve İçindekiler kısmında gösterme\n"
 "Yalnızca rapor (report) ve kitap (book) sınıfı belgelerde kullanılır."
 
 #: kilestdactions.cpp:102
 #, kde-format
 msgid "C&hapter"
-msgstr "B&ölüm"
+msgstr "&Fasıl"
 
 #: kilestdactions.cpp:103
 #, kde-format
@@ -12533,8 +12533,7 @@ msgstr "&Öntanımlı değer"
 #: widgets/structureviewconfigwidget.ui:112
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
-msgstr ""
-"(&1=kısım, 2=bölüm, 3=altbölüm, 4=Alt altbölüm, 5=2. seviye altbölüm, ...)"
+msgstr "(&1=kısım, 2=fasıl, 3=bölüm, 4=alt bölüm, 5=2. düzey alt bölüm, ...)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137

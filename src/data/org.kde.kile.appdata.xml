@@ -288,7 +288,7 @@
       <li xml:lang="sk">Nájdenie kapitoly alebo odsekov je veľmi jednoduché, Kile zostaví zoznam všetkých kapitol atď. v dokumente. Pomocou tohto zoznamu môžete prejsť na príslušnú časť</li>
       <li xml:lang="sl">Iskanje poglavja ali poglavij je zelo enostavno, Kile sestavi seznam vseh poglavij itd. v vašem dokumentu. Seznam lahko uporabite za skok naustrezen razdelek</li>
       <li xml:lang="sv">Det är mycket enkelt att hitta kapitel eller avsnitt. Kile skapar en lista av alla kapitel, etc., i dokumentet. Listan kan användas för att gå till motsvarande avsnitt</li>
-      <li xml:lang="tr">Bölüm veya kısımları bulmak çok kolay, Kile belgenizdeki tüm bölümlerin vb. bir listesini oluşturur. İlgili bölüme atlamak için listeyi kullanabilirsiniz</li>
+      <li xml:lang="tr">Fasıl veya bölümleri bulmak çok kolay, Kile belgenizdeki tüm bölümlerin vb. bir listesini oluşturur. İlgili bölüme atlamak için listeyi kullanabilirsiniz</li>
       <li xml:lang="uk">Знайти потрібну главу або розділ дуже просто: Kile будує список усіх розділів у документі. Ви можете скористатися цим списком для переходу до відповідного розділу.</li>
       <li xml:lang="x-test">xxFinding chapter or sections is very easy, Kile constructs a list of all the chapter etc. in your document. You can use the list to jump to the corresponding sectionxx</li>
       <li xml:lang="zh-CN">查找章节非常便利，Kile 会构建文档所有章节的列表，您可以使用该列表跳转到对应的章节</li>

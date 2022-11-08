@@ -1508,7 +1508,7 @@ msgstr "Fitxer local"
 #: dialogs/listselector.cpp:150
 #, kde-format
 msgid "Add File?"
-msgstr "Afig fitxer?"
+msgstr "Voleu afegir un fitxer?"
 
 #: dialogs/listselector.cpp:170
 #, kde-format
@@ -2963,7 +2963,7 @@ msgid ""
 "Insert a list (separated by spaces) of file extensions which should be "
 "treated also as files of the corresponding type in this project."
 msgstr ""
-"Inserix una llista (separada per espais) d'extensions de fitxers que han de "
+"Inserix una llista (separada per espais) d'extensions de fitxer que han de "
 "ser tractats també com a fitxers del tipus corresponent en este projecte."
 
 #: dialogs/projectdialogs.cpp:69

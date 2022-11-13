@@ -20,6 +20,7 @@
   <name xml:lang="gl">Kile</name>
   <name xml:lang="ia">Kile</name>
   <name xml:lang="id">Kile</name>
+  <name xml:lang="ie">Kile</name>
   <name xml:lang="it">Kile</name>
   <name xml:lang="ka">Kile</name>
   <name xml:lang="ko">Kile</name>
@@ -51,6 +52,7 @@
   <summary xml:lang="gl">Editor de TeX/LaTeX</summary>
   <summary xml:lang="ia">Editor de TeX/LaTeX</summary>
   <summary xml:lang="id">Editor TeX/LaTeX</summary>
+  <summary xml:lang="ie">Redactor de TeX/LaTeX</summary>
   <summary xml:lang="it">Editor TeX/LaTeX</summary>
   <summary xml:lang="ka">TeX/LaTeX რედაქტორი</summary>
   <summary xml:lang="ko">TeX/LaTeX 편집기</summary>
@@ -111,6 +113,7 @@
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
+    <p xml:lang="ie">Caracteristicas:</p>
     <p xml:lang="it">Caratteristiche:</p>
     <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
@@ -142,6 +145,7 @@
       <li xml:lang="gl">Compilar, converter e visualizar o documento cun clic.</li>
       <li xml:lang="ia">Compila, converte e vide ty documento con un click</li>
       <li xml:lang="id">Kompilasi, konversi, dan lihat dokumen Anda dengan satu klik</li>
+      <li xml:lang="ie">Compilar, converter e vider vor document con un singul clic</li>
       <li xml:lang="it">Compila, converte e visualizza i tuoi documenti con un clic</li>
       <li xml:lang="ko">문서를 간단하게 컴파일, 변환, 보기</li>
       <li xml:lang="nl">Compileert, converteert en toont uw document met één klik</li>
@@ -170,6 +174,7 @@
       <li xml:lang="gl">Completación automática de ordes de (La)TeX.</li>
       <li xml:lang="ia">Auto-completion de commandos de (La)TeX</li>
       <li xml:lang="id">Penyelesaian otomatis perintah-perintah (La)TeX</li>
+      <li xml:lang="ie">Automatic completion de comandes (La)TeX</li>
       <li xml:lang="it">Completamento automatico dei comandi (La)TeX</li>
       <li xml:lang="ka">(La)TeX -ის ბრძანებების ავტომატური დასრულება</li>
       <li xml:lang="ko">(La)TeX 명령 자동 완성</li>
@@ -473,6 +478,7 @@
       <caption xml:lang="fr">Édition de documents dans Kile</caption>
       <caption xml:lang="gl">Edición de documentos en Kile</caption>
       <caption xml:lang="id">Pengeditan dokumen di Kile</caption>
+      <caption xml:lang="ie">Redaction de un document in Kile</caption>
       <caption xml:lang="it">Modifica dei documenti in Kile</caption>
       <caption xml:lang="ka">დოკუმენტს ჩასწორება Kile-ში</caption>
       <caption xml:lang="ko">Kile로 문서 편집</caption>

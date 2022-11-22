@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-11-14 14:20+0300\n"
+"PO-Revision-Date: 2022-11-21 22:31+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1471,7 +1471,7 @@ msgstr "Kullanıcı tanımlı bir ortamı düzenle."
 #: dialogs/latexcommanddialog_base.ui:199
 #, kde-format
 msgid "&Edit..."
-msgstr "&Düzenle..."
+msgstr "Dü&zenle..."
 
 #. i18n: ectx: property (text), widget (QCheckBox, showOnlyUserDefined)
 #: dialogs/latexcommanddialog_base.ui:222
@@ -4169,7 +4169,7 @@ msgstr "paket:"
 #: dialogs/quickdocumentdialog.cpp:1958
 #, kde-format
 msgid "&Editable"
-msgstr "Düz&enlenebilir"
+msgstr "Dü&zenlenebilir"
 
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
@@ -6232,7 +6232,7 @@ msgstr "&Bibliyografya"
 #: kile.cpp:996 kileui.rc:503
 #, kde-format
 msgid "&Settings"
-msgstr "&Ayarlar"
+msgstr "Ayar&lar"
 
 #: kile.cpp:999
 #, kde-format
@@ -10415,7 +10415,7 @@ msgstr "...'e &çevir"
 #: kileui.rc:53 widgets/abbreviationview.cpp:120
 #, kde-format
 msgid "&Edit"
-msgstr "D&üzen"
+msgstr "Dü&zen"
 
 #. i18n: ectx: Menu (complete)
 #: kileui.rc:61

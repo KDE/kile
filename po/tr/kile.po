@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-11-21 22:31+0300\n"
+"PO-Revision-Date: 2022-11-22 16:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6072,12 +6072,12 @@ msgstr "Proje &Dosyalarını Göster..."
 #: kile.cpp:892 widgets/projectview.cpp:851
 #, kde-format
 msgid "Open All &Project Files"
-msgstr "Tüm &Proje Dosyalarını Aç"
+msgstr "Tüm Pro&je Dosyalarını Aç"
 
 #: kile.cpp:893
 #, kde-format
 msgid "Find in &Project..."
-msgstr "&Proje içinde Bul..."
+msgstr "Pro&jede Bul..."
 
 #: kile.cpp:896 kile.cpp:994 kile.cpp:2111 kiledocmanager.cpp:1989
 #: kiledocmanager.cpp:1999
@@ -10478,7 +10478,7 @@ msgstr "Belge Görüntüleyici"
 #: kileui.rc:129
 #, kde-format
 msgid "&Go"
-msgstr "&Git"
+msgstr "G&it"
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:143

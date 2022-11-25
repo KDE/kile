@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-11-22 16:52+0300\n"
+"PO-Revision-Date: 2022-11-24 17:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -12753,12 +12753,12 @@ msgstr "&Kes"
 #: widgets/structurewidget.cpp:767
 #, kde-format
 msgid "&Copy"
-msgstr "&Kopyala"
+msgstr "Ko&pyala"
 
 #: widgets/structurewidget.cpp:768
 #, kde-format
 msgid "&Paste below"
-msgstr "&Altına yapıştır"
+msgstr "Altına &yapıştır"
 
 #: widgets/structurewidget.cpp:773
 #, kde-format

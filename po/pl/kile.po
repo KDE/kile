@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-10-09 12:39+0200\n"
+"PO-Revision-Date: 2022-11-26 11:36+0100\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.04.1\n"
+"X-Generator: Lokalize 22.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -133,8 +133,8 @@ msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
-"Obsługiwane użycie 'Nowoczesnych' ustawień dla (La)TeX do auto-włączenia "
-"możliwości wyszukiwania odwrotnego i w przód."
+"Obsługiwane użycie 'Nowoczesnych' ustawień dla (La)TeX do samowłączenia "
+"możliwości wyszukiwania wstecz i wprzód."
 
 #: configtester.cpp:528
 #, kde-format
@@ -167,7 +167,7 @@ msgstr "Nieobsługiwane"
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
-"Podglądy PNG nie mogą być używane dla grup matematycznych w dolnym panelu "
+"Podglądy PNG nie mogą być używane dla grup matematycznych na dolnym pasku "
 "podglądu"
 
 #: configtester.cpp:807
@@ -176,7 +176,7 @@ msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
 "in the bottom preview pane"
 msgstr ""
-"Podglądy PNG nie mogą być używane w dolnym panelu podglądu przy "
+"Podglądy PNG nie mogą być używane na dolnym pasku podglądu przy "
 "przekształceniach 'dvi->ps->png' and 'pdf->png'."
 
 #: dialogs/abbreviationinputdialog.cpp:44
@@ -468,13 +468,13 @@ msgstr "Otoczenia"
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "installed"
-msgstr "wgrana"
+msgstr "wgrane"
 
 #: dialogs/configurationdialog.cpp:301 widgets/previewconfigwidget.cpp:246
 #: widgets/previewconfigwidget.cpp:247
 #, kde-format
 msgid "not installed"
-msgstr "niewgrana"
+msgstr "niewgrane"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetGraphicsConfig)
 #: dialogs/configurationdialog.cpp:302 widgets/graphicsconfigwidget.ui:14
@@ -1398,7 +1398,7 @@ msgstr "Z gwiazdką"
 #: dialogs/latexcommanddialog_base.ui:79
 #, kde-format
 msgid "EOL"
-msgstr "Koniec linii"
+msgstr "Koniec wiersza"
 
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog_base.ui:89
@@ -1474,7 +1474,7 @@ msgstr "&Edytuj..."
 #: dialogs/latexcommanddialog_base.ui:222
 #, kde-format
 msgid "Show only user-defined environments and commands"
-msgstr "Pokaż otocznia i polecenia określone tylko przez użytkownika"
+msgstr "Pokaż tylko otoczenia i polecenia określone przez użytkownika"
 
 #: dialogs/listselector.cpp:64
 #, kde-format
@@ -1492,7 +1492,7 @@ msgstr "Nazwa pliku"
 #: dialogs/listselector.cpp:150 widgets/codecompletionconfigwidget.cpp:96
 #, kde-format
 msgid "Local File"
-msgstr "Plik lokalny"
+msgstr "Plik miejscowy"
 
 #: dialogs/listselector.cpp:150
 #, kde-format
@@ -1527,7 +1527,7 @@ msgstr "Zarządzaj własnymi plikami"
 #: dialogs/listselector.cpp:175
 #, kde-format
 msgid "Manage the local completion files in the file manager"
-msgstr "Zarządzaj lokalnymi plikami uzupełniania w przeglądarce plików"
+msgstr "Zarządzaj miejscowymi plikami uzupełniania w przeglądarce plików"
 
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:282
@@ -1564,13 +1564,13 @@ msgid ""
 "A local completion file with the name \"%1\" already exists.\n"
 "Do you want to replace this file?"
 msgstr ""
-"Lokalny plik uzupełniania o nazwie \"%1\" już istnieje.\n"
+"Miejscowy plik uzupełniania o nazwie \"%1\" już istnieje.\n"
 "Czy chcesz zastąpić ten plik?"
 
 #: dialogs/listselector.cpp:241
 #, kde-format
 msgid "Replace Local File?"
-msgstr "Zastąpić lokalny plik?"
+msgstr "Zastąpić plik miejscowy?"
 
 #: dialogs/listselector.cpp:244
 #, kde-format
@@ -2967,8 +2967,8 @@ msgstr "(użyj ustawień globalnych)"
 #, kde-format
 msgid "Default graphic extension to open when none specified by file name."
 msgstr ""
-"Domyślne rozszerzenie grafiki, gdy nazwa otwieranego pliku nie określa "
-"rozszerzenia."
+"Domyślne rozszerzenie pliku graficznego, gdy nazwa otwieranego pliku nie "
+"zawiera takiego rozszerzenia."
 
 #: dialogs/projectdialogs.cpp:108
 #, kde-format
@@ -3131,7 +3131,7 @@ msgstr "(użyj ustawień globalnych)"
 #: dialogs/projectdialogs.cpp:435
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
-msgstr "Wybierz domyślny dokument nadrzędny. Pozostaw pusty dla auto-wykrycia."
+msgstr "Wybierz domyślny dokument nadrzędny. Pozostaw pusty dla samowykrycia."
 
 #: dialogs/projectdialogs.cpp:440
 #, kde-format
@@ -3141,7 +3141,7 @@ msgstr "Doku&ment nadrzędny:"
 #: dialogs/projectdialogs.cpp:446
 #, kde-format
 msgid "(auto-detect)"
-msgstr "(auto-wykrycie)"
+msgstr "(sam wykryj)"
 
 #: dialogs/projectdialogs.cpp:463
 #, kde-format
@@ -3759,7 +3759,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:766
 #, kde-format
 msgid "Suppresses generation of some entries in the pdf information"
-msgstr "Wygasza generowanie pewnych wpisów w informacjach pdf"
+msgstr "Wygasza tworzenie pewnych wpisów w szczegółowych danych do pdf"
 
 #: dialogs/quickdocumentdialog.cpp:767
 #, kde-format
@@ -3779,12 +3779,12 @@ msgstr "Potrzebne, gdy używany jest pakiet CJK dla czcionek azjatyckich"
 #: dialogs/quickdocumentdialog.cpp:770
 #, kde-format
 msgid "Use a sans-serif font during the presentation"
-msgstr "Użyj czcionki bezszeryfowej podczas prezentacji"
+msgstr "Używa czcionki bezszeryfowej podczas prezentacji"
 
 #: dialogs/quickdocumentdialog.cpp:771
 #, kde-format
 msgid "Use a serif font during the presentation"
-msgstr "Użyj czcionki szeryfowej podczas prezentacji"
+msgstr "Używa czcionki szeryfowej podczas prezentacji"
 
 #: dialogs/quickdocumentdialog.cpp:772
 #, kde-format
@@ -3886,27 +3886,27 @@ msgstr "Oznaczenia hipertekstu w LaTeX"
 #: dialogs/quickdocumentdialog.cpp:1040
 #, kde-format
 msgid "Use dvips as hyperref driver"
-msgstr "Użyj dvips jako sterownika hyperref"
+msgstr "Używa dvips jako sterownika hyperref"
 
 #: dialogs/quickdocumentdialog.cpp:1042
 #, kde-format
 msgid "Use pdftex as hyperref driver"
-msgstr "Użyj pdftex jako sterownika hyperref"
+msgstr "Używa pdftex jako sterownika hyperref"
 
 #: dialogs/quickdocumentdialog.cpp:1043
 #, kde-format
 msgid "Make bookmarks"
-msgstr "Zrób zakładki"
+msgstr "Robi zakładki"
 
 #: dialogs/quickdocumentdialog.cpp:1044
 #, kde-format
 msgid "Put section numbers in bookmarks"
-msgstr "Umieść numery sekcji w zakładkach"
+msgstr "Umieszcza numery sekcji w zakładkach"
 
 #: dialogs/quickdocumentdialog.cpp:1045
 #, kde-format
 msgid "Open up bookmark tree"
-msgstr "Otwórz drzewo zakładki"
+msgstr "Otwiera drzewo zakładki"
 
 #: dialogs/quickdocumentdialog.cpp:1046
 #, kde-format
@@ -3957,20 +3957,20 @@ msgstr "Tekst dla pola Tytuł PDF-u"
 #, kde-format
 msgid "Use Palatino font as roman font (both text and math mode)"
 msgstr ""
-"Użyj czcionki Palatino jako czcionki powieściowej (zarówno dla tekstu jak i "
+"Używa czcionki Palatino jako czcionki powieściowej (zarówno dla tekstu jak i "
 "trybu matematycznego)"
 
 #: dialogs/quickdocumentdialog.cpp:1056
 #, kde-format
 msgid "Use Times font as roman font (both text and math mode)"
 msgstr ""
-"Użyj czcionki Times jako czcionki powieściowej (zarówno dla tekstu jak i "
+"Używa czcionki Times jako czcionki powieściowej (zarówno dla tekstu jak i "
 "trybu matematycznego)"
 
 #: dialogs/quickdocumentdialog.cpp:1057
 #, kde-format
 msgid "Enable index generation"
-msgstr "Włącz generowanie skorowidza"
+msgstr "Włącza tworzenie spisu"
 
 #: dialogs/quickdocumentdialog.cpp:1058
 #, kde-format
@@ -3980,7 +3980,7 @@ msgstr "Włącza otoczenia wielokolumnowe"
 #: dialogs/quickdocumentdialog.cpp:1059
 #, kde-format
 msgid "Load all pstricks packages"
-msgstr "Wczytaj wszystkie pakiety pstricks"
+msgstr "Wczytuje wszystkie pakiety pstricks"
 
 #: dialogs/quickdocumentdialog.cpp:1060
 #, kde-format
@@ -4005,7 +4005,7 @@ msgstr "Rozszerzanie możliwości koloru dla LaTeX"
 #: dialogs/quickdocumentdialog.cpp:1065
 #, kde-format
 msgid "Adds language specific support"
-msgstr "Dodaje określoną obsługę języka"
+msgstr "Dodaje obsługę danego języka"
 
 #: dialogs/quickdocumentdialog.cpp:1132
 #, kde-format
@@ -4020,17 +4020,17 @@ msgstr "Obsługa załączania grafiki"
 #: dialogs/quickdocumentdialog.cpp:1165
 #, kde-format
 msgid "Specialize on graphic inclusion for dvips"
-msgstr "Specjalizacja załączania grafiki dla dvips"
+msgstr "Zajmuje się załączaniem grafiki dla dvips"
 
 #: dialogs/quickdocumentdialog.cpp:1166
 #, kde-format
 msgid "Specialize on graphic inclusion for pdftex"
-msgstr "Specjalizacja załączania grafiki dla pdftex"
+msgstr "Zajmuje się załączaniem grafiki dla pdftex"
 
 #: dialogs/quickdocumentdialog.cpp:1167
 #, kde-format
 msgid "Show only frames of graphics"
-msgstr "Pokaż tylko ramki grafiki"
+msgstr "Pokazuje tylko ramki grafiki"
 
 #: dialogs/quickdocumentdialog.cpp:1363 dialogs/quickdocumentdialog.cpp:1372
 #: dialogs/quickdocumentdialog.cpp:1557 dialogs/quickdocumentdialog.cpp:1573
@@ -4801,7 +4801,7 @@ msgstr "Pomoc użytkownika"
 #: dialogs/userhelpdialog.cpp:63
 #, kde-format
 msgid "&Menu item:"
-msgstr "Element &menu:"
+msgstr "Wpis &menu:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemove)
 #: dialogs/userhelpdialog.cpp:76 widgets/quicktoolconfigwidget.ui:104
@@ -4866,7 +4866,7 @@ msgstr "Nazwa lokalnego pliku pomocy lub poprawnego adresu WEB url."
 #: dialogs/userhelpdialog.cpp:413
 #, kde-format
 msgid "Start a file dialog to choose a local help file."
-msgstr "Uruchom okno dialogowe pliku, aby wybrać lokalny plik pomocy."
+msgstr "Otwórz okno do wyboru miejscowego pliku pomocy."
 
 #: dialogs/userhelpdialog.cpp:432
 #, kde-format
@@ -5231,7 +5231,7 @@ msgstr "Zapisz jako"
 #: dialogs/usermenu/usermenudialog_base.ui:352
 #, kde-format
 msgid "(installed)"
-msgstr "(wgrana)"
+msgstr "(wgrane)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
@@ -5496,7 +5496,7 @@ msgstr "Czy na pewno chcesz wyczyścić całkowite drzewo menu?"
 #: dialogs/usermenu/usermenutree.cpp:940
 #, kde-format
 msgid "This menuitem has no title."
-msgstr "Ten element menu nie ma tytułu."
+msgstr "Ten wpis menu nie ma tytułu."
 
 #: dialogs/usermenu/usermenutree.cpp:944
 #, kde-format
@@ -6349,7 +6349,7 @@ msgstr "Przekształć"
 #: kile.cpp:1247 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
-msgstr "Szybki"
+msgstr "Szybkie"
 
 #: kile.cpp:1421
 #, kde-format
@@ -6751,7 +6751,7 @@ msgstr "Identyfikator wybranego widoku na lewym panelu."
 #: kile.kcfg:189
 #, kde-format
 msgid "Whether to show the splash screen on startup."
-msgstr "Określa czy pokazać ekran powitalny przy starcie."
+msgstr "Określa czy pokazać ekran powitalny po uruchomieniu."
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
 #: kile.kcfg:193
@@ -6765,19 +6765,19 @@ msgstr ""
 #: kile.kcfg:199
 #, kde-format
 msgid "Automatic completion \\begin{env} with \\end{env}."
-msgstr "Samouzupełnianie \\begin{env} przy użyciu \\end{env}."
+msgstr "Sam uzupełniaj \\begin{env} przy użyciu \\end{env}."
 
 #. i18n: ectx: label, entry (envIndentation), group (Editor Ext)
 #: kile.kcfg:203
 #, kde-format
 msgid "Enable auto indentation of environments"
-msgstr "Włącz auto-wcięcia otoczeń"
+msgstr "Włącz samowcinanie otoczeń"
 
 #. i18n: ectx: label, entry (envIndentSpaces), group (Editor Ext)
 #: kile.kcfg:207
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments"
-msgstr "Użyj odstępów zamiast tabulatorów do samo-wcinania otoczeń"
+msgstr "Wcinaj otoczenia odstępami zamiast tabulatorami"
 
 #. i18n: ectx: label, entry (envIndentNumSpaces), group (Editor Ext)
 #: kile.kcfg:211
@@ -6789,7 +6789,7 @@ msgstr "Użyj tej liczby odstępów do samo-wcinania otoczeń"
 #: kile.kcfg:219
 #, kde-format
 msgid "Automatic insertion of double quotes."
-msgstr "Samoczynne wstawianie podwójnych apostrofów"
+msgstr "Sam wstawiaj podwójne apostrofy"
 
 #. i18n: ectx: label, entry (DoubleQuotes), group (Editor Ext)
 #: kile.kcfg:223
@@ -6801,7 +6801,7 @@ msgstr "Zależny od języka rodzaj podwójnych apostrofów."
 #: kile.kcfg:227
 #, kde-format
 msgid "Automatic insertion of special characters."
-msgstr "Samoczynne wstawianie specjalnych znaków."
+msgstr "Sam wstawiaj znaki szczególne."
 
 #. i18n: ectx: label, entry (igCenter), group (IncludeGraphics)
 #: kile.kcfg:233
@@ -6927,7 +6927,7 @@ msgstr "Użyj systemowego leksykonu TexLive LaTeX2e dla pomocy podręcznej."
 #: kile.kcfg:317
 #, kde-format
 msgid "Reopen files and projects on startup."
-msgstr "Otwórz ponownie pliki i projekty przy starcie."
+msgstr "Otwórz ponownie pliki i projekty po uruchomieniu."
 
 #. i18n: ectx: label, entry (CleanUpAfterClose), group (Files)
 #: kile.kcfg:321
@@ -7048,7 +7048,7 @@ msgstr ""
 #: kile.kcfg:477
 #, kde-format
 msgid "The background color of the quick preview pane."
-msgstr "Kolor tła dla panelu szybkiego podglądu."
+msgstr "Kolor tła dla paska szybkiego podglądu."
 
 #. i18n: ectx: label, entry (ScriptingEnabled), group (Scripting)
 #: kile.kcfg:557
@@ -7100,7 +7100,7 @@ msgstr "Wyświetl widok najczęściej używanych symboli."
 #: kile.kcfg:589
 #, kde-format
 msgid "Clear the list of the most frequently used symbols whilst closing Kile."
-msgstr "Wyczyść listę najczęściej używanych symboli przy zamykaniu Kile."
+msgstr "Czyści spis najczęściej używanych symboli przed zamknięciem Kile."
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
 #: kile.kcfg:593
@@ -9358,12 +9358,12 @@ msgstr ""
 #: kilestdactions.cpp:223 kilestdactions.cpp:231
 #, kde-format
 msgid "Bibliography Generation - \\bibliography{}"
-msgstr "Generowanie bibliografii - \\bibliography{}"
+msgstr "Tworzenie bibliografii - \\bibliography{}"
 
 #: kilestdactions.cpp:223 kilestdactions.cpp:231
 #, kde-format
 msgid "Bibliography Generation"
-msgstr "Generowanie bibliografii"
+msgstr "Tworzenie bibliografii"
 
 #: kilestdactions.cpp:223 kilestdactions.cpp:231
 #, kde-format
@@ -11468,7 +11468,7 @@ msgstr "Uzupełnianie"
 #: widgets/codecompletionconfigwidget.ui:23
 #, kde-format
 msgid "Auto completion for &LaTeX markup"
-msgstr "Samouzupełnianie dla znaczników &LaTeX"
+msgstr "Sam uzupełniaj znaczniki &LaTeX"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/codecompletionconfigwidget.ui:37
@@ -11486,7 +11486,7 @@ msgstr "litery"
 #: widgets/codecompletionconfigwidget.ui:82
 #, kde-format
 msgid "A&uto completion for abbreviations"
-msgstr "Samouz&upełnianie dla skrótów"
+msgstr "Sam &uzupełniaj skróty"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_addFileButton)
 #: widgets/codecompletionconfigwidget.ui:133
@@ -11569,13 +11569,13 @@ msgstr "Samoczynnie zakończ \\begin{env} przy użyciu \\end{env}"
 #: widgets/environmentconfigwidget.ui:57
 #, kde-format
 msgid "Automatic Indentation Inside Environments"
-msgstr "Samoczynne wcięcia wewnątrz otoczeń"
+msgstr "Sam wcinaj wewnątrz otoczeń"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:66
 #, kde-format
 msgid "Enable auto indentation of environments."
-msgstr "Włącz auto-wcięcia otoczeń."
+msgstr "Włącz samowcinanie otoczeń."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentation)
 #: widgets/environmentconfigwidget.ui:69
@@ -11587,13 +11587,13 @@ msgstr "Aktywowane"
 #: widgets/environmentconfigwidget.ui:76
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments."
-msgstr "Użyj odstępów zamiast tabulatorów do samo-wcinania otoczeń."
+msgstr "Wcinaj otoczenia odstępami zamiast tabulatorami."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentSpaces)
 #: widgets/environmentconfigwidget.ui:79
 #, kde-format
 msgid "Use spaces instead of tabs to indent"
-msgstr "Użyj odstępów zamiast tabulatorów do wcinania"
+msgstr "Wcinaj odstępami zamiast tabulatorami"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
@@ -11633,7 +11633,7 @@ msgstr "&Domyślne położenie projektu:"
 #: widgets/generalconfigwidget.ui:64
 #, kde-format
 msgid "&Reopen files and projects on startup"
-msgstr "Otwó&rz ponownie pliki i projekty przy starcie"
+msgstr "Otwó&rz ponownie pliki i projekty po uruchomieniu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox3)
 #: widgets/generalconfigwidget.ui:74
@@ -11663,13 +11663,13 @@ msgstr "Kodowa&nie wejściowe:"
 #: widgets/generalconfigwidget.ui:134
 #, kde-format
 msgid "File Clean-Up Details"
-msgstr "Wytyczne do czyszczenia pliku"
+msgstr "Pliki do usunięcia"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_CleanUpAfterClose)
 #: widgets/generalconfigwidget.ui:143
 #, kde-format
 msgid "Automatically clean-up files after closing Kile"
-msgstr "Samoczynnie czyść pliki przy zamykaniu Kile"
+msgstr "Sam wyczyść pliki przed zamknięciem Kile"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_WatchFileForDocumentViewer)
 #: widgets/generalconfigwidget.ui:165
@@ -11701,7 +11701,7 @@ msgstr "&Domyślna rozdzielczość:"
 #: widgets/graphicsconfigwidget.ui:51
 #, kde-format
 msgid "(used when the picture offers no resolution)"
-msgstr "(używane, gdy zdjęcie nie ma zapisanej rozdzielczości)"
+msgstr "(używana, gdy zdjęcie nie ma zapisanej rozdzielczości)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
@@ -11813,7 +11813,7 @@ msgstr "Tryb matematyczny"
 #: widgets/latexconfigwidget.ui:170
 #, kde-format
 msgid "Auto insert $"
-msgstr "Auto-wstawianie $"
+msgstr "Sam wstaw $"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox5)
 #: widgets/latexconfigwidget.ui:189
@@ -11906,7 +11906,7 @@ msgstr "Zachowanie kompilacji"
 #: widgets/livepreviewconfigwidget.ui:54
 #, kde-format
 msgid "Compile doc&uments after saving"
-msgstr "Skompiluj dok&ument po zapisaniu"
+msgstr "Skompiluj dok&ument po jego zapisaniu"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_compileDocumentOnChangesRadioButton)
 #: widgets/livepreviewconfigwidget.ui:63
@@ -12001,7 +12001,7 @@ msgstr "Katalog &względnie:"
 #: widgets/maintoolconfigwidget.ui:508
 #, kde-format
 msgid "Close Konsole when tool is finished"
-msgstr "Zamknij Konsole, gdy narzędzie ukończyło"
+msgstr "Zamknij Konsolę po ukończeniu"
 
 #. i18n: ectx: attribute (title), widget (QWidget, TabPage)
 #: widgets/maintoolconfigwidget.ui:531
@@ -12635,7 +12635,7 @@ msgstr "Brak dodatkowych punktów dla etykiet"
 #: widgets/structureviewconfigwidget.ui:229
 #, kde-format
 msgid "Default Graphic Extension:"
-msgstr "Domyślne rozszerzenie grafiki:"
+msgstr "Domyślne rozszerzenie pliku graficznego:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:236
@@ -12882,7 +12882,7 @@ msgstr "Liczba symboli do pokazania"
 #: widgets/symbolviewconfigwidget.ui:84
 #, kde-format
 msgid "&Clear the list of symbols when closing Kile"
-msgstr "Wy&czyść listę symboli przy zamykaniu Kile"
+msgstr "Sam wy&czyść listę symboli przed zamknięciem Kile"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/symbolviewconfigwidget.ui:94
@@ -12895,7 +12895,7 @@ msgstr "Unikod"
 #, kde-format
 msgid "Insert Unicode representation of the selected symbol (when available)"
 msgstr ""
-"Wstaw przedstawienie Unicode dla wybranego symbolu (jeśli jest dostępna)"
+"Wstaw przedstawienie Unicode dla wybranego symbolu (jeśli jest dostępne)"
 
 #: widgets/toolconfigwidget.cpp:110
 #, kde-format
@@ -12910,7 +12910,7 @@ msgstr "Uruchom w konsoli"
 #: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Use Document Viewer"
-msgstr "Podgląd w przeglądarce"
+msgstr "Uruchomienie w przeglądarce"
 
 #: widgets/toolconfigwidget.cpp:113
 #, kde-format

@@ -212,7 +212,7 @@
       <li xml:lang="sk">Šablóny a sprievodcovia robia spúšťanie nových dokumentov veľmi jednoduché</li>
       <li xml:lang="sl">Predloge in čarovniki omogočajo začetek pisanja novih dokumentov zelo malo dela</li>
       <li xml:lang="sv">Mallar och guider gör att mycket lite arbete behövs för att påbörja nya dokument</li>
-      <li xml:lang="tr">Şablonlar ve sihirbazlar yeni belgelere başlamayı çok kolaylaştırırlar</li>
+      <li xml:lang="tr">Şablonlar ve sihirbazlar yeni belgelere başlamayı çok kolaylaştırır</li>
       <li xml:lang="uk">Шаблони і допоміжні засоби для створення документів з мінімальними зусиллями.</li>
       <li xml:lang="x-test">xxTemplates and wizards make starting new documents very little workxx</li>
       <li xml:lang="zh-CN">模板和向导让创建新文档变得简单高效</li>
@@ -266,7 +266,7 @@
       <li xml:lang="sk">Inverzné a predbežné vyhľadávanie: kliknite v prehliadači DVI a prejdite na zodpovedajúcu linku LaTeX v editore alebo prejdite z editora na zodpovedajúcu stránku v prehliadači.</li>
       <li xml:lang="sl">Iskanje nazaj in naprej: kliknite v pregledovalnik DVI in skok v urejevalnik na ustrezno vrstico v LaTeXu ali skok iz urejevalnika v ustrezno stran v pregledovalniku DVI</li>
       <li xml:lang="sv">Invers och framåtsökning: Klicka i DVI-visningen och gå till motsvarande Latex-rad i editorn, eller gå från editorn till motsvarande sida i visningen</li>
-      <li xml:lang="tr">Tersine ve ileri arama: DVI görüntüleyiciyi tıklatın ve düzenleyicideki ilgili LaTeX satırına atlayın veya düzenleyiciden görüntüleyicideki ilgili sayfaya atlayın</li>
+      <li xml:lang="tr">Tersine ve ileri arama: DVI görüntüleyiciyi tıklayın ve düzenleyicideki ilgili LaTeX satırına atlayın veya düzenleyiciden görüntüleyicideki ilgili sayfaya atlayın</li>
       <li xml:lang="uk">Зворотний і прямий пошук: клацання на тексті у програмі для перегляду DVI призведе до переходу до відповідного рядка коду LaTeX у редакторі, а з редактора можна перейти до відповідного місця у програмі для перегляду документів.</li>
       <li xml:lang="x-test">xxInverse and forward search: click in the DVI viewer and jump to the corresponding LaTeX line in the editor, or jump from the editor to the corresponding page in the viewerxx</li>
       <li xml:lang="zh-CN">反向和正向搜索：点击 DVI 查看器即可在编辑器中跳转到对应的 LaTex 代码行，或者点击编辑器代码行跳转到查看器中对应的页面</li>
@@ -347,7 +347,7 @@
       <li xml:lang="sk">Ľahké vkladanie citácií a referencií pri použití projektov</li>
       <li xml:lang="sl">Enostavno vstavljanje citatov in referenc pri uporabi projektov</li>
       <li xml:lang="sv">Enkelt att infoga hänvisningar och referenser vid användning av projekt</li>
-      <li xml:lang="tr">Projeleri kullanırken alıntıların ve başvuruların kolay eklenmesi</li>
+      <li xml:lang="tr">Projeleri kullanırken alıntıların ve başvuruların kolayca ekleyin</li>
       <li xml:lang="uk">Просте вставлення посилань у межах проєктів.</li>
       <li xml:lang="x-test">xxEasy insertion of citations and references when using projectsxx</li>
       <li xml:lang="zh-CN">使用工程时可以轻松插入引用和参考文献</li>
@@ -374,7 +374,7 @@
       <li xml:lang="sk">Flexibilný a inteligentný systém zostavovania na zostavenie vašich dokumentov LaTeX</li>
       <li xml:lang="sl">Fleksibilen in pameten sistem izdelave vaših dokumentov LaTeX</li>
       <li xml:lang="sv">Flexibelt och smart byggsystem för att kompilera Latex-dokument</li>
-      <li xml:lang="tr">LaTeX belgelerinizi derlemek için esnek ve akıllı bir inşa sistemi</li>
+      <li xml:lang="tr">LaTeX belgelerinizi derlemek için esnek ve akıllı bir yapı sistemi</li>
       <li xml:lang="uk">Гнучка та інтелектуальна система збирання для обробки ваших документів LaTeX.</li>
       <li xml:lang="x-test">xxFlexible and smart build system to compile your LaTeX documentsxx</li>
       <li xml:lang="zh-CN">灵活且智能的构建系统，方便您对 LaTex 文档进行编译</li>
@@ -401,7 +401,7 @@
       <li xml:lang="sk">QuickPreview: ukážka vybranej časti dokumentu</li>
       <li xml:lang="sl">QuickPreview: predogled izbranega dela dokumenta</li>
       <li xml:lang="sv">Snabbgranskning: Förhandsgranska en markerad del av dokumentet</li>
-      <li xml:lang="tr">QuickPreview: belgenizin seçili bir bölümünü önizleyin</li>
+      <li xml:lang="tr">QuickPreview: Belgenizin seçili bir bölümünü önizleyin</li>
       <li xml:lang="uk">Швидкий перегляд: можливість швидко переглянути частину вашого документа.</li>
       <li xml:lang="x-test">xxQuickPreview: preview a selected part of your documentxx</li>
       <li xml:lang="zh-CN">快速预览：预览文档中选中的部分</li>

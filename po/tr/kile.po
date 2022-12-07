@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-12-01 18:13+0300\n"
+"PO-Revision-Date: 2022-12-06 19:50+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -332,8 +332,8 @@ msgid ""
 "The embedded document viewer is available, but the installed version of "
 "PDFLaTeX is<br/><b>not compatible</b> with live preview."
 msgstr ""
-"Gömülü belge görüntüleyicisi kullanılabilir, ama kurulu PDFLaTeX sürümü<br/"
-">canlı önizleme ile <b>uyumsuz</b>."
+"Gömülü belge görüntüleyicisi kullanılabilir; ancak kurulu PDFLaTeX sürümü<br/"
+">canlı önizleme ile <b>uyumlu değil</b>."
 
 #: dialogs/configcheckerdialog.cpp:268
 #, kde-format
@@ -1504,12 +1504,12 @@ msgstr "Dosya Eklensin mi?"
 #: dialogs/listselector.cpp:170
 #, kde-format
 msgid "Add selected files"
-msgstr "Seçilen dosyaları ekle"
+msgstr "Seçili dosyaları ekle"
 
 #: dialogs/listselector.cpp:171
 #, kde-format
 msgid "Add all the selected files"
-msgstr "Seçilen tüm dosyaları ekle"
+msgstr "Seçili tüm dosyaları ekle"
 
 #: dialogs/listselector.cpp:172
 #, kde-format
@@ -1655,7 +1655,7 @@ msgstr "Tüm şablonları göster"
 #: dialogs/managetemplatesdialog.cpp:131
 #, kde-format
 msgid "Clear Selection"
-msgstr "Seçileni sil"
+msgstr "Seçimi Sil"
 
 #: dialogs/managetemplatesdialog.cpp:135
 #, kde-format
@@ -2109,7 +2109,7 @@ msgstr "Sayfaları yeniden ayarlamak için parola gerekli."
 #: dialogs/pdf-wizard/pdfdialog.cpp:595
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
-msgstr "Girdi dosyası şifrelenmiş ama <i>pdftk</i> yüklenmemiş."
+msgstr "Girdi dosyası şifrelenmiş; ancak <i>pdftk</i> kurulu değil."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:599
 #, kde-format
@@ -4484,7 +4484,7 @@ msgstr ""
 #: dialogs/tabular/newtabulardialog.cpp:174
 #, kde-format
 msgid "Optional parameter for the chosen environment."
-msgstr "Seçilen ortam için isteğe bağlı parametre."
+msgstr "Seçili ortam için isteğe bağlı parametre."
 
 #: dialogs/tabular/newtabulardialog.cpp:176
 #, kde-format
@@ -4561,8 +4561,8 @@ msgid ""
 "Choose the border for the selected cells. When clicking on the button, the "
 "current border will be applied to the selected cells."
 msgstr ""
-"Seçilen hücreler için kenarlık seçin. Düğmeye tıklandığında geçerli kenarlık "
-"seçilen hücrelere uygulanacaktır."
+"Seçili hücreler için kenarlık seçin. Düğmeye tıklandığında, geçerli kenarlık "
+"seçili hücrelere uygulanacaktır."
 
 #: dialogs/tabular/newtabulardialog.cpp:191
 #, kde-format
@@ -4580,7 +4580,7 @@ msgid ""
 "Clears the text of the selected cells but keeps attributes such as alignment "
 "and font shape."
 msgstr ""
-"Seçili hücrelerin içeriğini sıfırlar ama hizalama ve yazıtipi şekli gibi "
+"Seçili hücrelerin içeriğini sıfırlar; ancak hizalama ve yazıtipi şekli gibi "
 "öznitelikleri korur."
 
 #: dialogs/tabular/newtabulardialog.cpp:194
@@ -4589,7 +4589,7 @@ msgid ""
 "Resets the attributes of the selected cells to the default values but keeps "
 "the text."
 msgstr ""
-"Seçilen hücrelerin özniteliklerini öntanımlı değerlere sıfırlar ama "
+"Seçili hücrelerin özniteliklerini öntanımlı değerlere sıfırlar; ancak "
 "metinleri korur."
 
 #: dialogs/tabular/newtabulardialog.cpp:195
@@ -4709,7 +4709,7 @@ msgstr ""
 #: dialogs/texdocumentationdialog.cpp:87
 #, kde-format
 msgid "Start the search for the chosen keyword."
-msgstr "Seçilen anahtar sözcüğü aramaya başla."
+msgstr "Seçili anahtar sözcüğü aramayı başlatın."
 
 #: dialogs/texdocumentationdialog.cpp:89
 #, kde-format
@@ -4802,7 +4802,7 @@ msgstr "&Kaldır"
 #: dialogs/userhelpdialog.cpp:77
 #, kde-format
 msgid "&Separator"
-msgstr "&Ayraç"
+msgstr "&Ayırıcı"
 
 #: dialogs/userhelpdialog.cpp:78
 #, kde-format
@@ -4989,15 +4989,15 @@ msgstr ""
 "farklı menü ögesi kullanılabilir:</p><ul><li>bir eylem için atanmış "
 "<i>standart girdiler</i></li><li>daha fazla menü ögesi barındıran <i>alt "
 "menüler</i></li><li>tüm girdilerin görünür bir yapısını elde etmek için "
-"<i>ayraçlar</i></li></ul><p>Her standart menü ögesi üç eylem tipinden birine "
-"atanır:</p><ul><li><i>metin ekle</i>:bu eylem metninizi mevcut imleç "
+"<i>ayraçlar</i></li></ul><p>Her standart menü ögesi üç eylem türünden birine "
+"atanır:</p><ul><li><i>metin ekle</i>: Bu eylem metninizi geçerli imleç "
 "konumuna ekler. Kullanılabilir meta karakterler: <tt>%M</tt>, <tt>%C</tt>, "
 "<tt>%B</tt>, <tt>%E</tt>, <tt>%R</tt>, <tt>%T</tt>, <tt>%S</tt>: Daha fazla "
 "bilgi için <i>Bu Nedir?</i> veya <i>Araç İpucu</i> özelliklerine "
-"bakabilirsiniz.</li><li><i>dosya içeriği</i>: verilen bir dosyanın bütün "
-"içeriğini ekler (meta karakterler de kullanılabilir)</li><li><i>harici bir "
+"bakabilirsiniz.</li><li><i>dosya içeriği</i>: Verilen bir dosyanın bütün "
+"içeriğini ekler (meta karakterler de kullanılabilir)</li><li><i>dış bir "
 "program çalıştır</i>: Bu programın çıktısı açılan dosyaya eklenebilir. <tt>"
-"%M</tt> meta karakteri bu programın komut satırından kullanılabilir, seçilen "
+"%M</tt> meta karakteri bu programın komut satırından kullanılabilir, seçili "
 "metin geçici bir dosyada kaydedilecektir. Bu geçici dosyanın adı olarak <tt>"
 "%M</tt> kullanın.</li></ul><p>Bu eylem için bazı gerekli bilgi eksik "
 "olduğunda menü ögeleri kırmızı olacaktır. Daha fazla bilgiye <i>Bu Nedir</i> "
@@ -5015,7 +5015,7 @@ msgid ""
 "Current menu tree was modified, but not saved.\n"
 "Discard this tree?"
 msgstr ""
-"Geçerli menü ağacı değiştirildi ama kaydedilmedi.\n"
+"Geçerli menü ağacı değiştirildi; ancak kaydedilmedi.\n"
 "Bu ağaç silinsin mi?"
 
 #: dialogs/usermenu/usermenudialog.cpp:284
@@ -5088,20 +5088,20 @@ msgid ""
 "menu of selected items. You can also rearrange items with drag and drop."
 msgstr ""
 "Altındaki altı düğme ile düzenlenebilen (kısayollarıyla birlikte), kullanıcı "
-"tanımlı menü ağacı. Seçilen ögelerin içerik menüsünde daha fazla eylem "
+"tanımlı menü ağacı. Seçili ögelerin bağlam menüsünde daha fazla eylem "
 "kullanılabilir. Ögeleri sürükleyip bırakarak yeniden düzenleyebilirsiniz."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog_base.ui:100
 #, kde-format
 msgid "Insert a new separator below the selected item."
-msgstr "Seçilen ögenin altına yeni bir ayıraç ekle."
+msgstr "Seçili ögenin altına yeni bir ayırıcı ekle."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDelete)
 #: dialogs/usermenu/usermenudialog_base.ui:110
 #, kde-format
 msgid "Delete the selected item."
-msgstr "Seçilen ögeyi sil."
+msgstr "Seçili ögeyi sil."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbDown)
 #: dialogs/usermenu/usermenudialog_base.ui:120
@@ -5119,7 +5119,7 @@ msgstr "Aşağı"
 #: dialogs/usermenu/usermenudialog_base.ui:130
 #, kde-format
 msgid "Insert a new menu item below the selected item."
-msgstr "Seçilen ögenin altına yeni bir menü ögesi ekle."
+msgstr "Seçili ögenin altına yeni bir menü ögesi ekle."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInsertBelow)
 #: dialogs/usermenu/usermenudialog_base.ui:133
@@ -5131,7 +5131,7 @@ msgstr "Ekle"
 #: dialogs/usermenu/usermenudialog_base.ui:140
 #, kde-format
 msgid "Insert a new submenu item below the selected item."
-msgstr "Seçilen ögenin altına yeni bir alt menü ögesi ekle."
+msgstr "Seçili ögenin altına yeni bir alt menü ögesi ekle."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:166
@@ -5317,7 +5317,7 @@ msgstr "Girilen metni seç"
 #: dialogs/usermenu/usermenudialog_base.ui:657
 #, kde-format
 msgid "Select, if the action should replace selected text."
-msgstr "Eğer eylem seçilen metni değiştirecekse seçin."
+msgstr "Eylem seçili metni değiştirecekse seçin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbReplaceSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:660
@@ -5329,7 +5329,7 @@ msgstr "Seçili metni değiştir"
 #: dialogs/usermenu/usermenudialog_base.ui:673
 #, kde-format
 msgid "Select, if the action needs selected text. "
-msgstr "Eylem seçilen metne ihtiyaç duyuyorsa seçin. "
+msgstr "Eylem seçili metne gereksinim duyuyorsa seçin. "
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbNeedsSelection)
 #: dialogs/usermenu/usermenudialog_base.ui:676
@@ -5347,20 +5347,20 @@ msgstr "Yürütülebilir bir programın çıktısı eklenecekse seçin."
 #: dialogs/usermenu/usermenudialog_base.ui:702
 #, kde-format
 msgid "Insert the output of the chosen program"
-msgstr "Seçilen programın çıktısını ekle"
+msgstr "Seçili programın çıktısını ekle"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:709
 #, kde-format
 msgid ""
 "Select, if the action should be added to the context menu of a selection."
-msgstr "Eylem bir seçimin içerik menüsüne eklenmeliyse seçin."
+msgstr "Eylem bir seçimin bağlam menüsüne eklenmeliyse seçin."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:712
 #, kde-format
 msgid "Add to the context menu of selected text"
-msgstr "Seçili metnin içerik menüsüne ekle"
+msgstr "Seçili metnin bağlam menüsüne ekle"
 
 #: dialogs/usermenu/usermenuitem.h:26
 #, kde-format
@@ -5385,12 +5385,12 @@ msgstr "Aşağı ekle"
 #: dialogs/usermenu/usermenutree.cpp:184
 #, kde-format
 msgid "Insert a separator above"
-msgstr "Yukarı bir ayıraç ekle"
+msgstr "Yukarı bir ayırıcı ekle"
 
 #: dialogs/usermenu/usermenutree.cpp:185
 #, kde-format
 msgid "Insert a separator below"
-msgstr "Alta bir ayraç ekle"
+msgstr "Alta bir ayırıcı ekle"
 
 #: dialogs/usermenu/usermenutree.cpp:190
 #, kde-format
@@ -5410,7 +5410,7 @@ msgstr "Bu alt menüye ekle"
 #: dialogs/usermenu/usermenutree.cpp:197
 #, kde-format
 msgid "Insert a separator into this submenu"
-msgstr "Bu alt menüye bir ayraç ekle"
+msgstr "Bu alt menüye bir ayırıcı ekle"
 
 #: dialogs/usermenu/usermenutree.cpp:198
 #, kde-format
@@ -6293,7 +6293,7 @@ msgstr "Dosya İzleme Kipi"
 #: kile.cpp:1064
 #, kde-format
 msgid "Context Help"
-msgstr "İçerik Yardımı"
+msgstr "Bağlam Yardımı"
 
 #: kile.cpp:1067
 #, kde-format
@@ -6732,7 +6732,7 @@ msgstr "LogMsg görünümünde (La)TeX uyarılarının görünüp görünmeyece�
 #: kile.kcfg:185
 #, kde-format
 msgid "The identifier of the selected view in the left pane."
-msgstr "Seçilen görünümün kimliği sol panoda göster."
+msgstr "Seçili görünümün kimliği sol panoda gösterin."
 
 #. i18n: ectx: label, entry (ShowSplashScreen), group (Show)
 #: kile.kcfg:189
@@ -6816,25 +6816,25 @@ msgstr "Grafikleri bir figür ortamı içine göm."
 #: kile.kcfg:249
 #, kde-format
 msgid "Set preferred figure position to top of page."
-msgstr "Seçilen şekli sayfanın üstünde konumlandır."
+msgstr "Seçili şekli sayfanın üstünde konumlandırın."
 
 #. i18n: ectx: label, entry (igBottom), group (IncludeGraphics)
 #: kile.kcfg:253
 #, kde-format
 msgid "Set preferred figure position to bottom of page."
-msgstr "Seçilen şekli sayfanın altında konumlandır."
+msgstr "Seçili şekli sayfanın altında konumlandırın."
 
 #. i18n: ectx: label, entry (igHere), group (IncludeGraphics)
 #: kile.kcfg:257
 #, kde-format
 msgid "Set preferred figure position to \"exactly here\" on page."
-msgstr "Seçilen şekli sayfanın \"tam burasında\" konumlandır."
+msgstr "Seçili şekli sayfanın \"tam burasında\" konumlandırın."
 
 #. i18n: ectx: label, entry (igPage), group (IncludeGraphics)
 #: kile.kcfg:261
 #, kde-format
 msgid "Set preferred figure position to be on separate page."
-msgstr "Seçilen şekli ayrı bir sayfada konumlandır."
+msgstr "Seçili şekli ayrı bir sayfada konumlandır."
 
 #. i18n: ectx: label, entry (igForce), group (IncludeGraphics)
 #: kile.kcfg:265
@@ -6904,13 +6904,13 @@ msgstr "Öntanımlı görsel çözünürlüğü."
 #: kile.kcfg:307
 #, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
-msgstr "Bağlamsal yardımı için Kile LaTeX kaynağını kullan."
+msgstr "Bağlamsal yardımı için Kile LaTeX kaynağını kullanın."
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
 #: kile.kcfg:311
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
-msgstr "Bağlamsal yardımı için sistemin TexLive LaTeX2e kaynağını kullan."
+msgstr "Bağlamsal yardımı için sistemin TexLive LaTeX2e kaynağını kullanın."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
 #: kile.kcfg:317
@@ -7575,7 +7575,7 @@ msgstr "Proje Dosyaları"
 #: kiledocmanager.cpp:2261 kiledocmanager.cpp:2300
 #, kde-format
 msgid "Could not determine the selected file."
-msgstr "Seçilen dosya tanımlanamadı."
+msgstr "Seçili dosya tanımlanamadı."
 
 #: kiledocmanager.cpp:2261 kiledocmanager.cpp:2300
 #, kde-format
@@ -10218,7 +10218,7 @@ msgid ""
 "Manually selected bibliography tool does not exist: trying to auto-detect it "
 "now."
 msgstr ""
-"Elle seçilen kaynakça aracı yok; otomatik algılamayı kullanmayı deneyin."
+"Elle seçilmiş kaynakça aracı yok; otomatik algılamayı kullanmayı deneyin."
 
 #: kilestdtools.cpp:659
 #, kde-format
@@ -10776,7 +10776,7 @@ msgstr "Sonlandırıcı Hata"
 #: kileviewmanager.cpp:845
 #, kde-format
 msgid "&QuickPreview Selection"
-msgstr "Seçileni &Çabuk Önizle"
+msgstr "Seçiliyi &Hızlı Önizle"
 
 #: kileviewmanager.cpp:846
 #, kde-format
@@ -11387,7 +11387,7 @@ msgid ""
 "Directional or popup-based completion of the TeX/LaTeX commands that are "
 "contained in the selected completion files."
 msgstr ""
-"Seçilen tamamlama dosyalarında bulunan TeX/LaTeX komutlarının doğrudan veya "
+"Seçili tamamlama dosyalarında bulunan TeX/LaTeX komutlarının doğrudan veya "
 "açılır pencere tabanlı tamamlaması."
 
 #: widgets/codecompletionconfigwidget.cpp:61
@@ -11402,7 +11402,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:63
 #, kde-format
 msgid "Show abbreviations of the selected completion files in the sidebar"
-msgstr "Seçilen tamamlama dosyalarının kısaltmalarını yan çubukta göster"
+msgstr "Seçili tamamlama dosyalarının kısaltmalarını yan çubukta göster"
 
 #: widgets/codecompletionconfigwidget.cpp:64
 #, kde-format
@@ -11410,13 +11410,13 @@ msgid ""
 "Directional or popup-based completion of abbreviations that are contained in "
 "the selected completion files."
 msgstr ""
-"Seçilen tamamlama dosyalarında bulunan kısaltmaların doğrudan veya açılır "
+"Seçili tamamlama dosyalarında bulunan kısaltmaların doğrudan veya açılır "
 "pencere tabanlı tamamlaması."
 
 #: widgets/codecompletionconfigwidget.cpp:65
 #, kde-format
 msgid "Show LaTeX commands of the selected completion files in the sidebar"
-msgstr "Seçilen dosyaların LaTeX komutlarını yan çubukta göster"
+msgstr "Seçili dosyaların LaTeX komutlarını yan çubukta göster"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/codecompletionconfigwidget.cpp:95
@@ -11709,7 +11709,7 @@ msgstr "ImageMagick:"
 #: widgets/helpconfigwidget.ui:32
 #, kde-format
 msgid "Context Sensitive Help"
-msgstr "İçeriğe Duyarlı Yardım"
+msgstr "Bağlama Duyarlı Yardım"
 
 #. i18n: ectx: property (text), widget (QRadioButton, kcfg_latex2erefs)
 #: widgets/helpconfigwidget.ui:41
@@ -12261,7 +12261,7 @@ msgstr ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%AFL</span>: Arşivlenmek için işaretlenmiş bir projenin tüm "
 "dosyalarının listesi. Arşiv etiketini \"Dosyalar ve projeler\" yan "
-"çubuğundan içerik menüsünü kullanarak ayarlayın.</p></body></html>"
+"çubuğundan bağlam menüsünü kullanarak ayarlayın.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:83
@@ -12662,7 +12662,7 @@ msgstr ""
 "veya grafik dosyası açacaktır. Bu ögeye bir etiket eklenip\n"
 "fare imleci bu ögeye geldiğinde etiket gösterilecektir.\n"
 "Grafik dosyaları veya atanmış etiketler için ögeler\n"
-"aynı zamanda bir içerik menüsü de sunar (sağ fare düğmesi)."
+"aynı zamanda bir bağlam menüsü de sunar (sağ fare düğmesi)."
 
 #: widgets/structurewidget.cpp:118
 #, kde-format
@@ -12866,7 +12866,7 @@ msgstr "Unikod"
 #: widgets/symbolviewconfigwidget.ui:103
 #, kde-format
 msgid "Insert Unicode representation of the selected symbol (when available)"
-msgstr "Seçilen sembolün Unikod gösterimini ekleyin (kullanılabilir olduğunda)"
+msgstr "Seçili sembolün Unicode gösterimini ekle (kullanılabilir olduğunda)"
 
 #: widgets/toolconfigwidget.cpp:110
 #, kde-format

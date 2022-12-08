@@ -6597,32 +6597,32 @@ msgstr "Mostra els comentaris «Per fer» (TODO) i «Arregla'm» (FIXME)"
 #, kde-format
 msgid "Open the parent item for all labels in the structure view as default"
 msgstr ""
-"Obri per defecte l'element pare de totes les etiquetes en la vista de "
-"l'estructura"
+"Obri de manera predeterminada l'element pare de totes les etiquetes en la "
+"vista de l'estructura"
 
 #. i18n: ectx: label, entry (SvOpenReferences), group (Structure)
 #: kile.kcfg:94
 #, kde-format
 msgid "Open the parent item for all undefined references in the structure view"
 msgstr ""
-"Obri per defecte l'element pare de totes les referències no definides en la "
-"vista de l'estructura"
+"Obri de manera predeterminada l'element pare de totes les referències no "
+"definides en la vista de l'estructura"
 
 #. i18n: ectx: label, entry (SvOpenBibitems), group (Structure)
 #: kile.kcfg:98
 #, kde-format
 msgid "Open the parent item for all bibitems in the structure view as default"
 msgstr ""
-"Obri per defecte l'element pare de tots els bibitems en la vista de "
-"l'estructura"
+"Obri de manera predeterminada l'element pare de tots els bibitems en la "
+"vista de l'estructura"
 
 #. i18n: ectx: label, entry (SvOpenTodo), group (Structure)
 #: kile.kcfg:102
 #, kde-format
 msgid "Open the parent item for all TODO and FIXME comments as default"
 msgstr ""
-"Obri per defecte tots els elements pares de tots els comentaris «Per "
-"fer» (TODO) i «Arregla'm» (FIXME)"
+"Obri de manera predeterminada tots els elements pares de tots els comentaris "
+"«Per fer» (TODO) i «Arregla'm» (FIXME)"
 
 #. i18n: ectx: label, entry (SvDefaultGraphicExt), group (Structure)
 #: kile.kcfg:106
@@ -8439,8 +8439,8 @@ msgstr ""
 "columna 1 entrada & columna 2 entrada... & columna n entrada \\\\\n"
 "...\n"
 "\\end{tabular}\n"
-"pos: Indica la posició vertical; per defecte és alineada al centre de "
-"l'entorn.\n"
+"pos: Indica la posició vertical; de manera predeterminada està alineada al "
+"centre de l'entorn.\n"
 "     t - alinea en la fila superior\n"
 "     b - alinea en la fila inferior\n"
 "cols: especifica el format de la columna.\n"
@@ -11822,7 +11822,7 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:29
 #, kde-format
 msgid "&Default resolution:"
-msgstr "Resolució per &defecte:"
+msgstr "Resolució pre&determinada:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
@@ -12153,7 +12153,7 @@ msgstr "&Icona:"
 #: widgets/maintoolconfigwidget.ui:636
 #, kde-format
 msgid "Restore Default Tools..."
-msgstr "Restaura les eines per defecte..."
+msgstr "Restaura les eines predeterminades..."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/newdocumentwidget.ui:38
@@ -12679,7 +12679,7 @@ msgstr "Nivell d'expansió"
 #: widgets/structureviewconfigwidget.ui:52
 #, kde-format
 msgid "&Default value"
-msgstr "Valor per &defecte"
+msgstr "Valor pre&determinat"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112

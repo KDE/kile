@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-10-10 00:46+0000\n"
-"PO-Revision-Date: 2022-12-06 19:50+0300\n"
+"PO-Revision-Date: 2022-12-10 17:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2725,7 +2725,7 @@ msgstr "Tüm özelliklere izin ver"
 #: dialogs/postscriptdialog.cpp:60
 #, kde-format
 msgid "Rearrange Postscript File"
-msgstr "PostScript Dosyasını Tekrar Düzenle"
+msgstr "PostScript Dosyasını Yeniden Düzenle"
 
 #: dialogs/postscriptdialog.cpp:97
 #, kde-format
@@ -3033,7 +3033,7 @@ msgid ""
 "If you want Kile to create a new file and add it to the project, then check "
 "this option and select a template from the list that will appear below."
 msgstr ""
-"Kile'ın yeni bir dosya yaratıp projeye eklemesini istiyorsanız, bu seçeneğe "
+"Kile'ın yeni bir dosya yaratıp projeye eklemesini istiyorsanız bu seçeneğe "
 "tıklayın ve aşağıda görünecek olan listeden bir şablon seçin."
 
 #: dialogs/projectdialogs.cpp:336
@@ -7354,8 +7354,8 @@ msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
-"<p>\"%1\" projesi zaten açık.</p><p>Projeyi yeniden yüklemek istediyseniz, "
-"tekrar açmadan önce kapatın.</p>"
+"<p>\"%1\" projesi zaten açık.</p><p>Projeyi yeniden yüklemek istediyseniz "
+"yeniden açmadan önce kapatın.</p>"
 
 #: kiledocmanager.cpp:1529
 #, kde-format
@@ -7451,7 +7451,7 @@ msgid ""
 "Save Project again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen kaydetmek istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra Proje Kaydet'i tekrar seçin."
+"projeyle ilişkili bir belge açın ve sonra Proje Kaydet'i yeniden seçin."
 
 #: kiledocmanager.cpp:1766
 #, kde-format
@@ -7500,7 +7500,7 @@ msgid ""
 "Project Options again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen değiştirmek istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra Proje Seçenekleri'ni tekrar seçin."
+"projeyle ilişkili bir belge açın ve sonra Proje Seçenekleri'ni yeniden seçin."
 
 #: kiledocmanager.cpp:1879
 #, kde-format
@@ -7515,7 +7515,7 @@ msgid ""
 "Close Project again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen kapatmak istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra Proje Kapat'ı tekrar seçin."
+"projeyle ilişkili bir belge açın ve sonra Proje Kapat'ı yeniden seçin."
 
 #: kiledocmanager.cpp:1933
 #, kde-format
@@ -9154,7 +9154,7 @@ msgid ""
 msgstr ""
 "\\hspace* komutu \\hspace komutu gibi yatay boşluk ekler. LaTeX satır sonuna "
 "gelen yatay boşluğu kaldırır. Eğer LaTeX'in bu boşluğu kaldırmasını "
-"istemiyorsanız, isteğe bağlı * argümanını kullanın. Bu argüman "
+"istemiyorsanız isteğe bağlı * argümanını kullanın. Bu argüman "
 "kullanıldığında satır sonundaki boşluk kaldırılmaz."
 
 #: kilestdactions.cpp:192
@@ -9198,7 +9198,7 @@ msgid ""
 msgstr ""
 "\\vspace* komutu \\vspace komutu gibi düşey boşluk ekler. LaTeX sayfa sonuna "
 "gelen yatay boşluğu kaldırır. Eğer LaTeX'in bu boşluğu kaldırmasını "
-"istemiyorsanız, isteğe bağlı * argümanını kullanın. Bu argüman "
+"istemiyorsanız isteğe bağlı * argümanını kullanın. Bu argüman "
 "kullanıldığında sayfa sonundaki boşluk kaldırılmaz."
 
 #: kilestdactions.cpp:197
@@ -10255,8 +10255,8 @@ msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
 msgstr ""
-"%1 ya da %2 bulunamadı; eğer başka bir HTML dosyası görüntülemeye "
-"çalışıyorsanız, Ayarlar -> Kile'ı Yapılandır -> Araçlar ->HTML Görüntüle -> "
+"%1 veya %2 bulunamadı; eğer başka bir HTML dosyası görüntülemeye "
+"çalışıyorsanız Ayarlar -> Kile'ı Yapılandır -> Araçlar -> HTML Görüntüle -> "
 "Gelişmiş'e gidin."
 
 #: kiletool.cpp:58
@@ -10342,7 +10342,7 @@ msgid ""
 "Archive again."
 msgstr ""
 "Geçerli belge bir projeyle ilişkili değil. Lütfen arşivlemek istediğiniz "
-"projeyle ilişkili bir belge açın ve sonra Arşivle'yi tekrar seçin."
+"projeyle ilişkili bir belge açın ve sonra Arşivle'yi yeniden seçin."
 
 #: kiletool.cpp:678
 #, kde-format

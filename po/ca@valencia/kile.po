@@ -60,7 +60,8 @@ msgid ""
 msgstr ""
 "No s'ha trobat l'eina.\n"
 "Kile no està configurat correctament. Aneu a «Configuració -> Configura Kile "
-"-> Eines» i arregleu el problema o canvieu als configuracions per defecte."
+"-> Eines» i arregleu el problema o canvieu a les opcions de configuració "
+"predeterminades."
 
 #: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
 #, kde-format
@@ -172,7 +173,7 @@ msgstr "No admés"
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
-"Les vistes prèvies dels PNG no es poden utilitzar per a «mathgroups» en la "
+"Les vistes prèvies de PNG no es poden utilitzar per a «mathgroups» en la "
 "subfinestra de vista prèvia inferior"
 
 #: configtester.cpp:807
@@ -2990,8 +2991,8 @@ msgstr "(utilitza la configuració global)"
 #, kde-format
 msgid "Default graphic extension to open when none specified by file name."
 msgstr ""
-"Extensió gràfica per defecte per a obrir quan no se n'ha especificat cap per "
-"al nom de fitxer."
+"Extensió gràfica predeterminada per a obrir quan no se n'ha especificat cap "
+"per al nom de fitxer."
 
 #: dialogs/projectdialogs.cpp:108
 #, kde-format
@@ -3016,7 +3017,7 @@ msgstr "Fitxers de bibliografia"
 #: dialogs/projectdialogs.cpp:118
 #, kde-format
 msgid "Default Graphics Extension:"
-msgstr "Extensió gràfica per defecte:"
+msgstr "Extensió gràfica predeterminada:"
 
 #: dialogs/projectdialogs.cpp:120
 #, kde-format
@@ -3157,7 +3158,7 @@ msgstr "(utilitza l'opció global)"
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
 msgstr ""
-"Seleccioneu el document mestre per defecte. Deixeu-lo en blanc per a "
+"Seleccioneu el document mestre predeterminat. Deixeu-lo en blanc per a "
 "detecció automàtica."
 
 #: dialogs/projectdialogs.cpp:440
@@ -4223,7 +4224,7 @@ msgstr "&Editable"
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
 msgid "De&fault value:"
-msgstr "Valor per de&fecte:"
+msgstr "Valor pre&determinat:"
 
 #: dialogs/quickdocumentdialog.cpp:1961 dialogs/quickdocumentdialog.cpp:2026
 #, kde-format
@@ -8441,8 +8442,8 @@ msgstr ""
 "\\end{tabular}\n"
 "pos: Indica la posició vertical; de manera predeterminada està alineada al "
 "centre de l'entorn.\n"
-"     t - alinea en la fila superior\n"
-"     b - alinea en la fila inferior\n"
+"     t - alinea amb la fila superior\n"
+"     b - alinea amb la fila inferior\n"
 "cols: especifica el format de la columna.\n"
 "     l - Una columna d'elements alineats a l'esquerra.\n"
 "     r - Una columna d'elements alineats a la dreta.\n"
@@ -12763,7 +12764,7 @@ msgstr "Cap secció extra per a les etiquetes"
 #: widgets/structureviewconfigwidget.ui:229
 #, kde-format
 msgid "Default Graphic Extension:"
-msgstr "Extensió gràfica per defecte:"
+msgstr "Extensió gràfica predeterminada:"
 
 #. i18n: ectx: property (toolTip), widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:236

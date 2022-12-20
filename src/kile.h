@@ -117,7 +117,6 @@ public Q_SLOTS:
 
     void updateModeStatus();
     void newCaption();
-// 	void citeViewBib();
 
     void rebuildBibliographyMenu();
 

@@ -132,9 +132,6 @@ void setupStdTags(KileInfo *ki, const QObject* receiver, KActionCollection *acti
     actionother_list->addAction(new KileAction::Tag("footnote", QString(), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_footnote", "\\footnote{","}",10,0,i18n( "\\footnote{text}")));
     actionother_list->addSeparator();
     actionother_list->addAction(new KileAction::InputTag(ki,"cite", QString(), QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_cite", parentWidget, KileAction::FromBibItemList, "\\cite{%R", "}", 6,0, i18n("This command generates an in-text citation to the reference associated with the ref entry in the bib file\nYou can open the bib file with Kile to see all the available references"), i18n("Reference")));
-// 	QAction *action = actionCollection->addAction("citeViewBib", receiver, SLOT(citeViewBib()));
-// 	action->setText(i18n("cite from ViewBib"));
-// 	actionother_list->addAction(action);
 
     (void) new KileAction::Tag(i18n("Underline - \\underline{}"), i18n("Underline"), "format-text-underline", QKeySequence(), receiver, SLOT(insertTag(KileAction::TagData)), actionCollection,"tag_underline", "\\underline{","}",11);
 

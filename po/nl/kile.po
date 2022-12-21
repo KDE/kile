@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-10 00:46+0000\n"
+"POT-Creation-Date: 2022-12-21 00:47+0000\n"
 "PO-Revision-Date: 2022-07-24 16:40+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
@@ -4453,17 +4453,17 @@ msgstr "Centreren"
 msgid "Align Right"
 msgstr "Rechts uitlijnen"
 
-#: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:205
+#: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:202
 #, kde-format
 msgid "Bold"
 msgstr "Vet"
 
-#: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:208
+#: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:205
 #, kde-format
 msgid "Italic"
 msgstr "Cursief"
 
-#: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:139
+#: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:136
 #, kde-format
 msgid "Underline"
 msgstr "Onderlijnen"
@@ -6332,7 +6332,7 @@ msgstr "Instellingen voor Boblatex"
 msgid "Quick Start"
 msgstr "Snelstart"
 
-#: kile.cpp:1013 kilestdactions.cpp:387
+#: kile.cpp:1013 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "Array"
@@ -6508,24 +6508,24 @@ msgstr ""
 "Sla eerst uw huidige document op voordat u het definieert als een "
 "hoofddocument."
 
-#: kile.cpp:3069
+#: kile.cpp:2990
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOK"
 
-#: kile.cpp:3070
+#: kile.cpp:2991
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "REGEL"
 
-#: kile.cpp:3077
+#: kile.cpp:2998
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Structuur verversen..."
 
-#: kile.cpp:3095
+#: kile.cpp:3016
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
@@ -6533,7 +6533,7 @@ msgstr ""
 "Hierdoor wordt de menubalk geheel verborgen. U kunt die weer zichtbaar maken "
 "door %1 te typen."
 
-#: kile.cpp:3098
+#: kile.cpp:3019
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Menubalk verbergen"
@@ -8294,7 +8294,7 @@ msgstr "\\textit{cursieve tekst}"
 msgid "Slanted - \\textsl{}"
 msgstr "Schuin (slanted) - \\textsl{}"
 
-#: kilestdactions.cpp:73 kilestdactions.cpp:209
+#: kilestdactions.cpp:73 kilestdactions.cpp:206
 #, kde-format
 msgid "Slanted"
 msgstr "Schuin (slanted)"
@@ -8888,29 +8888,27 @@ msgstr ""
 "U kunt het bib-bestand openeen in Kile om alle beschikbare referenties te "
 "bekijken."
 
-#. i18n("cite from ViewBib"));
-#. actionother_list->addAction(action);
-#: kilestdactions.cpp:139
+#: kilestdactions.cpp:136
 #, kde-format
 msgid "Underline - \\underline{}"
 msgstr "Onderstrepen - \\underline{}"
 
-#: kilestdactions.cpp:142
+#: kilestdactions.cpp:139
 #, kde-format
 msgid "Smart Tabulator"
 msgstr "Intelligente tabulator:"
 
-#: kilestdactions.cpp:149
+#: kilestdactions.cpp:146
 #, kde-format
 msgid "Abstract - \\begin{abstract}"
 msgstr "Samenvatting - \\begin{abstract}"
 
-#: kilestdactions.cpp:149
+#: kilestdactions.cpp:146
 #, kde-format
 msgid "Abstract"
 msgstr "Samenvatting"
 
-#: kilestdactions.cpp:149
+#: kilestdactions.cpp:146
 #, kde-format
 msgid ""
 "\\begin{abstract}\n"
@@ -8925,17 +8923,17 @@ msgstr ""
 "De omgeving van abstract maakt een titelpagina aan, dus een pagina die niet "
 "wordt meegenummerd en zonder kop."
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:148
 #, kde-format
 msgid "Tabular* - \\begin{tabular*}"
 msgstr "Tabel* - \\begin{tabular*}"
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:148
 #, kde-format
 msgid "Tabular*"
 msgstr "Tabel*"
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:148
 #, kde-format
 msgid ""
 "\\begin{tabular*}{width}[pos]{cols}\n"
@@ -8954,17 +8952,17 @@ msgstr ""
 "parameter voor de breedte. Er dient een elastieke ruimte tussen de kolommen "
 "te zitten om de opgegeven breedte te vullen."
 
-#: kilestdactions.cpp:153
+#: kilestdactions.cpp:150
 #, kde-format
 msgid "Minipage - \\begin{minipage}"
 msgstr "Minipagina - \\begin{minipage}"
 
-#: kilestdactions.cpp:153
+#: kilestdactions.cpp:150
 #, kde-format
 msgid "Minipage"
 msgstr "Minipagina"
 
-#: kilestdactions.cpp:153
+#: kilestdactions.cpp:150
 #, kde-format
 msgid ""
 "The minipage environment is similar to a \\parbox command. It takes the same "
@@ -8975,92 +8973,92 @@ msgstr ""
 "hetzelfde optionele positieargument en een vereiste breedteargument. U kunt "
 "andere paragraafmakende omgevingen in een minipage gebruiken."
 
-#: kilestdactions.cpp:156
+#: kilestdactions.cpp:153
 #, kde-format
 msgid "Table of Figures - \\listoffigures"
 msgstr "Inhoudsopgave van figuren - \\listoffigures"
 
-#: kilestdactions.cpp:156
+#: kilestdactions.cpp:153
 #, kde-format
 msgid "Table of Figures"
 msgstr "Inhoudsopgave van figuren"
 
-#: kilestdactions.cpp:156
+#: kilestdactions.cpp:153
 #, kde-format
 msgid "Put this command where you want the list of figures to go."
 msgstr "Plaats dit commando waar u de inhoudsopgave van figuren wilt hebben."
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:155
 #, kde-format
 msgid "Table of Tables - \\listoftables"
 msgstr "Inhoudsopgave van tabellen - \\listoftables"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:155
 #, kde-format
 msgid "Table of Tables"
 msgstr "Inhoudsopgave van tabellen"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:155
 #, kde-format
 msgid "Put this command where you want the list of tables to go."
 msgstr "Plaats dit commando waar u de inhoudsopgave van tabellen wilt hebben."
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:157
 #, kde-format
 msgid "Generate Index - \\makeindex"
 msgstr "Genereer de index - \\makeindex"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:157
 #, kde-format
 msgid "Generate Index"
 msgstr "Genereer de index"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:157
 #, kde-format
 msgid "Put this command when you want to generate the raw index."
 msgstr "Gebruik dit commando als u de rauwe index wilt genereren."
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Print Index - \\printindex"
 msgstr "Index afdrukken - \\printindex"
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Print Index"
 msgstr "Index afdrukken"
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Put this command when you want to print the formatted index."
 msgstr "Gebruik dit commando als u de opgemaakte index wilt afdrukken."
 
-#: kilestdactions.cpp:164
+#: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary - \\makeglossary"
 msgstr "Woordenlijst - \\makeglossary"
 
-#: kilestdactions.cpp:164
+#: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary"
 msgstr "Woordenlijst"
 
-#: kilestdactions.cpp:164
+#: kilestdactions.cpp:161
 #, kde-format
 msgid "Put this command when you want to print a glossary."
 msgstr "Gebruik dit commando als u een woordenlijst wilt afdrukken."
 
-#: kilestdactions.cpp:166
+#: kilestdactions.cpp:163
 #, kde-format
 msgid "Bibliography - \\begin{thebibliography}"
 msgstr "Genereer de bibliografie - \\begin{thebibliography}"
 
-#: kilestdactions.cpp:166 widgets/projectview.cpp:460
+#: kilestdactions.cpp:163 widgets/projectview.cpp:460
 #, kde-format
 msgid "Bibliography"
 msgstr "Bibliografie"
 
-#: kilestdactions.cpp:166
+#: kilestdactions.cpp:163
 #, kde-format
 msgid ""
 "\\begin{thebibliography}{widest-label}\n"
@@ -9081,17 +9079,17 @@ msgstr ""
 "breedste label dat wordt geproduceerd door de \\bibitem-commando's\n"
 "\\bibitem: specificeer een bibliografie-item"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:166
 #, kde-format
 msgid "Verbatim (show spaces) - \\begin{verbatim*}"
 msgstr "Woordelijk (spaties tonen) - \\begin{verbatim*}"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:166
 #, kde-format
 msgid "Verbatim (show spaces)"
 msgstr "Woordelijk (spaties tonen)"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:166
 #, kde-format
 msgid ""
 "Environment that gets LaTeX to print exactly what you type in. In this "
@@ -9100,67 +9098,67 @@ msgstr ""
 "Omgeving waarin LaTeX de tekst die u intypt exact weergeeft. In deze variant "
 "worden spaties op een speciale wijze afgedrukt."
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:168
 #, kde-format
 msgid "Embedded Code - \\verb||"
 msgstr "Verbatim code - \\verb||"
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:168
 #, kde-format
 msgid "Embedded Code"
 msgstr "Verbatim code"
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:168
 #, kde-format
 msgid "Macro form of the verbatim environment."
 msgstr "Macro vorm van de verbatim omgeving."
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces) - \\verb*||"
 msgstr "Verbatim code (spaties tonen) - \\verb*||"
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces)"
 msgstr "Verbatim code (spaties tonen)"
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:170
 #, kde-format
 msgid "Macro form of the verbatim* environment."
 msgstr "Macro vorm van de omgeving verbatim*."
 
-#: kilestdactions.cpp:176
+#: kilestdactions.cpp:173
 #, kde-format
 msgid "\"Small\" Vertical Space - \\smallskip"
 msgstr "\"Kleine\" verticale ruimte - \\smallskip"
 
-#: kilestdactions.cpp:176
+#: kilestdactions.cpp:173
 #, kde-format
 msgid "\"Small\" Vertical Space"
 msgstr "\"Kleine\" verticale ruimte"
 
-#: kilestdactions.cpp:176
+#: kilestdactions.cpp:173
 #, kde-format
 msgid "The \\smallskip command adds a 'small' vertical space."
 msgstr "Het commando \\smallskip voegt een 'kleine' verticale witruimte in."
 
-#: kilestdactions.cpp:178
+#: kilestdactions.cpp:175
 #, kde-format
 msgid "\\enskip"
 msgstr "\\enskip"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:177
 #, kde-format
 msgid "Horizontal Variable Space - \\hfill"
 msgstr "Horizontale variabele ruimte - \\hfill"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:177
 #, kde-format
 msgid "Horizontal Variable Space"
 msgstr "Horizontale variabele ruimte"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:177
 #, kde-format
 msgid ""
 "The \\hfill fill command produces a \"rubber length\" which can stretch or "
@@ -9169,17 +9167,17 @@ msgstr ""
 "Het vulcommando \\hfill produceert een \"elastieken lengte\" die horizontaal "
 "kan rekken of krimpen. Het zal worden gevuld met spaties."
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:179
 #, kde-format
 msgid "Horizontal Dots - \\dotfill"
 msgstr "Horizontale punten - \\dotfill"
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:179
 #, kde-format
 msgid "Horizontal Dots"
 msgstr "Horizontale punten"
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:179
 #, kde-format
 msgid ""
 "The \\dotfill command produces a \"rubber length\" that produces dots "
@@ -9188,17 +9186,17 @@ msgstr ""
 "Het commando \\dotfill produceert een \"elastieken lengte\" die punten "
 "produceert in plaats van gewoon spaties."
 
-#: kilestdactions.cpp:184
+#: kilestdactions.cpp:181
 #, kde-format
 msgid "Horizontal Rule - \\hrulefill"
 msgstr "Horizontale regel - \\hrulefill"
 
-#: kilestdactions.cpp:184
+#: kilestdactions.cpp:181
 #, kde-format
 msgid "Horizontal Rule"
 msgstr "Horizontale regel"
 
-#: kilestdactions.cpp:184
+#: kilestdactions.cpp:181
 #, kde-format
 msgid ""
 "The \\hrulefill fill command produces a \"rubber length\" which can stretch "
@@ -9208,17 +9206,17 @@ msgstr ""
 "horizontaal kan uitrekken of krimpen. Het zal worden gevuld met een "
 "horizontale regel."
 
-#: kilestdactions.cpp:186
+#: kilestdactions.cpp:183
 #, kde-format
 msgid "Vertical Variable Space - \\vfill"
 msgstr "Verticale variabele ruimte  - \\vfill"
 
-#: kilestdactions.cpp:186
+#: kilestdactions.cpp:183
 #, kde-format
 msgid "Vertical Variable Space"
 msgstr "Verticale variabele ruimte"
 
-#: kilestdactions.cpp:186
+#: kilestdactions.cpp:183
 #, kde-format
 msgid ""
 "The \\vfill fill command produces a \"rubber length\" which can stretch or "
@@ -9227,17 +9225,17 @@ msgstr ""
 "Het vulcommando \\vfill produceert een \"elastieken lengte\" die verticaal "
 "kan uitrekken of krimpen."
 
-#: kilestdactions.cpp:188
+#: kilestdactions.cpp:185
 #, kde-format
 msgid "Horizontal Space - \\hspace{}"
 msgstr "Horizontale ruimte - \\hspace{}"
 
-#: kilestdactions.cpp:188
+#: kilestdactions.cpp:185
 #, kde-format
 msgid "Horizontal Space"
 msgstr "Horizontale ruimte"
 
-#: kilestdactions.cpp:188
+#: kilestdactions.cpp:185
 #, kde-format
 msgid ""
 "The \\hspace command adds horizontal space. The length of the space can be "
@@ -9250,17 +9248,17 @@ msgstr ""
 "inches, etc. U kunt zowel negatieve als positieve ruimte toevoegen met een "
 "\\hspace-commando. Het toevoegen van negatieve ruimte is als backspacing."
 
-#: kilestdactions.cpp:190
+#: kilestdactions.cpp:187
 #, kde-format
 msgid "Horizontal Space (forced) - \\hspace*{}"
 msgstr "Horizontale ruimte (geforceerd) - \\hspace*{}"
 
-#: kilestdactions.cpp:190
+#: kilestdactions.cpp:187
 #, kde-format
 msgid "Horizontal Space (forced)"
 msgstr "Horizontale ruimte (geforceerd)"
 
-#: kilestdactions.cpp:190
+#: kilestdactions.cpp:187
 #, kde-format
 msgid ""
 "The \\hspace* command adds horizontal space like the \\hspace command. LaTeX "
@@ -9273,17 +9271,17 @@ msgstr ""
 "regel komt. Als u niet wilt dat LaTeX deze ruimte verwijdert, sluit dan het "
 "optionele argument * in. De ruimte wordt dan niet verwijderd."
 
-#: kilestdactions.cpp:192
+#: kilestdactions.cpp:189
 #, kde-format
 msgid "Vertical Space - \\vspace{}"
 msgstr "Verticale ruimte - \\vspace{}"
 
-#: kilestdactions.cpp:192
+#: kilestdactions.cpp:189
 #, kde-format
 msgid "Vertical Space"
 msgstr "Verticale ruimte"
 
-#: kilestdactions.cpp:192
+#: kilestdactions.cpp:189
 #, kde-format
 msgid ""
 "The \\vspace command adds vertical space. The length of the space can be "
@@ -9295,17 +9293,17 @@ msgstr ""
 "inches, etc. U kunt zowel negatieve als positieve ruimte toevoegen met een "
 "\\vspace-commando."
 
-#: kilestdactions.cpp:194
+#: kilestdactions.cpp:191
 #, kde-format
 msgid "Vertical Space (forced) - \\vspace*{}"
 msgstr "Verticale ruimte (geforceerd) - \\vspace*{}"
 
-#: kilestdactions.cpp:194
+#: kilestdactions.cpp:191
 #, kde-format
 msgid "Vertical Space (forced)"
 msgstr "Verticale ruimte (geforceerd)"
 
-#: kilestdactions.cpp:194
+#: kilestdactions.cpp:191
 #, kde-format
 msgid ""
 "The \\vspace* command adds vertical space like the \\vspace command. LaTeX "
@@ -9318,122 +9316,122 @@ msgstr ""
 "pagina. Als u niet wilt dat LaTeX deze ruimte verwijdert, sluit dan het "
 "optionele argument * in. De ruimte wordt dan niet vewijderd."
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:194
 #, kde-format
 msgid "Emphasized - \\emph{}"
 msgstr "Benadrukt - \\emph{}"
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:194
 #, kde-format
 msgid "Emphasized"
 msgstr "Benadrukt"
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:194
 #, kde-format
 msgid "\\emph{emphasized text}"
 msgstr "\\emph{benadrukte tekst}"
 
-#: kilestdactions.cpp:198
+#: kilestdactions.cpp:195
 #, kde-format
 msgid "Strong - \\strong{}"
 msgstr "Krachtig - \\strong{}"
 
-#: kilestdactions.cpp:198
+#: kilestdactions.cpp:195
 #, kde-format
 msgid "Strong"
 msgstr "Krachtig"
 
-#: kilestdactions.cpp:198
+#: kilestdactions.cpp:195
 #, kde-format
 msgid "\\strong{text}"
 msgstr "\\strong{tekst}"
 
-#: kilestdactions.cpp:200
+#: kilestdactions.cpp:197
 #, kde-format
 msgid "Roman - \\rmfamily"
 msgstr "Roman - \\rmfamily"
 
-#: kilestdactions.cpp:200
+#: kilestdactions.cpp:197
 #, kde-format
 msgid "Roman"
 msgstr "Roman"
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:198
 #, kde-format
 msgid "Sans Serif - \\sffamily"
 msgstr "Sans Serif - \\sffamily"
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:198
 #, kde-format
 msgid "Sans Serif"
 msgstr "Sans Serif"
 
-#: kilestdactions.cpp:202
+#: kilestdactions.cpp:199
 #, kde-format
 msgid "Monospace - \\ttfamily"
 msgstr "Monospace - \\ttfamily"
 
-#: kilestdactions.cpp:202
+#: kilestdactions.cpp:199
 #, kde-format
 msgid "Monospace"
 msgstr "Monospace"
 
-#: kilestdactions.cpp:204
+#: kilestdactions.cpp:201
 #, kde-format
 msgid "Medium - \\mdseries"
 msgstr "Medium - \\mdseries"
 
-#: kilestdactions.cpp:204
+#: kilestdactions.cpp:201
 #, kde-format
 msgid "Medium"
 msgstr "Medium"
 
-#: kilestdactions.cpp:205
+#: kilestdactions.cpp:202
 #, kde-format
 msgid "Bold - \\bfseries"
 msgstr "Vet - \\bfseries"
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:204
 #, kde-format
 msgid "Upright - \\upshape"
 msgstr "Rechtop - \\upshape"
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:204
 #, kde-format
 msgid "Upright"
 msgstr "Rechtop"
 
-#: kilestdactions.cpp:208
+#: kilestdactions.cpp:205
 #, kde-format
 msgid "Italic - \\itshape"
 msgstr "Cursief - \\itshape"
 
-#: kilestdactions.cpp:209
+#: kilestdactions.cpp:206
 #, kde-format
 msgid "Slanted - \\slshape"
 msgstr "Schuin (slant) - \\slshape"
 
-#: kilestdactions.cpp:210
+#: kilestdactions.cpp:207
 #, kde-format
 msgid "Smallcaps - \\scshape"
 msgstr "Kleine hoofdletters \\scshape"
 
-#: kilestdactions.cpp:210
+#: kilestdactions.cpp:207
 #, kde-format
 msgid "Smallcaps"
 msgstr "Kleine hoofdletters"
 
-#: kilestdactions.cpp:222
+#: kilestdactions.cpp:219
 #, kde-format
 msgid "Bibliography Style Selection - \\bibliographystyle{}"
 msgstr "Selectie van bibliografiestijl - \\bibliographystyle{}"
 
-#: kilestdactions.cpp:222
+#: kilestdactions.cpp:219
 #, kde-format
 msgid "Bibliography Style Selection"
 msgstr "Selectie van bibliografiestijl"
 
-#: kilestdactions.cpp:222
+#: kilestdactions.cpp:219
 #, kde-format
 msgid ""
 "The argument to \\bibliographystyle refers to a file style.bst, which "
@@ -9454,17 +9452,17 @@ msgstr ""
 "unsrt: zoals plain, maar items zijn op volgorde van vermelding.\n"
 "abbrv: zoals plain, maar met compactere labels."
 
-#: kilestdactions.cpp:223 kilestdactions.cpp:231
+#: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, kde-format
 msgid "Bibliography Generation - \\bibliography{}"
 msgstr "Generatie van bibliografie - \\bibliography{}"
 
-#: kilestdactions.cpp:223 kilestdactions.cpp:231
+#: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, kde-format
 msgid "Bibliography Generation"
 msgstr "Generatie van bibliografie"
 
-#: kilestdactions.cpp:223 kilestdactions.cpp:231
+#: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, kde-format
 msgid ""
 "The argument to \\bibliography refers to the bib file (without extension)\n"
@@ -9475,283 +9473,283 @@ msgstr ""
 "extensie) dat uw literatuurdatabase in Bib-TeX-opmaak bevat.\n"
 "Kile voegt daar automatisch de naam van uw TeX-bestand in."
 
-#: kilestdactions.cpp:230
+#: kilestdactions.cpp:227
 #, kde-format
 msgid "Load Biblatex Package - \\usepackage{biblatex}"
 msgstr "Laad Biblatex pakket - \\usepackage{bibliatex}"
 
-#: kilestdactions.cpp:230
+#: kilestdactions.cpp:227
 #, kde-format
 msgid "Load Biblatex Package"
 msgstr "Laad Biblatex pakket"
 
-#: kilestdactions.cpp:230
+#: kilestdactions.cpp:227
 #, kde-format
 msgid "This includes the package biblatex"
 msgstr "Dit sluit het pakket biblatex in"
 
-#: kilestdactions.cpp:232
+#: kilestdactions.cpp:229
 #, kde-format
 msgid "Print Bibliography"
 msgstr "Print bibliografie"
 
-#: kilestdactions.cpp:232
+#: kilestdactions.cpp:229
 #, kde-format
 msgid "Prints the complete bibliography"
 msgstr "Print de complete bibliografie"
 
-#: kilestdactions.cpp:233
+#: kilestdactions.cpp:230
 #, kde-format
 msgid "Print Bibliography by Section"
 msgstr "Print de bibliografie per hoofdstuk"
 
-#: kilestdactions.cpp:233
+#: kilestdactions.cpp:230
 #, kde-format
 msgid "Print the bibliography for each section"
 msgstr "Print de bibliografie voor elk hoofdstuk"
 
-#: kilestdactions.cpp:234
+#: kilestdactions.cpp:231
 #, kde-format
 msgid "Print List of Shorthands"
 msgstr "Print de lijst van afkortingen"
 
-#: kilestdactions.cpp:333
+#: kilestdactions.cpp:330
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
 msgstr "ALT.... : u kunt kiezen tussen deze twee velden\n"
 
-#: kilestdactions.cpp:334
+#: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
 msgstr ""
 "OPT.... : optionele velden (gebruik \"Opschonen\" om ze te verwijderen)"
 
-#: kilestdactions.cpp:335
+#: kilestdactions.cpp:332
 #, kde-format
 msgid "Bib fields - %1\n"
 msgstr "Bib-velden - %1\n"
 
-#: kilestdactions.cpp:350
+#: kilestdactions.cpp:347
 #, kde-format
 msgid "\\mathrm{}"
 msgstr "\\mathrm{}"
 
-#: kilestdactions.cpp:351
+#: kilestdactions.cpp:348
 #, kde-format
 msgid "\\mathit{}"
 msgstr "\\mathit{}"
 
-#: kilestdactions.cpp:352
+#: kilestdactions.cpp:349
 #, kde-format
 msgid "\\mathbf{}"
 msgstr "\\mathbf{}"
 
-#: kilestdactions.cpp:353
+#: kilestdactions.cpp:350
 #, kde-format
 msgid "\\mathsf{}"
 msgstr "\\mathsf{}"
 
-#: kilestdactions.cpp:354
+#: kilestdactions.cpp:351
 #, kde-format
 msgid "\\mathtt{}"
 msgstr "\\mathtt{}"
 
-#: kilestdactions.cpp:355
+#: kilestdactions.cpp:352
 #, kde-format
 msgid "\\mathcal{}"
 msgstr "\\mathcal{}"
 
-#: kilestdactions.cpp:356
+#: kilestdactions.cpp:353
 #, kde-format
 msgid "\\mathbb{}"
 msgstr "\\mathbb{}"
 
-#: kilestdactions.cpp:357
+#: kilestdactions.cpp:354
 #, kde-format
 msgid "\\mathfrak{}"
 msgstr "\\mathfrak{}"
 
-#: kilestdactions.cpp:359
+#: kilestdactions.cpp:356
 #, kde-format
 msgid "\\acute{}"
 msgstr "\\acute{}"
 
-#: kilestdactions.cpp:360
+#: kilestdactions.cpp:357
 #, kde-format
 msgid "\\grave{}"
 msgstr "\\grave{}"
 
-#: kilestdactions.cpp:361
+#: kilestdactions.cpp:358
 #, kde-format
 msgid "\\tilde{}"
 msgstr "\\tilde{}"
 
-#: kilestdactions.cpp:362
+#: kilestdactions.cpp:359
 #, kde-format
 msgid "\\bar{}"
 msgstr "\\bar{}"
 
-#: kilestdactions.cpp:363
+#: kilestdactions.cpp:360
 #, kde-format
 msgid "\\vec{}"
 msgstr "\\vec{}"
 
-#: kilestdactions.cpp:364
+#: kilestdactions.cpp:361
 #, kde-format
 msgid "\\hat{}"
 msgstr "\\hat{}"
 
-#: kilestdactions.cpp:365
+#: kilestdactions.cpp:362
 #, kde-format
 msgid "\\check{}"
 msgstr "\\check{}"
 
-#: kilestdactions.cpp:366
+#: kilestdactions.cpp:363
 #, kde-format
 msgid "\\breve{}"
 msgstr "\\breve{}"
 
-#: kilestdactions.cpp:367
+#: kilestdactions.cpp:364
 #, kde-format
 msgid "\\dot{}"
 msgstr "\\dot{}"
 
-#: kilestdactions.cpp:368
+#: kilestdactions.cpp:365
 #, kde-format
 msgid "\\ddot{}"
 msgstr "\\ddot{}"
 
-#: kilestdactions.cpp:370
+#: kilestdactions.cpp:367
 #, kde-format
 msgid "Small Space"
 msgstr "Smalle spatie"
 
-#: kilestdactions.cpp:371
+#: kilestdactions.cpp:368
 #, kde-format
 msgid "Medium Space"
 msgstr "Middelgrote spatie"
 
-#: kilestdactions.cpp:372
+#: kilestdactions.cpp:369
 #, kde-format
 msgid "Large Space"
 msgstr "Grote spatie"
 
-#: kilestdactions.cpp:373
+#: kilestdactions.cpp:370
 #, kde-format
 msgid "\\quad"
 msgstr "\\quad"
 
-#: kilestdactions.cpp:374
+#: kilestdactions.cpp:371
 #, kde-format
 msgid "\\qquad"
 msgstr "\\qquad"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:373
 #, kde-format
 msgid "Math Mode - $...$"
 msgstr "Wiskundige modus - $...$"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:373
 #, kde-format
 msgid "Math Mode"
 msgstr "Wiskundemodus"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:374
 #, kde-format
 msgid "Displaymath Mode - \\[...\\]"
 msgstr "Weergave wiskundemodus - \\[...\\]"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:374
 #, kde-format
 msgid "Displaymath Mode"
 msgstr "Weergave wiskundemodus"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:375
 #, kde-format
 msgid "Equation - \\begin{equation}"
 msgstr "Aanhaling - \\begin{quotation}"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:375
 #, kde-format
 msgid "Equation"
 msgstr "Vergelijking"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:376
 #, kde-format
 msgid "Subscript - _{}"
 msgstr "Subscript - _{}"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:376
 #, kde-format
 msgid "Subscript"
 msgstr "Subscript"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Superscript - ^{}"
 msgstr "Superscript - ^{}"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Superscript"
 msgstr "Superscript"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Normal Fraction - \\frac{}{}"
 msgstr "Normale breuk - \\frac{}{}"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:378
 #, kde-format
 msgid "Normal Fraction"
 msgstr "Normale breuk"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:379
 #, kde-format
 msgid "Displaystyle Fraction - \\dfrac{}{}"
 msgstr "Weergavestijl breuk - \\dfrac{}{}"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:379
 #, kde-format
 msgid "Displaystyle Fraction"
 msgstr "Weergavestijl breuk"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:380
 #, kde-format
 msgid "Textstyle Fraction - \\tfrac{}{}"
 msgstr "Tekststijl-breuk - \\tfrac{}{}"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:380
 #, kde-format
 msgid "Textstyle Fraction"
 msgstr "Tekststijl breuk"
 
-#: kilestdactions.cpp:384
+#: kilestdactions.cpp:381
 #, kde-format
 msgid "Square Root - \\sqrt{}"
 msgstr "Vierkantswortel - \\sqrt{}"
 
-#: kilestdactions.cpp:384
+#: kilestdactions.cpp:381
 #, kde-format
 msgid "Square Root"
 msgstr "Vierkantswortel"
 
-#: kilestdactions.cpp:385
+#: kilestdactions.cpp:382
 #, kde-format
 msgid "\\left"
 msgstr "\\left"
 
-#: kilestdactions.cpp:386
+#: kilestdactions.cpp:383
 #, kde-format
 msgid "\\right"
 msgstr "\\right"
 
-#: kilestdactions.cpp:387
+#: kilestdactions.cpp:384
 #, kde-format
 msgid "Array - \\begin{array}"
 msgstr "Array - \\begin{array}"
 
-#: kilestdactions.cpp:388
+#: kilestdactions.cpp:385
 #, kde-format
 msgid ""
 "\\begin{array}{col1col2...coln}\n"
@@ -9774,512 +9772,512 @@ msgstr ""
 "      l -- voor links uitgelijnd\n"
 "      r -- voor rechts uitgelijnd\n"
 
-#: kilestdactions.cpp:391
+#: kilestdactions.cpp:388
 #, kde-format
 msgid "Left Delimiter"
 msgstr "Linker begrenzer"
 
-#: kilestdactions.cpp:393
+#: kilestdactions.cpp:390
 #, kde-format
 msgid "left ("
 msgstr "left ("
 
-#: kilestdactions.cpp:394
+#: kilestdactions.cpp:391
 #, kde-format
 msgid "left ["
 msgstr "left ["
 
-#: kilestdactions.cpp:395
+#: kilestdactions.cpp:392
 #, kde-format
 msgid "left {"
 msgstr "left {"
 
-#: kilestdactions.cpp:396
+#: kilestdactions.cpp:393
 #, kde-format
 msgid "left &lt;"
 msgstr "left &lt;"
 
-#: kilestdactions.cpp:398
+#: kilestdactions.cpp:395
 #, kde-format
 msgid "left )"
 msgstr "left )"
 
-#: kilestdactions.cpp:399
+#: kilestdactions.cpp:396
 #, kde-format
 msgid "left ]"
 msgstr "left ]"
 
-#: kilestdactions.cpp:400
+#: kilestdactions.cpp:397
 #, kde-format
 msgid "left }"
 msgstr "left }"
 
-#: kilestdactions.cpp:401
+#: kilestdactions.cpp:398
 #, kde-format
 msgid "left &gt;"
 msgstr "left &gt;"
 
-#: kilestdactions.cpp:403
+#: kilestdactions.cpp:400
 #, kde-format
 msgid "left ."
 msgstr "left ."
 
-#: kilestdactions.cpp:405
+#: kilestdactions.cpp:402
 #, kde-format
 msgid "Right Delimiter"
 msgstr "Rechter begrenzer"
 
-#: kilestdactions.cpp:407
+#: kilestdactions.cpp:404
 #, kde-format
 msgid "right )"
 msgstr "right )"
 
-#: kilestdactions.cpp:408
+#: kilestdactions.cpp:405
 #, kde-format
 msgid "right ]"
 msgstr "right ]"
 
-#: kilestdactions.cpp:409
+#: kilestdactions.cpp:406
 #, kde-format
 msgid "right }"
 msgstr "right }"
 
-#: kilestdactions.cpp:410
+#: kilestdactions.cpp:407
 #, kde-format
 msgid "right &gt;"
 msgstr "right &gt;"
 
-#: kilestdactions.cpp:412
+#: kilestdactions.cpp:409
 #, kde-format
 msgid "right ("
 msgstr "right ("
 
-#: kilestdactions.cpp:413
+#: kilestdactions.cpp:410
 #, kde-format
 msgid "right ["
 msgstr "right ["
 
-#: kilestdactions.cpp:414
+#: kilestdactions.cpp:411
 #, kde-format
 msgid "right {"
 msgstr "right {"
 
-#: kilestdactions.cpp:415
+#: kilestdactions.cpp:412
 #, kde-format
 msgid "right &lt;"
 msgstr "right &lt;"
 
-#: kilestdactions.cpp:417
+#: kilestdactions.cpp:414
 #, kde-format
 msgid "right ."
 msgstr "right ."
 
-#: kilestdactions.cpp:422
+#: kilestdactions.cpp:419
 #, kde-format
 msgid "Normal Binomial - \\binom{}{}"
 msgstr "Normale binomiaal - \\binom{}{}"
 
-#: kilestdactions.cpp:422
+#: kilestdactions.cpp:419
 #, kde-format
 msgid "Normal Binomial"
 msgstr "Normale binomiaal"
 
-#: kilestdactions.cpp:424
+#: kilestdactions.cpp:421
 #, kde-format
 msgid "Displaystyle Binomial - \\dbinom{}{}"
 msgstr "Weergavestijl binomiaal - \\dbinom{}{}"
 
-#: kilestdactions.cpp:424
+#: kilestdactions.cpp:421
 #, kde-format
 msgid "Displaystyle Binomial"
 msgstr "Weergavestijl binomiaal"
 
-#: kilestdactions.cpp:426
+#: kilestdactions.cpp:423
 #, kde-format
 msgid "Textstyle Binomial - \\tbinom{}{}"
 msgstr "Tekststijl binomiaal - \\tbinom{}{}"
 
-#: kilestdactions.cpp:426
+#: kilestdactions.cpp:423
 #, kde-format
 msgid "Textstyle Binomial"
 msgstr "Tekststijl binomiaal"
 
-#: kilestdactions.cpp:428
+#: kilestdactions.cpp:425
 #, kde-format
 msgid "N-th Root - \\sqrt[]{}"
 msgstr "N-de wortel - \\sqrt[]{}"
 
-#: kilestdactions.cpp:428
+#: kilestdactions.cpp:425
 #, kde-format
 msgid "N-th Root"
 msgstr "N-de wortel"
 
-#: kilestdactions.cpp:430
+#: kilestdactions.cpp:427
 #, kde-format
 msgid "Left-Right () - \\left(..\\right)"
 msgstr "Links-rechts ()- \\left(..\\right)"
 
-#: kilestdactions.cpp:430
+#: kilestdactions.cpp:427
 #, kde-format
 msgid "Left-Right ()"
 msgstr "Links-rechts ()"
 
-#: kilestdactions.cpp:432
+#: kilestdactions.cpp:429
 #, kde-format
 msgid "Extendable Left Arrow - \\xleftarrow{}"
 msgstr "Uitbreidbare pijl links - \\xleftarrow{}"
 
-#: kilestdactions.cpp:432
+#: kilestdactions.cpp:429
 #, kde-format
 msgid "Extendable Left Arrow"
 msgstr "Uitbreidbare pijl links"
 
-#: kilestdactions.cpp:434
+#: kilestdactions.cpp:431
 #, kde-format
 msgid "Extendable Right Arrow - \\xrightarrow{}"
 msgstr "Uitbreidbare pijl rechts - \\xrightarrow{}"
 
-#: kilestdactions.cpp:434
+#: kilestdactions.cpp:431
 #, kde-format
 msgid "Extendable Right Arrow"
 msgstr "Uitbreidbare pijl rechts"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:433
 #, kde-format
 msgid "Boxed Formula - \\boxed{}"
 msgstr "Formule in een vak - \\boxed{}"
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:433
 #, kde-format
 msgid "Boxed Formula"
 msgstr "Formule in een vak"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:435
 #, kde-format
 msgid "bigl - \\bigl"
 msgstr "bigl - \\bigl"
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:435
 #, kde-format
 msgid "bigl"
 msgstr "bigl"
 
-#: kilestdactions.cpp:439
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "Bigl - \\Bigl"
 msgstr "Bigl - \\Bigl"
 
-#: kilestdactions.cpp:439
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "Bigl"
 msgstr "Bigl"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "biggl - \\biggl"
 msgstr "biggl - \\biggl"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "biggl"
 msgstr "biggl"
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "Biggl - \\Biggl"
 msgstr "Biggl - \\Biggl"
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "Biggl"
 msgstr "Biggl"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:440
 #, kde-format
 msgid "bigr - \\bigr"
 msgstr "bigr - \\bigr"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:440
 #, kde-format
 msgid "bigr"
 msgstr "bigr"
 
-#: kilestdactions.cpp:444
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "Bigr - \\Bigr"
 msgstr "Bigr - \\Bigr"
 
-#: kilestdactions.cpp:444
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "Bigr"
 msgstr "Bigr"
 
-#: kilestdactions.cpp:445
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "biggr - \\biggr"
 msgstr "biggr - \\biggr"
 
-#: kilestdactions.cpp:445
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "biggr"
 msgstr "biggr"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "Biggr - \\Biggr"
 msgstr "Biggr - \\Biggr"
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "Biggr"
 msgstr "Biggr"
 
-#: kilestdactions.cpp:449
+#: kilestdactions.cpp:446
 #, kde-format
 msgid "Text in Mathmode - \\text{}"
 msgstr "Tekst in wiskundemodus - \\text{}"
 
-#: kilestdactions.cpp:449
+#: kilestdactions.cpp:446
 #, kde-format
 msgid "Text in Mathmode"
 msgstr "Tekst in wiskundemodus"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:448
 #, kde-format
 msgid "Intertext - \\intertext{}"
 msgstr "Intertekst - \\intertext{}"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:448
 #, kde-format
 msgid "Intertext"
 msgstr "Intertext"
 
-#: kilestdactions.cpp:454
+#: kilestdactions.cpp:451
 #, kde-format
 msgid "Displaymath - \\begin{displaymath}"
 msgstr "Wiskunde weergeven - \\begin{displaymath}"
 
-#: kilestdactions.cpp:454
+#: kilestdactions.cpp:451
 #, kde-format
 msgid "Displaymath"
 msgstr "Wiskunde weergeven"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:453
 #, kde-format
 msgid "Equation (not numbered) - \\begin{equation*}"
 msgstr "Vergelijking (ongenummerd) - \\begin{equation*}"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:453
 #, kde-format
 msgid "Equation (not numbered)"
 msgstr "Vergelijking (ongenummerd)"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:456
 #, kde-format
 msgid "Multline - \\begin{multline}"
 msgstr "Multilijn - \\begin{multline}"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:456
 #, kde-format
 msgid "Multline"
 msgstr "Multline"
 
-#: kilestdactions.cpp:460
+#: kilestdactions.cpp:457
 #, kde-format
 msgid "Multline* - \\begin{multline*}"
 msgstr "Multilijn* - \\begin{multline*}"
 
-#: kilestdactions.cpp:460
+#: kilestdactions.cpp:457
 #, kde-format
 msgid "Multline*"
 msgstr "Multline*"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:459
 #, kde-format
 msgid "Split - \\begin{split}"
 msgstr "Splitsen - \\begin{split}"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:459
 #, kde-format
 msgid "Split"
 msgstr "Splitsen"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:461
 #, kde-format
 msgid "Gather - \\begin{gather}"
 msgstr "Verzamelen - \\begin{gather}"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:461
 #, kde-format
 msgid "Gather"
 msgstr "Verzamelen"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:462
 #, kde-format
 msgid "Gather* - \\begin{gather*}"
 msgstr "Verzamelen* - \\begin{gather*}"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:462
 #, kde-format
 msgid "Gather*"
 msgstr "Verzamelen*"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:464
 #, kde-format
 msgid "Align - \\begin{align}"
 msgstr "Uitlijnen - \\begin{align}"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:464
 #, kde-format
 msgid "Align"
 msgstr "Uitlijnen"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:465
 #, kde-format
 msgid "Align* - \\begin{align*}"
 msgstr "Uitlijnen* - \\begin{align*}"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:465
 #, kde-format
 msgid "Align*"
 msgstr "Uitlijnen*"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign - \\begin{flalign}"
 msgstr "Flalign - \\begin{flalign}"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign"
 msgstr "Flalign"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign* - \\begin{flalign*}"
 msgstr "Flalign* - \\begin{flalign*}"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign*"
 msgstr "Flalign*"
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:470
 #, kde-format
 msgid "Alignat - \\begin{alignat}"
 msgstr "Uitlijnen bij - \\begin{alignat}"
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:470
 #, kde-format
 msgid "Alignat"
 msgstr "Uitlijnen bij"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:471
 #, kde-format
 msgid "Alignat* - \\begin{alignat*}"
 msgstr "Uitlijnen bij* - \\begin{alignat*}"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:471
 #, kde-format
 msgid "Alignat*"
 msgstr "Uitlijnen bij*"
 
-#: kilestdactions.cpp:476
+#: kilestdactions.cpp:473
 #, kde-format
 msgid "Aligned - \\begin{aligned}"
 msgstr "Uitgelijnd - \\begin{aligned}"
 
-#: kilestdactions.cpp:476
+#: kilestdactions.cpp:473
 #, kde-format
 msgid "Aligned"
 msgstr "Uitgelijnd"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:474
 #, kde-format
 msgid "Gathered - \\begin{gathered}"
 msgstr "Verzameld - \\begin{gathered}"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:474
 #, kde-format
 msgid "Gathered"
 msgstr "Verzameld"
 
-#: kilestdactions.cpp:478
+#: kilestdactions.cpp:475
 #, kde-format
 msgid "Alignedat - \\begin{alignedat}"
 msgstr "Uitgelijnd bij - \\begin{alignedat}"
 
-#: kilestdactions.cpp:478
+#: kilestdactions.cpp:475
 #, kde-format
 msgid "Alignedat"
 msgstr "Uitgelijnd bij"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:477
 #, kde-format
 msgid "Cases - \\begin{cases}"
 msgstr "Cases - \\begin{cases}"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:477
 #, kde-format
 msgid "Cases"
 msgstr "Cases"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:479
 #, kde-format
 msgid "matrix - \\begin{matrix}"
 msgstr "matrix - \\begin{matrix}"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:479
 #, kde-format
 msgid "matrix"
 msgstr "matrix"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
 msgstr "pmatrix - \\begin{pmatrix}"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix"
 msgstr "pmatrix"
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:481
 #, kde-format
 msgid "vmatrix - \\begin{vmatrix}"
 msgstr "vmatrix - \\begin{vmatrix}"
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:481
 #, kde-format
 msgid "vmatrix"
 msgstr "vmatrix"
 
-#: kilestdactions.cpp:485
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "Vmatrix - \\begin{Vmatrix}"
 msgstr "Vmatrix - \\begin{Vmatrix}"
 
-#: kilestdactions.cpp:485
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "Vmatrix"
 msgstr "Vmatrix"
 
-#: kilestdactions.cpp:486
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "bmatrix - \\begin{bmatrix}"
 msgstr "bmatrix - \\begin{bmatrix}"
 
-#: kilestdactions.cpp:486
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "bmatrix"
 msgstr "bmatrix"
 
-#: kilestdactions.cpp:487
+#: kilestdactions.cpp:484
 #, kde-format
 msgid "Bmatrix - \\begin{Bmatrix}"
 msgstr "Bmatrix - \\begin{Bmatrix}"
 
-#: kilestdactions.cpp:487
+#: kilestdactions.cpp:484
 #, kde-format
 msgid "Bmatrix"
 msgstr "Bmatrix"

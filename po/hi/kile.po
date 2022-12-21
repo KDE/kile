@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-10-10 00:46+0000\n"
+"POT-Creation-Date: 2022-12-21 00:47+0000\n"
 "PO-Revision-Date: 2021-06-29 20:38+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -4268,17 +4268,17 @@ msgstr ""
 msgid "Align Right"
 msgstr ""
 
-#: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:205
+#: dialogs/tabular/newtabulardialog.cpp:85 kilestdactions.cpp:202
 #, kde-format
 msgid "Bold"
 msgstr "गाढ़ा"
 
-#: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:208
+#: dialogs/tabular/newtabulardialog.cpp:86 kilestdactions.cpp:205
 #, kde-format
 msgid "Italic"
 msgstr "टेढ़ा"
 
-#: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:139
+#: dialogs/tabular/newtabulardialog.cpp:87 kilestdactions.cpp:136
 #, kde-format
 msgid "Underline"
 msgstr "लकीर"
@@ -6073,7 +6073,7 @@ msgstr ""
 msgid "Quick Start"
 msgstr "क्विक स्टार्ट"
 
-#: kile.cpp:1013 kilestdactions.cpp:387
+#: kile.cpp:1013 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "ऐरे"
@@ -6247,31 +6247,31 @@ msgid ""
 msgstr ""
 "वर्तमान दस्तावेज़ को मुख्य दस्तावेज़ के रूप में पारिभाषित करने के लिए इसे पहले सहेजना होगा."
 
-#: kile.cpp:3069
+#: kile.cpp:2990
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr ""
 
-#: kile.cpp:3070
+#: kile.cpp:2991
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr ""
 
-#: kile.cpp:3077
+#: kile.cpp:2998
 #, fuzzy, kde-format
 #| msgid "Refresh Str&ucture"
 msgid "Refreshing structure..."
 msgstr "स्ट्रक्चर ताज़ा करें (&u)"
 
-#: kile.cpp:3095
+#: kile.cpp:3016
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3098
+#: kile.cpp:3019
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -7880,7 +7880,7 @@ msgstr "\\textit{italic text}"
 msgid "Slanted - \\textsl{}"
 msgstr "टेढ़ा - \\textsl{}"
 
-#: kilestdactions.cpp:73 kilestdactions.cpp:209
+#: kilestdactions.cpp:73 kilestdactions.cpp:206
 #, kde-format
 msgid "Slanted"
 msgstr ""
@@ -8393,29 +8393,27 @@ msgid ""
 "You can open the bib file with Kile to see all the available references"
 msgstr ""
 
-#. i18n("cite from ViewBib"));
-#. actionother_list->addAction(action);
-#: kilestdactions.cpp:139
+#: kilestdactions.cpp:136
 #, kde-format
 msgid "Underline - \\underline{}"
 msgstr "रेखांकित - \\underline{}"
 
-#: kilestdactions.cpp:142
+#: kilestdactions.cpp:139
 #, fuzzy, kde-format
 msgid "Smart Tabulator"
 msgstr "टेबुलर"
 
-#: kilestdactions.cpp:149
+#: kilestdactions.cpp:146
 #, fuzzy, kde-format
 msgid "Abstract - \\begin{abstract}"
 msgstr "ऐरे - \\begin{array}"
 
-#: kilestdactions.cpp:149
+#: kilestdactions.cpp:146
 #, kde-format
 msgid "Abstract"
 msgstr ""
 
-#: kilestdactions.cpp:149
+#: kilestdactions.cpp:146
 #, kde-format
 msgid ""
 "\\begin{abstract}\n"
@@ -8425,19 +8423,19 @@ msgid ""
 "page number or heading."
 msgstr ""
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:148
 #, fuzzy, kde-format
 #| msgid "Table - \\begin{table}"
 msgid "Tabular* - \\begin{tabular*}"
 msgstr "टेबल - \\begin{table}"
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:148
 #, fuzzy, kde-format
 #| msgid "Tabular"
 msgid "Tabular*"
 msgstr "टेबुलर"
 
-#: kilestdactions.cpp:151
+#: kilestdactions.cpp:148
 #, kde-format
 msgid ""
 "\\begin{tabular*}{width}[pos]{cols}\n"
@@ -8449,17 +8447,17 @@ msgid ""
 "stretch to fill out the specified width."
 msgstr ""
 
-#: kilestdactions.cpp:153
+#: kilestdactions.cpp:150
 #, fuzzy, kde-format
 msgid "Minipage - \\begin{minipage}"
 msgstr "शीर्षक पृष्ठ - \\begin{titlepage}"
 
-#: kilestdactions.cpp:153
+#: kilestdactions.cpp:150
 #, kde-format
 msgid "Minipage"
 msgstr ""
 
-#: kilestdactions.cpp:153
+#: kilestdactions.cpp:150
 #, kde-format
 msgid ""
 "The minipage environment is similar to a \\parbox command. It takes the same "
@@ -8467,94 +8465,94 @@ msgid ""
 "paragraph-making environments inside a minipage."
 msgstr ""
 
-#: kilestdactions.cpp:156
+#: kilestdactions.cpp:153
 #, fuzzy, kde-format
 msgid "Table of Figures - \\listoffigures"
 msgstr "छवियों के भीतर उप-छवियाँ सक्षम करता है"
 
-#: kilestdactions.cpp:156
+#: kilestdactions.cpp:153
 #, fuzzy, kde-format
 msgid "Table of Figures"
 msgstr "छवियों के भीतर उप-छवियाँ सक्षम करता है"
 
-#: kilestdactions.cpp:156
+#: kilestdactions.cpp:153
 #, fuzzy, kde-format
 msgid "Put this command where you want the list of figures to go."
 msgstr "विषय-वस्तु की तालिका को जहाँ पर आप रखना चाहते हैं वहाँ इस कमांड को रखें"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:155
 #, kde-format
 msgid "Table of Tables - \\listoftables"
 msgstr ""
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:155
 #, fuzzy, kde-format
 #| msgid "Table - \\begin{table}"
 msgid "Table of Tables"
 msgstr "टेबल - \\begin{table}"
 
-#: kilestdactions.cpp:158
+#: kilestdactions.cpp:155
 #, fuzzy, kde-format
 msgid "Put this command where you want the list of tables to go."
 msgstr "विषय-वस्तु की तालिका को जहाँ पर आप रखना चाहते हैं वहाँ इस कमांड को रखें"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:157
 #, fuzzy, kde-format
 msgid "Generate Index - \\makeindex"
 msgstr "शीर्षक बनाएँ - \\maketitle"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:157
 #, fuzzy, kde-format
 msgid "Generate Index"
 msgstr "शीर्षक बनाएँ - \\maketitle"
 
-#: kilestdactions.cpp:160
+#: kilestdactions.cpp:157
 #, fuzzy, kde-format
 msgid "Put this command when you want to generate the raw index."
 msgstr "विषय-वस्तु की तालिका को जहाँ पर आप रखना चाहते हैं वहाँ इस कमांड को रखें"
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Print Index - \\printindex"
 msgstr ""
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:159
 #, kde-format
 msgid "Print Index"
 msgstr ""
 
-#: kilestdactions.cpp:162
+#: kilestdactions.cpp:159
 #, fuzzy, kde-format
 msgid "Put this command when you want to print the formatted index."
 msgstr "विषय-वस्तु की तालिका को जहाँ पर आप रखना चाहते हैं वहाँ इस कमांड को रखें"
 
-#: kilestdactions.cpp:164
+#: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary - \\makeglossary"
 msgstr ""
 
-#: kilestdactions.cpp:164
+#: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary"
 msgstr ""
 
-#: kilestdactions.cpp:164
+#: kilestdactions.cpp:161
 #, fuzzy, kde-format
 msgid "Put this command when you want to print a glossary."
 msgstr "विषय-वस्तु की तालिका को जहाँ पर आप रखना चाहते हैं वहाँ इस कमांड को रखें"
 
-#: kilestdactions.cpp:166
+#: kilestdactions.cpp:163
 #, fuzzy, kde-format
 msgid "Bibliography - \\begin{thebibliography}"
 msgstr "ग्रन्थ सूची बनाना - \\bibliography{}"
 
-#: kilestdactions.cpp:166 widgets/projectview.cpp:460
+#: kilestdactions.cpp:163 widgets/projectview.cpp:460
 #, fuzzy, kde-format
 #| msgid "&Bibliography"
 msgid "Bibliography"
 msgstr "ग्रन्थ सूची (&B)"
 
-#: kilestdactions.cpp:166
+#: kilestdactions.cpp:163
 #, kde-format
 msgid ""
 "\\begin{thebibliography}{widest-label}\n"
@@ -8567,153 +8565,153 @@ msgid ""
 "\\bibitem : Specify a bibliography item"
 msgstr ""
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:166
 #, fuzzy, kde-format
 msgid "Verbatim (show spaces) - \\begin{verbatim*}"
 msgstr "एकसार एनवायरनमेंट - \\begin{verbatim}"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:166
 #, fuzzy, kde-format
 msgid "Verbatim (show spaces)"
 msgstr "एकसार एनवायरनमेंट - \\begin{verbatim}"
 
-#: kilestdactions.cpp:169
+#: kilestdactions.cpp:166
 #, fuzzy, kde-format
 msgid ""
 "Environment that gets LaTeX to print exactly what you type in. In this "
 "variant, spaces are printed in a special manner."
 msgstr "एनवायरनमेंट जो लेटेक्स के द्वारा जो आपने टाइप किया है वैसा ही छापता है."
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:168
 #, kde-format
 msgid "Embedded Code - \\verb||"
 msgstr ""
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:168
 #, fuzzy, kde-format
 #| msgid "Run Embedded in Kile"
 msgid "Embedded Code"
 msgstr "काइल में अंतर्निर्मित चलाएँ"
 
-#: kilestdactions.cpp:171
+#: kilestdactions.cpp:168
 #, kde-format
 msgid "Macro form of the verbatim environment."
 msgstr ""
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces) - \\verb*||"
 msgstr ""
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces)"
 msgstr ""
 
-#: kilestdactions.cpp:173
+#: kilestdactions.cpp:170
 #, kde-format
 msgid "Macro form of the verbatim* environment."
 msgstr ""
 
-#: kilestdactions.cpp:176
+#: kilestdactions.cpp:173
 #, fuzzy, kde-format
 msgid "\"Small\" Vertical Space - \\smallskip"
 msgstr "\"मध्यम\" खड़ा जगह - \\medskip"
 
-#: kilestdactions.cpp:176
+#: kilestdactions.cpp:173
 #, fuzzy, kde-format
 msgid "\"Small\" Vertical Space"
 msgstr "\"मध्यम\" खड़ा जगह - \\medskip"
 
-#: kilestdactions.cpp:176
+#: kilestdactions.cpp:173
 #, fuzzy, kde-format
 msgid "The \\smallskip command adds a 'small' vertical space."
 msgstr "\\medskip कमांड मध्यम खड़ा जगह जोड़ता है."
 
-#: kilestdactions.cpp:178
+#: kilestdactions.cpp:175
 #, kde-format
 msgid "\\enskip"
 msgstr ""
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:177
 #, fuzzy, kde-format
 msgid "Horizontal Variable Space - \\hfill"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:177
 #, fuzzy, kde-format
 msgid "Horizontal Variable Space"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:180
+#: kilestdactions.cpp:177
 #, kde-format
 msgid ""
 "The \\hfill fill command produces a \"rubber length\" which can stretch or "
 "shrink horizontally. It will be filled with spaces."
 msgstr ""
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:179
 #, fuzzy, kde-format
 msgid "Horizontal Dots - \\dotfill"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:179
 #, fuzzy, kde-format
 msgid "Horizontal Dots"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:182
+#: kilestdactions.cpp:179
 #, kde-format
 msgid ""
 "The \\dotfill command produces a \"rubber length\" that produces dots "
 "instead of just spaces."
 msgstr ""
 
-#: kilestdactions.cpp:184
+#: kilestdactions.cpp:181
 #, fuzzy, kde-format
 msgid "Horizontal Rule - \\hrulefill"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:184
+#: kilestdactions.cpp:181
 #, fuzzy, kde-format
 msgid "Horizontal Rule"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:184
+#: kilestdactions.cpp:181
 #, kde-format
 msgid ""
 "The \\hrulefill fill command produces a \"rubber length\" which can stretch "
 "or shrink horizontally. It will be filled with a horizontal rule."
 msgstr ""
 
-#: kilestdactions.cpp:186
+#: kilestdactions.cpp:183
 #, fuzzy, kde-format
 msgid "Vertical Variable Space - \\vfill"
 msgstr "खड़ी पंक्ति - \\vline"
 
-#: kilestdactions.cpp:186
+#: kilestdactions.cpp:183
 #, fuzzy, kde-format
 msgid "Vertical Variable Space"
 msgstr "खड़ी पंक्ति - \\vline"
 
-#: kilestdactions.cpp:186
+#: kilestdactions.cpp:183
 #, kde-format
 msgid ""
 "The \\vfill fill command produces a \"rubber length\" which can stretch or "
 "shrink vertically."
 msgstr ""
 
-#: kilestdactions.cpp:188
+#: kilestdactions.cpp:185
 #, fuzzy, kde-format
 msgid "Horizontal Space - \\hspace{}"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:188
+#: kilestdactions.cpp:185
 #, fuzzy, kde-format
 msgid "Horizontal Space"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:188
+#: kilestdactions.cpp:185
 #, kde-format
 msgid ""
 "The \\hspace command adds horizontal space. The length of the space can be "
@@ -8722,17 +8720,17 @@ msgid ""
 "Adding negative space is like backspacing."
 msgstr ""
 
-#: kilestdactions.cpp:190
+#: kilestdactions.cpp:187
 #, kde-format
 msgid "Horizontal Space (forced) - \\hspace*{}"
 msgstr ""
 
-#: kilestdactions.cpp:190
+#: kilestdactions.cpp:187
 #, fuzzy, kde-format
 msgid "Horizontal Space (forced)"
 msgstr "आड़ी पंक्ति - \\hline"
 
-#: kilestdactions.cpp:190
+#: kilestdactions.cpp:187
 #, kde-format
 msgid ""
 "The \\hspace* command adds horizontal space like the \\hspace command. LaTeX "
@@ -8741,17 +8739,17 @@ msgid ""
 "is never removed."
 msgstr ""
 
-#: kilestdactions.cpp:192
+#: kilestdactions.cpp:189
 #, fuzzy, kde-format
 msgid "Vertical Space - \\vspace{}"
 msgstr "खड़ी पंक्ति - \\vline"
 
-#: kilestdactions.cpp:192
+#: kilestdactions.cpp:189
 #, fuzzy, kde-format
 msgid "Vertical Space"
 msgstr "खड़ी पंक्ति - \\vline"
 
-#: kilestdactions.cpp:192
+#: kilestdactions.cpp:189
 #, kde-format
 msgid ""
 "The \\vspace command adds vertical space. The length of the space can be "
@@ -8759,17 +8757,17 @@ msgid ""
 "You can add negative as well as positive space with an \\vspace command."
 msgstr ""
 
-#: kilestdactions.cpp:194
+#: kilestdactions.cpp:191
 #, kde-format
 msgid "Vertical Space (forced) - \\vspace*{}"
 msgstr ""
 
-#: kilestdactions.cpp:194
+#: kilestdactions.cpp:191
 #, fuzzy, kde-format
 msgid "Vertical Space (forced)"
 msgstr "खड़ी पंक्ति - \\vline"
 
-#: kilestdactions.cpp:194
+#: kilestdactions.cpp:191
 #, kde-format
 msgid ""
 "The \\vspace* command adds vertical space like the \\vspace command. LaTeX "
@@ -8778,128 +8776,128 @@ msgid ""
 "is never removed."
 msgstr ""
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:194
 #, kde-format
 msgid "Emphasized - \\emph{}"
 msgstr ""
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:194
 #, fuzzy, kde-format
 #| msgid "normalsize"
 msgid "Emphasized"
 msgstr "नॉर्मल-साइज़"
 
-#: kilestdactions.cpp:197
+#: kilestdactions.cpp:194
 #, kde-format
 msgid "\\emph{emphasized text}"
 msgstr ""
 
-#: kilestdactions.cpp:198
+#: kilestdactions.cpp:195
 #, kde-format
 msgid "Strong - \\strong{}"
 msgstr ""
 
-#: kilestdactions.cpp:198
+#: kilestdactions.cpp:195
 #, fuzzy, kde-format
 #| msgid "Strings"
 msgid "Strong"
 msgstr "लडियाँ"
 
-#: kilestdactions.cpp:198
+#: kilestdactions.cpp:195
 #, fuzzy, kde-format
 msgid "\\strong{text}"
 msgstr "\\footnote{text}"
 
-#: kilestdactions.cpp:200
+#: kilestdactions.cpp:197
 #, kde-format
 msgid "Roman - \\rmfamily"
 msgstr ""
 
-#: kilestdactions.cpp:200
+#: kilestdactions.cpp:197
 #, fuzzy, kde-format
 #| msgid "Command"
 msgid "Roman"
 msgstr "कमांड"
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:198
 #, kde-format
 msgid "Sans Serif - \\sffamily"
 msgstr ""
 
-#: kilestdactions.cpp:201
+#: kilestdactions.cpp:198
 #, kde-format
 msgid "Sans Serif"
 msgstr ""
 
-#: kilestdactions.cpp:202
+#: kilestdactions.cpp:199
 #, kde-format
 msgid "Monospace - \\ttfamily"
 msgstr ""
 
-#: kilestdactions.cpp:202
+#: kilestdactions.cpp:199
 #, kde-format
 msgid "Monospace"
 msgstr ""
 
-#: kilestdactions.cpp:204
+#: kilestdactions.cpp:201
 #, kde-format
 msgid "Medium - \\mdseries"
 msgstr ""
 
-#: kilestdactions.cpp:204
+#: kilestdactions.cpp:201
 #, fuzzy, kde-format
 #| msgid "medium"
 msgid "Medium"
 msgstr "मीडियम"
 
-#: kilestdactions.cpp:205
+#: kilestdactions.cpp:202
 #, kde-format
 msgid "Bold - \\bfseries"
 msgstr ""
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:204
 #, kde-format
 msgid "Upright - \\upshape"
 msgstr ""
 
-#: kilestdactions.cpp:207
+#: kilestdactions.cpp:204
 #, fuzzy, kde-format
 msgid "Upright"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:208
+#: kilestdactions.cpp:205
 #, fuzzy, kde-format
 #| msgid "Italics - \\textit{}"
 msgid "Italic - \\itshape"
 msgstr "तिरछा - \\textit{}"
 
-#: kilestdactions.cpp:209
+#: kilestdactions.cpp:206
 #, fuzzy, kde-format
 #| msgid "Slanted - \\textsl{}"
 msgid "Slanted - \\slshape"
 msgstr "टेढ़ा - \\textsl{}"
 
-#: kilestdactions.cpp:210
+#: kilestdactions.cpp:207
 #, fuzzy, kde-format
 msgid "Smallcaps - \\scshape"
 msgstr "स्माल कैप्स - \\textsc{}"
 
-#: kilestdactions.cpp:210
+#: kilestdactions.cpp:207
 #, kde-format
 msgid "Smallcaps"
 msgstr ""
 
-#: kilestdactions.cpp:222
+#: kilestdactions.cpp:219
 #, fuzzy, kde-format
 msgid "Bibliography Style Selection - \\bibliographystyle{}"
 msgstr "ग्रन्थ सूची शैली चयन - \\bibliographystyle{}"
 
-#: kilestdactions.cpp:222
+#: kilestdactions.cpp:219
 #, fuzzy, kde-format
 msgid "Bibliography Style Selection"
 msgstr "ग्रन्थ सूची शैली चयन - \\bibliographystyle{}"
 
-#: kilestdactions.cpp:222
+#: kilestdactions.cpp:219
 #, kde-format
 msgid ""
 "The argument to \\bibliographystyle refers to a file style.bst, which "
@@ -8912,17 +8910,17 @@ msgid ""
 "abbrv  : like plain, but more compact labels."
 msgstr ""
 
-#: kilestdactions.cpp:223 kilestdactions.cpp:231
+#: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, fuzzy, kde-format
 msgid "Bibliography Generation - \\bibliography{}"
 msgstr "ग्रन्थ सूची बनाना - \\bibliography{}"
 
-#: kilestdactions.cpp:223 kilestdactions.cpp:231
+#: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, fuzzy, kde-format
 msgid "Bibliography Generation"
 msgstr "ग्रन्थ सूची बनाना - \\bibliography{}"
 
-#: kilestdactions.cpp:223 kilestdactions.cpp:231
+#: kilestdactions.cpp:220 kilestdactions.cpp:228
 #, kde-format
 msgid ""
 "The argument to \\bibliography refers to the bib file (without extension)\n"
@@ -8930,285 +8928,285 @@ msgid ""
 "Kile inserts automatically the base name of the TeX file"
 msgstr ""
 
-#: kilestdactions.cpp:230
+#: kilestdactions.cpp:227
 #, fuzzy, kde-format
 msgid "Load Biblatex Package - \\usepackage{biblatex}"
 msgstr "पैकेज़ आयात - \\usepackage{}"
 
-#: kilestdactions.cpp:230
+#: kilestdactions.cpp:227
 #, fuzzy, kde-format
 #| msgid "Edit Package"
 msgid "Load Biblatex Package"
 msgstr "पैकेज संपादित करें"
 
-#: kilestdactions.cpp:230
+#: kilestdactions.cpp:227
 #, kde-format
 msgid "This includes the package biblatex"
 msgstr ""
 
-#: kilestdactions.cpp:232
+#: kilestdactions.cpp:229
 #, fuzzy, kde-format
 msgid "Print Bibliography"
 msgstr "ग्रन्थ सूची (&B)"
 
-#: kilestdactions.cpp:232
+#: kilestdactions.cpp:229
 #, fuzzy, kde-format
 msgid "Prints the complete bibliography"
 msgstr "ग्रन्थ सूची चुनें"
 
-#: kilestdactions.cpp:233
+#: kilestdactions.cpp:230
 #, kde-format
 msgid "Print Bibliography by Section"
 msgstr ""
 
-#: kilestdactions.cpp:233
+#: kilestdactions.cpp:230
 #, fuzzy, kde-format
 msgid "Print the bibliography for each section"
 msgstr "ग्रन्थसूची को ओपन स्टाइल में फ़ॉर्मेट करता है"
 
-#: kilestdactions.cpp:234
+#: kilestdactions.cpp:231
 #, kde-format
 msgid "Print List of Shorthands"
 msgstr ""
 
-#: kilestdactions.cpp:333
+#: kilestdactions.cpp:330
 #, kde-format
 msgid "ALT.... : you have the choice between these two fields\n"
 msgstr ""
 
-#: kilestdactions.cpp:334
+#: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
 msgstr ""
 
-#: kilestdactions.cpp:335
+#: kilestdactions.cpp:332
 #, kde-format
 msgid "Bib fields - %1\n"
 msgstr ""
 
-#: kilestdactions.cpp:350
+#: kilestdactions.cpp:347
 #, kde-format
 msgid "\\mathrm{}"
 msgstr ""
 
-#: kilestdactions.cpp:351
+#: kilestdactions.cpp:348
 #, kde-format
 msgid "\\mathit{}"
 msgstr ""
 
-#: kilestdactions.cpp:352
+#: kilestdactions.cpp:349
 #, kde-format
 msgid "\\mathbf{}"
 msgstr ""
 
-#: kilestdactions.cpp:353
+#: kilestdactions.cpp:350
 #, kde-format
 msgid "\\mathsf{}"
 msgstr ""
 
-#: kilestdactions.cpp:354
+#: kilestdactions.cpp:351
 #, kde-format
 msgid "\\mathtt{}"
 msgstr ""
 
-#: kilestdactions.cpp:355
+#: kilestdactions.cpp:352
 #, kde-format
 msgid "\\mathcal{}"
 msgstr ""
 
-#: kilestdactions.cpp:356
+#: kilestdactions.cpp:353
 #, kde-format
 msgid "\\mathbb{}"
 msgstr ""
 
-#: kilestdactions.cpp:357
+#: kilestdactions.cpp:354
 #, kde-format
 msgid "\\mathfrak{}"
 msgstr ""
 
-#: kilestdactions.cpp:359
+#: kilestdactions.cpp:356
 #, kde-format
 msgid "\\acute{}"
 msgstr ""
 
-#: kilestdactions.cpp:360
+#: kilestdactions.cpp:357
 #, kde-format
 msgid "\\grave{}"
 msgstr ""
 
-#: kilestdactions.cpp:361
+#: kilestdactions.cpp:358
 #, fuzzy, kde-format
 #| msgid "\\index{word}"
 msgid "\\tilde{}"
 msgstr "\\index{word}"
 
-#: kilestdactions.cpp:362
+#: kilestdactions.cpp:359
 #, kde-format
 msgid "\\bar{}"
 msgstr ""
 
-#: kilestdactions.cpp:363
+#: kilestdactions.cpp:360
 #, kde-format
 msgid "\\vec{}"
 msgstr ""
 
-#: kilestdactions.cpp:364
+#: kilestdactions.cpp:361
 #, kde-format
 msgid "\\hat{}"
 msgstr ""
 
-#: kilestdactions.cpp:365
+#: kilestdactions.cpp:362
 #, kde-format
 msgid "\\check{}"
 msgstr ""
 
-#: kilestdactions.cpp:366
+#: kilestdactions.cpp:363
 #, kde-format
 msgid "\\breve{}"
 msgstr ""
 
-#: kilestdactions.cpp:367
+#: kilestdactions.cpp:364
 #, kde-format
 msgid "\\dot{}"
 msgstr ""
 
-#: kilestdactions.cpp:368
+#: kilestdactions.cpp:365
 #, kde-format
 msgid "\\ddot{}"
 msgstr ""
 
-#: kilestdactions.cpp:370
+#: kilestdactions.cpp:367
 #, fuzzy, kde-format
 msgid "Small Space"
 msgstr "पैकेजेस"
 
-#: kilestdactions.cpp:371
+#: kilestdactions.cpp:368
 #, kde-format
 msgid "Medium Space"
 msgstr ""
 
-#: kilestdactions.cpp:372
+#: kilestdactions.cpp:369
 #, fuzzy, kde-format
 msgid "Large Space"
 msgstr "पैकेजेस"
 
-#: kilestdactions.cpp:373
+#: kilestdactions.cpp:370
 #, kde-format
 msgid "\\quad"
 msgstr ""
 
-#: kilestdactions.cpp:374
+#: kilestdactions.cpp:371
 #, kde-format
 msgid "\\qquad"
 msgstr ""
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:373
 #, fuzzy, kde-format
 msgid "Math Mode - $...$"
 msgstr "मैथ मोड - $...$"
 
-#: kilestdactions.cpp:376
+#: kilestdactions.cpp:373
 #, fuzzy, kde-format
 msgid "Math Mode"
 msgstr "मैथ मोड - $...$"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:374
 #, fuzzy, kde-format
 msgid "Displaymath Mode - \\[...\\]"
 msgstr "मैथ मोड - $...$"
 
-#: kilestdactions.cpp:377
+#: kilestdactions.cpp:374
 #, kde-format
 msgid "Displaymath Mode"
 msgstr ""
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:375
 #, fuzzy, kde-format
 msgid "Equation - \\begin{equation}"
 msgstr "कोटेशन - \\begin{quotation}"
 
-#: kilestdactions.cpp:378
+#: kilestdactions.cpp:375
 #, fuzzy, kde-format
 msgid "Equation"
 msgstr "सम्बन्ध चिह्न"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:376
 #, kde-format
 msgid "Subscript - _{}"
 msgstr "सब्स्क्रिप्ट - ^{}"
 
-#: kilestdactions.cpp:379
+#: kilestdactions.cpp:376
 #, fuzzy, kde-format
 msgid "Subscript"
 msgstr "स्क्रिप्ट-साइज़"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:377
 #, kde-format
 msgid "Superscript - ^{}"
 msgstr "सुपरस्क्रिप्ट - ^{}"
 
-#: kilestdactions.cpp:380
+#: kilestdactions.cpp:377
 #, fuzzy, kde-format
 #| msgid "Superscript - ^{}"
 msgid "Superscript"
 msgstr "सुपरस्क्रिप्ट - ^{}"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:378
 #, fuzzy, kde-format
 msgid "Normal Fraction - \\frac{}{}"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:381
+#: kilestdactions.cpp:378
 #, fuzzy, kde-format
 msgid "Normal Fraction"
 msgstr "खण्ड (&S)"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:379
 #, fuzzy, kde-format
 msgid "Displaystyle Fraction - \\dfrac{}{}"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:382
+#: kilestdactions.cpp:379
 #, fuzzy, kde-format
 msgid "Displaystyle Fraction"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:380
 #, fuzzy, kde-format
 msgid "Textstyle Fraction - \\tfrac{}{}"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:383
+#: kilestdactions.cpp:380
 #, fuzzy, kde-format
 msgid "Textstyle Fraction"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:384
+#: kilestdactions.cpp:381
 #, fuzzy, kde-format
 msgid "Square Root - \\sqrt{}"
 msgstr "वर्ग मूल - \\sqrt{}"
 
-#: kilestdactions.cpp:384
+#: kilestdactions.cpp:381
 #, fuzzy, kde-format
 msgid "Square Root"
 msgstr "वर्ग मूल - \\sqrt{}"
 
-#: kilestdactions.cpp:385
+#: kilestdactions.cpp:382
 #, kde-format
 msgid "\\left"
 msgstr ""
 
-#: kilestdactions.cpp:386
+#: kilestdactions.cpp:383
 #, fuzzy, kde-format
 msgid "\\right"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:387
+#: kilestdactions.cpp:384
 #, kde-format
 msgid "Array - \\begin{array}"
 msgstr "ऐरे - \\begin{array}"
 
-#: kilestdactions.cpp:388
+#: kilestdactions.cpp:385
 #, kde-format
 msgid ""
 "\\begin{array}{col1col2...coln}\n"
@@ -9222,522 +9220,522 @@ msgid ""
 "     r -- for flush right\n"
 msgstr ""
 
-#: kilestdactions.cpp:391
+#: kilestdactions.cpp:388
 #, kde-format
 msgid "Left Delimiter"
 msgstr "बायाँ डेलिमिटर"
 
-#: kilestdactions.cpp:393
+#: kilestdactions.cpp:390
 #, kde-format
 msgid "left ("
 msgstr ""
 
-#: kilestdactions.cpp:394
+#: kilestdactions.cpp:391
 #, kde-format
 msgid "left ["
 msgstr ""
 
-#: kilestdactions.cpp:395
+#: kilestdactions.cpp:392
 #, kde-format
 msgid "left {"
 msgstr ""
 
-#: kilestdactions.cpp:396
+#: kilestdactions.cpp:393
 #, kde-format
 msgid "left &lt;"
 msgstr ""
 
-#: kilestdactions.cpp:398
+#: kilestdactions.cpp:395
 #, kde-format
 msgid "left )"
 msgstr ""
 
-#: kilestdactions.cpp:399
+#: kilestdactions.cpp:396
 #, kde-format
 msgid "left ]"
 msgstr ""
 
-#: kilestdactions.cpp:400
+#: kilestdactions.cpp:397
 #, kde-format
 msgid "left }"
 msgstr ""
 
-#: kilestdactions.cpp:401
+#: kilestdactions.cpp:398
 #, kde-format
 msgid "left &gt;"
 msgstr ""
 
-#: kilestdactions.cpp:403
+#: kilestdactions.cpp:400
 #, kde-format
 msgid "left ."
 msgstr ""
 
-#: kilestdactions.cpp:405
+#: kilestdactions.cpp:402
 #, kde-format
 msgid "Right Delimiter"
 msgstr "दायाँ डेलिमिटर"
 
-#: kilestdactions.cpp:407
+#: kilestdactions.cpp:404
 #, fuzzy, kde-format
 msgid "right )"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:408
+#: kilestdactions.cpp:405
 #, fuzzy, kde-format
 msgid "right ]"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:409
+#: kilestdactions.cpp:406
 #, fuzzy, kde-format
 msgid "right }"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:410
+#: kilestdactions.cpp:407
 #, fuzzy, kde-format
 msgid "right &gt;"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:412
+#: kilestdactions.cpp:409
 #, fuzzy, kde-format
 msgid "right ("
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:413
+#: kilestdactions.cpp:410
 #, fuzzy, kde-format
 msgid "right ["
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:414
+#: kilestdactions.cpp:411
 #, fuzzy, kde-format
 msgid "right {"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:415
+#: kilestdactions.cpp:412
 #, fuzzy, kde-format
 msgid "right &lt;"
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:417
+#: kilestdactions.cpp:414
 #, fuzzy, kde-format
 msgid "right ."
 msgstr "ऊँचाईः"
 
-#: kilestdactions.cpp:422
+#: kilestdactions.cpp:419
 #, fuzzy, kde-format
 msgid "Normal Binomial - \\binom{}{}"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:422
+#: kilestdactions.cpp:419
 #, fuzzy, kde-format
 msgid "Normal Binomial"
 msgstr "सामान्य मोड"
 
-#: kilestdactions.cpp:424
+#: kilestdactions.cpp:421
 #, fuzzy, kde-format
 msgid "Displaystyle Binomial - \\dbinom{}{}"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:424
+#: kilestdactions.cpp:421
 #, fuzzy, kde-format
 msgid "Displaystyle Binomial"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:426
+#: kilestdactions.cpp:423
 #, fuzzy, kde-format
 msgid "Textstyle Binomial - \\tbinom{}{}"
 msgstr "भिन्न - \\frac{}{}"
 
-#: kilestdactions.cpp:426
+#: kilestdactions.cpp:423
 #, kde-format
 msgid "Textstyle Binomial"
 msgstr ""
 
-#: kilestdactions.cpp:428
+#: kilestdactions.cpp:425
 #, fuzzy, kde-format
 msgid "N-th Root - \\sqrt[]{}"
 msgstr "वर्ग मूल - \\sqrt{}"
 
-#: kilestdactions.cpp:428
+#: kilestdactions.cpp:425
 #, kde-format
 msgid "N-th Root"
 msgstr ""
 
-#: kilestdactions.cpp:430
+#: kilestdactions.cpp:427
 #, kde-format
 msgid "Left-Right () - \\left(..\\right)"
 msgstr ""
 
-#: kilestdactions.cpp:430
+#: kilestdactions.cpp:427
 #, kde-format
 msgid "Left-Right ()"
 msgstr ""
 
-#: kilestdactions.cpp:432
+#: kilestdactions.cpp:429
 #, kde-format
 msgid "Extendable Left Arrow - \\xleftarrow{}"
 msgstr ""
 
-#: kilestdactions.cpp:432
+#: kilestdactions.cpp:429
 #, kde-format
 msgid "Extendable Left Arrow"
 msgstr ""
 
-#: kilestdactions.cpp:434
+#: kilestdactions.cpp:431
 #, kde-format
 msgid "Extendable Right Arrow - \\xrightarrow{}"
 msgstr ""
 
-#: kilestdactions.cpp:434
+#: kilestdactions.cpp:431
 #, kde-format
 msgid "Extendable Right Arrow"
 msgstr ""
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:433
 #, kde-format
 msgid "Boxed Formula - \\boxed{}"
 msgstr ""
 
-#: kilestdactions.cpp:436
+#: kilestdactions.cpp:433
 #, kde-format
 msgid "Boxed Formula"
 msgstr ""
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:435
 #, kde-format
 msgid "bigl - \\bigl"
 msgstr ""
 
-#: kilestdactions.cpp:438
+#: kilestdactions.cpp:435
 #, kde-format
 msgid "bigl"
 msgstr ""
 
-#: kilestdactions.cpp:439
+#: kilestdactions.cpp:436
 #, kde-format
 msgid "Bigl - \\Bigl"
 msgstr ""
 
-#: kilestdactions.cpp:439
+#: kilestdactions.cpp:436
 #, fuzzy, kde-format
 #| msgid "Build"
 msgid "Bigl"
 msgstr "बिल्ड"
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "biggl - \\biggl"
 msgstr ""
 
-#: kilestdactions.cpp:440
+#: kilestdactions.cpp:437
 #, kde-format
 msgid "biggl"
 msgstr ""
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:438
 #, kde-format
 msgid "Biggl - \\Biggl"
 msgstr ""
 
-#: kilestdactions.cpp:441
+#: kilestdactions.cpp:438
 #, fuzzy, kde-format
 #| msgid "Build"
 msgid "Biggl"
 msgstr "बिल्ड"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:440
 #, fuzzy, kde-format
 msgid "bigr - \\bigr"
 msgstr "आकृति - \\begin{figure}"
 
-#: kilestdactions.cpp:443
+#: kilestdactions.cpp:440
 #, kde-format
 msgid "bigr"
 msgstr ""
 
-#: kilestdactions.cpp:444
+#: kilestdactions.cpp:441
 #, kde-format
 msgid "Bigr - \\Bigr"
 msgstr ""
 
-#: kilestdactions.cpp:444
+#: kilestdactions.cpp:441
 #, fuzzy, kde-format
 #| msgid "Binary"
 msgid "Bigr"
 msgstr "द्विचर"
 
-#: kilestdactions.cpp:445
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "biggr - \\biggr"
 msgstr ""
 
-#: kilestdactions.cpp:445
+#: kilestdactions.cpp:442
 #, kde-format
 msgid "biggr"
 msgstr ""
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "Biggr - \\Biggr"
 msgstr ""
 
-#: kilestdactions.cpp:446
+#: kilestdactions.cpp:443
 #, kde-format
 msgid "Biggr"
 msgstr ""
 
-#: kilestdactions.cpp:449
+#: kilestdactions.cpp:446
 #, fuzzy, kde-format
 msgid "Text in Mathmode - \\text{}"
 msgstr "टाइपराइटर - \\texttt{}"
 
-#: kilestdactions.cpp:449
+#: kilestdactions.cpp:446
 #, fuzzy, kde-format
 msgid "Text in Mathmode"
 msgstr "टाइपराइटर - \\texttt{}"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:448
 #, fuzzy, kde-format
 msgid "Intertext - \\intertext{}"
 msgstr "टाइपराइटर - \\texttt{}"
 
-#: kilestdactions.cpp:451
+#: kilestdactions.cpp:448
 #, fuzzy, kde-format
 msgid "Intertext"
 msgstr "पाठ प्रविष्ट करें"
 
-#: kilestdactions.cpp:454
+#: kilestdactions.cpp:451
 #, fuzzy, kde-format
 msgid "Displaymath - \\begin{displaymath}"
 msgstr "सूची - \\begin{list}"
 
-#: kilestdactions.cpp:454
+#: kilestdactions.cpp:451
 #, kde-format
 msgid "Displaymath"
 msgstr ""
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:453
 #, fuzzy, kde-format
 msgid "Equation (not numbered) - \\begin{equation*}"
 msgstr "समीकरण एनवायरनमेंट - \\begin{equation}"
 
-#: kilestdactions.cpp:456
+#: kilestdactions.cpp:453
 #, fuzzy, kde-format
 msgid "Equation (not numbered)"
 msgstr "समीकरण एनवायरनमेंट - \\begin{equation}"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:456
 #, fuzzy, kde-format
 msgid "Multline - \\begin{multline}"
 msgstr "कोट - \\begin{quote}"
 
-#: kilestdactions.cpp:459
+#: kilestdactions.cpp:456
 #, fuzzy, kde-format
 #| msgid "line"
 msgid "Multline"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:460
+#: kilestdactions.cpp:457
 #, fuzzy, kde-format
 msgid "Multline* - \\begin{multline*}"
 msgstr "कोट - \\begin{quote}"
 
-#: kilestdactions.cpp:460
+#: kilestdactions.cpp:457
 #, fuzzy, kde-format
 #| msgid "line"
 msgid "Multline*"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:459
 #, fuzzy, kde-format
 msgid "Split - \\begin{split}"
 msgstr "सूची - \\begin{list}"
 
-#: kilestdactions.cpp:462
+#: kilestdactions.cpp:459
 #, fuzzy, kde-format
 #| msgid "Split Cells"
 msgid "Split"
 msgstr "कोष्ठ तोडें"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:461
 #, fuzzy, kde-format
 msgid "Gather - \\begin{gather}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:464
+#: kilestdactions.cpp:461
 #, fuzzy, kde-format
 #| msgid "Other"
 msgid "Gather"
 msgstr "अन्य"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:462
 #, fuzzy, kde-format
 msgid "Gather* - \\begin{gather*}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:465
+#: kilestdactions.cpp:462
 #, fuzzy, kde-format
 #| msgid "Other"
 msgid "Gather*"
 msgstr "अन्य"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:464
 #, fuzzy, kde-format
 msgid "Align - \\begin{align}"
 msgstr "दायाँ पंक्तिबद्ध - \\begin{flushright}"
 
-#: kilestdactions.cpp:467
+#: kilestdactions.cpp:464
 #, fuzzy, kde-format
 msgid "Align"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:465
 #, fuzzy, kde-format
 msgid "Align* - \\begin{align*}"
 msgstr "दायाँ पंक्तिबद्ध - \\begin{flushright}"
 
-#: kilestdactions.cpp:468
+#: kilestdactions.cpp:465
 #, fuzzy, kde-format
 msgid "Align*"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:467
 #, fuzzy, kde-format
 msgid "Flalign - \\begin{flalign}"
 msgstr "आकृति - \\begin{figure}"
 
-#: kilestdactions.cpp:470
+#: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign"
 msgstr ""
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:468
 #, fuzzy, kde-format
 msgid "Flalign* - \\begin{flalign*}"
 msgstr "आकृति - \\begin{figure}"
 
-#: kilestdactions.cpp:471
+#: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign*"
 msgstr ""
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:470
 #, fuzzy, kde-format
 msgid "Alignat - \\begin{alignat}"
 msgstr "दायाँ पंक्तिबद्ध - \\begin{flushright}"
 
-#: kilestdactions.cpp:473
+#: kilestdactions.cpp:470
 #, fuzzy, kde-format
 msgid "Alignat"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:471
 #, fuzzy, kde-format
 msgid "Alignat* - \\begin{alignat*}"
 msgstr "दायाँ पंक्तिबद्ध - \\begin{flushright}"
 
-#: kilestdactions.cpp:474
+#: kilestdactions.cpp:471
 #, fuzzy, kde-format
 msgid "Alignat*"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:476
+#: kilestdactions.cpp:473
 #, fuzzy, kde-format
 msgid "Aligned - \\begin{aligned}"
 msgstr "आकृति - \\begin{figure}"
 
-#: kilestdactions.cpp:476
+#: kilestdactions.cpp:473
 #, fuzzy, kde-format
 msgid "Aligned"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:474
 #, fuzzy, kde-format
 msgid "Gathered - \\begin{gathered}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:477
+#: kilestdactions.cpp:474
 #, fuzzy, kde-format
 #| msgid "Other"
 msgid "Gathered"
 msgstr "अन्य"
 
-#: kilestdactions.cpp:478
+#: kilestdactions.cpp:475
 #, fuzzy, kde-format
 msgid "Alignedat - \\begin{alignedat}"
 msgstr "बायाँ पंक्तिबद्ध - \\begin{flushleft}"
 
-#: kilestdactions.cpp:478
+#: kilestdactions.cpp:475
 #, fuzzy, kde-format
 msgid "Alignedat"
 msgstr "लकीर"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:477
 #, fuzzy, kde-format
 msgid "Cases - \\begin{cases}"
 msgstr "टेबल - \\begin{table}"
 
-#: kilestdactions.cpp:480
+#: kilestdactions.cpp:477
 #, fuzzy, kde-format
 #| msgid "Class"
 msgid "Cases"
 msgstr "क्लास"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:479
 #, fuzzy, kde-format
 msgid "matrix - \\begin{matrix}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:482
+#: kilestdactions.cpp:479
 #, kde-format
 msgid "matrix"
 msgstr ""
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:480
 #, fuzzy, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:483
+#: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:481
 #, fuzzy, kde-format
 msgid "vmatrix - \\begin{vmatrix}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:484
+#: kilestdactions.cpp:481
 #, kde-format
 msgid "vmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:485
+#: kilestdactions.cpp:482
 #, fuzzy, kde-format
 msgid "Vmatrix - \\begin{Vmatrix}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:485
+#: kilestdactions.cpp:482
 #, kde-format
 msgid "Vmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:486
+#: kilestdactions.cpp:483
 #, fuzzy, kde-format
 msgid "bmatrix - \\begin{bmatrix}"
 msgstr "एकसार एनवायरनमेंट - \\begin{verbatim}"
 
-#: kilestdactions.cpp:486
+#: kilestdactions.cpp:483
 #, kde-format
 msgid "bmatrix"
 msgstr ""
 
-#: kilestdactions.cpp:487
+#: kilestdactions.cpp:484
 #, fuzzy, kde-format
 msgid "Bmatrix - \\begin{Bmatrix}"
 msgstr "केंद्र - \\begin{center}"
 
-#: kilestdactions.cpp:487
+#: kilestdactions.cpp:484
 #, kde-format
 msgid "Bmatrix"
 msgstr ""

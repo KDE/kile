@@ -11106,7 +11106,7 @@ msgstr "Federico Zenith"
 #: main.cpp:142
 #, kde-format
 msgid "Jump to line"
-msgstr "Salta a la línia"
+msgstr "Salta fins a la línia"
 
 #: main.cpp:143
 #, kde-format

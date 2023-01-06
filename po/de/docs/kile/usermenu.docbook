@@ -1,85 +1,53 @@
 <chapter id="id_usermenu">
-<title
->Benutzerdefinierte Menüs</title>
+<title>User-Configurable Menu</title>
 
 <sect1 id="id_usermenu_configuration">
-<title
->Einrichtung</title>
+<title>Configuration</title>
 
-<para
->In &kile; können benutzerdefinierte Menüs verwendet werden, die im Hauptmenü von &kile; eingefügt werden. Dieses Menü kann im Einrichtungsdialog von &kile; bearbeitet werden. Wählen Sie dazu <menuchoice
-><guimenu
->Einstellungen</guimenu
-><guisubmenu
->Kile einrichten ...</guisubmenu
-><guimenuitem
->Benutzermenü</guimenuitem
-></menuchoice
->.</para>
+<para>&kile; supports a user-configurable menu, which will appear as a part of &kile;'s menu. This menu can be configured using &kile;'s configuration dialog with <menuchoice><guimenu>Settings</guimenu><guisubmenu>Configure Kile</guisubmenu><guimenuitem>User Menu</guimenuitem></menuchoice>.</para>
 
 	<screenshot>
-		<screeninfo
->Einrichtung des Benutzermenüs</screeninfo>
+		<screeninfo>Configure the user menu</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_01.png" format="PNG"/>
+		<imagedata fileref="usermenu_01.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Einrichtung des Benutzermenüs</phrase>
+		<phrase>Configure the user menu</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Es gibt zwei Möglichkeiten, dieses Menü anzuordnen:</para>
+<para>You have two options where to place this menu:</para>
 
 <itemizedlist>
 <listitem>
-<para
->Entweder der Menüeintrag <guilabel
->Benutzermenü</guilabel
-> wird im Hauptmenü zwischen den Menüeinträgen <guilabel
->LaTeX</guilabel
-> und <guilabel
->Assistent</guilabel
-> und der Einrichtungsassistent <guilabel
->Benutzermenü bearbeiten</guilabel
-> im Menü <guilabel
->Assistent</guilabel
-> angezeigt</para>
+<para>either the menu <guimenu>User Menu</guimenu> will appear in the main menu bar between the menus <guimenu>LaTeX</guimenu> and <guimenu>Wizard</guimenu> and the configuration wizard <guimenuitem>Edit User Menu</guimenuitem> in the <guimenu>Wizard</guimenu> menu</para>
 
 	<screenshot>
-		<screeninfo
->Benutzermenü im Hauptmenü</screeninfo>
+		<screeninfo>User Menu is placed in the main menu</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_02.png" format="PNG"/>
+		<imagedata fileref="usermenu_02.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Benutzermenü im Hauptmenü</phrase>
+		<phrase>User Menu is placed in the main menu</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
 <listitem>
-<para
->oder beide Einträge werden am Ende des Menüs <guilabel
->LaTeX</guilabel
-> angefügt.</para>
+<para>or both items will appear at the bottom of the <guimenu>LaTeX</guimenu> menu.</para>
 
 	<screenshot>
-		<screeninfo
->Benutzermenü als Teil des LaTeX-Menüs</screeninfo>
+		<screeninfo>User Menu as a part of the LaTeX menu</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_03.png" format="PNG"/>
+		<imagedata fileref="usermenu_03.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Benutzermenü als Teil des LaTeX-Menüs</phrase>
+		<phrase>User Menu as a part of the LaTeX menu</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
@@ -87,149 +55,83 @@
 </itemizedlist>
 
 
-<para
->Bereits vorhandene benutzerdefinierte Tags aus früheren &kile;-Versionen werden automatisch in das neue benutzerdefinierte Menu umgewandelt. Diese Tags sind in der Datei <filename
->usertags.xml</filename
-> gespeichert. Wie alle Menüdefinitionsdateien finden Sie diese Dateien im lokalen Benutzermenü-Ordner von &kile;: <filename
->KILE_APP_DIR/usermenu/</filename
->, &eg; <filename
->/home/user/.kde/share/apps/kile/usermenu/</filename
->.</para>
+<para>Already existing user-defined tags from older versions of &kile; are automatically transformed into the new user-configurable menu. The tags are saved in a file called <filename>usertags.xml</filename> and like all menu definition files, they can be found in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>, &eg; <filename>/home/user/.kde/share/apps/kile/usermenu/</filename>.</para>
 
-<para
->Es können mehrere Menüdefinitionsdateien für unterschiedliche Aufgaben benutzt werden. Wählen Sie <menuchoice
-><guimenu
->Assistent</guimenu
-><guisubmenu
->Benutzermenü bearbeiten</guisubmenu
-></menuchoice
-> oder <menuchoice
-><guimenu
->LaTeX</guimenu
-><guisubmenu
->Benutzermenü bearbeiten</guisubmenu
-></menuchoice
->, um Menüdefinitionsdateien zu installieren oder zu bearbeiten.</para>
+<para>You can use different menu definition files for different tasks. Call the user menu wizard <menuchoice><guimenu>Wizard</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> or <menuchoice><guimenu>LaTeX</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice> to install or edit a menu definition file.</para>
 
 </sect1>
 
 
 <sect1 id="id_usermenu_wizard">
-<title
->Assistent</title>
+<title>Wizard</title>
 
-<para
->Sie können neue Menüs erstellen oder vorhandene bearbeiten, indem Sie mit <menuchoice
-><guimenu
->Assistent</guimenu
-><guisubmenu
->Benutzermenü bearbeiten</guisubmenu
-></menuchoice
-> den Assistenten für das Benutzermenü aufrufen.</para>
+<para>You can create new or change existing menus with a comfortable user menu configuration wizard found at <menuchoice><guimenu>Wizard</guimenu><guisubmenu>Edit User Menu</guisubmenu></menuchoice>.</para>
 
 	<screenshot>
-		<screeninfo
->Benutzermenü-Assistent</screeninfo>
+		<screeninfo>User Menu Wizard</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_04.png" format="PNG"/>
+		<imagedata fileref="usermenu_04.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Benutzermenü-Assistent</phrase>
+		<phrase>User Menu Wizard</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Auf der linken Seite finden Sie die vorhandene Menüstruktur. Wie im Standardmenü gibt es drei verschiedene Arten von Einträgen:</para>
+<para>On the left side you will see an existing menu-tree. Like a standard menu, three different kinds of menu items are available:</para>
 
 <itemizedlist>
-<listitem
-><para
->Standard-Menüeinträge, denen eine Aktion zugewiesen ist</para
-></listitem>
-<listitem
-><para
->Untermenüs, die weitere Menüeinträge enthalten</para
-></listitem>
-<listitem
-><para
->Trennlinien zur visuellen Strukturierung aller Einträge.</para
-></listitem>
+<listitem><para>standard menu entries, which are assigned to an action</para></listitem>
+<listitem><para>submenus, which contain more menu items</para></listitem>
+<listitem><para>separators, to get a visible structure of all entries.</para></listitem>
 </itemizedlist>
 
-<para
->Um dieses Menü zu bearbeiten, verwenden Sie die sechs Knöpfe links unter der Menüstruktur. Weitere Aktionen erreichen Sie über das Kontextmenü bereits vorhandener Menüeinträge.</para>
+<para>To modify this menu, use the six buttons on the left side. More possible actions are available in the context menu of already existing menu items.</para>
 
 	<screenshot>
-		<screeninfo
->Benutzerdefinierte Menüstruktur</screeninfo>
+		<screeninfo>User-Defined Menutree</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_05.png" format="PNG"/>
+		<imagedata fileref="usermenu_05.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Benutzerdefinierte Menüstruktur</phrase>
+		<phrase>User-Defined Menutree</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Jedem Standardmenüeintrag ist einer von drei Aktionsarten zugewiesen, jede Aktionsart hat andere einstellbare Attribute:</para>
+<para>Each standard menu item is assigned to one of three action types, where each of them has different attributes, which could be set:</para>
 
 <itemizedlist>
-<listitem
-><para
-><guilabel
->Text:</guilabel
->&nbsp; Mit &kile; können Sie ihre eigenen Tags erstellen. Ein Tag funktioniert etwa wie ein Kurzbefehl, der einen Befehl aufruft oder häufig gebrauchte Texte einfügt, &eg; oft benutzte Sätze wie  <userinput
->Hi, Ich bin eingefügt worden ...</userinput
->. Dieses Tag Tag wird an der aktuellen Cursor-Position, wenn die Aktion wie oben erläutert aufgerufen wird. Platzhalter können ebenfalls benutzt werden, siehe <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>.</para>
+<listitem><para><guilabel>Text:</guilabel>&nbsp; &kile; gives you the ability to make your own tags. A tag is similar to a shortcut that launches some command or writes frequently-used texts, &eg; Joe Sixpack often uses the sentences <userinput>Hi, I have been inserted ...</userinput>. This tag will be inserted at the current cursor position, when this action is called (see above). Metachars are also available (see <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
 </listitem>
 
-<listitem
-><para
-><guilabel
->Datei-Inhalt einfügen:</guilabel
->&nbsp; Fügt den gesamten Inhalt einer angegeben Datei ein.</para>
+<listitem><para><guilabel>Insert file contents:</guilabel>&nbsp; Inserts the complete contents of a given file.</para>
 
 	<screenshot>
-		<screeninfo
->Datei-Inhalt einfügen</screeninfo>
+		<screeninfo>Insert file contents</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_06a.png" format="PNG"/>
+		<imagedata fileref="usermenu_06a.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Datei-Inhalt einfügen</phrase>
+		<phrase>Insert file contents</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
-  <listitem
-><para
-><guilabel
->Externes Programm ausführen</guilabel
->&nbsp; Die Ausgaben des Programms können in das geöffnete Dokument eingefügt werden. Der Platzhalter <userinput
->%M</userinput
-> ist auch in der Befehlszeile des Programms verfügbar, da der markierte Text in einer temporären Datei gespeichert wird. Verwenden Sie <userinput
->%M</userinput
-> als Dateinamen für diese temporäre Datei.</para>
+  <listitem><para><guilabel>Execute an external program:</guilabel>&nbsp; The output of this program can be inserted into the opened document. Metachar <userinput>%M</userinput> is also possible in the command line of this program, as the selected text will be saved in a temporary file. Use <userinput>%M</userinput> for the filename of this temporary file.</para>
 
 	<screenshot>
-		<screeninfo
->Externes Programm ausführen</screeninfo>
+		<screeninfo>Execute an external program</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_06b.png" format="PNG"/>
+		<imagedata fileref="usermenu_06b.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Externes Programm ausführen</phrase>
+		<phrase>Execute an external program</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
@@ -237,291 +139,190 @@
 
 </itemizedlist>
 
-<para
->Sollten wichtige Informationen für eine Aktion fehlen, werden Menüeinträge in roter Farbe dargestellt. Es kann eine nicht vorhandene Datei sein</para>
+<para>If some important information for an action is missing, menu items are colored red. This may be a nonexisting file</para>
 
 	<screenshot>
-		<screeninfo
->Nicht vorhandene Datei</screeninfo>
+		<screeninfo>Nonexisting file</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_07a.png" format="PNG"/>
+		<imagedata fileref="usermenu_07a.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Nicht vorhandene Datei</phrase>
+		<phrase>Nonexisting file</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->oder ein fehlender Titel eines Menüeintrags, was mit Fragezeichen wie <userinput
->???</userinput
-> angezeigt wird.</para>
+<para>or a missing title for the menu entry, which will be shown with question marks as <userinput>???</userinput>.</para>
 
 	<screenshot>
-		<screeninfo
->Fehlender Titel eines Menüeintrags</screeninfo>
+		<screeninfo>Missing title of a menu entry</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_07b.png" format="PNG"/>
+		<imagedata fileref="usermenu_07b.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Fehlender Titel eines Menüeintrags</phrase>
+		<phrase>Missing title of a menu entry</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Öffnen Sie das Kontextmenü eines rot angezeigten Menüeintrags, erhalten Sie zusätzliche Informationen über die Fehler.</para>
+<para>If you open the context menu of such a red colored menu item, you will get an additional option for more information concerning this error.</para>
 
 	<screenshot>
-		<screeninfo
->Zusätzliche Informationen</screeninfo>
+		<screeninfo>Additional info</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_07c.png" format="PNG"/>
+		<imagedata fileref="usermenu_07c.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Zusätzliche Informationen</phrase>
+		<phrase>Additional info</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Weitere Informationen für die meisten Elemente finden Sie in der entsprechenden <guilabel
->Was ist das?</guilabel
->-Hilfe.</para>
+<para>More information may also be available using the <guilabel>What's this</guilabel> feature of most widgets.</para>
 
 </sect1>
 
 
 <sect1 id="id_usermenu_placeholders">
-<title
->Platzhalter</title>
+<title>Placeholders</title>
 
 <sect2 id="id_usermenu_placeholders_text">
-<title
->Text einfügen</title>
+<title>Insert Text</title>
 
-<para
->Es gibt einige Platzhalter, die Sie in benutzerdefinierten Tags verwenden können: <userinput
->%C</userinput
->, <userinput
->%B</userinput
->, <userinput
->%M</userinput
->, <userinput
->%E</userinput
->, <userinput
->%R</userinput
-> und <userinput
->%T</userinput
->.</para>
+<para>There are some placeholders you can use in your user-defined tags: <userinput>%C</userinput>, <userinput>%B</userinput>, <userinput>%M</userinput>, <userinput>%E</userinput>, <userinput>%R</userinput> and <userinput>%T</userinput>.</para>
 
 <itemizedlist>
 <listitem>
-<para
-><userinput
->%C</userinput
->:&nbsp; An diese Stelle wird der Cursor nach dem Einfügen des benutzerdefinierten Tags gesetzt.</para>
+<para><userinput>%C</userinput>:&nbsp; this is where the cursor will be placed after the insertion of a user-defined tag.</para>
 
 	<screenshot>
-		<screeninfo
->Cursor-Position (%C)</screeninfo>
+		<screeninfo>Cursor Position (%C)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_08a.png" format="PNG"/>
+		<imagedata fileref="usermenu_08a.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Cursor-Position (%C)</phrase>
+		<phrase>Cursor Position (%C)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
 <listitem>
-<para
-><userinput
->%B</userinput
->:&nbsp; wird durch eine Sprungmarke ersetzt (siehe <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
+<para><userinput>%B</userinput>:&nbsp; will be replaced by a bullet (see <xref linkend="editing_bullets" role="select: title pageabbrv"/>).</para>
 
 	<screenshot>
-		<screeninfo
->Sprungmarke (%B)</screeninfo>
+		<screeninfo>Bullet (%B)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_08b.png" format="PNG"/>
+		<imagedata fileref="usermenu_08b.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Sprungmarke (%B)</phrase>
+		<phrase>Bullet (%B)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
 <listitem>
-<para
-><userinput
->%M</userinput
->:&nbsp; wird durch den ausgewählten Text ersetzt.</para>
+<para><userinput>%M</userinput>:&nbsp; will be replaced by the selected text.</para>
 
 	<screenshot>
-		<screeninfo
->Ausgewählter Text (%M)</screeninfo>
+		<screeninfo>Selected Text (%M)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_08c.png" format="PNG"/>
+		<imagedata fileref="usermenu_08c.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Ausgewählter Text (%M)</phrase>
+		<phrase>Selected Text (%M)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
 <listitem>
-<para
-><userinput
->%E</userinput
->:&nbsp; Bestimmt die Einrückungstiefe von Text in einer Umgebung.</para>
+<para><userinput>%E</userinput>:&nbsp; denotes the indentation depth of text inside an environment.</para>
 
 	<screenshot>
-		<screeninfo
->Einrückung von Umgebungstext (%E)</screeninfo>
+		<screeninfo>Indentation of environment text (%E)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_08d.png" format="PNG"/>
+		<imagedata fileref="usermenu_08d.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Einrückung von Umgebungstext (%E)</phrase>
+		<phrase>Indentation of environment text (%E)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
 <listitem>
-<para
-><userinput
->%R</userinput
->:&nbsp; öffnet einen Referenzdialog, in dem Sie ein bereits vorher definiertes Label wählen können. Die kann benutzt werden, um eine Referenz zu einem bereits definierten aus einem Auswahlfeld auszusuchen , siehe auch <menuchoice
-><guimenu
->LaTeX</guimenu
-><guimenuitem
->Referenzen</guimenuitem
-><guimenuitem
->ref</guimenuitem
-></menuchoice
-> oder <menuchoice
-><guimenu
->LaTeX</guimenu
-><guimenuitem
->Referenzen</guimenuitem
-><guimenuitem
->pageref</guimenuitem
-></menuchoice
->).</para>
+<para><userinput>%R</userinput>:&nbsp; will call a reference-dialog to choose a label which has already been defined. This can be used to refer to a predefined label, which you can choose from a drop-down list (see also <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>ref</guimenuitem></menuchoice> or
+<menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>pageref</guimenuitem></menuchoice>).</para>
 
 	<screenshot>
-		<screeninfo
->Referenzen (%R)</screeninfo>
+		<screeninfo>References (%R)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_08e.png" format="PNG"/>
+		<imagedata fileref="usermenu_08e.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Referenzen (%R)</phrase>
+		<phrase>References (%R)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 
 <listitem>
-<para
-><userinput
->%T</userinput
->:&nbsp; öffnet den Zitierungsdialog auf, um eine bereits definierte Zitierung zu wählen. Wie mit <menuchoice
-><guimenu
->LaTeX</guimenu
-><guimenuitem
->Referenzen</guimenuitem
-><guimenuitem
->cite</guimenuitem
-></menuchoice
-> wird ein Dialog mit allen Zitierungsschlüsseln zur Auswahl angeboten.</para>
+<para><userinput>%T</userinput>:&nbsp; will call a citation-dialog to choose an already defined citation. The same as using <menuchoice><guimenu>LaTeX</guimenu><guimenuitem>References</guimenuitem><guimenuitem>cite</guimenuitem></menuchoice> a list with all the citation keys pops up.</para>
 
 	<screenshot>
-		<screeninfo
->Zitierung (%T)</screeninfo>
+		<screeninfo>Citation Keys (%T)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_08f.png" format="PNG"/>
+		<imagedata fileref="usermenu_08f.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Zitierung (%T)</phrase>
+		<phrase>Citation Keys (%T)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 </listitem>
 </itemizedlist>
 
-<para
->Betrachten Sie ein Makro wie zum Beispiel <userinput
->\frac{%M}{%C}</userinput
->. Zuerst wird eine Zahl im Text ausgewählt, zum Beispiel <userinput
->42</userinput
->. Wird nun das Makro aufgerufen, wird <userinput
->\frac{42}{}</userinput
-> eingefügt und der Cursor steht im zweiten Klammerpaar.</para>
+<para>Let's consider another example, with the following macro <userinput>\frac{%M}{%C}</userinput>. First, we select a number in our text, let's say <userinput>42</userinput>.
+Now we invoke this macro and obtain <userinput>\frac{42}{}</userinput> with the cursor located within the second pair of brackets.</para>
 
 </sect2>
 
 <sect2 id="id_usermenu_placeholders_file">
-<title
->Datei-Inhalt einfügen</title>
+<title>Insert File Contents</title>
 
-<para
->Wenn Sie den Inhalt einer Textdatei einfügen möchten, können Sie den gleichen Platzhalter verwenden.</para>
+<para>If you want to insert the contents of a text file, you could use the same placeholders.</para>
 
 </sect2>
 
 <sect2 id="id_usermenu_placeholders_program">
-<title
->Ein Programm ausführen</title>
+<title>Execute A Program</title>
 
-<para
->Möchten Sie ein externes Programm ausführen, dann wird nur der Platzhalter <userinput
->%M</userinput
-> für eine Textauswahl in der Befehlszeile erkannt. Die Auswahl wird in einer temporären Datei gespeichert und der Platzhalter <userinput
->%M</userinput
-> durch diesen Dateinamen ersetzt.</para>
+<para>If you want to execute an external program, only the <userinput>%M</userinput> for selected text is recognized in the command line. The selection will be saved in a temporary file and the placeholder <userinput>%M</userinput> is replaced with this filename.</para>
 
 	<screenshot>
-		<screeninfo
->Ein externes Programm ausführen (%M)</screeninfo>
+		<screeninfo>Execute an external program (%M)</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_09.png" format="PNG"/>
+		<imagedata fileref="usermenu_09.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Ein externes Programm ausführen (%M)</phrase>
+		<phrase>Execute an external program (%M)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Ein weiterer Platzhalter ist <userinput
->%S</userinput
->, er wird durch den Basisnamen des aktuellen Dokuments ohne den Pfad ersetzt. Der Basisname enthält alle Zeichen im Dateinamen bis auf das letzte „.“-Zeichen, das ausgeschlossen ist.</para>
+<para>Another placeholder is <userinput>%S</userinput>, which is replaced by the complete base name of the current document without the path. This base name consists of all characters in the file up to (but not including) the last '.' character.</para>
 
 </sect2>
 
@@ -529,67 +330,48 @@
 
 
 <sect1 id="id_usermenu_parameter">
-<title
->Parameter</title>
+<title>Parameter</title>
 
-<para
->Die meisten Menüeinträge können zusätzliche selbsterklärende Parameter haben, die aktiviert sein können. Sind einige dieser Parameter für eine bestimmte Aktion nicht verfügbar, dann sind die Ankreuzfelder deaktiviert.</para>
+<para>Most menu entries may have additional self-explaining parameters, which may be checked. If some of these parameters are not available for some kind of action, they are disabled.</para>
 
 	<screenshot>
-		<screeninfo
->Parameter in Benutzermenüs</screeninfo>
+		<screeninfo>User Menu Parameter</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_10.png" format="PNG"/>
+		<imagedata fileref="usermenu_10.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Parameter in Benutzermenüs</phrase>
+		<phrase>User Menu Parameter</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Hier ist ein Beispiel für die Ausführung eines externen Programms:</para>
+<para>Here is one example for executing an external program:</para>
 
 	<screenshot>
-		<screeninfo
->Parameter-Beispiel</screeninfo>
+		<screeninfo>Parameter example</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_11.png" format="PNG"/>
+		<imagedata fileref="usermenu_11.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Parameter-Beispiel</phrase>
+		<phrase>Parameter example</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
-<para
->Im oben gezeigten Bildschirmfoto wird ein <userinput
->perl</userinput
->-Skript aufgerufen, dass die aktuelle Auswahl bearbeitet. Der Parameter <guilabel
->Benötigt eine Textauswahl</guilabel
-> ist aktiviert, um sicherzustellen, dass Text ausgewählt wurde. Die Ausgabe dieses Skripts wird eingefügt (<guilabel
->Ausgabe des gewählten Programms einfügen</guilabel
->) und ersetzt die aktuelle Auswahl (<guilabel
->Ausgewählten Text ersetzen</guilabel
->), ist dann aber nicht ausgewählt.</para>
+<para>You can see that a <userinput>perl</userinput> script is called, which should work with current selection. The <guilabel>Needs selected text</guilabel> parameter is checked to assure a selection. The output of this script will be inserted (<guilabel>Insert the output of the chosen program</guilabel>) and replace the current  selection (<guilabel>Replace selected text</guilabel>), but not selected itself.</para>
 
-<para
->Natürlich können Sie auch Ihre eigenen Programme und Skripte starten. Wählen Sie zum Beispiel eine durch Leerzeichen getrennte Liste von Zahlen und starten dann ein Skript oder Perl-Programm, das diese Auswahl in &latex;-Quelltext für eine Matrix umwandelt. Sie können beliebige Ideen mit Einträgen im Benutzermenü umsetzen.</para>
+<para>Of course you can also call your own programs or scripts. For example select a list of numbers, separated by spaces, and call a script or Perl program, which transforms this selection into &latex; code for a matrix. Whatever your ideas may be, you can realize them using the following usermenu entry.</para>
 
 	<screenshot>
-		<screeninfo
->Parameter-Beispiel 2</screeninfo>
+		<screeninfo>Parameter example 2</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		<imagedata fileref="usermenu_11b.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Parameter-Beispiel 2</phrase>
+		<phrase>Parameter example 2</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
@@ -598,40 +380,26 @@
 
 
 <sect1 id="id_usermenu_files">
-<title
->Menüdefinitionsdateien</title>
+<title>Menu Definition Files</title>
 
-<para
->Während der Ausführung von &kile; können Sie mehrere Menüs für verschiedenen Aufgaben laden. Wenn Sie den Benutzermenü-Assistenten aufrufen, wird die aktuelle Menüdefinitionsdatei geladen. Wenn Sie sie bearbeiten und auf <guibutton
->OK</guibutton
-> drücken, werden Ihre Änderungen gespeichert und als neues Benutzermenü installiert. Schließen Sie den Dialogs mit <guibutton
->Abbrechen</guibutton
-> verwirft alle Änderungen.</para>
+<para>You can install different menus at runtime for different tasks. When you call the user menu wizard, the current menu definition file is loaded. If you modify it and close the dialog with <guibutton>OK</guibutton>, your changes will be saved and installed as the new user menu. Closing the dialog with <guibutton>Cancel</guibutton> will discard all changes.</para>
 
 	<screenshot>
-		<screeninfo
->Menüdefinitionsdateien</screeninfo>
+		<screeninfo>Menu Definition Files</screeninfo>
 		<mediaobject>
 		<imageobject>
-		<imagedata fileref="usermenu_12.png" format="PNG"/>
+		<imagedata fileref="usermenu_12.png" format="PNG" />
 		</imageobject>
 		<textobject>
-		<phrase
->Menüdefinitionsdateien</phrase>
+		<phrase>Menu Definition Files</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
 
 
-<para
->Sie können die geänderte Datei aber auch im Ordner für Benutzermenüs speichern oder einen andere Menüdefinitionsdatei laden und installieren. Alle Menüdefinitionsdateien müssen im lokalen Ordner für Benutzermenüs von &kile; gespeichert werden: <filename
->KILE_APP_DIR/usermenu/</filename
->.</para>
+<para>You are also free to save the modified file in the user menu directory or to load another menu definition file and install it. All user menu definition files must be saved in the local user menu directory of &kile;: <filename>KILE_APP_DIR/usermenu/</filename>.</para>
 
-<para
->Im Beispiel einer Menüdefinitionsdatei <userinput
->example.xml</userinput
-> finden Sie weitere Menüeinträge mit deren Parametern.</para>
+<para>Look at the example menu definition file <userinput>example.xml</userinput> to see more menu entries with their parameters.</para>
 
 </sect1>
 

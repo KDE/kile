@@ -2713,7 +2713,7 @@ msgstr "Modifica el contingut:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:642
 #, kde-format
 msgid "Fill form fields with data:"
-msgstr "Ompliu els camps del formulari amb les dades:"
+msgstr "Empleneu els camps del formulari amb les dades:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbPrinting)
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbModify)
@@ -2733,7 +2733,7 @@ msgstr "permés"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:704
 #, kde-format
 msgid "Change or add annotations or fill form fields:"
-msgstr "Canvieu o afegiu anotacions, o ompliu els camps del formulari:"
+msgstr "Canvieu o afegiu anotacions, o empleneu els camps del formulari:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPrinting)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:782

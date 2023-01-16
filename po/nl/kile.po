@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-01-13 10:39+0100\n"
+"PO-Revision-Date: 2023-01-15 15:18+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -390,7 +390,7 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:26
 #, kde-format
 msgid "Configure"
-msgstr "Instellen"
+msgstr "Configureren"
 
 #: dialogs/configurationdialog.cpp:69 main.cpp:106
 #, kde-format

@@ -1563,7 +1563,7 @@ msgstr "no"
 #: dialogs/listselector.cpp:229
 #, kde-format
 msgid "Select Completion Files to Install Locally"
-msgstr "Selecció dels fitxers de compleció que s'han d'instal·lar localment"
+msgstr "Seleccioneu els fitxers de compleció que s'han d'instal·lar localment"
 
 #: dialogs/listselector.cpp:229
 #, kde-format
@@ -3174,7 +3174,7 @@ msgstr "(detecció automàtica)"
 #: dialogs/projectdialogs.cpp:463
 #, kde-format
 msgid "&QuickBuild configuration:"
-msgstr "Con&figuració de la construcció ràpida:"
+msgstr "&Configureu la construcció ràpida:"
 
 #: dialogs/projectdialogs.cpp:482
 #, kde-format
@@ -4033,7 +4033,7 @@ msgstr "Activa les subfigures dintre de les figures"
 #: dialogs/quickdocumentdialog.cpp:1062
 #, kde-format
 msgid "Typesetting capital Greek letters"
-msgstr "Configuració del tipus de lletres gregues majúscules"
+msgstr "Configureu el tipus de lletres gregues majúscules"
 
 #: dialogs/quickdocumentdialog.cpp:1063
 #, kde-format
@@ -4923,7 +4923,7 @@ msgstr ""
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2140
 #, kde-format
 msgid "Select File"
-msgstr "Seleccioneu el fitxer"
+msgstr "Seleccioneu un fitxer"
 
 #: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:295
 #: dialogs/usermenu/usermenutree.cpp:245 usermenu/usermenu.cpp:338
@@ -5517,7 +5517,8 @@ msgstr "Informació"
 #, kde-format
 msgid "File '%1' could not be opened to save the usermenu file."
 msgstr ""
-"No s'ha pogut obrir el fitxer «%1» per a guardar el fitxer del menú d'usuari."
+"No s'ha pogut obrir el fitxer «%1» per que es guardarà el fitxer del menú "
+"d'usuari."
 
 #: dialogs/usermenu/usermenutree.cpp:693
 #, kde-format
@@ -5602,7 +5603,7 @@ msgid ""
 "one, or click \"Cancel\" to save anyway."
 msgstr ""
 "El nom del fitxer conté caràcters no vàlids ($~ #).<br>Proporcioneu-ne un "
-"altre, o cliqueu «Cancel·la» per a guardar-lo igualment."
+"altre, o cliqueu «Cancel·la» per que es guardarà-lo igualment."
 
 #: documentinfo.cpp:134
 #, kde-format
@@ -11001,7 +11002,7 @@ msgstr "Michel Ludwig"
 #: main.cpp:112
 #, kde-format
 msgid "Project Management/Developer"
-msgstr "Gestió del projecte/Desenvolupador"
+msgstr "Gestioneu el projecte/Desenvolupador"
 
 #: main.cpp:113
 #, kde-format
@@ -11407,7 +11408,7 @@ msgid ""
 "Check whether you have a folder named \".kde\" with write permissions in "
 "your home folder."
 msgstr ""
-"No s'ha trobat cap carpeta per a guardar %1.\n"
+"No s'ha trobat cap carpeta per que es guardarà %1.\n"
 "Comproveu que teniu una carpeta anomenada «.kde» amb permisos d'escriptura "
 "en la carpeta d'inici."
 
@@ -11477,7 +11478,7 @@ msgstr "Suprimix l'abreviatura"
 #: widgets/appearanceconfigwidget.ui:14
 #, kde-format
 msgid "Appearance Configuration"
-msgstr "Configuració de l'aparença"
+msgstr "Configureu l'aparença"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowFullPathInWindowTitle)
 #: widgets/appearanceconfigwidget.ui:29
@@ -12009,7 +12010,7 @@ msgstr "Executa automàticament les eines addicionals"
 #: widgets/livepreviewconfigwidget.ui:14
 #, kde-format
 msgid "Live Preview Configuration"
-msgstr "Configuració de la vista prèvia en viu"
+msgstr "Configureu la vista prèvia en viu"
 
 #. i18n: ectx: property (title), widget (QGroupBox, kcfg_livePreviewEnabled)
 #: widgets/livepreviewconfigwidget.ui:29

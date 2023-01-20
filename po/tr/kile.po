@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-01-18 22:31+0300\n"
+"PO-Revision-Date: 2023-01-19 22:40+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1904,7 +1904,7 @@ msgstr "Hata: Ad, bir eğik çizgi '/' içeremez."
 #: dialogs/newtoolwizard.cpp:74
 #, kde-format
 msgid "Error: The name may not contain a (, ), [, or ]."
-msgstr "Hata: Ad; (, ), [, veya ] karakterlerini içeremez."
+msgstr "Hata: Ad; (, ), [ veya ] karakterlerini içeremez."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbBehavior)
 #: dialogs/newtoolwizard_class_page.ui:25
@@ -7479,7 +7479,7 @@ msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
-"Açık bir proje yok. Lütfen dosya eklemek istediğiniz projeyi açın, ve sonra "
+"Açık bir proje yok. Lütfen dosya eklemek istediğiniz projeyi açın ve sonra "
 "Dosya(lar) Ekle'yi yeniden seçin."
 
 #: kiledocmanager.cpp:1818 kiledocmanager.cpp:1853

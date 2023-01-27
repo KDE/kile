@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-01-15 15:18+0100\n"
+"PO-Revision-Date: 2023-01-26 14:27+0100\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
@@ -11862,7 +11862,7 @@ msgstr "I&nstellen..."
 #: widgets/latexconfigwidget.ui:37
 #, kde-format
 msgid "Configure..."
-msgstr "Instellen..."
+msgstr "Configureren..."
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlCommands)
 #: widgets/latexconfigwidget.ui:50

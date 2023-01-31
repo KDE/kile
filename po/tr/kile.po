@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-01-19 22:40+0300\n"
+"PO-Revision-Date: 2023-01-31 01:08+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1514,12 +1514,12 @@ msgstr "Seçili tüm dosyaları ekle"
 #: dialogs/listselector.cpp:172
 #, kde-format
 msgid "Install custom files"
-msgstr "Özel dosyaları yükle"
+msgstr "Özel dosyaları kur"
 
 #: dialogs/listselector.cpp:173
 #, kde-format
 msgid "Install your own completion files"
-msgstr "kendi derlediğiniz dosyaları yükleyin"
+msgstr "Kendi tamamlama dosyalarınızı kurun"
 
 #: dialogs/listselector.cpp:174
 #, kde-format
@@ -1553,7 +1553,7 @@ msgstr "hayır"
 #: dialogs/listselector.cpp:229
 #, kde-format
 msgid "Select Completion Files to Install Locally"
-msgstr "Yerelden Yüklenecek Tamamlama Dosyalarını Seçin"
+msgstr "Yerel Olarak Kurulacak Tamamlama Dosyalarını Seç"
 
 #: dialogs/listselector.cpp:229
 #, kde-format
@@ -1605,7 +1605,7 @@ msgstr "Kopyalama Hatası"
 #: dialogs/listselector.cpp:280
 #, kde-format
 msgid "The custom files have been installed and preselected for adding."
-msgstr "Özel dosyalar yüklendi ve eklemek için önceden seçildi."
+msgstr "Özel dosyalar kuruldu ve eklemek için önceden seçildi."
 
 #: dialogs/listselector.cpp:281
 #, kde-format
@@ -5052,8 +5052,8 @@ msgid ""
 "unpredictable results.\n"
 "Do you really want to save this file?"
 msgstr ""
-"Menü ağacı bazı hatalar içeriyor ve bu dosyayı yüklemek öngörülemeyen "
-"sonuçlar doğurabilir.\n"
+"Menü ağacı bazı hatalar içeriyor ve bu dosyayı kurmak öngörülemeyen sonuçlar "
+"doğurabilir.\n"
 "Gerçekten kaydetmek istiyor musunuz?"
 
 #: dialogs/usermenu/usermenudialog.cpp:560
@@ -5158,14 +5158,14 @@ msgstr "Menü Dosyası"
 msgid "Install an unmodified and saved menu tree as user-defined menu."
 msgstr ""
 "Düzenlenmemiş ve kaydedilmiş bir menü ağacını kullanıcı tanımlı menü olarak "
-"yükle."
+"kur."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbInstall)
 #: dialogs/usermenu/usermenudialog_base.ui:224
 #: widgets/usermenuconfigwidget.ui:86
 #, kde-format
 msgid "Install"
-msgstr "Yükle"
+msgstr "Kur"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:247

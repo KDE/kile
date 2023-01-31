@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2022-09-29 05:07+0200\n"
+"PO-Revision-Date: 2023-01-30 09:19+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.1.1\n"
+"X-Generator: Poedit 3.2.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1365,7 +1365,7 @@ msgstr "&დამატება.."
 #: dialogs/latexcommanddialog_base.ui:186
 #, kde-format
 msgid "Delete a user-defined environment."
-msgstr "მომხმარებლის მიერ აღწერილი გარემოს წაშლა"
+msgstr "მომხმარებლის მიერ აღწერილი გარემოს წაშლა."
 
 #. i18n: ectx: property (text), widget (QPushButton, deleteButton)
 #: dialogs/latexcommanddialog_base.ui:189 dialogs/quickdocumentdialog.cpp:255
@@ -1378,7 +1378,7 @@ msgstr "წა&შლა"
 #: dialogs/latexcommanddialog_base.ui:196
 #, kde-format
 msgid "Edit a user-defined environment."
-msgstr "მომხმარებლის მიერ აღწერილი გარემოს ჩასწორება"
+msgstr "მომხმარებლის მიერ აღწერილი გარემოს ჩასწორება."
 
 #. i18n: ectx: property (text), widget (QPushButton, editButton)
 #: dialogs/latexcommanddialog_base.ui:199
@@ -2467,7 +2467,7 @@ msgstr "შიფრაცია:"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:528
 #, kde-format
 msgid "Creation date:"
-msgstr "შექმნის თარიღი"
+msgstr "შექმნის თარიღი:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCreationDate)
 #. i18n: ectx: property (text), widget (QLabel, m_lbModDate)
@@ -2505,13 +2505,13 @@ msgstr "დაბეჭდვა :"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:622
 #, kde-format
 msgid "Copy text or graphics:"
-msgstr "ტექსტის ან სურათების კოპირება"
+msgstr "ტექსტის ან სურათების კოპირება:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:632
 #, kde-format
 msgid "Modify contents:"
-msgstr "შემცველობის ჩასწორება"
+msgstr "შემცველობის ჩასწორება:"
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:642
@@ -2990,7 +2990,7 @@ msgstr "&დოკუმენტის თვისებები"
 #: dialogs/quickdocumentdialog.cpp:145
 #, kde-format
 msgid "Doc&ument class:"
-msgstr "დოკუმენტის &კლასი"
+msgstr "დოკუმენტის &კლასი:"
 
 #: dialogs/quickdocumentdialog.cpp:152 dialogs/quickdocumentdialog.cpp:174
 #: dialogs/quickdocumentdialog.cpp:197
@@ -4254,7 +4254,7 @@ msgstr "ვარსკვლავდასმული ვერსიის �
 #: dialogs/tabular/newtabulardialog.cpp:154
 #, kde-format
 msgid "Table width:"
-msgstr "ცხრილის სიგანე"
+msgstr "ცხრილის სიგანე:"
 
 #: dialogs/tabular/newtabulardialog.cpp:161
 #, kde-format
@@ -4460,7 +4460,7 @@ msgstr ""
 #: dialogs/texdocumentationdialog.cpp:57 kile.cpp:1065
 #, kde-format
 msgid "Documentation Browser"
-msgstr ""
+msgstr "დოკუმენტაციაში ძებნა"
 
 #: dialogs/texdocumentationdialog.cpp:66 dialogs/texdocumentationdialog.cpp:381
 #: kilestdactions.cpp:43
@@ -4604,7 +4604,7 @@ msgstr ""
 #: dialogs/userhelpdialog.cpp:384
 #, kde-format
 msgid "&Menu entry:"
-msgstr "&მენიუს პუნქტი"
+msgstr "&მენიუს პუნქტი:"
 
 #: dialogs/userhelpdialog.cpp:392
 #, kde-format
@@ -4918,7 +4918,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog_base.ui:276
 #, kde-format
 msgid "Save"
-msgstr "save"
+msgstr "შენახვა"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:283
@@ -4938,7 +4938,7 @@ msgstr "შენახვა როგორც"
 #: dialogs/usermenu/usermenudialog_base.ui:352
 #, kde-format
 msgid "(installed)"
-msgstr "(დაყენებული) "
+msgstr "(დაყენებულია)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
@@ -5616,7 +5616,7 @@ msgstr ""
 #: kile.cpp:838
 #, kde-format
 msgid "&Remove Template..."
-msgstr "შაბლონის &წაშლა"
+msgstr "შაბლონის &წაშლა..."
 
 #: kile.cpp:840 kile.cpp:970
 #, kde-format
@@ -5930,7 +5930,7 @@ msgstr ""
 #: kile.cpp:990
 #, kde-format
 msgid "&Bibliography"
-msgstr ""
+msgstr "&ბიბლიოგრაფია"
 
 #. i18n: ectx: Menu (settings)
 #: kile.cpp:996 kileui.rc:503
@@ -6145,7 +6145,7 @@ msgstr ""
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
-msgstr ""
+msgstr "ეს მენიუს ზოლს სრულად დამალავს. მისი ჩვენება %1-ზე დაწოლით შეგიძლიათ."
 
 #: kile.cpp:3019
 #, kde-format
@@ -7286,7 +7286,7 @@ msgstr ""
 #: kilelauncher.cpp:223
 #, kde-format
 msgid "terminated"
-msgstr ""
+msgstr "სწეყდა"
 
 #: kilelauncher.cpp:232
 #, kde-format
@@ -7530,7 +7530,7 @@ msgstr ""
 #: kilestdactions.cpp:50
 #, kde-format
 msgid "Quote"
-msgstr ""
+msgstr "ციტატა"
 
 #: kilestdactions.cpp:50
 #, kde-format
@@ -7756,7 +7756,7 @@ msgstr ""
 #: kilestdactions.cpp:75
 #, kde-format
 msgid "Typewriter"
-msgstr ""
+msgstr "საბეჭდი მანქანა"
 
 #: kilestdactions.cpp:75
 #, kde-format
@@ -7871,7 +7871,7 @@ msgstr ""
 #: kilestdactions.cpp:82
 #, kde-format
 msgid "Horizontal Line"
-msgstr ""
+msgstr "ჰორიზონტალური ხაზი"
 
 #: kilestdactions.cpp:82
 #, kde-format
@@ -7886,7 +7886,7 @@ msgstr ""
 #: kilestdactions.cpp:83
 #, kde-format
 msgid "Vertical Line"
-msgstr ""
+msgstr "ვერტიკალური ხაზი"
 
 #: kilestdactions.cpp:83
 #, kde-format
@@ -9013,7 +9013,7 @@ msgstr ""
 #: kilestdactions.cpp:381
 #, kde-format
 msgid "Square Root"
-msgstr ""
+msgstr "კვადრატული ფესვი"
 
 #: kilestdactions.cpp:382
 #, kde-format
@@ -9564,8 +9564,8 @@ msgstr ""
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 შეცდომა"
+msgstr[1] "%1 შეცდომა"
 
 #: kilestdtools.cpp:328
 #, kde-format
@@ -9576,8 +9576,8 @@ msgstr ""
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "1 გაფრთხილება"
+msgstr[1] "%1 გაფრთხილება"
 
 #: kilestdtools.cpp:329
 #, kde-format
@@ -9759,7 +9759,7 @@ msgstr ""
 #: kiletoolmanager.cpp:753
 #, kde-format
 msgid "Auto-Detect"
-msgstr ""
+msgstr "ავტომატური გამოცნობა"
 
 #: kiletoolmanager.cpp:754
 #, kde-format
@@ -9775,19 +9775,19 @@ msgstr ""
 #: kileui.rc:12
 #, kde-format
 msgid "&File"
-msgstr ""
+msgstr "&ფაილი"
 
 #. i18n: ectx: Menu (convert)
 #: kileui.rc:32
 #, kde-format
 msgid "Con&vert To"
-msgstr ""
+msgstr "&გადაყვანა"
 
 #. i18n: ectx: Menu (edit)
 #: kileui.rc:53 widgets/abbreviationview.cpp:120
 #, kde-format
 msgid "&Edit"
-msgstr ""
+msgstr "&ჩასწორება"
 
 #. i18n: ectx: Menu (complete)
 #: kileui.rc:61
@@ -9799,7 +9799,7 @@ msgstr ""
 #: kileui.rc:66
 #, kde-format
 msgid "&Bullets"
-msgstr ""
+msgstr "&ტყვიები"
 
 #. i18n: ectx: Menu (select)
 #: kileui.rc:70 widgets/structurewidget.cpp:770
@@ -9817,13 +9817,13 @@ msgstr "&წაშლა"
 #: kileui.rc:96
 #, kde-format
 msgid "Environmen&t"
-msgstr ""
+msgstr "&გარემო"
 
 #. i18n: ectx: Menu (texgroup)
 #: kileui.rc:104
 #, kde-format
 msgid "Te&X Group"
-msgstr ""
+msgstr "ჯგუფი Te&X"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:116
@@ -9850,73 +9850,73 @@ msgstr "დოკუმენტების მნახველი"
 #: kileui.rc:129
 #, kde-format
 msgid "&Go"
-msgstr ""
+msgstr "&წავიდა"
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:143
 #, kde-format
 msgid "B&uild"
-msgstr ""
+msgstr "&აგება"
 
 #. i18n: ectx: Menu (menu_compile)
 #: kileui.rc:156
 #, kde-format
 msgid "&Compile"
-msgstr ""
+msgstr "&კომპილაცია"
 
 #. i18n: ectx: Menu (menu_convert)
 #: kileui.rc:158
 #, kde-format
 msgid "C&onvert"
-msgstr ""
+msgstr "&გადაყვანა"
 
 #. i18n: ectx: Menu (menu_other)
 #: kileui.rc:162
 #, kde-format
 msgid "O&ther"
-msgstr ""
+msgstr "&სხვა"
 
 #. i18n: ectx: Menu (menu_project)
 #: kileui.rc:180
 #, kde-format
 msgid "Pro&ject"
-msgstr ""
+msgstr "&პროექტი"
 
 #. i18n: ectx: Menu (menu_latex)
 #: kileui.rc:202
 #, kde-format
 msgid "LaTe&X"
-msgstr ""
+msgstr "LaTe&X"
 
 #. i18n: ectx: Menu (menu_preamble)
 #: kileui.rc:203
 #, kde-format
 msgid "&Preamble"
-msgstr ""
+msgstr "&პრეამბულა"
 
 #. i18n: ectx: Menu (menu_lists)
 #: kileui.rc:217
 #, kde-format
 msgid "Tables and Lists"
-msgstr ""
+msgstr "&ცხრილები და ჩამონათვალები"
 
 #. i18n: ectx: Menu (menu_sectioning)
 #: kileui.rc:228
 #, kde-format
 msgid "&Sectioning"
-msgstr ""
+msgstr "&დაყოფა"
 
 #. i18n: ectx: Menu (references)
 #: kileui.rc:239
 #, kde-format
 msgid "&References"
-msgstr ""
+msgstr "&მიმართვები"
 
 #. i18n: ectx: Menu (menu_environment)
 #: kileui.rc:251
 #, kde-format
 msgid "&Environment"
-msgstr ""
+msgstr "&გარემო"
 
 #. i18n: ectx: Menu (menu_listenv)
 #: kileui.rc:262
@@ -9952,7 +9952,7 @@ msgstr ""
 #: kileui.rc:302
 #, kde-format
 msgid "Braces"
-msgstr ""
+msgstr "ფრჩხილები"
 
 #. i18n: ectx: Menu (menu_mathtext)
 #: kileui.rc:320
@@ -10054,7 +10054,7 @@ msgstr ""
 #: kileui.rc:443
 #, kde-format
 msgid "Font Shape"
-msgstr ""
+msgstr "ფონტის ფორმა"
 
 #. i18n: ectx: Menu (menu_spacing)
 #: kileui.rc:450
@@ -10084,13 +10084,13 @@ msgstr ""
 #: kileui.rc:487
 #, kde-format
 msgid "&Wizard"
-msgstr ""
+msgstr "&ოსტატი"
 
 #. i18n: ectx: Menu (help)
 #: kileui.rc:516
 #, kde-format
 msgid "&Help"
-msgstr ""
+msgstr "&დახმარება"
 
 #. i18n: ectx: Menu (help_tex)
 #: kileui.rc:519
@@ -10243,7 +10243,7 @@ msgstr ""
 #: main.cpp:113
 #, kde-format
 msgid "Holger Danielsson"
-msgstr ""
+msgstr "Holger Danielsson"
 
 #: main.cpp:113
 #, kde-format
@@ -10253,17 +10253,17 @@ msgstr "პროგრამისტი"
 #: main.cpp:114
 #, kde-format
 msgid "Thomas Braun"
-msgstr ""
+msgstr "Thomas Braun"
 
 #: main.cpp:114
 #, kde-format
 msgid "Former Developer"
-msgstr ""
+msgstr "ყოფილი პროგრამისტი"
 
 #: main.cpp:115
 #, kde-format
 msgid "Jeroen Wijnhout"
-msgstr ""
+msgstr "Jeroen Wijnhout"
 
 #: main.cpp:115
 #, kde-format
@@ -10273,7 +10273,7 @@ msgstr ""
 #: main.cpp:116
 #, kde-format
 msgid "Brachet Pascal"
-msgstr ""
+msgstr "Brachet Pascal"
 
 #: main.cpp:118
 #, kde-format
@@ -10288,7 +10288,7 @@ msgstr ""
 #: main.cpp:119
 #, kde-format
 msgid "Simon Martin"
-msgstr ""
+msgstr "Simon Martin"
 
 #: main.cpp:119
 #, kde-format
@@ -10298,7 +10298,7 @@ msgstr ""
 #: main.cpp:120
 #, kde-format
 msgid "Roland Schulz"
-msgstr ""
+msgstr "Roland Schulz"
 
 #: main.cpp:120
 #, kde-format
@@ -10308,7 +10308,7 @@ msgstr ""
 #: main.cpp:121
 #, kde-format
 msgid "Thorsten Lück"
-msgstr ""
+msgstr "Thorsten Lück"
 
 #: main.cpp:121
 #, kde-format
@@ -10318,7 +10318,7 @@ msgstr ""
 #: main.cpp:122
 #, kde-format
 msgid "Jan-Marek Glogowski"
-msgstr ""
+msgstr "Jan-Marek Glogowski"
 
 #: main.cpp:122
 #, kde-format
@@ -10328,7 +10328,7 @@ msgstr ""
 #: main.cpp:123
 #, kde-format
 msgid "Jonathan Pechta"
-msgstr ""
+msgstr "Jonathan Pechta"
 
 #: main.cpp:123 main.cpp:124
 #, kde-format
@@ -10338,7 +10338,7 @@ msgstr "დოკუმენტაცია"
 #: main.cpp:124
 #, kde-format
 msgid "Federico Zenith"
-msgstr ""
+msgstr "Federico Zenith"
 
 #: main.cpp:142
 #, kde-format
@@ -10610,7 +10610,7 @@ msgstr ""
 #: scriptmanager.cpp:106
 #, kde-format
 msgid "Script Error"
-msgstr ""
+msgstr "სკრიპტის შეცდომა"
 
 #: scriptmanager.cpp:486
 #, kde-format
@@ -10644,12 +10644,12 @@ msgstr ""
 #, kde-format
 msgctxt "<tool name> - <configuration>"
 msgid "%1 - %2"
-msgstr ""
+msgstr "%1 - %2"
 
 #: userhelp.cpp:150
 #, kde-format
 msgid "The file '%1' does not exist."
-msgstr ""
+msgstr "ფაილი '%1' არ არსებობს."
 
 #: usermenu/usermenu.cpp:919
 #, kde-format
@@ -10670,12 +10670,12 @@ msgstr ""
 #: widgets/abbreviationview.cpp:111 widgets/quicktoolconfigwidget.ui:91
 #, kde-format
 msgid "&Add"
-msgstr ""
+msgstr "&დამატება"
 
 #: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:771
 #, kde-format
 msgid "&Delete"
-msgstr ""
+msgstr "&წაშლა"
 
 #: widgets/abbreviationview.cpp:173
 #, kde-format
@@ -10714,7 +10714,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.cpp:53
 #, kde-format
 msgid "TeX/LaTeX"
-msgstr ""
+msgstr "TeX/LaTeX"
 
 #: widgets/codecompletionconfigwidget.cpp:54
 #, kde-format
@@ -10806,7 +10806,7 @@ msgstr "ზღვარი:"
 #: widgets/codecompletionconfigwidget.ui:57
 #, kde-format
 msgid "letters"
-msgstr ""
+msgstr "წერილები"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_autocompleteabbrev)
 #: widgets/codecompletionconfigwidget.ui:82
@@ -10818,7 +10818,7 @@ msgstr ""
 #: widgets/codecompletionconfigwidget.ui:133
 #, kde-format
 msgid "Add..."
-msgstr ""
+msgstr "დამატება..."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_removeFileButton)
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbRemoveTool)
@@ -10829,7 +10829,7 @@ msgstr ""
 #: widgets/usermenuconfigwidget.ui:115
 #, kde-format
 msgid "Remove"
-msgstr ""
+msgstr "წაშლა"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_showcwlview)
 #: widgets/codecompletionconfigwidget.ui:162
@@ -10947,7 +10947,7 @@ msgstr ""
 #: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
 #, kde-format
 msgid "Options"
-msgstr ""
+msgstr "ვარიანტები"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/generalconfigwidget.ui:43
@@ -10971,7 +10971,7 @@ msgstr ""
 #: widgets/generalconfigwidget.ui:92
 #, kde-format
 msgid "A&uthor:"
-msgstr ""
+msgstr "&ავტორი:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel4)
 #: widgets/generalconfigwidget.ui:105
@@ -11049,7 +11049,7 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:103
 #, kde-format
 msgid "ImageMagick:"
-msgstr ""
+msgstr "ImageMagick:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbContextHelp)
 #: widgets/helpconfigwidget.ui:32
@@ -11073,7 +11073,7 @@ msgstr ""
 #: widgets/helpconfigwidget.ui:97
 #, kde-format
 msgid "Con&figure..."
-msgstr ""
+msgstr "&მორგება..."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbCommands)
 #: widgets/latexconfigwidget.ui:37
@@ -11104,7 +11104,7 @@ msgstr ""
 #: widgets/latexconfigwidget.ui:89 widgets/maintoolconfigwidget.ui:362
 #, kde-format
 msgid "&Type:"
-msgstr ""
+msgstr "&ტიპი:"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, kcfg_InsertSpecialCharacters)
 #: widgets/latexconfigwidget.ui:142
@@ -11264,7 +11264,7 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:94 widgets/maintoolconfigwidget.ui:203
 #, kde-format
 msgid "New..."
-msgstr ""
+msgstr "ახალი..."
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_groupBox)
 #: widgets/maintoolconfigwidget.ui:130
@@ -11336,7 +11336,7 @@ msgstr ""
 #: widgets/maintoolconfigwidget.ui:577
 #, kde-format
 msgid "&Icon:"
-msgstr ""
+msgstr "&ხატულა:"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pshbDefault)
 #: widgets/maintoolconfigwidget.ui:636
@@ -11411,7 +11411,7 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:92 widgets/previewconfigwidget.cpp:260
 #, kde-format
 msgid "dvi --> png"
-msgstr ""
+msgstr "dvi --> png"
 
 #: widgets/previewconfigwidget.cpp:92
 #, kde-format
@@ -11421,7 +11421,7 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:93 widgets/previewconfigwidget.cpp:263
 #, kde-format
 msgid "dvi --> ps --> png"
-msgstr ""
+msgstr "dvi --> ps --> png"
 
 #: widgets/previewconfigwidget.cpp:93
 #, kde-format
@@ -11431,7 +11431,7 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:94 widgets/previewconfigwidget.cpp:264
 #, kde-format
 msgid "pdf --> png"
-msgstr ""
+msgstr "pdf --> png"
 
 #: widgets/previewconfigwidget.cpp:94
 #, kde-format
@@ -11446,7 +11446,7 @@ msgstr ""
 #: widgets/previewconfigwidget.cpp:99
 #, kde-format
 msgid "convert:"
-msgstr ""
+msgstr "გადაყვანა:"
 
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
@@ -11568,7 +11568,7 @@ msgstr ""
 #: widgets/projectview.cpp:451
 #, kde-format
 msgid "Project File"
-msgstr ""
+msgstr "პროექტის ფაილი"
 
 #: widgets/projectview.cpp:454
 #, kde-format
@@ -11583,7 +11583,7 @@ msgstr "გამოსახულებები"
 #: widgets/projectview.cpp:791
 #, kde-format
 msgid "&Open With"
-msgstr ""
+msgstr "&გამხსნელი პროგრამა"
 
 #: widgets/projectview.cpp:803 widgets/structurewidget.cpp:797
 #, kde-format
@@ -11593,12 +11593,12 @@ msgstr "სხვა..."
 #: widgets/projectview.cpp:809
 #, kde-format
 msgid "&Open"
-msgstr ""
+msgstr "&გახსნა"
 
 #: widgets/projectview.cpp:812
 #, kde-format
 msgid "&Save"
-msgstr ""
+msgstr "&შენახვა"
 
 #: widgets/projectview.cpp:822
 #, kde-format
@@ -11618,7 +11618,7 @@ msgstr ""
 #: widgets/projectview.cpp:849
 #, kde-format
 msgid "A&dd Files..."
-msgstr ""
+msgstr "&ფაილების დამატება"
 
 #: widgets/projectview.cpp:865 widgets/projectview.cpp:868
 #, kde-format
@@ -11639,7 +11639,7 @@ msgstr ""
 #: widgets/quicktoolconfigwidget.ui:27
 #, kde-format
 msgid "Tool:"
-msgstr ""
+msgstr "ხელსაწყო:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbConfig)
 #: widgets/quicktoolconfigwidget.ui:53
@@ -11691,7 +11691,7 @@ msgstr ""
 #: widgets/scriptsmanagementwidget.cpp:81
 #, kde-format
 msgid "Create New Script"
-msgstr ""
+msgstr "ახალ სკრიპტის შექმნა"
 
 #: widgets/scriptsmanagementwidget.cpp:87
 #, kde-format
@@ -11716,7 +11716,7 @@ msgstr "სიის განახლება"
 #: widgets/scriptsmanagementwidget.cpp:115
 #, kde-format
 msgid "Script Name"
-msgstr ""
+msgstr "სკრიპტის სახელი"
 
 #: widgets/scriptsmanagementwidget.cpp:116
 #, kde-format
@@ -11908,31 +11908,31 @@ msgstr ""
 #: widgets/structureviewconfigwidget.ui:243
 #, kde-format
 msgid "eps"
-msgstr ""
+msgstr "eps"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:248
 #, kde-format
 msgid "pdf"
-msgstr ""
+msgstr "pdf"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:253
 #, kde-format
 msgid "png"
-msgstr ""
+msgstr "png"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:258
 #, kde-format
 msgid "jpg"
-msgstr ""
+msgstr "jpg"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:263
 #, kde-format
 msgid "tif"
-msgstr ""
+msgstr "tif"
 
 #: widgets/structurewidget.cpp:102
 #, kde-format
@@ -11953,7 +11953,7 @@ msgstr ""
 #: widgets/structurewidget.cpp:126
 #, kde-format
 msgid "Label: %1"
-msgstr ""
+msgstr "ჭდე: %1"
 
 #: widgets/structurewidget.cpp:160
 #, kde-format
@@ -12025,7 +12025,7 @@ msgstr "ამ&ოჭრა"
 #: widgets/structurewidget.cpp:767
 #, kde-format
 msgid "&Copy"
-msgstr ""
+msgstr "&კოპირება"
 
 #: widgets/structurewidget.cpp:768
 #, kde-format
@@ -12035,7 +12035,7 @@ msgstr ""
 #: widgets/structurewidget.cpp:773
 #, kde-format
 msgid "C&omment"
-msgstr ""
+msgstr "&კომენტარი"
 
 #: widgets/structurewidget.cpp:775
 #, kde-format
@@ -12085,7 +12085,7 @@ msgstr ""
 #: widgets/symbolview.cpp:207
 #, kde-format
 msgid "Command: %1"
-msgstr ""
+msgstr "ბრძანება: %1"
 
 #: widgets/symbolview.cpp:209
 #, kde-format

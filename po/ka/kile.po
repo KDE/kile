@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-01-30 09:19+0100\n"
+"PO-Revision-Date: 2023-02-03 17:12+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -2302,7 +2302,7 @@ msgstr "პაროლი:"
 #: dialogs/usermenu/usermenudialog_base.ui:492
 #, kde-format
 msgid "Icon"
-msgstr "_ხატულა"
+msgstr "ხატულა"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameterInfo)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:158
@@ -11618,7 +11618,7 @@ msgstr ""
 #: widgets/projectview.cpp:849
 #, kde-format
 msgid "A&dd Files..."
-msgstr "&ფაილების დამატება"
+msgstr "&ფაილების დამატება..."
 
 #: widgets/projectview.cpp:865 widgets/projectview.cpp:868
 #, kde-format

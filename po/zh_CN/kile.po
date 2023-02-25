@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-02-15 11:04\n"
+"PO-Revision-Date: 2023-02-24 12:43\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -10587,7 +10587,7 @@ msgstr ""
 #: livepreview.cpp:946
 #, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr "无法为子文件夹建立目录结构"
+msgstr "无法创建子目录结构"
 
 #: livepreview.cpp:1406
 #, kde-format

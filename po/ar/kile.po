@@ -4571,7 +4571,7 @@ msgstr "تعذّرت قراءة 'texdoctk.dat'."
 #: dialogs/texdocumentationdialog.cpp:300
 #, kde-format
 msgid "No KDE service found for this file."
-msgstr "لم توجد خدمة كدي لهذا الملفّ."
+msgstr "لم توجد خدمة كِيدِي لهذا الملفّ."
 
 #: dialogs/texdocumentationdialog.cpp:328
 #, fuzzy, kde-format
@@ -6883,7 +6883,7 @@ msgstr "الل&صيقة:"
 #: kiledocmanager.cpp:92
 #, kde-format
 msgid "No editor component found. Please check your KDE installation."
-msgstr "لم يوجد مكوّن المحرّر. فضلًا افحص تثبيت كدي."
+msgstr "لم يوجد مكوّن المحرّر. فضلًا افحص تثبيت كِيدِي."
 
 #: kiledocmanager.cpp:93
 #, kde-format
@@ -10331,7 +10331,7 @@ msgstr ""
 #: main.cpp:107
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
-msgstr "بيئة لاتخ متكاملة لكدي"
+msgstr "بيئة لاتخ متكاملة لكِيدِي"
 
 #: main.cpp:109
 #, fuzzy, kde-format

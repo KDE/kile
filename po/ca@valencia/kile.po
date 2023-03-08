@@ -3590,7 +3590,7 @@ msgstr "Inclou la bibliografia en la taula de continguts"
 #: dialogs/quickdocumentdialog.cpp:707
 #, kde-format
 msgid "Include the index in the TOC"
-msgstr "Incloure l'índex en la taula de continguts"
+msgstr "Inclou l'índex en la taula de continguts"
 
 #: dialogs/quickdocumentdialog.cpp:708
 #, kde-format

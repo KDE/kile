@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-02-01 20:00+0300\n"
+"PO-Revision-Date: 2023-03-07 20:27+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4851,7 +4851,7 @@ msgstr "Bu yardım dosyası için menü girdisi."
 #: dialogs/userhelpdialog.cpp:412
 #, kde-format
 msgid "The name of the local help file or a valid WEB url."
-msgstr "Yerel yardım dosyasının adı ya da geçerli bir internet adresi."
+msgstr "Yerel yardım dosyasının adı ya da geçerli bir internet URL'si."
 
 #: dialogs/userhelpdialog.cpp:413
 #, kde-format

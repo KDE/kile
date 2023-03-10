@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-03-07 20:27+0300\n"
+"PO-Revision-Date: 2023-03-09 13:34+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1203,7 +1203,7 @@ msgstr "İsteğe bağlı hizalama parametreyi belirle."
 #: dialogs/latexcommanddialog.cpp:170
 #, kde-format
 msgid "Does this command need an optional parameter?"
-msgstr "Bu komut bir parametreye ihtiyaç duyuyor mu?"
+msgstr "Bu komut bir parametreye gereksinim duyuyor mu?"
 
 #: dialogs/latexcommanddialog.cpp:178
 #, kde-format
@@ -1217,12 +1217,12 @@ msgid ""
 "number, {w} for a width or { } for any other parameter?"
 msgstr ""
 "Bu ortamın tamsayı için (n), genişlik için (w) veya herhangi bir değişken "
-"için { } gibi diğer ek parametrelere ihtiyacı var mı?"
+"için { } gibi diğer ek parametrelere gereksinimi var mı?"
 
 #: dialogs/latexcommanddialog.cpp:196
 #, kde-format
 msgid "Does this command need an argument?"
-msgstr "Bu komutun bir değişkene ihtiyacı var mı?"
+msgstr "Bu komutun bir değişkene gereksinimi var mı?"
 
 #: dialogs/latexcommanddialog.cpp:209
 #, kde-format
@@ -2351,7 +2351,7 @@ msgstr "ViewPDF"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1621
 #, kde-format
 msgid "The utility needs some parameters in this mode."
-msgstr "Bu kipte uygulama bazı parametrelere ihtiyaç duyuyor."
+msgstr "Bu kipte uygulama bazı parametrelere gereksinim duyuyor."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1639
 #, kde-format
@@ -2552,8 +2552,8 @@ msgid ""
 "'Select pages' and 'Free Parameter' need some specific parameter, which you "
 "can enter here"
 msgstr ""
-"'Sayfaları seç' ve 'Serbest Değişken'ler özel değişkenlere ihtiyaç duyar. Bu "
-"değişkenleri burada girebilirsiniz"
+"'Sayfaları seç' ve 'Serbest Değişken'ler özel değişkenlere gereksinim duyar. "
+"Bu değişkenleri burada girebilirsiniz"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:284
@@ -5335,7 +5335,7 @@ msgstr "Eylem seçili metne gereksinim duyuyorsa seçin. "
 #: dialogs/usermenu/usermenudialog_base.ui:676
 #, kde-format
 msgid "Needs selected text"
-msgstr "Seçili metne ihtiyaç duyuyor"
+msgstr "Seçili metne gereksinim duyuyor"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbInsertOutput)
 #: dialogs/usermenu/usermenudialog_base.ui:699
@@ -12937,7 +12937,7 @@ msgstr "Bu yapılandırmayı kaldırmak istediğinizden emin misiniz?"
 #: widgets/toolconfigwidget.cpp:479
 #, kde-format
 msgid "You need at least one configuration for each tool."
-msgstr "Her araç için en azından bir yapılandırmaya ihtiyacınız var."
+msgstr "Her araç için en azından bir yapılandırmaya gereksiniminiz var."
 
 #: widgets/toolconfigwidget.cpp:479
 #, kde-format

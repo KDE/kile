@@ -4,7 +4,7 @@
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2012, 2013.
 # Jiri Grönroos <jiri.gronroos+kde@iki.fi>, 2012.
 # Niklas Laxström <niklas.laxstrom+kdetrans@gmail.com>, 2012.
-# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2022.
+# Tommi Nieminen <translator@legisign.org>, 2009, 2010, 2011, 2013, 2014, 2015, 2018, 2019, 2020, 2021, 2022, 2023.
 # Lasse Liehu <lasse.liehu@gmail.com>, 2011, 2012, 2014, 2016.
 #
 # KDE Finnish translation sprint participants:
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2022-07-20 22:00+0300\n"
+"PO-Revision-Date: 2023-02-26 16:24+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-POT-Import-Date: 2012-12-01 22:21:19+0000\n"
-"X-Generator: Lokalize 20.12.0\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6447,11 +6447,12 @@ msgstr "Päivitetään rakennetta…"
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
+"Tämä piilottaa valikkorivin täysin. Uudelleen sen saa näkyviin painamalla %1."
 
 #: kile.cpp:3019
 #, kde-format
 msgid "Hide menu bar"
-msgstr ""
+msgstr "Piilota valikkorivi"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:18

@@ -2233,7 +2233,7 @@ msgstr "Paramètre :"
 #: dialogs/pdf-wizard/pdfdialog.cpp:798
 #, kde-format
 msgid "All options for 'pdftk'"
-msgstr "Toute les options pour « pdftk »"
+msgstr "Toutes les options pour « pdftk »"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:803
 #, kde-format

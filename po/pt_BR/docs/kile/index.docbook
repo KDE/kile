@@ -48,17 +48,11 @@
   <!ENTITY ucs "<abbrev
 >ucs</abbrev
 >">
-  <!ENTITY kappname "&kile;">
-  <!ENTITY package "extragear">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % Brazilian-Portuguese "INCLUDE">
-  <!ENTITY kate "<application
->Kate</application
->">
   <!ENTITY javascript "<application
 >JavaScript</application
 >">
-
   <!ENTITY include-section-scripting SYSTEM "scripting.docbook">
   <!ENTITY include-section-usermenu SYSTEM "usermenu.docbook">
 ]>
@@ -228,7 +222,7 @@
 </copyright>
 
 <date
->22 de maio de 2011</date>
+>22/05/2011</date>
 <releaseinfo
 >2.1</releaseinfo>
 
@@ -278,7 +272,7 @@
 ></listitem>
 			<listitem
 ><para
-><ulink url="http://www.qtsoftware.com/products/"
+><ulink url="https://qt.io/"
 >&Qt;</ulink
 >: &Qt; é uma &GUI; em C++ e a biblioteca de rede necessária para compilar o &kile;.</para
 ></listitem>
@@ -346,8 +340,8 @@
 >&kile; e o componente de edição do &kate;</title>
 
 			<para
->O &kile; baseia-se no componente de edição do &kate;, &ie;, várias das capacidades de edição vêm do componente de edição de &kate; em si. O &kile; estende estas capacidades para lidar com a edição de documentos &latex;. Para aprender mais sobre o componente de edição &kate; e as suas capacidades, veja a <ulink url="http://kate-editor.org"
->Página Web do &kate; </ulink
+>O &kile; baseia-se no componente de edição do &kate;, &ie;, várias das capacidades de edição vêm do componente de edição de &kate; em si. O &kile; estende estas capacidades para lidar com a edição de documentos &latex;. Para aprender mais sobre o componente de edição &kate; e as suas capacidades, veja o <ulink url="http://kate-editor.org"
+>site do &kate; </ulink
 >.</para>
 
 		</sect2>
@@ -412,11 +406,11 @@
 >&latex; 101</title>
 
 		<para
->O sistema de formatação &latex; é semelhante a outras linguagens de formatação, como o &XML;, que é usado para vários tipos de documentos (incluindo o que você está lendo) ou o &HTML;, usado para as páginas Web. A ideia geral por trás das linguagens de formatação é usar palavras-chave especiais chamadas <emphasis
+>O sistema de formatação &latex; é semelhante a outras linguagens de formatação, como o &XML;, que é usado para vários tipos de documentos (incluindo o que você está lendo) ou o &HTML;, usado para os sites. A ideia geral por trás das linguagens de formatação é usar palavras-chave especiais chamadas <emphasis
 >marcas</emphasis
 > ou <emphasis
 >tags</emphasis
->, que dizem a um programa (um processador de texto, um navegador Web ou o compilador &latex;) como apresentar o texto. O &kile; oferece-lhe um conjunto razoável destas marcas no menu <guimenu
+>, que dizem a um programa (um processador de texto, um navegador ou o compilador &latex;) como apresentar o texto. O &kile; oferece-lhe um conjunto razoável destas marcas no menu <guimenu
 >LaTeX</guimenu
 >.</para>
 
@@ -1711,7 +1705,7 @@
 > do &kile;.</para>
 
 	 <para
->Para aprender mais sobre o &kate; e suas capacidades, veja o <ulink url="help:kate"
+>Para aprender mais sobre o &kate; e suas capacidades, veja o <ulink url="help:/kate"
 >Manual do &kate;</ulink
 >. Usuários do &kile; podem começar a ler do capítulo <quote
 >Trabalhando com o Editor do &kate;</quote
@@ -3087,7 +3081,7 @@
 >Escrever os Próprios Arquivos de Completamento</title>
 
     <para
->A última especificação do formato do arquivo de completamento pode ser encontrada na <ulink url="https://quickgit.kde.org/?p=kile.git&amp;a=blob&amp;f=README.cwl&amp;o=plain"
+>A última especificação do formato do arquivo de completamento pode ser encontrada na <ulink url="https://commits.kde.org/kile?path=README.cwl"
 > especificação do formato de arquivos CWL</ulink
 >. </para>
 
@@ -6491,27 +6485,25 @@
 		<para
 >&latex; é um sistema relativamente sofisticado, onde as funcionalidades básicas poderão ser expandidas com uma grande variedade de pacotes adicionais. O &kile; oferece diversas maneiras de ajudar o usuário.</para>
 
+		<para
+>O submenu <menuchoice
+><guimenu
+>Ajuda</guimenu
+> <guisubmenu
+>Documentação do LaTeX</guisubmenu
+></menuchoice
+> inclui links de documentação para todos os pacotes inclusos e uma referência &latex; adicional. </para>
+
 		<variablelist>
 
 		<varlistentry>
 		<term
 ><guimenu
->Referência LaTeX</guimenu
+>Navegador de documentação</guimenu
 ></term>
 		<listitem
 ><para
->Um índice alfabético dos comandos &latex; mais comuns.</para
-></listitem>
-		</varlistentry>
-
-		<varlistentry>
-		<term
-><guimenu
->Documentação TeX</guimenu
-></term>
-		<listitem
-><para
->&tetex;/&texlive; vêm com uma quantidade enorme de documentos. Isto inclui uma documentação para todos os pacotes inclusos e uma referência &latex; adicional.</para
+>Uma ferramenta útil para navegar em todo os tópicos do &latex;. Instale os pacotes de ajuda do &latex; para sua distribuição se você precisar do compêndio de documentação completa.</para
 ></listitem>
 		</varlistentry>
 
@@ -6522,14 +6514,14 @@
 ></term>
 		<listitem
 ><para
->Uma referência completa para o &tex; e seus amigos. Não é apenas uma descrição de todos os scripts, mas alguns pacotes importantes são também mencionados. Inclui também um manual de referência completo de comandos &latex; - o que é ideal para procurar por uma determinada peça de formatação, ao escrever um documento. Uma vez que este documento é realmente extenso, ele é referenciado no &kile; por três marcadores.</para
+>Uma referência não-oficial completa para o &tex; e seus amigos. Não é apenas uma descrição de todos os scripts, mas alguns pacotes importantes são também mencionados. Inclui também um manual de referência completo de comandos &latex; - o que é ideal para procurar por uma determinada peça de formatação, ao escrever um documento. Uma vez que este documento é realmente extenso, ele é referenciado no &kile; por três marcadores.</para
 ></listitem>
 		</varlistentry>
 
 		<varlistentry>
 		<term
 ><guimenu
->Comando LaTeX</guimenu
+>Comandos LaTeX</guimenu
 ></term>
 		<listitem
 ><para
@@ -6540,18 +6532,7 @@
 		<varlistentry>
 		<term
 ><guimenu
->Assunto LaTeX</guimenu
-></term>
-		<listitem
-><para
->Uma descrição de importantes assuntos do &latex;.</para
-></listitem>
-		</varlistentry>
-
-		<varlistentry>
-		<term
-><guimenu
->Ambiente LaTeX</guimenu
+>Ambientes LaTeX</guimenu
 ></term>
 		<listitem
 ><para
@@ -6611,7 +6592,7 @@
 		<para
 >Nem sempre é fácil procurar o documento correto, uma vez que o &tetex;/&texlive; vem com uma quantidade enorme de documentos. Para facilitar este processo, o &tetex;/&texlive; oferece um programa minúsculo chamado <application
 >texdoctk</application
->. Ele vem com uma base de dados com todos os documentos, para a qual o &kile; oferece uma interface amigável.</para>
+>. Ele vem com um banco de dados com todos os documentos, para a qual o &kile; oferece uma interface amigável.</para>
 
 		<screenshot>
 			<screeninfo
@@ -6765,8 +6746,7 @@
 > e André Marcelo Alvarenga <email
 >alvarenga@kde.org</email
 ></para
-> 
-&underFDL; &underGPL; </chapter>
+> &underFDL; &underGPL; </chapter>
 
 
 &documentation.index;

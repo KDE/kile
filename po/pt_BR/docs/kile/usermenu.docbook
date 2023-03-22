@@ -577,6 +577,23 @@
 >Substituir o texto selecionado</guilabel
 >), mas não ficará selecionado por si só.</para>
 
+<para
+>Claro que você também pode invocar seus próprios programas ou scripts. Por exemplo, selecione uma lista de números, separados por espaços, e invoque um script ou programa Perl, que transforma esta seleção em código &latex; para uma matriz. Quaisquer que sejam suas ideias, você pode realizá-las usando a seguinte entrada do menu do usuário.</para>
+
+	<screenshot>
+		<screeninfo
+>Exemplo 2 do parâmetro</screeninfo>
+		<mediaobject>
+		<imageobject>
+		<imagedata fileref="usermenu_11b.png" format="PNG"/>
+		</imageobject>
+		<textobject>
+		<phrase
+>Exemplo 2 do parâmetro</phrase>
+		</textobject>
+		</mediaobject>
+	</screenshot>
+
 </sect1>
 
 

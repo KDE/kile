@@ -396,12 +396,12 @@ msgstr "Completion de codice"
 #: dialogs/configurationdialog.cpp:251 kileui.rc:148
 #, kde-format
 msgid "Quick Preview"
-msgstr "Vista preliminari rapide"
+msgstr "Vista preliminar rapide"
 
 #: dialogs/configurationdialog.cpp:251 kile.cpp:738
 #, kde-format
 msgid "Preview"
-msgstr "Vista preliminari"
+msgstr "Vista preliminar"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
 #: dialogs/configurationdialog.cpp:259 kilehelp.cpp:166

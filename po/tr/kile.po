@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-03-09 13:34+0300\n"
+"PO-Revision-Date: 2023-04-20 15:19+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.3\n"
+"X-Generator: Lokalize 23.03.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -680,7 +680,7 @@ msgid ""
 "pattern input field, resulting in the regular expression to search for. In "
 "all other modes this template is ignored."
 msgstr ""
-"İlk üç kip için açılan kutudan dizgi için bir şablon seçebilir ve burada "
+"İlk üç kip için çoklu kutudan dizgi için bir şablon seçebilir ve burada "
 "düzenleyebilirsiniz. Şablondaki %s dizisi, dizgi giriş alanıyla değiştirilir "
 "ve aranacak normal ifadeyle sonuçlanır. Diğer tüm kiplerde bu şablon dikkate "
 "alınmaz."
@@ -3194,13 +3194,13 @@ msgstr "&Belge sınıfı:"
 #: dialogs/quickdocumentdialog.cpp:197
 #, kde-format
 msgid "Add an entry to this combo box"
-msgstr "Bu açılan kutuya bir girdi ekleyin"
+msgstr "Bu çoklu kutuya bir girdi ekle"
 
 #: dialogs/quickdocumentdialog.cpp:158 dialogs/quickdocumentdialog.cpp:180
 #: dialogs/quickdocumentdialog.cpp:203
 #, kde-format
 msgid "Remove current entry from this combo box"
-msgstr "Bu açılan kutudaki girdiyi silin"
+msgstr "Bu çoklu kutudaki girdiyi sil"
 
 #: dialogs/quickdocumentdialog.cpp:167
 #, kde-format

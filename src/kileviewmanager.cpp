@@ -1110,9 +1110,9 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
 {
     m_viewerPart = Q_NULLPTR;
 
-    KPluginLoader pluginLoader(OKULAR_LIBRARY_NAME);
-    KPluginFactory *factory = pluginLoader.factory();
-    if(!factory) {
+    KPluginMetaData okularPartMetaData(QStringLiteral(OKULAR_LIBRARY_NAME));
+    KPluginFactory::Result<KPluginFactory> factoryResult = KPluginFactory::loadFactory(okularPartMetaData);
+    if(!factoryResult.plugin) {
         KILE_DEBUG_MAIN << "Could not find the Okular library.";
         m_viewerPart = Q_NULLPTR;
         return;
@@ -1120,7 +1120,7 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
     else {
         QVariantList argList;
         argList << "ViewerWidget" << "ConfigFileName=kile-livepreview-okularpartrc";
-        m_viewerPart = factory->create<KParts::ReadOnlyPart>(this, argList);
+        m_viewerPart = factoryResult.plugin->create<KParts::ReadOnlyPart>(this, argList);
         Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
         if(!viewerInterface) {
             // OkularPart doesn't provide the ViewerInterface

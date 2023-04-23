@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-02-26 00:40+0100\n"
+"PO-Revision-Date: 2023-04-22 19:14+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 22.12.2\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6424,7 +6424,7 @@ msgstr ""
 #: kile.kcfg:189
 #, kde-format
 msgid "Whether to show the splash screen on startup."
-msgstr ""
+msgstr "Abiatzean plasta pantaila erakutsi hala ez."
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
 #: kile.kcfg:193
@@ -10718,9 +10718,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSplashScreen)
 #: widgets/appearanceconfigwidget.ui:36
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show splash screen on startup"
-msgstr "Erakutsi &iragarkia abioan"
+msgstr "Erakutsi plasta pantaila abioan"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDocumentViewerInExternalWindow)
 #: widgets/appearanceconfigwidget.ui:67

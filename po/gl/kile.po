@@ -7,14 +7,14 @@
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Xosé <xosecalvo@gmail.com>, 2013.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2013, 2015, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2020, 2023.
 # marce, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2020-03-07 08:09+0100\n"
+"PO-Revision-Date: 2023-04-28 19:13+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.08.3\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1936,7 +1936,7 @@ msgid ""
 "the standard \"LaTeX\" tool."
 msgstr ""
 "Escolla o comportamento (clase) predeterminado\n"
-"desta ferramenta. Herdará todas as propiedadeda ferramenta na que está "
+"desta ferramenta. Herdará todas as propiedades da ferramenta na que está "
 "baseada.\n"
 "\n"
 "Por exemplo, se escolle «LaTeX» fará que a\n"
@@ -2270,8 +2270,8 @@ msgid ""
 "polite but firm request to respect the author's wishes.</p>"
 msgstr ""
 "<center>Asistente para PDF</center><br>Este asistente emprega «pdftk» e o "
-"paquete «pdfpages» de LaTeX para<ul><li>arrumbar as páxinas dun documento en "
-"PDF existente</li><li>ler e actualizar a información do documento dun "
+"paquete «pdfpages» de LaTeX para<ul><li>recolocar as páxinas dun documento "
+"en PDF existente</li><li>ler e actualizar a información do documento dun "
 "documento en PDF (só pdftk)</li><li>ler, configurar ou cambiar algúns "
 "permisos dun documento en PDF (só pdftk). Fai falta un contrasinal para "
 "configurar ou cambiar as opcións do documento. Alén disto, faise o cifrado "
@@ -4028,7 +4028,7 @@ msgstr "Estanse a empregar letras gregas en maiúsculas"
 #: dialogs/quickdocumentdialog.cpp:1063
 #, kde-format
 msgid "Extending LaTeX's color facilities"
-msgstr "Estasnse a aumentar os recursos de cor de LaTeX"
+msgstr "Estanse a aumentar os recursos de cor de LaTeX"
 
 #: dialogs/quickdocumentdialog.cpp:1065
 #, kde-format
@@ -5134,7 +5134,7 @@ msgid ""
 msgstr ""
 "A árbore de menú definida polo usuario, que pode modificarse cos seis botóns "
 "que hai debaixo da árbore (e os seus atallos). Hai máis accións dispoñíbeis "
-"no menú de contexto dos elementos que se escollan. Tamén se poden arrumbar "
+"no menú de contexto dos elementos que se escollan. Tamén se poden recolocar "
 "os elementos arrastrándoos e soltándoos."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSeparator)
@@ -6496,11 +6496,13 @@ msgstr "Actualizando a estrutura…"
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
+"Isto agocha completamente a barra do menú. Pódese mostrar de novo escribindo "
+"%1."
 
 #: kile.cpp:3019
 #, kde-format
 msgid "Hide menu bar"
-msgstr ""
+msgstr "Agochar a barra de menú"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:18
@@ -7224,10 +7226,9 @@ msgstr "Só compilar os documentos cando se garden."
 
 #. i18n: ectx: label, entry (livePreviewDefaultTool), group (LivePreview)
 #: kile.kcfg:629
-#, fuzzy, kde-format
-#| msgid "Activate live preview functionality."
+#, kde-format
 msgid "default livepreview tool."
-msgstr "Activar a funcionalidade de previsualización ao vivo."
+msgstr "Ferramenta predeterminada de previsualización ao vivo."
 
 #: kileactions.cpp:336
 #, kde-format
@@ -9875,12 +9876,12 @@ msgstr "Binomial en estilo de texto"
 #: kilestdactions.cpp:425
 #, kde-format
 msgid "N-th Root - \\sqrt[]{}"
-msgstr "Raíz n-ésima - \\sqrt[]{}"
+msgstr "Raíz enésima - \\sqrt[]{}"
 
 #: kilestdactions.cpp:425
 #, kde-format
 msgid "N-th Root"
-msgstr "Raíz n-ésima"
+msgstr "Raíz enésima"
 
 #: kilestdactions.cpp:427
 #, kde-format
@@ -10045,22 +10046,22 @@ msgstr "Ecuación (non numerada)"
 #: kilestdactions.cpp:456
 #, kde-format
 msgid "Multline - \\begin{multline}"
-msgstr "Multi-liña - \\begin{multline}"
+msgstr "Multiliña - \\begin{multline}"
 
 #: kilestdactions.cpp:456
 #, kde-format
 msgid "Multline"
-msgstr "Multi-liña"
+msgstr "Multiliña"
 
 #: kilestdactions.cpp:457
 #, kde-format
 msgid "Multline* - \\begin{multline*}"
-msgstr "Multi-liña* - \\begin{multline*}"
+msgstr "Multiliña* - \\begin{multline*}"
 
 #: kilestdactions.cpp:457
 #, kde-format
 msgid "Multline*"
-msgstr "Multi-liña*"
+msgstr "Multiliña*"
 
 #: kilestdactions.cpp:459
 #, kde-format
@@ -10211,7 +10212,7 @@ msgstr "matriz"
 #: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix - \\begin{pmatrix}"
-msgstr "matriz p - \\begin{gather}"
+msgstr "matrizp - \\begin{pmatrix}"
 
 #: kilestdactions.cpp:480
 #, kde-format
@@ -10348,7 +10349,8 @@ msgid ""
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
 msgstr ""
 "Non se pode atopar %1 nin %2; se está a intentar ver algún outro ficheiro "
-"HTML, vaia a Configuración->Configurar Kile->Ferramentas->VerHTML->Avanzado."
+"HTML, vaia a Configuración → Configurar Kile → Ferramentas → Ver HTML → "
+"Avanzado."
 
 #: kiletool.cpp:58
 #, kde-format
@@ -10552,10 +10554,9 @@ msgstr "Grupo Te&X"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:116
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "&Selection"
-msgstr "Selección"
+msgstr "&Selección"
 
 #. i18n: ectx: Menu (view)
 #. i18n: ectx: Menu (menu_viewer)
@@ -10574,10 +10575,9 @@ msgstr "Visor de documentos"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:129
-#, fuzzy, kde-format
-#| msgid "&Go to"
+#, kde-format
 msgid "&Go"
-msgstr "&Ir a"
+msgstr "&Ir"
 
 #. i18n: ectx: Menu (menu_build)
 #: kileui.rc:143
@@ -11914,12 +11914,14 @@ msgstr "Variábeis de contorno"
 msgid "TE&XINPUTS:"
 msgstr "ENTRADAS DE TE&XTO:"
 
+# well-spelled: BIB
 #. i18n: ectx: property (text), widget (QLabel, m_bibinputpath)
 #: widgets/latexconfigwidget.ui:220
 #, kde-format
 msgid "BIBINP&UTS:"
 msgstr "ENTRADAS DE &BIB:"
 
+# well-spelled: BST
 #. i18n: ectx: property (text), widget (QLabel, m_bstinputpath)
 #: widgets/latexconfigwidget.ui:239
 #, kde-format
@@ -12010,10 +12012,9 @@ msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104
-#, fuzzy, kde-format
-#| msgid "Activate live preview functionality."
+#, kde-format
 msgid "Set default live preview tool"
-msgstr "Activar a funcionalidade de previsualización ao vivo."
+msgstr "Definir a ferramenta predeterminada de previsualización ao vivo"
 
 #: widgets/logwidget.cpp:370
 #, kde-format
@@ -12262,6 +12263,7 @@ msgstr "Non dispoñíbel, abrir sempre noutra xanela."
 msgid "Co&mmand:"
 msgstr "&Orde:"
 
+# well-spelled: arquimedes, oMeuMellorLibro
 #. i18n: ectx: property (toolTip), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:80
 #, no-c-format, kde-format
@@ -12332,7 +12334,7 @@ msgstr ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\">Considere o ficheiro <span "
 "style=\" font-style:italic;\">oMeuMellorLibro.tex</span>, cuxa ruta completa "
 "é  <span style=\" font-style:italic;\">/home/arquimedes/latex/</span><span "
-"style=\" font-style:italic;\">oMeuMellorLibro.tex</span>, compileda con "
+"style=\" font-style:italic;\">oMeuMellorLibro.tex</span>, compilada con "
 "pdflatex a <span style=\" font-style:italic;\">oMeuMellorLibro.pdf</span>.</"
 "p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; "
@@ -12645,11 +12647,12 @@ msgstr "Nivel de expansión"
 msgid "&Default value"
 msgstr "Valor pre&determinado"
 
+# well-spelled: subsubsección
 #. i18n: ectx: property (text), widget (QLabel, textLabel2_2)
 #: widgets/structureviewconfigwidget.ui:112
 #, kde-format
 msgid "(&1=part, 2=chapter, 3=section, 4=subsection, 5=subsubsection, ...)"
-msgstr "(&1=parte, 2=capítulo, 3=sección, 4=subsección, 5=subsubsección …)"
+msgstr "(&1=parte, 2=capítulo, 3=sección, 4=subsección, 5=subsubsección…)"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowLabels)
 #: widgets/structureviewconfigwidget.ui:137

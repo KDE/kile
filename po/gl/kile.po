@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-04-28 19:13+0200\n"
+"PO-Revision-Date: 2023-05-01 10:14+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -136,7 +136,7 @@ msgstr "Esta utilidade esencial non funciona; comprobe a instalación."
 #: configtester.cpp:489
 #, kde-format
 msgid "Source Specials Switch"
-msgstr "Conmutar a trazabilidade da orixe"
+msgstr "Conmutar o acceso á orixe"
 
 #: configtester.cpp:521
 #, kde-format
@@ -1069,6 +1069,7 @@ msgstr "Forzar a posición (!)"
 msgid "Custom:"
 msgstr "Personalizado:"
 
+# well-spelled: rodearfigura
 #. i18n: ectx: attribute (title), widget (QWidget, tab_2)
 #: dialogs/includegraphicsdialog_base.ui:409
 #, kde-format
@@ -2366,12 +2367,12 @@ msgstr "Rematou cun erro"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "Could not create the ViewPDF tool"
-msgstr "Non se puido crear a ferramenta VerPDF"
+msgstr "Non se puido crear a ferramenta ViewPDF"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "ViewPDF"
-msgstr "VerPDF"
+msgstr "ViewPDF"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1621
 #, kde-format
@@ -2830,7 +2831,7 @@ msgstr "pstops: Escolla o parámetro"
 #: dialogs/postscriptdialog.cpp:137
 #, kde-format
 msgid "psselect: Choose Parameter"
-msgstr "pselect: Escolla o parámetro"
+msgstr "psselect: Escolla o parámetro"
 
 #: dialogs/postscriptdialog.cpp:153
 #, kde-format
@@ -2868,7 +2869,7 @@ msgstr ""
 #: dialogs/postscriptdialog.cpp:452
 #, kde-format
 msgid "psselect needs some parameters in this mode."
-msgstr "pselect precisa algúns parámetros neste modo."
+msgstr "psselect precisa algúns parámetros neste modo."
 
 #: dialogs/postscriptdialog.cpp:455
 #, kde-format
@@ -2894,7 +2895,7 @@ msgstr "Copias:"
 #: dialogs/postscriptdialog.cpp:512 kile.cpp:1017
 #, kde-format
 msgid "Postscript Tools"
-msgstr "Ferramentas Postcript"
+msgstr "Ferramentas Postscript"
 
 #. i18n: ectx: property (whatsThis), widget (KComboBox, m_cbTask)
 #: dialogs/postscriptdialog_base.ui:35
@@ -2914,7 +2915,7 @@ msgid ""
 "Be sure to call 'dvips' with option '-t a4' and\n"
 "hyperref package (if needed) with option 'a4paper'."
 msgstr ""
-"Os ficheiros ps son convertidos por «pstops» e «pselect».\n"
+"Os ficheiros ps son convertidos por «pstops» e «psselect».\n"
 "Asegúrese de chamar por «dvips» coa opción «-t a4» e,\n"
 "se o precisar, o paquete hyperref coa opción «a4paper»."
 
@@ -3756,7 +3757,7 @@ msgstr "O ficheiro PS ha converterse nun ficheiro PDF empregando ps2pdf."
 #: dialogs/quickdocumentdialog.cpp:755
 #, kde-format
 msgid "The LaTeX file is to be processed with MicroPress VTeX"
-msgstr "O ficheiro LaTeX ha procesarse con MicroPres VTeX"
+msgstr "O ficheiro LaTeX ha procesarse con MicroPress VTeX"
 
 #: dialogs/quickdocumentdialog.cpp:756
 #, kde-format
@@ -4003,7 +4004,7 @@ msgstr "Activar a xeración de índices de materias"
 #: dialogs/quickdocumentdialog.cpp:1058
 #, kde-format
 msgid "Enables multicolumn environments"
-msgstr "Activar os ambientes multi-columna"
+msgstr "Activar os ambientes multicolumna"
 
 #: dialogs/quickdocumentdialog.cpp:1059
 #, kde-format
@@ -8176,7 +8177,7 @@ msgstr ""
 "As táboas son obxectos que non son parte do texto normal e normalmente "
 "desprázanse ata un lugar axeitado.\n"
 "O argumento opcional [emprazamento] determina onde LaTeX intentará colocar a "
-"sua táboa\n"
+"súa táboa\n"
 "h : Here - na posición do texto na que apareza o ambiente da táboa\n"
 "t: Top - na parte superior da páxina do texto\n"
 "p : Page of floats - nunha páxina flutuante separada, que é unha páxina que "
@@ -8329,7 +8330,7 @@ msgstr "\\textsc{texto en versal}"
 #: kilestdactions.cpp:77
 #, kde-format
 msgid "\\item[label] Hello!"
-msgstr "\\item[etiqueta] Olá!"
+msgstr "\\item[etiqueta] Ola!"
 
 #: kilestdactions.cpp:79
 #, kde-format
@@ -8431,15 +8432,17 @@ msgstr ""
 "A orde \\vline debuxa unha liña vertical estendida á altura e fondo desta "
 "fila."
 
+# well-spelled: multicolumna
 #: kilestdactions.cpp:81
 #, kde-format
 msgid "Multicolumn Cells - \\multicolumn"
-msgstr "Celas multi-columna - \\multicolumn"
+msgstr "Celas multicolumna - \\multicolumn"
 
+# well-spelled: multicolumna
 #: kilestdactions.cpp:81
 #, kde-format
 msgid "Multicolumn Cells"
-msgstr "Celas multi-columna"
+msgstr "Celas multicolumna"
 
 #: kilestdactions.cpp:81
 #, kde-format
@@ -8924,16 +8927,19 @@ msgstr ""
 "a anchura. Debe haber espazo de abondo entre columnas que se poden estender "
 "para conseguir a anchura especificada."
 
+# well-spelled: Minipáxina
 #: kilestdactions.cpp:150
 #, kde-format
 msgid "Minipage - \\begin{minipage}"
 msgstr "Minipáxina - \\begin{minipage}"
 
+# well-spelled: Minipáxina
 #: kilestdactions.cpp:150
 #, kde-format
 msgid "Minipage"
 msgstr "Minipáxina"
 
+# well-spelled: minipáxina
 #: kilestdactions.cpp:150
 #, kde-format
 msgid ""
@@ -9008,7 +9014,7 @@ msgstr "Poña esta orde onde queira imprimir o índice de materias formatado."
 #: kilestdactions.cpp:161
 #, kde-format
 msgid "Glossary - \\makeglossary"
-msgstr "Glosario - \\makeglosary"
+msgstr "Glosario - \\makeglossary"
 
 #: kilestdactions.cpp:161
 #, kde-format
@@ -9098,7 +9104,7 @@ msgstr "Código incorporado (mostrando espazos)"
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Macro form of the verbatim* environment."
-msgstr "Macroforma do ambiente verbatim*."
+msgstr "Forma macro do ambiente de copia literal*."
 
 #: kilestdactions.cpp:173
 #, kde-format
@@ -9718,6 +9724,7 @@ msgstr "\\right"
 msgid "Array - \\begin{array}"
 msgstr "Matriz - \\begin{array}"
 
+# well-spelled: columnan
 #: kilestdactions.cpp:385
 #, kde-format
 msgid ""
@@ -10013,11 +10020,13 @@ msgstr "Texto en modo matemático - \\text{}"
 msgid "Text in Mathmode"
 msgstr "Texto en modo matemático"
 
+# well-spelled: Intertexto
 #: kilestdactions.cpp:448
 #, kde-format
 msgid "Intertext - \\intertext{}"
 msgstr "Intertexto - \\intertext{}"
 
+# well-spelled: Intertexto
 #: kilestdactions.cpp:448
 #, kde-format
 msgid "Intertext"
@@ -10113,21 +10122,25 @@ msgstr "Aliñar* - \\begin{align*}"
 msgid "Align*"
 msgstr "Aliñar*"
 
+# well-spelled: Aliñflu
 #: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign - \\begin{flalign}"
 msgstr "Aliñflu - \\begin{flalign}"
 
+# well-spelled: Aliñflu
 #: kilestdactions.cpp:467
 #, kde-format
 msgid "Flalign"
 msgstr "Aliñflu"
 
+# well-spelled: Aliñflu
 #: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign* - \\begin{flalign*}"
 msgstr "Aliñflu* - \\begin{flalign*}"
 
+# well-spelled: Aliñflu
 #: kilestdactions.cpp:468
 #, kde-format
 msgid "Flalign*"
@@ -10178,12 +10191,14 @@ msgid "Gathered"
 msgstr "Reunido"
 
 # skip-rule: PT-2013-dual_align
+# well-spelled: Aliñadoen
 #: kilestdactions.cpp:475
 #, kde-format
 msgid "Alignedat - \\begin{alignedat}"
 msgstr "Aliñadoen - \\begin{alignedat}"
 
 # skip-rule: PT-2013-dual_align
+# well-spelled: Aliñadoen
 #: kilestdactions.cpp:475
 #, kde-format
 msgid "Alignedat"
@@ -10209,6 +10224,7 @@ msgstr "matriz - \\begin{matrix}"
 msgid "matrix"
 msgstr "matriz"
 
+# well-spelled: matrizp
 #: kilestdactions.cpp:480
 #, kde-format
 msgid "pmatrix - \\begin{pmatrix}"

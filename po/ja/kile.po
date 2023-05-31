@@ -14,7 +14,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
 
@@ -1436,7 +1436,6 @@ msgstr "ユーザ定義の環境とコマンドのみを表示する"
 msgid "1 item found."
 msgid_plural "%1 items found."
 msgstr[0] ""
-msgstr[1] ""
 
 #: dialogs/listselector.cpp:150
 #, kde-format
@@ -9970,8 +9969,7 @@ msgstr ""
 #, kde-format
 msgid "1 error"
 msgid_plural "%1 errors"
-msgstr[0] "1 個のエラー"
-msgstr[1] "%1 個のエラー"
+msgstr[0] "%1 個のエラー"
 
 #: kilestdtools.cpp:328
 #, kde-format
@@ -9982,8 +9980,7 @@ msgstr ""
 #, kde-format
 msgid "1 warning"
 msgid_plural "%1 warnings"
-msgstr[0] "1 個の警告"
-msgstr[1] "%1 個の警告"
+msgstr[0] "%1 個の警告"
 
 #: kilestdtools.cpp:329
 #, kde-format
@@ -9994,8 +9991,7 @@ msgstr ""
 #, kde-format
 msgid "1 badbox"
 msgid_plural "%1 badboxes"
-msgstr[0] "1 個の badbox"
-msgstr[1] "%1 個の badbox"
+msgstr[0] "%1 個の badbox"
 
 #: kilestdtools.cpp:332
 #, kde-format
@@ -12574,7 +12570,6 @@ msgstr ""
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
 msgstr[0] ""
-msgstr[1] ""
 
 #: widgets/symbolview.cpp:241
 #, kde-format

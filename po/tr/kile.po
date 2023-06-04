@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-05-24 00:54+0300\n"
+"PO-Revision-Date: 2023-06-04 02:02+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -1842,8 +1842,8 @@ msgid ""
 "Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very "
 "quick from one cell to another."
 msgstr ""
-"Her hücreye madde imi ekle. Alt+Ctrl+Sağ Ok ve Alt+Ctrl+Sol Ok ile hızlı bir "
-"şekilde bir hücreden diğerine geçebilirsiniz."
+"Her hücreye madde imi ekleyin. Seçenek+Kontrol+Sağ Ok ve Seçenek+Kontrol+Sol "
+"Ok ile hızlı bir şekilde bir hücreden diğerine geçebilirsiniz."
 
 #: dialogs/mathenvironmentdialog.cpp:207
 #: dialogs/tabular/newtabulardialog.cpp:145
@@ -4512,8 +4512,8 @@ msgid ""
 "Insert bullets in each cell. Alt+Ctrl+Right and Alt+Ctrl+Left will move very "
 "quickly from one cell to another."
 msgstr ""
-"Her hücreye madde imi ekle. Alt+Ctrl+Sağ Ok ve Alt+Ctrl+Sol Ok ile hızlı bir "
-"şekilde bir hücreden diğerine geçebilirsiniz."
+"Her hücreye madde imi ekleyin. Seçenek+Kontrol+Sağ Ok ve Seçenek+Kontrol+Sol "
+"Ok ile hızlı bir şekilde bir hücreden diğerine geçebilirsiniz."
 
 #: dialogs/tabular/newtabulardialog.cpp:182
 #, kde-format
@@ -5877,8 +5877,8 @@ msgid ""
 msgstr ""
 "<p>Karşılık gelen LaTeX komutlarını görmek için fareyi simgelerin üzerine "
 "getirin. <br/>Karşılık gelen komutu eklemek için simgenin üzerine tıklayın, "
-"matematik kipindeyken \"Shift\" düğmesine, süslü parantezler içindeyken "
-"\"Ctrl\" düğmesine basmanız komutu ekleyecektir.</p>"
+"matematik kipindeyken \"Üst Karakter\" düğmesine, süslü parantezler "
+"içindeyken \"Kontrol\" düğmesine basmanız komutu ekleyecektir.</p>"
 
 #: kile.cpp:699 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format

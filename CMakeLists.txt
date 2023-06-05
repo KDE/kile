@@ -52,6 +52,10 @@ find_package(KF5 5.69 REQUIRED COMPONENTS
 	XmlGui
 )
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
 find_package(Okular5 REQUIRED)
 set_package_properties(Okular5 PROPERTIES
 	DESCRIPTION "Okular core library"

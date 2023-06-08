@@ -4865,7 +4865,7 @@ msgstr "Mo&u amunt"
 #: dialogs/userhelpdialog.cpp:79
 #, kde-format
 msgid "Move &Down"
-msgstr "Mou a&vall"
+msgstr "Mou cap a&vall"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlFile)
 #. i18n: ectx: property (text), widget (QLabel, m_lbFile)
@@ -5196,7 +5196,7 @@ msgstr "Inserix un element de submenú nou davall de l'element seleccionat."
 #: dialogs/usermenu/usermenudialog_base.ui:166
 #, kde-format
 msgid "Move the selected item up."
-msgstr "Mou amunt l'element seleccionat."
+msgstr "Mou cap amunt l'element seleccionat."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbUp)
 #: dialogs/usermenu/usermenudialog_base.ui:169

@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-06-04 02:02+0300\n"
+"PO-Revision-Date: 2023-06-11 21:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -263,7 +263,8 @@ msgstr "Sistemin doğru yapılandırılıp yapılandırılmadığı denetleniyor
 #: dialogs/configcheckerdialog.cpp:147
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
-msgstr "Belge görüntüleyiciyi kullanmak için görüntüleme araçlarını yapılandır"
+msgstr ""
+"Belge görüntüleyicisini kullanmak için görüntüleme araçlarını yapılandır"
 
 #: dialogs/configcheckerdialog.cpp:149
 #, kde-format
@@ -323,8 +324,7 @@ msgstr ""
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr ""
-"Gömülü belge görüntüleyicisi kullanılabilir ve canlı önizlemeyi "
-"destekleniyor."
+"Gömülü belge görüntüleyicisi kullanılabilir ve canlı önizleme destekleniyor."
 
 #: dialogs/configcheckerdialog.cpp:260
 #, kde-format
@@ -342,8 +342,8 @@ msgid ""
 "not available or the installed<br/>version is too old). Live preview is "
 "hence not supported."
 msgstr ""
-"Gömülü belge görüntüleyici <b>kullanılamaz</b> (Okular ya kurulu değil ya da "
-"eski sürümü kurulu).<br/>Bu nedenle canlı önizleme desteklenmiyor."
+"Gömülü belge görüntüleyicisi <b>kullanılamaz</b> (Okular ya kurulu değil ya "
+"da eski sürümü kurulu).<br/>Bu nedenle canlı önizleme desteklenmiyor."
 
 #: dialogs/configcheckerdialog.cpp:291
 #, kde-format
@@ -6273,7 +6273,7 @@ msgstr "Geçerli Belgeyi, '&Ana Belge' Olarak Tanımla"
 #: kile.cpp:1025
 #, kde-format
 msgid "Show Document Viewer"
-msgstr "Belge Görüntüleyiciyi Göster"
+msgstr "Belge Görüntüleyicisini Göster"
 
 #: kile.cpp:1032
 #, kde-format
@@ -6708,13 +6708,14 @@ msgstr "Yan çubuğun görünüp görünmeyeceği."
 #: kile.kcfg:169
 #, kde-format
 msgid "Whether to show the document viewer."
-msgstr "Belge görüntüleyicinin gösterilip gösterilmeyeceği."
+msgstr "Belge görüntüleyicisinin gösterilip gösterilmeyeceği."
 
 #. i18n: ectx: label, entry (ShowDocumentViewerInExternalWindow), group (Show)
 #: kile.kcfg:173
 #, kde-format
 msgid "Whether to show the document viewer in a separate external window."
-msgstr "Belge görüntüleyicinin ayrı bir pencerede gösterilip gösterilmeyeceği."
+msgstr ""
+"Belge görüntüleyicisinin ayrı bir pencerede gösterilip gösterilmeyeceği."
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
 #: kile.kcfg:177
@@ -6974,7 +6975,7 @@ msgstr ""
 #: kile.kcfg:369
 #, kde-format
 msgid "Whether the watch-file mode is enabled for the document viewer"
-msgstr "Belge görüntüleyici için dosya izleme kipinin etkin olup olmadığı"
+msgstr "Belge görüntüleyicisi için dosya izleme kipinin etkin olup olmadığı"
 
 #. i18n: ectx: label, entry (ShowFullPathInWindowTitle), group (User)
 #: kile.kcfg:373
@@ -7727,7 +7728,7 @@ msgstr "başarısız oldu (hata kodu %1)"
 #: kilelauncher.cpp:357
 #, kde-format
 msgid "The document viewer is not available"
-msgstr "Belge görüntüleyici kullanılabilir değil"
+msgstr "Belge görüntüleyicisi kullanılabilir değil"
 
 #: kilelauncher.cpp:361
 #, kde-format
@@ -10470,7 +10471,7 @@ msgstr "&Görünüm"
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
-msgstr "Belge Görüntüleyici"
+msgstr "Belge Görüntüleyicisi"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:129
@@ -11019,7 +11020,7 @@ msgstr "LaTeX ---> DVI (Okular)"
 #: quickpreview.cpp:43
 #, kde-format
 msgid "LaTeX ---> DVI (Document Viewer)"
-msgstr "LaTeX ---> DVI (Belge Görüntüleyici)"
+msgstr "LaTeX ---> DVI (Belge Görüntüleyicisi)"
 
 #: quickpreview.cpp:44
 #, kde-format
@@ -11029,7 +11030,7 @@ msgstr "LaTeX ---> PS (Okular)"
 #: quickpreview.cpp:45
 #, kde-format
 msgid "LaTeX ---> PS (Document Viewer)"
-msgstr "LaTeX ---> PS (Belge Görüntüleyici)"
+msgstr "LaTeX ---> PS (Belge Görüntüleyicisi)"
 
 #: quickpreview.cpp:46
 #, kde-format
@@ -11039,7 +11040,7 @@ msgstr "PDFLaTeX ---> PDF (Okular)"
 #: quickpreview.cpp:47
 #, kde-format
 msgid "PDFLaTeX ---> PDF (Document Viewer)"
-msgstr "PDFLaTeX ---> PDF (Belge Görüntüleyici)"
+msgstr "PDFLaTeX ---> PDF (Belge Görüntüleyicisi)"
 
 #: quickpreview.cpp:48
 #, kde-format
@@ -11049,7 +11050,7 @@ msgstr "XeLaTeX ---> PDF (Okular)"
 #: quickpreview.cpp:49
 #, kde-format
 msgid "XeLaTeX ---> PDF (Document Viewer)"
-msgstr "XeLaTeX ---> PDF (Belge Görüntüleyici)"
+msgstr "XeLaTeX ---> PDF (Belge Görüntüleyicisi)"
 
 #: quickpreview.cpp:50
 #, kde-format
@@ -11059,7 +11060,7 @@ msgstr "LuaLaTeX ---> PDF (Okular)"
 #: quickpreview.cpp:51
 #, kde-format
 msgid "LuaLaTeX ---> PDF (Document Viewer)"
-msgstr "LuaLaTeX ---> PDF (Belge Görüntüleyici)"
+msgstr "LuaLaTeX ---> PDF (Belge Görüntüleyicisi)"
 
 #: quickpreview.cpp:78
 #, kde-format
@@ -12879,7 +12880,7 @@ msgstr "Konsole'da Çalıştır"
 #: widgets/toolconfigwidget.cpp:112
 #, kde-format
 msgid "Use Document Viewer"
-msgstr "Belge Görüntüleyiciyi Kullan"
+msgstr "Belge Görüntüleyicisini Kullan"
 
 #: widgets/toolconfigwidget.cpp:113
 #, kde-format

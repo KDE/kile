@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-04-26 20:04+0100\n"
+"PO-Revision-Date: 2023-06-15 21:48+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -3873,7 +3873,7 @@ msgstr "Hipertekstaj markoj en LaTeX"
 #: dialogs/quickdocumentdialog.cpp:1040
 #, kde-format
 msgid "Use dvips as hyperref driver"
-msgstr "Uzu dvips kiel hiperref-ŝoforon"
+msgstr "Uzu dvips kiel hiperref-pelilon"
 
 #: dialogs/quickdocumentdialog.cpp:1042
 #, kde-format
@@ -5852,12 +5852,12 @@ msgstr "Greka"
 #: kile.cpp:664 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
-msgstr "Specialaj Karakteroj"
+msgstr "Specialaj Signoj"
 
 #: kile.cpp:669
 #, kde-format
 msgid "Cyrillic Characters"
-msgstr "Cirilaj Karakteroj"
+msgstr "Cirilaj Signoj"
 
 #: kile.cpp:674
 #, kde-format
@@ -12464,7 +12464,7 @@ msgstr "La pli mallonga sekvenco \"%1\" jam estas asignita al la ago \"%2\""
 #: widgets/statisticswidget.cpp:44
 #, kde-format
 msgid "Characters"
-msgstr "Karakteroj"
+msgstr "Signoj"
 
 #: widgets/statisticswidget.cpp:51
 #, kde-format

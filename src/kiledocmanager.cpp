@@ -1562,7 +1562,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
             m_progressDialog->hide();
         }
 
-        KMessageBox::sorry(m_ki->mainWindow(), i18n("<p>The file \"%1\" cannot be opened as it does not appear to be a project file.</p>",
+        KMessageBox::error(m_ki->mainWindow(), i18n("<p>The file \"%1\" cannot be opened as it does not appear to be a project file.</p>",
                            url.fileName()),
                            i18n("Impossible to Open Project File"));
         delete kp;
@@ -1574,7 +1574,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
             m_progressDialog->hide();
         }
 
-        KMessageBox::sorry(m_ki->mainWindow(), i18n("<p>The project \"%1\" cannot be opened as it was created <br/>by a newer version of Kile.</p>",
+        KMessageBox::error(m_ki->mainWindow(), i18n("<p>The project \"%1\" cannot be opened as it was created <br/>by a newer version of Kile.</p>",
                            url.fileName()),
                            i18n("Impossible to Open Project"));
         delete kp;

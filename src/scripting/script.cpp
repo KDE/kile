@@ -293,7 +293,7 @@ void ScriptEnvironment::scriptError(const QString &name)
     QScriptValue exception = m_engine->uncaughtException();
     QString errormessage = ( exception.isError() ) ? exception.toString() : QString();
     QString message = i18n("An error has occurred at line %1 during the execution of the script \"%2\":\n%3", errorline, name, errormessage);
-    KMessageBox::sorry(m_kileInfo->mainWindow(), message, i18n("Error"));
+    KMessageBox::error(m_kileInfo->mainWindow(), message, i18n("Error"));
 }
 
 ////////////////////////////// ScriptHelpers //////////////////////////////

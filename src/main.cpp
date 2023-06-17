@@ -173,7 +173,7 @@ int main(int argc, char **argv)
 
             KILE_DEBUG_MAIN << "couldn't find a recent version of the Okular library";
 
-            KMessageBox::sorry(Q_NULLPTR, i18n("Kile cannot start as a recent version the Okular library could not be found.\n\n"
+            KMessageBox::error(Q_NULLPTR, i18n("Kile cannot start as a recent version the Okular library could not be found.\n\n"
                                                "Please install the Okular library before running Kile."),
                                           i18n("Okular library not found"));
             return EXIT_FAILURE;

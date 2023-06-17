@@ -95,7 +95,8 @@ void Manager::executeScript(const Script *script)
     if(requiredVersionTagExp.indexIn(firstLine) != -1) {
         QString requiredKileVersion = requiredVersionTagExp.cap(2);
         if(compareVersionStrings(requiredKileVersion, kileFullVersion) > 0) {
-            KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.", requiredKileVersion, script->getName()), i18n("Version Error"));
+            KMessageBox::error(m_kileInfo->mainWindow(), i18n("Version %1 of Kile is at least required to execute the script \"%2\". The execution has been aborted.",
+                                                              requiredKileVersion, script->getName()), i18n("Version Error"));
             return;
         }
     }
@@ -103,7 +104,7 @@ void Manager::executeScript(const Script *script)
     // TODO only scripts with a current view can be started at this moment
     KTextEditor::View *view = m_kileInfo->viewManager()->currentTextView();
     if(!view) {
-        KMessageBox::sorry(m_kileInfo->mainWindow(), i18n("Cannot start the script: no view available"), i18n("Script Error"));
+        KMessageBox::error(m_kileInfo->mainWindow(), i18n("Cannot start the script: no view available"), i18n("Script Error"));
         return;
     }
 

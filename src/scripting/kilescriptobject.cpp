@@ -46,7 +46,7 @@ void KileAlert::information(const QString &text, const QString &caption)
 void KileAlert::sorry(const QString &text, const QString &caption)
 {
     QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: sorry") : caption;
-    KMessageBox::sorry(m_mainWindow,text,msgCaption);
+    KMessageBox::error(m_mainWindow,text,msgCaption);
 }
 
 void KileAlert::error(const QString &text, const QString &caption)

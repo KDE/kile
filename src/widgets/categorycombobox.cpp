@@ -78,7 +78,7 @@ void CategoryComboBox::addCategoryItem(const QString &text)
             item->setData(true, KileWidget::CategoryComboBox::Category);
 
             // make the item unselectable
-            item->setFlags(0);
+            item->setFlags(Qt::NoItemFlags);
         }
     }
 

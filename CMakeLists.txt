@@ -1,6 +1,6 @@
-project(kile)
+cmake_minimum_required(VERSION 3.16)
 
-cmake_minimum_required(VERSION 3.0.0)
+project(kile)
 
 set(KILE_VERSION CACHE STRING "Kile's version; can be used to set the internal version of Kile on MacOSX")
 

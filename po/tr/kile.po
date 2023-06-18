@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-12-21 00:47+0000\n"
-"PO-Revision-Date: 2023-06-11 21:46+0300\n"
+"PO-Revision-Date: 2023-06-17 21:49+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -6253,7 +6253,7 @@ msgstr "Hızlı Başlangıç"
 #: kile.cpp:1013 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
-msgstr "Dizilim"
+msgstr "Diziliş"
 
 #: kile.cpp:1014 kile.cpp:2272 kilestdactions.cpp:79
 #, kde-format
@@ -9328,8 +9328,8 @@ msgid ""
 "abbrv  : like plain, but more compact labels."
 msgstr ""
 "\\bibliographystyle a verilen argüman style.bst dosyasına dayanır. Bu dosya "
-"sizin iktibaslarınızın ne şekilde görüneceğini belirler.\n"
-"BibTeX ile birlikte gelen standart stiller:\n"
+"sizin atıflarınızın nasıl görüneceğini belirler.\n"
+"BibTeX ile birlikte gelen standart biçemler:\n"
 "alpha : alfabetik dizilim. Etiketler yazar adı ve yayınlanma tarihine göre "
 "sıralanır.\n"
 "plain  : alfabelik dizilim. Etiketler numaralandırılır.\n"
@@ -9631,7 +9631,7 @@ msgstr "\\right"
 #: kilestdactions.cpp:384
 #, kde-format
 msgid "Array - \\begin{array}"
-msgstr "Dizilim - \\begin{array}"
+msgstr "Diziliş - \\begin{array}"
 
 #: kilestdactions.cpp:385
 #, kde-format

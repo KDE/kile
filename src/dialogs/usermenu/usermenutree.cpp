@@ -921,7 +921,9 @@ void UserMenuTree::itemDown()
 // delete the whole menutree
 void  UserMenuTree::deleteMenuTree()
 {
-    if ( KMessageBox::questionYesNo(this, i18n("Do you really want to clear the complete menutree?") ) == KMessageBox::Yes ) {
+    if ( KMessageBox::questionTwoActions(this, i18n("Do you really want to clear the complete menutree?"),
+                                         i18n("Clear menutree"),
+                                         KStandardGuiItem::clear(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
         blockSignals(true);
         clear();
         blockSignals(false);

@@ -286,7 +286,9 @@ void ManageTemplatesDialog::addTemplate()
         TemplateListViewItem *templateItem = dynamic_cast<TemplateListViewItem*>(item);
         Q_ASSERT(templateItem);
         KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
-        if (KMessageBox::warningYesNo(this, i18n("You are about to replace the template \"%1\"; are you sure?", templateInfo.name)) == KMessageBox::No) {
+        if (KMessageBox::warningTwoActions(this, i18n("You are about to replace the template \"%1\"; are you sure?", templateInfo.name),
+                                           i18n("Replace template"),
+                                           KStandardGuiItem::ok(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
             reject();
             return;
         }
@@ -314,7 +316,9 @@ bool ManageTemplatesDialog::removeTemplate()
 
     KileTemplate::Info templateInfo = templateItem->getTemplateInfo();
 
-    if (KMessageBox::warningYesNo(this, i18n("You are about to remove the template \"%1\"; are you sure?", templateInfo.name)) == KMessageBox::No) {
+    if (KMessageBox::warningTwoActions(this, i18n("You are about to remove the template \"%1\"; are you sure?", templateInfo.name),
+                                       i18n("Replace template"),
+                                       KStandardGuiItem::remove(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
         return false;
     }
 

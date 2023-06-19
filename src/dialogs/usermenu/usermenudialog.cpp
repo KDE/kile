@@ -257,7 +257,9 @@ void UserMenuDialog::slotNewClicked()
     KILE_DEBUG_MAIN << "start new menutree ... ";
 
     if (!m_menutree->isEmpty() && m_modified) {
-        if (KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?")) == KMessageBox::No) {
+        if (KMessageBox::questionTwoActions(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?"),
+                                            i18n("Discard tree"),
+                                            KStandardGuiItem::discard(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
             return;
         }
     }
@@ -275,7 +277,9 @@ void UserMenuDialog::slotLoadClicked()
     KILE_DEBUG_MAIN << "load xml file ";
 
     if (!m_menutree->isEmpty() && m_modified) {
-        if (KMessageBox::questionYesNo(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?")) == KMessageBox::No) {
+        if (KMessageBox::questionTwoActions(this, i18n("Current menu tree was modified, but not saved.\nDiscard this tree?"),
+                                            i18n("Discard tree"),
+                                            KStandardGuiItem::discard(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
             return;
         }
     }
@@ -390,7 +394,9 @@ QString UserMenuDialog::saveAsClicked()
     }
 
     if (QFile::exists(filename)) {
-        if (KMessageBox::questionYesNo(this, i18n("File '%1' does already exist.\nOverwrite this file?", filename)) == KMessageBox::No) {
+        if (KMessageBox::questionTwoActions(this, i18n("File '%1' does already exist.\nOverwrite this file?", filename),
+                                            i18n("Overwrite file"),
+                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
             return QString();
         }
     }
@@ -403,7 +409,9 @@ QString UserMenuDialog::saveAsClicked()
 bool UserMenuDialog::saveCheck()
 {
     if (m_menutree->errorCheck() == false) {
-        if (KMessageBox::questionYesNo(this, i18n("The menu tree contains some errors and installing this file may lead to unpredictable results.\nDo you really want to save this file?")) == KMessageBox::No) {
+        if (KMessageBox::questionTwoActions(this, i18n("The menu tree contains some errors and installing this file may lead to unpredictable results.\nDo you really want to save this file?"),
+                                            i18n("Menu tree errors"),
+                                            KStandardGuiItem::save(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
             return false;
         }
     }

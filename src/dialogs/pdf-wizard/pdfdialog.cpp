@@ -1700,9 +1700,11 @@ bool PdfDialog::checkParameter()
     // check, if this output file already exists
     if ( fo.exists() ) {
         QString s = i18n("A file named \"%1\" already exists. Are you sure you want to overwrite it?", fo.fileName());
-        if (KMessageBox::questionYesNo(this,
-                                       "<center>" + s + "</center>",
-                                       i18n("PDF Tools")) == KMessageBox::No) {
+        if (KMessageBox::questionTwoActions(this,
+                                            "<center>" + s + "</center>",
+                                            i18n("PDF Tools"),
+                                            KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()
+                                            ) == KMessageBox::SecondaryAction) {
             return false;
         }
     }

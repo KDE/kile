@@ -391,11 +391,13 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     if(KileConfig::rCVersion() < 8) {
         // if KileConfig::rCVersion() <= 0, then 'kilerc' is (most likely) fresh or empty,
         // otherwise, we have to ask the user if she wants to reset the tools
-        if ((KileConfig::rCVersion() <= 0) || (KMessageBox::questionYesNo(mainWindow(),
-                                               i18n("<p>The tool settings need to be reset for this version of Kile to function properly.<br/>"
-                                                       "This will overwrite any changes you have made.</p>"
-                                                       "<p>Do you want to reset the tools now?</p>"),
-                                               i18n("Tools need to be reset"))  == KMessageBox::Yes)) {
+        if ((KileConfig::rCVersion() <= 0) ||
+            (KMessageBox::questionTwoActions(mainWindow(),
+                                             i18n("<p>The tool settings need to be reset for this version of Kile to function properly.<br/>"
+                                                  "This will overwrite any changes you have made.</p>"
+                                                  "<p>Do you want to reset the tools now?</p>"),
+                                             i18n("Tools need to be reset"),
+                                             KStandardGuiItem::reset(), KStandardGuiItem::cancel())  == KMessageBox::PrimaryAction)) {
             m_toolFactory->resetToolConfigurations();
         }
     }

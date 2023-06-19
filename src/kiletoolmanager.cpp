@@ -155,7 +155,7 @@ void Manager::enableClear()
 
 bool Manager::queryContinue(const QString & question, const QString & caption /*= QString()*/)
 {
-    return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::no(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
+    return (KMessageBox::warningContinueCancel(m_stack, question, caption, KStandardGuiItem::cont(), KStandardGuiItem::cancel(), "showNotALaTeXRootDocumentWarning") == KMessageBox::Continue);
 }
 
 void Manager::run(Base *tool)

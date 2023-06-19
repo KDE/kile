@@ -475,9 +475,11 @@ bool PostscriptDialog::checkParameter()
 
         if (infile != outfile && fo.exists()) {
             QString s = i18n("A file named \"%1\" already exists. Are you sure you want to overwrite it?", fo.fileName());
-            if (KMessageBox::questionYesNo(this,
-                                           "<center>" + s + "</center>",
-                                           "Postscript tools") == KMessageBox::No) {
+            if (KMessageBox::questionTwoActions(this,
+                                                "<center>" + s + "</center>",
+                                                "Postscript tools",
+                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel())
+                == KMessageBox::SecondaryAction) {
                 return false;
             }
         }

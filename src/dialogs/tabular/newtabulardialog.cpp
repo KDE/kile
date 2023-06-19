@@ -656,7 +656,8 @@ void NewTabularDialog::updateColsAndRows()
         }
 
         if(hasContent) {
-            if(KMessageBox::questionYesNo(m_Table, i18n("Setting the new size for the table will delete content. Are you sure to set the new size?"), i18n("Resizing table")) == KMessageBox::No) {
+            if(KMessageBox::questionTwoActions(m_Table, i18n("Setting the new size for the table will delete content. Are you sure to set the new size?"), i18n("Resizing table"),
+                                               KStandardGuiItem::ok(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 m_sbCols->setValue(m_Table->columnCount());
                 return;
             }
@@ -677,7 +678,8 @@ void NewTabularDialog::updateColsAndRows()
         }
 
         if(hasContent) {
-            if(KMessageBox::questionYesNo(m_Table, i18n("Setting the new size for the table will delete content. Are you sure to set the new size?"), i18n("Resizing table")) == KMessageBox::No) {
+            if(KMessageBox::questionTwoActions(m_Table, i18n("Setting the new size for the table will delete content. Are you sure to set the new size?"), i18n("Resizing table"),
+                                               KStandardGuiItem::ok(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 m_sbRows->setValue(m_Table->rowCount());
                 return;
             }

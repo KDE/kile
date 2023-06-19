@@ -1542,10 +1542,12 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
             m_progressDialog->hide();
         }
 
-        if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("<p>The project file for the project \"%1\" does not exist or it is not readable.</p>"
-                                      "<p>Do you want to remove this project from the recent projects list?</p>",
-                                      url.fileName()),
-                                      i18n("Could Not Open Project"))  == KMessageBox::Yes) {
+        if (KMessageBox::warningTwoActions(m_ki->mainWindow(),
+                                           i18n("<p>The project file for the project \"%1\" does not exist or it is not readable.</p>"
+                                                "<p>Do you want to remove this project from the recent projects list?</p>",
+                                                url.fileName()),
+                                           i18n("Could Not Open Project"),
+                                           KStandardGuiItem::remove(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
             emit(removeFromRecentProjects(realurl));
         }
         return;
@@ -1586,18 +1588,20 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
             m_progressDialog->hide();
         }
 
-        if(KMessageBox::questionYesNo(m_ki->mainWindow(), i18n("<p>The project file \"%1\" was created by a previous version of Kile.<br/>"
-                                      "It needs to be updated before it can be opened.</p>"
-                                      "<p>Do you want to update it?</p>", url.fileName()),
-                                      i18n("Project File Needs to be Updated"))  == KMessageBox::No) {
+        if(KMessageBox::questionTwoActions(m_ki->mainWindow(), i18n("<p>The project file \"%1\" was created by a previous version of Kile.<br/>"
+                                           "It needs to be updated before it can be opened.</p>"
+                                           "<p>Do you want to update it?</p>", url.fileName()),
+                                           i18n("Project File Needs to be Updated"),
+                                           KStandardGuiItem::ok(), KStandardGuiItem::cancel())  == KMessageBox::PrimaryAction) {
             delete kp;
             return;
         }
 
         if(!kp->migrateProjectFileToCurrentVersion()) {
-            if (KMessageBox::warningYesNo(m_ki->mainWindow(), i18n("<p>The project file \"%1\" could be not updated.</p>"
-                                          "<p>Do you want to remove this project from the recent projects list?</p>", url.fileName()),
-                                          i18n("Could Not Update Project File"))  == KMessageBox::Yes) {
+            if (KMessageBox::warningTwoActions(m_ki->mainWindow(), i18n("<p>The project file \"%1\" could be not updated.</p>"
+                                               "<p>Do you want to remove this project from the recent projects list?</p>", url.fileName()),
+                                               i18n("Could Not Update Project File"),
+                                               KStandardGuiItem::remove(), KStandardGuiItem::cancel())  == KMessageBox::SecondaryAction) {
                 emit(removeFromRecentProjects(realurl));
             }
             delete kp;

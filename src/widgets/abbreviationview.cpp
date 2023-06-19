@@ -171,9 +171,11 @@ void AbbreviationView::slotDeleteAbbreviation()
     QString abbreviationText = item->text(ALVabbrev);
     QString abbreviationExpansion = item->text(ALVexpansion);
     QString message = i18n("Delete the abbreviation '%1'?", abbreviationText);
-    if(KMessageBox::questionYesNo(this,
+    if(KMessageBox::questionTwoActions(this,
                                   "<center>" + message + "</center>",
-                                  i18n("Delete Abbreviation") ) == KMessageBox::Yes) {
+                                  i18n("Delete Abbreviation"),
+                                  KStandardGuiItem::del(),
+                                  KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
         QString s = abbreviationText + '=' + abbreviationExpansion;
     }
     m_abbreviationManager->removeLocalAbbreviation(abbreviationText);

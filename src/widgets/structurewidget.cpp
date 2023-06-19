@@ -731,8 +731,12 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
                 emit(fileOpen(QUrl::fromLocalFile(otherFilename), QString()));
             }
             else {
-                if(KMessageBox::warningYesNo(this, i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?", fname), i18n("Cannot Find File"))
-                        == KMessageBox::Yes) {
+                if(KMessageBox::warningTwoActions(this,
+                                                  i18n("Cannot find the included file. The file does not exist, is not readable or Kile is unable to determine the correct path to it. The filename causing this error was: %1.\nDo you want to create this file?", fname),
+                                                  i18n("Cannot Find File"),
+                                                  KStandardGuiItem::ok(),
+                                                  KStandardGuiItem::cancel())
+                        == KMessageBox::PrimaryAction) {
                     emit(fileNew(QUrl::fromLocalFile(fname)));
                 }
             }

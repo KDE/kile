@@ -58,7 +58,8 @@ void KileAlert::error(const QString &text, const QString &caption)
 QString KileAlert::question(const QString &text, const QString &caption)
 {
     QString msgCaption = ( caption.isEmpty() ) ? i18n("Script: question") : caption;
-    return ( KMessageBox::questionYesNo(m_mainWindow,text,msgCaption) == KMessageBox::No ) ? "no" : "yes";
+    return ( KMessageBox::questionTwoActions(m_mainWindow, text, msgCaption, KStandardGuiItem::ok(), KStandardGuiItem::cancel())
+             == KMessageBox::PrimaryAction ) ? "yes" : "no";
 }
 
 QString KileAlert::warning(const QString &text, const QString &caption)

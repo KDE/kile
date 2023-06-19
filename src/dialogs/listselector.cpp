@@ -239,7 +239,7 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
         if (localFile.exists()) {
             const QString dialog_text = i18n("A local completion file with the name \"%1\" already exists.\nDo you want to replace this file?", localFile.fileName());
             const QString dialog_caption = i18n("Replace Local File?");
-            if (KMessageBox::questionYesNo(this, dialog_text, dialog_caption) == KMessageBox::Yes) {
+            if (KMessageBox::questionTwoActions(this, dialog_text, dialog_caption, KStandardGuiItem::ok(), KStandardGuiItem::cancel()) == KMessageBox::PrimaryAction) {
                 if (!QFile::remove(localFile.absoluteFilePath())) {
                     KMessageBox::error(this, i18n("An error occurred while removing the file \"%1\".\nPlease check the file permissions.",
                                        localFile.fileName()), i18n("Remove Error"));

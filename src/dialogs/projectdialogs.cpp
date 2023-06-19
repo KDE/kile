@@ -333,8 +333,10 @@ void KileNewProjectDialog::handleOKButtonClicked()
     }
 
     if (projectTitle().trimmed().isEmpty()) {
-        if (KMessageBox::warningYesNo(this, i18n("You have not entered a project name. If you decide to proceed, the project name will be set to \"Untitled\".\n"
-                                      "Do you want to create the project nevertheless?"), i18n("No Project Name Given")) == KMessageBox::Yes) {
+        if (KMessageBox::warningTwoActions(this, i18n("You have not entered a project name. If you decide to proceed, the project name will be set to \"Untitled\".\n"
+                                           "Do you want to create the project nevertheless?"), i18n("No Project Name Given"),
+                                           KStandardGuiItem::ok(), KStandardGuiItem::cancel()
+                                           ) == KMessageBox::PrimaryAction) {
             m_title->setText(i18n("Untitled"));
         }
         else {
@@ -390,7 +392,8 @@ void KileNewProjectDialog::handleOKButtonClicked()
         }
 
         if(QFileInfo(projectDir.filePath(fileString)).exists()) {
-            if (KMessageBox::warningYesNo(this, i18n("The file \"%1\" already exists, overwrite it?", fileString), i18n("File Already Exists")) == KMessageBox::No) {
+            if (KMessageBox::warningTwoActions(this, i18n("The file \"%1\" already exists, overwrite it?", fileString), i18n("File Already Exists"),
+                                               KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 return;
             }
         }

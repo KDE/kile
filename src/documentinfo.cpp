@@ -153,12 +153,12 @@ QUrl Info::repairExtension(const QUrl &url, QWidget *mainWidget, bool checkForFi
     if(filename.contains(".") && filename[0] != '.') // There already is an extension
         return ret;
 
-    if(KMessageBox::Yes == KMessageBox::questionYesNo(Q_NULLPTR,
+    if(KMessageBox::questionTwoActions(Q_NULLPTR,
             i18n("The given filename has no extension; do you want one to be automatically added?"),
             i18n("Missing Extension"),
-            KStandardGuiItem::yes(),
-            KStandardGuiItem::no(),
-            "AutomaticallyAddExtension"))
+            KStandardGuiItem::add(),
+            KStandardGuiItem::cancel(),
+            "AutomaticallyAddExtension") == KMessageBox::PrimaryAction)
     {
         ret = ret.adjusted(QUrl::RemoveFilename);
         ret.setPath(ret.path() + filename + ".tex");

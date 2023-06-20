@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2023-06-17 04:11\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -43,12 +43,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "保存问题"
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr "在 Kile 中运行"
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -58,94 +58,94 @@ msgstr ""
 "工具未找到。\n"
 "Kile 配置不正确，请在设置->配置 Kile->工具处中改正错误或恢复到默认设置。"
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "通过"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "失败"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "版本"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr "支持 Okular 的嵌入"
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "二进制"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "找不到所需工具的二进制文件。%1"
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr "未找到可执行文件“%1”。%2"
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "找不到所需工具的二进制文件"
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr "未找到可执行文件“%1”"
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "已找到（%1 => %2）"
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "简单测试"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr "此所需的工具无法工作；请检查您的安装。"
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "源特殊开关"
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr "支持，使用 (La)TeX 的“Modern”配置来自动激活正向和逆向搜索功能。"
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
 "search capabilities."
 msgstr "不支持，请使用 srcltx 宏包来激活正向和逆向搜索功能。"
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "SyncTex 支持"
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
@@ -153,17 +153,17 @@ msgid ""
 msgstr ""
 "支持，使用 (La)TeX 和 PDF(La)TeX 的“Modern”配置来自动激活正向和逆向搜索功能。"
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr "不支持"
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr "底部预览窗格无法应用数学组的 PNG 预览"
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -7484,79 +7484,79 @@ msgstr "未定义"
 msgid "Script"
 msgstr "脚本"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr " 输出: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr "已终止"
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "启动失败，诊断信息："
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr "在解析工具选项时发生错误。"
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
 "given to the tool."
 msgstr "工具选项中存在无法处理的 Shell 元字符。"
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "在您的路径找不到可执行文件“%1”。"
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "您没有权限运行 %1。"
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "诊断无法找到明显问题。"
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "以退出代码 %1 结束"
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr "意外结束"
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr "无法启动"
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, kde-format
 msgid "crashed"
 msgstr "崩溃"
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, kde-format
 msgid "failed (error code %1)"
 msgstr "失败 (错误代码为 %1)"
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, kde-format
 msgid "The document viewer is not available"
 msgstr "文档查看器不可用"
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr "请在启动此工具之前禁用实时预览"
@@ -10220,7 +10220,7 @@ msgstr "视图(&V)"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10540,12 +10540,12 @@ msgstr "快速预览环境(&Q)"
 msgid "&QuickPreview Math"
 msgstr "快速预览数学(&Q)"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "打印编译出的文档..."
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "显示编译出的文档的打印预览"

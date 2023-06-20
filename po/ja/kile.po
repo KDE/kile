@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2009-02-27 06:05+0900\n"
 "Last-Translator: Yukiko Bando <ybando@k6.dion.ne.jp>\n"
 "Language-Team: Japanese <kde-jp@kde.org>\n"
@@ -40,12 +40,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr ""
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr "Kile で実行"
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -53,82 +53,82 @@ msgid ""
 "either fix the problem or change to the default settings."
 msgstr ""
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "合格"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "不合格"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "バージョン"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr ""
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "実行ファイル"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr ""
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr ""
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr ""
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr ""
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr ""
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "簡単なテスト"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr ""
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "ソース special の切り替え"
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
@@ -137,29 +137,29 @@ msgstr ""
 "サポートされていません。inverse/forward 検索機能を有効にするには srcltx パッ"
 "ケージを使ってください。"
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr ""
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr ""
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -7497,79 +7497,79 @@ msgstr "ユーザ定義"
 msgid "Script"
 msgstr "スクリプト"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr " 出力: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr ""
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "起動に失敗。診断:"
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr ""
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
 "given to the tool."
 msgstr ""
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "パスに ‘%1’ という名前の実行ファイルはありません。"
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "‘%1’ を実行する権限がありません。"
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "診断によると明らかな問題は見つかりませんでした。"
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "終了コード %1 で終了しました"
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr "突然終了しました"
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr ""
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, kde-format
 msgid "crashed"
 msgstr ""
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, kde-format
 msgid "failed (error code %1)"
 msgstr ""
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, kde-format
 msgid "The document viewer is not available"
 msgstr ""
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
@@ -10255,7 +10255,7 @@ msgstr "表示(&V)"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10577,12 +10577,12 @@ msgstr "クイックプレビュー環境(&Q)"
 msgid "&QuickPreview Math"
 msgstr ""
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr ""
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr ""

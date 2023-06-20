@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2019-12-30 17:01+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -42,12 +42,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "Salvestamisprobleem"
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr "Käivitamine Kiles"
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -58,75 +58,75 @@ msgstr ""
 "Kile ei ole korrektselt seadistatud. Vali Seadistused->Kile seadistamine-"
 ">Tööriistad ja paranda probleem või kasuta vaikeväärtusi."
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "Tehtud"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "Nurjumine"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "Versioon"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr "Okulari põimimise toetus"
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "Binaarfail"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "Selle olulise tööriista binaarfaili ei leitud. %1"
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr "Täitmisfaili \"%1\" ei leitud. %2"
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "Selle olulise tööriista binaarfaili ei leitud"
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr "Täitmisfaili \"%1\" ei leitud"
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "Leiti (%1 => %2)"
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "Lihtne test"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr "See oluline tööriist ei lähe tööle. Palun kontrolli paigaldust."
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "Lähteteksti eride lülitamine"
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
@@ -135,7 +135,7 @@ msgstr ""
 "Toetatud. Kasuta pöörd- ja edasiotsingu automaatseks sisselülitamiseks "
 "(La)TeXi \"modernset\" seadistust."
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
@@ -143,12 +143,12 @@ msgid ""
 msgstr ""
 "Toetamata. Kasuta pöörd- ja edasiotsingu sisselülitamiseks srcltx paketti."
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "SyncTeXi toetus"
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
@@ -157,18 +157,18 @@ msgstr ""
 "Toetatud. Kasuta pöörd- ja edasiotsingu automaatseks sisselülitamiseks "
 "PDFLaTeXi ja XeLaTeXi \"modernset\" seadistust."
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr "Pole toetatud"
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
 "PNG eelvaatlust matemaatikagruppide jaoks ei saa alumises osas kasutada."
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -7629,27 +7629,27 @@ msgstr "Määramata"
 msgid "Script"
 msgstr "Skript"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr " väljund: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr "töö lõpetatud"
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "Käivitamine nurjus, diagnostika:"
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr "Tööriistale antud võtmete parsimisel tekkis viga."
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
@@ -7658,52 +7658,52 @@ msgstr ""
 "Tööriistale antud võtmetes esineb shelli metamärke, mida ei suudeta "
 "käsitleda."
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "Otsinguteel puudub käivitatav fail \"%1\"."
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "Sul ei ole õigusi käivitada %1."
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "Diagnostika ei leidnud mingeid arusaadavaid probleeme."
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "lõpetas staatusega %1"
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr "lõpetas ootamatult"
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr "käivitamine nurjus"
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, kde-format
 msgid "crashed"
 msgstr "lõpetas krahhiga"
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, kde-format
 msgid "failed (error code %1)"
 msgstr "nurjus (veakood %1)"
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, kde-format
 msgid "The document viewer is not available"
 msgstr "Dokumendinäitaja pole saadaval"
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
@@ -10423,7 +10423,7 @@ msgstr "&Vaade"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10744,12 +10744,12 @@ msgstr "&Keskkonna kiire eelvaatlus"
 msgid "&QuickPreview Math"
 msgstr "&Matemaatika kiire eelvaatlus"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Trüki kompileeritud dokument..."
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Kompileeritud dokumendi trükkimise eelvaatlus..."

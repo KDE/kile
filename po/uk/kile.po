@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2022-07-24 08:31+0300\n"
 "Last-Translator: Yuri Chornoivan <yurchor@ukr.net>\n"
 "Language-Team: Ukrainian <kde-i18n-uk@kde.org>\n"
@@ -45,12 +45,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "Проблема під час збереження"
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr "Можливість запуску у Kile"
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -62,77 +62,77 @@ msgstr ""
 "«Параметри→Налаштувати Kile→Інструменти» і або виправте помилку, або "
 "поверніть типові налаштування."
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "Успіх"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "Невдача"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "Версія"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr "Передбачено підтримку вбудовування Okular"
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "Файл програми"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "Не вдалося знайти виконуваного файла цього необхідного засобу. %1"
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr "Не знайдено виконуваного файла «%1». %2"
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "Не вдалося знайти двійкового файла цього необхідного інструмента"
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr "Не знайдено виконуваного файла «%1»"
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "Знайдено (%1 => %2)"
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "Простий тест"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr ""
 "Цей необхідний інструмент взагалі не діє, перевірте, чи справді його "
 "встановлено."
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "Перемикач властивостей сирців"
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
@@ -141,7 +141,7 @@ msgstr ""
 "Підтримується, використовуйте «Сучасні» параметри (La)TeX, щоб зробити "
 "можливим прямий та зворотній пошук."
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
@@ -150,12 +150,12 @@ msgstr ""
 "Не підтримується, використовуйте пакунок srcltx, щоб зробити можливим прямий "
 "та зворотній пошук."
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "Підтримка SyncTeX"
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
@@ -164,19 +164,19 @@ msgstr ""
 "Підтримується, скористайтеся «Сучасними» параметрами PDFLaTeX та XeLaTeX, "
 "щоб зробити можливим прямий та зворотній пошук."
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr "Не підтримується"
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
 "Попереднім переглядом на нижній панелі у форматі PNG не можна буде "
 "скористатися для груп формул"
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -7713,27 +7713,27 @@ msgstr "Не визначено"
 msgid "Script"
 msgstr "Скрипт"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr " вивід: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr "перервано"
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "Невдалий запуск, діагностика:"
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr "Під час обробки параметрів, переданих програмі, сталася помилка."
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
@@ -7742,52 +7742,52 @@ msgstr ""
 "У параметрах, переданих програмі, виявлено метасимволи командної оболонки, "
 "які не вдалося обробити."
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "У вашому шляху немає файла програми з назвою «%1»."
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "Ви не маєте права запускати %1."
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "Діагностикою не знайдено жодної видимої проблеми."
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "завершено з кодом виходу %1"
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr "несподіване завершення"
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr "не вдалося запустити"
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, kde-format
 msgid "crashed"
 msgstr "аварійне завершення"
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, kde-format
 msgid "failed (error code %1)"
 msgstr "невдача (код помилки %1)"
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, kde-format
 msgid "The document viewer is not available"
 msgstr "Перегляд документа недоступний"
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
@@ -10527,7 +10527,7 @@ msgstr "П&ерегляд"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10847,12 +10847,12 @@ msgstr "Середовище &Швидкий перегляд"
 msgid "&QuickPreview Math"
 msgstr "&Швидкий перегляд формул"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Надрукувати скомпільований документ…"
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Попередній перегляд друку для скомпільованого документа…"

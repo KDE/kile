@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2023-06-17 16:29+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
@@ -53,12 +53,12 @@ msgstr "Non se puido gardar a lista de abreviaturas local. Código de erro %1."
 msgid "Saving Problem"
 msgstr "Problema de garda"
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr "Estase a executar en Kile"
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -70,84 +70,84 @@ msgstr ""
 "Kile → Ferramentas» e solucione o problema ou cambie as opcións "
 "predeterminadas."
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "Aprobado"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "Fallou"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "Versión"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr "Permítese a incrustación de Okular."
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "Binario"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "Non se puido atopar o executábel desta utilidade esencial. %1"
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr "Non foi posíbel atopar o executábel «%1». %2"
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, kde-format
 msgid "Could not find the binary for this essential tool"
 msgstr "Non se puido atopar o binario desta utilidade esencial."
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr "Non foi posíbel atopar o executábel «%1»"
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "Atopado ( %1 => %2)"
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "Proba simple"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
 msgstr "Esta utilidade esencial non funciona; comprobe a instalación."
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "Conmutar o acceso á orixe"
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
-"Admitido; empregue a configuración «Moderna» para (La)TeX e PDF(La)TeX para "
+"Admitido; use a configuración «Moderna» para (La)TeX e PDF(La)TeX para "
 "activar automaticamente as capacidades da busca inversa e avanzada."
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
@@ -156,33 +156,33 @@ msgstr ""
 "Non se admite; use o paquete srcltx para activar as capacidades de busca "
 "inversa e avanzada."
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "Compatibilidade con SyncTeX"
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
-"Admitido; empregue a configuración «Moderna» para (La)TeX e PDF(La)TeX para "
+"Admitido; use a configuración «Moderna» para (La)TeX e PDF(La)TeX para "
 "activar automaticamente as capacidades da busca inversa e avanzada."
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr "Non admitido"
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
 "Non poden usarse as vistas previas de PNG para mathgroups no panel de vista "
 "previa do fondo."
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -253,9 +253,8 @@ msgstr ""
 "<p>Este asistente de configuración comproba se o sistema está configurado "
 "axeitadamente para procesar documentos en LaTeX. Tamén permite afinar a "
 "configuración de Kile tendo en conta os resultados das probas.</"
-"p><p>Recoméndase executar este asistente antes de empregar Kile pola "
-"primeira vez.</p><p>Prema «Seguinte» agora para iniciar o procedemento de "
-"proba.</p>"
+"p><p>Recoméndase executar este asistente antes de usar Kile pola primeira "
+"vez.</p><p>Prema «Seguinte» agora para iniciar o procedemento de proba.</p>"
 
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
@@ -271,22 +270,21 @@ msgstr "Comprobando se o sistema está correctamente configurado…"
 #, kde-format
 msgid "Configure the viewer tools to use the document viewer"
 msgstr ""
-"Configurar as ferramentas de visualización para empregar o visor de "
-"documentos"
+"Configurar as ferramentas de visualización para usar o visor de documentos"
 
 #: dialogs/configcheckerdialog.cpp:149
 #, kde-format
 msgid "Use the 'modern' configuration for the TeX, PDFTeX, and LaTeX tools"
 msgstr ""
-"Empregar a configuración «moderna» para as ferramentas de TeX, PDFTeX e LaTeX"
+"Usar a configuración «moderna» para as ferramentas de TeX, PDFTeX e LaTeX"
 
 #: dialogs/configcheckerdialog.cpp:151
 #, kde-format
 msgid ""
 "Use the 'modern' configuration for the PDFLaTeX, LuaLaTeX and XeLaTeX tools"
 msgstr ""
-"Empregar a configuración «moderna» para as ferramentas de PDFLaTeX, LuaLaTeX "
-"e XeLaTeX"
+"Usar a configuración «moderna» para as ferramentas de PDFLaTeX, LuaLaTeX e "
+"XeLaTeX"
 
 #: dialogs/configcheckerdialog.cpp:153
 #, kde-format
@@ -720,7 +718,7 @@ msgid ""
 msgstr ""
 "Aquí lístanse os resultados da execución de grep. Escolla unha combinación "
 "de nome de ficheiro e número de liña premendo o elemento co rato ou co "
-"cursor para mostrar a liña correspondente no editor."
+"cursor para amosar a liña correspondente no editor."
 
 #: dialogs/findfilesdialog.cpp:308
 #, kde-format
@@ -853,8 +851,7 @@ msgstr "*.png *.jpg *.eps.gz *.eps|Gráficos\n"
 #: dialogs/includegraphicsdialog.cpp:618
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
-msgstr ""
-"Debe instalar o paquete wrapfig para empregar as opcións de rodeo de texto"
+msgstr "Debe instalar o paquete wrapfig para usar as opcións de rodeo de texto"
 
 #: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3252
 #, kde-format
@@ -901,7 +898,7 @@ msgstr "Ruta:"
 #: dialogs/includegraphicsdialog_base.ui:77
 #, kde-format
 msgid "Use \\graphicspath command of LaTeX"
-msgstr "Empregar a orde \\graphicspath de LaTeX"
+msgstr "Usar a orde \\graphicspath de LaTeX"
 
 #. i18n: ectx: attribute (title), widget (QWidget, tab_5)
 #: dialogs/includegraphicsdialog_base.ui:97
@@ -939,7 +936,7 @@ msgstr "Caixa contedora:"
 #: dialogs/includegraphicsdialog_base.ui:158
 #, kde-format
 msgid "Use bounding box"
-msgstr "Empregar a caixa contedora"
+msgstr "Usar a caixa contedora"
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
 #: dialogs/includegraphicsdialog_base.ui:165
@@ -1017,7 +1014,7 @@ msgstr "figura"
 #: dialogs/includegraphicsdialog_base.ui:302
 #, kde-format
 msgid "Use figure environment"
-msgstr "Empregar o ambiente de figura"
+msgstr "Usar o ambiente de figura"
 
 #. i18n: ectx: property (text), widget (QLineEdit, edit_label)
 #. i18n: ectx: property (text), widget (QLineEdit, edit_wraplabel)
@@ -1080,7 +1077,7 @@ msgstr "rodearfigura"
 #: dialogs/includegraphicsdialog_base.ui:415
 #, kde-format
 msgid "Use wrapfigure environment"
-msgstr "Empregar o ambiente de rodeo de figura"
+msgstr "Usar o ambiente de rodeo de figura"
 
 #. i18n: ectx: property (text), widget (QLineEdit, edit_wrapwidth)
 #: dialogs/includegraphicsdialog_base.ui:448
@@ -1402,8 +1399,8 @@ msgid ""
 "environments."
 msgstr ""
 "Unha lista de ambientes coñecidos con moita información adicional, que "
-"quizais poida empregar Kile. Pode engadir outros ambientes, que se "
-"recoñecerán pola completado automático dos ambientes, por exemplo «Nova liña "
+"quizais poida usar Kile. Pode engadir outros ambientes, que se recoñecerán "
+"pola completado automático dos ambientes, por exemplo «Nova liña "
 "intelixente» e «Tabulador intelixente». Por suposto só pode editar e "
 "eliminar ambientes definidos polo usuario."
 
@@ -1494,7 +1491,7 @@ msgstr "&Editar…"
 #: dialogs/latexcommanddialog_base.ui:222
 #, kde-format
 msgid "Show only user-defined environments and commands"
-msgstr "Mostrar só os ambientes e ordes definidos polo usuario"
+msgstr "Amosar só os ambientes e ordes definidos polo usuario"
 
 #: dialogs/listselector.cpp:64
 #, kde-format
@@ -1668,7 +1665,7 @@ msgstr "Tipo do documento"
 #: dialogs/managetemplatesdialog.cpp:120
 #, kde-format
 msgid "Show all the templates"
-msgstr "Mostrar todos os modelos"
+msgstr "Amosar todos os modelos"
 
 #: dialogs/managetemplatesdialog.cpp:131
 #, kde-format
@@ -1822,7 +1819,7 @@ msgstr "Escoller un ambiente."
 #: dialogs/tabular/newtabulardialog.cpp:179
 #, kde-format
 msgid "Use the starred version of this environment."
-msgstr "Empregar a versión estrelada deste ambiente."
+msgstr "Usar a versión estrelada deste ambiente."
 
 #: dialogs/mathenvironmentdialog.cpp:148
 #: dialogs/tabular/newtabulardialog.cpp:175
@@ -2137,8 +2134,7 @@ msgstr ""
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
-"Este asistente vai empregar <i>pdftk</i> e o paquete <i>pdfpages</i> de "
-"LaTeX."
+"Este asistente vai usar <i>pdftk</i> e o paquete <i>pdfpages</i> de LaTeX."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:600
 #, kde-format
@@ -2146,7 +2142,7 @@ msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
 "installed)."
 msgstr ""
-"Ese asistente só vai empregar <i>pdftk</i> (<i>pdfpages.sty</i> non está "
+"Ese asistente só vai usar <i>pdftk</i> (<i>pdfpages.sty</i> non está "
 "instalado)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:603
@@ -2155,7 +2151,7 @@ msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
 "was not found)."
 msgstr ""
-"Este asistente só vai empregar o paquete de LaTeX <i>pdfpages</i> (non foi "
+"Este asistente só vai usar o paquete de LaTeX <i>pdfpages</i> (non foi "
 "posíbel atopar <i>pdftk</i>)."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:604
@@ -2219,8 +2215,8 @@ msgid ""
 "page."
 msgstr ""
 "Aplica unha marca de auga de PDF ao fondo dun único PDF de entrada. Pdftk "
-"emprega só a primeira páxina do PDF de fondo e aplícaa a todas as páxinas do "
-"PDF de entrada. Esta páxina cámbiase de escala e rótase como se precise para "
+"usa só a primeira páxina do PDF de fondo e aplícaa a todas as páxinas do PDF "
+"de entrada. Esta páxina cámbiase de escala e rótase como se precise para "
 "cadrar coa páxina de entrada."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:830
@@ -2232,10 +2228,10 @@ msgid ""
 "page. This works best if the stamp PDF page has a transparent background."
 msgstr ""
 "Aplica unha marca de primeiro plano por enriba das páxinas do documento en "
-"PDF de entrada. Pdftk só emprega a primeira páxina do PDF coa marca e "
-"aplícaa a todas as páxinas do PDF de saída. Esta páxina cámbiase de escala e "
-"rótase como sexa preciso para cadrar coa páxina de entrada. Isto funciona "
-"mellor se a páxina coa marca de PDF tiver un fondo transparente."
+"PDF de entrada. Pdftk só usa a primeira páxina do PDF coa marca e aplícaa a "
+"todas as páxinas do PDF de saída. Esta páxina cámbiase de escala e rótase "
+"como sexa preciso para cadrar coa páxina de entrada. Isto funciona mellor se "
+"a páxina coa marca de PDF tiver un fondo transparente."
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:850
 #, kde-format
@@ -2270,7 +2266,7 @@ msgid ""
 "content is encrypted, but the key is known. You should see it more as a "
 "polite but firm request to respect the author's wishes.</p>"
 msgstr ""
-"<center>Asistente para PDF</center><br>Este asistente emprega «pdftk» e o "
+"<center>Asistente para PDF</center><br>Este asistente usa «pdftk» e o "
 "paquete «pdfpages» de LaTeX para<ul><li>recolocar as páxinas dun documento "
 "en PDF existente</li><li>ler e actualizar a información do documento dun "
 "documento en PDF (só pdftk)</li><li>ler, configurar ou cambiar algúns "
@@ -2281,7 +2277,7 @@ msgstr ""
 "pode manexar ambos os dous tipos de documentos, pero precísase un "
 "contrasinal para os ficheiros cifrados. Se faltan «pdftk» ou «pdfpages», as "
 "reestruturacións posíbeis vense reducidas.</p><p><i>Aviso:</i> O cifrado e "
-"un contrasinal non fornecer seguranza real ao PDF. O contido está cifrado, "
+"un contrasinal non fornecer seguridade real ao PDF. O contido está cifrado, "
 "pero a chave é coñecida. Deberíase ver isto máis como unha solicitude amábel "
 "pero firme de respectar os desexos do autor.</p>"
 
@@ -2499,7 +2495,7 @@ msgstr "Icona"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:158
 #, kde-format
 msgid "This wizard will use 'pdftk' and LaTeX package 'pdfpages'."
-msgstr "Este asistente vai empregar «pdftk» e o paquete «pdfpages» de LaTeX."
+msgstr "Este asistente vai usar «pdftk» e o paquete «pdfpages» de LaTeX."
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbRearrangements)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:194
@@ -2561,7 +2557,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:243
 #, kde-format
 msgid "Show the resulting PDF file"
-msgstr "Mostrar o ficheiro PDF resultante"
+msgstr "Amosar o ficheiro PDF resultante"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbOverwrite)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:256
@@ -2690,7 +2686,7 @@ msgstr "Permisos"
 #: dialogs/pdf-wizard/pdfdialog_base.ui:580
 #, kde-format
 msgid "Permissions (under 128-bit-security)"
-msgstr "Permisos (baixo seguranza de 128 bits)"
+msgstr "Permisos (baixo seguridade de 128 bits)"
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:612
@@ -2929,7 +2925,7 @@ msgstr "O ficheiro de entrada, o que debe converterse."
 #: dialogs/postscriptdialog_base.ui:81
 #, kde-format
 msgid "Show ps file with 'okular'"
-msgstr "Mostrar o ficheiro ps con «okular»"
+msgstr "Amosar o ficheiro ps con «okular»"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, m_spCopies)
 #: dialogs/postscriptdialog_base.ui:123
@@ -2985,7 +2981,7 @@ msgstr "Insira aquí a ruta ao proxecto."
 #: dialogs/projectdialogs.cpp:96
 #, kde-format
 msgid "(use global settings)"
-msgstr "(empregar as opcións globais)"
+msgstr "(usar as opcións globais)"
 
 #: dialogs/projectdialogs.cpp:97
 #, kde-format
@@ -3153,7 +3149,7 @@ msgstr "Opcións do proxecto"
 #: dialogs/projectdialogs.cpp:420
 #, kde-format
 msgid "(use global setting)"
-msgstr "(empregar a configuración global)"
+msgstr "(usar a configuración global)"
 
 #: dialogs/projectdialogs.cpp:435
 #, kde-format
@@ -3356,7 +3352,7 @@ msgstr "&Tema:"
 #: dialogs/quickdocumentdialog.cpp:646
 #, kde-format
 msgid "Sets the document's orientation to landscape"
-msgstr "Estabelece a orientación do documento como apaisado"
+msgstr "Define a orientación do documento como apaisado"
 
 #: dialogs/quickdocumentdialog.cpp:647
 #, kde-format
@@ -3452,7 +3448,7 @@ msgstr "Contar as nota na marxe como corpo do texto"
 #: dialogs/quickdocumentdialog.cpp:680
 #, kde-format
 msgid "The normal margin is used for the margin-note area"
-msgstr "A marxe normal emprégase para a área da nota na marxe"
+msgstr "A marxe normal úsase para a área da nota na marxe"
 
 #: dialogs/quickdocumentdialog.cpp:681
 #, kde-format
@@ -3467,7 +3463,7 @@ msgstr "Escribe o tamaño do papel no rexistro da páxina pdftex"
 #: dialogs/quickdocumentdialog.cpp:683
 #, kde-format
 msgid "Uses the correct mechanism with PDF- or DVI-file"
-msgstr "Emprega o mecanismo correcto co ficheiro PDF ou DVI"
+msgstr "Usa o mecanismo correcto co ficheiro PDF ou DVI"
 
 #: dialogs/quickdocumentdialog.cpp:684
 #, kde-format
@@ -3621,7 +3617,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:713
 #, kde-format
 msgid "All Numbers uses a fixed space"
-msgstr "Todos os números empregan fontes de anchura fixa"
+msgstr "Todos os números usan fontes de anchura fixa"
 
 #: dialogs/quickdocumentdialog.cpp:714
 #, kde-format
@@ -3651,17 +3647,17 @@ msgstr "Os títulos do paquete «longtable» non deberan redefinirse."
 #: dialogs/quickdocumentdialog.cpp:724
 #, kde-format
 msgid "Use a separate line for the chapter number"
-msgstr "Empregar unha liña á parte para o número de título"
+msgstr "Usar unha liña á parte para o número de título"
 
 #: dialogs/quickdocumentdialog.cpp:725
 #, kde-format
 msgid "Use the same line for the chapter number and title"
-msgstr "Empregar a mesma liña para o número do título e o título"
+msgstr "Usar a mesma liña para o número do título e o título"
 
 #: dialogs/quickdocumentdialog.cpp:726
 #, kde-format
 msgid "Use a separate line for the appendix name"
-msgstr "Empregar unha liña á parte para o nome dos apéndices"
+msgstr "Usar unha liña á parte para o nome dos apéndices"
 
 #: dialogs/quickdocumentdialog.cpp:727
 #, kde-format
@@ -3691,12 +3687,12 @@ msgstr "O ficheiro está compilado no modo final"
 #: dialogs/quickdocumentdialog.cpp:742
 #, kde-format
 msgid "Slides will use many colors"
-msgstr "As diapositivas empregarán moitas cores"
+msgstr "As diapositivas usarán moitas cores"
 
 #: dialogs/quickdocumentdialog.cpp:743
 #, kde-format
 msgid "Slides will use a restricted set of colors"
-msgstr "As diapositivas empregarán un conxunto restrinxido de cores"
+msgstr "As diapositivas usarán un conxunto restrinxido de cores"
 
 #: dialogs/quickdocumentdialog.cpp:744
 #, kde-format
@@ -3741,8 +3737,7 @@ msgstr "Algunhas macros non interpretan os seus argumentos no modo ps"
 #: dialogs/quickdocumentdialog.cpp:752
 #, kde-format
 msgid "The PS file is to be translated into a PDF file using Adobe Distiller"
-msgstr ""
-"O ficheiro PS traducirase nun ficheiro PDF empregando o Adobe Distiller"
+msgstr "O ficheiro PS traducirase nun ficheiro PDF usando o Adobe Distiller"
 
 #: dialogs/quickdocumentdialog.cpp:753
 #, kde-format
@@ -3752,7 +3747,7 @@ msgstr "O ficheiro LaTeX ha procesarse con YandY LaTeX"
 #: dialogs/quickdocumentdialog.cpp:754
 #, kde-format
 msgid "The PS file is to be translated into a PDF file using ps2pdf"
-msgstr "O ficheiro PS ha converterse nun ficheiro PDF empregando ps2pdf."
+msgstr "O ficheiro PS ha converterse nun ficheiro PDF usando ps2pdf."
 
 #: dialogs/quickdocumentdialog.cpp:755
 #, kde-format
@@ -3845,27 +3840,27 @@ msgstr "Para diapositivas de PDF"
 #: dialogs/quickdocumentdialog.cpp:777
 #, kde-format
 msgid "All structure elements are typeset in blue"
-msgstr "Todos os elementos da estrutura son mostrados en azul"
+msgstr "Todos os elementos da estrutura son amosados en azul"
 
 #: dialogs/quickdocumentdialog.cpp:778
 #, kde-format
 msgid "All structure elements are typeset in red"
-msgstr "Todos os elementos da estrutura son mostrados en vermello"
+msgstr "Todos os elementos da estrutura son amosados en vermello"
 
 #: dialogs/quickdocumentdialog.cpp:779
 #, kde-format
 msgid "All structure elements are typeset in black and white"
-msgstr "Todos os elementos da estrutura son mostrados en branco e negro"
+msgstr "Todos os elementos da estrutura son amosados en branco e negro"
 
 #: dialogs/quickdocumentdialog.cpp:780
 #, kde-format
 msgid "All structure elements are typeset in brown"
-msgstr "Todos os elementos da estrutura son mostrados en marrón"
+msgstr "Todos os elementos da estrutura son amosados en marrón"
 
 #: dialogs/quickdocumentdialog.cpp:781
 #, kde-format
 msgid " Notes are not shown"
-msgstr " As notas non son mostradas"
+msgstr " As notas non son amosadas"
 
 #: dialogs/quickdocumentdialog.cpp:782
 #, kde-format
@@ -4024,7 +4019,7 @@ msgstr "Activa as subfiguras dentro das figuras"
 #: dialogs/quickdocumentdialog.cpp:1062
 #, kde-format
 msgid "Typesetting capital Greek letters"
-msgstr "Estanse a empregar letras gregas en maiúsculas"
+msgstr "Estanse a usar letras gregas en maiúsculas"
 
 #: dialogs/quickdocumentdialog.cpp:1063
 #, kde-format
@@ -4059,7 +4054,7 @@ msgstr "Especialización na inclusión de gráficos para pdftex"
 #: dialogs/quickdocumentdialog.cpp:1167
 #, kde-format
 msgid "Show only frames of graphics"
-msgstr "Mostrar os marcos só das gráficas"
+msgstr "Amosar os marcos só das gráficas"
 
 #: dialogs/quickdocumentdialog.cpp:1363 dialogs/quickdocumentdialog.cpp:1372
 #: dialogs/quickdocumentdialog.cpp:1557 dialogs/quickdocumentdialog.cpp:1573
@@ -4295,13 +4290,12 @@ msgstr "Nova secuencia de teclas"
 #, kde-format
 msgid "Use a key sequence written in the editor to execute a script."
 msgstr ""
-"Empregar unha secuencia de teclas escrita no editor para a execución dos "
-"scripts."
+"Usar unha secuencia de teclas escrita no editor para a execución dos scripts."
 
 #: dialogs/scriptshortcutdialog.cpp:45
 #, kde-format
 msgid "Use a shortcut to execute a script."
-msgstr "Empregar un atallo para a execución dos scripts."
+msgstr "Usar un atallo para a execución dos scripts."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/scriptshortcutdialog_base.ui:35
@@ -4540,7 +4534,7 @@ msgstr "A táboa centrarase."
 #: dialogs/tabular/newtabulardialog.cpp:178
 #, kde-format
 msgid "Use line commands of the booktabs package."
-msgstr "Empregar ordes de liña do paquete booktabs."
+msgstr "Usar ordes de liña do paquete booktabs."
 
 #: dialogs/tabular/newtabulardialog.cpp:180
 #, kde-format
@@ -4736,7 +4730,7 @@ msgid ""
 msgstr ""
 "<p>Unha lista da documentación que fornece a distribución de TeX instalada.</"
 "p><p>Facer clic duplo nun elemento ou premer Espazo abre un visor para "
-"mostrar o ficheiro correspondente.</p><p>Os elementos en gris non están "
+"amosar o ficheiro correspondente.</p><p>Os elementos en gris non están "
 "instalados.</p>"
 
 #: dialogs/texdocumentationdialog.cpp:86
@@ -4745,7 +4739,7 @@ msgid ""
 "You can choose a keyword to show only document files that are related to "
 "this keyword."
 msgstr ""
-"Pode escoller unha palabra clave para mostrar só ficheiros de documentación "
+"Pode escoller unha palabra clave para amosar só ficheiros de documentación "
 "relacionados con ela."
 
 #: dialogs/texdocumentationdialog.cpp:87
@@ -4800,7 +4794,7 @@ msgid ""
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
 "Non se puideron determinar as rutas de busca de TexLive/teTex nin o ficheiro "
-"«texdoctk.dat».<br/>Kile non pode mostrar información útil."
+"«texdoctk.dat».<br/>Kile non pode amosar información útil."
 
 #: dialogs/texdocumentationdialog.cpp:432
 #, kde-format
@@ -5027,26 +5021,26 @@ msgid ""
 "this</i> feature of most widgets.</p>"
 msgstr ""
 "<p>Pódese crear, cambiar e instalar un menú definido polo usuario que "
-"apareza como parte do menú de Kile. Para crear ou cambiar este menú, "
-"empregue os seis botóns da parte esquerda. Hai máis accións posíbeis no menú "
-"de contexto dos elementos de menú existentes.</p><p>Como nun menú estándar, "
-"existen tres tipos distintos de elementos de menú:</p><ul><li><i>entradas "
-"estándar</i>, que se asignan a unha acción</li><li><i>submenús</i>, que "
-"conteñen máis elementos de menú</li><li><i>separadores</i>, para obter unha "
-"estrutura visíbel de todas as entradas</li></ul><p>Cada elemento estándar do "
-"menú asígnase a un de tres tipos de acción:</p><ul><li><i>inserir texto</i>: "
-"esta acción insire o texto na posición do cursor. hai algúns meta-caracteres "
+"apareza como parte do menú de Kile. Para crear ou cambiar este menú, use os "
+"seis botóns da parte esquerda. Hai máis accións posíbeis no menú de contexto "
+"dos elementos de menú existentes.</p><p>Como nun menú estándar, existen tres "
+"tipos distintos de elementos de menú:</p><ul><li><i>entradas estándar</i>, "
+"que se asignan a unha acción</li><li><i>submenús</i>, que conteñen máis "
+"elementos de menú</li><li><i>separadores</i>, para obter unha estrutura "
+"visíbel de todas as entradas</li></ul><p>Cada elemento estándar do menú "
+"asígnase a un de tres tipos de acción:</p><ul><li><i>inserir texto</i>: esta "
+"acción insire o texto na posición do cursor. hai algúns meta-caracteres "
 "dispoñíbeis: <tt>%M</tt>, <tt>%C</tt>, <tt>%B</tt>, <tt>%E</tt>, <tt>%R</"
 "tt>, <tt>%T</tt>, <tt>%S</tt>: vexa a <i>Axuda</i> <i>Que é isto</i> dese "
 "trebello para obter máis información.</li><li><i>contido dun ficheiro</i>: "
 "insire o contido completo dun ficheiro dado (tamén hai meta-caracteres "
 "dispoñíbeis)</li><li><i>executar un programa externo</i>: A saída deste "
-"programa pódese inserir no documento aberto. Tamén é posíbel empregar o meta-"
+"programa pódese inserir no documento aberto. Tamén é posíbel usar o meta-"
 "carácter <tt>%M</tt> na liña da ordes dese programa, dado que o texto "
-"escollido se garda nun ficheiro temporal. Empregue <tt>%M</tt> para o nome "
-"de ficheiro deste ficheiro temporal.</li></ul><p>Se falta información "
+"escollido se garda nun ficheiro temporal. Use <tt>%M</tt> para o nome de "
+"ficheiro deste ficheiro temporal.</li></ul><p>Se falta información "
 "importante para unha acción, os elementos do menú aparecen en vermello. Hai "
-"máis información dispoñíbel empregando a funcionalidade <i>Que é isto</i> da "
+"máis información dispoñíbel usando a funcionalidade <i>Que é isto</i> da "
 "maioría dos trebellos.</p>"
 
 #: dialogs/usermenu/usermenudialog.cpp:238
@@ -5688,7 +5682,7 @@ msgstr "paquete csquotes:   \\enquote{}"
 #: editorextension.cpp:3252
 #, kde-format
 msgid "You have to include the package %1 to use %2."
-msgstr "Hai que incluír o paquete %1 para empregar %2."
+msgstr "Hai que incluír o paquete %1 para usar %2."
 
 #: editorextension.cpp:3503
 #, kde-format
@@ -6107,7 +6101,7 @@ msgstr "&Pechar o proxecto"
 #: kile.cpp:888
 #, kde-format
 msgid "&Show Projects..."
-msgstr "&Mostrar os proxectos…"
+msgstr "&Amosar os proxectos…"
 
 #: kile.cpp:889
 #, kde-format
@@ -6117,7 +6111,7 @@ msgstr "&Retirar ficheiros do proxecto…"
 #: kile.cpp:890
 #, kde-format
 msgid "Show Project &Files..."
-msgstr "Mostrar os &ficheiros do proxecto…"
+msgstr "Amosar os &ficheiros do proxecto…"
 
 #: kile.cpp:892 widgets/projectview.cpp:851
 #, kde-format
@@ -6322,17 +6316,17 @@ msgstr "Definir o documento actual como «Documento &mestre»"
 #: kile.cpp:1025
 #, kde-format
 msgid "Show Document Viewer"
-msgstr "Mostrar o visor de documentos"
+msgstr "Amosar o visor de documentos"
 
 #: kile.cpp:1032
 #, kde-format
 msgid "Show S&ide Bar"
-msgstr "Mostrar a barra &lateral"
+msgstr "Amosar a barra &lateral"
 
 #: kile.cpp:1038
 #, kde-format
 msgid "Show Mess&ages Bar"
-msgstr "Mostrar a barra de &mensaxes"
+msgstr "Amosar a barra de &mensaxes"
 
 #: kile.cpp:1050
 #, kde-format
@@ -6497,7 +6491,7 @@ msgstr "Actualizando a estrutura…"
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
-"Isto agocha completamente a barra do menú. Pódese mostrar de novo escribindo "
+"Isto agocha completamente a barra do menú. Pódese amosar de novo escribindo "
 "%1."
 
 #: kile.cpp:3019
@@ -6533,50 +6527,50 @@ msgstr "O nivel de expansión para a vista da estrutura."
 #: kile.kcfg:58
 #, kde-format
 msgid "Show label commands in the structure view"
-msgstr "Mostrar as ordes de lendas na vista da estrutura"
+msgstr "Amosar as ordes de lendas na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowReferences), group (Structure)
 #: kile.kcfg:62
 #, kde-format
 msgid "Show undefined references in the structure view"
-msgstr "Mostrar as referencias non definidas na vista da estrutura"
+msgstr "Amosar as referencias non definidas na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowBibitems), group (Structure)
 #: kile.kcfg:66
 #, kde-format
 msgid "Show bibitems commands in the structure view"
-msgstr "Mostrar as ordes dos elementos bibliográficos na vista da estrutura"
+msgstr "Amosar as ordes dos elementos bibliográficos na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowGraphics), group (Structure)
 #: kile.kcfg:70
 #, kde-format
 msgid "Show includegraphics commands in the structure view"
-msgstr "Mostrar as ordes de incluír gráficos na vista da estrutura"
+msgstr "Amosar as ordes de incluír gráficos na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowFloats), group (Structure)
 #: kile.kcfg:74
 #, kde-format
 msgid "Show float environments in the structure view"
-msgstr "Mostrar os ambientes flutuantes na vista da estrutura"
+msgstr "Amosar os ambientes flutuantes na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowInputFiles), group (Structure)
 #: kile.kcfg:78
 #, kde-format
 msgid "Show file input commands in the structure view"
-msgstr "Mostrar as ordes de ficheiro de entrada na vista da estrutura"
+msgstr "Amosar as ordes de ficheiro de entrada na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowSectioningLabels), group (Structure)
 #: kile.kcfg:82
 #, kde-format
 msgid "Show labels as child of sectioning items in the structure view"
 msgstr ""
-"Mostrar as lendas como fillo dos elementos de sección na vista da estrutura"
+"Amosar as lendas como fillo dos elementos de sección na vista da estrutura"
 
 #. i18n: ectx: label, entry (SvShowTodo), group (Structure)
 #: kile.kcfg:86
 #, kde-format
 msgid "Show TODO and FIXME comments"
-msgstr "Mostrar os comentarios PENDENTE e CORRIXIR"
+msgstr "Amosar os comentarios PENDENTE e CORRIXIR"
 
 #. i18n: ectx: label, entry (SvOpenLabels), group (Structure)
 #: kile.kcfg:90
@@ -6615,14 +6609,14 @@ msgstr ""
 #, kde-format
 msgid "Default extension to use when opening graphic files with no extension"
 msgstr ""
-"Extensión predeterminada que empregar cando se abran ficheiros gráficos sen "
+"Extensión predeterminada que usar cando se abran ficheiros gráficos sen "
 "extensión"
 
 #. i18n: ectx: label, entry (BibliographyType), group (BibliographyMenu)
 #: kile.kcfg:112
 #, kde-format
 msgid "What type of bibliography (bibtex or biblatex) kile should show."
-msgstr "O tipo de bibliografía (bibtex ou biblatex) que mostrará Kile."
+msgstr "O tipo de bibliografía (bibtex ou biblatex) que amosará Kile."
 
 #. i18n: ectx: label, entry (RunLyxServer), group (Tools)
 #: kile.kcfg:118
@@ -6733,7 +6727,7 @@ msgstr ""
 #: kile.kcfg:149
 #, kde-format
 msgid "Whether to show the bottom bar."
-msgstr "Indica se se debe mostrar a barra do fondo."
+msgstr "Indica se se debe amosar a barra do fondo."
 
 #. i18n: ectx: label, entry (BottomBarSize), group (Show)
 #: kile.kcfg:153
@@ -6745,7 +6739,7 @@ msgstr "Altura da barra do fondo."
 #: kile.kcfg:157
 #, kde-format
 msgid "Which tab of the bottom bar to show."
-msgstr "O separador que mostrar da barra do fondo."
+msgstr "O separador que amosar da barra do fondo."
 
 #. i18n: ectx: label, entry (SideBarSize), group (Show)
 #: kile.kcfg:161
@@ -6757,32 +6751,31 @@ msgstr "Anchura da barra lateral."
 #: kile.kcfg:165
 #, kde-format
 msgid "Whether to show the side bar."
-msgstr "Indica se mostrar a barra lateral."
+msgstr "Indica se amosar a barra lateral."
 
 #. i18n: ectx: label, entry (ShowDocumentViewer), group (Show)
 #: kile.kcfg:169
 #, kde-format
 msgid "Whether to show the document viewer."
-msgstr "Indica se mostrar a visor de documentos."
+msgstr "Indica se amosar a visor de documentos."
 
 #. i18n: ectx: label, entry (ShowDocumentViewerInExternalWindow), group (Show)
 #: kile.kcfg:173
 #, kde-format
 msgid "Whether to show the document viewer in a separate external window."
-msgstr "Indica se mostrar a visor de documentos nunha xanela separada externa."
+msgstr "Indica se amosar a visor de documentos nunha xanela separada externa."
 
 #. i18n: ectx: label, entry (HideProblemBadBox), group (Show)
 #: kile.kcfg:177
 #, kde-format
 msgid "Whether to show Bad Box warnings in the LogMsg view."
-msgstr "Indica se debe mostrar avisos de caixas malas na vista de mensaxes."
+msgstr "Indica se debe amosar avisos de caixas malas na vista de mensaxes."
 
 #. i18n: ectx: label, entry (HideProblemWarning), group (Show)
 #: kile.kcfg:181
 #, kde-format
 msgid "Whether to show (La)TeX warnings in the LogMsg view."
-msgstr ""
-"Indica se debe mostrar as advertencias de (La)TeX na vista de mensaxes."
+msgstr "Indica se debe amosar as advertencias de (La)TeX na vista de mensaxes."
 
 #. i18n: ectx: label, entry (SelectedLeftView), group (Show)
 #: kile.kcfg:185
@@ -6794,7 +6787,7 @@ msgstr "O identificador da vista escollida no panel da esquerda."
 #: kile.kcfg:189
 #, kde-format
 msgid "Whether to show the splash screen on startup."
-msgstr "Indicas se mostrar a pantalla de benvida ao arrincar."
+msgstr "Indicas se amosar a pantalla de benvida ao arrincar."
 
 #. i18n: ectx: label, entry (SystemCheckLastVersionRunForAtStartUp), group (Show)
 #: kile.kcfg:193
@@ -6821,15 +6814,13 @@ msgstr "Activar o sangrado automático dos ambientes"
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments"
 msgstr ""
-"Empregar espazos en vez do tabulador para sangrar automaticamente os "
-"ambientes"
+"Usar espazos en vez do tabulador para sangrar automaticamente os ambientes"
 
 #. i18n: ectx: label, entry (envIndentNumSpaces), group (Editor Ext)
 #: kile.kcfg:211
 #, kde-format
 msgid "Use this number of spaces to autoindent environments"
-msgstr ""
-"Empregar este número de espazos para sangrar automaticamente os ambientes"
+msgstr "Usar este número de espazos para sangrar automaticamente os ambientes"
 
 #. i18n: ectx: label, entry (InsertDoubleQuotes), group (Editor Ext)
 #: kile.kcfg:219
@@ -6976,13 +6967,13 @@ msgstr "A resolución predeterminada da imaxe."
 #: kile.kcfg:307
 #, kde-format
 msgid "Use the Kile LaTeX reference for the contextual help."
-msgstr "Empregar a referencia de LaTeX de Kile para a axuda contextual."
+msgstr "Usar a referencia de LaTeX de Kile para a axuda contextual."
 
 #. i18n: ectx: label, entry (latex2erefs), group (Help)
 #: kile.kcfg:311
 #, kde-format
 msgid "Use the system's TexLive LaTeX2e reference for the contextual help."
-msgstr "Empregar a referencia de LaTeX2 de TexLive para a axuda contextual."
+msgstr "Usar a referencia de LaTeX2 de TexLive para a axuda contextual."
 
 #. i18n: ectx: label, entry (Restore), group (Files)
 #: kile.kcfg:317
@@ -7006,7 +6997,7 @@ msgstr "As extensións de ficheiro para limpar ao saír."
 #: kile.kcfg:337
 #, kde-format
 msgid "Only show LaTeX files in the file browser widget"
-msgstr "Só mostrar ficheiros LaTeX no trebello de navegador de ficheiros"
+msgstr "Só amosar ficheiros LaTeX no trebello de navegador de ficheiros"
 
 #. i18n: ectx: label, entry (Author), group (User)
 #: kile.kcfg:347
@@ -7054,7 +7045,7 @@ msgstr ""
 #: kile.kcfg:373
 #, kde-format
 msgid "Whether to show the full path of file names in the window title."
-msgstr "Se mostrar a ruta completa dos ficheiros no título da xanela."
+msgstr "Se amosar a ruta completa dos ficheiros no título da xanela."
 
 #. i18n: ectx: label, entry (dvipng), group (QuickPreview)
 #: kile.kcfg:441
@@ -7125,7 +7116,7 @@ msgstr "Activar a funcionalidade de scripts."
 #: kile.kcfg:561
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
-msgstr "Estabelecer un tempo-límite para a execución dos scripts."
+msgstr "Definir un tempo-límite para a execución dos scripts."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
 #: kile.kcfg:565
@@ -7159,7 +7150,7 @@ msgstr "A cantidade de símbolos a gardar na vista dos símbolos frecuentes."
 #: kile.kcfg:585
 #, kde-format
 msgid "Display the Most Frequently Used Symbols view."
-msgstr "Mostrar a vista dos símbolos utilizados con máis frecuencia."
+msgstr "Amosar a vista dos símbolos utilizados con máis frecuencia."
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
 #: kile.kcfg:589
@@ -7188,8 +7179,8 @@ msgid ""
 "Use the main menubar (value 0) or the LaTeX menu (value 1) for the location "
 "of the user menu"
 msgstr ""
-"Empregar a barra de menú principal (valor 0) ou o menú de LaTeX (valor 1) "
-"para o lugar no que se garda o menú de usuario"
+"Usar a barra de menú principal (valor 0) ou o menú de LaTeX (valor 1) para o "
+"lugar no que se garda o menú de usuario"
 
 #. i18n: ectx: label, entry (livePreviewEnabled), group (LivePreview)
 #: kile.kcfg:609
@@ -7634,7 +7625,7 @@ msgstr "Escoller os ficheiros a retirar"
 #: kiledocmanager.cpp:2143 kiledocmanager.cpp:2146
 #, kde-format
 msgid "Show Project Files"
-msgstr "Mostrar os ficheiros do proxecto"
+msgstr "Amosar os ficheiros do proxecto"
 
 #: kiledocmanager.cpp:2143 kiledocmanager.cpp:2191
 #, kde-format
@@ -7745,27 +7736,27 @@ msgstr "Non definido"
 msgid "Script"
 msgstr "Script"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr " saída: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr "terminado"
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "Fallou o inicio, diagnóstico:"
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr "Produciuse un erro ao analizar as opcións dadas á ferramenta."
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
@@ -7774,52 +7765,52 @@ msgstr ""
 "Hai meta-caracteres de intérprete de ordes presentes nas opcións dadas á "
 "ferramenta que non se poden xestionar."
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "Non hai ningún executábel chamado «%1» na súa ruta."
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "Non ten permisos para executar %1."
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "Os diagnósticos non puideron atopar ningún problema evidente."
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "finalizado co estado de saída %1"
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr "finalizado abruptamente"
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr "non se puido iniciar"
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, kde-format
 msgid "crashed"
 msgstr "quebrou"
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, kde-format
 msgid "failed (error code %1)"
 msgstr "fallou (código de erro %1)"
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, kde-format
 msgid "The document viewer is not available"
 msgstr "O visor de documentos non está dispoñíbel"
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr "Desactive a previsualización ao vivo antes de iniciar esta ferramenta"
@@ -7870,7 +7861,7 @@ msgstr ""
 "landscape -- escolle o formato apaisado; o predeterminado é o natural. \n"
 "titlepage, notitlepage -- escolle se haberá unha páxina a parte para o "
 "título.\n"
-"leqno -- mostrar o número da ecuación ao lado esquerdo das ecuacións; de "
+"leqno -- amosar o número da ecuación ao lado esquerdo das ecuacións; de "
 "maneira predeterminada é no lado dereito.\n"
 "fleqn -- mostra as fórmulas axustadas á esquerda; o predeterminado é o "
 "centrado.\n"
@@ -8948,7 +8939,7 @@ msgid ""
 "paragraph-making environments inside a minipage."
 msgstr ""
 "O ambiente minipage é similar ao orde \\parbox. Colle o mesmo argumento de "
-"posición opcional e o argumento de anchura obrigatorio. Pode empregar outro "
+"posición opcional e o argumento de anchura obrigatorio. Pode usar outro "
 "parágrafo, facendo ambientes dentro da minipáxina."
 
 #: kilestdactions.cpp:153
@@ -9060,12 +9051,12 @@ msgstr ""
 #: kilestdactions.cpp:166
 #, kde-format
 msgid "Verbatim (show spaces) - \\begin{verbatim*}"
-msgstr "Copia literal (mostrando espazos) - \\begin{verbatim*}"
+msgstr "Copia literal (amosando espazos) - \\begin{verbatim*}"
 
 #: kilestdactions.cpp:166
 #, kde-format
 msgid "Verbatim (show spaces)"
-msgstr "Copia literal (mostrando espazos)"
+msgstr "Copia literal (amosando espazos)"
 
 #: kilestdactions.cpp:166
 #, kde-format
@@ -9094,12 +9085,12 @@ msgstr "Forma macro do ambiente de copia literal."
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces) - \\verb*||"
-msgstr "Código incorporado (mostrando espazos) - \\verb*||"
+msgstr "Código incorporado (amosando espazos) - \\verb*||"
 
 #: kilestdactions.cpp:170
 #, kde-format
 msgid "Embedded Code (show spaces)"
-msgstr "Código incorporado (mostrando espazos)"
+msgstr "Código incorporado (amosando espazos)"
 
 #: kilestdactions.cpp:170
 #, kde-format
@@ -9496,7 +9487,7 @@ msgstr "ALT.… : pode escoller entre estes dous campos\n"
 #: kilestdactions.cpp:331
 #, kde-format
 msgid "OPT.... : optional fields (use the 'Clean' command to remove them)"
-msgstr "OPT.… : campos opcionais (empregue a orde «Limpar» para retiralos)"
+msgstr "OPT.… : campos opcionais (use a orde «Limpar» para retiralos)"
 
 #: kilestdactions.cpp:332
 #, kde-format
@@ -10583,7 +10574,7 @@ msgstr "&Vista"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10856,7 +10847,7 @@ msgstr "Editar"
 #: kileviewmanager.cpp:123
 #, kde-format
 msgid "Show Cursor Position in Viewer"
-msgstr "Mostrar a posición do cursor no visor"
+msgstr "Amosar a posición do cursor no visor"
 
 #: kileviewmanager.cpp:127
 #, kde-format
@@ -10876,7 +10867,7 @@ msgstr "Converter a escolla a &LaTeX"
 #: kileviewmanager.cpp:254
 #, kde-format
 msgid "Show sorted list of opened documents"
-msgstr "Mostrar unha lista ordenada dos documentos abertos."
+msgstr "Amosar unha lista ordenada dos documentos abertos."
 
 #: kileviewmanager.cpp:374
 #, kde-format
@@ -10903,12 +10894,12 @@ msgstr "Ambiente de vista &previa rápida"
 msgid "&QuickPreview Math"
 msgstr "&Vista previa rápida das matemáticas"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Imprimir un documento compilado…"
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Visión previa do documento compilado…"
@@ -11460,19 +11451,19 @@ msgstr "Configuración da aparencia"
 #: widgets/appearanceconfigwidget.ui:29
 #, kde-format
 msgid "Show full path in window title"
-msgstr "Mostrar a ruta completa no título da xanela"
+msgstr "Amosar a ruta completa no título da xanela"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSplashScreen)
 #: widgets/appearanceconfigwidget.ui:36
 #, kde-format
 msgid "Show splash screen on startup"
-msgstr "Mostrar a pantalla de benvida ao arrincar"
+msgstr "Amosar a pantalla de benvida ao arrincar"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDocumentViewerInExternalWindow)
 #: widgets/appearanceconfigwidget.ui:67
 #, kde-format
 msgid "Show in external window"
-msgstr "Mostrar nunha xanela á parte"
+msgstr "Amosar nunha xanela á parte"
 
 #: widgets/codecompletionconfigwidget.cpp:53
 #, kde-format
@@ -11521,7 +11512,7 @@ msgstr ""
 #, kde-format
 msgid "Show abbreviations of the selected completion files in the sidebar"
 msgstr ""
-"Mostrar as abreviaturas dos ficheiros de completado escollidos na barra "
+"Amosar as abreviaturas dos ficheiros de completado escollidos na barra "
 "lateral"
 
 #: widgets/codecompletionconfigwidget.cpp:64
@@ -11537,7 +11528,7 @@ msgstr ""
 #, kde-format
 msgid "Show LaTeX commands of the selected completion files in the sidebar"
 msgstr ""
-"Mostrar as ordes de LaTeX dos ficheiros de completado escollidos na barra "
+"Amosar as ordes de LaTeX dos ficheiros de completado escollidos na barra "
 "lateral"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
@@ -11608,13 +11599,13 @@ msgstr "Retirar"
 #: widgets/codecompletionconfigwidget.ui:162
 #, kde-format
 msgid "Show LaTeX commands"
-msgstr "Mostrar as ordes de LaTeX:"
+msgstr "Amosar as ordes de LaTeX:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, cb_showabbrevview)
 #: widgets/codecompletionconfigwidget.ui:172
 #, kde-format
 msgid "Show abbreviations"
-msgstr "Mostrar as abreviaturas"
+msgstr "Amosar as abreviaturas"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_3)
 #: widgets/codecompletionconfigwidget.ui:182
@@ -11687,14 +11678,13 @@ msgstr "Activado"
 #, kde-format
 msgid "Use spaces instead of a tabulator to autoindent environments."
 msgstr ""
-"Empregar espazos no canto do tabulador para sangrar automaticamente os "
-"ambientes."
+"Usar espazos no canto do tabulador para sangrar automaticamente os ambientes."
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_envIndentSpaces)
 #: widgets/environmentconfigwidget.ui:79
 #, kde-format
 msgid "Use spaces instead of tabs to indent"
-msgstr "Empregar espazos no canto do tabulador para sangrar"
+msgstr "Usar espazos no canto do tabulador para sangrar"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbNumSpaces)
 #: widgets/environmentconfigwidget.ui:88
@@ -11706,8 +11696,7 @@ msgstr "&Número de espazos:"
 #: widgets/environmentconfigwidget.ui:129
 #, kde-format
 msgid "Use this number of spaces to autoindent environments."
-msgstr ""
-"Empregar este número de espazos para sangrar automaticamente os ambientes."
+msgstr "Usar este número de espazos para sangrar automaticamente os ambientes."
 
 #: widgets/filebrowserwidget.cpp:124
 #, kde-format
@@ -11717,7 +11706,7 @@ msgstr "Abrir o escollido"
 #: widgets/filebrowserwidget.cpp:129
 #, kde-format
 msgid "Show LaTeX Files Only"
-msgstr "Só mostrar ficheiros LaTeX"
+msgstr "Só amosar ficheiros LaTeX"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/filebrowserwidget.cpp:135 widgets/structureviewconfigwidget.ui:128
@@ -11805,7 +11794,7 @@ msgstr "Resolución pre&determinada:"
 #: widgets/graphicsconfigwidget.ui:51
 #, kde-format
 msgid "(used when the picture offers no resolution)"
-msgstr "(emprégase se a imaxe non indica a resolución)"
+msgstr "(úsase se a imaxe non indica a resolución)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
@@ -11823,7 +11812,7 @@ msgstr "Intentar determinala a partir da &imaxe"
 #: widgets/graphicsconfigwidget.ui:93
 #, kde-format
 msgid "(you have to install the ImageMagick package to use this option)"
-msgstr "(debe instalar o paquete ImageMagick para empregar esta opción)"
+msgstr "(debe instalar o paquete ImageMagick para usar esta opción)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlImageMagick)
 #: widgets/graphicsconfigwidget.ui:103
@@ -12149,7 +12138,7 @@ msgstr "Modelo"
 #: widgets/newdocumentwidget.ui:80
 #, kde-format
 msgid "Please select the template that should be used:"
-msgstr "Escolla o modelo que deba empregarse:"
+msgstr "Escolla o modelo que deba usarse:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
@@ -12206,7 +12195,7 @@ msgstr "dvi --> png"
 #: widgets/previewconfigwidget.cpp:92
 #, kde-format
 msgid "(uses dvipng)"
-msgstr "(emprega dvipng)"
+msgstr "(usa dvipng)"
 
 #: widgets/previewconfigwidget.cpp:93 widgets/previewconfigwidget.cpp:263
 #, kde-format
@@ -12216,7 +12205,7 @@ msgstr "dvi --> ps --> png"
 #: widgets/previewconfigwidget.cpp:93
 #, kde-format
 msgid "(uses dvips/convert)"
-msgstr "(emprega dvips/convert)"
+msgstr "(usa dvips/convert)"
 
 #: widgets/previewconfigwidget.cpp:94 widgets/previewconfigwidget.cpp:264
 #, kde-format
@@ -12226,7 +12215,7 @@ msgstr "pdf --> png"
 #: widgets/previewconfigwidget.cpp:94
 #, kde-format
 msgid "(uses convert)"
-msgstr "(emprega convert)"
+msgstr "(usa convert)"
 
 #: widgets/previewconfigwidget.cpp:98
 #, kde-format
@@ -12241,7 +12230,7 @@ msgstr "convert:"
 #: widgets/previewconfigwidget.cpp:127
 #, kde-format
 msgid "Show preview in bottom bar:"
-msgstr "Mostrar a vista previa na barra do fondo:"
+msgstr "Amosar a vista previa na barra do fondo:"
 
 #: widgets/previewconfigwidget.cpp:128
 #, kde-format
@@ -12394,7 +12383,7 @@ msgstr ""
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%AFL</span>: Lista de todos os ficheiros dun proxectos "
 "marcados para arquivárense. Indique a bandeira de arquivado na barra lateral "
-"«Ficheiros e proxectos» empregando o menú de contexto.</p></body></html>"
+"«Ficheiros e proxectos» usando o menú de contexto.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:83
@@ -12674,7 +12663,7 @@ msgstr "(&1=parte, 2=capítulo, 3=sección, 4=subsección, 5=subsubsección…)"
 #: widgets/structureviewconfigwidget.ui:137
 #, kde-format
 msgid "Show &labels"
-msgstr "Mostrar as &etiquetas"
+msgstr "Amosar as &etiquetas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenLabels)
 #: widgets/structureviewconfigwidget.ui:144
@@ -12686,7 +12675,7 @@ msgstr "Abrir o elemento de &etiquetas"
 #: widgets/structureviewconfigwidget.ui:151
 #, kde-format
 msgid "Show undefined references"
-msgstr "Mostrar as referencias non definidas"
+msgstr "Amosar as referencias non definidas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenReferences)
 #: widgets/structureviewconfigwidget.ui:158
@@ -12698,7 +12687,7 @@ msgstr "Abrir o elemento de referencias"
 #: widgets/structureviewconfigwidget.ui:165
 #, kde-format
 msgid "Show bibitems"
-msgstr "Mostrar os elementos bibliográficos"
+msgstr "Amosar os elementos bibliográficos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenBibitems)
 #: widgets/structureviewconfigwidget.ui:172
@@ -12710,7 +12699,7 @@ msgstr "Abrir o elemento bibliográfico"
 #: widgets/structureviewconfigwidget.ui:179
 #, kde-format
 msgid "Show TODO/FIXME"
-msgstr "Mostrar os comentarios PENDENTE e CORRIXIR"
+msgstr "Amosar os comentarios PENDENTE e CORRIXIR"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenTodo)
 #: widgets/structureviewconfigwidget.ui:186
@@ -12722,19 +12711,19 @@ msgstr "Abrir os comentarios PENDENTE e CORRIXIR"
 #: widgets/structureviewconfigwidget.ui:193
 #, kde-format
 msgid "Show figure and table en&vironments"
-msgstr "&Mostrar os ambientes de figuras e táboas"
+msgstr "&Amosar os ambientes de figuras e táboas"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowGraphics)
 #: widgets/structureviewconfigwidget.ui:200
 #, kde-format
 msgid "Show graphic files"
-msgstr "Mostrar os ficheiros de gráficos"
+msgstr "Amosar os ficheiros de gráficos"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowInputFiles)
 #: widgets/structureviewconfigwidget.ui:207
 #, kde-format
 msgid "Show input files"
-msgstr "Mostrar os ficheiros de entrada"
+msgstr "Amosar os ficheiros de entrada"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowSectioningLabels)
 #: widgets/structureviewconfigwidget.ui:217
@@ -12752,7 +12741,7 @@ msgstr "Extensión gráfica predeterminada:"
 #: widgets/structureviewconfigwidget.ui:236
 #, kde-format
 msgid "Extension to use for graphic files without extensions"
-msgstr "Extensión para empregar cos ficheiros gráficos sen extensión"
+msgstr "Extensión para usar cos ficheiros gráficos sen extensión"
 
 #. i18n: ectx: property (text), item, widget (QComboBox, kcfg_SvDefaultGraphicExt)
 #: widgets/structureviewconfigwidget.ui:243
@@ -12795,7 +12784,7 @@ msgid ""
 msgstr ""
 "Prema o botón esquerdo para saltar para a liña.\n"
 "Se fai duplo-click abrirá un ficheiro de texto ou unha imaxe.\n"
-"Cando o elemento teña asignada unha lenda, ha mostrarse\n"
+"Cando o elemento teña asignada unha lenda, ha amosarse\n"
 "cando o rato pase por riba deste elemento. Os elementos dun\n"
 "ficheiro gráfico ou dunha etiqueta ofrecen tamén\n"
 "un menú contextual (menú do botón dereito)."
@@ -12814,7 +12803,7 @@ msgstr "Etiqueta: %1"
 #: widgets/structurewidget.cpp:160
 #, kde-format
 msgid "No \"structure data\" to display."
-msgstr "Non hai «datos da estrutura» que mostrar."
+msgstr "Non hai «datos da estrutura» que amosar."
 
 #: widgets/structurewidget.cpp:333
 #, kde-format
@@ -12846,8 +12835,8 @@ msgstr "Non se pode crear o elemento da vista en lista: non se atopou o pai."
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
 msgstr ""
-"Non se indicou ningunha extensión para o ficheiro de gráficos. Emprégase ."
-"%1, segundo as opcións do proxecto."
+"Non se indicou ningunha extensión para o ficheiro de gráficos. Úsase .%1, "
+"segundo as opcións do proxecto."
 
 #: widgets/structurewidget.cpp:688
 #, kde-format
@@ -12855,8 +12844,8 @@ msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
 "View settings."
 msgstr ""
-"Non se indicou ningunha extensión para o ficheiro de gráficos. Emprégase ."
-"%1, segundo as opcións de vista global da estrutura."
+"Non se indicou ningunha extensión para o ficheiro de gráficos. Úsase .%1, "
+"segundo as opcións de vista global da estrutura."
 
 #: widgets/structurewidget.cpp:689
 #, kde-format
@@ -12978,13 +12967,13 @@ msgstr "Os símbolos utilizados máis a miúdo"
 #: widgets/symbolviewconfigwidget.ui:37
 #, kde-format
 msgid "Display the vie&w"
-msgstr "Mostrar a &vista"
+msgstr "Amosar a &vista"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/symbolviewconfigwidget.ui:46
 #, kde-format
 msgid "Number of symbols to show"
-msgstr "Número de símbolos que mostrar:"
+msgstr "Número de símbolos que amosar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_clearMFUS)
 #: widgets/symbolviewconfigwidget.ui:84
@@ -13118,7 +13107,7 @@ msgstr "Mos&trar o menú do usuario no menú de LaTeX"
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr "Mostrar o menú do &usuario na barra de menú"
+msgstr "Amosar o menú do &usuario na barra de menú"
 
 #~ msgid "Smart New Line"
 #~ msgstr "Nova liña intelixente"

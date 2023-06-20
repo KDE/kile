@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2021-06-29 20:38+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -39,12 +39,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "परियोजना सहेजें"
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr "काइल में चल रहा है"
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, kde-format
 msgid ""
 "Tool not found.\n"
@@ -52,114 +52,114 @@ msgid ""
 "either fix the problem or change to the default settings."
 msgstr ""
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "सफल"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "असफल"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "संस्करण"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr ""
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "द्विचर"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, fuzzy, kde-format
 #| msgid "Could not find the binary for this essential tool."
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "इस जरूरी औज़ार के लिए द्विचर ढूंढ नहीं पाया."
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr ""
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, fuzzy, kde-format
 #| msgid "Could not find the binary for this essential tool."
 msgid "Could not find the binary for this essential tool"
 msgstr "इस जरूरी औज़ार के लिए द्विचर ढूंढ नहीं पाया."
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr ""
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr ""
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "सादा जाँच"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, fuzzy, kde-format
 #| msgid "The project folder is not writable, check your permissions."
 msgid "This essential tool does not work; please check your installation."
 msgstr "परियोजना फ़ोल्डर लिखने योग्य नहीं है, अपनी अनुमतियाँ जाँचें."
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr "स्रोत स्पेशियल्स स्विच"
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
 "search capabilities."
 msgstr ""
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr ""
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr ""
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -7426,81 +7426,81 @@ msgstr ""
 msgid "Script"
 msgstr "स्क्रिप्ट-साइज़"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr "आउटपुट: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr ""
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "प्रारंभ करना असफल, निदान:"
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr ""
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
 "given to the tool."
 msgstr ""
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "एक्जीक्यूटेबल नाम \"%1\" आपके पथ में नहीं मिला."
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "%1 को चलाने के लिए आपके पास अनुमति नहीं है."
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "निदान से कोई प्रत्यक्ष समस्या नहीं मिल पाई."
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, fuzzy, kde-format
 msgid "finished with exit code %1"
 msgstr "एक्जिट स्थिति %1 से पूर्ण"
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr "अकस्मात् पूर्ण"
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr ""
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, fuzzy, kde-format
 #| msgid "Passed"
 msgid "crashed"
 msgstr "सफल"
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, kde-format
 msgid "failed (error code %1)"
 msgstr ""
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, fuzzy, kde-format
 #| msgid "The Documentclass template variable."
 msgid "The document viewer is not available"
 msgstr "डाकुमेंटक्लास टैम्प्लेट वेरिएबल."
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
@@ -10037,7 +10037,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, fuzzy, kde-format
 #| msgid "Document Type"
@@ -10362,13 +10362,13 @@ msgstr "नया एनवायरनमेंट"
 msgid "&QuickPreview Math"
 msgstr "नया एनवायरनमेंट"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Compiled Document..."
 msgstr "दस्तावेज़ से टैम्प्लेट तैयार करें..."
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Preview For Compiled Document..."

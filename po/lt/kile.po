@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-12-21 00:47+0000\n"
+"POT-Creation-Date: 2023-06-20 00:52+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -42,12 +42,12 @@ msgstr ""
 msgid "Saving Problem"
 msgstr "Išsaugoti projektą"
 
-#: configtester.cpp:223
+#: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
 msgstr ""
 
-#: configtester.cpp:247
+#: configtester.cpp:246
 #, fuzzy, kde-format
 #| msgid ""
 #| "Kile is not configured correctly. Go to Settings->Configure Kile->Tools "
@@ -60,114 +60,114 @@ msgstr ""
 "Kile netinkamai sukonfigūruotas. Eikite į Nuostatos->Konfigūruoti Kile-"
 ">Įrankiai ir arba ištaisykite problemą, arba grąžinkite numatytas nuostatas."
 
-#: configtester.cpp:269 configtester.cpp:466 dialogs/configcheckerdialog.cpp:80
+#: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
 msgid "Passed"
 msgstr "Pavyko"
 
-#: configtester.cpp:279 configtester.cpp:477
+#: configtester.cpp:278 configtester.cpp:476
 #, kde-format
 msgid "Failed"
 msgstr "Nepavyko"
 
-#: configtester.cpp:298
+#: configtester.cpp:297
 #, kde-format
 msgid "Version"
 msgstr "Versija"
 
-#: configtester.cpp:325
+#: configtester.cpp:324
 #, kde-format
 msgid "Embedding of Okular is supported"
 msgstr ""
 
-#: configtester.cpp:337
+#: configtester.cpp:336
 #, kde-format
 msgid "Binary"
 msgstr "Dvejetainė"
 
-#: configtester.cpp:364
+#: configtester.cpp:363
 #, fuzzy, kde-format
 #| msgid "Could not find the binary for this essential tool."
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
 msgstr "Nepavyksta surasto šio esminio įrankio dvejetainio failo."
 
-#: configtester.cpp:368
+#: configtester.cpp:367
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "No executable '%1' found. %2"
 msgstr ""
 
-#: configtester.cpp:373
+#: configtester.cpp:372
 #, fuzzy, kde-format
 #| msgid "Could not find the binary for this essential tool."
 msgid "Could not find the binary for this essential tool"
 msgstr "Nepavyksta surasto šio esminio įrankio dvejetainio failo."
 
-#: configtester.cpp:376
+#: configtester.cpp:375
 #, kde-format
 msgid "No executable '%1' found"
 msgstr ""
 
-#: configtester.cpp:382
+#: configtester.cpp:381
 #, kde-format
 msgctxt "executable => path"
 msgid "Found (%1 => %2)"
 msgstr "Rastas (%1 => %2)"
 
-#: configtester.cpp:397
+#: configtester.cpp:396
 #, kde-format
 msgid "Simple Test"
 msgstr "Paprastas testas"
 
-#: configtester.cpp:474
+#: configtester.cpp:473
 #, fuzzy, kde-format
 #| msgid "This essential tool does not work at all, check your installation."
 msgid "This essential tool does not work; please check your installation."
 msgstr "Esminis įrankis iš viso neveikia, patikrinkite savo sistemos įdiegimą."
 
-#: configtester.cpp:489
+#: configtester.cpp:488
 #, kde-format
 msgid "Source Specials Switch"
 msgstr ""
 
-#: configtester.cpp:521
+#: configtester.cpp:520
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for (La)TeX to auto-enable inverse "
 "and forward search capabilities."
 msgstr ""
 
-#: configtester.cpp:528
+#: configtester.cpp:527
 #, kde-format
 msgid ""
 "Not supported, use the srcltx package to enable the inverse and forward "
 "search capabilities."
 msgstr ""
 
-#: configtester.cpp:539
+#: configtester.cpp:538
 #, kde-format
 msgid "SyncTeX Support"
 msgstr "SyncTeX palaikymas"
 
-#: configtester.cpp:548
+#: configtester.cpp:547
 #, kde-format
 msgid ""
 "Supported, use the 'Modern' configuration for PDFLaTeX and XeLaTeX to auto-"
 "enable inverse and forward search capabilities."
 msgstr ""
 
-#: configtester.cpp:555
+#: configtester.cpp:554
 #, kde-format
 msgid "Not supported"
 msgstr "Nepalaikoma"
 
-#: configtester.cpp:797
+#: configtester.cpp:796
 #, fuzzy, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr "Greita peržiūra"
 
-#: configtester.cpp:807
+#: configtester.cpp:806
 #, kde-format
 msgid ""
 "PNG previews cannot be used with conversions 'dvi->ps->png' and 'pdf->png' "
@@ -7529,83 +7529,83 @@ msgstr "Neapibrėžta"
 msgid "Script"
 msgstr "Scenarijus"
 
-#: kilelauncher.cpp:112
+#: kilelauncher.cpp:110
 #, kde-format
 msgid " output: \n"
 msgstr " išvestis: \n"
 
-#: kilelauncher.cpp:223
+#: kilelauncher.cpp:221
 #, kde-format
 msgid "terminated"
 msgstr ""
 
-#: kilelauncher.cpp:232
+#: kilelauncher.cpp:230
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr ""
 
-#: kilelauncher.cpp:237
+#: kilelauncher.cpp:235
 #, fuzzy, kde-format
 #| msgid "An error occurred, while rearranging the file."
 msgid "An error occurred while parsing the options given to the tool."
 msgstr "Pertvarkant ps failą įvyko klaida."
 
-#: kilelauncher.cpp:241
+#: kilelauncher.cpp:239
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
 "given to the tool."
 msgstr ""
 
-#: kilelauncher.cpp:250
+#: kilelauncher.cpp:248
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr ""
 
-#: kilelauncher.cpp:256
+#: kilelauncher.cpp:254
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "Jūs neturite leidimo paleisti %1."
 
-#: kilelauncher.cpp:261
+#: kilelauncher.cpp:259
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr ""
 
-#: kilelauncher.cpp:282
+#: kilelauncher.cpp:280
 #, kde-format
 msgid "finished with exit code %1"
 msgstr ""
 
-#: kilelauncher.cpp:294
+#: kilelauncher.cpp:292
 #, kde-format
 msgid "finished abruptly"
 msgstr ""
 
-#: kilelauncher.cpp:310
+#: kilelauncher.cpp:308
 #, kde-format
 msgid "failed to start"
 msgstr "nepavyko paleisti"
 
-#: kilelauncher.cpp:313
+#: kilelauncher.cpp:311
 #, fuzzy, kde-format
 #| msgid "Passed"
 msgid "crashed"
 msgstr "Pavyko"
 
-#: kilelauncher.cpp:316
+#: kilelauncher.cpp:314
 #, fuzzy, kde-format
 #| msgid "failed (error code %i)"
 msgid "failed (error code %1)"
 msgstr "nepavyko (klaidos kodas %i)"
 
-#: kilelauncher.cpp:357
+#: kilelauncher.cpp:355
 #, fuzzy, kde-format
 #| msgid "There is no active document or it is not saved."
 msgid "The document viewer is not available"
 msgstr "Nėra aktyvaus dokumento arba jis neišsaugotas."
 
-#: kilelauncher.cpp:361
+#: kilelauncher.cpp:359
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
@@ -10155,7 +10155,7 @@ msgstr "&Rodyti"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1163 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10487,13 +10487,13 @@ msgstr "&Greita pažymėjimo peržiūra"
 msgid "&QuickPreview Math"
 msgstr "Greita peržiūra"
 
-#: kileviewmanager.cpp:1136
+#: kileviewmanager.cpp:1137
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Compiled Document..."
 msgstr "Sukurti šabloną iš dokumento..."
 
-#: kileviewmanager.cpp:1142
+#: kileviewmanager.cpp:1143
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Preview For Compiled Document..."

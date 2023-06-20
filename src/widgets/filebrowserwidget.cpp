@@ -65,7 +65,7 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
     m_dirOperator = new KDirOperator(QUrl(), this);
     m_dirOperator->setViewConfig(m_configGroup);
     m_dirOperator->readConfig(m_configGroup);
-    m_dirOperator->setView(KFile::Tree);
+    m_dirOperator->setViewMode(KFile::Tree);
     m_dirOperator->setMode(KFile::Files);
     setFocusProxy(m_dirOperator);
 

@@ -1889,7 +1889,7 @@ msgstr "Documento BibTeX"
 #: dialogs/newfilewizard.cpp:77
 #, kde-format
 msgid "Kile Script"
-msgstr "Script de Kile"
+msgstr "Guión de Kile"
 
 #: dialogs/newtoolwizard.cpp:23
 #, kde-format
@@ -4290,12 +4290,12 @@ msgstr "Nova secuencia de teclas"
 #, kde-format
 msgid "Use a key sequence written in the editor to execute a script."
 msgstr ""
-"Usar unha secuencia de teclas escrita no editor para a execución dos scripts."
+"Usar unha secuencia de teclas escrita no editor para a execución dos guións."
 
 #: dialogs/scriptshortcutdialog.cpp:45
 #, kde-format
 msgid "Use a shortcut to execute a script."
-msgstr "Usar un atallo para a execución dos scripts."
+msgstr "Usar un atallo para a execución dos guións."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/scriptshortcutdialog_base.ui:35
@@ -5701,7 +5701,7 @@ msgstr "Erro na vista da estrutura"
 #: editorkeysequencemanager.cpp:254
 #, kde-format
 msgid "Script execution of %1"
-msgstr "Execución do script de %1"
+msgstr "Execución do guión de %1"
 
 #: errorhandler.cpp:77
 #, kde-format
@@ -7110,19 +7110,19 @@ msgstr "A cor de fondo do panel de visión rápida."
 #: kile.kcfg:557
 #, kde-format
 msgid "Enable the scripting support."
-msgstr "Activar a funcionalidade de scripts."
+msgstr "Activar a funcionalidade de guións."
 
 #. i18n: ectx: label, entry (TimeLimitEnabled), group (Scripting)
 #: kile.kcfg:561
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
-msgstr "Definir un tempo-límite para a execución dos scripts."
+msgstr "Definir un tempo-límite para a execución dos guións."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
 #: kile.kcfg:565
 #, kde-format
 msgid "Time limit for the execution of scripts."
-msgstr "Tempo-límite para a execución dos scripts."
+msgstr "Tempo-límite para a execución dos guións."
 
 #. i18n: ectx: label, entry (ScriptNameColumnWidth), group (Scripting)
 #: kile.kcfg:569
@@ -7131,8 +7131,8 @@ msgid ""
 "Width of the column containing the script name in the scripts management "
 "widget."
 msgstr ""
-"Anchura da columna que contén o nome do script no trebello de xestión de "
-"scripts."
+"Anchura da columna que contén o nome do guión no trebello de xestión de "
+"guións."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
 #: kile.kcfg:575
@@ -7695,7 +7695,7 @@ msgstr "Ficheiros MetaPost"
 #: kileextensions.cpp:90
 #, kde-format
 msgid "Kile Script Files"
-msgstr "Ficheiros de script de Kile"
+msgstr "Ficheiros de guión de Kile"
 
 #: kileextensions.cpp:94
 #, kde-format
@@ -8780,7 +8780,7 @@ msgstr "anana"
 #: kilestdactions.cpp:113
 #, kde-format
 msgid "scriptsize"
-msgstr "tamaño do script"
+msgstr "tamaño do guión"
 
 #: kilestdactions.cpp:114
 #, kde-format
@@ -11331,7 +11331,7 @@ msgid ""
 "An error has occurred at line %1 during the execution of the script \"%2\":\n"
 "%3"
 msgstr ""
-"Produciuse un erro na liña %1 durante a execución do script «%2»:\n"
+"Produciuse un erro na liña %1 durante a execución do guión «%2»:\n"
 "%3"
 
 #: scripting/script.cpp:296
@@ -11345,7 +11345,7 @@ msgid ""
 "Version %1 of Kile is at least required to execute the script \"%2\". The "
 "execution has been aborted."
 msgstr ""
-"Requírese a versión %1 de Kile ou máis moderna para executar o script «%2». "
+"Requírese a versión %1 de Kile ou máis moderna para executar o guión «%2». "
 "Interrompeuse a execución."
 
 #: scriptmanager.cpp:98
@@ -11356,12 +11356,12 @@ msgstr "Erro de versión"
 #: scriptmanager.cpp:106
 #, kde-format
 msgid "Cannot start the script: no view available"
-msgstr "Non se pode iniciar o script: non hai vista dispoñíbel"
+msgstr "Non se pode iniciar o guión: non hai vista dispoñíbel"
 
 #: scriptmanager.cpp:106
 #, kde-format
 msgid "Script Error"
-msgstr "Erro do script"
+msgstr "Erro do guión"
 
 #: scriptmanager.cpp:486
 #, kde-format
@@ -12511,7 +12511,7 @@ msgstr "Límite de tempo da execución"
 #: widgets/scriptingconfigwidget.ui:67
 #, kde-format
 msgid "&Limit the execution time of scripts"
-msgstr "&Limitar o tempo de execución dos scripts"
+msgstr "&Limitar o tempo de execución dos guións"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/scriptingconfigwidget.ui:85
@@ -12522,17 +12522,17 @@ msgstr "&Límite de tempo (segundos):"
 #: widgets/scriptsmanagementwidget.cpp:75
 #, kde-format
 msgid "Run Selected Script"
-msgstr "Executar o script escollido"
+msgstr "Executar o guión escollido"
 
 #: widgets/scriptsmanagementwidget.cpp:81
 #, kde-format
 msgid "Create New Script"
-msgstr "Crear un script novo"
+msgstr "Crear un guión novo"
 
 #: widgets/scriptsmanagementwidget.cpp:87
 #, kde-format
 msgid "Open Selected Script in Editor"
-msgstr "Abrir no editor o script escollido"
+msgstr "Abrir no editor o guión escollido"
 
 #: widgets/scriptsmanagementwidget.cpp:93
 #, kde-format
@@ -12552,7 +12552,7 @@ msgstr "Actualizar a lista"
 #: widgets/scriptsmanagementwidget.cpp:115
 #, kde-format
 msgid "Script Name"
-msgstr "Nome do script"
+msgstr "Nome do guión"
 
 #: widgets/scriptsmanagementwidget.cpp:116
 #, kde-format

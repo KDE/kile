@@ -208,7 +208,7 @@ NewTabularDialog::NewTabularDialog(const QString &environment, KileDocument::Lat
     connect(m_Table, &KileDialog::TabularTable::itemSelectionChanged, this, &NewTabularDialog::slotItemSelectionChanged);
     connect(m_Table, &KileDialog::TabularTable::rowAppended, this, &NewTabularDialog::slotRowAppended);
     connect(m_Table, &KileDialog::TabularTable::colAppended, this, &NewTabularDialog::slotColAppended);
-    connect(m_cmbName, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::activated), this, &NewTabularDialog::slotEnvironmentChanged);
+    connect(m_cmbName, static_cast<void (QComboBox::*)(const QString&)>(&QComboBox::textActivated), this, &NewTabularDialog::slotEnvironmentChanged);
     connect(m_sbCols, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &NewTabularDialog::updateColsAndRows);
     connect(m_sbRows, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &NewTabularDialog::updateColsAndRows);
     connect(m_Table->horizontalHeader(), &QHeaderView::customContextMenuRequested, this, &NewTabularDialog::slotHeaderCustomContextMenuRequested);

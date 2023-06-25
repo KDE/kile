@@ -370,14 +370,10 @@ ParserOutput* LaTeXParser::parse()
                     // update the package list
                     else if((*it).type == KileStruct::Package) {
                         QStringList pckgs = m.split(',');
-                        uint cumlen = 0;
                         for(int p = 0; p < pckgs.count(); ++p) {
                             QString package = pckgs[p].trimmed();
                             if(!package.isEmpty()) {
                                 parserOutput->packages.append(package);
-                                // hidden, so emit is useless
-                                // emit( foundItem(package, tagLine, tagCol+cumlen, (*it).type, (*it).level, tagStartLine, tagStartCol, (*it).pix, (*it).folder) );
-                                cumlen += package.length() + 1;
                             }
                         }
                         fire = false;

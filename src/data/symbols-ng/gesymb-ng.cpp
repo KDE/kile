@@ -236,6 +236,7 @@ Command getCommandDefinition(const QDomElement &e, QList<Package> unicodePackage
     cmd.latexCommand = e.firstChildElement("latexCommand").text();
     cmd.unicodeCommand = e.firstChildElement("unicodeCommand").text();
     cmd.ImageCommand = e.firstChildElement("imageCommand").text();
+    cmd.referenceCount = 0;
 
     qDebug() << QString("cmd: latexCommand=%1, unicodeCommand=%2, imageCommand=%3, comment=%4, mathmode=%5").arg(cmd.latexCommand).arg(cmd.unicodeCommand).arg(cmd.ImageCommand).arg(cmd.comment).arg(cmd.mathMode);
 

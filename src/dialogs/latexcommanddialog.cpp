@@ -575,9 +575,8 @@ bool LatexCommandsDialog::isUserDefined(const QString &name)
 
 bool LatexCommandsDialog::hasUserDefined(QTreeWidget *listview)
 {
-    QTreeWidgetItem *tli;
     for (int i = 0; i < listview->topLevelItemCount(); ++i) {
-        tli = listview->topLevelItem(i);
+        QTreeWidgetItem *tli = listview->topLevelItem(i);
         for (int j = 0; j < tli->childCount(); ++j) {
             if (isUserDefined(tli->child(j)->text(0))) {
                 return true;

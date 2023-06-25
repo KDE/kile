@@ -453,14 +453,13 @@ void FindFilesDialog::slotItemSelected(const QString& item)
 {
     KILE_DEBUG_MAIN << "\tgrep: start item selected";
     int pos;
-    QString filename, linenumber;
 
     QString str = item;
     if((pos = str.indexOf(':')) != -1) {
-        filename = str.left(pos);
+        QString filename = str.left(pos);
         str = str.right(str.length() - 1 - pos);
         if((pos = str.indexOf(':')) != -1) {
-            linenumber = str.left(pos);
+            QString linenumber = str.left(pos);
             QFileInfo fileInfo(filename);
             if(fileInfo.isAbsolute()) {
                 emit itemSelected(filename, linenumber.toInt());

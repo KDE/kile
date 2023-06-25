@@ -24,7 +24,7 @@ int main( int argc, char ** argv )
 
     bool mathMode;
     QList<Package> PackagesList;
-    QString  texfile, type, greedyOptArgString, line;
+    QString texfile, type, greedyOptArgString;
     QString pkgs, pkgsarg, savepkgs, savepkgsarg;
     bool env=false, greedyOptArg=true;
 
@@ -71,7 +71,7 @@ int main( int argc, char ** argv )
 
     while( !t.atEnd() ) {
 
-        line = t.readLine();
+        QString line = t.readLine();
 // 		cout << "<!-- line is " << qPrintable(line) << " -->";
 
         if( line.contains(comment) ) {

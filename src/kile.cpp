@@ -1145,7 +1145,6 @@ void Kile::setupTools()
     }
 
     QStringList tools = KileTool::toolList(m_config.data());
-    QString toolMenu, grp;
     QList<QAction*> *pl;
     QAction *act;
     ToolbarSelectAction *pSelectAction = Q_NULLPTR;
@@ -1171,8 +1170,8 @@ void Kile::setupTools()
     m_quickActions->removeAllActions();
 
     for (int i = 0; i < tools.count(); ++i) {
-        grp = KileTool::groupFor(tools[i], m_config.data());
-        toolMenu = KileTool::menuFor(tools[i], m_config.data());
+        QString grp = KileTool::groupFor(tools[i], m_config.data());
+        QString toolMenu = KileTool::menuFor(tools[i], m_config.data());
 
         KILE_DEBUG_MAIN << tools[i] << " is using group: " << grp << " and menu: "<< toolMenu;
         if(toolMenu == "none") {
@@ -2156,11 +2155,10 @@ void Kile::insertAmsTag(const KileAction::TagData& data)
 void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs) {
 
     QStringList packages;
-    QString pkgName;
 
     QList<Package>::const_iterator it;
     for(it = pkgs.begin(); it != pkgs.end() ; it++) {
-        pkgName = (*it).name;
+        QString pkgName = (*it).name;
         if(!pkgName.isEmpty()) {
             packages.append(pkgName);
         }
@@ -2861,9 +2859,9 @@ void Kile::cleanBib()
             ++i;
         }
     }
-    int j = 0;
+
     for (i = 0; i < view->document()->lines(); ++i) {
-        j = i+1;
+        int j = i+1;
         if(j < view->document()->lines() && view->document()->line(j).contains(QRegExp("^\\s*\\}\\s*$"))) {
             s =  view->document()->line(i);
             view->document()->removeLine(i);

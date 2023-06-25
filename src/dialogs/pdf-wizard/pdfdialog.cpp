@@ -401,11 +401,11 @@ void PdfDialog::setNumberOfPages(int numpages)
         // show all, if the number of pages is known
         m_PdfDialog.tabWidget->widget(0)->setEnabled(true);
 
-        QString pages;
         if ( m_encrypted )
             m_PdfDialog.m_lbPages->setText(i18nc("%1 is the number of pages", "%1 (encrypted)", QString::number(m_numpages)));
-        else
-            m_PdfDialog.m_lbPages->setText(pages.setNum(m_numpages));
+        else {
+            m_PdfDialog.m_lbPages->setText(QString::number(m_numpages));
+        }
     }
     else {
         // hide all, if the number of pages can't be determined

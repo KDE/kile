@@ -248,8 +248,6 @@ QString SymbolView::getToolTip(const QString &key)
 void SymbolView::mousePressEvent(QMouseEvent *event)
 {
     Command cmd;
-    QString code_symbol;
-    QList<Package> packages;
     QListWidgetItem *item = Q_NULLPTR;
     bool math = false, bracket = false;
 
@@ -257,6 +255,8 @@ void SymbolView::mousePressEvent(QMouseEvent *event)
         bracket = event->modifiers() & Qt::ControlModifier;
         math = event->modifiers() & Qt::ShiftModifier;
 
+        QString code_symbol;
+        QList<Package> packages;
         extract(item->data(Qt::UserRole).toString(), cmd);
         if(KileConfig::symbolViewUTF8()) {
             code_symbol = cmd.unicodeCommand;
@@ -298,11 +298,10 @@ QString convertLatin1StringtoUTF8(const QString &string)
     QStringList::const_iterator it;
     QString str;
     bool ok;
-    int stringAsInt;
     for(it = stringList.constBegin(); it != stringList.constEnd(); it++) {
         str = *it;
         str.remove("U+");
-        stringAsInt = str.toInt(&ok);
+        int stringAsInt = str.toInt(&ok);
         if(!ok) {
             return QString();
         }
@@ -389,9 +388,6 @@ void SymbolView::fillWidget(const QString& prefix)
 
 void SymbolView::writeConfig()
 {
-    QListWidgetItem *item;
-    QStringList paths;
-    QList<int> refCnts;
     Command cmd;
 
     KConfigGroup grp = KSharedConfig::openConfig()->group(MFUS_GROUP);
@@ -401,8 +397,10 @@ void SymbolView::writeConfig()
         grp.deleteEntry("counts");
     }
     else {
+        QStringList paths;
+        QList<int> refCnts;
         for(int i = 0; i < count(); ++i) {
-            item = this->item(i);
+            QListWidgetItem *item = this->item(i);
             extract(item->data(Qt::UserRole).toString(),cmd);
             refCnts.append(cmd.referenceCount);
             paths.append(cmd.path);

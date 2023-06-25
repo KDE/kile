@@ -781,12 +781,11 @@ void Sequence::setupSequenceTools()
 {
     QStringList toolNameList = readEntry("sequence").split(',');
     QString tl, cfg;
-    Base *tool;
     for(QStringList::iterator i = toolNameList.begin(); i != toolNameList.end(); ++i) {
         QString fullToolSpec = (*i).trimmed();
         extract(fullToolSpec, tl, cfg);
 
-        tool = manager()->createTool(tl, cfg, false); // create tool with delayed preparation
+        Base *tool = manager()->createTool(tl, cfg, false); // create tool with delayed preparation
         if (tool) {
             KILE_DEBUG_MAIN << "===tool created with name " << tool->name();
             if(!(manager()->info()->watchFile() && tool->isViewer())) { // FIXME: why this?

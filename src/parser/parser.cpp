@@ -119,13 +119,13 @@ QString Parser::matchBracket(const QStringList& textLines, QChar obracket, int &
     }
 
     QString line, grab = "";
-    int count=0, len;
+    int count=0;
     ++pos;
 
     TodoResult todo;
     while(l < textLines.size()) {
         line = processTextline(textLines[l], todo);
-        len = line.length();
+        int len = line.length();
         for (int i = pos; i < len; ++i) {
             if(line[i] == '\\' && (line[i+1] == obracket || line[i+1] == cbracket)) {
                 ++i;

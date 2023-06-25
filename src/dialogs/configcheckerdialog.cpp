@@ -206,7 +206,6 @@ void ConfigChecker::finished(bool ok)
 
     nextButton()->setVisible(false);
     finishButton()->setVisible(true);
-    QString testResultText = "<br/>";
 
     QStringList tools = m_tester->testGroups();
     QStringList critical, failure;
@@ -229,6 +228,7 @@ void ConfigChecker::finished(bool ok)
     if(ok) {
         QString cap = i18n("Test Results");
         QString overallResultText;
+        QString testResultText = "<br/>";
         if (critical.count() > 0) {
             testResultText += i18n("The following <b>critical</b> tests did not succeed:"
                                    "<br/><br/>%1<br/><br/>Kile cannot function correctly on your system. Please consult the "

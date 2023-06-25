@@ -203,7 +203,6 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type)
 {
     m_templateManager->scanForTemplates();
     KileTemplate::TemplateList templateList = m_templateManager->getTemplates(type);
-    QString mode;
     QTreeWidgetItem* previousItem = Q_NULLPTR;
 
     m_templateList->clear();
@@ -211,7 +210,7 @@ void ManageTemplatesDialog::populateTemplateListView(KileDocument::Type type)
     {
         KileTemplate::Info info = *i;
         QFileInfo iconFileInfo(info.icon);
-        mode = (QFileInfo(info.path).isWritable() && (!iconFileInfo.exists() || iconFileInfo.isWritable())) ? " " : "*";
+        QString mode = (QFileInfo(info.path).isWritable() && (!iconFileInfo.exists() || iconFileInfo.isWritable())) ? " " : "*";
         if ((type == KileDocument::Undefined) || (info.type == type)) {
             previousItem = new TemplateListViewItem(m_templateList, previousItem, mode, info);
         }

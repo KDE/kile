@@ -304,12 +304,12 @@ UserMenuItem *UserMenuTree::readXmlSubmenu(const QDomElement &element)
 {
     UserMenuItem *submenuitem = new UserMenuItem(UserMenuData::Submenu, QString()) ;
 
-    QString title;
     if ( element.hasChildNodes() ) {
         QDomElement e = element.firstChildElement();
         while ( !e.isNull()) {
             UserMenuItem *item = Q_NULLPTR;
 
+            QString title;
             QString tag = e.tagName();
             if ( tag == "title" ) {
                 title = e.text();
@@ -345,21 +345,21 @@ UserMenuItem *UserMenuTree::readXmlMenuentry(const QDomElement &element)
 
     UserMenuItem *menuentryitem = new UserMenuItem(menutype, QString()) ;
 
-    // default values
-    QString title;
-    QString plaintext;
-    QString filename;
-    QString parameter;
-    QString icon;
-    QString shortcut;
-    bool needsSelection = false;
-    bool useContextMenu = false;
-    bool replaceSelection = false;
-    bool selectInsertion = false;
-    bool insertOutput = false;
-
-    // read values
     if ( element.hasChildNodes() ) {
+        // default values
+        QString title;
+        QString plaintext;
+        QString filename;
+        QString parameter;
+        QString icon;
+        QString shortcut;
+        bool needsSelection = false;
+        bool useContextMenu = false;
+        bool replaceSelection = false;
+        bool selectInsertion = false;
+        bool insertOutput = false;
+
+        // read values
         QDomElement e = element.firstChildElement();
         while ( !e.isNull()) {
             QString tag = e.tagName();

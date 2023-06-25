@@ -339,11 +339,10 @@ int main(int argc, char** argv)
         n = n.nextSibling();
     }
 
-    QString content,pngfile;
     for(int i=0; i < commands.count(); i++) {
-        content = generateLatexFile(preamble,commands[i]);
+        QString content = generateLatexFile(preamble,commands[i]);
         qDebug() << content;
-        pngfile = generatePNG(content,i+1,symbolGroupName);
+        QString pngfile = generatePNG(content,i+1,symbolGroupName);
         writeImageComments(commands[i],pngfile);
         readImageComments(pngfile);
     }

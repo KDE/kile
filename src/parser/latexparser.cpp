@@ -74,9 +74,9 @@ BracketResult LaTeXParser::matchBracket(const QStringList& textLines, int &l, in
 
     if((getTextLine(textLines, l))[pos] == '[') {
         result.option = Parser::matchBracket(textLines, '[', l, pos);
-        int p = 0;
         while(l < textLines.size()) {
-            if((p = processTextline(getTextLine(textLines, l), todo).indexOf('{', pos)) != -1) {
+        int p = processTextline(getTextLine(textLines, l), todo).indexOf('{', pos);
+            if(p != -1) {
                 pos = p;
                 break;
             }
@@ -119,13 +119,11 @@ ParserOutput* LaTeXParser::parse()
     static QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
     static QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
 
-    int tagStart, bd = 0;
-    int tagEnd, tagLine = 0, tagCol = 0;
+    int bd = 0, tagLine = 0, tagCol = 0;
     int tagStartLine = 0, tagStartCol = 0;
     BracketResult result;
     QString m, s, shorthand;
     bool foundBD = false; // found \begin { document }
-    bool fire = true; //whether or not we should emit a foundItem signal
     bool fireSuspended; // found an item, but it should not be fired (this time)
     TodoResult todo;
 
@@ -139,8 +137,8 @@ ParserOutput* LaTeXParser::parse()
 
 //		emit(parsingUpdate(i));
 
-        tagStart = tagEnd = 0;
-        fire = true;
+        int tagStart = 0, tagEnd = 0;
+        bool fire = true; //whether or not we should emit a foundItem signal
         s = processTextline(getTextLine(m_textLines, i), todo);
         if(todo.type != -1 && m_showStructureTodo) {
             QString folder = (todo.type == KileStruct::ToDo) ? "todo" : "fixme";
@@ -387,10 +385,11 @@ ParserOutput* LaTeXParser::parse()
 
                     // newcommand found, add it to the newCommands list
                     else if((*it).type & (KileStruct::NewCommand | KileStruct::NewEnvironment)) {
-                        QString optArg, mandArgs;
+                        QString mandArgs;
 
                         //find how many parameters this command takes
                         if(s.indexOf(reNumOfParams, tagEnd + 1) != -1) {
+                            QString optArg;
                             bool ok;
                             int noo = reNumOfParams.cap(1).toInt(&ok);
 

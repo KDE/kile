@@ -1212,8 +1212,8 @@ bool QuickDocument::readPackagesListview()
             QList<QTreeWidgetItem*> items = m_lvPackages->findItems((*it).left(pos), Qt::MatchExactly);
             if (items.count() > 0) {
                 item = items[0];
-                QTreeWidgetItem *clichild;
                 if (reg.exactMatch(configGroup.readEntry(*it))) {
+                    QTreeWidgetItem *clichild;
                     if (reg.cap(2) == "1") {                                       // editable state
                         clichild = insertEditableTreeWidget(item, (*it).mid(pos + 1), reg.cap(5), reg.cap(4), reg.cap(3));
                     } else {

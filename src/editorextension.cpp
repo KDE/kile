@@ -853,7 +853,6 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
 // +       reg.setCaseSensitivity(Qt::CaseInsensitive);
 // +       int lastMatch = 0;
 
-    int rowFound, colFound;
     QRegExp reg(regExpString);
 
     KTextEditor::Range searchRange = KTextEditor::Range(KTextEditor::Cursor(row, col), doc->documentEnd());
@@ -875,8 +874,8 @@ bool EditorExtension::findCloseMathTag(KTextEditor::Document *doc, int row, int 
             break;
         }
 
-        rowFound = range.start().line();
-        colFound = range.start().column();
+        int rowFound = range.start().line();
+        int colFound = range.start().column();
         QString textFound = doc->text(range);
 
         // should be better called 'isValidChar()', because it checks for comments
@@ -2396,14 +2395,14 @@ void EditorExtension::gotoNextParagraph(KTextEditor::View *view)
     }
 
     bool found;
-    int startline, endline;
     KTextEditor::Document *doc = view->document();
 
-    endline = view->cursorPosition().line();
+    int endline = view->cursorPosition().line();
     if(doc->line(endline).trimmed().isEmpty()) {
         found = true;
     }
     else {
+        int startline;
         found = findCurrentTexParagraph(startline, endline, view);
     }
 
@@ -2427,7 +2426,7 @@ void EditorExtension::gotoPrevParagraph(KTextEditor::View *view)
     }
 
     bool found;
-    int startline,endline;
+    int startline;
     KTextEditor::Document *doc = view->document();
 
     startline = view->cursorPosition().line();
@@ -2436,6 +2435,7 @@ void EditorExtension::gotoPrevParagraph(KTextEditor::View *view)
         found = true;
     }
     else {
+        int endline;
         found = findCurrentTexParagraph(startline,endline,view);
     }
     // we are in an empty line or in the first line of a paragraph

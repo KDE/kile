@@ -457,14 +457,13 @@ void UserMenu::installXmlSubmenu(const QDomElement &element, QMenu *parentmenu, 
 {
     QMenu *submenu = parentmenu->addMenu(QString());
 
-    QString title;
     if ( element.hasChildNodes() ) {
         QDomElement e = element.firstChildElement();
         while ( !e.isNull()) {
 
             QString tag = e.tagName();
             if ( tag == "title" ) {
-                title = e.text();
+                QString title = e.text();
                 submenu->setTitle(title);
             }
             else if ( tag == "submenu" ) {

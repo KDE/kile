@@ -349,11 +349,10 @@ int QuickPreview::createTempfile(const QString &text)
         }
     }
     // write the whole preamble into this temporary file
-    QString textline;
     int preamblelines = 0;
     bool begindocumentFound = false;
     while(!preamble.atEnd()) {
-        textline = preamble.readLine();
+        QString textline = preamble.readLine();
         if (textline.indexOf("\\begin{document}") >= 0) {
             begindocumentFound = true;
             break;

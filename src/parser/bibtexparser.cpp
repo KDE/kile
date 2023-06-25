@@ -62,7 +62,7 @@ ParserOutput* BibTeXParser::parse()
     static QRegExp reItem("^(\\s*)@([a-zA-Z]+)");
     static QRegExp reSpecial("string|preamble|comment");
 
-    QString s, key;
+    QString key;
     int col = 0, startcol, startline = 0;
 
 // 	emit(parsingStarted(m_doc->lines()));
@@ -73,7 +73,7 @@ ParserOutput* BibTeXParser::parse()
             return Q_NULLPTR;
         }
 // 		emit(parsingUpdate(i));
-        s = getTextLine(m_textLines, i);
+        QString s = getTextLine(m_textLines, i);
         if((s.indexOf(reItem) != -1) && !reSpecial.exactMatch(reItem.cap(2).toLower())) {
             qCDebug(LOG_KILE_PARSER) << "found: " << reItem.cap(2);
             //start looking for key

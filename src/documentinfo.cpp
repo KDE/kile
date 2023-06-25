@@ -571,13 +571,13 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
     }
 
     QString line, grab = "";
-    int count=0, len;
+    int count=0;
     ++pos;
 
     TodoResult todo;
     while(l <= m_doc->lines()) {
         line = getTextline(l,todo);
-        len = line.length();
+        int len = line.length();
         for (int i=pos; i < len; ++i) {
             if(line[i] == '\\' && (line[i+1] == obracket || line[i+1] == cbracket)) {
                 ++i;
@@ -1044,9 +1044,9 @@ BracketResult LaTeXInfo::matchBracket(int &l, int &pos)
 
     if(m_doc->line(l)[pos] == '[') {
         result.option = TextInfo::matchBracket('[', l, pos);
-        int p = 0;
         while(l < m_doc->lines()) {
-            if((p = getTextline(l, todo).indexOf('{', pos)) != -1) {
+            int p = getTextline(l, todo).indexOf('{', pos);
+            if(p != -1) {
                 pos = p;
                 break;
             }

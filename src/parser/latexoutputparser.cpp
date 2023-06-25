@@ -635,7 +635,6 @@ ParserOutput* LaTeXOutputParser::parse()
     m_stackFile.push(LOFStackItem(QFileInfo(source()).fileName(), true));
 
     short sCookie = 0;
-    QString s;
     QFile f(m_logFile);
 
     m_log.clear();
@@ -654,7 +653,7 @@ ParserOutput* LaTeXOutputParser::parse()
             f.close();
             return Q_NULLPTR;
         }
-        s = t.readLine();
+        QString s = t.readLine();
         sCookie = parseLine(s.trimmed(), sCookie);
         ++m_nOutputLines;
 

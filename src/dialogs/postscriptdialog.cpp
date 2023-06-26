@@ -136,9 +136,12 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
     if (psselect) {
         m_PostscriptDialog.m_cbTask->addItem(i18n("psselect: Choose Parameter")); // 17  PS_PSSELECT_FREE
     }
-
-    m_PostscriptDialog.m_edInfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
-    m_PostscriptDialog.m_edOutfile->setFilter("*.ps|PS Files\n*.ps.gz|Zipped PS Files");
+    const QStringList postscriptMimeTypes = {
+        QStringLiteral("application/postscript"),
+        QStringLiteral("application/x-gzpostscript"),
+    };
+    m_PostscriptDialog.m_edInfile->setMimeTypeFilters(postscriptMimeTypes);
+    m_PostscriptDialog.m_edOutfile->setMimeTypeFilters(postscriptMimeTypes);
     m_PostscriptDialog.m_edOutfile->setMode(KFile::File | KFile::LocalOnly);
 
     // choose one common task

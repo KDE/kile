@@ -103,9 +103,10 @@ PdfDialog::PdfDialog(QWidget *parent,
     paramLayout->addWidget(m_cbTask, 4, 1);
 
     // setup filenames
-    m_PdfDialog.m_edInfile->setFilter(i18n("*.pdf|PDF Files"));
+    const QStringList pdfMimeType = {QStringLiteral("application/pdf")};
+    m_PdfDialog.m_edInfile->setMimeTypeFilters(pdfMimeType);
     m_PdfDialog.m_edInfile->lineEdit()->setText(pdffilename);
-    m_PdfDialog.m_edOutfile->setFilter(i18n("*.pdf|PDF Files"));
+    m_PdfDialog.m_edOutfile->setMimeTypeFilters(pdfMimeType);
     m_PdfDialog.m_edOutfile->setMode(KFile::File | KFile::LocalOnly );
     m_PdfDialog.m_edOutfile->lineEdit()->setText( getOutfileName(pdffilename) );
 

@@ -67,9 +67,6 @@ hyperref package (if needed) with option 'a4paper'.</string>
         <property name="whatsThis">
          <string>Input file, which should be converted.</string>
         </property>
-        <property name="filter">
-         <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
-        </property>
        </widget>
       </item>
       <item row="6" column="1">
@@ -134,9 +131,6 @@ hyperref package (if needed) with option 'a4paper'.</string>
        <widget class="KUrlRequester" name="m_edOutfile">
         <property name="whatsThis">
          <string>The name of the output file. This entry may also be empty, if you only want to view the result without saving it. In this case the viewer checkbox must be checked.</string>
-        </property>
-        <property name="filter">
-         <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
         </property>
        </widget>
       </item>

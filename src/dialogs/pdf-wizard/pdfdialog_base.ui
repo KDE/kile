@@ -215,9 +215,6 @@
             <property name="whatsThis">
              <string>The name of the output file. This entry may also be empty, if you want to overwrite the original file.</string>
             </property>
-            <property name="filter" stdset="0">
-             <string>*.ps|PS Files\n*.ps.gz|Zipped PS Files</string>
-            </property>
            </widget>
           </item>
           <item row="4" column="0">

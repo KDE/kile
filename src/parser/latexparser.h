@@ -31,7 +31,7 @@ struct BracketResult
 class LaTeXParserInput : public ParserInput
 {
 public:
-    LaTeXParserInput(const QUrl &url, QStringList textLines,
+    LaTeXParserInput(const QUrl &url, const QStringList &textLines,
                      KileDocument::Extensions *extensions,
                      const QMap<QString, KileStructData>& dictStructLevel,
                      bool showSectioningLabels,

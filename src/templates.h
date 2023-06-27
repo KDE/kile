@@ -43,7 +43,7 @@ public:
     QString icon;
     KileDocument::Type type;
 
-    bool operator==(const Info ti) const;
+    bool operator==(const Info &ti) const;
 };
 
 typedef QList<Info> TemplateList;

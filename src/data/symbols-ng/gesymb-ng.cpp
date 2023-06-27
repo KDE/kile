@@ -119,7 +119,7 @@ void writeImageComments(const Command &cmd, const QString &fileName)
 
 }
 
-QString generatePNG(QString latexFile, int index, QString symbolGroupName) {
+QString generatePNG(const QString &latexFile, int index, QString symbolGroupName) {
 
     QString texfile, texfileWithoutSuffix,pngfile;
     int latexret, dvipngret;
@@ -220,7 +220,7 @@ QList<Package> getAllPackages(const QDomElement &e) {
     return packages;
 }
 
-Command getCommandDefinition(const QDomElement &e, QList<Package> unicodePackages)
+Command getCommandDefinition(const QDomElement &e, const QList<Package> &unicodePackages)
 {
     if(e.isNull()) {
         return Command();

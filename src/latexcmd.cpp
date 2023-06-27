@@ -460,7 +460,7 @@ bool LatexCommands::commandAttributes(const QString &name, LatexCmdAttributes &a
 
 //////////////////// determine config string ////////////////////
 
-QString LatexCommands::configString(LatexCmdAttributes &attr,bool env)
+QString LatexCommands::configString(const LatexCmdAttributes &attr,bool env)
 {
     // most important: type of environment or command
     QChar ch = getAttrChar(attr.type);

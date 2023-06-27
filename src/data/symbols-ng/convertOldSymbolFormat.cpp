@@ -148,7 +148,7 @@ void usage()
     exit(1);
 }
 
-void outputXML(const QString latexCommand, const QString imageCommand, QList< Package >& packages, bool mathMode)
+void outputXML(const QString &latexCommand, const QString &imageCommand, const QList< Package >& packages, bool mathMode)
 {
     Package pkg;
     QString output;

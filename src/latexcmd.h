@@ -70,7 +70,7 @@ public:
     QString cmdGroupName() {
         return m_cmdGroupName;
     }
-    QString configString(LatexCmdAttributes &attr,bool env);
+    QString configString(const LatexCmdAttributes &attr,bool env);
 
     bool isMathEnv(const QString &name);
     bool isListEnv(const QString &name) {

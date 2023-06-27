@@ -658,7 +658,7 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
     }
 }
 
-static bool isAncestorOf(KileProjectItem *toBeChecked, KileProjectItem *parent)
+static bool isAncestorOf(const KileProjectItem *toBeChecked, KileProjectItem *parent)
 {
     KileProjectItem *item = parent;
     while(item != Q_NULLPTR) {

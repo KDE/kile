@@ -25,7 +25,7 @@
 
 namespace KileParser {
 
-LaTeXParserInput::LaTeXParserInput(const QUrl &url, QStringList textLines,
+LaTeXParserInput::LaTeXParserInput(const QUrl &url, const QStringList &textLines,
                                    KileDocument::Extensions *extensions,
                                    const QMap<QString, KileStructData>& dictStructLevel,
                                    bool showSectioningLabels,

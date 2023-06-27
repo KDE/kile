@@ -24,7 +24,7 @@ namespace KileParser {
 class BibTeXParserInput : public ParserInput
 {
 public:
-    BibTeXParserInput(const QUrl &url, QStringList textLines);
+    BibTeXParserInput(const QUrl &url, const QStringList &textLines);
 
     QStringList textLines;
 };

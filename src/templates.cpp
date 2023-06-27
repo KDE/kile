@@ -49,7 +49,7 @@ Info::Info() : type(KileDocument::Undefined)
 {
 }
 
-bool Info::operator==(const Info ti) const
+bool Info::operator==(const Info &ti) const
 {
     return name==ti.name;
 }

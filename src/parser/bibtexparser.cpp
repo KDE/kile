@@ -27,7 +27,7 @@
 
 namespace KileParser {
 
-BibTeXParserInput::BibTeXParserInput(const QUrl &url, QStringList textLines)
+BibTeXParserInput::BibTeXParserInput(const QUrl &url, const QStringList &textLines)
     : ParserInput(url),
       textLines(textLines)
 {

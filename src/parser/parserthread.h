@@ -41,25 +41,6 @@ class ParserOutput;
 
 enum ParserType { LaTeX = 0, BibTeX };
 
-// NOTE: we cannot store pointer to TextInfo objects in the queue
-//       as this would cause too many problems when they are deleted
-//       and their content is still being parsed
-class DocumentParserInput : public ParserInput
-{
-public:
-    DocumentParserInput(const QUrl &url, QStringList lines,
-                        ParserType parserType,
-                        const QMap<QString, KileStructData>* dictStructLevel,
-                        bool showSectioningLabels,
-                        bool showStructureTodo);
-
-    QStringList lines;
-    ParserType parserType;
-    const QMap<QString, KileStructData>* dictStructLevel;
-    bool showSectioningLabels;
-    bool showStructureTodo;
-};
-
 class ParserThread : public QThread
 {
     Q_OBJECT

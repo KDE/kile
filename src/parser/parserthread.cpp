@@ -22,20 +22,6 @@
 
 namespace KileParser {
 
-DocumentParserInput::DocumentParserInput(const QUrl &url, QStringList lines,
-        ParserType parserType,
-        const QMap<QString, KileStructData>* dictStructLevel,
-        bool showSectioningLabels,
-        bool showStructureTodo)
-    : ParserInput(url),
-      lines(lines),
-      parserType(parserType),
-      dictStructLevel(dictStructLevel),
-      showSectioningLabels(showSectioningLabels),
-      showStructureTodo(showStructureTodo)
-{
-}
-
 ParserThread::ParserThread(KileInfo *info, QObject *parent) :
     QThread(parent),
     m_ki(info),

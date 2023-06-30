@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-20 00:52+0000\n"
+"POT-Creation-Date: 2023-06-30 00:48+0000\n"
 "PO-Revision-Date: 2014-05-04 21:32+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -1501,8 +1501,8 @@ msgid "Manage the local completion files in the file manager"
 msgstr "Afkörten vun utsöcht Kompletteerdateien in't Sietpaneel wiesen"
 
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
-#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:282
-#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:216
+#: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/pdf-wizard/pdfdialog.cpp:947 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:198
 #: widgets/codecompletionconfigwidget.cpp:357
 #, kde-format
@@ -1510,9 +1510,9 @@ msgid "yes"
 msgstr "Jo"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
-#: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:282
-#: dialogs/pdf-wizard/pdfdialog.cpp:946
-#: dialogs/pdf-wizard/pdfdialog_base.ui:521 dialogs/postscriptdialog.cpp:216
+#: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
+#: dialogs/pdf-wizard/pdfdialog.cpp:947
+#: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:203
 #: widgets/codecompletionconfigwidget.cpp:360
 #, kde-format
@@ -1910,129 +1910,124 @@ msgstr "En kort, beschrieven Naam för't &Warktüüch:"
 msgid "PDF Wizard"
 msgstr "PDF-Hölper"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:106 dialogs/pdf-wizard/pdfdialog.cpp:108
-#, kde-format
-msgid "*.pdf|PDF Files"
-msgstr "*.pdf|PDF-Dateien"
-
-#: dialogs/pdf-wizard/pdfdialog.cpp:116 dialogs/pdf-wizard/pdfdialog.cpp:728
-#: dialogs/pdf-wizard/pdfdialog.cpp:853
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:729
+#: dialogs/pdf-wizard/pdfdialog.cpp:854
 #, kde-format
 msgid "Re&arrange"
 msgstr "Nieg &opdelen"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:129
+#: dialogs/pdf-wizard/pdfdialog.cpp:130
 #, kde-format
 msgid "1 Page + Empty Page --> 2up"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:130
+#: dialogs/pdf-wizard/pdfdialog.cpp:131
 #, kde-format
 msgid "1 Page + Duplicate --> 2up"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:131
+#: dialogs/pdf-wizard/pdfdialog.cpp:132
 #, kde-format
 msgid "2 Pages --> 2up"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:132
+#: dialogs/pdf-wizard/pdfdialog.cpp:133
 #, kde-format
 msgid "2 Pages (landscape) --> 2up"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:133
+#: dialogs/pdf-wizard/pdfdialog.cpp:134
 #, kde-format
 msgid "4 Pages --> 4up"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:134
+#: dialogs/pdf-wizard/pdfdialog.cpp:135
 #, kde-format
 msgid "4 Pages (landscape) --> 4up"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:135 dialogs/postscriptdialog.cpp:125
+#: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:125
 #, kde-format
 msgid "Select Even Pages"
 msgstr "Even Sieden utsöken"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:136 dialogs/postscriptdialog.cpp:126
+#: dialogs/pdf-wizard/pdfdialog.cpp:137 dialogs/postscriptdialog.cpp:126
 #, kde-format
 msgid "Select Odd Pages"
 msgstr "Uneven Sieden utsöken"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:137 dialogs/postscriptdialog.cpp:127
+#: dialogs/pdf-wizard/pdfdialog.cpp:138 dialogs/postscriptdialog.cpp:127
 #, kde-format
 msgid "Select Even Pages (reverse order)"
 msgstr "Even Sieden utsöken (ümdreiht Reeg)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:138 dialogs/postscriptdialog.cpp:128
+#: dialogs/pdf-wizard/pdfdialog.cpp:139 dialogs/postscriptdialog.cpp:128
 #, kde-format
 msgid "Select Odd Pages (reverse order)"
 msgstr "Uneven Sieden utsöken (ümdreiht Reeg)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:139 dialogs/postscriptdialog.cpp:129
+#: dialogs/pdf-wizard/pdfdialog.cpp:140 dialogs/postscriptdialog.cpp:129
 #, kde-format
 msgid "Reverse All Pages"
 msgstr "Siedenreeg ümdreihen"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:140
+#: dialogs/pdf-wizard/pdfdialog.cpp:141
 #, kde-format
 msgid "Decrypt"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:141
+#: dialogs/pdf-wizard/pdfdialog.cpp:142
 #, kde-format
 msgid "Select Pages"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:142
+#: dialogs/pdf-wizard/pdfdialog.cpp:143
 #, kde-format
 msgid "Delete Pages"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:143
+#: dialogs/pdf-wizard/pdfdialog.cpp:144
 #, kde-format
 msgid "Apply a background watermark"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:144
+#: dialogs/pdf-wizard/pdfdialog.cpp:145
 #, kde-format
 msgid "Apply a background color"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:145
+#: dialogs/pdf-wizard/pdfdialog.cpp:146
 #, kde-format
 msgid "Apply a foreground stamp"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:146
+#: dialogs/pdf-wizard/pdfdialog.cpp:147
 #, kde-format
 msgid "pdftk: Choose Parameter"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:147
+#: dialogs/pdf-wizard/pdfdialog.cpp:148
 #, kde-format
 msgid "pdfpages: Choose Parameter"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:405
+#: dialogs/pdf-wizard/pdfdialog.cpp:406
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:412
+#: dialogs/pdf-wizard/pdfdialog.cpp:413
 #, kde-format
 msgid "Error: unknown number of pages"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:425
+#: dialogs/pdf-wizard/pdfdialog.cpp:426
 #, kde-format
 msgid "PDFTK-Password"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:426
+#: dialogs/pdf-wizard/pdfdialog.cpp:427
 #, kde-format
 msgid ""
 "This PDF file is encrypted and 'pdftk' cannot open it.\n"
@@ -2040,115 +2035,115 @@ msgid ""
 " or leave it blank to try another method: "
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:573
+#: dialogs/pdf-wizard/pdfdialog.cpp:574
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:577
+#: dialogs/pdf-wizard/pdfdialog.cpp:578
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:578
+#: dialogs/pdf-wizard/pdfdialog.cpp:579
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:582
+#: dialogs/pdf-wizard/pdfdialog.cpp:583
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:585
+#: dialogs/pdf-wizard/pdfdialog.cpp:586
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:593
+#: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:595
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:595
+#: dialogs/pdf-wizard/pdfdialog.cpp:596
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:599
+#: dialogs/pdf-wizard/pdfdialog.cpp:600
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:600
+#: dialogs/pdf-wizard/pdfdialog.cpp:601
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
 "installed)."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:603
+#: dialogs/pdf-wizard/pdfdialog.cpp:604
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
 "was not found)."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:604
+#: dialogs/pdf-wizard/pdfdialog.cpp:605
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:609
+#: dialogs/pdf-wizard/pdfdialog.cpp:610
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:728
+#: dialogs/pdf-wizard/pdfdialog.cpp:729
 #, kde-format
 msgid "&Update"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:792 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:792
+#: dialogs/pdf-wizard/pdfdialog.cpp:793
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:797 dialogs/pdf-wizard/pdfdialog.cpp:802
-#: dialogs/pdf-wizard/pdfdialog_base.ui:277 dialogs/postscriptdialog.cpp:498
-#: dialogs/postscriptdialog_base.ui:153
+#: dialogs/pdf-wizard/pdfdialog.cpp:798 dialogs/pdf-wizard/pdfdialog.cpp:803
+#: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:501
+#: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
 #: dialogs/usermenu/usermenudialog_base.ui:607
 #, kde-format
 msgid "Parameter:"
 msgstr "Parameter:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:798
+#: dialogs/pdf-wizard/pdfdialog.cpp:799
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:803
+#: dialogs/pdf-wizard/pdfdialog.cpp:804
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:825
+#: dialogs/pdf-wizard/pdfdialog.cpp:826
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2157,7 +2152,7 @@ msgid ""
 "page."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:830
+#: dialogs/pdf-wizard/pdfdialog.cpp:831
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2166,13 +2161,13 @@ msgid ""
 "page. This works best if the stamp PDF page has a transparent background."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:850
+#: dialogs/pdf-wizard/pdfdialog.cpp:851
 #, fuzzy, kde-format
 #| msgid "Apply"
 msgid "&Apply"
 msgstr "Bruken"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:868
+#: dialogs/pdf-wizard/pdfdialog.cpp:869
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2180,7 +2175,7 @@ msgid ""
 "This wizard cannot be used."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:896
+#: dialogs/pdf-wizard/pdfdialog.cpp:897
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2198,7 +2193,7 @@ msgid ""
 "polite but firm request to respect the author's wishes.</p>"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:913
+#: dialogs/pdf-wizard/pdfdialog.cpp:914
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2206,170 +2201,170 @@ msgid ""
 "possible.</p>"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:917 dialogs/pdf-wizard/pdfdialog.cpp:1705
-#: dialogs/pdf-wizard/pdfdialog.cpp:1773 kile.cpp:1018
+#: dialogs/pdf-wizard/pdfdialog.cpp:918 dialogs/pdf-wizard/pdfdialog.cpp:1706
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1018
 #, kde-format
 msgid "PDF Tools"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:933
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:933
 #, kde-format
 msgid "pdftk"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:934
 #, fuzzy, kde-format
 #| msgid "rearrange ps file: "
 msgid "Rearranging PDF file: %1"
 msgstr "PS-Datei nieg opdelen: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
-#: dialogs/postscriptdialog.cpp:213
+#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** Warktüüch:   "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
-#: dialogs/postscriptdialog.cpp:214
+#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1055
+#: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** Ingaavdatei: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/postscriptdialog.cpp:215
+#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** Utgaavdatei: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/pdf-wizard/pdfdialog.cpp:1055
+#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/pdf-wizard/pdfdialog.cpp:1056
 #, kde-format
 msgid "***** param:       "
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945
+#: dialogs/pdf-wizard/pdfdialog.cpp:946
 #, kde-format
 msgid "***** command:     "
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:216
+#: dialogs/pdf-wizard/pdfdialog.cpp:947 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** Kieker:      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1108
+#: dialogs/pdf-wizard/pdfdialog.cpp:1109
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1164
+#: dialogs/pdf-wizard/pdfdialog.cpp:1165
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1167
+#: dialogs/pdf-wizard/pdfdialog.cpp:1168
 #, kde-format
 msgid "Finished with an error"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1181
+#: dialogs/pdf-wizard/pdfdialog.cpp:1182
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1181
+#: dialogs/pdf-wizard/pdfdialog.cpp:1182
 #, kde-format
 msgid "ViewPDF"
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1621
+#: dialogs/pdf-wizard/pdfdialog.cpp:1622
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1639
+#: dialogs/pdf-wizard/pdfdialog.cpp:1640
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1643 dialogs/pdf-wizard/pdfdialog.cpp:1650
+#: dialogs/pdf-wizard/pdfdialog.cpp:1644 dialogs/pdf-wizard/pdfdialog.cpp:1651
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1663
+#: dialogs/pdf-wizard/pdfdialog.cpp:1664
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1664
+#: dialogs/pdf-wizard/pdfdialog.cpp:1665
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1671
+#: dialogs/pdf-wizard/pdfdialog.cpp:1672
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1676
+#: dialogs/pdf-wizard/pdfdialog.cpp:1677
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1689
+#: dialogs/pdf-wizard/pdfdialog.cpp:1690
 #, kde-format
 msgid "You need to define an output file."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1696
+#: dialogs/pdf-wizard/pdfdialog.cpp:1697
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1702 dialogs/postscriptdialog.cpp:474
+#: dialogs/pdf-wizard/pdfdialog.cpp:1703 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr ""
 "Dat gifft al en Datei mit den Naam \"%1\". Wullt Du ehr redig överschrieven?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1735 dialogs/postscriptdialog.cpp:432
+#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "Keen Ingaavdatei angeven"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1742
+#: dialogs/pdf-wizard/pdfdialog.cpp:1743
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1747 dialogs/postscriptdialog.cpp:444
+#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "Dat gifft de Ingaavdatei nich."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1759
+#: dialogs/pdf-wizard/pdfdialog.cpp:1760
 #, kde-format
 msgid "No password is given."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1764
+#: dialogs/pdf-wizard/pdfdialog.cpp:1765
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr ""
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:512
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:515
 #: dialogs/texdocumentationdialog.cpp:431
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:512
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:515
 #: dialogs/texdocumentationdialog.cpp:432
 #, kde-format
 msgid "</center>"
@@ -2429,31 +2424,23 @@ msgid ""
 "overwrite the original file."
 msgstr ""
 
-#. i18n: ectx: property (filter), widget (KUrlRequester, m_edOutfile)
-#. i18n: ectx: property (filter), widget (KUrlRequester, m_edInfile)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:219 dialogs/postscriptdialog_base.ui:71
-#: dialogs/postscriptdialog_base.ui:139
-#, kde-format
-msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
-msgstr "*.ps|PostScript-Dateien\\n*.ps.gz|opzippt PostScript-Dateien"
-
 #. i18n: ectx: property (text), widget (QLabel, m_lbTask)
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:226 dialogs/postscriptdialog_base.ui:91
+#: dialogs/pdf-wizard/pdfdialog_base.ui:223 dialogs/postscriptdialog_base.ui:88
 #, kde-format
 msgid "Task:"
 msgstr "Opgaav:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbView)
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:233
-#: dialogs/postscriptdialog_base.ui:146
+#: dialogs/pdf-wizard/pdfdialog_base.ui:230
+#: dialogs/postscriptdialog_base.ui:140
 #, kde-format
 msgid "Viewer:"
 msgstr "Kieker:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbView)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:240 dialogs/postscriptdialog_base.ui:78
+#: dialogs/pdf-wizard/pdfdialog_base.ui:237 dialogs/postscriptdialog_base.ui:75
 #, kde-format
 msgid ""
 "View the result of the conversion process. okular is always taken as an "
@@ -2463,21 +2450,21 @@ msgstr ""
 "Kieker bruukt."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbView)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:243
+#: dialogs/pdf-wizard/pdfdialog_base.ui:240
 #, kde-format
 msgid "Show the resulting PDF file"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbOverwrite)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:256
+#: dialogs/pdf-wizard/pdfdialog_base.ui:253
 #, kde-format
 msgid "Overwrite the original file"
 msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (KLineEdit, m_edParameter)
 #. i18n: ectx: property (whatsThis), widget (QLineEdit, m_edParameter)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:270
-#: dialogs/postscriptdialog_base.ui:116
+#: dialogs/pdf-wizard/pdfdialog_base.ui:267
+#: dialogs/postscriptdialog_base.ui:113
 #, kde-format
 msgid ""
 "'Select pages' and 'Free Parameter' need some specific parameter, which you "
@@ -2487,136 +2474,136 @@ msgstr ""
 "hier ingeven kannst."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbStamp)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:284
+#: dialogs/pdf-wizard/pdfdialog_base.ui:281
 #, kde-format
 msgid "PDF file:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbBackgroundColor)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:326
+#: dialogs/pdf-wizard/pdfdialog_base.ui:323
 #, kde-format
 msgid "Background:"
 msgstr "Achtergrund:"
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbProperties)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:373 dialogs/projectdialogs.cpp:429
+#: dialogs/pdf-wizard/pdfdialog_base.ui:370 dialogs/projectdialogs.cpp:429
 #: widgets/previewconfigwidget.cpp:118
 #, kde-format
 msgid "Properties"
 msgstr "Egenschappen"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbProperties)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:385
+#: dialogs/pdf-wizard/pdfdialog_base.ui:382
 #, kde-format
 msgid "Properties of this PDF document"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_15)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:409
+#: dialogs/pdf-wizard/pdfdialog_base.ui:406
 #, kde-format
 msgid "Title:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_16)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:419
+#: dialogs/pdf-wizard/pdfdialog_base.ui:416
 #, kde-format
 msgid "Creator:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_17)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:429
+#: dialogs/pdf-wizard/pdfdialog_base.ui:426
 #, kde-format
 msgid "Subject:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_18)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:439
+#: dialogs/pdf-wizard/pdfdialog_base.ui:436
 #, kde-format
 msgid "Keywords:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_19)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:449
+#: dialogs/pdf-wizard/pdfdialog_base.ui:446
 #, kde-format
 msgid "Author:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_21)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:459
+#: dialogs/pdf-wizard/pdfdialog_base.ui:456
 #, kde-format
 msgid "Producer:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_5)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:494
+#: dialogs/pdf-wizard/pdfdialog_base.ui:491
 #, kde-format
 msgid "Format:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbFormat)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:504
+#: dialogs/pdf-wizard/pdfdialog_base.ui:501
 #, kde-format
 msgid "1.4"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_3)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:511
+#: dialogs/pdf-wizard/pdfdialog_base.ui:508
 #, kde-format
 msgid "Encryption:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_23)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:528
+#: dialogs/pdf-wizard/pdfdialog_base.ui:525
 #, kde-format
 msgid "Creation date:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbCreationDate)
 #. i18n: ectx: property (text), widget (QLabel, m_lbModDate)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:538
-#: dialogs/pdf-wizard/pdfdialog_base.ui:555
+#: dialogs/pdf-wizard/pdfdialog_base.ui:535
+#: dialogs/pdf-wizard/pdfdialog_base.ui:552
 #, kde-format
 msgid "date"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_22)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:545
+#: dialogs/pdf-wizard/pdfdialog_base.ui:542
 #, kde-format
 msgid "Modification date:"
 msgstr ""
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbPermissions)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:568
+#: dialogs/pdf-wizard/pdfdialog_base.ui:565
 #, kde-format
 msgid "Permissions"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbPermissions)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:580
+#: dialogs/pdf-wizard/pdfdialog_base.ui:577
 #, kde-format
 msgid "Permissions (under 128-bit-security)"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:612
+#: dialogs/pdf-wizard/pdfdialog_base.ui:609
 #, kde-format
 msgid "Printing:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_6)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:622
+#: dialogs/pdf-wizard/pdfdialog_base.ui:619
 #, kde-format
 msgid "Copy text or graphics:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_4)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:632
+#: dialogs/pdf-wizard/pdfdialog_base.ui:629
 #, kde-format
 msgid "Modify contents:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_9)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:642
+#: dialogs/pdf-wizard/pdfdialog_base.ui:639
 #, kde-format
 msgid "Fill form fields with data:"
 msgstr ""
@@ -2626,29 +2613,29 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbCopy)
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbFormFeeds)
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbAnnotations)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:658
-#: dialogs/pdf-wizard/pdfdialog_base.ui:671
-#: dialogs/pdf-wizard/pdfdialog_base.ui:684
-#: dialogs/pdf-wizard/pdfdialog_base.ui:697
-#: dialogs/pdf-wizard/pdfdialog_base.ui:723
+#: dialogs/pdf-wizard/pdfdialog_base.ui:655
+#: dialogs/pdf-wizard/pdfdialog_base.ui:668
+#: dialogs/pdf-wizard/pdfdialog_base.ui:681
+#: dialogs/pdf-wizard/pdfdialog_base.ui:694
+#: dialogs/pdf-wizard/pdfdialog_base.ui:720
 #, kde-format
 msgid "allowed"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, label_8)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:704
+#: dialogs/pdf-wizard/pdfdialog_base.ui:701
 #, kde-format
 msgid "Change or add annotations or fill form fields:"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbPrinting)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:782
+#: dialogs/pdf-wizard/pdfdialog_base.ui:779
 #, kde-format
 msgid "Allow only Printing"
 msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbAll)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:789
+#: dialogs/pdf-wizard/pdfdialog_base.ui:786
 #, kde-format
 msgid "Allow all features"
 msgstr ""
@@ -2740,33 +2727,33 @@ msgstr "pstops: Parameter utsöken"
 msgid "psselect: Choose Parameter"
 msgstr "psselect: Parameter utsöken"
 
-#: dialogs/postscriptdialog.cpp:153
+#: dialogs/postscriptdialog.cpp:156
 #, kde-format
 msgid "Done"
 msgstr "Fardig"
 
-#: dialogs/postscriptdialog.cpp:154
+#: dialogs/postscriptdialog.cpp:157
 #, kde-format
 msgid "Execute"
 msgstr "Utföhren"
 
-#: dialogs/postscriptdialog.cpp:196 quickpreview.cpp:339
+#: dialogs/postscriptdialog.cpp:199 quickpreview.cpp:339
 #, kde-format
 msgid "Could not create a temporary file."
 msgstr "Temporeerdatei lett sik nich opstellen."
 
-#: dialogs/postscriptdialog.cpp:205
+#: dialogs/postscriptdialog.cpp:208
 #, fuzzy, kde-format
 #| msgid "rearrange ps file: "
 msgid "rearrange ps file: %1"
 msgstr "PS-Datei nieg opdelen: "
 
-#: dialogs/postscriptdialog.cpp:252
+#: dialogs/postscriptdialog.cpp:255
 #, kde-format
 msgid "An error occurred while rearranging the file."
 msgstr "Bi't Niegopdelen vun de Datei hett dat en Fehler geven."
 
-#: dialogs/postscriptdialog.cpp:439
+#: dialogs/postscriptdialog.cpp:442
 #, kde-format
 msgid ""
 "Unknown file format: only '.ps' and '.ps.gz' are accepted for input files."
@@ -2774,34 +2761,34 @@ msgstr ""
 "Dateiformaat nich begäng: Bloots \".ps\" un \".ps.gz\"-Dateien laat sik "
 "inlesen."
 
-#: dialogs/postscriptdialog.cpp:452
+#: dialogs/postscriptdialog.cpp:455
 #, kde-format
 msgid "psselect needs some parameters in this mode."
 msgstr "In disse Bedriefoort bruukt \"psselect\" mehr Parameters."
 
-#: dialogs/postscriptdialog.cpp:455
+#: dialogs/postscriptdialog.cpp:458
 #, kde-format
 msgid "pstops needs some parameters in this mode."
 msgstr "In disse Bedriefoort bruukt \"pstops\" mehr Parameters."
 
-#: dialogs/postscriptdialog.cpp:462
+#: dialogs/postscriptdialog.cpp:465
 #, kde-format
 msgid "You need to define an output file or select the viewer."
 msgstr "Du muttst en Utgaavdatei oder en Kieker utsöken."
 
-#: dialogs/postscriptdialog.cpp:469
+#: dialogs/postscriptdialog.cpp:472
 #, kde-format
 msgid "Unknown file format: only '.ps' is accepted as output file."
 msgstr ""
 "Dateiformaat nich begäng: As Utgaav laat sik bloots \".ps\"-Dateien "
 "opstellen."
 
-#: dialogs/postscriptdialog.cpp:491
+#: dialogs/postscriptdialog.cpp:494
 #, kde-format
 msgid "Copies:"
 msgstr "Kopien:"
 
-#: dialogs/postscriptdialog.cpp:512 kile.cpp:1017
+#: dialogs/postscriptdialog.cpp:515 kile.cpp:1017
 #, kde-format
 msgid "Postscript Tools"
 msgstr "PostScript-Warktüüch"
@@ -2835,19 +2822,19 @@ msgid "Input file, which should be converted."
 msgstr "Ingaavdatei, de Du ümwanneln wullt"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbView)
-#: dialogs/postscriptdialog_base.ui:81
+#: dialogs/postscriptdialog_base.ui:78
 #, kde-format
 msgid "Show ps file with 'okular'"
 msgstr "PostScript-Datei mit \"Okular\" wiesen"
 
 #. i18n: ectx: property (whatsThis), widget (QSpinBox, m_spCopies)
-#: dialogs/postscriptdialog_base.ui:123
+#: dialogs/postscriptdialog_base.ui:120
 #, kde-format
 msgid "When you want to copy pages, you must enter the number of copies"
 msgstr "Wenn Du Sieden koperen wullt, muttst Du de Tall vun Kopien angeven."
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_edOutfile)
-#: dialogs/postscriptdialog_base.ui:136
+#: dialogs/postscriptdialog_base.ui:133
 #, kde-format
 msgid ""
 "The name of the output file. This entry may also be empty, if you only want "
@@ -12959,6 +12946,12 @@ msgstr ""
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr ""
+
+#~ msgid "*.pdf|PDF Files"
+#~ msgstr "*.pdf|PDF-Dateien"
+
+#~ msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
+#~ msgstr "*.ps|PostScript-Dateien\\n*.ps.gz|opzippt PostScript-Dateien"
 
 #~ msgid "Smart New Line"
 #~ msgstr "Plietsch Reegümbrook"

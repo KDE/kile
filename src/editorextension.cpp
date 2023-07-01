@@ -3315,7 +3315,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
     }
 
     int row = view->cursorPosition().line();
-    int col = view->cursorPositionVirtual().column();
+    int col = view->cursorPosition().column();
     QString line = view->document()->line(row).left(col);
 
     int pos = m_regexpEnter.indexIn(line);

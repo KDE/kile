@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-06-30 00:48+0000\n"
-"PO-Revision-Date: 2023-06-17 04:11\n"
+"PO-Revision-Date: 2023-07-03 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -12690,9 +12690,3 @@ msgstr "在 LaTeX 菜单中显示用户菜单(&T)"
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr "在菜单栏中显示用户菜单(&U)"
-
-#~ msgid "*.pdf|PDF Files"
-#~ msgstr "*.pdf|PDF 文件"
-
-#~ msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
-#~ msgstr "*.ps|PS 文件\\n*.ps.gz|压缩的 PS 文件"

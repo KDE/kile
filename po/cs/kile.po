@@ -10557,7 +10557,7 @@ msgstr "&Zarovnaná (align)"
 #: kileui.rc:396
 #, kde-format
 msgid "&Center Environments"
-msgstr ""
+msgstr "&Seskupená (gather)"
 
 #. i18n: ectx: Menu (menu_amsenv_multiline)
 #: kileui.rc:402
@@ -12885,9 +12885,3 @@ msgstr "Ukazovat uživa&telskou nabídku v nabídce LaTeXu"
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr ""
-
-#~ msgid "*.pdf|PDF Files"
-#~ msgstr "*.pdf|Soubory PDF"
-
-#~ msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
-#~ msgstr "*.ps|soubory PS\\n*.ps.gz|Zabalené soubory PS"

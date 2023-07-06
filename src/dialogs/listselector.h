@@ -51,7 +51,7 @@ protected:
 
 class ManageCompletionFilesDialog : public QDialog
 {
-    Q_OBJECT;
+    Q_OBJECT
 
 public:
     ManageCompletionFilesDialog(const QString &caption,

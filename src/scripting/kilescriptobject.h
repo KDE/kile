@@ -163,11 +163,11 @@ class KileScriptObject : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QObject* alert READ getAlert);
-    Q_PROPERTY(QObject* input READ getInput);
-    Q_PROPERTY(QObject* wizard READ getWizard);
-    Q_PROPERTY(QObject* script READ getScript);
-    Q_PROPERTY(QObject* file READ getFile);
+    Q_PROPERTY(QObject* alert READ getAlert)
+    Q_PROPERTY(QObject* input READ getInput)
+    Q_PROPERTY(QObject* wizard READ getWizard)
+    Q_PROPERTY(QObject* script READ getScript)
+    Q_PROPERTY(QObject* file READ getFile)
 
 public:
     KileScriptObject(QObject *parent, KileInfo *kileInfo, const QMap<QString,QAction *> *scriptActions);

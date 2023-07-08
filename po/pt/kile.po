@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2022-05-16 13:59+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -3135,7 +3135,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Sem Nome de Projecto Indicado"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Sem Título"
@@ -10643,7 +10643,7 @@ msgstr "&Ver"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10933,42 +10933,42 @@ msgstr "Colar como LaTe&X"
 msgid "Convert Selection to &LaTeX"
 msgstr "Converter a Selecção para &LaTeX"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, kde-format
 msgid "Show sorted list of opened documents"
 msgstr "Mostrar uma lista ordenada com os documentos abertos"
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Could not create an editor view."
 msgstr "Não foi possível criar uma área de edição."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Fatal Error"
 msgstr "Erro Fatal"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Selecção em &Antevisão Rápida"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Ambiente de &Antevisão Rápida"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "Antevisão Rápida da &Matemática"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Imprimir o Documento Compilado..."
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Antever a Impressão do Documento Compilado..."

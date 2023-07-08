@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2022-08-03 10:01+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -3030,7 +3030,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Inget projektnamn angivet"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Namnlös"
@@ -10451,7 +10451,7 @@ msgstr "&Visa"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10741,42 +10741,42 @@ msgstr "Klistra in som Late&x"
 msgid "Convert Selection to &LaTeX"
 msgstr "Konvertera markering till &Latex"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, kde-format
 msgid "Show sorted list of opened documents"
 msgstr "Visa sorterad lista med öppnade dokument"
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Could not create an editor view."
 msgstr "Kunde inte skapa en editorvy."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Fatal Error"
 msgstr "Allvarligt fel"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Snabb&granska markering"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Miljö för snabb&granskning"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "Snabb&granskning av matematik"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Skriv ut kompilerat dokument..."
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Skriv ut förhandsgranskning av kompilerat dokument..."

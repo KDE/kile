@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2019-10-12 16:08+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -3069,7 +3069,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Имя проекта не определено"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Безымянный"
@@ -10584,7 +10584,7 @@ msgstr "&Вид"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, fuzzy, kde-format
 #| msgid "Document Type"
@@ -10877,44 +10877,44 @@ msgstr "Встав&ить как LaTeX"
 msgid "Convert Selection to &LaTeX"
 msgstr "Преобразовать вы&деление в LaTeX"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Show sorted list of opened documents"
 msgstr "Создать шаблон из документа..."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Could not create an editor view."
 msgstr "Создать окно редактора не удалось."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Fatal Error"
 msgstr "Критическая ошибка"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Быстрый просмотр &выделения"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Быстрый просмотр &окружения"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "Быстрый просмотр &матгруппы"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Compiled Document..."
 msgstr "Создать шаблон из документа..."
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Preview For Compiled Document..."

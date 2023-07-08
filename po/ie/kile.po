@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2022-11-12 08:09+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -2855,7 +2855,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Nómine del projecte:"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Sin nómine"
@@ -9852,7 +9852,7 @@ msgstr "&Vise"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, fuzzy, kde-format
 msgid "Document Viewer"
@@ -10142,42 +10142,42 @@ msgstr "LaTe&X"
 msgid "Convert Selection to &LaTeX"
 msgstr "LaTeX"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, fuzzy, kde-format
 msgid "Show sorted list of opened documents"
 msgstr "Monstrar li liste de documentes"
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, fuzzy, kde-format
 msgid "Could not create an editor view."
 msgstr "Ne posset crear li dialog MIME."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, fuzzy, kde-format
 msgid "Fatal Error"
 msgstr "Errore fatal"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, fuzzy, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Selection a"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, fuzzy, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Ambi&ente"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, fuzzy, kde-format
 msgid "&QuickPreview Math"
 msgstr "Matematic"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, fuzzy, kde-format
 msgid "Print Compiled Document..."
 msgstr "compilat in"
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, fuzzy, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Prevision de documentes"

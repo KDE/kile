@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2020-09-21 10:54+0300\n"
 "Last-Translator: Stelios <sstavra@gmail.com>\n"
 "Language-Team: Greek <kde-i18n-el@kde.org>\n"
@@ -3082,7 +3082,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Δεν δόθηκε όνομα έργου"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Χωρίς τίτλο"
@@ -10632,7 +10632,7 @@ msgstr "&Προβολή"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10923,42 +10923,42 @@ msgstr "Επικόλληση ως LaTe&X"
 msgid "Convert Selection to &LaTeX"
 msgstr "Μετατροπή επιλογής σε &LaTeX"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, kde-format
 msgid "Show sorted list of opened documents"
 msgstr "Εμφάνιση της ταξινομημένης λίστας των ανοιγμένων εγγράφων."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Could not create an editor view."
 msgstr "Αδυναμία δημιουργίας μιας προβολής επεξεργασίας."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Fatal Error"
 msgstr "Σφάλμα κατάρρευσης"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr "Επιλογή &γρήγορης προεπισκόπησης"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, kde-format
 msgid "&QuickPreview Environment"
 msgstr "Περιβάλλουσα &γρήγορης προεπισκόπησης"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, kde-format
 msgid "&QuickPreview Math"
 msgstr "&Γρήγορη προεπισκόπηση Μαθηματικών"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, kde-format
 msgid "Print Compiled Document..."
 msgstr "Εκτύπωση μεταγλωττισμένου εγγράφου..."
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, kde-format
 msgid "Print Preview For Compiled Document..."
 msgstr "Προεπισκόπηση εκτύπωσης μεταγλωττισμένου εγγράφου..."

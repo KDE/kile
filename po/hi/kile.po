@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2021-06-29 20:38+0530\n"
 "Last-Translator: Raghavendra Kamath <raghu@raghukamath.com>\n"
 "Language-Team: kde-hindi\n"
@@ -2919,7 +2919,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "कोई फ़ाइल नाम नहीं दिया है"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "बेशीर्षक"
@@ -10023,7 +10023,7 @@ msgstr ""
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, fuzzy, kde-format
 #| msgid "Document Type"
@@ -10317,44 +10317,44 @@ msgstr "लेटेक्स जैसे चिपकाएँ (&X)"
 msgid "Convert Selection to &LaTeX"
 msgstr "चयनित को लेटेक्स में बदलें (&L)"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Show sorted list of opened documents"
 msgstr "दस्तावेज़ से टैम्प्लेट तैयार करें..."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, fuzzy, kde-format
 msgid "Could not create an editor view."
 msgstr "फ़ोल्डर %1 पर जा नहीं सका."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Fatal Error"
 msgstr ""
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, kde-format
 msgid "&QuickPreview Selection"
 msgstr ""
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, fuzzy, kde-format
 msgid "&QuickPreview Environment"
 msgstr "नया एनवायरनमेंट"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, fuzzy, kde-format
 msgid "&QuickPreview Math"
 msgstr "नया एनवायरनमेंट"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Compiled Document..."
 msgstr "दस्तावेज़ से टैम्प्लेट तैयार करें..."
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Preview For Compiled Document..."

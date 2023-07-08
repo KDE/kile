@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-06-30 00:48+0000\n"
+"POT-Creation-Date: 2023-07-08 01:15+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -2960,7 +2960,7 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Rodyti projekto failus"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1047
+#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Be pavadinimo"
@@ -10142,7 +10142,7 @@ msgstr "&Rodyti"
 
 #. i18n: ectx: Menu (menu_document_viewer)
 #. i18n: ectx: property (title), widget (QGroupBox, documentViewerGroupBox)
-#: kileui.rc:125 kileviewmanager.cpp:1164 widgets/appearanceconfigwidget.ui:55
+#: kileui.rc:125 kileviewmanager.cpp:1165 widgets/appearanceconfigwidget.ui:55
 #: widgets/generalconfigwidget.ui:156
 #, kde-format
 msgid "Document Viewer"
@@ -10442,45 +10442,45 @@ msgstr "Įdėti kaip LaTe&X"
 msgid "Convert Selection to &LaTeX"
 msgstr "Konvertavimas į paveikslėlį:"
 
-#: kileviewmanager.cpp:254
+#: kileviewmanager.cpp:255
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Show sorted list of opened documents"
 msgstr "Sukurti šabloną iš dokumento..."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, fuzzy, kde-format
 msgid "Could not create an editor view."
 msgstr "Nepavyko sukurti laikino failo."
 
-#: kileviewmanager.cpp:374
+#: kileviewmanager.cpp:375
 #, kde-format
 msgid "Fatal Error"
 msgstr "Kritinė klaida"
 
-#: kileviewmanager.cpp:845
+#: kileviewmanager.cpp:846
 #, fuzzy, kde-format
 msgid "&QuickPreview Selection"
 msgstr "&Greita pažymėjimo peržiūra"
 
-#: kileviewmanager.cpp:846
+#: kileviewmanager.cpp:847
 #, fuzzy, kde-format
 msgid "&QuickPreview Environment"
 msgstr "&Greita pažymėjimo peržiūra"
 
-#: kileviewmanager.cpp:847
+#: kileviewmanager.cpp:848
 #, fuzzy, kde-format
 #| msgid "QuickPreview"
 msgid "&QuickPreview Math"
 msgstr "Greita peržiūra"
 
-#: kileviewmanager.cpp:1137
+#: kileviewmanager.cpp:1138
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Compiled Document..."
 msgstr "Sukurti šabloną iš dokumento..."
 
-#: kileviewmanager.cpp:1143
+#: kileviewmanager.cpp:1144
 #, fuzzy, kde-format
 #| msgid "Create Template From Document..."
 msgid "Print Preview For Compiled Document..."

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-08 01:15+0000\n"
+"POT-Creation-Date: 2023-07-10 00:47+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -270,7 +270,7 @@ msgid ""
 "changes."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:230
+#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:229
 #, kde-format
 msgid "Test Results"
 msgstr "Bandymo rezultatai"
@@ -551,13 +551,13 @@ msgid "Image"
 msgstr "Paveikslėlis"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
-#: kilestdactions.cpp:129 usermenu/usermenu.cpp:908
+#: kilestdactions.cpp:129 usermenu/usermenu.cpp:907
 #, kde-format
 msgid "Label"
 msgstr "Žymė"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
-#: usermenu/usermenu.cpp:913
+#: usermenu/usermenu.cpp:912
 #, kde-format
 msgid "Reference"
 msgstr "Nuoroda"
@@ -584,7 +584,7 @@ msgstr "Filtras:"
 msgid "Scan directories recursively"
 msgstr "Skenuoti aplankus rekursyviai"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:585
+#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
 #: dialogs/texdocumentationdialog.cpp:78
 #, kde-format
 msgid "&Search"
@@ -678,22 +678,22 @@ msgstr "Rasti projekte"
 msgid "no project opened"
 msgstr ""
 
-#: dialogs/findfilesdialog.cpp:557
+#: dialogs/findfilesdialog.cpp:556
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>Klaida:</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:557 dialogs/findfilesdialog.cpp:691
+#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "Grep įrankio klaida"
 
-#: dialogs/findfilesdialog.cpp:691
+#: dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "Neteisinga įprasta išraiška: %1"
 
-#: dialogs/findfilesdialog.cpp:696
+#: dialogs/findfilesdialog.cpp:695
 #, kde-format
 msgid "&Cancel"
 msgstr "&Atšaukti"
@@ -1285,41 +1285,41 @@ msgstr "Citatos"
 msgid "Includes"
 msgstr "Įterpti grafiką"
 
-#: dialogs/latexcommanddialog.cpp:627 kile.cpp:1063
+#: dialogs/latexcommanddialog.cpp:626 kile.cpp:1063
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "LaTeX aplinkos"
 
-#: dialogs/latexcommanddialog.cpp:631 dialogs/latexcommanddialog.cpp:703
+#: dialogs/latexcommanddialog.cpp:630 dialogs/latexcommanddialog.cpp:702
 #: kile.cpp:1062
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "LaTeX komandos"
 
-#: dialogs/latexcommanddialog.cpp:670
+#: dialogs/latexcommanddialog.cpp:669
 #, kde-format
 msgid "Do you want to delete this environment?"
 msgstr "Ar norite ištrinti šią aplinką?"
 
-#: dialogs/latexcommanddialog.cpp:674
+#: dialogs/latexcommanddialog.cpp:673
 #, kde-format
 msgid "Do you want to delete this command?"
 msgstr "Ar norite ištrinti šią komandą?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
-#: dialogs/latexcommanddialog.cpp:679 dialogs/quickdocumentdialog.cpp:1904
+#: dialogs/latexcommanddialog.cpp:678 dialogs/quickdocumentdialog.cpp:1904
 #: dialogs/quickdocumentdialog.cpp:2077
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
 msgstr "Trinti"
 
-#: dialogs/latexcommanddialog.cpp:698
+#: dialogs/latexcommanddialog.cpp:697
 #, kde-format
 msgid "LaTeX Environment"
 msgstr "LaTeX aplinka"
 
-#: dialogs/latexcommanddialog.cpp:766
+#: dialogs/latexcommanddialog.cpp:765
 #, fuzzy, kde-format
 #| msgid ""
 #| "All your %1 settings will be overwritten with the default settings, are "
@@ -1331,7 +1331,7 @@ msgstr ""
 "Visos jūsų %1 nuostatos perrašysimos numatytomis nuostatomis, ar tikrai "
 "norite tęsti?"
 
-#: dialogs/latexcommanddialog.cpp:767
+#: dialogs/latexcommanddialog.cpp:766
 #, fuzzy, kde-format
 #| msgid ""
 #| "All your %1 settings will be overwritten with the default settings, are "
@@ -1650,19 +1650,19 @@ msgid ""
 "lack the necessary deletion permissions)."
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:250
+#: dialogs/managetemplatesdialog.cpp:249
 #, kde-format
 msgid ""
 "The template name that you have entered is invalid.\n"
 "Please enter a new name."
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:258
+#: dialogs/managetemplatesdialog.cpp:257
 #, fuzzy, kde-format
 msgid "Please choose an icon first."
 msgstr "Prašom pirma išsaugoti failą."
 
-#: dialogs/managetemplatesdialog.cpp:266
+#: dialogs/managetemplatesdialog.cpp:265
 #, fuzzy, kde-format
 msgid ""
 "The icon file: %1\n"
@@ -1671,7 +1671,7 @@ msgstr ""
 "Apgailestaujame, bet atrodo, kad failas: %1\n"
 "neegzistuoja. Gal pamiršote išsaugoti failą?"
 
-#: dialogs/managetemplatesdialog.cpp:274
+#: dialogs/managetemplatesdialog.cpp:273
 #, fuzzy, kde-format
 #| msgid ""
 #| "Sorry, but the file: %1\n"
@@ -1683,7 +1683,7 @@ msgstr ""
 "Apgailestaujame, bet atrodo, kad failas: %1\n"
 "neegzistuoja. Gal pamiršote išsaugoti failą?"
 
-#: dialogs/managetemplatesdialog.cpp:281
+#: dialogs/managetemplatesdialog.cpp:280
 #, fuzzy, kde-format
 #| msgid ""
 #| "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
@@ -1692,27 +1692,27 @@ msgid ""
 "Please remove it first."
 msgstr "Failas pavadinimu „%1“ jau egzistuoja. Ar tikrai norite jį perrašyti?"
 
-#: dialogs/managetemplatesdialog.cpp:290
+#: dialogs/managetemplatesdialog.cpp:289
 #, kde-format
 msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Jūs ruošiatės pakeisti šabloną %1; ar esate tikras?"
 
-#: dialogs/managetemplatesdialog.cpp:299
+#: dialogs/managetemplatesdialog.cpp:298
 #, kde-format
 msgid "Failed to create the template."
 msgstr "Nepavyko sukurti šablono."
 
-#: dialogs/managetemplatesdialog.cpp:309
+#: dialogs/managetemplatesdialog.cpp:308
 #, fuzzy, kde-format
 msgid "Please select a template that should be removed."
 msgstr "Prašom pasirinkti dokumento, kurį norite sukurti, tipą:"
 
-#: dialogs/managetemplatesdialog.cpp:318
+#: dialogs/managetemplatesdialog.cpp:317
 #, kde-format
 msgid "You are about to remove the template \"%1\"; are you sure?"
 msgstr "Jūs ruošiatės pašalinti šabloną „%1“; ar esate tikri?"
 
-#: dialogs/managetemplatesdialog.cpp:323
+#: dialogs/managetemplatesdialog.cpp:322
 #, fuzzy, kde-format
 msgid "The template could not be removed."
 msgstr "Prašom pasirinkti dokumento, kurį norite sukurti, tipą:"
@@ -2001,7 +2001,7 @@ msgstr "pdftk: pasirinkite parametrą"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages: pasirinkite parametrą"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:406
+#: dialogs/pdf-wizard/pdfdialog.cpp:405
 #, fuzzy, kde-format
 #| msgid "(encrypted)"
 msgctxt "%1 is the number of pages"
@@ -5625,7 +5625,7 @@ msgstr ""
 msgid "No information about warnings or errors is available."
 msgstr ""
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:645
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:644
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "Nepavyksta atverti žurnalo failo; ar paleidote LaTeX?"
@@ -5954,7 +5954,7 @@ msgstr "Atverti visus projekto failus"
 msgid "Find in &Project..."
 msgstr "Rasti &projekte..."
 
-#: kile.cpp:896 kile.cpp:994 kile.cpp:2111 kiledocmanager.cpp:1989
+#: kile.cpp:896 kile.cpp:994 kile.cpp:2110 kiledocmanager.cpp:1989
 #: kiledocmanager.cpp:1999
 #, kde-format
 msgid "Clean"
@@ -6121,7 +6121,7 @@ msgstr ""
 msgid "Settings for Biblatex"
 msgstr ""
 
-#: kile.cpp:1010 kile.cpp:2220
+#: kile.cpp:1010 kile.cpp:2218
 #, kde-format
 msgid "Quick Start"
 msgstr "Greitas paleidimas"
@@ -6131,7 +6131,7 @@ msgstr "Greitas paleidimas"
 msgid "Array"
 msgstr ""
 
-#: kile.cpp:1014 kile.cpp:2272 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr ""
@@ -6192,27 +6192,27 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1244 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1243 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "Kompiliuoti"
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1244 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr "Rodyti"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1245 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "Konvertuoti"
 
-#: kile.cpp:1247 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1246 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr ""
 
-#: kile.cpp:1421
+#: kile.cpp:1420
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6220,113 +6220,113 @@ msgid ""
 "Please check and repair your installation of Kile."
 msgstr ""
 
-#: kile.cpp:1423
+#: kile.cpp:1422
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr ""
 
-#: kile.cpp:1492
+#: kile.cpp:1491
 #, fuzzy, kde-format
 #| msgid "Project"
 msgid "Project: %1"
 msgstr "Projektas"
 
-#: kile.cpp:1495
+#: kile.cpp:1494
 #, fuzzy, kde-format
 #| msgid "Normal mode (current master document: %1)"
 msgid "Project: %1 (Master document: %2)"
 msgstr "Normalus režimas (dabartinis pagrindinis dokumentas: %1)"
 
-#: kile.cpp:1500
+#: kile.cpp:1499
 #, fuzzy, kde-format
 #| msgid "Normal"
 msgid "Normal mode"
 msgstr "Normalus"
 
-#: kile.cpp:1503
+#: kile.cpp:1502
 #, fuzzy, kde-format
 #| msgid "&Master document:"
 msgid "Master document: %1"
 msgstr "&Pagrindinis dokumentas:"
 
-#: kile.cpp:1508 kile.cpp:2630
+#: kile.cpp:1507 kile.cpp:2628
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Nustatyti dabartinį dokumentą kaip „pagrindinį dokumentą“"
 
-#: kile.cpp:1512 kile.cpp:2620
+#: kile.cpp:1511 kile.cpp:2618
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Normalus režimas (dabartinis pagrindinis dokumentas: %1)"
 
-#: kile.cpp:1730
+#: kile.cpp:1729
 #, fuzzy, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "Tik skaitymui"
 
-#: kile.cpp:2104
+#: kile.cpp:2103
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Nėra aktyvaus dokumento arba jis neišsaugotas."
 
-#: kile.cpp:2191
+#: kile.cpp:2189
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Privalote įterpti paketą %1."
 
-#: kile.cpp:2191 kile.cpp:2194
+#: kile.cpp:2189 kile.cpp:2192
 #, kde-format
 msgid "Insert text"
 msgstr "Įterpti tekstą"
 
-#: kile.cpp:2194
+#: kile.cpp:2192
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Privalote įterpti paketus %1."
 
-#: kile.cpp:2415
+#: kile.cpp:2413
 #, kde-format
 msgid "No Name"
 msgstr "Be pavadinimo"
 
-#: kile.cpp:2451
+#: kile.cpp:2449
 #, kde-format
 msgid "no name"
 msgstr "be pavadinimo"
 
-#: kile.cpp:2648
+#: kile.cpp:2646
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
 
-#: kile.cpp:2990
+#: kile.cpp:2988
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOKAS"
 
-#: kile.cpp:2991
+#: kile.cpp:2989
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "EILUTĖ"
 
-#: kile.cpp:2998
+#: kile.cpp:2996
 #, fuzzy, kde-format
 #| msgid "Refresh Str&ucture"
 msgid "Refreshing structure..."
 msgstr "Atnaujinti &struktūrą"
 
-#: kile.cpp:3016
+#: kile.cpp:3014
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3019
+#: kile.cpp:3017
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -10024,7 +10024,7 @@ msgstr ""
 msgid "Archive Project"
 msgstr "Archyvuoti projektą"
 
-#: kiletool.cpp:821 kiletoolmanager.cpp:285
+#: kiletool.cpp:820 kiletoolmanager.cpp:285
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "Nežinomas įrankis %1."
@@ -10690,12 +10690,12 @@ msgstr ""
 msgid "Okular library not found"
 msgstr "Prašom pasirinkti dokumento, kurį norite sukurti, tipą:"
 
-#: parser/latexparser.cpp:219 parser/latexparser.cpp:247
+#: parser/latexparser.cpp:217 parser/latexparser.cpp:245
 #, fuzzy, kde-format
 msgid "Frame"
 msgstr "Kadras"
 
-#: parser/latexparser.cpp:269
+#: parser/latexparser.cpp:267
 #, kde-format
 msgid "Untitled Block"
 msgstr ""
@@ -10809,12 +10809,12 @@ msgstr "Nepavyko nustatyti pagrindinio dokumento."
 msgid "Could not read the preamble."
 msgstr "Nepavyko nuskaityti preambulės."
 
-#: quickpreview.cpp:368
+#: quickpreview.cpp:367
 #, kde-format
 msgid "Could not find a '\\begin{document}' command."
 msgstr "Nepavyksta rasti „\\begin{document}“ komandos."
 
-#: quickpreview.cpp:386 widgets/previewwidget.cpp:238
+#: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
 msgid "QuickPreview"
 msgstr "Greita peržiūra"
@@ -10974,7 +10974,7 @@ msgstr "%1 – %2"
 msgid "The file '%1' does not exist."
 msgstr "Failas „%1“ neegzistuoja."
 
-#: usermenu/usermenu.cpp:919
+#: usermenu/usermenu.cpp:918
 #, fuzzy, kde-format
 #| msgid "Input file:"
 msgid "Input Dialog"

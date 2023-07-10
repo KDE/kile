@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-08 01:15+0000\n"
+"POT-Creation-Date: 2023-07-10 00:47+0000\n"
 "PO-Revision-Date: 2022-11-12 08:09+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -257,7 +257,7 @@ msgid ""
 "changes."
 msgstr ""
 
-#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:230
+#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:229
 #, kde-format
 msgid "Test Results"
 msgstr "Resultates del prova"
@@ -523,13 +523,13 @@ msgid "Image"
 msgstr "Image"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
-#: kilestdactions.cpp:129 usermenu/usermenu.cpp:908
+#: kilestdactions.cpp:129 usermenu/usermenu.cpp:907
 #, kde-format
 msgid "Label"
 msgstr "Etiquette"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
-#: usermenu/usermenu.cpp:913
+#: usermenu/usermenu.cpp:912
 #, kde-format
 msgid "Reference"
 msgstr "Referentie"
@@ -556,7 +556,7 @@ msgstr "Filtre:"
 msgid "Scan directories recursively"
 msgstr "&Examinar"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:585
+#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
 #: dialogs/texdocumentationdialog.cpp:78
 #, kde-format
 msgid "&Search"
@@ -650,22 +650,22 @@ msgstr "In li act_ual projecte"
 msgid "no project opened"
 msgstr "Projecte: {}"
 
-#: dialogs/findfilesdialog.cpp:557
+#: dialogs/findfilesdialog.cpp:556
 #, fuzzy, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "Numerós de Strong"
 
-#: dialogs/findfilesdialog.cpp:557 dialogs/findfilesdialog.cpp:691
+#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
 #, fuzzy, kde-format
 msgid "Grep Tool Error"
 msgstr "Grep:"
 
-#: dialogs/findfilesdialog.cpp:691
+#: dialogs/findfilesdialog.cpp:690
 #, fuzzy, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "Expression regulari es ínvalid: %s"
 
-#: dialogs/findfilesdialog.cpp:696
+#: dialogs/findfilesdialog.cpp:695
 #, kde-format
 msgid "&Cancel"
 msgstr "A&nullar"
@@ -1242,48 +1242,48 @@ msgstr "Citationes"
 msgid "Includes"
 msgstr "Inclusions"
 
-#: dialogs/latexcommanddialog.cpp:627 kile.cpp:1063
+#: dialogs/latexcommanddialog.cpp:626 kile.cpp:1063
 #, fuzzy, kde-format
 msgid "LaTeX Environments"
 msgstr "Ambienties"
 
-#: dialogs/latexcommanddialog.cpp:631 dialogs/latexcommanddialog.cpp:703
+#: dialogs/latexcommanddialog.cpp:630 dialogs/latexcommanddialog.cpp:702
 #: kile.cpp:1062
 #, fuzzy, kde-format
 msgid "LaTeX Commands"
 msgstr "quam _LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:670
+#: dialogs/latexcommanddialog.cpp:669
 #, fuzzy, kde-format
 msgid "Do you want to delete this environment?"
 msgstr "Esque vu vole remover it permanentmen?"
 
-#: dialogs/latexcommanddialog.cpp:674
+#: dialogs/latexcommanddialog.cpp:673
 #, fuzzy, kde-format
 msgid "Do you want to delete this command?"
 msgstr "Esque vu vole remover li projecte?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
-#: dialogs/latexcommanddialog.cpp:679 dialogs/quickdocumentdialog.cpp:1904
+#: dialogs/latexcommanddialog.cpp:678 dialogs/quickdocumentdialog.cpp:1904
 #: dialogs/quickdocumentdialog.cpp:2077
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
 msgstr "Remover"
 
-#: dialogs/latexcommanddialog.cpp:698
+#: dialogs/latexcommanddialog.cpp:697
 #, kde-format
 msgid "LaTeX Environment"
 msgstr "Ambientie de LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:766
+#: dialogs/latexcommanddialog.cpp:765
 #, kde-format
 msgid ""
 "All your 'environment' settings will be overwritten with the default "
 "settings, are you sure you want to continue?"
 msgstr ""
 
-#: dialogs/latexcommanddialog.cpp:767
+#: dialogs/latexcommanddialog.cpp:766
 #, kde-format
 msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
@@ -1588,60 +1588,60 @@ msgid ""
 "lack the necessary deletion permissions)."
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:250
+#: dialogs/managetemplatesdialog.cpp:249
 #, kde-format
 msgid ""
 "The template name that you have entered is invalid.\n"
 "Please enter a new name."
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:258
+#: dialogs/managetemplatesdialog.cpp:257
 #, fuzzy, kde-format
 msgid "Please choose an icon first."
 msgstr "Ples selecter"
 
-#: dialogs/managetemplatesdialog.cpp:266
+#: dialogs/managetemplatesdialog.cpp:265
 #, kde-format
 msgid ""
 "The icon file: %1\n"
 "does not seem to exist. Please choose a new icon."
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:274
+#: dialogs/managetemplatesdialog.cpp:273
 #, kde-format
 msgid ""
 "The file: %1\n"
 "does not seem to exist. Maybe you forgot to save the file?"
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:281
+#: dialogs/managetemplatesdialog.cpp:280
 #, kde-format
 msgid ""
 "A template named \"%1\" already exists.\n"
 "Please remove it first."
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:290
+#: dialogs/managetemplatesdialog.cpp:289
 #, kde-format
 msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:299
+#: dialogs/managetemplatesdialog.cpp:298
 #, fuzzy, kde-format
 msgid "Failed to create the template."
 msgstr "Ne posset cargar li modelle"
 
-#: dialogs/managetemplatesdialog.cpp:309
+#: dialogs/managetemplatesdialog.cpp:308
 #, fuzzy, kde-format
 msgid "Please select a template that should be removed."
 msgstr "Ples selecter un file de archive por importar."
 
-#: dialogs/managetemplatesdialog.cpp:318
+#: dialogs/managetemplatesdialog.cpp:317
 #, kde-format
 msgid "You are about to remove the template \"%1\"; are you sure?"
 msgstr ""
 
-#: dialogs/managetemplatesdialog.cpp:323
+#: dialogs/managetemplatesdialog.cpp:322
 #, fuzzy, kde-format
 msgid "The template could not be removed."
 msgstr "Modelle:"
@@ -1922,7 +1922,7 @@ msgstr "pdftk"
 msgid "pdfpages: Choose Parameter"
 msgstr "&Parametre:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:406
+#: dialogs/pdf-wizard/pdfdialog.cpp:405
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
@@ -5456,7 +5456,7 @@ msgstr "%1 %2 (%3)"
 msgid "No information about warnings or errors is available."
 msgstr ""
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:645
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:644
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr ""
@@ -5784,7 +5784,7 @@ msgstr "Aperter omni files de «%s» per:"
 msgid "Find in &Project..."
 msgstr "In li act_ual projecte"
 
-#: kile.cpp:896 kile.cpp:994 kile.cpp:2111 kiledocmanager.cpp:1989
+#: kile.cpp:896 kile.cpp:994 kile.cpp:2110 kiledocmanager.cpp:1989
 #: kiledocmanager.cpp:1999
 #, fuzzy, kde-format
 msgid "Clean"
@@ -5949,7 +5949,7 @@ msgstr "BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1010 kile.cpp:2220
+#: kile.cpp:1010 kile.cpp:2218
 #, fuzzy, kde-format
 msgid "Quick Start"
 msgstr "&Rapid"
@@ -5959,7 +5959,7 @@ msgstr "&Rapid"
 msgid "Array"
 msgstr "Vector"
 
-#: kile.cpp:1014 kile.cpp:2272 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr ""
@@ -6019,27 +6019,27 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1244 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1243 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "Compilar"
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1244 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr "Vider"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1245 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "Converter"
 
-#: kile.cpp:1247 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1246 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr "Rapid"
 
-#: kile.cpp:1421
+#: kile.cpp:1420
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6047,108 +6047,108 @@ msgid ""
 "Please check and repair your installation of Kile."
 msgstr ""
 
-#: kile.cpp:1423
+#: kile.cpp:1422
 #, fuzzy, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "Crear un archive"
 
-#: kile.cpp:1492
+#: kile.cpp:1491
 #, kde-format
 msgid "Project: %1"
 msgstr "Projecte: %1"
 
-#: kile.cpp:1495
+#: kile.cpp:1494
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr ""
 
-#: kile.cpp:1500
+#: kile.cpp:1499
 #, kde-format
 msgid "Normal mode"
 msgstr "Normal mode"
 
-#: kile.cpp:1503
+#: kile.cpp:1502
 #, fuzzy, kde-format
 msgid "Master document: %1"
 msgstr "Ínvalid document XML: %1"
 
-#: kile.cpp:1508 kile.cpp:2630
+#: kile.cpp:1507 kile.cpp:2628
 #, fuzzy, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Actual selection (o li tot document)"
 
-#: kile.cpp:1512 kile.cpp:2620
+#: kile.cpp:1511 kile.cpp:2618
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr ""
 
-#: kile.cpp:1730
+#: kile.cpp:1729
 #, fuzzy, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr " [solmen letion]"
 
-#: kile.cpp:2104
+#: kile.cpp:2103
 #, fuzzy, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Activ document"
 
-#: kile.cpp:2191
+#: kile.cpp:2189
 #, fuzzy, kde-format
 msgid "You have to include the package %1."
 msgstr "Vu ne have permissiones de accesse al protocol %1."
 
-#: kile.cpp:2191 kile.cpp:2194
+#: kile.cpp:2189 kile.cpp:2192
 #, fuzzy, kde-format
 msgid "Insert text"
 msgstr "Inserter textu"
 
-#: kile.cpp:2194
+#: kile.cpp:2192
 #, fuzzy, kde-format
 msgid "You have to include the packages %1."
 msgstr "Vu ne have permissiones de accesse al protocol %1."
 
-#: kile.cpp:2415
+#: kile.cpp:2413
 #, fuzzy, kde-format
 msgid "No Name"
 msgstr "Null nómine"
 
-#: kile.cpp:2451
+#: kile.cpp:2449
 #, fuzzy, kde-format
 msgid "no name"
 msgstr "Null nómine"
 
-#: kile.cpp:2648
+#: kile.cpp:2646
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr ""
 
-#: kile.cpp:2990
+#: kile.cpp:2988
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOC"
 
-#: kile.cpp:2991
+#: kile.cpp:2989
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "LINEA"
 
-#: kile.cpp:2998
+#: kile.cpp:2996
 #, fuzzy, kde-format
 msgid "Refreshing structure..."
 msgstr "Actualisante li cache"
 
-#: kile.cpp:3016
+#: kile.cpp:3014
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3019
+#: kile.cpp:3017
 #, fuzzy, kde-format
 msgid "Hide menu bar"
 msgstr "Celar li barra de menú"
@@ -9738,7 +9738,7 @@ msgstr ""
 msgid "Archive Project"
 msgstr "Projecte: {}"
 
-#: kiletool.cpp:821 kiletoolmanager.cpp:285
+#: kiletool.cpp:820 kiletoolmanager.cpp:285
 #, fuzzy, kde-format
 msgid "Unknown tool %1."
 msgstr "Ínconosset errore. Code %1"
@@ -10381,12 +10381,12 @@ msgstr ""
 msgid "Okular library not found"
 msgstr "Okular"
 
-#: parser/latexparser.cpp:219 parser/latexparser.cpp:247
+#: parser/latexparser.cpp:217 parser/latexparser.cpp:245
 #, fuzzy, kde-format
 msgid "Frame"
 msgstr "Cadre"
 
-#: parser/latexparser.cpp:269
+#: parser/latexparser.cpp:267
 #, fuzzy, kde-format
 msgid "Untitled Block"
 msgstr "(Sin nómine)"
@@ -10502,12 +10502,12 @@ msgstr "Ne successat trovar li statu de un ressurse"
 msgid "Could not read the preamble."
 msgstr "Prefacie"
 
-#: quickpreview.cpp:368
+#: quickpreview.cpp:367
 #, kde-format
 msgid "Could not find a '\\begin{document}' command."
 msgstr ""
 
-#: quickpreview.cpp:386 widgets/previewwidget.cpp:238
+#: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
 msgid "QuickPreview"
 msgstr ""
@@ -10667,7 +10667,7 @@ msgstr "%1 - %2"
 msgid "The file '%1' does not exist."
 msgstr "Li file o fólder %1 ne existe."
 
-#: usermenu/usermenu.cpp:919
+#: usermenu/usermenu.cpp:918
 #, fuzzy, kde-format
 msgid "Input Dialog"
 msgstr "Intrada:"

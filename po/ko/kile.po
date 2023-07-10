@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-08 01:15+0000\n"
+"POT-Creation-Date: 2023-07-10 00:47+0000\n"
 "PO-Revision-Date: 2023-03-01 02:07+0100\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -273,7 +273,7 @@ msgid ""
 "changes."
 msgstr "<br/>'완료'를 누르면 추천하는 설정 변경 사항을 적용합니다."
 
-#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:230
+#: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:229
 #, kde-format
 msgid "Test Results"
 msgstr "검사 결과"
@@ -547,13 +547,13 @@ msgid "Image"
 msgstr "그림"
 
 #: dialogs/findfilesdialog.cpp:146 kilestdactions.cpp:128
-#: kilestdactions.cpp:129 usermenu/usermenu.cpp:908
+#: kilestdactions.cpp:129 usermenu/usermenu.cpp:907
 #, kde-format
 msgid "Label"
 msgstr "이름표"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
-#: usermenu/usermenu.cpp:913
+#: usermenu/usermenu.cpp:912
 #, kde-format
 msgid "Reference"
 msgstr "참조"
@@ -580,7 +580,7 @@ msgstr "필터:"
 msgid "Scan directories recursively"
 msgstr "재귀적으로 디렉터리 탐색"
 
-#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:585
+#: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
 #: dialogs/texdocumentationdialog.cpp:78
 #, kde-format
 msgid "&Search"
@@ -701,22 +701,22 @@ msgstr "프로젝트에서 찾기"
 msgid "no project opened"
 msgstr "연 프로젝트 없음"
 
-#: dialogs/findfilesdialog.cpp:557
+#: dialogs/findfilesdialog.cpp:556
 #, kde-format
 msgid "<strong>Error:</strong><p>"
 msgstr "<strong>오류:</strong><p>"
 
-#: dialogs/findfilesdialog.cpp:557 dialogs/findfilesdialog.cpp:691
+#: dialogs/findfilesdialog.cpp:556 dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Grep Tool Error"
 msgstr "grep 도구 오류"
 
-#: dialogs/findfilesdialog.cpp:691
+#: dialogs/findfilesdialog.cpp:690
 #, kde-format
 msgid "Invalid regular expression: %1"
 msgstr "잘못된 정규 표현식: %1"
 
-#: dialogs/findfilesdialog.cpp:696
+#: dialogs/findfilesdialog.cpp:695
 #, kde-format
 msgid "&Cancel"
 msgstr "취소(&C)"
@@ -1296,41 +1296,41 @@ msgstr "인용"
 msgid "Includes"
 msgstr "포함"
 
-#: dialogs/latexcommanddialog.cpp:627 kile.cpp:1063
+#: dialogs/latexcommanddialog.cpp:626 kile.cpp:1063
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "LaTeX 환경"
 
-#: dialogs/latexcommanddialog.cpp:631 dialogs/latexcommanddialog.cpp:703
+#: dialogs/latexcommanddialog.cpp:630 dialogs/latexcommanddialog.cpp:702
 #: kile.cpp:1062
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "LaTeX 명령"
 
-#: dialogs/latexcommanddialog.cpp:670
+#: dialogs/latexcommanddialog.cpp:669
 #, kde-format
 msgid "Do you want to delete this environment?"
 msgstr "이 환경을 삭제하시겠습니까?"
 
-#: dialogs/latexcommanddialog.cpp:674
+#: dialogs/latexcommanddialog.cpp:673
 #, kde-format
 msgid "Do you want to delete this command?"
 msgstr "이 명령을 삭제하시겠습니까?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
-#: dialogs/latexcommanddialog.cpp:679 dialogs/quickdocumentdialog.cpp:1904
+#: dialogs/latexcommanddialog.cpp:678 dialogs/quickdocumentdialog.cpp:1904
 #: dialogs/quickdocumentdialog.cpp:2077
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
 msgstr "삭제"
 
-#: dialogs/latexcommanddialog.cpp:698
+#: dialogs/latexcommanddialog.cpp:697
 #, kde-format
 msgid "LaTeX Environment"
 msgstr "LaTeX 환경"
 
-#: dialogs/latexcommanddialog.cpp:766
+#: dialogs/latexcommanddialog.cpp:765
 #, kde-format
 msgid ""
 "All your 'environment' settings will be overwritten with the default "
@@ -1338,7 +1338,7 @@ msgid ""
 msgstr ""
 "모든 'environment' 설정을 기본 설정으로 덮어씁니다. 계속 진행하시겠습니까?"
 
-#: dialogs/latexcommanddialog.cpp:767
+#: dialogs/latexcommanddialog.cpp:766
 #, kde-format
 msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
@@ -1655,7 +1655,7 @@ msgstr ""
 "삭제할 서식을 선택하십시오.\n"
 "별표 표시가 되어 있는 서식은 삭제할 수 없습니다(삭제할 수 있는 권한 없음)."
 
-#: dialogs/managetemplatesdialog.cpp:250
+#: dialogs/managetemplatesdialog.cpp:249
 #, kde-format
 msgid ""
 "The template name that you have entered is invalid.\n"
@@ -1664,12 +1664,12 @@ msgstr ""
 "입력한 서식 이름이 잘못되었습니다.\n"
 "다른 이름을 입력하십시오."
 
-#: dialogs/managetemplatesdialog.cpp:258
+#: dialogs/managetemplatesdialog.cpp:257
 #, kde-format
 msgid "Please choose an icon first."
 msgstr "아이콘을 먼저 선택하십시오."
 
-#: dialogs/managetemplatesdialog.cpp:266
+#: dialogs/managetemplatesdialog.cpp:265
 #, kde-format
 msgid ""
 "The icon file: %1\n"
@@ -1678,7 +1678,7 @@ msgstr ""
 "아이콘 파일: %1\n"
 "해당 파일이 없는 것 같습니다. 새 아이콘을 선택하십시오."
 
-#: dialogs/managetemplatesdialog.cpp:274
+#: dialogs/managetemplatesdialog.cpp:273
 #, kde-format
 msgid ""
 "The file: %1\n"
@@ -1687,7 +1687,7 @@ msgstr ""
 "파일: %1\n"
 "해당 파일이 없는 것 같습니다. 파일을 저장했는지 확인하십시오."
 
-#: dialogs/managetemplatesdialog.cpp:281
+#: dialogs/managetemplatesdialog.cpp:280
 #, kde-format
 msgid ""
 "A template named \"%1\" already exists.\n"
@@ -1696,27 +1696,27 @@ msgstr ""
 "이름이 \"%1\"인 서식이 이미 존재합니다.\n"
 "먼저 삭제하십시오."
 
-#: dialogs/managetemplatesdialog.cpp:290
+#: dialogs/managetemplatesdialog.cpp:289
 #, kde-format
 msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "서식 \"%1\"을(를) 대체하려고 합니다. 계속 진행하시겠습니까?"
 
-#: dialogs/managetemplatesdialog.cpp:299
+#: dialogs/managetemplatesdialog.cpp:298
 #, kde-format
 msgid "Failed to create the template."
 msgstr "서식을 만들 수 없습니다."
 
-#: dialogs/managetemplatesdialog.cpp:309
+#: dialogs/managetemplatesdialog.cpp:308
 #, kde-format
 msgid "Please select a template that should be removed."
 msgstr "삭제할 서식을 선택하십시오."
 
-#: dialogs/managetemplatesdialog.cpp:318
+#: dialogs/managetemplatesdialog.cpp:317
 #, kde-format
 msgid "You are about to remove the template \"%1\"; are you sure?"
 msgstr "서식 \"%1\"을(를) 삭제하려고 합니다. 계속 진행하시겠습니까?"
 
-#: dialogs/managetemplatesdialog.cpp:323
+#: dialogs/managetemplatesdialog.cpp:322
 #, kde-format
 msgid "The template could not be removed."
 msgstr "서식을 삭제할 수 없습니다."
@@ -2010,7 +2010,7 @@ msgstr "pdftk: 인자 선택"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages: 인자 선택"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:406
+#: dialogs/pdf-wizard/pdfdialog.cpp:405
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
@@ -5662,7 +5662,7 @@ msgstr "%1  %2  %3"
 msgid "No information about warnings or errors is available."
 msgstr "경고나 오류 정보가 없습니다."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:645
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:644
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "로그 파일을 열 수 없습니다. LaTeX를 실행했습니까?"
@@ -5999,7 +5999,7 @@ msgstr "모든 프로젝트 파일 열기(&P)"
 msgid "Find in &Project..."
 msgstr "프로젝트에서 찾기(&P)..."
 
-#: kile.cpp:896 kile.cpp:994 kile.cpp:2111 kiledocmanager.cpp:1989
+#: kile.cpp:896 kile.cpp:994 kile.cpp:2110 kiledocmanager.cpp:1989
 #: kiledocmanager.cpp:1999
 #, kde-format
 msgid "Clean"
@@ -6164,7 +6164,7 @@ msgstr "BibTeX 설정"
 msgid "Settings for Biblatex"
 msgstr "Biblatex 설정"
 
-#: kile.cpp:1010 kile.cpp:2220
+#: kile.cpp:1010 kile.cpp:2218
 #, kde-format
 msgid "Quick Start"
 msgstr "빠른 시작"
@@ -6174,7 +6174,7 @@ msgstr "빠른 시작"
 msgid "Array"
 msgstr "배열"
 
-#: kile.cpp:1014 kile.cpp:2272 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "탭 지정"
@@ -6234,27 +6234,27 @@ msgstr "BibTeX"
 msgid "Biblatex"
 msgstr "BibLaTeX"
 
-#: kile.cpp:1244 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1243 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "컴파일"
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1244 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr "보기"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1245 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "변환"
 
-#: kile.cpp:1247 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1246 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr "빠르게"
 
-#: kile.cpp:1421
+#: kile.cpp:1420
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6265,108 +6265,108 @@ msgstr ""
 "\n"
 "Kile 설치 상태를 확인하고 다시 설정하십시오."
 
-#: kile.cpp:1423
+#: kile.cpp:1422
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "압축 파일 생성 도구를 만들 수 없음"
 
-#: kile.cpp:1492
+#: kile.cpp:1491
 #, kde-format
 msgid "Project: %1"
 msgstr "프로젝트: %1"
 
-#: kile.cpp:1495
+#: kile.cpp:1494
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "프로젝트: %1(마스터 문서: %2)"
 
-#: kile.cpp:1500
+#: kile.cpp:1499
 #, kde-format
 msgid "Normal mode"
 msgstr "일반 모드"
 
-#: kile.cpp:1503
+#: kile.cpp:1502
 #, kde-format
 msgid "Master document: %1"
 msgstr "마스터 문서: %1"
 
-#: kile.cpp:1508 kile.cpp:2630
+#: kile.cpp:1507 kile.cpp:2628
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "현재 문서를 '마스터 문서'로 지정"
 
-#: kile.cpp:1512 kile.cpp:2620
+#: kile.cpp:1511 kile.cpp:2618
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "일반 모드(현재 마스터 문서: %1)"
 
-#: kile.cpp:1730
+#: kile.cpp:1729
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [읽기 전용]"
 
-#: kile.cpp:2104
+#: kile.cpp:2103
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "활성화된 문서가 없거나 저장되지 않았습니다."
 
-#: kile.cpp:2191
+#: kile.cpp:2189
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "%1 패키지를 포함해야 합니다."
 
-#: kile.cpp:2191 kile.cpp:2194
+#: kile.cpp:2189 kile.cpp:2192
 #, kde-format
 msgid "Insert text"
 msgstr "문자열 삽입"
 
-#: kile.cpp:2194
+#: kile.cpp:2192
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "%1 패키지를 포함해야 합니다."
 
-#: kile.cpp:2415
+#: kile.cpp:2413
 #, kde-format
 msgid "No Name"
 msgstr "이름 없음"
 
-#: kile.cpp:2451
+#: kile.cpp:2449
 #, kde-format
 msgid "no name"
 msgstr "이름 없음"
 
-#: kile.cpp:2648
+#: kile.cpp:2646
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "현재 문서를 마스터 문서로 지정하려면 먼저 저장해야 합니다."
 
-#: kile.cpp:2990
+#: kile.cpp:2988
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "블록"
 
-#: kile.cpp:2991
+#: kile.cpp:2989
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "줄"
 
-#: kile.cpp:2998
+#: kile.cpp:2996
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "구조 새로 고치는 중..."
 
-#: kile.cpp:3016
+#: kile.cpp:3014
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr "메뉴 표시줄을 완전히 숨깁니다. %1 키를 눌러서 다시 볼 수 있습니다."
 
-#: kile.cpp:3019
+#: kile.cpp:3017
 #, kde-format
 msgid "Hide menu bar"
 msgstr "메뉴 표시줄 숨기기"
@@ -10205,7 +10205,7 @@ msgstr "보관할 파일을 선택하지 않았습니다."
 msgid "Archive Project"
 msgstr "프로젝트 보관"
 
-#: kiletool.cpp:821 kiletoolmanager.cpp:285
+#: kiletool.cpp:820 kiletoolmanager.cpp:285
 #, kde-format
 msgid "Unknown tool %1."
 msgstr "알 수 없는 도구 %1."
@@ -10853,12 +10853,12 @@ msgstr ""
 msgid "Okular library not found"
 msgstr "Okular 라이브러리를 찾을 수 없음"
 
-#: parser/latexparser.cpp:219 parser/latexparser.cpp:247
+#: parser/latexparser.cpp:217 parser/latexparser.cpp:245
 #, kde-format
 msgid "Frame"
 msgstr "프레임"
 
-#: parser/latexparser.cpp:269
+#: parser/latexparser.cpp:267
 #, kde-format
 msgid "Untitled Block"
 msgstr "제목 없는 블록"
@@ -10974,12 +10974,12 @@ msgstr "주 문서를 결정할 수 없습니다."
 msgid "Could not read the preamble."
 msgstr "전처리부를 읽을 수 없습니다."
 
-#: quickpreview.cpp:368
+#: quickpreview.cpp:367
 #, kde-format
 msgid "Could not find a '\\begin{document}' command."
 msgstr "'\\begin{document}' 명령을 찾을 수 없습니다."
 
-#: quickpreview.cpp:386 widgets/previewwidget.cpp:238
+#: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
 msgid "QuickPreview"
 msgstr "빠른 미리 보기"
@@ -11143,7 +11143,7 @@ msgstr "%1 - %2"
 msgid "The file '%1' does not exist."
 msgstr "파일 '%1'이(가) 없습니다."
 
-#: usermenu/usermenu.cpp:919
+#: usermenu/usermenu.cpp:918
 #, kde-format
 msgid "Input Dialog"
 msgstr "입력 대화 상자"

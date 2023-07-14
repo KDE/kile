@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-10 00:47+0000\n"
-"PO-Revision-Date: 2023-06-17 21:49+0300\n"
+"PO-Revision-Date: 2023-07-14 00:28+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -2506,7 +2506,7 @@ msgstr "Görev:"
 #: dialogs/postscriptdialog_base.ui:140
 #, kde-format
 msgid "Viewer:"
-msgstr "Gösterici:"
+msgstr "Görüntüleyici:"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbView)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:237 dialogs/postscriptdialog_base.ui:75
@@ -10732,7 +10732,7 @@ msgstr "İmleç Konumunu Görüntüleyicide Göster"
 #: kileviewmanager.cpp:127
 #, kde-format
 msgid "Synchronize Cursor Position with Viewer"
-msgstr "İmleç Konumunu Görüntüleyici ile Eşitle"
+msgstr "İmleç Konumunu Görüntüleyiciyle Eşitle"
 
 #: kileviewmanager.cpp:180
 #, kde-format

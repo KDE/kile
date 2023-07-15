@@ -2156,11 +2156,9 @@ void Kile::insertTag(const KileAction::TagData& data,const QList<Package> &pkgs)
 
     QStringList packages;
 
-    QList<Package>::const_iterator it;
-    for(it = pkgs.begin(); it != pkgs.end() ; it++) {
-        QString pkgName = (*it).name;
-        if(!pkgName.isEmpty()) {
-            packages.append(pkgName);
+    for(const Package& pkg : pkgs) {
+        if(!pkg.name.isEmpty()) {
+            packages.append(pkg.name);
         }
     }
 

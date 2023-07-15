@@ -293,14 +293,11 @@ QString convertLatin1StringtoUTF8(const QString &string)
     }
 
     QVector<uint> stringAsIntVector;
-    QStringList stringList = string.split(',', Qt::SkipEmptyParts);
+    const QStringList stringList = string.split(',', Qt::SkipEmptyParts);
 
-    QStringList::const_iterator it;
-    QString str;
-    bool ok;
-    for(it = stringList.constBegin(); it != stringList.constEnd(); it++) {
-        str = *it;
+    for (QString str : stringList) {
         str.remove("U+");
+        bool ok;
         int stringAsInt = str.toInt(&ok);
         if(!ok) {
             return QString();

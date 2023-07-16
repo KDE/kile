@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:47+0000\n"
+"POT-Creation-Date: 2023-07-16 00:49+0000\n"
 "PO-Revision-Date: 2023-07-03 11:38\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -6100,7 +6100,7 @@ msgstr "BibTeX 设置"
 msgid "Settings for Biblatex"
 msgstr "Biblatex 设置"
 
-#: kile.cpp:1010 kile.cpp:2218
+#: kile.cpp:1010 kile.cpp:2216
 #, kde-format
 msgid "Quick Start"
 msgstr "快速开始"
@@ -6110,7 +6110,7 @@ msgstr "快速开始"
 msgid "Array"
 msgstr "排列"
 
-#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2268 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "制表位"
@@ -6226,12 +6226,12 @@ msgstr "普通模式"
 msgid "Master document: %1"
 msgstr "主文档 ：%1"
 
-#: kile.cpp:1507 kile.cpp:2628
+#: kile.cpp:1507 kile.cpp:2626
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "将当前文档设为“主文档”"
 
-#: kile.cpp:1511 kile.cpp:2618
+#: kile.cpp:1511 kile.cpp:2616
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "正常模式 (当前主文档 ： %1)"
@@ -6247,62 +6247,62 @@ msgstr "%1[Read-Only]"
 msgid "There is no active document or it is not saved."
 msgstr "没有活动文档或它还未保存。"
 
-#: kile.cpp:2189
+#: kile.cpp:2187
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "必须包含宏包 %1。"
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2187 kile.cpp:2190
 #, kde-format
 msgid "Insert text"
 msgstr "插入文本"
 
-#: kile.cpp:2192
+#: kile.cpp:2190
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "必须包含宏包 %1。"
 
-#: kile.cpp:2413
+#: kile.cpp:2411
 #, kde-format
 msgid "No Name"
 msgstr "无名称"
 
-#: kile.cpp:2449
+#: kile.cpp:2447
 #, kde-format
 msgid "no name"
 msgstr "无名称"
 
-#: kile.cpp:2646
+#: kile.cpp:2644
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "要将当前文档设为主文档，您必须先保存它。"
 
-#: kile.cpp:2988
+#: kile.cpp:2986
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "区块"
 
-#: kile.cpp:2989
+#: kile.cpp:2987
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "行"
 
-#: kile.cpp:2996
+#: kile.cpp:2994
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "刷新结构..."
 
-#: kile.cpp:3014
+#: kile.cpp:3012
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3017
+#: kile.cpp:3015
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""

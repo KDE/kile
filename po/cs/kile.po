@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:47+0000\n"
+"POT-Creation-Date: 2023-07-16 00:49+0000\n"
 "PO-Revision-Date: 2023-06-23 09:01+0200\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -6201,7 +6201,7 @@ msgstr "Nastavení pro BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Nastavení pro Biblatex"
 
-#: kile.cpp:1010 kile.cpp:2218
+#: kile.cpp:1010 kile.cpp:2216
 #, kde-format
 msgid "Quick Start"
 msgstr "Rychlý start"
@@ -6211,7 +6211,7 @@ msgstr "Rychlý start"
 msgid "Array"
 msgstr "Pole"
 
-#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2268 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulátorem zarovnané"
@@ -6327,12 +6327,12 @@ msgstr "Normální režim"
 msgid "Master document: %1"
 msgstr "Hlavní dokument: %1"
 
-#: kile.cpp:1507 kile.cpp:2628
+#: kile.cpp:1507 kile.cpp:2626
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Učinit tento 'Hlavním dokumentem'"
 
-#: kile.cpp:1511 kile.cpp:2618
+#: kile.cpp:1511 kile.cpp:2616
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Normální režim (současný hlavní dokument: %1)"
@@ -6348,32 +6348,32 @@ msgstr "%1 [Pouze ke čtení]"
 msgid "There is no active document or it is not saved."
 msgstr "Buďto není žádný aktivní dokument anebo není uložen."
 
-#: kile.cpp:2189
+#: kile.cpp:2187
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Musíte použít balíček %1."
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2187 kile.cpp:2190
 #, kde-format
 msgid "Insert text"
 msgstr "Vložit text"
 
-#: kile.cpp:2192
+#: kile.cpp:2190
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Musíte použít balíčky %1."
 
-#: kile.cpp:2413
+#: kile.cpp:2411
 #, kde-format
 msgid "No Name"
 msgstr "Bez názvu"
 
-#: kile.cpp:2449
+#: kile.cpp:2447
 #, kde-format
 msgid "no name"
 msgstr "bez názvu"
 
-#: kile.cpp:2646
+#: kile.cpp:2644
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6382,31 +6382,31 @@ msgstr ""
 "Přejete-li si nastavit nynější dokument jako hlavní, musíte jej nejdříve "
 "uložit."
 
-#: kile.cpp:2988
+#: kile.cpp:2986
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOK "
 
-#: kile.cpp:2989
+#: kile.cpp:2987
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "ŘÁDEK"
 
-#: kile.cpp:2996
+#: kile.cpp:2994
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Obnovuje se struktura..."
 
-#: kile.cpp:3014
+#: kile.cpp:3012
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 "Toto úplně skryje panel nabídky. Můžete ji opětovně zobrazit pomocí %1."
 
-#: kile.cpp:3017
+#: kile.cpp:3015
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Skrýt nabídku"

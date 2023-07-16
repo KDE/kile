@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:47+0000\n"
+"POT-Creation-Date: 2023-07-16 00:49+0000\n"
 "PO-Revision-Date: 2022-05-16 13:59+0100\n"
 "Last-Translator: Pedro Morais <morais@kde.org>\n"
 "Language-Team: pt <kde-i18n-pt@kde.org>\n"
@@ -6365,7 +6365,7 @@ msgstr "Configuração do BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Configuração do Biblatex"
 
-#: kile.cpp:1010 kile.cpp:2218
+#: kile.cpp:1010 kile.cpp:2216
 #, kde-format
 msgid "Quick Start"
 msgstr "Arranque Rápido"
@@ -6375,7 +6375,7 @@ msgstr "Arranque Rápido"
 msgid "Array"
 msgstr "Vector"
 
-#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2268 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulação"
@@ -6491,12 +6491,12 @@ msgstr "Modo normal"
 msgid "Master document: %1"
 msgstr "Documento-mestre: %1"
 
-#: kile.cpp:1507 kile.cpp:2628
+#: kile.cpp:1507 kile.cpp:2626
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Definir o Documento Actual como 'Documento-Mestre'"
 
-#: kile.cpp:1511 kile.cpp:2618
+#: kile.cpp:1511 kile.cpp:2616
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Modo normal (documento-mestre actual: %1)"
@@ -6512,32 +6512,32 @@ msgstr "%1 [Apenas para Leitura]"
 msgid "There is no active document or it is not saved."
 msgstr "Não existe nenhum documento activo ou não se encontra gravado."
 
-#: kile.cpp:2189
+#: kile.cpp:2187
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Tem de incluir o pacote %1."
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2187 kile.cpp:2190
 #, kde-format
 msgid "Insert text"
 msgstr "Inserir texto"
 
-#: kile.cpp:2192
+#: kile.cpp:2190
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Tem de incluir os pacotes %1."
 
-#: kile.cpp:2413
+#: kile.cpp:2411
 #, kde-format
 msgid "No Name"
 msgstr "Sem Nome"
 
-#: kile.cpp:2449
+#: kile.cpp:2447
 #, kde-format
 msgid "no name"
 msgstr "sem nome"
 
-#: kile.cpp:2646
+#: kile.cpp:2644
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6546,24 +6546,24 @@ msgstr ""
 "Para definir o documento actual como sendo o documento-mestre, tem de ser "
 "gravado primeiro."
 
-#: kile.cpp:2988
+#: kile.cpp:2986
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOCO"
 
-#: kile.cpp:2989
+#: kile.cpp:2987
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "LINHA"
 
-#: kile.cpp:2996
+#: kile.cpp:2994
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "A actualizar a estrutura..."
 
-#: kile.cpp:3014
+#: kile.cpp:3012
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
@@ -6571,7 +6571,7 @@ msgstr ""
 "Isto irá esconder o menu por completo. Podê-lo-á mostrar de novo se escrever "
 "%1."
 
-#: kile.cpp:3017
+#: kile.cpp:3015
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Esconder o menu"

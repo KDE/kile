@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-10 00:47+0000\n"
+"POT-Creation-Date: 2023-07-16 00:49+0000\n"
 "PO-Revision-Date: 2012-01-17 18:10+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -6102,7 +6102,7 @@ msgstr "Innstillinger for BibTeX"
 msgid "Settings for Biblatex"
 msgstr "Innstillinger for Biblatex"
 
-#: kile.cpp:1010 kile.cpp:2218
+#: kile.cpp:1010 kile.cpp:2216
 #, kde-format
 msgid "Quick Start"
 msgstr "Hurtigstart"
@@ -6112,7 +6112,7 @@ msgstr "Hurtigstart"
 msgid "Array"
 msgstr "Matrise"
 
-#: kile.cpp:1014 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1014 kile.cpp:2268 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulator"
@@ -6228,12 +6228,12 @@ msgstr "Normalmodus"
 msgid "Master document: %1"
 msgstr "Hoveddokument: %1"
 
-#: kile.cpp:1507 kile.cpp:2628
+#: kile.cpp:1507 kile.cpp:2626
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Sett dette dokumentet som hoveddokument"
 
-#: kile.cpp:1511 kile.cpp:2618
+#: kile.cpp:1511 kile.cpp:2616
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Normalmodus (gjeldende hoveddokument: %1)"
@@ -6249,62 +6249,62 @@ msgstr ""
 msgid "There is no active document or it is not saved."
 msgstr "Det er ikke noe aktivt dokument eller dokumentet er ikke lagret."
 
-#: kile.cpp:2189
+#: kile.cpp:2187
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Du må inkludere pakken «%1»."
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2187 kile.cpp:2190
 #, kde-format
 msgid "Insert text"
 msgstr "Sett inn tekst"
 
-#: kile.cpp:2192
+#: kile.cpp:2190
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Du må inkludere pakkene %1."
 
-#: kile.cpp:2413
+#: kile.cpp:2411
 #, kde-format
 msgid "No Name"
 msgstr ""
 
-#: kile.cpp:2449
+#: kile.cpp:2447
 #, kde-format
 msgid "no name"
 msgstr "uten navn"
 
-#: kile.cpp:2646
+#: kile.cpp:2644
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "Dette dokumentet må lagres først før det kan settes som hoveddokument."
 
-#: kile.cpp:2988
+#: kile.cpp:2986
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOKK"
 
-#: kile.cpp:2989
+#: kile.cpp:2987
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr " LINJE "
 
-#: kile.cpp:2996
+#: kile.cpp:2994
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Oppdaterer struktur …"
 
-#: kile.cpp:3014
+#: kile.cpp:3012
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3017
+#: kile.cpp:3015
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""

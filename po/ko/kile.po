@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-16 00:49+0000\n"
-"PO-Revision-Date: 2023-03-01 02:07+0100\n"
+"PO-Revision-Date: 2023-07-23 20:43+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -6018,22 +6018,22 @@ msgstr "이전 문서"
 #: kile.cpp:910
 #, kde-format
 msgid "Focus Log/Messages View"
-msgstr "로그/메시지 보기에 초점 맞추기"
+msgstr "로그/메시지 보기에 포커스 맞추기"
 
 #: kile.cpp:911
 #, kde-format
 msgid "Focus Output View"
-msgstr "출력 보기에 초점 맞추기"
+msgstr "출력 보기에 포커스 맞추기"
 
 #: kile.cpp:912
 #, kde-format
 msgid "Focus Konsole View"
-msgstr "Konsole 보기에 초점 맞추기"
+msgstr "Konsole 보기에 포커스 맞추기"
 
 #: kile.cpp:913
 #, kde-format
 msgid "Focus Editor View"
-msgstr "편집기 보기에 초점 맞추기"
+msgstr "편집기 보기에 포커스 맞추기"
 
 #: kile.cpp:915
 #, kde-format

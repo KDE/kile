@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-07-16 00:49+0000\n"
-"PO-Revision-Date: 2023-07-23 20:43+0200\n"
+"PO-Revision-Date: 2023-07-24 21:59+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -4807,7 +4807,7 @@ msgstr "파일 선택"
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
-msgstr "파일 '%1'이(가) 없습니다."
+msgstr "'%1' 파일이 없습니다."
 
 #: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:108
 #, kde-format

@@ -12535,7 +12535,3 @@ msgstr ""
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr ""
-
-#, fuzzy
-#~ msgid "*.pdf|PDF Files"
-#~ msgstr "*|Всички файлове"

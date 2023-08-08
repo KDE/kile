@@ -790,8 +790,14 @@ void Manager::fileNewScript()
 
 void Manager::fileNew(const QUrl &url)
 {
-    //create an empty file
     QFile file(url.toLocalFile());
+    
+    //create the directory structure first
+    QFileInfo fileInfo(file);
+    QDir dir = fileInfo.absolutePath();
+    dir.mkpath(".");
+    
+    //create an empty file
     file.open(QIODevice::ReadWrite);
     file.close();
 

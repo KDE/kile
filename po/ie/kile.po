@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-07-16 00:49+0000\n"
+"POT-Creation-Date: 2023-08-09 00:46+0000\n"
 "PO-Revision-Date: 2022-11-12 08:09+0700\n"
 "Last-Translator: OIS <mistresssilvara@hotmail.com>\n"
 "Language-Team: Interlingue <kde-i18n-doc@kde.org>\n"
@@ -4637,7 +4637,7 @@ msgstr ""
 "Sites web (HTML) (*.html *.htm);;Documentes (PDF, PS, DVI, EPUB) (*.ps *.pdf "
 "*.dvi *.epub);;Omni files (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2140
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2146
 #, kde-format
 msgid "Select File"
 msgstr "Selecter un file"
@@ -5784,8 +5784,8 @@ msgstr "Aperter omni files de «%s» per:"
 msgid "Find in &Project..."
 msgstr "In li act_ual projecte"
 
-#: kile.cpp:896 kile.cpp:994 kile.cpp:2110 kiledocmanager.cpp:1989
-#: kiledocmanager.cpp:1999
+#: kile.cpp:896 kile.cpp:994 kile.cpp:2110 kiledocmanager.cpp:1995
+#: kiledocmanager.cpp:2005
 #, fuzzy, kde-format
 msgid "Clean"
 msgstr "Nettar"
@@ -6885,69 +6885,69 @@ msgstr "Crear un document secun li modelle «%s»"
 msgid "Remove Template"
 msgstr "_Modelle:"
 
-#: kiledocmanager.cpp:825
+#: kiledocmanager.cpp:831
 #, fuzzy, kde-format
 msgid "Open Files"
 msgstr "Aperter files"
 
-#: kiledocmanager.cpp:907
+#: kiledocmanager.cpp:913
 #, kde-format
 msgid ""
 "Kile encountered problems while saving the file %1. Do you have enough free "
 "disk space left?"
 msgstr ""
 
-#: kiledocmanager.cpp:908
+#: kiledocmanager.cpp:914
 #, fuzzy, kde-format
 msgid "Saving"
 msgstr "Gardante"
 
-#: kiledocmanager.cpp:941
+#: kiledocmanager.cpp:947
 #, fuzzy, kde-format
 msgid "Any files (*)"
 msgstr ""
 "<qt>Hay null activ conexiones al partite <b>%1</b>! On ne posse far cader "
 "files ci.</qt>"
 
-#: kiledocmanager.cpp:943
+#: kiledocmanager.cpp:949
 #, fuzzy, kde-format
 msgid "Save Compiled Document As..."
 msgstr "Salvar li document"
 
-#: kiledocmanager.cpp:968
+#: kiledocmanager.cpp:974
 #, kde-format
 msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
 msgstr ""
 
-#: kiledocmanager.cpp:969
+#: kiledocmanager.cpp:975
 #, fuzzy, kde-format
 msgid "Cannot open directory"
 msgstr "_Aperter un fólder"
 
-#: kiledocmanager.cpp:1087
+#: kiledocmanager.cpp:1093
 #, fuzzy, kde-format
 msgid "Save File"
 msgstr "Gardar li file"
 
-#: kiledocmanager.cpp:1124
+#: kiledocmanager.cpp:1130
 #, fuzzy, kde-format
 msgid ""
 "A file with the name \"%1\" exists already. Do you want to overwrite it?"
 msgstr "Un file «%1» ja existe. Esque vu vole substituer it?"
 
-#: kiledocmanager.cpp:1125
+#: kiledocmanager.cpp:1131
 #, fuzzy, kde-format
 msgid "Overwrite File?"
 msgstr "Substituer li file?"
 
-#: kiledocmanager.cpp:1301
+#: kiledocmanager.cpp:1307
 #, fuzzy, kde-format
 msgid "Refresh Project Tree"
 msgstr "Refriscar"
 
-#: kiledocmanager.cpp:1309
+#: kiledocmanager.cpp:1315
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -6955,60 +6955,60 @@ msgid ""
 "then choose Refresh Project Tree again."
 msgstr ""
 
-#: kiledocmanager.cpp:1309
+#: kiledocmanager.cpp:1315
 #, fuzzy, kde-format
 msgid "Could Not Refresh Project Tree"
 msgstr "Ne successat actualisar li information pri ecran: %s"
 
-#: kiledocmanager.cpp:1394 kiledocmanager.cpp:2161 kiledocmanager.cpp:2235
-#: kiledocmanager.cpp:2272
+#: kiledocmanager.cpp:1400 kiledocmanager.cpp:2167 kiledocmanager.cpp:2241
+#: kiledocmanager.cpp:2278
 #, fuzzy, kde-format
 msgid "Select Project"
 msgstr "Gardar li file del projecte."
 
-#: kiledocmanager.cpp:1419 kiledocmanager.cpp:1434 kiledocmanager.cpp:1441
+#: kiledocmanager.cpp:1425 kiledocmanager.cpp:1440 kiledocmanager.cpp:1447
 #, fuzzy, kde-format
 msgid "Add to Project"
 msgstr "Projecte"
 
-#: kiledocmanager.cpp:1433
+#: kiledocmanager.cpp:1439
 #, kde-format
 msgid "The file %1 is already member of the project %2"
 msgstr ""
 
-#: kiledocmanager.cpp:1440
+#: kiledocmanager.cpp:1446
 #, kde-format
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr ""
 
-#: kiledocmanager.cpp:1459
+#: kiledocmanager.cpp:1465
 #, kde-format
 msgid ""
 "This file is the project file, which holds all the information about your "
 "project.  As such, it cannot be removed from the project."
 msgstr ""
 
-#: kiledocmanager.cpp:1459
+#: kiledocmanager.cpp:1465
 #, fuzzy, kde-format
 msgid "Cannot Remove File From Project"
 msgstr ""
 "Remover li selectet file\n"
 "ex li projecte"
 
-#: kiledocmanager.cpp:1527
+#: kiledocmanager.cpp:1533
 #, kde-format
 msgid ""
 "<p>The project \"%1\" is already open.</p><p>If you wanted to reload the "
 "project, close the project before you re-open it.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1529
+#: kiledocmanager.cpp:1535
 #, fuzzy, kde-format
 msgid "Project Already Open"
 msgstr "Aperter un projecte..."
 
-#: kiledocmanager.cpp:1539
+#: kiledocmanager.cpp:1545
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7016,38 +7016,38 @@ msgid ""
 "list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1542
+#: kiledocmanager.cpp:1548
 #, fuzzy, kde-format
 msgid "Could Not Open Project"
 msgstr "Aperter un projecte..."
 
-#: kiledocmanager.cpp:1559
+#: kiledocmanager.cpp:1565
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
 "file.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1561
+#: kiledocmanager.cpp:1567
 #, fuzzy, kde-format
 msgid "Impossible to Open Project File"
 msgstr ""
 "Ne successat aperter li file de projecte\n"
 "%1"
 
-#: kiledocmanager.cpp:1571
+#: kiledocmanager.cpp:1577
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
 "version of Kile.</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1573
+#: kiledocmanager.cpp:1579
 #, fuzzy, kde-format
 msgid "Impossible to Open Project"
 msgstr "Aperter un recent projecte"
 
-#: kiledocmanager.cpp:1583
+#: kiledocmanager.cpp:1589
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7055,34 +7055,34 @@ msgid ""
 "</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1586
+#: kiledocmanager.cpp:1592
 #, fuzzy, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "File de projecte"
 
-#: kiledocmanager.cpp:1592
+#: kiledocmanager.cpp:1598
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
 "this project from the recent projects list?</p>"
 msgstr ""
 
-#: kiledocmanager.cpp:1594
+#: kiledocmanager.cpp:1600
 #, fuzzy, kde-format
 msgid "Could Not Update Project File"
 msgstr "Comenta del file de projecte"
 
-#: kiledocmanager.cpp:1695
+#: kiledocmanager.cpp:1701
 #, fuzzy, kde-format
 msgid "Open Project"
 msgstr "Aperter un projecte"
 
-#: kiledocmanager.cpp:1714
+#: kiledocmanager.cpp:1720
 #, fuzzy, kde-format
 msgid "Save Project"
 msgstr "Gardar li projecte"
 
-#: kiledocmanager.cpp:1766
+#: kiledocmanager.cpp:1772
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7090,44 +7090,44 @@ msgid ""
 "Save Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1766
+#: kiledocmanager.cpp:1772
 #, fuzzy, kde-format
 msgid "Could Determine Active Project"
 msgstr "Ne successat trovar li statu de un ressurse"
 
-#: kiledocmanager.cpp:1787
+#: kiledocmanager.cpp:1793
 #, fuzzy, kde-format
 msgid "Add Files to Project"
 msgstr "Files de projectes:"
 
-#: kiledocmanager.cpp:1800
+#: kiledocmanager.cpp:1806
 #, fuzzy, kde-format
 msgid "Add Files"
 msgstr "Adjunter files"
 
-#: kiledocmanager.cpp:1803
+#: kiledocmanager.cpp:1809
 #, fuzzy, kde-format
 msgid "Add"
 msgstr "Adjunter"
 
-#: kiledocmanager.cpp:1818
+#: kiledocmanager.cpp:1824
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
 
-#: kiledocmanager.cpp:1818 kiledocmanager.cpp:1853
+#: kiledocmanager.cpp:1824 kiledocmanager.cpp:1859
 #, fuzzy, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Ne successat trovar li statu de un ressurse"
 
-#: kiledocmanager.cpp:1844
+#: kiledocmanager.cpp:1850
 #, fuzzy, kde-format
 msgid "Project Options For"
 msgstr "Parametres del projecte"
 
-#: kiledocmanager.cpp:1853
+#: kiledocmanager.cpp:1859
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7135,12 +7135,12 @@ msgid ""
 "Project Options again."
 msgstr ""
 
-#: kiledocmanager.cpp:1879
+#: kiledocmanager.cpp:1885
 #, fuzzy, kde-format
 msgid "Close Project"
 msgstr "Cluder li projecte"
 
-#: kiledocmanager.cpp:1933
+#: kiledocmanager.cpp:1939
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7148,77 +7148,77 @@ msgid ""
 "Close Project again."
 msgstr ""
 
-#: kiledocmanager.cpp:1933
+#: kiledocmanager.cpp:1939
 #, fuzzy, kde-format
 msgid "Could Not Close Project"
 msgstr "_Cluder li projecte"
 
-#: kiledocmanager.cpp:1988
+#: kiledocmanager.cpp:1994
 #, fuzzy, kde-format
 msgid "Nothing to clean for %1"
 msgstr "%1 ne reproducte alquó"
 
-#: kiledocmanager.cpp:1998
+#: kiledocmanager.cpp:2004
 #, fuzzy, kde-format
 msgid "Cleaning %1: %2"
 msgstr "%1, o '%2'"
 
-#: kiledocmanager.cpp:2072
+#: kiledocmanager.cpp:2078
 #, fuzzy, kde-format
 msgid "Switch Project"
 msgstr "Cambiar"
 
-#: kiledocmanager.cpp:2130
+#: kiledocmanager.cpp:2136
 #, fuzzy, kde-format
 msgid "Select Files to Remove"
 msgstr "_Deleter files e remover"
 
-#: kiledocmanager.cpp:2143 kiledocmanager.cpp:2146
+#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2152
 #, fuzzy, kde-format
 msgid "Show Project Files"
 msgstr "Files de projectes:"
 
-#: kiledocmanager.cpp:2143 kiledocmanager.cpp:2191
+#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2197
 #, fuzzy, kde-format
 msgid "project configuration file"
 msgstr "File de configuration:"
 
-#: kiledocmanager.cpp:2146 kiledocmanager.cpp:2194
+#: kiledocmanager.cpp:2152 kiledocmanager.cpp:2200
 #, fuzzy, kde-format
 msgid "graphics file"
 msgstr "Grafica:"
 
-#: kiledocmanager.cpp:2191 kiledocmanager.cpp:2194
+#: kiledocmanager.cpp:2197 kiledocmanager.cpp:2200
 #, fuzzy, kde-format
 msgid "Open All Project Files"
 msgstr "Cluder omni apertet files"
 
-#: kiledocmanager.cpp:2228
+#: kiledocmanager.cpp:2234
 #, fuzzy, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "%1, o '%2'"
 
-#: kiledocmanager.cpp:2253 kiledocmanager.cpp:2290
+#: kiledocmanager.cpp:2259 kiledocmanager.cpp:2296
 #, fuzzy, kde-format
 msgid "Project Files"
 msgstr "Files de projectes:"
 
-#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2300
+#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, fuzzy, kde-format
 msgid "Could not determine the selected file."
 msgstr "Ne successat trovar li statu de un ressurse"
 
-#: kiledocmanager.cpp:2261 kiledocmanager.cpp:2300
+#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, fuzzy, kde-format
 msgid "Project Error"
 msgstr "Errore de file de projecte"
 
-#: kiledocmanager.cpp:2367
+#: kiledocmanager.cpp:2373
 #, fuzzy, kde-format
 msgid "Opening Project..."
 msgstr "Projecte"
 
-#: kiledocmanager.cpp:2370
+#: kiledocmanager.cpp:2376
 #, fuzzy, kde-format
 msgid "Scanning project files..."
 msgstr "Files de projectes de Geany"

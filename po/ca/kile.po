@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-08-09 00:46+0000\n"
-"PO-Revision-Date: 2023-08-07 17:44+0200\n"
+"PO-Revision-Date: 2023-08-16 10:33+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -4729,7 +4729,7 @@ msgstr "Navegador de documentació"
 #: kilestdactions.cpp:43
 #, kde-format
 msgid "Table of Contents"
-msgstr "Taula de continguts"
+msgstr "Taula de contingut"
 
 #: dialogs/texdocumentationdialog.cpp:83
 #, kde-format

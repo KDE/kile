@@ -1,0 +1,264 @@
+{
+    "id": "org.kde.kile",
+    "branch": "master",
+    "runtime": "org.kde.Platform",
+    "runtime-version": "5.15-22.08",
+    "sdk": "org.kde.Sdk",
+    "command": "kile",
+    "tags": ["nightly"],
+    "desktop-file-name-suffix": " (Nightly)",
+    "finish-args": [
+        "--share=ipc", "--socket=cups", "--socket=x11", "--socket=wayland", "--filesystem=host",
+        "--env=PATH=/app/bin:/app/texlive/bin:/app/texlive/bin/x86_64-linux:/usr/bin/"
+    ],
+    "separate-locales": false,
+    "add-extensions": {
+        "org.freedesktop.Sdk.Extension.texlive": {
+            "directory": "texlive",
+            "version": "20.08"
+        }
+    },
+
+    "modules": [
+        {
+            "name": "okular-dependencies",
+            "buildsystem": null,
+            "modules": [
+                {
+                    "name": "kjs",
+                    "config-opts": [ "-DENABLE_TESTING=OFF" ],
+                    "buildsystem": "cmake-ninja",
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://invent.kde.org/frameworks/kjs.git",
+                            "tag": "v5.92.0",
+                            "x-checker-data": {
+                                "type": "git",
+                                "tag-pattern": "^v([\\d.]+)$"
+                            },
+                            "commit": "ff72aaa777fd7cd2df19db699e02b045c07efecb"
+                        }
+                    ]
+                },
+                {
+                    "name": "khtml",
+                    "config-opts": [ "-DENABLE_TESTING=OFF" ],
+                    "buildsystem": "cmake-ninja",
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://invent.kde.org/frameworks/khtml.git",
+                            "tag": "v5.92.0",
+                            "x-checker-data": {
+                                "type": "git",
+                                "tag-pattern": "^v([\\d.]+)$"
+                            },
+                            "commit": "97ac7de4e0a54fab9822e143416e02e348af0290"
+                        }
+                    ]
+                },
+                {
+                    "name": "exiv2",
+                    "buildsystem": "cmake-ninja",
+                    "builddir": true,
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://github.com/Exiv2/exiv2/releases/download/v0.27.5/exiv2-0.27.5-Source.tar.gz",
+                            "sha256": "35a58618ab236a901ca4928b0ad8b31007ebdc0386d904409d825024e45ea6e2",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 769,
+                                "stable-only": true,
+                                "url-template": "https://github.com/Exiv2/exiv2/releases/download/v$version/exiv2-$version-Source.tar.gz"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "libkexiv2",
+                    "buildsystem": "cmake-ninja",
+                    "builddir": true,
+                    "sources": [ { "type": "git", "url": "https://invent.kde.org/graphics/libkexiv2.git", "branch": "master" } ]
+                },
+                "poppler.json",
+                {
+                    "name": "libspectre",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "http://libspectre.freedesktop.org/releases/libspectre-0.2.10.tar.gz",
+                            "sha256": "cf60b2a80f6bfc9a6b110e18f08309040ceaa755210bf94c465a969da7524d07",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 1724,
+                                "stable-only": true,
+                                "url-template": "http://libspectre.freedesktop.org/releases/libspectre-$version.tar.gz"
+                            }
+                        }
+                    ],
+                    "modules": [
+                        {
+                            "name": "ghostscript",
+                            "config-opts": [ "--disable-cups" ],
+                            "make-args": [ "so" ],
+                            "make-install-args": [ "soinstall" ],
+                            "cleanup": [ "/bin", "/share/man", "/share/ghostscript/9.20/doc/", "/share/ghostscript/9.20/examples" ],
+                            "rm-configure": true,
+                            "sources": [
+                                {
+                                    "type": "archive",
+                                    "url": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs9550/ghostscript-9.55.0.tar.gz",
+                                    "sha256": "31e2064be67e15b478a8da007d96d6cd4d2bee253e5be220703a225f7f79a70b",
+                                    "x-checker-data": {
+                                        "type": "anitya",
+                                        "project-id": 1157,
+                                        "stable-only": true,
+                                        "url-template": "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs$major$minor$patch/ghostscript-$version.tar.gz"
+                                    }
+                                },
+                                {
+                                    "type": "script",
+                                    "dest-filename": "autogen.sh",
+                                    "commands": [
+                                        "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "kdegraphics-mobipocket",
+                    "config-opts": ["-DCMAKE_BUILD_TYPE=Release" ],
+                    "buildsystem": "cmake-ninja",
+                    "sources": [ { "type": "git", "url": "https://invent.kde.org/graphics/kdegraphics-mobipocket" } ]
+                },
+                {
+                    "name": "libzip",
+                    "buildsystem": "cmake-ninja",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://libzip.org/download/libzip-1.8.0.tar.xz",
+                            "sha256": "f0763bda24ba947e80430be787c4b068d8b6aa6027a26a19923f0acfa3dac97e",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 10649,
+                                "stable-only": true,
+                                "url-template": "https://libzip.org/download/libzip-$version.tar.xz"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "chmlib",
+                    "rm-configure": true,
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "http://www.jedrea.com/chmlib/chmlib-0.40.tar.bz2",
+                            "sha256": "3449d64b0cf71578b2c7e3ddc048d4af3661f44a83941ea074a7813f3a59ffa3",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 17678,
+                                "stable-only": true,
+                                "url-template": "http://www.jedrea.com/chmlib/chmlib-$version.tar.bz2"
+                            }
+                        },
+                        {
+                            "type": "patch",
+                            "path": "chmlib-arm.patch"
+                        },
+                        {
+                            "type": "script",
+                            "dest-filename": "autogen.sh",
+                            "commands": [
+                                "AUTOMAKE=\"automake --foreign\" autoreconf -vfi"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "djvulibre",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "http://downloads.sourceforge.net/djvu/djvulibre-3.5.28.tar.gz",
+                            "sha256": "fcd009ea7654fde5a83600eb80757bd3a76998e47d13c66b54c8db849f8f2edc",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 10159,
+                                "stable-only": true,
+                                "url-template": "http://downloads.sourceforge.net/djvu/djvulibre-$version.tar.gz"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "discount",
+                    "buildsystem": "simple",
+                    "build-commands": [
+                        "./configure.sh --prefix=/app --enable-all-features --with-fenced-code --shared",
+                        "sed -e 's|/sbin/ldconfig|/sbin/ldconfig -n|' -i librarian.sh",
+                        "make install"
+                    ],
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://github.com/Orc/discount/archive/v2.2.7b.tar.gz",
+                            "sha256": "48343272aa93ae913187ff678b3e52efa722f133e1efcaddc20cf775e8a517ec",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 12139,
+                                "stable-only": true,
+                                "url-template": "https://github.com/Orc/discount/archive/v$version.tar.gz"
+                            }
+                        }
+                    ]
+                },
+                {
+                    "name": "ebook-tools",
+                    "buildsystem": "cmake-ninja",
+                    "sources": [
+                        {
+                            "type": "archive",
+                            "url": "https://downloads.sourceforge.net/project/ebook-tools/ebook-tools/0.2.2/ebook-tools-0.2.2.tar.gz",
+                            "sha256": "cbc35996e911144fa62925366ad6a6212d6af2588f1e39075954973bbee627ae",
+                            "x-checker-data": {
+                                "type": "anitya",
+                                "project-id": 17771,
+                                "stable-only": true,
+                                "url-template": "https://downloads.sourceforge.net/project/ebook-tools/ebook-tools/$version/ebook-tools-$version.tar.gz"
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "okular",
+            "buildsystem": "cmake-ninja",
+            "builddir": true,
+            "sources": [ { "type": "git", "url": "https://invent.kde.org/graphics/okular.git", "branch": "master" } ]
+        },
+        {
+            "name": "konsole",
+            "buildsystem": "cmake-ninja",
+            "sources": [
+                { "type": "git", "url": "https://invent.kde.org/utilities/konsole.git" }
+            ]
+        },
+        {
+            "name": "kile",
+            "buildsystem": "cmake-ninja",
+            "sources": [ { "type": "git", "url": "https://invent.kde.org/office/kile.git" } ]
+        },
+        {
+            "name": "texlive-mountpoint",
+            "buildsystem": "simple",
+            "build-commands": [ "mkdir -p /app/texlive" ]
+        }
+    ]
+}

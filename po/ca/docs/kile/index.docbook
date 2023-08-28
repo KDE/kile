@@ -5125,7 +5125,7 @@
 >.</para>
 
 			<para
->Aquesta conversió es durà a terme cada vegada que executeu el &pdflatex;. Si doneu de forma implícita l'ordre de gràfics<programlisting>
+>Aquesta conversió es durà a terme cada vegada que executeu el &pdflatex;. Si doneu de forma implícita l'ordre de gràfics <programlisting>
         \includegraphics[width=5cm]{prova}
 </programlisting
 > <application

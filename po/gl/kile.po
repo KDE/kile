@@ -6478,7 +6478,7 @@ msgstr "Actualizando a estrutura…"
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
-"Isto agocha completamente a barra do menú. Pódese amosar de novo escribindo "
+"Isto agocha completamente a barra de menú. Pódese amosar de novo escribindo "
 "%1."
 
 #: kile.cpp:3015

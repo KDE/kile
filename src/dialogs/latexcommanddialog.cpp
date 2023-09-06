@@ -195,8 +195,6 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
             // m_coParameter->addItem(QString());
             m_coParameter->setWhatsThis(i18n("Does this command need an argument?"));
         }
-
-        currentRow++;
     }
 
     // stretch last row

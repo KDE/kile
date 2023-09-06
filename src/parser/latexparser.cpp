@@ -339,10 +339,8 @@ ParserOutput* LaTeXParser::parse()
                         qCDebug(LOG_KILE_PARSER) << "===TeXInfo::updateStruct()===appending Bibiliograph file(s) " << m;
 
                         const QStringList bibs = m.split(',');
-                        QString biblio;
 
                         // assure that all files have an extension
-                        const QString bibtexExtension = m_extensions->bibtexDefault();
                         for(QString biblio : bibs) {
                             biblio = biblio.trimmed();
                             {

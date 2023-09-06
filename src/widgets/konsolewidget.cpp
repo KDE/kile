@@ -96,7 +96,6 @@ void Konsole::sync()
     }
 
     if(view) {
-        QString finame;
         QUrl url = view->document()->url();
 
         if(url.path().isEmpty()) {

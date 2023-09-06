@@ -317,7 +317,6 @@ void MathEnvironmentDialog::slotAccepted()
         aligngroups = true;
         numgroups = (m_tabulator != "&") ? m_spCols->value() : 1;
         if (m_edSpace->isEnabled()) {
-            QString spaces;
             grouptabulator = "  &" + m_edSpace->text() + "  ";
         }
         else {

@@ -459,7 +459,6 @@ void PdfDialog::readNumberOfPages(int scriptmode, const QString &output)
     if ( scriptmode == PDF_SCRIPTMODE_NUMPAGES_PDFTK ) {
         KILE_DEBUG_MAIN << "pdftk output for NumberOfPages: " << output;
         if ( output.contains("OWNER PASSWORD REQUIRED") ) {
-            QString filename = m_PdfDialog.m_edInfile->lineEdit()->text().trimmed();
             determineNumberOfPages(m_PdfDialog.m_edInfile->lineEdit()->text().trimmed(),true);
             return;
         } else {

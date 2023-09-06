@@ -227,7 +227,6 @@ void ConfigChecker::finished(bool ok)
 
     if(ok) {
         QString cap = i18n("Test Results");
-        QString overallResultText;
         QString testResultText = "<br/>";
         if (critical.count() > 0) {
             testResultText += i18n("The following <b>critical</b> tests did not succeed:"

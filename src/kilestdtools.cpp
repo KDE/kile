@@ -787,7 +787,6 @@ bool ViewHTML::determineTarget()
             //both exist, take most recent
             if(read1 && read2) {
                 read1 = file1.lastModified() > file2.lastModified();
-                read2 = !read1;
             }
 
             if(read1) {

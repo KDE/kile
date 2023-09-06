@@ -876,7 +876,7 @@ QString KileProject::archiveFileList() const
 {
     KILE_DEBUG_MAIN << "KileProject::archiveFileList()";
 
-    QString path, list;
+    QString list;
     for(QList<KileProjectItem*>::const_iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
         if ((*it)->archive()) {
             list.append(KShell::quoteArg((*it)->path()) + ' ');

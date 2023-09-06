@@ -824,7 +824,6 @@ bool EditorExtension::findOpenMathTag(KTextEditor::Document *doc, int row, int c
             col = textline.length();
         }
         else if(column == -1) {
-            continueSearch = false;
             break;
         }
     }
@@ -2510,11 +2509,9 @@ void EditorExtension::selectLine(KTextEditor::View *view)
     }
 
     // get current position
-    int row;
-    QString word;
     KTextEditor::Document *doc = view->document();
     KTextEditor::Cursor cursor = view->cursorPosition();
-    row = cursor.line();
+    int row = cursor.line();
 
     if(doc->lineLength(row) > 0) {
         view->setSelection(KTextEditor::Range(row, 0, row + 1, 0));

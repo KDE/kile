@@ -549,7 +549,6 @@ QStringList toolList(KConfig *config, bool menuOnly)
 QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const QString& className)
 {
     const QStringList groups = config->groupList();
-    QStringList tools;
 
     QRegExp re = QRegExp("Tool/(.+)/(.+)");
     QList<ToolConfigPair> toReturn;

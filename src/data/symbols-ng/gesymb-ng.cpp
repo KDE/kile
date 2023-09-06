@@ -39,7 +39,6 @@
 void readImageComments(const QString &fileName)
 {
     QImage image;
-    QString output;
 
     if(image.load(fileName)) {
         qDebug() << QString("Image %1 has Command _%2_").arg(fileName).arg(image.text("Command"));
@@ -55,7 +54,6 @@ void readImageComments(const QString &fileName)
 
 QString convertUTF8toLatin1String(const QString &string) {
 
-    QVector<uint> stringAsInt;
     QString stringAsLatin1;
 
     Q_FOREACH(uint i, string.toUcs4()) {
@@ -81,7 +79,7 @@ void writeImageComments(const Command &cmd, const QString &fileName)
 
     QImage image;
     QString unicodeCommandAsLatin1, commentAsLatin1;
-    QString packagesarg, packages;
+    QString packagesarg;
 
     if(!cmd.unicodeCommand.isEmpty()) {
         unicodeCommandAsLatin1 = convertUTF8toLatin1String(cmd.unicodeCommand);
@@ -226,7 +224,6 @@ Command getCommandDefinition(const QDomElement &e, const QList<Package> &unicode
         return Command();
     }
 
-    Package pkg;
     Command cmd;
 
     cmd.unicodePackages = unicodePackages;

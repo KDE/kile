@@ -125,7 +125,6 @@ bool ProcessLauncher::launch()
         out += QString("*****     cd \"") + m_wd + QString("\"\n");
     }
 
-    QString str;
     tool()->translate(m_cmd);
     tool()->translate(m_options, true); // quote the substituted strings using 'KShell::quoteArg'
     // (see bug 314109)

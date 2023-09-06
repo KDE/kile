@@ -133,7 +133,6 @@ void SymbolView::extract(const QString& key, Command &cmd)
         return;
     }
     QStringList contents = key.split('%');
-    QString packages;
 
     cmd.referenceCount = contents.at(0).toInt();
     cmd.latexCommand = contents.at(1);
@@ -313,7 +312,7 @@ void SymbolView::fillWidget(const QString& prefix)
     KILE_DEBUG_MAIN << "===SymbolView::fillWidget(const QString& " << prefix <<  " )===";
     QImage image;
     QListWidgetItem* item;
-    QStringList refCnts, paths, unicodeValues;
+    QStringList refCnts, paths;
     QString key;
 
     // find paths

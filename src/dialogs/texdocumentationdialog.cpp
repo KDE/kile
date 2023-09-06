@@ -176,7 +176,7 @@ void TexDocDialog::readToc()
 
 void TexDocDialog::showToc(const QString &caption, const QStringList &doclist, bool toc)
 {
-    QString section, textline;
+    QString section;
     QStringList keylist;
     QTreeWidgetItem *itemsection = Q_NULLPTR;
 

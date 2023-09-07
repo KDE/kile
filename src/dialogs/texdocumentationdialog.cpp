@@ -510,7 +510,7 @@ QString TexDocDialog::getIconName(const QString &filename)
         icon = "application-pdf";
     }
     else if( ext == "txt") {
-        ext = "text-plain";
+        icon = "text-plain";
     }
     else if(ext == "ps") {
         icon = "application-postscript";

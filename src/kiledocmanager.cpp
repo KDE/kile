@@ -419,13 +419,6 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &u
 
     if(!docinfo) {
         switch(type) {
-        case Undefined: // fall through
-        case Text:
-            KILE_DEBUG_MAIN << "CREATING TextInfo for " << url.url();
-            docinfo = new TextInfo(m_ki->extensions(),
-                                   m_ki->abbreviationManager(),
-                                   m_ki->parserManager());
-            break;
         case LaTeX:
             KILE_DEBUG_MAIN << "CREATING LaTeXInfo for " << url.url();
             docinfo = new LaTeXInfo(m_ki->extensions(),
@@ -451,6 +444,13 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &u
                                      m_ki->abbreviationManager(),
                                      m_ki->parserManager());
             break;
+        case Undefined: // fall through
+        case Text: // fall through
+        default:
+            KILE_DEBUG_MAIN << "CREATING TextInfo for " << url.url();
+            docinfo = new TextInfo(m_ki->extensions(),
+                                   m_ki->abbreviationManager(),
+                                   m_ki->parserManager());
         }
         docinfo->setBaseDirectory(baseDirectory);
         emit(documentInfoCreated(docinfo));

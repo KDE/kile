@@ -1458,7 +1458,7 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
     // get real textline without comments, quoted characters and pairs of backslashes
     QString textline = getTextLineReal(doc, row);
 
-    if(col > textline.length()) {
+    if(col >= textline.length()) {
         return false;
     }
 

@@ -517,8 +517,8 @@ void LaTeX::checkAutoRun()
     if(index) {
         KILE_DEBUG_MAIN << "need to run MakeIndex";
         Base *tool = manager()->createTool("MakeIndex", QString());
-        KILE_DEBUG_MAIN << targetDir() << S() << tool->from();
         if(tool) {
+            KILE_DEBUG_MAIN << targetDir() << S() << tool->from();
             configureMakeIndex(tool, targetDir() + '/' + S() + '.' + tool->from());
             // e.g. for LivePreview, it is necessary that the paths are copied to child processes
             tool->copyPaths(this);

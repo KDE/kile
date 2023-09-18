@@ -4734,7 +4734,7 @@ msgid ""
 msgstr ""
 "<p>Una llista de la documentació proporcionada per la distribució de TeX "
 "instal·lada.</p><p>En fer doble clic damunt d'un element o prémer la tecla "
-"d'espai, s'obrirà un visor per a mostrar el fitxer corresponent.</p><p>Els "
+"«Espai», s'obrirà un visor per a mostrar el fitxer corresponent.</p><p>Els "
 "elements que estan en gris no s'han instal·lat.</p>"
 
 #: dialogs/texdocumentationdialog.cpp:86

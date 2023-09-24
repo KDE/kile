@@ -178,7 +178,7 @@ Recorder::~Recorder()
 bool Recorder::eventFilter(QObject* /* o */, QEvent *e)
 {
     if (e->type() == QEvent::KeyPress) {
-        QKeyEvent *keyEvent = (QKeyEvent*)(e);
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(e);
         int curLine, curCol;
         KTextEditor::Cursor cursor = m_view->cursorPosition();
         curLine = cursor.line();

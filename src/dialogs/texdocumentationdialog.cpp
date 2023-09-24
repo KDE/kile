@@ -224,7 +224,7 @@ bool TexDocDialog::eventFilter(QObject *o, QEvent *e)
 {
     // catch KeyPress events
     if (e->type() == QEvent::KeyPress) {
-        QKeyEvent *kev = (QKeyEvent*) e;
+        QKeyEvent *kev = static_cast<QKeyEvent*>(e);
 
         // ListView:
         //  - space:  enable start of viewer

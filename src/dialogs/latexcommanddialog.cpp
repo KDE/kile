@@ -598,7 +598,7 @@ void LatexCommandsDialog::slotEnableButtons()
     QTreeWidget *listview = (getListviewMode() == lvEnvMode) ? m_widget.environments : m_widget.commands;
     resetState = (hasUserDefined(listview));
 
-    QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
+    QTreeWidgetItem *item = listview->currentItem();
 
     if (item && item != m_lviAmsmath)
     {
@@ -630,7 +630,7 @@ void LatexCommandsDialog::slotAddClicked()
         caption  = i18n("LaTeX Commands");
     }
 
-    QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
+    QTreeWidgetItem *item = listview->currentItem();
     if (item && isParentItem(item)) {
         // get current command type
         KileDocument::CmdAttribute type = getCommandMode(item);
@@ -648,7 +648,7 @@ void LatexCommandsDialog::slotAddClicked()
             QString name;
             KileDocument::LatexCmdAttributes attr;
             dialog->getParameter(name, attr);
-            setEntry((QTreeWidgetItem *)item, name, attr);
+            setEntry(item, name, attr);
             // open this parent item
             if (!item->isExpanded()) {
                 item->setExpanded(true);
@@ -673,7 +673,7 @@ void LatexCommandsDialog::slotDeleteClicked()
         message  = i18n("Do you want to delete this command?");
     }
 
-    QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
+    QTreeWidgetItem *item = listview->currentItem();
     if (item && !isParentItem(item)) {
         if (KMessageBox::warningContinueCancel(this, message, i18n("Delete")) == KMessageBox::Continue) {
             m_commandChanged = true;
@@ -702,9 +702,9 @@ void LatexCommandsDialog::slotEditClicked()
         caption  = i18n("LaTeX Commands");
     }
 
-    QTreeWidgetItem *item = (QTreeWidgetItem *)listview->currentItem();
+    QTreeWidgetItem *item = listview->currentItem();
     if (item && !isParentItem(item)) {
-        QTreeWidgetItem *parentitem = (QTreeWidgetItem *)item->parent();
+        QTreeWidgetItem *parentitem = item->parent();
         if (parentitem) {
             // get current command type
             KileDocument::CmdAttribute type = getCommandMode(parentitem);

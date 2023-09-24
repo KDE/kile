@@ -2211,20 +2211,20 @@ QuickDocumentInputDialog::QuickDocumentInputDialog(const QStringList &list, int 
             combobox->setDuplicatesEnabled(false);
             combobox->addItems(list[i+2].split(',', Qt::KeepEmptyParts));
             if (i > 0 && m_description[i-1] == "label") {
-                ((QLabel *)m_objectlist[i-1])->setBuddy(combobox);
+                static_cast<QLabel*>(m_objectlist[i-1])->setBuddy(combobox);
             }
             m_objectlist.append(combobox);
         }
         else {
             m_objectlist.append(new QLineEdit(list[i+2], page));
             if (m_description[i] == "edit-r") {
-                ((QLineEdit *)m_objectlist[i])->setReadOnly(true);
+                static_cast<QLineEdit*>(m_objectlist[i])->setReadOnly(true);
             }
             else if (firstlinedit == -1) {
                 firstlinedit = i;
             }
             if (i > 0 && m_description[i-1] == "label") {
-                ((QLabel *)m_objectlist[i-1])->setBuddy(m_objectlist[i]);
+                static_cast<QLabel*>(m_objectlist[i-1])->setBuddy(m_objectlist[i]);
             }
         }
 
@@ -2256,16 +2256,16 @@ void QuickDocumentInputDialog::getResults(QStringList &list)
 {
     for (int i = 0; i < m_description.count(); ++i) {
         if (m_description[i] == "label") {
-            list[i+2] = ((QLabel *)m_objectlist[i])->text();
+            list[i+2] = static_cast<QLabel*>(m_objectlist[i])->text();
         }
         else if (m_description[i] == "checkbox") {
-            list[i+2] = (((QCheckBox *)m_objectlist[i])->isChecked()) ? "true" : "false";
+            list[i+2] = static_cast<QCheckBox*>(m_objectlist[i])->isChecked() ? "true" : "false";
         }
         else if (m_description[i] == "combobox") {
-            list[i+2] = ((KComboBox *)m_objectlist[i])->currentText();
+            list[i+2] = static_cast<KComboBox*>(m_objectlist[i])->currentText();
         }
         else  {
-            list[i+2] = ((QLineEdit *)m_objectlist[i])->text().simplified();
+            list[i+2] = static_cast<QLineEdit*>(m_objectlist[i])->text().simplified();
         }
     }
 }
@@ -2300,8 +2300,8 @@ void QuickDocumentInputDialog::slotAccepted()
 {
     if (m_check) {
         // get the label and main input string from the first label/linedit
-        QString inputlabel = ((QLabel *)m_objectlist[0])->text();
-        QString input = ((QLineEdit *)m_objectlist[1])->text().simplified();
+        QString inputlabel = static_cast<QLabel*>(m_objectlist[0])->text();
+        QString input = static_cast<QLineEdit*>(m_objectlist[1])->text().simplified();
 
         // should we check for an empty string
         if ((m_check & qd_CheckNotEmpty) && input.isEmpty()) {

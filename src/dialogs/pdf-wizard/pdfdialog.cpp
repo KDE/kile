@@ -99,7 +99,7 @@ PdfDialog::PdfDialog(QWidget *parent,
 
     // insert KileWidget::CategoryComboBox
     m_cbTask = new KileWidget::CategoryComboBox(m_PdfDialog.m_gbParameter);
-    QGridLayout *paramLayout = (QGridLayout *)m_PdfDialog.m_gbParameter->layout();
+    QGridLayout *paramLayout = static_cast<QGridLayout*>(m_PdfDialog.m_gbParameter->layout());
     paramLayout->addWidget(m_cbTask, 4, 1);
 
     // setup filenames

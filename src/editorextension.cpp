@@ -486,9 +486,9 @@ bool EditorExtension::getMathgroup(KTextEditor::View *view, int &row1, int &col1
     QString textline = getTextLineReal(doc,row);
 
     // check for '\ensuremath{...}'
-    QString word;
+    QString currentWord;
     int x1, x2;
-    if(getCurrentWord(doc, row, col, smTex, word, x1, x2) && word == "\\ensuremath") {
+    if(getCurrentWord(doc, row, col, smTex, currentWord, x1, x2) && currentWord == "\\ensuremath") {
         view->setCursorPosition(KTextEditor::Cursor(row, x2));
     }
 
@@ -2234,11 +2234,11 @@ KTextEditor::Range EditorExtension::wordRange(const KTextEditor::Cursor &cursor,
     }
 
     int col1, col2;
-    QString word;
+    QString currentWord;
     EditorExtension::SelectMode mode = ( latexCommand ) ? EditorExtension::smTex : EditorExtension::smLetter;
     int line = cursor.line();
 
-    return (getCurrentWord(view->document(), line, cursor.column(), mode, word, col1, col2))
+    return (getCurrentWord(view->document(), line, cursor.column(), mode, currentWord, col1, col2))
            ? KTextEditor::Range(line,col1,line,col2)
            : KTextEditor::Range::invalid();
 }
@@ -2365,11 +2365,11 @@ bool EditorExtension::findCurrentTexParagraph(int& startline, int& startcolumn, 
     }
 
     // find the next empty line
-    for(int line = row + 1; line < doc->lines(); ++line) {
-        if(doc->line(line).trimmed().isEmpty()) {
+    for(int lineBelow = row + 1; lineBelow < doc->lines(); ++lineBelow) {
+        if(doc->line(lineBelow).trimmed().isEmpty()) {
             break;
         }
-        endline = line;
+        endline = lineBelow;
     }
 
     // it is guaranteed that 'endline.trimmed()' won't be empty

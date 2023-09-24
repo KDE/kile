@@ -333,14 +333,14 @@ InputDialog::InputDialog(const QString &caption, uint options, const QStringList
     m_useLabel = (options & KileAction::ShowLabel);
     if(m_useLabel) {
         // Label
-        QLabel *label = new QLabel(i18n("&Label:"),this);
-        mainLayout->addWidget(label);
+        QLabel *uiLabel = new QLabel(i18n("&Label:"),this);
+        mainLayout->addWidget(uiLabel);
         m_edLabel = new QLineEdit(this);
         mainLayout->addWidget(m_edLabel);
         m_edLabel->setMinimumWidth(300);
         m_edLabel->setText(m_labelprefix);
-        label->setBuddy(m_edLabel);
-        gbox->addWidget(label, 3, 0, 1, 3);
+        uiLabel->setBuddy(m_edLabel);
+        gbox->addWidget(uiLabel, 3, 0, 1, 3);
         gbox->addWidget(m_edLabel, 4, 0, 1, 3);
     }
 
@@ -402,9 +402,9 @@ void InputDialog::setTag(const QString &tag)
 QString InputDialog::label()
 {
     if(m_edLabel) {
-        QString label = m_edLabel->text().trimmed();
-        if(!label.isEmpty() && label != m_labelprefix) {
-            return "\\label{" + label + "}\n";
+        QString labelString = m_edLabel->text().trimmed();
+        if(!labelString.isEmpty() && labelString != m_labelprefix) {
+            return "\\label{" + labelString + "}\n";
         }
     }
 
@@ -566,16 +566,16 @@ void ToolbarSelectAction::slotTriggered(QAction* action) {
 
 void ToolbarSelectAction::slotMainActionTriggered()
 {
-    QAction *action = currentAction();
-    if(action) {
-        action->trigger();
+    QAction *curAction = currentAction();
+    if (curAction) {
+        curAction->trigger();
     }
 }
 
 void ToolbarSelectAction::slotMainButtonPressed()
 {
-    QAction *action = currentAction();
-    if(!action) {
+    QAction *curAction = currentAction();
+    if (!curAction) {
         emit(mainButtonWithNoActionPressed());
     }
 }
@@ -583,8 +583,8 @@ void ToolbarSelectAction::slotMainButtonPressed()
 QMenu* ToolbarSelectAction::menu()
 {
     if(!QAction::menu()) {
-        QMenu *menu = new QMenu();
-        setMenu(menu);
+        QMenu *uiMenu = new QMenu();
+        setMenu(uiMenu);
     }
 
     return qobject_cast<QMenu*>(QAction::menu());

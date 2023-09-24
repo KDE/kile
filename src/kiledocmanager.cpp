@@ -305,9 +305,9 @@ KileProjectItem* Manager::itemFor(const QUrl &url, KileProject *project /*=0L*/)
 {
     if (!project) {
         for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-            KileProject *project = *it;
+            KileProject *curProject = *it;
 
-            KileProjectItem *item = project->item(url);
+            KileProjectItem *item = curProject->item(url);
             if(item) {
                 return item;
             }
@@ -323,9 +323,9 @@ KileProjectItem* Manager::itemFor(TextInfo *docinfo, KileProject *project /*=0*/
 {
     if (!project) {
         for(QList<KileProject*>::const_iterator it = m_projects.begin(); it != m_projects.end(); ++it) {
-            KileProject *project = *it;
+            KileProject *curProject = *it;
 
-            KileProjectItem *item = project->item(docinfo);
+            KileProjectItem *item = curProject->item(docinfo);
             if(item) {
                 return item;
             }
@@ -1086,7 +1086,7 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
 
     KILE_DEBUG_MAIN << "startUrl is " << startUrl;
     KEncodingFileDialog::Result result;
-    QUrl saveURL;
+    QUrl saveAsUrl;
     while(true) {
         QString filter = m_ki->extensions()->fileFilterKDEStyle(true, info->getFileFilter());
 
@@ -1094,28 +1094,28 @@ bool Manager::fileSaveAs(KTextEditor::View* view)
         if(result.URLs.isEmpty() || result.URLs.first().isEmpty()) {
             return false;
         }
-        saveURL = result.URLs.first();
+        saveAsUrl = result.URLs.first();
         if(info->getType() == KileDocument::LaTeX) {
-            saveURL = Info::makeValidTeXURL(saveURL, m_ki->mainWindow(),
-                                            m_ki->extensions()->isTexFile(saveURL), false); // don't check for file existence
+            saveAsUrl = Info::makeValidTeXURL(saveAsUrl, m_ki->mainWindow(),
+                                            m_ki->extensions()->isTexFile(saveAsUrl), false); // don't check for file existence
         }
 
-        if(!checkForFileOverwritePermission(saveURL)) {
+        if(!checkForFileOverwritePermission(saveAsUrl)) {
             continue;
         }
         break;
     }
     doc->setEncoding(result.encoding);
-    if(!doc->saveAs(saveURL)) {
+    if(!doc->saveAs(saveAsUrl)) {
         return false;
     }
-    if(oldURL != saveURL) {
+    if(oldURL != saveAsUrl) {
         if(info->isDocumentTypePromotionAllowed()) {
             recreateTextDocumentInfo(info);
             info = textInfoFor(doc);
         }
         m_ki->structureWidget()->updateUrl(info);
-        emit addToRecentFiles(saveURL);
+        emit addToRecentFiles(saveAsUrl);
         emit addToProjectView(doc->url());
     }
     emit(documentSavedAs(view, info));
@@ -2101,8 +2101,8 @@ void Manager::projectShow()
             // called from QAction 'Show projects...': find the first opened
             // LaTeX document or, if that fails, any other opened file
             QStringList extlist = (m_ki->extensions()->latexDocuments() + ' ' + m_ki->extensions()->latexPackages()).split(' ');
-            for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
-                if(itempath.indexOf( (*it), -(*it).length() ) >= 0)  {
+            for(QStringList::Iterator extIt = extlist.begin(); extIt != extlist.end(); ++extIt) {
+                if(itempath.indexOf( (*extIt), -(*extIt).length() ) >= 0)  {
                     if (m_ki->isOpen(item->url()))  {
                         docitem = item;
                         break;
@@ -2465,8 +2465,8 @@ void Manager::saveDocumentAndViewSettings(KileDocument::TextInfo *textInfo)
     if(urlList.length() > MAX_NUMBER_OF_STORED_SETTINGS) {
         int excessNumber = urlList.length() - MAX_NUMBER_OF_STORED_SETTINGS;
         for(; excessNumber > 0; --excessNumber) {
-            QUrl url = urlList.takeLast();
-            deleteDocumentAndViewSettingsGroups(url);
+            QUrl removeUrl = urlList.takeLast();
+            deleteDocumentAndViewSettingsGroups(removeUrl);
         }
     }
     configGroup.writeEntry("Documents", url);

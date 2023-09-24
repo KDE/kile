@@ -301,9 +301,9 @@ void LivePreviewManager::buildLivePreviewMenu(KConfig *config)
     menu->addAction(m_previewForCurrentDocumentAction);
     menu->addSeparator();
 
-    QList<ToolConfigPair> toolList = toolsWithConfigurationsBasedOnClass(config, "LaTeXLivePreview");
-    std::sort(toolList.begin(), toolList.end());
-    for(QList<ToolConfigPair>::iterator i = toolList.begin(); i != toolList.end(); ++i) {
+    QList<ToolConfigPair> toolListConfig = toolsWithConfigurationsBasedOnClass(config, "LaTeXLivePreview");
+    std::sort(toolListConfig.begin(), toolListConfig.end());
+    for(QList<ToolConfigPair>::iterator i = toolListConfig.begin(); i != toolListConfig.end(); ++i) {
         const QString shortToolName = QString((*i).first).remove("LivePreview-");
         QAction *action = new KToggleAction(ToolConfigPair::userStringRepresentation(shortToolName, (*i).second), this);
 

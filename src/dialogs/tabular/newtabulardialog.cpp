@@ -449,8 +449,7 @@ void NewTabularDialog::slotAccepted()
     }
 
     /* environment */
-    QString environment = m_cmbName->currentText();
-    QString environmentFormatted = environment;
+    QString environmentFormatted = m_cmbName->currentText();
     QString tableWidth;
     if(m_cbStarred->isEnabled() && m_cbStarred->isChecked()) {
         environmentFormatted += '*';

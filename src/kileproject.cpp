@@ -71,9 +71,9 @@ void KileProjectItem::setOrder(int i)
     m_order = i;
 }
 
-void KileProjectItem::setParent(KileProjectItem * item)
+void KileProjectItem::setParent(KileProjectItem *projectItem)
 {
-    m_parent = item;
+    m_parent = projectItem;
 
     //update parent info
     if (m_parent) {
@@ -204,14 +204,14 @@ void KileProjectItem::print(int level)
 
 void KileProjectItem::allChildren(QList<KileProjectItem*> *list) const
 {
-    KileProjectItem *item = firstChild();
+    KileProjectItem *firstChildItem = firstChild();
 
 // 	KILE_DEBUG_MAIN << "\tKileProjectItem::allChildren(" << list->count() << ")";
-    while(item != Q_NULLPTR) {
-        list->append(item);
-// 		KILE_DEBUG_MAIN << "\t\tappending " << item->url().fileName();
-        item->allChildren(list);
-        item = item->sibling();
+    while(firstChildItem != Q_NULLPTR) {
+        list->append(firstChildItem);
+// 		KILE_DEBUG_MAIN << "\t\tappending " << firstChildItem->url().fileName();
+        firstChildItem->allChildren(list);
+        firstChildItem = firstChildItem->sibling();
     }
 }
 
@@ -386,24 +386,24 @@ const QString & KileProject::defaultGraphicExt() {
     return m_defGraphicExt;
 }
 
-void KileProject::setType(KileProjectItem *item)
+void KileProject::setType(KileProjectItem *projectItem)
 {
-    if(item->path().right(7) == ".kilepr") {
-        item->setType(KileProjectItem::ProjectFile);
+    if(projectItem->path().right(7) == ".kilepr") {
+        projectItem->setType(KileProjectItem::ProjectFile);
         return;
     }
 
     bool unknown = true;
     for(int i = KileProjectItem::Source; i < KileProjectItem::Other; ++i) {
-        if(m_reExtensions[i-1].indexIn(item->url().fileName()) != -1) {
-            item->setType(i);
+        if(m_reExtensions[i-1].indexIn(projectItem->url().fileName()) != -1) {
+            projectItem->setType(i);
             unknown = false;
             break;
         }
     }
 
     if(unknown) {
-        item->setType(KileProjectItem::Other);
+        projectItem->setType(KileProjectItem::Other);
     }
 }
 
@@ -519,8 +519,8 @@ bool KileProject::load()
 
     readMakeIndexOptions();
 
-    QUrl url;
-    KileProjectItem *item;
+    QUrl projectUrl;
+    KileProjectItem *projectItem;
     const QStringList groups = m_config->groupList();
 
     //retrieve all the project files and create and initialize project items for them
@@ -531,20 +531,20 @@ bool KileProject::load()
         if (group.left(5) == "item:") {
             QString path = group.mid(5);
             if (QDir::isAbsolutePath(path)) {
-                url = QUrl::fromLocalFile(path);
+                projectUrl = QUrl::fromLocalFile(path);
             }
             else {
-                url = m_baseurl.adjusted(QUrl::StripTrailingSlash);
-                url.setPath(url.path() + '/' + path);
+                projectUrl = m_baseurl.adjusted(QUrl::StripTrailingSlash);
+                projectUrl.setPath(projectUrl.path() + '/' + path);
             }
-            item = new KileProjectItem(this, KileUtilities::canonicalUrl(url));
-            setType(item);
+            projectItem = new KileProjectItem(this, KileUtilities::canonicalUrl(projectUrl));
+            setType(projectItem);
 
             KConfigGroup configGroup = m_config->group(group);
             // path has to be set before we can load it
-            item->changePath(group.mid(5));
-            item->load();
-            connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
+            projectItem->changePath(group.mid(5));
+            projectItem->load();
+            connect(projectItem, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
         }
     }
 
@@ -628,25 +628,25 @@ void KileProject::writeConfigEntry(const QString &key, const QString &standardEx
     }
 }
 
-KConfigGroup KileProject::configGroupForItem(KileProjectItem *item, ConfigScope scope) const
+KConfigGroup KileProject::configGroupForItem(KileProjectItem *projectItem, ConfigScope scope) const
 {
     KConfig* cfgObject = (scope == GUIFile ? m_guiConfig : m_config);
-    return cfgObject->group("item:" + item->path());
+    return cfgObject->group("item:" + projectItem->path());
 }
 
-KConfigGroup KileProject::configGroupForItemDocumentSettings(KileProjectItem *item) const
+KConfigGroup KileProject::configGroupForItemDocumentSettings(KileProjectItem *projectItem) const
 {
-    return m_guiConfig->group("document-settings,item:" + item->path());
+    return m_guiConfig->group("document-settings,item:" + projectItem->path());
 }
 
-KConfigGroup KileProject::configGroupForItemViewSettings(KileProjectItem *item, int viewIndex) const
+KConfigGroup KileProject::configGroupForItemViewSettings(KileProjectItem *projectItem, int viewIndex) const
 {
-    return m_guiConfig->group("view-settings,view=" + QString::number(viewIndex) + ",item:" + item->path());
+    return m_guiConfig->group("view-settings,view=" + QString::number(viewIndex) + ",item:" + projectItem->path());
 }
 
-void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
+void KileProject::removeConfigGroupsForItem(KileProjectItem *projectItem)
 {
-    QString itemString = "item:" + item->path();
+    QString itemString = "item:" + projectItem->path();
     const QStringList groupList = m_config->groupList();
     for(auto groupName : groupList) {
         if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
@@ -660,12 +660,12 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *item)
 
 static bool isAncestorOf(const KileProjectItem *toBeChecked, KileProjectItem *parent)
 {
-    KileProjectItem *item = parent;
-    while(item != Q_NULLPTR) {
-        if(item == toBeChecked) {
+    KileProjectItem *projectItem = parent;
+    while(projectItem != Q_NULLPTR) {
+        if(projectItem == toBeChecked) {
             return true;
         }
-        item = item->parent();
+        projectItem = projectItem->parent();
     }
     return false;
 }
@@ -679,7 +679,6 @@ void KileProject::buildProjectTree()
     QStringList deps;
     QString dep;
     KileProjectItem *itm;
-    QUrl url;
 
     //clean first
     for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
@@ -705,13 +704,15 @@ void KileProject::buildProjectTree()
             for(int i = 0; i < deps.count(); ++i) {
                 dep = deps[i];
 
+                QUrl inputUrl;
+
                 if(m_extmanager->isTexFile(dep)) {
-                    url = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs));
+                    inputUrl = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::texinputs));
                 }
                 else if(m_extmanager->isBibFile(dep)) {
-                    url = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs));
+                    inputUrl = QUrl::fromLocalFile(KileInfo::checkOtherPaths(parentUrl, dep, KileInfo::bibinputs));
                 }
-                itm = item(url);
+                itm = item(inputUrl);
                 if(itm && (itm->parent() == 0)
                         && !isAncestorOf(itm, *it)) { // avoid circular references if a file should
                     // include itself in a circular way
@@ -756,40 +757,40 @@ KileProjectItem* KileProject::item(const KileDocument::Info *info)
     return Q_NULLPTR;
 }
 
-void KileProject::add(KileProjectItem* item)
+void KileProject::add(KileProjectItem* projectItem)
 {
-    KILE_DEBUG_MAIN << "KileProject::add projectitem" << item->url().toLocalFile();
+    KILE_DEBUG_MAIN << "KileProject::add projectitem" << projectItem->url().toLocalFile();
 
-    setType(item);
+    setType(projectItem);
 
-    item->changePath(findRelativePath(item->url()));
-    connect(item, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
+    projectItem->changePath(findRelativePath(projectItem->url()));
+    connect(projectItem, SIGNAL(urlChanged(KileProjectItem*)), this, SLOT(itemRenamed(KileProjectItem*)) );
 
-    m_projectItems.append(item);
+    m_projectItems.append(projectItem);
 
-    emit projectItemAdded(this, item);
+    emit projectItemAdded(this, projectItem);
 
     // dump();
 }
 
-void KileProject::remove(KileProjectItem* item)
+void KileProject::remove(KileProjectItem* projectItem)
 {
-    KILE_DEBUG_MAIN << item->path();
-    removeConfigGroupsForItem(item);
-    m_projectItems.removeAll(item);
+    KILE_DEBUG_MAIN << projectItem->path();
+    removeConfigGroupsForItem(projectItem);
+    m_projectItems.removeAll(projectItem);
 
-    emit projectItemRemoved(this, item);
+    emit projectItemRemoved(this, projectItem);
 
     // dump();
 }
 
-void KileProject::itemRenamed(KileProjectItem *item)
+void KileProject::itemRenamed(KileProjectItem *projectItem)
 {
     KILE_DEBUG_MAIN << "==KileProject::itemRenamed==========================";
-    KILE_DEBUG_MAIN << "\t" << item->url().fileName();
-    removeConfigGroupsForItem(item);
+    KILE_DEBUG_MAIN << "\t" << projectItem->url().fileName();
+    removeConfigGroupsForItem(projectItem);
 
-    item->changePath(findRelativePath(item->url()));
+    projectItem->changePath(findRelativePath(projectItem->url()));
 }
 
 QString KileProject::findRelativePath(const QString &path)
@@ -830,10 +831,10 @@ bool KileProject::contains(const KileDocument::Info *info)
     return false;
 }
 
-KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
+KileProjectItem *KileProject::rootItem(KileProjectItem *projectItem) const
 {
     //find the root item (i.e. the eldest parent)
-    KileProjectItem *root = item;
+    KileProjectItem *root = projectItem;
     while(root->parent() != Q_NULLPTR) {
         root = root->parent();
     }
@@ -858,17 +859,17 @@ KileProjectItem *KileProject::rootItem(KileProjectItem *item) const
     }
 
     //root is not a valid item (getInfo() return 0L), return original item
-    return item;
+    return projectItem;
 }
 
 void KileProject::dump()
 {
     KILE_DEBUG_MAIN << "KileProject::dump() " << m_name;
     for(QList<KileProjectItem*>::iterator it = m_projectItems.begin(); it != m_projectItems.end(); ++it) {
-        KileProjectItem *item = *it;
-        KILE_DEBUG_MAIN << "item " << item << " has path: "  << item->path();
-        KILE_DEBUG_MAIN << "item->type() " << item->type();
-        KILE_DEBUG_MAIN << "OpenState: " << item->isOpen();
+        KileProjectItem *projectItem = *it;
+        KILE_DEBUG_MAIN << "item " << projectItem << " has path: "  << projectItem->path();
+        KILE_DEBUG_MAIN << "item->type() " << projectItem->type();
+        KILE_DEBUG_MAIN << "OpenState: " << projectItem->isOpen();
     }
 }
 

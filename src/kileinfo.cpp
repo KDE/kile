@@ -216,10 +216,10 @@ QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& n
         bool found = false;
         QStringList extlist = (m_extensions->latexDocuments()).split(' ');
         for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
-            QString name = file + (*it);
-            if(QFileInfo(name).exists()) {
-                file = name;
-                fi.setFile(name);
+            QString extName = file + (*it);
+            if(QFileInfo(extName).exists()) {
+                file = extName;
+                fi.setFile(extName);
                 found = true;
                 break;
             }
@@ -268,9 +268,9 @@ QStringList KileInfo::retrieveList(QStringList (KileDocument::Info::*getit)() co
 
             QStringList toReturn;
             for(QList<KileProjectItem*>::iterator it = children.begin(); it != children.end(); ++it) {
-                const KileProjectItem *item = *it;
-                KileDocument::TextInfo *textInfo = item->getInfo();
-                KILE_DEBUG_MAIN << "\t" << item->url();
+                const KileProjectItem *childItem = *it;
+                KileDocument::TextInfo *textInfo = childItem->getInfo();
+                KILE_DEBUG_MAIN << "\t" << childItem->url();
 
                 if(textInfo) {
                     toReturn << (textInfo->*getit)();

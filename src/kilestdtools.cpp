@@ -773,8 +773,8 @@ bool ViewHTML::determineTarget()
 
         //auto-detect the file to view
         if(dir.isEmpty() && trg.isEmpty()) {
-            QFileInfo file1 = QFileInfo(baseDir() + '/' + S() + "/index.html");
-            QFileInfo file2 = QFileInfo(baseDir() + '/' + S() + ".html");
+            QFileInfo file1 = QFileInfo(baseDir() + '/' + S() + QLatin1String("/index.html"));
+            QFileInfo file2 = QFileInfo(baseDir() + '/' + S() + QLatin1String(".html"));
 
             bool read1 = file1.isReadable();
             bool read2 = file2.isReadable();
@@ -793,12 +793,17 @@ bool ViewHTML::determineTarget()
             if(read1) {
                 dir = S();
                 trg = "index.html";
-
-                translate(dir);
-                setRelativeBaseDir(dir);
-                translate(trg);
-                setTarget(trg);
             }
+            else if(read2) {
+                dir = QLatin1String(".");
+                trg = S() + QLatin1String(".html");
+            }
+
+            translate(dir);
+            setRelativeBaseDir(dir);
+            translate(trg);
+            setTarget(trg);
+
         }
     }
 

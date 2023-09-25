@@ -22,7 +22,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-09 00:46+0000\n"
+"POT-Creation-Date: 2023-09-25 00:43+0000\n"
 "PO-Revision-Date: 2022-07-25 00:56+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
@@ -306,7 +306,7 @@ msgstr ""
 msgid "Test Results"
 msgstr "Resultados de las pruebas"
 
-#: dialogs/configcheckerdialog.cpp:233
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -318,7 +318,7 @@ msgstr ""
 "consulte los resultados de las pruebas<br/> para determinar que programas "
 "tienen que ser arreglados."
 
-#: dialogs/configcheckerdialog.cpp:239
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -328,7 +328,7 @@ msgstr ""
 "podrá usar Kile; pero, no se garantiza que todas sus características estén "
 "operativas."
 
-#: dialogs/configcheckerdialog.cpp:244
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
@@ -336,7 +336,7 @@ msgstr ""
 "<b>No se han detectado problemas. Kile funcionará correctamente en su "
 "sistema.</b>"
 
-#: dialogs/configcheckerdialog.cpp:257
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
@@ -344,7 +344,7 @@ msgstr ""
 "El visor de documentos integrado está disponible y la vista previa en vivo "
 "está permitida."
 
-#: dialogs/configcheckerdialog.cpp:260
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -353,7 +353,7 @@ msgstr ""
 "El visor de documentos integrado está disponible, pero la versión instalada "
 "de PDFLaTeX <br/><b>no es compatible</b> con la vista previa en vivo."
 
-#: dialogs/configcheckerdialog.cpp:268
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -364,7 +364,7 @@ msgstr ""
 "Okular no está disponible o la versión<br/>instalada es demasiado antigua).  "
 "Por tanto, la versión previa en vivo no está permitida."
 
-#: dialogs/configcheckerdialog.cpp:291
+#: dialogs/configcheckerdialog.cpp:290
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -865,7 +865,7 @@ msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 "Debe incluir el paquete wrapfig para usar las opciones de ajuste de texto"
 
-#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3252
+#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3249
 #, kde-format
 msgid "Missing Package"
 msgstr "Falta un paquete"
@@ -1248,134 +1248,134 @@ msgstr ""
 msgid "Does this command need an argument?"
 msgstr "¿Necesita esta orden un argumento?"
 
-#: dialogs/latexcommanddialog.cpp:209
+#: dialogs/latexcommanddialog.cpp:207
 #, kde-format
 msgid "Define a new LaTeX environment:"
 msgstr "Definir un nuevo entorno LaTeX:"
 
-#: dialogs/latexcommanddialog.cpp:213
+#: dialogs/latexcommanddialog.cpp:211
 #, kde-format
 msgid "Define a new LaTeX command:"
 msgstr "Definir una nueva orden LaTeX:"
 
-#: dialogs/latexcommanddialog.cpp:228
+#: dialogs/latexcommanddialog.cpp:226
 #, kde-format
 msgid "Edit a LaTeX Environment"
 msgstr "Editar un entorno LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:245
+#: dialogs/latexcommanddialog.cpp:243
 #, kde-format
 msgid "Edit a LaTeX Command"
 msgstr "Editar una orden LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:310 dialogs/quickdocumentdialog.cpp:2308
+#: dialogs/latexcommanddialog.cpp:308 dialogs/quickdocumentdialog.cpp:2308
 #, kde-format
 msgid "An empty string is not allowed."
 msgstr "No se permite una cadena vacía."
 
-#: dialogs/latexcommanddialog.cpp:320
+#: dialogs/latexcommanddialog.cpp:318
 #, kde-format
 msgid "This environment already exists."
 msgstr "Este entorno ya existe."
 
-#: dialogs/latexcommanddialog.cpp:321
+#: dialogs/latexcommanddialog.cpp:319
 #, kde-format
 msgid "This command already exists."
 msgstr "Esta orden ya existe."
 
-#: dialogs/latexcommanddialog.cpp:339
+#: dialogs/latexcommanddialog.cpp:337
 #, kde-format
 msgid "LaTeX Configuration"
 msgstr "Configuración de LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:390
+#: dialogs/latexcommanddialog.cpp:388
 #, kde-format
 msgid "AMS-Math"
 msgstr "AMS-Matemática"
 
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/latexcommanddialog.cpp:391 dialogs/latexcommanddialog_base.ui:84
+#: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
 #: kile.cpp:1016 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Matemática"
 
-#: dialogs/latexcommanddialog.cpp:392
+#: dialogs/latexcommanddialog.cpp:390
 #, kde-format
 msgid "Lists"
 msgstr "Listas"
 
-#: dialogs/latexcommanddialog.cpp:393 kile.cpp:1012 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1012 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "Tabla"
 
-#: dialogs/latexcommanddialog.cpp:394 kilestdactions.cpp:54
+#: dialogs/latexcommanddialog.cpp:392 kilestdactions.cpp:54
 #, kde-format
 msgid "Verbatim"
 msgstr "Copia literal"
 
-#: dialogs/latexcommanddialog.cpp:396 widgets/structurewidget.cpp:329
+#: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:329
 #, kde-format
 msgid "Labels"
 msgstr "Etiquetas"
 
-#: dialogs/latexcommanddialog.cpp:397
+#: dialogs/latexcommanddialog.cpp:395
 #, kde-format
 msgid "References"
 msgstr "Referencias"
 
-#: dialogs/latexcommanddialog.cpp:398
+#: dialogs/latexcommanddialog.cpp:396
 #, kde-format
 msgid "Bibliographies"
 msgstr "Bibliografías"
 
-#: dialogs/latexcommanddialog.cpp:399
+#: dialogs/latexcommanddialog.cpp:397
 #, kde-format
 msgid "Citations"
 msgstr "Citas"
 
-#: dialogs/latexcommanddialog.cpp:400
+#: dialogs/latexcommanddialog.cpp:398
 #, kde-format
 msgid "Includes"
 msgstr "Incluye"
 
-#: dialogs/latexcommanddialog.cpp:626 kile.cpp:1063
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1063
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "Entornos LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:630 dialogs/latexcommanddialog.cpp:702
+#: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
 #: kile.cpp:1062
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "Órdenes LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:669
+#: dialogs/latexcommanddialog.cpp:667
 #, kde-format
 msgid "Do you want to delete this environment?"
 msgstr "¿Desea borrar este entorno?"
 
-#: dialogs/latexcommanddialog.cpp:673
+#: dialogs/latexcommanddialog.cpp:671
 #, kde-format
 msgid "Do you want to delete this command?"
 msgstr "¿Desea borrar esta orden?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
-#: dialogs/latexcommanddialog.cpp:678 dialogs/quickdocumentdialog.cpp:1904
+#: dialogs/latexcommanddialog.cpp:676 dialogs/quickdocumentdialog.cpp:1904
 #: dialogs/quickdocumentdialog.cpp:2077
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
 msgstr "Borrar"
 
-#: dialogs/latexcommanddialog.cpp:697
+#: dialogs/latexcommanddialog.cpp:695
 #, kde-format
 msgid "LaTeX Environment"
 msgstr "Entorno LaTeX"
 
-#: dialogs/latexcommanddialog.cpp:765
+#: dialogs/latexcommanddialog.cpp:763
 #, kde-format
 msgid ""
 "All your 'environment' settings will be overwritten with the default "
@@ -1384,7 +1384,7 @@ msgstr ""
 "Todas las preferencias de su «entorno» se sobrescribirán con las "
 "predeterminadas, ¿Seguro que desea continuar?"
 
-#: dialogs/latexcommanddialog.cpp:766
+#: dialogs/latexcommanddialog.cpp:764
 #, kde-format
 msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
@@ -1558,7 +1558,7 @@ msgstr "Gestionar los archivos de terminación locales en el gestor de archivos"
 
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:947 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:198
 #: widgets/codecompletionconfigwidget.cpp:357
 #, kde-format
@@ -1567,7 +1567,7 @@ msgstr "si"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:947
+#: dialogs/pdf-wizard/pdfdialog.cpp:946
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:203
 #: widgets/codecompletionconfigwidget.cpp:360
@@ -1965,8 +1965,8 @@ msgstr "Escriba un nombre corto y descriptivo para la herramien&ta:"
 msgid "PDF Wizard"
 msgstr "Asistente PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:729
-#: dialogs/pdf-wizard/pdfdialog.cpp:854
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:728
+#: dialogs/pdf-wizard/pdfdialog.cpp:853
 #, kde-format
 msgid "Re&arrange"
 msgstr "Reorg&anizar"
@@ -2093,62 +2093,62 @@ msgstr ""
 "Por favor, introduzca la contraseña de este archivo PDF\n"
 " o déjela en blanco para probar otro método: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:574
+#: dialogs/pdf-wizard/pdfdialog.cpp:573
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr ""
 "Se necesita una contraseña para establecer o modificar los ajustes actuales."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:578
+#: dialogs/pdf-wizard/pdfdialog.cpp:577
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "Los permisos de este documento se pueden cambiar con <i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:579
+#: dialogs/pdf-wizard/pdfdialog.cpp:578
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr ""
 "<i>pdftk</i> no está disponible, por lo que no se pueden cambiar los "
 "permisos."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:583
+#: dialogs/pdf-wizard/pdfdialog.cpp:582
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr ""
 "<i>pdftk</i> no está disponible, por lo que no se pueden cambiar las "
 "propiedades."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:586
+#: dialogs/pdf-wizard/pdfdialog.cpp:585
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr ""
 "Las propiedades de este documento se pueden modificar con <i>pdftk</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr ""
 "El archivo de entrada está cifrado, por lo que solo <i>pdftk</i> funciona."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:595
+#: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "Se necesita una contraseña para reorganizar las páginas."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:596
+#: dialogs/pdf-wizard/pdfdialog.cpp:595
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr ""
 "Este archivo de entrada está cifrado, pero <i>pdftk</i> no está instalado."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:600
+#: dialogs/pdf-wizard/pdfdialog.cpp:599
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
 "Este asistente usará <i>pdftk</i> y el paquete <i>pdfpages</i> de LaTeX."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:601
+#: dialogs/pdf-wizard/pdfdialog.cpp:600
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
@@ -2157,7 +2157,7 @@ msgstr ""
 "Este asistente solo usará <i>pdftk</i> (<i>pdfpages.sty</i> no está "
 "instalado)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:604
+#: dialogs/pdf-wizard/pdfdialog.cpp:603
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2166,14 +2166,14 @@ msgstr ""
 "Este asistente solo usará el paquete <i>pdfpages</i> de LaTeX (<i>pdftk</i> "
 "no se encontró)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:605
+#: dialogs/pdf-wizard/pdfdialog.cpp:604
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
 "Este asistente no puede continuar porque se ha encontrado ninguna "
 "herramienta (consulte la sección de ayuda)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:610
+#: dialogs/pdf-wizard/pdfdialog.cpp:609
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
@@ -2182,24 +2182,24 @@ msgstr ""
 "<i>(Compilado sin la biblioteca libpoppler de pdf. No estarán disponibles "
 "todas las tareas.)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:729
+#: dialogs/pdf-wizard/pdfdialog.cpp:728
 #, kde-format
 msgid "&Update"
 msgstr "Act&ualizar"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:792 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "Páginas:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:793
+#: dialogs/pdf-wizard/pdfdialog.cpp:792
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "Lista de páginas separada por comas: 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:798 dialogs/pdf-wizard/pdfdialog.cpp:803
+#: dialogs/pdf-wizard/pdfdialog.cpp:797 dialogs/pdf-wizard/pdfdialog.cpp:802
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:501
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2208,17 +2208,17 @@ msgstr "Lista de páginas separada por comas: 1,4-7,9"
 msgid "Parameter:"
 msgstr "Parámetro:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:799
+#: dialogs/pdf-wizard/pdfdialog.cpp:798
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "Todas las opciones de «pdftk»"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:804
+#: dialogs/pdf-wizard/pdfdialog.cpp:803
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "Todas las opciones de «pdfpages»"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:826
+#: dialogs/pdf-wizard/pdfdialog.cpp:825
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2231,7 +2231,7 @@ msgstr ""
 "PDF de entrada. Esta página es escalada y rotada tanto como sea necesario "
 "para ajustarse a la página de entrada."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:831
+#: dialogs/pdf-wizard/pdfdialog.cpp:830
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2245,12 +2245,12 @@ msgstr ""
 "tanto como sea necesario para ajustarse a la página de entrada. Esto "
 "funciona mejor si la página del PDF del sello tiene un fondo transparente."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:851
+#: dialogs/pdf-wizard/pdfdialog.cpp:850
 #, kde-format
 msgid "&Apply"
 msgstr "&Aplicar"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:869
+#: dialogs/pdf-wizard/pdfdialog.cpp:868
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2261,7 +2261,7 @@ msgstr ""
 "\n"
 "Este asistente no se puede usar."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:897
+#: dialogs/pdf-wizard/pdfdialog.cpp:896
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2294,7 +2294,7 @@ msgstr ""
 "contenido está cifrado, pero la clave es conocida. Debería verlo más como "
 "una petición cortés pero firme de respetar los deseos del autor.</p> "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:914
+#: dialogs/pdf-wizard/pdfdialog.cpp:913
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2305,110 +2305,110 @@ msgstr ""
 "libpoppler. No es posible configurar, modificar ni eliminar las propiedades "
 "ni los permisos.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:918 dialogs/pdf-wizard/pdfdialog.cpp:1706
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1018
+#: dialogs/pdf-wizard/pdfdialog.cpp:917 dialogs/pdf-wizard/pdfdialog.cpp:1705
+#: dialogs/pdf-wizard/pdfdialog.cpp:1773 kile.cpp:1018
 #, kde-format
 msgid "PDF Tools"
 msgstr "Herramientas de PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:932
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "LaTeX con el paquete «pdfpages»"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:932
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:934
+#: dialogs/pdf-wizard/pdfdialog.cpp:933
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "Reorganizando archivo PDF: %1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** herramienta:        "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1055
+#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** archivo de entrada:  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** archivo de salida: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/pdf-wizard/pdfdialog.cpp:1056
+#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/pdf-wizard/pdfdialog.cpp:1055
 #, kde-format
 msgid "***** param:       "
 msgstr "***** parámetro:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:946
+#: dialogs/pdf-wizard/pdfdialog.cpp:945
 #, kde-format
 msgid "***** command:     "
 msgstr "***** orden:     "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:947 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** visor:      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1109
+#: dialogs/pdf-wizard/pdfdialog.cpp:1108
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "Se ha producido un error mientras se ejecutaba la tarea."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1165
+#: dialogs/pdf-wizard/pdfdialog.cpp:1164
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "Finalizado con un error (contraseña errónea)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1168
+#: dialogs/pdf-wizard/pdfdialog.cpp:1167
 #, kde-format
 msgid "Finished with an error"
 msgstr "Finalizado con un error"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1182
+#: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "No se pudo crear la herramienta para ver PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1182
+#: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "ViewPDF"
 msgstr "Ver PDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1622
+#: dialogs/pdf-wizard/pdfdialog.cpp:1621
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "La utilidad necesita algunos parámetros en este modo."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1640
+#: dialogs/pdf-wizard/pdfdialog.cpp:1639
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "Lista de páginas «desde-hasta» no válida: %1 es mayor que %2."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1644 dialogs/pdf-wizard/pdfdialog.cpp:1651
+#: dialogs/pdf-wizard/pdfdialog.cpp:1643 dialogs/pdf-wizard/pdfdialog.cpp:1650
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "Número de páginas no válido: %1."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1664
+#: dialogs/pdf-wizard/pdfdialog.cpp:1663
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "Es necesario definir un archivo PDF como sello de primer plano."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1665
+#: dialogs/pdf-wizard/pdfdialog.cpp:1664
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "Es necesario definir un archivo PDF como marca de agua de fondo."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1672
+#: dialogs/pdf-wizard/pdfdialog.cpp:1671
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
@@ -2416,63 +2416,63 @@ msgstr ""
 "Formato de archivo desconocido: en este modo únicamente se aceptan «.pdf» "
 "como archivos de imagen."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1677
+#: dialogs/pdf-wizard/pdfdialog.cpp:1676
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "Este archivo indicado no existe."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1690
+#: dialogs/pdf-wizard/pdfdialog.cpp:1689
 #, kde-format
 msgid "You need to define an output file."
 msgstr "Es necesario definir un archivo de salida."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1697
+#: dialogs/pdf-wizard/pdfdialog.cpp:1696
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr ""
 "Formato de archivo desconocido: únicamente se aceptan «.pdf» como archivos "
 "de salida."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1703 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1702 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "El archivo «%1» ya existe ¿desea sobrescribirlo?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1735 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "No se ha proporcionado archivo de entrada."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1743
+#: dialogs/pdf-wizard/pdfdialog.cpp:1742
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr ""
 "Formato de archivo desconocido: únicamente se aceptan archivos de entrada «."
 "pdf»."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1747 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "Este archivo de entrada no existe."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1760
+#: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "No password is given."
 msgstr "No se ha proporcionado una contraseña."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1765
+#: dialogs/pdf-wizard/pdfdialog.cpp:1764
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "La contraseña debe tener al menos 6 caracteres de longitud."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:515
+#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:515
 #: dialogs/texdocumentationdialog.cpp:431
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:515
+#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:515
 #: dialogs/texdocumentationdialog.cpp:432
 #, kde-format
 msgid "</center>"
@@ -5720,12 +5720,12 @@ msgstr "Comillas checas:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "Paquete «csquotes»:   \\enquote{}"
 
-#: editorextension.cpp:3252
+#: editorextension.cpp:3249
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "Debe incluir el paquete %1 para usar %2."
 
-#: editorextension.cpp:3503
+#: editorextension.cpp:3500
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5734,7 +5734,7 @@ msgstr ""
 "Se modificó el documento, y por tanto debe actualizarse la vista de la "
 "estructura, antes de iniciar una operación."
 
-#: editorextension.cpp:3504
+#: editorextension.cpp:3501
 #, kde-format
 msgid "Structure View Error"
 msgstr "Error de vista de estructura"
@@ -7800,23 +7800,23 @@ msgstr "Script"
 msgid " output: \n"
 msgstr " resultado: \n"
 
-#: kilelauncher.cpp:221
+#: kilelauncher.cpp:220
 #, kde-format
 msgid "terminated"
 msgstr "finalizado"
 
-#: kilelauncher.cpp:230
+#: kilelauncher.cpp:229
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "La ejecución ha fallado, diagnósticos:"
 
-#: kilelauncher.cpp:235
+#: kilelauncher.cpp:234
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr ""
 "Se ha producido un error al analizar las opciones dadas a la herramienta."
 
-#: kilelauncher.cpp:239
+#: kilelauncher.cpp:238
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
@@ -7825,52 +7825,52 @@ msgstr ""
 "Hay presentes metacaracteres de la shell en las opciones dadas a la "
 "herramienta que no se pueden gestionar"
 
-#: kilelauncher.cpp:248
+#: kilelauncher.cpp:247
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "No se ha encontrado ningún ejecutable llamado «%1» en su PATH."
 
-#: kilelauncher.cpp:254
+#: kilelauncher.cpp:253
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "No tiene permisos para ejecutar %1."
 
-#: kilelauncher.cpp:259
+#: kilelauncher.cpp:258
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "Los diagnósticos no han encontrado ningún problema obvio."
 
-#: kilelauncher.cpp:280
+#: kilelauncher.cpp:279
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "terminado con el código de salida %1"
 
-#: kilelauncher.cpp:292
+#: kilelauncher.cpp:291
 #, kde-format
 msgid "finished abruptly"
 msgstr "terminado bruscamente"
 
-#: kilelauncher.cpp:308
+#: kilelauncher.cpp:307
 #, kde-format
 msgid "failed to start"
 msgstr "fallo al iniciar"
 
-#: kilelauncher.cpp:311
+#: kilelauncher.cpp:310
 #, kde-format
 msgid "crashed"
 msgstr "fallado"
 
-#: kilelauncher.cpp:314
+#: kilelauncher.cpp:313
 #, kde-format
 msgid "failed (error code %1)"
 msgstr "fallo (código de error %1)"
 
-#: kilelauncher.cpp:355
+#: kilelauncher.cpp:354
 #, kde-format
 msgid "The document viewer is not available"
 msgstr "El visor del documento no está disponible"
 
-#: kilelauncher.cpp:359
+#: kilelauncher.cpp:358
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr ""
@@ -10530,28 +10530,28 @@ msgstr ""
 "No se pudo encontrar la herramienta «%1» en la base de datos de "
 "configuración."
 
-#: kiletoolmanager.cpp:743
+#: kiletoolmanager.cpp:742
 #, kde-format
 msgid "&Stop"
 msgstr "&Detener"
 
-#: kiletoolmanager.cpp:752
+#: kiletoolmanager.cpp:751
 #, kde-format
 msgid "Bibliography Back End"
 msgstr "Motor de bibliografía"
 
-#: kiletoolmanager.cpp:753
+#: kiletoolmanager.cpp:752
 #, kde-format
 msgid "Auto-Detect"
 msgstr "Detección automática"
 
-#: kiletoolmanager.cpp:754
+#: kiletoolmanager.cpp:753
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr ""
 "Detectar automáticamente el motor de bibliografía para la salida de LaTeX"
 
-#: kiletoolmanager.cpp:759
+#: kiletoolmanager.cpp:758
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr "Reiniciar el motor detectado automáticamente"
@@ -12984,24 +12984,24 @@ msgstr "Como referencia de página"
 msgid "Only the label"
 msgstr "Solo la etiqueta"
 
-#: widgets/symbolview.cpp:207
+#: widgets/symbolview.cpp:206
 #, kde-format
 msgid "Command: %1"
 msgstr "Orden: %1"
 
-#: widgets/symbolview.cpp:209
+#: widgets/symbolview.cpp:208
 #, kde-format
 msgid "<br/>Unicode: %1"
 msgstr "<br/>Unicode: %1"
 
-#: widgets/symbolview.cpp:237
+#: widgets/symbolview.cpp:236
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
 msgstr[0] "Paquete necesario: %2"
 msgstr[1] "Paquetes necesarios: %2"
 
-#: widgets/symbolview.cpp:241
+#: widgets/symbolview.cpp:240
 #, kde-format
 msgid "Comment: %1"
 msgstr "Comentario: %1"

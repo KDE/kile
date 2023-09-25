@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-08-09 00:46+0000\n"
+"POT-Creation-Date: 2023-09-25 00:43+0000\n"
 "PO-Revision-Date: 2023-07-24 21:59+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
@@ -278,7 +278,7 @@ msgstr "<br/>'완료'를 누르면 추천하는 설정 변경 사항을 적용�
 msgid "Test Results"
 msgstr "검사 결과"
 
-#: dialogs/configcheckerdialog.cpp:233
+#: dialogs/configcheckerdialog.cpp:232
 #, kde-format
 msgid ""
 "The following <b>critical</b> tests did not succeed:<br/><br/>%1<br/><br/"
@@ -289,7 +289,7 @@ msgstr ""
 "올바르게 작동할 수 없습니다. 검사 결과를 참조하여<br/>프로그램 설정 상태를 수"
 "정하십시오."
 
-#: dialogs/configcheckerdialog.cpp:239
+#: dialogs/configcheckerdialog.cpp:238
 #, kde-format
 msgid ""
 "The following tests did not succeed:<br/><br/>%1<br/><br/>You will still be "
@@ -298,20 +298,20 @@ msgstr ""
 "다음 검사에 실패했습니다:<br/><br/>%1<br/><br/>Kile을 사용할 수는 있지만 모"
 "든 기능이 올바르게 작동하지는 않을 수도 있습니다."
 
-#: dialogs/configcheckerdialog.cpp:244
+#: dialogs/configcheckerdialog.cpp:243
 #, kde-format
 msgid ""
 "<b>No problems were detected. Kile will work correctly on your system.</b>"
 msgstr ""
 "<b>문제점을 발견하지 못했습니다. Kile이 시스템에서 올바르게 작동합니다.</b>"
 
-#: dialogs/configcheckerdialog.cpp:257
+#: dialogs/configcheckerdialog.cpp:256
 #, kde-format
 msgid ""
 "The embedded document viewer is available and live preview is supported."
 msgstr "내장된 문서 뷰어를 사용할 수 있으며 즉시 미리 보기를 지원합니다."
 
-#: dialogs/configcheckerdialog.cpp:260
+#: dialogs/configcheckerdialog.cpp:259
 #, kde-format
 msgid ""
 "The embedded document viewer is available, but the installed version of "
@@ -320,7 +320,7 @@ msgstr ""
 "내장된 문서 뷰어를 사용할 수 있으나 설치되어 있는 PDFLaTeX 버전이<br/> 즉시 "
 "미리 보기 기능과 <b>호환되지 않습니다</b>."
 
-#: dialogs/configcheckerdialog.cpp:268
+#: dialogs/configcheckerdialog.cpp:267
 #, kde-format
 msgid ""
 "The embedded document viewer is <b>not available</b> (as Okular is either "
@@ -330,7 +330,7 @@ msgstr ""
 "내장된 문서 뷰어를 <b>사용할 수 없습니다</b>. Okular를 사용할 수 없거나 설치"
 "된 버전이<br/>너무 오래되었습니다. 즉시 미리 보기를 지원하지 않습니다."
 
-#: dialogs/configcheckerdialog.cpp:291
+#: dialogs/configcheckerdialog.cpp:290
 #, kde-format
 msgid ""
 "<br/><font color=\"#FF0000\"><b>The tests could not be finished correctly. "
@@ -819,7 +819,7 @@ msgstr "*.png *.jpg *.eps.gz *.eps|그래픽\n"
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr "텍스트 둘러싸기 옵션을 지정하려면 wrapfig 패키지를 포함해야 합니다"
 
-#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3252
+#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3249
 #, kde-format
 msgid "Missing Package"
 msgstr "빠진 패키지"
@@ -1203,134 +1203,134 @@ msgstr ""
 msgid "Does this command need an argument?"
 msgstr "이 명령에 인자가 필요한지 여부입니다."
 
-#: dialogs/latexcommanddialog.cpp:209
+#: dialogs/latexcommanddialog.cpp:207
 #, kde-format
 msgid "Define a new LaTeX environment:"
 msgstr "새 LaTeX 환경 정의:"
 
-#: dialogs/latexcommanddialog.cpp:213
+#: dialogs/latexcommanddialog.cpp:211
 #, kde-format
 msgid "Define a new LaTeX command:"
 msgstr "새 LaTeX 명령 정의:"
 
-#: dialogs/latexcommanddialog.cpp:228
+#: dialogs/latexcommanddialog.cpp:226
 #, kde-format
 msgid "Edit a LaTeX Environment"
 msgstr "LaTeX 환경 편집"
 
-#: dialogs/latexcommanddialog.cpp:245
+#: dialogs/latexcommanddialog.cpp:243
 #, kde-format
 msgid "Edit a LaTeX Command"
 msgstr "LaTeX 명령 편집"
 
-#: dialogs/latexcommanddialog.cpp:310 dialogs/quickdocumentdialog.cpp:2308
+#: dialogs/latexcommanddialog.cpp:308 dialogs/quickdocumentdialog.cpp:2308
 #, kde-format
 msgid "An empty string is not allowed."
 msgstr "빈 문자열을 사용할 수 없습니다."
 
-#: dialogs/latexcommanddialog.cpp:320
+#: dialogs/latexcommanddialog.cpp:318
 #, kde-format
 msgid "This environment already exists."
 msgstr "이 환경이 이미 존재합니다."
 
-#: dialogs/latexcommanddialog.cpp:321
+#: dialogs/latexcommanddialog.cpp:319
 #, kde-format
 msgid "This command already exists."
 msgstr "이 명령이 이미 존재합니다."
 
-#: dialogs/latexcommanddialog.cpp:339
+#: dialogs/latexcommanddialog.cpp:337
 #, kde-format
 msgid "LaTeX Configuration"
 msgstr "LaTeX 설정"
 
-#: dialogs/latexcommanddialog.cpp:390
+#: dialogs/latexcommanddialog.cpp:388
 #, kde-format
 msgid "AMS-Math"
 msgstr "AMS 수식"
 
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
-#: dialogs/latexcommanddialog.cpp:391 dialogs/latexcommanddialog_base.ui:84
+#: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
 #: kile.cpp:1016 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "수식"
 
-#: dialogs/latexcommanddialog.cpp:392
+#: dialogs/latexcommanddialog.cpp:390
 #, kde-format
 msgid "Lists"
 msgstr "목록"
 
-#: dialogs/latexcommanddialog.cpp:393 kile.cpp:1012 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1012 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "표"
 
-#: dialogs/latexcommanddialog.cpp:394 kilestdactions.cpp:54
+#: dialogs/latexcommanddialog.cpp:392 kilestdactions.cpp:54
 #, kde-format
 msgid "Verbatim"
 msgstr "그대로 표시"
 
-#: dialogs/latexcommanddialog.cpp:396 widgets/structurewidget.cpp:329
+#: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:329
 #, kde-format
 msgid "Labels"
 msgstr "이름표"
 
-#: dialogs/latexcommanddialog.cpp:397
+#: dialogs/latexcommanddialog.cpp:395
 #, kde-format
 msgid "References"
 msgstr "참조"
 
-#: dialogs/latexcommanddialog.cpp:398
+#: dialogs/latexcommanddialog.cpp:396
 #, kde-format
 msgid "Bibliographies"
 msgstr "서지 정보"
 
-#: dialogs/latexcommanddialog.cpp:399
+#: dialogs/latexcommanddialog.cpp:397
 #, kde-format
 msgid "Citations"
 msgstr "인용"
 
-#: dialogs/latexcommanddialog.cpp:400
+#: dialogs/latexcommanddialog.cpp:398
 #, kde-format
 msgid "Includes"
 msgstr "포함"
 
-#: dialogs/latexcommanddialog.cpp:626 kile.cpp:1063
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1063
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "LaTeX 환경"
 
-#: dialogs/latexcommanddialog.cpp:630 dialogs/latexcommanddialog.cpp:702
+#: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
 #: kile.cpp:1062
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "LaTeX 명령"
 
-#: dialogs/latexcommanddialog.cpp:669
+#: dialogs/latexcommanddialog.cpp:667
 #, kde-format
 msgid "Do you want to delete this environment?"
 msgstr "이 환경을 삭제하시겠습니까?"
 
-#: dialogs/latexcommanddialog.cpp:673
+#: dialogs/latexcommanddialog.cpp:671
 #, kde-format
 msgid "Do you want to delete this command?"
 msgstr "이 명령을 삭제하시겠습니까?"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbDelete)
-#: dialogs/latexcommanddialog.cpp:678 dialogs/quickdocumentdialog.cpp:1904
+#: dialogs/latexcommanddialog.cpp:676 dialogs/quickdocumentdialog.cpp:1904
 #: dialogs/quickdocumentdialog.cpp:2077
 #: dialogs/usermenu/usermenudialog_base.ui:113
 #, kde-format
 msgid "Delete"
 msgstr "삭제"
 
-#: dialogs/latexcommanddialog.cpp:697
+#: dialogs/latexcommanddialog.cpp:695
 #, kde-format
 msgid "LaTeX Environment"
 msgstr "LaTeX 환경"
 
-#: dialogs/latexcommanddialog.cpp:765
+#: dialogs/latexcommanddialog.cpp:763
 #, kde-format
 msgid ""
 "All your 'environment' settings will be overwritten with the default "
@@ -1338,7 +1338,7 @@ msgid ""
 msgstr ""
 "모든 'environment' 설정을 기본 설정으로 덮어씁니다. 계속 진행하시겠습니까?"
 
-#: dialogs/latexcommanddialog.cpp:766
+#: dialogs/latexcommanddialog.cpp:764
 #, kde-format
 msgid ""
 "All your 'command' settings will be overwritten with the default settings, "
@@ -1507,7 +1507,7 @@ msgstr "파일 관리자에서 로컬 자동 완성 파일 관리"
 
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:947 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:198
 #: widgets/codecompletionconfigwidget.cpp:357
 #, kde-format
@@ -1516,7 +1516,7 @@ msgstr "예"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:947
+#: dialogs/pdf-wizard/pdfdialog.cpp:946
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:203
 #: widgets/codecompletionconfigwidget.cpp:360
@@ -1909,8 +1909,8 @@ msgstr "도구의 짧은 설명을 입력하십시오(&T):"
 msgid "PDF Wizard"
 msgstr "PDF 마법사"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:729
-#: dialogs/pdf-wizard/pdfdialog.cpp:854
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:728
+#: dialogs/pdf-wizard/pdfdialog.cpp:853
 #, kde-format
 msgid "Re&arrange"
 msgstr "재배열(&A)"
@@ -2037,54 +2037,54 @@ msgstr ""
 "PDF 파일의 암호를 입력하십시오.\n"
 "비워 두면 다른 방법을 사용합니다:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:574
+#: dialogs/pdf-wizard/pdfdialog.cpp:573
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr "현재 설정을 적용하거나 변경하려면 암호가 필요합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:578
+#: dialogs/pdf-wizard/pdfdialog.cpp:577
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "이 문서의 권한을 <i>pdftk</i>로 변경할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:579
+#: dialogs/pdf-wizard/pdfdialog.cpp:578
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr "<i>pdftk</i>를 사용할 수 없어서 권한을 변경할 수 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:583
+#: dialogs/pdf-wizard/pdfdialog.cpp:582
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr "<i>pdftk</i>를 사용할 수 없어서 속성을 변경할 수 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:586
+#: dialogs/pdf-wizard/pdfdialog.cpp:585
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr "이 문서의 속성을 <i>pdftk</i>로 변경할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr "입력 파일이 암호화되어 있어서 <i>pdftk</i>만 사용할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:595
+#: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "쪽을 재정렬하려면 암호가 필요합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:596
+#: dialogs/pdf-wizard/pdfdialog.cpp:595
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr "입력 파일이 암호화되어 있지만 <i>pdftk</i>가 설치되어 있지 않습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:600
+#: dialogs/pdf-wizard/pdfdialog.cpp:599
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr ""
 "이 마법사에서는 <i>pdftk</i>와 LaTeX 패키지 <i>pdfpages</i>를 사용합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:601
+#: dialogs/pdf-wizard/pdfdialog.cpp:600
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
@@ -2093,7 +2093,7 @@ msgstr ""
 "이 마법사에서는 <i>pdftk</i>만 사용합니다(<i>pdfpages.sty</i>가 설치되어 있"
 "지 않음)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:604
+#: dialogs/pdf-wizard/pdfdialog.cpp:603
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2102,13 +2102,13 @@ msgstr ""
 "이 마법사에서는 LaTeX <i>pdfpages</i>만 사용합니다(<i>pdftk</i>가 설치되어 있"
 "지 않음)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:605
+#: dialogs/pdf-wizard/pdfdialog.cpp:604
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr ""
 "도구를 찾을 수 없어서 이 마법사를 사용할 수 없습니다(도움말을 참조하십시오)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:610
+#: dialogs/pdf-wizard/pdfdialog.cpp:609
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
@@ -2117,24 +2117,24 @@ msgstr ""
 "<i>(libpoppler PDF 라이브러리를 제외하고 컴파일되었습니다. 모든 작업을 사용"
 "할 수는 없습니다.)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:729
+#: dialogs/pdf-wizard/pdfdialog.cpp:728
 #, kde-format
 msgid "&Update"
 msgstr "업데이트(&U)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:792 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "쪽:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:793
+#: dialogs/pdf-wizard/pdfdialog.cpp:792
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "쉼표로 구분한 쪽 목록: 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:798 dialogs/pdf-wizard/pdfdialog.cpp:803
+#: dialogs/pdf-wizard/pdfdialog.cpp:797 dialogs/pdf-wizard/pdfdialog.cpp:802
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:501
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2143,17 +2143,17 @@ msgstr "쉼표로 구분한 쪽 목록: 1,4-7,9"
 msgid "Parameter:"
 msgstr "인자:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:799
+#: dialogs/pdf-wizard/pdfdialog.cpp:798
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "모든 'pdftk' 옵션"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:804
+#: dialogs/pdf-wizard/pdfdialog.cpp:803
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "모든 'pdfpages' 옵션"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:826
+#: dialogs/pdf-wizard/pdfdialog.cpp:825
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2165,7 +2165,7 @@ msgstr ""
 "쪽을 사용하여 해당 내용을 입력 PDF 파일의 매 쪽마다 적용합니다. 입력 쪽에 맞"
 "도록 크기를 조절하고 필요한 경우 회전합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:831
+#: dialogs/pdf-wizard/pdfdialog.cpp:830
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2178,12 +2178,12 @@ msgstr ""
 "록 크기를 조절하고 필요한 경우 회전합니다. 스탬프 PDF 쪽에 투명 배경이 있을 "
 "때 가장 잘 작동합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:851
+#: dialogs/pdf-wizard/pdfdialog.cpp:850
 #, kde-format
 msgid "&Apply"
 msgstr "적용(&A)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:869
+#: dialogs/pdf-wizard/pdfdialog.cpp:868
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2194,7 +2194,7 @@ msgstr ""
 "\n"
 "마법사를 사용할 수 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:897
+#: dialogs/pdf-wizard/pdfdialog.cpp:896
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2224,7 +2224,7 @@ msgstr ""
 "는 알려져 있습니다. 작성자의 의도를 존중해 달라는 요청으로 생각해야 합니다.</"
 "p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:914
+#: dialogs/pdf-wizard/pdfdialog.cpp:913
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2234,110 +2234,110 @@ msgstr ""
 "<p><i>정보:</i> 이 Kile 버전은 libpoppler 지원 없이 컴파일되었습니다. 속성 "
 "및 권한 설정, 변경, 삭제가 불가능합니다.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:918 dialogs/pdf-wizard/pdfdialog.cpp:1706
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1018
+#: dialogs/pdf-wizard/pdfdialog.cpp:917 dialogs/pdf-wizard/pdfdialog.cpp:1705
+#: dialogs/pdf-wizard/pdfdialog.cpp:1773 kile.cpp:1018
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF 도구"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:932
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "'pdfpages' 패키지가 포함된 LaTeX"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:932
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:934
+#: dialogs/pdf-wizard/pdfdialog.cpp:933
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "PDF 파일 재정렬 중: %1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** 도구:        "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1055
+#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** 입력 파일:  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** 출력 파일: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/pdf-wizard/pdfdialog.cpp:1056
+#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/pdf-wizard/pdfdialog.cpp:1055
 #, kde-format
 msgid "***** param:       "
 msgstr "***** 인자:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:946
+#: dialogs/pdf-wizard/pdfdialog.cpp:945
 #, kde-format
 msgid "***** command:     "
 msgstr "***** 명령:     "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:947 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** 뷰어:      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1109
+#: dialogs/pdf-wizard/pdfdialog.cpp:1108
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "작업을 실행하는 중 오류가 발생했습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1165
+#: dialogs/pdf-wizard/pdfdialog.cpp:1164
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "오류를 반환하고 종료됨(암호가 잘못됨)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1168
+#: dialogs/pdf-wizard/pdfdialog.cpp:1167
 #, kde-format
 msgid "Finished with an error"
 msgstr "오류를 반환하고 종료됨"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1182
+#: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "ViewPDF 도구를 만들 수 없음"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1182
+#: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "ViewPDF"
 msgstr "ViewPDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1622
+#: dialogs/pdf-wizard/pdfdialog.cpp:1621
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "이 유틸리티는 이 모드에서 인자가 필요합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1640
+#: dialogs/pdf-wizard/pdfdialog.cpp:1639
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "잘못된 쪽 목록 'from-to': %1이(가) %2보다 큽니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1644 dialogs/pdf-wizard/pdfdialog.cpp:1651
+#: dialogs/pdf-wizard/pdfdialog.cpp:1643 dialogs/pdf-wizard/pdfdialog.cpp:1650
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "잘못된 쪽 번호: %1."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1664
+#: dialogs/pdf-wizard/pdfdialog.cpp:1663
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "PDF 파일을 전경 스탬프로 지정해야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1665
+#: dialogs/pdf-wizard/pdfdialog.cpp:1664
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "PDF 파일을 배경 워터마크로 지정해야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1672
+#: dialogs/pdf-wizard/pdfdialog.cpp:1671
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
@@ -2345,59 +2345,59 @@ msgstr ""
 "알 수 없는 파일 형식: 이 모드에서는 '.pdf' 형식만 그림으로 사용할 수 있습니"
 "다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1677
+#: dialogs/pdf-wizard/pdfdialog.cpp:1676
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "지정한 파일이 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1690
+#: dialogs/pdf-wizard/pdfdialog.cpp:1689
 #, kde-format
 msgid "You need to define an output file."
 msgstr "출력 파일을 지정해야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1697
+#: dialogs/pdf-wizard/pdfdialog.cpp:1696
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr "알 수 없는 파일 형식: '.pdf' 파일만 출력 형식으로 사용할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1703 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1702 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "파일 \"%1\"이(가) 이미 존재합니다. 덮어쓰시겠습니까?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1735 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "입력 파일을 지정하지 않았습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1743
+#: dialogs/pdf-wizard/pdfdialog.cpp:1742
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr "알 수 없는 파일 형식: '.pdf' 파일만 입력 형식으로 사용할 수 있습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1747 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "입력 파일이 없습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1760
+#: dialogs/pdf-wizard/pdfdialog.cpp:1759
 #, kde-format
 msgid "No password is given."
 msgstr "암호를 지정하지 않았습니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1765
+#: dialogs/pdf-wizard/pdfdialog.cpp:1764
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "암호는 최소 6글자 이상이어야 합니다."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:515
+#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:515
 #: dialogs/texdocumentationdialog.cpp:431
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:515
+#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:515
 #: dialogs/texdocumentationdialog.cpp:432
 #, kde-format
 msgid "</center>"
@@ -5558,12 +5558,12 @@ msgstr "체코어 따옴표:   \\uv{}"
 msgid "csquotes package:   \\enquote{}"
 msgstr "csquotes 패키지:   \\enquote{}"
 
-#: editorextension.cpp:3252
+#: editorextension.cpp:3249
 #, kde-format
 msgid "You have to include the package %1 to use %2."
 msgstr "%2을(를) 사용하려면 %1 패키지를 포함해야 합니다."
 
-#: editorextension.cpp:3503
+#: editorextension.cpp:3500
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5571,7 +5571,7 @@ msgid ""
 msgstr ""
 "문서가 수정되었으며 작업을 시작하기 전에 구조 보기를 업데이트해야 합니다."
 
-#: editorextension.cpp:3504
+#: editorextension.cpp:3501
 #, kde-format
 msgid "Structure View Error"
 msgstr "구조 보기 오류"
@@ -7554,74 +7554,74 @@ msgstr "스크립트"
 msgid " output: \n"
 msgstr " 출력: \n"
 
-#: kilelauncher.cpp:221
+#: kilelauncher.cpp:220
 #, kde-format
 msgid "terminated"
 msgstr "종료됨"
 
-#: kilelauncher.cpp:230
+#: kilelauncher.cpp:229
 #, kde-format
 msgid "Launching failed, diagnostics:"
 msgstr "실행 실패, 진단:"
 
-#: kilelauncher.cpp:235
+#: kilelauncher.cpp:234
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
 msgstr "도구에 지정한 옵션을 처리하는 중 오류가 발생했습니다."
 
-#: kilelauncher.cpp:239
+#: kilelauncher.cpp:238
 #, kde-format
 msgid ""
 "Shell meta characters that cannot be handled are present in the options "
 "given to the tool."
 msgstr "처리할 수 없는 셸 메타 문자가 이 도구 옵션에 포함되어 있습니다."
 
-#: kilelauncher.cpp:248
+#: kilelauncher.cpp:247
 #, kde-format
 msgid "There is no executable named \"%1\" in your path."
 msgstr "PATH에 지정한 경로에 실행 파일 \"%1\"이(가) 없습니다."
 
-#: kilelauncher.cpp:254
+#: kilelauncher.cpp:253
 #, kde-format
 msgid "You do not have permission to run %1."
 msgstr "%1을(를) 실행할 수 있는 권한이 없습니다."
 
-#: kilelauncher.cpp:259
+#: kilelauncher.cpp:258
 #, kde-format
 msgid "Diagnostics could not find any obvious problems."
 msgstr "진단 과정에서 문제를 발견하지 못했습니다."
 
-#: kilelauncher.cpp:280
+#: kilelauncher.cpp:279
 #, kde-format
 msgid "finished with exit code %1"
 msgstr "종료 코드 %1을(를) 반환함"
 
-#: kilelauncher.cpp:292
+#: kilelauncher.cpp:291
 #, kde-format
 msgid "finished abruptly"
 msgstr "예상하지 못하게 종료됨"
 
-#: kilelauncher.cpp:308
+#: kilelauncher.cpp:307
 #, kde-format
 msgid "failed to start"
 msgstr "시작 오류"
 
-#: kilelauncher.cpp:311
+#: kilelauncher.cpp:310
 #, kde-format
 msgid "crashed"
 msgstr "충돌함"
 
-#: kilelauncher.cpp:314
+#: kilelauncher.cpp:313
 #, kde-format
 msgid "failed (error code %1)"
 msgstr "실패(오류 코드 %1)"
 
-#: kilelauncher.cpp:355
+#: kilelauncher.cpp:354
 #, kde-format
 msgid "The document viewer is not available"
 msgstr "문서 뷰어를 사용할 수 없음"
 
-#: kilelauncher.cpp:359
+#: kilelauncher.cpp:358
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
 msgstr "이 도구를 실행하기 전에 즉시 미리 보기를 비활성화하십시오"
@@ -10225,27 +10225,27 @@ msgstr "중단됨"
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr "설정 데이터베이스에서 \"%1\" 도구를 찾을 수 없습니다."
 
-#: kiletoolmanager.cpp:743
+#: kiletoolmanager.cpp:742
 #, kde-format
 msgid "&Stop"
 msgstr "정지(&S)"
 
-#: kiletoolmanager.cpp:752
+#: kiletoolmanager.cpp:751
 #, kde-format
 msgid "Bibliography Back End"
 msgstr "서지 정보 백엔드"
 
-#: kiletoolmanager.cpp:753
+#: kiletoolmanager.cpp:752
 #, kde-format
 msgid "Auto-Detect"
 msgstr "자동 감지"
 
-#: kiletoolmanager.cpp:754
+#: kiletoolmanager.cpp:753
 #, kde-format
 msgid "Auto-detect the bibliography back end from LaTeX output"
 msgstr "LaTeX 출력에서 서지 정보 백엔드 자동 감지"
 
-#: kiletoolmanager.cpp:759
+#: kiletoolmanager.cpp:758
 #, kde-format
 msgid "Reset Auto-Detected Back End"
 msgstr "자동으로 감지된 백엔드 초기화"
@@ -12651,23 +12651,23 @@ msgstr "쪽 참조로"
 msgid "Only the label"
 msgstr "이름표만"
 
-#: widgets/symbolview.cpp:207
+#: widgets/symbolview.cpp:206
 #, kde-format
 msgid "Command: %1"
 msgstr "명령: %1"
 
-#: widgets/symbolview.cpp:209
+#: widgets/symbolview.cpp:208
 #, kde-format
 msgid "<br/>Unicode: %1"
 msgstr "<br/>유니코드: %1"
 
-#: widgets/symbolview.cpp:237
+#: widgets/symbolview.cpp:236
 #, kde-format
 msgid "Required Package: %2"
 msgid_plural "Required Packages: %2"
 msgstr[0] "필요한 패키지: %2"
 
-#: widgets/symbolview.cpp:241
+#: widgets/symbolview.cpp:240
 #, kde-format
 msgid "Comment: %1"
 msgstr "설명: %1"

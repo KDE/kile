@@ -1592,7 +1592,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
                                            "It needs to be updated before it can be opened.</p>"
                                            "<p>Do you want to update it?</p>", url.fileName()),
                                            i18n("Project File Needs to be Updated"),
-                                           KStandardGuiItem::ok(), KStandardGuiItem::cancel())  == KMessageBox::PrimaryAction) {
+                                           KStandardGuiItem::ok(), KStandardGuiItem::cancel())  == KMessageBox::SecondaryAction) {
             delete kp;
             return;
         }
@@ -1601,7 +1601,7 @@ void Manager::projectOpen(const QUrl &url, int step, int max, bool openProjectIt
             if (KMessageBox::warningTwoActions(m_ki->mainWindow(), i18n("<p>The project file \"%1\" could be not updated.</p>"
                                                "<p>Do you want to remove this project from the recent projects list?</p>", url.fileName()),
                                                i18n("Could Not Update Project File"),
-                                               KStandardGuiItem::remove(), KStandardGuiItem::cancel())  == KMessageBox::SecondaryAction) {
+                                               KStandardGuiItem::remove(), KStandardGuiItem::cancel())  == KMessageBox::PrimaryAction) {
                 emit(removeFromRecentProjects(realurl));
             }
             delete kp;

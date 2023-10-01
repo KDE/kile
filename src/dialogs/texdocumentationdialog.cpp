@@ -17,11 +17,13 @@
 #include "kiledebug.h"
 
 #include <KConfigGroup>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegateFactory>
 #include <KLocalizedString>
+#include <KJobUiDelegate>
 #include <KMessageBox>
 #include <KApplicationTrader>
 #include <KProcess>
-#include <KRun>
 #include <KService>
 
 #include <QBoxLayout>
@@ -302,7 +304,11 @@ void TexDocDialog::showFile(const QString &filename)
         }
         QList<QUrl> lst;
         lst.append(url);
-        KRun::runService(*(offers.first()), lst, this, true);
+        auto *job = new KIO::ApplicationLauncherJob(offers.first());
+        job->setUrls(lst);
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        job->setRunFlags(KIO::ApplicationLauncherJob::DeleteTemporaryFiles);
+        job->start();
     }
 }
 

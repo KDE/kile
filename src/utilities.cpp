@@ -21,7 +21,9 @@
 #include <QStyle>
 #include <QTimer>
 
-#include <KRun>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegateFactory>
+#include <KJobUiDelegate>
 
 #include "kiledebug.h"
 
@@ -49,10 +51,17 @@ ServiceRunAction::~ServiceRunAction()
 
 void ServiceRunAction::runService()
 {
-    KRun::runService(m_service, m_urlList, m_window,
-                     m_tempFiles,
-                     m_suggestedFileName,
-                     m_asn);
+    KService kservice(m_service);
+    KService::Ptr servicePointer = KService::Ptr(&kservice);
+    auto *job = new KIO::ApplicationLauncherJob(servicePointer);
+    job->setUrls(m_urlList);
+    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, m_window));
+    if (m_tempFiles) {
+        job->setRunFlags(KIO::ApplicationLauncherJob::DeleteTemporaryFiles);
+    }
+    job->setSuggestedFileName(m_suggestedFileName);
+    job->setStartupId(m_asn);
+    job->start();
 }
 
 QString KileUtilities::lastModifiedFile(const QStringList& files, const QString& baseDir)

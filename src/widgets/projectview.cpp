@@ -26,8 +26,11 @@
 #include <QUrl>
 
 #include <KActionMenu>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegateFactory>
+#include <KIO/OpenUrlJob>
 #include <KApplicationTrader>
-#include <KRun>
+#include <KJobUiDelegate>
 
 #include "kileinfo.h"
 #include "documentinfo.h"
@@ -279,7 +282,9 @@ void ProjectView::slotClicked(QTreeWidgetItem *item)
                     emit(fileSelected(itm->url()));
                 }
                 else {
-                    KRun::runUrl(itm->url(), pMime.name(), this, KRun::RunFlags());
+                    auto *job = new KIO::OpenUrlJob(itm->url(), pMime.name());
+                    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+                    job->start();
                 }
             }
         }
@@ -340,8 +345,13 @@ void ProjectView::slotProjectItem(int id)
                 emit(closeURL(item->url()));
                 break; //we can access "item" later as it isn't deleted
             case KPV_ID_OPENWITH:
-                KRun::displayOpenWithDialog(QList<QUrl>() << item->url(), this);
+            {
+                auto *job = new KIO::ApplicationLauncherJob();
+                job->setUrls(QList<QUrl>() << item->url());
+                job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+                job->start();
                 break;
+            }
             default:
                 break;
             }
@@ -389,10 +399,17 @@ void ProjectView::slotRun(int id)
     }
 
     if(id == 0) {
-        KRun::displayOpenWithDialog(QList<QUrl>() << itm->url(), this);
+        // open with dialog
+        auto *job = new KIO::ApplicationLauncherJob();
+        job->setUrls(QList<QUrl>() << itm->url());
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        job->start();
     }
     else {
-        KRun::runService(*m_offerList[id-1], QList<QUrl>() << itm->url(), this);
+        auto *job = new KIO::ApplicationLauncherJob(m_offerList[id - 1]);
+        job->setUrls(QList<QUrl>() << itm->url());
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        job->start();
     }
 
     itm->setSelected(false);

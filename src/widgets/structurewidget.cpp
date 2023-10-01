@@ -68,9 +68,12 @@
 #include <QUrl>
 
 #include <KApplicationTrader>
+#include <KIO/ApplicationLauncherJob>
+#include <KIO/JobUiDelegateFactory>
+#include <KIO/OpenUrlJob>
+#include <KJobUiDelegate>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KRun>
 
 #include "documentinfo.h"
 #include "errorhandler.h"
@@ -709,7 +712,9 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
             if(item->type() == KileStruct::Graphics) {
                 QMimeDatabase db;
                 QMimeType pMime = db.mimeTypeForUrl(url);
-                KRun::runUrl(url, pMime.name(), this, KRun::RunFlags());
+                auto *job = new KIO::OpenUrlJob(url, pMime.name());
+                job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+                job->start();
             }
             else {
                 emit(fileOpen(url, QString()));
@@ -839,10 +844,17 @@ void StructureWidget::slotPopupGraphics(int id)
     url.setPath(m_popupInfo);
 
     if(id == SectioningGraphicsOther) {
-        KRun::displayOpenWithDialog(QList<QUrl>() << url, this);
+        // open with dialog
+        auto *job = new KIO::ApplicationLauncherJob();
+        job->setUrls(QList<QUrl>() << url);
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        job->start();
     }
     else {
-        KRun::runService(*m_offerList[id-SectioningGraphicsOfferlist], QList<QUrl>() << url, this);
+        auto *job = new KIO::ApplicationLauncherJob(m_offerList[id-SectioningGraphicsOfferlist]);
+        job->setUrls(QList<QUrl>() << url);
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+        job->start();
     }
 }
 

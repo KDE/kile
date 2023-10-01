@@ -46,7 +46,8 @@ msgstr ""
 msgid ""
 "Could not save the local abbreviation list.\n"
 "Error code %1."
-msgstr "Non se puido gardar a lista de abreviaturas local. Código de erro %1."
+msgstr ""
+"Non foi posíbel gardar a lista de abreviaturas local. Código de erro %1."
 
 #: abbreviationmanager.cpp:102
 #, kde-format
@@ -56,7 +57,7 @@ msgstr "Problema de garda"
 #: configtester.cpp:222
 #, kde-format
 msgid "Running in Kile"
-msgstr "Estase a executar en Kile"
+msgstr "Executando en Kile"
 
 #: configtester.cpp:246
 #, kde-format
@@ -99,7 +100,7 @@ msgstr "Binario"
 #, kde-format
 msgctxt "additional failure message given as argument"
 msgid "Could not find the binary for this essential tool. %1"
-msgstr "Non se puido atopar o executábel desta utilidade esencial. %1"
+msgstr "Non foi posíbel atopar o executábel desta utilidade esencial. %1"
 
 #: configtester.cpp:367
 #, kde-format
@@ -110,7 +111,7 @@ msgstr "Non foi posíbel atopar o executábel «%1». %2"
 #: configtester.cpp:372
 #, kde-format
 msgid "Could not find the binary for this essential tool"
-msgstr "Non se puido atopar o binario desta utilidade esencial."
+msgstr "Non foi posíbel atopar o binario desta utilidade esencial."
 
 #: configtester.cpp:375
 #, kde-format
@@ -1608,7 +1609,7 @@ msgid ""
 "Cannot copy the file to the local directory!\n"
 "Please check the access permissions of the directory \"%1\"."
 msgstr ""
-"Non se pode copiar o ficheiro ao directorio local!\n"
+"Non é posíbel copiar o ficheiro ao directorio local!\n"
 "Comprobe os permisos de acceso ao directorio «%1»."
 
 #: dialogs/listselector.cpp:257
@@ -1747,7 +1748,7 @@ msgstr ""
 #: dialogs/managetemplatesdialog.cpp:298
 #, kde-format
 msgid "Failed to create the template."
-msgstr "Non se puido crear o modelo."
+msgstr "Non foi posíbel crear o modelo."
 
 #: dialogs/managetemplatesdialog.cpp:308
 #, kde-format
@@ -1762,7 +1763,7 @@ msgstr "Está a piques de retirar o modelo «%1». Está seguro de que quere ist
 #: dialogs/managetemplatesdialog.cpp:322
 #, kde-format
 msgid "The template could not be removed."
-msgstr "Non se puido retirar o modelo."
+msgstr "Non foi posíbel retirar o modelo."
 
 #: dialogs/mathenvironmentdialog.cpp:49
 #, kde-format
@@ -2240,7 +2241,7 @@ msgid ""
 "\n"
 "This wizard cannot be used."
 msgstr ""
-"Non se puido crear un directorio temporal.\n"
+"Non foi posíbel crear un directorio temporal.\n"
 "\n"
 "Este asistente non pode usarse."
 
@@ -2358,7 +2359,7 @@ msgstr "Rematou cun erro"
 #: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
 msgid "Could not create the ViewPDF tool"
-msgstr "Non se puido crear a ferramenta ViewPDF"
+msgstr "Non foi posíbel crear a ferramenta ViewPDF"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:1181
 #, kde-format
@@ -2829,7 +2830,7 @@ msgstr "Executar"
 #: dialogs/postscriptdialog.cpp:199 quickpreview.cpp:339
 #, kde-format
 msgid "Could not create a temporary file."
-msgstr "Non se puido crear un ficheiro temporal."
+msgstr "Non foi posíbel crear un ficheiro temporal."
 
 #: dialogs/postscriptdialog.cpp:208
 #, kde-format
@@ -3952,7 +3953,7 @@ msgstr "Texto do campo Produtor do PDF"
 #: dialogs/quickdocumentdialog.cpp:1051
 #, kde-format
 msgid "Starting view of PDF document"
-msgstr "Estase a iniciar a vista do documento PDF"
+msgstr "Iniciando a vista do documento PDF"
 
 #: dialogs/quickdocumentdialog.cpp:1052
 #, kde-format
@@ -4261,7 +4262,7 @@ msgstr "Este paquete xa existe."
 #: dialogs/quickdocumentdialog.cpp:2342
 #, kde-format
 msgid "Could not identify the package name."
-msgstr "Non se puido identificar o nome do paquete."
+msgstr "Non foi posíbel identificar o nome do paquete."
 
 #: dialogs/quickdocumentdialog.cpp:2346
 #, kde-format
@@ -4747,7 +4748,7 @@ msgstr "Cancelar a &busca"
 #: dialogs/texdocumentationdialog.cpp:137
 #, kde-format
 msgid "Could not read 'texdoctk.dat'."
-msgstr "Non se puido ler «texdoctk.dat»."
+msgstr "Non foi posíbel ler «texdoctk.dat»."
 
 #: dialogs/texdocumentationdialog.cpp:300
 #, kde-format
@@ -4757,7 +4758,7 @@ msgstr "Non se atopou un servizo de KDE para este ficheiro."
 #: dialogs/texdocumentationdialog.cpp:328
 #, kde-format
 msgid "Could not find the documentation file '%1'"
-msgstr "Non se puido atopar o ficheiro de documentación «%1»"
+msgstr "Non foi posíbel atopar o ficheiro de documentación «%1»"
 
 #: dialogs/texdocumentationdialog.cpp:344
 #, kde-format
@@ -4780,7 +4781,7 @@ msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
-"Non se puideron determinar as rutas de busca de TexLive/teTex nin o ficheiro "
+"Non foi posíbel determinar as rutas de busca de TexLive/teTex nin o ficheiro "
 "«texdoctk.dat».<br/>Kile non pode amosar información útil."
 
 #: dialogs/texdocumentationdialog.cpp:432
@@ -4795,9 +4796,9 @@ msgid ""
 "the file 'texdoctk.dat'.<br/>Hence, we cannot provide you with an overview "
 "of the installed TeX documentation."
 msgstr ""
-"Non se puido determinar a ruta de instalación da súa distribución de TeX nin "
-"atopar o ficheiro «texdoctk.dat».<br/>Polo tanto, non se pode fornecer un "
-"resumo da documentación de TeX instalada."
+"Non foi posíbel determinar a ruta de instalación da súa distribución de TeX "
+"nin atopar o ficheiro «texdoctk.dat».<br/>Polo tanto, non se pode fornecer "
+"un resumo da documentación de TeX instalada."
 
 #: dialogs/userhelpdialog.cpp:51
 #, kde-format
@@ -5486,7 +5487,8 @@ msgstr "Información"
 #, kde-format
 msgid "File '%1' could not be opened to save the usermenu file."
 msgstr ""
-"Non se puido abrir o ficheiro «%1» para gardar o ficheiro de menú de usuario."
+"Non foi posíbel abrir o ficheiro «%1» para gardar o ficheiro de menú de "
+"usuario."
 
 #: dialogs/usermenu/usermenutree.cpp:693
 #, kde-format
@@ -5774,7 +5776,7 @@ msgstr "Non hai información dispoñíbel sobre os avisos ou os erros."
 #: errorhandler.cpp:455 parser/latexoutputparser.cpp:644
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
-msgstr "Non se pode abrir o ficheiro de rexistro; executou LaTeX?"
+msgstr "Non é posíbel abrir o ficheiro de rexistro; executou LaTeX?"
 
 #: errorhandler.cpp:541
 #, kde-format
@@ -5845,7 +5847,7 @@ msgstr "Símbolos"
 #: kile.cpp:623
 #, kde-format
 msgid "Most Frequently Used"
-msgstr "Os utilizados máis a miúdo"
+msgstr "Os usados máis a miúdo"
 
 #: kile.cpp:629
 #, kde-format
@@ -6379,7 +6381,7 @@ msgstr ""
 #: kile.cpp:1422
 #, kde-format
 msgid "Unable to Create Archive Tool"
-msgstr "Non se pode crear a ferramenta Arquivo"
+msgstr "Non é posíbel crear a ferramenta Arquivo"
 
 #: kile.cpp:1491
 #, kde-format
@@ -7137,15 +7139,14 @@ msgstr "A cantidade de símbolos a gardar na vista dos símbolos frecuentes."
 #: kile.kcfg:585
 #, kde-format
 msgid "Display the Most Frequently Used Symbols view."
-msgstr "Amosar a vista dos símbolos utilizados con máis frecuencia."
+msgstr "Amosar a vista dos símbolos usados con máis frecuencia."
 
 #. i18n: ectx: label, entry (clearMFUS), group (MostUsedSymbols)
 #: kile.kcfg:589
 #, kde-format
 msgid "Clear the list of the most frequently used symbols whilst closing Kile."
 msgstr ""
-"Limpar a lista dos símbolos utilizados con máis frecuencia cando se peche "
-"Kile."
+"Limpar a lista dos símbolos usados con máis frecuencia cando se peche Kile."
 
 #. i18n: ectx: label, entry (symbolViewUTF8), group (MostUsedSymbols)
 #: kile.kcfg:593
@@ -7245,24 +7246,24 @@ msgid ""
 "\n"
 "%2"
 msgstr ""
-"Non se puido abrir o URL «%1».\n"
+"Non foi posíbel abrir o URL «%1».\n"
 "\n"
 "%2"
 
 #: kiledocmanager.cpp:537 kiledocmanager.cpp:540
 #, kde-format
 msgid "Cannot open URL"
-msgstr "Non se pode abrir o URL."
+msgstr "Non é posíbel abrir o URL."
 
 #: kiledocmanager.cpp:540
 #, kde-format
 msgid "The URL \"%1\" couldn't be opened."
-msgstr "Non se puido abrir o URL «%1»."
+msgstr "Non foi posíbel abrir o URL «%1»."
 
 #: kiledocmanager.cpp:683
 #, kde-format
 msgid "Could not find template: %1"
-msgstr "Non se puido atopar o modelo: %1"
+msgstr "Non foi posíbel atopar o modelo: %1"
 
 #: kiledocmanager.cpp:683
 #, kde-format
@@ -7282,7 +7283,7 @@ msgstr "Abra/cree antes un documento."
 #: kiledocmanager.cpp:756
 #, kde-format
 msgid "A template for this type of document cannot be created."
-msgstr "Non se pode crear un modelo para este tipo de documento."
+msgstr "Non é posíbel crear un modelo para este tipo de documento."
 
 #: kiledocmanager.cpp:760
 #, kde-format
@@ -7311,7 +7312,7 @@ msgstr ""
 #: kiledocmanager.cpp:914
 #, kde-format
 msgid "Saving"
-msgstr "Estase a gardar"
+msgstr "Gardando"
 
 #: kiledocmanager.cpp:947
 #, kde-format
@@ -7329,13 +7330,13 @@ msgid ""
 "The URL \"%1\" cannot be opened\n"
 "as it is a directory."
 msgstr ""
-"Non se pode abrir o URL «%1»\n"
+"Non é posíbel abrir o URL «%1»\n"
 "porque é un directorio."
 
 #: kiledocmanager.cpp:975
 #, kde-format
 msgid "Cannot open directory"
-msgstr "Non se pode abrir o directorio."
+msgstr "Non é posíbel abrir o directorio."
 
 #: kiledocmanager.cpp:1093
 #, kde-format
@@ -7372,7 +7373,7 @@ msgstr ""
 #: kiledocmanager.cpp:1315
 #, kde-format
 msgid "Could Not Refresh Project Tree"
-msgstr "Non se puido actualizar a árbore do proxecto"
+msgstr "Non foi posíbel actualizar a árbore do proxecto"
 
 #: kiledocmanager.cpp:1400 kiledocmanager.cpp:2167 kiledocmanager.cpp:2241
 #: kiledocmanager.cpp:2278
@@ -7395,7 +7396,7 @@ msgstr "O ficheiro %1 xa é membro do proxecto %2"
 msgid ""
 "The file %1 can not be added because it does not exist or is not readable"
 msgstr ""
-"Non se pode engadir o ficheiro %1 porque ou non existe ou non é lexíbel"
+"Non é posíbel engadir o ficheiro %1 porque ou non existe ou non é lexíbel"
 
 #: kiledocmanager.cpp:1465
 #, kde-format
@@ -7409,7 +7410,7 @@ msgstr ""
 #: kiledocmanager.cpp:1465
 #, kde-format
 msgid "Cannot Remove File From Project"
-msgstr "Non se pode retirar o ficheiro do proxecto"
+msgstr "Non é posíbel retirar o ficheiro do proxecto"
 
 #: kiledocmanager.cpp:1533
 #, kde-format
@@ -7438,7 +7439,7 @@ msgstr ""
 #: kiledocmanager.cpp:1548
 #, kde-format
 msgid "Could Not Open Project"
-msgstr "Non se puido abrir o proxecto"
+msgstr "Non foi posíbel abrir o proxecto"
 
 #: kiledocmanager.cpp:1565
 #, kde-format
@@ -7495,7 +7496,7 @@ msgstr ""
 #: kiledocmanager.cpp:1600
 #, kde-format
 msgid "Could Not Update Project File"
-msgstr "Non se puido actualizar o ficheiro de proxecto"
+msgstr "Non foi posíbel actualizar o ficheiro de proxecto"
 
 #: kiledocmanager.cpp:1701
 #, kde-format
@@ -7550,7 +7551,7 @@ msgstr ""
 #: kiledocmanager.cpp:1824 kiledocmanager.cpp:1859
 #, kde-format
 msgid "Could Not Determine Active Project"
-msgstr "Non se puido determinar o proxecto activo"
+msgstr "Non foi posíbel determinar o proxecto activo"
 
 #: kiledocmanager.cpp:1850
 #, kde-format
@@ -7587,7 +7588,7 @@ msgstr ""
 #: kiledocmanager.cpp:1939
 #, kde-format
 msgid "Could Not Close Project"
-msgstr "Non se puido pechar o proxecto"
+msgstr "Non foi posíbel pechar o proxecto"
 
 #: kiledocmanager.cpp:1994
 #, kde-format
@@ -7597,7 +7598,7 @@ msgstr "Nada que limpar en %1"
 #: kiledocmanager.cpp:2004
 #, kde-format
 msgid "Cleaning %1: %2"
-msgstr "Estase a limpar %1: %2"
+msgstr "Limpando %1: %2"
 
 #: kiledocmanager.cpp:2078
 #, kde-format
@@ -7642,7 +7643,7 @@ msgstr "Ficheiros do proxecto"
 #: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, kde-format
 msgid "Could not determine the selected file."
-msgstr "Non se puido determinar o ficheiro escollido."
+msgstr "Non foi posíbel determinar o ficheiro escollido."
 
 #: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
 #, kde-format
@@ -7652,7 +7653,7 @@ msgstr "Erro do proxecto"
 #: kiledocmanager.cpp:2373
 #, kde-format
 msgid "Opening Project..."
-msgstr "Estase a abrir un proxecto…"
+msgstr "Abrindo un proxecto…"
 
 #: kiledocmanager.cpp:2376
 #, kde-format
@@ -7705,8 +7706,8 @@ msgid ""
 "Could not find the LaTeX documentation at %1; please set the correct path in "
 "Settings->Configure Kile->Help."
 msgstr ""
-"Non se puido atopar a documentación de LaTeX en %1; escolla a ruta correcta "
-"en Configuración->Configurar Kile->Axuda."
+"Non foi posíbel atopar a documentación de LaTeX en %1; escolla a ruta "
+"correcta en Configuración->Configurar Kile->Axuda."
 
 #: kilehelp.cpp:166
 #, kde-format
@@ -7780,7 +7781,7 @@ msgstr "finalizado abruptamente"
 #: kilelauncher.cpp:307
 #, kde-format
 msgid "failed to start"
-msgstr "non se puido iniciar"
+msgstr "non foi posíbel iniciar"
 
 #: kilelauncher.cpp:310
 #, kde-format
@@ -8360,7 +8361,7 @@ msgstr ""
 "tabulador, incluíndo  a parada de tabulador 0\n"
 "\\kill Coloca as paradas de tabulador sen producir texto.\n"
 "\\a  Nun ambiente «tabbing», as ordes \\=, \\' e \\` non producen acentos do "
-"modo normal. No seu lugar, utilízanse as ordes \\a=, \\a' e \\a`."
+"modo normal. No seu lugar, úsanse as ordes \\a=, \\a' e \\a`."
 
 #: kilestdactions.cpp:80
 #, kde-format
@@ -8632,7 +8633,7 @@ msgstr ""
 #: kilestdactions.cpp:98 widgets/structurewidget.cpp:764
 #, kde-format
 msgid "Sectioning"
-msgstr "Estase a seccionar"
+msgstr "Seccionando"
 
 #: kilestdactions.cpp:100
 #, kde-format
@@ -10342,14 +10343,14 @@ msgid ""
 "Unable to find %1 or %2; if you are trying to view some other HTML file, go "
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
 msgstr ""
-"Non se pode atopar %1 nin %2; se está a intentar ver algún outro ficheiro "
+"Non é posíbel atopar %1 nin %2; se está a intentar ver algún outro ficheiro "
 "HTML, vaia a Configuración → Configurar Kile → Ferramentas → Ver HTML → "
 "Avanzado."
 
 #: kiletool.cpp:58
 #, kde-format
 msgid "Could not change to the folder %1."
-msgstr "Non se puido cambiar para o cartafol %1."
+msgstr "Non foi posíbel cambiar para o cartafol %1."
 
 #: kiletool.cpp:59
 #, kde-format
@@ -10384,13 +10385,13 @@ msgid ""
 "Could not determine on which file to run %1, because there is no active "
 "document."
 msgstr ""
-"Non se puido determinar en que ficheiro executar %1 porque non hai ningún "
+"Non foi posíbel determinar en que ficheiro executar %1 porque non hai ningún "
 "documento activo."
 
 #: kiletool.cpp:63
 #, kde-format
 msgid "Could not determine the master file for this document."
-msgstr "Non se puido determinar o ficheiro mestre para este documento."
+msgstr "Non foi posíbel determinar o ficheiro mestre para este documento."
 
 #: kiletool.cpp:64
 #, kde-format
@@ -10463,7 +10464,7 @@ msgstr "Interrompido"
 #, kde-format
 msgid "Cannot find the tool \"%1\" in the configuration database."
 msgstr ""
-"Non se pode atopar a ferramenta «»%1» na base de datos da configuración."
+"Non é posíbel atopar a ferramenta «»%1» na base de datos da configuración."
 
 #: kiletoolmanager.cpp:742
 #, kde-format
@@ -10859,7 +10860,7 @@ msgstr "Amosar unha lista ordenada dos documentos abertos."
 #: kileviewmanager.cpp:375
 #, kde-format
 msgid "Could not create an editor view."
-msgstr "Non se puido crear unha vista do editor."
+msgstr "Non foi posíbel crear unha vista do editor."
 
 #: kileviewmanager.cpp:375
 #, kde-format
@@ -10909,7 +10910,7 @@ msgstr "Gardar o documento compilado…"
 #: livepreview.cpp:910
 #, kde-format
 msgid "Some documents could not be saved correctly"
-msgstr "Non se puido gardar correctamente algúns documentos"
+msgstr "Non foi posíbel gardar correctamente algúns documentos"
 
 #: livepreview.cpp:916
 #, kde-format
@@ -10931,7 +10932,7 @@ msgstr ""
 #: livepreview.cpp:946
 #, kde-format
 msgid "Failed to create the subdirectory structure"
-msgstr "Non se puido crear a estrutura do subdirectorio"
+msgstr "Non foi posíbel crear a estrutura do subdirectorio"
 
 #: livepreview.cpp:1406
 #, kde-format
@@ -11188,7 +11189,7 @@ msgid ""
 "Could not run QuickPreview:\n"
 "unknown task '%1'"
 msgstr ""
-"Non se puido executar a vista previa rápida:\n"
+"Non foi posíbel executar a vista previa rápida:\n"
 "tarefa descoñecida «%1»"
 
 #: quickpreview.cpp:201 widgets/previewwidget.cpp:129
@@ -11208,22 +11209,22 @@ msgstr "Non hai nada para compilar e previsualizar."
 #: widgets/previewwidget.cpp:181
 #, kde-format
 msgid "Could not run '%1' for QuickPreview."
-msgstr "Non se puido executar «%1» para a vista previa rápida."
+msgstr "Non foi posíbel executar «%1» para a vista previa rápida."
 
 #: quickpreview.cpp:321
 #, kde-format
 msgid "Could not determine the main document."
-msgstr "Non se puido determinar o documento principal."
+msgstr "Non foi posíbel determinar o documento principal."
 
 #: quickpreview.cpp:328
 #, kde-format
 msgid "Could not read the preamble."
-msgstr "Non se puido ler o preámbulo."
+msgstr "Non foi posíbel ler o preámbulo."
 
 #: quickpreview.cpp:367
 #, kde-format
 msgid "Could not find a '\\begin{document}' command."
-msgstr "Non se puido atopar unha orde «\\begin{document}»."
+msgstr "Non foi posíbel atopar unha orde «\\begin{document}»."
 
 #: quickpreview.cpp:385 widgets/previewwidget.cpp:238
 #, kde-format
@@ -11305,7 +11306,7 @@ msgstr "O usuario cancelou esta acción."
 #: scripting/script.cpp:204
 #, kde-format
 msgid "Unable to find '%1'"
-msgstr "Non se pode atopar «%1»"
+msgstr "Non é posíbel atopar «%1»"
 
 #: scripting/script.cpp:239 scripting/script.cpp:242
 #, kde-format
@@ -11343,7 +11344,7 @@ msgstr "Erro de versión"
 #: scriptmanager.cpp:106
 #, kde-format
 msgid "Cannot start the script: no view available"
-msgstr "Non se pode iniciar o guión: non hai vista dispoñíbel"
+msgstr "Non é posíbel iniciar o guión: non hai vista dispoñíbel"
 
 #: scriptmanager.cpp:106
 #, kde-format
@@ -11362,7 +11363,7 @@ msgid ""
 "Check whether you have a folder named \".kde\" with write permissions in "
 "your home folder."
 msgstr ""
-"Non se puido atopar un cartafol no que gardar %1.\n"
+"Non foi posíbel atopar un cartafol no que gardar %1.\n"
 "Comprobe que teña un cartafol chamado «.kde», con permisos de escritura, no "
 "cartafol persoal."
 
@@ -11616,13 +11617,13 @@ msgstr "Pechar os ambientes"
 #: widgets/configcheckerwidget.ui:26
 #, kde-format
 msgid "Performing System Check"
-msgstr "Estase a facer unha comprobación do sistema"
+msgstr "Facendo unha comprobación do sistema"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbChecking)
 #: widgets/configcheckerwidget.ui:32
 #, kde-format
 msgid "Checking if your TeX system is installed correctly..."
-msgstr "Estase a comprobar se o sistema TeX está correctamente instalado…"
+msgstr "Comprobando se o sistema TeX está correctamente instalado…"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_grpResults)
 #: widgets/configcheckerwidget.ui:55
@@ -12815,7 +12816,7 @@ msgstr "CORRIXIR"
 #: widgets/structurewidget.cpp:506
 #, kde-format
 msgid "Cannot create a list view item: no parent found."
-msgstr "Non se pode crear o elemento da vista en lista: non se atopou o pai."
+msgstr "Non é posíbel crear o elemento da vista en lista: non se atopou o pai."
 
 #: widgets/structurewidget.cpp:687
 #, kde-format
@@ -12847,15 +12848,15 @@ msgid ""
 "this error was: %1.\n"
 "Do you want to create this file?"
 msgstr ""
-"Non se pode atopar o ficheiro incluído. O ficheiro non existe, non é lexíbel "
-"ou Kile non pode determinar a ruta correcta para el. O ficheiro que produciu "
-"este erro é: %1.\n"
+"Non é posíbel atopar o ficheiro incluído. O ficheiro non existe, non é "
+"lexíbel ou Kile non pode determinar a ruta correcta para el. O ficheiro que "
+"produciu este erro é: %1.\n"
 "Quere crear este ficheiro?"
 
 #: widgets/structurewidget.cpp:734
 #, kde-format
 msgid "Cannot Find File"
-msgstr "Non se pode atopar o ficheiro"
+msgstr "Non é posíbel atopar o ficheiro"
 
 #: widgets/structurewidget.cpp:766
 #, kde-format
@@ -12948,7 +12949,7 @@ msgstr "Comentario: %1"
 #: widgets/symbolviewconfigwidget.ui:28
 #, kde-format
 msgid "Most Frequently Used Symbols"
-msgstr "Os símbolos utilizados máis a miúdo"
+msgstr "Os símbolos usados máis a miúdo"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_displayMFUS)
 #: widgets/symbolviewconfigwidget.ui:37
@@ -13059,7 +13060,7 @@ msgstr "Precisa polo menos unha configuración para cada utilidade."
 #: widgets/toolconfigwidget.cpp:479
 #, kde-format
 msgid "Cannot Remove Configuration"
-msgstr "Non se pode retirar a configuración"
+msgstr "Non é posíbel retirar a configuración"
 
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format

@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-09-25 00:43+0000\n"
+"POT-Creation-Date: 2023-10-02 00:43+0000\n"
 "PO-Revision-Date: 2023-01-02 17:18+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
 "Language-Team: fr\n"
@@ -398,7 +398,7 @@ msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:688 kile.cpp:1061
+#: dialogs/configurationdialog.cpp:70 kile.cpp:690 kile.cpp:1063
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -469,7 +469,7 @@ msgstr "Complètement du code"
 msgid "Quick Preview"
 msgstr "Prévisualisation rapide"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:738
+#: dialogs/configurationdialog.cpp:251 kile.cpp:740
 #, kde-format
 msgid "Preview"
 msgstr "Prévisualisation"
@@ -544,7 +544,7 @@ msgstr "Nom : "
 msgid "Directory:"
 msgstr "Dossier :"
 
-#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:69
+#: dialogs/findfilesdialog.cpp:118 dialogs/texdocumentationdialog.cpp:71
 #, kde-format
 msgid "Search"
 msgstr "Recherche"
@@ -579,7 +579,7 @@ msgstr "Commande[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:983
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:985
 #, kde-format
 msgid "Environment"
 msgstr "Environnement"
@@ -624,7 +624,7 @@ msgid "Scan directories recursively"
 msgstr "Examiner les sous-dossiers"
 
 #: dialogs/findfilesdialog.cpp:215 dialogs/findfilesdialog.cpp:584
-#: dialogs/texdocumentationdialog.cpp:78
+#: dialogs/texdocumentationdialog.cpp:80
 #, kde-format
 msgid "&Search"
 msgstr "&Rechercher"
@@ -1309,7 +1309,7 @@ msgstr "AMS-Mathématiques"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1016 kileui.rc:569
+#: kile.cpp:1018 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Mathématiques"
@@ -1319,7 +1319,7 @@ msgstr "Mathématiques"
 msgid "Lists"
 msgstr "Listes"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1012 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1014 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "Tableau"
@@ -1329,7 +1329,7 @@ msgstr "Tableau"
 msgid "Verbatim"
 msgstr "Verbatim"
 
-#: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:329
+#: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:332
 #, kde-format
 msgid "Labels"
 msgstr "Références croisées"
@@ -1354,13 +1354,13 @@ msgstr "Citations"
 msgid "Includes"
 msgstr "Inclue"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1063
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1065
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "Environnements LaTeX"
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
-#: kile.cpp:1062
+#: kile.cpp:1064
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "Commandes LaTeX"
@@ -1772,22 +1772,28 @@ msgstr ""
 msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Voulez-vous vraiment remplacer le modèle « %1 » ? "
 
-#: dialogs/managetemplatesdialog.cpp:298
+#: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
+#, fuzzy, kde-format
+#| msgid "Remove Template"
+msgid "Replace template"
+msgstr "Supprimer un modèle"
+
+#: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
 msgid "Failed to create the template."
 msgstr "Impossible de créer le modèle."
 
-#: dialogs/managetemplatesdialog.cpp:308
+#: dialogs/managetemplatesdialog.cpp:310
 #, kde-format
 msgid "Please select a template that should be removed."
 msgstr "Veuillez choisir un modèle à enlever."
 
-#: dialogs/managetemplatesdialog.cpp:317
+#: dialogs/managetemplatesdialog.cpp:319
 #, kde-format
 msgid "You are about to remove the template \"%1\"; are you sure?"
 msgstr "Voulez-vous vraiment supprimer le modèle « %1 » ? "
 
-#: dialogs/managetemplatesdialog.cpp:322
+#: dialogs/managetemplatesdialog.cpp:326
 #, kde-format
 msgid "The template could not be removed."
 msgstr "Impossible d'enlever le modèle"
@@ -2217,7 +2223,7 @@ msgstr "Une liste de pages séparées par des virgules : 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
 #: dialogs/pdf-wizard/pdfdialog.cpp:797 dialogs/pdf-wizard/pdfdialog.cpp:802
-#: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:501
+#: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:503
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
 #: dialogs/usermenu/usermenudialog_base.ui:607
@@ -2325,7 +2331,7 @@ msgstr ""
 "propriétés et permissions n'est pas possible.</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:917 dialogs/pdf-wizard/pdfdialog.cpp:1705
-#: dialogs/pdf-wizard/pdfdialog.cpp:1773 kile.cpp:1018
+#: dialogs/pdf-wizard/pdfdialog.cpp:1775 kile.cpp:1020
 #, kde-format
 msgid "PDF Tools"
 msgstr "Outils PDF"
@@ -2458,41 +2464,41 @@ msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "Le fichier « %1 » existe déjà. Voulez-vous l'écraser ?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1735 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1737 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "Aucun fichier d'entrée spécifié."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1742
+#: dialogs/pdf-wizard/pdfdialog.cpp:1744
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr ""
 "Format de fichier inconnu : seuls les « pdf » sont acceptés comme fichiers "
 "d'entrée."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1747 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1749 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "Ce fichier d'entrée n'existe pas."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1759
+#: dialogs/pdf-wizard/pdfdialog.cpp:1761
 #, kde-format
 msgid "No password is given."
 msgstr "Aucun mot de passe n'est spécifié."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1764
+#: dialogs/pdf-wizard/pdfdialog.cpp:1766
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "Le mot de passe doit avoir une longueur d'au moins 6 caractères."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:515
-#: dialogs/texdocumentationdialog.cpp:431
+#: dialogs/pdf-wizard/pdfdialog.cpp:1775 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1773 dialogs/postscriptdialog.cpp:515
-#: dialogs/texdocumentationdialog.cpp:432
+#: dialogs/pdf-wizard/pdfdialog.cpp:1775 dialogs/postscriptdialog.cpp:517
+#: dialogs/texdocumentationdialog.cpp:438
 #, kde-format
 msgid "</center>"
 msgstr "</center>"
@@ -2615,7 +2621,7 @@ msgid "Background:"
 msgstr "Fond :"
 
 #. i18n: ectx: attribute (title), widget (QWidget, m_tbProperties)
-#: dialogs/pdf-wizard/pdfdialog_base.ui:370 dialogs/projectdialogs.cpp:429
+#: dialogs/pdf-wizard/pdfdialog_base.ui:370 dialogs/projectdialogs.cpp:432
 #: widgets/previewconfigwidget.cpp:118
 #, kde-format
 msgid "Properties"
@@ -2911,12 +2917,12 @@ msgstr ""
 "Format de fichier inconnu : seul « ps » est accepté comme format de fichier "
 "de sortie."
 
-#: dialogs/postscriptdialog.cpp:494
+#: dialogs/postscriptdialog.cpp:496
 #, kde-format
 msgid "Copies:"
 msgstr "Copies :"
 
-#: dialogs/postscriptdialog.cpp:515 kile.cpp:1017
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1019
 #, kde-format
 msgid "Postscript Tools"
 msgstr "Outils PostScript"
@@ -3108,56 +3114,56 @@ msgstr ""
 msgid "No Project Name Given"
 msgstr "Nom de projet non spécifié"
 
-#: dialogs/projectdialogs.cpp:338 kileviewmanager.cpp:1048
+#: dialogs/projectdialogs.cpp:340 kileviewmanager.cpp:1048
 #, kde-format
 msgid "Untitled"
 msgstr "Sans nom"
 
-#: dialogs/projectdialogs.cpp:349
+#: dialogs/projectdialogs.cpp:351
 #, kde-format
 msgid "Please enter the folder where the project file should be saved to."
 msgstr ""
 "Veuillez indiquer le dossier dans lequel le fichier de projet devrait être "
 "enregistré."
 
-#: dialogs/projectdialogs.cpp:349
+#: dialogs/projectdialogs.cpp:351
 #, kde-format
 msgid "Empty Location"
 msgstr "Emplacement non spécifié"
 
-#: dialogs/projectdialogs.cpp:354
+#: dialogs/projectdialogs.cpp:356
 #, kde-format
 msgid "Please enter an absolute path to the project folder."
 msgstr "Veuillez indiquer un emplacement absolu vers le dossier du projet."
 
-#: dialogs/projectdialogs.cpp:354
+#: dialogs/projectdialogs.cpp:356
 #, kde-format
 msgid "Invalid Location"
 msgstr "Emplacement non valable"
 
-#: dialogs/projectdialogs.cpp:359
+#: dialogs/projectdialogs.cpp:361
 #, kde-format
 msgid ""
 "Please enter a filename for the file that should be added to this project."
 msgstr ""
 "Veuillez saisir un nom pour le fichier qui doit être ajouté à ce projet."
 
-#: dialogs/projectdialogs.cpp:359
+#: dialogs/projectdialogs.cpp:361
 #, kde-format
 msgid "No File Name Given"
 msgstr "Nom de fichier non spécifié"
 
-#: dialogs/projectdialogs.cpp:372
+#: dialogs/projectdialogs.cpp:374
 #, kde-format
 msgid "The project file exists already. Please choose another name."
 msgstr "Le fichier de projet existe déjà. Veuillez choisir un autre nom."
 
-#: dialogs/projectdialogs.cpp:372 dialogs/projectdialogs.cpp:378
+#: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
 msgid "Project File Already Exists"
 msgstr "Le fichier de projet existe déjà."
 
-#: dialogs/projectdialogs.cpp:378
+#: dialogs/projectdialogs.cpp:380
 #, kde-format
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
@@ -3165,55 +3171,55 @@ msgstr ""
 "Le fichier de configuration de l'interface graphique existe déjà. Veuillez "
 "choisir un autre nom de projet."
 
-#: dialogs/projectdialogs.cpp:393 documentinfo.cpp:133
+#: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
 msgid "File Already Exists"
 msgstr "Le fichier existe déjà"
 
-#: dialogs/projectdialogs.cpp:393
+#: dialogs/projectdialogs.cpp:395
 #, kde-format
 msgid "The file \"%1\" already exists, overwrite it?"
 msgstr "Le fichier « %1 » existe déjà. Voulez-vous l'effacer ?"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox5)
-#: dialogs/projectdialogs.cpp:419 widgets/generalconfigwidget.ui:32
+#: dialogs/projectdialogs.cpp:422 widgets/generalconfigwidget.ui:32
 #, kde-format
 msgid "Project Options"
 msgstr "Options du projet"
 
-#: dialogs/projectdialogs.cpp:420
+#: dialogs/projectdialogs.cpp:423
 #, kde-format
 msgid "(use global setting)"
 msgstr "(utiliser les préférences générales)"
 
-#: dialogs/projectdialogs.cpp:435
+#: dialogs/projectdialogs.cpp:438
 #, kde-format
 msgid "Select the default master document. Leave empty for auto detection."
 msgstr ""
 "Sélectionne le document maître par défaut. Veuillez laisser ce champ vide si "
 "vous souhaitez que Kile le détecte automatiquement."
 
-#: dialogs/projectdialogs.cpp:440
+#: dialogs/projectdialogs.cpp:443
 #, kde-format
 msgid "&Master document:"
 msgstr "Document &maître :"
 
-#: dialogs/projectdialogs.cpp:446
+#: dialogs/projectdialogs.cpp:449
 #, kde-format
 msgid "(auto-detect)"
 msgstr "(détection automatique)"
 
-#: dialogs/projectdialogs.cpp:463
+#: dialogs/projectdialogs.cpp:466
 #, kde-format
 msgid "&QuickBuild configuration:"
 msgstr "Configuration de &QuickBuild :"
 
-#: dialogs/projectdialogs.cpp:482
+#: dialogs/projectdialogs.cpp:485
 #, kde-format
 msgid "&MakeIndex options"
 msgstr "Options de génération de l'&index"
 
-#: dialogs/projectdialogs.cpp:596
+#: dialogs/projectdialogs.cpp:599
 #, kde-format
 msgid ""
 "<p>Could not create the project folder \"\n"
@@ -3223,7 +3229,7 @@ msgstr ""
 "%1 »</p>.<p>Veuillez vérifiez que vous disposez bien des droits d'écriture.</"
 "p>"
 
-#: dialogs/projectdialogs.cpp:603
+#: dialogs/projectdialogs.cpp:606
 #, kde-format
 msgid ""
 "<p>The project folder \"(%1)\" is not writable.</p><p>Please check the "
@@ -4696,7 +4702,7 @@ msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Colle un tableau placé dans le presse-papiers dans cet assistant."
 
 #: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:681
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4706,7 +4712,7 @@ msgstr ""
 "vraiment changer les dimensions ? "
 
 #: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:681
 #, kde-format
 msgid "Resizing table"
 msgstr "Redimensionnement du tableau"
@@ -4768,18 +4774,18 @@ msgstr ""
 msgid "Empty Clipboard"
 msgstr "Presse-papiers vide"
 
-#: dialogs/texdocumentationdialog.cpp:57 kile.cpp:1065
+#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1067
 #, kde-format
 msgid "Documentation Browser"
 msgstr "Afficheur de documentation"
 
-#: dialogs/texdocumentationdialog.cpp:66 dialogs/texdocumentationdialog.cpp:381
+#: dialogs/texdocumentationdialog.cpp:68 dialogs/texdocumentationdialog.cpp:387
 #: kilestdactions.cpp:43
 #, kde-format
 msgid "Table of Contents"
 msgstr "Table des matières"
 
-#: dialogs/texdocumentationdialog.cpp:83
+#: dialogs/texdocumentationdialog.cpp:85
 #, kde-format
 msgid ""
 "<p>A list of the documentation provided by the installed TeX distribution.</"
@@ -4792,7 +4798,7 @@ msgstr ""
 "double cliquant sur un élément ou en appuyant sur la barre d'espace.</p> "
 "<p>Les éléments grisés ne sont pas installés.</p>"
 
-#: dialogs/texdocumentationdialog.cpp:86
+#: dialogs/texdocumentationdialog.cpp:88
 #, kde-format
 msgid ""
 "You can choose a keyword to show only document files that are related to "
@@ -4801,53 +4807,53 @@ msgstr ""
 "Vous pouvez choisir un mot clé pour n'afficher que les documents relatifs à "
 "ce mot clé."
 
-#: dialogs/texdocumentationdialog.cpp:87
+#: dialogs/texdocumentationdialog.cpp:89
 #, kde-format
 msgid "Start the search for the chosen keyword."
 msgstr "Démarrer la recherche correspondant au mot clé."
 
-#: dialogs/texdocumentationdialog.cpp:89
+#: dialogs/texdocumentationdialog.cpp:91
 #, kde-format
 msgid "Reset list to all available documentation files."
 msgstr ""
 "Réinitialiser la liste de toutes les fichiers de documentation disponibles."
 
-#: dialogs/texdocumentationdialog.cpp:90
+#: dialogs/texdocumentationdialog.cpp:92
 #, kde-format
 msgid "Cancel &Search"
 msgstr "&Annuler la recherche"
 
-#: dialogs/texdocumentationdialog.cpp:137
+#: dialogs/texdocumentationdialog.cpp:139
 #, kde-format
 msgid "Could not read 'texdoctk.dat'."
 msgstr "Impossible de lire « texdoctk.dat »."
 
-#: dialogs/texdocumentationdialog.cpp:300
+#: dialogs/texdocumentationdialog.cpp:302
 #, kde-format
 msgid "No KDE service found for this file."
 msgstr "Aucun service KDE trouvé pour ce type de fichier."
 
-#: dialogs/texdocumentationdialog.cpp:328
+#: dialogs/texdocumentationdialog.cpp:334
 #, kde-format
 msgid "Could not find the documentation file '%1'"
 msgstr "Impossible de trouver le fichier de documentation « %1 »"
 
-#: dialogs/texdocumentationdialog.cpp:344
+#: dialogs/texdocumentationdialog.cpp:350
 #, kde-format
 msgid "No keyword given."
 msgstr "Aucun mot clé spécifié."
 
-#: dialogs/texdocumentationdialog.cpp:370
+#: dialogs/texdocumentationdialog.cpp:376
 #, kde-format
 msgid "Search results for keyword '%1'"
 msgstr "Résultats de la recherche pour le mot clé « %1 »"
 
-#: dialogs/texdocumentationdialog.cpp:373
+#: dialogs/texdocumentationdialog.cpp:379
 #, kde-format
 msgid "No documents found for keyword '%1'."
 msgstr "Aucun document trouvé pour le mot clé « %1 »."
 
-#: dialogs/texdocumentationdialog.cpp:431
+#: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid ""
 "Could not determine the search paths of TexLive/teTeX or file 'texdoctk.dat'."
@@ -4857,12 +4863,12 @@ msgstr ""
 "fichier « texdoctk.dat ».<br/>Malheureusement, Kile ne peut afficher aucune "
 "information utile."
 
-#: dialogs/texdocumentationdialog.cpp:432
+#: dialogs/texdocumentationdialog.cpp:438
 #, kde-format
 msgid "TexDoc Dialog"
 msgstr "Boîte de dialogue « TeXDoc »"
 
-#: dialogs/texdocumentationdialog.cpp:444
+#: dialogs/texdocumentationdialog.cpp:450
 #, kde-format
 msgid ""
 "Could not determine the installation path of your TeX distribution or find "
@@ -4879,7 +4885,7 @@ msgid "Configure User Help"
 msgstr "Configurer l'aide utilisateur"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1077
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1079
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -4964,12 +4970,12 @@ msgstr ""
 "Sites web (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf "
 "*.dvi *.epub);;Tous les fichiers (*)"
 
-#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2146
+#: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2150
 #, kde-format
 msgid "Select File"
 msgstr "Sélectionner un fichier"
 
-#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:295
+#: dialogs/userhelpdialog.cpp:441 dialogs/usermenu/usermenudialog.cpp:299
 #: dialogs/usermenu/usermenutree.cpp:245 usermenu/usermenu.cpp:338
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
@@ -5112,7 +5118,7 @@ msgid "UserMenu Dialog"
 msgstr "Boîte de dialogue du menu utilisateur"
 
 #: dialogs/usermenu/usermenudialog.cpp:260
-#: dialogs/usermenu/usermenudialog.cpp:278
+#: dialogs/usermenu/usermenudialog.cpp:280
 #, kde-format
 msgid ""
 "Current menu tree was modified, but not saved.\n"
@@ -5121,25 +5127,31 @@ msgstr ""
 "L'arborescence du menu actuel a été modifiée, mais non enregistrée.\n"
 "Abandonner cette arborescence ?"
 
-#: dialogs/usermenu/usermenudialog.cpp:284
-#: dialogs/usermenu/usermenudialog.cpp:385 usermenu/usermenu.cpp:330
+#: dialogs/usermenu/usermenudialog.cpp:261
+#: dialogs/usermenu/usermenudialog.cpp:281
+#, kde-format
+msgid "Discard tree"
+msgstr ""
+
+#: dialogs/usermenu/usermenudialog.cpp:288
+#: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
 #: widgets/usermenuconfigwidget.cpp:62
 #, kde-format
 msgid "User Menu Files (*.xml)"
 msgstr "Fichiers de menu utilisateur (*.xml)"
 
-#: dialogs/usermenu/usermenudialog.cpp:286 usermenu/usermenu.cpp:332
+#: dialogs/usermenu/usermenudialog.cpp:290 usermenu/usermenu.cpp:332
 #: widgets/usermenuconfigwidget.cpp:64
 #, kde-format
 msgid "Select Menu File"
 msgstr "Sélectionner un fichier de menu"
 
-#: dialogs/usermenu/usermenudialog.cpp:387
+#: dialogs/usermenu/usermenudialog.cpp:391
 #, kde-format
 msgid "Save Menu File"
 msgstr "Enregistrement du fichier de menu"
 
-#: dialogs/usermenu/usermenudialog.cpp:393
+#: dialogs/usermenu/usermenudialog.cpp:397
 #, kde-format
 msgid ""
 "File '%1' does already exist.\n"
@@ -5148,7 +5160,13 @@ msgstr ""
 "Le fichier « %1 » existe déjà.\n"
 "Voulez-vous l'écraser ?"
 
-#: dialogs/usermenu/usermenudialog.cpp:406
+#: dialogs/usermenu/usermenudialog.cpp:398
+#, fuzzy, kde-format
+#| msgid "Overwrite File?"
+msgid "Overwrite file"
+msgstr "Écraser le fichier ?"
+
+#: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
 msgid ""
 "The menu tree contains some errors and installing this file may lead to "
@@ -5159,18 +5177,24 @@ msgstr ""
 "mener à un résultat imprévisible.\n"
 "Voulez-vous vraiment enregistrer ce ficher ?"
 
-#: dialogs/usermenu/usermenudialog.cpp:560
+#: dialogs/usermenu/usermenudialog.cpp:413
+#, fuzzy, kde-format
+#| msgid "Menutree Error"
+msgid "Menu tree errors"
+msgstr "Erreur dans l'arborescence de menu"
+
+#: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
 msgid "Menutype"
 msgstr "Type de menu"
 
-#: dialogs/usermenu/usermenudialog.cpp:560
+#: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
 msgid "Please choose a menutype"
 msgstr "Veuillez choisir un type de menu"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
-#: dialogs/usermenu/usermenudialog.cpp:972
+#: dialogs/usermenu/usermenudialog.cpp:980
 #: dialogs/usermenu/usermenudialog_base.ui:485
 #, kde-format
 msgid "Choose"
@@ -5585,47 +5609,53 @@ msgstr "Veuillez saisir un label pour cet élément :"
 msgid "Do you really want to clear the complete menutree?"
 msgstr "Voulez-vous vraiment supprimer l'arborescence de menu complète ?"
 
-#: dialogs/usermenu/usermenutree.cpp:940
+#: dialogs/usermenu/usermenutree.cpp:925
+#, fuzzy, kde-format
+#| msgid "Clear Text"
+msgid "Clear menutree"
+msgstr "Effacer le texte"
+
+#: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
 msgid "This menuitem has no title."
 msgstr "Cet élément de menu n'a pas de titre."
 
-#: dialogs/usermenu/usermenutree.cpp:944
+#: dialogs/usermenu/usermenutree.cpp:946
 #, kde-format
 msgid "This submenu item is useless without children."
 msgstr "Cet élément de sous-menu est inutile sans élément enfant."
 
-#: dialogs/usermenu/usermenutree.cpp:948
+#: dialogs/usermenu/usermenutree.cpp:950
 #, kde-format
 msgid "This item offers no text to insert."
 msgstr "Cet élément n'insère aucun texte."
 
-#: dialogs/usermenu/usermenutree.cpp:952
+#: dialogs/usermenu/usermenutree.cpp:954
 #, kde-format
 msgid "No file is given for this task."
 msgstr "Aucun fichier fourni pour cette tâche."
 
-#: dialogs/usermenu/usermenutree.cpp:956
+#: dialogs/usermenu/usermenutree.cpp:958
 #, kde-format
 msgid "The file for this item does not exist."
 msgstr "Le fichier pour cet élément n'existe pas."
 
-#: dialogs/usermenu/usermenutree.cpp:960
+#: dialogs/usermenu/usermenutree.cpp:962
 #, kde-format
 msgid "The file for this item is not executable."
 msgstr "Le fichier pour cet élément n'est pas exécutable."
 
-#: dialogs/usermenu/usermenutree.cpp:963
+#: dialogs/usermenu/usermenutree.cpp:965
 #, kde-format
 msgid "<p><strong>Error:</strong>"
 msgstr "<p><strong>Erreur : </strong>"
 
-#: dialogs/usermenu/usermenutree.cpp:975
+#: dialogs/usermenu/usermenutree.cpp:977
 #, kde-format
 msgid "Menutree Error"
 msgstr "Erreur dans l'arborescence de menu"
 
-#: dialogs/usermenu/usermenutree.cpp:1026
+#: dialogs/usermenu/usermenutree.cpp:1028
 #, kde-format
 msgid "Name"
 msgstr "Nom"
@@ -5881,7 +5911,7 @@ msgstr ""
 msgid "User Tools Detected"
 msgstr "Outils utilisateurs détectés"
 
-#: kile.cpp:395
+#: kile.cpp:396
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5893,93 +5923,93 @@ msgstr ""
 "changements que vous avez effectué.</p><p>Voulez-vous réinitialiser les "
 "outils maintenant ?</p>"
 
-#: kile.cpp:398
+#: kile.cpp:399
 #, kde-format
 msgid "Tools need to be reset"
 msgstr "Les outils doivent être réinitialisés"
 
-#: kile.cpp:473
+#: kile.cpp:475
 #, kde-format
 msgid "Open File"
 msgstr "Ouvrir un fichier"
 
-#: kile.cpp:493
+#: kile.cpp:495
 #, kde-format
 msgid "Files and Projects"
 msgstr "Fichiers et projets"
 
-#: kile.cpp:558 widgets/structurewidget.cpp:139
+#: kile.cpp:560 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "Structure"
 
-#: kile.cpp:581
+#: kile.cpp:583
 #, kde-format
 msgid "Scripts"
 msgstr "Scripts"
 
-#: kile.cpp:620
+#: kile.cpp:622
 #, kde-format
 msgid "Symbols"
 msgstr "Symboles"
 
-#: kile.cpp:623
+#: kile.cpp:625
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "Les plus souvent utilisés"
 
-#: kile.cpp:629
+#: kile.cpp:631
 #, kde-format
 msgid "Relation"
 msgstr "Symboles de relation"
 
-#: kile.cpp:634
+#: kile.cpp:636
 #, kde-format
 msgid "Operators"
 msgstr "Opérateurs"
 
-#: kile.cpp:639
+#: kile.cpp:641
 #, kde-format
 msgid "Arrows"
 msgstr "Flèches"
 
-#: kile.cpp:644
+#: kile.cpp:646
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "Symboles mathématiques divers"
 
-#: kile.cpp:649
+#: kile.cpp:651
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "Texte divers"
 
-#: kile.cpp:654
+#: kile.cpp:656
 #, kde-format
 msgid "Delimiters"
 msgstr "Délimiteurs"
 
-#: kile.cpp:659
+#: kile.cpp:661
 #, kde-format
 msgid "Greek"
 msgstr "Lettres grecques"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:664 widgets/latexconfigwidget.ui:133
+#: kile.cpp:666 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "Caractères spéciaux"
 
-#: kile.cpp:669
+#: kile.cpp:671
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "Caractères cyrilliques"
 
-#: kile.cpp:674
+#: kile.cpp:676
 #, kde-format
 msgid "User Defined"
 msgstr "Personnalisé"
 
-#: kile.cpp:679
+#: kile.cpp:681
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5992,462 +6022,462 @@ msgstr ""
 "correspondante. Vous pouvez également appuyer sur « Maj » pour l'insérer en "
 "mode mathématique, et sur « Ctrl » pour l'insérer entre accolades.</p>"
 
-#: kile.cpp:699 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:701 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "Abréviation"
 
-#: kile.cpp:724
+#: kile.cpp:726
 #, kde-format
 msgid "Log and Messages"
 msgstr "Journal et messages"
 
-#: kile.cpp:730
+#: kile.cpp:732
 #, kde-format
 msgid "Output"
 msgstr "Sortie"
 
-#: kile.cpp:733
+#: kile.cpp:735
 #, kde-format
 msgid "Konsole"
 msgstr "Konsole"
 
-#: kile.cpp:835
+#: kile.cpp:837
 #, kde-format
 msgid "Save All"
 msgstr "Tout enregistrer"
 
-#: kile.cpp:837
+#: kile.cpp:839
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "Créer un modèle à partir du document..."
 
-#: kile.cpp:838
+#: kile.cpp:840
 #, kde-format
 msgid "&Remove Template..."
 msgstr "&Supprimer un modèle"
 
-#: kile.cpp:840 kile.cpp:970
+#: kile.cpp:842 kile.cpp:972
 #, kde-format
 msgid "Close All"
 msgstr "Tout fermer"
 
-#: kile.cpp:841
+#: kile.cpp:843
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "Fermer tous les &autres"
 
-#: kile.cpp:842
+#: kile.cpp:844
 #, kde-format
 msgid "S&tatistics"
 msgstr "S&tatistiques"
 
-#: kile.cpp:843
+#: kile.cpp:845
 #, kde-format
 msgid "&ASCII"
 msgstr "&ASCII"
 
-#: kile.cpp:844
+#: kile.cpp:846
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Latin-&1 (iso 8859-1)"
 
-#: kile.cpp:845
+#: kile.cpp:847
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Latin-&2 (iso 8859-2)"
 
-#: kile.cpp:846
+#: kile.cpp:848
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Latin-&3 (iso 8859-3)"
 
-#: kile.cpp:847
+#: kile.cpp:849
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Latin-&4 (iso 8859-4)"
 
-#: kile.cpp:848
+#: kile.cpp:850
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Latin-&5 (iso 8859-5)"
 
-#: kile.cpp:849
+#: kile.cpp:851
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Latin-&9 (iso 8859-9)"
 
-#: kile.cpp:850
+#: kile.cpp:852
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "Europe &centrale (cp-1250)"
 
-#: kile.cpp:851
+#: kile.cpp:853
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "Europe &occidentale (cp-1252)"
 
-#: kile.cpp:854
+#: kile.cpp:856
 #, kde-format
 msgid "Move Tab Left"
 msgstr "Déplacer l'onglet à gauche"
 
-#: kile.cpp:855
+#: kile.cpp:857
 #, kde-format
 msgid "Move Tab Right"
 msgstr "Déplacer l'onglet à droite"
 
-#: kile.cpp:857
+#: kile.cpp:859
 #, kde-format
 msgid "Next section"
 msgstr "à la section suivante"
 
-#: kile.cpp:859
+#: kile.cpp:861
 #, kde-format
 msgid "Prev section"
 msgstr "à la section précédente"
 
-#: kile.cpp:861
+#: kile.cpp:863
 #, kde-format
 msgid "Next paragraph"
 msgstr "au paragraphe suivant"
 
-#: kile.cpp:863
+#: kile.cpp:865
 #, kde-format
 msgid "Prev paragraph"
 msgstr "au paragraphe précédent"
 
-#: kile.cpp:866
+#: kile.cpp:868
 #, kde-format
 msgid "Find &in Files..."
 msgstr "Chercher &dans les fichiers..."
 
-#: kile.cpp:868
+#: kile.cpp:870
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "Rafraîchir la str&ucture"
 
-#: kile.cpp:871
+#: kile.cpp:873
 #, kde-format
 msgid "&New Project..."
 msgstr "&Nouveau projet..."
 
-#: kile.cpp:872
+#: kile.cpp:874
 #, kde-format
 msgid "&Open Project..."
 msgstr "&Ouvrir un projet..."
 
-#: kile.cpp:874
+#: kile.cpp:876
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "Projets &récemment ouverts"
 
-#: kile.cpp:881
+#: kile.cpp:883
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "A&jouter des fichiers au projet..."
 
-#: kile.cpp:882 widgets/projectview.cpp:853
+#: kile.cpp:884 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "Reconstruire l'&arbre du projet"
 
-#: kile.cpp:883 widgets/projectview.cpp:855
+#: kile.cpp:885 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "&Archiver"
 
-#: kile.cpp:884 widgets/projectview.cpp:854
+#: kile.cpp:886 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "&Options du projet"
 
-#: kile.cpp:885
+#: kile.cpp:887
 #, kde-format
 msgid "&Close Project"
 msgstr "&Fermer le projet"
 
-#: kile.cpp:888
+#: kile.cpp:890
 #, kde-format
 msgid "&Show Projects..."
 msgstr "&Afficher les projets..."
 
-#: kile.cpp:889
+#: kile.cpp:891
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "&Retirer les fichiers du projet..."
 
-#: kile.cpp:890
+#: kile.cpp:892
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "Afficher les &fichiers du projet..."
 
-#: kile.cpp:892 widgets/projectview.cpp:851
+#: kile.cpp:894 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "Ouvrir tous les fichiers du projet"
 
-#: kile.cpp:893
+#: kile.cpp:895
 #, kde-format
 msgid "Find in &Project..."
 msgstr "Chercher un &projet..."
 
-#: kile.cpp:896 kile.cpp:994 kile.cpp:2110 kiledocmanager.cpp:1995
-#: kiledocmanager.cpp:2005
+#: kile.cpp:898 kile.cpp:996 kile.cpp:2112 kiledocmanager.cpp:1999
+#: kiledocmanager.cpp:2009
 #, kde-format
 msgid "Clean"
 msgstr "Nettoyer"
 
-#: kile.cpp:901
+#: kile.cpp:903
 #, kde-format
 msgid "Next Document"
 msgstr "Document suivant"
 
-#: kile.cpp:907
+#: kile.cpp:909
 #, kde-format
 msgid "Previous Document"
 msgstr "Document précédent"
 
-#: kile.cpp:910
+#: kile.cpp:912
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "Focus dans Log/messages"
 
-#: kile.cpp:911
+#: kile.cpp:913
 #, kde-format
 msgid "Focus Output View"
 msgstr "Focus dans l'éditeur"
 
-#: kile.cpp:912
+#: kile.cpp:914
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "Focus dans la Konsole"
 
-#: kile.cpp:913
+#: kile.cpp:915
 #, kde-format
 msgid "Focus Editor View"
 msgstr "Focus dans l'éditeur"
 
-#: kile.cpp:915
+#: kile.cpp:917
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "Compléter la commande (La)TeX"
 
-#: kile.cpp:917
+#: kile.cpp:919
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "Compléter l'environnement LaTeX"
 
-#: kile.cpp:919
+#: kile.cpp:921
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "Compléter l'abréviation"
 
-#: kile.cpp:922
+#: kile.cpp:924
 #, kde-format
 msgid "Next Bullet"
 msgstr "Puce suivante"
 
-#: kile.cpp:924
+#: kile.cpp:926
 #, kde-format
 msgid "Prev Bullet"
 msgstr "Puce précédente"
 
-#: kile.cpp:928 kile.cpp:945
+#: kile.cpp:930 kile.cpp:947
 #, kde-format
 msgid "Environment (inside)"
 msgstr "L'environnement (intérieur)"
 
-#: kile.cpp:930 kile.cpp:947
+#: kile.cpp:932 kile.cpp:949
 #, kde-format
 msgid "Environment (outside)"
 msgstr "L'environnement complet"
 
-#: kile.cpp:932 kile.cpp:949
+#: kile.cpp:934 kile.cpp:951
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "Le groupe TeX (intérieur)"
 
-#: kile.cpp:934 kile.cpp:951
+#: kile.cpp:936 kile.cpp:953
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "Le groupe TeX complet"
 
-#: kile.cpp:936 kile.cpp:953
+#: kile.cpp:938 kile.cpp:955
 #, kde-format
 msgid "Math Group"
 msgstr "Le groupe de mathématiques"
 
-#: kile.cpp:938 kile.cpp:955
+#: kile.cpp:940 kile.cpp:957
 #, kde-format
 msgid "Paragraph"
 msgstr "Le paragraphe"
 
-#: kile.cpp:940
+#: kile.cpp:942
 #, kde-format
 msgid "Line"
 msgstr "La ligne"
 
-#: kile.cpp:942 kile.cpp:959
+#: kile.cpp:944 kile.cpp:961
 #, kde-format
 msgid "TeX Word"
 msgstr "Le mot TeX"
 
-#: kile.cpp:957
+#: kile.cpp:959
 #, kde-format
 msgid "To End of Line"
 msgstr "Jusqu'à la fin de la ligne"
 
-#: kile.cpp:962 kile.cpp:973
+#: kile.cpp:964 kile.cpp:975
 #, kde-format
 msgid "Go to Begin"
 msgstr "Aller au début"
 
-#: kile.cpp:964 kile.cpp:975
+#: kile.cpp:966 kile.cpp:977
 #, kde-format
 msgid "Go to End"
 msgstr "Aller à la fin"
 
-#: kile.cpp:966 kile.cpp:977
+#: kile.cpp:968 kile.cpp:979
 #, kde-format
 msgid "Match"
 msgstr "Aller à l'autre bout"
 
-#: kile.cpp:968 kile.cpp:979
+#: kile.cpp:970 kile.cpp:981
 #, kde-format
 msgid "Close"
 msgstr "Fermer"
 
-#: kile.cpp:982
+#: kile.cpp:984
 #, kde-format
 msgid "Selection"
 msgstr "Sélection"
 
-#: kile.cpp:984
+#: kile.cpp:986
 #, kde-format
 msgid "Subdocument"
 msgstr "Sous-document"
 
-#: kile.cpp:985
+#: kile.cpp:987
 #, kde-format
 msgid "Mathgroup"
 msgstr "Groupe mathématique"
 
-#: kile.cpp:990
+#: kile.cpp:992
 #, kde-format
 msgid "&Bibliography"
 msgstr "&Bibliographie"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:996 kileui.rc:503
+#: kile.cpp:998 kileui.rc:503
 #, kde-format
 msgid "&Settings"
 msgstr "&Configuration"
 
-#: kile.cpp:999
+#: kile.cpp:1001
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "Configuration pour BibTeX"
 
-#: kile.cpp:1003
+#: kile.cpp:1005
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "Configuration pour Biblatex"
 
-#: kile.cpp:1010 kile.cpp:2216
+#: kile.cpp:1012 kile.cpp:2218
 #, kde-format
 msgid "Quick Start"
 msgstr "Démarrage rapide"
 
-#: kile.cpp:1013 kilestdactions.cpp:384
+#: kile.cpp:1015 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "Matrice"
 
-#: kile.cpp:1014 kile.cpp:2268 kilestdactions.cpp:79
+#: kile.cpp:1016 kile.cpp:2270 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulation"
 
-#: kile.cpp:1015
+#: kile.cpp:1017
 #, kde-format
 msgid "Floats"
 msgstr "Flottants"
 
-#: kile.cpp:1020
+#: kile.cpp:1022
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "Définir le document courant comme « Document &maître »"
 
-#: kile.cpp:1025
+#: kile.cpp:1027
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "Montrer l'afficheur de document"
 
-#: kile.cpp:1032
+#: kile.cpp:1034
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "Afficher la barre &latérale"
 
-#: kile.cpp:1038
+#: kile.cpp:1040
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "Afficher la barre de &messages"
 
-#: kile.cpp:1050
+#: kile.cpp:1052
 #, kde-format
 msgid "Watch File Mode"
 msgstr "Mode surveillance fichier"
 
-#: kile.cpp:1064
+#: kile.cpp:1066
 #, kde-format
 msgid "Context Help"
 msgstr "Aide contextuelle"
 
-#: kile.cpp:1067
+#: kile.cpp:1069
 #, kde-format
 msgid "&About Editor Component"
 msgstr "À &propos du composant éditeur"
 
-#: kile.cpp:1075
+#: kile.cpp:1077
 #, kde-format
 msgid "&System Check..."
 msgstr "&Vérification système..."
 
-#: kile.cpp:1093 kileinfo.cpp:357
+#: kile.cpp:1095 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
-#: kile.cpp:1096
+#: kile.cpp:1098
 #, kde-format
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1243 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1245 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "Compiler"
 
-#: kile.cpp:1244 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1246 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr "Affichage"
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1247 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "Convertir"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1248 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr "Rapide"
 
-#: kile.cpp:1420
+#: kile.cpp:1422
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6458,78 +6488,78 @@ msgstr ""
 "\n"
 "Veuillez vérifier et réparer votre installation de Kile."
 
-#: kile.cpp:1422
+#: kile.cpp:1424
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "Impossible de créer l'outil Archive"
 
-#: kile.cpp:1491
+#: kile.cpp:1493
 #, kde-format
 msgid "Project: %1"
 msgstr "Projet : %1"
 
-#: kile.cpp:1494
+#: kile.cpp:1496
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Projet : %1 (document maître :%2)"
 
-#: kile.cpp:1499
+#: kile.cpp:1501
 #, kde-format
 msgid "Normal mode"
 msgstr "Mode Normal"
 
-#: kile.cpp:1502
+#: kile.cpp:1504
 #, kde-format
 msgid "Master document: %1"
 msgstr "Document Maître :%1"
 
-#: kile.cpp:1507 kile.cpp:2626
+#: kile.cpp:1509 kile.cpp:2628
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Définir le document courant comme « Document Maître »"
 
-#: kile.cpp:1511 kile.cpp:2616
+#: kile.cpp:1513 kile.cpp:2618
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Mode Normal (document maître courant : %1)"
 
-#: kile.cpp:1729
+#: kile.cpp:1731
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [lecture seule]"
 
-#: kile.cpp:2103
+#: kile.cpp:2105
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Il n'y a pas de document actif ou ce dernier n'a pas été enregistré."
 
-#: kile.cpp:2187
+#: kile.cpp:2189
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Vous devez inclure le paquet %1."
 
-#: kile.cpp:2187 kile.cpp:2190
+#: kile.cpp:2189 kile.cpp:2192
 #, kde-format
 msgid "Insert text"
 msgstr "Insérer du texte"
 
-#: kile.cpp:2190
+#: kile.cpp:2192
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Vous devez inclure les paquets %1."
 
-#: kile.cpp:2411
+#: kile.cpp:2413
 #, kde-format
 msgid "No Name"
 msgstr "Pas de nom"
 
-#: kile.cpp:2447
+#: kile.cpp:2449
 #, kde-format
 msgid "no name"
 msgstr "sans nom"
 
-#: kile.cpp:2644
+#: kile.cpp:2646
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6538,24 +6568,24 @@ msgstr ""
 "Pour définir le document courant comme document maître, vous devez "
 "auparavant l'enregistrer."
 
-#: kile.cpp:2986
+#: kile.cpp:2988
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOCK"
 
-#: kile.cpp:2987
+#: kile.cpp:2989
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "LIGNE"
 
-#: kile.cpp:2994
+#: kile.cpp:2996
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Rafraîchissement de la structure..."
 
-#: kile.cpp:3012
+#: kile.cpp:3014
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
@@ -6563,7 +6593,7 @@ msgstr ""
 "Ceci masquera totalement la barre de menus. Vous pourrez l'afficher à "
 "nouveau en saisissant %1."
 
-#: kile.cpp:3015
+#: kile.cpp:3017
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Masquer la barre de menus"
@@ -7465,8 +7495,8 @@ msgstr ""
 msgid "Could Not Refresh Project Tree"
 msgstr "Impossible de reconstruire l'arbre du projet"
 
-#: kiledocmanager.cpp:1400 kiledocmanager.cpp:2167 kiledocmanager.cpp:2241
-#: kiledocmanager.cpp:2278
+#: kiledocmanager.cpp:1400 kiledocmanager.cpp:2171 kiledocmanager.cpp:2245
+#: kiledocmanager.cpp:2282
 #, kde-format
 msgid "Select Project"
 msgstr "Sélectionner un projet"
@@ -7518,7 +7548,7 @@ msgstr ""
 msgid "Project Already Open"
 msgstr "Le projet est déjà ouvert"
 
-#: kiledocmanager.cpp:1545
+#: kiledocmanager.cpp:1546
 #, kde-format
 msgid ""
 "<p>The project file for the project \"%1\" does not exist or it is not "
@@ -7529,12 +7559,12 @@ msgstr ""
 "lisible.</p> <p>Voulez-vous retirer ce projet de la liste des projets "
 "récents ?</p>"
 
-#: kiledocmanager.cpp:1548
+#: kiledocmanager.cpp:1549
 #, kde-format
 msgid "Could Not Open Project"
 msgstr "Impossible d'ouvrir le projet"
 
-#: kiledocmanager.cpp:1565
+#: kiledocmanager.cpp:1567
 #, kde-format
 msgid ""
 "<p>The file \"%1\" cannot be opened as it does not appear to be a project "
@@ -7543,12 +7573,12 @@ msgstr ""
 "<p>Impossible d'ouvrir le fichier « %1 », ça ne semble pas être un fichier "
 "de projet.</p>"
 
-#: kiledocmanager.cpp:1567
+#: kiledocmanager.cpp:1569
 #, kde-format
 msgid "Impossible to Open Project File"
 msgstr "Impossible d'ouvrir le fichier de projet"
 
-#: kiledocmanager.cpp:1577
+#: kiledocmanager.cpp:1579
 #, kde-format
 msgid ""
 "<p>The project \"%1\" cannot be opened as it was created <br/>by a newer "
@@ -7557,12 +7587,12 @@ msgstr ""
 "<p>Impossible d'ouvrir le projet « %1 » car il a été créé<br/> par une "
 "version de Kile plus récente.</p>"
 
-#: kiledocmanager.cpp:1579
+#: kiledocmanager.cpp:1581
 #, kde-format
 msgid "Impossible to Open Project"
 msgstr "Impossible d'ouvrir le projet"
 
-#: kiledocmanager.cpp:1589
+#: kiledocmanager.cpp:1591
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" was created by a previous version of Kile.<br/>It "
@@ -7573,12 +7603,12 @@ msgstr ""
 "Kile.<br/> Il doit d'abord être mis à jour avant d'être ouvert.</p> "
 "<p>Voulez-vous le mettre à jour ?</p>"
 
-#: kiledocmanager.cpp:1592
+#: kiledocmanager.cpp:1594
 #, kde-format
 msgid "Project File Needs to be Updated"
 msgstr "Le fichier de projet doit être mis à jour"
 
-#: kiledocmanager.cpp:1598
+#: kiledocmanager.cpp:1601
 #, kde-format
 msgid ""
 "<p>The project file \"%1\" could be not updated.</p><p>Do you want to remove "
@@ -7587,22 +7617,22 @@ msgstr ""
 "<p>Impossible de mettre à jour le fichier de projet « %1 » </p> <p>Voulez-"
 "vous retirer ce projet de la liste des projets récents ?</p>"
 
-#: kiledocmanager.cpp:1600
+#: kiledocmanager.cpp:1603
 #, kde-format
 msgid "Could Not Update Project File"
 msgstr "Impossible de mettre à jour le fichier de projet"
 
-#: kiledocmanager.cpp:1701
+#: kiledocmanager.cpp:1705
 #, kde-format
 msgid "Open Project"
 msgstr "Ouvrir un projet"
 
-#: kiledocmanager.cpp:1720
+#: kiledocmanager.cpp:1724
 #, kde-format
 msgid "Save Project"
 msgstr "Enregistrer le projet"
 
-#: kiledocmanager.cpp:1772
+#: kiledocmanager.cpp:1776
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7613,27 +7643,27 @@ msgstr ""
 "document associé au projet que vous voulez enregistrer puis choisissez à "
 "nouveau Enregistrer le projet."
 
-#: kiledocmanager.cpp:1772
+#: kiledocmanager.cpp:1776
 #, kde-format
 msgid "Could Determine Active Project"
 msgstr "Impossible de déterminer quel projet est actif"
 
-#: kiledocmanager.cpp:1793
+#: kiledocmanager.cpp:1797
 #, kde-format
 msgid "Add Files to Project"
 msgstr "Ajouter des fichiers au projet"
 
-#: kiledocmanager.cpp:1806
+#: kiledocmanager.cpp:1810
 #, kde-format
 msgid "Add Files"
 msgstr "Ajouter fichiers"
 
-#: kiledocmanager.cpp:1809
+#: kiledocmanager.cpp:1813
 #, kde-format
 msgid "Add"
 msgstr "Ajouter"
 
-#: kiledocmanager.cpp:1824
+#: kiledocmanager.cpp:1828
 #, kde-format
 msgid ""
 "There are no projects opened. Please open the project you want to add files "
@@ -7642,17 +7672,17 @@ msgstr ""
 "Aucun projet n'est ouvert. Veuillez ouvrir un projet puis choisir à nouveau "
 "Ajouter fichier."
 
-#: kiledocmanager.cpp:1824 kiledocmanager.cpp:1859
+#: kiledocmanager.cpp:1828 kiledocmanager.cpp:1863
 #, kde-format
 msgid "Could Not Determine Active Project"
 msgstr "Impossible de déterminer quel projet est actif"
 
-#: kiledocmanager.cpp:1850
+#: kiledocmanager.cpp:1854
 #, kde-format
 msgid "Project Options For"
 msgstr "Options du projet"
 
-#: kiledocmanager.cpp:1859
+#: kiledocmanager.cpp:1863
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7663,12 +7693,12 @@ msgstr ""
 "document associé au projet que vous souhaitez modifier, puis choisissez à "
 "nouveau Options du projet."
 
-#: kiledocmanager.cpp:1885
+#: kiledocmanager.cpp:1889
 #, kde-format
 msgid "Close Project"
 msgstr "Fermer le projet"
 
-#: kiledocmanager.cpp:1939
+#: kiledocmanager.cpp:1943
 #, kde-format
 msgid ""
 "The current document is not associated to a project. Please activate a "
@@ -7679,77 +7709,77 @@ msgstr ""
 "document associé au projet que vous voulez fermer puis choisissez à nouveau "
 "Fermer le projet."
 
-#: kiledocmanager.cpp:1939
+#: kiledocmanager.cpp:1943
 #, kde-format
 msgid "Could Not Close Project"
 msgstr "Impossible de fermer le projet"
 
-#: kiledocmanager.cpp:1994
+#: kiledocmanager.cpp:1998
 #, kde-format
 msgid "Nothing to clean for %1"
 msgstr "Rien à nettoyer pour %1"
 
-#: kiledocmanager.cpp:2004
+#: kiledocmanager.cpp:2008
 #, kde-format
 msgid "Cleaning %1: %2"
 msgstr "Nettoyage de %1 : %2"
 
-#: kiledocmanager.cpp:2078
+#: kiledocmanager.cpp:2082
 #, kde-format
 msgid "Switch Project"
 msgstr "Changer de projet"
 
-#: kiledocmanager.cpp:2136
+#: kiledocmanager.cpp:2140
 #, kde-format
 msgid "Select Files to Remove"
 msgstr "Sélectionner les fichier à retirer"
 
-#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2152
+#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2156
 #, kde-format
 msgid "Show Project Files"
 msgstr "Afficher les fichiers du projet"
 
-#: kiledocmanager.cpp:2149 kiledocmanager.cpp:2197
+#: kiledocmanager.cpp:2153 kiledocmanager.cpp:2201
 #, kde-format
 msgid "project configuration file"
 msgstr "Fichier de configuration du projet"
 
-#: kiledocmanager.cpp:2152 kiledocmanager.cpp:2200
+#: kiledocmanager.cpp:2156 kiledocmanager.cpp:2204
 #, kde-format
 msgid "graphics file"
 msgstr "Fichier graphique"
 
-#: kiledocmanager.cpp:2197 kiledocmanager.cpp:2200
+#: kiledocmanager.cpp:2201 kiledocmanager.cpp:2204
 #, kde-format
 msgid "Open All Project Files"
 msgstr "Ouvrir tous les fichiers du projet"
 
-#: kiledocmanager.cpp:2234
+#: kiledocmanager.cpp:2238
 #, kde-format
 msgid "not opened: %1 (%2)"
 msgstr "non ouvert : %1 (%2)"
 
-#: kiledocmanager.cpp:2259 kiledocmanager.cpp:2296
+#: kiledocmanager.cpp:2263 kiledocmanager.cpp:2300
 #, kde-format
 msgid "Project Files"
 msgstr "Fichiers du projet"
 
-#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
+#: kiledocmanager.cpp:2271 kiledocmanager.cpp:2310
 #, kde-format
 msgid "Could not determine the selected file."
 msgstr "Impossible de déterminer le fichier choisi."
 
-#: kiledocmanager.cpp:2267 kiledocmanager.cpp:2306
+#: kiledocmanager.cpp:2271 kiledocmanager.cpp:2310
 #, kde-format
 msgid "Project Error"
 msgstr "Erreur du projet"
 
-#: kiledocmanager.cpp:2373
+#: kiledocmanager.cpp:2377
 #, kde-format
 msgid "Opening Project..."
 msgstr "Ouverture du projet..."
 
-#: kiledocmanager.cpp:2376
+#: kiledocmanager.cpp:2380
 #, kde-format
 msgid "Scanning project files..."
 msgstr "Examen des fichiers de projet en cours..."
@@ -8748,7 +8778,7 @@ msgstr ""
 "La commande \\input indique à LaTeX de lire le fichier indiqué et de faire "
 "comme si son contenu était situé à cet endroit dans le document courant."
 
-#: kilestdactions.cpp:98 widgets/structurewidget.cpp:764
+#: kilestdactions.cpp:98 widgets/structurewidget.cpp:773
 #, kde-format
 msgid "Sectioning"
 msgstr "Structure"
@@ -8929,7 +8959,7 @@ msgstr "énorme"
 msgid "Huge"
 msgstr "Énorme"
 
-#: kilestdactions.cpp:125 widgets/projectview.cpp:464
+#: kilestdactions.cpp:125 widgets/projectview.cpp:481
 #: widgets/toolconfigwidget.cpp:78
 #, kde-format
 msgid "Other"
@@ -9139,7 +9169,7 @@ msgstr ""
 msgid "Bibliography - \\begin{thebibliography}"
 msgstr "Bibliographie - \\begin{thebibliography}"
 
-#: kilestdactions.cpp:163 widgets/projectview.cpp:460
+#: kilestdactions.cpp:163 widgets/projectview.cpp:477
 #, kde-format
 msgid "Bibliography"
 msgstr "Bibliographie"
@@ -10644,7 +10674,7 @@ msgid "&Bullets"
 msgstr "&Puces"
 
 #. i18n: ectx: Menu (select)
-#: kileui.rc:70 widgets/structurewidget.cpp:770
+#: kileui.rc:70 widgets/structurewidget.cpp:779
 #, kde-format
 msgid "&Select"
 msgstr "&Sélectionner"
@@ -11370,52 +11400,52 @@ msgstr "Script : erreur"
 msgid "Script: question"
 msgstr "Script : question"
 
-#: scripting/kilescriptobject.cpp:66
+#: scripting/kilescriptobject.cpp:67
 #, kde-format
 msgid "Script: warning"
 msgstr "Script : alerte"
 
-#: scripting/kilescriptobject.cpp:116
+#: scripting/kilescriptobject.cpp:117
 #, kde-format
 msgid "Enter Value"
 msgstr "Saisissez une valeur"
 
-#: scripting/kilescriptobject.cpp:119
+#: scripting/kilescriptobject.cpp:120
 #, kde-format
 msgid "Please enter a value"
 msgstr "Veuillez saisir une valeur"
 
-#: scripting/kilescriptobject.cpp:194
+#: scripting/kilescriptobject.cpp:195
 #, kde-format
 msgid "Script '%1.js'"
 msgstr "Script « %1.js »"
 
-#: scripting/kilescriptobject.cpp:213
+#: scripting/kilescriptobject.cpp:214
 #, kde-format
 msgid "File Handling Error: Unable to find the file '%1'"
 msgstr "Le fichier « %1 » est introuvable"
 
-#: scripting/kilescriptobject.cpp:233 scripting/kilescriptobject.cpp:290
+#: scripting/kilescriptobject.cpp:234 scripting/kilescriptobject.cpp:291
 #, kde-format
 msgid "Select File to Read"
 msgstr "Sélectionnez un fichier à lire"
 
-#: scripting/kilescriptobject.cpp:249
+#: scripting/kilescriptobject.cpp:250
 #, kde-format
 msgid "File Handling Error: Unable to create the output file '%1'"
 msgstr "Impossible de créer le fichier de sortie « %1 »"
 
-#: scripting/kilescriptobject.cpp:260
+#: scripting/kilescriptobject.cpp:261
 #, kde-format
 msgid "File Handling Error: Unable to write to the output file '%1'"
 msgstr "Impossible d'écrire dans le fichier de sortie « %1 »"
 
-#: scripting/kilescriptobject.cpp:278 scripting/kilescriptobject.cpp:296
+#: scripting/kilescriptobject.cpp:279 scripting/kilescriptobject.cpp:297
 #, kde-format
 msgid "Save As"
 msgstr "Enregistrer sous"
 
-#: scripting/kilescriptobject.cpp:303
+#: scripting/kilescriptobject.cpp:304
 #, kde-format
 msgid "This action was canceled by the user."
 msgstr "Cette action a été annulée par l'utilisateur."
@@ -11454,22 +11484,22 @@ msgstr ""
 "La version %1 minimum de Kile est nécessaire pour exécuter le script « %2 ». "
 "L'exécution a été annulée."
 
-#: scriptmanager.cpp:98
+#: scriptmanager.cpp:99
 #, kde-format
 msgid "Version Error"
 msgstr "Erreur de version"
 
-#: scriptmanager.cpp:106
+#: scriptmanager.cpp:107
 #, kde-format
 msgid "Cannot start the script: no view available"
 msgstr "Impossible de démarrer le script : aucune vue disponible"
 
-#: scriptmanager.cpp:106
+#: scriptmanager.cpp:107
 #, kde-format
 msgid "Script Error"
 msgstr "Erreur dans le script"
 
-#: scriptmanager.cpp:486
+#: scriptmanager.cpp:487
 #, kde-format
 msgid "Execution of %1"
 msgstr "Exécution de %1"
@@ -11532,7 +11562,7 @@ msgstr "Texte complet"
 msgid "&Add"
 msgstr "&Ajouter"
 
-#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:771
+#: widgets/abbreviationview.cpp:124 widgets/structurewidget.cpp:780
 #, kde-format
 msgid "&Delete"
 msgstr "&Supprimer"
@@ -12503,72 +12533,72 @@ msgstr ""
 msgid "Options:"
 msgstr "Options :"
 
-#: widgets/projectview.cpp:243
+#: widgets/projectview.cpp:246
 #, kde-format
 msgid "Files & Projects"
 msgstr "Fichiers & projets"
 
-#: widgets/projectview.cpp:243
+#: widgets/projectview.cpp:246
 #, kde-format
 msgid "Include in Archive"
 msgstr "Inclure dans l'archive"
 
-#: widgets/projectview.cpp:451
+#: widgets/projectview.cpp:468
 #, kde-format
 msgid "Project File"
 msgstr "Fichier du projet"
 
-#: widgets/projectview.cpp:454
+#: widgets/projectview.cpp:471
 #, kde-format
 msgid "Packages"
 msgstr "Paquets"
 
-#: widgets/projectview.cpp:457
+#: widgets/projectview.cpp:474
 #, kde-format
 msgid "Images"
 msgstr "Images"
 
-#: widgets/projectview.cpp:791
+#: widgets/projectview.cpp:808
 #, kde-format
 msgid "&Open With"
 msgstr "&Ouvrir avec"
 
-#: widgets/projectview.cpp:803 widgets/structurewidget.cpp:797
+#: widgets/projectview.cpp:820 widgets/structurewidget.cpp:806
 #, kde-format
 msgid "Other..."
 msgstr "Autre..."
 
-#: widgets/projectview.cpp:809
+#: widgets/projectview.cpp:826
 #, kde-format
 msgid "&Open"
 msgstr "&Ouvrir"
 
-#: widgets/projectview.cpp:812
+#: widgets/projectview.cpp:829
 #, kde-format
 msgid "&Save"
 msgstr "&Enregistrer"
 
-#: widgets/projectview.cpp:822
+#: widgets/projectview.cpp:839
 #, kde-format
 msgid "&Add to Project"
 msgstr "&Ajouter au projet"
 
-#: widgets/projectview.cpp:832
+#: widgets/projectview.cpp:849
 #, kde-format
 msgid "&Include in Archive"
 msgstr "&Inclure dans l'archive"
 
-#: widgets/projectview.cpp:841
+#: widgets/projectview.cpp:858
 #, kde-format
 msgid "&Remove From Project"
 msgstr "&Retirer du projet"
 
-#: widgets/projectview.cpp:849
+#: widgets/projectview.cpp:866
 #, kde-format
 msgid "A&dd Files..."
 msgstr "A&jouter des fichiers..."
 
-#: widgets/projectview.cpp:865 widgets/projectview.cpp:868
+#: widgets/projectview.cpp:882 widgets/projectview.cpp:885
 #, kde-format
 msgid "&Close"
 msgstr "&Fermer"
@@ -12884,7 +12914,7 @@ msgstr "jpg"
 msgid "tif"
 msgstr "tif"
 
-#: widgets/structurewidget.cpp:102
+#: widgets/structurewidget.cpp:105
 #, kde-format
 msgid ""
 "Click left to jump to the line. A double click will open\n"
@@ -12901,48 +12931,48 @@ msgstr ""
 "de cet élément. Les éléments pour un fichier graphique ou un label assigné\n"
 "offrent également un menu contextuel (bouton droit de la souris)."
 
-#: widgets/structurewidget.cpp:118
+#: widgets/structurewidget.cpp:121
 #, kde-format
 msgctxt "structure view entry: title (line)"
 msgid "%1 (line %2)"
 msgstr "%1 (ligne %2)"
 
-#: widgets/structurewidget.cpp:126
+#: widgets/structurewidget.cpp:129
 #, kde-format
 msgid "Label: %1"
 msgstr "Étiquette : %1"
 
-#: widgets/structurewidget.cpp:160
+#: widgets/structurewidget.cpp:163
 #, kde-format
 msgid "No \"structure data\" to display."
 msgstr "Aucune « donnée de structure » à afficher."
 
-#: widgets/structurewidget.cpp:333
+#: widgets/structurewidget.cpp:336
 #, kde-format
 msgid "BibTeX References"
 msgstr "Référence BibTeX"
 
-#: widgets/structurewidget.cpp:337
+#: widgets/structurewidget.cpp:340
 #, kde-format
 msgid "Undefined References"
 msgstr "Références non définies"
 
-#: widgets/structurewidget.cpp:341
+#: widgets/structurewidget.cpp:344
 #, kde-format
 msgid "TODO"
 msgstr "TODO"
 
-#: widgets/structurewidget.cpp:345
+#: widgets/structurewidget.cpp:348
 #, kde-format
 msgid "FIXME"
 msgstr "FIXME"
 
-#: widgets/structurewidget.cpp:506
+#: widgets/structurewidget.cpp:509
 #, kde-format
 msgid "Cannot create a list view item: no parent found."
 msgstr "Impossible de créer un élément de liste : aucun parent trouvé."
 
-#: widgets/structurewidget.cpp:687
+#: widgets/structurewidget.cpp:690
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from Project settings."
@@ -12950,7 +12980,7 @@ msgstr ""
 "Aucune extension spécifiée pour le fichier graphique. Utilisation de « .%1 » "
 "d'après la configuration du projet."
 
-#: widgets/structurewidget.cpp:688
+#: widgets/structurewidget.cpp:691
 #, kde-format
 msgid ""
 "No extension specified for graphic file.  Using .%1 from global Structure "
@@ -12960,12 +12990,12 @@ msgstr ""
 "l'extension « %1 » depuis la configuration globale de l'affichage de la "
 "structure."
 
-#: widgets/structurewidget.cpp:689
+#: widgets/structurewidget.cpp:692
 #, kde-format
 msgid "File extension not specified"
 msgstr "Extension du fichier non spécifiée"
 
-#: widgets/structurewidget.cpp:734
+#: widgets/structurewidget.cpp:740
 #, kde-format
 msgid ""
 "Cannot find the included file. The file does not exist, is not readable or "
@@ -12979,72 +13009,72 @@ msgstr ""
 "était : %1.\n"
 "Voulez-vous créer ce fichier ?"
 
-#: widgets/structurewidget.cpp:734
+#: widgets/structurewidget.cpp:741
 #, kde-format
 msgid "Cannot Find File"
 msgstr "Impossible de trouver le fichier !"
 
-#: widgets/structurewidget.cpp:766
+#: widgets/structurewidget.cpp:775
 #, kde-format
 msgid "Cu&t"
 msgstr "Cou&per"
 
-#: widgets/structurewidget.cpp:767
+#: widgets/structurewidget.cpp:776
 #, kde-format
 msgid "&Copy"
 msgstr "&Copier"
 
-#: widgets/structurewidget.cpp:768
+#: widgets/structurewidget.cpp:777
 #, kde-format
 msgid "&Paste below"
 msgstr "Coller &en dessous"
 
-#: widgets/structurewidget.cpp:773
+#: widgets/structurewidget.cpp:782
 #, kde-format
 msgid "C&omment"
 msgstr "&Commenter"
 
-#: widgets/structurewidget.cpp:775
+#: widgets/structurewidget.cpp:784
 #, kde-format
 msgid "Run QuickPreview"
 msgstr "Lancer la prévisualisation rapide"
 
-#: widgets/structurewidget.cpp:802
+#: widgets/structurewidget.cpp:811
 #, kde-format
 msgid "Insert Label"
 msgstr "Insérer un label"
 
-#: widgets/structurewidget.cpp:803
+#: widgets/structurewidget.cpp:812
 #, kde-format
 msgid "As &reference"
 msgstr "Comme &référence"
 
-#: widgets/structurewidget.cpp:804
+#: widgets/structurewidget.cpp:813
 #, kde-format
 msgid "As &page reference"
 msgstr "Comme référence à la &page"
 
-#: widgets/structurewidget.cpp:805
+#: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "Only the &label"
 msgstr "Uniquement le &label"
 
-#: widgets/structurewidget.cpp:807
+#: widgets/structurewidget.cpp:816
 #, kde-format
 msgid "Copy Label to Clipboard"
 msgstr "Copier le label dans le presse-papiers"
 
-#: widgets/structurewidget.cpp:808
+#: widgets/structurewidget.cpp:817
 #, kde-format
 msgid "As reference"
 msgstr "Comme référence"
 
-#: widgets/structurewidget.cpp:809
+#: widgets/structurewidget.cpp:818
 #, kde-format
 msgid "As page reference"
 msgstr "Comme référence à la page"
 
-#: widgets/structurewidget.cpp:810
+#: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "Only the label"
 msgstr "Uniquement le label"

@@ -9,13 +9,13 @@
 # Tolga BALCI <tolgabalci@ttnet.net.tr>, 2007.
 # Volkan Gezer <volkangezer@gmail.com>, 2013-2014, 2015, 2017.
 # Kaan Ozdincer <kaanozdincer@gmail.com>, 2014.
-# Emir SARI <emir_sari@icloud.com>, 2022, 2023.
+# SPDX-FileCopyrightText: 2022, 2023 Emir SARI <emir_sari@icloud.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-08-22 23:07+0300\n"
+"PO-Revision-Date: 2023-10-02 19:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.11.70\n"
+"X-Generator: Lokalize 23.08.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1730,10 +1730,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "\"%1\" şablonunu kaldırmak üzeresiniz. Emin misiniz?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Şablon Kaldır"
+msgstr "Şablonu değiştir"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5015,7 +5014,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Ağacı at"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5045,10 +5044,9 @@ msgstr ""
 "Dosyanın üzerine yazılsın mı?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Dosyanın üzerine yazılsın mı?"
+msgstr "Dosyanın üzerine yaz"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5062,10 +5060,9 @@ msgstr ""
 "Gerçekten kaydetmek istiyor musunuz?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Menü ağacı Hatası"
+msgstr "Menü ağacı hataları"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5489,10 +5486,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Gerçekten tüm menü ağacını temizlemek istiyor musunuz?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Metni Temizle"
+msgstr "Menü ağacını temizle"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

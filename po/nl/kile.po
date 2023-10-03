@@ -18,7 +18,7 @@
 # Claire Lotion <clairelotion@kde.nl>, 2004, 2006.
 # C.M.Lotion <clairelotion@kde.nl>, 2006.
 # Kristof Bal <kristof.bal@gmail.com>, 2008.
-# Freek de Kruijf <f.de.kruijf@hetnet.nl>, 2009.
+# SPDX-FileCopyrightText: 2009, 2023 Freek de Kruijf <f.de.kruijf@hetnet.nl>
 # Freek de Kruijf <freekdekruijf@kde.nl>, 2009, 2010, 2011, 2012, 2017.
 # Freek de Kruijf <f.de.kruijf@gmail.com>, 2011, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 # Erik Quaeghebeur <kde-i18n-nl@equaeghe.nospammail.net>, 2015.
@@ -27,20 +27,20 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-01-27 13:11+0100\n"
+"PO-Revision-Date: 2023-10-02 10:30+0200\n"
 "Last-Translator: Freek de Kruijf <freekdekruijf@kde.nl>\n"
 "Language-Team: \n"
 "Language: nl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 23.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Kris Luyten,Rinse de Vries,Sander Devrieze,Freek de Kruijf - t/m 2022"
+msgstr "Kris Luyten,Rinse de Vries,Sander Devrieze,Freek de Kruijf - t/m 2023"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
@@ -1767,10 +1767,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Wilt u sjabloon \"%1\" vervangen?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Sjabloon verwijderen"
+msgstr "Sjabloon vervangen"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5089,7 +5088,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Boomstructuur verwerpen"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5119,10 +5118,9 @@ msgstr ""
 "Wilt u het overschrijven?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Bestand overschrijven?"
+msgstr "Bestand overschrijven"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5136,10 +5134,9 @@ msgstr ""
 "Wilt u dit bestand opslaan?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Fout in menuboom"
+msgstr "Fouten in menuboom"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5571,10 +5568,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Wilt u de volledige menuboom wissen?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Tekst wissen"
+msgstr "Menuboom wissen"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

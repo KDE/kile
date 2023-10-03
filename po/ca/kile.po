@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-08-16 10:33+0200\n"
+"PO-Revision-Date: 2023-10-02 09:27+0200\n"
 "Last-Translator: Josep M. Ferrer <txemaq@gmail.com>\n"
 "Language-Team: Catalan <kde-i18n-ca@kde.org>\n"
 "Language: ca\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Accelerator-Marker: &\n"
-"X-Generator: Lokalize 23.04.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1743,10 +1743,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Esteu a punt de substituir la plantilla «%1»; esteu segur?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Elimina plantilla"
+msgstr "Substitueix la plantilla"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5080,7 +5079,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Descarta l'arbre"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5110,10 +5109,9 @@ msgstr ""
 "El sobreescric?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Sobreescric el fitxer?"
+msgstr "Sobreescriu el fitxer"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5127,10 +5125,9 @@ msgstr ""
 "Realment voleu desar aquest fitxer?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Error en l'arbre de menú"
+msgstr "Errors en l'arbre de menú"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5555,13 +5552,12 @@ msgstr "Introduïu una etiqueta nova per a aquesta entrada:"
 #: dialogs/usermenu/usermenutree.cpp:924
 #, kde-format
 msgid "Do you really want to clear the complete menutree?"
-msgstr "Realment voleu netejar tot l'arbre del menú?"
+msgstr "Realment voleu netejar tot l'arbre de menú?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Neteja el text"
+msgstr "Neteja l'arbre de menú"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

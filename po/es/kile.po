@@ -8,7 +8,7 @@
 # Alberto Pintado <apintado@lycos.es>, 2003.
 # Santiago Fernandez Sancho <santi@est.unileon.es>, 2005.
 # santi <santi@est.unileon.es>, 2005.
-# Eloy Cuadra <ecuadra@eloihr.net>, 2005, 2007, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2005, 2007, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023 Eloy Cuadra <ecuadra@eloihr.net>
 # santi <santi@kde-es.org>, 2006, 2007.
 # Jaime Robles <jaime@kde.org>, 2006.
 # santi <hosgiliat@gmail.com>, 2006, 2007.
@@ -23,14 +23,14 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2022-07-25 00:56+0200\n"
+"PO-Revision-Date: 2023-10-02 05:19+0200\n"
 "Last-Translator: Eloy Cuadra <ecuadra@eloihr.net>\n"
 "Language-Team: Spanish <kde-l10n-es@kde.org>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 22.04.3\n"
+"X-Generator: Lokalize 23.08.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 
 #, kde-format
@@ -136,8 +136,7 @@ msgstr "Prueba sencilla"
 #: configtester.cpp:473
 #, kde-format
 msgid "This essential tool does not work; please check your installation."
-msgstr ""
-"Esta herramienta esencial no funciona; por favor compruebe su instalación."
+msgstr "Esta herramienta esencial no funciona. Compruebe su instalación."
 
 #: configtester.cpp:488
 #, kde-format
@@ -261,7 +260,7 @@ msgstr ""
 "correctamente para procesar documentos LaTeX. También permitirá ajustar la "
 "configuración de Kile teniendo en cuenta los resultados de las pruebas.</"
 "p><p>Se recomienda ejecutar este asistente antes de usar Kile por primera "
-"vez.</p><p>Por favor pulse «Siguiente» para iniciar el proceso de prueba.</p>"
+"vez.</p><p>Pulse «Siguiente» para iniciar el proceso de prueba.</p>"
 
 #: dialogs/configcheckerdialog.cpp:124
 #, kde-format
@@ -298,7 +297,7 @@ msgid ""
 "<br/>Please press 'Finish' now to accept the recommended configuration "
 "changes."
 msgstr ""
-"<br/>Por favor pulse «Finalizar» para aceptar los cambios de configuración "
+"<br/>Pulse «Finalizar» para aceptar los cambios de configuración "
 "recomendados."
 
 #: dialogs/configcheckerdialog.cpp:156 dialogs/configcheckerdialog.cpp:229
@@ -313,10 +312,10 @@ msgid ""
 ">Kile cannot function correctly on your system. Please consult the test "
 "results<br/>to determine which programs have to be fixed."
 msgstr ""
-"Las siguientes pruebas <b>críticas</b> no fueron satisfactorias:<br/><br/>"
-"%1<br/><br/>Kile no puede funcionar correctamente en su sistema. Por favor "
-"consulte los resultados de las pruebas<br/> para determinar que programas "
-"tienen que ser arreglados."
+"Las siguientes pruebas <b>críticas</b> no han sido satisfactorias:<br/><br/>"
+"%1<br/><br/>Kile no puede funcionar correctamente en su sistema. Consulte "
+"los resultados de las pruebas<br/>para determinar los programas que se deben "
+"corregir."
 
 #: dialogs/configcheckerdialog.cpp:238
 #, kde-format
@@ -371,8 +370,8 @@ msgid ""
 "Please check the available disk space.</b></font>"
 msgstr ""
 "<br/><font color=\"#FF0000\"><b>Es posible que las pruebas no hayan "
-"finalizado correctamente. Por favor compruebe el espacio disponible en el "
-"disco.</b></font>"
+"finalizado correctamente. Compruebe el espacio disponible en el disco.</b></"
+"font>"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, UserMenuDialog)
 #. i18n: ectx: property (windowTitle), widget (QWidget, ToolConfigWidget)
@@ -1606,7 +1605,7 @@ msgid ""
 "Please check the file permissions."
 msgstr ""
 "Se ha producido un error al eliminar el archivo «%1».\n"
-"Por favor, compruebe los permisos del archivo."
+"Compruebe los permisos del archivo."
 
 #: dialogs/listselector.cpp:245
 #, kde-format
@@ -1620,7 +1619,7 @@ msgid ""
 "Please check the access permissions of the directory \"%1\"."
 msgstr ""
 "No se puede copiar el archivo al directorio local.\n"
-"Por favor, compruebe los permisos de acceso al directorio «%1»."
+"Compruebe los permisos de acceso al directorio «%1»."
 
 #: dialogs/listselector.cpp:257
 #, kde-format
@@ -1723,7 +1722,7 @@ msgstr ""
 #: dialogs/managetemplatesdialog.cpp:257
 #, kde-format
 msgid "Please choose an icon first."
-msgstr "Por favor, elije un icono primero"
+msgstr "Seleccione un icono primero."
 
 #: dialogs/managetemplatesdialog.cpp:265
 #, kde-format
@@ -1731,8 +1730,8 @@ msgid ""
 "The icon file: %1\n"
 "does not seem to exist. Please choose a new icon."
 msgstr ""
-"El icono: %1\n"
-"no parece existir. Por favor, elija un nuevo icono."
+"Parece que el archivo de icono %1\n"
+"no existe. Escoja un nuevo icono."
 
 #: dialogs/managetemplatesdialog.cpp:273
 #, kde-format
@@ -1750,7 +1749,7 @@ msgid ""
 "Please remove it first."
 msgstr ""
 "Ya existe una plantilla llamada «%1».\n"
-"Por favor, elimínela primero."
+"Elimínela primero."
 
 #: dialogs/managetemplatesdialog.cpp:289
 #, kde-format
@@ -1758,10 +1757,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Está a punto de sustituir la plantilla «%1». ¿Está seguro?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Eliminar plantilla"
+msgstr "Sustituir plantilla"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -1771,7 +1769,7 @@ msgstr "No se ha logrado crear la plantilla."
 #: dialogs/managetemplatesdialog.cpp:310
 #, kde-format
 msgid "Please select a template that should be removed."
-msgstr "Por favor elija la plantilla que desea eliminar."
+msgstr "Elija la plantilla que se debe eliminar."
 
 #: dialogs/managetemplatesdialog.cpp:319
 #, kde-format
@@ -1908,7 +1906,7 @@ msgstr "Documento BibTeX"
 #: dialogs/newfilewizard.cpp:77
 #, kde-format
 msgid "Kile Script"
-msgstr "Script de Kile"
+msgstr "Guion de Kile"
 
 #: dialogs/newtoolwizard.cpp:23
 #, kde-format
@@ -2096,8 +2094,8 @@ msgid ""
 " or leave it blank to try another method: "
 msgstr ""
 "Este archivo PDF está cifrado y «pdftk» no puede abrirlo.\n"
-"Por favor, introduzca la contraseña de este archivo PDF\n"
-" o déjela en blanco para probar otro método: "
+"Introduzca la contraseña de este archivo PDF\n"
+"o déjela en blanco para probar otro método: "
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:573
 #, kde-format
@@ -2759,7 +2757,7 @@ msgstr "Mostrar todas las características"
 #: dialogs/postscriptdialog.cpp:60
 #, kde-format
 msgid "Rearrange Postscript File"
-msgstr "Reestructurar un archivo postscript"
+msgstr "Reestructurar un archivo Postscript"
 
 #: dialogs/postscriptdialog.cpp:97
 #, kde-format
@@ -2913,7 +2911,7 @@ msgid ""
 "Choose one of the 18 operations to convert a postscript file. The last four "
 "operations need specific parameters."
 msgstr ""
-"Elegir una de las 18 operaciones para convertir un archivo postscript. Las "
+"Elegir una de las 18 operaciones para convertir un archivo Postscript. Las "
 "últimas cuatro operaciones necesitan parámetros específicos."
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbInfo)
@@ -3100,9 +3098,7 @@ msgstr "Sin título"
 #: dialogs/projectdialogs.cpp:351
 #, kde-format
 msgid "Please enter the folder where the project file should be saved to."
-msgstr ""
-"Por favor, introduzca la carpeta donde se debe guardar el archivo de "
-"proyecto."
+msgstr "Introduzca la carpeta donde se debe guardar el archivo de proyecto."
 
 #: dialogs/projectdialogs.cpp:351
 #, kde-format
@@ -3112,7 +3108,7 @@ msgstr "Ubicación vacía"
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
 msgid "Please enter an absolute path to the project folder."
-msgstr "Por favor, introduzca la ruta absoluta a la carpeta del proyecto."
+msgstr "Introduzca la ruta absoluta a la carpeta del proyecto."
 
 #: dialogs/projectdialogs.cpp:356
 #, kde-format
@@ -3124,8 +3120,7 @@ msgstr "Ubicación no válida"
 msgid ""
 "Please enter a filename for the file that should be added to this project."
 msgstr ""
-"Por favor, introduzca un nombre para el archivo que debe ser añadido a este "
-"proyecto."
+"Introduzca un nombre para el archivo que se debe añadir a este proyecto."
 
 #: dialogs/projectdialogs.cpp:361
 #, kde-format
@@ -3135,7 +3130,7 @@ msgstr "No se ha proporcionado ningún nombre de archivo"
 #: dialogs/projectdialogs.cpp:374
 #, kde-format
 msgid "The project file exists already. Please choose another name."
-msgstr "El archivo de proyecto ya existe. Por favor, escoja otro nombre."
+msgstr "El archivo de proyecto ya existe. Escoja otro nombre."
 
 #: dialogs/projectdialogs.cpp:374 dialogs/projectdialogs.cpp:380
 #, kde-format
@@ -3147,8 +3142,8 @@ msgstr "El archivo de proyecto ya existe"
 msgid ""
 "The GUI settings file exists already. Please choose another project name."
 msgstr ""
-"El archivo de preferencias de la interfaz gráfica ya existe. Por favor, "
-"escoja otro nombre de proyecto."
+"El archivo de preferencias de la interfaz gráfica ya existe. Escoja otro "
+"nombre de proyecto."
 
 #: dialogs/projectdialogs.cpp:395 documentinfo.cpp:133
 #, kde-format
@@ -3204,8 +3199,8 @@ msgid ""
 "<p>Could not create the project folder \"\n"
 "%1\"</p>.<p>Please check whether you have write permissions.</p>"
 msgstr ""
-"<p>No se ha podido crear la carpeta del proyecto «%1».</p><p>Por favor, "
-"compruebe que tiene permiso de escritura.</p>"
+"<p>No se ha podido crear la carpeta del proyecto «%1».</p><p>Compruebe que "
+"tiene permiso de escritura.</p>"
 
 #: dialogs/projectdialogs.cpp:606
 #, kde-format
@@ -3213,8 +3208,8 @@ msgid ""
 "<p>The project folder \"(%1)\" is not writable.</p><p>Please check the "
 "permissions of the project folder.</p>"
 msgstr ""
-"<p>No se puede escribir en la carpeta del proyecto («%1»).</p><p>Por favor, "
-"compruebe los permisos de la carpeta del proyecto.</p>"
+"<p>No se puede escribir en la carpeta del proyecto («%1»).</p><p>Compruebe "
+"los permisos de la carpeta del proyecto.</p>"
 
 #: dialogs/quickdocumentdialog.cpp:105
 #, kde-format
@@ -4114,7 +4109,7 @@ msgstr "Clase de documento"
 #: dialogs/quickdocumentdialog.cpp:1660
 #, kde-format
 msgid "Please enter the new document &class:"
-msgstr "Por favor, introduzca la nueva &clase de documento:"
+msgstr "Introduzca la nueva &clase de documento:"
 
 #: dialogs/quickdocumentdialog.cpp:1662
 #, kde-format
@@ -4150,8 +4145,7 @@ msgstr "Añadir tamaño del tipo de letra"
 #, kde-format
 msgid "Please enter the &fontsizes (comma-separated list):"
 msgstr ""
-"Por favor, introduzca los tamaños de los &tipos de letras (lista separada "
-"por comas):"
+"Introduzca los tamaños de los &tipos de letras (lista separada por comas):"
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
@@ -4171,8 +4165,7 @@ msgstr "Añadir tamaño del papel"
 #: dialogs/quickdocumentdialog.cpp:1805
 #, kde-format
 msgid "Please enter the &papersizes (comma-separated list):"
-msgstr ""
-"Por favor, introduzca los tamaños de &papel (lista separada por comas):"
+msgstr "Introduzca los tamaños de &papel (lista separada por comas):"
 
 #: dialogs/quickdocumentdialog.cpp:1823
 #, kde-format
@@ -4331,12 +4324,12 @@ msgstr "Nueva secuencia de teclas"
 #, kde-format
 msgid "Use a key sequence written in the editor to execute a script."
 msgstr ""
-"Usar una secuencia de teclas escrita en el editor para ejecutar un script."
+"Usar una secuencia de teclas escrita en el editor para ejecutar un guion."
 
 #: dialogs/scriptshortcutdialog.cpp:45
 #, kde-format
 msgid "Use a shortcut to execute a script."
-msgstr "Usar un acceso rápido de teclado para ejecutar un script."
+msgstr "Usar un atajo de teclado para ejecutar un guion."
 
 #. i18n: ectx: property (text), widget (QLabel, label_2)
 #: dialogs/scriptshortcutdialog_base.ui:35
@@ -4355,19 +4348,19 @@ msgstr "Secuencia de teclas del editor"
 #: dialogs/usermenu/usermenudialog.cpp:53
 #, kde-format
 msgid "Shortcut"
-msgstr "Acceso rápido de teclado"
+msgstr "Atajo de teclado"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:134
 #, kde-format
 msgid "Please enter a key sequence for this script:"
-msgstr "Por favor introduzca una secuencia de teclas para este script:"
+msgstr "Introduzca una secuencia de teclas para este guion:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:150
 #, kde-format
 msgid "Please enter a shortcut for this script:"
-msgstr "Por favor, introduzca un acceso rápido de teclado para este script:"
+msgstr "Introduzca un atajo de teclado para este guion:"
 
 #: dialogs/statisticsdialog.cpp:50
 #, kde-format
@@ -5109,7 +5102,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Descartar árbol"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5139,10 +5132,9 @@ msgstr ""
 "¿Desea sobrescribirlo?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "¿Sobrescribir el archivo?"
+msgstr "Sobrescribir archivo"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5156,10 +5148,9 @@ msgstr ""
 "¿Realmente desea guardar este archivo?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Error de árbol de menú"
+msgstr "Errores de árbol de menú"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5169,7 +5160,7 @@ msgstr "Tipo de menú"
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
 msgid "Please choose a menutype"
-msgstr "Por favor seleccione un tipo de menú"
+msgstr "Seleccione un tipo de menú"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbIcon)
 #: dialogs/usermenu/usermenudialog.cpp:980
@@ -5347,7 +5338,7 @@ msgstr "Texto:"
 #: dialogs/usermenu/usermenudialog_base.ui:452
 #, kde-format
 msgid "Shortcut:"
-msgstr "Acceso rápido de teclado:"
+msgstr "Atajo de teclado:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: dialogs/usermenu/usermenudialog_base.ui:466
@@ -5407,7 +5398,7 @@ msgstr "Parámetro de línea de comandos para un programa ejecutable."
 #: dialogs/usermenu/usermenudialog_base.ui:621
 #, kde-format
 msgid "Choose or clear a shortcut for this action."
-msgstr "Seleccionar o borrar un acceso rápido para esta acción."
+msgstr "Seleccionar o borrar un atajo de teclado para esta acción."
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, m_cbSelectInsertion)
 #: dialogs/usermenu/usermenudialog_base.ui:647
@@ -5587,10 +5578,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "¿Está seguro de que desea borrar el árbol de menú completo?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Limpiar el texto"
+msgstr "Borrar árbol de menú"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
@@ -5654,8 +5644,8 @@ msgid ""
 "The filename contains invalid characters ($~ #).<br>Please provide another "
 "one, or click \"Cancel\" to save anyway."
 msgstr ""
-"El nombre de archivo contiene caracteres no válidos ($~ #).<br>Por favor "
-"proporcione otro nombre o pulse en «Cancelar» para guardar de todas formas."
+"El nombre de archivo contiene caracteres no válidos ($~ #).<br>Proporcione "
+"otro nombre o pulse en «Cancelar» para guardar de todas formas."
 
 #: documentinfo.cpp:134
 #, kde-format
@@ -5663,8 +5653,8 @@ msgid ""
 "A file with filename '%1' already exists.<br>Please provide another one, or "
 "click \"Cancel\" to overwrite it."
 msgstr ""
-"Ya existe un archivo llamado «%1».<br>Por favor, proporcione otro nombre, o "
-"pulse en «Cancelar» para sobrescribirlo."
+"Ya existe un archivo llamado «%1».<br>Proporcione otro nombre o pulse "
+"«Cancelar» para sobrescribirlo."
 
 #: documentinfo.cpp:157
 #, kde-format
@@ -5772,7 +5762,7 @@ msgstr "Error de vista de estructura"
 #: editorkeysequencemanager.cpp:254
 #, kde-format
 msgid "Script execution of %1"
-msgstr "Ejecución del script de %1"
+msgstr "Ejecución del guion de %1"
 
 #: errorhandler.cpp:77
 #, kde-format
@@ -5920,7 +5910,7 @@ msgstr "Estructura"
 #: kile.cpp:583
 #, kde-format
 msgid "Scripts"
-msgstr "Scripts"
+msgstr "Guiones"
 
 #: kile.cpp:622
 #, kde-format
@@ -6458,9 +6448,9 @@ msgid ""
 "\n"
 "Please check and repair your installation of Kile."
 msgstr ""
-"No se pudo crear la herramienta «Archivo».\n"
+"No se ha podido crear la herramienta «Archivo».\n"
 "\n"
-"Por favor compruebe y repare su instalación de Kile."
+"Compruebe y repare la instalación de Kile."
 
 #: kile.cpp:1424
 #, kde-format
@@ -7202,13 +7192,13 @@ msgstr "Activar el uso de guiones."
 #: kile.kcfg:561
 #, kde-format
 msgid "Set a time limit for the execution of scripts."
-msgstr "Establece un límite de tiempo para la ejecución de scripts."
+msgstr "Establece un límite de tiempo para la ejecución de guiones."
 
 #. i18n: ectx: label, entry (TimeLimit), group (Scripting)
 #: kile.kcfg:565
 #, kde-format
 msgid "Time limit for the execution of scripts."
-msgstr "Límite de tiempo para la ejecución de scripts."
+msgstr "Límite de tiempo para la ejecución de guiones."
 
 #. i18n: ectx: label, entry (ScriptNameColumnWidth), group (Scripting)
 #: kile.kcfg:569
@@ -7217,8 +7207,8 @@ msgid ""
 "Width of the column containing the script name in the scripts management "
 "widget."
 msgstr ""
-"Ancho de la columna que contiene el nombre del script en la ventana de "
-"administración de scripts."
+"Ancho de la columna que contiene el nombre del guion en la ventana de "
+"administración de guiones."
 
 #. i18n: ectx: label, entry (pdfWizardLastTask), group (PdfWizard)
 #: kile.kcfg:575
@@ -7335,10 +7325,9 @@ msgid ""
 "report."
 msgstr ""
 "La estructura interna de Kile está dañada (probablemente debido a un fallo "
-"en Kile). Por favor seleccione «Guardar todo» en el menú «Archivo» y cierre "
-"Kile.\n"
+"en Kile). Seleccione «Guardar todo» en el menú «Archivo» y cierre Kile.\n"
 "El equipo de Kile se disculpa por cualquier inconveniente causado y "
-"agradecería el informe del fallo."
+"agradecería un informe del fallo."
 
 #: kiledocmanager.cpp:536
 #, kde-format
@@ -7374,7 +7363,7 @@ msgstr "Archivo no encontrado"
 #: kiledocmanager.cpp:743
 #, kde-format
 msgid "Please save the file first."
-msgstr "Por favor, guarde el archivo antes."
+msgstr "Guarde el archivo antes."
 
 #: kiledocmanager.cpp:748
 #, kde-format
@@ -7467,9 +7456,9 @@ msgid ""
 "document that is associated to the project you want to build the tree for, "
 "then choose Refresh Project Tree again."
 msgstr ""
-"El documento actual no está asociado a ningún proyecto. Por favor, active un "
-"documento que esté asociado al proyecto para el cual desea generar el árbol, "
-"y después seleccione de nuevo Actualizar el árbol del proyecto."
+"El documento actual no está asociado a ningún proyecto. Active un documento "
+"que esté asociado al proyecto para el cual desea generar el árbol, y después "
+"seleccione de nuevo Actualizar el árbol del proyecto."
 
 #: kiledocmanager.cpp:1315
 #, kde-format
@@ -7646,8 +7635,8 @@ msgid ""
 "There are no projects opened. Please open the project you want to add files "
 "to, then choose Add Files again."
 msgstr ""
-"No hay proyectos abiertos. Por favor, abra el proyecto al cual desea añadir "
-"archivos, y después seleccione de nuevo Añadir archivos."
+"No hay proyectos abiertos. Abra el proyecto al cual desea añadir archivos, y "
+"después seleccione de nuevo Añadir archivos."
 
 #: kiledocmanager.cpp:1828 kiledocmanager.cpp:1863
 #, kde-format
@@ -7666,9 +7655,9 @@ msgid ""
 "document that is associated to the project you want to modify, then choose "
 "Project Options again."
 msgstr ""
-"El documento actual no se encuentra asociado a ningún proyecto. Por favor, "
-"active un documento que esté asociado al proyecto que desea modificar, y "
-"después seleccione de nuevo Opciones de proyecto."
+"El documento actual no se encuentra asociado a ningún proyecto. Active un "
+"documento que esté asociado al proyecto que desea modificar, y después "
+"seleccione de nuevo Opciones de proyecto."
 
 #: kiledocmanager.cpp:1889
 #, kde-format
@@ -7682,9 +7671,9 @@ msgid ""
 "document that is associated to the project you want to close, then choose "
 "Close Project again."
 msgstr ""
-"El documento actual no se encuentra asociado a ningún proyecto. Por favor, "
-"active un documento que esté asociado con el proyecto que desea cerrar, y "
-"después seleccione de nuevo Cerrar proyecto."
+"El documento actual no se encuentra asociado a ningún proyecto. Active un "
+"documento que esté asociado con el proyecto que desea cerrar, y después "
+"seleccione de nuevo Cerrar proyecto."
 
 #: kiledocmanager.cpp:1943
 #, kde-format
@@ -7784,7 +7773,7 @@ msgstr "Archivos metapost"
 #: kileextensions.cpp:90
 #, kde-format
 msgid "Kile Script Files"
-msgstr "Archivos de scripts de Kile"
+msgstr "Archivos de guiones de Kile"
 
 #: kileextensions.cpp:94
 #, kde-format
@@ -7807,8 +7796,8 @@ msgid ""
 "Could not find the LaTeX documentation at %1; please set the correct path in "
 "Settings->Configure Kile->Help."
 msgstr ""
-"No se puede encontrar la documentación de LaTeX en %1; por favor configure "
-"la ruta correcta en Preferencias->Configurar Kile->Ayuda."
+"No se puede encontrar la documentación de LaTeX en %1. Configure la ruta "
+"correcta en Preferencias->Configurar Kile->Ayuda."
 
 #: kilehelp.cpp:166
 #, kde-format
@@ -7823,7 +7812,7 @@ msgstr "No definido"
 #: kileinfo.cpp:359
 #, kde-format
 msgid "Script"
-msgstr "Script"
+msgstr "Guion"
 
 #: kilelauncher.cpp:110
 #, kde-format
@@ -7903,9 +7892,7 @@ msgstr "El visor del documento no está disponible"
 #: kilelauncher.cpp:358
 #, kde-format
 msgid "Please disable the live preview before launching this tool"
-msgstr ""
-"Por favor, desactive la vista previa en vivo antes de ejecutar esta "
-"herramienta"
+msgstr "Desactive la vista previa en vivo antes de ejecutar esta herramienta"
 
 #: kilelyxserver.cpp:240
 #, kde-format
@@ -10406,8 +10393,8 @@ msgid ""
 "The version %1.%2.%3 of okular is too old for ForwardDVI. Please update "
 "okular to version 0.8.6 or higher"
 msgstr ""
-"La versión %1.%2.%3 de okular es demasiado vieja para ForwardDVI. Por favor, "
-"actualice okular a la versión 0.8.6 o superior"
+"La versión %1.%2.%3 de Okular es demasiado antigua para ForwardDVI. "
+"Actualice Okular a la versión 0.8.6 o posterior."
 
 #: kilestdtools.cpp:726
 #, kde-format
@@ -10488,7 +10475,7 @@ msgstr "No se ha podido determinar el archivo maestro para este documento."
 #: kiletool.cpp:64
 #, kde-format
 msgid "Please save the untitled document first."
-msgstr "Por favor, guarde el documento sin título antes."
+msgstr "Guarde el documento sin título antes."
 
 #: kiletool.cpp:65
 #, kde-format
@@ -10524,9 +10511,9 @@ msgid ""
 "document that is associated to the project you want to archive, then choose "
 "Archive again."
 msgstr ""
-"El documento actual no se encuentra asociado a ningún proyecto. Por favor, "
-"active un documento que esté asociado al proyecto que desea archivar, y "
-"después seleccione de nuevo Archivar."
+"El documento actual no se encuentra asociado a ningún proyecto. Active un "
+"documento que esté asociado al proyecto que desea archivar, y después "
+"seleccione de nuevo Archivar."
 
 #: kiletool.cpp:678
 #, kde-format
@@ -11185,7 +11172,7 @@ msgstr ""
 "Kile no se puede iniciar porque no se ha encontrado ninguna versión reciente "
 "de la biblioteca de Okular.\n"
 "\n"
-"Por favor, instale la biblioteca de Okular antes de ejecutar Kile."
+"Instale la biblioteca de Okular antes de ejecutar Kile."
 
 #: main.cpp:178
 #, kde-format
@@ -11328,27 +11315,27 @@ msgstr "Vista previa rápida"
 #: scripting/kilescriptobject.cpp:42
 #, kde-format
 msgid "Script: information"
-msgstr "Script: información"
+msgstr "Guion: información"
 
 #: scripting/kilescriptobject.cpp:48
 #, kde-format
 msgid "Script: sorry"
-msgstr "Script: disculpe"
+msgstr "Guion: disculpe"
 
 #: scripting/kilescriptobject.cpp:54
 #, kde-format
 msgid "Script: error"
-msgstr "Script: error"
+msgstr "Guion: error"
 
 #: scripting/kilescriptobject.cpp:60
 #, kde-format
 msgid "Script: question"
-msgstr "Script: pregunta"
+msgstr "Guion: pregunta"
 
 #: scripting/kilescriptobject.cpp:67
 #, kde-format
 msgid "Script: warning"
-msgstr "Script: advertencia"
+msgstr "Guion: advertencia"
 
 #: scripting/kilescriptobject.cpp:117
 #, kde-format
@@ -11358,12 +11345,12 @@ msgstr "Introducir valor"
 #: scripting/kilescriptobject.cpp:120
 #, kde-format
 msgid "Please enter a value"
-msgstr "Por favor, introduzca un valor"
+msgstr "Introduzca un valor"
 
 #: scripting/kilescriptobject.cpp:195
 #, kde-format
 msgid "Script '%1.js'"
-msgstr "Script «%1.js»"
+msgstr "Guion «%1.js»"
 
 #: scripting/kilescriptobject.cpp:214
 #, kde-format
@@ -11414,7 +11401,7 @@ msgid ""
 "An error has occurred at line %1 during the execution of the script \"%2\":\n"
 "%3"
 msgstr ""
-"Se produjo un error en la línea %1 durante la ejecución del script «%2»:\n"
+"Se produjo un error en la línea %1 durante la ejecución del guion «%2»:\n"
 "%3"
 
 #: scripting/script.cpp:296
@@ -11428,7 +11415,7 @@ msgid ""
 "Version %1 of Kile is at least required to execute the script \"%2\". The "
 "execution has been aborted."
 msgstr ""
-"Se necesita al menos la versión %1 de Kile para ejecutar el script «%2». Se "
+"Se necesita al menos la versión %1 de Kile para ejecutar el guion «%2». Se "
 "ha detenido la ejecución."
 
 #: scriptmanager.cpp:99
@@ -11439,12 +11426,12 @@ msgstr "Error de versión"
 #: scriptmanager.cpp:107
 #, kde-format
 msgid "Cannot start the script: no view available"
-msgstr "No se puede iniciar el script: la vista no está disponible"
+msgstr "No se puede iniciar el guion: la vista no está disponible"
 
 #: scriptmanager.cpp:107
 #, kde-format
 msgid "Script Error"
-msgstr "Error de script"
+msgstr "Error de guion"
 
 #: scriptmanager.cpp:487
 #, kde-format
@@ -12211,7 +12198,7 @@ msgstr "Restablecer las herramientas predeterminadas"
 #: widgets/newdocumentwidget.ui:38
 #, kde-format
 msgid "Please select the type of document you want to create:"
-msgstr "Por favor, seleccione el tipo de documento que desea crear:"
+msgstr "Seleccione el tipo de documento que desea crear:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox1)
 #: widgets/newdocumentwidget.ui:74
@@ -12223,7 +12210,7 @@ msgstr "Plantilla"
 #: widgets/newdocumentwidget.ui:80
 #, kde-format
 msgid "Please select the template that should be used:"
-msgstr "Por favor, seleccione la plantilla que desea usar:"
+msgstr "Seleccione la plantilla que desea usar:"
 
 #. i18n: ectx: property (text), widget (QCheckBox, quickStartWizardCheckBox)
 #: widgets/newdocumentwidget.ui:93
@@ -12592,7 +12579,7 @@ msgstr "Límite de tiempo de ejecución"
 #: widgets/scriptingconfigwidget.ui:67
 #, kde-format
 msgid "&Limit the execution time of scripts"
-msgstr "&Limita el tiempo de ejecución de los scripts"
+msgstr "&Limita el tiempo de ejecución de los guiones"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: widgets/scriptingconfigwidget.ui:85
@@ -12603,17 +12590,17 @@ msgstr "Límite de &tiempo (segundos):"
 #: widgets/scriptsmanagementwidget.cpp:75
 #, kde-format
 msgid "Run Selected Script"
-msgstr "Ejecutar el script seleccionado"
+msgstr "Ejecutar el guion seleccionado"
 
 #: widgets/scriptsmanagementwidget.cpp:81
 #, kde-format
 msgid "Create New Script"
-msgstr "Crear un nuevo script"
+msgstr "Crear un nuevo guion"
 
 #: widgets/scriptsmanagementwidget.cpp:87
 #, kde-format
 msgid "Open Selected Script in Editor"
-msgstr "Abrir el script seleccionado en el editor"
+msgstr "Abrir el guion seleccionado en el editor"
 
 #: widgets/scriptsmanagementwidget.cpp:93
 #, kde-format
@@ -12633,7 +12620,7 @@ msgstr "Actualizar lista"
 #: widgets/scriptsmanagementwidget.cpp:115
 #, kde-format
 msgid "Script Name"
-msgstr "Nombre del script"
+msgstr "Nombre del guion"
 
 #: widgets/scriptsmanagementwidget.cpp:116
 #, kde-format

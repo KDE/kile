@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-06-15 21:48+0100\n"
+"PO-Revision-Date: 2023-10-02 11:57+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -1720,10 +1720,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Vi estas anstataŭonta la ŝablonon \"%1\"; Ĉu vi certas?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Forigi ŝablonon"
+msgstr "Anstataŭigi ŝablonon"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5013,7 +5012,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Forĵeti arbon"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5043,10 +5042,9 @@ msgstr ""
 "Anstataŭigi ĉi tiun dosieron?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Ĉu anstataŭigi dosieron?"
+msgstr "Ĉu superskribi dosieron?"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5060,10 +5058,9 @@ msgstr ""
 "Ĉu vi vere volas konservi ĉi tiun dosieron?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Menutree Eraro"
+msgstr "Menuarbaj eraroj"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5488,10 +5485,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Ĉu vi vere volas forigi la kompletan menuarbon?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Klara Teksto"
+msgstr "Viŝi menuarbon"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
@@ -12995,9 +12991,3 @@ msgstr "Montru &la uzantmenuon en la LaTeX-menuo"
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr "Montru la &uzantmenuon en la menubreto"
-
-#~ msgid "*.pdf|PDF Files"
-#~ msgstr "*.pdf|PDF-dosieroj"
-
-#~ msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
-#~ msgstr "*.ps|PS-Dosieroj\\n*.ps.gz|Zipitaj PS-dosieroj"

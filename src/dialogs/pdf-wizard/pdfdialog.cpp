@@ -294,9 +294,8 @@ void PdfDialog::pdfParser(const QString &filename)
     m_PdfDialog.m_lbModDate->setText(QLocale().toString(doc->date("ModDate")));
 
     // read PDF version
-    int major,minor;
-    doc->getPdfVersion(&major,&minor);
-    m_PdfDialog.m_lbFormat->setText( QString("PDF version %1.%2").arg(major).arg(minor) );
+    Poppler::Document::PdfVersion pdfVersion = doc->getPdfVersion();
+    m_PdfDialog.m_lbFormat->setText( QString("PDF version %1.%2").arg(pdfVersion.major).arg(pdfVersion.minor) );
 
     // read permissions
     for (int i=0; i<m_pdfPermissionKeys.size(); ++i) {

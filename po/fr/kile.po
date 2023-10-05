@@ -17,7 +17,7 @@
 # Sébastien Renard <Sebastien.Renard@digitalfox.org>, 2008, 2009.
 # Ludovic grossard <grossard@kde.org>, 2008, 2009, 2011, 2012, 2013, 2014, 2017.
 # Anne-Marie Mahfouf <annma@kde.org>, 2012.
-# xavier <xavier.besnard@neuf.fr>, 2012, 2014, 2021, 2022.
+# SPDX-FileCopyrightText: 2012, 2014, 2021, 2022, 2023 xavier <xavier.besnard@neuf.fr>
 # Simon Depiets <sdepiets@gmail.com>, 2018, 2019, 2020.
 # Xavier BESNARD <xavier.besnard@neuf.fr>, 2023.
 #
@@ -27,15 +27,15 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-01-02 17:18+0100\n"
-"Last-Translator: Xavier BESNARD <xavier.besnard]neuf.fr>\n"
+"PO-Revision-Date: 2023-10-03 09:41+0200\n"
+"Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.0\n"
+"X-Generator: Lokalize 23.08.1\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -1773,10 +1773,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Voulez-vous vraiment remplacer le modèle « %1 » ? "
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Supprimer un modèle"
+msgstr "Remplacer un modèle"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5131,7 +5130,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Abandonner l'arborescence"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5161,10 +5160,9 @@ msgstr ""
 "Voulez-vous l'écraser ?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Écraser le fichier ?"
+msgstr "Écraser le fichier"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5178,10 +5176,9 @@ msgstr ""
 "Voulez-vous vraiment enregistrer ce ficher ?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Erreur dans l'arborescence de menu"
+msgstr "Erreurs dans l'arborescence de menus"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5610,10 +5607,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Voulez-vous vraiment supprimer l'arborescence de menu complète ?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Effacer le texte"
+msgstr "Effacer l'arborescence de menus"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

@@ -12741,6 +12741,3 @@ msgstr ""
 #, kde-format
 msgid "Show the &user menu in the menu bar"
 msgstr ""
-
-#~ msgid "*.ps|PS Files\\n*.ps.gz|Zipped PS Files"
-#~ msgstr "*.ps|PS ファイル\\n*.ps.gz|gzip で圧縮された PS ファイル"

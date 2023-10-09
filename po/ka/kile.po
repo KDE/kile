@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-02-03 17:12+0100\n"
+"PO-Revision-Date: 2023-10-08 05:49+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.2.2\n"
+"X-Generator: Poedit 3.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -919,7 +919,7 @@ msgstr ""
 #: dialogs/includegraphicsdialog_base.ui:296
 #, kde-format
 msgid "figure"
-msgstr ""
+msgstr "სურათი"
 
 #. i18n: ectx: property (title), widget (QGroupBox, cb_figure)
 #: dialogs/includegraphicsdialog_base.ui:302
@@ -1231,7 +1231,7 @@ msgstr ""
 #: dialogs/latexcommanddialog.cpp:397
 #, kde-format
 msgid "Citations"
-msgstr ""
+msgstr "ციტატები"
 
 #: dialogs/latexcommanddialog.cpp:398
 #, kde-format
@@ -1621,10 +1621,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "შაბლონის წაშლა"
+msgstr "შაბლონის ჩანაცვლება"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -4641,7 +4640,7 @@ msgstr "აირჩიეთ ფაილი"
 #: widgets/usermenuconfigwidget.cpp:74
 #, kde-format
 msgid "File '%1' does not exist."
-msgstr ""
+msgstr "ფაილი არ არსებობს: %1."
 
 #: dialogs/usermenu/usermenudialog.cpp:42 usermenu/usermenu.cpp:108
 #, kde-format
@@ -4780,10 +4779,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "ჩავანაცვლო ფაილი?"
+msgstr "ფაილის ჩანაცვლება"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5153,7 +5151,7 @@ msgstr ""
 #: dialogs/usermenu/usermenutree.cpp:203
 #, kde-format
 msgid "Delete this item"
-msgstr ""
+msgstr "ამ ელემენტის წაშლა"
 
 #: dialogs/usermenu/usermenutree.cpp:205
 #, kde-format
@@ -5211,10 +5209,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "ტექსტის გასუფთავება"
+msgstr "მენიუს ხის გასუფავება"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
@@ -5602,7 +5599,7 @@ msgstr ""
 #: kile.cpp:701 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
-msgstr ""
+msgstr "აბრევიატურა"
 
 #: kile.cpp:726
 #, kde-format
@@ -5772,7 +5769,7 @@ msgstr ""
 #: kile.cpp:887
 #, kde-format
 msgid "&Close Project"
-msgstr ""
+msgstr "პროექტის &დახურვა"
 
 #: kile.cpp:890
 #, kde-format
@@ -6012,7 +6009,7 @@ msgstr ""
 #: kile.cpp:1066
 #, kde-format
 msgid "Context Help"
-msgstr ""
+msgstr "კონტექსტური დახმარება"
 
 #: kile.cpp:1069
 #, kde-format
@@ -6858,7 +6855,7 @@ msgstr ""
 #: kiledocmanager.cpp:537 kiledocmanager.cpp:540
 #, kde-format
 msgid "Cannot open URL"
-msgstr ""
+msgstr "ბმულის გახსნა შეუძლებელია"
 
 #: kiledocmanager.cpp:540
 #, kde-format
@@ -7625,7 +7622,7 @@ msgstr ""
 #: kilestdactions.cpp:56
 #, kde-format
 msgid "Enumeration"
-msgstr ""
+msgstr "ჩამონათვალი"
 
 #: kilestdactions.cpp:56
 #, kde-format
@@ -10644,7 +10641,7 @@ msgstr ""
 #: templates.cpp:165
 #, kde-format
 msgid "Empty File"
-msgstr ""
+msgstr "ცარიელი ფაილი"
 
 #: templates.cpp:170
 #, kde-format
@@ -10719,7 +10716,7 @@ msgstr ""
 #: widgets/appearanceconfigwidget.ui:36
 #, kde-format
 msgid "Show splash screen on startup"
-msgstr ""
+msgstr "პროგრამის აბრის ჩვენება გაშვებისას"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowDocumentViewerInExternalWindow)
 #: widgets/appearanceconfigwidget.ui:67

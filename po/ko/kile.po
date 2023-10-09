@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-07-24 21:59+0200\n"
+"PO-Revision-Date: 2023-10-08 23:16+0200\n"
 "Last-Translator: Shinjo Park <kde@peremen.name>\n"
 "Language-Team: Korean <kde-kr@kde.org>\n"
 "Language: ko\n"
@@ -1702,10 +1702,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "서식 \"%1\"을(를) 대체하려고 합니다. 계속 진행하시겠습니까?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "서식 삭제"
+msgstr "서식 대체"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -4955,7 +4954,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "트리 버리기"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -4985,10 +4984,9 @@ msgstr ""
 "덮어쓰시겠습니까?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "파일을 덮어쓰시겠습니까?"
+msgstr "파일 덮어쓰기"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5002,8 +5000,7 @@ msgstr ""
 "이 파일을 저장하시겠습니까?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
 msgstr "메뉴 트리 오류"
 
@@ -5427,10 +5424,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "메뉴 트리를 전부 삭제하시겠습니까?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "텍스트 지우기"
+msgstr "메뉴 트리 지우기"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

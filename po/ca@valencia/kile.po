@@ -5238,7 +5238,8 @@ msgstr "Instal·la"
 #: dialogs/usermenu/usermenudialog_base.ui:247
 #, kde-format
 msgid "Load an xml file, which describes the user-defined menu."
-msgstr "Carrega un fitxer XML, el qual descriu el menú definit per l'usuari."
+msgstr ""
+"Carrega un fitxer en XML, el qual descriu el menú definit per l'usuari."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbLoad)
 #: dialogs/usermenu/usermenudialog_base.ui:250
@@ -5254,7 +5255,7 @@ msgid ""
 "file into the local directory of Kile."
 msgstr ""
 "Guarda un arbre de menús modificat, el qual descriu el menú definit per "
-"l'usuari, a un fitxer XML dins del directori local de Kile."
+"l'usuari, a un fitxer en XML dins del directori local de Kile."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:276
@@ -5270,8 +5271,8 @@ msgid ""
 "file into the local directory of Kile and choose a new name for this file."
 msgstr ""
 "Guarda un arbre de menús modificat, el qual descriu el menú definit per "
-"l'usuari, a un fitxer XML dins del directori local de Kile i tria un nom nou "
-"per a este fitxer."
+"l'usuari, a un fitxer en XML dins del directori local de Kile i tria un nom "
+"nou per a este fitxer."
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:286
@@ -7213,7 +7214,7 @@ msgstr "S'han d'inserir caràcters UTF-8 en lloc d'ordres"
 #: kile.kcfg:599
 #, kde-format
 msgid "XML file for the user menu"
-msgstr "Fitxer XML per al menú d'usuari"
+msgstr "Fitxer en XML per al menú d'usuari"
 
 #. i18n: ectx: label, entry (userMenuLocation), group (UserMenu)
 #: kile.kcfg:603
@@ -7796,7 +7797,9 @@ msgstr "No s'ha pogut fer l'execució, diagnòstics:"
 #: kilelauncher.cpp:234
 #, kde-format
 msgid "An error occurred while parsing the options given to the tool."
-msgstr "S'ha produït un error en analitzar les opcions indicades a l'eina."
+msgstr ""
+"S'ha produït un error en l'anàlisi sintàctica de les opcions indicades a "
+"l'eina."
 
 #: kilelauncher.cpp:238
 #, kde-format

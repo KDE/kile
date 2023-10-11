@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2023-09-16 10:08\n"
+"PO-Revision-Date: 2023-10-10 14:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -1681,10 +1681,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "您将要替换模板“%1”；确定吗？"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "删除模板"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -4926,10 +4925,9 @@ msgstr ""
 "要覆盖它吗？"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "要覆盖文件吗？"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -4942,10 +4940,9 @@ msgstr ""
 "您确定要保存此文件吗？"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "菜单树错误"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5366,10 +5363,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "您确定要清空树形菜单吗？"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "清除文字"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

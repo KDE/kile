@@ -1718,10 +1718,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Přejete si skutečně přepsat vybranou šablonu \"%1\"?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Odstranit šablonu"
+msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5017,10 +5016,9 @@ msgstr ""
 "Přepsat tento soubor?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Přepsat soubor?"
+msgstr "Přepsat soubor"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5034,10 +5032,9 @@ msgstr ""
 "Opravdu si přejete tento strom uložit?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Chyba stromu nabídky"
+msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5461,10 +5458,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Přejete si skutečně vyčistit celý strom nabídky?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Vymazat text"
+msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

@@ -6056,12 +6056,12 @@ msgstr "&Europeu occidental (CP-1252)"
 #: kile.cpp:856
 #, kde-format
 msgid "Move Tab Left"
-msgstr "Mou la pestanya a l'esquerra"
+msgstr "Mou la pestanya cap a l'esquerra"
 
 #: kile.cpp:857
 #, kde-format
 msgid "Move Tab Right"
-msgstr "Mou la pestanya a la dreta"
+msgstr "Mou la pestanya cap a la dreta"
 
 #: kile.cpp:859
 #, kde-format
@@ -6270,12 +6270,12 @@ msgstr "A final de línia"
 #: kile.cpp:964 kile.cpp:975
 #, kde-format
 msgid "Go to Begin"
-msgstr "Ves al començament"
+msgstr "Ves fins al començament"
 
 #: kile.cpp:966 kile.cpp:977
 #, kde-format
 msgid "Go to End"
-msgstr "Ves al final"
+msgstr "Ves fins al final"
 
 #: kile.cpp:968 kile.cpp:979
 #, kde-format
@@ -7762,7 +7762,7 @@ msgid ""
 "Settings->Configure Kile->Help."
 msgstr ""
 "No s'ha pogut trobar la documentació de LaTeX a %1. Establiu el camí "
-"correcte en «Configuració -> Configura Kile -> Ajuda»."
+"correcte a «Configuració -> Configura Kile -> Ajuda»."
 
 #: kilehelp.cpp:166
 #, kde-format
@@ -11499,7 +11499,7 @@ msgstr "Configureu l'aparença"
 #: widgets/appearanceconfigwidget.ui:29
 #, kde-format
 msgid "Show full path in window title"
-msgstr "Mostra el camí complet en el títol de la finestra"
+msgstr "Mostra el camí complet cap al títol de la finestra"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_ShowSplashScreen)
 #: widgets/appearanceconfigwidget.ui:36
@@ -11998,13 +11998,13 @@ msgstr "Comprova si és un document a&rrel"
 #: widgets/latextoolconfigwidget.ui:45
 #, kde-format
 msgid "Jump to first error in case running LaTeX failed"
-msgstr "Salta al primer error en cas que falle l'execució de LaTeX"
+msgstr "Salta fins al primer error en cas que falle l'execució de LaTeX"
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_ckJump)
 #: widgets/latextoolconfigwidget.ui:48
 #, kde-format
 msgid "&Jump to first error"
-msgstr "&Salta al primer error"
+msgstr "&Salta fins al primer error"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, m_ckAutoRun)
 #: widgets/latextoolconfigwidget.ui:55

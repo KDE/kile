@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022.
+# Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-02 00:43+0000\n"
-"PO-Revision-Date: 2022-11-26 11:36+0100\n"
+"PO-Revision-Date: 2023-10-14 12:15+0200\n"
 "Last-Translator: Łukasz Wojniłowicz <lukasz.wojnilowicz@gmail.com>\n"
 "Language-Team: Polish <kde-i18n-doc@kde.org>\n"
 "Language: pl\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Lokalize 22.08.2\n"
+"X-Generator: Lokalize 23.04.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1728,10 +1728,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Masz zamiar zastąpić wzorzec \"%1\"; czy na pewno?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Usuń wzorzec"
+msgstr "Zastąp wzorzec"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -1767,7 +1766,7 @@ msgstr "Bez n&umerowania:"
 #: dialogs/mathenvironmentdialog.cpp:61 dialogs/tabbingdialog_base.ui:46
 #, kde-format
 msgid "Number of &rows:"
-msgstr "Liczba &wierszy:"
+msgstr "Liczba wie&rszy:"
 
 #: dialogs/mathenvironmentdialog.cpp:62
 #, kde-format
@@ -5029,7 +5028,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Porzuć drzewo"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5059,10 +5058,9 @@ msgstr ""
 "Czy zastąpić ten plik?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Czy zastąpić plik?"
+msgstr "Zastąp plik"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5076,10 +5074,9 @@ msgstr ""
 "Czy na pewno chcesz zapisać ten plik?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Błąd drzewa menu"
+msgstr "Błędy drzewa menu"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5505,10 +5502,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Czy na pewno chcesz wyczyścić całkowite drzewo menu?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Wyczyść tekst"
+msgstr "Wyczyść drzewo menu"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

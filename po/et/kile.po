@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-02 00:43+0000\n"
+"POT-Creation-Date: 2023-10-16 00:43+0000\n"
 "PO-Revision-Date: 2019-12-30 17:01+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -1525,7 +1525,7 @@ msgstr "Kohalike lõpetusfailide haldamine failihalduris"
 
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:198
 #: widgets/codecompletionconfigwidget.cpp:357
 #, kde-format
@@ -1534,7 +1534,7 @@ msgstr "jah"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:946
+#: dialogs/pdf-wizard/pdfdialog.cpp:945
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:203
 #: widgets/codecompletionconfigwidget.cpp:360
@@ -1933,8 +1933,8 @@ msgstr "&Tööriista lühike kirjeldav nimi:"
 msgid "PDF Wizard"
 msgstr "PDF-i nõustaja"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:728
-#: dialogs/pdf-wizard/pdfdialog.cpp:853
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:727
+#: dialogs/pdf-wizard/pdfdialog.cpp:852
 #, kde-format
 msgid "Re&arrange"
 msgstr "Ko&rralda ümber"
@@ -2034,23 +2034,23 @@ msgstr "pdftk: parameetri valik"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages: parameetri valik"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:405
+#: dialogs/pdf-wizard/pdfdialog.cpp:404
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
 msgstr "%1 (krüptitud)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:413
+#: dialogs/pdf-wizard/pdfdialog.cpp:412
 #, kde-format
 msgid "Error: unknown number of pages"
 msgstr "Tõrge: tundmatu lehekülgede arv"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:426
+#: dialogs/pdf-wizard/pdfdialog.cpp:425
 #, kde-format
 msgid "PDFTK-Password"
 msgstr "PDFTK-Parool"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:427
+#: dialogs/pdf-wizard/pdfdialog.cpp:426
 #, kde-format
 msgid ""
 "This PDF file is encrypted and 'pdftk' cannot open it.\n"
@@ -2061,53 +2061,53 @@ msgstr ""
 "Palun anna PDF-faili parool\n"
 "või jäta tühjaks mõne muu meetodi katsetamiseks:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:573
+#: dialogs/pdf-wizard/pdfdialog.cpp:572
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr "Kehtivate seadistuste määramiseks või muutmiseks on vajalik parool."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:577
+#: dialogs/pdf-wizard/pdfdialog.cpp:576
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "<i>pdftk</i> võib muuta selle dokumendi õigusi."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:578
+#: dialogs/pdf-wizard/pdfdialog.cpp:577
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr "<i>pdftk</i> pole saadaval, mistõttu õigusi ei saa muuta."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:582
+#: dialogs/pdf-wizard/pdfdialog.cpp:581
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr "<i>pdftk</i> pole saadaval, mistõttu omadusi ei saa muuta."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:585
+#: dialogs/pdf-wizard/pdfdialog.cpp:584
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr "<i>pdftk</i> võib muuta selle dokumendi omadusi."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:593
+#: dialogs/pdf-wizard/pdfdialog.cpp:592
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr "See sisendfail on krüptitud, nii et ainult <i>pdftk</i> töötab."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "Lehekülgede ümberkorraldamiseks on vajalik parool."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:595
+#: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr "See sisendfail on krüptitud, aga <i>pdftk</i> pole paigaldatud."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:599
+#: dialogs/pdf-wizard/pdfdialog.cpp:598
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr "Nõustaja kasutab <i>pdftk</i>-d ja LaTeXi paketti <i>pdfpages</i>."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:600
+#: dialogs/pdf-wizard/pdfdialog.cpp:599
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
@@ -2116,7 +2116,7 @@ msgstr ""
 "Nõustaja kasutab ainult <i>pdftk</i>-d (<i>pdfpages.sty</i> pole "
 "paigaldatud)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:603
+#: dialogs/pdf-wizard/pdfdialog.cpp:602
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2125,12 +2125,12 @@ msgstr ""
 "Nõustaja kasutab ainult LaTeXi paketti <i>pdfpages</i> (<i>pdftk</i>-d ei "
 "leitud)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:604
+#: dialogs/pdf-wizard/pdfdialog.cpp:603
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr "Nõustaja ei saa töötada, sest ühtegi tööriista ei leitud (vaata abi)."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:609
+#: dialogs/pdf-wizard/pdfdialog.cpp:608
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
@@ -2139,24 +2139,24 @@ msgstr ""
 "<i>(Kompileeritud ilma libpoppleri pdf-i teegita. Mitte kõiki ülesandeid ei "
 "saa täita.)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:728
+#: dialogs/pdf-wizard/pdfdialog.cpp:727
 #, kde-format
 msgid "&Update"
 msgstr "&Uuenda"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "Leheküljed:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:792
+#: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "Komadega eraldatud lehekülgede loend: 1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:797 dialogs/pdf-wizard/pdfdialog.cpp:802
+#: dialogs/pdf-wizard/pdfdialog.cpp:796 dialogs/pdf-wizard/pdfdialog.cpp:801
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:503
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2165,17 +2165,17 @@ msgstr "Komadega eraldatud lehekülgede loend: 1,4-7,9"
 msgid "Parameter:"
 msgstr "Parameeter:"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:798
+#: dialogs/pdf-wizard/pdfdialog.cpp:797
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "Kõik pdftk võtmed"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:803
+#: dialogs/pdf-wizard/pdfdialog.cpp:802
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "Kõik pdfpages'i võtmed"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:825
+#: dialogs/pdf-wizard/pdfdialog.cpp:824
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2188,7 +2188,7 @@ msgstr ""
 "lehekülgedele. Lehekülge skaleeritakse ja pööratakse vastavalt "
 "sisendlehekülje vajadustele."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:830
+#: dialogs/pdf-wizard/pdfdialog.cpp:829
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2202,12 +2202,12 @@ msgstr ""
 "sisendlehekülje vajadustele. See annab parema tulemuse, kui templi PDF-"
 "leheküljel on läbipaistev taust."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:850
+#: dialogs/pdf-wizard/pdfdialog.cpp:849
 #, kde-format
 msgid "&Apply"
 msgstr "&Rakenda"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:868
+#: dialogs/pdf-wizard/pdfdialog.cpp:867
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2218,7 +2218,7 @@ msgstr ""
 "\n"
 "Nõustajat ei saa kasutada."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:896
+#: dialogs/pdf-wizard/pdfdialog.cpp:895
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2250,7 +2250,7 @@ msgstr ""
 "rohkem autori viisakaks, aga kindlaks sooviks austada tema soove ja tahtmist."
 "</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:913
+#: dialogs/pdf-wizard/pdfdialog.cpp:912
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2261,169 +2261,169 @@ msgstr ""
 "teegita. Omaduste ja õiguste määramine, muutmine ja eemaldamine ei ole "
 "võimalik.</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:917 dialogs/pdf-wizard/pdfdialog.cpp:1705
-#: dialogs/pdf-wizard/pdfdialog.cpp:1775 kile.cpp:1020
+#: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1020
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF-tööriistad"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:931
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "LaTeX pdfpages'i paketiga"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:931
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:932
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "PDF-faili ümberkorraldamine: %1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
+#: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/pdf-wizard/pdfdialog.cpp:1052
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** tööriist:        "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** sisendfail:  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** väljundfail: "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/pdf-wizard/pdfdialog.cpp:1055
+#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1054
 #, kde-format
 msgid "***** param:       "
 msgstr "***** param:       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945
+#: dialogs/pdf-wizard/pdfdialog.cpp:944
 #, kde-format
 msgid "***** command:     "
 msgstr "***** käsk:     "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** näitaja:      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1108
+#: dialogs/pdf-wizard/pdfdialog.cpp:1107
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "Ülesande täitmisel tekkis tõrge."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1164
+#: dialogs/pdf-wizard/pdfdialog.cpp:1163
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "Lõpetas veaga (vale parool)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1167
+#: dialogs/pdf-wizard/pdfdialog.cpp:1166
 #, kde-format
 msgid "Finished with an error"
 msgstr "Lõpetati veaga"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1181
+#: dialogs/pdf-wizard/pdfdialog.cpp:1180
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "ViewPDF-i tööriista loomine nurjus"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1181
+#: dialogs/pdf-wizard/pdfdialog.cpp:1180
 #, kde-format
 msgid "ViewPDF"
 msgstr "ViewPDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1621
+#: dialogs/pdf-wizard/pdfdialog.cpp:1620
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "Tööriist vajab selles režiimis mingit parameetrit."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1639
+#: dialogs/pdf-wizard/pdfdialog.cpp:1638
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "Lubamatu lehekülgede loend: %1 on suurem kui %2."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1643 dialogs/pdf-wizard/pdfdialog.cpp:1650
+#: dialogs/pdf-wizard/pdfdialog.cpp:1642 dialogs/pdf-wizard/pdfdialog.cpp:1649
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "Lubamatu leheküljenumber: %1."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1663
+#: dialogs/pdf-wizard/pdfdialog.cpp:1662
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "Määrata tuleb esiplaani templina kasutatav PDF-fail."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1664
+#: dialogs/pdf-wizard/pdfdialog.cpp:1663
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "Määrata tuleb taustavesimärgina kasutatav PDF-fail."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1671
+#: dialogs/pdf-wizard/pdfdialog.cpp:1670
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
 msgstr ""
 "Tundmatu failivorming: selles režiimis saab pildifail olla ainult '.pdf'."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1676
+#: dialogs/pdf-wizard/pdfdialog.cpp:1675
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "Määratud faili ei ole olemas."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1689
+#: dialogs/pdf-wizard/pdfdialog.cpp:1688
 #, kde-format
 msgid "You need to define an output file."
 msgstr "Määrata tuleb väljundfail."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1696
+#: dialogs/pdf-wizard/pdfdialog.cpp:1695
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr "Tundmatu failivorming: väljundfail saab olla ainult '.pdf'."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1702 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1701 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "Fail nimega \"%1\" on juba olemas. Kas kirjutada see tõesti üle?"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1737 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "Sisendfail on määramata."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1744
+#: dialogs/pdf-wizard/pdfdialog.cpp:1743
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr "Tundmatu failivorming: sisendfail saab olla ainult '.pdf'."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1749 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "Seda sisendfaili ei ole olemas."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1761
+#: dialogs/pdf-wizard/pdfdialog.cpp:1760
 #, kde-format
 msgid "No password is given."
 msgstr "Parooli pole antud."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1766
+#: dialogs/pdf-wizard/pdfdialog.cpp:1765
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "Parool peab koosnema vähemalt 6 sümbolist."
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1775 dialogs/postscriptdialog.cpp:517
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1775 dialogs/postscriptdialog.cpp:517
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:438
 #, kde-format
 msgid "</center>"

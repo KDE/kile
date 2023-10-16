@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-02 00:43+0000\n"
+"POT-Creation-Date: 2023-10-16 00:43+0000\n"
 "PO-Revision-Date: 2023-10-10 14:28\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
@@ -1493,7 +1493,7 @@ msgstr "在文件管理器中管理本地自动完成文件"
 
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:198
 #: widgets/codecompletionconfigwidget.cpp:357
 #, kde-format
@@ -1502,7 +1502,7 @@ msgstr "是"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbEncryption)
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
-#: dialogs/pdf-wizard/pdfdialog.cpp:946
+#: dialogs/pdf-wizard/pdfdialog.cpp:945
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
 #: widgets/codecompletionconfigwidget.cpp:203
 #: widgets/codecompletionconfigwidget.cpp:360
@@ -1889,8 +1889,8 @@ msgstr "在这里插入工具(&T)的简短描述名："
 msgid "PDF Wizard"
 msgstr "PDF 向导"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:728
-#: dialogs/pdf-wizard/pdfdialog.cpp:853
+#: dialogs/pdf-wizard/pdfdialog.cpp:117 dialogs/pdf-wizard/pdfdialog.cpp:727
+#: dialogs/pdf-wizard/pdfdialog.cpp:852
 #, kde-format
 msgid "Re&arrange"
 msgstr "重排"
@@ -1990,23 +1990,23 @@ msgstr "pdftk：选择参数"
 msgid "pdfpages: Choose Parameter"
 msgstr "pdfpages：选择参数"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:405
+#: dialogs/pdf-wizard/pdfdialog.cpp:404
 #, kde-format
 msgctxt "%1 is the number of pages"
 msgid "%1 (encrypted)"
 msgstr "%1 (已加密)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:413
+#: dialogs/pdf-wizard/pdfdialog.cpp:412
 #, kde-format
 msgid "Error: unknown number of pages"
 msgstr "错误：页数未知"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:426
+#: dialogs/pdf-wizard/pdfdialog.cpp:425
 #, kde-format
 msgid "PDFTK-Password"
 msgstr "PDFTK-密码"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:427
+#: dialogs/pdf-wizard/pdfdialog.cpp:426
 #, kde-format
 msgid ""
 "This PDF file is encrypted and 'pdftk' cannot open it.\n"
@@ -2016,60 +2016,60 @@ msgstr ""
 "这份 PDF 文件已加密，无法使用“pdftk”打开。\n"
 "请输入此文件的密码，或留白来尝试其他方法："
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:573
+#: dialogs/pdf-wizard/pdfdialog.cpp:572
 #, kde-format
 msgid "A password is necessary to set or change the current settings."
 msgstr "调整当前设置需要输入密码。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:577
+#: dialogs/pdf-wizard/pdfdialog.cpp:576
 #, kde-format
 msgid "The permissions of this document can be changed with <i>pdftk</i>."
 msgstr "可以使用 <i>pdftk</i> 更改此文档的权限。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:578
+#: dialogs/pdf-wizard/pdfdialog.cpp:577
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no permission can be changed."
 msgstr "无法调用 <i>pdftk</i>，所以无法更改权限。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:582
+#: dialogs/pdf-wizard/pdfdialog.cpp:581
 #, kde-format
 msgid "<i>pdftk</i> is not available, so no property can be changed."
 msgstr "无法调用 <i>pdftk</i>，所以无法更改属性。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:585
+#: dialogs/pdf-wizard/pdfdialog.cpp:584
 #, kde-format
 msgid "The properties of this document can be changed with <i>pdftk</i>."
 msgstr "可以使用 <i>pdftk</i> 更改此文档的属性。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:593
+#: dialogs/pdf-wizard/pdfdialog.cpp:592
 #, kde-format
 msgid "This input file is encrypted, so only <i>pdftk</i> works."
 msgstr "输入的文件已加密，所以只有 <i>pdftk</i> 能正常运行。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:594
+#: dialogs/pdf-wizard/pdfdialog.cpp:593
 #, kde-format
 msgid "A password is necessary to rearrange pages."
 msgstr "重新排序页面必须要输入密码。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:595
+#: dialogs/pdf-wizard/pdfdialog.cpp:594
 #, kde-format
 msgid "This input file is encrypted, but <i>pdftk</i> is not installed."
 msgstr "输入的文件已加密，但您没有安装 <i>pdftk</i>。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:599
+#: dialogs/pdf-wizard/pdfdialog.cpp:598
 #, kde-format
 msgid ""
 "This wizard will use <i>pdftk</i> and the LaTeX package <i>pdfpages</i>."
 msgstr "此向导会使用 <i>pdftk</i> 和 LaTeX 软件包中的 <i>pdfpages</i>。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:600
+#: dialogs/pdf-wizard/pdfdialog.cpp:599
 #, kde-format
 msgid ""
 "This wizard will only use <i>pdftk</i> (<i>pdfpages.sty</i> is not "
 "installed)."
 msgstr "此向导将只使用 <i>pdftk</i> (找不到 <i>pdfpages.sty</i>)。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:603
+#: dialogs/pdf-wizard/pdfdialog.cpp:602
 #, kde-format
 msgid ""
 "This wizard will only use the LaTeX package <i>pdfpages</i> (<i>pdftk</i> "
@@ -2077,36 +2077,36 @@ msgid ""
 msgstr ""
 "此向导将只使用 LaTeX 软件包中的 <i>pdfpages</i> (找不到 <i>pdftk</i>)。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:604
+#: dialogs/pdf-wizard/pdfdialog.cpp:603
 #, kde-format
 msgid "This wizard can't work, because no tool was found (see help section)."
 msgstr "此向导无法运行，因为无法找到合适的工具 (见帮助部分)。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:609
+#: dialogs/pdf-wizard/pdfdialog.cpp:608
 #, kde-format
 msgid ""
 "<i>(Compiled without libpoppler pdf library. Not all tasks are available.)</"
 "i>"
 msgstr "<i>(未使用 libpoppler pdf 库编译，部分任务无法执行。)</i>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:728
+#: dialogs/pdf-wizard/pdfdialog.cpp:727
 #, kde-format
 msgid "&Update"
 msgstr "更新(&U)"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
-#: dialogs/pdf-wizard/pdfdialog.cpp:791 dialogs/pdf-wizard/pdfdialog_base.ui:55
+#: dialogs/pdf-wizard/pdfdialog.cpp:790 dialogs/pdf-wizard/pdfdialog_base.ui:55
 #, kde-format
 msgid "Pages:"
 msgstr "页面："
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:792
+#: dialogs/pdf-wizard/pdfdialog.cpp:791
 #, kde-format
 msgid "Comma separated page list: 1,4-7,9"
 msgstr "使用逗号分隔的页面列表：1,4-7,9"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbParameter)
-#: dialogs/pdf-wizard/pdfdialog.cpp:797 dialogs/pdf-wizard/pdfdialog.cpp:802
+#: dialogs/pdf-wizard/pdfdialog.cpp:796 dialogs/pdf-wizard/pdfdialog.cpp:801
 #: dialogs/pdf-wizard/pdfdialog_base.ui:274 dialogs/postscriptdialog.cpp:503
 #: dialogs/postscriptdialog_base.ui:147
 #: dialogs/tabular/newtabulardialog.cpp:132
@@ -2115,17 +2115,17 @@ msgstr "使用逗号分隔的页面列表：1,4-7,9"
 msgid "Parameter:"
 msgstr "参数："
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:798
+#: dialogs/pdf-wizard/pdfdialog.cpp:797
 #, kde-format
 msgid "All options for 'pdftk'"
 msgstr "\"pdftk\" 的所有选项"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:803
+#: dialogs/pdf-wizard/pdfdialog.cpp:802
 #, kde-format
 msgid "All options for 'pdfpages'"
 msgstr "\"pdfpages\" 的所有选项"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:825
+#: dialogs/pdf-wizard/pdfdialog.cpp:824
 #, kde-format
 msgid ""
 "Applies a PDF watermark to the background of a single input PDF. Pdftk uses "
@@ -2136,7 +2136,7 @@ msgstr ""
 "为输入的 PDF 的背景添加 PDF 水印。Pdftk 会将第一页的 PDF 背景复制到每一页上。"
 "第一页会被缩放且旋转，并适应输入的页面。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:830
+#: dialogs/pdf-wizard/pdfdialog.cpp:829
 #, kde-format
 msgid ""
 "Applies a foreground stamp on top of the input PDF document's pages. Pdftk "
@@ -2148,12 +2148,12 @@ msgstr ""
 "每一页上。第一页会被缩放且旋转，并适应输入的页面。图章 PDF 页为透明背景时效果"
 "最佳。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:850
+#: dialogs/pdf-wizard/pdfdialog.cpp:849
 #, kde-format
 msgid "&Apply"
 msgstr "应用(&A)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:868
+#: dialogs/pdf-wizard/pdfdialog.cpp:867
 #, kde-format
 msgid ""
 "Failed to create a temporary directory.\n"
@@ -2164,7 +2164,7 @@ msgstr ""
 "\n"
 "此向导无法运行。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:896
+#: dialogs/pdf-wizard/pdfdialog.cpp:895
 #, kde-format
 msgid ""
 "<center>PDF-Wizard</center><br>This wizard uses 'pdftk' and the LaTeX "
@@ -2191,7 +2191,7 @@ msgstr ""
 "p><p><i>警告：</i>加密和密码并不提供真正的 PDF 安全性。即使内容已经加密，但是"
 "密钥是公开的。您应将其看作是作者礼貌而坚定的要求，并尊重作者的意愿。</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:913
+#: dialogs/pdf-wizard/pdfdialog.cpp:912
 #, kde-format
 msgid ""
 "<p><i>Information: </i>This version of Kile was compiled without libpoppler "
@@ -2201,168 +2201,168 @@ msgstr ""
 "<p><i>提醒：</i>此版本的 Kile 未使用 libpoppler 库进行编译，无法对属性和权限"
 "进行设定、修改或删除。</p>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:917 dialogs/pdf-wizard/pdfdialog.cpp:1705
-#: dialogs/pdf-wizard/pdfdialog.cpp:1775 kile.cpp:1020
+#: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1020
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF 工具"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:931
 #, kde-format
 msgid "LaTeX with 'pdfpages' package"
 msgstr "带有 hyperref 宏包的 LaTeX"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:932
+#: dialogs/pdf-wizard/pdfdialog.cpp:931
 #, kde-format
 msgid "pdftk"
 msgstr "pdftk"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:933
+#: dialogs/pdf-wizard/pdfdialog.cpp:932
 #, kde-format
 msgid "Rearranging PDF file: %1"
 msgstr "正在重新排序 PDF 文件:%1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
+#: dialogs/pdf-wizard/pdfdialog.cpp:940 dialogs/pdf-wizard/pdfdialog.cpp:1052
 #: dialogs/postscriptdialog.cpp:216
 #, kde-format
 msgid "***** tool:        "
 msgstr "***** 工具：        "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/pdf-wizard/pdfdialog.cpp:1054
+#: dialogs/pdf-wizard/pdfdialog.cpp:941 dialogs/pdf-wizard/pdfdialog.cpp:1053
 #: dialogs/postscriptdialog.cpp:217
 #, kde-format
 msgid "***** input file:  "
 msgstr "***** 输入文件：  "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/postscriptdialog.cpp:218
+#: dialogs/pdf-wizard/pdfdialog.cpp:942 dialogs/postscriptdialog.cpp:218
 #, kde-format
 msgid "***** output file: "
 msgstr "***** 输出文件："
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:944 dialogs/pdf-wizard/pdfdialog.cpp:1055
+#: dialogs/pdf-wizard/pdfdialog.cpp:943 dialogs/pdf-wizard/pdfdialog.cpp:1054
 #, kde-format
 msgid "***** param:       "
 msgstr "***** 参数：       "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:945
+#: dialogs/pdf-wizard/pdfdialog.cpp:944
 #, kde-format
 msgid "***** command:     "
 msgstr "***** 命令：   "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:946 dialogs/postscriptdialog.cpp:219
+#: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
 #, kde-format
 msgid "***** viewer:      "
 msgstr "***** 查看器：      "
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1108
+#: dialogs/pdf-wizard/pdfdialog.cpp:1107
 #, kde-format
 msgid "An error occurred while executing the task."
 msgstr "执行任务时出错。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1164
+#: dialogs/pdf-wizard/pdfdialog.cpp:1163
 #, kde-format
 msgid "Finished with an error (wrong password)"
 msgstr "完成但有错误 (密码错误)"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1167
+#: dialogs/pdf-wizard/pdfdialog.cpp:1166
 #, kde-format
 msgid "Finished with an error"
 msgstr "完成但有错误"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1181
+#: dialogs/pdf-wizard/pdfdialog.cpp:1180
 #, kde-format
 msgid "Could not create the ViewPDF tool"
 msgstr "无法创建 ViewPDF 工具"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1181
+#: dialogs/pdf-wizard/pdfdialog.cpp:1180
 #, kde-format
 msgid "ViewPDF"
 msgstr "ViewPDF"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1621
+#: dialogs/pdf-wizard/pdfdialog.cpp:1620
 #, kde-format
 msgid "The utility needs some parameters in this mode."
 msgstr "在该模式下次工具需要某些参数。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1639
+#: dialogs/pdf-wizard/pdfdialog.cpp:1638
 #, kde-format
 msgid "Illegal page list 'from-to': %1 is bigger than %2."
 msgstr "页面列表内的“起始页-终止页”不合规则：%1 比 %2 要大。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1643 dialogs/pdf-wizard/pdfdialog.cpp:1650
+#: dialogs/pdf-wizard/pdfdialog.cpp:1642 dialogs/pdf-wizard/pdfdialog.cpp:1649
 #, kde-format
 msgid "Illegal pagenumber: %1."
 msgstr "非法的页码：%1"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1663
+#: dialogs/pdf-wizard/pdfdialog.cpp:1662
 #, kde-format
 msgid "You need to define a PDF file as foreground stamp."
 msgstr "您需要定义 PDF 文件作为前景水印。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1664
+#: dialogs/pdf-wizard/pdfdialog.cpp:1663
 #, kde-format
 msgid "You need to define a PDF file as background watermark."
 msgstr "您需要定义 PDF 文档作为背景水印。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1671
+#: dialogs/pdf-wizard/pdfdialog.cpp:1670
 #, kde-format
 msgid ""
 "Unknown file format: only '.pdf' is accepted as image file in this mode."
 msgstr "未知文件格式：此模式只接受“.pdf”作为图片文件。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1676
+#: dialogs/pdf-wizard/pdfdialog.cpp:1675
 #, kde-format
 msgid "The given file doesn't exist."
 msgstr "给定文件不存在。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1689
+#: dialogs/pdf-wizard/pdfdialog.cpp:1688
 #, kde-format
 msgid "You need to define an output file."
 msgstr "您需要定义输出文件。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1696
+#: dialogs/pdf-wizard/pdfdialog.cpp:1695
 #, kde-format
 msgid "Unknown file format: only '.pdf' is accepted as output file."
 msgstr "未知文件格式：输出文件只接受“.pdf”文件。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1702 dialogs/postscriptdialog.cpp:477
+#: dialogs/pdf-wizard/pdfdialog.cpp:1701 dialogs/postscriptdialog.cpp:477
 #, kde-format
 msgid ""
 "A file named \"%1\" already exists. Are you sure you want to overwrite it?"
 msgstr "与“%1”同名的文件已经存在。您想要覆盖它吗？"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1737 dialogs/postscriptdialog.cpp:435
+#: dialogs/pdf-wizard/pdfdialog.cpp:1736 dialogs/postscriptdialog.cpp:435
 #, kde-format
 msgid "No input file is given."
 msgstr "没有提供输入文件。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1744
+#: dialogs/pdf-wizard/pdfdialog.cpp:1743
 #, kde-format
 msgid "Unknown file format: only '.pdf' are accepted for input files."
 msgstr "未知文件格式：输入文件只接受“.ps”和“.ps.gz”文件。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1749 dialogs/postscriptdialog.cpp:447
+#: dialogs/pdf-wizard/pdfdialog.cpp:1748 dialogs/postscriptdialog.cpp:447
 #, kde-format
 msgid "This input file does not exist."
 msgstr "输入文件不存在。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1761
+#: dialogs/pdf-wizard/pdfdialog.cpp:1760
 #, kde-format
 msgid "No password is given."
 msgstr "未给出密码。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1766
+#: dialogs/pdf-wizard/pdfdialog.cpp:1765
 #, kde-format
 msgid "The password should be at least 6 characters long."
 msgstr "密码长度不得少于6个字符。"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1775 dialogs/postscriptdialog.cpp:517
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:437
 #, kde-format
 msgid "<center>"
 msgstr "<center>"
 
-#: dialogs/pdf-wizard/pdfdialog.cpp:1775 dialogs/postscriptdialog.cpp:517
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 dialogs/postscriptdialog.cpp:517
 #: dialogs/texdocumentationdialog.cpp:438
 #, kde-format
 msgid "</center>"

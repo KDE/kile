@@ -1,13 +1,13 @@
 # Copyright (C) YEAR This_file_is_part_of_KDE
 # This file is distributed under the same license as the PACKAGE package.
 #
-# G.Sora <g.sora@tiscali.it>, 2013, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2013, 2020, 2021, 2022, 2023 G.Sora <g.sora@tiscali.it>
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-10-16 00:43+0000\n"
-"PO-Revision-Date: 2022-07-15 11:52+0200\n"
+"PO-Revision-Date: 2023-10-16 13:49+0200\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -1621,10 +1621,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr ""
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Remove patrono"
+msgstr "Rimplacia patrono"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -4786,10 +4785,9 @@ msgid ""
 msgstr ""
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Super scribe le file?"
+msgstr "Super scribe file"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5217,10 +5215,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr ""
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Netta texto"
+msgstr "Netta arbore de menu"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format
@@ -12241,13 +12238,13 @@ msgstr ""
 #: widgets/usermenuconfigwidget.cpp:89
 #, kde-format
 msgid "no file installed"
-msgstr ""
+msgstr "Nulle file installate"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/usermenuconfigwidget.ui:40
 #, kde-format
 msgid "Installed menu file:"
-msgstr ""
+msgstr "File de menu installate:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_usermenuFile)
 #: widgets/usermenuconfigwidget.ui:69
@@ -12265,13 +12262,13 @@ msgstr "Location"
 #: widgets/usermenuconfigwidget.ui:161
 #, kde-format
 msgid "Show &the user menu in the LaTeX menu"
-msgstr ""
+msgstr "Monstra le menu de usa&tor in le menu de LaTeX"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbStandAloneMenuLocation)
 #: widgets/usermenuconfigwidget.ui:177
 #, kde-format
 msgid "Show the &user menu in the menu bar"
-msgstr ""
+msgstr "Monstra le menu de &usator in le barra de menu"
 
 #~ msgid "LaTeX Command"
 #~ msgstr "Commando LaTeX: "

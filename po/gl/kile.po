@@ -1742,8 +1742,7 @@ msgstr ""
 #: dialogs/managetemplatesdialog.cpp:289
 #, kde-format
 msgid "You are about to replace the template \"%1\"; are you sure?"
-msgstr ""
-"Está a piques de substituír o modelo %1. Está seguro de que quere isto?"
+msgstr "Está a piques de substituír o modelo %1. Seguro que quere isto?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
 #, kde-format
@@ -1763,7 +1762,7 @@ msgstr "Escolla o modelo que deba retirarse."
 #: dialogs/managetemplatesdialog.cpp:319
 #, kde-format
 msgid "You are about to remove the template \"%1\"; are you sure?"
-msgstr "Está a piques de retirar o modelo «%1». Está seguro de que quere isto?"
+msgstr "Está a piques de retirar o modelo «%1». Seguro que quere isto?"
 
 #: dialogs/managetemplatesdialog.cpp:326
 #, kde-format
@@ -13095,7 +13094,7 @@ msgstr "Seguro que quere retirar a utilidade %1?"
 #: widgets/toolconfigwidget.cpp:465
 #, kde-format
 msgid "Are you sure that you want to remove this configuration?"
-msgstr "Está seguro de que quere retirar esta configuración?"
+msgstr "Seguro que quere retirar esta configuración?"
 
 #: widgets/toolconfigwidget.cpp:479
 #, kde-format

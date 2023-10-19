@@ -1,3 +1,48 @@
+version 3.0 beta 3 -> 3.0 beta 4
+
+Fixes:
+- Ensure \end{env} is inserted in the right place even when the user uses tabs
+  for indentation (Patch by Kishore Gopalakrishnan, #322654)
+- Avoid saving console commands in bash history (Patch by Alessio Bonfiglio,
+  391537 & #453935)
+- Don't crash when deleting templates (#413506)
+- Avoid crashing when closing a document that is being parsed (#404164)
+
+Features:
+- Enable high-dpi support
+- Provide option to hide menu bar (Patch by Daniel Fichtner, #372295)
+- Configurable global default setting for the LivePreview engines (Patch by
+  Florian Zumkeller-Quast, #450332)
+
+
+version 3.0 beta 2 -> 3.0 beta 3
+
+Fixes:
+- Don't crash if DBUS is not available
+- Ensure that live preview event handlers don't trigger any action when live
+  preview is disabled (#387234)
+- Avoid crashing when trying to open a directory (#384665)
+- Do not crash if there is no document open when adding to or removing from
+  the project (Patch by David Narváez)
+
+
+version 3.0 beta 1 -> 3.0 beta 2
+
+Fixes:
+- Fix double use of the Alt + Shift + F shortcut (#381291)
+- Fix problems in the include-graphics dialog (Patch by Fritz Meier)
+- Fix the substitution of abbreviations (#374016)
+- Avoid crashing when opening the statistics dialog (#373586)
+- Open project files correctly as projects when selected in the Open File
+  dialog (317432)
+
+Features:
+- Split project files into a structure and a GUI part (Initial patch by Eugene
+  Shalygin, #303815)
+- Add support for the "imakeidx" and "splitidx" packages for index generation
+- Add a config setting for showing full paths in the window title (#156225)
+
+
 version 2.1 -> 3.0 beta 1
 
 Features:

@@ -3314,6 +3314,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
     int row = view->cursorPosition().line();
     int col = view->cursorPosition().column();
     QString line = view->document()->line(row).left(col);
+    int lineLength = view->document()->line(row).length();
 
     int pos = m_regexpEnter.indexIn(line);
     if (pos != -1) {
@@ -3327,11 +3328,16 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
         QString envname, endenv;
         if(m_regexpEnter.cap(2) == "\\[") {
             envname = m_regexpEnter.cap(2);
-            endenv = "\\]\n";
+            endenv = "\\]";
         }
         else {
             envname = m_regexpEnter.cap(4);
-            endenv = m_regexpEnter.cap(2).replace("\\begin","\\end") + '\n';
+            endenv = m_regexpEnter.cap(2).replace("\\begin","\\end");
+        }
+
+        if (col < lineLength) {
+            //If the cursor was not at the end of the line when the user pressed enter, insert a newline after \end{env}
+            endenv = endenv + '\n' + line;
         }
 
         if(shouldCompleteEnv(envname, view)) {

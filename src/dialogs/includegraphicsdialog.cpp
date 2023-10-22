@@ -413,20 +413,23 @@ bool IncludeGraphics::getPictureSize(int &wpx, int &hpx, QString &dpi, QString &
 
 void IncludeGraphics::onChooseFilter()
 {
-    QString filter = (!m_widget.cb_bb->isChecked())
-                     ? i18n("*.png *.jpg *.pdf *.ps *.eps|Graphics\n")
-                     + "*.png|PNG Files\n"
-                     + "*.jpg|JPG Files\n"
-                     + "*.pdf|PDF Files\n"
-                     + "*.eps *ps|Postscript Files\n"
-                     + "*|All Files"
-                     : i18n("*.png *.jpg *.eps.gz *.eps|Graphics\n")
-                     + "*.png|PNG Files\n"
-                     + "*.jpg|JPG Files\n"
-                     + "*.eps.gz|Zipped EPS Files\n"
-                     + "*.eps|EPS Files\n"
-                     + "*|All Files";
-    m_widget.edit_file->setFilter(filter);
+    QStringList filters;
+    if (!m_widget.cb_bb->isChecked()) {
+        filters.append(i18n("Graphics (*.png *.jpg *.pdf *.ps *.eps)"));
+        filters.append(i18n("PNG Files (*.png)"));
+        filters.append(i18n("JPG Files (*.jpg)"));
+        filters.append(i18n("PDF Files (*.pdf)"));
+        filters.append(i18n("Postscript Files (*.eps *ps)"));
+    }
+    else {
+        filters.append(i18n("Graphics (*.png *.jpg *.eps.gz *.eps)"));
+        filters.append(i18n("PNG Files (*.png)"));
+        filters.append(i18n("JPG Files (*.jpg)"));
+        filters.append(i18n("Zipped EPS Files (*.eps.gz)"));
+        filters.append(i18n("EPS Files (*.eps)"));
+    }
+    filters.append(i18n("All Files (*)"));
+    m_widget.edit_file->setNameFilters(filters);
 }
 
 void IncludeGraphics::onUrlSelected(const QUrl &url)

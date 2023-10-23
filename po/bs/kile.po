@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-16 00:43+0000\n"
+"POT-Creation-Date: 2023-10-23 00:42+0000\n"
 "PO-Revision-Date: 2015-02-09 09:30+0100\n"
 "Last-Translator: Samir Ribic <samir.ribic@etf.unsa.ba>\n"
 "Language-Team: Bosnian <bhld@linux.org.ba>\n"
@@ -5674,7 +5674,7 @@ msgstr "csquotes paket: \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "Morate uključiti paket %1 da biste koristili %2."
 
-#: editorextension.cpp:3500
+#: editorextension.cpp:3506
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5683,7 +5683,7 @@ msgstr ""
 "Dokument je izmijenjen i strukturni pogled treba biti obnovljen, prije "
 "početka takve operacije."
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3507
 #, kde-format
 msgid "Structure View Error"
 msgstr "Greška u strukturnom pogledu"

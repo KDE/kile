@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-16 00:43+0000\n"
+"POT-Creation-Date: 2023-10-23 00:42+0000\n"
 "PO-Revision-Date: 2009-02-21 10:38+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -5501,14 +5501,14 @@ msgstr ""
 msgid "You have to include the package %1 to use %2."
 msgstr ""
 
-#: editorextension.cpp:3500
+#: editorextension.cpp:3506
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
 "starting such an operation."
 msgstr ""
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3507
 #, kde-format
 msgid "Structure View Error"
 msgstr "स्ट्रक्चर दृस्य त्रुटि"

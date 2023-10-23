@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-16 00:43+0000\n"
+"POT-Creation-Date: 2023-10-23 00:42+0000\n"
 "PO-Revision-Date: 2014-05-04 21:32+0200\n"
 "Last-Translator: Sönke Dibbern <s_dibbern@web.de>\n"
 "Language-Team: Low Saxon <kde-i18n-nds@kde.org>\n"
@@ -5564,7 +5564,7 @@ msgstr "csquotes-Paket:   \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "Du muttst dat Paket \"%1\" laden, wenn Du \"%2\" bruken wullt."
 
-#: editorextension.cpp:3500
+#: editorextension.cpp:3506
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5573,7 +5573,7 @@ msgstr ""
 "Dat Dokment wöör ännert. Frisch man maal lever de Struktuuransicht op, ehr "
 "Du so en Akschoon utföhrst."
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3507
 #, kde-format
 msgid "Structure View Error"
 msgstr "Struktuuransicht-Fehler"

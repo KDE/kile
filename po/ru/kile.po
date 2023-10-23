@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-16 00:43+0000\n"
+"POT-Creation-Date: 2023-10-23 00:42+0000\n"
 "PO-Revision-Date: 2019-10-12 16:08+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -5731,7 +5731,7 @@ msgstr "Пакет csquotes:   \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "Для использования %2 необходимо подключить пакет %1."
 
-#: editorextension.cpp:3500
+#: editorextension.cpp:3506
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5740,7 +5740,7 @@ msgstr ""
 "Документ был изменён. Необходимо обновить представление структуры до начала "
 "этой операции."
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3507
 #, kde-format
 msgid "Structure View Error"
 msgstr "Ошибка представления структуры"

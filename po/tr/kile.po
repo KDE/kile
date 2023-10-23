@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-16 00:43+0000\n"
+"POT-Creation-Date: 2023-10-23 00:42+0000\n"
 "PO-Revision-Date: 2023-10-02 19:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -5653,7 +5653,7 @@ msgstr "csquotes paketi:   \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "%2 kullanmak için %1 paketini dahil etmelisiniz."
 
-#: editorextension.cpp:3500
+#: editorextension.cpp:3506
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5662,7 +5662,7 @@ msgstr ""
 "Belgede değişiklik oldu. Bu işleme başlamadan önce yapı görüntüsü "
 "güncellenmelidir."
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3507
 #, kde-format
 msgid "Structure View Error"
 msgstr "Yapı Görünümü Hatası"

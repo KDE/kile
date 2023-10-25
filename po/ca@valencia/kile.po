@@ -59,9 +59,9 @@ msgid ""
 "either fix the problem or change to the default settings."
 msgstr ""
 "No s'ha trobat l'eina.\n"
-"Kile no està configurat correctament. Aneu a «Configuració -> Configura Kile "
-"-> Eines» i arregleu el problema o canvieu a les opcions de configuració "
-"predeterminades."
+"Kile no està configurat correctament. Aneu fins a «Configuració -> Configura "
+"Kile... -> Eines» i arregleu el problema o canvieu en les opcions de "
+"configuració predeterminades."
 
 #: configtester.cpp:268 configtester.cpp:465 dialogs/configcheckerdialog.cpp:80
 #, kde-format
@@ -173,7 +173,7 @@ msgstr "No admés"
 #, kde-format
 msgid "PNG previews cannot be used for mathgroups in the bottom preview pane"
 msgstr ""
-"Les vistes prèvies de PNG no es poden utilitzar per a «mathgroups» en la "
+"Les vistes prèvies dels PNG no es poden utilitzar per a «mathgroups» en la "
 "subfinestra de vista prèvia inferior"
 
 #: configtester.cpp:806
@@ -5839,8 +5839,8 @@ msgid ""
 msgstr ""
 "Heu definit algunes eines en el menú usuari. A partir d'ara, estes eines "
 "estaran disponibles des del menú «Construïx -> Altres» i es poden configurar "
-"en el diàleg de configuració (aneu al menú Configuració i seleccioneu "
-"«Configura Kile»). Açò té alguns avantatges, ara les vostres pròpies eines "
+"en el diàleg de configuració (aneu fins al menú Configuració i seleccioneu "
+"«Configura Kile...». Açò té alguns avantatges, ara les vostres pròpies eines "
 "es poden utilitzar en una ordre de construcció ràpida si voleu."
 
 #: kile.cpp:387
@@ -7762,7 +7762,7 @@ msgid ""
 "Settings->Configure Kile->Help."
 msgstr ""
 "No s'ha pogut trobar la documentació de LaTeX a %1. Establiu el camí "
-"correcte a «Configuració -> Configura Kile -> Ajuda»."
+"correcte a «Configuració -> Configura Kile... -> Ajuda»."
 
 #: kilehelp.cpp:166
 #, kde-format
@@ -10397,8 +10397,8 @@ msgid ""
 "to Settings->Configure Kile->Tools->ViewHTML->Advanced."
 msgstr ""
 "No s'ha pogut trobar %1 o %2: si esteu intentant visualitzar algun altre "
-"fitxer HTML, aneu a «Configuració -> Configura Kile -> Eines -> ViewHTML -> "
-"Avançat»."
+"fitxer HTML, aneu fins a «Configuració -> Configura Kile... -> Eines -> "
+"ViewHTML -> Avançat»."
 
 #: kiletool.cpp:58
 #, kde-format
@@ -11082,7 +11082,7 @@ msgstr "Roland Schulz"
 #: main.cpp:120
 #, kde-format
 msgid "KatePart Integration"
-msgstr "Integració del KatePart"
+msgstr "Integració de la KatePart"
 
 #: main.cpp:121
 #, kde-format
@@ -12825,7 +12825,7 @@ msgid ""
 "this item. Items for a graphics file or an assigned label\n"
 "also offer a context menu (right mouse button)."
 msgstr ""
-"Clic esquerre per a anar a la línia. Un doble clic obrirà\n"
+"Clic esquerre per a anar fins a la línia. Un doble clic obrirà\n"
 "un fitxer de text o un fitxer gràfic. Quan una etiqueta siga assignada\n"
 "a este element, es mostrarà quan el ratolí estiga sobre este\n"
 "element. Els elements d'un fitxer gràfic o d'una etiqueta assignada\n"

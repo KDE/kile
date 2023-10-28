@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-16 00:43+0000\n"
+"POT-Creation-Date: 2023-10-23 00:42+0000\n"
 "PO-Revision-Date: 2012-01-17 18:10+0100\n"
 "Last-Translator: Bjørn Steensrud <bjornst@skogkatt.homelinux.org>\n"
 "Language-Team: Norwegian Bokmål <l10n-no@lister.huftis.org>\n"
@@ -5527,7 +5527,7 @@ msgstr "csquotes-pakka:   \\enquote{}"
 msgid "You have to include the package %1 to use %2."
 msgstr "Du må inkludere pakka %1 for å bruke %2."
 
-#: editorextension.cpp:3500
+#: editorextension.cpp:3506
 #, kde-format
 msgid ""
 "The document was modified and the structure view should be updated, before "
@@ -5536,7 +5536,7 @@ msgstr ""
 "Dokumentet er endret, og strukturvisningen bør oppdateres før du starter en "
 "slik operasjon."
 
-#: editorextension.cpp:3501
+#: editorextension.cpp:3507
 #, kde-format
 msgid "Structure View Error"
 msgstr "Feil i strukturvisning"

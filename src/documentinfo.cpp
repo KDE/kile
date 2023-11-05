@@ -534,7 +534,7 @@ bool TextInfo::isTextDocument()
 
 void TextInfo::setMode(const QString &mode)
 {
-    KILE_DEBUG_MAIN << "==Kile::setMode(" << (m_doc ? "<null doc>" : m_doc->url().toString()) << "," << mode << ")==================";
+    KILE_DEBUG_MAIN << "==Kile::setMode(" << (m_doc ? m_doc->url().toString() : "<null doc>") << "," << mode << ")==================";
 
     if (m_doc && !mode.isEmpty()) {
         m_doc->setMode(mode);
@@ -543,7 +543,7 @@ void TextInfo::setMode(const QString &mode)
 
 void TextInfo::setHighlightingMode(const QString& highlight)
 {
-    KILE_DEBUG_MAIN << "==Kile::setHighlightingMode(" << (m_doc ? "<null doc>" : m_doc->url().toString()) << "," << highlight << " )==================";
+    KILE_DEBUG_MAIN << "==Kile::setHighlightingMode(" << (m_doc ? m_doc->url().toString() : "<null doc>") << "," << highlight << " )==================";
 
     if (m_doc && !highlight.isEmpty()) {
         m_doc->setHighlightingMode(highlight);

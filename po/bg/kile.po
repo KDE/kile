@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-23 00:42+0000\n"
+"POT-Creation-Date: 2023-11-05 12:34+0000\n"
 "PO-Revision-Date: 2011-07-26 10:34+0300\n"
 "Last-Translator: Yasen Pramatarov <yasen@lindeas.com>\n"
 "Language-Team: Bulgarian <dict@fsa-bg.org>\n"
@@ -342,7 +342,7 @@ msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:690 kile.cpp:1063
+#: dialogs/configurationdialog.cpp:70 kile.cpp:693 kile.cpp:1066
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -413,7 +413,7 @@ msgstr "Довършване на кода"
 msgid "Quick Preview"
 msgstr "Бърз преглед"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:740
+#: dialogs/configurationdialog.cpp:251 kile.cpp:743
 #, kde-format
 msgid "Preview"
 msgstr "Преглед"
@@ -523,7 +523,7 @@ msgstr "Команда[]"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:985
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:988
 #, kde-format
 msgid "Environment"
 msgstr "Обкръжение"
@@ -764,22 +764,58 @@ msgstr "Етикет:"
 msgid "Include Graphics"
 msgstr "Добавяне на графики"
 
-#: dialogs/includegraphicsdialog.cpp:417
+#: dialogs/includegraphicsdialog.cpp:418
 #, fuzzy, kde-format
-msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
 msgstr "*.png *.jpg *.eps.gz *.eps|Графики\n"
 
-#: dialogs/includegraphicsdialog.cpp:423
+#: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
+#, fuzzy, kde-format
+msgid "PNG Files (*.png)"
+msgstr "Всички файлове"
+
+#: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
+#, fuzzy, kde-format
+msgid "JPG Files (*.jpg)"
+msgstr "Всички файлове"
+
+#: dialogs/includegraphicsdialog.cpp:421
+#, fuzzy, kde-format
+msgid "PDF Files (*.pdf)"
+msgstr "Всички файлове"
+
+#: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
-msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+msgid "Postscript Files (*.eps *ps)"
+msgstr ""
+
+#: dialogs/includegraphicsdialog.cpp:425
+#, fuzzy, kde-format
+#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
 msgstr "*.png *.jpg *.eps.gz *.eps|Графики\n"
 
-#: dialogs/includegraphicsdialog.cpp:618
+#: dialogs/includegraphicsdialog.cpp:428
+#, kde-format
+msgid "Zipped EPS Files (*.eps.gz)"
+msgstr ""
+
+#: dialogs/includegraphicsdialog.cpp:429
+#, fuzzy, kde-format
+msgid "EPS Files (*.eps)"
+msgstr "Всички файлове"
+
+#: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
+#, fuzzy, kde-format
+msgid "All Files (*)"
+msgstr "Всички файлове"
+
+#: dialogs/includegraphicsdialog.cpp:621
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 
-#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3249
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3249
 #, kde-format
 msgid "Missing Package"
 msgstr ""
@@ -1208,7 +1244,7 @@ msgstr ""
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1018 kileui.rc:569
+#: kile.cpp:1021 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Математика"
@@ -1218,7 +1254,7 @@ msgstr "Математика"
 msgid "Lists"
 msgstr "Списъци"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1014 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1017 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "Подреждане в редици/колони"
@@ -1253,13 +1289,13 @@ msgstr "Цитати"
 msgid "Includes"
 msgstr "Включва"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1065
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1068
 #, kde-format
 msgid "LaTeX Environments"
 msgstr ""
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
-#: kile.cpp:1064
+#: kile.cpp:1067
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "Команди на LaTeX"
@@ -2133,7 +2169,7 @@ msgid ""
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1020
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1023
 #, fuzzy, kde-format
 msgid "PDF Tools"
 msgstr "Инструменти"
@@ -2720,7 +2756,7 @@ msgstr "Непознат файлов формат: за изходен файл
 msgid "Copies:"
 msgstr "Копия:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1019
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1022
 #, kde-format
 msgid "Postscript Tools"
 msgstr ""
@@ -4510,7 +4546,7 @@ msgstr ""
 msgid "Empty Clipboard"
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1067
+#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1070
 #, kde-format
 msgid "Documentation Browser"
 msgstr "Браузър за документация"
@@ -4608,7 +4644,7 @@ msgid "Configure User Help"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1079
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1082
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -5543,7 +5579,7 @@ msgstr "Журналният файл не може да бъде отворен
 msgid "No LaTeX warnings/errors detected."
 msgstr "Няма намерени грешки в LaTeX."
 
-#: kile.cpp:387
+#: kile.cpp:390
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5558,12 +5594,12 @@ msgstr ""
 "предимства; ако искате вашите собствени инструменти могат да бъдат "
 "използвани в команда QuickBuild."
 
-#: kile.cpp:387
+#: kile.cpp:390
 #, kde-format
 msgid "User Tools Detected"
 msgstr "Намерени потребителски инструменти"
 
-#: kile.cpp:396
+#: kile.cpp:399
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5571,93 +5607,93 @@ msgid ""
 "want to reset the tools now?</p>"
 msgstr ""
 
-#: kile.cpp:399
+#: kile.cpp:402
 #, kde-format
 msgid "Tools need to be reset"
 msgstr ""
 
-#: kile.cpp:475
+#: kile.cpp:478
 #, kde-format
 msgid "Open File"
 msgstr "Отваряне на файл"
 
-#: kile.cpp:495
+#: kile.cpp:498
 #, kde-format
 msgid "Files and Projects"
 msgstr "Файлове и проекти"
 
-#: kile.cpp:560 widgets/structurewidget.cpp:142
+#: kile.cpp:563 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "Структура"
 
-#: kile.cpp:583
+#: kile.cpp:586
 #, kde-format
 msgid "Scripts"
 msgstr "Скриптове"
 
-#: kile.cpp:622
+#: kile.cpp:625
 #, kde-format
 msgid "Symbols"
 msgstr "Символи"
 
-#: kile.cpp:625
+#: kile.cpp:628
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "Най-често използвани"
 
-#: kile.cpp:631
+#: kile.cpp:634
 #, kde-format
 msgid "Relation"
 msgstr "Отношение"
 
-#: kile.cpp:636
+#: kile.cpp:639
 #, kde-format
 msgid "Operators"
 msgstr "Оператори"
 
-#: kile.cpp:641
+#: kile.cpp:644
 #, kde-format
 msgid "Arrows"
 msgstr "Стрелки"
 
-#: kile.cpp:646
+#: kile.cpp:649
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr ""
 
-#: kile.cpp:651
+#: kile.cpp:654
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr ""
 
-#: kile.cpp:656
+#: kile.cpp:659
 #, kde-format
 msgid "Delimiters"
 msgstr "Разделители"
 
-#: kile.cpp:661
+#: kile.cpp:664
 #, kde-format
 msgid "Greek"
 msgstr "Гръцки"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:666 widgets/latexconfigwidget.ui:133
+#: kile.cpp:669 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "Специални знаци"
 
-#: kile.cpp:671
+#: kile.cpp:674
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "Букви на кирилица"
 
-#: kile.cpp:676
+#: kile.cpp:679
 #, kde-format
 msgid "User Defined"
 msgstr "Потребителски"
 
-#: kile.cpp:681
+#: kile.cpp:684
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5666,462 +5702,462 @@ msgid ""
 "brackets.</p>"
 msgstr ""
 
-#: kile.cpp:701 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:704 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "Съкращение"
 
-#: kile.cpp:726
+#: kile.cpp:729
 #, kde-format
 msgid "Log and Messages"
 msgstr ""
 
-#: kile.cpp:732
+#: kile.cpp:735
 #, kde-format
 msgid "Output"
 msgstr "Изход"
 
-#: kile.cpp:735
+#: kile.cpp:738
 #, kde-format
 msgid "Konsole"
 msgstr "Konsole"
 
-#: kile.cpp:837
+#: kile.cpp:840
 #, kde-format
 msgid "Save All"
 msgstr "Запис на всички"
 
-#: kile.cpp:839
+#: kile.cpp:842
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "Създаване на шаблон от документа..."
 
-#: kile.cpp:840
+#: kile.cpp:843
 #, kde-format
 msgid "&Remove Template..."
 msgstr "&Премахване на шаблон..."
 
-#: kile.cpp:842 kile.cpp:972
+#: kile.cpp:845 kile.cpp:975
 #, kde-format
 msgid "Close All"
 msgstr "Затваряне на всички"
 
-#: kile.cpp:843
+#: kile.cpp:846
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "Затваряне на всички &други"
 
-#: kile.cpp:844
+#: kile.cpp:847
 #, kde-format
 msgid "S&tatistics"
 msgstr "С&татистика"
 
-#: kile.cpp:845
+#: kile.cpp:848
 #, kde-format
 msgid "&ASCII"
 msgstr "&ASCII"
 
-#: kile.cpp:846
+#: kile.cpp:849
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Латински-&1 (iso 8859-1)"
 
-#: kile.cpp:847
+#: kile.cpp:850
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Латински-&2 (iso 8859-2)"
 
-#: kile.cpp:848
+#: kile.cpp:851
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Латински-&3 (iso 8859-3)"
 
-#: kile.cpp:849
+#: kile.cpp:852
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Латински-&4 (iso 8859-4)"
 
-#: kile.cpp:850
+#: kile.cpp:853
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Латински-&5 (iso 8859-5)"
 
-#: kile.cpp:851
+#: kile.cpp:854
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Латински-&9 (iso 8859-9)"
 
-#: kile.cpp:852
+#: kile.cpp:855
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "&Централноевропейски (cp-1250)"
 
-#: kile.cpp:853
+#: kile.cpp:856
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "&Западноевропейски (cp-1252)"
 
-#: kile.cpp:856
+#: kile.cpp:859
 #, kde-format
 msgid "Move Tab Left"
 msgstr ""
 
-#: kile.cpp:857
+#: kile.cpp:860
 #, kde-format
 msgid "Move Tab Right"
 msgstr ""
 
-#: kile.cpp:859
+#: kile.cpp:862
 #, kde-format
 msgid "Next section"
 msgstr "Следващ раздел"
 
-#: kile.cpp:861
+#: kile.cpp:864
 #, kde-format
 msgid "Prev section"
 msgstr "Предишен раздел"
 
-#: kile.cpp:863
+#: kile.cpp:866
 #, kde-format
 msgid "Next paragraph"
 msgstr "Следващ абзац"
 
-#: kile.cpp:865
+#: kile.cpp:868
 #, kde-format
 msgid "Prev paragraph"
 msgstr "Предишен абзац"
 
-#: kile.cpp:868
+#: kile.cpp:871
 #, kde-format
 msgid "Find &in Files..."
 msgstr "Търсене &във файлове..."
 
-#: kile.cpp:870
+#: kile.cpp:873
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "Презареждане на стр&уктурата"
 
-#: kile.cpp:873
+#: kile.cpp:876
 #, kde-format
 msgid "&New Project..."
 msgstr "&Нов проект..."
 
-#: kile.cpp:874
+#: kile.cpp:877
 #, kde-format
 msgid "&Open Project..."
 msgstr "&Отваряне на проект..."
 
-#: kile.cpp:876
+#: kile.cpp:879
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "Отваряне на &последния проект"
 
-#: kile.cpp:883
+#: kile.cpp:886
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "До&бавяне на файлове към проекта..."
 
-#: kile.cpp:884 widgets/projectview.cpp:870
+#: kile.cpp:887 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "Презареждане &структурата на документа"
 
-#: kile.cpp:885 widgets/projectview.cpp:872
+#: kile.cpp:888 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "&Архивиране"
 
-#: kile.cpp:886 widgets/projectview.cpp:871
+#: kile.cpp:889 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "&Опции на проекта"
 
-#: kile.cpp:887
+#: kile.cpp:890
 #, kde-format
 msgid "&Close Project"
 msgstr "&Затваряне на проект"
 
-#: kile.cpp:890
+#: kile.cpp:893
 #, kde-format
 msgid "&Show Projects..."
 msgstr ""
 
-#: kile.cpp:891
+#: kile.cpp:894
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr ""
 
-#: kile.cpp:892
+#: kile.cpp:895
 #, kde-format
 msgid "Show Project &Files..."
 msgstr ""
 
-#: kile.cpp:894 widgets/projectview.cpp:868
+#: kile.cpp:897 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr ""
 
-#: kile.cpp:895
+#: kile.cpp:898
 #, kde-format
 msgid "Find in &Project..."
 msgstr ""
 
-#: kile.cpp:898 kile.cpp:996 kile.cpp:2112 kiledocmanager.cpp:1999
+#: kile.cpp:901 kile.cpp:999 kile.cpp:2119 kiledocmanager.cpp:1999
 #: kiledocmanager.cpp:2009
 #, kde-format
 msgid "Clean"
 msgstr "Изчистване"
 
-#: kile.cpp:903
+#: kile.cpp:906
 #, kde-format
 msgid "Next Document"
 msgstr "Следващ документ"
 
-#: kile.cpp:909
+#: kile.cpp:912
 #, kde-format
 msgid "Previous Document"
 msgstr "Предишен документ"
 
-#: kile.cpp:912
+#: kile.cpp:915
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "Изглед \"Фокусиране върху лог/съобщения\""
 
-#: kile.cpp:913
+#: kile.cpp:916
 #, kde-format
 msgid "Focus Output View"
 msgstr "Изглед \"Фокусиране върху резултата\""
 
-#: kile.cpp:914
+#: kile.cpp:917
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "Изглед \"Фокусиране върху конзолата\""
 
-#: kile.cpp:915
+#: kile.cpp:918
 #, kde-format
 msgid "Focus Editor View"
 msgstr "Изглед \"Фокусиране върху редактора\""
 
-#: kile.cpp:917
+#: kile.cpp:920
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr ""
 
-#: kile.cpp:919
+#: kile.cpp:922
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr ""
 
-#: kile.cpp:921
+#: kile.cpp:924
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr ""
 
-#: kile.cpp:924
+#: kile.cpp:927
 #, kde-format
 msgid "Next Bullet"
 msgstr "Следващ водач"
 
-#: kile.cpp:926
+#: kile.cpp:929
 #, kde-format
 msgid "Prev Bullet"
 msgstr "Предишен водач"
 
-#: kile.cpp:930 kile.cpp:947
+#: kile.cpp:933 kile.cpp:950
 #, kde-format
 msgid "Environment (inside)"
 msgstr "Среда (вътрешна)"
 
-#: kile.cpp:932 kile.cpp:949
+#: kile.cpp:935 kile.cpp:952
 #, kde-format
 msgid "Environment (outside)"
 msgstr "Среда (външна)"
 
-#: kile.cpp:934 kile.cpp:951
+#: kile.cpp:937 kile.cpp:954
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "TeX група (вътрешна)"
 
-#: kile.cpp:936 kile.cpp:953
+#: kile.cpp:939 kile.cpp:956
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "TeX група (външна)"
 
-#: kile.cpp:938 kile.cpp:955
+#: kile.cpp:941 kile.cpp:958
 #, kde-format
 msgid "Math Group"
 msgstr ""
 
-#: kile.cpp:940 kile.cpp:957
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Paragraph"
 msgstr "Абзац"
 
-#: kile.cpp:942
+#: kile.cpp:945
 #, kde-format
 msgid "Line"
 msgstr "Линия"
 
-#: kile.cpp:944 kile.cpp:961
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Word"
 msgstr "TeX дума"
 
-#: kile.cpp:959
+#: kile.cpp:962
 #, kde-format
 msgid "To End of Line"
 msgstr "В края на реда"
 
-#: kile.cpp:964 kile.cpp:975
+#: kile.cpp:967 kile.cpp:978
 #, kde-format
 msgid "Go to Begin"
 msgstr "Отиване в началото"
 
-#: kile.cpp:966 kile.cpp:977
+#: kile.cpp:969 kile.cpp:980
 #, kde-format
 msgid "Go to End"
 msgstr "Отиване в края"
 
-#: kile.cpp:968 kile.cpp:979
+#: kile.cpp:971 kile.cpp:982
 #, kde-format
 msgid "Match"
 msgstr "Съвпадение"
 
-#: kile.cpp:970 kile.cpp:981
+#: kile.cpp:973 kile.cpp:984
 #, kde-format
 msgid "Close"
 msgstr "Затваряне"
 
-#: kile.cpp:984
+#: kile.cpp:987
 #, kde-format
 msgid "Selection"
 msgstr "Избрано"
 
-#: kile.cpp:986
+#: kile.cpp:989
 #, kde-format
 msgid "Subdocument"
 msgstr "Под-документ"
 
-#: kile.cpp:987
+#: kile.cpp:990
 #, kde-format
 msgid "Mathgroup"
 msgstr ""
 
-#: kile.cpp:992
+#: kile.cpp:995
 #, kde-format
 msgid "&Bibliography"
 msgstr "&Библиография"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:998 kileui.rc:503
+#: kile.cpp:1001 kileui.rc:503
 #, kde-format
 msgid "&Settings"
 msgstr "&Настройки"
 
-#: kile.cpp:1001
+#: kile.cpp:1004
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr ""
 
-#: kile.cpp:1005
+#: kile.cpp:1008
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr ""
 
-#: kile.cpp:1012 kile.cpp:2218
+#: kile.cpp:1015 kile.cpp:2225
 #, kde-format
 msgid "Quick Start"
 msgstr "Бърз старт"
 
-#: kile.cpp:1015 kilestdactions.cpp:384
+#: kile.cpp:1018 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "Масив"
 
-#: kile.cpp:1016 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1019 kile.cpp:2277 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Таблици"
 
-#: kile.cpp:1017
+#: kile.cpp:1020
 #, kde-format
 msgid "Floats"
 msgstr "Плаващи предмети"
 
-#: kile.cpp:1022
+#: kile.cpp:1025
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "Текущият документ е \"&основен документ\""
 
-#: kile.cpp:1027
+#: kile.cpp:1030
 #, fuzzy, kde-format
 msgid "Show Document Viewer"
 msgstr "Вид на документа"
 
-#: kile.cpp:1034
+#: kile.cpp:1037
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "Показване на ст&раничната лента"
 
-#: kile.cpp:1040
+#: kile.cpp:1043
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "Показване на лентата за съоб&щения"
 
-#: kile.cpp:1052
+#: kile.cpp:1055
 #, kde-format
 msgid "Watch File Mode"
 msgstr "Режим \"Следене на файл\""
 
-#: kile.cpp:1066
+#: kile.cpp:1069
 #, kde-format
 msgid "Context Help"
 msgstr "Контекстна помощ"
 
-#: kile.cpp:1069
+#: kile.cpp:1072
 #, kde-format
 msgid "&About Editor Component"
 msgstr ""
 
-#: kile.cpp:1077
+#: kile.cpp:1080
 #, kde-format
 msgid "&System Check..."
 msgstr "&Проверка на системата..."
 
-#: kile.cpp:1095 kileinfo.cpp:357
+#: kile.cpp:1098 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "BibTeX"
 
-#: kile.cpp:1098
+#: kile.cpp:1101
 #, kde-format
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1248 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "Компилиране"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1249 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr "Изглед"
 
-#: kile.cpp:1247 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1250 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "Конвертиране"
 
-#: kile.cpp:1248 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1251 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr "Бърз"
 
-#: kile.cpp:1422
+#: kile.cpp:1429
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6129,78 +6165,78 @@ msgid ""
 "Please check and repair your installation of Kile."
 msgstr ""
 
-#: kile.cpp:1424
+#: kile.cpp:1431
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr ""
 
-#: kile.cpp:1493
+#: kile.cpp:1500
 #, kde-format
 msgid "Project: %1"
 msgstr "Проект: %1"
 
-#: kile.cpp:1496
+#: kile.cpp:1503
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Проект: %1 (Основен документ: %2)"
 
-#: kile.cpp:1501
+#: kile.cpp:1508
 #, kde-format
 msgid "Normal mode"
 msgstr "Стандартен режим"
 
-#: kile.cpp:1504
+#: kile.cpp:1511
 #, kde-format
 msgid "Master document: %1"
 msgstr "Основен документ: %1"
 
-#: kile.cpp:1509 kile.cpp:2628
+#: kile.cpp:1516 kile.cpp:2635
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Задаване на текущия документ като \"основен документ\""
 
-#: kile.cpp:1513 kile.cpp:2618
+#: kile.cpp:1520 kile.cpp:2625
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Стандартен режим (текущ основен документ: %1)"
 
-#: kile.cpp:1731
+#: kile.cpp:1738
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr ""
 
-#: kile.cpp:2105
+#: kile.cpp:2112
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Няма активен документ или не е записан."
 
-#: kile.cpp:2189
+#: kile.cpp:2196
 #, kde-format
 msgid "You have to include the package %1."
 msgstr ""
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2196 kile.cpp:2199
 #, kde-format
 msgid "Insert text"
 msgstr "вмъкване на текст"
 
-#: kile.cpp:2192
+#: kile.cpp:2199
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr ""
 
-#: kile.cpp:2413
+#: kile.cpp:2420
 #, kde-format
 msgid "No Name"
 msgstr "Неозаглавено"
 
-#: kile.cpp:2449
+#: kile.cpp:2456
 #, kde-format
 msgid "no name"
 msgstr "без име"
 
-#: kile.cpp:2646
+#: kile.cpp:2653
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6208,30 +6244,30 @@ msgid ""
 msgstr ""
 "Документът трябва първо да бъде записан, за да може да бъде основен документ."
 
-#: kile.cpp:2988
+#: kile.cpp:2995
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr ""
 
-#: kile.cpp:2989
+#: kile.cpp:2996
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr ""
 
-#: kile.cpp:2996
+#: kile.cpp:3003
 #, fuzzy, kde-format
 msgid "Refreshing structure..."
 msgstr "Презареждане на стр&уктурата"
 
-#: kile.cpp:3014
+#: kile.cpp:3021
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3017
+#: kile.cpp:3024
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -7378,11 +7414,6 @@ msgstr ""
 #, fuzzy, kde-format
 msgid "* |All Files"
 msgstr "*|Всички файлове"
-
-#: kileextensions.cpp:123
-#, fuzzy, kde-format
-msgid "All Files (*)"
-msgstr "Всички файлове"
 
 #: kilehelp.cpp:100
 #, kde-format

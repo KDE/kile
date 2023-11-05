@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-23 00:42+0000\n"
+"POT-Creation-Date: 2023-11-05 12:34+0000\n"
 "PO-Revision-Date: 2023-10-02 22:08+0200\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
@@ -367,7 +367,7 @@ msgstr "Kile"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:690 kile.cpp:1063
+#: dialogs/configurationdialog.cpp:70 kile.cpp:693 kile.cpp:1066
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -438,7 +438,7 @@ msgstr "Kodkomplettering"
 msgid "Quick Preview"
 msgstr "Snabbgranskning"
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:740
+#: dialogs/configurationdialog.cpp:251 kile.cpp:743
 #, kde-format
 msgid "Preview"
 msgstr "Förhandsgranskning"
@@ -548,7 +548,7 @@ msgstr "Kommando"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:985
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:988
 #, kde-format
 msgid "Environment"
 msgstr "Omgivning"
@@ -818,24 +818,65 @@ msgstr "Etikett:"
 msgid "Include Graphics"
 msgstr "Inkludera grafik"
 
-#: dialogs/includegraphicsdialog.cpp:417
-#, kde-format
-msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#: dialogs/includegraphicsdialog.cpp:418
+#, fuzzy, kde-format
+#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
 msgstr "*.png *.jpg *.pdf *.ps *.eps|Grafik\n"
 
-#: dialogs/includegraphicsdialog.cpp:423
+#: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
+#, fuzzy, kde-format
+#| msgid "All Files (*)"
+msgid "PNG Files (*.png)"
+msgstr "Alla filer (*)"
+
+#: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
+#, fuzzy, kde-format
+#| msgid "All Files (*)"
+msgid "JPG Files (*.jpg)"
+msgstr "Alla filer (*)"
+
+#: dialogs/includegraphicsdialog.cpp:421
+#, fuzzy, kde-format
+#| msgid "All Files (*)"
+msgid "PDF Files (*.pdf)"
+msgstr "Alla filer (*)"
+
+#: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
-msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+msgid "Postscript Files (*.eps *ps)"
+msgstr ""
+
+#: dialogs/includegraphicsdialog.cpp:425
+#, fuzzy, kde-format
+#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
 msgstr "*.png *.jpg *.eps.gz *.eps|Grafik\n"
 
-#: dialogs/includegraphicsdialog.cpp:618
+#: dialogs/includegraphicsdialog.cpp:428
+#, kde-format
+msgid "Zipped EPS Files (*.eps.gz)"
+msgstr ""
+
+#: dialogs/includegraphicsdialog.cpp:429
+#, fuzzy, kde-format
+#| msgid "All Files (*)"
+msgid "EPS Files (*.eps)"
+msgstr "Alla filer (*)"
+
+#: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
+#, kde-format
+msgid "All Files (*)"
+msgstr "Alla filer (*)"
+
+#: dialogs/includegraphicsdialog.cpp:621
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 "Du måste installera paketet wrapfig för att använda alternativen för "
 "radbrytning av text"
 
-#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3249
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3249
 #, kde-format
 msgid "Missing Package"
 msgstr "Saknar paket"
@@ -1266,7 +1307,7 @@ msgstr "AMS-matematik"
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1018 kileui.rc:569
+#: kile.cpp:1021 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "Matematik"
@@ -1276,7 +1317,7 @@ msgstr "Matematik"
 msgid "Lists"
 msgstr "Listor"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1014 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1017 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "Tabell"
@@ -1311,13 +1352,13 @@ msgstr "Hänvisningar"
 msgid "Includes"
 msgstr "Inkluderar"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1065
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1068
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "Latex-omgivningar"
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
-#: kile.cpp:1064
+#: kile.cpp:1067
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "Latex-kommandon"
@@ -2269,7 +2310,7 @@ msgstr ""
 "är inte möjligt.</p>"
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1020
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1023
 #, kde-format
 msgid "PDF Tools"
 msgstr "PDF-verktyg"
@@ -2850,7 +2891,7 @@ msgstr "Okänt filformat: Bara '.ps' accepteras som utdatafil."
 msgid "Copies:"
 msgstr "Kopior:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1019
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1022
 #, kde-format
 msgid "Postscript Tools"
 msgstr "Postscript-verktyg"
@@ -4657,7 +4698,7 @@ msgstr ""
 msgid "Empty Clipboard"
 msgstr "Kopiera etikett till klippbordet"
 
-#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1067
+#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1070
 #, kde-format
 msgid "Documentation Browser"
 msgstr "Dokumentationsbläddrare"
@@ -4766,7 +4807,7 @@ msgid "Configure User Help"
 msgstr "Anpassa användarhjälp"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1079
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1082
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -5759,7 +5800,7 @@ msgstr "Kan inte öppna loggfil. Har du kört Latex?"
 msgid "No LaTeX warnings/errors detected."
 msgstr "Inga varningar eller fel från Latex hittades."
 
-#: kile.cpp:387
+#: kile.cpp:390
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5774,12 +5815,12 @@ msgstr ""
 "Detta ger fördelen att dina egna verktyg kan användas i ett snabbyggkommando "
 "om du vill."
 
-#: kile.cpp:387
+#: kile.cpp:390
 #, kde-format
 msgid "User Tools Detected"
 msgstr "Detekterade användarverktyg"
 
-#: kile.cpp:396
+#: kile.cpp:399
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5790,93 +5831,93 @@ msgstr ""
 "för att fungera riktigt.<br/>Det skriver över alla ändringar du har gjort.</"
 "p><p>Vill du nollställa verktygen nu?</p>"
 
-#: kile.cpp:399
+#: kile.cpp:402
 #, kde-format
 msgid "Tools need to be reset"
 msgstr "Verktyg måste nollställas"
 
-#: kile.cpp:475
+#: kile.cpp:478
 #, kde-format
 msgid "Open File"
 msgstr "Öppna fil"
 
-#: kile.cpp:495
+#: kile.cpp:498
 #, kde-format
 msgid "Files and Projects"
 msgstr "Filer och projekt"
 
-#: kile.cpp:560 widgets/structurewidget.cpp:142
+#: kile.cpp:563 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "Struktur"
 
-#: kile.cpp:583
+#: kile.cpp:586
 #, kde-format
 msgid "Scripts"
 msgstr "Skript"
 
-#: kile.cpp:622
+#: kile.cpp:625
 #, kde-format
 msgid "Symbols"
 msgstr "Symboler"
 
-#: kile.cpp:625
+#: kile.cpp:628
 #, kde-format
 msgid "Most Frequently Used"
 msgstr "Oftast använda"
 
-#: kile.cpp:631
+#: kile.cpp:634
 #, kde-format
 msgid "Relation"
 msgstr "Relationer"
 
-#: kile.cpp:636
+#: kile.cpp:639
 #, kde-format
 msgid "Operators"
 msgstr "Operatorer"
 
-#: kile.cpp:641
+#: kile.cpp:644
 #, kde-format
 msgid "Arrows"
 msgstr "Pilar"
 
-#: kile.cpp:646
+#: kile.cpp:649
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "Diverse matematik"
 
-#: kile.cpp:651
+#: kile.cpp:654
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "Diverse text"
 
-#: kile.cpp:656
+#: kile.cpp:659
 #, kde-format
 msgid "Delimiters"
 msgstr "Avgränsare"
 
-#: kile.cpp:661
+#: kile.cpp:664
 #, kde-format
 msgid "Greek"
 msgstr "Grekiska"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:666 widgets/latexconfigwidget.ui:133
+#: kile.cpp:669 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "Specialtecken"
 
-#: kile.cpp:671
+#: kile.cpp:674
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "Kyrilliska tecken"
 
-#: kile.cpp:676
+#: kile.cpp:679
 #, kde-format
 msgid "User Defined"
 msgstr "Användardefinierade"
 
-#: kile.cpp:681
+#: kile.cpp:684
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5888,462 +5929,462 @@ msgstr ""
 ">Klicka på en ikon för att infoga kommandot. Om skift dessutom hålls nere "
 "infogas det i matematikläge, om Ctrl hålls nere i klammerparenteser.</p>"
 
-#: kile.cpp:701 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:704 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "Förkortning"
 
-#: kile.cpp:726
+#: kile.cpp:729
 #, kde-format
 msgid "Log and Messages"
 msgstr "Logg och meddelanden"
 
-#: kile.cpp:732
+#: kile.cpp:735
 #, kde-format
 msgid "Output"
 msgstr "Utmatning"
 
-#: kile.cpp:735
+#: kile.cpp:738
 #, kde-format
 msgid "Konsole"
 msgstr "Terminal"
 
-#: kile.cpp:837
+#: kile.cpp:840
 #, kde-format
 msgid "Save All"
 msgstr "Spara alla"
 
-#: kile.cpp:839
+#: kile.cpp:842
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "Skapa mall från dokument..."
 
-#: kile.cpp:840
+#: kile.cpp:843
 #, kde-format
 msgid "&Remove Template..."
 msgstr "&Ta bort mall..."
 
-#: kile.cpp:842 kile.cpp:972
+#: kile.cpp:845 kile.cpp:975
 #, kde-format
 msgid "Close All"
 msgstr "Stäng alla"
 
-#: kile.cpp:843
+#: kile.cpp:846
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "Stäng alla an&dra"
 
-#: kile.cpp:844
+#: kile.cpp:847
 #, kde-format
 msgid "S&tatistics"
 msgstr "Stat&istik"
 
-#: kile.cpp:845
+#: kile.cpp:848
 #, kde-format
 msgid "&ASCII"
 msgstr "&ASCII"
 
-#: kile.cpp:846
+#: kile.cpp:849
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "Latin-&1 (ISO 8859-1)"
 
-#: kile.cpp:847
+#: kile.cpp:850
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "Latin-&2 (ISO 8859-2)"
 
-#: kile.cpp:848
+#: kile.cpp:851
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "Latin-&3 (ISO 8859-3)"
 
-#: kile.cpp:849
+#: kile.cpp:852
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "Latin-&4 (ISO 8859-4)"
 
-#: kile.cpp:850
+#: kile.cpp:853
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "Latin-&5 (ISO 8859-5)"
 
-#: kile.cpp:851
+#: kile.cpp:854
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "Latin-&9 (ISO 8859-9)"
 
-#: kile.cpp:852
+#: kile.cpp:855
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "&Centraleuropeiskt (cp-1250)"
 
-#: kile.cpp:853
+#: kile.cpp:856
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "&Västeuropeiskt (cp-1252)"
 
-#: kile.cpp:856
+#: kile.cpp:859
 #, kde-format
 msgid "Move Tab Left"
 msgstr "Flytta flik åt vänster"
 
-#: kile.cpp:857
+#: kile.cpp:860
 #, kde-format
 msgid "Move Tab Right"
 msgstr "Flytta flik åt höger"
 
-#: kile.cpp:859
+#: kile.cpp:862
 #, kde-format
 msgid "Next section"
 msgstr "Nästa avsnitt"
 
-#: kile.cpp:861
+#: kile.cpp:864
 #, kde-format
 msgid "Prev section"
 msgstr "Föregående avsnitt"
 
-#: kile.cpp:863
+#: kile.cpp:866
 #, kde-format
 msgid "Next paragraph"
 msgstr "Nästa stycke"
 
-#: kile.cpp:865
+#: kile.cpp:868
 #, kde-format
 msgid "Prev paragraph"
 msgstr "Föregående stycke"
 
-#: kile.cpp:868
+#: kile.cpp:871
 #, kde-format
 msgid "Find &in Files..."
 msgstr "&Sök i filer..."
 
-#: kile.cpp:870
+#: kile.cpp:873
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "&Uppdatera struktur"
 
-#: kile.cpp:873
+#: kile.cpp:876
 #, kde-format
 msgid "&New Project..."
 msgstr "&Nytt projekt..."
 
-#: kile.cpp:874
+#: kile.cpp:877
 #, kde-format
 msgid "&Open Project..."
 msgstr "Ö&ppna projekt..."
 
-#: kile.cpp:876
+#: kile.cpp:879
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "Öppna s&enaste projekt"
 
-#: kile.cpp:883
+#: kile.cpp:886
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "&Lägg till filer i projekt..."
 
-#: kile.cpp:884 widgets/projectview.cpp:870
+#: kile.cpp:887 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "Uppdatera projekt&träd"
 
-#: kile.cpp:885 widgets/projectview.cpp:872
+#: kile.cpp:888 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "&Arkivera"
 
-#: kile.cpp:886 widgets/projectview.cpp:871
+#: kile.cpp:889 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "Pr&ojektalternativ"
 
-#: kile.cpp:887
+#: kile.cpp:890
 #, kde-format
 msgid "&Close Project"
 msgstr "Stän&g projekt"
 
-#: kile.cpp:890
+#: kile.cpp:893
 #, kde-format
 msgid "&Show Projects..."
 msgstr "Vi&sa projekt..."
 
-#: kile.cpp:891
+#: kile.cpp:894
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "Ta &bort filer från projekt..."
 
-#: kile.cpp:892
+#: kile.cpp:895
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "Visa projekt&filer..."
 
-#: kile.cpp:894 widgets/projectview.cpp:868
+#: kile.cpp:897 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "Öppna alla &projektfiler"
 
-#: kile.cpp:895
+#: kile.cpp:898
 #, kde-format
 msgid "Find in &Project..."
 msgstr "Sök i &projekt..."
 
-#: kile.cpp:898 kile.cpp:996 kile.cpp:2112 kiledocmanager.cpp:1999
+#: kile.cpp:901 kile.cpp:999 kile.cpp:2119 kiledocmanager.cpp:1999
 #: kiledocmanager.cpp:2009
 #, kde-format
 msgid "Clean"
 msgstr "Rensa"
 
-#: kile.cpp:903
+#: kile.cpp:906
 #, kde-format
 msgid "Next Document"
 msgstr "Nästa dokument"
 
-#: kile.cpp:909
+#: kile.cpp:912
 #, kde-format
 msgid "Previous Document"
 msgstr "Föregående dokument"
 
-#: kile.cpp:912
+#: kile.cpp:915
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "Ge fokus till logg/meddelanden"
 
-#: kile.cpp:913
+#: kile.cpp:916
 #, kde-format
 msgid "Focus Output View"
 msgstr "Ge fokus till utmatning"
 
-#: kile.cpp:914
+#: kile.cpp:917
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "Ge fokus till Konsole"
 
-#: kile.cpp:915
+#: kile.cpp:918
 #, kde-format
 msgid "Focus Editor View"
 msgstr "Ge fokus till editor"
 
-#: kile.cpp:917
+#: kile.cpp:920
 #, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "Komplettera (La)tex-kommando"
 
-#: kile.cpp:919
+#: kile.cpp:922
 #, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "Komplettera Latex-omgivning"
 
-#: kile.cpp:921
+#: kile.cpp:924
 #, kde-format
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "Komplettera förkortning"
 
-#: kile.cpp:924
+#: kile.cpp:927
 #, kde-format
 msgid "Next Bullet"
 msgstr "Nästa punkt"
 
-#: kile.cpp:926
+#: kile.cpp:929
 #, kde-format
 msgid "Prev Bullet"
 msgstr "Föregående punkt"
 
-#: kile.cpp:930 kile.cpp:947
+#: kile.cpp:933 kile.cpp:950
 #, kde-format
 msgid "Environment (inside)"
 msgstr "Omgivning (inne i)"
 
-#: kile.cpp:932 kile.cpp:949
+#: kile.cpp:935 kile.cpp:952
 #, kde-format
 msgid "Environment (outside)"
 msgstr "Omgivning (utanför)"
 
-#: kile.cpp:934 kile.cpp:951
+#: kile.cpp:937 kile.cpp:954
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "Tex-grupp (inne i)"
 
-#: kile.cpp:936 kile.cpp:953
+#: kile.cpp:939 kile.cpp:956
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "Tex-grupp (utanför)"
 
-#: kile.cpp:938 kile.cpp:955
+#: kile.cpp:941 kile.cpp:958
 #, kde-format
 msgid "Math Group"
 msgstr "Matematisk grupp"
 
-#: kile.cpp:940 kile.cpp:957
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Paragraph"
 msgstr "Stycke"
 
-#: kile.cpp:942
+#: kile.cpp:945
 #, kde-format
 msgid "Line"
 msgstr "Rad"
 
-#: kile.cpp:944 kile.cpp:961
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Word"
 msgstr "Tex-ord"
 
-#: kile.cpp:959
+#: kile.cpp:962
 #, kde-format
 msgid "To End of Line"
 msgstr "Till radslut"
 
-#: kile.cpp:964 kile.cpp:975
+#: kile.cpp:967 kile.cpp:978
 #, kde-format
 msgid "Go to Begin"
 msgstr "Gå till början"
 
-#: kile.cpp:966 kile.cpp:977
+#: kile.cpp:969 kile.cpp:980
 #, kde-format
 msgid "Go to End"
 msgstr "Gå till slutet"
 
-#: kile.cpp:968 kile.cpp:979
+#: kile.cpp:971 kile.cpp:982
 #, kde-format
 msgid "Match"
 msgstr "Matcha"
 
-#: kile.cpp:970 kile.cpp:981
+#: kile.cpp:973 kile.cpp:984
 #, kde-format
 msgid "Close"
 msgstr "Stäng"
 
-#: kile.cpp:984
+#: kile.cpp:987
 #, kde-format
 msgid "Selection"
 msgstr "Markering"
 
-#: kile.cpp:986
+#: kile.cpp:989
 #, kde-format
 msgid "Subdocument"
 msgstr "Underdokument"
 
-#: kile.cpp:987
+#: kile.cpp:990
 #, kde-format
 msgid "Mathgroup"
 msgstr "Matematisk grupp"
 
-#: kile.cpp:992
+#: kile.cpp:995
 #, kde-format
 msgid "&Bibliography"
 msgstr "&Bibliografi"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:998 kileui.rc:503
+#: kile.cpp:1001 kileui.rc:503
 #, kde-format
 msgid "&Settings"
 msgstr "In&ställningar"
 
-#: kile.cpp:1001
+#: kile.cpp:1004
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr "Inställningar av Bibtex"
 
-#: kile.cpp:1005
+#: kile.cpp:1008
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr "Inställningar av Biblatex"
 
-#: kile.cpp:1012 kile.cpp:2218
+#: kile.cpp:1015 kile.cpp:2225
 #, kde-format
 msgid "Quick Start"
 msgstr "Snabbstart"
 
-#: kile.cpp:1015 kilestdactions.cpp:384
+#: kile.cpp:1018 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "Fält"
 
-#: kile.cpp:1016 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1019 kile.cpp:2277 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "Tabulering"
 
-#: kile.cpp:1017
+#: kile.cpp:1020
 #, kde-format
 msgid "Floats"
 msgstr "Flytande"
 
-#: kile.cpp:1022
+#: kile.cpp:1025
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "Definiera aktuellt dokument som '&Huvuddokument'"
 
-#: kile.cpp:1027
+#: kile.cpp:1030
 #, kde-format
 msgid "Show Document Viewer"
 msgstr "Aktivera dokumentvisare"
 
-#: kile.cpp:1034
+#: kile.cpp:1037
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "Visa s&idorad"
 
-#: kile.cpp:1040
+#: kile.cpp:1043
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "Visa &meddelanderad"
 
-#: kile.cpp:1052
+#: kile.cpp:1055
 #, kde-format
 msgid "Watch File Mode"
 msgstr "Filbevakningsläge"
 
-#: kile.cpp:1066
+#: kile.cpp:1069
 #, kde-format
 msgid "Context Help"
 msgstr "Sammanhangsberoende hjälp"
 
-#: kile.cpp:1069
+#: kile.cpp:1072
 #, kde-format
 msgid "&About Editor Component"
 msgstr "O&m editorkomponenten"
 
-#: kile.cpp:1077
+#: kile.cpp:1080
 #, kde-format
 msgid "&System Check..."
 msgstr "&Systemkontroll..."
 
-#: kile.cpp:1095 kileinfo.cpp:357
+#: kile.cpp:1098 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr "Bibtex"
 
-#: kile.cpp:1098
+#: kile.cpp:1101
 #, kde-format
 msgid "Biblatex"
 msgstr "Biblatex"
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1248 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "Kompilera"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1249 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr "Visa"
 
-#: kile.cpp:1247 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1250 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "Konvertera"
 
-#: kile.cpp:1248 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1251 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr "Snabb"
 
-#: kile.cpp:1422
+#: kile.cpp:1429
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6354,78 +6395,78 @@ msgstr ""
 "\n"
 "Kontrollera och rätta installationen av Kile."
 
-#: kile.cpp:1424
+#: kile.cpp:1431
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr "Kan inte skapa arkiveringsverktyg"
 
-#: kile.cpp:1493
+#: kile.cpp:1500
 #, kde-format
 msgid "Project: %1"
 msgstr "Projekt: %1"
 
-#: kile.cpp:1496
+#: kile.cpp:1503
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "Projekt: %1 (Huvuddokument: %2)"
 
-#: kile.cpp:1501
+#: kile.cpp:1508
 #, kde-format
 msgid "Normal mode"
 msgstr "Normalläge"
 
-#: kile.cpp:1504
+#: kile.cpp:1511
 #, kde-format
 msgid "Master document: %1"
 msgstr "Huvuddokument: %1"
 
-#: kile.cpp:1509 kile.cpp:2628
+#: kile.cpp:1516 kile.cpp:2635
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "Definiera aktuellt dokument som 'Huvuddokument'"
 
-#: kile.cpp:1513 kile.cpp:2618
+#: kile.cpp:1520 kile.cpp:2625
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "Normalläge (nuvarande huvuddokument: %1)"
 
-#: kile.cpp:1731
+#: kile.cpp:1738
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr "%1 [skrivskyddad]"
 
-#: kile.cpp:2105
+#: kile.cpp:2112
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "Det finns inget aktivt dokument, eller är det inte sparat."
 
-#: kile.cpp:2189
+#: kile.cpp:2196
 #, kde-format
 msgid "You have to include the package %1."
 msgstr "Du måste inkludera paketet %1."
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2196 kile.cpp:2199
 #, kde-format
 msgid "Insert text"
 msgstr "Infoga text"
 
-#: kile.cpp:2192
+#: kile.cpp:2199
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr "Du måste inkludera paketen %1."
 
-#: kile.cpp:2413
+#: kile.cpp:2420
 #, kde-format
 msgid "No Name"
 msgstr "Inget namn"
 
-#: kile.cpp:2449
+#: kile.cpp:2456
 #, kde-format
 msgid "no name"
 msgstr "inget namn"
 
-#: kile.cpp:2646
+#: kile.cpp:2653
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
@@ -6433,31 +6474,31 @@ msgid ""
 msgstr ""
 "För att definiera aktuellt dokument som huvuddokument måste det först sparas."
 
-#: kile.cpp:2988
+#: kile.cpp:2995
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr "BLOCK"
 
-#: kile.cpp:2989
+#: kile.cpp:2996
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr "RAD"
 
-#: kile.cpp:2996
+#: kile.cpp:3003
 #, kde-format
 msgid "Refreshing structure..."
 msgstr "Uppdatera struktur..."
 
-#: kile.cpp:3014
+#: kile.cpp:3021
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 "Döljer menyraden fullständigt. Du kan visa den igen genom att skriva %1."
 
-#: kile.cpp:3017
+#: kile.cpp:3024
 #, kde-format
 msgid "Hide menu bar"
 msgstr "Dölj menyrad"
@@ -7636,11 +7677,6 @@ msgstr "Kile projektfiler"
 #, kde-format
 msgid "* |All Files"
 msgstr "* |Alla filer"
-
-#: kileextensions.cpp:123
-#, kde-format
-msgid "All Files (*)"
-msgstr "Alla filer (*)"
 
 #: kilehelp.cpp:100
 #, kde-format

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-10-23 00:42+0000\n"
+"POT-Creation-Date: 2023-11-05 12:34+0000\n"
 "PO-Revision-Date: 2009-02-21 10:38+0530\n"
 "Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
 "Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
@@ -331,7 +331,7 @@ msgstr "काइल"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetLatexConfig)
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetEnvironmentConfig)
-#: dialogs/configurationdialog.cpp:70 kile.cpp:690 kile.cpp:1063
+#: dialogs/configurationdialog.cpp:70 kile.cpp:693 kile.cpp:1066
 #: kileinfo.cpp:355 widgets/environmentconfigwidget.ui:20
 #: widgets/latexconfigwidget.ui:14
 #, kde-format
@@ -402,7 +402,7 @@ msgstr "कोड पूरा करना"
 msgid "Quick Preview"
 msgstr ""
 
-#: dialogs/configurationdialog.cpp:251 kile.cpp:740
+#: dialogs/configurationdialog.cpp:251 kile.cpp:743
 #, kde-format
 msgid "Preview"
 msgstr ""
@@ -512,7 +512,7 @@ msgstr "कमांड []"
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/findfilesdialog.cpp:144 dialogs/floatdialog_base.ui:29
 #: dialogs/latexcommanddialog_base.ui:69 dialogs/mathenvironmentdialog.cpp:56
-#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:985
+#: dialogs/tabular/newtabulardialog.cpp:123 kile.cpp:988
 #, kde-format
 msgid "Environment"
 msgstr "वातावरन"
@@ -755,23 +755,64 @@ msgstr "लेबल: (&L)"
 msgid "Include Graphics"
 msgstr "चित्रादि सामिल करव"
 
-#: dialogs/includegraphicsdialog.cpp:417
+#: dialogs/includegraphicsdialog.cpp:418
 #, fuzzy, kde-format
 #| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
-msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
 msgstr "*.png *.jpg *.eps.gz *.eps|चित्रादि\n"
 
-#: dialogs/includegraphicsdialog.cpp:423
+#: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "PNG Files (*.png)"
+msgstr "सब्बो फाइल मन ल"
+
+#: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "JPG Files (*.jpg)"
+msgstr "सब्बो फाइल मन ल"
+
+#: dialogs/includegraphicsdialog.cpp:421
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "PDF Files (*.pdf)"
+msgstr "सब्बो फाइल मन ल"
+
+#: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
-msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+msgid "Postscript Files (*.eps *ps)"
+msgstr ""
+
+#: dialogs/includegraphicsdialog.cpp:425
+#, fuzzy, kde-format
+#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
 msgstr "*.png *.jpg *.eps.gz *.eps|चित्रादि\n"
 
-#: dialogs/includegraphicsdialog.cpp:618
+#: dialogs/includegraphicsdialog.cpp:428
+#, kde-format
+msgid "Zipped EPS Files (*.eps.gz)"
+msgstr ""
+
+#: dialogs/includegraphicsdialog.cpp:429
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "EPS Files (*.eps)"
+msgstr "सब्बो फाइल मन ल"
+
+#: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
+#, fuzzy, kde-format
+#| msgid "All Files"
+msgid "All Files (*)"
+msgstr "सब्बो फाइल मन ल"
+
+#: dialogs/includegraphicsdialog.cpp:621
 #, kde-format
 msgid "You must include the wrapfig package to use the text wrapping options"
 msgstr ""
 
-#: dialogs/includegraphicsdialog.cpp:618 editorextension.cpp:3249
+#: dialogs/includegraphicsdialog.cpp:621 editorextension.cpp:3249
 #, fuzzy, kde-format
 msgid "Missing Package"
 msgstr "पैकेज संपादित करव"
@@ -1200,7 +1241,7 @@ msgstr ""
 #. i18n: ectx: ToolBar (mathToolBar)
 #. i18n: ectx: property (text), widget (QTreeWidget, environments)
 #: dialogs/latexcommanddialog.cpp:389 dialogs/latexcommanddialog_base.ui:84
-#: kile.cpp:1018 kileui.rc:569
+#: kile.cpp:1021 kileui.rc:569
 #, kde-format
 msgid "Math"
 msgstr "गनित"
@@ -1210,7 +1251,7 @@ msgstr "गनित"
 msgid "Lists"
 msgstr "सूचियाँ"
 
-#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1014 kilestdactions.cpp:80
+#: dialogs/latexcommanddialog.cpp:391 kile.cpp:1017 kilestdactions.cpp:80
 #, kde-format
 msgid "Tabular"
 msgstr "टेबुलर"
@@ -1246,13 +1287,13 @@ msgstr ""
 msgid "Includes"
 msgstr "सामिल"
 
-#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1065
+#: dialogs/latexcommanddialog.cpp:624 kile.cpp:1068
 #, kde-format
 msgid "LaTeX Environments"
 msgstr "लेटेक्स एनवायरनमेंट्स"
 
 #: dialogs/latexcommanddialog.cpp:628 dialogs/latexcommanddialog.cpp:700
-#: kile.cpp:1064
+#: kile.cpp:1067
 #, kde-format
 msgid "LaTeX Commands"
 msgstr "लेटेक्स कमांड"
@@ -2143,7 +2184,7 @@ msgid ""
 msgstr ""
 
 #: dialogs/pdf-wizard/pdfdialog.cpp:916 dialogs/pdf-wizard/pdfdialog.cpp:1704
-#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1020
+#: dialogs/pdf-wizard/pdfdialog.cpp:1774 kile.cpp:1023
 #, fuzzy, kde-format
 #| msgid "Tools"
 msgid "PDF Tools"
@@ -2741,7 +2782,7 @@ msgstr ""
 msgid "Copies:"
 msgstr "नकल:"
 
-#: dialogs/postscriptdialog.cpp:517 kile.cpp:1019
+#: dialogs/postscriptdialog.cpp:517 kile.cpp:1022
 #, kde-format
 msgid "Postscript Tools"
 msgstr ""
@@ -4519,7 +4560,7 @@ msgstr ""
 msgid "Empty Clipboard"
 msgstr ""
 
-#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1067
+#: dialogs/texdocumentationdialog.cpp:59 kile.cpp:1070
 #, kde-format
 msgid "Documentation Browser"
 msgstr "कागद लिखइया ब्राउजर"
@@ -4619,7 +4660,7 @@ msgid "Configure User Help"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_gbUserHelp)
-#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1079
+#: dialogs/userhelpdialog.cpp:57 dialogs/userhelpdialog.cpp:378 kile.cpp:1082
 #: widgets/helpconfigwidget.ui:86
 #, kde-format
 msgid "User Help"
@@ -5619,7 +5660,7 @@ msgstr "लाग फाइल ल खोल नइ सकिस; का आप 
 msgid "No LaTeX warnings/errors detected."
 msgstr "कोई लेटेक्स गलतीयों के पता नइ लगा."
 
-#: kile.cpp:387
+#: kile.cpp:390
 #, kde-format
 msgid ""
 "You have defined some tools in the User menu. From now on these tools will "
@@ -5629,12 +5670,12 @@ msgid ""
 "command if you wish."
 msgstr ""
 
-#: kile.cpp:387
+#: kile.cpp:390
 #, kde-format
 msgid "User Tools Detected"
 msgstr "कमइया औजार के पता चलिस"
 
-#: kile.cpp:396
+#: kile.cpp:399
 #, kde-format
 msgid ""
 "<p>The tool settings need to be reset for this version of Kile to function "
@@ -5642,93 +5683,93 @@ msgid ""
 "want to reset the tools now?</p>"
 msgstr ""
 
-#: kile.cpp:399
+#: kile.cpp:402
 #, kde-format
 msgid "Tools need to be reset"
 msgstr ""
 
-#: kile.cpp:475
+#: kile.cpp:478
 #, kde-format
 msgid "Open File"
 msgstr "फाइल खोलव"
 
-#: kile.cpp:495
+#: kile.cpp:498
 #, kde-format
 msgid "Files and Projects"
 msgstr "फाइल अउ परियोजना"
 
-#: kile.cpp:560 widgets/structurewidget.cpp:142
+#: kile.cpp:563 widgets/structurewidget.cpp:142
 #, kde-format
 msgid "Structure"
 msgstr "स्ट्रक्चर"
 
-#: kile.cpp:583
+#: kile.cpp:586
 #, kde-format
 msgid "Scripts"
 msgstr "स्क्रिप्ट्स"
 
-#: kile.cpp:622
+#: kile.cpp:625
 #, kde-format
 msgid "Symbols"
 msgstr "चिनहा"
 
-#: kile.cpp:625
+#: kile.cpp:628
 #, kde-format
 msgid "Most Frequently Used"
 msgstr ""
 
-#: kile.cpp:631
+#: kile.cpp:634
 #, kde-format
 msgid "Relation"
 msgstr "सम्बन्ध"
 
-#: kile.cpp:636
+#: kile.cpp:639
 #, kde-format
 msgid "Operators"
 msgstr ""
 
-#: kile.cpp:641
+#: kile.cpp:644
 #, kde-format
 msgid "Arrows"
 msgstr "तीर चिनहा"
 
-#: kile.cpp:646
+#: kile.cpp:649
 #, kde-format
 msgid "Miscellaneous Math"
 msgstr "विविध मैथ"
 
-#: kile.cpp:651
+#: kile.cpp:654
 #, kde-format
 msgid "Miscellaneous Text"
 msgstr "विविध पाठ"
 
-#: kile.cpp:656
+#: kile.cpp:659
 #, kde-format
 msgid "Delimiters"
 msgstr "डेलिमीटर्स"
 
-#: kile.cpp:661
+#: kile.cpp:664
 #, kde-format
 msgid "Greek"
 msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox)
-#: kile.cpp:666 widgets/latexconfigwidget.ui:133
+#: kile.cpp:669 widgets/latexconfigwidget.ui:133
 #, kde-format
 msgid "Special Characters"
 msgstr "विसिस्ट अक्छर"
 
-#: kile.cpp:671
+#: kile.cpp:674
 #, kde-format
 msgid "Cyrillic Characters"
 msgstr "साइरिलिक अक्छर"
 
-#: kile.cpp:676
+#: kile.cpp:679
 #, kde-format
 msgid "User Defined"
 msgstr ""
 
-#: kile.cpp:681
+#: kile.cpp:684
 #, kde-format
 msgid ""
 "<p>Move the mouse over the icons to see the corresponding LaTeX commands.<br/"
@@ -5737,465 +5778,465 @@ msgid ""
 "brackets.</p>"
 msgstr ""
 
-#: kile.cpp:701 widgets/codecompletionconfigwidget.cpp:55
+#: kile.cpp:704 widgets/codecompletionconfigwidget.cpp:55
 #, kde-format
 msgid "Abbreviation"
 msgstr "संक्छिप्त"
 
-#: kile.cpp:726
+#: kile.cpp:729
 #, kde-format
 msgid "Log and Messages"
 msgstr "लाग अउ संदेस"
 
-#: kile.cpp:732
+#: kile.cpp:735
 #, kde-format
 msgid "Output"
 msgstr "आउटपुट"
 
-#: kile.cpp:735
+#: kile.cpp:738
 #, kde-format
 msgid "Konsole"
 msgstr "कंसोल"
 
-#: kile.cpp:837
+#: kile.cpp:840
 #, kde-format
 msgid "Save All"
 msgstr "सब्बो सहेजव"
 
-#: kile.cpp:839
+#: kile.cpp:842
 #, kde-format
 msgid "Create Template From Document..."
 msgstr "कागद से टैम्प्लेट तैयार करव..."
 
-#: kile.cpp:840
+#: kile.cpp:843
 #, kde-format
 msgid "&Remove Template..."
 msgstr "टैम्प्लेट मेटाव... (&R)"
 
-#: kile.cpp:842 kile.cpp:972
+#: kile.cpp:845 kile.cpp:975
 #, kde-format
 msgid "Close All"
 msgstr "सब्बो बंद करव"
 
-#: kile.cpp:843
+#: kile.cpp:846
 #, kde-format
 msgid "Close All Ot&hers"
 msgstr "अउ दूसर सब्बो ल बंद करव (&h)"
 
-#: kile.cpp:844
+#: kile.cpp:847
 #, kde-format
 msgid "S&tatistics"
 msgstr "सांख्यिकी (&t)"
 
-#: kile.cpp:845
+#: kile.cpp:848
 #, kde-format
 msgid "&ASCII"
 msgstr "ओस्की (&A)"
 
-#: kile.cpp:846
+#: kile.cpp:849
 #, kde-format
 msgid "Latin-&1 (iso 8859-1)"
 msgstr "लेटिन-&1 (आईएसओ 8859-1)"
 
-#: kile.cpp:847
+#: kile.cpp:850
 #, kde-format
 msgid "Latin-&2 (iso 8859-2)"
 msgstr "लेटिन-&2 (आईएसओ 8859-2)"
 
-#: kile.cpp:848
+#: kile.cpp:851
 #, kde-format
 msgid "Latin-&3 (iso 8859-3)"
 msgstr "लेटिन-&3 (आईएसओ 8859-3)"
 
-#: kile.cpp:849
+#: kile.cpp:852
 #, kde-format
 msgid "Latin-&4 (iso 8859-4)"
 msgstr "लेटिन-&4 (आईएसओ 8859-4)"
 
-#: kile.cpp:850
+#: kile.cpp:853
 #, kde-format
 msgid "Latin-&5 (iso 8859-5)"
 msgstr "लेटिन-&5 (आईएसओ 8859-5)"
 
-#: kile.cpp:851
+#: kile.cpp:854
 #, kde-format
 msgid "Latin-&9 (iso 8859-9)"
 msgstr "लेटिन-&9 (आईएसओ 8859-9)"
 
-#: kile.cpp:852
+#: kile.cpp:855
 #, kde-format
 msgid "&Central European (cp-1250)"
 msgstr "मध्य यूरोपीय (cp-1250) (&C)"
 
-#: kile.cpp:853
+#: kile.cpp:856
 #, kde-format
 msgid "&Western European (cp-1252)"
 msgstr "मध्य यूरोपीय (cp-1252) (&W) "
 
-#: kile.cpp:856
+#: kile.cpp:859
 #, kde-format
 msgid "Move Tab Left"
 msgstr ""
 
-#: kile.cpp:857
+#: kile.cpp:860
 #, kde-format
 msgid "Move Tab Right"
 msgstr ""
 
-#: kile.cpp:859
+#: kile.cpp:862
 #, kde-format
 msgid "Next section"
 msgstr "अगला खन्ड"
 
-#: kile.cpp:861
+#: kile.cpp:864
 #, kde-format
 msgid "Prev section"
 msgstr "पिछला खन्ड"
 
-#: kile.cpp:863
+#: kile.cpp:866
 #, kde-format
 msgid "Next paragraph"
 msgstr "अगला पैराग्राफ"
 
-#: kile.cpp:865
+#: kile.cpp:868
 #, kde-format
 msgid "Prev paragraph"
 msgstr "पिछला पैराग्राफ"
 
-#: kile.cpp:868
+#: kile.cpp:871
 #, kde-format
 msgid "Find &in Files..."
 msgstr "फाइल मन मं ढूढें... (&i) "
 
-#: kile.cpp:870
+#: kile.cpp:873
 #, kde-format
 msgid "Refresh Str&ucture"
 msgstr "स्ट्रक्चर ताजा करव (&u)"
 
-#: kile.cpp:873
+#: kile.cpp:876
 #, kde-format
 msgid "&New Project..."
 msgstr "नवा परियोजना... (&N)"
 
-#: kile.cpp:874
+#: kile.cpp:877
 #, kde-format
 msgid "&Open Project..."
 msgstr "परियोजना खोलव... (&O)"
 
-#: kile.cpp:876
+#: kile.cpp:879
 #, kde-format
 msgid "Open &Recent Project"
 msgstr "अभी हाल के परियोजना खोलव (&R)"
 
-#: kile.cpp:883
+#: kile.cpp:886
 #, kde-format
 msgid "A&dd Files to Project..."
 msgstr "परियोजना मं फाइल मन ल जोड़व... (&d)"
 
-#: kile.cpp:884 widgets/projectview.cpp:870
+#: kile.cpp:887 widgets/projectview.cpp:870
 #, kde-format
 msgid "Refresh Project &Tree"
 msgstr "परियोजना ट्री ताजा करव (&T)"
 
-#: kile.cpp:885 widgets/projectview.cpp:872
+#: kile.cpp:888 widgets/projectview.cpp:872
 #, kde-format
 msgid "&Archive"
 msgstr "अभिलेखागार (&A)"
 
-#: kile.cpp:886 widgets/projectview.cpp:871
+#: kile.cpp:889 widgets/projectview.cpp:871
 #, kde-format
 msgid "Project &Options"
 msgstr "परियोजना विकल्प (&O)"
 
-#: kile.cpp:887
+#: kile.cpp:890
 #, kde-format
 msgid "&Close Project"
 msgstr "परियोजना बन्द करव (&C)"
 
-#: kile.cpp:890
+#: kile.cpp:893
 #, kde-format
 msgid "&Show Projects..."
 msgstr "परियोजना देखाव... (&S)"
 
-#: kile.cpp:891
+#: kile.cpp:894
 #, kde-format
 msgid "Re&move Files From Project..."
 msgstr "परियोजना से फाइल मेटाव... (&m)"
 
-#: kile.cpp:892
+#: kile.cpp:895
 #, kde-format
 msgid "Show Project &Files..."
 msgstr "परियोजना फाइल देखाव... (&F)"
 
-#: kile.cpp:894 widgets/projectview.cpp:868
+#: kile.cpp:897 widgets/projectview.cpp:868
 #, kde-format
 msgid "Open All &Project Files"
 msgstr "सब्बो परियोजना फाइल खोलव (&P)"
 
-#: kile.cpp:895
+#: kile.cpp:898
 #, kde-format
 msgid "Find in &Project..."
 msgstr "परियोजना मं खोजव... (&P)"
 
-#: kile.cpp:898 kile.cpp:996 kile.cpp:2112 kiledocmanager.cpp:1999
+#: kile.cpp:901 kile.cpp:999 kile.cpp:2119 kiledocmanager.cpp:1999
 #: kiledocmanager.cpp:2009
 #, kde-format
 msgid "Clean"
 msgstr "साफ"
 
-#: kile.cpp:903
+#: kile.cpp:906
 #, kde-format
 msgid "Next Document"
 msgstr "अगला कागद"
 
-#: kile.cpp:909
+#: kile.cpp:912
 #, kde-format
 msgid "Previous Document"
 msgstr "पिछला कागद"
 
-#: kile.cpp:912
+#: kile.cpp:915
 #, kde-format
 msgid "Focus Log/Messages View"
 msgstr "फोकस लाग/संदेस दृस्य"
 
-#: kile.cpp:913
+#: kile.cpp:916
 #, kde-format
 msgid "Focus Output View"
 msgstr "आउटपुट दृस्य फोकस करव"
 
-#: kile.cpp:914
+#: kile.cpp:917
 #, kde-format
 msgid "Focus Konsole View"
 msgstr "कंसोल दृस्य फोकस करव"
 
-#: kile.cpp:915
+#: kile.cpp:918
 #, kde-format
 msgid "Focus Editor View"
 msgstr "संपादक दृस्य फोकस करव"
 
-#: kile.cpp:917
+#: kile.cpp:920
 #, fuzzy, kde-format
 msgctxt "@action: Starts the completion of the current LaTeX command"
 msgid "Complete (La)TeX Command"
 msgstr "(ले)टेक्स कमांड"
 
-#: kile.cpp:919
+#: kile.cpp:922
 #, fuzzy, kde-format
 msgctxt "@action: Starts the input (and completion) of a LaTeX environment"
 msgid "Complete LaTeX Environment"
 msgstr "कोड एनवायरनमेंट (&C)"
 
-#: kile.cpp:921
+#: kile.cpp:924
 #, fuzzy, kde-format
 #| msgid "Delete Abbreviation"
 msgctxt "@action: Starts the completion of the current abbreviation"
 msgid "Complete Abbreviation"
 msgstr "संक्छिप्त मेटाव"
 
-#: kile.cpp:924
+#: kile.cpp:927
 #, kde-format
 msgid "Next Bullet"
 msgstr "अगला गोली"
 
-#: kile.cpp:926
+#: kile.cpp:929
 #, kde-format
 msgid "Prev Bullet"
 msgstr "पिछला गोली"
 
-#: kile.cpp:930 kile.cpp:947
+#: kile.cpp:933 kile.cpp:950
 #, kde-format
 msgid "Environment (inside)"
 msgstr "वातावरन (अंदर)"
 
-#: kile.cpp:932 kile.cpp:949
+#: kile.cpp:935 kile.cpp:952
 #, kde-format
 msgid "Environment (outside)"
 msgstr "वातावरन (बाहिर)"
 
-#: kile.cpp:934 kile.cpp:951
+#: kile.cpp:937 kile.cpp:954
 #, kde-format
 msgid "TeX Group (inside)"
 msgstr "टेक्स समूह (अंदर)"
 
-#: kile.cpp:936 kile.cpp:953
+#: kile.cpp:939 kile.cpp:956
 #, kde-format
 msgid "TeX Group (outside)"
 msgstr "टेक्स समूह (बाहिर)"
 
-#: kile.cpp:938 kile.cpp:955
+#: kile.cpp:941 kile.cpp:958
 #, kde-format
 msgid "Math Group"
 msgstr "मैथ समूह"
 
-#: kile.cpp:940 kile.cpp:957
+#: kile.cpp:943 kile.cpp:960
 #, kde-format
 msgid "Paragraph"
 msgstr "पैराग्राफ"
 
-#: kile.cpp:942
+#: kile.cpp:945
 #, kde-format
 msgid "Line"
 msgstr "पंक्ति"
 
-#: kile.cpp:944 kile.cpp:961
+#: kile.cpp:947 kile.cpp:964
 #, kde-format
 msgid "TeX Word"
 msgstr "टेक्स सब्द"
 
-#: kile.cpp:959
+#: kile.cpp:962
 #, kde-format
 msgid "To End of Line"
 msgstr ""
 
-#: kile.cpp:964 kile.cpp:975
+#: kile.cpp:967 kile.cpp:978
 #, kde-format
 msgid "Go to Begin"
 msgstr "सुरू मं जाव"
 
-#: kile.cpp:966 kile.cpp:977
+#: kile.cpp:969 kile.cpp:980
 #, kde-format
 msgid "Go to End"
 msgstr "आखरी मं जाव"
 
-#: kile.cpp:968 kile.cpp:979
+#: kile.cpp:971 kile.cpp:982
 #, kde-format
 msgid "Match"
 msgstr "मिलाव"
 
-#: kile.cpp:970 kile.cpp:981
+#: kile.cpp:973 kile.cpp:984
 #, kde-format
 msgid "Close"
 msgstr "बंद करव"
 
-#: kile.cpp:984
+#: kile.cpp:987
 #, kde-format
 msgid "Selection"
 msgstr "चयन"
 
-#: kile.cpp:986
+#: kile.cpp:989
 #, kde-format
 msgid "Subdocument"
 msgstr "उपकागद"
 
-#: kile.cpp:987
+#: kile.cpp:990
 #, kde-format
 msgid "Mathgroup"
 msgstr "गनितसमूह"
 
-#: kile.cpp:992
+#: kile.cpp:995
 #, kde-format
 msgid "&Bibliography"
 msgstr "ग्रन्थ सूची (&B)"
 
 #. i18n: ectx: Menu (settings)
-#: kile.cpp:998 kileui.rc:503
+#: kile.cpp:1001 kileui.rc:503
 #, kde-format
 msgid "&Settings"
 msgstr "सेटिंग (&S)"
 
-#: kile.cpp:1001
+#: kile.cpp:1004
 #, kde-format
 msgid "Settings for BibTeX"
 msgstr ""
 
-#: kile.cpp:1005
+#: kile.cpp:1008
 #, kde-format
 msgid "Settings for Biblatex"
 msgstr ""
 
-#: kile.cpp:1012 kile.cpp:2218
+#: kile.cpp:1015 kile.cpp:2225
 #, kde-format
 msgid "Quick Start"
 msgstr "क्विक स्टार्ट"
 
-#: kile.cpp:1015 kilestdactions.cpp:384
+#: kile.cpp:1018 kilestdactions.cpp:384
 #, kde-format
 msgid "Array"
 msgstr "ऐरे"
 
-#: kile.cpp:1016 kile.cpp:2270 kilestdactions.cpp:79
+#: kile.cpp:1019 kile.cpp:2277 kilestdactions.cpp:79
 #, kde-format
 msgid "Tabbing"
 msgstr "टैबिंग"
 
-#: kile.cpp:1017
+#: kile.cpp:1020
 #, kde-format
 msgid "Floats"
 msgstr ""
 
-#: kile.cpp:1022
+#: kile.cpp:1025
 #, kde-format
 msgid "Define Current Document as '&Master Document'"
 msgstr "अभी हाल के कागद ल 'मुख्य कागद' के रूप मं परिभासित करव (&M)"
 
-#: kile.cpp:1027
+#: kile.cpp:1030
 #, fuzzy, kde-format
 #| msgid "Document Type"
 msgid "Show Document Viewer"
 msgstr "कागद किसम"
 
-#: kile.cpp:1034
+#: kile.cpp:1037
 #, kde-format
 msgid "Show S&ide Bar"
 msgstr "बाजू-पट्टी देखाव (&i)"
 
-#: kile.cpp:1040
+#: kile.cpp:1043
 #, kde-format
 msgid "Show Mess&ages Bar"
 msgstr "संदेस पट्टी देखाव (&a)"
 
-#: kile.cpp:1052
+#: kile.cpp:1055
 #, kde-format
 msgid "Watch File Mode"
 msgstr "फाइल मोड देखव"
 
-#: kile.cpp:1066
+#: kile.cpp:1069
 #, kde-format
 msgid "Context Help"
 msgstr "कान्टेक्स्ट मदद"
 
-#: kile.cpp:1069
+#: kile.cpp:1072
 #, fuzzy, kde-format
 #| msgid "No bibliographies found."
 msgid "&About Editor Component"
 msgstr "कोई ग्रन्थ सूची नइ मिलिस."
 
-#: kile.cpp:1077
+#: kile.cpp:1080
 #, kde-format
 msgid "&System Check..."
 msgstr "तंत्र जांच... (&S)"
 
-#: kile.cpp:1095 kileinfo.cpp:357
+#: kile.cpp:1098 kileinfo.cpp:357
 #, kde-format
 msgid "BibTeX"
 msgstr ""
 
-#: kile.cpp:1098
+#: kile.cpp:1101
 #, kde-format
 msgid "Biblatex"
 msgstr ""
 
-#: kile.cpp:1245 widgets/toolconfigwidget.cpp:75
+#: kile.cpp:1248 widgets/toolconfigwidget.cpp:75
 #, kde-format
 msgid "Compile"
 msgstr "कम्पाइल"
 
-#: kile.cpp:1246 widgets/toolconfigwidget.cpp:77
+#: kile.cpp:1249 widgets/toolconfigwidget.cpp:77
 #, kde-format
 msgid "View"
 msgstr ""
 
-#: kile.cpp:1247 widgets/toolconfigwidget.cpp:76
+#: kile.cpp:1250 widgets/toolconfigwidget.cpp:76
 #, kde-format
 msgid "Convert"
 msgstr "बदलव"
 
-#: kile.cpp:1248 widgets/toolconfigwidget.cpp:74
+#: kile.cpp:1251 widgets/toolconfigwidget.cpp:74
 #, kde-format
 msgid "Quick"
 msgstr "क्विक"
 
-#: kile.cpp:1422
+#: kile.cpp:1429
 #, kde-format
 msgid ""
 "It was impossible to create the \"Archive\" tool.\n"
@@ -6203,109 +6244,109 @@ msgid ""
 "Please check and repair your installation of Kile."
 msgstr ""
 
-#: kile.cpp:1424
+#: kile.cpp:1431
 #, kde-format
 msgid "Unable to Create Archive Tool"
 msgstr ""
 
-#: kile.cpp:1493
+#: kile.cpp:1500
 #, kde-format
 msgid "Project: %1"
 msgstr "परियोजना: %1"
 
-#: kile.cpp:1496
+#: kile.cpp:1503
 #, kde-format
 msgid "Project: %1 (Master document: %2)"
 msgstr "परियोजना: %1 (मुख्य कागद: %2)"
 
-#: kile.cpp:1501
+#: kile.cpp:1508
 #, kde-format
 msgid "Normal mode"
 msgstr "सामान्य मोड"
 
-#: kile.cpp:1504
+#: kile.cpp:1511
 #, kde-format
 msgid "Master document: %1"
 msgstr "मुख्य कागद: %1"
 
-#: kile.cpp:1509 kile.cpp:2628
+#: kile.cpp:1516 kile.cpp:2635
 #, kde-format
 msgid "Define Current Document as 'Master Document'"
 msgstr "अभी हाल के कागद ल 'मुख्य कागद' के रूप मं परिभासित करव"
 
-#: kile.cpp:1513 kile.cpp:2618
+#: kile.cpp:1520 kile.cpp:2625
 #, kde-format
 msgid "Normal mode (current master document: %1)"
 msgstr "सामान्य मोड (अभी हाल के मुख्य कागद: %1)"
 
-#: kile.cpp:1731
+#: kile.cpp:1738
 #, kde-format
 msgctxt "Window caption in read-only mode: <file name> [Read-Only]"
 msgid "%1 [Read-Only]"
 msgstr ""
 
-#: kile.cpp:2105
+#: kile.cpp:2112
 #, kde-format
 msgid "There is no active document or it is not saved."
 msgstr "इहां कोनो सक्रिय कागद नइ हे या एला सहेजे नइ गे हे."
 
-#: kile.cpp:2189
+#: kile.cpp:2196
 #, kde-format
 msgid "You have to include the package %1."
 msgstr ""
 
-#: kile.cpp:2189 kile.cpp:2192
+#: kile.cpp:2196 kile.cpp:2199
 #, kde-format
 msgid "Insert text"
 msgstr "पाठ भरव"
 
-#: kile.cpp:2192
+#: kile.cpp:2199
 #, kde-format
 msgid "You have to include the packages %1."
 msgstr ""
 
-#: kile.cpp:2413
+#: kile.cpp:2420
 #, kde-format
 msgid "No Name"
 msgstr "कोई नाम नइ"
 
-#: kile.cpp:2449
+#: kile.cpp:2456
 #, kde-format
 msgid "no name"
 msgstr "कोई नाम नइ"
 
-#: kile.cpp:2646
+#: kile.cpp:2653
 #, kde-format
 msgid ""
 "In order to define the current document as a master document, it has to be "
 "saved first."
 msgstr "अभी हाल के कागद ल मुख्य कागद के रूप मं परिभासित करे बर एला पहिली सहेजना होही."
 
-#: kile.cpp:2988
+#: kile.cpp:2995
 #, kde-format
 msgctxt "@info:status status bar label for block selection mode"
 msgid "BLOCK"
 msgstr ""
 
-#: kile.cpp:2989
+#: kile.cpp:2996
 #, kde-format
 msgctxt "@info:status status bar label for line selection mode"
 msgid "LINE"
 msgstr ""
 
-#: kile.cpp:2996
+#: kile.cpp:3003
 #, fuzzy, kde-format
 #| msgid "Refresh Str&ucture"
 msgid "Refreshing structure..."
 msgstr "स्ट्रक्चर ताजा करव (&u)"
 
-#: kile.cpp:3014
+#: kile.cpp:3021
 #, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
 
-#: kile.cpp:3017
+#: kile.cpp:3024
 #, kde-format
 msgid "Hide menu bar"
 msgstr ""
@@ -7441,12 +7482,6 @@ msgstr "काइल परियोजना फाइल"
 #| msgid "*|All Files"
 msgid "* |All Files"
 msgstr "*|सब्बो फाइल मन ल"
-
-#: kileextensions.cpp:123
-#, fuzzy, kde-format
-#| msgid "All Files"
-msgid "All Files (*)"
-msgstr "सब्बो फाइल मन ल"
 
 #: kilehelp.cpp:100
 #, kde-format

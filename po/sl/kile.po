@@ -2,13 +2,13 @@
 # Martin Srebotnjak <miles@filmsi.net>, 2013.
 # Matija Šuklje <matija@suklje.name>, 2015.
 # Andrej Mernik <andrejm@ubuntu.si>, 2015, 2016.
-# Matjaž Jeran <matjaz.jeran@amis.net>, 2020, 2021, 2022.
+# SPDX-FileCopyrightText: 2020, 2021, 2022, 2023 Matjaž Jeran <matjaz.jeran@amis.net>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:34+0000\n"
-"PO-Revision-Date: 2023-10-02 09:33+0200\n"
+"PO-Revision-Date: 2023-11-06 10:04+0100\n"
 "Last-Translator: Matjaž Jeran <matjaz.jeran@amis.net>\n"
 "Language-Team: Slovenian <lugos-slo@lugos.si>\n"
 "Language: sl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n"
 "%100==4 ? 3 : 0);\n"
 "Translator: Andrej Mernik <andrejm@ubuntu.si>\n"
-"X-Generator: Poedit 3.3.2\n"
+"X-Generator: Lokalize 23.08.1\n"
 "X-Accelerator-Marker: ~\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
@@ -819,50 +819,44 @@ msgid "Include Graphics"
 msgstr "Vključi grafiko"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|Grafika\n"
+msgstr "Grafika (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Vse datoteke (*)"
+msgstr "PNG datoteke (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Vse datoteke (*)"
+msgstr "JPG datoteke (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Vse datoteke (*)"
+msgstr "PDF datoteke (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr ""
+msgstr "Postscript datoteke (*.eps *.ps)"
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafika\n"
+msgstr "Grafika (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr ""
+msgstr "Zipane EPS datoteke (*.eps.gz)"
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Vse datoteke (*)"
+msgstr "EPS datoteke (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format

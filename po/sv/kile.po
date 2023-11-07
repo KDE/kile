@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:34+0000\n"
-"PO-Revision-Date: 2023-10-02 22:08+0200\n"
+"PO-Revision-Date: 2023-11-06 21:09+0100\n"
 "Last-Translator: Stefan Asserhäll <stefan.asserhall@bredband.net>\n"
 "Language-Team: Swedish <kde-i18n-doc@kde.org>\n"
 "Language: sv\n"
@@ -819,50 +819,44 @@ msgid "Include Graphics"
 msgstr "Inkludera grafik"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|Grafik\n"
+msgstr "Grafik (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Alla filer (*)"
+msgstr "PNG-filer (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Alla filer (*)"
+msgstr "JPG-filer (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Alla filer (*)"
+msgstr "PDF-filer (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr ""
+msgstr "Postscript-filer (*.eps *ps)"
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafik\n"
+msgstr "Grafik (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr ""
+msgstr "Arkiverade EPS-filer (*.eps.gz)"
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Alla filer (*)"
+msgstr "EPS-filer (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format

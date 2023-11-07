@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:34+0000\n"
-"PO-Revision-Date: 2023-10-08 05:49+0200\n"
+"PO-Revision-Date: 2023-11-06 05:46+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4\n"
+"X-Generator: Poedit 3.3.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -369,7 +369,7 @@ msgstr "აგება"
 #: dialogs/configurationdialog.cpp:220 widgets/scriptingconfigwidget.ui:21
 #, kde-format
 msgid "Scripting Support"
-msgstr ""
+msgstr "სკრიპტების მხარდაჭერა"
 
 #: dialogs/configurationdialog.cpp:220
 #, kde-format
@@ -750,28 +750,24 @@ msgid "Include Graphics"
 msgstr "გამოსახულებების ჩასმა"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|გრაფიკა\n"
+msgstr "გრაფიკა (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "ყველა ფაილი (*)"
+msgstr "PNG ფაილები (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "ყველა ფაილი (*)"
+msgstr "JPG ფაილები (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "ყველა ფაილი (*)"
+msgstr "PDF ფაილები (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
@@ -779,10 +775,9 @@ msgid "Postscript Files (*.eps *ps)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|გრაფიკა\n"
+msgstr "გრაფიკა (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
@@ -790,10 +785,9 @@ msgid "Zipped EPS Files (*.eps.gz)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "ყველა ფაილი (*)"
+msgstr "EPS ფაილები (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format
@@ -4147,7 +4141,7 @@ msgstr ""
 #: dialogs/statisticsdialog.cpp:95 dialogs/statisticsdialog.cpp:199
 #, kde-format
 msgid "Statistics for %1"
-msgstr ""
+msgstr "სტატისტიკა %1-სთვის"
 
 #: dialogs/statisticsdialog.cpp:100
 #, kde-format

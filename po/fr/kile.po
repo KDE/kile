@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:34+0000\n"
-"PO-Revision-Date: 2023-10-25 14:15+0200\n"
+"PO-Revision-Date: 2023-11-05 21:16+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
 "Language: fr\n"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 23.08.1\n"
+"X-Generator: Lokalize 23.08.2\n"
 "X-Environment: kde\n"
 "X-Accelerator-Marker: &\n"
 "X-Text-Markup: kde4\n"
@@ -3969,14 +3969,14 @@ msgstr "%1 « %2 » existe déjà."
 #: dialogs/quickdocumentdialog.cpp:1032
 #, kde-format
 msgid "Special math environments and commands (AMS)"
-msgstr "Commandes et environnements mathématiques spécifiques à l'AMS"
+msgstr "Commandes et environnements mathématiques spécifiques à AMS"
 
 #: dialogs/quickdocumentdialog.cpp:1033
 #, kde-format
 msgid "Collection of fonts and symbols for math mode (AMS)"
 msgstr ""
 "Ensemble de polices de caractères et de symboles mathématiques spécifiques à "
-"l'AMS"
+"AMS"
 
 #: dialogs/quickdocumentdialog.cpp:1034
 #, kde-format
@@ -5007,7 +5007,7 @@ msgid ""
 "Websites (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf *."
 "dvi *.epub);;All Files (*)"
 msgstr ""
-"Sites web (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, EPUB) (*.ps *.pdf "
+"Sites web (HTML) (*.html *.htm);;Documents (PDF, PS, DVI, ePub) (*.ps *.pdf "
 "*.dvi *.epub);;Tous les fichiers (*)"
 
 #: dialogs/userhelpdialog.cpp:434 kileactions.cpp:378 kiledocmanager.cpp:2150
@@ -6422,7 +6422,7 @@ msgstr "Configuration pour BibTeX"
 #: kile.cpp:1008
 #, kde-format
 msgid "Settings for Biblatex"
-msgstr "Configuration pour Biblatex"
+msgstr "Configuration pour la bibliothèque « biblatex »"
 
 #: kile.cpp:1015 kile.cpp:2225
 #, kde-format
@@ -6492,7 +6492,7 @@ msgstr "BibTeX"
 #: kile.cpp:1101
 #, kde-format
 msgid "Biblatex"
-msgstr "Biblatex"
+msgstr "Bibliothèque « biblatex »"
 
 #: kile.cpp:1248 widgets/toolconfigwidget.cpp:75
 #, kde-format
@@ -6838,11 +6838,11 @@ msgid ""
 "bibliography tool (e.g. BibTeX or Biber) should look for additional packages "
 "and/or files. You do not have to add :$BIBINPUTS at the end."
 msgstr ""
-"Définir ici la variable d'environnement BIBINPUTS pour l'outil d'aperçu "
-"rapide. BIBINPUTS doit être une liste séparés par des deux-points de tous "
-"les emplacements vers lesquels les outils de bibliographie (par exemple "
-"BibTeX ou Biber) doivent chercher les paquets et / ou fichiers additionnels. "
-"Il n'est pas utile d'ajouter $BIBINPUTS à la fin. "
+"Définir ici la variable d'environnement « BIBINPUTS » pour l'outil d'aperçu "
+"rapide. Elle doit être une liste séparés par des deux-points de tous les "
+"emplacements vers lesquels les outils de bibliographie (par exemple "
+"« BibTeX » ou « Biber ») doivent chercher les paquets et / ou fichiers "
+"additionnels. Il n'est pas utile d'ajouter « $BIBINPUTS » à la fin. "
 
 #. i18n: ectx: label, entry (BstInputPaths), group (Tools)
 #: kile.kcfg:142
@@ -7190,7 +7190,7 @@ msgstr ""
 #: kile.kcfg:441
 #, kde-format
 msgid "Whether Dvipng is installed."
-msgstr "Si Dvipng est installé ou pas"
+msgstr "Si le paquet « dvipng » est installé ou pas"
 
 #. i18n: ectx: label, entry (convert), group (QuickPreview)
 #: kile.kcfg:445
@@ -8013,7 +8013,7 @@ msgstr ""
 "fleqn : affiche les formules en utilisant un alignement à gauche. Par défaut "
 "les formules sont centrées.\n"
 "onecolumn, twocolumn : choisit si le texte doit être affiché sur une "
-"(onecolumn) ou deux (twocolumn) colonnes. Par défaut il est affiché sur une "
+"(onecolumn) ou deux (twocolumn) colonnes. Par défaut, il est affiché sur une "
 "colonne.\n"
 "oneside, twoside : choisit si l'impression doit être recto verso ou pas.\n"
 
@@ -9627,7 +9627,7 @@ msgstr ""
 #: kilestdactions.cpp:227
 #, kde-format
 msgid "Load Biblatex Package - \\usepackage{biblatex}"
-msgstr "Charger le paquet Biblatex - \\usepackage{biblatex}"
+msgstr "Charger le paquet « biblatex » - \\usepackage{biblatex}"
 
 #: kilestdactions.cpp:227
 #, kde-format

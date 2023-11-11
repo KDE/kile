@@ -1,6 +1,6 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# Vít Pelčák <vit@pelcak.org>, 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020.
+# SPDX-FileCopyrightText: 2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020, 2023 Vít Pelčák <vit@pelcak.org>
 # Tomáš Chvátal <tomas.chvatal@gmail.com>, 2012, 2013.
 # Vit Pelcak <vit@pelcak.org>, 2021, 2022, 2023.
 #
@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-05 12:34+0000\n"
-"PO-Revision-Date: 2023-06-23 09:01+0200\n"
+"PO-Revision-Date: 2023-11-10 16:26+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 23.04.2\n"
+"X-Generator: Lokalize 23.08.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -557,7 +557,7 @@ msgstr "Obrázek"
 #: kilestdactions.cpp:129 usermenu/usermenu.cpp:907
 #, kde-format
 msgid "Label"
-msgstr "Štítek"
+msgstr "Popisek"
 
 #: dialogs/findfilesdialog.cpp:147 kilestdactions.cpp:134
 #: usermenu/usermenu.cpp:912
@@ -656,7 +656,7 @@ msgstr ""
 "Vyberte jeden z vyhledávacích režimů. U první skupiny režimů, vzor hledání "
 "je sestaven z upravitelných šablon, užívajících '%s' jako zástupku pro vzor."
 "<br><br>Jsou i další předem připravené režimy pro prostředí, obrázky, "
-"štítky, odkazy a vstupní soubory. Je-li vzor prázdný, Kile vyhledává ve "
+"popisky, odkazy a vstupní soubory. Je-li vzor prázdný, Kile vyhledává ve "
 "všech příkazech daného režimu. Je-li vzor zadán, bude vložen jako parametr. "
 "Například v režimu prostředí se vzorem 'center', Kile vyhledává "
 "'\\begin{center}', zatímco v režimu obrázků se vzorem '.*\\.png' vyhledává "
@@ -806,7 +806,7 @@ msgstr "Titulek:"
 #: dialogs/includegraphicsdialog_base.ui:427
 #, kde-format
 msgid "Label:"
-msgstr "Štítek:"
+msgstr "Popisek:"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_bgGraphics)
 #: dialogs/includegraphicsdialog.cpp:49 widgets/graphicsconfigwidget.ui:20
@@ -815,50 +815,44 @@ msgid "Include Graphics"
 msgstr "Vložit grafiku"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|Grafika\n"
+msgstr "Grafika (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Všechny soubory (*)"
+msgstr "Soubory PNG (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Všechny soubory (*)"
+msgstr "Soubory JPEG (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Všechny soubory (*)"
+msgstr "Soubory PDF (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr ""
+msgstr "Soubory PostScript (*.eps *ps)"
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafika\n"
+msgstr "Grafika (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr ""
+msgstr "Komprimované soubory EPS (*.eps.gz)"
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Všechny soubory (*)"
+msgstr "Soubory EPS (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format
@@ -1324,7 +1318,7 @@ msgstr "Doslovné"
 #: dialogs/latexcommanddialog.cpp:394 widgets/structurewidget.cpp:332
 #, kde-format
 msgid "Labels"
-msgstr "Štítky"
+msgstr "Popisky"
 
 #: dialogs/latexcommanddialog.cpp:395
 #, kde-format
@@ -4938,7 +4932,7 @@ msgstr ""
 "Text, jenž bude vložen při vykonání úkonu. Lze užít těchto zástupných znaků: "
 "<ul><li>%M - vybraný (označený) text</li><li>%C - poloha kurzoru</li><li>%B "
 "- pomocná odrážka</li><li>%E - odsazení v prostředích</li><li>%R - vybrat "
-"štítek ze seznamu</li><li>%T - vybrat heslo citace ze seznamu</li></ul>"
+"popisek ze seznamu</li><li>%T - vybrat heslo citace ze seznamu</li></ul>"
 
 #: dialogs/usermenu/usermenudialog.cpp:60
 #, kde-format
@@ -4957,7 +4951,7 @@ msgstr ""
 "%C: Poloha kurzoru\n"
 "%B: Pomocná odrážka\n"
 "%E: Odsazení v prostředích\n"
-"%R: Vybrat štítek ze seznamu\n"
+"%R: Vybrat popisek ze seznamu\n"
 "%T: Vybrat heslo citace ze seznamu\n"
 "%S: Název zdrojového souboru (bez přípony)"
 
@@ -6506,7 +6500,7 @@ msgstr "Úroveň rozbalení pro náhled na strukturu."
 #: kile.kcfg:58
 #, kde-format
 msgid "Show label commands in the structure view"
-msgstr "Ukazovat štítky (label) v náhledu na strukturu"
+msgstr "Ukazovat popisky (label) v náhledu na strukturu"
 
 #. i18n: ectx: label, entry (SvShowReferences), group (Structure)
 #: kile.kcfg:62
@@ -6542,7 +6536,7 @@ msgstr "Ukazovat příkazy pro vložení souboru v náhledu na strukturu"
 #: kile.kcfg:82
 #, kde-format
 msgid "Show labels as child of sectioning items in the structure view"
-msgstr "Ukazovat štítky v náhledu na strukturu podle místa v dokumentu"
+msgstr "Ukazovat popisky v náhledu na strukturu podle místa v dokumentu"
 
 #. i18n: ectx: label, entry (SvShowTodo), group (Structure)
 #: kile.kcfg:86
@@ -6554,7 +6548,7 @@ msgstr "Ukazovat komentáře TODO a FIXME"
 #: kile.kcfg:90
 #, kde-format
 msgid "Open the parent item for all labels in the structure view as default"
-msgstr "Otevírat štítkům nadřazené položky v náhledu na strukturu"
+msgstr "Otevírat popiskům nadřazené položky v náhledu na strukturu"
 
 #. i18n: ectx: label, entry (SvOpenReferences), group (Structure)
 #: kile.kcfg:94
@@ -12507,13 +12501,13 @@ msgstr "(&1=díl, 2=kapitola, 3=oddíl, 4=pododdíl, 5=podpododdíl, ...)"
 #: widgets/structureviewconfigwidget.ui:137
 #, kde-format
 msgid "Show &labels"
-msgstr "Ukazovat š&títky"
+msgstr "Ukazovat popis&ky"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvOpenLabels)
 #: widgets/structureviewconfigwidget.ui:144
 #, kde-format
 msgid "&Open labels item"
-msgstr "&Otevřít položku štítků"
+msgstr "&Otevřít položku popisků"
 
 #. i18n: ectx: property (text), widget (QCheckBox, kcfg_SvShowReferences)
 #: widgets/structureviewconfigwidget.ui:151
@@ -12573,7 +12567,7 @@ msgstr "Ukazovat vstupní soubory"
 #: widgets/structureviewconfigwidget.ui:217
 #, kde-format
 msgid "No extra section for labels"
-msgstr "Žádný dodatečný oddíl pro štítky"
+msgstr "Žádný dodatečný oddíl pro popisky"
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: widgets/structureviewconfigwidget.ui:229
@@ -12627,8 +12621,8 @@ msgid ""
 "also offer a context menu (right mouse button)."
 msgstr ""
 "Kliknutím vlevo skočíte na řádek. Dvojité kliknutí otevře soubor\n"
-"s textem nebo grafikou. Má-li tento položka přiřazena štítek,\n"
-"bude zobrazen při přejezdu myši. Položky se štítkem anebo souborem\n"
+"s textem nebo grafikou. Má-li tento položka přiřazena popisek,\n"
+"bude zobrazen při přejezdu myši. Položky s popiskem anebo souborem\n"
 "s grafikou také mají kontextovou nabídku (klikněte pravým tlačítkem)."
 
 #: widgets/structurewidget.cpp:121
@@ -12640,7 +12634,7 @@ msgstr "%1 (řádek %2)"
 #: widgets/structurewidget.cpp:129
 #, kde-format
 msgid "Label: %1"
-msgstr "Štítek: %1"
+msgstr "Popisek: %1"
 
 #: widgets/structurewidget.cpp:163
 #, kde-format
@@ -12739,7 +12733,7 @@ msgstr "Spustit rychlý náhled"
 #: widgets/structurewidget.cpp:811
 #, kde-format
 msgid "Insert Label"
-msgstr "Vložit štítek"
+msgstr "Vložit popisek"
 
 #: widgets/structurewidget.cpp:812
 #, kde-format
@@ -12754,12 +12748,12 @@ msgstr "Jako odkaz na &stranu"
 #: widgets/structurewidget.cpp:814
 #, kde-format
 msgid "Only the &label"
-msgstr "Pouze š&títek"
+msgstr "Pouze pop&isek"
 
 #: widgets/structurewidget.cpp:816
 #, kde-format
 msgid "Copy Label to Clipboard"
-msgstr "Zkopírovat štítek do schránky"
+msgstr "Zkopírovat popisek do schránky"
 
 #: widgets/structurewidget.cpp:817
 #, kde-format
@@ -12774,7 +12768,7 @@ msgstr "Jako odkaz na stranu"
 #: widgets/structurewidget.cpp:819
 #, kde-format
 msgid "Only the label"
-msgstr "Pouze štítek"
+msgstr "Pouze popisek"
 
 #: widgets/symbolview.cpp:206
 #, kde-format

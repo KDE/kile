@@ -2,7 +2,7 @@
     begin                : Mon Dec 22 2003
     copyright            : (C) 2001 - 2003 by Brachet Pascal
                                2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                               2007-2012 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2023 by Michel Ludwig (michel.ludwig@kdemail.net)
  ***************************************************************************************************/
 
 /***************************************************************************
@@ -24,7 +24,7 @@
 #include <QVBoxLayout>
 
 #include <KLocalizedString>
-#include <KService>
+#include <KPluginFactory>
 #include <KShell>
 #include <QUrl>
 
@@ -56,13 +56,17 @@ void Konsole::spawn()
 {
     KILE_DEBUG_MAIN << "void Konsole::spawn()";
 
-    const KPluginMetaData konsolePart(QStringLiteral("konsolepart"));
-    // the catalog for translations is added by the Konsole part constructor already
-    const auto result = KParts::PartLoader::instantiatePart<KParts::ReadOnlyPart>(konsolePart, this, this);
+    KPluginFactory *factory = KPluginFactory::loadFactory(QStringLiteral("konsolepart")).plugin;
 
-    if(!result) {
-        m_part = result.plugin;
+    if(!factory) {
         KILE_DEBUG_MAIN << "No factory for konsolepart";
+        return;
+    }
+
+    m_part = factory->create<KParts::ReadOnlyPart>(this);
+
+    if(!m_part) {
+        KILE_DEBUG_MAIN << "Could not create konsolepart";
         return;
     }
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:34+0000\n"
+"POT-Creation-Date: 2023-11-13 00:43+0000\n"
 "PO-Revision-Date: 2019-12-30 17:01+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -4614,8 +4614,8 @@ msgstr "Valitud lahtritest teksti puhatamine ja atribuutide lähtestamine."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Lõikepuhvrisse salvestatud tabeli asetamine nõustajasse."
 
-#: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:681
+#: dialogs/tabular/newtabulardialog.cpp:658
+#: dialogs/tabular/newtabulardialog.cpp:680
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4623,8 +4623,8 @@ msgid ""
 msgstr ""
 "Tabelile uue suuruse määramine kustutab sisu. Kas tõesti määrata uus suurus?"
 
-#: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:681
+#: dialogs/tabular/newtabulardialog.cpp:658
+#: dialogs/tabular/newtabulardialog.cpp:680
 #, kde-format
 msgid "Resizing table"
 msgstr "Tabeli suuruse muutmine"

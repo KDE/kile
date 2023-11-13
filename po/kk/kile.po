@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:34+0000\n"
+"POT-Creation-Date: 2023-11-13 00:43+0000\n"
 "PO-Revision-Date: 2013-11-18 03:29+0600\n"
 "Last-Translator: Sairan Kikkarin <sairan@computer.org>\n"
 "Language-Team: Kazakh <kde-i18n-doc@kde.org>\n"
@@ -4572,16 +4572,16 @@ msgstr "Таңдалған ұяшықтардағы мәтіннің қасие�
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Осы шебер алмасу буферінде сақтаған кестені орналастыру."
 
-#: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:681
+#: dialogs/tabular/newtabulardialog.cpp:658
+#: dialogs/tabular/newtabulardialog.cpp:680
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 msgstr "Кестеге жаңа өлшем бергенде оның мазмұны өшіріледі. Істейсіз ба?"
 
-#: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:681
+#: dialogs/tabular/newtabulardialog.cpp:658
+#: dialogs/tabular/newtabulardialog.cpp:680
 #, kde-format
 msgid "Resizing table"
 msgstr "Кестенің өлшемін өзгерту"

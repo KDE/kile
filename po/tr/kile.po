@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-05 12:34+0000\n"
+"POT-Creation-Date: 2023-11-13 00:43+0000\n"
 "PO-Revision-Date: 2023-10-02 19:52+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
@@ -4629,8 +4629,8 @@ msgstr "Seçili hücrelerin metinlerini siler ve öznitelikleri sıfırlar."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Geçici taşıma panosunda saklanan bir tabloyu bu sihirbaza yapıştırır."
 
-#: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:681
+#: dialogs/tabular/newtabulardialog.cpp:658
+#: dialogs/tabular/newtabulardialog.cpp:680
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4639,8 +4639,8 @@ msgstr ""
 "Tablo için yeni boyut ayarlamak içeriğini silecektir. Boyutu yeniden "
 "ayarlamak istediğinize emin misiniz?"
 
-#: dialogs/tabular/newtabulardialog.cpp:659
-#: dialogs/tabular/newtabulardialog.cpp:681
+#: dialogs/tabular/newtabulardialog.cpp:658
+#: dialogs/tabular/newtabulardialog.cpp:680
 #, kde-format
 msgid "Resizing table"
 msgstr "Tablo yeniden boyutlanıyor"

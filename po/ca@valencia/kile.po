@@ -702,7 +702,7 @@ msgstr ""
 #: dialogs/findfilesdialog.cpp:299
 #, kde-format
 msgid "Check this box to search in all subdirectories."
-msgstr "Marqueu esta casella per a buscar en tots els subdirectoris."
+msgstr "Seleccioneu esta casella per a buscar en tots els subdirectoris."
 
 #: dialogs/findfilesdialog.cpp:301
 #, kde-format
@@ -3086,7 +3086,7 @@ msgid ""
 "If you want Kile to create a new file and add it to the project, then check "
 "this option and select a template from the list that will appear below."
 msgstr ""
-"Si voleu que Kile cree un fitxer nou i l'afija al projecte, marqueu esta "
+"Si voleu que Kile cree un fitxer nou i l'afija al projecte, seleccioneu esta "
 "opció i seleccioneu una plantilla de la llista que apareixerà davall."
 
 #: dialogs/projectdialogs.cpp:336
@@ -4838,7 +4838,7 @@ msgid ""
 "<br/>Unfortunately, Kile cannot show any useful information."
 msgstr ""
 "No s'han pogut determinar els camins de busca de TexLive/teTeX o el fitxer "
-"«texdoctk.dat».<br/>Malauradament, Kile no mostra cap informació útil."
+"«texdoctk.dat».<br/>Desgraciadament, Kile no mostra cap informació útil."
 
 #: dialogs/texdocumentationdialog.cpp:438
 #, kde-format

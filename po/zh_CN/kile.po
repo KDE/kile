@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:43+0000\n"
-"PO-Revision-Date: 2023-10-21 13:54\n"
+"PO-Revision-Date: 2023-11-19 03:40\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -793,28 +793,24 @@ msgid "Include Graphics"
 msgstr "包含图形"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|图像文件\n"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "所有文件 (*)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "所有文件 (*)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "所有文件 (*)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
@@ -822,10 +818,9 @@ msgid "Postscript Files (*.eps *ps)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|图像文件\n"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
@@ -833,10 +828,9 @@ msgid "Zipped EPS Files (*.eps.gz)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "所有文件 (*)"
+msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format

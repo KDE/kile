@@ -19,3 +19,7 @@ Dependencies:
     'frameworks/kwindowsystem': '@stable'
     'frameworks/kxmlgui': '@stable'
     'graphics/okular': '@stable'
+
+Options:
+  test-before-installing: True
+  require-passing-tests-on: [ 'Linux', 'FreeBSD', 'Windows' ]

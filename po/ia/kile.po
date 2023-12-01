@@ -2,12 +2,13 @@
 # This file is distributed under the same license as the PACKAGE package.
 #
 # SPDX-FileCopyrightText: 2013, 2020, 2021, 2022, 2023 G.Sora <g.sora@tiscali.it>
+# giovanni <g.sora@tiscali.it>, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:43+0000\n"
-"PO-Revision-Date: 2023-10-16 13:49+0200\n"
+"PO-Revision-Date: 2023-11-30 09:57+0100\n"
 "Last-Translator: giovanni <g.sora@tiscali.it>\n"
 "Language-Team: Interlingua <kde-i18n-doc@kde.org>\n"
 "Language: ia\n"
@@ -15,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.08.2\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -750,28 +751,24 @@ msgid "Include Graphics"
 msgstr "Include graphicos"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|Graphicos\n"
+msgstr "Graphiches (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Omne files (*)"
+msgstr "Files PNG (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Omne files (*)"
+msgstr "Files JPG (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Omne files (*)"
+msgstr "Files PDF (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
@@ -779,10 +776,9 @@ msgid "Postscript Files (*.eps *ps)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Graphicos\n"
+msgstr "Graphiches (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
@@ -790,10 +786,9 @@ msgid "Zipped EPS Files (*.eps.gz)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Omne files (*)"
+msgstr "Files EPS (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format
@@ -1785,7 +1780,7 @@ msgstr ""
 #: dialogs/mathenvironmentdialog.cpp:228
 #, kde-format
 msgid "Number of groups:"
-msgstr ""
+msgstr "Numero de gruppos: "
 
 #: dialogs/newfilewizard.cpp:47
 #, kde-format
@@ -2423,7 +2418,7 @@ msgstr ""
 #: dialogs/pdf-wizard/pdfdialog_base.ui:281
 #, kde-format
 msgid "PDF file:"
-msgstr ""
+msgstr "File PDF:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbBackgroundColor)
 #: dialogs/pdf-wizard/pdfdialog_base.ui:323
@@ -3107,7 +3102,7 @@ msgstr "Valor"
 #: dialogs/quickdocumentdialog.cpp:297
 #, kde-format
 msgid "&Add Package..."
-msgstr ""
+msgstr "&Adde pacchetto..."
 
 #: dialogs/quickdocumentdialog.cpp:299
 #, kde-format
@@ -3981,7 +3976,7 @@ msgstr ""
 #: dialogs/quickdocumentdialog.cpp:1928
 #, kde-format
 msgid "Add Package"
-msgstr ""
+msgstr "Adde pacchetto"
 
 #: dialogs/quickdocumentdialog.cpp:1930 dialogs/quickdocumentdialog.cpp:2006
 #, kde-format
@@ -4007,7 +4002,7 @@ msgstr "pacchetto:"
 #: dialogs/quickdocumentdialog.cpp:1958
 #, kde-format
 msgid "&Editable"
-msgstr ""
+msgstr "&Modificabile"
 
 #: dialogs/quickdocumentdialog.cpp:1959 dialogs/quickdocumentdialog.cpp:2024
 #, kde-format
@@ -5586,7 +5581,7 @@ msgstr ""
 #: kile.cpp:634
 #, kde-format
 msgid "Relation"
-msgstr ""
+msgstr "Relation"
 
 #: kile.cpp:639
 #, kde-format
@@ -6206,11 +6201,13 @@ msgstr ""
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr ""
+"Isto celara completemente le barra de menu. Tu pote monstrar lo de novo per "
+"typar %1."
 
 #: kile.cpp:3024
 #, kde-format
 msgid "Hide menu bar"
-msgstr ""
+msgstr "Cela barra de menu"
 
 #. i18n: ectx: label, entry (RCVersion), group (VersionInfo)
 #: kile.kcfg:18
@@ -7343,7 +7340,7 @@ msgstr ""
 #: kilelauncher.cpp:220
 #, kde-format
 msgid "terminated"
-msgstr ""
+msgstr "terminate"
 
 #: kilelauncher.cpp:229
 #, kde-format
@@ -10583,7 +10580,7 @@ msgstr ""
 #: scripting/kilescriptobject.cpp:117
 #, kde-format
 msgid "Enter Value"
-msgstr ""
+msgstr "Inserta valor"
 
 #: scripting/kilescriptobject.cpp:120
 #, kde-format
@@ -10685,7 +10682,7 @@ msgstr ""
 #: templates.cpp:165
 #, kde-format
 msgid "Empty File"
-msgstr ""
+msgstr "File vacue "
 
 #: templates.cpp:170
 #, kde-format
@@ -11773,12 +11770,12 @@ msgstr "Refresca lista"
 #: widgets/scriptsmanagementwidget.cpp:115
 #, kde-format
 msgid "Script Name"
-msgstr ""
+msgstr "Nomine de Script"
 
 #: widgets/scriptsmanagementwidget.cpp:116
 #, kde-format
 msgid "Sequence"
-msgstr ""
+msgstr "Sequentia"
 
 #: widgets/scriptsmanagementwidget.cpp:221
 #, kde-format

@@ -1,6 +1,6 @@
 add_subdirectory(actions)
 
-set(kile_ICONS
+ecm_install_icons(ICONS
 	16-apps-kile.png
 	22-apps-kile.png
 	32-apps-kile.png
@@ -11,9 +11,6 @@ set(kile_ICONS
 	150-apps-kile.png
 	310-apps-kile.png
 	sc-apps-kile.svg
-)
-
-ecm_install_icons(
-	ICONS ${kile_ICONS}
-	DESTINATION ${ICON_INSTALL_DIR}
+	DESTINATION ${KDE_INSTALL_ICONDIR}
+	THEME hicolor
 )

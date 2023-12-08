@@ -28,15 +28,33 @@ include(KDECMakeSettings)
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(Qt5 5.15 CONFIG REQUIRED
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
+message(STATUS "Found Qt version ${QT_VERSION_MAJOR}")
+if(BUILD_WITH_QT6)
+    message(STATUS "Using Qt version 6, honoring BUILD_WITH_QT6")
+    set(QT_VERSION_MAJOR 6)
+elseif(BUILD_WITH_QT5)
+    message(STATUS "Using Qt version 5, honoring BUILD_WITH_QT5")
+    set(QT_VERSION_MAJOR 5)
+elseif(QT_MAJOR_VERSION)
+    message(STATUS "Using Qt version " ${QT_MAJOR_VERSION} ", honoring QT_MAJOR_VERSION")
+    set(QT_VERSION_MAJOR ${QT_MAJOR_VERSION})
+endif()
+
+find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED
 	Core
 	DBus
 	Widgets
-	Script
 	Test
 )
 
-find_package(KF5 5.108 REQUIRED COMPONENTS
+if (${QT_VERSION_MAJOR} STREQUAL 5)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Script)
+else()
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml)
+endif()
+
+find_package(KF${QT_VERSION_MAJOR} 5.108 REQUIRED COMPONENTS
 	Config
 	CoreAddons
 	Crash
@@ -56,19 +74,18 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Okular5 REQUIRED)
-set_package_properties(Okular5 PROPERTIES
+find_package(Okular${QT_VERSION_MAJOR} REQUIRED)
+set_package_properties(Okular${QT_VERSION_MAJOR} PROPERTIES
 	DESCRIPTION "Okular core library"
 	URL "https://okular.kde.org")
 
-find_package(Poppler COMPONENTS Qt5)
+find_package(Poppler COMPONENTS Qt${QT_VERSION_MAJOR})
 set_package_properties("Poppler" PROPERTIES
 	TYPE RECOMMENDED
 	PURPOSE "Support for PDF file operations.")
 
-if(Poppler_Qt5_FOUND)
+if(TARGET Poppler::Qt${QT_VERSION_MAJOR})
 	set(HAVE_POPPLER TRUE)
-	include_directories(${Poppler_INCLUDE_DIRS})
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)
@@ -97,7 +114,7 @@ add_subdirectory(src)
 
 install(
 	FILES kile.xml
-	DESTINATION ${XDG_MIME_INSTALL_DIR})
+	DESTINATION ${KDE_INSTALL_MIMEDIR})
 # update_xdg_mimetypes(${XDG_MIME_INSTALL_DIR})
 
 install(

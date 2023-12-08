@@ -179,7 +179,7 @@ set(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 ki18n_wrap_ui(kile_SRCS ${kile_UI})
 
 set(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
-QT5_ADD_DBUS_ADAPTOR(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
+qt_add_dbus_adaptor(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
 
 set(kile_KCFG_SRCS kileconfig.kcfgc)
 
@@ -199,7 +199,7 @@ ecm_add_app_icon(kile_SRCS
 )
 
 # add the resource file containing the ui files
-qt5_add_resources(kile_SRCS kile.qrc)
+qt_add_resources(kile_SRCS kile.qrc)
 
 add_executable(kile ${kile_SRCS})
 
@@ -226,24 +226,29 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 target_link_libraries(kile
 PUBLIC
-    Qt5::Script
-    KF5::CoreAddons
-    KF5::Crash
-    KF5::DBusAddons
-    KF5::GuiAddons
-    KF5::I18n
-    KF5::IconThemes
-    KF5::KIOCore
-    KF5::KIOFileWidgets
-    KF5::TextEditor
-    KF5::WindowSystem
+    KF${QT_VERSION_MAJOR}::CoreAddons
+    KF${QT_VERSION_MAJOR}::Crash
+    KF${QT_VERSION_MAJOR}::DBusAddons
+    KF${QT_VERSION_MAJOR}::GuiAddons
+    KF${QT_VERSION_MAJOR}::I18n
+    KF${QT_VERSION_MAJOR}::IconThemes
+    KF${QT_VERSION_MAJOR}::KIOCore
+    KF${QT_VERSION_MAJOR}::KIOFileWidgets
+    KF${QT_VERSION_MAJOR}::TextEditor
+    KF${QT_VERSION_MAJOR}::WindowSystem
 )
+
+if (${QT_VERSION_MAJOR} STREQUAL 5)
+    target_link_libraries(kile PUBLIC Qt${QT_VERSION_MAJOR}::Script)
+else()
+    target_link_libraries(kile PUBLIC Qt${QT_VERSION_MAJOR}::Qml)
+endif()
 # optional dependencies
-if(Poppler_Qt5_FOUND)
-	target_link_libraries(kile PUBLIC Poppler::Qt5)
+if(TARGET Poppler::Qt${QT_VERSION_MAJOR})
+	target_link_libraries(kile PUBLIC Poppler::Qt${QT_VERSION_MAJOR})
 endif()
 
-if(Okular5_FOUND)
+if(Okular${QT_VERSION_MAJOR}_FOUND)
   # We don't need to link to okular since it gets loaded dynamically at runtime.
   # All we need are the include directories which we can get with this generator expression:
   target_include_directories(kile PRIVATE $<TARGET_PROPERTY:Okular::Core,INTERFACE_INCLUDE_DIRECTORIES>)
@@ -253,12 +258,12 @@ install(TARGETS kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-install(FILES net.sourceforge.kile.main.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR})
-install(PROGRAMS org.kde.kile.desktop DESTINATION ${XDG_APPS_INSTALL_DIR})
-install(FILES kile.kcfg DESTINATION ${KCFG_INSTALL_DIR})
+install(FILES net.sourceforge.kile.main.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
+install(PROGRAMS org.kde.kile.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES kile.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
 install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})
-install(FILES data/org.kde.kile.appdata.xml DESTINATION ${CMAKE_INSTALL_METAINFODIR})
+install(FILES data/org.kde.kile.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR})
 
 if(CMAKE_SYSTEM_NAME MATCHES "Windows")
 	install(FILES data/kilestdtools-win.rc

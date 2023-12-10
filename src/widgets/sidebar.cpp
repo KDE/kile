@@ -43,6 +43,7 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/)
         extraLayout = new QVBoxLayout(m_extraWidget);
         tabbarpos = KMultiTabBar::Left;
     }
+    layout->setObjectName("kile_sidebar_layout");
 
     m_tabStack = new QStackedWidget(this);
     m_tabStack->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding));
@@ -58,6 +59,11 @@ SideBar::SideBar(QWidget *parent, Qt::Orientation orientation /*= Vertical*/)
         layout->addWidget(m_tabStack);
         layout->addWidget(m_extraWidget);
         m_tabBar->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Minimum));
+
+        auto separator = new QFrame(this);
+        separator->setFrameShape(QFrame::HLine);
+        separator->setMaximumHeight(1);
+        layout->insertWidget(1, separator);
     }
     else if(orientation == Qt::Vertical) {
         layout->addWidget(m_extraWidget);

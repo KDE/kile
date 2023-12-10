@@ -74,6 +74,7 @@ KileErrorHandler::KileErrorHandler(QObject *parent, KileInfo *info, KActionColle
     m_outputTabWidget = new QTabWidget();
     m_outputTabWidget->setTabPosition(QTabWidget::South);
     m_outputTabWidget->setTabsClosable(false);
+    m_outputTabWidget->setDocumentMode(true);
     m_outputTabWidget->addTab(m_mainLogWidget, i18n("Messages"));
     m_outputTabWidget->addTab(m_errorLogWidget, i18n("Errors"));
     m_outputTabWidget->addTab(m_warningLogWidget, i18n("Warnings"));

@@ -35,16 +35,19 @@ from Kate (C) 2001 by Matt Newell
 #include <KToolBar>
 #include <KConfig>
 #include <kio_version.h>
+#include <qframe.h>
 
 #include "kileconfig.h"
 #include "kiledebug.h"
+
+using namespace Qt::Literals::StringLiterals;
 
 namespace KileWidget {
 
 FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidget *parent)
     : QWidget(parent), m_extensions(extensions)
 {
-    m_configGroup = KConfigGroup(KSharedConfig::openConfig(),"FileBrowserWidget");
+    m_configGroup = KConfigGroup(KSharedConfig::openConfig(), u"FileBrowserWidget"_s);
 
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -62,6 +65,11 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
     layout->addWidget(m_urlNavigator);
     connect(m_urlNavigator, SIGNAL(urlChanged(QUrl)), SLOT(setDir(QUrl)));
 
+    auto separator = new QFrame(this);
+    separator->setFrameShape(QFrame::HLine);
+    separator->setMaximumHeight(1);
+    layout->addWidget(separator);
+
     m_dirOperator = new KDirOperator(QUrl(), this);
     m_dirOperator->setViewConfig(m_configGroup);
     m_dirOperator->readConfig(m_configGroup);
@@ -72,8 +80,6 @@ FileBrowserWidget::FileBrowserWidget(KileDocument::Extensions *extensions, QWidg
     connect(m_urlNavigator, SIGNAL(urlChanged(QUrl)), m_dirOperator, SLOT(setFocus()));
     connect(m_dirOperator, SIGNAL(fileSelected(KFileItem)), this, SIGNAL(fileSelected(KFileItem)));
     connect(m_dirOperator, SIGNAL(urlEntered(QUrl)), this, SLOT(dirUrlEntered(QUrl)));
-
-
 
     setupToolbar();
 

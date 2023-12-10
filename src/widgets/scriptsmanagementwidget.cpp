@@ -64,6 +64,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
     setObjectName(name);
     QVBoxLayout *baseLayout = new QVBoxLayout(this);
     baseLayout->setContentsMargins(0, 0, 0, 0);
+    baseLayout->setSpacing(0);
     setLayout(baseLayout);
 
     m_toolBar = new KToolBar("scriptControlToolBar", this);
@@ -111,6 +112,7 @@ ScriptsManagement::ScriptsManagement(KileInfo *kileInfo, QWidget *parent, const 
     m_treeWidget->setSortingEnabled(true);
     m_treeWidget->setColumnCount(2);
     m_treeWidget->sortByColumn(0, Qt::AscendingOrder);
+    m_treeWidget->setProperty("_breeze_borders_sides", QVariant::fromValue(QFlags{Qt::TopEdge}));
     QStringList headerLabels;
     headerLabels.push_back(i18n("Script Name"));
     headerLabels.push_back(i18n("Sequence"));

@@ -19,9 +19,6 @@
 #include <QList>
 #include <QRegularExpression>
 
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <KTextEditor/CodeCompletionInterface>
-#endif
 #include <KTextEditor/CodeCompletionModel>
 #include <KTextEditor/CodeCompletionModelControllerInterface>
 #include <KTextEditor/Document>

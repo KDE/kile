@@ -28,33 +28,16 @@ include(KDECMakeSettings)
 kde_enable_exceptions()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR}/cmake/modules)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core)
-message(STATUS "Found Qt version ${QT_VERSION_MAJOR}")
-if(BUILD_WITH_QT6)
-    message(STATUS "Using Qt version 6, honoring BUILD_WITH_QT6")
-    set(QT_VERSION_MAJOR 6)
-elseif(BUILD_WITH_QT5)
-    message(STATUS "Using Qt version 5, honoring BUILD_WITH_QT5")
-    set(QT_VERSION_MAJOR 5)
-elseif(QT_MAJOR_VERSION)
-    message(STATUS "Using Qt version " ${QT_MAJOR_VERSION} ", honoring QT_MAJOR_VERSION")
-    set(QT_VERSION_MAJOR ${QT_MAJOR_VERSION})
-endif()
-
-find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED
 	Core
 	DBus
 	Widgets
 	Test
 )
 
-if (${QT_VERSION_MAJOR} STREQUAL 5)
-    find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Script)
-else()
-    find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml Core5Compat)
-endif()
+find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml Core5Compat)
 
-find_package(KF${QT_VERSION_MAJOR} 5.108 REQUIRED COMPONENTS
+find_package(KF6 5.108 REQUIRED COMPONENTS
 	Codecs
 	Config
 	CoreAddons
@@ -76,17 +59,17 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-find_package(Okular${QT_VERSION_MAJOR} REQUIRED)
-set_package_properties(Okular${QT_VERSION_MAJOR} PROPERTIES
+find_package(Okular6 REQUIRED)
+set_package_properties(Okular6 PROPERTIES
 	DESCRIPTION "Okular core library"
 	URL "https://okular.kde.org")
 
-find_package(Poppler COMPONENTS Qt${QT_VERSION_MAJOR})
+find_package(Poppler COMPONENTS Qt6)
 set_package_properties("Poppler" PROPERTIES
 	TYPE RECOMMENDED
 	PURPOSE "Support for PDF file operations.")
 
-if(TARGET Poppler::Qt${QT_VERSION_MAJOR})
+if(TARGET Poppler::Qt6)
 	set(HAVE_POPPLER TRUE)
 endif()
 

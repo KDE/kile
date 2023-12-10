@@ -34,7 +34,6 @@ from Kate (C) 2001 by Matt Newell
 #include <KLocalizedString>
 #include <KToolBar>
 #include <KConfig>
-#include <kio_version.h>
 #include <qframe.h>
 
 #include "kileconfig.h"
@@ -116,14 +115,8 @@ void FileBrowserWidget::writeConfig()
 
 void FileBrowserWidget::setupToolbar()
 {
-#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
-    KActionCollection *coll = m_dirOperator->actionCollection();
-    m_toolbar->addAction(coll->action("back"));
-    m_toolbar->addAction(coll->action("forward"));
-#else
     m_toolbar->addAction(m_dirOperator->action(KDirOperator::Back));
     m_toolbar->addAction(m_dirOperator->action(KDirOperator::Forward));
-#endif
 
     QAction *action = new QAction(this);
     action->setIcon(QIcon::fromTheme("document-open"));
@@ -140,24 +133,13 @@ void FileBrowserWidget::setupToolbar()
     // section for settings menu
     KActionMenu *optionsMenu = new KActionMenu(QIcon::fromTheme("configure"), i18n("Options"), this);
     optionsMenu->setPopupMode(QToolButton::InstantPopup);
-#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
-    optionsMenu->addAction(m_dirOperator->actionCollection()->action("short view"));
-    optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed view"));
-    optionsMenu->addAction(m_dirOperator->actionCollection()->action("tree view"));
-    optionsMenu->addAction(m_dirOperator->actionCollection()->action("detailed tree view"));
-#else
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::ShortView));
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::DetailedView));
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::TreeView));
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::DetailedTreeView));
-#endif
     optionsMenu->addSeparator();
     optionsMenu->addAction(showOnlyLaTexFilesAction);
-#if KIO_VERSION < QT_VERSION_CHECK(5, 100, 0)
-    optionsMenu->addAction(m_dirOperator->actionCollection()->action("show hidden"));
-#else
     optionsMenu->addAction(m_dirOperator->action(KDirOperator::ShowHiddenFiles));
-#endif
 
     m_toolbar->addSeparator();
     m_toolbar->addAction(optionsMenu);

@@ -19,11 +19,7 @@
 #include <QtGlobal>
 
 #if LIBPOPPLER_AVAILABLE
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <poppler-qt5.h>
-#else
 #include <poppler-qt6.h>
-#endif
 #endif
 
 #include <QBitArray>

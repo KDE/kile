@@ -18,7 +18,7 @@
 #include <QFileInfo>
 #include <QInputDialog>
 #include <QMap>
-#include <QRegExpValidator>
+#include <QRegularExpressionValidator>
 #include <QVariant>
 
 #include <KMessageBox>
@@ -88,7 +88,7 @@ QString KileInput::getText(const QString &caption, const QString &label)
 
 QString KileInput::getLatexCommand(const QString &caption, const QString &label)
 {
-    QRegExpValidator validator(QRegExp("[A-Za-z]+"),this);
+    QRegularExpressionValidator validator(QRegularExpression("[A-Za-z]+"),this);
     QStringList list = checkCaptionAndLabel(caption, label);
     return KileDialog::getText(list[0], list[1], QString(), Q_NULLPTR, &validator);
 }
@@ -218,7 +218,7 @@ QMap<QString, QVariant> KileFile::read(const QString& filename) const
 
     // read data
     QTextStream stream(&file);
-    stream.setCodec("UTF-8");
+    stream.setEncoding(QStringConverter::Utf8);
     result["text"] = stream.readAll();
     file.close();
 

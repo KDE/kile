@@ -18,13 +18,12 @@
 #include <QClipboard>
 
 #include <QApplication>
-#include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 #include <KTextEditor/Range>
 #include <KTextEditor/Cursor>
 #include <KLocalizedString>
-
+#include <qregularexpression.h>
 
 #include "errorhandler.h"
 #include "codecompletion.h"
@@ -1470,8 +1469,9 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
     int startcol = (textline[col] == '\\') ? col - 1 : col;
     if(startcol >= 1) {
         //KILE_DEBUG_MAIN << "search to the left ";
-        int pos = textline.lastIndexOf(m_reg, startcol);
-        env.len = m_reg.matchedLength();
+        QRegularExpressionMatch match;
+        int pos = textline.lastIndexOf(m_reg, startcol, &match);
+        env.len = match.capturedLength(0);
         if(pos != -1 && pos < col && col <= pos + env.len) {
             //KILE_DEBUG_MAIN << "search to the left: found";
             env.row = row;
@@ -1479,11 +1479,11 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
             QChar ch = textline.at(pos + 1);
             if(ch=='b' || ch=='e') {
                 env.tag = (ch == 'b') ? EnvBegin : EnvEnd;
-                env.name = m_reg.cap(3);
+                env.name = match.captured(3);
             }
             else {
                 env.tag = (ch == '[') ? EnvBegin : EnvEnd;
-                env.name = m_reg.cap(4);
+                env.name = match.captured(4);
             }
 
             if ( !m_overwritemode || (m_overwritemode && col<pos+env.len) ) {
@@ -1500,19 +1500,20 @@ bool EditorExtension::isEnvironmentPosition(KTextEditor::Document *doc, int row,
 
     // check if there is a match in this line from the current position to the right
     //KILE_DEBUG_MAIN << "search to the right " ;
-    if (textline[col] == '\\' && col == textline.indexOf(m_reg, col)) {
+    QRegularExpressionMatch match;
+    if (textline[col] == '\\' && col == textline.indexOf(m_reg, col, &match)) {
         //KILE_DEBUG_MAIN << "search to the right: found";
         env.row = row;
         env.col = col;
-        env.len = m_reg.matchedLength();
+        env.len = match.capturedLength(0);
         QChar ch = textline.at(col+1);
         if(ch == 'b' || ch == 'e') { // found "\begin" or "\end"
             env.tag = ( ch == 'b' ) ? EnvBegin : EnvEnd;
-            env.name = m_reg.cap(3);
+            env.name = match.captured(3);
         }
         else { // found "\[" or "\\]"
             env.tag = (ch == '[') ? EnvBegin : EnvEnd;
-            env.name = m_reg.cap(4);
+            env.name = match.captured(4);
         }
         //KILE_DEBUG_MAIN << "search to the right: stop";
         return true;
@@ -2168,7 +2169,7 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
         return false;
     }
 
-    QRegExp reg;
+    QRegularExpression reg;
     QString pattern1, pattern2;
     switch(mode) {
     case smLetter:
@@ -2211,9 +2212,10 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
 
     // search at the current position
     reg.setPattern(pattern2);
-    pos = textline.indexOf(reg, col);
+    QRegularExpressionMatch match;
+    pos = textline.indexOf(reg, col, &match);
     if(pos != -1 && pos == col) {
-        x2 = pos + reg.matchedLength();
+        x2 = pos + match.capturedLength(0);
     }
 
     // get all characters
@@ -2221,9 +2223,7 @@ bool EditorExtension::getCurrentWord(KTextEditor::Document *doc, int row, int co
         word = textline.mid(x1, x2 - x1);
         return true;
     }
-    else {
-        return false;
-    }
+    return false;
 }
 
 KTextEditor::Range EditorExtension::wordRange(const KTextEditor::Cursor &cursor, bool latexCommand, KTextEditor::View *view)
@@ -3305,9 +3305,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 
     // don't complete environment, if we are
     // still working inside the completion box
-    KTextEditor::CodeCompletionInterface *codeCompletionInterface
-        = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(codeCompletionInterface && codeCompletionInterface->isCompletionActive()) {
+    if(view->isCompletionActive()) {
         return false;
     }
 
@@ -3353,7 +3351,7 @@ bool EditorExtension::eventInsertEnvironment(KTextEditor::View *view)
 bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *view)
 {
     KILE_DEBUG_MAIN << "===EditorExtension::shouldCompleteEnv( " << env << " )===";
-    QRegExp reTestBegin,reTestEnd;
+    QRegularExpression reTestBegin,reTestEnd;
     if(env == "\\[") {
         KILE_DEBUG_MAIN << "display style";
         reTestBegin.setPattern("(?:[^\\\\]|^)\\\\\\[");
@@ -3362,8 +3360,8 @@ bool EditorExtension::shouldCompleteEnv(const QString &env, KTextEditor::View *v
         reTestEnd.setPattern("(?:[^\\\\]|^)\\\\\\]");
     }
     else {
-        reTestBegin.setPattern("(?:[^\\\\]|^)\\\\begin\\s*\\{" + QRegExp::escape(env) + "\\}");
-        reTestEnd.setPattern("(?:[^\\\\]|^)\\\\end\\s*\\{" + QRegExp::escape(env) + "\\}");
+        reTestBegin.setPattern("(?:[^\\\\]|^)\\\\begin\\s*\\{" + QRegularExpression::escape(env) + "\\}");
+        reTestEnd.setPattern("(?:[^\\\\]|^)\\\\end\\s*\\{" + QRegularExpression::escape(env) + "\\}");
     }
 
     int num = view->document()->lines();
@@ -3433,13 +3431,14 @@ bool EditorExtension::insideVerb(KTextEditor::View *view)
 
     int startpos = 0;
     QString textline = getTextLineReal(view->document(),row);
-    QRegExp reg("\\\\verb(\\*?)(.)");
+    QRegularExpression reg("\\\\verb(\\*?)(.)");
     while(true) {
-        int pos = textline.indexOf(reg,startpos);
-        if(pos < 0 || col < pos + 6 + reg.cap(1).length()) {
+        auto match = reg.match(textline, startpos);
+        int pos = textline.indexOf(reg, startpos);
+        if(pos < 0 || col < pos + 6 + match.captured(1).length()) {
             return false;
         }
-        pos = textline.indexOf(reg.cap(2), pos + 6 + reg.cap(1).length());
+        pos = textline.indexOf(match.captured(2), pos + 6 + match.capturedLength(1));
         if(pos < 0 || col <= pos) {
             return true;
         }

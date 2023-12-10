@@ -31,7 +31,6 @@
 #include "outputinfo.h"
 
 class QString;
-class QStringList;
 namespace KileDocument {
 class Info;
 class TextInfo;

@@ -73,6 +73,7 @@
 #include <KIO/StatJob>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <qregularexpression.h>
 
 #include "abbreviationmanager.h"
 #include "codecompletion.h"
@@ -236,7 +237,7 @@ Type Info::getType()
     return Undefined;
 }
 
-std::list<Extensions::ExtensionType> Info::getFileFilter() const
+std::vector<Extensions::ExtensionType> Info::getFileFilter() const
 {
     return {};
 }
@@ -604,7 +605,7 @@ QString TextInfo::matchBracket(QChar obracket, int &l, int &pos)
 
 QString TextInfo::getTextline(uint line, TodoResult &todo)
 {
-    static QRegExp reComments("[^\\\\](%.*$)");
+    static QRegularExpression reComments("[^\\\\](%.*$)");
 
     todo.type = -1;
     QString s = m_doc->line(line);
@@ -619,10 +620,11 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
             s.replace("\\\\", "  ");
 
             //remove comments
-            int pos = s.indexOf(reComments);
+            QRegularExpressionMatch match;
+            int pos = s.indexOf(reComments, 0, &match);
             if(pos != -1) {
                 searchTodoComment(s, pos,todo);
-                s = s.left(reComments.pos(1));
+                s = s.left(match.capturedStart(1));
             }
         }
     }
@@ -631,13 +633,14 @@ QString TextInfo::getTextline(uint line, TodoResult &todo)
 
 void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &todo)
 {
-    static QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+    static QRegularExpression reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+    QRegularExpressionMatch todoCommentMatch;
 
-    if(s.indexOf(reTodoComment, startpos) != -1) {
-        todo.type = (reTodoComment.cap(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
-        todo.colTag = reTodoComment.pos(1);
-        todo.colComment = reTodoComment.pos(3);
-        todo.comment = reTodoComment.cap(3).trimmed();
+    if(s.indexOf(reTodoComment, startpos, &todoCommentMatch) != -1) {
+        todo.type = (todoCommentMatch.captured(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
+        todo.colTag = todoCommentMatch.capturedStart(1);
+        todo.colComment = todoCommentMatch.capturedStart(3);
+        todo.comment = todoCommentMatch.captured(3).trimmed();
     }
 }
 
@@ -657,15 +660,11 @@ KTextEditor::View* TextInfo::createView(QWidget *parent, const char* /* name */)
 
 void TextInfo::startAbbreviationCompletion(KTextEditor::View *view)
 {
-    KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(!completionInterface) {
-        return;
-    }
     KTextEditor::Range range = m_abbreviationCodeCompletionModel->completionRange(view, view->cursorPosition());
     if(!range.isValid()) {
         range = KTextEditor::Range(view->cursorPosition(), view->cursorPosition());
     }
-    completionInterface->startCompletion(range, m_abbreviationCodeCompletionModel);
+    view->startCompletion(range, m_abbreviationCodeCompletionModel);
 }
 
 void TextInfo::slotFileNameChanged()
@@ -764,21 +763,13 @@ void TextInfo::removeSignalConnections()
 
 void TextInfo::registerCodeCompletionModels(KTextEditor::View *view)
 {
-    KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(!completionInterface) {
-        return;
-    }
-    completionInterface->registerCompletionModel(m_abbreviationCodeCompletionModel);
-    completionInterface->setAutomaticInvocationEnabled(true);
+    view->registerCompletionModel(m_abbreviationCodeCompletionModel);
+    view->setAutomaticInvocationEnabled(true);
 }
 
 void TextInfo::unregisterCodeCompletionModels(KTextEditor::View *view)
 {
-    KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(!completionInterface) {
-        return;
-    }
-    completionInterface->unregisterCompletionModel(m_abbreviationCodeCompletionModel);
+    view->unregisterCompletionModel(m_abbreviationCodeCompletionModel);
 }
 
 void TextInfo::registerCodeCompletionModels()
@@ -874,22 +865,18 @@ Type LaTeXInfo::getType()
     return LaTeX;
 }
 
-std::list<Extensions::ExtensionType> LaTeXInfo::getFileFilter() const
+std::vector<Extensions::ExtensionType> LaTeXInfo::getFileFilter() const
 {
     return {Extensions::TEX, Extensions::PACKAGES};
 }
 
 void LaTeXInfo::startLaTeXCompletion(KTextEditor::View *view)
 {
-    KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(!completionInterface) {
-        return;
-    }
     KTextEditor::Range range = m_latexCompletionModel->completionRange(view, view->cursorPosition());
     if(!range.isValid()) {
         range = KTextEditor::Range(view->cursorPosition(), view->cursorPosition());
     }
-    completionInterface->startCompletion(range, m_latexCompletionModel);
+    view->startCompletion(range, m_latexCompletionModel);
 }
 
 void LaTeXInfo::updateStructLevelInfo() {
@@ -1018,22 +1005,14 @@ void LaTeXInfo::removeSignalConnections(KTextEditor::View *view)
 
 void LaTeXInfo::registerCodeCompletionModels(KTextEditor::View *view)
 {
-    KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(!completionInterface) {
-        return;
-    }
-    completionInterface->registerCompletionModel(m_latexCompletionModel);
-    completionInterface->setAutomaticInvocationEnabled(true);
+    view->registerCompletionModel(m_latexCompletionModel);
+    view->setAutomaticInvocationEnabled(true);
     TextInfo::registerCodeCompletionModels(view);
 }
 
 void LaTeXInfo::unregisterCodeCompletionModels(KTextEditor::View *view)
 {
-    KTextEditor::CodeCompletionInterface* completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(!completionInterface) {
-        return;
-    }
-    completionInterface->unregisterCompletionModel(m_latexCompletionModel);
+    view->unregisterCompletionModel(m_latexCompletionModel);
     TextInfo::unregisterCodeCompletionModels(view);
 }
 
@@ -1152,7 +1131,7 @@ Type BibInfo::getType()
     return BibTeX;
 }
 
-std::list<Extensions::ExtensionType> BibInfo::getFileFilter() const
+std::vector<Extensions::ExtensionType> BibInfo::getFileFilter() const
 {
     return {Extensions::BIB};
 }
@@ -1179,7 +1158,7 @@ Type ScriptInfo::getType()
     return Script;
 }
 
-std::list<Extensions::ExtensionType> ScriptInfo::getFileFilter() const
+std::vector<Extensions::ExtensionType> ScriptInfo::getFileFilter() const
 {
     return {Extensions::JS};
 }

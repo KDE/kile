@@ -20,6 +20,7 @@
 #include <QListWidget>
 
 #include <KColorScheme>
+#include <KStatefulBrush>
 
 #include "../symbolviewclasses.h"
 

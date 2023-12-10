@@ -26,6 +26,7 @@
 #include <KPluginFactory>
 #include <KProcess>
 
+#include <QPluginLoader>
 #include <QTemporaryDir>
 
 #include "documentinfo.h"

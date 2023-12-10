@@ -24,7 +24,6 @@
 
 class QDialogButtonBox;
 class QTreeWidget;
-class QStringList;
 class KDirWatch;
 
 class KileListSelector : public QDialog

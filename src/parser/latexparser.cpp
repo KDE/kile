@@ -19,6 +19,7 @@
 #include <QRegExp>
 
 #include <KLocalizedString>
+#include <qregularexpression.h>
 
 #include "codecompletion.h"
 #include "parserthread.h"
@@ -112,12 +113,12 @@ ParserOutput* LaTeXParser::parse()
     qCDebug(LOG_KILE_PARSER) << m_textLines;
 
     QMap<QString,KileStructData>::const_iterator it;
-    static QRegExp reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
-    static QRegExp reRoot("\\\\documentclass|\\\\documentstyle");
-    static QRegExp reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
-    static QRegExp reReNewCommand("\\\\renewcommand.*$");
-    static QRegExp reNumOfParams("\\s*\\[([1-9]+)\\]");
-    static QRegExp reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
+    static QRegularExpression reCommand("(\\\\[a-zA-Z]+)\\s*\\*?\\s*(\\{|\\[)");
+    static QRegularExpression reRoot("\\\\documentclass|\\\\documentstyle");
+    static QRegularExpression reBD("\\\\begin\\s*\\{\\s*document\\s*\\}");
+    static QRegularExpression reReNewCommand("\\\\renewcommand.*$");
+    static QRegularExpression reNumOfParams("\\s*\\[([1-9]+)\\]");
+    static QRegularExpression reNumOfOptParams("\\s*\\[([1-9]+)\\]\\s*\\[([^\\{]*)\\]"); // the quantifier * isn't used by mistake, because also emtpy optional brackets are correct.
 
     int bd = 0, tagLine = 0, tagCol = 0;
     int tagStartLine = 0, tagStartCol = 0;
@@ -177,21 +178,25 @@ ParserOutput* LaTeXParser::parse()
                 }
             }
 
-            if((!foundBD) && (s.indexOf(reRoot, tagEnd) != -1)) {
-                qCDebug(LOG_KILE_PARSER) << "\tsetting m_bIsRoot to true";
-                tagEnd += reRoot.cap(0).length();
-                parserOutput->bIsRoot = true;
+            if (!foundBD) {
+                auto match = reRoot.match(s, tagEnd);
+                if (match.hasMatch()) {
+                    qCDebug(LOG_KILE_PARSER) << "\tsetting m_bIsRoot to true";
+                    tagEnd += match.captured(0).length();
+                    parserOutput->bIsRoot = true;
+                }
             }
 
-            tagStart = reCommand.indexIn(s, tagEnd);
+            auto commandMatch = reCommand.match(s, tagEnd);
+            tagStart = commandMatch.capturedStart(0);
             m.clear();
             shorthand.clear();
 
             if(tagStart != -1) {
-                tagEnd = tagStart + reCommand.cap(0).length()-1;
+                tagEnd = tagStart + commandMatch.capturedLength(0) - 1;
 
                 //look up the command in the dictionary
-                it = m_dictStructLevel.constFind(reCommand.cap(1));
+                it = m_dictStructLevel.constFind(commandMatch.captured(1));
 
                 //if it is was a structure element, find the title (or label)
                 if(it != m_dictStructLevel.constEnd()) {
@@ -200,7 +205,7 @@ ParserOutput* LaTeXParser::parse()
                     tagStartLine = tagLine;
                     tagStartCol = tagStart+1;
 
-                    if(reCommand.cap(1) != "\\frame") {
+                    if(commandMatch.captured(1) != "\\frame") {
                         result = matchBracket(m_textLines, i, tagEnd);
                         m = result.value.trimmed();
                         shorthand = result.option.trimmed();
@@ -378,20 +383,23 @@ ParserOutput* LaTeXParser::parse()
                     }
 
                     // newcommand found, add it to the newCommands list
-                    else if((*it).type & (KileStruct::NewCommand | KileStruct::NewEnvironment)) {
+                    else if(it->type & (KileStruct::NewCommand | KileStruct::NewEnvironment)) {
                         QString mandArgs;
 
+                        auto match = reNumOfParams.match(s, tagEnd + 1);
+
                         //find how many parameters this command takes
-                        if(s.indexOf(reNumOfParams, tagEnd + 1) != -1) {
+                        if(match.hasMatch()) {
                             QString optArg;
                             bool ok;
-                            int noo = reNumOfParams.cap(1).toInt(&ok);
+                            int noo = match.captured(1).toInt(&ok);
 
                             if(ok) {
-                                if(s.indexOf(reNumOfOptParams, tagEnd + 1) != -1) {
-                                    qCDebug(LOG_KILE_PARSER) << "Opt param is " << reNumOfOptParams.cap(2) << "%EOL";
+                                match = reNumOfOptParams.match(s, tagEnd + 1);
+                                if (match.hasMatch()) {
+                                    qCDebug(LOG_KILE_PARSER) << "Opt param is " << match.captured(2) << "%EOL";
                                     noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-                                    optArg = '[' + reNumOfOptParams.cap(2) + ']';
+                                    optArg = '[' + match.captured(2) + ']';
                                 }
 
                                 for(int noo_index = 0; noo_index < noo; ++noo_index) {

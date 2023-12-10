@@ -298,7 +298,7 @@ void Base::setSource(const QString &source, const QString& workingDir)
     if(!from().isEmpty()) {
         QString src = source;
         if(info.suffix().length() > 0) {
-            src.replace(QRegExp(info.suffix() + '$'), from());
+            src.replace(QRegularExpression(info.suffix() + '$'), from());
         }
         info.setFile(src);
     }

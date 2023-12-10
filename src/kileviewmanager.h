@@ -18,8 +18,8 @@
 #include <okular/interfaces/viewerinterface.h>
 
 #include <KTextEditor/Cursor>
-#include <KTextEditor/ModificationInterface>
 #include <KTextEditor/View>
+#include <KTextEditor/Document>
 #include <KXmlGuiWindow>
 
 #include <QAction>
@@ -166,7 +166,7 @@ public Q_SLOTS:
 
     void reflectDocumentModificationStatus(KTextEditor::Document*,
                                            bool,
-                                           KTextEditor::ModificationInterface::ModifiedOnDiskReason reason);
+                                           KTextEditor::Document::ModifiedOnDiskReason reason);
 
     void convertSelectionToLaTeX();
     void pasteAsLaTeX();

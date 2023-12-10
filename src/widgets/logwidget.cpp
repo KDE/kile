@@ -25,6 +25,7 @@
 #include <QAction>
 #include <KLocalizedString>
 #include <KColorScheme>
+#include <KStatefulBrush>
 #include <KStandardAction>
 #include <QUrl>
 
@@ -153,7 +154,7 @@ void LogWidget::slotItemClicked(QListWidgetItem *item)
     emit(outputInfoSelected(info));
 }
 
-void LogWidget::enterEvent(QEvent *)
+void LogWidget::enterEvent(QEnterEvent *)
 {
     adaptMouseCursor(mapFromGlobal(QCursor::pos()));
 }

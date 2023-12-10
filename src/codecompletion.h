@@ -17,8 +17,11 @@
 
 #include <QObject>
 #include <QList>
+#include <QRegularExpression>
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <KTextEditor/CodeCompletionInterface>
+#endif
 #include <KTextEditor/CodeCompletionModel>
 #include <KTextEditor/CodeCompletionModelControllerInterface>
 #include <KTextEditor/Document>
@@ -177,10 +180,10 @@ protected:
     KileInfo* m_ki;
     QStringList m_texWordList, m_dictWordList, m_abbrevWordList;
     bool m_firstConfig;
-    QRegExp m_referencesRegExp;
-    QRegExp m_referencesExtRegExp;
-    QRegExp m_citeRegExp;
-    QRegExp m_citeExtRegExp;
+    QRegularExpression m_referencesRegExp;
+    QRegularExpression m_referencesExtRegExp;
+    QRegularExpression m_citeRegExp;
+    QRegularExpression m_citeExtRegExp;
 
     void addUserDefinedLaTeXCommands(QStringList &wordlist);
     void buildReferenceCitationRegularExpressions();

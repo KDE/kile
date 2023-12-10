@@ -226,6 +226,7 @@ endif()
 
 target_link_libraries(kile
 PUBLIC
+    KF${QT_VERSION_MAJOR}::Codecs
     KF${QT_VERSION_MAJOR}::CoreAddons
     KF${QT_VERSION_MAJOR}::Crash
     KF${QT_VERSION_MAJOR}::DBusAddons
@@ -235,20 +236,21 @@ PUBLIC
     KF${QT_VERSION_MAJOR}::KIOCore
     KF${QT_VERSION_MAJOR}::KIOFileWidgets
     KF${QT_VERSION_MAJOR}::TextEditor
+    KF${QT_VERSION_MAJOR}::TextWidgets
     KF${QT_VERSION_MAJOR}::WindowSystem
 )
 
 if (${QT_VERSION_MAJOR} STREQUAL 5)
-    target_link_libraries(kile PUBLIC Qt${QT_VERSION_MAJOR}::Script)
+    target_link_libraries(kile PUBLIC Qt5::Script)
 else()
-    target_link_libraries(kile PUBLIC Qt${QT_VERSION_MAJOR}::Qml)
+    target_link_libraries(kile PUBLIC Qt6::Qml Qt6::Core5Compat KF6::IconWidgets)
 endif()
 # optional dependencies
 if(TARGET Poppler::Qt${QT_VERSION_MAJOR})
 	target_link_libraries(kile PUBLIC Poppler::Qt${QT_VERSION_MAJOR})
 endif()
 
-if(Okular${QT_VERSION_MAJOR}_FOUND)
+if(TARGET Okular::Core)
   # We don't need to link to okular since it gets loaded dynamically at runtime.
   # All we need are the include directories which we can get with this generator expression:
   target_include_directories(kile PRIVATE $<TARGET_PROPERTY:Okular::Core,INTERFACE_INCLUDE_DIRECTORIES>)

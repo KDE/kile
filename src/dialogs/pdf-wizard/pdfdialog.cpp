@@ -271,7 +271,7 @@ void PdfDialog::initUtilities()
 void PdfDialog::pdfParser(const QString &filename)
 {
 #if LIBPOPPLER_AVAILABLE
-    Poppler::Document *doc = Poppler::Document::load(filename);
+    auto doc = Poppler::Document::load(filename);
     if ( !doc || doc->isLocked() ) {
         KILE_DEBUG_MAIN << "Error: could not open pdf document '" << filename << "'";
         return;
@@ -312,8 +312,6 @@ void PdfDialog::pdfParser(const QString &filename)
 
     // look if all pages have the same size
     m_pagesize = allPagesSize(doc);
-
-    delete doc;
 #else
     /* libpoppler pdf library is not available:
      * - we use a brute force method to determine, if this file is encrypted
@@ -340,7 +338,7 @@ void PdfDialog::pdfParser(const QString &filename)
 }
 
 #if LIBPOPPLER_AVAILABLE
-bool PdfDialog::isAllowed(Poppler::Document *doc, PDF_Permission permission) const
+bool PdfDialog::isAllowed(const std::unique_ptr<Poppler::Document> &doc, PDF_Permission permission) const
 {
     bool b = true;
     switch ( permission )
@@ -366,27 +364,23 @@ bool PdfDialog::isAllowed(Poppler::Document *doc, PDF_Permission permission) con
     return b;
 }
 
-QSize PdfDialog::allPagesSize(Poppler::Document *doc)
+QSize PdfDialog::allPagesSize(const std::unique_ptr<Poppler::Document> &doc)
 {
     QSize commonsize = QSize(0,0);
 
     // Access all pages of the PDF file (m_numpages is known)
     for ( int i=0; i<m_numpages; ++i ) {
-        Poppler::Page *pdfpage = doc->page(i);
+        auto pdfpage = doc->page(i);
         if ( pdfpage == 0 ) {
             KILE_DEBUG_MAIN << "Cannot parse all pages of the PDF file";
-            delete pdfpage;
             return QSize(0,0);
         }
 
         if ( i == 0 ) {
             commonsize = pdfpage->pageSize();
         } else if ( commonsize != pdfpage->pageSize() ) {
-            delete pdfpage;
             return QSize(0,0);
         }
-        // documentation says: after the usage, the page must be deleted
-        delete pdfpage;
     }
 
     return commonsize;
@@ -789,8 +783,8 @@ void PdfDialog::slotTaskChanged(int)
         if ( taskindex==PDF_SELECT || taskindex==PDF_DELETE ) {
             labeltext = i18n("Pages:");
             s = i18n("Comma separated page list: 1,4-7,9");
-            QRegExp re("((\\d+(-\\d+)?),)*\\d+(-\\d+)?");
-            m_PdfDialog.m_edParameter->setValidator(new QRegExpValidator(re, m_PdfDialog.m_edParameter));
+            static QRegularExpression re("((\\d+(-\\d+)?),)*\\d+(-\\d+)?");
+            m_PdfDialog.m_edParameter->setValidator(new QRegularExpressionValidator(re, m_PdfDialog.m_edParameter));
         }
         else if (taskindex==PDF_PDFTK_FREE) {
             labeltext = i18n("Parameter:");

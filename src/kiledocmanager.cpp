@@ -76,6 +76,8 @@
 
 #define MAX_NUMBER_OF_STORED_SETTINGS 50
 
+using namespace Qt::Literals::StringLiterals;
+
 namespace KileDocument
 {
 
@@ -566,12 +568,8 @@ KTextEditor::Document* Manager::createDocument(const QUrl &url, TextInfo *docinf
     connect(doc, &KTextEditor::Document::readWriteChanged, this, &KileDocument::Manager::documentReadWriteStateChanged);
 
     connect(doc, &KTextEditor::Document::modifiedChanged, this, &KileDocument::Manager::newDocumentStatus);
-    KTextEditor::ModificationInterface *modificationInterface = qobject_cast<KTextEditor::ModificationInterface*>(doc);
-    if(modificationInterface) {
-        modificationInterface->setModifiedOnDiskWarning(true);
-        connect(doc, SIGNAL(modifiedOnDisk(KTextEditor::Document*,bool,KTextEditor::ModificationInterface::ModifiedOnDiskReason)),
-                this, SIGNAL(documentModificationStatusChanged(KTextEditor::Document*,bool,KTextEditor::ModificationInterface::ModifiedOnDiskReason)));
-    }
+    doc->setModifiedOnDiskWarning(true);
+    connect(doc, &KTextEditor::Document::modifiedOnDisk, this, &KileDocument::Manager::documentModificationStatusChanged);
 
     if(!mode.isEmpty()) {
         docinfo->setMode(mode);     // this ensures that mode passed with the mode parameter is actually used
@@ -825,7 +823,7 @@ void Manager::fileOpen()
                                                           });
 
     // try to get the current encoding, this is kind of ugly ...
-    QString encoding = m_ki->toolManager()->config()->group("Kate Document Defaults").readEntry("Encoding","");
+    QString encoding = m_ki->toolManager()->config()->group(u"Kate Document Defaults"_s).readEntry("Encoding","");
 
     //get the URLs
     KEncodingFileDialog::Result result = KEncodingFileDialog::getOpenUrlsAndEncoding(encoding, QUrl::fromLocalFile(currentDir), filter, m_ki->mainWindow(), i18n("Open Files"));
@@ -877,7 +875,7 @@ void Manager::newDocumentStatus(KTextEditor::Document *doc)
     // sync terminal
     m_ki->texKonsole()->sync();
 
-    emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::ModificationInterface::OnDiskUnmodified));
+    emit(documentModificationStatusChanged(doc, doc->isModified(), KTextEditor::Document::OnDiskUnmodified));
 }
 
 bool Manager::fileSaveAll(bool disUntitled)
@@ -1352,7 +1350,7 @@ void Manager::projectNew()
                 //FIXME: this needs proper error handling
                 view->document()->saveAs(url);
                 emit(documentModificationStatusChanged(view->document(),
-                                                       false, KTextEditor::ModificationInterface::OnDiskUnmodified));
+                                                       false, KTextEditor::Document::OnDiskUnmodified));
 
                 //add this file to the project
                 item = new KileProjectItem(project, url);
@@ -2552,7 +2550,10 @@ QStringList Manager::loadTextURLContents(const QUrl &url, const QString& encodin
     QStringList res;
     QTextStream stream(&localFile);
     if(!encoding.isEmpty()) {
-        stream.setCodec(encoding.toLatin1());
+        auto enc = QStringConverter::encodingForName(encoding.toLatin1());
+        if (enc) {
+            stream.setEncoding(*enc);
+        }
     }
     while(!stream.atEnd()) {
         res.append(stream.readLine());

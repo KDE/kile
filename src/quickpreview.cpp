@@ -343,9 +343,9 @@ int QuickPreview::createTempfile(const QString &text)
 
     // set the encoding according to the original file (tbraun)
     if(m_ki->activeTextDocument()) {
-        QTextCodec *codec = QTextCodec::codecForName(m_ki->activeTextDocument()->encoding().toLatin1());
-        if(codec) {
-            stream.setCodec(codec);
+        auto encoding = QStringConverter::encodingForName(m_ki->activeTextDocument()->encoding().toLatin1());
+        if(encoding) {
+            stream.setEncoding(*encoding);
         }
     }
     // write the whole preamble into this temporary file

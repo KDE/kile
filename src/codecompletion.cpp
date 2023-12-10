@@ -25,6 +25,7 @@
 #include <KConfig>
 #include <KLocalizedString>
 #include <KTextEditor/Cursor>
+#include <qregularexpression.h>
 
 #include "kiledebug.h"
 #include "abbreviationmanager.h"
@@ -179,11 +180,11 @@ KTextEditor::Cursor LaTeXCompletionModel::determineLaTeXCommandStart(KTextEditor
 // 	QRegExp completionStartRegExp("(\\\\\\w*)[^\\\\]*$");
 
     // TeX allows '.' characters inside citation labels (bug 266670)
-    QRegExp completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,.=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
-    completionStartRegExp.setMinimal(true);
+    QRegularExpression completionStartRegExp("(\\\\([\\s\\{\\}\\[\\]\\w,.=\"'~:]|(\\&)|(\\$)|(\\%)(\\#)(\\_)|(\\{)|(\\})|(\\backslash)|(\\^)|(\\[)|(\\]))*)$");
+    completionStartRegExp.setPatternOptions(QRegularExpression::InvertedGreedinessOption);
     QString leftSubstring = line.left(position.column());
     KILE_DEBUG_CODECOMPLETION << "leftSubstring: " << leftSubstring;
-    int startPos = completionStartRegExp.lastIndexIn(leftSubstring);
+    int startPos = leftSubstring.lastIndexOf(completionStartRegExp);
     if(startPos >= 0) {
         return KTextEditor::Cursor(position.line(), startPos);
     }
@@ -216,7 +217,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
     KTextEditor::Cursor startCursor = position;
     KTextEditor::Cursor endCursor = position;
 
-    QRegExp completionEndRegExp("\\W|\\b|\\\\");
+    static QRegularExpression completionEndRegExp("\\W|\\b|\\\\");
 
     int cursorPos = position.column();
 
@@ -594,18 +595,19 @@ QString LaTeXCompletionModel::buildRegularCompletedText(const QString &text, int
 QString LaTeXCompletionModel::buildEnvironmentCompletedText(const QString &text, const QString &prefix,
         int &ypos, int &xpos) const
 {
-    static QRegExp reEnv = QRegExp("^\\\\(begin|end)\\{([^\\}]*)\\}([^\\\\]*)(.*)");
+    static QRegularExpression reEnv("^\\\\(begin|end)\\{([^\\}]*)\\}([^\\\\]*)(.*)");
+    auto match = reEnv.match(text);
 
-    if(reEnv.indexIn(text) == -1) {
+    if(!match.hasMatch()) {
         return text;
     }
 
-    QString parameter = stripParameters(reEnv.cap(3));
-    QString start = reEnv.cap(1);
-    QString envname = reEnv.cap(2);
-    QString remainder = reEnv.cap(4);
-    QString whitespace = buildWhiteSpaceString(prefix);
-    QString envIndent = m_editorExtension->autoIndentEnvironment();
+    const QString start = match.captured(1);
+    const QString envname = match.captured(2);
+    const QString parameter = stripParameters(match.captured(3));
+    const QString remainder = match.captured(4);
+    const QString whitespace = buildWhiteSpaceString(prefix);
+    const QString envIndent = m_editorExtension->autoIndentEnvironment();
 
     QString s = "\\" + start + "{" + envname + "}" + parameter + "\n";
 
@@ -701,12 +703,12 @@ bool AbbreviationCompletionModel::shouldStartCompletion(KTextEditor::View *view,
     Q_UNUSED(userInsertion);
     Q_UNUSED(position);
 
-    int len = insertedText.length();
-    QRegExp whitespace(" |\t");
-    whitespace.setMinimal(true);
-    int pos = insertedText.lastIndexOf(whitespace, -1);
+    const int len = insertedText.length();
+    QRegularExpression whitespace(" |\t");
+    whitespace.setPatternOptions(QRegularExpression::InvertedGreedinessOption);
+    const int pos = insertedText.lastIndexOf(whitespace, -1);
     // 'pos' is less than or equal to 'len - 1'
-    QString searchText = (pos >= 0 && pos < len) ? insertedText.right(len - pos - 1) : insertedText;
+    const QString searchText = (pos >= 0 && pos < len) ? insertedText.right(len - pos - 1) : insertedText;
 
     return (KileConfig::completeAutoAbbrev() && m_abbreviationManager->abbreviationStartsWith(searchText));
 }
@@ -760,10 +762,10 @@ KTextEditor::Range AbbreviationCompletionModel::completionRange(KTextEditor::Vie
     QString insertedText = view->document()->line(position.line()).left(position.column());
     int len = insertedText.length();
 
-    QRegExp whitespace(" |\t");
-    whitespace.setMinimal(true);
+    QRegularExpression whitespace(" |\t");
+    whitespace.setPatternOptions(QRegularExpression::InvertedGreedinessOption);
     int pos = insertedText.lastIndexOf(whitespace,-1);
-    QString searchText = (pos>=0 && pos<len-2) ? insertedText.right(len-pos-1) : insertedText;
+    const QString searchText = (pos>=0 && pos<len-2) ? insertedText.right(len-pos-1) : insertedText;
     pos++;
 
     return KTextEditor::Range( position.line(), pos, position.line(),position.column() );

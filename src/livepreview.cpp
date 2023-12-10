@@ -16,6 +16,7 @@
 
 #include <algorithm>
 
+#include <QActionGroup>
 #include <QCryptographicHash>
 #include <QDir>
 #include <QHBoxLayout>
@@ -31,7 +32,6 @@
 #include <KActionCollection>
 #include <KLocalizedString>
 #include <KTextEditor/Application>
-#include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/MainWindow>
 #include <KTextEditor/View>
@@ -548,11 +548,9 @@ void LivePreviewManager::handleDocumentModificationTimerTimeout()
         return;
     }
 
-    KTextEditor::CodeCompletionInterface *codeCompletionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-
     // if the code completion box is currently shown, we don't trigger an update of the preview
     // as this will cause the document to be saved and the completion box to be hidden as a consequence
-    if(codeCompletionInterface && codeCompletionInterface->isCompletionActive()) {
+    if(view->isCompletionActive()) {
         m_documentChangedTimer->start();
         return;
     }

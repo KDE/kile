@@ -74,6 +74,7 @@
 #include <KJobUiDelegate>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <qregularexpression.h>
 
 #include "documentinfo.h"
 #include "errorhandler.h"
@@ -646,7 +647,7 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
 {
     KILE_DEBUG_MAIN << "\tStructureWidget::slotDoubleClicked";
     StructureViewItem *item = dynamic_cast<StructureViewItem*>(itm);
-    static QRegExp suffix("\\.[\\d\\w]*$");
+    static QRegularExpression suffix("\\.[\\d\\w]*$");
 
     if (!item) {
         return;
@@ -658,8 +659,9 @@ void StructureWidget::slotDoubleClicked(QTreeWidgetItem * itm)
         QString fname = item->title();
 
 
-        if(fname.indexOf(suffix) != -1) { // check if we have a suffix, if not add standard suffixes
-            KILE_DEBUG_MAIN << "Suffix found: " << suffix.cap(0);
+        QRegularExpressionMatch match;
+        if(fname.indexOf(suffix, 0, &match) != -1) { // check if we have a suffix, if not add standard suffixes
+            KILE_DEBUG_MAIN << "Suffix found: " << match.captured(0);
         }
         else {
             // filename in structureview entry has no extension: this shouldn't happen anymore,

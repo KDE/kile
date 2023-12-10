@@ -17,8 +17,8 @@
 #include "dialogs/floatdialog.h"
 #include "kiledebug.h"
 #include "editorextension.h"
-#include <QRegExp>
 #include <QDialogButtonBox>
+#include <QRegularExpression>
 #include <KLocalizedString>
 #include <KConfigGroup>
 
@@ -113,7 +113,7 @@ void FloatEnvironmentDialog::slotEnvironmentClicked()
 
     setWindowTitle(caption);
     QString s = m_FloatDialog.m_edLabel->text();
-    s.replace(QRegExp(oldprefix), m_prefix);
+    s.replace(QRegularExpression(oldprefix), m_prefix);
     m_FloatDialog.m_edLabel->setText(s);
 }
 

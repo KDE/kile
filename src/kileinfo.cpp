@@ -417,11 +417,14 @@ void KileInfo::clearSelection() const
 
 QString KileInfo::expandEnvironmentVars(const QString &str)
 {
-    static QRegExp reEnvVars("\\$(\\w+)");
+    static QRegularExpression reEnvVars("\\$(\\w+)");
     QString result = str;
-    int index = -1;
-    while ( (index = str.indexOf(reEnvVars, index + 1)) != -1 )
-        result.replace(reEnvVars.cap(0),qgetenv(reEnvVars.cap(1).toLocal8Bit()));
+    auto matches = reEnvVars.globalMatch(str);
+    while (matches.hasNext()) {
+        const auto match = matches.next();
+
+        result.replace(match.captured(0), qgetenv(match.captured(1).toLocal8Bit()));
+    }
 
     return result;
 }

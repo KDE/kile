@@ -53,7 +53,6 @@ QString readDataFromStdin()
 
     QByteArray fileData;
     QFile qstdin;
-    QTextCodec *codec = Q_NULLPTR;
 
     qstdin.open( stdin, QIODevice::ReadOnly );
     fileData = qstdin.readAll();
@@ -76,9 +75,9 @@ QString readDataFromStdin()
     KILE_DEBUG_MAIN << "KEncodingProber::prober.confidence() " << prober.confidence();
     KILE_DEBUG_MAIN << "KEncodingProber::encoding " << prober.encoding();
 
-    codec = QTextCodec::codecForName(prober.encoding());
-    if(codec) {
-        stream.setCodec(codec);
+    auto encoding = QStringEncoder::encodingForName(prober.encoding());
+    if(encoding) {
+        stream.setEncoding(*encoding);
     }
 
     stream << fileData;
@@ -93,10 +92,6 @@ inline void initQtResources() {
 
 int main(int argc, char **argv)
 {
-    // enable high dpi support
-    QCoreApplication::setAttribute(Qt::AA_UseHighDpiPixmaps, true);
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling, true);
-
     QApplication app(argc, argv);
 
     initQtResources();
@@ -204,10 +199,11 @@ int main(int argc, char **argv)
         return app.exec();
     }
     else {
-        QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
+        auto interface = std::make_unique<QDBusInterface>("net.sourceforge.kile","/main","net.sourceforge.kile.main");
 
-        for(const QString& argument : parser.positionalArguments()) {
-            if(argument == "-") {
+        const QList<QString> arguments = parser.positionalArguments();
+        for (const QString &argument : arguments) {
+            if(argument == QLatin1Char('-')) {
                 interface->call("openDocument", readDataFromStdin());
             }
             else {
@@ -229,7 +225,6 @@ int main(int argc, char **argv)
 
         KStartupInfo::appStarted();
         interface->call("setActive");
-        delete interface;
     }
 
     return EXIT_SUCCESS;

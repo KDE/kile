@@ -36,7 +36,8 @@
 #include <KDirWatch>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KRun>
+#include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegateFactory>
 
 #include "kiledebug.h"
 #include "codecompletion.h"
@@ -284,7 +285,9 @@ void ManageCompletionFilesDialog::addCustomCompletionFiles()
 
 void ManageCompletionFilesDialog::openLocalCompletionDirectoryInFileManager()
 {
-    new KRun(QUrl::fromLocalFile(m_localCompletionDirectory), QApplication::activeWindow());
+    auto job = new KIO::OpenUrlJob(QUrl::fromLocalFile(m_localCompletionDirectory), QApplication::activeWindow());
+    job->setUiDelegate(KIO::createDefaultJobUiDelegate(KJobUiDelegate::AutoHandlingEnabled, this));
+    job->start();
 }
 
 const QSet<QString> ManageCompletionFilesDialog::selected() const

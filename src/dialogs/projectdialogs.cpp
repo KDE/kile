@@ -100,8 +100,8 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
     // extension settings groupbox
     m_userFileExtensions = new QLineEdit(this);
     m_userFileExtensions->setWhatsThis(whatsthisExt);
-    QRegExp reg("[\\. a-zA-Z0-9]+");
-    QRegExpValidator *extValidator = new QRegExpValidator(reg, m_extensionGroup);
+    static QRegularExpression reg("[\\. a-zA-Z0-9]+");
+    auto extValidator = new QRegularExpressionValidator(reg, m_extensionGroup);
     m_userFileExtensions->setValidator(extValidator);
 
     m_defaultLatexFileExtensionsCombo = new KComboBox(false, this);
@@ -323,7 +323,7 @@ void KileNewProjectDialog::clickedCreateNewFileCb()
 
 QString KileNewProjectDialog::cleanProjectFile()
 {
-    return projectTitle().toLower().trimmed().remove(QRegExp("\\s*")) + ".kilepr";
+    return projectTitle().toLower().trimmed().remove(QRegularExpression("\\s*")) + ".kilepr";
 }
 
 void KileNewProjectDialog::handleOKButtonClicked()

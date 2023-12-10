@@ -16,9 +16,14 @@
 #define PDFDIALOG_H
 
 #include <config.h>
+#include <QtGlobal>
 
 #if LIBPOPPLER_AVAILABLE
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <poppler-qt5.h>
+#else
+#include <poppler-qt6.h>
+#endif
 #endif
 
 #include <QBitArray>
@@ -148,8 +153,8 @@ private:
     void setNumberOfPages(int numpages);
 
 #if LIBPOPPLER_AVAILABLE
-    QSize allPagesSize(Poppler::Document *doc);
-    bool isAllowed(Poppler::Document *doc, PDF_Permission permission) const;
+    QSize allPagesSize(const std::unique_ptr<Poppler::Document> &doc);
+    bool isAllowed(const std::unique_ptr<Poppler::Document> &doc, PDF_Permission permission) const;
 #endif
 
     void pdfParser(const QString &filename);

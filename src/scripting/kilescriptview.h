@@ -17,7 +17,6 @@
 
 #include <QObject>
 #include <QMap>
-#include <QScriptable>
 
 #include <KTextEditor/Cursor>
 #include <KTextEditor/Range>
@@ -28,7 +27,7 @@
 
 namespace KileScript {
 
-class KileScriptView : public QObject, protected QScriptable
+class KileScriptView : public QObject
 {
     Q_OBJECT
 

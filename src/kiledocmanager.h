@@ -21,7 +21,7 @@
 #include <QStringList>
 
 #include <KTextEditor/Editor>
-#include <KTextEditor/ModificationInterface>
+#include <KTextEditor/Document>
 
 #include "kileconstants.h"
 #include "kileproject.h"
@@ -167,7 +167,7 @@ Q_SIGNALS:
     void updateModeStatus();
     void updateReferences(KileDocument::Info*);
 
-    void documentModificationStatusChanged(KTextEditor::Document*, bool, KTextEditor::ModificationInterface::ModifiedOnDiskReason);
+    void documentModificationStatusChanged(KTextEditor::Document* document, bool, KTextEditor::Document::ModifiedOnDiskReason);
     void documentUrlChanged(KTextEditor::Document*);
     void documentNameChanged(KTextEditor::Document*);
     void documentReadWriteStateChanged(KTextEditor::Document*);

@@ -36,7 +36,6 @@ tbraun 2007-06-13
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QPainter>
-#include <QRegExp>
 #include <QStringList>
 #include <QTextDocument>
 
@@ -97,7 +96,7 @@ void SymbolView::extract(const QString& key, int& refCnt)
 
 void SymbolView::extractPackageString(const QString&string, QList<Package> &packages)
 {
-    QRegExp rePkgs("(?:\\[(.*)\\])?\\{(.*)\\}");
+    static QRegularExpression rePkgs("^(?:\\[(.*)\\])?\\{(.*)\\}$$");
     QStringList args,pkgs;
     Package pkg;
 
@@ -107,13 +106,13 @@ void SymbolView::extractPackageString(const QString&string, QList<Package> &pack
 
     packages.clear();
 
-    if(rePkgs.exactMatch(string)) {
-        args = rePkgs.cap(1).split(',');
-        pkgs = rePkgs.cap(2).split(',');
-    }
-    else {
+    QRegularExpressionMatch match;
+    if(!string.contains(rePkgs, &match)) {
         return;
     }
+
+    args = match.captured(1).split(',');
+    pkgs = match.captured(2).split(',');
 
     for(int i = 0 ; i < pkgs.count() && i < args.count() ; i++) {
         const QString packageName = pkgs.at(i);
@@ -415,7 +414,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 
     QListWidgetItem *tmpItem = Q_NULLPTR;
     bool found = false;
-    const QRegExp reCnt("^\\d+");
+    static const QRegularExpression reCnt("^\\d+");
 
     KILE_DEBUG_MAIN << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
 

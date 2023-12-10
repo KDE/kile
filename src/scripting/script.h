@@ -15,8 +15,7 @@
 #ifndef SCRIPT_H
 #define SCRIPT_H
 
-#include <QScriptEngine>
-#include <QScriptContext>
+#include <QJSEngine>
 #include <QMap>
 
 #include <QAction>
@@ -132,17 +131,12 @@ protected:
     KileScriptDocument *m_scriptDocument;
     KileScriptObject *m_kileScriptObject;
 
-    QScriptEngine *m_engine;
+    QJSEngine *m_engine;
     QString m_enginePluginCode;
 
     void scriptError(const QString &name);
 
 };
-
-////////////////////////////// ScriptHelpers //////////////////////////////
-
-QScriptValue debug(QScriptContext *context, QScriptEngine *engine);
-
 }
 
 // metatype registration only necessary until KF5 5.9

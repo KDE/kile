@@ -96,7 +96,7 @@ void Extensions::fileFilterRaw(ExtensionType type, QString& ext, QString& text) 
     }
 }
 
-QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const
+QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const std::vector<ExtensionType> &extensions) const
 {
     QString toReturn;
 
@@ -111,7 +111,7 @@ QString Extensions::fileFilterKDEStyle(bool includeAllFiles, const std::list<Ext
     return toReturn;
 }
 
-QString Extensions::fileFilterQtStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const
+QString Extensions::fileFilterQtStyle(bool includeAllFiles, const std::vector<ExtensionType> &extensions) const
 {
     QString toReturn;
 

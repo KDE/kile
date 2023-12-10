@@ -24,8 +24,8 @@
 #include <kio/global.h>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <KPluginFactory>
 #include <KTextEditor/Application>
-#include <KTextEditor/CodeCompletionInterface>
 #include <KTextEditor/Document>
 #include <KTextEditor/Editor>
 #include <KTextEditor/MainWindow>
@@ -65,6 +65,8 @@
 #include "quickpreview.h"
 #include "codecompletion.h"
 
+
+using namespace Qt::Literals::StringLiterals;
 
 namespace KileView
 {
@@ -216,7 +218,7 @@ void Manager::writeConfig()
         KileConfig::setShowDocumentViewer(isViewerPartShown());
     }
     if(m_viewerPartWindow) {
-        KConfigGroup group(KSharedConfig::openConfig(), "KileDocumentViewerWindow");
+        KConfigGroup group(KSharedConfig::openConfig(), u"KileDocumentViewerWindow"_s);
         m_viewerPartWindow->saveMainWindowSettings(group);
     }
 
@@ -401,10 +403,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     connect(this, &KileView::Manager::textViewClosed, m_cursorPositionChangedTimer, &QTimer::stop);
 
     // code completion
-    KTextEditor::CodeCompletionInterface *completionInterface = qobject_cast<KTextEditor::CodeCompletionInterface*>(view);
-    if(completionInterface) {
-        completionInterface->setAutomaticInvocationEnabled(true);
-    }
+    view->setAutomaticInvocationEnabled(true);
 
     // install a working text editor part popup dialog thingy
     installContextMenu(view);
@@ -458,7 +457,7 @@ KTextEditor::View * Manager::createTextView(KileDocument::TextInfo *info, int in
     emit(activateView(view, false));
     emit(updateCaption());  //make sure the caption gets updated
 
-    reflectDocumentModificationStatus(view->document(), false, KTextEditor::ModificationInterface::OnDiskUnmodified);
+    reflectDocumentModificationStatus(view->document(), false, KTextEditor::Document::OnDiskUnmodified);
 
     return view;
 }
@@ -805,19 +804,19 @@ void Manager::moveTabRight(QWidget *widget)
 
 void Manager::reflectDocumentModificationStatus(KTextEditor::Document *doc,
         bool isModified,
-        KTextEditor::ModificationInterface::ModifiedOnDiskReason reason)
+        KTextEditor::Document::ModifiedOnDiskReason reason)
 {
     QIcon icon;
-    if(reason == KTextEditor::ModificationInterface::OnDiskUnmodified && isModified) { //nothing
+    if(reason == KTextEditor::Document::OnDiskUnmodified && isModified) { //nothing
         icon = QIcon::fromTheme("modified"); // This icon is taken from Kate. Therefore
         // our thanks go to the authors of Kate.
     }
-    else if(reason == KTextEditor::ModificationInterface::OnDiskModified
-            || reason == KTextEditor::ModificationInterface::OnDiskCreated) { //dirty file
+    else if(reason == KTextEditor::Document::OnDiskModified
+            || reason == KTextEditor::Document::OnDiskCreated) { //dirty file
         icon = QIcon::fromTheme("emblem-warning"); // This icon is taken from Kate. Therefore
         // our thanks go to the authors of Kate.
     }
-    else if(reason == KTextEditor::ModificationInterface::OnDiskDeleted) { //file deleted
+    else if(reason == KTextEditor::Document::OnDiskDeleted) { //file deleted
         icon = QIcon::fromTheme("emblem-warning");
     }
     else if(m_ki->extensions()->isScriptFile(doc->url())) {
@@ -1114,14 +1113,12 @@ void Manager::createViewerPart(KActionCollection *actionCollection)
     const KPluginMetaData okularPart(QStringLiteral(OKULAR_LIBRARY_NAME));
     const QVariantList args {"ViewerWidget", "ConfigFileName=kile-livepreview-okularpartrc"};
 
-    const auto result = KPluginFactory::instantiatePlugin<KParts::ReadOnlyPart>(okularPart, this, args);
-
+    auto result = KPluginFactory::instantiatePlugin<KParts::ReadOnlyPart>(okularPart, nullptr, args);
     if(!result) {
         KILE_DEBUG_MAIN << "Could not load the Okular library:" << result.errorString;
         m_viewerPart = Q_NULLPTR;
         return;
-    }
-    else {
+    } else {
         m_viewerPart = result.plugin;
         Okular::ViewerInterface *viewerInterface = dynamic_cast<Okular::ViewerInterface*>(m_viewerPart.data());
         if(!viewerInterface) {

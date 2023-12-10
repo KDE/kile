@@ -146,15 +146,15 @@ bool Manager::isSequenceAssigned(const QString& seq) const {
 
 QPair<int, QString> Manager::checkSequence(const QString& seq, const QString& skip)
 {
-    for(QList<QString>::iterator i = m_watchedKeySequencesList.begin(); i != m_watchedKeySequencesList.end(); ++i) {
-        if((*i) == skip) {
+    for(QList<QString>::iterator iterator = m_watchedKeySequencesList.begin(); iterator != m_watchedKeySequencesList.end(); ++iterator) {
+        if (*iterator == skip) {
             continue;
         }
-        if((*i).startsWith(seq)) {
-            return (*i == seq) ? qMakePair<int, QString>(1, seq) : qMakePair<int, QString>(2, *i);
+        if(iterator->startsWith(seq)) {
+            return (*iterator == seq) ? std::pair<int, QString>(1, seq) : std::pair<int, QString>(2, *iterator);
         }
-        if(!(*i).isEmpty() && seq.startsWith(*i)) {
-            return qMakePair<int, QString>(3, *i);
+        if(!iterator->isEmpty() && seq.startsWith(*iterator)) {
+            return std::pair<int, QString>(3, *iterator);
         }
     }
     return qMakePair<int, QString>(0, QString());

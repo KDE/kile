@@ -139,11 +139,4 @@ protected:
 };
 }
 
-// metatype registration only necessary until KF5 5.9
-#include <ktexteditor_version.h>
-#if KTEXTEDITOR_VERSION < QT_VERSION_CHECK(5, 10, 0)
-Q_DECLARE_METATYPE(KTextEditor::Cursor)
-Q_DECLARE_METATYPE(KTextEditor::Range)
-#endif
-
 #endif

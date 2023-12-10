@@ -226,28 +226,24 @@ endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 target_link_libraries(kile
 PUBLIC
-    KF${QT_VERSION_MAJOR}::Codecs
-    KF${QT_VERSION_MAJOR}::CoreAddons
-    KF${QT_VERSION_MAJOR}::Crash
-    KF${QT_VERSION_MAJOR}::DBusAddons
-    KF${QT_VERSION_MAJOR}::GuiAddons
-    KF${QT_VERSION_MAJOR}::I18n
-    KF${QT_VERSION_MAJOR}::IconThemes
-    KF${QT_VERSION_MAJOR}::KIOCore
-    KF${QT_VERSION_MAJOR}::KIOFileWidgets
-    KF${QT_VERSION_MAJOR}::TextEditor
-    KF${QT_VERSION_MAJOR}::TextWidgets
-    KF${QT_VERSION_MAJOR}::WindowSystem
+    KF6::Codecs
+    KF6::CoreAddons
+    KF6::Crash
+    KF6::DBusAddons
+    KF6::GuiAddons
+    KF6::I18n
+    KF6::IconThemes
+    KF6::KIOCore
+    KF6::KIOFileWidgets
+    KF6::TextEditor
+    KF6::TextWidgets
+    KF6::WindowSystem
 )
 
-if (${QT_VERSION_MAJOR} STREQUAL 5)
-    target_link_libraries(kile PUBLIC Qt5::Script)
-else()
-    target_link_libraries(kile PUBLIC Qt6::Qml Qt6::Core5Compat KF6::IconWidgets)
-endif()
+target_link_libraries(kile PUBLIC Qt6::Qml Qt6::Core5Compat KF6::IconWidgets)
 # optional dependencies
-if(TARGET Poppler::Qt${QT_VERSION_MAJOR})
-	target_link_libraries(kile PUBLIC Poppler::Qt${QT_VERSION_MAJOR})
+if(TARGET Poppler::Qt6)
+	target_link_libraries(kile PUBLIC Poppler::Qt6)
 endif()
 
 if(TARGET Okular::Core)

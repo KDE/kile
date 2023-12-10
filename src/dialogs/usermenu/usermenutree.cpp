@@ -102,21 +102,10 @@ bool UserMenuTree::isEmpty()
 void UserMenuTree::initEnvPathlist()
 {
     QString envpath;
-#if QT_VERSION >= 0x040600
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     if ( env.contains("PATH") ) {
         envpath = env.value("PATH");
     }
-#else
-    // Returns the environment of the calling process as a list of key=value pairs.
-    QStringList environment = QProcess::systemEnvironment();
-    foreach ( const QString &s, environment ) {
-        if ( s.startsWith(QLatin1String("PATH=")) ) {
-            envpath = s.mid(5);
-            break;
-        }
-    }
-#endif
 
 #ifdef Q_WS_WIN
     m_envPathlist = envpath.split(';');

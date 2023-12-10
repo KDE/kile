@@ -729,7 +729,7 @@ void Kile::setupBottomBar()
 
     auto horizontalSeparator = new QFrame(widget);
     horizontalSeparator->setFrameShape(QFrame::VLine);
-    horizontalSeparator->setMinimumWidth(1);
+    horizontalSeparator->setMaximumWidth(1);
 
     layout->addWidget(errorHandler()->outputWidget());
     layout->addWidget(horizontalSeparator);

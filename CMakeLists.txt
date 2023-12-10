@@ -51,10 +51,11 @@ find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED
 if (${QT_VERSION_MAJOR} STREQUAL 5)
     find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Script)
 else()
-    find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml)
+    find_package(Qt${QT_VERSION_MAJOR} ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml Core5Compat)
 endif()
 
 find_package(KF${QT_VERSION_MAJOR} 5.108 REQUIRED COMPONENTS
+	Codecs
 	Config
 	CoreAddons
 	Crash
@@ -68,6 +69,7 @@ find_package(KF${QT_VERSION_MAJOR} 5.108 REQUIRED COMPONENTS
 	TextEditor
 	WindowSystem
 	XmlGui
+	TextWidgets
 )
 
 set(CMAKE_CXX_STANDARD 17)

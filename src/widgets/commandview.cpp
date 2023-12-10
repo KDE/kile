@@ -57,19 +57,28 @@ CommandViewToolBox::CommandViewToolBox(KileInfo *ki, QWidget *parent)
     m_latexCompletionModel = new KileCodeCompletion::LaTeXCompletionModel(this,
             m_ki->codeCompletionManager(),
             m_ki->editorExtension());
+    auto wrapperLayout = new QVBoxLayout;
+    wrapperLayout->setContentsMargins(
+        style()->pixelMetric(QStyle::PM_LayoutLeftMargin),
+        style()->pixelMetric(QStyle::PM_LayoutTopMargin),
+        style()->pixelMetric(QStyle::PM_LayoutRightMargin),
+        style()->pixelMetric(QStyle::PM_LayoutBottomMargin)
+    );
     m_cwlFilesComboBox = new QComboBox(this);
+    wrapperLayout->addWidget(m_cwlFilesComboBox);
     connect(m_cwlFilesComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
     [=](int index) {
         populateCommands(m_cwlFilesComboBox->itemData(index).toString());
     });
 
     m_commandView = new CommandView(this);
+    m_commandView->setProperty("_breeze_borders_sides", QVariant::fromValue(QFlags{Qt::TopEdge}));
 
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(m_cwlFilesComboBox);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setSpacing(0);
+    layout->setContentsMargins({});
+    layout->addLayout(wrapperLayout);
     layout->addWidget(m_commandView);
-
-    setLayout(layout);
 
     clearItems();
 }

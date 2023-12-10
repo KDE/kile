@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-11-13 00:43+0000\n"
-"PO-Revision-Date: 2023-11-25 02:29\n"
+"PO-Revision-Date: 2023-12-09 09:27\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -717,7 +717,7 @@ msgstr "图形环境"
 #: dialogs/floatdialog.cpp:109
 #, kde-format
 msgid "Table Environment"
-msgstr "标签环境"
+msgstr "表格环境"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbFigure)
 #: dialogs/floatdialog_base.ui:35 kilestdactions.cpp:64
@@ -4292,7 +4292,7 @@ msgstr "间距(&S)："
 #: dialogs/tabular/newtabulardialog.cpp:68
 #, kde-format
 msgid "Tabular Environments"
-msgstr "标签环境"
+msgstr "表格环境"
 
 #: dialogs/tabular/newtabulardialog.cpp:81
 #: dialogs/tabular/tabularheaderitem.cpp:37 kilestdactions.cpp:48
@@ -5894,12 +5894,12 @@ msgstr "西欧(cp-1252)(&W)"
 #: kile.cpp:859
 #, kde-format
 msgid "Move Tab Left"
-msgstr "左移标签"
+msgstr "左移标签页"
 
 #: kile.cpp:860
 #, kde-format
 msgid "Move Tab Right"
-msgstr "右移标签"
+msgstr "右移标签页"
 
 #: kile.cpp:862
 #, kde-format
@@ -6587,7 +6587,7 @@ msgstr "底栏高度。"
 #: kile.kcfg:157
 #, kde-format
 msgid "Which tab of the bottom bar to show."
-msgstr "底栏所显示的选项卡。"
+msgstr "底栏所显示的标签页。"
 
 #. i18n: ectx: label, entry (SideBarSize), group (Show)
 #: kile.kcfg:161
@@ -12657,7 +12657,7 @@ msgstr "运行工具序列"
 #: widgets/toolconfigwidget.cpp:160
 #, kde-format
 msgid "Use the \"Advanced\" tab to configure this tool."
-msgstr "使用“高级”标签来配置这个工具。"
+msgstr "使用“高级”标签页来配置这个工具。"
 
 #: widgets/toolconfigwidget.cpp:171
 #, kde-format

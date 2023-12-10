@@ -56,7 +56,8 @@ void Konsole::spawn()
 {
     KILE_DEBUG_MAIN << "void Konsole::spawn()";
 
-    KPluginFactory *factory = KPluginFactory::loadFactory(QStringLiteral("konsolepart")).plugin;
+    const QString konsolePart = QStringLiteral("kf6/parts/konsolepart");
+    KPluginFactory *factory = KPluginFactory::loadFactory(konsolePart).plugin;
 
     if(!factory) {
         KILE_DEBUG_MAIN << "No factory for konsolepart";

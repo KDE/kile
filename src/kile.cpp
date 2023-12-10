@@ -242,6 +242,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     qApp->processEvents();
 
     setupBottomBar();
+
     m_verticalSplitter->addWidget(m_bottomBar);
     m_topWidgetStack->addWidget(m_horizontalSplitter);
     setCentralWidget(m_topWidgetStack);
@@ -718,6 +719,7 @@ void Kile::setupBottomBar()
     QWidget *widget = new QWidget(this);
     QHBoxLayout *layout = new QHBoxLayout(widget);
     layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
     widget->setLayout(layout);
 
     m_latexOutputErrorToolBar = new KToolBar(widget);
@@ -725,7 +727,12 @@ void Kile::setupBottomBar()
     m_latexOutputErrorToolBar->setIconDimensions(KIconLoader::SizeSmall);
     m_latexOutputErrorToolBar->setOrientation(Qt::Vertical);
 
+    auto horizontalSeparator = new QFrame(widget);
+    horizontalSeparator->setFrameShape(QFrame::VLine);
+    horizontalSeparator->setMinimumWidth(1);
+
     layout->addWidget(errorHandler()->outputWidget());
+    layout->addWidget(horizontalSeparator);
     layout->addWidget(m_latexOutputErrorToolBar);
     m_bottomBar->addPage(widget, QIcon::fromTheme("utilities-log-viewer"), i18n("Log and Messages"));
 

@@ -67,7 +67,7 @@ Parser::~Parser()
 
 QString Parser::processTextline(const QString &line, TodoResult &todo)
 {
-    static QRegExp reComments("[^\\\\](%.*$)");
+    static QRegularExpression reComments("[^\\\\](%.*$)");
     QString s = line;
     todo.type = -1;
     if(!s.isEmpty()) {
@@ -81,10 +81,10 @@ QString Parser::processTextline(const QString &line, TodoResult &todo)
             s.replace("\\\\", "  ");
 
             //remove comments
-            int pos = s.indexOf(reComments);
-            if(pos != -1) {
-                searchTodoComment(s, pos,todo);
-                s = s.left(reComments.pos(1));
+            const auto match = reComments.match(s);
+            if(match.hasMatch()) {
+                searchTodoComment(s, match.capturedStart(1), todo);
+                s = s.left(match.capturedStart(1));
             }
         }
     }
@@ -93,13 +93,14 @@ QString Parser::processTextline(const QString &line, TodoResult &todo)
 
 void Parser::searchTodoComment(const QString &s, uint startpos, TodoResult &todo)
 {
-    static QRegExp reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
+    static QRegularExpression reTodoComment("\\b(TODO|FIXME)\\b(:|\\s)?\\s*(.*)");
 
-    if(s.indexOf(reTodoComment, startpos) != -1) {
-        todo.type = (reTodoComment.cap(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
-        todo.colTag = reTodoComment.pos(1);
-        todo.colComment = reTodoComment.pos(3);
-        todo.comment = reTodoComment.cap(3).trimmed();
+    auto match = reTodoComment.match(s, startpos);
+    if (match.hasMatch()) {
+        todo.type = (match.captured(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
+        todo.colTag = match.capturedStart(1);
+        todo.colComment = match.capturedStart(3);
+        todo.comment = match.captured(3).trimmed();
     }
 }
 

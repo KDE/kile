@@ -9,7 +9,6 @@
 	<include>QString</include>
 	<include>QTextCodec</include>
 	<include>QDir</include>
-	<include>QDesktopWidget</include>
 
 	<kcfgfile name="kilerc"/>
 

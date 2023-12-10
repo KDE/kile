@@ -23,6 +23,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QMap>
+#include <qplaintextedit.h>
 
 #include "kiledebug.h"
 #include "kileconfig.h"
@@ -76,7 +77,7 @@ Manager::~Manager()
     delete m_kileScriptObject;
 
     //still need to delete the scripts
-    for(Script *script : qAsConst(m_jScriptList)) {
+    for(Script *script : std::as_const(m_jScriptList)) {
         delete script;
     }
     m_jScriptList.clear();
@@ -88,7 +89,7 @@ void Manager::executeScript(const Script *script)
 
     // compatibility check
     QString code = script->getCode();
-    QRegExp endOfLineExp("(\r\n)|\n|\r");
+    QRegularExpression endOfLineExp("(\r\n)|\n|\r");
     int i = code.indexOf(endOfLineExp);
     QString firstLine = (i >= 0 ? code.left(i) : code);
     QRegExp requiredVersionTagExp("(kile-version:\\s*)(\\d+\\.\\d+(.\\d+)?)");
@@ -183,7 +184,7 @@ void Manager::scanScriptDirectories()
         }
     }
 
-    for(const QString &scriptFileName : qAsConst(scriptFileNamesSet)) {
+    for(const QString &scriptFileName : std::as_const(scriptFileNamesSet)) {
         registerScript(scriptFileName, pathIDMap, takenIDMap, maxID);
     }
     //rewrite the IDs that are currently in use
@@ -293,7 +294,7 @@ void Manager::writeConfig()
 
     // write the key sequences
     KConfigGroup configGroup = m_config->group("Scripts");
-    for(const Script *script : qAsConst(m_jScriptList)) {
+    for(const Script *script : std::as_const(m_jScriptList)) {
         QString seq = script->getKeySequence();
         QString sequenceEntry = (seq.isEmpty()) ? seq : QString("%1-%2").arg(QString::number(script->getSequenceType())).arg(seq);
         configGroup.writeEntry("Script" + QString::number(script->getID()) + "KeySequence", sequenceEntry);
@@ -407,7 +408,7 @@ void Manager::writeIDs()
     KConfigGroup configGroup = m_config->group("Scripts");
     //delete old entries
     QList<unsigned int> idList = configGroup.readEntry("IDs", QList<unsigned int>());
-    for(const int i : qAsConst(idList)) {
+    for(const int i : std::as_const(idList)) {
         configGroup.deleteEntry("Script" + QString::number(i));
     }
     //write new ones

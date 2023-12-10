@@ -234,7 +234,7 @@ private:
         bool open;
     };
 
-    QRegExp m_reg;
+    QRegularExpression m_reg;
     bool m_overwritemode;
     QString m_envAutoIndent;
 

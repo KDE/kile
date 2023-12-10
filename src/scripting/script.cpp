@@ -14,9 +14,11 @@
 
 #include "scripting/script.h"
 
+#include <KTextEditor/Cursor>
 #include <QFile>
 #include <QTextStream>
-#include <QScriptValue>
+#include <QJSValue>
+#include <QJSEngine>
 #include <QTimer>
 
 #include <KActionCollection>
@@ -86,22 +88,22 @@ void KJSCPUGuard::alarmHandler(int) {
 
 //BEGIN QtScript conversion functions for Cursors and Ranges
 /** Conversion function from KTextEditor::Cursor to QtScript cursor */
-static QScriptValue cursorToScriptValue(QScriptEngine *engine, const KTextEditor::Cursor &cursor)
+static QJSValue cursorToScriptValue(QJSEngine *engine, const KTextEditor::Cursor &cursor)
 {
-    QString code = QString("new Cursor(%1, %2);").arg(cursor.line())
+    QString code = QStringLiteral("new Cursor(%1, %2);").arg(cursor.line())
                    .arg(cursor.column());
     return engine->evaluate(code);
 }
 
 /** Conversion function from QtScript cursor to KTextEditor::Cursor */
-static void cursorFromScriptValue(const QScriptValue &obj, KTextEditor::Cursor &cursor)
+static void cursorFromScriptValue(const QJSValue &obj, KTextEditor::Cursor &cursor)
 {
-    cursor.setPosition(obj.property(QStringLiteral("line")).toInt32(),
-                       obj.property(QStringLiteral("column")).toInt32());
+    cursor.setPosition(obj.property(QStringLiteral("line")).toInt(),
+                       obj.property(QStringLiteral("column")).toInt());
 }
 
 /** Conversion function from QtScript range to KTextEditor::Range */
-static QScriptValue rangeToScriptValue(QScriptEngine *engine, const KTextEditor::Range &range)
+static QJSValue rangeToScriptValue(QJSEngine *engine, const KTextEditor::Range &range)
 {
     QString code = QString("new Range(%1, %2, %3, %4);").arg(range.start().line())
                    .arg(range.start().column())
@@ -111,12 +113,12 @@ static QScriptValue rangeToScriptValue(QScriptEngine *engine, const KTextEditor:
 }
 
 /** Conversion function from QtScript range to KTextEditor::Range */
-static void rangeFromScriptValue(const QScriptValue &obj, KTextEditor::Range &range)
+static void rangeFromScriptValue(const QJSValue &obj, KTextEditor::Range &range)
 {
-    range.setStart(KTextEditor::Cursor(obj.property(QStringLiteral("start")).property(QStringLiteral("line")).toInt32(),
-                                       obj.property(QStringLiteral("start")).property(QStringLiteral("column")).toInt32()));
-    range.setEnd(KTextEditor::Cursor(obj.property(QStringLiteral("end")).property(QStringLiteral("line")).toInt32(),
-                                     obj.property(QStringLiteral("end")).property(QStringLiteral("column")).toInt32()));
+    range.setStart(KTextEditor::Cursor(obj.property(QStringLiteral("start")).property(QStringLiteral("line")).toInt(),
+                                       obj.property(QStringLiteral("start")).property(QStringLiteral("column")).toInt()));
+    range.setEnd(KTextEditor::Cursor(obj.property(QStringLiteral("end")).property(QStringLiteral("line")).toInt(),
+                                     obj.property(QStringLiteral("end")).property(QStringLiteral("column")).toInt()));
 }
 //END
 
@@ -205,7 +207,7 @@ QString Script::readFile(const QString &filename) {
         return QString();
     } else {
         QTextStream stream(&file);
-        stream.setCodec("UTF-8");
+        stream.setEncoding(QStringConverter::Utf8);
         QString text = stream.readAll();
         file.close();
         return text;
@@ -222,9 +224,7 @@ ScriptEnvironment::ScriptEnvironment(KileInfo *kileInfo,
 {
 
     KILE_DEBUG_MAIN << "create ScriptEnvironment";
-    m_engine = new QScriptEngine();
-    qScriptRegisterMetaType(m_engine, cursorToScriptValue, cursorFromScriptValue);
-    qScriptRegisterMetaType(m_engine, rangeToScriptValue, rangeFromScriptValue);
+    m_engine = new QJSEngine();
 }
 
 ScriptEnvironment::~ScriptEnvironment()
@@ -238,7 +238,7 @@ void ScriptEnvironment::execute(const Script *script)
     // initialize engine to work with Cursor and Range objects
     m_engine->evaluate(m_enginePluginCode, i18n("Cursor/Range plugin"));
 
-    if(m_engine->hasUncaughtException()) {
+    if(m_engine->hasError()) {
         scriptError(i18n("Cursor/Range plugin"));
         return;
     }
@@ -253,14 +253,11 @@ void ScriptEnvironment::execute(const Script *script)
     }
     m_engine->globalObject().setProperty("kile", m_engine->newQObject(m_kileScriptObject));
 
-    // export debug function
-    m_engine->globalObject().setProperty("debug", m_engine->newFunction(KileScript::debug));
-
     // start engine
     m_engine->evaluate(script->getCode());
 
     // success or error
-    if(m_engine->hasUncaughtException()) {
+    if(m_engine->hasError()) {
         scriptError(script->getName());
     }
     else {
@@ -281,32 +278,18 @@ void ScriptEnvironment::execute(const Script *script)
     QTimer::singleShot(0, m_scriptView->view(), SLOT(setFocus()));
 
     // remove global objects
-    m_engine->globalObject().setProperty("view", QScriptValue());
-    m_engine->globalObject().setProperty("document", QScriptValue());
-    m_engine->globalObject().setProperty("kile", QScriptValue());
+    m_engine->globalObject().setProperty("view", QJSValue());
+    m_engine->globalObject().setProperty("document", QJSValue());
+    m_engine->globalObject().setProperty("kile", QJSValue());
 }
 
 // Executes script code in this environment.
 void ScriptEnvironment::scriptError(const QString &name)
 {
-    int errorline = m_engine->uncaughtExceptionLineNumber();
-    QScriptValue exception = m_engine->uncaughtException();
+    int errorline = 0; // m_engine->uncaughtExceptionLineNumber();
+    QJSValue exception = m_engine->catchError();
     QString errormessage = ( exception.isError() ) ? exception.toString() : QString();
     QString message = i18n("An error has occurred at line %1 during the execution of the script \"%2\":\n%3", errorline, name, errormessage);
     KMessageBox::error(m_kileInfo->mainWindow(), message, i18n("Error"));
 }
-
-////////////////////////////// ScriptHelpers //////////////////////////////
-
-QScriptValue debug(QScriptContext *context, QScriptEngine *engine)
-{
-    QStringList message;
-    for(int i = 0; i < context->argumentCount(); ++i) {
-        message << context->argument(i).toString();
-    }
-    // debug output in blue to distinguish it from other debug output
-    std::cout << "\033[34m" << qPrintable(message.join(' ')) << "\033[0m\n";
-    return engine->nullValue();
-}
-
 }

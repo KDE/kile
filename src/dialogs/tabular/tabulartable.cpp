@@ -223,7 +223,7 @@ void KileDialog::TabularTable::paste()
     if(!selectedText.endsWith('\n')) {
         selectedText += '\n';
     }
-    QStringList cells = selectedText.split(QRegExp(QLatin1String("\\n|\\t")));
+    QStringList cells = selectedText.split(QRegularExpression(QLatin1String("\\n|\\t")));
     while(!cells.empty() && cells.back().size() == 0) {
         cells.pop_back(); // strip empty trailing tokens
     }

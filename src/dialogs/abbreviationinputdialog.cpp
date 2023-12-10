@@ -21,7 +21,7 @@
 #include <QLabel>
 #include <QLayout>
 #include <QLineEdit>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QFormLayout>
 #include <QDialogButtonBox>
 #include <QPushButton>
@@ -65,8 +65,8 @@ AbbreviationInputDialog::AbbreviationInputDialog(KileWidget::AbbreviationView *l
     mainLayout->addRow(labelAbbreviation, m_leAbbrev);
     mainLayout->addRow(labelExpanded, m_leExpansion);
 
-    QRegExp reg("[a-zA-Z0-9]+");
-    QRegExpValidator *abbrevValidator = new QRegExpValidator(reg, this);
+    static QRegularExpression reg("[a-zA-Z0-9]+");
+    auto abbrevValidator = new QRegularExpressionValidator(reg, this);
     m_leAbbrev->setValidator(abbrevValidator);
 
     connect(m_leAbbrev, &QLineEdit::textChanged, this, &AbbreviationInputDialog::onTextChanged);

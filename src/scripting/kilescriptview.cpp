@@ -15,6 +15,7 @@
 #include "kilescriptview.h"
 #include "kiledebug.h"
 
+using namespace Qt::Literals::StringLiterals;
 
 namespace KileScript {
 
@@ -40,7 +41,7 @@ KTextEditor::View *KileScriptView::view() const
 
 void KileScriptView::backspace()
 {
-    QAction *action = m_view->action("backspace");
+    QAction *action = m_view->action(u"backspace"_s);
     if(action) {
         action->trigger();
     }

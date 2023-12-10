@@ -15,6 +15,7 @@
 #define MAINTOOLCONFIGWIDGET_H
 
 #include <QWidget>
+#include <QSplitter>
 
 #include "ui_maintoolconfigwidget.h"
 

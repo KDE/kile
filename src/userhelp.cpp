@@ -19,7 +19,8 @@
 
 #include <KMessageBox>
 #include <QUrl>
-#include <KRun>
+#include <KIO/OpenUrlJob>
+#include <KIO/JobUiDelegateFactory>
 
 #include "kileactions.h"
 #include "kileconfig.h"
@@ -182,7 +183,9 @@ void UserHelp::slotUserHelpActivated(const QUrl &url)
         m_manager->run(tool);
     }
     else {
-        new KRun(url,m_mainWindow);
+        auto job = new KIO::OpenUrlJob(url, m_mainWindow);
+        job->setUiDelegate(KIO::createDefaultJobUiDelegate());
+        job->start();
     }
 }
 

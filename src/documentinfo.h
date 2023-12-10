@@ -207,7 +207,7 @@ public:
     /**
      * Returns a file filter suitable for loading and saving files of this class' type.
      **/
-    virtual std::list<Extensions::ExtensionType> getFileFilter() const;
+    virtual std::vector<Extensions::ExtensionType> getFileFilter() const;
 
     virtual bool isDocumentTypePromotionAllowed();
     void setDocumentTypePromotionAllowed(bool b);
@@ -487,7 +487,7 @@ public:
 
     virtual Type getType() override;
 
-    virtual std::list<Extensions::ExtensionType> getFileFilter() const override;
+    virtual std::vector<Extensions::ExtensionType> getFileFilter() const override;
 
     void startLaTeXCompletion(KTextEditor::View *view);
 
@@ -540,7 +540,7 @@ public:
 
     virtual Type getType() override;
 
-    virtual std::list<Extensions::ExtensionType> getFileFilter() const override;
+    virtual std::vector<Extensions::ExtensionType> getFileFilter() const override;
 
     virtual void installParserOutput(KileParser::ParserOutput *parserOutput) override;
 
@@ -563,7 +563,7 @@ public:
 
     virtual Type getType() override;
 
-    virtual std::list<Extensions::ExtensionType> getFileFilter() const override;
+    virtual std::vector<Extensions::ExtensionType> getFileFilter() const override;
 };
 
 }

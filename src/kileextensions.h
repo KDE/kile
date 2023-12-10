@@ -19,6 +19,7 @@
 
 #include <QString>
 #include <QUrl>
+#include <vector>
 
 namespace KileDocument
 {
@@ -58,8 +59,8 @@ public:
     }
 
     // we need two methods as KEncodingFileDialog has no Qt-equivalent yet
-    QString fileFilterKDEStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const;
-    QString fileFilterQtStyle(bool includeAllFiles, const std::list<ExtensionType>& extensions) const;
+    QString fileFilterKDEStyle(bool includeAllFiles, const std::vector<ExtensionType>& extensions) const;
+    QString fileFilterQtStyle(bool includeAllFiles, const std::vector<ExtensionType>& extensions) const;
 
     bool isTexFile(const QString &fileName) const;
     bool isTexFile(const QUrl &url) const {

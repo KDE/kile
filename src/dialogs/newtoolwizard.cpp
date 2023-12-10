@@ -15,6 +15,7 @@
 #include "kiletoolmanager.h"
 #include <KSharedConfig>
 #include <QPushButton>
+#include <qregularexpression.h>
 
 NewToolWizard::NewToolWizard(QWidget *parent, Qt::WindowFlags fl) : KAssistantDialog(parent, fl)
 {
@@ -59,7 +60,7 @@ QString NewToolWizard::parentTool()
 
 void NewToolWizard::nameChanged(const QString &name)
 {
-    static QRegExp reBracket = QRegExp("\\(|\\)|\\[|\\]");
+    static QRegularExpression reBracket("\\(|\\)|\\[|\\]");
     bool ok = true;
 
     if(m_toolList.contains(name)) {

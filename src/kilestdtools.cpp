@@ -17,6 +17,7 @@
 
 #include <QFileInfo>
 #include <QRegExp>
+#include <QRegularExpression>
 
 #include <QAction>
 #include <KActionCollection>
@@ -641,12 +642,12 @@ bool ForwardDVI::checkPrereqs ()
 
     if (okularVersionTester.waitForFinished()) {
         QString output = okularVersionTester.readAll();
-        QRegExp regExp = QRegExp("Okular: (\\d+).(\\d+).(\\d+)");
-
+        static const QRegularExpression regExp("Okular: (\\d+).(\\d+).(\\d+)");
+        const auto match = regExp.match(output);
         if(output.contains(regExp)) {
-            int majorVersion = regExp.cap(1).toInt();
-            int minorVersion = regExp.cap(2).toInt();
-            int veryMinorVersion = regExp.cap(3).toInt();
+            int majorVersion = match.captured(1).toInt();
+            int minorVersion = match.captured(2).toInt();
+            int veryMinorVersion = match.captured(3).toInt();
 
             //  see https://mail.kde.org/pipermail/okular-devel/2009-May/003741.html
             // 	the required okular version is > 0.8.5

@@ -106,14 +106,14 @@ void ConvertMap::addPair(QChar c, const QString& enc)
 
 bool ConvertMap::commandIsTerminated(const QString & command)
 {
-    static QRegExp reCommandSequences("\\\\([a-zA-Z]+|\\\"|\\')$");
+    static QRegularExpression reCommandSequences("\\\\([a-zA-Z]+|\\\"|\\')$");
 
-    return (reCommandSequences.indexIn(command) == -1);
+    return reCommandSequences.match(command).hasMatch();
 }
 
 bool ConvertMap::load()
 {
-    static QRegExp reMap("^(.*):(.*)");
+    static QRegularExpression reMap("^(.*):(.*)");
 
     //makeMap(encoding());
 
@@ -122,15 +122,16 @@ bool ConvertMap::load()
 
     if(qf.open(QIODevice::ReadOnly)) {
         QTextStream stream(&qf);
-        QTextCodec *codec = QTextCodec::codecForName(isoName().toLatin1());
-        if(codec) {
-            stream.setCodec(codec);
+        auto encoding = QStringConverter::encodingForName(isoName().toLatin1());
+        if(encoding) {
+            stream.setEncoding(*encoding);
         }
 
         while(!stream.atEnd()) {
             //parse the line
-            if(stream.readLine().indexOf(reMap) != -1) {
-                addPair(reMap.cap(1)[0], reMap.cap(2));
+            auto match = reMap.match(stream.readLine());
+            if(match.hasMatch()) {
+                addPair(match.captured(1)[0], match.captured(2));
             }
         }
         qf.close();
@@ -274,8 +275,8 @@ QString ConvertASCIIToEnc::nextSequence(int &i)
 
 bool ConvertASCIIToEnc::isModifier(const QString& seq)
 {
-    static QRegExp reModifier("\\\\([cHkruv]|\"|\'|\\^|`|~|=|\\.)");
-    return reModifier.exactMatch(seq);
+    static QRegularExpression reModifier("^\\\\([cHkruv]|\"|\'|\\^|`|~|=|\\.)$");
+    return reModifier.match(seq).hasMatch();
 }
 
 QString ConvertASCIIToEnc::getSequence(int &i)

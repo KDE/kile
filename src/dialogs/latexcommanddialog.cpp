@@ -21,7 +21,6 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QLayout>
-#include <QRegExp>
 #include <QTreeWidget>
 #include <QValidator>
 #include <QVBoxLayout>
@@ -211,8 +210,8 @@ NewLatexCommand::NewLatexCommand(QWidget *parent, const QString &caption,
             label1->setText(i18n("Define a new LaTeX command:"));
             pattern = "\\\\?[A-Za-z]+";
         }
-        QRegExp reg(pattern);
-        m_edName->setValidator(new QRegExpValidator(reg, m_edName));
+        QRegularExpression reg(pattern);
+        m_edName->setValidator(new QRegularExpressionValidator(reg, m_edName));
         m_edName->setFocus();
     }
     else {                         // edit mode

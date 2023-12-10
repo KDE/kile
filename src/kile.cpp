@@ -48,6 +48,7 @@
 #include <KXmlGuiWindow>
 #include <KSelectAction>
 #include <KWindowSystem>
+#include <qregularexpression.h>
 #if __has_include(<kx11extras.h>)
 #include <kx11extras.h>
 #endif
@@ -859,13 +860,13 @@ void Kile::setupActions()
     createAction(i18n("Move Tab Left"), "move_view_tab_left", "arrow-left", viewManager(), [this]() { viewManager()->moveTabLeft(); });
     createAction(i18n("Move Tab Right"), "move_view_tab_right", "arrow-right", viewManager(), [this]() { viewManager()->moveTabRight(); });
 
-    createAction(i18n("Next section"), "edit_next_section", "nextsection", QKeySequence(Qt::ALT + Qt::Key_Down),
+    createAction(i18n("Next section"), "edit_next_section", "nextsection", QKeySequence(Qt::ALT | Qt::Key_Down),
                  m_edit, &KileDocument::EditorExtension::gotoNextSectioning);
-    createAction(i18n("Prev section"), "edit_prev_section", "prevsection", QKeySequence(Qt::ALT + Qt::Key_Up),
+    createAction(i18n("Prev section"), "edit_prev_section", "prevsection", QKeySequence(Qt::ALT | Qt::Key_Up),
                  m_edit, &KileDocument::EditorExtension::gotoPrevSectioning);
-    createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_Down),
+    createAction(i18n("Next paragraph"), "edit_next_paragraph", "nextparagraph", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_Down),
                  m_edit, [this]() { m_edit->gotoNextParagraph(); });
-    createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", QKeySequence(Qt::ALT + Qt::SHIFT + Qt::Key_Up),
+    createAction(i18n("Prev paragraph"), "edit_prev_paragraph", "prevparagraph", QKeySequence(Qt::ALT | Qt::SHIFT | Qt::Key_Up),
                  m_edit, [this]() { m_edit->gotoPrevParagraph(); });
 
     createAction(i18n("Find &in Files..."), "FindInFiles", "filegrep", this, &Kile::findInFiles);
@@ -901,13 +902,13 @@ void Kile::setupActions()
     act = createAction(i18n("Clean"), "CleanAll", "user-trash", this, [this]() { cleanAll(); });
 
     QList<QKeySequence> nextTabShorcuts;
-    nextTabShorcuts.append(QKeySequence(Qt::ALT + Qt::Key_Right));
+    nextTabShorcuts.append(QKeySequence(Qt::ALT | Qt::Key_Right));
     nextTabShorcuts.append(KStandardShortcut::tabNext());
     createAction(i18n("Next Document"), "gotoNextDocument", "go-next-view-page",
                  nextTabShorcuts, viewManager(), &KileView::Manager::gotoNextView);
 
     QList<QKeySequence> prevTabShorcuts;
-    prevTabShorcuts.append(QKeySequence(Qt::ALT + Qt::Key_Left));
+    prevTabShorcuts.append(QKeySequence(Qt::ALT | Qt::Key_Left));
     prevTabShorcuts.append(KStandardShortcut::tabPrev());
     createAction(i18n("Previous Document"), "gotoPrevDocument", "go-previous-view-page",
                  prevTabShorcuts, viewManager(), &KileView::Manager::gotoPrevView);
@@ -918,15 +919,15 @@ void Kile::setupActions()
     createAction(i18n("Focus Editor View"), "focus_editor", QKeySequence("CTRL+Alt+F"), this, &Kile::focusEditor);
 
     createAction(i18nc("@action: Starts the completion of the current LaTeX command", "Complete (La)TeX Command"), "edit_complete_word", "complete1",
-                 QKeySequence(Qt::SHIFT + Qt::CTRL + Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXCompletion(); });
+                 QKeySequence(Qt::SHIFT | Qt::CTRL | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXCompletion(); });
     createAction(i18nc("@action: Starts the input (and completion) of a LaTeX environment", "Complete LaTeX Environment"), "edit_complete_env", "complete2",
-                 QKeySequence(Qt::SHIFT + Qt::ALT + Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXEnvironment(); });
+                 QKeySequence(Qt::SHIFT | Qt::ALT | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startLaTeXEnvironment(); });
     createAction(i18nc("@action: Starts the completion of the current abbreviation", "Complete Abbreviation"), "edit_complete_abbrev", "complete3",
-                 QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startAbbreviationCompletion(); });
+                 QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Space), codeCompletionManager(), [this]() { codeCompletionManager()->startAbbreviationCompletion(); });
 
-    createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Right),
+    createAction(i18n("Next Bullet"), "edit_next_bullet", "nextbullet", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Right),
                  m_edit, [this]() { m_edit->nextBullet(); });
-    createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", QKeySequence(Qt::CTRL + Qt::ALT + Qt::Key_Left),
+    createAction(i18n("Prev Bullet"), "edit_prev_bullet", "prevbullet", QKeySequence(Qt::CTRL | Qt::ALT | Qt::Key_Left),
                  m_edit, [this]() { m_edit->prevBullet(); });
 
 // advanced editor (dani)
@@ -1008,7 +1009,7 @@ void Kile::setupActions()
     act = createAction(i18n("Settings for Biblatex"), "setting_biblatex", this, &Kile::rebuildBibliographyMenu);
     act->setCheckable(true);
     m_bibTagSettings->addAction(act);
-    m_bibTagSettings->setCurrentAction(action((QString("setting_") + KileConfig::bibliographyType()).toLatin1()));
+    m_bibTagSettings->setCurrentAction(action((QStringLiteral("setting_") + KileConfig::bibliographyType())));
 
     rebuildBibliographyMenu();
 
@@ -2869,10 +2870,10 @@ void Kile::cleanBib()
 
     for (i = 0; i < view->document()->lines(); ++i) {
         int j = i+1;
-        if(j < view->document()->lines() && view->document()->line(j).contains(QRegExp("^\\s*\\}\\s*$"))) {
+        if(j < view->document()->lines() && view->document()->line(j).contains(QRegularExpression("^\\s*\\}\\s*$"))) {
             s =  view->document()->line(i);
             view->document()->removeLine(i);
-            s.remove(QRegExp(",\\s*$"));
+            s.remove(QRegularExpression(",\\s*$"));
             view->document()->setModified(true);
             view->document()->insertLine(i, s);
         }

@@ -15,11 +15,11 @@
 
 #include <QApplication>
 #include <QDateTime>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QFileInfo>
 #include <QStyle>
 #include <QTimer>
+#include <QWidget>
 
 #include <KIO/ApplicationLauncherJob>
 #include <KIO/JobUiDelegateFactory>
@@ -116,10 +116,7 @@ void centerWidgetRelativeToParentRect(QWidget *widget, const QRect& parentRect)
 void KileUtilities::centerWidgetRelativeToParent(QWidget *widget)
 {
     QWidget *parentWidget = widget->parentWidget();
-    if(!parentWidget) {
-        centerWidgetRelativeToParentRect(widget, QApplication::desktop()->availableGeometry(widget));
-    }
-    else {
+    if(parentWidget) {
         QRect parentRect(parentWidget->mapToGlobal(QPoint(0, 0)), parentWidget->size());
         centerWidgetRelativeToParentRect(widget, parentRect);
     }
@@ -164,7 +161,7 @@ QString KileUtilities::findExecutable(const QString &executableName, const QStri
 QString KileUtilities::locate(QStandardPaths::StandardLocation type, const QString &fileName,
                                                       QStandardPaths::LocateOptions options)
 {
-    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
+    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::AppLocalDataLocation) {
 	const QString candidate = getRelativeSharePath() + fileName;
 	if((options == QStandardPaths::LocateFile) && QFileInfo::exists(candidate)) {
             return candidate;
@@ -181,7 +178,7 @@ QStringList KileUtilities::locateAll(QStandardPaths::StandardLocation type, cons
                                                              QStandardPaths::LocateOptions options)
 {
     QStringList toReturn;
-    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
+    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::AppLocalDataLocation) {
 	const QString candidate = getRelativeSharePath() + fileName;
 	if((options == QStandardPaths::LocateFile) && QFileInfo::exists(candidate)) {
             toReturn << candidate;
@@ -198,7 +195,7 @@ QStringList KileUtilities::locateAll(QStandardPaths::StandardLocation type, cons
 QStringList KileUtilities::standardLocations(QStandardPaths::StandardLocation type)
 {
     QStringList toReturn;
-    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::DataLocation) {
+    if(type == QStandardPaths::AppDataLocation || type == QStandardPaths::AppLocalDataLocation) {
         toReturn << getRelativeSharePath();
     }
     toReturn << QStandardPaths::standardLocations(type);

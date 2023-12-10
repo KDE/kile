@@ -97,7 +97,7 @@ void CommandViewToolBox::readCommandViewFiles()
 
     std::sort(validCwlFiles.begin(), validCwlFiles.end());
 
-    for(QString cwlFile : qAsConst(validCwlFiles)) {
+    for(QString cwlFile : std::as_const(validCwlFiles)) {
         m_cwlFilesComboBox->addItem(cwlFile, cwlFile);
     }
 

@@ -304,7 +304,6 @@
           </layout>
          </widget>
          <widget class="QWidget" name="tab1">
-          <attribute name="title">
           <layout class="QVBoxLayout" name="verticalLayout_8">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_2">

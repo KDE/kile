@@ -26,14 +26,18 @@
 #include <KTextEditor/Document>
 #include <KTextEditor/View>
 
-#include "kiledebug.h"
 #include "editorextension.h"
 #include "kileconfig.h"
+#include "kiledebug.h"
+#include "kileinfo.h"
+#include "kiletool.h"
 
-LaTeXEventFilter::LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit) : QObject(view), m_view(view), m_edit(edit)
-{
-    m_modifierKeyInfo = new KModifierKeyInfo(this);
-    readConfig();
+LaTeXEventFilter::LaTeXEventFilter(KTextEditor::View *view,
+                                   KileDocument::EditorExtension *edit,
+                                   KileTool::Manager *toolManager)
+    : QObject(view), m_view(view), m_edit(edit), m_toolManager(toolManager) {
+  m_modifierKeyInfo = new KModifierKeyInfo(this);
+  readConfig();
 }
 
 void LaTeXEventFilter::readConfig()
@@ -268,6 +272,22 @@ bool LaTeXEventFilter::eventFilter(QObject* /* o */, QEvent *e)
         if(me->button() == Qt::LeftButton && me->modifiers() & Qt::ControlModifier) {
             m_edit->selectWord(KileDocument::EditorExtension::smTex, m_view);
             return true;
+        }
+    }
+
+    else if (e->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *me = static_cast<QMouseEvent *>(e);
+        if (me->button() == Qt::LeftButton &&
+            me->modifiers() & Qt::ShiftModifier) {
+            if (auto forwardTool = m_toolManager->createTool("ForwardDVI")) {
+                m_toolManager->run(forwardTool);
+                return true;
+            } else if (auto forwardTool =
+                           m_toolManager->createTool("ForwardPDF")) {
+                m_toolManager->run(forwardTool);
+                return true;
+            }
+            return false;
         }
     }
 

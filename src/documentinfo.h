@@ -473,25 +473,26 @@ public:
     /**
      * @param eventFilter the event filter that will be installed on managed documents
      **/
-    LaTeXInfo(Extensions *extensions,
-              KileAbbreviation::Manager *abbreviationManager,
-              LatexCommands *commands,
-              KileDocument::EditorExtension *editorExtension,
-              KileConfiguration::Manager *manager,
-              KileCodeCompletion::Manager *codeCompletionManager,
-              KileTool::LivePreviewManager *livePreviewManager,
-              KileView::Manager *viewManager,
-              KileParser::Manager *parserManager);
+  LaTeXInfo(Extensions *extensions,
+            KileAbbreviation::Manager *abbreviationManager,
+            LatexCommands *commands,
+            KileDocument::EditorExtension *editorExtension,
+            KileConfiguration::Manager *manager,
+            KileCodeCompletion::Manager *codeCompletionManager,
+            KileTool::LivePreviewManager *livePreviewManager,
+            KileView::Manager *viewManager, KileParser::Manager *parserManager,
+            KileTool::Manager *toolManager);
 
-    virtual ~LaTeXInfo();
+  virtual ~LaTeXInfo();
 
-    virtual Type getType() override;
+  virtual Type getType() override;
 
-    virtual std::vector<Extensions::ExtensionType> getFileFilter() const override;
+  virtual std::vector<Extensions::ExtensionType> getFileFilter() const override;
 
-    void startLaTeXCompletion(KTextEditor::View *view);
+  void startLaTeXCompletion(KTextEditor::View *view);
 
-    virtual void installParserOutput(KileParser::ParserOutput *parserOutput) override;
+  virtual void
+  installParserOutput(KileParser::ParserOutput *parserOutput) override;
 
 public Q_SLOTS:
     virtual void updateStruct() override;
@@ -504,6 +505,7 @@ protected:
     KileCodeCompletion::LaTeXCompletionModel *m_latexCompletionModel;
     KileTool::LivePreviewManager *m_livePreviewManager;
     KileView::Manager *m_viewManager;
+    KileTool::Manager *m_toolManager;
 
     virtual void updateStructLevelInfo() override;
     virtual void checkChangedDeps();

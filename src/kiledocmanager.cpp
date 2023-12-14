@@ -423,15 +423,12 @@ TextInfo* Manager::createTextDocumentInfo(KileDocument::Type type, const QUrl &u
         switch(type) {
         case LaTeX:
             KILE_DEBUG_MAIN << "CREATING LaTeXInfo for " << url.url();
-            docinfo = new LaTeXInfo(m_ki->extensions(),
-                                    m_ki->abbreviationManager(),
-                                    m_ki->latexCommands(),
-                                    m_ki->editorExtension(),
-                                    m_ki->configurationManager(),
-                                    m_ki->codeCompletionManager(),
-                                    m_ki->livePreviewManager(),
-                                    m_ki->viewManager(),
-                                    m_ki->parserManager());
+            docinfo = new LaTeXInfo(
+                m_ki->extensions(), m_ki->abbreviationManager(),
+                m_ki->latexCommands(), m_ki->editorExtension(),
+                m_ki->configurationManager(), m_ki->codeCompletionManager(),
+                m_ki->livePreviewManager(), m_ki->viewManager(),
+                m_ki->parserManager(), m_ki->toolManager());
             break;
         case BibTeX:
             KILE_DEBUG_MAIN << "CREATING BibInfo for " << url.url();

@@ -82,11 +82,12 @@
 #include "eventfilter.h"
 #include "kileconfig.h"
 #include "kiledebug.h"
+#include "kiletool.h"
 #include "kileviewmanager.h"
+#include "livepreview.h"
 #include "parser/bibtexparser.h"
 #include "parser/latexparser.h"
 #include "parser/parsermanager.h"
-#include "livepreview.h"
 #include "utilities.h"
 
 namespace KileDocument
@@ -832,23 +833,20 @@ void TextInfo::setDocumentContents(const QStringList& contents)
     m_documentContents = contents;
 }
 
-LaTeXInfo::LaTeXInfo(Extensions* extensions,
-                     KileAbbreviation::Manager* abbreviationManager,
-                     LatexCommands* commands,
-                     EditorExtension* editorExtension,
-                     KileConfiguration::Manager* manager,
-                     KileCodeCompletion::Manager* codeCompletionManager,
-                     KileTool::LivePreviewManager* livePreviewManager,
+LaTeXInfo::LaTeXInfo(Extensions *extensions,
+                     KileAbbreviation::Manager *abbreviationManager,
+                     LatexCommands *commands, EditorExtension *editorExtension,
+                     KileConfiguration::Manager *manager,
+                     KileCodeCompletion::Manager *codeCompletionManager,
+                     KileTool::LivePreviewManager *livePreviewManager,
                      KileView::Manager *viewManager,
-                     KileParser::Manager* parserManager)
+                     KileParser::Manager *parserManager,
+                     KileTool::Manager *toolManager)
     : TextInfo(extensions, abbreviationManager, parserManager, "LaTeX"),
-      m_commands(commands),
-      m_editorExtension(editorExtension),
-      m_configurationManager(manager),
-      m_eventFilter(Q_NULLPTR),
-      m_livePreviewManager(livePreviewManager),
-      m_viewManager(viewManager)
-{
+      m_commands(commands), m_editorExtension(editorExtension),
+      m_configurationManager(manager), m_eventFilter(Q_NULLPTR),
+      m_livePreviewManager(livePreviewManager), m_viewManager(viewManager),
+      m_toolManager(toolManager) {
     documentTypePromotionAllowed = false;
     updateStructLevelInfo();
     m_latexCompletionModel = new KileCodeCompletion::LaTeXCompletionModel(this,
@@ -977,7 +975,8 @@ void LaTeXInfo::updateStructLevelInfo() {
 QList<QObject*> LaTeXInfo::createEventFilters(KTextEditor::View *view)
 {
     QList<QObject*> toReturn;
-    QObject *eventFilter = new LaTeXEventFilter(view, m_editorExtension);
+    QObject *eventFilter =
+        new LaTeXEventFilter(view, m_editorExtension, m_toolManager);
     connect(m_configurationManager, SIGNAL(configChanged()), eventFilter, SLOT(readConfig()));
     toReturn << eventFilter;
     return toReturn;

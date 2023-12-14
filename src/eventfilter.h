@@ -15,6 +15,7 @@
 #ifndef EVENTFILTER_H
 #define EVENTFILTER_H
 
+#include "kiletool.h"
 #include <QEvent>
 #include <QObject>
 #include <QRegExp>
@@ -37,7 +38,8 @@ class LaTeXEventFilter : public QObject
     Q_OBJECT
 
 public:
-    LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit);
+  LaTeXEventFilter(KTextEditor::View *view, KileDocument::EditorExtension *edit,
+                   KileTool::Manager *toolManager);
 
 public Q_SLOTS:
     void readConfig();
@@ -50,6 +52,7 @@ private:
     bool m_bCompleteEnvironment;
     KTextEditor::View *m_view;
     KileDocument::EditorExtension *m_edit;
+    KileTool::Manager *m_toolManager;
     KModifierKeyInfo *m_modifierKeyInfo;
 
 };

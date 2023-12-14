@@ -104,21 +104,20 @@ Manager::Manager(KileInfo *ki, KConfig *config, KileWidget::OutputView *output, 
     m_nTimeout(to),
     m_bibliographyBackendSelectAction(Q_NULLPTR)
 {
-    connect(m_ki->parserManager(), SIGNAL(documentParsingComplete()), this, SLOT(handleDocumentParsingComplete()));
+    connect(m_ki->parserManager(), &KileParser::Manager::documentParsingComplete, this, &Manager::handleDocumentParsingComplete);
 
-    connect(this, SIGNAL(childToolSpawned(KileTool::Base*,KileTool::Base*)),
-            m_ki->errorHandler(), SLOT(handleSpawnedChildTool(KileTool::Base*,KileTool::Base*)));
+    connect(this, &Manager::childToolSpawned, m_ki->errorHandler(), &KileErrorHandler::handleSpawnedChildTool);
 
     m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(enableClear()));
+    connect(m_timer, &QTimer::timeout, this, &Manager::enableClear);
 
-    connect(m_ki->errorHandler(), SIGNAL(currentLaTeXOutputHandlerChanged(LaTeXOutputHandler*)), SLOT(currentLaTeXOutputHandlerChanged(LaTeXOutputHandler*)));
+    connect(m_ki->errorHandler(), &KileErrorHandler::currentLaTeXOutputHandlerChanged, this, &Manager::currentLaTeXOutputHandlerChanged);
 
     //create actions must be invoked before buildBibliographyBackendSelection()!
     createActions(ac);
     buildBibliographyBackendSelection();
 
-    connect(m_ki->configurationManager(), SIGNAL(configChanged()), SLOT(buildBibliographyBackendSelection()));
+    connect(m_ki->configurationManager(), &KileConfiguration::Manager::configChanged, this, &Manager::buildBibliographyBackendSelection);
 }
 
 Manager::~Manager()
@@ -167,8 +166,8 @@ void Manager::run(Base *tool)
         runImmediately(tool);
         return;
     }
-    connect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
-            this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)), Qt::UniqueConnection);
+    connect(tool, &Base::aboutToBeDestroyed,
+            this, &Manager::toolScheduledAfterParsingDestroyed, Qt::UniqueConnection);
     if(!m_toolsScheduledAfterParsingList.contains(tool)) {
         m_toolsScheduledAfterParsingList.push_back(tool);
     }
@@ -181,9 +180,9 @@ void Manager::toolScheduledAfterParsingDestroyed(KileTool::Base *tool)
 
 void Manager::handleDocumentParsingComplete()
 {
-    for(Base *tool : m_toolsScheduledAfterParsingList) {
-        disconnect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
-                   this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)));
+    for(Base *tool : std::as_const(m_toolsScheduledAfterParsingList)) {
+        disconnect(tool, &Base::aboutToBeDestroyed,
+                   this, &Manager::toolScheduledAfterParsingDestroyed);
         runImmediately(tool);
     }
     m_toolsScheduledAfterParsingList.clear();
@@ -198,8 +197,8 @@ int Manager::runImmediately(Base *tool, bool insertNext /*= false*/, bool block 
     }
 
     if(dynamic_cast<KileTool::LaTeX*>(tool)) {
-        connect(tool, SIGNAL(done(KileTool::Base*,int,bool)),
-                m_ki->errorHandler(), SLOT(handleLaTeXToolDone(KileTool::Base*,int,bool)));
+        connect(tool, &KileTool::LaTeX::done,
+                m_ki->errorHandler(), &KileErrorHandler::handleLaTeXToolDone);
     }
 
     if(tool->needsToBePrepared()) {
@@ -758,10 +757,14 @@ void KileTool::Manager::createActions(KActionCollection *ac)
     m_bibliographyBackendResetAutodetectedAction = new QAction(i18n("Reset Auto-Detected Back End"), this);
     m_bibliographyBackendResetAutodetectedAction->setEnabled(false);
 
-    connect(m_bibliographyBackendSelectAction, SIGNAL(triggered(QAction*)), SLOT(bibliographyBackendSelectedByUser()));
-    connect(m_bibliographyBackendResetAutodetectedAction, SIGNAL(triggered(bool)), SLOT(resetAutodetectedBibliographyBackend()));
-    connect(m_bibliographyBackendAutodetectAction, SIGNAL(toggled(bool)),
-            m_bibliographyBackendResetAutodetectedAction, SLOT(setEnabled(bool)));
+    connect(m_bibliographyBackendSelectAction, &QAction::triggered, this, [this]() {
+        bibliographyBackendSelectedByUser();
+    });
+    connect(m_bibliographyBackendResetAutodetectedAction, &QAction::triggered, this, [this] {
+        resetAutodetectedBibliographyBackend();
+    });
+    connect(m_bibliographyBackendAutodetectAction, &QAction::toggled,
+            m_bibliographyBackendResetAutodetectedAction, &QAction::setEnabled);
 }
 
 

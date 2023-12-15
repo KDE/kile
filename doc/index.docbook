@@ -694,8 +694,8 @@
 		<guimenuitem>Tools</guimenuitem><guilabel>Build</guilabel></menuchoice>
 		and always choose the <guilabel>Modern</guilabel> configuration.</para>
 
-		<para>To execute a forward search, position the cursor on a line of source code, and click
-		<guilabel>Forward Search</guilabel> to jump to the associated position
+		<para>To execute a forward search, position the cursor on a line of source code, and click 
+		with the <mousebutton>left</mousebutton> mouse button while pressing &Shift;, or click <guilabel>Forward DVI</guilabel>/<guilabel>Forward PDF</guilabel> to jump to the associated position
 		in the &DVI; or PDF viewer window.</para>
 	</sect1>
 

@@ -294,7 +294,7 @@ void SideBar::switchToTab(int id)
     expand();
 }
 
-BottomBar::BottomBar(QWidget *parent) : SideBar(parent, Qt::Horizontal)
+BottomBar::BottomBar(QWidget *parent) : SideBar(parent)
 {
 }
 

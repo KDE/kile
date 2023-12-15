@@ -228,7 +228,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     setupSideBar();
     m_horizontalSplitter->addWidget(m_sideBar);
 
-    m_verticalSplitter = new QSplitter(Qt::Vertical);
+    m_verticalSplitter = new QSplitter(Qt::Horizontal);
     m_horizontalSplitter->addWidget(m_verticalSplitter);
     viewManager()->createTabs(m_verticalSplitter);
 

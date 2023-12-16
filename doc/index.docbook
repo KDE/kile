@@ -857,9 +857,7 @@
 			listed in <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para>For instance, you may want to create a full-fledged A0 poster. These posters are usually seen
-			at scientific conferences, and &latex; will help you make an attractive, catchy poster. You can get a
-			template for A0 posters at <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html">Jonathan Marchini's
-			home page</ulink>, but many more are available. Remember that you will need the <filename>a0poster</filename>
+			at scientific conferences, and &latex; will help you make an attractive, catchy poster. Remember that you will need the <filename>a0poster</filename>
 			package, which is normally not included in standard &tex; distributions. Download it from
 			<ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/">here</ulink> and place it in the same folder as your &latex; file.</para>
 		</sect2>

@@ -56,7 +56,7 @@
 #include <QListWidget>
 #include <QObject>
 #include <QPushButton>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QVBoxLayout>
 
 #include <KProcess>
@@ -685,7 +685,7 @@ void FindFilesDialog::slotSearch()
     }
 
     KILE_DEBUG_MAIN << "\tgrep: start new search";
-    QRegExp re(getPattern());
+    QRegularExpression re(getPattern());
     if(!re.isValid()) {
         KMessageBox::error(m_ki->mainWindow(), i18n("Invalid regular expression: %1", re.errorString()), i18n("Grep Tool Error"));
         return;

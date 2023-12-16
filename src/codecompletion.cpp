@@ -18,6 +18,7 @@
 
 #include <QFile>
 #include <QList>
+#include <QRegularExpression>
 #include <QRegExp>
 #include <QTimer>
 
@@ -195,10 +196,10 @@ bool LaTeXCompletionModel::isWithinLaTeXCommand(KTextEditor::Document *doc, cons
         const KTextEditor::Cursor& cursorPosition) const
 {
     QString commandText = doc->text(KTextEditor::Range(commandStart, cursorPosition));
-    int numOpenSquareBrackets = commandText.count(QRegExp("[^\\\\]\\["));
-    int numClosedSquareBrackets = commandText.count(QRegExp("[^\\\\]\\]"));
-    int numOpenCurlyBrackets = commandText.count(QRegExp("[^\\\\]\\{"));
-    int numClosedCurlyBrackets = commandText.count(QRegExp("[^\\\\]\\}"));
+    int numOpenSquareBrackets = commandText.count(QRegularExpression("[^\\\\]\\["));
+    int numClosedSquareBrackets = commandText.count(QRegularExpression("[^\\\\]\\]"));
+    int numOpenCurlyBrackets = commandText.count(QRegularExpression("[^\\\\]\\{"));
+    int numClosedCurlyBrackets = commandText.count(QRegularExpression("[^\\\\]\\}"));
     if(numOpenSquareBrackets != numClosedSquareBrackets || numOpenCurlyBrackets != numClosedCurlyBrackets) {
         return true;
     }

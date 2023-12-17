@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 00:43+0000\n"
+"POT-Creation-Date: 2023-12-17 00:42+0000\n"
 "PO-Revision-Date: 2023-11-07 09:51+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: fr\n"
@@ -5911,7 +5911,7 @@ msgid "No information about warnings or errors is available."
 msgstr ""
 "Aucune information disponible à propos des avertissements ou des erreurs."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:644
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:690
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr ""

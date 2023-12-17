@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-11-13 00:43+0000\n"
+"POT-Creation-Date: 2023-12-17 00:42+0000\n"
 "PO-Revision-Date: 2014-10-13 14:34+0200\n"
 "Last-Translator: Kristóf Kiszel <ulysses@kubuntu.org>\n"
 "Language-Team: Hungarian <kde-l10n-hu@kde.org>\n"
@@ -5674,7 +5674,7 @@ msgstr "%1  %2  %3"
 msgid "No information about warnings or errors is available."
 msgstr "Nem érhető el információ a figyelmeztetésekről és a hibákról."
 
-#: errorhandler.cpp:455 parser/latexoutputparser.cpp:644
+#: errorhandler.cpp:455 parser/latexoutputparser.cpp:690
 #, kde-format
 msgid "Cannot open log file; did you run LaTeX?"
 msgstr "Nem nyitható meg a naplófájl; elindította a LaTeX-et?"

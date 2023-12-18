@@ -97,6 +97,12 @@ name = Report
 key = author,title,type,institution,year
 optkey =  subtitle, titleaddon, language, number, version, note, location, isrn, chapter, pages, pagetotal, addendum, doi, url, urldate, gender
 
+[software]
+internalName = software
+name = Software
+key = author,title,url,year
+optkey =  abstract, date, doi, eprint, eprintclass, file, hal_id, hal_version, institution, license, month, publisher, related, relatedtype, relatedstring, repository, swhid, urldate, version
+
 [thesis]
 internalName = thesis
 name = Scientific Thesis

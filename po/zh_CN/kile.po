@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: kdeorg\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-17 00:42+0000\n"
-"PO-Revision-Date: 2023-12-09 09:27\n"
+"PO-Revision-Date: 2023-12-17 11:29\n"
 "Last-Translator: \n"
 "Language-Team: Chinese Simplified\n"
 "Language: zh_CN\n"
@@ -2965,7 +2965,7 @@ msgstr "创建一个新文件并添加到工程"
 #: dialogs/projectdialogs.cpp:239
 #, kde-format
 msgid "File&name (relative to where the project file is):"
-msgstr "文件名(与工程文件位置相关)(&N)："
+msgstr "文件名 (与工程文件位置相关) (&N)："
 
 #: dialogs/projectdialogs.cpp:246
 #, kde-format
@@ -3976,7 +3976,7 @@ msgstr "请输入新的文档类别(&C)："
 #: dialogs/quickdocumentdialog.cpp:1662
 #, kde-format
 msgid "&Set all options from this standard class (optional):"
-msgstr "设置这个标准类别的所有选项(可选)(&S)"
+msgstr "设置这个标准类别的所有选项 (可选) (&S)"
 
 #: dialogs/quickdocumentdialog.cpp:1664
 #, kde-format
@@ -4006,7 +4006,7 @@ msgstr "添加字体大小"
 #: dialogs/quickdocumentdialog.cpp:1768
 #, kde-format
 msgid "Please enter the &fontsizes (comma-separated list):"
-msgstr "请输入字体大小(分号分隔一个列表)(&F)："
+msgstr "请输入字体大小 (分号分隔一个列表) (&F)："
 
 #: dialogs/quickdocumentdialog.cpp:1786
 #, kde-format
@@ -4026,7 +4026,7 @@ msgstr "添加页面大小"
 #: dialogs/quickdocumentdialog.cpp:1805
 #, kde-format
 msgid "Please enter the &papersizes (comma-separated list):"
-msgstr "请输入页面大小(一个分号分隔的列表)(&P)："
+msgstr "请输入页面大小 (一个分号分隔的列表) (&P)："
 
 #: dialogs/quickdocumentdialog.cpp:1823
 #, kde-format
@@ -5884,12 +5884,12 @@ msgstr "Latin-&9 (iso 8859-9)"
 #: kile.cpp:855
 #, kde-format
 msgid "&Central European (cp-1250)"
-msgstr "中欧(cp-1250)(&C)"
+msgstr "中欧 (cp-1250) (&C)"
 
 #: kile.cpp:856
 #, kde-format
 msgid "&Western European (cp-1252)"
-msgstr "西欧(cp-1252)(&W)"
+msgstr "西欧 (cp-1252) (&W)"
 
 #: kile.cpp:859
 #, kde-format
@@ -12168,7 +12168,7 @@ msgstr "脚本执行时间限制(&L)"
 #: widgets/scriptingconfigwidget.ui:85
 #, kde-format
 msgid "&Time limit (seconds):"
-msgstr "时间限制 (秒)(&T)："
+msgstr "时间限制 (秒) (&T)："
 
 #: widgets/scriptsmanagementwidget.cpp:75
 #, kde-format

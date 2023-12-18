@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-17 00:42+0000\n"
-"PO-Revision-Date: 2023-12-06 18:31+0100\n"
+"PO-Revision-Date: 2023-12-17 14:53+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
 "Language: sk\n"
@@ -816,26 +816,22 @@ msgid "Include Graphics"
 msgstr "Zahrnúť grafiku"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|Grafika\n"
+msgstr "Grafika (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Všetky súbory (*)"
+msgstr "PNG súbory (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Všetky súbory (*)"
+msgstr "JPG súbory (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
 msgstr "PDF súbory (*.pdf)"
 
@@ -845,10 +841,9 @@ msgid "Postscript Files (*.eps *ps)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafika\n"
+msgstr "Grafika (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
@@ -856,10 +851,9 @@ msgid "Zipped EPS Files (*.eps.gz)"
 msgstr ""
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Všetky súbory (*)"
+msgstr "EPS súbory (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format
@@ -1762,8 +1756,7 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Chystáte sa nahradiť šablónu \"%1\"; ste si istí?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
 msgstr "Odstrániť šablónu"
 
@@ -5050,7 +5043,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Zahodiť strom"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5080,10 +5073,9 @@ msgstr ""
 "Prepísať tento súbor?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Prepísať súbor?"
+msgstr "Prepísať súbor"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -6498,13 +6490,13 @@ msgid "Refreshing structure..."
 msgstr "Obnovujem štruktúru..."
 
 #: kile.cpp:3021
-#, fuzzy, kde-format
+#, kde-format
 msgid ""
 "This will hide the menu bar completely. You can show it again by typing %1."
 msgstr "Toto skryje ponuku možností. Môžete ju znovu zviditeľniť stlačením %1."
 
 #: kile.cpp:3024
-#, fuzzy, kde-format
+#, kde-format
 msgid "Hide menu bar"
 msgstr "Skryť panel ponuky"
 
@@ -10500,8 +10492,7 @@ msgstr "Skupina Te&X"
 
 #. i18n: ectx: Menu (selection)
 #: kileui.rc:116
-#, fuzzy, kde-format
-#| msgid "Selection"
+#, kde-format
 msgid "&Selection"
 msgstr "Vý&ber"
 
@@ -10522,8 +10513,7 @@ msgstr "Prehliadač dokumentov"
 
 #. i18n: ectx: Menu (go)
 #: kileui.rc:129
-#, fuzzy, kde-format
-#| msgid "&Go to"
+#, kde-format
 msgid "&Go"
 msgstr "Pre&jsť"
 

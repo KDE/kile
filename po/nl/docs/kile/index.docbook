@@ -1600,9 +1600,7 @@
 >Van ieder &latex;-bestand kan een sjabloon gemaakt worden. Als u zoekt naar een eenvoudige manier om een sjabloon te configureren, dan gaat u op zoek op het internet en volgt u dezelfde stappen die opgesomd zijn bij <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para
->U wilt bijvoorbeeld een volwaardige A0-poster maken. Deze posters zijn meestal te zien op wetenschappelijke conferenties en &latex; zal u helpen een aantrekkelijke, opvallende poster te maken. U kunt een sjabloon voor A0 posters vinden op <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
->De website van Jonathan Marchini </ulink
->, maar er zijn er veel meer beschikbaar. Onthoudt dat u het pakket  <filename
+>U wilt bijvoorbeeld een volwaardige A0-poster maken. Deze posters zijn meestal te zien op wetenschappelijke conferenties en &latex; zal u helpen een aantrekkelijke, opvallende poster te maken. Onthoudt dat u het pakket <filename
 >a0poster</filename
 > nodig zult hebben, dat meestal niet bij een standaardinstallatie van &tex; zit. U kunt het van <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
 >hier</ulink

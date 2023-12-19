@@ -1616,9 +1616,7 @@
 >Una plantilla es pot crear des de qualsevol fitxer &latex;. Si esteu cercant una manera fàcil de configurar una plantilla, cerqueu una que us agradi a Internet i seguiu els mateixos passos que s'enumeren a <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para
->Per exemple, diguem que voleu crear un pòster A0 en tota regla. Aquests pòsters se solen veure en conferències científiques, i &latex; us ajudarà a crear un cartell atractiu, amb ganxo. Podeu obtenir una plantilla per a pòsters A0 a la <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
->pàgina web de Jonathan Marchini</ulink
->, però n'hi ha disponibles molts més. Recordeu que necessitareu el paquet <filename
+>Per exemple, diguem que voleu crear un pòster A0 en tota regla. Aquests pòsters se solen veure en conferències científiques, i &latex; us ajudarà a crear un cartell atractiu, amb ganxo. Recordeu que necessitareu el paquet <filename
 >a0poster</filename
 >, el qual normalment no es troba a les distribucions de &tex; estàndard. Podeu descarregar-lo des d'<ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
 >aquí</ulink

@@ -260,7 +260,7 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
     // groupList.count() == 0 is not enough due to bug 384039
     {
         bool allDeleted = false;
-        for(auto group : groupList) {
+        for (const auto& group : groupList) {
             if(bibCfg->hasGroup(group)) {
                 allDeleted = false;
                 break;
@@ -275,7 +275,7 @@ void setupBibTags(const QObject *receiver, KActionCollection *actionCollection, 
     QStringList keyList, optKeyList, altKeyList;
     QString altText, optText, compText;
 
-    for(auto group : groupList) {
+    for (const auto& group : groupList) {
         if(!bibCfg->hasGroup(group)) { // 'group' might have been deleted
             continue;                // work around bug 384039
         }

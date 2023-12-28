@@ -543,11 +543,7 @@ void NewTabularDialog::slotAccepted()
     }
 
     m_td.tagBegin += QString("\\begin{%1}%2%3%4%5\n")
-                     .arg(environmentFormatted)
-                     .arg(tableWidth)
-                     .arg(tableParameter)
-                     .arg(tableAlignment)
-                     .arg(topBorderStr);
+                     .arg(environmentFormatted, tableWidth, tableParameter, tableAlignment, topBorderStr);
 
     /* required packages */
     m_requiredPackages.clear();

@@ -217,7 +217,7 @@ QString KileInfo::getFullFromPrettyName(const OutputInfo& info, const QString& n
         QStringList extlist = (m_extensions->latexDocuments()).split(' ');
         for(QStringList::Iterator it=extlist.begin(); it!=extlist.end(); ++it) {
             QString extName = file + (*it);
-            if(QFileInfo(extName).exists()) {
+            if(QFileInfo::exists(extName)) {
                 file = extName;
                 fi.setFile(extName);
                 found = true;

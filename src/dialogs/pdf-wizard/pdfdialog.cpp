@@ -81,7 +81,7 @@ PdfDialog::PdfDialog(QWidget *parent,
         for (QStringList::Iterator it = extlist.begin(); it != extlist.end(); ++it) {
             if (texfilename.indexOf((*it), -(*it).length()) >= 0) {
                 pdffilename = texfilename.left(texfilename.length() - (*it).length()) + ".pdf";
-                if (!QFileInfo(pdffilename).exists())
+                if (!QFileInfo::exists(pdffilename))
                     pdffilename.clear();
                 break;
             }

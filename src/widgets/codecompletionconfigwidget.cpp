@@ -175,7 +175,7 @@ void CodeCompletionConfigWidget::writeConfig()
 
 //////////////////// listview ////////////////////
 
-// ListView fr den Konfigurationsdialog einstellen
+// create ListView for configuration dialog
 
 void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
 {
@@ -183,29 +183,25 @@ void CodeCompletionConfigWidget::setListviewEntries(CompletionPage page)
     QString localdir = m_localCwlDir + listname + '/';
     QString globaldir = m_globalCwlDir + listname + '/';
 
-    // Daten aus der Konfigurationsliste in das ListView-Widget eintragen
+    // add data from config list into ListView widget
     m_listview[page]->setUpdatesEnabled(false);
     m_listview[page]->clear();
-    QStringList::ConstIterator it;
-    for (it = m_wordlist[page].constBegin(); it != m_wordlist[page].constEnd(); ++it) {
-        QString basename = (*it).right((*it).length() - 2);
-        bool localExists = QFileInfo(localdir + basename + ".cwl").exists();
+    for (const auto& curWord : m_wordlist[page]) {
+        QString basename = curWord.right(curWord.length() - 2);
 
         QTreeWidgetItem *item = new QTreeWidgetItem(m_listview[page], QStringList(basename));
         item->setFlags(item->flags() | Qt::ItemIsUserCheckable);
-        if (localExists) {
-            item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
+        if (QFileInfo::exists(localdir + basename + ".cwl")) {
+            item->setCheckState(0, curWord.at(0) == '1' ? Qt::Checked : Qt::Unchecked);
             item->setText(1, i18n("yes"));
         }
+        else if (QFileInfo::exists(globaldir + basename + ".cwl")) {
+            item->setCheckState(0, curWord.at(0) == '1' ? Qt::Checked : Qt::Unchecked);
+            item->setText(1, i18n("no"));
+        }
         else {
-            if (QFileInfo(globaldir + basename + ".cwl").exists()) {
-                item->setCheckState(0, (*it).at(0) == '1' ? Qt::Checked : Qt::Unchecked);
-                item->setText(1, i18n("no"));
-            }
-            else {
-                item->setCheckState(0, Qt::Unchecked);
-                item->setText(1, i18n("File not found"));
-            }
+            item->setCheckState(0, Qt::Unchecked);
+            item->setText(1, i18n("File not found"));
         }
     }
 

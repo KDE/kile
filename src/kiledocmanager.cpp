@@ -809,7 +809,7 @@ void Manager::fileOpen()
     //determine the starting dir for the file dialog
     QString compileName = m_ki->getCompileName();
     QString currentDir;
-    if(QFileInfo(compileName).exists()) {
+    if(QFileInfo::exists(compileName)) {
         currentDir = QFileInfo(compileName).absolutePath();
     }
     else {
@@ -2344,7 +2344,7 @@ void Manager::projectAddFile(QString filename, bool graphics)
         }
 
         filename += m_ki->extensions()->latexDocumentDefault();
-        if ( QFileInfo(filename).exists() ) {
+        if (QFileInfo::exists(filename)) {
             return;
         }
     }
@@ -2501,7 +2501,7 @@ void Manager::deleteDocumentAndViewSettingsGroups(const QUrl &url)
 {
     QString urlString = url.url();
     const QStringList groupList = KSharedConfig::openConfig()->groupList();
-    for(auto groupName : groupList) {
+    for (const auto& groupName : groupList) {
         if(!KSharedConfig::openConfig()->hasGroup(groupName)) { // 'groupName' might have been deleted
             continue;                                       // work around bug 384039
         }

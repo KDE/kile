@@ -148,7 +148,7 @@ bool KileLyxServer::openPipes()
 
         if(!pipeInfo.exists()) {
             //create the dir first
-            if(!QFileInfo(pipeInfo.absolutePath()).exists()) {
+            if(!QFileInfo::exists(pipeInfo.absolutePath())) {
                 if(mkdir(QFile::encodeName( pipeInfo.path() ), m_perms | S_IXUSR) == -1) {
                     qCritical() << "Could not create directory for pipe";
                     continue;

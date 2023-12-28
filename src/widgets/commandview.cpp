@@ -86,7 +86,7 @@ void CommandViewToolBox::readCommandViewFiles()
 
     QStringList validCwlFiles;
 
-    for(QString file : KileConfig::completeTex()) {
+    for (const QString& file : KileConfig::completeTex()) {
         // check, if the wordlist has to be read
         const QString validCwlFile = manager->validCwlFile(file);
 
@@ -97,7 +97,7 @@ void CommandViewToolBox::readCommandViewFiles()
 
     std::sort(validCwlFiles.begin(), validCwlFiles.end());
 
-    for(QString cwlFile : qAsConst(validCwlFiles)) {
+    for (const QString& cwlFile : qAsConst(validCwlFiles)) {
         m_cwlFilesComboBox->addItem(cwlFile, cwlFile);
     }
 

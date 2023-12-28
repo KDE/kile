@@ -295,7 +295,7 @@ void Manager::writeConfig()
     KConfigGroup configGroup = m_config->group("Scripts");
     for(const Script *script : qAsConst(m_jScriptList)) {
         QString seq = script->getKeySequence();
-        QString sequenceEntry = (seq.isEmpty()) ? seq : QString("%1-%2").arg(QString::number(script->getSequenceType())).arg(seq);
+        QString sequenceEntry = (seq.isEmpty()) ? seq : QString("%1-%2").arg(QString::number(script->getSequenceType()), seq);
         configGroup.writeEntry("Script" + QString::number(script->getID()) + "KeySequence", sequenceEntry);
     }
 }

@@ -17,9 +17,10 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QDBusConnectionInterface>
+#include <QDBusInterface>
 #include <QDir>
 #include <QFile>
-#include <QtDBus>
 #include <QFileInfo>
 #include <QTextCodec>
 #include <QUrl>

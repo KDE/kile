@@ -73,7 +73,7 @@ ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int st
                 itemcolor = "#FFA201";
             }
         }
-        rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor).arg(tests[i]->name()).arg(tests[i]->resultText());
+        rt += QString("<li><b><font color=\"%1\">%2</font></b>: &nbsp;%3</li>").arg(itemcolor, tests[i]->name(), tests[i]->resultText());
     }
     rt += "</ul>";
 
@@ -89,7 +89,7 @@ ResultItem::ResultItem(QListWidget *listWidget, const QString &toolGroup, int st
         }
     }
 
-    setData(Qt::UserRole, rt.arg(color).arg(toolGroup).arg(statustr));
+    setData(Qt::UserRole, rt.arg(color, toolGroup, statustr));
 
     //this is for sorting only
     setText(QString::number(status) + ':' + toolGroup);

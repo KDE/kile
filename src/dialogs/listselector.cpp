@@ -205,11 +205,11 @@ void ManageCompletionFilesDialog::fillTreeView() {
     foreach(QString filename, list) {
         QString expectedLocalPath = m_localCompletionDirectory + '/' + filename;
         QString expectedGlobalPath = m_globalCompletionDirectory + '/' + filename;
-        if (QFileInfo(expectedLocalPath).exists() && QFileInfo(expectedLocalPath).isReadable()) {
+        if (QFileInfo::exists(expectedLocalPath) && QFileInfo(expectedLocalPath).isReadable()) {
             QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("yes"));
             item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
         }
-        else if (QFileInfo(expectedGlobalPath).exists() && QFileInfo(expectedGlobalPath).isReadable()) {
+        else if (QFileInfo::exists(expectedGlobalPath) && QFileInfo(expectedGlobalPath).isReadable()) {
             QTreeWidgetItem* item = new QTreeWidgetItem(m_listView, QStringList() << filename << i18n("no"));
             item->setCheckState(2, previouslySelectedItems.contains(filename) ? Qt::Checked : Qt::Unchecked);
         }

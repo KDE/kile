@@ -524,7 +524,7 @@ bool KileProject::load()
     const QStringList groups = m_config->groupList();
 
     //retrieve all the project files and create and initialize project items for them
-    for (auto group : groups) {
+    for (const auto& group : groups) {
         if(!m_config->hasGroup(group)) { // 'group' might have been deleted
             continue;                // work around bug 384039
         }
@@ -648,7 +648,7 @@ void KileProject::removeConfigGroupsForItem(KileProjectItem *projectItem)
 {
     QString itemString = "item:" + projectItem->path();
     const QStringList groupList = m_config->groupList();
-    for(auto groupName : groupList) {
+    for (const auto& groupName : groupList) {
         if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
             continue;                    // work around bug 384039
         }
@@ -976,7 +976,7 @@ bool KileProject::migrateProjectFileToVersion3()
             << QStringLiteral("kile_livePreviewTool");
 
     const QStringList groups = m_config->groupList();
-    for(auto groupName : groups) {
+    for (const auto& groupName : groups) {
         if(!m_config->hasGroup(groupName)) { // 'groupName' might have been deleted
             continue;                    // work around bug 384039
         }

@@ -523,7 +523,7 @@ QStringList toolList(KConfig *config, bool menuOnly)
     QRegExp re = QRegExp("Tool/(.+)/.+");
     QString name;
 
-    for(auto group : groups) {
+    for (const auto& group : groups) {
         if(!config->hasGroup(group)) { // 'group' might have been deleted
             continue;                // work around bug 384039
         }
@@ -553,7 +553,7 @@ QList<ToolConfigPair> toolsWithConfigurationsBasedOnClass(KConfig *config, const
     QRegExp re = QRegExp("Tool/(.+)/(.+)");
     QList<ToolConfigPair> toReturn;
 
-    for(auto group : groups) {
+    for (const auto& group : groups) {
         if(!config->hasGroup(group)) { // 'group' might have been deleted
             continue;                // work around bug 384039
         }
@@ -634,7 +634,7 @@ QStringList configNames(const QString &tool, KConfig *config)
 
     QRegExp re = QRegExp("Tool/"+ tool +"/(.+)");
 
-    for(auto group : groups) {
+    for (const auto& group : groups) {
         if(!config->hasGroup(group)) { // 'group' might have been deleted
             continue;                // work around bug 384039
         }

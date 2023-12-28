@@ -401,7 +401,7 @@ ParserOutput* LaTeXParser::parse()
                             }
                             if(!optArg.isEmpty()) {
                                 if((*it).type == KileStruct::NewEnvironment) {
-                                    parserOutput->newCommands.append(QString("\\begin{%1}%2%3").arg(m).arg(optArg).arg(mandArgs));
+                                    parserOutput->newCommands.append(QString("\\begin{%1}%2%3").arg(m, optArg, mandArgs));
                                 }
                                 else {
                                     parserOutput->newCommands.append(m + optArg + mandArgs);
@@ -409,7 +409,7 @@ ParserOutput* LaTeXParser::parse()
                             }
                         }
                         if((*it).type == KileStruct::NewEnvironment) {
-                            parserOutput->newCommands.append(QString("\\begin{%1}%3").arg(m).arg(mandArgs));
+                            parserOutput->newCommands.append(QString("\\begin{%1}%3").arg(m, mandArgs));
                             parserOutput->newCommands.append(QString("\\end{%1}").arg(m));
                         }
                         else {

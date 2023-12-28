@@ -126,14 +126,14 @@ void Factory::resetToolConfigurations()
     m_config->deleteGroup(QLatin1String("ToolsGUI"));
 
     // we delete all the groups whose names start with "Tool/";
-    for(QString groupName : m_config->groupList()) {
+    for (const QString& groupName : m_config->groupList()) {
         if(groupName.startsWith(QLatin1String("Tool/"))) {
             m_config->deleteGroup(groupName);
         }
     }
 
     // now we copy all the "Tool/" groups, the "Tools", and "ToolsGUI" groups over
-    for(QString groupName : stdToolConfig.groupList()) {
+    for (const QString& groupName : stdToolConfig.groupList()) {
         if(groupName != SHORTCUTS_GROUP_NAME) {
             KConfigGroup configGroup = stdToolConfig.group(groupName);
             m_config->deleteGroup(groupName);
@@ -146,7 +146,7 @@ void Factory::resetToolConfigurations()
 static void transferKeyStringPairsStartingWith(KConfigGroup& src, KConfigGroup& target, const QString& startsWith)
 {
     const QStringList keyList = src.keyList();
-    for(QString key : keyList) {
+    for (const QString& key : keyList) {
         if(key.startsWith(startsWith)) {
             QString value = src.readEntry(key, QString());
             target.writeEntry(key, value);
@@ -159,7 +159,7 @@ void Factory::installStandardLivePreviewTools()
     KConfig stdToolConfig(m_standardToolConfigurationFileName, KConfig::NoGlobals);
 
     const QStringList groupList = stdToolConfig.groupList();
-    for(QString groupName : groupList) {
+    for (const QString& groupName : groupList) {
         if(groupName.startsWith(QStringLiteral("Tool/LivePreview"))) {
             KConfigGroup configGroup = stdToolConfig.group(groupName);
             m_config->deleteGroup(groupName);

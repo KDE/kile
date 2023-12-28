@@ -370,13 +370,13 @@ void KileNewProjectDialog::handleOKButtonClicked()
     testDirectoryIsUsable(projectDir);
     testDirectoryIsUsable(guiFileDir);
 
-    if (QFileInfo(projectFilePath).exists()) { // this can only happen when the project dir existed already
+    if (QFileInfo::exists(projectFilePath)) { // this can only happen when the project dir existed already
         KMessageBox::error(this, i18n("The project file exists already. Please choose another name."), i18n("Project File Already Exists"));
         return;
     }
 
     const QString guiProjectFilePath = KileProject::getPathForGUISettingsProjectFile(projectFilePath);
-    if (QFileInfo(guiProjectFilePath).exists()) { // this can only happen when the project dir existed already
+    if (QFileInfo::exists(guiProjectFilePath)) { // this can only happen when the project dir existed already
         KMessageBox::error(this, i18n("The GUI settings file exists already. Please choose another project name."), i18n("Project File Already Exists"));
         return;
     }
@@ -391,7 +391,7 @@ void KileNewProjectDialog::handleOKButtonClicked()
             m_file->setText(validURL.fileName());
         }
 
-        if(QFileInfo(projectDir.filePath(fileString)).exists()) {
+        if(QFileInfo::exists(projectDir.filePath(fileString))) {
             if (KMessageBox::warningTwoActions(this, i18n("The file \"%1\" already exists, overwrite it?", fileString), i18n("File Already Exists"),
                                                KStandardGuiItem::overwrite(), KStandardGuiItem::cancel()) == KMessageBox::SecondaryAction) {
                 return;

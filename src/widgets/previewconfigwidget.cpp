@@ -92,7 +92,7 @@ KileWidgetPreviewConfig::KileWidgetPreviewConfig(KConfig *config, KileTool::Quic
     QString tool1 = i18n("dvi --> png") + sep + i18n("(uses dvipng)");
     QString tool2 = i18n("dvi --> ps --> png") + sep + i18n("(uses dvips/convert)");
     QString tool3 = i18n("pdf --> png") + sep + i18n("(uses convert)");
-    QString description = QString("%1:<ul><li>%2<li>%3<li>%4</ul>").arg(title).arg(tool1).arg(tool2).arg(tool3);
+    QString description = QString("%1:<ul><li>%2<li>%3<li>%4</ul>").arg(title, tool1, tool2, tool3);
 
     QLabel *labelDescription = new QLabel(description, gbResolution);
     QLabel *labelDvipng = new QLabel(i18n("dvipng:"), gbResolution);

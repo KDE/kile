@@ -76,7 +76,7 @@ PostscriptDialog::PostscriptDialog(QWidget *parent,
                 QString basename = psfilename = texfilename.left(texfilename.length() - (*it).length());
                 psfilename = basename + ".ps";
                 psoutfilename = basename + "-out.ps";
-                if (!QFileInfo(psfilename).exists())
+                if (!QFileInfo::exists(psfilename))
                     psfilename.clear();
                 break;
             }

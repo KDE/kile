@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-17 00:42+0000\n"
+"POT-Creation-Date: 2023-12-29 00:41+0000\n"
 "PO-Revision-Date: 2023-11-10 16:26+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
@@ -355,7 +355,7 @@ msgstr ""
 msgid "Configure"
 msgstr "Nastavit"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:106
+#: dialogs/configurationdialog.cpp:69 main.cpp:107
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -1557,8 +1557,8 @@ msgstr "Správa místních doplňovacích souborů pomocí správce souborů"
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:198
-#: widgets/codecompletionconfigwidget.cpp:357
+#: widgets/codecompletionconfigwidget.cpp:196
+#: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
 msgid "yes"
 msgstr "ano"
@@ -1567,8 +1567,8 @@ msgstr "ano"
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:203
-#: widgets/codecompletionconfigwidget.cpp:360
+#: widgets/codecompletionconfigwidget.cpp:200
+#: widgets/codecompletionconfigwidget.cpp:356
 #, kde-format
 msgid "no"
 msgstr "ne"
@@ -4605,8 +4605,8 @@ msgstr "Vymaže obsah vybraných buněk, a obnoví původní formátovací atrib
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Vloží tabulku uloženou ve schránce do tohoto průvodce."
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4615,8 +4615,8 @@ msgstr ""
 "Zadání nové velikosti tabulky způsobí smazání obsahu. Opravdu si přejete "
 "zadat novou velikost?"
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "Měním velikost tabulky"
@@ -10812,148 +10812,148 @@ msgstr "Nelze vytvořit podadresář"
 msgid "LivePreview"
 msgstr "Živý náhled"
 
-#: main.cpp:62
+#: main.cpp:63
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.tex"
 
-#: main.cpp:107
+#: main.cpp:108
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "Integrované prostředí pro LaTeX v KDE"
 
-#: main.cpp:109
+#: main.cpp:110
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "od Týmu Kile (2003 - %1)"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Správce/vývojář projektu"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Developer"
 msgstr "Vývojář"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Former Developer"
 msgstr "Bývalý vývojář"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Bývalý správce/vývojář"
 
-#: main.cpp:116
+#: main.cpp:117
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Přechod ze Subversion na Git"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, různá vylepšení a opravy chyb"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "KatePart Integration"
 msgstr "Začlenění KatePart"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Log Parsing"
 msgstr "Rozbor výstupních záznamů"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Okno pro hledání v souborech"
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:123 main.cpp:124
+#: main.cpp:124 main.cpp:125
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentace"
 
-#: main.cpp:124
+#: main.cpp:125
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid "Jump to line"
 msgstr "Přechod na řádek"
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Začít s novým hlavním oknem Kile"
 
-#: main.cpp:145
+#: main.cpp:146
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -10962,7 +10962,7 @@ msgid ""
 "Please install the Okular library before running Kile."
 msgstr ""
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "Okular library not found"
 msgstr "Knihovnu Okular nelze nalézt"
@@ -11384,23 +11384,23 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/codecompletionconfigwidget.cpp:95
-#: widgets/codecompletionconfigwidget.cpp:330
+#: widgets/codecompletionconfigwidget.cpp:326
 #: widgets/codecompletionconfigwidget.ui:99
 #, kde-format
 msgid "Completion Files"
 msgstr "Doplňovací soubory"
 
-#: widgets/codecompletionconfigwidget.cpp:207
+#: widgets/codecompletionconfigwidget.cpp:204
 #, kde-format
 msgid "File not found"
 msgstr "Soubor nenalezen"
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Wordlist '%1' contains duplicate entries."
 msgstr "Slovní seznam '%1' obsahuje duplikáty."
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Completion"
 msgstr "Doplňování"

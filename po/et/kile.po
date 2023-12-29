@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-17 00:42+0000\n"
+"POT-Creation-Date: 2023-12-29 00:41+0000\n"
 "PO-Revision-Date: 2019-12-30 17:01+0200\n"
 "Last-Translator: Marek Laane <qiilaq69@gmail.com>\n"
 "Language-Team: Estonian <kde-et@lists.linux.ee>\n"
@@ -356,7 +356,7 @@ msgstr ""
 msgid "Configure"
 msgstr "Seadistamine"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:106
+#: dialogs/configurationdialog.cpp:69 main.cpp:107
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -1567,8 +1567,8 @@ msgstr "Kohalike lõpetusfailide haldamine failihalduris"
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:198
-#: widgets/codecompletionconfigwidget.cpp:357
+#: widgets/codecompletionconfigwidget.cpp:196
+#: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
 msgid "yes"
 msgstr "jah"
@@ -1577,8 +1577,8 @@ msgstr "jah"
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:203
-#: widgets/codecompletionconfigwidget.cpp:360
+#: widgets/codecompletionconfigwidget.cpp:200
+#: widgets/codecompletionconfigwidget.cpp:356
 #, kde-format
 msgid "no"
 msgstr "ei"
@@ -4614,8 +4614,8 @@ msgstr "Valitud lahtritest teksti puhatamine ja atribuutide lähtestamine."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Lõikepuhvrisse salvestatud tabeli asetamine nõustajasse."
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4623,8 +4623,8 @@ msgid ""
 msgstr ""
 "Tabelile uue suuruse määramine kustutab sisu. Kas tõesti määrata uus suurus?"
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "Tabeli suuruse muutmine"
@@ -10855,148 +10855,148 @@ msgstr "Alamkataloogistruktuuri loomine nurjus"
 msgid "LivePreview"
 msgstr "Reaalajas eelvaatlus"
 
-#: main.cpp:62
+#: main.cpp:63
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.tex"
 
-#: main.cpp:107
+#: main.cpp:108
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE integreeritud LaTeXi keskkond"
 
-#: main.cpp:109
+#: main.cpp:110
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "Kile meeskond (2003 - %1)"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Projekti haldaja/arendaja"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Developer"
 msgstr "Arendaja"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Former Developer"
 msgstr "Endine arendaja"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Endine hooldaja ja arendaja"
 
-#: main.cpp:116
+#: main.cpp:117
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Üleviimine Subversionist Gitti"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, mitmesugused vigade ja muud parandused"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "KatePart Integration"
 msgstr "Kate komponendi lõimimine"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Log Parsing"
 msgstr "Logi parsimine"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Failides otsimise dialoog"
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:123 main.cpp:124
+#: main.cpp:124 main.cpp:125
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentatsioon"
 
-#: main.cpp:124
+#: main.cpp:125
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid "Jump to line"
 msgstr "Hüpe reale"
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Kile uue peaakna käivitamine"
 
-#: main.cpp:145
+#: main.cpp:146
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "Avatavad failid / standardsisendi lugemiseks anna '-'"
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11009,7 +11009,7 @@ msgstr ""
 "\n"
 "Palun paigalda enne Kile käivitamist Okulari teek."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "Okular library not found"
 msgstr "Okulari teeki ei leitud"
@@ -11429,23 +11429,23 @@ msgstr "Valitud lõpetusfailide LaTeXi käskude näitamine külgribal"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/codecompletionconfigwidget.cpp:95
-#: widgets/codecompletionconfigwidget.cpp:330
+#: widgets/codecompletionconfigwidget.cpp:326
 #: widgets/codecompletionconfigwidget.ui:99
 #, kde-format
 msgid "Completion Files"
 msgstr "Lõpetamisfailid"
 
-#: widgets/codecompletionconfigwidget.cpp:207
+#: widgets/codecompletionconfigwidget.cpp:204
 #, kde-format
 msgid "File not found"
 msgstr "Faili ei leitud"
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Wordlist '%1' contains duplicate entries."
 msgstr "Sõnade nimekiri '%1' sisaldab topeltkirjeid."
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Completion"
 msgstr "Lõpetamine"

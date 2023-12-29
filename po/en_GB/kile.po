@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-17 00:42+0000\n"
+"POT-Creation-Date: 2023-12-29 00:41+0000\n"
 "PO-Revision-Date: 2022-08-07 11:03+0100\n"
 "Last-Translator: Steve Allewell <steve.allewell@gmail.com>\n"
 "Language-Team: British English <kde-l10n-en_gb@kde.org>\n"
@@ -357,7 +357,7 @@ msgstr ""
 msgid "Configure"
 msgstr "Configure"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:106
+#: dialogs/configurationdialog.cpp:69 main.cpp:107
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -1569,8 +1569,8 @@ msgstr "Manage the local completion files in the file manager"
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:198
-#: widgets/codecompletionconfigwidget.cpp:357
+#: widgets/codecompletionconfigwidget.cpp:196
+#: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
 msgid "yes"
 msgstr "yes"
@@ -1579,8 +1579,8 @@ msgstr "yes"
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:203
-#: widgets/codecompletionconfigwidget.cpp:360
+#: widgets/codecompletionconfigwidget.cpp:200
+#: widgets/codecompletionconfigwidget.cpp:356
 #, kde-format
 msgid "no"
 msgstr "no"
@@ -4618,8 +4618,8 @@ msgstr "Clears the text of the selected cells and resets the attributes."
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr "Pastes a table stored in the clipboard into this wizard."
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
@@ -4628,8 +4628,8 @@ msgstr ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr "Resizing table"
@@ -10880,148 +10880,148 @@ msgstr "Failed to create the subdirectory structure"
 msgid "LivePreview"
 msgstr "LivePreview"
 
-#: main.cpp:62
+#: main.cpp:63
 #, kde-format
 msgid "StandardInput.tex"
 msgstr "StandardInput.tex"
 
-#: main.cpp:107
+#: main.cpp:108
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE Integrated LaTeX Environment"
 
-#: main.cpp:109
+#: main.cpp:110
 #, kde-format
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "by the Kile Team (2003 - %1)"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Project Management/Developer"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Developer"
 msgstr "Developer"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Former Developer"
 msgstr "Former Developer"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Former Maintainer/Developer"
 
-#: main.cpp:116
+#: main.cpp:117
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Migration from Subversion to Git"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, Various Improvements and Bug-Fixing"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "KatePart Integration"
 msgstr "KatePart Integration"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Log Parsing"
 msgstr "Log Parsing"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Find-in-Files Dialogue"
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:123 main.cpp:124
+#: main.cpp:124 main.cpp:125
 #, kde-format
 msgid "Documentation"
 msgstr "Documentation"
 
-#: main.cpp:124
+#: main.cpp:125
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid "Jump to line"
 msgstr "Jump to line"
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Start a new Kile mainwindow"
 
-#: main.cpp:145
+#: main.cpp:146
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr "Files to open / specify '-' to read from standard input"
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -11034,7 +11034,7 @@ msgstr ""
 "\n"
 "Please install the Okular library before running Kile."
 
-#: main.cpp:178
+#: main.cpp:179
 #, kde-format
 msgid "Okular library not found"
 msgstr "Okular library not found"
@@ -11455,23 +11455,23 @@ msgstr "Show LaTeX commands of the selected completion files in the sidebar"
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/codecompletionconfigwidget.cpp:95
-#: widgets/codecompletionconfigwidget.cpp:330
+#: widgets/codecompletionconfigwidget.cpp:326
 #: widgets/codecompletionconfigwidget.ui:99
 #, kde-format
 msgid "Completion Files"
 msgstr "Completion Files"
 
-#: widgets/codecompletionconfigwidget.cpp:207
+#: widgets/codecompletionconfigwidget.cpp:204
 #, kde-format
 msgid "File not found"
 msgstr "File not found"
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Wordlist '%1' contains duplicate entries."
 msgstr "Wordlist '%1' contains duplicate entries."
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Completion"
 msgstr "Completion"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-17 00:42+0000\n"
+"POT-Creation-Date: 2023-12-29 00:41+0000\n"
 "PO-Revision-Date: 2017-06-25 14:30+0200\n"
 "Last-Translator: Mindaugas Baranauskas <opensuse.lietuviu.kalba@gmail.com>\n"
 "Language-Team: Lithuanian <kde-i18n-lt@kde.org>\n"
@@ -352,7 +352,7 @@ msgstr "Failas %1/%2 neegzistuoja. Jei nustebote, patikrinkite failo leidimus."
 msgid "Configure"
 msgstr "Konfigūruoti"
 
-#: dialogs/configurationdialog.cpp:69 main.cpp:106
+#: dialogs/configurationdialog.cpp:69 main.cpp:107
 #, kde-format
 msgid "Kile"
 msgstr "Kile"
@@ -1553,8 +1553,8 @@ msgstr ""
 #: dialogs/listselector.cpp:209 dialogs/listselector.cpp:263
 #: dialogs/listselector.cpp:268 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:198
-#: widgets/codecompletionconfigwidget.cpp:357
+#: widgets/codecompletionconfigwidget.cpp:196
+#: widgets/codecompletionconfigwidget.cpp:353
 #, kde-format
 msgid "yes"
 msgstr "taip"
@@ -1563,8 +1563,8 @@ msgstr "taip"
 #: dialogs/listselector.cpp:213 dialogs/pdf-wizard/pdfdialog.cpp:283
 #: dialogs/pdf-wizard/pdfdialog.cpp:945
 #: dialogs/pdf-wizard/pdfdialog_base.ui:518 dialogs/postscriptdialog.cpp:219
-#: widgets/codecompletionconfigwidget.cpp:203
-#: widgets/codecompletionconfigwidget.cpp:360
+#: widgets/codecompletionconfigwidget.cpp:200
+#: widgets/codecompletionconfigwidget.cpp:356
 #, kde-format
 msgid "no"
 msgstr "ne"
@@ -4560,16 +4560,16 @@ msgstr ""
 msgid "Pastes a table stored in the clipboard into this wizard."
 msgstr ""
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid ""
 "Setting the new size for the table will delete content. Are you sure to set "
 "the new size?"
 msgstr ""
 
-#: dialogs/tabular/newtabulardialog.cpp:658
-#: dialogs/tabular/newtabulardialog.cpp:680
+#: dialogs/tabular/newtabulardialog.cpp:654
+#: dialogs/tabular/newtabulardialog.cpp:676
 #, kde-format
 msgid "Resizing table"
 msgstr ""
@@ -10599,149 +10599,149 @@ msgstr "Nepavyko sukurti šablono."
 msgid "LivePreview"
 msgstr "Peržiūra"
 
-#: main.cpp:62
+#: main.cpp:63
 #, kde-format
 msgid "StandardInput.tex"
 msgstr ""
 
-#: main.cpp:107
+#: main.cpp:108
 #, kde-format
 msgid "KDE Integrated LaTeX Environment"
 msgstr "KDE integruota LaTeX aplinka"
 
-#: main.cpp:109
+#: main.cpp:110
 #, fuzzy, kde-format
 #| msgid "by the Kile Team (2003 - 2016)"
 msgctxt "the parameter is the last copyright year"
 msgid "by the Kile Team (2003 - %1)"
 msgstr "Kile komanda (2003 - 2016)"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Michel Ludwig"
 msgstr "Michel Ludwig"
 
-#: main.cpp:112
+#: main.cpp:113
 #, kde-format
 msgid "Project Management/Developer"
 msgstr "Projekto tvarkymas/programuotojas"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Holger Danielsson"
 msgstr "Holger Danielsson"
 
-#: main.cpp:113
+#: main.cpp:114
 #, kde-format
 msgid "Developer"
 msgstr "Programuotojas"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Thomas Braun"
 msgstr "Thomas Braun"
 
-#: main.cpp:114
+#: main.cpp:115
 #, kde-format
 msgid "Former Developer"
 msgstr "Ankstesnis programuotojas"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Jeroen Wijnhout"
 msgstr "Jeroen Wijnhout"
 
-#: main.cpp:115
+#: main.cpp:116
 #, kde-format
 msgid "Former Maintainer/Developer"
 msgstr "Ankstesnis prižiūrėtojas/programuotojas"
 
-#: main.cpp:116
+#: main.cpp:117
 #, kde-format
 msgid "Brachet Pascal"
 msgstr "Brachet Pascal"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Andrius Štikonas"
 msgstr "Andrius Štikonas"
 
-#: main.cpp:118
+#: main.cpp:119
 #, kde-format
 msgid "Migration from Subversion to Git"
 msgstr "Migravimas iš Subversion į Git"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "Simon Martin"
 msgstr "Simon Martin"
 
-#: main.cpp:119
+#: main.cpp:120
 #, kde-format
 msgid "KConfig XT, Various Improvements and Bug-Fixing"
 msgstr "KConfig XT, įvairūs patobulinimai ir ydų taisymas"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "Roland Schulz"
 msgstr "Roland Schulz"
 
-#: main.cpp:120
+#: main.cpp:121
 #, kde-format
 msgid "KatePart Integration"
 msgstr "KatePart integravimas"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Thorsten Lück"
 msgstr "Thorsten Lück"
 
-#: main.cpp:121
+#: main.cpp:122
 #, kde-format
 msgid "Log Parsing"
 msgstr "Žurnalo nagrinėjimas"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Jan-Marek Glogowski"
 msgstr "Jan-Marek Glogowski"
 
-#: main.cpp:122
+#: main.cpp:123
 #, kde-format
 msgid "Find-in-Files Dialog"
 msgstr "Rasti failuose dialogas"
 
-#: main.cpp:123
+#: main.cpp:124
 #, kde-format
 msgid "Jonathan Pechta"
 msgstr "Jonathan Pechta"
 
-#: main.cpp:123 main.cpp:124
+#: main.cpp:124 main.cpp:125
 #, kde-format
 msgid "Documentation"
 msgstr "Dokumentacija"
 
-#: main.cpp:124
+#: main.cpp:125
 #, kde-format
 msgid "Federico Zenith"
 msgstr "Federico Zenith"
 
-#: main.cpp:142
+#: main.cpp:143
 #, kde-format
 msgid "Jump to line"
 msgstr ""
 
-#: main.cpp:143
+#: main.cpp:144
 #, kde-format
 msgid "Start a new Kile mainwindow"
 msgstr "Paleidžia naują Kile pagrindinį langą"
 
-#: main.cpp:145
+#: main.cpp:146
 #, kde-format
 msgid "Files to open / specify '-' to read from standard input"
 msgstr ""
 
-#: main.cpp:176
+#: main.cpp:177
 #, kde-format
 msgid ""
 "Kile cannot start as a recent version the Okular library could not be "
@@ -10750,7 +10750,7 @@ msgid ""
 "Please install the Okular library before running Kile."
 msgstr ""
 
-#: main.cpp:178
+#: main.cpp:179
 #, fuzzy, kde-format
 msgid "Okular library not found"
 msgstr "Prašom pasirinkti dokumento, kurį norite sukurti, tipą:"
@@ -11167,23 +11167,23 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/codecompletionconfigwidget.cpp:95
-#: widgets/codecompletionconfigwidget.cpp:330
+#: widgets/codecompletionconfigwidget.cpp:326
 #: widgets/codecompletionconfigwidget.ui:99
 #, kde-format
 msgid "Completion Files"
 msgstr "Užbaigimo failai"
 
-#: widgets/codecompletionconfigwidget.cpp:207
+#: widgets/codecompletionconfigwidget.cpp:204
 #, kde-format
 msgid "File not found"
 msgstr "Failas nerastas"
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Wordlist '%1' contains duplicate entries."
 msgstr ""
 
-#: widgets/codecompletionconfigwidget.cpp:278
+#: widgets/codecompletionconfigwidget.cpp:274
 #, kde-format
 msgid "Completion"
 msgstr "Užbaigimas"

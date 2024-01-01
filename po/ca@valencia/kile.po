@@ -12992,7 +12992,7 @@ msgstr "Només &l'etiqueta"
 #: widgets/structurewidget.cpp:816
 #, kde-format
 msgid "Copy Label to Clipboard"
-msgstr "Copia l'etiqueta al porta-retalls"
+msgstr "Copia l'etiqueta a dins del porta-retalls"
 
 #: widgets/structurewidget.cpp:817
 #, kde-format

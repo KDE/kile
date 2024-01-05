@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:41+0000\n"
-"PO-Revision-Date: 2024-01-03 14:17+0100\n"
+"PO-Revision-Date: 2024-01-04 17:19+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -11936,7 +11936,7 @@ msgstr "Kompilu dokumentojn kiam ajn &estas ŝanĝoj poste"
 #: widgets/livepreviewconfigwidget.ui:70
 #, kde-format
 msgid " ms"
-msgstr "ms"
+msgstr " ms"
 
 #. i18n: ectx: property (text), widget (QLabel, m_previewDefaultToolLabel)
 #: widgets/livepreviewconfigwidget.ui:104

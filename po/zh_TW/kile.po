@@ -1,20 +1,21 @@
 #
 # Franklin Weng <franklin@goodhorse.idv.tw>, 2011, 2012.
 # pan93412 <pan93412@gmail.com>, 2019, 2020.
+# SPDX-FileCopyrightText: 2024 Kisaragi Hiu <mail@kisaragi-hiu.com>
 msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:41+0000\n"
-"PO-Revision-Date: 2020-01-16 14:40+0800\n"
-"Last-Translator: pan93412 <pan93412@gmail.com>\n"
-"Language-Team: Chinese <zh-l10n@lists.linux.org.tw>\n"
+"PO-Revision-Date: 2024-01-22 17:59+0900\n"
+"Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
+"Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Lokalize 19.12.1\n"
+"X-Generator: Lokalize 23.08.4\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -4255,10 +4256,9 @@ msgstr ""
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbShortcut)
 #: dialogs/scriptshortcutdialog_base.ui:106
 #: dialogs/usermenu/usermenudialog.cpp:53
-#, fuzzy, kde-format
-#| msgid "Short"
+#, kde-format
 msgid "Shortcut"
-msgstr "短"
+msgstr "捷徑"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbKeySequence)
 #: dialogs/scriptshortcutdialog_base.ui:134
@@ -5155,10 +5155,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSave)
 #: dialogs/usermenu/usermenudialog_base.ui:276
-#, fuzzy, kde-format
-#| msgid "&Save"
+#, kde-format
 msgid "Save"
-msgstr "儲存(&S)"
+msgstr "儲存"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:283
@@ -5170,17 +5169,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbSaveAs)
 #: dialogs/usermenu/usermenudialog_base.ui:286
-#, fuzzy, kde-format
-#| msgid "Save All"
+#, kde-format
 msgid "Save as"
-msgstr "全部儲存"
+msgstr "另存新檔"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbXmlInstalled)
 #: dialogs/usermenu/usermenudialog_base.ui:352
-#, fuzzy, kde-format
-#| msgid "installed"
+#, kde-format
 msgid "(installed)"
-msgstr "已安裝"
+msgstr "(已安裝)"
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:375
@@ -5190,31 +5187,27 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_pbNew)
 #: dialogs/usermenu/usermenudialog_base.ui:378
-#, fuzzy, kde-format
-#| msgid "New..."
+#, kde-format
 msgid "New"
-msgstr "新增..."
+msgstr "新增"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbText)
 #: dialogs/usermenu/usermenudialog_base.ui:420
-#, fuzzy, kde-format
-#| msgid "Text"
+#, kde-format
 msgid "Text:"
-msgstr "文字"
+msgstr "文字："
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbShortcut)
 #: dialogs/usermenu/usermenudialog_base.ui:452
-#, fuzzy, kde-format
-#| msgid "Short"
+#, kde-format
 msgid "Shortcut:"
-msgstr "短"
+msgstr "捷徑："
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbType)
 #: dialogs/usermenu/usermenudialog_base.ui:466
-#, fuzzy, kde-format
-#| msgid "&Type:"
+#, kde-format
 msgid "Type:"
-msgstr "類型(&T)："
+msgstr "類型："
 
 #. i18n: ectx: property (whatsThis), widget (KUrlRequester, m_urlRequester)
 #: dialogs/usermenu/usermenudialog_base.ui:473
@@ -6565,13 +6558,13 @@ msgstr "要開啟的圖形，若檔名未指定時，預設副檔名為何。"
 #: kile.kcfg:112
 #, kde-format
 msgid "What type of bibliography (bibtex or biblatex) kile should show."
-msgstr ""
+msgstr "要顯示哪種參考書目（bibtex 或 biblatex）。"
 
 #. i18n: ectx: label, entry (RunLyxServer), group (Tools)
 #: kile.kcfg:118
 #, kde-format
 msgid "Whether to run the Lyx server."
-msgstr ""
+msgstr "是否要執行 Lyx 伺服器。"
 
 #. i18n: ectx: label, entry (TeXPaths), group (Tools)
 #: kile.kcfg:122
@@ -12498,7 +12491,7 @@ msgstr "執行快速預覽"
 #: widgets/structurewidget.cpp:811
 #, kde-format
 msgid "Insert Label"
-msgstr ""
+msgstr "插入文字標籤"
 
 #: widgets/structurewidget.cpp:812
 #, kde-format
@@ -12691,17 +12684,15 @@ msgstr "安裝自訂檔案..."
 
 #. i18n: ectx: property (text), widget (QLabel, m_usermenuFile)
 #: widgets/usermenuconfigwidget.ui:69
-#, fuzzy, kde-format
-#| msgid "File"
+#, kde-format
 msgid "File "
-msgstr "檔案"
+msgstr "檔案 "
 
 #. i18n: ectx: property (title), widget (QGroupBox, groupBox_2)
 #: widgets/usermenuconfigwidget.ui:149
-#, fuzzy, kde-format
-#| msgid "Empty Location"
+#, kde-format
 msgid "Location"
-msgstr "空白位置"
+msgstr "位置"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_rbLaTeXMenuLocation)
 #: widgets/usermenuconfigwidget.ui:161

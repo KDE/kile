@@ -37,6 +37,7 @@
   <name xml:lang="uk">Kile</name>
   <name xml:lang="x-test">xxKilexx</name>
   <name xml:lang="zh-CN">Kile</name>
+  <name xml:lang="zh-TW">Kile</name>
   <summary>TeX/LaTeX Editor</summary>
   <summary xml:lang="ar">محرّر تخ/لاتخ</summary>
   <summary xml:lang="ca">Editor de TeX/LaTeX</summary>
@@ -69,6 +70,7 @@
   <summary xml:lang="uk">Редактор TeX/LaTeX</summary>
   <summary xml:lang="x-test">xxTeX/LaTeX Editorxx</summary>
   <summary xml:lang="zh-CN">TeX/LaTeX 编辑器</summary>
+  <summary xml:lang="zh-TW">TeX/LaTeX 編輯器</summary>
   <description>
     <p>
       Kile is a user-friendly TeX/LaTeX editor by KDE. Kile gives you the ability to use all the functionality of LaTeX in a graphical interface and has interactive preview mechanisms to readily see the results of editing.
@@ -133,6 +135,7 @@
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-CN">程序功能：</p>
+    <p xml:lang="zh-TW">功能：</p>
     <ul>
       <li>Compile, convert and view your document with one click</li>
       <li xml:lang="ar">صرّف مستنداتك وحوّلها واعرضها بنقرة واحدة</li>
@@ -476,6 +479,7 @@
       <li xml:lang="uk">Розширені команди редагування.</li>
       <li xml:lang="x-test">xxAdvanced editing commandsxx</li>
       <li xml:lang="zh-CN">高级编辑命令</li>
+      <li xml:lang="zh-TW">進階的編輯命令</li>
     </ul>
   </description>
   <screenshots>
@@ -510,6 +514,7 @@
       <caption xml:lang="uk">Редагування документа у Kile</caption>
       <caption xml:lang="x-test">xxDocument editing in Kilexx</caption>
       <caption xml:lang="zh-CN">Kile 文档编辑</caption>
+      <caption xml:lang="zh-TW">在 Kile 中編輯文件</caption>
       <image>https://cdn.kde.org/screenshots/kile/kile.png</image>
     </screenshot>
   </screenshots>

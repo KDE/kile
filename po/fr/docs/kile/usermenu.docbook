@@ -142,7 +142,7 @@
 	</screenshot>
 
 <para
->Sur la gauche, vous verrez une arborescence de menu. Tout comme dans un menu standand, trois types différents d'éléments de menu sont disponibles : </para>
+>Sur la gauche, vous verrez une arborescence de menu. Tout comme dans un menu standard, trois types différents d'éléments de menu sont disponibles : </para>
 
 <itemizedlist>
 <listitem
@@ -184,7 +184,7 @@
 ><para
 ><guilabel
 >Texte</guilabel
-> : &kile; vous donne la possibilité de faire vos propres balises. Une balise est similaire à un raccourci qui lance des commandes ou écrit des texte fréquemment utilisés. Par exemple, Monsieur Michu utilise souvent la phrase<userinput
+> : &kile; vous donne la possibilité de faire vos propres balises. Une balise est similaire à un raccourci qui lance des commandes ou écrit des texte fréquemment utilisés. Par exemple, Monsieur Martin utilise souvent la phrase<userinput
 >Salut, j'ai été inséré…</userinput
 >. Cette balise sera insérée à la position courante du curseur chaque fois que cette action est appelée (voir ci-dessus). Les métacaractères sont également disponibles (voir <xref linkend="id_usermenu_placeholders" role="select: title pageabbrv"/>).</para>
 </listitem>
@@ -414,7 +414,7 @@
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
->References</guimenuitem
+>Références</guimenuitem
 ><guimenuitem
 >ref</guimenuitem
 ></menuchoice
@@ -422,7 +422,7 @@
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
->References</guimenuitem
+>Références</guimenuitem
 ><guimenuitem
 >pageref</guimenuitem
 ></menuchoice
@@ -451,7 +451,7 @@
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
->References</guimenuitem
+>Références</guimenuitem
 ><guimenuitem
 >cite</guimenuitem
 ></menuchoice
@@ -513,7 +513,7 @@
 		</imageobject>
 		<textobject>
 		<phrase
->Execute an external program (%M)</phrase>
+>Exécuter un programme externe (%M)</phrase>
 		</textobject>
 		</mediaobject>
 	</screenshot>
@@ -569,7 +569,7 @@
 <para
 >Vous pouvez voir qu'un script <userinput
 >perl</userinput
-> est appelé, ce qui ne devrait pas fonctionner avec la sérection actuelle. Le paramètre <guilabel
+> est appelé, ce qui ne devrait pas fonctionner avec la sélection actuelle. Le paramètre <guilabel
 >Nécessite du texte sélectionné</guilabel
 > est coché pour s'assurer qu'il y a une sélection. La sortie de ce script sera insérée (<guilabel
 >Insérer la sortie du programme choisi</guilabel

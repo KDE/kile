@@ -88,7 +88,7 @@
 
 
 <para
->Les etiquetes definides per l'usuari ja existents de versions anteriors del &kile; es transformaran automàticament en el nou menú configurable per l'usuari. Les etiquetes es desen en un fitxer anomenat <filename
+>Les etiquetes definides per l'usuari ja existents de versions anteriors del &kile; es transformaran automàticament en el menú nou configurable per l'usuari. Les etiquetes es desen en un fitxer anomenat <filename
 >usertags.xml</filename
 > i igual que tots els fitxers de definició del menú, es poden trobar al directori de menú d'usuari local del &kile;: <filename
 >KILE_APP_DIR/usermenu/</filename
@@ -109,7 +109,7 @@
 ><guisubmenu
 >Edita el menú d'usuari</guisubmenu
 ></menuchoice
-> per instal·lar o modificar un fitxer de definició de menú.</para>
+> per a instal·lar o modificar un fitxer de definició de menú.</para>
 
 </sect1>
 
@@ -155,12 +155,12 @@
 ></listitem>
 <listitem
 ><para
->Separadors, per aconseguir una estructura visible de totes les entrades.</para
+>Separadors, per a aconseguir una estructura visible de totes les entrades.</para
 ></listitem>
 </itemizedlist>
 
 <para
->Per modificar aquest menú, utilitzeu els sis botons al costat esquerre. Són possibles més accions, disponibles al menú contextual dels elements de menú ja existents.</para>
+>Per a modificar aquest menú, utilitzeu els sis botons al costat esquerre. Són possibles més accions, disponibles al menú contextual dels elements de menú ja existents.</para>
 
 	<screenshot>
 		<screeninfo
@@ -274,7 +274,7 @@
 	</screenshot>
 
 <para
->Si obriu el menú contextual d'un element de menú en color vermell, obtindreu una opció addicional per obtenir més informació sobre aquest error.</para>
+>Si obriu el menú contextual d'un element de menú en color vermell, obtindreu una opció addicional per a obtenir més informació sobre aquest error.</para>
 
 	<screenshot>
 		<screeninfo
@@ -410,7 +410,7 @@
 <para
 ><userinput
 >%R</userinput
->:&nbsp; cridarà a un diàleg de referència per escollir una etiqueta que ja s'ha definit. Això es pot utilitzar per referir-se a una etiqueta predefinida, que podreu escollir des d'una llista desplegable (vegeu <menuchoice
+>:&nbsp; cridarà a un diàleg de referència per a escollir una etiqueta que ja s'ha definit. Això es pot utilitzar per a referir-se a una etiqueta predefinida, que podreu escollir des d'una llista desplegable (vegeu <menuchoice
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
@@ -447,7 +447,7 @@
 <para
 ><userinput
 >%T</userinput
->:&nbsp; cridarà un diàleg de cita per escollir una cita ja definida. El mateix que utilitzar <menuchoice
+>:&nbsp; cridarà un diàleg de cita per a escollir una cita ja definida. El mateix que utilitzar <menuchoice
 ><guimenu
 >LaTeX</guimenu
 ><guimenuitem
@@ -571,7 +571,7 @@
 >perl</userinput
 >, que ha de treballar amb la selecció actual. El paràmetre <guilabel
 >Necessitats el text seleccionat</guilabel
-> es marca per assegurar una selecció. La sortida d'aquest script s'inserirà (<guilabel
+> es marca per a assegurar una selecció. La sortida d'aquest script s'inserirà (<guilabel
 >Insereix la sortida del programa escollit</guilabel
 >) i substituirà a la selecció actual (<guilabel
 >Substitueix el text seleccionat</guilabel
@@ -604,7 +604,7 @@
 <para
 >Podeu instal·lar diferents menús en temps d'execució per a diferents tasques. Quan crideu l'assistent menú d'usuari, el fitxer de definició de menú actual serà carregat. Si el modifiqueu i tanqueu el diàleg amb <guibutton
 >D'acord</guibutton
->, els canvis es desaran i s'instal·laran com el nou menú d'usuari. Tanqueu el diàleg amb <guibutton
+>, els canvis es desaran i s'instal·laran com el menú nou d'usuari. Tanqueu el diàleg amb <guibutton
 >Cancel·la</guibutton
 > i es descartaran tots els canvis.</para>
 
@@ -624,14 +624,14 @@
 
 
 <para
->També sou lliure per desar el fitxer modificat al directori del menú d'usuari o per carregar un altre fitxer de definició del menú i instal·lar-lo. Tots els fitxers de definició del menú d'usuari s'han de desar al directori de menú d'usuari del &kile;: <filename
+>També sou lliure per a desar el fitxer modificat al directori del menú d'usuari o per a carregar un altre fitxer de definició del menú i instal·lar-lo. Tots els fitxers de definició del menú d'usuari s'han de desar al directori de menú d'usuari del &kile;: <filename
 >KILE_APP_DIR/usermenu/</filename
 >.</para>
 
 <para
 >Mireu l'exemple del fitxer de definició del menú <userinput
 >exemple.xml</userinput
-> per veure més entrades de menú amb els seus paràmetres.</para>
+> per a veure més entrades de menú amb els seus paràmetres.</para>
 
 </sect1>
 

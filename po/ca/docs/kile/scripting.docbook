@@ -380,7 +380,7 @@
 ></term>
 <listitem
 ><para
->Retorna un nou cursor no vàlid situat a <literal
+>Retorna un cursor nou no vàlid situat a <literal
 >(-1,-1)</literal
 >. </para
 ><para
@@ -1369,7 +1369,7 @@ void view.setCursorPosition(<parameter
 >wholeLines</parameter
 > és <literal
 >true</literal
-> (vertader), la primera i última línies del paràgraf seran incloses en la selecció (incloent-hi el caràcter de final de línia), en cas contrari, la selecció només contindrà caràcters sense espais en blanc. </para
+> (vertader), la primera i les últimes línies del paràgraf s'inclouran en la selecció (incloent-hi el caràcter de final de línia), en cas contrari, la selecció només contindrà caràcters sense espais en blanc. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -1580,7 +1580,7 @@ bool document.removeText(<parameter
 ></term>
 <listitem
 ><para
->Retorna el contingut complet del document en una cadena de text única. Els salts de línia estan marcats amb el caràcter de nova línia <literal
+>Retorna el contingut complet del document en una cadena de text única. Els salts de línia estan marcats amb el caràcter de línia nova <literal
 >\n</literal
 >. </para
 ></listitem>
@@ -3157,7 +3157,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Insereix marcadors de comentari per fer un comentari de la selecció o línia actual. </para
+>Insereix marcadors de comentari per a fer un comentari de la selecció o línia actual. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3269,7 +3269,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Comença un grup d'edició per agrupar desfer/refer. Assegureu-vos de cridar sempre <function
+>Comença un grup d'edició per a agrupar desfer/refer. Assegureu-vos de cridar sempre <function
 >editEnd()</function
 > tan aviat com crideu <function
 >editBegin()</function
@@ -3354,7 +3354,7 @@ int document.nextNonSpaceColumn(<parameter
 <para
 >L'objecte global (variable) «<userinput
 >kile</userinput
->» s'utilitza per manejar les interaccions del nivell principal amb el món exterior, missatge d'entrada i les interfícies de diàleg. Aquestes crides a l'API es divideixen en subobjectes per estructurar aquesta part de l'API per a la creació de scripts. Conceptualment, «<userinput
+>» s'utilitza per a manejar les interaccions del nivell principal amb el món exterior, missatge d'entrada i les interfícies de diàleg. Aquestes crides a l'API es divideixen en subobjectes per a estructurar aquesta part de l'API per a la creació de scripts. Conceptualment, «<userinput
 >kile</userinput
 >» és semblant a un objecte «<userinput
 >window</userinput
@@ -3632,11 +3632,11 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Funció per obtenir una cadena de l'usuari. <parameter
+>Funció per a obtenir una cadena de l'usuari. <parameter
 >llegenda</parameter
 > serà el text que es mostrarà a la barra de títol i <parameter
 >etiqueta</parameter
-> serà el text que apareixerà com a etiqueta per editar la línia. </para
+> serà el text que apareixerà com a etiqueta per a editar la línia. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3658,11 +3658,11 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Funció per obtenir una ordre de &latex; de l'usuari. Això vol dir que només es permeten lletres majúscules i minúscules. <parameter
+>Funció per a obtenir una ordre de &latex; de l'usuari. Això vol dir que només es permeten lletres majúscules i minúscules. <parameter
 >llegenda</parameter
 > serà el text que es mostrarà a la barra de títol i <parameter
 >etiqueta</parameter
-> serà el text que apareixerà com a etiqueta per editar la línia. </para
+> serà el text que apareixerà com a etiqueta per a editar la línia. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -3692,7 +3692,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Funció per obtenir un nombre enter de l'usuari. <parameter
+>Funció per a obtenir un nombre enter de l'usuari. <parameter
 >llegenda</parameter
 > serà el text que es mostrarà a la barra de títol i <parameter
 >etiqueta</parameter
@@ -3734,7 +3734,7 @@ int document.nextNonSpaceColumn(<parameter
 ></term>
 <listitem
 ><para
->Funció per obtenir un enter positiu de l'usuari. <parameter
+>Funció per a obtenir un enter positiu de l'usuari. <parameter
 >llegenda</parameter
 > serà el text que es mostrarà a la barra de títol i <parameter
 >etiqueta</parameter
@@ -3994,7 +3994,7 @@ int document.nextNonSpaceColumn(<parameter
 >missatge</literal
 > (vegeu <literal
 >read()</literal
-> per més informació). </para
+> per a més informació). </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -4014,7 +4014,7 @@ int document.nextNonSpaceColumn(<parameter
 ><para
 >El mateix que <literal
 >write(nom_fitxer,text)</literal
->, però sense donar cap fitxer. Apareixerà un diàleg per triar un nom de fitxer. </para
+>, però sense donar cap fitxer. Apareixerà un diàleg per a triar un nom de fitxer. </para
 ></listitem>
 </varlistentry
 ></variablelist>
@@ -4119,7 +4119,7 @@ int document.nextNonSpaceColumn(<parameter
 <programlisting
 >var range = document.environmentRange(false);
 if ( range.isValid() ) {
-        var envname = kile.input.getLatexCommand("Introduïu l'entorn","Nou nom de l'entorn:");
+        var envname = kile.input.getLatexCommand("Introduïu l'entorn","Nom nou de l'entorn:");
         if ( envname != '' ) {
                 replaceEnvCommand(envname,range);
         }

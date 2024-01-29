@@ -219,7 +219,7 @@
 >Requisits</title>
 
 		<para
->Per a executar el &kile;, haureu de tenir instal·lats els següents components al sistema:</para>
+>Per a executar el &kile;, haureu de tenir instal·lats els components següents al sistema:</para>
 
 		<itemizedlist>
 			<listitem
@@ -330,7 +330,7 @@
 >tech</emphasis
 >. Hi ha un moltes explicacions del perquè, però el més probable és perquè &tex; es va concebre originalment per a informes tècnics, i d'aquí que el seu principal punt fort fos la correcció i la facilitat escrivint fórmules matemàtiques, que llavors resultava extremadament car, llarga i frustrant.</para>
 			<para
->Se suposa que es pronuncia de la següent manera: <emphasis
+>Se suposa que es pronuncia de la manera següent: <emphasis
 >T</emphasis
 >, <emphasis
 >E</emphasis
@@ -514,7 +514,7 @@
 ><para
 >Xelatex: una modificació de la plantilla <userinput
 >Article</userinput
-> per utilitzar-la amb <userinput
+> per a utilitzar-la amb <userinput
 >XeLaTeX</userinput
 >.</para
 ></listitem>
@@ -524,7 +524,7 @@
 >Tingueu en compte que totes aquestes plantilles es poden ajustar a les necessitats de l'usuari.</para>
 
 			<para
->Els nous usuaris no s'han de preocupar: aquesta llista sols és una breu descripció de les característiques disponibles, i es pot trobar una descripció més detallada a <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
+>Els usuaris nous no s'han de preocupar: aquesta llista sols és una breu descripció de les característiques disponibles, i es pot trobar una descripció més detallada a <xref linkend="quickstart" role="select: title pageabbrv"/>.</para>
 
 		</sect2>
 
@@ -544,7 +544,7 @@
 >Compleció automàtica dels entorns</title>
 
 			<para
->La compleció automàtica dels entorns significa que quan s'inicia un nou entorn escrivint <userinput
+>La compleció automàtica dels entorns significa que quan s'inicia un entorn nou escrivint <userinput
 >\begin{environment}</userinput
 >, el &kile; automàticament afegirà una ordre coincident <userinput
 >\end{environment}</userinput
@@ -568,7 +568,7 @@
 >Saltar a un element de l'estructura</title>
 
 			<para
->Tots els documents normalment s'estructuren en una jerarquia d'algun tipus. &latex; us permet dividir els documents en la següent jerarquia (sent «part» la més alta a la jerarquia, i «subparàgraf» la més baixa):</para>
+>Tots els documents normalment s'estructuren en una jerarquia d'algun tipus. &latex; us permet dividir els documents en la jerarquia següent (sent «part» la més alta a la jerarquia, i «subparàgraf» la més baixa):</para>
 
 			<itemizedlist>
 				<listitem
@@ -800,7 +800,7 @@
 ><para
 ><guilabel
 >chapter</guilabel
-> (capítol): comença un nou capítol.</para
+> (capítol): comença un capítol nou.</para
 ></listitem>
 			<listitem
 ><para
@@ -824,20 +824,20 @@
 ><para
 ><guilabel
 >paragraph</guilabel
-> (paràgraf): crea un nou paràgraf.</para
+> (paràgraf): crea un paràgraf nou.</para
 ></listitem>
 			<listitem
 ><para
 ><guilabel
 >subparagraph</guilabel
-> (subparàgraf): crea un nou subparàgraf.</para
+> (subparàgraf): crea un subparàgraf nou.</para
 ></listitem>
 		</itemizedlist>
 
 		<para
 >La llista desplegable anomenada <guilabel
 >Altres</guilabel
->, s'utilitza per inserir elements al vostre document, com ara índexs, notes al peu i referències. Les ordres disponibles són les següents:</para>
+>, s'utilitza per a inserir elements al vostre document, com ara índexs, notes al peu i referències. Les ordres disponibles són les següents:</para>
 
 		<itemizedlist>
 			<listitem
@@ -1036,7 +1036,7 @@
 >, on la classe especifica el tipus de document.</para>
 
 		<para
->Escrivint el codi d'exemple anterior, el quadre de text donarà el següent resultat:</para>
+>Escrivint el codi d'exemple anterior, el quadre de text donarà el resultat següent:</para>
 
 		<screenshot>
 			<screeninfo
@@ -1342,7 +1342,7 @@
 >Cerca inversa entre el &kile; i l'&okular;</title>
 
 		<para
->La cerca inversa és una característica molt útil quan esteu escrivint un document &latex;. Si tot és correcte, podeu fer clic a la finestra de l'&okular; amb el &BER; mentre premeu la tecla &Maj;. Després, el &kile; carregarà el fitxer de codi font &latex; i saltarà al paràgraf adequat. Per utilitzar la cerca inversa, haureu de compilar el fitxer &latex; amb la configuració <guilabel
+>La cerca inversa és una característica molt útil quan esteu escrivint un document &latex;. Si tot és correcte, podeu fer clic a la finestra de l'&okular; amb el &BER; mentre premeu la tecla &Maj;. Després, el &kile; carregarà el fitxer de codi font &latex; i saltarà al paràgraf adequat. Per a utilitzar la cerca inversa, haureu de compilar el fitxer &latex; amb la configuració <guilabel
 >Moderna</guilabel
 >.</para>
 
@@ -1543,7 +1543,7 @@
 ><para
 ><userinput
 >$$DOCUMENTCLASSOPTIONS$$</userinput
->: Aquesta cadena serà substituïda per la variable DOCUMENTCLASSOPTIONS. Normalment això s'utilitza de la següent manera: <userinput
+>: Aquesta cadena serà substituïda per la variable DOCUMENTCLASSOPTIONS. Normalment això s'utilitza de la manera següent: <userinput
 >\documentclass[$$DOCUMENTCLASSOPTIONS$$]{article}</userinput
 >.</para
 ></listitem>
@@ -1701,7 +1701,7 @@
 >Moviments del cursor</title>
 
 		<para
->Per a seleccionar text, disposeu de les següents opcions:</para>
+>Per a seleccionar text, disposeu de les opcions següents:</para>
 
 		<itemizedlist>
 			<listitem
@@ -1804,12 +1804,12 @@
 ></keycombo
 ></shortcut
 > <guimenuitem
->Següent pic</guimenuitem
+>Pic següent</guimenuitem
 ></menuchoice
 ></term>
 		<listitem
 ><para
->Salta al següent pic al text si és que existeix.</para
+>Salta al pic següent al text si és que existeix.</para
 ></listitem>
 		</varlistentry>
 
@@ -1848,7 +1848,7 @@
 ><guisubmenu
 >Selecciona</guisubmenu
 ></menuchoice
-> trobareu les següents ordres per al text seleccionat.</para>
+> trobareu les ordres següents per al text seleccionat.</para>
 
 		<screenshot>
 			<screeninfo
@@ -1882,7 +1882,7 @@
 ></term>
 		<listitem
 ><para
->Selecciona un entorn sense les etiquetes que l'envolten. Si es crida aquesta ordre quan ja hi ha seleccionat un entorn, el &kile; ampliarà la selecció al següent entorn que l'envolti.</para
+>Selecciona un entorn sense les etiquetes que l'envolten. Si es crida aquesta ordre quan ja hi ha seleccionat un entorn, el &kile; ampliarà la selecció a l'entorn següent que l'envolti.</para
 ></listitem>
 		</varlistentry>
 
@@ -2075,7 +2075,7 @@
 ><guisubmenu
 >Elimina</guisubmenu
 ></menuchoice
-> trobareu les següents ordres per a esborrar text.</para>
+> trobareu les ordres següents per a esborrar text.</para>
 
 		<screenshot>
 			<screeninfo
@@ -2543,9 +2543,9 @@
 >Cometes dobles</title>
 
 		<para
->En &latex;, s'utilitzen dues cometes simples com a cometes dobles. Per ajudar-vos a inserir-les de manera eficient, el &kile; us permet prémer la tecla <keycap
+>En &latex;, s'utilitzen dues cometes simples com a cometes dobles. Per a ajudar-vos a inserir-les de manera eficient, el &kile; us permet prémer la tecla <keycap
 >"</keycap
-> per a inserir dues cometes simples per obrir. A més, si voleu tancar una cita, també haureu de prémer la tecla <keycap
+> per a inserir dues cometes simples per a obrir. A més, si voleu tancar una cita, també haureu de prémer la tecla <keycap
 >"</keycap
 >. El &kile; serà prou intel·ligent per a reconèixer aquesta situació i inserir dues cometes de tanca per a &latex;.</para>
 
@@ -2612,7 +2612,7 @@
 >, seguit per la línia nova.</para>
 
     <para
->Si està dins d'un comentari de &latex;, el &kile; començarà la següent línia amb un <userinput
+>Si està dins d'un comentari de &latex;, el &kile; començarà la línia següent amb un <userinput
 >%</userinput
 >.</para>
 
@@ -2667,7 +2667,7 @@
 >Compleció automàtica dels entorns</title>
 
 		<para
->Quan comenceu un nou entorn, escrivint <userinput
+>Quan comenceu un entorn nou, escrivint <userinput
 >\begin{environment}</userinput
 >, el &kile; automàticament afegirà una ordre <userinput
 >\end{environment}</userinput
@@ -2753,7 +2753,7 @@
 ><guisubmenu
 >Pics</guisubmenu
 ><guimenuitem
->Següent pic</guimenuitem
+>Pic següent </guimenuitem
 ></menuchoice
 > i inserir el paràmetre que voleu.</para>
 
@@ -2988,7 +2988,7 @@
 ><guilabel
 >Completa</guilabel
 ></menuchoice
-> per activar o desactivar aquest mode o canviar el llindar.</para>
+> per a activar o desactivar aquest mode o canviar el llindar.</para>
 
 		<screenshot>
 			<screeninfo
@@ -3019,7 +3019,7 @@
 >. Tingueu en compte que aquest mode és diferent del mode de compleció per a les ordres de &latex;.</para>
 
 			<para
->Per activar aquest mode d'encesa o apagat, aneu a <menuchoice
+>Per a activar aquest mode d'encesa o apagat, aneu a <menuchoice
 ><guimenu
 >Arranjament</guimenu
 ><guisubmenu
@@ -3092,7 +3092,7 @@
 ><guimenuitem
 >Inserció d'imatge</guimenuitem
 ></menuchoice
->. Si us plau, mireu <xref linkend="build_graphics" role="select: title pageabbrv"/> i <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> per obtenir una visió general d'alguns fets bàsics sobre el format dels gràfics.</para>
+>. Si us plau, mireu <xref linkend="build_graphics" role="select: title pageabbrv"/> i <xref linkend="build_epsgraphics" role="select: title pageabbrv"/> per a obtenir una visió general d'alguns fets bàsics sobre el format dels gràfics.</para>
 
 		<screenshot>
 			<screeninfo
@@ -3142,7 +3142,7 @@
 >\graphicspath</userinput
 >, el &kile; inclourà el camí per al fitxer de gràfics. Però si utilitzeu <userinput
 >\graphicspath</userinput
-> al preàmbul de la següent manera:</para>
+> al preàmbul de la manera següent:</para>
 
 		<programlisting
 >\graphicspath{{/camí/als/meus/gràfics}{un/altre/camí/a/més/gràfics}}</programlisting>
@@ -3374,7 +3374,7 @@
 	</screenshot>
 
 	<para
->Per a inserir un nou entorn flotant sols haureu de seguir aquests passos: </para>
+>Per a inserir un entorn nou flotant sols haureu de seguir aquests passos: </para>
 
 	     <procedure>
 	       <step>
@@ -3391,7 +3391,7 @@
 	      </step>
 	      <step>
 		<para
->Escriviu una etiqueta per al nou element flotant. El &kile; suggerirà automàticament un prefix apropiat, &pex; «fig:» per a les figures i «tab:» per a les taules. </para>
+>Escriviu una etiqueta per a l'element flotant nou. El &kile; suggerirà automàticament un prefix apropiat, &pex; «fig:» per a les figures i «tab:» per a les taules. </para>
 	      </step>
 	     </procedure>
 	</sect1>
@@ -4259,7 +4259,7 @@
 			</screenshot>
 
 			<para
->És necessària una contrasenya per establir o canviar la configuració del document. A més, L'encriptatge PDF es fa per a bloquejar el contingut del fitxer darrere d'aquesta contrasenya o per a fer complir algunes restriccions imposades per l'autor. De manera que l'autor les pugui permetre o restringir:</para>
+>És necessària una contrasenya per a establir o canviar la configuració del document. A més, L'encriptatge PDF es fa per a bloquejar el contingut del fitxer darrere d'aquesta contrasenya o per a fer complir algunes restriccions imposades per l'autor. De manera que l'autor les pugui permetre o restringir:</para>
 
 			<itemizedlist>
 			<listitem
@@ -4312,7 +4312,7 @@
 		<para
 >Les estadístiques obtingudes es poden copiar com a text o en un format agradable com una taula de &latex; al porta-retalls. </para>
 		<para
->Quan seleccioneu un text i obriu el diàleg de les estadístiques, obtindreu les estadístiques per al text seleccionat. Si obriu el diàleg sense cap text seleccionat, es mostraran les estadístiques per a tots els fitxers oberts. Per obtenir les estadístiques per a tot el projecte, podeu utilitzar l'element de menú <menuchoice
+>Quan seleccioneu un text i obriu el diàleg de les estadístiques, obtindreu les estadístiques per al text seleccionat. Si obriu el diàleg sense cap text seleccionat, es mostraran les estadístiques per a tots els fitxers oberts. Per a obtenir les estadístiques per a tot el projecte, podeu utilitzar l'element de menú <menuchoice
 ><guimenu
 >Projecte</guimenu
 ><guisubmenu
@@ -4321,7 +4321,7 @@
 > per a una manera fàcil i ràpida d'obrir tots els fitxers de codi font del vostre projecte.</para>
 
 		<para
->Cal una nota de precaució sobre l'exactitud dels números. Hem inclòs alguna lògica per obtenir una bona estimació, &pex; K\"uhler dona una paraula i una ordre, amb 6 i 2 caràcters, respectivament. Però hi ha altres combinacions en què les parts de les ordres són comptades com a paraules i viceversa. Tingueu en compte que l'algorisme es va desenvolupar i provar per a idiomes similars a l'anglès o l'alemany. De manera que no preneu els números com a certs. Si escriviu un informe, la longitud haurà de ser un nombre concret de paraules o caràcters, si us plau, feu algunes proves la primera vegada per a comprovar si la precisió del &kile; pot satisfer les vostres necessitats.</para>
+>Cal una nota de precaució sobre l'exactitud dels números. Hem inclòs alguna lògica per a obtenir una bona estimació, &pex; K\"uhler dona una paraula i una ordre, amb 6 i 2 caràcters, respectivament. Però hi ha altres combinacions en què les parts de les ordres són comptades com a paraules i viceversa. Tingueu en compte que l'algorisme es va desenvolupar i provar per a idiomes similars a l'anglès o l'alemany. De manera que no preneu els números com a certs. Si escriviu un informe, la longitud haurà de ser un nombre concret de paraules o caràcters, si us plau, feu algunes proves la primera vegada per a comprovar si la precisió del &kile; pot satisfer les vostres necessitats.</para>
 	</sect1>
 
 </chapter>
@@ -4561,7 +4561,7 @@
 >. Si no ajusteu correctament aquest paràmetre, podria resultar en un sagnat no tan atractiu de la vostra bibliografia.</para>
 
 		<para
->La bibliografia és una secció a part del vostre document principal, i un exemple de codi per a la bibliografia es veuria de la següent manera:</para>
+>La bibliografia és una secció a part del vostre document principal, i un exemple de codi per a la bibliografia es veuria de la manera següent:</para>
 
 <programlisting
 >\begin{thebibliography}{50}
@@ -4803,7 +4803,7 @@
 >Passar paràmetres a la línia d'ordres</title>
 
 			<para
->Per passar alguns paràmetres específics de línia d'ordres a les eines de compilació, conversió o visualització, podeu configurar la seva crida a <menuchoice
+>Per a passar alguns paràmetres específics de línia d'ordres a les eines de compilació, conversió o visualització, podeu configurar la seva crida a <menuchoice
 ><guimenu
 >Arranjament</guimenu
 > <guisubmenu
@@ -5094,7 +5094,7 @@
 ></anchor
 >Una manera preferida és la de convertir els gràfics EPS a PDF amb <command
 >epstopdf</command
->, el qual ve amb totes les distribucions de &tex; i aleshores utilitzar el &pdflatex;. Aquest produeix gràfics d'alta qualitat, fins i tot podeu controlar el resultat amb alguna de les següents opcions: <programlisting
+>, el qual ve amb totes les distribucions de &tex; i aleshores utilitzar el &pdflatex;. Aquest produeix gràfics d'alta qualitat, fins i tot podeu controlar el resultat amb alguna de les opcions següents: <programlisting
 >-dAutoFilterColorImages=false
         -dAutoFilterGrayImages=false
         -sColorImageFilter=FlateEncode
@@ -5248,7 +5248,7 @@
 		<para
 >Ara podreu cridar a &latex;, i un convertidor &DVI;-PS com <application
 >dvips</application
-> per crear el vostre document &PostScript;. Si el vostre objectiu és un document PDF, l'haureu d'executar amb l'opció <option
+> per a crear el vostre document &PostScript;. Si el vostre objectiu és un document PDF, l'haureu d'executar amb l'opció <option
 >-Ppdf</option
 > i després cridar a <command
 >ps2pdf</command
@@ -5316,7 +5316,7 @@
 >graphicx</userinput
 > cerca un fitxer <filename
 >graphics.cfg</filename
->, que ha d'estar en algun lloc en el vostre camí de cerca per a documents de &latex;. Cerqueu entrades de la següent manera:</para>
+>, que ha d'estar en algun lloc en el vostre camí de cerca per a documents de &latex;. Cerqueu entrades de la manera següent:</para>
 
 <programlisting
 >\DeclareGraphicsRule{.pz}{eps}{.bb}{}%
@@ -5561,7 +5561,7 @@
 >Utilitzar el menú contextual</title>
 
 			<para
->La majoria de les entrades a la vista d'estructura tenen un munt d'entrades al menú contextual, el qual es pot obrir amb un clic dret del ratolí. Així que cerqueu a la vista d'estructura en la següent imatge.</para>
+>La majoria de les entrades a la vista d'estructura tenen un munt d'entrades al menú contextual, el qual es pot obrir amb un clic dret del ratolí. Així que cerqueu a la vista d'estructura en la imatge següent.</para>
 
 			<screenshot>
 				<screeninfo
@@ -5601,7 +5601,7 @@
 			</screenshot>
 
 			<para
->En fer clic sobre una entrada de figura o de taula s'oferiran algunes accions respecte a les referències i un clic dret sobre una entrada de gràfics s'oferiran alguns programes per obrir els gràfics.</para>
+>En fer clic sobre una entrada de figura o de taula s'oferiran algunes accions respecte a les referències i un clic dret sobre una entrada de gràfics s'oferiran alguns programes per a obrir els gràfics.</para>
 
 			<screenshot>
 				<screeninfo
@@ -5694,7 +5694,7 @@
 >.</para>
 
 		<para
->Un projecte afegeix les següents funcionalitats:</para>
+>Un projecte afegeix les funcionalitats següents:</para>
 
 		<itemizedlist>
 			<listitem
@@ -5760,7 +5760,7 @@
 ><guimenu
 >Projecte</guimenu
 > <guimenuitem
->Nou projecte...</guimenuitem
+>Projecte nou...</guimenuitem
 ></menuchoice
 >.</para>
 		<screenshot>
@@ -5777,7 +5777,7 @@
 		  </mediaobject>
 		</screenshot>
 		<para
-> Se us demanarà que proporcioneu la següent informació per crear el vostre projecte:</para>
+>Se us demanarà que proporcioneu la informació següent per a crear el vostre projecte:</para>
 		<itemizedlist>
 		  <listitem>
 		    <para
@@ -5785,7 +5785,7 @@
 >Títol del projecte</guilabel
 >). </para>
 		    <para
->El títol del projecte s'utilitzarà per crear un nom de fitxer del projecte transformant a minúscules i afegint l'extensió <filename role="extension"
+>El títol del projecte s'utilitzarà per a crear un nom de fitxer del projecte transformant a minúscules i afegint l'extensió <filename role="extension"
 >.kilepr</filename
 >. </para>
 		  </listitem>
@@ -5797,8 +5797,8 @@
 		  </listitem>
 		  <listitem>
 		    <para
->Per crear un nou fitxer principal del projecte marqueu l'element <guilabel
->Crea un nou fitxer i afegeix-lo a aquest projecte</guilabel
+>Per a crear un fitxer principal nou del projecte marqueu l'element <guilabel
+>Crea un fitxer nou i afegeix-lo a aquest projecte</guilabel
 >. </para>
 		  </listitem>
 		  <listitem>
@@ -5852,7 +5852,7 @@
 >Fitxers i projectes</guilabel
 > és un botó del menú de la barra lateral. Des d'aquesta vista podreu veure l'estructura del vostre projecte, els seus fitxers i el nom del fitxer <literal role="extension"
 >.kilepr</literal
-> que emmagatzema la informació del projecte. Les opcions per afegir, treure o canviar el projecte es fan mitjançant aquesta.</para>
+> que emmagatzema la informació del projecte. Les opcions per a afegir, treure o canviar el projecte es fan mitjançant aquesta.</para>
 
 		<screenshot>
 			<screeninfo
@@ -5900,7 +5900,7 @@
 >Fitxers i projectes</guilabel
 >, i seleccioneu <guilabel
 >Afegeix fitxers...</guilabel
-> per obrir un diàleg de selecció de fitxers.</para>
+> per a obrir un diàleg de selecció de fitxers.</para>
 
 		<screenshot>
 			<screeninfo
@@ -6072,7 +6072,7 @@
 		</listitem>
 		<listitem
 ><para
->Una segona manera d'establir la codificació d'un document és escollir la codificació desitjada dins de l'assistent per crear un document nou.</para
+>Una segona manera d'establir la codificació d'un document és escollir la codificació desitjada dins de l'assistent per a crear un document nou.</para
 ></listitem>
 	</itemizedlist>
 
@@ -6093,7 +6093,7 @@
 >\"e</userinput
 > abans de compilar. Si us plau, consulteu la documentació de <application
 >inputenc</application
-> directament per obtenir més informació. Finalment, però no menys important: recordeu assegurar-vos que el fitxer es desa realment en la mateixa codificació especificada per al paquet <application
+> directament per a obtenir més informació. Finalment, però no menys important: recordeu assegurar-vos que el fitxer es desa realment en la mateixa codificació especificada per al paquet <application
 >inputenc</application
 >!</para>
 
@@ -6117,7 +6117,7 @@
 		<title
 >El paquet &ucs;</title>
 		<para
->Si no teniu instal·lat el paquet &ucs;, podeu procedir de la següent manera:</para>
+>Si no teniu instal·lat el paquet &ucs;, podeu procedir de la manera següent:</para>
 		<itemizedlist>
 		<listitem
 ><para
@@ -6127,7 +6127,7 @@
 ></listitem>
 		<listitem>
 		<para
->Per instal·lar-lo, descomprimiu el fitxer descarregat i el col·loqueu-lo en una carpeta llistada a la vostra variable d'entorn $<envar
+>Per a instal·lar-lo, descomprimiu el fitxer descarregat i el col·loqueu-lo en una carpeta llistada a la vostra variable d'entorn $<envar
 >TEXINPUTS</envar
 >. També es pot ajustar dins del &kile;.</para>
 		</listitem>
@@ -6384,7 +6384,7 @@
 ></userinput
 > no farà cap menció de <application
 >kpathsea</application
->. Ja que el suport per aquestes biblioteques és necessari, potser haureu de trobar un nou paquet, o tornar a compilar <application
+>. Ja que el suport per aquestes biblioteques és necessari, potser haureu de trobar un paquet nou, o tornar a compilar <application
 >FreeType 1</application
 > vosaltres mateixos.</para
 ></listitem>
@@ -6616,7 +6616,7 @@
 >Configura</guibutton
 > per a configurar aquest menú <guimenu
 >Ajuda a l'usuari</guimenu
->. Podeu afegir, eliminar o moure les entrades de menú, i inserir separadors per optimitzar la seva estructura.</para>
+>. Podeu afegir, eliminar o moure les entrades de menú, i inserir separadors per a optimitzar la seva estructura.</para>
 
 		<screenshot>
 			<screeninfo

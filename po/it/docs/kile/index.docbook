@@ -1618,9 +1618,7 @@
 >Un modello può essere creato da qualsiasi file &latex;. Se stai cercando un modo facile per configurare un modello, vai a cercarne uno che ti piaccia su Internet e segui gli stessi passi elencati nel<xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para
->Per esempio, potresti voler creare un perfetto poster A0. Questi poster si vedono regolarmente alle conferenze scientifiche, e &latex; ti aiuterà a fare un poster accattivante e interessante. Puoi ottenere un modello per poster A0 alla <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
->home page di Jonathan Marchini</ulink
->, ma ce ne sono molti altri disponibili. Ricorda che avrai bisogno del pacchetto <filename
+>Per esempio, potresti voler creare un perfetto poster A0. Questi poster si vedono regolarmente alle conferenze scientifiche, e &latex; ti aiuterà a fare un poster accattivante e interessante. Ricorda che avrai bisogno del pacchetto <filename
 >a0poster</filename
 >, che normalmente non è incluso in nelle installazioni &tex; standard. Scaricalo da <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
 >qui</ulink

@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:41+0000\n"
-"PO-Revision-Date: 2023-04-02 16:18+0300\n"
+"PO-Revision-Date: 2023-11-22 18:48+0200\n"
 "Last-Translator: Tommi Nieminen <translator@legisign.org>\n"
 "Language-Team: Finnish <kde-i18n-doc@kde.org>\n"
 "Language: fi\n"
@@ -822,50 +822,44 @@ msgid "Include Graphics"
 msgstr "Grafiikan sisällytys"
 
 #: dialogs/includegraphicsdialog.cpp:418
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.pdf *.ps *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.pdf *.ps *.eps)"
-msgstr "*.png *.jpg *.pdf *.ps *.eps|Grafiikka\n"
+msgstr "Kuvat (*.png *.jpg *.pdf *.ps *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:419 dialogs/includegraphicsdialog.cpp:426
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PNG Files (*.png)"
-msgstr "Kaikki tiedostot (*)"
+msgstr "PNG-tiedostot (*.png)"
 
 #: dialogs/includegraphicsdialog.cpp:420 dialogs/includegraphicsdialog.cpp:427
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "JPG Files (*.jpg)"
-msgstr "Kaikki tiedostot (*)"
+msgstr "JPEG-tiedostot (*.jpg)"
 
 #: dialogs/includegraphicsdialog.cpp:421
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "PDF Files (*.pdf)"
-msgstr "Kaikki tiedostot (*)"
+msgstr "PDF-tiedostot (*.pdf)"
 
 #: dialogs/includegraphicsdialog.cpp:422
 #, kde-format
 msgid "Postscript Files (*.eps *ps)"
-msgstr ""
+msgstr "PostScript-tiedostot (*.eps *.ps)"
 
 #: dialogs/includegraphicsdialog.cpp:425
-#, fuzzy, kde-format
-#| msgid "*.png *.jpg *.eps.gz *.eps|Graphics\n"
+#, kde-format
 msgid "Graphics (*.png *.jpg *.eps.gz *.eps)"
-msgstr "*.png *.jpg *.eps.gz *.eps|Grafiikka\n"
+msgstr "Kuvat (*.png *.jpg *.eps.gz *.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:428
 #, kde-format
 msgid "Zipped EPS Files (*.eps.gz)"
-msgstr ""
+msgstr "Pakatut EPS-tiedostot (*.eps.gz)"
 
 #: dialogs/includegraphicsdialog.cpp:429
-#, fuzzy, kde-format
-#| msgid "All Files (*)"
+#, kde-format
 msgid "EPS Files (*.eps)"
-msgstr "Kaikki tiedostot (*)"
+msgstr "EPS-tiedostot (*.eps)"
 
 #: dialogs/includegraphicsdialog.cpp:431 kileextensions.cpp:123
 #, kde-format
@@ -1767,10 +1761,9 @@ msgid "You are about to replace the template \"%1\"; are you sure?"
 msgstr "Olet aikeissa korvata aihion ”%1” toisella: oletko varma?"
 
 #: dialogs/managetemplatesdialog.cpp:290 dialogs/managetemplatesdialog.cpp:320
-#, fuzzy, kde-format
-#| msgid "Remove Template"
+#, kde-format
 msgid "Replace template"
-msgstr "Poista aihio"
+msgstr "Korvaa mallipohja"
 
 #: dialogs/managetemplatesdialog.cpp:300
 #, kde-format
@@ -5052,7 +5045,7 @@ msgstr ""
 #: dialogs/usermenu/usermenudialog.cpp:281
 #, kde-format
 msgid "Discard tree"
-msgstr ""
+msgstr "Hylkää puu"
 
 #: dialogs/usermenu/usermenudialog.cpp:288
 #: dialogs/usermenu/usermenudialog.cpp:389 usermenu/usermenu.cpp:330
@@ -5082,10 +5075,9 @@ msgstr ""
 "Korvataanko tiedosto?"
 
 #: dialogs/usermenu/usermenudialog.cpp:398
-#, fuzzy, kde-format
-#| msgid "Overwrite File?"
+#, kde-format
 msgid "Overwrite file"
-msgstr "Korvataanko tiedosto?"
+msgstr "Korvaa tiedosto"
 
 #: dialogs/usermenu/usermenudialog.cpp:412
 #, kde-format
@@ -5099,10 +5091,9 @@ msgstr ""
 "Haluatko varmasti tallentaa tiedoston?"
 
 #: dialogs/usermenu/usermenudialog.cpp:413
-#, fuzzy, kde-format
-#| msgid "Menutree Error"
+#, kde-format
 msgid "Menu tree errors"
-msgstr "Valikkopuun virhe"
+msgstr "Valikkopuun virheet"
 
 #: dialogs/usermenu/usermenudialog.cpp:568
 #, kde-format
@@ -5529,10 +5520,9 @@ msgid "Do you really want to clear the complete menutree?"
 msgstr "Haluatko varmasti tyhjentää koko valikkopuun?"
 
 #: dialogs/usermenu/usermenutree.cpp:925
-#, fuzzy, kde-format
-#| msgid "Clear Text"
+#, kde-format
 msgid "Clear menutree"
-msgstr "Tyhjennä teksti"
+msgstr "Tyhjennä valikkopuu"
 
 #: dialogs/usermenu/usermenutree.cpp:942
 #, kde-format

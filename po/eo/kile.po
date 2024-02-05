@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:41+0000\n"
-"PO-Revision-Date: 2024-01-07 21:14+0100\n"
+"PO-Revision-Date: 2024-02-04 17:21+0100\n"
 "Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: Esperanto <kde-i18n-doc@kde.org>\n"
 "Language: eo\n"
@@ -6933,7 +6933,7 @@ msgstr "Provu determini la limkeston el la bildo."
 #: kile.kcfg:301
 #, kde-format
 msgid "The default image resolution."
-msgstr "La defaŭlta bilda rezolucio."
+msgstr "La defaŭlta bilda distingivo."
 
 #. i18n: ectx: label, entry (kilerefs), group (Help)
 #: kile.kcfg:307
@@ -11714,13 +11714,13 @@ msgstr ""
 #: widgets/graphicsconfigwidget.ui:29
 #, kde-format
 msgid "&Default resolution:"
-msgstr "&Defaŭlta rezolucio:"
+msgstr "&Defaŭlta distingivo:"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlResolutionHelp)
 #: widgets/graphicsconfigwidget.ui:51
 #, kde-format
 msgid "(used when the picture offers no resolution)"
-msgstr "(uzata kiam la bildo ofertas neniun rezolucion)"
+msgstr "(uzata kiam la bildo ofertas neniun distingivon)"
 
 #. i18n: ectx: property (text), widget (QLabel, m_tlBbox)
 #: widgets/graphicsconfigwidget.ui:61
@@ -12296,7 +12296,7 @@ msgstr ""
 "weight:600; font-style:italic;\"></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
-"weight:600;\">%res:</span> rezolucio de la rapida antaŭrigarda ago aro en "
+"weight:600;\">%res:</span> distingivo de la rapida antaŭrigarda ago aro en "
 "agordi kile->iloj->antaŭrigardo</p> \n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"

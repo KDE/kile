@@ -1614,13 +1614,11 @@
 >Un modèle peut être créé à partir de n'importe quel fichier &latex;. Si vous cherchez un moyen facile de configurer un modèle, allez en chercher un qui vous plaît sur Internet, et suivez les mêmes étapes que celles vues dans <xref linkend="templ_wiz" role="select: title pageabbrv"/>.</para>
 
 			<para
->Par exemple, vous voulez créer un poster A0 à part entière. Ces posters sont fréquemment rencontrés lors de conférences scientifiques, et &latex; vous aidera à faire un poster attractif et captivant. Vous pouvez obtenir un modèle de poster A0 sur <ulink url="http://www.stats.ox.ac.uk/~marchini/a0poster.html"
->le site web de Jonathan Marchini</ulink
->, mais beaucoup d'autres sont disponibles. Souvenez-vous que vous aurez besoin du paquet <filename
+>Par exemple, vous voulez créer un poster « A0 » à part entière. Ces posters sont fréquemment rencontrés lors de conférences scientifiques. &latex; vous aidera à faire un poster attractif et captivant. Veuillez noter que vous avez besoin d'un paquet <filename
 >a0poster</filename
->, qui ne fait pas partie de l'installation standard de &tex;. Téléchargez-le depuis <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
+>, qui, en général, n'est pas inclus dans les distributions standards de &tex;. Vous pouvez le télécharger depuis <ulink url="http://www.ctan.org/tex-archive/macros/latex/contrib/a0poster/"
 >ici</ulink
-> et placez-le dans le même dossier que votre fichier &latex;.</para>
+> et le placer dans le même dossier que votre fichier &latex;.</para>
 		</sect2>
 
 		 <sect2 id="templ_rem">

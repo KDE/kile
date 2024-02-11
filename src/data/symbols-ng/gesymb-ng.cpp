@@ -56,7 +56,7 @@ QString convertUTF8toLatin1String(const QString &string) {
 
     QString stringAsLatin1;
 
-    Q_FOREACH(uint i, string.toUcs4()) {
+    for(uint i : string.toUcs4()) {
         stringAsLatin1 += QString("U+%1,").arg(i);
     }
     return stringAsLatin1;

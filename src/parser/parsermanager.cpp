@@ -109,7 +109,7 @@ void Manager::handleOutputParsingComplete(const QUrl &url, KileParser::ParserOut
     // use the returned list as the new global error information list
     m_ki->errorHandler()->setMostRecentLogInformation(latexOutput->logFile, latexOutput->infoList);
     // finally, inform the tools waiting for the error information
-    Q_FOREACH(KileTool::Base *tool, toolList) {
+    for(KileTool::Base *tool : toolList) {
         tool->installLaTeXOutputParserResult(latexOutput->nErrors, latexOutput->nWarnings,
                                              latexOutput->nBadBoxes,
                                              latexOutput->infoList,

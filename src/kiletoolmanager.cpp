@@ -181,7 +181,7 @@ void Manager::toolScheduledAfterParsingDestroyed(KileTool::Base *tool)
 
 void Manager::handleDocumentParsingComplete()
 {
-    Q_FOREACH(Base *tool, m_toolsScheduledAfterParsingList) {
+    for(Base *tool : m_toolsScheduledAfterParsingList) {
         disconnect(tool, SIGNAL(aboutToBeDestroyed(KileTool::Base*)),
                    this, SLOT(toolScheduledAfterParsingDestroyed(KileTool::Base*)));
         runImmediately(tool);
@@ -698,7 +698,7 @@ bool KileTool::Manager::containsBibliographyTool(const ToolConfigPair& p) const
 KileTool::ToolConfigPair KileTool::Manager::findFirstBibliographyToolForCommand(const QString& command) const
 {
     // for now we will just select the first suitable tool
-    Q_FOREACH(const KileTool::ToolConfigPair& tool, m_bibliographyToolsList) {
+    for(const KileTool::ToolConfigPair& tool : m_bibliographyToolsList) {
         const QString toolCommand = commandFor(tool, m_config);
         if (QString::compare(command, toolCommand, Qt::CaseInsensitive) == 0) {
             return tool;
@@ -723,7 +723,7 @@ void KileTool::Manager::buildBibliographyBackendSelection()
     m_bibliographyToolsList = toolsWithConfigurationsBasedOnClass(m_config, BibliographyCompile::ToolClass);
     std::sort(m_bibliographyToolsList.begin(), m_bibliographyToolsList.end()); // necessary for the user-visible actions in the menu bar
 
-    Q_FOREACH(const ToolConfigPair& tool, m_bibliographyToolsList) {
+    for(const ToolConfigPair& tool : m_bibliographyToolsList) {
         // create an action for backend selection
         QAction * action = m_bibliographyBackendSelectAction->addAction(tool.userStringRepresentation());
         action->setData(QVariant::fromValue(tool));

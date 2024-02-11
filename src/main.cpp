@@ -180,7 +180,7 @@ int main(int argc, char **argv)
             return EXIT_FAILURE;
         }
 
-        Q_FOREACH(QString argument, parser.positionalArguments()) {
+        for(const QString& argument : parser.positionalArguments()) {
             if(argument == "-") {
                 kile->openDocument(readDataFromStdin());
             }
@@ -206,7 +206,7 @@ int main(int argc, char **argv)
     else {
         QDBusInterface *interface = new QDBusInterface("net.sourceforge.kile","/main","net.sourceforge.kile.main");
 
-        Q_FOREACH(QString argument, parser.positionalArguments()) {
+        for(const QString& argument : parser.positionalArguments()) {
             if(argument == "-") {
                 interface->call("openDocument", readDataFromStdin());
             }

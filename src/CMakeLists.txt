@@ -203,7 +203,7 @@ qt_add_resources(kile_SRCS kile.qrc)
 
 add_executable(kile ${kile_SRCS})
 
-if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
+if(APPLE)
     # extract the last copyright year from "kileversion.h"
     file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/kileversion.h" LAST_COPYRIGHT_YEAR_LINE REGEX "KILE_LAST_COPYRIGHT_YEAR (.*)")
     string(REGEX MATCH "KILE_LAST_COPYRIGHT_YEAR \"([0-9]+)\"" TMP_MATCH ${LAST_COPYRIGHT_YEAR_LINE})
@@ -222,7 +222,7 @@ if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") # for Mac OS X
             MACOSX_BUNDLE_SHORT_VERSION_STRING "${KILE_VERSION}"
             MACOSX_BUNDLE_BUNDLE_VERSION "${KILE_VERSION}")
     endif()
-endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+endif()
 
 target_link_libraries(kile
 PUBLIC
@@ -255,18 +255,6 @@ if(Okular${QT_VERSION_MAJOR}_FOUND)
 endif()
 
 install(TARGETS kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
-
-if(APPLE)
-    set_target_properties(kile PROPERTIES
-        MACOSX_BUNDLE_DISPLAY_NAME "Kile"
-        MACOSX_BUNDLE_BUNDLE_NAME "Kile"
-        MACOSX_BUNDLE_LONG_VERSION_STRING "Kile ${RELEASE_SERVICE_VERSION}"
-        MACOSX_BUNDLE_SHORT_VERSION_STRING "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE_VERSION_MINOR}"
-        MACOSX_BUNDLE_BUNDLE_VERSION "${RELEASE_SERVICE_VERSION}"
-        MACOSX_BUNDLE_GUI_IDENTIFIER "org.kde.kile"
-        MACOSX_BUNDLE_COPYRIGHT "2003-2024 The Kile Developers")
-
-endif()
 
 ########### install files ###############
 

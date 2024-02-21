@@ -4954,9 +4954,9 @@ msgid ""
 msgstr ""
 "<p>Kile 메뉴의 일부로 나타나는 사용자 정의 메뉴를 생성, 변경, 설치할 수 있습"
 "니다. 메뉴를 만들거나 변경하려면 왼쪽에 있는 단추 여섯 개를 사용하십시오. 기"
-"존 메뉴 항목의 콘텍스트 메뉴에서는 더 많은 동작을 볼 수 있습니다.</p><p>표준 "
-"메뉴처럼 다른 메뉴 형식 세 가지를 사용할 수 있습니다:</p><ul><li><i>표준 항목"
-"</i>: 작업을 실행함</li><li><i>하위 메뉴</i>: 메뉴 항목이 들어 있음</"
+"존 메뉴 항목의 상황에 맞는 메뉴에서는 더 많은 동작을 볼 수 있습니다.</p><p>표"
+"준 메뉴처럼 다른 메뉴 형식 세 가지를 사용할 수 있습니다:</p><ul><li><i>표준 "
+"항목</i>: 작업을 실행함</li><li><i>하위 메뉴</i>: 메뉴 항목이 들어 있음</"
 "li><li><i>구분선</i>: 항목을 구분함</li></ul><p>각각 표준 메뉴 항목은 다음 "
 "세 가지 중 하나의 동작 형식을 가집니다:</p><ul><li><i>텍스트 삽입</i>: 이 동"
 "작은 현재 커서 위치에 문자열을 삽입합니다. 다음 메타 문자를 사용할 수 있습니"
@@ -5071,8 +5071,8 @@ msgid ""
 "menu of selected items. You can also rearrange items with drag and drop."
 msgstr ""
 "사용자 메뉴 트리입니다. 트리 아래에 있는 단추 여섯 개(및 그 단축키)로 수정할 "
-"수 있습니다. 선택한 항목의 콘텍스트 메뉴에서 더 많은 작업을 볼 수 있습니다. "
-"드래그 앤 드롭으로 항목을 다시 배열할 수 있습니다."
+"수 있습니다. 선택한 항목의 상황에 맞는 메뉴에서 더 많은 작업을 볼 수 있습니"
+"다. 드래그 앤 드롭으로 항목을 다시 배열할 수 있습니다."
 
 #. i18n: ectx: property (whatsThis), widget (QPushButton, m_pbInsertSeparator)
 #: dialogs/usermenu/usermenudialog_base.ui:100
@@ -5335,13 +5335,13 @@ msgstr "지정한 프로그램의 출력 삽입"
 #, kde-format
 msgid ""
 "Select, if the action should be added to the context menu of a selection."
-msgstr "선택 영역의 콘텍스트 메뉴에 동작을 추가하려면 선택하십시오."
+msgstr "선택 영역의 상황에 맞는 메뉴에 동작을 추가하려면 선택하십시오."
 
 #. i18n: ectx: property (text), widget (QCheckBox, m_cbContextMenu)
 #: dialogs/usermenu/usermenudialog_base.ui:712
 #, kde-format
 msgid "Add to the context menu of selected text"
-msgstr "선택한 텍스트의 콘텍스트 메뉴에 추가"
+msgstr "선택한 텍스트의 상황에 맞는 메뉴에 추가"
 
 #: dialogs/usermenu/usermenuitem.h:26
 #, kde-format
@@ -12159,8 +12159,8 @@ msgstr ""
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-"
 "right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-"
 "weight:600;\">%AFL</span>: 보관하기로 표시한 프로젝트의 모든 파일 목록입니"
-"다. \"파일과 프로젝트\" 사이드바 콘텍스트 메뉴에서 압축 플래그를 지정하십시"
-"오.</p></body></html>"
+"다. \"파일과 프로젝트\" 사이드바 상황에 맞는 메뉴에서 압축 플래그를 지정하십"
+"시오.</p></body></html>"
 
 #. i18n: ectx: property (text), widget (QLabel, m_lbOptions)
 #: widgets/processtoolconfigwidget.ui:83
@@ -12560,7 +12560,7 @@ msgstr ""
 "텍스트 파일이나 그림 파일을 엽니다. 이 항목에 이름표를\n"
 "할당했다면 마우스가 항목 위로 지나갈 때 해당하는\n"
 "이름표를 표시합니다. 그림 파일이나 이름표가 있는 항목을\n"
-"오른쪽 단추로 클릭하면 콘텍스트 메뉴가 표시됩니다."
+"오른쪽 단추로 클릭하면 상황에 맞는 메뉴가 표시됩니다."
 
 #: widgets/structurewidget.cpp:121
 #, kde-format

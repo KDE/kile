@@ -52,7 +52,7 @@ void Help::initContextHelp()
 {
     // read a list with keywords for context help
     if(m_contextHelpType == HelpKileRefs) {
-        readHelpList("latex-kile.lst");
+        readHelpList("latex-kile.index");
     }
     else if(m_contextHelpType == HelpLatex2eRefs) {
         readHelpList("unofficial-latex2e-reference-manual.index");

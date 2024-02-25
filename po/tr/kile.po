@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: extragear-office-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-12-29 00:41+0000\n"
-"PO-Revision-Date: 2024-02-09 19:27+0300\n"
+"PO-Revision-Date: 2024-02-24 21:46+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 24.01.95\n"
+"X-Generator: Lokalize 24.04.70\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -10289,7 +10289,7 @@ msgstr "Seçili bibliyografya yok."
 #: kilestdtools.cpp:747
 #, kde-format
 msgid "No bibliographies found."
-msgstr "Bulunan bibliyografya yok."
+msgstr "Bibliyografya bulunamadı."
 
 #: kilestdtools.cpp:783
 #, kde-format

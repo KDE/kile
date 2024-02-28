@@ -205,7 +205,7 @@ ParserOutput* LaTeXParser::parse()
                     tagStartLine = tagLine;
                     tagStartCol = tagStart+1;
 
-                    if(commandMatch.captured(1) != "\\frame") {
+                    if(commandMatch.capturedView(1) != QLatin1String("\\frame")) {
                         result = matchBracket(m_textLines, i, tagEnd);
                         m = result.value.trimmed();
                         shorthand = result.option.trimmed();
@@ -399,7 +399,7 @@ ParserOutput* LaTeXParser::parse()
                                 if (match.hasMatch()) {
                                     qCDebug(LOG_KILE_PARSER) << "Opt param is " << match.captured(2) << "%EOL";
                                     noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-                                    optArg = '[' + match.captured(2) + ']';
+                                    optArg = '[' + match.capturedView(2) + ']';
                                 }
 
                                 for(int noo_index = 0; noo_index < noo; ++noo_index) {

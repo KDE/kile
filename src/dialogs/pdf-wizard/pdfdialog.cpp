@@ -783,7 +783,7 @@ void PdfDialog::slotTaskChanged(int)
         if ( taskindex==PDF_SELECT || taskindex==PDF_DELETE ) {
             labeltext = i18n("Pages:");
             s = i18n("Comma separated page list: 1,4-7,9");
-            static QRegularExpression re("((\\d+(-\\d+)?),)*\\d+(-\\d+)?");
+            QRegularExpression re("((\\d+(-\\d+)?),)*\\d+(-\\d+)?");
             m_PdfDialog.m_edParameter->setValidator(new QRegularExpressionValidator(re, m_PdfDialog.m_edParameter));
         }
         else if (taskindex==PDF_PDFTK_FREE) {

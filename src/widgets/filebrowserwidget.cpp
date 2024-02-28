@@ -34,7 +34,7 @@ from Kate (C) 2001 by Matt Newell
 #include <KLocalizedString>
 #include <KToolBar>
 #include <KConfig>
-#include <qframe.h>
+#include <QFrame>
 
 #include "kileconfig.h"
 #include "kiledebug.h"

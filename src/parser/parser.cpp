@@ -97,7 +97,7 @@ void Parser::searchTodoComment(const QString &s, uint startpos, TodoResult &todo
 
     auto match = reTodoComment.match(s, startpos);
     if (match.hasMatch()) {
-        todo.type = (match.captured(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
+        todo.type = (match.capturedView(1) == QLatin1String("TODO")) ? KileStruct::ToDo : KileStruct::FixMe;
         todo.colTag = match.capturedStart(1);
         todo.colComment = match.capturedStart(3);
         todo.comment = match.captured(3).trimmed();

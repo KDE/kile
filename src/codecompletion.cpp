@@ -217,7 +217,7 @@ KTextEditor::Range LaTeXCompletionModel::completionRange(KTextEditor::View *view
     KTextEditor::Cursor startCursor = position;
     KTextEditor::Cursor endCursor = position;
 
-    static QRegularExpression completionEndRegExp("\\W|\\b|\\\\");
+    QRegularExpression completionEndRegExp("\\W|\\b|\\\\");
 
     int cursorPos = position.column();
 

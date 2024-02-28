@@ -24,7 +24,8 @@
 #include <KMessageBox>
 #include <KProcess>
 #include <KShell>
-#include <KIO/Job>
+#include <KIO/FileCopyJob>
+#include <KIO/SimpleJob>
 #include <KJobWidgets>
 #include <QTemporaryFile>
 

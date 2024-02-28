@@ -19,7 +19,7 @@
 #include <QRegExp>
 
 #include <KLocalizedString>
-#include <qregularexpression.h>
+#include <QRegularExpression>
 
 #include "codecompletion.h"
 #include "parserthread.h"
@@ -399,7 +399,7 @@ ParserOutput* LaTeXParser::parse()
                                 if (match.hasMatch()) {
                                     qCDebug(LOG_KILE_PARSER) << "Opt param is " << match.captured(2) << "%EOL";
                                     noo--; // if we have an opt argument, we have one mandatory argument less, and noo=0 can't occur because then latex complains (and we don't macht them with reNumOfParams either)
-                                    optArg = '[' + match.capturedView(2) + ']';
+                                    optArg = '[' + match.captured(2) + ']';
                                 }
 
                                 for(int noo_index = 0; noo_index < noo; ++noo_index) {

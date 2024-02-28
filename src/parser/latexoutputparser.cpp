@@ -325,36 +325,29 @@ bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
 
     bool found = false, flush = false;
 
-    static QRegularExpression reLaTeXError("^! LaTeX Error: (.*)$");
-    reLaTeXError.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression rePDFLaTeXError("^Error: pdflatex (.*)$");
-    rePDFLaTeXError.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reLaTeXError("^! LaTeX Error: (.*)$", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression rePDFLaTeXError("^Error: pdflatex (.*)$", QRegularExpression::CaseInsensitiveOption);
     static QRegularExpression reTeXError("^! (.*)\\.$");
     static QRegularExpression reLineNumber("^l\\.([0-9]+)(.*)");
 
+    QRegularExpressionMatch match;
+
     switch (dwCookie) {
-    case Start: {
-        QRegularExpressionMatch latexErrorMatch = reLaTeXError.match(strLine);
-        if(latexErrorMatch.hasMatch()) {
+    case Start :
+        if(strLine.indexOf(reLaTeXError, 0, &match) != -1) {
             //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reLaTeXError.cap(1) << Qt::endl;
-            m_currentItem.setMessage(latexErrorMatch.captured(1));
+            m_currentItem.setMessage(match.captured(1));
             found = true;
         }
-        else {
-            QRegularExpressionMatch pdflatexErrorMatch = rePDFLaTeXError.match(strLine);
-            if(pdflatexErrorMatch.hasMatch()) {
-                //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  rePDFLaTeXError.cap(1) << Qt::endl;
-                m_currentItem.setMessage(pdflatexErrorMatch.captured(1));
-                found = true;
-            }
-            else {
-                QRegularExpressionMatch texErrorMatch = reTeXError.match(strLine);
-                if(texErrorMatch.hasMatch()) {
-                    //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reTeXError.cap(1) << Qt::endl;
-                    m_currentItem.setMessage(texErrorMatch.captured(1));
-                    found = true;
-                }
-            }
+        else if(strLine.indexOf(rePDFLaTeXError, 0, &match) != -1) {
+            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  rePDFLaTeXError.cap(1) << Qt::endl;
+            m_currentItem.setMessage(match.captured(1));
+            found = true;
+        }
+        else if(strLine.indexOf(reTeXError, 0, &match) != -1) {
+            //qCDebug(LOG_KILE_PARSER) << "\tError : " <<  reTeXError.cap(1) << Qt::endl;
+            m_currentItem.setMessage(match.captured(1));
+            found = true;
         }
 
         if(found) {
@@ -362,7 +355,6 @@ bool LaTeXOutputParser::detectError(const QString & strLine, short &dwCookie)
             m_currentItem.setOutputLine(GetCurrentOutputLine());
         }
         break;
-    }
     case Error :
         //qCDebug(LOG_KILE_PARSER) << "\tError (cont'd): " << strLine << Qt::endl;
         if(strLine.endsWith('.')) {
@@ -418,17 +410,16 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
     bool found = false, flush = false;
     QString warning;
 
-    static QRegularExpression reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)");
-    reLaTeXWarning.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reLaTeXWarning("^(((! )?(La|pdf)TeX)|Package|Class) .*Warning.*:(.*)", QRegularExpression::CaseInsensitiveOption);
     static QRegularExpression reNoFile("No file (.*)");
     static QRegularExpression reNoAsyFile("File .* does not exist."); // FIXME can be removed when https://sourceforge.net/p/asymptote/bugs/70/ has promoted to the users
 
     switch(dwCookie) {
     //detect the beginning of a warning
-    case Start: {
-        QRegularExpressionMatch laTeXWarningMatch = reLaTeXWarning.match(strLine);
-        if(laTeXWarningMatch.hasMatch()) {
-            warning = laTeXWarningMatch.captured(5);
+    case Start : {
+        QRegularExpressionMatch match;
+        if(strLine.indexOf(reLaTeXWarning, 0, &match) != -1) {
+            warning = match.captured(5);
             //qCDebug(LOG_KILE_PARSER) << "\tWarning found: " << warning << Qt::endl;
 
             found = true;
@@ -441,23 +432,19 @@ bool LaTeXOutputParser::detectWarning(const QString & strLine, short &dwCookie)
             flush = detectLaTeXLineNumber(warning, dwCookie, strLine.length());
             break;
         }
-
-        QRegularExpressionMatch noFileMatch = reNoFile.match(strLine);
-        if(noFileMatch.hasMatch()) {
+        else if(strLine.indexOf(reNoFile, 0, &match) != -1) {
             found = true;
             flush = true;
             m_currentItem.setSourceLine(0);
-            m_currentItem.setMessage(noFileMatch.captured(0));
+            m_currentItem.setMessage(match.captured(0));
             m_currentItem.setOutputLine(GetCurrentOutputLine());
             break;
         }
-
-        QRegularExpressionMatch noAsyFileMatch = reNoAsyFile.match(strLine);
-        if(noAsyFileMatch.hasMatch()) {
+        else if(strLine.indexOf(reNoAsyFile, 0, &match) != -1) {
             found = true;
             flush = true;
             m_currentItem.setSourceLine(0);
-            m_currentItem.setMessage(noAsyFileMatch.captured(0));
+            m_currentItem.setMessage(match.captured(0));
             m_currentItem.setOutputLine(GetCurrentOutputLine());
         }
 
@@ -492,17 +479,13 @@ bool LaTeXOutputParser::detectLaTeXLineNumber(QString & warning, short & dwCooki
 {
     //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectLaTeXLineNumber(" << warning.length() << ")================" << Qt::endl;
 
-    static QRegularExpression reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$");
-    reLaTeXLineNumber.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$");
-    reInternationalLaTeXLineNumber.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-
-    QRegularExpressionMatch laTeXLineNumberMatch = reLaTeXLineNumber.match(warning);
-
-    if(laTeXLineNumberMatch.hasMatch()) {
+    static QRegularExpression reLaTeXLineNumber("(.*) on input line ([0-9]+)\\.$", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reInternationalLaTeXLineNumber("(.*)([0-9]+)\\.$", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch match;
+    if((warning.indexOf(reLaTeXLineNumber, 0, &match) != -1) || (warning.indexOf(reInternationalLaTeXLineNumber, 0, &match) != -1)) {
         //qCDebug(LOG_KILE_PARSER) << "een" << Qt::endl;
-        m_currentItem.setSourceLine(laTeXLineNumberMatch.captured(2).toInt());
-        warning += laTeXLineNumberMatch.captured(1);
+        m_currentItem.setSourceLine(match.captured(2).toInt());
+        warning += match.captured(1);
         dwCookie = Start;
         return true;
     }
@@ -543,13 +526,12 @@ bool LaTeXOutputParser::detectBadBox(const QString & strLine, short & dwCookie)
     bool found = false, flush = false;
     QString badbox;
 
-    static QRegularExpression reBadBox("^(Over|Under)(full \\\\[hv]box .*)");
-    reBadBox.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBox("^(Over|Under)(full \\\\[hv]box .*)", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch match;
 
     switch(dwCookie) {
-    case Start: {
-        const QRegularExpressionMatch match = reBadBox.match(strLine);
-        if(match.hasMatch()) {
+    case Start : 
+        if(strLine.indexOf(reBadBox, 0, &match) != -1) {
             found = true;
             dwCookie = Start;
             badbox = strLine;
@@ -557,7 +539,6 @@ bool LaTeXOutputParser::detectBadBox(const QString & strLine, short & dwCookie)
             m_currentItem.setMessage(badbox);
         }
         break;
-    }
 
     case BadBox :
         badbox = m_currentItem.message() + strLine;
@@ -585,38 +566,31 @@ bool LaTeXOutputParser::detectBadBoxLineNumber(QString & strLine, short & dwCook
 {
     //qCDebug(LOG_KILE_PARSER) << "==LaTeXOutputParser::detectBadBoxLineNumber(" << strLine.length() << ")================" << Qt::endl;
 
-    static QRegularExpression reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)");
-    reBadBoxLines.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
-    static QRegularExpression reBadBoxLine("(.*) at line ([0-9]+)");
-    reBadBoxLine.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxLines("(.*) at lines ([0-9]+)--([0-9]+)", QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxLine("(.*) at line ([0-9]+)", QRegularExpression::CaseInsensitiveOption);
     //Use the following only, if you know how to get the source line for it.
     // This is not simple, as TeX is not reporting it.
-    static QRegularExpression reBadBoxOutput("(.*)has occurred while \\output is active^");
-    reBadBoxOutput.setPatternOptions(QRegularExpression::CaseInsensitiveOption);
+    static QRegularExpression reBadBoxOutput("(.*)has occurred while \\output is active^", QRegularExpression::CaseInsensitiveOption);
+    QRegularExpressionMatch match;
 
-    QRegularExpressionMatch badBoxLinesMatch = reBadBoxLines.match(strLine);
-    if(badBoxLinesMatch.hasMatch()) {
+    if(strLine.indexOf(reBadBoxLines, 0, &match) != -1) {
         dwCookie = Start;
-        strLine = badBoxLinesMatch.captured(1);
-        int n1 = badBoxLinesMatch.captured(2).toInt();
-        int n2 = badBoxLinesMatch.captured(3).toInt();
+        strLine = match.captured(1);
+        int n1 = match.captured(2).toInt();
+        int n2 = match.captured(3).toInt();
         m_currentItem.setSourceLine(n1 < n2 ? n1 : n2);
         return true;
     }
-
-    QRegularExpressionMatch badBoxLineMatch = reBadBoxLine.match(strLine);
-    if(badBoxLineMatch.hasMatch()) {
+    else if(strLine.indexOf(reBadBoxLine, 0, &match) != -1) {
         dwCookie = Start;
-        strLine = badBoxLineMatch.captured(1);
-        m_currentItem.setSourceLine(badBoxLineMatch.captured(2).toInt());
+        strLine = match.captured(1);
+        m_currentItem.setSourceLine(match.captured(2).toInt());
         //qCDebug(LOG_KILE_PARSER) << "\tBadBox@" << reBadBoxLine.cap(2) << "." << Qt::endl;
         return true;
     }
-
-    QRegularExpressionMatch badBoxOutputMatch = reBadBoxOutput.match(strLine);
-    if(badBoxOutputMatch.hasMatch()) {
+    else if(strLine.indexOf(reBadBoxOutput, 0, &match) != -1) {
         dwCookie = Start;
-        strLine = badBoxOutputMatch.captured(1);
+        strLine = match.captured(1);
         m_currentItem.setSourceLine(0);
         return true;
     }

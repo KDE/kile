@@ -30,7 +30,7 @@
 #include <KConfigGroup>
 #include <KIconDialog>
 #include <KIconLoader>
-#include <KIO/Job>
+#include <KIO/StatJob>
 #include <KJobWidgets>
 #include <KLocalizedString>
 #include <KMessageBox>
@@ -258,7 +258,7 @@ void ManageTemplatesDialog::addTemplate()
         return;
     }
 
-    KIO::StatJob* statJob = KIO::statDetails(iconURL, KIO::StatJob::SourceSide, KIO::StatNoDetails);
+    KIO::StatJob* statJob = KIO::stat(iconURL, KIO::StatJob::SourceSide, KIO::StatNoDetails);
     KJobWidgets::setWindow(statJob, this);
     statJob->exec();
     if (statJob->error()) {
@@ -266,7 +266,7 @@ void ManageTemplatesDialog::addTemplate()
         return;
     }
 
-    statJob = KIO::statDetails(m_sourceURL, KIO::StatJob::SourceSide, KIO::StatNoDetails);
+    statJob = KIO::stat(m_sourceURL, KIO::StatJob::SourceSide, KIO::StatNoDetails);
     KJobWidgets::setWindow(statJob, this);
     statJob->exec();
     if (statJob->error()) {

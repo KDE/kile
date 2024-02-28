@@ -637,10 +637,10 @@ void TextInfo::searchTodoComment(const QString &s, uint startpos, TodoResult &to
     QRegularExpressionMatch todoCommentMatch;
 
     if(s.indexOf(reTodoComment, startpos, &todoCommentMatch) != -1) {
-        todo.type = (todoCommentMatch.captured(1) == "TODO") ? KileStruct::ToDo : KileStruct::FixMe;
+        todo.type = (todoCommentMatch.capturedView(1) == QLatin1String("TODO")) ? KileStruct::ToDo : KileStruct::FixMe;
         todo.colTag = todoCommentMatch.capturedStart(1);
         todo.colComment = todoCommentMatch.capturedStart(3);
-        todo.comment = todoCommentMatch.captured(3).trimmed();
+        todo.comment = todoCommentMatch.capturedView(3).trimmed().toString();
     }
 }
 

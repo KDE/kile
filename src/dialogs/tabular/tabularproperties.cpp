@@ -51,7 +51,7 @@ void TabularProperties::addColor(const QColor &color)
 
         do {
             int value = index % 26;
-            newColorName += (QLatin1Char('A') + QChar(value));
+            newColorName += QLatin1Char('A' + value);
             index -= value;
         } while(index > 0);
 

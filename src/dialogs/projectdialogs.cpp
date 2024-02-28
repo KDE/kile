@@ -100,7 +100,7 @@ KileProjectDialogBase::KileProjectDialogBase(const QString &caption, KileDocumen
     // extension settings groupbox
     m_userFileExtensions = new QLineEdit(this);
     m_userFileExtensions->setWhatsThis(whatsthisExt);
-    static QRegularExpression reg("[\\. a-zA-Z0-9]+");
+    QRegularExpression reg("[\\. a-zA-Z0-9]+");
     auto extValidator = new QRegularExpressionValidator(reg, m_extensionGroup);
     m_userFileExtensions->setValidator(extValidator);
 

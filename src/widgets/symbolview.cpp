@@ -96,7 +96,7 @@ void SymbolView::extract(const QString& key, int& refCnt)
 
 void SymbolView::extractPackageString(const QString&string, QList<Package> &packages)
 {
-    static QRegularExpression rePkgs("^(?:\\[(.*)\\])?\\{(.*)\\}$$");
+    QRegularExpression rePkgs("^(?:\\[(.*)\\])?\\{(.*)\\}$$");
     QStringList args,pkgs;
     Package pkg;
 
@@ -414,7 +414,7 @@ void SymbolView::slotAddToList(const QListWidgetItem *item)
 
     QListWidgetItem *tmpItem = Q_NULLPTR;
     bool found = false;
-    static const QRegularExpression reCnt("^\\d+");
+    const QRegularExpression reCnt("^\\d+");
 
     KILE_DEBUG_MAIN << "===void SymbolView::slotAddToList(const QIconViewItem *" << item << " )===";
 

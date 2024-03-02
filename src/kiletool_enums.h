@@ -15,7 +15,7 @@
 #ifndef KILETOOL_ENUMS_H
 #define KILETOOL_ENUMS_H
 
-#define OKULAR_LIBRARY_NAME "okularpart"
+#define OKULAR_LIBRARY_NAME "kf6/parts/okularpart"
 
 namespace KileTool
 {

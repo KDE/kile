@@ -37,7 +37,7 @@ find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED
 
 find_package(Qt6 ${QT_REQUIRED_VERSION} CONFIG REQUIRED Qml Core5Compat)
 
-find_package(KF6 5.108 REQUIRED COMPONENTS
+find_package(KF6 6.0.0 REQUIRED COMPONENTS
 	Codecs
 	Config
 	CoreAddons

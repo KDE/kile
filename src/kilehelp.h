@@ -79,7 +79,6 @@ private:
     UserHelp *m_userhelp;
     QString m_helpDir;
 
-    QString m_latex2eReference;
     QString m_kileReference;
 
     HelpType m_contextHelpType;

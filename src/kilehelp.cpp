@@ -17,6 +17,8 @@
 #include <QFileInfo>
 #include <QTextStream>
 
+#include <KIO/OpenUrlJob>
+
 #include "editorextension.h"
 #include "errorhandler.h"
 #include "kiledebug.h"
@@ -37,7 +39,6 @@ Help::Help(KileDocument::EditorExtension *edit, QWidget *mainWindow) : m_mainWin
     KILE_DEBUG_MAIN << "help dir: " << m_helpDir;
 
     m_kileReference = m_helpDir + "latexhelp.html";
-    m_latex2eReference =  m_helpDir + QLatin1String("unofficial-latex2e-reference-manual/");
 
     m_contextHelpType = contextHelpType();
     initContextHelp();
@@ -123,18 +124,20 @@ void Help::helpDocBrowser()
 
 void Help::helpLatex(HelpType type)
 {
-    switch(type) {
-        case HelpLatexIndex:
-            showHelpFile(m_latex2eReference + QLatin1String("index.html"));
-            break;
-        case HelpLatexCommand:
-            showHelpFile(m_latex2eReference + QLatin1String("IndexDocument.html#Index_cp_symbol-8"));
-            break;
-        case HelpLatexEnvironment:
-            showHelpFile(m_latex2eReference + QLatin1String("Environments.html#Environments"));
-            break;
-        default:
-            return;
+    if(type == HelpLatexIndex) {
+        QUrl url("https://latexref.xyz/");
+        auto *openUrlJob = new KIO::OpenUrlJob(url);
+        openUrlJob->start();
+    }
+    else if(type == HelpLatexCommand) {
+        QUrl url("https://latexref.xyz/Index.html#Index_cp_symbol-10");
+        auto *openUrlJob = new KIO::OpenUrlJob(url);
+        openUrlJob->start();
+    }
+    else if(type == HelpLatexEnvironment) {
+        QUrl url("https://latexref.xyz/Environments.html");
+        auto *openUrlJob = new KIO::OpenUrlJob(url);
+        openUrlJob->start();
     }
 }
 
@@ -150,7 +153,9 @@ void Help::helpKeyword(KTextEditor::View *view)
         KILE_DEBUG_MAIN << "about to show help for '" << word << "' (section " << m_dictHelpTex[word] << " )";
 
         if(m_contextHelpType == HelpLatex2eRefs) {
-            showHelpFile(m_latex2eReference + m_dictHelpTex[word]);
+            QUrl url("https://latexref.xyz/" + m_dictHelpTex[word]);
+            auto *openUrlJob = new KIO::OpenUrlJob(url);
+            openUrlJob->start();
         }
         else if ( m_contextHelpType == HelpKileRefs ) {
             showHelpFile(m_kileReference + '#' + m_dictHelpTex[word]);

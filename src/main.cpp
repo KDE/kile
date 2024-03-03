@@ -31,7 +31,6 @@
 #include <KEncodingProber>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <KStartupInfo>
 
 #include "kile.h"
 #include "kileversion.h"
@@ -223,7 +222,6 @@ int main(int argc, char **argv)
             interface->call("setLine", line);
         }
 
-        KStartupInfo::appStarted();
         interface->call("setActive");
     }
 

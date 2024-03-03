@@ -18,7 +18,7 @@ Dependencies:
     'frameworks/ktexteditor': '@latest-kf6'
     'frameworks/kwindowsystem': '@latest-kf6'
     'frameworks/kxmlgui': '@latest-kf6'
-    'kde/graphics/okular': '@latest'
+    'graphics/okular': '@latest-kf6'
 
 Options:
   test-before-installing: True

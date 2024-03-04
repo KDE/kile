@@ -26,7 +26,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-29 00:41+0000\n"
+"POT-Creation-Date: 2024-03-04 01:36+0000\n"
 "PO-Revision-Date: 2023-11-07 09:51+0100\n"
 "Last-Translator: Xavier BESNARD <xavier.besnard@neuf.fr>\n"
 "Language-Team: French <kde-francophone@kde.org>\n"
@@ -475,7 +475,7 @@ msgid "Preview"
 msgstr "Prévisualisation"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:166
+#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
@@ -7850,7 +7850,7 @@ msgstr "Fichiers de projets Kile"
 msgid "* |All Files"
 msgstr "* |Tous les fichiers"
 
-#: kilehelp.cpp:100
+#: kilehelp.cpp:101
 #, kde-format
 msgid ""
 "Could not find the LaTeX documentation at %1; please set the correct path in "
@@ -7859,7 +7859,7 @@ msgstr ""
 "Impossible de trouver la documentation de LaTeX dans %1. Veuillez indiquer "
 "l'emplacement correct dans « Configuration / Configurer Kile / Aide »."
 
-#: kilehelp.cpp:166
+#: kilehelp.cpp:171
 #, kde-format
 msgid "No help available for %1."
 msgstr "Il n'y a pas d'aide de disponible pour %1."

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-29 00:41+0000\n"
+"POT-Creation-Date: 2024-03-04 01:36+0000\n"
 "PO-Revision-Date: 2024-01-22 17:59+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@lists.slat.org>\n"
@@ -450,7 +450,7 @@ msgid "Preview"
 msgstr "預覽"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:166
+#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
@@ -7609,7 +7609,7 @@ msgstr "Kile 專案檔"
 msgid "* |All Files"
 msgstr "*|所有檔案"
 
-#: kilehelp.cpp:100
+#: kilehelp.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not find the teTeX documentation at %1; set the correct path in "
@@ -7620,7 +7620,7 @@ msgid ""
 msgstr ""
 "抱歉，在 %1 找不到 teTeX 文件；請在設定->設定 Kile->説明中設定正確的路徑。"
 
-#: kilehelp.cpp:166
+#: kilehelp.cpp:171
 #, kde-format
 msgid "No help available for %1."
 msgstr "沒有 %1 的説明。"

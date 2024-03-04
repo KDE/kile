@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kile\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-29 00:41+0000\n"
+"POT-Creation-Date: 2024-03-04 01:36+0000\n"
 "PO-Revision-Date: 2023-12-17 14:53+0100\n"
 "Last-Translator: Roman Paholik <wizzardsk@gmail.com>\n"
 "Language-Team: Slovak <kde-sk@linux.sk>\n"
@@ -438,7 +438,7 @@ msgid "Preview"
 msgstr "Náhľad"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:166
+#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
@@ -7673,7 +7673,7 @@ msgstr "Súbory projektu Kile"
 msgid "* |All Files"
 msgstr "* |Všetky súbory"
 
-#: kilehelp.cpp:100
+#: kilehelp.cpp:101
 #, kde-format
 msgid ""
 "Could not find the LaTeX documentation at %1; please set the correct path in "
@@ -7682,7 +7682,7 @@ msgstr ""
 "Nepodarilo sa nájsť dokumentáciu LaTeX na %1; prosím, nastavte správnu cestu "
 "v Nastavenie->Konfigurovať Kile->Pomocník."
 
-#: kilehelp.cpp:166
+#: kilehelp.cpp:171
 #, kde-format
 msgid "No help available for %1."
 msgstr "Pre '%1' nie je k dispozícii žiadny pomocník."

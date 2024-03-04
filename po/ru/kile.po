@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-12-29 00:41+0000\n"
+"POT-Creation-Date: 2024-03-04 01:36+0000\n"
 "PO-Revision-Date: 2019-10-12 16:08+0300\n"
 "Last-Translator: Alexander Potashev <aspotashev@gmail.com>\n"
 "Language-Team: Russian <kde-russian@lists.kde.ru>\n"
@@ -456,7 +456,7 @@ msgid "Preview"
 msgstr "Предпросмотр"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, KileWidgetHelpConfig)
-#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:166
+#: dialogs/configurationdialog.cpp:259 kilehelp.cpp:171
 #: widgets/helpconfigwidget.ui:20
 #, kde-format
 msgid "Help"
@@ -7805,7 +7805,7 @@ msgstr "Файлы проектов Kile"
 msgid "* |All Files"
 msgstr "*|Все файлы"
 
-#: kilehelp.cpp:100
+#: kilehelp.cpp:101
 #, fuzzy, kde-format
 #| msgid ""
 #| "Could not find the teTeX documentation at %1; set the correct path in "
@@ -7817,7 +7817,7 @@ msgstr ""
 "Не удалось найти документацию teTeX в директории %1. Укажите правильный путь "
 "в меню Настройки->Настройки Kile->Справка."
 
-#: kilehelp.cpp:166
+#: kilehelp.cpp:171
 #, kde-format
 msgid "No help available for %1."
 msgstr "Нет справки по слову «%1»."

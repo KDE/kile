@@ -261,7 +261,7 @@ public:
         return checkOtherPaths(url.toLocalFile(),file, type);
     }
 
-    virtual void setLine(const QString &line) = 0;
+    virtual void setLine(const QString &line, const QString &startupId = {}) = 0;
 
     QString getMasterDocumentFileName() const {
         return m_masterDocumentFileName;

@@ -1393,7 +1393,7 @@ void Kile::setActive()
     show();
 }
 
-void Kile::setLine(const QString &line)
+void Kile::setLine(const QString &line, const QString &startupId)
 {
     bool ok;
     uint l = line.toUInt(&ok, 10);
@@ -1403,11 +1403,9 @@ void Kile::setLine(const QString &line)
         raise();
         activateWindow();
         // be very aggressive when it comes to raising the main window to the top
-#if __has_include(<kx11extras.h>)
-        KX11Extras::forceActiveWindow(winId());
-#else
-        KWindowSystem::forceActiveWindow(winId());
-#endif
+        if (!startupId.isEmpty() && KWindowSystem::isPlatformWayland()) {
+            KWindowSystem::setCurrentXdgActivationToken(startupId);
+        }
         focusTextView(view);
         editorExtension()->goToLine(l - 1, view);
     }

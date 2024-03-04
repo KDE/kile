@@ -130,7 +130,7 @@ public Q_SLOTS:
     /**
      * @param line : Jump to give line in current editor (can be called via DBUS interface).
      **/
-    void setLine(const QString &line) override;
+    void setLine(const QString &line, const QString &startupId = {}) override;
     void openProject(const QString& proj);
     void runTool(const QString& tool);
     void runToolWithConfig(const QString &tool, const QString &config);

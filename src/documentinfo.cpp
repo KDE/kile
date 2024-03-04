@@ -66,14 +66,13 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QInputDialog>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <KConfig>
 #include <KJobWidgets>
 #include <KIO/StatJob>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <qregularexpression.h>
 
 #include "abbreviationmanager.h"
 #include "codecompletion.h"

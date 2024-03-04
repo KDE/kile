@@ -41,7 +41,6 @@
 #include <QMimeDatabase>
 #include <QMimeType>
 #include <QPushButton>
-#include <QRegExp>
 #include <QTemporaryFile>
 #include <QTreeWidget>
 #include <QUrl>

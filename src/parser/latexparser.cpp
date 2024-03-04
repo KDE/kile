@@ -16,10 +16,9 @@
 #include "latexparser.h"
 
 #include <QFileInfo>
-#include <QRegExp>
+#include <QRegularExpression>
 
 #include <KLocalizedString>
-#include <QRegularExpression>
 
 #include "codecompletion.h"
 #include "parserthread.h"

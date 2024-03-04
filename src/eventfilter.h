@@ -17,7 +17,6 @@
 
 #include <QEvent>
 #include <QObject>
-#include <QRegExp>
 
 class KModifierKeyInfo;
 

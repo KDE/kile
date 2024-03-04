@@ -224,7 +224,7 @@ void Help::readHelpList(const QString &filename)
     }
 
     KILE_DEBUG_MAIN << "read keyword file: " << file;
-    QRegExp reg("\\s*(\\S+)\\s*\\t\\s*(\\S+)");
+    QRegularExpression reg("\\s*(\\S+)\\s*\\t\\s*(\\S+)");
 
     QFile f(file);
     if(f.open(QIODevice::ReadOnly)) { // file opened successfully
@@ -232,9 +232,10 @@ void Help::readHelpList(const QString &filename)
         while(!t.atEnd()) { // until end of file...
             QString s = t.readLine().trimmed();       // line of text excluding '\n'
             if(!(s.isEmpty() || s.at(0)=='#')) {
-                int pos = reg.indexIn(s);
+                QRegularExpressionMatch match;
+                const int pos = s.indexOf(reg);
                 if(pos != -1) {
-                    m_dictHelpTex[reg.cap(1)] = reg.cap(2);
+                    m_dictHelpTex[match.captured(1)] = match.captured(2);
                 }
             }
         }

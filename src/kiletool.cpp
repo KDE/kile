@@ -17,7 +17,6 @@
 #include <QDir>
 #include <QFileInfo>
 #include <QMetaObject>
-#include <QRegExp>
 #include <QTimer>
 
 #include <KConfig>

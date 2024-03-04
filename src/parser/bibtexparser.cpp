@@ -16,11 +16,10 @@
 #include "bibtexparser.h"
 
 #include <QFileInfo>
-#include <QRegExp>
 #include <QDebug>
+#include <QRegularExpression>
 
 #include <KLocalizedString>
-#include <qregularexpression.h>
 
 #include "kiledebug.h"
 #include "codecompletion.h"

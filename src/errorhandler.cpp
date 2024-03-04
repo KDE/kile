@@ -18,7 +18,6 @@
 #include <QHash>
 #include <QLabel>
 #include <QMenu>
-#include <QRegExp>
 #include <QTabWidget>
 #include <QToolBar>
 #include <QToolButton>

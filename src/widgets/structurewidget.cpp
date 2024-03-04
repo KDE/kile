@@ -63,7 +63,7 @@
 #include <QHeaderView>
 #include <QMimeDatabase>
 #include <QMimeType>
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QScrollBar>
 #include <QUrl>
 
@@ -74,7 +74,6 @@
 #include <KJobUiDelegate>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <qregularexpression.h>
 
 #include "documentinfo.h"
 #include "errorhandler.h"

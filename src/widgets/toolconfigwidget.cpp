@@ -19,7 +19,6 @@
 #include <QInputDialog>
 #include <QLabel>
 #include <QLayout>
-#include <QRegExp>
 #include <QSpinBox>
 #include <QStackedWidget>
 #include <QTabWidget>
@@ -27,12 +26,12 @@
 
 #include "kiledebug.h"
 #include <KLocalizedString>
-#include <kicondialog.h>
-#include <kiconloader.h>
-#include <kcombobox.h>
+#include <KIconDialog>
+#include <KIconLoader>
+#include <KComboBox>
 #include <QPushButton>
-#include <kconfig.h>
-#include <kmessagebox.h>
+#include <KConfig>
+#include <KMessageBox>
 #include <KConfigGroup>
 
 #include "kiletool_enums.h"

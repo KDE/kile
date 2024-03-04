@@ -9,7 +9,7 @@ add_subdirectory(operators)
 add_subdirectory(special)
 add_subdirectory(cyrillic)
 
-find_package(Qt5 ${QT_MIN_VERSION} CONFIG REQUIRED Core)
+find_package(Qt6 ${QT_MIN_VERSION} CONFIG REQUIRED Core)
 
 include_directories(${QT_INCLUDES} ${CMAKE_CURRENT_BINARY_DIR})
 

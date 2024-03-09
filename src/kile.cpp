@@ -1837,9 +1837,13 @@ void Kile::enableGUI(bool enable)
     }
 
     // update latex usermenu actions
-    if ( m_userMenu ) {
-        QList<QAction *> useractions = m_userMenu->menuActions();
-        foreach ( QAction *action, useractions ) {
+    if(m_userMenu) {
+        const QList<QAction *> useractions = m_userMenu->menuActions();
+        for(QAction *action : useractions) {
+            if(!action) {
+                KILE_WARNING_MAIN << "null action found.";
+                continue;
+            }
             action->setEnabled(enable);
         }
     }

@@ -1,6 +1,9 @@
 version 3.0 beta 3 -> 3.0 beta 4
 
 Fixes:
+- Kile crashes on selecting "Browse" or "Zoom" for document preview (Patch
+  by Carl Schwan, #465547, #476207, #467435, #452618, #429452)
+- Kile crashes when generating new document (Patch by Carl Schwan, #436837)
 - Ensure \end{env} is inserted in the right place even when the user uses tabs
   for indentation (Patch by Kishore Gopalakrishnan, #322654)
 - Avoid saving console commands in bash history (Patch by Alessio Bonfiglio,
@@ -9,10 +12,13 @@ Fixes:
 - Avoid crashing when closing a document that is being parsed (#404164)
 
 Features:
+- Port to KDE Frameworks 6 & Qt 6 (Port by Carl Schwan)
 - Enable high-dpi support
 - Provide option to hide menu bar (Patch by Daniel Fichtner, #372295)
 - Configurable global default setting for the LivePreview engines (Patch by
   Florian Zumkeller-Quast, #450332)
+- Remove offline copy of "LaTeX2e: An unofficial reference
+  manual", use online version instead
 
 
 version 3.0 beta 2 -> 3.0 beta 3

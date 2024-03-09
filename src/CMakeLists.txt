@@ -178,8 +178,8 @@ set(kile_SRCS ${kile_SRCS} ${kile_UI_SRCS})
 
 ki18n_wrap_ui(kile_SRCS ${kile_UI})
 
-set(kile_SRCS ${kile_SRCS} net.sourceforge.kile.main.xml)
-qt_add_dbus_adaptor(kile_SRCS net.sourceforge.kile.main.xml kile.h Kile)
+set(kile_SRCS ${kile_SRCS} org.kde.kile.main.xml)
+qt_add_dbus_adaptor(kile_SRCS org.kde.kile.main.xml kile.h Kile)
 
 set(kile_KCFG_SRCS kileconfig.kcfgc)
 
@@ -256,7 +256,7 @@ install(TARGETS kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 
 ########### install files ###############
 
-install(FILES net.sourceforge.kile.main.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
+install(FILES org.kde.kile.main.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
 install(PROGRAMS org.kde.kile.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kile.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)

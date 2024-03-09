@@ -150,7 +150,7 @@ int main(int argc, char **argv)
         QDBusConnectionInterface *interface = QDBusConnection::sessionBus().interface();
 
         if(interface) {
-            running = interface->isServiceRegistered("net.sourceforge.kile");
+            running = interface->isServiceRegistered("org.kde.kile");
         }
         else {
             KILE_WARNING_MAIN << "no DBUS interface found!";
@@ -198,7 +198,7 @@ int main(int argc, char **argv)
         return app.exec();
     }
     else {
-        auto interface = std::make_unique<QDBusInterface>("net.sourceforge.kile","/main","net.sourceforge.kile.main");
+        auto interface = std::make_unique<QDBusInterface>("org.kde.kile", "/main", "org.kde.kile.main");
 
         const QList<QString> arguments = parser.positionalArguments();
         for (const QString &argument : arguments) {

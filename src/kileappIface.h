@@ -21,9 +21,9 @@
 #include <QObject>
 
 /*
- * 	This files servers as our source for the xml file net.sourceforge.kile.main.xml
+ * 	This files servers as our source for the xml file org.kde.kile.main.xml
  *	After changing this file execute
- *	qdbuscpp2xml -a kileappIface.h -o net.sourceforge.kile.main.xml
+ *	qdbuscpp2xml -a kileappIface.h -o org.kde.kile.main.xml
  *
  *	This API is subject to change at anytime, however it will be finalized before the next major release
  *
@@ -32,7 +32,7 @@
 class MainAdaptor : public QDBusAbstractAdaptor
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "net.sourceforge.kile.main")
+    Q_CLASSINFO("D-Bus Interface", "org.kde.kile.main")
 
 public Q_SLOTS:
     Q_SCRIPTABLE void openDocument(const QString &path);

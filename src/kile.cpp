@@ -383,7 +383,7 @@ Kile::Kile(bool allowRestore, QWidget *parent)
     new MainAdaptor(this);
     QDBusConnection dbus = QDBusConnection::sessionBus();
     dbus.registerObject("/main", this);
-    dbus.registerService("net.sourceforge.kile"); // register under a constant name
+    dbus.registerService("org.kde.kile"); // register under a constant name
 
     m_lyxserver = new KileLyxServer(KileConfig::runLyxServer());
     connect(m_lyxserver, &KileLyxServer::insert, this, [this](const KileAction::TagData &data) { insertTag(data); });

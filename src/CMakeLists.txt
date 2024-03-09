@@ -188,8 +188,8 @@ kconfig_add_kcfg_files(kile_SRCS ${kile_KCFG_SRCS})
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/kileconfig.h" PROPERTIES SKIP_AUTOMOC ON)   # otherwise we get a warning about
 set_source_files_properties("${CMAKE_CURRENT_BINARY_DIR}/kileconfig.cpp" PROPERTIES SKIP_AUTOMOC ON) # the CMP0071 policy (with CMake 3.11)
 
-ecm_add_app_icon(kile_SRCS
-	ICONS
+set(ICON_FILES
+	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/sc-apps-kile.svg
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/16-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/22-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/32-apps-kile.png
@@ -197,11 +197,18 @@ ecm_add_app_icon(kile_SRCS
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/64-apps-kile.png
 	${CMAKE_CURRENT_SOURCE_DIR}/data/icons/128-apps-kile.png
 )
+ecm_add_app_icon(ICONS_SOURCES ICONS ${ICON_FILES})
 
 # add the resource file containing the ui files
 qt_add_resources(kile_SRCS kile.qrc)
 
 add_executable(kile ${kile_SRCS})
+target_sources(kile PRIVATE ${ICONS_SOURCES})
+
+qt_add_resources(kile "icons"
+    BASE ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/
+    PREFIX "/icons"
+    FILES ${CMAKE_CURRENT_SOURCE_DIR}/data/icons/sc-apps-kile.svg)
 
 if(APPLE)
     # extract the last copyright year from "kileversion.h"
@@ -257,7 +264,7 @@ install(TARGETS kile ${KDE_INSTALL_TARGETS_DEFAULT_ARGS})
 ########### install files ###############
 
 install(FILES org.kde.kile.main.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR})
-install(PROGRAMS org.kde.kile.desktop DESTINATION ${KDE_INSTALL_APPDIR})
+install(FILES org.kde.kile.desktop DESTINATION ${KDE_INSTALL_APPDIR})
 install(FILES kile.kcfg DESTINATION ${KDE_INSTALL_KCFGDIR})
 install(FILES data/bibtexentries.rc data/biblatexentries.rc DESTINATION ${KDE_INSTALL_DATAROOTDIR}/kile)
 install(FILES data/kile.categories DESTINATION ${KDE_INSTALL_CONFDIR})

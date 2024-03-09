@@ -123,7 +123,11 @@ int main(int argc, char **argv)
 
     aboutData.setProductName(QByteArray("kile"));
 
+    aboutData.setProgramLogo(QIcon(QStringLiteral(":/icons/sc-apps-kile.svg")));
+
     KAboutData::setApplicationData(aboutData);
+
+    QApplication::setWindowIcon(QIcon(QStringLiteral(":/icons/sc-apps-kile.svg")));
 
     KCrash::initialize();
 

@@ -2,7 +2,7 @@
     begin                : Sat Apr 26 2003
     copyright            : (C) 2003 by Jeroen Wijnhout (wijnhout@science.uva.nl)
                                2005 by Holger Danielsson (holger.danielsson@t-online.de)
-                               2007-2019 by Michel Ludwig (michel.ludwig@kdemail.net)
+                               2007-2024 by Michel Ludwig (michel.ludwig@kdemail.net)
  *******************************************************************************************/
 
 /***************************************************************************
@@ -274,7 +274,7 @@ void TemplateIconView::searchLaTeXClassFiles()
 
     connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
     connect(m_proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessExited(int,QProcess::ExitStatus)));
-    connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError()));
+    connect(m_proc, &KProcess::errorOccurred, this, &TemplateIconView::slotProcessError);
     KILE_DEBUG_MAIN << "=== NewFileWidget::searchClassFiles() ====================";
     KILE_DEBUG_MAIN << "\texecute: " << command;
     m_proc->start();

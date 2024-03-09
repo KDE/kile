@@ -1,6 +1,6 @@
 /*************************************************************************************
   Copyright (C) 2004 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                2012-2022 by Michel Ludwig (michel.ludwig@kdemail.net)
+                2012-2024 by Michel Ludwig (michel.ludwig@kdemail.net)
  *************************************************************************************/
 
 /***************************************************************************
@@ -427,10 +427,8 @@ void ProgramTest::call()
     if (!KileConfig::teXPaths().isEmpty()) {
         m_testProcess->setEnv("TEXINPUTS", KileInfo::expandEnvironmentVars(KileConfig::teXPaths() + ":$TEXINPUTS"));
     }
-    connect(m_testProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
-            this, SLOT(handleTestProcessFinished(int,QProcess::ExitStatus)));
-    connect(m_testProcess, SIGNAL(error(QProcess::ProcessError)),
-            this, SLOT(handleTestProcessError(QProcess::ProcessError)));
+    connect(m_testProcess, &KProcess::finished, this, &ProgramTest::handleTestProcessFinished);
+    connect(m_testProcess, &KProcess::errorOccurred, this, &ProgramTest::handleTestProcessError);
     m_testProcess->start();
 }
 

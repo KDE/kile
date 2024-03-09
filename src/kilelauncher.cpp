@@ -1,6 +1,6 @@
 /****************************************************************************************
     Copyright (C) 2003 by Jeroen Wijnhout (Jeroen.Wijnhout@kdemail.net)
-                  2008-2018 by Michel Ludwig (michel.ludwig@kdemail.net)
+                  2008-2024 by Michel Ludwig (michel.ludwig@kdemail.net)
  ****************************************************************************************/
 
 /***************************************************************************
@@ -58,9 +58,9 @@ ProcessLauncher::ProcessLauncher() :
     m_proc->setOutputChannelMode(KProcess::MergedChannels);
     m_proc->setReadChannel(QProcess::StandardOutput);
 
-    connect(m_proc, SIGNAL(readyReadStandardOutput()), this, SLOT(slotProcessOutput()));
-    connect(m_proc, SIGNAL(finished(int,QProcess::ExitStatus)), this, SLOT(slotProcessExited(int,QProcess::ExitStatus)));
-    connect(m_proc, SIGNAL(error(QProcess::ProcessError)), this, SLOT(slotProcessError(QProcess::ProcessError)));
+    connect(m_proc, &KProcess::readyReadStandardOutput, this, &ProcessLauncher::slotProcessOutput);
+    connect(m_proc, &KProcess::finished, this, &ProcessLauncher::slotProcessExited);
+    connect(m_proc, &KProcess::errorOccurred, this, &ProcessLauncher::slotProcessError);
 }
 
 ProcessLauncher::~ProcessLauncher()

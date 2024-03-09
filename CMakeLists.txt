@@ -4,8 +4,10 @@ project(kile)
 
 set(KILE_VERSION CACHE STRING "Kile's version; can be used to set the internal version of Kile on MacOSX")
 
-find_package(ECM 5.19.0 REQUIRED NO_MODULE)
+find_package(ECM 6.0.0 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH})
+
+set(KDE_COMPILERSETTINGS_LEVEL 5.84)
 
 include(KDECompilerSettings NO_POLICY_SCOPE)
 
@@ -77,6 +79,8 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/config.h.cmake ${CMAKE_CURRENT_BI
 
 # find_package(SharedMimeInfo REQUIRED)
 
+# Some of these can be dropped if KDE_COMPILERSETTINGS_LEVEL above is removed
+# (or called with a higher version).
 add_definitions(
 #   -DQT_USE_QSTRINGBUILDER
 #   -DQT_NO_CAST_FROM_ASCII
